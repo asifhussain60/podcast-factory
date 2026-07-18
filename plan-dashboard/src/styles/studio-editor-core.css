@@ -1,0 +1,1794 @@
+/* studio-editor-core.css — editor chrome: header strip, tabbed inspector
+   panel, action footer. Split from studio-editor.css (R2); cascade order
+   preserved by the entry file's import order. */
+/* studio-editor.css — WC8 Slice 0 PoC styling (external; no inline styles — repo DoD).
+   Maps onto existing theme tokens (--c-*); does NOT change the colour theme. */
+
+.poc-body {
+  margin: 0;
+  background: var(--c-bg);
+  color: var(--c-ink);
+  font-family: var(--font-body, Georgia, serif);
+}
+
+/* Slim header (no site chrome). */
+.sp-header {
+  width: 94%;
+  max-width: 1600px;
+  margin: 22px auto 6px;
+}
+.sp-h1 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 0 0 4px;
+}
+.sp-subtitle {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--c-ink-muted);
+  margin: 0;
+}
+.sp-error {
+  width: 94%;
+  max-width: 1600px;
+  margin: 24px auto;
+  color: var(--c-red, #b91c1c);
+  font-size: 1rem;
+}
+
+/* Three-pane layout: timeline rail · editor (dominant) · inspector.
+   Full-width — the centre reading panel takes all space the two slim side
+   panels don't need. minmax(0,1fr) on the centre lets it shrink instead of
+   forcing horizontal overflow (the inspector-clipping bug). */
+.studio-editor {
+  display: grid;
+  /* Two columns since the left pipeline rail was removed: the editor takes the
+     freed width (its prose grows toward its own reading cap), inspector fixed. */
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 352px);
+  gap: 20px;
+  width: 100%;
+  max-width: none;
+  margin: 4px 0 32px;
+  align-items: start;
+}
+@media (max-width: 1280px) {
+  .studio-editor {
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 16px;
+  }
+}
+@media (max-width: 1100px) {
+  /* minmax(0,1fr) — NOT plain 1fr — so the single column can shrink to the
+     viewport instead of growing to the editor's min-content (which overflows
+     the screen on phones). Same lesson as the two-column rule above. */
+  .studio-editor {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* M-1 scroll fix: clear the full pinned stack (topnav 52px + studio subnav ~72px) + 1rem.
+   --pf-sticky-top is set here; override it in a parent if the stack height changes. */
+:root {
+  --pf-sticky-top: 124px;
+}
+
+/* FLOATING inspector: pinned below the full sticky stack, scrolls INTERNALLY. */
+/* Full-height sticky column: header (fixed) → tab card (fills) → action footer
+   (pinned at the bottom). Released to natural flow when the grid single-columns. */
+.studio-editor__inspector {
+  position: sticky;
+  top: calc(var(--pf-sticky-top) + 1rem);
+  height: calc(100vh - var(--pf-sticky-top) - 2rem);
+  max-height: calc(100vh - var(--pf-sticky-top) - 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+@media (max-width: 1100px) {
+  .studio-editor__inspector {
+    position: static;
+    height: auto;
+    max-height: none;
+  }
+}
+
+/* ─── Header strip: Arabic overlay toggle + phonetic-map link ─── */
+.sp-global-strip {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 10px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  border-radius: 10px;
+}
+
+/* ─── Tabbed panel (Details · Comment · AI · References) ─── */
+.sp-panel-card {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  border-radius: 10px;
+  overflow: hidden;
+}
+.sp-tab-bar {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 3px;
+  padding: 4px;
+  background: var(--c-bg-elev);
+  border-bottom: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+}
+.sp-tab-btn {
+  flex: 1 1 0;
+  padding: 7px 8px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.74rem;
+  font-weight: 600;
+  /* --c-ink-dim (not --c-ink-muted): the REDESIGN block shrinks tabs to 0.625rem (12px),
+     below the WCAG AA large-text threshold — inactive tab labels need 4.5:1 (REQ-048). */
+  color: var(--c-ink-dim);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transition:
+    color 0.12s,
+    background 0.12s,
+    border-color 0.12s,
+    box-shadow 0.12s;
+}
+.sp-tab-btn:hover {
+  color: var(--c-ink);
+  background: color-mix(in srgb, var(--c-ink) 4%, transparent);
+}
+.sp-tab-btn.is-active {
+  color: var(--c-ink);
+  font-weight: 700;
+  background: var(--c-bg-card);
+  border-color: var(--c-rule, rgba(0, 0, 0, 0.12));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 4px 12px -4px rgba(31, 29, 24, 0.1);
+}
+.sp-tab-btn[data-tab="details"].is-active {
+  color: var(--c-amber, #c08020);
+  border-color: color-mix(
+    in srgb,
+    var(--c-amber, #c08020) 35%,
+    var(--c-rule, rgba(0, 0, 0, 0.12))
+  );
+  background: color-mix(in srgb, var(--c-amber, #c08020) 7%, var(--c-bg-card));
+}
+.sp-tab-btn[data-tab="comment"].is-active {
+  color: var(--c-planner, #1a5c8a);
+  border-color: color-mix(
+    in srgb,
+    var(--c-planner, #1a5c8a) 35%,
+    var(--c-rule, rgba(0, 0, 0, 0.12))
+  );
+  background: color-mix(
+    in srgb,
+    var(--c-planner, #1a5c8a) 7%,
+    var(--c-bg-card)
+  );
+}
+.sp-tab-btn[data-tab="ai"].is-active {
+  color: var(--c-accent);
+  border-color: color-mix(
+    in srgb,
+    var(--c-accent) 40%,
+    var(--c-rule, rgba(0, 0, 0, 0.12))
+  );
+  background: color-mix(in srgb, var(--c-accent) 7%, var(--c-bg-card));
+}
+.sp-tab-btn[data-tab="refs"].is-active {
+  color: var(--c-green, #4a7c4a);
+  border-color: color-mix(
+    in srgb,
+    var(--c-green, #4a7c4a) 35%,
+    var(--c-rule, rgba(0, 0, 0, 0.12))
+  );
+  background: color-mix(in srgb, var(--c-green, #4a7c4a) 7%, var(--c-bg-card));
+}
+.sp-tab-btn .sp-tab-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-accent);
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.sp-tab-btn[data-tab="ai"].is-active .sp-tab-dot {
+  background: var(--c-amber, #c08020);
+}
+.sp-tab-pane {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Legacy compat: .sp-inspector used in places still */
+.sp-inspector {
+  display: contents;
+}
+.sp-insp-markers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* Controls: kept for backwards compat (only sp-global-strip is used now) */
+.sp-controls {
+  display: none;
+}
+.sp-control-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.sp-control-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--c-ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.sp-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sp-edit-row {
+  display: flex;
+  gap: 5px;
+}
+.sp-edit-row button {
+  flex: 1 1 0;
+  height: 32px;
+  font-size: 0.92rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--c-ink);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+}
+.sp-edit-row button:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+/* Switch (Arabic toggle). */
+.sp-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex: 0 0 auto;
+  border: none;
+  border-radius: 999px;
+  padding: 0;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--c-ink) 22%, transparent);
+  transition: background 0.15s ease;
+}
+.sp-switch.is-on {
+  background: var(--c-accent);
+}
+.sp-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease;
+}
+.sp-switch.is-on .sp-switch-thumb {
+  transform: translateX(20px);
+}
+
+.sp-insp-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--c-accent);
+  margin: 0 0 4px;
+}
+.sp-insp-sub {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+/* --c-ink-dim (not --c-ink-muted): the REDESIGN block shrinks this to 0.625rem (12px),
+   below the WCAG AA large-text threshold, so it needs the 4.5:1 ink-dim (REQ-048). */
+.sp-insp-hint {
+  font-size: 0.8rem;
+  color: var(--c-ink-dim);
+  margin: 0 0 6px;
+}
+.sp-insp-sel {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--c-ink);
+  border-left: 3px solid var(--c-accent);
+  padding: 5px 10px;
+  margin: 0;
+  background: var(--c-bg-elev);
+  border-radius: 0 6px 6px 0;
+}
+.sp-insp-meta {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 10px;
+}
+.sp-insp-meta dt {
+  font-size: 0.78rem;
+  color: var(--c-ink-muted);
+}
+.sp-insp-meta dd {
+  font-size: 0.85rem;
+  color: var(--c-ink);
+  margin: 0;
+}
+
+/* Marker groups (one container per kind, e.g. a single Quran container). */
+.sp-insp-block--markers {
+  gap: 10px;
+}
+.sp-mgroup {
+  display: flex;
+  flex-direction: column;
+}
+.sp-mgroup + .sp-mgroup {
+  margin-top: 8px;
+}
+.sp-mgroup-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 4px;
+}
+.sp-mgroup-count {
+  font-size: 0.72rem;
+  color: var(--c-ink-muted);
+}
+
+/* Marker list — the internally-scrolling region. */
+.sp-marker-list {
+  list-style: none;
+  margin: 0;
+  padding: 2px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+  min-height: 0;
+}
+.sp-marker-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+.sp-marker-text {
+  color: var(--c-ink-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sp-marker-count {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: var(--c-ink-muted);
+  flex: 0 0 auto;
+}
+.sp-chip {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: 8px;
+  color: var(--c-bg);
+  background: var(--c-ink-muted);
+  flex: 0 0 auto;
+}
+.sp-chip--quran {
+  background: var(--c-accent);
+}
+.sp-chip--hadith {
+  background: var(--c-gold, var(--c-amber));
+}
+.sp-chip--work {
+  background: var(--c-accent-soft);
+}
+
+.sp-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.sp-toolbar button {
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--c-ink);
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+}
+.sp-toolbar button:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+/* Token-tag buttons — coloured to their tag. */
+.sp-tagbtn {
+  font-size: 0.74rem;
+}
+.sp-tagbtn.tag-esoteric {
+  color: #7c3aed;
+  border-color: #7c3aed;
+}
+.sp-tagbtn.tag-reality {
+  color: #0284c7;
+  border-color: #0284c7;
+}
+.sp-tagbtn.tag-sharia {
+  color: #0f766e;
+  border-color: #0f766e;
+}
+.sp-tagbtn.tag-delete {
+  color: #e11d48;
+  border-color: #e11d48;
+}
+.sp-tagbtn.tag-improve {
+  color: #d97706;
+  border-color: #d97706;
+}
+
+/* FC-3 MICROSOFT-WORD TRACK CHANGES (word-level, via jsdiff). */
+.studio-editor__editor .tc-ins {
+  color: var(--c-green, #15803d);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  background: color-mix(in srgb, var(--c-green, #16a34a) 12%, transparent);
+  border-radius: 2px;
+}
+.studio-editor__editor .tc-del {
+  color: var(--c-red, #b91c1c);
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  opacity: 0.75;
+  margin: 0 1px;
+}
+/* Per-paragraph hover affordance: pointer cursor + glow outline shows editability on mouseover.
+   Guards prevent override of active-section and active-paragraph states. */
+.studio-editor__editor
+  .ProseMirror
+  > p:hover:not(.para-active):not(.section-active),
+.studio-editor__editor
+  .ProseMirror
+  > blockquote:hover:not(.para-active):not(.section-active) {
+  background: color-mix(in srgb, var(--c-accent) 4%, var(--c-bg-card));
+  outline: 1.5px solid color-mix(in srgb, var(--c-accent) 22%, transparent);
+  outline-offset: 3px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.studio-editor__editor .ProseMirror > h3:hover {
+  cursor: pointer;
+}
+/* Marked blocks reserve top room so their action-item icon badges sit ABOVE without overlap. */
+/* Marked blocks no longer reserve top space — the mark icons now sit in the
+   left gutter (see .sp-para-tools--marks), aligned with the block's first line. */
+/* Active paragraph: kept for backwards-compat; section-active is the primary unit now. */
+.studio-editor__editor .para-active,
+.studio-editor__editor .para-active:hover {
+  cursor: text;
+  padding: 9px 16px;
+  margin: 2em -16px calc(1em - 9px) -16px;
+  background: var(--c-bg-card);
+  border: 2px solid color-mix(in srgb, var(--c-accent) 45%, var(--c-ink));
+  border-radius: 9px;
+  box-shadow: 0 10px 26px -10px rgba(0, 0, 0, 0.4);
+  transform: scale(1.012);
+  transform-origin: left center;
+}
+
+/* Dirty paragraph: left change-bar (like Word track-changes) + very subtle tint.
+   margin-bottom→padding-bottom swap (same as section-active) makes consecutive dirty
+   paragraphs share one continuous colored strip instead of floating as separate islands. */
+.studio-editor__editor .para-dirty {
+  background: color-mix(in srgb, var(--c-accent) 5%, var(--c-bg-card));
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--c-accent) 55%, transparent);
+  padding-left: 11px;
+  margin-left: -11px;
+  margin-bottom: 0;
+  padding-bottom: 0.75em;
+}
+/* Restore normal top gap after the last dirty paragraph in a run. */
+.studio-editor__editor .para-dirty + :not(.para-dirty) {
+  margin-top: 0.75em;
+}
+
+/* Section-active: unified warm card with continuous left accent bar + perimeter glow.
+   All nodes share the same box-shadow so the outline is unbroken when elements are flush.
+   Paragraphs swap margin-bottom for padding-bottom so backgrounds flow without white gaps. */
+.studio-editor__editor .ProseMirror > h2.section-active,
+.studio-editor__editor .ProseMirror > p.section-active,
+.studio-editor__editor .ProseMirror > blockquote.section-active {
+  background: color-mix(in srgb, var(--c-accent) 9%, var(--c-bg-card));
+  box-shadow:
+    inset 3px 0 0 var(--c-accent),
+    0 0 0 1.5px color-mix(in srgb, var(--c-accent) 28%, transparent),
+    -12px 0 24px -6px color-mix(in srgb, var(--c-accent) 45%, transparent);
+  margin-left: -12px;
+  padding-left: 12px;
+  cursor: text;
+}
+.studio-editor__editor .ProseMirror > p.section-active,
+.studio-editor__editor .ProseMirror > blockquote.section-active {
+  margin-bottom: 0;
+  padding-bottom: 0.75em;
+}
+
+/* Floating per-paragraph icon toolbar, anchored ABOVE the block's top-left corner with a
+   clear gap + its own surface + border so it never blends into the text behind it. */
+.studio-editor__editor .sp-para-tools {
+  position: absolute;
+  top: -1.85em;
+  left: auto;
+  right: -2px;
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px 5px;
+  border-radius: 9px;
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
+  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.32);
+  z-index: 5;
+  user-select: none;
+}
+.studio-editor__editor .sp-ptool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  font-size: 0.82rem;
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: var(--c-bg-card);
+  cursor: pointer;
+  filter: grayscale(0.5);
+  opacity: 0.7;
+}
+.studio-editor__editor .sp-para-tools--palette .sp-ptool:hover {
+  opacity: 1;
+  filter: none;
+  transform: translateY(-1px);
+}
+/* M-1 Save & Approve in the slim global strip: grows to fill available width. */
+
+/* M-1 AI action buttons in the per-paragraph floating toolbar (palette mode).
+   Override base .sp-ptool opacity/grayscale — these must read clearly at rest. */
+.studio-editor__editor .sp-ptool--ai {
+  font-size: 0.82rem;
+  font-weight: 600;
+  width: auto;
+  padding: 2px 10px;
+  gap: 4px;
+  opacity: 1;
+  filter: none;
+  color: var(--c-accent);
+  border-color: color-mix(in srgb, var(--c-accent) 45%, transparent);
+  background: color-mix(in srgb, var(--c-accent) 12%, var(--c-bg-card));
+}
+.studio-editor__editor .sp-ptool--ai:hover {
+  background: color-mix(in srgb, var(--c-accent) 22%, var(--c-bg-card));
+  border-color: var(--c-accent);
+  transform: translateY(-1px);
+  opacity: 1;
+  filter: none;
+}
+/* Toolbar surface: slightly darker so buttons read against it */
+.studio-editor__editor .sp-para-tools--ai {
+  gap: 4px;
+  background: var(--c-bg-card);
+  border-color: color-mix(
+    in srgb,
+    var(--c-accent) 30%,
+    var(--c-rule, rgba(0, 0, 0, 0.18))
+  );
+  box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.4);
+}
+
+/* Inspector — action-item palette (Details tab, edit mode only). */
+.sp-actions-block {
+  margin-top: 10px;
+}
+.sp-insp-subhint {
+  font-size: 0.72rem;
+  color: var(--c-ink-dim);
+  margin: 5px 0 0;
+  font-style: italic;
+}
+/* Three-across grid: every action button is the same width AND height. Long
+   labels ("Add to corpus") wrap to a second line inside the cell; the fixed
+   min-height keeps single- and double-line buttons identical in size. */
+.sp-action-palette {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+.sp-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: flex-start;
+  text-align: left;
+  min-width: 0;
+  min-height: 50px;
+  padding: 8px 7px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.2;
+  border-radius: 9px;
+  cursor: pointer;
+  color: var(--c-ink);
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.16));
+}
+.sp-action-btn i {
+  font-size: 0.85rem;
+  color: var(--c-ink-muted);
+  flex: 0 0 auto;
+  width: 1em;
+  text-align: center;
+}
+/* Label wraps inside the (now shrinkable) cell instead of overflowing it. */
+.sp-action-btn .sp-action-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.sp-action-btn:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+.sp-action-btn:hover i {
+  color: var(--c-accent);
+}
+.sp-action-btn.is-on {
+  background: var(--c-ink, #2a2118);
+  color: #fff;
+  border-color: transparent;
+}
+.sp-action-btn.is-on i {
+  color: #fff;
+}
+/* Disabled = the action can't run in the current context (e.g. a term tool with
+   no word selected). Stays visible and same-size; muted, with hover suppressed. */
+.sp-action-btn:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  color: var(--c-ink-dim);
+}
+.sp-action-btn:disabled:hover {
+  border-color: var(--c-rule, rgba(0, 0, 0, 0.16));
+  color: var(--c-ink-dim);
+}
+.sp-action-btn:disabled:hover i {
+  color: var(--c-ink-muted);
+}
+.sp-action-btn:focus-visible,
+.sp-aq-remove:focus-visible,
+.studio-editor__editor .sp-ptool:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+/* Action-item queue list — every mark waiting for the CLI drain pass. */
+.sp-action-queue {
+  margin-top: 12px;
+  border-top: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+  padding-top: 8px;
+}
+.sp-action-queue-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.sp-aq-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.78rem;
+  color: var(--c-ink);
+  background: var(--c-bg-elev);
+  border-radius: 6px;
+  padding: 3px 6px 3px 8px;
+}
+.sp-aq-item > i {
+  font-size: 0.72rem;
+  color: var(--c-accent);
+  flex: 0 0 auto;
+}
+.sp-aq-label {
+  font-weight: 600;
+  flex: 0 0 auto;
+}
+.sp-aq-target {
+  color: var(--c-ink-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1 1 auto;
+}
+.sp-aq-remove {
+  flex: 0 0 auto;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  color: var(--c-ink-dim);
+  font-size: 0.8rem;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+.sp-aq-remove:hover {
+  color: var(--c-red, #b91c1c);
+  background: color-mix(in srgb, var(--c-red, #b91c1c) 12%, transparent);
+}
+
+/* "Arabic" immediate action — confirm card (proposed Arabic before replacing). */
+.sp-arabic-confirm {
+  margin-top: 8px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  background: var(--c-bg-elev);
+  border: 1px solid
+    color-mix(in srgb, var(--c-accent) 30%, var(--c-rule, rgba(0, 0, 0, 0.12)));
+}
+.sp-arabic-confirm__row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  flex-wrap: wrap;
+}
+.sp-arabic-confirm__row > i {
+  color: var(--c-ink-muted);
+  font-size: 0.78rem;
+}
+.sp-arabic-confirm__en {
+  font-size: 0.85rem;
+  color: var(--c-ink-muted);
+}
+.sp-arabic-confirm__ar {
+  font-size: 1.3rem;
+  line-height: 1.4;
+  color: var(--c-accent);
+  font-family: "Amiri", "Geeza Pro", "Noto Naskh Arabic", serif;
+}
+/* Editable Arabic — correct the AI's rendering before replacing. */
+.sp-arabic-confirm__input {
+  width: 100%;
+  margin-top: 8px;
+  padding: 7px 11px;
+  font-family: "Amiri", "Geeza Pro", "Noto Naskh Arabic", serif;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: var(--c-accent);
+  background: var(--c-bg-card);
+  border: 1px solid
+    color-mix(in srgb, var(--c-accent) 35%, var(--c-rule, rgba(0, 0, 0, 0.15)));
+  border-radius: 8px;
+}
+.sp-arabic-confirm__input:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+.sp-arabic-confirm__gloss {
+  font-size: 0.74rem;
+  color: var(--c-ink-dim);
+  font-style: italic;
+  margin: 5px 0 0;
+}
+
+/* "Explain" — editable multi-line proposed clarification before replacing. */
+.sp-explain-confirm {
+  margin-top: 8px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  background: var(--c-bg-elev);
+  border: 1px solid
+    color-mix(in srgb, var(--c-accent) 30%, var(--c-rule, rgba(0, 0, 0, 0.12)));
+}
+.sp-explain-confirm__label {
+  font-size: 0.72rem;
+  color: var(--c-ink-muted);
+  margin: 0 0 6px;
+}
+.sp-explain-confirm__text {
+  width: 100%;
+  resize: vertical;
+  min-height: 96px;
+  padding: 8px 10px;
+  font-family: var(--font-body, Georgia, serif);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--c-ink);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+  border-radius: 7px;
+}
+.sp-explain-confirm__text:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+.sp-arabic-confirm__actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 9px;
+}
+.sp-arabic-confirm__apply,
+.sp-arabic-confirm__cancel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.15));
+  background: var(--c-bg-card);
+  color: var(--c-ink);
+}
+.sp-arabic-confirm__apply {
+  color: #fff;
+  background: var(--c-accent);
+  border-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.sp-arabic-confirm__apply:hover {
+  background: color-mix(in srgb, var(--c-accent) 88%, #000);
+}
+.sp-arabic-confirm__cancel:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+.sp-arabic-confirm__apply:focus-visible,
+.sp-arabic-confirm__cancel:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+/* Replace-scope choice: this instance · this chapter · all chapters. */
+.sp-arabic-confirm__scopehint {
+  font-size: 0.72rem;
+  color: var(--c-ink-muted);
+  margin: 10px 0 5px;
+}
+.sp-arabic-scope {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.sp-arabic-scope__btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  text-align: left;
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 7px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--c-ink);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.16));
+}
+.sp-arabic-scope__btn i {
+  font-size: 0.8rem;
+  color: var(--c-ink-muted);
+  width: 1.1em;
+  text-align: center;
+}
+.sp-arabic-scope__btn:hover:not(:disabled) {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+.sp-arabic-scope__btn:hover:not(:disabled) i {
+  color: var(--c-accent);
+}
+.sp-arabic-scope__btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.sp-arabic-scope__btn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.sp-arabic-scope__btn--primary {
+  color: #fff;
+  background: var(--c-accent);
+  border-color: transparent;
+}
+.sp-arabic-scope__btn--primary i {
+  color: #fff;
+}
+.sp-arabic-scope__btn--primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--c-accent) 88%, #000);
+  color: #fff;
+}
+.sp-arabic-scope__btn--primary:hover:not(:disabled) i {
+  color: #fff;
+}
+.sp-arabic-confirm__doneline {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 10px 0 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--c-green, #15803d);
+}
+
+/* M-1 AI result area in the AI tab. */
+.sp-ai-tab-actions {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.sp-ai-tab-btn {
+  padding: 5px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 8%, var(--c-bg-card));
+  border: 1px solid color-mix(in srgb, var(--c-accent) 35%, transparent);
+}
+.sp-ai-tab-btn:hover {
+  background: color-mix(in srgb, var(--c-accent) 15%, var(--c-bg-card));
+}
+.sp-ai-tab-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Selected tag: DARK background so it reads as "on" at a glance, with its colour as a ring. */
+.studio-editor__editor .sp-ptool.is-on {
+  opacity: 1;
+  filter: none;
+  background: var(--c-ink, #2a2118);
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+/* Inline action-item badge colours, grouped via theme tokens (see theme.css):
+   core = amber, etymology = violet, transform = sky, knowledge = teal, remove = rose.
+   Each is the "on" icon colour over the dark chip. */
+.studio-editor__editor .sp-ptool.act-etymology.is-on {
+  color: var(--c-act-etymology);
+}
+.studio-editor__editor .sp-ptool.act-rewrite.is-on {
+  color: var(--c-act-core);
+}
+.studio-editor__editor .sp-ptool.act-expand.is-on {
+  color: var(--c-act-transform);
+}
+.studio-editor__editor .sp-ptool.act-condense.is-on {
+  color: var(--c-act-transform);
+}
+.studio-editor__editor .sp-ptool.act-simplify.is-on {
+  color: var(--c-act-transform);
+}
+.studio-editor__editor .sp-ptool.act-define.is-on {
+  color: var(--c-act-knowledge);
+}
+.studio-editor__editor .sp-ptool.act-xref.is-on {
+  color: var(--c-act-knowledge);
+}
+.studio-editor__editor .sp-ptool.act-addcorpus.is-on {
+  color: var(--c-act-knowledge);
+}
+
+/* Inspector tag key (legend) — compact wrapping pills to save vertical space. */
+.sp-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 5px;
+}
+.sp-legend-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: var(--c-ink-dim);
+  background: var(--c-bg-elev);
+  padding: 2px 7px 2px 5px;
+  border-radius: 999px;
+}
+.sp-legend-icon {
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+/* PER-PARAGRAPH MARKS are shown as persistent ICONS in the LEFT GUTTER — a
+   scannable column of action-coloured chips aligned with each marked block,
+   not a coloured border (Asif prefers icon-based recognition). The chips sit in
+   the editor's 36px inline padding, so they never overlap the prose. */
+.studio-editor__editor .sp-para-tools--marks {
+  top: 0;
+  right: auto;
+  left: -32px;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Editor surface — editorial-modern, comfortable measure, font ~2px smaller. */
+.studio-editor__editor {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.1));
+  border-radius: 14px;
+  padding: 28px 36px;
+  min-width: 0; /* grid item: shrink to the column instead of forcing page-wide overflow */
+}
+.studio-editor__editor .ProseMirror {
+  /* Mixed-script stack: the picker's chosen Latin face (--prose-font) is PREPENDED
+     so Latin renders it while the Arabic naskh fonts stay reachable per-glyph
+     (a Latin-only face has no Arabic glyphs, so Arabic codepoints fall through to
+     Amiri). The generic must trail Amiri — a generic in the middle would catch
+     Arabic glyphs (system Geeza Pro) before any later Amiri could apply. */
+  font-family:
+    var(--prose-font, "Source Serif 4"), "Iowan Old Style", "Charter", Georgia,
+    "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
+  font-size: var(
+    --prose-size,
+    1rem
+  ); /* 1rem default; the head's size stepper overrides */
+  line-height: 1.72;
+  color: var(--paper-ink, var(--c-ink));
+  background: var(--paper-bg, transparent);
+  outline: none;
+  /* Reading view fills the editor column edge-to-edge and justifies both edges
+     (per Asif — matches the Book Composer editor). */
+  max-width: none;
+  margin-inline: 0;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+/* Editor-view font family (view only, shared with the Book Composer). Each sets
+   just the Latin face — the ProseMirror stack keeps the Arabic fonts after it. */
+.studio-editor__editor[data-font="sans"] {
+  --prose-font: var(--font-body, system-ui), "Segoe UI";
+}
+.studio-editor__editor[data-font="serif"] {
+  --prose-font: "Source Serif 4", "Iowan Old Style", Georgia;
+}
+.studio-editor__editor[data-font="lato"] {
+  --prose-font: "Lato";
+}
+.studio-editor__editor[data-font="inter"] {
+  --prose-font: "Inter";
+}
+.studio-editor__editor[data-font="mono"] {
+  --prose-font: var(--font-mono, ui-monospace, monospace);
+}
+.studio-editor__editor[data-font="dyslexic"] {
+  --prose-font: "OpenDyslexic", "Comic Sans MS";
+}
+/* Paper tint — Kindle-style Light / Sepia / Dark for the writing surface only.
+   Light = the current flush look; sepia/dark render as an inset sheet. */
+.studio-editor__editor[data-paper="light"] {
+  --paper-bg: transparent;
+  --paper-ink: var(--c-ink);
+}
+.studio-editor__editor[data-paper="sepia"] {
+  --paper-bg: #f4ecd8;
+  --paper-ink: #5b4636;
+}
+.studio-editor__editor[data-paper="dark"] {
+  --paper-bg: #201e1b;
+  --paper-ink: #d8d2c6;
+}
+.studio-editor__editor[data-paper="sepia"] .ProseMirror,
+.studio-editor__editor[data-paper="dark"] .ProseMirror {
+  padding: 1.1rem 1.3rem;
+  border-radius: 10px;
+}
+/* Only body prose is justified — headings stay left-aligned (never stretched). */
+.studio-editor__editor .ProseMirror :is(h1, h2, h3, h4) {
+  text-align: left;
+}
+/* No full-editor focus ring — the active-PARAGRAPH ring is the focus cue (FC fix). */
+.studio-editor__editor .ProseMirror:focus,
+.studio-editor__editor .ProseMirror:focus-visible {
+  outline: none;
+}
+/* Block nodes are positioning contexts for the floating per-paragraph icon toolbar. */
+.studio-editor__editor .ProseMirror > p,
+.studio-editor__editor .ProseMirror > h2,
+.studio-editor__editor .ProseMirror > h3,
+.studio-editor__editor .ProseMirror > blockquote {
+  position: relative;
+}
+.studio-editor__editor h1 {
+  font-size: 1.6rem;
+}
+.studio-editor__editor h2 {
+  font-size: 1.3rem;
+  color: var(--c-accent);
+  margin-top: 1.5em;
+}
+.studio-editor__editor blockquote {
+  border-left: 3px solid var(--c-accent-soft);
+  padding-left: 14px;
+  margin-left: 0;
+  color: var(--c-ink-dim);
+  font-style: italic;
+}
+.studio-editor__editor p {
+  margin: 0 0 0.65em;
+}
+
+/* Non-destructive markers (ProseMirror decorations). */
+.mk {
+  border-radius: 3px;
+  padding: 0 1px;
+}
+.mk-hadith {
+  background: color-mix(
+    in srgb,
+    var(--c-gold, var(--c-amber)) 10%,
+    transparent
+  );
+}
+.mk-term {
+  background: color-mix(in srgb, var(--c-accent-soft) 12%, transparent);
+}
+
+/* Source provenance chips — inline pills after the matched phrase. */
+.studio-editor__editor .mk-chip {
+  display: inline-block;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  padding: 1px 5px;
+  border-radius: 5px;
+  vertical-align: middle;
+  margin-left: 3px;
+  user-select: none;
+  cursor: default;
+}
+.studio-editor__editor .mk-chip--hadith {
+  color: #fff;
+  background: var(--c-gold, #d97706);
+}
+.studio-editor__editor .mk-chip--term {
+  color: #fff;
+  background: color-mix(in srgb, var(--c-accent) 70%, #334);
+}
+
+/* FC-1 compact chapter:verse chip — REPLACES the verse-reference phrase inline (the prose
+   underneath stays intact via .ref-hidden, so NotebookLM is unaffected). Hover target. */
+.studio-editor__editor .ref-hidden {
+  display: none;
+}
+.studio-editor__editor .sp-vchip {
+  display: inline-block;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  padding: 1px 8px;
+  border-radius: 8px;
+  color: var(--c-bg, #fff);
+  background: var(--c-accent);
+  cursor: pointer;
+  user-select: none;
+}
+.studio-editor__editor .sp-vchip:hover {
+  filter: brightness(1.1);
+}
+
+/* FC-4 Arabic-script overlay (decoration-based; non-destructive). */
+.studio-editor__editor .ar-hidden {
+  display: none;
+}
+.studio-editor__editor .ar-pair-hidden {
+  display: none;
+}
+.studio-editor__editor .ar-script-chip {
+  font-family: "Amiri", "Geeza Pro", "Noto Naskh Arabic", serif;
+  color: var(--c-accent);
+  font-size: 1.18em;
+  line-height: 1;
+}
+/* Raw inline Arabic (typed into the prose, not a glossary token) — same accent
+   colour as the glossary chips so all Arabic reads as one visual language. Font
+   comes from the editor's mixed-script stack; size nudged to match the chips. */
+.studio-editor__editor .ar-raw {
+  color: var(--c-accent);
+  font-size: 1.08em;
+}
+/* Arabic overlay toggle — a labelled switch (FontAwesome toggle icon + text). */
+.sp-arabic-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--c-ink-dim);
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.14));
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    color 0.14s,
+    background 0.14s,
+    border-color 0.14s;
+}
+.sp-arabic-btn i {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+.sp-arabic-btn:hover {
+  color: var(--c-ink);
+  border-color: color-mix(
+    in srgb,
+    var(--c-accent) 40%,
+    var(--c-rule, rgba(0, 0, 0, 0.14))
+  );
+}
+.sp-arabic-btn.is-on {
+  color: #fff;
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+}
+.sp-arabic-btn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+/* Link out to the full phonetic map (Arabic review page). */
+.sp-phonetic-map {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--c-accent);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 1px dotted
+    color-mix(in oklab, var(--c-accent) 45%, transparent);
+}
+.sp-phonetic-map:hover {
+  color: color-mix(in oklab, var(--c-accent) 80%, var(--c-ink));
+  border-bottom-color: var(--c-accent);
+}
+.sp-phonetic-map:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sp-arabic-btn,
+  .sp-phonetic-map,
+  .sp-tab-btn,
+  .sp-approve,
+  .sp-discard,
+  .sp-ai-tab-btn,
+  .sp-action-btn,
+  .studio-editor__editor .sp-ptool {
+    transition: none;
+  }
+  .studio-editor__editor .sp-para-tools--palette .sp-ptool:hover {
+    transform: none;
+  }
+}
+
+/* FC-1: dedicated golden verse popover (StudioVersePopover). Opaque card, floating-ui
+   positioned, beautiful Arabic (Amiri) + serif English. Self-contained --c-* tokens. */
+.sv-pop {
+  z-index: 9999;
+  width: 440px;
+  max-width: 92vw;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-bg-card);
+  border: 1px solid
+    color-mix(in srgb, #c9a227 60%, var(--c-rule, rgba(0, 0, 0, 0.15)));
+  border-radius: 12px;
+  box-shadow:
+    0 18px 44px -12px rgba(40, 28, 8, 0.5),
+    0 6px 16px -8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  font-family: var(--font-body, Georgia, serif);
+}
+/* Invisible bridge above + below the card so cursor transit chip->card never crosses a dead gap. */
+.sv-pop::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: -8px;
+  right: -8px;
+  height: 14px;
+  background: transparent;
+}
+/* High-contrast header: deep espresso ground, warm gold type, gold rule. */
+.sv-pop__head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #2a1c0f;
+  border-bottom: 2px solid #c9a227;
+}
+.sv-pop__surah {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #eccf86;
+}
+.sv-pop__mean {
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #c9b78a;
+}
+.sv-pop__head-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+.sv-pop__ar-name {
+  font-family: "Amiri", serif;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: #f3e3b8;
+}
+.sv-pop__badge {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.74rem;
+  font-weight: 800;
+  background: #c9a227;
+  color: #2a1c0f;
+  padding: 2px 9px;
+  border-radius: 999px;
+}
+.sv-pop__body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 14px 16px 12px;
+}
+.sv-pop__loading {
+  font-size: 0.9rem;
+  color: var(--c-ink-muted);
+  font-style: italic;
+}
+.sv-pop__arabic {
+  font-family: "Amiri", "Geeza Pro", "Noto Naskh Arabic", serif;
+  font-size: 1.3rem;
+  line-height: 1.85;
+  text-align: right;
+  direction: rtl;
+  color: var(--c-ink);
+  margin: 0 0 12px;
+}
+.sv-pop__trans {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  font-style: italic;
+  color: var(--c-ink-dim);
+  margin: 0 0 12px;
+  padding-top: 10px;
+  border-top: 1px solid color-mix(in srgb, #c9a227 30%, transparent);
+}
+.sv-pop__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.72rem;
+  color: var(--c-ink-muted);
+}
+.sv-pop__open {
+  color: #a9851a;
+  font-weight: 700;
+  text-decoration: none;
+}
+.sv-pop__open:hover {
+  text-decoration: underline;
+}
+
+/* De-stick the inspector at the SAME breakpoint the grid collapses to one
+   column (1100px). Below that it's stacked full-width, so a sticky+max-height
+   clamp would pin it oddly mid-scroll (REQ-051). */
+@media (max-width: 1100px) {
+  .studio-editor {
+    grid-template-columns: 1fr;
+  }
+  .studio-editor__inspector {
+    position: static;
+    max-height: none;
+    top: auto;
+  }
+}
+
+/* Stage tabs (SN-5) — Source/Denoised/Core/Normalized/Augmented above the editor. */
+.studio-editor__editor .sp-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0 0 20px;
+  border-bottom: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+}
+.studio-editor__editor .sp-tab {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  cursor: pointer;
+  color: var(--c-ink-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.studio-editor__editor .sp-tab:hover:not(:disabled) {
+  color: var(--c-ink);
+}
+.studio-editor__editor .sp-tab.is-active {
+  color: var(--c-accent);
+  border-bottom-color: var(--c-accent);
+}
+.studio-editor__editor .sp-tab.is-pending {
+  cursor: not-allowed;
+  font-style: italic;
+  opacity: 0.45;
+}
+/* Per-stage header card — what THIS stage did, above the chapter text. Carries
+   the stage name, its plain-English role, the tool that performed it, and the
+   headline metric. The stage KIND is a coloured left border (colour never the
+   sole signal — the role text states it too). Theme tokens only. */
+.studio-editor__editor .sp-stage-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 9px 12px;
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule-soft, var(--c-rule));
+  border-left: 4px solid var(--c-rule);
+  border-radius: var(--radius-md, 8px);
+}
+.studio-editor__editor .sp-stage-card--mechanical {
+  border-left-color: var(--c-kind-mechanical, var(--c-rule));
+}
+.studio-editor__editor .sp-stage-card--agentic {
+  border-left-color: var(--c-kind-agentic, var(--c-accent));
+}
+.studio-editor__editor .sp-stage-card--hybrid {
+  border-left-color: var(--c-kind-hybrid, var(--c-green));
+}
+.studio-editor__editor .sp-stage-card--gate {
+  border-left-color: var(--c-kind-gate, var(--c-amber));
+}
+.studio-editor__editor .sp-stage-card-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+}
+.studio-editor__editor .sp-stage-card-name {
+  font-family: var(--font-display, var(--font-sans, sans-serif));
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-ink);
+}
+.studio-editor__editor .sp-stage-card-role {
+  padding: 1px 7px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--c-ink-dim);
+  background: var(--c-bg-sunken, var(--c-bg-card));
+  border-radius: 999px;
+}
+.studio-editor__editor .sp-stage-card-tool {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.72rem;
+  color: var(--c-ink-muted);
+}
+.studio-editor__editor .sp-stage-card-flag {
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.studio-editor__editor .sp-stage-card-flag.is-editable {
+  color: var(--c-bg-card);
+  background: var(--c-accent);
+}
+.studio-editor__editor .sp-stage-card-flag.is-readonly {
+  color: var(--c-ink-dim);
+  background: var(--c-bg-sunken, var(--c-bg-card));
+}
+.studio-editor__editor .sp-stage-card-metric {
+  margin-left: auto;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--c-ink-dim);
+}
+.studio-editor__editor .sp-stage-card-diff {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+/* WC8 write-back: stage approval. */
+.studio-editor__editor .sp-tab-ok {
+  color: var(--c-green, #15803d);
+  font-weight: 700;
+}
+/* ─── Bottom action footer: Save & Approve (primary) + Discard (ghost) ─── */
+.sp-action-footer {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.12));
+  border-radius: 10px;
+}
+.sp-action-footer .sp-approve {
+  flex: 1 1 auto;
+  margin-top: 0;
+}
+.sp-action-footer .sp-discard {
+  flex: 0 0 auto;
+}
+.sp-approve {
+  width: 100%;
+  margin-top: 2px;
+  padding: 9px 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #fff;
+  background: var(--c-accent);
+  border: 1px solid var(--c-accent);
+  border-radius: 9px;
+}
+.sp-approve:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+.sp-approve:disabled {
+  cursor: default;
+}
+.sp-approve.is-done {
+  color: var(--c-green, #15803d);
+  background: color-mix(in srgb, var(--c-green, #16a34a) 14%, var(--c-bg-card));
+  border-color: color-mix(in srgb, var(--c-green, #16a34a) 45%, transparent);
+}
+
+/* Temporary approval notification — rendered by Radix Toast. */
+.sp-toast-viewport {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(340px, calc(100vw - 32px));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+}
+.sp-toast {
+  padding: 12px 14px;
+  color: var(--c-green, #15803d);
+  background: var(--c-bg-card);
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--c-green, #16a34a) 38%,
+      var(--c-rule, rgba(0, 0, 0, 0.12))
+    );
+  border-radius: 9px;
+  box-shadow: 0 14px 34px rgba(31, 29, 24, 0.18);
+}
+.sp-toast-title {
+  margin: 0;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+/* Stage metrics strip (under the tabs) — words/sentences + delta vs the prior stage. */
+.studio-editor__editor .sp-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  align-items: baseline;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.78rem;
+  /* --c-ink-dim (not --c-ink-muted): ~15px is below the WCAG AA large-text
+     threshold; the header metrics line needs 4.5:1 (REQ-048). */
+  color: var(--c-ink-dim);
+  margin: -10px 0 16px;
+}
+.studio-editor__editor .sp-metric-delta {
+  font-weight: 700;
+}
+.studio-editor__editor .sp-metric-delta.is-down {
+  color: var(--c-green, #15803d);
+}
+.studio-editor__editor .sp-metric-delta.is-up {
+  color: var(--c-accent);
+}
+
+/* B: chapter switcher. */
+.studio-editor__editor .sp-chapsel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  min-width: 0;
+}
+.studio-editor__editor .sp-chapsel label {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+.studio-editor__editor .sp-chapsel select {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--c-ink);
+  background: var(--c-bg-card);
+  cursor: pointer;
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
+  border-radius: 8px;
+  padding: 5px 10px;
+  min-width: 0;
+  max-width: 100%; /* shrink + truncate the long option text on narrow screens */
+}
+.studio-editor__editor .sp-chapsel select:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+@media (max-width: 1100px) {
+  /* When the editor narrows, let the chapter selector wrap to its own full-width
+     row instead of collapsing to just the dropdown arrow. */
+  .studio-editor__editor .sp-chapsel {
+    flex-wrap: wrap;
+  }
+  .studio-editor__editor .sp-chapsel select {
+    flex: 1 1 100%;
+  }
+}
+
+/* All-chapters view toggle button. */
+.sp-viewall-btn {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--c-rule, rgba(0, 0, 0, 0.18));
+  background: var(--c-bg-card);
+  color: var(--c-ink-muted);
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sp-viewall-btn:hover {
+  color: var(--c-ink);
+}
+.sp-viewall-btn.is-on {
+  background: color-mix(in srgb, var(--c-accent) 12%, var(--c-bg-card));
+  color: var(--c-accent);
+  border-color: color-mix(in srgb, var(--c-accent) 40%, transparent);
+}
+
+/* Contextual banner shown in all-chapters mode. */
+.sp-viewall-banner {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 0.8rem;
+  color: var(--c-ink-muted);
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--c-accent) 8%, var(--c-bg-card));
+  border: 1px solid color-mix(in srgb, var(--c-accent) 25%, transparent);
+  margin-bottom: 6px;
+}
+
+/* h2 chapter banners injected by the all-chapters combined view. */
+.ProseMirror h2 {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  margin: 40px 0 18px;
+  padding: 10px 16px;
+  background: color-mix(in srgb, var(--c-accent) 9%, var(--c-bg-card));
+  border-left: 4px solid var(--c-accent);
+  border-radius: 0 8px 8px 0;
+}
+.ProseMirror h2:first-child {
+  margin-top: 4px;
+}
+.ProseMirror hr {
+  border: none;
+  border-top: 2px solid
+    color-mix(in srgb, var(--c-accent) 20%, var(--c-rule, rgba(0, 0, 0, 0.12)));
+  margin: 40px 0 0;
+}
+

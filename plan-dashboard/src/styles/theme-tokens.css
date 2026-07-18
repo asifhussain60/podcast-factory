@@ -1,0 +1,280 @@
+/* theme-tokens.css — fonts, Arabic optical sizing, and the --c-* design
+   tokens. Split from theme.css (R2); theme.css remains the entry point
+   and imports this first so cascade order is unchanged. */
+/* ────────────────────────────────────────────────────────────────
+   plan-dashboard / theme.css
+   Single source of styling for ALL three views.
+   Zero inline styles allowed in components — if a new visual is
+   needed, add the class HERE and reference it from the component.
+   ──────────────────────────────────────────────────────────────── */
+
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&family=Lexend:wght@400;500;600&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&display=swap");
+@import "tailwindcss";
+@import "./chapter-viewer.css";
+
+/* ── Arabic, optically enlarged ────────────────────────────────────
+   Arabic faces render ~35% smaller than Latin at the same point size,
+   so inline Arabic (etymology inserts, terms) and verses looked shrunken
+   next to the English body. These size-adjusted, self-hosted faces scale
+   the Arabic glyphs up per-face — Latin text keeps its own font untouched.
+   Referenced (Latin-first, sized-Arabic-before-generic) by the editor,
+   reader, and citation Arabic stacks. The PDF self-hosts its own size-
+   adjusted Amiri in book-print.css (it doesn't load this file's @font-face).
+   ──────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: "AmiriSized";
+  src: url("/fonts/amiri/Amiri-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: "AmiriSized";
+  src: url("/fonts/amiri/Amiri-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: "AmiriQuranSized";
+  src: url("/fonts/amiri/AmiriQuran.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 135%;
+}
+
+/* ── Design tokens ─────────────────────────────────────────────── */
+
+:root {
+  /* Type scale — 16px hard floor, ~1.25× modular ratio
+     2xs / sm  → UI chrome: labels, badges, eyebrows, chips    = 16px
+     base      → body text, descriptions                        = 18px
+     lg        → lede / intro paragraphs                        = 21px
+     xl        → large numbers, metrics                         = 26px
+     h3        → sub-headings                                   = 24px
+     h2        → section headings                               = 32px
+     h1        → page headings                                  = 44px
+     hero      → hero metric display                            = 40px  */
+  --font-body: "Lato", system-ui, sans-serif;
+  --font-urdu: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
+  --fs-label: 13px; /* UI chrome only — pills, chips, status badges */
+  --fs-2xs: 16px;
+  --fs-sm: 16px;
+  --fs-base: 19.2px; /* 1.2rem reading floor (REQ-010) — raised from 18px site-wide 2026-05-29 */
+  --fs-lg: 21px;
+  --fs-xl: 26px;
+  --fs-h3: 24px;
+  --fs-h2: 32px;
+  --fs-h1: 44px;
+  --fs-hero: 40px;
+  --lh-base: 1.65;
+  --lh-tight: 1.2;
+
+  /* Editorial-modern palette — warm parchment, deep ink */
+  --c-bg: #f7f4ee;
+  --c-bg-card: #fffdf8;
+  --c-bg-elev: #ffffff;
+  --c-bg-sunken: #efeae0;
+  --c-ink: #1f1d18;
+  --c-ink-dim: #4d4a42;
+  --c-ink-muted: #66625a; /* darkened from #87827a to clear WCAG AA 4.5:1 on all page/card/sunken surfaces; stays lighter than --c-ink-dim so the muted<dim<ink hierarchy holds */
+  --c-rule: #d9d3c4;
+  --c-rule-soft: #ebe6da;
+
+  /* Accents — three layers + vendor hues */
+  --c-accent: #8b4513; /* saddle brown — primary action */
+  --c-accent-soft: #d2b48c; /* tan — secondary */
+  --c-gold: #b8860b; /* dark goldenrod — highlight */
+  --c-green: #4a7c4a; /* status: ok / shipped */
+  --c-amber: #c08020; /* status: caution / in-flight */
+  --c-red: #a83232; /* status: blocked / failed */
+
+  --c-vendor-anthropic: #cc785c;
+  --c-vendor-google: #4285f4;
+  --c-vendor-azure: #0078d4;
+  --c-vendor-notebooklm: #1a73e8;
+  --c-vendor-github: #1f2328;
+
+  /* Section accent — Planner path (slate blue, not used elsewhere) */
+  --c-planner: #1a5c8a;
+
+  /* Diagram colour layer — architecture/security/trust-boundary diagrams */
+  --c-diag-local: #4a7c4a; /* teal-green: local / pipeline-controlled flow */
+  --c-diag-managed: #c08020; /* amber: managed external credential / service */
+  --c-diag-external: #a83232; /* red: outside pipeline control, risk surface */
+  --c-diag-verified: #2d6a2d; /* deep green: mitigated / passed gate */
+  --c-diag-gate: #7c4d14; /* dark amber-brown: human halt gate */
+  --c-diag-bg: #f2ede3; /* diagram card background */
+  --c-diag-zone: rgba(31, 29, 24, 0.05); /* trust-zone fill */
+  --c-diag-zone-stroke: rgba(31, 29, 24, 0.18);
+
+  /* Pipeline phase kind colours (swimlane) */
+  --c-kind-mechanical: #5a7fa0; /* steel blue: deterministic, zero LLM cost */
+  --c-kind-agentic: #7a4fa0; /* purple: LLM-driven */
+  --c-kind-hybrid: #3d7a5a; /* teal-green: mix of model + rules */
+  --c-kind-gate: #a0602d; /* terracotta: human halt */
+
+  /* Depth-level badge tokens — bg = background; fg = foreground text; bd = border.
+     Islamic scholarly: colours derived from Kashkole LevelColor / CategoryBackColor values.
+     Other profiles: purpose-matched palettes. */
+  /* islamic_scholarly */
+  --c-depth-general-bg: #e8eeff;
+  --c-depth-general-fg: #1a3a8a;
+  --c-depth-general-bd: #b0c4de;
+  --c-depth-advanced-bg: #f0e8ff;
+  --c-depth-advanced-fg: #5a2da0;
+  --c-depth-advanced-bd: #c4aadd;
+  --c-depth-taveel-bg: #e8f5e8;
+  --c-depth-taveel-fg: #1a5c1a;
+  --c-depth-taveel-bd: #a0c8a0;
+  --c-depth-mamsool-bg: #fffde8;
+  --c-depth-mamsool-fg: #7a5a00;
+  --c-depth-mamsool-bd: #ddc870;
+  --c-depth-mabda-bg: #fde8f5;
+  --c-depth-mabda-fg: #8c0066;
+  --c-depth-mabda-bd: #dda0c8;
+  --c-depth-haqaiq-bg: #ffe8e8;
+  --c-depth-haqaiq-fg: #8a0000;
+  --c-depth-haqaiq-bd: #dd8080;
+  /* consumer_explainer (site layers) */
+  --c-depth-site-website-bg: #e8f4fd;
+  --c-depth-site-website-fg: #1565c0;
+  --c-depth-site-website-bd: #90caf9;
+  --c-depth-site-application-bg: #e3f2fd;
+  --c-depth-site-application-fg: #0d47a1;
+  --c-depth-site-application-bd: #64b5f6;
+  --c-depth-site-platform-bg: #ede7f6;
+  --c-depth-site-platform-fg: #4527a0;
+  --c-depth-site-platform-bd: #9575cd;
+  --c-depth-site-api-bg: #e8eaf6;
+  --c-depth-site-api-fg: #283593;
+  --c-depth-site-api-bd: #7986cb;
+  /* technical */
+  --c-depth-tech-coding-bg: #e8f5e9;
+  --c-depth-tech-coding-fg: #1b5e20;
+  --c-depth-tech-coding-bd: #81c784;
+  --c-depth-tech-agentic-bg: #f3e5f5;
+  --c-depth-tech-agentic-fg: #4a148c;
+  --c-depth-tech-agentic-bd: #ce93d8;
+  --c-depth-tech-arch-bg: #fff3e0;
+  --c-depth-tech-arch-fg: #bf360c;
+  --c-depth-tech-arch-bd: #ffcc02;
+  --c-depth-tech-devops-bg: #eceff1;
+  --c-depth-tech-devops-fg: #263238;
+  --c-depth-tech-devops-bd: #90a4ae;
+  --c-depth-tech-security-bg: #ffebee;
+  --c-depth-tech-security-fg: #b71c1c;
+  --c-depth-tech-security-bd: #ef9a9a;
+  --c-depth-tech-data-bg: #e0f7fa;
+  --c-depth-tech-data-fg: #006064;
+  --c-depth-tech-data-bd: #80deea;
+  /* fiction */
+  --c-depth-fiction-character-bg: #fff8e1;
+  --c-depth-fiction-character-fg: #f57f17;
+  --c-depth-fiction-character-bd: #ffe082;
+  --c-depth-fiction-theme-bg: #fce4ec;
+  --c-depth-fiction-theme-fg: #880e4f;
+  --c-depth-fiction-theme-bd: #f48fb1;
+  --c-depth-fiction-world-bg: #f1f8e9;
+  --c-depth-fiction-world-fg: #33691e;
+  --c-depth-fiction-world-bd: #aed581;
+  --c-depth-fiction-conflict-bg: #fbe9e7;
+  --c-depth-fiction-conflict-fg: #bf360c;
+  --c-depth-fiction-conflict-bd: #ffab91;
+  --c-depth-fiction-voice-bg: #f3e5f5;
+  --c-depth-fiction-voice-fg: #6a1b9a;
+  --c-depth-fiction-voice-bd: #ba68c8;
+
+  /* Model tier colours (swimlane annotations) */
+  --c-model-opus: #5b2fa0; /* deep purple: Opus (highest cost) */
+  --c-model-sonnet: #2952a0; /* navy: Sonnet (mid-cost) */
+  --c-model-haiku: #1a7a5a; /* teal: Haiku (low-cost) */
+  --c-model-gemini: #1a62d4; /* Google blue: Gemini */
+  --c-model-azure: #0068b8; /* Azure blue */
+  --c-model-none: #87827a; /* muted: no model / mechanical */
+
+  /* Token volume gradient (swimlane) */
+  --c-tokens-low: rgba(74, 124, 74, 0.15);
+  --c-tokens-mid: rgba(192, 128, 32, 0.18);
+  --c-tokens-high: rgba(168, 50, 50, 0.18);
+
+  /* Spacing & shape */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --r-sm: 3px;
+  --r-md: 5px;
+  --r-lg: 6px;
+
+  --shadow-card:
+    0 1px 2px rgba(31, 29, 24, 0.04), 0 4px 12px rgba(31, 29, 24, 0.06);
+  --shadow-hover:
+    0 2px 4px rgba(31, 29, 24, 0.08), 0 8px 24px rgba(31, 29, 24, 0.12);
+
+  --maxw-prose: 920px;
+  --maxw-page: 1560px;
+
+  /* ── Cortex theme-adapter (Pattern B) — WC6d, 2026-05-29 ──────────
+     Aliases that map the Cortex HTML View Quality Standard's token NAMES
+     onto this theme's EXISTING --c-* values, plus the four tokens Cortex
+     names that we lacked. Per skills-staging/html-view-quality/SKILL.md §2.
+     HARD RULE: no existing colour value is changed here — these are pure
+     aliases so the editorial-modern palette stays byte-identical. New
+     additions (--font-display/--font-mono/--glass-*) are chosen to be
+     visually neutral against the current Lato-on-parchment look. */
+  --bg-primary: var(--c-bg);
+  --bg-secondary: var(--c-bg-card);
+  --bg-tertiary: var(--c-bg-elev);
+  --bg-card: var(--c-bg-card);
+  --text-primary: var(--c-ink);
+  --text-secondary: var(--c-ink-dim);
+  --text-tertiary: var(--c-ink-muted);
+  --text-muted: var(--c-ink-muted);
+  --accent-primary: var(--c-accent);
+  --accent-secondary: var(--c-accent-soft);
+  --accent-primary-dim: color-mix(in oklab, var(--c-accent) 12%, transparent);
+  --accent-secondary-dim: color-mix(
+    in oklab,
+    var(--c-accent-soft) 12%,
+    transparent
+  );
+  --color-success: var(--c-green);
+  --color-warning: var(--c-amber);
+  --color-error: var(--c-red);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --font-sans: var(--font-body);
+  /* --font-ui resolves site-wide (the reader-page scope overrides it where a
+     distinct UI face is wanted); keeps Studio chrome on the body sans. */
+  --font-ui: var(--font-body);
+  /* ADDED (were MISSING). --font-display kept = body font to preserve the
+     current Lato headings; switching headings to a serif is a deliberate
+     design choice to discuss with Asif, not a silent adapter change. */
+  --font-display: var(--font-body);
+  --font-mono:
+    ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  --glass-bg: var(--c-bg-card);
+  --glass-border: color-mix(in oklab, var(--c-ink) 12%, transparent);
+  --bg-glass: var(--c-bg-card);
+  --glass-border-hover: color-mix(in oklab, var(--c-ink) 22%, transparent);
+  --glass-border-accent: color-mix(in oklab, var(--c-accent) 30%, transparent);
+  --radius-xl: 24px;
+  /* Action-item badge accents (Studio editor) — bright-on-dark icon colours for
+     the deferred AI action marks, grouped by action family. New named tokens
+     (not aliases); no existing colour value is changed. */
+  --c-act-core: #fbbf24; /* amber  — rewrite / rephrase / improve */
+  --c-act-etymology: #a78bfa; /* violet — etymology (root-history) */
+  --c-act-transform: #38bdf8; /* sky    — expand / condense / simplify */
+  --c-act-knowledge: #2dd4bf; /* teal   — define / cross-ref / add-to-corpus */
+  --c-act-remove: #fb7185; /* rose   — mark for removal */
+}
+
