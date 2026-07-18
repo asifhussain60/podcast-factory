@@ -62,6 +62,7 @@ import { MarkerHighlight } from "./marker-highlight";
 import { useAutosaveDraft } from "./useAutosaveDraft";
 import { useEditorPrefs } from "./useEditorPrefs";
 import { useSectionDepth } from "./useSectionDepth";
+import { useStageApproval } from "./useStageApproval";
 import { openDepthPicker, openTagPicker } from "./studio-editor-pickers";
 import type { Chapter, Lineage, PipelineStep } from "./studio-editor-types";
 
@@ -153,62 +154,14 @@ export default function StudioEditor({
   // the editor's current content already IS the draft when this is true.)
   const hasDraftForStage = !!(stage && (chap.drafted?.[stage.id] ?? false));
 
-  // WC8 write-back loop: which stages are approved (seeded from disk, updated on approve).
-  const [approvedStages, setApprovedStages] = useState<Record<string, boolean>>(
-    () =>
-      Object.fromEntries(
-        Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved]),
-      ),
-  );
-  const [approvalTokens, setApprovalTokens] = useState<Record<string, string>>(
-    () =>
-      Object.fromEntries(
-        Object.entries(chap.reviewed).map(([k, v]) => [
-          k,
-          v?.approved_at ?? "approved",
-        ]),
-      ),
-  );
-  const [acceptedApprovalKeys, setAcceptedApprovalKeys] = useState<
-    Record<string, boolean>
-  >({});
-  // Chapter-level finalize flag (Publish button). Seeded from disk, updated on finalize.
-  const [finalized, setFinalized] = useState<{ at: string } | null>(
-    chap.finalized ?? null,
-  );
-  // On chapter/lineage switch: reset to that chapter's editable stage + reload approvals +
-  // finalize flag, and tell the editorial cockpit (Slice 5b) to follow this chapter.
+  // On chapter/lineage switch: reset to that chapter's editable stage and tell
+  // the editorial cockpit (Slice 5b) to follow this chapter. (The approval +
+  // finalize reload lives in useStageApproval — R2 pass 2.)
   useEffect(() => {
     setStageId(
       [...chap.stages].reverse().find((s) => s.available)?.id ??
         chap.stages[0]?.id,
     );
-    const tokens = Object.fromEntries(
-      Object.entries(chap.reviewed).map(([k, v]) => [
-        k,
-        v?.approved_at ?? "approved",
-      ]),
-    );
-    setApprovedStages(
-      Object.fromEntries(
-        Object.entries(chap.reviewed).map(([k, v]) => [k, !!v?.approved]),
-      ),
-    );
-    setApprovalTokens(tokens);
-    const accepted: Record<string, boolean> = {};
-    if (typeof window !== "undefined") {
-      for (const [stageKey, token] of Object.entries(tokens)) {
-        if (
-          window.localStorage.getItem(
-            `pf:approval-accepted:${slug}:${chap.slug}:${stageKey}:${token}`,
-          ) === "1"
-        ) {
-          accepted[`${stageKey}:${token}`] = true;
-        }
-      }
-    }
-    setAcceptedApprovalKeys(accepted);
-    setFinalized(chap.finalized ?? null);
     window.dispatchEvent(
       new CustomEvent("studio:chapter-change", {
         detail: { chapter: chap.slug },
@@ -216,11 +169,6 @@ export default function StudioEditor({
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chapIdx, activeLineageId]);
-  const [saving, setSaving] = useState(false);
-  const [saveError, setSaveError] = useState("");
-  const [approvalToastOpen, setApprovalToastOpen] = useState(false);
-  const [approvalToastText, setApprovalToastText] =
-    useState("Augmented Approved");
 
   // Reading-comfort controls — extracted to useEditorPrefs (R2 pass 2).
   const {
@@ -1109,122 +1057,46 @@ export default function StudioEditor({
     stageKey: stageId,
   });
 
-  const saveAndApprove = useCallback(async () => {
-    if (!stage || !editor) return;
-    // Cancel any pending autosave so it can't recreate the draft after approval
-    // promotes-and-deletes it on the server.
-    if (autosaveTimer.current) {
-      clearTimeout(autosaveTimer.current);
-      autosaveTimer.current = null;
-    }
-    setSaving(true);
-    setSaveError("");
-    try {
-      const content = serializeToMarkdown();
-      const comments = Object.fromEntries(
-        [...commentsRef.current.entries()]
-          .filter(([, v]) => v.trim())
-          .map(([k, v]) => [String(k), v.trim()]),
-      );
-      try {
-        await apiFetch("/api/studio/save-stage", {
-          method: "POST",
-          body: { slug, chapter, stage: stage.id, content, comments },
-        });
-      } catch (e) {
-        if (e instanceof ApiFetchError && e.status > 0) {
-          // HTTP-level failure: show the server's message (old !res.ok branch).
-          setSaveError(e.message || `Save failed (${e.status})`);
-          return;
-        }
-        // Transport failure: rethrow the underlying error so the outer catch
-        // renders the same "Network error: …" string as before.
-        throw e instanceof ApiFetchError ? (e.cause ?? e) : e;
-      }
-      let approvedPayload: {
-        stages?: Record<string, { approved_at?: string }>;
-      } | null = null;
-      let approveOk = true;
-      try {
-        approvedPayload = await apiFetch<{
-          stages?: Record<string, { approved_at?: string }>;
-        }>("/api/studio/review", {
-          method: "POST",
-          body: { slug, chapter, stage: stage.id, approved: true },
-        });
-      } catch (e) {
-        // The old code silently skipped the success block on a non-2xx approve;
-        // transport failures still surface via the outer catch, as before.
-        approveOk = false;
-        if (!(e instanceof ApiFetchError) || e.status === 0) {
-          throw e instanceof ApiFetchError ? (e.cause ?? e) : e;
-        }
-      }
-      if (approveOk) {
-        const approvedAt =
-          approvedPayload?.stages?.[stage.id]?.approved_at ??
-          new Date().toISOString().replace(/\.\d+Z$/, "Z");
-        try {
-          window.localStorage.removeItem(
-            `pf:approval-accepted:${slug}:${chapter}:${stage.id}:${approvedAt}`,
-          );
-        } catch {
-          // localStorage is best-effort; the fresh in-memory token still shows the confirmation.
-        }
-        setApprovedStages((m) => ({ ...m, [stage.id]: true }));
-        setApprovalTokens((m) => ({ ...m, [stage.id]: approvedAt }));
-        setAcceptedApprovalKeys((m) => {
-          const next = { ...m };
-          delete next[`${stage.id}:${approvedAt}`];
-          return next;
-        });
-        // Draft was promoted to the chapter + deleted server-side; clear the
-        // indicator and the locally-cached draft flag for this stage.
-        setDraftState("idle");
-        if (chap.drafted) chap.drafted[stage.id] = false;
-        normalizeCurrentEditorBaseline();
-        setApprovalToastText(`${stage.label} Approved`);
-        setApprovalToastOpen(false);
-        window.setTimeout(() => setApprovalToastOpen(true), 0);
-        refresh();
-      }
-    } catch (e) {
-      setSaveError(`Network error: ${String(e)}`);
-    } finally {
-      setSaving(false);
-    }
-  }, [
-    slug,
-    chapter,
-    stage,
-    editor,
-    serializeToMarkdown,
-    normalizeCurrentEditorBaseline,
-  ]);
-
-  const acceptApprovedStage = useCallback(() => {
-    if (!stage || !editor) return;
-    normalizeCurrentEditorBaseline();
-    const token = approvalTokens[stage.id] ?? "approved";
-    const acceptedKey = `${stage.id}:${token}`;
-    try {
-      window.localStorage.setItem(
-        `pf:approval-accepted:${slug}:${chapter}:${stage.id}:${token}`,
-        "1",
-      );
-    } catch {
-      // localStorage is best-effort; the in-memory state still updates the UI.
-    }
-    setAcceptedApprovalKeys((m) => ({ ...m, [acceptedKey]: true }));
-    setSaveError("");
-  }, [
-    stage,
-    editor,
-    normalizeCurrentEditorBaseline,
+  // ── Stage approval + finalize — extracted to useStageApproval (R2 pass 2).
+  // Save & Approve / Accept flows, approval tokens + localStorage acceptance
+  // keys, chapter finalize (Publish), and the chapter-switch approval reload.
+  // The (pre-existing) local chap.drafted mutation stays here — the hook can't
+  // mutate its own argument (react-hooks/immutability); deliberately NOT
+  // memoized so the hook captures it exactly as it captured `chap` before.
+  const clearDraftedFlag = (sid: string) => {
+    if (chap.drafted) chap.drafted[sid] = false;
+  };
+  const {
+    approvedStages,
     approvalTokens,
+    acceptedApprovalKeys,
+    finalized,
+    saving,
+    saveError,
+    approvalToastOpen,
+    setApprovalToastOpen,
+    approvalToastText,
+    publishing,
+    saveAndApprove,
+    acceptApprovedStage,
+    toggleFinalized,
+  } = useStageApproval({
     slug,
     chapter,
-  ]);
+    chap,
+    stage,
+    editor,
+    isArchivedView,
+    chapIdx,
+    activeLineageId,
+    serializeToMarkdown,
+    commentsRef,
+    autosaveTimerRef: autosaveTimer,
+    setDraftState,
+    clearDraftedFlag,
+    normalizeCurrentEditorBaseline,
+    refresh,
+  });
 
   const discardChanges = useCallback(async () => {
     if (!editor || !stage) return;
@@ -1418,28 +1290,6 @@ export default function StudioEditor({
     },
     [editor, activeSectionOrdinal],
   );
-
-  // Publish = mark THIS chapter finalized (reuses the per-chapter review JSON via
-  // POST /api/studio/review {finalize}). Reversible. Disabled in archived view.
-  const [publishing, setPublishing] = useState(false);
-  const toggleFinalized = useCallback(async () => {
-    if (isArchivedView) return;
-    const next = finalized ? false : true;
-    setPublishing(true);
-    try {
-      const payload = await apiFetch<{ finalized?: { at: string } | null }>(
-        "/api/studio/review",
-        { method: "POST", body: { slug, chapter, finalize: next } },
-      );
-      setFinalized(
-        next ? (payload?.finalized ?? { at: new Date().toISOString() }) : null,
-      );
-    } catch {
-      /* non-blocking */
-    } finally {
-      setPublishing(false);
-    }
-  }, [slug, chapter, finalized, isArchivedView]);
 
   // Persist a paragraph comment to SQLite (annotations API) on blur.
   const persistComment = useCallback(
