@@ -323,3 +323,4 @@ _workspace/ynab-*
 content/**/run-*.log
 content/**/_alloc/run.log
 content/**/_system/_synthesis-run.log
+content/**/_system/translation-run.log
