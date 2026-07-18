@@ -87,34 +87,47 @@ from _paths import relative_to_repo
 # Re-export everything from _validators so existing callers that do
 #   `from build_episode_txt import X`
 # continue to work without modification.
-from _validators import *  # noqa: F401, F403
+from _validators import *  # noqa: F403
 from _validators import (
-    CHAPTER_WORD_MIN_HARD, CHAPTER_WORD_MAX_HARD,
-    CHAPTER_WORD_MIN_SOFT, CHAPTER_WORD_MAX_SOFT,
-    CHAPTER_DEAD_ZONE_MIN, CHAPTER_DEAD_ZONE_MAX,
-    FRAMING_WORD_MIN, FRAMING_WORD_MAX, FRAMING_CHAR_MAX,
+    CHAPTER_DEAD_ZONE_MAX,
+    CHAPTER_DEAD_ZONE_MIN,
+    CHAPTER_WORD_MAX_HARD,
+    CHAPTER_WORD_MAX_SOFT,
+    CHAPTER_WORD_MIN_HARD,
+    CHAPTER_WORD_MIN_SOFT,
     EP_PATTERN,
-    assert_chapters_populated, find_chapter_by_slug,
-    load_book_meta_prose_tells,
-    assert_no_html_comments, assert_no_meta_prose,
-    assert_no_inline_phonetics, assert_no_abbreviations,
-    assert_honorifics_once_only, assert_doctrinal_clean,
-    assert_chapter_no_manuscript_meta,
-    assert_no_arabic_transliteration, assert_no_arabic_surah_names,
-    assert_quran_citation_format, assert_no_translit_formula_pairs,
+    FRAMING_CHAR_MAX,
+    FRAMING_WORD_MIN,
     assert_alqaab_only_established_or_paraphrased,
-    assert_framing_pronunciation_imperative, assert_framing_deny_block,
-    assert_framing_has_name_discipline_section,
-    assert_framing_dramatic_arc_structure,
-    assert_framing_challenger_friction_lists_patterns,
+    assert_chapter_no_manuscript_meta,
+    assert_chapters_populated,
+    assert_doctrinal_clean,
     assert_framing_analogy_cap_declared,
-    assert_framing_recurring_thesis_present,
     assert_framing_analogy_cap_strict,
-    assert_framing_no_modern_artifacts,
+    assert_framing_challenger_friction_lists_patterns,
+    assert_framing_deny_block,
+    assert_framing_dramatic_arc_structure,
+    assert_framing_has_name_discipline_section,
     assert_framing_honorific_bounded_both_sides,
-    assert_show_notes_has_apparatus_table,
+    assert_framing_no_modern_artifacts,
+    assert_framing_pronunciation_imperative,
+    assert_framing_recurring_thesis_present,
+    assert_honorifics_once_only,
+    assert_no_abbreviations,
+    assert_no_arabic_surah_names,
+    assert_no_arabic_transliteration,
     assert_no_doubled_phrases,
-    strip_upload_checklist, strip_html_comments, word_count,
+    assert_no_html_comments,
+    assert_no_inline_phonetics,
+    assert_no_meta_prose,
+    assert_no_translit_formula_pairs,
+    assert_quran_citation_format,
+    assert_show_notes_has_apparatus_table,
+    find_chapter_by_slug,
+    load_book_meta_prose_tells,
+    strip_html_comments,
+    strip_upload_checklist,
+    word_count,
 )
 
 
@@ -172,11 +185,14 @@ def _insert_pacing_block(cleaned: str, pacing_block: str) -> str:
     return cleaned[:idx] + "\n" + pacing_block + "\n" + cleaned[idx:]
 
 
-def build_framing_episode_txt(framing_path: Path, out_path: Path,
-                              extra_tells: list[str] | None = None,
-                              book_dir: Path | None = None,
-                              write: bool = True,
-                              pacing_block: str | None = None) -> int:
+def build_framing_episode_txt(
+    framing_path: Path,
+    out_path: Path,
+    extra_tells: list[str] | None = None,
+    book_dir: Path | None = None,
+    write: bool = True,
+    pacing_block: str | None = None,
+) -> int:
     """Read the framing, strip upload-checklist + HTML comments, validate, write to
     out_path as the customize-prompt-only episode txt. Returns word count of the
     final framing content.
@@ -202,9 +218,12 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path,
         if len(with_pacing) <= FRAMING_CHAR_MAX:
             cleaned = with_pacing
         else:
-            print(f"WARN: pacing directive skipped for {framing_path.name} — "
-                  f"would exceed the {FRAMING_CHAR_MAX}-char Customize ceiling "
-                  f"({len(with_pacing)} chars).", file=sys.stderr)
+            print(
+                f"WARN: pacing directive skipped for {framing_path.name} — "
+                f"would exceed the {FRAMING_CHAR_MAX}-char Customize ceiling "
+                f"({len(with_pacing)} chars).",
+                file=sys.stderr,
+            )
 
     # Derive book_dir for content-profile lookup if not supplied.
     _bdir = book_dir or framing_path.parent.parent.parent  # ep-draft-dir → _system → book
@@ -213,8 +232,7 @@ def build_framing_episode_txt(framing_path: Path, out_path: Path,
     # Re-validate cleaned framing for meta-prose tells (cross-episode refs, etc.).
     # skip_do_not_section=True: the Do-not list legitimately names forbidden phrases
     # (including "next episode") — exclude that section from the substring scan.
-    assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)", extra_tells,
-                         skip_do_not_section=True)
+    assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)", extra_tells, skip_do_not_section=True)
     # R-PRONUNCIATION-IMPERATIVE (2026-05-17)
     assert_framing_pronunciation_imperative(cleaned, framing_path)
     # R-NOMODERNIZE + R-NOSURPRISE + R-NO-READ-PROMPT (2026-05-17)
@@ -276,10 +294,7 @@ def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
 
     m = EP_PATTERN.match(episode_id)
     if not m:
-        sys.exit(
-            f"ERROR: episode id '{episode_id}' does not match EP##-<slug>. "
-            f"Example: EP01-frame-and-first-counsel"
-        )
+        sys.exit(f"ERROR: episode id '{episode_id}' does not match EP##-<slug>. Example: EP01-frame-and-first-counsel")
     episode_num, episode_slug = m.group(1), m.group(2)
 
     draft_dir = book_dir / "_system" / "episode-drafts" / episode_id
@@ -313,6 +328,7 @@ def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
     if is_islamic_scholarly(book_dir) and not check_only:
         try:
             from mint_section_depths import mint_section_depths_for_chapter
+
             mint_section_depths_for_chapter(book_dir, chapter_file)
         except Exception:
             pass  # DB unavailable or chapter has no ## sections — non-fatal
@@ -325,15 +341,20 @@ def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
     pacing_block = None
     try:
         from _density_profiles import planner_enabled
+
         if planner_enabled(book_dir):
             from density_planner import pacing_block_for_episode
+
             pacing_block = pacing_block_for_episode(book_dir, int(episode_num))
     except Exception:
         pacing_block = None  # planner availability must never break a build
 
     out_path = book_dir / "episodes" / f"{episode_id}.txt"
     framing_words = build_framing_episode_txt(
-        framing_file, out_path, extra_tells, write=not check_only,
+        framing_file,
+        out_path,
+        extra_tells,
+        write=not check_only,
         pacing_block=pacing_block,
     )
 
@@ -370,8 +391,8 @@ def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
 
     _wrote_line = (
         f"Checked episode (CUSTOMIZE PROMPT): {out_path} (--check, not written)\n"
-        if check_only else
-        f"Wrote episode (CUSTOMIZE PROMPT): {out_path}\n"
+        if check_only
+        else f"Wrote episode (CUSTOMIZE PROMPT): {out_path}\n"
     )
     print(
         f"Validated chapter (SOURCE): {chapter_file}\n"

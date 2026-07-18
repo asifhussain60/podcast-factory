@@ -16,12 +16,12 @@ import pytest
 _REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_REPO))
 
-from tools.content_translator.stages.seal import seal_stage, _read_stage  # noqa: E402
-
+from tools.content_translator.stages.seal import _read_stage, seal_stage
 
 # ---------------------------------------------------------------------------
 # Bundle fixture helpers
 # ---------------------------------------------------------------------------
+
 
 def _make_bundle(tmp_path: Path, stage: str = "reviewed") -> Path:
     """Create a minimal bundle root with bundle.yml at the given stage."""
@@ -64,7 +64,7 @@ def _add_peq_report(bundle_root: Path, peq_total: float) -> None:
             | Enrichment | 20% | 80.0 | 16.0 |
             | **Total**  | 100% | — | **{peq_total:.1f}** |
 
-            **Verdict: {'PASS' if peq_total >= 85 else 'WARN' if peq_total >= 70 else 'FAIL'}** — total {peq_total:.1f}
+            **Verdict: {"PASS" if peq_total >= 85 else "WARN" if peq_total >= 70 else "FAIL"}** — total {peq_total:.1f}
         """),
         encoding="utf-8",
     )
@@ -73,6 +73,7 @@ def _add_peq_report(bundle_root: Path, peq_total: float) -> None:
 # ---------------------------------------------------------------------------
 # Stage transitions
 # ---------------------------------------------------------------------------
+
 
 class TestStageTransitions:
     def test_reviewed_to_translated(self, tmp_path: Path):
@@ -115,6 +116,7 @@ class TestStageTransitions:
 # Required files validation
 # ---------------------------------------------------------------------------
 
+
 class TestRequiredFiles:
     def test_missing_raw_extract_blocks_translated(self, tmp_path: Path):
         bundle = _make_bundle(tmp_path, "reviewed")
@@ -140,6 +142,7 @@ class TestRequiredFiles:
 # ---------------------------------------------------------------------------
 # PEQ gate on 'challenged' seal
 # ---------------------------------------------------------------------------
+
 
 class TestPeqGate:
     def test_peq_pass_seals(self, tmp_path: Path):

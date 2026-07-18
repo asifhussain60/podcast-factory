@@ -2,18 +2,17 @@
 
 Extracted from orchestrate_book.py (A4 split). Authority: plan.md §A4.
 """
+
 from __future__ import annotations
 
-import subprocess
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT
 from _progress import read_state
-
-
-from _subprocess import run as _run, err as _err, info as _info  # noqa: E402
+from _subprocess import err as _err
+from _subprocess import run as _run
 
 
 def _git(*args: str) -> tuple[int, str, str]:
@@ -23,6 +22,7 @@ def _git(*args: str) -> tuple[int, str, str]:
 def _book_dir_from_state(book_slug: str) -> "Path | None":
     """Locate book_dir via _paths.find_content (used by phase_merge_to_develop)."""
     from _paths import find_content as _find
+
     found = _find(book_slug)
     return found[2] if found else None
 
@@ -35,6 +35,7 @@ def phase_merge_to_develop(book_slug: str, category: str | None = None) -> None:
     book's content_profile over its legacy category.
     """
     from _branching import branch_name as _branch_name
+
     branch = None
     bd = _book_dir_from_state(book_slug)
     if bd is not None:

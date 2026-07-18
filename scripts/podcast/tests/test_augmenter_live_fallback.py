@@ -4,6 +4,7 @@
 All tests are pure unit tests — no DB, no live server.
 The local server client is monkey-patched in each test.
 """
+
 from __future__ import annotations
 
 import json
@@ -16,11 +17,12 @@ from unittest import mock
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import intelligence.augmenter as aug  # noqa: E402
+import intelligence.augmenter as aug
 
 
-def _make_book_dir(tmp: Path, *, live_quran: bool = False,
-                   topic_markers: bool = False, tags: list | None = None) -> Path:
+def _make_book_dir(
+    tmp: Path, *, live_quran: bool = False, topic_markers: bool = False, tags: list | None = None
+) -> Path:
     book_dir = tmp / "test-book"
     (book_dir / "_system").mkdir(parents=True)
     series: dict = {}
@@ -30,6 +32,7 @@ def _make_book_dir(tmp: Path, *, live_quran: bool = False,
         series["enable_topic_markers"] = True
     meta = {"series": series, "knowledge_tags": tags or []}
     import yaml  # type: ignore[import]
+
     (book_dir / "meta.yml").write_text(yaml.dump(meta), encoding="utf-8")
     return book_dir
 
@@ -56,8 +59,10 @@ class LiveQuranGateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = _make_book_dir(Path(tmp), live_quran=True)
             text = "The throne verse Q2:255 is essential."
-            with mock.patch.object(aug, "_verse_in_db", return_value=True) as m_db, \
-                 mock.patch.object(aug, "_live_verse") as m_live:
+            with (
+                mock.patch.object(aug, "_verse_in_db", return_value=True),
+                mock.patch.object(aug, "_live_verse") as m_live,
+            ):
                 aug.augment_chapter_text(text, book_dir)
             m_live.assert_not_called()
 
@@ -66,10 +71,19 @@ class LiveQuranGateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = _make_book_dir(Path(tmp), live_quran=True)
             text = "Chapter references Q2:255 explicitly."
-            fake_verse = {"surah": 2, "ayat": 255, "pickthall": "Allah! There is no god but He.",
-                          "arabic": "", "asad": "", "urdu": "", "phonetic": ""}
-            with mock.patch.object(aug, "_verse_in_db", return_value=False), \
-                 mock.patch.object(aug, "_live_verse", return_value=fake_verse) as m_live:
+            fake_verse = {
+                "surah": 2,
+                "ayat": 255,
+                "pickthall": "Allah! There is no god but He.",
+                "arabic": "",
+                "asad": "",
+                "urdu": "",
+                "phonetic": "",
+            }
+            with (
+                mock.patch.object(aug, "_verse_in_db", return_value=False),
+                mock.patch.object(aug, "_live_verse", return_value=fake_verse) as m_live,
+            ):
                 result = aug.augment_chapter_text(text, book_dir)
             m_live.assert_called_once_with(2, 255)
             self.assertIn("LIVE VERSE CONTEXT", result)
@@ -80,8 +94,10 @@ class LiveQuranGateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = _make_book_dir(Path(tmp), live_quran=True)
             text = "Q2:255 mentioned here."
-            with mock.patch.object(aug, "_verse_in_db", return_value=False), \
-                 mock.patch.object(aug, "_live_verse", return_value=None):
+            with (
+                mock.patch.object(aug, "_verse_in_db", return_value=False),
+                mock.patch.object(aug, "_live_verse", return_value=None),
+            ):
                 result = aug.augment_chapter_text(text, book_dir)
             self.assertNotIn("LIVE VERSE CONTEXT", result)
 
@@ -91,10 +107,19 @@ class LiveQuranGateTests(unittest.TestCase):
             book_dir = _make_book_dir(Path(tmp), live_quran=True)
             log_path = book_dir / "_system" / "mcp-calls.jsonl"
             text = "See Q2:255 for the throne verse."
-            fake_verse = {"surah": 2, "ayat": 255, "pickthall": "Allah! There is no god.",
-                          "arabic": "", "asad": "", "urdu": "", "phonetic": ""}
-            with mock.patch.object(aug, "_verse_in_db", return_value=False), \
-                 mock.patch.object(aug, "_live_verse", return_value=fake_verse):
+            fake_verse = {
+                "surah": 2,
+                "ayat": 255,
+                "pickthall": "Allah! There is no god.",
+                "arabic": "",
+                "asad": "",
+                "urdu": "",
+                "phonetic": "",
+            }
+            with (
+                mock.patch.object(aug, "_verse_in_db", return_value=False),
+                mock.patch.object(aug, "_live_verse", return_value=fake_verse),
+            ):
                 aug.augment_chapter_text(text, book_dir, mcp_log=log_path)
             self.assertTrue(log_path.exists())
             entry = json.loads(log_path.read_text())

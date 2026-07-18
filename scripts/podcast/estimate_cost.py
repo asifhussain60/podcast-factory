@@ -33,6 +33,7 @@ EXIT CODES
     1 — book not found / config unreadable
     2 — --reconcile requested but no estimate or no ledger exists
 """
+
 from __future__ import annotations
 
 import argparse
@@ -43,16 +44,20 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-import yaml  # noqa: E402
+import yaml
 
-from _paths import find_content  # noqa: E402
 # Single source of truth for metered-service rates — never re-hardcode prices.
-from _cost_ledger import (  # noqa: E402
+# AZURE_PRICING_USD is re-exported as part of this module's contract
+# (identity-asserted by test_fiction_pipeline's single-source-of-truth check).
+from _cost_ledger import (
+    AZURE_PRICING_USD as AZURE_PRICING_USD,
+)
+from _cost_ledger import (
     GEMINI_PRICING_USD,
-    AZURE_PRICING_USD,
     PRICING_USD_PER_MILLION_TOKENS,
 )
-from generate_video_layer import IMAGES_PER_EP_SCENIC, IMAGE_COST_ESTIMATE  # noqa: E402
+from _paths import find_content
+from generate_video_layer import IMAGE_COST_ESTIMATE, IMAGES_PER_EP_SCENIC
 
 # ─── Calibration (NOTIONAL Claude-on-Max, USD per episode) ────────────────────
 #
@@ -62,9 +67,9 @@ from generate_video_layer import IMAGES_PER_EP_SCENIC, IMAGE_COST_ESTIMATE  # no
 # NOTIONAL (flat-rate Max) — they forecast token volume, not real money. Refresh
 # from real ledgers as more books ship (reconciliation feeds this back).
 CALIB_PER_EPISODE_NOTIONAL_USD = {
-    "per_chapter_authoring": 18.80,   # framing + build + challenger convergence
-    "phase_0d_design":        5.00,   # chapter/episode design
-    "book_compose":           2.90,   # reading-edition compose + illustrate
+    "per_chapter_authoring": 18.80,  # framing + build + challenger convergence
+    "phase_0d_design": 5.00,  # chapter/episode design
+    "book_compose": 2.90,  # reading-edition compose + illustrate
 }
 # Phase 0b windowed refine — small, sonnet-tier; modeled per 1k source words.
 CALIB_0B_NOTIONAL_USD_PER_1K_WORDS = 0.02
@@ -75,8 +80,8 @@ CALIB_0E_NOTIONAL_USD_PER_EPISODE = 0.74
 # english_words ≈ source_chars * CHARS_TO_EN_WORDS; output_tokens ≈ words * 1.3;
 # notional cost via opus output rate; a windowing-overhead multiplier covers
 # per-window prompt re-send + occasional retries.
-CHARS_TO_EN_WORDS          = 0.70
-WORDS_TO_OUTPUT_TOKENS     = 1.30
+CHARS_TO_EN_WORDS = 0.70
+WORDS_TO_OUTPUT_TOKENS = 1.30
 TRANSLATION_OVERHEAD_FACTOR = 1.5
 _OPUS_OUTPUT_USD_PER_M = PRICING_USD_PER_MILLION_TOKENS["claude-opus-4-8"][1]  # 75.0
 
@@ -162,26 +167,20 @@ def estimate(book_dir: Path, *, episodes: int | None = None) -> dict:
     if episodes is None:
         explicit = int(cfg.get("estimated_episode_count") or 0)
         episodes = explicit or (
-            max(1, round(est_en_words / WORDS_PER_EPISODE_FICTION)) if est_en_words
-            else DEFAULT_EPISODE_COUNT
+            max(1, round(est_en_words / WORDS_PER_EPISODE_FICTION)) if est_en_words else DEFAULT_EPISODE_COUNT
         )
 
     assumptions: list[str] = []
 
     # ── Notional Claude (flat-rate Max) ───────────────────────────────────────
     notional: dict[str, float] = {}
-    notional["per_chapter_authoring"] = round(
-        episodes * CALIB_PER_EPISODE_NOTIONAL_USD["per_chapter_authoring"], 2)
-    notional["phase_0d_design"] = round(
-        episodes * CALIB_PER_EPISODE_NOTIONAL_USD["phase_0d_design"], 2)
-    notional["book_compose"] = round(
-        episodes * CALIB_PER_EPISODE_NOTIONAL_USD["book_compose"], 2)
-    notional["phase_0b_refine"] = round(
-        (source_words / 1000.0) * CALIB_0B_NOTIONAL_USD_PER_1K_WORDS, 2)
+    notional["per_chapter_authoring"] = round(episodes * CALIB_PER_EPISODE_NOTIONAL_USD["per_chapter_authoring"], 2)
+    notional["phase_0d_design"] = round(episodes * CALIB_PER_EPISODE_NOTIONAL_USD["phase_0d_design"], 2)
+    notional["book_compose"] = round(episodes * CALIB_PER_EPISODE_NOTIONAL_USD["book_compose"], 2)
+    notional["phase_0b_refine"] = round((source_words / 1000.0) * CALIB_0B_NOTIONAL_USD_PER_1K_WORDS, 2)
 
     if is_islamic:
-        notional["phase_0e_enrich"] = round(
-            episodes * CALIB_0E_NOTIONAL_USD_PER_EPISODE, 2)
+        notional["phase_0e_enrich"] = round(episodes * CALIB_0E_NOTIONAL_USD_PER_EPISODE, 2)
     else:
         assumptions.append("0c phonetics + 0e enrichment SKIPPED (non-islamic_scholarly profile).")
 
@@ -195,15 +194,15 @@ def estimate(book_dir: Path, *, episodes: int | None = None) -> dict:
             f"Translation: {source_chars:,} source chars → ~{en_words:,.0f} EN words "
             f"→ ~{out_tokens:,.0f} output tokens at opus notional rate × "
             f"{TRANSLATION_OVERHEAD_FACTOR} overhead. NOTIONAL (Max, $0 marginal). "
-            f"LARGEST single uncertainty — first non-English source, no baseline.")
+            f"LARGEST single uncertainty — first non-English source, no baseline."
+        )
 
     notional_total = round(sum(notional.values()), 2)
 
     # ── Real metered spend (Gemini + Azure) ───────────────────────────────────
     real: dict[str, float] = {}
     if video_enabled:
-        real["gemini_scenic_images"] = round(
-            episodes * IMAGES_PER_EP_SCENIC * IMAGE_COST_ESTIMATE, 2)
+        real["gemini_scenic_images"] = round(episodes * IMAGES_PER_EP_SCENIC * IMAGE_COST_ESTIMATE, 2)
         # Gemini Flash prompt text per episode — small; ~chapter chars in, ~3k out.
         flash_in = GEMINI_PRICING_USD["gemini-2.5-flash"]["in_per_char"]
         flash_out = GEMINI_PRICING_USD["gemini-2.5-flash"]["out_per_char"]
@@ -240,7 +239,7 @@ def estimate(book_dir: Path, *, episodes: int | None = None) -> dict:
             "real_money_usd": real_total,
             "notional_max_usd": notional_total,
             "note": "Real money is metered (Gemini/Azure). Notional is flat-rate "
-                    "Claude Max — covered by the subscription, $0 marginal.",
+            "Claude Max — covered by the subscription, $0 marginal.",
         },
         "assumptions": assumptions,
         "confidence": "low" if (is_fiction or source_language not in ("en", "")) else "medium",
@@ -293,12 +292,10 @@ def main(argv: list[str] | None = None) -> int:
         description="Pre-run cost forecast + estimate-vs-actual reconciliation.",
     )
     ap.add_argument("book", help="Book slug or path to book dir.")
-    ap.add_argument("--episodes", type=int, default=None,
-                    help="Override the forecast episode count.")
+    ap.add_argument("--episodes", type=int, default=None, help="Override the forecast episode count.")
     ap.add_argument("--json", action="store_true", help="Emit JSON to stdout.")
     ap.add_argument("--no-write", action="store_true", help="Do not write cost-estimate.json.")
-    ap.add_argument("--reconcile", action="store_true",
-                    help="Diff the written estimate against the actual ledger.")
+    ap.add_argument("--reconcile", action="store_true", help="Diff the written estimate against the actual ledger.")
     args = ap.parse_args(argv)
 
     try:
@@ -332,18 +329,15 @@ def main(argv: list[str] | None = None) -> int:
 def _fmt_estimate(est: dict) -> str:
     s = est["scope"]
     lines = [
-        f"Cost estimate — {est['book_slug']}  (profile={est['content_profile']}, "
-        f"confidence={est['confidence']})",
-        f"  Scope: {s['episodes']} episodes, {s['source_words']:,} source words, "
-        f"{s['source_chars']:,} source chars",
+        f"Cost estimate — {est['book_slug']}  (profile={est['content_profile']}, confidence={est['confidence']})",
+        f"  Scope: {s['episodes']} episodes, {s['source_words']:,} source words, {s['source_chars']:,} source chars",
         "",
         f"  REAL metered spend:   ${est['real_metered_total_usd']:>9.2f}",
     ]
     for k, v in est["real_metered_usd"].items():
         lines.append(f"      {k:<24} ${v:>8.2f}")
     lines += [
-        f"  NOTIONAL (Max, $0 real): ${est['notional_max_total_usd']:>9.2f}  "
-        f"(covered by subscription)",
+        f"  NOTIONAL (Max, $0 real): ${est['notional_max_total_usd']:>9.2f}  (covered by subscription)",
     ]
     for k, v in est["notional_max_usd"].items():
         lines.append(f"      {k:<24} ${v:>8.2f}")
@@ -359,14 +353,16 @@ def _fmt_reconcile(v: dict, slug: str) -> str:
     def _row(label, d):
         pct = d["variance_pct"]
         pct_s = "n/a" if pct is None else f"{pct:+.1f}%"
-        return (f"  {label:<16} est ${d['estimate_usd']:>9.2f}  "
-                f"actual ${d['actual_usd']:>9.2f}  variance {pct_s}")
-    return "\n".join([
-        f"Cost reconciliation — {slug}",
-        _row("Real metered", v["real_metered"]),
-        _row("Notional Max", v["notional_max"]),
-        f"  Actual total calls: {v['actual_total_calls']}",
-    ])
+        return f"  {label:<16} est ${d['estimate_usd']:>9.2f}  actual ${d['actual_usd']:>9.2f}  variance {pct_s}"
+
+    return "\n".join(
+        [
+            f"Cost reconciliation — {slug}",
+            _row("Real metered", v["real_metered"]),
+            _row("Notional Max", v["notional_max"]),
+            f"  Actual total calls: {v['actual_total_calls']}",
+        ]
+    )
 
 
 if __name__ == "__main__":

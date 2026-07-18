@@ -26,6 +26,7 @@ CLI:
     python3 scripts/podcast/intelligence/ingest_mcp_corpus.py --type poetry
     python3 scripts/podcast/intelligence/ingest_mcp_corpus.py --type etymology
 """
+
 from __future__ import annotations
 
 import argparse
@@ -42,18 +43,20 @@ for p in (str(_SCRIPTS), str(_REPO)):
         sys.path.insert(0, p)
 
 from _db import get_connection, run_migrations
-from scripts.podcast.source_library_mirror import open_mirror, MIRROR_PATH
+
+from scripts.podcast.source_library_mirror import MIRROR_PATH, open_mirror
 
 # ---------------------------------------------------------------------------
 # KASHKOLE TypeID constants (matches mcp_access.py)
 # ---------------------------------------------------------------------------
 
-_HADITH_TYPE_IDS = (17, 23)   # حدیث نبوی + معنی الحدیث
-_POETRY_TYPE_IDS = (31,)       # منقبت
+_HADITH_TYPE_IDS = (17, 23)  # حدیث نبوی + معنی الحدیث
+_POETRY_TYPE_IDS = (31,)  # منقبت
 
 # ---------------------------------------------------------------------------
 # Result types
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class IngestSummary:
@@ -78,6 +81,7 @@ class IngestSummary:
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _insert_atom(
     conn,
     atom_id: str,
@@ -86,9 +90,7 @@ def _insert_atom(
     tradition: str,
 ) -> bool:
     """Insert one atom. Returns True if created, False if already existed."""
-    existing = conn.execute(
-        "SELECT COUNT(*) FROM atoms WHERE id = ?", (atom_id,)
-    ).fetchone()[0]
+    existing = conn.execute("SELECT COUNT(*) FROM atoms WHERE id = ?", (atom_id,)).fetchone()[0]
     if existing:
         return False
     conn.execute(
@@ -103,9 +105,8 @@ def _insert_atom(
 # Hadith ingest
 # ---------------------------------------------------------------------------
 
-def _ingest_hadith(
-    mirror_conn, db_conn, dry_run: bool
-) -> tuple[int, int, list[str]]:
+
+def _ingest_hadith(mirror_conn, db_conn, dry_run: bool) -> tuple[int, int, list[str]]:
     """Pull hadith topics from KASHKOLE fts_topics and write to knowledge.db.
 
     Returns (created, skipped, errors).
@@ -122,20 +123,18 @@ def _ingest_hadith(
         topic_id = row["topic_id"]
         atom_id = f"hadith:kashkole:{topic_id}"
         body = {
-            "topic_id":     topic_id,
+            "topic_id": topic_id,
             "topic_type_id": row["topic_type_id"],
-            "title":        row["name"],
-            "description":  row["description"] or "",
-            "binder":       row["binder"] or "",
-            "chapter":      row["chapter"] or "",
-            "text_ur":      row["body_plain"] or "",
-            "tradition":    "ismaili",
-            "source":       "kashkole",
+            "title": row["name"],
+            "description": row["description"] or "",
+            "binder": row["binder"] or "",
+            "chapter": row["chapter"] or "",
+            "text_ur": row["body_plain"] or "",
+            "tradition": "ismaili",
+            "source": "kashkole",
         }
         if dry_run:
-            existing = db_conn.execute(
-                "SELECT COUNT(*) FROM atoms WHERE id = ?", (atom_id,)
-            ).fetchone()[0]
+            existing = db_conn.execute("SELECT COUNT(*) FROM atoms WHERE id = ?", (atom_id,)).fetchone()[0]
             if existing:
                 skipped += 1
             else:
@@ -156,9 +155,8 @@ def _ingest_hadith(
 # Poetry ingest
 # ---------------------------------------------------------------------------
 
-def _ingest_poetry(
-    mirror_conn, db_conn, dry_run: bool
-) -> tuple[int, int, list[str]]:
+
+def _ingest_poetry(mirror_conn, db_conn, dry_run: bool) -> tuple[int, int, list[str]]:
     """Pull poetry topics from KASHKOLE fts_topics and write to knowledge.db.
 
     Returns (created, skipped, errors).
@@ -175,21 +173,19 @@ def _ingest_poetry(
         topic_id = row["topic_id"]
         atom_id = f"poetry:kashkole:{topic_id}"
         body = {
-            "topic_id":     topic_id,
+            "topic_id": topic_id,
             "topic_type_id": row["topic_type_id"],
-            "title":        row["name"],
-            "description":  row["description"] or "",
-            "binder":       row["binder"] or "",
-            "chapter":      row["chapter"] or "",
-            "matn_ur":      row["body_plain"] or "",
-            "genre":        "manqabat",
-            "tradition":    "ismaili",
-            "source":       "kashkole",
+            "title": row["name"],
+            "description": row["description"] or "",
+            "binder": row["binder"] or "",
+            "chapter": row["chapter"] or "",
+            "matn_ur": row["body_plain"] or "",
+            "genre": "manqabat",
+            "tradition": "ismaili",
+            "source": "kashkole",
         }
         if dry_run:
-            existing = db_conn.execute(
-                "SELECT COUNT(*) FROM atoms WHERE id = ?", (atom_id,)
-            ).fetchone()[0]
+            existing = db_conn.execute("SELECT COUNT(*) FROM atoms WHERE id = ?", (atom_id,)).fetchone()[0]
             if existing:
                 skipped += 1
             else:
@@ -210,9 +206,8 @@ def _ingest_poetry(
 # Etymology ingest
 # ---------------------------------------------------------------------------
 
-def _ingest_etymology(
-    mirror_conn, db_conn, dry_run: bool
-) -> tuple[int, int, list[str]]:
+
+def _ingest_etymology(mirror_conn, db_conn, dry_run: bool) -> tuple[int, int, list[str]]:
     """Pull KQUR Roots + Derivatives from term_index and write to knowledge.db.
 
     Groups derivatives under each root so each atom captures the full
@@ -231,6 +226,7 @@ def _ingest_etymology(
 
     # Group by root: the root itself is a term where root == term (or similar)
     from collections import defaultdict
+
     by_root: dict[str, list] = defaultdict(list)
     for row in rows:
         by_root[row["root"] or row["term"]].append(row)
@@ -243,34 +239,30 @@ def _ingest_etymology(
         # Build derivatives list (all entries except the root entry itself)
         derivatives = [
             {
-                "term":        e["term"],
-                "arabic":      e["arabic"] or "",
-                "grammar":     e["grammar_tag"] or "",
-                "meaning_en":  e["definition"] or "",
+                "term": e["term"],
+                "arabic": e["arabic"] or "",
+                "grammar": e["grammar_tag"] or "",
+                "meaning_en": e["definition"] or "",
             }
             for e in entries
             if e["term"] != root_key
         ]
 
         # Root entry — use the first entry with a matching root transliteration
-        root_entry = next(
-            (e for e in entries if e["root"] == root_key), entries[0]
-        )
+        root_entry = next((e for e in entries if e["root"] == root_key), entries[0])
 
         body = {
             "root_transliteration": root_key,
-            "root_arabic":          root_entry["arabic"] or "",
-            "meaning_en":           root_entry["definition"] or "",
-            "meaning_ar":           root_entry["etymology"] or "",
-            "derivatives":          derivatives,
-            "tradition":            "universal",
-            "source":               "kqur",
+            "root_arabic": root_entry["arabic"] or "",
+            "meaning_en": root_entry["definition"] or "",
+            "meaning_ar": root_entry["etymology"] or "",
+            "derivatives": derivatives,
+            "tradition": "universal",
+            "source": "kqur",
         }
 
         if dry_run:
-            existing = db_conn.execute(
-                "SELECT COUNT(*) FROM atoms WHERE id = ?", (atom_id,)
-            ).fetchone()[0]
+            existing = db_conn.execute("SELECT COUNT(*) FROM atoms WHERE id = ?", (atom_id,)).fetchone()[0]
             if existing:
                 skipped += 1
             else:
@@ -291,6 +283,7 @@ def _ingest_etymology(
 # Public API
 # ---------------------------------------------------------------------------
 
+
 def ingest_all(
     dry_run: bool = False,
     types: list[str] | None = None,
@@ -310,8 +303,7 @@ def ingest_all(
 
     if mirror_conn is None:
         summary.errors.append(
-            f"mirror.db not found at {MIRROR_PATH} — "
-            "run: python3 scripts/podcast/source_library_mirror.py"
+            f"mirror.db not found at {MIRROR_PATH} — run: python3 scripts/podcast/source_library_mirror.py"
         )
         return summary
 
@@ -355,9 +347,7 @@ def print_status() -> None:
     """Print current atom counts in knowledge.db by type."""
     run_migrations()
     conn = get_connection()
-    rows = conn.execute(
-        "SELECT type, COUNT(*) AS n FROM atoms GROUP BY type ORDER BY n DESC"
-    ).fetchall()
+    rows = conn.execute("SELECT type, COUNT(*) AS n FROM atoms GROUP BY type ORDER BY n DESC").fetchall()
     if not rows:
         print("knowledge.db is empty — no atoms ingested yet.")
         return
@@ -372,17 +362,20 @@ def print_status() -> None:
 # CLI
 # ---------------------------------------------------------------------------
 
+
 def _cli() -> None:
     parser = argparse.ArgumentParser(
         description="B5: Ingest hadith, poetry, etymology atoms from MCP mirror into knowledge.db"
     )
-    parser.add_argument("--status", action="store_true",
-                        help="Print current atom counts and exit.")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Count what would be created without writing.")
-    parser.add_argument("--type", choices=["hadith", "poetry", "etymology"],
-                        action="append", dest="types",
-                        help="Restrict to one or more atom types (repeatable).")
+    parser.add_argument("--status", action="store_true", help="Print current atom counts and exit.")
+    parser.add_argument("--dry-run", action="store_true", help="Count what would be created without writing.")
+    parser.add_argument(
+        "--type",
+        choices=["hadith", "poetry", "etymology"],
+        action="append",
+        dest="types",
+        help="Restrict to one or more atom types (repeatable).",
+    )
     args = parser.parse_args()
 
     if args.status:

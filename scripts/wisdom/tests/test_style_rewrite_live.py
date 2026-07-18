@@ -3,6 +3,7 @@
 
 Pure unit tests — no Sonnet calls, no live server.
 """
+
 from __future__ import annotations
 
 import sys
@@ -16,7 +17,7 @@ _REPO = _HERE.parent.parent.parent
 sys.path.insert(0, str(_REPO / "scripts" / "podcast"))
 sys.path.insert(0, str(_HERE.parent))
 
-import rewrite_chapters as rc  # noqa: E402
+import rewrite_chapters as rc
 
 
 def _make_book_dir(tmp: Path, *, live_style: bool = False) -> Path:
@@ -27,6 +28,7 @@ def _make_book_dir(tmp: Path, *, live_style: bool = False) -> Path:
         series["enable_live_style_fetch"] = True
     meta = {"series": series}
     import yaml  # type: ignore[import]
+
     (book_dir / "meta.yml").write_text(yaml.dump(meta), encoding="utf-8")
     return book_dir
 
@@ -75,8 +77,10 @@ class LiveStyleGateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = _make_book_dir(Path(tmp), live_style=True)
             ch = _make_chapter(book_dir, "The Imam teaches about tawhid and wilaya.")
-            fake_passages = [{"session_id": 1, "content": "Wilaya is the inner bond."},
-                             {"session_id": 2, "content": "Tawhid is divine unity."}]
+            fake_passages = [
+                {"session_id": 1, "content": "Wilaya is the inner bond."},
+                {"session_id": 2, "content": "Tawhid is divine unity."},
+            ]
             with mock.patch("rewrite_chapters._live_sessions", return_value=fake_passages):
                 result = rc._build_live_style_supplement(ch, book_dir)
             self.assertIn("LIVE SESSION STYLE SAMPLES", result)

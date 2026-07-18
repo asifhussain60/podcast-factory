@@ -17,7 +17,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import yaml
-
 from _rules import CONTENT_PROFILES, ISLAMIC_SCHOLARLY_PROFILE
 
 
@@ -48,9 +47,11 @@ def resolve_content_profile(book_dir: Path) -> str:
     profile = cfg.get("content_profile") or ISLAMIC_SCHOLARLY_PROFILE
     if profile not in CONTENT_PROFILES:
         import logging
+
         logging.getLogger(__name__).warning(
             "Unknown content_profile %r in %s — defaulting to islamic_scholarly",
-            profile, cfg_path,
+            profile,
+            cfg_path,
         )
         return ISLAMIC_SCHOLARLY_PROFILE
 

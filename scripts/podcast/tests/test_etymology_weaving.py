@@ -6,6 +6,7 @@ phonetic-required) and _build_etymology_block (spoken form, no Arabic script,
 varied-phrasing header). Uses a throwaway DB seeded with etymology atoms — no
 Gemini, no live writes to the canonical knowledge.db.
 """
+
 from __future__ import annotations
 
 import json
@@ -19,43 +20,60 @@ SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 sys.path.insert(0, str(SCRIPTS_PODCAST / "intelligence"))
 
-import _db  # noqa: E402
-import augmenter  # noqa: E402
+import _db
+import augmenter
 
 _ARABIC = re.compile(r"[؀-ۿ]")
 
 
 def _seed_etymology(conn) -> None:
     atoms = [
-        ("etymology:ans", {
-            "root_transliteration": "ANS", "root_arabic": "أنيس",
-            "root_phonetic": "AH-nas", "meaning_en": "companion, closeness",
-            "derivatives": [
-                {"term": "INSAAN", "arabic": "إنسان", "phonetic": "in-SAAN",
-                 "meaning_en": "human"},
-            ],
-        }),
-        ("etymology:amn", {
-            "root_transliteration": "AMN", "root_arabic": "أمن",
-            "root_phonetic": "AH-man", "meaning_en": "safety, peace",
-            "derivatives": [
-                {"term": "IMAN", "arabic": "إيمان", "phonetic": "ee-MAAN",
-                 "meaning_en": "faith"},
-            ],
-        }),
-        ("etymology:ilm", {
-            "root_transliteration": "ILM", "root_arabic": "علم",
-            "root_phonetic": "ilm", "meaning_en": "a sign, to know",
-            "derivatives": [
-                {"term": "ALAM", "arabic": "عالم", "phonetic": "AA-lam",
-                 "meaning_en": "world"},
-            ],
-        }),
-        ("etymology:nophon", {  # missing root_phonetic — must be skipped
-            "root_transliteration": "TAQWA", "root_arabic": "تقوى",
-            "root_phonetic": "", "meaning_en": "to guard",
-            "derivatives": [{"term": "TAQWA", "phonetic": "", "meaning_en": "piety"}],
-        }),
+        (
+            "etymology:ans",
+            {
+                "root_transliteration": "ANS",
+                "root_arabic": "أنيس",
+                "root_phonetic": "AH-nas",
+                "meaning_en": "companion, closeness",
+                "derivatives": [
+                    {"term": "INSAAN", "arabic": "إنسان", "phonetic": "in-SAAN", "meaning_en": "human"},
+                ],
+            },
+        ),
+        (
+            "etymology:amn",
+            {
+                "root_transliteration": "AMN",
+                "root_arabic": "أمن",
+                "root_phonetic": "AH-man",
+                "meaning_en": "safety, peace",
+                "derivatives": [
+                    {"term": "IMAN", "arabic": "إيمان", "phonetic": "ee-MAAN", "meaning_en": "faith"},
+                ],
+            },
+        ),
+        (
+            "etymology:ilm",
+            {
+                "root_transliteration": "ILM",
+                "root_arabic": "علم",
+                "root_phonetic": "ilm",
+                "meaning_en": "a sign, to know",
+                "derivatives": [
+                    {"term": "ALAM", "arabic": "عالم", "phonetic": "AA-lam", "meaning_en": "world"},
+                ],
+            },
+        ),
+        (
+            "etymology:nophon",
+            {  # missing root_phonetic — must be skipped
+                "root_transliteration": "TAQWA",
+                "root_arabic": "تقوى",
+                "root_phonetic": "",
+                "meaning_en": "to guard",
+                "derivatives": [{"term": "TAQWA", "phonetic": "", "meaning_en": "piety"}],
+            },
+        ),
     ]
     for aid, body in atoms:
         conn.execute(
@@ -81,8 +99,8 @@ class TestEtymologyWeaving(unittest.TestCase):
     def test_matches_only_present_terms(self):
         text = "The discussion of iman and the nature of the insaan was central."
         got = {a["id"] for a in augmenter._fetch_matching_etymology(text)}
-        self.assertIn("etymology:amn", got)   # 'iman' present
-        self.assertIn("etymology:ans", got)   # 'insaan' present
+        self.assertIn("etymology:amn", got)  # 'iman' present
+        self.assertIn("etymology:ans", got)  # 'insaan' present
         self.assertNotIn("etymology:ilm", got)  # 'alam'/'ilm' absent
 
     def test_skips_atoms_without_phonetic(self):
@@ -105,8 +123,8 @@ class TestEtymologyWeaving(unittest.TestCase):
         text = "The meaning of iman."
         atoms = augmenter._fetch_matching_etymology(text)
         block = augmenter._build_etymology_block(atoms)
-        self.assertIn("ee-MAAN", block)          # derivative spoken form present
-        self.assertIn("AH-man", block)           # root spoken form present
+        self.assertIn("ee-MAAN", block)  # derivative spoken form present
+        self.assertIn("AH-man", block)  # root spoken form present
         self.assertIn("NEVER spell out Arabic", block)  # discipline instruction
         self.assertIn("VARY your phrasing", block)
 

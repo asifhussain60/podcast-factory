@@ -6,6 +6,7 @@ with its own state stamped with work_slug/volume, a composite slug, and register
 the volume in the manifest. Second volume inherits work identity. The single-book
 positional path stays byte-identical (no work.yml, flat dir).
 """
+
 from __future__ import annotations
 
 import json
@@ -17,9 +18,9 @@ import pytest
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _paths  # noqa: E402
-import intake_book as ib  # noqa: E402
-import _work_manifest as wm  # noqa: E402
+import _paths
+import _work_manifest as wm
+import intake_book as ib
 
 
 @pytest.fixture
@@ -41,8 +42,13 @@ class TestVolumeIntake:
     def test_first_volume_creates_work(self, temp_repo):
         _repo, root, pdf = temp_repo
         rc = ib._intake_volume_from_pdf(
-            str(pdf), "asaas", 1, force=False, no_branch=True,
-            profile="islamic_scholarly", title="Asaas al-Taveel",
+            str(pdf),
+            "asaas",
+            1,
+            force=False,
+            no_branch=True,
+            profile="islamic_scholarly",
+            title="Asaas al-Taveel",
         )
         assert rc == 0
         wd = root / "Islamic" / "asaas"

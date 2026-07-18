@@ -7,7 +7,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _visual_layout import (  # noqa: E402
+from _visual_layout import (
     SCHEMA,
     WRAP_MAX_WIDTH_PCT,
     load_layout,
@@ -23,17 +23,13 @@ def test_center_forces_standalone() -> None:
 
 
 def test_wide_wrap_promoted_to_standalone() -> None:
-    p, w = normalize_placement(
-        {"visual_id": "a", "align": "left", "flow": "wrap", "width_pct": 80}
-    )
+    p, w = normalize_placement({"visual_id": "a", "align": "left", "flow": "wrap", "width_pct": 80})
     assert p["flow"] == "standalone"
     assert any(f">{WRAP_MAX_WIDTH_PCT}" in x for x in w)
 
 
 def test_valid_wrap_kept() -> None:
-    p, w = normalize_placement(
-        {"visual_id": "a", "align": "left", "flow": "wrap", "width_pct": 40}
-    )
+    p, w = normalize_placement({"visual_id": "a", "align": "left", "flow": "wrap", "width_pct": 40})
     assert p["flow"] == "wrap" and p["align"] == "left" and p["width_pct"] == 40
     assert w == []
 
@@ -46,9 +42,7 @@ def test_width_clamped() -> None:
 
 
 def test_unknown_enums_fall_back() -> None:
-    p, w = normalize_placement(
-        {"visual_id": "a", "align": "sideways", "flow": "diagonal", "page_fit": "wherever"}
-    )
+    p, w = normalize_placement({"visual_id": "a", "align": "sideways", "flow": "diagonal", "page_fit": "wherever"})
     assert p["align"] == "center" and p["flow"] == "standalone" and p["page_fit"] == "avoid"
     assert len(w) >= 3
 
@@ -83,13 +77,22 @@ def test_load_absent_layout_is_empty(tmp_path: Path) -> None:
 def test_load_real_layout(tmp_path: Path) -> None:
     (tmp_path / "book").mkdir()
     (tmp_path / "book" / "visual-layout.json").write_text(
-        json.dumps({
-            "schema": SCHEMA,
-            "placements": [
-                {"visual_id": "fig1", "anchor": "## 2. Patience", "align": "left",
-                 "flow": "wrap", "width_pct": 40, "caption": "A tree", "page_fit": "avoid"},
-            ],
-        }),
+        json.dumps(
+            {
+                "schema": SCHEMA,
+                "placements": [
+                    {
+                        "visual_id": "fig1",
+                        "anchor": "## 2. Patience",
+                        "align": "left",
+                        "flow": "wrap",
+                        "width_pct": 40,
+                        "caption": "A tree",
+                        "page_fit": "avoid",
+                    },
+                ],
+            }
+        ),
         encoding="utf-8",
     )
     placements, warnings = load_layout(tmp_path)

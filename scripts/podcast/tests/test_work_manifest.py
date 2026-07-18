@@ -9,6 +9,7 @@ Pins three invariants:
      status, composite-slug resolution, and a single shared branch.
   3. _work_manifest.py I/O — read/write/round-trip + slug mapping.
 """
+
 from __future__ import annotations
 
 import json
@@ -20,9 +21,9 @@ import pytest
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _paths  # noqa: E402
-import _branching  # noqa: E402
-import _work_manifest as wm  # noqa: E402
+import _branching
+import _paths
+import _work_manifest as wm
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
@@ -61,11 +62,16 @@ def _make_work(root: Path, bucket: str, work_slug: str, volumes: list[tuple[str,
         vol.mkdir(parents=True, exist_ok=True)
         _write_state(vol, status)
         vol_entries.append({"order": i, "slug": f"{work_slug}-{vdir}", "dir": vdir, "status": status})
-    wm.write_manifest(wd, {
-        "work_slug": work_slug, "title": work_slug.title(),
-        "content_profile": "islamic_scholarly", "bucket": bucket,
-        "volumes": vol_entries,
-    })
+    wm.write_manifest(
+        wd,
+        {
+            "work_slug": work_slug,
+            "title": work_slug.title(),
+            "content_profile": "islamic_scholarly",
+            "bucket": bucket,
+            "volumes": vol_entries,
+        },
+    )
     return wd
 
 
@@ -100,9 +106,9 @@ class TestFlatByteIdentity:
         assert slugs == {"ayyuhal-walad", "journey-to-the-west-vol-1"}
 
     def test_branch_for_flat_book_unchanged(self):
-        assert _branching.branch_for_work(
-            "ayyuhal-walad", profile="islamic_scholarly"
-        ) == _branching.branch_name(None, "ayyuhal-walad", profile="islamic_scholarly")
+        assert _branching.branch_for_work("ayyuhal-walad", profile="islamic_scholarly") == _branching.branch_name(
+            None, "ayyuhal-walad", profile="islamic_scholarly"
+        )
 
 
 # ── 2. NESTED happy-path ────────────────────────────────────────────────────────
@@ -154,7 +160,11 @@ class TestManifestIO:
     def test_round_trip(self, temp_content):
         wd = temp_content / "Islamic" / "asaas"
         wd.mkdir(parents=True)
-        manifest = {"work_slug": "asaas", "title": "Asaas", "volumes": [{"order": 1, "slug": "asaas-vol-01", "dir": "vol-01"}]}
+        manifest = {
+            "work_slug": "asaas",
+            "title": "Asaas",
+            "volumes": [{"order": 1, "slug": "asaas-vol-01", "dir": "vol-01"}],
+        }
         wm.write_manifest(wd, manifest)
         assert wm.has_manifest(wd)
         assert wm.read_manifest(wd) == manifest

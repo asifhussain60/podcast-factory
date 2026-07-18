@@ -16,6 +16,7 @@ Checks (see docs/standards/book-print-quality.md for REQ text):
   BR-BLANK-PAGE  (P0) — no blank interior page.
   BR-PAGE-FILL   (P1) — no half-empty interior page (text fills like a real book).
 """
+
 from __future__ import annotations
 
 import re
@@ -36,10 +37,14 @@ def scan_watermark(pages_text: list[str]) -> list[dict[str, Any]]:
     findings: list[dict[str, Any]] = []
     for i, text in enumerate(pages_text, start=1):
         if _WATERMARK_RE.search(text):
-            findings.append({
-                "check": "BR-WATERMARK", "severity": "P0", "page": i,
-                "detail": "NotebookLM watermark text present on the rendered page",
-            })
+            findings.append(
+                {
+                    "check": "BR-WATERMARK",
+                    "severity": "P0",
+                    "page": i,
+                    "detail": "NotebookLM watermark text present on the rendered page",
+                }
+            )
     return findings
 
 
@@ -51,10 +56,14 @@ def scan_duplicate_captions(pages_text: list[str]) -> list[dict[str, Any]]:
         lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
         for a, b in zip(lines, lines[1:]):
             if a == b and 0 < len(a.split()) <= 12:
-                findings.append({
-                    "check": "BR-CAPTION-DUP", "severity": "P1", "page": i,
-                    "detail": f"caption printed twice: {a[:60]!r}",
-                })
+                findings.append(
+                    {
+                        "check": "BR-CAPTION-DUP",
+                        "severity": "P1",
+                        "page": i,
+                        "detail": f"caption printed twice: {a[:60]!r}",
+                    }
+                )
                 break
     return findings
 
@@ -74,20 +83,28 @@ def scan_blank_and_halfempty(pages_text: list[str]) -> list[dict[str, Any]]:
     lengths = {p: len(pages_text[p - 1].strip()) for p in interior}
     for p in interior:
         if lengths[p] < _MIN_PAGE_CHARS:
-            findings.append({
-                "check": "BR-BLANK-PAGE", "severity": "P0", "page": p,
-                "detail": f"blank/near-blank interior page ({lengths[p]} chars)",
-            })
+            findings.append(
+                {
+                    "check": "BR-BLANK-PAGE",
+                    "severity": "P0",
+                    "page": p,
+                    "detail": f"blank/near-blank interior page ({lengths[p]} chars)",
+                }
+            )
     non_blank = [v for v in lengths.values() if v >= _MIN_PAGE_CHARS]
     if len(non_blank) >= 3:
         srt = sorted(non_blank)
         median = srt[len(srt) // 2]
         for p in interior:
             if _MIN_PAGE_CHARS <= lengths[p] < _HALF_EMPTY_RATIO * median:
-                findings.append({
-                    "check": "BR-PAGE-FILL", "severity": "P1", "page": p,
-                    "detail": f"half-empty interior page ({lengths[p]} vs median {median} chars)",
-                })
+                findings.append(
+                    {
+                        "check": "BR-PAGE-FILL",
+                        "severity": "P1",
+                        "page": p,
+                        "detail": f"half-empty interior page ({lengths[p]} vs median {median} chars)",
+                    }
+                )
     return findings
 
 
@@ -112,7 +129,9 @@ def _extract_pages_text(pdf: Path, max_pages: int = 400) -> list[str] | None:
                 out = tmp_dir / f"p{page}.txt"
                 rc = subprocess.run(
                     ["pdftotext", "-f", str(page), "-l", str(page), str(pdf), str(out)],
-                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=15,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    timeout=15,
                 ).returncode
                 if rc != 0 or not out.exists():
                     break
@@ -122,7 +141,7 @@ def _extract_pages_text(pdf: Path, max_pages: int = 400) -> list[str] | None:
                 if page > 1 and not pages[-1].strip() and not pages[-2].strip():
                     pages = pages[:-2]
                     break
-    except Exception:  # noqa: BLE001
+    except Exception:
         return None
     return pages
 
@@ -133,8 +152,12 @@ def run_render_checks(book_dir: Path, *, log=print) -> dict[str, Any]:
     pdf = book_dir / "book" / "book.pdf"
     pages_text = _extract_pages_text(pdf)
     if pages_text is None:
-        report = {"schema": "podcast.book-render-checks/v1", "verdict": "UNKNOWN",
-                  "reason": "pdftotext unavailable or PDF missing", "findings": []}
+        report = {
+            "schema": "podcast.book-render-checks/v1",
+            "verdict": "UNKNOWN",
+            "reason": "pdftotext unavailable or PDF missing",
+            "findings": [],
+        }
     else:
         findings = run_all_scans(pages_text)
         p0 = [f for f in findings if f["severity"] == "P0"]
@@ -146,7 +169,8 @@ def run_render_checks(book_dir: Path, *, log=print) -> dict[str, Any]:
         }
     try:
         (book_dir / "_system" / "book-render-checks.json").write_text(
-            __import__("json").dumps(report, indent=2) + "\n", encoding="utf-8")
-    except Exception as e:  # noqa: BLE001
+            __import__("json").dumps(report, indent=2) + "\n", encoding="utf-8"
+        )
+    except Exception as e:
         log(f"    0book-render: render-checks report write skipped (non-fatal): {e}")
     return report

@@ -5,6 +5,7 @@ Detects that the plan-dashboard has:
     data model and click-through navigation
   - dashboard.astro: live dashboard page with roadmap + metric tiles
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -46,10 +47,7 @@ def is_done(repo_root: Path | None = None) -> bool:
         return False
     spine_text = spine.read_text()
     dash_text = dash.read_text()
-    return (
-        all(m in spine_text for m in _SPINE_MARKERS)
-        and all(m in dash_text for m in _DASH_MARKERS)
-    )
+    return all(m in spine_text for m in _SPINE_MARKERS) and all(m in dash_text for m in _DASH_MARKERS)
 
 
 def execute(repo_root: Path | None = None) -> PhaseResult:
@@ -76,16 +74,15 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
 
     if missing:
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
-            message=(
-                "Backbone visualization or live dashboard incomplete:\n  "
-                + "\n  ".join(missing)
-            ),
+            phase_id=PHASE_ID,
+            status="halted",
+            message=("Backbone visualization or live dashboard incomplete:\n  " + "\n  ".join(missing)),
             evidence_paths=[str(spine), str(dash)],
         )
 
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message=(
             "Backbone visualization (PipelineSpine.tsx) and live dashboard "
             "(dashboard.astro) present with all required markers."

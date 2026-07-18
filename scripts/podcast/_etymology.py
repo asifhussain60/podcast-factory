@@ -25,6 +25,7 @@ script, ``morphology``, ``semantic_field``, ``text_en``) for the print block.
 The two LLM calls (generate, verify) are isolated so the deterministic selection
 + gate logic is unit-testable with injected fakes.
 """
+
 from __future__ import annotations
 
 import json
@@ -47,9 +48,11 @@ _MIN_TERM_LEN = 3
 _GEN_TIMEOUT = 900
 
 # Book-title / apparatus words that are never concept terms worth a root breakdown.
-_NOT_CONCEPTS = frozenset("""
+_NOT_CONCEPTS = frozenset(
+    """
 allah muhammad quran imam ayah surah hadith book volume chapter page author
-""".split())
+""".split()
+)
 
 _TOKEN_RE = re.compile(r"[A-Za-z][A-Za-z'-]+")
 
@@ -71,17 +74,22 @@ def _glossary_terms(book_dir: Path) -> list[str]:
     if not path.exists():
         return []
     try:
-        import yaml  # noqa: PLC0415
+        import yaml
+
         data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    except Exception:  # noqa: BLE001
+    except Exception:
         return []
     out: list[str] = []
-    for e in (data.get("entries") or []):
+    for e in data.get("entries") or []:
         raw = str(e.get("transliteration") or e.get("phonetic") or "").strip()
         term = re.sub(r"^al-", "", raw, flags=re.IGNORECASE).strip()
         toks = term.split()
-        if 1 <= len(toks) <= 2 and _MIN_TERM_LEN <= len(term) <= 24 \
-                and re.fullmatch(r"[A-Za-z'\- ]+", term) and term.lower() not in _NOT_CONCEPTS:
+        if (
+            1 <= len(toks) <= 2
+            and _MIN_TERM_LEN <= len(term) <= 24
+            and re.fullmatch(r"[A-Za-z'\- ]+", term)
+            and term.lower() not in _NOT_CONCEPTS
+        ):
             out.append(term)
     return out
 
@@ -242,11 +250,12 @@ def _existing_etymology_roots() -> set[str]:
     """Root ids already in the corpus (skip regeneration — reuse across books)."""
     roots: set[str] = set()
     try:
-        import _db  # noqa: PLC0415
+        import _db
+
         conn = _db.get_connection()
         for (aid,) in conn.execute("SELECT id FROM atoms WHERE type='etymology'"):
             roots.add(str(aid).split(":", 1)[-1])
-    except Exception:  # noqa: BLE001
+    except Exception:
         pass
     if _ETYMOLOGY_JSONL.exists():
         for line in _ETYMOLOGY_JSONL.read_text(encoding="utf-8").splitlines():
@@ -288,7 +297,8 @@ def _persist_atoms(atoms: list[dict[str, Any]], book_dir: Path, log) -> int:
             fh.write(json.dumps(a, ensure_ascii=False) + "\n")
     # 2) derived DB (via the librarian merge path, for immediate podcast use)
     try:
-        from intelligence.librarian import merge_into_library  # noqa: PLC0415
+        from intelligence.librarian import merge_into_library
+
         scratch = book_dir / "_system" / "_etymology-scratch.jsonl"
         scratch.parent.mkdir(parents=True, exist_ok=True)
         scratch.write_text(
@@ -297,7 +307,7 @@ def _persist_atoms(atoms: list[dict[str, Any]], book_dir: Path, log) -> int:
         )
         merge_into_library(book_dir, scratch)
         scratch.unlink(missing_ok=True)
-    except Exception as e:  # noqa: BLE001 — DB write is best-effort; JSONL is canonical
+    except Exception as e:
         log(f"      etymology: DB merge skipped (non-fatal): {e}")
     return len(fresh)
 
@@ -337,9 +347,7 @@ BOOK EXCERPT (context only)
 
 def _verification_prompt(entries: list[dict[str, Any]]) -> str:
     listing = "\n".join(
-        f'- {e.get("term")}: claimed root {e.get("root_transliteration")} '
-        f'("{e.get("meaning_en")}")'
-        for e in entries
+        f'- {e.get("term")}: claimed root {e.get("root_transliteration")} ("{e.get("meaning_en")}")' for e in entries
     )
     return f"""You are an independent, skeptical checker of Arabic etymology. For each term below, a
 root has been CLAIMED. Confirm ONLY if you are confident the claimed triliteral root is correct for
@@ -367,8 +375,13 @@ def _parse_json_array(out: str) -> list[dict[str, Any]]:
 
 def _generate(candidates: list[tuple[str, int]], sample: str, book_dir: Path, log) -> list[dict[str, Any]]:
     rc, out, err = _run_claude_p_with_retry(
-        _generation_prompt(candidates, sample), timeout=_GEN_TIMEOUT,
-        book_dir=book_dir, phase="0book-etymology", step="generate", log=log)
+        _generation_prompt(candidates, sample),
+        timeout=_GEN_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-etymology",
+        step="generate",
+        log=log,
+    )
     if rc != 0:
         log(f"      etymology: generation failed (rc={rc}): {err[:160]}")
         return []
@@ -379,8 +392,13 @@ def _verify(entries: list[dict[str, Any]], book_dir: Path, log) -> dict[str, dic
     if not entries:
         return {}
     rc, out, err = _run_claude_p_with_retry(
-        _verification_prompt(entries), timeout=_GEN_TIMEOUT,
-        book_dir=book_dir, phase="0book-etymology", step="verify", log=log)
+        _verification_prompt(entries),
+        timeout=_GEN_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-etymology",
+        step="verify",
+        log=log,
+    )
     if rc != 0:
         log(f"      etymology: verification failed (rc={rc}): {err[:160]}")
         return {}
@@ -418,18 +436,24 @@ def build_etymology_atoms(
     term_index = load_term_index()
 
     if not candidates:
-        report = {"schema": "podcast.etymology/v1", "book": book_slug, "candidates": 0,
-                  "kept": 0, "dropped": 0, "reused": 0, "entries": []}
+        report = {
+            "schema": "podcast.etymology/v1",
+            "book": book_slug,
+            "candidates": 0,
+            "kept": 0,
+            "dropped": 0,
+            "reused": 0,
+            "entries": [],
+        }
         _write_report(book_dir, report)
         return report
 
     sample = _book_text(book_dir)
     generated = gen(candidates, sample, book_dir, log) or []
     # Skip terms whose root is already covered by an existing atom (reuse).
-    generated = [
-        e for e in generated
-        if _norm_root(str(e.get("root_transliteration", ""))) not in existing_roots
-    ][:max_terms]
+    generated = [e for e in generated if _norm_root(str(e.get("root_transliteration", ""))) not in existing_roots][
+        :max_terms
+    ]
 
     verdicts = ver(generated, book_dir, log) if generated else {}
 
@@ -448,8 +472,13 @@ def build_etymology_atoms(
             continue
         seen_roots.add(root)
         kept_atoms.append(to_atom(e, book_slug))
-        kept_meta.append({"term": e.get("term"), "root": e.get("root_transliteration"),
-                          "confirmed_by_reference": term_key in term_index})
+        kept_meta.append(
+            {
+                "term": e.get("term"),
+                "root": e.get("root_transliteration"),
+                "confirmed_by_reference": term_key in term_index,
+            }
+        )
 
     written = _persist_atoms(kept_atoms, book_dir, log) if write else 0
     report = {
@@ -464,8 +493,10 @@ def build_etymology_atoms(
         "entries": kept_meta,
     }
     _write_report(book_dir, report)
-    log(f"    0book-etymology: {len(kept_atoms)} etymology atoms kept, "
-        f"{len(dropped)} dropped, {written} newly written (from {len(candidates)} candidates)")
+    log(
+        f"    0book-etymology: {len(kept_atoms)} etymology atoms kept, "
+        f"{len(dropped)} dropped, {written} newly written (from {len(candidates)} candidates)"
+    )
     return report
 
 
@@ -473,4 +504,5 @@ def _write_report(book_dir: Path, report: dict[str, Any]) -> None:
     sysdir = Path(book_dir) / "_system"
     sysdir.mkdir(parents=True, exist_ok=True)
     (sysdir / "etymology-report.json").write_text(
-        json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )

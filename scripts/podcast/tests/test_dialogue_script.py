@@ -2,6 +2,7 @@
 
 (script authorship with a mocked `claude -p`). Steps 2 + 5 pure parts.
 """
+
 from __future__ import annotations
 
 import shutil
@@ -14,7 +15,7 @@ from unittest import mock
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _dialogue_script as ds  # noqa: E402
+import _dialogue_script as ds
 
 FIXTURE_BOOK = Path(__file__).resolve().parent / "fixtures" / "audio-engine-book"
 
@@ -62,8 +63,7 @@ class TestParse(unittest.TestCase):
 
     def test_char_and_tag_counts(self):
         turns = ds.parse_dialogue_script(SAMPLE)
-        self.assertEqual(ds.script_char_count(turns),
-                         sum(len(t.text) for t in turns))
+        self.assertEqual(ds.script_char_count(turns), sum(len(t.text) for t in turns))
         self.assertEqual(ds.audio_tag_count(turns), 1)
 
 
@@ -74,10 +74,8 @@ class TestSoftBands(unittest.TestCase):
             self.assertLess(lo, hi)
 
     def test_unknown_tier_falls_back_to_default(self):
-        self.assertEqual(ds.soft_char_band("bogus"),
-                         ds.SOFT_CHAR_BANDS["default_deep_dive"])
-        self.assertEqual(ds.soft_char_band(None),
-                         ds.SOFT_CHAR_BANDS["default_deep_dive"])
+        self.assertEqual(ds.soft_char_band("bogus"), ds.SOFT_CHAR_BANDS["default_deep_dive"])
+        self.assertEqual(ds.soft_char_band(None), ds.SOFT_CHAR_BANDS["default_deep_dive"])
 
 
 class TestChunker(unittest.TestCase):
@@ -135,22 +133,23 @@ class TestChunker(unittest.TestCase):
 class TestHashesAndSeeds(unittest.TestCase):
     def test_hash_stable_and_sensitive(self):
         chunk = [ds.Turn("HOST_A", "alpha."), ds.Turn("HOST_B", "beta.")]
-        h1 = ds.chunk_content_hash(chunk, model_id="eleven_v3",
-                                   voices={"host_a": "X", "host_b": "Y"},
-                                   dictionary_version="v1")
-        h2 = ds.chunk_content_hash(chunk, model_id="eleven_v3",
-                                   voices={"host_b": "Y", "host_a": "X"},
-                                   dictionary_version="v1")
+        h1 = ds.chunk_content_hash(
+            chunk, model_id="eleven_v3", voices={"host_a": "X", "host_b": "Y"}, dictionary_version="v1"
+        )
+        h2 = ds.chunk_content_hash(
+            chunk, model_id="eleven_v3", voices={"host_b": "Y", "host_a": "X"}, dictionary_version="v1"
+        )
         self.assertEqual(h1, h2)  # voice-map order does not matter
-        h3 = ds.chunk_content_hash(chunk, model_id="eleven_v3",
-                                   voices={"host_a": "X", "host_b": "Y"},
-                                   dictionary_version="v2")
+        h3 = ds.chunk_content_hash(
+            chunk, model_id="eleven_v3", voices={"host_a": "X", "host_b": "Y"}, dictionary_version="v2"
+        )
         self.assertNotEqual(h1, h3)  # dictionary version is pinned into the hash
-        h4 = ds.chunk_content_hash([ds.Turn("HOST_B", "alpha."),
-                                    ds.Turn("HOST_A", "beta.")],
-                                   model_id="eleven_v3",
-                                   voices={"host_a": "X", "host_b": "Y"},
-                                   dictionary_version="v1")
+        h4 = ds.chunk_content_hash(
+            [ds.Turn("HOST_B", "alpha."), ds.Turn("HOST_A", "beta.")],
+            model_id="eleven_v3",
+            voices={"host_a": "X", "host_b": "Y"},
+            dictionary_version="v1",
+        )
         self.assertNotEqual(h1, h4)  # speaker assignment matters
 
     def test_seed_in_elevenlabs_range(self):
@@ -177,10 +176,10 @@ class TestAuthorDialogueScript(unittest.TestCase):
             "episode_format: deep_dive\n"
             "key_tensions:\n"
             "  - light is paid for in the self that carries it\n",
-            encoding="utf-8")
+            encoding="utf-8",
+        )
         cfg = self.book / "_system" / "series-config.yaml"
-        cfg.write_text(cfg.read_text(encoding="utf-8") + "audio_engine: elevenlabs\n",
-                       encoding="utf-8")
+        cfg.write_text(cfg.read_text(encoding="utf-8") + "audio_engine: elevenlabs\n", encoding="utf-8")
 
     def _author(self, fake_script: str | None):
         import _authoring._dialogue as dlg
@@ -203,16 +202,19 @@ class TestAuthorDialogueScript(unittest.TestCase):
 
     def test_missing_artifact_raises(self):
         from _authoring._core import AuthoringError
+
         with self.assertRaises(AuthoringError):
             self._author(None)
 
     def test_unparseable_artifact_raises(self):
         from _authoring._core import AuthoringError
+
         with self.assertRaises(AuthoringError):
             self._author("just prose with no speaker turns\n")
 
     def test_missing_framing_raises(self):
         from _authoring._core import AuthoringError
+
         shutil.rmtree(self.book / "_system" / "episode-drafts")
         with self.assertRaises(AuthoringError):
             self._author(SAMPLE)

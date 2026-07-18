@@ -1,4 +1,5 @@
 """P4.1 phase runner — abjad-numerals shared file."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -12,15 +13,15 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 TARGET = REPO_ROOT / "content" / "_shared" / "arabic" / "06-abjad-numerals.md"
 
 REQUIRED_MARKERS = (
-    "Mashriqi",                       # both tables present
+    "Mashriqi",  # both tables present
     "Maghribi",
-    "Hisab al-Jummal",                # practice section
-    "Allāh",                          # ref calc 66 (with macron, matches file)
+    "Hisab al-Jummal",  # practice section
+    "Allāh",  # ref calc 66 (with macron, matches file)
     "**66**",
-    "**786**",                        # basmala
-    "**92**",                         # Muhammad
-    "**110**",                        # ʿAlī
-    "kun",                            # Ch-02 worked calcs
+    "**786**",  # basmala
+    "**92**",  # Muhammad
+    "**110**",  # ʿAlī
+    "kun",  # Ch-02 worked calcs
     "**70**",
     "fayakun",
     "**166**",
@@ -42,7 +43,8 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
         repo_root = REPO_ROOT
     if not is_done(repo_root):
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
+            phase_id=PHASE_ID,
+            status="halted",
             message=(
                 "06-abjad-numerals.md missing required content (Mashriqi + Maghribi "
                 "tables, Hisab al-Jummal section, reference calculations, Ch-02 "
@@ -51,7 +53,8 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
             evidence_paths=[str(TARGET)],
         )
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message="Abjad reference file present with full tables + reference calculations.",
         rows_marked=[PHASE_ID],
         evidence_paths=[str(TARGET)],

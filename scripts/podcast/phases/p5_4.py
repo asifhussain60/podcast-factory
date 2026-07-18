@@ -5,6 +5,7 @@ the Phase StrEnum having all 14 canonical values AND the test suite is
 green. The deliverable file ships in the same commit as this runner; the
 runner just validates + marks acceptance rows.
 """
+
 from __future__ import annotations
 
 import subprocess
@@ -21,11 +22,20 @@ TARGET_FILE = REPO_ROOT / "scripts" / "podcast" / "_phases.py"
 TEST_FILE = REPO_ROOT / "scripts" / "podcast" / "tests" / "test_phases.py"
 
 EXPECTED_VALUES = (
-    "01-preflight", "02-branch", "03-scaffold",
-    "04-ocr-translate", "05-refine-english", "06-phonetics",
-    "07-chapter-design", "08-enrichment", "09-series-plan",
-    "10-register-series", "11-per-chapter", "12-trainer",
-    "13-merge", "14-done",
+    "01-preflight",
+    "02-branch",
+    "03-scaffold",
+    "04-ocr-translate",
+    "05-refine-english",
+    "06-phonetics",
+    "07-chapter-design",
+    "08-enrichment",
+    "09-series-plan",
+    "10-register-series",
+    "11-per-chapter",
+    "12-trainer",
+    "13-merge",
+    "14-done",
 )
 
 
@@ -93,7 +103,7 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
     return PhaseResult(
         phase_id=PHASE_ID,
         status="done",
-        message=f"_phases.py present with 14 canonical Phase values; tests green.",
+        message="_phases.py present with 14 canonical Phase values; tests green.",
         rows_marked=[PHASE_ID],
         evidence_paths=[str(target)],
     )

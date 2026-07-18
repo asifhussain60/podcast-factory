@@ -47,7 +47,7 @@ from pathlib import Path
 
 # Reuse the canonical claude -p invocation pattern + error type from _authoring.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _authoring import (  # noqa: E402
+from _authoring import (
     AuthoringError,
     _run_claude_p,
 )
@@ -61,7 +61,6 @@ from _authoring import (  # noqa: E402
 # sums `cost_usd` across all ledger rows in `orchestrate_book.py`'s
 # `book_cost_usd()`) catches slide-deck overruns. Import made explicit so
 # the regression-isolation grep finds `cost_ledger` here.
-from _cost_ledger import append_from_claude_p_stdout  # noqa: E402,F401
 
 SCRIPT_VERSION = "1.0"
 
@@ -162,13 +161,7 @@ def _resolve_spine_path(book_dir: Path, slug: str, chap_num: str) -> Path:
     Returns a Path; existence is checked by the caller. EP## uses digit-only
     chapter number (same convention as _authoring.py).
     """
-    return (
-        book_dir
-        / "_system"
-        / "episode-drafts"
-        / f"EP{chap_num}-{slug}"
-        / "04-discussion-spine.md"
-    )
+    return book_dir / "_system" / "episode-drafts" / f"EP{chap_num}-{slug}" / "04-discussion-spine.md"
 
 
 def _wordcount(path: Path) -> int:
@@ -224,8 +217,7 @@ def _build_pair_prompt(
     constraints_block = ""
     if extra_constraints.strip():
         constraints_block = (
-            "\n\nADDITIONAL CONSTRAINTS (from prior validation failure — fix these):\n"
-            f"{extra_constraints.strip()}\n"
+            f"\n\nADDITIONAL CONSTRAINTS (from prior validation failure — fix these):\n{extra_constraints.strip()}\n"
         )
 
     # Word-count targets per slide-deck-format.md: deck source is 50-100% of audio
@@ -270,7 +262,7 @@ def _build_pair_prompt(
         f"- 150-250 words total.\n"
         f"- H1 (one line; file-label — NotebookLM users skip this line when pasting).\n"
         f"- Required H2 sections, in this order:\n"
-        f"  1. `## Audience` — named concretely (no \"general audience\").\n"
+        f'  1. `## Audience` — named concretely (no "general audience").\n'
         f"  2. `## Core Principle` — restate the audio-vs-slide division of labor in 1-2 sentences.\n"
         f"  3. `## Visual Priorities` — 2-4 specific visual moments matching structures in the deck source.\n"
         f"  4. `## Prohibited Patterns` — explicit list (no literal-text slides, no audio-restatement, "
@@ -314,15 +306,13 @@ def _build_pair_prompt_technical(
         f"  - `{spine_path}` (the discussion-spine — every [VISUAL CANDIDATE] beat should map "
         f"to a structure in the deck source)\n"
         if spine_path is not None and spine_path.exists()
-        else "  - (no discussion-spine present for this episode — derive visual moments "
-        f"from the audio chapter alone)\n"
+        else "  - (no discussion-spine present for this episode — derive visual moments from the audio chapter alone)\n"
     )
 
     constraints_block = ""
     if extra_constraints.strip():
         constraints_block = (
-            "\n\nADDITIONAL CONSTRAINTS (from prior validation failure — fix these):\n"
-            f"{extra_constraints.strip()}\n"
+            f"\n\nADDITIONAL CONSTRAINTS (from prior validation failure — fix these):\n{extra_constraints.strip()}\n"
         )
 
     deck_lo = max(2000, int(audio_words * 0.5))
@@ -415,9 +405,7 @@ def _parse_stdout_counts(stdout: str) -> tuple[int, int]:
     return deck, framing
 
 
-def _run_validator(
-    book_dir: Path, deck_path: Path, framing_path: Path
-) -> tuple[bool, list[str]]:
+def _run_validator(book_dir: Path, deck_path: Path, framing_path: Path) -> tuple[bool, list[str]]:
     """Subprocess-call build_slide_deck.py to validate the pair.
 
     Returns (ok, findings). `ok` is True iff the validator exits 0 OR the
@@ -510,7 +498,8 @@ def author_deck_pair(
     # Islamic/scholarly → Islamic visual design (_build_pair_prompt)
     # Technical/explainers → developer-audience visual design (_build_pair_prompt_technical)
     # Sites/consumer → Islamic prompt (no dedicated variant yet; adequate for consumer finance)
-    from _authoring._core import _read_category, ARABIC_SCHOLARLY_CATEGORIES
+    from _authoring._core import ARABIC_SCHOLARLY_CATEGORIES, _read_category
+
     _category = _read_category(book_dir)
     _prompt_builder = (
         _build_pair_prompt_technical
@@ -519,7 +508,8 @@ def author_deck_pair(
     )
     visual_constraints = ""
     try:
-        from _translation_edition import requires_monochrome_visuals  # noqa: PLC0415
+        from _translation_edition import requires_monochrome_visuals
+
         if requires_monochrome_visuals(book_dir):
             visual_constraints = (
                 "BLACK-AND-WHITE VISUAL STYLE (hard):\n"
@@ -664,10 +654,11 @@ def _build_book_pair_prompt(
     constraints_block = ""
     if extra_constraints.strip():
         constraints_block = (
-            "\n\nADDITIONAL CONSTRAINTS (from prior validation failure — fix these):\n"
-            f"{extra_constraints.strip()}\n")
+            f"\n\nADDITIONAL CONSTRAINTS (from prior validation failure — fix these):\n{extra_constraints.strip()}\n"
+        )
     try:
-        from _translation_edition import requires_monochrome_visuals  # noqa: PLC0415
+        from _translation_edition import requires_monochrome_visuals
+
         monochrome = requires_monochrome_visuals(deck_path.parents[1])
     except Exception:
         monochrome = False
@@ -677,8 +668,8 @@ def _build_book_pair_prompt(
         "pairs as two-panel layouts, genealogy chains as flowing arrow diagrams, process "
         "flows as numbered-step illustrations). No colour fills, no photographs, no "
         "gradients. Clean geometric shapes and lines only."
-        if monochrome else
-        "clear scholarly visual style: conceptual diagrams over decorative slides."
+        if monochrome
+        else "clear scholarly visual style: conceptual diagrams over decorative slides."
     )
     return (
         f"You are authoring the BOOK-LEVEL slide-deck PAIR for book `{book_slug}` — "
@@ -737,8 +728,12 @@ def _build_book_pair_prompt(
 
 
 _BOOK_FRAMING_REQUIRED_H2 = (
-    "## Audience", "## Core Principle", "## Visual Priorities",
-    "## Prohibited Patterns", "## Steering Phrases", "## Visual Style",
+    "## Audience",
+    "## Core Principle",
+    "## Visual Priorities",
+    "## Prohibited Patterns",
+    "## Steering Phrases",
+    "## Visual Style",
 )
 
 
@@ -764,7 +759,8 @@ def _validate_book_pair(deck_path: Path, framing_path: Path) -> list[str]:
     if "—" in deck_path.read_text(encoding="utf-8"):
         findings.append("deck source contains em dashes (forbidden)")
     try:
-        from _translation_edition import requires_monochrome_visuals  # noqa: PLC0415
+        from _translation_edition import requires_monochrome_visuals
+
         if requires_monochrome_visuals(deck_path.parents[1]):
             lower = framing_text.lower()
             if not any(term in lower for term in ("black and white", "black-and-white", "monochrome")):
@@ -805,7 +801,8 @@ def author_book_deck_pair(
         raise AuthoringError(
             phase="slide-deck/book",
             message=f"no chapter files under {book_dir / 'chapters'}",
-            manual_fallback="Run Phase 0d first.")
+            manual_fallback="Run Phase 0d first.",
+        )
     deck_dir = book_dir / "slide-decks"
     deck_dir.mkdir(parents=True, exist_ok=True)
     deck_path = deck_dir / "book-deck-source.txt"
@@ -826,9 +823,13 @@ def author_book_deck_pair(
             extra_constraints=extra_constraints,
         )
         rc, stdout, stderr = _run_claude_p(
-            prompt, timeout=timeout, book_dir=book_dir,
-            phase="11b-slide-authoring", step=f"book-pair/attempt-{attempts}",
-            model_flag=model_flag)
+            prompt,
+            timeout=timeout,
+            book_dir=book_dir,
+            phase="11b-slide-authoring",
+            step=f"book-pair/attempt-{attempts}",
+            model_flag=model_flag,
+        )
         last_stdout, last_stderr = stdout, stderr
         if rc != 0:
             raise AuthoringError(
@@ -836,21 +837,35 @@ def author_book_deck_pair(
                 message=f"claude -p exited rc={rc} authoring book deck pair (attempt {attempts}).",
                 manual_fallback=(
                     f"Author `{deck_path}` + `{framing_path}` manually per "
-                    f"`{REFERENCE_FORMAT.name}`, then re-run --resume."),
-                stdout=stdout, stderr=stderr)
+                    f"`{REFERENCE_FORMAT.name}`, then re-run --resume."
+                ),
+                stdout=stdout,
+                stderr=stderr,
+            )
         last_findings = _validate_book_pair(deck_path, framing_path)
         if not last_findings:
             return AuthoringResult(
-                success=True, deck_path=deck_path, framing_path=framing_path,
-                deck_words=_wordcount(deck_path), framing_words=_wordcount(framing_path),
-                stdout=stdout, stderr=stderr, attempts=attempts)
+                success=True,
+                deck_path=deck_path,
+                framing_path=framing_path,
+                deck_words=_wordcount(deck_path),
+                framing_words=_wordcount(framing_path),
+                stdout=stdout,
+                stderr=stderr,
+                attempts=attempts,
+            )
         extra_constraints = "\n".join(f"- {f}" for f in last_findings)
     return AuthoringResult(
-        success=False, deck_path=deck_path, framing_path=framing_path,
+        success=False,
+        deck_path=deck_path,
+        framing_path=framing_path,
         deck_words=_wordcount(deck_path) if deck_path.exists() else 0,
         framing_words=_wordcount(framing_path) if framing_path.exists() else 0,
         validation_findings=last_findings,
-        stdout=last_stdout, stderr=last_stderr, attempts=attempts)
+        stdout=last_stdout,
+        stderr=last_stderr,
+        attempts=attempts,
+    )
 
 
 def compute_density(spine_path: Path) -> float:
@@ -869,9 +884,7 @@ def compute_density(spine_path: Path) -> float:
     return candidates / beats
 
 
-def should_skip_with_justification(
-    density: float, *, threshold: float = DENSITY_THRESHOLD
-) -> bool:
+def should_skip_with_justification(density: float, *, threshold: float = DENSITY_THRESHOLD) -> bool:
     """Per slide-deck-format.md density gauge: True if density < threshold."""
     return density < threshold
 
@@ -891,9 +904,7 @@ def author_justified_skip(book_dir: Path, slug: str, density: float) -> Path:
     skip_dir.mkdir(parents=True, exist_ok=True)
     skip_path = skip_dir / f"{chap_prefix}-{slug}-skip.md"
 
-    spine_path = _resolve_spine_path(
-        book_dir, slug, chap_num
-    )
+    spine_path = _resolve_spine_path(book_dir, slug, chap_num)
     book_slug = book_dir.name
 
     # Gather the inputs the Challenger Probe 7 expects to see cited.
@@ -918,11 +929,11 @@ def author_justified_skip(book_dir: Path, slug: str, density: float) -> Path:
         + f"OUTPUT: `{skip_path}` (the skip justification — markdown).\n\n"
         f"The justification MUST satisfy Slide Deck Challenger Probe 7 — it must name:\n"
         f"  (a) the source TYPE from the affinity matrix in `{REFERENCE_FORMAT.name}` "
-        f"(e.g., \"pure narrative,\" \"editorial side-matter,\" \"manuscript history\"),\n"
+        f'(e.g., "pure narrative," "editorial side-matter," "manuscript history"),\n'
         f"  (b) which [VISUAL CANDIDATE] tags from the discussion-spine were considered "
         f"(list them with their beat numbers),\n"
         f"  (c) why none of those candidates warranted a slide (specific source structure "
-        f"that's absent — NOT generic phrases like \"no visual content\" or \"doesn't fit\").\n\n"
+        f'that\'s absent — NOT generic phrases like "no visual content" or "doesn\'t fit").\n\n'
         f"OUTPUT FORMAT (write to `{skip_path}`, markdown):\n"
         f"```\n"
         f"# Slide Deck Skip — EP{chap_num}-{slug}\n\n"
@@ -940,8 +951,8 @@ def author_justified_skip(book_dir: Path, slug: str, density: float) -> Path:
         f"```\n\n"
         f"Constraints:\n"
         f"- Write ONLY `{skip_path}`. Do NOT touch any other file.\n"
-        f"- Do NOT use generic phrases (\"purely narrative,\" \"no visual content,\" "
-        f"\"doesn't fit\") without naming specific absent structure.\n\n"
+        f'- Do NOT use generic phrases ("purely narrative," "no visual content," '
+        f'"doesn\'t fit") without naming specific absent structure.\n\n'
         f"Exit when `{skip_path}` exists and is non-empty."
     )
 

@@ -10,9 +10,9 @@ Covers:
   - summary_one_line builds expected string
   - atomic_write performs tmp + rename
 """
+
 from __future__ import annotations
 
-import json
 import sys
 import tempfile
 import unittest
@@ -21,21 +21,29 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _review_serializer as srz  # noqa: E402
+import _review_serializer as srz
 
 
 def _populated_struct() -> srz.ReviewStruct:
     rs = srz.ReviewStruct(book_slug="tahdhib-al-akhlaq")
     rs.translation_issues = [
-        srz.FlagRow(page=47, quote="structured the daʿwa hierarchy in the Fatimid period",
-                    note="should be 'preacher-positions' not 'preacher positions' — hyphenation matters",
-                    recurring_pattern=False),
-        srz.FlagRow(page=23, quote="the angles fell at the wrong moment",
-                    note="OCR scrambled 'angels' → 'angles' — fix",
-                    recurring_pattern=True),
+        srz.FlagRow(
+            page=47,
+            quote="structured the daʿwa hierarchy in the Fatimid period",
+            note="should be 'preacher-positions' not 'preacher positions' — hyphenation matters",
+            recurring_pattern=False,
+        ),
+        srz.FlagRow(
+            page=23,
+            quote="the angles fell at the wrong moment",
+            note="OCR scrambled 'angels' → 'angles' — fix",
+            recurring_pattern=True,
+        ),
     ]
     rs.missing_passages = []
-    rs.glossary = [srz.GlossaryRow(term="ibdāʿ", definition="origination (vs khalq = creation) — Ismāʿīlī Neoplatonic term")]
+    rs.glossary = [
+        srz.GlossaryRow(term="ibdāʿ", definition="origination (vs khalq = creation) — Ismāʿīlī Neoplatonic term")
+    ]
     rs.pronunciation = []
     rs.free_form_comments = "Note: voice shifts noticeably on page 48 — second author?"
     rs.content_range = srz.ContentRange(body_starts_at_page=14, body_ends_at_page=178)
@@ -124,9 +132,15 @@ class ContentRangeTests(unittest.TestCase):
 class AISuggestionsTests(unittest.TestCase):
     def test_ai_suggestions_persist_in_html_comments(self):
         rs = srz.ReviewStruct(book_slug="x")
-        rs.ai_suggestions.append(srz.AISuggestion(
-            id="abc", page=10, quote="q", reason="r", feature="suggest-flags",
-        ))
+        rs.ai_suggestions.append(
+            srz.AISuggestion(
+                id="abc",
+                page=10,
+                quote="q",
+                reason="r",
+                feature="suggest-flags",
+            )
+        )
         md = srz.serialize_to_markdown(rs)
         self.assertIn(srz.AI_BLOCK_START, md)
         self.assertIn(srz.AI_BLOCK_END, md)

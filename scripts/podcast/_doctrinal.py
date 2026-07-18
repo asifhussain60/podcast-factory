@@ -26,6 +26,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from pathlib import Path
+
 from _paths import REPO_ROOT
 
 # F31 (2026-05-25): tradition-pack registry. The original pipeline pinned
@@ -37,7 +38,7 @@ from _paths import REPO_ROOT
 # data dict for the named tradition; if the directory doesn't exist, it
 # returns an empty pack so callers can emit a T-NO-PACK info finding
 # (silence isn't mistaken for cleanliness).
-ISLAM_DATA = REPO_ROOT / "content" / "_shared" / "islam"   # legacy alias kept for back-compat
+ISLAM_DATA = REPO_ROOT / "content" / "_shared" / "islam"  # legacy alias kept for back-compat
 TRADITION_DATA_ROOT = REPO_ROOT / "content" / "_shared"
 
 
@@ -51,8 +52,9 @@ def tradition_pack_dir(tradition: str) -> Path:
     'islam' since the data files under content/_shared/islam/ cover the
     broader Islamic tradition.
     """
-    alias = {"ismaili": "islam", "shia": "islam", "sunni": "islam",
-             "twelver": "islam", "sufi": "islam"}.get(tradition.lower(), tradition.lower())
+    alias = {"ismaili": "islam", "shia": "islam", "sunni": "islam", "twelver": "islam", "sufi": "islam"}.get(
+        tradition.lower(), tradition.lower()
+    )
     return TRADITION_DATA_ROOT / alias
 
 
@@ -70,10 +72,8 @@ def load_doctrinal_pack(tradition: str) -> dict:
     """
     pack_dir = tradition_pack_dir(tradition)
     if not pack_dir.is_dir():
-        return {"_pack_missing": True, "tradition": tradition,
-                "lineage": {}, "naming": {}, "attributions": {}}
-    out: dict = {"_pack_missing": False, "tradition": tradition,
-                 "lineage": {}, "naming": {}, "attributions": {}}
+        return {"_pack_missing": True, "tradition": tradition, "lineage": {}, "naming": {}, "attributions": {}}
+    out: dict = {"_pack_missing": False, "tradition": tradition, "lineage": {}, "naming": {}, "attributions": {}}
     for lineage_path in sorted(pack_dir.glob("imam-lineage-*.yml")):
         out["lineage"][lineage_path.stem.replace("imam-lineage-", "")] = _load_yaml(lineage_path)
     naming_path = pack_dir / "naming-conventions.yml"
@@ -88,13 +88,14 @@ def load_doctrinal_pack(tradition: str) -> dict:
 @dataclass
 class DoctrinalFinding:
     """One Category-T finding. Mirrors the shape emit_finding() expects."""
-    check_id: str           # "T1" | "T2" | "T3" | "T4" | "T5"
-    severity: str           # "P0" | "P1"
-    signature: str          # short machine-readable id
-    context_excerpt: str    # the offending substring, up to 300 chars
+
+    check_id: str  # "T1" | "T2" | "T3" | "T4" | "T5"
+    severity: str  # "P0" | "P1"
+    signature: str  # short machine-readable id
+    context_excerpt: str  # the offending substring, up to 300 chars
     line: int | None = None
-    replacement: str = ""   # optional canonical alternative
-    reason: str = ""        # human-readable why-this-fired
+    replacement: str = ""  # optional canonical alternative
+    reason: str = ""  # human-readable why-this-fired
 
 
 # ─── YAML loading (no PyYAML dep — minimal parse of these flat files) ───────
@@ -108,7 +109,8 @@ def _load_yaml(path: Path) -> dict:
     """
     text = path.read_text(encoding="utf-8")
     try:
-        import yaml   # type: ignore
+        import yaml  # type: ignore
+
         return yaml.safe_load(text) or {}
     except ImportError:
         # Hand-parse: keys at indent 0, list items at indent 2 with `- key:`.
@@ -123,11 +125,7 @@ def _yaml_fallback(text: str) -> dict:
     Supports: top-level keys, scalar values, list-of-dicts under a key.
     Strips comments and blank lines."""
     out: dict = {}
-    lines = [
-        ln.rstrip()
-        for ln in text.splitlines()
-        if ln.strip() and not ln.lstrip().startswith("#")
-    ]
+    lines = [ln.rstrip() for ln in text.splitlines() if ln.strip() and not ln.lstrip().startswith("#")]
     i = 0
     while i < len(lines):
         ln = lines[i]
@@ -182,7 +180,7 @@ def _yaml_scalar(v: str):
     if v.startswith('"') and v.endswith('"'):
         return v[1:-1]
     if v.startswith("|"):
-        return ""   # block scalars are reason text; we don't need to parse
+        return ""  # block scalars are reason text; we don't need to parse
     if v.isdigit():
         return int(v)
     return v
@@ -223,16 +221,18 @@ def check_t1_canonical_attribution(text: str) -> list[DoctrinalFinding]:
             if needle not in paragraph.lower():
                 continue
             for forbidden in entry.get("forbidden_attributions", []) or []:
-                f = forbidden.split(" (")[0].strip()   # strip trailing reason
+                f = forbidden.split(" (")[0].strip()  # strip trailing reason
                 if f and f.lower() in paragraph.lower():
-                    findings.append(DoctrinalFinding(
-                        check_id="T1",
-                        severity="P0",
-                        signature=f"t1.{sig[:30].replace(' ', '_')}",
-                        context_excerpt=paragraph[:300],
-                        replacement=entry.get("canonical_attribution", ""),
-                        reason=entry.get("reason", "").strip(),
-                    ))
+                    findings.append(
+                        DoctrinalFinding(
+                            check_id="T1",
+                            severity="P0",
+                            signature=f"t1.{sig[:30].replace(' ', '_')}",
+                            context_excerpt=paragraph[:300],
+                            replacement=entry.get("canonical_attribution", ""),
+                            reason=entry.get("reason", "").strip(),
+                        )
+                    )
     return findings
 
 
@@ -243,8 +243,7 @@ _ORDINAL_RE = re.compile(
     r"\b(?:the\s+)?(?:(\d+)(?:st|nd|rd|th)?|(first|second|third|fourth|fifth|sixth|seventh))\s+imam\b",
     re.IGNORECASE,
 )
-_WORD_TO_ORD = {"first": 1, "second": 2, "third": 3, "fourth": 4,
-                "fifth": 5, "sixth": 6, "seventh": 7}
+_WORD_TO_ORD = {"first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5, "sixth": 6, "seventh": 7}
 
 
 def check_t2_imam_lineage(text: str) -> list[DoctrinalFinding]:
@@ -270,19 +269,23 @@ def check_t2_imam_lineage(text: str) -> list[DoctrinalFinding]:
             continue
 
         if ordinal not in by_ord:
-            findings.append(DoctrinalFinding(
-                check_id="T2",
-                severity="P0",
-                signature=f"t2.unknown_ordinal_{ordinal}",
-                context_excerpt=text[max(0, m.start() - 40):m.end() + 60],
-                reason=(f"Reference to 'the {ordinal}th Imam' but lineage "
+            findings.append(
+                DoctrinalFinding(
+                    check_id="T2",
+                    severity="P0",
+                    signature=f"t2.unknown_ordinal_{ordinal}",
+                    context_excerpt=text[max(0, m.start() - 40) : m.end() + 60],
+                    reason=(
+                        f"Reference to 'the {ordinal}th Imam' but lineage "
                         f"only has {len(by_ord)} entries — likely typo or "
-                        f"missing data."),
-            ))
+                        f"missing data."
+                    ),
+                )
+            )
             continue
 
         # Look at the 80-char window after the match for a name token
-        window = text[m.end():m.end() + 120]
+        window = text[m.end() : m.end() + 120]
         # Guard: a restrictive relative clause immediately after the ordinal
         # ("the first Imam IN WHOM all four ranks combined was Ali Zayn
         # al-Abidin") makes "first/Nth" a superlative over a CONDITION, not an
@@ -306,16 +309,20 @@ def check_t2_imam_lineage(text: str) -> list[DoctrinalFinding]:
             if other_name and other_name in window:
                 # Crosscheck — was the correct Imam's name ALSO in the window?
                 if not any(s and s in window for s in all_canonical_strs):
-                    findings.append(DoctrinalFinding(
-                        check_id="T2",
-                        severity="P0",
-                        signature=f"t2.lineage_swap_{ordinal}_{other_ord}",
-                        context_excerpt=text[max(0, m.start() - 40):m.end() + 120],
-                        replacement=canonical_name,
-                        reason=(f"Text says 'the {ordinal}th Imam' but pairs "
+                    findings.append(
+                        DoctrinalFinding(
+                            check_id="T2",
+                            severity="P0",
+                            signature=f"t2.lineage_swap_{ordinal}_{other_ord}",
+                            context_excerpt=text[max(0, m.start() - 40) : m.end() + 120],
+                            replacement=canonical_name,
+                            reason=(
+                                f"Text says 'the {ordinal}th Imam' but pairs "
                                 f"it with {other_name} (who is #{other_ord} "
-                                f"in the canonical lineage)."),
-                    ))
+                                f"in the canonical lineage)."
+                            ),
+                        )
+                    )
                     break
     return findings
 
@@ -352,15 +359,17 @@ def check_t3_forbidden_phrases(text: str) -> list[DoctrinalFinding]:
             if key in seen_positions:
                 continue
             seen_positions.add(key)
-            findings.append(DoctrinalFinding(
-                check_id="T3",
-                severity=entry.get("severity", "P0"),
-                signature=f"t3.{match.replace(' ', '_').lower()}",
-                context_excerpt=text[max(0, m.start() - 40):m.end() + 60],
-                replacement=entry.get("replacement", ""),
-                reason=entry.get("reason", "").strip(),
-                line=text[:m.start()].count("\n") + 1,
-            ))
+            findings.append(
+                DoctrinalFinding(
+                    check_id="T3",
+                    severity=entry.get("severity", "P0"),
+                    signature=f"t3.{match.replace(' ', '_').lower()}",
+                    context_excerpt=text[max(0, m.start() - 40) : m.end() + 60],
+                    replacement=entry.get("replacement", ""),
+                    reason=entry.get("reason", "").strip(),
+                    line=text[: m.start()].count("\n") + 1,
+                )
+            )
 
     # Also scrub forbidden_imam_titles from imam-lineage-ismaili.yml — those
     # are P0 violations of the lineage policy itself (Imam Fatima, etc.)
@@ -377,15 +386,17 @@ def check_t3_forbidden_phrases(text: str) -> list[DoctrinalFinding]:
                 if key in seen_positions:
                     continue
                 seen_positions.add(key)
-                findings.append(DoctrinalFinding(
-                    check_id="T3",
-                    severity=entry.get("severity", "P0"),
-                    signature=f"t3.lineage_forbidden.{alias.replace(' ', '_').lower()}",
-                    context_excerpt=text[max(0, m.start() - 40):m.end() + 60],
-                    replacement=", ".join(entry.get("canonical_titles", []) or []),
-                    reason=entry.get("reason", "").strip(),
-                    line=text[:m.start()].count("\n") + 1,
-                ))
+                findings.append(
+                    DoctrinalFinding(
+                        check_id="T3",
+                        severity=entry.get("severity", "P0"),
+                        signature=f"t3.lineage_forbidden.{alias.replace(' ', '_').lower()}",
+                        context_excerpt=text[max(0, m.start() - 40) : m.end() + 60],
+                        replacement=", ".join(entry.get("canonical_titles", []) or []),
+                        reason=entry.get("reason", "").strip(),
+                        line=text[: m.start()].count("\n") + 1,
+                    )
+                )
 
     return findings
 
@@ -421,13 +432,15 @@ def check_t5_weak_hadith(text: str) -> list[DoctrinalFinding]:
         if not sig:
             continue
         if sig.lower() in text.lower():
-            findings.append(DoctrinalFinding(
-                check_id="T5",
-                severity=entry.get("severity", "P1"),
-                signature=f"t5.{sig[:30].replace(' ', '_').lower()}",
-                context_excerpt=sig[:300],
-                reason=entry.get("reason", "").strip(),
-            ))
+            findings.append(
+                DoctrinalFinding(
+                    check_id="T5",
+                    severity=entry.get("severity", "P1"),
+                    signature=f"t5.{sig[:30].replace(' ', '_').lower()}",
+                    context_excerpt=sig[:300],
+                    reason=entry.get("reason", "").strip(),
+                )
+            )
     return findings
 
 
@@ -452,9 +465,8 @@ def run_doctrinal_checks(text: str) -> list[DoctrinalFinding]:
 
 def _cli():
     import argparse
-    ap = argparse.ArgumentParser(
-        description="Run Category T (doctrinal accuracy) checks against a file."
-    )
+
+    ap = argparse.ArgumentParser(description="Run Category T (doctrinal accuracy) checks against a file.")
     ap.add_argument("path", help="Path to chapter/framing/episode .md or .txt")
     args = ap.parse_args()
     text = Path(args.path).read_text(encoding="utf-8")
@@ -474,4 +486,5 @@ def _cli():
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(_cli())

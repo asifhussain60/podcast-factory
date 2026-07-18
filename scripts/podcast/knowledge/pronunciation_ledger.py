@@ -23,12 +23,13 @@ House style for the ``phonetic`` field (enforced by ``is_house_style``):
 ALL lowercase, syllables hyphen-separated, the stressed syllable in CAPITALS,
 no Arabic script, no spelled-out letters. e.g. al-Ghazali -> gha-zaa-lee.
 """
+
 from __future__ import annotations
 
 import json
 import re
 import unicodedata
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 # content/knowledge-base/pronunciations.jsonl — sibling to hadith.jsonl / quran.jsonl
@@ -90,16 +91,16 @@ def is_house_style(phonetic: str) -> bool:
 
 @dataclass
 class PronEntry:
-    key: str                                   # normalize_key(term)
-    term: str                                  # plain display transliteration
-    phonetic: str                              # house-style spoken form (the value)
-    status: str = "confirmed"                  # confirmed | unfixable
-    transliteration: str = ""                  # diacritic transliteration
+    key: str  # normalize_key(term)
+    term: str  # plain display transliteration
+    phonetic: str  # house-style spoken form (the value)
+    status: str = "confirmed"  # confirmed | unfixable
+    transliteration: str = ""  # diacritic transliteration
     arabic_script: str = ""
-    gloss: str = ""                            # English substitute (required if unfixable)
+    gloss: str = ""  # English substitute (required if unfixable)
     mangled_variants: list[str] = field(default_factory=list)
     source_books: list[str] = field(default_factory=list)
-    confirmed_date: str = ""                   # caller-stamped (scripts cannot call Date.now)
+    confirmed_date: str = ""  # caller-stamped (scripts cannot call Date.now)
     notes: str = ""
 
     def to_json(self) -> str:
@@ -159,7 +160,7 @@ class PronunciationLibrary:
         key = normalize_key(term)
         existing = self._entries.get(key)
         new_variants = sorted({*(mangled_variants or []), *(existing.mangled_variants if existing else [])})
-        new_books = sorted({*( [source_book] if source_book else [] ), *(existing.source_books if existing else [])})
+        new_books = sorted({*([source_book] if source_book else []), *(existing.source_books if existing else [])})
         entry = PronEntry(
             key=key,
             term=term or (existing.term if existing else term),
@@ -208,6 +209,7 @@ def load(path: Path | None = None) -> PronunciationLibrary:
 
 if __name__ == "__main__":  # pragma: no cover - tiny CLI for inspection
     import sys
+
     lib = load()
     if len(sys.argv) > 1:
         hit = lib.lookup(sys.argv[1])
@@ -215,4 +217,4 @@ if __name__ == "__main__":  # pragma: no cover - tiny CLI for inspection
     else:
         print(f"{len(lib)} entries in {LIBRARY_PATH}")
         for e in lib.all():
-            print(f"  [{e.status:9}] {e.term:30} -> {e.phonetic or '(gloss: '+e.gloss+')'}")
+            print(f"  [{e.status:9}] {e.term:30} -> {e.phonetic or '(gloss: ' + e.gloss + ')'}")

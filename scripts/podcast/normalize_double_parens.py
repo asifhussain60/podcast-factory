@@ -21,6 +21,7 @@ Usage:
 If --in-place, the original is overwritten and a `.bak` sibling is saved.
 Without --in-place, the normalized text goes to stdout.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -46,8 +47,7 @@ def normalize(text: str) -> tuple[str, int]:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("path", type=Path)
-    ap.add_argument("--in-place", action="store_true",
-                    help="overwrite the input file (saves .bak)")
+    ap.add_argument("--in-place", action="store_true", help="overwrite the input file (saves .bak)")
     args = ap.parse_args()
 
     if not args.path.is_file():

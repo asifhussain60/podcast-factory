@@ -65,9 +65,7 @@ class AugmenterTests(unittest.TestCase):
 
     def test_augment_for_chapter_returns_empty_without_matches(self):
         with mock.patch.object(augmenter, "KNOWLEDGE_ROOT", self.root):
-            out = augmenter.augment_for_chapter(
-                "kitab-z", "ch01", "No citations in this chapter."
-            )
+            out = augmenter.augment_for_chapter("kitab-z", "ch01", "No citations in this chapter.")
         self.assertEqual(out, "")
 
     def test_augment_for_chapter_includes_matched_atoms(self):

@@ -4,6 +4,7 @@ This module defines the contract for a faithful, visually enhanced translation
 PDF path. It is deliberately separate from ``content_profile``: the profile says
 what the source is about; ``deliverable_mode`` says what product we are making.
 """
+
 from __future__ import annotations
 
 import json
@@ -13,12 +14,11 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _book_compose import (
     _PAGE_MARK,
-    _load_arabic_pages,
     _line_pages,
+    _load_arabic_pages,
     _pages_for_ranges,
     _quran_anchor_block,
     _slice_source,
@@ -81,15 +81,53 @@ _SALUTATION_REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
 )
 
 _TOPIC_CLUSTERS: dict[str, tuple[str, ...]] = {
-    "sales": ("market", "trade", "merchant", "sale", "sell", "buy", "property", "rent", "loan", "deposit", "hawala", "sponsorship", "partnership", "pre-emption"),
+    "sales": (
+        "market",
+        "trade",
+        "merchant",
+        "sale",
+        "sell",
+        "buy",
+        "property",
+        "rent",
+        "loan",
+        "deposit",
+        "hawala",
+        "sponsorship",
+        "partnership",
+        "pre-emption",
+    ),
     "oaths": ("oath", "vow", "atonement", "expiation", "swear", "perjury"),
     "food": ("food", "drink", "healing", "medicine", "illness", "eat", "health"),
     "dress": ("wear", "dress", "clothing", "garment", "adornment", "ornament", "fragrance", "perfume", "ring", "silk"),
     "hunting": ("hunt", "hunting", "game", "slaughter", "sacrifice", "prey", "animal", "knife", "aqiqah"),
     "marriage": ("marriage", "marry", "spouse", "wife", "husband", "dowry", "wedding", "household"),
     "divorce": ("divorce", "separation", "iddah", "mourning", "mut'a", "khul", "li'an"),
-    "inheritance": ("freedom", "generosity", "gift", "bequest", "inheritance", "estate", "shares", "heir", "slave", "manumission"),
-    "judiciary": ("wrong", "redress", "crime", "blood money", "offense", "hudud", "judge", "evidence", "testimony", "found property", "retaliation"),
+    "inheritance": (
+        "freedom",
+        "generosity",
+        "gift",
+        "bequest",
+        "inheritance",
+        "estate",
+        "shares",
+        "heir",
+        "slave",
+        "manumission",
+    ),
+    "judiciary": (
+        "wrong",
+        "redress",
+        "crime",
+        "blood money",
+        "offense",
+        "hudud",
+        "judge",
+        "evidence",
+        "testimony",
+        "found property",
+        "retaliation",
+    ),
 }
 
 
@@ -129,9 +167,10 @@ def is_faithful_translation_deliverable(book_dir: Path) -> bool:
     if is_translation_edition(book_dir):
         return True
     try:
-        from _pipeline_flags import BOOK_VOICE_FAITHFUL, book_voice  # noqa: PLC0415
+        from _pipeline_flags import BOOK_VOICE_FAITHFUL, book_voice
+
         return book_voice(book_dir) == BOOK_VOICE_FAITHFUL
-    except Exception:  # noqa: BLE001
+    except Exception:
         return False
 
 
@@ -144,11 +183,7 @@ def translation_policy(book_dir: Path) -> dict[str, Any]:
 def requires_monochrome_visuals(book_dir: Path) -> bool:
     cfg = read_series_config(book_dir)
     policy = translation_policy(book_dir)
-    style = str(
-        cfg.get("visual_style")
-        or policy.get("visual_style")
-        or ""
-    ).strip().lower()
+    style = str(cfg.get("visual_style") or policy.get("visual_style") or "").strip().lower()
     if style in {"black_white", "black-and-white", "monochrome", "bw"}:
         return True
     return bool(policy.get("monochrome_visuals"))
@@ -223,6 +258,7 @@ _MONO_MAP = {
 
 def monochrome_svg(svg: str) -> str:
     """Normalize known SVG theme colors to black, white, and gray."""
+
     def _to_gray(r: float, g: float, b: float) -> int:
         return max(0, min(255, round((0.2126 * r) + (0.7152 * g) + (0.0722 * b))))
 
@@ -235,7 +271,7 @@ def monochrome_svg(svg: str) -> str:
         if len(h) == 3:
             vals = [int(ch * 2, 16) for ch in h]
         elif len(h) in (6, 8):
-            vals = [int(h[i:i + 2], 16) for i in (0, 2, 4)]
+            vals = [int(h[i : i + 2], 16) for i in (0, 2, 4)]
         else:
             return raw
         gray = _to_gray(*vals)
@@ -377,7 +413,7 @@ def _trim_seam_overlap(prev_prose: str, next_prose: str) -> str:
 # each calibrated on real content with a wide safety margin to the nearest
 # legitimate pair (within-chapter next-legit ~0.56 ratio; boundary next-legit ~0.26
 # containment):
-_ADJ_DEDUP_RATIO = 0.62        # within a chapter: paragraph vs immediate predecessor
+_ADJ_DEDUP_RATIO = 0.62  # within a chapter: paragraph vs immediate predecessor
 _BOUNDARY_DEDUP_CONTAINMENT = 0.42  # chapter open vs previous chapter's last paragraph
 _BOUNDARY_DEDUP_MIN_RUN = 5
 _NUMBERED_CHAPTER_RE = re.compile(r"^##\s+\d+\.")
@@ -418,22 +454,22 @@ def dedupe_seam_paragraphs(text: str) -> str:
     """
     blocks = [b.strip() for b in re.split(r"\n\s*\n", text) if b.strip()]
     out: list[str] = []
-    prev_para: str | None = None       # last kept paragraph (within-chapter adjacency)
+    prev_para: str | None = None  # last kept paragraph (within-chapter adjacency)
     prev_chapter_last: str | None = None
-    at_chapter_open = False            # first paragraph after a numbered chapter heading
+    at_chapter_open = False  # first paragraph after a numbered chapter heading
     for block in blocks:
         if block.startswith("#"):
             if _NUMBERED_CHAPTER_RE.match(block):
                 prev_chapter_last = prev_para
                 at_chapter_open = True
             out.append(block)
-            prev_para = None           # adjacency does not cross a heading
+            prev_para = None  # adjacency does not cross a heading
             continue
         if at_chapter_open and prev_chapter_last and _boundary_echo(block, prev_chapter_last):
             at_chapter_open = False
-            continue                   # drop the chapter-opening echo
+            continue  # drop the chapter-opening echo
         if not at_chapter_open and prev_para is not None and _adjacent_echo(block, prev_para):
-            continue                   # drop the adjacent within-chapter echo
+            continue  # drop the adjacent within-chapter echo
         at_chapter_open = False
         out.append(block)
         prev_para = block
@@ -518,10 +554,7 @@ def source_title_drift_findings(title: str, source: str) -> list[str]:
     title_topics = _topic_hits(title)
     source_topics = _topic_hits(source[:5000])
     if title_topics and source_topics and not (title_topics & source_topics):
-        return [
-            "title/source topic drift: title "
-            f"{sorted(title_topics)} vs source {sorted(source_topics)}"
-        ]
+        return [f"title/source topic drift: title {sorted(title_topics)} vs source {sorted(source_topics)}"]
     return []
 
 
@@ -551,20 +584,20 @@ def build_source_crosswalk(
         pages = _pages_for_ranges(line_pages, ranges) if line_pages else []
         arabic_nums = [n for n in pages if n in arabic_pages]
         excerpt = re.sub(r"\s+", " ", _PAGE_MARK.sub("", source)).strip()[:420]
-        entries.append({
-            "index": idx,
-            "title": title,
-            "source_line_ranges": ranges,
-            "source_pages": pages,
-            "source_page_range": f"pp. {pages[0]}-{pages[-1]}" if pages else "",
-            "arabic_source_pages": arabic_nums,
-            "arabic_source_page_range": (
-                f"pp. {arabic_nums[0]}-{arabic_nums[-1]}" if arabic_nums else ""
-            ),
-            "source_headings": _source_headings(source),
-            "source_excerpt": excerpt,
-            "drift_findings": source_title_drift_findings(title, source),
-        })
+        entries.append(
+            {
+                "index": idx,
+                "title": title,
+                "source_line_ranges": ranges,
+                "source_pages": pages,
+                "source_page_range": f"pp. {pages[0]}-{pages[-1]}" if pages else "",
+                "arabic_source_pages": arabic_nums,
+                "arabic_source_page_range": (f"pp. {arabic_nums[0]}-{arabic_nums[-1]}" if arabic_nums else ""),
+                "source_headings": _source_headings(source),
+                "source_excerpt": excerpt,
+                "drift_findings": source_title_drift_findings(title, source),
+            }
+        )
     return entries
 
 
@@ -593,7 +626,8 @@ def _compose_prompt(
         "\nContinuity note: the previous chapter ended with this thought. "
         "Open naturally without repeating it:\n"
         f"{previous_tail}\n"
-        if previous_tail else ""
+        if previous_tail
+        else ""
     )
     return f"""You are preparing a faithful English translation edition of a non-English Islamic teaching text.
 
@@ -648,8 +682,12 @@ def _compose_one(
         quran_anchor=quran_anchor,
     )
     rc, out, err = _run_claude_p_with_retry(
-        prompt, timeout=_COMPOSE_TIMEOUT, book_dir=book_dir,
-        phase="0book-compose", step=f"translation-{label}", log=log,
+        prompt,
+        timeout=_COMPOSE_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-compose",
+        step=f"translation-{label}",
+        log=log,
     )
     out = (out or "").strip()
     if rc != 0:
@@ -662,10 +700,12 @@ def _compose_one(
     if source_words >= 200 and len(out.split()) < 0.55 * source_words:
         log(f"      {label}: short ({len(out.split())}/{source_words}w) - retry")
         rc2, out2, _ = _run_claude_p_with_retry(
-            prompt
-            + "\n\nYour previous attempt was too compressed. Rewrite faithfully, preserving the full teaching.",
-            timeout=_RETRY_TIMEOUT, book_dir=book_dir,
-            phase="0book-compose", step=f"translation-{label}-retry", log=log,
+            prompt + "\n\nYour previous attempt was too compressed. Rewrite faithfully, preserving the full teaching.",
+            timeout=_RETRY_TIMEOUT,
+            book_dir=book_dir,
+            phase="0book-compose",
+            step=f"translation-{label}-retry",
+            log=log,
         )
         if rc2 == 0 and len((out2 or "").split()) > len(out.split()):
             out = (out2 or "").strip()
@@ -673,8 +713,7 @@ def _compose_one(
     if findings:
         log(f"      {label}: invalid translation output ({'; '.join(findings[:3])}) - retry")
         retry_prompt = (
-            prompt
-            + "\n\nYour previous answer included process commentary or model-owned headings. "
+            prompt + "\n\nYour previous answer included process commentary or model-owned headings. "
             "Rewrite now as clean chapter prose only. Do not mention instructions, options, "
             "source mismatch, inability, the title selection, or the prompt. Do not emit Markdown headings."
         )
@@ -698,8 +737,7 @@ def _compose_one(
     if findings:
         raise AuthoringError(
             phase="0book-compose",
-            message=f"{label}: translation edition output failed integrity gate: "
-                    + "; ".join(findings),
+            message=f"{label}: translation edition output failed integrity gate: " + "; ".join(findings),
             manual_fallback=(
                 "Re-run 0book-design/0book-compose after inspecting the source range; "
                 "the pipeline refused to persist model commentary or generated headings."
@@ -709,8 +747,7 @@ def _compose_one(
         raise AuthoringError(
             phase="0book-compose",
             message=(
-                f"{label}: translation edition output is too compressed "
-                f"({len(out.split())}/{source_words} words)"
+                f"{label}: translation edition output is too compressed ({len(out.split())}/{source_words} words)"
             ),
             manual_fallback="Re-run after reducing chapter/window size or inspect the source range.",
         )
@@ -776,11 +813,16 @@ def author_translation_edition_compose(
             ),
         )
     (book_dir / "book" / "source-crosswalk.json").write_text(
-        json.dumps({
-            "schema": "podcast.translation-edition.source-crosswalk/v1",
-            "book": book_dir.name,
-            "chapters": crosswalk,
-        }, indent=2, ensure_ascii=False) + "\n",
+        json.dumps(
+            {
+                "schema": "podcast.translation-edition.source-crosswalk/v1",
+                "book": book_dir.name,
+                "chapters": crosswalk,
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+        + "\n",
         encoding="utf-8",
     )
 
@@ -830,15 +872,8 @@ def author_translation_edition_compose(
         if pf_source.strip():
             pf_path = chunks_dir / "preface.md"
             pf_prose = ""
-            if (
-                not force
-                and _cache_fresh(pf_path)
-                and pf_path.exists()
-                and pf_path.read_text(encoding="utf-8").strip()
-            ):
-                cached_pf = normalize_translation_prose(
-                    pf_path.read_text(encoding="utf-8").strip(), title=pf_title
-                )
+            if not force and _cache_fresh(pf_path) and pf_path.exists() and pf_path.read_text(encoding="utf-8").strip():
+                cached_pf = normalize_translation_prose(pf_path.read_text(encoding="utf-8").strip(), title=pf_title)
                 if not translation_output_findings(cached_pf, expected_title=pf_title):
                     pf_prose = cached_pf
             if not pf_prose:
@@ -850,8 +885,14 @@ def author_translation_edition_compose(
                     + ") -> translation edition"
                 )
                 pf_prose = _compose_one(
-                    pf_title, pf_source, "", book_dir, "preface", log,
-                    arabic_src=pf_arabic, quran_anchor=pf_qa,
+                    pf_title,
+                    pf_source,
+                    "",
+                    book_dir,
+                    "preface",
+                    log,
+                    arabic_src=pf_arabic,
+                    quran_anchor=pf_qa,
                 )
                 pf_path.write_text(pf_prose.rstrip() + "\n", encoding="utf-8")
             parts.append(f"## {pf_title}\n\n{pf_prose}\n")
@@ -866,10 +907,7 @@ def author_translation_edition_compose(
         source = _slice_source(lines, ch_ranges)
         out_path = chunks_dir / f"{label}.md"
         prior = prior_manifest.get(idx) or {}
-        cache_matches_source = (
-            prior.get("title") == title
-            and prior.get("source_line_ranges") == ch_ranges
-        )
+        cache_matches_source = prior.get("title") == title and prior.get("source_line_ranges") == ch_ranges
         if (
             not force
             and cache_matches_source
@@ -896,10 +934,7 @@ def author_translation_edition_compose(
         else:
             prose = ""
         if not prose:
-            windows = (
-                _iter_source_windows(lines, ch_ranges)
-                if len(source.split()) > _LONG_CHAPTER_WORDS else []
-            )
+            windows = _iter_source_windows(lines, ch_ranges) if len(source.split()) > _LONG_CHAPTER_WORDS else []
             if not windows:
                 windows = [(source, ch_ranges)]
             log(
@@ -987,27 +1022,34 @@ def author_translation_edition_compose(
         parts.append(f"## {idx}. {title}\n\n{prose}\n")
         previous_tail = " ".join(prose.split()[-80:])
         prev_emitted_prose = prose
-        manifest.append({
-            "index": idx,
-            "title": title,
-            "chapter_file": str(chapter_path.relative_to(book_dir)),
-            "source_line_ranges": ch.get("source_line_ranges", []),
-            "source_words": len(source.split()),
-            "output_words": len(prose.split()),
-        })
+        manifest.append(
+            {
+                "index": idx,
+                "title": title,
+                "chapter_file": str(chapter_path.relative_to(book_dir)),
+                "source_line_ranges": ch.get("source_line_ranges", []),
+                "source_words": len(source.split()),
+                "output_words": len(prose.split()),
+            }
+        )
 
     book_md = book_dir / "book" / "book.md"
     assembled = dedupe_seam_paragraphs(simplify_transliteration("\n".join(parts).rstrip() + "\n"))
     book_md.write_text(assembled, encoding="utf-8")
     (book_dir / "_system" / "translation-edition-manifest.json").write_text(
-        json.dumps({
-            "schema": "podcast.translation-edition/v1",
-            "mode": TRANSLATION_EDITION_MODE,
-            "augmentation": "forbidden",
-            "visual_style": DEFAULT_VISUAL_STYLE,
-            "chapters": manifest,
-            "source_crosswalk": "book/source-crosswalk.json",
-        }, indent=2, ensure_ascii=False) + "\n",
+        json.dumps(
+            {
+                "schema": "podcast.translation-edition/v1",
+                "mode": TRANSLATION_EDITION_MODE,
+                "augmentation": "forbidden",
+                "visual_style": DEFAULT_VISUAL_STYLE,
+                "chapters": manifest,
+                "source_crosswalk": "book/source-crosswalk.json",
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+        + "\n",
         encoding="utf-8",
     )
     log(f"    translation-edition-compose: assembled book.md with {len(manifest)} chapters")

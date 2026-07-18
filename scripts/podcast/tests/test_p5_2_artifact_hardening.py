@@ -15,21 +15,19 @@ Covers:
   • _authoring.py 07-chapter-design loop: rc=0-no-artifact raises (was continue)
   • _authoring.py 08-enrichment loop: rc=0-no-artifact raises (was continue)
 """
+
 from __future__ import annotations
 
-import io
 import sys
 import tempfile
 import unittest
-from contextlib import redirect_stdout
 from pathlib import Path
-from unittest import mock
 
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _chunking  # noqa: E402
-import _authoring  # noqa: E402
+import _authoring
+import _chunking
 
 
 class ChunkingErrorKwargsTests(unittest.TestCase):
@@ -70,6 +68,7 @@ class ChunkingArtifactValidationTests(unittest.TestCase):
 
     def test_sdk_empty_response_raises_fatal(self):
         """SDK path: _invoke_fn returns empty → ChunkingError raised (P5.1 equivalent)."""
+
         def empty_invoke(instructions, body, timeout):
             return ""
 
@@ -90,6 +89,7 @@ class ChunkingArtifactValidationTests(unittest.TestCase):
 
     def test_all_sdk_failures_raise_with_summary(self):
         """When every window's _invoke_fn returns empty, ChunkingError summarizes failures."""
+
         def always_fail(instructions, body, timeout):
             return ""
 
@@ -108,6 +108,7 @@ class ChunkingArtifactValidationTests(unittest.TestCase):
 
     def test_sdk_success_returns_paths(self):
         """Happy path — _invoke_fn returns text → file written → paths returned."""
+
         def good_invoke(instructions, body, timeout):
             return "WINDOW OUTPUT"
 

@@ -3,6 +3,7 @@
 Detects that the promotion_lane.py script is present with the full
 cross-book clustering and regression-gated promotion logic.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -55,16 +56,15 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
 
     if missing:
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
-            message=(
-                "Self-learning promotion lane incomplete:\n  "
-                + "\n  ".join(missing)
-            ),
+            phase_id=PHASE_ID,
+            status="halted",
+            message=("Self-learning promotion lane incomplete:\n  " + "\n  ".join(missing)),
             evidence_paths=[str(script)],
         )
 
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message=(
             "promotion_lane.py present with cross-book clustering, "
             "regression-gated Tier-2/Tier-3 classification, and human-review safeguard."

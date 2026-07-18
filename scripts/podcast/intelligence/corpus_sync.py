@@ -30,6 +30,7 @@ CLI:
   python3 scripts/podcast/intelligence/corpus_sync.py rebuild     # JSONL → DB (additive)
   python3 scripts/podcast/intelligence/corpus_sync.py verify      # DB vs JSONL counts
 """
+
 from __future__ import annotations
 
 import json
@@ -41,8 +42,8 @@ _SCRIPTS = _HERE.parent
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from _db import get_connection, run_migrations  # noqa: E402
-from _paths import REPO_ROOT  # noqa: E402
+from _db import get_connection, run_migrations
+from _paths import REPO_ROOT
 
 KB_DIR = REPO_ROOT / "content" / "knowledge-base"
 
@@ -69,13 +70,9 @@ def _envelope(row, sources: list, variants: list) -> dict:
         "confidence": row["confidence"],
         "tradition": row["tradition"],
         "content_level": row["content_level"],
-        "sources": [
-            {"book": s["book_slug"], "chapter": s["chapter_id"], "locator": s["locator"]}
-            for s in sources
-        ],
+        "sources": [{"book": s["book_slug"], "chapter": s["chapter_id"], "locator": s["locator"]} for s in sources],
         "variants": [
-            {"book": v["book_slug"], "text_en": v["text_en"], "translator": v["translator"]}
-            for v in variants
+            {"book": v["book_slug"], "text_en": v["text_en"], "translator": v["translator"]} for v in variants
         ],
     }
 
@@ -92,8 +89,9 @@ def _merge_body(a: dict, b: dict) -> dict:
     for k, v in (b or {}).items():
         if _is_empty(out.get(k)):
             out[k] = v
-        elif not _is_empty(v) and out[k] != v and isinstance(v, str) \
-                and isinstance(out[k], str) and len(v) > len(out[k]):
+        elif (
+            not _is_empty(v) and out[k] != v and isinstance(v, str) and isinstance(out[k], str) and len(v) > len(out[k])
+        ):
             out[k] = v
     return out
 
@@ -123,16 +121,17 @@ def _merge_envelopes(a: dict, b: dict) -> dict:
     fa, fb = a.get("first_seen") or {}, b.get("first_seen") or {}
     da, db_ = fa.get("date") or "", fb.get("date") or ""
     out["first_seen"] = fa if (da and (not db_ or da <= db_)) else (fb if db_ else fa)
-    out["confidence"] = max(a.get("confidence") or 0, b.get("confidence") or 0) \
-        or a.get("confidence")
+    out["confidence"] = max(a.get("confidence") or 0, b.get("confidence") or 0) or a.get("confidence")
     for k in ("tradition", "content_level", "type"):
         out[k] = a.get(k) if not _is_empty(a.get(k)) else b.get(k)
     out["sources"] = _dedup(
         (a.get("sources") or []) + (b.get("sources") or []),
-        lambda s: (s.get("book"), s.get("chapter"), s.get("locator")))
+        lambda s: (s.get("book"), s.get("chapter"), s.get("locator")),
+    )
     out["variants"] = _dedup(
         (a.get("variants") or []) + (b.get("variants") or []),
-        lambda v: (v.get("book"), v.get("text_en"), v.get("translator")))
+        lambda v: (v.get("book"), v.get("text_en"), v.get("translator")),
+    )
     return out
 
 
@@ -218,12 +217,12 @@ def export(*, safe: bool = False) -> dict[str, int]:
     CorpusShrinkError instead — the caller should ``rebuild`` first.
     """
     import sqlite3
+
     conn = get_connection()
     conn.row_factory = sqlite3.Row
 
     if safe:
-        db_counts = {r["type"]: r["n"] for r in conn.execute(
-            "SELECT type, COUNT(*) n FROM atoms GROUP BY type")}
+        db_counts = {r["type"]: r["n"] for r in conn.execute("SELECT type, COUNT(*) n FROM atoms GROUP BY type")}
         shrinking = []
         for path in KB_DIR.glob("*.jsonl"):
             if path.name in {"pronunciations.jsonl", "pronunciation-patterns.jsonl"}:
@@ -233,8 +232,8 @@ def export(*, safe: bool = False) -> dict[str, int]:
                 shrinking.append(f"{path.stem}: committed={existing} > db={db_counts.get(path.stem, 0)}")
         if shrinking:
             raise CorpusShrinkError(
-                "export would SHRINK the committed corpus (run rebuild first): "
-                + "; ".join(shrinking))
+                "export would SHRINK the committed corpus (run rebuild first): " + "; ".join(shrinking)
+            )
 
     # Pre-group sources/variants by atom_id (single pass each).
     src_by_atom: dict[str, list] = {}
@@ -275,6 +274,7 @@ def rebuild() -> dict[str, int]:
     """
     run_migrations()
     import sqlite3
+
     conn = get_connection()
     conn.row_factory = sqlite3.Row
 
@@ -321,9 +321,16 @@ def rebuild() -> dict[str, int]:
                 """UPDATE atoms SET body=?, first_seen_book=?, first_seen_chapter=?,
                    first_seen_date=?, confidence=?, tradition=?, content_level=?,
                    updated_at=datetime('now') WHERE id=?""",
-                (json.dumps(env.get("body", {}), ensure_ascii=False),
-                 fs.get("book"), fs.get("chapter"), fs.get("date"), env.get("confidence"),
-                 env.get("tradition"), env.get("content_level"), atom_id),
+                (
+                    json.dumps(env.get("body", {}), ensure_ascii=False),
+                    fs.get("book"),
+                    fs.get("chapter"),
+                    fs.get("date"),
+                    env.get("confidence"),
+                    env.get("tradition"),
+                    env.get("content_level"),
+                    atom_id,
+                ),
             )
         else:
             fs = env.get("first_seen") or {}
@@ -332,9 +339,17 @@ def rebuild() -> dict[str, int]:
                    (id, type, body, first_seen_book, first_seen_chapter, first_seen_date,
                     confidence, tradition, content_level, created_at, updated_at)
                    VALUES (?,?,?,?,?,?,?,?,?, datetime('now'), datetime('now'))""",
-                (atom_id, env["type"], json.dumps(env.get("body", {}), ensure_ascii=False),
-                 fs.get("book"), fs.get("chapter"), fs.get("date"),
-                 env.get("confidence"), env.get("tradition"), env.get("content_level")),
+                (
+                    atom_id,
+                    env["type"],
+                    json.dumps(env.get("body", {}), ensure_ascii=False),
+                    fs.get("book"),
+                    fs.get("chapter"),
+                    fs.get("date"),
+                    env.get("confidence"),
+                    env.get("tradition"),
+                    env.get("content_level"),
+                ),
             )
         for s in env.get("sources", []):
             conn.execute(
@@ -366,9 +381,9 @@ def rebuild() -> dict[str, int]:
 def verify() -> None:
     conn = get_connection()
     import sqlite3
+
     conn.row_factory = sqlite3.Row
-    db_counts = {r["type"]: r["n"] for r in conn.execute(
-        "SELECT type, COUNT(*) n FROM atoms GROUP BY type")}
+    db_counts = {r["type"]: r["n"] for r in conn.execute("SELECT type, COUNT(*) n FROM atoms GROUP BY type")}
     jsonl_counts = {}
     for path in sorted(KB_DIR.glob("*.jsonl")):
         if path.name in {"pronunciations.jsonl", "pronunciation-patterns.jsonl"}:
@@ -378,15 +393,17 @@ def verify() -> None:
             jsonl_counts[path.stem] = n
     print("type        DB    JSONL")
     for t in sorted(set(db_counts) | set(jsonl_counts)):
-        print(f"  {t:<10} {db_counts.get(t,0):>4}   {jsonl_counts.get(t,0):>4}")
+        print(f"  {t:<10} {db_counts.get(t, 0):>4}   {jsonl_counts.get(t, 0):>4}")
 
 
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Durable corpus sync (DB <-> JSONL).")
     ap.add_argument("cmd", choices=["export", "rebuild", "verify"])
-    ap.add_argument("--safe", action="store_true",
-                    help="export: refuse to shrink the committed corpus (run rebuild first).")
+    ap.add_argument(
+        "--safe", action="store_true", help="export: refuse to shrink the committed corpus (run rebuild first)."
+    )
     args = ap.parse_args()
     if args.cmd == "export":
         try:
@@ -397,8 +414,7 @@ def main() -> int:
         print("Exported (DB → JSONL):", {k: c[k] for k in sorted(c)})
     elif args.cmd == "rebuild":
         c = rebuild()
-        print("Rebuilt (JSONL → DB, additive-merge):",
-              {k: c[k] for k in sorted(c)} if c else "0 atoms")
+        print("Rebuilt (JSONL → DB, additive-merge):", {k: c[k] for k in sorted(c)} if c else "0 atoms")
     else:
         verify()
     return 0

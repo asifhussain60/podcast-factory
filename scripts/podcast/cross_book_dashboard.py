@@ -39,7 +39,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import iter_content, slug_of, REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT, iter_content, slug_of
 
 DRAFTS = REPO_ROOT / "content" / "drafts"
 PUBLISHED = REPO_ROOT / "content" / "published" / "books"
@@ -53,8 +53,7 @@ def _parse_since(spec: str | None) -> datetime | None:
     if not m:
         return None
     n, unit = int(m.group(1)), m.group(2)
-    deltas = {"d": timedelta(days=n), "h": timedelta(hours=n),
-              "w": timedelta(weeks=n), "m": timedelta(days=30 * n)}
+    deltas = {"d": timedelta(days=n), "h": timedelta(hours=n), "w": timedelta(weeks=n), "m": timedelta(days=30 * n)}
     return datetime.now(timezone.utc) - deltas[unit]
 
 
@@ -108,9 +107,7 @@ def _chapter_progress(book_dir: Path) -> str:
         return "—"
     total = sum(1 for _ in contracts.glob("*.yml"))
     state = _read_state(book_dir)
-    completed = len(
-        state.get("phases", {}).get("per-chapter", {}).get("completed_slugs", [])
-    )
+    completed = len(state.get("phases", {}).get("per-chapter", {}).get("completed_slugs", []))
     return f"{completed}/{total}"
 
 
@@ -122,12 +119,9 @@ def _chapter_timing_stats(book_dir: Path) -> str:
     '—' when no timing data is present (older books pre-F37).
     """
     state = _read_state(book_dir)
-    timings = (
-        state.get("phases", {}).get("per-chapter", {}).get("chapter_timings", {})
-    )
+    timings = state.get("phases", {}).get("per-chapter", {}).get("chapter_timings", {})
     durations = [
-        t["duration_sec"] for t in timings.values()
-        if isinstance(t, dict) and t.get("duration_sec") is not None
+        t["duration_sec"] for t in timings.values() if isinstance(t, dict) and t.get("duration_sec") is not None
     ]
     if not durations:
         return "—"
@@ -169,24 +163,26 @@ def collect_fleet(since: datetime | None) -> list[dict]:
         status = state.get("phase_status", "—")
         last_phase = state.get("last_completed_phase", "—")
         total, rows, last_ts = _read_cost_ledger(entry, since)
-        fleet.append({
-            "book": slug,
-            "category": "draft" if stage == "drafts" else "published",
-            "phase": phase,
-            "status": status,
-            "last_completed": last_phase,
-            "chapters": _chapter_progress(entry),
-            "ch_mean_time": _chapter_timing_stats(entry),
-            "cost_usd": round(total, 2),
-            "ledger_rows": rows,
-            "last_cost_ts": last_ts,
-        })
+        fleet.append(
+            {
+                "book": slug,
+                "category": "draft" if stage == "drafts" else "published",
+                "phase": phase,
+                "status": status,
+                "last_completed": last_phase,
+                "chapters": _chapter_progress(entry),
+                "ch_mean_time": _chapter_timing_stats(entry),
+                "cost_usd": round(total, 2),
+                "ledger_rows": rows,
+                "last_cost_ts": last_ts,
+            }
+        )
     return fleet
 
 
 def render_markdown(fleet: list[dict], since_label: str) -> str:
     lines = [
-        f"# Podcast-factory fleet dashboard",
+        "# Podcast-factory fleet dashboard",
         "",
         f"Generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}",
         f"Cost window: {since_label}",
@@ -203,13 +199,11 @@ def render_markdown(fleet: list[dict], since_label: str) -> str:
             f"{b['last_completed']} | {b['chapters']} | {b.get('ch_mean_time', '—')} | "
             f"${b['cost_usd']:.2f} | {b['ledger_rows']} | {b['last_cost_ts'] or '—'} |"
         )
-        total_usd += b['cost_usd']
-    lines.append(
-        f"| **TOTAL** | — | — | — | — | — | — | **${total_usd:.2f}** | — | — |"
-    )
+        total_usd += b["cost_usd"]
+    lines.append(f"| **TOTAL** | — | — | — | — | — | — | **${total_usd:.2f}** | — | — |")
     lines.append("")
-    in_flight = [b for b in fleet if b['category'] == 'in-flight']
-    shipped = [b for b in fleet if b['category'] == 'shipped']
+    in_flight = [b for b in fleet if b["category"] == "in-flight"]
+    shipped = [b for b in fleet if b["category"] == "shipped"]
     lines.append(f"- **In-flight books**: {len(in_flight)} ({', '.join(b['book'] for b in in_flight) or 'none'})")
     lines.append(f"- **Shipped books**: {len(shipped)} ({', '.join(b['book'] for b in shipped) or 'none'})")
     return "\n".join(lines) + "\n"
@@ -219,12 +213,9 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Cross-book fleet dashboard: phases, statuses, cumulative costs.",
     )
-    parser.add_argument("--since", default=None,
-                        help="Cost window: 7d / 24h / 4w / 2m. Default: all-time.")
-    parser.add_argument("--json", action="store_true",
-                        help="Emit machine-readable JSON to stdout instead of markdown.")
-    parser.add_argument("--out", type=Path, default=None,
-                        help="Write markdown to this path (default: stdout).")
+    parser.add_argument("--since", default=None, help="Cost window: 7d / 24h / 4w / 2m. Default: all-time.")
+    parser.add_argument("--json", action="store_true", help="Emit machine-readable JSON to stdout instead of markdown.")
+    parser.add_argument("--out", type=Path, default=None, help="Write markdown to this path (default: stdout).")
     args = parser.parse_args(argv)
 
     since = _parse_since(args.since)

@@ -7,6 +7,7 @@ ledger row is keyed by (ts, phase, step, model). Ledger-failure tolerance
 is also asserted — a missing/broken ledger module must NOT poison the
 LLM call's return value.
 """
+
 from __future__ import annotations
 
 import io
@@ -21,9 +22,8 @@ from unittest import mock
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _authoring  # noqa: E402
-import _chunking  # noqa: E402
-
+import _authoring
+import _chunking
 
 CANNED_STDOUT = "blah\nTokens: 1500 in, 800 out, cache: 200 read, 0 create\n"
 
@@ -40,9 +40,7 @@ class AuthoringRunClaudePIntegrationTests(unittest.TestCase):
 
     def test_book_dir_provided_writes_one_ledger_row(self):
         with mock.patch("subprocess.run") as run_mock:
-            run_mock.return_value = mock.MagicMock(
-                returncode=0, stdout=CANNED_STDOUT, stderr=""
-            )
+            run_mock.return_value = mock.MagicMock(returncode=0, stdout=CANNED_STDOUT, stderr="")
             rc, out, err = _authoring._run_claude_p(
                 "test prompt",
                 book_dir=self.book,
@@ -67,21 +65,18 @@ class AuthoringRunClaudePIntegrationTests(unittest.TestCase):
     def test_no_book_dir_means_no_ledger_write(self):
         """Back-compat — callers that don't pass book_dir don't get a ledger."""
         with mock.patch("subprocess.run") as run_mock:
-            run_mock.return_value = mock.MagicMock(
-                returncode=0, stdout=CANNED_STDOUT, stderr=""
-            )
+            run_mock.return_value = mock.MagicMock(returncode=0, stdout=CANNED_STDOUT, stderr="")
             rc, out, err = _authoring._run_claude_p("test prompt")
         self.assertEqual(rc, 0)
         # No book_dir → no ledger file anywhere we'd be writing to.
 
     def test_ledger_failure_does_not_poison_call_result(self):
         """If the ledger module raises, the LLM call result is still returned."""
-        with mock.patch("subprocess.run") as run_mock, \
-             mock.patch("_cost_ledger.append_from_claude_p_stdout",
-                        side_effect=RuntimeError("ledger broken")):
-            run_mock.return_value = mock.MagicMock(
-                returncode=0, stdout=CANNED_STDOUT, stderr=""
-            )
+        with (
+            mock.patch("subprocess.run") as run_mock,
+            mock.patch("_cost_ledger.append_from_claude_p_stdout", side_effect=RuntimeError("ledger broken")),
+        ):
+            run_mock.return_value = mock.MagicMock(returncode=0, stdout=CANNED_STDOUT, stderr="")
             buf = io.StringIO()
             with redirect_stderr(buf):
                 rc, out, err = _authoring._run_claude_p(
@@ -97,13 +92,9 @@ class AuthoringRunClaudePIntegrationTests(unittest.TestCase):
 
     def test_multiple_calls_stack_ledger_rows(self):
         with mock.patch("subprocess.run") as run_mock:
-            run_mock.return_value = mock.MagicMock(
-                returncode=0, stdout=CANNED_STDOUT, stderr=""
-            )
+            run_mock.return_value = mock.MagicMock(returncode=0, stdout=CANNED_STDOUT, stderr="")
             for step in ("sc-001", "sc-002", "sc-003"):
-                _authoring._run_claude_p(
-                    "test", book_dir=self.book, phase="0d", step=step
-                )
+                _authoring._run_claude_p("test", book_dir=self.book, phase="0d", step=step)
         ledger = self.book / "_system" / "cost-ledger.jsonl"
         rows = [json.loads(l) for l in ledger.read_text().splitlines()]
         self.assertEqual(len(rows), 3)
@@ -156,6 +147,7 @@ class ChunkingRunWindowedIntegrationTests(unittest.TestCase):
 
     def test_no_book_dir_means_no_ledger(self):
         """Back-compat — run_windowed without book_dir writes no ledger."""
+
         def good_invoke(instructions, body, timeout):
             return "ok"
 

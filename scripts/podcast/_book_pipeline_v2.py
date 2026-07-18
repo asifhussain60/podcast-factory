@@ -13,6 +13,7 @@ behaviour: ``deliverable_mode: translation_edition`` -> ``{none, faithful}``
 (base only, faithful voice); companion book -> ``{source_only,
 author_companion}`` (base + additive enrichment + author voice).
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -40,29 +41,27 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     # 1. Faithful base — the shared foundation for BOTH modes. Reuse the
     #    translation-edition compose as the base, driven by knobs (not by the
     #    deliverable_mode contract), so there is exactly one faithful composer.
-    from _translation_edition import author_translation_edition_compose  # noqa: PLC0415
+    from _translation_edition import author_translation_edition_compose
 
-    book_md = author_translation_edition_compose(
-        book_dir, log=log, force=force, enforce_contract=False
-    )
+    book_md = author_translation_edition_compose(book_dir, log=log, force=force, enforce_contract=False)
 
     # 2. Fluency de-calque over the FAITHFUL base (Phase 5). author_companion books
     #    get their fluency from the re-voice pass below, so this only runs for the
     #    faithful voice. Gated by the same fidelity checks; reverts per-chapter.
     if voice == BOOK_VOICE_FAITHFUL:
-        from _book_voice import apply_fluency_adapt  # noqa: PLC0415
+        from _book_voice import apply_fluency_adapt
 
         book_md = apply_fluency_adapt(book_dir, log=log, force=force)
 
     # 3. Additive source-grounded enrichment (optional, gated, non-destructive).
     if augmentation == BOOK_AUGMENTATION_SOURCE_ONLY:
-        from _book_augment import author_phase_book_augment  # noqa: PLC0415
+        from _book_augment import author_phase_book_augment
 
         book_md = author_phase_book_augment(book_dir, log=log, force=force)
 
     # 4. Author-companion re-voice (optional, gated, reverts on drift).
     if voice == BOOK_VOICE_AUTHOR_COMPANION:
-        from _book_voice import apply_author_companion_voice  # noqa: PLC0415
+        from _book_voice import apply_author_companion_voice
 
         book_md = apply_author_companion_voice(book_dir, log=log, force=force)
 
@@ -70,13 +69,11 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     #    passes above reword each copy of any surviving seam double-render
     #    differently, hiding them from the verbatim trimmer inside the base compose;
     #    this similarity-based pass runs LAST so it sees the final wording.
-    from _translation_edition import dedupe_seam_paragraphs  # noqa: PLC0415
+    from _translation_edition import dedupe_seam_paragraphs
 
     final_md = book_dir / "book" / "book.md"
     if final_md.exists():
-        final_md.write_text(
-            dedupe_seam_paragraphs(final_md.read_text(encoding="utf-8")), encoding="utf-8"
-        )
+        final_md.write_text(dedupe_seam_paragraphs(final_md.read_text(encoding="utf-8")), encoding="utf-8")
         book_md = final_md
 
     return book_md

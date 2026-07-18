@@ -5,6 +5,7 @@ Contract: ONE registry drives every creation path (intake flat, intake volume,
 intake_launch, scaffold) so layouts can never drift again; ensure_book_skeleton
 is idempotent and drops .gitkeep only in empty dirs so the skeleton survives git.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,7 +16,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-from _paths import BOOK_SUBDIRS, ensure_book_skeleton  # noqa: E402
+from _paths import BOOK_SUBDIRS, ensure_book_skeleton
 
 
 class SkeletonTests(unittest.TestCase):
@@ -27,9 +28,17 @@ class SkeletonTests(unittest.TestCase):
 
     def test_required_pipeline_surfaces_present(self) -> None:
         # The folders Asif's directive names explicitly + the PDF-route surfaces.
-        for required in ("m4a", "slide-decks", "slide-decks/_manifests",
-                         "book", "chapters", "episodes", "transcripts",
-                         "_source", "_system/episode-drafts"):
+        for required in (
+            "m4a",
+            "slide-decks",
+            "slide-decks/_manifests",
+            "book",
+            "chapters",
+            "episodes",
+            "transcripts",
+            "_source",
+            "_system/episode-drafts",
+        ):
             self.assertIn(required, BOOK_SUBDIRS)
 
     def test_gitkeep_in_empty_leaves_only(self) -> None:

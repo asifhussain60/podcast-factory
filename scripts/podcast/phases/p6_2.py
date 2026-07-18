@@ -1,4 +1,5 @@
 """P6.2 phase runner — cost-ledger summary CLI."""
+
 from __future__ import annotations
 
 import subprocess
@@ -24,7 +25,9 @@ def is_done(repo_root: Path | None = None) -> bool:
         return False
     rc = subprocess.run(
         [sys.executable, "-m", "unittest", "scripts.podcast.tests.test_cost_ledger_summary"],
-        cwd=repo_root, capture_output=True, timeout=60,
+        cwd=repo_root,
+        capture_output=True,
+        timeout=60,
     ).returncode
     return rc == 0
 
@@ -34,12 +37,14 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
         repo_root = REPO_ROOT
     if not is_done(repo_root):
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
+            phase_id=PHASE_ID,
+            status="halted",
             message="P6.2 deliverable or its test suite is missing/red.",
             evidence_paths=[str(TARGET), str(TEST)],
         )
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message="cost_ledger_summary.py present; tests green.",
         rows_marked=[PHASE_ID],
         evidence_paths=[str(TARGET)],

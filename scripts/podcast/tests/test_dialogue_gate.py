@@ -2,6 +2,7 @@
 
 deterministic checks + _dialogue_convergence.py loop semantics (LLM passes
 mocked — no spend)."""
+
 from __future__ import annotations
 
 import shutil
@@ -14,8 +15,8 @@ from unittest import mock
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _validators_dialogue as vd  # noqa: E402
-import _dialogue_script as ds  # noqa: E402
+import _dialogue_script as ds
+import _validators_dialogue as vd
 
 FIXTURE_BOOK = Path(__file__).resolve().parent / "fixtures" / "audio-engine-book"
 EPISODE_ID = "EP01-the-lamp-and-the-wick"
@@ -61,7 +62,8 @@ def make_book(config_append: str = "audio_engine: elevenlabs\n") -> Path:
         "  - light is paid for in the self that carries it\n"
         "concepts:\n"
         "  - the cistern and the spring\n",
-        encoding="utf-8")
+        encoding="utf-8",
+    )
     cfg = book / "_system" / "series-config.yaml"
     cfg.write_text(cfg.read_text(encoding="utf-8") + config_append, encoding="utf-8")
     return book
@@ -82,8 +84,7 @@ class TestGate(unittest.TestCase):
     def test_clean_script_has_no_p0_p1(self):
         write_script(self.book, CLEAN_SCRIPT)
         r = vd.gate_dialogue_script(self.book, EPISODE_ID)
-        self.assertEqual([f for f in r.findings if f.severity in ("P0", "P1")], [],
-                         msg=str(r.findings))
+        self.assertEqual([f for f in r.findings if f.severity in ("P0", "P1")], [], msg=str(r.findings))
         self.assertFalse(r.render_blocked)
 
     def test_credit_estimate_matches_char_count(self):
@@ -162,8 +163,7 @@ class TestGate(unittest.TestCase):
         self.assertIn("DLG-TAGS-UNSUPPORTED", [f.check_id for f in r2.findings])
 
     def test_tag_density_p1(self):
-        dense = CLEAN_SCRIPT.replace("HOST_A: ", "HOST_A: [warm] ").replace(
-            "HOST_B: ", "HOST_B: [curious] ")
+        dense = CLEAN_SCRIPT.replace("HOST_A: ", "HOST_A: [warm] ").replace("HOST_B: ", "HOST_B: [curious] ")
         write_script(self.book, dense)
         r = vd.gate_dialogue_script(self.book, EPISODE_ID)
         self.assertIn("DLG-TAGS-NOT-SPARSE", [f.check_id for f in r.findings])
@@ -171,15 +171,16 @@ class TestGate(unittest.TestCase):
     def test_honorific_repeat_is_p1(self):
         bad = CLEAN_SCRIPT + (
             "\nHOST_A: The Prophet (peace be upon him) taught readiness."
-            "\n\nHOST_B: And the Prophet (peace be upon him) embodied it.\n")
+            "\n\nHOST_B: And the Prophet (peace be upon him) embodied it.\n"
+        )
         write_script(self.book, bad)
         r = vd.gate_dialogue_script(self.book, EPISODE_ID)
         self.assertIn("DLG-HONORIFIC-ONCE", [f.check_id for f in r.findings])
 
     def test_doubled_phrase_is_p1(self):
         bad = CLEAN_SCRIPT + (
-            "\nHOST_A: The classical Quran commentator the classical Quran commentator "
-            "said this plainly enough.\n")
+            "\nHOST_A: The classical Quran commentator the classical Quran commentator said this plainly enough.\n"
+        )
         write_script(self.book, bad)
         r = vd.gate_dialogue_script(self.book, EPISODE_ID)
         self.assertIn("DLG-DOUBLED-PHRASE", [f.check_id for f in r.findings])
@@ -208,6 +209,7 @@ class TestConvergence(unittest.TestCase):
         self.book = make_book()
         self.addCleanup(shutil.rmtree, self.book.parent, ignore_errors=True)
         import _dialogue_convergence as dc
+
         self.dc = dc
         # Keep the learning ledger inside the tmp book, not the real repo.
         self._ledger_patch = mock.patch.object(dc, "REPO_ROOT", self.book.parent)
@@ -217,25 +219,24 @@ class TestConvergence(unittest.TestCase):
     def test_clean_script_ships_first_iteration(self):
         write_script(self.book, CLEAN_SCRIPT)
         res = self.dc.converge_dialogue_script(
-            self.book, CHAPTER_SLUG, semantic=False, author_first=False,
-            log=lambda *a: None)
+            self.book, CHAPTER_SLUG, semantic=False, author_first=False, log=lambda *a: None
+        )
         self.assertEqual(res.verdict, "SHIP-READY")
         self.assertEqual(res.iterations, 1)
-        self.assertEqual(
-            self.dc.read_verdict(self.book, EPISODE_ID), "SHIP-READY")
+        self.assertEqual(self.dc.read_verdict(self.book, EPISODE_ID), "SHIP-READY")
         self.assertTrue(self.dc.gate_report_path(self.book, EPISODE_ID).exists())
         # Findings ledger written under the patched repo root.
         self.assertTrue((self.book.parent / "_learning" / "findings.jsonl").exists())
 
     def test_p1_residual_accepts_ship_with_caution(self):
         bad = CLEAN_SCRIPT + (
-            "\nHOST_A: The classical Quran commentator the classical Quran commentator "
-            "said this plainly enough.\n")
+            "\nHOST_A: The classical Quran commentator the classical Quran commentator said this plainly enough.\n"
+        )
         write_script(self.book, bad)
         with mock.patch.object(self.dc, "_fixer_pass") as fx:
             res = self.dc.converge_dialogue_script(
-                self.book, CHAPTER_SLUG, semantic=False, author_first=False,
-                log=lambda *a: None)
+                self.book, CHAPTER_SLUG, semantic=False, author_first=False, log=lambda *a: None
+            )
         self.assertEqual(res.verdict, "SHIP-WITH-CAUTION")
         self.assertGreaterEqual(res.iterations, 2)
         fx.assert_called_once()  # one fixer attempt before cautioned-ship
@@ -245,23 +246,28 @@ class TestConvergence(unittest.TestCase):
         write_script(self.book, bad)
         with mock.patch.object(self.dc, "_fixer_pass"):  # fixer no-ops
             res = self.dc.converge_dialogue_script(
-                self.book, CHAPTER_SLUG, semantic=False, author_first=False,
-                log=lambda *a: None)
+                self.book, CHAPTER_SLUG, semantic=False, author_first=False, log=lambda *a: None
+            )
         self.assertEqual(res.verdict, "FAILED")
         self.assertGreater(res.p0_remaining, 0)
         self.assertEqual(self.dc.read_verdict(self.book, EPISODE_ID), "FAILED")
 
     def test_semantic_blocked_verdict_blocks(self):
         write_script(self.book, CLEAN_SCRIPT)
-        with mock.patch.object(
-                self.dc, "_semantic_pass",
-                return_value=("BLOCKED", [vd.Finding(
-                    "DLG-SEM-INVENTED", "P0",
-                    "host invents an attribution not in the chapter")])), \
-             mock.patch.object(self.dc, "_fixer_pass"):
+        with (
+            mock.patch.object(
+                self.dc,
+                "_semantic_pass",
+                return_value=(
+                    "BLOCKED",
+                    [vd.Finding("DLG-SEM-INVENTED", "P0", "host invents an attribution not in the chapter")],
+                ),
+            ),
+            mock.patch.object(self.dc, "_fixer_pass"),
+        ):
             res = self.dc.converge_dialogue_script(
-                self.book, CHAPTER_SLUG, semantic=True, author_first=False,
-                log=lambda *a: None)
+                self.book, CHAPTER_SLUG, semantic=True, author_first=False, log=lambda *a: None
+            )
         self.assertEqual(res.verdict, "FAILED")
 
     def test_fixer_timeout_never_aborts_convergence(self):
@@ -269,21 +275,21 @@ class TestConvergence(unittest.TestCase):
         the 900s timeout; the AuthoringError crashed the whole loop. The loop
         must instead re-gate the artifact as it stands."""
         from _authoring._core import AuthoringError
+
         bad = CLEAN_SCRIPT + (
-            "\nHOST_A: The classical Quran commentator the classical Quran commentator "
-            "said this plainly enough.\n")
+            "\nHOST_A: The classical Quran commentator the classical Quran commentator said this plainly enough.\n"
+        )
         write_script(self.book, bad)
 
         def hanging_fixer(book_dir, episode_id, chapter_slug, findings, **kw):
             # Simulate edits-applied-then-timeout: fix the script, then raise.
             write_script(self.book, CLEAN_SCRIPT)
-            raise AuthoringError(phase="audio-script",
-                                 message="LLM call timed out after 900s.")
+            raise AuthoringError(phase="audio-script", message="LLM call timed out after 900s.")
 
         with mock.patch.object(self.dc, "_fixer_pass", side_effect=hanging_fixer):
             res = self.dc.converge_dialogue_script(
-                self.book, CHAPTER_SLUG, semantic=False, author_first=False,
-                log=lambda *a: None)
+                self.book, CHAPTER_SLUG, semantic=False, author_first=False, log=lambda *a: None
+            )
         # The fixed artifact re-gates clean on iteration 2 -> SHIP-READY.
         self.assertEqual(res.verdict, "SHIP-READY")
         self.assertTrue(any("fixer error" in n for n in res.notes))
@@ -291,8 +297,8 @@ class TestConvergence(unittest.TestCase):
     def test_credit_estimate_propagates_to_result(self):
         write_script(self.book, CLEAN_SCRIPT)
         res = self.dc.converge_dialogue_script(
-            self.book, CHAPTER_SLUG, semantic=False, author_first=False,
-            log=lambda *a: None)
+            self.book, CHAPTER_SLUG, semantic=False, author_first=False, log=lambda *a: None
+        )
         turns = ds.parse_dialogue_script(CLEAN_SCRIPT)
         self.assertEqual(res.credit_estimate, ds.script_char_count(turns))
 

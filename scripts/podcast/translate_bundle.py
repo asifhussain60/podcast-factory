@@ -34,6 +34,7 @@ Known limitations:
 - Azure Translator quality on Urdu→English is good but not perfect. Phase 0b
   refine + per-chapter authoring add the polish.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -43,6 +44,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+
 from _paths import REPO_ROOT
 
 WORKSPACE_BOOKS = REPO_ROOT / "content" / "drafts"
@@ -83,11 +85,13 @@ _PLACEHOLDER_RE = re.compile(r'<m\s+id="(\d+)"\s*/>')
 
 def _restore_markers(text: str, markers: list[str]) -> str:
     """Reverse of _protect_markers."""
+
     def _sub(m: re.Match) -> str:
         idx = int(m.group(1))
         if 0 <= idx < len(markers):
             return markers[idx]
         return m.group(0)  # leave alone if out of range
+
     return _PLACEHOLDER_RE.sub(_sub, text)
 
 
@@ -123,13 +127,12 @@ def translate_bundle(slug: str, *, dry_run: bool = False) -> int:
     if not raw_extract.exists():
         return _die(f"raw-extract.md missing at {raw_extract}")
 
-    backup = (
-        book_dir / "_system" / "source" / "text"
-        / f"raw-extract.{source_language}.md"
-    )
+    backup = book_dir / "_system" / "source" / "text" / f"raw-extract.{source_language}.md"
     if backup.exists() and not dry_run:
-        _info(f"==> Existing backup at {backup.relative_to(REPO_ROOT)}; "
-              f"will overwrite raw-extract.md but leave backup intact.")
+        _info(
+            f"==> Existing backup at {backup.relative_to(REPO_ROOT)}; "
+            f"will overwrite raw-extract.md but leave backup intact."
+        )
 
     src_text = raw_extract.read_text(encoding="utf-8")
     _info(f"==> Translating {raw_extract.relative_to(REPO_ROOT)}")
@@ -146,7 +149,7 @@ def translate_bundle(slug: str, *, dry_run: bool = False) -> int:
 
     # Lazy import of _azure so --dry-run works without Azure creds
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    import _azure  # noqa: E402
+    import _azure
 
     try:
         creds = _azure.load_translator_creds()
@@ -155,8 +158,10 @@ def translate_bundle(slug: str, *, dry_run: bool = False) -> int:
 
     t0 = time.monotonic()
     translated_protected = _azure.translate_text(
-        creds, protected,
-        src_lang=source_language, tgt_lang="en",
+        creds,
+        protected,
+        src_lang=source_language,
+        tgt_lang="en",
         text_type="html",
     )
     elapsed = time.monotonic() - t0
@@ -164,8 +169,11 @@ def translate_bundle(slug: str, *, dry_run: bool = False) -> int:
     # F36 (2026-05-25): record Azure Translator spend in cost-ledger.jsonl.
     try:
         from _cost_ledger import append_azure_translator_cost
+
         cost_row = append_azure_translator_cost(
-            book_dir=book_dir, phase="0b", step="translate-bundle/translator",
+            book_dir=book_dir,
+            phase="0b",
+            step="translate-bundle/translator",
             char_count=len(protected),
         )
         _info(f"    Azure cost (translator): ${cost_row.cost_usd:.4f} for {len(protected):,} input chars")
@@ -173,8 +181,7 @@ def translate_bundle(slug: str, *, dry_run: bool = False) -> int:
         _info(f"    WARN: cost-ledger append failed: {_e}")
 
     translated = _restore_markers(translated_protected, markers)
-    restored_count = len(_PLACEHOLDER_RE.findall(translated_protected)) - \
-                     len(_PLACEHOLDER_RE.findall(translated))
+    restored_count = len(_PLACEHOLDER_RE.findall(translated_protected)) - len(_PLACEHOLDER_RE.findall(translated))
     _info(f"    markers restored: {restored_count}/{len(markers)}")
 
     # Backup source-language version (only on first run)
@@ -192,16 +199,18 @@ def translate_bundle(slug: str, *, dry_run: bool = False) -> int:
     state["last_completed_phase"] = "0a"
     state["last_error"] = None
     state["updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    state.setdefault("phases", {}).setdefault("0a", {}).update({
-        "translated_at": now,
-        "translation_provider": "azure",
-        "translation_src_lang": source_language,
-        "translation_tgt_lang": "en",
-        "translation_chars_in": len(src_text),
-        "translation_chars_out": len(translated),
-    })
+    state.setdefault("phases", {}).setdefault("0a", {}).update(
+        {
+            "translated_at": now,
+            "translation_provider": "azure",
+            "translation_src_lang": source_language,
+            "translation_tgt_lang": "en",
+            "translation_chars_in": len(src_text),
+            "translation_chars_out": len(translated),
+        }
+    )
     state_path.write_text(json.dumps(state, indent=2) + "\n")
-    _info(f"    state.json:      phase=0b, last_completed_phase=0a, last_error=null")
+    _info("    state.json:      phase=0b, last_completed_phase=0a, last_error=null")
 
     # Append translator info to _provenance.json
     prov_path = book_dir / "_system" / "source" / "text" / "_provenance.json"
@@ -224,22 +233,21 @@ def translate_bundle(slug: str, *, dry_run: bool = False) -> int:
                 json.dumps(prov, ensure_ascii=False, indent=2) + "\n",
                 encoding="utf-8",
             )
-            _info(f"    provenance:      appended translator block")
+            _info("    provenance:      appended translator block")
         except Exception as e:
             _info(f"    WARN: could not update provenance.json — {e}")
 
     _info("")
     _info("==> DONE. Next:")
     _info(f"    python3 scripts/podcast/orchestrate_book.py --resume {slug}")
-    _info(f"    Pipeline picks up at Phase 0b (refine).")
+    _info("    Pipeline picks up at Phase 0b (refine).")
     return 0
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--slug", required=True, help="Book slug under content/drafts/")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="Validate state + count markers; skip Azure call + writes.")
+    ap.add_argument("--dry-run", action="store_true", help="Validate state + count markers; skip Azure call + writes.")
     args = ap.parse_args()
     return translate_bundle(args.slug, dry_run=args.dry_run)
 

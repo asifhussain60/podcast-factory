@@ -4,6 +4,7 @@ Detects that the plan-dashboard has:
   - A single design-token stylesheet with all required CSS custom properties
   - A routed SPA entry page with the hub-grid navigation structure
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -50,10 +51,7 @@ def is_done(repo_root: Path | None = None) -> bool:
         return False
     tok_text = tokens.read_text()
     shell_text = shell.read_text()
-    return (
-        all(m in tok_text for m in _TOKENS_MARKERS)
-        and all(m in shell_text for m in _SHELL_MARKERS)
-    )
+    return all(m in tok_text for m in _TOKENS_MARKERS) and all(m in shell_text for m in _SHELL_MARKERS)
 
 
 def execute(repo_root: Path | None = None) -> PhaseResult:
@@ -80,20 +78,16 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
 
     if missing:
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
-            message=(
-                "Design-system tokens or SPA shell incomplete:\n  "
-                + "\n  ".join(missing)
-            ),
+            phase_id=PHASE_ID,
+            status="halted",
+            message=("Design-system tokens or SPA shell incomplete:\n  " + "\n  ".join(missing)),
             evidence_paths=[str(tokens), str(shell)],
         )
 
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
-        message=(
-            "Design-system tokens (theme.css) and SPA hub shell (index.astro) "
-            "present with all required markers."
-        ),
+        phase_id=PHASE_ID,
+        status="done",
+        message=("Design-system tokens (theme.css) and SPA hub shell (index.astro) present with all required markers."),
         rows_marked=[PHASE_ID],
         evidence_paths=[str(tokens), str(shell)],
     )

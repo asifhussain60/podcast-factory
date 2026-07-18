@@ -38,21 +38,18 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
-import subprocess
 import sys
-import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
-from _paths import REPO_ROOT, resolve_content  # noqa: E402
+from _paths import REPO_ROOT, resolve_content
 
 # Claude Sonnet pricing (approximate)
-C_IN  = 0.000_000_75   # $/char (~$3/M tokens, ~4 chars/token)
-C_OUT = 0.000_003_75   # $/char (~$15/M tokens)
+C_IN = 0.000_000_75  # $/char (~$3/M tokens, ~4 chars/token)
+C_OUT = 0.000_003_75  # $/char (~$15/M tokens)
 
 TARGET_WORDS_DEFAULT = 4500
 
@@ -96,8 +93,8 @@ Aim for 5–7 episodes. Prioritise coherence over perfect word-count balance —
 def _load_claude_key() -> str:
     # Vault-deterministic (llm-anthropic-api-key).
     from _secrets import get_anthropic_key
-    return get_anthropic_key()
 
+    return get_anthropic_key()
 
 
 def _claude_segment(unified_text: str, target_words: int) -> dict:
@@ -148,7 +145,9 @@ def _log_cost(slug: str, entry: dict) -> None:
     p.write_text(json.dumps(led, indent=2) + "\n")
 
 
-def segment(slug: str, *, target_words: int = TARGET_WORDS_DEFAULT, dry_run: bool = False, force: bool = False) -> list[Path]:
+def segment(
+    slug: str, *, target_words: int = TARGET_WORDS_DEFAULT, dry_run: bool = False, force: bool = False
+) -> list[Path]:
     book_dir = resolve_content(slug)
     unified_path = book_dir / "_system" / "unified-book.md"
     out_dir = book_dir.parent.parent / "books" / slug / "chapters-wc8"  # same tree as chapters/
@@ -161,7 +160,7 @@ def segment(slug: str, *, target_words: int = TARGET_WORDS_DEFAULT, dry_run: boo
     augmented_path = book_dir / "_system" / "unified-augmented.md"
     if augmented_path.exists():
         unified_path = augmented_path
-        print(f"  Using unified-augmented.md (wisdom corpus enrichment applied)")
+        print("  Using unified-augmented.md (wisdom corpus enrichment applied)")
     elif not unified_path.exists():
         raise FileNotFoundError(
             f"Neither unified-augmented.md nor unified-book.md found at {book_dir / '_system'}. "
@@ -169,16 +168,17 @@ def segment(slug: str, *, target_words: int = TARGET_WORDS_DEFAULT, dry_run: boo
         )
 
     if out_dir.exists() and list(out_dir.glob("ch*.txt")) and not force:
-        print(f"  chapters-wc8/ already populated — skip (--force to re-segment)")
+        print("  chapters-wc8/ already populated — skip (--force to re-segment)")
         return sorted(out_dir.glob("ch*.txt"))
 
     unified_text = unified_path.read_text(encoding="utf-8")
     total_words = len(unified_text.split())
     estimated_episodes = max(1, round(total_words / target_words))
 
-    print(f"  Unified text: {total_words:,} words → targeting {target_words:,}w/episode "
-          f"(~{estimated_episodes} episodes)")
-    print(f"  Calling Claude Sonnet for holistic segmentation…", end="", flush=True)
+    print(
+        f"  Unified text: {total_words:,} words → targeting {target_words:,}w/episode (~{estimated_episodes} episodes)"
+    )
+    print("  Calling Claude Sonnet for holistic segmentation…", end="", flush=True)
 
     if dry_run:
         print(" (dry-run)")
@@ -216,12 +216,19 @@ def segment(slug: str, *, target_words: int = TARGET_WORDS_DEFAULT, dry_run: boo
         out_path.write_text(header + chapter_text + "\n", encoding="utf-8")
         output_paths.append(out_path)
 
-        report_episodes.append({
-            "number": n, "slug": ep_slug, "title": title,
-            "sections": sections, "word_count": word_count, "file": fname,
-            "theme": ep.get("theme", ""), "opening_tension": ep.get("opening_tension", ""),
-            "closing_resolution": ep.get("closing_resolution", ""),
-        })
+        report_episodes.append(
+            {
+                "number": n,
+                "slug": ep_slug,
+                "title": title,
+                "sections": sections,
+                "word_count": word_count,
+                "file": fname,
+                "theme": ep.get("theme", ""),
+                "opening_tension": ep.get("opening_tension", ""),
+                "closing_resolution": ep.get("closing_resolution", ""),
+            }
+        )
         print(f"  EP{n:02d} {fname}: {word_count:,}w  ({', '.join(str(s) for s in sections)} sections)")
 
     report = {
@@ -235,14 +242,17 @@ def segment(slug: str, *, target_words: int = TARGET_WORDS_DEFAULT, dry_run: boo
     }
     report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
-    _log_cost(slug, {
-        "ts": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-        "op": "segment_book",
-        "service": "claude/claude-sonnet-4-6",
-        "in_chars": len(unified_text),
-        "out_chars": 2000,
-        "cost_usd": cost,
-    })
+    _log_cost(
+        slug,
+        {
+            "ts": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "op": "segment_book",
+            "service": "claude/claude-sonnet-4-6",
+            "in_chars": len(unified_text),
+            "out_chars": 2000,
+            "cost_usd": cost,
+        },
+    )
 
     return output_paths
 
@@ -250,8 +260,12 @@ def segment(slug: str, *, target_words: int = TARGET_WORDS_DEFAULT, dry_run: boo
 def main() -> None:
     ap = argparse.ArgumentParser(description="WC8 holistic segmentation — unified book → episodes.")
     ap.add_argument("--slug", required=True)
-    ap.add_argument("--target-words", type=int, default=TARGET_WORDS_DEFAULT,
-                    help=f"Target words per episode (default: {TARGET_WORDS_DEFAULT})")
+    ap.add_argument(
+        "--target-words",
+        type=int,
+        default=TARGET_WORDS_DEFAULT,
+        help=f"Target words per episode (default: {TARGET_WORDS_DEFAULT})",
+    )
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--force", action="store_true")
     args = ap.parse_args()

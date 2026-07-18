@@ -1,4 +1,5 @@
 """P6.3 phase runner — encyclopedic-epistolary spec has 7 Rasāʾil-specific meta fields."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -11,9 +12,7 @@ DESCRIPTION = "Encyclopedic-epistolary spec updated with 7 Rasāʾil-specific me
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
 SPEC_PATH = (
-    Path(__file__).resolve().parents[3]
-    / "content" / "_shared" / "archetypes"
-    / "encyclopedic-epistolary" / "spec.yml"
+    Path(__file__).resolve().parents[3] / "content" / "_shared" / "archetypes" / "encyclopedic-epistolary" / "spec.yml"
 )
 
 REQUIRED_FIELDS = [

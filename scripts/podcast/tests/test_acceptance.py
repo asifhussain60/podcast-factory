@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Tests for scripts/podcast/_acceptance.py — the auto-marking helper."""
+
 from __future__ import annotations
 
 import sys
@@ -10,8 +11,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _acceptance  # noqa: E402
-
+import _acceptance
 
 SAMPLE = """\
 # Acceptance Criteria
@@ -96,9 +96,7 @@ class MarkTaskRowsTests(unittest.TestCase):
 
 class MarkInFileTests(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.NamedTemporaryFile(
-            mode="w", suffix=".md", delete=False, encoding="utf-8"
-        )
+        self.tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False, encoding="utf-8")
         self.tmp.write(SAMPLE)
         self.tmp.close()
         self.path = Path(self.tmp.name)
@@ -124,17 +122,25 @@ class MarkInFileTests(unittest.TestCase):
 class AppendEvidenceTests(unittest.TestCase):
     def test_appends_to_matching_row(self):
         new = _acceptance.append_evidence(
-            SAMPLE, "P1.1", text_contains="first bullet",
+            SAMPLE,
+            "P1.1",
+            text_contains="first bullet",
             evidence="verified by test_x",
         )
         self.assertIn("first bullet — verified by test_x", new)
 
     def test_idempotent_already_appended(self):
         once = _acceptance.append_evidence(
-            SAMPLE, "P1.1", text_contains="first bullet", evidence="verified-X",
+            SAMPLE,
+            "P1.1",
+            text_contains="first bullet",
+            evidence="verified-X",
         )
         twice = _acceptance.append_evidence(
-            once, "P1.1", text_contains="first bullet", evidence="verified-X",
+            once,
+            "P1.1",
+            text_contains="first bullet",
+            evidence="verified-X",
         )
         self.assertEqual(once, twice)
 

@@ -2,6 +2,7 @@
 
 Extracted from _authoring.py (A4 split).
 """
+
 from __future__ import annotations
 
 import sys
@@ -9,17 +10,18 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from ._core import (  # noqa: E402
+from _chunking import ChunkingError, concat_outputs, make_sdk_invoke_fn, run_windowed
+
+from ._core import (
+    ARABIC_SCHOLARLY_CATEGORIES,
     DEFAULT_TIMEOUT,
-    PHASE_0B_WINDOW_WORDS,
     PHASE_0B_OVERLAP_WORDS,
     PHASE_0B_WINDOW_TIMEOUT,
-    AuthoringError,
-    ARABIC_SCHOLARLY_CATEGORIES,
+    PHASE_0B_WINDOW_WORDS,
     SKIP_PHONETICS_CATEGORIES,
+    AuthoringError,
     _read_category,
 )
-from _chunking import ChunkingError, concat_outputs, run_windowed, make_sdk_invoke_fn  # noqa: E402
 
 
 def build_phase_0b_window_prompt_technical(
@@ -227,13 +229,17 @@ def author_phase_0b(
     # narrative prompt; every other profile keeps its prior category-based routing
     # byte-for-byte (no regression to Islamic / technical / sites / Guides books).
     from _content_profile import resolve_content_profile  # local import: avoid circularity
+
     _profile = resolve_content_profile(book_dir)
     _is_fiction = _profile == "fiction"
     _use_technical = (not _is_fiction) and category not in ARABIC_SCHOLARLY_CATEGORIES and category != "sites"
     _prompt_label = (
-        "narrative" if _is_fiction
-        else "technical" if _use_technical
-        else "consumer" if category == "sites"
+        "narrative"
+        if _is_fiction
+        else "technical"
+        if _use_technical
+        else "consumer"
+        if category == "sites"
         else "scholarly"
     )
     log(f"  phase 0b · category={category!r}, content_profile={_profile!r}, prompt-variant={_prompt_label!r}")
@@ -249,10 +255,10 @@ def author_phase_0b(
             return build_phase_0b_window_prompt_narrative(book_slug, idx, total, win_in, win_out)
         if _use_technical:
             return build_phase_0b_window_prompt_technical(book_slug, idx, total, win_in, win_out)
-        return build_phase_0b_window_prompt(
-            book_slug, idx, total, win_in, win_out, de_calque=_de_calque)
+        return build_phase_0b_window_prompt(book_slug, idx, total, win_in, win_out, de_calque=_de_calque)
 
     import os as _os
+
     _max_workers = int(_os.environ.get("PHASE_0B_MAX_WORKERS", "3"))
     _model = _os.environ.get("PHASE_0B_MODEL", "claude-sonnet-4-6")
     log(f"  phase 0b · chunked refinement (parallel max_workers={_max_workers})")
@@ -275,7 +281,8 @@ def author_phase_0b(
         raise AuthoringError(
             phase="0b",
             message=str(e),
-            manual_fallback=e.manual_fallback or (
+            manual_fallback=e.manual_fallback
+            or (
                 "1. Inspect _chunks/0b/win-*.in.md and drive failed windows via /podcast.\n"
                 "2. Drop each result at _chunks/0b/win-NNN.out.md.\n"
                 "3. Re-invoke orchestrate-book --resume."
@@ -305,8 +312,9 @@ def author_phase_0b(
     # the findings ledger; NEVER raises, NEVER blocks. Zero LLM cost.
     try:
         from ._artifact_convergence import run_0b_precheck
+
         run_0b_precheck(book_dir, log=log)
-    except Exception as _e:  # noqa: BLE001 — a precheck must never break 0b
+    except Exception as _e:
         log(f"  phase 0b · precheck skipped (non-fatal: {_e!r})")
 
     return f"0b chunked: {len(out_paths)} windows merged into {out_path.name}"
@@ -338,6 +346,7 @@ def author_phase_0c(
         return f"0c skipped: category={category!r} does not require glossary scaffold"
 
     from _content_profile import is_islamic_scholarly, resolve_content_profile  # local import to avoid circularity
+
     if not is_islamic_scholarly(book_dir):
         profile = resolve_content_profile(book_dir)
         log(f"  phase 0c · SKIPPED (content_profile={profile!r} has no Arabic terms)")
@@ -370,12 +379,9 @@ def _bake_glossary(book_dir: Path, *, log=print) -> str:
     return f" + glossary: {' + '.join(msg_parts)}"
 
 
-
-
 def _run(argv: list[str]) -> tuple[int, str, str]:
     """Local shellout helper."""
     import subprocess as _sp
+
     proc = _sp.run(argv, capture_output=True, text=True)
     return proc.returncode, proc.stdout, proc.stderr
-
-

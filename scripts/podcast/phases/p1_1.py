@@ -4,6 +4,7 @@ Idempotent. is_done() runs `_boundary_check.py` as a subprocess; exit 0
 means clean tree, so the row stays checked. Re-execution on a clean tree
 is a no-op.
 """
+
 from __future__ import annotations
 
 import subprocess
@@ -77,10 +78,7 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
         return PhaseResult(
             phase_id=PHASE_ID,
             status="halted",
-            message=(
-                f"Boundary violations detected. Resolve before W1 can complete:\n"
-                f"{proc.stderr.strip()}"
-            ),
+            message=(f"Boundary violations detected. Resolve before W1 can complete:\n{proc.stderr.strip()}"),
             evidence_paths=[str(target)],
         )
 

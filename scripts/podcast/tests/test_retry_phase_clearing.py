@@ -6,6 +6,7 @@
 otherwise re-running 0d on a completed book leaves per-chapter/finalize/
 0book-* marked completed and the re-run silently no-ops.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,7 +16,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-from phases.resume_dispatcher import _clear_downstream_phases  # noqa: E402
+from phases.resume_dispatcher import _clear_downstream_phases
 
 
 def _completed_book_state() -> dict:
@@ -63,11 +64,21 @@ class RetryPhaseClearingTests(unittest.TestCase):
         self.assertEqual(state["phases"]["0d"]["status"], "pending")
         self.assertNotIn("ts_completed", state["phases"]["0d"])
 
-        for later in ("0e", "0f", "0g", "per-chapter", "finalize",
-                      "0book-design", "0book-compose", "0book-illustrate",
-                      "0book-render", "publish"):
+        for later in (
+            "0e",
+            "0f",
+            "0g",
+            "per-chapter",
+            "finalize",
+            "0book-design",
+            "0book-compose",
+            "0book-illustrate",
+            "0book-render",
+            "publish",
+        ):
             self.assertEqual(
-                state["phases"][later]["status"], "pending",
+                state["phases"][later]["status"],
+                "pending",
                 f"{later} should be cleared to pending",
             )
 
@@ -81,7 +92,8 @@ class RetryPhaseClearingTests(unittest.TestCase):
         _clear_downstream_phases(state, "0d", log=lambda *_: None)
         for earlier in ("pre-flight", "branch", "scaffold", "0a", "0b", "0c"):
             self.assertEqual(
-                state["phases"][earlier]["status"], "completed",
+                state["phases"][earlier]["status"],
+                "completed",
                 f"{earlier} must not be touched",
             )
 

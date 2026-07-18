@@ -23,6 +23,7 @@ This module intentionally re-implements a tiny YAML reader instead of importing
 authoring stack at import time, and the knob readers must stay cheap enough to
 call from anywhere (drivers, validators, tests) without side effects.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -52,7 +53,7 @@ def _read_series_config(book_dir: Path) -> dict[str, Any]:
         return {}
     try:
         data = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
-    except Exception:  # noqa: BLE001 — a malformed config must never crash a reader
+    except Exception:
         return {}
     return data if isinstance(data, dict) else {}
 

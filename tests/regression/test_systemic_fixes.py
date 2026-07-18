@@ -56,6 +56,7 @@ def _read_authoring_src() -> str:
 
 # ─── Shared helpers ─────────────────────────────────────────────────────────
 
+
 def _stub_contract() -> dict:
     """Minimal valid contract that exercises both deep_dive and debate paths."""
     return {
@@ -80,15 +81,18 @@ def _stub_contract() -> dict:
 
 def _fake_resolved_chapter() -> object:
     """Minimal duck for ResolvedChapter."""
+
     class _R:
         path = Path("/tmp/test-chapter.txt")
         source_bucket = "fixture-book"
         chapter_number = 1
         chapter_slug = "test-chapter"
+
     return _R()
 
 
 # ─── AUDITOR P0 #1 — "deep dive" / "deep-dive" substring trap ──────────────
+
 
 class TestNoModernizeSubstringsInTemplate(unittest.TestCase):
     """Both the template-rendered framing AND the authoring prompt must NOT
@@ -98,6 +102,7 @@ class TestNoModernizeSubstringsInTemplate(unittest.TestCase):
 
     def setUp(self):
         from _rules import MODERNIZE_DENY
+
         # Normalize: include both hyphenated and spaced variants of any
         # multi-word entry. Today the deny list inconsistently carries one
         # or the other; tomorrow's audit will pin both.
@@ -111,17 +116,17 @@ class TestNoModernizeSubstringsInTemplate(unittest.TestCase):
 
     def test_extract_template_no_modernize_substrings(self):
         import extract_chapter
+
         c = _stub_contract()
         chapter = _fake_resolved_chapter()
         for mode in ("deep_dive", "debate"):
             c["episode_format"] = mode
             if mode == "debate":
                 c["debate"] = {
-                    "proposition": "P", "resolution": "open",
-                    "host_a": {"role": "scholar", "position": "X",
-                               "source_moves": ["m1"]},
-                    "host_b": {"role": "debater", "position": "Y",
-                               "source_moves": ["m1"]},
+                    "proposition": "P",
+                    "resolution": "open",
+                    "host_a": {"role": "scholar", "position": "X", "source_moves": ["m1"]},
+                    "host_b": {"role": "debater", "position": "Y", "source_moves": ["m1"]},
                 }
             rendered = extract_chapter.render_framing(c, chapter, 1)
             # Mirror build_episode_txt's scrubbing: strip the canonical
@@ -137,14 +142,16 @@ class TestNoModernizeSubstringsInTemplate(unittest.TestCase):
             rendered_lc = rendered_scrubbed.lower()
             for term in self.modernize_terms:
                 self.assertNotIn(
-                    term.lower(), rendered_lc,
+                    term.lower(),
+                    rendered_lc,
                     f"{mode} framing template emits MODERNIZE_DENY substring "
                     f"{term!r} OUTSIDE the canonical `## Do not` section "
-                    f"(R-NO-MODERNIZE-IN-METADATA)"
+                    f"(R-NO-MODERNIZE-IN-METADATA)",
                 )
 
 
 # ─── AUDITOR P0 #2 — Q4 host-pairing constants must be consumed ────────────
+
 
 class TestHostRoleValidator(unittest.TestCase):
     """Q4 host-role parity must be a HARD deterministic gate in
@@ -158,12 +165,11 @@ class TestHostRoleValidator(unittest.TestCase):
         # build_episode_txt.py re-exports via `from _validators import *`.
         validators_src = (SCRIPTS_PODCAST / "_validators.py").read_text()
         self.assertIn(
-            "HOST_A_ROLES_SCHOLAR", validators_src,
-            "_validators.py must import HOST_A_ROLES_SCHOLAR from _rules"
+            "HOST_A_ROLES_SCHOLAR", validators_src, "_validators.py must import HOST_A_ROLES_SCHOLAR from _rules"
         )
         self.assertTrue(
             re.search(r"def validate_host_role_parity\b", validators_src),
-            "_validators.py must define validate_host_role_parity()"
+            "_validators.py must define validate_host_role_parity()",
         )
 
     def test_host_role_validator_catches_swap(self):
@@ -180,10 +186,7 @@ class TestHostRoleValidator(unittest.TestCase):
             }
         }
         result = validate_host_role_parity(ok_contract)
-        self.assertEqual(
-            result, [],
-            "canonical pairing should produce no findings"
-        )
+        self.assertEqual(result, [], "canonical pairing should produce no findings")
         swap_contract = {
             "debate": {
                 "host_a": {"role": "debater"},
@@ -191,13 +194,11 @@ class TestHostRoleValidator(unittest.TestCase):
             }
         }
         result = validate_host_role_parity(swap_contract)
-        self.assertTrue(
-            len(result) > 0,
-            "swapped pairing should produce at least one finding"
-        )
+        self.assertTrue(len(result) > 0, "swapped pairing should produce at least one finding")
 
 
 # ─── AUDITOR Obs #9 — agent specs must not contain literal forbidden phrases ─
+
 
 class TestAgentSpecsNoLiteralForbiddenPhrases(unittest.TestCase):
     """Agent specs are READ by the challenger at runtime. If they contain the
@@ -221,23 +222,22 @@ class TestAgentSpecsNoLiteralForbiddenPhrases(unittest.TestCase):
             text = spec.read_text(encoding="utf-8")
             if self.FORBIDDEN_LITERAL in text:
                 lines = [
-                    f"  {spec.name}:{i+1}  {line.strip()[:120]}"
+                    f"  {spec.name}:{i + 1}  {line.strip()[:120]}"
                     for i, line in enumerate(text.splitlines())
                     if self.FORBIDDEN_LITERAL in line
                 ]
-                offenders.append(
-                    f"{spec.relative_to(REPO_ROOT)}: {len(lines)} occurrence(s)\n"
-                    + "\n".join(lines[:3])
-                )
+                offenders.append(f"{spec.relative_to(REPO_ROOT)}: {len(lines)} occurrence(s)\n" + "\n".join(lines[:3]))
         self.assertEqual(
-            offenders, [],
+            offenders,
+            [],
             f"agent specs contain literal {self.FORBIDDEN_LITERAL!r} — "
             f"paraphrase per R-NO-LITERAL-FORBIDDEN-PHRASE-IN-GUARDS. "
-            f"Offenders:\n" + "\n\n".join(offenders)
+            f"Offenders:\n" + "\n\n".join(offenders),
         )
 
 
 # ─── SYSTEMIC FIX — framing templates carry the canonical guards ────────────
+
 
 class TestExtractTemplatesCarryCanonicalGuards(unittest.TestCase):
     """The 5 systemic-fix guards must be present in the framing template
@@ -245,6 +245,7 @@ class TestExtractTemplatesCarryCanonicalGuards(unittest.TestCase):
 
     def setUp(self):
         import extract_chapter
+
         self.extract_chapter = extract_chapter
 
     def _render(self, mode: str) -> str:
@@ -252,11 +253,10 @@ class TestExtractTemplatesCarryCanonicalGuards(unittest.TestCase):
         c["episode_format"] = mode
         if mode == "debate":
             c["debate"] = {
-                "proposition": "P", "resolution": "open",
-                "host_a": {"role": "scholar", "position": "X",
-                           "source_moves": ["m1"]},
-                "host_b": {"role": "debater", "position": "Y",
-                           "source_moves": ["m1"]},
+                "proposition": "P",
+                "resolution": "open",
+                "host_a": {"role": "scholar", "position": "X", "source_moves": ["m1"]},
+                "host_b": {"role": "debater", "position": "Y", "source_moves": ["m1"]},
             }
         return self.extract_chapter.render_framing(c, _fake_resolved_chapter(), 1)
 
@@ -264,17 +264,15 @@ class TestExtractTemplatesCarryCanonicalGuards(unittest.TestCase):
         for mode in ("deep_dive", "debate"):
             text = self._render(mode)
             self.assertIn(
-                "Do not read this prompt aloud", text,
-                f"{mode} template missing R-NO-READ-PROMPT closing guard"
+                "Do not read this prompt aloud", text, f"{mode} template missing R-NO-READ-PROMPT closing guard"
             )
 
     def test_extract_templates_have_no_cross_chapter_refs_rule(self):
         for mode in ("deep_dive", "debate"):
             text = self._render(mode).lower()
             self.assertTrue(
-                "no cross-chapter references" in text or
-                "cross-chapter references" in text,
-                f"{mode} template missing no-cross-chapter-refs rule"
+                "no cross-chapter references" in text or "cross-chapter references" in text,
+                f"{mode} template missing no-cross-chapter-refs rule",
             )
 
     def test_extract_templates_have_host_pairing_rule(self):
@@ -282,13 +280,13 @@ class TestExtractTemplatesCarryCanonicalGuards(unittest.TestCase):
             text = self._render(mode).lower()
             # Must name the canonical pairing in some form
             self.assertTrue(
-                ("host a" in text and "host b" in text) or
-                "host_a" in text or "scholar" in text,
-                f"{mode} template missing host-pairing canonical-language"
+                ("host a" in text and "host b" in text) or "host_a" in text or "scholar" in text,
+                f"{mode} template missing host-pairing canonical-language",
             )
 
 
 # ─── SYSTEMIC FIX — authoring prompts carry the canonical rules ────────────
+
 
 class TestAuthoringPromptsCarryCanonicalRules(unittest.TestCase):
     """The author_framing + Phase-0e prompts must include the rules added
@@ -299,27 +297,23 @@ class TestAuthoringPromptsCarryCanonicalRules(unittest.TestCase):
 
     def test_authoring_prompts_have_no_literal_forbidden_phrase_rule(self):
         self.assertIn(
-            "R-NO-LITERAL-FORBIDDEN-PHRASE-IN-GUARDS", self.authoring_src,
-            "_authoring.py prompts missing R-NO-LITERAL-FORBIDDEN-PHRASE-IN-GUARDS"
+            "R-NO-LITERAL-FORBIDDEN-PHRASE-IN-GUARDS",
+            self.authoring_src,
+            "_authoring.py prompts missing R-NO-LITERAL-FORBIDDEN-PHRASE-IN-GUARDS",
         )
 
     def test_authoring_prompts_have_no_cross_chapter_refs_rule(self):
         self.assertIn(
-            "R-NO-CROSS-CHAPTER-REFS", self.authoring_src,
-            "_authoring.py prompts missing R-NO-CROSS-CHAPTER-REFS"
+            "R-NO-CROSS-CHAPTER-REFS", self.authoring_src, "_authoring.py prompts missing R-NO-CROSS-CHAPTER-REFS"
         )
 
     def test_authoring_prompts_have_no_modernize_in_metadata_rule(self):
         self.assertIn(
-            "R-NO-MODERNIZE-IN-METADATA", self.authoring_src,
-            "_authoring.py prompts missing R-NO-MODERNIZE-IN-METADATA"
+            "R-NO-MODERNIZE-IN-METADATA", self.authoring_src, "_authoring.py prompts missing R-NO-MODERNIZE-IN-METADATA"
         )
 
     def test_authoring_prompts_have_host_role_parity_rule(self):
-        self.assertIn(
-            "R-HOST-ROLE-PARITY", self.authoring_src,
-            "_authoring.py prompts missing R-HOST-ROLE-PARITY"
-        )
+        self.assertIn("R-HOST-ROLE-PARITY", self.authoring_src, "_authoring.py prompts missing R-HOST-ROLE-PARITY")
 
     def test_authoring_prompts_no_literal_forbidden_phrase(self):
         """The prompts THEMSELVES must not embed the literal forbidden
@@ -334,14 +328,15 @@ class TestAuthoringPromptsCarryCanonicalRules(unittest.TestCase):
             if "Imam Ali" in line:
                 offending_lines.append(f"  line {i}: {line.strip()[:120]}")
         self.assertEqual(
-            offending_lines, [],
+            offending_lines,
+            [],
             "scripts/podcast/_authoring.py contains literal 'Imam Ali' in "
-            "prompt text — paraphrase per R-NO-LITERAL-FORBIDDEN-PHRASE-IN-GUARDS"
-            + "\n".join(offending_lines[:5])
+            "prompt text — paraphrase per R-NO-LITERAL-FORBIDDEN-PHRASE-IN-GUARDS" + "\n".join(offending_lines[:5]),
         )
 
 
 # ─── STILL OPEN #5 — no stale handbook paths in extract_chapter.py ─────────
+
 
 class TestNoStaleHandbookPaths(unittest.TestCase):
     """The content/podcast/.skill/handbook/ tree was retired 2026-05-23.
@@ -360,17 +355,16 @@ class TestNoStaleHandbookPaths(unittest.TestCase):
                 # Skip if the line is clearly a comment about the retirement
                 stripped = line.strip()
                 if stripped.startswith("#") and (
-                    "retired" in stripped.lower() or
-                    "deleted" in stripped.lower() or
-                    "no longer" in stripped.lower()
+                    "retired" in stripped.lower() or "deleted" in stripped.lower() or "no longer" in stripped.lower()
                 ):
                     continue
                 offending.append(f"  line {i}: {stripped[:120]}")
         self.assertEqual(
-            offending, [],
+            offending,
+            [],
             "scripts/podcast/extract_chapter.py contains stale handbook paths "
             "(retired 2026-05-23). Either restore the tree or rewrite to "
-            "current authority:\n" + "\n".join(offending[:10])
+            "current authority:\n" + "\n".join(offending[:10]),
         )
 
 
@@ -382,10 +376,12 @@ class TestMetaProseTellsAllowRuleExamples(unittest.TestCase):
 
     def setUp(self):
         import build_episode_txt
+
         self.B = build_episode_txt
 
     def test_rule_example_line_recognized(self):
         from _validator_constants import _is_rule_example_line
+
         # Real rule statement with quoted tells
         line = '- **Cross-episode language.** No "previous episode," "next episode."'
         self.assertTrue(_is_rule_example_line(line, "previous episode"))
@@ -393,13 +389,15 @@ class TestMetaProseTellsAllowRuleExamples(unittest.TestCase):
 
     def test_unquoted_tell_still_caught(self):
         from _validator_constants import _is_rule_example_line
+
         # Tell appearing OUTSIDE quotes on a rule bullet = real leak
-        line = '- **Bad bullet.** As we said in the previous episode, …'
+        line = "- **Bad bullet.** As we said in the previous episode, …"
         self.assertFalse(_is_rule_example_line(line, "previous episode"))
 
     def test_non_bullet_line_with_tell_is_real(self):
         from _validator_constants import _is_rule_example_line
-        line = 'As discussed in the previous episode, this matters.'
+
+        line = "As discussed in the previous episode, this matters."
         self.assertFalse(_is_rule_example_line(line, "previous episode"))
 
     def test_assert_no_meta_prose_skips_rule_example_tells(self):
@@ -414,15 +412,9 @@ class TestMetaProseTellsAllowRuleExamples(unittest.TestCase):
 """
         # Should not raise SystemExit
         try:
-            self.B.assert_no_meta_prose(
-                fragment, Path("/tmp/test-framing.md"),
-                "framing (CUSTOMIZE PROMPT)"
-            )
+            self.B.assert_no_meta_prose(fragment, Path("/tmp/test-framing.md"), "framing (CUSTOMIZE PROMPT)")
         except SystemExit as e:
-            self.fail(
-                f"assert_no_meta_prose raised SystemExit on legitimate "
-                f"rule-example tells: {e}"
-            )
+            self.fail(f"assert_no_meta_prose raised SystemExit on legitimate rule-example tells: {e}")
 
 
 class TestPipelineLintExists(unittest.TestCase):
@@ -434,19 +426,20 @@ class TestPipelineLintExists(unittest.TestCase):
 
     def test_pipeline_lint_module_importable(self):
         import pipeline_lint
+
         self.assertTrue(
             hasattr(pipeline_lint, "lint_chapter_and_framing"),
-            "pipeline_lint.lint_chapter_and_framing() must be the public API"
+            "pipeline_lint.lint_chapter_and_framing() must be the public API",
         )
 
     def test_pipeline_lint_returns_structured_verdict(self):
-        import pipeline_lint
         # Confirm the function signature accepts (book_dir, episode_id) — even
         # if the book doesn't exist (we just want it to not crash on import).
         from pathlib import Path as _P
-        result = pipeline_lint.lint_chapter_and_framing(
-            _P("/nonexistent-book-dir"), "EP01-test"
-        )
+
+        import pipeline_lint
+
+        result = pipeline_lint.lint_chapter_and_framing(_P("/nonexistent-book-dir"), "EP01-test")
         self.assertIn("verdict", result)
         self.assertIn("findings", result)
 
@@ -472,18 +465,12 @@ class TestAuthoringPromptHasCanonicalSections(unittest.TestCase):
     def test_authoring_prompt_names_canonical_sections(self):
         src = _read_authoring_src()
         for header in self.REQUIRED_CANONICAL_HEADERS:
-            self.assertIn(
-                header, src,
-                f"_authoring.py prompt must require canonical header {header!r}"
-            )
+            self.assertIn(header, src, f"_authoring.py prompt must require canonical header {header!r}")
 
     def test_authoring_prompt_names_required_deny_phrases(self):
         src = _read_authoring_src()
         for phrase in self.REQUIRED_LITERAL_PHRASES_IN_PROMPT:
-            self.assertIn(
-                phrase, src,
-                f"_authoring.py prompt must reference required DENY phrase {phrase!r}"
-            )
+            self.assertIn(phrase, src, f"_authoring.py prompt must reference required DENY phrase {phrase!r}")
 
 
 class TestExtractTemplateEmitsDenyBlock(unittest.TestCase):
@@ -493,26 +480,28 @@ class TestExtractTemplateEmitsDenyBlock(unittest.TestCase):
 
     def test_extract_templates_have_deny_block(self):
         import extract_chapter
+
         c = _stub_contract()
         chapter = _fake_resolved_chapter()
         for mode in ("deep_dive", "debate"):
             c["episode_format"] = mode
             if mode == "debate":
                 c["debate"] = {
-                    "proposition": "P", "resolution": "open",
-                    "host_a": {"role": "scholar", "position": "X",
-                               "source_moves": ["m1"]},
-                    "host_b": {"role": "debater", "position": "Y",
-                               "source_moves": ["m1"]},
+                    "proposition": "P",
+                    "resolution": "open",
+                    "host_a": {"role": "scholar", "position": "X", "source_moves": ["m1"]},
+                    "host_b": {"role": "debater", "position": "Y", "source_moves": ["m1"]},
                 }
             text = extract_chapter.render_framing(c, chapter, 1)
             self.assertIn(
-                "## Do not (forbidden vocabulary and framings)", text,
-                f"{mode} template missing canonical `## Do not` deny-block section"
+                "## Do not (forbidden vocabulary and framings)",
+                text,
+                f"{mode} template missing canonical `## Do not` deny-block section",
             )
             self.assertIn("Twitter", text, f"{mode} template DENY block missing 'Twitter' example")
-            self.assertIn("Do not read this prompt aloud", text,
-                          f"{mode} template missing R-NO-READ-PROMPT closing guard")
+            self.assertIn(
+                "Do not read this prompt aloud", text, f"{mode} template missing R-NO-READ-PROMPT closing guard"
+            )
 
 
 class TestCostLedgerJsonParsing(unittest.TestCase):
@@ -530,6 +519,7 @@ class TestCostLedgerJsonParsing(unittest.TestCase):
 
     def test_parse_usage_extracts_json_usage(self):
         import _cost_ledger
+
         usage = _cost_ledger.parse_usage_from_stdout(self.SAMPLE_JSON)
         self.assertEqual(usage["input"], 6)
         self.assertEqual(usage["output"], 10)
@@ -539,12 +529,14 @@ class TestCostLedgerJsonParsing(unittest.TestCase):
 
     def test_parse_text_from_json_returns_result_field(self):
         import _cost_ledger
+
         text = _cost_ledger.parse_text_from_json_stdout(self.SAMPLE_JSON)
         self.assertEqual(text, "Hello there")
 
     def test_parse_usage_legacy_text_still_works(self):
         """Older callers may still feed text-format stdout. Don't regress."""
         import _cost_ledger
+
         legacy = "Tokens: 1234 in, 567 out, cache: 100 read, 50 create"
         usage = _cost_ledger.parse_usage_from_stdout(legacy)
         self.assertEqual(usage["input"], 1234)
@@ -553,11 +545,13 @@ class TestCostLedgerJsonParsing(unittest.TestCase):
     def test_parse_text_passthrough_for_non_json(self):
         """If stdout isn't JSON, parse_text returns it unchanged."""
         import _cost_ledger
+
         plain = "This is plain LLM text response."
         self.assertEqual(_cost_ledger.parse_text_from_json_stdout(plain), plain)
 
 
 # ─── Phase-chain pin (split-publish refactor, 2026-05-24) ──────────────────
+
 
 class PhaseChainPinTest(unittest.TestCase):
     """Pin the canonical orchestrator phase order so the finalize/publish
@@ -571,33 +565,44 @@ class PhaseChainPinTest(unittest.TestCase):
     # Ordering rules: finalize < publish < trainer < merge.
     # All phases must be present in _progress.PHASES (the single canonical source).
     REQUIRED_PHASES = (
-        "pre-flight", "branch", "scaffold",
-        "0a", "0b", "0c", "0d", "0e",
-        "0literary",            # Wave I: literary pass
-        "06a",                  # Wave I: source review gate
-        "0f", "0g",
+        "pre-flight",
+        "branch",
+        "scaffold",
+        "0a",
+        "0b",
+        "0c",
+        "0d",
+        "0e",
+        "0literary",  # Wave I: literary pass
+        "06a",  # Wave I: source review gate
+        "0f",
+        "0g",
         "per-chapter",
-        "per-chapter-optimize", # Wave I: Sonnet arc/format check
+        "per-chapter-optimize",  # Wave I: Sonnet arc/format check
         "per-chapter-slides",
-        "0book-design",         # session 13: book phase sequence
+        "0book-design",  # session 13: book phase sequence
         "0book-compose",
         "0book-illustrate",
         "0book-render",
-        "finalize", "publish", "trainer", "merge", "done",
+        "finalize",
+        "publish",
+        "trainer",
+        "merge",
+        "done",
     )
 
     def test_canonical_phase_tuple_intact(self):
         from _progress import PHASES as canonical
+
         for phase in self.REQUIRED_PHASES:
-            self.assertIn(phase, canonical,
-                          f"phase {phase!r} missing from _progress.PHASES; "
-                          f"canonical phase order drifted")
+            self.assertIn(
+                phase, canonical, f"phase {phase!r} missing from _progress.PHASES; canonical phase order drifted"
+            )
 
     def test_finalize_precedes_publish(self):
         i_fin = self.REQUIRED_PHASES.index("finalize")
         i_pub = self.REQUIRED_PHASES.index("publish")
-        self.assertLess(i_fin, i_pub,
-                        "finalize MUST come before publish (read-only gate before file-copy)")
+        self.assertLess(i_fin, i_pub, "finalize MUST come before publish (read-only gate before file-copy)")
 
     def test_publish_precedes_trainer_and_merge(self):
         i_pub = self.REQUIRED_PHASES.index("publish")
@@ -618,19 +623,23 @@ class ValidateShipReadyExistsTest(unittest.TestCase):
         body = script.read_text()
         # Must import gate fns from publish_to_library (read-only delegation).
         self.assertIn("import publish_to_library", body)
-        for gate in ("gate_g1_structure", "gate_g2_pairs", "gate_g3_sequential",
-                     "gate_g4_build_clean", "gate_g5_state", "gate_g6_target",
-                     "gate_g7_challenger_convergence"):
+        for gate in (
+            "gate_g1_structure",
+            "gate_g2_pairs",
+            "gate_g3_sequential",
+            "gate_g4_build_clean",
+            "gate_g5_state",
+            "gate_g6_target",
+            "gate_g7_challenger_convergence",
+        ):
             self.assertIn(gate, body, f"validate_ship_ready missing {gate}")
 
     def test_validate_ship_ready_never_writes(self):
         """Defensive: the validator must not call shutil.copy / write_text /
         Path.write_* / publish_to_library.main(). Pure gate evaluation only."""
         body = (SCRIPTS_PODCAST / "validate_ship_ready.py").read_text()
-        for forbidden in ("shutil.copy", "shutil.move", ".write_text(",
-                          ".write_bytes(", "publish_to_library.main("):
-            self.assertNotIn(forbidden, body,
-                             f"validate_ship_ready performs writes: {forbidden}")
+        for forbidden in ("shutil.copy", "shutil.move", ".write_text(", ".write_bytes(", "publish_to_library.main("):
+            self.assertNotIn(forbidden, body, f"validate_ship_ready performs writes: {forbidden}")
 
 
 if __name__ == "__main__":

@@ -12,6 +12,7 @@ Contract under test (no real book, no poppler — synthesized fixtures only):
   - _page_map tolerates pdftoppm's page-number padding variants.
   - build_book_pdf prefers book-slides.md > book-illustrated.md > book.md.
 """
+
 from __future__ import annotations
 
 import json
@@ -23,9 +24,8 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import inject_slide_deck as isd  # noqa: E402
-from _authoring._core import AuthoringError  # noqa: E402
-
+import inject_slide_deck as isd
+from _authoring._core import AuthoringError
 
 BOOK_MD = """# The Test Book
 
@@ -77,8 +77,7 @@ class InjectSlidesTests(unittest.TestCase):
 
     def test_multi_deck_combined_injection(self) -> None:
         # Two chapters' decks combined: re-keyed pages, per-chapter src paths.
-        pages = {1002: "slide-decks/_pages/ch01/page-02.jpg",
-                 2003: "slide-decks/_pages/ch02/page-03.jpg"}
+        pages = {1002: "slide-decks/_pages/ch01/page-02.jpg", 2003: "slide-decks/_pages/ch02/page-03.jpg"}
         entries = [
             _entry("ch01-s02", 1002, "expecting water at its edge"),
             _entry("ch02-s03", 2003, "mechanism of self-surrender"),
@@ -163,9 +162,15 @@ class ManifestValidationTests(unittest.TestCase):
     def test_duplicate_slide_id_rejected(self) -> None:
         d = Path(tempfile.mkdtemp())
         mf = d / "slide-manifest.json"
-        mf.write_text(json.dumps([
-            _entry("ch01-s02", 2, "a" * 30), _entry("ch01-s02", 3, "b" * 30),
-        ]), encoding="utf-8")
+        mf.write_text(
+            json.dumps(
+                [
+                    _entry("ch01-s02", 2, "a" * 30),
+                    _entry("ch01-s02", 3, "b" * 30),
+                ]
+            ),
+            encoding="utf-8",
+        )
         with self.assertRaises(AuthoringError) as ctx:
             isd.load_manifest(mf)
         self.assertIn("ch01-s02", str(ctx.exception))
@@ -184,6 +189,7 @@ class RenderPriorityTests(unittest.TestCase):
         # input is always the diagram-free book.md — legacy *-illustrated/-slides
         # markdown is neither produced nor consumed.
         import build_book_pdf as bbp
+
         d = Path(tempfile.mkdtemp())
         (d / "book").mkdir()
         (d / "book" / "book.md").write_text("# t", encoding="utf-8")

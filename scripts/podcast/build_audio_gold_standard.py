@@ -25,6 +25,7 @@ USAGE
 No spend: pure local DSP. Re-run whenever episodes are added; the JSON diff is
 the review artifact.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -34,10 +35,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-import numpy as np  # noqa: E402
-
-from _audio_fingerprint import (  # noqa: E402
-    fingerprint_m4a, METRIC_KEYS, SCORE_SPEC,
+import numpy as np
+from _audio_fingerprint import (
+    METRIC_KEYS,
+    SCORE_SPEC,
+    fingerprint_m4a,
 )
 
 # Style-gate pass threshold (0-100). This is a GROSS-DRIFT FLOOR, not a
@@ -69,9 +71,10 @@ def _iter_corpus_m4a(book_dir: Path):
 
 def _books_for_profile(profile: str) -> list[Path]:
     """Every book dir whose content_profile == profile that has an m4a corpus."""
-    from _paths import REPO_ROOT
     from _content_profile import resolve_content_profile
+    from _paths import REPO_ROOT
     from _rules import bucket_for_profile
+
     bucket = bucket_for_profile(profile)
     root = Path(REPO_ROOT) / "content" / bucket
     out: list[Path] = []
@@ -85,22 +88,22 @@ def _books_for_profile(profile: str) -> list[Path]:
         try:
             if resolve_content_profile(d) == profile:
                 out.append(d)
-        except Exception:  # noqa: BLE001
+        except Exception:
             continue
     return out
 
 
 def _resolve_book(slug: str) -> Path | None:
     from _paths import find_content
+
     try:
-        ref = find_content(slug)   # (status, bucket, path) | None
+        ref = find_content(slug)  # (status, bucket, path) | None
         return Path(ref[2]) if ref else None
-    except Exception:  # noqa: BLE001
+    except Exception:
         return None
 
 
-def build(profile: str, book_slugs: list[str] | None,
-          *, now: str, log=print) -> dict:
+def build(profile: str, book_slugs: list[str] | None, *, now: str, log=print) -> dict:
     if book_slugs:
         book_dirs = [b for b in (_resolve_book(s) for s in book_slugs) if b]
     else:
@@ -121,9 +124,10 @@ def build(profile: str, book_slugs: list[str] | None,
             for k in METRIC_KEYS:
                 if k in fp and fp[k]:
                     samples[k].append(float(fp[k]))
-            log(f"  [gold] {m4a.name}: "
-                + " ".join(f"{k}={fp.get(k)}" for k in ("wpm", "switches_per_min",
-                                                        "share_male", "st_sd_male")))
+            log(
+                f"  [gold] {m4a.name}: "
+                + " ".join(f"{k}={fp.get(k)}" for k in ("wpm", "switches_per_min", "share_male", "st_sd_male"))
+            )
 
     metrics: dict[str, dict] = {}
     for k in METRIC_KEYS:
@@ -160,19 +164,18 @@ def build(profile: str, book_slugs: list[str] | None,
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--profile", default="islamic_scholarly")
-    ap.add_argument("--books", nargs="*", default=None,
-                    help="explicit book slugs; default = all books of the profile")
-    ap.add_argument("--date", default=None,
-                    help="version stamp (YYYY-MM-DD); default = today (UTC)")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="print the reference JSON, do not write")
+    ap.add_argument("--books", nargs="*", default=None, help="explicit book slugs; default = all books of the profile")
+    ap.add_argument("--date", default=None, help="version stamp (YYYY-MM-DD); default = today (UTC)")
+    ap.add_argument("--dry-run", action="store_true", help="print the reference JSON, do not write")
     args = ap.parse_args()
 
     from _audio_fingerprint import _gold_standard_path
+
     if args.date:
         now = args.date
     else:
         from datetime import datetime, timezone
+
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     ref = build(args.profile, args.books, now=now)
@@ -183,9 +186,7 @@ def main() -> int:
     out = _gold_standard_path(args.profile)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(text, encoding="utf-8")
-    print(f"[gold] wrote {out} "
-          f"({ref['episodes_fingerprinted']} episodes, "
-          f"{len(ref['metrics'])} metrics)")
+    print(f"[gold] wrote {out} ({ref['episodes_fingerprinted']} episodes, {len(ref['metrics'])} metrics)")
     return 0
 
 

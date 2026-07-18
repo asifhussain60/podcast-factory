@@ -50,6 +50,7 @@ import argparse
 import re
 import sys
 from pathlib import Path
+
 from _paths import REPO_ROOT
 
 LIBRARY_DIR = REPO_ROOT / "content" / "drafts"
@@ -73,7 +74,7 @@ def parse_table(text: str) -> tuple[list[dict[str, str]], bool]:
     headers = [c.strip() for c in lines[header_idx].strip("|").split("|")]
     # Skip the separator row (|---|---|...)
     rows = []
-    for line in lines[header_idx + 2:]:
+    for line in lines[header_idx + 2 :]:
         if not line.startswith("|"):
             break
         cells = [c.strip() for c in line.strip("|").split("|")]
@@ -121,8 +122,7 @@ def validate_one(registry_path: Path) -> list[str]:
     for i in range(1, len(ep_nums)):
         if ep_nums[i] <= ep_nums[i - 1]:
             findings.append(
-                f"R2: EP# not strictly increasing: row {i+1} has EP{ep_nums[i]:02d} "
-                f"after EP{ep_nums[i-1]:02d}"
+                f"R2: EP# not strictly increasing: row {i + 1} has EP{ep_nums[i]:02d} after EP{ep_nums[i - 1]:02d}"
             )
     if len(ep_nums) != len(set(ep_nums)):
         dup = sorted({n for n in ep_nums if ep_nums.count(n) > 1})
@@ -173,7 +173,9 @@ def validate_one(registry_path: Path) -> list[str]:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument(
-        "--registry", type=Path, default=None,
+        "--registry",
+        type=Path,
+        default=None,
         help="Specific per-book registry to validate. Default: discover all.",
     )
     args = ap.parse_args()
@@ -184,8 +186,7 @@ def main() -> int:
         registries = discover_registries()
         if not registries:
             print(
-                "validate_registry: no per-book registries found under "
-                "_workspace/*/*/_system/registry.md",
+                "validate_registry: no per-book registries found under _workspace/*/*/_system/registry.md",
                 file=sys.stderr,
             )
             return 1

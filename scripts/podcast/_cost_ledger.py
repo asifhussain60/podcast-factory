@@ -26,13 +26,14 @@ Used by:
   • scripts/podcast/cost_ledger_summary.py  (read-only consumer; P6.2)
   • scripts/podcast/run_wave.py    (W3 cost-cap pre-flight; already wired)
 """
+
 from __future__ import annotations
 
 import datetime as _dt
 import json
 import re
 import sys
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
 
 # Pricing per million tokens (USD). Source: Anthropic public pricing as of
@@ -43,16 +44,15 @@ from pathlib import Path
 #              cache_read_usd_per_million, cache_create_usd_per_million)
 PRICING_USD_PER_MILLION_TOKENS: dict[str, tuple[float, float, float, float]] = {
     # Claude 4.x family (current as of 2026-06)
-    "claude-opus-4-8":     (15.00, 75.00, 1.50, 18.75),
-    "claude-opus-4-7":     (15.00, 75.00, 1.50, 18.75),
-    "claude-opus-4-6":     (15.00, 75.00, 1.50, 18.75),
-    "claude-sonnet-4-6":   ( 3.00, 15.00, 0.30,  3.75),
+    "claude-opus-4-8": (15.00, 75.00, 1.50, 18.75),
+    "claude-opus-4-7": (15.00, 75.00, 1.50, 18.75),
+    "claude-opus-4-6": (15.00, 75.00, 1.50, 18.75),
+    "claude-sonnet-4-6": (3.00, 15.00, 0.30, 3.75),
     "claude-haiku-4-5-20251001": (0.80, 4.00, 0.08, 1.00),
-
     # Claude 3.5/3.7 family (legacy compat — kept for trainer-historic ledgers)
     "claude-3-7-sonnet-20250219": (3.00, 15.00, 0.30, 3.75),
     "claude-3-5-sonnet-20241022": (3.00, 15.00, 0.30, 3.75),
-    "claude-3-5-haiku-20241022":  (0.80, 4.00, 0.08, 1.00),
+    "claude-3-5-haiku-20241022": (0.80, 4.00, 0.08, 1.00),
 }
 
 
@@ -91,19 +91,14 @@ def compute_cost_usd(
     pricing = PRICING_USD_PER_MILLION_TOKENS.get(model)
     if pricing is None:
         sys.stderr.write(
-            f'[_cost_ledger] WARNING: unknown model {model!r} — '
+            f"[_cost_ledger] WARNING: unknown model {model!r} — "
             f"cost row will record 0.0 USD. Add the model to "
             f"PRICING_USD_PER_MILLION_TOKENS in scripts/podcast/_cost_ledger.py "
             f"to enable accurate pricing.\n"
         )
         return 0.0
     in_p, out_p, cr_p, cc_p = pricing
-    cost = (
-        input_tokens   * in_p  +
-        output_tokens  * out_p +
-        cache_read     * cr_p  +
-        cache_create   * cc_p
-    ) / 1_000_000.0
+    cost = (input_tokens * in_p + output_tokens * out_p + cache_read * cr_p + cache_create * cc_p) / 1_000_000.0
     return round(cost, 6)
 
 
@@ -119,17 +114,17 @@ def _now_iso() -> str:
 # below. Update these constants when Azure changes pricing (Azure quietly
 # trims prices; check https://azure.microsoft.com/en-us/pricing/details/).
 AZURE_PRICING_USD: dict[str, float] = {
-    "docintel_prebuilt_read_per_page": 0.0015,   # Doc Intelligence prebuilt-read
-    "translator_text_per_char": 0.00001,         # Translator Text (S1 tier)
-    "speech_neural_tts_per_char": 0.000016,      # Neural TTS standard voices
-    "speech_stt_per_second": 0.30 / 3600.0,     # Speech fast-transcription (Standard tier)
+    "docintel_prebuilt_read_per_page": 0.0015,  # Doc Intelligence prebuilt-read
+    "translator_text_per_char": 0.00001,  # Translator Text (S1 tier)
+    "speech_neural_tts_per_char": 0.000016,  # Neural TTS standard voices
+    "speech_stt_per_second": 0.30 / 3600.0,  # Speech fast-transcription (Standard tier)
 }
 
 # WC8 (2026-05-30): Gemini pricing — USD per character (≈ 4 chars per token).
 # Source: Google AI Studio list pricing as of 2026-05.
 GEMINI_PRICING_USD: dict[str, dict[str, float]] = {
     "gemini-2.5-flash": {"in_per_char": 0.30 / 1e6 / 4, "out_per_char": 2.50 / 1e6 / 4},
-    "gemini-2.5-pro":   {"in_per_char": 1.25 / 1e6 / 4, "out_per_char": 10.0 / 1e6 / 4},
+    "gemini-2.5-pro": {"in_per_char": 1.25 / 1e6 / 4, "out_per_char": 10.0 / 1e6 / 4},
 }
 
 
@@ -280,6 +275,7 @@ def append_cost_row(
     # PIPE_BUF when token counts are large. The lock costs ~1 ms per emit
     # (negligible vs the LLM call that produced it).
     import fcntl as _fcntl
+
     ledger = book_dir / "_system" / "cost-ledger.jsonl"
     ledger.parent.mkdir(parents=True, exist_ok=True)
     with ledger.open("a", encoding="utf-8") as f:
@@ -327,6 +323,7 @@ def append_gemini_cost(
         cost_usd=cost,
     )
     import fcntl as _fcntl
+
     ledger = book_dir / "_system" / "cost-ledger.jsonl"
     ledger.parent.mkdir(parents=True, exist_ok=True)
     with ledger.open("a", encoding="utf-8") as f:
@@ -359,8 +356,9 @@ def append_elevenlabs_cost(
     """
     try:
         from _audio_engines import credits_to_usd
+
         usd = credits_to_usd(credits)
-    except Exception:  # noqa: BLE001 — pricing helper must never block the ledger
+    except Exception:
         usd = 0.0
     row = CostRow(
         ts=ts or _now_iso(),
@@ -374,6 +372,7 @@ def append_elevenlabs_cost(
         cost_usd=usd,
     )
     import fcntl as _fcntl
+
     ledger = book_dir / "_system" / "cost-ledger.jsonl"
     ledger.parent.mkdir(parents=True, exist_ok=True)
     with ledger.open("a", encoding="utf-8") as f:
@@ -414,6 +413,7 @@ def append_azure_stt_cost(
         cost_usd=cost,
     )
     import fcntl as _fcntl
+
     ledger = book_dir / "_system" / "cost-ledger.jsonl"
     ledger.parent.mkdir(parents=True, exist_ok=True)
     with ledger.open("a", encoding="utf-8") as f:
@@ -435,9 +435,9 @@ def append_azure_stt_cost(
 # samples; each pattern is anchored to the variant most recently observed.
 _USAGE_PATTERNS: tuple[tuple[str, re.Pattern], ...] = (
     # Most common: "Tokens: 12345 in, 6789 out, cache: 1024 read, 0 create"
-    ("input",        re.compile(r"(\d+)\s*in\b", re.IGNORECASE)),
-    ("output",       re.compile(r"(\d+)\s*out\b", re.IGNORECASE)),
-    ("cache_read",   re.compile(r"cache[^\n]*?(\d+)\s*read\b", re.IGNORECASE)),
+    ("input", re.compile(r"(\d+)\s*in\b", re.IGNORECASE)),
+    ("output", re.compile(r"(\d+)\s*out\b", re.IGNORECASE)),
+    ("cache_read", re.compile(r"cache[^\n]*?(\d+)\s*read\b", re.IGNORECASE)),
     ("cache_create", re.compile(r"cache[^\n]*?(\d+)\s*create\b", re.IGNORECASE)),
 )
 
@@ -536,7 +536,7 @@ def append_from_claude_p_stdout(
         output_tokens=int(usage["output"]),
         cache_read=int(usage["cache_read"]),
         cache_create=int(usage["cache_create"]),
-        cost_usd=0.0,   # $0 real — covered by flat-rate Max subscription
+        cost_usd=0.0,  # $0 real — covered by flat-rate Max subscription
         engine="max",
     )
     ledger_path = book_dir / "_system" / "cost-ledger.jsonl"

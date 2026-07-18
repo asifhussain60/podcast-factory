@@ -1,10 +1,12 @@
 """P3.4 phase runner — diagram pilot and classifier gate readiness."""
+
 from __future__ import annotations
 
 from pathlib import Path
 
 from ._base import PhaseResult
-from ._dor_halt import DoR, build_halted_result, is_done as detect_done
+from ._dor_halt import DoR, build_halted_result
+from ._dor_halt import is_done as detect_done
 
 PHASE_ID = "P3.4"
 DESCRIPTION = "diagram pilot and classifier gate aligned"
@@ -16,15 +18,9 @@ DETECT_FILES = (
 )
 DETECT_MARKERS = ("coverage",)
 DOR = DoR(
-    blockers=(
-        "NotebookLM diagram pilot findings and classifier implementation are not both present.",
-    ),
-    assumptions=(
-        "Classifier gate severity is set by measured pilot capability.",
-    ),
-    ambiguities=(
-        "Fallback path policy when classifier is unavailable must be explicitly documented.",
-    ),
+    blockers=("NotebookLM diagram pilot findings and classifier implementation are not both present.",),
+    assumptions=("Classifier gate severity is set by measured pilot capability.",),
+    ambiguities=("Fallback path policy when classifier is unavailable must be explicitly documented.",),
     operator_action=(
         "Ship pilot findings file plus classify_slides.py with coverage gate logic and fallback behavior."
     ),

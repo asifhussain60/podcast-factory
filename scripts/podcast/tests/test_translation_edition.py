@@ -9,8 +9,12 @@ import pytest
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _translation_edition import (  # noqa: E402
+from _translation_edition import (
+    _iter_source_windows,
+    _para_is_echo,
+    _trim_seam_overlap,
     contract_findings,
+    dedupe_seam_paragraphs,
     is_faithful_translation_deliverable,
     is_translation_edition,
     monochrome_svg,
@@ -18,12 +22,8 @@ from _translation_edition import (  # noqa: E402
     requires_monochrome_visuals,
     source_title_drift_findings,
     translation_output_findings,
-    _iter_source_windows,
-    _para_is_echo,
-    _trim_seam_overlap,
-    dedupe_seam_paragraphs,
 )
-from phases.book_driver import _book_branch_enabled  # noqa: E402
+from phases.book_driver import _book_branch_enabled
 
 
 def _book(tmp_path: Path, config: str) -> Path:
@@ -78,7 +78,9 @@ def test_faithful_deliverable_covers_v2_faithful_and_legacy(tmp_path: Path) -> N
     assert not is_translation_edition(v2f)  # NOT legacy — routing predicate stays false
 
     # v2 route, author-companion voice -> NOT a faithful translation deliverable.
-    v2c = _book(tmp_path / "v2c", "book_pipeline_v2: true\nbook_voice: author_companion\nbook_augmentation: source_only\n")
+    v2c = _book(
+        tmp_path / "v2c", "book_pipeline_v2: true\nbook_voice: author_companion\nbook_augmentation: source_only\n"
+    )
     assert not is_faithful_translation_deliverable(v2c)
 
     # Neither -> false.
@@ -127,7 +129,7 @@ def test_source_windows_preserve_line_ranges() -> None:
 
 def test_translation_output_findings_rejects_model_commentary() -> None:
     prose = (
-        "Since you didn't pick an option, I cannot produce \"Dress\" prose "
+        'Since you didn\'t pick an option, I cannot produce "Dress" prose '
         "from a source passage about hunting. Here is the faithful chapter."
     )
 
@@ -171,6 +173,7 @@ def test_source_title_drift_detects_dress_title_on_hunting_source() -> None:
 
 # --- seam-overlap trimming (chunk-seam double-render root fix) ---------------
 
+
 def test_trim_seam_drops_verbatim_boundary_echo() -> None:
     # The composer double-renders the parting passage across a chunk seam.
     prev = (
@@ -205,10 +208,7 @@ def test_trim_seam_keeps_distinct_chapter_opening() -> None:
 def test_trim_seam_drops_long_verbatim_run_in_reworded_echo() -> None:
     # A long verbatim run (>=12 tokens) inside an otherwise-reworded opening is
     # still a seam echo and is trimmed.
-    prev = (
-        "And then the scholar said the counsel of the shaykh is the only right "
-        "guidance for the seeker on the road."
-    )
+    prev = "And then the scholar said the counsel of the shaykh is the only right guidance for the seeker on the road."
     nxt = (
         "Truly, the counsel of the shaykh is the only right guidance for the "
         "seeker on the road, he said to them again.\n\n"
@@ -244,9 +244,8 @@ def test_trim_seam_noops_on_empty_inputs() -> None:
 
 # --- preface emission (P0: planned preface silently dropped at assembly) -----
 
-def test_preface_is_composed_and_emitted_before_chapter_one(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+
+def test_preface_is_composed_and_emitted_before_chapter_one(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     import _translation_edition as te
 
     # Stub the LLM compose to echo the source faithfully (deterministic).
@@ -260,16 +259,16 @@ def test_preface_is_composed_and_emitted_before_chapter_one(
     (bd / "book").mkdir(parents=True)
     (bd / "_system" / "source" / "text").mkdir(parents=True)
 
-    refined = "\n".join([
-        "The opening teaching that frames the whole work as thanksgiving.",  # 1
-        "Thank the master by obeying him and the knowledge by acting on it.",  # 2
-        "",                                                                   # 3
-        "The traveller who was lost and then guided came to the city.",       # 4
-        "He learned the counsel of the guide and carried it home.",           # 5
-    ])
-    (bd / "_system" / "source" / "text" / "refined-english.md").write_text(
-        refined, encoding="utf-8"
+    refined = "\n".join(
+        [
+            "The opening teaching that frames the whole work as thanksgiving.",  # 1
+            "Thank the master by obeying him and the knowledge by acting on it.",  # 2
+            "",  # 3
+            "The traveller who was lost and then guided came to the city.",  # 4
+            "He learned the counsel of the guide and carried it home.",  # 5
+        ]
     )
+    (bd / "_system" / "source" / "text" / "refined-english.md").write_text(refined, encoding="utf-8")
 
     toc = {
         "book_title": "The Book of the Road",
@@ -283,9 +282,7 @@ def test_preface_is_composed_and_emitted_before_chapter_one(
             {"bk_index": 1, "title": "The Traveller Guided", "source_line_ranges": [[4, 5]]},
         ],
     }
-    (bd / "book" / "book-toc.json").write_text(
-        json.dumps(toc), encoding="utf-8"
-    )
+    (bd / "book" / "book-toc.json").write_text(json.dumps(toc), encoding="utf-8")
 
     book_md = te.author_translation_edition_compose(bd, log=lambda *a, **k: None, enforce_contract=False)
     text = book_md.read_text(encoding="utf-8")
@@ -305,10 +302,10 @@ def test_dedupe_drops_reworded_within_chapter_twin() -> None:
         "# Book\n\n"
         "## 8. Homecoming\n\n"
         'They said, "But we have been taught that whoever stands in this position, one who '
-        'neither verifies the truth nor refutes falsehood, is ignorant in his conduct, for he '
+        "neither verifies the truth nor refutes falsehood, is ignorant in his conduct, for he "
         'does not know the truth that he might follow it nor falsehood that he might avoid it."\n\n'
         'They said, "But we have been taught that whoever stands in this position, one who '
-        'neither verifies the truth so as to follow it nor refutes falsehood so as to avoid it, '
+        "neither verifies the truth so as to follow it nor refutes falsehood so as to avoid it, "
         'is ignorant in his conduct."\n\n'
         'Abu Malik said, "What you have related, you have believed."\n'
     )
@@ -336,10 +333,10 @@ def test_dedupe_drops_chapter_boundary_echo() -> None:
 
     out = dedupe_seam_paragraphs(text)
 
-    assert "eyes overflowed with tears" not in out       # the ch3 echo is dropped
-    assert "eyes brimmed over with tears" in out         # ch2's rendering survives
-    assert "The youth kept the Master" in out            # real ch3 content survives
-    assert out.count("## 3. The Boy at the Door") == 1   # heading preserved
+    assert "eyes overflowed with tears" not in out  # the ch3 echo is dropped
+    assert "eyes brimmed over with tears" in out  # ch2's rendering survives
+    assert "The youth kept the Master" in out  # real ch3 content survives
+    assert out.count("## 3. The Boy at the Door") == 1  # heading preserved
 
 
 def test_dedupe_keeps_legitimate_dialogue_and_openings() -> None:
@@ -356,9 +353,7 @@ def test_dedupe_keeps_legitimate_dialogue_and_openings() -> None:
     assert dedupe_seam_paragraphs(text) == text.strip() + "\n"
 
 
-def test_preface_skipped_when_not_included(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_preface_skipped_when_not_included(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     import _translation_edition as te
 
     monkeypatch.setattr(
@@ -383,8 +378,8 @@ def test_preface_skipped_when_not_included(
     }
     (bd / "book" / "book-toc.json").write_text(json.dumps(toc), encoding="utf-8")
 
-    text = te.author_translation_edition_compose(
-        bd, log=lambda *a, **k: None, enforce_contract=False
-    ).read_text(encoding="utf-8")
+    text = te.author_translation_edition_compose(bd, log=lambda *a, **k: None, enforce_contract=False).read_text(
+        encoding="utf-8"
+    )
 
     assert "Skip Me" not in text

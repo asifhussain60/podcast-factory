@@ -1,21 +1,22 @@
 """tests/test_anti_cliche.py — Tests for scripts/podcast/intelligence/_anti_cliche.py"""
+
 import sys
 from pathlib import Path
 
 SCRIPTS_DIR = Path(__file__).resolve().parents[1] / "scripts" / "podcast"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
-from intelligence._anti_cliche import (  # noqa: E402
+from intelligence._anti_cliche import (
     AUGMENTER_PRIOR_TREATMENT_DENY,
     CAPSTONE_DENY,
     SELF_HELP_DENY,
     TIER_2_DENY,
 )
 
-
 # ---------------------------------------------------------------------------
 # Type and size invariants
 # ---------------------------------------------------------------------------
+
 
 def test_all_lists_are_frozensets():
     assert isinstance(CAPSTONE_DENY, frozenset)
@@ -41,6 +42,7 @@ def test_all_entries_are_lowercase():
 # No cross-list duplicates (each list serves a distinct purpose)
 # ---------------------------------------------------------------------------
 
+
 def test_no_overlap_capstone_self_help():
     overlap = CAPSTONE_DENY & SELF_HELP_DENY
     assert overlap == frozenset(), f"Unexpected overlap: {overlap}"
@@ -54,6 +56,7 @@ def test_no_overlap_tier2_augmenter():
 # ---------------------------------------------------------------------------
 # Spot checks — canonical entries that must always be present
 # ---------------------------------------------------------------------------
+
 
 def test_capstone_deny_contains_key_phrases():
     assert "key takeaways" in CAPSTONE_DENY
@@ -82,6 +85,7 @@ def test_augmenter_deny_contains_biographical_filler():
 # ---------------------------------------------------------------------------
 # Matching semantics — case-insensitive substring is the documented contract
 # ---------------------------------------------------------------------------
+
 
 def test_capstone_match_is_case_insensitive():
     text = "In Summary, we have covered the key points."

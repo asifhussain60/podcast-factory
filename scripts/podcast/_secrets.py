@@ -16,6 +16,7 @@ Vault secret names (provisioned 2026-06-02; see infra/azure/migrate-to-keyvault.
   llm-anthropic-api-key, llm-gemini-api-key,
   azure-podcast-factory-{docintel,translator,speech,storage}-<field>
 """
+
 from __future__ import annotations
 
 import functools
@@ -34,10 +35,23 @@ def keyvault_secret(kv_name: str) -> str | None:
     """
     try:
         r = subprocess.run(
-            ["az", "keyvault", "secret", "show",
-             "--vault-name", KEY_VAULT_NAME, "--name", kv_name,
-             "--query", "value", "-o", "tsv"],
-            capture_output=True, text=True, timeout=30,
+            [
+                "az",
+                "keyvault",
+                "secret",
+                "show",
+                "--vault-name",
+                KEY_VAULT_NAME,
+                "--name",
+                kv_name,
+                "--query",
+                "value",
+                "-o",
+                "tsv",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=30,
         )
     except (FileNotFoundError, subprocess.TimeoutExpired):
         return None

@@ -19,6 +19,7 @@ CLI:
     python3 scripts/podcast/intelligence/ingest_kashkole.py --dry-run
     python3 scripts/podcast/intelligence/ingest_kashkole.py
 """
+
 from __future__ import annotations
 
 import json
@@ -42,7 +43,7 @@ from intelligence._mirror_corpus import (
 )
 
 HADITH_CORPUS_ID = "hadith"
-HADITH_TRADITION = "universal"   # D5: raw hadith is tradition-neutral
+HADITH_TRADITION = "universal"  # D5: raw hadith is tradition-neutral
 
 
 def ingest_all(*, dry_run: bool = False) -> MirrorSummary:
@@ -61,21 +62,29 @@ def ingest_all(*, dry_run: bool = False) -> MirrorSummary:
     ingest_terms(mirror, conn, summary, source="KASHKOLE", dry_run=dry_run)
 
     # ---- KASHKOLE hadith -> hadith atoms (additive; never overwrite existing) ----
-    hadiths = mirror.execute(
-        "SELECT hadith_id, collection, hadith_num, arabic, english FROM fts_hadith"
-    ).fetchall()
+    hadiths = mirror.execute("SELECT hadith_id, collection, hadith_num, arabic, english FROM fts_hadith").fetchall()
     for h in hadiths:
         if dry_run:
             summary.total_atoms_created += 1
             continue
         atom_id = f"hadith:kashkole:{h['hadith_id']}"
-        body = json.dumps({
-            "hadith_id": h["hadith_id"], "collection": h["collection"],
-            "hadith_num": h["hadith_num"], "arabic": h["arabic"],
-            "english": h["english"], "tradition": HADITH_TRADITION,
-        }, ensure_ascii=False)
+        body = json.dumps(
+            {
+                "hadith_id": h["hadith_id"],
+                "collection": h["collection"],
+                "hadith_num": h["hadith_num"],
+                "arabic": h["arabic"],
+                "english": h["english"],
+                "tradition": HADITH_TRADITION,
+            },
+            ensure_ascii=False,
+        )
         if insert_atom(
-            conn, atom_id, "hadith", body, HADITH_TRADITION,
+            conn,
+            atom_id,
+            "hadith",
+            body,
+            HADITH_TRADITION,
             first_seen_book="kashkole",
         ):
             summary.total_atoms_created += 1
@@ -105,8 +114,7 @@ def _main() -> int:
     run_migrations()
     s = ingest_all(dry_run=args.dry_run)
     flag = " (dry-run)" if args.dry_run else ""
-    print(f"KASHKOLE ingest{flag}: {s.total_atoms_created} atoms created, "
-          f"{s.atoms_skipped_existing} already present")
+    print(f"KASHKOLE ingest{flag}: {s.total_atoms_created} atoms created, {s.atoms_skipped_existing} already present")
     for n in s.notes:
         print(f"  · {n}")
     for e in s.errors:

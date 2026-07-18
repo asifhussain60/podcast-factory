@@ -6,7 +6,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _pipeline_flags import (  # noqa: E402
+from _pipeline_flags import (
     BOOK_AUGMENTATION_NONE,
     BOOK_AUGMENTATION_SOURCE_ONLY,
     BOOK_VOICE_AUTHOR_COMPANION,
@@ -47,9 +47,7 @@ def test_empty_config_defaults_to_companion(tmp_path: Path) -> None:
 def test_explicit_knobs_override_translation_default(tmp_path: Path) -> None:
     bd = _book(
         tmp_path,
-        "deliverable_mode: translation_edition\n"
-        "book_augmentation: source_only\n"
-        "book_voice: author_companion\n",
+        "deliverable_mode: translation_edition\nbook_augmentation: source_only\nbook_voice: author_companion\n",
     )
     assert book_augmentation(bd) == BOOK_AUGMENTATION_SOURCE_ONLY
     assert book_voice(bd) == BOOK_VOICE_AUTHOR_COMPANION
@@ -58,9 +56,7 @@ def test_explicit_knobs_override_translation_default(tmp_path: Path) -> None:
 def test_invalid_knob_falls_back_to_default(tmp_path: Path) -> None:
     bd = _book(
         tmp_path,
-        "deliverable_mode: translation_edition\n"
-        "book_augmentation: bogus\n"
-        "book_voice: nonsense\n",
+        "deliverable_mode: translation_edition\nbook_augmentation: bogus\nbook_voice: nonsense\n",
     )
     # A typo can never harden into a silent behaviour change — fall back to map.
     assert book_augmentation(bd) == BOOK_AUGMENTATION_NONE

@@ -4,10 +4,10 @@
 Covers: read_state, write_state, update_phase, initial_state, state_path.
 Uses stdlib unittest only — no pytest dependency.
 """
+
 from __future__ import annotations
 
 import json
-import os
 import sys
 import tempfile
 import unittest
@@ -57,6 +57,7 @@ class TestWriteAndReadState(unittest.TestCase):
 
     def tearDown(self):
         import shutil
+
         shutil.rmtree(self.tmpdir, ignore_errors=True)
 
     def test_roundtrip(self):
@@ -108,6 +109,7 @@ class TestUpdatePhase(unittest.TestCase):
 
     def tearDown(self):
         import shutil
+
         shutil.rmtree(self.tmpdir, ignore_errors=True)
 
     def _first_phase(self):
@@ -131,9 +133,7 @@ class TestUpdatePhase(unittest.TestCase):
     def test_update_with_error_stores_last_error(self):
         phase = read_state(self.book_dir)["phase"]
         update_phase(self.book_dir, phase=phase, status="running")
-        updated = update_phase(
-            self.book_dir, phase=phase, status="failed", error="Azure timeout"
-        )
+        updated = update_phase(self.book_dir, phase=phase, status="failed", error="Azure timeout")
         self.assertIsNotNone(updated.get("last_error"))
         self.assertEqual(updated["last_error"]["message"], "Azure timeout")
 

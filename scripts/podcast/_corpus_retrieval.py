@@ -25,6 +25,7 @@ Atoms are plain dicts of the shape ``{"id": str, "type": str, "body": {...}}``
 (the JSONL/DB currency), so both the JSONL-backed book path and the DB-backed
 podcast path can feed the same code.
 """
+
 from __future__ import annotations
 
 import json
@@ -42,7 +43,8 @@ _QREF_RE = re.compile(r"\bq\s*(\d{1,3})\s*[:.]\s*(\d{1,3})\b", re.IGNORECASE)
 
 # Very common English words carry no retrieval signal; drop them so the overlap
 # score reflects meaningful shared vocabulary, not stop-word coincidence.
-_STOPWORDS = frozenset("""
+_STOPWORDS = frozenset(
+    """
 the a an and or but if then else of to in on at by for with without from into
 onto is are was were be been being it its this that these those he she they them
 his her their our your my we you i as not no nor so than too very can will would
@@ -50,7 +52,8 @@ should could may might must have has had do does did done not which who whom who
 what when where why how all any both each few more most other some such only own
 same over under again further once here there when about against between through
 during before after above below up down out off then them theirs itself upon
-""".split())
+""".split()
+)
 
 
 def atom_searchable_text(atom: dict[str, Any]) -> str:
@@ -90,7 +93,7 @@ def _atom_keywords(atom: dict[str, Any]) -> list[str]:
         v = body.get(key)
         if v:
             out.append(str(v))
-    for d in (body.get("derivatives") or []):
+    for d in body.get("derivatives") or []:
         if isinstance(d, dict) and d.get("term"):
             out.append(str(d["term"]))
     return [w.strip().lower() for w in out if str(w).strip()]
@@ -105,7 +108,7 @@ def _atom_qrefs(atom: dict[str, Any]) -> set[tuple[int, int]]:
             refs.add((int(body["surah"]), int(body["ayah"])))
         except (KeyError, TypeError, ValueError):
             pass
-    for r in (body.get("quran_refs") or []):
+    for r in body.get("quran_refs") or []:
         m = _QREF_RE.search(str(r)) or re.search(r"(\d{1,3})[:.](\d{1,3})", str(r))
         if m:
             refs.add((int(m.group(1)), int(m.group(2))))
@@ -142,6 +145,7 @@ def register_scorer(name: str) -> Callable[[Callable[[], "Scorer"]], Callable[[]
     def _wrap(factory: Callable[[], "Scorer"]) -> Callable[[], "Scorer"]:
         _SCORERS[name] = factory
         return factory
+
     return _wrap
 
 
@@ -193,10 +197,7 @@ class LexicalScorer(Scorer):
         # Smoothed IDF: log((N+1)/(df+1)) + 1 — always positive, rewards rarity.
         self._idf = {t: math.log((n + 1) / (c + 1)) + 1.0 for t, c in df.items()}
         # Precompute each atom's TF-IDF vector norm (tf=1 over the token set).
-        self._norms = [
-            math.sqrt(sum(self._idf.get(t, 1.0) ** 2 for t in toks)) or 1e-9
-            for toks in self._tokens
-        ]
+        self._norms = [math.sqrt(sum(self._idf.get(t, 1.0) ** 2 for t in toks)) or 1e-9 for toks in self._tokens]
 
     def score(self, passage: str) -> list[float]:
         p_tokens = set(_tokenize(passage))
@@ -271,9 +272,7 @@ def select_relevant(
     scorer: str = "lexical",
 ) -> list[ScoredAtom]:
     """One-shot convenience: build an index and query it once."""
-    return RetrievalIndex(atoms, scorer=scorer).select(
-        passage, k=k, threshold=threshold, exclude_ids=exclude_ids
-    )
+    return RetrievalIndex(atoms, scorer=scorer).select(passage, k=k, threshold=threshold, exclude_ids=exclude_ids)
 
 
 # ─── Per-work non-repetition ledger (within-book only) ──────────────────────
@@ -324,8 +323,7 @@ class UsedLedger:
     def _persist(self) -> None:
         self._path.parent.mkdir(parents=True, exist_ok=True)
         self._path.write_text(
-            json.dumps({"schema": self.SCHEMA, "used": sorted(self._used)},
-                       indent=2, ensure_ascii=False) + "\n",
+            json.dumps({"schema": self.SCHEMA, "used": sorted(self._used)}, indent=2, ensure_ascii=False) + "\n",
             encoding="utf-8",
         )
 

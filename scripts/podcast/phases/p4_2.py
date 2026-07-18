@@ -1,4 +1,5 @@
 """P4.2 phase runner — numeric/symbolic disambiguation handbook."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -46,7 +47,8 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
         repo_root = REPO_ROOT
     if not is_done(repo_root):
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
+            phase_id=PHASE_ID,
+            status="halted",
             message=(
                 "numeric-symbolic-disambiguation.md missing required sections "
                 f"({', '.join(REQUIRED_SECTIONS)}) or cross-references "
@@ -55,7 +57,8 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
             evidence_paths=[str(TARGET)],
         )
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message="Disambiguation handbook present with all 6 sections + cross-refs.",
         rows_marked=[PHASE_ID],
         evidence_paths=[str(TARGET)],

@@ -19,23 +19,22 @@ phase_prompts regression fixtures.
 
 Uses stdlib `unittest` — no pytest dependency yet (P8.1).
 """
+
 from __future__ import annotations
 
 import io
 import sys
 import tempfile
 import unittest
-from contextlib import redirect_stdout, redirect_stderr
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest import mock
 
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import orchestrate_book  # noqa: E402
-import phases.initial_driver as initial_driver  # noqa: E402
-import _authoring  # noqa: E402
-import _progress  # noqa: E402
+import _progress
+import phases.initial_driver as initial_driver
 
 FIXTURES_DIR = Path(__file__).resolve().parent / "fixtures" / "tiny-book"
 
@@ -61,12 +60,8 @@ class SunnyDayE2ETests(unittest.TestCase):
         # Copy the canonical tiny-book raw-extract.md (post-OCR/translate state).
         raw = FIXTURES_DIR / "raw-extract.md"
         if not raw.exists():
-            self.skipTest(
-                f"tiny-book fixture missing at {raw} — P2.1 must ship before P2.2 runs."
-            )
-        (self.book_dir / "_system" / "source" / "text" / "raw-extract.md").write_text(
-            raw.read_text()
-        )
+            self.skipTest(f"tiny-book fixture missing at {raw} — P2.1 must ship before P2.2 runs.")
+        (self.book_dir / "_system" / "source" / "text" / "raw-extract.md").write_text(raw.read_text())
 
         # Initial state.json: pre-flight + branch + scaffold + 0a all completed;
         # 0b..0g pending. This is the canonical resume-from-0a state shape.
@@ -82,14 +77,14 @@ class SunnyDayE2ETests(unittest.TestCase):
             "last_error": None,
             "phases": {
                 "pre-flight": {"status": "completed"},
-                "branch":     {"status": "completed"},
-                "scaffold":   {"status": "completed", "book_dir": str(self.book_dir)},
-                "0a":         {"status": "completed"},
-                "0b":         {"status": "pending"},
-                "0c":         {"status": "pending"},
-                "0d":         {"status": "pending"},
-                "0e":         {"status": "pending"},
-                "0f":         {"status": "pending"},
+                "branch": {"status": "completed"},
+                "scaffold": {"status": "completed", "book_dir": str(self.book_dir)},
+                "0a": {"status": "completed"},
+                "0b": {"status": "pending"},
+                "0c": {"status": "pending"},
+                "0d": {"status": "pending"},
+                "0e": {"status": "pending"},
+                "0f": {"status": "pending"},
             },
             "config": {"length_tier": "extended", "unit_mode": "auto"},
         }
@@ -102,9 +97,7 @@ class SunnyDayE2ETests(unittest.TestCase):
     def _mock_0b(self, book_dir: Path, log=print, **_kw) -> str:
         text_dir = book_dir / "_system" / "source" / "text"
         # refined-english.md must be >100 words per P2.2 acceptance
-        (text_dir / "refined-english.md").write_text(
-            "Refined English narration produced by mocked Phase 0b. " * 30
-        )
+        (text_dir / "refined-english.md").write_text("Refined English narration produced by mocked Phase 0b. " * 30)
         # _chunks/0b/win-NNN.in.md must each have a non-zero matching .out.md
         chunks_dir = text_dir / "_chunks" / "0b"
         chunks_dir.mkdir(parents=True, exist_ok=True)
@@ -116,15 +109,12 @@ class SunnyDayE2ETests(unittest.TestCase):
     def _mock_0c(self, book_dir: Path, log=print, **_kw) -> str:
         text_dir = book_dir / "_system" / "source" / "text"
         # _phonetics.md must be >100 words per P2.2 acceptance
-        (text_dir / "_phonetics.md").write_text(
-            "Arabic phonetic annotations produced by mocked Phase 0c. " * 30
-        )
+        (text_dir / "_phonetics.md").write_text("Arabic phonetic annotations produced by mocked Phase 0c. " * 30)
         # Lexicon sidecar
         (text_dir / "_lexicon.md").write_text("ilm: ILM\nsabr: SAH-br\n")
         return "_phonetics.md authored by mock 0c"
 
-    def _mock_0d(self, book_dir: Path, length_tier: str = "extended",
-                 unit_mode: str = "auto", log=print, **_kw) -> str:
+    def _mock_0d(self, book_dir: Path, length_tier: str = "extended", unit_mode: str = "auto", log=print, **_kw) -> str:
         text_dir = book_dir / "_system" / "source" / "text"
         # Per-chapter contracts (P2.2 asserts ≥1)
         cc_dir = book_dir / "chapter-contracts"
@@ -152,8 +142,7 @@ class SunnyDayE2ETests(unittest.TestCase):
         # ~2000 words so the post-0d chapter-set check's P4 word band
         # (default_deep_dive: 1800-2800) stays clean, like real 0d output.
         (ch_dir / "ch01-encounter.txt").write_text(
-            "# The Encounter\n\n"
-            + ("Mocked chapter content produced by Phase 0d. " * 250)
+            "# The Encounter\n\n" + ("Mocked chapter content produced by Phase 0d. " * 250)
         )
         # Required Phase 0d sidecars
         (text_dir / "chapters-rationale.md").write_text(
@@ -192,8 +181,7 @@ class SunnyDayE2ETests(unittest.TestCase):
     def _mock_0f_write_series_plan(self, book_dir: Path, title: str) -> Path:
         plan = book_dir / "_system" / "series-plan.md"
         plan.write_text(
-            f"# Series plan — {title}\n\n## Episodes\n- EP01-encounter\n\n"
-            "## Halted at Phase 0f for human review.\n"
+            f"# Series plan — {title}\n\n## Episodes\n- EP01-encounter\n\n## Halted at Phase 0f for human review.\n"
         )
         return plan
 
@@ -210,26 +198,28 @@ class SunnyDayE2ETests(unittest.TestCase):
         """Drives the full authoring chain; verifies state + artifacts + halt."""
         stdout_buf, stderr_buf = io.StringIO(), io.StringIO()
         tmp_root = Path(self.tmp.name)  # tmpdir is the "repo root" for relative_to() calls
-        with redirect_stdout(stdout_buf), redirect_stderr(stderr_buf), \
-             mock.patch.object(initial_driver, "REPO_ROOT", tmp_root), \
-             mock.patch.multiple(
+        with (
+            redirect_stdout(stdout_buf),
+            redirect_stderr(stderr_buf),
+            mock.patch.object(initial_driver, "REPO_ROOT", tmp_root),
+            mock.patch.multiple(
                 initial_driver,
                 author_phase_0b=self._mock_0b,
                 author_phase_0c=self._mock_0c,
                 author_phase_0d=self._mock_0d,
-                author_phase_0e=self._mock_0e), \
-             mock.patch.object(initial_driver, "phase_0f_write_series_plan",
-                               self._mock_0f_write_series_plan), \
-             mock.patch.object(initial_driver, "phase_git_commit",
-                               self._mock_git_commit), \
-             mock.patch.object(initial_driver, "run_source_review_gate",
-                               lambda bd: __import__(
-                                   "phases.source_review_gate",
-                                   fromlist=["ReviewGate"]
-                               ).ReviewGate(approved=True, warnings=[])):
-            rc = initial_driver._drive_authoring_through_0f(
-                self.book_dir, "Tiny Test Book"
-            )
+                author_phase_0e=self._mock_0e,
+            ),
+            mock.patch.object(initial_driver, "phase_0f_write_series_plan", self._mock_0f_write_series_plan),
+            mock.patch.object(initial_driver, "phase_git_commit", self._mock_git_commit),
+            mock.patch.object(
+                initial_driver,
+                "run_source_review_gate",
+                lambda bd: __import__("phases.source_review_gate", fromlist=["ReviewGate"]).ReviewGate(
+                    approved=True, warnings=[]
+                ),
+            ),
+        ):
+            rc = initial_driver._drive_authoring_through_0f(self.book_dir, "Tiny Test Book")
 
         self.assertEqual(rc, 0, "drive should return 0 (halted-clean at 0f)")
 
@@ -238,12 +228,12 @@ class SunnyDayE2ETests(unittest.TestCase):
         self.assertIsNotNone(state)
         for phase in ("0b", "0c", "0d", "0e"):
             self.assertEqual(
-                state["phases"][phase]["status"], "completed",
-                f"phase {phase} should be completed after sunny-day drive"
+                state["phases"][phase]["status"],
+                "completed",
+                f"phase {phase} should be completed after sunny-day drive",
             )
         self.assertEqual(
-            state["phases"]["0f"]["status"], "halted",
-            "phase 0f should be halted (waiting for human review)"
+            state["phases"]["0f"]["status"], "halted", "phase 0f should be halted (waiting for human review)"
         )
 
         # ── Artifact assertions ──────────────────────────────────────────
@@ -251,13 +241,11 @@ class SunnyDayE2ETests(unittest.TestCase):
 
         refined = text_dir / "refined-english.md"
         self.assertTrue(refined.exists(), "refined-english.md missing")
-        self.assertGreater(len(refined.read_text().split()), 100,
-                           "refined-english.md must be >100 words")
+        self.assertGreater(len(refined.read_text().split()), 100, "refined-english.md must be >100 words")
 
         phonetics = text_dir / "_phonetics.md"
         self.assertTrue(phonetics.exists(), "_phonetics.md missing")
-        self.assertGreater(len(phonetics.read_text().split()), 100,
-                           "_phonetics.md must be >100 words")
+        self.assertGreater(len(phonetics.read_text().split()), 100, "_phonetics.md must be >100 words")
 
         # _chunks/0b/win-*.in.md ↔ win-*.out.md parity
         chunks_dir = text_dir / "_chunks" / "0b"
@@ -267,11 +255,10 @@ class SunnyDayE2ETests(unittest.TestCase):
         self.assertEqual(
             [p.name.replace(".in.md", "") for p in in_files],
             [p.name.replace(".out.md", "") for p in out_files],
-            "every win-*.in.md must have a matching win-*.out.md (P5.2 invariant)"
+            "every win-*.in.md must have a matching win-*.out.md (P5.2 invariant)",
         )
         for out_path in out_files:
-            self.assertGreater(out_path.stat().st_size, 0,
-                               f"{out_path.name} must be non-empty (P5.2)")
+            self.assertGreater(out_path.stat().st_size, 0, f"{out_path.name} must be non-empty (P5.2)")
 
         # ≥1 chapter contract + ≥1 chapter txt
         contracts = list((self.book_dir / "chapter-contracts").glob("*.yml"))
@@ -281,8 +268,7 @@ class SunnyDayE2ETests(unittest.TestCase):
 
         # P4 numeric-disambiguation-register.md
         register = text_dir / "numeric-disambiguation-register.md"
-        self.assertTrue(register.exists(),
-                        "numeric-disambiguation-register.md required by P4")
+        self.assertTrue(register.exists(), "numeric-disambiguation-register.md required by P4")
         self.assertGreater(register.stat().st_size, 0)
 
         # Phase 0f series-plan.md
@@ -292,8 +278,7 @@ class SunnyDayE2ETests(unittest.TestCase):
         # ── P5.2 regression: no silent 'NO ARTIFACT' continuation ────────
         combined_log = stdout_buf.getvalue() + stderr_buf.getvalue() + "\n".join(self._track_log_lines)
         self.assertNotIn(
-            "NO ARTIFACT", combined_log,
-            "no 'NO ARTIFACT' log line should appear — P5.2 hardening would have raised"
+            "NO ARTIFACT", combined_log, "no 'NO ARTIFACT' log line should appear — P5.2 hardening would have raised"
         )
 
     def test_stop_after_halts_after_named_phase(self):
@@ -305,40 +290,42 @@ class SunnyDayE2ETests(unittest.TestCase):
         """
         stdout_buf, stderr_buf = io.StringIO(), io.StringIO()
         tmp_root = Path(self.tmp.name)
-        with redirect_stdout(stdout_buf), redirect_stderr(stderr_buf), \
-             mock.patch.object(initial_driver, "REPO_ROOT", tmp_root), \
-             mock.patch.multiple(
+        with (
+            redirect_stdout(stdout_buf),
+            redirect_stderr(stderr_buf),
+            mock.patch.object(initial_driver, "REPO_ROOT", tmp_root),
+            mock.patch.multiple(
                 initial_driver,
                 author_phase_0b=self._mock_0b,
                 author_phase_0c=self._mock_0c,
                 author_phase_0d=self._mock_0d,
-                author_phase_0e=self._mock_0e), \
-             mock.patch.object(initial_driver, "phase_0f_write_series_plan",
-                               self._mock_0f_write_series_plan), \
-             mock.patch.object(initial_driver, "phase_git_commit",
-                               self._mock_git_commit), \
-             mock.patch.object(initial_driver, "run_source_review_gate",
-                               lambda bd: __import__(
-                                   "phases.source_review_gate",
-                                   fromlist=["ReviewGate"]
-                               ).ReviewGate(approved=True, warnings=[])):
-            rc = initial_driver._drive_authoring_through_0f(
-                self.book_dir, "Tiny Test Book", stop_after="0c"
-            )
+                author_phase_0e=self._mock_0e,
+            ),
+            mock.patch.object(initial_driver, "phase_0f_write_series_plan", self._mock_0f_write_series_plan),
+            mock.patch.object(initial_driver, "phase_git_commit", self._mock_git_commit),
+            mock.patch.object(
+                initial_driver,
+                "run_source_review_gate",
+                lambda bd: __import__("phases.source_review_gate", fromlist=["ReviewGate"]).ReviewGate(
+                    approved=True, warnings=[]
+                ),
+            ),
+        ):
+            rc = initial_driver._drive_authoring_through_0f(self.book_dir, "Tiny Test Book", stop_after="0c")
 
         self.assertEqual(rc, 0, "stop-after halt should return 0 (clean)")
         state = _progress.read_state(self.book_dir)
         self.assertEqual(state["phases"]["0b"]["status"], "completed")
-        self.assertEqual(state["phases"]["0c"]["status"], "completed",
-                         "stopped phase block stays 'completed' so resume skips it")
+        self.assertEqual(
+            state["phases"]["0c"]["status"], "completed", "stopped phase block stays 'completed' so resume skips it"
+        )
         self.assertEqual(state["phase"], "0c")
-        self.assertEqual(state["phase_status"], "halted",
-                         "top-level status flips to 'halted' after --stop-after")
+        self.assertEqual(state["phase_status"], "halted", "top-level status flips to 'halted' after --stop-after")
         # 0d/0e never ran; 0f never reached.
         self.assertEqual(state["phases"].get("0d", {}).get("status", "pending"), "pending")
         self.assertFalse(
             (self.book_dir / "_system" / "series-plan.md").exists(),
-            "0f series plan must NOT be written when halted early via --stop-after"
+            "0f series plan must NOT be written when halted early via --stop-after",
         )
 
 
@@ -352,20 +339,25 @@ class StateMachineOrderingTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.book_dir = Path(self.tmp.name) / "ordering-book"
         (self.book_dir / "_system" / "source" / "text").mkdir(parents=True)
-        _progress.write_state(self.book_dir, {
-            "schema_version": 1,
-            "book_slug": "ordering-book",
-            "category": "books",
-            "branch": "book/ordering-book",
-            "phase": "0b",
-            "phase_status": "pending",
-            "last_completed_phase": "0a",
-            "next_phase": "0b",
-            "last_error": None,
-            "phases": {p: {"status": "completed" if p in ("pre-flight", "branch", "scaffold", "0a") else "pending"}
-                       for p in ("pre-flight", "branch", "scaffold", "0a", "0b", "0c", "0d", "0e", "0f")},
-            "config": {"length_tier": "extended", "unit_mode": "auto"},
-        })
+        _progress.write_state(
+            self.book_dir,
+            {
+                "schema_version": 1,
+                "book_slug": "ordering-book",
+                "category": "books",
+                "branch": "book/ordering-book",
+                "phase": "0b",
+                "phase_status": "pending",
+                "last_completed_phase": "0a",
+                "next_phase": "0b",
+                "last_error": None,
+                "phases": {
+                    p: {"status": "completed" if p in ("pre-flight", "branch", "scaffold", "0a") else "pending"}
+                    for p in ("pre-flight", "branch", "scaffold", "0a", "0b", "0c", "0d", "0e", "0f")
+                },
+                "config": {"length_tier": "extended", "unit_mode": "auto"},
+            },
+        )
         # Seed minimal raw-extract so the mocks have an input shape
         (self.book_dir / "_system" / "source" / "text" / "raw-extract.md").write_text(
             "# Tiny\n\nSeed content for ordering test.\n"
@@ -378,9 +370,11 @@ class StateMachineOrderingTests(unittest.TestCase):
     def _record_update_phase(self, book_dir: Path, phase: str, status: str, **kwargs):
         """Wrap real update_phase to capture the sequence."""
         self.phase_transitions.append((phase, status))
-        return _progress.update_phase.__wrapped__(book_dir, phase=phase, status=status, **kwargs) \
-            if hasattr(_progress.update_phase, "__wrapped__") \
+        return (
+            _progress.update_phase.__wrapped__(book_dir, phase=phase, status=status, **kwargs)
+            if hasattr(_progress.update_phase, "__wrapped__")
             else _progress.update_phase(book_dir, phase=phase, status=status, **kwargs)
+        )
 
     def test_phase_transitions_are_strictly_ordered(self):
         sentinel = mock.MagicMock()
@@ -395,23 +389,28 @@ class StateMachineOrderingTests(unittest.TestCase):
             return plan
 
         from phases.source_review_gate import ReviewGate
+
         approved_gate = ReviewGate(approved=True, warnings=[])
 
         tmp_root = Path(self.tmp.name)
-        with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()), \
-             mock.patch.object(initial_driver, "REPO_ROOT", tmp_root), \
-             mock.patch.object(initial_driver, "update_phase", side_effect=self._record_update_phase), \
-             mock.patch.multiple(
+        with (
+            redirect_stdout(io.StringIO()),
+            redirect_stderr(io.StringIO()),
+            mock.patch.object(initial_driver, "REPO_ROOT", tmp_root),
+            mock.patch.object(initial_driver, "update_phase", side_effect=self._record_update_phase),
+            mock.patch.multiple(
                 initial_driver,
                 author_phase_0b=mock_phase,
                 author_phase_0c=mock_phase,
                 author_phase_0ci=mock_phase,
                 author_phase_0d=mock_phase,
-                author_phase_0e=mock_phase), \
-             mock.patch.object(initial_driver, "phase_0f_write_series_plan", mock_series_plan), \
-             mock.patch.object(initial_driver, "phase_git_commit", lambda *a, **k: None), \
-             mock.patch.object(initial_driver, "_guard_before_phase", lambda *a, **k: None), \
-             mock.patch.object(initial_driver, "run_source_review_gate", lambda bd: approved_gate):
+                author_phase_0e=mock_phase,
+            ),
+            mock.patch.object(initial_driver, "phase_0f_write_series_plan", mock_series_plan),
+            mock.patch.object(initial_driver, "phase_git_commit", lambda *a, **k: None),
+            mock.patch.object(initial_driver, "_guard_before_phase", lambda *a, **k: None),
+            mock.patch.object(initial_driver, "run_source_review_gate", lambda bd: approved_gate),
+        ):
             # _guard_before_phase is a no-op here: the stub phases write no
             # artifacts and this test asserts UPDATE ORDERING only. The
             # sunny-day test above keeps the guards live against real files.
@@ -424,13 +423,20 @@ class StateMachineOrderingTests(unittest.TestCase):
         # (0ci book-intelligence gap analysis inserted after 0c 2026-06-07;
         #  0literary retired from the active flow 2026-06-04 — revoice is PDF path now)
         expected = [
-            ("0b", "running"), ("0b", "completed"),
-            ("0c", "running"), ("0c", "completed"),
-            ("0ci", "running"), ("0ci", "completed"),
-            ("0d", "running"), ("0d", "completed"),
-            ("0e", "running"), ("0e", "completed"),
-            ("06a", "running"), ("06a", "completed"),
-            ("0f", "running"), ("0f", "halted"),
+            ("0b", "running"),
+            ("0b", "completed"),
+            ("0c", "running"),
+            ("0c", "completed"),
+            ("0ci", "running"),
+            ("0ci", "completed"),
+            ("0d", "running"),
+            ("0d", "completed"),
+            ("0e", "running"),
+            ("0e", "completed"),
+            ("06a", "running"),
+            ("06a", "completed"),
+            ("0f", "running"),
+            ("0f", "halted"),
         ]
         self.assertEqual(seq, expected)
 

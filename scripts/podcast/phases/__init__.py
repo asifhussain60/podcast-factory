@@ -14,23 +14,44 @@ Adding a new phase:
 The wave dispatcher's autonomous loop is fully deterministic given the
 state of (a) the filesystem, (b) per-book-ship-checklist.md row checkboxes.
 """
+
 from __future__ import annotations
 
 from typing import Callable
 
-from ._base import PhaseResult
 from . import (
-    p1_1, p1_2,
-    p2_3, p2_4_wave2,
-    p2_2, p2_4,
-    p3_1, p3_2, p3_3, p3_4, p3_5,
-    p4_1, p4_2, p4_3, p4_4, p4_7, p4_8,
-    p5_4, p6_1, p6_2,
-    pw4_1, pw4_2, pw4_3,
-    pw5_1, pw5_2, pw5_3,
-    pw6_1, pw6_2, pw6_3,
     dor_halts,
+    p1_1,
+    p1_2,
+    p2_2,
+    p2_3,
+    p2_4,
+    p2_4_wave2,
+    p3_1,
+    p3_2,
+    p3_3,
+    p3_4,
+    p3_5,
+    p4_1,
+    p4_2,
+    p4_3,
+    p4_4,
+    p4_7,
+    p4_8,
+    p5_4,
+    p6_1,
+    p6_2,
+    pw4_1,
+    pw4_2,
+    pw4_3,
+    pw5_1,
+    pw5_2,
+    pw5_3,
+    pw6_1,
+    pw6_2,
+    pw6_3,
 )
+from ._base import PhaseResult
 
 # Phase registry — ordered within each wave per declared dependencies.
 # Each list entry is the module exporting PHASE_ID / is_done / execute.
@@ -39,34 +60,33 @@ REGISTRY: dict[int, list] = {
         # ── Foundation (deliverables auto-marked when their files validate) ──
         # Verify-only runners go FIRST so all shippable acceptance rows mark
         # on every tick BEFORE the loop halts at any DoR-blocked phase.
-        p5_4,    # phase-id constants module — zero deps
-        p1_1,    # boundary check
-        p1_2,    # proposal writer + manual library handoff doc
-        p4_1,    # abjad-numerals shared file
-        p4_2,    # numeric/symbolic disambiguation handbook
-        p4_3,    # SKILL.md pre-read extension
-        p4_4,    # pre-refined-source-mode handbook extension
-        p4_7,    # M&D Ch-02 scaffolding (Numeric Disambiguation + checklist §J)
-        p4_8,    # intelligence_sources for P4 deliverables
-        p6_1,    # cost-ledger writer
-        p6_2,    # cost-ledger summary CLI
-        p2_2,    # sunny-day E2E test (mocked author_phase_0b-0e)
-        p2_4,    # podcast-e2e CI workflow
-
+        p5_4,  # phase-id constants module — zero deps
+        p1_1,  # boundary check
+        p1_2,  # proposal writer + manual library handoff doc
+        p4_1,  # abjad-numerals shared file
+        p4_2,  # numeric/symbolic disambiguation handbook
+        p4_3,  # SKILL.md pre-read extension
+        p4_4,  # pre-refined-source-mode handbook extension
+        p4_7,  # M&D Ch-02 scaffolding (Numeric Disambiguation + checklist §J)
+        p4_8,  # intelligence_sources for P4 deliverables
+        p6_1,  # cost-ledger writer
+        p6_2,  # cost-ledger summary CLI
+        p2_2,  # sunny-day E2E test (mocked author_phase_0b-0e)
+        p2_4,  # podcast-e2e CI workflow
         # ── Halt-with-DoR (queued for autonomous authoring by Claude in a future
         # session; runner halts the launchd loop until then with a precise DoR
         # breakdown of what Claude will write). Only P5.3 is a true operator gate
         # (needs Azure spend approval). ────────────────────────────────────
-        dor_halts.p2_1,   # tiny-book fixture (SHIPPED — runner re-detects on next tick)
-        dor_halts.p2_3,   # rainy-day E2E (Claude-authorable in next session)
-        dor_halts.p2_5,   # learning-loop E2E + CI gate
-        dor_halts.p2_6,   # refinement determinism (one-time live golden author)
+        dor_halts.p2_1,  # tiny-book fixture (SHIPPED — runner re-detects on next tick)
+        dor_halts.p2_3,  # rainy-day E2E (Claude-authorable in next session)
+        dor_halts.p2_5,  # learning-loop E2E + CI gate
+        dor_halts.p2_6,  # refinement determinism (one-time live golden author)
         dor_halts.p4_4b,  # Loop N regression fixture (waits on P4.5)
-        dor_halts.p4_5,   # challenger Loop N spec (agent-file edits)
-        dor_halts.p4_6,   # Phase 07 numeric scan (invasive _authoring.py)
-        dor_halts.p5_3,   # kitab-al-riyad resume — explicit Azure spend approval gate
-        dor_halts.p6_3,   # soft/hard cost caps (waits on P7 heartbeat)
-        dor_halts.p6_4,   # trainer cost-ledger hook (agent-file edit)
+        dor_halts.p4_5,  # challenger Loop N spec (agent-file edits)
+        dor_halts.p4_6,  # Phase 07 numeric scan (invasive _authoring.py)
+        dor_halts.p5_3,  # kitab-al-riyad resume — explicit Azure spend approval gate
+        dor_halts.p6_3,  # soft/hard cost caps (waits on P7 heartbeat)
+        dor_halts.p6_4,  # trainer cost-ledger hook (agent-file edit)
     ],
     2: [
         p2_3,
@@ -80,19 +100,19 @@ REGISTRY: dict[int, list] = {
         p3_5,
     ],
     4: [
-        pw4_1,   # design-system tokens + SPA shell
-        pw4_2,   # backbone visualization + live dashboard
-        pw4_3,   # annotation intelligence lane
+        pw4_1,  # design-system tokens + SPA shell
+        pw4_2,  # backbone visualization + live dashboard
+        pw4_3,  # annotation intelligence lane
     ],
     5: [
-        pw5_1,   # migrate_meta_yml — retroactive enhancement flow
-        pw5_2,   # validate_ship_ready G8-G12 — extended publish gates
-        pw5_3,   # promotion_lane — self-learning spec promotion
+        pw5_1,  # migrate_meta_yml — retroactive enhancement flow
+        pw5_2,  # validate_ship_ready G8-G12 — extended publish gates
+        pw5_3,  # promotion_lane — self-learning spec promotion
     ],
     6: [
-        pw6_1,   # anti-patterns.md for all 3 archetype directories
-        pw6_2,   # exemplar.md for all 3 archetype directories
-        pw6_3,   # encyclopedic-epistolary spec — 7 Rasāʾil meta fields
+        pw6_1,  # anti-patterns.md for all 3 archetype directories
+        pw6_2,  # exemplar.md for all 3 archetype directories
+        pw6_3,  # encyclopedic-epistolary spec — 7 Rasāʾil meta fields
     ],
 }
 

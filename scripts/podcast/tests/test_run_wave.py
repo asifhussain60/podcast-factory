@@ -4,11 +4,11 @@
 Uses stdlib unittest only — pytest is not yet a project dependency (P8.1).
 Covers the P1.4 acceptance rows listed in _workspace/plan/operations/per-book-ship-checklist.md.
 """
+
 from __future__ import annotations
 
 import io
 import json
-import os
 import sys
 import tempfile
 import textwrap
@@ -21,8 +21,7 @@ from unittest import mock
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import run_wave  # noqa: E402
-
+import run_wave
 
 # Minimal per-book-ship-checklist.md fixture covering W1..W5.
 SAMPLE_ACC = """\
@@ -140,11 +139,7 @@ class CostLedgerTests(unittest.TestCase):
 
     def test_book_cost_sums_rows(self):
         ledger = self.book_dir / "_system" / "cost-ledger.jsonl"
-        ledger.write_text(
-            "\n".join(
-                json.dumps({"ts": "x", "cost_usd": v}) for v in [1.5, 2.75, 0.25]
-            )
-        )
+        ledger.write_text("\n".join(json.dumps({"ts": "x", "cost_usd": v}) for v in [1.5, 2.75, 0.25]))
         with self._patch_books_dir():
             self.assertAlmostEqual(run_wave.book_cost_usd("kitab-foo"), 4.5)
 
@@ -304,17 +299,18 @@ class MainArgvTests(unittest.TestCase):
         self._write_acc(acc_w1_w2_done)
         book = self.books_dir / "kitab-cheap"
         (book / "_system").mkdir(parents=True)
-        (book / "_system" / "cost-ledger.jsonl").write_text(
-            json.dumps({"cost_usd": 5.0})
-        )
+        (book / "_system" / "cost-ledger.jsonl").write_text(json.dumps({"cost_usd": 5.0}))
         rc, out, _ = self._run_main("3", "--book", "kitab-cheap")
         # Cost gate PASSES (under cap). The dispatcher proceeds to iterate the
         # W3 registry. Phases check real-repo deliverables; wave may complete.
         # Any non-error exit is valid: EXIT_DONE, EXIT_EXECUTED_DONE, or HALTED.
         self.assertNotEqual(rc, run_wave.EXIT_ERROR)
         self.assertTrue(
-            "phase registry is empty" in out or "iterating" in out
-            or "DONE" in out or "already done" in out or "halted" in out.lower(),
+            "phase registry is empty" in out
+            or "iterating" in out
+            or "DONE" in out
+            or "already done" in out
+            or "halted" in out.lower(),
             f"Expected dispatcher-proceeded signature, got:\n{out}",
         )
 
@@ -329,12 +325,8 @@ class MainArgvTests(unittest.TestCase):
         self._write_acc(SAMPLE_ACC)
         book = self.books_dir / "kitab-overrun"
         (book / "_system").mkdir(parents=True)
-        (book / "_system" / "cost-ledger.jsonl").write_text(
-            json.dumps({"cost_usd": 75.0})
-        )
-        rc, _, _ = self._run_main(
-            "3", "--book", "kitab-overrun", "--cost-cap-hard", "100"
-        )
+        (book / "_system" / "cost-ledger.jsonl").write_text(json.dumps({"cost_usd": 75.0}))
+        rc, _, _ = self._run_main("3", "--book", "kitab-overrun", "--cost-cap-hard", "100")
         self.assertEqual(rc, run_wave.EXIT_HALTED_REVIEW)
 
     def test_w5_no_phase_flag_allowed_when_registry_has_phases(self):
@@ -376,8 +368,7 @@ class MainArgvTests(unittest.TestCase):
         self.assertIn(rc, (run_wave.EXIT_DONE, run_wave.EXIT_EXECUTED_DONE, run_wave.EXIT_HALTED_REVIEW))
         # Dispatcher-ran signature: either iterating message or already-done
         self.assertTrue(
-            "iterating" in out or "already done" in out or "DONE" in out
-            or "phase registry is empty" in out,
+            "iterating" in out or "already done" in out or "DONE" in out or "phase registry is empty" in out,
             f"Expected dispatcher-ran signature, got:\n{out}",
         )
 
@@ -453,16 +444,20 @@ class P9InvariantTests(unittest.TestCase):
             self.assertTrue(run_wave.p9_invariant_green())
 
     def test_returns_true_on_subprocess_exit_0(self):
-        with mock.patch.object(run_wave, "CHALLENGER_TEST", Path("/dev/null")), \
-             mock.patch.object(Path, "exists", lambda self: True), \
-             mock.patch("subprocess.run") as run_mock:
+        with (
+            mock.patch.object(run_wave, "CHALLENGER_TEST", Path("/dev/null")),
+            mock.patch.object(Path, "exists", lambda self: True),
+            mock.patch("subprocess.run") as run_mock,
+        ):
             run_mock.return_value = mock.MagicMock(returncode=0)
             self.assertTrue(run_wave.p9_invariant_green())
 
     def test_returns_false_on_subprocess_non_zero(self):
-        with mock.patch.object(run_wave, "CHALLENGER_TEST", Path("/dev/null")), \
-             mock.patch.object(Path, "exists", lambda self: True), \
-             mock.patch("subprocess.run") as run_mock:
+        with (
+            mock.patch.object(run_wave, "CHALLENGER_TEST", Path("/dev/null")),
+            mock.patch.object(Path, "exists", lambda self: True),
+            mock.patch("subprocess.run") as run_mock,
+        ):
             run_mock.return_value = mock.MagicMock(returncode=1)
             self.assertFalse(run_wave.p9_invariant_green())
 

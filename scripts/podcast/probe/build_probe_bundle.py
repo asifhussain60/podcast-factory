@@ -21,6 +21,7 @@ audio proved NotebookLM reads ``JAA-far`` as "J.A. Far" and ``is-raa-FEEL`` as
 "Israel, feel"; plain "Ja'far" / "Israfil" / "Cain" come out correct.) The probe is
 therefore a confirmation that the rendered forms sound right, not a respelling test.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -31,8 +32,8 @@ from pathlib import Path
 # Pull shared helpers from the knowledge package so keys + rendering match exactly.
 _PROBE_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(_PROBE_DIR.parent / "knowledge"))
-from pronunciation_ledger import normalize_key  # noqa: E402
-import term_render  # noqa: E402
+import term_render
+from pronunciation_ledger import normalize_key
 
 
 def _spoken(t: dict) -> dict:
@@ -47,6 +48,7 @@ def _spoken(t: dict) -> dict:
     translit = t.get("transliteration") or t.get("meaning") or t["term"]
     res = term_render.render_for_audio(translit)
     return {"text": res.text, "is_english": res.is_english, "tier": res.tier}
+
 
 def _load_library(book_dir: Path) -> dict[str, dict]:
     """Return a dict keyed by normalize_key(term) from pronunciations.jsonl.
@@ -160,7 +162,7 @@ def build_framing(data: dict) -> str:
             "Arabic word it replaces:",
         ]
         for t, english in english_subs:
-            lines.append(f"- say \"{english}\"")
+            lines.append(f'- say "{english}"')
     lines += [
         "",
         "Arabic citations: speak ONCE at first occurrence, then the English meaning.",
@@ -230,9 +232,7 @@ def build_readme(data: dict) -> str:
 def build_bundle(book_dir: Path) -> Path:
     data_path = book_dir / "_system" / "probe" / "probe-terms.json"
     if not data_path.exists():
-        raise FileNotFoundError(
-            f"{data_path} missing — run score_pronunciation_risk.py first"
-        )
+        raise FileNotFoundError(f"{data_path} missing — run score_pronunciation_risk.py first")
     data = json.loads(data_path.read_text(encoding="utf-8"))
     if not data.get("terms"):
         raise ValueError("probe-terms.json has no terms (nothing to probe)")
@@ -249,9 +249,7 @@ def build_bundle(book_dir: Path) -> Path:
     # respelling. Keyed off the transliteration (the `term` field is raw script).
     tables = term_render.load_tables()
     refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
-    book_glosses = term_render.mine_glosses(
-        refined.read_text(encoding="utf-8")
-    ) if refined.exists() else {}
+    book_glosses = term_render.mine_glosses(refined.read_text(encoding="utf-8")) if refined.exists() else {}
     for t in data["terms"]:
         translit = t.get("transliteration") or t.get("meaning") or t["term"]
         ledger_entry = lib.get(normalize_key(translit)) or t.get("_library")

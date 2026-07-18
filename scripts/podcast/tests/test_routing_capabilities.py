@@ -9,9 +9,9 @@ phase_capabilities() table, not the legacy `category` tag:
   - a `books`-category item carrying a technical profile → skip (the bug it fixes)
   - consumer category with no explicit profile → shim routes as consumer_explainer
 """
+
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
@@ -20,8 +20,8 @@ import pytest
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-from _rules import phase_capabilities, ISLAMIC_SCHOLARLY_PROFILE  # noqa: E402
-from phases.initial_driver import resolve_phase_profile  # noqa: E402
+from _rules import ISLAMIC_SCHOLARLY_PROFILE, phase_capabilities
+from phases.initial_driver import resolve_phase_profile
 
 
 def _book(tmp_path: Path, profile: str | None) -> Path:

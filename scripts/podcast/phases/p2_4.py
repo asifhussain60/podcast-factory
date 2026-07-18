@@ -1,4 +1,5 @@
 """P2.4 phase runner — podcast-e2e CI workflow."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -19,12 +20,7 @@ def is_done(repo_root: Path | None = None) -> bool:
     if not wf.exists():
         return False
     text = wf.read_text()
-    return (
-        "pull_request" in text
-        and "scripts/podcast/" in text
-        and "unittest" in text
-        and "_boundary_check" in text
-    )
+    return "pull_request" in text and "scripts/podcast/" in text and "unittest" in text and "_boundary_check" in text
 
 
 def execute(repo_root: Path | None = None) -> PhaseResult:
@@ -32,12 +28,14 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
         repo_root = REPO_ROOT
     if not is_done(repo_root):
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
+            phase_id=PHASE_ID,
+            status="halted",
             message="podcast-e2e.yml missing or doesn't gate on the required surface.",
             evidence_paths=[str(WORKFLOW)],
         )
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message="podcast-e2e.yml present; gates on scripts/podcast/ + runs unittest + boundary check.",
         rows_marked=[PHASE_ID],
         evidence_paths=[str(WORKFLOW)],

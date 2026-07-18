@@ -39,6 +39,7 @@ Notes
   - Existing files are overwritten (idempotent).
   - Exit codes: 0 = all files copied, 1 = one or more copies failed, 2 = usage error.
 """
+
 from __future__ import annotations
 
 import json
@@ -50,16 +51,16 @@ import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import find_content, REPO_ROOT  # noqa: E402
-from _sessions import load_sessions_for_book, session_for_episode  # noqa: E402
+from _paths import REPO_ROOT, find_content
+from _sessions import load_sessions_for_book, session_for_episode
 
 _GDRIVE_LIBRARY = Path(
-    "~/Library/CloudStorage/GoogleDrive-asifhussain60@gmail.com"
-    "/My Drive/Podcast Library"
+    "~/Library/CloudStorage/GoogleDrive-asifhussain60@gmail.com/My Drive/Podcast Library"
 ).expanduser()
 
 
 # ─── title helpers ───────────────────────────────────────────────────────────
+
 
 def _edition_title(book_dir: Path) -> str | None:
     """Reading-edition title from book-toc.json (used as the PDF filename)."""
@@ -80,6 +81,7 @@ def _series_title(book_dir: Path) -> str:
     if meta.exists():
         try:
             import yaml  # type: ignore[import]
+
             title = (yaml.safe_load(meta.read_text(encoding="utf-8")) or {}).get("title", "").strip()
             if title:
                 return title
@@ -89,6 +91,7 @@ def _series_title(book_dir: Path) -> str:
 
 
 # ─── episode title map ───────────────────────────────────────────────────────
+
 
 def _episode_titles(book_dir: Path) -> dict[int, str]:
     """Return {ep_number: title} from H1 headings in episodes/EP*.txt framing files."""
@@ -113,6 +116,7 @@ def _episode_titles(book_dir: Path) -> dict[int, str]:
 
 
 # ─── file discovery ──────────────────────────────────────────────────────────
+
 
 def _find_pdf(book_dir: Path) -> Path | None:
     """Return the best PDF to deliver (titled copy preferred, book.pdf fallback)."""
@@ -171,6 +175,7 @@ def _match_audio_to_episodes(
 
 # ─── default target ──────────────────────────────────────────────────────────
 
+
 def _default_target(book_dir: Path) -> Path:
     return _GDRIVE_LIBRARY / _series_title(book_dir)
 
@@ -200,10 +205,19 @@ def _transcode(src: Path, dst: Path, *, audio_format: str, mp3_bitrate: str) -> 
         return
     if audio_format == "mp3":
         cmd = [
-            _ffmpeg() or "ffmpeg", "-y", "-hide_banner", "-loglevel", "error",
-            "-i", str(src),
-            "-codec:a", "libmp3lame", "-b:a", mp3_bitrate,
-            "-map_metadata", "0",
+            _ffmpeg() or "ffmpeg",
+            "-y",
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-i",
+            str(src),
+            "-codec:a",
+            "libmp3lame",
+            "-b:a",
+            mp3_bitrate,
+            "-map_metadata",
+            "0",
             str(dst),
         ]
         subprocess.run(cmd, check=True)
@@ -212,6 +226,7 @@ def _transcode(src: Path, dst: Path, *, audio_format: str, mp3_bitrate: str) -> 
 
 
 # ─── delivery ────────────────────────────────────────────────────────────────
+
 
 def deliver(
     slug: str,
@@ -270,8 +285,7 @@ def deliver(
     if clean:
         log("  clean   : wipe existing Episodes/ + prior PDF(s) before writing")
     log(f"  PDF     : {pdf.name if pdf else '(none)'} → {target_path.name}/")
-    log(f"  audio   : {len(audio_plan)} file(s) → Episodes/"
-        + (f" ({len(sessions)} sessions)" if sessions else ""))
+    log(f"  audio   : {len(audio_plan)} file(s) → Episodes/" + (f" ({len(sessions)} sessions)" if sessions else ""))
     for src, ep_num, title in audio_plan:
         dest_name = f"EP-{ep_num:02d}-{title}.{ext}"
         log(f"    EP-{ep_num:02d}  {src.name}")
@@ -294,8 +308,10 @@ def deliver(
     # app has the entitlement), or grant Full Disk Access to the controlling app.
     def _eperm_hint(exc: Exception) -> str:
         if isinstance(exc, PermissionError):
-            return (" — Drive blocks mutating already-synced files without Full "
-                    "Disk Access; delete it in Finder/drive.google.com or grant FDA")
+            return (
+                " — Drive blocks mutating already-synced files without Full "
+                "Disk Access; delete it in Finder/drive.google.com or grant FDA"
+            )
         return ""
 
     if clean:
@@ -359,6 +375,7 @@ def deliver(
 
 # ─── CLI ─────────────────────────────────────────────────────────────────────
 
+
 def main() -> int:
     args = sys.argv[1:]
     if not args:
@@ -381,13 +398,14 @@ def main() -> int:
                 audio_format = val
             else:
                 mp3_bitrate = val
-            del args[i:i + 2]
+            del args[i : i + 2]
 
     positional = [a for a in args if not a.startswith("--")]
     slug = positional[0]
     target = positional[1] if len(positional) > 1 else None
     return deliver(
-        slug, target,
+        slug,
+        target,
         dry_run=dry_run,
         audio_format=audio_format,
         mp3_bitrate=mp3_bitrate,

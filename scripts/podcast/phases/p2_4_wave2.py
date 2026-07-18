@@ -1,4 +1,5 @@
 """P2.4 phase runner — Wave-B registry wiring validation."""
+
 from __future__ import annotations
 
 import py_compile
@@ -19,11 +20,7 @@ def _registry_wired(repo_root: Path) -> bool:
     if not init_file.exists():
         return False
     text = init_file.read_text(encoding="utf-8")
-    return (
-        "p2_3" in text
-        and "p2_4_wave2" in text
-        and "2: [" in text
-    )
+    return "p2_3" in text and "p2_4_wave2" in text and "2: [" in text
 
 
 def _runner_compiles(repo_root: Path) -> bool:

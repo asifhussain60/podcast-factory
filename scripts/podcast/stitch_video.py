@@ -44,19 +44,68 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _paths import content_dir  # noqa: E402
+from _paths import content_dir
 
 # Words ignored when extracting keywords for transcript search.
 _STOPWORDS = {
-    "the", "a", "an", "and", "or", "of", "to", "in", "is", "are", "was", "were",
-    "for", "from", "with", "by", "on", "at", "as", "his", "her", "their", "its",
-    "this", "that", "these", "those", "it", "he", "she", "they", "we", "you",
-    "not", "no", "so", "do", "be", "have", "has", "had", "will", "would", "can",
-    "who", "what", "which", "when", "where", "how", "let", "say", "said", "than",
+    "the",
+    "a",
+    "an",
+    "and",
+    "or",
+    "of",
+    "to",
+    "in",
+    "is",
+    "are",
+    "was",
+    "were",
+    "for",
+    "from",
+    "with",
+    "by",
+    "on",
+    "at",
+    "as",
+    "his",
+    "her",
+    "their",
+    "its",
+    "this",
+    "that",
+    "these",
+    "those",
+    "it",
+    "he",
+    "she",
+    "they",
+    "we",
+    "you",
+    "not",
+    "no",
+    "so",
+    "do",
+    "be",
+    "have",
+    "has",
+    "had",
+    "will",
+    "would",
+    "can",
+    "who",
+    "what",
+    "which",
+    "when",
+    "where",
+    "how",
+    "let",
+    "say",
+    "said",
+    "than",
 }
 
-MIN_SLIDE_DURATION_S = 5.0   # never show an image for less than this
-MIN_KEYWORD_LEN      = 4     # ignore short tokens as search keywords
+MIN_SLIDE_DURATION_S = 5.0  # never show an image for less than this
+MIN_KEYWORD_LEN = 4  # ignore short tokens as search keywords
 
 
 def _video_enabled(book_dir: Path) -> bool:
@@ -66,6 +115,7 @@ def _video_enabled(book_dir: Path) -> bool:
         return False
     try:
         import yaml
+
         cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
         return bool(cfg.get("enable_video", False))
     except Exception:
@@ -73,6 +123,7 @@ def _video_enabled(book_dir: Path) -> bool:
 
 
 # ─── ffmpeg helpers ────────────────────────────────────────────────────────────
+
 
 def _require_ffmpeg() -> None:
     try:
@@ -83,14 +134,16 @@ def _require_ffmpeg() -> None:
 
 def _audio_duration(audio_path: Path) -> float:
     result = subprocess.run(
-        ["ffprobe", "-v", "quiet", "-show_entries", "format=duration",
-         "-of", "csv=p=0", str(audio_path)],
-        capture_output=True, text=True, check=True,
+        ["ffprobe", "-v", "quiet", "-show_entries", "format=duration", "-of", "csv=p=0", str(audio_path)],
+        capture_output=True,
+        text=True,
+        check=True,
     )
     return float(result.stdout.strip())
 
 
 # ─── Transcript-based sync ────────────────────────────────────────────────────
+
 
 def _tokenize(text: str) -> list[str]:
     return [re.sub(r"[^a-z]", "", w.lower()) for w in text.split()]
@@ -140,13 +193,14 @@ def _build_sync_times(
 
 # ─── Episode discovery ────────────────────────────────────────────────────────
 
+
 def _discover_episodes(book_dir: Path, episode_filter: str | None) -> list[dict]:
     import json
 
-    episodes_dir   = book_dir / "episodes"
-    m4a_dir        = book_dir / "m4a"
+    episodes_dir = book_dir / "episodes"
+    m4a_dir = book_dir / "m4a"
     transcripts_dir = book_dir / "transcripts"
-    results        = []
+    results = []
 
     if not episodes_dir.exists():
         sys.exit(f"ERROR: episodes/ directory not found at {book_dir}")
@@ -193,19 +247,22 @@ def _discover_episodes(book_dir: Path, episode_filter: str | None) -> list[dict]
         # teaching_hybrid manifest is a dict with a "slides" key;
         # scenic manifest is a flat list.
         segments = raw.get("slides", raw) if isinstance(raw, dict) else raw
-        results.append({
-            "ep_id":           ep_id,
-            "ep_dir":          ep_dir,
-            "images_dir":      images_dir,
-            "audio":           audio_candidates[0],
-            "segments":        segments,
-            "transcript_text": transcript_text,
-        })
+        results.append(
+            {
+                "ep_id": ep_id,
+                "ep_dir": ep_dir,
+                "images_dir": images_dir,
+                "audio": audio_candidates[0],
+                "segments": segments,
+                "transcript_text": transcript_text,
+            }
+        )
 
     return results
 
 
 # ─── Image sequence builder ───────────────────────────────────────────────────
+
 
 def _build_image_sequence(
     segments: list[dict],
@@ -219,23 +276,20 @@ def _build_image_sequence(
 
     # Map segment_id → image file (jpg for scenic, png for teaching slides)
     image_map: dict[str, Path] = {}
-    for img in sorted([*images_dir.glob("*.jpg"), *images_dir.glob("*.png")],
-                      key=lambda p: p.stem):
+    for img in sorted([*images_dir.glob("*.jpg"), *images_dir.glob("*.png")], key=lambda p: p.stem):
         seg_prefix = img.stem.split("_")[0]
         image_map[seg_prefix] = img
 
     # Filter to segments that have a matching image, preserving order
-    valid = [(seg, image_map[seg["segment_id"]])
-             for seg in segments
-             if seg.get("segment_id") in image_map]
+    valid = [(seg, image_map[seg["segment_id"]]) for seg in segments if seg.get("segment_id") in image_map]
 
     if not valid:
         print("    WARN: no matched segment→image pairs, skipping")
         return []
 
-    valid_segs  = [s for s, _ in valid]
-    valid_imgs  = [img for _, img in valid]
-    sync_times  = _build_sync_times(valid_segs, actual_duration_s, transcript_text)
+    valid_segs = [s for s, _ in valid]
+    valid_imgs = [img for _, img in valid]
+    sync_times = _build_sync_times(valid_segs, actual_duration_s, transcript_text)
 
     sequence: list[tuple[Path, float]] = []
     for img, (start_s, end_s) in zip(valid_imgs, sync_times):
@@ -253,6 +307,7 @@ def _build_image_sequence(
 
 # ─── ffmpeg concat ────────────────────────────────────────────────────────────
 
+
 def _write_concat_file(sequence: list[tuple[Path, float]], tmp_path: Path) -> None:
     lines = []
     for img_path, duration in sequence:
@@ -261,7 +316,7 @@ def _write_concat_file(sequence: list[tuple[Path, float]], tmp_path: Path) -> No
         lines.append(f"duration {duration:.3f}")
     if sequence:
         last_img = sequence[-1][0]
-        lines.append(f"file '{str(last_img).replace(chr(39), chr(92)+chr(39))}'")
+        lines.append(f"file '{str(last_img).replace(chr(39), chr(92) + chr(39))}'")
     tmp_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -272,16 +327,34 @@ def _run_ffmpeg(
     dry_run: bool,
 ) -> None:
     cmd = [
-        "ffmpeg", "-y",
-        "-f", "concat", "-safe", "0", "-i", str(concat_file),
-        "-i", str(audio_path),
-        "-vf", "scale=1920:1080:force_original_aspect_ratio=decrease,"
-               "pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=black",
-        "-c:v", "libx264", "-preset", "medium", "-crf", "23",
-        "-r", "25",
-        "-c:a", "copy",
-        "-pix_fmt", "yuv420p",
-        "-map", "0:v", "-map", "1:a",
+        "ffmpeg",
+        "-y",
+        "-f",
+        "concat",
+        "-safe",
+        "0",
+        "-i",
+        str(concat_file),
+        "-i",
+        str(audio_path),
+        "-vf",
+        "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=black",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "medium",
+        "-crf",
+        "23",
+        "-r",
+        "25",
+        "-c:a",
+        "copy",
+        "-pix_fmt",
+        "yuv420p",
+        "-map",
+        "0:v",
+        "-map",
+        "1:a",
         "-shortest",
         str(output_path),
     ]
@@ -299,16 +372,15 @@ def _run_ffmpeg(
 
 # ─── Main ─────────────────────────────────────────────────────────────────────
 
+
 def main(argv: list[str] | None = None) -> int:
     _require_ffmpeg()
 
-    parser = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
-    )
-    parser.add_argument("slug",        help="Book slug, e.g. ayyuhal-walad")
-    parser.add_argument("--episode",   help="Stitch a single episode, e.g. EP01")
-    parser.add_argument("--dry-run",   action="store_true", help="Print command, don't run")
-    parser.add_argument("--force",     action="store_true", help="Overwrite existing MP4s")
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("slug", help="Book slug, e.g. ayyuhal-walad")
+    parser.add_argument("--episode", help="Stitch a single episode, e.g. EP01")
+    parser.add_argument("--dry-run", action="store_true", help="Print command, don't run")
+    parser.add_argument("--force", action="store_true", help="Overwrite existing MP4s")
     args = parser.parse_args(argv)
 
     book_dir = content_dir(args.slug)
@@ -317,7 +389,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if not _video_enabled(book_dir):
         print(f"\nVideo generation is disabled for '{args.slug}'.")
-        print(f"  To enable: set  enable_video: true  in _system/series-config.yaml")
+        print("  To enable: set  enable_video: true  in _system/series-config.yaml")
         return 0
 
     episodes = _discover_episodes(book_dir, args.episode)
@@ -327,9 +399,9 @@ def main(argv: list[str] | None = None) -> int:
     print(f"\n{args.slug} — stitching {len(episodes)} episode(s)\n")
 
     for ep in episodes:
-        ep_id           = ep["ep_id"]
-        audio           = ep["audio"]
-        segments        = ep["segments"]
+        ep_id = ep["ep_id"]
+        audio = ep["audio"]
+        segments = ep["segments"]
         transcript_text = ep["transcript_text"]
 
         print(f"── {ep_id}")
@@ -338,11 +410,11 @@ def main(argv: list[str] | None = None) -> int:
         print(f"   Sync mode:  {sync_mode}")
 
         actual_dur = _audio_duration(audio)
-        print(f"   Duration:   {int(actual_dur//60)}m {int(actual_dur%60)}s")
+        print(f"   Duration:   {int(actual_dur // 60)}m {int(actual_dur % 60)}s")
 
         sequence = _build_image_sequence(segments, ep["images_dir"], actual_dur, transcript_text)
         if not sequence:
-            print(f"   WARN: no image sequence built, skipping")
+            print("   WARN: no image sequence built, skipping")
             continue
 
         print(f"   Segments:   {len(sequence)}")
@@ -350,19 +422,17 @@ def main(argv: list[str] | None = None) -> int:
             seg = segments[i] if i < len(segments) else {}
             label = seg.get("overlay_text", img.stem)[:40]
             start_s = sum(d for _, d in sequence[:i])
-            print(f"     s{i+1:02d} {int(start_s//60):02d}:{int(start_s%60):02d}  {dur:5.0f}s  {label}")
+            print(f"     s{i + 1:02d} {int(start_s // 60):02d}:{int(start_s % 60):02d}  {dur:5.0f}s  {label}")
 
         ep_slug_short = re.sub(r"^EP\d+-", "", ep_id)[:32]
-        output_path   = ep["ep_dir"] / f"video-{ep_slug_short}.mp4"
+        output_path = ep["ep_dir"] / f"video-{ep_slug_short}.mp4"
 
         if output_path.exists() and not args.dry_run and not args.force:
             print(f"   {output_path.name} already exists — use --force to overwrite")
             print()
             continue
 
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".txt", delete=False, prefix=f"concat_{ep_id}_"
-        ) as tmp:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False, prefix=f"concat_{ep_id}_") as tmp:
             tmp_path = Path(tmp.name)
 
         try:

@@ -42,9 +42,7 @@ from pathlib import Path
 # prefix.
 
 # Pattern 1: *Term* (PHO-NE-TIC; ...) — italic + paren with uppercase respelling
-_PAT1 = re.compile(
-    r"(\*[A-Za-z'`\-]+\*)\s*\(\s*[A-Za-z'\-]*[A-Z]{2,}[A-Za-z'\-]*[^)]*\)"
-)
+_PAT1 = re.compile(r"(\*[A-Za-z'`\-]+\*)\s*\(\s*[A-Za-z'\-]*[A-Z]{2,}[A-Za-z'\-]*[^)]*\)")
 # Pattern 2: standalone blockquote line `> (phonetic-form)` — phonetic-only blockquote
 _PAT2 = re.compile(r"^>\s*\(\s*[a-z]+\-[a-z]+(?:[-\s][a-z\-]+)+\s*\)\s*$\n?", re.MULTILINE)
 # Pattern 3: bare `(PHO-NE-TIC)` paren without a preceding italic — fallback for
@@ -78,9 +76,9 @@ def strip_chapter(text: str) -> tuple[str, int]:
     n += k
     new, k = _PAT3.subn("", new)
     n += k
-    new, k = _PAT4.subn("", new)   # IPA `(/foo/)` shape
+    new, k = _PAT4.subn("", new)  # IPA `(/foo/)` shape
     n += k
-    new, k = _PAT5.subn("", new)   # bare `(phon, gloss)` shape
+    new, k = _PAT5.subn("", new)  # bare `(phon, gloss)` shape
     n += k
     # PAT6: `Term, PHON-tic,` → `Term,` (drop the phonetic between commas)
     new, k = _PAT6.subn(",", new)

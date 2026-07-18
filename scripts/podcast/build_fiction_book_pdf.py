@@ -10,6 +10,7 @@ Usage:
   python3 build_fiction_book_pdf.py <book-slug>
   python3 build_fiction_book_pdf.py journey-to-the-west-vol-1
 """
+
 from __future__ import annotations
 
 import base64
@@ -19,9 +20,9 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import REPO_ROOT  # noqa: E402
-from _cost_ledger import append_gemini_cost  # noqa: E402
-from _secrets import get_gemini_key  # noqa: E402
+from _cost_ledger import append_gemini_cost
+from _paths import REPO_ROOT
+from _secrets import get_gemini_key
 
 IMAGE_MODEL = "gemini-3.1-flash-image"
 IMAGE_COST_USD = 0.04
@@ -32,15 +33,15 @@ IMAGE_COST_USD = 0.04
 # Canonical chapter titles for JtW Vol 1 — used when source-toc.json has only
 # a partial entry set (e.g. when TOC was trimmed to N episodes for podcast work).
 _JTW_TITLES: dict[int, str] = {
-    1:  "The Stone Egg of Flower-Fruit Mountain and the Magical Monkey King",
-    2:  "The Secret Word at the Third Watch",
-    3:  "The Four Seas and a Thousand Mountains Bow in Submission",
-    4:  "A Stable-Keeper's Title Cannot Content Him; The Great Sage Raises Heaven's Banner",
-    5:  "The Great Sage Plunders the Peaches and Steals the Elixir",
-    6:  "Guanyin Comes to the Feast and Asks the Cause; The Little Sage Subdues the Great Sage",
-    7:  "The Great Sage Escapes the Eight-Trigrams Furnace; The Buddha Subdues the Mind-Monkey",
-    8:  "The Buddha Forges the Scriptures, and Guanyin Seeks the Pilgrim",
-    9:  "The River-Float Monk and the Long Road to Vengeance",
+    1: "The Stone Egg of Flower-Fruit Mountain and the Magical Monkey King",
+    2: "The Secret Word at the Third Watch",
+    3: "The Four Seas and a Thousand Mountains Bow in Submission",
+    4: "A Stable-Keeper's Title Cannot Content Him; The Great Sage Raises Heaven's Banner",
+    5: "The Great Sage Plunders the Peaches and Steals the Elixir",
+    6: "Guanyin Comes to the Feast and Asks the Cause; The Little Sage Subdues the Great Sage",
+    7: "The Great Sage Escapes the Eight-Trigrams Furnace; The Buddha Subdues the Mind-Monkey",
+    8: "The Buddha Forges the Scriptures, and Guanyin Seeks the Pilgrim",
+    9: "The River-Float Monk and the Long Road to Vengeance",
     10: "The Old Dragon King's Reckless Scheme Breaks Heaven's Law",
     11: "The Emperor's Soul Journeys Through the Underworld",
     12: "The Borrowed Body and the Bodhisattva's Sign",
@@ -74,15 +75,15 @@ _STYLE = (
 )
 
 _JTW_PROMPTS: dict[int, str] = {
-    1:  "A stone egg atop Flower-Fruit Mountain cracks open in a blaze of golden light; a magical monkey king emerges from the rock, his eyes blazing with twin rays that pierce the heavens.",
-    2:  "Sun Wukong kneeling reverently before the ancient white-bearded Patriarch Subodhi inside a candlelit cave at twilight, receiving forbidden wisdom inscribed on glowing scrolls.",
-    3:  "Sun Wukong brandishing the massive iron pillar — the Pillar That Steadies the Sea — inside the Dragon King's luminous crystal palace beneath the waves, sea creatures recoiling in awe.",
-    4:  "Sun Wukong strutting through jade corridors of the Heavenly Palace in a celestial official's robe, celestial horses watching nervously from gilded stables behind him.",
-    5:  "Sun Wukong in the Jade Emperor's peach garden at night under paper lanterns, gleefully stuffing golden peaches into his sleeves while celestial fairies scatter in alarm.",
-    6:  "Erlang Shen and Sun Wukong locked in titanic combat on a cloud-swept mountain peak, their bodies mid-transformation — one a giant hawk, the other a cormorant — lightning crackling between them.",
-    7:  "Sun Wukong pinned beneath a colossal mountain by the Buddha's golden seal, only one arm reaching upward through the rocks toward a distant sky.",
-    8:  "Guanyin Bodhisattva riding lotus clouds above a misty jade-green landscape, staff of willow in hand, serenely surveying the mortal realm far below in golden afternoon light.",
-    9:  "A tiny infant in a carved wooden chest floating silently down a moonlit river at night, distant figures of grieving monks watching from the shadow-draped bank.",
+    1: "A stone egg atop Flower-Fruit Mountain cracks open in a blaze of golden light; a magical monkey king emerges from the rock, his eyes blazing with twin rays that pierce the heavens.",
+    2: "Sun Wukong kneeling reverently before the ancient white-bearded Patriarch Subodhi inside a candlelit cave at twilight, receiving forbidden wisdom inscribed on glowing scrolls.",
+    3: "Sun Wukong brandishing the massive iron pillar — the Pillar That Steadies the Sea — inside the Dragon King's luminous crystal palace beneath the waves, sea creatures recoiling in awe.",
+    4: "Sun Wukong strutting through jade corridors of the Heavenly Palace in a celestial official's robe, celestial horses watching nervously from gilded stables behind him.",
+    5: "Sun Wukong in the Jade Emperor's peach garden at night under paper lanterns, gleefully stuffing golden peaches into his sleeves while celestial fairies scatter in alarm.",
+    6: "Erlang Shen and Sun Wukong locked in titanic combat on a cloud-swept mountain peak, their bodies mid-transformation — one a giant hawk, the other a cormorant — lightning crackling between them.",
+    7: "Sun Wukong pinned beneath a colossal mountain by the Buddha's golden seal, only one arm reaching upward through the rocks toward a distant sky.",
+    8: "Guanyin Bodhisattva riding lotus clouds above a misty jade-green landscape, staff of willow in hand, serenely surveying the mortal realm far below in golden afternoon light.",
+    9: "A tiny infant in a carved wooden chest floating silently down a moonlit river at night, distant figures of grieving monks watching from the shadow-draped bank.",
     10: "The Dragon King of the Jing River confronting the imperial minister Wei Zheng in a fever-dream — the dragon's scales shimmering silver-blue as the executioner's sword descends in a nightmare courtroom.",
     11: "The Tang Emperor Taizong's robed soul standing before Yama's underworld courtroom, enormous demon scribes recording sins in towering black ledgers, spectral lanterns casting eerie green light.",
     12: "Tang Sanzang in his monk's robe kneeling before Guanyin, receiving a gleaming golden kasaya robe and begging bowl, with the vast western mountains glowing at dawn behind them.",
@@ -112,9 +113,9 @@ _JTW_PROMPTS: dict[int, str] = {
 
 def _chapter_titles() -> dict[int, str]:
     """Read chapter titles from source-toc.json (all 34 entries cover 33 source chapters)."""
-    toc_paths = list((REPO_ROOT / "content").glob(
-            "*/journey-to-the-west-vol-1/_system/source/text/_chunks/0d/source-toc.json"
-        ))
+    toc_paths = list(
+        (REPO_ROOT / "content").glob("*/journey-to-the-west-vol-1/_system/source/text/_chunks/0d/source-toc.json")
+    )
     if not toc_paths:
         return {}
     toc = json.loads(toc_paths[0].read_text(encoding="utf-8"))
@@ -218,9 +219,9 @@ def illustrate_book(book_dir: Path, book_md: Path) -> Path:
             i += 1
             continue
 
-        heading = parts[i]      # e.g. "## Chapter 1: The Stone Egg..."
+        heading = parts[i]  # e.g. "## Chapter 1: The Stone Egg..."
         ch_num_str = parts[i + 1]  # e.g. "1"
-        body = parts[i + 2]     # chapter text
+        body = parts[i + 2]  # chapter text
         i += 3
 
         ch_num = int(ch_num_str)
@@ -256,7 +257,8 @@ def illustrate_book(book_dir: Path, book_md: Path) -> Path:
                 print(f"saved ({len(image_bytes) // 1024}KB)")
                 generated += 1
                 append_gemini_cost(
-                    book_dir=book_dir, phase="0book-illustrate",
+                    book_dir=book_dir,
+                    phase="0book-illustrate",
                     step=f"image/ch{ch_num:02d}",
                     model=IMAGE_MODEL,
                     in_chars=len(full_prompt),
@@ -273,8 +275,8 @@ def illustrate_book(book_dir: Path, book_md: Path) -> Path:
         figure = (
             f'<figure class="book-illustration">\n'
             f'<img src="data:image/jpeg;base64,{b64}" alt="{ch_title}" style="width:100%;max-height:480px;object-fit:cover;display:block;margin:0 auto;">\n'
-            f'<figcaption>{ch_title.split(": ", 1)[-1] if ": " in ch_title else ch_title}</figcaption>\n'
-            f'</figure>'
+            f"<figcaption>{ch_title.split(': ', 1)[-1] if ': ' in ch_title else ch_title}</figcaption>\n"
+            f"</figure>"
         )
         out_parts.append(heading + "\n\n" + figure + "\n" + body)
 
@@ -294,6 +296,7 @@ def render_pdf(book_dir: Path, illustrated_md: Path) -> Path:
     honors the per-book book_pipeline_v2 flag and visual-layout.json instead of
     silently rendering with v2 hard-off."""
     from build_book_pdf import build_book  # lazy: shared canonical render path
+
     return build_book(book_dir, book_md=illustrated_md)
 
 

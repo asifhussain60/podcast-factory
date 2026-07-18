@@ -30,15 +30,14 @@ the operator's existing Claude CLI auth (identical to orchestrate_book.py).
 Boundary: every write path validates the resolved path lives under a
 configured worktree root. Refuses otherwise.
 """
+
 from __future__ import annotations
 
 import argparse
 import asyncio
 import hashlib
 import json
-import os
 import re
-import signal
 import subprocess
 import sys
 from contextlib import asynccontextmanager
@@ -50,9 +49,9 @@ if str(Path(__file__).parent) not in sys.path:
     sys.path.insert(0, str(Path(__file__).parent))
 
 try:
-    from fastapi import FastAPI, HTTPException, Query, Request
+    from fastapi import FastAPI, HTTPException, Query, Request  # noqa: F401
     from fastapi.middleware.cors import CORSMiddleware
-    from fastapi.responses import StreamingResponse, JSONResponse
+    from fastapi.responses import JSONResponse, StreamingResponse  # noqa: F401
     from pydantic import BaseModel, Field
 except ImportError:
     print("FastAPI not installed. Run: pip install fastapi uvicorn", file=sys.stderr)
@@ -61,10 +60,10 @@ except ImportError:
 import _review_ai
 import _review_serializer as serializer
 
-
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
+
 
 class Config:
     worktree_roots: list[Path] = []
@@ -76,6 +75,7 @@ class Config:
             cfg_path = Path(args.config).expanduser()
             if cfg_path.exists():
                 import yaml
+
                 data = yaml.safe_load(cfg_path.read_text())
                 for p in data.get("worktrees", []):
                     c.worktree_roots.append(Path(p).expanduser().resolve())
@@ -156,6 +156,7 @@ app.add_middleware(
 # Models
 # ---------------------------------------------------------------------------
 
+
 class FlagRowIn(BaseModel):
     page: int
     quote: str = ""
@@ -213,6 +214,7 @@ class AIPayload(BaseModel):
 # ---------------------------------------------------------------------------
 # Book discovery
 # ---------------------------------------------------------------------------
+
 
 def _book_state(book_dir: Path) -> dict[str, Any]:
     """Read state.json + derive a summary."""
@@ -281,6 +283,7 @@ def get_book(slug: str) -> dict[str, Any]:
 # Transcript
 # ---------------------------------------------------------------------------
 
+
 @app.get("/api/books/{slug}/transcript")
 def get_transcript(slug: str) -> dict[str, Any]:
     book_dir, root = resolve_book_dir(slug)
@@ -308,6 +311,7 @@ def get_transcript(slug: str) -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 # Review CRUD
 # ---------------------------------------------------------------------------
+
 
 @app.get("/api/books/{slug}/review")
 def get_review(slug: str) -> dict[str, Any]:
@@ -356,6 +360,7 @@ def get_mtime(slug: str) -> dict[str, Any]:
 # Approve + Resume
 # ---------------------------------------------------------------------------
 
+
 @app.post("/api/books/{slug}/approve")
 def approve(slug: str, body: ApprovePayload) -> dict[str, Any]:
     book_dir, root = resolve_book_dir(slug)
@@ -380,10 +385,19 @@ def approve(slug: str, body: ApprovePayload) -> dict[str, Any]:
     # Git commit (best-effort)
     git_result: dict[str, Any] = {"committed": False}
     try:
-        subprocess.run(["git", "add", str(review_path.relative_to(root))], cwd=str(root), check=True, capture_output=True, timeout=10)
+        subprocess.run(
+            ["git", "add", str(review_path.relative_to(root))],
+            cwd=str(root),
+            check=True,
+            capture_output=True,
+            timeout=10,
+        )
         cm = subprocess.run(
             ["git", "commit", "-m", commit_msg, "--no-verify"],
-            cwd=str(root), capture_output=True, text=True, timeout=15,
+            cwd=str(root),
+            capture_output=True,
+            text=True,
+            timeout=15,
         )
         if cm.returncode == 0:
             git_result = {"committed": True, "message": commit_msg}
@@ -443,7 +457,7 @@ async def resume_log(slug: str) -> StreamingResponse:
             if not line:
                 # Process ended
                 rc = proc.wait(timeout=1) if proc.poll() is not None else None
-                yield f"event: end\ndata: {{\"rc\": {rc}}}\n\n"
+                yield f'event: end\ndata: {{"rc": {rc}}}\n\n'
                 RESUME_PROCS.pop(slug, None)
                 break
             yield f"data: {json.dumps({'line': line.rstrip()})}\n\n"
@@ -471,12 +485,16 @@ def cancel_resume(slug: str) -> dict[str, Any]:
 # AI endpoints (P25.7)
 # ---------------------------------------------------------------------------
 
+
 @app.post("/api/books/{slug}/ai/{feature}")
 def ai_endpoint(slug: str, feature: str, body: AIPayload) -> dict[str, Any]:
     book_dir, root = resolve_book_dir(slug)
     refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
 
-    if feature in {"summarize", "arabic", "preflight", "voice-shift", "episode-plan", "suggest-flags", "content-range"} and not refined.exists():
+    if (
+        feature in {"summarize", "arabic", "preflight", "voice-shift", "episode-plan", "suggest-flags", "content-range"}
+        and not refined.exists()
+    ):
         raise HTTPException(status_code=400, detail="refined-english.md not present; cannot run AI feature")
 
     source_signature = ""
@@ -494,7 +512,9 @@ def ai_endpoint(slug: str, feature: str, body: AIPayload) -> dict[str, Any]:
             force_refresh=body.force_refresh,
         )
     except _review_ai.BudgetExceeded as e:
-        raise HTTPException(status_code=429, detail={"error": "budget exceeded", "feature": e.feature, "remaining": e.remaining}) from e
+        raise HTTPException(
+            status_code=429, detail={"error": "budget exceeded", "feature": e.feature, "remaining": e.remaining}
+        ) from e
     except _review_ai.BoundaryViolation as e:
         raise HTTPException(status_code=403, detail=str(e)) from e
     except ValueError as e:
@@ -528,6 +548,7 @@ def ai_budget(slug: str) -> dict[str, Any]:
 # Health + meta
 # ---------------------------------------------------------------------------
 
+
 @app.get("/api/health")
 def health() -> dict[str, Any]:
     return {
@@ -541,6 +562,7 @@ def health() -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 # CLI entry point
 # ---------------------------------------------------------------------------
+
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="Operator Review Studio FastAPI backend")

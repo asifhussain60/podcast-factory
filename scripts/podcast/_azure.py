@@ -117,6 +117,7 @@ def _resolve(suffix: str, env_name: str) -> str | None:
         return os.environ[env_name]
     try:
         from _secrets import keyvault_secret
+
         return keyvault_secret(f"azure-{APP_NAME}-{suffix}")
     except Exception:
         return None
@@ -152,7 +153,7 @@ class LanguageCreds:
 
 @dataclass(frozen=True)
 class OpenAICreds:
-    endpoint: str        # https://<resource>.openai.azure.com
+    endpoint: str  # https://<resource>.openai.azure.com
     key: str
     region: str
     dalle_deployment: str  # model deployment name (e.g. "dall-e-3")
@@ -288,8 +289,7 @@ def docintel_analyze_pdf(
     Raises RuntimeError with the Azure error body on any non-2xx along the way.
     """
     submit_url = (
-        f"{creds.endpoint}/formrecognizer/documentModels/{DOCINTEL_MODEL}"
-        f":analyze?api-version={DOCINTEL_API_VERSION}"
+        f"{creds.endpoint}/formrecognizer/documentModels/{DOCINTEL_MODEL}:analyze?api-version={DOCINTEL_API_VERSION}"
     )
     status, hdrs, body = _http(
         "POST",
@@ -301,9 +301,7 @@ def docintel_analyze_pdf(
         body=pdf_bytes,
     )
     if status != 202:
-        raise RuntimeError(
-            f"Doc Intel submit failed: HTTP {status}\n{body.decode('utf-8', errors='replace')}"
-        )
+        raise RuntimeError(f"Doc Intel submit failed: HTTP {status}\n{body.decode('utf-8', errors='replace')}")
     op_url = hdrs.get("operation-location")
     if not op_url:
         raise RuntimeError("Doc Intel response missing Operation-Location header")
@@ -317,9 +315,7 @@ def docintel_analyze_pdf(
             headers={"Ocp-Apim-Subscription-Key": creds.key},
         )
         if status != 200:
-            raise RuntimeError(
-                f"Doc Intel poll failed: HTTP {status}\n{body.decode('utf-8', errors='replace')}"
-            )
+            raise RuntimeError(f"Doc Intel poll failed: HTTP {status}\n{body.decode('utf-8', errors='replace')}")
         result = json.loads(body)
         op_status = result.get("status")
         if op_status == "succeeded":
@@ -327,10 +323,7 @@ def docintel_analyze_pdf(
         if op_status in ("failed", "canceled"):
             raise RuntimeError(f"Doc Intel operation {op_status}: {json.dumps(result)[:400]}")
         if time.monotonic() > deadline:
-            raise RuntimeError(
-                f"Doc Intel poll timeout after {poll_timeout_s}s "
-                f"(last status: {op_status})"
-            )
+            raise RuntimeError(f"Doc Intel poll timeout after {poll_timeout_s}s (last status: {op_status})")
 
 
 def docintel_pages_to_markdown(result: dict[str, Any]) -> str:
@@ -436,9 +429,7 @@ def translate_text(
         payload = json.dumps([{"text": chunk}]).encode("utf-8")
         status, _, body = _http("POST", url, headers=headers, body=payload)
         if status != 200:
-            raise RuntimeError(
-                f"Translator failed: HTTP {status}\n{body.decode('utf-8', errors='replace')[:600]}"
-            )
+            raise RuntimeError(f"Translator failed: HTTP {status}\n{body.decode('utf-8', errors='replace')[:600]}")
         data = json.loads(body)
         if not data or not data[0].get("translations"):
             raise RuntimeError(f"Translator returned no translations: {body!r}")
@@ -473,10 +464,7 @@ def _multipart_body(
     parts.append(nl)
     parts.append(definition_json + nl)
     parts.append(f"--{boundary}".encode("ascii") + nl)
-    parts.append(
-        f'Content-Disposition: form-data; name="audio"; filename="{audio_filename}"'.encode("utf-8")
-        + nl
-    )
+    parts.append(f'Content-Disposition: form-data; name="audio"; filename="{audio_filename}"'.encode("utf-8") + nl)
     parts.append(f"Content-Type: {audio_mime}".encode("ascii") + nl)
     parts.append(nl)
     parts.append(audio_bytes + nl)
@@ -521,10 +509,7 @@ def transcribe_audio(
         definition_json=definition,
     )
 
-    url = (
-        f"{creds.endpoint}/speechtotext/transcriptions:transcribe"
-        f"?api-version={SPEECH_API_VERSION}"
-    )
+    url = f"{creds.endpoint}/speechtotext/transcriptions:transcribe?api-version={SPEECH_API_VERSION}"
     status, _, response_body = _http(
         "POST",
         url,
@@ -538,8 +523,7 @@ def transcribe_audio(
     )
     if status != 200:
         raise RuntimeError(
-            f"Speech transcribe failed: HTTP {status}\n"
-            f"{response_body.decode('utf-8', errors='replace')[:600]}"
+            f"Speech transcribe failed: HTTP {status}\n{response_body.decode('utf-8', errors='replace')[:600]}"
         )
     data = json.loads(response_body)
     combined = data.get("combinedPhrases") or []
@@ -557,7 +541,7 @@ def transcribe_audio(
 # ────────────────────────────────────────────────────────────────────────────
 
 LANGUAGE_API_VERSION = "2023-04-01"
-LANGUAGE_MAX_DOCS_PER_REQUEST = 5    # conservative; API allows 25, but batching keeps latency low
+LANGUAGE_MAX_DOCS_PER_REQUEST = 5  # conservative; API allows 25, but batching keeps latency low
 LANGUAGE_MAX_CHARS_PER_DOC = 5_000  # well under the 125,000-char hard limit
 
 
@@ -576,8 +560,7 @@ def _language_post(creds: LanguageCreds, path: str, payload: dict[str, Any]) -> 
     )
     if status != 200:
         raise RuntimeError(
-            f"Language API {path} failed: HTTP {status}\n"
-            f"{resp_body.decode('utf-8', errors='replace')[:600]}"
+            f"Language API {path} failed: HTTP {status}\n{resp_body.decode('utf-8', errors='replace')[:600]}"
         )
     return json.loads(resp_body)
 
@@ -595,8 +578,7 @@ def extract_key_phrases(creds: LanguageCreds, texts: list[str]) -> list[list[str
     results: list[list[str]] = []
     for i in range(0, len(texts), LANGUAGE_MAX_DOCS_PER_REQUEST):
         batch = texts[i : i + LANGUAGE_MAX_DOCS_PER_REQUEST]
-        docs = [{"id": str(j), "text": t[:LANGUAGE_MAX_CHARS_PER_DOC], "language": "en"}
-                for j, t in enumerate(batch)]
+        docs = [{"id": str(j), "text": t[:LANGUAGE_MAX_CHARS_PER_DOC], "language": "en"} for j, t in enumerate(batch)]
         payload = {
             "kind": "KeyPhraseExtraction",
             "analysisInput": {"documents": docs},
@@ -627,8 +609,7 @@ def extract_named_entities(
     results: list[list[dict[str, Any]]] = []
     for i in range(0, len(texts), LANGUAGE_MAX_DOCS_PER_REQUEST):
         batch = texts[i : i + LANGUAGE_MAX_DOCS_PER_REQUEST]
-        docs = [{"id": str(j), "text": t[:LANGUAGE_MAX_CHARS_PER_DOC], "language": "en"}
-                for j, t in enumerate(batch)]
+        docs = [{"id": str(j), "text": t[:LANGUAGE_MAX_CHARS_PER_DOC], "language": "en"} for j, t in enumerate(batch)]
         payload = {
             "kind": "EntityRecognition",
             "analysisInput": {"documents": docs},
@@ -658,8 +639,7 @@ def analyze_sentiment(
     results: list[dict[str, Any]] = []
     for i in range(0, len(texts), LANGUAGE_MAX_DOCS_PER_REQUEST):
         batch = texts[i : i + LANGUAGE_MAX_DOCS_PER_REQUEST]
-        docs = [{"id": str(j), "text": t[:LANGUAGE_MAX_CHARS_PER_DOC], "language": "en"}
-                for j, t in enumerate(batch)]
+        docs = [{"id": str(j), "text": t[:LANGUAGE_MAX_CHARS_PER_DOC], "language": "en"} for j, t in enumerate(batch)]
         payload = {
             "kind": "SentimentAnalysis",
             "analysisInput": {"documents": docs},
@@ -668,10 +648,12 @@ def analyze_sentiment(
         docs_out = {d["id"]: d for d in resp.get("results", {}).get("documents", [])}
         for j in range(len(batch)):
             doc = docs_out.get(str(j), {})
-            results.append({
-                "sentiment": doc.get("sentiment", "neutral"),
-                "confidenceScores": doc.get("confidenceScores", {}),
-            })
+            results.append(
+                {
+                    "sentiment": doc.get("sentiment", "neutral"),
+                    "confidenceScores": doc.get("confidenceScores", {}),
+                }
+            )
     return results
 
 
@@ -682,7 +664,7 @@ def analyze_sentiment(
 DALLE_API_VERSION = "2024-02-01"
 # Standard quality is cheaper; HD costs 2× and is used only when a caller
 # explicitly requests it (e.g. the book-illustrate step for cover images).
-DALLE_DEFAULT_SIZE = "1792x1024"    # landscape — matches 16:9 video frame
+DALLE_DEFAULT_SIZE = "1792x1024"  # landscape — matches 16:9 video frame
 DALLE_DEFAULT_QUALITY = "standard"
 
 
@@ -692,7 +674,7 @@ def generate_image_dalle(
     *,
     size: str = DALLE_DEFAULT_SIZE,
     quality: str = DALLE_DEFAULT_QUALITY,
-    response_format: str = "url",   # "url" or "b64_json"
+    response_format: str = "url",  # "url" or "b64_json"
     revised_prompt_out: list[str] | None = None,
 ) -> bytes:
     """Generate an image from `prompt` using Azure DALL-E 3. Returns image bytes.
@@ -712,13 +694,15 @@ def generate_image_dalle(
         f"{creds.endpoint}/openai/deployments/{creds.dalle_deployment}"
         f"/images/generations?api-version={DALLE_API_VERSION}"
     )
-    payload = json.dumps({
-        "prompt": prompt,
-        "size": size,
-        "quality": quality,
-        "n": 1,
-        "response_format": response_format,
-    }).encode("utf-8")
+    payload = json.dumps(
+        {
+            "prompt": prompt,
+            "size": size,
+            "quality": quality,
+            "n": 1,
+            "response_format": response_format,
+        }
+    ).encode("utf-8")
     status, _, resp_body = _http(
         "POST",
         url,
@@ -731,8 +715,7 @@ def generate_image_dalle(
     )
     if status != 200:
         raise RuntimeError(
-            f"DALL-E generation failed: HTTP {status}\n"
-            f"{resp_body.decode('utf-8', errors='replace')[:600]}"
+            f"DALL-E generation failed: HTTP {status}\n{resp_body.decode('utf-8', errors='replace')[:600]}"
         )
     data = json.loads(resp_body)
     item = data.get("data", [{}])[0]
@@ -743,6 +726,7 @@ def generate_image_dalle(
 
     if response_format == "b64_json":
         import base64
+
         b64 = item.get("b64_json", "")
         if not b64:
             raise RuntimeError("DALL-E returned empty b64_json")
@@ -789,7 +773,7 @@ def probe(verbose: bool = False) -> int:
     except AzureCredsError as e:
         print(f"  translator: SKIP — {e}")
         failures += 1
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         print(f"  translator: FAIL — {e}")
         failures += 1
 

@@ -28,9 +28,10 @@ If the operator hand-ships the deliverable, is_done() returns True, the
 runner marks acceptance, and the autonomous loop moves on. Until that
 happens, every tick prints the DoR breakdown so the gap is always visible.
 """
+
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 
 from ._base import PhaseResult
@@ -39,6 +40,7 @@ from ._base import PhaseResult
 @dataclass(frozen=True)
 class DoR:
     """Definition-of-Ready breakdown for a halt-with-DoR phase."""
+
     blockers: tuple[str, ...] = ()
     assumptions: tuple[str, ...] = ()
     ambiguities: tuple[str, ...] = ()

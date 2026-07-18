@@ -21,6 +21,7 @@ Consumers:
 Width estimation uses a flat average glyph factor (CHAR_W x font-size). It is
 deliberately conservative on G1/G2 (slack margins) so findings are real.
 """
+
 from __future__ import annotations
 
 import re
@@ -29,10 +30,10 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
 
-CHAR_W = 0.52          # avg glyph width as a fraction of font-size (Lato-ish)
-SLACK = 0.03           # fraction of viewBox width forgiven before G1 fires
+CHAR_W = 0.52  # avg glyph width as a fraction of font-size (Lato-ish)
+SLACK = 0.03  # fraction of viewBox width forgiven before G1 fires
 PRINT_WIDTH_MM = 170.0  # content-width the book PDF renders diagrams at
-MIN_PRINT_MM = 2.4      # min acceptable cap-height-ish print size (~7pt)
+MIN_PRINT_MM = 2.4  # min acceptable cap-height-ish print size (~7pt)
 DEFAULT_SIZE = 14.0
 
 _NS = "{http://www.w3.org/2000/svg}"
@@ -118,22 +119,22 @@ def geometry_findings(svg_source: str) -> list[str]:
         if ln.x1 > vx + vw + slack or ln.x0 < vx - slack:
             findings.append(
                 f"G1 overflow: {ln.text[:48]!r} spans x {ln.x0:.0f}..{ln.x1:.0f} "
-                f"outside viewBox {vx:.0f}..{vx + vw:.0f}")
+                f"outside viewBox {vx:.0f}..{vx + vw:.0f}"
+            )
         if ln.y > vy + vh + ln.size:
-            findings.append(
-                f"G1 overflow: {ln.text[:48]!r} at y {ln.y:.0f} below viewBox {vy + vh:.0f}")
+            findings.append(f"G1 overflow: {ln.text[:48]!r} at y {ln.y:.0f} below viewBox {vy + vh:.0f}")
 
     # G2: same baseline band + horizontal intersection of estimated extents.
     for i, a in enumerate(lines):
-        for b in lines[i + 1:]:
+        for b in lines[i + 1 :]:
             band = min(a.size, b.size) * 0.7
             if abs(a.y - b.y) >= band:
                 continue
             inter = min(a.x1, b.x1) - max(a.x0, b.x0)
             if inter > min(a.width, b.width) * 0.18 and inter > 4:
                 findings.append(
-                    f"G2 collision: {a.text[:36]!r} overlaps {b.text[:36]!r} "
-                    f"by ~{inter:.0f} units at y {a.y:.0f}")
+                    f"G2 collision: {a.text[:36]!r} overlaps {b.text[:36]!r} by ~{inter:.0f} units at y {a.y:.0f}"
+                )
 
     # G3: effective printed size at full content width.
     for ln in lines:
@@ -141,7 +142,8 @@ def geometry_findings(svg_source: str) -> list[str]:
         if printed_mm < MIN_PRINT_MM:
             findings.append(
                 f"G3 min-type: {ln.text[:40]!r} prints ~{printed_mm:.1f}mm "
-                f"(font {ln.size:.0f} in viewBox {vw:.0f} wide; floor {MIN_PRINT_MM}mm)")
+                f"(font {ln.size:.0f} in viewBox {vw:.0f} wide; floor {MIN_PRINT_MM}mm)"
+            )
 
     # De-dup G3 spam: keep at most 3 examples per code.
     out: list[str] = []

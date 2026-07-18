@@ -39,10 +39,8 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
 import sqlite3
-import subprocess
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -50,41 +48,86 @@ from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
-from _paths import REPO_ROOT, resolve_content  # noqa: E402
-from _rules import allowed_content_levels  # noqa: E402  (Wave L-2 shared ladder)
+from _paths import REPO_ROOT, resolve_content
+from _rules import allowed_content_levels
 
-PRICE_IN  = 0.000_000_1   # $/char Gemini Flash input
-PRICE_OUT = 0.000_000_4   # $/char output
+PRICE_IN = 0.000_000_1  # $/char Gemini Flash input
+PRICE_OUT = 0.000_000_4  # $/char output
 
 KB_PATH = REPO_ROOT / "content" / "knowledge-base" / "knowledge.db"
 
 # Tags that are safe to inject across Islamic tradition boundaries (shared heritage)
-SAFE_TAGS: frozenset[str] = frozenset({
-    "Moral Advice and Ethics",
-    "Hadith Commentary",
-    "Rulings of Sharia",
-    "Meaning of a Story",
-    "Prophetic Hadith",
-})
+SAFE_TAGS: frozenset[str] = frozenset(
+    {
+        "Moral Advice and Ethics",
+        "Hadith Commentary",
+        "Rulings of Sharia",
+        "Meaning of a Story",
+        "Prophetic Hadith",
+    }
+)
 
 # Tags that are Ismaili-specific — do NOT inject into non-Ismaili texts
-TRADITION_SPECIFIC_TAGS: frozenset[str] = frozenset({
-    "Knowledge of the Esoteric (Batin)",
-    "Knowledge of Ali",
-    "Meaning of Sharia Command (Tawil)",
-    "Meaning of Daaim al-Tahara",
-})
+TRADITION_SPECIFIC_TAGS: frozenset[str] = frozenset(
+    {
+        "Knowledge of the Esoteric (Batin)",
+        "Knowledge of Ali",
+        "Meaning of Sharia Command (Tawil)",
+        "Meaning of Daaim al-Tahara",
+    }
+)
 
 # Ghazali / Sunni-Sufi thematic keywords for keyword-overlap scoring
 GHAZALI_THEMES: list[str] = [
-    "knowledge", "action", "sincerity", "ikhlas", "worship", "ibada",
-    "nafs", "soul", "heart", "qalb", "dhikr", "remembrance",
-    "dunya", "world", "akhira", "hereafter", "death", "tawbah", "repentance",
-    "prayer", "salat", "tahajjud", "night prayer", "tawakkul", "trust",
-    "zuhd", "asceticism", "scholar", "student", "teacher", "murshid",
-    "patience", "sabr", "gratitude", "shukr", "servitude", "obedience",
-    "ethics", "moral", "virtue", "guidance", "hikmah", "wisdom",
-    "quran", "hadith", "sunnah", "prophet", "fiqh", "sharia",
+    "knowledge",
+    "action",
+    "sincerity",
+    "ikhlas",
+    "worship",
+    "ibada",
+    "nafs",
+    "soul",
+    "heart",
+    "qalb",
+    "dhikr",
+    "remembrance",
+    "dunya",
+    "world",
+    "akhira",
+    "hereafter",
+    "death",
+    "tawbah",
+    "repentance",
+    "prayer",
+    "salat",
+    "tahajjud",
+    "night prayer",
+    "tawakkul",
+    "trust",
+    "zuhd",
+    "asceticism",
+    "scholar",
+    "student",
+    "teacher",
+    "murshid",
+    "patience",
+    "sabr",
+    "gratitude",
+    "shukr",
+    "servitude",
+    "obedience",
+    "ethics",
+    "moral",
+    "virtue",
+    "guidance",
+    "hikmah",
+    "wisdom",
+    "quran",
+    "hadith",
+    "sunnah",
+    "prophet",
+    "fiqh",
+    "sharia",
 ]
 
 
@@ -92,30 +135,32 @@ GHAZALI_THEMES: list[str] = [
 # Gemini helpers
 # ---------------------------------------------------------------------------
 
+
 def _load_key() -> str:
     # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
     from _secrets import get_gemini_key
+
     return get_gemini_key()
 
 
-
-def _gemini(system: str, user: str, *, model: str = "gemini-2.5-flash",
-            max_tokens: int = 8192) -> tuple[str, float]:
-    url = (
-        f"https://generativelanguage.googleapis.com/v1beta/models/"
-        f"{model}:generateContent?key={_load_key()}"
-    )
-    body = json.dumps({
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"parts": [{"text": user}]}],
-        "generationConfig": {
-            "temperature": 0.15,
-            "maxOutputTokens": max_tokens,
-            "thinkingConfig": {"thinkingBudget": 0},
-        },
-    }).encode()
+def _gemini(system: str, user: str, *, model: str = "gemini-2.5-flash", max_tokens: int = 8192) -> tuple[str, float]:
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={_load_key()}"
+    body = json.dumps(
+        {
+            "system_instruction": {"parts": [{"text": system}]},
+            "contents": [{"parts": [{"text": user}]}],
+            "generationConfig": {
+                "temperature": 0.15,
+                "maxOutputTokens": max_tokens,
+                "thinkingConfig": {"thinkingBudget": 0},
+            },
+        }
+    ).encode()
     req = urllib.request.Request(
-        url, data=body, headers={"Content-Type": "application/json"}, method="POST",
+        url,
+        data=body,
+        headers={"Content-Type": "application/json"},
+        method="POST",
     )
     with urllib.request.urlopen(req, timeout=600) as resp:
         d = json.loads(resp.read())
@@ -135,17 +180,14 @@ def _gemini(system: str, user: str, *, model: str = "gemini-2.5-flash",
 # Knowledge corpus helpers
 # ---------------------------------------------------------------------------
 
+
 def _load_atoms() -> list[dict]:
     """Load all atoms from knowledge.db with their tags and text_en."""
     conn = sqlite3.connect(str(KB_PATH))
-    rows = conn.execute(
-        "SELECT id, type, body, tradition, first_seen_book, content_level FROM atoms"
-    ).fetchall()
+    rows = conn.execute("SELECT id, type, body, tradition, first_seen_book, content_level FROM atoms").fetchall()
 
     tag_map: dict[str, list[str]] = {}
-    for atom_id, tag in conn.execute(
-        "SELECT atom_id, tag FROM atom_topic_tags"
-    ).fetchall():
+    for atom_id, tag in conn.execute("SELECT atom_id, tag FROM atom_topic_tags").fetchall():
         tag_map.setdefault(atom_id, []).append(tag)
 
     conn.close()
@@ -160,15 +202,17 @@ def _load_atoms() -> list[dict]:
         if not text_en or not text_en.strip():
             continue
         tags = tag_map.get(atom_id, [])
-        atoms.append({
-            "id": atom_id,
-            "type": atype,
-            "text_en": text_en.strip(),
-            "tradition": tradition,
-            "first_seen_book": first_seen_book or "unknown",
-            "content_level": content_level,
-            "tags": tags,
-        })
+        atoms.append(
+            {
+                "id": atom_id,
+                "type": atype,
+                "text_en": text_en.strip(),
+                "tradition": tradition,
+                "first_seen_book": first_seen_book or "unknown",
+                "content_level": content_level,
+                "tags": tags,
+            }
+        )
     return atoms
 
 
@@ -183,10 +227,11 @@ def _book_content_level(book_dir: Path) -> str | None:
         return None
     try:
         import yaml  # type: ignore[import]
+
         meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
         level = meta.get("content_level")
         return str(level) if allowed_content_levels(level) else None
-    except Exception:  # noqa: BLE001
+    except Exception:
         return None
 
 
@@ -247,11 +292,8 @@ def _triage_untagged_atoms(atoms: list[dict], slug: str) -> tuple[list[dict], fl
     total_cost = 0.0
 
     for batch_start in range(0, len(untagged), 50):
-        batch = untagged[batch_start:batch_start + 50]
-        index = [
-            {"id": a["id"], "preview": a["text_en"][:300]}
-            for a in batch
-        ]
+        batch = untagged[batch_start : batch_start + 50]
+        index = [{"id": a["id"], "preview": a["text_en"][:300]} for a in batch]
         system = (
             "You are classifying Islamic teaching passages for cross-tradition compatibility.\n\n"
             "Context: These passages come from a Fatimid-Ismaili teaching tradition. We need to "
@@ -271,10 +313,7 @@ def _triage_untagged_atoms(atoms: list[dict], slug: str) -> tuple[list[dict], fl
             start = resp.find("{")
             end = resp.rfind("}") + 1
             data = json.loads(resp[start:end])
-            id_to_cat = {
-                c["id"]: c["category"]
-                for c in data.get("classifications", [])
-            }
+            id_to_cat = {c["id"]: c["category"] for c in data.get("classifications", [])}
         except (json.JSONDecodeError, ValueError):
             id_to_cat = {}
 
@@ -288,6 +327,7 @@ def _triage_untagged_atoms(atoms: list[dict], slug: str) -> tuple[list[dict], fl
 # ---------------------------------------------------------------------------
 # Section parsing
 # ---------------------------------------------------------------------------
+
 
 def _parse_sections(unified_text: str) -> list[tuple[int, str, str]]:
     """
@@ -341,14 +381,8 @@ def _enrich_section(section_text: str, candidates: list[dict]) -> tuple[str, lis
     Returns (addendum_text_or_empty, used_atom_ids, cost).
     The caller appends addendum to the original section — original text is NEVER replaced.
     """
-    atom_list = [
-        f"[ATOM {a['id']}]\n{a['text_en'][:500]}"
-        for a in candidates[:15]
-    ]
-    user = (
-        "=== SECTION ===\n\n" + section_text + "\n\n"
-        "=== CANDIDATE ATOMS ===\n\n" + "\n\n".join(atom_list)
-    )
+    atom_list = [f"[ATOM {a['id']}]\n{a['text_en'][:500]}" for a in candidates[:15]]
+    user = "=== SECTION ===\n\n" + section_text + "\n\n=== CANDIDATE ATOMS ===\n\n" + "\n\n".join(atom_list)
     resp, cost = _gemini(_ENRICH_SYSTEM, user, max_tokens=1024)
 
     used_ids: list[str] = []
@@ -357,7 +391,7 @@ def _enrich_section(section_text: str, candidates: list[dict]) -> tuple[str, lis
     for line in lines:
         if line.startswith("USED_ATOMS:"):
             try:
-                raw = line[len("USED_ATOMS:"):].strip()
+                raw = line[len("USED_ATOMS:") :].strip()
                 used_ids = json.loads(raw)
             except (json.JSONDecodeError, ValueError):
                 used_ids = []
@@ -372,6 +406,7 @@ def _enrich_section(section_text: str, candidates: list[dict]) -> tuple[str, lis
 # Cost ledger
 # ---------------------------------------------------------------------------
 
+
 def _log_cost(slug: str, entry: dict) -> None:
     p = resolve_content(slug) / "_system" / "cost-ledger.json"
     led = json.loads(p.read_text()) if p.exists() else {"slug": slug, "entries": [], "total_usd": 0.0}
@@ -384,6 +419,7 @@ def _log_cost(slug: str, entry: dict) -> None:
 # Main augmentation pass
 # ---------------------------------------------------------------------------
 
+
 def augment(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
     book_dir = resolve_content(slug)
     unified_path = book_dir / "_system" / "unified-book.md"
@@ -391,20 +427,18 @@ def augment(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
     ledger_path = book_dir / "_system" / "augmentation-ledger.json"
 
     if out_path.exists() and not force:
-        print(f"  unified-augmented.md already exists — skip (--force to re-run)")
+        print("  unified-augmented.md already exists — skip (--force to re-run)")
         return out_path
 
     if not unified_path.exists():
-        raise FileNotFoundError(
-            f"unified-book.md not found at {unified_path}. Run reconcile_book.py first."
-        )
+        raise FileNotFoundError(f"unified-book.md not found at {unified_path}. Run reconcile_book.py first.")
 
     unified_text = unified_path.read_text(encoding="utf-8")
     sections = _parse_sections(unified_text)
     print(f"  Loaded {len(sections)} sections from unified-book.md")
 
     # Load atoms
-    print(f"  Loading wisdom corpus atoms from knowledge.db…", end="", flush=True)
+    print("  Loading wisdom corpus atoms from knowledge.db…", end="", flush=True)
     all_atoms = _load_atoms()
     print(f" {len(all_atoms)} atoms loaded")
 
@@ -414,11 +448,13 @@ def augment(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
     if book_content_level:
         before = len(all_atoms)
         all_atoms = _gate_doctrine_by_level(all_atoms, book_content_level)
-        print(f"  Content-level gate '{book_content_level}': "
-              f"{before} → {len(all_atoms)} atoms (doctrine above level excluded)")
+        print(
+            f"  Content-level gate '{book_content_level}': "
+            f"{before} → {len(all_atoms)} atoms (doctrine above level excluded)"
+        )
 
     # Separate: safe-tagged vs untagged vs tradition-specific
-    safe_tagged  = [a for a in all_atoms if _is_safe_for_cross_tradition(a, allow_untagged=False)]
+    safe_tagged = [a for a in all_atoms if _is_safe_for_cross_tradition(a, allow_untagged=False)]
     untagged_raw = [a for a in all_atoms if not a["tags"]]
     print(f"  Safe-tagged: {len(safe_tagged)}  |  Untagged (pending triage): {len(untagged_raw)}")
 
@@ -439,7 +475,9 @@ def augment(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
         a["_score"] = _keyword_score(a["text_en"])
 
     candidate_pool.sort(key=lambda a: a["_score"], reverse=True)
-    print(f"  Candidate pool: {len(candidate_pool)} atoms (top keyword score: {candidate_pool[0]['_score'] if candidate_pool else 0})")
+    print(
+        f"  Candidate pool: {len(candidate_pool)} atoms (top keyword score: {candidate_pool[0]['_score'] if candidate_pool else 0})"
+    )
 
     used_atom_ids: set[str] = set()
     section_ledger: list[dict] = []
@@ -458,7 +496,9 @@ def augment(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
         available = [a for a in candidate_pool if a["id"] not in used_atom_ids]
         if not available:
             enriched_sections.append(sec_content)
-            section_ledger.append({"section": sec_num, "title": sec_title, "atoms_used": [], "note": "atom_pool_exhausted"})
+            section_ledger.append(
+                {"section": sec_num, "title": sec_title, "atoms_used": [], "note": "atom_pool_exhausted"}
+            )
             continue
 
         # Re-score candidates against this section's specific text
@@ -468,8 +508,11 @@ def augment(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
         available.sort(key=lambda a: (a["_section_score"], a["_score"]), reverse=True)
         top_candidates = available[:15]
 
-        print(f"  Section {sec_num} ({sec_title[:40]}…): enriching with {len(top_candidates)} candidates…",
-              end="", flush=True)
+        print(
+            f"  Section {sec_num} ({sec_title[:40]}…): enriching with {len(top_candidates)} candidates…",
+            end="",
+            flush=True,
+        )
 
         enriched, atom_ids_used, cost = _enrich_section(sec_content, top_candidates)
         total_cost += cost
@@ -483,20 +526,24 @@ def augment(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
             atom = next((a for a in all_atoms if a["id"] == aid), None)
             if atom:
                 cross_book = atom["first_seen_book"] != "wisdom" and atom["first_seen_book"] != slug
-                atoms_used_detail.append({
-                    "atom_id": aid,
-                    "tradition": atom["tradition"],
-                    "tags": atom["tags"],
-                    "first_seen_book": atom["first_seen_book"],
-                    "cross_book_reuse": cross_book,
-                })
+                atoms_used_detail.append(
+                    {
+                        "atom_id": aid,
+                        "tradition": atom["tradition"],
+                        "tags": atom["tags"],
+                        "first_seen_book": atom["first_seen_book"],
+                        "cross_book_reuse": cross_book,
+                    }
+                )
 
-        section_ledger.append({
-            "section": sec_num,
-            "title": sec_title,
-            "atoms_used": atoms_used_detail,
-            "cost_usd": round(cost, 5),
-        })
+        section_ledger.append(
+            {
+                "section": sec_num,
+                "title": sec_title,
+                "atoms_used": atoms_used_detail,
+                "cost_usd": round(cost, 5),
+            }
+        )
 
         # Append the addendum to original section — original is NEVER replaced.
         if enriched and atom_ids_used:
@@ -509,7 +556,7 @@ def augment(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
 
     # Assemble enriched unified text
     out_text = (preamble + "\n\n" if preamble else "") + "\n\n".join(enriched_sections) + "\n"
-    word_count_in  = len(unified_text.split())
+    word_count_in = len(unified_text.split())
     word_count_out = len(out_text.split())
 
     if not dry_run:
@@ -530,14 +577,17 @@ def augment(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
         }
         ledger_path.write_text(json.dumps(ledger, indent=2) + "\n", encoding="utf-8")
 
-        _log_cost(slug, {
-            "ts": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-            "op": "augment_book",
-            "service": "gemini/gemini-2.5-flash",
-            "word_count_before": word_count_in,
-            "word_count_after": word_count_out,
-            "cost_usd": round(total_cost, 4),
-        })
+        _log_cost(
+            slug,
+            {
+                "ts": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+                "op": "augment_book",
+                "service": "gemini/gemini-2.5-flash",
+                "word_count_before": word_count_in,
+                "word_count_after": word_count_out,
+                "cost_usd": round(total_cost, 4),
+            },
+        )
 
         delta = word_count_out - word_count_in
         print(f"\n  Words: {word_count_in:,} → {word_count_out:,} (+{delta:,})")

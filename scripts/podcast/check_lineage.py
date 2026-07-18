@@ -31,6 +31,7 @@ import argparse
 import re
 import sys
 from pathlib import Path
+
 from _paths import REPO_ROOT
 
 DEFAULT_LIBRARY = REPO_ROOT / "content" / "drafts"
@@ -88,7 +89,9 @@ def find_chapter_for_contract(contract_path: Path) -> Path | None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument(
-        "--root", type=Path, default=None,
+        "--root",
+        type=Path,
+        default=None,
         help="Library root. Default: _workspace/",
     )
     args = ap.parse_args()

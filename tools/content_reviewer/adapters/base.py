@@ -3,10 +3,11 @@
 A ReviewAdapter walks the text of one section and emits Annotation records.
 Stages (review.py, seal.py) are generic; they call adapter methods uniformly.
 """
+
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, asdict
-from typing import Optional
+from dataclasses import asdict, dataclass
 
 
 @dataclass(frozen=True)
@@ -19,10 +20,11 @@ class Annotation:
     `source` indicates which evidence base supports the annotation
     (training | hqayats | glossary | self).
     """
+
     section_id: int
     section_position: int
-    type: str            # "typo" | "quran-uncited" | "glossary" | "sentence-completion" | "needs-human-review"
-    confidence: str      # "high" | "medium" | "low"
+    type: str  # "typo" | "quran-uncited" | "glossary" | "sentence-completion" | "needs-human-review"
+    confidence: str  # "high" | "medium" | "low"
     original_excerpt: str
     annotation: str
     rationale: str

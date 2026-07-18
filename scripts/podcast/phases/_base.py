@@ -14,11 +14,11 @@ Status semantics:
 The dispatcher (`run_wave.py`) is the only caller. It iterates the wave's
 registry, calls `is_done` first (fast skip), then `execute` if needed.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Literal
-
 
 Status = Literal["done", "halted", "error"]
 

@@ -54,6 +54,7 @@ import json
 import re
 import sys
 from pathlib import Path
+
 from _paths import REPO_ROOT
 
 LIBRARY_DIR = REPO_ROOT / "content" / "drafts"
@@ -114,8 +115,8 @@ def parse_contract(text: str) -> dict:
         if not raw.startswith(" ") and ":" in raw:
             # New top-level key flushes anything in progress.
             cur_key = None
-            cur_list = None
-            cur_map = None
+            cur_list = None  # noqa: F841
+            cur_map = None  # noqa: F841
             k, sep, v = raw.partition(":")
             k = k.strip()
             v = v.strip()
@@ -214,10 +215,14 @@ def check_title_uniqueness(contracts: dict[str, dict]) -> list[dict]:
             continue
         norm = title.lower()
         if norm in seen and seen[norm] != slug:
-            findings.append({
-                "check": "P1", "severity": "P0", "slug": slug,
-                "msg": f"title {title!r} duplicates chapter {seen[norm]!r}",
-            })
+            findings.append(
+                {
+                    "check": "P1",
+                    "severity": "P0",
+                    "slug": slug,
+                    "msg": f"title {title!r} duplicates chapter {seen[norm]!r}",
+                }
+            )
         else:
             seen[norm] = slug
     return findings
@@ -230,15 +235,23 @@ def check_title_conciseness(contracts: dict[str, dict]) -> list[dict]:
         if not title:
             continue
         if len(title) > 60:
-            findings.append({
-                "check": "P2", "severity": "P0", "slug": slug,
-                "msg": f"title is {len(title)} chars (>60); INVARIANT 6 hard cap",
-            })
+            findings.append(
+                {
+                    "check": "P2",
+                    "severity": "P0",
+                    "slug": slug,
+                    "msg": f"title is {len(title)} chars (>60); INVARIANT 6 hard cap",
+                }
+            )
         elif len(title.split()) > 6:
-            findings.append({
-                "check": "P2", "severity": "P2", "slug": slug,
-                "msg": f"title is {len(title.split())} words (>6); INVARIANT 6 soft target",
-            })
+            findings.append(
+                {
+                    "check": "P2",
+                    "severity": "P2",
+                    "slug": slug,
+                    "msg": f"title is {len(title.split())} words (>6); INVARIANT 6 soft target",
+                }
+            )
     return findings
 
 
@@ -247,17 +260,25 @@ def check_title_non_generic(contracts: dict[str, dict]) -> list[dict]:
     for slug, c in contracts.items():
         title = (c.get("title") or "").strip()
         if not title:
-            findings.append({
-                "check": "P3", "severity": "P1", "slug": slug,
-                "msg": "title is empty",
-            })
+            findings.append(
+                {
+                    "check": "P3",
+                    "severity": "P1",
+                    "slug": slug,
+                    "msg": "title is empty",
+                }
+            )
             continue
         for pat in GENERIC_TITLE_RES:
             if pat.match(title):
-                findings.append({
-                    "check": "P3", "severity": "P1", "slug": slug,
-                    "msg": f"title {title!r} matches generic pattern {pat.pattern!r}",
-                })
+                findings.append(
+                    {
+                        "check": "P3",
+                        "severity": "P1",
+                        "slug": slug,
+                        "msg": f"title {title!r} matches generic pattern {pat.pattern!r}",
+                    }
+                )
                 break
     return findings
 
@@ -279,14 +300,14 @@ def _resolve_band(length_target) -> tuple[str, tuple[int, int]]:
     s = str(length_target).strip().lower()
     if s in LENGTH_BANDS:
         return s, LENGTH_BANDS[s]
-    m = re.match(r"^(\d+)\s*[-–]\s*(\d+)$", s)   # explicit range 'lo-hi'
+    m = re.match(r"^(\d+)\s*[-–]\s*(\d+)$", s)  # explicit range 'lo-hi'
     if m:
         lo, hi = int(m.group(1)), int(m.group(2))
         return s, ((lo, hi) if lo <= hi else (hi, lo))
-    m = re.match(r"^(\d+)$", s)                       # single numeric target
+    m = re.match(r"^(\d+)$", s)  # single numeric target
     if m:
         n = int(m.group(1))
-        return s, (int(n * 0.85), int(n * 1.20))      # tolerance window
+        return s, (int(n * 0.85), int(n * 1.20))  # tolerance window
     return "default_deep_dive", LENGTH_BANDS["default_deep_dive"]
 
 
@@ -295,17 +316,25 @@ def check_band_fit(chapter_word_counts: dict[str, int], contracts: dict[str, dic
     for slug, wc in chapter_word_counts.items():
         c = contracts.get(slug)
         if c is None:
-            findings.append({
-                "check": "P4", "severity": "P1", "slug": slug,
-                "msg": f"chapter has no contract; cannot verify band fit ({wc} words)",
-            })
+            findings.append(
+                {
+                    "check": "P4",
+                    "severity": "P1",
+                    "slug": slug,
+                    "msg": f"chapter has no contract; cannot verify band fit ({wc} words)",
+                }
+            )
             continue
         band, (lo, hi) = _resolve_band(c.get("length_target"))
         if wc < lo or wc > hi:
-            findings.append({
-                "check": "P4", "severity": "P0", "slug": slug,
-                "msg": f"chapter is {wc} words; declared band {band!r} is {lo}-{hi}",
-            })
+            findings.append(
+                {
+                    "check": "P4",
+                    "severity": "P0",
+                    "slug": slug,
+                    "msg": f"chapter is {wc} words; declared band {band!r} is {lo}-{hi}",
+                }
+            )
     return findings
 
 
@@ -316,13 +345,17 @@ def check_set_balance(chapter_word_counts: dict[str, int]) -> list[dict]:
     lo, hi = min(counts), max(counts)
     variance = (hi - lo) / hi if hi else 0
     if variance > 0.30:
-        return [{
-            "check": "P5", "severity": "P1", "slug": "<set>",
-            "msg": (
-                f"chapter-set word-count variance is {variance:.0%} "
-                f"(min={lo}, max={hi}); >30% indicates the shape is uneven"
-            ),
-        }]
+        return [
+            {
+                "check": "P5",
+                "severity": "P1",
+                "slug": "<set>",
+                "msg": (
+                    f"chapter-set word-count variance is {variance:.0%} "
+                    f"(min={lo}, max={hi}); >30% indicates the shape is uneven"
+                ),
+            }
+        ]
     return []
 
 
@@ -338,13 +371,17 @@ def check_cross_book_bleed(book_slug: str, chapters: dict[str, str]) -> list[dic
                 if len(signal) < 4:
                     continue
                 if re.search(rf"(?i)\b{re.escape(signal)}\b", body):
-                    findings.append({
-                        "check": "P6", "severity": "P2", "slug": slug,
-                        "msg": (
-                            f"chapter text contains {signal!r} which belongs to "
-                            f"book {other_book!r}'s mangle-map; possible cross-book bleed"
-                        ),
-                    })
+                    findings.append(
+                        {
+                            "check": "P6",
+                            "severity": "P2",
+                            "slug": slug,
+                            "msg": (
+                                f"chapter text contains {signal!r} which belongs to "
+                                f"book {other_book!r}'s mangle-map; possible cross-book bleed"
+                            ),
+                        }
+                    )
     return findings
 
 
@@ -363,7 +400,9 @@ SHINGLE_N = 12
 SHINGLE_DUP_THRESHOLD = 3
 # Formulaic phrases excluded from duplication shingles (legitimately recur).
 _DUP_EXCLUDE_SUBSTRINGS = (
-    "peace and blessings", "peace be upon", "praise be to allah",
+    "peace and blessings",
+    "peace be upon",
+    "praise be to allah",
     "commander of the faithful",
 )
 # Inline bibliographic citations are quoted apparatus, not teaching content. A
@@ -411,12 +450,14 @@ def _load_source_toc(book_dir: Path) -> list[dict] | None:
     ranges = []
     for sc in scs:
         try:
-            ranges.append({
-                "sc_index": int(sc.get("sc_index", 0)),
-                "start": int(sc["start_line"]),
-                "end": int(sc["end_line"]),
-                "title": str(sc.get("source_title", "?")),
-            })
+            ranges.append(
+                {
+                    "sc_index": int(sc.get("sc_index", 0)),
+                    "start": int(sc["start_line"]),
+                    "end": int(sc["end_line"]),
+                    "title": str(sc.get("source_title", "?")),
+                }
+            )
         except (KeyError, TypeError, ValueError):
             continue
     return ranges or None
@@ -437,24 +478,32 @@ def check_source_coverage(book_dir: Path) -> list[dict]:
     for r in ordered:
         gap = r["start"] - cursor
         if gap > COVERAGE_GAP_TOLERANCE:
-            findings.append({
-                "check": "P7", "severity": "P1", "slug": "<set>",
-                "msg": (
-                    f"source lines {cursor}-{r['start'] - 1} ({gap} lines) are not "
-                    f"assigned to any episode (next assigned: sc {r['sc_index']} "
-                    f"{r['title']!r}) — content silently dropped from the split"
-                ),
-            })
+            findings.append(
+                {
+                    "check": "P7",
+                    "severity": "P1",
+                    "slug": "<set>",
+                    "msg": (
+                        f"source lines {cursor}-{r['start'] - 1} ({gap} lines) are not "
+                        f"assigned to any episode (next assigned: sc {r['sc_index']} "
+                        f"{r['title']!r}) — content silently dropped from the split"
+                    ),
+                }
+            )
         cursor = max(cursor, r["end"] + 1)
     tail_gap = n_lines - cursor + 1
     if tail_gap > COVERAGE_GAP_TOLERANCE:
-        findings.append({
-            "check": "P7", "severity": "P1", "slug": "<set>",
-            "msg": (
-                f"source lines {cursor}-{n_lines} ({tail_gap} lines) after the last "
-                f"assigned range are not covered by any episode"
-            ),
-        })
+        findings.append(
+            {
+                "check": "P7",
+                "severity": "P1",
+                "slug": "<set>",
+                "msg": (
+                    f"source lines {cursor}-{n_lines} ({tail_gap} lines) after the last "
+                    f"assigned range are not covered by any episode"
+                ),
+            }
+        )
     return findings
 
 
@@ -467,15 +516,19 @@ def check_source_overlap(book_dir: Path) -> list[dict]:
     findings: list[dict] = []
     for prev, cur in zip(ordered, ordered[1:]):
         if cur["start"] <= prev["end"]:
-            findings.append({
-                "check": "P8", "severity": "P0", "slug": "<set>",
-                "msg": (
-                    f"source ranges overlap: sc {prev['sc_index']} {prev['title']!r} "
-                    f"({prev['start']}-{prev['end']}) and sc {cur['sc_index']} "
-                    f"{cur['title']!r} ({cur['start']}-{cur['end']}) — the same "
-                    f"source lines feed two episodes"
-                ),
-            })
+            findings.append(
+                {
+                    "check": "P8",
+                    "severity": "P0",
+                    "slug": "<set>",
+                    "msg": (
+                        f"source ranges overlap: sc {prev['sc_index']} {prev['title']!r} "
+                        f"({prev['start']}-{prev['end']}) and sc {cur['sc_index']} "
+                        f"{cur['title']!r} ({cur['start']}-{cur['end']}) — the same "
+                        f"source lines feed two episodes"
+                    ),
+                }
+            )
     return findings
 
 
@@ -488,18 +541,19 @@ def _concept_shingles(text: str) -> set[tuple[str, ...]]:
         if line.startswith("## "):
             keep = not re.match(
                 r"^##\s+(where\s+this\s+episode|what\s+this\s+episode\s+lands|closing)",
-                line, re.IGNORECASE,
+                line,
+                re.IGNORECASE,
             )
             continue
         if keep:
             parts.append(line)
     body = " ".join(parts)
-    for _cre in _CITATION_SPAN_RES:           # drop inline bibliographic citations
+    for _cre in _CITATION_SPAN_RES:  # drop inline bibliographic citations
         body = _cre.sub(" ", body)
     tokens = re.findall(r"[a-z']+", body.lower())
     shingles: set[tuple[str, ...]] = set()
     for i in range(len(tokens) - SHINGLE_N + 1):
-        gram = tuple(tokens[i:i + SHINGLE_N])
+        gram = tuple(tokens[i : i + SHINGLE_N])
         joined = " ".join(gram)
         if any(x in joined for x in _DUP_EXCLUDE_SUBSTRINGS):
             continue
@@ -513,18 +567,22 @@ def check_cross_chapter_duplication(chapters: dict[str, str]) -> list[dict]:
     shingle_map = {s: _concept_shingles(chapters[s]) for s in slugs}
     findings: list[dict] = []
     for i, a in enumerate(slugs):
-        for b in slugs[i + 1:]:
+        for b in slugs[i + 1 :]:
             shared = shingle_map[a] & shingle_map[b]
             if len(shared) >= SHINGLE_DUP_THRESHOLD:
                 sample = " ".join(next(iter(shared)))
-                findings.append({
-                    "check": "P8", "severity": "P1", "slug": a,
-                    "msg": (
-                        f"chapters {a!r} and {b!r} share {len(shared)} distinct "
-                        f"{SHINGLE_N}-word passages — same content taught twice. "
-                        f"Sample: \"{sample[:90]}…\""
-                    ),
-                })
+                findings.append(
+                    {
+                        "check": "P8",
+                        "severity": "P1",
+                        "slug": a,
+                        "msg": (
+                            f"chapters {a!r} and {b!r} share {len(shared)} distinct "
+                            f"{SHINGLE_N}-word passages — same content taught twice. "
+                            f'Sample: "{sample[:90]}…"'
+                        ),
+                    }
+                )
     return findings
 
 
@@ -542,7 +600,7 @@ def _sermon_declarations(book_dir: Path) -> list[tuple[str, str]]:
         text = cf.read_text(encoding="utf-8")
         if not _SERMON_PRESENT_RE.search(text):
             continue
-        block = text[_SERMON_PRESENT_RE.search(text).end():]
+        block = text[_SERMON_PRESENT_RE.search(text).end() :]
         if not re.search(r"present:\s*true", block):
             continue
         m = _SERMON_TITLE_RE.search(block)
@@ -558,43 +616,53 @@ def check_sermon_integrity(book_dir: Path, chapters: dict[str, str]) -> list[dic
     """P9: every declared sermon section exists WHOLE in exactly one chapter."""
     findings: list[dict] = []
     for contract_slug, section_title in _sermon_declarations(book_dir):
-        heading_re = re.compile(
-            rf"^##\s+\*?{re.escape(section_title)}\*?\s*$", re.MULTILINE | re.IGNORECASE
-        )
+        heading_re = re.compile(rf"^##\s+\*?{re.escape(section_title)}\*?\s*$", re.MULTILINE | re.IGNORECASE)
         carriers = [s for s, body in chapters.items() if heading_re.search(body)]
         if not carriers:
-            findings.append({
-                "check": "P9", "severity": "P0", "slug": contract_slug,
-                "msg": (
-                    f"contract declares sermon section {section_title!r} but no "
-                    f"chapter carries that H2 — the sermon was dropped or fragmented"
-                ),
-            })
+            findings.append(
+                {
+                    "check": "P9",
+                    "severity": "P0",
+                    "slug": contract_slug,
+                    "msg": (
+                        f"contract declares sermon section {section_title!r} but no "
+                        f"chapter carries that H2 — the sermon was dropped or fragmented"
+                    ),
+                }
+            )
             continue
         if len(carriers) > 1:
-            findings.append({
-                "check": "P9", "severity": "P0", "slug": contract_slug,
-                "msg": (
-                    f"sermon section {section_title!r} appears in {len(carriers)} "
-                    f"chapters ({carriers}) — a sermon must live whole in exactly one"
-                ),
-            })
+            findings.append(
+                {
+                    "check": "P9",
+                    "severity": "P0",
+                    "slug": contract_slug,
+                    "msg": (
+                        f"sermon section {section_title!r} appears in {len(carriers)} "
+                        f"chapters ({carriers}) — a sermon must live whole in exactly one"
+                    ),
+                }
+            )
             continue
         body = chapters[carriers[0]]
         m = heading_re.search(body)
-        rest = body[m.end():]
+        rest = body[m.end() :]
         nxt = rest.find("\n## ")
         section = rest[:nxt] if nxt != -1 else rest
         n = len(section.split())
         if n < SERMON_MIN_WORDS:
-            findings.append({
-                "check": "P9", "severity": "P1", "slug": carriers[0],
-                "msg": (
-                    f"sermon section {section_title!r} is only {n} words "
-                    f"(<{SERMON_MIN_WORDS}) — likely a stub, not the sermon "
-                    f"captured whole"
-                ),
-            })
+            findings.append(
+                {
+                    "check": "P9",
+                    "severity": "P1",
+                    "slug": carriers[0],
+                    "msg": (
+                        f"sermon section {section_title!r} is only {n} words "
+                        f"(<{SERMON_MIN_WORDS}) — likely a stub, not the sermon "
+                        f"captured whole"
+                    ),
+                }
+            )
     return findings
 
 
@@ -617,12 +685,18 @@ def check_section_heading_conciseness(chapters: dict[str, str]) -> list[dict]:
             heading = line[3:].strip()
             wc = len(heading.split())
             if wc > HEADING_MAX_WORDS:
-                findings.append({
-                    "check": "P11", "severity": "P2", "slug": slug,
-                    "msg": (f"section heading is {wc} words (>{HEADING_MAX_WORDS}): "
+                findings.append(
+                    {
+                        "check": "P11",
+                        "severity": "P2",
+                        "slug": slug,
+                        "msg": (
+                            f"section heading is {wc} words (>{HEADING_MAX_WORDS}): "
                             f"{heading[:64]!r} — write a short noun-phrase heading, "
-                            f"not a full statement"),
-                })
+                            f"not a full statement"
+                        ),
+                    }
+                )
     return findings
 
 
@@ -637,13 +711,17 @@ def check_set_density(chapter_files: list[Path], book_slug: str) -> list[dict]:
     for cf in chapter_files:
         d = audit_chapter(cf, book_slug, "")
         if d.status == "FAIL":
-            findings.append({
-                "check": "P10", "severity": "P1", "slug": chapter_slug(cf),
-                "msg": (
-                    f"{d.concept_count} concept sections (target ≤{d.max_concepts}) "
-                    f"— over-dense; see docs/standards/chapter-density.md"
-                ),
-            })
+            findings.append(
+                {
+                    "check": "P10",
+                    "severity": "P1",
+                    "slug": chapter_slug(cf),
+                    "msg": (
+                        f"{d.concept_count} concept sections (target ≤{d.max_concepts}) "
+                        f"— over-dense; see docs/standards/chapter-density.md"
+                    ),
+                }
+            )
     return findings
 
 
@@ -652,18 +730,32 @@ def check_set_density(chapter_files: list[Path], book_slug: str) -> list[dict]:
 
 def run(book_dir: Path) -> tuple[list[dict], int]:
     if not book_dir.is_dir():
-        return ([{
-            "check": "FATAL", "severity": "P0", "slug": "<book>",
-            "msg": f"BOOK_DIR not found: {book_dir}",
-        }], 0)
+        return (
+            [
+                {
+                    "check": "FATAL",
+                    "severity": "P0",
+                    "slug": "<book>",
+                    "msg": f"BOOK_DIR not found: {book_dir}",
+                }
+            ],
+            0,
+        )
 
     book_slug = book_dir.name
     chapter_files = list_chapter_files(book_dir)
     if not chapter_files:
-        return ([{
-            "check": "INFO", "severity": "P2", "slug": "<book>",
-            "msg": "no chapters yet; nothing to check (run Phase 0a–0d first)",
-        }], 0)
+        return (
+            [
+                {
+                    "check": "INFO",
+                    "severity": "P2",
+                    "slug": "<book>",
+                    "msg": "no chapters yet; nothing to check (run Phase 0a–0d first)",
+                }
+            ],
+            0,
+        )
 
     chapters: dict[str, str] = {chapter_slug(p): p.read_text(encoding="utf-8") for p in chapter_files}
     word_counts: dict[str, int] = {s: word_count(t) for s, t in chapters.items()}
@@ -700,11 +792,15 @@ def main() -> int:
     findings, n_chapters = run(args.book_dir.resolve())
 
     if args.format == "json":
-        json.dump({
-            "book": args.book_dir.name,
-            "chapters": n_chapters,
-            "findings": findings,
-        }, sys.stdout, indent=2)
+        json.dump(
+            {
+                "book": args.book_dir.name,
+                "chapters": n_chapters,
+                "findings": findings,
+            },
+            sys.stdout,
+            indent=2,
+        )
         sys.stdout.write("\n")
     else:
         print(f"check_chapter_set: {args.book_dir.name} ({n_chapters} chapter(s))")

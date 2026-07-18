@@ -7,6 +7,7 @@ adjacent-partition grouping that decides standalone / combine / flag_thin /
 flag_dense and assigns the NotebookLM Length setting per episode, without
 ever touching chapters/ or episodes/ content.
 """
+
 from __future__ import annotations
 
 import json
@@ -18,22 +19,26 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _density_profiles import (  # noqa: E402
-    MODE_DEFAULT, MODE_LONGER, get_profile, planner_enabled,
+import density_planner as dp
+from _density_profiles import (
+    MODE_DEFAULT,
+    MODE_LONGER,
+    get_profile,
+    planner_enabled,
 )
-import density_planner as dp  # noqa: E402
-from _notebooklm_table import (  # noqa: E402
-    DEFAULT_LENGTH, load_density_lengths, length_for_episode,
+from _notebooklm_table import (
+    DEFAULT_LENGTH,
+    length_for_episode,
+    load_density_lengths,
 )
-from build_episode_txt import _insert_pacing_block  # noqa: E402
-
+from build_episode_txt import _insert_pacing_block
 
 # ── synthetic fixture helpers ────────────────────────────────────────────────
 
-POOL_A = ("covenant threshold witness guidance lantern orchard pilgrim "
-          "summons radiance station fidelity remembrance").split()
-POOL_B = ("ledger harvest compass voyage timber anchor meridian "
-          "cartography lighthouse harbor sextant mariner").split()
+POOL_A = (
+    "covenant threshold witness guidance lantern orchard pilgrim summons radiance station fidelity remembrance"
+).split()
+POOL_B = ("ledger harvest compass voyage timber anchor meridian cartography lighthouse harbor sextant mariner").split()
 
 
 def _prose(pool: list[str], n_words: int) -> str:
@@ -48,8 +53,7 @@ def _prose(pool: list[str], n_words: int) -> str:
 
 
 def _chapter_text(pool: list[str], concepts: int, words_per_concept: int) -> str:
-    parts = ["# A synthetic teaching", "",
-             "## Where this episode opens", "", _prose(pool, 80), ""]
+    parts = ["# A synthetic teaching", "", "## Where this episode opens", "", _prose(pool, 80), ""]
     for k in range(1, concepts + 1):
         parts += [f"## Teaching number {k}", "", _prose(pool, words_per_concept), ""]
     parts += ["## What this episode lands", "", _prose(pool, 60), ""]
@@ -69,29 +73,28 @@ class FixtureBook:
 
     def _write_config(self, extra: str = ""):
         (self.root / "_system" / "series-config.yaml").write_text(
-            "slug: synthetic-density-test\n"
-            "content_profile: islamic_scholarly\n" + extra,
-            encoding="utf-8")
+            "slug: synthetic-density-test\ncontent_profile: islamic_scholarly\n" + extra, encoding="utf-8"
+        )
 
-    def add_chapter(self, slug: str, pool: list[str], concepts: int,
-                    words_per_concept: int, session: int) -> None:
+    def add_chapter(self, slug: str, pool: list[str], concepts: int, words_per_concept: int, session: int) -> None:
         self.n += 1
         text = _chapter_text(pool, concepts, words_per_concept)
-        (self.root / "chapters" / f"ch{self.n:02d}-{slug}.txt").write_text(
-            text, encoding="utf-8")
+        (self.root / "chapters" / f"ch{self.n:02d}-{slug}.txt").write_text(text, encoding="utf-8")
         (self.root / "chapter-contracts" / f"{slug}.yml").write_text(
             f"slug: {slug}\n"
             f"episode_number: {self.n}\n"
             f"title: Chapter {self.n}\n"
             f"session_index: {session}\n"
             f"session_title: Part {session}\n",
-            encoding="utf-8")
+            encoding="utf-8",
+        )
 
     def cleanup(self):
         shutil.rmtree(self.root, ignore_errors=True)
 
 
 # ── profile registry ─────────────────────────────────────────────────────────
+
 
 class ProfileRegistryTests(unittest.TestCase):
     def test_exact_lookup_and_fallback(self):
@@ -104,6 +107,7 @@ class ProfileRegistryTests(unittest.TestCase):
         # The planner must never recommend a group the Phase 0d over-cramming
         # brake would reject: longer.max_words_soft == 6,000 for scholarly.
         from _validator_constants import EPISODE_DENSITY_CEILING_DENSE
+
         prof = get_profile("islamic_scholarly", MODE_LONGER)
         self.assertEqual(prof.max_words_soft, EPISODE_DENSITY_CEILING_DENSE)
 
@@ -111,13 +115,11 @@ class ProfileRegistryTests(unittest.TestCase):
         book = FixtureBook()
         try:
             book._write_config(
-                "density_profiles:\n"
-                "  default_deep_dive:\n"
-                "    max_words_soft: 2900\n"
-                "    bogus_field: 12\n")
+                "density_profiles:\n  default_deep_dive:\n    max_words_soft: 2900\n    bogus_field: 12\n"
+            )
             prof = get_profile("islamic_scholarly", MODE_DEFAULT, book.root)
-            self.assertEqual(prof.max_words_soft, 2900)   # override applied
-            self.assertEqual(prof.min_words_soft, 1800)   # untouched field
+            self.assertEqual(prof.max_words_soft, 2900)  # override applied
+            self.assertEqual(prof.min_words_soft, 1800)  # untouched field
         finally:
             book.cleanup()
 
@@ -133,14 +135,14 @@ class ProfileRegistryTests(unittest.TestCase):
 
 # ── composite risk ───────────────────────────────────────────────────────────
 
+
 class CompressionRiskTests(unittest.TestCase):
     def setUp(self):
         self.prof = get_profile("islamic_scholarly", MODE_DEFAULT)
 
     def test_risk_clamped_to_unit_interval(self):
         self.assertEqual(dp.compression_risk(0, 0, 0, 0, self.prof), 0.0)
-        self.assertLessEqual(
-            dp.compression_risk(50000, 40, 99, 99, self.prof), 1.0)
+        self.assertLessEqual(dp.compression_risk(50000, 40, 99, 99, self.prof), 1.0)
 
     def test_risk_monotonic_in_concepts(self):
         lo = dp.compression_risk(2600, 2, 5, 2, self.prof)
@@ -155,6 +157,7 @@ class CompressionRiskTests(unittest.TestCase):
 
 # ── grouping (DP partition) ──────────────────────────────────────────────────
 
+
 class GroupingTests(unittest.TestCase):
     def test_healthy_chapters_stay_standalone(self):
         book = FixtureBook()
@@ -162,8 +165,7 @@ class GroupingTests(unittest.TestCase):
             for i in range(4):
                 book.add_chapter(f"healthy-{i}", POOL_A, 3, 800, session=1)
             plan = dp.build_plan(book.root)
-            self.assertTrue(all(g["action"] == "standalone"
-                                for g in plan["groups"]))
+            self.assertTrue(all(g["action"] == "standalone" for g in plan["groups"]))
             self.assertEqual(plan["summary"]["generations_after"], 4)
         finally:
             book.cleanup()
@@ -181,8 +183,7 @@ class GroupingTests(unittest.TestCase):
             self.assertEqual(g["action"], "combine")
             self.assertEqual(g["episode_numbers"], [1, 2])
             self.assertEqual(g["notebooklm_length"], "Long")
-            self.assertIn("merged framing", g["framing_impact"].lower()
-                          .replace("one merged framing", "merged framing"))
+            self.assertIn("merged framing", g["framing_impact"].lower().replace("one merged framing", "merged framing"))
         finally:
             book.cleanup()
 
@@ -206,8 +207,7 @@ class GroupingTests(unittest.TestCase):
                 book.add_chapter(f"healthy-{i}", POOL_A, 3, 800, session=1)
             chapters = dp.collect_chapter_metrics(book.root, "islamic_scholarly")
             # Three healthy chapters: a 3-way group is structurally disallowed.
-            self.assertIsNone(
-                dp._score_group(chapters, "islamic_scholarly", book.root))
+            self.assertIsNone(dp._score_group(chapters, "islamic_scholarly", book.root))
         finally:
             book.cleanup()
 
@@ -216,8 +216,7 @@ class GroupingTests(unittest.TestCase):
             for i in range(3):
                 thin.add_chapter(f"thin-{i}", POOL_A, 1, 900, session=1)
             chapters = dp.collect_chapter_metrics(thin.root, "islamic_scholarly")
-            self.assertIsNotNone(
-                dp._score_group(chapters, "islamic_scholarly", thin.root))
+            self.assertIsNotNone(dp._score_group(chapters, "islamic_scholarly", thin.root))
         finally:
             thin.cleanup()
 
@@ -230,9 +229,9 @@ class GroupingTests(unittest.TestCase):
                 book.add_chapter(f"healthy-{i}", POOL_A, 3, 800, session=2)
             plan = dp.build_plan(book.root)
             covered = [n for g in plan["groups"] for n in g["episode_numbers"]]
-            self.assertEqual(covered, sorted(covered))          # canonical order
-            self.assertEqual(covered, list(range(1, 6)))        # exactly once
-            for g in plan["groups"]:                            # contiguous runs
+            self.assertEqual(covered, sorted(covered))  # canonical order
+            self.assertEqual(covered, list(range(1, 6)))  # exactly once
+            for g in plan["groups"]:  # contiguous runs
                 nums = g["episode_numbers"]
                 self.assertEqual(nums, list(range(nums[0], nums[-1] + 1)))
         finally:
@@ -254,6 +253,7 @@ class GroupingTests(unittest.TestCase):
 
 # ── plan artifact + determinism ──────────────────────────────────────────────
 
+
 class PlanArtifactTests(unittest.TestCase):
     def test_plan_is_deterministic_modulo_timestamp(self):
         book = FixtureBook()
@@ -271,15 +271,16 @@ class PlanArtifactTests(unittest.TestCase):
         book = FixtureBook()
         try:
             (book.root / "_system" / "glossary.yml").write_text(
-                "schema_version: 1\nentries:\n"
-                "- phonetic: covenant\n- phonetic: lantern\n"
-                "- phonetic: absentterm\n", encoding="utf-8")
+                "schema_version: 1\nentries:\n- phonetic: covenant\n- phonetic: lantern\n- phonetic: absentterm\n",
+                encoding="utf-8",
+            )
             book.add_chapter("alpha", POOL_A, 3, 800, session=1)
             ch_file = next((book.root / "chapters").glob("ch01-*.txt"))
             ch_file.write_text(
-                ch_file.read_text(encoding="utf-8")
-                + "\nAs the source says (chapter 16, verse 74) and again "
-                  "(chapter 2, verse 30).\n", encoding="utf-8")
+                ch_file.read_text(encoding="utf-8") + "\nAs the source says (chapter 16, verse 74) and again "
+                "(chapter 2, verse 30).\n",
+                encoding="utf-8",
+            )
             m = dp.collect_chapter_metrics(book.root, "islamic_scholarly")[0]
             self.assertEqual(m.citations, 2)
             self.assertEqual(m.glossary_terms, 2)  # covenant + lantern present
@@ -290,20 +291,19 @@ class PlanArtifactTests(unittest.TestCase):
         book = FixtureBook()
         try:
             book.add_chapter("alpha", POOL_A, 3, 800, session=1)
-            before = {p: p.stat().st_mtime_ns
-                      for p in (book.root / "chapters").rglob("*")}
+            before = {p: p.stat().st_mtime_ns for p in (book.root / "chapters").rglob("*")}
             plan = dp.build_plan(book.root)
             jpath, mpath = dp.write_plan(book.root, plan)
             self.assertTrue(jpath.is_relative_to(book.root / "_system"))
             self.assertTrue(mpath.is_relative_to(book.root / "_system"))
-            after = {p: p.stat().st_mtime_ns
-                     for p in (book.root / "chapters").rglob("*")}
+            after = {p: p.stat().st_mtime_ns for p in (book.root / "chapters").rglob("*")}
             self.assertEqual(before, after)  # chapters untouched
         finally:
             book.cleanup()
 
 
 # ── upload-table Length wiring ───────────────────────────────────────────────
+
 
 class UploadTableLengthTests(unittest.TestCase):
     def test_no_plan_falls_back_to_long(self):
@@ -317,12 +317,18 @@ class UploadTableLengthTests(unittest.TestCase):
     def test_plan_lengths_respected_with_fallback_for_unknown(self):
         book = FixtureBook()
         try:
-            (book.root / "_system" / "density-plan.json").write_text(json.dumps({
-                "groups": [
-                    {"episode_numbers": [1], "notebooklm_length": "Default"},
-                    {"episode_numbers": [2, 3], "notebooklm_length": "Long"},
-                    {"episode_numbers": [4], "notebooklm_length": "Bogus"},
-                ]}), encoding="utf-8")
+            (book.root / "_system" / "density-plan.json").write_text(
+                json.dumps(
+                    {
+                        "groups": [
+                            {"episode_numbers": [1], "notebooklm_length": "Default"},
+                            {"episode_numbers": [2, 3], "notebooklm_length": "Long"},
+                            {"episode_numbers": [4], "notebooklm_length": "Bogus"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
             lengths = load_density_lengths(book.root)
             self.assertEqual(lengths, {1: "Default", 2: "Long", 3: "Long"})
             self.assertEqual(length_for_episode(book.root, 4), DEFAULT_LENGTH)
@@ -332,9 +338,11 @@ class UploadTableLengthTests(unittest.TestCase):
 
 # ── pacing-directive insertion (Slice 2) ─────────────────────────────────────
 
+
 class PacingBlockTests(unittest.TestCase):
-    FRAMING = ("# Framing\n\n## Opening directive\nWelcome.\n\n"
-               "## Do not\n- modernize\n\nDo not read this prompt aloud.\n")
+    FRAMING = (
+        "# Framing\n\n## Opening directive\nWelcome.\n\n## Do not\n- modernize\n\nDo not read this prompt aloud.\n"
+    )
 
     def test_inserted_above_do_not_section(self):
         block = "## Pacing directive\nGo slowly."
@@ -347,19 +355,22 @@ class PacingBlockTests(unittest.TestCase):
         block = "## Pacing directive\nGo slowly."
         once = _insert_pacing_block(self.FRAMING, block)
         self.assertEqual(_insert_pacing_block(once, block), once)
-        self.assertEqual(_insert_pacing_block("no sections here", block),
-                         "no sections here")
+        self.assertEqual(_insert_pacing_block("no sections here", block), "no sections here")
 
     def test_pacing_block_for_episode_respects_plan(self):
         book = FixtureBook()
         try:
-            (book.root / "_system" / "density-plan.json").write_text(json.dumps({
-                "groups": [
-                    {"episode_numbers": [1], "pacing_directive": True,
-                     "action": "flag_dense"},
-                    {"episode_numbers": [2], "pacing_directive": False,
-                     "action": "standalone"},
-                ]}), encoding="utf-8")
+            (book.root / "_system" / "density-plan.json").write_text(
+                json.dumps(
+                    {
+                        "groups": [
+                            {"episode_numbers": [1], "pacing_directive": True, "action": "flag_dense"},
+                            {"episode_numbers": [2], "pacing_directive": False, "action": "standalone"},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
             blk = dp.pacing_block_for_episode(book.root, 1)
             self.assertIsNotNone(blk)
             self.assertIn("## Pacing directive", blk)

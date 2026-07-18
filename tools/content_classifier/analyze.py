@@ -18,17 +18,19 @@ Read-only. Computes:
 Outputs JSON at _workspace/plan/wisdom-taxonomy-r1-analysis.json.
 The proposal document is composed in a separate step from that JSON.
 """
+
 from __future__ import annotations
+
 import hashlib
 import json
 import re
 import sys
-from collections import defaultdict, Counter
+from collections import defaultdict
 from difflib import SequenceMatcher
 from pathlib import Path
 
-from PIL import Image
 import imagehash
+from PIL import Image
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO_ROOT))
@@ -58,7 +60,9 @@ def _sha(s: str) -> str:
 
 def pull_topic_corpus() -> list[dict]:
     """Pull every topic row from KAHSKOLE with binder + chapter context."""
-    rows = query_json("KASHKOLE", """
+    rows = query_json(
+        "KASHKOLE",
+        """
 SELECT bc.BinderID AS binder_id, b.BinderName AS binder_name,
        bc.ChapterID AS chapter_id, c.ChapterName AS chapter_name,
        ct.ChapterTopicOrder AS topic_order,
@@ -72,7 +76,8 @@ JOIN ChapterTopics ct ON ct.ChapterID = bc.ChapterID
 JOIN Topics t ON t.TopicID = ct.TopicID
 LEFT JOIN TopicDataUnicode td ON td.TopicID = t.TopicID
 ORDER BY bc.BinderID, ct.ChapterTopicOrder
-FOR JSON PATH;""")
+FOR JSON PATH;""",
+    )
     return rows
 
 
@@ -100,8 +105,7 @@ def analyze_images() -> dict:
             print(f"    dhash failed for {p.name}: {e}", file=sys.stderr)
 
     # Exact-byte clusters with >1 instance
-    sha_dupes = {sha: [str(p.relative_to(EXTRACT_ROOT)) for p in ps]
-                 for sha, ps in sha_groups.items() if len(ps) > 1}
+    sha_dupes = {sha: [str(p.relative_to(EXTRACT_ROOT)) for p in ps] for sha, ps in sha_groups.items() if len(ps) > 1}
 
     # Perceptual near-duplicates: group dhashes within Hamming distance ≤ 8
     # of each other; collapse into clusters.
@@ -135,18 +139,19 @@ def analyze_images() -> dict:
         # Only interesting if cluster spans more than one SHA (otherwise it's
         # already covered by SHA dedup)
         if len(all_shas) > 1:
-            perceptual_path_clusters.append({
-                "shas": sorted(all_shas),
-                "size": len(all_paths),
-                "paths": sorted(all_paths),
-            })
+            perceptual_path_clusters.append(
+                {
+                    "shas": sorted(all_shas),
+                    "size": len(all_paths),
+                    "paths": sorted(all_paths),
+                }
+            )
 
     return {
         "total_pngs": len(pngs),
         "unique_shas": len(sha_groups),
         "exact_dupe_clusters": [
-            {"sha": sha, "size": len(paths), "paths": sorted(paths)}
-            for sha, paths in sha_dupes.items()
+            {"sha": sha, "size": len(paths), "paths": sorted(paths)} for sha, paths in sha_dupes.items()
         ],
         "perceptual_near_dupe_clusters": perceptual_path_clusters,
     }
@@ -172,21 +177,42 @@ def analyze_topic_content(topics: list[dict]) -> dict:
             sha_norm[_sha(norm)].append(t)
 
     exact_html_dupes = [
-        {"sha": sha, "size": len(ts), "topics": [
-            {"binder_id": int(t["binder_id"]), "chapter_id": int(t["chapter_id"]),
-             "topic_id": int(t["topic_id"]), "topic_name": t.get("topic_name"),
-             "binder_name": t.get("binder_name"), "chapter_name": t.get("chapter_name")}
-            for t in ts
-        ]} for sha, ts in sha_html.items() if len(ts) > 1
+        {
+            "sha": sha,
+            "size": len(ts),
+            "topics": [
+                {
+                    "binder_id": int(t["binder_id"]),
+                    "chapter_id": int(t["chapter_id"]),
+                    "topic_id": int(t["topic_id"]),
+                    "topic_name": t.get("topic_name"),
+                    "binder_name": t.get("binder_name"),
+                    "chapter_name": t.get("chapter_name"),
+                }
+                for t in ts
+            ],
+        }
+        for sha, ts in sha_html.items()
+        if len(ts) > 1
     ]
 
     exact_normalized_dupes = [
-        {"sha": sha, "size": len(ts), "topics": [
-            {"binder_id": int(t["binder_id"]), "chapter_id": int(t["chapter_id"]),
-             "topic_id": int(t["topic_id"]), "topic_name": t.get("topic_name"),
-             "binder_name": t.get("binder_name"), "chapter_name": t.get("chapter_name")}
-            for t in ts
-        ]} for sha, ts in sha_norm.items()
+        {
+            "sha": sha,
+            "size": len(ts),
+            "topics": [
+                {
+                    "binder_id": int(t["binder_id"]),
+                    "chapter_id": int(t["chapter_id"]),
+                    "topic_id": int(t["topic_id"]),
+                    "topic_name": t.get("topic_name"),
+                    "binder_name": t.get("binder_name"),
+                    "chapter_name": t.get("chapter_name"),
+                }
+                for t in ts
+            ],
+        }
+        for sha, ts in sha_norm.items()
         if len(ts) > 1
         # Filter to not double-report already-caught exact HTML dupes
         and not any(_sha(t.get("html") or "") in {d["sha"] for d in exact_html_dupes} for t in ts)
@@ -198,10 +224,12 @@ def analyze_topic_content(topics: list[dict]) -> dict:
     # only compare within each bucket. This finds clusters where the opening
     # is similar (common case for content-derived dupes).
     buckets: dict[str, list[tuple[int, str]]] = defaultdict(list)
-    nonempty_topics = [(int(t["topic_id"]), normalized_by_topic[int(t["topic_id"])])
-                       for t in topics if normalized_by_topic[int(t["topic_id"])]]
-    print(f"    non-empty topics for near-dupe analysis: {len(nonempty_topics)}",
-          file=sys.stderr)
+    nonempty_topics = [
+        (int(t["topic_id"]), normalized_by_topic[int(t["topic_id"])])
+        for t in topics
+        if normalized_by_topic[int(t["topic_id"])]
+    ]
+    print(f"    non-empty topics for near-dupe analysis: {len(nonempty_topics)}", file=sys.stderr)
     for tid, norm in nonempty_topics:
         # Bucket by first 60 chars (after stripping); robust to whitespace
         head = norm[:60]
@@ -239,7 +267,7 @@ def analyze_topic_content(topics: list[dict]) -> dict:
     # Render near-clusters with context
     topic_by_id = {int(t["topic_id"]): t for t in topics}
     near_dupe_clusters = []
-    seen_topic_ids: set[int] = set()
+    seen_topic_ids: set[int] = set()  # noqa: F841
     # Skip near-dupes already in exact clusters
     exact_topic_ids = set()
     for d in exact_html_dupes + exact_normalized_dupes:
@@ -253,20 +281,24 @@ def analyze_topic_content(topics: list[dict]) -> dict:
         for tid in sorted(cluster):
             if tid in topic_by_id:
                 t = topic_by_id[tid]
-                topics_data.append({
-                    "binder_id": int(t["binder_id"]),
-                    "chapter_id": int(t["chapter_id"]),
-                    "topic_id": tid,
-                    "topic_name": t.get("topic_name"),
-                    "binder_name": t.get("binder_name"),
-                    "chapter_name": t.get("chapter_name"),
-                    "norm_len": len(normalized_by_topic[tid]),
-                })
+                topics_data.append(
+                    {
+                        "binder_id": int(t["binder_id"]),
+                        "chapter_id": int(t["chapter_id"]),
+                        "topic_id": tid,
+                        "topic_name": t.get("topic_name"),
+                        "binder_name": t.get("binder_name"),
+                        "chapter_name": t.get("chapter_name"),
+                        "norm_len": len(normalized_by_topic[tid]),
+                    }
+                )
         if len(topics_data) > 1:
-            near_dupe_clusters.append({
-                "size": len(topics_data),
-                "topics": topics_data,
-            })
+            near_dupe_clusters.append(
+                {
+                    "size": len(topics_data),
+                    "topics": topics_data,
+                }
+            )
 
     return {
         "exact_html_dupe_clusters": exact_html_dupes,
@@ -285,21 +317,21 @@ def quran_citation_overlap(topics: list[dict]) -> dict:
             start = int(m.group(2))
             end = int(m.group(3)) if m.group(3) else start
             for ayat in range(start, end + 1):
-                citations[(surah, ayat)].append({
-                    "binder_id": int(t["binder_id"]),
-                    "chapter_id": int(t["chapter_id"]),
-                    "topic_id": int(t["topic_id"]),
-                    "chapter_name": t.get("chapter_name"),
-                })
+                citations[(surah, ayat)].append(
+                    {
+                        "binder_id": int(t["binder_id"]),
+                        "chapter_id": int(t["chapter_id"]),
+                        "topic_id": int(t["topic_id"]),
+                        "chapter_name": t.get("chapter_name"),
+                    }
+                )
 
     # Most-cited verses
     most_cited = sorted(citations.items(), key=lambda kv: -len(kv[1]))[:30]
     return {
         "total_unique_verses_cited": len(citations),
         "top_verses": [
-            {"surah": s, "ayat": a, "occurrences": len(refs),
-             "first_3_refs": refs[:3]}
-            for (s, a), refs in most_cited
+            {"surah": s, "ayat": a, "occurrences": len(refs), "first_3_refs": refs[:3]} for (s, a), refs in most_cited
         ],
     }
 
@@ -338,8 +370,7 @@ def main() -> None:
     print("[3/4] Analyzing topic content (SHA + near-dupe)...", file=sys.stderr)
     content_analysis = analyze_topic_content(topics)
 
-    print("[4/4] Computing Quran-citation overlap + chapter metadata...",
-          file=sys.stderr)
+    print("[4/4] Computing Quran-citation overlap + chapter metadata...", file=sys.stderr)
     quran_analysis = quran_citation_overlap(topics)
     chapter_meta = chapter_metadata(topics)
 
@@ -352,23 +383,19 @@ def main() -> None:
         "chapters": chapter_meta,
     }
     out_path = OUT_DIR / "wisdom-taxonomy-r1-analysis.json"
-    out_path.write_text(json.dumps(out, ensure_ascii=False, indent=2),
-                         encoding="utf-8")
+    out_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\nWrote {out_path}", file=sys.stderr)
-    print(f"  exact image dupes: {len(image_analysis['exact_dupe_clusters'])} clusters",
-          file=sys.stderr)
-    print(f"  perceptual near image dupes: "
-          f"{len(image_analysis['perceptual_near_dupe_clusters'])} clusters",
-          file=sys.stderr)
-    print(f"  exact HTML content dupes: "
-          f"{len(content_analysis['exact_html_dupe_clusters'])} clusters",
-          file=sys.stderr)
-    print(f"  exact normalized content dupes: "
-          f"{len(content_analysis['exact_normalized_dupe_clusters'])} clusters",
-          file=sys.stderr)
-    print(f"  near content dupes (>=90%): "
-          f"{len(content_analysis['near_dupe_clusters'])} clusters",
-          file=sys.stderr)
+    print(f"  exact image dupes: {len(image_analysis['exact_dupe_clusters'])} clusters", file=sys.stderr)
+    print(
+        f"  perceptual near image dupes: {len(image_analysis['perceptual_near_dupe_clusters'])} clusters",
+        file=sys.stderr,
+    )
+    print(f"  exact HTML content dupes: {len(content_analysis['exact_html_dupe_clusters'])} clusters", file=sys.stderr)
+    print(
+        f"  exact normalized content dupes: {len(content_analysis['exact_normalized_dupe_clusters'])} clusters",
+        file=sys.stderr,
+    )
+    print(f"  near content dupes (>=90%): {len(content_analysis['near_dupe_clusters'])} clusters", file=sys.stderr)
 
 
 if __name__ == "__main__":

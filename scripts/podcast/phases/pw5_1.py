@@ -3,6 +3,7 @@
 Detects that the unified-schema migration script is present and contains
 the canonical archetype map for all known books.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -56,16 +57,15 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
 
     if missing:
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
-            message=(
-                "Retroactive enhancement script incomplete:\n  "
-                + "\n  ".join(missing)
-            ),
+            phase_id=PHASE_ID,
+            status="halted",
+            message=("Retroactive enhancement script incomplete:\n  " + "\n  ".join(missing)),
             evidence_paths=[str(script)],
         )
 
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message=(
             "migrate_meta_yml.py present with complete archetype map "
             "(scholarly-deep-dive, play-novel, lecture-series, encyclopedic-epistolary, aphorism-collection)."

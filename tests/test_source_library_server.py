@@ -4,6 +4,7 @@ Validates the source_library_server module without requiring the Docker
 SQL Server container to be running.  Tests import-time behaviour, the tool
 manifest, the dispatch table, and the MCP JSON-RPC framing helpers.
 """
+
 from __future__ import annotations
 
 import json
@@ -16,8 +17,6 @@ sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "scripts" / "podcast"))
 
 import source_library_server as srv
-import source_library_queries as qry  # noqa: F401 (import sanity)
-
 
 _EXPECTED_TOOLS = {
     "quran_lookup",
@@ -70,11 +69,11 @@ class TestDispatch(unittest.TestCase):
         CalledProcessError, NOT ValueError or ImportError."""
         for name in _EXPECTED_TOOLS:
             sample_args = {
-                "quran_lookup":        {"surah": 1, "ayat": 1},
-                "quran_theme_search":  {"keyword": "mercy"},
-                "word_etymology":      {"term": "rahma"},
-                "topic_search":        {"keyword": "prayer"},
-                "topic_get":           {"topic_id": 1},
+                "quran_lookup": {"surah": 1, "ayat": 1},
+                "quran_theme_search": {"keyword": "mercy"},
+                "word_etymology": {"term": "rahma"},
+                "topic_search": {"keyword": "prayer"},
+                "topic_get": {"topic_id": 1},
                 "session_style_fetch": {"theme": "patience"},
             }[name]
             try:
@@ -90,6 +89,7 @@ class TestMcpFraming(unittest.TestCase):
 
     def _capture(self, func, *args) -> str:
         import io
+
         buf = io.StringIO()
         original, sys.stdout = sys.stdout, buf
         try:

@@ -1,4 +1,5 @@
 """P4.7 phase runner — Master & Disciple Ch-02 scaffolding updates."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -14,9 +15,15 @@ MD_BASE = REPO_ROOT / "content" / "drafts" / "the-master-and-the-disciple" / "_n
 # Detect markers per acceptance row in podcast-plan.yaml P4.7:
 DETECT = (
     (MD_BASE / "02-glossary.md", ("Twelve Jazāʾir", "Seven Oft-Repeated", "Asāas", "Hisab al-Jummal")),
-    (MD_BASE / "03-source-integrity-notes.md", ("Numeric / Symbolic enumeration register", "Anachronism register", "12 jazāʾir")),
+    (
+        MD_BASE / "03-source-integrity-notes.md",
+        ("Numeric / Symbolic enumeration register", "Anachronism register", "12 jazāʾir"),
+    ),
     (MD_BASE / "ch02-scaffolding.md", ("Numeric Disambiguation", "12 jazāʾir / regions", "NotebookLM Instruction")),
-    (MD_BASE / "06-human-review-checklist.md", ("J. Numeric / Symbolic Disambiguation review", "Failure-mode escalation")),
+    (
+        MD_BASE / "06-human-review-checklist.md",
+        ("J. Numeric / Symbolic Disambiguation review", "Failure-mode escalation"),
+    ),
 )
 
 
@@ -43,14 +50,14 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
 
     if missing:
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
-            message=(
-                "P4.7 scaffolding incomplete:\n  " + "\n  ".join(missing)
-            ),
+            phase_id=PHASE_ID,
+            status="halted",
+            message=("P4.7 scaffolding incomplete:\n  " + "\n  ".join(missing)),
             evidence_paths=[str(p) for p, _ in DETECT],
         )
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message=(
             "M&D Ch-02 scaffolding updated: glossary + integrity-notes registers + ch02 "
             "Numeric Disambiguation section + checklist §J all present."

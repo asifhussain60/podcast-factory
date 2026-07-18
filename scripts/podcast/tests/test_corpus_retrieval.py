@@ -1,4 +1,5 @@
 """Tests for _corpus_retrieval — per-passage relevance + within-book non-repetition."""
+
 from __future__ import annotations
 
 import sys
@@ -8,7 +9,7 @@ _SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 if str(_SCRIPTS_PODCAST) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS_PODCAST))
 
-from _corpus_retrieval import (  # noqa: E402
+from _corpus_retrieval import (
     RetrievalIndex,
     UsedLedger,
     attribute_used,
@@ -16,22 +17,33 @@ from _corpus_retrieval import (  # noqa: E402
 )
 
 _ATOMS = [
-    {"id": "a1", "type": "doctrine",
-     "body": {"text_en": "Divine justice governs the decree of the Creator over all beings.",
-              "topic_tags": ["justice", "tawhid"]}},
-    {"id": "a2", "type": "quote",
-     "body": {"text_en": "The believer stands in prayer through the long nights, fasting by day.",
-              "speaker": "Ahmad"}},
-    {"id": "a3", "type": "quran",
-     "body": {"surah": 14, "ayah": 7,
-              "text_en": "If you are grateful, I will surely increase you in favor."}},
+    {
+        "id": "a1",
+        "type": "doctrine",
+        "body": {
+            "text_en": "Divine justice governs the decree of the Creator over all beings.",
+            "topic_tags": ["justice", "tawhid"],
+        },
+    },
+    {
+        "id": "a2",
+        "type": "quote",
+        "body": {
+            "text_en": "The believer stands in prayer through the long nights, fasting by day.",
+            "speaker": "Ahmad",
+        },
+    },
+    {
+        "id": "a3",
+        "type": "quran",
+        "body": {"surah": 14, "ayah": 7, "text_en": "If you are grateful, I will surely increase you in favor."},
+    },
 ]
 
 
 def test_relevance_picks_the_related_atom_first() -> None:
     idx = RetrievalIndex(_ATOMS)
-    picks = idx.select("A chapter about divine justice and the Creator's decree over all beings.",
-                       k=3, threshold=0.05)
+    picks = idx.select("A chapter about divine justice and the Creator's decree over all beings.", k=3, threshold=0.05)
     assert picks, "expected at least one relevant atom"
     assert picks[0].id == "a1"
     assert picks[0].score >= picks[-1].score  # best-first
@@ -66,8 +78,7 @@ def test_exclude_ids_enforces_non_repetition() -> None:
     idx = RetrievalIndex(_ATOMS)
     first = idx.select("divine justice Creator decree beings", k=3, threshold=0.05)
     assert first
-    again = idx.select("divine justice Creator decree beings", k=3, threshold=0.05,
-                       exclude_ids={p.id for p in first})
+    again = idx.select("divine justice Creator decree beings", k=3, threshold=0.05, exclude_ids={p.id for p in first})
     assert {p.id for p in again}.isdisjoint({p.id for p in first})
 
 
@@ -79,8 +90,8 @@ def test_atoms_without_id_are_dropped() -> None:
 def test_attribute_used_keys_on_actual_overlap() -> None:
     note = "A connected teaching: divine justice governs the decree over all beings."
     used = attribute_used(note, _ATOMS)
-    assert "a1" in used          # note echoes a1's distinctive vocabulary
-    assert "a2" not in used      # prayer/fasting atom not reflected in the note
+    assert "a1" in used  # note echoes a1's distinctive vocabulary
+    assert "a2" not in used  # prayer/fasting atom not reflected in the note
 
 
 def test_used_ledger_round_trip(tmp_path: Path) -> None:

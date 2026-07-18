@@ -2,6 +2,7 @@
 
 Extracted from _authoring.py (A4 split).
 """
+
 from __future__ import annotations
 
 import sys
@@ -9,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from ._core import (  # noqa: E402
+from ._core import (
     CHALLENGER_TIMEOUT,
     FIXER_TIMEOUT,
     TRAINER_TIMEOUT,
@@ -18,8 +19,7 @@ from ._core import (  # noqa: E402
 )
 
 
-def invoke_challenger(book_dir: Path, chapter_slug: str,
-                      timeout: int = CHALLENGER_TIMEOUT) -> str:
+def invoke_challenger(book_dir: Path, chapter_slug: str, timeout: int = CHALLENGER_TIMEOUT) -> str:
     """Invoke the podcast-challenger subagent on one chapter."""
     book_slug = book_dir.name
     prompt = (
@@ -40,8 +40,11 @@ def invoke_challenger(book_dir: Path, chapter_slug: str,
         f"After the agent returns, exit immediately — do NOT take additional actions."
     )
     rc, stdout, stderr = _run_claude_p(
-        prompt, timeout=timeout,
-        book_dir=book_dir, phase="per-chapter", step=f"challenger/{chapter_slug}",
+        prompt,
+        timeout=timeout,
+        book_dir=book_dir,
+        phase="per-chapter",
+        step=f"challenger/{chapter_slug}",
     )
     report = book_dir / "_system" / "challenger-report.md"
     if rc != 0:
@@ -66,8 +69,7 @@ def invoke_challenger(book_dir: Path, chapter_slug: str,
     return stdout
 
 
-def invoke_fixer(book_dir: Path, chapter_slug: str, severity: str,
-                 timeout: int = FIXER_TIMEOUT) -> str:
+def invoke_fixer(book_dir: Path, chapter_slug: str, severity: str, timeout: int = FIXER_TIMEOUT) -> str:
     """Invoke the conversational `/podcast` skill to fix open findings."""
     book_slug = book_dir.name
     report = book_dir / "_system" / "challenger-report.md"
@@ -102,8 +104,11 @@ def invoke_fixer(book_dir: Path, chapter_slug: str, severity: str,
         f"author judgment — in which case leave a one-line note at the end of the report)."
     )
     rc, stdout, stderr = _run_claude_p(
-        prompt, timeout=timeout,
-        book_dir=book_dir, phase="per-chapter", step=f"fixer/{chapter_slug}/{severity}",
+        prompt,
+        timeout=timeout,
+        book_dir=book_dir,
+        phase="per-chapter",
+        step=f"fixer/{chapter_slug}/{severity}",
     )
     if rc != 0:
         raise AuthoringError(
@@ -136,8 +141,11 @@ def invoke_trainer(book_dir: Path, timeout: int = TRAINER_TIMEOUT) -> str:
         f"After the agent returns, exit immediately."
     )
     rc, stdout, stderr = _run_claude_p(
-        prompt, timeout=timeout,
-        book_dir=book_dir, phase="trainer", step="invoke",
+        prompt,
+        timeout=timeout,
+        book_dir=book_dir,
+        phase="trainer",
+        step="invoke",
     )
     if rc != 0:
         raise AuthoringError(

@@ -37,17 +37,16 @@ MANUAL-REVIEW QUEUE
   `reason` field explaining why the citation could not be verified
   automatically.
 """
+
 from __future__ import annotations
 
 import json
 import os
 import re
-import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Literal
-from urllib.parse import urlparse
 
 VerificationStatus = Literal["verified", "failed", "indeterminate", "unverified"]
 
@@ -123,8 +122,7 @@ class CitationVerifier:
             return self._cache[cid]
 
         if self.offline:
-            result = VerificationResult(cid, "url", url, "unverified",
-                                        error="offline mode — not checked")
+            result = VerificationResult(cid, "url", url, "unverified", error="offline mode — not checked")
         else:
             result = self._check_url(cid, url)
 
@@ -146,8 +144,7 @@ class CitationVerifier:
             return self._cache[cid]
 
         if self.offline:
-            result = VerificationResult(cid, "doi", doi_clean, "unverified",
-                                        error="offline mode — not checked")
+            result = VerificationResult(cid, "doi", doi_clean, "unverified", error="offline mode — not checked")
         else:
             result = self._check_doi(cid, doi_clean)
 
@@ -169,9 +166,7 @@ class CitationVerifier:
             doi = match.group(2)
             results.append(self.verify_doi(doi))
 
-        manual_review = sum(
-            1 for r in results if r.status in ("indeterminate", "unverified")
-        )
+        manual_review = sum(1 for r in results if r.status in ("indeterminate", "unverified"))
         return {
             "total": len(results),
             "verified": sum(1 for r in results if r.status == "verified"),
@@ -184,6 +179,7 @@ class CitationVerifier:
     def _check_url(self, cid: str, url: str) -> VerificationResult:
         try:
             import urllib.request
+
             req = urllib.request.Request(url, method="HEAD")
             req.add_header("User-Agent", "podcast-pipeline/1.0 (citation-verifier)")
             with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
@@ -197,6 +193,7 @@ class CitationVerifier:
         endpoint = f"{CROSSREF_BASE}/{doi}"
         try:
             import urllib.request
+
             req = urllib.request.Request(endpoint)
             req.add_header("User-Agent", f"podcast-pipeline/1.0 (mailto:{CROSSREF_MAILTO})")
             with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT) as resp:

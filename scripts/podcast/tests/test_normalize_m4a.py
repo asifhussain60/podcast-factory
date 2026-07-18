@@ -1,11 +1,12 @@
 """Tests for normalize_m4a — fingerprint matching, swap detection, transcript pairing."""
+
 import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from normalize_m4a import apply_plan, plan_book  # noqa: E402
+from normalize_m4a import apply_plan, plan_book
 
 
 def _book(tmp_path: Path) -> Path:
@@ -16,17 +17,19 @@ def _book(tmp_path: Path) -> Path:
     (tmp_path / "chapters" / "ch01a-the-garden-of-truth.txt").write_text(
         "The garden of truth blooms with orchards, roses, gardeners and "
         "fountains. The gardener prunes the orchard so truth may blossom.",
-        encoding="utf-8")
+        encoding="utf-8",
+    )
     (tmp_path / "chapters" / "ch02b-the-iron-mountain.txt").write_text(
-        "The iron mountain stands above the forge. Miners, anvils and "
-        "hammers shape the summit where iron meets stone.",
-        encoding="utf-8")
+        "The iron mountain stands above the forge. Miners, anvils and hammers shape the summit where iron meets stone.",
+        encoding="utf-8",
+    )
     (tmp_path / "episodes" / "EP01-the-garden-of-truth.txt").write_text(
-        "# The Garden Of Truth\nWalk the orchard; meet the gardener; "
-        "every rose and fountain in order.", encoding="utf-8")
+        "# The Garden Of Truth\nWalk the orchard; meet the gardener; every rose and fountain in order.",
+        encoding="utf-8",
+    )
     (tmp_path / "episodes" / "EP02-the-iron-mountain.txt").write_text(
-        "# The Iron Mountain\nClimb past the forge; the miners and the "
-        "anvil; the summit verbatim.", encoding="utf-8")
+        "# The Iron Mountain\nClimb past the forge; the miners and the anvil; the summit verbatim.", encoding="utf-8"
+    )
     return tmp_path
 
 
@@ -78,7 +81,8 @@ def test_transcript_in_export_dir_paired_by_text(tmp_path):
     (exp / "Some_Random_Export_Name.txt").write_text(
         "Welcome. We climb past the forge today, where the miners raise "
         "their hammers and the anvil rings beneath the iron mountain summit.",
-        encoding="utf-8")
+        encoding="utf-8",
+    )
     plan = plan_book(book)
     assert plan[0]["kind"] == "transcript"
     assert plan[0]["action"]["rename_to"] == "transcripts/ch02b-the-iron-mountain.transcript.txt"
@@ -86,8 +90,7 @@ def test_transcript_in_export_dir_paired_by_text(tmp_path):
 
 def test_canonical_stem_txt_moves_into_transcripts(tmp_path):
     book = _book(tmp_path)
-    (book / "m4a" / "ch01a-the-garden-of-truth.txt").write_text(
-        "any text", encoding="utf-8")
+    (book / "m4a" / "ch01a-the-garden-of-truth.txt").write_text("any text", encoding="utf-8")
     plan = plan_book(book)
     assert plan[0]["evidence"] == "canonical-stem"
     assert plan[0]["action"]["rename_to"] == "transcripts/ch01a-the-garden-of-truth.transcript.txt"
@@ -99,8 +102,8 @@ def test_apply_renames_writes_ledger_and_is_idempotent(tmp_path):
     exp = book / "m4a" / "TurboScribe Export 1"
     exp.mkdir()
     (exp / "export.txt").write_text(
-        "The gardener walks the orchard among roses and fountains in the "
-        "garden of truth.", encoding="utf-8")
+        "The gardener walks the orchard among roses and fountains in the garden of truth.", encoding="utf-8"
+    )
     plan = plan_book(book)
     n = apply_plan(book, plan, log=lambda *_: None)
     assert n == 2
@@ -129,25 +132,29 @@ def test_shared_boilerplate_does_not_drift_to_biggest_chapter(tmp_path):
     trigram+IDF scorer must keep the chapter-specific verbatim phrases
     decisive and zero-weight phrases that appear in every framing."""
     book = _book(tmp_path)
-    boiler = ("welcome to the debate tonight we examine the master and the "
-              "disciple and the rigorous assertion of its tenth century author ")
+    boiler = (
+        "welcome to the debate tonight we examine the master and the "
+        "disciple and the rigorous assertion of its tenth century author "
+    )
     # Boilerplate appears in EVERY framing (as real framings do)...
     for ep in ("EP01-the-garden-of-truth", "EP02-the-iron-mountain"):
         f = book / "episodes" / f"{ep}.txt"
         f.write_text(boiler + f.read_text(), encoding="utf-8")
     # ...and a third chapter has by far the LARGEST corpus.
     (book / "chapters" / "ch03c-the-grand-assembly.txt").write_text(
-        boiler * 40 + " assembly elders convene the grand council hall " * 20,
-        encoding="utf-8")
+        boiler * 40 + " assembly elders convene the grand council hall " * 20, encoding="utf-8"
+    )
     (book / "episodes" / "EP03-the-grand-assembly.txt").write_text(
-        boiler + " the grand assembly convenes the elders", encoding="utf-8")
+        boiler + " the grand assembly convenes the elders", encoding="utf-8"
+    )
     # Transcript: mostly boilerplate + the garden chapter's verbatim phrases.
     (book / "m4a" / "garden_episode.m4a").write_bytes(b"x")
     exp = book / "m4a" / "drop"
     exp.mkdir()
     (exp / "garden_transcript.txt").write_text(
-        boiler * 3 + " the gardener prunes the orchard so truth may blossom "
-        "and every rose and fountain in order", encoding="utf-8")
+        boiler * 3 + " the gardener prunes the orchard so truth may blossom and every rose and fountain in order",
+        encoding="utf-8",
+    )
     plan = plan_book(book)
     tx = [e for e in plan if e["kind"] == "transcript"][0]
     assert tx["evidence"] == "transcript-trigrams"

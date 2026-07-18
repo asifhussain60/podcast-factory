@@ -1,4 +1,5 @@
 """P1.2 phase runner — manual library handoff (proposal writer + docs + SKILL section)."""
+
 from __future__ import annotations
 
 import subprocess
@@ -34,7 +35,9 @@ def is_done(repo_root: Path | None = None) -> bool:
         return False
     rc = subprocess.run(
         [sys.executable, "-m", "unittest", "scripts.podcast.tests.test_proposal_writer"],
-        cwd=repo_root, capture_output=True, timeout=60,
+        cwd=repo_root,
+        capture_output=True,
+        timeout=60,
     ).returncode
     return rc == 0
 
@@ -44,7 +47,8 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
         repo_root = REPO_ROOT
     if not is_done(repo_root):
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
+            phase_id=PHASE_ID,
+            status="halted",
             message=(
                 "P1.2 not fully met: writer module / handoff doc / SKILL.md section / "
                 "tests must all be present and green."
@@ -52,7 +56,8 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
             evidence_paths=[str(WRITER), str(DOC), str(SKILL), str(TEST)],
         )
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message="proposal writer + handoff doc + SKILL.md section in place; tests green.",
         rows_marked=[PHASE_ID],
         evidence_paths=[str(WRITER), str(DOC), str(SKILL)],

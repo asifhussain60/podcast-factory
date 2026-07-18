@@ -23,6 +23,7 @@ pronunciation ledger or from the book's OWN inline glosses (``mine_glosses``). A
 per-term person/place/concept LLM classifier for the long tail is a separate,
 deferred layer that feeds the same ``gloss`` field — it is intentionally NOT here.
 """
+
 from __future__ import annotations
 
 import json
@@ -50,9 +51,9 @@ TIER_TRANSLIT = "translit"
 class RenderResult:
     """The NotebookLM-safe spoken form of a term, plus how it was chosen."""
 
-    text: str          # what the hosts should SAY
-    tier: str          # which classifier rung produced it
-    is_english: bool    # True when `text` is an English substitute for the Arabic
+    text: str  # what the hosts should SAY
+    tier: str  # which classifier rung produced it
+    is_english: bool  # True when `text` is an English substitute for the Arabic
     #                     (so the caller can say "say the English, not the Arabic")
 
 
@@ -83,11 +84,7 @@ def load_tables(kb_dir: Path | None = None) -> tuple[dict[str, str], dict[str, s
         if not path.exists():
             return {}
         raw = json.loads(path.read_text(encoding="utf-8"))
-        return {
-            normalize_key(k): v
-            for k, v in raw.items()
-            if not k.startswith("_") and isinstance(v, str)
-        }
+        return {normalize_key(k): v for k, v in raw.items() if not k.startswith("_") and isinstance(v, str)}
 
     return _load("exonyms.json"), _load("loanwords.json")
 
@@ -96,12 +93,8 @@ def load_tables(kb_dir: Path | None = None) -> tuple[dict[str, str], dict[str, s
 # "tafsir (exegesis)", "tanzil (revelation)", "the symbol (ramz)". We harvest the
 # Arabic-side token (1 word, optionally an ``al-`` prefixed / apostrophe'd form)
 # immediately adjacent to a short English parenthetical, in EITHER order.
-_GLOSS_LEFT = re.compile(
-    r"\b([A-Za-z][A-Za-z'ʿʾ-]{2,})\s*\(([A-Za-z][A-Za-z ,'-]{2,40})\)"
-)
-_GLOSS_RIGHT = re.compile(
-    r"\b([A-Za-z][A-Za-z ,'-]{2,40})\s*\(([A-Za-z][A-Za-z'ʿʾ-]{2,})\)"
-)
+_GLOSS_LEFT = re.compile(r"\b([A-Za-z][A-Za-z'ʿʾ-]{2,})\s*\(([A-Za-z][A-Za-z ,'-]{2,40})\)")
+_GLOSS_RIGHT = re.compile(r"\b([A-Za-z][A-Za-z ,'-]{2,40})\s*\(([A-Za-z][A-Za-z'ʿʾ-]{2,})\)")
 # English parentheticals that are NOT glosses (citations, dates, refs).
 _NOT_A_GLOSS = re.compile(r"\b(ed|trans|vol|p|pp|no|see|cf|ibid|d|r|b)\b", re.IGNORECASE)
 # A clean gloss never starts with a conjunction/preposition/clause word — those
@@ -138,15 +131,15 @@ def mine_glosses(text: str) -> dict[str, str]:
             return
         if not _looks_arabic_translit(arabic):
             return
-        if "," in english:                       # a comma means a fragment, not a gloss
+        if "," in english:  # a comma means a fragment, not a gloss
             return
-        if len(words) > 4:                       # a clean gloss is short
+        if len(words) > 4:  # a clean gloss is short
             return
         if words[0].lower() in _BAD_GLOSS_LEAD:  # sentence-fragment lead-in
             return
-        if _NOT_A_GLOSS.fullmatch(words[0]):     # citation token
+        if _NOT_A_GLOSS.fullmatch(words[0]):  # citation token
             return
-        if re.search(r"\d", english):            # dates / page numbers -> not a gloss
+        if re.search(r"\d", english):  # dates / page numbers -> not a gloss
             return
         out.setdefault(normalize_key(arabic), english)
 

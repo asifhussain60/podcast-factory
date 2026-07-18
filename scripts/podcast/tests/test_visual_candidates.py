@@ -7,7 +7,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _visual_candidates import (  # noqa: E402
+from _visual_candidates import (
     VISUALS_SCHEMA,
     clean_slide_watermark,
     emit_diagram_candidates,
@@ -47,10 +47,16 @@ def test_emit_diagram_candidates_copies_and_registers(tmp_path: Path) -> None:
     diagrams.mkdir(parents=True)
     svg = diagrams / "ch1-1.svg"
     svg.write_text("<svg xmlns='http://www.w3.org/2000/svg'></svg>", encoding="utf-8")
-    manifest = [{
-        "diagram_id": "ch1-1", "section": "## 1. Knowledge", "anchor_text": "Seek",
-        "caption": "A ladder", "svg_path": str(svg), "structure_type": "mermaid-flowchart",
-    }]
+    manifest = [
+        {
+            "diagram_id": "ch1-1",
+            "section": "## 1. Knowledge",
+            "anchor_text": "Seek",
+            "caption": "A ladder",
+            "svg_path": str(svg),
+            "structure_type": "mermaid-flowchart",
+        }
+    ]
     entries = emit_diagram_candidates(bd, manifest, log=lambda *a: None)
     assert (bd / "book" / "visuals" / "ch1-1.svg").exists()
     assert entries[0]["type"] == "mermaid-flowchart"
@@ -60,9 +66,7 @@ def test_emit_diagram_candidates_copies_and_registers(tmp_path: Path) -> None:
 
 def test_emit_diagram_skips_missing_svg(tmp_path: Path) -> None:
     bd = _bookdir(tmp_path)
-    entries = emit_diagram_candidates(
-        bd, [{"diagram_id": "x", "svg_path": str(bd / "nope.svg")}], log=lambda *a: None
-    )
+    entries = emit_diagram_candidates(bd, [{"diagram_id": "x", "svg_path": str(bd / "nope.svg")}], log=lambda *a: None)
     assert entries == []
 
 

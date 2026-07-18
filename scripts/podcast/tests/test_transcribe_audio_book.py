@@ -3,6 +3,7 @@
 transcribe_audio_book.py (P2 normalization, P4 block-dup, P5 short-guard,
 P7 native-script leak). These are pure functions: no Gemini/credentials needed.
 """
+
 from __future__ import annotations
 
 import sys
@@ -12,7 +13,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import transcribe_audio_book as T  # noqa: E402
+import transcribe_audio_book as T
 
 
 class NormalizeTranscriptTests(unittest.TestCase):

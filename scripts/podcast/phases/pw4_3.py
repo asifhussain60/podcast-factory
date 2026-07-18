@@ -4,6 +4,7 @@ Detects that the plan-dashboard has an annotation-ops page wiring
 the reading workbench → queue ledger → durable chapter file →
 pipeline intelligence path.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -54,16 +55,15 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
 
     if missing:
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
-            message=(
-                "Annotation intelligence lane incomplete:\n  "
-                + "\n  ".join(missing)
-            ),
+            phase_id=PHASE_ID,
+            status="halted",
+            message=("Annotation intelligence lane incomplete:\n  " + "\n  ".join(missing)),
             evidence_paths=[str(annot)],
         )
 
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message=(
             "Annotation intelligence lane (annotation-ops.astro) present with "
             "reading-workbench → queue → chapter-file → pipeline path."

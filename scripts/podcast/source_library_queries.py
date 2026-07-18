@@ -20,6 +20,7 @@ Eight functions:
     discover_hadith_schema — one-time helper: print KQUR.Ahadees column names
     hadith_lookup        — FTS5 hadith search by English text (mirror then SQL)
 """
+
 from __future__ import annotations
 
 import re
@@ -51,6 +52,7 @@ def _esc(value: str) -> str:
 
 # ── public API ────────────────────────────────────────────────────────────────
 
+
 def quran_lookup(surah: int, ayat: int) -> dict[str, Any]:
     """Return a single Quran verse by surah and ayat numbers.
 
@@ -58,7 +60,8 @@ def quran_lookup(surah: int, ayat: int) -> dict[str, Any]:
     Returns a dict with keys: surah, ayat, arabic, pickthall, asad, urdu,
     phonetic.  Returns {"error": "..."} if the verse is not found.
     """
-    from scripts.podcast.source_library_mirror import quran_ayat_lookup  # noqa: PLC0415
+    from scripts.podcast.source_library_mirror import quran_ayat_lookup
+
     cached = quran_ayat_lookup(surah, ayat)
     if cached:
         return cached
@@ -89,7 +92,8 @@ def quran_theme_search(keyword: str, limit: int = 10) -> list[dict[str, Any]]:
     Returns up to `limit` results, each with keys: surah, ayat, arabic,
     pickthall, asad, phonetic.
     """
-    from scripts.podcast.source_library_mirror import fts_quran_search  # noqa: PLC0415
+    from scripts.podcast.source_library_mirror import fts_quran_search
+
     results = fts_quran_search(keyword, limit)
     if results:
         return results
@@ -119,16 +123,17 @@ def word_etymology(term: str) -> dict[str, Any]:
 
     Returns {"root": {...}, "derivatives": [...]} or {"error": "..."}.
     """
-    from scripts.podcast.source_library_mirror import term_index_lookup  # noqa: PLC0415
+    from scripts.podcast.source_library_mirror import term_index_lookup
+
     cached = term_index_lookup(term)
     if cached:
         return {
             "root": {
-                "root_arabic":     cached.get("arabic", ""),
+                "root_arabic": cached.get("arabic", ""),
                 "transliteration": cached.get("root", ""),
-                "meaning_en":      cached.get("definition", ""),
-                "meaning_ar":      cached.get("etymology", ""),  # MeaningArabic stored in etymology col
-                "definition":      cached.get("definition", ""),
+                "meaning_en": cached.get("definition", ""),
+                "meaning_ar": cached.get("etymology", ""),  # MeaningArabic stored in etymology col
+                "definition": cached.get("definition", ""),
             },
             "derivatives": [],
             "source": "mirror",
@@ -179,7 +184,8 @@ def topic_search(keyword: str, limit: int = 10) -> list[dict[str, Any]]:
     Returns up to `limit` results, each with keys: topic_id, name, name_en,
     description, binder, chapter, snippet.
     """
-    from scripts.podcast.source_library_mirror import fts_topics_search  # noqa: PLC0415
+    from scripts.podcast.source_library_mirror import fts_topics_search
+
     results = fts_topics_search(keyword, limit)
     if results:
         return results
@@ -271,24 +277,23 @@ def session_style_fetch(
     Returns up to `limit` passages, each with keys:
     session_id, session_name, group_id, passage (plain text, HTML stripped).
     """
-    from scripts.podcast.source_library_mirror import fts_sessions_search  # noqa: PLC0415
+    from scripts.podcast.source_library_mirror import fts_sessions_search
+
     mirror_rows = fts_sessions_search(theme, group_id, limit)
     if mirror_rows:
         return [
             {
-                "session_id":   r.get("session_id"),
+                "session_id": r.get("session_id"),
                 "session_name": r.get("session_name"),
-                "group_id":     r.get("group_id"),
-                "passage":      r.get("content", ""),
+                "group_id": r.get("group_id"),
+                "passage": r.get("content", ""),
             }
             for r in mirror_rows
         ]
     # Fall back to SQL Server
     kw = _esc(theme.strip())
     n = max(1, min(int(limit), 20))
-    group_clause = (
-        f"AND s.GroupID = {int(group_id)}" if group_id is not None else ""
-    )
+    group_clause = f"AND s.GroupID = {int(group_id)}" if group_id is not None else ""
     sql = f"""
 SELECT TOP {n}
     s.SessionID        AS session_id,
@@ -307,10 +312,10 @@ FOR JSON PATH;
     rows = query_json("KSESSIONS", sql) or []
     return [
         {
-            "session_id":   r.get("session_id"),
+            "session_id": r.get("session_id"),
             "session_name": r.get("session_name"),
-            "group_id":     r.get("group_id"),
-            "passage":      _strip_html(r.get("passage_html") or ""),
+            "group_id": r.get("group_id"),
+            "passage": _strip_html(r.get("passage_html") or ""),
         }
         for r in rows
     ]
@@ -322,7 +327,8 @@ def discover_hadith_schema() -> list[str]:
     Run once before first mirror build to verify the column name guesses
     in source_library_mirror._SQL_HADITH. Update those aliases if any differ.
     """
-    from scripts.podcast.source_library_mirror import discover_hadith_schema as _disc  # noqa: PLC0415
+    from scripts.podcast.source_library_mirror import discover_hadith_schema as _disc
+
     return _disc()
 
 
@@ -334,7 +340,8 @@ def hadith_lookup(text_en: str, limit: int = 3) -> list[dict[str, Any]]:
     Returns [] when the mirror has no hadith yet (schema not confirmed) or on error.
     """
     try:
-        from scripts.podcast.source_library_mirror import open_mirror  # noqa: PLC0415
+        from scripts.podcast.source_library_mirror import open_mirror
+
         conn = open_mirror()
         if conn is None:
             raise RuntimeError("mirror not available")
@@ -345,12 +352,19 @@ def hadith_lookup(text_en: str, limit: int = 3) -> list[dict[str, Any]]:
             raise RuntimeError("fts_hadith empty — run build_mirror() after confirming Ahadees schema")
         q = text_en.replace('"', '""')[:200]
         rows = conn.execute(
-            f"SELECT hadith_id, collection, hadith_num, arabic, english FROM fts_hadith WHERE fts_hadith MATCH ? LIMIT ?",
+            "SELECT hadith_id, collection, hadith_num, arabic, english FROM fts_hadith WHERE fts_hadith MATCH ? LIMIT ?",
             (q, n),
         ).fetchall()
         return [
-            {"hadith_id": r[0], "collection": r[1], "hadith_num": r[2],
-             "arabic": r[3], "english": r[4], "score": 1.0, "source": "mirror"}
+            {
+                "hadith_id": r[0],
+                "collection": r[1],
+                "hadith_num": r[2],
+                "arabic": r[3],
+                "english": r[4],
+                "score": 1.0,
+                "source": "mirror",
+            }
             for r in rows
         ]
     except Exception:
@@ -376,9 +390,15 @@ FOR JSON PATH;
 """
         rows = query_json("KQUR", sql) or []
         return [
-            {"hadith_id": r.get("hadith_id"), "collection": r.get("collection", ""),
-             "hadith_num": r.get("hadith_num"), "arabic": r.get("arabic", ""),
-             "english": r.get("english", ""), "score": 0.7, "source": "sql_like"}
+            {
+                "hadith_id": r.get("hadith_id"),
+                "collection": r.get("collection", ""),
+                "hadith_num": r.get("hadith_num"),
+                "arabic": r.get("arabic", ""),
+                "english": r.get("english", ""),
+                "score": 0.7,
+                "source": "sql_like",
+            }
             for r in rows
         ]
     except Exception:

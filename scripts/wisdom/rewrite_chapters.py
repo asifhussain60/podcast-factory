@@ -15,10 +15,10 @@ CLI usage:
 
 Output: chapters are rewritten IN PLACE. Git diff is the review/recovery mechanism.
 """
+
 from __future__ import annotations
 
 import argparse
-import os
 import re
 import sys
 from pathlib import Path
@@ -27,20 +27,21 @@ _HERE = Path(__file__).resolve().parent
 _REPO = _HERE.parent.parent
 sys.path.insert(0, str(_REPO / "scripts" / "podcast"))
 
-from _paths import REPO_ROOT  # noqa: E402
-from intelligence._local_server_client import session_style_fetch as _live_sessions  # noqa: E402
+from _paths import REPO_ROOT
+from intelligence._local_server_client import session_style_fetch as _live_sessions
 
 BOOKS_DIR = REPO_ROOT / "CONTENT" / "drafts" / "books"
 CANONICAL_BOOKS = ["kitab-al-riyad", "the-master-and-the-disciple"]
 STYLE_IMPRINT = REPO_ROOT / "content" / "_shared" / "source-library" / "style-imprint.md"
 
 # Top-N noun-phrase extractor (simple regex; no NLTK dependency)
-_NOUN_PHRASE_RE = re.compile(r'\b([A-Z][a-z]{3,}(?:\s+[A-Za-z]{3,}){0,2})\b')
+_NOUN_PHRASE_RE = re.compile(r"\b([A-Z][a-z]{3,}(?:\s+[A-Za-z]{3,}){0,2})\b")
 
 
 def extract_chapter_themes(text: str, n: int = 3) -> list[str]:
     """Return the top-n capitalized noun phrases by frequency from text."""
     from collections import Counter
+
     candidates = _NOUN_PHRASE_RE.findall(text)
     # Filter out stop phrases and very short matches
     stop = {"This", "The", "That", "These", "Those", "When", "Where", "Which", "With"}
@@ -55,9 +56,10 @@ def _live_style_enabled(book_dir: Path) -> bool:
         return False
     try:
         import yaml  # type: ignore[import]
+
         meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
         return bool(meta.get("series", {}).get("enable_live_style_fetch", False))
-    except Exception:  # noqa: BLE001
+    except Exception:
         return False
 
 
@@ -88,7 +90,7 @@ def _build_live_style_supplement(chapter_txt: Path, book_dir: Path) -> str:
         if not passages:
             return ""
         return "\n\n[LIVE SESSION STYLE SAMPLES]\n" + "\n---\n".join(passages)
-    except Exception:  # noqa: BLE001
+    except Exception:
         return ""
 
 
@@ -136,16 +138,14 @@ def _call_sonnet(original: str, style_guide: str) -> str:
         raise RuntimeError("anthropic package not installed. Run: pip install anthropic")
 
     from _secrets import get_anthropic_key  # vault-deterministic
+
     api_key = get_anthropic_key()
     if not api_key:
         raise RuntimeError("ANTHROPIC_API_KEY not set.")
 
     client = anthropic.Anthropic(api_key=api_key)
 
-    prompt = (
-        f"STYLE GUIDE:\n{style_guide}\n\n"
-        f"SOURCE TEXT TO REWRITE:\n{original}"
-    )
+    prompt = f"STYLE GUIDE:\n{style_guide}\n\nSOURCE TEXT TO REWRITE:\n{original}"
     response = client.messages.create(
         model="claude-sonnet-4-5",
         max_tokens=8192,
@@ -155,8 +155,9 @@ def _call_sonnet(original: str, style_guide: str) -> str:
     return response.content[0].text if response.content else original
 
 
-def rewrite_chapter(chapter_txt: Path, style_guide: str, *,
-                    dry_run: bool = False, book_dir: Path | None = None) -> bool:
+def rewrite_chapter(
+    chapter_txt: Path, style_guide: str, *, dry_run: bool = False, book_dir: Path | None = None
+) -> bool:
     """Rewrite a chapter file in place. Returns True on success."""
     original = chapter_txt.read_text(encoding="utf-8")
     paragraphs = original.split("\n\n")
@@ -166,7 +167,9 @@ def rewrite_chapter(chapter_txt: Path, style_guide: str, *,
         return True
 
     # J4: augment the style guide with live session passages if enabled
-    live_supplement = _build_live_style_supplement(chapter_txt, book_dir or chapter_txt.parents[1]) if book_dir or True else ""
+    live_supplement = (
+        _build_live_style_supplement(chapter_txt, book_dir or chapter_txt.parents[1]) if book_dir or True else ""
+    )
     effective_style = style_guide + live_supplement if live_supplement else style_guide
 
     # Split into protected (pass-through) and non-protected sections
@@ -195,15 +198,14 @@ def rewrite_chapter(chapter_txt: Path, style_guide: str, *,
     return True
 
 
-def run_book(slug: str, *, dry_run: bool = False,
-             chapter_filter: str | None = None) -> dict:
+def run_book(slug: str, *, dry_run: bool = False, chapter_filter: str | None = None) -> dict:
     """Rewrite all chapters of a book. Returns summary."""
     book_dir = BOOKS_DIR / slug
     if not book_dir.is_dir():
         return {"error": f"Book not found: {slug}"}
 
     if not STYLE_IMPRINT.exists():
-        return {"error": f"style-imprint.md not found. Run build_style_corpus.py first."}
+        return {"error": "style-imprint.md not found. Run build_style_corpus.py first."}
 
     style_guide = STYLE_IMPRINT.read_text(encoding="utf-8")
     chapters_dir = book_dir / "chapters"
@@ -222,7 +224,7 @@ def run_book(slug: str, *, dry_run: bool = False,
                 results["rewritten"] += 1
             else:
                 results["skipped"] += 1
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             results["errors"].append({"chapter": cf.name, "error": str(exc)})
             print(f"  ERROR {cf.name}: {exc}", file=sys.stderr)
 

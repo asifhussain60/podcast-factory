@@ -23,6 +23,7 @@ folder move, the move is rolled back so the book is never left split.
 Usage:
   python3 scripts/podcast/rename_book.py <old-slug> <new-slug> [--dry-run]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -35,8 +36,8 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _paths import REPO_ROOT, find_content, is_work_parent  # noqa: E402
-from _branching import branch_name  # noqa: E402
+from _branching import branch_name
+from _paths import REPO_ROOT, find_content, is_work_parent
 
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 CARD_META = REPO_ROOT / "plan-dashboard" / "src" / "lib" / "book-card-meta.ts"
@@ -76,8 +77,10 @@ def rename_book(old: str, new: str, *, dry_run: bool = False) -> int:
 
     # Refuse volume / work-parent renames (series-structural).
     if is_work_parent(old_dir) or re.match(r"^vol-\d+$", old_dir.name) or re.search(r"-vol-\d+$", old):
-        return _die(f"{old!r} is a multi-volume series volume/parent — series-structural renames "
-                    f"are out of scope (would desync work.yml ordering).")
+        return _die(
+            f"{old!r} is a multi-volume series volume/parent — series-structural renames "
+            f"are out of scope (would desync work.yml ordering)."
+        )
 
     new_dir = old_dir.parent / new
     old_branch = branch_name(None, old, profile=_read_profile(old_dir / "meta.yml"), bucket=bucket)
@@ -91,8 +94,10 @@ def rename_book(old: str, new: str, *, dry_run: bool = False) -> int:
     porcelain = _git("status", "--porcelain").stdout
     tracked_changes = [ln for ln in porcelain.splitlines() if ln and not ln.startswith("??")]
     if tracked_changes:
-        return _die("working tree has uncommitted tracked changes — commit or stash first so the "
-                    "rename can't entangle them:\n" + "\n".join(tracked_changes[:20]))
+        return _die(
+            "working tree has uncommitted tracked changes — commit or stash first so the "
+            "rename can't entangle them:\n" + "\n".join(tracked_changes[:20])
+        )
 
     branch_exists = _git("rev-parse", "--verify", old_branch, check=False).returncode == 0
 
@@ -121,11 +126,12 @@ def rename_book(old: str, new: str, *, dry_run: bool = False) -> int:
             key_re = re.compile(rf"(^\s*['\"]){re.escape(old)}(['\"]\s*:\s*\{{)", re.M)
             if key_re.search(txt):
                 CARD_META.write_text(key_re.sub(rf"\g<1>{new}\g<2>", txt, count=1), encoding="utf-8")
-                print(f"    ok card-meta key")
+                print("    ok card-meta key")
 
         # 2. knowledge.db
         if KNOWLEDGE_DB.exists():
             import sqlite3
+
             conn = sqlite3.connect(str(KNOWLEDGE_DB))
             try:
                 conn.execute("UPDATE atoms SET first_seen_book=? WHERE first_seen_book=?", (new, old))
@@ -134,7 +140,7 @@ def rename_book(old: str, new: str, *, dry_run: bool = False) -> int:
                 conn.commit()
             finally:
                 conn.close()
-            print(f"    ok knowledge.db atom refs")
+            print("    ok knowledge.db atom refs")
 
         # 3. cross-book ledger key
         if XBOOK_LEDGER.exists():
@@ -144,7 +150,7 @@ def rename_book(old: str, new: str, *, dry_run: bool = False) -> int:
                 bb[new] = bb.pop(old)
                 led["by_book"] = bb
                 XBOOK_LEDGER.write_text(json.dumps(led, indent=2) + "\n", encoding="utf-8")
-                print(f"    ok cross-book ledger key")
+                print("    ok cross-book ledger key")
 
         # 4. folder move — shutil so gitignored audio + untracked artifacts move too
         #    (plain `git mv` would leave them orphaned). Git rename-detects the
@@ -153,7 +159,7 @@ def rename_book(old: str, new: str, *, dry_run: bool = False) -> int:
         moved = True
         _git("add", "-A", str(old_dir.relative_to(REPO_ROOT)), check=False)
         _git("add", str(new_dir.relative_to(REPO_ROOT)), check=False)
-        print(f"    ok moved folder (+ staged)")
+        print("    ok moved folder (+ staged)")
 
         # 5. meta.yml slug + orchestrator-state book_slug (now in the new dir)
         meta_path = new_dir / "meta.yml"
@@ -161,20 +167,20 @@ def rename_book(old: str, new: str, *, dry_run: bool = False) -> int:
             mtxt = meta_path.read_text(encoding="utf-8")
             mtxt = re.sub(r"^slug:\s*.*$", f"slug: {new}", mtxt, count=1, flags=re.M)
             meta_path.write_text(mtxt, encoding="utf-8")
-            print(f"    ok meta.yml slug")
+            print("    ok meta.yml slug")
         state_path = new_dir / "_system" / "orchestrator-state.json"
         if state_path.exists():
             st = json.loads(state_path.read_text(encoding="utf-8"))
             st["book_slug"] = new
             state_path.write_text(json.dumps(st, indent=2) + "\n", encoding="utf-8")
-            print(f"    ok orchestrator-state book_slug")
+            print("    ok orchestrator-state book_slug")
 
         # 6. git branch rename
         if branch_exists:
             _git("branch", "-m", old_branch, new_branch)
-            print(f"    ok git branch -m")
+            print("    ok git branch -m")
 
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         if moved and new_dir.exists():
             shutil.move(str(new_dir), str(old_dir))
             _git("add", "-A", str(old_dir.relative_to(REPO_ROOT)), check=False)

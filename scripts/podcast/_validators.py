@@ -15,26 +15,34 @@ import re
 import sys
 from pathlib import Path
 
-from _validator_constants import *  # noqa: F401, F403
+from _validator_constants import *
 from _validator_constants import (
-    META_PROSE_TELLS, META_PROSE_REGEX_TELLS,
-    INLINE_PHONETIC_PATTERNS, FORBIDDEN_ABBREVIATIONS,
-    HONORIFIC_PHRASES, ARABIC_TRANSLIT_PATTERNS,
-    ALLOWED_ARABIC_ORIGIN_LOWER, KNOWN_SURAH_NAMES_LOWER,
+    ALLOWED_ARABIC_ORIGIN_LOWER,
+    ARABIC_TRANSLIT_PATTERNS,
+    CH_PATTERN,
+    FORBIDDEN_ABBREVIATIONS,
+    FORBIDDEN_LITERAL_ALQAAB,
+    HONORIFIC_PHRASES,
+    HOST_A_ROLES_SCHOLAR,
+    HOST_B_ROLES_SEEKER,
+    INLINE_PHONETIC_PATTERNS,
+    KNOWN_SURAH_NAMES_LOWER,
+    MANUSCRIPT_META_HEADER_RE,
+    MANUSCRIPT_META_TELLS,
+    META_PROSE_REGEX_TELLS,
+    META_PROSE_TELLS,
     SURAH_ALLOWED_CONTEXT_LOWER,
-    FORBIDDEN_LITERAL_ALQAAB, MANUSCRIPT_META_TELLS,
-    MANUSCRIPT_META_HEADER_RE, CH_PATTERN,
-    HOST_A_ROLES_SCHOLAR, HOST_B_ROLES_SEEKER,
-    _flag_p1, _is_rule_example_line,
+    _flag_p1,
+    _is_rule_example_line,
 )
-from _validators_framing import *  # noqa: F401, F403
-
+from _validators_framing import *
 
 # ─── assert_* functions — chapter (SOURCE) ────────────────────────────────────
 
-def assert_no_meta_prose(content: str, file_path: Path, role: str,
-                         extra_tells: list[str] | None = None,
-                         skip_do_not_section: bool = False) -> None:
+
+def assert_no_meta_prose(
+    content: str, file_path: Path, role: str, extra_tells: list[str] | None = None, skip_do_not_section: bool = False
+) -> None:
     """Refuse to build if content contains meta-prose tells.
 
     skip_do_not_section: when True, strips the '## Do not' section before
@@ -43,7 +51,7 @@ def assert_no_meta_prose(content: str, file_path: Path, role: str,
     """
     if skip_do_not_section:
         # Strip from "## Do not" to the next "##" heading or end-of-file.
-        content = re.sub(r'(?m)^## Do not\b.*?(?=^## |\Z)', '', content, flags=re.DOTALL)
+        content = re.sub(r"(?m)^## Do not\b.*?(?=^## |\Z)", "", content, flags=re.DOTALL)
     lower = content.lower()
     all_tells = META_PROSE_TELLS + list(extra_tells or [])
     lines = content.splitlines()
@@ -96,7 +104,7 @@ def assert_no_meta_prose(content: str, file_path: Path, role: str,
 
 
 def assert_no_html_comments(content: str, file_path: Path, role: str) -> None:
-    if has_html_comments(content):  # type: ignore[name-defined]  # noqa: F821
+    if has_html_comments(content):  # type: ignore[name-defined]
         sys.exit(
             f"ERROR: {role} file contains HTML comments (`<!-- ... -->`).\n"
             f"  File: {file_path}\n"
@@ -129,7 +137,7 @@ def assert_no_inline_phonetics(content: str, file_path: Path) -> None:
         f"  producing 'Sahih Sitta, sahasita' doublings and mangled names like\n"
         f"  'tassel wolf' for *Tasawwuf*. Move every phonetic into the matching\n"
         f"  framing's `## Pronunciation` block as an imperative line:\n"
-        f"      Pronounce \"Tasawwuf\" as \"ta-SAW-wuf\". Say it as one fluent word.\n"
+        f'      Pronounce "Tasawwuf" as "ta-SAW-wuf". Say it as one fluent word.\n'
         f"  See scripts/podcast/_rules.py (rules R-PHONETICS-OUT, R-NO-ABBREVIATION, etc.)\n"
         f"  R-PHONETICS-OUT and notebooklm-customize-prompt-rules.md\n"
         f"  R-PRONUNCIATION-IMPERATIVE."
@@ -208,7 +216,7 @@ def assert_no_arabic_transliteration(content: str, file_path: Path, role: str) -
             "R-NO-ARABIC-TRANSLITERATION",
             file_path,
             f"{role}: {len(unique)} Arabic transliterations detected. "
-            f"Sample: {sample}. F20 doctrine: replace with English audio labels."
+            f"Sample: {sample}. F20 doctrine: replace with English audio labels.",
         )
 
 
@@ -297,7 +305,7 @@ def assert_no_arabic_surah_names(content: str, file_path: Path, role: str) -> No
             "R-SURAH-ENGLISH-ONLY",
             file_path,
             f"{role}: Arabic surah names detected: {sorted(violations)[:8]}. "
-            f"F29 doctrine: use English meanings ('the chapter on the sun' etc.)."
+            f"F29 doctrine: use English meanings ('the chapter on the sun' etc.).",
         )
 
 
@@ -310,7 +318,7 @@ def assert_alqaab_only_established_or_paraphrased(content: str, file_path: Path,
             "R-ALQAAB-FUNCTIONAL-PARAPHRASE",
             file_path,
             f"{role}: literal alqaab translations detected: {violations}. "
-            f"F24 doctrine: use functional paraphrase ('one of his martial honorifics')."
+            f"F24 doctrine: use functional paraphrase ('one of his martial honorifics').",
         )
 
 
@@ -330,15 +338,15 @@ def assert_chapter_no_manuscript_meta(content: str, file_path: Path) -> None:
         hits.append((ln_idx + 1, m.group(0).strip()[:80], lines[ln_idx].strip()[:120]))
     if not hits:
         return
-    joined = "\n    ".join(f"{file_path.name}:{ln}: '{phrase}' in: {context}"
-                          for ln, phrase, context in hits[:10])
+    joined = "\n    ".join(f"{file_path.name}:{ln}: '{phrase}' in: {context}" for ln, phrase, context in hits[:10])
     _flag_p1(
-        "R-NO-MANUSCRIPT-META", file_path,
+        "R-NO-MANUSCRIPT-META",
+        file_path,
         f"chapter contains {len(hits)} manuscript-history meta-prose hit(s). "
         f"NotebookLM would voice these as content. Move manuscript-state "
         f"context to `BOOK_DIR/_system/manuscript-history.md`.\n    {joined}\n"
         f"  See handbook: notebooklm-source-chapter-rules.md "
-        f"R-NO-MANUSCRIPT-META."
+        f"R-NO-MANUSCRIPT-META.",
     )
 
 
@@ -367,28 +375,24 @@ def assert_no_doubled_phrases(content: str, file_path: Path) -> None:
         if window * 2 > n:
             break
         for i in range(n - window * 2):
-            phrase_norm = " ".join(norm_words[i:i + window])
-            next_norm = " ".join(norm_words[i + window:i + window * 2])
+            phrase_norm = " ".join(norm_words[i : i + window])
+            next_norm = " ".join(norm_words[i + window : i + window * 2])
             # Only flag exact (post-normalization) matches of 16+ char phrases
             if phrase_norm == next_norm and len(phrase_norm) >= 16:
                 if phrase_norm not in seen_phrases:
                     seen_phrases.add(phrase_norm)
-                    phrase_display = " ".join(raw_words[i:i + window])
+                    phrase_display = " ".join(raw_words[i : i + window])
                     # Approximate line number via prefix scan
                     prefix = " ".join(raw_words[:i])
                     text_pre = (
-                        content[: content.find(prefix) + len(prefix)]
-                        if prefix and prefix in content
-                        else content[:1]
+                        content[: content.find(prefix) + len(prefix)] if prefix and prefix in content else content[:1]
                     )
                     ln = text_pre.count("\n") + 1
                     hits.append((ln, phrase_display[:80]))
 
     if not hits:
         return
-    joined = "\n".join(
-        f"  {file_path.name}:{ln}: repeated phrase: '{phrase}'" for ln, phrase in hits[:5]
-    )
+    joined = "\n".join(f"  {file_path.name}:{ln}: repeated phrase: '{phrase}'" for ln, phrase in hits[:5])
     _flag_p1(
         "B6-DOUBLED-PHRASE",
         file_path,
@@ -398,6 +402,7 @@ def assert_no_doubled_phrases(content: str, file_path: Path) -> None:
 
 
 # ─── Structural helpers ───────────────────────────────────────────────────────
+
 
 def validate_host_role_parity(contract: dict) -> list[str]:
     """R-HOST-ROLE-PARITY (Q4) — deterministic host-pairing gate."""
@@ -492,7 +497,7 @@ def _resolve_book_tradition(file_path: Path) -> str:
 def assert_doctrinal_clean(text: str, file_path: Path) -> None:
     """Category T hard gate. Runs T3 forbidden-phrase checks plus T1/T2/T5 advisory checks."""
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from _doctrinal import run_doctrinal_checks, tradition_pack_dir  # noqa: E402
+    from _doctrinal import run_doctrinal_checks, tradition_pack_dir
 
     tradition = _resolve_book_tradition(file_path)
     pack_dir = tradition_pack_dir(tradition)
@@ -515,22 +520,17 @@ def assert_doctrinal_clean(text: str, file_path: Path) -> None:
             f.check_id,
             file_path,
             f"{f.signature} — {f.reason[:140]} "
-            f"(context: …{f.context_excerpt[:80]}…)"
-            + (f" — use: {f.replacement}" if f.replacement else ""),
+            f"(context: …{f.context_excerpt[:80]}…)" + (f" — use: {f.replacement}" if f.replacement else ""),
         )
 
     if p0_findings:
         lines = ["ERROR: doctrinal-accuracy P0 violations in chapter:"]
         for f in p0_findings:
-            lines.append(
-                f"  [{f.check_id}] {f.signature}"
-                + (f" → use '{f.replacement}'" if f.replacement else "")
-            )
+            lines.append(f"  [{f.check_id}] {f.signature}" + (f" → use '{f.replacement}'" if f.replacement else ""))
             lines.append(f"    context: …{f.context_excerpt[:200]}…")
             if f.reason:
                 lines.append(f"    reason: {f.reason[:200]}")
         lines.append(
-            f"  See content/_shared/islam/ for the canonical data and "
-            f"scripts/podcast/_doctrinal.py for the rule logic."
+            "  See content/_shared/islam/ for the canonical data and scripts/podcast/_doctrinal.py for the rule logic."
         )
         sys.exit("\n".join(lines))

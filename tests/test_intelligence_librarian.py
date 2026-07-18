@@ -14,6 +14,7 @@ Covers:
 - report_md_path is written with correct content
 - _update_stats updates counts in stats.json
 """
+
 from __future__ import annotations
 
 import json
@@ -27,12 +28,12 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 import _db
-from _db import get_connection, run_migrations, _reset_connection
+from _db import _reset_connection, get_connection, run_migrations
 from intelligence import librarian as _librarian
-from intelligence.librarian import merge_into_library, MergeReport
-
+from intelligence.librarian import merge_into_library
 
 # ─── fixtures ─────────────────────────────────────────────────────────────────
+
 
 @pytest.fixture()
 def isolated_db(tmp_path, monkeypatch):
@@ -82,6 +83,7 @@ def _hadith_atom(collection="bukhari", number=1, text_en="test hadith", grade="s
 
 
 # ─── tests ────────────────────────────────────────────────────────────────────
+
 
 def test_empty_scratch_returns_empty_report(tmp_path, isolated_db):
     book_dir = tmp_path / "my-book"
@@ -200,9 +202,7 @@ def test_conflict_written_to_db(tmp_path, isolated_db):
     merge_into_library(book_dir, scratch2)
 
     conn = get_connection()
-    count = conn.execute(
-        "SELECT COUNT(*) FROM knowledge_base_conflicts WHERE atom_id='hadith:bukhari:1'"
-    ).fetchone()[0]
+    count = conn.execute("SELECT COUNT(*) FROM knowledge_base_conflicts WHERE atom_id='hadith:bukhari:1'").fetchone()[0]
     assert count == 1
 
 
@@ -217,9 +217,7 @@ def test_conflict_queued_for_review(tmp_path, isolated_db):
     merge_into_library(book_dir, scratch2)
 
     conn = get_connection()
-    row = conn.execute(
-        "SELECT reason FROM manual_review_queue WHERE reason='atom_conflict'"
-    ).fetchone()
+    row = conn.execute("SELECT reason FROM manual_review_queue WHERE reason='atom_conflict'").fetchone()
     assert row is not None
 
 

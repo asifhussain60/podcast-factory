@@ -6,27 +6,29 @@ Waves 2/3 will add quotes, etymology, definitions.
 Authority: `_workspace/plan/architecture.md` (Intelligence Layer section)
            and `_workspace/plan/refactor/plan.md` (Wave B).
 """
+
 from __future__ import annotations
 
 import hashlib
 from typing import Literal, TypedDict
 
-
 # ─── Common envelope (every atom) ─────────────────────────────────────────
+
 
 class AtomSource(TypedDict):
     book: str
     chapter: str
-    locator: str   # heading text or paragraph number
+    locator: str  # heading text or paragraph number
 
 
 class AtomFirstSeen(TypedDict):
     book: str
     chapter: str
-    date: str   # ISO8601
+    date: str  # ISO8601
 
 
 # ─── Quran body (Wave 1) ──────────────────────────────────────────────────
+
 
 class QuranBody(TypedDict, total=False):
     surah: int
@@ -40,8 +42,13 @@ class QuranBody(TypedDict, total=False):
 # ─── Hadith body (Wave 1) ─────────────────────────────────────────────────
 
 HadithCollection = Literal[
-    "bukhari", "muslim", "tirmidhi", "abu-dawud",
-    "nasai", "ibn-majah", "other",
+    "bukhari",
+    "muslim",
+    "tirmidhi",
+    "abu-dawud",
+    "nasai",
+    "ibn-majah",
+    "other",
 ]
 HadithGrade = Literal["sahih", "hasan", "daif", "unknown"]
 
@@ -58,16 +65,16 @@ class HadithBody(TypedDict, total=False):
 
 # ─── Top-level atom envelope ──────────────────────────────────────────────
 
-AtomType = Literal["quran", "hadith", "doctrine", "quote", "term"]   # quote/term added Wave K
+AtomType = Literal["quran", "hadith", "doctrine", "quote", "term"]  # quote/term added Wave K
 
 
 class Atom(TypedDict, total=False):
-    id: str                     # "<type>:<canonical-id>"
+    id: str  # "<type>:<canonical-id>"
     type: AtomType
     first_seen: AtomFirstSeen
     sources: list[AtomSource]
     variants: list[dict]
-    body: dict                  # QuranBody | HadithBody | DoctrineBody (validated at runtime)
+    body: dict  # QuranBody | HadithBody | DoctrineBody (validated at runtime)
 
 
 # ─── Doctrine body (Wave B — Kashkole) ───────────────────────────────────
@@ -81,27 +88,30 @@ class DoctrineBody(TypedDict, total=False):
     binder_slug: str
     chapter_slug: str
     chunk_index: int
-    quran_refs: list[str]   # e.g. ["2:255", "3:7"]
+    quran_refs: list[str]  # e.g. ["2:255", "3:7"]
 
 
 # ─── Quote body (Wave K) ──────────────────────────────────────────────────
 
+
 class QuoteBody(TypedDict, total=False):
-    speaker: str       # e.g. "Imam Ali", "Imam al-Ghazali", "The Prophet"
-    text_en: str       # verbatim English text of the attributed saying
-    source: str        # book/chapter origin within the corpus
+    speaker: str  # e.g. "Imam Ali", "Imam al-Ghazali", "The Prophet"
+    text_en: str  # verbatim English text of the attributed saying
+    source: str  # book/chapter origin within the corpus
 
 
 # ─── Term body (Wave K) ───────────────────────────────────────────────────
 
+
 class TermBody(TypedDict, total=False):
-    term: str          # normalized term name (lowercase transliteration)
-    text_en: str       # English definition or context sentence
-    arabic: str        # Arabic script (optional)
-    source: str        # "doctrine" | "kqur" | etc.
+    term: str  # normalized term name (lowercase transliteration)
+    text_en: str  # English definition or context sentence
+    arabic: str  # Arabic script (optional)
+    source: str  # "doctrine" | "kqur" | etc.
 
 
 # ─── Canonical id helpers ─────────────────────────────────────────────────
+
 
 def quran_canonical_id(surah: int, ayah: int) -> str:
     """Return `quran:<surah>:<ayah>`. Validates ranges."""

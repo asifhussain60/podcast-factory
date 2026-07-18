@@ -2,21 +2,25 @@
 
 Extracted from orchestrate_book.py (A4 split). Authority: plan.md §A4.
 """
+
 from __future__ import annotations
 
-import subprocess
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _paths import REPO_ROOT, content_dir as _content_dir
-from phases.preflight import _in_preflight_artifacts_mode  # noqa: E402
+from _paths import REPO_ROOT
+from _paths import content_dir as _content_dir
+
+from phases.preflight import _in_preflight_artifacts_mode
 
 SCAFFOLD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "scaffold_book.py"
 INGEST_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "ingest_source.py"
 
 
-from _subprocess import run as _run, err as _err, info as _info  # noqa: E402
+from _subprocess import err as _err
+from _subprocess import info as _info
+from _subprocess import run as _run
 
 
 def _git(*args: str) -> tuple[int, str, str]:
@@ -26,6 +30,7 @@ def _git(*args: str) -> tuple[int, str, str]:
 def phase_branch(book_slug: str, category: str) -> None:
     """Create + push the content branch. Idempotent on already-on-branch."""
     from _branching import branch_name as _branch_name
+
     rc, branch, _ = _git("rev-parse", "--abbrev-ref", "HEAD")
     branch = branch.strip() if rc == 0 else ""
     target = _branch_name(category, book_slug)
@@ -63,10 +68,13 @@ def phase_scaffold(category: str, book_slug: str, title: str, author: str | None
 def phase_0a_ingest(book_dir: Path, pdf_path: Path, category: str, book_slug: str) -> None:
     """Shell out to ingest_source.py for Azure OCR + Translation."""
     cmd = [
-        sys.executable, str(INGEST_SCRIPT),
+        sys.executable,
+        str(INGEST_SCRIPT),
         str(pdf_path),
-        "--book-slug", book_slug,
-        "--category", category,
+        "--book-slug",
+        book_slug,
+        "--category",
+        category,
     ]
     rc, out, err = _run(cmd)
     if rc != 0:

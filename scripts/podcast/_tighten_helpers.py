@@ -3,11 +3,11 @@
 Split from tighten_source.py (DR-005 — files must stay under 600 lines).
 Re-exported via tighten_source.py so all callers remain unaffected.
 """
+
 from __future__ import annotations
 
 import hashlib
 import json
-import re
 import sys
 import time
 from dataclasses import asdict, dataclass, field
@@ -26,11 +26,12 @@ sys.path.insert(0, str(SCRIPT_DIR))
 try:
     from _cost_ledger import compute_cost_usd  # type: ignore
 except ImportError:
+
     def compute_cost_usd(*args, **kwargs) -> float:  # type: ignore
         return 0.0
 
-from _rules import BUCKETS  # bucket registry is the single source of truth
 
+from _rules import BUCKETS  # bucket registry is the single source of truth
 
 # --- model + cost ----------------------------------------------------------
 
@@ -77,6 +78,7 @@ DEFAULT_DRASTIC_REDUCTION_THRESHOLD = 0.15
 
 # --- data classes ----------------------------------------------------------
 
+
 @dataclass
 class CutCandidate:
     chapter: str
@@ -109,11 +111,10 @@ class ChapterResult:
 
 # --- boundary + cache helpers ---------------------------------------------
 
+
 def boundary_check(book_dir: Path) -> None:
     bd = book_dir.resolve()
-    allowed_parents = [
-        (REPO_ROOT / "content" / bucket).resolve() for bucket in BUCKETS
-    ] + [
+    allowed_parents = [(REPO_ROOT / "content" / bucket).resolve() for bucket in BUCKETS] + [
         # Legacy pre-2026-06-04 layout, kept for back-compat (mirrors _paths fallback).
         (REPO_ROOT / "content" / "drafts").resolve(),
         (REPO_ROOT / "content" / "published" / "books").resolve(),
@@ -133,7 +134,7 @@ def source_signature(text: str) -> str:
 def cache_path(book_dir: Path, chapter: str, sig: str) -> Path:
     p = book_dir / "_system" / "tighten-cache"
     p.mkdir(parents=True, exist_ok=True)
-    return p / f"{chapter}__{sig.split(':',1)[1][:16]}.json"
+    return p / f"{chapter}__{sig.split(':', 1)[1][:16]}.json"
 
 
 def load_cached(book_dir: Path, chapter: str, sig: str) -> list[CutCandidate] | None:
@@ -156,6 +157,7 @@ def save_cached(book_dir: Path, chapter: str, sig: str, candidates: list[CutCand
 
 
 # --- cost-ledger -----------------------------------------------------------
+
 
 def book_tighten_spend(book_dir: Path) -> float:
     ledger = book_dir / "_system" / "cost-ledger.jsonl"
@@ -191,6 +193,7 @@ def append_ledger(book_dir: Path, phase: str, step: str, model: str, cost_usd: f
 
 
 # --- config loader ---------------------------------------------------------
+
 
 def load_config(book_dir: Path) -> dict:
     cfg_path = book_dir / "_system" / "tighten-config.yml"
@@ -244,7 +247,7 @@ def _parse_simple_yaml(text: str) -> dict:
                 cur_key = k
             else:
                 out[k] = _coerce(v)
-                cur_key = k
+                cur_key = k  # noqa: F841
     return out
 
 
@@ -264,11 +267,11 @@ def _coerce(v: str) -> Any:
 
 # --- Anthropic SDK invocation ----------------------------------------------
 
+
 def spawn_claude(prompt: str, model: str, cwd: Path, timeout_sec: int = 240) -> str:
     """Call the Anthropic SDK directly (replaces the former claude -p path, F38/DR-015)."""
     if _anthropic is None:
-        sys.stderr.write("[tighten] error: 'anthropic' package not installed. "
-                         "Run: pip install anthropic\n")
+        sys.stderr.write("[tighten] error: 'anthropic' package not installed. Run: pip install anthropic\n")
         return ""
     try:
         client = _anthropic.Anthropic()
@@ -281,7 +284,7 @@ def spawn_claude(prompt: str, model: str, cwd: Path, timeout_sec: int = 240) -> 
         return msg.content[0].text if msg.content else ""
     except _anthropic.APITimeoutError:
         return ""
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         sys.stderr.write(f"[tighten] SDK call failed: {exc!r}\n")
         return ""
 
@@ -303,7 +306,7 @@ def extract_json(text: str) -> Any:
             j = text.rfind(end_char)
             if j > i:
                 try:
-                    return json.loads(text[i:j+1])
+                    return json.loads(text[i : j + 1])
                 except json.JSONDecodeError:
                     continue
     return None
@@ -438,7 +441,7 @@ def build_per_chapter_prompt(
 ) -> str:
     enabled = [k for k, v in cfg["categories"].items() if v]
     protect_list = "\n".join(f"  - {p}" for p in cfg["protect"])
-    line_numbered = "\n".join(f"{i+1:4d}\t{line}" for i, line in enumerate(chapter_text.splitlines()))
+    line_numbered = "\n".join(f"{i + 1:4d}\t{line}" for i, line in enumerate(chapter_text.splitlines()))
     return PER_CHAPTER_PROMPT.format(
         book_title=book_title,
         book_premise=book_premise,

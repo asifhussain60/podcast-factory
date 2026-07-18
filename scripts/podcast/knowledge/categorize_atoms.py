@@ -35,12 +35,11 @@ USAGE
 
 Authority: Wave L plan §L-3. Cost: ~$0.05 Gemini Flash for ~628 atoms.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
-import os
-import subprocess
 import sys
 import urllib.request
 from pathlib import Path
@@ -49,8 +48,8 @@ _HERE = Path(__file__).resolve().parent
 _SCRIPTS_PODCAST = _HERE.parent
 sys.path.insert(0, str(_SCRIPTS_PODCAST))
 
-import _db  # noqa: E402
-from _rules import CONTENT_LEVEL_LADDER  # noqa: E402
+import _db
+from _rules import CONTENT_LEVEL_LADDER
 
 REPO_ROOT = _SCRIPTS_PODCAST.parents[1]
 KB_DIR = REPO_ROOT / "content" / "knowledge-base"
@@ -62,72 +61,184 @@ PRICE_OUT = 0.000_000_4
 # Only STRONG, unambiguous tag signals. Anything not matched falls to Gemini.
 # Most-metaphysical signal wins ties: Fatimid-Ismaili doctrine skews batin — an
 # advanced-tagged atom that ALSO carries ta'wil is taveel, not advanced.
-_HAQAIQ_TAGS = frozenset({
-    "cosmology", "creation", "emanation", "first intellect", "universal soul",
-    "hyle", "primordial matter", "primordial bodies", "metaphysics",
-    "spiritual realities", "divine realities", "hidden realities", "reality",
-    "realities", "eschatology", "qiyama", "qa'im", "qaim", "qāʾim",
-    "cosmic cycles", "cycles", "celestial spheres", "celestial motion",
-    "celestial bodies", "celestial influence", "contingency",
-    "transmigration", "rebirth", "spiritual world", "abstraction",
-})
-_MABDA_MAAD_TAGS = frozenset({
-    "mabda", "ma'ad", "mabda ma'ad", "origin and return", "origin", "return",
-    "beginning and end", "emanation cycle", "cosmic hierarchy",
-})
-_TAVEEL_TAGS = frozenset({
-    "ta'wil", "tawil", "esoteric interpretation", "esoteric meaning",
-    "esoteric knowledge", "esoteric exegesis", "esoteric", "zahir batin",
-    "batin", "inner meaning", "inner reality", "inner dimension",
-    "hidden knowledge", "spiritual interpretation", "exoteric esoteric",
-    "symbolism", "letter symbolism", "numerical symbolism", "numerology",
-    "spiritual symbolism", "unveiling", "veils", "veil", "veiledness",
-    "gnosis", "walayah", "walaya", "imamate", "spiritual hierarchy",
-    "spiritual stations", "spiritual ascent", "interpretation",
-    "inner self", "concealment", "taqiyya",
-})
-_ADVANCED_TAGS = frozenset({
-    "sharia", "shari'a", "shariah", "ritual", "ritual law", "ritual purity",
-    "prayer", "ablution", "ghusl", "wudu", "fasting", "ramadan", "hajj",
-    "zakat", "charity", "alms", "worship", "obligatory prayer",
-    "supererogatory prayer", "recommended prayer", "congregational prayer",
-    "friday prayer", "daily prayer", "noon prayer", "afternoon prayer",
-    "pillars of islam", "pillars", "hudud", "law", "divine law", "religious law",
-    "purification", "ritual calendar", "lunar calendar", "ablutions",
-    "adhan", "iqama", "qunut", "ruku", "prostration", "rak'ahs", "khushu",
-    "fiqh", "obligation", "religious practice",
-})
-_GENERAL_TAGS = frozenset({
-    "history", "pre-islamic arabia", "migration", "biography", "geography",
-    "qadi nu'man", "salman", "pre-existence", "spiritual eras",
-    "revelation cycle", "prophetic cycle", "spiritual lineage",
-})
+_HAQAIQ_TAGS = frozenset(
+    {
+        "cosmology",
+        "creation",
+        "emanation",
+        "first intellect",
+        "universal soul",
+        "hyle",
+        "primordial matter",
+        "primordial bodies",
+        "metaphysics",
+        "spiritual realities",
+        "divine realities",
+        "hidden realities",
+        "reality",
+        "realities",
+        "eschatology",
+        "qiyama",
+        "qa'im",
+        "qaim",
+        "qāʾim",
+        "cosmic cycles",
+        "cycles",
+        "celestial spheres",
+        "celestial motion",
+        "celestial bodies",
+        "celestial influence",
+        "contingency",
+        "transmigration",
+        "rebirth",
+        "spiritual world",
+        "abstraction",
+    }
+)
+_MABDA_MAAD_TAGS = frozenset(
+    {
+        "mabda",
+        "ma'ad",
+        "mabda ma'ad",
+        "origin and return",
+        "origin",
+        "return",
+        "beginning and end",
+        "emanation cycle",
+        "cosmic hierarchy",
+    }
+)
+_TAVEEL_TAGS = frozenset(
+    {
+        "ta'wil",
+        "tawil",
+        "esoteric interpretation",
+        "esoteric meaning",
+        "esoteric knowledge",
+        "esoteric exegesis",
+        "esoteric",
+        "zahir batin",
+        "batin",
+        "inner meaning",
+        "inner reality",
+        "inner dimension",
+        "hidden knowledge",
+        "spiritual interpretation",
+        "exoteric esoteric",
+        "symbolism",
+        "letter symbolism",
+        "numerical symbolism",
+        "numerology",
+        "spiritual symbolism",
+        "unveiling",
+        "veils",
+        "veil",
+        "veiledness",
+        "gnosis",
+        "walayah",
+        "walaya",
+        "imamate",
+        "spiritual hierarchy",
+        "spiritual stations",
+        "spiritual ascent",
+        "interpretation",
+        "inner self",
+        "concealment",
+        "taqiyya",
+    }
+)
+_ADVANCED_TAGS = frozenset(
+    {
+        "sharia",
+        "shari'a",
+        "shariah",
+        "ritual",
+        "ritual law",
+        "ritual purity",
+        "prayer",
+        "ablution",
+        "ghusl",
+        "wudu",
+        "fasting",
+        "ramadan",
+        "hajj",
+        "zakat",
+        "charity",
+        "alms",
+        "worship",
+        "obligatory prayer",
+        "supererogatory prayer",
+        "recommended prayer",
+        "congregational prayer",
+        "friday prayer",
+        "daily prayer",
+        "noon prayer",
+        "afternoon prayer",
+        "pillars of islam",
+        "pillars",
+        "hudud",
+        "law",
+        "divine law",
+        "religious law",
+        "purification",
+        "ritual calendar",
+        "lunar calendar",
+        "ablutions",
+        "adhan",
+        "iqama",
+        "qunut",
+        "ruku",
+        "prostration",
+        "rak'ahs",
+        "khushu",
+        "fiqh",
+        "obligation",
+        "religious practice",
+    }
+)
+_GENERAL_TAGS = frozenset(
+    {
+        "history",
+        "pre-islamic arabia",
+        "migration",
+        "biography",
+        "geography",
+        "qadi nu'man",
+        "salman",
+        "pre-existence",
+        "spiritual eras",
+        "revelation cycle",
+        "prophetic cycle",
+        "spiritual lineage",
+    }
+)
 
 
 def _load_key() -> str:
     # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
     from _secrets import get_gemini_key
+
     return get_gemini_key()
 
 
-
-def _gemini(system: str, user: str, *, model: str = "gemini-2.5-flash",
-            max_tokens: int = 8192) -> tuple[str, float]:
-    url = (
-        f"https://generativelanguage.googleapis.com/v1beta/models/"
-        f"{model}:generateContent?key={_load_key()}"
-    )
-    body = json.dumps({
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"parts": [{"text": user}]}],
-        "generationConfig": {
-            "temperature": 0.1,
-            "maxOutputTokens": max_tokens,
-            "thinkingConfig": {"thinkingBudget": 0},
-        },
-    }).encode()
+def _gemini(system: str, user: str, *, model: str = "gemini-2.5-flash", max_tokens: int = 8192) -> tuple[str, float]:
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={_load_key()}"
+    body = json.dumps(
+        {
+            "system_instruction": {"parts": [{"text": system}]},
+            "contents": [{"parts": [{"text": user}]}],
+            "generationConfig": {
+                "temperature": 0.1,
+                "maxOutputTokens": max_tokens,
+                "thinkingConfig": {"thinkingBudget": 0},
+            },
+        }
+    ).encode()
     req = urllib.request.Request(
-        url, data=body, headers={"Content-Type": "application/json"}, method="POST",
+        url,
+        data=body,
+        headers={"Content-Type": "application/json"},
+        method="POST",
     )
     with urllib.request.urlopen(req, timeout=600) as resp:
         d = json.loads(resp.read())
@@ -194,24 +305,22 @@ def _gemini_level(text_en: str, tags: list[str]) -> tuple[str, float, str, float
     raw = raw.strip()
     if raw.startswith("```"):
         raw = raw.strip("`")
-        raw = raw[raw.find("{"):]
+        raw = raw[raw.find("{") :]
     try:
-        obj = json.loads(raw[raw.find("{"): raw.rfind("}") + 1])
+        obj = json.loads(raw[raw.find("{") : raw.rfind("}") + 1])
         level = str(obj.get("level", "")).lower()
         conf = float(obj.get("confidence", 0.0))
         reason = str(obj.get("reason", ""))[:200]
         if level not in CONTENT_LEVEL_LADDER:
             return "esoteric", 0.0, f"unparseable level '{level}'", cost
         return level, conf, reason, cost
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         return "esoteric", 0.0, f"parse error: {e}", cost
 
 
 def _load_uncategorized_doctrine() -> list[dict]:
     conn = _db.get_connection()
-    rows = conn.execute(
-        "SELECT id, body FROM atoms WHERE type='doctrine' AND content_level IS NULL"
-    ).fetchall()
+    rows = conn.execute("SELECT id, body FROM atoms WHERE type='doctrine' AND content_level IS NULL").fetchall()
     tag_map: dict[str, list[str]] = {}
     for atom_id, tag in conn.execute("SELECT atom_id, tag FROM atom_topic_tags").fetchall():
         tag_map.setdefault(atom_id, []).append(tag)
@@ -221,11 +330,13 @@ def _load_uncategorized_doctrine() -> list[dict]:
             body = json.loads(body_json)
         except (json.JSONDecodeError, TypeError):
             continue
-        out.append({
-            "id": atom_id,
-            "text_en": (body.get("text_en") or "").strip(),
-            "tags": tag_map.get(atom_id, []),
-        })
+        out.append(
+            {
+                "id": atom_id,
+                "text_en": (body.get("text_en") or "").strip(),
+                "tags": tag_map.get(atom_id, []),
+            }
+        )
     return out
 
 
@@ -239,21 +350,43 @@ def categorize(*, apply: bool, threshold: float, use_gemini: bool) -> dict:
         h = _heuristic_level(atom["tags"])
         if h is not None:
             level, conf = h
-            report.append({"id": atom["id"], "level": level, "confidence": conf,
-                           "source": "heuristic", "reason": "strong tag signal",
-                           "tags": atom["tags"][:8]})
+            report.append(
+                {
+                    "id": atom["id"],
+                    "level": level,
+                    "confidence": conf,
+                    "source": "heuristic",
+                    "reason": "strong tag signal",
+                    "tags": atom["tags"][:8],
+                }
+            )
             heur_n += 1
             continue
         if not use_gemini:
-            report.append({"id": atom["id"], "level": None, "confidence": 0.0,
-                           "source": "unresolved", "reason": "no heuristic; gemini disabled",
-                           "tags": atom["tags"][:8]})
+            report.append(
+                {
+                    "id": atom["id"],
+                    "level": None,
+                    "confidence": 0.0,
+                    "source": "unresolved",
+                    "reason": "no heuristic; gemini disabled",
+                    "tags": atom["tags"][:8],
+                }
+            )
             continue
         level, conf, reason, cost = _gemini_level(atom["text_en"], atom["tags"])
         total_cost += cost
         gem_n += 1
-        report.append({"id": atom["id"], "level": level, "confidence": round(conf, 3),
-                       "source": "gemini", "reason": reason, "tags": atom["tags"][:8]})
+        report.append(
+            {
+                "id": atom["id"],
+                "level": level,
+                "confidence": round(conf, 3),
+                "source": "gemini",
+                "reason": reason,
+                "tags": atom["tags"][:8],
+            }
+        )
         if (i + 1) % 25 == 0:
             print(f"    …{i + 1}/{len(atoms)} classified (~${total_cost:.4f})", flush=True)
 
@@ -264,8 +397,7 @@ def categorize(*, apply: bool, threshold: float, use_gemini: bool) -> dict:
         for r in report:
             if r["level"] and (r["confidence"] or 0) >= threshold:
                 conn.execute(
-                    "UPDATE atoms SET content_level=?, "
-                    "updated_at=strftime('%Y-%m-%dT%H:%M:%SZ','now') WHERE id=?",
+                    "UPDATE atoms SET content_level=?, updated_at=strftime('%Y-%m-%dT%H:%M:%SZ','now') WHERE id=?",
                     (r["level"], r["id"]),
                 )
                 applied += 1
@@ -273,22 +405,38 @@ def categorize(*, apply: bool, threshold: float, use_gemini: bool) -> dict:
 
     KB_DIR.mkdir(parents=True, exist_ok=True)
     (KB_DIR / "categorize-report.json").write_text(
-        json.dumps({"total": len(atoms), "heuristic": heur_n, "gemini": gem_n,
-                    "applied": applied, "cost_usd": round(total_cost, 4),
-                    "threshold": threshold, "atoms": report}, indent=2),
+        json.dumps(
+            {
+                "total": len(atoms),
+                "heuristic": heur_n,
+                "gemini": gem_n,
+                "applied": applied,
+                "cost_usd": round(total_cost, 4),
+                "threshold": threshold,
+                "atoms": report,
+            },
+            indent=2,
+        ),
         encoding="utf-8",
     )
     (KB_DIR / "categorize-review.json").write_text(
-        json.dumps({"count": len(review), "atoms": review}, indent=2), encoding="utf-8",
+        json.dumps({"count": len(review), "atoms": review}, indent=2),
+        encoding="utf-8",
     )
 
     by_level: dict[str, int] = {}
     for r in report:
         if r["level"]:
             by_level[r["level"]] = by_level.get(r["level"], 0) + 1
-    return {"total": len(atoms), "heuristic": heur_n, "gemini": gem_n,
-            "applied": applied, "review": len(review), "cost_usd": round(total_cost, 4),
-            "by_level": by_level}
+    return {
+        "total": len(atoms),
+        "heuristic": heur_n,
+        "gemini": gem_n,
+        "applied": applied,
+        "review": len(review),
+        "cost_usd": round(total_cost, 4),
+        "by_level": by_level,
+    }
 
 
 def main() -> None:
@@ -302,7 +450,7 @@ def main() -> None:
     print(f"  Categorizing uncategorized doctrine atoms (apply={args.apply}, threshold={args.threshold})…")
     summary = categorize(apply=args.apply, threshold=args.threshold, use_gemini=not args.no_gemini)
     print(f"  Done. {summary}")
-    print(f"  Report:  content/knowledge-base/categorize-report.json")
+    print("  Report:  content/knowledge-base/categorize-report.json")
     print(f"  Review:  content/knowledge-base/categorize-review.json ({summary['review']} atoms below threshold)")
 
 

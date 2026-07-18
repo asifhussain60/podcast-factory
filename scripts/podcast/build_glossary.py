@@ -64,15 +64,37 @@ import sys
 from pathlib import Path
 
 CANONICAL_FALLBACK_TERMS: list[dict[str, str]] = [
-    {"phonetic": "alam al-ruh", "transliteration": "alam al-ruh", "arabic_script": "عالم الروح", "audio_phonetic": "aa-lam al-rooh"},
-    {"phonetic": "Imam al-Zaman", "transliteration": "Imam al-Zaman", "arabic_script": "إمام الزمان", "audio_phonetic": "i-maam az-za-maan"},
+    {
+        "phonetic": "alam al-ruh",
+        "transliteration": "alam al-ruh",
+        "arabic_script": "عالم الروح",
+        "audio_phonetic": "aa-lam al-rooh",
+    },
+    {
+        "phonetic": "Imam al-Zaman",
+        "transliteration": "Imam al-Zaman",
+        "arabic_script": "إمام الزمان",
+        "audio_phonetic": "i-maam az-za-maan",
+    },
     {"phonetic": "Mukathir", "transliteration": "Mukathir", "arabic_script": "مُكَثِّر", "audio_phonetic": "mu-kath-thir"},
     {"phonetic": "tawhid", "transliteration": "tawhid", "arabic_script": "توحيد", "audio_phonetic": "taw-heed"},
     {"phonetic": "tanzih", "transliteration": "tanzih", "arabic_script": "تنزيه", "audio_phonetic": "tan-zeeh"},
     {"phonetic": "tajrid", "transliteration": "tajrid", "arabic_script": "تجريد", "audio_phonetic": "taj-reed"},
     {"phonetic": "ta'wil", "transliteration": "ta'wil", "arabic_script": "تأويل", "audio_phonetic": "ta-weel"},
-    {"phonetic": "wilayah", "transliteration": "wilayah", "arabic_script": "ولاية", "audio_phonetic": "wi-laa-yah", "english_override": "allegiance"},
-    {"phonetic": "amal", "transliteration": "amal", "arabic_script": "عَمَل", "audio_phonetic": "a-mal", "english_override": "action"},
+    {
+        "phonetic": "wilayah",
+        "transliteration": "wilayah",
+        "arabic_script": "ولاية",
+        "audio_phonetic": "wi-laa-yah",
+        "english_override": "allegiance",
+    },
+    {
+        "phonetic": "amal",
+        "transliteration": "amal",
+        "arabic_script": "عَمَل",
+        "audio_phonetic": "a-mal",
+        "english_override": "action",
+    },
     {"phonetic": "hudud", "transliteration": "hudud", "arabic_script": "حُدُود", "audio_phonetic": "hu-dood"},
     {"phonetic": "haykal", "transliteration": "haykal", "arabic_script": "هيكل", "audio_phonetic": "hay-kal"},
     {"phonetic": "ma'dhun", "transliteration": "ma'dhun", "arabic_script": "مأذون", "audio_phonetic": "ma-dhoon"},
@@ -81,17 +103,57 @@ CANONICAL_FALLBACK_TERMS: list[dict[str, str]] = [
     {"phonetic": "surat", "transliteration": "surat", "arabic_script": "صورة", "audio_phonetic": "soo-rah"},
     {"phonetic": "basirah", "transliteration": "basirah", "arabic_script": "بصيرة", "audio_phonetic": "ba-see-rah"},
     {"phonetic": "Du'at", "transliteration": "Du'at", "arabic_script": "دعاة", "audio_phonetic": "du-aat"},
-    {"phonetic": "Ilahiyyah", "transliteration": "Ilahiyyah", "arabic_script": "إلهية", "audio_phonetic": "i-laa-hiy-yah"},
+    {
+        "phonetic": "Ilahiyyah",
+        "transliteration": "Ilahiyyah",
+        "arabic_script": "إلهية",
+        "audio_phonetic": "i-laa-hiy-yah",
+    },
     {"phonetic": "Hujjiyyah", "transliteration": "Hujjiyyah", "arabic_script": "حجية", "audio_phonetic": "huj-jiy-yah"},
-    {"phonetic": "Hijabiyyah", "transliteration": "Hijabiyyah", "arabic_script": "حجابية", "audio_phonetic": "hi-jaab-iy-yah"},
-    {"phonetic": "Khayaliyyah", "transliteration": "Khayaliyyah", "arabic_script": "خيالية", "audio_phonetic": "kha-yaa-liy-yah"},
-    {"phonetic": "Fathiyyah", "transliteration": "Fathiyyah", "arabic_script": "فتحية", "audio_phonetic": "fath-iy-yah"},
+    {
+        "phonetic": "Hijabiyyah",
+        "transliteration": "Hijabiyyah",
+        "arabic_script": "حجابية",
+        "audio_phonetic": "hi-jaab-iy-yah",
+    },
+    {
+        "phonetic": "Khayaliyyah",
+        "transliteration": "Khayaliyyah",
+        "arabic_script": "خيالية",
+        "audio_phonetic": "kha-yaa-liy-yah",
+    },
+    {
+        "phonetic": "Fathiyyah",
+        "transliteration": "Fathiyyah",
+        "arabic_script": "فتحية",
+        "audio_phonetic": "fath-iy-yah",
+    },
     {"phonetic": "Jiddiyyah", "transliteration": "Jiddiyyah", "arabic_script": "جدية", "audio_phonetic": "jid-diy-yah"},
-    {"phonetic": "Anza'iyyah", "transliteration": "Anza'iyyah", "arabic_script": "أنزعية", "audio_phonetic": "an-za-iy-yah"},
-    {"phonetic": "Qa'imiyyah", "transliteration": "Qa'imiyyah", "arabic_script": "قائمية", "audio_phonetic": "qaa-i-miy-yah"},
+    {
+        "phonetic": "Anza'iyyah",
+        "transliteration": "Anza'iyyah",
+        "arabic_script": "أنزعية",
+        "audio_phonetic": "an-za-iy-yah",
+    },
+    {
+        "phonetic": "Qa'imiyyah",
+        "transliteration": "Qa'imiyyah",
+        "arabic_script": "قائمية",
+        "audio_phonetic": "qaa-i-miy-yah",
+    },
     {"phonetic": "Jussiyyah", "transliteration": "Jussiyyah", "arabic_script": "جسية", "audio_phonetic": "jus-siy-yah"},
-    {"phonetic": "Ahadiyyah", "transliteration": "Ahadiyyah", "arabic_script": "أحدية", "audio_phonetic": "a-ha-diy-yah"},
-    {"phonetic": "Samadiyyah", "transliteration": "Samadiyyah", "arabic_script": "صمدية", "audio_phonetic": "sa-ma-diy-yah"},
+    {
+        "phonetic": "Ahadiyyah",
+        "transliteration": "Ahadiyyah",
+        "arabic_script": "أحدية",
+        "audio_phonetic": "a-ha-diy-yah",
+    },
+    {
+        "phonetic": "Samadiyyah",
+        "transliteration": "Samadiyyah",
+        "arabic_script": "صمدية",
+        "audio_phonetic": "sa-ma-diy-yah",
+    },
     {"phonetic": "Huwiyyah", "transliteration": "Huwiyyah", "arabic_script": "هوية", "audio_phonetic": "hu-wiy-yah"},
 ]
 
@@ -119,12 +181,14 @@ def parse_phonetics_md(path: Path) -> list[dict[str, str]]:
         cells = [c.strip() for c in s.strip("|").split("|")]
         if len(cells) < 4:
             continue
-        rows.append({
-            "term": cells[0],
-            "transliteration": cells[1],
-            "phonetic": cells[2],
-            "first_seen_snippet": cells[3],
-        })
+        rows.append(
+            {
+                "term": cells[0],
+                "transliteration": cells[1],
+                "phonetic": cells[2],
+                "first_seen_snippet": cells[3],
+            }
+        )
     return rows
 
 
@@ -163,8 +227,15 @@ def emit_glossary_yaml(rows: list[dict[str, str]]) -> str:
         lines.append(f'    arabic_script: "{_q(arabic_seed)}"')
         lines.append(f'    audio_phonetic: "{_q(phon_audio)}"')
         lines.append(f'    first_seen_snippet: "{_q(snippet)}"')
-        for field in ("teaching_relevance", "decision", "corrected_phonetic",
-                      "corrected_arabic", "english_override", "decided_by", "decided_at"):
+        for field in (
+            "teaching_relevance",
+            "decision",
+            "corrected_phonetic",
+            "corrected_arabic",
+            "english_override",
+            "decided_by",
+            "decided_at",
+        ):
             val = str(r.get(field, "") or "").strip()
             if val:
                 lines.append(f'    {field}: "{_q(val)}"')
@@ -196,15 +267,17 @@ def rows_from_chapter_fallback(book_dir: Path) -> list[dict[str, str]]:
             snippet = re.sub(r"\s+", " ", text[start:end]).strip()
             break
         if snippet:
-            rows.append({
-                "term": phonetic,
-                "transliteration": term["transliteration"],
-                "phonetic": phonetic,
-                "arabic_script": term["arabic_script"],
-                "audio_phonetic": term["audio_phonetic"],
-                "english_override": term.get("english_override", ""),
-                "first_seen_snippet": snippet,
-            })
+            rows.append(
+                {
+                    "term": phonetic,
+                    "transliteration": term["transliteration"],
+                    "phonetic": phonetic,
+                    "arabic_script": term["arabic_script"],
+                    "audio_phonetic": term["audio_phonetic"],
+                    "english_override": term.get("english_override", ""),
+                    "first_seen_snippet": snippet,
+                }
+            )
     return rows
 
 
@@ -216,8 +289,9 @@ def _q(s: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n", 1)[0])
     ap.add_argument("--book-dir", required=True, type=Path)
-    ap.add_argument("--force", action="store_true",
-                    help="Overwrite existing glossary.yml (drops any prior arabic_script fills).")
+    ap.add_argument(
+        "--force", action="store_true", help="Overwrite existing glossary.yml (drops any prior arabic_script fills)."
+    )
     args = ap.parse_args()
 
     book_dir: Path = args.book_dir.resolve()
@@ -238,9 +312,7 @@ def main() -> int:
         rows = rows_from_chapter_fallback(book_dir)
         source = "chapter fallback"
     if not rows:
-        sys.stderr.write(
-            f"No glossary rows parsed from {phonetics} and no fallback terms found in chapters.\n"
-        )
+        sys.stderr.write(f"No glossary rows parsed from {phonetics} and no fallback terms found in chapters.\n")
         return 4
 
     out_path.write_text(emit_glossary_yaml(rows), encoding="utf-8")

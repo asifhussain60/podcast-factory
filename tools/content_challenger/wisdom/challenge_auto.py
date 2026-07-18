@@ -7,12 +7,12 @@ review and writes wisdom-challenger-report.md.
 Stage transition: adapted → challenged.
 Idempotent: skips if already challenged.
 """
+
 from __future__ import annotations
 
 import json
 import re
 import subprocess
-import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
@@ -61,8 +61,11 @@ def _call_claude_p(user_content: str, timeout: int = 300) -> tuple[str, int, int
     full_prompt = CHALLENGE_SYSTEM_PROMPT + "\n\n---\n\n" + user_content
     result = subprocess.run(
         [
-            "claude", "-p", full_prompt,
-            "--tools", "",
+            "claude",
+            "-p",
+            full_prompt,
+            "--tools",
+            "",
             "--no-session-persistence",
         ],
         capture_output=True,
@@ -71,9 +74,7 @@ def _call_claude_p(user_content: str, timeout: int = 300) -> tuple[str, int, int
         check=False,
     )
     if result.returncode != 0:
-        raise RuntimeError(
-            f"claude -p exited {result.returncode}.\nstderr: {result.stderr[:400]}"
-        )
+        raise RuntimeError(f"claude -p exited {result.returncode}.\nstderr: {result.stderr[:400]}")
     return result.stdout.strip(), 0, 0
 
 
@@ -86,10 +87,7 @@ def _read_stage(bundle_yml: Path) -> str:
 
 def _update_stage(bundle_yml: Path, new_stage: str) -> None:
     text = bundle_yml.read_text(encoding="utf-8")
-    lines = [
-        f"stage: {new_stage}" if l.startswith("stage:") else l
-        for l in text.splitlines()
-    ]
+    lines = [f"stage: {new_stage}" if l.startswith("stage:") else l for l in text.splitlines()]
     bundle_yml.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -116,7 +114,9 @@ def _append_challenge_block(bundle_yml: Path, model: str, verdict: str, cost: fl
     bundle_yml.write_text("\n".join(out).rstrip() + block, encoding="utf-8")
 
 
-def _append_cost_ledger(binder_id: Optional[int], chapter_id: Optional[int], cost_usd: float, completed_at: str) -> None:
+def _append_cost_ledger(
+    binder_id: Optional[int], chapter_id: Optional[int], cost_usd: float, completed_at: str
+) -> None:
     CHALLENGE_COST_LEDGER.parent.mkdir(parents=True, exist_ok=True)
     entry = {
         "binder_id": binder_id,
@@ -128,7 +128,6 @@ def _append_cost_ledger(binder_id: Optional[int], chapter_id: Optional[int], cos
     }
     with CHALLENGE_COST_LEDGER.open("a", encoding="utf-8") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
-
 
 
 def _extract_verdict(report_text: str) -> str:
@@ -176,10 +175,7 @@ def challenge_bundle(
     val_result = validate_bundle(bundle_root)
 
     if val_result.p0_count > 0:
-        raise RuntimeError(
-            f"Validator P0 failures — cannot challenge:\n" +
-            "\n".join(val_result.summary_lines())
-        )
+        raise RuntimeError("Validator P0 failures — cannot challenge:\n" + "\n".join(val_result.summary_lines()))
 
     if dry_run:
         return {
@@ -191,7 +187,7 @@ def challenge_bundle(
 
     # Build challenge input: first 8KB of adapted + validator findings
     adapted_text = adapted.read_text(encoding="utf-8") if adapted.exists() else ""
-    raw_text = raw_en.read_text(encoding="utf-8") if raw_en.exists() else ""
+    raw_text = raw_en.read_text(encoding="utf-8") if raw_en.exists() else ""  # noqa: F841
 
     # Use a representative sample for the LLM review (first 6KB)
     sample = adapted_text[:6000]
@@ -221,8 +217,10 @@ def challenge_bundle(
     # Compute PEQ score for this chapter
     try:
         import sys as _sys
+
         _sys.path.insert(0, str(REPO_ROOT / "scripts" / "podcast"))
         from _quality import score as _peq_score
+
         _wc = len(adapted_text.split())
         _qrefs = len(__import__("re").findall(r"\bQ?\d+:\d+\b", adapted_text))
         _italics = __import__("re").findall(r"\*([^*]+)\*", adapted_text)
@@ -233,7 +231,9 @@ def challenge_bundle(
             _arc.append("open_hook")
         if __import__("re").search(r"\b(first|second|third|point one|point two)\b", adapted_text, __import__("re").I):
             _arc.append("three_points")
-        if __import__("re").search(r"(in closing|to close|so as we end|let that sit)", adapted_text, __import__("re").I):
+        if __import__("re").search(
+            r"(in closing|to close|so as we end|let that sit)", adapted_text, __import__("re").I
+        ):
             _arc.append("close")
         _cit_found = __import__("re").findall(r"(?:quran|hadith|doctrine):\S+", adapted_text)
         _peq = _peq_score(
@@ -249,15 +249,13 @@ def challenge_bundle(
             voice_exemplar_vector=None,
         )
         peq_section = (
-            f"\n\n## PEQ Score\n\n"
-            f"{_peq.markdown_table()}\n\n"
-            f"**Verdict: {_peq.verdict}** — total {_peq.total:.1f}"
+            f"\n\n## PEQ Score\n\n{_peq.markdown_table()}\n\n**Verdict: {_peq.verdict}** — total {_peq.total:.1f}"
         )
         if _peq.notes:
             peq_section += "\n\n> " + "; ".join(_peq.notes)
         peq_verdict = _peq.verdict
         peq_total = _peq.total
-    except Exception as _e:  # noqa: BLE001
+    except Exception as _e:
         peq_section = f"\n\n## PEQ Score\n\n*Not available: {_e}*"
         peq_verdict = verdict
         peq_total = None
@@ -266,10 +264,7 @@ def challenge_bundle(
     full_report = (
         f"# Wisdom Challenger Report\n"
         f"*Generated: {completed_at} | Model: {MODEL}*\n\n"
-        f"## Deterministic Validator\n"
-        + "\n".join(val_result.summary_lines()) + "\n\n"
-        + report_text
-        + peq_section
+        f"## Deterministic Validator\n" + "\n".join(val_result.summary_lines()) + "\n\n" + report_text + peq_section
     )
     report_file.write_text(full_report, encoding="utf-8")
 

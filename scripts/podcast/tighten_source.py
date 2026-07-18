@@ -72,6 +72,7 @@ Three-file split (DR-005 — files must stay under 600 lines):
   _tighten_helpers.py  — constants, data classes, helpers, prompts, SDK invocation
   tighten_source.py (this) — algorithm (per-chapter / cohesion / apply) + CLI
 """
+
 from __future__ import annotations
 
 import argparse
@@ -81,20 +82,28 @@ import time
 from pathlib import Path
 
 from _tighten_helpers import (
-    MODEL_PER_CHAPTER, MODEL_COHESION,
-    EST_COST_PER_CHAPTER_USD, EST_COST_COHESION_USD,
     DEFAULT_DRASTIC_REDUCTION_THRESHOLD,
-    CutCandidate, ChapterResult,
-    boundary_check, source_signature,
-    load_cached, save_cached,
-    book_tighten_spend, append_ledger,
+    EST_COST_COHESION_USD,
+    EST_COST_PER_CHAPTER_USD,
+    MODEL_COHESION,
+    MODEL_PER_CHAPTER,
+    ChapterResult,
+    CutCandidate,
+    append_ledger,
+    book_tighten_spend,
+    boundary_check,
+    build_cohesion_prompt,
+    build_per_chapter_prompt,
+    extract_json,
+    load_cached,
     load_config,
-    spawn_claude, extract_json,
-    build_per_chapter_prompt, build_cohesion_prompt,
+    save_cached,
+    source_signature,
+    spawn_claude,
 )
 
-
 # --- per-chapter pass ------------------------------------------------------
+
 
 def run_per_chapter(
     book_dir: Path,
@@ -141,9 +150,7 @@ def run_per_chapter(
             error=f"budget cap reached: spent=${spent:.2f}, cap=${cfg['budget_usd']:.2f}",
         )
 
-    prompt = build_per_chapter_prompt(
-        chapter_path, text, chapter_num, book_title, book_premise, cfg
-    )
+    prompt = build_per_chapter_prompt(chapter_path, text, chapter_num, book_title, book_premise, cfg)
     raw = spawn_claude(prompt, MODEL_PER_CHAPTER, book_dir.parent)
     if not raw:
         return ChapterResult(
@@ -212,6 +219,7 @@ def _trips_protect(text: str, patterns: list[str]) -> bool:
 
 # --- cohesion pass ---------------------------------------------------------
 
+
 def run_cohesion(
     book_dir: Path,
     results: list[ChapterResult],
@@ -225,13 +233,10 @@ def run_cohesion(
 
     spent = book_tighten_spend(book_dir)
     if spent + EST_COST_COHESION_USD > cfg["budget_usd"]:
-        print(f"[tighten] skipping cohesion pass — budget would exceed cap", file=sys.stderr)
+        print("[tighten] skipping cohesion pass — budget would exceed cap", file=sys.stderr)
         return
 
-    chapters_by_slug = {
-        r.chapter: r.chapter_path.read_text(encoding="utf-8")
-        for r in results
-    }
+    chapters_by_slug = {r.chapter: r.chapter_path.read_text(encoding="utf-8") for r in results}
     prompt = build_cohesion_prompt(all_candidates, chapters_by_slug, book_title)
     raw = spawn_claude(prompt, MODEL_COHESION, book_dir.parent, timeout_sec=300)
     if not raw:
@@ -256,6 +261,7 @@ def run_cohesion(
 
 
 # --- report rendering ------------------------------------------------------
+
 
 def render_report(
     book_dir: Path,
@@ -283,27 +289,28 @@ def render_report(
     n_candidates = sum(len(r.candidates) for r in results)
     n_with_cohesion = sum(1 for r in results for c in r.candidates if c.cohesion_warning)
     threshold = cfg.get("drastic_reduction_threshold", DEFAULT_DRASTIC_REDUCTION_THRESHOLD)
-    flagged = [r for r in results if r.original_words > 0
-               and (r.proposed_words_removed / r.original_words) > threshold]
+    flagged = [r for r in results if r.original_words > 0 and (r.proposed_words_removed / r.original_words) > threshold]
     lines.append(f"- chapters scanned: **{len(results)}**")
     lines.append(f"- candidate cuts: **{n_candidates}** (of which **{n_with_cohesion}** have cohesion warnings)")
     lines.append(f"- words: original **{total_original:,}**, proposed-removed **{total_proposed:,}** (**{pct:.1f}%**)")
-    lines.append(f"- categories enabled: {', '.join(k for k,v in cfg['categories'].items() if v)}")
-    lines.append(f"- min_confidence: {cfg['min_confidence']} · drastic-reduction threshold: **{threshold*100:.0f}%**")
+    lines.append(f"- categories enabled: {', '.join(k for k, v in cfg['categories'].items() if v)}")
+    lines.append(f"- min_confidence: {cfg['min_confidence']} · drastic-reduction threshold: **{threshold * 100:.0f}%**")
     lines.append(f"- budget: ${book_tighten_spend(book_dir):.2f} / ${cfg['budget_usd']:.2f}")
     lines.append("")
     if flagged:
-        lines.append(f"### 🔴 RED-FLAG: chapters exceeding the {threshold*100:.0f}% drastic-reduction threshold")
+        lines.append(f"### 🔴 RED-FLAG: chapters exceeding the {threshold * 100:.0f}% drastic-reduction threshold")
         lines.append("")
         lines.append("These chapters propose cutting more than is consistent with 'tightening'.")
         lines.append("Review their candidates carefully — they may be over-flagging substance.")
         lines.append("")
         for r in flagged:
             ratio = (r.proposed_words_removed / r.original_words) if r.original_words else 0
-            lines.append(f"- **{r.chapter}** — {r.proposed_words_removed:,} words proposed for cut ({ratio*100:.1f}%)")
+            lines.append(
+                f"- **{r.chapter}** — {r.proposed_words_removed:,} words proposed for cut ({ratio * 100:.1f}%)"
+            )
         lines.append("")
     else:
-        lines.append(f"_no chapters exceed the {threshold*100:.0f}% drastic-reduction threshold_")
+        lines.append(f"_no chapters exceed the {threshold * 100:.0f}% drastic-reduction threshold_")
         lines.append("")
     lines.append("## Category legend")
     lines.append("")
@@ -332,13 +339,15 @@ def render_report(
         lines.append("")
         lines.append(f"- file: `{r.chapter_path.relative_to(book_dir.parent)}`")
         lines.append(f"- original words: **{r.original_words:,}**")
-        lines.append(f"- proposed cut: **{r.proposed_words_removed:,}** ({ratio*100:.1f}%)")
+        lines.append(f"- proposed cut: **{r.proposed_words_removed:,}** ({ratio * 100:.1f}%)")
         if ratio > threshold:
-            lines.append(f"- 🔴 **drastic-reduction threshold exceeded** "
-                         f"({ratio*100:.1f}% > {threshold*100:.0f}%) — "
-                         f"scrutinise each candidate before accepting; the goal is tightening, not shortening.")
+            lines.append(
+                f"- 🔴 **drastic-reduction threshold exceeded** "
+                f"({ratio * 100:.1f}% > {threshold * 100:.0f}%) — "
+                f"scrutinise each candidate before accepting; the goal is tightening, not shortening."
+            )
         if r.cached:
-            lines.append(f"- _result loaded from cache_")
+            lines.append("- _result loaded from cache_")
         if r.error:
             lines.append(f"- error: **{r.error}**")
         lines.append("")
@@ -367,6 +376,7 @@ def render_report(
 
 
 # --- apply mode ------------------------------------------------------------
+
 
 def parse_accepted_cids(report_path: Path) -> set[str]:
     """Parse tighten-report.md and return the set of accepted candidate IDs."""
@@ -410,11 +420,13 @@ def apply_cuts(
             print(f"[tighten] --apply: {match.chapter} has no candidates to apply", file=sys.stderr)
             continue
         accepted_for_chapter = [
-            (i, c) for i, c in enumerate(match.candidates, 1)
-            if f"{match.chapter}-{i:02d}" in accepted_cids
+            (i, c) for i, c in enumerate(match.candidates, 1) if f"{match.chapter}-{i:02d}" in accepted_cids
         ]
         if not accepted_for_chapter:
-            print(f"[tighten] --apply: {match.chapter} — 0 of {len(match.candidates)} candidates marked accepted; skipping.", file=sys.stderr)
+            print(
+                f"[tighten] --apply: {match.chapter} — 0 of {len(match.candidates)} candidates marked accepted; skipping.",
+                file=sys.stderr,
+            )
             continue
         text_lines = match.chapter_path.read_text(encoding="utf-8").splitlines()
         drop = set()
@@ -434,9 +446,12 @@ def apply_cuts(
 
 # --- main ------------------------------------------------------------------
 
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Advisory tighten-pass for NotebookLM source chapters.")
-    parser.add_argument("--book-dir", required=True, help="path to content/drafts/<slug>/ or content/published/books/<slug>/")
+    parser.add_argument(
+        "--book-dir", required=True, help="path to content/drafts/<slug>/ or content/published/books/<slug>/"
+    )
     parser.add_argument("--chapter", help="run only this chapter (e.g. ch07). Default: all chapters.")
     parser.add_argument("--all", action="store_true", help="run all chapters (default if --chapter not given)")
     parser.add_argument("--apply", help="comma-separated chapter slugs to apply (e.g. ch07,ch11)")
@@ -500,14 +515,18 @@ def main(argv: list[str] | None = None) -> int:
     written: list[Path] = []
     if args.apply:
         slugs = [s.strip() for s in args.apply.split(",") if s.strip()]
-        written = apply_cuts(book_dir, slugs, results)
+        written = apply_cuts(book_dir, slugs, results)  # noqa: F841
 
     if args.json:
         import json as _json
-        print(_json.dumps([
-            {"chapter": r.chapter, "candidates": [c.to_dict() for c in r.candidates]}
-            for r in results
-        ], ensure_ascii=False, indent=2))
+
+        print(
+            _json.dumps(
+                [{"chapter": r.chapter, "candidates": [c.to_dict() for c in r.candidates]} for r in results],
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
     else:
         print(f"[tighten] report: {report_path}")
 

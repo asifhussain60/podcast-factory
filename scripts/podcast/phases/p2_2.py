@@ -1,4 +1,5 @@
 """P2.2 phase runner — sunny-day E2E test."""
+
 from __future__ import annotations
 
 import subprocess
@@ -33,7 +34,9 @@ def is_done(repo_root: Path | None = None) -> bool:
     # Tests green
     rc = subprocess.run(
         [sys.executable, "-m", "unittest", "scripts.podcast.tests.e2e.test_full_pipeline"],
-        cwd=repo_root, capture_output=True, timeout=120,
+        cwd=repo_root,
+        capture_output=True,
+        timeout=120,
     ).returncode
     return rc == 0
 
@@ -43,12 +46,14 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
         repo_root = REPO_ROOT
     if not is_done(repo_root):
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
+            phase_id=PHASE_ID,
+            status="halted",
             message="P2.2 test missing required content OR test suite red.",
             evidence_paths=[str(TEST)],
         )
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message="sunny-day E2E test present + green; state-machine ordering verified.",
         rows_marked=[PHASE_ID],
         evidence_paths=[str(TEST)],

@@ -35,13 +35,14 @@ Consumers:
   - infra/claude-agents/podcast-orchestrator.md — agent doc
   - CLAUDE.md, framework.md               — operator-facing policy doc
 """
+
 from __future__ import annotations
 
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import resolve_bucket  # noqa: E402
+from _paths import resolve_bucket
 
 
 def branch_name(
@@ -95,7 +96,7 @@ def branch_for_work(
     # Local import to avoid a module-load cycle (_work_manifest imports _paths,
     # _paths is imported here at module top; _branching is only imported lazily
     # by callers, never by _paths).
-    from _work_manifest import work_slug_of  # noqa: E402
+    from _work_manifest import work_slug_of
 
     work = work_slug_of(volume_or_work_slug) or volume_or_work_slug
     return branch_name(category, work, profile=profile, bucket=bucket)

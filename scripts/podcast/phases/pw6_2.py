@@ -1,4 +1,5 @@
 """P6.2 phase runner — exemplar episode complete for all three archetype directories."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -40,10 +41,7 @@ def is_done(repo_root: Path | None = None) -> bool:
 def execute(repo_root: Path | None = None) -> PhaseResult:
     if repo_root is None:
         repo_root = REPO_ROOT
-    missing = [
-        s for s in ARCHETYPE_SLUGS
-        if not _file_valid(_exemplar_file(repo_root, s))
-    ]
+    missing = [s for s in ARCHETYPE_SLUGS if not _file_valid(_exemplar_file(repo_root, s))]
     if missing:
         return PhaseResult(
             phase_id=PHASE_ID,

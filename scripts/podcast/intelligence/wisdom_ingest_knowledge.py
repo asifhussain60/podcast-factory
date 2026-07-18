@@ -17,6 +17,7 @@ Python API:
         ingest_all, ingest_chapter, print_status, seed_lookup_tables
     )
 """
+
 from __future__ import annotations
 
 import json
@@ -27,13 +28,12 @@ from pathlib import Path
 from typing import Any
 
 # --- path bootstrap (works when run directly or imported) ---
-_HERE = Path(__file__).resolve().parent          # …/scripts/podcast/intelligence
-_SCRIPTS = _HERE.parent                          # …/scripts/podcast
+_HERE = Path(__file__).resolve().parent  # …/scripts/podcast/intelligence
+_SCRIPTS = _HERE.parent  # …/scripts/podcast
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 import yaml
-
 from _db import get_connection, run_migrations
 from _paths import REPO_ROOT
 
@@ -41,12 +41,8 @@ from _paths import REPO_ROOT
 # Constants
 # ---------------------------------------------------------------------------
 
-CORPUS_ROOT = (
-    REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted" / "wisdom"
-)
-TOPIC_MAP_PATH = (
-    REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "topic-type-map.json"
-)
+CORPUS_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted" / "wisdom"
+TOPIC_MAP_PATH = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "topic-type-map.json"
 MAX_CHUNK_WORDS = 600
 PASS_WARN = frozenset({"PASS", "WARN"})
 # D5: teaching material -> fatimid-ismaili (the corpus-wide canonical tradition value).
@@ -59,6 +55,7 @@ _VERDICT_RE = re.compile(r"\*\*Verdict:\*\*\s*(PASS|WARN|FAIL)")
 # ---------------------------------------------------------------------------
 # Data classes
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class IngestResult:
@@ -87,6 +84,7 @@ class IngestSummary:
 # ---------------------------------------------------------------------------
 # Helpers — file parsing
 # ---------------------------------------------------------------------------
+
 
 def _load_topic_map() -> tuple[dict[str, dict], dict[str, int]]:
     """Return (topic_types, topic_type_assignments) from topic-type-map.json."""
@@ -128,6 +126,7 @@ def _parse_bundle(chapter_dir: Path) -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 # Chunking
 # ---------------------------------------------------------------------------
+
 
 def _make_chunk(
     idx: int,
@@ -199,6 +198,7 @@ def _chunk_text(
 # DB helpers
 # ---------------------------------------------------------------------------
 
+
 def seed_lookup_tables(conn) -> None:
     """Idempotent: register 'wisdom' in external_corpora."""
     conn.execute(
@@ -234,6 +234,7 @@ def _delete_chapter_atoms(conn, binder_id: int, chapter_id: int) -> None:
 # Core ingest
 # ---------------------------------------------------------------------------
 
+
 def _ingest_chapter_dir(
     chapter_dir: Path,
     *,
@@ -249,8 +250,7 @@ def _ingest_chapter_dir(
     binder_id = bundle.get("binder_id")
     chapter_id = bundle.get("chapter_id")
     if not binder_id or not chapter_id:
-        return IngestResult(binder_slug, chapter_slug, "UNKNOWN",
-                            error="Missing binder_id or chapter_id")
+        return IngestResult(binder_slug, chapter_slug, "UNKNOWN", error="Missing binder_id or chapter_id")
 
     verdict = _parse_verdict(chapter_dir) or "UNKNOWN"
     if verdict not in PASS_WARN:
@@ -258,8 +258,7 @@ def _ingest_chapter_dir(
 
     adapted = chapter_dir / "_system" / "source" / "text" / "adapted-extract.en.md"
     if not adapted.exists():
-        return IngestResult(binder_slug, chapter_slug, verdict,
-                            error="adapted-extract.en.md not found")
+        return IngestResult(binder_slug, chapter_slug, verdict, error="adapted-extract.en.md not found")
 
     topic_types, assignments = _load_topic_map()
     chunks = _chunk_text(adapted.read_text(encoding="utf-8"), topic_types, assignments)
@@ -269,9 +268,7 @@ def _ingest_chapter_dir(
 
     conn = get_connection()
     prefix = f"doctrine:wisdom:{binder_id}:{chapter_id}:%"
-    existing = conn.execute(
-        "SELECT COUNT(*) FROM atoms WHERE id LIKE ?", (prefix,)
-    ).fetchone()[0]
+    existing = conn.execute("SELECT COUNT(*) FROM atoms WHERE id LIKE ?", (prefix,)).fetchone()[0]
 
     if existing and not re_ingest:
         return IngestResult(binder_slug, chapter_slug, verdict, atoms_skipped=existing)
@@ -283,8 +280,7 @@ def _ingest_chapter_dir(
 
     row_id = f"wisdom:{binder_id}:{chapter_id}"
     conn.execute(
-        "INSERT OR IGNORE INTO corpus_chapters (id, corpus_id, number, title_en)"
-        " VALUES (?, 'wisdom', ?, ?)",
+        "INSERT OR IGNORE INTO corpus_chapters (id, corpus_id, number, title_en) VALUES (?, 'wisdom', ?, ?)",
         (row_id, chapter_id, bundle.get("chapter_name", chapter_slug)),
     )
     needs_review = 1 if verdict == "WARN" else 0
@@ -300,26 +296,37 @@ def _ingest_chapter_dir(
                last_ingested_at = strftime('%Y-%m-%dT%H:%M:%SZ', 'now'),
                correction_count = CASE WHEN ? THEN correction_count + 1 ELSE correction_count END
            WHERE id = ?""",
-        ("re_ingested" if re_ingest else "ingested",
-         verdict, binder_id, chapter_id, binder_slug, chapter_slug,
-         needs_review, re_ingest, row_id),
+        (
+            "re_ingested" if re_ingest else "ingested",
+            verdict,
+            binder_id,
+            chapter_id,
+            binder_slug,
+            chapter_slug,
+            needs_review,
+            re_ingest,
+            row_id,
+        ),
     )
 
     atoms_created = 0
     for chunk in chunks:
         atom_id = f"doctrine:wisdom:{binder_id}:{chapter_id}:{chunk['chunk_index']}"
-        body = json.dumps({
-            "tradition": WISDOM_TRADITION,
-            "binder_id": binder_id,
-            "binder_slug": binder_slug,
-            "chapter_id": chapter_id,
-            "chapter_slug": chapter_slug,
-            "section_ids": chunk["section_ids"],
-            "chunk_index": chunk["chunk_index"],
-            "topic_tags": chunk["topic_tags"],
-            "text_en": chunk["text_en"],
-            "quran_refs": chunk["quran_refs"],
-        }, ensure_ascii=False)
+        body = json.dumps(
+            {
+                "tradition": WISDOM_TRADITION,
+                "binder_id": binder_id,
+                "binder_slug": binder_slug,
+                "chapter_id": chapter_id,
+                "chapter_slug": chapter_slug,
+                "section_ids": chunk["section_ids"],
+                "chunk_index": chunk["chunk_index"],
+                "topic_tags": chunk["topic_tags"],
+                "text_en": chunk["text_en"],
+                "quran_refs": chunk["quran_refs"],
+            },
+            ensure_ascii=False,
+        )
         conn.execute(
             "INSERT OR REPLACE INTO atoms"
             " (id, type, body, tradition, first_seen_book, first_seen_chapter, confidence)"
@@ -336,9 +343,7 @@ def _ingest_chapter_dir(
     conn.commit()
 
     # Keep external_corpora.atom_count current
-    total = conn.execute(
-        "SELECT COUNT(*) FROM atoms WHERE type = 'doctrine'"
-    ).fetchone()[0]
+    total = conn.execute("SELECT COUNT(*) FROM atoms WHERE type = 'doctrine'").fetchone()[0]
     conn.execute(
         "UPDATE external_corpora"
         " SET atom_count = ?, last_synced = strftime('%Y-%m-%dT%H:%M:%SZ', 'now')"
@@ -362,8 +367,7 @@ def ingest_chapter(
         b = _parse_bundle(ch_dir)
         if b.get("binder_slug") == binder_slug and b.get("chapter_slug") == chapter_slug:
             return _ingest_chapter_dir(ch_dir, re_ingest=re_ingest, dry_run=dry_run)
-    return IngestResult(binder_slug, chapter_slug, "UNKNOWN",
-                        error=f"Chapter not found: {binder_slug}/{chapter_slug}")
+    return IngestResult(binder_slug, chapter_slug, "UNKNOWN", error=f"Chapter not found: {binder_slug}/{chapter_slug}")
 
 
 def ingest_all(
@@ -393,6 +397,7 @@ def ingest_all(
 # Status table
 # ---------------------------------------------------------------------------
 
+
 def print_status() -> None:
     """Print a table of all Kashkole chapters with ingestion status."""
     conn = get_connection()
@@ -412,9 +417,7 @@ def print_status() -> None:
         cid = b.get("chapter_id")
         if bid and cid:
             prefix = f"doctrine:wisdom:{bid}:{cid}:%"
-            atom_count = conn.execute(
-                "SELECT COUNT(*) FROM atoms WHERE id LIKE ?", (prefix,)
-            ).fetchone()[0]
+            atom_count = conn.execute("SELECT COUNT(*) FROM atoms WHERE id LIKE ?", (prefix,)).fetchone()[0]
             row = conn.execute(
                 "SELECT ingestion_status FROM corpus_chapters WHERE id = ?",
                 (f"wisdom:{bid}:{cid}",),
@@ -435,16 +438,15 @@ if __name__ == "__main__":
     run_migrations()
 
     parser = argparse.ArgumentParser(description="Kashkole corpus ingestion driver (B0)")
-    parser.add_argument("--status", action="store_true",
-                        help="Print ingestion status for all chapters")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Simulate without writing to the DB")
-    parser.add_argument("--chapter", metavar="BINDER/CHAPTER",
-                        help="Ingest a single chapter (format: binder_slug/chapter_slug)")
-    parser.add_argument("--re-ingest", action="store_true",
-                        help="Delete existing atoms and re-ingest from corrected extract")
-    parser.add_argument("--force", action="store_true",
-                        help="Override FAIL verdict (for manually cleared chapters)")
+    parser.add_argument("--status", action="store_true", help="Print ingestion status for all chapters")
+    parser.add_argument("--dry-run", action="store_true", help="Simulate without writing to the DB")
+    parser.add_argument(
+        "--chapter", metavar="BINDER/CHAPTER", help="Ingest a single chapter (format: binder_slug/chapter_slug)"
+    )
+    parser.add_argument(
+        "--re-ingest", action="store_true", help="Delete existing atoms and re-ingest from corrected extract"
+    )
+    parser.add_argument("--force", action="store_true", help="Override FAIL verdict (for manually cleared chapters)")
     args = parser.parse_args()
 
     if args.status:
@@ -452,17 +454,17 @@ if __name__ == "__main__":
     elif args.chapter:
         parts = args.chapter.split("/", 1)
         if len(parts) != 2:
-            print(f"ERROR: --chapter must be binder_slug/chapter_slug, got: {args.chapter}",
-                  file=sys.stderr)
+            print(f"ERROR: --chapter must be binder_slug/chapter_slug, got: {args.chapter}", file=sys.stderr)
             sys.exit(1)
-        r = ingest_chapter(parts[0], parts[1],
-                           re_ingest=args.re_ingest, dry_run=args.dry_run)
+        r = ingest_chapter(parts[0], parts[1], re_ingest=args.re_ingest, dry_run=args.dry_run)
         if r.error:
             print(f"ERROR: {r.error}", file=sys.stderr)
             sys.exit(1)
         flag = " (dry-run)" if args.dry_run else ""
-        print(f"{r.binder_slug}/{r.chapter_slug}: verdict={r.verdict}"
-              f" atoms_created={r.atoms_created} skipped={r.atoms_skipped}{flag}")
+        print(
+            f"{r.binder_slug}/{r.chapter_slug}: verdict={r.verdict}"
+            f" atoms_created={r.atoms_created} skipped={r.atoms_skipped}{flag}"
+        )
     else:
         summary = ingest_all(dry_run=args.dry_run)
         flag = " (dry-run)" if args.dry_run else ""

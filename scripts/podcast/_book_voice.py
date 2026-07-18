@@ -19,6 +19,7 @@ A chapter that fails any gate is REVERTED to its faithful base text — a re-voi
 is never allowed to regress fidelity. The single LLM call is isolated in
 ``_revoice_chapter`` so the gate + revert logic is unit-testable.
 """
+
 from __future__ import annotations
 
 import json
@@ -34,9 +35,7 @@ from _literary import teaching_loss_findings
 _VOICE_TIMEOUT = 900
 _CHAPTER_HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 # Editorial asides (from 0book-augment) are NOT re-voiced — skip these spans.
-_EDITORIAL_SPAN_RE = re.compile(
-    r"<!-- editorial:begin -->.*?<!-- editorial:end -->\n?", re.DOTALL
-)
+_EDITORIAL_SPAN_RE = re.compile(r"<!-- editorial:begin -->.*?<!-- editorial:end -->\n?", re.DOTALL)
 
 
 def _voice_prompt(title: str, base_text: str) -> str:
@@ -63,8 +62,12 @@ CHAPTER "{title}"
 def _revoice_chapter(title: str, base_text: str, book_dir: Path, label: str, log) -> str:
     """Isolated LLM call (monkeypatched in tests). Returns re-voiced prose or ''."""
     rc, out, err = _run_claude_p_with_retry(
-        _voice_prompt(title, base_text), timeout=_VOICE_TIMEOUT, book_dir=book_dir,
-        phase="0book-voice", step=label, log=log,
+        _voice_prompt(title, base_text),
+        timeout=_VOICE_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-voice",
+        step=label,
+        log=log,
     )
     if rc != 0:
         raise AuthoringError(
@@ -83,23 +86,14 @@ def revoice_gates(base_text: str, revoiced: str) -> list[str]:
     # Anti-abridgement: a re-voice must be about the same length, never a summary.
     base_words = len(base_text.split())
     if base_words >= 8 and len(revoiced.split()) < 0.6 * base_words:
-        findings.append(
-            f"abridged re-voice ({len(revoiced.split())}<{round(0.6 * base_words)} words)"
-        )
+        findings.append(f"abridged re-voice ({len(revoiced.split())}<{round(0.6 * base_words)} words)")
     findings.extend(teaching_loss_findings(base_text, revoiced))
     if _arabic_run_count(revoiced) < _arabic_run_count(base_text):
-        findings.append(
-            f"Arabic runs dropped ({_arabic_run_count(revoiced)}<{_arabic_run_count(base_text)})"
-        )
+        findings.append(f"Arabic runs dropped ({_arabic_run_count(revoiced)}<{_arabic_run_count(base_text)})")
     base_p0 = {f.signature for f in run_doctrinal_checks(base_text) if f.severity == "P0"}
-    new_p0 = [
-        f for f in run_doctrinal_checks(revoiced)
-        if f.severity == "P0" and f.signature not in base_p0
-    ]
+    new_p0 = [f for f in run_doctrinal_checks(revoiced) if f.severity == "P0" and f.signature not in base_p0]
     if new_p0:
-        findings.append(
-            "new doctrinal P0: " + "; ".join(f"{f.check_id}:{f.signature}" for f in new_p0[:3])
-        )
+        findings.append("new doctrinal P0: " + "; ".join(f"{f.check_id}:{f.signature}" for f in new_p0[:3]))
     return findings
 
 
@@ -125,8 +119,12 @@ CHAPTER "{title}"
 def _fluency_chapter(title: str, base_text: str, book_dir: Path, label: str, log) -> str:
     """Isolated LLM call (monkeypatched in tests). Returns polished prose or ''."""
     rc, out, err = _run_claude_p_with_retry(
-        _fluency_prompt(title, base_text), timeout=_VOICE_TIMEOUT, book_dir=book_dir,
-        phase="0book-fluency", step=label, log=log,
+        _fluency_prompt(title, base_text),
+        timeout=_VOICE_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-fluency",
+        step=label,
+        log=log,
     )
     if rc != 0:
         raise AuthoringError(
@@ -138,7 +136,10 @@ def _fluency_chapter(title: str, base_text: str, book_dir: Path, label: str, log
 
 
 def apply_fluency_adapt(
-    book_dir: Path, *, log=print, force: bool = False,
+    book_dir: Path,
+    *,
+    log=print,
+    force: bool = False,
     adapter: Callable[..., str] | None = None,
 ) -> Path:
     """De-calque each chapter of the FAITHFUL base into fluent modern English.
@@ -169,10 +170,10 @@ def apply_fluency_adapt(
         asides = _EDITORIAL_SPAN_RE.findall(body)
         base_prose = _EDITORIAL_SPAN_RE.sub("", body).strip()
         try:
-            candidate = fn(title, base_prose, book_dir, f"fluency-{i//2+1:02d}", log)
+            candidate = fn(title, base_prose, book_dir, f"fluency-{i // 2 + 1:02d}", log)
         except AuthoringError:
             raise
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             log(f"      fluency: {title!r} skipped (non-fatal): {e}")
             candidate = ""
         gate = revoice_gates(base_prose, candidate) if candidate else ["no candidate"]
@@ -189,8 +190,7 @@ def apply_fluency_adapt(
     new_text = (out[0].rstrip() + "\n\n" + "\n".join(out[1:])).strip() + "\n" if len(out) > 1 else text
     book_md.write_text(new_text, encoding="utf-8")
     (book_dir / "_system" / "book-fluency-report.json").write_text(
-        json.dumps({"schema": "podcast.book-fluency/v1", "adapted": adapted, "reverted": reverted},
-                   indent=2) + "\n",
+        json.dumps({"schema": "podcast.book-fluency/v1", "adapted": adapted, "reverted": reverted}, indent=2) + "\n",
         encoding="utf-8",
     )
     log(f"    0book-fluency: {adapted} chapters de-calqued, {reverted} reverted to base")
@@ -198,7 +198,10 @@ def apply_fluency_adapt(
 
 
 def apply_author_companion_voice(
-    book_dir: Path, *, log=print, force: bool = False,
+    book_dir: Path,
+    *,
+    log=print,
+    force: bool = False,
     revoicer: Callable[..., str] | None = None,
 ) -> Path:
     """Re-voice each chapter of ``book/book.md`` into author-companion register.
@@ -227,10 +230,10 @@ def apply_author_companion_voice(
         asides = _EDITORIAL_SPAN_RE.findall(body)
         base_prose = _EDITORIAL_SPAN_RE.sub("", body).strip()
         try:
-            candidate = fn(title, base_prose, book_dir, f"voice-{i//2+1:02d}", log)
+            candidate = fn(title, base_prose, book_dir, f"voice-{i // 2 + 1:02d}", log)
         except AuthoringError:
             raise
-        except Exception as e:  # noqa: BLE001 — one bad chapter reverts, never aborts
+        except Exception as e:
             log(f"      voice: {title!r} re-voice skipped (non-fatal): {e}")
             candidate = ""
         gate = revoice_gates(base_prose, candidate) if candidate else ["no candidate"]
@@ -247,11 +250,15 @@ def apply_author_companion_voice(
     new_text = (out[0].rstrip() + "\n\n" + "\n".join(out[1:])).strip() + "\n" if len(out) > 1 else text
     book_md.write_text(new_text, encoding="utf-8")
     (book_dir / "_system" / "book-voice-report.json").write_text(
-        json.dumps({
-            "schema": "podcast.book-voice/v1",
-            "revoiced": revoiced,
-            "reverted": reverted,
-        }, indent=2) + "\n",
+        json.dumps(
+            {
+                "schema": "podcast.book-voice/v1",
+                "revoiced": revoiced,
+                "reverted": reverted,
+            },
+            indent=2,
+        )
+        + "\n",
         encoding="utf-8",
     )
     log(f"    0book-voice: {revoiced} chapters re-voiced, {reverted} reverted to base")

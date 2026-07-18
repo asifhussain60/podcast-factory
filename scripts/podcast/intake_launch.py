@@ -9,6 +9,7 @@ and returns the resolved slug + branch + the launch argv. It does NOT spawn the
 orchestrator — the endpoint does that DETACHED, and the user's confirm IS the
 Tier-2 spend gate. Keeping prep separate makes it fully unit-testable with no LLM.
 """
+
 from __future__ import annotations
 
 import json
@@ -18,15 +19,16 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import _paths  # noqa: E402
-import _work_manifest as wm  # noqa: E402
-import intake_staging as staging  # noqa: E402
-from _rules import bucket_for_profile  # noqa: E402
+import _paths
+import _work_manifest as wm
+import intake_staging as staging
+from _rules import bucket_for_profile
 
 try:
     import yaml
 except Exception as exc:  # pragma: no cover
     raise ImportError("intake_launch requires PyYAML") from exc
+
 
 def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -76,15 +78,21 @@ def prepare_launch(
     # Multi-volume: upsert this volume into the parent work.yml.
     if is_work:
         manifest = wm.read_manifest(work_dir) or {
-            "work_slug": work_slug, "title": title,
-            "content_profile": profile, "bucket": bucket, "volumes": [],
+            "work_slug": work_slug,
+            "title": title,
+            "content_profile": profile,
+            "bucket": bucket,
+            "volumes": [],
         }
         rel_sources = [{"path": f"{vol_dir_name}/_source/{s['path']}", "role": s["role"]} for s in sources]
         entry = {
-            "order": volume, "slug": composite, "dir": vol_dir_name,
+            "order": volume,
+            "slug": composite,
+            "dir": vol_dir_name,
             "title": settings.get("volume_title") or f"Volume {volume}",
             "source_pdf": (f"{vol_dir_name}/_source/{primary['path']}" if primary else None),
-            "sources": rel_sources, "status": "draft",
+            "sources": rel_sources,
+            "status": "draft",
         }
         others = [v for v in manifest.get("volumes", []) if v.get("dir") != vol_dir_name]
         manifest["volumes"] = sorted(others + [entry], key=lambda v: v.get("order", 0))
@@ -95,21 +103,25 @@ def prepare_launch(
 
     launch = _launch_argv(is_work, work_slug, resolved_slug, primary, book_dir)
     return {
-        "slug": resolved_slug, "branch": branch, "is_work": is_work,
+        "slug": resolved_slug,
+        "branch": branch,
+        "is_work": is_work,
         "target": _paths.relative_to_repo(book_dir),
-        "sources": sources, "launch": launch,
+        "sources": sources,
+        "launch": launch,
     }
 
 
 def _branch_for(resolved_slug: str, work_slug: str | None, profile: str) -> str:
     from _branching import branch_for_work
+
     return branch_for_work(work_slug or resolved_slug, profile=profile)
 
 
-def _write_series_config(book_dir: Path, slug: str, title: str,
-                         settings: dict[str, Any], volume: int | None) -> None:
+def _write_series_config(book_dir: Path, slug: str, title: str, settings: dict[str, Any], volume: int | None) -> None:
     from _rules import (
-        audio_engine_default_for_profile, default_voice_cast_for_profile,
+        audio_engine_default_for_profile,
+        default_voice_cast_for_profile,
     )
 
     profile = settings.get("content_profile") or "islamic_scholarly"
@@ -117,8 +129,7 @@ def _write_series_config(book_dir: Path, slug: str, title: str,
     # Audio engine: explicit operator choice (from the voice/engine picker) wins;
     # otherwise the per-profile NEW-book default (islamic_scholarly -> notebooklm,
     # locked 2026-06-13; ElevenLabs is quarantined/dormant — chosen only explicitly).
-    audio_engine = (settings.get("audio_engine")
-                    or audio_engine_default_for_profile(profile))
+    audio_engine = settings.get("audio_engine") or audio_engine_default_for_profile(profile)
     cfg: dict[str, Any] = {
         "slug": slug,
         "title": title,
@@ -158,15 +169,21 @@ def _write_series_config(book_dir: Path, slug: str, title: str,
     )
 
 
-def _write_state(book_dir: Path, slug: str, work_slug: str | None, volume: int | None,
-                profile: str, primary: dict | None, branch: str) -> None:
+def _write_state(
+    book_dir: Path,
+    slug: str,
+    work_slug: str | None,
+    volume: int | None,
+    profile: str,
+    primary: dict | None,
+    branch: str,
+) -> None:
     state = {
         "schema_version": 1,
         "book_slug": slug,
         "work_slug": work_slug,
         "volume": volume,
-        "source_path": (f"{_paths.relative_to_repo(book_dir)}/_source/{primary['path']}"
-                        if primary else None),
+        "source_path": (f"{_paths.relative_to_repo(book_dir)}/_source/{primary['path']}" if primary else None),
         "source_kind": "intake-upload",
         "phase": "preflight",
         "phase_status": "pending",
@@ -180,13 +197,12 @@ def _write_state(book_dir: Path, slug: str, work_slug: str | None, volume: int |
         "phases": {},
         "intake_via": "intake cockpit (Screen 4)",
     }
-    (book_dir / "_system" / "orchestrator-state.json").write_text(
-        json.dumps(state, indent=2) + "\n", encoding="utf-8"
-    )
+    (book_dir / "_system" / "orchestrator-state.json").write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
 
 
-def _launch_argv(is_work: bool, work_slug: str | None, slug: str,
-                primary: dict | None, book_dir: Path) -> dict[str, Any]:
+def _launch_argv(
+    is_work: bool, work_slug: str | None, slug: str, primary: dict | None, book_dir: Path
+) -> dict[str, Any]:
     """The command the endpoint spawns DETACHED. Work → sequencer; single → orchestrator."""
     if is_work:
         return {"script": "orchestrate_work.py", "args": [work_slug]}

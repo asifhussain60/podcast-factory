@@ -42,23 +42,84 @@ WORD_RE = re.compile(r"[A-Za-z][A-Za-z'\-]+")
 SENTENCE_RE = re.compile(r"[^.!?\n]+[.!?]")
 PROPER_NOUN_RE = re.compile(r"\b([A-Z][a-z]{2,}(?:[ -][A-Z][a-z]{2,})*)\b")
 STOP_PROPER = {
-    "The", "A", "An", "In", "Of", "And", "Or", "If", "He", "She", "It",
-    "They", "We", "You", "I", "His", "Her", "Their", "Our", "My", "Your",
-    "This", "That", "These", "Those", "Then", "When", "Where", "What",
-    "Who", "Why", "How", "But", "So", "For", "Yet", "Now", "There", "Here",
-    "On", "At", "By", "To", "Be", "Is", "Was", "Are", "Were", "Have", "Has",
-    "Had", "Do", "Does", "Did", "Can", "Could", "Will", "Would", "Should",
-    "May", "Might", "Must", "Chapter", "Book", "Hello", "Welcome", "Today",
-    "Right", "Yeah", "Like", "OK", "Okay",
+    "The",
+    "A",
+    "An",
+    "In",
+    "Of",
+    "And",
+    "Or",
+    "If",
+    "He",
+    "She",
+    "It",
+    "They",
+    "We",
+    "You",
+    "I",
+    "His",
+    "Her",
+    "Their",
+    "Our",
+    "My",
+    "Your",
+    "This",
+    "That",
+    "These",
+    "Those",
+    "Then",
+    "When",
+    "Where",
+    "What",
+    "Who",
+    "Why",
+    "How",
+    "But",
+    "So",
+    "For",
+    "Yet",
+    "Now",
+    "There",
+    "Here",
+    "On",
+    "At",
+    "By",
+    "To",
+    "Be",
+    "Is",
+    "Was",
+    "Are",
+    "Were",
+    "Have",
+    "Has",
+    "Had",
+    "Do",
+    "Does",
+    "Did",
+    "Can",
+    "Could",
+    "Will",
+    "Would",
+    "Should",
+    "May",
+    "Might",
+    "Must",
+    "Chapter",
+    "Book",
+    "Hello",
+    "Welcome",
+    "Today",
+    "Right",
+    "Yeah",
+    "Like",
+    "OK",
+    "Okay",
 }
 
 
 def proper_nouns(text: str) -> Counter:
     """Capitalized multi-word phrases at ≥3 chars, excluding stop list."""
-    return Counter(
-        m for m in PROPER_NOUN_RE.findall(text)
-        if m.split()[0] not in STOP_PROPER
-    )
+    return Counter(m for m in PROPER_NOUN_RE.findall(text) if m.split()[0] not in STOP_PROPER)
 
 
 def word_count(text: str) -> int:
@@ -151,14 +212,20 @@ def main() -> int:
     lines = []
     lines.append(f"# A/B reference comparison — {args.episode}")
     lines.append("")
-    lines.append("**Purpose:** compare our generated framing + notebooklm bundle against the prior NotebookLM episode the user generated independently. Topical coverage check, not a semantic-equivalence test.")
+    lines.append(
+        "**Purpose:** compare our generated framing + notebooklm bundle against the prior NotebookLM episode the user generated independently. Topical coverage check, not a semantic-equivalence test."
+    )
     lines.append("")
     lines.append("## Files compared")
     lines.append("")
-    lines.append(f"- **Reference transcript:** `{ref_path.relative_to(book_dir) if ref_path.is_relative_to(book_dir) else ref_path}`")
+    lines.append(
+        f"- **Reference transcript:** `{ref_path.relative_to(book_dir) if ref_path.is_relative_to(book_dir) else ref_path}`"
+    )
     lines.append(f"- **Our framing:** `{framing_path.relative_to(book_dir)}`")
     if bundle_paths:
-        lines.append(f"- **Our notebooklm bundle:** {len(bundle_paths)} files at `{bundle_paths[0].parent.relative_to(book_dir)}/`")
+        lines.append(
+            f"- **Our notebooklm bundle:** {len(bundle_paths)} files at `{bundle_paths[0].parent.relative_to(book_dir)}/`"
+        )
     lines.append("")
     lines.append("## Headline numbers")
     lines.append("")
@@ -208,14 +275,24 @@ def main() -> int:
     lines.append("")
     lines.append("## Author action checklist")
     lines.append("")
-    lines.append("- [ ] Review each **missing** term above — is it a real topical gap, or just spelling drift (e.g. reference says 'Hujjah', we say 'Hujjah' but with different transliteration)?")
-    lines.append("- [ ] Review **curator addition** terms — are they intentional enrichment from the chapter source, or out-of-scope topics? Cross-check against `chapter-contracts/<slug>.yml` key_tensions.")
-    lines.append("- [ ] If the our-total/reference ratio is < 0.6× — our framing may be under-developed relative to the reference. Consider whether the contract length_target is right.")
-    lines.append("- [ ] If the ratio is > 2.0× — our framing may be over-developed. Trim or move enrichment to a separate Customize-prompt layer.")
+    lines.append(
+        "- [ ] Review each **missing** term above — is it a real topical gap, or just spelling drift (e.g. reference says 'Hujjah', we say 'Hujjah' but with different transliteration)?"
+    )
+    lines.append(
+        "- [ ] Review **curator addition** terms — are they intentional enrichment from the chapter source, or out-of-scope topics? Cross-check against `chapter-contracts/<slug>.yml` key_tensions."
+    )
+    lines.append(
+        "- [ ] If the our-total/reference ratio is < 0.6× — our framing may be under-developed relative to the reference. Consider whether the contract length_target is right."
+    )
+    lines.append(
+        "- [ ] If the ratio is > 2.0× — our framing may be over-developed. Trim or move enrichment to a separate Customize-prompt layer."
+    )
     lines.append("")
     lines.append("---")
     lines.append("")
-    lines.append("_Generated by `scripts/podcast/ab_compare_episode.py`. Re-run after each framing iteration to track convergence._")
+    lines.append(
+        "_Generated by `scripts/podcast/ab_compare_episode.py`. Re-run after each framing iteration to track convergence._"
+    )
 
     out_path.write_text("\n".join(lines), encoding="utf-8")
     print(f"wrote {out_path.relative_to(book_dir)}", file=sys.stderr)

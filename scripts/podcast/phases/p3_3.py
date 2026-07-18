@@ -1,10 +1,12 @@
 """P3.3 phase runner — augmentation phase readiness."""
+
 from __future__ import annotations
 
 from pathlib import Path
 
 from ._base import PhaseResult
-from ._dor_halt import DoR, build_halted_result, is_done as detect_done
+from ._dor_halt import DoR, build_halted_result
+from ._dor_halt import is_done as detect_done
 
 PHASE_ID = "P3.3"
 DESCRIPTION = "augmentation phase complete with verification and cache"
@@ -16,15 +18,9 @@ DETECT_FILES = (
 )
 DETECT_MARKERS = ("verify_url", "verify_doi", "--offline")
 DOR = DoR(
-    blockers=(
-        "Augmentation phase and citation verification module are not yet fully landed.",
-    ),
-    assumptions=(
-        "Live verification path uses URL HEAD + Crossref DOI lookups with cache.",
-    ),
-    ambiguities=(
-        "Network indeterminate outcomes should queue manual review, not fail the phase.",
-    ),
+    blockers=("Augmentation phase and citation verification module are not yet fully landed.",),
+    assumptions=("Live verification path uses URL HEAD + Crossref DOI lookups with cache.",),
+    ambiguities=("Network indeterminate outcomes should queue manual review, not fail the phase.",),
     operator_action=(
         "Implement augmentation phase and citation verification module with cache + offline mode "
         "and wire to manual review for indeterminate checks."

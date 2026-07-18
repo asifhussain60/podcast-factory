@@ -53,6 +53,7 @@ TTS_OUTPUT_FORMAT = "audio-24khz-96kbitrate-mono-mp3"
 
 # ── Credential helper ─────────────────────────────────────────────────────────
 
+
 def get_azure_speech_key() -> str:
     """Fetch Azure Speech key — env var wins, falls back to az CLI."""
     key = os.environ.get("AZURE_SPEECH_KEY", "").strip()
@@ -61,18 +62,29 @@ def get_azure_speech_key() -> str:
     print("  Fetching Azure Speech key via az CLI...")
     result = subprocess.run(
         [
-            "az", "cognitiveservices", "account", "keys", "list",
-            "--name", "journal-speech",
-            "--resource-group", "rg-journal-ai",
-            "--query", "key1",
-            "-o", "tsv",
+            "az",
+            "cognitiveservices",
+            "account",
+            "keys",
+            "list",
+            "--name",
+            "journal-speech",
+            "--resource-group",
+            "rg-journal-ai",
+            "--query",
+            "key1",
+            "-o",
+            "tsv",
         ],
-        capture_output=True, text=True, check=True,
+        capture_output=True,
+        text=True,
+        check=True,
     )
     return result.stdout.strip()
 
 
 # ── TTS ───────────────────────────────────────────────────────────────────────
+
 
 def _build_ssml(text: str, voice: str) -> bytes:
     escaped = saxutils.escape(text)
@@ -88,7 +100,8 @@ def _build_ssml(text: str, voice: str) -> bytes:
 
 def synthesize_utterance(text: str, voice: str, key: str, retries: int = 3) -> bytes:
     """Call Azure TTS REST API and return mp3 bytes. Retries on transient errors."""
-    from _engine import engine_guard, TASK_TTS, ENGINE_AZURE
+    from _engine import ENGINE_AZURE, TASK_TTS, engine_guard
+
     engine_guard(TASK_TTS, ENGINE_AZURE)
     for attempt in range(1, retries + 1):
         try:
@@ -108,15 +121,16 @@ def synthesize_utterance(text: str, voice: str, key: str, retries: int = 3) -> b
             if attempt == retries:
                 raise
             print(f"    HTTP {e.code} — retrying ({attempt}/{retries})...", file=sys.stderr)
-            time.sleep(2 ** attempt)
+            time.sleep(2**attempt)
         except Exception as e:
             if attempt == retries:
                 raise
             print(f"    Error: {e} — retrying ({attempt}/{retries})...", file=sys.stderr)
-            time.sleep(2 ** attempt)
+            time.sleep(2**attempt)
 
 
 # ── Script generation ─────────────────────────────────────────────────────────
+
 
 def generate_conversation_script(
     chapter_text: str,
@@ -195,6 +209,7 @@ Return ONLY a valid JSON array. No markdown, no explanation, no text outside the
 
 # ── Audio concatenation ───────────────────────────────────────────────────────
 
+
 def concat_clips(clip_paths: list[Path], output: Path) -> None:
     """Concatenate mp3 clips using ffmpeg."""
     list_content = "\n".join(f"file '{p}'" for p in clip_paths) + "\n"
@@ -203,10 +218,16 @@ def concat_clips(clip_paths: list[Path], output: Path) -> None:
     try:
         subprocess.run(
             [
-                "ffmpeg", "-y",
-                "-f", "concat", "-safe", "0",
-                "-i", str(list_file),
-                "-c", "copy",
+                "ffmpeg",
+                "-y",
+                "-f",
+                "concat",
+                "-safe",
+                "0",
+                "-i",
+                str(list_file),
+                "-c",
+                "copy",
                 str(output),
             ],
             check=True,
@@ -218,14 +239,19 @@ def concat_clips(clip_paths: list[Path], output: Path) -> None:
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("book_dir", type=Path, help="e.g. content/drafts/sites/healthequity")
     parser.add_argument("episode_id", help="e.g. EP01-hsa")
     parser.add_argument("chapter_md", type=Path, help="Path to the chapter .md file")
     parser.add_argument("--minutes", type=int, default=12, help="Target runtime in minutes (default: 12)")
-    parser.add_argument("--use-script", type=Path, default=None,
-                        help="Skip Claude generation and load an existing JSON script file instead")
+    parser.add_argument(
+        "--use-script",
+        type=Path,
+        default=None,
+        help="Skip Claude generation and load an existing JSON script file instead",
+    )
     args = parser.parse_args()
 
     book_dir: Path = args.book_dir.resolve()
@@ -251,9 +277,9 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     # ── Step 1: Generate or load conversation script ──────────────────────────
-    print(f"\n{'─'*60}")
+    print(f"\n{'─' * 60}")
     print(f"Episode: {args.episode_id}  |  Target: {args.minutes} min")
-    print(f"{'─'*60}")
+    print(f"{'─' * 60}")
 
     script_path = out_dir / f"{args.episode_id}-script.json"
 
@@ -270,7 +296,7 @@ def main() -> None:
     print(f"  {len(script)} utterances / ~{total_words:,} words")
 
     # ── Step 2: Render via Azure TTS ──────────────────────────────────────────
-    print(f"\nFetching Azure Speech credentials...")
+    print("\nFetching Azure Speech credentials...")
     key = get_azure_speech_key()
     print(f"  Voices: A={VOICE_A}  B={VOICE_B}")
     print(f"\nRendering {len(script)} utterances via Azure Neural TTS...")
@@ -286,7 +312,7 @@ def main() -> None:
                 continue
             voice = VOICE_A if speaker == "A" else VOICE_B
             preview = text[:70].replace("\n", " ")
-            print(f"  [{i+1:03d}/{len(script)}] Host {speaker}: {preview}...")
+            print(f"  [{i + 1:03d}/{len(script)}] Host {speaker}: {preview}...")
 
             audio = synthesize_utterance(text, voice, key)
             clip = tmp / f"{i:04d}.mp3"
@@ -307,13 +333,13 @@ def main() -> None:
 
     size_mb = out_audio.stat().st_size / (1024 * 1024)
     est_min = size_mb * 8 / (96 / 8 * 60 / 1024)  # 96kbps mp3
-    print(f"\n{'─'*60}")
+    print(f"\n{'─' * 60}")
     print(f"  Output : {out_audio}")
     print(f"  Size   : {size_mb:.1f} MB")
     print(f"  Est.   : ~{est_min:.0f} min at 96 kbps")
     print(f"  Script : {script_path}")
     print(f"\n  Play   : open '{out_audio}'")
-    print(f"{'─'*60}\n")
+    print(f"{'─' * 60}\n")
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _book_render_checks import (  # noqa: E402
+from _book_render_checks import (
     run_all_scans,
     scan_blank_and_halfempty,
     scan_duplicate_captions,
@@ -23,7 +23,7 @@ def test_watermark_flagged() -> None:
 
 def test_watermark_spacing_variants() -> None:
     assert scan_watermark(["Notebook LM"])  # spaced variant caught
-    assert scan_watermark(["notebooklm"])   # lowercase caught
+    assert scan_watermark(["notebooklm"])  # lowercase caught
 
 
 def test_duplicate_caption_flagged() -> None:

@@ -6,11 +6,10 @@ scratch JSONL. Librarian (step 2) deduplicates.
 
 Authority: architecture.md §Intelligence Layer; plan.md Wave B, B1.
 """
+
 from __future__ import annotations
 
 import json
-import os
-import subprocess
 import sys
 import urllib.request
 from dataclasses import dataclass, field
@@ -20,18 +19,18 @@ from typing import Callable
 # ── local imports (scripts/podcast is on sys.path when run via orchestrator) ──
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+import _db
+from _rules import (
+    R_KNOWLEDGE_EXTRACTOR_CONFIDENCE_THRESHOLD,
+    R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_BOOK,
+    R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_CHAPTER,
+)
 from knowledge._atom_schemas import (
-    quran_canonical_id,
     hadith_canonical_id,
     quote_canonical_id,
+    quran_canonical_id,
     validate_atom,
 )
-from _rules import (
-    R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_CHAPTER,
-    R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_BOOK,
-    R_KNOWLEDGE_EXTRACTOR_CONFIDENCE_THRESHOLD,
-)
-import _db
 
 SCRATCH_FILENAME = "knowledge-atoms-scratch.jsonl"
 _GEMINI_MODEL = "gemini-2.5-flash"
@@ -43,6 +42,7 @@ LLMCaller = Callable[[str], tuple[int, str, str]]
 
 
 # ─── public result types ──────────────────────────────────────────────────────
+
 
 @dataclass
 class ChapterExtractionResult:
@@ -58,7 +58,7 @@ class ExtractionSummary:
     book_slug: str
     scratch_path: Path
     chapters_processed: int = 0
-    atoms_extracted: dict[str, int] = field(default_factory=dict)   # type → count
+    atoms_extracted: dict[str, int] = field(default_factory=dict)  # type → count
     needs_review_count: int = 0
     total_cost_usd: float = 0.0
     errors: list[str] = field(default_factory=list)
@@ -97,27 +97,27 @@ CHAPTER TEXT:
 def _load_gemini_key() -> str:
     # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
     from _secrets import get_gemini_key
-    return get_gemini_key()
 
+    return get_gemini_key()
 
 
 def _default_llm_caller(prompt: str) -> tuple[int, str, str]:
     """Call Gemini and return (rc, stdout, cost_str). Mirrors gemini_refine.py exactly."""
-    system = (
-        "You are a scholarly citation extractor for Islamic texts. "
-        "Return only valid JSON as instructed."
-    )
+    system = "You are a scholarly citation extractor for Islamic texts. Return only valid JSON as instructed."
     url = (
         f"https://generativelanguage.googleapis.com/v1beta/models/"
         f"{_GEMINI_MODEL}:generateContent?key={_load_gemini_key()}"
     )
-    body = json.dumps({
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"temperature": 0.1, "maxOutputTokens": 8192},
-    }).encode()
+    body = json.dumps(
+        {
+            "system_instruction": {"parts": [{"text": system}]},
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {"temperature": 0.1, "maxOutputTokens": 8192},
+        }
+    ).encode()
     req = urllib.request.Request(
-        url, data=body,
+        url,
+        data=body,
         headers={"Content-Type": "application/json"},
         method="POST",
     )
@@ -127,11 +127,12 @@ def _default_llm_caller(prompt: str) -> tuple[int, str, str]:
         text = d["candidates"][0]["content"]["parts"][0]["text"]
         cost_usd = round(len(prompt) / 4 * _PRICE["in"] + len(text) / 4 * _PRICE["out"], 5)
         return 0, text, str(cost_usd)
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         return 1, "", str(exc)
 
 
 # ─── atom builder helpers ─────────────────────────────────────────────────────
+
 
 def _book_tradition(book_dir: Path) -> str:
     """Read tradition_affinity from meta.yml, default 'universal'."""
@@ -140,14 +141,14 @@ def _book_tradition(book_dir: Path) -> str:
         return "universal"
     try:
         import yaml  # type: ignore[import]
+
         meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
         return str(meta.get("tradition_affinity", "universal"))
-    except Exception:  # noqa: BLE001
+    except Exception:
         return "universal"
 
 
-def _build_atom(raw: dict, book_slug: str, chapter_slug: str,
-                tradition: str = "universal") -> dict | None:
+def _build_atom(raw: dict, book_slug: str, chapter_slug: str, tradition: str = "universal") -> dict | None:
     """Convert raw LLM output to a validated Atom dict. Returns None on failure."""
     atom_type = raw.get("type")
     try:
@@ -202,6 +203,7 @@ def _build_atom(raw: dict, book_slug: str, chapter_slug: str,
 
 # ─── per-chapter extraction ───────────────────────────────────────────────────
 
+
 def extract_chapter(
     chapter_slug: str,
     chapter_text: str,
@@ -214,7 +216,7 @@ def extract_chapter(
     prompt = _EXTRACTION_PROMPT_TMPL.format(
         chapter_slug=chapter_slug,
         book_slug=book_slug,
-        chapter_text=chapter_text[:8000],   # guard context window
+        chapter_text=chapter_text[:8000],  # guard context window
     )
     rc, stdout, cost_str = caller(prompt)
     result = ChapterExtractionResult(chapter_slug=chapter_slug)
@@ -231,10 +233,7 @@ def extract_chapter(
     raw_text = stdout.strip()
     # Strip markdown code fences if present
     if raw_text.startswith("```"):
-        raw_text = "\n".join(
-            line for line in raw_text.splitlines()
-            if not line.startswith("```")
-        ).strip()
+        raw_text = "\n".join(line for line in raw_text.splitlines() if not line.startswith("```")).strip()
     try:
         payload = json.loads(raw_text)
     except json.JSONDecodeError as exc:
@@ -253,6 +252,7 @@ def extract_chapter(
 
 
 # ─── per-book orchestration ───────────────────────────────────────────────────
+
 
 def extract_atoms_for_book(
     book_dir: Path,
@@ -276,7 +276,9 @@ def extract_atoms_for_book(
             chapter_text = ch_path.read_text(encoding="utf-8")
 
             ch_result = extract_chapter(
-                chapter_slug, chapter_text, book_slug,
+                chapter_slug,
+                chapter_text,
+                book_slug,
                 llm_caller=llm_caller,
             )
             summary.chapters_processed += 1
@@ -299,9 +301,7 @@ def extract_atoms_for_book(
                     atom["tradition"] = tradition
                 fh.write(json.dumps(atom, ensure_ascii=False) + "\n")
                 atom_type = atom.get("type", "unknown")
-                summary.atoms_extracted[atom_type] = (
-                    summary.atoms_extracted.get(atom_type, 0) + 1
-                )
+                summary.atoms_extracted[atom_type] = summary.atoms_extracted.get(atom_type, 0) + 1
 
             if summary.total_cost_usd > R_KNOWLEDGE_EXTRACTOR_COST_CAP_USD_PER_BOOK:
                 summary.errors.append(
@@ -347,6 +347,7 @@ def _flush_needs_review_to_db(scratch_path: Path, book_slug: str) -> None:
 
 def main() -> int:
     import argparse
+
     parser = argparse.ArgumentParser(description="Extract atoms from book chapters.")
     parser.add_argument("book_dir", help="Path to content/drafts/<slug>/")
     args = parser.parse_args()

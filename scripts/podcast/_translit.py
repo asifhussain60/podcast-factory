@@ -20,6 +20,7 @@ Rules:
 TypeScript mirror: plan-dashboard/src/lib/translit.ts — keep the two in sync
 (see CLAUDE.md "TS↔Python mirror files").
 """
+
 from __future__ import annotations
 
 import unicodedata
@@ -52,10 +53,10 @@ def simplify_transliteration(text: str) -> str:
             continue
         nfd = unicodedata.normalize("NFD", c)
         if len(nfd) > 1 and "LATIN" in unicodedata.name(nfd[0], ""):
-            out.append(nfd[0])           # precomposed Latin (ā, ḥ, …) → base letter
+            out.append(nfd[0])  # precomposed Latin (ā, ḥ, …) → base letter
             last_base_latin = True
         else:
-            out.append(c)                # Arabic, ASCII, punctuation → unchanged
+            out.append(c)  # Arabic, ASCII, punctuation → unchanged
             last_base_latin = "LATIN" in unicodedata.name(c, "")
     folded = "".join(out)
 

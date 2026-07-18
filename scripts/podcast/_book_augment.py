@@ -19,6 +19,7 @@ semantic backstop run separately over the whole book.
 The single LLM call is isolated in ``_generate_enrichment`` so the deterministic
 gate + insertion logic is unit-testable with an injected generator.
 """
+
 from __future__ import annotations
 
 import json
@@ -117,9 +118,7 @@ def gate_editorial_block(text: str) -> tuple[bool, list[str]]:
     doctrinal = run_doctrinal_checks(body)
     p0 = [f for f in doctrinal if f.severity == "P0"]
     if p0:
-        reasons.append(
-            "doctrinal P0: " + "; ".join(f"{f.check_id}:{f.signature}" for f in p0[:3])
-        )
+        reasons.append("doctrinal P0: " + "; ".join(f"{f.check_id}:{f.signature}" for f in p0[:3]))
     # An aside must ADD context, not refuse / meta-comment / re-title.
     if re.search(r"\b(as an ai|i cannot|here is the|editorial note)\b", body, re.I):
         reasons.append("contains meta-commentary or self-reference")
@@ -151,7 +150,7 @@ def _load_kb_atoms(limit: int = 40) -> list[dict[str, Any]]:
                     continue
                 atoms.append(json.loads(raw))
                 taken += 1
-        except Exception:  # noqa: BLE001 — a malformed atom must not crash augment
+        except Exception:
             continue
     return atoms[:limit]
 
@@ -174,7 +173,7 @@ def _load_all_kb_atoms() -> list[dict[str, Any]]:
                 raw = raw.strip()
                 if raw:
                     atoms.append(json.loads(raw))
-        except Exception:  # noqa: BLE001 — a malformed atom must not crash augment
+        except Exception:
             continue
     return atoms
 
@@ -198,7 +197,7 @@ Hard rules:
 - If the corpus offers nothing genuinely useful for THIS chapter, output exactly: NONE
 
 RELIABLE SOURCE CORPUS
-{corpus or '(none)'}
+{corpus or "(none)"}
 
 CHAPTER "{title}" (do not repeat it back)
 {chapter_text[:6000]}
@@ -212,8 +211,12 @@ def _generate_enrichment(
     """Isolated LLM call (monkeypatched in tests). Returns raw note text or ''."""
     prompt = _augment_prompt(title, chapter_text, atoms)
     rc, out, err = _run_claude_p_with_retry(
-        prompt, timeout=_AUGMENT_TIMEOUT, book_dir=book_dir,
-        phase="0book-augment", step=label, log=log,
+        prompt,
+        timeout=_AUGMENT_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-augment",
+        step=label,
+        log=log,
     )
     if rc != 0:
         raise AuthoringError(
@@ -263,7 +266,10 @@ def _strip_existing_blocks(text: str) -> str:
 
 
 def author_phase_book_augment(
-    book_dir: Path, *, log=print, force: bool = False,
+    book_dir: Path,
+    *,
+    log=print,
+    force: bool = False,
     generator: Callable[..., str] | None = None,
 ) -> Path:
     """Insert labeled, doctrinally-gated editorial blocks into ``book/book.md``.
@@ -296,20 +302,21 @@ def author_phase_book_augment(
         title = re.sub(r"^##\s+\d*\.?\s*", "", head).strip()
         chapter_text = _chapter_body(text, head)
         selected = index.select(
-            chapter_text, k=_ATOMS_PER_CHAPTER,
-            threshold=_RELEVANCE_THRESHOLD, exclude_ids=ledger.used(),
+            chapter_text,
+            k=_ATOMS_PER_CHAPTER,
+            threshold=_RELEVANCE_THRESHOLD,
+            exclude_ids=ledger.used(),
         )
         if not selected:
             no_relevant += 1
-            per_chapter.append({"chapter": title, "selected": [],
-                                "note": "no atom above relevance floor"})
+            per_chapter.append({"chapter": title, "selected": [], "note": "no atom above relevance floor"})
             continue
         atoms = [s.atom for s in selected]
         try:
             note = gen(title, chapter_text, atoms, book_dir, f"aug-{_slug(title)}", log)
         except AuthoringError:
             raise
-        except Exception as e:  # noqa: BLE001 — one bad chapter must not abort augment
+        except Exception as e:
             log(f"      augment: {title!r} generation skipped (non-fatal): {e}")
             continue
         if not note:
@@ -325,29 +332,38 @@ def author_phase_book_augment(
         ledger.record(used_ids)
         blocks[head.strip()] = format_editorial_block(note)
         accepted += 1
-        per_chapter.append({
-            "chapter": title,
-            "selected": [{"id": s.id, "score": round(s.score, 4)} for s in selected],
-            "used": used_ids,
-        })
+        per_chapter.append(
+            {
+                "chapter": title,
+                "selected": [{"id": s.id, "score": round(s.score, 4)} for s in selected],
+                "used": used_ids,
+            }
+        )
 
     new_text = insert_blocks(text, blocks)
     book_md.write_text(new_text, encoding="utf-8")
     (book_dir / "_system" / "book-augment-report.json").write_text(
-        json.dumps({
-            "schema": "podcast.book-augment/v2",
-            "accepted": accepted,
-            "dropped": dropped,
-            "chapters_seen": len(headings),
-            "chapters_no_relevant_atom": no_relevant,
-            "atoms_per_chapter": _ATOMS_PER_CHAPTER,
-            "relevance_threshold": _RELEVANCE_THRESHOLD,
-            "per_chapter": per_chapter,
-        }, indent=2, ensure_ascii=False) + "\n",
+        json.dumps(
+            {
+                "schema": "podcast.book-augment/v2",
+                "accepted": accepted,
+                "dropped": dropped,
+                "chapters_seen": len(headings),
+                "chapters_no_relevant_atom": no_relevant,
+                "atoms_per_chapter": _ATOMS_PER_CHAPTER,
+                "relevance_threshold": _RELEVANCE_THRESHOLD,
+                "per_chapter": per_chapter,
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+        + "\n",
         encoding="utf-8",
     )
-    log(f"    0book-augment: {accepted} editorial blocks added, {dropped} dropped, "
-        f"{no_relevant} chapters had no relevant atom (across {len(headings)} chapters)")
+    log(
+        f"    0book-augment: {accepted} editorial blocks added, {dropped} dropped, "
+        f"{no_relevant} chapters had no relevant atom (across {len(headings)} chapters)"
+    )
     return book_md
 
 

@@ -18,6 +18,7 @@ Two per-chapter blocks are added:
 Both use ``claude -p`` (flat-rate; $0 tracked spend). Idempotent: regenerating
 rebuilds book-self-study.md from the clean base each run.
 """
+
 from __future__ import annotations
 
 import re
@@ -25,16 +26,16 @@ from pathlib import Path
 
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _book_augment import (
+    _BLOCK_CLOSE,
+    _BLOCK_OPEN,
     _CHAPTER_HEADING_RE,
+    _MAX_BLOCK_WORDS,
+    _MIN_BLOCK_WORDS,
+    _generate_enrichment,
     _load_kb_atoms,
     _slug,
     format_editorial_block,
     gate_editorial_block,
-    _generate_enrichment,
-    _BLOCK_OPEN,
-    _BLOCK_CLOSE,
-    _MAX_BLOCK_WORDS,
-    _MIN_BLOCK_WORDS,
 )
 
 # ─── Study-summary block contract (mirrors the editorial fence shape) ───────
@@ -83,6 +84,7 @@ def check_self_study_markdown(text: str) -> list[dict[str, str]]:
 def format_summary_block(text: str) -> str:
     """Wrap a study summary in the canonical labeled + fenced block."""
     from _book_augment import _wrap_para
+
     body = " ".join((text or "").split())
     inner = "\n".join(f"> {line}" for line in _wrap_para(body))
     return f"{_SUMMARY_OPEN}\n> **{SUMMARY_LABEL}.** \n{inner}\n{_SUMMARY_CLOSE}"
@@ -130,8 +132,12 @@ Output only the summary prose, or NONE."""
 
 def _generate_summary(title: str, chapter_text: str, book_dir: Path, label: str, log) -> str:
     rc, out, err = _run_claude_p_with_retry(
-        _summary_prompt(title, chapter_text), timeout=_SUMMARY_TIMEOUT,
-        book_dir=book_dir, phase="0book-self-study", step=label, log=log,
+        _summary_prompt(title, chapter_text),
+        timeout=_SUMMARY_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-self-study",
+        step=label,
+        log=log,
     )
     if rc != 0:
         raise AuthoringError(
@@ -146,8 +152,7 @@ def _generate_summary(title: str, chapter_text: str, book_dir: Path, label: str,
 def _strip_all_fences(text: str) -> str:
     """Remove any prior editorial + study-summary fenced blocks (idempotency)."""
     for open_, close_ in ((_BLOCK_OPEN, _BLOCK_CLOSE), (_SUMMARY_OPEN, _SUMMARY_CLOSE)):
-        text = re.sub(re.escape(open_) + r".*?" + re.escape(close_) + r"\n?", "",
-                      text, flags=re.DOTALL)
+        text = re.sub(re.escape(open_) + r".*?" + re.escape(close_) + r"\n?", "", text, flags=re.DOTALL)
     return text
 
 
@@ -157,7 +162,7 @@ def _strip_all_fences(text: str) -> str:
 # chapters that have NONE: conservative, navigation-only titles, skipped on any
 # anchor miss. Titles add no teaching.
 _NUMBERED_RE = re.compile(r"^##\s+\d+\.\s+")
-_SUBHEADING_MIN_WORDS = 600   # only sub-title genuinely long, unbroken chapters
+_SUBHEADING_MIN_WORDS = 600  # only sub-title genuinely long, unbroken chapters
 _SUBHEADING_MAX = 4
 _SUBHEADING_TIMEOUT = 900
 
@@ -208,8 +213,13 @@ Output only TITLE || ANCHOR lines, or NONE."""
 def _generate_subheadings(title: str, body: str, book_dir: Path, log) -> list[tuple[str, str]]:
     """Return [(title, anchor), ...] from the model; [] on NONE/failure."""
     rc, out, err = _run_claude_p_with_retry(
-        _subheading_prompt(title, body, _SUBHEADING_MAX), timeout=_SUBHEADING_TIMEOUT,
-        book_dir=book_dir, phase="0book-self-study", step=f"subhead-{_slug(title)}", log=log)
+        _subheading_prompt(title, body, _SUBHEADING_MAX),
+        timeout=_SUBHEADING_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-self-study",
+        step=f"subhead-{_slug(title)}",
+        log=log,
+    )
     if rc != 0 or not out or out.strip().upper().startswith("NONE"):
         return []
     pairs: list[tuple[str, str]] = []
@@ -235,7 +245,9 @@ def _insert_subheadings(body: str, pairs: list[tuple[str, str]], log, title: str
         key = " ".join(anchor.split()).lower()
         hits = [i for i, p in enumerate(norm) if p.lower().startswith(key)]
         if len(hits) != 1 or hits[0] == 0:
-            log(f"      self-study: sub-heading {sub_title!r} skipped (anchor {'ambiguous' if len(hits) > 1 else 'not found'})")
+            log(
+                f"      self-study: sub-heading {sub_title!r} skipped (anchor {'ambiguous' if len(hits) > 1 else 'not found'})"
+            )
             continue
         idx = hits[0]
         if paras[idx].lstrip().startswith("## "):
@@ -264,12 +276,13 @@ def _glossary_terms(book_dir: Path) -> list[str]:
     if not path.exists():
         return []
     try:
-        import yaml  # noqa: PLC0415
+        import yaml
+
         data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    except Exception:  # noqa: BLE001
+    except Exception:
         return []
     terms = set()
-    for e in (data.get("entries") or []):
+    for e in data.get("entries") or []:
         t = str(e.get("transliteration") or e.get("phonetic") or "").strip()
         if 2 < len(t) <= 40:
             terms.add(t)
@@ -304,8 +317,13 @@ Output only the `term :: ...` lines."""
 
 def _generate_term_defs(items: list[tuple[str, str]], book_dir: Path, log) -> dict[str, str]:
     rc, out, err = _run_claude_p_with_retry(
-        _term_defs_prompt(items), timeout=_TERM_TIMEOUT, book_dir=book_dir,
-        phase="0book-self-study", step="term-defs", log=log)
+        _term_defs_prompt(items),
+        timeout=_TERM_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-self-study",
+        step="term-defs",
+        log=log,
+    )
     if rc != 0 or not out:
         return {}
     defs: dict[str, str] = {}
@@ -358,16 +376,20 @@ def _apply_term_definitions(text: str, book_dir: Path, log) -> tuple[str, int]:
         m = patterns[t].search(line)
         if not m:
             continue
-        after = line[m.end():m.end() + 1]
+        after = line[m.end() : m.end() + 1]
         if after == "(":
             continue
-        lines[i] = line[:m.end()] + f" ({d})" + line[m.end():]
+        lines[i] = line[: m.end()] + f" ({d})" + line[m.end() :]
         inserted += 1
     return "\n".join(lines), inserted
 
 
 def build_self_study_markdown(
-    book_dir: Path, *, log=print, with_notes: bool = True, with_subheadings: bool = True,
+    book_dir: Path,
+    *,
+    log=print,
+    with_notes: bool = True,
+    with_subheadings: bool = True,
     with_term_defs: bool = True,
 ) -> Path:
     """Generate book/book-self-study.md from book/book.md. Returns its path."""
@@ -377,7 +399,8 @@ def build_self_study_markdown(
         raise AuthoringError(
             phase="0book-self-study",
             message=f"missing {book_md} — run 0book-compose first.",
-            manual_fallback="Run 0book-compose (base) before --self-study.")
+            manual_fallback="Run 0book-compose (base) before --self-study.",
+        )
 
     text = _strip_all_fences(book_md.read_text(encoding="utf-8"))
     atoms = _load_kb_atoms() if with_notes else []
@@ -390,17 +413,20 @@ def build_self_study_markdown(
 
         # Step 6 — sub-headings on the BODY, before blocks are appended. Only for
         # long chapters with no source sub-headings of their own.
-        if with_subheadings and len(body.split()) >= _SUBHEADING_MIN_WORDS \
-                and not _has_internal_subheadings(body):
+        if with_subheadings and len(body.split()) >= _SUBHEADING_MIN_WORDS and not _has_internal_subheadings(body):
             try:
                 pairs = _generate_subheadings(title, body, book_dir, log)
-            except Exception as e:  # noqa: BLE001 — never let sub-headings break the build
+            except Exception as e:
                 pairs = []
                 log(f"      self-study: sub-headings for {title!r} skipped ({e})")
             if pairs:
                 new_body = _insert_subheadings(body, pairs, log, title)
-                subheads += new_body.count("\n## ") + (1 if new_body.lstrip().startswith("## ") else 0) \
-                    - body.count("\n## ") - (1 if body.lstrip().startswith("## ") else 0)
+                subheads += (
+                    new_body.count("\n## ")
+                    + (1 if new_body.lstrip().startswith("## ") else 0)
+                    - body.count("\n## ")
+                    - (1 if body.lstrip().startswith("## ") else 0)
+                )
                 body = new_body
 
         blocks: list[str] = []
@@ -409,13 +435,14 @@ def build_self_study_markdown(
                 note = _generate_enrichment(title, body, atoms, book_dir, f"note-{_slug(title)}", log)
             except AuthoringError:
                 raise
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 note = ""
                 log(f"      self-study: note for {title!r} skipped ({e})")
             if note:
                 ok, reasons = gate_editorial_block(note)
                 if ok:
-                    blocks.append(format_editorial_block(note)); notes += 1
+                    blocks.append(format_editorial_block(note))
+                    notes += 1
                 else:
                     dropped += 1
                     log(f"      self-study: dropped note for {title!r} ({'; '.join(reasons[:2])})")
@@ -424,13 +451,14 @@ def build_self_study_markdown(
             summary = _generate_summary(title, body, book_dir, f"summary-{_slug(title)}", log)
         except AuthoringError:
             raise
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             summary = ""
             log(f"      self-study: summary for {title!r} skipped ({e})")
         if summary:
             ok, reasons = gate_summary(summary)
             if ok:
-                blocks.append(format_summary_block(summary)); summaries += 1
+                blocks.append(format_summary_block(summary))
+                summaries += 1
             else:
                 dropped += 1
                 log(f"      self-study: dropped summary for {title!r} ({'; '.join(reasons[:2])})")
@@ -448,24 +476,25 @@ def build_self_study_markdown(
     if with_term_defs:
         try:
             assembled, terms = _apply_term_definitions(assembled, book_dir, log)
-        except Exception as e:  # noqa: BLE001 — term defs must never break the build
+        except Exception as e:
             log(f"      self-study: term definitions skipped ({e})")
 
     out_md = book_dir / "book" / "book-self-study.md"
     out_md.write_text(assembled, encoding="utf-8")
-    log(f"    0book-self-study: wrote {out_md.name} "
+    log(
+        f"    0book-self-study: wrote {out_md.name} "
         f"({summaries} summaries, {notes} notes, {subheads} sub-headings, "
-        f"{terms} term defs, {dropped} dropped, {len(chapters)} chapters)")
+        f"{terms} term defs, {dropped} dropped, {len(chapters)} chapters)"
+    )
 
     # Step 7 (deterministic half) — structural gate over the materialized md.
     # Non-blocking: a broken self-study edition never stops the podcast ship.
     findings = check_self_study_markdown(assembled)
     (book_dir / "_system").mkdir(exist_ok=True)
     (book_dir / "_system" / "self-study-checks.json").write_text(
-        __import__("json").dumps(
-            {"schema": "podcast.self-study-checks/v1", "findings": findings}, indent=2) + "\n",
-        encoding="utf-8")
+        __import__("json").dumps({"schema": "podcast.self-study-checks/v1", "findings": findings}, indent=2) + "\n",
+        encoding="utf-8",
+    )
     if findings:
-        log(f"    0book-self-study: {len(findings)} structural finding(s) — "
-            f"see _system/self-study-checks.json")
+        log(f"    0book-self-study: {len(findings)} structural finding(s) — see _system/self-study-checks.json")
     return out_md

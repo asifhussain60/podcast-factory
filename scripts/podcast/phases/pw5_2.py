@@ -5,6 +5,7 @@ archetype-aware gates: G8 (capstone-mode-honored), G9 (rich-diagram-coverage),
 G10 (manual-review-resolved), G11 (knowledge-base-merge-clean),
 G12 (augmenter-A/B-acceptance).
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -60,16 +61,15 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
 
     if missing:
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
-            message=(
-                "Extended publish gate G8-G12 incomplete:\n  "
-                + "\n  ".join(missing)
-            ),
+            phase_id=PHASE_ID,
+            status="halted",
+            message=("Extended publish gate G8-G12 incomplete:\n  " + "\n  ".join(missing)),
             evidence_paths=[str(script)],
         )
 
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message=(
             "validate_ship_ready.py extended with G8-G12 archetype-aware gates "
             "(capstone, diagram-coverage, manual-review, merge-clean, augmenter-AB)."

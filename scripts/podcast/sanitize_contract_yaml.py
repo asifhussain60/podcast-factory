@@ -23,6 +23,7 @@ Usage:
     python3 scripts/podcast/sanitize_contract_yaml.py <file.yml> [<more.yml> ...]
         [--check]   only diagnose, don't write
 """
+
 from __future__ import annotations
 
 import argparse
@@ -69,8 +70,7 @@ def sanitize(text: str) -> tuple[str, int]:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("paths", nargs="+", type=Path)
-    ap.add_argument("--check", action="store_true",
-                    help="only diagnose; don't write")
+    ap.add_argument("--check", action="store_true", help="only diagnose; don't write")
     args = ap.parse_args()
 
     overall_rc = 0

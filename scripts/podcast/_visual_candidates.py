@@ -15,6 +15,7 @@ duplicated caption when a slide already bakes its title into the image.
 Emission is idempotent (keyed by ``id``): re-running replaces an entry, never
 duplicates it.
 """
+
 from __future__ import annotations
 
 import json
@@ -42,7 +43,7 @@ def load_index(book_dir: Path) -> list[dict[str, Any]]:
     try:
         data = json.loads(p.read_text(encoding="utf-8"))
         return list(data.get("visuals") or [])
-    except Exception:  # noqa: BLE001
+    except Exception:
         return []
 
 
@@ -50,8 +51,7 @@ def write_index(book_dir: Path, visuals: list[dict[str, Any]]) -> Path:
     p = index_path(book_dir)
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(
-        json.dumps({"schema": VISUALS_SCHEMA, "visuals": visuals}, indent=2, ensure_ascii=False)
-        + "\n",
+        json.dumps({"schema": VISUALS_SCHEMA, "visuals": visuals}, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
     return p
@@ -82,7 +82,7 @@ def clean_slide_watermark(src: Path, dst: Path) -> bool:
     """
     dst.parent.mkdir(parents=True, exist_ok=True)
     try:
-        from PIL import Image  # noqa: PLC0415
+        from PIL import Image
 
         with Image.open(src) as im:
             w, h = im.size
@@ -92,17 +92,15 @@ def clean_slide_watermark(src: Path, dst: Path) -> bool:
                 return False
             im.crop((0, 0, w, h - band)).save(dst)
             return True
-    except Exception:  # noqa: BLE001 — Pillow absent or image unreadable
+    except Exception:
         try:
             shutil.copy2(src, dst)
-        except Exception:  # noqa: BLE001
+        except Exception:
             return False
         return False
 
 
-def emit_diagram_candidates(
-    book_dir: Path, manifest: list[dict[str, Any]], *, log=print
-) -> list[dict[str, Any]]:
+def emit_diagram_candidates(book_dir: Path, manifest: list[dict[str, Any]], *, log=print) -> list[dict[str, Any]]:
     """Copy generated diagram SVGs into book/visuals/ and register them.
 
     ``manifest`` is the 0book-illustrate manifest (diagram_id/section/caption/
@@ -119,19 +117,21 @@ def emit_diagram_candidates(
         fname = f"{vid}.svg"
         try:
             shutil.copy2(svg_src, vdir / fname)
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             log(f"      visuals: copy failed for {svg_src.name}: {exc}")
             continue
-        entries.append({
-            "id": vid,
-            "type": str(e.get("structure_type") or e.get("diagram_type") or "diagram"),
-            "aspect": "",
-            "caption": str(e.get("caption") or ""),
-            "file": fname,
-            "suggested_anchor": str(e.get("section") or e.get("anchor_text") or ""),
-            "cleaned": True,
-            "embedded_title": "",
-        })
+        entries.append(
+            {
+                "id": vid,
+                "type": str(e.get("structure_type") or e.get("diagram_type") or "diagram"),
+                "aspect": "",
+                "caption": str(e.get("caption") or ""),
+                "file": fname,
+                "suggested_anchor": str(e.get("section") or e.get("anchor_text") or ""),
+                "cleaned": True,
+                "embedded_title": "",
+            }
+        )
     log(f"      visuals: registered {len(entries)} diagram candidate(s)")
     return entries
 
@@ -170,15 +170,17 @@ def emit_slide_candidates(
             vtype = "slide"
         else:
             continue
-        out.append({
-            "id": vid,
-            "type": vtype,
-            "aspect": "",
-            "caption": title,
-            "file": fname,
-            "suggested_anchor": anchor,
-            "cleaned": cleaned,
-            "embedded_title": title,  # slides bake the title in -> caption de-dup
-        })
+        out.append(
+            {
+                "id": vid,
+                "type": vtype,
+                "aspect": "",
+                "caption": title,
+                "file": fname,
+                "suggested_anchor": anchor,
+                "cleaned": cleaned,
+                "embedded_title": title,  # slides bake the title in -> caption de-dup
+            }
+        )
     log(f"      visuals: registered {len(out)} slide candidate(s)")
     return out

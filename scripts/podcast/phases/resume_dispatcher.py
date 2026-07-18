@@ -2,6 +2,7 @@
 
 Extracted from orchestrate_book.py (A4 split). Authority: plan.md §A4.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -9,20 +10,21 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _paths import REPO_ROOT  # noqa: E402
-from _progress import read_state, write_state, update_phase, is_phase_stale, STALE_RUNNING_SEC, PHASES  # noqa: E402
-from cost_guard import cost_ceiling_check  # noqa: E402
-from phases.preflight import preflight_resume  # noqa: E402
-from phases.initial_driver import _drive_authoring_through_0f, _drive_source_ready_through_0f  # noqa: E402
-from phases.chapter_driver import _drive_per_chapter_and_after  # noqa: E402
-from phases.publish_driver import _drive_publish_through_done  # noqa: E402
+from _paths import REPO_ROOT
+from _progress import PHASES, STALE_RUNNING_SEC, is_phase_stale, read_state, update_phase, write_state
+from _subprocess import err as _err
+from _subprocess import info as _info
+from cost_guard import cost_ceiling_check
 
-
-from _subprocess import err as _err, info as _info  # noqa: E402
+from phases.chapter_driver import _drive_per_chapter_and_after
+from phases.initial_driver import _drive_authoring_through_0f, _drive_source_ready_through_0f
+from phases.preflight import preflight_resume
+from phases.publish_driver import _drive_publish_through_done
 
 
 def _book_dir(book_slug: str) -> Path | None:
     from _paths import find_content as _find
+
     found = _find(book_slug)
     return found[2] if found else None
 
@@ -35,7 +37,7 @@ def _read_book_title_local(book_dir: Path) -> str | None:
     for line in readme.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if line.startswith("# Podcast — "):
-            return line[len("# Podcast — "):].strip()
+            return line[len("# Podcast — ") :].strip()
     return None
 
 
@@ -55,7 +57,7 @@ def _clear_downstream_phases(state: dict, retry_phase: str, log=_info) -> None:
     state["phase_status"] = "pending"
     if retry_phase in PHASES:
         idx = PHASES.index(retry_phase)
-        for later in PHASES[idx + 1:]:
+        for later in PHASES[idx + 1 :]:
             lb = state["phases"].get(later)
             if not isinstance(lb, dict):
                 continue
@@ -137,6 +139,7 @@ def run_resume(args: argparse.Namespace) -> int:
         if gate_file.exists():
             try:
                 import json as _json
+
                 gate = _json.loads(gate_file.read_text())
                 approved = bool(gate.get("approved"))
             except Exception:
@@ -186,10 +189,11 @@ def run_resume(args: argparse.Namespace) -> int:
     if current_phase == "source-ready" and current_status in ("pending", "failed"):
         category = state.get("category", "")
         from _authoring._core import SKIP_OCR_CATEGORIES
+
         if not category:
             _err(
                 "orchestrator-state.json is missing 'category' field. "
-                "Add: \"category\": \"explainers\"  (or \"sites\") and retry."
+                'Add: "category": "explainers"  (or "sites") and retry.'
             )
             return 2
         if category not in SKIP_OCR_CATEGORIES:
@@ -228,6 +232,7 @@ def run_resume(args: argparse.Namespace) -> int:
     # synthesizer advances state to phase=0c, so we fall through to authoring.
     if current_phase == "0a-synthesize" and current_status in ("pending", "failed"):
         import subprocess
+
         if state.get("multi_source"):
             _info("Phase 0a-synthesize · multi-source merge (spine + augmentation).")
             script = "multi_source_synthesis.py"
@@ -248,6 +253,7 @@ def run_resume(args: argparse.Namespace) -> int:
 
     if current_phase == "0a" and current_status in ("failed", "pending"):
         from phases.scaffold import phase_0a_ingest, phase_git_commit
+
         category = state.get("category", "books")
         source_dir = book_dir / "_system" / "source"
         pdfs = sorted(source_dir.glob("*.pdf"))
@@ -255,10 +261,7 @@ def run_resume(args: argparse.Namespace) -> int:
             _err(f"No PDF found in {source_dir.relative_to(REPO_ROOT)} — cannot retry 0a.")
             return 2
         if len(pdfs) > 1:
-            _err(
-                f"Multiple PDFs in {source_dir.relative_to(REPO_ROOT)}: "
-                f"{[p.name for p in pdfs]}. Keep one and retry."
-            )
+            _err(f"Multiple PDFs in {source_dir.relative_to(REPO_ROOT)}: {[p.name for p in pdfs]}. Keep one and retry.")
             return 2
         pdf_path = pdfs[0]
         _info(f"phase: 0a · re-running Azure ingest on {pdf_path.name}")
@@ -274,7 +277,11 @@ def run_resume(args: argparse.Namespace) -> int:
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         return _drive_authoring_through_0f(book_dir, title)
 
-    if current_phase in ("0b", "0c", "0ci", "0d", "0e", "0literary") and current_status in ("failed", "halted", "pending"):
+    if current_phase in ("0b", "0c", "0ci", "0d", "0e", "0literary") and current_status in (
+        "failed",
+        "halted",
+        "pending",
+    ):
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         _info(f"resuming LLM-authoring phases from {current_phase} (status={current_status})")
         return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
@@ -283,48 +290,46 @@ def run_resume(args: argparse.Namespace) -> int:
         title = _read_book_title_local(book_dir) or slug.replace("-", " ").title()
         return _drive_authoring_through_0f(book_dir, title, stop_after=stop_after)
 
-    if current_phase == "per-chapter" and current_status in (
-        "failed", "halted", "running", "pending"
-    ):
+    if current_phase == "per-chapter" and current_status in ("failed", "halted", "running", "pending"):
         return _drive_per_chapter_and_after(book_dir)
 
-    if current_phase == "per-chapter-slides" and current_status in (
-        "failed", "running", "pending"
-    ):
+    if current_phase == "per-chapter-slides" and current_status in ("failed", "running", "pending"):
         return _drive_per_chapter_and_after(book_dir)
 
     if current_phase == "per-chapter-slides" and current_status == "completed":
         _info("Phase per-chapter-slides already completed — advancing to finalize.")
         return _drive_per_chapter_and_after(book_dir)
 
-    if current_phase in ("0book-design", "0book-compose", "0book-illustrate",
-                         "0book-render"):
-        _info(f"Phase {current_phase} (PDF path book) — re-entering the publish driver; "
-              f"the 0book phases run post-finalize and are artifact-idempotent.")
+    if current_phase in ("0book-design", "0book-compose", "0book-illustrate", "0book-render"):
+        _info(
+            f"Phase {current_phase} (PDF path book) — re-entering the publish driver; "
+            f"the 0book phases run post-finalize and are artifact-idempotent."
+        )
         return _drive_publish_through_done(book_dir)
 
     if current_phase == "0book-slide-import":
         # halted = NotebookLM deck PDFs were missing; the human has (presumably)
         # dropped them now. Re-enter the publish driver — design/compose/illustrate
         # skip on existing artifacts, slide-import re-runs its gate.
-        _info(f"Phase 0book-slide-import status={current_status!r} — re-entering "
-              f"the publish driver (upstream 0book phases are idempotent).")
+        _info(
+            f"Phase 0book-slide-import status={current_status!r} — re-entering "
+            f"the publish driver (upstream 0book phases are idempotent)."
+        )
         return _drive_publish_through_done(book_dir)
 
     # Audio Engine v2 phases (API engines only; notebooklm books never land here).
     if current_phase == "audio-script":
-        _info(f"Phase audio-script status={current_status!r} — re-entering the "
-              f"per-chapter-and-after driver (completed phases skip).")
+        _info(
+            f"Phase audio-script status={current_status!r} — re-entering the "
+            f"per-chapter-and-after driver (completed phases skip)."
+        )
         return _drive_per_chapter_and_after(book_dir)
 
     if current_phase == "audio-render" and current_status == "halted":
-        _info("Phase audio-render H1 spend gate cleared (human approved by "
-              "re-invoking --resume) — rendering.")
+        _info("Phase audio-render H1 spend gate cleared (human approved by re-invoking --resume) — rendering.")
         return _drive_per_chapter_and_after(book_dir, approve_audio_render=True)
 
-    if current_phase == "audio-render" and current_status in (
-        "failed", "running", "pending", "completed"
-    ):
+    if current_phase == "audio-render" and current_status in ("failed", "running", "pending", "completed"):
         return _drive_per_chapter_and_after(book_dir)
 
     if current_phase == "0g" and current_status == "completed":
@@ -340,8 +345,10 @@ def run_resume(args: argparse.Namespace) -> int:
         # dropped it now. Re-enter the publish driver — audio-ingest runs at its
         # top, normalizes + transcribes idempotently, then the 0book/publish
         # chain follows (mirrors the 0book-slide-import re-entry convention).
-        _info(f"Phase audio-ingest status={current_status!r} — re-entering the "
-              f"publish driver (normalize + transcribe run idempotently).")
+        _info(
+            f"Phase audio-ingest status={current_status!r} — re-entering the "
+            f"publish driver (normalize + transcribe run idempotently)."
+        )
         return _drive_publish_through_done(book_dir)
 
     if current_phase == "finalize" and current_status == "halted":
@@ -350,9 +357,7 @@ def run_resume(args: argparse.Namespace) -> int:
     if current_phase == "finalize" and current_status in ("failed", "pending"):
         return _drive_per_chapter_and_after(book_dir)
 
-    if current_phase in ("publish", "trainer", "merge") and current_status in (
-        "failed", "running", "pending"
-    ):
+    if current_phase in ("publish", "trainer", "merge") and current_status in ("failed", "running", "pending"):
         return _drive_publish_through_done(book_dir)
 
     if current_phase == "done":

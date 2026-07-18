@@ -8,19 +8,20 @@ G4 build-clean gate must pass --check to build_episode_txt.py when --dry-run is
 set, so the gate never rewrites source episodes/*.txt (the bug fixed in the
 Wave 1 safety pass).
 """
+
 from __future__ import annotations
 
 import io
 import sys
-import unittest
-from contextlib import redirect_stdout, redirect_stderr
-from pathlib import Path
 import tempfile
+import unittest
+from contextlib import redirect_stderr, redirect_stdout
+from pathlib import Path
 from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-import publish_to_library as pub  # noqa: E402
+import publish_to_library as pub
 
 
 def _mk(workspace: Path, chapters: list[str], episodes: list[str]) -> None:
@@ -100,7 +101,7 @@ class G3SequentialTests(unittest.TestCase):
         # EPISODE files must never carry a letter — the upload contract keys
         # on plain EP##.
         ch = [Path("ch01-a.txt")]
-        ep = [Path("EP01a-a.txt")]
+        ep = [Path("EP01a-a.txt")]  # noqa: F841
         self.assertFalse(_quiet(pub.gate_g3_sequential, ch, [Path("EP01a-a.txt")]))
 
 
@@ -120,8 +121,11 @@ class G4DryRunInvariantTests(unittest.TestCase):
             captured["cmd"] = cmd
             return fake
 
-        with redirect_stdout(io.StringIO()), redirect_stderr(io.StringIO()), \
-             mock.patch.object(pub.subprocess, "run", side_effect=_fake_run):
+        with (
+            redirect_stdout(io.StringIO()),
+            redirect_stderr(io.StringIO()),
+            mock.patch.object(pub.subprocess, "run", side_effect=_fake_run),
+        ):
             result = pub.gate_g4_build_clean(ws, "test", eps, strict=False, dry_run=dry_run)
         return result, captured["cmd"]
 

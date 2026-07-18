@@ -106,7 +106,7 @@ def load_yaml(text: str) -> dict[str, Any]:
                 k += 1
                 continue
             if ":" not in ln:
-                raise ValueError(f"line {k+1}: expected `key: value`, got: {ln!r}")
+                raise ValueError(f"line {k + 1}: expected `key: value`, got: {ln!r}")
             key, _, val = ln.partition(":")
             key = key.strip()
             val = val.rstrip()

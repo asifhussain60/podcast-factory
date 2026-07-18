@@ -22,6 +22,7 @@ Usage:
     orchestrate_work.py <work-slug> --advance  # start the next volume (one step)
     orchestrate_work.py <work-slug> --status   # print the volume ladder, no action
 """
+
 from __future__ import annotations
 
 import argparse
@@ -31,9 +32,9 @@ from dataclasses import dataclass
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import _paths  # noqa: E402
-import _work_manifest as wm  # noqa: E402
-from _progress import read_state  # noqa: E402
+import _paths
+import _work_manifest as wm
+from _progress import read_state
 
 SUPERVISE = Path(__file__).resolve().parent / "supervise_run.py"
 
@@ -64,7 +65,7 @@ def _read_volume_state(vol_slug: str) -> dict | None:
 # ── next-action planning (pure core — the pause is the hard requirement) ─────
 @dataclass
 class WorkAction:
-    kind: str           # "run" | "pause-between-volumes" | "all-done" | "no-volumes"
+    kind: str  # "run" | "pause-between-volumes" | "all-done" | "no-volumes"
     volume_slug: str | None = None
     order: int | None = None
     message: str = ""
@@ -95,15 +96,18 @@ def plan_next_action(work_slug: str, *, advance: bool, state_reader=None) -> Wor
     if prior_complete and not started and not advance:
         return WorkAction(
             kind="pause-between-volumes",
-            volume_slug=current["slug"], order=current.get("order"),
+            volume_slug=current["slug"],
+            order=current.get("order"),
             message=(
-                f"volume {vols[idx-1].get('order')} complete. Next volume "
+                f"volume {vols[idx - 1].get('order')} complete. Next volume "
                 f"{current.get('order')} ({current['slug']}) is ready but NOT started. "
                 f"Re-run with --advance to begin it."
             ),
         )
     return WorkAction(
-        kind="run", volume_slug=current["slug"], order=current.get("order"),
+        kind="run",
+        volume_slug=current["slug"],
+        order=current.get("order"),
         message=f"active volume: {current['slug']} (order {current.get('order')})",
     )
 
@@ -122,8 +126,10 @@ def _print_ladder(work_slug: str) -> None:
     for v in vols:
         st = _read_volume_state(v["slug"]) or {}
         mark = "[x]" if volume_complete(st) else ("[~]" if volume_started(st) else "[ ]")
-        print(f"  {mark} {v.get('order'):>2}. {v['slug']:<28} "
-              f"phase={st.get('phase', '—')} status={st.get('status', 'draft')}")
+        print(
+            f"  {mark} {v.get('order'):>2}. {v['slug']:<28} "
+            f"phase={st.get('phase', '—')} status={st.get('status', 'draft')}"
+        )
 
 
 def _ensure_allocation(work_slug: str) -> int:
@@ -137,6 +143,7 @@ def _ensure_allocation(work_slug: str) -> int:
     works intaked as per-volume PDFs (no shared ledger) are skipped untouched.
     """
     import json
+
     work_dir = wm.work_dir_for(work_slug)
     manifest = wm.read_manifest(work_dir) or {}
     if not (manifest.get("shared") or {}).get("ledger"):
@@ -144,15 +151,15 @@ def _ensure_allocation(work_slug: str) -> int:
     split = work_dir / "_system" / "_volume-split.json"
     if split.exists():
         try:
-            v = (json.loads(split.read_text()).get("verification") or {})
+            v = json.loads(split.read_text()).get("verification") or {}
             if v.get("union_ok") and v.get("one_volume_each") and v.get("each_cluster_one_home"):
                 return 0  # already allocated and verified
         except Exception:
             pass
     print(f"[work] no verified teaching allocation for {work_slug} — running allocator (one-time)…")
     rc = subprocess.run(
-        [sys.executable, str(Path(__file__).resolve().parent / "allocate_teachings.py"),
-         work_slug, "--all"]).returncode
+        [sys.executable, str(Path(__file__).resolve().parent / "allocate_teachings.py"), work_slug, "--all"]
+    ).returncode
     if rc != 0:
         print(f"[work] allocation failed (rc={rc}); fix before authoring volumes.", file=sys.stderr)
     return rc
@@ -175,15 +182,18 @@ def run_work(work_slug: str, *, advance: bool) -> int:
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("work_slug", help="the multi-volume work slug (parent of vol-NN)")
-    p.add_argument("--advance", action="store_true",
-                   help="start the next volume (one step) past a between-volumes pause")
-    p.add_argument("--status", action="store_true",
-                   help="print the volume ladder and exit (no action)")
+    p.add_argument(
+        "--advance", action="store_true", help="start the next volume (one step) past a between-volumes pause"
+    )
+    p.add_argument("--status", action="store_true", help="print the volume ladder and exit (no action)")
     args = p.parse_args(argv)
 
     if wm.work_dir_for(args.work_slug) is None:
-        print(f"orchestrate_work: {args.work_slug!r} is not a multi-volume work "
-              f"(no work.yml). Use orchestrate_book.py for single books.", file=sys.stderr)
+        print(
+            f"orchestrate_work: {args.work_slug!r} is not a multi-volume work "
+            f"(no work.yml). Use orchestrate_book.py for single books.",
+            file=sys.stderr,
+        )
         return 2
 
     if args.status:

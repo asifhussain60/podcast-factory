@@ -27,6 +27,7 @@ EXIT CODES
     2 — chain halted at human-review gate (a wave requires operator action)
     3 — chain interrupted by spend cap
 """
+
 from __future__ import annotations
 
 import argparse
@@ -38,12 +39,8 @@ from pathlib import Path
 
 from _paths import REPO_ROOT
 
-AUTH_FILE = (
-    REPO_ROOT / "_workspace" / "plan" / "operations" / "wave-chain-auth.json"
-)
-CHAIN_LOG_FILE = (
-    REPO_ROOT / "_workspace" / "plan" / "refactor" / "wave-chain-log.jsonl"
-)
+AUTH_FILE = REPO_ROOT / "_workspace" / "plan" / "operations" / "wave-chain-auth.json"
+CHAIN_LOG_FILE = REPO_ROOT / "_workspace" / "plan" / "refactor" / "wave-chain-log.jsonl"
 RUN_WAVE = REPO_ROOT / "scripts" / "podcast" / "run_wave.py"
 LOOP_INTEL = REPO_ROOT / "_workspace" / "prompts" / "loop-intelligence.md"
 
@@ -77,8 +74,7 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _log(event: str, status: str, message: str,
-         wave: int | None = None, details: dict | None = None) -> None:
+def _log(event: str, status: str, message: str, wave: int | None = None, details: dict | None = None) -> None:
     CHAIN_LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     row = {
         "ts": _now_iso(),
@@ -134,10 +130,7 @@ def _append_loop_intel_iteration(waves: list[int], outcome: str) -> None:
     text = LOOP_INTEL.read_text(encoding="utf-8")
     date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     wave_label = f"Chain W{waves[0]}–W{waves[-1]}" if len(waves) > 1 else f"W{waves[0]}"
-    line = (
-        f"- {date} | {wave_label} | {outcome} "
-        f"| SP-004 (chain driver) | None\n"
-    )
+    line = f"- {date} | {wave_label} | {outcome} | SP-004 (chain driver) | None\n"
     # Insert before the last blank line(s) / end of file
     if "## Iteration Log" in text:
         text = text.rstrip("\n") + "\n" + line
@@ -163,7 +156,8 @@ def cmd_authorize(args: argparse.Namespace) -> int:
     AUTH_FILE.parent.mkdir(parents=True, exist_ok=True)
     AUTH_FILE.write_text(json.dumps(auth, indent=2, ensure_ascii=False) + "\n")
     _log(
-        "authorized", "ok",
+        "authorized",
+        "ok",
         f"Chain authorized: waves={waves} "
         f"cap_total=${auth['spend_cap_total_usd']:.2f} "
         f"cap_per_wave=${auth['spend_cap_per_wave_usd']:.2f}",
@@ -179,7 +173,7 @@ def cmd_authorize(args: argparse.Namespace) -> int:
     return EXIT_DONE
 
 
-def cmd_revoke(args: argparse.Namespace) -> int:  # noqa: ARG001
+def cmd_revoke(args: argparse.Namespace) -> int:
     """Delete the pre-authorization envelope."""
     if not AUTH_FILE.exists():
         print("[chain] No authorization file to revoke.")
@@ -190,15 +184,12 @@ def cmd_revoke(args: argparse.Namespace) -> int:  # noqa: ARG001
     return EXIT_DONE
 
 
-def cmd_status(args: argparse.Namespace) -> int:  # noqa: ARG001
+def cmd_status(args: argparse.Namespace) -> int:
     """Show current authorization and recent chain log entries."""
     auth = _load_auth()
     if auth is None:
         print("[chain status] No valid authorization file found.")
-        print(
-            "[chain status] Create one: "
-            "python3 scripts/podcast/run_waves_chain.py authorize --waves 1 2 ..."
-        )
+        print("[chain status] Create one: python3 scripts/podcast/run_waves_chain.py authorize --waves 1 2 ...")
     else:
         print("[chain status] Authorization")
         print(f"  authorized_at  : {auth.get('authorized_at', '?')}")
@@ -209,10 +200,7 @@ def cmd_status(args: argparse.Namespace) -> int:  # noqa: ARG001
         print(f"  note           : {auth.get('note', '')}")
 
     if CHAIN_LOG_FILE.exists():
-        lines = [
-            l for l in CHAIN_LOG_FILE.read_text(encoding="utf-8").splitlines()
-            if l.strip()
-        ]
+        lines = [l for l in CHAIN_LOG_FILE.read_text(encoding="utf-8").splitlines() if l.strip()]
         rows = []
         for l in lines:
             try:
@@ -231,18 +219,16 @@ def cmd_status(args: argparse.Namespace) -> int:  # noqa: ARG001
     return EXIT_DONE
 
 
-def cmd_run(args: argparse.Namespace) -> int:  # noqa: ARG001
+def cmd_run(args: argparse.Namespace) -> int:
     """Execute the authorized wave chain."""
     auth = _load_auth()
     if auth is None:
         print(
-            f"[chain] ERROR: no valid authorization at "
-            f"{_display_path(AUTH_FILE)}",
+            f"[chain] ERROR: no valid authorization at {_display_path(AUTH_FILE)}",
             file=sys.stderr,
         )
         print(
-            "[chain] Run first:  "
-            "python3 scripts/podcast/run_waves_chain.py authorize --waves 1 2 ...",
+            "[chain] Run first:  python3 scripts/podcast/run_waves_chain.py authorize --waves 1 2 ...",
             file=sys.stderr,
         )
         return EXIT_ERROR
@@ -256,7 +242,8 @@ def cmd_run(args: argparse.Namespace) -> int:  # noqa: ARG001
         return EXIT_ERROR
 
     _log(
-        "chain_start", "running",
+        "chain_start",
+        "running",
         f"Chain started: waves={waves} cap_total=${cap_total:.2f}",
         details={"authorized_at": auth.get("authorized_at"), "waves": waves},
     )
@@ -279,8 +266,7 @@ def cmd_run(args: argparse.Namespace) -> int:  # noqa: ARG001
         chain_spend = _total_spend_usd() - baseline_spend
         if chain_spend >= cap_total:
             msg = (
-                f"Global spend cap ${cap_total:.2f} reached "
-                f"(${chain_spend:.2f} spent). Chain halted before W{wave_n}."
+                f"Global spend cap ${cap_total:.2f} reached (${chain_spend:.2f} spent). Chain halted before W{wave_n}."
             )
             print(f"[chain] SPEND CAP: {msg}")
             _log("spend_cap_exceeded", "halted", msg, wave=wave_n)
@@ -296,9 +282,11 @@ def cmd_run(args: argparse.Namespace) -> int:  # noqa: ARG001
 
         wave_cost = _total_spend_usd() - wave_spend_before
         _log(
-            "wave_spend", "recorded",
+            "wave_spend",
+            "recorded",
             f"W{wave_n} cost: ${wave_cost:.4f}",
-            wave=wave_n, details={"cost_usd": wave_cost},
+            wave=wave_n,
+            details={"cost_usd": wave_cost},
         )
 
         if proc.returncode == _RW_ALREADY_DONE:
@@ -310,10 +298,7 @@ def cmd_run(args: argparse.Namespace) -> int:  # noqa: ARG001
             print(f"[chain] W{wave_n}: ✅ DONE")
             _log("wave_done", "done", "Wave executed and completed.", wave=wave_n)
             if wave_cost > cap_per_wave:
-                msg = (
-                    f"W{wave_n} per-wave cap ${cap_per_wave:.2f} exceeded "
-                    f"(${wave_cost:.4f} spent)."
-                )
+                msg = f"W{wave_n} per-wave cap ${cap_per_wave:.2f} exceeded (${wave_cost:.4f} spent)."
                 print(f"[chain] ⚠  SPEND WARNING: {msg}")
                 _log("wave_spend_warning", "over_cap", msg, wave=wave_n)
             continue
@@ -321,19 +306,13 @@ def cmd_run(args: argparse.Namespace) -> int:  # noqa: ARG001
         if proc.returncode == _RW_HALTED:
             msg = f"W{wave_n} halted at human-review gate. Chain suspended."
             print(f"[chain] ⏸  HALTED: {msg}")
-            print(
-                "[chain] Resolve the blocker, then resume: "
-                "python3 scripts/podcast/run_waves_chain.py run"
-            )
+            print("[chain] Resolve the blocker, then resume: python3 scripts/podcast/run_waves_chain.py run")
             _log("wave_halted", "halted", msg, wave=wave_n)
             _append_loop_intel_iteration(waves, "Halted")
             return EXIT_HALTED
 
         if proc.returncode == _RW_P9_VIOLATED:
-            msg = (
-                f"W{wave_n} completed but P-9 invariant "
-                "(test_challenger.py) is RED. Chain halted."
-            )
+            msg = f"W{wave_n} completed but P-9 invariant (test_challenger.py) is RED. Chain halted."
             print(f"[chain] 🔴  P-9 VIOLATED: {msg}")
             _log("p9_violated", "error", msg, wave=wave_n)
             _append_loop_intel_iteration(waves, "P9Violated")
@@ -343,7 +322,10 @@ def cmd_run(args: argparse.Namespace) -> int:  # noqa: ARG001
         msg = f"W{wave_n} exited with code {proc.returncode}. Chain halted."
         print(f"[chain] ✗  ERROR: {msg}")
         _log(
-            "wave_error", "error", msg, wave=wave_n,
+            "wave_error",
+            "error",
+            msg,
+            wave=wave_n,
             details={"exit_code": proc.returncode},
         )
         _append_loop_intel_iteration(waves, "Error")
@@ -356,7 +338,8 @@ def cmd_run(args: argparse.Namespace) -> int:  # noqa: ARG001
     print(f"[chain]   Total spend this run : ${total_spent:.4f}")
     print("[chain] " + "━" * 55)
     _log(
-        "chain_done", "done",
+        "chain_done",
+        "done",
         f"Chain complete. waves={waves} total_spend=${total_spent:.4f}",
         details={"waves": waves, "total_spend_usd": total_spent},
     )
@@ -373,8 +356,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="run_waves_chain.py",
         description=(
-            "Autonomous cross-wave execution chain driver. "
-            "Authorize a wave sequence once, then run end-to-end."
+            "Autonomous cross-wave execution chain driver. Authorize a wave sequence once, then run end-to-end."
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(

@@ -46,6 +46,7 @@ OUTPUT (JSON to stdout)
       ]
     }
 """
+
 from __future__ import annotations
 
 import argparse
@@ -57,24 +58,44 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 # ── Gate thresholds ────────────────────────────────────────────────────────────
-COVERAGE_PASS_THRESHOLD: float = float(
-    os.environ.get("SLIDES_COVERAGE_PASS_THRESHOLD", "0.80")
-)
-COVERAGE_WARN_THRESHOLD: float = float(
-    os.environ.get("SLIDES_COVERAGE_WARN_THRESHOLD", "0.60")
-)
+COVERAGE_PASS_THRESHOLD: float = float(os.environ.get("SLIDES_COVERAGE_PASS_THRESHOLD", "0.80"))
+COVERAGE_WARN_THRESHOLD: float = float(os.environ.get("SLIDES_COVERAGE_WARN_THRESHOLD", "0.60"))
 
 # ── Spatial-diagram keywords ───────────────────────────────────────────────────
 # Words that indicate a diagram is geometric / spatial rather than conceptual.
 # A diagram matching any one of these is classified as `spatial`.
 SPATIAL_KEYWORDS: frozenset[str] = frozenset(
     [
-        "sphere", "spheres", "circle", "circles", "radii", "radius",
-        "geometry", "geometric", "triangle", "square", "polygon",
-        "cosmological", "cosmology", "orbit", "orbital", "axis", "axes",
-        "latitude", "longitude", "meridian", "equator", "zenith", "nadir",
-        "blueprint", "floor plan", "cross-section", "cross section",
-        "architectural", "three-dimensional", "3d",
+        "sphere",
+        "spheres",
+        "circle",
+        "circles",
+        "radii",
+        "radius",
+        "geometry",
+        "geometric",
+        "triangle",
+        "square",
+        "polygon",
+        "cosmological",
+        "cosmology",
+        "orbit",
+        "orbital",
+        "axis",
+        "axes",
+        "latitude",
+        "longitude",
+        "meridian",
+        "equator",
+        "zenith",
+        "nadir",
+        "blueprint",
+        "floor plan",
+        "cross-section",
+        "cross section",
+        "architectural",
+        "three-dimensional",
+        "3d",
     ]
 )
 
@@ -83,6 +104,7 @@ _DIAGRAM_RE = re.compile(r"\[DIAGRAM:\s*([^\]]+)\]", re.IGNORECASE)
 
 
 # ── Data types ────────────────────────────────────────────────────────────────
+
 
 @dataclass
 class DiagramEntry:
@@ -96,10 +118,10 @@ class ClassificationResult:
     episode: str
     slides_total: int
     diagram_attempted: int
-    coverage: float          # from pilot data or estimated via classifier
+    coverage: float  # from pilot data or estimated via classifier
     spatial_ratio: float
-    verdict: str             # "PASS" | "WARN" | "FAIL"
-    classifier_status: str   # "ok" | "unavailable"
+    verdict: str  # "PASS" | "WARN" | "FAIL"
+    classifier_status: str  # "ok" | "unavailable"
     diagrams: list[DiagramEntry] = field(default_factory=list)
 
     def to_dict(self) -> dict:
@@ -111,14 +133,12 @@ class ClassificationResult:
             "spatial_ratio": round(self.spatial_ratio, 3),
             "verdict": self.verdict,
             "classifier_status": self.classifier_status,
-            "diagrams": [
-                {"index": d.index, "type": d.type, "directive": d.directive}
-                for d in self.diagrams
-            ],
+            "diagrams": [{"index": d.index, "type": d.type, "directive": d.directive} for d in self.diagrams],
         }
 
 
 # ── Core classifier ────────────────────────────────────────────────────────────
+
 
 def classify_episode(txt_path: Path) -> ClassificationResult:
     """Classify diagram directives in a single episode .txt file.
@@ -147,11 +167,7 @@ def classify_episode(txt_path: Path) -> ClassificationResult:
     for i, match in enumerate(_DIAGRAM_RE.finditer(text), start=1):
         directive = match.group(1).strip()
         directive_lower = directive.lower()
-        dtype = (
-            "spatial"
-            if any(kw in directive_lower for kw in SPATIAL_KEYWORDS)
-            else "conceptual"
-        )
+        dtype = "spatial" if any(kw in directive_lower for kw in SPATIAL_KEYWORDS) else "conceptual"
         diagrams.append(DiagramEntry(index=i, directive=directive, type=dtype))
 
     n_attempted = len(diagrams)
@@ -189,11 +205,7 @@ def classify_book(book_dir: Path) -> list[ClassificationResult]:
     results: list[ClassificationResult] = []
     patterns = [
         list((book_dir / "_episodes").glob("*.txt")),
-        [
-            ch / "episode.txt"
-            for ch in sorted((book_dir / "_chapters").iterdir())
-            if (ch / "episode.txt").exists()
-        ]
+        [ch / "episode.txt" for ch in sorted((book_dir / "_chapters").iterdir()) if (ch / "episode.txt").exists()]
         if (book_dir / "_chapters").exists()
         else [],
     ]
@@ -212,6 +224,7 @@ def classify_book(book_dir: Path) -> list[ClassificationResult]:
 
 
 # ── Gate logic ─────────────────────────────────────────────────────────────────
+
 
 def _apply_gate(coverage: float) -> str:
     """Map a coverage score to PASS / WARN / FAIL."""
@@ -240,6 +253,7 @@ def _fallback_verdict(episode: str, reason: str) -> ClassificationResult:
 
 
 # ── CLI ────────────────────────────────────────────────────────────────────────
+
 
 def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(

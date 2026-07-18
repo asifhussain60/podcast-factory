@@ -26,6 +26,7 @@ CLI (backfill a book whose contracts were authored before this module):
 
 Standard: docs/standards/chapter-density.md — "Session grouping".
 """
+
 from __future__ import annotations
 
 import json
@@ -81,6 +82,7 @@ def _config_override(book_dir: Path) -> bool | None:
         return None
     try:
         import yaml
+
         cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
     except Exception:
         return None
@@ -131,18 +133,20 @@ def derive_sessions(
             slug += "-x"
         seen_slugs.add(slug)
         ep_nums = []
-        for ep in (sc.get("episodes") or []):
+        for ep in sc.get("episodes") or []:
             try:
                 ep_nums.append(int(ep["ep_num"]))
             except (KeyError, TypeError, ValueError):
                 continue
-        sessions.append({
-            "session_index": i,
-            "session_title": title,
-            "session_slug": slug,
-            "sc_index": sc.get("sc_index", i),
-            "episode_numbers": sorted(ep_nums),
-        })
+        sessions.append(
+            {
+                "session_index": i,
+                "session_title": title,
+                "session_slug": slug,
+                "sc_index": sc.get("sc_index", i),
+                "episode_numbers": sorted(ep_nums),
+            }
+        )
     return sessions
 
 
@@ -163,8 +167,7 @@ def session_for_episode(sessions: list[dict] | None, ep_num: int) -> dict | None
 
 def load_sessions_for_book(book_dir: Path) -> list[dict] | None:
     """Derive sessions from the book's TOC plan on disk (None when flat)."""
-    toc_path = (book_dir / "_system" / "source" / "text" / "_chunks" / "0d"
-                / "source-toc.json")
+    toc_path = book_dir / "_system" / "source" / "text" / "_chunks" / "0d" / "source-toc.json"
     if not toc_path.exists():
         return None
     try:
@@ -178,6 +181,7 @@ def load_sessions_for_book(book_dir: Path) -> list[dict] | None:
 
 
 # ─── contract stamping ────────────────────────────────────────────────────────
+
 
 def stamp_contract(contract_path: Path, session: dict, ep_num: int) -> bool:
     """Append session fields to a contract that lacks them. Idempotent.
@@ -210,13 +214,14 @@ def stamp_book(book_dir: Path, *, dry_run: bool = False, log=print) -> int:
     """
     sessions = load_sessions_for_book(book_dir)
     if not sessions:
-        log(f"  sessions: flat book (below threshold or no plan) — nothing to stamp")
+        log("  sessions: flat book (below threshold or no plan) — nothing to stamp")
         return 0
     contracts_dir = book_dir / "chapter-contracts"
     stamped = 0
     for path in sorted(contracts_dir.glob("*.yml")):
         try:
             import yaml
+
             data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         except Exception:
             log(f"  sessions: SKIP {path.name} (unparseable yaml)")
@@ -233,26 +238,24 @@ def stamp_book(book_dir: Path, *, dry_run: bool = False, log=print) -> int:
             log(f"  sessions: SKIP {path.name} (ep {ep_num} not in any session)")
             continue
         if dry_run:
-            log(f"  sessions: would stamp {path.name} → "
-                f"S{session['session_index']} ({session['session_title']})")
+            log(f"  sessions: would stamp {path.name} → S{session['session_index']} ({session['session_title']})")
             stamped += 1
             continue
         if stamp_contract(path, session, ep_num):
-            log(f"  sessions: stamped {path.name} → "
-                f"S{session['session_index']} ({session['session_title']})")
+            log(f"  sessions: stamped {path.name} → S{session['session_index']} ({session['session_title']})")
             stamped += 1
     return stamped
 
 
 def main(argv: list[str]) -> int:
     import argparse
-    p = argparse.ArgumentParser(
-        description="Backfill session grouping fields into a book's chapter contracts.")
+
+    p = argparse.ArgumentParser(description="Backfill session grouping fields into a book's chapter contracts.")
     p.add_argument("slug", help="Book slug (any bucket).")
-    p.add_argument("--dry-run", action="store_true",
-                   help="Show the stamping plan without writing.")
+    p.add_argument("--dry-run", action="store_true", help="Show the stamping plan without writing.")
     args = p.parse_args(argv)
     from _paths import find_content
+
     found = find_content(args.slug)
     if found is None:
         print(f"ERROR: no book found for slug {args.slug!r}", file=sys.stderr)

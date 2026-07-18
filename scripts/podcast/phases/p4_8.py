@@ -4,6 +4,7 @@ Verifies that `intelligence_sources.podcast.consult_before_any_edit` cites
 both P4 deliverables AND the disambiguation plan's header points at its P4
 canonical home in podcast-plan.yaml. Pure-verify runner.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -41,7 +42,8 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
         repo_root = REPO_ROOT
     if not is_done(repo_root):
         return PhaseResult(
-            phase_id=PHASE_ID, status="halted",
+            phase_id=PHASE_ID,
+            status="halted",
             message=(
                 "Either intelligence_sources lacks both P4 deliverable refs, OR "
                 "numeric-symbolic-disambiguation-plan.md header doesn't point at "
@@ -50,7 +52,8 @@ def execute(repo_root: Path | None = None) -> PhaseResult:
             evidence_paths=[str(YAML), str(DISAMBIG_PLAN)],
         )
     return PhaseResult(
-        phase_id=PHASE_ID, status="done",
+        phase_id=PHASE_ID,
+        status="done",
         message="intelligence_sources + disambig plan header both wired for P4.",
         rows_marked=[PHASE_ID],
         evidence_paths=[str(YAML), str(DISAMBIG_PLAN)],

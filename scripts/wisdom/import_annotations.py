@@ -8,6 +8,7 @@ CLI usage:
     python3 scripts/wisdom/import_annotations.py --book kitab-al-riyad
     python3 scripts/wisdom/import_annotations.py  # all canonical books
 """
+
 from __future__ import annotations
 
 import argparse
@@ -19,22 +20,22 @@ _HERE = Path(__file__).resolve().parent.parent
 _REPO = _HERE.parent
 sys.path.insert(0, str(_HERE / "podcast"))
 
-from _paths import REPO_ROOT  # noqa: E402
-from _db import get_connection, run_migrations  # noqa: E402
+from _db import get_connection, run_migrations
+from _paths import REPO_ROOT
 
 BOOKS_DIR = REPO_ROOT / "CONTENT" / "drafts" / "books"
 CANONICAL_BOOKS = ["kitab-al-riyad", "the-master-and-the-disciple"]
 
 # Canonical tag definitions — seeded once into annotation_tags
 CANONICAL_TAGS = [
-    ("mark-for-deletion",   "#ef4444", "Trash2",    False, 10),
-    ("mark-for-improvement","#f97316", "Edit",       False, 20),
-    ("esoteric",            "#7c3aed", "Eye",        True,  30),
-    ("reality",             "#2563eb", "Sparkles",   True,  40),
-    ("sharia",              "#059669", "Scale",      True,  50),
-    ("quran",               "#d97706", "BookOpen",   True,  60),
-    ("hadith",              "#0891b2", "MessageCircle", True, 70),
-    ("poetry",              "#db2777", "Music",      True,  80),
+    ("mark-for-deletion", "#ef4444", "Trash2", False, 10),
+    ("mark-for-improvement", "#f97316", "Edit", False, 20),
+    ("esoteric", "#7c3aed", "Eye", True, 30),
+    ("reality", "#2563eb", "Sparkles", True, 40),
+    ("sharia", "#059669", "Scale", True, 50),
+    ("quran", "#d97706", "BookOpen", True, 60),
+    ("hadith", "#0891b2", "MessageCircle", True, 70),
+    ("poetry", "#db2777", "Music", True, 80),
 ]
 
 
@@ -48,9 +49,7 @@ def seed_tags(conn) -> dict[str, int]:
             (label, color, icon, 1 if is_default else 0, sort_order),
         )
     conn.commit()
-    rows = conn.execute(
-        "SELECT id, tag_label FROM annotation_tags"
-    ).fetchall()
+    rows = conn.execute("SELECT id, tag_label FROM annotation_tags").fetchall()
     return {label: tag_id for tag_id, label in rows}
 
 
@@ -99,7 +98,7 @@ def import_book(slug: str, *, dry_run: bool = False) -> dict:
             if not dry_run:
                 conn.commit()
 
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             errors.append(f"{json_file.name}: {exc}")
 
     return {
@@ -124,8 +123,10 @@ def main() -> None:
         if result.get("error"):
             print(f"  ERROR: {result['error']}", file=sys.stderr)
         else:
-            print(f"  imported={result['imported']}, skipped={result['skipped']}"
-                  f"{' [DRY RUN]' if result['dry_run'] else ''}")
+            print(
+                f"  imported={result['imported']}, skipped={result['skipped']}"
+                f"{' [DRY RUN]' if result['dry_run'] else ''}"
+            )
             for e in result["errors"]:
                 print(f"  WARN: {e}", file=sys.stderr)
 

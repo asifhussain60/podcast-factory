@@ -31,6 +31,7 @@ migration cannot silently break readers. New writes ALWAYS use the type-first
 layout. Back-compat: ``content_dir()`` still accepts the old ``stage=`` /
 ``category=`` kwargs and maps them onto a bucket, so existing callers keep working.
 """
+
 from __future__ import annotations
 
 import json
@@ -99,8 +100,8 @@ def work_rollup_status(work_dir: Path) -> str:
 # never define a folder list anywhere else. Extensibility-first: adding a
 # pipeline surface = one entry here.
 BOOK_SUBDIRS: tuple[str, ...] = (
-    "_source",                   # irreplaceable source inputs (tracked)
-    "_system",                   # pipeline state + scratch
+    "_source",  # irreplaceable source inputs (tracked)
+    "_system",  # pipeline state + scratch
     "_system/episode-drafts",
     "_system/scratchpad",
     "_system/source",
@@ -108,11 +109,11 @@ BOOK_SUBDIRS: tuple[str, ...] = (
     "chapter-contracts",
     "chapters",
     "episodes",
-    "m4a",                       # NotebookLM audio drops (contents gitignored)
-    "transcripts",               # Turboscribe/Azure transcripts
-    "slide-decks",               # deck sources + framings + dropped deck PDFs
-    "slide-decks/_manifests",    # slide→anchor manifests (tracked)
-    "book",                      # reading edition (book.md … book.pdf)
+    "m4a",  # NotebookLM audio drops (contents gitignored)
+    "transcripts",  # Turboscribe/Azure transcripts
+    "slide-decks",  # deck sources + framings + dropped deck PDFs
+    "slide-decks/_manifests",  # slide→anchor manifests (tracked)
+    "book",  # reading edition (book.md … book.pdf)
     "audits",
     "notebooklm",
 )
@@ -146,6 +147,7 @@ def slug_of(path: Path) -> str:
         return f"{parent.name}-{path.name}"
     return path.name
 
+
 # Type-first plumbing root (2026-06-04).
 SYSTEM_ROOT = CONTENT_ROOT / "_system"
 
@@ -170,9 +172,15 @@ STATUSES = ("draft", "published", "archived")
 # The authoritative bucket comes from a book's content_profile; this table only
 # serves transitional callers (scaffold/preflight) that pass category=.
 _CATEGORY_TO_BUCKET: dict[str, str] = {
-    "books": "Islamic", "lectures": "Islamic", "letters": "Islamic",
-    "asbaaq": "Islamic", "interviews": "Islamic", "articles": "Islamic",
-    "documents": "Islamic", "sites": "Guides", "explainers": "Guides",
+    "books": "Islamic",
+    "lectures": "Islamic",
+    "letters": "Islamic",
+    "asbaaq": "Islamic",
+    "interviews": "Islamic",
+    "articles": "Islamic",
+    "documents": "Islamic",
+    "sites": "Guides",
+    "explainers": "Guides",
 }
 
 
@@ -226,7 +234,7 @@ def content_dir(
     bucket: str | None = None,
     profile: str | None = None,
     category: str | None = None,
-    stage: str | None = None,   # deprecated; accepted + ignored for back-compat
+    stage: str | None = None,  # deprecated; accepted + ignored for back-compat
 ) -> Path:
     """Return the canonical directory for a piece of content: content/<Bucket>/<slug>.
 
@@ -325,8 +333,8 @@ def resolve_content(slug: str) -> Path:
 def iter_content(
     *,
     bucket: str | None = None,
-    stage: str | None = None,      # deprecated alias for legacy callers
-    category: str | None = None,   # deprecated (legacy layout filter)
+    stage: str | None = None,  # deprecated alias for legacy callers
+    category: str | None = None,  # deprecated (legacy layout filter)
 ) -> Iterable[tuple[str, str, Path]]:
     """Yield every ``(status_or_stage, bucket_or_category, dir)`` on disk.
 

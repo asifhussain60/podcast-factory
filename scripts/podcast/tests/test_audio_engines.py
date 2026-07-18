@@ -10,6 +10,7 @@ Covers:
     to the committed golden file — proving the registry's existence changes
     nothing on the default path.
 """
+
 from __future__ import annotations
 
 import io
@@ -17,14 +18,14 @@ import shutil
 import sys
 import tempfile
 import unittest
-from contextlib import redirect_stdout, redirect_stderr
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest import mock
 
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _audio_engines as ae  # noqa: E402
+import _audio_engines as ae
 
 FIXTURE_BOOK = Path(__file__).resolve().parent / "fixtures" / "audio-engine-book"
 EPISODE_ID = "EP01-the-lamp-and-the-wick"
@@ -82,8 +83,7 @@ class TestResolution(unittest.TestCase):
         book = Path(tmp) / "book"
         (book / "_system").mkdir(parents=True)
         if config_text is not None:
-            (book / "_system" / "series-config.yaml").write_text(
-                config_text, encoding="utf-8")
+            (book / "_system" / "series-config.yaml").write_text(config_text, encoding="utf-8")
         return book
 
     def test_missing_config_file_defaults(self):
@@ -112,12 +112,11 @@ class TestResolution(unittest.TestCase):
         # voice library (2026-06-12): with no override, the deterministic
         # per-slug pair from the approved pools supersedes card defaults.
         from _voice_library import pair_for_slug
+
         book = self._book("audio_engine: elevenlabs\n")
         voices = ae.voices_for_book(book)
         self.assertEqual(voices, pair_for_slug(book.name))
-        book2 = self._book(
-            "audio_engine: elevenlabs\n"
-            "elevenlabs_voices:\n  host_a: AAA111\n")
+        book2 = self._book("audio_engine: elevenlabs\nelevenlabs_voices:\n  host_a: AAA111\n")
         voices2 = ae.voices_for_book(book2)
         self.assertEqual(voices2["host_a"], "AAA111")
         self.assertEqual(voices2["host_b"], pair_for_slug(book2.name)["host_b"])
@@ -141,8 +140,7 @@ class TestCreditEstimate(unittest.TestCase):
         self.assertEqual(a, b)
 
     def test_credits_to_usd(self):
-        self.assertAlmostEqual(
-            ae.credits_to_usd(100_000), 22.0, places=2)
+        self.assertAlmostEqual(ae.credits_to_usd(100_000), 22.0, places=2)
 
 
 class TestGoldenFixtureByteIdentity(unittest.TestCase):
@@ -160,9 +158,9 @@ class TestGoldenFixtureByteIdentity(unittest.TestCase):
         shutil.copytree(FIXTURE_BOOK, book)
         if config_append:
             cfg = book / "_system" / "series-config.yaml"
-            cfg.write_text(cfg.read_text(encoding="utf-8") + config_append,
-                           encoding="utf-8")
+            cfg.write_text(cfg.read_text(encoding="utf-8") + config_append, encoding="utf-8")
         import build_episode_txt
+
         # Section-depth minting touches the shared DB — keep tests hermetic.
         fake_mint = mock.Mock()
         fake_mint.mint_section_depths_for_chapter = mock.Mock()
@@ -175,8 +173,7 @@ class TestGoldenFixtureByteIdentity(unittest.TestCase):
         self.assertEqual(self._build(), GOLDEN.read_bytes())
 
     def test_explicit_default_matches_golden(self):
-        self.assertEqual(
-            self._build("audio_engine: notebooklm\n"), GOLDEN.read_bytes())
+        self.assertEqual(self._build("audio_engine: notebooklm\n"), GOLDEN.read_bytes())
 
 
 if __name__ == "__main__":

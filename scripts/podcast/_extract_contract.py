@@ -8,12 +8,14 @@ from __future__ import annotations
 
 import re
 import sys
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-
 from typing import Any
 
-from _contract_validation import REQUIRED_FIELDS, validate_contract_full  # FIX 14: one validator, four gates
+# FIX 14: one validator, four gates. REQUIRED_FIELDS is re-exported for
+# _extract_helpers and the template-guard regression tests.
+from _contract_validation import REQUIRED_FIELDS as REQUIRED_FIELDS
+from _contract_validation import validate_contract_full
 from _extract_yaml import load_yaml
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -52,7 +54,7 @@ class ResolvedChapter:
     path: Path
     source_bucket: str  # book slug taken from library/<category>/<book>/ — never hardcoded
     chapter_number: int | None
-    chapter_slug: str   # the slug after ch## (e.g. "man" from "ch01-man")
+    chapter_slug: str  # the slug after ch## (e.g. "man" from "ch01-man")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -127,7 +129,10 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
     inline checks here; add them there so every gate inherits them.
     """
     findings = validate_contract_full(
-        c.raw, chapter.path, chapter.path.parents[1], contract_path=c.path,
+        c.raw,
+        chapter.path,
+        chapter.path.parents[1],
+        contract_path=c.path,
     )
     if findings:
         loc = c.path or "(stub)"
@@ -135,13 +140,14 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
             f"ERROR: contract at {loc} failed validation ({len(findings)} finding(s)):\n"
             + "\n".join(f"  - {f}" for f in findings)
             + "\n  See scripts/podcast/_contract_validation.py for the canonical rules\n"
-            f"  and scripts/podcast/extract_chapter.py::stub_contract() for the schema."
+            "  and scripts/podcast/extract_chapter.py::stub_contract() for the schema."
         )
 
     # P1 advisory (not a finding, never blocks): format allowed but not yet
     # fully wired downstream — preserved verbatim from the pre-FIX-14 layer.
     episode_format = c.get("episode_format") or "deep_dive"
     from _rules import EPISODE_FORMAT_FULLY_WIRED
+
     if episode_format not in EPISODE_FORMAT_FULLY_WIRED:
         print(
             f"WARNING: contract.episode_format {episode_format!r} is in "
@@ -158,22 +164,36 @@ def validate_contract(c: Contract, chapter: ResolvedChapter) -> None:
 # ─────────────────────────────────────────────────────────────────────────────
 
 CONTRACT_META_PROSE_TELLS = [
-    "previous episode", "earlier episode", "next episode", "prior episode",
-    "earlier in this episode", "later in this episode",
-    "this file is", "this document is", "this chapter file",
-    "the body below", "the file below",
-    "phase 0", "phase 0a", "phase 0b", "phase 0c", "phase 0d", "phase 0e",
-    "enrichment status", "enrichment ratio",
-    "translator's clarification", "translator's interpolation",
-    "the translator notes", "the translator adds",
+    "previous episode",
+    "earlier episode",
+    "next episode",
+    "prior episode",
+    "earlier in this episode",
+    "later in this episode",
+    "this file is",
+    "this document is",
+    "this chapter file",
+    "the body below",
+    "the file below",
+    "phase 0",
+    "phase 0a",
+    "phase 0b",
+    "phase 0c",
+    "phase 0d",
+    "phase 0e",
+    "enrichment status",
+    "enrichment ratio",
+    "translator's clarification",
+    "translator's interpolation",
+    "the translator notes",
+    "the translator adds",
 ]
 CONTRACT_META_PROSE_REGEX = [
     re.compile(r"\bEP\d{2}\b"),
 ]
 
 # Fields whose values reach the rendered framing file verbatim.
-CONTRACT_LINTED_FIELDS = ("title", "audience", "key_tensions", "tone_constraints",
-                          "anchor_passages")
+CONTRACT_LINTED_FIELDS = ("title", "audience", "key_tensions", "tone_constraints", "anchor_passages")
 
 
 def lint_contract_meta_prose(c: Contract) -> None:
@@ -198,14 +218,15 @@ def lint_contract_meta_prose(c: Contract) -> None:
                     m = pat.search(item)
                     if m:
                         label = f"{fld}[{i}]" if isinstance(value, list) else fld
-                        hits.append(f"  - {label}: matches regex {pat.pattern!r} ({m.group(0)!r})\n    line: {item.strip()[:140]}")
+                        hits.append(
+                            f"  - {label}: matches regex {pat.pattern!r} ({m.group(0)!r})\n    line: {item.strip()[:140]}"
+                        )
                         break
     if hits:
         loc = c.path or "(stub)"
         sys.exit(
-            f"ERROR: contract at {loc} contains meta-prose that would reach NotebookLM.\n"
-            + "\n".join(hits) + "\n"
-            f"  Reword to avoid cross-episode references (EP##, 'next/previous/earlier episode')\n"
-            f"  and authoring metadata. NotebookLM has no context for other episodes — every\n"
-            f"  Audio Overview is generated against a single source upload."
+            f"ERROR: contract at {loc} contains meta-prose that would reach NotebookLM.\n" + "\n".join(hits) + "\n"
+            "  Reword to avoid cross-episode references (EP##, 'next/previous/earlier episode')\n"
+            "  and authoring metadata. NotebookLM has no context for other episodes — every\n"
+            "  Audio Overview is generated against a single source upload."
         )

@@ -23,7 +23,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from _paths import REPO_ROOT, resolve_content  # noqa: E402
+from _paths import resolve_content
 
 # Canonical stage order for the WC8 bilingual pipeline (all books).
 # source → core: produced by intake_stage.py / agent (Azure OCR + alignment)
@@ -52,10 +52,7 @@ STAGE_ARTIFACTS: dict[str, str] = {
 
 
 def _review_path(slug: str, chapter: str) -> Path:
-    return (
-        resolve_content(slug)
-        / "_system" / "review" / f"{chapter}.json"
-    )
+    return resolve_content(slug) / "_system" / "review" / f"{chapter}.json"
 
 
 def _stages_dir(slug: str, chapter: str) -> Path:
@@ -65,6 +62,7 @@ def _stages_dir(slug: str, chapter: str) -> Path:
 # ---------------------------------------------------------------------------
 # Readers
 # ---------------------------------------------------------------------------
+
 
 def read_stage_review(slug: str, chapter: str) -> dict:
     """Return the full review document, or an empty shell if none exists."""
@@ -95,6 +93,7 @@ def stage_artifact_exists(slug: str, chapter: str, stage: str) -> bool:
 # ---------------------------------------------------------------------------
 # Stage state summary
 # ---------------------------------------------------------------------------
+
 
 def chapter_stage_summary(slug: str, chapter: str) -> list[dict]:
     """Return one dict per stage with artifact/approval state.
@@ -155,6 +154,7 @@ def awaiting_approval_stage(slug: str, chapter: str) -> str | None:
 # ---------------------------------------------------------------------------
 # Writer (called by approve_book / Studio API)
 # ---------------------------------------------------------------------------
+
 
 def set_stage_approved(
     slug: str,

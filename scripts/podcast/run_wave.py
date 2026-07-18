@@ -22,6 +22,7 @@ EXIT CODES
     3 — wave halted at human-review gate (dispatcher returned without finishing)
     4 — wave DONE but P-9 invariant violated (test_challenger.py red on develop)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -31,9 +32,9 @@ import re
 import subprocess
 import sys
 from datetime import datetime, timezone
-from pathlib import Path
-from _paths import REPO_ROOT
 from typing import Sequence
+
+from _paths import REPO_ROOT
 
 # Repo root is two levels up from this file (scripts/podcast/run_wave.py).
 PLAN_DIR = REPO_ROOT / "_workspace" / "plan"
@@ -108,9 +109,7 @@ def _ensure_wave_branch(wave_n: int) -> str:
         return expected
 
     if _working_tree_dirty():
-        raise RuntimeError(
-            "working tree is dirty; commit or stash changes before switching wave branches"
-        )
+        raise RuntimeError("working tree is dirty; commit or stash changes before switching wave branches")
 
     _git(["fetch", "origin", DEVELOP_BRANCH, "--prune"], check=False)
 
@@ -247,10 +246,7 @@ def _align_prior_waves(args: argparse.Namespace) -> int:
     )
     print(f"[run_wave] strict wave-order gate blocked W{args.wave}; incomplete prior waves: {gaps}")
 
-    gap_details = {
-        str(gap_wave): _missing_task_ids(ACCEPTANCE_FILE.read_text(), gap_wave)
-        for gap_wave in gaps
-    }
+    gap_details = {str(gap_wave): _missing_task_ids(ACCEPTANCE_FILE.read_text(), gap_wave) for gap_wave in gaps}
     _append_wave_event(
         event_type="mandatory_alignment",
         wave_n=args.wave,
@@ -284,6 +280,7 @@ def _merge_wave_to_develop_and_return(wave_n: int) -> int:
     print(f"[run_wave] wave completion merged to {DEVELOP_BRANCH} and returned to {wave_branch}")
     return EXIT_DONE
 
+
 # ───────────────────────────────────────────────────────────────────────────────
 # Acceptance-file parsing
 # ───────────────────────────────────────────────────────────────────────────────
@@ -301,9 +298,7 @@ def parse_wave_rows(text: str) -> dict[int, list[tuple[str, str]]]:
     (e.g., "P1.4", "P17.1"). One id may appear multiple times per wave
     (e.g., several acceptance bullets under P1.4); that's expected.
     """
-    boundaries: list[tuple[int | None, int]] = [
-        (int(m.group(1)), m.start()) for m in WAVE_HEADING_RE.finditer(text)
-    ]
+    boundaries: list[tuple[int | None, int]] = [(int(m.group(1)), m.start()) for m in WAVE_HEADING_RE.finditer(text)]
     if not boundaries:
         return {}
     boundaries.append((None, len(text)))
@@ -417,22 +412,22 @@ def _run_phase_registry(args: argparse.Namespace, wave_n: int) -> int:
     indicates a code defect, not a missing deliverable.
     """
     try:
-        from scripts.podcast import phases as _phases_pkg  # type: ignore
         from scripts.podcast import _acceptance  # type: ignore
+        from scripts.podcast import phases as _phases_pkg  # type: ignore
     except ImportError:
         sys.path.insert(0, str(REPO_ROOT))
-        from scripts.podcast import phases as _phases_pkg  # type: ignore
         from scripts.podcast import _acceptance  # type: ignore
+        from scripts.podcast import phases as _phases_pkg  # type: ignore
 
     phase_list = _phases_pkg.wave_phases(wave_n)
     if not phase_list:
         print(f"[run_wave] W{wave_n} phase registry is empty — no autonomous work to drive.")
-        print(f"[run_wave]   Land per-phase runners under scripts/podcast/phases/ and append")
+        print("[run_wave]   Land per-phase runners under scripts/podcast/phases/ and append")
         print(f"[run_wave]   them to phases/__init__.py REGISTRY[{wave_n}].")
         return EXIT_HALTED_REVIEW
 
     print(f"[run_wave] W{wave_n} ({WAVE_NAMES[wave_n]}) — {len(phase_list)} phase(s) registered")
-    print(f"[run_wave] Starting red-green convergence loop…")
+    print("[run_wave] Starting red-green convergence loop…")
     print()
 
     pass_number = 0
@@ -459,14 +454,14 @@ def _run_phase_registry(args: argparse.Namespace, wave_n: int) -> int:
                 _print_phase_status(f"{pid}", "✓ already done (idempotent skip)")
                 n = _acceptance.mark_task_rows_in_file(pid, acceptance_file=ACCEPTANCE_FILE)
                 if n > 0:
-                    _print_phase_status(f"  └─ marked", f"{n} acceptance row(s) → [x]")
+                    _print_phase_status("  └─ marked", f"{n} acceptance row(s) → [x]")
                 completed_ever.add(pid)
                 new_completions += 1
                 continue
 
             try:
                 result = mod.execute(REPO_ROOT)
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 _print_phase_status(f"{pid}", f"✗ ERROR: {e!r}")
                 return EXIT_ERROR
 
@@ -475,11 +470,11 @@ def _run_phase_registry(args: argparse.Namespace, wave_n: int) -> int:
                 for rid in result.rows_marked:
                     n = _acceptance.mark_task_rows_in_file(rid, acceptance_file=ACCEPTANCE_FILE)
                     if n > 0:
-                        _print_phase_status(f"  └─ marked", f"{n} row(s) for {rid} → [x]")
+                        _print_phase_status("  └─ marked", f"{n} row(s) for {rid} → [x]")
                 completed_ever.add(pid)
                 new_completions += 1
             elif result.status == "halted":
-                _print_phase_status(f"{pid}", f"⏸ blocked — continuing to next phase")
+                _print_phase_status(f"{pid}", "⏸ blocked — continuing to next phase")
                 halted_this_pass.append((pid, result))
                 # ← CONTINUE — do NOT break; evaluate every remaining phase
             else:
@@ -521,7 +516,7 @@ def _run_phase_registry(args: argparse.Namespace, wave_n: int) -> int:
             print(f"  │  {line}")
         for ep in getattr(result, "evidence_paths", []):
             print(f"  │  → {ep}")
-        print(f"  └────────────────────────────────────────────────────")
+        print("  └────────────────────────────────────────────────────")
         print()
 
     return EXIT_HALTED_REVIEW
@@ -581,8 +576,7 @@ def cmd_check(text: str, wave_n: int) -> int:
     is_done = total > 0 and checked == total
     verdict = "DONE" if is_done else "PENDING"
     print(
-        f"[run_wave --check] Wave {wave_n} ({name}): "
-        f"{checked}/{total} acceptance rows checked ({pct:.1f}%) — {verdict}"
+        f"[run_wave --check] Wave {wave_n} ({name}): {checked}/{total} acceptance rows checked ({pct:.1f}%) — {verdict}"
     )
     if not is_done:
         unchecked = [task_id for status, task_id in rows if status != "x"]
@@ -595,7 +589,7 @@ def cmd_check(text: str, wave_n: int) -> int:
         if unique:
             print("[run_wave --check] Unchecked task ids in this wave:")
             for tid in unique:
-                _, sample_total = wave_status(text, wave_n)  # noqa: F841 (kept for symmetry)
+                _, sample_total = wave_status(text, wave_n)
                 n_unchecked = sum(1 for s, t in rows if t == tid and s != "x")
                 n_total = sum(1 for _, t in rows if t == tid)
                 print(f"  {tid}: {n_unchecked}/{n_total} bullets unchecked")
@@ -604,11 +598,7 @@ def cmd_check(text: str, wave_n: int) -> int:
 
 def _resolve_acceptance_file() -> None:
     global ACCEPTANCE_FILE
-    if (
-        ACCEPTANCE_FILE == DEFAULT_ACCEPTANCE_FILE
-        and not ACCEPTANCE_FILE.exists()
-        and LEGACY_ACCEPTANCE_FILE.exists()
-    ):
+    if ACCEPTANCE_FILE == DEFAULT_ACCEPTANCE_FILE and not ACCEPTANCE_FILE.exists() and LEGACY_ACCEPTANCE_FILE.exists():
         ACCEPTANCE_FILE = LEGACY_ACCEPTANCE_FILE
 
 
@@ -620,10 +610,7 @@ def _resolve_acceptance_file() -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="run_wave.py",
-        description=(
-            "Wave kickoff harness for the podcast pipeline. "
-            "See _workspace/plan/podcast-plan.yaml P1.4."
-        ),
+        description=("Wave kickoff harness for the podcast pipeline. See _workspace/plan/podcast-plan.yaml P1.4."),
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "Exit codes:\n"
@@ -737,10 +724,7 @@ def main(argv: list[str] | None = None) -> int:
     # Idempotency: if the wave is already DONE, exit 0 without dispatching.
     if is_wave_done(text, args.wave):
         checked, total = wave_status(text, args.wave)
-        print(
-            f"[run_wave] Wave {args.wave} already DONE "
-            f"({checked}/{total} acceptance rows checked). No work."
-        )
+        print(f"[run_wave] Wave {args.wave} already DONE ({checked}/{total} acceptance rows checked). No work.")
         return EXIT_DONE
 
     align_rc = _align_prior_waves(args)
@@ -774,18 +758,16 @@ def main(argv: list[str] | None = None) -> int:
         # into the HTML views (per yaml.waves[id=WN].on_completion).
         try:
             from scripts.podcast import _view_updater  # type: ignore
+
             result = _view_updater.update_view_for_wave(args.wave)
             if result["updated"]:
-                print(
-                    f"[run_wave] HTML views updated for W{args.wave}: "
-                    f"{', '.join(result['updated'])}"
-                )
+                print(f"[run_wave] HTML views updated for W{args.wave}: {', '.join(result['updated'])}")
             elif result["missing_summary"]:
                 print(
                     f"[run_wave] W{args.wave} done — no on_completion.html_summary "
                     f"declared in YAML; skipping view update."
                 )
-        except Exception as e:  # noqa: BLE001 — view update is non-fatal
+        except Exception as e:
             print(
                 f"[run_wave] WARNING: view update for W{args.wave} failed: {e!r}",
                 file=sys.stderr,

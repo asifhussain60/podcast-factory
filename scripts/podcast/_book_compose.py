@@ -26,6 +26,7 @@ assembled once every chapter is present.
 Standalone:
   python3 _book_compose.py <BOOK_DIR>
 """
+
 from __future__ import annotations
 
 import json
@@ -33,8 +34,7 @@ import re
 from pathlib import Path
 
 from _authoring._core import AuthoringError, _run_claude_p
-from _literary import (
-    _read_literary_config, _VOICE_INSTRUCTIONS, chapter_craft_block, teaching_loss_findings)
+from _literary import _VOICE_INSTRUCTIONS, _read_literary_config, chapter_craft_block, teaching_loss_findings
 from _translit import simplify_transliteration
 
 # Per-chapter wall budgets. 420s proved too tight in practice (2026-06-11:
@@ -154,7 +154,7 @@ def _quran_anchor_block(text: str) -> tuple[str, dict]:
     if not refs:
         return "", stats
     try:
-        from source_library_mirror import quran_ayat_lookup  # noqa: PLC0415
+        from source_library_mirror import quran_ayat_lookup
     except Exception:
         return "", stats
     entries: list[str] = []
@@ -175,8 +175,7 @@ def _quran_anchor_block(text: str) -> tuple[str, dict]:
         "Arabic is given below, drawn from the verified Quran database. When you "
         "render one of these verses in Arabic script, you MUST reproduce its text "
         "below CHARACTER-FOR-CHARACTER — do not re-spell, re-vowel, paraphrase, or "
-        "rely on memory. Place the English translation beneath as usual.\n\n"
-        + "\n\n".join(entries) + "\n"
+        "rely on memory. Place the English translation beneath as usual.\n\n" + "\n\n".join(entries) + "\n"
     )
     return block, stats
 
@@ -197,18 +196,32 @@ back to the rule above (best faithful attempt, no invented reference).
 """
 
 
-def _compose_prompt(title: str, body: str, cfg: dict, voice_card: str, prev_tail: str,
-                    arabic_src: str = "", quran_anchor: str = "") -> str:
+def _compose_prompt(
+    title: str, body: str, cfg: dict, voice_card: str, prev_tail: str, arabic_src: str = "", quran_anchor: str = ""
+) -> str:
     voice_key = cfg.get("narrator_voice", "author_first_person")
     narrator = cfg.get("narrator_subject", "the author")
     addressee = cfg.get("addressee", "the reader")
     voice_instr = _VOICE_INSTRUCTIONS.get(voice_key, _VOICE_INSTRUCTIONS["author_first_person"]).format(
-        narrator_subject=narrator, addressee=addressee)
+        narrator_subject=narrator, addressee=addressee
+    )
     craft = chapter_craft_block(cfg.get("content_profile"))
-    anchor = (f"\nVOICE ANCHOR (match this exact register and rhythm — it is your own voice "
-              f"established earlier in the book):\n{voice_card}\n") if voice_card else ""
-    cont = (f"\nCONTINUITY: the previous chapter ended with —\n\"…{prev_tail}\"\nOpen THIS chapter so "
-            f"it flows naturally onward. Do not repeat those lines or recap them.\n") if prev_tail else ""
+    anchor = (
+        (
+            f"\nVOICE ANCHOR (match this exact register and rhythm — it is your own voice "
+            f"established earlier in the book):\n{voice_card}\n"
+        )
+        if voice_card
+        else ""
+    )
+    cont = (
+        (
+            f'\nCONTINUITY: the previous chapter ended with —\n"…{prev_tail}"\nOpen THIS chapter so '
+            f"it flows naturally onward. Do not repeat those lines or recap them.\n"
+        )
+        if prev_tail
+        else ""
+    )
 
     return f"""You are {narrator}, preparing a modern reading edition of your letter. Write ONE chapter, \
 titled "{title}".
@@ -253,26 +266,38 @@ SOURCE MATERIAL (this chapter)
 {body}"""
 
 
-def _compose_one(title: str, body: str, cfg: dict, voice_card: str, prev_tail: str,
-                 book_dir: Path, label: str, log, arabic_src: str = "",
-                 quran_anchor: str = "") -> str:
-    prompt = _compose_prompt(title, body, cfg, voice_card, prev_tail,
-                             arabic_src=arabic_src, quran_anchor=quran_anchor)
-    rc, out, err = _run_claude_p(prompt, timeout=_COMPOSE_TIMEOUT, book_dir=book_dir,
-                                 phase="0book-compose", step=label)
+def _compose_one(
+    title: str,
+    body: str,
+    cfg: dict,
+    voice_card: str,
+    prev_tail: str,
+    book_dir: Path,
+    label: str,
+    log,
+    arabic_src: str = "",
+    quran_anchor: str = "",
+) -> str:
+    prompt = _compose_prompt(title, body, cfg, voice_card, prev_tail, arabic_src=arabic_src, quran_anchor=quran_anchor)
+    rc, out, err = _run_claude_p(prompt, timeout=_COMPOSE_TIMEOUT, book_dir=book_dir, phase="0book-compose", step=label)
     out = (out or "").strip()
     if rc != 0:
         raise AuthoringError(
             phase="0book-compose",
             message=f"{label}: claude -p rc={rc}: {err[:300]}",
-            manual_fallback="Re-run the phase to resume from the last completed chapter.")
+            manual_fallback="Re-run the phase to resume from the last completed chapter.",
+        )
     sw = len(body.split())
     if sw >= 200 and len(out.split()) < 0.7 * sw:
         log(f"      {label}: short ({len(out.split())}/{sw}w) — retry (anti-abridge)")
         rc2, out2, _ = _run_claude_p(
             prompt + "\n\nYOUR PREVIOUS ATTEMPT WAS TOO SHORT — it summarized. Re-voice the FULL "
             "material; omit nothing; output about the same length as the source.",
-            timeout=_RETRY_TIMEOUT, book_dir=book_dir, phase="0book-compose", step=f"{label}-retry")
+            timeout=_RETRY_TIMEOUT,
+            book_dir=book_dir,
+            phase="0book-compose",
+            step=f"{label}-retry",
+        )
         if rc2 == 0 and len(out2.split()) > len(out.split()):
             out = out2.strip()
     return out
@@ -285,7 +310,8 @@ def author_phase_book_compose(book_dir: Path, *, log=print) -> Path:
         raise AuthoringError(
             phase="0book-compose",
             message=f"missing {toc_path} — run 0book-design first.",
-            manual_fallback="python3 -m _authoring._book_design <BOOK_DIR>")
+            manual_fallback="python3 -m _authoring._book_design <BOOK_DIR>",
+        )
 
     toc = json.loads(toc_path.read_text(encoding="utf-8"))
     refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
@@ -293,7 +319,8 @@ def author_phase_book_compose(book_dir: Path, *, log=print) -> Path:
         raise AuthoringError(
             phase="0book-compose",
             message=f"missing {refined} (the line-numbered design input).",
-            manual_fallback="Ensure the refined source used by 0book-design is present.")
+            manual_fallback="Ensure the refined source used by 0book-design is present.",
+        )
     lines = refined.read_text(encoding="utf-8").split("\n")
     cfg = _read_literary_config(book_dir)
     chunks_dir = book_dir / "book" / "_chunks" / "book"
@@ -311,8 +338,10 @@ def author_phase_book_compose(book_dir: Path, *, log=print) -> Path:
             return "", ""
         return "\n\n".join(arabic_pages[n] for n in nums), f"pp.{nums[0]}-{nums[-1]}"
 
-    log(f"    0book-compose: {book_dir.name}: voice={cfg.get('narrator_subject')!r} · {len(chapters)} chapters"
-        + (f" · arabic ground truth: {len(arabic_pages)} OCR pages" if arabic_pages else ""))
+    log(
+        f"    0book-compose: {book_dir.name}: voice={cfg.get('narrator_subject')!r} · {len(chapters)} chapters"
+        + (f" · arabic ground truth: {len(arabic_pages)} OCR pages" if arabic_pages else "")
+    )
 
     voice_card, prev_tail = "", ""
     _qa_cited_total, _qa_anchored_total = 0, 0
@@ -333,13 +362,28 @@ def author_phase_book_compose(book_dir: Path, *, log=print) -> Path:
         else:
             arabic_src, span = _arabic_for(ch.get("source_line_ranges", []))
             if qa_stats["cited"]:
-                log(f"      {label}: Quran anchoring — {qa_stats['anchored']}/"
+                log(
+                    f"      {label}: Quran anchoring — {qa_stats['anchored']}/"
                     f"{qa_stats['cited']} cited verses anchored to canonical mushaf "
-                    f"text (mirror.db)")
-            log(f"      {label}: {title} ({len(body.split())} src words"
-                + (f", arabic {span}" if span else "") + ") -> Opus")
-            prose = _compose_one(title, body, cfg, voice_card, prev_tail, book_dir, label, log,
-                                 arabic_src=arabic_src, quran_anchor=qa_block)
+                    f"text (mirror.db)"
+                )
+            log(
+                f"      {label}: {title} ({len(body.split())} src words"
+                + (f", arabic {span}" if span else "")
+                + ") -> Opus"
+            )
+            prose = _compose_one(
+                title,
+                body,
+                cfg,
+                voice_card,
+                prev_tail,
+                book_dir,
+                label,
+                log,
+                arabic_src=arabic_src,
+                quran_anchor=qa_block,
+            )
             findings = teaching_loss_findings(body, prose)
             note = (" | GUARD: " + "; ".join(findings)) if findings else ""
             note += f" | arabic blocks {_arabic_run_count(prose)} (src {_translit_quote_count(body)} translit quotes)"
@@ -357,17 +401,22 @@ def author_phase_book_compose(book_dir: Path, *, log=print) -> Path:
         if pf_path.exists() and pf_path.read_text(encoding="utf-8").strip():
             preface = pf_path.read_text(encoding="utf-8").strip()
         else:
-            pbody = _slice_source(lines, pf.get("source_line_ranges", [])) or \
-                "(The question that prompted this work.)"
+            pbody = _slice_source(lines, pf.get("source_line_ranges", [])) or "(The question that prompted this work.)"
             log(f"      preface: {pf.get('title')!r} -> Opus")
             p_arabic, _ = _arabic_for(pf.get("source_line_ranges", []))
             pprompt = _compose_prompt(
                 pf.get("title", "Preface"),
                 pbody + "\n\n(Write this as a short, warm preface — at most a few paragraphs — that "
                 "orients today's reader to the work that follows: who is speaking, to whom, and why it "
-                "still matters across the centuries.)", cfg, "", "", arabic_src=p_arabic)
-            rc, preface, _ = _run_claude_p(pprompt, timeout=900, book_dir=book_dir,
-                                           phase="0book-compose", step="preface")
+                "still matters across the centuries.)",
+                cfg,
+                "",
+                "",
+                arabic_src=p_arabic,
+            )
+            rc, preface, _ = _run_claude_p(
+                pprompt, timeout=900, book_dir=book_dir, phase="0book-compose", step="preface"
+            )
             preface = (preface or "").strip()
             pf_path.write_text(preface + "\n", encoding="utf-8")
         parts.append(f"## {pf.get('title', 'Preface')}\n\n{preface}\n")
@@ -388,18 +437,24 @@ def author_phase_book_compose(book_dir: Path, *, log=print) -> Path:
     try:
         _pct = (_qa_anchored_total / _qa_cited_total) if _qa_cited_total else 1.0
         (book_dir / "_system" / "quran-anchor-report.json").write_text(
-            json.dumps({"cited": _qa_cited_total, "anchored": _qa_anchored_total,
-                        "coverage": round(_pct, 4)}, indent=2), encoding="utf-8")
+            json.dumps(
+                {"cited": _qa_cited_total, "anchored": _qa_anchored_total, "coverage": round(_pct, 4)}, indent=2
+            ),
+            encoding="utf-8",
+        )
         if _qa_cited_total:
-            log(f"    0book-compose: Quran anchoring {_qa_anchored_total}/{_qa_cited_total} "
-                f"({_pct:.0%}) cited verses pinned to canonical text")
-    except Exception as e:  # noqa: BLE001
+            log(
+                f"    0book-compose: Quran anchoring {_qa_anchored_total}/{_qa_cited_total} "
+                f"({_pct:.0%}) cited verses pinned to canonical text"
+            )
+    except Exception as e:
         log(f"    0book-compose: quran-anchor report skipped (non-fatal): {e}")
     return book_md
 
 
 def main() -> int:
     import sys
+
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     if not args:
         print("usage: python3 _book_compose.py <BOOK_DIR>", file=sys.stderr)

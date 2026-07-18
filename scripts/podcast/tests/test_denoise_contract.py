@@ -5,6 +5,7 @@ The denoise stage must strip non-teaching front matter and book-object apparatus
 while preserving Arabic script for the downstream Arabic/pronunciation review.
 These tests inspect the prompt/rule contract only; they make no network calls.
 """
+
 from __future__ import annotations
 
 import sys
@@ -14,9 +15,9 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _rules  # noqa: E402
-import full_book_denoise as fbd  # noqa: E402
-import gemini_refine as gr  # noqa: E402
+import _rules
+import full_book_denoise as fbd
+import gemini_refine as gr
 
 
 class DenoiseContractTests(unittest.TestCase):

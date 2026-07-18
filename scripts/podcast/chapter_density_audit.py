@@ -41,6 +41,7 @@ EXIT CODES
   1  at least one FAIL chapter
   2  fatal (no chapters found, bad args)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -52,8 +53,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import iter_content, slug_of  # noqa: E402
-from _validator_constants import EPISODE_MAX_CONCEPTS  # noqa: E402
+from _paths import iter_content, slug_of
+from _validator_constants import EPISODE_MAX_CONCEPTS
 
 # ── repo root -----------------------------------------------------------------
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -62,9 +63,9 @@ CONTENT_ROOT = REPO_ROOT / "content"
 # ── density constants ---------------------------------------------------------
 # Single source of truth lives in _validator_constants.EPISODE_MAX_CONCEPTS
 # (shared with the Phase 0d post-write gate and the preflight smoke gate).
-DEFAULT_MAX_CONCEPTS = EPISODE_MAX_CONCEPTS   # target: ≤3 concept sections per episode
+DEFAULT_MAX_CONCEPTS = EPISODE_MAX_CONCEPTS  # target: ≤3 concept sections per episode
 TARGET_WORDS_PER_CONCEPT = 1800  # ~18 minutes of podcast audio at 150 wpm
-WARN_THRESHOLD_DELTA = 1        # WARN if exactly max+1
+WARN_THRESHOLD_DELTA = 1  # WARN if exactly max+1
 
 # H2 headings that are purely structural frames, not concepts.
 # Enrichment rewrites frame headings with variant nouns ("Where the dialogue
@@ -95,7 +96,7 @@ class ConceptSection:
 class ChapterDensity:
     book_slug: str
     bucket: str
-    chapter_file: str          # bare filename, no path
+    chapter_file: str  # bare filename, no path
     chapter_path: Path = field(repr=False)
     sections: list[ConceptSection] = field(default_factory=list)
     total_words: int = 0
@@ -150,7 +151,7 @@ class ChapterDensity:
             return [titles]
         n_parts = math.ceil(self.concept_count / self.max_concepts)
         chunk_size = math.ceil(self.concept_count / n_parts)
-        return [titles[i:i + chunk_size] for i in range(0, len(titles), chunk_size)]
+        return [titles[i : i + chunk_size] for i in range(0, len(titles), chunk_size)]
 
     def to_dict(self) -> dict:
         return {
@@ -170,6 +171,7 @@ class ChapterDensity:
 
 # ── parsing -------------------------------------------------------------------
 
+
 def _parse_chapter(path: Path) -> list[ConceptSection]:
     """Split chapter text into sections by ## headings."""
     text = path.read_text(encoding="utf-8")
@@ -183,11 +185,13 @@ def _parse_chapter(path: Path) -> list[ConceptSection]:
             body = "\n".join(current_lines)
             word_count = len(body.split())
             is_frame = bool(_FRAME_PATTERNS.match(f"## {current_title}"))
-            sections.append(ConceptSection(
-                title=current_title,
-                word_count=word_count,
-                is_frame=is_frame,
-            ))
+            sections.append(
+                ConceptSection(
+                    title=current_title,
+                    word_count=word_count,
+                    is_frame=is_frame,
+                )
+            )
 
     for line in lines:
         if line.startswith("## "):
@@ -319,10 +323,7 @@ def _render_text_report(results: list[ChapterDensity], remediate: bool = False) 
                         continue
                     lines.append(f"│  {ch.chapter_file} → split into {len(splits)} sub-episodes:")
                     for j, group in enumerate(splits, 1):
-                        group_words = sum(
-                            s.word_count for s in ch.concept_sections
-                            if s.title in group
-                        )
+                        group_words = sum(s.word_count for s in ch.concept_sections if s.title in group)
                         lines.append(f"│    Sub-episode {j} (~{group_words}w):")
                         for title in group:
                             lines.append(f"│       - {title}")
@@ -331,16 +332,16 @@ def _render_text_report(results: list[ChapterDensity], remediate: bool = False) 
         lines.append("└" + "─" * 64)
         lines.append("")
 
-    lines.append(f"SUMMARY: {len(results)} chapters total | "
-                 f"✅ {total_pass} PASS | "
-                 f"⚠️  {total_warn} WARN | "
-                 f"❌ {total_fail} FAIL")
+    lines.append(
+        f"SUMMARY: {len(results)} chapters total | ✅ {total_pass} PASS | ⚠️  {total_warn} WARN | ❌ {total_fail} FAIL"
+    )
     lines.append(f"Target: ≤{results[0].max_concepts} concept sections per chapter")
     lines.append("")
     return "\n".join(lines)
 
 
 # ── CLI -----------------------------------------------------------------------
+
 
 def _parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
@@ -350,20 +351,25 @@ def _parse_args() -> argparse.Namespace:
     )
     p.add_argument("--slug", metavar="SLUG", help="Audit only this book slug.")
     p.add_argument(
-        "--max-concepts", type=int, default=DEFAULT_MAX_CONCEPTS,
+        "--max-concepts",
+        type=int,
+        default=DEFAULT_MAX_CONCEPTS,
         metavar="N",
         help=f"Maximum concepts per chapter (default {DEFAULT_MAX_CONCEPTS}).",
     )
     p.add_argument(
-        "--violations-only", action="store_true",
+        "--violations-only",
+        action="store_true",
         help="Only show WARN and FAIL chapters.",
     )
     p.add_argument(
-        "--remediate", action="store_true",
+        "--remediate",
+        action="store_true",
         help="Include suggested split plans for over-dense chapters.",
     )
     p.add_argument(
-        "--json", action="store_true",
+        "--json",
+        action="store_true",
         help="Output raw JSON (machine-readable).",
     )
     return p.parse_args()

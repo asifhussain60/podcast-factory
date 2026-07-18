@@ -42,6 +42,7 @@ COST
     BOOK_DIR/_system/cost-ledger.jsonl. Standing Azure spend authorization
     (2026-05-29) covers this path.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -52,7 +53,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _paths import find_content  # noqa: E402
+from _paths import find_content
 
 CH_STEM_RE = re.compile(r"^ch(\d{2})([a-z]?)-([a-z0-9][a-z0-9-]*)$")
 
@@ -61,9 +62,10 @@ def _audio_duration_s(audio_path: Path) -> float | None:
     """Audio duration via ffprobe; None when ffprobe is unavailable."""
     try:
         out = subprocess.run(
-            ["ffprobe", "-v", "quiet", "-show_entries", "format=duration",
-             "-of", "csv=p=0", str(audio_path)],
-            capture_output=True, text=True, check=True,
+            ["ffprobe", "-v", "quiet", "-show_entries", "format=duration", "-of", "csv=p=0", str(audio_path)],
+            capture_output=True,
+            text=True,
+            check=True,
         ).stdout.strip()
         return float(out)
     except (FileNotFoundError, subprocess.CalledProcessError, ValueError):
@@ -80,8 +82,7 @@ def _episode_id(book_dir: Path, ch_stem: str) -> str:
     return f"EP{num:02d}-{slug}"
 
 
-def plan_missing(book_dir: Path, *, only: str | None = None,
-                 force: bool = False) -> tuple[list[Path], list[Path]]:
+def plan_missing(book_dir: Path, *, only: str | None = None, force: bool = False) -> tuple[list[Path], list[Path]]:
     """Return (to_transcribe, non_canonical) among m4a/*.m4a."""
     m4a_dir = book_dir / "m4a"
     tx_dir = m4a_dir / "transcripts"
@@ -106,7 +107,7 @@ def transcribe_book(
     force: bool = False,
     locale: str = "en-US",
     audit_copy: bool = True,
-    transcriber=None,           # injectable for tests: (audio_path, locale) -> str
+    transcriber=None,  # injectable for tests: (audio_path, locale) -> str
     log=print,
 ) -> list[Path]:
     """Transcribe every canonical m4a missing a transcript. Returns written paths."""
@@ -119,13 +120,13 @@ def transcribe_book(
 
     if transcriber is None:
         import _azure
-        from _engine import engine_guard, TASK_TRANSCRIBE, ENGINE_AZURE
+        from _engine import ENGINE_AZURE, TASK_TRANSCRIBE, engine_guard
+
         engine_guard(TASK_TRANSCRIBE, ENGINE_AZURE)
         creds = _azure.load_speech_creds()
 
         def transcriber(audio_path: Path, loc: str) -> str:
-            return _azure.transcribe_audio(
-                creds, audio_path.read_bytes(), audio_path.name, locale=loc)
+            return _azure.transcribe_audio(creds, audio_path.read_bytes(), audio_path.name, locale=loc)
 
     tx_dir = book_dir / "m4a" / "transcripts"
     tx_dir.mkdir(parents=True, exist_ok=True)
@@ -136,8 +137,10 @@ def transcribe_book(
         log(f"  transcribing {audio.name} ({dur_label}, locale={locale})...")
         text = transcriber(audio, locale).strip()
         if not text:
-            log(f"  ERROR: empty transcript for {audio.name} — skipped "
-                "(silent/corrupt audio, >2h ceiling, or wrong locale)")
+            log(
+                f"  ERROR: empty transcript for {audio.name} — skipped "
+                "(silent/corrupt audio, >2h ceiling, or wrong locale)"
+            )
             continue
         out = tx_dir / f"{audio.stem}.transcript.txt"
         out.write_text(text + "\n", encoding="utf-8")
@@ -151,8 +154,10 @@ def transcribe_book(
         # Duration-priced ledger row (matches Azure's actual per-second pricing).
         try:
             from _cost_ledger import append_azure_stt_cost
+
             row = append_azure_stt_cost(
-                book_dir, phase="postprod",
+                book_dir,
+                phase="postprod",
                 step=f"transcribe-notebooklm/{audio.stem}",
                 duration_seconds=dur if dur else len(text) / 16.0,  # ~16 chars/s fallback
             )
@@ -163,14 +168,14 @@ def transcribe_book(
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(
-        description="Transcribe NotebookLM output audio (m4a/) via Azure Speech.")
+    ap = argparse.ArgumentParser(description="Transcribe NotebookLM output audio (m4a/) via Azure Speech.")
     ap.add_argument("slug", help="book slug (any bucket)")
     ap.add_argument("--only", help="single canonical stem, e.g. ch19c-the-conspiracy-formula")
     ap.add_argument("--force", action="store_true", help="re-transcribe even when a transcript exists")
     ap.add_argument("--locale", default="en-US", help="speech locale (default en-US)")
-    ap.add_argument("--no-audit-copy", action="store_true",
-                    help="skip the derived transcripts/EP##-<slug>.transcript.txt copy")
+    ap.add_argument(
+        "--no-audit-copy", action="store_true", help="skip the derived transcripts/EP##-<slug>.transcript.txt copy"
+    )
     ap.add_argument("--dry-run", action="store_true", help="list the work plan, transcribe nothing")
     args = ap.parse_args()
 
@@ -191,7 +196,10 @@ def main() -> int:
         return 0
 
     written = transcribe_book(
-        book_dir, only=args.only, force=args.force, locale=args.locale,
+        book_dir,
+        only=args.only,
+        force=args.force,
+        locale=args.locale,
         audit_copy=not args.no_audit_copy,
     )
     print(f"\ndone: {len(written)} file(s) written.")

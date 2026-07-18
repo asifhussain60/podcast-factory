@@ -37,7 +37,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-import _azure  # noqa: E402
+import _azure
 
 
 def transcribe(
@@ -48,7 +48,8 @@ def transcribe(
     locale: str = "en-US",
 ) -> Path:
     """Transcribe `audio_path` and write the slug-aligned transcript file."""
-    from _engine import engine_guard, TASK_TRANSCRIBE, ENGINE_AZURE
+    from _engine import ENGINE_AZURE, TASK_TRANSCRIBE, engine_guard
+
     engine_guard(TASK_TRANSCRIBE, ENGINE_AZURE)
     if not book_dir.is_dir():
         raise SystemExit(f"ERROR: BOOK_DIR is not a directory: {book_dir}")
@@ -63,8 +64,7 @@ def transcribe(
     audio_bytes = audio_path.read_bytes()
     audio_size_mb = len(audio_bytes) / (1024 * 1024)
     print(
-        f"Transcribing {audio_path.name} ({audio_size_mb:.1f} MB) "
-        f"via Azure Speech ({creds.region}, locale={locale})..."
+        f"Transcribing {audio_path.name} ({audio_size_mb:.1f} MB) via Azure Speech ({creds.region}, locale={locale})..."
     )
 
     text = _azure.transcribe_audio(creds, audio_bytes, audio_path.name, locale=locale)
@@ -84,18 +84,24 @@ def transcribe(
     # gives the real duration, with a ~16 chars/sec speech-rate fallback.
     try:
         from _cost_ledger import append_azure_stt_cost
+
         duration_s = None
         try:
             import subprocess as _sp
-            duration_s = float(_sp.run(
-                ["ffprobe", "-v", "quiet", "-show_entries", "format=duration",
-                 "-of", "csv=p=0", str(audio_path)],
-                capture_output=True, text=True, check=True,
-            ).stdout.strip())
+
+            duration_s = float(
+                _sp.run(
+                    ["ffprobe", "-v", "quiet", "-show_entries", "format=duration", "-of", "csv=p=0", str(audio_path)],
+                    capture_output=True,
+                    text=True,
+                    check=True,
+                ).stdout.strip()
+            )
         except Exception:
             pass
         cost_row = append_azure_stt_cost(
-            book_dir, phase="post-publish",
+            book_dir,
+            phase="post-publish",
             step=f"transcribe/{episode_id}",
             duration_seconds=duration_s if duration_s else len(text) / 16.0,
         )

@@ -1,29 +1,23 @@
 """P3.5 phase runner — phased rollout + tier-2 gate readiness."""
+
 from __future__ import annotations
 
 from pathlib import Path
 
 from ._base import PhaseResult
-from ._dor_halt import DoR, build_halted_result, is_done as detect_done
+from ._dor_halt import DoR, build_halted_result
+from ._dor_halt import is_done as detect_done
 
 PHASE_ID = "P3.5"
 DESCRIPTION = "phased rollout and tier-2 cost gate complete"
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
-DETECT_FILES = (
-    REPO_ROOT / "scripts" / "podcast" / "orchestrate_book.py",
-)
+DETECT_FILES = (REPO_ROOT / "scripts" / "podcast" / "orchestrate_book.py",)
 DETECT_MARKERS = ("phased_rollout", "phase boundary", "tier-2")
 DOR = DoR(
-    blockers=(
-        "Phased rollout boundary gating with explicit tier-2 approvals is not yet verifiably wired.",
-    ),
-    assumptions=(
-        "Large books halt at phase boundaries before cost commitment to the next phase.",
-    ),
-    ambiguities=(
-        "Cost-ceiling presentation and gate semantics must be consistent with wave governance docs.",
-    ),
+    blockers=("Phased rollout boundary gating with explicit tier-2 approvals is not yet verifiably wired.",),
+    assumptions=("Large books halt at phase boundaries before cost commitment to the next phase.",),
+    ambiguities=("Cost-ceiling presentation and gate semantics must be consistent with wave governance docs.",),
     operator_action=(
         "Wire orchestrator phased-rollout boundary halts and tier-2 approval prompts with cost guardrails."
     ),

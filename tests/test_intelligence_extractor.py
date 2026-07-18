@@ -18,6 +18,7 @@ Covers:
 - atom_schemas: hadith_canonical_id for "other" collection uses sha256
 - atom_schemas: validate_atom raises on missing body fields
 """
+
 from __future__ import annotations
 
 import json
@@ -31,22 +32,20 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 import _db
-from _db import get_connection, run_migrations, _reset_connection
+from _db import _reset_connection, get_connection, run_migrations
 from intelligence.extractor import (
-    ChapterExtractionResult,
-    ExtractionSummary,
     _build_atom,
-    extract_chapter,
     extract_atoms_for_book,
+    extract_chapter,
 )
 from knowledge._atom_schemas import (
-    quran_canonical_id,
     hadith_canonical_id,
+    quran_canonical_id,
     validate_atom,
 )
 
-
 # ─── fixtures ─────────────────────────────────────────────────────────────────
+
 
 @pytest.fixture()
 def isolated_db(tmp_path, monkeypatch):
@@ -60,15 +59,18 @@ def isolated_db(tmp_path, monkeypatch):
 
 def _make_claude_caller(rc: int, payload: dict | None = None, raw_text: str | None = None):
     """Return a fake claude caller that returns the given payload as JSON."""
+
     def caller(prompt: str) -> tuple[int, str, str]:
         if rc != 0:
             return rc, "", "error"
         text = raw_text if raw_text is not None else json.dumps(payload or {"atoms": []})
         return 0, text, "0.002"
+
     return caller
 
 
 # ─── atom schema unit tests ────────────────────────────────────────────────────
+
 
 def test_quran_canonical_id_round_trips():
     assert quran_canonical_id(2, 255) == "quran:2:255"
@@ -104,6 +106,7 @@ def test_validate_atom_raises_on_unknown_type():
 
 # ─── _build_atom unit tests ───────────────────────────────────────────────────
 
+
 def test_build_atom_valid_quran():
     raw = {"type": "quran", "surah": 2, "ayah": 255, "text_en": "Ayat al-Kursi", "confidence": 0.95}
     atom = _build_atom(raw, "test-book", "ch01")
@@ -114,7 +117,14 @@ def test_build_atom_valid_quran():
 
 
 def test_build_atom_valid_hadith():
-    raw = {"type": "hadith", "collection": "bukhari", "number": 1, "text_en": "...", "grade": "sahih", "confidence": 0.9}
+    raw = {
+        "type": "hadith",
+        "collection": "bukhari",
+        "number": 1,
+        "text_en": "...",
+        "grade": "sahih",
+        "confidence": 0.9,
+    }
     atom = _build_atom(raw, "test-book", "ch01")
     assert atom is not None
     assert atom["id"] == "hadith:bukhari:1"
@@ -141,6 +151,7 @@ def test_build_atom_unknown_type_returns_none():
 
 
 # ─── extract_chapter tests ────────────────────────────────────────────────────
+
 
 def test_extract_chapter_valid_response():
     payload = {
@@ -182,13 +193,16 @@ def test_extract_chapter_markdown_fenced_json():
 
 def test_extract_chapter_cost_parsed():
     payload = {"atoms": []}
+
     def caller(prompt):
         return 0, json.dumps(payload), "0.042"
+
     result = extract_chapter("ch01", "text", "book", llm_caller=caller)
     assert abs(result.cost_usd - 0.042) < 0.001
 
 
 # ─── extract_atoms_for_book tests ─────────────────────────────────────────────
+
 
 def test_extract_atoms_for_book_no_chapters_dir(tmp_path, isolated_db):
     book_dir = tmp_path / "empty-book"

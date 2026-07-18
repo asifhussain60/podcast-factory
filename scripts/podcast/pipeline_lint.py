@@ -109,7 +109,7 @@ def lint_chapter_and_framing(book_dir: Path, episode_id: str) -> dict:
     ch_num, ch_slug = (None, None)
     m = re.match(r"^EP(\d+)-(.+)$", episode_id)
     if m:
-        ch_num, ch_slug = int(m.group(1)), m.group(2)
+        ch_num, ch_slug = int(m.group(1)), m.group(2)  # noqa: F841
     chapters_dir = book_dir / "chapters"
     framing_path = book_dir / "_system" / "episode-drafts" / episode_id / "00-framing.md"
 
@@ -130,8 +130,13 @@ def lint_chapter_and_framing(book_dir: Path, episode_id: str) -> dict:
     if not chapter_path or not chapter_path.exists():
         return {
             "verdict": "BLOCKED",
-            "findings": [{"check": "resolve-chapter", "severity": "P0",
-                          "message": f"chapter file matching ch*-{ch_slug}.txt not found in {chapters_dir}"}],
+            "findings": [
+                {
+                    "check": "resolve-chapter",
+                    "severity": "P0",
+                    "message": f"chapter file matching ch*-{ch_slug}.txt not found in {chapters_dir}",
+                }
+            ],
             "inventory": inventory,
         }
     inventory["chapter_resolved"] = str(chapter_path.relative_to(book_dir))
@@ -143,8 +148,16 @@ def lint_chapter_and_framing(book_dir: Path, episode_id: str) -> dict:
         ("chapter.no-html-comments", B.assert_no_html_comments, (chapter_text, chapter_path, "chapter (SOURCE)")),
         ("chapter.no-inline-phonetics", B.assert_no_inline_phonetics, (chapter_text, chapter_path)),
         ("chapter.no-abbreviations", B.assert_no_abbreviations, (chapter_text, chapter_path)),
-        ("chapter.no-arabic-transliteration", B.assert_no_arabic_transliteration, (chapter_text, chapter_path, "chapter (SOURCE)")),
-        ("chapter.no-arabic-surah-names", B.assert_no_arabic_surah_names, (chapter_text, chapter_path, "chapter (SOURCE)")),
+        (
+            "chapter.no-arabic-transliteration",
+            B.assert_no_arabic_transliteration,
+            (chapter_text, chapter_path, "chapter (SOURCE)"),
+        ),
+        (
+            "chapter.no-arabic-surah-names",
+            B.assert_no_arabic_surah_names,
+            (chapter_text, chapter_path, "chapter (SOURCE)"),
+        ),
         ("chapter.no-manuscript-meta", B.assert_chapter_no_manuscript_meta, (chapter_text, chapter_path)),
         ("chapter.doctrinal-clean", B.assert_doctrinal_clean, (chapter_text, chapter_path)),
     ]:
@@ -154,8 +167,9 @@ def lint_chapter_and_framing(book_dir: Path, episode_id: str) -> dict:
 
     # Framing checks
     if not framing_path.exists():
-        findings.append({"check": "resolve-framing", "severity": "P0",
-                         "message": f"framing not found at {framing_path}"})
+        findings.append(
+            {"check": "resolve-framing", "severity": "P0", "message": f"framing not found at {framing_path}"}
+        )
     else:
         inventory["framing_resolved"] = str(framing_path.relative_to(book_dir))
         framing_text = framing_path.read_text(encoding="utf-8")
@@ -163,16 +177,32 @@ def lint_chapter_and_framing(book_dir: Path, episode_id: str) -> dict:
         cleaned = re.sub(r"<!--.*?-->", "", framing_text, flags=re.DOTALL)
         cleaned = re.sub(r"\n##\s+Upload\s+checklist.*?$", "", cleaned, flags=re.DOTALL | re.IGNORECASE)
         for name, fn, args in [
-            ("framing.no-html-comments", B.assert_no_html_comments, (framing_text, framing_path, "framing (CUSTOMIZE PROMPT)")),
+            (
+                "framing.no-html-comments",
+                B.assert_no_html_comments,
+                (framing_text, framing_path, "framing (CUSTOMIZE PROMPT)"),
+            ),
             ("framing.pronunciation-imperative", B.assert_framing_pronunciation_imperative, (cleaned, framing_path)),
             ("framing.deny-block", B.assert_framing_deny_block, (cleaned, framing_path)),
             ("framing.no-modern-artifacts", B.assert_framing_no_modern_artifacts, (cleaned, framing_path)),
             ("framing.honorific-bounded", B.assert_framing_honorific_bounded_both_sides, (cleaned, framing_path)),
-            ("framing.no-arabic-surah-names", B.assert_no_arabic_surah_names, (cleaned, framing_path, "framing (CUSTOMIZE PROMPT)")),
-            ("framing.alqaab-paraphrased", B.assert_alqaab_only_established_or_paraphrased, (cleaned, framing_path, "framing (CUSTOMIZE PROMPT)")),
+            (
+                "framing.no-arabic-surah-names",
+                B.assert_no_arabic_surah_names,
+                (cleaned, framing_path, "framing (CUSTOMIZE PROMPT)"),
+            ),
+            (
+                "framing.alqaab-paraphrased",
+                B.assert_alqaab_only_established_or_paraphrased,
+                (cleaned, framing_path, "framing (CUSTOMIZE PROMPT)"),
+            ),
             ("framing.name-discipline-section", B.assert_framing_has_name_discipline_section, (cleaned, framing_path)),
             ("framing.dramatic-arc-structure", B.assert_framing_dramatic_arc_structure, (cleaned, framing_path)),
-            ("framing.challenger-friction-patterns", B.assert_framing_challenger_friction_lists_patterns, (cleaned, framing_path)),
+            (
+                "framing.challenger-friction-patterns",
+                B.assert_framing_challenger_friction_lists_patterns,
+                (cleaned, framing_path),
+            ),
             ("framing.analogy-cap-declared", B.assert_framing_analogy_cap_declared, (cleaned, framing_path)),
             ("framing.analogy-cap-strict", B.assert_framing_analogy_cap_strict, (cleaned, framing_path)),
         ]:
@@ -182,11 +212,13 @@ def lint_chapter_and_framing(book_dir: Path, episode_id: str) -> dict:
         # Word band
         n = len(cleaned.split())
         if n < B.FRAMING_WORD_MIN or n > B.FRAMING_WORD_MAX:
-            findings.append({
-                "check": "framing.word-band",
-                "severity": "P0",
-                "message": f"framing word count {n} outside [{B.FRAMING_WORD_MIN}, {B.FRAMING_WORD_MAX}]",
-            })
+            findings.append(
+                {
+                    "check": "framing.word-band",
+                    "severity": "P0",
+                    "message": f"framing word count {n} outside [{B.FRAMING_WORD_MIN}, {B.FRAMING_WORD_MAX}]",
+                }
+            )
 
     # Contract-side checks — FIX 14: route through the ONE shared validator
     # (_contract_validation.validate_contract_full) instead of a local minimal
@@ -198,18 +230,20 @@ def lint_chapter_and_framing(book_dir: Path, episode_id: str) -> dict:
     if contract_path and contract_path.exists():
         from _contract_validation import validate_contract_full
         from _extract_yaml import load_yaml
+
         contract = None
         try:
             contract = load_yaml(contract_path.read_text(encoding="utf-8"))
-        except Exception as e:  # noqa: BLE001
-            findings.append({"check": "contract.parse", "severity": "P0",
-                             "message": f"{type(e).__name__}: {e}"})
+        except Exception as e:
+            findings.append({"check": "contract.parse", "severity": "P0", "message": f"{type(e).__name__}: {e}"})
         if isinstance(contract, dict):
             for cf in validate_contract_full(
-                contract, chapter_path, book_dir, contract_path=contract_path,
+                contract,
+                chapter_path,
+                book_dir,
+                contract_path=contract_path,
             ):
-                check = ("contract.host-role-parity"
-                         if "R-HOST-ROLE-PARITY" in cf else "contract.validation")
+                check = "contract.host-role-parity" if "R-HOST-ROLE-PARITY" in cf else "contract.validation"
                 findings.append({"check": check, "severity": "P0", "message": cf})
 
     # Compute verdict

@@ -86,30 +86,32 @@ R_PRESERVE_ARABIC_SOURCE: str = "R-PRESERVE-ARABIC-SOURCE"
 # Registered here so learn_aggregate.py + learn_propose.py can route proposals
 # to the correct human-resolution targets (generator prompt edits in
 # _authoring/_refine.py / _authoring/_enrichment.py).
-UPSTREAM_PRECHECK_SOURCES: frozenset[str] = frozenset({
-    "precheck-0b",   # refined-english.md — deterministic + Phase-B LLM fidelity
-    "precheck-0e",   # per-chapter enrichment — deterministic + Phase-C LLM faithfulness
-})
+UPSTREAM_PRECHECK_SOURCES: frozenset[str] = frozenset(
+    {
+        "precheck-0b",  # refined-english.md — deterministic + Phase-B LLM fidelity
+        "precheck-0e",  # per-chapter enrichment — deterministic + Phase-C LLM faithfulness
+    }
+)
 
 # Upstream check IDs and their human-resolution targets (the same mapping as
 # CHECK_ID_TO_TARGET in learn_propose.py; duplicated here for runtime look-up
 # without importing learn_propose.py from pipeline scripts).
 UPSTREAM_CHECK_ID_TO_TARGET: dict[str, str] = {
     # Phase A — deterministic
-    "U0B-EMPTY":              "author: re-run Phase 0b; the refinement produced empty output",
-    "U0B-LENGTH-DRIFT":       "author: review _authoring/_refine.py window prompts — length-ratio constraint",
+    "U0B-EMPTY": "author: re-run Phase 0b; the refinement produced empty output",
+    "U0B-LENGTH-DRIFT": "author: review _authoring/_refine.py window prompts — length-ratio constraint",
     "U0B-STRUCTURE-COLLAPSE": "author: review _authoring/_refine.py window prompts — paragraph-preservation rule",
-    "U0E-SHRANK":             "author: review _authoring/_enrichment.py prompt — DO NOT drop source content",
-    "U0E-BALLOON":            "author: review _authoring/_enrichment.py prompt — cap total word growth",
+    "U0E-SHRANK": "author: review _authoring/_enrichment.py prompt — DO NOT drop source content",
+    "U0E-BALLOON": "author: review _authoring/_enrichment.py prompt — cap total word growth",
     # Phase B — LLM fidelity (0b)
-    "U0B-MEANING-DRIFT":        "author: review 0b window prompt — strengthen DO NOT change meaning instruction",
-    "U0B-DROPPED-TEACHING":     "author: review 0b window prompt — preserve ALL teachings, examples, and illustrations",
+    "U0B-MEANING-DRIFT": "author: review 0b window prompt — strengthen DO NOT change meaning instruction",
+    "U0B-DROPPED-TEACHING": "author: review 0b window prompt — preserve ALL teachings, examples, and illustrations",
     "U0B-HALLUCINATED-ADDITION": "HUMAN REVIEW REQUIRED — fabricated content in refined-english.md (P0)",
-    "U0B-REGISTER-SHIFT":       "author: review 0b window prompt — preserve scholarly register",
+    "U0B-REGISTER-SHIFT": "author: review 0b window prompt — preserve scholarly register",
     # Phase C — LLM faithfulness (0e)
     "U0E-HALLUCINATED-CITATION": "HUMAN REVIEW REQUIRED — fabricated citation in enriched chapter (P0)",
-    "U0E-SOURCE-ALTERED":        "author: review 0e enrichment prompt — DO NOT alter source text, only enrich",
-    "U0E-DOCTRINE-DRIFT":        "author: review 0e enrichment prompt — tradition-coherence guard",
+    "U0E-SOURCE-ALTERED": "author: review 0e enrichment prompt — DO NOT alter source text, only enrich",
+    "U0E-DOCTRINE-DRIFT": "author: review 0e enrichment prompt — tradition-coherence guard",
 }
 
 # ─── Category W (Wave L) — augmentation-quality checks. Guards that knowledge
@@ -127,8 +129,11 @@ UPSTREAM_CHECK_ID_TO_TARGET: dict[str, str] = {
 R_AUGMENT_ETYMOLOGY_MAX_PER_CHAPTER = 3
 # Arabic Unicode ranges that must NEVER appear in an etymology spoken-form aside.
 R_AUGMENT_ARABIC_RANGES = (
-    (0x0600, 0x06FF), (0x0750, 0x077F), (0x08A0, 0x08FF),
-    (0xFB50, 0xFDFF), (0xFE70, 0xFEFF),
+    (0x0600, 0x06FF),
+    (0x0750, 0x077F),
+    (0x08A0, 0x08FF),
+    (0xFB50, 0xFDFF),
+    (0xFE70, 0xFEFF),
 )
 # Block-header substrings the challenger scans for in augmented episode text.
 R_AUGMENT_BLOCK_HEADERS = {
@@ -153,14 +158,26 @@ ARABIC_FINGERPRINT_VERSION: str = "1.0"
 # Bidi/joiner control codepoints stripped before hashing so a pass that only
 # re-inserts directional marks is not flagged as a mutation (RTL-ligature stability).
 R_ARABIC_BIDI_STRIP: tuple[int, ...] = (
-    0x200C, 0x200D, 0x200E, 0x200F,
-    0x202A, 0x202B, 0x202C, 0x202D, 0x202E,
-    0x2066, 0x2067, 0x2068, 0x2069,
+    0x200C,
+    0x200D,
+    0x200E,
+    0x200F,
+    0x202A,
+    0x202B,
+    0x202C,
+    0x202D,
+    0x202E,
+    0x2066,
+    0x2067,
+    0x2068,
+    0x2069,
 )
 # Combining tashkeel (harakat) ranges used to derive the vowel-stripped skeleton.
 # A near-match that differs ONLY in this range is classified AI-VOWEL-DRIFT.
 R_ARABIC_TASHKEEL: tuple[tuple[int, int], ...] = (
-    (0x064B, 0x0652), (0x0653, 0x065F), (0x0670, 0x0670),
+    (0x064B, 0x0652),
+    (0x0653, 0x065F),
+    (0x0670, 0x0670),
 )
 
 # ─── R-HOST-ROLE-PARITY (P0 2026-05-24) — host roles are locked book-wide.
@@ -171,12 +188,30 @@ R_ARABIC_TASHKEEL: tuple[tuple[int, int], ...] = (
 # the pools — or where roles swap between episodes of the same book — is a
 # P0 finding (code: HOST-ROLE-PARITY).
 HOST_A_ROLES_SCHOLAR = (
-    "scholar", "teacher", "master", "alim", "aalim", "shaykh", "sheikh",
-    "guide", "expert", "mentor", "professor",
+    "scholar",
+    "teacher",
+    "master",
+    "alim",
+    "aalim",
+    "shaykh",
+    "sheikh",
+    "guide",
+    "expert",
+    "mentor",
+    "professor",
 )
 HOST_B_ROLES_SEEKER = (
-    "seeker", "student", "debater", "questioner", "novice", "disciple",
-    "ghulam", "ghulaam", "apprentice", "interlocutor", "challenger",
+    "seeker",
+    "student",
+    "debater",
+    "questioner",
+    "novice",
+    "disciple",
+    "ghulam",
+    "ghulaam",
+    "apprentice",
+    "interlocutor",
+    "challenger",
 )
 # Voice → gender pairing (single source of truth; cross-references the
 # NotebookLM Audio Overview default English voices). When the
@@ -200,13 +235,13 @@ HOST_VOICE_GENDER = {"host_a": "male", "host_b": "female"}
 # build_episode_txt.py emits a P1 warning "format X not yet fully wired
 # downstream; expect best-effort author behavior" rather than blocking.
 EPISODE_FORMAT_ALLOWED = (
-    "deep_dive",      # one position unfolded layer-by-layer (most book chapters)
-    "debate",         # two named voices in extended back-and-forth (concession arcs OK)
-    "walkthrough",    # step-by-step exposition (articles, technical chapters)
-    "monologue",      # single-host explanatory; secondary host as ambient interlocutor
-    "interview",      # Q&A structured (rare in primary sources; common in lecture-of-X)
-    "recap",          # mid-book summary episode (every Nth chapter for long books)
-    "narrative",      # pure historical/biographical exposition, no doctrinal dispute
+    "deep_dive",  # one position unfolded layer-by-layer (most book chapters)
+    "debate",  # two named voices in extended back-and-forth (concession arcs OK)
+    "walkthrough",  # step-by-step exposition (articles, technical chapters)
+    "monologue",  # single-host explanatory; secondary host as ambient interlocutor
+    "interview",  # Q&A structured (rare in primary sources; common in lecture-of-X)
+    "recap",  # mid-book summary episode (every Nth chapter for long books)
+    "narrative",  # pure historical/biographical exposition, no doctrinal dispute
 )
 
 # F32 (2026-05-25): map of which formats are currently fully wired downstream.
@@ -224,7 +259,17 @@ SLIDE_DECK_CHALLENGER_VERSION = "1.0"
 # scaffold_book.py, ingest_source.py, audit_page_markers.py per AU-X1-001 in
 # audit report 2026-05-23-204940. Consumers now `from _rules import ALLOWED_CATEGORIES`.
 # Tuple chosen for immutability + argparse `choices=` compatibility.
-ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews", "letters", "asbaaq", "sites", "explainers")
+ALLOWED_CATEGORIES = (
+    "books",
+    "articles",
+    "documents",
+    "lectures",
+    "interviews",
+    "letters",
+    "asbaaq",
+    "sites",
+    "explainers",
+)
 # `explainers` — professional / consumer explainer content: employee onboarding, product docs,
 # system walkthroughs, consumer guides. `sites` continues to work for existing content;
 # `explainers` is the preferred category for new content of this type.
@@ -233,6 +278,7 @@ ALLOWED_CATEGORIES = ("books", "articles", "documents", "lectures", "interviews"
 # Consumer/explainer content has no Arabic transliteration requirements and no
 # tradition-specific doctrinal context to inject.
 CONSUMER_CATEGORIES: frozenset[str] = frozenset({"sites", "explainers"})
+
 
 # ─── Content-profile system (Wave CP) — declares how a book moves through the pipeline.
 # Every book declares `content_profile` in its series-config.yaml; missing field defaults
@@ -252,11 +298,11 @@ CONSUMER_CATEGORIES: frozenset[str] = frozenset({"sites", "explainers"})
 # This registry is the profile axis. _paths.py maps profile→bucket via bucket_for_profile().
 @dataclass(frozen=True)
 class ContentType:
-    profile: str          # canonical content_profile key (series-config.yaml)
-    bucket: str           # top-level folder under content/ (type-first layout)
+    profile: str  # canonical content_profile key (series-config.yaml)
+    bucket: str  # top-level folder under content/ (type-first layout)
     skip_phonetics: bool  # skip Phase 0c (Arabic phonetic pass)
-    skip_enrichment: bool # skip Phase 0e (doctrinal enrichment)
-    skip_ocr: bool        # skip Phase 0a Azure OCR (source already digital English/text)
+    skip_enrichment: bool  # skip Phase 0e (doctrinal enrichment)
+    skip_ocr: bool  # skip Phase 0a Azure OCR (source already digital English/text)
     literary_voice: dict  # revoice defaults consumed by _literary.py
     # Default audio engine for a NEW book of this profile, stamped into
     # series-config.yaml at intake (intake_launch._write_series_config). NEW-book
@@ -271,8 +317,11 @@ class ContentType:
 
 CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
     "islamic_scholarly": ContentType(
-        profile="islamic_scholarly", bucket="Islamic",
-        skip_phonetics=False, skip_enrichment=False, skip_ocr=False,
+        profile="islamic_scholarly",
+        bucket="Islamic",
+        skip_phonetics=False,
+        skip_enrichment=False,
+        skip_ocr=False,
         literary_voice={
             "narrator_voice": "author_first_person",
             "narrator_subject": "the author",
@@ -286,8 +335,11 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
         default_voice_cast={"host_a": "Eric", "host_b": "Lily"},
     ),
     "technical": ContentType(
-        profile="technical", bucket="Technical",
-        skip_phonetics=True, skip_enrichment=True, skip_ocr=True,
+        profile="technical",
+        bucket="Technical",
+        skip_phonetics=True,
+        skip_enrichment=True,
+        skip_ocr=True,
         literary_voice={
             "narrator_voice": "peer_expert",
             "narrator_subject": "a senior practitioner",
@@ -296,8 +348,11 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
         },
     ),
     "fiction": ContentType(
-        profile="fiction", bucket="Fiction",
-        skip_phonetics=True, skip_enrichment=True, skip_ocr=False,
+        profile="fiction",
+        bucket="Fiction",
+        skip_phonetics=True,
+        skip_enrichment=True,
+        skip_ocr=False,
         literary_voice={
             "narrator_voice": "narrative_voice",
             "narrator_subject": "the narrator",
@@ -306,8 +361,11 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
         },
     ),
     "consumer_explainer": ContentType(
-        profile="consumer_explainer", bucket="Guides",
-        skip_phonetics=True, skip_enrichment=True, skip_ocr=True,
+        profile="consumer_explainer",
+        bucket="Guides",
+        skip_phonetics=True,
+        skip_enrichment=True,
+        skip_ocr=True,
         literary_voice={
             "narrator_voice": "contemporary_narrator",
             "narrator_subject": "a guide",
@@ -316,8 +374,11 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
         },
     ),
     "general_nonfiction": ContentType(
-        profile="general_nonfiction", bucket="Guides",
-        skip_phonetics=True, skip_enrichment=False, skip_ocr=False,
+        profile="general_nonfiction",
+        bucket="Guides",
+        skip_phonetics=True,
+        skip_enrichment=False,
+        skip_ocr=False,
         literary_voice={
             "narrator_voice": "scholarly_essayist",
             "narrator_subject": "the author",
@@ -380,6 +441,7 @@ def default_voice_cast_for_profile(profile: str | None) -> dict:
     ct = CONTENT_TYPE_REGISTRY.get(profile or "") or CONTENT_TYPE_REGISTRY[ISLAMIC_SCHOLARLY_PROFILE]
     return dict(ct.default_voice_cast)
 
+
 # ─── Content-level ladder (Wave M) — ISLAMIC scholarly books only. Single source
 # of truth for category-gated augmentation. A book declaring `content_level` in
 # meta.yml draws doctrine atoms ONLY at or below its own level (cumulative
@@ -394,12 +456,12 @@ def default_voice_cast_for_profile(profile: str | None) -> dict:
 # CONTENT_LEVEL_LADDER is ordered low→high; index = rank. allowed_content_levels()
 # returns {levels 0..rank(book_level)} for the cumulative-downward query clause.
 CONTENT_LEVEL_LADDER: tuple[str, ...] = (
-    "general",      # narrative / historical accounts
-    "advanced",     # advanced scholarly; legal analysis; formal exoteric commentary
-    "taveel",       # ta'wil: allegorical / esoteric interpretation (batin)
-    "mamsool",      # parables / exemplars: teaching the esoteric through analogy
-    "mabda_maad",   # origin-and-return: cosmological doctrine, cosmic intellects
-    "haqaiq",       # essential realities: eternal metaphysical truths (deepest)
+    "general",  # narrative / historical accounts
+    "advanced",  # advanced scholarly; legal analysis; formal exoteric commentary
+    "taveel",  # ta'wil: allegorical / esoteric interpretation (batin)
+    "mamsool",  # parables / exemplars: teaching the esoteric through analogy
+    "mabda_maad",  # origin-and-return: cosmological doctrine, cosmic intellects
+    "haqaiq",  # essential realities: eternal metaphysical truths (deepest)
 )
 CONTENT_LEVELS: frozenset[str] = frozenset(CONTENT_LEVEL_LADDER) | {"universal"}
 
@@ -423,6 +485,7 @@ def allowed_content_levels(book_level: str | None) -> list[str]:
     rank = CONTENT_LEVEL_LADDER.index(book_level)
     return list(CONTENT_LEVEL_LADDER[: rank + 1]) + ["universal"]
 
+
 # ─── Learning substrate root (relative to repo root). Used by all four
 # learning scripts (aggregate, propose, test, health writer) and by the
 # challenger agent's report-writer to locate findings.jsonl + health/.
@@ -431,39 +494,85 @@ LEARNING_DIR = "_learning"
 # ─── R-NO-MODERNIZE (chapter + framing must not pull in 21st-century social-media idioms)
 # Substring scans — phrase as-it-would-appear in transcript text.
 MODERNIZE_DENY = [
-    "Twitter", "twitter", "X.com", " X ", "social media",
-    "algorithm", "algorithmic", "content creator", "internet troll",
-    "reply guy", "YouTube comment", "youtube comment", "TikTok", "tiktok",
-    "Instagram", "instagram", "livestream", "screen time", "notification",
-    "attention economy", "21st century", "quote-tweet", "quote tweet",
-    "quote tweeting", "hashtag", "follower count", "doomscroll",
-    "hot take", "cognitive behavioral therapy",
-    "productivity framework", "life hack", "self-help", "wellness",
-    "mindfulness app", "dopamine hit", "deep dive",
-    "in our modern world", "modern digital lives", "platforms like",
+    "Twitter",
+    "twitter",
+    "X.com",
+    " X ",
+    "social media",
+    "algorithm",
+    "algorithmic",
+    "content creator",
+    "internet troll",
+    "reply guy",
+    "YouTube comment",
+    "youtube comment",
+    "TikTok",
+    "tiktok",
+    "Instagram",
+    "instagram",
+    "livestream",
+    "screen time",
+    "notification",
+    "attention economy",
+    "21st century",
+    "quote-tweet",
+    "quote tweet",
+    "quote tweeting",
+    "hashtag",
+    "follower count",
+    "doomscroll",
+    "hot take",
+    "cognitive behavioral therapy",
+    "productivity framework",
+    "life hack",
+    "self-help",
+    "wellness",
+    "mindfulness app",
+    "dopamine hit",
+    "deep dive",
+    "in our modern world",
+    "modern digital lives",
+    "platforms like",
 ]
 
 # ─── R-NOSURPRISE (NotebookLM hosts must not perform shock/awe reactions)
 SURPRISE_DENY = [
-    "wow", "Wow",
-    "that's so interesting", "that is so interesting",
-    "it's chilling", "It's chilling",
-    "it's devastating", "It's devastating",
-    "it's terrifying", "It's terrifying",
-    "it's profound", "It's profound",
-    "it's fascinating", "It's fascinating",
-    "it's amazing", "It's amazing",
-    "oh my god", "Oh my god",
-    " right? ", " right?\n", "Right?",
-    " exactly", "Exactly",
-    "no way", "No way",
+    "wow",
+    "Wow",
+    "that's so interesting",
+    "that is so interesting",
+    "it's chilling",
+    "It's chilling",
+    "it's devastating",
+    "It's devastating",
+    "it's terrifying",
+    "It's terrifying",
+    "it's profound",
+    "It's profound",
+    "it's fascinating",
+    "It's fascinating",
+    "it's amazing",
+    "It's amazing",
+    "oh my god",
+    "Oh my god",
+    " right? ",
+    " right?\n",
+    "Right?",
+    " exactly",
+    "Exactly",
+    "no way",
+    "No way",
 ]
 
 # ─── R-WELCOME (chapter opening must not begin with a cold "today we'll discuss" frame)
 WELCOME_COLD = [
-    "today we'll discuss", "today we will discuss",
-    "in this episode", "in our final deep dive",
-    "Welcome to our", "Welcome to today", "Welcome back",
+    "today we'll discuss",
+    "today we will discuss",
+    "in this episode",
+    "in our final deep dive",
+    "Welcome to our",
+    "Welcome to today",
+    "Welcome back",
 ]
 
 # ─── R-NO-ABBREVIATION
@@ -472,8 +581,8 @@ WELCOME_COLD = [
 # each in word-boundary regex (with two negative-lookahead exceptions for
 # "the Ihya" / "the Nahj" so it doesn't false-positive on the full title itself).
 ABBREVIATIONS_MAP = {
-    "Ihya Ulum al-Din":              ["the Ihya", "EI", "IUD"],
-    "Nahj al-Balagha":               ["the Nahj", "NJB"],
+    "Ihya Ulum al-Din": ["the Ihya", "EI", "IUD"],
+    "Nahj al-Balagha": ["the Nahj", "NJB"],
     "Sahih Bukhari and Sahih Muslim": ["Sahihayn"],
 }
 
@@ -505,18 +614,31 @@ HONORIFICS = [
 # operator-facing scaffolding files (00-source-index.md, etc.) where the
 # audience is human and the term is being discussed, not voiced.
 AI_CLICHE_DENY = [
-    "deep dive", "deep-dive",
-    "let's dive in", "let's dive into",
-    "today's episode", "today we'll explore", "today, we'll explore",
-    "today we'll discuss", "today, we'll discuss",
-    "in this episode", "in this conversation",
-    "join us as we", "buckle up",
-    "without further ado", "let's get started",
+    "deep dive",
+    "deep-dive",
+    "let's dive in",
+    "let's dive into",
+    "today's episode",
+    "today we'll explore",
+    "today, we'll explore",
+    "today we'll discuss",
+    "today, we'll discuss",
+    "in this episode",
+    "in this conversation",
+    "join us as we",
+    "buckle up",
+    "without further ado",
+    "let's get started",
     "fasten your seatbelts",
-    "journey through", "journey into",
-    "fascinating world of", "fascinating world",
-    "mind blown", "mind-blown", "blew my mind",
-    "what a journey", "what a ride",
+    "journey through",
+    "journey into",
+    "fascinating world of",
+    "fascinating world",
+    "mind blown",
+    "mind-blown",
+    "blew my mind",
+    "what a journey",
+    "what a ride",
 ]
 
 # ─── R-NO-FAUX-PROFUNDITY-OPENING (P0 2026-05-25, v2.2 scholarly-rubric §1)
@@ -582,9 +704,16 @@ ESSENTIALISM_STEM_PATTERNS = [
 
 # ─── Filler-interjection scrub (host TTS prosody artifacts)
 FILLER_INTERJECTIONS = [
-    " yeah ", " Yeah ", " yeah, ", " Yeah,",
-    " right, ", " Right, ", " right. ", " Right. ",
-    " exactly, ", " Exactly, ",
+    " yeah ",
+    " Yeah ",
+    " yeah, ",
+    " Yeah,",
+    " right, ",
+    " Right, ",
+    " right. ",
+    " Right. ",
+    " exactly, ",
+    " Exactly, ",
 ]
 
 
@@ -702,22 +831,32 @@ def abbreviations_for_build() -> dict[str, str]:
 # ─── Wave I — Noise routing constants ────────────────────────────────────
 # Protected categories: paragraphs matching these are NEVER offered to either
 # noise-routing pass. They are exempt from deletion candidates entirely.
-R_NOISE_PROTECTED_CATEGORIES: frozenset[str] = frozenset({
-    "esoteric", "reality", "quran", "hadith", "poetry", "sharia",
-    "ta_wil", "haqaiq", "daqaiq",
-})
+R_NOISE_PROTECTED_CATEGORIES: frozenset[str] = frozenset(
+    {
+        "esoteric",
+        "reality",
+        "quran",
+        "hadith",
+        "poetry",
+        "sharia",
+        "ta_wil",
+        "haqaiq",
+        "daqaiq",
+    }
+)
 
 # Structural noise patterns for Pass 1 (zero-cost rule pre-pass).
 # Each tuple: (compiled pattern, reason label).
 import re as _re
+
 R_NOISE_RULE_PATTERNS: list[tuple] = [
-    (_re.compile(r"^(In the name of|Bismillah|As-salamu|Assalamu)", _re.I),     "greeting-opener"),
+    (_re.compile(r"^(In the name of|Bismillah|As-salamu|Assalamu)", _re.I), "greeting-opener"),
     (_re.compile(r"where (this|the) (chapter|session|lecture) (picks up|continues)", _re.I), "editorial-pickup"),
     (_re.compile(r"^(Dear (brothers|sisters)|Dear (brothers and sisters))", _re.I), "lecture-greeting"),
-    (_re.compile(r"^(Thank you|Thanks be to (God|Allah)|We thank)", _re.I),     "boilerplate-thanks"),
+    (_re.compile(r"^(Thank you|Thanks be to (God|Allah)|We thank)", _re.I), "boilerplate-thanks"),
     (_re.compile(r"(as we (discussed|mentioned|covered) (in the )?(previous|last))", _re.I), "recap-reference"),
     (_re.compile(r"^(To (recap|summarise|summarize)|To put it another way)", _re.I), "redundant-recap"),
-    (_re.compile(r"\[Narrator.*?preamble\]|\[Editorial.*?note\]", _re.I),       "editorial-preamble"),
+    (_re.compile(r"\[Narrator.*?preamble\]|\[Editorial.*?note\]", _re.I), "editorial-preamble"),
 ]
 
 # ─── Wave N — Authorial-apparatus noise (the noise-auditor taxonomy) ──────
@@ -740,24 +879,24 @@ R_NOISE_AUTHORIAL_APPARATUS: str = "R-NOISE-AUTHORIAL-APPARATUS"
 # came to be recorded/transmitted/distributed is apparatus; anything the book
 # TEACHES is content.
 R_NOISE_APPARATUS_CATEGORIES: dict[str, str] = {
-    "NZ-CIRCULATION":  "Distribution / copyright / circulation notice — do-not-email, "
-                       "do-not-store-on-computer, do-not-share-online, copy-is-a-sin, and "
-                       "the punishment-for-careless-circulation threat (e.g. 'cold iron').",
-    "NZ-PROVENANCE":   "Provenance / chain-of-custody apparatus — ijazat/permission to RECORD, "
-                       "deposit in a treasury/archive, 'recorded first for my family', the "
-                       "two-fold authority-of-transmission of THIS recording.",
-    "NZ-COLOPHON":     "Colophon / production meta — who transcribed/compiled/printed it, edition "
-                       "and publisher notes, dedication-of-the-edition, scan/upload provenance.",
-    "NZ-EDITORIAL":    "Editorial framing about the artifact rather than its subject — 'in this "
-                       "lesson we will…', 'as recorded above', recording-session housekeeping.",
+    "NZ-CIRCULATION": "Distribution / copyright / circulation notice — do-not-email, "
+    "do-not-store-on-computer, do-not-share-online, copy-is-a-sin, and "
+    "the punishment-for-careless-circulation threat (e.g. 'cold iron').",
+    "NZ-PROVENANCE": "Provenance / chain-of-custody apparatus — ijazat/permission to RECORD, "
+    "deposit in a treasury/archive, 'recorded first for my family', the "
+    "two-fold authority-of-transmission of THIS recording.",
+    "NZ-COLOPHON": "Colophon / production meta — who transcribed/compiled/printed it, edition "
+    "and publisher notes, dedication-of-the-edition, scan/upload provenance.",
+    "NZ-EDITORIAL": "Editorial framing about the artifact rather than its subject — 'in this "
+    "lesson we will…', 'as recorded above', recording-session housekeeping.",
     "NZ-REFERENCE-TAIL": "Bibliographic tails attached to wisdom/saying blockquotes in chapter prose — "
-                         "e.g. 'in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam "
-                         "(Saying) 147' or translator/source edition details. Keep the quoted "
-                         "teaching and speaker; strip the reference scaffolding from chapters.",
-    "NZ-FRONTMATTER":  "Front-matter apparatus — preface, who should read the book, description "
-                       "of the book, author biography/posture, chain of narrations/transmission, "
-                       "permission-to-read, and introductory praise about the artifact rather "
-                       "than teaching content.",
+    "e.g. 'in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam "
+    "(Saying) 147' or translator/source edition details. Keep the quoted "
+    "teaching and speaker; strip the reference scaffolding from chapters.",
+    "NZ-FRONTMATTER": "Front-matter apparatus — preface, who should read the book, description "
+    "of the book, author biography/posture, chain of narrations/transmission, "
+    "permission-to-read, and introductory praise about the artifact rather "
+    "than teaching content.",
 }
 
 # PROTECT-LIST — doctrine that LOOKS like apparatus but IS the teaching and must
@@ -766,29 +905,69 @@ R_NOISE_APPARATUS_CATEGORIES: dict[str, str] = {
 # Friends of Allah (wilayah) are core content, not provenance. The test: does the
 # passage make a claim about REALITY/God/the soul/the path (keep), or only about
 # the book-object's recording and circulation (strip)?
-R_NOISE_APPARATUS_PROTECT: frozenset[str] = frozenset({
-    "wilayah", "allegiance", "imam", "friends_of_allah", "awliya",
-    "esoteric", "reality", "haqaiq", "tawhid", "soul_return", "doctrine",
-})
+R_NOISE_APPARATUS_PROTECT: frozenset[str] = frozenset(
+    {
+        "wilayah",
+        "allegiance",
+        "imam",
+        "friends_of_allah",
+        "awliya",
+        "esoteric",
+        "reality",
+        "haqaiq",
+        "tawhid",
+        "soul_return",
+        "doctrine",
+    }
+)
 
 # Heuristic Pass-1 anchors for the apparatus class (semantic judgment still
 # belongs to the noise-auditor LLM / the denoise prompt; these are signals).
 R_NOISE_APPARATUS_PATTERNS: list[tuple] = [
     (_re.compile(r"do not (e-?mail|share|circulate|store|upload|exchange)", _re.I), "NZ-CIRCULATION"),
-    (_re.compile(r"(on|over|upon) the (internet|web)|on your computer", _re.I),     "NZ-CIRCULATION"),
-    (_re.compile(r"(punishment|azab) of cold iron|to copy .* is a sin",  _re.I),    "NZ-CIRCULATION"),
+    (_re.compile(r"(on|over|upon) the (internet|web)|on your computer", _re.I), "NZ-CIRCULATION"),
+    (_re.compile(r"(punishment|azab) of cold iron|to copy .* is a sin", _re.I), "NZ-CIRCULATION"),
     (_re.compile(r"(ghair-?mustahiqq|undeserving|indiscriminate circulation)", _re.I), "NZ-CIRCULATION"),
     (_re.compile(r"\b(ijazat|permission)\b.*\b(record|recording|set (it )?down)", _re.I), "NZ-PROVENANCE"),
-    (_re.compile(r"\b(permission|ijazat|authorization)\b.*\b(read|study|open|transmit|narrat)", _re.I), "NZ-FRONTMATTER"),
+    (
+        _re.compile(r"\b(permission|ijazat|authorization)\b.*\b(read|study|open|transmit|narrat)", _re.I),
+        "NZ-FRONTMATTER",
+    ),
     (_re.compile(r"deposited? in the treasury|treasury of the (sacred mission|Da'wat)", _re.I), "NZ-PROVENANCE"),
-    (_re.compile(r"recorded (them )?(first )?for (my|his) (father|family)", _re.I),  "NZ-PROVENANCE"),
+    (_re.compile(r"recorded (them )?(first )?for (my|his) (father|family)", _re.I), "NZ-PROVENANCE"),
     (_re.compile(r"(transcribed|compiled|printed|scanned|typeset) by|this edition", _re.I), "NZ-COLOPHON"),
-    (_re.compile(r"\b(?:in\s+)?\*?Nahj al-Balagha\*?\s*(?:\(compiled by al-Sharif al-Radi\))?,\s*(?:Hikam\s*)?\(?(?:Sermon|Saying|Letter)\)?\s*\d+", _re.I), "NZ-REFERENCE-TAIL"),
-    (_re.compile(r"\b\*?(?:Nahj al-Balagha|Ghurar al-Hikam(?: wa Durar al-Kalim)?)\*?\s*(?:\(compiled by [^)]+\))?,\s*(?:Sermon|Saying|Letter|Hikam|Maxim|among the maxims)\b", _re.I), "NZ-REFERENCE-TAIL"),
-    (_re.compile(r"\b(preface|foreword|introduction to this book|description of this book)\b", _re.I), "NZ-FRONTMATTER"),
-    (_re.compile(r"\b(who should read|intended audience|this book is for|reader of this book)\b", _re.I), "NZ-FRONTMATTER"),
-    (_re.compile(r"\b(author|compiler|narrator)\b.*\b(biography|life|lineage|wrote|compiled)\b", _re.I), "NZ-FRONTMATTER"),
-    (_re.compile(r"\b(chain|isnad|sanad|transmission|narration)\b.*\b(narrators?|transmitters?|permission)\b", _re.I), "NZ-FRONTMATTER"),
+    (
+        _re.compile(
+            r"\b(?:in\s+)?\*?Nahj al-Balagha\*?\s*(?:\(compiled by al-Sharif al-Radi\))?,\s*(?:Hikam\s*)?\(?(?:Sermon|Saying|Letter)\)?\s*\d+",
+            _re.I,
+        ),
+        "NZ-REFERENCE-TAIL",
+    ),
+    (
+        _re.compile(
+            r"\b\*?(?:Nahj al-Balagha|Ghurar al-Hikam(?: wa Durar al-Kalim)?)\*?\s*(?:\(compiled by [^)]+\))?,\s*(?:Sermon|Saying|Letter|Hikam|Maxim|among the maxims)\b",
+            _re.I,
+        ),
+        "NZ-REFERENCE-TAIL",
+    ),
+    (
+        _re.compile(r"\b(preface|foreword|introduction to this book|description of this book)\b", _re.I),
+        "NZ-FRONTMATTER",
+    ),
+    (
+        _re.compile(r"\b(who should read|intended audience|this book is for|reader of this book)\b", _re.I),
+        "NZ-FRONTMATTER",
+    ),
+    (
+        _re.compile(r"\b(author|compiler|narrator)\b.*\b(biography|life|lineage|wrote|compiled)\b", _re.I),
+        "NZ-FRONTMATTER",
+    ),
+    (
+        _re.compile(
+            r"\b(chain|isnad|sanad|transmission|narration)\b.*\b(narrators?|transmitters?|permission)\b", _re.I
+        ),
+        "NZ-FRONTMATTER",
+    ),
 ]
 
 # Version stamped into every noise-auditor report; bump on taxonomy change.
@@ -940,7 +1119,7 @@ HOST_ROLE_CONTRACT_DEFAULT = "teacher_student"
 # Curiosity-building, challenge-defeat arcs, modern relevance, and fair framing
 # of opposing views. Deterministic signal detection (pattern matching); no live
 # API calls. Audited by podcast-challenger Category V (V1–V5).
-R_INTEREST_WEIGHT: float = 0.15   # Interest axis weight in PEQ formula
+R_INTEREST_WEIGHT: float = 0.15  # Interest axis weight in PEQ formula
 
 # Phrases that signal a curiosity-building opening hook.
 R_INTEREST_HOOK_PATTERNS: list = [
@@ -970,9 +1149,7 @@ R_INTEREST_CHALLENGE_RESOLVE_PATTERNS: list = [
 ]
 
 # Combined list for callers that only need presence of any challenge pattern.
-R_INTEREST_CHALLENGE_PATTERNS: list = (
-    R_INTEREST_CHALLENGE_RAISE_PATTERNS + R_INTEREST_CHALLENGE_RESOLVE_PATTERNS
-)
+R_INTEREST_CHALLENGE_PATTERNS: list = R_INTEREST_CHALLENGE_RAISE_PATTERNS + R_INTEREST_CHALLENGE_RESOLVE_PATTERNS
 
 # Phrases that signal modern relevance (connecting doctrine to contemporary life).
 R_INTEREST_RELEVANCE_PATTERNS: list = [
@@ -1034,14 +1211,16 @@ R_TECH_NO_COMP_INTERNALS: str = "R-TECH-NO-COMP-INTERNALS"
 R_TECH_HABIT_MAP: str = "R-TECH-HABIT-MAP"
 
 # Canonical rule set for the technical challenger.
-TECHNICAL_RULE_SET: frozenset = frozenset({
-    R_TECH_CODE_VERBATIM,
-    R_TECH_CLI_EXACT,
-    R_TECH_VERSION_LITERAL,
-    R_TECH_ACRONYM_FIRST_USE,
-    R_TECH_NO_DOCTRINAL,
-    R_TECH_THEORY_CAP,
-    R_TECH_WALKTHROUGH_PRESENT,
-    R_TECH_NO_COMP_INTERNALS,
-    R_TECH_HABIT_MAP,
-})
+TECHNICAL_RULE_SET: frozenset = frozenset(
+    {
+        R_TECH_CODE_VERBATIM,
+        R_TECH_CLI_EXACT,
+        R_TECH_VERSION_LITERAL,
+        R_TECH_ACRONYM_FIRST_USE,
+        R_TECH_NO_DOCTRINAL,
+        R_TECH_THEORY_CAP,
+        R_TECH_WALKTHROUGH_PRESENT,
+        R_TECH_NO_COMP_INTERNALS,
+        R_TECH_HABIT_MAP,
+    }
+)

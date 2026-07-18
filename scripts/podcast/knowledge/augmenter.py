@@ -8,6 +8,7 @@ Wave-B baseline implementation:
 - Looks up matching atoms from the local JSONL knowledge library.
 - Builds a bounded prior-treatment context block for prompt injection.
 """
+
 from __future__ import annotations
 
 import json
@@ -92,11 +93,7 @@ def _is_self_only(atom: dict, book_slug: str) -> bool:
     sources = atom.get("sources")
     if not isinstance(sources, list) or not sources:
         return False
-    seen_books = {
-        str(src.get("book", "")).strip().lower()
-        for src in sources
-        if isinstance(src, dict)
-    }
+    seen_books = {str(src.get("book", "")).strip().lower() for src in sources if isinstance(src, dict)}
     seen_books.discard("")
     return bool(seen_books) and seen_books == {book_slug.lower()}
 

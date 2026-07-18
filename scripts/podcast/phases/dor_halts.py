@@ -8,6 +8,7 @@ Otherwise it halts with the DoR breakdown.
 These runners are deterministic, side-effect-free outside acceptance marking,
 and safe to run on every autonomous tick.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -27,6 +28,7 @@ def _make(
 ) -> type:
     """Factory: return a phase-runner module-like object exposing
     PHASE_ID / DESCRIPTION / is_done / execute."""
+
     class _Runner:
         PHASE_ID = phase_id
         DESCRIPTION = description
@@ -42,7 +44,8 @@ def _make(
         def execute(repo_root: Path | None = None) -> PhaseResult:
             if is_done(detect_files, detect_markers):
                 return PhaseResult(
-                    phase_id=phase_id, status="done",
+                    phase_id=phase_id,
+                    status="done",
                     message=f"{phase_id} deliverable detected on disk (operator hand-shipped).",
                     rows_marked=[phase_id],
                     evidence_paths=[str(f) for f in detect_files],
@@ -244,16 +247,12 @@ p4_4b = _make(
     "P4.4b",
     "_learning/fixtures/loop_n_numeric_invented/{input.txt,expected.json}",
     DoR(
-        blockers=(
-            "P4.5 must define Loop N's check IDs first; the fixture's expected.json cites them.",
-        ),
+        blockers=("P4.5 must define Loop N's check IDs first; the fixture's expected.json cites them.",),
         assumptions=(
             "test_challenger.py can be extended without breaking the 7 existing fixtures.",
             "The fixture is a minimal chapter excerpt asserting 'twelve regions' without enumeration.",
         ),
-        ambiguities=(
-            "Check ID name: 'N1-INVENTED-ENUMERATION' suggested by the YAML; final ID lives in Loop N spec.",
-        ),
+        ambiguities=("Check ID name: 'N1-INVENTED-ENUMERATION' suggested by the YAML; final ID lives in Loop N spec.",),
         operator_action=(
             "After Loop N spec lands (P4.5), create:\n"
             "  • _learning/fixtures/loop_n_numeric_invented/input.txt (chapter excerpt)\n"
@@ -308,8 +307,7 @@ p4_6 = _make(
     "scripts/podcast/_authoring.py — Phase 07-chapter-design numeric-scan prompt step",
     DoR(
         blockers=(
-            "Edits the chapter-design phase prompt — INVASIVE; must be guarded by P2.2 sunny-day test "
-            "remaining green.",
+            "Edits the chapter-design phase prompt — INVASIVE; must be guarded by P2.2 sunny-day test remaining green.",
         ),
         assumptions=(
             "The orchestrator only FLAGS numeric ambiguities; it does NOT invent decodings. Resolution "
@@ -396,9 +394,7 @@ p5_3 = _make(
             "DO NOT auto-execute under launchd. This is a manual, monitored run."
         ),
     ),
-    detect_files=(
-        REPO_ROOT / "content/drafts/kitab-al-riyad/_system/source/text/refined-english.md",
-    ),
+    detect_files=(REPO_ROOT / "content/drafts/kitab-al-riyad/_system/source/text/refined-english.md",),
 )
 
 
@@ -449,9 +445,7 @@ p6_4 = _make(
             "Trainer can read cost-ledger.jsonl via the standard file-read tool path.",
             "Trainer outputs end-line audit with `cost-context: $X.XX` field.",
         ),
-        ambiguities=(
-            "Cost overrun threshold for the P1 cost-commentary tombstone: 20% per YAML. Confirm.",
-        ),
+        ambiguities=("Cost overrun threshold for the P1 cost-commentary tombstone: 20% per YAML. Confirm.",),
         operator_action=(
             "1. Edit .github/agents/podcast-trainer.agent.md — add Protocol §3.5 (read cost-ledger; surface remediation).\n"
             "2. Edit invoke_trainer() prompt in scripts/podcast/_authoring.py to instruct the read.\n"

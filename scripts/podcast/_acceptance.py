@@ -10,11 +10,13 @@ The acceptance file format this helper targets:
     - [ ] **P1.4** ✅ first bullet of task P1.4
     - [x] **P1.4** ✅ second bullet (already done)
 """
+
 from __future__ import annotations
 
 import re
 from dataclasses import dataclass
 from pathlib import Path
+
 from _paths import REPO_ROOT
 
 DEFAULT_ACCEPTANCE_FILE = REPO_ROOT / "_workspace" / "plan" / "operations" / "per-book-ship-checklist.md"
@@ -25,11 +27,11 @@ ROW_RE = re.compile(r"^(- \[)([ x])(\] \*\*)(P\d+(?:\.\d+\w?)?)(\*\*[^\n]*)$", r
 
 @dataclass(frozen=True)
 class Row:
-    line_no: int          # 1-indexed
+    line_no: int  # 1-indexed
     full_line: str
     task_id: str
     checked: bool
-    text_after_id: str    # everything after `**P1.4**` including the ✅ prefix
+    text_after_id: str  # everything after `**P1.4**` including the ✅ prefix
 
 
 def find_rows(text: str, task_id: str | None = None) -> list[Row]:
@@ -40,7 +42,7 @@ def find_rows(text: str, task_id: str | None = None) -> list[Row]:
         if task_id is not None and rid != task_id:
             continue
         line_no = text.count("\n", 0, m.start()) + 1
-        full_line = text[m.start():m.end()]
+        full_line = text[m.start() : m.end()]
         out.append(
             Row(
                 line_no=line_no,
