@@ -265,6 +265,20 @@ git pull --rebase origin book/ayyuhal-walad                      # sync before w
 
 ## Session log
 
+### 2026-07-18 (later) — Clean-code hardening R2+R3 (Claude)
+
+Asif approved option A (both tracks). 16 commits: R3 near-complete (collisions
+gone incl. knowledge/augmenter deletion; +72 tests w/ citation-verify bug fix;
+framing registry; _azure + _translation_edition + _slide_authoring splits w/
+X-as-X re-exports; intake_book reasoned decline; stage-order 'literary' drift
+fixed w/ lockstep headers; grandfather 24→21; Callable-DI = R3h remainder).
+R2 in progress: Pass 1 done (module-level extractions + 21/23 fetches),
+renderers merged (byte-diff proven), frontmatters → library-view.ts /
+studio-shelves.ts, CSS layered, hooks 3/9 (useEditorPrefs, useAutosaveDraft,
+useSectionDepth) each browser-verified. eslint: react-hooks/refs → ratchet
+warn. Gates: pytest 1658, astro 0, smoke 32/32. R4/R5 gated on Asif.
+
+
 ### 2026-07-18 — Clean-code hardening R0+R1 (Claude)
 
 Executed the approved tranche of `refactor/clean-code-hardening-plan.md`.

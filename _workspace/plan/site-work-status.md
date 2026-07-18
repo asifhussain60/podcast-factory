@@ -6,6 +6,35 @@
 -->
 # Current work - status
 
+**Last updated:** 2026-07-18 12:35 PM EST (Clean-code hardening R2+R3 tranche)
+
+**Newest — R2+R3 executed on Asif's approval (option A), 16 commits pushed.**
+R3 (pipeline) substantially complete: both basename collisions gone
+(`_agent_invocations` rename + dead `knowledge/augmenter.py` deleted), +72
+tests for the 5 untested critical modules (1 real bug fixed in
+`_citation_verify` — unreachable 'failed' branch), framing registry (Spec 1)
+completed, `_azure.py` split (824→500 + 4 siblings), `_translation_edition`
+(1056→576) + `_slide_authoring` (999→569) split along genuine seams,
+`intake_book` split DECLINED with recorded reasoning, stage-order drift fixed
+(`_stage_gate` was missing the live `literary` stage), audit deferrals all
+resolved. DR-005 grandfather list burned 24→21. Callable-DI sweep = recorded
+remainder (R3h), sequenced with R4's go/no-go. R2 (site) in progress:
+Pass 1 fully done (constants/types/markers/pickers extracted; 21/23 editor
+fetches on apiFetch), renderers merged (61-file byte-diff, 0 mismatches),
+both fat frontmatters extracted (`library-view.ts`, `studio-shelves.ts`),
+CSS layered (`theme-*`/`studio-editor-*`), hooks 3/9 landed one-per-commit
+with live browser verification (`useEditorPrefs`, `useAutosaveDraft`,
+`useSectionDepth` — the exemplars for the remaining six: useStageApproval,
+useAiActions, useTermCuration, useReplaceTool, useDenoiseTool,
+useAnnotations). eslint gained `react-hooks/refs` ratchet-warn (compiler
+analyzes extracted hooks but bailed on the giant component). All gates
+green: pytest 1658 (post-dead-code delta), astro check 0, eslint 0 errors,
+prettier clean, lint:views 0/0, smoke 32/32. NOTE: one leftover
+`stash@{0}` from an agent's baseline check (superseded snapshot JSONs only —
+safe to drop). R4 packaging go/no-go + R5 wave-engine decision await Asif.
+
+---
+
 **Last updated:** 2026-07-18 9:45 AM EST (Clean-code hardening R0+R1 executed)
 
 **Newest — clean-code hardening plan, R0+R1 tranche shipped (7 commits on
