@@ -31,6 +31,11 @@ export default tseslint.config(
       // Real findings, but the fixes change render timing — R2 (editor
       // decomposition) is where each one is addressed with a browser-verify.
       "react-hooks/set-state-in-effect": "warn",
+      // The editor's deliberate mirror-refs-during-render pattern (PM plugins
+      // read refs synchronously; the original documents why). The compiler
+      // bails silently on the giant component but analyzes the extracted
+      // hooks — ratchet to error as the pattern is redesigned post-R2.
+      "react-hooks/refs": "warn",
     },
   },
   {
