@@ -14,12 +14,14 @@
 removed a 30-file dead island (the superseded chapter-reader UI + 6 uncalled
 API endpoints + `SpendChart`); added `sites`/`explainers` to `content-paths.ts`
 to match Python; corrected the `editorial.ts` mirror docstring. Gates green
-(`astro check` 0 errors, `lint:views` clean). **Open item for a future session:**
-`test_etymology.py::test_build_pipeline_keeps_only_gated` FAILS on `develop`
-(pre-existing, in the etymology feature — `build_etymology_atoms` drops the
-confirmed atom; expected kept=1, got 0). Deferred cleanups: WC8 staging trio
-(live stage-order mirror), `knowledge/augmenter.py`, `classify_slides.py`,
-`.codex/` registry, StudioPoc `poc/` rename + split. See the report's register.
+(`astro check` 0 errors, `lint:views` clean). Also (options A+B, pushed):
+fixed the pre-existing `test_etymology.py::test_build_pipeline_keeps_only_gated`
+flake (test-isolation — stubbed the global corpus loaders; suite 1592 pass / 0
+fail); repaired `.codex/hooks.json` (foreign path → repo-relative `.claude/hooks/`);
+canonicalized the `docs-updater` agent spec (infra + `.github` mirror) and rebuilt
+`infra/_README.md` to 23 agents. Remaining deferrals: WC8 staging trio (live
+stage-order mirror), `knowledge/augmenter.py`, `classify_slides.py`, StudioPoc
+`poc/` rename + split, wave-engine fate. See `docs/assessment/repo-audit-2026-07-18.md`.
 
 ---
 

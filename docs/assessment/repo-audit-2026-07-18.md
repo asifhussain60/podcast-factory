@@ -167,4 +167,11 @@ Three focused commits landed on `develop`. Gates run per group: `astro check` (0
 
 **NEW finding — R28 (P1, runtime, out of scope):** `scripts/podcast/tests/test_etymology.py::test_build_pipeline_keeps_only_gated` **fails on `develop`** — `build_etymology_atoms` returns `kept=0` where the test expects `kept=1` (the confirmed atom `nafs` should survive while the unconfirmed `salaam` is dropped; instead both are dropped). Verified **pre-existing** — it fails identically at `82bcc56` (before this audit), and no audit change touched `_etymology.py` or its deps. Static collection-only checks missed it. In the recently-shipped etymology feature (active work) — surfaced, not fixed.
 
-**Still open from the register (not in the approved batch):** R4 (wave engine, owner decision), R9/R14/R26 (structural refactors), R10/R21 (renames), R17 (test coverage), plus the deferrals above (R5, R7, R12, R13, R19-partial, R22).
+**Still open from the register (not in the approved batch):** R4 (wave engine, owner decision), R9/R14/R26 (structural refactors), R10/R21 (renames), R17 (test coverage), plus the pipeline deferrals R7, R19-partial, R22.
+
+### Follow-up — 2026-07-18 (options A + B)
+
+- **Pushed** all commits to `origin/develop`.
+- **R28 FIXED** (`2c263b1`) — root cause was a *test-isolation* defect, not a product bug: `test_build_pipeline_keeps_only_gated` read the real `content/knowledge-base/` via `_existing_etymology_roots()` + `load_term_index()`, so an already-ingested `nafs` atom made the pipeline filter it as a reuse. Stubbed both global loaders in the test. Full suite now **1,592 passed, 1 skipped, 0 failed.**
+- **R5 / R12 / R13 DONE** (`9d48372`) — `.codex/hooks.json` repointed from the foreign `/Users/ahmac/…` path to the existing repo-relative `.claude/hooks/` scripts; `docs-updater` canonicalized (`infra/claude-agents/` + byte-identical `.github/agents/` mirror); `infra/_README.md` registry rebuilt to 23 agents (added `docs-updater` + the four omitted book/preview challengers, moved deprecated `podcast-auditor` to a note).
+- **Remaining deferrals** now narrow to owner-decision/structural items: R4 (wave engine), R7 (staging trio), R9/R14/R26 (structural), R10/R21 (renames), R17 (coverage), R19-partial (`knowledge/augmenter`, `classify_slides`), R22 (Gemini retry).
