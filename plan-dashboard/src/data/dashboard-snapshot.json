@@ -1569,59 +1569,59 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-18T13:44:54.376Z",
-  "source_commit": "7a5cbb1",
+  "generated_at": "2026-07-18T15:02:49.886Z",
+  "source_commit": "2b00a77",
   "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "7a5cbb1",
-      "subject": "feat(site): R1 — apiFetch<T>() shared client; 35 call sites migrated off raw fetch",
+      "sha": "2b00a77",
+      "subject": "refactor(site): R2 pass 2 — extract useEditorPrefs hook (1/9)",
       "date": "2026-07-18"
     },
     {
-      "sha": "0bddb02",
-      "subject": "refactor(site): R1 — Studio-centric renames; the file tree stops lying about what's production",
+      "sha": "ffa8482",
+      "subject": "refactor(pipeline): R3 — split _azure.py along creds / transport / service seams",
       "date": "2026-07-18"
     },
     {
-      "sha": "7fd115c",
-      "subject": "feat(gates): R0 — enforceable DR-005 line gate + lint wiring in pre-commit, CI, Makefile",
+      "sha": "6ff4d2c",
+      "subject": "refactor(site): R2 pass 1b — StudioEditor's 23 fetches migrated to apiFetch (21/23)",
       "date": "2026-07-18"
     },
     {
-      "sha": "936291e",
-      "subject": "chore(lint): R0 — ESLint + Prettier gates + mechanical format baseline, site surface",
+      "sha": "de788e5",
+      "subject": "refactor(site): R2 — split theme.css and studio-editor.css into layered files",
       "date": "2026-07-18"
     },
     {
-      "sha": "1c26f42",
-      "subject": "chore(lint): R0 — Ruff gate (lint+format) + mechanical auto-fix baseline, pipeline surface",
+      "sha": "0bd2ec4",
+      "subject": "refactor(site): R2 — extract studio landing's 199-line frontmatter to lib/reader/studio-shelves.ts",
       "date": "2026-07-18"
     },
     {
-      "sha": "f16aa70",
-      "subject": "docs: correct stale 'npm blocked by org policy' claims — personal machine, installs allowed",
+      "sha": "a4f69d9",
+      "subject": "refactor(pipeline): R3 — complete the framing strategy-registry spec (Spec 1)",
       "date": "2026-07-18"
     },
     {
-      "sha": "8c8867b",
-      "subject": "docs(plan): approved clean-code & architecture hardening plan (R0-R5)",
+      "sha": "ca3576a",
+      "subject": "refactor(site): R2 — extract studio index page's 285-line frontmatter to lib/reader/library-view.ts",
       "date": "2026-07-18"
     },
     {
-      "sha": "0441d0c",
-      "subject": "docs(audit): record A+B outcomes (R28 fixed, R5/R12/R13 done)",
+      "sha": "844b17d",
+      "subject": "refactor(site): R2 — merge the two markdown renderers behind one options API",
       "date": "2026-07-18"
     },
     {
-      "sha": "9d48372",
-      "subject": "chore(agents): repair .codex hooks, canonicalize docs-updater, fix registry",
+      "sha": "28a81d3",
+      "subject": "test(pipeline): R3 — coverage for the 5 untested critical modules (+72 tests)",
       "date": "2026-07-18"
     },
     {
-      "sha": "2c263b1",
-      "subject": "test(etymology): make the build-pipeline test hermetic",
+      "sha": "9dc46a5",
+      "subject": "refactor(pipeline): R3 — resolve _convergence basename collision",
       "date": "2026-07-18"
     }
   ],
