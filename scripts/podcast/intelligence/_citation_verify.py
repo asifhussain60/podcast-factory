@@ -178,6 +178,7 @@ class CitationVerifier:
 
     def _check_url(self, cid: str, url: str) -> VerificationResult:
         try:
+            import urllib.error
             import urllib.request
 
             req = urllib.request.Request(url, method="HEAD")
@@ -186,12 +187,16 @@ class CitationVerifier:
                 code = resp.status
                 status: VerificationStatus = "verified" if code < 400 else "failed"
                 return VerificationResult(cid, "url", url, status, http_code=code)
+        except urllib.error.HTTPError as exc:
+            # urlopen raises on 4xx/5xx — per the module contract these are `failed`.
+            return VerificationResult(cid, "url", url, "failed", http_code=exc.code, error=str(exc))
         except Exception as exc:
             return VerificationResult(cid, "url", url, "indeterminate", error=str(exc))
 
     def _check_doi(self, cid: str, doi: str) -> VerificationResult:
         endpoint = f"{CROSSREF_BASE}/{doi}"
         try:
+            import urllib.error
             import urllib.request
 
             req = urllib.request.Request(endpoint)
@@ -200,6 +205,9 @@ class CitationVerifier:
                 code = resp.status
                 status: VerificationStatus = "verified" if code == 200 else "failed"
                 return VerificationResult(cid, "doi", doi, status, http_code=code)
+        except urllib.error.HTTPError as exc:
+            # Crossref answers 404 for an unknown DOI — that is a `failed` citation.
+            return VerificationResult(cid, "doi", doi, "failed", http_code=exc.code, error=str(exc))
         except Exception as exc:
             return VerificationResult(cid, "doi", doi, "indeterminate", error=str(exc))
 
