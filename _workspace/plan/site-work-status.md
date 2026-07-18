@@ -6,6 +6,25 @@
 -->
 # Current work - status
 
+**Last updated:** 2026-07-18 2:20 PM EST (R2 hooks pass COMPLETE + audit fixes)
+
+**Newest — all nine StudioEditor hooks extracted; post-chain audit clean.**
+Hooks 4-9 landed one-per-commit (useStageApproval, useAiActions,
+useTermCuration, useReplaceTool, useDenoiseTool, useAnnotations), each
+byte-diff-verified + smoke 32/32 + browser-driven. StudioEditor
+4605 → 2754 lines. Notable: the smoke gate caught a real TDZ constraint on
+useAnnotations placement (StudioDecos reads actionsRef during useEditor's
+synchronous first pass — hook must precede useEditor; composition order
+documented in the file). repo-surgeon end-of-chain sweep: zero P0; its two
+P1s + P2 fixed (Node snapshot generator now rebuilds the waves META array —
+R0-R3 + Wave K render on the plan page; Wave K rekeyed to id:/name:; infra
+librarian mirror no longer cites the deleted augmenter). R2 remaining tail
+= R2f: JSX child-component splits + editor-coupled route envelope flips
+toward ≤600. R4 go/no-go evidence gathered (277 sys.path files, 0 true
+collisions left, the two phases/ import roots confirmed — but run_wave.py
+is the R5 deletion candidate, so R5-first may dissolve R4's flagship bug);
+decision with Asif. Gates: pytest 1658, astro 0, eslint 0 err, smoke 32/32.
+
 **Last updated:** 2026-07-18 12:35 PM EST (Clean-code hardening R2+R3 tranche)
 
 **Newest — R2+R3 executed on Asif's approval (option A), 16 commits pushed.**
