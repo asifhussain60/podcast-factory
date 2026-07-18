@@ -8,6 +8,7 @@ Usage:
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import textwrap
@@ -15,7 +16,21 @@ import uuid
 from pathlib import Path
 
 CONTAINER = "kashkole-mssql"
-PASSWORD = "Kashkole_Local_2026!"
+
+
+def _sa_password() -> str:
+    """Local kashkole-mssql `sa` password, read from the environment.
+
+    Set MSSQL_SA_PASSWORD before running (see .env.example).
+    """
+    pw = os.environ.get("MSSQL_SA_PASSWORD")
+    if not pw:
+        raise RuntimeError(
+            "MSSQL_SA_PASSWORD is not set. Export the local SQL Server "
+            "container's sa password first, e.g. `export MSSQL_SA_PASSWORD=...` "
+            "(see .env.example)."
+        )
+    return pw
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 AUGMENT_DIR = REPO_ROOT / "content/Islamic/the-master-and-the-disciple/augment"
@@ -42,7 +57,7 @@ def query(sql: str) -> list[dict]:
     subprocess.run(
         ["docker", "exec", CONTAINER,
          "/opt/mssql-tools18/bin/sqlcmd",
-         "-S", "localhost", "-U", "sa", "-P", PASSWORD, "-C",
+         "-S", "localhost", "-U", "sa", "-P", _sa_password(), "-C",
          "-y", "0", "-Y", "0", "-i", tmp_in, "-o", tmp_out],
         check=True,
     )
