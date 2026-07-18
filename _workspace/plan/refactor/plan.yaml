@@ -2564,8 +2564,8 @@ waves_ghj:
           wisdom/search.ts: GET /api/wisdom/search route. TopicPopover mounted in
           library chapter page. lint:views clean; 0 new TS errors.
 
-  - wave: K
-    title: "Quality Scoring + Pipeline Hardening"
+  - id: K
+    name: "Quality Scoring + Pipeline Hardening"
     status: not_started
     authorization: awaiting_approval
     depends_on: [B, I, J]

@@ -631,6 +631,104 @@
       "last_touched": null
     },
     {
+      "id": "K0",
+      "title": "Define and publish the PEQ quality-scoring contract",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "wave": "K"
+    },
+    {
+      "id": "K1",
+      "title": "Snapshot regression baselines for kitab-al-riyad and the-master-and-the-disciple",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K0"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K"
+    },
+    {
+      "id": "K2",
+      "title": "Replace challenger free-form verdict with PEQ-driven scoring in both pipelines",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K0",
+        "K1"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K"
+    },
+    {
+      "id": "K3",
+      "title": "Wire PEQ scores into agent prompts and skill instructions for consistent quality framing",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K"
+    },
+    {
+      "id": "K4",
+      "title": "Surface PEQ scores on the plan dashboard with per-chapter and per-book breakdowns",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K"
+    },
+    {
+      "id": "K5",
+      "title": "Apply PEQ-gated quality checks to the wisdom pipeline retranslation and reingestion cycle",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2",
+        "K3"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K"
+    },
+    {
+      "id": "K6",
+      "title": "Add Interest & Challenge-Defeat scoring as a 5th PEQ axis + Challenger Category V",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2",
+        "K3",
+        "K5"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K"
+    },
+    {
+      "id": "K6-pre",
+      "title": "Terminus technicus preservation rule — prevent Arabic doctrinal terms from being stripped during denoise/normalize",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "WC8.0"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K"
+    },
+    {
       "id": "M1",
       "wave": "M",
       "title": "Floating AI toolbar + inspector tab restructure + scroll fix",
@@ -760,96 +858,6 @@
       "plain": "",
       "tools": [],
       "last_touched": null
-    },
-    {
-      "id": "K0",
-      "title": "Define and publish the PEQ quality-scoring contract",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K1",
-      "title": "Snapshot regression baselines for kitab-al-riyad and the-master-and-the-disciple",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K0"
-      ],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K2",
-      "title": "Replace challenger free-form verdict with PEQ-driven scoring in both pipelines",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K0",
-        "K1"
-      ],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K3",
-      "title": "Wire PEQ scores into agent prompts and skill instructions for consistent quality framing",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K2"
-      ],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K4",
-      "title": "Surface PEQ scores on the plan dashboard with per-chapter and per-book breakdowns",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K2"
-      ],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K5",
-      "title": "Apply PEQ-gated quality checks to the wisdom pipeline retranslation and reingestion cycle",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K2",
-        "K3"
-      ],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K6",
-      "title": "Add Interest & Challenge-Defeat scoring as a 5th PEQ axis + Challenger Category V",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K2",
-        "K3",
-        "K5"
-      ],
-      "plain": "",
-      "tools": []
-    },
-    {
-      "id": "K6-pre",
-      "title": "Terminus technicus preservation rule — prevent Arabic doctrinal terms from being stripped during denoise/normalize",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "WC8.0"
-      ],
-      "plain": "",
-      "tools": []
     },
     {
       "id": "O1",
@@ -1632,6 +1640,11 @@
       "plain": "Wave J transforms the three SQL Server source databases into a live"
     },
     {
+      "id": "K",
+      "name": "Quality Scoring + Pipeline Hardening",
+      "plain": ""
+    },
+    {
       "id": "M",
       "name": "Inspector Declutter + Floating AI Toolbar + Corpus Workbench",
       "plain": ""
@@ -1644,11 +1657,6 @@
     {
       "id": "CP",
       "name": "Content-Profile Branching",
-      "plain": ""
-    },
-    {
-      "id": "BPV2",
-      "name": "Book Pipeline v2 — unify book routes + decouple visuals (cutover complete)",
       "plain": ""
     },
     {
@@ -1695,15 +1703,50 @@
       "id": "TA",
       "name": "Work-level teaching allocator + curated audio density + 0d hardening (2026-06-18)",
       "plain": ""
+    },
+    {
+      "id": "BPV2",
+      "name": "Book Pipeline v2 — unify book routes + decouple visuals (cutover complete)",
+      "plain": ""
+    },
+    {
+      "id": "R0",
+      "name": "Foundation — lint/format/type gates on both surfaces",
+      "plain": ""
+    },
+    {
+      "id": "R1",
+      "name": "Site — honest names + shared fetch client",
+      "plain": ""
+    },
+    {
+      "id": "R2",
+      "name": "Site — decompose the StudioEditor God component",
+      "plain": ""
+    },
+    {
+      "id": "R3",
+      "name": "Pipeline — clean-code hardening (no packaging)",
+      "plain": ""
     }
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-18T15:15:47.946Z",
-  "source_commit": "1db0ed5",
+  "generated_at": "2026-07-18T15:24:38.626Z",
+  "source_commit": "72df6f2",
   "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "72df6f2",
+      "subject": "docs(status): session log — clean-code hardening R2+R3 tranche",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "834e7d2",
+      "subject": "docs(plan): R2/R3 execution ledger + prose + snapshots; CSS split files prettier-normalized",
+      "date": "2026-07-18"
+    },
     {
       "sha": "1db0ed5",
       "subject": "fix(pipeline): complete the deferrals commit — the rest of 846144c's intended files",
@@ -1742,16 +1785,6 @@
     {
       "sha": "ffa8482",
       "subject": "refactor(pipeline): R3 — split _azure.py along creds / transport / service seams",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "6ff4d2c",
-      "subject": "refactor(site): R2 pass 1b — StudioEditor's 23 fetches migrated to apiFetch (21/23)",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "de788e5",
-      "subject": "refactor(site): R2 — split theme.css and studio-editor.css into layered files",
       "date": "2026-07-18"
     }
   ],

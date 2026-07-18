@@ -310,12 +310,47 @@ async function mergeDashboard() {
     });
   }
 
+  // Wave metadata (id/name/plain) drives the PlanDesign grouping — rebuild it
+  // from plan.yaml so a newly added waves_* block surfaces without a generator
+  // change. Mirror of the same rebuild in regenerate-snapshots.py: one entry
+  // per id (letters collide across blocks; prefer the entry carrying steps),
+  // skip empty bands, keep the previous plain-English summary when the YAML
+  // has none.
+  let wavesMeta = existing.waves ?? [];
+  if (allPlanWaves.length > 0) {
+    const prevById = new Map((existing.waves ?? []).map((w) => [w.id, w]));
+    const picked = new Map();
+    const order = [];
+    for (const w of allPlanWaves) {
+      if (!w?.id) continue;
+      if (!picked.has(w.id)) {
+        order.push(w.id);
+        picked.set(w.id, w);
+      } else if (w.steps?.length && !picked.get(w.id)?.steps?.length) {
+        picked.set(w.id, w);
+      }
+    }
+    wavesMeta = [];
+    for (const wid of order) {
+      const w = picked.get(wid);
+      if (!w.steps?.length) continue; // empty band — no roadmap steps to show
+      const plain =
+        String(w.summary ?? "")
+          .trim()
+          .split("\n")[0] ||
+        prevById.get(wid)?.plain ||
+        "";
+      wavesMeta.push({ id: wid, name: w.name ?? wid, plain });
+    }
+  }
+
   const merged = {
     ...existing,
     generated_at: new Date().toISOString(),
     source_commit: currentCommit(),
     generator: "regenerate-snapshots.mjs",
     roadmap,
+    waves: wavesMeta,
     books_in_flight: inFlight,
     recent_commits: recentCommits(),
     wave_execution_events: await recentWaveEvents(),
