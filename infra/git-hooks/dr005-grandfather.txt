@@ -5,7 +5,6 @@
 scripts/podcast/_authoring/_artifact_convergence.py 881
 scripts/podcast/_authoring/_chapter_design.py 1365
 scripts/podcast/_authoring/_framing.py 890
-scripts/podcast/_azure.py 824
 scripts/podcast/_book_illustrate.py 695
 scripts/podcast/_quran_recitation.py 676
 scripts/podcast/_rules.py 1226

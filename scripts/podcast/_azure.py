@@ -27,15 +27,91 @@ from __future__ import annotations
 
 import json
 import os
-import subprocess
 import sys
 import time
-import urllib.error
-import urllib.request
-from dataclasses import dataclass
 from typing import Any
 
-APP_NAME = os.environ.get("AZURE_APP_NAME", "podcast-factory")
+# R3 DR-005 split (2026-07-18): credential resolution (_azure_creds), the HTTP
+# transport (_azure_http), the TextAnalytics helpers (_azure_language), and the
+# DALL-E helpers (_azure_openai) moved verbatim to those sibling modules. Every
+# moved name is re-exported here (`X as X`, same pattern as _validator_constants)
+# so existing `import _azure` call sites and patch targets keep working unchanged.
+from _azure_creds import (
+    APP_NAME as APP_NAME,
+)
+from _azure_creds import (
+    AzureCredsError as AzureCredsError,
+)
+from _azure_creds import (
+    DocIntelCreds as DocIntelCreds,
+)
+from _azure_creds import (
+    LanguageCreds as LanguageCreds,
+)
+from _azure_creds import (
+    OpenAICreds as OpenAICreds,
+)
+from _azure_creds import (
+    SpeechCreds as SpeechCreds,
+)
+from _azure_creds import (
+    TranslatorCreds as TranslatorCreds,
+)
+from _azure_creds import (
+    _read_keychain as _read_keychain,
+)
+from _azure_creds import (
+    _resolve as _resolve,
+)
+from _azure_creds import (
+    load_docintel_creds as load_docintel_creds,
+)
+from _azure_creds import (
+    load_language_creds as load_language_creds,
+)
+from _azure_creds import (
+    load_openai_creds as load_openai_creds,
+)
+from _azure_creds import (
+    load_speech_creds as load_speech_creds,
+)
+from _azure_creds import (
+    load_translator_creds as load_translator_creds,
+)
+from _azure_http import _http as _http
+from _azure_language import (
+    LANGUAGE_API_VERSION as LANGUAGE_API_VERSION,
+)
+from _azure_language import (
+    LANGUAGE_MAX_CHARS_PER_DOC as LANGUAGE_MAX_CHARS_PER_DOC,
+)
+from _azure_language import (
+    LANGUAGE_MAX_DOCS_PER_REQUEST as LANGUAGE_MAX_DOCS_PER_REQUEST,
+)
+from _azure_language import (
+    _language_post as _language_post,
+)
+from _azure_language import (
+    analyze_sentiment as analyze_sentiment,
+)
+from _azure_language import (
+    extract_key_phrases as extract_key_phrases,
+)
+from _azure_language import (
+    extract_named_entities as extract_named_entities,
+)
+from _azure_openai import (
+    DALLE_API_VERSION as DALLE_API_VERSION,
+)
+from _azure_openai import (
+    DALLE_DEFAULT_QUALITY as DALLE_DEFAULT_QUALITY,
+)
+from _azure_openai import (
+    DALLE_DEFAULT_SIZE as DALLE_DEFAULT_SIZE,
+)
+from _azure_openai import (
+    generate_image_dalle as generate_image_dalle,
+)
 
 # Doc Intel: prebuilt-read on the stable 2023-07-31 API. The newer
 # /documentintelligence/ namespace exists from 2024-11-30 onward, but
@@ -71,201 +147,6 @@ SPEECH_AUDIO_MIME = {
     "flac": "audio/flac",
     "opus": "audio/ogg",
 }
-
-
-# ────────────────────────────────────────────────────────────────────────────
-# Keychain access
-# ────────────────────────────────────────────────────────────────────────────
-
-
-class AzureCredsError(RuntimeError):
-    """Raised when a required Azure credential cannot be resolved."""
-
-
-def _read_keychain(service: str) -> str | None:
-    """Return the password for `service` from the macOS login keychain.
-
-    Returns None if the entry doesn't exist. Raises AzureCredsError if
-    `security` itself is missing (i.e., we're not on macOS).
-    """
-    try:
-        result = subprocess.run(
-            ["security", "find-generic-password", "-s", service, "-w"],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-    except FileNotFoundError as exc:
-        raise AzureCredsError(
-            "macOS `security` command not found. Either run this on macOS or "
-            "set the AZURE_* env vars directly (see infra/azure/azure-config.env)."
-        ) from exc
-    if result.returncode != 0:
-        return None
-    return result.stdout.strip() or None
-
-
-def _resolve(suffix: str, env_name: str) -> str | None:
-    """Resolve a single credential: env var (CI override) → Azure Key Vault.
-
-    DETERMINISTIC-TO-VAULT (2026-06-04): the macOS-keychain tier was removed so a
-    drifted keychain cache can never shadow the vault. The vault secret name equals
-    the former keychain service name (azure-<app>-<suffix>); the vault is the single
-    source of truth on every machine.
-    """
-    if env_name in os.environ and os.environ[env_name]:
-        return os.environ[env_name]
-    try:
-        from _secrets import keyvault_secret
-
-        return keyvault_secret(f"azure-{APP_NAME}-{suffix}")
-    except Exception:
-        return None
-
-
-@dataclass(frozen=True)
-class DocIntelCreds:
-    endpoint: str
-    key: str
-    region: str
-
-
-@dataclass(frozen=True)
-class TranslatorCreds:
-    endpoint: str  # text endpoint — global service
-    key: str
-    region: str
-
-
-@dataclass(frozen=True)
-class SpeechCreds:
-    endpoint: str  # region-based: https://<region>.api.cognitive.microsoft.com
-    key: str
-    region: str
-
-
-@dataclass(frozen=True)
-class LanguageCreds:
-    endpoint: str  # https://<resource>.cognitiveservices.azure.com
-    key: str
-    region: str
-
-
-@dataclass(frozen=True)
-class OpenAICreds:
-    endpoint: str  # https://<resource>.openai.azure.com
-    key: str
-    region: str
-    dalle_deployment: str  # model deployment name (e.g. "dall-e-3")
-
-
-def load_docintel_creds() -> DocIntelCreds:
-    endpoint = _resolve("docintel-endpoint", "AZURE_DOCINTEL_ENDPOINT")
-    key = _resolve("docintel-key1", "AZURE_DOCINTEL_KEY")
-    region = _resolve("docintel-region", "AZURE_DOCINTEL_REGION")
-    missing = [n for n, v in [("endpoint", endpoint), ("key", key), ("region", region)] if not v]
-    if missing:
-        raise AzureCredsError(
-            f"Document Intelligence credentials missing: {', '.join(missing)}. "
-            f"Run: cd infra/azure && bash pull-secrets.sh "
-            f"(or export AZURE_DOCINTEL_ENDPOINT/KEY/REGION for CI)."
-        )
-    return DocIntelCreds(endpoint=endpoint.rstrip("/"), key=key, region=region)
-
-
-def load_translator_creds() -> TranslatorCreds:
-    endpoint = _resolve("translator-endpoint-text", "AZURE_TRANSLATOR_ENDPOINT")
-    key = _resolve("translator-key1", "AZURE_TRANSLATOR_KEY")
-    region = _resolve("translator-region", "AZURE_TRANSLATOR_REGION")
-    missing = [n for n, v in [("endpoint", endpoint), ("key", key), ("region", region)] if not v]
-    if missing:
-        raise AzureCredsError(
-            f"Translator credentials missing: {', '.join(missing)}. "
-            f"Run: cd infra/azure && bash pull-secrets.sh "
-            f"(or export AZURE_TRANSLATOR_ENDPOINT/KEY/REGION for CI)."
-        )
-    return TranslatorCreds(endpoint=endpoint.rstrip("/"), key=key, region=region)
-
-
-def load_speech_creds() -> SpeechCreds:
-    endpoint = _resolve("speech-endpoint", "AZURE_SPEECH_ENDPOINT")
-    key = _resolve("speech-key1", "AZURE_SPEECH_KEY")
-    region = _resolve("speech-region", "AZURE_SPEECH_REGION")
-    missing = [n for n, v in [("endpoint", endpoint), ("key", key), ("region", region)] if not v]
-    if missing:
-        raise AzureCredsError(
-            f"Speech credentials missing: {', '.join(missing)}. "
-            f"Run: cd infra/azure && bash pull-secrets.sh "
-            f"(or export AZURE_SPEECH_ENDPOINT/KEY/REGION for CI)."
-        )
-    return SpeechCreds(endpoint=endpoint.rstrip("/"), key=key, region=region)
-
-
-def load_language_creds() -> LanguageCreds:
-    """Load Azure Language (TextAnalytics) credentials.
-
-    Used for NER, key-phrase extraction, and sentiment analysis in the
-    augmentation pipeline. The resource `journal-language-market` is F0 (free
-    tier: 5,000 text records/month). Upgrade to S if augmentation exceeds quota.
-    """
-    endpoint = _resolve("language-endpoint", "AZURE_LANGUAGE_ENDPOINT")
-    key = _resolve("language-key1", "AZURE_LANGUAGE_KEY")
-    region = _resolve("language-region", "AZURE_LANGUAGE_REGION")
-    missing = [n for n, v in [("endpoint", endpoint), ("key", key), ("region", region)] if not v]
-    if missing:
-        raise AzureCredsError(
-            f"Language credentials missing: {', '.join(missing)}. "
-            f"Run: cd infra/azure && bash store-keychain-keys.sh "
-            f"(or export AZURE_LANGUAGE_ENDPOINT/KEY/REGION for CI)."
-        )
-    return LanguageCreds(endpoint=endpoint.rstrip("/"), key=key, region=region)
-
-
-def load_openai_creds() -> OpenAICreds:
-    """Load Azure OpenAI credentials (for DALL-E 3 image generation).
-
-    The resource is `journal-openai` with a DALL-E 3 deployment. After
-    provisioning with provision-azure.sh, run store-keychain-keys.sh to
-    populate these credentials.
-    """
-    endpoint = _resolve("openai-endpoint", "AZURE_OPENAI_ENDPOINT")
-    key = _resolve("openai-key1", "AZURE_OPENAI_KEY")
-    region = _resolve("openai-region", "AZURE_OPENAI_REGION")
-    deployment = _resolve("openai-dalle-deployment", "AZURE_OPENAI_DALLE_DEPLOYMENT") or "dall-e-3"
-    missing = [n for n, v in [("endpoint", endpoint), ("key", key), ("region", region)] if not v]
-    if missing:
-        raise AzureCredsError(
-            f"Azure OpenAI credentials missing: {', '.join(missing)}. "
-            f"Run: cd infra/azure && bash provision-azure.sh && bash store-keychain-keys.sh "
-            f"(or export AZURE_OPENAI_ENDPOINT/KEY/REGION for CI)."
-        )
-    return OpenAICreds(endpoint=endpoint.rstrip("/"), key=key, region=region, dalle_deployment=deployment)
-
-
-# ────────────────────────────────────────────────────────────────────────────
-# HTTP helpers
-# ────────────────────────────────────────────────────────────────────────────
-
-
-def _http(
-    method: str,
-    url: str,
-    *,
-    headers: dict[str, str],
-    body: bytes | None = None,
-    timeout: float = 60.0,
-) -> tuple[int, dict[str, str], bytes]:
-    """Minimal urllib wrapper. Returns (status, headers, body_bytes).
-
-    Does NOT raise on non-2xx — callers decide whether to retry or surface.
-    """
-    req = urllib.request.Request(url, data=body, headers=headers, method=method)
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return resp.status, {k.lower(): v for k, v in resp.headers.items()}, resp.read()
-    except urllib.error.HTTPError as e:
-        # HTTPError IS a response — read the body so the caller can surface the Azure error JSON.
-        return e.code, {k.lower(): v for k, v in (e.headers or {}).items()}, e.read() or b""
 
 
 # ────────────────────────────────────────────────────────────────────────────
@@ -534,211 +415,6 @@ def transcribe_audio(
     # Each combinedPhrase corresponds to a channel; mono audio yields a single
     # entry. For multi-channel, concatenate in channel order with blank lines.
     return "\n\n".join(p.get("text", "") for p in combined if p.get("text"))
-
-
-# ────────────────────────────────────────────────────────────────────────────
-# Language (TextAnalytics) — NER, key-phrase extraction, sentiment
-# ────────────────────────────────────────────────────────────────────────────
-
-LANGUAGE_API_VERSION = "2023-04-01"
-LANGUAGE_MAX_DOCS_PER_REQUEST = 5  # conservative; API allows 25, but batching keeps latency low
-LANGUAGE_MAX_CHARS_PER_DOC = 5_000  # well under the 125,000-char hard limit
-
-
-def _language_post(creds: LanguageCreds, path: str, payload: dict[str, Any]) -> dict[str, Any]:
-    """POST to the Language API and return the parsed JSON response."""
-    url = f"{creds.endpoint}/language/:analyze-text?api-version={LANGUAGE_API_VERSION}"
-    body = json.dumps({**payload, "analysisInput": payload.get("analysisInput", {})}).encode("utf-8")
-    status, _, resp_body = _http(
-        "POST",
-        url,
-        headers={
-            "Ocp-Apim-Subscription-Key": creds.key,
-            "Content-Type": "application/json; charset=UTF-8",
-        },
-        body=body,
-    )
-    if status != 200:
-        raise RuntimeError(
-            f"Language API {path} failed: HTTP {status}\n{resp_body.decode('utf-8', errors='replace')[:600]}"
-        )
-    return json.loads(resp_body)
-
-
-def extract_key_phrases(creds: LanguageCreds, texts: list[str]) -> list[list[str]]:
-    """Extract key phrases from a list of texts.
-
-    Returns a parallel list of key-phrase lists, one per input text. Batches
-    internally to stay under API limits.
-
-    Used by the augmentation pipeline for topic identification and episode
-    planning: surface the dominant concepts in a chapter before deciding
-    whether enrichment is needed.
-    """
-    results: list[list[str]] = []
-    for i in range(0, len(texts), LANGUAGE_MAX_DOCS_PER_REQUEST):
-        batch = texts[i : i + LANGUAGE_MAX_DOCS_PER_REQUEST]
-        docs = [{"id": str(j), "text": t[:LANGUAGE_MAX_CHARS_PER_DOC], "language": "en"} for j, t in enumerate(batch)]
-        payload = {
-            "kind": "KeyPhraseExtraction",
-            "analysisInput": {"documents": docs},
-        }
-        resp = _language_post(creds, "KeyPhraseExtraction", payload)
-        docs_out = {d["id"]: d for d in resp.get("results", {}).get("documents", [])}
-        for j in range(len(batch)):
-            phrases = docs_out.get(str(j), {}).get("keyPhrases", [])
-            results.append(phrases)
-    return results
-
-
-def extract_named_entities(
-    creds: LanguageCreds,
-    texts: list[str],
-    *,
-    categories: list[str] | None = None,
-) -> list[list[dict[str, Any]]]:
-    """Extract named entities from a list of texts.
-
-    Each entity dict has keys: `text`, `category`, `subcategory`, `confidenceScore`.
-    Common categories: Person, Location, Organization, Event, DateTime, Quantity.
-
-    Pass `categories` to filter (e.g. `["Person", "Location"]`). Used by the
-    augmentation pipeline to detect characters, places, and events in fiction
-    chapters, and to find uncited people/works in scholarly text.
-    """
-    results: list[list[dict[str, Any]]] = []
-    for i in range(0, len(texts), LANGUAGE_MAX_DOCS_PER_REQUEST):
-        batch = texts[i : i + LANGUAGE_MAX_DOCS_PER_REQUEST]
-        docs = [{"id": str(j), "text": t[:LANGUAGE_MAX_CHARS_PER_DOC], "language": "en"} for j, t in enumerate(batch)]
-        payload = {
-            "kind": "EntityRecognition",
-            "analysisInput": {"documents": docs},
-        }
-        resp = _language_post(creds, "EntityRecognition", payload)
-        docs_out = {d["id"]: d for d in resp.get("results", {}).get("documents", [])}
-        for j in range(len(batch)):
-            entities = docs_out.get(str(j), {}).get("entities", [])
-            if categories:
-                entities = [e for e in entities if e.get("category") in categories]
-            results.append(entities)
-    return results
-
-
-def analyze_sentiment(
-    creds: LanguageCreds,
-    texts: list[str],
-) -> list[dict[str, Any]]:
-    """Analyze sentiment for a list of texts.
-
-    Each result dict has keys: `sentiment` ("positive"/"neutral"/"negative"),
-    `confidenceScores` ({positive, neutral, negative} floats).
-
-    Used by the fiction augmentation pipeline for arc analysis: detecting
-    tone shifts between episodes (tension, resolution, comic relief).
-    """
-    results: list[dict[str, Any]] = []
-    for i in range(0, len(texts), LANGUAGE_MAX_DOCS_PER_REQUEST):
-        batch = texts[i : i + LANGUAGE_MAX_DOCS_PER_REQUEST]
-        docs = [{"id": str(j), "text": t[:LANGUAGE_MAX_CHARS_PER_DOC], "language": "en"} for j, t in enumerate(batch)]
-        payload = {
-            "kind": "SentimentAnalysis",
-            "analysisInput": {"documents": docs},
-        }
-        resp = _language_post(creds, "SentimentAnalysis", payload)
-        docs_out = {d["id"]: d for d in resp.get("results", {}).get("documents", [])}
-        for j in range(len(batch)):
-            doc = docs_out.get(str(j), {})
-            results.append(
-                {
-                    "sentiment": doc.get("sentiment", "neutral"),
-                    "confidenceScores": doc.get("confidenceScores", {}),
-                }
-            )
-    return results
-
-
-# ────────────────────────────────────────────────────────────────────────────
-# Azure OpenAI — DALL-E 3 image generation
-# ────────────────────────────────────────────────────────────────────────────
-
-DALLE_API_VERSION = "2024-02-01"
-# Standard quality is cheaper; HD costs 2× and is used only when a caller
-# explicitly requests it (e.g. the book-illustrate step for cover images).
-DALLE_DEFAULT_SIZE = "1792x1024"  # landscape — matches 16:9 video frame
-DALLE_DEFAULT_QUALITY = "standard"
-
-
-def generate_image_dalle(
-    creds: OpenAICreds,
-    prompt: str,
-    *,
-    size: str = DALLE_DEFAULT_SIZE,
-    quality: str = DALLE_DEFAULT_QUALITY,
-    response_format: str = "url",  # "url" or "b64_json"
-    revised_prompt_out: list[str] | None = None,
-) -> bytes:
-    """Generate an image from `prompt` using Azure DALL-E 3. Returns image bytes.
-
-    Azure DALL-E 3 may revise the prompt for safety. If `revised_prompt_out` is
-    a list, the revised prompt string is appended to it (so callers can log it
-    for the cost ledger without changing the return type).
-
-    Pricing (2026): standard 1792×1024 = $0.080/image, standard 1024×1024 =
-    $0.040/image. HD costs 2× per size. For scenic episode images, standard is
-    sufficient.
-
-    Note: DALL-E 3 supports `n=1` only (one image per request). For multiple
-    images, call this function in a loop.
-    """
-    url = (
-        f"{creds.endpoint}/openai/deployments/{creds.dalle_deployment}"
-        f"/images/generations?api-version={DALLE_API_VERSION}"
-    )
-    payload = json.dumps(
-        {
-            "prompt": prompt,
-            "size": size,
-            "quality": quality,
-            "n": 1,
-            "response_format": response_format,
-        }
-    ).encode("utf-8")
-    status, _, resp_body = _http(
-        "POST",
-        url,
-        headers={
-            "api-key": creds.key,
-            "Content-Type": "application/json; charset=UTF-8",
-        },
-        body=payload,
-        timeout=120.0,  # DALL-E can take up to 60s
-    )
-    if status != 200:
-        raise RuntimeError(
-            f"DALL-E generation failed: HTTP {status}\n{resp_body.decode('utf-8', errors='replace')[:600]}"
-        )
-    data = json.loads(resp_body)
-    item = data.get("data", [{}])[0]
-    if revised_prompt_out is not None:
-        rp = item.get("revised_prompt", "")
-        if rp:
-            revised_prompt_out.append(rp)
-
-    if response_format == "b64_json":
-        import base64
-
-        b64 = item.get("b64_json", "")
-        if not b64:
-            raise RuntimeError("DALL-E returned empty b64_json")
-        return base64.b64decode(b64)
-    else:
-        img_url = item.get("url", "")
-        if not img_url:
-            raise RuntimeError("DALL-E returned no image URL")
-        status2, _, img_bytes = _http("GET", img_url, headers={}, timeout=60.0)
-        if status2 != 200:
-            raise RuntimeError(f"DALL-E image download failed: HTTP {status2}")
-        return img_bytes
 
 
 # ────────────────────────────────────────────────────────────────────────────
