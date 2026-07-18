@@ -329,32 +329,10 @@
 /* Editor-view font family + size, driven by the toolbar. View-only: book.md
    carries no font/size, so these never restyle the printed book. --prose-size is
    set at runtime by book-composer.ts (in-pattern with --cx-w). */
-/* Amiri, optically enlarged. Arabic faces render ~30-35% smaller than Latin at
-   the same point size, so inline Arabic looked shrunken next to the English
-   body. size-adjust scales the glyphs up per-face, so Arabic matches the Latin
-   size WITHOUT changing the Latin text (which keeps its own font). Self-hosted
-   TTFs (already used by the print stylesheet); Chromium — the in-app browser and
-   the Playwright PDF engine — supports size-adjust. */
-@font-face {
-  font-family: 'AmiriSized';
-  src: url('/fonts/amiri/Amiri-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  size-adjust: 135%;
-}
-@font-face {
-  font-family: 'AmiriSized';
-  src: url('/fonts/amiri/Amiri-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  size-adjust: 135%;
-}
-
 /* Each stack keeps its chosen Latin face, then routes Arabic to the size-adjusted
-   Amiri BEFORE the generic fallback, so the system Arabic face never wins and the
-   Arabic reads at the same visual size as the English. */
+   Amiri (AmiriSized — declared once in theme.css) BEFORE the generic fallback, so
+   the system Arabic face never wins and the Arabic reads at the same visual size
+   as the English. */
 .cx-edit-host[data-font="sans"]     { --prose-font: 'Lato', 'AmiriSized', 'Amiri', system-ui, sans-serif; }
 .cx-edit-host[data-font="serif"]    { --prose-font: Georgia, 'Iowan Old Style', 'Palatino Linotype', Palatino, 'AmiriSized', 'Amiri', serif; }
 .cx-edit-host[data-font="lato"]     { --prose-font: 'Lato', 'AmiriSized', 'Amiri', system-ui, sans-serif; }
@@ -563,7 +541,7 @@
   padding: 0.25rem 0 0.25rem 1.1rem;
 }
 .cx-body blockquote.quran p.ar {
-  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  font-family: 'AmiriQuranSized', 'AmiriSized', 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
   font-size: 1.05rem;
   line-height: 1.9;
   color: var(--c-ink, #1f1d18);

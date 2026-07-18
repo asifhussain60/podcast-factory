@@ -26,23 +26,31 @@
   font-display: swap;
 }
 
+/* size-adjust enlarges the Arabic glyphs ~35% so Arabic (verses + inline terms)
+   reads at the same visual size as the Latin body — Arabic faces render smaller
+   than Latin at equal point size. In print these families are Arabic-only (the
+   Latin body is Source Serif), so this never affects Latin. Matches the editor
+   and reader (theme.css AmiriSized/AmiriQuranSized). */
 @font-face {
   font-family: 'Amiri Quran';
   src: url('/fonts/amiri/AmiriQuran.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
+  size-adjust: 135%;
 }
 @font-face {
   font-family: 'Amiri';
   src: url('/fonts/amiri/Amiri-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
+  size-adjust: 135%;
 }
 @font-face {
   font-family: 'Amiri';
   src: url('/fonts/amiri/Amiri-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
+  size-adjust: 135%;
 }
 
 @page {

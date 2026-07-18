@@ -132,7 +132,7 @@
 
 /* Shared primitives (base look = the "Scholarly" default). */
 .bs-ar {
-  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', 'Scheherazade New', serif;
+  font-family: 'AmiriQuranSized', 'AmiriSized', 'Amiri Quran', 'Amiri', 'DecoType Naskh', 'Scheherazade New', serif;
   direction: rtl;
   text-align: center;
   font-size: 1.05rem;
@@ -162,7 +162,7 @@
   margin: 0;
 }
 .bs-inline .ar-inline {
-  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  font-family: 'AmiriSized', 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
   direction: rtl;
   unicode-bidi: isolate;
   color: var(--bs-arabic);

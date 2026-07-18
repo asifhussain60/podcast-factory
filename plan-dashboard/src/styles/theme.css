@@ -9,6 +9,34 @@
 @import "tailwindcss";
 @import "./chapter-viewer.css";
 
+/* ── Arabic, optically enlarged ────────────────────────────────────
+   Arabic faces render ~35% smaller than Latin at the same point size,
+   so inline Arabic (etymology inserts, terms) and verses looked shrunken
+   next to the English body. These size-adjusted, self-hosted faces scale
+   the Arabic glyphs up per-face — Latin text keeps its own font untouched.
+   Referenced (Latin-first, sized-Arabic-before-generic) by the editor,
+   reader, and citation Arabic stacks. The PDF self-hosts its own size-
+   adjusted Amiri in book-print.css (it doesn't load this file's @font-face).
+   ──────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'AmiriSized';
+  src: url('/fonts/amiri/Amiri-Regular.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: 'AmiriSized';
+  src: url('/fonts/amiri/Amiri-Bold.ttf') format('truetype');
+  font-weight: 700; font-style: normal; font-display: swap;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: 'AmiriQuranSized';
+  src: url('/fonts/amiri/AmiriQuran.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+  size-adjust: 135%;
+}
+
 /* ── Design tokens ─────────────────────────────────────────────── */
 
 :root {
