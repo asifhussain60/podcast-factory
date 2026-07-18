@@ -32,6 +32,7 @@ import { Decoration, DecorationSet } from "@tiptap/pm/view";
 import type { Node as PMNode } from "@tiptap/pm/model";
 import { diffWords } from "diff";
 import * as Toast from "@radix-ui/react-toast";
+import { ApiFetchError, apiFetch } from "../../../lib/api-fetch";
 import { stageRole } from "../../../lib/reader/stage-roles";
 import type { EnrichmentSummary } from "../../../lib/reader/enrichment-ledger";
 import TransformationDashboard from "./TransformationDashboard";
@@ -67,6 +68,18 @@ import type { Chapter, Lineage, PipelineStep } from "./studio-editor-types";
 
 // Preserve the pre-split export surface (Lineage was exported from this file).
 export type { Lineage };
+
+/**
+ * R2 apiFetch migration: reconstruct the exact error string each call site
+ * displayed pre-migration — the server's message for HTTP-level failures
+ * (what `json.error` carried), and `String(cause)` for transport failures
+ * (what `catch (e) { String(e) }` produced around a raw fetch()).
+ */
+function fetchErrorText(e: unknown): string {
+  if (e instanceof ApiFetchError)
+    return e.status === 0 ? String(e.cause ?? e) : e.message;
+  return String(e);
+}
 
 interface Props {
   slug: string;
@@ -300,10 +313,13 @@ export default function StudioEditor({
   useEffect(() => {
     if (!slug || !chapter) return;
     let cancelled = false;
-    fetch(
-      `/api/studio/section-depth?book=${encodeURIComponent(slug)}&chapter=${encodeURIComponent(chapter)}`,
-    )
-      .then((r) => (r.ok ? r.json() : null))
+    apiFetch<{
+      sections?: {
+        section_ordinal: number;
+        depth_level: string;
+        section_tags?: string[];
+      }[];
+    }>("/api/studio/section-depth", { query: { book: slug, chapter } })
       .then((json) => {
         if (cancelled || !json?.sections) return;
         const depthMap: Record<number, string> = {};
@@ -332,10 +348,10 @@ export default function StudioEditor({
     let cancelled = false;
     actionsRef.current = [];
     refreshActions();
-    fetch(
-      `/api/studio/action-items?book=${encodeURIComponent(slug)}&chapter=${encodeURIComponent(chapter)}`,
+    apiFetch<{ ok?: boolean; items?: ClientActionItem[] }>(
+      "/api/studio/action-items",
+      { query: { book: slug, chapter } },
     )
-      .then((r) => (r.ok ? r.json() : null))
       .then((json) => {
         if (cancelled || !json?.ok || !Array.isArray(json.items)) return;
         actionsRef.current = json.items as ClientActionItem[];
@@ -377,17 +393,16 @@ export default function StudioEditor({
     editorRef.current?.view.dispatch(
       editorRef.current.state.tr.setMeta("refreshDepth", true),
     );
-    fetch("/api/studio/section-depth", {
+    apiFetch("/api/studio/section-depth", {
       method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
+      body: {
         book: slug,
         chapter,
         ordinal,
         slug: slug_label,
         depth_level: depthLevel,
         tags,
-      }),
+      },
     }).catch(() => {
       /* non-blocking */
     });
@@ -1195,12 +1210,11 @@ export default function StudioEditor({
     if (!content.trim()) return;
     setDraftState("saving");
     try {
-      const res = await fetch("/api/studio/draft", {
+      await apiFetch("/api/studio/draft", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ slug, chapter, stage: stage.id, content }),
+        body: { slug, chapter, stage: stage.id, content },
       });
-      setDraftState(res.ok ? "saved" : "error");
+      setDraftState("saved");
     } catch {
       setDraftState("error");
     }
@@ -1260,39 +1274,43 @@ export default function StudioEditor({
           .filter(([, v]) => v.trim())
           .map(([k, v]) => [String(k), v.trim()]),
       );
-      const saveRes = await fetch("/api/studio/save-stage", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          slug,
-          chapter,
-          stage: stage.id,
-          content,
-          comments,
-        }),
-      });
-      if (!saveRes.ok) {
-        const err = await saveRes.json().catch(() => ({}));
-        setSaveError(
-          (err as { error?: string }).error ??
-            `Save failed (${saveRes.status})`,
-        );
-        return;
+      try {
+        await apiFetch("/api/studio/save-stage", {
+          method: "POST",
+          body: { slug, chapter, stage: stage.id, content, comments },
+        });
+      } catch (e) {
+        if (e instanceof ApiFetchError && e.status > 0) {
+          // HTTP-level failure: show the server's message (old !res.ok branch).
+          setSaveError(e.message || `Save failed (${e.status})`);
+          return;
+        }
+        // Transport failure: rethrow the underlying error so the outer catch
+        // renders the same "Network error: …" string as before.
+        throw e instanceof ApiFetchError ? (e.cause ?? e) : e;
       }
-      const approveRes = await fetch("/api/studio/review", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          slug,
-          chapter,
-          stage: stage.id,
-          approved: true,
-        }),
-      });
-      if (approveRes.ok) {
-        const approvedJson = await approveRes.json().catch(() => null);
+      let approvedPayload: {
+        stages?: Record<string, { approved_at?: string }>;
+      } | null = null;
+      let approveOk = true;
+      try {
+        approvedPayload = await apiFetch<{
+          stages?: Record<string, { approved_at?: string }>;
+        }>("/api/studio/review", {
+          method: "POST",
+          body: { slug, chapter, stage: stage.id, approved: true },
+        });
+      } catch (e) {
+        // The old code silently skipped the success block on a non-2xx approve;
+        // transport failures still surface via the outer catch, as before.
+        approveOk = false;
+        if (!(e instanceof ApiFetchError) || e.status === 0) {
+          throw e instanceof ApiFetchError ? (e.cause ?? e) : e;
+        }
+      }
+      if (approveOk) {
         const approvedAt =
-          approvedJson?.data?.stages?.[stage.id]?.approved_at ??
+          approvedPayload?.stages?.[stage.id]?.approved_at ??
           new Date().toISOString().replace(/\.\d+Z$/, "Z");
         try {
           window.localStorage.removeItem(
@@ -1367,10 +1385,9 @@ export default function StudioEditor({
     }
     suppressFlushRef.current = true;
     try {
-      await fetch("/api/studio/draft", {
+      await apiFetch("/api/studio/draft", {
         method: "DELETE",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ slug, chapter, stage: stage.id }),
+        body: { slug, chapter, stage: stage.id },
       });
     } catch {
       /* reload regardless — server keeps the canonical on failure */
@@ -1429,14 +1446,29 @@ export default function StudioEditor({
       setAiError("");
       setInspectorTab("ai"); // auto-switch so result is visible immediately
       try {
+        if (kind === "autotag") {
+          const data = await apiFetch<{ tag?: string; reason?: string }>(
+            "/api/ai/claude",
+            { method: "POST", body: { task: "categorise", text } },
+          );
+          const { tag, reason } = data ?? {};
+          setAiResult(`Suggested tag: ${tag}${reason ? ` — ${reason}` : ""}`);
+          return;
+        }
         let res: Response;
         if (kind === "rewrite") {
+          // R2: intentionally left on raw fetch — /api/ai/rewrite reports
+          // errors as {error} + non-2xx WITHOUT an ok key, and this site
+          // displays that server message; apiFetch would replace it with a
+          // generic HTTP line.
           res = await fetch("/api/ai/rewrite", {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({ text }),
           });
         } else if (kind === "research") {
+          // R2: intentionally left on raw fetch — /api/ai/research has the
+          // same non-envelope {error} + non-2xx error shape as rewrite.
           res = await fetch("/api/ai/research", {
             method: "POST",
             headers: { "content-type": "application/json" },
@@ -1448,12 +1480,6 @@ export default function StudioEditor({
               actionType: "research",
             }),
           });
-        } else if (kind === "autotag") {
-          res = await fetch("/api/ai/claude", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ task: "categorise", text }),
-          });
         } else {
           setAiBusy(false);
           return;
@@ -1461,9 +1487,6 @@ export default function StudioEditor({
         const json = await res.json();
         if (!res.ok || json.ok === false) {
           setAiError(json.error ?? `Request failed (${res.status})`);
-        } else if (kind === "autotag") {
-          const { tag, reason } = json.data ?? {};
-          setAiResult(`Suggested tag: ${tag}${reason ? ` — ${reason}` : ""}`);
         } else if (kind === "rewrite") {
           let opts = (json.data?.options ?? json.options ?? []) as string[];
           // Fallback fix: if opts[0] is a raw JSON string (from API error path), re-parse it.
@@ -1496,7 +1519,7 @@ export default function StudioEditor({
           );
         }
       } catch (e) {
-        setAiError(String(e));
+        setAiError(fetchErrorText(e));
       } finally {
         setAiBusy(false);
       }
@@ -1552,19 +1575,13 @@ export default function StudioEditor({
     const next = finalized ? false : true;
     setPublishing(true);
     try {
-      const res = await fetch("/api/studio/review", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ slug, chapter, finalize: next }),
-      });
-      if (res.ok) {
-        const json = await res.json().catch(() => ({}));
-        setFinalized(
-          next
-            ? (json?.data?.finalized ?? { at: new Date().toISOString() })
-            : null,
-        );
-      }
+      const payload = await apiFetch<{ finalized?: { at: string } | null }>(
+        "/api/studio/review",
+        { method: "POST", body: { slug, chapter, finalize: next } },
+      );
+      setFinalized(
+        next ? (payload?.finalized ?? { at: new Date().toISOString() }) : null,
+      );
     } catch {
       /* non-blocking */
     } finally {
@@ -1575,10 +1592,9 @@ export default function StudioEditor({
   // Persist a paragraph comment to SQLite (annotations API) on blur.
   const persistComment = useCallback(
     (idx: number, note: string) => {
-      fetch("/api/annotations", {
+      apiFetch("/api/annotations", {
         method: "PATCH",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ book: slug, chapter, paraIdx: idx, note }),
+        body: { book: slug, chapter, paraIdx: idx, note },
       }).catch(() => {
         /* non-blocking; comment is also saved with the stage */
       });
@@ -1589,13 +1605,12 @@ export default function StudioEditor({
   // Pre-load saved paragraph comments from SQLite when the chapter changes.
   useEffect(() => {
     let cancelled = false;
-    fetch(
-      `/api/annotations?book=${encodeURIComponent(slug)}&chapter=${encodeURIComponent(chapter)}`,
-    )
-      .then((r) => (r.ok ? r.json() : null))
+    apiFetch<{ notes?: Record<string, unknown> }>("/api/annotations", {
+      query: { book: slug, chapter },
+    })
       .then((json) => {
         if (cancelled || !json) return;
-        const notes = json.data?.notes ?? json.notes ?? {};
+        const notes = json.notes ?? {};
         for (const [idx, note] of Object.entries(notes)) {
           if (typeof note === "string" && note.trim()) {
             commentsRef.current.set(Number(idx), note);
@@ -1653,10 +1668,9 @@ export default function StudioEditor({
       refreshActions();
       refresh();
       if (id < 0) return; // optimistic-only, never hit the server
-      fetch("/api/studio/action-items", {
+      apiFetch("/api/studio/action-items", {
         method: "DELETE",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ book: slug, chapter, id }),
+        body: { book: slug, chapter, id },
       }).catch(() => {
         /* non-blocking */
       });
@@ -1706,20 +1720,21 @@ export default function StudioEditor({
       editor.view.dispatch(editor.state.tr.setMeta("refreshTags", true));
       refreshActions();
       refresh();
-      fetch("/api/studio/action-items", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          book: slug,
-          chapter,
-          scope,
-          paraOrdinal: activeParaIdx,
-          termText,
-          anchorText,
-          actionKind: def.kind,
-        }),
-      })
-        .then((r) => (r.ok ? r.json() : null))
+      apiFetch<{ ok?: boolean; item?: ClientActionItem }>(
+        "/api/studio/action-items",
+        {
+          method: "POST",
+          body: {
+            book: slug,
+            chapter,
+            scope,
+            paraOrdinal: activeParaIdx,
+            termText,
+            anchorText,
+            actionKind: def.kind,
+          },
+        },
+      )
         .then((json) => {
           if (json?.ok && json.item) {
             actionsRef.current = actionsRef.current.map((a) =>
@@ -1773,18 +1788,21 @@ export default function StudioEditor({
     setEnglishProposal(null);
     setExplainProposal(null);
     try {
-      const res = await fetch("/api/ai/arabic-term", {
+      const json = await apiFetch<{
+        arabic?: string;
+        gloss?: string;
+        kind?: string;
+        error?: string;
+      }>("/api/ai/arabic-term", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
+        body: {
           text: original,
           context: selectionContext(),
           bookTitle: chapterTitle,
-        }),
+        },
       });
-      const json = await res.json();
-      if (!res.ok || json.ok === false || !json.arabic) {
-        setArabicError(json.error ?? `Request failed (${res.status})`);
+      if (!json?.arabic) {
+        setArabicError(json?.error ?? "Request failed (200)");
       } else {
         setArabicProposal({
           from,
@@ -1796,7 +1814,7 @@ export default function StudioEditor({
         });
       }
     } catch (e) {
-      setArabicError(String(e));
+      setArabicError(fetchErrorText(e));
     } finally {
       setArabicBusy(false);
     }
@@ -1806,20 +1824,16 @@ export default function StudioEditor({
     async (phonetic: string | undefined, english: string) => {
       if (!phonetic || !english.trim()) return;
       try {
-        const res = await fetch("/api/studio/arabic-review", {
+        const updated = await apiFetch<unknown>("/api/studio/arabic-review", {
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
+          body: {
             slug,
             phonetic,
             decision: "replace_english",
             english_override: english.trim(),
             decided_by: "studio",
-          }),
+          },
         });
-        if (!res.ok) return;
-        const d = await res.json();
-        const updated = d?.data ?? d;
         window.dispatchEvent(
           new CustomEvent("arabic-curation:saved", { detail: updated }),
         );
@@ -1861,14 +1875,16 @@ export default function StudioEditor({
         term?.arabic_script ||
         (/[\u0600-\u06FF]/.test(original) ? original : "");
       const lookup = term?.transliteration || term?.phonetic || original;
-      const res = await fetch("/api/ai/english-term", {
+      const json = await apiFetch<{
+        english?: string;
+        gloss?: string;
+        error?: string;
+      }>("/api/ai/english-term", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ text: lookup, arabic, bookTitle: chapterTitle }),
+        body: { text: lookup, arabic, bookTitle: chapterTitle },
       });
-      const json = await res.json();
-      if (!res.ok || json.ok === false || !json.english) {
-        setEnglishError(json.error ?? `Request failed (${res.status})`);
+      if (!json?.english) {
+        setEnglishError(json?.error ?? "Request failed (200)");
       } else {
         setEnglishProposal({
           from,
@@ -1880,7 +1896,7 @@ export default function StudioEditor({
         });
       }
     } catch (e) {
-      setEnglishError(String(e));
+      setEnglishError(fetchErrorText(e));
     } finally {
       setEnglishBusy(false);
     }
@@ -1966,23 +1982,24 @@ export default function StudioEditor({
     setArabicDone("");
     setEnglishProposal(null);
     try {
-      const res = await fetch("/api/ai/explain", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          text: original,
-          chapter: chapterText.trim(),
-          bookTitle: chapterTitle,
-        }),
-      });
-      const json = await res.json();
-      if (!res.ok || json.ok === false || !json.text) {
-        setExplainError(json.error ?? `Request failed (${res.status})`);
+      const json = await apiFetch<{ text?: string; error?: string }>(
+        "/api/ai/explain",
+        {
+          method: "POST",
+          body: {
+            text: original,
+            chapter: chapterText.trim(),
+            bookTitle: chapterTitle,
+          },
+        },
+      );
+      if (!json?.text) {
+        setExplainError(json?.error ?? "Request failed (200)");
       } else {
         setExplainProposal({ from, to, original, text: json.text });
       }
     } catch (e) {
-      setExplainError(String(e));
+      setExplainError(fetchErrorText(e));
     } finally {
       setExplainBusy(false);
     }
@@ -2120,22 +2137,19 @@ export default function StudioEditor({
       setArabicBusy(true);
       setArabicError("");
       try {
-        const res = await fetch("/api/studio/replace", {
+        const j = await apiFetch<{
+          total?: number;
+          results?: { chapter: string; count: number }[];
+        }>("/api/studio/replace", {
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
+          body: {
             slug,
             scope,
             chapter,
             pairs: [{ find, replace }],
             apply: true,
-          }),
+          },
         });
-        const j = await res.json();
-        if (!res.ok || j.ok === false) {
-          setArabicError(j.error ?? `Request failed (${res.status})`);
-          return;
-        }
         if (!isReadOnlyStage) replaceInEditorDoc([{ find, replace }]);
         const nCh = (j.results ?? []).length;
         const total = j.total ?? 0;
@@ -2147,7 +2161,7 @@ export default function StudioEditor({
         setArabicProposal(null);
         refresh();
       } catch (e) {
-        setArabicError(String(e));
+        setArabicError(fetchErrorText(e));
       } finally {
         setArabicBusy(false);
       }
@@ -2174,28 +2188,22 @@ export default function StudioEditor({
       setEnglishBusy(true);
       setEnglishError("");
       try {
-        const res = await fetch("/api/studio/replace", {
+        await apiFetch("/api/studio/replace", {
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
+          body: {
             slug,
             scope,
             chapter,
             pairs: [{ find, replace }],
             apply: true,
-          }),
+          },
         });
-        const j = await res.json();
-        if (!res.ok || j.ok === false) {
-          setEnglishError(j.error ?? `Request failed (${res.status})`);
-          return;
-        }
         await saveEnglishCuration(englishProposal.phonetic, replace);
         if (!isReadOnlyStage) replaceInEditorDoc([{ find, replace }]);
         setEnglishProposal(null);
         refresh();
       } catch (e) {
-        setEnglishError(String(e));
+        setEnglishError(fetchErrorText(e));
       } finally {
         setEnglishBusy(false);
       }
@@ -2224,22 +2232,19 @@ export default function StudioEditor({
       setReplaceError("");
       setReplaceDone("");
       try {
-        const res = await fetch("/api/studio/replace", {
+        const j = await apiFetch<{
+          total?: number;
+          results?: { chapter: string; count: number }[];
+        }>("/api/studio/replace", {
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
+          body: {
             slug,
             scope: replaceScope,
             chapter,
             pairs,
             apply,
-          }),
+          },
         });
-        const j = await res.json();
-        if (!res.ok || j.ok === false) {
-          setReplaceError(j.error ?? `Request failed (${res.status})`);
-          return;
-        }
         setReplacePreview(j.results ?? []);
         setReplaceTotal(j.total ?? 0);
         if (apply) {
@@ -2256,7 +2261,7 @@ export default function StudioEditor({
           refresh();
         }
       } catch (e) {
-        setReplaceError(String(e));
+        setReplaceError(fetchErrorText(e));
       } finally {
         setReplaceBusy(false);
       }
@@ -2354,22 +2359,19 @@ export default function StudioEditor({
       setNoiseError("");
       setNoiseDone("");
       try {
-        const res = await fetch("/api/studio/denoise", {
+        const j = await apiFetch<{
+          total?: number;
+          results?: { chapter: string; count: number; samples: string[] }[];
+        }>("/api/studio/denoise", {
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
+          body: {
             slug,
             scope: noiseScope,
             chapter,
             pattern,
             apply,
-          }),
+          },
         });
-        const j = await res.json();
-        if (!res.ok || j.ok === false) {
-          setNoiseError(j.error ?? `Request failed (${res.status})`);
-          return;
-        }
         setNoisePreview(j.results ?? []);
         setNoiseTotal(j.total ?? 0);
         if (apply) {
@@ -2386,7 +2388,7 @@ export default function StudioEditor({
           refresh();
         }
       } catch (e) {
-        setNoiseError(String(e));
+        setNoiseError(fetchErrorText(e));
       } finally {
         setNoiseBusy(false);
       }
