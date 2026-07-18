@@ -6,13 +6,13 @@ All callers that do `from _authoring import X` continue to work unchanged.
 
 from __future__ import annotations
 
-from ._book_intelligence import author_phase_0ci
-from ._chapter_design import author_phase_0d
-from ._convergence import (
+from ._agent_invocations import (
     invoke_challenger,
     invoke_fixer,
     invoke_trainer,
 )
+from ._book_intelligence import author_phase_0ci
+from ._chapter_design import author_phase_0d
 from ._core import (
     CHALLENGER_TIMEOUT,
     CLAUDE_CMD,

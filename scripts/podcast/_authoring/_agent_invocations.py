@@ -1,6 +1,10 @@
-"""_authoring/convergence.py — Challenger, fixer, and trainer invocations.
+"""_authoring/_agent_invocations.py — Challenger, fixer, and trainer invocations.
 
-Extracted from _authoring.py (A4 split).
+Extracted from _authoring.py (A4 split). Renamed from _authoring/_convergence.py
+(R3, 2026-07-18) to remove the basename collision with the per-chapter
+convergence-loop module scripts/podcast/_convergence.py — this module holds the
+`claude -p` shellouts that INVOKE the challenger/fixer/trainer agents; the loop
+that drives them lives in _convergence.py.
 """
 
 from __future__ import annotations
