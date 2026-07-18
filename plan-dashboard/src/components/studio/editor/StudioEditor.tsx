@@ -62,6 +62,7 @@ import { MarkerHighlight } from "./marker-highlight";
 import { useAiActions } from "./useAiActions";
 import { useAutosaveDraft } from "./useAutosaveDraft";
 import { useEditorPrefs } from "./useEditorPrefs";
+import { useReplaceTool } from "./useReplaceTool";
 import { useSectionDepth } from "./useSectionDepth";
 import { useStageApproval } from "./useStageApproval";
 import { useTermCuration } from "./useTermCuration";
@@ -1295,49 +1296,41 @@ export default function StudioEditor({
 
   removeActionFnRef.current = removeAction;
 
-  // ── Global find-and-replace ──────────────────────────────────────────────
-  // Highlight a phrase → "Replace" opens this popup pre-filled with the
-  // selection. Multiple find→replace pairs run in one pass; the scope checkbox
-  // switches between this chapter and every chapter in the book. Preview counts
-  // matches without writing; Apply rewrites the canonical chapter .txt files via
-  // /api/studio/replace and mirrors the change into the live editor doc.
-  const [replaceOpen, setReplaceOpen] = useState(false);
-  const [replacePairs, setReplacePairs] = useState<
-    { find: string; replace: string }[]
-  >([{ find: "", replace: "" }]);
-  const [replaceScope, setReplaceScope] = useState<"chapter" | "book">(
-    "chapter",
-  );
-  const [replacePreview, setReplacePreview] = useState<
-    { chapter: string; count: number }[] | null
-  >(null);
-  const [replaceTotal, setReplaceTotal] = useState(0);
-  const [replaceBusy, setReplaceBusy] = useState(false);
-  const [replaceError, setReplaceError] = useState("");
-  const [replaceDone, setReplaceDone] = useState("");
-
-  const openReplace = useCallback(() => {
-    setReplacePairs([{ find: selection.trim(), replace: "" }]);
-    setReplaceScope("chapter");
-    setReplacePreview(null);
-    setReplaceTotal(0);
-    setReplaceError("");
-    setReplaceDone("");
-    setReplaceOpen(true);
-  }, [selection]);
-  const closeReplace = useCallback(() => setReplaceOpen(false), []);
-  const updatePair = (i: number, field: "find" | "replace", val: string) =>
-    setReplacePairs((ps) =>
-      ps.map((p, j) => (j === i ? { ...p, [field]: val } : p)),
-    );
-  const addPair = () =>
-    setReplacePairs((ps) => [...ps, { find: "", replace: "" }]);
-  const removePair = (i: number) =>
-    setReplacePairs((ps) =>
-      ps.length > 1 ? ps.filter((_, j) => j !== i) : ps,
-    );
+  // ── Global find-and-replace — extracted to useReplaceTool (R2 pass 2).
+  // Popup state, pair-list handlers, the preview/apply call, and
+  // replaceInEditorDoc (the in-editor mirror — returned here so it can be fed
+  // to useTermCuration below; hooks compose at the component level).
+  const {
+    replaceOpen,
+    replacePairs,
+    replaceScope,
+    setReplaceScope,
+    replacePreview,
+    setReplacePreview,
+    replaceTotal,
+    replaceBusy,
+    replaceError,
+    replaceDone,
+    setReplaceDone,
+    openReplace,
+    closeReplace,
+    updatePair,
+    addPair,
+    removePair,
+    replaceInEditorDoc,
+    runReplace,
+  } = useReplaceTool({
+    editor,
+    isReadOnlyStage,
+    slug,
+    chapter,
+    selection,
+    fetchErrorText,
+    refresh,
+  });
 
   // Friendly "N. Title" label for a chapter id (falls back to the raw id).
+  // Shared by the Replace and Noise popups — stays here, not in useReplaceTool.
   const chapterLabel = useCallback(
     (id: string): string => {
       const idx = chapters.findIndex((c) => c.slug === id);
@@ -1346,44 +1339,11 @@ export default function StudioEditor({
     [chapters],
   );
 
-  // Mirror the confirmed replacements into the live editor doc so the current
-  // chapter updates instantly. Pairs apply in order (a later pair sees earlier
-  // results), matching the server. Each pair is swept high→low so positions
-  // stay valid as text is replaced.
-  const replaceInEditorDoc = useCallback(
-    (pairs: { find: string; replace: string }[]) => {
-      if (!editor) return;
-      for (const { find, replace } of pairs) {
-        if (!find) continue;
-        const hits: { from: number; to: number }[] = [];
-        editor.state.doc.descendants((node, pos) => {
-          if (!node.isText || !node.text) return;
-          let idx = node.text.indexOf(find);
-          while (idx !== -1) {
-            const from = pos + idx;
-            hits.push({ from, to: from + find.length });
-            idx = node.text.indexOf(find, idx + find.length);
-          }
-        });
-        if (!hits.length) continue;
-        hits.sort((a, b) => b.from - a.from);
-        let tr = editor.state.tr;
-        for (const h of hits) {
-          tr = replace
-            ? tr.replaceWith(h.from, h.to, editor.state.schema.text(replace))
-            : tr.delete(h.from, h.to);
-        }
-        editor.view.dispatch(tr);
-      }
-    },
-    [editor],
-  );
-
   // ── AI term curation — extracted to useTermCuration (R2 pass 2). The
   // "Arabic" / "English" / "Explain" propose→confirm→apply flows, the
   // across-chapter/book replace variants (which reuse replaceInEditorDoc
-  // above), and the arabic-review curation save. Called here — after
-  // replaceInEditorDoc — so every dependency exists.
+  // from useReplaceTool above), and the arabic-review curation save. Called
+  // here — after useReplaceTool — so every dependency exists.
   const {
     arabicProposal,
     setArabicProposal,
@@ -1420,63 +1380,6 @@ export default function StudioEditor({
     fetchErrorText,
     refresh,
   });
-
-  const runReplace = useCallback(
-    async (apply: boolean) => {
-      const pairs = replacePairs
-        .map((p) => ({ find: p.find, replace: p.replace }))
-        .filter((p) => p.find.trim() !== "");
-      if (pairs.length === 0) {
-        setReplaceError("Enter at least one phrase to find.");
-        return;
-      }
-      setReplaceBusy(true);
-      setReplaceError("");
-      setReplaceDone("");
-      try {
-        const j = await apiFetch<{
-          total?: number;
-          results?: { chapter: string; count: number }[];
-        }>("/api/studio/replace", {
-          method: "POST",
-          body: {
-            slug,
-            scope: replaceScope,
-            chapter,
-            pairs,
-            apply,
-          },
-        });
-        setReplacePreview(j.results ?? []);
-        setReplaceTotal(j.total ?? 0);
-        if (apply) {
-          if (!isReadOnlyStage) replaceInEditorDoc(pairs);
-          const nCh = (j.results ?? []).length;
-          setReplaceDone(
-            j.total === 0
-              ? "No matches found — nothing changed."
-              : `Replaced ${j.total} instance${j.total === 1 ? "" : "s"} across ${nCh} chapter${nCh === 1 ? "" : "s"}.` +
-                  (replaceScope === "book" && nCh > 1
-                    ? " Other chapters update when you open them."
-                    : ""),
-          );
-          refresh();
-        }
-      } catch (e) {
-        setReplaceError(fetchErrorText(e));
-      } finally {
-        setReplaceBusy(false);
-      }
-    },
-    [
-      slug,
-      replaceScope,
-      chapter,
-      replacePairs,
-      isReadOnlyStage,
-      replaceInEditorDoc,
-    ],
-  );
 
   // ── Noise → pattern → denoise across chapters ────────────────────────────
   // Highlight a recurring artifact (a page header, an OCR scar, a stray marker)
