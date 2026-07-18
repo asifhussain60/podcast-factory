@@ -45,16 +45,12 @@ import {
   DEFAULT_DEPTH_PROFILE,
   DEPTH_LEVELS_BY_PROFILE,
   EDITOR_FONTS,
-  EDITOR_FONT_IDS,
   EDITOR_PAPERS,
-  EDITOR_PAPER_IDS,
   EDITOR_SIZE_MAX,
   EDITOR_SIZE_MIN,
   SECTION_TAGS,
   SURAH_MAP,
   SURAH_VERSE_RE,
-  readEditorPref,
-  readEditorSize,
   scanMarkers,
   truncate,
   type ActionDef,
@@ -63,6 +59,7 @@ import {
   type SaveDepthFn,
 } from "./studio-editor-constants";
 import { MarkerHighlight } from "./marker-highlight";
+import { useEditorPrefs } from "./useEditorPrefs";
 import { openDepthPicker, openTagPicker } from "./studio-editor-pickers";
 import type { Chapter, Lineage, PipelineStep } from "./studio-editor-types";
 
@@ -223,36 +220,15 @@ export default function StudioEditor({
   const [approvalToastText, setApprovalToastText] =
     useState("Augmented Approved");
 
-  // Reading-comfort controls — font, text size, paper tint (view only; persisted
-  // to the shared cx-editor-* keys so the choice carries to/from the Book Composer).
-  const [editorFont, setEditorFont] = useState<string>(() =>
-    readEditorPref("cx-editor-font", "sans", EDITOR_FONT_IDS),
-  );
-  const [editorPaper, setEditorPaper] = useState<string>(() =>
-    readEditorPref("cx-editor-paper", "light", EDITOR_PAPER_IDS),
-  );
-  const [editorSize, setEditorSize] = useState<number>(() => readEditorSize());
-  useEffect(() => {
-    try {
-      localStorage.setItem("cx-editor-font", editorFont);
-    } catch {
-      /* best-effort */
-    }
-  }, [editorFont]);
-  useEffect(() => {
-    try {
-      localStorage.setItem("cx-editor-paper", editorPaper);
-    } catch {
-      /* best-effort */
-    }
-  }, [editorPaper]);
-  useEffect(() => {
-    try {
-      localStorage.setItem("cx-editor-size", String(editorSize));
-    } catch {
-      /* best-effort */
-    }
-  }, [editorSize]);
+  // Reading-comfort controls — extracted to useEditorPrefs (R2 pass 2).
+  const {
+    editorFont,
+    setEditorFont,
+    editorPaper,
+    setEditorPaper,
+    editorSize,
+    setEditorSize,
+  } = useEditorPrefs();
 
   // Draft autosave state: edits are persisted to a per-stage draft (debounced) so
   // they survive a refresh until the chapter is approved. 'saved' = a draft is on
