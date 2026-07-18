@@ -1,12 +1,12 @@
-# Makefile — canonical entry point for the journal repo's infra + podcast pipeline.
+# Makefile — canonical entry point for the podcast-factory repo's infra + podcast pipeline.
 #
 # These targets are thin aliases over scripts under `infra/azure/` and
 # `scripts/`. The scripts remain the source of truth — this Makefile exists
 # so a new Mac can `git clone && make bootstrap` and the canonical workflows
 # are discoverable via `make help`.
 #
-# Web-app + Express-proxy targets stay in `package.json` (npm scripts), as
-# this Makefile focuses on shell-orchestrated infra + podcast operations.
+# Astro-site (plan-dashboard) targets stay in its own `package.json` (npm
+# scripts); this Makefile focuses on shell-orchestrated infra + podcast ops.
 
 .DEFAULT_GOAL := help
 SHELL := /bin/bash

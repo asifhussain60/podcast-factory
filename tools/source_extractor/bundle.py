@@ -2,7 +2,7 @@
 
 The bundle is a self-contained directory that the podcast pipeline will
 intake via a forthcoming `intake_book.py --from-bundle <path>` flag (Phase D).
-It mirrors the shape the pipeline expects under `content/drafts/<slug>/_system/source/`
+It mirrors the shape the pipeline expects under `content/<Bucket>/<slug>/_system/source/`
 so intake can drop it in with minimal transformation.
 
 Layout:
@@ -124,7 +124,7 @@ def write_bundle_yml(
         f"  slug: {meta.book_slug}",
         f"  prefix: {meta.book_prefix:02d}",
         f"# pipeline-side intake will use these as suggestions; final slug/branch",
-        f"# is intake's call (it must check for collisions in content/drafts/).",
+        f"# is intake's call (it must check for collisions in content/<Bucket>/).",
         f"pipeline_hints:",
         f"  suggested_slug: {meta.source_name}-{meta.shelf_slug}-{meta.book_slug}",
         f"  suggested_category: lectures",

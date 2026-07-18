@@ -1,17 +1,17 @@
-"""Knowledge-extraction package — phase 0h `knowledge-extract`.
+"""Knowledge package — atom schema, pronunciation, and TTS-term helpers.
 
-Three pieces:
-- `extractor`   — pulls atoms from audit-vetted chapters
-- `librarian`   — dedupes scratch atoms into the canonical library
-- `augmenter`   — query helper for injecting prior atoms into future-book prompts
+The phase-0h extractor/librarian scaffolding was superseded by the DB-backed
+`intelligence/` package and deleted 2026-06-10. Current modules:
+- `_atom_schemas`          — atom validation + canonical term IDs (live)
+- `pronunciation_ledger`   — cross-book pronunciation record (live)
+- `pronunciation_patterns` — pronunciation heuristics (live)
+- `term_render`            — deterministic TTS term renderer (live)
+- `categorize_atoms`, `fill_etymology_phonetics` — manual operator CLIs
+- `augmenter`              — legacy JSONL doctrine-augmenter; the live augment
+                             path is `intelligence/augmenter.py`
 
 Authority:
 - Spec: `_workspace/plan/architecture.md` (Intelligence Layer section)
-        + `_workspace/plan/refactor/plan.md` (Wave B)
-- Agent: `.github/agents/podcast-librarian.agent.md`
+- Live augment path/agent: `intelligence/augmenter.py` + `podcast-librarian`
 - Library: `content/knowledge-base/`
-- Visual overview: `_workspace/plan/view/intelligence-pipeline.html`
-
-Status (2026-05-25): scaffolded, awaiting Wave 1 implementation. All modules raise
-`NotImplementedError` until the implementer wires them up per the spec.
 """

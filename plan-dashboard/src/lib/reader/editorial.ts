@@ -7,9 +7,11 @@
  *   - CHAPTER level (per-chapter OVERRIDE of a card):     _system/editorial/<chapter>.json
  * The effective value for a chapter is its override if present, else the book-level value.
  *
- * Persisted as JSON (NOT yaml) on purpose: the Slice-6 Python orchestrator reads the same
- * files to drive stage advancement, and stdlib `json` works in node AND python (PyYAML is not
- * installed in the pipeline venv). Mirrors the stage-review.ts persistence shape.
+ * Persisted as JSON (NOT yaml) on purpose: stdlib `json` works in node AND python (PyYAML is
+ * not installed in the pipeline venv), so a future Python reader can consume it without a new
+ * dependency. NOTE (2026-07-18): this is currently Studio-only state — no Python code reads
+ * `_system/editorial/` yet, so `editorial.ts` is not part of an active TS<->Python mirror pair.
+ * Mirrors the stage-review.ts persistence shape.
  *
  * Card VALUES are modelled generically by `kind` ('list' | 'pairs' | 'choice') so the cockpit
  * is tradition-agnostic and extensible: a new card or a new tradition adds a CARD_DEF entry,

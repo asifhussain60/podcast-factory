@@ -54,6 +54,8 @@ export const ALLOWED_CATEGORIES = [
   'interviews',
   'letters',
   'asbaaq',
+  'sites',
+  'explainers',
 ] as const;
 
 export type Category = (typeof ALLOWED_CATEGORIES)[number];
@@ -390,6 +392,8 @@ export function categoryLabel(category: Category): string {
     case 'documents': return 'Document';
     case 'interviews': return 'Interview';
     case 'letters': return 'Letter';
+    case 'sites': return 'Site';
+    case 'explainers': return 'Explainer';
   }
 }
 
@@ -402,5 +406,7 @@ export function categoryPlural(category: Category): string {
     case 'documents': return 'Documents';
     case 'interviews': return 'Interviews';
     case 'letters': return 'Letters';
+    case 'sites': return 'Sites';
+    case 'explainers': return 'Explainers';
   }
 }

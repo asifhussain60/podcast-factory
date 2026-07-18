@@ -8,10 +8,10 @@ Plain bash loop that wakes every 30s, checks `BOOK_DIR/_system/orchestrator.pid`
 
 ```bash
 # Manual spawn (rarely needed — orchestrate_book.py does this automatically):
-bash scripts/podcast/watch_orchestrator.sh content/drafts/my-book-slug &
+bash scripts/podcast/watch_orchestrator.sh content/<Bucket>/<slug> &
 ```
 
-Logs at `content/drafts/<slug>/_system/watchdog.log`. Stops naturally when the book reaches `phase=publish, phase_status=completed` OR after 30 consecutive restart failures (safety cap).
+Logs at `content/<Bucket>/<slug>/_system/watchdog.log`. Stops naturally when the book reaches `phase=publish, phase_status=completed` OR after 30 consecutive restart failures (safety cap).
 
 ## Layer 2 — Auto-spawn in `orchestrate_book.py`
 

@@ -119,6 +119,6 @@ Respond in the canonical 4-part At-a-glance template (see [`../plan/response-tem
 - No `~/.machine-id` check — single-machine repo since 2026-05-23
 - No operator-file authoring — that model was retired
 - No `~/.coordination-protocol.md` consultation — also retired
-- No book-queue claim — pick a book directly from `content/drafts/` listings in `start-session.sh` output
+- No book-queue claim — pick a book directly from `content/<Bucket>/` listings in `start-session.sh` output
 
 If any of these come up in older docs you cite, treat them as historical references and follow [`CLAUDE.md`](../../CLAUDE.md) instead.

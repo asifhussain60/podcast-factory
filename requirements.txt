@@ -12,7 +12,7 @@
 anthropic==0.79.0           # Claude SDK — SDK refinement path (claude -p uses Max subscription)
 google-genai==1.47.0        # Gemini — Phase 0g bundle audit + Gemini refinement passes
 PyYAML==6.0.3               # YAML parsing throughout (series-config, meta, state)
-pydantic==2.12.5            # Data validation (noise router, phase drivers)
+pydantic==2.12.5            # Data validation (review_server.py)
 httpx==0.28.1               # HTTP client (anthropic SDK dep)
 requests==2.33.0            # HTTP client (google-genai dep)
 numpy==2.5.0                # Audio fingerprint DSP + style-gate tests
@@ -29,4 +29,3 @@ numpy==2.5.0                # Audio fingerprint DSP + style-gate tests
 
 # ── Dev / test ───────────────────────────────────────────────────────────────
 pytest==9.0.3
-Pygments==2.20.0            # Syntax highlighting in reports
