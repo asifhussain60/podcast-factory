@@ -16,7 +16,7 @@
  * Section header content (Urdu) survives into the panel; the topic_id from
  * the comment is used to look up the English retitle in R2 decisions.
  */
-import { renderSourceMarkdown } from "./source-render";
+import { renderSourceMarkdown } from "./markdown";
 import { getTopicEnglish } from "./decisions";
 
 const SECTION_RE =

@@ -9,7 +9,7 @@
  */
 import Base from "../../../layouts/Base.astro";
 import { findContent } from "../../../lib/content-paths";
-import { renderSourceMarkdown } from "../../../lib/reader/source-render";
+import { renderSourceMarkdown } from "../../../lib/reader/markdown";
 import { readFile, realpath, stat } from "node:fs/promises";
 import { resolve, normalize, extname, basename } from "node:path";
 import "../../../styles/library.css";
