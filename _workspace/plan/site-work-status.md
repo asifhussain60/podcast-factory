@@ -6,9 +6,24 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-17 2:08 PM EST (Interactive Etymology action on the Book Composer page)
+**Last updated:** 2026-07-18 5:40 AM EST (Repo audit remediation — groups 1-3)
 
-**Newest — interactive Etymology AI action on the Book Composer (PDF) page.**
+**Newest — full repo audit + safe-batch remediation.** Report:
+`docs/assessment/repo-audit-2026-07-18.md`. Three commits on `develop`
+(`b42e700` security, `fa328d9` dead-code, `b606936` edge-drift). Site impact:
+removed a 30-file dead island (the superseded chapter-reader UI + 6 uncalled
+API endpoints + `SpendChart`); added `sites`/`explainers` to `content-paths.ts`
+to match Python; corrected the `editorial.ts` mirror docstring. Gates green
+(`astro check` 0 errors, `lint:views` clean). **Open item for a future session:**
+`test_etymology.py::test_build_pipeline_keeps_only_gated` FAILS on `develop`
+(pre-existing, in the etymology feature — `build_etymology_atoms` drops the
+confirmed atom; expected kept=1, got 0). Deferred cleanups: WC8 staging trio
+(live stage-order mirror), `knowledge/augmenter.py`, `classify_slides.py`,
+`.codex/` registry, StudioPoc `poc/` rename + split. See the report's register.
+
+---
+
+**Prior — interactive Etymology AI action on the Book Composer (PDF) page.** _(2026-07-17 2:08 PM EST)_
 Commit `d203599` on `develop` (follows the `c85f458`/`03f1d1d` corpus-augmentation
 pipeline work same session). Highlight a word in the Book Composer prose editor →
 click **Etymology** in the Refinement panel → one Gemini Flash call returns TWO
