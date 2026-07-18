@@ -265,6 +265,23 @@ git pull --rebase origin book/ayyuhal-walad                      # sync before w
 
 ## Session log
 
+### 2026-07-18 — Clean-code hardening R0+R1 (Claude)
+
+Executed the approved tranche of `refactor/clean-code-hardening-plan.md`.
+Pipeline: pyproject.toml (ruff E4/E7/E9/F/I @120, gradual mypy), whole-tree
+auto-fix + format (~465 files), 35 targeted noqa grandfathers, 3 duplicate-key
+data fixes, re-export chains restored via X-as-X (AST-audited all 482 modules).
+DR-005 now REALLY enforced: infra/git-hooks/check-dr005.py + 24-file
+grandfather (shrink-only), wired into pre-commit + new .github/workflows/lint.yml
++ make lint. Site: eslint.config.js + .prettierrc + full format; Studio renames
+(poc->studio/editor, StudioPoc->StudioEditor, corpus-mock->corpus, css pairs);
+src/lib/api-fetch.ts client, 21 files migrated (StudioEditor deferred to R2);
+apiOk/apiError headers param; etymology+english-term enveloped. Node snapshot
+generator now auto-discovers waves_* keys (parity with Python). plan.yaml gained
+waves_refactor (R0-R5; R2-R5 pending_approval). All gates green (pytest 1592,
+astro check 0, smoke 32/32). Commits f16aa70..b7a722f pushed.
+
+
 Append a dated entry at the end of every session (newest at top): what changed, what's next,
 what's blocked. This is your across-session memory.
 

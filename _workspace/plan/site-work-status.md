@@ -6,6 +6,29 @@
 -->
 # Current work - status
 
+**Last updated:** 2026-07-18 9:45 AM EST (Clean-code hardening R0+R1 executed)
+
+**Newest — clean-code hardening plan, R0+R1 tranche shipped (7 commits on
+`develop`, pushed).** R0: Ruff gate + whole-tree format baseline (pipeline,
+`1c26f42`); ESLint+Prettier gates (site, `936291e`); enforceable DR-005
+line-count gate with 24-file shrink-only grandfather list + lint wiring into
+pre-commit/CI/Makefile (`7fd115c`). R1: Studio renames — `reader/poc/` →
+`studio/editor/`, `StudioPoc`→`StudioEditor` (+ CSS class family),
+`corpus-mock/`→`corpus/`, `corpus-mock-sample.ts`→`corpus-fallback.ts`,
+css pairs (`0bddb02`); `src/lib/api-fetch.ts` shared typed client, 35 call
+sites across 21 files migrated, `ai/etymology`+`ai/english-term` flipped to
+the strict envelope, apiOk/apiError gained a headers param (`7a5cbb1`).
+StudioEditor's 23 fetches + 9 editor-coupled envelope routes deferred to R2
+BY DESIGN. Roadmap: `waves_refactor:` block in plan.yaml (R0-R5; R2-R5
+pending_approval) + snapshots (`b7a722f`); the Node snapshot generator now
+auto-discovers `waves_*` keys (was hardcoded — mirror-parity fix). Gates all
+green: pytest 1592, astro check 0, eslint 0 errors, lint:views 0/0, smoke
+32/32, browser drive of editor + composer clean. NOTE: machine-policy myth
+corrected repo-wide — this is a personal machine, `npm install` works
+(`f16aa70`). R2 (editor decomposition), R3-R5 await Asif's approval.
+
+---
+
 **Last updated:** 2026-07-18 5:40 AM EST (Repo audit remediation — groups 1-3)
 
 **Newest — full repo audit + safe-batch remediation.** Report:
