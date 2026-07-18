@@ -59,6 +59,7 @@ import {
   type SaveDepthFn,
 } from "./studio-editor-constants";
 import { MarkerHighlight } from "./marker-highlight";
+import { useAutosaveDraft } from "./useAutosaveDraft";
 import { useEditorPrefs } from "./useEditorPrefs";
 import { openDepthPicker, openTagPicker } from "./studio-editor-pickers";
 import type { Chapter, Lineage, PipelineStep } from "./studio-editor-types";
@@ -229,21 +230,6 @@ export default function StudioEditor({
     editorSize,
     setEditorSize,
   } = useEditorPrefs();
-
-  // Draft autosave state: edits are persisted to a per-stage draft (debounced) so
-  // they survive a refresh until the chapter is approved. 'saved' = a draft is on
-  // disk (seeded true when the loaded content already came from a draft).
-  const [draftState, setDraftState] = useState<
-    "idle" | "saving" | "saved" | "error"
-  >(hasDraftForStage ? "saved" : "idle");
-  // Debounce timer + indirection ref for the autosave scheduler (the scheduler is
-  // defined after useEditor; onUpdate reaches it through this ref). Mirrors the
-  // runAiFnRef / removeActionFnRef pattern used elsewhere in this component.
-  const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const scheduleAutosaveRef = useRef<() => void>(() => {});
-  // Set true right before an intentional reload (discard) so the beforeunload
-  // flush can't recreate the draft we just deleted.
-  const suppressFlushRef = useRef(false);
 
   // Per-paragraph comments: index → text. Stored in a ref for the PM plugin,
   // mirrored in state so the inspector panel re-renders.
@@ -1176,62 +1162,27 @@ export default function StudioEditor({
     refresh();
   }, [editor]);
 
-  // ── Draft autosave — persist in-progress edits so they survive a refresh ────
-  // Writes the editable stage's current content to a per-stage draft (not the
-  // canonical chapter — that only happens on approve). Skipped for read-only
-  // stages and archived lineages.
-  const autosaveDraft = useCallback(async () => {
-    if (!stage || isReadOnlyStage || !editor) return;
-    const content = serializeToMarkdown();
-    if (!content.trim()) return;
-    setDraftState("saving");
-    try {
-      await apiFetch("/api/studio/draft", {
-        method: "POST",
-        body: { slug, chapter, stage: stage.id, content },
-      });
-      setDraftState("saved");
-    } catch {
-      setDraftState("error");
-    }
-  }, [slug, chapter, stage, isReadOnlyStage, editor, serializeToMarkdown]);
-
-  // Debounced scheduler — onUpdate reaches this through scheduleAutosaveRef.
-  const scheduleAutosave = useCallback(() => {
-    if (isReadOnlyStage) return;
-    if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
-    autosaveTimer.current = setTimeout(() => {
-      void autosaveDraft();
-    }, 1200);
-  }, [autosaveDraft, isReadOnlyStage]);
-  useEffect(() => {
-    scheduleAutosaveRef.current = scheduleAutosave;
-  }, [scheduleAutosave]);
-
-  // Flush any pending draft when leaving the page/tab so nothing in the debounce
-  // window is lost, and reset the indicator when switching chapter/stage.
-  useEffect(() => {
-    const flush = () => {
-      if (suppressFlushRef.current) return;
-      if (autosaveTimer.current) {
-        clearTimeout(autosaveTimer.current);
-        void autosaveDraft();
-      }
-    };
-    const onVisibility = () => {
-      if (document.visibilityState === "hidden") flush();
-    };
-    window.addEventListener("beforeunload", flush);
-    document.addEventListener("visibilitychange", onVisibility);
-    return () => {
-      window.removeEventListener("beforeunload", flush);
-      document.removeEventListener("visibilitychange", onVisibility);
-    };
-  }, [autosaveDraft]);
-  useEffect(() => {
-    setDraftState(hasDraftForStage ? "saved" : "idle");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chapIdx, stageId, activeLineageId]);
+  // ── Draft autosave — extracted to useAutosaveDraft (R2 pass 2). onUpdate
+  // reaches the scheduler through scheduleAutosaveRef; saveAndApprove cancels
+  // via autosaveTimer; discard suppresses the beforeunload flush.
+  const {
+    draftState,
+    setDraftState,
+    autosaveTimer,
+    scheduleAutosaveRef,
+    suppressFlushRef,
+  } = useAutosaveDraft({
+    slug,
+    chapter,
+    stageId: stage?.id,
+    isReadOnlyStage,
+    editorReady: !!editor,
+    serializeToMarkdown,
+    hasDraftForStage,
+    chapIdx,
+    activeLineageId,
+    stageKey: stageId,
+  });
 
   const saveAndApprove = useCallback(async () => {
     if (!stage || !editor) return;
