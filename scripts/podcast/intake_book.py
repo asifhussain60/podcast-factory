@@ -23,6 +23,10 @@ What it does NOT do:
   - Mutate develop or any other branch.
   - Push the new branch (operator decides when).
 """
+# R3 DR-005 AS-EXECUTED (2026-07-18): split DECLINED — the five intake modes are one
+# cohesive operation (resolve source → skeleton → stamp state → branch), sharing ~10
+# helpers plus the test-patched module globals REPO_ROOT/RAW_DIR (test_intake_volume.py
+# monkeypatches THIS module; a pure move breaks those patch targets). Ceiling stays 1008.
 
 from __future__ import annotations
 
@@ -192,9 +196,7 @@ def _intake_volume_from_pdf(
     The volume's composite slug is "<work_slug>-vol-NN" — slug-legal, works with
     --resume. ONE branch per work via branch_for_work.
     """
-    import sys as _sys
-
-    _sys.path.insert(0, str(Path(__file__).resolve().parent))
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
     import _work_manifest as wm
     from _rules import bucket_for_profile
 
@@ -313,9 +315,7 @@ def _intake_volume_from_audio(
         ``_intake_from_audio`` path sets up a single-book audio source.
     The manifest entry records ``source_audio_dir`` instead of ``source_pdf``.
     """
-    import sys as _sys
-
-    _sys.path.insert(0, str(Path(__file__).resolve().parent))
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
     import _work_manifest as wm
     from _rules import bucket_for_profile
 
