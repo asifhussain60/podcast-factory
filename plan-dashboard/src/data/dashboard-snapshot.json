@@ -1505,8 +1505,8 @@
     {
       "id": "R2e",
       "wave": "R2",
-      "title": "Pass 2 stateful hooks (one per commit, browser-verified)",
-      "status": "in_progress",
+      "title": "Pass 2 stateful hooks (one per commit, browser-verified) - ALL NINE EXTRACTED",
+      "status": "completed",
       "tier": "T1",
       "depends_on": [],
       "plain": "",
@@ -1732,11 +1732,46 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-18T15:24:38.626Z",
-  "source_commit": "72df6f2",
+  "generated_at": "2026-07-18T16:21:42.027Z",
+  "source_commit": "9b7c6df",
   "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "9b7c6df",
+      "subject": "refactor(site): R2 pass 2 — extract useAnnotations hook (9/9, pass complete)",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "2e0d1f8",
+      "subject": "refactor(site): R2 pass 2 — extract useDenoiseTool hook (8/9)",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "666b694",
+      "subject": "refactor(site): R2 pass 2 — extract useReplaceTool hook (7/9)",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "87a455e",
+      "subject": "refactor(site): R2 pass 2 — extract useTermCuration hook (6/9)",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "4a17ed0",
+      "subject": "refactor(site): R2 pass 2 — extract useAiActions hook (5/9)",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "3353749",
+      "subject": "refactor(site): R2 pass 2 — extract useStageApproval hook (4/9)",
+      "date": "2026-07-18"
+    },
+    {
+      "sha": "3e323b0",
+      "subject": "fix(dashboard): post-chain audit findings — waves meta rebuild, Wave K rekey, librarian mirror",
+      "date": "2026-07-18"
+    },
     {
       "sha": "72df6f2",
       "subject": "docs(status): session log — clean-code hardening R2+R3 tranche",
@@ -1750,41 +1785,6 @@
     {
       "sha": "1db0ed5",
       "subject": "fix(pipeline): complete the deferrals commit — the rest of 846144c's intended files",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "6fbda63",
-      "subject": "refactor(pipeline): R3 — split _translation_edition and _slide_authoring along genuine seams",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "e9450ea",
-      "subject": "refactor(site): R2 pass 2 — extract useSectionDepth hook (3/9)",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "1a4df90",
-      "subject": "docs(pipeline): R3 — intake_book.py split DECLINED with reasoned AS-EXECUTED note",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "d6259a4",
-      "subject": "refactor(site): R2 pass 2 — extract useAutosaveDraft hook (2/9)",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "846144c",
-      "subject": "refactor(pipeline): R3 — resolve the three audit deferrals (dead augmenter, classify_slides, stage-order drift)",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "2b00a77",
-      "subject": "refactor(site): R2 pass 2 — extract useEditorPrefs hook (1/9)",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "ffa8482",
-      "subject": "refactor(pipeline): R3 — split _azure.py along creds / transport / service seams",
       "date": "2026-07-18"
     }
   ],

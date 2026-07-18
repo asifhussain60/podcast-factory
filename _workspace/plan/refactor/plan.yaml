@@ -4642,10 +4642,10 @@ waves_refactor:
         status: completed
         committed_at: de788e5
       - id: R2e
-        title: "Pass 2 stateful hooks (one per commit, browser-verified)"
-        status: in_progress
-        committed_at: e9450ea
-        note: "3/9 done: useEditorPrefs (2b00a77), useAutosaveDraft (d6259a4), useSectionDepth (e9450ea). Remaining: useStageApproval, useAiActions, useTermCuration, useReplaceTool, useDenoiseTool, useAnnotations; then editor-coupled route envelope flips + StudioEditor <=600 target."
+        title: "Pass 2 stateful hooks (one per commit, browser-verified) - ALL NINE EXTRACTED"
+        status: completed
+        committed_at: 9b7c6df
+        note: "useEditorPrefs, useAutosaveDraft, useSectionDepth, useStageApproval, useAiActions, useTermCuration, useReplaceTool, useDenoiseTool, useAnnotations - each verbatim (byte-diff-verified), each its own commit with browser/smoke verification. StudioEditor 4605 -> 2754 lines. Remaining R2 tail (R2f, pending): JSX child-component splits + editor-coupled route envelope flips toward the <=600 target."
 
   - id: R3
     name: "Pipeline — clean-code hardening (no packaging)"
