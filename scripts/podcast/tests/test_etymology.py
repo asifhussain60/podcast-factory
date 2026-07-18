@@ -95,9 +95,16 @@ def test_to_atom_id_keyed_by_root() -> None:
     assert atom["body"]["derivatives"][0]["term"] == "tanaffus"
 
 
-def test_build_pipeline_keeps_only_gated(tmp_path: Path) -> None:
+def test_build_pipeline_keeps_only_gated(tmp_path: Path, monkeypatch) -> None:
     body = "nafs nafs nafs. salaam salaam."
     bd = _make_book(tmp_path, glossary=["nafs", "salaam"], body=body)
+
+    # Hermetic: isolate from the developer's real corpus. Both the reuse filter
+    # (_existing_etymology_roots) and the reference veto (load_term_index) read
+    # global knowledge-base state; without stubbing, an already-ingested `nafs`
+    # atom makes the pipeline drop it as a reuse and the test flakes by machine.
+    monkeypatch.setattr(ety, "_existing_etymology_roots", lambda: set())
+    monkeypatch.setattr(ety, "load_term_index", lambda *a, **k: {})
 
     good2 = {**_GOOD, "term": "salaam", "root": "س-ل-م", "root_transliteration": "s-l-m",
              "root_phonetic": "sa-LA-ma", "meaning_en": "peace, wholeness",
