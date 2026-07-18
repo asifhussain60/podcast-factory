@@ -1,0 +1,529 @@
+---
+import Base from "../layouts/Base.astro";
+import AudienceBadge from "../components/AudienceBadge.astro";
+import "../styles/how-it-works.css";
+---
+
+<Base
+  title="How it works"
+  active="how-it-works"
+  section="system"
+  description="A plain-language tour of the Podcast Factory: what goes in, the two choices made per book, the services it connects to, and how a book becomes a podcast — step by step."
+>
+  <div class="hiw-page">
+    <!-- ══════════════════════════════════════════════════════════════════
+         HERO
+    ══════════════════════════════════════════════════════════════════ -->
+    <header class="page-hero">
+      <div class="page-hero-inner">
+        <span class="eyebrow">How it works</span>
+        <h1 class="page-hero-title">A book goes in. A podcast comes out.</h1>
+        <p class="page-hero-lede">
+          No jargon on this page. This is the whole factory in plain language —
+          what you drop in, the two choices it makes for every book, the outside
+          services it leans on, and the exact journey from a scanned manuscript
+          to a finished, verified podcast series. Two points along the way, it
+          stops and waits for you.
+        </p>
+        <p class="home-hero-audience"><AudienceBadge tier="both" /></p>
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         SECTION 01 — MIND MAP
+    ══════════════════════════════════════════════════════════════════ -->
+    <section id="s01-mind-map" class="hiw-section">
+      <h2><span class="num">01</span> The whole factory at a glance</h2>
+      <p class="hiw-lead">
+        One manuscript goes in. Before anything runs, two choices are set for
+        that book — which kind of book edition to make, and which voice to record
+        with. Then the factory calls on a handful of outside services and hands
+        back several finished pieces.
+      </p>
+
+      <figure class="hiw-figure">
+        <div class="hiw-svg-scroll">
+        <svg
+          class="hiw-svg"
+          viewBox="0 0 960 560"
+          role="img"
+          aria-labelledby="mm-title mm-desc"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title id="mm-title">Podcast Factory mind map</title>
+          <desc id="mm-desc">
+            A branching map. At the top, one book goes in. It fans into three
+            branches: what you choose per book (book edition and audio voice, plus
+            genre rules), what powers it (Microsoft Azure, Anthropic Claude, Google
+            Gemini and NotebookLM, and an on-machine library), and what comes out
+            (podcast episodes, two book editions, slide decks, and narrated video).
+          </desc>
+
+          <!-- Connectors root → branches -->
+          <path class="mm-connector" d="M480 88 C 480 122 165 116 165 150"></path>
+          <path class="mm-connector" d="M480 88 L 480 150"></path>
+          <path class="mm-connector" d="M480 88 C 480 122 795 116 795 150"></path>
+          <!-- Connectors branch → first leaf -->
+          <path class="mm-connector" d="M165 204 L 165 232"></path>
+          <path class="mm-connector" d="M480 204 L 480 232"></path>
+          <path class="mm-connector" d="M795 204 L 795 232"></path>
+
+          <!-- Root -->
+          <rect class="n-root" x="310" y="24" width="340" height="64" rx="10"
+          ></rect>
+          <text class="mm-title" x="480" y="52" text-anchor="middle"
+            font-size="21">One scholarly book</text
+          >
+          <text class="mm-sub" x="480" y="73" text-anchor="middle" font-size="13"
+            >Arabic manuscript or written text</text
+          >
+
+          <!-- Branch A -->
+          <rect class="n-branch branch-a" x="25" y="150" width="280" height="54"
+            rx="8"></rect>
+          <text class="mm-branch-title" x="165" y="176" text-anchor="middle"
+            font-size="15"
+            ><tspan class="mm-num num-a">1 · </tspan>What you choose</text
+          >
+          <text class="mm-sub" x="165" y="194" text-anchor="middle" font-size="12"
+            >set once, per book</text
+          >
+          <!-- Branch B -->
+          <rect class="n-branch branch-b" x="340" y="150" width="280" height="54"
+            rx="8"></rect>
+          <text class="mm-branch-title" x="480" y="176" text-anchor="middle"
+            font-size="15"
+            ><tspan class="mm-num num-b">2 · </tspan>What powers it</text
+          >
+          <text class="mm-sub" x="480" y="194" text-anchor="middle" font-size="12"
+            >the services it calls</text
+          >
+          <!-- Branch C -->
+          <rect class="n-branch branch-c" x="655" y="150" width="280" height="54"
+            rx="8"></rect>
+          <text class="mm-branch-title" x="795" y="176" text-anchor="middle"
+            font-size="15"
+            ><tspan class="mm-num num-c">3 · </tspan>What comes out</text
+          >
+          <text class="mm-sub" x="795" y="194" text-anchor="middle" font-size="12"
+            >the finished pieces</text
+          >
+
+          <!-- Leaves A -->
+          <rect class="leaf-a" x="30" y="232" width="270" height="48" rx="7"
+          ></rect>
+          <text class="mm-label" x="165" y="257" text-anchor="middle"
+            font-size="13.5">Edition — translation or companion</text
+          >
+          <rect class="leaf-a" x="30" y="292" width="270" height="48" rx="7"
+          ></rect>
+          <text class="mm-label" x="165" y="317" text-anchor="middle"
+            font-size="13.5">Audio — NotebookLM or auto-voice</text
+          >
+          <rect class="leaf-a" x="30" y="352" width="270" height="48" rx="7"
+          ></rect>
+          <text class="mm-label" x="165" y="377" text-anchor="middle"
+            font-size="13.5">Genre rules per content type</text
+          >
+
+          <!-- Leaves B -->
+          <rect class="leaf-b" x="345" y="232" width="270" height="48" rx="7"
+          ></rect>
+          <text class="mm-label" x="480" y="257" text-anchor="middle"
+            font-size="13.5">Microsoft Azure — read &amp; translate</text
+          >
+          <rect class="leaf-b" x="345" y="292" width="270" height="48" rx="7"
+          ></rect>
+          <text class="mm-label" x="480" y="317" text-anchor="middle"
+            font-size="13.5">Anthropic Claude — write &amp; plan</text
+          >
+          <rect class="leaf-b" x="345" y="352" width="270" height="48" rx="7"
+          ></rect>
+          <text class="mm-label" x="480" y="377" text-anchor="middle"
+            font-size="13.5">Google Gemini — slides &amp; video</text
+          >
+          <rect class="leaf-b" x="345" y="412" width="270" height="48" rx="7"
+          ></rect>
+          <text class="mm-label" x="480" y="437" text-anchor="middle"
+            font-size="13.5">NotebookLM — make the audio</text
+          >
+          <rect class="leaf-b" x="345" y="472" width="270" height="48" rx="7"
+          ></rect>
+          <text class="mm-label" x="480" y="497" text-anchor="middle"
+            font-size="13.5">Local library — instant lookups</text
+          >
+
+          <!-- Leaves C -->
+          <rect class="leaf-c" x="660" y="232" width="270" height="48" rx="7"
+          ></rect>
+          <text class="mm-label" x="795" y="257" text-anchor="middle"
+            font-size="13.5">Podcast episodes</text
+          >
+          <rect class="leaf-c" x="660" y="292" width="270" height="48" rx="7"
+          ></rect>
+          <text class="mm-label" x="795" y="317" text-anchor="middle"
+            font-size="13.5">Two book editions (PDF)</text
+          >
+          <rect class="leaf-c" x="660" y="352" width="270" height="48" rx="7"
+          ></rect>
+          <text class="mm-label" x="795" y="377" text-anchor="middle"
+            font-size="13.5">Slide decks</text
+          >
+          <rect class="leaf-c" x="660" y="412" width="270" height="48" rx="7"
+          ></rect>
+          <text class="mm-label" x="795" y="437" text-anchor="middle"
+            font-size="13.5">Narrated video (optional)</text
+          >
+        </svg>
+        </div>
+        <figcaption>
+          Every book sets two choices — a <strong>book edition</strong>
+          (a faithful translation, or an augmented companion with editorial
+          asides) and an <strong>audio voice</strong> (Google&rsquo;s NotebookLM,
+          or a fully automated voice). Those two switches, plus the content&rsquo;s
+          genre, are what make each series different.
+        </figcaption>
+      </figure>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         SECTION 02 — THE JOURNEY (timeline)
+    ══════════════════════════════════════════════════════════════════ -->
+    <section id="s02-journey" class="hiw-section">
+      <h2><span class="num">02</span> A book&rsquo;s journey, step by step</h2>
+      <p class="hiw-lead">
+        From the moment you drop a book in to the moment it ships — eleven
+        plain-language steps here (the factory runs about thirty under the hood).
+        Everything runs on its own except the two amber steps, where it stops and
+        waits for your approval.
+      </p>
+
+      <ol class="hiw-timeline">
+        <li class="hiw-step">
+          <div class="hiw-step-num">1</div>
+          <div class="hiw-step-body">
+            <h3>Drop in the book</h3>
+            <p>
+              Add a scholarly PDF (often scanned Arabic) or already-written text.
+              From here on, it runs by itself until it asks for you.
+            </p>
+          </div>
+        </li>
+        <li class="hiw-step">
+          <div class="hiw-step-num">2</div>
+          <div class="hiw-step-body">
+            <h3>Read the pages</h3>
+            <p>
+              It reads the scanned pages and, for Arabic sources, translates them
+              into clean English to work from.
+            </p>
+            <span class="hiw-step-svc">Microsoft Azure — OCR + Translator</span>
+          </div>
+        </li>
+        <li class="hiw-step">
+          <div class="hiw-step-num">3</div>
+          <div class="hiw-step-body">
+            <h3>Tidy the text</h3>
+            <p>
+              Removes scanning and printing noise — page numbers, headers, broken
+              line-breaks — while protecting every word of the actual scholarship.
+            </p>
+          </div>
+        </li>
+        <li class="hiw-step">
+          <div class="hiw-step-num">4</div>
+          <div class="hiw-step-body">
+            <h3>Learn the vocabulary</h3>
+            <p>
+              Builds a glossary of names and terms with correct pronunciations, so
+              nothing important is mangled when it is spoken aloud.
+            </p>
+          </div>
+        </li>
+        <li class="hiw-step is-halt">
+          <div class="hiw-step-num">5</div>
+          <div class="hiw-step-body">
+            <h3>Plan the episodes</h3>
+            <p>
+              It decides the chapters, the angle, and the two hosts — then stops.
+              <strong>You approve the plan.</strong> Nothing expensive is written
+              until you say go.
+            </p>
+            <span class="hiw-halt-badge">✋ Waits for you</span>
+          </div>
+        </li>
+        <li class="hiw-step">
+          <div class="hiw-step-num">6</div>
+          <div class="hiw-step-body">
+            <h3>Write each episode</h3>
+            <p>
+              Chapter by chapter, it drafts the narrator framing — the script that
+              guides the conversation.
+            </p>
+            <span class="hiw-step-svc">Anthropic Claude</span>
+          </div>
+        </li>
+        <li class="hiw-step">
+          <div class="hiw-step-num">7</div>
+          <div class="hiw-step-body">
+            <h3>Enrich &amp; verify</h3>
+            <p>
+              Adds citations from an on-machine library and checks names and
+              references against trusted sources — at no extra cost.
+            </p>
+            <span class="hiw-step-svc">On-machine Source Library</span>
+          </div>
+        </li>
+        <li class="hiw-step">
+          <div class="hiw-step-num">8</div>
+          <div class="hiw-step-body">
+            <h3>Quality review</h3>
+            <p>
+              Automated reviewers challenge every chapter for accuracy and voice,
+              and loop fixes until it passes — 15 checks per book.
+            </p>
+          </div>
+        </li>
+        <li class="hiw-step">
+          <div class="hiw-step-num">9</div>
+          <div class="hiw-step-body">
+            <h3>Make the slides</h3>
+            <p>
+              A matching slide deck is authored for each episode, for the visual
+              version. (Optional, on by default.)
+            </p>
+            <span class="hiw-step-svc">Google Gemini</span>
+          </div>
+        </li>
+        <li class="hiw-step is-halt">
+          <div class="hiw-step-num">10</div>
+          <div class="hiw-step-body">
+            <h3>Assemble everything</h3>
+            <p>
+              It gathers the finished pieces and stops.
+              <strong>You review and sign off.</strong> Nothing publishes without
+              this.
+            </p>
+            <span class="hiw-halt-badge">✋ Waits for you</span>
+          </div>
+        </li>
+        <li class="hiw-step">
+          <div class="hiw-step-num">11</div>
+          <div class="hiw-step-body">
+            <h3>Produce &amp; deliver</h3>
+            <p>
+              NotebookLM (or the automated voice) records the audio; the book
+              editions are composed as PDFs; and everything is copied to your
+              Google Drive.
+            </p>
+            <span class="hiw-step-svc">NotebookLM · Google Drive</span>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         SECTION 03 — SERVICES & CONNECTIONS
+    ══════════════════════════════════════════════════════════════════ -->
+    <section id="s03-services" class="hiw-section">
+      <h2><span class="num">03</span> The services it connects to</h2>
+      <p class="hiw-lead">
+        The factory runs on your machine but calls out to a few trusted services
+        to do the heavy lifting. Here is the connection in one picture, then every
+        service and exactly what it is for.
+      </p>
+
+      <figure class="hiw-figure">
+        <div class="hiw-svg-scroll">
+        <svg
+          class="hiw-svg"
+          viewBox="0 0 960 210"
+          role="img"
+          aria-labelledby="conn-title conn-desc"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title id="conn-title">How the factory connects to outside services</title>
+          <desc id="conn-desc">
+            Three boxes left to right. On the left, your machine holds the book. In
+            the middle, cloud services (Azure, Claude, Gemini and NotebookLM) read,
+            write and voice it. On the right, the finished files come back to your
+            own Google Drive.
+          </desc>
+
+          <!-- Arrows -->
+          <path class="mm-connector" d="M280 105 L 348 105" marker-end="url(#hiw-arrow)"></path>
+          <path class="mm-connector" d="M612 105 L 680 105" marker-end="url(#hiw-arrow)"></path>
+          <defs>
+            <marker id="hiw-arrow" markerWidth="9" markerHeight="9" refX="7"
+              refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0 0 L 7 3 L 0 6 z" fill="var(--c-ink-muted)"></path>
+            </marker>
+          </defs>
+
+          <!-- Left: your machine -->
+          <rect class="n-surface" x="30" y="60" width="250" height="90" rx="10"
+          ></rect>
+          <text class="mm-label" x="155" y="98" text-anchor="middle" font-size="15"
+            >Your machine</text
+          >
+          <text class="mm-sub" x="155" y="120" text-anchor="middle" font-size="13"
+            >holds the book &amp; the pipeline</text
+          >
+
+          <!-- Middle: cloud services -->
+          <rect class="n-root" x="348" y="45" width="264" height="120" rx="10"
+          ></rect>
+          <text class="mm-label" x="480" y="80" text-anchor="middle" font-size="15"
+            >Cloud services</text
+          >
+          <text class="mm-sub" x="480" y="104" text-anchor="middle" font-size="13"
+            >Azure reads &amp; translates</text
+          >
+          <text class="mm-sub" x="480" y="124" text-anchor="middle" font-size="13"
+            >Claude &amp; Gemini write &amp; plan</text
+          >
+          <text class="mm-sub" x="480" y="144" text-anchor="middle" font-size="13"
+            >NotebookLM voices it</text
+          >
+
+          <!-- Right: your drive -->
+          <rect class="n-surface" x="680" y="60" width="250" height="90" rx="10"
+          ></rect>
+          <text class="mm-label" x="805" y="98" text-anchor="middle" font-size="15"
+            >Your Google Drive</text
+          >
+          <text class="mm-sub" x="805" y="120" text-anchor="middle" font-size="13"
+            >finished audio, books &amp; video</text
+          >
+
+          <!-- Arrow labels -->
+          <text class="mm-sub" x="314" y="96" text-anchor="middle" font-size="13"
+            >text out</text
+          >
+          <text class="mm-sub" x="646" y="96" text-anchor="middle" font-size="13"
+            >files back</text
+          >
+        </svg>
+        </div>
+        <figcaption>
+          The book&rsquo;s text is the only thing that leaves your machine, and
+          only so these services can read, write and voice it. Everything produced
+          comes back to a Google Drive you control.
+        </figcaption>
+      </figure>
+
+      <div class="hiw-provider-grid">
+        <section class="hiw-provider prov-microsoft">
+          <p class="hiw-provider-kicker">Reads the source</p>
+          <h3 class="hiw-provider-name">Microsoft Azure</h3>
+          <ul class="hiw-svc">
+            <li>
+              <span class="hiw-svc-name">Document Intelligence</span>
+              <span class="hiw-tag tag-auto">Auto</span>
+              <div class="hiw-svc-what">Reads scanned Arabic pages (OCR).</div>
+            </li>
+            <li>
+              <span class="hiw-svc-name">Translator</span>
+              <span class="hiw-tag tag-auto">Auto</span>
+              <div class="hiw-svc-what">Turns the Arabic into English.</div>
+            </li>
+            <li>
+              <span class="hiw-svc-name">Speech</span>
+              <span class="hiw-tag tag-auto">Auto</span>
+              <div class="hiw-svc-what">
+                Transcribes the finished audio so it can be checked.
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="hiw-provider prov-anthropic">
+          <p class="hiw-provider-kicker">Writes &amp; plans</p>
+          <h3 class="hiw-provider-name">Anthropic</h3>
+          <ul class="hiw-svc">
+            <li>
+              <span class="hiw-svc-name">Claude</span>
+              <span class="hiw-tag tag-auto">Auto</span>
+              <div class="hiw-svc-what">
+                The writing brain — refines the text, plans the episodes, drafts
+                the narration, and composes the book editions.
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="hiw-provider prov-google">
+          <p class="hiw-provider-kicker">Produces &amp; delivers</p>
+          <h3 class="hiw-provider-name">Google</h3>
+          <ul class="hiw-svc">
+            <li>
+              <span class="hiw-svc-name">Gemini</span>
+              <span class="hiw-tag tag-auto">Auto</span>
+              <div class="hiw-svc-what">
+                Plans slide decks and video scenes, and runs an independent quality
+                audit.
+              </div>
+            </li>
+            <li>
+              <span class="hiw-svc-name">NotebookLM</span>
+              <span class="hiw-tag tag-manual">Manual</span>
+              <div class="hiw-svc-what">
+                Turns each script into a natural two-host audio conversation. You
+                upload and download this by hand.
+              </div>
+            </li>
+            <li>
+              <span class="hiw-svc-name">Drive</span>
+              <span class="hiw-tag tag-auto">Auto</span>
+              <div class="hiw-svc-what">
+                Receives the finished audio, books, and video.
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="hiw-provider prov-other">
+          <p class="hiw-provider-kicker">Voice &amp; knowledge</p>
+          <h3 class="hiw-provider-name">Others</h3>
+          <ul class="hiw-svc">
+            <li>
+              <span class="hiw-svc-name">ElevenLabs</span>
+              <span class="hiw-tag tag-auto">Auto</span>
+              <div class="hiw-svc-what">
+                An alternate, fully automated voice engine when NotebookLM
+                isn&rsquo;t used.
+              </div>
+            </li>
+            <li>
+              <span class="hiw-svc-name">On-machine Source Library</span>
+              <span class="hiw-tag tag-local">Local</span>
+              <div class="hiw-svc-what">
+                A local store of the Quran and twenty years of scholarship —
+                instant lookups at zero cost, never leaving your machine.
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         CLOSING — deep-dive links
+    ══════════════════════════════════════════════════════════════════ -->
+    <section id="s04-technical" class="hiw-deepdive">
+      <h2>Want the technical version?</h2>
+      <p>
+        This page is the plain-language tour. For the engineering detail — every
+        station, the branch logic by content genre, the exact services and keys,
+        and the design decisions — follow these.
+      </p>
+      <div class="hiw-deepdive-links">
+        <a href="/architecture">Architecture</a>
+        <a href="/pipeline-paths">Pipeline paths by category</a>
+        <a href="/system-map">System map</a>
+        <a href="/infrastructure">Infrastructure</a>
+        <a href="/security">Security</a>
+      </div>
+    </section>
+  </div>
+</Base>

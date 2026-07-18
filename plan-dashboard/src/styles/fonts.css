@@ -1,0 +1,33 @@
+/* fonts.css — global self-hosted type faces for the whole site (screen).
+ * Editorial-modern type system (LOCKED 2026-07-18, per skills-staging/ui-designer):
+ *   - Fraunces  → --font-display  (expressive literary serif; titles, numerals)
+ *   - Inter     → --font-body/ui  (clean neutral sans; body, labels, chrome)
+ * Variable woff2, weight axis only, font-display: swap. Files live in
+ * public/fonts/*. Imported FIRST in theme.css so faces are ready before the
+ * token layer names them. The editor/print faces keep their own @font-face
+ * (editor-fonts.css, book-print.css) — those are unchanged. */
+
+/* ── Fraunces (display serif) — variable weight ───────────────────────────── */
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces/fraunces-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces/fraunces-latin-wght-italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ── Inter (body / UI sans) — variable weight ─────────────────────────────── */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter/inter-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}

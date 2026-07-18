@@ -6,7 +6,7 @@ import "../styles/pipeline-paths.css";
 <Base
   title="Pipeline Paths by Content Category"
   active="pipeline-paths"
-  description="How the 18-phase podcast pipeline branches differently based on content genre — Islamic/Scholarly, Sites/Consumer, and Explainers/Technical."
+  description="How the podcast pipeline branches differently based on content genre — Islamic/Scholarly, Sites/Consumer, and Explainers/Technical."
 >
   <div class="pp-page">
     <!-- ════════════════════════════════════════════════════════════════
@@ -18,8 +18,8 @@ import "../styles/pipeline-paths.css";
         <span class="eyebrow">System reference</span>
         <h1 class="page-hero-title">Pipeline Paths by Content Category</h1>
         <p class="page-hero-lede">
-          The Podcast Factory runs every piece of content through the same 18
-          phases — but what each phase <em>does</em> changes based on content genre.
+          The Podcast Factory runs every piece of content through the same
+          sequence of phases — but what each phase <em>does</em> changes based on content genre.
           This page shows exactly where the Islamic/Scholarly path, the Sites/Consumer
           path, and the Explainers/Technical path diverge, what drives each fork (a
           different prompt, a different rule set, or a full skip), and which forks
@@ -34,14 +34,16 @@ import "../styles/pipeline-paths.css";
          REQ-052: .table-container[role="region"][tabindex="0"].
          ════════════════════════════════════════════════════════════════ -->
     <section id="s01-branch-map" class="pp-section">
-      <h2><span class="num">01</span> Branch map — all 18 phases</h2>
+      <h2><span class="num">01</span> Branch map — the 18 genre-branching phases</h2>
       <p class="pp-section-intro">
         Each row is one pipeline phase. The <strong>Branch type</strong> column tells
         you
         <em>how</em> the phase varies: a different AI prompt (🟡 PROMPT), a different
         rule constant (🔵 RULES), a complete skip (🔴 SKIP), or no variation at all
         (🟢 SHARED). The <strong>Status</strong> column shows whether the branching
-        logic is already built.
+        logic is already built. The full pipeline runs about 30 steps end to end
+        (setup, delivery and housekeeping included); the 18 below are the ones
+        whose behavior changes by content genre.
       </p>
 
       <!-- Legend (REQ-037: gloss each domain term at first use) -->

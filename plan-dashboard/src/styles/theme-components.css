@@ -42,10 +42,11 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-body);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: 600;
   color: var(--c-ink);
   line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
   margin: 0 0 var(--sp-3) 0;
 }
 h1 {
@@ -196,10 +197,11 @@ hr {
   gap: var(--sp-3);
 }
 .page-hero-title {
+  font-family: var(--font-display);
   font-size: var(--fs-h1);
-  font-weight: 900;
+  font-weight: 460;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.08;
   margin: 0;
   max-width: 18ch;
   /* Gradient title (REQ-013) — restrained: mostly ink, easing to accent brown
@@ -3463,76 +3465,76 @@ table.data tr:hover td {
   animation-delay: 4s;
 }
 
+/* Editorial stat cards (redesigned 2026-07-18, per skills-staging/ui-designer
+   §3a). Separated warm cards with a single quiet accent — left bar + tinted
+   icon tile — replacing the old welded saturated gradient strip. Palette
+   unchanged: accents come straight from the existing --c-* tokens. */
 .stat-strip {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  border: 1px solid var(--c-rule);
-  box-shadow: var(--shadow-card);
-  margin-bottom: var(--sp-5);
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-6);
 }
 .stat-card {
+  --stat-accent: var(--c-accent);
   position: relative;
-  overflow: hidden;
   display: flex;
   align-items: center;
   gap: var(--sp-4);
-  padding: var(--sp-5) var(--sp-5);
-  color: white;
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--c-bg-card);
+  color: var(--c-ink);
+  border: 1px solid var(--c-rule);
+  border-left: 3px solid var(--stat-accent);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
   animation: stat-card-in 520ms ease-out both;
 }
-
-.stat-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 20%,
-    rgba(255, 255, 255, 0.2) 48%,
-    transparent 72%
-  );
-  transform: translateX(-130%);
-  animation: stat-sheen 5.8s ease-in-out infinite;
-}
-.stat-card:last-child {
-  border-right: 0;
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--stat-accent) 45%, var(--c-rule));
+  border-left-color: var(--stat-accent);
+  box-shadow: var(--shadow-card-hover, var(--shadow-card));
 }
 .stat-card:nth-child(2) {
-  animation-delay: 80ms;
+  animation-delay: 70ms;
 }
 .stat-card:nth-child(3) {
-  animation-delay: 150ms;
+  animation-delay: 140ms;
 }
 .stat-card:nth-child(4) {
-  animation-delay: 220ms;
+  animation-delay: 210ms;
 }
-/* Softened gradients — lighter start color, same accent end color */
+.stat-card:nth-child(5) {
+  animation-delay: 280ms;
+}
 .stat-card.s-green {
-  background: linear-gradient(135deg, #4e8f4e, var(--c-green));
+  --stat-accent: var(--c-green);
 }
 .stat-card.s-blue {
-  background: linear-gradient(135deg, #2a6ea0, var(--c-planner));
+  --stat-accent: var(--c-planner);
 }
 .stat-card.s-amber {
-  background: linear-gradient(135deg, #b87a1a, var(--c-amber));
+  --stat-accent: var(--c-amber);
 }
 .stat-card.s-brown {
-  background: linear-gradient(135deg, #a05228, var(--c-accent));
+  --stat-accent: var(--c-accent);
 }
 .stat-card-icon {
-  flex: 0 0 52px;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.18);
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--r-md);
+  background: color-mix(in oklab, var(--stat-accent) 14%, transparent);
+  color: var(--stat-accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  flex-shrink: 0;
+  font-size: 20px;
 }
 .stat-card-body {
   display: flex;
@@ -3541,28 +3543,20 @@ table.data tr:hover td {
   min-width: 0;
 }
 .stat-card-value {
-  font-size: var(--fs-xl);
-  font-weight: 900;
-  color: white;
-  line-height: 1.1;
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 500;
+  color: var(--c-ink);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
 }
 .stat-card-label {
-  font-size: 12px;
+  font-size: var(--fs-label);
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.85);
-}
-@media (max-width: 900px) {
-  .stat-strip {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 480px) {
-  .stat-strip {
-    grid-template-columns: 1fr;
-  }
+  font-weight: 600;
+  color: var(--c-ink-muted);
 }
 
 @keyframes stat-card-in {

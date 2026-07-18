@@ -1,0 +1,368 @@
+/* how-it-works.css — the non-technical "How it works" page.
+ * Editorial-modern, per skills-staging/ui-designer. All color from --c-* tokens
+ * (palette unchanged); SVG diagrams are styled via classes so they stay
+ * theme-safe and never hardcode a hex. No inline styles anywhere. */
+
+.hiw-page {
+  max-width: var(--maxw-content, 1040px);
+  margin: 0 auto;
+  padding: 0 var(--sp-5) var(--sp-8);
+}
+
+/* ── Section scaffolding ─────────────────────────────────────────────────── */
+.hiw-section {
+  margin-top: var(--sp-8);
+}
+.hiw-section > h2 {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  font-size: var(--fs-h2);
+}
+.hiw-section > h2 .num {
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--c-accent);
+  letter-spacing: 0.04em;
+}
+.hiw-lead {
+  max-width: 68ch;
+  color: var(--c-ink-dim);
+  font-size: var(--fs-lg);
+  line-height: 1.6;
+  margin-bottom: var(--sp-5);
+}
+
+/* ── Figures / diagrams ──────────────────────────────────────────────────── */
+.hiw-figure {
+  margin: var(--sp-5) 0 0;
+  padding: var(--sp-5);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+}
+.hiw-figure figcaption {
+  margin-top: var(--sp-4);
+  color: var(--c-ink-muted);
+  font-size: var(--fs-base); /* REQ-010 reading floor — was --fs-sm (below 1.2rem) */
+  text-align: center;
+}
+/* Wide diagrams scroll horizontally inside their own container on narrow
+   screens (Cortex: wide content scrolls in its own region, page never does),
+   with a min-width legibility floor so SVG text never shrinks to mush. */
+.hiw-svg-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 0 calc(-1 * var(--sp-2));
+  padding: 0 var(--sp-2);
+}
+.hiw-svg {
+  display: block;
+  width: 100%;
+  min-width: 660px;
+  height: auto;
+}
+
+/* SVG node + connector vocabulary (tokenized, theme-safe) */
+.n-surface {
+  fill: var(--c-bg-elev);
+  stroke: var(--c-rule);
+  stroke-width: 1;
+}
+.n-root {
+  fill: color-mix(in oklab, var(--c-accent) 10%, var(--c-bg-card));
+  stroke: color-mix(in oklab, var(--c-accent) 40%, var(--c-rule));
+  stroke-width: 1.5;
+}
+.n-branch {
+  fill: var(--c-bg-card);
+  stroke-width: 1.5;
+}
+.branch-a {
+  stroke: var(--c-green);
+}
+.branch-b {
+  stroke: var(--c-planner);
+}
+.branch-c {
+  stroke: var(--c-gold);
+}
+.leaf-a {
+  fill: color-mix(in oklab, var(--c-green) 8%, var(--c-bg-card));
+  stroke: color-mix(in oklab, var(--c-green) 28%, var(--c-rule));
+}
+.leaf-b {
+  fill: color-mix(in oklab, var(--c-planner) 8%, var(--c-bg-card));
+  stroke: color-mix(in oklab, var(--c-planner) 28%, var(--c-rule));
+}
+.leaf-c {
+  fill: color-mix(in oklab, var(--c-gold) 9%, var(--c-bg-card));
+  stroke: color-mix(in oklab, var(--c-gold) 30%, var(--c-rule));
+}
+.mm-connector {
+  fill: none;
+  stroke: var(--c-rule);
+  stroke-width: 1.5;
+}
+.mm-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  fill: var(--c-ink);
+}
+.mm-branch-title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  fill: var(--c-ink);
+  letter-spacing: 0.02em;
+}
+.mm-label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  fill: var(--c-ink);
+}
+.mm-sub {
+  font-family: var(--font-body);
+  fill: var(--c-ink-muted);
+}
+.mm-num {
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+.num-a {
+  fill: var(--c-green);
+}
+.num-b {
+  fill: var(--c-planner);
+}
+.num-c {
+  fill: var(--c-gold);
+}
+
+/* ── The journey timeline (structured HTML stepper) ──────────────────────── */
+.hiw-timeline {
+  list-style: none;
+  margin: var(--sp-5) 0 0;
+  padding: 0;
+  position: relative;
+}
+.hiw-timeline::before {
+  content: "";
+  position: absolute;
+  left: 21px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--c-rule);
+}
+.hiw-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: var(--sp-4);
+  padding: 0 0 var(--sp-5) 0;
+}
+.hiw-step:last-child {
+  padding-bottom: 0;
+}
+.hiw-step-num {
+  position: relative;
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--c-bg-card);
+  border: 2px solid var(--c-rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-lg);
+  color: var(--c-ink-dim);
+}
+.hiw-step-body h3 {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  font-weight: 700;
+  margin: 0.4rem 0 0.2rem;
+  letter-spacing: 0;
+}
+.hiw-step-body p {
+  margin: 0;
+  color: var(--c-ink-dim);
+  font-size: var(--fs-base); /* REQ-010 reading floor — was --fs-sm (below 1.2rem) */
+  line-height: 1.55;
+  max-width: 64ch;
+}
+.hiw-step-svc {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: var(--c-ink-muted);
+}
+
+/* A human-approval halt step */
+.hiw-step.is-halt .hiw-step-num {
+  background: color-mix(in oklab, var(--c-amber) 16%, var(--c-bg-card));
+  border-color: var(--c-amber);
+  color: var(--c-amber);
+}
+.hiw-step.is-halt .hiw-step-body {
+  background: color-mix(in oklab, var(--c-amber) 7%, transparent);
+  border: 1px solid color-mix(in oklab, var(--c-amber) 26%, var(--c-rule));
+  border-radius: var(--r-lg);
+  padding: var(--sp-3) var(--sp-4);
+}
+.hiw-halt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--c-amber) 16%, transparent);
+  color: var(--c-amber);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Services & connections ──────────────────────────────────────────────── */
+.hiw-provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: var(--sp-4);
+  margin-top: var(--sp-5);
+  align-items: start;
+}
+.hiw-provider {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-top: 3px solid var(--prov-accent, var(--c-accent));
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--sp-4) var(--sp-5) var(--sp-5);
+}
+.prov-microsoft {
+  --prov-accent: var(--c-planner);
+}
+.prov-anthropic {
+  --prov-accent: var(--c-accent);
+}
+.prov-google {
+  --prov-accent: var(--c-green);
+}
+.prov-other {
+  --prov-accent: var(--c-gold);
+}
+.hiw-provider-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  color: var(--c-ink);
+  margin: 0 0 2px;
+}
+.hiw-provider-kicker {
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+  /* Darken the accent toward ink so the small kicker clears WCAG AA on
+     --c-bg-card (raw --c-gold at 13px failed); hue identity preserved. */
+  color: color-mix(in oklab, var(--prov-accent, var(--c-accent)) 60%, var(--c-ink));
+  margin-bottom: var(--sp-3);
+}
+.hiw-svc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.hiw-svc li {
+  padding: var(--sp-3) 0;
+  border-top: 1px solid var(--c-rule);
+}
+.hiw-svc li:first-child {
+  border-top: 0;
+}
+.hiw-svc-name {
+  font-weight: 700;
+  color: var(--c-ink);
+  font-size: var(--fs-base); /* REQ-010 reading floor — service prose */
+}
+.hiw-svc-what {
+  color: var(--c-ink-dim);
+  font-size: var(--fs-base); /* REQ-010 reading floor; no inversion vs name */
+  line-height: 1.5;
+}
+.hiw-tag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: var(--fs-label);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  vertical-align: middle;
+}
+.tag-auto {
+  background: color-mix(in oklab, var(--c-green) 15%, transparent);
+  color: var(--c-green);
+}
+.tag-manual {
+  background: color-mix(in oklab, var(--c-amber) 16%, transparent);
+  color: var(--c-amber);
+}
+.tag-local {
+  background: color-mix(in oklab, var(--c-planner) 14%, transparent);
+  color: var(--c-planner);
+}
+
+/* ── Closing deep-dive links ─────────────────────────────────────────────── */
+.hiw-deepdive {
+  margin-top: var(--sp-8);
+  padding: var(--sp-5);
+  background: color-mix(in oklab, var(--c-accent) 5%, var(--c-bg-card));
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+}
+.hiw-deepdive h2 {
+  font-size: var(--fs-h3);
+  margin-bottom: var(--sp-2);
+}
+.hiw-deepdive p {
+  color: var(--c-ink-dim);
+  max-width: 68ch;
+}
+.hiw-deepdive-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+.hiw-deepdive-links a {
+  padding: 8px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-card);
+  color: var(--c-ink);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+}
+.hiw-deepdive-links a:hover {
+  border-color: var(--c-accent);
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hiw-step,
+  .hiw-provider {
+    animation: none !important;
+  }
+}

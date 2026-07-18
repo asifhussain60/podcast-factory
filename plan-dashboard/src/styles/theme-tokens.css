@@ -58,7 +58,7 @@
      h2        → section headings                               = 32px
      h1        → page headings                                  = 44px
      hero      → hero metric display                            = 40px  */
-  --font-body: "Lato", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
   --font-urdu: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
   --fs-label: 13px; /* UI chrome only — pills, chips, status badges */
   --fs-2xs: 16px;
@@ -256,10 +256,11 @@
   /* --font-ui resolves site-wide (the reader-page scope overrides it where a
      distinct UI face is wanted); keeps Studio chrome on the body sans. */
   --font-ui: var(--font-body);
-  /* ADDED (were MISSING). --font-display kept = body font to preserve the
-     current Lato headings; switching headings to a serif is a deliberate
-     design choice to discuss with Asif, not a silent adapter change. */
-  --font-display: var(--font-body);
+  /* Display face — Fraunces (expressive editorial serif). Asif-approved switch
+     2026-07-18 (was = body font). Headings/hero/numerals now render in the serif
+     display face; body + UI stay on Inter. Palette unchanged. See
+     skills-staging/ui-designer/SKILL.md §1. */
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-mono:
     ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
   --glass-bg: var(--c-bg-card);

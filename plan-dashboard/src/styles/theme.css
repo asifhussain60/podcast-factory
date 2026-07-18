@@ -1,5 +1,6 @@
 /* theme.css — entry point. The 5,600-line monolith was split (R2 of the
    clean-code hardening plan) into token vs component layers; import order
    here preserves the original cascade exactly. */
+@import "./fonts.css";
 @import "./theme-tokens.css";
 @import "./theme-components.css";

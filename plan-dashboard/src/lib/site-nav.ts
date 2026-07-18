@@ -18,6 +18,7 @@ export type ActivePage =
   | "corpus"
   | "pronunciation"
   | "pipeline-paths"
+  | "how-it-works"
   | "pre-upload";
 
 /**
@@ -71,6 +72,7 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
       "about",
       "annotation-ops",
       "pipeline-paths",
+      "how-it-works",
     ],
   },
 ];
@@ -94,6 +96,7 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
   // routable); Pronunciation + Pre-Upload Review moved to the Studio domain.
   system: [
     { href: "/overview", label: "Overview", pages: ["overview"] },
+    { href: "/how-it-works", label: "How it works", pages: ["how-it-works"] },
     {
       href: "/architecture",
       label: "Architecture",

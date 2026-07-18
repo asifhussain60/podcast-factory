@@ -89,6 +89,7 @@ function buildRoutes(slug) {
   const tier1 = [
     "/",
     "/overview",
+    "/how-it-works",
     "/architecture",
     "/infrastructure",
     "/intelligence",
