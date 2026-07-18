@@ -1886,7 +1886,7 @@ waves_ghj:
           - "5 remaining test modules (phonetics, enrichment, publish gates G1-G6, state-machine extras)"
           - "Azure transient-error retry decorator; subprocess timeout wrapper"
           - "DR-005 sweep: _authoring.py (2025L), build_episode_txt.py (1563L), extract_chapter.py (1301L), tighten_source.py (1051L), run_wave.py (824L)"
-        note: "Steps 1-2 done 2026-05-29. orchestrate_book split requires dedicated session — complex internal dependency graph."
+        note: "Steps 1-2 done 2026-05-29. orchestrate_book split requires dedicated session — complex internal dependency graph. SUBSUMED 2026-07-18: the deferred DR-005 sweep + remaining code-quality items are carried by waves_refactor (R3); track them there."
 
       - id: H3
         title: "Cross-wave autonomous execution chain driver"
@@ -4524,6 +4524,123 @@ waves_bpv2:
         plain: "After the validation matrix passed, made the new path the default and removed the old book-making code so there is just one route."
         tools: [scripts/podcast/phases/book_driver.py, scripts/podcast/_pipeline_flags.py, scripts/podcast/build_book_pdf.py, framework.md]
         last_touched: chore/book-pipeline-v2-cutover
+
+waves_refactor:
+  # Clean-Code & Architecture Hardening (approved 2026-07-18). Source plan:
+  # refactor/clean-code-hardening-plan.md. Subsumes Wave H's open code-quality
+  # items (H2 deferred DR-005 sweep -> R3; packaging root-cause -> R4).
+  # Each phase separately approved; R2-R5 await explicit go-ahead.
+
+  - id: R0
+    name: "Foundation — lint/format/type gates on both surfaces"
+    depends_on: []
+    execution_status: completed_2026_07_18
+    steps:
+      - id: R0a
+        title: "Ruff gate (lint+format) + mechanical auto-fix baseline, pipeline surface"
+        status: completed
+        committed_at: 1c26f42
+        deliverables:
+          - "pyproject.toml — ruff E4/E7/E9/F/I @ line-length 120; gradual opt-in mypy scaffold"
+          - "~465 files reformatted; imports sorted; unused imports removed; 35 targeted noqa grandfathers"
+          - "3 duplicate-dict-key data fixes (behavior-preserving); re-export chains restored with X-as-X aliases"
+        acceptance:
+          - "ruff check clean; ruff format --check clean"
+          - "pytest 1592 passed (baseline held); _boundary_check pass"
+      - id: R0b
+        title: "ESLint + Prettier gates + mechanical format baseline, site surface"
+        status: completed
+        committed_at: 936291e
+        deliverables:
+          - "plan-dashboard/eslint.config.js (flat; ratchet warns for no-explicit-any / set-state-in-effect / exhaustive-deps pending R2)"
+          - "plan-dashboard/.prettierrc.json + full format pass over src+scripts"
+          - "npm scripts: lint / lint:fix / format / format:check"
+        acceptance:
+          - "eslint 0 errors; prettier clean; astro check 0 errors; lint:views clean; smoke 32 routes clean"
+      - id: R0c
+        title: "Enforceable DR-005 line gate + lint wiring (pre-commit, CI, Makefile)"
+        status: completed
+        committed_at: 7fd115c
+        deliverables:
+          - "infra/git-hooks/check-dr005.py + dr005-grandfather.txt (24 files, shrink-only ratchet)"
+          - "pre-commit: ruff + DR-005 + eslint over staged files; .github/workflows/lint.yml (mypy non-blocking)"
+          - "make lint / lint-fix; architecture.md DR-005 row corrected (stale enforcement claim)"
+        acceptance:
+          - "make lint clean; new DR-005 violations and grandfather growth block commits"
+
+  - id: R1
+    name: "Site — honest names + shared fetch client"
+    depends_on: [R0]
+    execution_status: completed_2026_07_18
+    steps:
+      - id: R1a
+        title: "Studio-centric renames (poc -> studio/editor, corpus-mock -> corpus, css pairs)"
+        status: completed
+        committed_at: 0bddb02
+        deliverables:
+          - "components/reader/poc/ -> components/studio/editor/ (StudioPoc -> StudioEditor, class family studio-poc__* -> studio-editor__*)"
+          - "corpus-mock/ -> corpus/; corpus-mock-sample.ts -> corpus-fallback.ts; studio-poc.css -> studio-editor.css; corpus-mock.css -> corpus.css"
+        acceptance:
+          - "zero residual references; astro check 0 errors; smoke clean"
+      - id: R1b
+        title: "apiFetch<T>() client + migrate non-editor /api fetches; envelope adoption in safe hold-out routes"
+        status: completed
+        committed_at: 7a5cbb1
+        deliverables:
+          - "src/lib/api-fetch.ts — typed envelope-aware client (throw-on-error, opt-in timeout)"
+          - "~35 call sites across 21 files migrated off raw fetch (StudioEditor's 23 deferred to R2 by design)"
+          - "3 documented raw-fetch exceptions: ai/rewrite non-envelope errors, intake/upload multipart, gem 429-retryMs"
+          - "apiOk/apiError gain optional headers param; ai/etymology + ai/english-term flipped to the envelope"
+        note: |
+          Envelope hold-outs remaining: 9 routes are StudioEditor-consumed (flip in
+          R2 with the editor migration); ai/gem-answer+gem-explain carry retryMs in
+          the 429 body a raw consumer reads (R2); library/file+source+archive serve
+          text/HTML (wrong fit for a JSON envelope); ai/define-term + ai/instruct +
+          approve/[slug] + library/new + quran/verse + wisdom/topic have no live src
+          consumers - orphan-or-server-consumed question goes to R3's audit pass.
+        acceptance:
+          - "astro check 0 errors; eslint 0 errors; smoke clean; editor behavior unchanged"
+
+  - id: R2
+    name: "Site — decompose the StudioEditor God component"
+    depends_on: [R1]
+    execution_status: pending_approval
+    note: |
+      Highest regression risk. Mechanical extractions first (constants, DOM
+      pickers, dialogs, the 23 deferred fetches), then one stateful hook per
+      commit with a browser-verify between each. Also: merge the two markdown
+      renderers; thin fat .astro frontmatter; split theme.css/studio-editor.css.
+
+  - id: R3
+    name: "Pipeline — clean-code hardening (no packaging)"
+    depends_on: [R0]
+    execution_status: pending_approval
+    note: |
+      Burn down the DR-005 grandfather list (true god-modules first); fix
+      basename collisions (_convergence x5, augmenter x2) BEFORE packaging;
+      standardize LLM-touching functions on the _etymology Callable-DI pattern;
+      coverage for untested critical modules; resolve audit deferrals.
+      Subsumes Wave H2's deferred DR-005 sweep. Mirror-source modules
+      (_rules/_quality/_paths) keep TS mirrors in lockstep per-commit.
+
+  - id: R4
+    name: "Pipeline — packaging conversion (go/no-go gated after R3)"
+    depends_on: [R3]
+    execution_status: pending_approval
+    note: |
+      Real package (__init__ + pyproject [project] + pip install -e .),
+      package-absolute imports unifying the two phases/ import roots, strip
+      the 261 sys.path.insert blocks. Decision gate first — re-evaluate
+      after R3 rather than auto-proceed.
+
+  - id: R5
+    name: "Pipeline — resolve the dormant wave-engine"
+    depends_on: [R4]
+    execution_status: pending_approval
+    note: |
+      run_wave.py + phases/p*.py are dormant. Archive into their own package
+      or delete wholesale — an explicit decision, not a silent removal.
+
 
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)

@@ -1569,11 +1569,16 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-18T13:32:37.376Z",
-  "source_commit": "0bddb02",
+  "generated_at": "2026-07-18T13:44:54.376Z",
+  "source_commit": "7a5cbb1",
   "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "7a5cbb1",
+      "subject": "feat(site): R1 — apiFetch<T>() shared client; 35 call sites migrated off raw fetch",
+      "date": "2026-07-18"
+    },
     {
       "sha": "0bddb02",
       "subject": "refactor(site): R1 — Studio-centric renames; the file tree stops lying about what's production",
@@ -1617,11 +1622,6 @@
     {
       "sha": "2c263b1",
       "subject": "test(etymology): make the build-pipeline test hermetic",
-      "date": "2026-07-18"
-    },
-    {
-      "sha": "9316222",
-      "subject": "docs(audit): full repo-audit report + execution log; site-work-status",
       "date": "2026-07-18"
     }
   ],

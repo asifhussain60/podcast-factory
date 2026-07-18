@@ -1082,3 +1082,19 @@ Landed on `develop` (merge `4165160`, `--no-ff`) entirely behind the `book_pipel
 > Added source notes are dropped if they fail the doctrinal checks; the revoice/de-calque passes revert any chapter that loses a teaching or an Arabic quotation; a new print-quality standard plus a render challenger inspect the finished PDF. The final cutover — flipping the flag on for everyone and deleting the old code — is deliberately **not** done yet: it waits on a full generation run over the two fixture books, documented in `book-pipeline-cutover.md`.
 >
 > *Value gained:* the new path can prove itself on real books before it ever becomes the default, with no teaching put at risk.
+
+## Clean-Code & Architecture Hardening — R0+R1 executed (2026-07-18)
+
+Approved plan: `refactor/clean-code-hardening-plan.md` (machine ledger: `waves_refactor:` in `plan.yaml`). Subsumes Wave H's open code-quality items. R2–R5 await separate approval.
+
+### 1. Both codebases now have real quality gates that cannot silently regress
+
+> The pipeline gained a linter and formatter (whole-tree mechanical baseline: ~465 files normalized, imports sorted, dead imports removed, three genuine data bugs fixed along the way) and the site gained the JavaScript equivalents, with warnings ratcheted to become errors as later phases land. The repo's own 600-line-per-file rule — documented as "enforced" but actually checked by nothing — is now a real gate in the commit hook and CI: the 24 files currently over the limit are grandfathered (they may shrink, never grow), and any new violation blocks the commit. The full 1,592-test suite and every site gate stayed green throughout.
+>
+> *Value gained:* every later refactor phase works against enforced standards instead of good intentions; drift now fails fast at commit time.
+
+### 2. The site's file tree stopped lying, and HTTP plumbing lives in one place
+
+> The production Studio editor no longer ships from a folder named "poc", and the corpus browser no longer claims to be a mock — folders, files, components, and style classes were renamed to what they actually are, with every reference patched and proven by the type checker and the 32-route browser smoke. A single typed fetch client now handles path building, JSON, errors, and response unwrapping for the site's own API; all non-editor call sites migrated (the editor's 23 calls move in the next phase, where that component is decomposed under browser-verify).
+>
+> *Value gained:* one place to fix HTTP behavior instead of 87; names that tell the truth to every future reader and tool.
