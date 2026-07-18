@@ -56,7 +56,7 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
     pages: ["corpus", "wisdom", "db-schema"],
   },
   {
-    href: "/architecture",
+    href: "/overview",
     label: "System",
     section: "system",
     pages: [
