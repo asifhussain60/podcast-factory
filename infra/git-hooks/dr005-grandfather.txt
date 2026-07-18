@@ -21,5 +21,4 @@ scripts/podcast/intake_book.py 1008
 scripts/podcast/intelligence/augmenter.py 883
 scripts/podcast/phases/chapter_driver.py 766
 scripts/podcast/render_dialogue_audio.py 680
-scripts/podcast/run_wave.py 806
 scripts/podcast/source_library_mirror.py 716

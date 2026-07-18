@@ -4698,21 +4698,29 @@ waves_refactor:
 
   - id: R4
     name: "Pipeline — packaging conversion (go/no-go gated after R3)"
-    depends_on: [R3]
+    depends_on: [R3, R5]
     execution_status: pending_approval
     note: |
       Real package (__init__ + pyproject [project] + pip install -e .),
-      package-absolute imports unifying the two phases/ import roots, strip
+      package-absolute imports unifying the phases/ import root, strip
       the 261 sys.path.insert blocks. Decision gate first — re-evaluate
-      after R3 rather than auto-proceed.
+      after R3 rather than auto-proceed. R5 shipped first, so this now
+      inherits one import root instead of two colliding ones.
 
   - id: R5
     name: "Pipeline — resolve the dormant wave-engine"
-    depends_on: [R4]
-    execution_status: pending_approval
+    depends_on: []
+    execution_status: completed
     note: |
-      run_wave.py + phases/p*.py are dormant. Archive into their own package
-      or delete wholesale — an explicit decision, not a silent removal.
+      Deleted wholesale (not archived), verified first: launchd job
+      confirmed not loaded on this machine, 27/27 wave-acceptance-checklist
+      items done, zero live callers traced from orchestrate_book.py.
+      Removed run_wave.py, run_waves_chain.py, _acceptance.py, phases/_base.py,
+      phases/_dor_halt.py, dor_halts.py, 28 p*/pw* phase modules, their tests
+      (test_run_wave.py, test_acceptance.py, test_waves_chain.py), the launchd
+      installer + template plist, and the DR-005 grandfather entry for
+      run_wave.py — 39 tracked files in one commit. wave-acceptance-checklist.md
+      kept as the historical record (still read by the snapshot generator).
 
 
 # ===========================================================================

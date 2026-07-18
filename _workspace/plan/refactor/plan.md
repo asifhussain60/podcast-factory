@@ -1114,3 +1114,13 @@ Asif approved both remaining independent tracks (option A). Fifteen commits land
 > The giant editor component's mechanical layer is fully extracted (constants, types, marker extension, the imperative pickers), its last 23 hand-rolled server calls now go through the shared client, the two markdown renderers are one (proven byte-identical over a 61-file corpus), both fat page headers moved into typed library builders, and the two monolithic stylesheets are layered. Three of the nine stateful hooks are out — each landed as its own commit with a live browser check (preference persistence, the debounced draft autosave, section depth marking). The remaining six follow the same established pattern.
 >
 > *Value gained:* the most fragile surface in the repo is shrinking one verified step at a time, with zero behavior change so far and the commit-hook lint gate already catching real mistakes mid-refactor.
+
+## Clean-Code & Architecture Hardening — R5 resolved: dormant wave-engine deleted wholesale (2026-07-18)
+
+Asif asked for a direct recommendation rather than choosing blind between archive-or-delete. Verified first, not assumed: the background job that ran it was confirmed switched off on this machine, its own 27-item completion checklist was fully checked, and the live book pipeline was traced to confirm it never calls into this engine at all.
+
+### 1. The dormant wave-building engine is gone, not shelved
+
+> Deleted the wave dispatcher, its chain-runner, its 28 phase-runner modules (waves 1 through 6, all shipped), its acceptance-marking helper, and their dedicated tests — 39 tracked files in one commit. The background macOS scheduler that used to run it, plus its install script and template plist, went with it. Archiving into its own package was the other option on the table; deletion won because keeping 30 files and 50 tests on permanent life support for code that will never execute again is pure upkeep with no offsetting value, and git preserves every line if it's ever needed again.
+>
+> *Value gained:* removes one of the two colliding meanings of "phase" in the shared pipeline folder before the packaging conversion (R4) even starts, so that step inherits a simpler, less ambiguous import graph. The written record of what waves 1-6 delivered (this file, `plan.yaml`, `wave-acceptance-checklist.md`) stays exactly where it is — only the machinery that ran them is gone.
