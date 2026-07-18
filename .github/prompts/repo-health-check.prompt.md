@@ -46,7 +46,7 @@ Authorization tiers (from `#file:../../CLAUDE.md`): reads/dry-runs are Tier 0; c
 
 ### 4. Podcast Factory Astro Site health (`plan-dashboard/`)
 10. `cd plan-dashboard && npm run check` (astro/type check) and `npm run lint:views` (Cortex §11 mechanical MUST checks; `lint:views:strict` for warnings-as-errors on a full pass).
-11. Snapshot freshness: run `python3 plan-dashboard/scripts/regenerate-snapshots.py` (npm registry is blocked — do NOT `npm install`) and `git diff --stat` the three snapshot JSONs; a non-empty diff means a snapshot-trigger file (`architecture.md`, `refactor/plan.{md,yaml}`, `debt/pipeline-debt.md`) changed without regeneration — flag it.
+11. Snapshot freshness: run `cd plan-dashboard && npm run snapshot` (or `python3 plan-dashboard/scripts/regenerate-snapshots.py`) and `git diff --stat` the three snapshot JSONs; a non-empty diff means a snapshot-trigger file (`architecture.md`, `refactor/plan.{md,yaml}`, `debt/pipeline-debt.md`) changed without regeneration — flag it.
 12. Any view/page/component touched must pass the `html-view-quality` standard and the `html-view-challenger` agent. Optionally run `npm run build` (heavier) if build integrity is in scope.
 
 ### 5. repo-surgeon holistic audit + hygiene cleanup
