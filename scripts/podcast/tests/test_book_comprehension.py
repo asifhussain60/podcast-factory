@@ -34,9 +34,21 @@ def test_a_diacritic_glossary_term_matches_the_books_plain_spelling() -> None:
     assert term_pages(pages("the natiq speaks for his age"), "nāṭiq") == [1]
 
 
-def test_naming_drift_sees_the_two_spellings_as_one_idea() -> None:
+def test_a_glossary_entry_the_book_never_prints_is_not_drift() -> None:
+    """The false positive this check exists to avoid: nāṭiq/natiq fold to the SAME
+    printed form (BK-A4 plain transliteration), so only "natiq" ever reaches the
+    page. Flagging that as "two spellings" would be reporting on the glossary,
+    not on the book — this is the exact bug found reviewing the real edition."""
     drift = naming_drift(pages("the natiq and the natiq again"), ["nāṭiq", "natiq"])
-    assert drift and set(drift[0]["variants"]) == {"natiq", "nāṭiq"}
+    assert drift == []
+
+
+def test_two_spellings_actually_printed_in_the_book_is_real_drift() -> None:
+    """The genuine case: the compose pass printed BOTH "Sharia" and "Shari'a" —
+    literal, distinct substrings that both survive the transliteration fold
+    unchanged, so both reaching the page is a real inconsistency."""
+    drift = naming_drift(pages("the Sharia governs this", "here Shari'a is invoked"), ["Sharia", "Shari'a"])
+    assert drift and set(drift[0]["variants"]) == {"sharia", "shari'a"}
 
 
 # ─── what counts as a concept ────────────────────────────────────────────────
@@ -72,6 +84,20 @@ def test_an_explanation_trailing_the_term_is_recognized() -> None:
 def test_a_cue_before_the_term_does_not_count_as_explaining_it() -> None:
     """'is the' in the previous clause belongs to another sentence entirely."""
     assert explanation_page(pages("prayer is the pillar. He then invoked batin."), "batin") is None
+
+
+def test_a_name_reveal_explains_backwards_and_is_still_recognized() -> None:
+    """ "his father's name was al-Bakhtari" — the cue PRECEDES the term. Found
+    reviewing the real book: the old forward-only window missed this and reported
+    a false gap two chapters deep, when the character is introduced on the spot."""
+    assert explanation_page(pages("his father's name was al-bakhtari and they lived well"), "al-bakhtari") == 1
+
+
+def test_a_preceding_cue_still_requires_the_same_clause() -> None:
+    """The short backward window must not become the old unbounded-window bug in
+    reverse — a cue several sentences earlier still explains nothing."""
+    far = "is the pillar of prayer. " + "filler word " * 20 + "he then invoked batin."
+    assert explanation_page(pages(far), "batin") is None
 
 
 def test_a_term_the_book_never_explains_returns_nothing() -> None:

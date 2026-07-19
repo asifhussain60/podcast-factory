@@ -31,7 +31,7 @@ items:
 
   - id: publication-reviewer-agent
     scope: pipeline
-    status: open
+    status: done
     title: Build the publication reviewer agent and its fix-and-resubmit loop with durable bridges
     noticed: 2026-07-19
 
@@ -43,12 +43,24 @@ items:
 
   - id: late-introductions
     scope: the-master-and-the-disciple
-    status: open
-    title: Salih and al-Bakhtari are used 10 pages before they are introduced
+    status: done
+    title: "Salih/al-Bakhtari flagged as late-introduced was a false positive (tool fixed, not the book) -- confirmed via publication review"
     noticed: 2026-07-19
 
   - id: thin-etymology-corpus
     scope: pipeline
     status: open
     title: Etymology corpus holds only 12 atoms, all harvested from one other book
+    noticed: 2026-07-19
+
+  - id: sharia-spelling-drift
+    scope: the-master-and-the-disciple
+    status: open
+    title: "Publication review found: 'Shari'a' (1x, in an augment editorial note) vs 'Sharia' (4x, the book's own spelling) -- not bridge-fixable, needs a human or an augment-consistency pass"
+    noticed: 2026-07-19
+
+  - id: naming-drift-scope-limit
+    scope: pipeline
+    status: open
+    title: "naming_drift() only catches drift between spellings that both have a glossary entry -- an ad hoc spelling with no entry (the Shari'a case) is invisible to it and needs direct PDF reading"
     noticed: 2026-07-19

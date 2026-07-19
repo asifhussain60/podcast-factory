@@ -107,4 +107,15 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:
         log(f"    visual-policy: skipped (non-fatal): {e}")
 
+    # 8. Comprehension bridges — LAST, so a fix from a prior review round survives
+    #    this compose. Idempotent (strips its own previous output first), so a
+    #    convergence loop that re-enters compose many times never accumulates
+    #    duplicate bridges. Read-only over the sidecar: only the reviewer writes it.
+    from _book_bridges import apply_bridges
+
+    try:
+        apply_bridges(book_dir, log=log)
+    except Exception as e:
+        log(f"    bridges: skipped (non-fatal): {e}")
+
     return book_md

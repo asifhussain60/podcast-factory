@@ -42,6 +42,11 @@ from _translit import simplify_transliteration
 # A term counts as EXPLAINED when it appears within this many characters of a
 # defining cue. Generous, because an author explains in a clause, not a formula.
 _DEFINITION_WINDOW = 160
+# A "name was X" reveal explains by preceding the term, not following it. This
+# window is deliberately short — the same clause, not the same paragraph — so it
+# cannot pick up an unrelated cue from the prior sentence the way the old
+# unbounded ±160 window did (the exact bug this module was built to avoid).
+_NAME_REVEAL_WINDOW = 30
 # Cues that mark prose as explaining rather than merely using a term. Deliberately
 # ordinary language — an authored book defines by apposition, not by "X is defined
 # as Y". The em dash and comma-apposition cases are handled by the window alone.
@@ -61,6 +66,8 @@ _DEFINITION_CUES = (
     "the term",
     "literally",
     "root",
+    "name was",  # a character reveal ("the boy's name was Salih") IS an explanation
+    "named",
 )
 # Below this many uses a term is incidental — a proper name mentioned once needs no
 # explanation, and flagging it would bury the real gaps.
@@ -154,10 +161,15 @@ def explanation_page(pages: list[str], term: str) -> int | None:
     for index, page in enumerate(pages, start=1):
         flat = _normalize(page)
         for match in pattern.finditer(flat):
-            # The cue must FOLLOW the term. An explanation trails what it explains
-            # ("the Natiq, the speaking prophet of an age"); a cue sitting in the
-            # preceding sentence is someone else's clause and explains nothing.
-            window = flat[match.end() : match.end() + _DEFINITION_WINDOW]
+            # The cue usually FOLLOWS the term ("the Natiq, the speaking prophet of
+            # an age") — a generous window catches that apposition. But a name
+            # reveal runs the other way ("his father's name was al-Bakhtari"), so a
+            # SHORT window immediately before the term is checked too — short
+            # enough (unlike the old ±160 bug) that it cannot reach into an
+            # unrelated preceding sentence, only the same clause.
+            after = flat[match.end() : match.end() + _DEFINITION_WINDOW]
+            before = flat[max(0, match.start() - _NAME_REVEAL_WINDOW) : match.start()]
+            window = before + " " + after
             if any(cue in window for cue in _DEFINITION_CUES):
                 return index
     return None
@@ -200,22 +212,31 @@ def prerequisite_gaps(pages: list[str], terms: list[str]) -> list[dict[str, Any]
 
 
 def naming_drift(pages: list[str], terms: list[str]) -> list[dict[str, Any]]:
-    """One idea spelled two ways — the book's own glossary disagreeing with itself.
+    """One idea spelled two ways IN PRINT — the compose pass disagreeing with itself.
 
-    Only variants that BOTH appear in the text are reported; a glossary spelling
-    the book never uses is not a reader-facing problem.
+    Candidates are grouped by normalized skeleton (glossary entries that fold to
+    the same concept), but presence is checked against each variant's OWN LITERAL
+    spelling in the RAW page text — case/whitespace-folded only, never run through
+    the transliteration fold. That distinction is the whole check: two glossary
+    entries that differ only by which apostrophe glyph or diacritic they carry
+    (``nuqabā'`` vs ``nuqabāʾ``) fold to the identical printed form and are NOT
+    drift — the printed book only ever shows one spelling for them, by design
+    (BK-A4, the plain-transliteration rule). Real drift is when the compose pass
+    itself printed two genuinely different spellings for the same concept across
+    the book (``Sharia`` on one page, ``Shari'a`` on another) — a literal-substring
+    search against the actual pages, not against a folded proxy, is what tells
+    the two cases apart.
     """
-    text = _normalize("\n".join(pages))
-    seen: dict[str, list[str]] = {}
+    flat = " ".join("\n".join(pages).split()).lower()
+    skeleton_to_surfaces: dict[str, set[str]] = {}
     for term in terms:
-        key = re.sub(r"[^a-z]", "", _normalize(term))
-        seen.setdefault(key, []).append(term)
-    drift: list[dict[str, Any]] = []
-    for variants in seen.values():
-        present = [v for v in variants if _term_pattern(v).search(text)]
-        if len(present) > 1:
-            drift.append({"variants": sorted(present)})
-    return drift
+        skeleton = re.sub(r"[^a-z]", "", _normalize(term))
+        if not skeleton:
+            continue
+        surface = " ".join(term.split()).lower()
+        if re.search(r"\b" + re.escape(surface) + r"\b", flat):
+            skeleton_to_surfaces.setdefault(skeleton, set()).add(surface)
+    return [{"variants": sorted(surfaces)} for surfaces in skeleton_to_surfaces.values() if len(surfaces) > 1]
 
 
 def dense_pages(pages: list[str], terms: list[str]) -> list[dict[str, Any]]:

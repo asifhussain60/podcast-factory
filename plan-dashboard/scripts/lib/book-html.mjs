@@ -328,12 +328,13 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
         continue;
       }
     }
-    // The editorial/study-summary fences are machine markers, never visible text.
-    // Self-study consumes them into styled asides (above); in the default reading
-    // edition skip them so they don't render as escaped <!-- --> text — the note's
-    // own `> ` lines then render as an ordinary labeled blockquote.
+    // The editorial/study-summary/bridge fences are machine markers, never
+    // visible text. Self-study consumes editorial/study-summary into styled
+    // asides (above); every other case (default reading edition, and bridge
+    // fences always) skips the marker line so it never renders as escaped
+    // <!-- --> text — the fenced content's own lines render as ordinary prose.
     if (
-      /^<!--\s*(?:editorial|study-summary):(?:begin|end)\s*-->$/.test(
+      /^<!--\s*(?:editorial|study-summary|bridge):(?:begin|end)\s*-->$/.test(
         line.trim(),
       )
     ) {
