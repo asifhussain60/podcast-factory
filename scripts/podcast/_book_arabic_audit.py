@@ -36,7 +36,36 @@ from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded, normaliz
 # because the edition is then quoting something its own source did not print.
 RESOLUTION_OCR = "ocr"
 RESOLUTION_KB = "knowledge-base"
+RESOLUTION_HONORIFIC = "honorific-formula"
 RESOLUTION_UNVERIFIED = "unverified"
+
+# Standard Islamic honorific formulas ("peace be upon him/her/them", "may God be
+# pleased with him", etc.) are the AUTHOR's own liturgical practice, not a quoted
+# source — they need no grounding in the OCR or the knowledge base any more than
+# an English writer's "may he rest in peace" needs a citation. Left ungrounded,
+# every one of these read as "unverified" alongside a genuine mis-sourced verse,
+# burying the real finding in liturgical boilerplate. Found live 2026-07-19: one
+# of the-master-and-the-disciple's four "unverified" runs was exactly this — a
+# false positive in the tool, not a problem with the book. Matched by normalized
+# skeleton, same fold as everywhere else in this module, so spelling/diacritic
+# variants of the same formula are recognized identically.
+_HONORIFIC_FORMULAS = frozenset(
+    normalize_arabic(f)
+    for f in (
+        "عليه السلام",
+        "عليها السلام",
+        "عليهم السلام",
+        "عليهما السلام",
+        "رضي الله عنه",
+        "رضي الله عنها",
+        "رضي الله عنهم",
+        "صلى الله عليه وآله وسلم",
+        "صلى الله عليه وسلم",
+        "سبحانه وتعالى",
+        "عز وجل",
+        "جل جلاله",
+    )
+)
 
 _CHAPTER_HEADING_RE = re.compile(r"(?m)^##\s+(.+?)\s*$")
 # Editorial asides are additive companion prose, not source text. Their Arabic is
@@ -92,7 +121,7 @@ def audit_book_arabic(book_md: str, arabic_src: str, kb_arabic: str = "") -> dic
     text so a human can check them against a source without re-deriving anything.
     """
     chapters: list[dict[str, Any]] = []
-    totals = {RESOLUTION_OCR: 0, RESOLUTION_KB: 0, RESOLUTION_UNVERIFIED: 0}
+    totals = {RESOLUTION_OCR: 0, RESOLUTION_KB: 0, RESOLUTION_HONORIFIC: 0, RESOLUTION_UNVERIFIED: 0}
     for title, body in split_chapters(book_md):
         runs: list[dict[str, str]] = []
         for span in arabic_run_spans(body):
@@ -100,6 +129,8 @@ def audit_book_arabic(book_md: str, arabic_src: str, kb_arabic: str = "") -> dic
                 resolution = RESOLUTION_OCR
             elif kb_arabic and arabic_span_is_grounded(span, kb_arabic):
                 resolution = RESOLUTION_KB
+            elif normalize_arabic(span) in _HONORIFIC_FORMULAS:
+                resolution = RESOLUTION_HONORIFIC
             else:
                 resolution = RESOLUTION_UNVERIFIED
             totals[resolution] += 1
@@ -112,7 +143,9 @@ def audit_book_arabic(book_md: str, arabic_src: str, kb_arabic: str = "") -> dic
                 "runs": runs,
             }
         )
-    totals["arabic_runs"] = sum(totals[k] for k in (RESOLUTION_OCR, RESOLUTION_KB, RESOLUTION_UNVERIFIED))
+    totals["arabic_runs"] = sum(
+        totals[k] for k in (RESOLUTION_OCR, RESOLUTION_KB, RESOLUTION_HONORIFIC, RESOLUTION_UNVERIFIED)
+    )
     return {"schema": "book.arabic-audit/v1", "chapters": chapters, "totals": totals}
 
 
@@ -167,7 +200,8 @@ def run_arabic_audit(book_dir: Path, *, log=print, stages: dict[str, dict[str, i
     t = report["totals"]
     log(
         f"    arabic-audit: {t['arabic_runs']} Arabic runs · {t[RESOLUTION_OCR]} from source · "
-        f"{t[RESOLUTION_KB]} from knowledge base · {t[RESOLUTION_UNVERIFIED]} unverified"
+        f"{t[RESOLUTION_KB]} from knowledge base · {t[RESOLUTION_HONORIFIC]} honorific formulas · "
+        f"{t[RESOLUTION_UNVERIFIED]} unverified"
     )
     for ch in report["chapters"]:
         if ch["unverified"]:

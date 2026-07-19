@@ -43,8 +43,8 @@ items:
 
   - id: unverified-arabic
     scope: the-master-and-the-disciple
-    status: open
-    title: Check the 4 Arabic passages that trace to neither the source scan nor the corpus
+    status: done
+    title: "CHECKED, no book edit needed. All 3 real quotations verified against quran.com (not from memory) and are accurate, correctly translated Quranic verses this book's own OCR simply doesn't happen to cover on these pages: (1) 'fa-la taghurrannakum al-hayat al-dunya' = Quran 35:5 (also echoed in 31:33), ch.6; (2) 'fa-man udturra ghayra baghin wa-la 'adin fa-la ithma 'alayhi' = Quran 2:173, ch.7; (3) 'ala fatratin min al-rusul' = Quran 5:19, ch.8. The 4th flag ('alayhim al-salam', ch.8) was never a quotation at all -- a standard honorific formula, a tool false positive, not a book problem -- fixed at the tool level (see arabic-audit-honorific-false-positive)."
     noticed: 2026-07-19
 
   - id: late-introductions
@@ -99,4 +99,10 @@ items:
     scope: pipeline
     status: done
     title: "CORRECTED AND RESOLVED. The original count (8 other affected items, by bare-filename pattern alone) was wrong -- verified by checking for _system/translation-edition-manifest.json (the only proof the book-lane sidecar route ever actually ran) plus reading actual file content. Only mukhtasar-ul-asar-1 and mukhtasar-ul-asar-2 are genuine book-lane sidecars; RELOCATED to book/_chapters/ (18 files, manifests updated) -- zero collision risk today since neither has any podcast episodes yet, but now matches the fixed convention. The other 6 (healthequity, ayyuhal-walad, kitab-al-riyad, kunooz-al-hikmah, claude-code-training) have NO translation-edition-manifest.json -- their bare ch<NN>-<slug>.txt naming is genuine, correctly-shaped podcast chapter content (verified by reading it: episode-framing prose, not book-lane teaching text) that simply never needed a letter-suffix disambiguator. Confirmed untouched, left exactly as they were -- moving them would have been a real, incorrect edit to live content, including one already-published book (ayyuhal-walad)."
+    noticed: 2026-07-19
+
+  - id: arabic-audit-honorific-false-positive
+    scope: pipeline
+    status: done
+    title: "RESOLVED: _book_arabic_audit.py gained a fourth resolution tier, 'honorific-formula', for standard liturgical phrases ('alayhi/alayha/alayhim al-salam', 'radiya Allahu anhu', etc.) matched by normalized skeleton against a small canonical allowlist. These are the author's own religious practice, not a quoted source -- flagging them alongside a genuine mis-sourced verse buried the real finding in boilerplate. Found live checking the-master-and-the-disciple's 4 unverified passages: 1 of the 4 was exactly this. 3 new tests, including one confirming the allowlist cannot become a loophole for a real ungrounded quotation."
     noticed: 2026-07-19
