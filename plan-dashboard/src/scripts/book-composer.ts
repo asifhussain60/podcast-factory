@@ -549,7 +549,9 @@ function boot(): void {
     ]);
     bridge.editorRef.current = activeEditor.editor;
     const originalTexts: string[] = [];
-    activeEditor.editor.state.doc.forEach((n) => originalTexts.push(n.textContent));
+    activeEditor.editor.state.doc.forEach((n) =>
+      originalTexts.push(n.textContent),
+    );
     bridge.originalRef.current = originalTexts;
     activeEditor.editor.on("focus", () => {
       bridge.hasFocusRef.current = true;
@@ -634,8 +636,13 @@ function boot(): void {
     updateAiEnabled();
   }
 
+  const modeReadBtn = root.querySelector<HTMLButtonElement>("#cx-mode-read");
+  const modeEditBtn = root.querySelector<HTMLButtonElement>("#cx-mode-edit");
+
   function setModeVisual(mode: "read" | "edit"): void {
     root.classList.toggle("is-editing", mode === "edit");
+    modeReadBtn?.setAttribute("aria-pressed", String(mode === "read"));
+    modeEditBtn?.setAttribute("aria-pressed", String(mode === "edit"));
   }
   function enterEditMode(): void {
     if (activeEditor) return;
@@ -1810,6 +1817,14 @@ function boot(): void {
   root
     .querySelector<HTMLButtonElement>("#cx-new-ai-image")
     ?.addEventListener("click", () => openAiImageBox());
+
+  // Read shows the chapter exactly as it prints — the same renderMd() output the
+  // PDF is built from (chapter opening, drop cap, mushaf verses, citation style).
+  // Edit swaps in the TipTap surface, which is seeded from the plain render its
+  // schema can round-trip. Without this control the print-faithful view has no
+  // way of being reached: the editor opens on boot and nothing else leaves it.
+  modeReadBtn?.addEventListener("click", () => setMode("read"));
+  modeEditBtn?.addEventListener("click", () => setMode("edit"));
 
   // The chapter opens straight in the editor, like the podcast editor.
   setMode("edit");

@@ -109,6 +109,29 @@ const FAMILIES = [
                   ))}
                 </select>
               </div>
+              <div
+                class="cx-mode-toggle"
+                role="group"
+                aria-label="Chapter view"
+              >
+                <button
+                  type="button"
+                  class="cx-mode-btn"
+                  id="cx-mode-read"
+                  aria-pressed="false"
+                >
+                  <i class="fa-solid fa-book-open" aria-hidden="true" /> Read
+                </button>
+                <button
+                  type="button"
+                  class="cx-mode-btn"
+                  id="cx-mode-edit"
+                  aria-pressed="true"
+                >
+                  <i class="fa-solid fa-pen-to-square" aria-hidden="true" />{" "}
+                  Edit
+                </button>
+              </div>
               <div class="cx-layout-save" id="cx-layout-status" />
             </div>
             {view.chapters.map((ch) => (

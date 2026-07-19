@@ -180,6 +180,55 @@
     0 8px 24px rgba(31, 29, 24, 0.12)
   );
 }
+/* Read / Edit segmented control. Read is the print-faithful render (the PDF's
+   own markup); Edit is the TipTap surface. Sits beside the chapter picker so the
+   two chapter-level controls read as one group. */
+.cx-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: var(
+    --shadow-card,
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 4px 12px rgba(31, 29, 24, 0.06)
+  );
+}
+.cx-mode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  height: 2.75rem;
+  padding: 0 0.9rem;
+  border: 0;
+  background: transparent;
+  color: var(--c-ink-muted, #87827a);
+  cursor: pointer;
+  transition:
+    background 0.16s,
+    color 0.16s;
+}
+.cx-mode-btn + .cx-mode-btn {
+  border-left: 1px solid var(--c-rule, #d9d3c4);
+}
+.cx-mode-btn:hover {
+  color: var(--c-accent, #8b4513);
+}
+.cx-mode-btn[aria-pressed="true"] {
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 11%,
+    var(--c-bg-card, #fffdf8)
+  );
+  color: var(--c-accent, #8b4513);
+}
+
 .cx-layout-save {
   display: flex;
   align-items: center;
@@ -496,9 +545,12 @@
     "OpenDyslexic", "Comic Sans MS", "AmiriSized", "Amiri", sans-serif;
 }
 
-/* The editor writing area fills the full column and justifies both edges. This
-   is an on-screen editing preference only — the Read-mode preview (.cx-body) and
-   the printed PDF keep the book's narrower reading measure. */
+/* The editor writing area fills the full column, ragged-right. Justification was
+   tried and removed: on a wide editing column it opens rivers of white space and
+   the auto-hyphenation it needs to stay tolerable breaks words that are being
+   actively edited. Left-aligned keeps word spacing even and the caret honest.
+   On-screen editing preference only — the Read-mode preview (.cx-body) and the
+   printed PDF keep the book's own narrower reading measure. */
 .cx-prose {
   outline: none;
   font-family: var(--prose-font, inherit);
@@ -506,9 +558,8 @@
   line-height: 1.6;
   color: inherit;
   max-width: none;
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: auto;
+  text-align: left;
+  hyphens: manual;
 }
 .cx-prose p {
   margin: 0 0 0.8rem;
@@ -518,10 +569,8 @@
   font-weight: 700;
   margin: 1.2rem 0 0.5rem;
 }
-/* Only body prose is justified — headings stay left-aligned (never stretched). */
-.cx-prose :is(h1, h2, h3, h4) {
-  text-align: left;
-}
+/* (The former heading-only left-align override is gone — the whole editor
+   surface is left-aligned now, so it had nothing left to override.) */
 .cx-prose blockquote {
   border-left: 2px solid var(--paper-rule, var(--c-rule, #d9d3c4));
   padding-left: 1rem;
@@ -1534,6 +1583,7 @@
   .cx-palette-place,
   .cx-fig,
   .cx-edit-tool,
+  .cx-mode-btn,
   .cx-size-btn,
   .cx-font-select,
   .cx-paper-btn,
