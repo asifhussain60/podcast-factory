@@ -19,22 +19,31 @@ This module computes it from the state file alone, deterministically:
     halfway through it, not as 0% until the phase flips.
   * SKIPPED phases leave the denominator. A book with no slide decks is not
     permanently short of 100% for work it was never going to do.
+  * ETA from OBSERVED velocity, never from a fixed start time. The state file's
+    ``ts_started`` is set once at intake and is routinely weeks stale by the time
+    a book is mid-run — extrapolating from it produces a confidently wrong
+    number. Instead a small checkpoint file tracks percent_complete across calls
+    and estimates from the rate actually observed, self-correcting toward "later"
+    on its own if the run stalls, and returning no estimate at all until there
+    are two real checkpoints to compare.
 
-Pure: reads state, returns a dict, renders a string. No LLM, no mutation, no
-network — so it is safe to call from a heartbeat as often as you like.
+Pure: reads state, returns a dict, renders a string. Writes only its own small
+velocity checkpoint file. No LLM, no network — so it is safe to call from a
+heartbeat as often as you like.
 """
 
 from __future__ import annotations
 
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _paths import find_content  # noqa: E402
+from _pending_work import open_items  # noqa: E402
 from _progress import PHASES, read_state  # noqa: E402
 
 # Relative wall-clock weight per phase. A phase absent here weighs 1. These are
@@ -205,6 +214,68 @@ def compute_progress(state: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _velocity_path(book_dir: Path) -> Path:
+    return Path(book_dir) / "_system" / "status-velocity.json"
+
+
+_VELOCITY_WINDOW = 5  # trailing checkpoints kept — enough to smooth a noisy tick
+_ETA_MAX_SECONDS = 30 * 86400  # beyond a month the estimate is noise, not a number
+
+
+def _read_velocity(book_dir: Path) -> list[dict[str, Any]]:
+    path = _velocity_path(book_dir)
+    if not path.exists():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    return data if isinstance(data, list) else []
+
+
+def estimate_eta(book_dir: Path, percent_complete: float, *, now: datetime | None = None) -> datetime | None:
+    """A completion estimate from OBSERVED velocity, not a guess from a fixed start time.
+
+    The state file's own ``ts_started`` is set once at intake and is frequently
+    weeks stale by the time a book is mid-run (a book paused and resumed, or a
+    direct re-run driver that never touches it) — extrapolating from it would
+    produce a confidently wrong number. Instead this checkpoints percent_complete
+    on every call where it has genuinely increased, and estimates from the
+    trailing window of real checkpoints: work actually observed to happen, at the
+    rate it actually happened. The first call on any run has nothing to compare
+    against and returns ``None`` — an absent ETA is honest; a fabricated one from
+    a single sample is not.
+
+    Self-correcting for a stall: if percent stops advancing, the checkpoint stops
+    advancing too, so every later call recomputes velocity over a widening span
+    with no gain — the ETA recedes on its own rather than needing a reset.
+    """
+    now = now or datetime.now(timezone.utc)
+    checkpoints = _read_velocity(book_dir)
+    if not checkpoints or checkpoints[-1]["pct"] < percent_complete:
+        checkpoints.append({"ts": now.isoformat(), "pct": percent_complete})
+        checkpoints = checkpoints[-_VELOCITY_WINDOW:]
+        try:
+            _velocity_path(book_dir).parent.mkdir(parents=True, exist_ok=True)
+            _velocity_path(book_dir).write_text(json.dumps(checkpoints), encoding="utf-8")
+        except Exception:
+            pass  # the estimate degrading gracefully matters more than the cache
+    if len(checkpoints) < 2:
+        return None
+    try:
+        first = datetime.fromisoformat(checkpoints[0]["ts"])
+        elapsed = (now - first).total_seconds()
+        gained = checkpoints[-1]["pct"] - checkpoints[0]["pct"]
+    except Exception:
+        return None
+    if elapsed <= 0 or gained <= 0:
+        return None
+    remaining_seconds = (100 - percent_complete) / (gained / elapsed)
+    if remaining_seconds <= 0 or remaining_seconds > _ETA_MAX_SECONDS:
+        return None
+    return now + timedelta(seconds=remaining_seconds)
+
+
 def _spend_usd(book_dir: Path) -> float:
     """Real money only. Flat-rate subscription work is not a cost and is never shown."""
     ledger = book_dir / "_system" / "cost-ledger.jsonl"
@@ -244,15 +315,20 @@ def _title(book_dir: Path, slug: str) -> str:
     return slug.replace("-", " ").title()
 
 
-def _est_now() -> str:
-    """Wall clock in US Eastern, 12-hour — the only time format this repo reports."""
+def _format_est(dt: datetime) -> str:
+    """Any timezone-aware instant, in US Eastern 12-hour — the only format this repo reports."""
     try:
         from zoneinfo import ZoneInfo
 
-        now = datetime.now(ZoneInfo("America/New_York"))
+        dt = dt.astimezone(ZoneInfo("America/New_York"))
     except Exception:
-        now = datetime.now(timezone.utc)
-    return now.strftime("%-I:%M %p EST")
+        pass
+    return dt.strftime("%-I:%M %p EST")
+
+
+def _est_now() -> str:
+    """Wall clock in US Eastern, 12-hour — the only time format this repo reports."""
+    return _format_est(datetime.now(timezone.utc))
 
 
 def build_card(book_dir: Path) -> dict[str, Any]:
@@ -260,17 +336,23 @@ def build_card(book_dir: Path) -> dict[str, Any]:
     book_dir = Path(book_dir).resolve()
     state = read_state(book_dir) or {}
     progress = compute_progress(state)
+    eta = estimate_eta(book_dir, progress["percent_complete"])
     return {
         "slug": state.get("book_slug") or book_dir.name,
         "title": _title(book_dir, state.get("book_slug") or book_dir.name),
         "generated_at": _est_now(),
+        "eta": _format_est(eta) if eta else None,
         "spend_usd": _spend_usd(book_dir),
         "status": state.get("status"),
+        "pending": open_items(state.get("book_slug") or book_dir.name),
         **progress,
     }
 
 
 _CARD_WIDTH = 52  # inner width; narrow enough never to wrap in a chat panel
+# Enough of the backlog to be actionable at a glance; the rest is one line away
+# in the file. A card that scrolls stops being a card.
+_PENDING_SHOWN = 5
 
 
 def _row(label: str, value: str) -> str:
@@ -309,12 +391,25 @@ def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
         _row("Left", left if remaining else "nothing — complete"),
         _row("Spend", f"${card['spend_usd']:.2f}" + ("  (flat-rate work not shown)" if not card["spend_usd"] else "")),
         _row("Checked", card["generated_at"]),
+        _row("ETA", card["eta"] if card.get("eta") else "estimating (need 2 checks)"),
     ]
     if card.get("last_error"):
         lines.append(_row("Error", str(card["last_error"])))
     if card.get("bypassed_unresolved"):
         behind = ", ".join(f"{step_name(b['phase'])} ({b['status']})" for b in card["bypassed_unresolved"])
         lines.append(_row("Behind", behind))
+    # The backlog. Progress answers "how far along"; this answers "what is still
+    # owed" — work noticed in conversation that would otherwise live only there.
+    pending = card.get("pending") or []
+    if pending:
+        lines.append(mid)
+        lines.append(_row("Pending", f"{len(pending)} item(s)"))
+        for item in pending[:_PENDING_SHOWN]:
+            marker = "▸" if item.get("status") == "doing" else "·"
+            lines.append(_row("", f"{marker} {item.get('title', '')}"))
+        if len(pending) > _PENDING_SHOWN:
+            lines.append(_row("", f"  +{len(pending) - _PENDING_SHOWN} more"))
+
     if verbose:
         lines.append(mid)
         # An emoji occupies TWO display columns while counting as ONE character, so

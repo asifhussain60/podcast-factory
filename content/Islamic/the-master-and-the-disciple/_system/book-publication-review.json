@@ -1,0 +1,34 @@
+{
+  "schema": "book.publication-review/v1",
+  "verdict": "APPROVED-WITH-NOTES",
+  "iterations": 1,
+  "reviewer": "book-publication-reviewer v1.0 (manual run, 2026-07-19)",
+  "findings": [
+    {
+      "id": "PR-1",
+      "severity": "P2",
+      "status": "resolved-not-a-defect",
+      "page": 80,
+      "term": "Salih / al-Bakhtari",
+      "summary": "The deterministic evidence flagged both names as 'explained late' (used p80, explained p90). Reading page 80 directly: the book names both characters explicitly and immediately — 'Now let me name them for you... The boy's name was Salih, and his father's name was al-Bakhtari.' This is a full introduction on the page of first use, not a gap. The evidence tool's explanation-detection heuristic did not recognize the 'X's name was Y' construction and matched a later, unrelated page instead. Fixed at the tool level (scripts/podcast/_book_comprehension.py: added a short backward-looking window for name-reveal cues) rather than by writing an unnecessary bridge. Re-running the evidence after the fix reports 0 prerequisite gaps for this book.",
+      "bridge": null
+    },
+    {
+      "id": "PR-2",
+      "severity": "P1",
+      "status": "open",
+      "page": 32,
+      "term": "Shari'a / Sharia",
+      "summary": "The printed book spells this term two ways: 'Sharia' (4 occurrences, the dominant spelling used throughout the narrative prose) and 'Shari'a'/'Shari'ah' (1 occurrence, page 32, inside the etymology editorial note added by this run's 0book-augment pass). Confirmed by direct literal search of the rendered PDF — the deterministic naming_drift() check does not currently catch this specific case because neither spelling exactly matches a single glossary entry (the glossary carries 'Sharia' and 'Shariʿa' with the ayn character, not the straight-apostrophe form actually printed). Human-judgment item, not bridge-fixable: a bridge is orientation, not a spelling correction. The fix belongs to the augment prompt or a post-augment consistency pass, not this reviewer.",
+      "bridge": null
+    }
+  ],
+  "bridges_applied": 0,
+  "bridges_unplaced": 0,
+  "notes": [
+    "Two P1/P2 items on the evidence surfaced on first pass; both required direct reading of the PDF (not the evidence alone) to judge correctly, exactly as the reviewer contract requires.",
+    "PR-1 turned out not to be a reader-facing defect at all -- the fix applied was to the checker's own explanation-detection heuristic (a real, generalizable improvement now covered by tests), not a bridge to the book. No bridge was written or needed.",
+    "PR-2 is real but is a spelling-consistency issue introduced by the augment pass, outside this reviewer's fix mechanism (bridges). Recorded for a human or a future augment-consistency check to resolve.",
+    "naming_drift() has a known scope limit: it can only detect drift between spellings that both appear as distinct glossary entries. An ad hoc spelling the model introduces with no glossary entry at all (this case) requires direct reading to catch. Logged to the pipeline backlog."
+  ]
+}

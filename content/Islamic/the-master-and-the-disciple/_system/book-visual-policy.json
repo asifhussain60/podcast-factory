@@ -1,0 +1,7 @@
+{
+  "schema": "book.visual-policy/v1",
+  "policy": "manual_only",
+  "text_only": true,
+  "pipeline_inserted": [],
+  "curated_placements": 0
+}

@@ -3,57 +3,189 @@
   "chapter": "5-the-world-the-hereafter-and-the-speech-of-parables",
   "notes": [
     {
-      "id": "1926475a-2bf9-4f38-afe8-7aaf3d7167de",
+      "id": "2f6e16e2-cd25-4b3b-bd0e-cb59ea578218",
       "kind": "analogy",
-      "body": "The scholar diagnoses the outside and inside of religion like a doctor. Inner meaning with no outer practice is a spirit with no body \u2014 a wraith that can't walk the earth or move a stone. Outer ritual with no inner meaning is a body with no spirit \u2014 a corpse whose limbs you move through the motions, but which doesn't live. Practice without meaning is dead; meaning without practice is a ghost; the two only subsist through each other.",
-      "anchor": "outside/inside as body and spirit",
+      "body": "The master picks the tiniest thing he can name — a speck of dust — and points out it still has an above and below, a front and back, a left and right: six edges, with the speck itself as the seventh. Hold up a single die, a little cube. Even that has six faces around one object. His point is that the very smallest thing carries the same six-plus-one shape as the entire cosmos. The pattern doesn't shrink away and vanish; it's stamped on everything, top to bottom.",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "The speck's six edges",
+      "quote": "Each thing has six limits and is itself the seventh",
       "source": {
-        "provider": "notebooklm",
-        "ref": "EP06"
-      },
-      "createdAt": "2026-07-15T16:58:32Z",
-      "updatedAt": "2026-07-15T16:58:32Z",
-      "quote": "the inside is to it what the soul is to the body"
+        "provider": "manual"
+      }
     },
     {
-      "id": "91f8ef02-dcf7-49d7-a8fe-2b579f085b88",
-      "kind": "analogy",
-      "body": "Salt sea water is the outer, exoteric knowledge \u2014 vast, it covers the whole earth and preserves things from rotting, but you can't drink it and nothing grows from it. Fresh spring water is the inner, esoteric knowledge \u2014 the only water that feeds the field. Water the crops with the sea and you scorch the earth; you need the sweet water the summoners carry to actually grow a living soul.",
-      "anchor": "salt sea vs fresh spring water",
-      "source": {
-        "provider": "notebooklm",
-        "ref": "EP06"
-      },
-      "createdAt": "2026-07-15T16:58:32Z",
-      "updatedAt": "2026-07-15T16:58:32Z",
-      "quote": "the salt water grows no crop and nothing else"
-    },
-    {
-      "id": "e049b6c5-19b9-47ee-b94c-1e7aac89e6c6",
-      "kind": "analogy",
-      "body": "Everything in the cosmos comes in a pair \u2014 heaven and earth, sun and moon, salt water and sweet \u2014 and because each has a peer it can point down to a rank below it. Air is the one exception: unpaired, it mixes with everything and is encompassed by nothing. Set the earth against air and it's a seal ring dropped on an endless plain; set the whole heaven against air and it's an egg on that plain. Having no peer, air can only point upward \u2014 to the One who has no like.",
-      "anchor": "air the unpaired element",
-      "source": {
-        "provider": "notebooklm",
-        "ref": "EP07"
-      },
-      "createdAt": "2026-07-15T16:58:32Z",
-      "updatedAt": "2026-07-15T16:58:32Z",
-      "quote": "like an egg lying on a flat plain"
-    },
-    {
-      "id": "4a42722c-6256-458e-b241-3f39ad3d71c9",
+      "id": "6007997b-f75d-4b5f-8d49-53a3531ecfdc",
       "kind": "explanation",
-      "body": "The boy catches an apparent contradiction: one verse forbids striking likenesses for God, another says the highest likeness belongs to Him. The scholar untangles it by distinguishing two kinds of sign. A lesser sign is forbidden because it slots God into a list alongside His creatures, like saying a river points to a guide. The highest likeness is licensed precisely because air has no equal in creation \u2014 so it can't demote Him to just another rung. It's the sign that announces the failure of signs: in the very act of pointing up, it declares it can't capture what it points to.",
-      "anchor": "why the highest likeness is allowed",
+      "body": "The master asks the boy two parallel questions. What do you owe someone who lifts you from poverty into comfort? Thanks. And someone who lifts you from ignorance into knowledge? Not just thanks — obedience and action. That jump is the whole point. Being given money asks only gratitude; being given understanding asks that you now live differently. Knowledge, in his view, isn't something you admire and set back down. The moment you truly have it, it puts you under an obligation to act on it.",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "Two kinds of debt",
+      "quote": "Obedience and action.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "06b96f0f-02e4-4e34-9270-930f5d77729e",
+      "kind": "note",
+      "body": "This is the sharpest turn in the chapter, and it's easy to misread. When the scholars forbid the world, the master says they don't mean the sand and water and food are evil — those are gifts you're bound to thank God for. What they forbid is the world taken as dead, cut off from its meaning, the way a corpse is forbidden as food. It's a warning against a subtle mistake: not loving created things, but clinging to them as if the surface were all there is.",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "The forbidden corpse",
+      "quote": "It is from here that the scholars forbade the world, because it is dead.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "ab14b116-42ca-4cca-8036-e365fdb946db",
+      "kind": "analogy",
+      "body": "The master says the visible world only stays standing because of a hidden meaning underneath, the way a body only lives because a soul is in it. Think of a phone. The glass and metal you hold are just a shell; what makes it worth anything is the software and the signal running inside. Someone who only sees the hardware, and never grasps what it's for, is holding a dead object. That, for him, is the world seen without its inward: an outside that's pointless unless you know the inside.",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "Soul and body",
+      "quote": "the inward is to the world as the soul is to the body",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "890bba72-1d70-4439-bcf6-9226bdf675bd",
+      "kind": "question",
+      "body": "The boy notices something genuinely strange: the scholars, who know the most, run the world down, while the ignorant, who know the least, praise it. It looks backwards — as if knowing more should make you love the world more. Before reading the master's answer, sit with it together and ask your friend this: if you knew nothing at all about the world, do you think you'd be more likely to love it, or to see straight through it?",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "The scholars' paradox",
+      "quote": "what do the scholars intend when they censure the world, and what do the ignorant intend when they praise it?",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "86b3e2e9-b9bb-4906-b72d-e4bb3df71b2c",
+      "kind": "note",
+      "body": "Here's the master's boldest claim, so let it land slowly. Nothing God made — no animal, bird, mountain, stone, tree, or metal — is only itself. Every single thing is a parable struck for a meaning. So the world isn't just a place you live in; it's a language. Each object is a word standing for something in a hidden order. Once your friend hears this, the earlier lists of sevens and vessels stop looking like trivia and start looking like vocabulary you haven't learned yet.",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "The world as a language",
+      "quote": "it is a parable struck for a meaning",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "09a20094-e643-4469-a6d1-e4a0ac214859",
+      "kind": "explanation",
+      "body": "Before the argument even begins, the master maps the world onto sevens: seven heavens, seven earths, seven days, seven mounts for travel, seven blessings, seven miseries. It can feel like number-play, but notice what he's actually doing. He's showing that the world is ordered, patterned, built for the one with eyes to see — not a random heap. Every list is really one claim wearing different clothes: nothing here is accidental. The pattern is his first quiet hint that there's a designer's meaning underneath it all.",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "Why all the sevens",
+      "quote": "the world was set up — for the one with eyes to see — upon seven things",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "2e4a620e-5d2f-4972-9d86-23c6210371ce",
+      "kind": "note",
+      "body": "Watch this quiet sentence go by; it carries more than it looks. The master's diagnosis of the people who praise the world isn't that they're stupid — it's that they're used to it. They've lived among things so long that the surface has come to feel like the whole truth. Familiarity, not stupidity, is what hides the meaning from them. It's a warning worth passing to your friend: the things you've stopped noticing are usually the very things you've stopped understanding.",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "Familiarity hides meaning",
+      "quote": "Whoever is ignorant of a thing is merely accustomed to it.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "868185fd-edd0-4dd5-bd5b-acf44a78b72e",
+      "kind": "explanation",
+      "body": "The chapter ends by likening the heaven to the speaking Imam, who has collected all the rulings within himself. Why can one figure hold them all? The tradition describes a Pillar of Light — the Light of the Word — which is the flowing, pervading knowledge passed from the Creator to the First Intellect, and onward from there. The Imam is not inventing the rulings; he is the place where that streaming knowledge gathers, the way the heaven gathers every thing beneath it. His standing is a matter of what has been passed to him, not what he owns.",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "Where the rulings come from",
+      "quote": "who has gathered within himself all the rulings",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "1dc921f4-baef-41e3-bd46-c89984680516",
+      "kind": "explanation",
+      "body": "The hosts landed on the idea that the visible world cannot be the whole point of itself. The chapter argues it directly. If God had made the world only for the world, he would have made something that simply fades with no consequence. An act with no consequence is only play, and a speech with no meaning is only a lie. Since God is far above both, the world has to be pointing somewhere past its own surface.",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "Nothing made for nothing",
+      "quote": "every act without consequence is play, and every speech without meaning is falsehood",
       "source": {
         "provider": "notebooklm",
         "ref": "EP07"
-      },
-      "createdAt": "2026-07-15T16:58:32Z",
-      "updatedAt": "2026-07-15T16:58:32Z",
-      "quote": "there is no evidence pointing to anything greater than the evidence pointing to God"
+      }
+    },
+    {
+      "id": "5a4b052f-adaf-45ae-b4ef-578f5b044acb",
+      "kind": "note",
+      "body": "One host pressed hard on this: isn't using a physical element as a sign exactly the kind of comparison scripture forbids? The chapter's answer is that this is how creation was built in the first place. Nothing God made, great or small, is merely itself. Each thing is a parable set down to carry a meaning. Reading the world as signs is not imposing likenesses onto it. It is noticing what was already placed there on purpose.",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "Reading signs is not forbidden",
+      "quote": "except that it is a parable struck for a meaning",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP07"
+      }
+    },
+    {
+      "id": "2c349e44-9db8-4bb6-a62a-00e74ea92913",
+      "kind": "explanation",
+      "body": "The whole chapter runs on the claim that every created thing is a parable struck for a meaning — and that you learn by matching each thing to its inward counterpart. The tradition ties this to something specific about being human: the newborn learns gradually through metaphorical speech, and that rational utterance is exactly what sets people apart from animals, which have sound but no such speech. Reading the world as parable is not a poetic extra; it is the one faculty that makes us human, put to its proper use.",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "Why parables land",
+      "quote": "a parable struck for a meaning",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "b34528a7-edc0-4ff0-958d-55d501761acd",
+      "kind": "question",
+      "body": "The hosts keep returning to whether the highest rung can be handed to you or only earned. This chapter's answer runs entirely through effort: only labor that aims past this world carries any meaning or consequence. So here's the question to sit with — is your daily work pointed at the world itself, or through it toward what comes after?",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "Earned, not transferred",
+      "quote": "whoever labors in the world for the hereafter, believing in it, his labor has both meaning and consequence",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP08"
+      }
+    },
+    {
+      "id": "f6779dc1-95e9-4b5d-9619-fae8b0bafbba",
+      "kind": "note",
+      "body": "When the Imam lists what God has made — beasts, birds, mountains, trees, the minerals of gold and silver and gem — he is not being random. The tradition holds that the principal purpose governing all the celestial spheres was precisely to generate minerals, plants, animals, and human seed, each sphere pressing its influence on the earth in its turn. So this catalog of created things is really a catalog of what the whole heavens were arranged to produce — and every item on it, the Imam says, was struck as a parable. Nothing in it is idle.",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "The point of all the spheres",
+      "quote": "no beast upon the earth, no bird flying on its wings",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "a26308d6-e189-4379-b047-812ef1450ba9",
+      "kind": "question",
+      "body": "The hosts push hard on this one, so let me put it to you directly: if someone keeps every rule perfectly and lives a completely orderly life, why isn't that outward observance simply enough on its own?",
+      "createdAt": "2026-07-19T15:43:59Z",
+      "updatedAt": "2026-07-19T15:43:59Z",
+      "anchor": "Why isn't observance enough?",
+      "quote": "It is from here that the scholars forbade the world, because it is dead.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP08"
+      }
     }
   ],
-  "updatedAt": "2026-07-15T16:58:32Z"
+  "updatedAt": "2026-07-19T15:43:59Z"
 }

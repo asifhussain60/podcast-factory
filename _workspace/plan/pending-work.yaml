@@ -1,0 +1,78 @@
+schema: podcast.pending-work/v1
+
+# The backlog the status card prints. Scope is a book slug or `pipeline`.
+# Status is doing | open | done. Keep titles plain English — this is read on a
+# status card, not in a ticket system.
+
+items:
+  - id: companion-cards
+    scope: the-master-and-the-disciple
+    status: doing
+    title: Generate the reader's companion cards for all 9 chapters
+    noticed: 2026-07-19
+
+  - id: commit-and-merge-content
+    scope: the-master-and-the-disciple
+    status: open
+    title: Commit the regenerated book content and merge it to develop
+    noticed: 2026-07-19
+
+  - id: post-merge-sweep
+    scope: pipeline
+    status: open
+    title: Run the post-merge regression sweep (standing rule, owed since the last merge)
+    noticed: 2026-07-19
+
+  - id: collapse-duplicate-pdf
+    scope: pipeline
+    status: open
+    title: Collapse book.pdf into one titled PDF behind a shared resolver (approved, waiting for an idle tree)
+    noticed: 2026-07-19
+
+  - id: publication-reviewer-agent
+    scope: pipeline
+    status: done
+    title: Build the publication reviewer agent and its fix-and-resubmit loop with durable bridges
+    noticed: 2026-07-19
+
+  - id: unverified-arabic
+    scope: the-master-and-the-disciple
+    status: open
+    title: Check the 4 Arabic passages that trace to neither the source scan nor the corpus
+    noticed: 2026-07-19
+
+  - id: late-introductions
+    scope: the-master-and-the-disciple
+    status: done
+    title: "Salih/al-Bakhtari flagged as late-introduced was a false positive (tool fixed, not the book) -- confirmed via publication review"
+    noticed: 2026-07-19
+
+  - id: thin-etymology-corpus
+    scope: pipeline
+    status: open
+    title: Etymology corpus holds only 12 atoms, all harvested from one other book
+    noticed: 2026-07-19
+
+  - id: sharia-spelling-drift
+    scope: the-master-and-the-disciple
+    status: open
+    title: "Publication review found: 'Shari'a' (1x, in an augment editorial note) vs 'Sharia' (4x, the book's own spelling) -- not bridge-fixable, needs a human or an augment-consistency pass"
+    noticed: 2026-07-19
+
+  - id: naming-drift-scope-limit
+    scope: pipeline
+    status: open
+    title: "naming_drift() only catches drift between spellings that both have a glossary entry -- an ad hoc spelling with no entry (the Shari'a case) is invisible to it and needs direct PDF reading"
+    noticed: 2026-07-19
+
+  - id: narrator-attribution-policy
+    scope: pipeline
+    status: done
+    title: "CONFIRMED: augmentation excludes quotations attributed to Abu Bakr, Umar, Uthman, Aisha -- Ahl al-Bayt/Imam Ali/Ismail bin Muhammad and their followers remain approved. Verified: 3 Umar-attributed atoms now excluded from the live corpus load (428 -> 425); a doctrinal passage that only MENTIONS these names in prose was verified to survive untouched."
+    noticed: 2026-07-19
+
+  - id: narrator-policy-unwired-paths
+    scope: pipeline
+    status: open
+    title: "The narrator-attribution filter is wired into every book-lane KB loader (_book_augment, _book_companion, and _self_study via reuse) but NOT into intelligence/augmenter.py or augment_book.py -- both read knowledge.db rather than the JSONL corpus and are already unwired from the book lane, so this is dormant risk, not a live gap"
+    noticed: 2026-07-19
