@@ -7,20 +7,20 @@ schema: podcast.pending-work/v1
 items:
   - id: companion-cards
     scope: the-master-and-the-disciple
-    status: doing
-    title: Generate the reader's companion cards for all 9 chapters
+    status: done
+    title: "Generate the reader's companion cards for all 9 chapters -- 135 cards total, every chapter at the top of the 10-15 target, balance rule held, zero cards cite a narrator-policy-restricted name"
     noticed: 2026-07-19
 
   - id: commit-and-merge-content
     scope: the-master-and-the-disciple
-    status: open
-    title: Commit the regenerated book content and merge it to develop
+    status: done
+    title: "Commit the regenerated book content and merge it to develop -- content commit 2af5241, merge 8a81c8e"
     noticed: 2026-07-19
 
   - id: post-merge-sweep
     scope: pipeline
-    status: open
-    title: Run the post-merge regression sweep (standing rule, owed since the last merge)
+    status: done
+    title: "Post-merge sweep on develop@8a81c8e: clean, 0 P0/P1. One P2 (new modules + book-publication-reviewer agent missing from framework.md) found and fixed in fb96f66/cd36f92."
     noticed: 2026-07-19
 
   - id: collapse-duplicate-pdf
