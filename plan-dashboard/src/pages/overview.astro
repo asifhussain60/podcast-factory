@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import AudienceBadge from "../components/AudienceBadge.astro";
+import WaveItem from "../components/WaveItem.astro";
 import OverviewSystemMap from "../components/OverviewSystemMap.astro";
 import OverviewIndexRail from "../components/OverviewIndexRail.astro";
 import Mermaid from "../components/Mermaid.astro";
@@ -541,24 +542,22 @@ const totalEpisodes = shipped.reduce(
             changed.
           </p>
           <div class="wave-history">
-            {waves.map((w: any) =>
-              w.plain ? (
-                <details class="wave-item">
-                  <summary class="wave-summary">
-                    <span class="wave-badge">{w.id}</span>
-                    <span class="wave-name">{w.name}</span>
-                    <span class="wave-chevron" aria-hidden="true" />
-                  </summary>
-                  <div class="wave-body">
-                    <p>{w.plain}</p>
-                  </div>
-                </details>
-              ) : (
-                <div class="wave-item wave-static">
-                  <span class="wave-badge">{w.id}</span>
-                  <span class="wave-name">{w.name}</span>
-                </div>
-              )
+            {waves.slice(0, 6).map((w: any) => (
+              <WaveItem wave={w} />
+            ))}
+            {waves.length > 6 && (
+              <details class="wave-more">
+                <summary class="wave-more-summary">
+                  <span class="wave-more-open">
+                    Show all {waves.length} waves
+                  </span>
+                  <span class="wave-more-close">Show fewer waves</span>
+                  <span class="wave-chevron" aria-hidden="true" />
+                </summary>
+                {waves.slice(6).map((w: any) => (
+                  <WaveItem wave={w} />
+                ))}
+              </details>
             )}
           </div>
         </section>
