@@ -52,7 +52,6 @@ const {
   haltHalted,
   mediaCount,
   tabs,
-  firstChapterHref,
 } = await buildStudioIndexView(detail, slugStr);
 ---
 
@@ -142,11 +141,15 @@ const {
       tabs.map((t, i) => (
         <Fragment>
           {t.id === "chapters" ? (
-            /* Chapters navigates straight to the first chapter's editor (data-nav
-             marks it so the in-page tab script does not intercept the click).
-             Styled as a pill (lib-tab-cta) to match "PDF Generator" — both are
-             authoring entry points that leave the page (REQ-SC-001). */
-            <a href={firstChapterHref} class="lib-tab-cta" data-nav>
+            /* Chapters navigates straight to the Book Composer (data-nav marks
+             it so the in-page tab script does not intercept the click). The
+             Composer is the consolidated authoring surface for the reading
+             edition, so it is the single entry point here — the separate "PDF
+             Generator" pill that pointed at the same route is gone rather than
+             kept as a duplicate. Edit & Enrich (the podcast chapter/stage lane,
+             a DIFFERENT set of files) is reachable from the Composer's own
+             header. Styled as a pill because it leaves the page (REQ-SC-001). */
+            <a href={`/studio/${slugStr}/compose`} class="lib-tab-cta" data-nav>
               <i class="fa-solid fa-list-ol" aria-hidden="true" /> {t.label}
               {t.count !== null && <span class="lib-tab-count">{t.count}</span>}
             </a>
@@ -159,12 +162,6 @@ const {
             >
               {t.label}
               {t.count !== null && <span class="lib-tab-count">{t.count}</span>}
-            </a>
-          )}
-          {t.id === "media" && (
-            <a class="lib-tab-cta" href={`/studio/${slugStr}/compose`}>
-              <i class="fa-solid fa-file-pdf" aria-hidden="true" /> PDF
-              Generator
             </a>
           )}
           {t.id === "media" && (
