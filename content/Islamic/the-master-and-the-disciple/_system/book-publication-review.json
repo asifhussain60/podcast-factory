@@ -1,8 +1,8 @@
 {
   "schema": "book.publication-review/v1",
-  "verdict": "APPROVED-WITH-NOTES",
-  "iterations": 1,
-  "reviewer": "book-publication-reviewer v1.0 (manual run, 2026-07-19)",
+  "verdict": "APPROVED",
+  "iterations": 2,
+  "reviewer": "book-publication-reviewer v1.0 (manual run, 2026-07-19; PR-2 resolution pass 2026-07-19)",
   "findings": [
     {
       "id": "PR-1",
@@ -16,10 +16,10 @@
     {
       "id": "PR-2",
       "severity": "P1",
-      "status": "open",
+      "status": "resolved",
       "page": 32,
       "term": "Shari'a / Sharia",
-      "summary": "The printed book spells this term two ways: 'Sharia' (4 occurrences, the dominant spelling used throughout the narrative prose) and 'Shari'a'/'Shari'ah' (1 occurrence, page 32, inside the etymology editorial note added by this run's 0book-augment pass). Confirmed by direct literal search of the rendered PDF — the deterministic naming_drift() check does not currently catch this specific case because neither spelling exactly matches a single glossary entry (the glossary carries 'Sharia' and 'Shariʿa' with the ayn character, not the straight-apostrophe form actually printed). Human-judgment item, not bridge-fixable: a bridge is orientation, not a spelling correction. The fix belongs to the augment prompt or a post-augment consistency pass, not this reviewer.",
+      "summary": "Asif's decision: Sharia is the book's standard spelling. On resolution, direct literal search of book.md found the original review undercounted the drift: TWO non-standard spellings existed, not one — 'Shari'ah' in the augment editorial note (line 103) AND, separately, 'Shari'a' inside the base narrative translation itself (line 334, in the boy's dialogue on cosmology), which the first pass's page-32 reading did not surface. Root cause traced one level deeper than the augment prompt: _system/glossary.yml carried TWO entries for the same underlying term (الشريعة/sharīʿa) — 'Sharia' and 'Shariʿa' — because nothing in the glossary bake step deduplicates by underlying root. Fix applied: both book.md occurrences corrected to 'Sharia'; the duplicate glossary entry removed, leaving one canonical entry; book.pdf re-rendered; comprehension evidence re-run clean (0 prerequisite gaps, matching the corrected single spelling). Literal search of the re-rendered PDF confirms 6 occurrences of 'Sharia', 0 of any other spelling. NOT bridge-fixed — bridges add orientation, not spelling corrections — the book text itself and its glossary were corrected directly, with Asif's explicit authorization.",
       "bridge": null
     }
   ],
@@ -28,7 +28,7 @@
   "notes": [
     "Two P1/P2 items on the evidence surfaced on first pass; both required direct reading of the PDF (not the evidence alone) to judge correctly, exactly as the reviewer contract requires.",
     "PR-1 turned out not to be a reader-facing defect at all -- the fix applied was to the checker's own explanation-detection heuristic (a real, generalizable improvement now covered by tests), not a bridge to the book. No bridge was written or needed.",
-    "PR-2 is real but is a spelling-consistency issue introduced by the augment pass, outside this reviewer's fix mechanism (bridges). Recorded for a human or a future augment-consistency check to resolve.",
-    "naming_drift() has a known scope limit: it can only detect drift between spellings that both appear as distinct glossary entries. An ad hoc spelling the model introduces with no glossary entry at all (this case) requires direct reading to catch. Logged to the pipeline backlog."
+    "PR-2 was real, and the first pass's count (1 occurrence) was itself incomplete -- a second drifted spelling existed outside the page the first pass read closely. Resolved by direct book.md + glossary.yml correction after Asif chose 'Sharia' as the standard, not by a bridge.",
+    "naming_drift() has a known scope limit: it can only detect drift between spellings that both appear as distinct glossary entries, and even then only via literal string search, not fuzzy/apostrophe-insensitive matching. This instance's root cause -- a duplicate glossary entry for one term -- was found and fixed for THIS book, but the detector's general blind spot (apostrophe/diacritic-insensitive drift, spellings with no glossary entry at all) remains open for other books. Tracked on the pipeline backlog as naming-drift-scope-limit -- deliberately NOT built out into a general canonicalization system in this pass, since that is more infrastructure than a single-word content decision warrants."
   ]
 }

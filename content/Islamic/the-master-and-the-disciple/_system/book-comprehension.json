@@ -1,7 +1,7 @@
 {
   "schema": "book.comprehension/v1",
   "pages": 122,
-  "terms_tracked": 61,
+  "terms_tracked": 60,
   "prerequisite_gaps": [],
   "naming_drift": [],
   "dense_pages": [
@@ -10,7 +10,7 @@
       "term_count": 11,
       "terms": [
         "Imam",
-        "Shariʿa",
+        "Sharia",
         "bāb",
         "du'āt",
         "duʿāt",
