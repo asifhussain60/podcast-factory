@@ -55,8 +55,8 @@ items:
 
   - id: thin-etymology-corpus
     scope: pipeline
-    status: open
-    title: Etymology corpus holds only 12 atoms, all harvested from one other book
+    status: done
+    title: "ASSESSED, then acted on. No new SOURCE ingestion was needed -- scripts/podcast/_etymology.py already exists as a real, accuracy-gated miner (term_index veto + adversarial self-consistency verification + doctrinal gate, no fabrication), it simply had zero callers anywhere in the pipeline and had only ever been run once, on one book. Ran it against the-master-and-the-disciple (already fully in context this session): 6 candidate terms found, 2 passed the accuracy gate and were written -- 'quwwa' (root q-w-y, strength/potency/faculty) and 'Umma' (root '-m-m, the same root as umm/imam -- a community bound by facing one shared source). Corpus grew 12 -> 14, now from 2 books instead of 1. NOT swept across the rest of the repo -- that is a real, separately-scoped content-generation campaign (which books, how many terms, real LLM time per book), not this assessment task's natural conclusion. The miner remains unwired into any live phase; wiring it as an automatic per-book step is a separate decision, not made here."
     noticed: 2026-07-19
 
   - id: sharia-spelling-drift
