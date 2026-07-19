@@ -156,6 +156,18 @@ def test_b2_fails_on_missing_pdf(tmp_path):
     assert "B2" in res["summary"] and "missing" in res["summary"].lower()
 
 
+def test_b2_finds_the_titled_pdf_when_book_pdf_is_gone(tmp_path):
+    """The collapsed-to-one-file contract: book/book.pdf no longer exists once
+    build_book_pdf renames it, and B2 must resolve through the same shared
+    picker (deliver_book._find_pdf) rather than a hardcoded book.pdf path."""
+    bd = _make_book(tmp_path, chapters=3, md_sections=3, pdf=None)
+    (bd / "book" / "T.pdf").write_bytes(_VALID_PDF)  # fixture's book-toc.json titles it "T"
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] != "BOOK-BROKEN", res["summary"]
+
+
 def test_b2_fails_on_tiny_pdf(tmp_path):
     bd = _make_book(tmp_path, pdf=b"%PDF-1.4 tiny")
     res = V.validate_book(bd)

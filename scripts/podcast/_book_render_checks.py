@@ -149,8 +149,10 @@ def _extract_pages_text(pdf: Path, max_pages: int = 400) -> list[str] | None:
 def run_render_checks(book_dir: Path, *, log=print) -> dict[str, Any]:
     """Run the deterministic render probes and write a report. Never raises."""
     book_dir = Path(book_dir).resolve()
-    pdf = book_dir / "book" / "book.pdf"
-    pages_text = _extract_pages_text(pdf)
+    from deliver_book import _find_pdf
+
+    pdf = _find_pdf(book_dir)
+    pages_text = _extract_pages_text(pdf) if pdf else None
     if pages_text is None:
         report = {
             "schema": "podcast.book-render-checks/v1",

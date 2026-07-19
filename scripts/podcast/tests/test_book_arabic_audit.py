@@ -17,6 +17,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 
 from _arabic_coverage import arabic_span_is_grounded, normalize_arabic
 from _book_arabic_audit import (
+    RESOLUTION_HONORIFIC,
     RESOLUTION_KB,
     RESOLUTION_OCR,
     RESOLUTION_UNVERIFIED,
@@ -73,6 +74,35 @@ def test_knowledge_base_resolves_what_the_source_pages_do_not() -> None:
     report = audit_book_arabic(md, SOURCE_SAYING, kb_arabic=FOREIGN_SAYING)
     assert report["chapters"][0]["runs"][0]["resolution"] == RESOLUTION_KB
     assert report["totals"][RESOLUTION_UNVERIFIED] == 0
+
+
+def test_a_standard_honorific_formula_is_not_flagged_unverified() -> None:
+    """The false positive found live 2026-07-19 on the-master-and-the-disciple:
+    'عليهم السلام' ('peace be upon them') is the author's own liturgical
+    practice, not a quoted source — it needs no grounding any more than an
+    English writer's 'may he rest in peace' needs a citation."""
+    md = "## Prophets\n\nAbraham and Ishmael and Isaac (عليهم السلام) were favoured.\n"
+    report = audit_book_arabic(md, arabic_src="", kb_arabic="")
+    assert report["chapters"][0]["runs"][0]["resolution"] == RESOLUTION_HONORIFIC
+    assert report["totals"][RESOLUTION_UNVERIFIED] == 0
+
+
+def test_a_diacritic_variant_of_an_honorific_still_matches() -> None:
+    """Matched by the same normalized skeleton as every other resolution tier —
+    a fully-vowelled or lightly-spelled variant of the same formula is one
+    formula, not two different unverified runs."""
+    md = "## Prophets\n\nMentioned (عَلَيْهِ السَّلَام) in the text.\n"
+    report = audit_book_arabic(md, arabic_src="", kb_arabic="")
+    assert report["chapters"][0]["runs"][0]["resolution"] == RESOLUTION_HONORIFIC
+
+
+def test_a_genuine_quotation_is_never_mistaken_for_an_honorific() -> None:
+    """The honorific allowlist must not become a loophole — a real quotation
+    (even a short, well-known one) that happens to share no words with the
+    allowlist still falls through to unverified when ungrounded."""
+    md = f"## Elsewhere\n\n> {FOREIGN_SAYING}\n"
+    report = audit_book_arabic(md, arabic_src="", kb_arabic="")
+    assert report["chapters"][0]["runs"][0]["resolution"] == RESOLUTION_UNVERIFIED
 
 
 def test_run_arabic_audit_writes_a_report_beside_the_book(tmp_path: Path) -> None:

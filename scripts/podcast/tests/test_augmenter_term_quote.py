@@ -153,6 +153,29 @@ class TermQuoteLookupTests(unittest.TestCase):
             result = self._run_augment(episode, book_dir, [], [quote])
             self.assertNotIn("[ATTRIBUTED SAYINGS", result)
 
+    def test_a_restricted_narrators_quote_is_never_injected_even_when_matched(self):
+        """This DB-backed path shares the same narrator-attribution policy as the
+        book lane's JSONL corpus (_narrator_policy) — a quote attributed to Umar
+        must never reach an episode, even when its speaker name genuinely appears
+        in the episode text and would otherwise match. Live docstring on
+        _fetch_matching_quotes: 'currently 0 [quote atoms]; wired for future
+        runs' — this closes the gap before that data ever lands."""
+        with tempfile.TemporaryDirectory() as tmp:
+            book_dir = self._fake_book_dir(Path(tmp), tradition="universal")
+            quote = {
+                "id": "quote:umar-ibn-al-khattab:restricted",
+                "type": "quote",
+                "body": {
+                    "speaker": "Umar ibn al-Khattab",
+                    "text_en": "Had it not been for Ali, Umar would have perished.",
+                },
+                "tradition": "universal",
+            }
+            episode = "Umar ibn al-Khattab is discussed at length in this chapter."
+            result = self._run_augment(episode, book_dir, [], [quote])
+            self.assertNotIn("[ATTRIBUTED SAYINGS", result)
+            self.assertNotIn("perished", result)
+
     # ── gate check ─────────────────────────────────────────────────────────────
 
     def test_disabled_gate_skips_all_lookups(self):

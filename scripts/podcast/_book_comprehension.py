@@ -215,17 +215,22 @@ def naming_drift(pages: list[str], terms: list[str]) -> list[dict[str, Any]]:
     """One idea spelled two ways IN PRINT — the compose pass disagreeing with itself.
 
     Candidates are grouped by normalized skeleton (glossary entries that fold to
-    the same concept), but presence is checked against each variant's OWN LITERAL
-    spelling in the RAW page text — case/whitespace-folded only, never run through
-    the transliteration fold. That distinction is the whole check: two glossary
-    entries that differ only by which apostrophe glyph or diacritic they carry
-    (``nuqabā'`` vs ``nuqabāʾ``) fold to the identical printed form and are NOT
-    drift — the printed book only ever shows one spelling for them, by design
-    (BK-A4, the plain-transliteration rule). Real drift is when the compose pass
-    itself printed two genuinely different spellings for the same concept across
-    the book (``Sharia`` on one page, ``Shari'a`` on another) — a literal-substring
-    search against the actual pages, not against a folded proxy, is what tells
-    the two cases apart.
+    the same concept). Presence is then checked against each variant's PLAIN-
+    TRANSLITERATED form (folded through the same ``simplify_transliteration`` the
+    print pipeline itself applies before anything reaches the page — BK-A4), not
+    the glossary's own raw spelling. That fold is what makes this catch the real
+    case it was blind to: a glossary entry stored as ``Shariʿa`` (scholarly ayn)
+    never literally appears anywhere in the PRINTED book, which only ever shows
+    plain transliteration — searching for the raw glossary spelling found nothing,
+    so a second entry drifting from the first went undetected. Folding both sides
+    the same way is what the print pipeline already guarantees is equivalent; this
+    check now trusts that guarantee instead of re-deriving a stricter one.
+
+    Residual scope limit, left open on purpose: this still only compares spellings
+    that exist as GLOSSARY entries. An ad hoc spelling a single augment note
+    introduces, with no glossary entry of its own at all, is invisible here — that
+    needs either a written bridge from a human review or a fuzzy near-neighbor
+    scan across the raw page text, which is real new infrastructure, not a fold.
     """
     flat = " ".join("\n".join(pages).split()).lower()
     skeleton_to_surfaces: dict[str, set[str]] = {}
@@ -233,7 +238,7 @@ def naming_drift(pages: list[str], terms: list[str]) -> list[dict[str, Any]]:
         skeleton = re.sub(r"[^a-z]", "", _normalize(term))
         if not skeleton:
             continue
-        surface = " ".join(term.split()).lower()
+        surface = simplify_transliteration(" ".join(term.split())).lower()
         if re.search(r"\b" + re.escape(surface) + r"\b", flat):
             skeleton_to_surfaces.setdefault(skeleton, set()).add(surface)
     return [{"variants": sorted(surfaces)} for surfaces in skeleton_to_surfaces.values() if len(surfaces) > 1]
@@ -282,18 +287,23 @@ def analyze(pages: list[str], terms: list[str]) -> dict[str, Any]:
 def run_comprehension_checks(book_dir: Path, *, log=print, pdf: Path | None = None) -> dict[str, Any]:
     """Read the finished PDF and record what a reader would struggle with.
 
-    ``pdf`` names the artifact when a route does not use the book lane's
-    ``book/book.pdf`` — the supplication lane writes ``book/<slug>.pdf``. Every
-    PDF route calls this as its LAST step, so the review always judges the file
-    that was actually produced.
+    ``pdf`` names the artifact when a route does not resolve through the book
+    lane's own titled PDF — the supplication lane writes ``book/<slug>.pdf``.
+    Every PDF route calls this as its LAST step, so the review always judges the
+    file that was actually produced.
 
     Evidence only — the verdict belongs to the reviewing agent, which reads this
     alongside the pages themselves.
     """
     book_dir = Path(book_dir).resolve()
-    pdf = Path(pdf) if pdf else book_dir / "book" / "book.pdf"
-    if not pdf.exists():
-        log("    comprehension: no book.pdf yet — render the book first")
+    if pdf is None:
+        from deliver_book import _find_pdf
+
+        pdf = _find_pdf(book_dir)
+    else:
+        pdf = Path(pdf)
+    if pdf is None or not pdf.exists():
+        log("    comprehension: no rendered PDF yet — render the book first")
         return {}
     pages = _extract_pages_text(pdf)
     if pages is None:
