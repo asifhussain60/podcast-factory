@@ -282,18 +282,23 @@ def analyze(pages: list[str], terms: list[str]) -> dict[str, Any]:
 def run_comprehension_checks(book_dir: Path, *, log=print, pdf: Path | None = None) -> dict[str, Any]:
     """Read the finished PDF and record what a reader would struggle with.
 
-    ``pdf`` names the artifact when a route does not use the book lane's
-    ``book/book.pdf`` — the supplication lane writes ``book/<slug>.pdf``. Every
-    PDF route calls this as its LAST step, so the review always judges the file
-    that was actually produced.
+    ``pdf`` names the artifact when a route does not resolve through the book
+    lane's own titled PDF — the supplication lane writes ``book/<slug>.pdf``.
+    Every PDF route calls this as its LAST step, so the review always judges the
+    file that was actually produced.
 
     Evidence only — the verdict belongs to the reviewing agent, which reads this
     alongside the pages themselves.
     """
     book_dir = Path(book_dir).resolve()
-    pdf = Path(pdf) if pdf else book_dir / "book" / "book.pdf"
-    if not pdf.exists():
-        log("    comprehension: no book.pdf yet — render the book first")
+    if pdf is None:
+        from deliver_book import _find_pdf
+
+        pdf = _find_pdf(book_dir)
+    else:
+        pdf = Path(pdf)
+    if pdf is None or not pdf.exists():
+        log("    comprehension: no rendered PDF yet — render the book first")
         return {}
     pages = _extract_pages_text(pdf)
     if pages is None:

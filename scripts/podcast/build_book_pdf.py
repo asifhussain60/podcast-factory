@@ -170,15 +170,20 @@ def build_book(
     if self_study:
         return out_pdf
 
-    # Write a titled copy alongside book.pdf so the PDF filename matches the book.
-    # book.pdf stays in place for pipeline compatibility (export_distribution.py etc.).
+    # Rename to the titled copy — the ONE PDF this book folder keeps. out_pdf was
+    # only ever the Playwright render target; every consumer resolves the actual
+    # deliverable through deliver_book._find_pdf (titled-preferred, book.pdf
+    # fallback for the rare case this rename fails), never a hardcoded path, so
+    # collapsing to one file needed no consumer left pointed at book.pdf.
     edition = _edition_title(book_dir)
     titled_pdf = out_pdf.parent / f"{edition}.pdf"
     try:
-        shutil.copy2(str(out_pdf), str(titled_pdf))
-        log(f"    0book-render: titled copy → {titled_pdf.name}")
+        out_pdf.replace(titled_pdf)
+        log(f"    0book-render: titled → {titled_pdf.name}")
     except Exception as exc:
-        log(f"    0book-render: titled copy failed (non-fatal): {exc}")
+        # Keep the working file as the deliverable rather than lose the render.
+        log(f"    0book-render: titled rename failed (non-fatal, keeping {out_pdf.name}): {exc}")
+        titled_pdf = out_pdf
 
     # Copy to Google Drive:  Podcast Library/{Series Title}/{Edition Title}.pdf
     # Series Title = meta.yml title (original work title, used as the per-book folder).
@@ -189,7 +194,7 @@ def build_book(
     if _GDRIVE_LIBRARY.exists():
         try:
             gdrive_dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(str(out_pdf), str(gdrive_dest))
+            shutil.copy2(str(titled_pdf), str(gdrive_dest))
             log(f"    0book-render: Google Drive → Podcast Library/{series}/{gdrive_dest.name}")
             drive_copied = True
         except Exception as exc:
@@ -215,7 +220,7 @@ def build_book(
     # that was otherwise produced correctly.
     _final_comprehension_review(book_dir, log=log)
 
-    return out_pdf
+    return titled_pdf
 
 
 def _final_comprehension_review(book_dir: Path, *, log=print) -> None:

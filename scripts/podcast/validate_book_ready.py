@@ -169,8 +169,10 @@ def gate_b1_book_md_complete(book_dir: Path) -> tuple[bool, str]:
 
 def gate_b2_book_pdf_renderable(book_dir: Path) -> tuple[bool, str]:
     """book.pdf exists, is non-trivially sized, and has a sane page count."""
-    pdf = book_dir / "book" / "book.pdf"
-    if not pdf.exists():
+    from deliver_book import _find_pdf
+
+    pdf = _find_pdf(book_dir)
+    if pdf is None or not pdf.exists():
         return False, "book.pdf missing — 0book-render did not produce a PDF"
     size = pdf.stat().st_size
     if size < _MIN_PDF_BYTES:

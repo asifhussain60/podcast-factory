@@ -25,8 +25,14 @@ items:
 
   - id: collapse-duplicate-pdf
     scope: pipeline
+    status: done
+    title: "RESOLVED: build_book_pdf now RENAMES the Playwright working file to the titled PDF (Path.replace, atomic) instead of copying -- one PDF per book folder. validate_book_ready/B2, _book_render_checks, and _book_comprehension all resolve through deliver_book._find_pdf (titled-preferred, book.pdf fallback) instead of a hardcoded path; export_distribution/deliver_book already did. A failed rename keeps book.pdf as the sole deliverable rather than losing the render. Verified live: removed the-master-and-the-disciple's now-redundant book.pdf (confirmed byte-identical to the titled copy first), re-ran all three gates against the titled-only folder -- all resolve correctly. 5 new tests."
+    noticed: 2026-07-19
+
+  - id: book-podcast-chapters-missing-arabic
+    scope: the-master-and-the-disciple
     status: open
-    title: Collapse book.pdf into one titled PDF behind a shared resolver (approved, waiting for an idle tree)
+    title: "Found while re-verifying gates post-fix (unrelated to the fix itself): validate_book_ready's B3 gate reports 20/20 podcast chapter files (chapters/ch01a-*.txt etc.) carry ZERO Arabic script. This is the PODCAST deliverable's own Arabic injection (inject_chapter_arabic.py / Phase 0e), a different subsystem from the reading edition's Arabic (verified extensively earlier -- 52 passages in book.md, traced to source). Non-blocking on the podcast ship (already live), but a real gap worth a look. No prior book-validation-report.json existed for this book, so unknown whether this predates today or was always the case for this book's podcast lane."
     noticed: 2026-07-19
 
   - id: publication-reviewer-agent
