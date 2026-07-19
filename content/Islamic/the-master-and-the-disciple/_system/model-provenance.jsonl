@@ -113,3 +113,5 @@
 {"phase": "0book-companion", "step": "comp-podcast-EP14-8-homecoming-the-f", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-companion", "step": "comp-corpus-8-homecoming-the-father-", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-companion", "step": "comp-judge-8-homecoming-the-father-", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-etymology", "step": "generate", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-etymology", "step": "verify", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

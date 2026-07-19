@@ -1,0 +1,22 @@
+{
+  "schema": "podcast.etymology/v1",
+  "book": "the-master-and-the-disciple",
+  "candidates": 6,
+  "generated": 2,
+  "kept": 2,
+  "written": 2,
+  "dropped": 0,
+  "drop_reasons": [],
+  "entries": [
+    {
+      "term": "quwwa",
+      "root": "q-w-y",
+      "confirmed_by_reference": false
+    },
+    {
+      "term": "Umma",
+      "root": "ʼ-m-m",
+      "confirmed_by_reference": false
+    }
+  ]
+}
