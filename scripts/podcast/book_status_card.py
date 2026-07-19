@@ -72,6 +72,47 @@ _PHASE_WEIGHTS: dict[str, int] = {
     "done": 1,
 }
 
+# Plain-English name per phase. The card is read by a human, so it must never
+# show the pipeline's internal ids — a step called "0ci" tells the reader nothing.
+# The ids stay in the JSON, where machines read them.
+_PHASE_NAMES: dict[str, str] = {
+    "pre-flight": "Pre-flight checks",
+    "branch": "Branch created",
+    "scaffold": "Folders prepared",
+    "0a": "Scanning and translating",
+    "0b": "English refinement",
+    "0c": "Arabic pronunciation",
+    "0ci": "Source gap analysis",
+    "0d": "Chapter design",
+    "0e": "Enrichment",
+    "0literary": "Literary pass",
+    "06a": "Source review",
+    "0f": "Series plan review",
+    "0g": "Series registered",
+    "per-chapter": "Writing each chapter",
+    "per-chapter-optimize": "Chapter polish",
+    "per-chapter-slides": "Slide decks",
+    "audio-script": "Dialogue scripts",
+    "audio-render": "Audio render",
+    "finalize": "Quality review",
+    "audio-ingest": "Audio ingest",
+    "0book-design": "Book structure",
+    "0book-compose": "Writing the book",
+    "0book-illustrate": "Diagrams",
+    "0book-slide-import": "Slide import",
+    "0book-render": "Rendering the PDF",
+    "publish": "Publishing",
+    "trainer": "Learning pass",
+    "merge": "Merging to develop",
+    "done": "Done",
+}
+
+
+def step_name(phase: str | None) -> str:
+    """The human name for a phase id, falling back to the id when one is unmapped."""
+    return _PHASE_NAMES.get(str(phase), str(phase))
+
+
 _DONE_STATUSES = frozenset({"completed", "skipped"})
 _ICONS = {
     "completed": "✅",
@@ -209,41 +250,59 @@ def build_card(book_dir: Path) -> dict[str, Any]:
     }
 
 
+_CARD_WIDTH = 52  # inner width; narrow enough never to wrap in a chat panel
+
+
+def _row(label: str, value: str) -> str:
+    """One card row, clipped so the frame can never be broken by a long value."""
+    room = _CARD_WIDTH - 12  # frame(2) + padding(2) + label(8)
+    value = value if len(value) <= room else value[: room - 1] + "…"
+    return f"│ {label:<8}{value:<{room}} │"
+
+
 def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
-    """The card as markdown: a metrics table, then what is done and what is left."""
-    bar_width = 24
-    filled = int(round(bar_width * card["percent_complete"] / 100))
-    bar = "█" * filled + "·" * (bar_width - filled)
+    """A compact framed card: title, progress bar, and four lines of state.
+
+    Fixed width and box-drawn, because the value of a status card is that
+    consecutive readings look identical except for what changed — a layout that
+    reflows with its content makes you re-read it every time.
+    """
+    pct = card["percent_complete"]
+    bar_width = _CARD_WIDTH - 10  # frame(2) + padding(2) + ' 100%'(6)
+    filled = int(round(bar_width * pct / 100))
+    bar = "█" * filled + "░" * (bar_width - filled)
+
+    title = card["slug"].replace("-", " ").upper()
+    remaining = [step_name(p) for p in card["remaining"]]
+    left = f"{len(remaining)} steps · " + ", ".join(remaining[:3]) + ("…" if len(remaining) > 3 else "")
+
+    top = "┌" + "─" * (_CARD_WIDTH - 2) + "┐"
+    mid = "├" + "─" * (_CARD_WIDTH - 2) + "┤"
+    bottom = "└" + "─" * (_CARD_WIDTH - 2) + "┘"
+
     lines = [
-        "─" * 68,
-        f"### {card['slug']} — {card['percent_complete']}% complete",
-        "",
-        f"`{bar}`",
-        "",
-        "| | |",
-        "|---|---|",
-        f"| Progress | {card['percent_complete']}% ({len(card['done'])} of "
-        f"{len(card['done']) + len(card['remaining'])} steps) |",
-        f"| Current step | {card['current']} — {card['current_status']} |",
-        f"| Steps left | {len(card['remaining'])} |",
-        f"| Real spend | ${card['spend_usd']:.2f} |",
-        f"| Checked | {card['generated_at']} |",
+        top,
+        f"│ {title[: _CARD_WIDTH - 4]:<{_CARD_WIDTH - 4}} │",
+        f"│ {bar} {pct:>4.0f}% │",
+        mid,
+        _row("Now", f"{step_name(card['current'])} · {card['current_status']}"),
+        _row("Left", left if remaining else "nothing — complete"),
+        _row("Spend", f"${card['spend_usd']:.2f}" + ("  (flat-rate work not shown)" if not card["spend_usd"] else "")),
+        _row("Checked", card["generated_at"]),
     ]
     if card.get("last_error"):
-        lines.append(f"| Last error | {str(card['last_error'])[:80]} |")
+        lines.append(_row("Error", str(card["last_error"])))
     if card.get("bypassed_unresolved"):
-        left_behind = ", ".join(f"{b['phase']} ({b['status']})" for b in card["bypassed_unresolved"][:3])
-        lines.append(f"| Left behind | {left_behind} |")
-    lines.append("")
+        behind = ", ".join(f"{step_name(b['phase'])} ({b['status']})" for b in card["bypassed_unresolved"])
+        lines.append(_row("Behind", behind))
     if verbose:
-        lines.append("| Step | | |")
-        lines.append("|---|---|---|")
+        lines.append(mid)
+        # An emoji occupies TWO display columns while counting as ONE character, so
+        # the step list is laid out directly rather than through the label field.
+        name_width = _CARD_WIDTH - 7
         for row in card["phases"]:
-            lines.append(f"| {row['icon']} | {row['phase']} | {row['status']} |")
-    else:
-        remaining = card["remaining"]
-        lines.append(f"**Left:** {', '.join(remaining[:6])}" + (" …" if len(remaining) > 6 else ""))
-    lines.append("─" * 68)
+            lines.append(f"│ {row['icon']} {step_name(row['phase'])[:name_width]:<{name_width}} │")
+    lines.append(bottom)
     return "\n".join(lines)
 
 

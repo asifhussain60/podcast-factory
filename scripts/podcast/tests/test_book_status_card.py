@@ -123,10 +123,43 @@ def test_the_rendered_card_shows_the_number_and_what_is_left(tmp_path: Path) -> 
     )
 
     text = render_card(build_card(bd))
+    lines = text.split("\n")
 
-    assert "% complete" in text
-    assert "Left:" in text
-    assert "Real spend | $0.00" in text
+    assert lines[0].startswith("┌") and lines[-1].startswith("└")
+    assert {len(line) for line in lines} == {52}, "every row must be exactly one frame wide"
+    assert "Now" in text and "Left" in text and "Spend" in text and "Checked" in text
+    assert "Scanning and translating" in text, "steps are named in plain English, never by id"
+    assert "0a" not in text
+
+
+def test_a_long_value_is_clipped_rather_than_breaking_the_frame(tmp_path: Path) -> None:
+    bd = tmp_path / "slug"
+    (bd / "_system").mkdir(parents=True)
+    (bd / "_system" / "orchestrator-state.json").write_text(
+        '{"book_slug": "slug", "phase": "0a", "phase_status": "running",'
+        ' "last_error": "' + ("a very long failure message " * 12) + '",'
+        ' "phases": {"0a": {"status": "running"}}}',
+        encoding="utf-8",
+    )
+
+    lines = render_card(build_card(bd)).split("\n")
+
+    assert {len(line) for line in lines} == {52}
+
+
+def test_the_verbose_step_list_stays_inside_the_frame(tmp_path: Path) -> None:
+    bd = tmp_path / "slug"
+    (bd / "_system").mkdir(parents=True)
+    (bd / "_system" / "orchestrator-state.json").write_text(
+        '{"book_slug": "slug", "phase": "0a", "phase_status": "running", "phases": {"0a": {"status": "running"}}}',
+        encoding="utf-8",
+    )
+
+    lines = render_card(build_card(bd), verbose=True).split("\n")
+
+    # Emoji count as one character but occupy two columns, so icon rows are one
+    # character shorter than the plain rows by design.
+    assert {len(line) for line in lines} <= {51, 52}
 
 
 def test_a_missing_state_file_renders_rather_than_crashing(tmp_path: Path) -> None:
