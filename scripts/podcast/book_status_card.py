@@ -35,6 +35,7 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _paths import find_content  # noqa: E402
+from _pending_work import open_items  # noqa: E402
 from _progress import PHASES, read_state  # noqa: E402
 
 # Relative wall-clock weight per phase. A phase absent here weighs 1. These are
@@ -266,11 +267,15 @@ def build_card(book_dir: Path) -> dict[str, Any]:
         "generated_at": _est_now(),
         "spend_usd": _spend_usd(book_dir),
         "status": state.get("status"),
+        "pending": open_items(state.get("book_slug") or book_dir.name),
         **progress,
     }
 
 
 _CARD_WIDTH = 52  # inner width; narrow enough never to wrap in a chat panel
+# Enough of the backlog to be actionable at a glance; the rest is one line away
+# in the file. A card that scrolls stops being a card.
+_PENDING_SHOWN = 5
 
 
 def _row(label: str, value: str) -> str:
@@ -315,6 +320,18 @@ def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
     if card.get("bypassed_unresolved"):
         behind = ", ".join(f"{step_name(b['phase'])} ({b['status']})" for b in card["bypassed_unresolved"])
         lines.append(_row("Behind", behind))
+    # The backlog. Progress answers "how far along"; this answers "what is still
+    # owed" — work noticed in conversation that would otherwise live only there.
+    pending = card.get("pending") or []
+    if pending:
+        lines.append(mid)
+        lines.append(_row("Pending", f"{len(pending)} item(s)"))
+        for item in pending[:_PENDING_SHOWN]:
+            marker = "▸" if item.get("status") == "doing" else "·"
+            lines.append(_row("", f"{marker} {item.get('title', '')}"))
+        if len(pending) > _PENDING_SHOWN:
+            lines.append(_row("", f"  +{len(pending) - _PENDING_SHOWN} more"))
+
     if verbose:
         lines.append(mid)
         # An emoji occupies TWO display columns while counting as ONE character, so
