@@ -67,8 +67,14 @@ items:
 
   - id: naming-drift-scope-limit
     scope: pipeline
+    status: done
+    title: "RESOLVED (the glossary-fold half of the gap): naming_drift()'s presence check now folds each glossary entry's spelling through simplify_transliteration (the same fold BK-A4 print already guarantees) before searching the page, instead of the entry's raw stored spelling. This is precisely what missed the-master-and-the-disciple's drift -- a glossary entry stored as 'Shariʿa' (scholarly ayn) never literally appears in a book that only prints plain transliteration, so it was invisible even though a second entry drifted from it. Two new regression tests pin this case and the 'do not invent drift that was never printed' guard."
+    noticed: 2026-07-19
+
+  - id: naming-drift-no-glossary-entry
+    scope: pipeline
     status: open
-    title: "naming_drift() only catches drift between spellings that both have a glossary entry, and even then only exact literal match (not apostrophe/diacritic-insensitive) -- this book's root cause (a duplicate glossary entry) was fixed directly, but the general detector gap remains for other books. Deliberately not built into a canonicalization system -- more infrastructure than this pass's single-word decision warranted."
+    title: "Residual half of the naming-drift gap, deliberately NOT fixed: naming_drift() only ever compares spellings that exist as glossary entries. An ad hoc spelling a single augment note introduces, with no glossary entry of its own at all (e.g. the-master-and-the-disciple's 'Shari'ah', which had no entry before today's manual fix), stays invisible. Needs a fuzzy near-neighbor scan across raw page text -- real new infrastructure, not another fold, so it was not built under this pass."
     noticed: 2026-07-19
 
   - id: narrator-attribution-policy

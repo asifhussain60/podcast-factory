@@ -51,6 +51,28 @@ def test_two_spellings_actually_printed_in_the_book_is_real_drift() -> None:
     assert drift and set(drift[0]["variants"]) == {"sharia", "shari'a"}
 
 
+def test_a_scholarly_diacritic_glossary_entry_is_recognized_by_its_printed_form() -> None:
+    """The exact gap this closes: a glossary entry stored with the ayn (Shariʿa)
+    NEVER literally appears anywhere in a book that only prints plain
+    transliteration (BK-A4) — searching for its raw spelling found nothing, so a
+    second drifted entry went undetected even though both concern the same term.
+    Found live 2026-07-19: the-master-and-the-disciple carried exactly this pair
+    (Sharia / Shariʿa) and the drift was invisible until read by hand."""
+    drift = naming_drift(
+        pages("the Sharia governs this", "and here Shari'a is invoked too"),
+        ["Sharia", "Shariʿa"],
+    )
+    assert drift and set(drift[0]["variants"]) == {"sharia", "shari'a"}
+
+
+def test_folding_still_does_not_invent_drift_the_page_never_printed() -> None:
+    """A glossary entry stored with a diacritic whose plain form the book never
+    actually prints must still not be flagged — folding changes WHAT is searched
+    for, not whether a real match is required."""
+    drift = naming_drift(pages("only the natiq appears here"), ["natiq", "Shariʿa"])
+    assert drift == []
+
+
 # ─── what counts as a concept ────────────────────────────────────────────────
 def test_name_particles_and_multiword_names_are_not_concepts() -> None:
     assert not _is_concept("ibn")
