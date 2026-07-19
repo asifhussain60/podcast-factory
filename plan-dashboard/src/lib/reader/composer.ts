@@ -15,7 +15,18 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { findContent } from "../content-paths";
+import { loadGlossary, loadGlossaryAll, type GlossaryEntry } from "./glossary";
 import { renderMarkdown } from "./markdown";
+// The PDF's own renderer. Importing it here (rather than re-implementing the
+// book-craft layer in TypeScript) is what makes the Composer's read mode and
+// the printed page ONE code path — the same consolidation render-book-pdf.mjs
+// and the Studio Preview already share. Node-only module; this loader runs
+// server-side, so the fs reads inside it are fine.
+import {
+  renderMd,
+  readCrosswalk,
+  readCitationFamily,
+} from "../../../scripts/lib/book-html.mjs";
 
 export interface ComposerCitation {
   ar: string; // Arabic-script line (plain text)
@@ -26,7 +37,19 @@ export interface ComposerChapter {
   anchor: string; // the raw "## N. Title" heading — the placement anchor
   key: string; // normalized comparable key (mirrors visual-layout anchorKey)
   title: string; // display title
-  html: string; // rendered chapter body
+  /** READ mode. Rendered by the SAME renderMd() the PDF uses (scripts/lib/
+   *  book-html.mjs), so the chapter on screen is the chapter that prints:
+   *  chapter-open page, drop cap, mushaf verses, source range. Never feed this
+   *  to the editor — see editHtml. */
+  html: string;
+  /** EDIT mode seed ONLY. The plain reader render, whose element set is exactly
+   *  what the TipTap StarterKit schema round-trips back to markdown. The rich
+   *  read-mode HTML above must NEVER seed the editor: TipTap silently drops
+   *  what its schema doesn't know (asides, figures, verse dividers, the
+   *  chapter-open section), so the next save would write that loss into
+   *  book.md. Keeping the two strings separate is what makes the read surface
+   *  print-faithful WITHOUT putting the source file at risk. */
+  editHtml: string;
   paras: number; // prose-paragraph count (for the anchor_para position control)
   citations: ComposerCitation[]; // Arabic-bearing verses/hadith detected in this chapter
 }
@@ -85,6 +108,18 @@ export interface ComposerView {
   visuals: ComposerVisual[];
   placements: ComposerPlacement[];
   hasBook: boolean;
+  /** The book-wide citation/quote family from book/citation-style.json, chosen
+   *  in the Citations tab. The PDF applies it as a `style-<family>` body class
+   *  (buildBookHtml); read mode applies the SAME class to the chapter container,
+   *  so picking a style visibly restyles the chapter you are looking at instead
+   *  of only the swatch in the tab. '' = unset (the scholarly default). */
+  citationFamily: string;
+  // Arabic-script glossary — needed by the Refinement tab's term curation and
+  // by the chapter editor's Arabic overlay decorations. Same source Edit &
+  // Enrich reads (_system/glossary.yml); glossary = arabic_script-confirmed
+  // entries only, glossaryAll = every entry including those awaiting one.
+  glossary: GlossaryEntry[];
+  glossaryAll: GlossaryEntry[];
 }
 
 /** Normalize an anchor/heading to a comparable key — mirror of visual-layout.mjs anchorKey. */
@@ -120,11 +155,24 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
       visuals: [],
       placements: [],
       hasBook: false,
+      citationFamily: "",
+      glossary: [],
+      glossaryAll: [],
     };
   }
 
   const titleMatch = md.match(/^#\s+(.+)$/m);
   const title = titleMatch ? titleMatch[1].trim() : slug;
+
+  // Book-craft inputs the PDF renderer reads, so read mode can match it exactly.
+  // The crosswalk supplies each chapter's "Arabic source pp. x–y" line; the
+  // citation family is the book-wide quote skin. Both are best-effort — a book
+  // without either renders exactly as the PDF would without either.
+  const crosswalk = readCrosswalk(ref.dir) as { index?: number | string }[];
+  const crosswalkByIndex = new Map(
+    crosswalk.map((item) => [Number(item.index), item]),
+  );
+  const citationFamily = String(readCitationFamily(join(ref.dir, "book")) ?? "");
 
   // Split into chapters on "## " headings.
   const chapters: ComposerChapter[] = [];
@@ -142,13 +190,27 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
       .split(/\n\s*\n/)
       .filter((b) => b.trim() && !/^\s*[>#<]/.test(b)).length;
     const key = anchorKey(heading);
-    const html = renderMarkdown(body);
+    // READ: the PDF's renderer, on this chapter's heading + body. `sawH2` is
+    // seeded true for every chapter after the first so a later unnumbered
+    // heading is treated as an in-flow section heading, exactly as it would be
+    // in the whole-book pass. Guarded by the parity test in
+    // scripts/lib/book-html.test.mjs.
+    const html = String(
+      renderMd(`${heading}\n\n${body}`, crosswalkByIndex, {
+        sawH2: chapters.length > 0,
+      }),
+    );
+    // EDIT: the plain render, unchanged — the TipTap-safe seed (see editHtml).
+    const editHtml = renderMarkdown(body);
     chapters.push({
       anchor: heading,
       key,
       title: displayTitle,
       html,
+      editHtml,
       paras,
+      // Citations are extracted from the READ render so the Citations tab lists
+      // exactly the verses the printed page will show.
       citations: extractCitations(html),
     });
     bodyByKey.push({ key, lc: body.toLowerCase() });
@@ -189,5 +251,20 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
   );
   const placements: ComposerPlacement[] = layoutData.placements ?? [];
 
-  return { slug, title, chapters, visuals, placements, hasBook: true };
+  const [glossary, glossaryAll] = await Promise.all([
+    loadGlossary(slug),
+    loadGlossaryAll(slug),
+  ]);
+
+  return {
+    slug,
+    title,
+    chapters,
+    visuals,
+    placements,
+    hasBook: true,
+    citationFamily,
+    glossary,
+    glossaryAll,
+  };
 }

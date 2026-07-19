@@ -31,8 +31,22 @@
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.28);
 }
 
+/* Docked = lives in normal document flow inside its parent panel (the Book
+   Composer's Companion tab), not pinned over the viewport — the base .cpn's
+   position:fixed/top/right/z-index/max-height above are for the (now-retired)
+   floating reading-page context only. */
 .cpn--docked {
-  border-right: none;
+  position: static;
+  top: auto;
+  right: auto;
+  z-index: auto;
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  overflow-y: visible;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
 
 /* Launcher tab shown when a floating panel is closed. */
@@ -255,10 +269,13 @@
   margin: 0 0 0.4rem;
   padding-left: 0.6rem;
   border-left: 2px solid var(--c-rule);
-  color: var(--c-ink-dim);
+  color: var(--c-ink);
+  font-family: var(--font-display, serif);
   font-style: italic;
-  font-size: 1.2rem;
-  line-height: 1.45;
+  font-weight: 460;
+  font-size: 1.3rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 .cpn-quote-mark {
   display: flex;
@@ -280,8 +297,8 @@
 }
 .cpn-body {
   margin: 0;
-  font-size: 1.2rem;
-  line-height: 1.55;
+  font-size: 1rem;
+  line-height: 1.5;
   color: var(--c-ink);
 }
 .cpn-src {

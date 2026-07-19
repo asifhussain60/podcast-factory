@@ -435,13 +435,14 @@ def author_phase_book_companion(
             candidates = [candidates[i] for i in order]
         chosen = select_balanced(candidates)
 
+        out_path = out_dir / f"{key}.json"
         doc = {
             "slug": book_dir.name,
             "chapter": key,
-            "notes": [_as_note(c) for c in chosen],
+            "notes": _merge_notes(out_path, [_as_note(c) for c in chosen]),
             "updatedAt": _now(),
         }
-        (out_dir / f"{key}.json").write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        out_path.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
         report = mix_report(chosen)
         report.update(
@@ -491,6 +492,35 @@ def _load_kb_atoms(kb_root: Path) -> list[dict[str, Any]]:
     return atoms
 
 
+def _merge_notes(out_path: Path, generated: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Generated notes, with any HUMAN-authored note in the existing file kept.
+
+    This file has two writers: this generator (automatically, at the end of every
+    0book-render) and the Studio Companion panel via /api/studio/companion-notes.
+    It used to be replaced wholesale here, so rendering a PDF silently destroyed
+    hand-written notes.
+
+    Discriminator: every note this generator emits carries `generated: true`. Any
+    note WITHOUT that flag is treated as the human's and preserved, ahead of the
+    fresh generated set.
+
+    One-time caveat: notes written by a generator run BEFORE this flag existed are
+    unmarked, so the first run after this change preserves them alongside the new
+    set. That is deliberate — a visible duplicate the human can delete is a far
+    cheaper failure than a note that vanishes without trace.
+    """
+    if not out_path.exists():
+        return generated
+    try:
+        prior = json.loads(out_path.read_text(encoding="utf-8")) or {}
+        kept = [n for n in (prior.get("notes") or []) if isinstance(n, dict) and not n.get("generated")]
+    except (json.JSONDecodeError, OSError):
+        # An unreadable file is not a licence to delete: keep the generated set
+        # only, and leave the unparseable original to surface as a render warning.
+        return generated
+    return kept + generated
+
+
 def _as_note(card: dict[str, Any]) -> dict[str, Any]:
     """A gated candidate in the on-disk CompanionNote shape."""
     stamp = _now()
@@ -500,6 +530,9 @@ def _as_note(card: dict[str, Any]) -> dict[str, Any]:
         "body": " ".join(str(card.get("body", "")).split()),
         "createdAt": stamp,
         "updatedAt": stamp,
+        # Ownership marker — see _merge_notes. Without this the generator cannot
+        # tell its own prior output from a note the human wrote.
+        "generated": True,
     }
     for key in ("anchor", "quote"):
         value = " ".join(str(card.get(key) or "").split())

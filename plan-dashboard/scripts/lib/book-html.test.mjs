@@ -102,3 +102,87 @@ test("default render of ordinary prose is structurally unchanged", () => {
   );
   assert.ok(html.includes("<blockquote>"), "blockquote preserved");
 });
+
+/* ── Per-chapter rendering parity (the Book Composer read-mode contract) ──────
+ * The Composer renders ONE chapter at a time; the PDF renders the whole book in
+ * a single pass. These guard the invariant that makes the two the same surface:
+ * splitting the book and rendering each chapter with `sawH2: i > 0` must
+ * reproduce the whole-book render byte-for-byte. If renderMd ever gains state
+ * that carries across a "## " boundary, this test fails and the Composer's
+ * read mode must be re-derived — it is the canary for silent Preview↔PDF drift. */
+
+/** Split a book body the way lib/reader/composer.ts does. */
+function splitChapters(md) {
+  const parts = md.split(/^(##\s+.+)$/m);
+  const out = [];
+  for (let i = 1; i < parts.length; i += 2) {
+    out.push(`${parts[i].trim()}\n\n${(parts[i + 1] ?? "").trim()}`);
+  }
+  return out;
+}
+
+const MULTI_CHAPTER = [
+  "## 1. First Chapter",
+  "",
+  "Opening paragraph of chapter one.",
+  "",
+  "> إن الحمد لله",
+  ">",
+  "> Praise belongs to God.",
+  "",
+  "A closing paragraph.",
+  "",
+  "## 2. Second Chapter",
+  "",
+  "Opening paragraph of chapter two.",
+  "",
+  "### An inner heading",
+  "",
+  "More prose.",
+  "",
+  "## An Unnumbered Later Heading",
+  "",
+  "Prose under a source heading that is NOT a chapter opening.",
+  "",
+].join("\n");
+
+test("per-chapter render with seeded sawH2 equals the whole-book render", () => {
+  const whole = renderMd(MULTI_CHAPTER);
+  const perChapter = splitChapters(MULTI_CHAPTER)
+    .map((chunk, i) => renderMd(chunk, new Map(), { sawH2: i > 0 }))
+    .join("\n");
+  assert.equal(
+    perChapter,
+    whole,
+    "chapter-by-chapter render must equal the whole-book render",
+  );
+});
+
+test("seeded sawH2 keeps a later unnumbered heading out of the preface treatment", () => {
+  const later = "## An Unnumbered Later Heading\n\nSome prose.";
+  const asFirst = renderMd(later);
+  const asLater = renderMd(later, new Map(), { sawH2: true });
+
+  assert.ok(
+    asFirst.includes("Preface"),
+    "an unnumbered FIRST heading is still the preface",
+  );
+  assert.ok(
+    !asLater.includes("Preface"),
+    "an unnumbered LATER heading is never the preface",
+  );
+  assert.ok(
+    asLater.includes('<h3 class="section-heading">'),
+    "it renders as an in-flow section heading instead",
+  );
+});
+
+test("sawH2 defaults to false — whole-book callers are unaffected", () => {
+  const md = "## A Preface\n\nProse.";
+  assert.equal(
+    renderMd(md),
+    renderMd(md, new Map(), {}),
+    "omitting the option matches passing an empty options object",
+  );
+  assert.ok(renderMd(md).includes("Preface"), "default behaviour preserved");
+});

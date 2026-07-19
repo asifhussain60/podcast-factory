@@ -120,7 +120,11 @@ function buildRoutes(slug) {
         `/studio/${slug}/live`, // LIVE Session reading view (own CSS + scroll-synced explanations)
         `/studio/${slug}/preview`, // whole-book page-image preview (renders fresh from book.md on demand)
         `/studio/${slug}/arabic-review`,
-        `/studio/${slug}/style`,
+        // `/studio/<slug>/style` was removed 2026-07-19: it was a standalone
+        // duplicate of the Book Composer's Citations tab (same FAMILIES list,
+        // same PUT /api/studio/citation-style, same book/citation-style.json)
+        // with zero inbound links. The Composer is the one place that choice is
+        // made now.
         `/studio/${slug}/view`,
         `/pre-upload/${slug}`,
         `/pronunciation/${slug}`,

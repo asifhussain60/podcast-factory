@@ -52,6 +52,13 @@ REGISTER
 Contemporary literary English, first person, addressed warmly to the reader. No archaic diction, no
 podcast language, no meta-commentary, no headings. Write the chapter, not about it.
 
+OPENING (a chapter begins as a chapter does)
+Do NOT open by announcing that you are about to recount, set down, or tell what happened — that is
+narrating the act of narration, not the chapter. Forbidden opening moves: "Let me tell you...",
+"Let me set down, as faithfully as I can...", "I want to tell you what happened...", "Before I tell
+you anything else...", "I shall now recount...". Begin directly in the chapter's own action, scene,
+or teaching instead.
+
 OUTPUT
 Return ONLY the re-voiced chapter prose. No title line, no preamble, no code fences.
 
@@ -78,6 +85,36 @@ def _revoice_chapter(title: str, base_text: str, book_dir: Path, label: str, log
     return (out or "").strip()
 
 
+# Narrator "announcing the telling" openings — a chapter must begin as a chapter,
+# not with the narrator framing the act of narration itself (found live 2026-07-19:
+# "Let me set down, as faithfully as I can, how my Master opened the matter...",
+# 6 instances in one book alone). Searched only within the chapter's own opening
+# window (first ~200 chars) — this voice is intentionally first-person and warm
+# by design (see REGISTER above), so a broad first-person match would revert
+# legitimate prose; only the specific "I am now going to narrate" framing move
+# is forbidden, and it can land a few words into the opening sentence (e.g. "I
+# held this book back... and I want to tell you why"), not only at position 0.
+_NARRATIVE_OPENING_RE = re.compile(
+    r"\b("
+    r"let me (tell|set down|speak|recount|say)\b"
+    r"|i want to tell you\b"
+    r"|i shall (now )?(tell|recount|set down)\b"
+    r"|before i (tell|set down|begin)\b"
+    r"|allow me to (tell|recount|set down)\b"
+    r")",
+    re.IGNORECASE,
+)
+
+
+def narrative_opening_findings(text: str) -> list[str]:
+    """Flag a chapter that opens by announcing the act of narration instead of
+    starting as a chapter does. Checked only against the chapter's own opening."""
+    opening = text.strip()[:200]
+    if _NARRATIVE_OPENING_RE.search(opening):
+        return [f"narrative-announcement opening: {opening[:120]!r}"]
+    return []
+
+
 def revoice_gates(base_text: str, revoiced: str) -> list[str]:
     """Deterministic fidelity gates. Empty list => the re-voice may be kept."""
     findings: list[str] = []
@@ -88,6 +125,7 @@ def revoice_gates(base_text: str, revoiced: str) -> list[str]:
     if base_words >= 8 and len(revoiced.split()) < 0.6 * base_words:
         findings.append(f"abridged re-voice ({len(revoiced.split())}<{round(0.6 * base_words)} words)")
     findings.extend(teaching_loss_findings(base_text, revoiced))
+    findings.extend(narrative_opening_findings(revoiced))
     if _arabic_run_count(revoiced) < _arabic_run_count(base_text):
         findings.append(f"Arabic runs dropped ({_arabic_run_count(revoiced)}<{_arabic_run_count(base_text)})")
     base_p0 = {f.signature for f in run_doctrinal_checks(base_text) if f.severity == "P0"}

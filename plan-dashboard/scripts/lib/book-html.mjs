@@ -207,6 +207,15 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
   // <!-- editorial:begin -->…<!-- editorial:end -->) into distinctly-styled
   // Contextual-Note / Study-summary asides instead of plain blockquotes.
   const selfStudy = opts.selfStudy === true;
+  // sawH2 (opt-in): seed the "have we already opened a chapter?" state. Whole-book
+  // callers (buildBookHtml) leave it false, so their output is byte-for-byte
+  // unchanged. A caller rendering ONE chapter in isolation (the Book Composer's
+  // read mode) passes true for every chapter after the first, so an unnumbered
+  // later heading renders as an in-flow section heading rather than being
+  // mistaken for the preface. sawH2 is the ONLY state renderMd carries ACROSS a
+  // "## " boundary — every other accumulator (para/quote/list/aside) is flushed
+  // by the heading branch — which is exactly why seeding it is sufficient to make
+  // per-chapter rendering identical to the whole-book render of that chapter.
   const lines = md.replace(/\r\n/g, "\n").split("\n");
   const out = [];
   let para = [];
@@ -214,7 +223,7 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
   let list = [];
   let inHtmlBlock = false;
   let chapterJustOpened = false;
-  let sawH2 = false;
+  let sawH2 = opts.sawH2 === true;
   // Self-study editorial-aside capture state.
   let aside = null; // { kind: 'note' | 'summary', body: string[] }
 

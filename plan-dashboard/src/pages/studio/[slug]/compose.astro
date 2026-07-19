@@ -12,11 +12,15 @@
 import Base from "../../../layouts/Base.astro";
 import { loadComposer } from "../../../lib/reader/composer";
 import { slugToTitle } from "../../../lib/content-paths";
+import GemCompanionPanel from "../../../components/reader/companion/GemCompanionPanel";
 import "../../../styles/library.css";
 import "../../../styles/book-reader.css";
 import "../../../styles/book-styles.css";
 import "../../../styles/editor-fonts.css";
 import "../../../styles/book-composer.css";
+import "../../../styles/compose-print.css";
+import "../../../styles/companion-notes.css";
+import "../../../styles/gem-companion.css";
 
 const slug = Astro.params.slug!;
 const view = await loadComposer(slug);
@@ -30,9 +34,15 @@ const dataJson = view
         title: c.title,
         paras: c.paras,
         citations: c.citations,
+        // The TipTap-safe seed. The rich read-mode HTML is server-rendered into
+        // .cx-body for reading; the editor must be seeded from THIS instead, or
+        // the serializer would write its own losses back into book.md.
+        editHtml: c.editHtml,
       })),
       visuals: view.visuals,
       placements: view.placements,
+      glossary: view.glossary,
+      glossaryAll: view.glossaryAll,
     })
   : "";
 
@@ -99,23 +109,6 @@ const FAMILIES = [
                   ))}
                 </select>
               </div>
-              <div class="cx-mode" role="group" aria-label="Editor">
-                <a
-                  class="cx-mode-btn"
-                  id="cx-companion-tool"
-                  href={`/studio/${slug}/book`}
-                >
-                  Companion Tool
-                </a>
-                <button
-                  type="button"
-                  class="cx-mode-btn is-active"
-                  id="cx-mode-edit"
-                  aria-pressed="true"
-                >
-                  Edit
-                </button>
-              </div>
               <div class="cx-layout-save" id="cx-layout-status" />
             </div>
             {view.chapters.map((ch) => (
@@ -125,8 +118,18 @@ const FAMILIES = [
                 data-key={ch.key}
                 hidden
               >
-                <h2>{ch.title}</h2>
-                <div class="cx-body" set:html={ch.html} />
+                {/* The chapter title comes from the rendered body itself now —
+                    renderMd emits the book's own .chapter-open block (eyebrow,
+                    title, source range, rule), so a separate <h2> here would
+                    print the title twice. */}
+                <div
+                  class:list={[
+                    "cx-body",
+                    "cx-print",
+                    view.citationFamily && `style-${view.citationFamily}`,
+                  ]}
+                  set:html={ch.html}
+                />
               </div>
             ))}
           </section>
@@ -140,9 +143,19 @@ const FAMILIES = [
               <button
                 type="button"
                 class="cx-tab is-active"
-                id="cx-tab-artifacts"
+                id="cx-tab-companion"
                 role="tab"
                 aria-selected="true"
+                aria-controls="cx-panel-companion"
+              >
+                Companion
+              </button>
+              <button
+                type="button"
+                class="cx-tab"
+                id="cx-tab-artifacts"
+                role="tab"
+                aria-selected="false"
                 aria-controls="cx-panel-artifacts"
               >
                 Artifacts
@@ -167,6 +180,25 @@ const FAMILIES = [
               >
                 Refinement
               </button>
+              <button
+                type="button"
+                class="cx-tab"
+                id="cx-tab-details"
+                role="tab"
+                aria-selected="false"
+                aria-controls="cx-panel-details"
+              >
+                Details
+              </button>
+            </div>
+
+            <div
+              class="cx-tabpanel"
+              id="cx-panel-companion"
+              role="tabpanel"
+              aria-labelledby="cx-tab-companion"
+            >
+              <div id="cx-companion-mount" />
             </div>
 
             <div
@@ -174,6 +206,7 @@ const FAMILIES = [
               id="cx-panel-artifacts"
               role="tabpanel"
               aria-labelledby="cx-tab-artifacts"
+              hidden
             >
               <p class="cx-panel-hint" id="cx-artifacts-scope" />
               <button
@@ -316,9 +349,27 @@ const FAMILIES = [
               hidden
             >
               <div class="cx-controls" id="cx-controls" />
+              <div class="cx-ai-tools-mount" id="cx-ai-tools-mount" />
+            </div>
+
+            <div
+              class="cx-tabpanel"
+              id="cx-panel-details"
+              role="tabpanel"
+              aria-labelledby="cx-tab-details"
+              hidden
+            >
+              <div id="cx-details-mount" />
             </div>
           </aside>
         </div>
+
+        <GemCompanionPanel
+          client:load
+          slug={slug}
+          bookTitle={bookTitle}
+          proseSelector=".cx-chapter"
+        />
 
         <script
           type="application/json"

@@ -13,9 +13,10 @@
  */
 import type { APIRoute } from "astro";
 import { readFileSync, writeFileSync, existsSync, copyFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
 import { findContentDirSync } from "../../../lib/content-paths";
 import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
+import { preserveFences } from "../../../lib/reader/book-fences";
 
 export const prerender = false;
 
@@ -29,6 +30,33 @@ function anchorKey(s: string): string {
     .replace(/^\d+\.\s*/, "")
     .trim()
     .toLowerCase();
+}
+
+/**
+ * The compose cache file backing one chapter heading, or null when the heading
+ * carries no chapter number.
+ *
+ * `_book_compose.py` writes `## <bk_index>. <title>` and caches that chapter's
+ * prose at `book/_chunks/book/bk-<NN>.md` (zero-padded to 2). The preface is the
+ * unnumbered heading and caches as `preface.md`. Keep this mapping in step with
+ * `_book_compose.py` — it is the contract that makes a Composer edit durable.
+ */
+function chunkPathFor(
+  bookDir: string,
+  heading: string,
+  isFirstHeading: boolean,
+): string | null {
+  const chunks = join(bookDir, "book", "_chunks", "book");
+  const numbered = heading.match(/^##\s+(\d+)\.\s+/);
+  if (numbered) {
+    const n = Number(numbered[1]);
+    if (!Number.isFinite(n) || n < 0) return null;
+    return join(chunks, `bk-${String(n).padStart(2, "0")}.md`);
+  }
+  // ONLY the first unnumbered heading is the preface. A later unnumbered heading
+  // is an in-flow source heading that owns no chunk — mirroring it into
+  // preface.md would corrupt a different chapter's cache, so return null.
+  return isFirstHeading ? join(chunks, "preface.md") : null;
 }
 
 export const PUT: APIRoute = async ({ request }) => {
@@ -59,8 +87,10 @@ export const PUT: APIRoute = async ({ request }) => {
     // Locate the target chapter's heading and the start of the next chapter.
     let start = -1;
     let end = lines.length;
+    let firstHeading = -1;
     for (let i = 0; i < lines.length; i += 1) {
       if (!/^##\s+/.test(lines[i])) continue;
+      if (firstHeading === -1) firstHeading = i;
       if (start === -1 && anchorKey(lines[i]) === chapterKey) start = i;
       else if (start !== -1) {
         end = i;
@@ -73,12 +103,40 @@ export const PUT: APIRoute = async ({ request }) => {
 
     const head = lines.slice(0, start + 1); // through the heading line
     const tail = lines.slice(end); // from the next heading (or EOF)
-    const rebuilt = [...head, "", markdown, "", ...tail]
+
+    // Keep the pipeline's machine fences (editorial / bridge / study-summary)
+    // alive across this edit. The rich-text round trip cannot carry an HTML
+    // comment, so without this the markers are stripped and the Python phases
+    // silently stop protecting and stop replacing those asides. See
+    // lib/reader/book-fences.ts for the full rationale.
+    const previousBody = lines.slice(start + 1, end).join("\n");
+    const fences = preserveFences(previousBody, markdown);
+
+    const rebuilt = [...head, "", fences.body, "", ...tail]
       .join("\n")
       .replace(/\n{3,}/g, "\n\n");
     writeFileSync(bookMd, rebuilt.endsWith("\n") ? rebuilt : `${rebuilt}\n`);
 
-    return apiOk({ slug, chapterKey, path: bookMd });
+    // Durability: book.md is a DERIVED artifact. 0book-compose reassembles it
+    // from book/_chunks/book/bk-NN.md, reusing any chunk that already exists
+    // (scripts/podcast/_book_compose.py) — so an edit written only to book.md is
+    // reverted the next time that phase runs. Mirroring the saved body into its
+    // chunk makes the edit survive, using the cache the composer already honours
+    // rather than inventing a new sidecar. Best-effort by design: the chunk dir
+    // is a local build cache (gitignored), so a book composed elsewhere simply
+    // has nothing to mirror into and the save still succeeds.
+    const chunk = chunkPathFor(bookDir, lines[start], start === firstHeading);
+    let chunkMirrored = false;
+    if (chunk && existsSync(dirname(chunk))) {
+      try {
+        writeFileSync(chunk, `${fences.body.trim()}\n`);
+        chunkMirrored = true;
+      } catch {
+        chunkMirrored = false; // never fail the save over the cache mirror
+      }
+    }
+
+    return apiOk({ slug, chapterKey, path: bookMd, fences, chunkMirrored });
   } catch (e) {
     return apiServerError(`Save failed: ${String(e)}`);
   }
