@@ -537,18 +537,29 @@ const totalEpisodes = shipped.reduce(
           <h2 class="home-section-h2">{waves.length} waves of improvements</h2>
           <p class="home-section-lede">
             The factory has been rebuilt in structured waves. Each wave left the
-            system more capable than it found it.
+            system more capable than it found it. Expand any row to see what
+            changed.
           </p>
           <div class="wave-history">
-            {waves.map((w: any) => (
-              <div class="wave-row">
-                <span class="wave-badge">{w.id}</span>
-                <div class="wave-content">
-                  <strong>{w.name}</strong>
-                  <p>{w.plain}</p>
+            {waves.map((w: any) =>
+              w.plain ? (
+                <details class="wave-item">
+                  <summary class="wave-summary">
+                    <span class="wave-badge">{w.id}</span>
+                    <span class="wave-name">{w.name}</span>
+                    <span class="wave-chevron" aria-hidden="true" />
+                  </summary>
+                  <div class="wave-body">
+                    <p>{w.plain}</p>
+                  </div>
+                </details>
+              ) : (
+                <div class="wave-item wave-static">
+                  <span class="wave-badge">{w.id}</span>
+                  <span class="wave-name">{w.name}</span>
                 </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </section>
       )

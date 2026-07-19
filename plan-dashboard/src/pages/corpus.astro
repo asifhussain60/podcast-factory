@@ -122,7 +122,7 @@ const typeKeys = Object.keys(byType);
           </div>
         </div>
         <div class="cm-stat">
-          <div class="n">3</div><div class="k">traditions (firewalled)</div>
+          <div class="n">{TRADITIONS.length}</div><div class="k">traditions (firewalled)</div>
         </div>
       </div>
       <div class="cm-stats">
@@ -143,8 +143,8 @@ const typeKeys = Object.keys(byType);
     <section class="cm-section">
       <h2>Source corpora (external_corpora)</h2>
       <p class="sub">
-        Each of the three databases becomes a registered corpus; the wisdom
-        binder pipeline already seeded the 628 doctrine atoms.
+        The three source databases fold into {CORPORA.length} registered corpora;
+        the wisdom binder pipeline already seeded the 628 doctrine atoms.
       </p>
       <div class="cm-grouprow">
         {

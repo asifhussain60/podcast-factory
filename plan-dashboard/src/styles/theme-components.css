@@ -4405,19 +4405,42 @@ table.data tr:hover td {
   border-radius: var(--r-lg);
   overflow: hidden;
 }
-.wave-row {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--sp-5);
-  padding: var(--sp-5);
+/* Wave history — JS-free <details>/<summary> accordion (redesigned 2026-07-18,
+   per skills-staging/ui-designer). Header = badge + name + chevron; the wave's
+   plain-English description reveals on expand. Tokens only. */
+.wave-item {
   background: var(--c-bg-card);
   border-bottom: 1px solid var(--c-rule-soft);
 }
-.wave-row:last-child {
+.wave-item:last-child {
   border-bottom: none;
 }
-.wave-row:nth-child(even) {
+.wave-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  cursor: pointer;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.wave-summary::-webkit-details-marker {
+  display: none;
+}
+.wave-summary:hover {
   background: var(--c-bg-elev);
+}
+.wave-summary:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: -2px;
+}
+/* Title-only waves (no authored description) render as clean static rows —
+   no chevron, not clickable — so nothing expands into an empty body. */
+.wave-static {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
 }
 .wave-badge {
   width: 36px;
@@ -4433,17 +4456,39 @@ table.data tr:hover td {
   flex-shrink: 0;
   border: 2px solid color-mix(in oklab, var(--c-accent) 28%, var(--c-rule));
 }
-.wave-content strong {
+.wave-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 700;
   font-size: var(--fs-base);
   color: var(--c-ink);
-  display: block;
-  margin-bottom: var(--sp-1);
 }
-.wave-content p {
+.wave-chevron {
+  flex-shrink: 0;
+  width: 9px;
+  height: 9px;
+  margin-right: 4px;
+  border-right: 2px solid var(--c-ink-muted);
+  border-bottom: 2px solid var(--c-ink-muted);
+  transform: rotate(45deg);
+  transition: transform 180ms ease;
+}
+.wave-item[open] .wave-chevron {
+  transform: rotate(225deg);
+}
+.wave-body {
+  padding: 0 var(--sp-5) var(--sp-4) calc(var(--sp-5) + 36px + var(--sp-4));
+}
+.wave-body p {
   font-size: var(--fs-base);
   color: var(--c-ink-dim);
   margin: 0;
   line-height: 1.6;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wave-chevron {
+    transition: none;
+  }
 }
 
 /* Responsive */
