@@ -50,6 +50,7 @@ from _book_companion_prompts import (
 )
 from _corpus_retrieval import RetrievalIndex, atom_searchable_text
 from _doctrinal import run_doctrinal_checks
+from _narrator_policy import atom_narrator, disallowed_narrator
 
 # ─── Card vocabulary — MIRROR of companion/registry.ts KIND_DEFS ─────────────
 # Both sides must change in the same commit (the TS<->Python mirror rule). The
@@ -479,8 +480,12 @@ def _load_kb_atoms(kb_root: Path) -> list[dict[str, Any]]:
             continue
         try:
             for raw in path.read_text(encoding="utf-8").splitlines():
-                if raw.strip():
-                    atoms.append(json.loads(raw))
+                if not raw.strip():
+                    continue
+                atom = json.loads(raw)
+                if disallowed_narrator(atom_narrator(atom)):
+                    continue
+                atoms.append(atom)
         except Exception:
             continue
     return atoms

@@ -64,3 +64,15 @@ items:
     status: open
     title: "naming_drift() only catches drift between spellings that both have a glossary entry -- an ad hoc spelling with no entry (the Shari'a case) is invisible to it and needs direct PDF reading"
     noticed: 2026-07-19
+
+  - id: narrator-attribution-policy
+    scope: pipeline
+    status: done
+    title: "CONFIRMED: augmentation excludes quotations attributed to Abu Bakr, Umar, Uthman, Aisha -- Ahl al-Bayt/Imam Ali/Ismail bin Muhammad and their followers remain approved. Verified: 3 Umar-attributed atoms now excluded from the live corpus load (428 -> 425); a doctrinal passage that only MENTIONS these names in prose was verified to survive untouched."
+    noticed: 2026-07-19
+
+  - id: narrator-policy-unwired-paths
+    scope: pipeline
+    status: open
+    title: "The narrator-attribution filter is wired into every book-lane KB loader (_book_augment, _book_companion, and _self_study via reuse) but NOT into intelligence/augmenter.py or augment_book.py -- both read knowledge.db rather than the JSONL corpus and are already unwired from the book lane, so this is dormant risk, not a live gap"
+    noticed: 2026-07-19

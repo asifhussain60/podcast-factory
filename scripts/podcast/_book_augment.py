@@ -31,6 +31,7 @@ from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _corpus_retrieval import RetrievalIndex, UsedLedger, attribute_used
 from _doctrinal import run_doctrinal_checks
+from _narrator_policy import atom_narrator, disallowed_narrator
 
 # ─── Editorial-block contract (the ONLY shape enrichment may take) ──────────
 EDITORIAL_LABEL = "Editorial note (source-grounded)"
@@ -175,7 +176,10 @@ def _load_kb_atoms(limit: int = 40) -> list[dict[str, Any]]:
                 raw = raw.strip()
                 if not raw:
                     continue
-                atoms.append(json.loads(raw))
+                atom = json.loads(raw)
+                if disallowed_narrator(atom_narrator(atom)):
+                    continue
+                atoms.append(atom)
                 taken += 1
         except Exception:
             continue
@@ -198,8 +202,12 @@ def _load_all_kb_atoms() -> list[dict[str, Any]]:
         try:
             for raw in path.read_text(encoding="utf-8").splitlines():
                 raw = raw.strip()
-                if raw:
-                    atoms.append(json.loads(raw))
+                if not raw:
+                    continue
+                atom = json.loads(raw)
+                if disallowed_narrator(atom_narrator(atom)):
+                    continue
+                atoms.append(atom)
         except Exception:
             continue
     return atoms
