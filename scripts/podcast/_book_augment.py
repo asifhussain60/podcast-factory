@@ -27,6 +27,7 @@ import re
 from pathlib import Path
 from typing import Any, Callable
 
+from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _corpus_retrieval import RetrievalIndex, UsedLedger, attribute_used
 from _doctrinal import run_doctrinal_checks
@@ -38,7 +39,12 @@ _BLOCK_CLOSE = "<!-- editorial:end -->"
 _MAX_BLOCK_WORDS = 220
 _MIN_BLOCK_WORDS = 12
 
-_KB_FILES = ("doctrine.jsonl", "hadith.jsonl", "quran.jsonl", "quote.jsonl")
+# ``etymology.jsonl`` carries the root/derivative atoms. Its shape already fits
+# the retrieval contract (``body.text_en`` for prose, ``term`` /
+# ``root_transliteration`` / ``derivatives[].term`` as the high-signal keywords
+# ``_corpus_retrieval._atom_keywords`` already weights), so a companion book can
+# ground a clarified term in a real root instead of the model's own recall.
+_KB_FILES = ("doctrine.jsonl", "hadith.jsonl", "quran.jsonl", "quote.jsonl", "etymology.jsonl")
 _AUGMENT_TIMEOUT = 900
 
 # Per-passage retrieval: each chapter draws only the atoms genuinely related to
@@ -104,8 +110,14 @@ def _wrap_para(text: str, width: int = 96) -> list[str]:
     return out or [""]
 
 
-def gate_editorial_block(text: str) -> tuple[bool, list[str]]:
-    """Deterministic accept/reject for one enrichment block. (accepted, reasons)."""
+def gate_editorial_block(text: str, atoms: list[dict[str, Any]] | None = None) -> tuple[bool, list[str]]:
+    """Deterministic accept/reject for one enrichment block. (accepted, reasons).
+
+    ``atoms`` is the corpus the note was grounded in. When supplied, any Arabic
+    script in the note must be copied from it — an editorial aside is the one place
+    in the edition where the model writes freely, so it is the one place Arabic can
+    enter from memory rather than from a source.
+    """
     reasons: list[str] = []
     body = " ".join((text or "").split())
     words = body.split()
@@ -122,7 +134,22 @@ def gate_editorial_block(text: str) -> tuple[bool, list[str]]:
     # An aside must ADD context, not refuse / meta-comment / re-title.
     if re.search(r"\b(as an ai|i cannot|here is the|editorial note)\b", body, re.I):
         reasons.append("contains meta-commentary or self-reference")
+    # Arabic script must be COPIED from the corpus the note was grounded in.
+    if atoms is not None:
+        corpus_arabic = "\n".join(_atom_arabic(a) for a in atoms)
+        for span in arabic_run_spans(body, min_chars=2):
+            if not arabic_span_is_grounded(span, corpus_arabic):
+                reasons.append(f"Arabic not copied from the corpus: {span[:40]}")
+                break
     return (not reasons), reasons
+
+
+def _atom_arabic(atom: dict[str, Any]) -> str:
+    """Every Arabic string an atom carries — the allowed Arabic for a note built on it."""
+    body = atom.get("body") if isinstance(atom.get("body"), dict) else {}
+    return "\n".join(
+        str(body[k]) for k in ("arabic", "text_ar", "root") if isinstance(body.get(k), str) and body[k].strip()
+    )
 
 
 def _load_kb_atoms(limit: int = 40) -> list[dict[str, Any]]:
@@ -178,12 +205,30 @@ def _load_all_kb_atoms() -> list[dict[str, Any]]:
     return atoms
 
 
+def _atom_label(atom: dict[str, Any]) -> str:
+    """Prefix that tells the model WHAT a corpus line is, when the prose alone hides it.
+
+    An etymology atom's ``text_en`` reads as free prose ("The root means to sell…")
+    with the term itself only in a sibling field, so an unlabeled line cannot be
+    cited accurately. Every other atom type reads as its own citation already and
+    gets no prefix — the corpus stays flat prose except where a label earns itself.
+    """
+    if atom.get("type") != "etymology":
+        return ""
+    body = atom.get("body") if isinstance(atom.get("body"), dict) else {}
+    term = str(body.get("term") or "").strip()
+    root = str(body.get("root_transliteration") or "").strip()
+    if not term:
+        return ""
+    return f"ETYMOLOGY — {term}" + (f" (root {root})" if root else "") + ": "
+
+
 def _augment_prompt(title: str, chapter_text: str, atoms: list[dict[str, Any]]) -> str:
     lines: list[str] = []
     for a in atoms:
         snippet = atom_text(a)
         if len(snippet) >= _ATOM_MIN_CHARS:
-            lines.append(f"- {snippet[:_ATOM_SNIPPET_CHARS]}")
+            lines.append(f"- {_atom_label(a)}{snippet[:_ATOM_SNIPPET_CHARS]}")
     corpus = "\n".join(lines)[:_CORPUS_CHARS]
     return f"""You are adding a short, source-grounded editorial note to a chapter of a faithful
 Islamic reading edition. The note is an ADDITION printed as a clearly-labeled aside — it must never
@@ -194,6 +239,10 @@ Hard rules:
 - One short paragraph (at most ~150 words). No headings, no lists, no preamble.
 - Do not summarize the chapter. Add context (a cross-reference, a clarified term, a connected
   verse/hadith already in the corpus) that helps a modern reader.
+- When a corpus line marked ETYMOLOGY explains a term this chapter actually leans on, prefer it:
+  the root and its derivatives are exactly the kind of clarification a reader cannot supply alone.
+- Any Arabic script you write MUST be copied character-for-character from a corpus line above.
+  Never reconstruct Arabic from memory. If you cannot copy it, write the term in plain English only.
 - If the corpus offers nothing genuinely useful for THIS chapter, output exactly: NONE
 
 RELIABLE SOURCE CORPUS
@@ -321,7 +370,7 @@ def author_phase_book_augment(
             continue
         if not note:
             continue
-        ok, reasons = gate_editorial_block(note)
+        ok, reasons = gate_editorial_block(note, atoms)
         if not ok:
             dropped += 1
             log(f"      augment: dropped block for {title!r} ({'; '.join(reasons[:2])})")

@@ -126,7 +126,7 @@ def test_augment_drops_doctrinally_bad_block(tmp_path: Path, monkeypatch: pytest
         "_load_all_kb_atoms",
         lambda: [{"id": "d:1", "type": "doctrine", "body": {"text_en": "knowledge and patience are grounded here"}}],
     )
-    monkeypatch.setattr(_book_augment, "gate_editorial_block", lambda t: (False, ["doctrinal P0: T3:test"]))
+    monkeypatch.setattr(_book_augment, "gate_editorial_block", lambda *a: (False, ["doctrinal P0: T3:test"]))
     author_phase_book_augment(
         bd,
         log=lambda *a: None,

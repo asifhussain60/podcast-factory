@@ -112,6 +112,58 @@ def arabic_run_spans(text: str, min_chars: int = _ARABIC_RUN_MIN_CHARS) -> list[
     return spans
 
 
+# ─── Grounding: does an Arabic run actually come from the source? ────────────
+# OCR and a faithful re-set of the same verse disagree on exactly the marks that
+# carry no identity: vowel points, the elongation dash, and the alef/ya/ta-marbuta
+# spelling variants a typesetter normalizes. Folding those away leaves the
+# consonantal skeleton — the thing that is either the source's words or is not.
+_ARABIC_TASHKEEL_RE = re.compile(r"[ؐ-ًؚ-ٰٟۖ-ۭـ]")
+_ARABIC_FOLD = str.maketrans(
+    {
+        "آ": "ا",
+        "أ": "ا",
+        "إ": "ا",
+        "ٱ": "ا",  # alef variants
+        "ى": "ي",  # alef maqsura -> ya
+        "ة": "ه",  # ta marbuta -> ha
+        "ؤ": "و",
+        "ئ": "ي",  # hamza carriers
+    }
+)
+_ARABIC_LETTERS_ONLY_RE = re.compile(r"[^ء-ي]")
+# A quotation may be trimmed at either end between source and edition (an OCR line
+# break, an ellipsis, a dropped closing particle). Comparing a bounded window of
+# the skeleton keeps that from reading as fabrication, while staying long enough
+# that two genuinely different sayings cannot collide.
+_GROUNDING_WINDOW_CHARS = 24
+
+
+def normalize_arabic(text: str) -> str:
+    """The consonantal skeleton of an Arabic run — vowels, tatweel, spelling folded away."""
+    stripped = _ARABIC_TASHKEEL_RE.sub("", text or "")
+    return _ARABIC_LETTERS_ONLY_RE.sub("", stripped.translate(_ARABIC_FOLD))
+
+
+def arabic_span_is_grounded(span: str, arabic_src: str, *, window: int = _GROUNDING_WINDOW_CHARS) -> bool:
+    """True when ``span``'s skeleton is found in the source's — i.e. it was COPIED.
+
+    The inverse is the case that matters: an Arabic run in a composed edition whose
+    skeleton appears nowhere in the OCR of the source pages was supplied by the
+    model from memory, and a printed edition must never carry that silently.
+    """
+    if not span or not arabic_src:
+        return False
+    needle = normalize_arabic(span)
+    if not needle:
+        return False
+    haystack = normalize_arabic(arabic_src)
+    if not haystack:
+        return False
+    if len(needle) <= window:
+        return needle in haystack
+    return needle in haystack or needle[:window] in haystack or needle[-window:] in haystack
+
+
 def arabic_coverage_hint(arabic_src: str, limit: int = 24) -> str:
     """The Arabic quotation spans from the OCR, as targeted retry evidence."""
     return "\n".join(f"- {s}" for s in arabic_quote_spans(arabic_src)[:limit])

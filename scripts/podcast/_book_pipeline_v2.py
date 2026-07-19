@@ -76,4 +76,14 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         final_md.write_text(dedupe_seam_paragraphs(final_md.read_text(encoding="utf-8")), encoding="utf-8")
         book_md = final_md
 
+    # 6. Arabic provenance audit over the FINAL edition. The gates upstream count
+    #    Arabic runs; this one asks whether each surviving run is the source's own
+    #    words. Report-only and last, so it judges exactly what will be printed.
+    from _book_arabic_audit import run_arabic_audit
+
+    try:
+        run_arabic_audit(book_dir, log=log)
+    except Exception as e:  # never fail a good compose over its own audit
+        log(f"    arabic-audit: skipped (non-fatal): {e}")
+
     return book_md

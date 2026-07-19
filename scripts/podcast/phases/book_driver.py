@@ -271,6 +271,22 @@ def _drive_book_branch(book_dir: Path) -> int:
         phase_git_commit(book_dir, f"book({slug}): 0book-render — book.pdf (validation failed)")
         return 0
 
+    # Companion cards for the READER — a private per-chapter layer, never part of
+    # book.md and never in the PDF. It runs here, after the edition is final,
+    # because a card's `quote` must be a verbatim passage of the prose the reader
+    # will actually see: regenerating earlier would anchor cards to text the
+    # augment and re-voice passes then rewrite, and the highlight would silently
+    # stop matching. Non-blocking, like every other post-render step.
+    try:
+        from _book_companion import author_phase_book_companion
+
+        _cr = author_phase_book_companion(book_dir, log=_info)
+        _off = [c for c in _cr.get("chapters", []) if not (c["within_target"] and c["within_ceiling"])]
+        if _off:
+            _info(f"0book-companion: {len(_off)} chapter(s) outside the count/balance contract — see report")
+    except Exception as e:
+        _err(f"0book-companion: skipped (non-fatal): {e}")
+
     update_phase(book_dir, phase="0book-render", status="completed", extras={"book_validation": _bv})
     phase_git_commit(book_dir, f"book({slug}): 0book-render — book.pdf")
     return 0
