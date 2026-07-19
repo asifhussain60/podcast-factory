@@ -1,7 +1,7 @@
 {
   "schema": "podcast.book-render-checks/v1",
   "verdict": "RENDER-CAUTION",
-  "pages": 122,
+  "pages": 125,
   "findings": [
     {
       "check": "BR-PAGE-FILL",

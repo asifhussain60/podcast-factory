@@ -1,5 +1,69 @@
 {
-  "schema": "podcast.book-voice/v1",
-  "revoiced": 8,
-  "reverted": 1
+  "schema": "podcast.book-voice/v2",
+  "revoiced": 2,
+  "reverted": 0,
+  "chapters": [
+    {
+      "title": "How to Read a Conversation Made of Doors",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "The Persian Who Was Dead and Revived",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "A Stranger in the City",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "The Boy at the Door \u2014 Limits and Conditions",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "How the World Was Made",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "The World, the Hereafter, and the Speech of Parables",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "Three Layers of Knowledge",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "The Five Shares and the Long Road to the Shaykh",
+      "base_words": 7258,
+      "output_words": 7589,
+      "windows": 3,
+      "windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "warnings": []
+    },
+    {
+      "title": "Homecoming, the Father, and the Debate with Abu Malik",
+      "base_words": 14417,
+      "output_words": 15286,
+      "windows": 6,
+      "windows_kept": 6,
+      "status": "adapted",
+      "gates": [],
+      "warnings": []
+    }
+  ]
 }

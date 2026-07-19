@@ -191,7 +191,7 @@ def test_revoice_gates_pass_when_faithful() -> None:
 def test_voice_reverts_bad_chapter_keeps_good(tmp_path: Path) -> None:
     bd = _book(tmp_path, _BASE)
 
-    def fake_revoicer(title, base_text, book_dir, label, log):
+    def fake_revoicer(title, base_text, book_dir, label, log, previous_tail=""):
         if "Knowledge" in title:
             return base_text + " I say this to you plainly."  # faithful expansion -> kept
         return "short"  # teaching loss -> reverted
@@ -202,6 +202,11 @@ def test_voice_reverts_bad_chapter_keeps_good(tmp_path: Path) -> None:
     assert "The patient are rewarded without measure." in out  # chapter 2 base preserved
     report = json.loads((bd / "_system" / "book-voice-report.json").read_text())
     assert report["revoiced"] == 1 and report["reverted"] == 1
+    # The per-chapter record is what makes a failure diagnosable without forensics.
+    statuses = {c["title"]: c["status"] for c in report["chapters"]}
+    assert statuses["On Knowledge"] == "adapted" and statuses["On Patience"] == "reverted"
+    patience = next(c for c in report["chapters"] if c["title"] == "On Patience")
+    assert any("teaching" in g or "abridged" in g for g in patience["gates"])
 
 
 def test_voice_preserves_editorial_asides(tmp_path: Path) -> None:
@@ -217,6 +222,96 @@ def test_voice_preserves_editorial_asides(tmp_path: Path) -> None:
     )
     out = (bd / "book" / "book.md").read_text(encoding="utf-8")
     assert "<!-- editorial:begin -->" in out  # aside survived the re-voice pass
+
+
+# ─── Long-chapter windowing (regression: 2026-07-19 live failure) ────────────
+# A 7,258-word chapter came back ~150 words under the anti-abridgement gate and
+# reverted whole; its 14,384-word neighbour came back 98.6% identical because the
+# model had degraded into copying. Both are length failures, so long chapters are
+# split and gated per window.
+def _long_book(tmp_path: Path, words_per_chapter: int) -> Path:
+    para = " ".join(["knowledge"] * 100) + "."
+    body = "\n\n".join([para] * (words_per_chapter // 100))
+    return _book(tmp_path, f"# The Book\n\n## 1. On Knowledge\n\n{body}\n")
+
+
+def test_long_chapter_is_split_into_windows(tmp_path: Path) -> None:
+    from _book_voice import _LONG_CHAPTER_WORDS
+
+    bd = _long_book(tmp_path, 8000)
+    labels: list[str] = []
+
+    def fake_revoicer(title, base_text, book_dir, label, log, previous_tail=""):
+        labels.append(label)
+        assert len(base_text.split()) < _LONG_CHAPTER_WORDS  # no window is oversized
+        return base_text + " I say this plainly to you."
+
+    apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer)
+    assert len(labels) > 1 and labels[0].endswith("-part-01")
+    report = json.loads((bd / "_system" / "book-voice-report.json").read_text())
+    chapter = report["chapters"][0]
+    assert chapter["windows"] == len(labels) and chapter["status"] == "adapted"
+
+
+def test_short_chapter_is_not_split(tmp_path: Path) -> None:
+    bd = _book(tmp_path, _BASE)
+    labels: list[str] = []
+
+    def fake_revoicer(title, base_text, book_dir, label, log, previous_tail=""):
+        labels.append(label)
+        return base_text + " I say this plainly to you."
+
+    apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer)
+    assert labels == ["voice-01", "voice-02"]  # no -part- suffix on short chapters
+
+
+def test_one_bad_window_does_not_revert_the_whole_chapter(tmp_path: Path) -> None:
+    bd = _long_book(tmp_path, 8000)
+    seen: list[str] = []
+
+    def fake_revoicer(title, base_text, book_dir, label, log, previous_tail=""):
+        seen.append(label)
+        if len(seen) == 1:
+            return "short"  # first window fails its gate
+        return base_text + " I say this plainly to you."
+
+    apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer)
+    report = json.loads((bd / "_system" / "book-voice-report.json").read_text())
+    chapter = report["chapters"][0]
+    assert chapter["status"] == "partial"
+    assert 0 < chapter["windows_kept"] < chapter["windows"]
+    out = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    assert "I say this plainly to you." in out  # the good windows survived
+
+
+def test_near_identical_output_is_recorded_as_a_warning(tmp_path: Path) -> None:
+    bd = _book(tmp_path, _BASE)
+    apply_author_companion_voice(
+        bd,
+        log=lambda *a: None,
+        revoicer=lambda title, base, *a, **k: base,  # the copy failure, exactly
+    )
+    report = json.loads((bd / "_system" / "book-voice-report.json").read_text())
+    assert all(c["warnings"] for c in report["chapters"])
+    assert "near-identical" in report["chapters"][0]["warnings"][0]
+
+
+def test_only_filter_leaves_other_chapters_byte_identical(tmp_path: Path) -> None:
+    bd = _book(tmp_path, _BASE)
+    before = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    titles: list[str] = []
+
+    def fake_revoicer(title, base_text, book_dir, label, log, previous_tail=""):
+        titles.append(title)
+        return base_text + " I say this plainly to you."
+
+    apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer, only=[2])
+    after = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    assert titles == ["On Patience"]  # chapter 1 never reached the model
+    assert "Seek knowledge from cradle to grave. It benefits the seeker." in after
+    assert before.split("## 2.")[0].strip() == after.split("## 2.")[0].strip()  # chapter 1 untouched
+    report = json.loads((bd / "_system" / "book-voice-report.json").read_text())
+    assert report["chapters"][0]["status"] == "skipped"
 
 
 # ─── Unified driver dispatch ────────────────────────────────────────────────
@@ -287,7 +382,7 @@ def test_fluency_reverts_calqued_drift(tmp_path: Path) -> None:
 
     bd = _book(tmp_path, _BASE)
 
-    def fake_adapter(title, base_text, book_dir, label, log):
+    def fake_adapter(title, base_text, book_dir, label, log, previous_tail=""):
         if "Knowledge" in title:
             return base_text.replace("Seek", "You should seek")  # faithful polish -> kept
         return "x"  # teaching loss -> reverted

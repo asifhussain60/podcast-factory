@@ -1,6 +1,25 @@
-# Continuation prompt — book.md articulation
+# Continuation prompt — book.md articulation  [RESOLVED 2026-07-19]
 
-Paste the block below into a new session, from the repo root.
+**Resolved.** Root cause was chapter LENGTH, not content. Both chapters were
+handed to the model whole; chapter 7 came back ~150 words under the
+anti-abridgement gate and reverted, and chapter 8 (14,384 words) came back 98.6%
+identical because the model had degraded into transcription — a failure no
+fidelity gate can catch, since copying is maximally faithful. Every chapter that
+succeeded was under 3,500 words; both that failed were over 7,000.
+
+Fixed by windowing long chapters in `_book_voice.py` (paragraph-aligned, 2,500-word
+windows over a 4,500-word threshold, gated per window, continuity tail carried
+across seams) — mirroring what `_translation_edition` has always done. Re-ran on
+sections 8 and 9 only via the new `only=` filter: 3/3 and 6/6 windows kept, zero
+reverts. Similarity to base fell 100%→72.6% and 98.6%→62.6%; em-dashes 0→59 and
+0→140. The report is now `podcast.book-voice/v2` with a per-chapter record, so a
+future failure is readable instead of forensic.
+
+**Still open:** chapters 2, 4, and now 7 sit in the 62–73% band — re-voiced but
+lightly. Long sentences are a book-wide trait (2.5–7.2 per thousand words in
+every chapter), not a defect specific to these two.
+
+The original handoff is preserved below for the record.
 
 ---
 

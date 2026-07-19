@@ -113,3 +113,12 @@
 {"phase": "0book-companion", "step": "comp-podcast-EP14-8-homecoming-the-f", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-companion", "step": "comp-corpus-8-homecoming-the-father-", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-companion", "step": "comp-judge-8-homecoming-the-father-", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-voice", "step": "voice-08-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-voice", "step": "voice-08-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-voice", "step": "voice-08-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-voice", "step": "voice-09-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-voice", "step": "voice-09-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-voice", "step": "voice-09-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-voice", "step": "voice-09-part-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-voice", "step": "voice-09-part-05", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-voice", "step": "voice-09-part-06", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
