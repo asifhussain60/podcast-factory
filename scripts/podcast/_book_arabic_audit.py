@@ -116,7 +116,33 @@ def audit_book_arabic(book_md: str, arabic_src: str, kb_arabic: str = "") -> dic
     return {"schema": "book.arabic-audit/v1", "chapters": chapters, "totals": totals}
 
 
-def run_arabic_audit(book_dir: Path, *, log=print) -> dict[str, Any]:
+def stage_counts(book_dir: Path) -> dict[str, int]:
+    """Arabic quotations per chapter in ``book.md`` right now — one compose stage's mark.
+
+    Each upstream gate compares against its own immediate input, so a quotation
+    lost BETWEEN stages is invisible to every one of them. Marking the count after
+    each stage is what makes a loss attributable instead of merely total.
+    """
+    book_md = Path(book_dir) / "book" / "book.md"
+    if not book_md.exists():
+        return {}
+    return {title: len(arabic_run_spans(body)) for title, body in split_chapters(book_md.read_text(encoding="utf-8"))}
+
+
+def stage_losses(stages: dict[str, dict[str, int]]) -> list[dict[str, Any]]:
+    """Where Arabic quotations disappeared: (chapter, stage, before -> after)."""
+    names = list(stages)
+    losses: list[dict[str, Any]] = []
+    for earlier, later in zip(names, names[1:]):
+        before, after = stages[earlier], stages[later]
+        for chapter, count in before.items():
+            now = after.get(chapter, 0)
+            if now < count:
+                losses.append({"chapter": chapter, "stage": later, "before": count, "after": now})
+    return losses
+
+
+def run_arabic_audit(book_dir: Path, *, log=print, stages: dict[str, dict[str, int]] | None = None) -> dict[str, Any]:
     """Audit ``book/book.md`` in place and write ``_system/book-arabic-audit.json``.
 
     Non-fatal by contract: a provenance problem is surfaced for human judgment,
@@ -132,6 +158,9 @@ def run_arabic_audit(book_dir: Path, *, log=print) -> dict[str, Any]:
     report = audit_book_arabic(book_md.read_text(encoding="utf-8"), arabic_src, _kb_arabic_corpus(kb_root))
     if not arabic_src:
         report["note"] = "no OCR ground truth for this book — every run falls back to the knowledge base"
+    if stages:
+        report["stages"] = stages
+        report["stage_losses"] = stage_losses(stages)
     out = book_dir / "_system" / "book-arabic-audit.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -143,6 +172,11 @@ def run_arabic_audit(book_dir: Path, *, log=print) -> dict[str, Any]:
     for ch in report["chapters"]:
         if ch["unverified"]:
             log(f"      ! {ch['chapter']}: {ch['unverified']} unverified of {ch['arabic_runs']}")
+    for loss in report.get("stage_losses", []):
+        log(
+            f"      ! {loss['chapter']}: {loss['before']} -> {loss['after']} Arabic quotations "
+            f"lost at the {loss['stage']} stage"
+        )
     return report
 
 

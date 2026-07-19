@@ -29,7 +29,18 @@ _ARABIC_SCRIPT_RE = re.compile(_ARABIC_CLASS)
 # length filter (below) is what removes short apparatus like variant-reading notes.
 # This one pattern feeds both the source counter and the retry hint, so the count
 # and the named evidence can never diverge.
-_ARABIC_QUOTE_SPAN_RE = re.compile(r"(?:«|\(\(|\(«|﴿)\s*(" + _ARABIC_CLASS + r"[^«»()\[\]﴿﴾]{6,}?)\s*(?:»|\)\)|\)|﴾)")
+#
+# The delimiter set must cover every convention a printed Arabic edition uses, not
+# just the guillemets and Quranic brackets: an edition that fences its quotations
+# with plain double quotes (as the-master-and-the-disciple's scan does — 54 such
+# spans, zero guillemets) otherwise yields a count of ZERO, which silently disables
+# the coverage gate entirely. A gate that cannot see is worse than no gate, because
+# it reads as protection. Straight and curly double quotes are therefore openers and
+# closers too; the Arabic-letter minimum below is what keeps OCR noise out.
+_ARABIC_QUOTE_DELIMS = r'«|\(\(|\(«|﴿|"|“|”'
+_ARABIC_QUOTE_SPAN_RE = re.compile(
+    r"(?:" + _ARABIC_QUOTE_DELIMS + r")\s*(" + _ARABIC_CLASS + r"[^«»()\[\]﴿﴾\"“”]{6,}?)\s*(?:»|\)\)|\)|﴾|\"|“|”)"
+)
 # Minimum Arabic letters for a run/quote to count — filters stray inline terms,
 # variant-reading notes, and OCR speckle from the verse/hadith spans this is about.
 _ARABIC_RUN_MIN_CHARS = 8

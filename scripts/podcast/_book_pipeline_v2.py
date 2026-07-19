@@ -44,6 +44,14 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     from _translation_edition import author_translation_edition_compose
 
     book_md = author_translation_edition_compose(book_dir, log=log, force=force, enforce_contract=False)
+    # Arabic quotations surviving each stage. The upstream gates each compare against
+    # their own immediate input, so a quotation lost between stages is invisible to
+    # all of them — the reader only sees the total at the end and cannot tell WHERE
+    # it went. Stamping the count per chapter after every stage turns "it vanished
+    # somewhere" into a named stage. Pure counting; costs nothing.
+    from _book_arabic_audit import stage_counts
+
+    stages = {"base": stage_counts(book_dir)}
 
     # 2. Fluency de-calque over the FAITHFUL base (Phase 5). author_companion books
     #    get their fluency from the re-voice pass below, so this only runs for the
@@ -58,12 +66,14 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         from _book_augment import author_phase_book_augment
 
         book_md = author_phase_book_augment(book_dir, log=log, force=force)
+        stages["augment"] = stage_counts(book_dir)
 
     # 4. Author-companion re-voice (optional, gated, reverts on drift).
     if voice == BOOK_VOICE_AUTHOR_COMPANION:
         from _book_voice import apply_author_companion_voice
 
         book_md = apply_author_companion_voice(book_dir, log=log, force=force)
+        stages["voice"] = stage_counts(book_dir)
 
     # 5. Final seam de-dup over the fully-transformed book. The de-calque / re-voice
     #    passes above reword each copy of any surviving seam double-render
@@ -81,8 +91,9 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     #    words. Report-only and last, so it judges exactly what will be printed.
     from _book_arabic_audit import run_arabic_audit
 
+    stages["final"] = stage_counts(book_dir)
     try:
-        run_arabic_audit(book_dir, log=log)
+        run_arabic_audit(book_dir, log=log, stages=stages)
     except Exception as e:  # never fail a good compose over its own audit
         log(f"    arabic-audit: skipped (non-fatal): {e}")
 

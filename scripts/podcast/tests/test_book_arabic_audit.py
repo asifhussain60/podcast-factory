@@ -100,5 +100,36 @@ def test_audit_without_ocr_ground_truth_says_so(tmp_path: Path) -> None:
     assert report["totals"][RESOLUTION_UNVERIFIED] == 1
 
 
+def test_stage_losses_name_the_stage_that_dropped_a_quotation() -> None:
+    from _book_arabic_audit import stage_losses
+
+    stages = {
+        "base": {"One": 16, "Two": 7},
+        "augment": {"One": 16, "Two": 7},
+        "voice": {"One": 4, "Two": 7},
+        "final": {"One": 4, "Two": 7},
+    }
+
+    losses = stage_losses(stages)
+
+    assert losses == [{"chapter": "One", "stage": "voice", "before": 16, "after": 4}]
+
+
+def test_no_loss_reports_nothing() -> None:
+    from _book_arabic_audit import stage_losses
+
+    assert stage_losses({"base": {"One": 5}, "final": {"One": 5}}) == []
+
+
+def test_stage_counts_reads_the_book_as_it_stands(tmp_path: Path) -> None:
+    from _book_arabic_audit import stage_counts
+
+    bd = tmp_path / "slug"
+    (bd / "book").mkdir(parents=True)
+    (bd / "book" / "book.md").write_text(f"## One\n\n> {SAME_SAYING_RESET}\n\n## Two\n\nno arabic\n", encoding="utf-8")
+
+    assert stage_counts(bd) == {"One": 1, "Two": 0}
+
+
 def test_missing_book_is_not_an_error(tmp_path: Path) -> None:
     assert run_arabic_audit(tmp_path, log=lambda *a: None) == {}
