@@ -86,4 +86,14 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # never fail a good compose over its own audit
         log(f"    arabic-audit: skipped (non-fatal): {e}")
 
+    # 7. Visual policy. Skipping the generating phases states the intent; this
+    #    measures the artifact, because image markup can also reach book.md from a
+    #    model mid-prose, which no phase toggle would catch.
+    from _book_visual_policy import check_text_only
+
+    try:
+        check_text_only(book_dir, log=log)
+    except Exception as e:
+        log(f"    visual-policy: skipped (non-fatal): {e}")
+
     return book_md

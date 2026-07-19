@@ -39,6 +39,11 @@ BOOK_AUGMENTATION_NONE = "none"
 BOOK_AUGMENTATION_SOURCE_ONLY = "source_only"
 _VALID_AUGMENTATION = frozenset({BOOK_AUGMENTATION_NONE, BOOK_AUGMENTATION_SOURCE_ONLY})
 
+VISUALS_KEY = "book_visuals"
+BOOK_VISUALS_MANUAL_ONLY = "manual_only"
+BOOK_VISUALS_PIPELINE = "pipeline"
+_VALID_VISUALS = frozenset({BOOK_VISUALS_MANUAL_ONLY, BOOK_VISUALS_PIPELINE})
+
 BOOK_VOICE_FAITHFUL = "faithful"
 BOOK_VOICE_AUTHOR_COMPANION = "author_companion"
 _VALID_VOICE = frozenset({BOOK_VOICE_FAITHFUL, BOOK_VOICE_AUTHOR_COMPANION})
@@ -86,10 +91,35 @@ def book_voice(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     return _default_knobs(cfg)[1]
 
 
+def book_visuals(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
+    """``manual_only`` | ``pipeline`` — who may put a figure in the reading edition.
+
+    ``manual_only`` means the pipeline never generates or places a visual: no
+    illustration pass, no slide import, and nothing but the human's curated
+    ``book/visual-layout.json`` (written by the Book Composer) can put a figure on
+    a page. ``pipeline`` is the historical behaviour, where the illustrate and
+    slide-import phases run and produce candidate assets.
+
+    The default follows the augmentation knob: a companion edition
+    (``source_only``) is a text deliverable whose visuals are curated by hand, so
+    it defaults to ``manual_only``; every other book keeps ``pipeline`` so this
+    change cannot silently alter an existing lane. An explicit key wins either way.
+    """
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    explicit = str(cfg.get(VISUALS_KEY) or "").strip().lower()
+    if explicit in _VALID_VISUALS:
+        return explicit
+    if book_augmentation(book_dir, cfg) == BOOK_AUGMENTATION_SOURCE_ONLY:
+        return BOOK_VISUALS_MANUAL_ONLY
+    return BOOK_VISUALS_PIPELINE
+
+
 def book_knobs(book_dir: Path) -> dict[str, Any]:
-    """Convenience bundle: both resolved knobs read in one config load."""
+    """Convenience bundle: every resolved knob read in one config load."""
     cfg = _read_series_config(book_dir)
     return {
         "augmentation": book_augmentation(book_dir, cfg),
         "voice": book_voice(book_dir, cfg),
+        "visuals": book_visuals(book_dir, cfg),
     }
