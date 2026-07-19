@@ -204,7 +204,9 @@ export default function ComposeAiTools({
           disabled={aiBusy || activeSectionOrdinal === null}
           onClick={() => runAi("research")}
         >
-          {aiBusy && aiKind === "research" ? "Researching…" : "Research section"}
+          {aiBusy && aiKind === "research"
+            ? "Researching…"
+            : "Research section"}
         </button>
         <button
           type="button"

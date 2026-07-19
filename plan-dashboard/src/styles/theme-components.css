@@ -544,9 +544,29 @@ hr {
   font-size: var(--fs-h3);
   margin-bottom: var(--sp-2);
 }
+/* Inline code (REQ-014). There was no global `code` rule at all, so inline
+   <code> in prose (e.g. `meta.yml`, `m4a/`) fell back to the browser default:
+   raw monospace, no tint, no radius. Block code inside <pre> is excluded — it
+   carries its own treatment and must not gain a nested chip background. */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.12em 0.36em;
+  border-radius: 4px;
+  background: color-mix(in oklab, var(--c-accent) 8%, transparent);
+  color: var(--c-ink);
+}
+pre code {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  font-size: inherit;
+}
+
 .card-sub {
   color: var(--c-ink-muted);
-  font-size: var(--fs-sm);
+  /* REQ-010 reading floor: card body copy is prose, not chrome. */
+  font-size: var(--fs-base);
 }
 .card.s-green {
   border-left: 3px solid var(--c-green);

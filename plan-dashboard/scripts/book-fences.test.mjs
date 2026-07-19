@@ -64,7 +64,11 @@ test("REGRESSION: markers that survive as bare text are restored to comments", (
     body.includes("lightly edited"),
     "the human's prose edit is preserved",
   );
-  assert.equal(extractSpans(body).length, 1, "exactly one span, not duplicated");
+  assert.equal(
+    extractSpans(body).length,
+    1,
+    "exactly one span, not duplicated",
+  );
 });
 
 test("markers lost entirely are re-wrapped around the surviving prose, in place", () => {
@@ -104,7 +108,9 @@ test("a span deleted outright is re-appended rather than lost", () => {
 });
 
 test("an unbalanced marker is dropped, never written into book.md", () => {
-  const edited = ["Prose.", "", "editorial:begin", "", "More prose."].join("\n");
+  const edited = ["Prose.", "", "editorial:begin", "", "More prose."].join(
+    "\n",
+  );
   const { body, orphansDropped } = preserveFences("Prose.", edited);
 
   assert.equal(orphansDropped, 1, "the dangling begin is dropped");
@@ -121,10 +127,21 @@ test("bridge and study-summary fences get the same protection", () => {
       `> A ${kind} line.`,
       `<!-- ${kind}:end -->`,
     ].join("\n");
-    const edited = ["Prose.", "", `${kind}:begin`, "", `> A ${kind} line.`, "", `${kind}:end`].join("\n");
+    const edited = [
+      "Prose.",
+      "",
+      `${kind}:begin`,
+      "",
+      `> A ${kind} line.`,
+      "",
+      `${kind}:end`,
+    ].join("\n");
 
     const { body } = preserveFences(original, edited);
-    assert.ok(body.includes(`<!-- ${kind}:begin -->`), `${kind} begin restored`);
+    assert.ok(
+      body.includes(`<!-- ${kind}:begin -->`),
+      `${kind} begin restored`,
+    );
     assert.ok(body.includes(`<!-- ${kind}:end -->`), `${kind} end restored`);
   }
 });

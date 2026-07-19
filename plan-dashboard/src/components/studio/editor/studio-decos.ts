@@ -238,7 +238,10 @@ export function createStudioDecos(bag: StudioDecosBag) {
                           let bodyStart = -1;
                           let sec = -1;
                           ed.state.doc.forEach((n, o) => {
-                            if (n.type.name === "heading" && n.attrs.level === 2) {
+                            if (
+                              n.type.name === "heading" &&
+                              n.attrs.level === 2
+                            ) {
                               sec++;
                               if (sec === ord) bodyStart = o + n.nodeSize;
                             }
@@ -270,9 +273,21 @@ export function createStudioDecos(bag: StudioDecosBag) {
                           bar.className =
                             "sp-para-tools sp-para-tools--palette sp-para-tools--ai";
                           const AI_ACTIONS = [
-                            { kind: "rewrite", label: "↺", title: "Rewrite section" },
-                            { kind: "research", label: "🔍", title: "Research context" },
-                            { kind: "autotag", label: "🏷", title: "Auto-tag section" },
+                            {
+                              kind: "rewrite",
+                              label: "↺",
+                              title: "Rewrite section",
+                            },
+                            {
+                              kind: "research",
+                              label: "🔍",
+                              title: "Research context",
+                            },
+                            {
+                              kind: "autotag",
+                              label: "🏷",
+                              title: "Auto-tag section",
+                            },
                           ];
                           for (const action of AI_ACTIONS) {
                             const b = document.createElement("button");
@@ -319,7 +334,10 @@ export function createStudioDecos(bag: StudioDecosBag) {
                         bar.contentEditable = "false";
                         bar.className = "sp-para-tools sp-para-tools--marks";
                         bar.setAttribute("role", "toolbar");
-                        bar.setAttribute("aria-label", "Paragraph action marks");
+                        bar.setAttribute(
+                          "aria-label",
+                          "Paragraph action marks",
+                        );
                         for (const item of t) {
                           const def = ACTION_BY_KIND[item.action_kind];
                           if (!def) continue;
@@ -390,7 +408,11 @@ export function createStudioDecos(bag: StudioDecosBag) {
 
                 // Para-dirty: warm background on blocks the user has edited vs the original.
                 // Only shown in human-edit mode (not prev-stage diff) so it tracks real changes.
-                if (!prevDiff && orig[idx] !== undefined && orig[idx] !== after) {
+                if (
+                  !prevDiff &&
+                  orig[idx] !== undefined &&
+                  orig[idx] !== after
+                ) {
                   decos.push(
                     Decoration.node(offset, offset + node.nodeSize, {
                       class: "para-dirty",
@@ -410,7 +432,8 @@ export function createStudioDecos(bag: StudioDecosBag) {
                   const arabicStart =
                     offset + 1 + pairMatch.index + arabicTextOffset;
                   const arabicEnd = arabicStart + pairMatch[2].length;
-                  const pairEnd = offset + 1 + pairMatch.index + pairMatch[0].length;
+                  const pairEnd =
+                    offset + 1 + pairMatch.index + pairMatch[0].length;
                   pairedRomanRanges.push([romanStart, romanEnd]);
                   pairedArabicRanges.push([arabicStart, arabicEnd]);
 
@@ -456,7 +479,9 @@ export function createStudioDecos(bag: StudioDecosBag) {
                         const to = from + mm[0].length;
                         if (inRef(from)) continue; // verse-ref phrase is already replaced by a chip
                         if (inPairedRoman(from)) continue; // paired terms already reveal their Arabic side
-                        const after = child.text!.slice(mm.index + mm[0].length);
+                        const after = child.text!.slice(
+                          mm.index + mm[0].length,
+                        );
                         if (
                           /^\s*\([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF][^)]*\)/.test(
                             after,
@@ -502,7 +527,9 @@ export function createStudioDecos(bag: StudioDecosBag) {
                     const from = base + am.index;
                     const to = from + am[0].length;
                     if (!arabicRef.current && inPairedArabic(from)) continue;
-                    decos.push(Decoration.inline(from, to, { class: "ar-raw" }));
+                    decos.push(
+                      Decoration.inline(from, to, { class: "ar-raw" }),
+                    );
                   }
                 });
               });

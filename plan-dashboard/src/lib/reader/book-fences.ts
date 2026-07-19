@@ -124,7 +124,8 @@ function restoreMarkers(body: string): {
       continue;
     }
     const partner = open.findIndex((o) => o.kind === mk.kind);
-    if (partner === -1) keep[i] = false; // end with no begin
+    if (partner === -1)
+      keep[i] = false; // end with no begin
     else open.splice(partner, 1);
   }
   for (const o of open) keep[o.idx] = false; // begin with no end

@@ -45,7 +45,6 @@ import {
   scanMarkers,
   truncate,
   type GlossaryEntry,
-  type SaveDepthFn,
 } from "./studio-editor-constants";
 import { MarkerHighlight } from "./marker-highlight";
 import { createStudioDecos } from "./studio-decos";

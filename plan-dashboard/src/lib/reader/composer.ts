@@ -172,7 +172,9 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
   const crosswalkByIndex = new Map(
     crosswalk.map((item) => [Number(item.index), item]),
   );
-  const citationFamily = String(readCitationFamily(join(ref.dir, "book")) ?? "");
+  const citationFamily = String(
+    readCitationFamily(join(ref.dir, "book")) ?? "",
+  );
 
   // Split into chapters on "## " headings.
   const chapters: ComposerChapter[] = [];

@@ -46,7 +46,9 @@
 .hiw-figure figcaption {
   margin-top: var(--sp-4);
   color: var(--c-ink-muted);
-  font-size: var(--fs-base); /* REQ-010 reading floor — was --fs-sm (below 1.2rem) */
+  font-size: var(
+    --fs-base
+  ); /* REQ-010 reading floor — was --fs-sm (below 1.2rem) */
   text-align: center;
 }
 /* Wide diagrams scroll horizontally inside their own container on narrow
@@ -192,7 +194,9 @@
 .hiw-step-body p {
   margin: 0;
   color: var(--c-ink-dim);
-  font-size: var(--fs-base); /* REQ-010 reading floor — was --fs-sm (below 1.2rem) */
+  font-size: var(
+    --fs-base
+  ); /* REQ-010 reading floor — was --fs-sm (below 1.2rem) */
   line-height: 1.55;
   max-width: 64ch;
 }
@@ -275,7 +279,11 @@
   font-weight: 700;
   /* Darken the accent toward ink so the small kicker clears WCAG AA on
      --c-bg-card (raw --c-gold at 13px failed); hue identity preserved. */
-  color: color-mix(in oklab, var(--prov-accent, var(--c-accent)) 60%, var(--c-ink));
+  color: color-mix(
+    in oklab,
+    var(--prov-accent, var(--c-accent)) 60%,
+    var(--c-ink)
+  );
   margin-bottom: var(--sp-3);
 }
 .hiw-svc {

@@ -14,7 +14,10 @@ import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import type { Editor } from "@tiptap/core";
 
 import { ACTION_REGISTRY } from "../editor/studio-editor-constants";
-import { openDepthPicker, openTagPicker } from "../editor/studio-editor-pickers";
+import {
+  openDepthPicker,
+  openTagPicker,
+} from "../editor/studio-editor-pickers";
 import { useAnnotations } from "../editor/useAnnotations";
 import { useSectionDepth } from "../editor/useSectionDepth";
 import type { ComposeEditorBridge } from "../../../scripts/compose-editor-bridge";
@@ -120,7 +123,9 @@ export default function ComposeDetailsTab({
   });
 
   const activeComment =
-    activeParaIdx !== null ? (commentsRef.current.get(activeParaIdx) ?? "") : "";
+    activeParaIdx !== null
+      ? (commentsRef.current.get(activeParaIdx) ?? "")
+      : "";
 
   const sectionTitles = useCallback((): string[] => {
     const titles: string[] = [];

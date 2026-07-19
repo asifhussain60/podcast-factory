@@ -12,14 +12,8 @@ import Base from "../layouts/Base.astro";
 import { buildStudioShelves } from "../lib/reader/studio-shelves";
 import "../styles/studio-pipeline.css";
 
-const {
-  cards,
-  shelves,
-  STATUS_FILTERS,
-  statusCount,
-  defaultOn,
-  visibleInShelf,
-} = await buildStudioShelves();
+const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
+  await buildStudioShelves();
 ---
 
 <Base
@@ -235,7 +229,10 @@ const {
                                 : "PDF not yet generated"
                             }
                           >
-                            <i class="fa-solid fa-file-pdf" aria-hidden="true" />
+                            <i
+                              class="fa-solid fa-file-pdf"
+                              aria-hidden="true"
+                            />
                           </span>
                           <span
                             class={`card-gen-pill${it.card.podcastGenerated ? " is-generated" : ""}`}
@@ -250,7 +247,10 @@ const {
                                 : "Podcast not yet generated"
                             }
                           >
-                            <i class="fa-solid fa-headphones" aria-hidden="true" />
+                            <i
+                              class="fa-solid fa-headphones"
+                              aria-hidden="true"
+                            />
                           </span>
                           <span
                             class={`card-gen-pill${it.card.augmented ? " is-generated" : ""}`}
@@ -265,7 +265,10 @@ const {
                                 : "Not yet augmented"
                             }
                           >
-                            <i class="fa-solid fa-sparkles" aria-hidden="true" />
+                            <i
+                              class="fa-solid fa-sparkles"
+                              aria-hidden="true"
+                            />
                           </span>
                           {it.card.episodeCount > 0 && (
                             <span class="card-episode-count">

@@ -28,7 +28,7 @@
 .cpn--floating {
   right: 1rem;
   border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 10px 40px rgba(31, 29, 24, 0.28);
 }
 
 /* Docked = lives in normal document flow inside its parent panel (the Book
@@ -60,13 +60,13 @@
   gap: 0.5rem;
   padding: 0.6rem 0.95rem;
   background: var(--c-accent);
-  color: #fff;
+  color: var(--c-bg-elev);
   border: none;
   border-radius: 999px;
   font-size: 0.95rem;
   font-family: var(--font-ui, system-ui, sans-serif);
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 20px rgba(31, 29, 24, 0.25);
 }
 
 /* ── Header ──────────────────────────────────────────────── */
@@ -136,7 +136,7 @@
 }
 .cpn-btn--primary {
   background: var(--c-accent);
-  color: #fff;
+  color: var(--c-bg-elev);
   border-color: var(--c-accent);
 }
 .cpn-btn--primary:disabled {
@@ -278,9 +278,10 @@
   letter-spacing: -0.01em;
 }
 .cpn-quote-mark {
-  display: flex;
-  align-items: baseline;
-  gap: 0.35rem;
+  /* block, not flex: as a flex container the bare text node became an anonymous
+     flex item and text-overflow:ellipsis never applied, so the quote was cut
+     mid-glyph. The leading <i> is inline, so normal inline flow is correct. */
+  display: block;
   margin: 0 0 0.45rem;
   padding: 0.2rem 0.4rem;
   border-radius: 5px;

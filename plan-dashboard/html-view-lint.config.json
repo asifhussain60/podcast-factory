@@ -1,29 +1,24 @@
 {
   "_doc": "Config for scripts/lint-html-views.mjs (WC7c). Paths are relative to plan-dashboard/. Rule text: docs/standards/html-view-quality.md; digest: docs/standards/html-view-quality-digest.md.",
-  "blocking_paths": [
-    "src/pages/",
-    "src/layouts/"
-  ],
+  "blocking_paths": ["src/pages/", "src/layouts/"],
   "blocking_exclude_subpaths": [
     "src/pages/book-review/",
     "src/pages/library/",
     "src/pages/wisdom/"
   ],
-  "warn_paths": [
-    "src/components/"
-  ],
+  "warn_paths": ["src/components/"],
   "exclude_paths": [
     "src/components/reader/",
     "src/components/studio/editor/",
     "src/components/ui/"
   ],
-  "css_paths": [
-    "src/styles/"
-  ],
+  "css_paths": ["src/styles/"],
   "allow": {},
   "_notes": {
     "src/layouts/NarrativeBase.astro": "Skip-link present (the earlier 'missing skip-link' note was stale; corrected 2026-06-11). Its 2-line scoped <style> is accepted (under style_block_max_lines).",
     "src/components/PipelineOverviewRail.tsx": "Former INLINE-STYLE allow-entry removed 2026-06-11: static styles moved to pipeline-overview-rail.css, kind colours via k-<kind> classes, zoom/width via --por-zoom/--por-w custom properties.",
+    "REQ-010 exception — .cx-body / .cx-print (2026-07-19)": "The Book Composer's read surface (book-composer.css .cx-body, 1.02rem / max-width 60ch) sits BELOW the 1.2rem reading floor and inside REQ-003's measure, deliberately. Its entire contract is that what you see is what prints: the markup is renderMd() output (the PDF's own renderer) and compose-print.css mirrors book-print.css rule-for-rule. Raising the size or dropping the measure would reintroduce exactly the screen-vs-print divergence that layer was built to end, so REQ-009 (one view, one purpose) is what legitimises the exception. Scope: .cx-body/.cx-print and p.tr WITHIN the print surface only — chrome text outside it (.composer-sub, .cx-panel-hint) was raised to var(--fs-base) 2026-07-19 and has no such defence.",
+    "REQ-013 exception — Studio <h1> gradient (2026-07-19)": "REQ-013's gradient heading treatment is NOT applied to .lib-title-row h1. It conflicts with the locked visual direction in skills-staging/ui-designer/SKILL.md (editorial-modern, colour as accent not fill; 'avoid garish gradients' per the reader-aesthetic lock), and the ui-designer skill is the declared ceiling on look while Cortex is the floor on mechanics. Applying it would also be a cross-site visual redesign, which the per-view rule says is discussed with Asif one page at a time. Revisit only if the design lock changes.",
     "style_block_policy": "Astro scoped <style> compiles to scoped external CSS and is DoD-compliant (Asif 2026-05-29). Only blocks > style_block_max_lines are flagged as oversized page-stylesheets that belong in src/styles/.",
     "scope": "Blocking gate covers the 12 top-level architecture view pages + shared layouts (confirmed green 2026-05-29). Non-view subpages (book-review/library/wisdom) and interactive app surfaces (reader/, studio/editor/ \u2014 the former reader/poc/, moved R1 2026-07-18 \u2014 and ui/) are WARN or excluded by design."
   },
