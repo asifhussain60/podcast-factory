@@ -330,7 +330,12 @@ def author_translation_edition_compose(
     toc = json.loads(toc_path.read_text(encoding="utf-8"))
     lines = refined_path.read_text(encoding="utf-8").split("\n")
     chunks_dir = book_dir / "book" / "_chunks" / "translation"
-    chapters_dir = book_dir / "chapters"
+    # Scoped under book/, alongside _chunks — NEVER the top-level chapters/ dir,
+    # which is the podcast lane's own namespace (one ch<NN><letter>-<slug>.txt per
+    # episode). The ship gate globs that folder expecting every match to pair with
+    # an episode; a book-lane sidecar sharing the glob shape blocks publish. Found
+    # live 2026-07-19 — see _workspace/plan/pending-work.yaml for the incident.
+    chapters_dir = book_dir / "book" / "_chapters"
     chunks_dir.mkdir(parents=True, exist_ok=True)
     chapters_dir.mkdir(parents=True, exist_ok=True)
     arabic_pages = _load_arabic_pages(book_dir)

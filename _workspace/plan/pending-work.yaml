@@ -76,3 +76,15 @@ items:
     status: open
     title: "The narrator-attribution filter is wired into every book-lane KB loader (_book_augment, _book_companion, and _self_study via reuse) but NOT into intelligence/augmenter.py or augment_book.py -- both read knowledge.db rather than the JSONL corpus and are already unwired from the book lane, so this is dormant risk, not a live gap"
     noticed: 2026-07-19
+
+  - id: book-chapters-shared-folder-collision
+    scope: the-master-and-the-disciple
+    status: done
+    title: "RESOLVED: publish was blocked -- _translation_edition.py wrote per-chapter .txt sidecars (ch01-<slug>.txt) into the SAME top-level chapters/ dir the podcast lane uses (ch01a-<slug>.txt, one per episode); the ship gate's ch*.txt glob read the book-lane files as chapters missing an episode. Root-caused (predates this session -- clean gate run on 2026-06-11, broke once book-pipeline-v2 started writing there) and fixed at the source: sidecars now write to book/_chapters/, alongside book/_chunks and book/_diagrams. This book's 8 existing files relocated via git mv; a regression test locks the new path. Ship gates G1-G4 now pass clean; book published live (status=published) with G5 (a state-bookkeeping check unrelated to content, unrecognized book-lane phase values) explicitly bypassed via its own documented --force flag, confirmed and authorized before running."
+    noticed: 2026-07-19
+
+  - id: book-chapters-collision-other-books
+    scope: pipeline
+    status: open
+    title: "The same chapters/ collision exists in 8 other content items (checked all buckets): healthequity, ayyuhal-walad, kitab-al-riyad, kunooz-al-hikmah, mukhtasar-ul-asar-1, mukhtasar-ul-asar-2, claude-code-training, plus the-master-and-the-disciple (now fixed). The CODE fix (book/_chapters/) prevents this on any future compose, but these 8 already have stray bare-numbered files sitting in their shared chapters/ dir today -- unverified whether any of them would actually hit the ship gate (depends on whether each one also has a live podcast episode lane). Not touched -- out of scope for today's single-book publish."
+    noticed: 2026-07-19
