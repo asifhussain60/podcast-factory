@@ -1,6 +1,6 @@
 ---
 name: podcast-librarian
-description: Knowledge-extraction and dedup agent for phase 0h-knowledge-extract. Reads enriched chapters from a book at the end of phase 08-enrichment, extracts atoms (Wave 1 = Quran verses + hadith only), and merges them into the canonical knowledge library at content/knowledge-base/. Flags conflicts for human review. Companion to scripts/podcast/intelligence/{extractor,librarian,augmenter}.py (the DB-backed Wave B modules; the legacy JSONL scripts knowledge/extractor.py + knowledge/librarian.py were deleted 2026-06-10 and knowledge/augmenter.py 2026-07-18 — never wired as a fallback). Wave 2 will add quotes + definitions (embedding-driven dedup); Wave 3 will add etymology (tree-shaped atoms). Spec at _workspace/plan/intelligence-pipeline-wave1-spec.md. Visual overview at _workspace/plan/view/intelligence-pipeline.html.
+description: Knowledge-extraction and dedup agent for phase 0h-knowledge-extract. Reads enriched chapters from a book at the end of phase 08-enrichment, extracts atoms (Wave 1 = Quran verses + hadith only), and merges them into the canonical knowledge library at content/knowledge-base/. Flags conflicts for human review. Companion to scripts/podcast/intelligence/{extractor,librarian,augmenter}.py (the DB-backed Wave B modules; the legacy JSONL scripts knowledge/extractor.py + knowledge/librarian.py were deleted 2026-06-10; knowledge/augmenter.py was deleted 2026-07-18 — the DB-backed intelligence/augmenter.py is the only augment path). Wave 2 will add quotes + definitions (embedding-driven dedup); Wave 3 will add etymology (tree-shaped atoms). Spec at _workspace/plan/intelligence-pipeline-wave1-spec.md. Visual overview at _workspace/plan/view/intelligence-pipeline.html.
 tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
 ---
@@ -43,7 +43,7 @@ chapters, produce structured atoms, dedup against the canonical library, and rep
   scripts — `knowledge/extractor.py` + `knowledge/librarian.py` deleted 2026-06-10):
   - `scripts/podcast/intelligence/extractor.py`
   - `scripts/podcast/intelligence/librarian.py`
-  - `scripts/podcast/intelligence/augmenter.py` (the only augment path — the legacy JSONL `knowledge/augmenter.py` was deleted 2026-07-18)
+  - `scripts/podcast/intelligence/augmenter.py` (the JSONL fallback `knowledge/augmenter.py` was deleted 2026-07-18)
   - `scripts/podcast/knowledge/_atom_schemas.py`
 - **Rules**: `R_KNOWLEDGE_*` constants in `scripts/podcast/_rules.py`
 - **Canonical library**: `content/knowledge-base/{quran,hadith}.jsonl`
