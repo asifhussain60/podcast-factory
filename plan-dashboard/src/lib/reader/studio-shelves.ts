@@ -70,6 +70,11 @@ const SHELF_META: Record<
     label: "Guides & References",
     desc: "Practical guides, explainers, and reference materials",
   },
+  Supplications: {
+    icon: "fa-hands-praying",
+    label: "Supplications",
+    desc: "Du'a, ziyarat, and munajat as facing-column reading editions",
+  },
 };
 
 export async function buildStudioShelves() {

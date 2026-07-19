@@ -81,7 +81,14 @@ class TestResolveContentProfile(unittest.TestCase):
         # CONTENT_PROFILES is now derived from CONTENT_TYPE_REGISTRY; technical +
         # fiction are first-class (was a hand-maintained 3-tuple before 2026-06-04).
         self.assertEqual(tuple(CONTENT_TYPE_REGISTRY), CONTENT_PROFILES)
-        for expected in ("islamic_scholarly", "technical", "fiction", "consumer_explainer", "general_nonfiction"):
+        for expected in (
+            "islamic_scholarly",
+            "technical",
+            "fiction",
+            "consumer_explainer",
+            "general_nonfiction",
+            "islamic_supplication",
+        ):
             self.assertIn(expected, CONTENT_PROFILES)
 
     def test_reads_technical_profile(self):
@@ -108,6 +115,7 @@ class TestContentTypeRegistry(unittest.TestCase):
         self.assertEqual(bucket_for_profile("fiction"), "Fiction")
         self.assertEqual(bucket_for_profile("consumer_explainer"), "Guides")
         self.assertEqual(bucket_for_profile("general_nonfiction"), "Guides")
+        self.assertEqual(bucket_for_profile("islamic_supplication"), "Supplications")
 
     def test_unknown_or_none_profile_defaults_to_islamic_bucket(self):
         self.assertEqual(bucket_for_profile(None), "Islamic")

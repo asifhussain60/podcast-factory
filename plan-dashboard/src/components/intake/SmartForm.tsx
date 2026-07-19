@@ -72,6 +72,7 @@ const PROFILE_TO_BUCKET: Record<string, string> = {
   fiction: "Fiction",
   consumer_explainer: "Guides",
   general_nonfiction: "Guides",
+  islamic_supplication: "Supplications",
 };
 
 export default function SmartForm({ proposed, onChange }: Props) {

@@ -1,0 +1,286 @@
+{
+  "slug": "fixture-arabic-supplication",
+  "source_language": "ar",
+  "title_en": "A Supplication of Vigil and Remembrance",
+  "title_src": "مُنَاجَاةُ التَّهَجُّدِ وَالذِّكْر",
+  "meta": {
+    "type": "Munajat (whispered prayer)",
+    "attributed_to": "Layout fixture — not an attributed text",
+    "occasion": "The last third of the night",
+    "purpose": "Proving facing-column row alignment on real OCR bytes",
+    "place": "n/a — fixture"
+  },
+  "preamble_en": "This file is a LAYOUT FIXTURE for the supplication print lane. Its Arabic lines are verbatim Azure Doc-Intelligence OCR output from a real vocalised Arabic scan, so the renderer is exercised against genuine tashkeel-bearing bytes rather than hand-typed text.\n\nIt deliberately mixes very short units against long ones so that the row-height guarantee, the vertical rule, and per-row break-inside avoidance are all visible in the rendered PDF. It is not a devotional text and must never be published as one.",
+  "units": [
+    {
+      "n": 1,
+      "source": "وَ مِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ نَافِلَةً لَكَ",
+      "english": "And in part of the night, keep vigil with it as a work of supererogation for you.",
+      "refrain": false
+    },
+    {
+      "n": 2,
+      "source": "فَاِنَّ الْجَنَّةَ هِيَ الْمَأْوَى",
+      "english": "Then surely the Garden — that is the abode.",
+      "refrain": false
+    },
+    {
+      "n": 3,
+      "source": "أَكْرَمَكُمْ عِنْدَ اللهِ أَتْقِيَكُمْ",
+      "english": "The noblest of you in the sight of God is the most God-fearing of you.",
+      "refrain": false
+    },
+    {
+      "n": 4,
+      "source": "آَوَ لَمْ يَسِيرُوا فِيِ اْلاَرْضِ فَيَنْظُرُوا",
+      "english": "Have they not journeyed through the earth and looked?",
+      "refrain": false
+    },
+    {
+      "n": 5,
+      "source": "فَاَعْرِضْ عَنْ مَنْ تَوَلَّى",
+      "english": "So turn away from whoever turns his back.",
+      "refrain": false
+    },
+    {
+      "n": 6,
+      "source": "إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلاً",
+      "english": "Truly those who believe and do righteous deeds — for them the Gardens of Paradise shall be a welcome, a lodging prepared for them, in which they shall abide and never seek to be removed.",
+      "refrain": false
+    },
+    {
+      "n": 7,
+      "source": "وَ لاَ يُظْلَمُونَ شَيْئًا",
+      "english": "And they shall not be wronged in the least.",
+      "refrain": false
+    },
+    {
+      "n": 8,
+      "source": "سَأُرِيكُمْ ذِكْرًا",
+      "english": "I shall show you a remembrance of it.",
+      "refrain": false
+    },
+    {
+      "n": 9,
+      "source": "يَا اَرْحَمَ الرَّاحِمِينَ",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    },
+    {
+      "n": 10,
+      "source": "وَ مِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ نَافِلَةً لَكَ",
+      "english": "And in part of the night, keep vigil with it as a work of supererogation for you.",
+      "refrain": false
+    },
+    {
+      "n": 11,
+      "source": "فَاِنَّ الْجَنَّةَ هِيَ الْمَأْوَى",
+      "english": "Then surely the Garden — that is the abode.",
+      "refrain": false
+    },
+    {
+      "n": 12,
+      "source": "أَكْرَمَكُمْ عِنْدَ اللهِ أَتْقِيَكُمْ",
+      "english": "The noblest of you in the sight of God is the most God-fearing of you.",
+      "refrain": false
+    },
+    {
+      "n": 13,
+      "source": "آَوَ لَمْ يَسِيرُوا فِيِ اْلاَرْضِ فَيَنْظُرُوا",
+      "english": "Have they not journeyed through the earth and looked?",
+      "refrain": false
+    },
+    {
+      "n": 14,
+      "source": "فَاَعْرِضْ عَنْ مَنْ تَوَلَّى",
+      "english": "So turn away from whoever turns his back.",
+      "refrain": false
+    },
+    {
+      "n": 15,
+      "source": "إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلاً",
+      "english": "Truly those who believe and do righteous deeds — for them the Gardens of Paradise shall be a welcome, a lodging prepared for them, in which they shall abide and never seek to be removed.",
+      "refrain": false
+    },
+    {
+      "n": 16,
+      "source": "وَ لاَ يُظْلَمُونَ شَيْئًا",
+      "english": "And they shall not be wronged in the least.",
+      "refrain": false
+    },
+    {
+      "n": 17,
+      "source": "سَأُرِيكُمْ ذِكْرًا",
+      "english": "I shall show you a remembrance of it.",
+      "refrain": false
+    },
+    {
+      "n": 18,
+      "source": "يَا اَرْحَمَ الرَّاحِمِينَ",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    },
+    {
+      "n": 19,
+      "source": "وَ مِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ نَافِلَةً لَكَ",
+      "english": "And in part of the night, keep vigil with it as a work of supererogation for you.",
+      "refrain": false
+    },
+    {
+      "n": 20,
+      "source": "فَاِنَّ الْجَنَّةَ هِيَ الْمَأْوَى",
+      "english": "Then surely the Garden — that is the abode.",
+      "refrain": false
+    },
+    {
+      "n": 21,
+      "source": "أَكْرَمَكُمْ عِنْدَ اللهِ أَتْقِيَكُمْ",
+      "english": "The noblest of you in the sight of God is the most God-fearing of you.",
+      "refrain": false
+    },
+    {
+      "n": 22,
+      "source": "آَوَ لَمْ يَسِيرُوا فِيِ اْلاَرْضِ فَيَنْظُرُوا",
+      "english": "Have they not journeyed through the earth and looked?",
+      "refrain": false
+    },
+    {
+      "n": 23,
+      "source": "فَاَعْرِضْ عَنْ مَنْ تَوَلَّى",
+      "english": "So turn away from whoever turns his back.",
+      "refrain": false
+    },
+    {
+      "n": 24,
+      "source": "إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلاً",
+      "english": "Truly those who believe and do righteous deeds — for them the Gardens of Paradise shall be a welcome, a lodging prepared for them, in which they shall abide and never seek to be removed.",
+      "refrain": false
+    },
+    {
+      "n": 25,
+      "source": "وَ لاَ يُظْلَمُونَ شَيْئًا",
+      "english": "And they shall not be wronged in the least.",
+      "refrain": false
+    },
+    {
+      "n": 26,
+      "source": "سَأُرِيكُمْ ذِكْرًا",
+      "english": "I shall show you a remembrance of it.",
+      "refrain": false
+    },
+    {
+      "n": 27,
+      "source": "يَا اَرْحَمَ الرَّاحِمِينَ",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    },
+    {
+      "n": 28,
+      "source": "وَ مِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ نَافِلَةً لَكَ",
+      "english": "And in part of the night, keep vigil with it as a work of supererogation for you.",
+      "refrain": false
+    },
+    {
+      "n": 29,
+      "source": "فَاِنَّ الْجَنَّةَ هِيَ الْمَأْوَى",
+      "english": "Then surely the Garden — that is the abode.",
+      "refrain": false
+    },
+    {
+      "n": 30,
+      "source": "أَكْرَمَكُمْ عِنْدَ اللهِ أَتْقِيَكُمْ",
+      "english": "The noblest of you in the sight of God is the most God-fearing of you.",
+      "refrain": false
+    },
+    {
+      "n": 31,
+      "source": "آَوَ لَمْ يَسِيرُوا فِيِ اْلاَرْضِ فَيَنْظُرُوا",
+      "english": "Have they not journeyed through the earth and looked?",
+      "refrain": false
+    },
+    {
+      "n": 32,
+      "source": "فَاَعْرِضْ عَنْ مَنْ تَوَلَّى",
+      "english": "So turn away from whoever turns his back.",
+      "refrain": false
+    },
+    {
+      "n": 33,
+      "source": "إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلاً",
+      "english": "Truly those who believe and do righteous deeds — for them the Gardens of Paradise shall be a welcome, a lodging prepared for them, in which they shall abide and never seek to be removed.",
+      "refrain": false
+    },
+    {
+      "n": 34,
+      "source": "وَ لاَ يُظْلَمُونَ شَيْئًا",
+      "english": "And they shall not be wronged in the least.",
+      "refrain": false
+    },
+    {
+      "n": 35,
+      "source": "سَأُرِيكُمْ ذِكْرًا",
+      "english": "I shall show you a remembrance of it.",
+      "refrain": false
+    },
+    {
+      "n": 36,
+      "source": "يَا اَرْحَمَ الرَّاحِمِينَ",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    },
+    {
+      "n": 37,
+      "source": "وَ مِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ نَافِلَةً لَكَ",
+      "english": "And in part of the night, keep vigil with it as a work of supererogation for you.",
+      "refrain": false
+    },
+    {
+      "n": 38,
+      "source": "فَاِنَّ الْجَنَّةَ هِيَ الْمَأْوَى",
+      "english": "Then surely the Garden — that is the abode.",
+      "refrain": false
+    },
+    {
+      "n": 39,
+      "source": "أَكْرَمَكُمْ عِنْدَ اللهِ أَتْقِيَكُمْ",
+      "english": "The noblest of you in the sight of God is the most God-fearing of you.",
+      "refrain": false
+    },
+    {
+      "n": 40,
+      "source": "آَوَ لَمْ يَسِيرُوا فِيِ اْلاَرْضِ فَيَنْظُرُوا",
+      "english": "Have they not journeyed through the earth and looked?",
+      "refrain": false
+    },
+    {
+      "n": 41,
+      "source": "فَاَعْرِضْ عَنْ مَنْ تَوَلَّى",
+      "english": "So turn away from whoever turns his back.",
+      "refrain": false
+    },
+    {
+      "n": 42,
+      "source": "إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلاً",
+      "english": "Truly those who believe and do righteous deeds — for them the Gardens of Paradise shall be a welcome, a lodging prepared for them, in which they shall abide and never seek to be removed.",
+      "refrain": false
+    },
+    {
+      "n": 43,
+      "source": "وَ لاَ يُظْلَمُونَ شَيْئًا",
+      "english": "And they shall not be wronged in the least.",
+      "refrain": false
+    },
+    {
+      "n": 44,
+      "source": "سَأُرِيكُمْ ذِكْرًا",
+      "english": "I shall show you a remembrance of it.",
+      "refrain": false
+    },
+    {
+      "n": 45,
+      "source": "يَا اَرْحَمَ الرَّاحِمِينَ",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    }
+  ]
+}

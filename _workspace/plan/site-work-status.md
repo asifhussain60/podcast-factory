@@ -6,6 +6,29 @@
 -->
 # Current work - status
 
+**Last updated:** 2026-07-19 8:20 AM EST (Supplications lane — PDF-only sibling)
+
+**Newest — the Supplications category shipped as a standalone PDF-only lane.**
+A fourth content bucket (`Supplications`) plus profile `islamic_supplication`
+now produce a facing-column reading PDF (English left, Arabic/Urdu right) with
+no episodes, audio, slides, or video. Built as a SIBLING of the podcast
+pipeline, not a branch inside it: the ship gate hard-requires paired
+`episodes/`, so the lane has its own driver (`scripts/podcast/supplication/`),
+its own state file (`_system/supplication-state.json`), its own gates, its own
+renderer (`render-supplication-pdf.mjs`), and its own stylesheet
+(`supplication-print.css`). Every firewall file — orchestrator, `_progress`,
+episode/ship gates, translation-edition composer, `book-print.css`,
+`render-book-pdf.mjs`, `_augment_registry` — is byte-untouched, and an existing
+Islamic book's PDF re-renders byte-identically (modulo PDF timestamps).
+Site-side: four TS mirrors updated in one commit (`content-paths`, `live-index`,
+the exhaustive `SHELF_META`, `PROFILE_TO_BUCKET`) plus a shelf accent; new shelf
+renders with zero console errors. Integrity design: a unit's source text is
+NEVER model-authored — models emit only line groupings and English, and Python
+re-derives source from the immutable OCR record, so the verbatim guarantee is
+structural. OCR diacritic fidelity was validated on a real vocalised Arabic scan
+before building (1,435 tashkeel marks recovered, 1 invalid token in 968).
+Gates: pytest 1642, astro 0 errors, lint:views 0, smoke 33/33, eslint 0 errors.
+
 **Last updated:** 2026-07-18 2:20 PM EST (R2 hooks pass COMPLETE + audit fixes)
 
 **Newest — all nine StudioEditor hooks extracted; post-chain audit clean.**

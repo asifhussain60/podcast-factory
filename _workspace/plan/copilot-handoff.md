@@ -780,3 +780,47 @@ OPEN (spend-gated, need Asif):
   tracked files existed there.
 - Verification: full pytest suite `1469 passed, 1 skipped`; `npm run check`;
   `npm run lint:views`; `_boundary_check.py`; `git diff --check`.
+
+## 2026-07-19 — Supplications: a PDF-only sibling lane
+
+- Registered a fourth content bucket `Supplications` + profile
+  `islamic_supplication` in `_rules.CONTENT_TYPE_REGISTRY`/`BUCKETS`, appended
+  LAST so existing profile order is untouched. `_paths.resolve_bucket`,
+  `content_dir`, and `_branching.branch_name` needed NO change — `Supplications/<slug>`
+  falls out of the registry, which was the whole point of the additive design.
+- TS mirrors landed in the same change: `content-paths.BUCKETS`,
+  `reader/live-index.BUCKET_ORDER`, `reader/studio-shelves.SHELF_META` (an
+  exhaustive `Record<Bucket,…>` — omitting it fails the whole site build), and
+  `intake/SmartForm.PROFILE_TO_BUCKET`, plus a `--shelf-accent` in
+  `studio-pipeline.css` (deep teal, kept clear of Technical's slate blue).
+- New standalone lane at `scripts/podcast/supplication/` (schema, state, ocr,
+  llm, gates, render, intake, driver). It is NOT part of the podcast pipeline:
+  own entry point, own `_system/supplication-state.json`, own step list, own
+  gates. PDF only — no episodes, audio, slide decks, or video.
+- Integrity invariant: a unit's `source` is never authored by a model. The
+  segmentation call emits only OCR line-id groupings; the translation call emits
+  only English; Python re-derives `source` from the immutable
+  `_system/source-record.json` every time. The six-check gate (G-SUP-1..6) then
+  re-proves digest pairing, resolvability, exact coverage, reading order,
+  verbatim text, and translation completeness independently.
+- New print surface: `plan-dashboard/scripts/render-supplication-pdf.mjs` +
+  `src/styles/supplication-print.css`. HTML `<table>`, one `<tr>` per unit — a
+  row is what GUARANTEES the two cells share a height block. `break-inside:
+  avoid` per row (not per table) so long litanies paginate. Self-hosted Noto
+  Naskh Arabic + Noto Nastaliq Urdu (SIL OFL) vendored under `public/fonts/`;
+  separate Urdu class with a much larger line-height for Nastaliq's cascade.
+- Validated before building, on real data: Azure prebuilt-read over a vocalised
+  Arabic scan recovered all eight tashkeel mark types (1,435 marks / 20,187
+  letters) with 1 structurally-invalid token in 968 vocalised. OCR does NOT drop
+  diacritics; the residual risk is letter-level confusion, which is what the
+  hard human review halt at step 4 exists to catch.
+- Regression firewall verified byte-untouched: `orchestrate_book.py`,
+  `_progress.py`, `build_episode_txt.py`, `validate_ship_ready.py`,
+  `_translation_edition.py`, `_translation_contract.py`, `_book_pipeline_v2.py`,
+  `book-print.css`, `render-book-pdf.mjs`, `_augment_registry.py`, `_paths.py`,
+  `_branching.py`, `arabic_integrity.py`, `publish_to_library.py`. A test
+  (`TestRegressionFirewall`) greps the lane's own imports to keep it that way.
+- Verification: pytest 1642 passed / 1 skipped; `astro check` 0 errors;
+  `lint:views` 0; `npm run smoke` 33 clean / 0 FAILED; eslint 0 errors on new
+  files; renderer unit test 18 assertions. Isolation proof: an existing Islamic
+  book's PDF re-renders to an identical normalized SHA-256 before and after.

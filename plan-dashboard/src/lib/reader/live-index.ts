@@ -76,7 +76,13 @@ export async function loadLiveIndex(): Promise<LiveBucketGroup[]> {
   }
 
   // Stable, human order: bucket order fixed, entries + volumes alphabetized.
-  const BUCKET_ORDER: Bucket[] = ["Islamic", "Technical", "Fiction", "Guides"];
+  const BUCKET_ORDER: Bucket[] = [
+    "Islamic",
+    "Technical",
+    "Fiction",
+    "Guides",
+    "Supplications",
+  ];
   const groups: LiveBucketGroup[] = [];
   for (const bucket of BUCKET_ORDER) {
     const bucketMap = byBucket.get(bucket);

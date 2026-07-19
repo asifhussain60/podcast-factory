@@ -519,6 +519,9 @@
 .studio-shelf[data-bucket="Guides"] {
   --shelf-accent: var(--c-green);
 } /* forest green   */
+.studio-shelf[data-bucket="Supplications"] {
+  --shelf-accent: #0f6f6c;
+} /* deep teal — kept clear of Technical's slate blue */
 
 .studio-shelf .studio-shelf-icon-wrap {
   background: color-mix(in oklab, var(--shelf-accent) 11%, var(--c-bg-card));

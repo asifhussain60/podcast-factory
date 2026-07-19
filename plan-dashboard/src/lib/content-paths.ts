@@ -45,7 +45,13 @@ export function getPythonBin(): string {
 }
 
 // ── Type-first buckets (2026-06-04) ──────────────────────────────────────────
-export const BUCKETS = ["Islamic", "Technical", "Fiction", "Guides"] as const;
+export const BUCKETS = [
+  "Islamic",
+  "Technical",
+  "Fiction",
+  "Guides",
+  "Supplications",
+] as const;
 export type Bucket = (typeof BUCKETS)[number];
 
 export type Status = "draft" | "published" | "archived";

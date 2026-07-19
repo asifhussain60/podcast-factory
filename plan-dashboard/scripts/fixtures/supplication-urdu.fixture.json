@@ -1,0 +1,184 @@
+{
+  "slug": "fixture-urdu-supplication",
+  "source_language": "ur",
+  "title_en": "An Urdu Supplication (layout fixture)",
+  "title_src": "مناجاتِ شب",
+  "meta": {
+    "type": "Munajat (whispered prayer)",
+    "attributed_to": "Layout fixture — not an attributed text",
+    "occasion": "Night vigil",
+    "purpose": "Proving Nastaliq vertical metrics do not break row alignment",
+    "place": "n/a — fixture"
+  },
+  "preamble_en": "This file is a LAYOUT FIXTURE for the supplication print lane, in Urdu. Nastaliq is a steeply cascading script whose glyphs descend far below the baseline, so this fixture exists to prove that the Urdu-specific line-height and row min-height keep the two facing cells aligned and keep descenders from colliding with the row rule below.\n\nIt is not a devotional text and must never be published as one.",
+  "units": [
+    {
+      "n": 1,
+      "source": "اے میرے پروردگار، مجھے اپنی رحمت کے سائے میں جگہ عطا فرما۔",
+      "english": "O my Lord, grant me a place in the shade of Your mercy.",
+      "refrain": false
+    },
+    {
+      "n": 2,
+      "source": "میرے دل کو اپنے ذکر سے روشن کر دے۔",
+      "english": "Illuminate my heart with Your remembrance.",
+      "refrain": false
+    },
+    {
+      "n": 3,
+      "source": "تُو ہی سب سے بڑا بخشنے والا ہے۔",
+      "english": "You alone are the greatest of forgivers.",
+      "refrain": false
+    },
+    {
+      "n": 4,
+      "source": "جب رات کا اندھیرا چھا جائے تو مجھے تنہا نہ چھوڑنا، اور جب صبح کی روشنی پھیلے تو مجھے اپنی راہ سے نہ ہٹانا۔",
+      "english": "When the darkness of night descends, do not leave me alone; and when the light of morning spreads, do not turn me from Your path.",
+      "refrain": false
+    },
+    {
+      "n": 5,
+      "source": "میری کمزوری کو دیکھ اور میری خطاؤں کو معاف فرما۔",
+      "english": "Look upon my weakness and pardon my faults.",
+      "refrain": false
+    },
+    {
+      "n": 6,
+      "source": "مجھے صبر عطا کر۔",
+      "english": "Grant me patience.",
+      "refrain": false
+    },
+    {
+      "n": 7,
+      "source": "اے سب سے زیادہ رحم کرنے والے۔",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    },
+    {
+      "n": 8,
+      "source": "اے میرے پروردگار، مجھے اپنی رحمت کے سائے میں جگہ عطا فرما۔",
+      "english": "O my Lord, grant me a place in the shade of Your mercy.",
+      "refrain": false
+    },
+    {
+      "n": 9,
+      "source": "میرے دل کو اپنے ذکر سے روشن کر دے۔",
+      "english": "Illuminate my heart with Your remembrance.",
+      "refrain": false
+    },
+    {
+      "n": 10,
+      "source": "تُو ہی سب سے بڑا بخشنے والا ہے۔",
+      "english": "You alone are the greatest of forgivers.",
+      "refrain": false
+    },
+    {
+      "n": 11,
+      "source": "جب رات کا اندھیرا چھا جائے تو مجھے تنہا نہ چھوڑنا، اور جب صبح کی روشنی پھیلے تو مجھے اپنی راہ سے نہ ہٹانا۔",
+      "english": "When the darkness of night descends, do not leave me alone; and when the light of morning spreads, do not turn me from Your path.",
+      "refrain": false
+    },
+    {
+      "n": 12,
+      "source": "میری کمزوری کو دیکھ اور میری خطاؤں کو معاف فرما۔",
+      "english": "Look upon my weakness and pardon my faults.",
+      "refrain": false
+    },
+    {
+      "n": 13,
+      "source": "مجھے صبر عطا کر۔",
+      "english": "Grant me patience.",
+      "refrain": false
+    },
+    {
+      "n": 14,
+      "source": "اے سب سے زیادہ رحم کرنے والے۔",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    },
+    {
+      "n": 15,
+      "source": "اے میرے پروردگار، مجھے اپنی رحمت کے سائے میں جگہ عطا فرما۔",
+      "english": "O my Lord, grant me a place in the shade of Your mercy.",
+      "refrain": false
+    },
+    {
+      "n": 16,
+      "source": "میرے دل کو اپنے ذکر سے روشن کر دے۔",
+      "english": "Illuminate my heart with Your remembrance.",
+      "refrain": false
+    },
+    {
+      "n": 17,
+      "source": "تُو ہی سب سے بڑا بخشنے والا ہے۔",
+      "english": "You alone are the greatest of forgivers.",
+      "refrain": false
+    },
+    {
+      "n": 18,
+      "source": "جب رات کا اندھیرا چھا جائے تو مجھے تنہا نہ چھوڑنا، اور جب صبح کی روشنی پھیلے تو مجھے اپنی راہ سے نہ ہٹانا۔",
+      "english": "When the darkness of night descends, do not leave me alone; and when the light of morning spreads, do not turn me from Your path.",
+      "refrain": false
+    },
+    {
+      "n": 19,
+      "source": "میری کمزوری کو دیکھ اور میری خطاؤں کو معاف فرما۔",
+      "english": "Look upon my weakness and pardon my faults.",
+      "refrain": false
+    },
+    {
+      "n": 20,
+      "source": "مجھے صبر عطا کر۔",
+      "english": "Grant me patience.",
+      "refrain": false
+    },
+    {
+      "n": 21,
+      "source": "اے سب سے زیادہ رحم کرنے والے۔",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    },
+    {
+      "n": 22,
+      "source": "اے میرے پروردگار، مجھے اپنی رحمت کے سائے میں جگہ عطا فرما۔",
+      "english": "O my Lord, grant me a place in the shade of Your mercy.",
+      "refrain": false
+    },
+    {
+      "n": 23,
+      "source": "میرے دل کو اپنے ذکر سے روشن کر دے۔",
+      "english": "Illuminate my heart with Your remembrance.",
+      "refrain": false
+    },
+    {
+      "n": 24,
+      "source": "تُو ہی سب سے بڑا بخشنے والا ہے۔",
+      "english": "You alone are the greatest of forgivers.",
+      "refrain": false
+    },
+    {
+      "n": 25,
+      "source": "جب رات کا اندھیرا چھا جائے تو مجھے تنہا نہ چھوڑنا، اور جب صبح کی روشنی پھیلے تو مجھے اپنی راہ سے نہ ہٹانا۔",
+      "english": "When the darkness of night descends, do not leave me alone; and when the light of morning spreads, do not turn me from Your path.",
+      "refrain": false
+    },
+    {
+      "n": 26,
+      "source": "میری کمزوری کو دیکھ اور میری خطاؤں کو معاف فرما۔",
+      "english": "Look upon my weakness and pardon my faults.",
+      "refrain": false
+    },
+    {
+      "n": 27,
+      "source": "مجھے صبر عطا کر۔",
+      "english": "Grant me patience.",
+      "refrain": false
+    },
+    {
+      "n": 28,
+      "source": "اے سب سے زیادہ رحم کرنے والے۔",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    }
+  ]
+}
