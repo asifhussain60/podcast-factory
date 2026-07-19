@@ -1,0 +1,131 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 122,
+  "terms_tracked": 61,
+  "prerequisite_gaps": [],
+  "naming_drift": [],
+  "dense_pages": [
+    {
+      "page": 37,
+      "term_count": 11,
+      "terms": [
+        "Imam",
+        "Shariʿa",
+        "bāb",
+        "du'āt",
+        "duʿāt",
+        "nuqabā'",
+        "nuqabāʾ",
+        "nāṭiq",
+        "taʾwīl",
+        "waṣī"
+      ]
+    }
+  ],
+  "long_sentences": [
+    {
+      "page": 69,
+      "words": 162,
+      "text": "Now among the rights of thought is that the hearts pay their zakat through good manners; and among the rights of good manners is the seeking of knowledge; and a"
+    },
+    {
+      "page": 113,
+      "words": 159,
+      "text": "By them the proof of God to His creation is made sound.\" Salih said to him: \"Then, since it is established that the company of the prophets of God are the just "
+    },
+    {
+      "page": 105,
+      "words": 153,
+      "text": "Once creation stands in need of God's justice to teach them what He wills from them, by the hand of the righteous one He has appointed for it, then each will th"
+    },
+    {
+      "page": 66,
+      "words": 139,
+      "text": "The scholar said: \"What is this I see in you, other than the state I left you in?\" The boy said: \"And what have you noticed in me, may my father and mother be y"
+    },
+    {
+      "page": 107,
+      "words": 137,
+      "text": "Both the sending down and the interpreting are from God, and what is with God is not attained except by revelation.\" Abu Malik said: \"And the lesser one too is "
+    },
+    {
+      "page": 107,
+      "words": 134,
+      "text": "For they come from the Creator bearing knowledge of the unseen, the Books He has sent down upon them, and no one can bring the like of them except from God.\" He"
+    },
+    {
+      "page": 60,
+      "words": 126,
+      "text": "Then is it to be feared that any man should be punished for something other than disobedience, even when his work is little?\" The scholar said: \"God is more jus"
+    },
+    {
+      "page": 111,
+      "words": 119,
+      "text": "\"Now if this community must be believed in what it has decreed against God, that His proofs have been cut off from His creation by a single strand of consensus,"
+    },
+    {
+      "page": 72,
+      "words": 116,
+      "text": "May you never cease to be so, until the One who is pleased with you makes you pleased.\" The Shaykh said: \"As for you, may God bless you in what He has given you"
+    },
+    {
+      "page": 104,
+      "words": 113,
+      "text": "And God is too dear for that.\" Salih said: \"O Abu Malik, the One who is thus far above injustice and above all wrongdoing, would He be content that ignorance sh"
+    },
+    {
+      "page": 84,
+      "words": 108,
+      "text": "If it is right guidance we will follow it, and if it is error we will avoid it.\" Abu Malik said: \"This is doubt on your part about what you hold, and one who do"
+    },
+    {
+      "page": 77,
+      "words": 107,
+      "text": "And I charge you with the fear of the One who created you when you were nothing, and with keeping His covenant, and with rendering the right He has laid upon yo"
+    },
+    {
+      "page": 104,
+      "words": 107,
+      "text": "He is higher than that.\" Salih said: \"Is speech heard from Him?\" He said: \"There is no speech but from a speaker, and the speaker is described by speech, and Go"
+    },
+    {
+      "page": 11,
+      "words": 105,
+      "text": "When they had finished the matter they were speaking of, they turned toward him and asked, \"Who are you, young man, and from where?\" He answered, \"I am a servan"
+    },
+    {
+      "page": 55,
+      "words": 100,
+      "text": "If the people who cling to this world would only reflect, I told him, upon their own making and the turning about of their states — from weakness to strength an"
+    },
+    {
+      "page": 73,
+      "words": 97,
+      "text": "Do not clothe him in the garments of disdain, do not set him upon the mounts of ruin, do not leave his name unspoken, do not let yourself be turned away from hi"
+    },
+    {
+      "page": 106,
+      "words": 97,
+      "text": "the messengers and the standing of command and prohibition, the truth would have no growth and creation no meaning.\" He said: \"Yes, this is the truth.\" Salih sa"
+    },
+    {
+      "page": 116,
+      "words": 96,
+      "text": "What is its cause?\" \"What was the cause of Moses absence,\" Salih replied, \"when he went out of Pharaoh's city and passed on in fear, watchful, until he reached "
+    },
+    {
+      "page": 108,
+      "words": 95,
+      "text": "By what does the bearer of the interpretation prove that knowledge of the unseen is with him, so that the revelation bears witness for him and makes obedience t"
+    },
+    {
+      "page": 23,
+      "words": 94,
+      "text": "For each Book there is a scholar among the creatures who holds fast to it, and all of them are agreed on guarding it and on the religion it carries.\" The Master"
+    }
+  ],
+  "summary": {
+    "never_explained": 0,
+    "explained_late": 0
+  }
+}

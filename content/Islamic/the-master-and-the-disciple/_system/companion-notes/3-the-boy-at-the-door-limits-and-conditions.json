@@ -3,56 +3,191 @@
   "chapter": "3-the-boy-at-the-door-limits-and-conditions",
   "notes": [
     {
-      "id": "aa3240b8-1512-451b-bed3-82a8473c9ca1",
+      "id": "12d7ebb8-5479-4740-8ec8-2709f4a2e131",
       "kind": "analogy",
-      "body": "The master won't hand over deep truths on demand, and the reason is biological: God brings us into the world as infants, not scholars. An infant can only take milk, not a steak \u2014 so knowledge has to be carried in by a gentler knowledge that goes before it. Demanding the inner realities immediately is like feeding solid meat to a newborn.",
-      "anchor": "spiritual infant, milk before meat",
+      "body": "The boy keeps asking, in effect, 'Is this thing you're offering me the whole religion, or something else?' The Master's answer is neither. Picture scooping a single cup of water from a huge river. The cup isn't the river, but it isn't foreign to it either — it's the same water, just a portion you can actually carry. That's how he frames what he's teaching: a drinkable measure drawn from something far too vast to hand over all at once.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "A cup from the Euphrates",
+      "quote": "It is drawn out of it — the way a single cup of water is drawn from the whole breadth of the Euphrates.",
       "source": {
-        "provider": "notebooklm",
-        "ref": "EP03"
-      },
-      "createdAt": "2026-07-15T16:58:32Z",
-      "updatedAt": "2026-07-15T16:58:32Z",
-      "quote": "it must be brought in by a knowledge that goes before it"
+        "provider": "manual"
+      }
     },
     {
-      "id": "4ac8383a-17dd-44bd-9c84-80326c5c8e2c",
+      "id": "1f6b200d-d9e0-424c-b881-3023d12b8753",
+      "kind": "explanation",
+      "body": "The Master makes a striking claim: God didn't just command us to know Him, He built the equipment for it right into us. Our hearing, sight, and heart are the tools. But there's a twist. Because we were given the means, we can't later plead that we never had a chance. The same faculties that are a gift become, as he puts it, evidence — they'll testify one day about what we did with them.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "Your senses as gift and evidence",
+      "quote": "He filled their hearing, their eyes, their hearts with lights: an honor from Him to them, and, at the same time, a proof that will one day stand against them.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "003d65e5-3db2-4843-87aa-d5c42ec31885",
+      "kind": "note",
+      "body": "When the Master says God filled our hearing, eyes, and hearts with lights, this isn't a figure of speech for cleverness. In this book's cosmology, light is knowledge itself — a flowing, pervading knowledge passed from the Creator down through the chain of being. To seed the faculties with light is to place in us a real share of that transmitted knowledge. That's why the same gift is also a proof against us: given the means to know, we're answerable for whether we used them.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "Lights as knowledge",
+      "quote": "He filled their hearing, their eyes, their hearts with lights: an honor from Him to them, and, at the same time, a proof that will one day stand against them.",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "56f2a11a-c952-4987-8954-da4e61061d4b",
+      "kind": "explanation",
+      "body": "One thing the discussion makes concrete: gratitude here isn't a feeling, it's specific duties. You thank the teacher for the call by obeying him, and you thank him for the knowledge by acting on it and passing it to others. The chapter lays out exactly that division. The person given this favor owes thanks, action, and calling others; the person still without it owes seeking and obeying a guide. Gratitude, in other words, is closer to a job description than a sentiment.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "Gratitude is three duties",
+      "quote": "the duty of thanks for it, of acting upon it, and of calling others to it",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP01"
+      }
+    },
+    {
+      "id": "acbf412a-6cba-4a89-8a84-21d9f9c19c41",
       "kind": "analogy",
-      "body": "Picture a man who steals five apples and gives them to a starving old woman as charity. He does the math in his head \u2014 fifty rewards for charity minus five sins for the theft, a net gain of forty-five. But the sixth Imam corrects the arithmetic: charity requires transferring ownership, and you cannot give away what you never owned. He earns five more sins instead of fifty rewards \u2014 ten sins, zero reward. A pious act performed without the covenant is a stolen act, and a stolen act can never be sanctified.",
-      "anchor": "the five stolen apples",
+      "body": "The hosts get honest about the ego: it rebels like a wild horse, and anyone who's tried to build a new habit knows the self-sabotage that hits around day three. The starting point isn't strength, it's admitting how needy you actually are. The boy models it precisely, calling his own mind the neediest and the most destitute. Naming your own poverty, the discussion suggests, is the first real step onto the road rather than a reason to stay off it.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "The ego like a wild horse",
+      "quote": "my mind is among the neediest of them, and the most destitute",
       "source": {
         "provider": "notebooklm",
-        "ref": "EP03"
-      },
-      "createdAt": "2026-07-15T16:58:32Z",
-      "updatedAt": "2026-07-15T16:58:32Z"
+        "ref": "EP01"
+      }
     },
     {
-      "id": "f837c30d-6610-429e-ac93-1fd22975b8b7",
-      "kind": "explanation",
-      "body": "The covenant is the key that makes the very same act either sacred or profane \u2014 exactly like the line between fornication and marriage. Strip away the contract and the physical act is identical; it is the formal bond that places it under God's name. The same holds for meat: two animals, identical biology, but only the one slaughtered in God's name is lawful. The covenant is what places the deed under the name of Allah.",
-      "anchor": "the key: marriage vs fornication, halal slaughter",
+      "id": "74f7361e-1ca9-411d-9567-65741b277473",
+      "kind": "note",
+      "body": "The hosts framed the whole relationship as an architecture of trust. Notice the Master's own terms to the boy before any lesson: think well of me, hide nothing, push hard with your questions, and don't carry suspicion while you do it. It isn't blind obedience, he's told to interrogate freely, but he has to do it from a posture of good faith rather than a crouch of doubt.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "Question hard, but in good faith",
+      "quote": "Think well of me, and hold nothing back; work hard at your questioning, and carry no suspicion",
       "source": {
         "provider": "notebooklm",
         "ref": "EP03"
-      },
-      "createdAt": "2026-07-15T16:58:32Z",
-      "updatedAt": "2026-07-15T16:58:32Z",
-      "quote": "the way the distinction between unlawful union and lawful marriage opens one and shuts the other"
+      }
     },
     {
-      "id": "05b0ee63-e848-415c-8b82-8b7dec460136",
+      "id": "72696b74-ce12-430f-84e1-d3d2be577e38",
       "kind": "explanation",
-      "body": "The fifth condition \u2014 'do not mention me to your father' \u2014 reads at first like a cult leader isolating a recruit, but the boy's father is a known leader of a rival community that has rejected the Imam. Premature disclosure wouldn't just start a family argument; it could expose the master and cost lives. So the boy is told to stay home, honor his father, and please him outwardly while guarding the secret within \u2014 the believer's tongue kept behind his heart, speaking only when the heart judges it safe.",
-      "anchor": "the fifth condition and the father",
+      "body": "The Master warns against accepting a truth just because someone else holds it — believing secondhand, without having tested it yourself. His reason is practical, not just principled. A belief you never examined has no roots. So the very first doubt that comes along will simply pull it out of you. He's asking the boy to hold his convictions the way a tree holds ground: deep enough that weather can't uproot them.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "Don't believe on borrowed faith",
+      "quote": "do not accept one on mere imitation — because the first doubt that rises against it will tear it right out of your heart.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "7d03fb60-35c2-402c-8bec-897b5ddb85d7",
+      "kind": "question",
+      "body": "If God built the road to knowledge into our very faculties, what does it mean that those same faculties become a proof standing against us?",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "The gift that indicts",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "fbf422e1-4f53-4702-9da5-d0cb426111ef",
+      "kind": "explanation",
+      "body": "Here's the Master's whole theory of teaching in one move. You can't pour advanced knowledge into an unprepared mind. First a smaller, simpler knowledge has to go in — something that reaches the heart quickly and is easy to hold — so the ground is ready for the harder thing. It's the same reason we teach a child to count before calculus. Foundations aren't a delay before the real learning; they are the real learning, arriving in order.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "Learn the small thing first",
+      "quote": "knowledge cannot be carried until a lesser knowledge has been brought in ahead of it — something quicker to reach the heart and easier for the understanding to hold",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "a763448a-78b0-4f10-ac13-63e69efdb0c0",
+      "kind": "analogy",
+      "body": "The hosts landed on a simple picture. Nobody arrives in the world full-grown; you show up as a helpless infant who can only handle milk, not solid food. Demanding the deepest spiritual truths on day one is like setting a steak in front of a newborn. The Master says the same thing about the soul: a heavier knowledge can't be carried until a lighter one has gone in first and settled. You climb the ladder one rung at a time.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "Milk before meat",
+      "quote": "knowledge cannot be carried until a lesser knowledge has been brought in ahead of it — something quicker to reach the heart and easier for the understanding to hold",
       "source": {
         "provider": "notebooklm",
         "ref": "EP03"
-      },
-      "createdAt": "2026-07-15T16:58:32Z",
-      "updatedAt": "2026-07-15T16:58:32Z",
-      "quote": "Please him with a measure of outward agreement. Keep your secret kept and your business hidden"
+      }
+    },
+    {
+      "id": "8fec7821-1b6e-4fbb-9925-01f1e7e52ddd",
+      "kind": "explanation",
+      "body": "The Master says seeking itself makes the seeker able, while the one who stays put is exposed by falling behind. The corpus states the principle plainly: the noblest sight is the one born through struggle and effort, and the people of noble sight keep receiving the light of God. Capacity isn't handed over ready-made; it's produced by the effort of reaching. So the boy's neediness isn't a disqualification — it's exactly the engine that, put to work, earns him the sight he's asking for.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "Seeking makes the seeker able",
+      "quote": "In this way the seeker is made able by his very seeking, and the one who stays ignorant is exposed by his falling behind",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "9295d3d1-3400-4ad9-8ce0-eb9f0450fe4d",
+      "kind": "note",
+      "body": "The hosts kept circling back to how cheap curiosity is. It costs the ego nothing to be mildly interested. But rigorous, uncomfortable searching is hard, demanding work, and that effort is itself the qualification. You don't wait to be handed the ability and then seek. The seeking is what makes you able, and falling silent and staying ignorant is what exposes the one who never really wanted it. The searching isn't the warm-up. It's the thing.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "Seeking is the credential",
+      "quote": "the seeker is made able by his very seeking, and the one who stays ignorant is exposed by his falling behind",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP02"
+      }
+    },
+    {
+      "id": "b1477d2f-5e07-4328-a1da-b7dd150bac7a",
+      "kind": "note",
+      "body": "Worth noticing the boy's reaction. When the Master says the evidence leaves no one with an excuse, the boy doesn't feel comforted, he feels afraid. And in the same breath that fear turns into longing. The hosts caught this: the weight of no excuse left is exactly what makes him want a guide. The pressure and the pull arrive together.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "Frightened and drawn at once",
+      "quote": "The thought that there is no excuse left has frightened me — and the presence of the evidence has made me long for it.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP03"
+      }
+    },
+    {
+      "id": "d707f633-7e15-4d51-a17a-ae83b34c4a37",
+      "kind": "question",
+      "body": "If the boy is genuinely straining toward the truth with a pure heart, why does the Master insist that his sincerity, on its own, still isn't enough to carry him?",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "Isn't a pure heart enough?",
+      "quote": "A claim is only accepted when it is truthful.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP03"
+      }
+    },
+    {
+      "id": "fcc1dd85-214e-441a-87f8-62bc31e83114",
+      "kind": "note",
+      "body": "The corpus says the First Intellect journeyed through the spiritual realm and reached unity without any external guidance, contemplating on his own until he became a plateau of knowledge. The boy is in a different position. He begs for a guide, and the Master forbids going by private opinion or any road other than the established way. The point: the first Intellect had no guide because nothing came before him; every later seeker inherits a road already laid, and following it — not improvising — is the way up.",
+      "createdAt": "2026-07-19T15:25:25Z",
+      "updatedAt": "2026-07-19T15:25:25Z",
+      "anchor": "Why the boy needs a guide",
+      "quote": "Let us not break away from the community by our own private opinion, nor take as our guide anything other than the established way.",
+      "source": {
+        "provider": "corpus"
+      }
     }
   ],
-  "updatedAt": "2026-07-15T16:58:32Z"
+  "updatedAt": "2026-07-19T15:25:25Z"
 }

@@ -3,44 +3,191 @@
   "chapter": "how-to-read-a-conversation-made-of-doors",
   "notes": [
     {
-      "id": "0b472bae-c333-4e6d-9afe-bf2715eac026",
-      "kind": "etymology",
-      "body": "The root أ-م-ن (a-ma-na) means to be safe, secure, or to believe. From this root, we get إِيمَان (īmān), which means faith or belief, as in the phrase أَهْلُ الْإِيمَانِ (ahl al-īmān), 'people of faith.' Another derivative is أَمِين (amīn), meaning trustworthy or safe, as in اَلْأَمِينُ الْمُخْلِصُ (al-amīn al-mukhlis), 'the loyal and trustworthy one.' We also have أَمْن (amn), meaning security or safety, as in اَلْأَمْنُ وَالسَّلَامُ (al-amnu wa-s-salāmu), 'security and peace.' In this chapter, when we speak of 'believers' approaching the Master, it highlights that their entry into this 'conversation made of doors' is not just about acquiring information, but about a foundational state of trust and security that allows for true learning and transformation.",
-      "anchor": "believers — root a-ma-na",
-      "quote": "believers",
+      "id": "f247b79e-ad0f-4714-bbf6-d0ae542445f7",
+      "kind": "analogy",
+      "body": "The title calls this a conversation made of doors, and here's why. Think of walking through a big old house where every room opens onto the next, so you can't reach the far room without passing through all the ones before it. That's how the teacher builds his answer — not as a list you can skip around in, but as a sequence of thresholds. Each idea only makes sense once you've stepped through the one before it. Read it in order, room by room.",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "A house of doorways",
+      "quote": "the conversation revealed itself to be built entirely of thresholds, each thing giving onto another.",
       "source": {
-        "provider": "ai",
-        "label": "Etymology (gemini)"
-      },
-      "createdAt": "2026-07-17T18:14:45Z",
-      "updatedAt": "2026-07-17T18:14:45Z"
+        "provider": "manual"
+      }
     },
     {
-      "id": "59f2a41a-8c41-4e0f-9a91-d522f1b769fb",
-      "kind": "etymology",
-      "body": "The word for 'knowledge' in Arabic is عِلْم (ʿilm). It comes from the root ع-ل-م (ʿ-l-m), which means 'to know' or 'to learn.' From this root, we get words like عَالِم (ʿālim), meaning 'a knower' or 'scholar,' as in هُوَ عَالِمٌ كَبِيرٌ (He is a great scholar). We also have مَعْلُوم (maʿlūm), meaning 'known' or 'information,' as in هَذِهِ مَعْلُومَةٌ مُهِمَّةٌ (This is important information). And تَعْلِيم (taʿlīm) means 'teaching' or 'instruction,' as in تَعْلِيمُ الْأَطْفَالِ (the teaching of children). This chapter emphasizes that true knowledge (عِلْم) isn't just passively received; it's actively sought and often revealed through the 'doors' of inquiry and conversation, aligning with the root's sense of active learning.",
-      "anchor": "knowledge — عِلْم",
-      "quote": "knowledge",
+      "id": "7a102b56-9b69-40ea-b47d-8148b9601ed6",
+      "kind": "question",
+      "body": "Here's one to put to your friend before we go further. The teacher makes a startling claim: that a sincere, well-shaped question is not separate from finding the answer — it's the first step of the answer already happening. So ask them: do you think how you ask a question can be part of solving it, or is asking just standing at the starting line waiting?",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "Does asking well already move you?",
+      "quote": "the shape of a sincere question is itself the first motion toward its answer.",
       "source": {
-        "provider": "ai",
-        "label": "Etymology (gemini)"
-      },
-      "createdAt": "2026-07-17T18:24:49Z",
-      "updatedAt": "2026-07-17T18:24:49Z"
+        "provider": "manual"
+      }
     },
     {
-      "id": "c3cac6b6-ac59-4e94-8417-ecf7d56fe373",
-      "kind": "etymology",
-      "body": "The word مَوْلَى comes from the root و-ل-ي (wa-la-ya), which means to be near, to be a friend, or to be a protector. From this root, we get words like وَلِيّ (walīy), meaning a friend, guardian, or even a saint, as in أَوْلِيَاء الله (awliyāʾ Allāh), 'friends of God'. Another derivative is وِلَايَة (wilāyah), which signifies guardianship or authority. In this chapter, the 'Master' (مَوْلَى) is not just a teacher but a spiritual guide and protector, someone who has authority and closeness to the divine, opening doors of understanding for the disciple.",
-      "anchor": "Master — root wa-la-ya",
-      "quote": "Master",
+      "id": "6ab44d9c-164d-492c-b4d4-abef294700ac",
+      "kind": "note",
+      "body": "The hosts wrestle with the disciple proudly calling himself the freed man. The chapter shows the other face of that word. The believers open by telling the Master he set them free, and in the same breath say that freeing laid an obligation on them. Freedom here is not the end of duty; it is the birth of it. Being made aware of something is exactly what puts you on the hook for it.",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "Being freed is what binds you",
+      "quote": "\"You have set us free,\" they said to him, \"by making us aware of what you have made us aware of — and in doing that very thing, you have laid an obligation on us that we are bound to fulfill.\"",
       "source": {
-        "provider": "ai",
-        "label": "Etymology (gemini)"
-      },
-      "createdAt": "2026-07-17T18:37:48Z",
-      "updatedAt": "2026-07-17T18:37:48Z"
+        "provider": "notebooklm",
+        "ref": "EP12"
+      }
+    },
+    {
+      "id": "d08d9a6b-0def-45e1-815c-4be1a89b774e",
+      "kind": "note",
+      "body": "This is the line most worth chewing on. We usually treat learning something as an achievement in itself — you've got it, it's yours. The teacher flatly rejects that. Knowledge you merely collected and kept has not been honored at all. It's only thanked when you first live by it and then pass it on to someone else. So the test of gratitude for what you know isn't how much you hold; it's how much of it leaves your hands.",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "Hoarded knowledge isn't thanked",
+      "quote": "Knowledge that is merely received and then hoarded has not been thanked at all",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "8f8c24f7-9628-4077-8201-fa99e33a28ad",
+      "kind": "explanation",
+      "body": "Now the payoff for the first debt, and it's blunt. How do you thank the one who guided you? Not by saying thank you. The teacher redefines the whole thing: gratitude to a guide is not a spoken word at all, it's obedience — doing what he pointed you toward. The entire substance of it, start to finish, is that you actually follow the direction he gave. A compliment isn't thanks here; compliance is.",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "Thanking a teacher means obeying",
+      "quote": "As for thanking the Master, it is to obey him.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "8dda095d-21b3-4b60-8a3a-010267d45ad6",
+      "kind": "analogy",
+      "body": "The hosts reach for the embryo in the dark of the womb: clot, then lump, then bone, then flesh, a blind process that cannot rush itself or declare itself finished. Read the chapter's stations the same way. They are houses you pass through in order, each with its own key, first to middle to last. You do not leap straight to piety. You enter through affliction, move through guidance, and only then arrive.",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "An embryo can't skip stages",
+      "quote": "Their keys are remembrance: the first of them is affliction, the middle of them is guidance, and the last of them is piety.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP12"
+      }
+    },
+    {
+      "id": "dae7ed86-2dd7-4fc1-ae16-633f15be711e",
+      "kind": "analogy",
+      "body": "The hosts start from a hard fact: the first teacher reaches the limit of his own rank and has to hand his student to someone greater. Nobody rises above their own station. The chapter makes that structural about reality itself, not just about teachers. There is always a further threshold past the one you are standing in. So arriving somewhere real never means reaching the end of the road, only finding the next door.",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "Every teacher has a ceiling",
+      "quote": "He has made for the first of every thing a last, and for the last of every thing an end, and for every end a further end whose limit is never reached.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP12"
+      }
+    },
+    {
+      "id": "b95dc8a2-987d-42a9-9993-b30cc6f21fdf",
+      "kind": "note",
+      "body": "Notice what unlocks these stages. Not willpower, not cleverness — remembrance. The text calls it the key to every house on the road. In the discussion the hosts described it as something repeated until it becomes a second pulse: keep bringing the divine to the front of your mind and you slowly rewire the habit of reacting through your own ego. It's easy to skim past that word as decoration. It's actually the mechanism that carries you from affliction all the way to piety.",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "Remembrance is the key that opens each door",
+      "quote": "Their keys are remembrance: the first of them is affliction, the middle of them is guidance, and the last of them is piety.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP01"
+      }
+    },
+    {
+      "id": "e6f896d0-eb62-4513-8e07-db2d18cb3aeb",
+      "kind": "explanation",
+      "body": "Before anything else, get the count straight, because the whole chapter hangs on it. The listeners feel they owe their teacher gratitude, but not one lump of it — three distinct debts. One is for the invitation itself, the call that woke them up. One is for the knowledge he then handed them. And one is for the work he told them to do. Keep those three separate as you read, because he answers each one differently at the end.",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "The three thanks",
+      "quote": "thanks for the summons itself, for that to which he had called them; thanks for the knowledge he had shown them; and thanks for the work he had commanded them to do.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "a9698294-62d6-4a78-b973-2af55f9d0a26",
+      "kind": "explanation",
+      "body": "The third debt closes the pattern. How do you thank the work you were assigned? Two things again. First, patience — you stay with the labor instead of quitting when it gets heavy. Second, you call others into it. And notice why that second part matters: if only you carry the work, it dies when you do. Inviting others is how the task outlives the first person who ever picked it up. Endurance keeps it alive in you; summons keeps it alive after you.",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "Thanking the work: endure and invite",
+      "quote": "it too is two things: to be patient with it, and to call others to it.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "7c89bbd1-85aa-437f-a12c-1200d2245f13",
+      "kind": "analogy",
+      "body": "At the start, three debts of gratitude sounded impossibly large — feelings too big for any ordinary person to ever pay off. The relief comes at the end. Each one turns out to have a literal door you can walk through: obey the one who called you; act on the knowledge and pass it on; endure the work and invite others into it. The overwhelming abstraction becomes a set of specific actions. You don't have to feel your way out — you walk out.",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "Each debt has a door you can walk through",
+      "quote": "each of the three debts — which had seemed at the outset like feelings far too large for any person to discharge — was shown to have a door you can actually walk through",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP01"
+      }
+    },
+    {
+      "id": "f5c40162-8ab2-45bb-8fe0-9b3f42131516",
+      "kind": "explanation",
+      "body": "Why does the chapter treat the mere shape of an honest request as already progress? Because a sincere question comes not from jealousy, fault-finding, or a wish to test, but from an earnest search for truth and right guidance — and such a person is the patient who can be cured. An honest question is diagnostic: it shows the asker is actually ready to receive the answer. So framing a real question isn't standing outside the door waiting; it's the first step through it.",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "The curable patient",
+      "quote": "the shape of a sincere question is itself the first motion toward its answer.",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "2384bd33-e9b3-49e6-96fd-d1b050a422e9",
+      "kind": "question",
+      "body": "If being set free is precisely what lays an obligation on you, which of your own liberations — a skill someone taught you, a door someone opened, an awareness someone woke in you — have you quietly treated as a gift to enjoy rather than a debt you are now bound to carry forward?",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "Gift or debt?",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP12"
+      }
+    },
+    {
+      "id": "4f739dd4-d441-43dc-980d-ad617a269d68",
+      "kind": "note",
+      "body": "Here's the map the teacher hands them for the journey. What unlocks the whole thing is remembrance — keeping the matter in mind. Then the stages: it starts in hardship, the affliction that first turns you toward all this. It passes through guidance in the middle, once you're on the road. And it arrives at piety, the settled reverence at the end. When you read the chapters ahead, you can ask which room you're standing in.",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "The four rooms named",
+      "quote": "Their keys are remembrance: the first of them is affliction, the middle of them is guidance, and the last of them is piety.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "0c34d96c-f93f-4c27-86e1-eeaf3e12f039",
+      "kind": "question",
+      "body": "The path opens not with ease but with affliction — the friction of running into your own resistance. If you've ever tried to build a new habit and caught yourself sabotaging it by day three, you've felt exactly this. So here's the question to sit with together: when have you last hit that wall, and did you read it as failure, or as the very first house on the road you're meant to pass through?",
+      "createdAt": "2026-07-19T14:53:54Z",
+      "updatedAt": "2026-07-19T14:53:54Z",
+      "anchor": "Have you met your own resistance?",
+      "quote": "the first of them is affliction, the middle of them is guidance, and the last of them is piety.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP01"
+      }
     }
   ],
-  "updatedAt": "2026-07-17T18:37:48Z"
+  "updatedAt": "2026-07-19T14:53:54Z"
 }
