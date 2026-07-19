@@ -48,6 +48,7 @@ from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
+from _narrator_policy import atom_narrator, disallowed_narrator
 from _paths import REPO_ROOT, resolve_content
 from _rules import allowed_content_levels
 
@@ -185,11 +186,9 @@ def _load_atoms() -> list[dict]:
     """Load all atoms from knowledge.db with their tags and text_en."""
     conn = sqlite3.connect(str(KB_PATH))
     rows = conn.execute("SELECT id, type, body, tradition, first_seen_book, content_level FROM atoms").fetchall()
-
     tag_map: dict[str, list[str]] = {}
     for atom_id, tag in conn.execute("SELECT atom_id, tag FROM atom_topic_tags").fetchall():
         tag_map.setdefault(atom_id, []).append(tag)
-
     conn.close()
 
     atoms = []
@@ -199,7 +198,7 @@ def _load_atoms() -> list[dict]:
         except (json.JSONDecodeError, TypeError):
             continue
         text_en = body.get("text_en", "")
-        if not text_en or not text_en.strip():
+        if not text_en.strip() or disallowed_narrator(atom_narrator({"body": body})):
             continue
         tags = tag_map.get(atom_id, [])
         atoms.append(

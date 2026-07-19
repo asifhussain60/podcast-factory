@@ -85,8 +85,8 @@ items:
 
   - id: narrator-policy-unwired-paths
     scope: pipeline
-    status: open
-    title: "The narrator-attribution filter is wired into every book-lane KB loader (_book_augment, _book_companion, and _self_study via reuse) but NOT into intelligence/augmenter.py or augment_book.py -- both read knowledge.db rather than the JSONL corpus and are already unwired from the book lane, so this is dormant risk, not a live gap"
+    status: done
+    title: "RESOLVED, and the risk was higher than first assessed. intelligence/augmenter.py::_fetch_matching_quotes is NOT dormant -- it's live-wired into phases/per_chapter.py, the real per-chapter podcast authoring phase; its own docstring says quote atoms are 'currently 0; wired for future runs', meaning the exclusion had to land BEFORE that data gap closes, not after. Fixed there. augment_book.py IS confirmed genuinely unwired (zero callers anywhere) -- fixed anyway in _load_atoms(), the single load point, so a future wiring inherits the policy rather than needing to rediscover it. Both reuse _narrator_policy, same module as the JSONL corpus. 4 new tests."
     noticed: 2026-07-19
 
   - id: book-chapters-shared-folder-collision

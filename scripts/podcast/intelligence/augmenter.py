@@ -25,6 +25,7 @@ from typing import Sequence
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import _db
+from _narrator_policy import disallowed_narrator
 from _rules import (
     CONTENT_LEVEL_LADDER,
     R_KNOWLEDGE_AUGMENTER_DEFAULT_ENABLED,
@@ -605,11 +606,9 @@ def _fetch_matching_quotes(
     max_quotes: int,
     exclude_atom_ids: set[str] | None = None,
 ) -> list[dict]:
-    """Return quote atoms whose speaker name appears in the episode text.
-
-    Only used once quote atoms exist in the DB (currently 0; wired for future runs).
-    Excludes exclude_atom_ids (Wave L-5): no quote atom repeats across chapters.
-    """
+    """Quote atoms whose speaker appears in the text (0 rows today; wired for later).
+    Excludes exclude_atom_ids (no repeats across chapters) and any narrator-policy-
+    restricted speaker, regardless of content match."""
     ep_lower = episode_text.lower()
     exclude = exclude_atom_ids or set()
     conn = _db.get_connection()
@@ -627,7 +626,7 @@ def _fetch_matching_quotes(
             continue
         speaker = body.get("speaker", "").lower().strip()
         text_en = body.get("text_en", "").strip()
-        if not speaker or not text_en:
+        if not speaker or not text_en or disallowed_narrator(speaker):
             continue
         if speaker in ep_lower:
             matched.append({"id": atom_id, "body": body})
