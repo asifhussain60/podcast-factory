@@ -165,3 +165,52 @@ def test_every_pdf_route_ends_with_the_review() -> None:
     # The fiction builder deliberately delegates to build_book rather than
     # duplicating the render plumbing, so it inherits the review.
     assert "from build_book_pdf import build_book" in (SCRIPT_DIR / "build_fiction_book_pdf.py").read_text("utf-8")
+
+
+# ─── the delivered PDF carries the book's name ───────────────────────────────
+def test_the_supplication_lane_writes_a_titled_copy(tmp_path: Path) -> None:
+    """The artifact a human receives carries the work's name, not its folder id."""
+    sys.path.insert(0, str(SCRIPT_DIR / "supplication"))
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("_sup_driver", SCRIPT_DIR / "supplication" / "driver.py")
+    assert spec and spec.loader
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    pdf = tmp_path / "dua-kumayl.pdf"
+    pdf.write_bytes(b"%PDF-1.4 fake")
+
+    titled = module._titled_copy(pdf, "Dua Kumayl")
+
+    assert titled is not None and titled.name == "Dua Kumayl.pdf"
+    assert titled.read_bytes() == pdf.read_bytes()
+    assert pdf.exists(), "the slug-named file stays for pipeline compatibility"
+
+
+def test_a_title_that_would_escape_the_folder_is_flattened(tmp_path: Path) -> None:
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("_sup_driver2", SCRIPT_DIR / "supplication" / "driver.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    pdf = tmp_path / "x.pdf"
+    pdf.write_bytes(b"%PDF")
+
+    titled = module._titled_copy(pdf, "../../etc/passwd")
+
+    assert titled is not None and titled.parent == tmp_path
+
+
+def test_an_untitled_work_gets_no_copy(tmp_path: Path) -> None:
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("_sup_driver3", SCRIPT_DIR / "supplication" / "driver.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    pdf = tmp_path / "x.pdf"
+    pdf.write_bytes(b"%PDF")
+
+    assert module._titled_copy(pdf, "") is None

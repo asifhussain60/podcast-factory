@@ -142,12 +142,38 @@ def _step_render(book_dir: Path, st: dict) -> None:
     gates.assert_ok(doc, rec, require_english=True)
     out = render.run(book_dir, doc, rec)
     print(f"  wrote {out}")
+    # A titled copy beside the slug-named file, matching the book lane: the
+    # artifact a human receives should carry the work's name, not its folder id.
+    # The slug-named file stays put for pipeline compatibility (gates, delivery).
+    titled = _titled_copy(out, doc.title_en)
+    if titled:
+        print(f"  titled copy → {titled.name}")
     # FINAL STEP, as on every other PDF route. A supplication carries no glossary,
     # so the term-based lenses have nothing to track and the report comes back
     # empty — that is the honest result, not a gap. The sentence-length and
     # page-density lenses still apply, and wiring it here means a future
     # supplication that DOES carry a vocabulary is reviewed without a code change.
     _final_comprehension_review(book_dir, pdf=out)
+
+
+def _titled_copy(pdf: Path, title: str) -> Path | None:
+    """Copy the rendered PDF to a filename carrying the work's title. None if unnamed.
+
+    Mirrors ``build_book_pdf``'s titled copy. A path separator in a title would
+    escape the book folder, so the name is flattened before use.
+    """
+    import shutil
+
+    name = " ".join((title or "").split()).replace("/", "-").strip()
+    if not name or name == pdf.stem:
+        return None
+    titled = pdf.parent / f"{name}.pdf"
+    try:
+        shutil.copy2(str(pdf), str(titled))
+        return titled
+    except Exception as exc:  # never fail a good render over its own copy
+        print(f"  titled copy failed (non-fatal): {exc}")
+        return None
 
 
 def _final_comprehension_review(book_dir: Path, *, pdf: Path) -> None:
