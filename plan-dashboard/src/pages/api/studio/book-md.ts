@@ -13,7 +13,7 @@
  */
 import type { APIRoute } from "astro";
 import { readFileSync, writeFileSync, existsSync, copyFileSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { join } from "node:path";
 import { findContentDirSync } from "../../../lib/content-paths";
 import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
 import { preserveFences } from "../../../lib/reader/book-fences";
@@ -30,33 +30,6 @@ function anchorKey(s: string): string {
     .replace(/^\d+\.\s*/, "")
     .trim()
     .toLowerCase();
-}
-
-/**
- * The compose cache file backing one chapter heading, or null when the heading
- * carries no chapter number.
- *
- * `_book_compose.py` writes `## <bk_index>. <title>` and caches that chapter's
- * prose at `book/_chunks/book/bk-<NN>.md` (zero-padded to 2). The preface is the
- * unnumbered heading and caches as `preface.md`. Keep this mapping in step with
- * `_book_compose.py` — it is the contract that makes a Composer edit durable.
- */
-function chunkPathFor(
-  bookDir: string,
-  heading: string,
-  isFirstHeading: boolean,
-): string | null {
-  const chunks = join(bookDir, "book", "_chunks", "book");
-  const numbered = heading.match(/^##\s+(\d+)\.\s+/);
-  if (numbered) {
-    const n = Number(numbered[1]);
-    if (!Number.isFinite(n) || n < 0) return null;
-    return join(chunks, `bk-${String(n).padStart(2, "0")}.md`);
-  }
-  // ONLY the first unnumbered heading is the preface. A later unnumbered heading
-  // is an in-flow source heading that owns no chunk — mirroring it into
-  // preface.md would corrupt a different chapter's cache, so return null.
-  return isFirstHeading ? join(chunks, "preface.md") : null;
 }
 
 export const PUT: APIRoute = async ({ request }) => {
@@ -117,26 +90,27 @@ export const PUT: APIRoute = async ({ request }) => {
       .replace(/\n{3,}/g, "\n\n");
     writeFileSync(bookMd, rebuilt.endsWith("\n") ? rebuilt : `${rebuilt}\n`);
 
-    // Durability: book.md is a DERIVED artifact. 0book-compose reassembles it
-    // from book/_chunks/book/bk-NN.md, reusing any chunk that already exists
-    // (scripts/podcast/_book_compose.py) — so an edit written only to book.md is
-    // reverted the next time that phase runs. Mirroring the saved body into its
-    // chunk makes the edit survive, using the cache the composer already honours
-    // rather than inventing a new sidecar. Best-effort by design: the chunk dir
-    // is a local build cache (gitignored), so a book composed elsewhere simply
-    // has nothing to mirror into and the save still succeeds.
-    const chunk = chunkPathFor(bookDir, lines[start], start === firstHeading);
-    let chunkMirrored = false;
-    if (chunk && existsSync(dirname(chunk))) {
-      try {
-        writeFileSync(chunk, `${fences.body.trim()}\n`);
-        chunkMirrored = true;
-      } catch {
-        chunkMirrored = false; // never fail the save over the cache mirror
-      }
-    }
+    // NOTE ON DURABILITY — deliberately NOT mirroring into book/_chunks/.
+    // An earlier version of this route also wrote the saved body into the
+    // compose cache so a re-compose would pick the human's text up. That was
+    // wrong on two counts, both verified against the pipeline:
+    //   1. It targeted book/_chunks/book/ (written by the retired
+    //      _book_compose.py). The live cache is book/_chunks/translation/,
+    //      written by _translation_edition.py — the only base composer
+    //      compose_book_v2 calls today.
+    //   2. More fundamentally, that cache holds the FAITHFUL BASE, and
+    //      compose_book_v2 re-applies fluency/augment/voice ON TOP of it every
+    //      run (those steps are gated by knobs, not by the cache). Seeding the
+    //      base with already-augmented, already-voiced, human-edited prose would
+    //      compound: the next run would augment an augmentation and re-voice a
+    //      voicing. A re-compose does NOT revert book.md to the base — it
+    //      regenerates the layers — so the mirror bought nothing and risked drift.
+    // Durable human edits therefore need a SIDECAR that is re-applied after
+    // compose, the pattern _book_bridges.py already uses
+    // (_system/comprehension-bridges.json). Until that exists, git history is the
+    // recovery path — every book phase commits its own output.
 
-    return apiOk({ slug, chapterKey, path: bookMd, fences, chunkMirrored });
+    return apiOk({ slug, chapterKey, path: bookMd, fences });
   } catch (e) {
     return apiServerError(`Save failed: ${String(e)}`);
   }
