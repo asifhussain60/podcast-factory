@@ -33,6 +33,7 @@ from supplication.schema import (  # noqa: E402
     SupplicationError,
     UnitsDoc,
     derive_source,
+    refrain_units,
     validate_source_language,
 )
 
@@ -181,13 +182,15 @@ def cmd_review(args) -> int:
     rec = SourceRecord.read(ocr.record_path(book_dir))
     doc = UnitsDoc.read(units_path(book_dir))
     index = rec.by_id()
+    # Derived, not stored — shows the human exactly which rows the PDF will tint.
+    refrains = refrain_units(doc, rec)
     for u in doc.units:
-        mark = " [refrain]" if u.refrain else ""
+        mark = " [refrain]" if u.n in refrains else ""
         print(f"\n{u.n}{mark}  ({', '.join(u.line_ids)})")
         print(f"  {derive_source(u.line_ids, index)}")
         if u.english:
             print(f"  EN: {u.english}")
-    print(f"\n{len(doc.units)} units, {len(rec.lines)} OCR lines.")
+    print(f"\n{len(doc.units)} units, {len(rec.lines)} OCR lines, {len(refrains)} refrain rows.")
     return 0
 
 

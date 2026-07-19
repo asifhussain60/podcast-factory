@@ -164,15 +164,47 @@ def derive_source(unit_line_ids: list[str], index: dict[str, SourceLine]) -> str
     return " ".join(index[i].text for i in unit_line_ids)
 
 
+def refrain_units(doc: "UnitsDoc", record: "SourceRecord") -> set[int]:
+    """Unit numbers whose source text occurs verbatim MORE THAN ONCE.
+
+    A refrain in a supplication is a short response line that recurs through a
+    litany; marking it lets someone reciting from the page find their place
+    again. That is worth showing — but ONLY when it is provably true.
+
+    An earlier version asked the segmentation model to flag refrains. That was
+    an unvalidated judgment call: a model that over-flags speckles the page with
+    highlight for no reason, and nothing downstream could tell a real refrain
+    from a guess. This function replaces that judgment with arithmetic — a unit
+    is a refrain if and only if its exact derived source appears again elsewhere
+    in the same document. It cannot over-fire, it is testable, and it updates
+    automatically when a human merges or splits units during review.
+
+    Comparison is on the SOURCE, not the English: the source is the immutable
+    ground truth, and two units with identical source must render identically
+    anyway.
+    """
+    index = record.by_id()
+    sources = [derive_source(u.line_ids, index) for u in doc.units]
+    counts: dict[str, int] = {}
+    for src in sources:
+        counts[src] = counts.get(src, 0) + 1
+    return {u.n for u, src in zip(doc.units, sources) if counts[src] > 1}
+
+
 @dataclass
 class Unit:
+    """A unit is a grouping of OCR lines plus its English rendering.
+
+    NOTE there is no `refrain` field. Whether a unit is a refrain is DERIVED
+    (see `refrain_units`), never stored and never decided by a model.
+    """
+
     n: int
     line_ids: list[str]
     english: str = ""
-    refrain: bool = False
 
     def to_dict(self) -> dict[str, Any]:
-        return {"n": self.n, "line_ids": list(self.line_ids), "english": self.english, "refrain": self.refrain}
+        return {"n": self.n, "line_ids": list(self.line_ids), "english": self.english}
 
 
 @dataclass
@@ -222,7 +254,6 @@ class UnitsDoc:
                     n=u.get("n", i + 1),
                     line_ids=list(u["line_ids"]),
                     english=u.get("english", ""),
-                    refrain=bool(u.get("refrain", False)),
                 )
                 for i, u in enumerate(d["units"])
             ],
@@ -236,6 +267,7 @@ def render_payload(doc: UnitsDoc, record: SourceRecord) -> dict[str, Any]:
     are derived here from the immutable record — never read from units.json.
     """
     index = record.by_id()
+    refrains = refrain_units(doc, record)
     return {
         "slug": doc.slug,
         "source_language": doc.source_language,
@@ -248,7 +280,7 @@ def render_payload(doc: UnitsDoc, record: SourceRecord) -> dict[str, Any]:
                 "n": u.n,
                 "source": derive_source(u.line_ids, index),
                 "english": u.english,
-                "refrain": u.refrain,
+                "refrain": u.n in refrains,
             }
             for u in doc.units
         ],

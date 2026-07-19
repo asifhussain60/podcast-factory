@@ -25,6 +25,7 @@ from supplication.schema import (  # noqa: E402
     Unit,
     UnitsDoc,
     derive_source,
+    refrain_units,
     render_payload,
     validate_source_language,
 )
@@ -164,6 +165,63 @@ class TestVerbatimGate:
         doc = make_doc(rec, english=False)
         assert not gates.verify(doc, rec, require_english=True).passed
         assert gates.verify(doc, rec, require_english=False).passed
+
+
+class TestDerivedRefrains:
+    """A refrain is arithmetic, not a model's opinion.
+
+    The first version of this asked the segmentation model to flag refrains.
+    That was an unvalidated judgment call — a model that over-flags speckles the
+    page with highlight and nothing downstream could tell a real refrain from a
+    guess. These tests pin the replacement: a unit is a refrain if and only if
+    its exact source text appears again elsewhere in the same document.
+    """
+
+    def test_nothing_is_marked_when_every_source_is_distinct(self):
+        rec = make_record()
+        doc = make_doc(rec, [["p1l1"], ["p1l2"], ["p1l3"], ["p1l4"]])
+        assert refrain_units(doc, rec) == set()
+
+    def test_a_repeated_source_marks_every_occurrence(self):
+        # p1l2 and p1l4 are given identical text, so both units are refrains —
+        # and the two that are unique are not.
+        rec = make_record([AR_LINES[0], "يَا اَرْحَمَ الرَّاحِمِينَ", AR_LINES[2], "يَا اَرْحَمَ الرَّاحِمِينَ"])
+        doc = make_doc(rec, [["p1l1"], ["p1l2"], ["p1l3"], ["p1l4"]])
+        assert refrain_units(doc, rec) == {2, 4}
+
+    def test_comparison_is_on_source_not_english(self):
+        # Identical English, different source → NOT a refrain. The source is the
+        # immutable ground truth; the translation is downstream of it.
+        rec = make_record()
+        doc = make_doc(rec, [["p1l1"], ["p1l2"], ["p1l3"], ["p1l4"]])
+        for u in doc.units:
+            u.english = "the same sentence"
+        assert refrain_units(doc, rec) == set()
+
+    def test_a_merge_during_review_updates_the_marking(self):
+        # Two units whose sources are identical are refrains; merging one of
+        # them into its neighbour makes its text unique, so the marking clears
+        # itself with no extra step. This is why deriving beats storing.
+        rec = make_record([AR_LINES[0], "مُكَرَّر", AR_LINES[2], "مُكَرَّر"])
+        doc = make_doc(rec, [["p1l1"], ["p1l2"], ["p1l3"], ["p1l4"]])
+        assert refrain_units(doc, rec) == {2, 4}
+
+        merged = make_doc(rec, [["p1l1", "p1l2"], ["p1l3"], ["p1l4"]])
+        assert refrain_units(merged, rec) == set()
+
+    def test_refrain_is_not_stored_on_the_unit(self):
+        # The field is gone from the persisted shape entirely — there is nowhere
+        # for a stale or model-authored value to live.
+        rec = make_record()
+        doc = make_doc(rec)
+        assert "refrain" not in doc.units[0].to_dict()
+        assert not hasattr(doc.units[0], "refrain")
+
+    def test_payload_refrain_flags_come_from_the_derivation(self):
+        rec = make_record([AR_LINES[0], "مُكَرَّر", AR_LINES[2], "مُكَرَّر"])
+        doc = make_doc(rec, [["p1l1"], ["p1l2"], ["p1l3"], ["p1l4"]])
+        flags = [u["refrain"] for u in render_payload(doc, rec)["units"]]
+        assert flags == [False, True, False, True]
 
 
 class TestRenderPayload:

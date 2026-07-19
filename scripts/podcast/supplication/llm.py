@@ -27,7 +27,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from .schema import SourceRecord, SupplicationError, Unit, UnitsDoc, derive_source  # noqa: E402
+from .schema import (  # noqa: E402
+    SourceRecord,
+    SupplicationError,
+    Unit,
+    UnitsDoc,
+    derive_source,
+    refrain_units,
+)
 
 SEGMENT_MODEL = "claude-sonnet-4-6"
 TRANSLATE_MODEL = "claude-opus-4-8"
@@ -73,10 +80,9 @@ RULES — these are absolute:
 2. Every line id you are given must appear in EXACTLY ONE unit. Drop nothing, duplicate nothing.
 3. Keep the original order. A unit's ids must be consecutive.
 4. A unit should be one breath of invocation — a complete address, petition, or clause that a reader can hold beside its English rendering. Typically 1-3 OCR lines. Prefer a slightly longer unit over splitting a grammatical clause in half.
-5. Mark a unit `"refrain": true` when its text is a short response or invocation that recurs verbatim through the supplication.
 
 Return ONLY this JSON:
-{{"units": [{{"line_ids": ["p1l4", "p1l5"], "refrain": false}}]}}"""
+{{"units": [{{"line_ids": ["p1l4", "p1l5"]}}]}}"""
 
 
 def segment(
@@ -108,7 +114,7 @@ def segment(
         for u in units:
             ids = [i for i in (u.get("line_ids") or []) if i in valid_ids]
             if ids:
-                cleaned.append({"line_ids": ids, "refrain": bool(u.get("refrain"))})
+                cleaned.append({"line_ids": ids})
 
         # Drop the final unit of a non-final window: it may have been cut by the
         # window edge mid-phrase. Its lines are re-offered at the head of the
@@ -132,7 +138,7 @@ def segment(
         slug=record.slug,
         source_language=record.source_language,
         source_digest=record.digest,
-        units=[Unit(n=i + 1, line_ids=g["line_ids"], refrain=g["refrain"]) for i, g in enumerate(grouped)],
+        units=[Unit(n=i + 1, line_ids=g["line_ids"]) for i, g in enumerate(grouped)],
     )
 
 
@@ -151,7 +157,7 @@ def _reattach_gaps(grouped: list[dict], all_ids: list[str]) -> list[dict]:
             else:
                 break
         if target is None:
-            grouped.insert(0, {"line_ids": [mid], "refrain": False})
+            grouped.insert(0, {"line_ids": [mid]})
         else:
             target["line_ids"].append(mid)
             target["line_ids"].sort(key=lambda i: pos[i])
@@ -202,6 +208,10 @@ def translate(
     system = _TRANSLATE_SYSTEM.format(lang=lang)
     index = record.by_id()
     by_n = {u.n: u for u in doc.units}
+    # Derived, not model-decided (schema.refrain_units): a unit is a refrain iff
+    # its source text repeats verbatim in this document. Passed to the model so
+    # repeated source gets an identical English rendering every time.
+    refrains = refrain_units(doc, record)
 
     pending = [u for u in doc.units if not (u.english or "").strip()]
     for start in range(0, len(pending), batch):
@@ -211,7 +221,7 @@ def translate(
                 {
                     "n": u.n,
                     "source": derive_source(u.line_ids, index),
-                    "refrain": u.refrain,
+                    "refrain": u.n in refrains,
                 }
                 for u in group
             ]
