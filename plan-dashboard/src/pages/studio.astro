@@ -212,10 +212,67 @@ const {
                           {it.card.author && (
                             <span class="card-author">{it.card.author}</span>
                           )}
+                          {it.card.uncatalogued && (
+                            <span class="card-uncatalogued-pill">
+                              Not yet catalogued
+                            </span>
+                          )}
                         </div>
                         {it.card.blurb && (
                           <p class="card-blurb">{it.card.blurb}</p>
                         )}
+                        <div class="card-gen-pills">
+                          <span
+                            class={`card-gen-pill${it.card.pdfGenerated ? " is-generated" : ""}`}
+                            title={
+                              it.card.pdfGenerated
+                                ? "PDF generated"
+                                : "PDF not yet generated"
+                            }
+                            aria-label={
+                              it.card.pdfGenerated
+                                ? "PDF generated"
+                                : "PDF not yet generated"
+                            }
+                          >
+                            <i class="fa-solid fa-file-pdf" aria-hidden="true" />
+                          </span>
+                          <span
+                            class={`card-gen-pill${it.card.podcastGenerated ? " is-generated" : ""}`}
+                            title={
+                              it.card.podcastGenerated
+                                ? "Podcast generated"
+                                : "Podcast not yet generated"
+                            }
+                            aria-label={
+                              it.card.podcastGenerated
+                                ? "Podcast generated"
+                                : "Podcast not yet generated"
+                            }
+                          >
+                            <i class="fa-solid fa-headphones" aria-hidden="true" />
+                          </span>
+                          <span
+                            class={`card-gen-pill${it.card.augmented ? " is-generated" : ""}`}
+                            title={
+                              it.card.augmented
+                                ? "Augmented from the corpus"
+                                : "Not yet augmented"
+                            }
+                            aria-label={
+                              it.card.augmented
+                                ? "Augmented from the corpus"
+                                : "Not yet augmented"
+                            }
+                          >
+                            <i class="fa-solid fa-sparkles" aria-hidden="true" />
+                          </span>
+                          {it.card.episodeCount > 0 && (
+                            <span class="card-episode-count">
+                              {it.card.episodeCount} episodes
+                            </span>
+                          )}
+                        </div>
                         <div class="card-pipeline-status">
                           <span class="studio-picker-step">
                             {it.card.entry.label} · {it.card.entry.detail}

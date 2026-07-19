@@ -438,13 +438,13 @@
 }
 
 .studio-shelf-icon-wrap {
-  width: 2.6rem;
-  height: 2.6rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   flex-shrink: 0;
   margin-top: 0.05rem;
   /* background and color overridden per bucket below */
@@ -462,8 +462,8 @@
 
 .studio-shelf-name {
   font-family: "EB Garamond", "Source Serif 4", Georgia, serif;
-  font-size: 1.45rem;
-  font-weight: 500;
+  font-size: 1.55rem;
+  font-weight: 600;
   color: var(--c-ink);
   margin: 0 0 0.2rem;
   letter-spacing: 0.01em;
@@ -529,9 +529,10 @@
   border-color: color-mix(in oklab, var(--shelf-accent) 28%, var(--c-rule));
 }
 .studio-shelf .studio-shelf-title-group {
+  border-bottom-width: 2px;
   border-bottom-color: color-mix(
     in oklab,
-    var(--shelf-accent) 26%,
+    var(--shelf-accent) 45%,
     var(--c-rule-soft)
   );
 }
@@ -612,10 +613,14 @@
   color: var(--shelf-accent);
 }
 
-/* Arabic script — centred, Amiri, maroon */
+/* Arabic script — centred, Amiri, maroon. AmiriSized first: the self-hosted,
+   size-corrected face already used by the editor/reader/citation Arabic
+   surfaces (declared in theme-tokens.css) — not the CDN-loaded plain "Amiri",
+   which silently falls back to a generic system serif if the network request
+   is blocked or slow. */
 .card-script-text[lang="ar"] {
   display: block;
-  font-family: "Amiri", "Noto Naskh Arabic", serif;
+  font-family: "AmiriSized", "Amiri", "Noto Naskh Arabic", serif;
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 1.75;
@@ -718,6 +723,70 @@
   color: var(--c-ink-muted);
   line-height: 1.45;
   text-align: center;
+}
+
+/* "Not yet catalogued" — honest placeholder for books with no real
+   title/author data on file yet, instead of a bare fallback icon. */
+.card-uncatalogued-pill {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.3rem;
+  padding: 0.18rem 0.7rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--c-ink-muted);
+  background: var(--c-bg-sunken);
+  border: 1px dashed var(--c-rule);
+}
+
+/* Generation-status pills — real on-disk artifacts (PDF/podcast/augmented),
+   not pipeline phase state, which can drift from what actually exists. Muted
+   until generated; accent-tinted (per shelf category) once real. */
+.card-gen-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+}
+
+.card-gen-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  color: var(--c-ink-muted);
+  background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule-soft);
+  opacity: 0.5;
+}
+
+.card-gen-pill.is-generated {
+  color: var(--shelf-accent, var(--c-accent));
+  background: color-mix(
+    in oklab,
+    var(--shelf-accent, var(--c-accent)) 12%,
+    var(--c-bg-card)
+  );
+  border-color: color-mix(
+    in oklab,
+    var(--shelf-accent, var(--c-accent)) 30%,
+    var(--c-rule)
+  );
+  opacity: 1;
+}
+
+.card-episode-count {
+  margin-left: auto;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  color: var(--c-ink-muted);
+  white-space: nowrap;
 }
 
 /* Pipeline status: pushed to the bottom of the card body */

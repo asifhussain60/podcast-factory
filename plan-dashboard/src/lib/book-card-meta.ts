@@ -56,6 +56,11 @@ export const BOOK_CARD_META: Record<string, BookCardMeta> = {
     displayTitle: "Treasures of Wisdom",
     icon: "fa-gem",
   },
+  "mukhtasar-ul-asar-2": {
+    displayTitle: "Mukhtasar ul Asar 2",
+    author: "Qadi al-Nu'man ibn Muhammad ibn Hayyun al-Tamimi",
+    icon: "fa-book-open",
+  },
   "the-master-and-the-disciple": {
     nativeTitle: "كتاب العالم والغلام",
     nativeLang: "ar",

@@ -6,6 +6,7 @@
  * long-standing names — zero template change.
  */
 
+import { existsSync, readdirSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
@@ -44,6 +45,45 @@ async function readVolumeLabel(dir: string, order: number): Promise<string> {
     /* fall through */
   }
   return `Volume ${order}`;
+}
+
+// Generation-status pills — a book's real, on-disk artifacts, not pipeline
+// phase state (which can drift from what actually exists on disk). Mirrors
+// content-paths.ts's own isDirSync + existsSync(join(...)) pattern.
+function listFilesSync(dir: string): string[] {
+  try {
+    return readdirSync(dir);
+  } catch {
+    return [];
+  }
+}
+
+async function readGenerationStatus(dir: string) {
+  const pdfGenerated = listFilesSync(join(dir, "book")).some((f) =>
+    f.toLowerCase().endsWith(".pdf"),
+  );
+  const episodeFiles = listFilesSync(join(dir, "episodes")).filter((f) =>
+    f.toLowerCase().endsWith(".txt"),
+  );
+  const podcastGenerated = listFilesSync(join(dir, "m4a")).some((f) =>
+    f.toLowerCase().endsWith(".m4a"),
+  );
+  let augmented = false;
+  const reportPath = join(dir, "_system", "book-augment-report.json");
+  if (existsSync(reportPath)) {
+    try {
+      const report = JSON.parse(await readFile(reportPath, "utf-8"));
+      augmented = typeof report.accepted === "number" && report.accepted > 0;
+    } catch {
+      /* malformed or unreadable report — treat as not augmented */
+    }
+  }
+  return {
+    pdfGenerated,
+    podcastGenerated,
+    augmented,
+    episodeCount: episodeFiles.length,
+  };
 }
 
 const SHELF_META: Record<
@@ -93,6 +133,7 @@ export async function buildStudioShelves() {
       const bm = cardMetaFor(b.slug);
       const volM = VOL_RE.exec(b.slug);
       const volOrder = volM ? Number(volM[2]) : null;
+      const generation = await readGenerationStatus(b.dir);
       return {
         slug: b.slug,
         title: bm.displayTitle ?? slugToTitle(b.slug),
@@ -106,6 +147,9 @@ export async function buildStudioShelves() {
         icon: bm.icon ?? "fa-book",
         blurb: bm.blurb,
         volume: bm.volume,
+        // No BOOK_CARD_META entry at all — real title/author aren't known yet.
+        uncatalogued: !bm.displayTitle && !bm.nativeTitle && !bm.author,
+        ...generation,
         // Multi-volume series fields (null for standalone books).
         seriesSlug: volM ? volM[1] : null,
         volumeOrder: volOrder,

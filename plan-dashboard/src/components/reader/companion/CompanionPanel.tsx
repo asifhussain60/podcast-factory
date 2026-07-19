@@ -43,7 +43,12 @@ type LayoutMode = "docked" | "floating";
 
 const LAYOUT_KEY = "pf-companion:layout";
 const PRESENT_KEY = "pf-companion:present";
-const chapterKeyFor = (slug: string) => `pf-companion:chapter:${slug}`;
+/** Exported so callers that re-mount this panel on a chapter change (e.g. the
+ * Book Composer's imperatively-mounted Companion tab) can pre-seed the
+ * remembered chapter — otherwise a stale localStorage value would win over a
+ * fresh `initialChapter` prop on the next mount (see chapter-switch logic in
+ * ../../../scripts/book-composer.ts). */
+export const chapterKeyFor = (slug: string) => `pf-companion:chapter:${slug}`;
 
 interface Draft {
   id?: string;

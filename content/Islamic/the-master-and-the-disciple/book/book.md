@@ -2,7 +2,7 @@
 
 ## How to Read a Conversation Made of Doors
 
-Let me tell you how a certain conversation reached us, because everything about the way you read it depends on hearing it the way it was first spoken.
+A certain conversation reached us, and everything about the way you read it depends on hearing it the way it was first spoken.
 
 We have been told that some groups among the believers, together with a number of the preachers of religion, came to a Master among them and spoke the way people speak when they have been handed something they cannot quite put a name to. "You have set us free," they said to him, "by making us aware of what you have made us aware of — and in doing that very thing, you have laid an obligation on us that we are bound to fulfill." As they understood it, that obligation came in three parts, and each part was a debt of gratitude: thanks for the summons itself, for that to which he had called them; thanks for the knowledge he had shown them; and thanks for the work he had commanded them to do.
 
@@ -30,7 +30,7 @@ And so each of the three debts — which had seemed at the outset like feelings 
 
 ## 1. The Persian Who Was Dead and Revived
 
-Let me tell you about the doctrines of the righteous and the manners of those who seek the way, for something has reached me that I want to place in your hands. There was a man among the people of Persia over whom the decree had run, and it had run in an affliction of ignorance. Do not imagine he was empty of gifts. He had a heart of keen retention, an intellect sound and lofty, and a refinement of manners he had labored to earn for himself. And yet ignorance had prevailed over him in this very knowledge I have been describing to you, because it had come to him early and he had grown up inside it, the way a man grows up inside the walls of the house he was born in. So he turned this way and that in the heat of his thirst, taking the glitter of the mirage for the whiteness of water, until at last he reached it — and found it to be nothing at all. He found Allah there before him, and his account was settled. Then his Lord honored the place where he had come to rest and lifted from him the covering that lay over him. He found him astray and guided him; He found him in want and enriched him with knowledge, so that by that one favor the man became one of the scholars of Tur and one of the dwellers of the Bayt al-Ma'mur.
+Something has reached me about the doctrines of the righteous and the manners of those who seek the way, and I want to place it in your hands. There was a man among the people of Persia over whom the decree had run, and it had run in an affliction of ignorance. Do not imagine he was empty of gifts. He had a heart of keen retention, an intellect sound and lofty, and a refinement of manners he had labored to earn for himself. And yet ignorance had prevailed over him in this very knowledge I have been describing to you, because it had come to him early and he had grown up inside it, the way a man grows up inside the walls of the house he was born in. So he turned this way and that in the heat of his thirst, taking the glitter of the mirage for the whiteness of water, until at last he reached it — and found it to be nothing at all. He found Allah there before him, and his account was settled. Then his Lord honored the place where he had come to rest and lifted from him the covering that lay over him. He found him astray and guided him; He found him in want and enriched him with knowledge, so that by that one favor the man became one of the scholars of Tur and one of the dwellers of the Bayt al-Ma'mur.
 
 When his guidance was made complete and he had arrived at the very edge of everything he had hoped for, thanks fell due from him toward the One who had made him, and it became his to labor toward his Lord. Now there was a word he had heard from his father, a word that lived inside him the way the soul lives inside the body:
 
@@ -46,7 +46,7 @@ So he went out — out from his family, out from his wealth — walking toward h
 
 ## 2. A Stranger in the City
 
-Let me tell you what happened as this young man came upon them, and what moved in his heart as he watched.
+This young man came upon them, and something moved in his heart at the sight.
 
 As he stood watching them dispute, he said within himself: these are the foremost among men, for three qualities show plainly in the very way they argue. The first is that they carry an argument through to its end and do not abandon it half-spoken. The second is that they belong to the people of the Umma. And the third is that they stand nearer to right guidance than most, for they are awake to religion — observing it together, searching after it together — and the one who truly seeks a thing is already on the verge of finding it.
 
@@ -111,7 +111,7 @@ Then he added: "Have fear of Allah with the fear of one who dreads Him, and drea
 
 ## 3. The Boy at the Door — Limits and Conditions
 
-I want to tell you what happened next, because everything that follows in this book turns on it.
+Everything that follows in this book turns on what happened next.
 
 His eyes overflowed with tears, and he broke off his speech. He took his leave of the people, rose, and set out upon his journey. They wept at the warmth and the eloquence of his sermon, and they longed to rise and go with him — but out of courtesy they held themselves back, unsure of what such company would ask of them, and so they went back, each to his own house.
 
@@ -215,7 +215,7 @@ The boy said: "I will do everything you have named — and it is a light thing s
 
 The Master said: "Withdrawing from him would only be a signal to others. No — stay with him, treat him well, keep him content with some measure of outward agreement. Guard your secret from him and hide your affair, for God will be enough for us against his malice and the malice of anyone else."
 
-Now let me tell you how the days went after that. The Master and the boy would meet, and part, and meet again, over a stretch of days — the boy bewildered in his own affair, knowing nothing to stand on except what the law had brought him, unable to find where the Master had settled, and forbidden by the condition he had accepted from going out to look for him. The term stretched long, and all the while the Master was watching his patience, watching how he bore what had been asked of him. Then at last, on a quiet night when all creation had gone still and the watching spies had grown careless, the two of them settled together in their assembly. The boy felt his need drawing close and the chance of being alone with his companion finally within reach — and he fell down before him in prostration. When he lifted his head, the Master spoke.
+The days after that went like this. The Master and the boy would meet, and part, and meet again, over a stretch of days — the boy bewildered in his own affair, knowing nothing to stand on except what the law had brought him, unable to find where the Master had settled, and forbidden by the condition he had accepted from going out to look for him. The term stretched long, and all the while the Master was watching his patience, watching how he bore what had been asked of him. Then at last, on a quiet night when all creation had gone still and the watching spies had grown careless, the two of them settled together in their assembly. The boy felt his need drawing close and the chance of being alone with his companion finally within reach — and he fell down before him in prostration. When he lifted his head, the Master spoke.
 
 The Master said to him: "I saw you fall down in thanksgiving. But thanksgiving before the deed only breeds suspicion — and thanksgiving cut short right after the deed makes the deeds themselves come to nothing."
 
@@ -233,11 +233,11 @@ The Master said: "It is the covenant of Allah — the covenant that establishes 
 
 The boy said: "Yes. Take from me whatever you love. I will not refuse your judgment, and I will not step past your command."
 
-And so — let me bring you to it — the Master set about reciting the covenant to the boy, delivering it to him and binding him fast by it, while the boy could scarcely hold himself together for awe, his tears running down from the sheer depth of what he was being taught, until at last the Master reached the covenant's end. Then the boy praised God, and glorified Him, and thanked Him for what he had been given — and he knew, with a certainty past all doubt, that by accepting their pledge he had stepped into the Party of God (حزب الله) and into the company of His friends. Then he fell quiet, composed and still — and the Master began to open the matter up and make it clear.
+And so the Master set about reciting the covenant to the boy, delivering it to him and binding him fast by it, while the boy could scarcely hold himself together for awe, his tears running down from the sheer depth of what he was being taught, until at last the Master reached the covenant's end. Then the boy praised God, and glorified Him, and thanked Him for what he had been given — and he knew, with a certainty past all doubt, that by accepting their pledge he had stepped into the Party of God (حزب الله) and into the company of His friends. Then he fell quiet, composed and still — and the Master began to open the matter up and make it clear.
 
 ## 4. How the World Was Made
 
-Let me set down, as faithfully as I can, how my Master opened the matter — the first of the causes of the manifest order, and how its creation began.
+My Master opened the matter at the root of it all — the first of the causes of the manifest order, and how its creation began.
 
 God, he told me, is the Creator of things and the One who composes them. He created them and originated them. He is not the first of every created thing in the way that something might take some prior creation as an evidence for what came after it; rather He is the First of all firsts and the Inheritor of every thing. He began the creation of what He created out of light, and from that light three words branched. The first is the will; from the will branched the command; and from the command branched the saying — that He says to what He wills:
 
@@ -849,7 +849,7 @@ At the mention of parting the boy gave such a gasp that his spirit almost took f
 
 ## 8. Homecoming, the Father, and the Debate with Abu Malik
 
-Let me tell you how it ended between the boy and his father, for I was there in spirit as the teller of it, and I want you to feel what I felt.
+What passed between the boy and his father was as raw as anything in this book.
 
 His father stood over him and said: "O my son, is this how sons repay their fathers? I have taught you nothing but the best a child can be taught, and never once did you deny your own self or renounce your beliefs until the time I grew old and this stranger came among us. You drew him in upon me, and you crossed over into his affair without ever consulting your parents. If what I held was true, then you have wronged me in my very self, for you concealed the truth from me. And if it is false, then you have disobeyed me by ruining your own soul, and whatever reaches you reaches me."
 
@@ -867,7 +867,7 @@ The Shaykh's heart was rent by his son's words. He saw that there was no escape 
 
 So they debated at intervals and disclosed things to one another at length, until their affair came to rest upon guidance and right direction: acting upon the religion of Allah, safeguarding it, holding fast to it, calling others to it, and helping one another in it. Through the two of them Allah revived many of His creation. The boy was sent out to bear the good news, with his father's blessing, and to invite others to come. He returned to them and became a cause of their guidance, and Allah poured His blessings upon the people of that country through them and at their hands. The command of Allah was fulfilled, and the slanderer was disappointed.
 
-Now let me name them for you, so you can hold them close as I do. The boy's name was Salih, and his father's name was al-Bakhtari. The two of them held an honored rank among their people for the good they had done, and a high standing for the excellence of the manners they had gained. News of them spread through the land, along with news of the religion they now followed, until it reached a people who still clung to the old creed. Al-Bakhtari had long held influence among them, and they feared his leaving their religion would cut that influence off from them. So they went out and gathered before a scholar of theirs named Abu Malik, the mighty servant, whom they called, for his piety, the abundance of his forbearance, and his defense of their religion, "Ka'b al-Ahbar" (كعب الأحبار). Among them he was a man of standing through his knowledge, his grasp of speech, and his discernment of opinions.
+Their names are worth holding close. The boy's name was Salih, and his father's name was al-Bakhtari. The two of them held an honored rank among their people for the good they had done, and a high standing for the excellence of the manners they had gained. News of them spread through the land, along with news of the religion they now followed, until it reached a people who still clung to the old creed. Al-Bakhtari had long held influence among them, and they feared his leaving their religion would cut that influence off from them. So they went out and gathered before a scholar of theirs named Abu Malik, the mighty servant, whom they called, for his piety, the abundance of his forbearance, and his defense of their religion, "Ka'b al-Ahbar" (كعب الأحبار). Among them he was a man of standing through his knowledge, his grasp of speech, and his discernment of opinions.
 
 When they came in to him they said: "O Abu Malik, do you not see what the boy has gone over to?"
 
@@ -1291,7 +1291,7 @@ He said: "The description does not profit him except by attaining the one descri
 
 Salih pressed the point further. "Then whoever does not know the just one of Allah and His guardian, will his speech itself be just?"
 
-And here, let me tell you, Abu Malik smiled. "You have brought me out of my own chapter on justice and monotheism," he said, "and nothing has brought me out of it but the truth itself, in the clearest of arguments and the gentlest of speech. After this, what position is left to be proved?"
+And here Abu Malik smiled. "You have brought me out of my own chapter on justice and monotheism," he said, "and nothing has brought me out of it but the truth itself, in the clearest of arguments and the gentlest of speech. After this, what position is left to be proved?"
 
 "From here, O Abu Malik," Salih answered, "the camouflaged glass falls away from those who trade in the colors of jewels. They could not recognize its worth; but when it is set before one who knows, the pretenders are exposed, and those deceived by them are exposed along with them."
 
@@ -1389,6 +1389,6 @@ The scholar said: "You know your own companions best. If you see good in them, g
 
 So Abu Malik and his companions went on wavering in their trial until their affair was made complete, and they knew their own guidance, and the guardian of Allah among them turned toward that guidance with kindness. They gave thanks to Allah for it, and returned to their people as warners; and through them Allah guided a host of His servants to His religion.
 
-And now let me speak to you plainly, in my own voice. Whatever in this account has taken the shape of a narrative was no idle telling, but a confirmation of what Allah has commanded; for in it lies the steadfastness of the messengers, the signs of the guardians, and the manners of the seekers.
+Here, plainly, and in my own voice: whatever in this account has taken the shape of a narrative was no idle telling, but a confirmation of what Allah has commanded; for in it lies the steadfastness of the messengers, the signs of the guardians, and the manners of the seekers.
 
 Praise be to Allah, first and last. May Allah bless His Messenger, our master Muhammad, sent forth from Him to His creation as a bearer of glad tidings and a warner; and bless his guardian, the Imam of the God-fearing, the radiant leader of the bright-marked, the beloved of the Lord of the Worlds; and the Imams of the people of his house, whom Allah has favored and from whom He has removed every defilement, purifying them completely. Allah is sufficient for us, and how excellent a Trustee, how excellent a Master, and how excellent a Helper. There is no power and no strength except by Allah, the Most High, the Most Great.
