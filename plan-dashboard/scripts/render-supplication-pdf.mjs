@@ -96,12 +96,14 @@ export function buildTitleBlock(doc) {
 
 export function buildUnitsTable(doc) {
   const lang = doc.source_language;
+  // Unit numbers are NOT printed. `n` stays in units.json and in the review CLI
+  // (it is how a human refers to a unit), but a devotional text is not a
+  // numbered reference edition, so the page carries no unit chrome.
   const rows = doc.units
-    .map((u, i) => {
-      const n = u.n ?? i + 1;
+    .map((u) => {
       const cls = u.refrain ? ' class="sup-refrain"' : "";
       return `      <tr${cls}>
-        <td class="sup-en"><span class="sup-n">${esc(n)}</span>${esc(u.english)}</td>
+        <td class="sup-en">${esc(u.english)}</td>
         <td class="sup-src" dir="rtl" lang="${esc(lang)}">${esc(u.source)}</td>
       </tr>`;
     })

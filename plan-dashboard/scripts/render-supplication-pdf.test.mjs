@@ -97,9 +97,14 @@ t("refrain rows get the refrain class, others do not", () => {
   assert.equal((html.match(/class="sup-refrain"/g) || []).length, 1);
 });
 
-t("unit numbers fall back to position when absent", () => {
-  const html = buildUnitsTable(doc({ units: [{ source: "أ", english: "A" }] }));
-  assert.ok(html.includes('<span class="sup-n">1</span>'));
+t("unit numbers are never printed", () => {
+  // `n` stays in units.json and the review CLI, but the printed page carries no
+  // unit chrome — a supplication is a devotional text, not a numbered edition.
+  const html = buildUnitsTable(
+    doc({ units: [{ n: 7, source: "أ", english: "A" }] }),
+  );
+  assert.ok(!html.includes("sup-n"));
+  assert.ok(!html.includes(">7<"));
 });
 
 t("no <thead> — a repeating header would waste a long litany's page", () => {

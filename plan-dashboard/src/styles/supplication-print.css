@@ -9,12 +9,19 @@
  * standalone PDF-only lane; book-print.css governs every existing Islamic
  * reading edition and is never touched by this work.
  *
- * Fonts — self-hosted, both SIL OFL, served by the renderer from
- * plan-dashboard/public/fonts/:
- *   Noto Naskh Arabic  → Arabic sources   (.sup-src[lang="ar"])
- *   Noto Nastaliq Urdu → Urdu sources     (.sup-src[lang="ur"])
- *   Source Serif 4     → English column   (shared with the reading edition)
- * The faces are bundled, NOT host-resolved, so pagination is identical on
+ * Fonts — self-hosted, served by the renderer from plan-dashboard/public/fonts/.
+ * TWO faces per script, split by ROLE, so each side has a display voice and a
+ * reading voice:
+ *   Arabic  → Amiri Regular (source body) + Amiri Bold (title, refrains)
+ *   Urdu    → Noto Nastaliq Urdu (Urdu is conventionally set in Nastaliq; Amiri
+ *             is a Naskh face and would be wrong for it)
+ *   English → Inter (display + labels: title, eyebrow, metadata keys)
+ *             Lato  (reading text: translations, preamble, metadata values)
+ * NOTE: "Traditional Arabic Bold" was requested as the Arabic bold partner. It
+ * is a proprietary Microsoft font — not present on this machine and not
+ * licensable to self-host — so Amiri Bold stands in. Scheherazade New (SIL) is
+ * the closest freely-licensable analogue if that specific texture is wanted.
+ * All faces are bundled, NOT host-resolved, so pagination is identical on
  * every machine for the same units.json.
  *
  * LAYOUT PRIMITIVE — an HTML <table>. One <tr> per unit. A table row is what
@@ -24,44 +31,62 @@
  */
 
 /* ── Faces ───────────────────────────────────────────────────────────────── */
+
+/* English — Inter for display/labels, Lato for reading text. Both Latin-only
+   here, so neither ever touches the Arabic column. */
 @font-face {
-  font-family: "Source Serif 4";
-  src: url("/fonts/source-serif/SourceSerif4-VF.ttf") format("truetype");
-  font-weight: 100 900;
+  font-family: "Inter";
+  src: url("/fonts/inter/inter-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Source Serif 4";
-  src: url("/fonts/source-serif/SourceSerif4-Italic-VF.ttf") format("truetype");
-  font-weight: 100 900;
-  font-style: italic;
+  font-family: "Inter";
+  src: url("/fonts/inter/inter-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lato";
+  src: url("/fonts/lato/lato-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lato";
+  src: url("/fonts/lato/lato-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
   font-display: swap;
 }
 
-/* size-adjust enlarges the Arabic glyphs so the source column reads at the
-   same visual weight as the Latin English column — Arabic faces render
-   smaller than Latin at equal point size. These families are Arabic-script
-   only here, so this never affects the English column. */
+/* Arabic — Amiri. size-adjust enlarges the Arabic glyphs so the source column
+   reads at the same visual weight as the Latin English column; Arabic faces
+   render smaller than Latin at equal point size. Amiri is Arabic-script only
+   in this stylesheet, so this never affects the English column. Matches the
+   135% already used by the reading edition (book-print.css) so the two
+   deliverables set Arabic at the same optical size. */
 @font-face {
-  font-family: "Noto Naskh Arabic";
-  src: url("/fonts/noto-naskh-arabic/NotoNaskhArabic-Regular.woff2")
-    format("woff2");
+  font-family: "Amiri";
+  src: url("/fonts/amiri/Amiri-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  size-adjust: 118%;
+  size-adjust: 135%;
 }
 @font-face {
-  font-family: "Noto Naskh Arabic";
-  src: url("/fonts/noto-naskh-arabic/NotoNaskhArabic-Bold.woff2")
-    format("woff2");
+  font-family: "Amiri";
+  src: url("/fonts/amiri/Amiri-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
-  size-adjust: 118%;
+  size-adjust: 135%;
 }
-/* Nastaliq is a sloped, deeply-cascading script: glyphs descend far below the
-   baseline and ascend far above it. It needs its own size-adjust AND a much
-   larger line-height than Naskh (see .sup-src[lang="ur"] below) — hence a
+
+/* Urdu — Nastaliq is a sloped, deeply-cascading script: glyphs descend far
+   below the baseline and ascend far above it. It needs its own size-adjust AND
+   a much larger line-height than Naskh (see .sup-src[lang="ur"] below), hence a
    separate family/class pair rather than one shared Arabic-script rule. */
 @font-face {
   font-family: "Noto Nastaliq Urdu";
@@ -85,7 +110,7 @@
   margin: 2cm 1.6cm;
   @bottom-center {
     content: counter(page);
-    font-family: "Source Serif 4", Georgia, serif;
+    font-family: "Inter", system-ui, sans-serif;
     font-size: 0.72rem;
     color: var(--c-ink-muted, #87827a);
   }
@@ -100,9 +125,8 @@ html {
   font-size: 19.2px;
 }
 body {
-  font-family:
-    "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman",
-    serif;
+  /* Lato is the READING voice — translations, preamble, metadata values. */
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   color: var(--c-ink, #1f1d18);
@@ -118,6 +142,7 @@ body {
   margin-bottom: 1.9rem;
 }
 .sup-titleblock .sup-eyebrow {
+  font-family: "Inter", system-ui, sans-serif;
   margin: 0 0 0.5rem;
   font-size: 0.7rem;
   font-weight: 600;
@@ -126,6 +151,7 @@ body {
   color: var(--c-gold, #b8860b);
 }
 .sup-titleblock h1 {
+  font-family: "Inter", system-ui, sans-serif;
   margin: 0 0 0.35rem;
   font-size: 2.1rem;
   line-height: 1.16;
@@ -134,7 +160,8 @@ body {
 }
 .sup-titleblock .sup-title-src {
   margin: 0 0 1.1rem;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 700; /* Amiri Bold — the Arabic display voice */
   line-height: 1.9;
   color: var(--c-ink, #1f1d18);
 }
@@ -152,6 +179,7 @@ body {
   font-size: 0.84rem;
 }
 .sup-meta dt {
+  font-family: "Inter", system-ui, sans-serif;
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.09em;
@@ -197,10 +225,11 @@ body {
 }
 
 .sup-units td {
-  /* Top alignment is what makes the two cells READ as aligned: both start at
-     the same y, so the eye tracks English↔source line-for-line even when the
-     two languages need different numbers of lines. */
-  vertical-align: top;
+  /* Middle alignment: the two blocks are centred against each other in the
+     shared row box, so a short source facing a long translation reads as
+     balanced rather than as a block hanging from the top with a gap beneath.
+     The row itself is still what guarantees the two cells share a height. */
+  vertical-align: middle;
   padding: 0.62rem 0.95rem 0.72rem;
   border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
   width: 50%;
@@ -217,22 +246,20 @@ body {
   text-align: right;
 }
 
-/* Unit number — a quiet marginal marker on the English side. */
-.sup-en .sup-n {
-  display: block;
-  margin-bottom: 0.18rem;
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--c-ink-muted, #8b867c);
-}
+/* Unit numbers are deliberately NOT rendered. `n` still exists in units.json
+   and in the review CLI, where it is how a human refers to a unit — it just has
+   no place on the printed page, which is a devotional text and not a numbered
+   reference edition. */
 
 /* ── Script-specific source typography ──────────────────────────────────── */
 /* Arabic (Naskh) — compact, upright, tashkeel sits close to the baseline. */
 .sup-src[lang="ar"] {
-  font-family: "Noto Naskh Arabic", "Amiri", serif;
-  font-size: 1.06rem;
-  line-height: 2.05; /* room for tashkeel above and below */
+  font-family: "Amiri", serif;
+  font-size: 1.02rem;
+  /* Generous leading: `size-adjust: 135%` scales the GLYPHS but not the line
+     box, so a line-height tuned for an unadjusted face leaves multi-line Amiri
+     cramped — ascending tashkeel on one line crowds the descenders above it. */
+  line-height: 2.45;
 }
 
 /* Urdu (Nastaliq) — the cascading nastaliq line needs far more vertical room
@@ -251,6 +278,7 @@ body {
 }
 
 .sup-units .sup-en {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 0.95rem;
   line-height: 1.62;
 }
@@ -263,6 +291,7 @@ body {
 
 /* Colophon at the end of the document. */
 .sup-colophon {
+  font-family: "Inter", system-ui, sans-serif;
   margin-top: 2rem;
   padding-top: 0.9rem;
   border-top: 1px solid var(--c-rule-soft, #ebe6da);
