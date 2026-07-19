@@ -12,6 +12,11 @@ conversation_style: deep_dive
 # 17k-word source, the extended band (5,500w+/episode) would demand ~6x
 # padding; 1,800-2,800w/episode keeps the render faithful (2026-06-10).
 length_tier: default_deep_dive
+# Augmented companion edition (2026-07-19): both knobs pinned explicitly rather
+# than inherited from the deliverable-mode default map, so the reading edition's
+# behaviour is readable here and cannot shift if that map is ever re-tuned.
+book_augmentation: source_only
+book_voice: author_companion
 enable_video: false
 video_style: none
 # Density-standard re-run (2026-06-10): opts this book into the chapter-density

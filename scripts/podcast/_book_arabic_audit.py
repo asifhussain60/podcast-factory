@@ -1,0 +1,189 @@
+"""_book_arabic_audit.py — per-chapter Arabic provenance audit for ``book/book.md``.
+
+The book lane could measure Arabic in two places and neither watched the finished
+edition: ``_arabic_coverage`` gates a compose *window* before chapters exist, and
+``_book_voice`` counts runs per chapter and reverts a re-voice that dropped some.
+Both are COUNT tests against the immediately-preceding text. Neither asks the
+question a printed edition actually lives or dies by:
+
+    is each Arabic run on this page the source's own words, or the model's recall?
+
+A count test cannot see that. A verse can survive every gate, be counted at every
+step, and still have been re-spelled, truncated, or supplied from memory. This
+module answers the identity question instead, per chapter, by folding each run to
+its consonantal skeleton (``_arabic_coverage.normalize_arabic``) and looking for
+it in the immutable OCR of the source pages, then in the knowledge base's own
+Arabic. What neither can account for is reported as ``unverified`` — never
+silently accepted, and never auto-corrected: restoring a verse is a judgment call
+that belongs to a human with a source in hand, not to a compose pass.
+
+Pure and deterministic — no LLM, no network, no mutation. It reads text and
+returns findings; the caller decides what to do with them.
+"""
+
+from __future__ import annotations
+
+import json
+import re
+from pathlib import Path
+from typing import Any
+
+from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded, normalize_arabic
+
+# Resolution ladder, strongest provenance first. ``ocr`` means the run is the
+# source's own words. ``knowledge-base`` means it is not in THIS book's pages but
+# is a verse/saying the corpus already carries verbatim from elsewhere — weaker,
+# because the edition is then quoting something its own source did not print.
+RESOLUTION_OCR = "ocr"
+RESOLUTION_KB = "knowledge-base"
+RESOLUTION_UNVERIFIED = "unverified"
+
+_CHAPTER_HEADING_RE = re.compile(r"(?m)^##\s+(.+?)\s*$")
+# Editorial asides are additive companion prose, not source text. Their Arabic is
+# audited under the same rule (it must be copied from the corpus), so they are
+# left in — this constant exists to name the intent, not to exclude them.
+_KB_FILES = ("quran.jsonl", "hadith.jsonl", "quote.jsonl", "doctrine.jsonl", "etymology.jsonl")
+
+
+def _kb_arabic_corpus(kb_root: Path) -> str:
+    """Every Arabic string the knowledge base carries, concatenated for matching."""
+    parts: list[str] = []
+    for name in _KB_FILES:
+        path = kb_root / name
+        if not path.exists():
+            continue
+        try:
+            for raw in path.read_text(encoding="utf-8").splitlines():
+                raw = raw.strip()
+                if not raw:
+                    continue
+                body = json.loads(raw).get("body")
+                if not isinstance(body, dict):
+                    continue
+                for key in ("arabic", "text_ar", "root"):
+                    value = body.get(key)
+                    if isinstance(value, str) and value.strip():
+                        parts.append(value)
+        except Exception:
+            continue
+    return "\n".join(parts)
+
+
+def split_chapters(book_md: str) -> list[tuple[str, str]]:
+    """``book.md`` as (heading, body) pairs; text before the first ``##`` is front matter."""
+    matches = list(_CHAPTER_HEADING_RE.finditer(book_md))
+    if not matches:
+        return [("(whole book)", book_md)]
+    out: list[tuple[str, str]] = []
+    head = book_md[: matches[0].start()].strip()
+    if head:
+        out.append(("(front matter)", head))
+    for i, m in enumerate(matches):
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(book_md)
+        out.append((m.group(1).strip(), book_md[m.end() : end]))
+    return out
+
+
+def audit_book_arabic(book_md: str, arabic_src: str, kb_arabic: str = "") -> dict[str, Any]:
+    """Per-chapter provenance of every Arabic run in a composed edition.
+
+    Returns ``{"chapters": [...], "totals": {...}}``. Each chapter lists its runs
+    with a ``resolution`` from the ladder above; ``unverified`` runs carry their
+    text so a human can check them against a source without re-deriving anything.
+    """
+    chapters: list[dict[str, Any]] = []
+    totals = {RESOLUTION_OCR: 0, RESOLUTION_KB: 0, RESOLUTION_UNVERIFIED: 0}
+    for title, body in split_chapters(book_md):
+        runs: list[dict[str, str]] = []
+        for span in arabic_run_spans(body):
+            if arabic_span_is_grounded(span, arabic_src):
+                resolution = RESOLUTION_OCR
+            elif kb_arabic and arabic_span_is_grounded(span, kb_arabic):
+                resolution = RESOLUTION_KB
+            else:
+                resolution = RESOLUTION_UNVERIFIED
+            totals[resolution] += 1
+            runs.append({"text": span, "resolution": resolution, "skeleton": normalize_arabic(span)[:40]})
+        chapters.append(
+            {
+                "chapter": title,
+                "arabic_runs": len(runs),
+                "unverified": sum(1 for r in runs if r["resolution"] == RESOLUTION_UNVERIFIED),
+                "runs": runs,
+            }
+        )
+    totals["arabic_runs"] = sum(totals[k] for k in (RESOLUTION_OCR, RESOLUTION_KB, RESOLUTION_UNVERIFIED))
+    return {"schema": "book.arabic-audit/v1", "chapters": chapters, "totals": totals}
+
+
+def stage_counts(book_dir: Path) -> dict[str, int]:
+    """Arabic quotations per chapter in ``book.md`` right now — one compose stage's mark.
+
+    Each upstream gate compares against its own immediate input, so a quotation
+    lost BETWEEN stages is invisible to every one of them. Marking the count after
+    each stage is what makes a loss attributable instead of merely total.
+    """
+    book_md = Path(book_dir) / "book" / "book.md"
+    if not book_md.exists():
+        return {}
+    return {title: len(arabic_run_spans(body)) for title, body in split_chapters(book_md.read_text(encoding="utf-8"))}
+
+
+def stage_losses(stages: dict[str, dict[str, int]]) -> list[dict[str, Any]]:
+    """Where Arabic quotations disappeared: (chapter, stage, before -> after)."""
+    names = list(stages)
+    losses: list[dict[str, Any]] = []
+    for earlier, later in zip(names, names[1:]):
+        before, after = stages[earlier], stages[later]
+        for chapter, count in before.items():
+            now = after.get(chapter, 0)
+            if now < count:
+                losses.append({"chapter": chapter, "stage": later, "before": count, "after": now})
+    return losses
+
+
+def run_arabic_audit(book_dir: Path, *, log=print, stages: dict[str, dict[str, int]] | None = None) -> dict[str, Any]:
+    """Audit ``book/book.md`` in place and write ``_system/book-arabic-audit.json``.
+
+    Non-fatal by contract: a provenance problem is surfaced for human judgment,
+    never used to fail a compose that otherwise produced a good edition.
+    """
+    book_dir = Path(book_dir).resolve()
+    book_md = book_dir / "book" / "book.md"
+    if not book_md.exists():
+        return {}
+    ocr = book_dir / "_system" / "source" / "ocr" / "raw-extract.md"
+    arabic_src = ocr.read_text(encoding="utf-8") if ocr.exists() else ""
+    kb_root = Path(__file__).resolve().parents[2] / "content" / "knowledge-base"
+    report = audit_book_arabic(book_md.read_text(encoding="utf-8"), arabic_src, _kb_arabic_corpus(kb_root))
+    if not arabic_src:
+        report["note"] = "no OCR ground truth for this book — every run falls back to the knowledge base"
+    if stages:
+        report["stages"] = stages
+        report["stage_losses"] = stage_losses(stages)
+    out = book_dir / "_system" / "book-arabic-audit.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    t = report["totals"]
+    log(
+        f"    arabic-audit: {t['arabic_runs']} Arabic runs · {t[RESOLUTION_OCR]} from source · "
+        f"{t[RESOLUTION_KB]} from knowledge base · {t[RESOLUTION_UNVERIFIED]} unverified"
+    )
+    for ch in report["chapters"]:
+        if ch["unverified"]:
+            log(f"      ! {ch['chapter']}: {ch['unverified']} unverified of {ch['arabic_runs']}")
+    for loss in report.get("stage_losses", []):
+        log(
+            f"      ! {loss['chapter']}: {loss['before']} -> {loss['after']} Arabic quotations "
+            f"lost at the {loss['stage']} stage"
+        )
+    return report
+
+
+if __name__ == "__main__":  # pragma: no cover - thin CLI
+    import sys
+
+    if len(sys.argv) != 2:
+        print("usage: _book_arabic_audit.py <BOOK_DIR>", file=sys.stderr)
+        raise SystemExit(2)
+    raise SystemExit(0 if run_arabic_audit(Path(sys.argv[1])) else 1)

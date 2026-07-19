@@ -29,7 +29,18 @@ _ARABIC_SCRIPT_RE = re.compile(_ARABIC_CLASS)
 # length filter (below) is what removes short apparatus like variant-reading notes.
 # This one pattern feeds both the source counter and the retry hint, so the count
 # and the named evidence can never diverge.
-_ARABIC_QUOTE_SPAN_RE = re.compile(r"(?:«|\(\(|\(«|﴿)\s*(" + _ARABIC_CLASS + r"[^«»()\[\]﴿﴾]{6,}?)\s*(?:»|\)\)|\)|﴾)")
+#
+# The delimiter set must cover every convention a printed Arabic edition uses, not
+# just the guillemets and Quranic brackets: an edition that fences its quotations
+# with plain double quotes (as the-master-and-the-disciple's scan does — 54 such
+# spans, zero guillemets) otherwise yields a count of ZERO, which silently disables
+# the coverage gate entirely. A gate that cannot see is worse than no gate, because
+# it reads as protection. Straight and curly double quotes are therefore openers and
+# closers too; the Arabic-letter minimum below is what keeps OCR noise out.
+_ARABIC_QUOTE_DELIMS = r'«|\(\(|\(«|﴿|"|“|”'
+_ARABIC_QUOTE_SPAN_RE = re.compile(
+    r"(?:" + _ARABIC_QUOTE_DELIMS + r")\s*(" + _ARABIC_CLASS + r"[^«»()\[\]﴿﴾\"“”]{6,}?)\s*(?:»|\)\)|\)|﴾|\"|“|”)"
+)
 # Minimum Arabic letters for a run/quote to count — filters stray inline terms,
 # variant-reading notes, and OCR speckle from the verse/hadith spans this is about.
 _ARABIC_RUN_MIN_CHARS = 8
@@ -110,6 +121,58 @@ def arabic_run_spans(text: str, min_chars: int = _ARABIC_RUN_MIN_CHARS) -> list[
     if cur_ar >= min_chars:
         spans.append("".join(cur).strip())
     return spans
+
+
+# ─── Grounding: does an Arabic run actually come from the source? ────────────
+# OCR and a faithful re-set of the same verse disagree on exactly the marks that
+# carry no identity: vowel points, the elongation dash, and the alef/ya/ta-marbuta
+# spelling variants a typesetter normalizes. Folding those away leaves the
+# consonantal skeleton — the thing that is either the source's words or is not.
+_ARABIC_TASHKEEL_RE = re.compile(r"[ؐ-ًؚ-ٰٟۖ-ۭـ]")
+_ARABIC_FOLD = str.maketrans(
+    {
+        "آ": "ا",
+        "أ": "ا",
+        "إ": "ا",
+        "ٱ": "ا",  # alef variants
+        "ى": "ي",  # alef maqsura -> ya
+        "ة": "ه",  # ta marbuta -> ha
+        "ؤ": "و",
+        "ئ": "ي",  # hamza carriers
+    }
+)
+_ARABIC_LETTERS_ONLY_RE = re.compile(r"[^ء-ي]")
+# A quotation may be trimmed at either end between source and edition (an OCR line
+# break, an ellipsis, a dropped closing particle). Comparing a bounded window of
+# the skeleton keeps that from reading as fabrication, while staying long enough
+# that two genuinely different sayings cannot collide.
+_GROUNDING_WINDOW_CHARS = 24
+
+
+def normalize_arabic(text: str) -> str:
+    """The consonantal skeleton of an Arabic run — vowels, tatweel, spelling folded away."""
+    stripped = _ARABIC_TASHKEEL_RE.sub("", text or "")
+    return _ARABIC_LETTERS_ONLY_RE.sub("", stripped.translate(_ARABIC_FOLD))
+
+
+def arabic_span_is_grounded(span: str, arabic_src: str, *, window: int = _GROUNDING_WINDOW_CHARS) -> bool:
+    """True when ``span``'s skeleton is found in the source's — i.e. it was COPIED.
+
+    The inverse is the case that matters: an Arabic run in a composed edition whose
+    skeleton appears nowhere in the OCR of the source pages was supplied by the
+    model from memory, and a printed edition must never carry that silently.
+    """
+    if not span or not arabic_src:
+        return False
+    needle = normalize_arabic(span)
+    if not needle:
+        return False
+    haystack = normalize_arabic(arabic_src)
+    if not haystack:
+        return False
+    if len(needle) <= window:
+        return needle in haystack
+    return needle in haystack or needle[:window] in haystack or needle[-window:] in haystack
 
 
 def arabic_coverage_hint(arabic_src: str, limit: int = 24) -> str:

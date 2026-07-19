@@ -114,100 +114,118 @@ def _drive_book_branch(book_dir: Path) -> int:
     update_phase(book_dir, phase="0book-compose", status="completed")
     phase_git_commit(book_dir, f"book({slug}): 0book-compose — unified path")
 
-    # 0book-illustrate: teaching diagrams -> book-illustrated.md (non-blocking on failure)
-    update_phase(book_dir, phase="0book-illustrate", status="running")
-    try:
-        author_phase_book_illustrate(book_dir, log=_info)
-    except AuthoringError as e:
-        update_phase(
-            book_dir,
-            phase="0book-illustrate",
-            status="failed",
-            error=str(e),
-            extras={"manual_fallback": e.manual_fallback},
-        )
-        _err(f"0book-illustrate failed (non-blocking): {e}")
-        # Continue to render even without illustrations — book.md still renders fine.
-    else:
-        update_phase(book_dir, phase="0book-illustrate", status="completed")
-        phase_git_commit(book_dir, f"book({slug}): 0book-illustrate — book-illustrated.md")
+    # Visual policy. Under `book_visuals: manual_only` (the default for a companion
+    # edition) the reading edition is a TEXT deliverable and its figures are chosen
+    # by hand in the Book Composer. Both generating phases are skipped outright, so
+    # no candidate asset is produced behind the curator's back — nothing to
+    # accidentally place, nothing to review away later.
+    from _pipeline_flags import BOOK_VISUALS_MANUAL_ONLY, book_visuals
 
-    # 0book-slide-import: NotebookLM deck PDFs -> book-slides.md.
-    # Halts (return 3) when framed chapters lack their dropped PDFs; plain
-    # failures are non-blocking (render proceeds from book-illustrated.md).
-    update_phase(book_dir, phase="0book-slide-import", status="running")
-    try:
-        from _slide_import import author_phase_slide_import
+    _visuals = book_visuals(book_dir)
+    _manual_visuals = _visuals == BOOK_VISUALS_MANUAL_ONLY
+    if _manual_visuals:
+        _info("0book-illustrate/slide-import: skipped — book_visuals=manual_only (figures curated in the Composer)")
+        for _p in ("0book-illustrate", "0book-slide-import"):
+            update_phase(book_dir, phase=_p, status="skipped", extras={"reason": "book_visuals=manual_only"})
 
-        result = author_phase_slide_import(book_dir, log=_info)
-    except AuthoringHalt as e:
-        update_phase(
-            book_dir,
-            phase="0book-slide-import",
-            status="halted",
-            error=str(e),
-            extras={"manual_fallback": e.manual_fallback},
-        )
-        _info("")
-        _info("─" * 72)
-        _info("0book-slide-import halted — NotebookLM slide decks not yet dropped.")
-        _info(str(e))
-        _info("")
-        _info("Then re-run: python3 scripts/podcast/orchestrate_book.py --resume " + book_dir.name)
-        _info("─" * 72)
-        return 3
-    except AuthoringError as e:
-        update_phase(
-            book_dir,
-            phase="0book-slide-import",
-            status="failed",
-            error=str(e),
-            extras={"manual_fallback": e.manual_fallback},
-        )
-        _err(f"0book-slide-import failed (non-blocking — rendering without slides): {e}")
-    else:
-        if result.get("skipped"):
-            update_phase(book_dir, phase="0book-slide-import", status="skipped", extras={"reason": result["skipped"]})
-        elif result.get("awaiting_layout"):
-            # Visuals were emitted as candidates (book/visuals/index.json), not
-            # injected. HALT before render so the human curates placement in the
-            # Astro Book Composer (which writes visual-layout.json); a subsequent
-            # resume / the Composer's Generate button renders the PDF.
+    # Both generating phases run ONLY when the book allows pipeline visuals.
+    if not _manual_visuals:
+        # 0book-illustrate: teaching diagrams -> book-illustrated.md (non-blocking on failure)
+        update_phase(book_dir, phase="0book-illustrate", status="running")
+        try:
+            author_phase_book_illustrate(book_dir, log=_info)
+        except AuthoringError as e:
+            update_phase(
+                book_dir,
+                phase="0book-illustrate",
+                status="failed",
+                error=str(e),
+                extras={"manual_fallback": e.manual_fallback},
+            )
+            _err(f"0book-illustrate failed (non-blocking): {e}")
+            # Continue to render even without illustrations — book.md still renders fine.
+        else:
+            update_phase(book_dir, phase="0book-illustrate", status="completed")
+            phase_git_commit(book_dir, f"book({slug}): 0book-illustrate — book-illustrated.md")
+
+        # 0book-slide-import: NotebookLM deck PDFs -> book-slides.md.
+        # Halts (return 3) when framed chapters lack their dropped PDFs; plain
+        # failures are non-blocking (render proceeds from book-illustrated.md).
+        update_phase(book_dir, phase="0book-slide-import", status="running")
+        try:
+            from _slide_import import author_phase_slide_import
+
+            result = author_phase_slide_import(book_dir, log=_info)
+        except AuthoringHalt as e:
             update_phase(
                 book_dir,
                 phase="0book-slide-import",
-                status="completed",
-                extras={
-                    "imported": result.get("imported", {}),
-                    "exempt": result.get("exempt", []),
-                    "awaiting_layout": True,
-                },
-            )
-            phase_git_commit(book_dir, f"book({slug}): 0book-slide-import — visual candidates")
-            update_phase(
-                book_dir,
-                phase="0book-render",
                 status="halted",
-                extras={
-                    "reason": "awaiting-layout",
-                    "manual_fallback": "Curate visuals in the Book Composer "
-                    "(writes book/visual-layout.json), then Generate PDF / --resume.",
-                },
+                error=str(e),
+                extras={"manual_fallback": e.manual_fallback},
             )
             _info("")
             _info("─" * 72)
-            _info("book branch halted — awaiting-layout. Visual candidates are in book/visuals/index.json.")
-            _info("Curate placement in the Astro Book Composer, then Generate PDF.")
+            _info("0book-slide-import halted — NotebookLM slide decks not yet dropped.")
+            _info(str(e))
+            _info("")
+            _info("Then re-run: python3 scripts/podcast/orchestrate_book.py --resume " + book_dir.name)
             _info("─" * 72)
             return 3
-        else:
+        except AuthoringError as e:
             update_phase(
                 book_dir,
                 phase="0book-slide-import",
-                status="completed",
-                extras={"imported": result.get("imported", {}), "exempt": result.get("exempt", [])},
+                status="failed",
+                error=str(e),
+                extras={"manual_fallback": e.manual_fallback},
             )
-            phase_git_commit(book_dir, f"book({slug}): 0book-slide-import — book-slides.md")
+            _err(f"0book-slide-import failed (non-blocking — rendering without slides): {e}")
+        else:
+            if result.get("skipped"):
+                update_phase(
+                    book_dir, phase="0book-slide-import", status="skipped", extras={"reason": result["skipped"]}
+                )
+            elif result.get("awaiting_layout"):
+                # Visuals were emitted as candidates (book/visuals/index.json), not
+                # injected. HALT before render so the human curates placement in the
+                # Astro Book Composer (which writes visual-layout.json); a subsequent
+                # resume / the Composer's Generate button renders the PDF.
+                update_phase(
+                    book_dir,
+                    phase="0book-slide-import",
+                    status="completed",
+                    extras={
+                        "imported": result.get("imported", {}),
+                        "exempt": result.get("exempt", []),
+                        "awaiting_layout": True,
+                    },
+                )
+                phase_git_commit(book_dir, f"book({slug}): 0book-slide-import — visual candidates")
+                update_phase(
+                    book_dir,
+                    phase="0book-render",
+                    status="halted",
+                    extras={
+                        "reason": "awaiting-layout",
+                        "manual_fallback": "Curate visuals in the Book Composer "
+                        "(writes book/visual-layout.json), then Generate PDF / --resume.",
+                    },
+                )
+                _info("")
+                _info("─" * 72)
+                _info("book branch halted — awaiting-layout. Visual candidates are in book/visuals/index.json.")
+                _info("Curate placement in the Astro Book Composer, then Generate PDF.")
+                _info("─" * 72)
+                return 3
+            else:
+                update_phase(
+                    book_dir,
+                    phase="0book-slide-import",
+                    status="completed",
+                    extras={"imported": result.get("imported", {}), "exempt": result.get("exempt", [])},
+                )
+                phase_git_commit(book_dir, f"book({slug}): 0book-slide-import — book-slides.md")
 
     # 0book-render (PDF + reader HTML) — task 5 module; degrade gracefully until present.
     update_phase(book_dir, phase="0book-render", status="running")
@@ -270,6 +288,22 @@ def _drive_book_branch(book_dir: Path) -> int:
         _err(f"0book-render: reading edition FAILED validation (non-blocking for podcast) — {_bv.get('summary')}")
         phase_git_commit(book_dir, f"book({slug}): 0book-render — book.pdf (validation failed)")
         return 0
+
+    # Companion cards for the READER — a private per-chapter layer, never part of
+    # book.md and never in the PDF. It runs here, after the edition is final,
+    # because a card's `quote` must be a verbatim passage of the prose the reader
+    # will actually see: regenerating earlier would anchor cards to text the
+    # augment and re-voice passes then rewrite, and the highlight would silently
+    # stop matching. Non-blocking, like every other post-render step.
+    try:
+        from _book_companion import author_phase_book_companion
+
+        _cr = author_phase_book_companion(book_dir, log=_info)
+        _off = [c for c in _cr.get("chapters", []) if not (c["within_target"] and c["within_ceiling"])]
+        if _off:
+            _info(f"0book-companion: {len(_off)} chapter(s) outside the count/balance contract — see report")
+    except Exception as e:
+        _err(f"0book-companion: skipped (non-fatal): {e}")
 
     update_phase(book_dir, phase="0book-render", status="completed", extras={"book_validation": _bv})
     phase_git_commit(book_dir, f"book({slug}): 0book-render — book.pdf")
