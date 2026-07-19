@@ -142,6 +142,22 @@ def _step_render(book_dir: Path, st: dict) -> None:
     gates.assert_ok(doc, rec, require_english=True)
     out = render.run(book_dir, doc, rec)
     print(f"  wrote {out}")
+    # FINAL STEP, as on every other PDF route. A supplication carries no glossary,
+    # so the term-based lenses have nothing to track and the report comes back
+    # empty — that is the honest result, not a gap. The sentence-length and
+    # page-density lenses still apply, and wiring it here means a future
+    # supplication that DOES carry a vocabulary is reviewed without a code change.
+    _final_comprehension_review(book_dir, pdf=out)
+
+
+def _final_comprehension_review(book_dir: Path, *, pdf: Path) -> None:
+    """Reader-facing review over the finished PDF. Never raises, never blocks."""
+    try:
+        from _book_comprehension import run_comprehension_checks
+
+        run_comprehension_checks(book_dir, log=lambda *a: print("   ", *a), pdf=pdf)
+    except Exception as e:
+        print(f"    comprehension: skipped (non-fatal): {e}")
 
 
 def _step_deliver(book_dir: Path, st: dict) -> None:

@@ -134,3 +134,34 @@ def test_analyze_reports_every_lens_and_a_summary() -> None:
 def test_a_very_long_sentence_is_surfaced_for_review() -> None:
     report = analyze(pages(" ".join(["word"] * 60) + "."), [])
     assert report["long_sentences"] and report["long_sentences"][0]["words"] >= 45
+
+
+# ─── wired as the final step of every PDF route ──────────────────────────────
+def test_a_route_with_no_pdf_yet_reports_nothing_rather_than_failing(tmp_path: Path) -> None:
+    from _book_comprehension import run_comprehension_checks
+
+    assert run_comprehension_checks(tmp_path, log=lambda *a: None) == {}
+
+
+def test_a_route_can_name_its_own_pdf(tmp_path: Path) -> None:
+    """The supplication lane writes book/<slug>.pdf, not book/book.pdf."""
+    from _book_comprehension import run_comprehension_checks
+
+    bd = tmp_path / "slug"
+    (bd / "book").mkdir(parents=True)
+    named = bd / "book" / "ziyarat.pdf"
+
+    # Absent file: the named path is what gets checked, not the lane default.
+    assert run_comprehension_checks(bd, log=lambda *a: None, pdf=named) == {}
+
+
+def test_every_pdf_route_ends_with_the_review() -> None:
+    """The wiring itself — a route that stops calling this stops being reviewed."""
+    book_route = (SCRIPT_DIR / "build_book_pdf.py").read_text(encoding="utf-8")
+    supplication_route = (SCRIPT_DIR / "supplication" / "driver.py").read_text(encoding="utf-8")
+
+    assert "_final_comprehension_review" in book_route
+    assert "_final_comprehension_review" in supplication_route
+    # The fiction builder deliberately delegates to build_book rather than
+    # duplicating the render plumbing, so it inherits the review.
+    assert "from build_book_pdf import build_book" in (SCRIPT_DIR / "build_fiction_book_pdf.py").read_text("utf-8")

@@ -258,14 +258,19 @@ def analyze(pages: list[str], terms: list[str]) -> dict[str, Any]:
     }
 
 
-def run_comprehension_checks(book_dir: Path, *, log=print) -> dict[str, Any]:
+def run_comprehension_checks(book_dir: Path, *, log=print, pdf: Path | None = None) -> dict[str, Any]:
     """Read the finished PDF and record what a reader would struggle with.
+
+    ``pdf`` names the artifact when a route does not use the book lane's
+    ``book/book.pdf`` — the supplication lane writes ``book/<slug>.pdf``. Every
+    PDF route calls this as its LAST step, so the review always judges the file
+    that was actually produced.
 
     Evidence only — the verdict belongs to the reviewing agent, which reads this
     alongside the pages themselves.
     """
     book_dir = Path(book_dir).resolve()
-    pdf = book_dir / "book" / "book.pdf"
+    pdf = Path(pdf) if pdf else book_dir / "book" / "book.pdf"
     if not pdf.exists():
         log("    comprehension: no book.pdf yet — render the book first")
         return {}

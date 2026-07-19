@@ -206,7 +206,26 @@ def build_book(
         _sp.run(["open", str(titled_pdf.parent)], check=False)
         log(f"    0book-render: opened Finder → drag {titled_pdf.name} to Drive manually")
 
+    # FINAL STEP of every PDF route. This is the seam the fiction builder also
+    # comes through (build_fiction_book_pdf delegates here), so wiring it once
+    # covers both. It reads the PDF a reader receives and records what would make
+    # the book hard to follow — a term leaned on before it is explained, one idea
+    # spelled two ways, a page carrying too many unexplained terms at once.
+    # Report-only and non-fatal: a readability finding must never destroy a PDF
+    # that was otherwise produced correctly.
+    _final_comprehension_review(book_dir, log=log)
+
     return out_pdf
+
+
+def _final_comprehension_review(book_dir: Path, *, log=print) -> None:
+    """Run the reader-facing review over the finished PDF. Never raises."""
+    try:
+        from _book_comprehension import run_comprehension_checks
+
+        run_comprehension_checks(book_dir, log=log)
+    except Exception as e:
+        log(f"    comprehension: skipped (non-fatal): {e}")
 
 
 def main() -> int:
