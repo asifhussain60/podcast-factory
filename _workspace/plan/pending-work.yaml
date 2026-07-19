@@ -55,14 +55,14 @@ items:
 
   - id: sharia-spelling-drift
     scope: the-master-and-the-disciple
-    status: open
-    title: "Publication review found: 'Shari'a' (1x, in an augment editorial note) vs 'Sharia' (4x, the book's own spelling) -- not bridge-fixable, needs a human or an augment-consistency pass"
+    status: done
+    title: "RESOLVED: Asif chose 'Sharia' as the standard. Root cause was one level deeper than first found -- glossary.yml carried TWO entries for one term, and a second drifted spelling (line 334) existed beyond the one page the first review pass read. Both book.md occurrences corrected, duplicate glossary entry removed, PDF re-rendered (6/6 occurrences now read Sharia), comprehension re-run clean."
     noticed: 2026-07-19
 
   - id: naming-drift-scope-limit
     scope: pipeline
     status: open
-    title: "naming_drift() only catches drift between spellings that both have a glossary entry -- an ad hoc spelling with no entry (the Shari'a case) is invisible to it and needs direct PDF reading"
+    title: "naming_drift() only catches drift between spellings that both have a glossary entry, and even then only exact literal match (not apostrophe/diacritic-insensitive) -- this book's root cause (a duplicate glossary entry) was fixed directly, but the general detector gap remains for other books. Deliberately not built into a canonicalization system -- more infrastructure than this pass's single-word decision warranted."
     noticed: 2026-07-19
 
   - id: narrator-attribution-policy

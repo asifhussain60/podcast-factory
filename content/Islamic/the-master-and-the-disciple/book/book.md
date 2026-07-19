@@ -100,7 +100,7 @@ Then he added: "Have fear of Allah with the fear of one who dreads Him, and drea
 > **Editorial note (source-grounded).** 
 > When the stranger speaks of "open highways of the pasture," of "watering-places for those who
 > journey," and of an inward teaching that is "a clear-flowing drink," he is drawing on the oldest
-> sense of the word for sacred law itself. The root of *Shari'ah* (sh-r-') means to open up a path
+> sense of the word for sacred law itself. The root of *Sharia* (sh-r-') means to open up a path
 > — specifically the trodden way down to water. The law is that opened road turned into a
 > metaphor: the clear way of life God marks out, as vital to the soul as water is to the thirsty.
 > Read against that root, the chapter's cluster of images — the highway, the seeker's
@@ -331,7 +331,7 @@ Do you not see that the mote, for all its smallness and the subtlety of its mean
 
 The boy said: What is the likeness of the heaven, in its height above all things and the breadth of its regions, so that it has gathered every thing within it?
 
-And I said: Its likeness is the speaking Imam, al-Imam al-Natiq, who is raised above all creation by his merit and the loftiness of his degrees, and who has gathered within himself all the rulings — the rulings of the Shari'a — by the sheer breadth of his knowledge.
+And I said: Its likeness is the speaking Imam, al-Imam al-Natiq, who is raised above all creation by his merit and the loftiness of his degrees, and who has gathered within himself all the rulings — the rulings of the Sharia — by the sheer breadth of his knowledge.
 
 He said: And what is the likeness of the zodiac and the rest of its stars?
 
