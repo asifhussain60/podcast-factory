@@ -7,7 +7,7 @@
     {
       "index": 1,
       "title": "The First Obligation: Seeking Knowledge",
-      "chapter_file": "chapters/ch01-the-first-obligation-seeking-knowledge.txt",
+      "chapter_file": "book/_chapters/ch01-the-first-obligation-seeking-knowledge.txt",
       "source_line_ranges": [
         [
           33,
@@ -20,7 +20,7 @@
     {
       "index": 2,
       "title": "Purity: Water, Ablution, and the Body Made Ready",
-      "chapter_file": "chapters/ch02-purity-water-ablution-and-the-body-made-ready.txt",
+      "chapter_file": "book/_chapters/ch02-purity-water-ablution-and-the-body-made-ready.txt",
       "source_line_ranges": [
         [
           49,
@@ -33,7 +33,7 @@
     {
       "index": 3,
       "title": "The Pillar of Religion: Standing in Prayer",
-      "chapter_file": "chapters/ch03-the-pillar-of-religion-standing-in-prayer.txt",
+      "chapter_file": "book/_chapters/ch03-the-pillar-of-religion-standing-in-prayer.txt",
       "source_line_ranges": [
         [
           151,
@@ -46,7 +46,7 @@
     {
       "index": 4,
       "title": "Supplication and the Many Forms of Prayer",
-      "chapter_file": "chapters/ch04-supplication-and-the-many-forms-of-prayer.txt",
+      "chapter_file": "book/_chapters/ch04-supplication-and-the-many-forms-of-prayer.txt",
       "source_line_ranges": [
         [
           291,
@@ -59,7 +59,7 @@
     {
       "index": 5,
       "title": "Facing Death: The Rites of the Departed",
-      "chapter_file": "chapters/ch05-facing-death-the-rites-of-the-departed.txt",
+      "chapter_file": "book/_chapters/ch05-facing-death-the-rites-of-the-departed.txt",
       "source_line_ranges": [
         [
           725,
@@ -72,7 +72,7 @@
     {
       "index": 6,
       "title": "The Due of Wealth: Zakat",
-      "chapter_file": "chapters/ch06-the-due-of-wealth-zakat.txt",
+      "chapter_file": "book/_chapters/ch06-the-due-of-wealth-zakat.txt",
       "source_line_ranges": [
         [
           833,
@@ -85,7 +85,7 @@
     {
       "index": 7,
       "title": "The Fast: Ramadan and the Discipline of Abstention",
-      "chapter_file": "chapters/ch07-the-fast-ramadan-and-the-discipline-of-abstention.txt",
+      "chapter_file": "book/_chapters/ch07-the-fast-ramadan-and-the-discipline-of-abstention.txt",
       "source_line_ranges": [
         [
           969,
@@ -98,7 +98,7 @@
     {
       "index": 8,
       "title": "The Journey to the House: Pilgrimage",
-      "chapter_file": "chapters/ch08-the-journey-to-the-house-pilgrimage.txt",
+      "chapter_file": "book/_chapters/ch08-the-journey-to-the-house-pilgrimage.txt",
       "source_line_ranges": [
         [
           1072,
@@ -111,7 +111,7 @@
     {
       "index": 9,
       "title": "The Sword and the State: Jihad, Governance, and Justice",
-      "chapter_file": "chapters/ch09-the-sword-and-the-state-jihad-governance-and-justice.txt",
+      "chapter_file": "book/_chapters/ch09-the-sword-and-the-state-jihad-governance-and-justice.txt",
       "source_line_ranges": [
         [
           1564,

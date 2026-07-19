@@ -7,7 +7,7 @@
     {
       "index": 1,
       "title": "The Marketplace: Honest Earning, Trade, and Property",
-      "chapter_file": "chapters/ch01-the-marketplace-honest-earning-trade-and-property.txt",
+      "chapter_file": "book/_chapters/ch01-the-marketplace-honest-earning-trade-and-property.txt",
       "source_line_ranges": [
         [
           56,
@@ -20,7 +20,7 @@
     {
       "index": 2,
       "title": "Binding Words: Oaths, Vows, and Their Atonement",
-      "chapter_file": "chapters/ch02-binding-words-oaths-vows-and-their-atonement.txt",
+      "chapter_file": "book/_chapters/ch02-binding-words-oaths-vows-and-their-atonement.txt",
       "source_line_ranges": [
         [
           645,
@@ -33,7 +33,7 @@
     {
       "index": 3,
       "title": "The Body's Portion: Food, Drink, and Healing",
-      "chapter_file": "chapters/ch03-the-body-s-portion-food-drink-and-healing.txt",
+      "chapter_file": "book/_chapters/ch03-the-body-s-portion-food-drink-and-healing.txt",
       "source_line_ranges": [
         [
           759,
@@ -46,7 +46,7 @@
     {
       "index": 4,
       "title": "What We Wear: Dress, Adornment, and Fragrance",
-      "chapter_file": "chapters/ch04-what-we-wear-dress-adornment-and-fragrance.txt",
+      "chapter_file": "book/_chapters/ch04-what-we-wear-dress-adornment-and-fragrance.txt",
       "source_line_ranges": [
         [
           1091,
@@ -59,7 +59,7 @@
     {
       "index": 5,
       "title": "The Hunt and the Knife: Game, Slaughter, and Sacrifice",
-      "chapter_file": "chapters/ch05-the-hunt-and-the-knife-game-slaughter-and-sacrifice.txt",
+      "chapter_file": "book/_chapters/ch05-the-hunt-and-the-knife-game-slaughter-and-sacrifice.txt",
       "source_line_ranges": [
         [
           1221,
@@ -72,7 +72,7 @@
     {
       "index": 6,
       "title": "Marriage and the Household",
-      "chapter_file": "chapters/ch06-marriage-and-the-household.txt",
+      "chapter_file": "book/_chapters/ch06-marriage-and-the-household.txt",
       "source_line_ranges": [
         [
           1379,
@@ -85,7 +85,7 @@
     {
       "index": 7,
       "title": "When a Marriage Ends: Divorce and Separation",
-      "chapter_file": "chapters/ch07-when-a-marriage-ends-divorce-and-separation.txt",
+      "chapter_file": "book/_chapters/ch07-when-a-marriage-ends-divorce-and-separation.txt",
       "source_line_ranges": [
         [
           2045,
@@ -98,7 +98,7 @@
     {
       "index": 8,
       "title": "Freedom, Generosity, and the Division of Estates",
-      "chapter_file": "chapters/ch08-freedom-generosity-and-the-division-of-estates.txt",
+      "chapter_file": "book/_chapters/ch08-freedom-generosity-and-the-division-of-estates.txt",
       "source_line_ranges": [
         [
           2298,
@@ -111,7 +111,7 @@
     {
       "index": 9,
       "title": "Wrong and Redress: Crime, Property Disputes, and the Judge",
-      "chapter_file": "chapters/ch09-wrong-and-redress-crime-property-disputes-and-the-judge.txt",
+      "chapter_file": "book/_chapters/ch09-wrong-and-redress-crime-property-disputes-and-the-judge.txt",
       "source_line_ranges": [
         [
           2482,
