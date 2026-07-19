@@ -305,6 +305,52 @@ def test_preface_is_composed_and_emitted_before_chapter_one(tmp_path: Path, monk
     assert (bd / "book" / "_chunks" / "translation" / "preface.md").exists()
 
 
+def test_per_chapter_sidecars_never_land_in_the_podcast_lanes_shared_folder(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Regression: this compose route used to write ch<NN>-<slug>.txt straight into
+    the top-level chapters/ dir — the SAME namespace the podcast lane uses for one
+    file per episode. publish_to_library's ship gate globs chapters/ch*.txt and
+    expects every match to pair with an episode; a book-lane sidecar sharing that
+    glob shape reads as "a chapter with no episode" and blocks publish. Found live
+    on the-master-and-the-disciple 2026-07-19. The sidecar must live under book/,
+    alongside book/_chunks and book/_diagrams — never in the shared chapters/ dir,
+    even when a real podcast episode already occupies that folder."""
+    import _translation_edition as te
+
+    monkeypatch.setattr(
+        te,
+        "_compose_one",
+        lambda title, body, previous_tail, book_dir, label, log, **kw: body.strip(),
+    )
+
+    bd = tmp_path / "the-book"
+    (bd / "book").mkdir(parents=True)
+    (bd / "_system" / "source" / "text").mkdir(parents=True)
+    # A real podcast-lane episode chapter already sitting in the shared folder —
+    # the fixture that would have collided with the old write path.
+    (bd / "chapters").mkdir(parents=True)
+    (bd / "chapters" / "ch01a-three-thanks-and-the-persian-awakening.txt").write_text("EP01 source", "utf-8")
+
+    refined = "The traveller who was lost and then guided came to the city."
+    (bd / "_system" / "source" / "text" / "refined-english.md").write_text(refined, encoding="utf-8")
+
+    toc = {
+        "book_title": "The Book of the Road",
+        "voice": "faithful",
+        "chapters": [{"bk_index": 1, "title": "The Traveller Guided", "source_line_ranges": [[1, 1]]}],
+    }
+    (bd / "book" / "book-toc.json").write_text(json.dumps(toc), encoding="utf-8")
+
+    te.author_translation_edition_compose(bd, log=lambda *a, **k: None, enforce_contract=False)
+
+    assert (bd / "book" / "_chapters" / "ch01-the-traveller-guided.txt").exists()
+    assert not (bd / "chapters" / "ch01-the-traveller-guided.txt").exists()
+    # The pre-existing real episode file is untouched — this book-lane sidecar
+    # never even visits the shared folder.
+    assert sorted(p.name for p in (bd / "chapters").iterdir()) == ["ch01a-three-thanks-and-the-persian-awakening.txt"]
+
+
 def test_dedupe_drops_reworded_within_chapter_twin() -> None:
     # A back-to-back reworded twin (survives the verbatim trimmer) inside a chapter.
     text = (

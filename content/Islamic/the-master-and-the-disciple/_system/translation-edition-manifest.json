@@ -7,7 +7,7 @@
     {
       "index": 1,
       "title": "The Persian Who Was Dead and Revived",
-      "chapter_file": "chapters/ch01-the-persian-who-was-dead-and-revived.txt",
+      "chapter_file": "book/_chapters/ch01-the-persian-who-was-dead-and-revived.txt",
       "source_line_ranges": [
         [
           14,
@@ -20,7 +20,7 @@
     {
       "index": 2,
       "title": "A Stranger in the City",
-      "chapter_file": "chapters/ch02-a-stranger-in-the-city.txt",
+      "chapter_file": "book/_chapters/ch02-a-stranger-in-the-city.txt",
       "source_line_ranges": [
         [
           23,
@@ -33,7 +33,7 @@
     {
       "index": 3,
       "title": "The Boy at the Door — Limits and Conditions",
-      "chapter_file": "chapters/ch03-the-boy-at-the-door-limits-and-conditions.txt",
+      "chapter_file": "book/_chapters/ch03-the-boy-at-the-door-limits-and-conditions.txt",
       "source_line_ranges": [
         [
           70,
@@ -46,7 +46,7 @@
     {
       "index": 4,
       "title": "How the World Was Made",
-      "chapter_file": "chapters/ch04-how-the-world-was-made.txt",
+      "chapter_file": "book/_chapters/ch04-how-the-world-was-made.txt",
       "source_line_ranges": [
         [
           201,
@@ -59,7 +59,7 @@
     {
       "index": 5,
       "title": "The World, the Hereafter, and the Speech of Parables",
-      "chapter_file": "chapters/ch05-the-world-the-hereafter-and-the-speech-of-parables.txt",
+      "chapter_file": "book/_chapters/ch05-the-world-the-hereafter-and-the-speech-of-parables.txt",
       "source_line_ranges": [
         [
           233,
@@ -72,7 +72,7 @@
     {
       "index": 6,
       "title": "Three Layers of Knowledge",
-      "chapter_file": "chapters/ch06-three-layers-of-knowledge.txt",
+      "chapter_file": "book/_chapters/ch06-three-layers-of-knowledge.txt",
       "source_line_ranges": [
         [
           381,
@@ -85,7 +85,7 @@
     {
       "index": 7,
       "title": "The Five Shares and the Long Road to the Shaykh",
-      "chapter_file": "chapters/ch07-the-five-shares-and-the-long-road-to-the-shaykh.txt",
+      "chapter_file": "book/_chapters/ch07-the-five-shares-and-the-long-road-to-the-shaykh.txt",
       "source_line_ranges": [
         [
           493,
@@ -98,7 +98,7 @@
     {
       "index": 8,
       "title": "Homecoming, the Father, and the Debate with Abu Malik",
-      "chapter_file": "chapters/ch08-homecoming-the-father-and-the-debate-with-abu-malik.txt",
+      "chapter_file": "book/_chapters/ch08-homecoming-the-father-and-the-debate-with-abu-malik.txt",
       "source_line_ranges": [
         [
           763,
