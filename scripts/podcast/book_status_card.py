@@ -225,6 +225,25 @@ def _spend_usd(book_dir: Path) -> float:
     return round(total, 2)
 
 
+def _title(book_dir: Path, slug: str) -> str:
+    """The book's own title from meta.yml — Proper Case, never the slug, never caps.
+
+    A standing rule: the title a human reads is the one printed on the book, not
+    the folder name. Falls back to a de-slugged form only when meta.yml has none.
+    """
+    meta = Path(book_dir) / "meta.yml"
+    if meta.exists():
+        try:
+            for line in meta.read_text(encoding="utf-8").splitlines():
+                if line.startswith("title:"):
+                    value = line.split(":", 1)[1].strip().strip("\"'")
+                    if value:
+                        return value
+        except Exception:
+            pass
+    return slug.replace("-", " ").title()
+
+
 def _est_now() -> str:
     """Wall clock in US Eastern, 12-hour — the only time format this repo reports."""
     try:
@@ -243,6 +262,7 @@ def build_card(book_dir: Path) -> dict[str, Any]:
     progress = compute_progress(state)
     return {
         "slug": state.get("book_slug") or book_dir.name,
+        "title": _title(book_dir, state.get("book_slug") or book_dir.name),
         "generated_at": _est_now(),
         "spend_usd": _spend_usd(book_dir),
         "status": state.get("status"),
@@ -272,7 +292,7 @@ def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
     filled = int(round(bar_width * pct / 100))
     bar = "█" * filled + "░" * (bar_width - filled)
 
-    title = card["slug"].replace("-", " ").upper()
+    title = card.get("title") or card["slug"]
     remaining = [step_name(p) for p in card["remaining"]]
     left = f"{len(remaining)} steps · " + ", ".join(remaining[:3]) + ("…" if len(remaining) > 3 else "")
 

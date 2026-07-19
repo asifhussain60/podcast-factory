@@ -132,6 +132,23 @@ def test_the_rendered_card_shows_the_number_and_what_is_left(tmp_path: Path) -> 
     assert "0a" not in text
 
 
+def test_the_card_shows_the_books_proper_title_not_its_slug(tmp_path: Path) -> None:
+    bd = tmp_path / "the-master-and-the-disciple"
+    (bd / "_system").mkdir(parents=True)
+    (bd / "_system" / "orchestrator-state.json").write_text(
+        '{"book_slug": "the-master-and-the-disciple", "phase": "0a", "phase_status": "running",'
+        ' "phases": {"0a": {"status": "running"}}}',
+        encoding="utf-8",
+    )
+    (bd / "meta.yml").write_text("slug: the-master-and-the-disciple\ntitle: The Master and the Disciple\n", "utf-8")
+
+    text = render_card(build_card(bd))
+
+    assert "The Master and the Disciple" in text
+    assert "THE MASTER" not in text, "a title is Proper Case, never shouted"
+    assert "the-master-and-the-disciple" not in text
+
+
 def test_a_long_value_is_clipped_rather_than_breaking_the_frame(tmp_path: Path) -> None:
     bd = tmp_path / "slug"
     (bd / "_system").mkdir(parents=True)
