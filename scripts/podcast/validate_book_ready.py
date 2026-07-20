@@ -57,8 +57,10 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
 # Reuse the exact render-input selection the renderer uses, so the content gate
-# validates the file that actually becomes the PDF (book-slides.md >
-# book-illustrated.md > book.md).
+# validates the file that actually becomes the PDF. That is always book.md now —
+# visuals are decoupled and come from the curated visual-layout.json, so the
+# older book-slides.md > book-illustrated.md > book.md fallback is gone. Import
+# it rather than hardcoding the path, so the two cannot drift again.
 from build_book_pdf import _pick_book_md
 
 # Arabic script Unicode ranges (base + supplement + extended + presentation forms).
