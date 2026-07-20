@@ -49,7 +49,7 @@
       "unverified": 0,
       "runs": [
         {
-          "text": "فإنَّه مَن عمِلَ للهِ بما يعلم، هداه اللهُ إلى ما لا يعلم",
+          "text": "فإنه من عمل لله بما يعلم، هداه الله إلى ما لا يعلم",
           "resolution": "ocr",
           "skeleton": "فانهمنعملللهبمايعلمهداهاللهاليمالايعلم"
         }
@@ -62,12 +62,12 @@
       "runs": [
         {
           "text": "كُنْ فَيَكُونُ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "كنفيكون"
         },
         {
           "text": "فَيَكُونُ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "فيكون"
         },
         {
@@ -77,7 +77,7 @@
         },
         {
           "text": "فَسُبْحَانَ الَّذِي خَلَقَ الْأَزْوَاجَ كُلَّهَا",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "فسبحانالذيخلقالازواجكلها"
         },
         {
@@ -174,7 +174,7 @@
         },
         {
           "text": "وَذَرُوا ظَاهِرَ الْإِثْمِ وَبَاطِنَهُ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "وذرواظاهرالاثموباطنه"
         }
       ]
@@ -196,7 +196,7 @@
         },
         {
           "text": "يَا أَبَتِ إِنِّي رَأَيْتُ أَحَدَ عَشَرَ كَوْكَبًا وَالشَّمْسَ وَالْقَمَرَ رَأَيْتُهُمْ لِي سَاجِدِينَ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "ياابتانيرايتاحدعشركوكباوالشمسوالقمررايته"
         },
         {
@@ -206,7 +206,7 @@
         },
         {
           "text": "إِنِّي أَرَىٰ سَبْعَ بَقَرَاتٍ سِمَانٍ يَأْكُلُهُنَّ سَبْعٌ عِجَافٌ وَسَبْعَ سُنْبُلَاتٍ خُضْرٍ وَأُخَرَ يَابِسَاتٍ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "انياريسبعبقراتسمانياكلهنسبععجافوسبعسنبلا"
         },
         {
@@ -216,7 +216,7 @@
         },
         {
           "text": "يَا لَيْتَنِي قَدَّمْتُ لِحَيَاتِي",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "ياليتنيقدمتلحياتي"
         }
       ]
@@ -247,7 +247,7 @@
           "skeleton": "ومايلقاهاالاالذينصبرواومايلقاهاالاذوحظعظ"
         },
         {
-          "text": "وَلَكِنَّ الْمُؤْمِنَ يَنْظُرُ بِنُورِ اللَّهِ",
+          "text": "ولكن المؤمن ينظر بنور الله",
           "resolution": "ocr",
           "skeleton": "ولكنالمومنينظربنورالله"
         }
@@ -285,7 +285,7 @@
         },
         {
           "text": "إنا لله وإنا إليه راجعون",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "اناللهوانااليهراجعون"
         },
         {
@@ -304,7 +304,7 @@
           "skeleton": "وانهكليومهوفيشان"
         },
         {
-          "text": "شَهِدَ فُلَانٌ وَهُوَ عَدْلٌ مِنَ الْعُدُولِ",
+          "text": "شهد فلان وهو عدل من العدول",
           "resolution": "ocr",
           "skeleton": "شهدفلانوهوعدلمنالعدول"
         },
@@ -325,24 +325,18 @@
         },
         {
           "text": "قَاتِلُوا الَّذِينَ يَلُونَكُم مِّنَ الْكُفَّارِ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "قاتلواالذينيلونكممنالكفار"
         }
       ]
     }
   ],
   "totals": {
-    "canonical-mushaf": 16,
-    "ocr": 34,
+    "canonical-mushaf": 25,
+    "ocr": 25,
     "knowledge-base": 0,
     "honorific-formula": 1,
     "unverified": 1,
-    "arabic_runs": 36
-  },
-  "vowelling_review": [
-    "non-Quranic run vowelled beyond the scan: فإنَّه مَن عمِلَ للهِ بما يعلم، هداه اللهُ إ",
-    "non-Quranic run vowelled beyond the scan: فَيَكُونُ",
-    "non-Quranic run vowelled beyond the scan: وَلَكِنَّ الْمُؤْمِنَ يَنْظُرُ بِنُورِ اللَّ",
-    "non-Quranic run vowelled beyond the scan: شَهِدَ فُلَانٌ وَهُوَ عَدْلٌ مِنَ الْعُدُولِ"
-  ]
+    "arabic_runs": 27
+  }
 }

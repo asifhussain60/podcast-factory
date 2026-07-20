@@ -63,6 +63,43 @@ def test_eleven_letter_phrase_clears_the_floor() -> None:
     assert is_quranic("لَيْسَ كَمِثْلِهِ شَيْءٌ")
 
 
+def test_the_shortest_and_most_quoted_formula_is_recognized() -> None:
+    # Q 2:117 / 3:47 / 16:40 / 36:82. A 7-letter skeleton sat under the 10-letter
+    # floor, so the corpus's single most-quoted formula came back NON-canonical and
+    # landed on the fabricated-vowelling review list — the exact false positive
+    # this module exists to remove. The book sets `فَيَكُونُ` as a run of its own,
+    # so the one-word form has to work too.
+    assert is_quranic("كُنْ فَيَكُونُ")
+    assert is_quranic("فَيَكُونُ")
+
+
+def test_uthmani_spelling_folds_onto_modern_spelling() -> None:
+    # The mirror stores Q 1:2 defectively (`ٱلْعَلَمِينَ`); a modern typesetter or a
+    # model writes `الْعَالَمِينَ`. As plain strings they never match, so the opening
+    # chapter of the Quran failed the check outright.
+    assert is_quranic("الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ")
+
+
+def test_word_segmentation_differences_do_not_hide_a_verse() -> None:
+    # The mushaf sets Q 7:26 as `يَٰبَنِىٓ ءَادَمَ` — one word where modern text has
+    # two — so no amount of word alignment can see it.
+    assert is_quranic("يَا بَنِي آدَمَ قَدْ أَنْزَلْنَا عَلَيْكُمْ لِبَاسًا")
+
+
+def test_a_quotation_may_carry_a_connective_the_mushaf_lacks() -> None:
+    # The book sets `فَسُبْحَانَ` where Q 36:36 reads `سُبْحَانَ`. One proclitic letter
+    # broke alignment on the first word and nothing else.
+    assert is_quranic("فَسُبْحَانَ الَّذِي خَلَقَ الْأَزْوَاجَ كُلَّهَا")
+
+
+def test_a_lone_short_word_is_not_scripture() -> None:
+    # `بلغنا` — "it has reached us" — is this book's transmitter formula and the
+    # thing its whole narrative frame rests on. A one-word span has no internal
+    # alignment evidence, so a short one must not resolve as canonical.
+    assert not is_quranic("بلغنا")
+    assert not is_quranic("العالم")
+
+
 def test_audit_resolves_canonical_verses_to_the_mushaf_tier() -> None:
     from _book_arabic_audit import RESOLUTION_MUSHAF, audit_book_arabic
 
