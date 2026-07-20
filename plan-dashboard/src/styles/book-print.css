@@ -363,6 +363,18 @@ blockquote.quran p.ar {
   text-align: center;
   direction: rtl;
 }
+/* Keep an Arabic display line with whatever renders it into English. The block
+   already refuses to split internally, which is enough when the gloss is the
+   paired `p.tr` INSIDE it — but in several passages the English is a sibling
+   paragraph after the block, and there the Arabic ended a page while its meaning
+   opened the next (pages 39/40, 50/51 and 118/119 of the 122-page render). A
+   reader met scripture with no rendering and had to turn the page to learn what
+   it said. */
+blockquote.quran {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
 blockquote.quran .quran-divider {
   display: none;
 }
@@ -391,10 +403,23 @@ body.style-plain blockquote.quran {
 body.style-plain blockquote.quran p.ar {
   color: var(--c-ink, #1f1d18);
 }
+/* The plain family strips ornament from the Qur'an blocks above, which is the
+   whole point of it. Zeroing the fence on EVERY other blockquote too was
+   collateral damage: the editorial notes and the reader notes then printed as
+   ordinary body paragraphs at the body margin, distinguishable only by their
+   bold run-in label — while the front matter of `the-master-and-the-disciple`
+   promises on page 6 that a reader "can always tell the book's voice from a note
+   about it". Caught by the render challenger, which is the only gate that sees
+   the page rather than the markup.
+
+   The fence restored here is the quietest one that still reads as a fence: a
+   hairline rule in the existing muted ink token and a single indent. No tint, no
+   radius, no colour outside the palette — the plain family's spirit is intact and
+   the theme is unchanged. */
 body.style-plain blockquote:not(.quran) {
-  border-left: 0;
+  border-left: 1px solid var(--c-rule, rgba(31, 29, 24, 0.18));
   background: none;
-  padding-left: 0;
+  padding-left: 0.9rem;
   padding-right: 0;
 }
 

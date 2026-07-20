@@ -376,6 +376,28 @@ def _source_headings(source: str) -> list[str]:
     return headings[:8]
 
 
+_EXCERPT_CHARS = 420
+
+
+def _excerpt(text: str) -> str:
+    """A source excerpt cut at a word boundary, with an ellipsis when it was cut.
+
+    The crosswalk table prints these, and a hard slice at 420 characters made
+    every one of the eight cells in `the-master-and-the-disciple` end mid-word --
+    "was struck by t", "the beginnin" -- which reads as a broken artifact rather
+    than an excerpt. The table exists only in the render, so no text gate had ever
+    looked at it; the render challenger found it on the printed page.
+    """
+    text = (text or "").strip()
+    if len(text) <= _EXCERPT_CHARS:
+        return text
+    cut = text[:_EXCERPT_CHARS]
+    boundary = cut.rfind(" ")
+    # A 420-character run with no space in it is not prose; cut it as it stands
+    # rather than returning nothing.
+    return (cut[:boundary] if boundary > _EXCERPT_CHARS // 2 else cut).rstrip(" ,;:.") + "…"
+
+
 def build_source_crosswalk(
     book_dir: Path,
     toc: dict[str, Any],
@@ -392,7 +414,7 @@ def build_source_crosswalk(
         source = _slice_source(lines, ranges)
         pages = _pages_for_ranges(line_pages, ranges) if line_pages else []
         arabic_nums = [n for n in pages if n in arabic_pages]
-        excerpt = re.sub(r"\s+", " ", _PAGE_MARK.sub("", source)).strip()[:420]
+        excerpt = _excerpt(re.sub(r"\s+", " ", _PAGE_MARK.sub("", source)).strip())
         entries.append(
             {
                 "index": idx,
