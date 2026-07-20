@@ -62,7 +62,7 @@ content/<Bucket>/<slug>/                     (one tree; status=draft|published l
     ch<NN>-<chapter-slug>.m4a                (downloaded from NotebookLM)
     transcripts/
       ch<NN>-<chapter-slug>.transcript.txt   (transcribe_notebooklm.py Azure output, or external fallback — same stem as m4a)
-  slide-decks/                               (if present; vacuum flags missing per AGENTS.md rule)
+  slide-decks/                               (if present; vacuum flags missing per CLAUDE.md rule)
   show-notes/                                 (if present)
 ```
 
@@ -205,7 +205,7 @@ This is the master rule that supersedes any per-folder KEEP list when they confl
 | Version metadata | `VERSION`, `.version` | Build/release tool convention |
 | Top-level project configs | `LICENSE`, `.gitignore`, `.gitattributes`, `pyproject.toml`, `package.json`, `tsconfig.json` (only when the tool requires them at that exact path) | Tooling expects them at root |
 | Index entry files | `index.html`, `index.md` (only when serving as the folder's entry document) | Web/static-site convention |
-| Project-instruction files | `AGENTS.md`, `AGENTS.md` (repo root only) | Loaded by harness from a fixed path |
+| Project-instruction files | `CLAUDE.md`, `AGENTS.md` (repo root only) | Loaded by harness from a fixed path |
 
 Anything **not** in the whitelist is sprawl by default. Vacuum proposes a subfolder destination for each sprawl file (grouped by topic / lifecycle / origin); if no obvious topical subfolder exists, vacuum proposes creating one and asks for confirmation.
 

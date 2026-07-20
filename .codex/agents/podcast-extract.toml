@@ -75,4 +75,4 @@ Given the same chapter file, the same contract, and the same `extract_chapter.py
 
 ---
 
-**Working copy location**: this file is duplicated at `.Codex/agents/podcast-extract.md` (per-machine, gitignored) for local Codex loading via the Agent tool. When editing, update both copies. The `.github/` version is the canonical source of record."""
+**Working copy location**: this file is duplicated at `.claude/agents/podcast-extract.md` (per-machine, gitignored) for local Claude Code loading via the Agent tool. When editing, update both copies. The `.github/` version is the canonical source of record."""

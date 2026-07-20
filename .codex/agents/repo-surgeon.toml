@@ -33,4 +33,4 @@ the source of truth for the full procedure. Severity is **P0 / P1 / P2 / P3** pe
 
 ## Revision log
 
-- **2026-05-27** — Migrated to `infra/Codex-agents/` (DR-014). `.github/agents/repo-surgeon.agent.md` is now a thin discovery stub."""
+- **2026-05-27** — Migrated to `infra/claude-agents/` (DR-014). `.github/agents/repo-surgeon.agent.md` is now a thin discovery stub."""

@@ -95,7 +95,7 @@ Before any review pass, read the canonical specs. The two normative spec files (
 3. `skills-staging/podcast/references/slide-deck-patterns.md` — diagram-type taxonomy, affinity matrix (which source shapes warrant which diagram types), and anti-patterns. Probe 4 (Diagram-Type Discipline) and Probe 5 (Diversity) both reference this taxonomy.
 4. `skills-staging/podcast/references/slide-deck-steering.md` — canonical steering phrases for the slide-framing customize prompt. Learning-loop proposals route to this file's `## Category 7 — Candidates` section.
 5. `skills-staging/podcast/SKILL.md` — the producing skill's contract; the slide-deck bundle is one of its Phase outputs.
-6. `infra/Codex-agents/podcast-challenger.md` — sibling audio challenger. Mirror its iteration semantics, severity tiers, ledger contract.
+6. `infra/claude-agents/podcast-challenger.md` — sibling audio challenger. Mirror its iteration semantics, severity tiers, ledger contract.
 
 **Per-invocation inputs (must read once scope is known):**
 
@@ -365,7 +365,7 @@ The agent is read-only over all bundle artifacts. The only files the agent write
 The Challenger reviews ONLY slide-deck bundle artifacts under `BOOK_DIR/slide-decks/` and `BOOK_DIR/_system/slide-decks/`, plus the read-only references to `BOOK_DIR/chapters/chNN-<slug>.txt` and `BOOK_DIR/_system/episode-drafts/EP##-<slug>/04-discussion-spine.md` needed for Audio Redundancy and Coverage probes.
 
 The Challenger does NOT review:
-- Any content under `content/babu-memoir/` (memoir is out of scope; that's the journal repo's domain — see `~/PROJECTS/podcast-factory/AGENTS.md` cross-repo boundary)
+- Any content under `content/babu-memoir/` (memoir is out of scope; that's the journal repo's domain — see `~/PROJECTS/podcast-factory/CLAUDE.md` cross-repo boundary)
 - The audio-side artifacts (`chapters/*.txt`, `episodes/*.txt`, `_system/episode-drafts/EP##-*/00-framing.md` other than reading the discussion spine) — those are the audio `podcast-challenger`'s domain
 - The rendered NotebookLM slides themselves (the Challenger evaluates inputs, not outputs; NotebookLM renders downstream)
 - Anything under `_workspace/` other than the in-progress book's `_system/` directory
@@ -378,4 +378,4 @@ The slide-deck-challenger and the audio podcast-challenger are **siblings, not n
 
 **v1.0** (2026-05-23). Initial release. 8 Pass 1 probes (SL-P1 through SL-P8) at P0/P1/P2 severity. 4 Pass 2 architectural checks (SL-A1 through SL-A4) at P1. Per-book and per-chapter invocation modes. Skip-mode handling for `slide-deck-status = not-needed` chapters (SL-P7 only). Convergence loop capped at 5 iterations. NO auto-fix scope — every finding requires Worker re-authoring. Findings ledger contract with `SL*` finding IDs and shared `findings.jsonl` co-tenancy with the audio challenger. Boundary contract: read-only over all bundle artifacts; writes only the sidecar report and ledger entries.
 
-Mirrors `infra/Codex-agents/podcast-challenger.md` v2.0 section ordering. Operationalizes `skills-staging/podcast/references/slide-deck-challenger.md` canonical spec; does not restate it."""
+Mirrors `infra/claude-agents/podcast-challenger.md` v2.0 section ordering. Operationalizes `skills-staging/podcast/references/slide-deck-challenger.md` canonical spec; does not restate it."""

@@ -154,7 +154,7 @@ For `fiction`, **BK-P3 is NOT the headline duty** — there is no supplied Arabi
 
 ## Probes
 
-11 checks across two passes: 6 per-chapter (Pass 1) + 5 whole-book (Pass 2). Each probe has a severity, a question, a failure condition, and a citation requirement on fail.
+18 checks across three passes: 6 per-chapter (Pass 1) + 5 whole-book (Pass 2) + 7 narrative-frame (Pass 3, the FINAL gate). Each probe has a severity, a question, a failure condition, and a citation requirement on fail.
 
 ### Pass 1 — per book-chapter
 

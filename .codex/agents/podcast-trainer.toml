@@ -42,7 +42,7 @@ No duplication: you are the only agent that proposes spec changes based on obser
 ### 0. Pre-flight
 
 Reject the run unless:
-- Current branch matches `<Bucket>/<slug>` (e.g. `Islamic/ayyuhal-walad`, `Technical/Codex-training`) — you only train on the active content branch. **Note:** the `book/<slug>` prefix was retired 2026-06-07; the branch policy is now bucket-grouped: `Islamic/`, `Technical/`, `Fiction/`, `Guides/`.
+- Current branch matches `<Bucket>/<slug>` (e.g. `Islamic/ayyuhal-walad`, `Technical/claude-code-training`) — you only train on the active content branch. **Note:** the `book/<slug>` prefix was retired 2026-06-07; the branch policy is now bucket-grouped: `Islamic/`, `Technical/`, `Fiction/`, `Guides/`.
 - `_learning/` exists with `findings.jsonl`, `proposals/`, `promoted/`, `archive/`, `fixtures/`, `README.md`.
 - `scripts/podcast/test_challenger.py` exits 0 against the current fixture set (the regression baseline must be green before any trainer-driven diff is applied; if it's red, the human owns the next move — abort with a Tier-H archive entry).
 
@@ -113,7 +113,7 @@ When the regression gate is green:
    Promoted from _learning/proposals/<YYYY-MM-DD-slug>.md after regression
    (test_challenger.py 7/7 green with diff applied in worktree).
    
-   Co-Authored-By: Codex Opus 4.7 (1M context) <noreply@anthropic.com>
+   Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
    ```
 5. Re-run `scripts/podcast/test_challenger.py` on the real (non-worktree) tree — must stay green.
 6. Move the source proposal: `git mv _learning/proposals/<slug>.md _learning/promoted/<slug>.md`. Append a decision-log block to the moved file:

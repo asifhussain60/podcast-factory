@@ -96,7 +96,7 @@ Prints the current `<book>/_system/blueprint/` artifact state. Never modifies.
 
 ## Non-goals
 
-- Do NOT call Azure (Layers 2–3 use `Codex -p`; Layer 1 uses `Codex -p` with Haiku).
+- Do NOT call Azure (Layers 2–3 use `claude -p`; Layer 1 uses `claude -p` with Haiku).
 - Do NOT modify refined-english.md, operator-review.md, or any P22-era artifact.
 - Do NOT modify `<book>/series-config.yaml` BEFORE Layer 3 — the merge happens at the END of the blueprint pass, after user approval.
 - Do NOT classify books past slot 05.5-blueprint (asaas-al-taveel mid-0b, kitab-al-riyad at 0d→0e). Orchestrator detects past-slot state from state.json and skips with an audit log entry; this agent should never be invoked on such books.
