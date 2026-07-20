@@ -23,6 +23,18 @@ Every check here answers a failure that actually shipped on
     running prose loses no words and destroys the argument's skeleton, which is
     why every word-level fidelity check passes it.
 
+KNOWN GAP, deliberately NOT papered over (2026-07-20). ``supplied_diacritics_findings``
+compares a rewrite against its own base, so it cannot see vowelling fabricated at
+TRANSLATION time and baked into the base itself — which is how one live run reached
+the printed edition fully vowelled while the scan carried it bare. Three attempts at
+a scan-grounded guard were tried and REMOVED: the scan is itself inconsistently
+vowelled, so a bare-portion comparison misses the real case, and an equality or
+containment comparison returns a list dominated by canonical Quran that is
+legitimately vowelled. Closing this needs a canonical mushaf corpus to verify
+against (the knowledge base holds ~9.5k chars, nowhere near enough). Until then it
+is the challenger's BK-N5 and the Arabic audit's `unverified` bucket that carry it,
+and both are judgment, not arithmetic.
+
 Detection philosophy: HIGH PRECISION over recall. Each check fires only on
 evidence it can point at, because a false revert costs a chapter while a missed
 finding is still caught downstream by the `book-challenger` agent's semantic

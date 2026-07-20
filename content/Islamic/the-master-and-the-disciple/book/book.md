@@ -255,7 +255,7 @@ We turn next to the signs of the heavens and the powers of the earth, asking wha
 
 Then the heavens and the earth were veiled in darkness by the black heat, which is the authority of the earth. Then He pierced that darkness with His lights, so that light and darkness, the two distinct realities, were intermingled. He set them apart by the night and the day and made them two signs. He made the night and made its sign a course of darkness, and apportioned it; and He made the day and made its sign a course of light, and apportioned it. He adorned the night with its darkness, its sign the moon and the stars, and made the day shine with its light, gleaming through the sign of the sun. Then out of the two the days were brought forth — states passing between night and day — and they are seven days. Each day of them has twelve hours, and each night of them has twelve hours.
 
-When the creation of things had been joined to these principles, He made them pairs, male and female. I do not mean male and female in the literal sense, but in the sense of the active and the receptive. Then the way of creation in pairs went forth, and out of its essences He created every living thing: humans, beasts, birds, and crawling creatures. Then this way extended into speech, and speech too became pairs — adjectives and things described, names and meanings.
+When the creation of things had been joined to these principles, He made them pairs, male and female. I do not mean male and female in the literal sense, but in the sense of the active and the receptive. Then the sunna of creation in pairs went forth, and out of its essences He created every living thing: humans, beasts, birds, and crawling creatures. Then this sunna extended into speech, and speech too became pairs — adjectives and things described, names and meanings.
 
 > فَسُبْحَانَ الَّذِي خَلَقَ الْأَزْوَاجَ كُلَّهَا
 >
@@ -1263,7 +1263,7 @@ Abu Malik said: "And what are these qualities, in which they are given precedenc
 
 Salih said to him: "Their saying is like your saying, and your saying is of a kind with theirs. Your hearts resemble one another, and yet they hold the precedence over you in the argument. The first quality: they claim they came earlier in the religion of God than you, so they have the merit of those who went before. The second: there is consensus among them, and between them and you, in affirming what they hold, so they have the merit of the truthful. The third: your own testimony on their behalf that their prophets are truthful and are messengers of God, while none of them has ever borne witness for your prophet, to neither his prophethood nor his truthfulness. So they have precedence over you by your agreement with them and their standing apart from you, and they say that the knowledge you possess is copied from their knowledge, which is the very source of your own. This is their argument against you — clear in speech and plain in justice. If the ruling of creation is to be imposed upon the Creator, then the ruling of these people is the more binding. But if the Creator is the One who rules over His creation, abrogating what He wills and confirming what He wills, with none to overturn His judgment, then by my life the saying of them all falls away. The Creator is foremost over the creation and over the command, and every day He is engaged in an affair, and His act is not to be denied, even were He to send a warner every day."
 
-وَإِنَّهُ كُلَّ يَوْمٍ هُوَ فِي شَأْنٍ
+> وإنه كل يوم هو في شأن
 
 "And truly, every day He is engaged in some affair."
 
@@ -1277,7 +1277,7 @@ Salih said to him: "Then, since it is established that the company of God's prop
 
 He said: "Yes, he is a just one, as it is said:"
 
-شَهِدَ فُلَانٌ وَهُوَ عَدْلٌ مِنَ الْعُدُولِ
+> شَهِدَ فُلَانٌ وَهُوَ عَدْلٌ مِنَ الْعُدُولِ
 
 "So-and-so bore witness, and he was a just one among the just."
 
@@ -1311,7 +1311,7 @@ Abu Malik said, "It is indeed so, and we are permitted to say nothing of God but
 
 "The religion of Allah is far too precious to Him for that," Salih answered. "Was there ever truly an interregnum after the religion of Abraham, when Allah sent after him Ishmael, Isaac, Jacob, Joseph, Jonah, and Shu'ayb, on down to Moses? He inspired them with righteous deeds, with the call to the religion of Abraham, with the establishment of prayer in its way and the giving of zakat as it is due, until the ruling of the Torah was sent down upon Moses. And what interregnum stood between Moses and the Gospel, when after Moses Allah raised up Joshua son of Nun, and Elias, Talut, David, Solomon, Zechariah, and John, on down to Jesus? They upheld the ruling of the Torah, held to its religion, called to it, and recited its Psalms, until the ruling of the Gospel came down upon Jesus. So it was with those who passed before them and those who came after, and with the many generations between them whom none but Allah can number. Their messengers came to them with clear proofs; for each He struck parables, and to each He called the way to the truth. Where, then, is this interregnum, and when was it? Allah said only:
 
-عَلَىٰ فَتْرَةٍ مِّنَ الرُّسُلِ
+> عَلَىٰ فَتْرَةٍ مِّنَ الرُّسُلِ
 
 "After a lull in the succession of messengers,"
 
@@ -1349,19 +1349,19 @@ and by that very word He affirmed the messengers. The lull was in the open risin
 
 "You have spoken the truth, O Abu Malik," said Salih. "And have you been content, for yourself, to make their kingdom your home and their land your dwelling, their armies your neighbors and their enforcers your closest friends? You are their just man: you judge for them by your learning and meet your own needs through their rule. You have prayed for them in your supplications and thanked them for whatever you sought at their hands. You have crowned their tyranny with your justice, and they grew proud; you have robed their vainglory in the garment of the sacred law, and they overreached; you have lit up their falsehood by letting your own truth grow dim. So the weak were led astray by the example you set, and with them every scholar of your kind, and they said, These are the jurists of the community; in them we have our model. You went astray by your own reasoning, and you led others astray by the reasoning of the tyrants; you imagined the one who would be held to account was someone other than yourselves, and you forgot the word of Allah, Glorified is He:
 
-وَلَا تَرْكَنُوا إِلَى الَّذِينَ ظَلَمُوا فَتَمَسَّكُمُ النَّارُ
+> وَلَا تَرْكَنُوا إِلَى الَّذِينَ ظَلَمُوا فَتَمَسَّكُمُ النَّارُ
 
 "And do not incline toward those who have done wrong, lest the Fire touch you.
 
 "So you cut apart what Allah commanded to be joined, and you did it with open eyes; you spoke of the outward forms of justice while straying far from its path. You came upon His saying:
 
-أَطِيعُوا اللَّهَ وَأَطِيعُوا الرَّسُولَ وَأُولِي الْأَمْرِ مِنكُمْ
+> أَطِيعُوا اللَّهَ وَأَطِيعُوا الرَّسُولَ وَأُولِي الْأَمْرِ مِنكُمْ
 
 "Obey Allah, and obey the Messenger and those in authority among you,
 
 "and you took these powers of darkness for your rulers, even in their disbelief. And you forgot the saying of Allah, Exalted is He:
 
-قَاتِلُوا الَّذِينَ يَلُونَكُم مِّنَ الْكُفَّارِ
+> قَاتِلُوا الَّذِينَ يَلُونَكُم مِّنَ الْكُفَّارِ
 
 "Fight those of the disbelievers who are near to you.
 
