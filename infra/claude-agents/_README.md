@@ -34,7 +34,6 @@ Alphabetical. Each row has one canonical spec in this directory plus a byte-iden
 | `podcast-publisher` | Publish-gate enforcer — flips status draft→published in place after gates pass |
 | `podcast-trainer` | Cross-book pattern learner; proposes regression-gated spec refinements |
 | `postprod-review` | Post-production audio audit from downloaded m4a transcripts |
-| `preview-fidelity-challenger` | Fidelity challenger for the Studio composer preview (rendered preview vs source) |
 | `project-steward` | Strategic health advisor; composes other agents; corpus-cited recommendations |
 | `reconcile` | Code-first doc reconciliation — fixes code gaps before updating architecture views |
 | `refine-prompt` | Refines raw requests into compact instruction paragraphs for Claude |

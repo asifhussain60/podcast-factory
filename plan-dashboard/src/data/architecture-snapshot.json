@@ -326,20 +326,6 @@
       "failure_mode": "surfaces error and halts"
     },
     {
-      "id": "preview-fidelity-challenger",
-      "name": "Preview Fidelity Challenger",
-      "role": "Preview↔PDF parity challenger for the Podcast Factory Astro Site (directory plan",
-      "icon": "robot",
-      "tone": "neutral",
-      "plain": "Preview↔PDF parity challenger for the Podcast Factory Astro Site (directory plan-dashboard/). Gates the ONE thing no other agent can see: whether the composer's on-screen paginated Preview agrees with the rendered `book.pdf`. The Preview…",
-      "what_it_knows": "See infra/claude-agents/preview-fidelity-challenger.md",
-      "boundary_in": "",
-      "boundary_out": "",
-      "does_not": "",
-      "cost_profile": "varies",
-      "failure_mode": "surfaces error and halts"
-    },
-    {
       "id": "project-steward",
       "name": "Project Steward",
       "role": "Project-stewardship agent",
@@ -615,6 +601,6 @@
       ]
     }
   ],
-  "generated_at": "2026-07-20T16:16:23.470Z",
-  "source_commit": "e265eb0"
+  "generated_at": "2026-07-20T21:50:12.477Z",
+  "source_commit": "cf929c7"
 }

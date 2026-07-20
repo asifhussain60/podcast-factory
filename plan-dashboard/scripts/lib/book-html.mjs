@@ -26,8 +26,9 @@
  *
  * The correction matters beyond tidiness. A stale docstring here is what made
  * "the two surfaces are two engines that can disagree" look true, and an agent
- * (preview-fidelity-challenger) exists to police a divergence that cannot occur
- * while the Preview is a rasterizer.
+ * existed for two design revisions to police a divergence that cannot occur while
+ * the Preview is a rasterizer. It is deleted; this note is what stops it coming
+ * back.
  */
 import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";

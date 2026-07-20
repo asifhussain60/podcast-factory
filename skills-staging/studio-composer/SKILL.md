@@ -26,7 +26,7 @@ The full requirement text lives in
 > **Hard precedence.** This skill governs the *behaviour* of these surfaces; the
 > `html-view-quality` skill governs their *styling*. Both apply, always. A surface is
 > not "done" until it passes both gates: `html-view-challenger` (static Cortex) and,
-> for Preview work, `preview-fidelity-challenger` (Preview↔PDF parity). Do not bypass
+> for Preview work, `book-render-challenger` (the Preview displays the rendered PDF). Do not bypass
 > and do not drift.
 
 ## 0. Relationship to html-view-quality (do not duplicate)
@@ -72,7 +72,7 @@ The four that are most load-bearing and most easily broken:
 - **Preview must equal the PDF (REQ-SC-023, the only P0).** Preview exists solely to
   show how the PDF paginates. Any drift — a figure on a different page, a different
   page count — makes it worse than useless. Unify the HTML source (REQ-SC-022) and
-  prove parity with `preview-fidelity-check.mjs` every run.
+  gate the rendered PDF with `book-render-challenger` every run — the Preview shows it.
 - **One authoring canvas (REQ-SC-030).** No mode a user must switch to just to place a
   figure. Text edit + figure place/resize live together; the inspector is Edit-only
   (REQ-SC-031).
@@ -85,7 +85,7 @@ The four that are most load-bearing and most easily broken:
 1. **Author** per §1–§2 and the html-view-quality skill (shared layout + `theme.css`).
 2. **Self-check** against the `REQ-SC-*` list and the Cortex §10/§11 checklist.
 3. **Gate.** Run `html-view-challenger` (static) + `site-health-sentinel` (runtime) on
-   every touched surface. For any Preview change, ALSO run `preview-fidelity-challenger`
+   every touched surface. For any Preview change, ALSO run `book-render-challenger`
    — a `PF-*` parity failure is a P0 block (REQ-SC-023).
 4. **MUST/P0 findings block.** P1/SHOULD warn (skip only with a stated code-comment reason).
 5. Keep TS↔Python mirrors in sync in the same commit (`content-paths.ts`↔`_paths.py`,

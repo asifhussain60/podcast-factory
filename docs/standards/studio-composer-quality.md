@@ -13,8 +13,8 @@ standard (which governs Cortex conformance for every view). This standard govern
 only what these three surfaces must *do* — their behavioural and structural
 invariants. Requirements are cited by `REQ-SC-NNN`.
 
-Enforcement: the `preview-fidelity-challenger` agent (Preview↔PDF parity, backed by
-the deterministic `plan-dashboard/scripts/preview-fidelity-check.mjs`, `PF-NNN`
+Enforcement: `book-render-challenger` on the rendered PDF (the Preview shows that
+same artifact, so gating the PDF gates both
 probes), plus `html-view-challenger` (static Cortex) and `site-health-sentinel`
 (runtime + visual) which already exercise these routes.
 
@@ -78,15 +78,24 @@ behaviour, never Cortex conformance and never meaning.
 - **REQ-SC-022 (MUST · —) — Single HTML source.** The preview and the PDF consume the
   SAME HTML-assembly module (extracted from `render-book-pdf.mjs`); the web/print
   markdown renderers are not two hand-synced copies for the book body.
-- **REQ-SC-023 (MUST · P0) — Preview↔PDF page parity.** The on-screen pagination
-  matches the rendered PDF: same page count, same figure-to-page assignment, same
-  per-page text-flow boundaries. *Verified by `preview-fidelity-check.mjs`
-  (`PF-001..PF-004`) + the `preview-fidelity-challenger` agent.*
+- **REQ-SC-023 (MUST · —) — Preview shows the PDF, not a second pagination.** The
+  Preview renders the book through `render-book-pdf.mjs` and rasterizes the result;
+  it does not paginate the markup itself. Parity is then true by construction and
+  there is nothing to verify. *Rewritten 2026-07-20: this requirement previously
+  demanded page-for-page parity between two pagination engines, verified by
+  `preview-fidelity-check.mjs` and the `preview-fidelity-challenger` agent. There
+  was never a second engine — in-browser pagination was abandoned when Paged.js
+  hung this environment's Chromium on a two-paragraph document — so the check
+  returned DEFERRED unconditionally and the agent never produced a finding. Both
+  are deleted. If the Preview ever paginates independently again, this reverts to a
+  P0 and the gate comes back with it.*
 - **REQ-SC-024 (MUST · —) — Inspector hidden in Preview.** The Artifacts/Citations/
   Refinement/Output inspector is not shown in Preview (it belongs to Edit only —
   REQ-SC-031).
-- **REQ-SC-025 (SHOULD · —) — Live, no render wait.** Preview paginates in-browser and
-  does not block on a Playwright PDF render.
+- **REQ-SC-025 (SHOULD · —) — Preview stays responsive.** Preview reuses a cached
+  render where it can rather than blocking on a fresh Playwright PDF every time.
+  *Amended 2026-07-20: previously required in-browser pagination, which this repo
+  tried and abandoned — see REQ-SC-023.*
 
 ### Merged Edit canvas (Phase 4)
 
@@ -115,8 +124,8 @@ behaviour, never Cortex conformance and never meaning.
 ## Verdicts
 
 `SC-CLEAN` (no findings) · `SC-CAUTION` (only P1/SHOULD) · `SC-BROKEN` (any P0). The
-sole P0 today is REQ-SC-023 (Preview↔PDF parity) — a Preview that disagrees with the
-PDF is broken by definition.
+REQ-SC-023 is no longer a P0: the Preview cannot disagree with the PDF, because it
+displays the PDF.
 
 ## Relationship to other gates
 
@@ -124,7 +133,6 @@ PDF is broken by definition.
 |---|---|---|
 | `html-view-quality` (REQ-NNN) | Astro view source | Cortex styling/craft/a11y, theme, zero-inline DoD |
 | `studio-composer` (REQ-SC-*) | the three Studio surfaces | behavioural invariants: parity, merged canvas, read-only live session, entry points |
-| `preview-fidelity-challenger` (PF-*) | preview + `book.pdf` | Preview↔PDF page parity (the REQ-SC-023 probe) |
 | `book-print-quality` (REQ-BR-*) | `book.pdf` | the physical printed page |
 | `book-challenger` (BK-*) | `book.md` | meaning, teaching fidelity, Arabic accuracy |
 

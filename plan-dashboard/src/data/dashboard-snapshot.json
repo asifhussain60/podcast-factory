@@ -1732,60 +1732,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-20T16:16:23.433Z",
-  "source_commit": "e265eb0",
+  "generated_at": "2026-07-20T21:50:12.433Z",
+  "source_commit": "cf929c7",
   "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "e265eb0",
-      "subject": "feat(compose): recompose the whole book under its frame; make the Composer singular",
+      "sha": "cf929c7",
+      "subject": "docs: retire the two-engines story — the Preview rasterizes the PDF",
       "date": "2026-07-20"
     },
     {
-      "sha": "ea8b5b9",
-      "subject": "feat(narrative-frame): enforce who narrates on every prose route + challenger Pass 3",
+      "sha": "9bdfdfe",
+      "subject": "feat(watchdog): the run owns its own status heartbeat",
       "date": "2026-07-20"
     },
     {
-      "sha": "b2cc33c",
-      "subject": "fix(book-voice): window long chapters so a 14k-word chapter can be re-voiced",
-      "date": "2026-07-19"
+      "sha": "a7cce0c",
+      "subject": "feat(render-checks): assert the render did what the renderer intended",
+      "date": "2026-07-20"
     },
     {
-      "sha": "dcedc32",
-      "subject": "docs(plan): continuation prompt for the book.md articulation gap",
-      "date": "2026-07-19"
+      "sha": "f6b1537",
+      "subject": "feat(print): running heads, and apparatus set below the body",
+      "date": "2026-07-20"
     },
     {
-      "sha": "b63fe4d",
-      "subject": "fix(compose): revert the book.md chunk mirror — it was wrong in principle",
-      "date": "2026-07-19"
+      "sha": "af4f2c6",
+      "subject": "fix(print,checks): one code path for the crosswalk column; front-matter-aware gaps",
+      "date": "2026-07-20"
     },
     {
-      "sha": "3b27595",
-      "subject": "fix(quality): close the Cortex + runtime gate findings across both halves",
-      "date": "2026-07-19"
+      "sha": "dddd3cf",
+      "subject": "fix(print): restore the page my last fix deleted, and stop it recurring silently",
+      "date": "2026-07-20"
     },
     {
-      "sha": "4f04c58",
-      "subject": "fix(studio): Chapters opens the Composer; drop the duplicate PDF Generator pill",
-      "date": "2026-07-19"
+      "sha": "ad6f74f",
+      "subject": "fix(print): fence the asides, keep Arabic with its English, mend the crosswalk",
+      "date": "2026-07-20"
     },
     {
-      "sha": "f9215e4",
-      "subject": "fix(compose): left-align the editor prose; add the missing Read/Edit toggle",
-      "date": "2026-07-19"
+      "sha": "564a544",
+      "subject": "feat(pipeline): autonomy levels — a run clears what it may, and records it",
+      "date": "2026-07-20"
     },
     {
-      "sha": "d1cf589",
-      "subject": "feat(studio): in-flight Composer extraction, companion tab, and book-lane work",
-      "date": "2026-07-19"
+      "sha": "1b750a3",
+      "subject": "fix(book): the introduction claimed two things the book does not do",
+      "date": "2026-07-20"
     },
     {
-      "sha": "32282f0",
-      "subject": "feat(compose): one renderer for screen and print; close three silent-loss paths",
-      "date": "2026-07-19"
+      "sha": "a20ff21",
+      "subject": "feat(book): a decision ledger, so an autonomous run discloses instead of asking",
+      "date": "2026-07-20"
     }
   ],
   "wave_execution_events": [],

@@ -20,7 +20,7 @@
  * lying about the PDF again — the exact defect this whole layer was built to
  * end). Structural fidelity is guarded by the parity test in
  * scripts/lib/book-html.test.mjs; visual fidelity is guarded by the
- * preview-fidelity-challenger against the rendered PDF.
+ * book-render-challenger against the rendered PDF (which is what the Preview shows).
  *
  * Colour comes from the locked --c-* tokens only; no new palette values.
  */
