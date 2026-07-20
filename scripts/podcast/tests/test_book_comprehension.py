@@ -262,3 +262,29 @@ def test_an_untitled_work_gets_no_copy(tmp_path: Path) -> None:
     pdf.write_bytes(b"%PDF")
 
     assert module._titled_copy(pdf, "") is None
+
+
+def test_front_matter_listing_is_not_a_first_use() -> None:
+    # The Contents names a chapter title and the crosswalk prints eight of them,
+    # both before the book has defined anything. Counting those as first use
+    # produced an explained-late gap on two consecutive renders, each one a
+    # heuristic artifact a human had to read the PDF to dismiss.
+    from _book_comprehension import body_start_page, prerequisite_gaps
+
+    pages = [
+        "Title page",
+        "Contents\n1. The Long Road to the Shaykh",
+        "Source Crosswalk\nThe Long Road to the Shaykh",
+        "The boy travelled far to reach the Shaykh, and the Shaykh received him.",
+        "The Shaykh is the elder who tests a seeker before teaching him.",
+        "The Shaykh spoke again, and the boy listened.",
+    ]
+
+    assert body_start_page(pages) == 4
+    assert prerequisite_gaps(pages, ["Shaykh"]) == []
+
+
+def test_a_book_with_no_front_matter_starts_at_page_one() -> None:
+    from _book_comprehension import body_start_page
+
+    assert body_start_page(["Chapter one begins here.", "and continues."]) == 1

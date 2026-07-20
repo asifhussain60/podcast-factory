@@ -184,13 +184,13 @@ export function readCrosswalk(bookContentDir) {
   try {
     data = JSON.parse(readFileSync(p, "utf-8"));
   } catch (err) {
-    throw new Error("source-crosswalk.json exists but is not valid JSON", { cause: err });
+    throw new Error(`source-crosswalk.json is not valid JSON (${p})`, { cause: err });
   }
   const rows = Array.isArray(data) ? data : Array.isArray(data?.chapters) ? data.chapters : null;
   if (!rows || rows.length === 0) {
     throw new Error(
-      "source-crosswalk.json exists but yielded no chapter rows — expected an object with a " +
-        "`chapters` array or a bare array. Refusing to render a book that silently drops its " +
+      `source-crosswalk.json yielded no chapter rows (${p}) — expected an object with a ` +
+        "`chapters` array, or a bare array. Refusing to render a book that silently drops its " +
         "Source Crosswalk page and every per-chapter provenance line.",
     );
   }
@@ -221,10 +221,15 @@ export function renderSourceCrosswalk(items) {
       const n = item.index ? String(item.index) : "";
       const range =
         item.arabic_source_page_range || item.source_page_range || "";
-      const heads =
-        Array.isArray(item.source_headings) && item.source_headings.length
-          ? item.source_headings.slice(0, 3).join("; ")
-          : trimToWord(item.source_excerpt || "", 140);
+      // One code path for every row. This used to prefer `source_headings` when
+      // the chapter had any, which gave exactly one row of eight a different
+      // provenance AND a different formatter — the headings branch was joined
+      // raw, so it carried no section number, no ellipsis, and no length bound
+      // at all. That row looked wrong in three consecutive renders for three
+      // different reasons, and a book with three long headings would have run
+      // the column off the page. The column header promises "Source signal";
+      // the excerpt is what that is.
+      const heads = trimToWord(item.source_excerpt || "", 140);
       return (
         `<tr><td>${escapeHtml(n)}</td><td>${renderInline(item.title || "")}</td>` +
         `<td>${escapeHtml(range)}</td><td>${renderInline(heads || "")}</td></tr>`

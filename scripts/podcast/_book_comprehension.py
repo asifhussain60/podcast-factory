@@ -75,6 +75,9 @@ _MIN_USES_TO_MATTER = 3
 # A gap only matters when the reader has to carry the term for a while. One page is
 # an author explaining a beat later; several pages is a reader lost.
 _MIN_PAGE_GAP = 2
+# Front matter never runs deep into a book; bounding the scan keeps a chapter
+# that happens to discuss a table of contents from being read as front matter.
+_MAX_FRONT_MATTER_PAGES = 8
 # Readability proxies. Not verdicts — the passages a reviewer should look at first.
 _LONG_SENTENCE_WORDS = 45
 _DENSE_PAGE_TERMS = 6
@@ -175,6 +178,31 @@ def explanation_page(pages: list[str], term: str) -> int | None:
     return None
 
 
+_FRONT_MATTER_MARKERS = ("Contents", "Source Crosswalk")
+
+
+def body_start_page(pages: list[str]) -> int:
+    """1-based index of the first page that is not front matter.
+
+    Front matter NAMES things before the book explains them, and that is its job:
+    the Contents lists "The Long Road to the Shaykh" and the Source Crosswalk
+    prints eight chapter titles, both before page five has defined a single term.
+    Counting those as a term's first use produced an explained-late gap for
+    `Imam` and then for `Shaykh` on consecutive renders, each of which was a
+    heuristic artifact a reviewer had to read the PDF to dismiss. A checker that
+    cries wolf twice is one a reader stops believing.
+
+    Detected rather than configured: the first page carrying neither the Contents
+    nor the Source Crosswalk heading, after any page that does. A book with no
+    front matter starts at page 1 and nothing changes for it.
+    """
+    last_front = 0
+    for number, page in enumerate(pages[:_MAX_FRONT_MATTER_PAGES], start=1):
+        if any(marker in page for marker in _FRONT_MATTER_MARKERS):
+            last_front = number
+    return last_front + 1
+
+
 def prerequisite_gaps(pages: list[str], terms: list[str]) -> list[dict[str, Any]]:
     """Terms the book leans on before it explains them — the reader's real obstacle.
 
@@ -182,11 +210,17 @@ def prerequisite_gaps(pages: list[str], terms: list[str]) -> list[dict[str, Any]
     currently carries the explanation, so the fix is a sentence, never a reorder.
     """
     gaps: list[dict[str, Any]] = []
+    body_start = body_start_page(pages)
     for term in terms:
         used = term_pages(pages, term)
         if len(used) < _MIN_USES_TO_MATTER:
             continue
-        first_use = used[0]
+        # A term's first BODY use. Its appearance in the Contents or the
+        # crosswalk is a listing, not a use the reader has to understand.
+        in_body = [n for n in used if n >= body_start]
+        if not in_body:
+            continue
+        first_use = in_body[0]
         explained = explanation_page(pages, term)
         if explained is None:
             gaps.append(
