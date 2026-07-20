@@ -393,3 +393,24 @@ def test_fluency_reverts_calqued_drift(tmp_path: Path) -> None:
     assert "The patient are rewarded without measure." in out  # chapter 2 reverted to base
     report = json.loads((bd / "_system" / "book-fluency-report.json").read_text())
     assert report["adapted"] == 1 and report["reverted"] == 1
+
+
+def test_targeted_rerun_keeps_the_prior_runs_records(tmp_path: Path) -> None:
+    """A pass run with only= must not erase the full run's per-chapter records.
+
+    Writing the `skipped` markers straight out made the report say "0 adapted,
+    8 skipped" for a book whose chapters had all been adapted an hour earlier —
+    which reads as "the pass did nothing" and misled a reviewer into exactly
+    that conclusion on 2026-07-20.
+    """
+    bd = _book(tmp_path, _BASE)
+    good = lambda title, base, *a, **k: base + " I say this plainly to you."  # noqa: E731
+    apply_author_companion_voice(bd, log=lambda *a: None, revoicer=good)
+    full = json.loads((bd / "_system" / "book-voice-report.json").read_text())
+    assert full["revoiced"] == 2
+
+    apply_author_companion_voice(bd, log=lambda *a: None, revoicer=good, only=[2])
+    after = json.loads((bd / "_system" / "book-voice-report.json").read_text())
+    statuses = {c["title"]: c["status"] for c in after["chapters"]}
+    assert statuses["On Knowledge"] == "adapted"  # carried through, not "skipped"
+    assert after["revoiced"] == 2

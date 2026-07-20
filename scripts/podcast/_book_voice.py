@@ -319,6 +319,37 @@ def _fluency_chapter(
     return (out or "").strip()
 
 
+def _merge_records(previous: list[dict], current: list[dict]) -> list[dict]:
+    """Carry a prior run's per-chapter records through a targeted re-run.
+
+    A pass run with ``only=`` marks every other chapter ``skipped``. Writing that
+    straight out ERASES the record of the full run that produced the text now on
+    disk — the report then says "0 adapted, 8 skipped" for a book whose chapters
+    were all adapted an hour earlier. That misreads as "the pass did nothing",
+    and on 2026-07-20 it sent a reviewer to exactly that wrong conclusion. A
+    skipped chapter therefore keeps whatever the previous report said about it.
+    """
+    prior = {r.get("title"): r for r in previous if r.get("title")}
+    merged: list[dict] = []
+    for record in current:
+        if record.get("status") == "skipped" and record.get("title") in prior:
+            merged.append(prior[record["title"]])
+        else:
+            merged.append(record)
+    return merged
+
+
+def _load_prior_records(report_path: Path) -> list[dict]:
+    if not report_path.exists():
+        return []
+    try:
+        data = json.loads(report_path.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    records = data.get("chapters")
+    return records if isinstance(records, list) else []
+
+
 def _run_pass(
     book_md: Path,
     fn: Callable[..., str],
@@ -412,9 +443,11 @@ def apply_fluency_adapt(
         narrator_subject=subject,
     )
     book_md.write_text(new_text, encoding="utf-8")
+    report_path = book_dir / "_system" / "book-fluency-report.json"
+    records = _merge_records(_load_prior_records(report_path), records)
     adapted = sum(1 for r in records if r["status"] in ("adapted", "partial"))
     reverted = sum(1 for r in records if r["status"] == "reverted")
-    (book_dir / "_system" / "book-fluency-report.json").write_text(
+    report_path.write_text(
         json.dumps(
             {
                 "schema": "podcast.book-fluency/v2",
@@ -472,9 +505,11 @@ def apply_author_companion_voice(
         narrator_subject=subject,
     )
     book_md.write_text(new_text, encoding="utf-8")
+    report_path = book_dir / "_system" / "book-voice-report.json"
+    records = _merge_records(_load_prior_records(report_path), records)
     revoiced = sum(1 for r in records if r["status"] in ("adapted", "partial"))
     reverted = sum(1 for r in records if r["status"] == "reverted")
-    (book_dir / "_system" / "book-voice-report.json").write_text(
+    report_path.write_text(
         json.dumps(
             {
                 "schema": "podcast.book-voice/v2",
