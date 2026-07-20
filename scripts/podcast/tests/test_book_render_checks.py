@@ -73,3 +73,43 @@ def test_run_all_scans_orders_p0_first() -> None:
     pages = ["cover", "NotebookLM " + "x" * 5, "real " * 40, "colophon"]
     findings = run_all_scans(pages)
     assert findings[0]["severity"] == "P0"
+
+
+def test_placeholder_on_the_page_is_a_blocker() -> None:
+    # A `.replace` hit a placeholder's own mention in a CSS comment, so every page
+    # of a finished book printed `__BOOK_RUNNING_HEAD__`. Nothing in the pipeline
+    # noticed; a human reading the PDF did.
+    from _book_render_checks import scan_placeholders
+
+    findings = scan_placeholders(["ordinary page", "__BOOK_RUNNING_HEAD__\nchapter text"])
+
+    assert [f["check"] for f in findings] == ["BR-PLACEHOLDER"]
+    assert findings[0]["severity"] == "P0"
+    assert findings[0]["page"] == 2
+
+
+def test_ordinary_prose_with_underscores_is_not_a_placeholder() -> None:
+    from _book_render_checks import scan_placeholders
+
+    assert scan_placeholders(["snake_case and __x__ and MACRO_NAME are not placeholders"]) == []
+
+
+def test_a_missing_crosswalk_page_is_a_blocker_when_the_file_exists(tmp_path) -> None:
+    from _book_render_checks import scan_crosswalk_present
+
+    bd = tmp_path / "book"
+    (bd / "book").mkdir(parents=True)
+    (bd / "book" / "source-crosswalk.json").write_text("{}", encoding="utf-8")
+
+    assert scan_crosswalk_present(["page one", "page two"], bd)[0]["check"] == "BR-CROSSWALK-MISSING"
+    assert scan_crosswalk_present(["page one", "S O U R C E C R O S SWA L K"], bd) == []
+
+
+def test_no_crosswalk_file_means_no_finding(tmp_path) -> None:
+    # The companion route legitimately has none; absent is not the same as dropped.
+    from _book_render_checks import scan_crosswalk_present
+
+    bd = tmp_path / "book"
+    (bd / "book").mkdir(parents=True)
+
+    assert scan_crosswalk_present(["page one"], bd) == []

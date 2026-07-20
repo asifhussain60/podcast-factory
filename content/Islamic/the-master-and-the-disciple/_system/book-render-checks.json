@@ -7,72 +7,25 @@
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 2,
-      "detail": "half-empty interior page (149 vs median 1675 chars)",
-      "agent_ruling": "waived — reading-edition title page"
+      "detail": "half-empty interior page (149 vs median 1704 chars)"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 3,
-      "detail": "half-empty interior page (394 vs median 1675 chars)",
-      "agent_ruling": "waived — Contents page"
+      "detail": "half-empty interior page (394 vs median 1704 chars)"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 11,
-      "detail": "half-empty interior page (326 vs median 1675 chars)",
-      "agent_ruling": "waived — chapter-1 tail; chapter 2 opens fresh on 12"
+      "detail": "half-empty interior page (355 vs median 1704 chars)"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 56,
-      "detail": "half-empty interior page (225 vs median 1675 chars)",
-      "agent_ruling": "P1 LIVE — 3-line tail of chapter 6 at 16% fill, the thinnest page in the book; cost of break-before:avoid. Airy at the awkward end, but on a chapter boundary where whitespace is conventional."
+      "detail": "half-empty interior page (254 vs median 1704 chars)"
     }
-  ],
-  "book_render_challenger_version": "1.0",
-  "agent_verdict": "RENDER-CAUTION",
-  "agent_findings": [
-    {
-      "check": "BR-TABLE-ROW7",
-      "severity": "P1",
-      "page": 4,
-      "detail": "Crosswalk row 7 renders through the source_headings branch of renderSourceCrosswalk, which bypasses trimToWord entirely: it starts with no section number, ends on a comma rather than an ellipsis, and is unbounded, so a book with long headings would overflow the column. The other seven rows are correct."
-    },
-    {
-      "check": "BR-APPARATUS-MISSING",
-      "severity": "resolved",
-      "page": 4,
-      "detail": "Source Crosswalk prints on page 4, fits one page, all 8 'Arabic source pp.' lines restored."
-    },
-    {
-      "check": "BR-TABLE-TRUNC",
-      "severity": "resolved",
-      "page": 4,
-      "detail": "Seven of eight cells cut at a word boundary with a visible, unclipped ellipsis."
-    },
-    {
-      "check": "BR-QURAN-SPLIT",
-      "severity": "resolved",
-      "page": [],
-      "detail": "Zero Arabic-at-page-foot and zero colon-lead-in strands (was 3 and 2 originally, 0 and 9 after the first fix)."
-    },
-    {
-      "check": "BR-ASIDE-FLAT",
-      "severity": "resolved",
-      "page": [
-        15,
-        27,
-        44,
-        67
-      ],
-      "detail": "Fence reads at print size; strongest where the aside has body text above and below (p67). No alpha change needed."
-    }
-  ],
-  "agent_deferred_to_owner": [
-    "No running heads anywhere: a reader landing mid-preface or mid-chapter has no positional cue.",
-    "Hierarchy inversion: an editorial aside carries a fence while scripture carries none (defensible in the plain family, but a choice)."
   ]
 }

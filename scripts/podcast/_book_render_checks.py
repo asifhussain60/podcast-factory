@@ -108,11 +108,65 @@ def scan_blank_and_halfempty(pages_text: list[str]) -> list[dict[str, Any]]:
     return findings
 
 
-def run_all_scans(pages_text: list[str]) -> list[dict[str, Any]]:
+# Two assertions that the render did what the renderer intended. Both come from
+# real defects that reached a finished PDF and were caught only because a human
+# read it: a `.replace` that hit a placeholder's own mention in a CSS comment, so
+# every page printed `__BOOK_RUNNING_HEAD__`; and a crosswalk regenerated in the
+# wrong shape, which a strict-and-silent reader turned into a missing apparatus
+# page plus eight missing provenance lines. Neither is a judgment call and neither
+# costs anything, which is the argument for making them assertions rather than
+# lessons.
+_PLACEHOLDER_RE = re.compile(r"__[A-Z][A-Z0-9_]{3,}__")
+_CROSSWALK_HEADING_RE = re.compile(r"S\s*O\s*U\s*R\s*C\s*E\s*C\s*R\s*O\s*S", re.I)
+
+
+def scan_placeholders(pages_text: list[str]) -> list[dict[str, Any]]:
+    """A `__TOKEN__` on the printed page means a substitution did not happen."""
+    findings: list[dict[str, Any]] = []
+    for i, text in enumerate(pages_text, start=1):
+        for token in sorted(set(_PLACEHOLDER_RE.findall(text))):
+            findings.append(
+                {
+                    "check": "BR-PLACEHOLDER",
+                    "severity": "P0",
+                    "page": i,
+                    "detail": f"unsubstituted placeholder {token} printed on the page",
+                }
+            )
+    return findings
+
+
+def scan_crosswalk_present(pages_text: list[str], book_dir: Path) -> list[dict[str, Any]]:
+    """A book WITH a crosswalk file must print its crosswalk page.
+
+    Absent file, no finding — the companion route legitimately has none. Present
+    file and no page is the artifact silently dropping content it holds.
+    """
+    if not (Path(book_dir) / "book" / "source-crosswalk.json").exists():
+        return []
+    if any(_CROSSWALK_HEADING_RE.search(text) for text in pages_text):
+        return []
+    return [
+        {
+            "check": "BR-CROSSWALK-MISSING",
+            "severity": "P0",
+            "page": 0,
+            "detail": (
+                "source-crosswalk.json exists but no Source Crosswalk page was printed — "
+                "the render dropped the apparatus page and every per-chapter provenance line"
+            ),
+        }
+    ]
+
+
+def run_all_scans(pages_text: list[str], book_dir: Path | None = None) -> list[dict[str, Any]]:
     findings: list[dict[str, Any]] = []
     findings.extend(scan_watermark(pages_text))
     findings.extend(scan_duplicate_captions(pages_text))
     findings.extend(scan_blank_and_halfempty(pages_text))
+    findings.extend(scan_placeholders(pages_text))
+    if book_dir is not None:
+        findings.extend(scan_crosswalk_present(pages_text, book_dir))
     findings.sort(key=lambda f: (f["severity"] != "P0", f.get("page", 0)))
     return findings
 
@@ -161,7 +215,7 @@ def run_render_checks(book_dir: Path, *, log=print) -> dict[str, Any]:
             "findings": [],
         }
     else:
-        findings = run_all_scans(pages_text)
+        findings = run_all_scans(pages_text, book_dir)
         p0 = [f for f in findings if f["severity"] == "P0"]
         report = {
             "schema": "podcast.book-render-checks/v1",
