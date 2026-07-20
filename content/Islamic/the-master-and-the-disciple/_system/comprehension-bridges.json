@@ -1,0 +1,12 @@
+{
+  "schema": "book.comprehension-bridges/v1",
+  "bridges": [
+    {
+      "term": "father",
+      "anchor": "He said: \"Bring this boy to me quickly, for I hope he will be a door of mercy that God has opened for the people of his age.\"",
+      "text": "In this account a teacher is also called the father of the one he guides, so “father” now carries three men: the Master's own elder father here, the Master himself when the boy speaks, and the Arab chief who fathered the boy.",
+      "why": "PR-1 explained-late: the Master is first called the boy's father on p65 and not identified as such until p120.",
+      "added_by": "book-publication-reviewer 2026-07-20"
+    }
+  ]
+}

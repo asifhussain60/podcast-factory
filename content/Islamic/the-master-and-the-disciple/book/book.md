@@ -702,6 +702,10 @@ Then the Master took his leave and departed. The boy wished to press provisions 
 
 He said: "Bring this boy to me quickly, for I hope he will be a door of mercy that God has opened for the people of his age."
 
+<!-- bridge:begin -->
+> *In this account a teacher is also called the father of the one he guides, so “father” now carries three men: the Master's own elder father here, the Master himself when the boy speaks, and the Arab chief who fathered the boy.*
+<!-- bridge:end -->
+
 So the Master tarried only a little, then returned to the boy, and found him changed in body from the state in which he had left him.
 
 The Master said: "What is this I see in you? It is not the state I left you in."
