@@ -2,6 +2,20 @@
 
 ## How to Read a Conversation Made of Doors
 
+This book is a translation of *Kitab al-Alim wa-l-Ghulam*, "The Book of the Master and the Boy", a teaching dialogue that the manuscript itself attributes to Ja'far ibn Mansur al-Yaman and that belongs to the Ismaili da'wa tradition of the Fatimid period. It is not a treatise with a doctrine to state. It is a story that argues: a man seeks knowledge and finds it, a boy seeks him and is tested at the door, and almost everything the book teaches is taught inside a conversation between them.
+
+Nobody narrates it in his own person. The book speaks as a transmitted report — "We have been informed" — and keeps that distance to the last page. When a first person appears, it belongs to whoever is speaking at that moment, not to a narrator and not to this edition.
+
+Five figures carry the whole of it. **The Master** is a Persian who came to knowledge late, after years of ignorance, and who spends the rest of his life carrying it to others. **The boy**, the youngest and most thoughtful of a company that hears the Master speak, follows him, is refused, and is admitted only on conditions; his name, given much later, is Salih. **His father** is al-Bakhtari, a chief among the Arabs, honorable in lineage and hard against the people of religion. **The Shaykh** is the greater teacher at the far end of the boy's journey, who tests him for seven days. **Abu Malik** is the scholar whom the grown Salih debates in the final chapter, and that debate is where the book puts its whole argument on trial.
+
+One name has to be kept straight from the start. The pages immediately following this introduction — the book's own opening — begin with believers putting a question to "a Master among them". That teacher is not the Master of the story. He answers once and is not heard from again; everywhere after those opening pages, "the Master" means the Persian.
+
+From the fourth chapter onward a set of terms recurs that a reader may take for ordinary religious vocabulary: the speaking Imam (*al-Imam al-Natiq*), his gate (*bab*), his successor (*wasi*), his summoners (*du'at*). The book glosses each where it first appears. What it never says outright is that they belong together — they name ranks in one structure, and the cosmology of chapters four through six is describing that structure rather than decorating it.
+
+As an edition, this one adds nothing. It translates the whole of the source without abridgement, keeps the Arabic where the source carries it with the English set beneath, and leaves a word unvowelled wherever the original scan leaves it unvowelled. The few editorial notes are fenced and labelled, so a reader can always tell the book's voice from a note about it.
+
+### The book's own opening
+
 We have been informed that some groups among the believers, and a number of the preachers of religion, came to a Master among them and spoke as men speak when they have been given something they cannot easily name. "You have set us free," they told him, "by making us aware of what you have made us aware of, and in doing so you have laid upon us an obligation we are bound to fulfill." That obligation, as they understood it, fell into three parts, and each part was a debt of thanks: thanks for the summons itself, for that to which he had called them; thanks for the knowledge he had shown them; and thanks for the work he had commanded them to do.
 
 So they asked him to make each of these plain. Show us, they said, from every one of them, what a person who wills to render such thanks may actually do. They did not ask out of ignorance of the shape of the thing, for they had already understood, from the limits of religion, what is obligatory upon them and what falls to them to perform: what belongs to the student in the framing of his question, and what is required of the one asked in the giving of his answer. And they had understood, too, from the doctrines of the righteous and the manners of the seekers, as much as is easy to put into words. What remained was to be told how thanks is turned from a feeling into a practice.
@@ -232,6 +246,10 @@ The narrator said: Then the Master set about reciting the covenant to the boy, c
 ## 4. How the World Was Made
 
 The Master began with the first of the causes of the manifest order and with the beginning of its creation. God, he said, is the Creator of things and the One who composes them; He created them and brought them into being. He is not the first of created things in the sense of having taken some earlier creation as evidence for what came after; rather He is the First of all firsts and the Inheritor of every thing. He began the creation of what He created out of light, and from that light three words branched. The first is the will; from the will branched the command; and from the command branched the saying, so that He says to whatever He wills:
+
+<!-- bridge:begin -->
+> *Everything that follows to the end of this chapter is the Master's own discourse to the boy, so the “I” and “we” in it are his and not the edition's.*
+<!-- bridge:end -->
 
 > كُنْ فَيَكُونُ
 >
