@@ -49,6 +49,7 @@ _VALID_VISUALS = frozenset({BOOK_VISUALS_MANUAL_ONLY, BOOK_VISUALS_PIPELINE})
 # part of the knob-default map: no product choice may change who narrates.
 NARRATIVE_FRAME_KEY = "narrative_frame"
 NARRATOR_SUBJECT_KEY = "narrator_subject"
+AUTONOMY_KEY = "autonomy"
 
 BOOK_VOICE_FAITHFUL = "faithful"
 BOOK_VOICE_AUTHOR_COMPANION = "author_companion"
@@ -147,6 +148,20 @@ def narrator_subject(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     return str(cfg.get(NARRATOR_SUBJECT_KEY) or "").strip()
 
 
+def autonomy(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
+    """How far a started run drives before it stops — see ``_rules.AUTONOMY_LEVELS``.
+
+    Absent or misspelled resolves to ``manual``, i.e. the behaviour every book had
+    before this knob existed. Opting a book into autonomy is an act; failing to
+    spell it correctly must never be one.
+    """
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    from _autonomy import autonomy_level_for
+
+    return autonomy_level_for(str(cfg.get(AUTONOMY_KEY) or "").strip().lower() or None)
+
+
 def book_knobs(book_dir: Path) -> dict[str, Any]:
     """Convenience bundle: every resolved knob read in one config load."""
     cfg = _read_series_config(book_dir)
@@ -156,4 +171,5 @@ def book_knobs(book_dir: Path) -> dict[str, Any]:
         "visuals": book_visuals(book_dir, cfg),
         "narrative_frame": narrative_frame(book_dir, cfg),
         "narrator_subject": narrator_subject(book_dir, cfg),
+        "autonomy": autonomy(book_dir, cfg),
     }

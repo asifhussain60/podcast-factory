@@ -417,6 +417,18 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
     )
     phase_git_commit(book_dir, f"podcast({book_slug}): phase 0f series plan written; awaiting human review")
 
+    # Autonomy: an approval this level is allowed to give, the run gives — and
+    # records, so the author reads WHAT was approved at the finalize halt instead
+    # of being asked to approve it before there was anything to look at.
+    from phases.autonomy_gate import clear_series_plan_gate
+
+    if clear_series_plan_gate(book_dir, plan_path, log=_info):
+        # Deferred import: chapter_driver imports from this package, so a
+        # module-level import here would close the cycle at load time.
+        from phases.chapter_driver import _drive_per_chapter_and_after
+
+        return _drive_per_chapter_and_after(book_dir)
+
     _info("")
     _info("─" * 72)
     _info("Phase 0f complete · halted for human review.")

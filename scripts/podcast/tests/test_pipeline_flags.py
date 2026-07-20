@@ -77,4 +77,7 @@ def test_book_knobs_bundle(tmp_path: Path) -> None:
         # narrator. With no content_profile declared, the conservative default.
         "narrative_frame": "external_narrator",
         "narrator_subject": "",
+        # Autonomy is opt-in per book. Absent means manual — every gate still
+        # waits for --resume, exactly as it did before levels existed.
+        "autonomy": "manual",
     }
