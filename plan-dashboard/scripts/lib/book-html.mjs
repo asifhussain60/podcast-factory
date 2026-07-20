@@ -161,15 +161,57 @@ export function readVisualAssets(bookContentDir) {
   return map;
 }
 
+/**
+ * Read the source crosswalk. Accepts BOTH the `{schema, book, chapters}` object
+ * and a bare array of chapter rows.
+ *
+ * The strict-and-silent version of this cost a whole apparatus page. A
+ * regeneration wrote the rows as a top-level array, this returned `[]`, the
+ * crosswalk page rendered as an empty string, the same empty map starved the
+ * per-chapter "Arabic source pp." lines, and the book printed one page shorter
+ * with no error anywhere in the pipeline. Nothing but a human reading the PDF
+ * caught it.
+ *
+ * So: tolerate the shape, and refuse to be silent. A crosswalk file that exists
+ * but yields no rows is a broken artifact, not an absent one, and it throws —
+ * an empty return here is reserved for "there is no crosswalk", which is a
+ * legitimate state for the companion route.
+ */
 export function readCrosswalk(bookContentDir) {
   const p = path.join(bookContentDir, "book", "source-crosswalk.json");
   if (!existsSync(p)) return [];
+  let data;
   try {
-    const data = JSON.parse(readFileSync(p, "utf-8"));
-    return Array.isArray(data?.chapters) ? data.chapters : [];
-  } catch {
-    return [];
+    data = JSON.parse(readFileSync(p, "utf-8"));
+  } catch (err) {
+    throw new Error("source-crosswalk.json exists but is not valid JSON", { cause: err });
   }
+  const rows = Array.isArray(data) ? data : Array.isArray(data?.chapters) ? data.chapters : null;
+  if (!rows || rows.length === 0) {
+    throw new Error(
+      "source-crosswalk.json exists but yielded no chapter rows — expected an object with a " +
+        "`chapters` array or a bare array. Refusing to render a book that silently drops its " +
+        "Source Crosswalk page and every per-chapter provenance line.",
+    );
+  }
+  return rows;
+}
+
+/**
+ * Cut to at most `max` characters at a word boundary, ellipsis when cut.
+ *
+ * The cell — not the generator — is what decides how much text fits in a table
+ * column, so the cut belongs here. The generator trims too, at a much larger
+ * budget for other consumers; a hard `.slice(0, 140)` here re-cut that trimmed
+ * text mid-word and printed "was struck by t" in every row of the Source
+ * Crosswalk, 280 characters before the generator's own ellipsis could appear.
+ */
+export function trimToWord(text, max) {
+  const s = String(text || "").trim();
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max);
+  const boundary = cut.lastIndexOf(" ");
+  return (boundary > max / 2 ? cut.slice(0, boundary) : cut).replace(/[ ,;:.]+$/, "") + "…";
 }
 
 export function renderSourceCrosswalk(items) {
@@ -182,7 +224,7 @@ export function renderSourceCrosswalk(items) {
       const heads =
         Array.isArray(item.source_headings) && item.source_headings.length
           ? item.source_headings.slice(0, 3).join("; ")
-          : (item.source_excerpt || "").slice(0, 140);
+          : trimToWord(item.source_excerpt || "", 140);
       return (
         `<tr><td>${escapeHtml(n)}</td><td>${renderInline(item.title || "")}</td>` +
         `<td>${escapeHtml(range)}</td><td>${renderInline(heads || "")}</td></tr>`

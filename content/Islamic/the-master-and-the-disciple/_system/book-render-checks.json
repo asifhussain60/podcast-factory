@@ -7,19 +7,75 @@
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 2,
-      "detail": "half-empty interior page (149 vs median 1685 chars)"
+      "detail": "half-empty interior page (149 vs median 1685 chars)",
+      "agent_ruling": "waived — reading-edition title page"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 3,
-      "detail": "half-empty interior page (394 vs median 1685 chars)"
+      "detail": "half-empty interior page (394 vs median 1685 chars)",
+      "agent_ruling": "waived — Contents page"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 10,
-      "detail": "half-empty interior page (551 vs median 1685 chars)"
+      "detail": "half-empty interior page (551 vs median 1685 chars)",
+      "agent_ruling": "waived — 8-line tail of chapter 1; chapter 2 opens fresh on 11 (same page as old p11, shifted by the lost crosswalk page)"
+    }
+  ],
+  "book_render_challenger_version": "1.0",
+  "agent_verdict": "RENDER-BROKEN",
+  "agent_findings": [
+    {
+      "check": "BR-APPARATUS-MISSING",
+      "severity": "P0",
+      "page": 4,
+      "detail": "The Source Crosswalk page no longer renders, and all 8 per-chapter 'Arabic source pp. X-Y' provenance lines are gone. Regenerated book/source-crosswalk.json is now a bare JSON array; readCrosswalk() in plan-dashboard/scripts/lib/book-html.mjs requires data.chapters and returns [] on a shape mismatch, so the page and the per-chapter lines are dropped silently. This, not the keep-with-next reflow, is the entire 122->121 page delta."
+    },
+    {
+      "check": "BR-TABLE-TRUNC",
+      "severity": "P1",
+      "page": 4,
+      "detail": "STILL LIVE once the page returns: the visible mid-word cut is renderSourceCrosswalk's (item.source_excerpt||'').slice(0,140) in book-html.mjs, not the 420-char Python cut. The new _excerpt() ellipsis is 280 characters past the cell's own slice, so cells would still print 'was struck by t'."
+    },
+    {
+      "check": "BR-ASIDE-FLAT",
+      "severity": "resolved",
+      "page": [
+        14,
+        26,
+        43,
+        65
+      ],
+      "detail": "Fence reads on all four asides; subordinate to the Qur'an blocks. Rule is at the faint end for uncoated stock."
+    },
+    {
+      "check": "BR-QURAN-SPLIT",
+      "severity": "resolved",
+      "page": [
+        38,
+        49,
+        117
+      ],
+      "detail": "Zero pages now end on an Arabic display line. Reflow benign: the sub-70%-fill page set is identical to before, shifted by one."
+    },
+    {
+      "check": "BR-LEADIN-STRAND",
+      "severity": "P2",
+      "page": [
+        8,
+        26,
+        29,
+        38,
+        48,
+        50,
+        58,
+        80,
+        117
+      ],
+      "detail": "The keep-with-next moved the seam: colon lead-in strands went 2 -> 9. Milder than the split it replaced, but frequent. break-before:avoid on blockquote.quran would carry the lead-in across with the block."
     }
   ]
 }

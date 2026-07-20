@@ -369,10 +369,19 @@ blockquote.quran p.ar {
    paragraph after the block, and there the Arabic ended a page while its meaning
    opened the next (pages 39/40, 50/51 and 118/119 of the 122-page render). A
    reader met scripture with no rendering and had to turn the page to learn what
-   it said. */
+   it said.
+
+   `break-before` closes the seam the `break-after` alone relocated: with only
+   keep-with-next, nine pages came to end on a colon lead-in with the quotation
+   overleaf, up from two. That is the milder failure — a reader meets "The
+   Almighty said:" and turns the page, rather than meeting scripture with no
+   rendering — but it is nine times instead of twice, and carrying the lead-in
+   across costs a few lines of white at each seam. */
 blockquote.quran {
   break-after: avoid;
   page-break-after: avoid;
+  break-before: avoid;
+  page-break-before: avoid;
 }
 
 blockquote.quran .quran-divider {
