@@ -102,6 +102,19 @@ def _fluency_prompt(
     narrator: str = "",
 ) -> str:
     directives = frame_prompt_directive(frame, narrator) + ARABIC_DIRECTIVE if frame else ""
+    # The register clause follows the frame, exactly as it does in `_voice_prompt`.
+    # Hardcoding "third-person" here contradicted the directives block twenty lines
+    # above it: a book declaring `first_person_author` was told to narrate in the
+    # first person throughout and then, in the same prompt, forbidden from doing
+    # it. The frame is a SOURCE property and independent of the route, so any
+    # route that hardcodes a person will eventually meet a book that disagrees.
+    third_person = not frame or narrative_person_for(frame) == "third"
+    register_clause = "the SAME third-person scholarly register" if third_person else "the SAME first-person register"
+    person_clause = (
+        "Do not switch to first person"
+        if third_person
+        else "Do not switch out of first person into third-person report"
+    )
     continuity = (
         "\nCONTINUITY\nThis passage continues a chapter already in progress. The preceding passage "
         "ended with the words below. Carry straight on from it — do not re-introduce the chapter, do "
@@ -116,10 +129,10 @@ phrasing so it reads like a book, NOT like a literal gloss.
 {directives}{continuity}
 
 ABSOLUTE FAITHFULNESS (a de-calque is not a rewrite)
-Keep the SAME meaning, the SAME third-person scholarly register, and every teaching, argument,
+Keep the SAME meaning, {register_clause}, and every teaching, argument,
 named person, citation, Quran verse, hadith, quote, and Arabic script exactly as given. Keep every
 Arabic-script quotation verbatim. You may only smooth connective prose and Arabic word-order that
-reads awkwardly in English. Do not switch to first person, do not add, remove, summarize, or
+reads awkwardly in English. {person_clause}, do not add, remove, summarize, or
 reinterpret anything. Output must be about the same length — never shorter.
 
 OUTPUT

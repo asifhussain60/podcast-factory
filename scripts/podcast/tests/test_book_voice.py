@@ -86,3 +86,26 @@ def test_revoice_gates_keeps_a_clean_re_voice() -> None:
     base = "The teacher began his lesson at dawn, as he always did, speaking first of patience."
     revoiced = "The teacher always began at dawn, and that morning he spoke first of patience."
     assert revoice_gates(base, revoiced) == []
+
+
+# ─── prompt / frame agreement ─────────────────────────────────────────────────
+def test_fluency_prompt_does_not_contradict_its_own_frame_directive() -> None:
+    """The de-calque prompt must not forbid the person its directives just mandated.
+
+    `_fluency_prompt` hardcoded "the SAME third-person scholarly register" and
+    "Do not switch to first person" twenty lines below a directives block that,
+    for a first-person book, says to narrate in the first person throughout. The
+    frame is a SOURCE property and independent of the route, so a route that
+    hardcodes a person will eventually meet a book that disagrees with it.
+    """
+    from _book_voice_prompts import _fluency_prompt
+
+    for frame in ("first_person_author", "participant_narrator"):
+        prompt = _fluency_prompt("Ch", "text", frame=frame, narrator="Salih")
+        assert "Narrate in the FIRST PERSON" in prompt, frame
+        assert "Do not switch to first person" not in prompt, frame
+
+    for frame in ("transmitted_report", "external_narrator", ""):
+        prompt = _fluency_prompt("Ch", "text", frame=frame)
+        assert "third-person scholarly register" in prompt, frame
+        assert "Do not switch to first person" in prompt, frame
