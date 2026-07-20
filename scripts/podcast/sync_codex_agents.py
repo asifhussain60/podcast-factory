@@ -70,16 +70,26 @@ def _toml_basic_string(value: str) -> str:
 
 
 def render_toml(canonical_md: str, name: str) -> str:
+    """Render one canonical spec as TOML.
+
+    The body goes in a LITERAL multi-line string (`'''`), not a basic one
+    (`\"\"\"`). A basic string interprets backslash escapes, and these specs are
+    full of regexes — `max-height|height:\\s*100vh`, `EP\\d\\d`, `Version: \\d` —
+    so the first generated set left three of eighteen files unparseable, and a
+    future spec containing a valid-looking `\\t` would have been silently mangled
+    instead. A literal string interprets nothing, which is exactly right for
+    embedding prose verbatim.
+    """
     frontmatter, body = _split_frontmatter(canonical_md)
     description = _scalar(frontmatter, "description")
     declared = _scalar(frontmatter, "name") or name
     body = body.strip("\n")
-    if '"""' in body:
-        raise ValueError(f"{name}: body contains a triple quote and cannot be embedded in TOML")
+    if "'''" in body:
+        raise ValueError(f"{name}: body contains a literal triple quote and cannot be embedded in TOML")
     return (
         f"name = {_toml_basic_string(declared)}\n"
         f"description = {_toml_basic_string(description)}\n"
-        f'developer_instructions = """\n{body}"""\n'
+        f"developer_instructions = '''\n{body}'''\n"
     )
 
 
@@ -90,6 +100,7 @@ def main(argv: list[str]) -> int:
         return 0
 
     drift = 0
+    errors = 0
     missing_canonical: list[str] = []
     for toml_path in sorted(CODEX_DIR.glob("*.toml")):
         name = toml_path.stem
@@ -100,8 +111,11 @@ def main(argv: list[str]) -> int:
         try:
             rendered = render_toml(canonical.read_text(encoding="utf-8"), name)
         except ValueError as exc:
+            # Counted separately from drift so it fails in SYNC mode too. Treating
+            # it as drift meant an unrenderable spec printed to stderr and exited
+            # clean, which is how three unparseable files shipped.
             print(f"ERROR: {exc}", file=sys.stderr)
-            drift += 1
+            errors += 1
             continue
         if toml_path.read_text(encoding="utf-8") == rendered:
             continue
@@ -116,6 +130,9 @@ def main(argv: list[str]) -> int:
     for name in missing_canonical:
         print(f"NOTE:    .codex/agents/{name}.toml has no canonical infra/claude-agents/{name}.md")
 
+    if errors:
+        print(f"\n{errors} Codex spec(s) could not be rendered.", file=sys.stderr)
+        return 1
     if check and drift:
         print(f"\n{drift} Codex spec(s) drifted from canonical.", file=sys.stderr)
         print("Run: python3 scripts/podcast/sync_codex_agents.py", file=sys.stderr)

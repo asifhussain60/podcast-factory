@@ -63,14 +63,35 @@ def test_eleven_letter_phrase_clears_the_floor() -> None:
     assert is_quranic("لَيْسَ كَمِثْلِهِ شَيْءٌ")
 
 
-def test_the_shortest_and_most_quoted_formula_is_recognized() -> None:
-    # Q 2:117 / 3:47 / 16:40 / 36:82. A 7-letter skeleton sat under the 10-letter
-    # floor, so the corpus's single most-quoted formula came back NON-canonical and
-    # landed on the fabricated-vowelling review list — the exact false positive
-    # this module exists to remove. The book sets `فَيَكُونُ` as a run of its own,
-    # so the one-word form has to work too.
-    assert is_quranic("كُنْ فَيَكُونُ")
-    assert is_quranic("فَيَكُونُ")
+def test_a_span_under_three_words_is_never_called_scripture() -> None:
+    """Alignment does not beat coincidence at two words, because the Quran is Arabic.
+
+    Measured over 2,000 random two-word spans of this book's own non-Quranic
+    prose, 17.4% aligned somewhere in the 6,236 verses — `ثم قال`, `قال له`,
+    `هو الذي`. A span wrongly called scripture is EXCUSED from the
+    fabricated-vowelling check, which is the defect this module exists to catch,
+    so the floor is three words.
+
+    Distinctiveness was tried instead and failed on measurement: `ثم قال` occurs
+    in 1 verse and `كن فيكون` in 8, ranking the connective as more distinctive
+    than the citation. Do not reintroduce a match-count heuristic here.
+
+    The cost is real and accepted: `كُنْ فَيَكُونُ` no longer resolves as canonical.
+    Nothing downstream needs it to — `ocr_vowelling_findings` declines to judge
+    runs this short at all, rather than needing them excused.
+    """
+    for short in ("ثم قال", "قال له", "هو الذي", "من غير", "كُنْ فَيَكُونُ", "فَيَكُونُ"):
+        assert not is_quranic(short), short
+
+
+def test_folding_may_not_turn_a_negation_into_the_verse_that_denies_it() -> None:
+    # Q 6:103 reads `لَا تُدْرِكُهُ الْأَبْصَارُ` — vision does NOT grasp Him. The book
+    # asks the interrogative `أَتُدْرِكُهُ الْأَبْصَارُ`. Dropping every alif erased the
+    # leading particle and matched the affirmation against the negation, so the
+    # defective path is floored high enough that folding cannot flip a sense.
+    assert is_quranic("لَا تُدْرِكُهُ الْأَبْصَارُ")
+    assert not is_quranic("أَتُدْرِكُهُ الْأَبْصَارُ")
+    assert not is_quranic("تُدْرِكُهُ الْأَبْصَارُ")
 
 
 def test_uthmani_spelling_folds_onto_modern_spelling() -> None:

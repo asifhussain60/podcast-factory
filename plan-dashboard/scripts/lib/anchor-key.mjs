@@ -29,12 +29,29 @@
 /** Digits that can open a numbered heading: ASCII, Arabic-Indic, Extended Arabic-Indic. */
 const HEADING_NUMBER_RE = /^[0-9٠-٩۰-۹]+\.\s*/;
 
-/** Normalize an anchor / heading to a comparable key: strip markup, "N." prefix, case. */
+/**
+ * Characters trimmed from both ends, spelled out because `.trim()` and Python's
+ * `.strip()` disagree: `.trim()` strips U+FEFF and `.strip()` does not, while
+ * `.strip()` strips U+0085 and the C0 separators and `.trim()` does not. Mirror of
+ * `_TRIM_RE` in scripts/podcast/_book_edits.py.
+ */
+// eslint-disable-next-line no-control-regex
+const TRIM_RE = /^[\s\u0085\u001c-\u001f\uFEFF]+|[\s\u0085\u001c-\u001f\uFEFF]+$/g;
+
+/**
+ * Normalize an anchor / heading to a comparable key: strip markup, "N." prefix, case.
+ *
+ * The trim runs FIRST, then again at the end. A leading BOM sits BEFORE the `##`,
+ * so without the opening trim the heading strip did not match either and the key
+ * came out as the whole raw heading — while the Python side, which does not treat
+ * the BOM as whitespace, produced something different again.
+ */
 export function anchorKey(s) {
   return String(s ?? "")
+    .replace(TRIM_RE, "")
     .replace(/<[^>]+>/g, "")
     .replace(/^#{1,6}\s+/, "")
     .replace(HEADING_NUMBER_RE, "")
-    .trim()
+    .replace(TRIM_RE, "")
     .toLowerCase();
 }

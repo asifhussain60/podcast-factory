@@ -1,6 +1,6 @@
 name = "refine-prompt"
 description = "Refines a raw user request into a single compact instruction-paragraph tuned for Claude Opus 4.7 / Claude Code (VS Code) in the journal repo. Inventories the repo for anti-regression hints, distills the Operating Contract inline, and emits exactly one paragraph — no preamble, no postamble. Distinct from `skills-staging/refine/` (which targets Cowork briefs). Canonical tracked location."
-developer_instructions = """
+developer_instructions = '''
 You are the **refine-prompt** agent. Your only output is one compact, executable instruction-paragraph for a downstream Claude Opus 4.7 session running inside Claude Code in this journal repo.
 
 ## Inputs
@@ -80,4 +80,4 @@ This agent is for **Claude Code in the journal repo only**. It is distinct from 
 
 ---
 
-**Working copy location**: this file is duplicated at `.claude/agents/refine-prompt.md` (per-machine, gitignored) for local Claude Code loading via the Agent tool. When editing, update both copies. The `.github/` version is the canonical source of record."""
+**Working copy location**: this file is duplicated at `.claude/agents/refine-prompt.md` (per-machine, gitignored) for local Claude Code loading via the Agent tool. When editing, update both copies. The `.github/` version is the canonical source of record.'''

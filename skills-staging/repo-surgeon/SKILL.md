@@ -23,7 +23,7 @@ Before any action, read in order:
    - `meta.scope_in` / `meta.scope_out` — the contracted boundaries Pass 5 enforces.
    - `intelligence_sources` — files agents must consult before edits; Pass 5 L3 verifies existence.
    - `async_safety` — wait-banner format + pre-edit checklist; Pass 5 L6 honors.
-   - `phases[]` — phase ids that Pass 5 L7 cross-checks against the HTML view.
+   - `waves` / `waves_*` / `wave_*` — wave ids that Pass 5 L7 cross-checks against the HTML view. (There is no `phases[]` key; enumerate the wave families dynamically.)
 6. **`_workspace/plan/operations/per-book-ship-checklist.md`** (if present) — the master checklist Pass 5 L10 syncs against the YAML.
 
 Severity is **P0 / P1 / P2 / P3** per bootstrap §2. Legacy labels (Critical / High / Medium / Low) map: Critical → P0, High → P1, Medium → P2, Low → P3. See "Severity tier mapping" below for per-pass examples.
@@ -115,7 +115,10 @@ Pass 5: Plan Conformance      → v2 plan YAML/MD/HTML parity, intelligence-sour
 
 ```bash
 # R1: Root clutter scan
-ls -1 | grep -v -E '^(framework\.md|package\.json|release-please-config\.json|\.release-please-manifest\.json|site-worker\.js|wrangler\.toml|CHANGELOG\.md|\.gitignore|\.gitattributes|\.mcp\.json|LICENSE|README\.md)$' | grep -v -E '^(\.|_workspace|content|docs|infra|reference|scripts|server|shared|site|skills-staging)$'
+# Allow-list kept in step with the R1 rule above. Run verbatim against the repo as
+# it actually is: the previous version reported eleven violations, every one of
+# them a governed file or directory it simply had not been told about.
+ls -1 | grep -v -E '^(framework\.md|CLAUDE\.md|AGENTS\.md|Makefile|package\.json|pyproject\.toml|pytest\.ini|requirements\.txt|release-please-config\.json|\.release-please-manifest\.json|CHANGELOG\.md|\.gitignore|\.gitattributes|\.mcp\.json|\.env\.example|LICENSE|README\.md)$' | grep -v -E '^(\.|_learning|_workspace|content|docs|infra|plan-dashboard|scripts|skills-staging|tests|tools|node_modules)$'
 
 # R3: Scratch files at root
 ls -1 *.prompt.md scratchpad-* tmp-* test-* debug-* 2>/dev/null
@@ -342,7 +345,7 @@ grep -rnE 'trips/|trip-edit|trip-planner|dayone|FloatingChat|LogModule|InsertEve
 | L7 | **HTML/YAML parity** — every wave id in `_workspace/plan/refactor/plan.yaml` (across every `waves`/`waves_*`/`wave_*` key — NOT `phases[].id`, which does not exist) must appear in at least one file under `_workspace/plan/view/*.html` (the view system is split — `index.html` is the landing/capability surface; `phased-plan.html` is the canonical phase content; `acceptance-criteria.html` and `podcast-capabilities.html` are role-specific surfaces). | Flag any phase id missing from EVERY view HTML as **P2**. |
 | L8 | **Broken-ref audit after legacy-file cleanup** — for every basename listed under `meta.legacy_cleanup_basenames` (if present), every remaining mention in the repo must occur within 80 characters of one of the literal substrings: `deleted`, `retired`, `RETIRED`, `DELETED`, `closed`. | Flag unannotated mentions as **P1**. |
 | L9 | **HTML view freshness** — `_workspace/plan/view/index.html` mtime older than `_workspace/plan/refactor/plan.yaml` mtime → flag for re-render. (Best-effort check; the HTML is hand-edited, so age alone is not destructive; tag as **P3 advisory**.) | Flag. |
-| L10 | **Acceptance-criteria sync** — if `_workspace/plan/operations/per-book-ship-checklist.md` exists, every ID mentioned on a checkbox row must resolve to one of: (a) a current wave id (any `waves`/`waves_*`/`wave_*` entry's `id` — NOT `phases[].id`, which does not exist), (b) a current step id (that wave's `steps[].id`), (c) an open-question id (`open_questions[].id`), (d) a risk id (`risks[].id`), (e) a legacy id retained for v2→v3 traceability (`phases[].legacy_id`, `phases[].tasks[].legacy_id`, or any key/value in `meta.legacy_id_map`). | Flag drift between checklist and canonical plan as **P1**. |
+| L10 | **Acceptance-criteria sync** — if `_workspace/plan/operations/per-book-ship-checklist.md` exists, every ID mentioned on a checkbox row must resolve to one of: (a) a current wave id (any `waves`/`waves_*`/`wave_*` entry's `id` — NOT `phases[].id`, which does not exist), (b) a current step id (that wave's `steps[].id`), (c) an open-question id (`open_questions[].id`), (d) a risk id (`risks[].id`), (e) a legacy id retained for v2→v3 traceability (a wave's `legacy_id`, a step's `legacy_id`, or any key/value in `meta.legacy_id_map`). | Flag drift between checklist and canonical plan as **P1**. |
 
 ### Procedure
 
@@ -352,14 +355,16 @@ PLAN="_workspace/plan/refactor/plan.yaml"
 # L1: YAML lint
 ruby -r yaml -e "YAML.load_file('$PLAN'); puts 'OK'" 2>&1
 
-# L2: Reachable phase ids
-ruby -r yaml -e "
+# L2: Reachable wave ids. There is NO phases[] key -- this block called one until
+# 2026-07-20 and died with NoMethodError on nil, so the rule never ran.
+ruby -r yaml -r set -e "
 d=YAML.load_file('$PLAN')
-ids=d['phases'].map{|p|p['id']}.to_set
-d['phases'].each do |p|
-  (p['depends_on']||[]).each{|x| puts \"DANGLING depends_on: #{p['id']} -> #{x}\" unless ids.include?(x)}
+waves = d.keys.select{|k| k=='waves' || k.start_with?('waves_','wave_')}.flat_map{|k| d[k].is_a?(Array) ? d[k] : [] }
+ids = waves.map{|w| w['id']}.compact.to_set
+waves.each do |w|
+  ((w['depends_on']||[]) + (w['parallel_with']||[])).each{|x| puts \"DANGLING ref: #{w['id']} -> #{x}\" unless ids.include?(x)}
 end
-(d['done_when']||[]).each{|line| ids.each{|i| } } # advisory only
+puts \"L2: #{ids.size} wave ids checked\"
 "
 
 # L3: intelligence_sources existence (forward-deliverable paths skipped)
@@ -397,7 +402,10 @@ fi
 # L7: HTML/YAML phase parity — phase id must appear in at least one view HTML.
 # Implemented in Ruby for shell portability (bash word-splits `$VAR`; zsh does not).
 ruby -r yaml -e "
-phase_ids = YAML.load_file('$PLAN')['phases'].map{|p| p['id']}
+d = YAML.load_file('$PLAN')
+waves = d.keys.select{|k| k=='waves' || k.start_with?('waves_','wave_')}.flat_map{|k| d[k].is_a?(Array) ? d[k] : [] }
+ids = waves.map{|w| w['id']}.compact.to_set
+phase_ids = ids.to_a
 htmls = Dir.glob('_workspace/plan/view/*.html')
 bodies = htmls.map{|f| File.read(f) }
 missing = phase_ids.reject{|id| bodies.any?{|b| b.include?(id) } }
@@ -429,7 +437,8 @@ end
 [ -f _workspace/plan/operations/per-book-ship-checklist.md ] && \
   ruby -r yaml -e "
   d=YAML.load_file('$PLAN')
-  ids = (d['phases']||[]).flat_map{|p| [p['id'], p['legacy_id']] + ((p['tasks']||[]).flat_map{|t| [t['id'], t['legacy_id']]})}.compact.flat_map{|x| x.is_a?(String) ? [x] : []}.to_set
+  waves = d.keys.select{|k| k=='waves' || k.start_with?('waves_','wave_')}.flat_map{|k| d[k].is_a?(Array) ? d[k] : [] }
+  ids = waves.flat_map{|w| [w['id'], w['legacy_id']] + ((w['steps']||[]).flat_map{|s| [s['id'], s['legacy_id']]})}.compact.flat_map{|x| x.is_a?(String) ? [x] : []}.to_set
   ids.merge((d['open_questions']||[]).map{|q|q['id']}.compact)
   ids.merge((d['risks']||[]).map{|r|r['id']}.compact)
   legacy_map = d.dig('meta','legacy_id_map') || {}
@@ -597,18 +606,29 @@ The repo root is a **governed surface**. It is NOT a dumping ground.
 
 ```
 framework.md
+CLAUDE.md
+AGENTS.md
+Makefile
 package.json
+pyproject.toml
+pytest.ini
+requirements.txt
 release-please-config.json
 .release-please-manifest.json
-site-worker.js
-wrangler.toml
 CHANGELOG.md
 .gitignore
 .gitattributes
-.mcp.json (gitignored)
+.mcp.json
+.env.example
 LICENSE
 README.md
 ```
+
+Corrected 2026-07-20, in step with rule R1 above. This list had drifted the same
+way the directory list below it had: it still blessed `site-worker.js` and
+`wrangler.toml`, both retired in the 2026-05-22 split and explicitly forbidden
+from being recreated — so the Prime Directive was authorising precisely what the
+ban prohibits — while omitting seven files that are governed and tracked.
 
 ### Allowed directories at root
 

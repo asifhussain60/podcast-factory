@@ -199,6 +199,21 @@ back to the rule above (best faithful attempt, no invented reference).
 def _compose_prompt(
     title: str, body: str, cfg: dict, voice_card: str, prev_tail: str, arabic_src: str = "", quran_anchor: str = ""
 ) -> str:
+    """SUPERSEDED. The live compose route is ``_translation_prompts._compose_prompt``.
+
+    Reachable only through ``author_phase_book_compose`` / ``main`` in this module,
+    neither of which any pipeline phase calls — ``book_driver`` routes 0book-compose
+    to ``compose_book_v2``. Kept because ``_book_compose`` still exports helpers three
+    live modules import, and because one test exercises the Quran anchor through here.
+
+    Two hazards were removed from its text on 2026-07-20 rather than left sitting in a
+    live-looking template: it instructed the model to supply full tashkīl and to
+    "render your best faithful attempt" when unsure, which is the origin of the
+    fabricated-vowelling problem the Arabic audit now exists to catch; and it
+    hardcoded a first-person register, which contradicts the locked rule that
+    narrative frame is a SOURCE property. Do not revive this route without making it
+    frame-aware through ``_narrative``.
+    """
     voice_key = cfg.get("narrator_voice", "author_first_person")
     narrator = cfg.get("narrator_subject", "the author")
     addressee = cfg.get("addressee", "the reader")
@@ -248,7 +263,9 @@ each quotation as a blockquote — Arabic first, English beneath — like this:
 Use the EXACT canonical Arabic: for Quranic verses, the precise mushaf text; for hadith and reported \
 sayings, their well-attested Arabic wording; for Arabic poetry, the Arabic lines. Keep any source \
 attribution or reference. Do NOT keep the Latin-letter transliteration. If you are not confident of the \
-exact canonical Arabic for a quotation, render your best faithful attempt and DO NOT invent a reference.
+exact canonical Arabic for a quotation, LEAVE THE TRANSLITERATION AS IT STANDS and do not supply script \
+or vowels from memory — an unconverted transliteration is a visible gap a human can fix, while invented \
+vowelling reads as authoritative and is found only by auditing every run against the scan.
 {quran_anchor}{_arabic_ground_truth_block(arabic_src)}
 CHAPTER CRAFT
 Write this as a single flowing book chapter under its title. Avoid sub-headings unless the material \
@@ -256,7 +273,8 @@ genuinely demands one. No meta-commentary; write the thing, not about it.
 {craft}
 
 REGISTER
-Contemporary literary English — intimate, direct first person. No archaic diction.
+Contemporary literary English. No archaic diction. Keep the grammatical person the source uses;
+do not move a third-person report into first person.
 {anchor}{cont}
 OUTPUT
 Return ONLY the chapter prose. Do NOT print the title line (it is added separately). No preamble, no \

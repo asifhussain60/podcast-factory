@@ -71,6 +71,11 @@ _ATTRIBUTION_WINDOW = 140
 _ARABIC_RUN_RE = re.compile(r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]{2,}")
 _TASHKEEL_CHARS = frozenset(chr(cp) for lo, hi in R_ARABIC_TASHKEEL for cp in range(lo, hi + 1))
 
+# Shortest Arabic run the vowelling review will judge at all. Matches the word
+# floor `_mushaf.is_quranic` needs to beat coincidence — below it, neither
+# "this is scripture" nor "this is fabricated" can be supported by evidence.
+_MIN_JUDGED_WORDS = 3
+
 # First-person narration in an ATTRIBUTION position — the narrator reporting that
 # someone spoke to him, or naming a character as his own. These are frame markers,
 # not register markers: they cannot appear in a transmitted report.
@@ -256,6 +261,15 @@ def ocr_vowelling_findings(text: str, ocr_text: str, *, limit: int = 8) -> list[
     the mushaf wired in, only the runs that are the source's OWN words are held to
     the scan's vowelling.
 
+    Runs shorter than ``_MIN_JUDGED_WORDS`` are SKIPPED rather than judged. A one-
+    or two-word Arabic run carries too little evidence in either direction: it is
+    too short to confirm as canonical scripture (``is_quranic`` needs three words
+    to beat coincidence — 17% of two-word spans of this book's own prose align
+    somewhere in 6,236 verses) and therefore too short to accuse of fabrication on
+    the strength of that same failure. Declining to judge is the honest outcome;
+    the alternative is an accusation resting on an absence of evidence, and it was
+    live — `فَيَكُونُ`, from Q 2:117, sat on this list as a suspected fabrication.
+
     Returns [] when the mushaf is unavailable rather than flagging everything —
     a checkout without the mirror gets no signal, not a false one.
     """
@@ -265,6 +279,8 @@ def ocr_vowelling_findings(text: str, ocr_text: str, *, limit: int = 8) -> list[
     findings: list[str] = []
     for span in arabic_run_spans(text):
         if not (set(span) & _TASHKEEL_CHARS) or is_quranic(span):
+            continue
+        if len(span.split()) < _MIN_JUDGED_WORDS:
             continue
         skeleton = normalize_arabic(span)
         if skeleton and skeleton in scan_bare:

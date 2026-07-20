@@ -62,12 +62,12 @@
       "runs": [
         {
           "text": "كُنْ فَيَكُونُ",
-          "resolution": "canonical-mushaf",
+          "resolution": "ocr",
           "skeleton": "كنفيكون"
         },
         {
           "text": "فَيَكُونُ",
-          "resolution": "canonical-mushaf",
+          "resolution": "ocr",
           "skeleton": "فيكون"
         },
         {
@@ -216,7 +216,7 @@
         },
         {
           "text": "يَا لَيْتَنِي قَدَّمْتُ لِحَيَاتِي",
-          "resolution": "canonical-mushaf",
+          "resolution": "ocr",
           "skeleton": "ياليتنيقدمتلحياتي"
         }
       ]
@@ -332,11 +332,11 @@
     }
   ],
   "totals": {
-    "canonical-mushaf": 25,
-    "ocr": 25,
+    "canonical-mushaf": 22,
+    "ocr": 28,
     "knowledge-base": 0,
     "honorific-formula": 1,
     "unverified": 1,
-    "arabic_runs": 27
+    "arabic_runs": 30
   }
 }

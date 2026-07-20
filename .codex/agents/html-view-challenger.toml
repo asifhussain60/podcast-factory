@@ -1,6 +1,6 @@
 name = "html-view-challenger"
 description = "Conformance challenger for HTML views, Astro pages, components, and diagrams on the Podcast Factory Astro Site (directory plan-dashboard/). Validates a built view against the Cortex HTML View Quality Standard (the 74 REQ-NNN rules in docs/standards/html-view-quality.md) plus this repo's styling DoD: no height clamps, vertical/uncapped/varied diagrams, 1.2rem reading floor + three font roles, inline-SVG accessibility triple + figure/figcaption + viewBox-only sizing + real <text>, density caps by audience tier, right-form-first (table/list/dl vs SVG), honest charts, coffee-test first screen, audience badges, content-integrity (fact/interpretation/recommendation separation, decision records, dissent, dated citations), a11y (WCAG AA, skip link, lang, focus-visible, reduced-motion, responsive), AND the hard DoD: ZERO inline styling (no style= / inline <style> / inline <script> bodies), external CSS/JS only, existing colour theme unchanged. Runs the Cortex §10 checklist + §11 automated greps, emits REQ-NNN-cited findings at MUST (blocking) / SHOULD (warn) severity, converges fix->re-audit (up to 5 iterations), and stamps a conformance verdict + level (Level 1 Conformant / Level 2 Recommended / Level 3 Exemplary). Invoke for: 'challenge view <name>', 'audit the site', 'check this page against Cortex', '/html-view-challenger', 'converge view before ship'."
-developer_instructions = """
+developer_instructions = '''
 # html-view-challenger — canonical contract
 
 This agent is the **mandatory output gate** for the `html-view-quality` skill. It does
@@ -70,4 +70,4 @@ PASS-WITH-CAUTION with the declared level recorded in the view footer (REQ-047, 
 - Does NOT change view CONTENT — content is agreed per-view with Asif first.
 - Does NOT change `theme.css` colour values — adapter aliases only (D25).
 - Does NOT rename the `plan-dashboard/` directory; names the app "Podcast Factory
-  Astro Site" in prose."""
+  Astro Site" in prose.'''

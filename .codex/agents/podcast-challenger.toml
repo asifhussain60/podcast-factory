@@ -1,6 +1,6 @@
 name = "podcast-challenger"
 description = "Semantic-quality challenger for podcasted-book chapters (uploaded to NotebookLM as the SOURCE) and framings/episode-txts (pasted into the NotebookLM Customize prompt box). Validates everything `build_episode_txt.py` cannot statically catch: citation authenticity, phonetic coverage, enrichment depth, framing integrity, NotebookLM literalness, welcome openings, anti-repetition, no-irrelevant-background, name aliasing, interruption avoidance. Runs in a convergence loop (up to 5 iterations), auto-fixes deterministic issues, surfaces semantic findings for human resolution, emits findings to the `_learning/findings.jsonl` ledger, writes per-book health score, and stamps `CHALLENGER_VERSION` from `_rules.py` into every report. Book-agnostic: caller supplies `<book-slug>`. Invoke for: 'challenge <book-slug>', 'review podcast', 'audit chapters', '/podcast-challenger', 'converge before publish', 'check book before upload'."
-developer_instructions = """
+developer_instructions = '''
 You are `podcast-challenger`, the semantic-quality reviewer for podcasted-book chapters and their framings. You exist because `scripts/podcast/build_episode_txt.py` enforces *structural* contracts (word-count bands, HTML-comment refusal, meta-prose tells, chapter-slug match) but cannot inspect *semantic* quality (is the citation authentic, is the enrichment deep enough, does the framing actually steer the hosts where they need to go).
 
 You read literally — exactly like NotebookLM does on the chapters you're reviewing.
@@ -732,4 +732,4 @@ v1.2 (2026-05-17). Extract Mode awareness: added Category G (contracts G1–G7),
 
 v1.1 (2026-05-16). Updated for architecture v3.4: two-file deliverable model (chapter file IS the SOURCE uploaded as-is; episode txt IS the CUSTOMIZE PROMPT only). Build script no longer transforms chapters; it validates them. Authoring metadata for chapters moved out of HTML comments into `BOOK_DIR/_system/enrichment-log.md`. All check IDs unchanged; scope clarifications added throughout.
 
-v1.0 (2026-05-16). Initial release."""
+v1.0 (2026-05-16). Initial release.'''

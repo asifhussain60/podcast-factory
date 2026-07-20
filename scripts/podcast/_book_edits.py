@@ -39,6 +39,12 @@ SIDECAR_NAME = "composer-edits.json"
 SCHEMA = "podcast.composer-edits/v1"
 _HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 
+# Characters trimmed from both ends of a heading, spelled out because Python's
+# `.strip()` and JavaScript's `.trim()` disagree: JS strips U+FEFF and Python does
+# not; Python strips U+0085 and the C0 separators and JS does not. Mirror of the
+# same class in plan-dashboard/scripts/lib/anchor-key.mjs.
+_TRIM_RE = re.compile("^[\\s\u0085\u001c-\u001f\ufeff]+|[\\s\u0085\u001c-\u001f\ufeff]+$")
+
 
 def anchor_key(heading: str) -> str:
     """Normalize a heading to a comparable key.
@@ -50,15 +56,27 @@ def anchor_key(heading: str) -> str:
     other, in the same commit — a divergence silently orphans every saved edit,
     because the replay simply finds no matching chapter.
 
-    The digit class is written out rather than using `\\d` because the two
-    languages disagree about what a digit is: Python's `\\d` is Unicode-aware and
-    JavaScript's is ASCII-only, so `## ١. Patience` normalized to `patience` here
-    and `١. patience` there. No book uses Arabic-Indic heading numerals yet; this
-    is an Arabic-source project, so that is a matter of when.
+    Both the digit class and the trim set are written out rather than relying on
+    `\\d` and `.strip()`, because the two languages disagree about both:
+
+      digits      Python's `\\d` is Unicode-aware, JavaScript's is ASCII-only, so
+                  `## ١. Patience` keyed as `patience` here and `١. patience`
+                  there. This is an Arabic-source project.
+      whitespace  JS `.trim()` strips the BOM and Python `.strip()` does not;
+                  Python strips U+0085 and the C0 separators and JS does not. A
+                  leading BOM was the worst of them — it sits before the `##`, so
+                  the heading strip did not match either and the key came out as
+                  the entire raw heading.
+
+    The trim runs FIRST for that reason, and again at the end. Pasted text is
+    exactly where these characters arrive, and pasting into the Composer is the
+    path that produces a heading here.
     """
-    without_markup = re.sub(r"<[^>]+>", "", heading)
+    trimmed = _TRIM_RE.sub("", heading or "")
+    without_markup = re.sub(r"<[^>]+>", "", trimmed)
     without_hashes = re.sub(r"^#{1,6}\s+", "", without_markup)
-    return re.sub(r"^[0-9٠-٩۰-۹]+\.\s*", "", without_hashes).strip().lower()
+    without_number = re.sub(r"^[0-9٠-٩۰-۹]+\.\s*", "", without_hashes)
+    return _TRIM_RE.sub("", without_number).lower()
 
 
 def fingerprint(text: str) -> str:
