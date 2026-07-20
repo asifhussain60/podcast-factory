@@ -103,3 +103,84 @@ def test_strip_removes_a_previous_injection_cleanly() -> None:
     book = "# Title\n\n## How to Read This\n\nThe source's first words.\n"
 
     assert strip_introduction(inject_introduction(book, _GOOD)).count(INTRO_CLOSE) == 0
+
+
+def test_the_brief_carries_only_facts_read_from_files() -> None:
+    from _book_frontmatter import introduction_prompt
+
+    prompt = introduction_prompt({"title": "A Book", "doctrinal_context": {"author": "Someone"}})
+
+    assert "this list is exhaustive" in prompt
+    assert '"author": "Someone"' in prompt
+    # The two prohibitions earned by real false claims.
+    assert "never says" in prompt
+    assert "unvowelled" in prompt
+
+
+def test_a_failed_author_never_takes_down_a_compose(tmp_path: Path) -> None:
+    # A book without an introduction is missing apparatus — the state every book
+    # was in before this existed. Losing a finished translation over it would be
+    # the worse trade by far.
+    from _book_frontmatter import apply_introduction, author_introduction
+
+    bd = _book(tmp_path)
+    (bd / "book" / "book.md").write_text("# T\n\n## Preface\n\nSource words.\n", encoding="utf-8")
+
+    def explode(_prompt: str) -> str:
+        raise RuntimeError("model unavailable")
+
+    assert author_introduction(bd, log=lambda _m: None, author=explode) == ""
+    assert apply_introduction(bd, log=lambda _m: None, author=explode) == {
+        "applied": False,
+        "reason": "no introduction",
+    }
+    assert (bd / "book" / "book.md").read_text(encoding="utf-8").endswith("Source words.\n")
+
+
+def test_a_good_introduction_is_cached_and_reused(tmp_path: Path) -> None:
+    from _book_frontmatter import CACHE_NAME, author_introduction
+
+    bd = _book(tmp_path)
+    calls = []
+
+    def author(prompt: str) -> str:
+        calls.append(prompt)
+        return _GOOD
+
+    assert author_introduction(bd, log=lambda _m: None, author=author) == _GOOD
+    assert (bd / "_system" / CACHE_NAME).exists()
+    assert author_introduction(bd, log=lambda _m: None, author=author) == _GOOD
+    assert len(calls) == 1  # second run reused the cache
+
+
+def test_apply_writes_the_introduction_into_the_book(tmp_path: Path) -> None:
+    from _book_frontmatter import apply_introduction
+
+    bd = _book(tmp_path)
+    (bd / "book" / "book.md").write_text("# T\n\n## Preface\n\nSource words.\n", encoding="utf-8")
+
+    report = apply_introduction(bd, log=lambda _m: None, author=lambda _p: _GOOD)
+    body = (bd / "book" / "book.md").read_text(encoding="utf-8")
+
+    assert report["applied"] is True
+    assert INTRO_OPEN in body
+    assert body.index(INTRO_OPEN) < body.index("Source words.")
+
+
+def test_a_hand_split_front_matter_is_left_alone(tmp_path: Path) -> None:
+    # One book was given its introduction by hand before this step existed,
+    # stored as a Composer edit and replayed on every compose. Authoring another
+    # would print two introductions, one of them a stranger's.
+    from _book_frontmatter import apply_introduction
+
+    bd = _book(tmp_path)
+    (bd / "book" / "book.md").write_text(
+        "# T\n\n## Preface\n\nA human's introduction.\n\n### The book's own opening\n\nSource words.\n",
+        encoding="utf-8",
+    )
+
+    report = apply_introduction(bd, log=lambda _m: None, author=lambda _p: _GOOD)
+
+    assert report == {"applied": False, "reason": "front matter already split by hand"}
+    assert "A human's introduction." in (bd / "book" / "book.md").read_text(encoding="utf-8")
+    assert INTRO_OPEN not in (bd / "book" / "book.md").read_text(encoding="utf-8")

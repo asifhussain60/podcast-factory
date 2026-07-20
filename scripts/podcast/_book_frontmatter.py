@@ -187,3 +187,131 @@ def inject_introduction(book_md: str, text: str) -> str:
         return stripped
     head, tail = stripped[:cut], stripped[cut:].lstrip("\n")
     return head + "\n\n" + format_introduction(text) + ("\n\n" + tail if tail else "\n")
+
+
+_INTRO_TIMEOUT = 900
+CACHE_NAME = "edition-introduction.md"
+
+
+def introduction_prompt(facts: dict[str, Any]) -> str:
+    """The brief. Every prohibition in it was earned by a real defect.
+
+    The two "do not" rules at the top are the false claims an audit caught in a
+    hand-written introduction for `the-master-and-the-disciple`: a statement about
+    the edition's own conventions that the artifact did not honour, and a
+    statement that the book withholds something it states plainly in the very
+    chapter the sentence pointed at. Both were falsifiable by any reader with the
+    book open.
+    """
+    return f"""You are writing the INTRODUCTION to a reading edition — the editor's own front
+matter, not a translation of anything. The source's own opening follows directly beneath what you
+write and is already translated; do not paraphrase, summarize or quote it.
+
+Your reader is intelligent and knows nothing about this text. In a few hundred words they should
+learn what it is, who wrote it, who speaks in it, and what to watch for in its vocabulary.
+
+FACTS YOU MAY USE — this list is exhaustive. Every one was read from a file in this book.
+{json.dumps(facts, ensure_ascii=False, indent=2)}
+
+ABSOLUTE PROHIBITIONS
+1. Do NOT describe the edition's conventions unless the facts above state them. Claims like "the
+   Arabic is left unvowelled wherever the scan is" are checkable by any reader and were FALSE the
+   last time an introduction asserted one.
+2. Do NOT tell the reader what the book never says, withholds, or fails to state. You have not read
+   the whole book; you cannot verify an absence. Say what the book DOES do.
+3. Do NOT invent an author, a date, a school, a place or a scholarly judgment that is not above. If
+   a fact is missing, write around it — an introduction that names an attribution nobody recorded is
+   worse than one that does not mention attribution.
+4. Do NOT quote the source's opening. It is printed immediately below you.
+
+WHAT TO COVER, in flowing prose with no headings and no lists
+- What kind of text this is, and what its shape is (a dialogue, a treatise, a commentary).
+- Its attribution and tradition, exactly as strongly as the facts support and no more strongly. If
+  the attribution comes from the manuscript itself, say so in those terms.
+- How it narrates: the narrative frame above governs whether a first person belongs to a speaker or
+  to a narrator. A reader who mistakes one for the other misreads the book.
+- Who the figures are, from the chapter list. If two different people would be called by the same
+  name or title in different parts of the book, SAY SO — that is the single most useful sentence an
+  introduction can contain.
+- What the recurring technical terms are doing, if the glossary shows a cluster of them.
+
+STYLE
+Contemporary, plain, unhurried. No throat-clearing, no "in this introduction", no headings, no
+bullet points, no invitation to enjoy the book. Between 200 and 500 words.
+
+OUTPUT
+Return ONLY the introduction prose. No title line, no preamble, no code fences."""
+
+
+def author_introduction(book_dir: Path, *, log=print, force: bool = False, author=None) -> str:
+    """Author (or reuse) the edition introduction. Returns its text, "" on failure.
+
+    Never raises and never blocks a compose: a book that fails to get an
+    introduction is a book missing apparatus, which is the state every book was in
+    before this existed. Losing a finished translation over it would be the worse
+    trade by far.
+    """
+    book_dir = Path(book_dir)
+    cache = book_dir / "_system" / CACHE_NAME
+    if not force and cache.exists():
+        cached = cache.read_text(encoding="utf-8").strip()
+        if gate_introduction(cached)[0]:
+            return cached
+
+    facts = facts_for_introduction(book_dir)
+    prompt = introduction_prompt(facts)
+    try:
+        if author is not None:
+            text = author(prompt)
+        else:
+            from _authoring._core import _run_claude_p_with_retry
+
+            rc, out, err = _run_claude_p_with_retry(
+                prompt,
+                timeout=_INTRO_TIMEOUT,
+                book_dir=book_dir,
+                phase="0book-frontmatter",
+                step="edition-introduction",
+                log=log,
+            )
+            if rc != 0:
+                log(f"    front-matter: introduction skipped (claude -p rc={rc}): {str(err)[:120]}")
+                return ""
+            text = out
+    except Exception as e:
+        log(f"    front-matter: introduction skipped (non-fatal): {e}")
+        return ""
+
+    text = (text or "").strip()
+    ok, reasons = gate_introduction(text)
+    if not ok:
+        log(f"    front-matter: introduction rejected — {'; '.join(reasons)}")
+        return ""
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_text(text + "\n", encoding="utf-8")
+    log(f"    front-matter: introduction authored ({len(text.split())} words)")
+    return text
+
+
+def apply_introduction(book_dir: Path, *, log=print, force: bool = False, author=None) -> dict[str, Any]:
+    """Author and inject in one step. Report-shaped, like the other compose steps."""
+    book_dir = Path(book_dir)
+    book_md = book_dir / "book" / "book.md"
+    if not book_md.exists():
+        return {"applied": False, "reason": "no book.md"}
+    before = book_md.read_text(encoding="utf-8")
+    # Already split by hand. `the-master-and-the-disciple` was given its
+    # introduction manually before this step existed, stored as a Composer edit
+    # and replayed on every compose — so authoring another one would print two,
+    # one of them a stranger's. The marker is the subheading the split creates:
+    # if the front matter already names the source's own opening, the human's
+    # version stands and this step leaves it alone.
+    if INTRO_OPEN not in before and re.search(r"(?m)^###\s+The book's own opening\s*$", before):
+        return {"applied": False, "reason": "front matter already split by hand"}
+    text = author_introduction(book_dir, log=log, force=force, author=author)
+    if not text:
+        return {"applied": False, "reason": "no introduction"}
+    after = inject_introduction(before, text)
+    if after != before:
+        book_md.write_text(after, encoding="utf-8")
+    return {"applied": True, "words": len(text.split())}

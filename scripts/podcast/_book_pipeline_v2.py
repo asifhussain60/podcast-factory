@@ -101,6 +101,18 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # a bad sidecar must never destroy a good compose
         log(f"    composer-edits: skipped (non-fatal): {e}")
 
+    # 5c. The edition's introduction. AFTER the Composer replay, so a human who
+    #     rewrote the preface keeps their words and the introduction sits above
+    #     them; BEFORE the audits, so what they judge is what will print. The
+    #     source's own opening is untouched — it stays where the source put it,
+    #     under a subheading, with the orientation in front of it.
+    from _book_frontmatter import apply_introduction
+
+    try:
+        apply_introduction(book_dir, log=log, force=force)
+    except Exception as e:  # apparatus is never worth a finished translation
+        log(f"    front-matter: skipped (non-fatal): {e}")
+
     # 6. Arabic provenance audit over the FINAL edition. The gates upstream count
     #    Arabic runs; this one asks whether each surviving run is the source's own
     #    words. Report-only and last, so it judges exactly what will be printed.
