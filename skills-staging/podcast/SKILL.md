@@ -22,7 +22,7 @@ At session start, list `content/*/` (or run `scripts/podcast/cross_book_dashboar
 
 - **Loop B/C/D/E/H/I/J/K rules** (formerly `notebooklm-source-chapter-rules.md` + `notebooklm-customize-prompt-rules.md`) → [scripts/podcast/_rules.py](../../scripts/podcast/_rules.py) + [infra/claude-agents/podcast-challenger.md](../../infra/claude-agents/podcast-challenger.md) Categories.
 - **Two-host + debate framing** (formerly `two-host-framing.md` + `debate-framing.md`) → podcast-challenger.md Categories F + P; format-decision matrix per book at `BOOK_DIR/audits/notebooklm-format-matrix.md`.
-- **Enrichment sources** (formerly `enrichment-sources.md`) → inlined into [scripts/podcast/_authoring.py](../../scripts/podcast/_authoring.py) Phase 0e prompt.
+- **Enrichment sources** (formerly `enrichment-sources.md`) → inlined into [scripts/podcast/_authoring/_enrichment.py](../../scripts/podcast/_authoring/_enrichment.py) Phase 0e prompt.
 - **Schemas + templates** (formerly `_schemas/` + `_templates/`) → [scripts/podcast/_blueprint_schema.py](../../scripts/podcast/_blueprint_schema.py) dataclasses; [scripts/podcast/extract_chapter.py](../../scripts/podcast/extract_chapter.py) contract validator.
 
 Treat any reference below to a `content/podcast/.skill/handbook/*` path as advisory documentation pointing at retired-but-conceptually-still-relevant material. Do not try to Read those paths — they don't exist on disk.
@@ -46,7 +46,7 @@ Treat any reference below to a `content/podcast/.skill/handbook/*` path as advis
 - **Concurrency-safe ledgers** — fcntl LOCK_EX on findings.jsonl + cost-ledger.jsonl. Safe for N-parallel writers (e.g., the new Phase 0b/0c parallel windows).
 - **Azure cost tracking** — `_cost_ledger.append_azure_{docintel,translator,speech}_cost` helpers wired at all four Azure callsites. Per-book cost-ledger.jsonl now captures Azure spend alongside LLM spend.
 
-Authority files for these additions: [_workspace/plan/pipeline-debt.md](../../_workspace/plan/pipeline-debt.md) F1/F4/F11/F12/F23/F30-F37, [_rules.py:CHALLENGER_VERSION](../../scripts/podcast/_rules.py), [framework.md §"2026-05-25 cleanup wave"](../../framework.md), [docs/runbooks/e2e-book.md](../../docs/runbooks/e2e-book.md) (intake → publish), [docs/runbooks/publish.md](../../docs/runbooks/publish.md) (G1-G7 gates), [docs/runbooks/watchdog.md](../../docs/runbooks/watchdog.md) (three-layer self-healing).
+Authority files for these additions: [_workspace/plan/debt/pipeline-debt.md](../../_workspace/plan/debt/pipeline-debt.md) F1/F4/F11/F12/F23/F30-F37, [_rules.py:CHALLENGER_VERSION](../../scripts/podcast/_rules.py), [framework.md §"2026-05-25 cleanup wave"](../../framework.md), [docs/runbooks/e2e-book.md](../../docs/runbooks/e2e-book.md) (intake → publish), [docs/runbooks/publish.md](../../docs/runbooks/publish.md) (G1-G7 gates), [docs/runbooks/watchdog.md](../../docs/runbooks/watchdog.md) (three-layer self-healing).
 
 ============================================================
 SECTION 0: THE MISSION CONSTANT — GOVERNS EVERY EPISODE
@@ -1091,7 +1091,7 @@ After completing an episode, the podcast skill MAY propose additions to two shar
  4. The journal-side operator reviews each proposal manually and PROMOTES selected entries to the libraries. Promotion is always human-mediated — there is no auto-promotion script.
  5. The journal-side operator appends a promotion-ledger row inside the proposal file for each entry moved; the proposal file is the audit trail.
 
-Full operator guide: [`docs/podcast/manual-library-handoff.md`](../../docs/podcast/manual-library-handoff.md). Cross-skill rationale: principle P-7 in `_workspace/plan/podcast-plan.yaml`.
+The operator guide that used to be linked here (`docs/podcast/manual-library-handoff.md`) and the plan file that carried its rationale (`_workspace/plan/podcast-plan.yaml`) were both removed in the 2026-05-23 docs consolidation. The five steps above are the contract; there is nothing further to read. Note also that the journal side of this handoff moved to the sibling `journal` repo in the 2026-05-22 split, so the cross-repo half of this section is historical.
 
 ### CORTEX governance
 

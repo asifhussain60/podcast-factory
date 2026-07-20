@@ -225,7 +225,7 @@ A single-day cleanup arc closed ~28 pipeline-debt F-items, shipped the scholarly
 - **Scholarly-rubric v2.2** — [_rules.py:CHALLENGER_VERSION](scripts/podcast/_rules.py) bumped 2.1 → 2.2. Five new R-* rule families inlined into [_workspace/prompts/gemini-bundle-auditor.md §4](_workspace/prompts/gemini-bundle-auditor.md). Six matched fixtures at [_learning/fixtures/](_learning/fixtures/).
 - **Per-chapter loop hardening** in [orchestrate_book.py:_drive_per_chapter_and_after](scripts/podcast/orchestrate_book.py): F33-second graceful-degrade (`failed_slugs` set; continue on failed chapter); F35-second `per_chapter_cost_cap_usd` series-plan flag (default $5); F37 `chapter_timings` per slug; F12 `_resolve_episode_id()` reads `contract.episode_number`.
 - **Convergence robustness** — F11 preserves prior SHIP verdicts when later-iteration challenger times out ([_convergence.py](scripts/podcast/_convergence.py)).
-- **Framing word-cap guard** — F1 compression re-author before build gate ([_authoring.py:author_framing](scripts/podcast/_authoring.py)).
+- **Framing word-cap guard** — F1 compression re-author before build gate ([_authoring/_framing.py:author_framing](scripts/podcast/_authoring/_framing.py)).
 - **Parallel windows** — F34-second [_chunking.py:run_windowed](scripts/podcast/_chunking.py) `max_workers` param; Phase 0b/0c default 3 (`PHASE_0B_MAX_WORKERS` / `PHASE_0C_MAX_WORKERS` env). ~3× wall-clock, cost-neutral.
 - **Concurrency-safe ledgers** — fcntl LOCK_EX on findings.jsonl ([_rules.py:emit_finding](scripts/podcast/_rules.py)) + cost-ledger.jsonl ([_cost_ledger.py:append_cost_row](scripts/podcast/_cost_ledger.py)).
 - **Azure cost tracking** — F36 `append_azure_{docintel,translator,speech}_cost` wired at ingest_source.py, translate_bundle.py, ocr_image_pages.py, transcribe_episode.py.
@@ -236,7 +236,7 @@ A single-day cleanup arc closed ~28 pipeline-debt F-items, shipped the scholarly
 - **Episode-format enum** — F32 2 → 7 values; `EPISODE_FORMAT_FULLY_WIRED = (deep_dive, debate)` distinguishes tested from new entries.
 - **Editorial-frontmatter exclusion + thesis_relevance** — F4 + F23 Phase 0d author prompt EXCLUDES editor's intros / translator's prefaces from the episode array; each contract requires `thesis_relevance` field.
 
-For the line-by-line F-item map see [_workspace/plan/pipeline-debt.md](_workspace/plan/pipeline-debt.md).
+For the line-by-line F-item map see [_workspace/plan/debt/pipeline-debt.md](_workspace/plan/debt/pipeline-debt.md).
 
 ---
 
@@ -350,7 +350,7 @@ The canonical source-of-truth for every agent is [infra/claude-agents/](infra/cl
 | Agent | Canonical spec | Role |
 |---|---|---|
 | `podcast-orchestrator` | [infra/claude-agents/podcast-orchestrator.md](infra/claude-agents/podcast-orchestrator.md) | Autonomous book-to-NotebookLM pipeline driver |
-| `podcast-auditor` | [infra/claude-agents/podcast-auditor.md](infra/claude-agents/podcast-auditor.md) | DEPRECATED 2026-06-02 — use `repo-surgeon --scope podcast` (Pass 2b in the repo-surgeon skill is the canonical probe catalog) |
+| `podcast-auditor` | [skills-staging/repo-surgeon/SKILL.md](skills-staging/repo-surgeon/SKILL.md) | DEPRECATED 2026-06-02 — use `repo-surgeon --scope podcast` (Pass 2b in the repo-surgeon skill is the canonical probe catalog) |
 | `podcast-blueprint` | [infra/claude-agents/podcast-blueprint.md](infra/claude-agents/podcast-blueprint.md) | Content-aware episode-structure planner (slot 05.5-blueprint) |
 | `podcast-challenger` | [infra/claude-agents/podcast-challenger.md](infra/claude-agents/podcast-challenger.md) | Semantic-quality review (convergence loop ≤5 iterations before any bundle ships) |
 | `slide-deck-challenger` | [infra/claude-agents/slide-deck-challenger.md](infra/claude-agents/slide-deck-challenger.md) | Visual-quality challenger for slide-deck bundles |
@@ -443,6 +443,6 @@ Azure resources retain the original `journal-*` naming convention (resource grou
 ## Conventions
 
 - **No emojis in code or commits** unless explicitly invited.
-- **Status emojis (🟢 🟡 🔴 ⚠) in responses** per the 4-part response template (canonical at `_workspace/plan/response-template.md`).
+- **Status emojis (🟢 🟡 🔴 ⚠) in responses** per the response template (canonical at `~/.claude/response-template.md`).
 - **Markdown links for files and commits** — `[name](path)` and `[abc1234](https://github.com/asifhussain60/podcast-factory/commit/abc1234)`.
 - **Per-content branches** — every piece of content runs on its own typed branch off develop. Multiple books may be in-flight simultaneously; isolation is via branches, not machine ownership.

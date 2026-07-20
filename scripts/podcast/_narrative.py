@@ -23,17 +23,23 @@ Every check here answers a failure that actually shipped on
     running prose loses no words and destroys the argument's skeleton, which is
     why every word-level fidelity check passes it.
 
-KNOWN GAP, deliberately NOT papered over (2026-07-20). ``supplied_diacritics_findings``
+THE VOWELLING GAP, and how it was closed (2026-07-20). ``supplied_diacritics_findings``
 compares a rewrite against its own base, so it cannot see vowelling fabricated at
 TRANSLATION time and baked into the base itself — which is how one live run reached
 the printed edition fully vowelled while the scan carried it bare. Three attempts at
 a scan-grounded guard were tried and REMOVED: the scan is itself inconsistently
 vowelled, so a bare-portion comparison misses the real case, and an equality or
 containment comparison returns a list dominated by canonical Quran that is
-legitimately vowelled. Closing this needs a canonical mushaf corpus to verify
-against (the knowledge base holds ~9.5k chars, nowhere near enough). Until then it
-is the challenger's BK-N5 and the Arabic audit's `unverified` bucket that carry it,
-and both are judgment, not arithmetic.
+legitimately vowelled.
+
+What unblocked it was a discriminator for canonical scripture, which turned out to
+need no new corpus at all — ``content/knowledge-base/mirror.db`` already carried all
+6,236 ayat, tracked in git and never wired to verification. ``ocr_vowelling_findings``
+below uses ``_mushaf.is_quranic`` to exclude canonical verses, which are legitimately
+vowelled whatever the scan does, and reports only the rest. It ships ADVISORY, as
+``vowelling_review`` in ``_system/book-arabic-audit.json``, and never enters
+``frame_findings``: a wrong revert costs real authored text, so this one surfaces for
+a human instead of acting. The challenger's BK-N5 remains the judgment-based backstop.
 
 Detection philosophy: HIGH PRECISION over recall. Each check fires only on
 evidence it can point at, because a false revert costs a chapter while a missed
