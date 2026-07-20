@@ -70,6 +70,7 @@ async function main() {
 
   const {
     title: bookTitle,
+    chapters: bookChapters,
     assetRoot,
     coverHtml,
     titlePage,
@@ -85,8 +86,43 @@ async function main() {
   // stylesheet is substituted here. Quotes and backslashes are stripped rather
   // than escaped: this lands inside a CSS `content: "..."` string, and a stray
   // quote would silently break the whole @page rule rather than fail loudly.
-  const runningHead = String(bookTitle || "").replace(/["\\]/g, "").trim();
-  const printCss = printCssTemplate.replaceAll("__BOOK_RUNNING_HEAD__", runningHead);
+  const cssString = (s) => String(s || "").replace(/["\\]/g, "").trim();
+  const runningHead = cssString(bookTitle);
+
+  // Per-chapter running heads. Chromium's print engine ignores `string-set` /
+  // `string()`, so a margin box cannot read the chapter title from the document —
+  // probed on a real book, the head simply did not render. What Chromium DOES
+  // support is named pages, which this stylesheet already depends on (`@page bare`
+  // suppresses the head on the title page, Contents and crosswalk, and that is
+  // verifiably working in the shipped PDF). So the rules are generated here, one
+  // per chapter, and the chapter wrapper carries the matching class.
+  //
+  // The book title stays the fallback in the generic `@page`, which covers the
+  // preface and anything outside a chapter.
+  // Keyed by the chapter's OWN number — the same value `book-html.mjs` stamps as
+  // `data-ch` and turns into `.ch-page-N`. Deriving it from array position was an
+  // off-by-one waiting to happen and duly was: the chapters array leads with the
+  // PREFACE, so index+1 shifted every rule by one and pages deep in chapter 8
+  // carried chapter 7's title. Nothing in the pipeline would have caught that —
+  // no gate reads margin-box text against chapter boundaries — so it is worth
+  // saying plainly: the number in the class and the number in the rule must come
+  // from one source, and that source is the heading.
+  const chapterHeadCss = (bookChapters || [])
+    .map((ch) => {
+      const n = /^\d+$/.test(String(ch.label || "")) ? Number(ch.label) : 0;
+      const label = n ? `${n}. ` : "";
+      const head = cssString(`${label}${ch.title || ""}`) || runningHead;
+      return (
+        `@page chap-${n} { @top-center { content: "${head}"; } }\n` +
+        `.ch-page-${n} { page: chap-${n}; }`
+      );
+    })
+    .join("\n");
+
+  const printCss =
+    printCssTemplate.replaceAll("__BOOK_RUNNING_HEAD__", runningHead) +
+    "\n" +
+    chapterHeadCss;
 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
     :root {${rootTokens}}

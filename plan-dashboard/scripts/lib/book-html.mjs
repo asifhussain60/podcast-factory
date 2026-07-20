@@ -261,6 +261,59 @@ export function renderSourceCrosswalk(items) {
 
 /** Minimal renderer matching markdown.ts behaviour for book.md (headings,
  *  paragraphs, blockquotes, and raw HTML blocks like <figure class="book-diagram">). */
+/**
+ * Group each chapter's blocks under one wrapper so a named page can cover it.
+ *
+ * A running head that names the CHAPTER needs `@page` rules scoped per chapter,
+ * and `page:` is inherited — so the whole chapter has to sit inside one element,
+ * not just its opening section. Tagging the `.chapter-open` alone was tried and
+ * cost six pages: the body after it reverts to the default page, and a named-page
+ * CHANGE forces a break, so every chapter opening was stranded on a page of its
+ * own.
+ *
+ * Done as a post-pass over the finished block list rather than inside the line
+ * loop, so no per-line branch changes and the blocks themselves are untouched.
+ * Anything before the first chapter opening (there is nothing today) stays
+ * outside, unwrapped.
+ *
+ * OPT-IN, and only the PDF asks for it. `composer.ts` renders chapter by chapter
+ * for the on-screen Composer, and a test pins those two paths to byte equality —
+ * the guarantee that the Composer shows what the PDF shows. Wrapping unavoidably
+ * breaks that at a seam: rendering one chapter in isolation must close its
+ * wrapper at the end of its own chunk, while the whole-book render keeps a
+ * trailing unnumbered heading inside the chapter it belongs to. Same blocks, same
+ * order, different close point. Since only the print path needs the named pages,
+ * the print path is the only one that wraps.
+ */
+export function wrapChapters(blocks) {
+  const isOpen = (b) => b.startsWith('<section class="chapter-open');
+  if (!blocks.some(isOpen)) return blocks;
+  const out = [];
+  let current = null;
+  let n = 0;
+  const flush = () => {
+    if (!current) return;
+    out.push(`<section class="chapter ch-page-${n}">`, ...current, "</section>");
+    current = null;
+  };
+  for (const block of blocks) {
+    if (isOpen(block)) {
+      flush();
+      // The chapter's OWN number, carried on the block by the heading branch —
+      // not a counter over this call. Rendering one chapter in isolation (the
+      // per-chapter path, which exists and is tested) would otherwise label every
+      // chapter `ch-page-1` and give it the wrong running head.
+      n = Number(block.match(/ data-ch="(\d+)"/)?.[1] ?? 0);
+      current = [block];
+      continue;
+    }
+    if (current) current.push(block);
+    else out.push(block);
+  }
+  flush();
+  return out;
+}
+
 export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
   // selfStudy (opt-in): the render-time self-study layer. When false (default)
   // every branch below is skipped, so the reading-edition render is byte-for-byte
@@ -453,7 +506,8 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
           sawH2 = true;
           chapterJustOpened = true;
           out.push(
-            `<section class="chapter-open${isFirstH2 ? " first-chapter-open" : ""}">` +
+            `<section class="chapter-open${isFirstH2 ? " first-chapter-open" : ""}"` +
+              ` data-ch="${numbered ? parseInt(numbered[1], 10) : 0}">` +
               (eyebrow
                 ? `<p class="ch-eyebrow">${escapeHtml(eyebrow)}</p>`
                 : "") +
@@ -503,7 +557,7 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
   flushQuote();
   flushList();
   flushAside();
-  return out.join("\n");
+  return (opts.wrapChapters ? wrapChapters(out) : out).join("\n");
 }
 
 export function themeRoot(css) {
@@ -560,7 +614,7 @@ export function buildBookHtml(mdPath, { v2 = false, selfStudy = false } = {}) {
   // v2: honor the human-curated visual-layout.json contract. Figures are placed
   // ONLY from the contract (book.md stays diagram-free). Absent/partial contract
   // is tolerated — applyLayout no-ops when there are no placements or assets.
-  let bodyHtml = renderMd(body, crosswalkByIndex, { selfStudy });
+  let bodyHtml = renderMd(body, crosswalkByIndex, { selfStudy, wrapChapters: true });
   const bodyClasses = [];
   if (selfStudy) bodyClasses.push("book-self-study");
   if (v2) {
@@ -583,6 +637,10 @@ export function buildBookHtml(mdPath, { v2 = false, selfStudy = false } = {}) {
   return {
     title,
     author,
+    // Chapter labels+titles for the per-chapter running heads. Same array the
+    // Contents is built from, so the head can never name a chapter the Contents
+    // does not list.
+    chapters: tocItems,
     assetRoot,
     coverHtml,
     titlePage,

@@ -113,3 +113,38 @@ def test_no_crosswalk_file_means_no_finding(tmp_path) -> None:
     (bd / "book").mkdir(parents=True)
 
     assert scan_crosswalk_present(["page one"], bd) == []
+
+
+def test_running_head_must_name_the_chapter_that_owns_the_page() -> None:
+    # The first implementation keyed its @page rules by array position over a
+    # chapters list that leads with the preface, so every rule shifted by one and
+    # pages deep in chapter 8 carried chapter 7's title. No other gate reads
+    # margin-box text against chapter boundaries.
+    from _book_render_checks import scan_running_heads
+
+    pages = [
+        "CHAPTER ONE\nThe Persian\nbody",
+        "1. The Persian\nmore body",
+        "CHAPTER TWO\nA Stranger\nbody",
+        "1. The Persian\nstill chapter two's pages",
+    ]
+
+    findings = scan_running_heads(pages)
+
+    assert [f["page"] for f in findings] == [4]
+    assert "names chapter 1" in findings[0]["detail"]
+    assert "belongs to chapter 2" in findings[0]["detail"]
+
+
+def test_correct_running_heads_produce_nothing() -> None:
+    from _book_render_checks import scan_running_heads
+
+    pages = ["CHAPTER ONE\nThe Persian", "1. The Persian\nbody", "CHAPTER TWO\nA Stranger", "2. A Stranger\nbody"]
+
+    assert scan_running_heads(pages) == []
+
+
+def test_a_book_with_no_numbered_heads_is_not_this_probes_business() -> None:
+    from _book_render_checks import scan_running_heads
+
+    assert scan_running_heads(["CHAPTER ONE\nThe Persian", "The Master and the Disciple\nbody"]) == []

@@ -159,12 +159,73 @@ def scan_crosswalk_present(pages_text: list[str], book_dir: Path) -> list[dict[s
     ]
 
 
+# The running head names the chapter, and until this check nothing anywhere read
+# margin-box text against chapter boundaries. The first implementation keyed its
+# @page rules by array position over a chapters list that leads with the preface,
+# so every rule was shifted by one and pages deep in chapter 8 carried chapter 7's
+# title — a defect invisible to every other gate, in a book that had just gated
+# RENDER-CLEAN.
+_CHAPTER_OPEN_RE = re.compile(r"CHAPTER\s+([A-Z][A-Za-z-]+)")
+_HEAD_NUMBER_RE = re.compile(r"^\s*(\d+)\.\s")
+_NUMBER_WORDS = {
+    w: i
+    for i, w in enumerate(
+        "ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN ELEVEN TWELVE THIRTEEN "
+        "FOURTEEN FIFTEEN SIXTEEN SEVENTEEN EIGHTEEN NINETEEN TWENTY".split(),
+        start=1,
+    )
+}
+
+
+def scan_running_heads(pages_text: list[str]) -> list[dict[str, Any]]:
+    """Every numbered running head must name the chapter whose pages it sits on.
+
+    Silent when the book has no numbered heads — a book title head, or none at
+    all, is a legitimate choice and not this probe's business.
+    """
+    opens: list[tuple[int, int]] = []
+    for i, text in enumerate(pages_text, start=1):
+        m = _CHAPTER_OPEN_RE.search(text)
+        if m and (n := _NUMBER_WORDS.get(m.group(1).upper())):
+            if not any(num == n for _, num in opens):
+                opens.append((i, n))
+    if not opens:
+        return []
+    opens.sort()
+
+    def owner(page: int) -> int:
+        current = 0
+        for start, num in opens:
+            if page >= start:
+                current = num
+        return current
+
+    findings: list[dict[str, Any]] = []
+    for i, text in enumerate(pages_text, start=1):
+        first = (text.strip().split("\n") or [""])[0]
+        m = _HEAD_NUMBER_RE.match(first)
+        if not m:
+            continue
+        claimed, actual = int(m.group(1)), owner(i)
+        if claimed != actual:
+            findings.append(
+                {
+                    "check": "BR-RUNNING-HEAD",
+                    "severity": "P1",
+                    "page": i,
+                    "detail": f"running head names chapter {claimed}; the page belongs to chapter {actual}",
+                }
+            )
+    return findings
+
+
 def run_all_scans(pages_text: list[str], book_dir: Path | None = None) -> list[dict[str, Any]]:
     findings: list[dict[str, Any]] = []
     findings.extend(scan_watermark(pages_text))
     findings.extend(scan_duplicate_captions(pages_text))
     findings.extend(scan_blank_and_halfempty(pages_text))
     findings.extend(scan_placeholders(pages_text))
+    findings.extend(scan_running_heads(pages_text))
     if book_dir is not None:
         findings.extend(scan_crosswalk_present(pages_text, book_dir))
     findings.sort(key=lambda f: (f["severity"] != "P0", f.get("page", 0)))

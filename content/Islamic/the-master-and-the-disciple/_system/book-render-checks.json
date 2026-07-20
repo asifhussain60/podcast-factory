@@ -7,25 +7,25 @@
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 2,
-      "detail": "half-empty interior page (149 vs median 1704 chars)"
+      "detail": "half-empty interior page (149 vs median 1711 chars)"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 3,
-      "detail": "half-empty interior page (394 vs median 1704 chars)"
+      "detail": "half-empty interior page (394 vs median 1711 chars)"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 11,
-      "detail": "half-empty interior page (355 vs median 1704 chars)"
+      "detail": "half-empty interior page (367 vs median 1711 chars)"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 56,
-      "detail": "half-empty interior page (254 vs median 1704 chars)"
+      "detail": "half-empty interior page (255 vs median 1711 chars)"
     }
   ]
 }
