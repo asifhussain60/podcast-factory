@@ -245,6 +245,84 @@ def prerequisite_gaps(pages: list[str], terms: list[str]) -> list[dict[str, Any]
     return sorted(gaps, key=lambda g: (-(g["pages_carried"] or 0), g["term"]))
 
 
+# Role words that point at PEOPLE. A book may use one of these for more than one
+# person — a teacher called the father of the one he guides, an elder called the
+# master of a house — and the reader is given nothing to tell them apart. This is
+# the defect the glossary-only checks structurally cannot see: `father` is not a
+# glossary term, so nothing tracked it while it carried three men across two
+# chapters of `the-master-and-the-disciple`, resolved on page 120 and ambiguous
+# from page 65. A human reviewer found it by reading. This finds it by counting.
+_ROLE_WORDS = (
+    "father",
+    "mother",
+    "son",
+    "brother",
+    "master",
+    "shaykh",
+    "sheikh",
+    "teacher",
+    "scholar",
+    "imam",
+    "elder",
+    "guide",
+)
+# The frames that mark WHOSE. Two different frames on the same role word, on the
+# same page, means two candidate people in the reader's field of view at once.
+_OWNER_FRAMES = (
+    ("my", r"\bmy\s+(?:own\s+)?{w}\b"),
+    ("your", r"\byour\s+(?:own\s+)?{w}\b"),
+    ("his", r"\bhis\s+(?:own\s+)?{w}\b"),
+    ("her", r"\bher\s+(?:own\s+)?{w}\b"),
+    ("their", r"\btheir\s+(?:own\s+)?{w}\b"),
+    ("the", r"\bthe\s+{w}\b"),
+)
+_MIN_COLLIDING_PAGES = 2
+
+
+def referent_collisions(pages: list[str]) -> list[dict[str, Any]]:
+    """Role words that point at more than one person on the same page.
+
+    Deliberately NOT coreference resolution — there is no way to do that
+    deterministically, and a wrong answer here would be worse than none. What is
+    countable is the shape of the ambiguity: the same role word carrying two
+    different possessive frames on one page ("sending my father along with me"
+    against "your father, who raised you when you were small") puts two people
+    behind one word while the reader is looking at it.
+
+    Report-only. The fix is a sentence of orientation, which is the reviewer's
+    call, not a rewrite this can perform.
+    """
+    body_start = body_start_page(pages)
+    findings: list[dict[str, Any]] = []
+    for word in _ROLE_WORDS:
+        hits: dict[int, set[str]] = {}
+        for number, page in enumerate(pages, start=1):
+            if number < body_start:
+                continue
+            frames = {name for name, pattern in _OWNER_FRAMES if re.search(pattern.format(w=word), page, re.IGNORECASE)}
+            # BOTH a first-person and a second-person frame. Two vantages on the
+            # SAME man are compatible and common — a boy is "my son" to his
+            # father and "his son" to the narrator — so counting any two frames
+            # cried wolf on exactly that. "my father" beside "your father" cannot
+            # be one man unless the speaker and the person addressed are
+            # siblings, which is the shape of a genuine collision.
+            if "my" in frames and "your" in frames:
+                hits[number] = frames
+        if len(hits) < _MIN_COLLIDING_PAGES:
+            continue
+        pages_hit = sorted(hits)
+        findings.append(
+            {
+                "role_word": word,
+                "pages": pages_hit,
+                "first_page": pages_hit[0],
+                "frames": sorted({f for fr in hits.values() for f in fr}),
+                "kind": "referent-collision",
+            }
+        )
+    return sorted(findings, key=lambda f: (-len(f["pages"]), f["role_word"]))
+
+
 def naming_drift(pages: list[str], terms: list[str]) -> list[dict[str, Any]]:
     """One idea spelled two ways IN PRINT — the compose pass disagreeing with itself.
 
@@ -309,11 +387,13 @@ def analyze(pages: list[str], terms: list[str]) -> dict[str, Any]:
         "terms_tracked": len(terms),
         "prerequisite_gaps": gaps,
         "naming_drift": naming_drift(pages, terms),
+        "referent_collisions": referent_collisions(pages),
         "dense_pages": dense_pages(pages, terms),
         "long_sentences": long_sentences(pages),
         "summary": {
             "never_explained": sum(1 for g in gaps if g["kind"] == "never-explained"),
             "explained_late": sum(1 for g in gaps if g["kind"] == "explained-late"),
+            "referent_collisions": len(referent_collisions(pages)),
         },
     }
 
@@ -350,8 +430,14 @@ def run_comprehension_checks(book_dir: Path, *, log=print, pdf: Path | None = No
     summary = report["summary"]
     log(
         f"    comprehension: {report['pages']} pages · {report['terms_tracked']} terms tracked · "
-        f"{summary['explained_late']} explained late · {summary['never_explained']} never explained"
+        f"{summary['explained_late']} explained late · {summary['never_explained']} never explained · "
+        f"{summary['referent_collisions']} name collision(s)"
     )
+    for hit in report.get("referent_collisions", [])[:3]:
+        log(
+            f'      ! "{hit["role_word"]}" points at more than one person from p{hit["first_page"]} '
+            f"({len(hit['pages'])} page(s)) — a bridge, not a rewrite"
+        )
     for gap in report["prerequisite_gaps"][:5]:
         where = f"p{gap['explained_page']}" if gap["explained_page"] else "never"
         log(f"      ! {gap['term']}: first used p{gap['first_use_page']}, explained {where}")

@@ -175,8 +175,14 @@ def test_analyze_reports_every_lens_and_a_summary() -> None:
 
     assert report["pages"] == 4
     assert report["terms_tracked"] == 1
-    assert report["summary"] == {"never_explained": 0, "explained_late": 1}
-    assert set(report) >= {"prerequisite_gaps", "naming_drift", "dense_pages", "long_sentences"}
+    assert report["summary"] == {"never_explained": 0, "explained_late": 1, "referent_collisions": 0}
+    assert set(report) >= {
+        "prerequisite_gaps",
+        "naming_drift",
+        "dense_pages",
+        "long_sentences",
+        "referent_collisions",
+    }
 
 
 def test_a_very_long_sentence_is_surfaced_for_review() -> None:
@@ -288,3 +294,45 @@ def test_a_book_with_no_front_matter_starts_at_page_one() -> None:
     from _book_comprehension import body_start_page
 
     assert body_start_page(["Chapter one begins here.", "and continues."]) == 1
+
+
+def test_a_role_word_pointing_at_two_people_is_reported() -> None:
+    # The defect a human found by reading: on one page the boy asks for "my
+    # father" (the Master) to be sent with him, and the Shaykh charges him with
+    # "your father, who raised you when you were small" (al-Bakhtari). Two men,
+    # one word, nothing on the page to tell them apart.
+    from _book_comprehension import referent_collisions
+
+    pages = [
+        "Contents\n1. A Chapter",
+        "Ordinary prose with no role words in it at all.",
+        'He said, "send my father along with me", and was told to keep your father in mind.',
+        "Again: my father would counsel this, yet your father raised you when you were small.",
+    ]
+
+    findings = referent_collisions(pages)
+
+    assert [f["role_word"] for f in findings] == ["father"]
+    assert findings[0]["pages"] == [3, 4]
+    assert findings[0]["first_page"] == 3
+
+
+def test_two_vantages_on_the_same_man_are_not_a_collision() -> None:
+    # A boy is "my son" to his father and "his son" to the narrator. Counting any
+    # two frames cried wolf on exactly this, which is why the rule needs a
+    # first-person AND a second-person frame.
+    from _book_comprehension import referent_collisions
+
+    pages = [
+        "Body opens here.",
+        'The father said, "my son, hear me." His son heard him.',
+        'Again the father said, "my son". His son listened.',
+    ]
+
+    assert referent_collisions(pages) == []
+
+
+def test_one_colliding_page_is_not_enough() -> None:
+    from _book_comprehension import referent_collisions
+
+    assert referent_collisions(["Body.", "my father and your father", "nothing here"]) == []
