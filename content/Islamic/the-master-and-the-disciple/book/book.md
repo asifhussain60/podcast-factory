@@ -2,8 +2,6 @@
 
 ## How to Read a Conversation Made of Doors
 
-How to Read a Conversation Made of Doors
-
 We have been informed that some groups among the believers, and a number of the preachers of religion, came to a Master among them and spoke as men speak when they have been given something they cannot easily name. "You have set us free," they told him, "by making us aware of what you have made us aware of, and in doing so you have laid upon us an obligation we are bound to fulfill." That obligation, as they understood it, fell into three parts, and each part was a debt of thanks: thanks for the summons itself, for that to which he had called them; thanks for the knowledge he had shown them; and thanks for the work he had commanded them to do.
 
 So they asked him to make each of these plain. Show us, they said, from every one of them, what a person who wills to render such thanks may actually do. They did not ask out of ignorance of the shape of the thing, for they had already understood, from the limits of religion, what is obligatory upon them and what falls to them to perform: what belongs to the student in the framing of his question, and what is required of the one asked in the giving of his answer. And they had understood, too, from the doctrines of the righteous and the manners of the seekers, as much as is easy to put into words. What remained was to be told how thanks is turned from a feeling into a practice.
@@ -98,7 +96,7 @@ Then he said: "Fear Allah with the fear of one who dreads Him, and dread Him wit
 > **Editorial note (source-grounded).** 
 > When the stranger speaks of "open highways of the pasture," of "watering-places for those who
 > journey," and of an inward teaching that is "a clear-flowing drink," he is drawing on the oldest
-> sense of the word for sacred law itself. The root of *Sharia* (sh-r-) means to open up a path
+> sense of the word for sacred law itself. The root of *Sharia* (sh-r-') means to open up a path
 > — specifically the trodden way down to water. The law is that opened road turned into a
 > metaphor: the clear way of life God marks out, as vital to the soul as water is to the thirsty.
 > Read against that root, the chapter's cluster of images — the highway, the seeker's
@@ -187,7 +185,7 @@ The boy said: "Set whatever limits you love, and lay down whatever conditions yo
 
 The Master said: "The first of the limits is to uphold the outward meaning of the Book and its laws, and to act upon what you know of it. For whoever acts for God according to what he knows, God will guide him to what he does not know."
 
-> فإنَّه مَن عمِلَ للهِ بما يعلم، هداه اللهُ إلى ما لا يعلم.
+> فإنه من عمل لله بما يعلم، هداه الله إلى ما لا يعلم.
 >
 > For whoever acts for God according to what he knows, God will guide him to what he does not know.
 
@@ -459,16 +457,17 @@ And forsake the apparent of sin and its inward. Thus sin became a thing having a
 
 <!-- editorial:begin -->
 > **Editorial note (source-grounded).** 
-> The scholar's closing point — that God "did not create things in vain," and that the world is an
-> apparent standing over an inward — sits atop a wider cosmology this book elsewhere sets out.
-> There, the whole ordered succession of the celestial spheres has a stated purpose: to generate
-> minerals, plants, animals, and human seed upon this terrestrial realm, each sphere exerting its
-> influence in its appointed turn. So the seven-fold blessings the chapter lists (air, water,
-> light, food, marriage) are not ends closing upon themselves but instruments of that generative
-> purpose — which is why treating the world as body-only, a "corpse," misreads it. The same corpus
-> also marks a contrast the chapter leans on: the spiritual world was brought forth in a single
-> instantaneous emanation from absolute non-existence, whereas this lower world is differentiated
-> gradually. The "inward" the boy still asks after is that first, unfading order.
+> The closing point here — that God "did not create things in vain," and that the world is an
+> apparent standing over an inward — rests on the account of creation this book has already given.
+> In the chapter on how the world was made, creation begins out of light in three words: the will,
+> then the command, then the saying. From the letters of "Be, and it is" seven things branch, and
+> everything after is ordered upon those seven principles. The seven blessings listed here — air,
+> water, light, darkness, food, clothing, and marriage — answer to that same sevenfold pattern,
+> which is why they cannot be ends closing upon themselves. That earlier chapter also fixes the
+> rule applied here: all things were made in pairs, apparent and inward, and the body has no
+> standing except by the soul, for the soul is its life. To acknowledge the world's body while
+> denying its inward is therefore to dwell upon a "corpse" — not because the world is worthless,
+> but because what gives it life has been set aside.
 <!-- editorial:end -->
 
 ## 6. Three Layers of Knowledge
@@ -837,9 +836,9 @@ The scholar said: "I have understood your three needs, and I answer you in what 
 
 The boy said: "There is no greater increase than your knowing what lies within me. So grant me what you see fit."
 
-The scholar said: "As for my knowing what is within you, none knows the unseen but Allah. Yet the believer sees by the light of Allah.
+The scholar said: "As for my knowing what is within you, none knows the unseen but Allah.
 
-> وَلَكِنَّ الْمُؤْمِنَ يَنْظُرُ بِنُورِ اللَّهِ
+> ولكن المؤمن ينظر بنور الله
 >
 > But the believer sees by the light of Allah.
 
@@ -1277,7 +1276,7 @@ Salih said to him: "Then, since it is established that the company of God's prop
 
 He said: "Yes, he is a just one, as it is said:"
 
-> شَهِدَ فُلَانٌ وَهُوَ عَدْلٌ مِنَ الْعُدُولِ
+> شهد فلان وهو عدل من العدول
 
 "So-and-so bore witness, and he was a just one among the just."
 

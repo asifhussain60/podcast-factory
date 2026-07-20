@@ -1,16 +1,68 @@
 # Book Challenger Report
 
 **Book:** the-master-and-the-disciple
-**Run:** 2026-07-20 13:05 EST (book_challenger_version 1.0)
+**Run:** 2026-07-20 13:16 EST (book_challenger_version 1.0)
 **Scope:** whole-book
-**Route:** augmented-companion (`deliverable_mode` unset)
-**Content profile:** islamic_scholarly (full probe catalog)
-**Declared narrative_frame:** transmitted_report (`_system/series-config.yaml`)
-**book_voice:** faithful
-**book_augmentation:** source_only
-**Chapters reviewed:** 9 (preface + 8)
+**Content profile:** islamic_scholarly
+**Route:** augmented companion (`book_augmentation: source_only` = augmentation ON, source-grounded; `book_voice: faithful`)
+**Declared narrative_frame:** `transmitted_report` (third person outside direct discourse)
+**Chapters reviewed:** 8 + preface
 **Iterations:** 1 (of 5 max)
 **Verdict (book-level):** BLOCKED
+
+> This run SUPERSEDES the pre-repair report previously on disk. None of that run's findings
+> were carried forward; every item below was re-derived from the current `book.md`,
+> the OCR scan, the canonical mushaf, and the base translation chunks.
+
+---
+
+## Route note — a correction carried into this run
+
+`book_augmentation: source_only` means source-grounded augmentation is **ON** (`none` = off).
+The two `Editorial note (source-grounded)` blocks (book.md 97-108, 460-471) are therefore
+**legitimate output of this route**, not a violation of any no-outside-augmentation rule.
+They are judged here on accuracy and tradition fit only. Their grounding atoms are recorded in
+`_system/augment-used-ledger.json` (13 `doctrine:wisdom:*` atoms + `etymology:shr`), all from the
+al-Anwaar al-Lateefah / Ismaili corpus — tradition-appropriate to Ja'far b. Mansur al-Yaman.
+**BK-A5 tradition fit: PASS.**
+
+---
+
+## Requested repair confirmations
+
+### 1. Chapter 8 Arabic at book.md 1266 — the dropped-divine-name claim was WRONG. CONTRADICTED.
+
+The scan carries **both** forms, at two different sites, and the book renders each at its own
+site with a matching English gloss. Asif's reading is correct; the earlier finding is withdrawn.
+
+| Site | book.md | Arabic | Gloss | OCR ground truth |
+|---|---|---|---|---|
+| Abu Malik's defence | 892 | `وإن الله كل يوم هو في شأن` | "Indeed, every day He is engaged in some matter." | **raw-extract.md:1306** (page 58) — `الله فيهم وإرادته منهم، ولو اجتهدوا، وإن الله كل يوم هو " في شأن.` |
+| Salih's rebuttal | 1266 | `وإنه كل يوم هو في شأن` | "And truly, every day He is engaged in some affair." | **raw-extract.md:1903-1904** (page 84) — `والخالق أولى بالخلق والأمر ١٢ وإنه كل يوم هو ١٣` / `في شأن١٤، ولا ينكر فعله ولو بعث في كل يوم نذيراً.` |
+
+The English immediately above each block also tracks its own scan line: 892's lead-in renders
+OCR 1304-1306 ("nor will the creation ever reach the end of Allah's decree in them and His will
+for them, however hard they strive"); 1266's lead-in renders OCR 1901-1904 ("The Creator is
+foremost over the creation and over the command… even were He to send a warner every day").
+Neither run is vowelled, matching the bare scan. **Repair (a) fabricated vowelling: fixed and
+verified. Claim (b) dropped divine name: not a defect — no finding raised.**
+
+### 2. Arabic blockquote consistency — CONFIRMED book-wide.
+
+51 lines of `book.md` contain Arabic. **43 are display runs and all 43 carry the `>` blockquote.**
+The 8 that do not are inline glosses inside running prose, which is the correct treatment:
+`حزب الله` (232), `كُنْ`/`فَيَكُونُ` discussed AS LETTERS (244), `أولياء الله` (280),
+`كعب الأحبار` (870), and the honorific `(ع)` / `(عليهم السلام)` (534, 542, 1240, 1258).
+Zero display runs remain unfenced, including the six at the end of chapter 8.
+
+### 3. `sunna` in chapter 4 — CONFIRMED consistent; but the SAME defect is live elsewhere.
+
+Chapter 4 renders `السنة` as *sunna* at all three occurrences (book.md 258 x2, 272), matching the
+base chunk `bk-04.md` (3 x `sunna`, 0 x `way`). OCR sites 354-355 and 413 are all covered.
+
+The book-wide sweep, however, found a **larger instance of the same defect on the book's central
+character** — see finding BK4 below. It is inherited from the base translation stage, not
+introduced by the de-calque pass.
 
 ---
 
@@ -20,133 +72,194 @@
 |---|---|---|---|
 | Preface — How to Read a Conversation Made of Doors | pass | pass | SHIP-READY (P2 only) |
 | 1. The Persian Who Was Dead and Revived | pass | pass | SHIP-READY |
-| 2. A Stranger in the City | **fail** (BK-P4) | pass | SHIP-WITH-CAUTION |
-| 3. The Boy at the Door — Limits and Conditions | pass | pass | SHIP-READY |
-| 4. How the World Was Made | pass | **fail** (BK-N7) | SHIP-WITH-CAUTION |
-| 5. The World, the Hereafter, and the Speech of Parables | **fail** (BK-P4) | **fail** (BK-N7) | **BLOCKED** |
-| 6. Three Layers of Knowledge | pass | pass | SHIP-READY |
-| 7. The Five Shares and the Long Road to the Shaykh | pass | pass | SHIP-READY |
-| 8. Homecoming, the Father, and the Debate with Abu Malik | **fail** (BK-P3) | **fail** (BK-N5) | **BLOCKED** |
+| 2. A Stranger in the City | pass | pass | SHIP-READY (P2 only) |
+| 3. The Boy at the Door — Limits and Conditions | pass | **fail** (BK-N5, BK-N7) | BLOCKED |
+| 4. How the World Was Made | pass | pass | SHIP-READY |
+| 5. The World, the Hereafter, and the Speech of Parables | **fail** (BK-P4) | **fail** (BK-N7) | SHIP-WITH-CAUTION |
+| 6. Three Layers of Knowledge | pass | **fail** (BK-N5) | BLOCKED |
+| 7. The Five Shares and the Long Road to the Shaykh | pass | **fail** (BK-N7) | SHIP-WITH-CAUTION |
+| 8. Homecoming, the Father, and the Debate with Abu Malik | pass | **fail** (BK-N5, BK-N7) | BLOCKED |
 
 ## Whole-book passes
 
 | Check | Result |
 |---|---|
-| BK-A1 voice consistency | **fail** (P1) — chapter 5 dialogue convention diverges from all other dialogue chapters |
-| BK-A2 segmentation sanity | pass — ranges 8–1353 contiguous, zero gaps, source is 1353 lines, all 9 titles match `book-toc.json` |
-| BK-A3 preface + TOC integrity | **fail** (P2) — preface title duplicated; `book-toc.json.voice` is stale |
-| BK-A4 plain transliteration | pass — zero scholarly diacritics in Latin text |
-| BK-A5 tradition fit | **fail** (P1) — enrichment woven in despite `source_only`; ch5 note imports later-Ismaili emanationist cosmology |
-| BK-N3 frame consistency | **pass** — all nine sections narrate from the anonymous transmitter position |
-| BK-N1 narrative person | pass — 0 violations (all first person is direct discourse or the transmitter's own `بلغنا` register) |
-| BK-N2 speech attribution integrity | pass — VERIFIED: inverted-tag speaker multiset identical base→book in ch8 (Salih 64, He 23, They 18, he 8, they 1); 0 tag-word changes book-wide |
-| BK-N4 Arabic script retention | pass — all 51 Arabic runs present, consonantal skeletons identical base→book |
-| BK-N6 structural enumeration | pass — chapter 5 (a)–(g) survives complete (seven items, not six) |
-| Seam integrity ch7 (3 windows) / ch8 (5–6 windows) | pass — 0 duplicated sentences ≥60 chars book-wide; part-file word sums equal whole-chunk word counts exactly (7258/7258 and 14384/14384) |
-| Deterministic `_narrative.py` seeds | 0 findings, as reported — treated as "nothing cheap left", not as a pass |
+| BK-A1 voice consistency | **fail** — ch5 quoting convention diverges (BK5) |
+| BK-A2 segmentation sanity | pass — TOC ranges 8-1353 contiguous, no gaps, titles evocative |
+| BK-A3 preface + TOC integrity | **fail (P2)** — duplicated heading line, no reader orientation, stale `voice` field |
+| BK-A4 plain transliteration | pass — zero scholarly-diacritic leaks in Latin text (one broken root, BK8) |
+| BK-A5 tradition fit | pass — enrichment atoms are Ismaili corpus, matched to an Ismaili source |
+| BK-N1 narrative person | pass — deterministic clean on all 9 sections; no first-person narration outside quoted speech |
+| BK-N2 speech attribution integrity | pass — interior-tag gate clean; ch8 speaker alternation matches source (ratio 0.88, zero swap opcodes) |
+| BK-N3 frame consistency | pass — one transmitted narrator throughout; `The narrator said` used identically in ch3/6/7 |
+| BK-N4 Arabic script retention | pass — set-difference of Arabic skeletons book vs base = empty in all 9 sections |
+| BK-N5 supplied diacritics | **fail** — 3 non-Quranic runs vowelled beyond the scan (BK1-BK3) |
+| BK-N6 enumeration preserved | pass — ch5 lettered series (a)-(g) survives 7/7 |
+| BK-N7 register + terminological consistency | **fail** — one Arabic term, two English renderings (BK4) |
+| Seam integrity ch7 (3 windows) | pass |
+| Seam integrity ch8 (5 windows) | pass |
+| Teaching + citation fidelity vs `_chunks/translation/` | pass — no named person, Arabic run, or citation added or dropped in any chapter |
+
+### Seam detail
+
+Joined paragraph counts equal the sum of the window paragraph counts exactly in both chapters
+(ch7 126 = 126 across 3 windows; ch8 271 = 271 across 5 windows) — no material duplicated or
+dropped at any join. The only repeated paragraphs in ch8 are the legitimate short affirmations
+(`He said: "Yes."` x4, `He said: "Allah."`), each at its own point in the catechism.
+The ch7 window-1/2 boundary falls mid-sentence in the base (`…whose palms are opened` /
+`with the light of Sinai`); the composed book heals it into one sentence at line 684. Verified.
+
+### Chapter-7 seam bonus: the book is MORE faithful than the refined source
+
+At book.md 684 the book reads "keys of the **gardens**"; `refined-english.md:578` reads
+"keys of the heavens". OCR `raw-extract.md:967` has `من بيده مفاتيح الجنان ومعالم الملكوت` —
+*al-jinan*, the gardens. The book is right and the refined English was wrong. Same pattern at
+book.md 1226: the refined source reads "the **seven** creations of the unseen" (¶492) where OCR
+1807 has `ولم يبيّنوا من ٧ الخلق بالغيب` — the `٧` is a footnote marker, not the numeral. The
+book's "the hidden things among creation" is the correct reading. Neither is a finding; both are
+recorded because a future run must not "restore" them.
+
+### Arabic provenance ledger
+
+36 audited runs (`_system/book-arabic-audit.json`): 16 canonical-mushaf, 34 OCR-grounded, 1
+honorific formula. Every Quranic run was independently re-verified against `fts_quran` in
+`content/knowledge-base/mirror.db` during this sweep, including the five the automatic
+discriminator missed — those misses are **orthographic, not textual**: the book sets Quran in
+modern imla'i script while the mushaf table stores Uthmani, so substring matching fails on
+`الْحَيَاةُ` vs `ٱلْحَيَوٰةُ`, `قَاتِلُوا` vs `قَٰتِلُوا`, `بَقَرَاتٍ` vs `بَقَرَٰتٍ`, `آتَيْنَاهُ` vs `وَءَاتَيْنَٰهُ`.
+Targeted root queries confirm all five: **Q 31:33 / 35:5, Q 9:123, Q 12:4, Q 12:43, Q 28:76**.
+The imla'i choice is consistently applied and is a legitimate editorial decision — no finding.
+Three verses (Q 12:4, Q 12:43, Q 31:33) are supplied Arabic for verses the source cites in prose
+only; that is the augmented route working as designed, and all three are canonical. **BK-P3
+passes for every Quranic run in the book.**
 
 ---
 
-## Findings
+## Findings (P0 → P1 → P2)
 
-### BK1 · BK-P3 + BK-N5 · P0 · VERIFIED
-- **Chapter:** 8 — Homecoming, the Father, and the Debate with Abu Malik
-- **book.md:** line 1266 — `وَإِنَّهُ كُلَّ يَوْمٍ هُوَ فِي شَأْنٍ`
-- **Source (OCR `_system/source/ocr/raw-extract.md`):** the phrase occurs EXACTLY ONCE in the whole scan, unvowelled, as `وإن الله كل يوم هو في شأن` (normalized `وإناللهكليومهوفيشأن`, OCR offset ~50909, near page marker 327).
-- **Base chunk:** `book/_chunks/translation/bk-08.md` line 413 — same defective form, so the defect originates at the TRANSLATION stage, not the de-calque.
-- **Why it fails:** three independent departures. (1) `الله` is dropped and `وَإِنَّهُ` substituted for `وَإِنَّ اللَّهَ` — the wording matches neither the OCR nor the mushaf (Q 55:29 is `كُلَّ يَوْمٍ هُوَ فِي شَأْنٍ`, with no prefix at all). (2) Full tashkeel is supplied on a run whose only source form is unvowelled — model-memory vowelling, the exact BK-N5 failure. (3) The book renders the SAME source phrase correctly at line 892 (`وإن الله كل يوم هو في شأن`, unvowelled, OCR-faithful), so the two occurrences of one phrase contradict each other inside one chapter. `_system/book-arabic-audit.json` mislabels this run `resolution: "ocr"` — the audit's own grounding claim is false.
-- **Worker action:** replace line 1266 with the OCR form `وإن الله كل يوم هو في شأن`, unvowelled, matching line 892. Fix in `book/_chunks/translation/bk-08.md` line 413 first so a re-compose cannot reintroduce it. Separately, correct the arabic-audit resolver: it reported `ocr` for a run absent from the OCR.
+### BK1-BK3 · BK-N5 · P0 · VERIFIED
+- **Chapter:** 3 (The Boy at the Door), 6 (Three Layers of Knowledge), 8 (Homecoming / Abu Malik)
+- **book.md:** 190 — `فإنَّه مَن عمِلَ للهِ بما يعلم، هداه اللهُ إلى ما لا يعلم.`
+  **Source:** `_system/source/ocr/raw-extract.md:255` — `والعمل من ذلك بما تعلم. فإنه من عمل لله بما يعلم، هداه الله إلى ما لا١` (bare)
+- **book.md:** 842 — `وَلَكِنَّ الْمُؤْمِنَ يَنْظُرُ بِنُورِ اللَّهِ`
+  **Source:** `raw-extract.md:1189` — `الله، ولكن المؤمن ينظر بنور الله٢. وأما الزيادة…` (bare)
+- **book.md:** 1280 — `شَهِدَ فُلَانٌ وَهُوَ عَدْلٌ مِنَ الْعُدُولِ`
+  **Source:** `raw-extract.md:1923-1924` — `(٥١٤) قال: بلى عدل١ٌ كما يقال "شهد فلان وهو عدل من` / `العدول".` (bare)
+- **Why it fails:** all three are the source's OWN reported sayings, not Quran; the scan carries
+  them unvowelled and the book supplies full tashkeel. Vowel marks written from model memory onto
+  a reported saying are fabricated scripture, which is the one defect this book cannot ship with.
+  The vowelling happens to be grammatically correct in all three cases, so no doctrine is altered —
+  but its provenance is the model, not the scan.
+- **Not a finding:** the fourth entry on `vowelling_review`, `فَيَكُونُ` (book.md 244), is the
+  Quranic word of Q 2:117 discussed as letters; its vowelling is canonical. The discriminator
+  missed it only because the standalone token is below the mushaf-match length floor.
+- **Worker action:** strip tashkeel from these three runs so they match the scan. Do NOT touch
+  the vowelling on any run resolved `canonical-mushaf`.
 
-### BK2 · BK-P4 · P0 · VERIFIED
-- **Chapter:** 5 — The World, the Hereafter, and the Speech of Parables
-- **book.md:** lines 460–472 — "> **Editorial note (source-grounded).** … the whole ordered succession of the celestial spheres has a stated purpose: to generate minerals, plants, animals, and human seed upon this terrestrial realm … the spiritual world was brought forth in a single instantaneous emanation from absolute non-existence, whereas this lower world is differentiated gradually."
-- **Source:** absent. Not in `book/_chunks/translation/bk-05.md` (VERIFIED: `grep 'editorial:begin'` over all nine base chunks returns zero hits) and not in the assigned source range (lines 233–380).
-- **Why it fails:** `_system/series-config.yaml` sets `book_augmentation: source_only`, which forbids outside-source material, yet `_system/book-augment-report.json` records `accepted: 2` and `_system/augment-used-ledger.json` lists fourteen consumed atoms. Worse, the injected cosmology CONTRADICTS the book's own: chapter 4 (lines 234–283) teaches creation from light through will → command → saying, producing seven things; this note substitutes a later Ismaili Neoplatonic scheme of instantaneous emanation from absolute non-existence plus sphere-driven generation. A reader is told, in the book's own voice, doctrine the author never taught.
-- **Worker action:** re-compose with the augmenter genuinely disabled — the `source_only` setting is not being honoured by the augment step. Strip lines 460–472 and restore chapter 5 to its base chunk. Then fix the gate so `book_augmentation: source_only` hard-blocks `_book_augment` rather than being advisory.
+### BK4 · BK-N7 · P1 · VERIFIED
+- **Chapter:** book-wide — preface + 1-4 vs 5-8
+- **book.md:** 122 — `The Master said: "God did not create men already scholars…"` / 310 — `The scholar said: This world, and all that I have described to you of it, is an apparent standing over an inward.`
+- **Source:** `_system/source/ocr/raw-extract.md` — `قال العالم` x109 (one invariant tag); `refined-english.md` — "The scholar said" x108 vs "The Master said" x3
+- **Why it fails:** one Arabic term for the book's title character is given two English renderings
+  split cleanly by chapter — "the Master" 37x in the preface and chapters 1-4 (27 of them speech
+  tags in ch3), "the scholar" 125x in chapters 5-8 (84 speech tags). Chapter 3's own source range
+  has 25 "The scholar said" against 2 "The Master said", so the book overrode its own source in
+  one direction there and in the other direction later. A reader tracking the cast then meets
+  three names for two men, because chapter 7 correctly introduces the genuinely distinct
+  `الشيخ` / "the Shaykh". Inherited from the base translation chunks (`bk-03.md` vs
+  `bk-05..08.md`), so it predates the de-calque pass.
+- **Worker action:** pick ONE rendering for `العالم` and apply it to every speech tag and every
+  narrative reference in all nine sections. "the Master" matches the book's own title; whichever
+  is chosen, `الشيخ` must stay distinct as "the Shaykh".
 
-### BK3 · BK-P4 + BK-A5 · P1 · VERIFIED
-- **Chapter:** 2 — A Stranger in the City
-- **book.md:** lines 97–108 — "> **Editorial note (source-grounded).** … The root of *Sharia* (sh-r-) means to open up a path — specifically the trodden way down to water."
-- **Source:** absent from `book/_chunks/translation/bk-02.md` and from source lines 23–69. Traceable to atom `etymology:shr` in `_system/augment-used-ledger.json`.
-- **Why it fails:** same `source_only` violation as BK2. It also attributes to the passage a term the passage never uses — the stranger's sermon speaks of "open highways of the pasture", never of *Sharia* — so the note asserts an authorial intent that is the augmenter's, not the author's. Additionally the root is malformed: "(sh-r-)" has lost its ʿayn (should be `شرع` / sh-r-ʿ), and the note discusses Arabic AS LETTERS while supplying no Arabic script at all.
-- **Worker action:** strip lines 97–108 with BK2. If any etymological gloss is ever reinstated under a different config, it must carry the script `شرع (shar-ʿa)` per BK-N4 and must not claim the source uses the term.
+### BK5 · BK-A1 · P1 · VERIFIED
+- **Chapter:** 5 (The World, the Hereafter, and the Speech of Parables)
+- **book.md:** 286 — `The boy said: This world, in which so vast a creation was set down, holds a great multitude…`
+- **Why it fails:** chapter 5 sets 60 of its 62 speech attributions WITHOUT quotation marks
+  (`The scholar said: …`), while chapters 2, 3, 6, 7 and 8 quote speech almost universally
+  (19 / 50 / 46 / 91 / 138 quoted vs 0 / 2 / 2 / 2 / 3 unquoted). One chapter in nine uses a
+  different typographic convention for the same dialogue form. This is the running style-anchor
+  failing at exactly the chapter that also switches "Master" to "scholar" (BK4), so a reader hits
+  both breaks at the same page.
+- **Worker action:** re-compose ch5 to the book's dominant convention — quoted direct speech.
 
-### BK4 · BK-A1 + BK-N7 · P1 · VERIFIED
-- **Chapter:** whole-book, anchored on 5
-- **book.md:** chapter 5 (lines 284–473) renders dialogue unquoted — e.g. line 286 "The scholar said: As for this world, no one will ever truly reproach it…"; every other dialogue chapter quotes it — e.g. line 1156 "Salih said: \"Then what is the difference between the name and the named?\""
-- **Measured split (unquoted / quoted speech tags):** ch2 0/19 · ch3 2/50 · **ch5 60/2** · ch6 1/46 · ch7 1/91 · ch8 2/139. Chapter 5 is the sole inversion. Identical in the base chunks, so this originates at the translation stage.
-- **Why it fails:** BK-A1 — one book must not switch its dialogue convention mid-way; a reader crossing from chapter 4 into 5 into 6 meets three different presentations of the same Master–boy exchange. BK-N7 — the register shifts with it, chapter 5 reading as reported summary where its neighbours read as staged dialogue.
-- **Worker action:** normalize chapter 5 to the majority convention (quoted direct speech) in `book/_chunks/translation/bk-05.md`, then re-compose. Do not touch the (a)–(g) enumeration while doing so.
-
-### BK5 · BK-N7 · P1 · VERIFIED
-- **Chapter:** 4 — How the World Was Made
-- **book.md:** line 257 — "Then the **way** of creation in pairs went forth … Then this **way** extended into speech"; line 272 — "made it manifest through parables and through the **sunna**"
-- **Source:** `book/_chunks/translation/bk-04.md` — "Then the **sunna** of creation in pairs went forth … Then this **sunna** extended into speech" and "made it manifest by parables and by the **sunna**"
-- **Why it fails:** elegant variation on a technical term, the named BK-N7 defect. The base uses *sunna* four times book-wide; the composed book keeps two and silently renders two as "way" — both losses inside chapter 4, one of them fifteen lines above a retained "sunna". A reader cannot trace the term through the argument, and the chapter appears to distinguish "way" from "sunna" when the source uses one word.
-- **Worker action:** restore *sunna* at both sites in chapter 4. Terminological consistency outranks synonym variety in this genre; the de-calque pass must be constrained from substituting English glosses for retained Arabic technical terms.
-
-### BK6 · BK-P6 · P1 · VERIFIED
-- **Chapter:** 8 — Homecoming, the Father, and the Debate with Abu Malik
-- **book.md:** lines 1266, 1280, 1314, 1352, 1358, 1364 — six standalone Arabic scripture blocks set as bare body paragraphs, e.g. line 1358 `أَطِيعُوا اللَّهَ وَأَطِيعُوا الرَّسُولَ وَأُولِي الْأَمْرِ مِنكُمْ` with no `>` prefix.
-- **Source:** inherited from `book/_chunks/translation/bk-08.md` lines 413, 427, 461, 499, 505, 511 (VERIFIED: all six `bq=False` there, while the six earlier Arabic runs in the same chunk are `bq=True`).
-- **Why it fails:** the other 45 Arabic runs in the book carry the `>` blockquote, so the PDF sets scripture apart visually everywhere except the final stretch of the climactic debate, where six Quranic citations will render as ordinary prose. The convention breaks exactly where the argument leans hardest on citation. This clusters at the chapter-8 window tail (base part-05 holds four of the six), so it reads as a seam artifact even though no text was lost.
-- **Worker action:** add the `>` prefix to all six in `bk-08.md` and re-compose. This is the one finding whose fix is purely mechanical.
+### BK6 · BK-P4 · P1 · VERIFIED
+- **Chapter:** 5 (The World, the Hereafter, and the Speech of Parables)
+- **book.md:** 462-465 — `…sits atop a wider cosmology this book elsewhere sets out. There, the whole ordered succession of the celestial spheres has a stated purpose: to generate minerals, plants, animals, and human seed upon this terrestrial realm, each sphere exerting its influence in its appointed turn.`
+- **Source:** no source range — the tokens "sphere(s)" and "emanation" appear in `book.md` ONLY
+  inside this editorial note (lines 464, 465, 470); the sole other "sphere" hits (378) are the
+  ring-and-egg cosmography, and "minerals" (330) is the parable of gold, silver and gem.
+- **Why it fails:** the note makes a false INTERNAL cross-reference. The celestial-sphere doctrine
+  is real and correctly sourced (`doctrine:wisdom:*` atoms in the augment ledger, tradition-
+  appropriate — BK-A5 passes), but it is not in this book, and a reader of the published edition
+  will go looking for it and not find it. The material is admissible; the attribution is not.
+- **Worker action:** re-word to attribute the cosmology to the wider corpus, as the note's own
+  later sentence already does correctly ("The same corpus also marks a contrast…").
 
 ### BK7 · BK-A3 · P2 · VERIFIED
 - **Chapter:** preface — How to Read a Conversation Made of Doors
-- **book.md:** lines 3–5 — `## How to Read a Conversation Made of Doors` immediately followed by a blank line and the body line `How to Read a Conversation Made of Doors`
-- **Source:** `book/_chunks/translation/preface.md` line 1 carries the title as its first body line; the compose step emits the `## ` heading independently, so both survive.
-- **Why it fails:** the title prints twice in the reading edition. This is the likely cause of the `BR-PAGE-FILL` P1s on pages 2–3 in `_system/book-render-checks.json` (149 and 394 chars against a 1683 median).
-- **Secondary, same probe:** the preface does not orient a modern reader. It is a faithful rendering of the source's own opening (the believers' three thanks) under an editorial-sounding title; it never says who is speaking, to whom, or why the dialogue still matters. Note this is a design consequence of the correct 2026-07-20 decision to revert the preface to its faithful base — the anti-abridgement revert is NOT a defect, but it does leave the book with no orienting front matter.
-- **Worker action:** strip the duplicate title line when emitting the preface chunk. Decide separately whether a genuine orienting preface is wanted; if so it must be additional front matter, not a rewrite of the source's opening.
+- **book.md:** 3-5 — `## How to Read a Conversation Made of Doors` / (blank) / `How to Read a Conversation Made of Doors`
+- **Why it fails:** the heading is repeated verbatim as the first body paragraph — a visible
+  double title on the opening page of the PDF. Separately, the preface body (lines 7-29) is a
+  translation of source ¶1-3 (`refined-english.md` 8-13) rather than an orientation: it never
+  tells a modern reader who is speaking, to whom, or why the text still matters.
+- **Worker action:** delete the duplicated line; author a genuine reader-facing preface (the
+  translator's introduction already logged as missing apparatus for this edition).
 
-### BK8 · BK-A3 · P2 · VERIFIED
-- **Chapter:** n/a — configuration artifact
-- **File:** `book/book-toc.json` line 3 — `"voice": "modern author first-person"`
-- **Why it fails:** this contradicts the frame locked on 2026-07-20 (`narrative_frame: transmitted_report`, `book_voice: faithful`). It is stale, and it names the exact defect the relock was written to eliminate. Any future compose that reads `book-toc.json.voice` instead of `series-config.yaml` will reintroduce first-person narration book-wide.
-- **Worker action:** update the field to `faithful / transmitted_report`, or delete it so `series-config.yaml` is unambiguously the single source of truth.
+### BK8 · BK-A4 · P2 · VERIFIED
+- **Chapter:** 2 (A Stranger in the City)
+- **book.md:** 102 — `The root of *Sharia* (sh-r-) means to open up a path`
+- **Why it fails:** the sentence names a three-consonant root and prints two letters. The
+  transliteration fold stripped the `ʿayn` and left `sh-r-` dangling, so the note contradicts
+  itself in print. Correct form: `sh-r-'` (ش ر ع).
+- **Worker action:** render the third radical in the plain-transliteration scheme rather than
+  letting the diacritic fold delete it.
+
+### BK9 · BK-P6 · P2 · VERIFIED
+- **Chapter:** 5 (The World, the Hereafter, and the Speech of Parables)
+- **book.md:** 466-467 — `So the seven-fold blessings the chapter lists (air, water, light, food, marriage) are not ends closing upon themselves…`
+- **Source:** `book.md:300` — `(f) The blessings of this world rest upon seven: air, water, light, darkness, food, clothing, and marriage.`
+- **Why it fails:** the note calls the list seven-fold and then parenthetically enumerates five,
+  silently dropping darkness and clothing — the two the chapter spends its next sentences
+  explaining. A reader counts and finds the note wrong about the page it sits on.
+- **Worker action:** list all seven, or drop the parenthesis.
+
+### BK10 · BK-A3 · P2 · VERIFIED
+- **Chapter:** whole book (metadata)
+- **File:** `book/book-toc.json:3` — `"voice": "modern author first-person"`
+- **Why it fails:** contradicts `_system/series-config.yaml` (`narrative_frame: transmitted_report`,
+  `book_voice: faithful`). The prose is correct; the metadata is stale from the pre-2026-07-20
+  configuration and is exactly the kind of field a future re-compose could read back as authority,
+  re-introducing the first-person defect this book was repaired for.
+- **Worker action:** update the field to match the resolved frame, or remove it.
+
+### BK11 · BK-P6 · P2 · VERIFIED
+- **Chapter:** 6 (Three Layers of Knowledge)
+- **book.md:** 840-844 — `…Yet the believer sees by the light of Allah.` / `> وَلَكِنَّ الْمُؤْمِنَ يَنْظُرُ بِنُورِ اللَّهِ` / `> But the believer sees by the light of Allah.`
+- **Why it fails:** the English sentence is printed twice, once as the lead-in and once as the
+  gloss under the Arabic, three lines apart. Cosmetic, but visible on the page.
+- **Worker action:** drop the lead-in clause or the gloss.
 
 ---
 
-## Arabic verification detail (BK-P2 / BK-P3 / BK-N4 / BK-N5)
-
-51 Arabic runs, all present, all consonantal skeletons identical between base chunks and `book.md`. One defect (BK1). Every other run confirmed:
-
-- **OCR-grounded, 47 runs** — verified by normalized substring match against `_system/source/ocr/raw-extract.md` (diacritics and non-Arabic stripped).
-- **Three runs flagged `unverified` by `_system/book-arabic-audit.json`** — I verified all three against the canonical mushaf and they are correct, so they are NOT findings: `فَلَا تَغُرَّنَّكُمُ الْحَيَاةُ الدُّنْيَا` (ch6 L558, Q 31:33 / 35:5), `فَمَنِ اضْطُرَّ غَيْرَ بَاغٍ وَلَا عَادٍ فَلَا إِثْمَ عَلَيْهِ` (ch7 L656, Q 2:173), `عَلَىٰ فَتْرَةٍ مِّنَ الرُّسُلِ` (ch8 L1314, Q 5:19). Their supplied vowelling is legitimate canonical anchoring, not BK-N5 model memory. Advisory only: the deterministic audit could not clear them itself.
-- **`فَتَبَارَكَ الَّذِي جَعَلَ اللَّيْلَ وَالنَّهَارَ خِلْفَةً…` (ch2 L91)** — NOT a mis-citation. It echoes Q 25:62 (`وَهُوَ الَّذِي…`) but the book does not present it as scripture; it is the closing doxology of the stranger's own sermon and it is OCR-grounded, continuing into `وَصَلَّى اللَّهُ عَلَى مَنِ اخْتَارَهُ…`. Correctly left unattributed.
-- **Quranic citations spot-verified against the mushaf and correct:** 12:4, 12:8, 12:43, 4:69, 7:179, 7:26, 2:173, 5:19, 11:113, 4:59, 9:123, 31:33/35:5, 42:11, 36:82.
-- **BK-N4 letters-as-letters:** chapter 4 line 244 correctly keeps script beside its count — "From them is derived كُنْ, which is two letters, and فَيَكُونُ, which is five". No transliteration stands in for script anywhere in the book body. The sole violation is inside injected note BK3, which is being removed.
-
-## Teaching + citation fidelity against the base chunks (BK-P1 / BK-P4)
-
-The de-calque changed phrasing, not meaning, everywhere except the two injected notes. Evidence:
-
-- **Numbers:** per-chapter numeral multisets are unchanged apart from the indefinite article "one" and one added "seven" in ch5, which I traced to a punctuation-only reflow of item (c) — every doctrinal count (seven, twelve, seventeen, eleven, five, three) is intact.
-- **Named persons:** zero deltas. Salih, al-Bakhtari, Abu Malik, Ka'b al-Ahbar, Moses, Joseph, Jesus, Abraham, Ishmael, Isaac, Jacob, Jonah, Shu'ayb, Joshua, Elias, Talut, David, Solomon, Zechariah, John all survive with identical counts.
-- **Speech tags:** 0 tag-changing hunks across all nine sections.
-- **Highest-churn hunks read in full** (ch8 L1106, L1156, L1254): all synonym-level. One change is an improvement, not a defect — base "God is too **dear** for that" → book "God is too **exalted** for that", correcting a mistranslation of *jalla / taʿālā*.
-- The 29 `said:` → `said,` conversions in ch8 are punctuation only; speaker identity is provably unchanged (see BK-N2 above).
-
-## Process note for the caller (not a finding)
-
-Your brief states every chapter was restored from its faithful base and then de-calqued once. The artifacts say otherwise, and this matters for reproducing the fix. `_system/book-fluency-report.json` (written 12:14:55, same second as `book.md`) reports `adapted: 0, reverted: 1` with all eight chapters `"status": "skipped", "windows": 0` — the fluency pass did no chapter work at all. What actually shipped is the output of `_system/book-voice-report.json` (11:44:38), which reports `revoiced: 9, reverted: 0` with ch7 at 3 windows and ch8 at 6 — the window counts you quoted come from the RE-VOICE stage, not the de-calque. The re-voice ran under the correct `transmitted_report` frame and did no narrative damage (Pass 3 is clean apart from BK5), but it is the stage that carried the augmenter's two notes into the text.
-
 ## Verified vs Inferred summary
 
-| Finding | Severity | Basis |
-|---|---|---|
-| BK1 BK-P3 + BK-N5 | P0 | VERIFIED — OCR offset located, single occurrence, contradicted by L892 |
-| BK2 BK-P4 | P0 | VERIFIED — absent from base chunks; augment ledger + report record the injection |
-| BK3 BK-P4 + BK-A5 | P1 | VERIFIED — atom `etymology:shr` named in ledger |
-| BK4 BK-A1 + BK-N7 | P1 | VERIFIED — counted per chapter, base and book |
-| BK5 BK-N7 | P1 | VERIFIED — base/book term counts 4 vs 2 |
-| BK6 BK-P6 | P1 | VERIFIED — six line numbers in book and base |
-| BK7 BK-A3 | P2 | VERIFIED — lines 3–5; render-checks corroborate |
-| BK8 BK-A3 | P2 | VERIFIED — field quoted from `book-toc.json` |
+| | Count |
+|---|---|
+| VERIFIED (concrete evidence in the files) | 11 |
+| INFERRED (heuristic judgment) | 0 |
 
-8 findings: 2 P0, 4 P1, 2 P2. All VERIFIED; none INFERRED.
+Every finding cites a `book.md` line range plus, where the probe requires it, the exact OCR scan
+line or mushaf reference it was checked against. No finding rests on model recall of Arabic.
 
 ## Ledger emission summary
 
-8 records appended to `_learning/findings.jsonl` with `source: "book-challenger"`, `resolution: "flagged"`, deduped by signature.
+11 records appended to `_learning/findings.jsonl` with `source: "book-challenger"`,
+ids BK1-BK11, all `resolution: "flagged"`. Deduped within the run by signature.
+
+## Verdict
+
+**BLOCKED** — three P0 records (BK1-BK3, supplied diacritics on three non-Quranic runs). Clearing BK1-BK3 alone
+moves the book to SHIP-WITH-CAUTION on the three P1s (BK4 terminological split, BK5 chapter-5
+quoting convention, BK6 false internal cross-reference), each of which carries an author judgment
+call and should be escalated rather than re-run blind.
