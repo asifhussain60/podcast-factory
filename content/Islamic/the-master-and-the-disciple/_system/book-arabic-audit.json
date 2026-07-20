@@ -72,7 +72,7 @@
         },
         {
           "text": "لَيْسَ كَمِثْلِهِ شَيْءٌ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "ليسكمثلهشيء"
         },
         {
@@ -82,17 +82,17 @@
         },
         {
           "text": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "بسماللهالرحمنالرحيم"
         },
         {
           "text": "لِئَلَّا يَكُونَ لِلنَّاسِ عَلَى اللَّهِ حُجَّةٌ بَعْدَ الرُّسُلِ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "ليلايكونللناسعلياللهحجهبعدالرسل"
         },
         {
           "text": "أولياء الله",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "اولياءالله"
         }
       ]
@@ -139,12 +139,12 @@
         },
         {
           "text": "فَلَا تَضْرِبُوا لِلَّهِ الْأَمْثَالَ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "فلاتضربواللهالامثال"
         },
         {
           "text": "وَلِلَّهِ الْمَثَلُ الْأَعْلَى",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "وللهالمثلالاعلي"
         },
         {
@@ -159,7 +159,7 @@
         },
         {
           "text": "وَلِلَّهِ الْمَثَلُ الْأَعْلَى",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "وللهالمثلالاعلي"
         },
         {
@@ -186,7 +186,7 @@
       "runs": [
         {
           "text": "حَوْلَيْنِ كَامِلَيْنِ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "حولينكاملين"
         },
         {
@@ -201,7 +201,7 @@
         },
         {
           "text": "لَيُوسُفُ وَأَخُوهُ أَحَبُّ إِلَىٰ أَبِينَا مِنَّا وَنَحْنُ عُصْبَةٌ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "ليوسفواخوهاحباليابينامناونحنعصبه"
         },
         {
@@ -224,11 +224,11 @@
     {
       "chapter": "7. The Five Shares and the Long Road to the Shaykh",
       "arabic_runs": 5,
-      "unverified": 1,
+      "unverified": 0,
       "runs": [
         {
           "text": "لَهُمْ قُلُوبٌ لَا يَفْقَهُونَ بِهَا وَلَهُمْ أَعْيُنٌ لَا يُبْصِرُونَ بِهَا وَلَهُمْ آذَانٌ لَا يَسْمَعُونَ بِهَا",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "لهمقلوبلايفقهونبهاولهماعينلايبصرونبهاوله"
         },
         {
@@ -238,7 +238,7 @@
         },
         {
           "text": "فَمَنِ اضْطُرَّ غَيْرَ بَاغٍ وَلَا عَادٍ فَلَا إِثْمَ عَلَيْهِ",
-          "resolution": "unverified",
+          "resolution": "canonical-mushaf",
           "skeleton": "فمناضطرغيرباغولاعادفلااثمعليه"
         },
         {
@@ -256,7 +256,7 @@
     {
       "chapter": "8. Homecoming, the Father, and the Debate with Abu Malik",
       "arabic_runs": 14,
-      "unverified": 1,
+      "unverified": 0,
       "runs": [
         {
           "text": "كعب الأحبار",
@@ -280,7 +280,7 @@
         },
         {
           "text": "لا قوة إلا بالله",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "لاقوهالابالله"
         },
         {
@@ -290,7 +290,7 @@
         },
         {
           "text": "لَيْسَ كَمِثْلِهِ شَيْءٌ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "ليسكمثلهشيء"
         },
         {
@@ -299,7 +299,7 @@
           "skeleton": "عليهمالسلام"
         },
         {
-          "text": "وَإِنَّهُ كُلَّ يَوْمٍ هُوَ فِي شَأْنٍ",
+          "text": "وإنه كل يوم هو في شأن",
           "resolution": "ocr",
           "skeleton": "وانهكليومهوفيشان"
         },
@@ -310,17 +310,17 @@
         },
         {
           "text": "عَلَىٰ فَتْرَةٍ مِّنَ الرُّسُلِ",
-          "resolution": "unverified",
+          "resolution": "canonical-mushaf",
           "skeleton": "عليفترهمنالرسل"
         },
         {
           "text": "وَلَا تَرْكَنُوا إِلَى الَّذِينَ ظَلَمُوا فَتَمَسَّكُمُ النَّارُ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "ولاتركنوااليالذينظلموافتمسكمالنار"
         },
         {
           "text": "أَطِيعُوا اللَّهَ وَأَطِيعُوا الرَّسُولَ وَأُولِي الْأَمْرِ مِنكُمْ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "اطيعوااللهواطيعواالرسولواوليالامرمنكم"
         },
         {
@@ -332,10 +332,17 @@
     }
   ],
   "totals": {
-    "ocr": 48,
+    "canonical-mushaf": 16,
+    "ocr": 34,
     "knowledge-base": 0,
     "honorific-formula": 1,
-    "unverified": 3,
-    "arabic_runs": 52
-  }
+    "unverified": 1,
+    "arabic_runs": 36
+  },
+  "vowelling_review": [
+    "non-Quranic run vowelled beyond the scan: فإنَّه مَن عمِلَ للهِ بما يعلم، هداه اللهُ إ",
+    "non-Quranic run vowelled beyond the scan: فَيَكُونُ",
+    "non-Quranic run vowelled beyond the scan: وَلَكِنَّ الْمُؤْمِنَ يَنْظُرُ بِنُورِ اللَّ",
+    "non-Quranic run vowelled beyond the scan: شَهِدَ فُلَانٌ وَهُوَ عَدْلٌ مِنَ الْعُدُولِ"
+  ]
 }

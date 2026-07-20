@@ -47,6 +47,8 @@ from __future__ import annotations
 import re
 import unicodedata
 
+from _arabic_coverage import arabic_run_spans, normalize_arabic
+from _mushaf import is_quranic, mushaf_available
 from _rules import (
     DEFAULT_NARRATIVE_FRAME,
     NARRATIVE_FRAMES,
@@ -223,6 +225,36 @@ def supplied_diacritics_findings(base_text: str, candidate: str) -> list[str]:
         if (set(run) & _TASHKEEL_CHARS) and not base_vowelled[skeleton]:
             findings.append(f"diacritics supplied onto unvowelled source run: {run[:40]}")
     return findings[:3]
+
+
+def ocr_vowelling_findings(text: str, ocr_text: str, *, limit: int = 8) -> list[str]:
+    """Flag NON-Quranic runs vowelled beyond what the scan carries.
+
+    Closes the gap ``supplied_diacritics_findings`` cannot see: that one compares
+    a rewrite against its own base, so vowelling fabricated at TRANSLATION time
+    and baked into the base is invisible to it — which is how one live run reached
+    the printed edition fully vowelled while the scan carried it bare.
+
+    The discriminator this needs is ``_mushaf.is_quranic``. Canonical Quran is
+    LEGITIMATELY vowelled whatever the scan does, and without a way to recognise
+    it every earlier attempt returned a review list that was mostly verses. With
+    the mushaf wired in, only the runs that are the source's OWN words are held to
+    the scan's vowelling.
+
+    Returns [] when the mushaf is unavailable rather than flagging everything —
+    a checkout without the mirror gets no signal, not a false one.
+    """
+    if not ocr_text or not mushaf_available():
+        return []
+    scan_bare = normalize_arabic("".join(s for s in arabic_run_spans(ocr_text) if not (set(s) & _TASHKEEL_CHARS)))
+    findings: list[str] = []
+    for span in arabic_run_spans(text):
+        if not (set(span) & _TASHKEEL_CHARS) or is_quranic(span):
+            continue
+        skeleton = normalize_arabic(span)
+        if skeleton and skeleton in scan_bare:
+            findings.append(f"non-Quranic run vowelled beyond the scan: {span[:44]}")
+    return findings[:limit]
 
 
 def enumeration_findings(base_text: str, candidate: str, *, minimum: int = 3) -> list[str]:
