@@ -86,6 +86,20 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         final_md.write_text(dedupe_seam_paragraphs(final_md.read_text(encoding="utf-8")), encoding="utf-8")
         book_md = final_md
 
+    # 5b. Replay durable Book Composer edits. LAST of the text-mutating steps, so
+    #     the human's chapter sits on top of everything the pipeline just
+    #     regenerated. This is what makes the Composer the SINGULAR path for
+    #     chapter modifications: without it a Composer edit survives only until the
+    #     next compose, which regenerates these layers and drops it with no report.
+    #     Idempotent and anchored by heading — see _book_edits.py.
+    from _book_edits import apply_composer_edits
+
+    try:
+        apply_composer_edits(book_dir, log=log)
+        book_md = book_dir / "book" / "book.md"
+    except Exception as e:  # a bad sidecar must never destroy a good compose
+        log(f"    composer-edits: skipped (non-fatal): {e}")
+
     # 6. Arabic provenance audit over the FINAL edition. The gates upstream count
     #    Arabic runs; this one asks whether each surviving run is the source's own
     #    words. Report-only and last, so it judges exactly what will be printed.

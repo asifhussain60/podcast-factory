@@ -1732,11 +1732,16 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-20T14:33:27.277Z",
-  "source_commit": "b2cc33c",
+  "generated_at": "2026-07-20T15:50:33.856Z",
+  "source_commit": "ea8b5b9",
   "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "ea8b5b9",
+      "subject": "feat(narrative-frame): enforce who narrates on every prose route + challenger Pass 3",
+      "date": "2026-07-20"
+    },
     {
       "sha": "b2cc33c",
       "subject": "fix(book-voice): window long chapters so a 14k-word chapter can be re-voiced",
@@ -1780,11 +1785,6 @@
     {
       "sha": "60ef305",
       "subject": "feat(corpus): run the accuracy-gated etymology miner; corpus grows to 2 books",
-      "date": "2026-07-19"
-    },
-    {
-      "sha": "42ff971",
-      "subject": "feat(book): resolve the honorific false positive; verify the real Arabic finds",
       "date": "2026-07-19"
     }
   ],
