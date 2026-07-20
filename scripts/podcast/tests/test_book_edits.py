@@ -40,7 +40,8 @@ def _body(bd: Path, heading: str) -> str:
 
 def test_anchor_key_matches_the_typescript_mirror() -> None:
     # Divergence here silently orphans every saved edit — the replay simply
-    # finds no matching chapter. Mirror of anchorKey in book-md.ts.
+    # finds no matching chapter. Mirror of anchorKey, whose single JS
+    # implementation is plan-dashboard/scripts/lib/anchor-key.mjs.
     assert anchor_key("## 1. On Knowledge") == "on knowledge"
     assert anchor_key("## <em>On</em> Patience") == "on patience"
 
@@ -139,3 +140,22 @@ def test_replay_report_is_written(tmp_path: Path) -> None:
     apply_composer_edits(bd, log=lambda *a: None)
     report = json.loads((bd / "_system" / "composer-edits-replay.json").read_text())
     assert report["applied"] == 1
+
+
+# ─── mirror pair with the JS anchorKey ────────────────────────────────────────
+def test_anchor_key_matches_the_shared_js_fixtures() -> None:
+    """The Python half of the anchorKey mirror pair.
+
+    The JS half is `plan-dashboard/scripts/lib/anchor-key.test.mjs`, reading this
+    same fixture file. Before 2026-07-20 the function had four byte-identical JS
+    copies plus this one, nothing imported a shared module, and the two languages
+    disagreed about Arabic-Indic digits — Python's `\\d` is Unicode-aware and
+    JavaScript's is ASCII-only, so `## ١. Patience` keyed differently on each side
+    and every edit on such a chapter would be silently orphaned on replay.
+    """
+    fixtures = Path(__file__).resolve().parents[3] / "plan-dashboard" / "scripts" / "lib" / "anchor-key.fixtures.json"
+    assert fixtures.is_file(), f"shared fixture file missing: {fixtures}"
+    cases = json.loads(fixtures.read_text(encoding="utf-8"))["cases"]
+    assert cases, "fixture file is empty"
+    for case in cases:
+        assert anchor_key(case["in"]) == case["out"], case["in"]

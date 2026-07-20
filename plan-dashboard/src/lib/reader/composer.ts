@@ -14,6 +14,7 @@
  */
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { anchorKey } from "../../../scripts/lib/anchor-key.mjs";
 import { findContent } from "../content-paths";
 import { loadGlossary, loadGlossaryAll, type GlossaryEntry } from "./glossary";
 import { renderMarkdown } from "./markdown";
@@ -122,15 +123,10 @@ export interface ComposerView {
   glossaryAll: GlossaryEntry[];
 }
 
-/** Normalize an anchor/heading to a comparable key — mirror of visual-layout.mjs anchorKey. */
-export function anchorKey(s: string): string {
-  return String(s)
-    .replace(/<[^>]+>/g, "")
-    .replace(/^#{1,6}\s+/, "")
-    .replace(/^\d+\.\s*/, "")
-    .trim()
-    .toLowerCase();
-}
+// anchorKey is re-exported, not redefined: it had four byte-identical copies and
+// a divergence in any one of them silently orphans a saved Composer edit. The
+// single implementation is imported at the top of this file.
+export { anchorKey };
 
 async function readJson<T>(path: string, fallback: T): Promise<T> {
   try {

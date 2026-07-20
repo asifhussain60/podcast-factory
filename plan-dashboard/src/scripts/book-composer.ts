@@ -12,6 +12,7 @@
  */
 import { createElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
+import { anchorKey } from "../../scripts/lib/anchor-key.mjs";
 import { mountChapterEditor, type ChapterEditor } from "./book-md-editor";
 import { confirmDialog, noticeDialog } from "./confirm-dialog";
 import {
@@ -83,14 +84,7 @@ interface ComposerData {
 
 const WRAP_MAX = 50;
 
-function anchorKey(s: string): string {
-  return String(s)
-    .replace(/<[^>]+>/g, "")
-    .replace(/^#{1,6}\s+/, "")
-    .replace(/^\d+\.\s*/, "")
-    .trim()
-    .toLowerCase();
-}
+// anchorKey comes from the single shared implementation — see the import above.
 
 function boot(): void {
   const rootMaybe = document.querySelector<HTMLElement>(".composer[data-slug]");

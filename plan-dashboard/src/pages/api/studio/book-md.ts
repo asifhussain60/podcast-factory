@@ -16,6 +16,7 @@
 import type { APIRoute } from "astro";
 import { readFileSync, writeFileSync, existsSync, copyFileSync } from "node:fs";
 import { join } from "node:path";
+import { anchorKey } from "../../../../scripts/lib/anchor-key.mjs";
 import { findContentDirSync } from "../../../lib/content-paths";
 import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
 import { preserveFences } from "../../../lib/reader/book-fences";
@@ -28,15 +29,9 @@ export const prerender = false;
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-/** Normalize a heading to a comparable key — mirror of composer.ts anchorKey. */
-function anchorKey(s: string): string {
-  return s
-    .replace(/<[^>]+>/g, "")
-    .replace(/^#{1,6}\s+/, "")
-    .replace(/^\d+\.\s*/, "")
-    .trim()
-    .toLowerCase();
-}
+// anchorKey comes from the single shared implementation — see the import above.
+// This route WRITES the sidecar that `_book_edits.py` replays, so a divergence
+// here orphans the edit it just saved.
 
 export const PUT: APIRoute = async ({ request }) => {
   let body: Record<string, unknown>;

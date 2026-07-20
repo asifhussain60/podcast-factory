@@ -14,6 +14,8 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
+import { anchorKey } from "./lib/anchor-key.mjs";
+
 export const SCHEMA = "book.visual-layout/v1";
 export const ALIGNS = ["left", "center", "right"];
 export const FLOWS = ["wrap", "standalone"];
@@ -239,12 +241,7 @@ export function applyLayout(bodyHtml, placements, assetsById) {
   return out.join("\n");
 }
 
-/** Normalize an anchor / heading to a comparable key: strip markup, "N." prefix, case. */
-export function anchorKey(s) {
-  return String(s)
-    .replace(/<[^>]+>/g, "")
-    .replace(/^#{1,6}\s+/, "")
-    .replace(/^\d+\.\s*/, "")
-    .trim()
-    .toLowerCase();
-}
+// Re-exported, not redefined: this module was one of four copies of anchorKey.
+// The single implementation lives in lib/anchor-key.mjs. Imported rather than
+// bare-re-exported because this module calls it internally too.
+export { anchorKey };

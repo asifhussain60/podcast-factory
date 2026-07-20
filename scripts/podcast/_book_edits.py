@@ -43,16 +43,36 @@ _HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 def anchor_key(heading: str) -> str:
     """Normalize a heading to a comparable key.
 
-    Mirror of `anchorKey` in `plan-dashboard/src/pages/api/studio/book-md.ts` and
-    `lib/reader/composer.ts`. Keep the three in sync — a divergence here silently
-    orphans every saved edit, because the replay simply finds no matching chapter.
+    Mirror of `anchorKey`, which as of 2026-07-20 has exactly ONE implementation on
+    the JS side: `plan-dashboard/scripts/lib/anchor-key.mjs`. It previously had
+    four byte-identical copies and this docstring named two of them, so "keep them
+    in sync" was advice about a set nobody could enumerate. Change one, change the
+    other, in the same commit — a divergence silently orphans every saved edit,
+    because the replay simply finds no matching chapter.
+
+    The digit class is written out rather than using `\\d` because the two
+    languages disagree about what a digit is: Python's `\\d` is Unicode-aware and
+    JavaScript's is ASCII-only, so `## ١. Patience` normalized to `patience` here
+    and `١. patience` there. No book uses Arabic-Indic heading numerals yet; this
+    is an Arabic-source project, so that is a matter of when.
     """
-    return re.sub(r"^\d+\.\s*", "", re.sub(r"^#{1,6}\s+", "", re.sub(r"<[^>]+>", "", heading))).strip().lower()
+    without_markup = re.sub(r"<[^>]+>", "", heading)
+    without_hashes = re.sub(r"^#{1,6}\s+", "", without_markup)
+    return re.sub(r"^[0-9٠-٩۰-۹]+\.\s*", "", without_hashes).strip().lower()
 
 
 def fingerprint(text: str) -> str:
-    """Stable hash of a chapter body, whitespace-normalized."""
-    return hashlib.sha256(" ".join((text or "").split()).encode("utf-8")).hexdigest()[:16]
+    """Stable hash of a chapter body, whitespace-normalized.
+
+    Mirror of `fingerprintBody` in `plan-dashboard/src/lib/reader/composer-edits.ts`.
+    The BOM is stripped first because the two languages disagree about it — it
+    counts as whitespace to JavaScript's `\\s` and not to Python's `str.split()` —
+    and text pasted into the Composer is exactly where a BOM arrives. Without
+    this, one side hashed it away and the other did not, so a pasted chapter
+    reported a conflict against the very base it had been edited from.
+    """
+    cleaned = (text or "").replace("﻿", "")
+    return hashlib.sha256(" ".join(cleaned.split()).encode("utf-8")).hexdigest()[:16]
 
 
 def sidecar_path(book_dir: Path) -> Path:

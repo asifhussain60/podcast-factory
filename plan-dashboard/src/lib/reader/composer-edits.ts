@@ -32,9 +32,26 @@ interface Sidecar {
   edits: ComposerEdit[];
 }
 
-/** Stable hash of a chapter body, whitespace-normalized. Mirror of `fingerprint`. */
+/**
+ * Stable hash of a chapter body, whitespace-normalized. Mirror of `fingerprint`
+ * in `scripts/podcast/_book_edits.py`.
+ *
+ * The character classes are spelled out because the two languages disagree at the
+ * edges: JavaScript's `\s` counts the BOM as whitespace and Python's `str.split()`
+ * does not, while Python splits on U+0085 and the C0 separators and JavaScript
+ * does not. Pasted text is exactly where those arrive. A mismatch is not
+ * destructive — the edit still wins on replay — but it reports a conflict against
+ * the very base the author edited from, which trains people to ignore conflicts.
+ */
 export function fingerprintBody(text: string): string {
-  const normalized = (text ?? "").split(/\s+/).filter(Boolean).join(" ");
+  const normalized = (text ?? "")
+    .replace(/\uFEFF/g, "")
+    // The C0 separators are the point: Python's str.split() treats them as
+    // whitespace, so this mirror has to as well or the two hashes diverge.
+    // eslint-disable-next-line no-control-regex
+    .split(/[\s\u0085\u001c-\u001f]+/)
+    .filter(Boolean)
+    .join(" ");
   return createHash("sha256")
     .update(normalized, "utf8")
     .digest("hex")
