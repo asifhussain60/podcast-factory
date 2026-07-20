@@ -10,8 +10,10 @@ trim/dedup, prose normalization, output findings, monochrome SVG, crosswalk
 builder) to ``_translation_text.py``. Every moved name is re-exported here
 (`X as X`, the `_azure.py` pattern) so importers and test patch-targets keep
 working unchanged. What REMAINS is the one thing that could not move without
-smell: the compose prompt + the `claude -p` retry/caching orchestration around
-it — per the Spec-2 precedent, the prompt body stays with its orchestration.
+smell: the `claude -p` retry/caching orchestration. The compose PROMPT moved to
+``_translation_prompts.py`` on 2026-07-20 (DR-005 gate) and is re-exported here —
+see that module for why the Spec-2 "prompt stays with its orchestration" precedent
+does not apply to it.
 """
 
 from __future__ import annotations
@@ -22,7 +24,6 @@ from typing import Any
 
 from _arabic_coverage import (
     arabic_coverage_shortfall,
-    arabic_ground_truth_block,
     arabic_run_spans,
 )
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
@@ -33,6 +34,7 @@ from _book_compose import (
     _quran_anchor_block,
     _slice_source,
 )
+from _pipeline_flags import narrative_frame, narrator_subject
 
 # R3 DR-005 re-exports — moved names, kept importable from this module.
 from _translation_contract import (
@@ -65,6 +67,7 @@ from _translation_contract import (
 from _translation_contract import (
     translation_policy as translation_policy,
 )
+from _translation_prompts import _compose_prompt as _compose_prompt
 from _translation_text import (
     _adjacent_echo as _adjacent_echo,
 )
@@ -126,55 +129,6 @@ _RETRY_TIMEOUT = 1350
 _LONG_CHAPTER_WORDS = 4500
 
 
-def _compose_prompt(
-    title: str,
-    body: str,
-    previous_tail: str,
-    *,
-    arabic_src: str = "",
-    quran_anchor: str = "",
-) -> str:
-    continuity = (
-        "\nContinuity note: the previous chapter ended with this thought. "
-        "Open naturally without repeating it:\n"
-        f"{previous_tail}\n"
-        if previous_tail
-        else ""
-    )
-    return f"""You are preparing a faithful English translation edition of a non-English Islamic teaching text.
-
-Write one polished chapter titled "{title}" from the source passage below.
-
-Core rule: this is LLM-enriched translation, not augmentation. Enrichment here means clear articulation,
-clean paragraphing, careful denoising, and readable English. It does not mean adding outside facts,
-new examples, modern analogies, doctrine from other books, or explanatory material not present in the source.
-
-Preserve meaning:
-- Preserve every teaching, argument, example, named person, citation, Quran verse, hadith, quote, and Arabic term present in the source.
-- Preserve Arabic script when it appears in the source. Do not romanize it away.
-- If a Quran verse, hadith, poem, or quoted saying appears, keep it visibly quoted and keep the attribution present in the source.
-- Do not invent canonical Arabic from memory. If the source gives Arabic, preserve it; if the source gives only a translation, translate/polish only that.
-- Use the original-language source block only as preservation evidence, not as permission to add new side material.
-- Keep salutations compact. Do not repeatedly spell out long English honorifics. Use only these compact forms in English prose: (عليهم السلام), (ع), and (رض).
-{quran_anchor}{arabic_ground_truth_block(arabic_src)}
-
-Denoise:
-- Remove or compress historical side information, bibliographic apparatus, editorial notes, damaged-manuscript notes, chain-of-publication details, translator/editor commentary, and background digressions unless they directly teach the point of the chapter.
-- Keep the author's teaching as the spine.
-
-Style:
-- Clear, dignified English.
-- No podcast language.
-- No episode references.
-- No bullet-list study guide unless the source itself is enumerating points.
-- No em dashes.
-{continuity}
-Output only the chapter prose. No preamble, no code fences, no notes.
-
-SOURCE PASSAGE
-{body}"""
-
-
 def _compose_one(
     title: str,
     body: str,
@@ -185,6 +139,8 @@ def _compose_one(
     *,
     arabic_src: str = "",
     quran_anchor: str = "",
+    frame: str = "",
+    narrator: str = "",
 ) -> str:
     prompt = _compose_prompt(
         title,
@@ -192,6 +148,8 @@ def _compose_one(
         previous_tail,
         arabic_src=arabic_src,
         quran_anchor=quran_anchor,
+        frame=frame,
+        narrator=narrator,
     )
     rc, out, err = _run_claude_p_with_retry(
         prompt,
@@ -221,7 +179,9 @@ def _compose_one(
         )
         if rc2 == 0 and len((out2 or "").split()) > len(out.split()):
             out = (out2 or "").strip()
-    findings = translation_output_findings(out, expected_title=title)
+    findings = translation_output_findings(
+        out, expected_title=title, frame=frame, narrator_subject=narrator, source=body
+    )
     if findings:
         log(f"      {label}: invalid translation output ({'; '.join(findings[:3])}) - retry")
         retry_prompt = (
@@ -239,13 +199,17 @@ def _compose_one(
         )
         if rc2 == 0:
             candidate = (out2 or "").strip()
-            if not translation_output_findings(candidate, expected_title=title):
+            if not translation_output_findings(
+                candidate, expected_title=title, frame=frame, narrator_subject=narrator, source=body
+            ):
                 out = candidate
             else:
                 out = candidate or out
         else:
             log(f"      {label}: integrity retry failed rc={rc2}: {err2[:160]}")
-        findings = translation_output_findings(out, expected_title=title)
+        findings = translation_output_findings(
+            out, expected_title=title, frame=frame, narrator_subject=narrator, source=body
+        )
     if findings:
         raise AuthoringError(
             phase="0book-compose",
@@ -274,7 +238,9 @@ def _compose_one(
         if (
             rc3 == 0
             and cand
-            and not translation_output_findings(cand, expected_title=title)
+            and not translation_output_findings(
+                cand, expected_title=title, frame=frame, narrator_subject=narrator, source=body
+            )
             and len(arabic_run_spans(cand)) > len(arabic_run_spans(out))
             and _translation_long_enough(cand, source_words)
         ):
@@ -311,6 +277,13 @@ def author_translation_edition_compose(
     book_dir = Path(book_dir).resolve()
     if enforce_contract:
         assert_translation_contract(book_dir)
+
+    # Who narrates is read once per run and applies to every chapter and window.
+    # It is a property of the SOURCE, so it governs this route exactly as it
+    # governs the re-voice route — see _rules.NARRATIVE_FRAMES.
+    _frame = narrative_frame(book_dir)
+    _narrator = narrator_subject(book_dir)
+    log(f"    0book-compose: narrative frame = {_frame}")
 
     toc_path = book_dir / "book" / "book-toc.json"
     refined_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
@@ -436,6 +409,8 @@ def author_translation_edition_compose(
                     log,
                     arabic_src=pf_arabic,
                     quran_anchor=pf_qa,
+                    frame=_frame,
+                    narrator=_narrator,
                 )
                 pf_path.write_text(pf_prose.rstrip() + "\n", encoding="utf-8")
             parts.append(f"## {pf_title}\n\n{pf_prose}\n")
@@ -533,6 +508,8 @@ def author_translation_edition_compose(
                     log,
                     arabic_src=arabic_src,
                     quran_anchor=qa_block,
+                    frame=_frame,
+                    narrator=_narrator,
                 )
                 part_path.write_text(part_prose.rstrip() + "\n", encoding="utf-8")
                 return part_idx, part_prose

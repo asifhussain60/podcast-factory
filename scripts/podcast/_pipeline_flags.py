@@ -44,6 +44,12 @@ BOOK_VISUALS_MANUAL_ONLY = "manual_only"
 BOOK_VISUALS_PIPELINE = "pipeline"
 _VALID_VISUALS = frozenset({BOOK_VISUALS_MANUAL_ONLY, BOOK_VISUALS_PIPELINE})
 
+# Narrative frame — a property of the SOURCE, not of the delivery route. Kept
+# beside the knobs because it is read from the same file, but deliberately NOT
+# part of the knob-default map: no product choice may change who narrates.
+NARRATIVE_FRAME_KEY = "narrative_frame"
+NARRATOR_SUBJECT_KEY = "narrator_subject"
+
 BOOK_VOICE_FAITHFUL = "faithful"
 BOOK_VOICE_AUTHOR_COMPANION = "author_companion"
 _VALID_VOICE = frozenset({BOOK_VOICE_FAITHFUL, BOOK_VOICE_AUTHOR_COMPANION})
@@ -115,6 +121,32 @@ def book_visuals(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     return BOOK_VISUALS_PIPELINE
 
 
+def narrative_frame(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
+    """Who narrates this book — see ``_rules.NARRATIVE_FRAMES``.
+
+    Unlike the knobs above, this is NOT a product decision: it is a property of
+    the SOURCE text, so it is deliberately independent of ``book_voice`` and
+    ``deliverable_mode``. A book that opens as an anonymous transmitted report
+    stays third-person whether it ships as a translation edition or a companion
+    reading edition. An undeclared frame falls back to the content profile's
+    default, which is conservative on purpose (see ``_rules``).
+    """
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    from _rules import narrative_frame_for
+
+    declared = str(cfg.get(NARRATIVE_FRAME_KEY) or "").strip().lower()
+    profile = str(cfg.get("content_profile") or "").strip().lower()
+    return narrative_frame_for(profile, declared or None)
+
+
+def narrator_subject(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
+    """The named narrator, required only by first-person participant frames."""
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    return str(cfg.get(NARRATOR_SUBJECT_KEY) or "").strip()
+
+
 def book_knobs(book_dir: Path) -> dict[str, Any]:
     """Convenience bundle: every resolved knob read in one config load."""
     cfg = _read_series_config(book_dir)
@@ -122,4 +154,6 @@ def book_knobs(book_dir: Path) -> dict[str, Any]:
         "augmentation": book_augmentation(book_dir, cfg),
         "voice": book_voice(book_dir, cfg),
         "visuals": book_visuals(book_dir, cfg),
+        "narrative_frame": narrative_frame(book_dir, cfg),
+        "narrator_subject": narrator_subject(book_dir, cfg),
     }

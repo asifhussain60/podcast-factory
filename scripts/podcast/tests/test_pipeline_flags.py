@@ -72,4 +72,9 @@ def test_book_knobs_bundle(tmp_path: Path) -> None:
         # A translation edition keeps the historical pipeline-visual behaviour;
         # only the companion path defaults to human-curated figures.
         "visuals": "pipeline",
+        # The narrative frame is a SOURCE property, resolved independently of
+        # every knob above — choosing a translation edition does not choose a
+        # narrator. With no content_profile declared, the conservative default.
+        "narrative_frame": "external_narrator",
+        "narrator_subject": "",
     }

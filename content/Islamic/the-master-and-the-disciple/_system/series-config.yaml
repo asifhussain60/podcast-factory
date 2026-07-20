@@ -17,6 +17,13 @@ length_tier: default_deep_dive
 # behaviour is readable here and cannot shift if that map is ever re-tuned.
 book_augmentation: source_only
 book_voice: author_companion
+
+# Narrative frame — a property of the SOURCE, not of the delivery route.
+# The Arabic opens `بلغنا` ("it has reached us"): an anonymous transmitter
+# reporting what passed between the Master and the boy. Neither man narrates.
+# Locked 2026-07-20 after the re-voice pass produced four different narrators
+# across one volume and, in chapter 8, re-pointed a speech to the wrong speaker.
+narrative_frame: transmitted_report
 enable_video: false
 video_style: none
 # Density-standard re-run (2026-06-10): opts this book into the chapter-density

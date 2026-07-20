@@ -42,8 +42,11 @@ from typing import Callable, Sequence
 
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _book_compose import _arabic_run_count
+from _book_voice_prompts import _fluency_prompt, _voice_prompt
 from _doctrinal import run_doctrinal_checks
 from _literary import teaching_loss_findings
+from _narrative import frame_findings
+from _pipeline_flags import narrative_frame, narrator_subject
 from _translation_text import _split_paragraphs, _trim_seam_overlap
 
 _VOICE_TIMEOUT = 900
@@ -100,51 +103,6 @@ def _iter_prose_windows(text: str, *, target_words: int = _WINDOW_WORDS) -> list
     return windows
 
 
-def _voice_prompt(title: str, base_text: str, previous_tail: str = "") -> str:
-    continuity = (
-        "\nCONTINUITY\nThis passage continues a chapter already in progress. The preceding passage ended "
-        "with the words below. Carry the same voice straight on from it — do not re-introduce the chapter, "
-        "do not summarize what came before, and do not repeat these words:\n"
-        f"{previous_tail}\n"
-        if previous_tail
-        else ""
-    )
-    # The opening rule governs how a CHAPTER begins, so it is addressed only to the
-    # passage that actually opens one. Applying it to a continuation window would
-    # revert legitimate mid-chapter prose that happens to say "let me tell you".
-    opening = (
-        ""
-        if previous_tail
-        else """
-OPENING (a chapter begins as a chapter does)
-Do NOT open by announcing that you are about to recount, set down, or tell what happened — that is
-narrating the act of narration, not the chapter. Forbidden opening moves: "Let me tell you...",
-"Let me set down, as faithfully as I can...", "I want to tell you what happened...", "Before I tell
-you anything else...", "I shall now recount...". Begin directly in the chapter's own action, scene,
-or teaching instead.
-"""
-    )
-    return f"""You are the author of this Islamic teaching text, preparing a modern reading edition of
-your own work. Re-voice the passage below into your intimate, direct first-person register.
-{continuity}
-
-ABSOLUTE FAITHFULNESS
-Preserve every teaching, argument, example, named person, citation, Quran verse, hadith, quote, and
-Arabic script exactly as given. Keep every Arabic-script quotation verbatim (do not romanize it away,
-do not drop it). You may modernize connective prose and warm the tone; you may NOT add, remove,
-summarize, or alter any teaching. Output must be about the same length as the input — never shorter.
-
-REGISTER
-Contemporary literary English, first person, addressed warmly to the reader. No archaic diction, no
-podcast language, no meta-commentary, no headings. Write the chapter, not about it.
-{opening}
-OUTPUT
-Return ONLY the re-voiced prose. No title line, no preamble, no code fences.
-
-CHAPTER "{title}"
-{base_text}"""
-
-
 def _revoice_chapter(
     title: str,
     base_text: str,
@@ -153,10 +111,12 @@ def _revoice_chapter(
     log,
     *,
     previous_tail: str = "",
+    frame: str = "",
+    narrator: str = "",
 ) -> str:
     """Isolated LLM call (monkeypatched in tests). Returns re-voiced prose or ''."""
     rc, out, err = _run_claude_p_with_retry(
-        _voice_prompt(title, base_text, previous_tail),
+        _voice_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator),
         timeout=_VOICE_TIMEOUT,
         book_dir=book_dir,
         phase="0book-voice",
@@ -202,12 +162,24 @@ def narrative_opening_findings(text: str) -> list[str]:
     return []
 
 
-def revoice_gates(base_text: str, revoiced: str, *, check_opening: bool = True) -> list[str]:
+def revoice_gates(
+    base_text: str,
+    revoiced: str,
+    *,
+    check_opening: bool = True,
+    frame: str | None = None,
+    narrator_subject: str = "",
+) -> list[str]:
     """Deterministic fidelity gates. Empty list => the re-voice may be kept.
 
     ``check_opening`` is False for continuation windows of a split chapter — the
     narrative-opening rule is about how a CHAPTER opens, and a mid-chapter window
     that legitimately says "let me tell you" must not be reverted for it.
+
+    ``frame`` adds the narrative guards from ``_narrative``: grammatical person,
+    speech-tag integrity, Arabic-script retention, supplied diacritics, and
+    enumeration survival. Passed by both routes; omitted only by unit tests that
+    exercise the older gates in isolation.
     """
     findings: list[str] = []
     if not revoiced.strip():
@@ -225,6 +197,8 @@ def revoice_gates(base_text: str, revoiced: str, *, check_opening: bool = True) 
     new_p0 = [f for f in run_doctrinal_checks(revoiced) if f.severity == "P0" and f.signature not in base_p0]
     if new_p0:
         findings.append("new doctrinal P0: " + "; ".join(f"{f.check_id}:{f.signature}" for f in new_p0[:3]))
+    if frame:
+        findings.extend(frame_findings(base_text, revoiced, frame=frame, narrator_subject=narrator_subject))
     return findings
 
 
@@ -237,6 +211,8 @@ def _adapt_chapter_body(
     fn: Callable[..., str],
     *,
     noun: str,
+    frame: str | None = None,
+    narrator_subject: str = "",
 ) -> tuple[str, dict]:
     """Adapt one chapter body, windowing it when it is too long for a single call.
 
@@ -255,13 +231,32 @@ def _adapt_chapter_body(
     for idx, window in enumerate(windows, start=1):
         part_label = label if len(windows) == 1 else f"{label}-part-{idx:02d}"
         try:
-            candidate = fn(title, window, book_dir, part_label, log, previous_tail=tail)
+            candidate = fn(
+                title,
+                window,
+                book_dir,
+                part_label,
+                log,
+                previous_tail=tail,
+                frame=frame or "",
+                narrator=narrator_subject,
+            )
         except AuthoringError:
             raise
         except Exception as e:  # non-fatal: this window falls back to its base
             log(f"      {noun}: {title!r} {part_label} skipped (non-fatal): {e}")
             candidate = ""
-        gate = revoice_gates(window, candidate, check_opening=idx == 1) if candidate else ["no candidate"]
+        gate = (
+            revoice_gates(
+                window,
+                candidate,
+                check_opening=idx == 1,
+                frame=frame,
+                narrator_subject=narrator_subject,
+            )
+            if candidate
+            else ["no candidate"]
+        )
         if gate:
             gates.extend(f"{part_label}: {g}" for g in gate)
             part = window
@@ -295,34 +290,6 @@ def _adapt_chapter_body(
     return new_body, record
 
 
-def _fluency_prompt(title: str, base_text: str, previous_tail: str = "") -> str:
-    continuity = (
-        "\nCONTINUITY\nThis passage continues a chapter already in progress. The preceding passage "
-        "ended with the words below. Carry straight on from it — do not re-introduce the chapter, do "
-        "not summarize what came before, and do not repeat these words:\n"
-        f"{previous_tail}\n"
-        if previous_tail
-        else ""
-    )
-    return f"""You are polishing one chapter of a faithful Islamic reading edition into fluent,
-idiomatic modern English. This is a de-calque pass: fix stiff, word-for-word-from-Arabic
-phrasing so it reads like a book, NOT like a literal gloss.
-{continuity}
-
-ABSOLUTE FAITHFULNESS (a de-calque is not a rewrite)
-Keep the SAME meaning, the SAME third-person scholarly register, and every teaching, argument,
-named person, citation, Quran verse, hadith, quote, and Arabic script exactly as given. Keep every
-Arabic-script quotation verbatim. You may only smooth connective prose and Arabic word-order that
-reads awkwardly in English. Do not switch to first person, do not add, remove, summarize, or
-reinterpret anything. Output must be about the same length — never shorter.
-
-OUTPUT
-Return ONLY the polished chapter prose. No title line, no preamble, no code fences.
-
-CHAPTER "{title}"
-{base_text}"""
-
-
 def _fluency_chapter(
     title: str,
     base_text: str,
@@ -331,10 +298,12 @@ def _fluency_chapter(
     log,
     *,
     previous_tail: str = "",
+    frame: str = "",
+    narrator: str = "",
 ) -> str:
     """Isolated LLM call (monkeypatched in tests). Returns polished prose or ''."""
     rc, out, err = _run_claude_p_with_retry(
-        _fluency_prompt(title, base_text, previous_tail),
+        _fluency_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator),
         timeout=_VOICE_TIMEOUT,
         book_dir=book_dir,
         phase="0book-fluency",
@@ -358,6 +327,8 @@ def _run_pass(
     noun: str,
     label_prefix: str,
     only: Sequence[int] | None = None,
+    frame: str | None = None,
+    narrator_subject: str = "",
 ) -> tuple[str, list[dict]]:
     """Walk book.md's ``##`` sections, adapting each selected one.
 
@@ -384,7 +355,15 @@ def _run_pass(
         asides = _EDITORIAL_SPAN_RE.findall(body)
         base_prose = _EDITORIAL_SPAN_RE.sub("", body).strip()
         new_body, record = _adapt_chapter_body(
-            title, base_prose, book_dir, f"{label_prefix}-{number:02d}", log, fn, noun=noun
+            title,
+            base_prose,
+            book_dir,
+            f"{label_prefix}-{number:02d}",
+            log,
+            fn,
+            noun=noun,
+            frame=frame,
+            narrator_subject=narrator_subject,
         )
         records.append(record)
         if asides:
@@ -419,6 +398,9 @@ def apply_fluency_adapt(
             message=f"missing {book_md} — run the base compose first.",
             manual_fallback="Run 0book-compose (base) before the fluency pass.",
         )
+    frame = narrative_frame(book_dir)
+    subject = narrator_subject(book_dir)
+    log(f"    0book-fluency: narrative frame = {frame}")
     new_text, records = _run_pass(
         book_md,
         adapter or _fluency_chapter,
@@ -426,6 +408,8 @@ def apply_fluency_adapt(
         noun="fluency",
         label_prefix="fluency",
         only=only,
+        frame=frame,
+        narrator_subject=subject,
     )
     book_md.write_text(new_text, encoding="utf-8")
     adapted = sum(1 for r in records if r["status"] in ("adapted", "partial"))
@@ -434,6 +418,7 @@ def apply_fluency_adapt(
         json.dumps(
             {
                 "schema": "podcast.book-fluency/v2",
+                "narrative_frame": frame,
                 "adapted": adapted,
                 "reverted": reverted,
                 "chapters": records,
@@ -473,6 +458,9 @@ def apply_author_companion_voice(
             message=f"missing {book_md} — run the base compose first.",
             manual_fallback="Run 0book-compose (base) before 0book-voice.",
         )
+    frame = narrative_frame(book_dir)
+    subject = narrator_subject(book_dir)
+    log(f"    0book-voice: narrative frame = {frame}")
     new_text, records = _run_pass(
         book_md,
         revoicer or _revoice_chapter,
@@ -480,6 +468,8 @@ def apply_author_companion_voice(
         noun="voice",
         label_prefix="voice",
         only=only,
+        frame=frame,
+        narrator_subject=subject,
     )
     book_md.write_text(new_text, encoding="utf-8")
     revoiced = sum(1 for r in records if r["status"] in ("adapted", "partial"))
@@ -488,6 +478,7 @@ def apply_author_companion_voice(
         json.dumps(
             {
                 "schema": "podcast.book-voice/v2",
+                "narrative_frame": frame,
                 "revoiced": revoiced,
                 "reverted": reverted,
                 "chapters": records,

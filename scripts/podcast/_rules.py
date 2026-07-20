@@ -195,6 +195,96 @@ R_ARABIC_TASHKEEL: tuple[tuple[int, int], ...] = (
     (0x0670, 0x0670),
 )
 
+# ─── R-NARRATIVE-FRAME (P0 2026-07-20) — WHO NARRATES a book is a property of
+# its SOURCE, never of the delivery route. Found the hard way on
+# `the-master-and-the-disciple`: the augmented-companion route was specified to
+# produce "author-first-person" prose, so the re-voice pass converted an
+# anonymous transmitted report (the Arabic opens `بلغنا`, "it has reached us")
+# into a participant narrator — making chapter 4 the disciple's memoir, chapter 5
+# the Master's, and chapters 2/3/7 neither. In chapter 8 the conversion also
+# inserted a speech tag into an untagged paragraph, handing the Master's own
+# four-nations indictment to the man it indicts (a doctrinal inversion).
+#
+# For a religious text the frame is not style: a transmitted report asserts
+# something about how the teaching reached the reader, and collapsing the
+# transmitter into a character silently changes that claim. So the frame is
+# declared per book (`narrative_frame` in series-config.yaml), defaults from the
+# content profile, and is enforced on EVERY route that rewrites prose.
+#
+# Extensibility: add a frame by adding one entry below. Nothing else enumerates
+# them — resolvers and checks read this registry.
+R_NARRATIVE_FRAME: str = "R-NARRATIVE-FRAME"
+R_SPEECH_TAG_INTEGRITY: str = "R-SPEECH-TAG-INTEGRITY"
+R_ARABIC_SCRIPT_RETAINED: str = "R-ARABIC-SCRIPT-RETAINED"
+R_NO_SUPPLIED_DIACRITICS: str = "R-NO-SUPPLIED-DIACRITICS"
+R_ENUMERATION_PRESERVED: str = "R-ENUMERATION-PRESERVED"
+
+NARRATIVE_FRAMES: dict[str, dict[str, object]] = {
+    "transmitted_report": {
+        "label": "anonymous transmitted report",
+        "person": "third",
+        "narrator_is_character": False,
+        "description": (
+            "An unnamed transmitter reports what passed between other people "
+            "('it has reached us that…'). Characters speak in first person only "
+            "inside direct discourse. The default for classical Islamic prose."
+        ),
+    },
+    "external_narrator": {
+        "label": "external third-person narrator",
+        "person": "third",
+        "narrator_is_character": False,
+        "description": "A narrator outside the story who never appears in it.",
+    },
+    "first_person_author": {
+        "label": "first-person author addressing the reader",
+        "person": "first",
+        "narrator_is_character": False,
+        "description": (
+            "The author speaks as 'I' to the reader about the subject — a letter, "
+            "a memoir, an epistle. Legitimate ONLY when the source does this."
+        ),
+    },
+    "participant_narrator": {
+        "label": "first-person narrator who is also a character",
+        "person": "first",
+        "narrator_is_character": True,
+        "description": (
+            "A character narrates the events he took part in. Requires a single "
+            "named participant for the WHOLE book, declared in narrator_subject."
+        ),
+    },
+}
+
+# Fallback when a book does not declare `narrative_frame`. Conservative on
+# purpose: a translated classical text is third-person until proven otherwise,
+# because inventing a narrator is unrecoverable while failing to invent one is not.
+PROFILE_DEFAULT_NARRATIVE_FRAME: dict[str, str] = {
+    "islamic_scholarly": "transmitted_report",
+    "islamic_supplication": "transmitted_report",
+    "fiction": "external_narrator",
+    "technical": "first_person_author",
+}
+DEFAULT_NARRATIVE_FRAME: str = "external_narrator"
+
+
+def narrative_frame_for(profile: str | None, declared: str | None = None) -> str:
+    """Resolve a book's narrative frame: declared value wins, else profile default.
+
+    An unknown declared frame falls back rather than raising — a typo in one
+    book's config must not halt the pipeline, and the challenger reports it.
+    """
+    if declared and declared in NARRATIVE_FRAMES:
+        return declared
+    return PROFILE_DEFAULT_NARRATIVE_FRAME.get(profile or "", DEFAULT_NARRATIVE_FRAME)
+
+
+def narrative_person_for(frame: str) -> str:
+    """'first' or 'third' for a resolved frame name."""
+    spec = NARRATIVE_FRAMES.get(frame) or NARRATIVE_FRAMES[DEFAULT_NARRATIVE_FRAME]
+    return str(spec["person"])
+
+
 # ─── R-HOST-ROLE-PARITY (P0 2026-05-24) — host roles are locked book-wide.
 # Host A is always the scholar/teacher. Host B is always the seeker/student/
 # debater. The role assignments do not rotate, swap, or blur across episodes.

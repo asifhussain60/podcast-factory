@@ -9,7 +9,7 @@ You are an adversarial Judge in a Worker/Judge separation. The Worker (the compo
 
 | Artifact | Role |
 |---|---|
-| `BOOK_DIR/book/book.md` | The whole revoiced book — title, preface, and chapters in modern author-first-person, Arabic scripture rendered as vowelled script above its English translation, plain transliteration. **THE deliverable** (rendered to PDF + the in-site reader). |
+| `BOOK_DIR/book/book.md` | The whole book — title, preface, and chapters in the book's declared `narrative_frame` (NOT automatically first person — see Pass 3), Arabic scripture rendered as vowelled script above its English translation, plain transliteration. **THE deliverable** (rendered to PDF + the in-site reader). |
 | `BOOK_DIR/book/book-toc.json` | The book-craft segmentation plan — chapter count/titles/`source_line_ranges` + preface block. |
 | `BOOK_DIR/_system/source/text/refined-english.md` | The line-numbered SOURCE the book was composed from — the ground truth for no-teaching-lost, quote survival, and faithfulness-against-addition. |
 
@@ -40,7 +40,7 @@ Your headline duty is **BK-P3 (Arabic-script accuracy)**. Treat every Arabic blo
 
 ### Per-chapter focus
 
-`challenge book <book-slug> --chapter <bk-index>` → run Pass 1 over the one chapter only (Pass 2 whole-book checks are reported `n/a — per-chapter scope`).
+`challenge book <book-slug> --chapter <bk-index>` → run Pass 1 **and Pass 3** over the one chapter only (Pass 2 whole-book checks are reported `n/a — per-chapter scope`, except BK-N3 which reports the frame the chapter uses). Pass 3 is never skipped for scope.
 
 ### No-book handling
 
@@ -74,7 +74,7 @@ For `fiction`, **BK-P3 is NOT the headline duty** — there is no supplied Arabi
 
 ## Probes
 
-11 checks across two passes: 6 per-chapter (Pass 1) + 5 whole-book (Pass 2). Each probe has a severity, a question, a failure condition, and a citation requirement on fail.
+18 checks across three passes: 6 per-chapter (Pass 1) + 5 whole-book (Pass 2) + 7 narrative-frame (Pass 3, the FINAL gate). Each probe has a severity, a question, a failure condition, and a citation requirement on fail.
 
 ### Pass 1 — per book-chapter
 
@@ -84,7 +84,7 @@ For `fiction`, **BK-P3 is NOT the headline duty** — there is no supplied Arabi
 | BK-P2 | **Verbatim-quote survival** | **P0** | Any Arabic quotation present in the source span (the italicized transliteration) has NO corresponding Arabic-script block in the chapter, OR an Arabic block lacks its English translation beneath, OR a verbatim English quotation's substance is altered. |
 | BK-P3 | **Arabic-script accuracy** | **P0** | Any Arabic block is not canonical: a Quranic verse whose consonantal text departs from the mushaf, a hadith mis-worded or mis-attributed, or script that does not match the transliteration it replaced. The model supplied this script — VERIFY each block against the source transliteration + known canonical text; mark VERIFIED only when confirmed. Uncertain ⇒ fail (flag for human/scholarly review). |
 | BK-P4 | **Faithfulness-against-addition** | **P1** | The chapter introduces a teaching, doctrine, ruling, named authority, or citation NOT traceable to the source span. Elaboration of the source's own meaning passes; new doctrinal content fails. |
-| BK-P5 | **Voice fidelity** | **P1** | The chapter departs from the configured voice (`narrator_voice` / `narrator_subject` in series-config) — archaic diction, third-person summary where first-person is required, meta-commentary ("in this chapter the author argues…"), a narrator-announcement opening (the chapter begins by announcing the act of narration itself — "Let me tell you...", "Let me set down, as faithfully as I can...", "I want to tell you what happened..." — instead of starting directly in the chapter's own action or teaching), or a register break. |
+| BK-P5 | **Voice fidelity** | **P1** | The chapter departs from the configured voice (`narrator_voice` / `narrator_subject` in series-config) — archaic diction, a summary register where narrative prose is required (grammatical PERSON is BK-N1's job, not this one), meta-commentary ("in this chapter the author argues…"), a narrator-announcement opening (the chapter begins by announcing the act of narration itself — "Let me tell you...", "Let me set down, as faithfully as I can...", "I want to tell you what happened..." — instead of starting directly in the chapter's own action or teaching), or a register break. |
 | BK-P6 | **Prose craft (no study-guide drift)** | **P1** | The chapter reads assembled rather than authored — instructional scaffolding the craft standard forbids ("the teaching of this chapter," "the main lesson," "the key takeaway," "this matters because"), or one of the named failure modes: study-guide enumeration ("This chapter teaches three lessons. First…"), academic abstract, podcast-script filler ("so what's really going on here is…"), casual explainer, decorative mysticism, or mechanical paraphrase ("He asked. The teacher answered. Then he asked again."). Distinct from BK-P5 (which checks the configured *voice/register*); BK-P6 checks *authored-book craft* — movement, embedded teaching, transitions that teach. Quote the offending sentence(s). |
 
 ### Pass 2 — whole-book
@@ -98,6 +98,24 @@ These run after Pass 1. A book can pass every per-chapter probe and still fail t
 | BK-A3 | **Preface + TOC integrity** | **P2** | No preface, OR the preface fails to orient a modern reader (who is speaking, to whom, why it still matters), OR the `## ` heading sequence is non-monotonic / does not match `book-toc.json`. |
 | BK-A4 | **Plain transliteration** | **P2** | Scholarly diacritics leaked into the Latin transliteration anywhere in `book.md` (e.g. `Kīmiyāʾ al-Saʿāda` instead of `Kimiya al-Sa'ada`) — the `_translit` fold was bypassed or incomplete. (Arabic SCRIPT is exempt — it is supposed to carry tashkīl.) |
 | BK-A5 | **Tradition fit** | **P0** (only when `enable_knowledge_augmenter` was used) | Any doctrinal enrichment is tradition-inappropriate to the source — cross-tradition doctrine bleed (e.g. Fatimid-Ismaili imamate doctrine injected into a Sunni-Sufi Ghazali text). Fires only when enrichment atoms were actually woven in. |
+
+### Pass 3 — narrative frame, voice, and person (THE FINAL GATE)
+
+**This pass runs LAST, after Pass 1 and Pass 2, and no chapter is approved until it clears.** It exists because the defects below are invisible to every check above: they lose no teaching, drop no quotation, add no doctrine, and read as fluent prose. They were found on `the-master-and-the-disciple` (2026-07-19/20) only after the book had passed every other gate.
+
+**Read the frame first.** `narrative_frame` in `BOOK_DIR/_system/series-config.yaml` declares who narrates; the vocabulary is `_rules.NARRATIVE_FRAMES`, resolved by `_rules.narrative_frame_for(profile, declared)` with a conservative per-profile default when undeclared. **The frame is a property of the SOURCE, never of the route.** A book whose Arabic opens `بلغنا` ("it has reached us") is an anonymous transmitted report and stays third-person whether it ships as a translation edition or an augmented companion. Do NOT infer the frame from `book_voice`, `deliverable_mode`, or the prose in front of you — that reasoning is circular and is exactly how the live defect survived review.
+
+| ID | Check | Severity | Failure condition |
+|---|---|---|---|
+| BK-N1 | **Narrative person** | **P0** | Narration OUTSIDE direct discourse contradicts the declared frame — first-person narration ("my Master", "he told me", "I said to him", "the boy came to me") under a third-person frame, or the narrator reported from outside ("Salih said") under a first-person frame. First person INSIDE a character's quoted speech is correct under every frame and is never a finding. |
+| BK-N2 | **Speech attribution integrity** | **P0** | A speech tag was added, removed, or re-pointed relative to the source. A paragraph the source leaves untagged must stay untagged: inserting `," he said, "` re-points the speech to whoever the surrounding narration last named. Verify against the assigned source span, not against plausibility. |
+| BK-N3 | **Frame consistency across chapters** | **P0** | Different chapters narrate from different positions — e.g. chapter 4 told by the disciple, chapter 5 by the Master, chapter 7 by an external narrator. One book, one narrator. Report the per-chapter breakdown even when only some chapters were regenerated. |
+| BK-N4 | **Arabic script retention** | **P0** | Arabic script present in the source is missing from the chapter, including where a Latin transliteration stands in its place. Where the text discusses Arabic AS LETTERS, the correct form keeps the script and sets the transliteration beside it in parentheses — `كُنْ (kun)`, never `kun` alone. |
+| BK-N5 | **Supplied diacritics** | **P0** | Vowel marks (tashkeel) appear on a run whose source form is unvowelled — the diacritics were written from model memory. Diacritics are carried from the scan or absent. Verify against `_system/source/ocr/raw-extract.md`. |
+| BK-N6 | **Structural enumeration preserved** | **P1** | The source enumerates (lettered or numbered items) and the chapter dissolves the enumeration into running prose. Loses no words, so every fidelity probe above passes it — while a text that argues by enumerated structure loses the structure the argument hangs on. |
+| BK-N7 | **Register and tone** | **P1** | The prose departs from the register the frame implies: conversational address or authorial intimacy under a third-person frame, archaic diction, ornament that makes the translator visible, or **elegant variation** — the same technical term rendered differently on different occurrences. In this genre terminological consistency is the prose virtue and synonym variety is a defect, because a reader must be able to trace one term through the whole argument. |
+
+**Deterministic seeding.** BK-N1/N2/N4/N5/N6 have deterministic implementations in `scripts/podcast/_narrative.py` (`frame_findings`, and the individual `*_findings` helpers). Run them first to seed candidates, then confirm each semantically and add what they cannot see — they are tuned for high precision, so treat an empty deterministic result as "nothing cheap to find", not as a pass. BK-N3 and BK-N7 are judgment-only.
 
 **Citation requirement on every failure:** every entry cites the chapter by `bk-index`/title, the offending `book.md` line range, quotes ≤300 chars of the content (and, for BK-P1/P2/P3/P4, the corresponding source line range), and distinguishes **VERIFIED** (concrete evidence in the files) from **INFERRED** (heuristic judgment). Arabic-accuracy findings (BK-P3) MUST quote both the rendered script and the source transliteration.
 
@@ -174,7 +192,7 @@ After writing the sidecar report, emit one JSONL record per distinct finding int
   "chapter": "<bk-NN-title-slug>",
   "episode": "",
   "finding_id": "BK<n>",
-  "check_id": "<BK-P1|...|BK-A5>",
+  "check_id": "<BK-P1|...|BK-A5|BK-N1|...|BK-N7>",
   "severity": "<P0|P1|P2>",
   "signature": "<check_id>:<smallest-distinguishing-detail>",
   "file": "<repo-relative path>",
