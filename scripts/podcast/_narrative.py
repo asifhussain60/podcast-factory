@@ -247,6 +247,31 @@ def supplied_diacritics_findings(base_text: str, candidate: str) -> list[str]:
     return findings[:3]
 
 
+_VOWELLING_EXCESS = 0.12
+"""How much more marked than its scan a run must be before it is called fabricated.
+
+Compared as DENSITY, not presence, because the earlier rule only ever built its
+haystack from scan spans carrying NO marks at all — so a span the scanner had
+lightly marked exempted everything inside it. That is not a corner case: the
+chapter 2 sermon close of `the-master-and-the-disciple` carries three marks in
+twenty-three words, the book printed it fully vowelled from model memory, and the
+check stayed silent because those three marks disqualified the whole span from
+being a witness. A challenger found it by reading the Arabic against the scan.
+
+0.12 marks per letter sits well above the noise of a scanner marking a shadda
+here and a tanween there (the live case: 0.03) and well below anything a genuine
+re-vowelling produces (that same run in the book: 0.48).
+"""
+
+
+def _mark_density(span: str) -> float:
+    """Tashkeel marks per Arabic letter. 0.0 for an empty or unmarked run."""
+    letters = sum(1 for ch in span if ch.isalpha() and ch not in _TASHKEEL_CHARS)
+    if not letters:
+        return 0.0
+    return sum(1 for ch in span if ch in _TASHKEEL_CHARS) / letters
+
+
 def ocr_vowelling_findings(text: str, ocr_text: str, *, limit: int = 8) -> list[str]:
     """Flag NON-Quranic runs vowelled beyond what the scan carries.
 
@@ -270,20 +295,65 @@ def ocr_vowelling_findings(text: str, ocr_text: str, *, limit: int = 8) -> list[
     the alternative is an accusation resting on an absence of evidence, and it was
     live — `فَيَكُونُ`, from Q 2:117, sat on this list as a suspected fabrication.
 
+    The comparison is by mark DENSITY against the matching scan span, not by the
+    scan span being bare. Requiring bareness meant one stray shadda disqualified a
+    whole span from being a witness and exempted everything inside it — see
+    ``_VOWELLING_EXCESS`` for the live case that reached print.
+
     Returns [] when the mushaf is unavailable rather than flagging everything —
     a checkout without the mirror gets no signal, not a false one.
+
+    KNOWN RESIDUE. A verse the discriminator cannot recognise still lands here.
+    Q 41:35 does, because the mushaf writes `يُلَقَّىٰهَآ` with alif maqsura where a
+    modern edition writes `يُلَقَّاهَا` with alif, and the skeleton fold handles
+    alif-hazf and the waw/alif words but not that pair. The fix would be to fold
+    the weak letters together, and it is deliberately NOT taken: a false positive
+    in `is_quranic` EXCUSES a run from this check, so loosening the discriminator
+    trades a visible advisory entry for an invisible exemption. One line a
+    reviewer dismisses beats one fabrication that ships.
     """
     if not ocr_text or not mushaf_available():
         return []
-    scan_bare = normalize_arabic("".join(s for s in arabic_run_spans(ocr_text) if not (set(s) & _TASHKEEL_CHARS)))
+
+    # Scan vowelling, WORD by word: bare skeleton -> the most marked the scanner
+    # ever set that word. Word-level because a run in the book rarely shares its
+    # boundaries with a run in the scan, and a whole-run comparison inherits every
+    # boundary mismatch as a false verdict.
+    scan_marks: dict[str, float] = {}
+    for span in arabic_run_spans(ocr_text):
+        for word in span.split():
+            key = normalize_arabic(word)
+            if key:
+                scan_marks[key] = max(scan_marks.get(key, 0.0), _mark_density(word))
+
     findings: list[str] = []
     for span in arabic_run_spans(text):
         if not (set(span) & _TASHKEEL_CHARS) or is_quranic(span):
             continue
-        if len(span.split()) < _MIN_JUDGED_WORDS:
+        words = span.split()
+        if len(words) < _MIN_JUDGED_WORDS:
             continue
-        skeleton = normalize_arabic(span)
-        if skeleton and skeleton in scan_bare:
+
+        # A run may be part scripture and part the author's own words — the live
+        # case is a sermon closing around Q 25:62. Judging the whole run flags the
+        # verse's canonical vowelling as fabricated, so the Quranic stretches are
+        # exempted first, by sliding the discriminator's own minimum window.
+        quranic: set[int] = set()
+        for i in range(len(words) - _MIN_JUDGED_WORDS + 1):
+            window = words[i : i + _MIN_JUDGED_WORDS]
+            if is_quranic(" ".join(window)):
+                quranic.update(range(i, i + _MIN_JUDGED_WORDS))
+
+        excess = 0
+        for i, word in enumerate(words):
+            if i in quranic:
+                continue
+            source = scan_marks.get(normalize_arabic(word))
+            if source is None:  # the scan does not carry this word at all
+                continue
+            if _mark_density(word) - source >= _VOWELLING_EXCESS:
+                excess += 1
+        if excess >= _MIN_JUDGED_WORDS:
             findings.append(f"non-Quranic run vowelled beyond the scan: {span[:44]}")
     return findings[:limit]
 

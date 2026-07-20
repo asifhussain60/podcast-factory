@@ -338,5 +338,8 @@
     "honorific-formula": 1,
     "unverified": 0,
     "arabic_runs": 29
-  }
+  },
+  "vowelling_review": [
+    "non-Quranic run vowelled beyond the scan: وَمَا يُلَقَّاهَا إِلَّا الَّذِينَ صَبَرُوا "
+  ]
 }
