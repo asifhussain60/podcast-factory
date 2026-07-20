@@ -111,6 +111,9 @@ from _translation_text import (
     dedupe_seam_paragraphs as dedupe_seam_paragraphs,
 )
 from _translation_text import (
+    duplicate_passage_findings as duplicate_passage_findings,
+)
+from _translation_text import (
     monochrome_svg as monochrome_svg,
 )
 from _translation_text import (

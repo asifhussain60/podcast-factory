@@ -24,6 +24,7 @@ from _translation_edition import (
     _trim_seam_overlap,
     contract_findings,
     dedupe_seam_paragraphs,
+    duplicate_passage_findings,
     is_faithful_translation_deliverable,
     is_translation_edition,
     monochrome_svg,
@@ -406,6 +407,103 @@ def test_dedupe_keeps_legitimate_dialogue_and_openings() -> None:
     )
 
     assert dedupe_seam_paragraphs(text) == text.strip() + "\n"
+
+
+def test_duplicate_passage_findings_reports_a_re_narrated_block() -> None:
+    # A window that ran past its own passage: the farewell, the journey, and the
+    # counsel are narrated once, then narrated again in different words three
+    # paragraphs later. Neither copy is adjacent to its twin, so the seam de-dup
+    # rules cannot see it. Modelled on the-master-and-the-disciple ch7.
+    text = (
+        "# Book\n\n"
+        "## 7. The Long Road\n\n"
+        "Then the two rose, clasped hands, and embraced, each bidding the other farewell, unable "
+        "to hold back his tears and unable to speak except by a sign. Then they parted, and the "
+        "Master and the boy set out and travelled on together until they drew near to the boy's "
+        "own city, the city in which his father was living all this while.\n\n"
+        'The Master said to the boy: "My son, you have heard the charge of the Shaykh, and there '
+        "is no right guidance to be found anywhere except in his words. This is your city, and we "
+        "have now reached its edge. Sit with me here, apart from the road, for I wish to remind "
+        'you of something of my own affair and to counsel you in what you should act upon."\n\n'
+        "When they had sat down, the Master said: \"My son, you know your father's state and his "
+        "enmity toward the people of this way, and now your going out with me and your absence "
+        "from him, without his leave, have come one upon another to weigh upon him and to trouble "
+        'his heart against us."\n\n'
+        "Then they stood, clasped hands, and embraced, and each gave his friend farewell, unable "
+        "to master himself against the weight of the parting, able to speak only by a gesture of "
+        "the hand. Then they went their separate ways, and the Master and the boy travelled on "
+        "until they came near to the city where the boy's father was living.\n\n"
+        'So the Master said to him: "My son, I have grasped the counsel of the Shaykh, and you '
+        "have not yet grasped it. There is no right guidance except in his words. This is your "
+        "city, and we have reached its edge. Sit with me here, off the road, for I wish to remind "
+        'you of certain of my concerns, and to charge you with what you should do."\n\n'
+        'When they had sat down, the Master said: "My son, I know your father, and I know his '
+        "enmity toward the people of this affair. To that has now been added your going out with "
+        "me and your long absence from him, without his leave and without his trust, so that his "
+        'heart is troubled against us."\n'
+    )
+
+    findings = duplicate_passage_findings(text)
+
+    assert len(findings) == 1
+    finding = findings[0]
+    assert finding["chapter"] == "7. The Long Road"
+    assert finding["paragraphs"] >= 2
+    # Both copies are named, so a reader can compare each against the source.
+    assert finding["first_copy_paragraphs"][0] < finding["second_copy_paragraphs"][0]
+    assert "clasped hands" in finding["first_copy_opens"] or "grasped the counsel" in finding["second_copy_opens"]
+
+
+def test_duplicate_passage_findings_never_mutates_the_text() -> None:
+    # IDENTIFY-ONLY: each copy of a real duplicate can be faithful where the other
+    # is wrong, so dropping one automatically would destroy source material.
+    text = (
+        "# Book\n\n"
+        "## 7. The Long Road\n\n"
+        + "\n\n".join(
+            [
+                "Then the two rose and clasped hands and embraced one another, each bidding the "
+                "other a long farewell, unable to hold back his tears and unable to speak at all "
+                "except by a sign of the hand between them, and then at last they parted.",
+                "He walked on for a while beside the river and considered everything that the "
+                "Shaykh had said to him about patience and about the trust that had been laid "
+                "upon him, and he found that he could not yet see the whole of its meaning.",
+                "Then the two stood and clasped hands and embraced one another, each giving his "
+                "friend a long farewell, unable to master himself against the weight of that "
+                "parting, able to speak only by a gesture of the hand, and then they parted.",
+            ]
+        )
+        + "\n"
+    )
+
+    before = text
+    duplicate_passage_findings(text)
+
+    assert text == before
+
+
+def test_duplicate_passage_findings_ignores_legitimate_dialogue() -> None:
+    # Alternating speech turns that ask and answer DIFFERENT things. They share a
+    # speaker formula and a register, which is what every dialogue chapter in the
+    # corpus does; they do not narrate the same events twice.
+    text = (
+        "# Book\n\n"
+        "## 3. The Boy at the Door\n\n"
+        'The boy said: "Tell me of the twelve islands that stand in the sea of knowledge, for I '
+        "have heard them named and have never once heard what is meant by them, nor by what "
+        'reckoning they were counted at twelve and not at some other number."\n\n'
+        'The Master said: "Each is a station in which the seeker is questioned, and he does not '
+        "pass from one to the next until what was asked of him at the first has been answered in "
+        'him and has become part of the way he lives."\n\n'
+        'The boy said: "Then what becomes of a man who dies upon the road, having answered some '
+        "of what was asked and left the rest unanswered? Is the portion he finished counted for "
+        'him, or is it lost with the portion he never reached?"\n\n'
+        'The Master said: "Nothing that was truly finished in him is ever lost. What he completed '
+        "stands to his account, and what he left is held against no one who was overtaken while "
+        'still walking toward it in good faith."\n'
+    )
+
+    assert duplicate_passage_findings(text) == []
 
 
 def test_preface_skipped_when_not_included(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

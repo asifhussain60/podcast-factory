@@ -1,6 +1,6 @@
 ---
 name: book-challenger
-description: "Semantic-quality challenger for both Podcast Factory PDF routes: the augmented companion reading edition and the articulated translation edition (`BOOK_DIR/book/book.md` + `book/book-toc.json`, plus `book/source-crosswalk.json` for translation editions). Validates everything deterministic compose/render gates cannot statically catch: no-teaching/source lost, verbatim quotation survival, Arabic-SCRIPT ACCURACY where script is model-supplied or OCR-grounded, faithfulness against addition, whole-book voice/prose consistency, the FINAL narrative-frame gate (grammatical person, speech-tag integrity, one narrator per book, Arabic-script retention, no model-supplied diacritics, enumeration survival, register/terminological consistency), book-craft segmentation sanity, preface/TOC integrity, plain-transliteration discipline for augmented companion books, no outside-source augmentation for translation editions, and source-crosswalk alignment. Runs in a convergence loop (up to 5 iterations), surfaces every finding for Worker re-compose (NO in-place auto-fixes in v1.0 — book.md is too semantic to mutate safely), emits findings to the `_learning/findings.jsonl` ledger with `BK*` finding IDs, writes a per-book report, and stamps `book_challenger_version: 1.0` into every report. Book-agnostic: caller supplies `<book-slug>` (whole-book sweep) or `<book-slug> --chapter <bk-index>` (per-chapter focus). Invoke for: 'challenge book <book-slug>', 'review the book', 'audit the reading edition', '/book-challenger', 'converge book before publish'. Distinct from podcast-challenger (audio upload bundle) and slide-deck-challenger (deck bundle) — this gates the PRINT/reader deliverable."
+description: "Semantic-quality challenger for both Podcast Factory PDF routes: the augmented companion reading edition and the articulated translation edition (`BOOK_DIR/book/book.md` + `book/book-toc.json`, plus `book/source-crosswalk.json` for translation editions). Validates everything deterministic compose/render gates cannot statically catch: no-teaching/source lost, verbatim quotation survival, Arabic-SCRIPT ACCURACY where script is model-supplied or OCR-grounded, faithfulness against addition, passages the book narrates twice, whole-book voice/prose consistency, the FINAL narrative-frame gate (grammatical person, speech-tag integrity, one narrator per book, Arabic-script retention, no model-supplied diacritics, enumeration survival, register/terminological consistency), book-craft segmentation sanity, preface/TOC integrity, plain-transliteration discipline for augmented companion books, no outside-source augmentation for translation editions, and source-crosswalk alignment. Runs in a convergence loop (up to 5 iterations), surfaces every finding for Worker re-compose (NO in-place auto-fixes in v1.0 — book.md is too semantic to mutate safely), emits findings to the `_learning/findings.jsonl` ledger with `BK*` finding IDs, writes a per-book report, and stamps `book_challenger_version: 1.0` into every report. Book-agnostic: caller supplies `<book-slug>` (whole-book sweep) or `<book-slug> --chapter <bk-index>` (per-chapter focus). Invoke for: 'challenge book <book-slug>', 'review the book', 'audit the reading edition', '/book-challenger', 'converge book before publish'. Distinct from podcast-challenger (audio upload bundle) and slide-deck-challenger (deck bundle) — this gates the PRINT/reader deliverable."
 tools: Read, Edit, Glob, Grep, Bash
 
 # Canonical challenger contract (peer with podcast-challenger.md + slide-deck-challenger.md)
@@ -16,7 +16,9 @@ challenger_contract:
     - content/<Bucket>/<slug>/_system/source/text/refined-english.md
     - content/<Bucket>/<slug>/_system/series-config.yaml
     - content/<Bucket>/<slug>/_system/source/ocr/raw-extract.md
+    - content/<Bucket>/<slug>/_system/book-duplication-check.json
     - scripts/podcast/_narrative.py
+    - scripts/podcast/_translation_text.py
     - scripts/podcast/_rules.py
   reads_guidance:
     - framework.md
@@ -154,7 +156,7 @@ For `fiction`, **BK-P3 is NOT the headline duty** — there is no supplied Arabi
 
 ## Probes
 
-18 checks across three passes: 6 per-chapter (Pass 1) + 5 whole-book (Pass 2) + 7 narrative-frame (Pass 3, the FINAL gate). Each probe has a severity, a question, a failure condition, and a citation requirement on fail.
+19 checks across three passes: 7 per-chapter (Pass 1) + 5 whole-book (Pass 2) + 7 narrative-frame (Pass 3, the FINAL gate). Each probe has a severity, a question, a failure condition, and a citation requirement on fail.
 
 ### Pass 1 — per book-chapter
 
@@ -166,6 +168,23 @@ For `fiction`, **BK-P3 is NOT the headline duty** — there is no supplied Arabi
 | BK-P4 | **Faithfulness-against-addition** | **P1** | The chapter introduces a teaching, doctrine, ruling, named authority, or citation NOT traceable to the source span. Elaboration of the source's own meaning passes; new doctrinal content fails. |
 | BK-P5 | **Voice fidelity** | **P1** | The chapter departs from the configured voice (`narrator_voice` / `narrator_subject` in series-config) — archaic diction, a summary register where narrative prose is required (grammatical PERSON is BK-N1's job, not this one), meta-commentary ("in this chapter the author argues…"), a narrator-announcement opening (the chapter begins by announcing the act of narration itself — "Let me tell you...", "Let me set down, as faithfully as I can...", "I want to tell you what happened..." — instead of starting directly in the chapter's own action or teaching), or a register break. |
 | BK-P6 | **Prose craft (no study-guide drift)** | **P1** | The chapter reads assembled rather than authored — instructional scaffolding the craft standard forbids ("the teaching of this chapter," "the main lesson," "the key takeaway," "this matters because"), or one of the named failure modes: study-guide enumeration ("This chapter teaches three lessons. First…"), academic abstract, podcast-script filler ("so what's really going on here is…"), casual explainer, decorative mysticism, or mechanical paraphrase ("He asked. The teacher answered. Then he asked again."). Distinct from BK-P5 (which checks the configured *voice/register*); BK-P6 checks *authored-book craft* — movement, embedded teaching, transitions that teach. Quote the offending sentence(s). |
+| BK-P7 | **Duplicated passage** | **P0** | The chapter narrates the same events, teaching, or exchange TWICE — a scene told once and then told again in different words a few paragraphs later. Produced by the windowed compose: a window that runs one beat past its own passage, so the next window renders that beat properly and both survive the join. Seed from `_system/book-duplication-check.json` (written by `duplicate_passage_findings` on every compose), then sweep the chapter yourself for any pair the run-length rule cannot see. **Do NOT recommend deleting either copy on sight — see the rule below.** |
+
+> **BK-P7: never prescribe a deletion you have not earned.** A duplicated passage looks like the
+> easiest fix in the book — keep one copy, drop the other — and that instinct is how source material
+> gets destroyed. On 2026-07-20 in `the-master-and-the-disciple` ch7 a farewell, a journey, and a
+> counsel were each told twice. The obvious call was "the later telling is the faithful one, delete
+> the earlier". Read clause by clause against the Arabic scan, EACH telling was faithful exactly
+> where the other was wrong — one carried the weeping the source describes, the other carried a
+> clause the first had dropped — and two sentences of the source were in NEITHER. The duplication had
+> been masking an omission, and a wholesale delete would have shipped that omission invisibly.
+>
+> So the required treatment is: (1) map BOTH copies clause by clause against the source span before
+> proposing anything; (2) raise a companion **BK-P1** finding for any source clause missing from both;
+> (3) recommend a MERGE, giving the exact replacement text and naming which clause was taken from
+> which copy and why; (4) state plainly any ambiguity the source cannot settle, rather than choosing
+> silently. A recommendation of the form "delete lines X-Y" is only acceptable when you have shown
+> that one copy contains every source clause the other does.
 
 ### Pass 2 — whole-book
 
@@ -195,7 +214,7 @@ These run after Pass 1. A book can pass every per-chapter probe and still fail t
 | BK-N6 | **Structural enumeration preserved** | **P1** | The source enumerates (lettered or numbered items) and the chapter dissolves the enumeration into running prose. Loses no words, so every fidelity probe above passes it — while a text that argues by enumerated structure loses the structure the argument hangs on. |
 | BK-N7 | **Register and tone** | **P1** | The prose departs from the register the frame implies: conversational address or authorial intimacy under a third-person frame, archaic diction, ornament that makes the translator visible, or **elegant variation** — the same technical term rendered differently on different occurrences. In this genre terminological consistency is the prose virtue and synonym variety is a defect, because a reader must be able to trace one term through the whole argument. |
 
-**Deterministic seeding.** BK-N1/N2/N4/N5/N6 have deterministic implementations in `scripts/podcast/_narrative.py` (`frame_findings`, and the individual `*_findings` helpers). Run them first to seed candidates, then confirm each semantically and add what they cannot see — they are tuned for high precision, so treat an empty deterministic result as "nothing cheap to find", not as a pass. BK-N3 and BK-N7 are judgment-only.
+**Deterministic seeding.** BK-N1/N2/N4/N5/N6 have deterministic implementations in `scripts/podcast/_narrative.py` (`frame_findings`, and the individual `*_findings` helpers). Run them first to seed candidates, then confirm each semantically and add what they cannot see — they are tuned for high precision, so treat an empty deterministic result as "nothing cheap to find", not as a pass. BK-N3 and BK-N7 are judgment-only. **BK-P7** seeds from `_system/book-duplication-check.json` (`duplicate_passage_findings` in `scripts/podcast/_translation_text.py`), which reports only twins that repeat in formation — two or more consecutive paragraphs echoing at the same distance back. A single re-told paragraph, or a twin more than six paragraphs from its original, is invisible to it, so an empty file is not a pass here either.
 
 **Citation requirement on every failure:** every entry cites the chapter by `bk-index`/title, the offending `book.md` line range, quotes ≤300 chars of the content (and, for BK-P1/P2/P3/P4 and BK-N2/N4/N5, the corresponding source line range), and distinguishes **VERIFIED** (concrete evidence in the files) from **INFERRED** (heuristic judgment). Arabic-accuracy findings (BK-P3, BK-N4, BK-N5) MUST quote both the rendered script and the source form.
 

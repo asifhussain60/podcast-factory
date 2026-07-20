@@ -16,6 +16,7 @@ author_companion}`` (base + additive enrichment + author voice).
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from _pipeline_flags import (
@@ -110,6 +111,37 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         run_arabic_audit(book_dir, log=log, stages=stages)
     except Exception as e:  # never fail a good compose over its own audit
         log(f"    arabic-audit: skipped (non-fatal): {e}")
+
+    # 6b. Duplicated-passage sweep. The seam de-dup at step 5 drops a twin that
+    #     sits NEXT to its original; this finds the one that does not — a window
+    #     that ran past its own passage, so the whole scene prints twice several
+    #     paragraphs apart, in different words. Report-only by design: on
+    #     2026-07-20 each copy of such a pair turned out faithful where the other
+    #     was wrong, with two source sentences missing from both, so deleting
+    #     either automatically would have destroyed source text.
+    from _translation_edition import duplicate_passage_findings
+
+    try:
+        dup_path = book_dir / "_system" / "book-duplication-check.json"
+        dups = duplicate_passage_findings((book_dir / "book" / "book.md").read_text(encoding="utf-8"))
+        dup_path.parent.mkdir(parents=True, exist_ok=True)
+        dup_path.write_text(
+            json.dumps(
+                {"schema": "book.duplication-check/v1", "findings": dups},
+                indent=2,
+                ensure_ascii=False,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        if dups:
+            log(f"    duplication: {len(dups)} passage(s) narrated twice — compare BOTH copies against the source")
+            for d in dups[:3]:
+                log(
+                    f"      {d['chapter'][:48]}: paragraphs {d['first_copy_paragraphs']} vs {d['second_copy_paragraphs']}"
+                )
+    except Exception as e:  # never fail a good compose over its own audit
+        log(f"    duplication: skipped (non-fatal): {e}")
 
     # 7. Visual policy. Skipping the generating phases states the intent; this
     #    measures the artifact, because image markup can also reach book.md from a

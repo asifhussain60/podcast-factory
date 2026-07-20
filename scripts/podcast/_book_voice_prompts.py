@@ -15,6 +15,19 @@ from __future__ import annotations
 from _narrative import ARABIC_DIRECTIVE, frame_prompt_directive
 from _rules import narrative_person_for
 
+# A long chapter is split into windows and the outputs are joined. A window that
+# narrates one beat past its own last sentence produces the defect neither
+# fidelity gate can see: the next window renders that beat properly, and the book
+# prints the whole scene twice, in different words, a few paragraphs apart. Found
+# in `the-master-and-the-disciple` ch7 on 2026-07-20 — a farewell, a journey, and
+# a counsel, all told twice. The gates cannot catch it because each window passes
+# on its own; only the join is wrong. So the instruction has to prevent it.
+SCOPE_RULE = """Render the passage you were given and NOTHING beyond it. It may end mid-scene, mid-argument, or
+mid-conversation — that is expected, and another passage continues from there. Do not narrate what
+comes next, do not round the passage off with an ending it does not have, and do not add a
+transitional sentence pointing forward. Your last sentence corresponds to the passage's last
+sentence."""
+
 
 def _voice_prompt(
     title: str,
@@ -83,6 +96,9 @@ do not drop it). You may smooth connective prose and English word order inherite
 you may NOT add, remove, summarize, or alter any teaching. Output must be about the same length as
 the input — never shorter.
 
+SCOPE (stop where the passage stops)
+{SCOPE_RULE}
+
 REGISTER
 {register}
 {opening}
@@ -134,6 +150,9 @@ named person, citation, Quran verse, hadith, quote, and Arabic script exactly as
 Arabic-script quotation verbatim. You may only smooth connective prose and Arabic word-order that
 reads awkwardly in English. {person_clause}, do not add, remove, summarize, or
 reinterpret anything. Output must be about the same length — never shorter.
+
+SCOPE (stop where the passage stops)
+{SCOPE_RULE}
 
 OUTPUT
 Return ONLY the polished chapter prose. No title line, no preamble, no code fences.

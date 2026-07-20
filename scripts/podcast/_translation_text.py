@@ -12,7 +12,6 @@ untouched.
 from __future__ import annotations
 
 import re
-from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any
 
@@ -240,130 +239,30 @@ def _iter_source_windows(
     return windows
 
 
-_SEAM_LOOKBACK = 3
-_SEAM_MIN_WORDS = 6
-_SEAM_RATIO = 0.80
-_SEAM_RUN = 12
-
-
-def _overlap_tokens(text: str) -> list[str]:
-    """Normalize a passage to comparable tokens: casefold, drop punctuation."""
-    folded = re.sub(r"[^\w\s]", " ", (text or "").casefold())
-    return re.sub(r"\s+", " ", folded).strip().split()
-
-
-def _split_paragraphs(text: str) -> list[str]:
-    return [p.strip() for p in re.split(r"\n\s*\n", (text or "").strip()) if p.strip()]
-
-
-def _para_is_echo(candidate: str, prior: str) -> bool:
-    """True when ``candidate`` is a chunk-seam echo of ``prior``.
-
-    Deliberately conservative — fires only on whole-paragraph near-identity or a
-    long verbatim token run that covers most of the candidate — so genuinely
-    distinct adjacent paragraphs (a real narrative continuation) are never
-    trimmed. This catches the ``compose_book_v2`` seam double-render where a
-    boundary passage is composed into two adjacent windows/chapters.
-    """
-    cand = _overlap_tokens(candidate)
-    prev = _overlap_tokens(prior)
-    if len(cand) < _SEAM_MIN_WORDS or not prev:
-        return False
-    matcher = SequenceMatcher(None, cand, prev, autojunk=False)
-    if matcher.ratio() >= _SEAM_RATIO:
-        return True
-    block = matcher.find_longest_match(0, len(cand), 0, len(prev))
-    return block.size >= _SEAM_RUN and block.size >= 0.6 * len(cand)
-
-
-def _trim_seam_overlap(prev_prose: str, next_prose: str) -> str:
-    """Drop leading paragraphs of ``next_prose`` that echo the tail of
-    ``prev_prose``. Whole-paragraph drops only; the surviving text is never
-    edited. Returns ``next_prose`` unchanged when nothing echoes."""
-    if not (prev_prose or "").strip() or not (next_prose or "").strip():
-        return next_prose
-    prev_tail = _split_paragraphs(prev_prose)[-_SEAM_LOOKBACK:]
-    if not prev_tail:
-        return next_prose
-    next_paras = _split_paragraphs(next_prose)
-    drop = 0
-    for para in next_paras[:_SEAM_LOOKBACK]:
-        if any(_para_is_echo(para, tail) for tail in prev_tail):
-            drop += 1
-        else:
-            break
-    if not drop:
-        return next_prose
-    return "\n\n".join(next_paras[drop:]).strip()
-
-
-# Similarity-based seam de-dup — catches reworded twin renders the verbatim
-# _trim_seam_overlap cannot see (the fluency de-calque pass rewords each copy of a
-# seam double-render differently, so exact-match trimming misses them). Two rules,
-# each calibrated on real content with a wide safety margin to the nearest
-# legitimate pair (within-chapter next-legit ~0.56 ratio; boundary next-legit ~0.26
-# containment):
-_ADJ_DEDUP_RATIO = 0.62  # within a chapter: paragraph vs immediate predecessor
-_BOUNDARY_DEDUP_CONTAINMENT = 0.42  # chapter open vs previous chapter's last paragraph
-_BOUNDARY_DEDUP_MIN_RUN = 5
-_NUMBERED_CHAPTER_RE = re.compile(r"^##\s+\d+\.")
-
-
-def _adjacent_echo(cur: str, prev: str) -> bool:
-    a, b = _overlap_tokens(cur), _overlap_tokens(prev)
-    if len(a) < _SEAM_MIN_WORDS or len(b) < _SEAM_MIN_WORDS:
-        return False
-    return SequenceMatcher(None, a, b, autojunk=False).ratio() >= _ADJ_DEDUP_RATIO
-
-
-def _boundary_echo(cur: str, prev: str) -> bool:
-    a, b = _overlap_tokens(cur), _overlap_tokens(prev)
-    if len(a) < _SEAM_MIN_WORDS or len(b) < _SEAM_MIN_WORDS:
-        return False
-    matcher = SequenceMatcher(None, a, b, autojunk=False)
-    matched = sum(block.size for block in matcher.get_matching_blocks())
-    containment = matched / min(len(a), len(b))
-    if containment < _BOUNDARY_DEDUP_CONTAINMENT:
-        return False
-    return matcher.find_longest_match(0, len(a), 0, len(b)).size >= _BOUNDARY_DEDUP_MIN_RUN
-
-
-def dedupe_seam_paragraphs(text: str) -> str:
-    """Drop reworded seam double-renders that survive the verbatim trimmer.
-
-    Runs LAST, on the fully-assembled (and, in v2, de-calqued) book text, because
-    the rewording that hides these twins from exact matching happens after compose.
-    Two conservative, whole-paragraph-only rules:
-      - within a chapter, a paragraph that echoes its IMMEDIATE predecessor
-        (token ratio >= 0.62) is a model/window self-repeat — drop the second copy;
-      - a chapter's FIRST paragraph that echoes the previous chapter's LAST
-        paragraph (containment >= 0.42, with a real shared run) is a boundary
-        over-run — drop the echo so the chapter opens on its own content.
-    Never edits surviving text; comparisons are immediate-neighbour only, so a
-    distant legitimate refrain is untouched.
-    """
-    blocks = [b.strip() for b in re.split(r"\n\s*\n", text) if b.strip()]
-    out: list[str] = []
-    prev_para: str | None = None  # last kept paragraph (within-chapter adjacency)
-    prev_chapter_last: str | None = None
-    at_chapter_open = False  # first paragraph after a numbered chapter heading
-    for block in blocks:
-        if block.startswith("#"):
-            if _NUMBERED_CHAPTER_RE.match(block):
-                prev_chapter_last = prev_para
-                at_chapter_open = True
-            out.append(block)
-            prev_para = None  # adjacency does not cross a heading
-            continue
-        if at_chapter_open and prev_chapter_last and _boundary_echo(block, prev_chapter_last):
-            at_chapter_open = False
-            continue  # drop the chapter-opening echo
-        if not at_chapter_open and prev_para is not None and _adjacent_echo(block, prev_para):
-            continue  # drop the adjacent within-chapter echo
-        at_chapter_open = False
-        out.append(block)
-        prev_para = block
-    return "\n\n".join(out).strip() + "\n"
+from _translation_seams import (  # noqa: E402  (re-export; see module docstring)
+    _adjacent_echo as _adjacent_echo,
+)
+from _translation_seams import (
+    _boundary_echo as _boundary_echo,
+)
+from _translation_seams import (
+    _overlap_tokens as _overlap_tokens,
+)
+from _translation_seams import (
+    _para_is_echo as _para_is_echo,
+)
+from _translation_seams import (
+    _split_paragraphs as _split_paragraphs,
+)
+from _translation_seams import (
+    _trim_seam_overlap as _trim_seam_overlap,
+)
+from _translation_seams import (
+    dedupe_seam_paragraphs as dedupe_seam_paragraphs,
+)
+from _translation_seams import (
+    duplicate_passage_findings as duplicate_passage_findings,
+)
 
 
 def _translation_long_enough(prose: str, source_words: int) -> bool:
