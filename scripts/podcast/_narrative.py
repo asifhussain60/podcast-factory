@@ -104,8 +104,17 @@ _THIRD_PERSON_SELF_REPORT = r"\b{name}\b\s+(?:said|replied|answered|asked|went|s
 # harmless — counting those made a de-calque pass that legitimately reworded an
 # opening look like an insertion, which cost a real chapter its pass on the first
 # live run. Only interior tags are gated; head tags are left to the challenger.
+#
+# The whitespace between the closing quote and the tag is HORIZONTAL ONLY. With a
+# plain `\s*` the match crossed the blank line between paragraphs, so an ordinary
+# head attribution following a closed quotation — `...meaning."\n\nThe boy said:` —
+# counted as interior, which is precisely the case the comment above says must not
+# count. On a nine-chapter book that was 284 of 320 matches: the real signal was
+# swamped, and any pass that legitimately ADDED quotation marks tripped the gate
+# purely by closing quotes it had opened. An interior tag interrupts a quotation
+# on its own line; a newline between them means the quotation already ended.
 _INTERIOR_TAG_RE = re.compile(
-    r"[\"”]\s*,?\s*(?:[A-Z][\w'\-]*(?:\s+[A-Z][\w'\-]*)?|he|she|they)\s+"
+    r"[\"”][^\S\n]*,?[^\S\n]*(?:[A-Z][\w'\-]*(?:[^\S\n]+[A-Z][\w'\-]*)?|he|she|they)[^\S\n]+"
     r"(?:said|replied|answered|asked|told)\b"
 )
 

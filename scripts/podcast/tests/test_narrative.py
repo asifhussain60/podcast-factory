@@ -100,6 +100,15 @@ def test_inserted_speech_tag_is_flagged() -> None:
     assert findings and "cut into a quotation" in findings[0]
 
 
+def test_closing_a_quotation_before_a_head_tag_is_not_interior() -> None:
+    # A head attribution in the NEXT paragraph is an ordinary attribution, however
+    # the paragraph before it ended. Matching across the blank line made adding
+    # quotation marks to an unquoted chapter look like 58 inserted interior tags.
+    base = "The Master said: As for this world, no one reproaches it.\n\nThe boy said: You have spoken truly."
+    candidate = 'The Master said: "As for this world, no one reproaches it."\n\nThe boy said: "You have spoken truly."'
+    assert speech_tag_findings(base, candidate) == []
+
+
 def test_rewording_a_tag_is_allowed() -> None:
     base = "The scholar said: As for this world, no one reproaches it."
     candidate = "The scholar replied: As for this world, no one truly reproaches it."
