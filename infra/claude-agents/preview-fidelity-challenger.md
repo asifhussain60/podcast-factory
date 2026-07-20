@@ -20,6 +20,25 @@ challenger_contract:
     - skills-staging/studio-composer/SKILL.md
 ---
 
+> **STATUS 2026-07-20 — this agent is a standing no-op, pending Asif's decision to retire it.**
+> Its premise was that the Preview and the PDF are two pagination engines that can drift. They
+> are not, and are not going to be. The Preview does not paginate: `preview.astro` calls
+> `ensurePreviewPageImages()`, which shells out to `render-book-pdf.mjs` for a scratch PDF,
+> rasterizes it with `pdftoppm`, and stacks the page images — so it displays the PDF renderer's
+> own output. Parity holds by construction and there is nothing to compare.
+>
+> Live in-browser pagination WAS the plan. It was abandoned because vendored Paged.js hung this
+> environment's Chromium on a two-paragraph, zero-stylesheet document; the preview route's own
+> header records it. The repo has carried no Paged.js dependency since.
+>
+> The deterministic backend agrees: `plan-dashboard/scripts/preview-fidelity-check.mjs` has never
+> implemented its Preview-side extractor and returns `DEFERRED` unconditionally, which is why this
+> agent has never produced a finding.
+>
+> Do not invoke it, and do not read the "two code paths" framing below as current. Retiring the
+> spec and its backend script is deletion of tracked files, so it waits for Asif rather than being
+> done silently.
+
 # preview-fidelity-challenger
 
 Gates the composer's on-screen **Preview** against the rendered **PDF** — the only

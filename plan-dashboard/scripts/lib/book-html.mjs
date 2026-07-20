@@ -11,9 +11,23 @@
  *   - scripts/render-book-pdf.mjs — wraps buildBookHtml() output in a full
  *     <html> document + print CSS, serves it locally, and screenshots it to
  *     PDF via Playwright.
- *   - src/pages/studio/[slug]/preview.astro — calls buildBookHtml() directly
- *     at SSR time (same Node runtime, no subprocess) and paginates the result
- *     client-side with vendored Paged.js.
+ *   - src/pages/studio/[slug]/preview.astro — INDIRECTLY. It calls
+ *     ensurePreviewPageImages() (scripts/lib/preview-pages.mjs), which shells out
+ *     to render-book-pdf.mjs into a scratch PDF, rasterizes it with pdftoppm, and
+ *     stacks the page images. So the Preview shows the PDF renderer's own output
+ *     rather than a second pagination of the same markup.
+ *
+ * Corrected 2026-07-20. This docstring claimed for two design revisions that the
+ * preview "calls buildBookHtml() directly … and paginates the result client-side
+ * with vendored Paged.js". None of that is true: there is no Paged.js dependency
+ * in this repo, and the preview route's own header records why — live in-browser
+ * pagination hung this environment's Chromium on a two-paragraph, zero-stylesheet
+ * document, so the approach was abandoned for rasterization.
+ *
+ * The correction matters beyond tidiness. A stale docstring here is what made
+ * "the two surfaces are two engines that can disagree" look true, and an agent
+ * (preview-fidelity-challenger) exists to police a divergence that cannot occur
+ * while the Preview is a rasterizer.
  */
 import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
