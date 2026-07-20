@@ -2,15 +2,7 @@
   "schema": "book.comprehension/v1",
   "pages": 122,
   "terms_tracked": 60,
-  "prerequisite_gaps": [
-    {
-      "term": "Imam",
-      "first_use_page": 6,
-      "explained_page": 30,
-      "pages_carried": 24,
-      "kind": "explained-late"
-    }
-  ],
+  "prerequisite_gaps": [],
   "naming_drift": [],
   "dense_pages": [
     {
@@ -134,6 +126,6 @@
   ],
   "summary": {
     "never_explained": 0,
-    "explained_late": 1
+    "explained_late": 0
   }
 }

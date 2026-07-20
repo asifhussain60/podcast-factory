@@ -1,25 +1,25 @@
 {
   "schema": "podcast.book-render-checks/v1",
   "verdict": "RENDER-CAUTION",
-  "pages": 121,
+  "pages": 122,
   "findings": [
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 2,
-      "detail": "half-empty interior page (149 vs median 1683 chars)"
+      "detail": "half-empty interior page (149 vs median 1684 chars)"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
       "page": 3,
-      "detail": "half-empty interior page (394 vs median 1683 chars)"
+      "detail": "half-empty interior page (394 vs median 1684 chars)"
     },
     {
       "check": "BR-PAGE-FILL",
       "severity": "P1",
-      "page": 10,
-      "detail": "half-empty interior page (326 vs median 1683 chars)"
+      "page": 11,
+      "detail": "half-empty interior page (326 vs median 1684 chars)"
     }
   ]
 }

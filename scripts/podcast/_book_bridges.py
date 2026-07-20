@@ -106,15 +106,34 @@ def format_bridge(text: str) -> str:
     """One bridge, fenced so it is findable and removable, styled as a quiet aside.
 
     A ``>`` blockquote line, like the editorial-note fences it sits beside — the
-    renderer already turns an unlabeled ``> `` paragraph into a bordered aside
-    with no CSS change needed. Italicized so it never reads as the book's own
-    voice: a bridge is orientation, not a claim the author is making.
+    renderer already turns a ``> `` paragraph into a bordered aside with no CSS
+    change needed. Italicized so it never reads as the book's own voice: a bridge
+    is orientation, not a claim the author is making.
+
+    LABELLED, for the same reason the editorial notes are. An unattributed italic
+    aside inside a speaker's discourse leaves a reader nothing but the italics to
+    tell him it is not the book talking, and `the-master-and-the-disciple`
+    promises in its own front matter that he can always tell the two apart.
+
+    Curly quotation marks are folded to straight ones because the book sets every
+    other quotation straight; two asides in smart quotes are visibly foreign on
+    the printed page. Cheaper to normalize here than to police every author.
     """
-    return f"{BRIDGE_OPEN}\n> *{' '.join(text.split())}*\n{BRIDGE_CLOSE}"
+    body = " ".join(text.split())
+    for curly, straight in (("\u201c", '"'), ("\u201d", '"'), ("\u2018", "'"), ("\u2019", "'")):
+        body = body.replace(curly, straight)
+    return f"{BRIDGE_OPEN}\n> **A note for the reader.** *{body}*\n{BRIDGE_CLOSE}"
 
 
 def inject(book_md: str, bridges: list[dict[str, Any]]) -> tuple[str, list[dict[str, Any]]]:
-    """Place each bridge after the paragraph its anchor names.
+    """Place each bridge beside the paragraph its anchor names.
+
+    After it by default. ``placement: "before"`` puts it above instead, which a
+    paragraph ending in a colon requires: the chapter-4 orientation note landed
+    between "so that He says to whatever He wills:" and the verse that answers it,
+    severing the book's most famous sentence from its own verb. Orientation that
+    has to precede the passage it orients is not a special case worth a second
+    mechanism, just a field.
 
     Returns the new markdown and the list of bridges that could NOT be placed —
     an anchor the prose no longer contains is reported, never approximated.
@@ -131,13 +150,17 @@ def inject(book_md: str, bridges: list[dict[str, Any]]) -> tuple[str, list[dict[
         if index is None:
             unplaced.append(bridge)
             continue
-        end = text.find("\n\n", index)
-        end = len(text) if end == -1 else end
+        if str(bridge.get("placement") or "after").lower() == "before":
+            cut = text.rfind("\n\n", 0, index)
+            cut = 0 if cut == -1 else cut
+        else:
+            cut = text.find("\n\n", index)
+            cut = len(text) if cut == -1 else cut
         # A fixed separator on each side, built from content trimmed of ITS OWN
         # edge whitespace — the insertion point can never accumulate blank lines
         # no matter how many times a bridge here is stripped and re-placed.
-        head = text[:end].rstrip("\n")
-        tail = text[end:].lstrip("\n")
+        head = text[:cut].rstrip("\n")
+        tail = text[cut:].lstrip("\n")
         text = head + "\n\n" + format_bridge(str(bridge["text"])) + ("\n\n" + tail if tail else "\n")
     return text, unplaced
 

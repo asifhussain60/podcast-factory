@@ -4,16 +4,17 @@
     {
       "term": "father",
       "anchor": "He said: \"Bring this boy to me quickly, for I hope he will be a door of mercy that God has opened for the people of his age.\"",
-      "text": "In this account a teacher is also called the father of the one he guides, so “father” now carries three men: the Master's own elder father here, the Master himself when the boy speaks, and the Arab chief who fathered the boy.",
+      "text": "In this account a teacher is also called the father of the one he guides, so \"father\" now carries three men: the Master's own elder father here, the Master himself when the boy speaks, and the Arab chief who fathered the boy.",
       "why": "PR-1 explained-late: the Master is first called the boy's father on p65 and not identified as such until p120.",
       "added_by": "book-publication-reviewer 2026-07-20"
     },
     {
       "term": "chapter 4 narration",
       "anchor": "The Master began with the first of the causes of the manifest order and with the beginning of its creation.",
-      "text": "Everything that follows to the end of this chapter is the Master's own discourse to the boy, so the “I” and “we” in it are his and not the edition's.",
+      "text": "Everything that follows to the end of this chapter is the Master's own discourse to the boy, so the \"I\" and \"we\" in it are his and not the edition's.",
       "why": "PR-5 first-person read as an editorial voice on pp.27-29. Verified fidelity-safe against refined-english.md 201 (§84): “The first thing the scholar said to him by way of explanation…” — the whole span, including §87's “Then we look to the signs of the heavens”, sits inside his speech.",
-      "added_by": "coordinator 2026-07-20, on Asif's delegation of the decision"
+      "added_by": "coordinator 2026-07-20, on Asif's delegation of the decision",
+      "placement": "before"
     }
   ]
 }

@@ -6,13 +6,13 @@ This book is a translation of *Kitab al-Alim wa-l-Ghulam*, "The Book of the Mast
 
 Nobody narrates it in his own person. The book speaks as a transmitted report — "We have been informed" — and keeps that distance to the last page. When a first person appears, it belongs to whoever is speaking at that moment, not to a narrator and not to this edition.
 
-Five figures carry the whole of it. **The Master** is a Persian who came to knowledge late, after years of ignorance, and who spends the rest of his life carrying it to others. **The boy**, the youngest and most thoughtful of a company that hears the Master speak, follows him, is refused, and is admitted only on conditions; his name, given much later, is Salih. **His father** is al-Bakhtari, a chief among the Arabs, honorable in lineage and hard against the people of religion. **The Shaykh** is the greater teacher at the far end of the boy's journey, who tests him for seven days. **Abu Malik** is the scholar whom the grown Salih debates in the final chapter, and that debate is where the book puts its whole argument on trial.
+Five figures carry the whole of it. **The Master** is a Persian who came to knowledge late, after years of ignorance, and who spends the rest of his life carrying it to others. **The boy**, the youngest and most thoughtful of a company that hears the Master speak, follows him, is refused, and is admitted only on conditions; his name, given much later, is Salih. **His father** is al-Bakhtari, a chief among the Arabs, honorable in lineage and hard against the people of religion. **The Shaykh** is the greater teacher at the far end of the boy's journey, who tests him on his name and holds his naming back for seven days. **Abu Malik** is the scholar whom the grown Salih debates in the final chapter, and that debate is where the book puts its whole argument on trial.
 
 One name has to be kept straight from the start. The pages immediately following this introduction — the book's own opening — begin with believers putting a question to "a Master among them". That teacher is not the Master of the story. He answers once and is not heard from again; everywhere after those opening pages, "the Master" means the Persian.
 
-From the fourth chapter onward a set of terms recurs that a reader may take for ordinary religious vocabulary: the speaking Imam (*al-Imam al-Natiq*), his gate (*bab*), his successor (*wasi*), his summoners (*du'at*). The book glosses each where it first appears. What it never says outright is that they belong together — they name ranks in one structure, and the cosmology of chapters four through six is describing that structure rather than decorating it.
+From the fourth chapter onward a set of terms recurs that a reader may take for ordinary religious vocabulary: the speaking Imam (*al-Imam al-Natiq*), his gate (*bab*), his successor (*wasi*), his summoners (*du'at*). The terms first appear in chapter four and the book glosses each when it names it, in chapter five. It sets them out as ranks in a single structure in chapter four itself — imam and gate and summoners figured as sun and moon and stars — so the cosmology of chapters four through six is describing that structure rather than decorating it.
 
-As an edition, this one adds nothing. It translates the whole of the source without abridgement, keeps the Arabic where the source carries it with the English set beneath, and leaves a word unvowelled wherever the original scan leaves it unvowelled. The few editorial notes are fenced and labelled, so a reader can always tell the book's voice from a note about it.
+As an edition, this one adds nothing. It translates the whole of the source without abridgement, keeps the Arabic the source carries with the English set beneath, and supplies the Arabic of Qur'anic verses the source quotes in translation only. Where the words are the book's own they are left unvowelled exactly as the scan leaves them; where they are Qur'an they carry the vowelling of the mushaf. The editorial notes and the notes to the reader are fenced and labelled, so a reader can always tell the book's voice from a note about it.
 
 ### The book's own opening
 
@@ -245,11 +245,11 @@ The narrator said: Then the Master set about reciting the covenant to the boy, c
 
 ## 4. How the World Was Made
 
-The Master began with the first of the causes of the manifest order and with the beginning of its creation. God, he said, is the Creator of things and the One who composes them; He created them and brought them into being. He is not the first of created things in the sense of having taken some earlier creation as evidence for what came after; rather He is the First of all firsts and the Inheritor of every thing. He began the creation of what He created out of light, and from that light three words branched. The first is the will; from the will branched the command; and from the command branched the saying, so that He says to whatever He wills:
-
 <!-- bridge:begin -->
-> *Everything that follows to the end of this chapter is the Master's own discourse to the boy, so the “I” and “we” in it are his and not the edition's.*
+> **A note for the reader.** *Everything that follows to the end of this chapter is the Master's own discourse to the boy, so the "I" and "we" in it are his and not the edition's.*
 <!-- bridge:end -->
+
+The Master began with the first of the causes of the manifest order and with the beginning of its creation. God, he said, is the Creator of things and the One who composes them; He created them and brought them into being. He is not the first of created things in the sense of having taken some earlier creation as evidence for what came after; rather He is the First of all firsts and the Inheritor of every thing. He began the creation of what He created out of light, and from that light three words branched. The first is the will; from the will branched the command; and from the command branched the saying, so that He says to whatever He wills:
 
 > كُنْ فَيَكُونُ
 >
@@ -721,7 +721,7 @@ Then the Master took his leave and departed. The boy wished to press provisions 
 He said: "Bring this boy to me quickly, for I hope he will be a door of mercy that God has opened for the people of his age."
 
 <!-- bridge:begin -->
-> *In this account a teacher is also called the father of the one he guides, so “father” now carries three men: the Master's own elder father here, the Master himself when the boy speaks, and the Arab chief who fathered the boy.*
+> **A note for the reader.** *In this account a teacher is also called the father of the one he guides, so "father" now carries three men: the Master's own elder father here, the Master himself when the boy speaks, and the Arab chief who fathered the boy.*
 <!-- bridge:end -->
 
 So the Master tarried only a little, then returned to the boy, and found him changed in body from the state in which he had left him.
