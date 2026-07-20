@@ -58,6 +58,29 @@ _MIN_ALIGNED_WORDS = 3
 # sense are compared this way.
 _MIN_DEFECTIVE_SKELETON = 18
 
+# Words the mushaf writes with waw where modern imla'i writes alif. Consonantal
+# skeletons (no vowel marks), applied before the alif fold so both orthographies
+# land on one form. Closed list — every one of these is a fixed convention, not a
+# pattern that generalises to other waw/alif pairs.
+# Written in ordinary spelling and pushed through `normalize_arabic` at import,
+# because that is the form `_defective` actually sees: the normaliser folds
+# ta-marbuta to ha, so a table written with `ة` would never fire. Deriving it
+# instead of hand-transcribing the folded forms keeps the two in step if the
+# normaliser changes.
+_WAW_ALIF_SPELLINGS: tuple[tuple[str, str], ...] = tuple(
+    (normalize_arabic(uthmani), normalize_arabic(imlai))
+    for uthmani, imlai in (
+        ("حيوة", "حياة"),
+        ("صلوة", "صلاة"),
+        ("زكوة", "زكاة"),
+        ("نجوة", "نجاة"),
+        ("مشكوة", "مشكاة"),
+        ("غدوة", "غداة"),
+        ("منوة", "مناة"),
+        ("ربوا", "ربا"),
+    )
+)
+
 
 @lru_cache(maxsize=1)
 def _mushaf_haystack() -> str:
@@ -98,7 +121,19 @@ def _defective(skeleton: str) -> str:
     enough that no single folded particle can flip the sense of the match.
     (An earlier version of this docstring claimed folding was used only on the
     aligned path. It never was — the substring path used it too, unfloored.)
+
+    Alif-hazf is not the only orthographic gap. A short closed list of words is
+    written in the mushaf with a waw where modern imla'i writes an alif —
+    `ٱلْحَيَوٰةُ` for `الحياة`, `ٱلصَّلَوٰةَ` for `الصلاة`. Dropping alif leaves those two
+    forms still unequal (`حيوة` vs `حية`), so Q 31:33 set in modern spelling read
+    as non-Quranic in `the-master-and-the-disciple` ch6 and landed on the
+    fabricated-vowelling review list — a correct verse one step from being
+    "repaired". The list is enumerated rather than folded by rule, because there
+    is no rule: it is orthographic convention, and nothing outside the list is
+    touched.
     """
+    for uthmani, imlai in _WAW_ALIF_SPELLINGS:
+        skeleton = skeleton.replace(uthmani, imlai)
     return skeleton.replace("ا", "")
 
 

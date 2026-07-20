@@ -1,22 +1,4 @@
 {
   "schema": "book.duplication-check/v1",
-  "findings": [
-    {
-      "chapter": "7. The Five Shares and the Long Road to the Shaykh",
-      "lag": 3,
-      "first_copy_paragraphs": [
-        109,
-        110
-      ],
-      "second_copy_paragraphs": [
-        112,
-        113
-      ],
-      "paragraphs": 2,
-      "min_ratio": 0.509,
-      "min_shared_words": 9,
-      "first_copy_opens": "The Master said to the boy: \"My son, you have heard the charge of the Shaykh, and there is no right guidance to be found except in his words. This is your city,",
-      "second_copy_opens": "So the Master and the boy set out together, and when they had come near to the boy's own city — the city where his father lived — the Master said to him: \"My so"
-    }
-  ]
+  "findings": []
 }
