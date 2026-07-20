@@ -10,6 +10,8 @@
  * custom property (set at runtime here, never as an inline HTML attribute), so
  * the view stays lint/Cortex-clean.
  */
+import { createElement } from "react";
+import { createRoot, type Root } from "react-dom/client";
 import { mountChapterEditor, type ChapterEditor } from "./book-md-editor";
 import { confirmDialog, noticeDialog } from "./confirm-dialog";
 import {
@@ -17,8 +19,19 @@ import {
   mountAutosaveStatus,
   type AutosaveController,
 } from "./autosave";
+import { createComposeEditorBridge } from "./compose-editor-bridge";
 import { safeChapterKey } from "../lib/reader/companion/keys";
 import { apiFetch } from "../lib/api-fetch";
+import { createStudioDecos } from "../components/studio/editor/studio-decos";
+import {
+  DEFAULT_DEPTH_PROFILE,
+  DEPTH_LEVELS_BY_PROFILE,
+  type GlossaryEntry,
+} from "../components/studio/editor/studio-editor-constants";
+import ComposeAiTools from "../components/studio/compose/ComposeAiTools";
+import ComposeCompanionTab from "../components/studio/compose/ComposeCompanionTab";
+import ComposeDetailsTab from "../components/studio/compose/ComposeDetailsTab";
+import { chapterKeyFor as companionChapterKeyFor } from "../components/reader/companion/CompanionPanel";
 
 type Align = "left" | "center" | "right";
 type Flow = "wrap" | "standalone";
@@ -45,6 +58,9 @@ interface Chapter {
   title: string;
   paras: number;
   citations: Citation[];
+  /** TipTap-safe seed for edit mode. Mirrors ComposerChapter.editHtml in
+   *  lib/reader/composer.ts — see the bodyByKey note in boot(). */
+  editHtml: string;
 }
 interface Placement {
   visual_id: string;
@@ -61,6 +77,8 @@ interface ComposerData {
   chapters: Chapter[];
   visuals: Visual[];
   placements: Placement[];
+  glossary: GlossaryEntry[];
+  glossaryAll: GlossaryEntry[];
 }
 
 const WRAP_MAX = 50;
@@ -87,6 +105,15 @@ function boot(): void {
   // Cache each chapter's pristine prose body so every re-render re-inserts the
   // placed figures inline (at the exact paragraph the PDF would use) without
   // accumulating them across renders.
+  //
+  // NOTE the two different HTML strings in play, and never conflate them:
+  //   - `.cx-body`'s innerHTML is the READ render — the PDF's own renderMd()
+  //     output (chapter-open block, drop cap, mushaf verses). It is for display
+  //     and for figure placement only.
+  //   - `chapter.editHtml` is the EDIT seed — the plain render whose element set
+  //     the TipTap StarterKit schema can round-trip back to markdown.
+  // Seeding the editor from the read render would silently drop everything
+  // outside that schema and write the loss into book.md on the next autosave.
   const bodyByKey = new Map<string, { el: HTMLElement; html: string }>();
   root.querySelectorAll<HTMLElement>(".cx-chapter").forEach((ch) => {
     const body = ch.querySelector<HTMLElement>(".cx-body");
@@ -122,8 +149,14 @@ function boot(): void {
     /* sessionStorage best-effort */
   }
 
-  // ── inspector tabs (Artifacts · Citations · Refinement) ────────────────────
-  const TABS = ["artifacts", "citations", "refine"] as const;
+  // ── inspector tabs (Companion · Artifacts · Citations · Refinement · Details) ──
+  const TABS = [
+    "companion",
+    "artifacts",
+    "citations",
+    "refine",
+    "details",
+  ] as const;
   type TabName = (typeof TABS)[number];
   const tabBtn = (n: TabName) =>
     root.querySelector<HTMLButtonElement>(`#cx-tab-${n}`);
@@ -159,7 +192,7 @@ function boot(): void {
       }
     });
   });
-  activateTab("artifacts"); // initialize roving tabindex on the default tab
+  activateTab("companion"); // initialize roving tabindex on the default tab
 
   // ── chapter scoping — one chapter visible at a time; tabs follow it ────────
   function showSelectedChapter(): void {
@@ -210,13 +243,10 @@ function boot(): void {
 
   // ── Edit mode — the chapter opens straight into the TipTap editor ─────────
   // Layout mode (figure placement/resize) was removed from the UI 2026-07-16;
-  // its button slot is now the "Companion Tool" nav link (compose.astro). This
-  // makes Edit the sole, permanent state — modeRead stays as a (now always
-  // null) query so setModeVisual/leaveEditMode's existing optional-chained
-  // references to it stay harmless rather than requiring a wider rewrite.
-  // Figure placement has no UI home until Phase 4 (Edit-canvas merge) lands.
-  const modeRead = root.querySelector<HTMLButtonElement>("#cx-mode-read");
-  const modeEdit = root.querySelector<HTMLButtonElement>("#cx-mode-edit");
+  // the Companion notes panel that once sat behind a nav link is now the
+  // Companion tab (2026-07-19), and the Edit/Companion-Tool button pair is
+  // gone entirely — Edit is the sole, permanent state. Figure placement has
+  // no UI home until Phase 4 (Edit-canvas merge) lands.
   const bookTitle =
     root
       .closest("body")
@@ -227,6 +257,24 @@ function boot(): void {
   // Flush any pending autosave for the active editor; resolves true if the chapter
   // is safely saved (or had nothing to save), false if the save failed.
   let activeSaveFlush: (() => Promise<boolean>) | null = null;
+
+  // Companion/AI-tools/Details tools (Studio-decos + the reused hooks) — one
+  // shared bridge + two imperatively-mounted React roots per open chapter.
+  // React, not Astro islands, because the editor/chapter identity changes on
+  // every chapter switch, which a client:only island can't receive post-mount.
+  const glossarySorted = [...data.glossary]
+    .filter((e) => e.phonetic && e.arabic_script)
+    .sort((a, b) => b.phonetic.length - a.phonetic.length);
+  const depthLevels =
+    DEPTH_LEVELS_BY_PROFILE[DEFAULT_DEPTH_PROFILE] ??
+    DEPTH_LEVELS_BY_PROFILE[Object.keys(DEPTH_LEVELS_BY_PROFILE)[0]];
+  let aiToolsRoot: Root | null = null;
+  let detailsRoot: Root | null = null;
+  let companionRoot: Root | null = null;
+  const companionChapters = data.chapters.map((c) => ({
+    key: c.key,
+    title: c.title,
+  }));
 
   // A prose autosave writes book.md on disk but the page still holds the ORIGINAL
   // server render in memory; reload (preserving the chapter) to re-sync the preview.
@@ -266,6 +314,12 @@ function boot(): void {
   }
 
   function exitEdit(): void {
+    aiToolsRoot?.unmount();
+    aiToolsRoot = null;
+    detailsRoot?.unmount();
+    detailsRoot = null;
+    companionRoot?.unmount();
+    companionRoot = null;
     activeEditor?.destroy();
     activeEditor = null;
     activeSaveFlush = null;
@@ -280,7 +334,9 @@ function boot(): void {
     const ch = currentChapterEl();
     const bodyEl = ch?.querySelector<HTMLElement>(".cx-body");
     if (!ch || !bodyEl) return;
-    const pristine = bodyByKey.get(selectedChapter)?.html ?? bodyEl.innerHTML;
+    // The TipTap-safe seed (see the bodyByKey note above) — NOT the read render.
+    const pristine = chapterByKey.get(selectedChapter)?.editHtml ?? "";
+    if (!pristine) return; // no safe seed → refuse to open a lossy editor
     bodyEl.hidden = true;
 
     const shell = document.createElement("div");
@@ -483,7 +539,75 @@ function boot(): void {
     shell.append(toolbar, host);
     bodyEl.insertAdjacentElement("afterend", shell);
 
-    activeEditor = mountChapterEditor(host, pristine);
+    // Fresh bridge per chapter — no leaked comments/section-tags/focus state
+    // across a chapter switch (see compose-editor-bridge.ts's own header note).
+    const bridge = createComposeEditorBridge(depthLevels, glossarySorted);
+    const chapterTitle = chapterByKey.get(selectedChapter)?.title ?? "";
+
+    activeEditor = mountChapterEditor(host, pristine, [
+      createStudioDecos(bridge),
+    ]);
+    bridge.editorRef.current = activeEditor.editor;
+    const originalTexts: string[] = [];
+    activeEditor.editor.state.doc.forEach((n) =>
+      originalTexts.push(n.textContent),
+    );
+    bridge.originalRef.current = originalTexts;
+    activeEditor.editor.on("focus", () => {
+      bridge.hasFocusRef.current = true;
+      activeEditor?.editor.view.dispatch(activeEditor.editor.state.tr);
+    });
+    activeEditor.editor.on("blur", () => {
+      bridge.hasFocusRef.current = false;
+      bridge.activeSectionOrdinalRef.current = null;
+      activeEditor?.editor.view.dispatch(activeEditor.editor.state.tr);
+    });
+
+    aiToolsRoot = createRoot(
+      root.querySelector<HTMLElement>("#cx-ai-tools-mount")!,
+    );
+    aiToolsRoot.render(
+      createElement(ComposeAiTools, {
+        slug,
+        chapter: selectedChapter,
+        chapterTitle,
+        editor: activeEditor.editor,
+        bridge,
+        glossaryAll: data.glossaryAll,
+      }),
+    );
+    detailsRoot = createRoot(
+      root.querySelector<HTMLElement>("#cx-details-mount")!,
+    );
+    detailsRoot.render(
+      createElement(ComposeDetailsTab, {
+        slug,
+        chapter: selectedChapter,
+        editor: activeEditor.editor,
+        bridge,
+      }),
+    );
+
+    // CompanionPanel remembers its last-viewed chapter per slug in
+    // localStorage (for its standalone reader-drawer use) and that
+    // remembered value wins over a fresh `initialChapter` prop on mount — so
+    // keep it in sync with the chapter actually being edited here BEFORE
+    // mounting, or a re-mount on chapter switch would still show stale notes.
+    try {
+      localStorage.setItem(companionChapterKeyFor(slug), selectedChapter);
+    } catch {
+      /* best-effort */
+    }
+    companionRoot = createRoot(
+      root.querySelector<HTMLElement>("#cx-companion-mount")!,
+    );
+    companionRoot.render(
+      createElement(ComposeCompanionTab, {
+        slug,
+        chapters: companionChapters,
+        initialChapter: selectedChapter,
+      }),
+    );
 
     // Autosave — no manual "Save prose" button; edits persist themselves (./autosave).
     const proseAutosave: AutosaveController = createAutosave({
@@ -512,13 +636,13 @@ function boot(): void {
     updateAiEnabled();
   }
 
+  const modeReadBtn = root.querySelector<HTMLButtonElement>("#cx-mode-read");
+  const modeEditBtn = root.querySelector<HTMLButtonElement>("#cx-mode-edit");
+
   function setModeVisual(mode: "read" | "edit"): void {
-    const edit = mode === "edit";
-    modeRead?.classList.toggle("is-active", !edit);
-    modeRead?.setAttribute("aria-pressed", String(!edit));
-    modeEdit?.classList.toggle("is-active", edit);
-    modeEdit?.setAttribute("aria-pressed", String(edit));
-    root.classList.toggle("is-editing", edit);
+    root.classList.toggle("is-editing", mode === "edit");
+    modeReadBtn?.setAttribute("aria-pressed", String(mode === "read"));
+    modeEditBtn?.setAttribute("aria-pressed", String(mode === "edit"));
   }
   function enterEditMode(): void {
     if (activeEditor) return;
@@ -558,11 +682,6 @@ function boot(): void {
     if (mode === "edit") enterEditMode();
     else void leaveEditMode();
   }
-  modeRead?.addEventListener("click", () => {
-    void leaveEditMode();
-  });
-  modeEdit?.addEventListener("click", () => enterEditMode());
-
   // Best-effort save if the tab is hidden/closed with edits still pending (the
   // ~1.2s debounce keeps this window small; there is no native "unsaved" prompt).
   window.addEventListener("pagehide", () => {
@@ -1698,6 +1817,14 @@ function boot(): void {
   root
     .querySelector<HTMLButtonElement>("#cx-new-ai-image")
     ?.addEventListener("click", () => openAiImageBox());
+
+  // Read shows the chapter exactly as it prints — the same renderMd() output the
+  // PDF is built from (chapter opening, drop cap, mushaf verses, citation style).
+  // Edit swaps in the TipTap surface, which is seeded from the plain render its
+  // schema can round-trip. Without this control the print-faithful view has no
+  // way of being reached: the editor opens on boot and nothing else leaves it.
+  modeReadBtn?.addEventListener("click", () => setMode("read"));
+  modeEditBtn?.addEventListener("click", () => setMode("edit"));
 
   // The chapter opens straight in the editor, like the podcast editor.
   setMode("edit");

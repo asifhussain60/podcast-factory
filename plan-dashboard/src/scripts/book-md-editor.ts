@@ -10,6 +10,7 @@
  * Persistence is the caller's job (PUT /api/studio/book-md).
  */
 import { Editor } from "@tiptap/core";
+import type { Extensions } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 import type { Node as PMNode } from "@tiptap/pm/model";
 
@@ -82,14 +83,18 @@ function docToMarkdown(editor: Editor): string {
   return lines.join("\n").trimEnd() + "\n";
 }
 
-/** Mount a chapter editor into `el`, seeded from `html`. */
+/** Mount a chapter editor into `el`, seeded from `html`. `extraExtensions`
+ *  appends to the base [StarterKit] set — e.g. the shared StudioDecos
+ *  decoration plugin (verse chips, section badges, Arabic overlay), so the
+ *  Composer can gain the same live-editing decorations Edit & Enrich has. */
 export function mountChapterEditor(
   el: HTMLElement,
   html: string,
+  extraExtensions: Extensions = [],
 ): ChapterEditor {
   const editor = new Editor({
     element: el,
-    extensions: [StarterKit],
+    extensions: [StarterKit, ...extraExtensions],
     content: html,
     editorProps: {
       attributes: { class: "cx-prose", "aria-label": "Chapter prose editor" },

@@ -116,6 +116,20 @@
       "failure_mode": "surfaces error and halts"
     },
     {
+      "id": "book-publication-reviewer",
+      "name": "Book Publication Reviewer",
+      "role": "Reader-facing publication reviewer for the FINAL PDF on every PDF-generating rou",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Reader-facing publication reviewer for the FINAL PDF on every PDF-generating route (companion book, translation edition, fiction, supplication). Distinct from book-challenger (judges book.md against its SOURCE — nothing lost, nothing add…",
+      "what_it_knows": "See infra/claude-agents/book-publication-reviewer.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
       "id": "book-publisher",
       "name": "Book Publisher",
       "role": "Physical delivery agent for podcast-factory books",
@@ -601,6 +615,6 @@
       ]
     }
   ],
-  "generated_at": "2026-07-18T16:32:48.685Z",
-  "source_commit": "e409d3b"
+  "generated_at": "2026-07-20T16:16:23.470Z",
+  "source_commit": "e265eb0"
 }

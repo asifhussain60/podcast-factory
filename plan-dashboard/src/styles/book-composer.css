@@ -11,8 +11,9 @@
 /* One-line help text that sits under the title inside the shared .lib-hero
    identity block. The header structure itself is the shared Studio hero. */
 .composer-sub {
-  color: var(--c-ink-muted, #87827a);
-  font-size: 0.9rem;
+  color: var(--c-ink-muted, #66625a);
+  /* REQ-010 reading floor: descriptive prose, not chrome. */
+  font-size: var(--fs-base);
   margin: 0.2rem 0 0;
   /* Span the banner's full width — no 60ch reading cap — so the description
      uses the empty space to the right instead of wrapping early. */
@@ -24,7 +25,7 @@
    Same near-white surface as the right-hand inspector panel. */
 .composer .cx-composer-header {
   background: var(--c-bg-card, #fffdf8);
-  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border: 1px solid var(--c-rule, #d9d3c4);
   border-radius: 10px;
   padding: 1.4rem 1.6rem;
   margin-bottom: 1.6rem;
@@ -105,6 +106,22 @@
   gap: 1.5rem;
   align-items: start;
 }
+/* READ mode is a reading view: the inspector's tools (Refinement, Details) act
+   on the editor, and the Companion island is torn down with it — leaving a 91px
+   bordered shell around an empty tab strip. Hide the column entirely and give
+   the page its full width; `.is-editing` is set on .composer by
+   book-composer.ts setModeVisual(). */
+.composer:not(.is-editing) .composer-panel {
+  display: none;
+}
+.composer:not(.is-editing) .composer-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+/* The floating "Ask the Scholar" launcher is fixed bottom-right and would sit
+   over the prose once the inspector column it was positioned against is gone. */
+.composer:not(.is-editing) .gcp-launcher {
+  display: none;
+}
 @media (max-width: 60rem) {
   .composer-grid {
     grid-template-columns: 1fr;
@@ -136,33 +153,99 @@
   flex: 1 1 auto;
   max-width: 32rem;
 }
-.cx-mode {
-  display: inline-flex;
-  gap: 0.15rem;
-  padding: 0.15rem;
-  border: 1px solid var(--c-rule-soft, #ebe6da);
-  border-radius: 6px;
+/* The chapter picker is the primary navigation control for this whole view —
+   give it its own prominent treatment instead of the generic small .cx-field
+   styling shared with minor inspector inputs (figure width, caption, etc.).
+   Selectors are scoped/specific (compound + #id) so they win regardless of
+   source order against the generic .cx-field rules defined later in this
+   file, without raising specificity on those shared rules themselves. */
+.cx-chapter-bar .cx-chapter-picker > label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--c-ink-muted, #87827a);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+#cx-chapter-select {
+  height: 2.75rem;
+  padding: 0 0.9rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--c-ink, #1f1d18);
   background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+  box-shadow: var(
+    --shadow-card,
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 4px 12px rgba(31, 29, 24, 0.06)
+  );
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+}
+#cx-chapter-select:hover {
+  border-color: var(--c-accent, #8b4513);
+}
+#cx-chapter-select:focus-visible {
+  border-color: var(--c-accent, #8b4513);
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 1px;
+  box-shadow: var(
+    --shadow-hover,
+    0 2px 4px rgba(31, 29, 24, 0.08),
+    0 8px 24px rgba(31, 29, 24, 0.12)
+  );
+}
+/* Read / Edit segmented control. Read is the print-faithful render (the PDF's
+   own markup); Edit is the TipTap surface. Sits beside the chapter picker so the
+   two chapter-level controls read as one group. */
+.cx-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: var(
+    --shadow-card,
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 4px 12px rgba(31, 29, 24, 0.06)
+  );
 }
 .cx-mode-btn {
-  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  height: 2.75rem;
+  padding: 0 0.9rem;
   border: 0;
   background: transparent;
-  font: inherit;
-  font-size: 0.82rem;
-  padding: 0.3rem 0.8rem;
-  border-radius: 5px;
   color: var(--c-ink-muted, #87827a);
   cursor: pointer;
-  text-decoration: none; /* #cx-companion-tool reuses this class on an <a> */
+  transition:
+    background 0.16s,
+    color 0.16s;
+}
+.cx-mode-btn + .cx-mode-btn {
+  border-left: 1px solid var(--c-rule, #d9d3c4);
 }
 .cx-mode-btn:hover {
-  text-decoration: none;
+  color: var(--c-accent, #8b4513);
 }
-.cx-mode-btn.is-active {
-  background: var(--c-accent, #8b4513);
-  color: var(--c-bg-card, #fffdf8);
+.cx-mode-btn[aria-pressed="true"] {
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 11%,
+    var(--c-bg-card, #fffdf8)
+  );
+  color: var(--c-accent, #8b4513);
 }
+
 .cx-layout-save {
   display: flex;
   align-items: center;
@@ -173,9 +256,10 @@
 }
 
 .cx-panel-hint {
-  color: var(--c-ink-muted, #87827a);
-  font-size: 0.78rem;
-  line-height: 1.4;
+  color: var(--c-ink-muted, #66625a);
+  /* REQ-010 reading floor: instructional prose, not chrome. */
+  font-size: var(--fs-base);
+  line-height: 1.45;
   margin: 0 0 0.7rem;
 }
 #cx-panel-artifacts .cx-panel-hint {
@@ -246,8 +330,11 @@
   border: 1px solid var(--c-rule, #d9d3c4);
   border-radius: 10px;
   background: var(--c-bg-card, #fffdf8);
-  box-shadow: 0 1px 3px
-    color-mix(in oklab, var(--c-ink, #1f1d18) 8%, transparent);
+  box-shadow: var(
+    --shadow-card,
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 4px 12px rgba(31, 29, 24, 0.06)
+  );
   overflow: clip;
   transition:
     border-color 140ms ease,
@@ -257,7 +344,11 @@
   border-color: var(--c-accent, #8b4513);
   box-shadow:
     0 0 0 3px color-mix(in oklab, var(--c-accent, #8b4513) 20%, transparent),
-    0 1px 3px color-mix(in oklab, var(--c-ink, #1f1d18) 8%, transparent);
+    var(
+      --shadow-hover,
+      0 2px 4px rgba(31, 29, 24, 0.08),
+      0 8px 24px rgba(31, 29, 24, 0.12)
+    );
 }
 .cx-edit-toolbar {
   display: flex;
@@ -268,10 +359,10 @@
   padding: 0.5rem 0.75rem;
   background: color-mix(
     in oklab,
-    var(--c-accent, #8b4513) 6%,
+    var(--c-accent, #8b4513) 11%,
     var(--c-bg-card, #fffdf8)
   );
-  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+  border-bottom: 1px solid var(--c-rule, #d9d3c4);
 }
 /* Toolbar groups (font/size · formatting · paper), separated by a hairline. */
 .cx-tb-group {
@@ -472,9 +563,12 @@
     "OpenDyslexic", "Comic Sans MS", "AmiriSized", "Amiri", sans-serif;
 }
 
-/* The editor writing area fills the full column and justifies both edges. This
-   is an on-screen editing preference only — the Read-mode preview (.cx-body) and
-   the printed PDF keep the book's narrower reading measure. */
+/* The editor writing area fills the full column, ragged-right. Justification was
+   tried and removed: on a wide editing column it opens rivers of white space and
+   the auto-hyphenation it needs to stay tolerable breaks words that are being
+   actively edited. Left-aligned keeps word spacing even and the caret honest.
+   On-screen editing preference only — the Read-mode preview (.cx-body) and the
+   printed PDF keep the book's own narrower reading measure. */
 .cx-prose {
   outline: none;
   font-family: var(--prose-font, inherit);
@@ -482,9 +576,8 @@
   line-height: 1.6;
   color: inherit;
   max-width: none;
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: auto;
+  text-align: left;
+  hyphens: manual;
 }
 .cx-prose p {
   margin: 0 0 0.8rem;
@@ -494,10 +587,8 @@
   font-weight: 700;
   margin: 1.2rem 0 0.5rem;
 }
-/* Only body prose is justified — headings stay left-aligned (never stretched). */
-.cx-prose :is(h1, h2, h3, h4) {
-  text-align: left;
-}
+/* (The former heading-only left-align override is gone — the whole editor
+   surface is left-aligned now, so it had nothing left to override.) */
 .cx-prose blockquote {
   border-left: 2px solid var(--paper-rule, var(--c-rule, #d9d3c4));
   padding-left: 1rem;
@@ -616,6 +707,194 @@
   padding: 0.2rem 0;
 }
 
+/* Refinement tab additions — Research/Auto-tag + Arabic/English/Explain term
+   curation (ComposeAiTools.tsx), reusing .cx-ai-btn's own token pattern. */
+.cx-ai-tools {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.cx-ai-tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.cx-btn-ai {
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--c-accent, #8b4513);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--c-accent, #8b4513);
+  cursor: pointer;
+}
+.cx-btn-ai:hover:not(:disabled) {
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+}
+.cx-btn-ai:disabled {
+  opacity: 0.45;
+  cursor: default;
+  border-color: var(--c-rule-soft, #ebe6da);
+  color: var(--c-ink-muted, #87827a);
+}
+.cx-ai-result {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-ai-result.is-error,
+.cx-ai-error {
+  color: var(--c-red, #a83232);
+}
+.cx-ai-proposal {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+  padding-top: 0.6rem;
+}
+.cx-ai-proposal-arabic {
+  font-family: "AmiriSized", "Amiri", serif;
+  font-size: 1.2rem;
+  text-align: right;
+}
+.cx-ai-proposal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.cx-ai-proposal-actions button {
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg, #f7f4ee);
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+}
+.cx-ai-proposal-actions button:hover {
+  border-color: var(--c-accent, #8b4513);
+}
+
+/* Details tab (ComposeDetailsTab.tsx) — comments, action-item marks,
+   section depth/tags. Same token pattern as the Refinement additions above. */
+.cx-details-tab {
+  display: grid;
+  gap: 1rem;
+}
+.cx-details-block h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-ink-muted, #87827a);
+}
+.cx-details-hint {
+  font-size: 0.82rem;
+  color: var(--c-ink-muted, #87827a);
+}
+.cx-details-comment {
+  width: 100%;
+  min-height: 4rem;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  background: var(--c-bg, #f7f4ee);
+  color: var(--c-ink, #1f1d18);
+  resize: vertical;
+}
+.cx-details-mark-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.cx-btn-mark {
+  font: inherit;
+  font-size: 0.76rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink-dim, #4d4a42);
+  cursor: pointer;
+}
+.cx-btn-mark:hover:not(:disabled) {
+  border-color: var(--c-accent, #8b4513);
+  color: var(--c-accent, #8b4513);
+}
+.cx-btn-mark:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.cx-details-queue {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+.cx-details-queue li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg, #f7f4ee);
+}
+.cx-details-queue button {
+  font: inherit;
+  font-size: 0.72rem;
+  color: var(--c-red, #a83232);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.cx-details-sections {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+.cx-details-sections li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+.cx-details-section-title {
+  flex: 1 1 auto;
+  min-width: 8rem;
+  font-size: 0.82rem;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-btn-depth,
+.cx-btn-tags {
+  font: inherit;
+  font-size: 0.72rem;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 999px;
+  background: var(--c-bg-sunken, #f0ece2);
+  color: var(--c-ink-muted, #87827a);
+  cursor: pointer;
+}
+.cx-btn-depth:hover,
+.cx-btn-tags:hover {
+  border-color: var(--c-accent, #8b4513);
+  color: var(--c-accent, #8b4513);
+}
+
 /* Etymology review card — two outputs (inline insert + companion note). */
 .cx-ety-card {
   display: grid;
@@ -705,12 +984,9 @@
 .cx-chapter {
   margin: 0 0 1.8rem;
 }
-.cx-chapter > h2 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--c-ink, #1f1d18);
-  margin: 0 0 0.6rem;
-}
+/* The chapter title is no longer a sibling <h2> here — read mode renders the
+   book's own .chapter-open block (styled in compose-print.css), so the former
+   `.cx-chapter > h2` rule is gone rather than left as dead weight. */
 .cx-chapter.cx-dragover {
   outline: 2px dashed var(--c-accent, #8b4513);
   outline-offset: 4px;
@@ -722,6 +998,9 @@
   line-height: 1.6;
   color: var(--c-ink, #1f1d18);
   max-width: 60ch;
+  /* Centre the reading measure in its column — a 60ch page pinned to the left
+     edge of a 979px column reads lopsided, not page-like. */
+  margin-inline: auto;
   display: flow-root; /* contain floated (wrap) figures within the chapter */
 }
 .cx-body :is(p, blockquote) {
@@ -883,17 +1162,30 @@
 }
 .cx-tabbar {
   display: flex;
-  gap: 0.15rem;
+  /* Wrap rather than squeeze: five labels cannot all fit one 20rem row without
+     truncating "Companion"/"Refinement", and a clipped tab label is worse than
+     a second row. */
+  flex-wrap: wrap;
+  gap: 0.1rem;
   padding: 0.35rem 0.5rem 0;
   border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
 }
 .cx-tab {
-  flex: 1 1 auto;
+  /* 1 1 0 + min-width:0 so the five labels SHRINK to fit the 20rem panel.
+     With `flex: 1 1 auto` the strip's intrinsic 442px overflowed a 382px panel
+     whose parent is overflow:hidden, so "Refinement" was cut mid-word with no
+     scroll affordance. Tighter horizontal padding lets all five fit at the
+     panel's real width; ellipsis is the graceful fallback below that. */
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   appearance: none;
   background: transparent;
   border: 0;
   border-bottom: 2px solid transparent;
-  padding: 0.5rem 0.4rem;
+  padding: 0.5rem 0.2rem;
   font-family: var(--font-ui, system-ui, sans-serif);
   font-size: 0.8rem;
   color: var(--c-ink-muted, #87827a);
@@ -1324,8 +1616,8 @@
   .cx-delete,
   .cx-palette-place,
   .cx-fig,
-  .cx-mode-btn,
   .cx-edit-tool,
+  .cx-mode-btn,
   .cx-size-btn,
   .cx-font-select,
   .cx-paper-btn,

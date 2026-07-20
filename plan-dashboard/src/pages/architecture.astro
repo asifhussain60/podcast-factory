@@ -99,9 +99,9 @@ const archetypes = (arch.archetypes ?? []) as Array<{
         Every book passes through the same {
           arch.phases.filter((p: any) => p.kind !== "gate").length
         } production stations in the same order — about 30 steps end to end once setup,
-        delivery and housekeeping are counted. What differs between a scholarly
-        text and a lecture series is the set of rules each station activates — not
-        the pipeline itself.
+        delivery and housekeeping are counted. What differs between a scholarly text
+        and a lecture series is the set of rules each station activates — not the
+        pipeline itself.
       </p>
     </div>
     <div class="card card-tight">
@@ -169,8 +169,8 @@ const archetypes = (arch.archetypes ?? []) as Array<{
       <p class="l1-l2-sub">
         The pipeline view above shows today's stations. The sections below go
         deeper: the future-state phase sequence with model and cost annotations,
-        the {arch.layers.length} code layers, book kind registry, and the design decisions that
-        govern all of it.
+        the {arch.layers.length} code layers, book kind registry, and the design decisions
+        that govern all of it.
       </p>
     </div>
   </div>
@@ -197,19 +197,21 @@ const archetypes = (arch.archetypes ?? []) as Array<{
   <hr />
 
   <section id="s03-layers" class="stack">
-    <h2><span class="num">03</span> The {arch.layers.length} layers underneath</h2>
+    <h2>
+      <span class="num">03</span> The {arch.layers.length} layers underneath
+    </h2>
     <p>
-      The code itself is organized as {arch.layers.length} stacked layers. A layer can only call
-      into the layers below it. This is what keeps the system testable and
-      changeable — adding a new book kind, a new rule, or a new vendor never
-      requires touching the foundation.
+      The code itself is organized as {arch.layers.length} stacked layers. A layer
+      can only call into the layers below it. This is what keeps the system testable
+      and changeable — adding a new book kind, a new rule, or a new vendor never requires
+      touching the foundation.
     </p>
     <figure class="diagram-container">
       <LayerStack layers={arch.layers} />
       <figcaption>
-        The {arch.layers.length} code layers, drawn bottom to top. A layer may only call into the
-        layers beneath it — so adding a new book kind, rule, or vendor never
-        reaches down into the foundation.
+        The {arch.layers.length} code layers, drawn bottom to top. A layer may only
+        call into the layers beneath it — so adding a new book kind, rule, or vendor
+        never reaches down into the foundation.
       </figcaption>
     </figure>
   </section>
@@ -330,7 +332,9 @@ const archetypes = (arch.archetypes ?? []) as Array<{
 
   <section id="s07-non-negotiables" class="stack">
     <h2><span class="num">07</span> The non-negotiables</h2>
-    <p>The {arch.adrs.length} design decisions that everything else respects.</p>
+    <p>
+      The {arch.adrs.length} design decisions that everything else respects.
+    </p>
     <div class="grid-2">
       {
         arch.adrs.map((d) => (

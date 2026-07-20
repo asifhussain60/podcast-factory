@@ -1732,60 +1732,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-18T16:32:48.640Z",
-  "source_commit": "e409d3b",
+  "generated_at": "2026-07-20T16:16:23.433Z",
+  "source_commit": "e265eb0",
   "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "e409d3b",
-      "subject": "docs(status): hooks pass complete + audit fixes",
-      "date": "2026-07-18"
+      "sha": "e265eb0",
+      "subject": "feat(compose): recompose the whole book under its frame; make the Composer singular",
+      "date": "2026-07-20"
     },
     {
-      "sha": "264db78",
-      "subject": "docs(plan): R2 pass 2 complete in ledger (all nine hooks) + snapshots",
-      "date": "2026-07-18"
+      "sha": "ea8b5b9",
+      "subject": "feat(narrative-frame): enforce who narrates on every prose route + challenger Pass 3",
+      "date": "2026-07-20"
     },
     {
-      "sha": "9b7c6df",
-      "subject": "refactor(site): R2 pass 2 — extract useAnnotations hook (9/9, pass complete)",
-      "date": "2026-07-18"
+      "sha": "b2cc33c",
+      "subject": "fix(book-voice): window long chapters so a 14k-word chapter can be re-voiced",
+      "date": "2026-07-19"
     },
     {
-      "sha": "2e0d1f8",
-      "subject": "refactor(site): R2 pass 2 — extract useDenoiseTool hook (8/9)",
-      "date": "2026-07-18"
+      "sha": "dcedc32",
+      "subject": "docs(plan): continuation prompt for the book.md articulation gap",
+      "date": "2026-07-19"
     },
     {
-      "sha": "666b694",
-      "subject": "refactor(site): R2 pass 2 — extract useReplaceTool hook (7/9)",
-      "date": "2026-07-18"
+      "sha": "b63fe4d",
+      "subject": "fix(compose): revert the book.md chunk mirror — it was wrong in principle",
+      "date": "2026-07-19"
     },
     {
-      "sha": "87a455e",
-      "subject": "refactor(site): R2 pass 2 — extract useTermCuration hook (6/9)",
-      "date": "2026-07-18"
+      "sha": "3b27595",
+      "subject": "fix(quality): close the Cortex + runtime gate findings across both halves",
+      "date": "2026-07-19"
     },
     {
-      "sha": "4a17ed0",
-      "subject": "refactor(site): R2 pass 2 — extract useAiActions hook (5/9)",
-      "date": "2026-07-18"
+      "sha": "4f04c58",
+      "subject": "fix(studio): Chapters opens the Composer; drop the duplicate PDF Generator pill",
+      "date": "2026-07-19"
     },
     {
-      "sha": "3353749",
-      "subject": "refactor(site): R2 pass 2 — extract useStageApproval hook (4/9)",
-      "date": "2026-07-18"
+      "sha": "f9215e4",
+      "subject": "fix(compose): left-align the editor prose; add the missing Read/Edit toggle",
+      "date": "2026-07-19"
     },
     {
-      "sha": "3e323b0",
-      "subject": "fix(dashboard): post-chain audit findings — waves meta rebuild, Wave K rekey, librarian mirror",
-      "date": "2026-07-18"
+      "sha": "d1cf589",
+      "subject": "feat(studio): in-flight Composer extraction, companion tab, and book-lane work",
+      "date": "2026-07-19"
     },
     {
-      "sha": "72df6f2",
-      "subject": "docs(status): session log — clean-code hardening R2+R3 tranche",
-      "date": "2026-07-18"
+      "sha": "32282f0",
+      "subject": "feat(compose): one renderer for screen and print; close three silent-loss paths",
+      "date": "2026-07-19"
     }
   ],
   "wave_execution_events": [],

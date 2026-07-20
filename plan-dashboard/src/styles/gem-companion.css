@@ -4,27 +4,44 @@
  * those tokens via prefers-color-scheme in theme.css. Mode + state variants are
  * driven by data-attributes / classes, never inline styles.
  *
- * Collision note: this panel shares the right gutter with the manual notes panel
- * (companion-notes.css, .cpn* at z-index 40). Its launcher sits ABOVE the notes
- * launcher, and the open panel takes z-index 41 so it stays reachable when both
- * are open. */
+ * Mounted only on the Book Composer now (2026-07-19). The sidebar there
+ * (.composer-panel) is `position: sticky` with a capped `.cx-tabpanel`
+ * max-height, so its content never reaches the viewport's bottom edge --
+ * there is always a clear band below it. The CLOSED launcher sits
+ * bottom-RIGHT, in that clear band, matching the already right-anchored OPEN
+ * panel below. bottom-LEFT was tried and reverted: the main editing pane has
+ * no such reserved band, so a bottom-left launcher permanently sat on top of
+ * chapter prose instead. */
 
-/* ── Launcher tab (shown when the panel is closed) ─────────── */
+/* ── Launcher (shown when the panel is closed) ──────────────
+ * Icon-only, compact — the Book Composer's two content columns both run
+ * text/cards the full height of the viewport, so a wide labelled pill
+ * anywhere in a fixed corner ends up sitting on top of prose at some scroll
+ * position regardless of which corner. Keeping the footprint to a small
+ * circle (matching .gcp-close's icon-button sizing) minimizes how much
+ * content it can ever cover; the label survives as aria-label + title.
+ *
+ * Stacked directly above the global back-to-top control (.to-top in
+ * theme-components.css: right/bottom var(--sp-5), 44px, z-index 900) rather
+ * than sharing its corner — .to-top's much higher z-index would otherwise
+ * render on top of and fully hide this launcher once a reader scrolls past
+ * its 600px reveal threshold. Same 44px size + right offset keep the two
+ * controls visually stacked as one coherent column. */
 .gcp-launcher {
   position: fixed;
-  right: 1rem;
-  bottom: 4.75rem; /* above the notes launcher (bottom: 1.25rem) */
+  right: var(--sp-5, 1.5rem);
+  bottom: calc(var(--sp-5, 1.5rem) + 44px + var(--sp-3, 0.75rem));
   z-index: 41;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 0.95rem;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   background: var(--c-bg-card);
   color: var(--c-accent);
   border: 1px solid var(--c-accent);
   border-radius: 999px;
-  font-size: 0.95rem;
-  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 1.1rem;
   cursor: pointer;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
 }
@@ -311,10 +328,8 @@
     max-height: 80vh;
     border-radius: 14px 14px 0 0;
   }
-  .gcp-launcher {
-    right: 1rem;
-    bottom: 4.75rem;
-  }
+  /* .gcp-launcher keeps its base (icon-only, bottom-right) position and size
+     here — no override needed now that it's a compact circle. */
 }
 
 /* ── Never print the panel into the PDF/reading export ─────── */

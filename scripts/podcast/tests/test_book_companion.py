@@ -21,6 +21,7 @@ from _book_companion import (  # noqa: E402
     KIND_QUESTION,
     TARGET_MAX,
     TARGET_MIN,
+    _as_note,
     author_phase_book_companion,
     book_chapters,
     dedupe_cards,
@@ -247,3 +248,57 @@ def test_phase_without_a_composed_book_fails_loudly(tmp_path: Path) -> None:
 
     with pytest.raises(AuthoringError):
         author_phase_book_companion(tmp_path, log=lambda *a: None, generator=lambda *a: "[]")
+
+
+# ── Human-authored notes survive a re-render (durability contract) ──────────
+# The Companion panel and this generator write the SAME per-chapter file, and
+# the generator runs automatically at the end of every 0book-render. Before the
+# merge below it replaced the file wholesale, so generating a PDF destroyed
+# hand-written notes.
+
+from _book_companion import _merge_notes  # noqa: E402
+
+
+def _note(nid: str, *, generated: bool) -> dict:
+    n = {"id": nid, "kind": KIND_NOTE, "body": f"body {nid}"}
+    if generated:
+        n["generated"] = True
+    return n
+
+
+def test_merge_notes_keeps_human_notes_and_replaces_generated(tmp_path: Path) -> None:
+    out = tmp_path / "ch01.json"
+    out.write_text(
+        json.dumps(
+            {
+                "slug": "s",
+                "chapter": "ch01",
+                "notes": [_note("human-1", generated=False), _note("gen-old", generated=True)],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    merged = _merge_notes(out, [_note("gen-new", generated=True)])
+    ids = [n["id"] for n in merged]
+
+    assert "human-1" in ids, "a hand-written note must survive a re-render"
+    assert "gen-old" not in ids, "the generator's own prior output is replaced"
+    assert "gen-new" in ids, "the fresh generated set is written"
+    assert ids.index("human-1") < ids.index("gen-new"), "human notes stay first"
+
+
+def test_merge_notes_with_no_existing_file_returns_generated(tmp_path: Path) -> None:
+    assert _merge_notes(tmp_path / "absent.json", [_note("g", generated=True)]) == [_note("g", generated=True)]
+
+
+def test_merge_notes_never_deletes_on_unreadable_file(tmp_path: Path) -> None:
+    out = tmp_path / "ch01.json"
+    out.write_text("{ not json", encoding="utf-8")
+    merged = _merge_notes(out, [_note("g", generated=True)])
+    assert [n["id"] for n in merged] == ["g"], "corrupt file falls back to the generated set"
+
+
+def test_generated_notes_carry_the_ownership_marker() -> None:
+    note = _as_note({"kind": KIND_NOTE, "body": "some body"})
+    assert note.get("generated") is True, "without this the generator cannot identify its own output"

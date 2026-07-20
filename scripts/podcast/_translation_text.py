@@ -399,12 +399,25 @@ def normalize_translation_prose(prose: str, *, title: str = "") -> str:
     return text.strip()
 
 
-def translation_output_findings(prose: str, *, expected_title: str = "") -> list[str]:
+def translation_output_findings(
+    prose: str,
+    *,
+    expected_title: str = "",
+    frame: str = "",
+    narrator_subject: str = "",
+    source: str = "",
+) -> list[str]:
     """Deterministically reject process chatter and structural leakage.
 
     Chapter prose is inserted under pipeline-owned headings. If the model emits
     its own Markdown headings or explains why the source/title do not match, the
     safest action is to retry or fail before the bad text reaches book.md.
+
+    ``frame`` adds the narrative-person guard, and ``source`` (when the caller has
+    the assigned source span in hand) adds the full ``_narrative`` battery —
+    speech-tag integrity, Arabic retention, supplied diacritics, enumeration
+    survival. The translation route carries the same guards as the re-voice route
+    because the defects belong to the source being mishandled, not to the product.
     """
     findings: list[str] = []
     text = prose.strip()
@@ -422,6 +435,13 @@ def translation_output_findings(prose: str, *, expected_title: str = "") -> list
         quoted_title = re.escape(expected_title.strip())
         if re.search(rf"\b(?:cannot|can't|will not|won't)\s+produce\s+\"?{quoted_title}\"?", text, re.I):
             findings.append("explicitly says it cannot produce the requested chapter")
+    if frame:
+        from _narrative import frame_findings, narrative_person_findings
+
+        if source:
+            findings.extend(frame_findings(source, text, frame=frame, narrator_subject=narrator_subject))
+        else:
+            findings.extend(narrative_person_findings(text, frame, narrator_subject=narrator_subject))
     return findings
 
 

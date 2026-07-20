@@ -15,13 +15,18 @@
  *    component assigned it before extraction, so the PM section-toolbar
  *    mousedown never sees a stale closure between render and effect flush.
  *    (react-hooks/refs is warn-level for this deliberate pattern — same as
- *    useSectionDepth's mirror refs.)
+ *    useSectionDepth's mirror refs.) `runAiFnRef` is an OPTIONAL param: in
+ *    StudioEditor the ref is created ahead of this hook's call site (StudioDecos
+ *    — which reads runAiFnRef — is built before this hook runs, since it feeds
+ *    useEditor's extensions array) and passed in; callers with no PM-widget
+ *    indirection (e.g. ComposeAiTools, whose buttons call runAi() directly)
+ *    fall back to an internally-created ref that nothing reads.
  *  - fetchErrorText is passed in: it is shared with the arabic/english/
  *    explain proposal clusters that remain in StudioEditor.
  *  - Dependency arrays are verbatim from the component (exhaustive-deps is
  *    advisory; identities of the passed-in helpers are unchanged).
  */
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import type { useEditor } from "@tiptap/react";
 
 import { apiFetch } from "../../../lib/api-fetch";
@@ -36,6 +41,12 @@ interface AiActionsArgs {
   fetchErrorText: (e: unknown) => string;
   /** Component-level tick bump so the JSX re-reads editor state after apply. */
   refresh: () => void;
+  /**
+   * Section-level AI action ref, called from the section h2 floating toolbar.
+   * Optional — see file header note. Created in StudioEditor (not here) when
+   * a PM-widget indirection is needed.
+   */
+  runAiFnRef?: React.RefObject<(kind: string) => void>;
 }
 
 export function useAiActions({
@@ -45,6 +56,7 @@ export function useAiActions({
   setInspectorTab,
   fetchErrorText,
   refresh,
+  runAiFnRef: externalRunAiFnRef,
 }: AiActionsArgs) {
   // Wave L-8 — AI assist panel state.
   const [aiBusy, setAiBusy] = useState(false);
@@ -53,8 +65,9 @@ export function useAiActions({
   const [aiOptions, setAiOptions] = useState<string[]>([]); // rewrite option cards
   const [aiError, setAiError] = useState("");
 
-  // Section-level AI action ref: called from the section h2 floating toolbar.
-  const runAiFnRef = useRef<(kind: string) => void>(() => {});
+  // Fallback ref for callers with no PM-widget indirection (see file header).
+  const ownRunAiFnRef = useRef<(kind: string) => void>(() => {});
+  const runAiFnRef = externalRunAiFnRef ?? ownRunAiFnRef;
 
   // All text (heading + paragraphs) of a section, joined by double newline.
   const sectionText = useCallback(
@@ -207,9 +220,17 @@ export function useAiActions({
     [editor, activeSectionOrdinal],
   );
 
-  // Render-time assignment (same as the pre-extraction component) so the PM
-  // widget always calls the latest closure — see contract notes above.
-  runAiFnRef.current = (kind: string) => void runAi(kind);
+  // Keep the PM widget calling the LATEST closure — see the contract notes at
+  // the top of this file. This was a render-phase assignment; it is now a
+  // layout effect because mutating a caller-owned ref during render is unsafe
+  // under concurrent rendering (React may render without committing, leaving
+  // the ref pointing at a closure from a discarded pass) and the compiler lint
+  // flags it as such. Timing is unchanged in practice: the only reader is a
+  // ProseMirror widget mousedown handler, which can only fire after commit, and
+  // useLayoutEffect runs before paint.
+  useLayoutEffect(() => {
+    runAiFnRef.current = (kind: string) => void runAi(kind);
+  }, [runAiFnRef, runAi]);
 
   return {
     aiBusy,
@@ -219,6 +240,5 @@ export function useAiActions({
     aiError,
     runAi,
     applySection,
-    runAiFnRef,
   };
 }

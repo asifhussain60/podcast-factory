@@ -2,7 +2,7 @@
 
 ## A Threshold to the Subtle Lights
 
-Before I set down a single word of what follows, let me speak the words I have always begun with, for they are not ornament but the doorway itself:
+These are the words I have always begun with, not ornament but the doorway itself:
 
 > أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ، بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ، وَصَلَّى اللَّهُ عَلَىٰ رَسُولِهِ وَآلِهِ الطَّيِّبِينَ الطَّاهِرِينَ وَسَلَّمَ عَلَيْهِمْ أَجْمَعِينَ
 >
@@ -398,7 +398,7 @@ So I will set down something of this matter — open it, as far as it can be ope
 
 ## 5. The Nearest Rank: Breaking the Self to Climb
 
-So let me begin — with the help of God, glory be to Him, and under the gaze of His friend upon His earth, peace be upon him. I told you the price has been named and the reward has been named. Now I open the door and walk you through it, one foot after the other, because the only way to learn this is to enter it.
+With the help of God, glory be to Him, and under the gaze of His friend upon His earth, peace be upon him — the price has been named and the reward has been named. Now the door opens, one foot after the other, for the only way to learn this is to enter it.
 
 > فَأَقُولُ بِعَوْنِ اللَّهِ سُبْحَانَهُ وَلَحَظَاتِ وَلِيِّهِ فِي أَرْضِهِ، سَلَامُ اللَّهِ عَلَيْهِ، إِنَّ أَقْرَبَ الْحُدُودِ إِلَيْنَا هُوَ الْمُكَاثِرُ وَمَا ثَبَتَ مِنَ الْقَوْلِ فِي الدَّانِي مِنَ الْحُدُودِ ثَبَتَ فِي الْعَالِي.
 >
@@ -706,7 +706,7 @@ So the seeker has done the full circuit. He climbed from his own dizziness befor
 
 ## 7. Out of Nothing, and Equal in Justice
 
-The road I promised runs on, and now it turns back behind the ranks themselves to ask after the act that made them. Before there was a first of the spiritual ranks for a soul to cross into, before there was any rank at all, there was an origination — a bringing-into-being out of which the ranks, the worlds, and we ourselves came. I want to take you into that act now, and I do not go alone. I lean on a long exposition by Sayyidna Mohyuddin, whose argument I will give you in summary, keeping its bones whole. So I begin where he begins, with the Name and then with the ground:
+The road I promised runs on, and now it turns back behind the ranks themselves to ask after the act that made them. Before there was a first of the spiritual ranks for a soul to cross into, before there was any rank at all, there was an origination — a bringing-into-being out of which the ranks, the worlds, and we ourselves came. That act is where this turns now, drawing on a long exposition by Sayyidna Mohyuddin, whose argument follows here in summary, its bones kept whole — beginning where he begins, with the Name and then with the ground:
 
 > إِنَّ اللَّهَ تَعَالَى الَّذِي لَا تَتَجَاسَرُ نَحْوَهُ الْخَوَاطِرُ وَلَا تَسْمُو إِلَيْهِ الْأَوْهَامُ وَالضَّمَائِرُ، أَبْدَعَ عَالَمَ الْإِبْدَاعِ الْمُكَنَّى عَنْهُ بِعَالَمِ الْأَمْرِ وَعَالَمِ الْعَقْلِ وَعَالَمِ الْقُدْسِ وَعَالَمِ الصَّفَاءِ وَعَالَمِ اللَّطَافَةِ وَبِالْعَالَمِ الرُّوحَانِيِّ دَفْعَةً وَاحِدَةً مِنْ غَيْرِ شَيْءٍ تَقَدَّمَهُمْ فَيَكُونَ لَهُمْ هَيُولَى أُولَى وَلَا مَعَ شَيْءٍ صَاحَبَهُمْ فَيَكُونَ مُمَاثِلًا لَهُمْ وَمُشَاكِلًا وَلَا عَلَى شَيْءٍ أَقَلَّهُمْ فَيَكُونَ لَهُمْ مَكَانًا أَوَّلًا.
 >

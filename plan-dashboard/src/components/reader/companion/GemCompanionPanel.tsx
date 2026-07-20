@@ -163,9 +163,10 @@ export default function GemCompanionPanel({
         className="gcp-launcher"
         ref={launcherRef}
         onClick={() => setOpen(true)}
+        aria-label="Ask the Scholar"
+        title="Ask the Scholar"
       >
         <i className="fa-solid fa-book-open-reader" aria-hidden="true" />
-        Ask the Scholar
       </button>
     );
   }

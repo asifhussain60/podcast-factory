@@ -1,0 +1,563 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 92,
+  "terms_tracked": 127,
+  "prerequisite_gaps": [
+    {
+      "term": "Iblis",
+      "first_use_page": 3,
+      "explained_page": 56,
+      "pages_carried": 53,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Imamate",
+      "first_use_page": 13,
+      "explained_page": 59,
+      "pages_carried": 46,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Ibrahim",
+      "first_use_page": 33,
+      "explained_page": 73,
+      "pages_carried": 40,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Ali",
+      "first_use_page": 6,
+      "explained_page": 44,
+      "pages_carried": 38,
+      "kind": "explained-late"
+    },
+    {
+      "term": "natiq",
+      "first_use_page": 5,
+      "explained_page": 43,
+      "pages_carried": 38,
+      "kind": "explained-late"
+    },
+    {
+      "term": "salam",
+      "first_use_page": 10,
+      "explained_page": 46,
+      "pages_carried": 36,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-Qa'im",
+      "first_use_page": 11,
+      "explained_page": 43,
+      "pages_carried": 32,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Mahdi",
+      "first_use_page": 14,
+      "explained_page": 44,
+      "pages_carried": 30,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Noah",
+      "first_use_page": 3,
+      "explained_page": 33,
+      "pages_carried": 30,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Adam",
+      "first_use_page": 1,
+      "explained_page": 20,
+      "pages_carried": 19,
+      "kind": "explained-late"
+    },
+    {
+      "term": "hadith",
+      "first_use_page": 27,
+      "explained_page": 41,
+      "pages_carried": 14,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Fatimid",
+      "first_use_page": 10,
+      "explained_page": 19,
+      "pages_carried": 9,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Imams",
+      "first_use_page": 14,
+      "explained_page": 19,
+      "pages_carried": 5,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Muhammad",
+      "first_use_page": 6,
+      "explained_page": 9,
+      "pages_carried": 3,
+      "kind": "explained-late"
+    },
+    {
+      "term": "asas",
+      "first_use_page": 1,
+      "explained_page": 4,
+      "pages_carried": 3,
+      "kind": "explained-late"
+    },
+    {
+      "term": "hujja",
+      "first_use_page": 44,
+      "explained_page": 47,
+      "pages_carried": 3,
+      "kind": "explained-late"
+    },
+    {
+      "term": "imam",
+      "first_use_page": 6,
+      "explained_page": 9,
+      "pages_carried": 3,
+      "kind": "explained-late"
+    }
+  ],
+  "naming_drift": [],
+  "dense_pages": [
+    {
+      "page": 5,
+      "term_count": 10,
+      "terms": [
+        "Gospel",
+        "Ismaili",
+        "Torah",
+        "al-Natiq",
+        "al-Ta'wil",
+        "asas",
+        "natiq",
+        "ta'wil",
+        "tafsir",
+        "tanzil"
+      ]
+    },
+    {
+      "page": 8,
+      "term_count": 6,
+      "terms": [
+        "Gospel",
+        "Torah",
+        "al-Asas",
+        "asas",
+        "imam",
+        "tanzil"
+      ]
+    },
+    {
+      "page": 9,
+      "term_count": 8,
+      "terms": [
+        "Ismaili",
+        "Muhammad",
+        "al-Sadiq",
+        "al-Ta'wil",
+        "asas",
+        "imam",
+        "ta'wil",
+        "tafsir"
+      ]
+    },
+    {
+      "page": 10,
+      "term_count": 6,
+      "terms": [
+        "Abbasids",
+        "Fatimid",
+        "Ismaili",
+        "Qaramita",
+        "Salamiyya",
+        "salam"
+      ]
+    },
+    {
+      "page": 11,
+      "term_count": 8,
+      "terms": [
+        "Fatimid",
+        "Ismaili",
+        "Muhammad",
+        "Salamiyya",
+        "Ubaydallah",
+        "al-Ma'arri",
+        "al-Qa'im",
+        "imam"
+      ]
+    },
+    {
+      "page": 12,
+      "term_count": 7,
+      "terms": [
+        "Buyids",
+        "Fatimid",
+        "Hamdanids",
+        "Ka'ba",
+        "Umayyads",
+        "da'i",
+        "imam"
+      ]
+    },
+    {
+      "page": 13,
+      "term_count": 8,
+      "terms": [
+        "Fatimid",
+        "Imamate",
+        "Ismaili",
+        "Muhammad",
+        "al-Maqrizi",
+        "al-Ta'wil",
+        "asas",
+        "ta'wil"
+      ]
+    },
+    {
+      "page": 14,
+      "term_count": 8,
+      "terms": [
+        "Fatimid",
+        "Imams",
+        "Mahdi",
+        "Muhammad",
+        "al-Mahdi",
+        "al-Mansuriyya",
+        "al-Qa'im",
+        "imam"
+      ]
+    },
+    {
+      "page": 19,
+      "term_count": 10,
+      "terms": [
+        "Ali",
+        "Fatimid",
+        "Fatimiyya",
+        "Imams",
+        "Ismaili",
+        "Ismailiyya",
+        "Muhammad",
+        "al-Ta'wil",
+        "asas",
+        "ta'wil"
+      ]
+    },
+    {
+      "page": 20,
+      "term_count": 12,
+      "terms": [
+        "Adam",
+        "Ali",
+        "Ismailiyya",
+        "Jesus",
+        "Maryam",
+        "Masyaf",
+        "Muhammad",
+        "al-Ta'wil",
+        "asas",
+        "imam"
+      ]
+    },
+    {
+      "page": 27,
+      "term_count": 6,
+      "terms": [
+        "al-Sadiq",
+        "al-Ta'wil",
+        "asas",
+        "du'at",
+        "hadith",
+        "ta'wil"
+      ]
+    },
+    {
+      "page": 43,
+      "term_count": 9,
+      "terms": [
+        "Adam",
+        "Imams",
+        "Jesus",
+        "Moses",
+        "Muhammad",
+        "Noah",
+        "al-Qa'im",
+        "natiq",
+        "samit"
+      ]
+    },
+    {
+      "page": 44,
+      "term_count": 7,
+      "terms": [
+        "Aaron",
+        "Ali",
+        "Imams",
+        "Mahdi",
+        "Seth",
+        "Shem",
+        "hujja"
+      ]
+    },
+    {
+      "page": 45,
+      "term_count": 7,
+      "terms": [
+        "Adam",
+        "Jesus",
+        "Moses",
+        "Muhammad",
+        "Noah",
+        "al-Qa'im",
+        "imam"
+      ]
+    },
+    {
+      "page": 53,
+      "term_count": 10,
+      "terms": [
+        "Israfil",
+        "Jibra'il",
+        "Lahiq",
+        "Mika'il",
+        "Muhammad",
+        "al-Sadiq",
+        "furu'",
+        "hujja",
+        "imam",
+        "usul"
+      ]
+    },
+    {
+      "page": 56,
+      "term_count": 14,
+      "terms": [
+        "Adam",
+        "Iblis",
+        "Jesus",
+        "Moses",
+        "Muhammad",
+        "Noah",
+        "Wali",
+        "al-Sadiq",
+        "asas",
+        "hujja"
+      ]
+    },
+    {
+      "page": 83,
+      "term_count": 19,
+      "terms": [
+        "Adam",
+        "Hawwa",
+        "Iblis",
+        "Imams",
+        "Israfil",
+        "Mika'il",
+        "al-Ajniha",
+        "al-Asas",
+        "al-Du'at",
+        "al-Lawh"
+      ]
+    },
+    {
+      "page": 86,
+      "term_count": 7,
+      "terms": [
+        "Abel",
+        "Adam",
+        "Imamate",
+        "Seth",
+        "awsa",
+        "sunna",
+        "wasiyya"
+      ]
+    },
+    {
+      "page": 87,
+      "term_count": 7,
+      "terms": [
+        "Adam",
+        "Idris",
+        "Jesus",
+        "Moses",
+        "Noah",
+        "awliya",
+        "imam"
+      ]
+    },
+    {
+      "page": 88,
+      "term_count": 9,
+      "terms": [
+        "Adam",
+        "Ibrahim",
+        "Imams",
+        "Muhammad",
+        "Noah",
+        "Wali",
+        "al-Khalil",
+        "itra",
+        "wali"
+      ]
+    },
+    {
+      "page": 89,
+      "term_count": 15,
+      "terms": [
+        "Adam",
+        "Akhnūkh",
+        "Fārān",
+        "Iblis",
+        "Idris",
+        "Imams",
+        "Jesus",
+        "Lāmak",
+        "Moses",
+        "Muhammad"
+      ]
+    },
+    {
+      "page": 90,
+      "term_count": 7,
+      "terms": [
+        "Adam",
+        "Ali",
+        "Imams",
+        "Muhammad",
+        "Noah",
+        "bashar",
+        "wasi"
+      ]
+    },
+    {
+      "page": 91,
+      "term_count": 10,
+      "terms": [
+        "Nasr",
+        "Noah",
+        "Suwāʿ",
+        "Wadd",
+        "Yaghūth",
+        "Yaʿūq",
+        "bashar",
+        "māl",
+        "natiq",
+        "walad"
+      ]
+    }
+  ],
+  "long_sentences": [
+    {
+      "page": 75,
+      "words": 177,
+      "text": "Listen to how He names them: ‫َأ َلْم َتَر ِإ َلى اَّلِذيَن َتَوَّلْوا َقْوًما َغِض َب الَّل ُه َعَلْيِهم َّم ا ُهم ِّمنُكْم َوَلا ِمْنُهْم‬ ‫َوَي ْحِلُفوَن َعَ"
+    },
+    {
+      "page": 65,
+      "words": 149,
+      "text": "Then God Almighty commanded the angels to prostrate to Adam — that is, He commanded them to obey him, to call upon him, and to accept him — as the Almighty said"
+    },
+    {
+      "page": 35,
+      "words": 148,
+      "text": "When one of them does so, his words will be thrown back at him, and it will be said to him: You have lied; you are not among the truthful.\" Al-Sadiq, peace be u"
+    },
+    {
+      "page": 47,
+      "words": 148,
+      "text": "And He said: ‫ِإ ْذ َقاَلِت‬ ‫ٱْلَمَل ِئ َكُة َيٰـَمْرَيُم ِإ َّن ٱلَّل َه ُيَبِّشُرِك ِبَكِلَمٍة ِّمْنُه ٱْس ُمُه ٱْلَمِسيُح ِعيَسى‬ ‫ٰٓـ‬ ‫ٱْبُن َمْر َيَم‬ \"W"
+    },
+    {
+      "page": 76,
+      "words": 147,
+      "text": "Then, in the same breath, He turned and described His own party — those who are His by claim and by love: ‫َّل ا َتِجُد َقْوًما ُيْؤِمُنوَن ِبالَّل ِه َواْلَيْو"
+    },
+    {
+      "page": 88,
+      "words": 125,
+      "text": "The Almighty said: ‫َلا َتْيَأ ُسوا ِمن َّر ْوِح الَّل ِهۖ ِإ َّن ُه َلا َيْيَأ ُس ِمن َّر ْوِح الَّل ِه ِإ َّل ا اْلَقْوُم اْلَكاِفُروَن‬ \"Do not despair of th"
+    },
+    {
+      "page": 29,
+      "words": 122,
+      "text": "Then He mentioned in His book, saying: ‫ُهَو اَّلِذي َأ نَزَل َعَلْيَك اْلِكَتاَب ِمْنُه آَياٌت ُّم ْحَك َماٌت ُهَّن ُأ ُّم اْلِكَتاِب َوُأ َخُر‬ ‫ُمَتَشاِبَهاٌ"
+    },
+    {
+      "page": 49,
+      "words": 116,
+      "text": "‫َوَلَقْد َخَلْق َنا ٱْلِإ نَسٰـَن ِمن ُس َلٰـَلٍة ِّمن ِطيٍن ۝ ُثَّم َجَعْلَنٰـُه ُنْطَفًة ِفى َقَراٍر‬ ‫َّم ِكيٍن ۝ ُثَّم َخَلْق َنا ٱلُّن ْطَفَة َعَلَقًة َفَ"
+    },
+    {
+      "page": 71,
+      "words": 113,
+      "text": "The Almighty said: ‫َيا آَدُم اْس ُكْن َأ نَت َوَزْوُجَك اْلَجَّنَة َوُكَلا ِمْنَها َرَغًدا َحْيُث ِشْئُتَما َوَلا َتْقَرَبا‬ ‫َٰهِذِه الَّش َج َرَة َفَتُكوَنا "
+    },
+    {
+      "page": 50,
+      "words": 109,
+      "text": "So rejoice in your transaction which you have contracted, and that is indeed the great success.\" Then He described, by their attributes, the believers to whom t"
+    },
+    {
+      "page": 63,
+      "words": 108,
+      "text": "Indeed, You are the All-Knowing, the All-Wise.\" He said: ‫َيا آَدُم َأ نِبْئُهم ِبَأ ْس َماِئ ِهْم‬ \"O Adam, inform them of their names.\" And when Adam had info"
+    },
+    {
+      "page": 82,
+      "words": 104,
+      "text": "He said: ‫اْهِبُطوا ِمْنَها َجِميًعا‬ \"Go down from it together\" — from the light which was, on earth, the good for you — \"and you will have therein dwelling an"
+    },
+    {
+      "page": 7,
+      "words": 97,
+      "text": "‫ُهَو ٱَّلِذي َأ نَزَل َعَلْيَك ٱْلِكَتاَب ِمْنُه آَياٌت ُّم ْحَك َماٌت ُهَّن ُأ ُّم ٱْلِكَتاِب َوُأ َخُر‬ ‫ُمَتَشاِبَهاٌت ۖ َفَأ َّم ا ٱَّلِذيَن ِفي ُقُلوِبِهْ"
+    },
+    {
+      "page": 24,
+      "words": 96,
+      "text": "‫َوَما َأ ْك َثُر الَّناِس َوَلْو َحَرْص َت ِبُمْؤِمِنيَن‬ \"How many of mankind — even if you were eager — will not believe.\" And: ‫ِمْنُهُم اْلُمْؤِمُنوَن َوَأ"
+    },
+    {
+      "page": 6,
+      "words": 95,
+      "text": "He said: ‫َوَكَٰذِلَك َيْجَتِبيَك َرُّب َك َو ُيَعِّلُمَك ِمن َتْأ ِو يِل ٱْلَأ َحاِديِث‬ \"Thus your Lord shall choose you and teach you the interpretation of e"
+    },
+    {
+      "page": 77,
+      "words": 95,
+      "text": "God Himself has reported what he whispered: ‫َما َنَهاُك َما َرُّب ُك َما َعْن َٰهِذِه الَّش َج َرِة ِإ َّل ا َأ ن َتُكوَنا َمَلَكْيِن َأ ْو َتُكوَنا ِمَن‬ ‫اْل"
+    },
+    {
+      "page": 80,
+      "words": 94,
+      "text": "Most of those who held this interpretation took it from the Jewish converts among their ancestors — Ka'b al-Ahbar, Abdullah ibn Salam, and others — because they"
+    },
+    {
+      "page": 26,
+      "words": 93,
+      "text": "Whoever hears any of it that seems to contradict the proper limits as we have set them out, and does not act on it accordingly — referring it on his own to some"
+    },
+    {
+      "page": 32,
+      "words": 93,
+      "text": "They give every member of the family his proper share, and they withhold from the one who must be withheld from, and they entrust the matter to those who are wo"
+    },
+    {
+      "page": 11,
+      "words": 92,
+      "text": "In any case, I must refer to the story related by Ja'far al-Hajib in his biography, published by the orientalist Ivanow, concerning Muhammad alMahdi — Ubaydalla"
+    }
+  ],
+  "summary": {
+    "never_explained": 0,
+    "explained_late": 17
+  }
+}

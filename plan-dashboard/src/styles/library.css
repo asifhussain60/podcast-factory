@@ -321,7 +321,8 @@
 }
 .lib-panel-sub {
   color: var(--c-ink-muted);
-  font-size: var(--fs-sm);
+  /* REQ-010 reading floor: panel description is prose, not a chip. */
+  font-size: var(--fs-base);
   margin: 0 0 var(--sp-4) 0;
 }
 .lib-empty-panel {
@@ -388,7 +389,8 @@
 }
 .lib-fact dd {
   margin: 0;
-  font-size: var(--fs-sm);
+  /* REQ-010 names <dd> explicitly as reading text. */
+  font-size: var(--fs-base);
   color: var(--c-ink);
   overflow-wrap: anywhere;
 }
@@ -418,6 +420,10 @@ a.lib-fact-file:focus-visible {
   color: var(--c-ink-muted);
 }
 .lib-fact-file-hint {
+  /* The parent .lib-fact-file sets overflow-wrap:anywhere for long paths; this
+     badge must not inherit it or "MISSING" breaks as "MISSI / NG" at 390px. */
+  white-space: nowrap;
+  flex-shrink: 0;
   font-size: var(--fs-2xs);
   font-weight: 700;
   text-transform: uppercase;

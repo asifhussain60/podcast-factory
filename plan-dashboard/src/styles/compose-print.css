@@ -1,0 +1,185 @@
+/* compose-print.css — the Book Composer's read-mode "print-faithful" layer.
+ *
+ * WHY THIS FILE EXISTS
+ * The Composer's read mode renders a chapter with the PDF's OWN renderer
+ * (scripts/lib/book-html.mjs renderMd, via lib/reader/composer.ts), so the
+ * markup on screen is the markup that prints: .chapter-open, .ch-eyebrow,
+ * .ch-source, .ch-rule, p.ch-first, blockquote.quran, .section-heading. Markup
+ * parity alone is not visual parity — that markup still needs the book's
+ * typography. book-print.css cannot simply be imported here: it styles bare
+ * `body`/`h2`/`p` selectors and owns `@page`, cover, title-page, TOC and
+ * pagination rules, all of which would leak into (and break) the site chrome.
+ *
+ * So this file re-expresses ONLY the per-chapter book-craft rules, scoped under
+ * `.cx-print`, for a screen surface that is by definition NOT paged. It is
+ * deliberately a subset: no @page, no page-break-*, no cover/TOC/crosswalk.
+ *
+ * DRIFT CONTRACT — read before editing
+ * Every rule below mirrors a rule in book-print.css; the citation is on each
+ * block. If you change a value HERE, change it THERE (or the Composer starts
+ * lying about the PDF again — the exact defect this whole layer was built to
+ * end). Structural fidelity is guarded by the parity test in
+ * scripts/lib/book-html.test.mjs; visual fidelity is guarded by the
+ * preview-fidelity-challenger against the rendered PDF.
+ *
+ * Colour comes from the locked --c-* tokens only; no new palette values.
+ */
+
+/* ── Chapter opening ── mirrors book-print.css:269-304 (.chapter-open et al).
+   page-break-before is intentionally NOT carried over: this is one chapter on a
+   continuous screen surface, not a paged document. */
+.cx-print .chapter-open {
+  margin: 0 0 1.35rem;
+  text-align: center;
+}
+.cx-print .chapter-open .ch-eyebrow {
+  margin: 0 0 1rem;
+  color: var(--c-accent, #8b4513);
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.cx-print .chapter-open h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 2.05rem;
+  font-weight: 600;
+  line-height: 1.22;
+}
+.cx-print .chapter-open .ch-source {
+  margin: 0.55rem 0 0;
+  color: var(--c-ink-muted, #66625a);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+.cx-print .chapter-open .ch-rule {
+  width: 3.2rem;
+  margin: 1.5rem auto 0;
+  border: 0;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+}
+
+/* ── Drop cap ── mirrors book-print.css:307-314 (p.ch-first::first-letter). */
+.cx-print p.ch-first::first-letter {
+  float: left;
+  padding: 0.04em 0.1em 0 0;
+  color: var(--c-accent, #8b4513);
+  font-size: 3.05em;
+  font-weight: 600;
+  line-height: 0.83;
+}
+
+/* ── In-flow source heading ── mirrors book-print.css:317-320 (h3). */
+.cx-print .section-heading {
+  margin: 1.3rem 0 0.6rem;
+  font-size: 1.25rem;
+}
+
+/* ── Quranic / Arabic quotation ── mirrors book-print.css:348-375. */
+.cx-print blockquote.quran {
+  margin: 0.85rem 0;
+  padding: 0.25rem 0 0.25rem 1.1rem;
+  background: none;
+  border: none;
+  border-left: 2px solid rgba(201, 165, 92, 0.65);
+  box-shadow: none;
+  text-align: left;
+}
+.cx-print blockquote.quran p.ar {
+  margin: 0 0 0.2rem;
+  color: var(--c-ink, #1f1d18);
+  direction: rtl;
+  /* DECLARED DIVERGENCE from book-print.css:358, which names the unadjusted
+     "Amiri Quran". The *Sized faces (theme.css) carry size-adjust: 135% so
+     Arabic reads at the same visual size as the Latin around it on screen; the
+     print renderer needs no such correction. Every other on-screen Arabic
+     surface uses the sized faces (book-reader.css, book-styles.css), so
+     matching the raw print stack here would make this the only screen surface
+     with undersized Arabic. Size parity of the SCRIPT is the intent; the
+     literal font-family string is not. */
+  font-family:
+    "AmiriQuranSized", "AmiriSized", "Amiri Quran", "Amiri", "DecoType Naskh",
+    serif;
+  font-size: 1.05rem;
+  line-height: 1.9;
+  text-align: center;
+}
+.cx-print blockquote.quran .quran-divider {
+  display: none;
+}
+.cx-print blockquote.quran p.tr {
+  margin: 0;
+  color: var(--c-ink-muted, #66625a);
+  font-size: 0.9rem;
+  font-style: normal;
+  line-height: 1.35;
+  text-align: center;
+}
+
+/* ── Citation families ── mirrors book-print.css:386-440 (body.style-<family>)
+   rule-for-rule. The renderer stamps the family on <body>; read mode stamps it on
+   the chapter container instead, so the same choice reskins the chapter you are
+   looking at.
+
+   The gold values below are LITERALS, deliberately, not `var(--c-gold)`: this
+   file's contract is parity with the printed page, and book-print.css uses the
+   raw rgba(201,165,92,…) ramp. --c-gold is #b8860b, a visibly different colour —
+   substituting it here would make read mode disagree with the PDF, which is the
+   exact defect this layer exists to prevent. */
+
+/* Plain — no borders, no tint; black ink, set apart only by placement. */
+.cx-print.style-plain blockquote.quran {
+  border-left: 0;
+  padding-left: 0;
+}
+.cx-print.style-plain blockquote.quran p.ar {
+  color: var(--c-ink, #1f1d18);
+}
+.cx-print.style-plain blockquote:not(.quran) {
+  border-left: 0;
+  background: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Elegant — framed panels, gold detailing, centered display. */
+.cx-print.style-elegant blockquote.quran {
+  border: 1px solid rgba(201, 165, 92, 0.55);
+  border-radius: 8px;
+  background: rgba(201, 165, 92, 0.08);
+  padding: 0.9rem 1.2rem;
+  text-align: center;
+}
+.cx-print.style-elegant blockquote.quran p.ar {
+  text-align: center;
+}
+.cx-print.style-elegant blockquote.quran p.ar::after {
+  content: " \06DD"; /* ۝ end-of-ayah marker */
+  color: rgba(201, 165, 92, 0.9);
+  font-size: 0.9em;
+}
+.cx-print.style-elegant blockquote.quran p.tr {
+  text-align: center;
+  font-style: italic;
+  border-top: 1px solid rgba(201, 165, 92, 0.4);
+  padding-top: 0.45rem;
+  margin-top: 0.45rem;
+}
+.cx-print.style-elegant blockquote:not(.quran) {
+  position: relative;
+  border-left: 0;
+  border: 1px solid var(--c-rule, #e6e0d4);
+  border-radius: 8px;
+  padding-left: 2.2rem;
+}
+.cx-print.style-elegant blockquote:not(.quran)::before {
+  content: "\201C"; /* " */
+  position: absolute;
+  left: 0.55rem;
+  top: 0.05rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: rgba(201, 165, 92, 0.9);
+}
