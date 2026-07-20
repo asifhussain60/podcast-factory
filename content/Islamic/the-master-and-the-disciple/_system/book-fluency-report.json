@@ -13,59 +13,69 @@
       "status": "reverted",
       "gates": [
         "fluency-01: abridged re-voice (407<440 words)",
-        "fluency-01: P1 large length drop: 734->407 words (55% of source \u2014 possible content loss)",
+        "fluency-01: P1 large length drop: 734->407 words (55% of source — possible content loss)",
         "fluency-01: Arabic runs dropped (7<8)",
-        "fluency-01: Arabic script dropped (4 run(s)) \u2014 replaced or removed: \u0628\u0644\u0648\u0649\u060c; \u0647\u062f\u0649\u060c; \u0648\u0622\u062e\u0631\u0647\u0627"
+        "fluency-01: Arabic script dropped (4 run(s)) — replaced or removed: بلوى،; هدى،; وآخرها"
       ],
       "warnings": []
     },
     {
       "title": "The Persian Who Was Dead and Revived",
-      "status": "skipped",
+      "status": "record-lost",
       "windows": 0,
-      "windows_kept": 0
+      "windows_kept": 0,
+      "note": "ran in the full pass; outcome record erased -- see record_note"
     },
     {
       "title": "A Stranger in the City",
-      "status": "skipped",
+      "status": "record-lost",
       "windows": 0,
-      "windows_kept": 0
+      "windows_kept": 0,
+      "note": "ran in the full pass; outcome record erased -- see record_note"
     },
     {
-      "title": "The Boy at the Door \u2014 Limits and Conditions",
-      "status": "skipped",
+      "title": "The Boy at the Door — Limits and Conditions",
+      "status": "record-lost",
       "windows": 0,
-      "windows_kept": 0
+      "windows_kept": 0,
+      "note": "ran in the full pass; outcome record erased -- see record_note"
     },
     {
       "title": "How the World Was Made",
-      "status": "skipped",
+      "status": "record-lost",
       "windows": 0,
-      "windows_kept": 0
+      "windows_kept": 0,
+      "note": "ran in the full pass; outcome record erased -- see record_note"
     },
     {
       "title": "The World, the Hereafter, and the Speech of Parables",
-      "status": "skipped",
+      "status": "record-lost",
       "windows": 0,
-      "windows_kept": 0
+      "windows_kept": 0,
+      "note": "ran in the full pass; outcome record erased -- see record_note"
     },
     {
       "title": "Three Layers of Knowledge",
-      "status": "skipped",
+      "status": "record-lost",
       "windows": 0,
-      "windows_kept": 0
+      "windows_kept": 0,
+      "note": "ran in the full pass; outcome record erased -- see record_note"
     },
     {
       "title": "The Five Shares and the Long Road to the Shaykh",
-      "status": "skipped",
+      "status": "record-lost",
       "windows": 0,
-      "windows_kept": 0
+      "windows_kept": 0,
+      "note": "ran in the full pass; outcome record erased -- see record_note"
     },
     {
       "title": "Homecoming, the Father, and the Debate with Abu Malik",
-      "status": "skipped",
+      "status": "record-lost",
       "windows": 0,
-      "windows_kept": 0
+      "windows_kept": 0,
+      "note": "ran in the full pass; outcome record erased -- see record_note"
     }
-  ]
+  ],
+  "record_note": "Records for sections 2-9 were erased by the pre-6d2a42d targeted-re-run bug: two single-section re-runs of the preface (fluency-01 at 2026-07-20 12:12 and 12:14 EST) overwrote the full run's per-chapter records with 'skipped'. The full de-calque run DID cover all nine sections -- _system/cost-ledger.jsonl records fluency-01..fluency-07 plus fluency-08-part-01..03 and fluency-09-part-01..06 between 11:52 and 12:08 EST -- and diffing book.md across e265eb0..581a512 shows word-level rewriting in every section. Per-section adapted/partial/reverted outcomes for sections 2-9 are NOT recoverable and are therefore recorded as 'record-lost' rather than guessed. The counters below cover the preface only.",
+  "counts_incomplete": true
 }

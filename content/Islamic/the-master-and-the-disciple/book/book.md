@@ -333,7 +333,7 @@ Do you not see that the mote, for all its smallness and the subtlety of its mean
 
 The boy said: "What is the likeness of the heaven, in its height above things and the breadth of its regions, so that it has gathered all things within it?"
 
-The Master said: "Its likeness is the speaking Imam (al-Imam al-Natiq), who is raised above all creation by his merit and the loftiness of his degrees, and who has gathered within him all the rulings — the rulings of the Shari'a — by the breadth of his knowledge."
+The Master said: "Its likeness is the speaking Imam (al-Imam al-Natiq), who is raised above all creation by his merit and the loftiness of his degrees, and who has gathered within him all the rulings — the rulings of the Sharia — by the breadth of his knowledge."
 
 The boy said: "What is the likeness of the zodiac and the rest of its stars?"
 
