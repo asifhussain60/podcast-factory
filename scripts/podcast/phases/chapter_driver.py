@@ -568,23 +568,12 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         return 2
     update_phase(book_dir, phase="finalize", status="halted", extras={"verdict": "SHIP-READY"})
 
-    # Surface the advisory transcription flags here. They are recorded into state
-    # by transcribe_audio_book.py (dup ratio, empty/short, native-script leakage,
-    # normalization substitutions) but were never read by any consumer — so a
-    # reviewer never saw them. The finalize halt is the one moment a human reviews
-    # the book before publish, so emit them as plain advisories (never blocking).
-    try:
-        import json as _json
+    # Non-blocking advisories. Emitters live in `_halt_advisories` so this file
+    # (grandfathered by the line-count gate) stays their caller, not their home.
+    from _halt_advisories import emit_decision_ledger, emit_transcription_advisories
 
-        _sp = book_dir / "_system" / "orchestrator-state.json"
-        _tf = _json.loads(_sp.read_text()).get("transcription_flags") if _sp.exists() else None
-        if _tf:
-            _info("")
-            _info("Transcription advisories (audio path — review, non-blocking):")
-            for _k, _v in _tf.items() if isinstance(_tf, dict) else []:
-                _info(f"  · {_k}: {_v}")
-    except Exception:
-        pass
+    emit_transcription_advisories(book_dir, _info)
+    emit_decision_ledger(book_dir, _info)
 
     _info("")
     _info("─" * 72)

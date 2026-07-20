@@ -1,0 +1,32 @@
+{
+  "schema": "book.decisions/v1",
+  "decisions": [
+    {
+      "key": "chapter-07-qad-alimtu-grammatical-person",
+      "phase": "0book-compose",
+      "chose": "first person — 'My son, I know your father's state'",
+      "default": "first person — 'My son, I know your father's state'",
+      "alternatives": [
+        "second person — 'My son, you know your father's state'"
+      ],
+      "why": "The scan is unvowelled at this word, and qad alimtu reads equally as first or second person. Followed the refined English and the surviving telling, both of which take it as the Master speaking of his own knowledge.",
+      "evidence": "_system/source/ocr/raw-extract.md 1146-1165 (sections 300-302); refined-english.md renders it first person",
+      "override": "",
+      "source": "pipeline default"
+    },
+    {
+      "key": "front-matter-source-opening-placement",
+      "phase": "0book-compose",
+      "chose": "kept in place beneath the edition introduction, under its own subheading",
+      "default": "kept in place beneath the edition introduction, under its own subheading",
+      "alternatives": [
+        "moved to an appendix",
+        "dropped"
+      ],
+      "why": "The source's opening teaches (the three thanks, the houses of the traveler), so an appendix buries content, and moving it breaks the deliberate order of a faithful edition. Orientation goes in front of it instead.",
+      "evidence": "book-toc.json preface.source_line_ranges [8,13]; refined-english.md sections 1-3",
+      "override": "",
+      "source": "pipeline default"
+    }
+  ]
+}
