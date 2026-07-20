@@ -66,9 +66,10 @@ async function main() {
   const rootTokens = existsSync(themePath)
     ? themeRoot(readFileSync(themePath, "utf-8"))
     : "";
-  const printCss = readFileSync(printCssPath, "utf-8");
+  const printCssTemplate = readFileSync(printCssPath, "utf-8");
 
   const {
+    title: bookTitle,
     assetRoot,
     coverHtml,
     titlePage,
@@ -78,6 +79,14 @@ async function main() {
     bodyClass,
   } = buildBookHtml(MD_PATH, { v2: V2, selfStudy: SELF_STUDY });
   const bodyClassAttr = bodyClass ? ` class="${bodyClass}"` : "";
+
+  // The running head's text. A CSS margin box cannot read a custom property or a
+  // `string()` in Chromium's print engine, so the one per-book value in the
+  // stylesheet is substituted here. Quotes and backslashes are stripped rather
+  // than escaped: this lands inside a CSS `content: "..."` string, and a stray
+  // quote would silently break the whole @page rule rather than fail loudly.
+  const runningHead = String(bookTitle || "").replace(/["\\]/g, "").trim();
+  const printCss = printCssTemplate.replaceAll("__BOOK_RUNNING_HEAD__", runningHead);
 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
     :root {${rootTokens}}

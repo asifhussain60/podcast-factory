@@ -53,8 +53,26 @@
   size-adjust: 135%;
 }
 
+/* Running head. A reader landing on page 60 of a 123-page book had no cue what
+   they were holding — the single largest gap between this and a commercial
+   reading edition, per the render challenger.
+
+   The book TITLE, not the chapter title: Chromium's print engine ignores
+   `string-set`/`string()`, so a margin box cannot carry per-chapter text (probed
+   on this book — the head simply did not render). Per-chapter recto heads would
+   mean rendering the PDF through Paged.js, which is a renderer swap with its own
+   pagination-parity risk, and the cue a lost reader actually needs first is the
+   book. `__BOOK_RUNNING_HEAD__` is substituted by render-book-pdf.mjs, which
+   already inlines this file; the stylesheet stays the single source of truth. */
 @page {
   margin: 2.2cm 2cm;
+  @top-center {
+    content: "__BOOK_RUNNING_HEAD__";
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--c-ink-muted, #87827a);
+  }
   @bottom-right {
     content: counter(page);
     font-family: "Source Serif 4", Georgia, serif;
@@ -62,8 +80,27 @@
     color: var(--c-ink-muted, #87827a);
   }
 }
+/* Front matter and chapter openings carry no running head — a title page or a
+   Contents that announces the book title twice, and a chapter opening whose own
+   display title sits an inch below the head, both read as a mistake. Named pages
+   rather than :nth selectors, so the suppression follows the CONTENT wherever
+   pagination moves it. */
+@page bare {
+  @top-center {
+    content: "";
+  }
+}
+.title-page,
+.toc-page,
+.crosswalk-page {
+  page: bare;
+}
+
 @page:first {
   margin: 0;
+  @top-center {
+    content: "";
+  }
   @bottom-right {
     content: "";
   }
@@ -430,6 +467,13 @@ body.style-plain blockquote:not(.quran) {
   background: none;
   padding-left: 0.9rem;
   padding-right: 0;
+  /* Set one step below body. The fence alone created a hierarchy inversion the
+     render challenger flagged: an editorial aside carried a rule while scripture
+     carried none, which reads as emphasis. Smaller type says subordinate, and it
+     resolves the inversion WITHOUT ornamenting the Qur'an blocks — the plain
+     family exists precisely to leave those unornamented. Apparatus is marked as
+     apparatus; scripture is set apart by script, centring and its own face. */
+  font-size: 0.92rem;
 }
 
 /* Elegant — framed panels, gold detailing, centered display. */
