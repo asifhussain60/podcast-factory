@@ -1,0 +1,71 @@
+{
+  "schema": "podcast.book-fluency/v2",
+  "narrative_frame": "transmitted_report",
+  "adapted": 0,
+  "reverted": 1,
+  "chapters": [
+    {
+      "title": "How to Read a Conversation Made of Doors",
+      "base_words": 734,
+      "output_words": 734,
+      "windows": 1,
+      "windows_kept": 0,
+      "status": "reverted",
+      "gates": [
+        "fluency-01: abridged re-voice (407<440 words)",
+        "fluency-01: P1 large length drop: 734->407 words (55% of source \u2014 possible content loss)",
+        "fluency-01: Arabic runs dropped (7<8)",
+        "fluency-01: Arabic script dropped (4 run(s)) \u2014 replaced or removed: \u0628\u0644\u0648\u0649\u060c; \u0647\u062f\u0649\u060c; \u0648\u0622\u062e\u0631\u0647\u0627"
+      ],
+      "warnings": []
+    },
+    {
+      "title": "The Persian Who Was Dead and Revived",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "A Stranger in the City",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "The Boy at the Door \u2014 Limits and Conditions",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "How the World Was Made",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "The World, the Hereafter, and the Speech of Parables",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "Three Layers of Knowledge",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "The Five Shares and the Long Road to the Shaykh",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "Homecoming, the Father, and the Debate with Abu Malik",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    }
+  ]
+}

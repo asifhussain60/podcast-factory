@@ -1732,11 +1732,16 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-20T15:50:33.856Z",
-  "source_commit": "ea8b5b9",
+  "generated_at": "2026-07-20T16:16:23.433Z",
+  "source_commit": "e265eb0",
   "generator": "regenerate-snapshots.mjs",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "e265eb0",
+      "subject": "feat(compose): recompose the whole book under its frame; make the Composer singular",
+      "date": "2026-07-20"
+    },
     {
       "sha": "ea8b5b9",
       "subject": "feat(narrative-frame): enforce who narrates on every prose route + challenger Pass 3",
@@ -1780,11 +1785,6 @@
     {
       "sha": "32282f0",
       "subject": "feat(compose): one renderer for screen and print; close three silent-loss paths",
-      "date": "2026-07-19"
-    },
-    {
-      "sha": "60ef305",
-      "subject": "feat(corpus): run the accuracy-gated etymology miner; corpus grows to 2 books",
       "date": "2026-07-19"
     }
   ],

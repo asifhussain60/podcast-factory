@@ -82,15 +82,17 @@ _FIRST_PERSON_ATTRIBUTION = (
 # narrator from outside. `narrator_subject` supplies the name to look for.
 _THIRD_PERSON_SELF_REPORT = r"\b{name}\b\s+(?:said|replied|answered|asked|went|stood|came)\b"
 
-# A tag is a subject phrase followed by a speech verb. The subject starts with a
-# capital or a pronoun and may run up to two more words — "The scholar said",
-# "Abu Malik said", "he said". Matching only capitalised words would miss
-# "The scholar said" (lowercase middle word), under-counting the source and
-# making every rewrite that names a speaker look like an insertion.
-_SPEECH_TAG_RE = re.compile(
-    r"(?:^|[\"”,]\s*)(?:[A-Z][\w'\-]*|he|she|they|I)(?:\s+[\w'\-]+){0,2}\s+"
-    r"(?:said|replied|answered|asked|told)\b",
-    re.MULTILINE,
+# INTERIOR tags — an attribution that INTERRUPTS a quotation: `..." he said, "...`.
+# This is the shape of the live P0: the source ran a paragraph on unbroken inside
+# one speaker's speech, and the rewrite cut in with `," he said, "`, which re-points
+# everything after it to whoever the narration last named. A tag at the HEAD of a
+# paragraph ("The scholar said:") is an ordinary attribution and rewording one is
+# harmless — counting those made a de-calque pass that legitimately reworded an
+# opening look like an insertion, which cost a real chapter its pass on the first
+# live run. Only interior tags are gated; head tags are left to the challenger.
+_INTERIOR_TAG_RE = re.compile(
+    r"[\"”]\s*,?\s*(?:[A-Z][\w'\-]*(?:\s+[A-Z][\w'\-]*)?|he|she|they)\s+"
+    r"(?:said|replied|answered|asked|told)\b"
 )
 
 # Source-style enumeration markers at the head of a paragraph: "(a)", "(1)", "1.".
@@ -143,14 +145,21 @@ def narrative_person_findings(
 def speech_tag_findings(base_text: str, candidate: str) -> list[str]:
     """Flag speech tags the rewrite added relative to its source.
 
-    A rewrite may reword a tag; it may not create one. An invented tag re-points
-    a speech to a different speaker, which is how a doctrinal argument ends up
-    attributed to the person it argues against.
+    A rewrite may reword a tag; it may not cut a NEW one into a quotation. An
+    interior tag re-points everything after it to whoever the narration last
+    named, which is how a doctrinal argument ends up attributed to the person it
+    argues against.
+
+    Scoped to INTERIOR tags only. Gating the whole-chapter tag count instead
+    conflated that defect with harmless rewording of an opening attribution, and
+    on the first live de-calque run it reverted a chapter for exactly that.
     """
-    base_n = len(_SPEECH_TAG_RE.findall(base_text or ""))
-    cand_n = len(_SPEECH_TAG_RE.findall(candidate or ""))
+    base_n = len(_INTERIOR_TAG_RE.findall(base_text or ""))
+    cand_n = len(_INTERIOR_TAG_RE.findall(candidate or ""))
     if cand_n > base_n:
-        return [f"speech tags added ({cand_n} vs {base_n} in source) — attribution may have moved"]
+        return [
+            f"speech tag cut into a quotation ({cand_n} interior vs {base_n} in source) — attribution may have moved"
+        ]
     return []
 
 

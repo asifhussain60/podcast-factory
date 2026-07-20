@@ -16,7 +16,12 @@ length_tier: default_deep_dive
 # than inherited from the deliverable-mode default map, so the reading edition's
 # behaviour is readable here and cannot shift if that map is ever re-tuned.
 book_augmentation: source_only
-book_voice: author_companion
+# Switched from author_companion 2026-07-20. With narrative_frame enforcing third
+# person, the author-companion prompt had nothing left to do -- six of nine chapters
+# came back 92-100% identical to the faithful base and chapter 3 byte-identical.
+# The fluency pass is the one actually written for de-calque work: fix stiff
+# word-for-word-from-Arabic phrasing so it reads like a book, not a gloss.
+book_voice: faithful
 
 # Narrative frame — a property of the SOURCE, not of the delivery route.
 # The Arabic opens `بلغنا` ("it has reached us"): an anonymous transmitter

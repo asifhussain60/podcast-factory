@@ -14,7 +14,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from _narrative import (  # noqa: E402
-    _SPEECH_TAG_RE,
     arabic_retention_findings,
     enumeration_findings,
     frame_findings,
@@ -98,7 +97,7 @@ def test_inserted_speech_tag_is_flagged() -> None:
     )
     candidate = 'I said to him: "The originators were three."\n\n"This is the nation of the Magi," he said, "clinging to its rebellion."'
     findings = speech_tag_findings(base, candidate)
-    assert findings and "attribution may have moved" in findings[0]
+    assert findings and "cut into a quotation" in findings[0]
 
 
 def test_rewording_a_tag_is_allowed() -> None:
@@ -187,13 +186,13 @@ def test_frame_findings_clean_on_a_faithful_rewrite() -> None:
     assert frame_findings(base, candidate, frame="transmitted_report") == []
 
 
-def test_tag_with_lowercase_subject_word_is_counted() -> None:
-    # "The scholar said" — a capitalised article, a lowercase noun, then the verb.
-    # Counting only capitalised subject words missed this, under-counting the
-    # source so that any rewrite naming a speaker looked like an insertion.
-    base = "The scholar said: As for this world.\n\nThe boy said: Tell me."
-    assert speech_tag_findings(base, base) == []
-    assert len(_SPEECH_TAG_RE.findall(base)) == 2
+def test_rewording_an_opening_attribution_is_not_an_insertion() -> None:
+    # A de-calque pass legitimately reshapes an opening attribution. Gating the
+    # whole-chapter tag count treated that as an insertion and reverted a real
+    # chapter on the first live run. Only tags cut INTO a quotation are gated.
+    base = "Certain groups came to a Master among them and spoke as men speak."
+    candidate = "Certain groups came to a Master among them and said to him as men speak."
+    assert speech_tag_findings(base, candidate) == []
 
 
 # ─── Precision regressions (found by sweeping the real base, 2026-07-20) ─────
