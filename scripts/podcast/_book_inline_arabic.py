@@ -171,7 +171,15 @@ def _annotate_chapter(body: str, terms: list[tuple[str, str]]) -> tuple[str, int
             if script in line[m.end() : m.end() + len(script) + _ANNOTATED_WINDOW]:
                 del pending[phonetic]
                 continue
-            inserts.append((m.end(), f" ({script})"))
+            # Land the annotation OUTSIDE any emphasis the term sits in. The
+            # term is often italicised as a gloss (`*al-Imam al-Natiq*`), and
+            # inserting before the closing marker put the Arabic inside the
+            # emphasis — where a browser synthesizes a slant, a thing Arabic
+            # script does not have. Walk past the closing markers first.
+            at = m.end()
+            while at < len(line) and line[at] in "*_":
+                at += 1
+            inserts.append((at, f" ({script})"))
             del pending[phonetic]
             added += 1
         for pos, text in sorted(inserts, reverse=True):

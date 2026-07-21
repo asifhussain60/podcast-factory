@@ -176,6 +176,26 @@
   color: var(--c-accent, #8b4513);
 }
 
+/* The chapter number, in its own fixed-width column so every title starts on the
+   same left edge whether its number is one digit or two — and so an unnumbered
+   row (the reader's preface) lines up with the rest instead of hanging left. */
+.sm-ordinal {
+  flex: none;
+  width: 1.4rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--c-ink-muted, #66625a);
+}
+
+.sm-option[aria-selected="true"] .sm-ordinal {
+  color: inherit;
+}
+
+/* A row with no number keeps the column, so its title still aligns. */
+.sm-option:not(:has(.sm-ordinal)) .sm-option-label {
+  margin-left: calc(1.4rem + 0.6rem);
+}
+
 /* The tick reserves its space always, so labels line up whether or not a row is
    the selected one. */
 .sm-tick {

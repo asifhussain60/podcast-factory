@@ -130,13 +130,28 @@ export function enhanceSelect(select: HTMLSelectElement | null): SelectMenu | nu
       tick.setAttribute("aria-hidden", "true");
       tick.textContent = "✓";
 
+      // An option may carry its own number (`data-ordinal`). Render it in its
+      // own element so it can sit in a fixed-width column and read as a marker
+      // rather than as part of the title. The <option> text still contains it,
+      // so the native fallback shows the number too.
+      li.append(tick);
+      const ordinal = opt.dataset.ordinal ?? "";
       const text = document.createElement("span");
       text.className = "sm-option-label";
-      text.textContent = opt.textContent ?? "";
+      const bare = (opt.textContent ?? "").trim();
+      if (ordinal) {
+        const num = document.createElement("span");
+        num.className = "sm-ordinal";
+        num.textContent = ordinal;
+        li.append(num);
+        text.textContent = bare.replace(new RegExp(`^${ordinal}\\.\\s*`), "");
+      } else {
+        text.textContent = bare;
+      }
 
       // Lower-cased once here so type-ahead compares label to label.
       li.dataset.label = (opt.textContent ?? "").trim().toLowerCase();
-      li.append(tick, text);
+      li.append(text);
       list.append(li);
       return li;
     });

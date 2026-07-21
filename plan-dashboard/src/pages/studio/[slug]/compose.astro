@@ -157,7 +157,9 @@ const ARABIC_FONTS = [
                 <label for="cx-chapter-select">Chapter</label>
                 <select id="cx-chapter-select">
                   {view.chapters.map((c) => (
-                    <option value={c.key}>{c.title}</option>
+                    <option value={c.key} data-ordinal={c.ordinal ?? ""}>
+                      {c.ordinal ? `${c.ordinal}. ${c.title}` : c.title}
+                    </option>
                   ))}
                 </select>
               </div>

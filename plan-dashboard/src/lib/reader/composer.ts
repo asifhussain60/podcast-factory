@@ -40,7 +40,12 @@ export interface ComposerCitation {
 export interface ComposerChapter {
   anchor: string; // the raw "## N. Title" heading — the placement anchor
   key: string; // normalized comparable key (mirrors visual-layout anchorKey)
-  title: string; // display title
+  title: string; // display title, without the leading number
+  /** The chapter's own number as the SOURCE heading gives it ("1", "2", …), or
+   *  null for unnumbered front matter like the reader's preface. Taken from the
+   *  heading rather than counted by position, so the preface never becomes
+   *  "chapter 1" and a renumbered book stays truthful. */
+  ordinal: string | null;
   /** READ mode. Rendered by the SAME renderMd() the PDF uses (scripts/lib/
    *  book-html.mjs), so the chapter on screen is the chapter that prints:
    *  chapter-open page, drop cap, mushaf verses, source range. Never feed this
@@ -199,6 +204,8 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
   for (let i = 1; i < parts.length; i += 2) {
     const heading = parts[i].trim();
     const body = (parts[i + 1] ?? "").trim();
+    const numbered = /^##\s+(\d+)\.\s*/.exec(heading);
+    const ordinal = numbered ? numbered[1] : null;
     const displayTitle = heading.replace(/^##\s+\d*\.?\s*/, "").trim();
     // Prose-paragraph count: blank-line-separated blocks that aren't a blockquote,
     // heading, or HTML block — mirrors what applyLayout counts as a paragraph.
@@ -225,6 +232,7 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
       anchor: heading,
       key,
       title: displayTitle,
+      ordinal,
       html,
       editHtml,
       paras,

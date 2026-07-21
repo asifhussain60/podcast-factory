@@ -279,6 +279,16 @@
 }
 .bs-inline .ar-inline {
   font-family: var(--q-ar-face);
+  /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
+     shearing the glyphs, which is wrong for the script and looked wrong on the
+     page; and an inherited bold would fake a weight the face does not have.
+     Pinned here so the run renders the same whatever prose it sits in. */
+  font-style: normal;
+  /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
+     descent are far taller than the Latin body face, so without an explicit
+     line-height a single Arabic word makes its line taller than its
+     neighbours and the column loses its rhythm. */
+  line-height: inherit;
   direction: rtl;
   unicode-bidi: isolate;
   color: var(--bs-arabic);

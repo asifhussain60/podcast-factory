@@ -6,11 +6,11 @@ This book is a translation of *Kitab al-Alim wa-l-Ghulam*, "The Book of the Mast
 
 Nobody narrates it in his own person. The book speaks as a transmitted report — "We have been informed" — and keeps that distance to the last page. When a first person appears, it belongs to whoever is speaking at that moment, not to a narrator and not to this edition.
 
-Five figures carry the whole of it. **The Master** is a Persian who came to knowledge late, after years of ignorance, and who spends the rest of his life carrying it to others. **The boy**, the youngest and most thoughtful of a company that hears the Master speak, follows him, is refused, and is admitted only on conditions; his name, given much later, is Salih (صالح). **His father** is al-Bakhtari (البختري), a chief among the Arabs, honorable in lineage and hard against the people of religion. **The Shaykh (الشيخ)** is the greater teacher at the far end of the boy's journey, who tests him on his name and holds his naming back for seven days. **Abu Malik (أبو مالك)** is the scholar whom the grown Salih debates in the final chapter, and that debate is where the book puts its whole argument on trial.
+Five figures carry the whole of it. **The Master** is a Persian who came to knowledge late, after years of ignorance, and who spends the rest of his life carrying it to others. **The boy**, the youngest and most thoughtful of a company that hears the Master speak, follows him, is refused, and is admitted only on conditions; his name, given much later, is Salih (صالح). **His father** is al-Bakhtari (البختري), a chief among the Arabs, honorable in lineage and hard against the people of religion. **The Shaykh** (الشيخ) is the greater teacher at the far end of the boy's journey, who tests him on his name and holds his naming back for seven days. **Abu Malik** (أبو مالك) is the scholar whom the grown Salih debates in the final chapter, and that debate is where the book puts its whole argument on trial.
 
 One name has to be kept straight from the start. The pages immediately following this introduction — the book's own opening — begin with believers putting a question to "a Master among them". That teacher is not the Master of the story. He answers once and is not heard from again; everywhere after those opening pages, "the Master" means the Persian.
 
-From the fourth chapter onward a set of terms recurs that a reader may take for ordinary religious vocabulary: the speaking Imam (الإمام) (*al-Imam al-Natiq (الإمام الناطق)*), his gate (*bab (باب)*), his successor (*wasi (الوصي)*), his summoners (*duat (الدعاة)*). The terms first appear in chapter four and the book glosses each when it names it, in chapter five. It sets them out as ranks in a single structure in chapter four itself — imam and gate and summoners figured as sun and moon and stars — so the cosmology of chapters four through six is describing that structure rather than decorating it.
+From the fourth chapter onward a set of terms recurs that a reader may take for ordinary religious vocabulary: the speaking Imam (الإمام) (*al-Imam al-Natiq* (الإمام الناطق)), his gate (*bab* (باب)), his successor (*wasi* (الوصي)), his summoners (*duat* (الدعاة)). The terms first appear in chapter four and the book glosses each when it names it, in chapter five. It sets them out as ranks in a single structure in chapter four itself — imam and gate and summoners figured as sun and moon and stars — so the cosmology of chapters four through six is describing that structure rather than decorating it.
 
 As an edition, this one adds nothing. It translates the whole of the source without abridgment, keeps the Arabic the source carries with the English set beneath, and supplies the Arabic of Quranic verses the source quotes in translation only. Where the words are the book's own they are left unvowelled exactly as the scan leaves them; where they are Quran they carry the vowelling of the mushaf. The editorial notes and the notes to the reader are fenced and labeled, so a reader can always tell the book's voice from a note about it.
 
@@ -530,11 +530,11 @@ The boy said: "We say that I have no device by which to draw a benefit to myself
 
 The Master said: "Then why do you say, There is no strength except in Allah, and not, There is no device except in Allah?"
 
-The boy said: "It is narrated to us in our sciences that the *hawl (الحول)* is the year, by the words of God:
+The boy said: "It is narrated to us in our sciences that the *hawl* (الحول) is the year, by the words of God:
 
 > حَوْلَيْنِ كَامِلَيْنِ
 
-two complete years, meaning two years. And it is narrated to us, as the common people also relate, that *quwwa (القوة)*, strength, means mules, by the words of God:
+two complete years, meaning two years. And it is narrated to us, as the common people also relate, that *quwwa* (القوة), strength, means mules, by the words of God:
 
 > وَآتَيْنَاهُ مِنَ الْكُنُوزِ مَا إِنَّ مَفَاتِحَهُ لَتَنُوءُ بِالْعُصْبَةِ أُولِي الْقُوَّةِ
 
