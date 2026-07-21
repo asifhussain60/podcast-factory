@@ -26,7 +26,7 @@ _HERE = Path(__file__).resolve().parent
 _REPO = _HERE.parent.parent
 sys.path.insert(0, str(_REPO / "scripts" / "podcast"))
 
-KSESSIONS_SQL = _REPO / "CONTENT" / "_shared" / "source-library" / "KSessions.sql"
+KSESSIONS_SQL = _REPO / "content" / "_shared" / "source-library" / "KSessions.sql"
 STYLE_CORPUS_JSONL = _HERE / "_style_corpus.jsonl"
 STYLE_IMPRINT_MD = _REPO / "content" / "_shared" / "source-library" / "style-imprint.md"
 STYLE_GROUPS = {3, 17, 18}

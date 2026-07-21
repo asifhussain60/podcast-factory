@@ -23,7 +23,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted" / "wisdom"
+EXTRACT_ROOT = REPO_ROOT / "content" / "_shared" / "source-library" / "extracted" / "wisdom"
 FAILURE_LOG = REPO_ROOT / "_workspace" / "plan" / "wisdom-rollout-failures.log"
 
 

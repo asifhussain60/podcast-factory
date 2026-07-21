@@ -34,7 +34,7 @@ sys.path.insert(0, str(_REPO / "scripts" / "podcast"))
 from _quality import score as peq_score
 
 _CANONICAL_BOOKS = ["kitab-al-riyad", "the-master-and-the-disciple"]
-_DRAFTS = _REPO / "CONTENT" / "drafts" / "books"
+_DRAFTS = _REPO / "content" / "drafts" / "books"
 _BASELINES = _REPO / "_workspace" / "test-strategy" / "baselines"
 
 

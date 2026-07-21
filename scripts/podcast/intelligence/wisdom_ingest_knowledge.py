@@ -41,8 +41,8 @@ from _paths import REPO_ROOT
 # Constants
 # ---------------------------------------------------------------------------
 
-CORPUS_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted" / "wisdom"
-TOPIC_MAP_PATH = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "topic-type-map.json"
+CORPUS_ROOT = REPO_ROOT / "content" / "_shared" / "source-library" / "extracted" / "wisdom"
+TOPIC_MAP_PATH = REPO_ROOT / "content" / "_shared" / "source-library" / "topic-type-map.json"
 MAX_CHUNK_WORDS = 600
 PASS_WARN = frozenset({"PASS", "WARN"})
 # D5: teaching material -> fatimid-ismaili (the corpus-wide canonical tradition value).

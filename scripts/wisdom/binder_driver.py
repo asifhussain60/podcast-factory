@@ -24,9 +24,9 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-VENV = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / ".venv" / "bin" / "python"
+VENV = REPO_ROOT / "content" / "_shared" / "source-library" / ".venv" / "bin" / "python"
 FAILURE_LOG = REPO_ROOT / "_workspace" / "plan" / "wisdom-rollout-failures.log"
-EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted" / "wisdom"
+EXTRACT_ROOT = REPO_ROOT / "content" / "_shared" / "source-library" / "extracted" / "wisdom"
 
 
 def survey(binder_id: int) -> list[tuple[int, int, str]]:

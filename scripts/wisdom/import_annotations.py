@@ -23,7 +23,7 @@ sys.path.insert(0, str(_HERE / "podcast"))
 from _db import get_connection, run_migrations
 from _paths import REPO_ROOT
 
-BOOKS_DIR = REPO_ROOT / "CONTENT" / "drafts" / "books"
+BOOKS_DIR = REPO_ROOT / "content" / "drafts" / "books"
 CANONICAL_BOOKS = ["kitab-al-riyad", "the-master-and-the-disciple"]
 
 # Canonical tag definitions — seeded once into annotation_tags

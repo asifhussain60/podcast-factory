@@ -30,7 +30,7 @@ sys.path.insert(0, str(_HERE / "podcast"))
 
 from _paths import REPO_ROOT
 
-BOOKS_DIR = REPO_ROOT / "CONTENT" / "drafts" / "books"
+BOOKS_DIR = REPO_ROOT / "content" / "drafts" / "books"
 CANONICAL_BOOKS = ["kitab-al-riyad", "the-master-and-the-disciple"]
 
 # Tags that must never be flagged for deletion

@@ -30,7 +30,7 @@ sys.path.insert(0, str(_REPO / "scripts" / "podcast"))
 from _paths import REPO_ROOT
 from intelligence._local_server_client import session_style_fetch as _live_sessions
 
-BOOKS_DIR = REPO_ROOT / "CONTENT" / "drafts" / "books"
+BOOKS_DIR = REPO_ROOT / "content" / "drafts" / "books"
 CANONICAL_BOOKS = ["kitab-al-riyad", "the-master-and-the-disciple"]
 STYLE_IMPRINT = REPO_ROOT / "content" / "_shared" / "source-library" / "style-imprint.md"
 
