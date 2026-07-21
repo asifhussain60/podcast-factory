@@ -93,8 +93,17 @@ export const MARKER_PATTERNS: {
 
 export const ARABIC_SCRIPT_RUN =
   /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF](?:[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\s]*[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF])?/;
+// A transliterated TERM immediately followed by its Arabic in parentheses.
+// The roman side is capped at five words. It used to be unbounded (`+`), so it
+// matched backwards to the start of the sentence: a whole clause ending in
+// "...attributes to Jafar ibn Mansur al-Yaman (<arabic>)" was treated as the
+// term and marked `ar-pair-hidden` -- meaning the Arabic toggle would hide a
+// clause of English prose rather than one term. Latent until 2026-07-21, when
+// the inline-Arabic pass (_book_inline_arabic.py) began writing these pairs
+// into the book. Five words covers the longest real glossary name,
+// "Jafar ibn Mansur al-Yaman".
 export const ARABIC_PAIR_RE =
-  /([A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’.-]+(?:[\s-]+[A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’.-]+)+)\s*\(([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF][^)]+)\)/gu;
+  /([A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’.-]+(?:[\s-]+[A-Za-zāēīōūĀĒĪŌŪṣṢḍḌṭṬẓẒḥḤʿʾ'’.-]+){1,4})\s*\(([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF][^)]+)\)/gu;
 
 // ── Deferred AI action-item registry ────────────────────────────────────────
 // Single source of truth for every action the human can stamp on a paragraph or

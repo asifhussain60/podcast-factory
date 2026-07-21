@@ -22,6 +22,11 @@
 const AYN_HAMZA = new Set(Array.from("ʿʾʻʼˈ’‘ʹ׳'"));
 const SENTINEL = String.fromCharCode(0);
 
+/** The complete set of word-endings that make an apostrophe genuinely English.
+ *  An apostrophe followed by anything else is an ayn/hamza and is dropped.
+ *  Mirror of `_ENGLISH_CLITICS` in scripts/podcast/_translit.py. */
+const ENGLISH_CLITICS = new Set(["s", "t", "d", "m", "re", "ve", "ll"]);
+
 export function simplifyTransliteration(text: string): string {
   if (!text) return text;
 
@@ -48,14 +53,21 @@ export function simplifyTransliteration(text: string): string {
     }
   }
 
-  // 3. Resolve the sentinel: keep an apostrophe only between two letters.
+  // 3. Resolve the sentinel: keep an apostrophe ONLY where it is an English
+  //    contraction or possessive. Everywhere else it came from an ayn/hamza and
+  //    the house style is plain letters — Quran, not Qur'an. The discriminator
+  //    is what FOLLOWS the apostrophe to the end of the word, so "God's"/"don't"
+  //    keep theirs while "Qur'an", "du'at", "Ja'far" and "ta'wil" lose theirs.
+  //    Mirror of _translit.py step 3 — keep the two in lockstep.
   const arr = Array.from(out);
   let res = "";
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] === SENTINEL) {
       const prev = arr[i - 1] ?? "";
-      const next = arr[i + 1] ?? "";
-      if (/\p{L}/u.test(prev) && /\p{L}/u.test(next)) res += "'";
+      let j = i + 1;
+      while (j < arr.length && /\p{L}/u.test(arr[j])) j++;
+      const suffix = arr.slice(i + 1, j).join("").toLowerCase();
+      if (/\p{L}/u.test(prev) && ENGLISH_CLITICS.has(suffix)) res += "'";
     } else {
       res += arr[i];
     }

@@ -44,25 +44,28 @@ def test_a_glossary_entry_the_book_never_prints_is_not_drift() -> None:
 
 
 def test_two_spellings_actually_printed_in_the_book_is_real_drift() -> None:
-    """The genuine case: the compose pass printed BOTH "Sharia" and "Shari'a" —
-    literal, distinct substrings that both survive the transliteration fold
-    unchanged, so both reaching the page is a real inconsistency."""
-    drift = naming_drift(pages("the Sharia governs this", "here Shari'a is invoked"), ["Sharia", "Shari'a"])
-    assert drift and set(drift[0]["variants"]) == {"sharia", "shari'a"}
+    """The genuine case: the compose pass printed the term hyphenated in one place
+    and closed-up in another. Both survive the transliteration fold unchanged and
+    share a skeleton, so both reaching the page is a real inconsistency."""
+    drift = naming_drift(pages("the al-Din chapter", "here alDin is invoked"), ["al-Din", "alDin"])
+    assert drift and set(drift[0]["variants"]) == {"al-din", "aldin"}
 
 
-def test_a_scholarly_diacritic_glossary_entry_is_recognized_by_its_printed_form() -> None:
-    """The exact gap this closes: a glossary entry stored with the ayn (Shariʿa)
-    NEVER literally appears anywhere in a book that only prints plain
-    transliteration (BK-A4) — searching for its raw spelling found nothing, so a
-    second drifted entry went undetected even though both concern the same term.
-    Found live 2026-07-19: the-master-and-the-disciple carried exactly this pair
-    (Sharia / Shariʿa) and the drift was invisible until read by hand."""
-    drift = naming_drift(
-        pages("the Sharia governs this", "and here Shari'a is invoked too"),
-        ["Sharia", "Shariʿa"],
-    )
-    assert drift and set(drift[0]["variants"]) == {"sharia", "shari'a"}
+def test_the_apostrophe_variant_is_prevented_rather_than_reported() -> None:
+    """Sharia / Shari'a was the live 2026-07-19 drift pair, and it can no longer
+    reach the page at all: `simplify_transliteration` now drops an ayn/hamza
+    apostrophe outright (it is kept only for an English contraction), so BOTH
+    glossary spellings fold to the single printed form "sharia". Reporting drift
+    here would be reporting on the glossary, not on the book — the same false
+    positive `test_a_glossary_entry_the_book_never_prints_is_not_drift` guards.
+    The class of defect moved from detected to impossible; this test is what
+    would fail if that fold were ever loosened again."""
+    for stored in ("Shari'a", "Shariʿa"):
+        drift = naming_drift(
+            pages("the Sharia governs this", f"and here {stored} is invoked too"),
+            ["Sharia", stored],
+        )
+        assert drift == [], f"{stored!r} should fold onto 'sharia', not drift"
 
 
 def test_folding_still_does_not_invent_drift_the_page_never_printed() -> None:

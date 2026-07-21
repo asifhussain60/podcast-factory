@@ -13,7 +13,11 @@
 import { createElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { anchorKey } from "../../scripts/lib/anchor-key.mjs";
-import { mountChapterEditor, type ChapterEditor } from "./book-md-editor";
+import {
+  mountChapterEditor,
+  VISUAL_DRAG_TYPE,
+  type ChapterEditor,
+} from "./book-md-editor";
 import { confirmDialog, noticeDialog } from "./confirm-dialog";
 import {
   createAutosave,
@@ -24,6 +28,10 @@ import { createComposeEditorBridge } from "./compose-editor-bridge";
 import { safeChapterKey } from "../lib/reader/companion/keys";
 import { apiFetch } from "../lib/api-fetch";
 import { createStudioDecos } from "../components/studio/editor/studio-decos";
+import {
+  createFigureDecos,
+  type EditorFigure,
+} from "../components/studio/editor/figure-decos";
 import {
   DEFAULT_DEPTH_PROFILE,
   DEPTH_LEVELS_BY_PROFILE,
@@ -392,6 +400,10 @@ function boot(): void {
       ?.querySelector<HTMLElement>(".lib-hero-main h1")
       ?.textContent?.trim() ?? "";
   let activeEditor: ChapterEditor | null = null;
+  // Figures drawn into the open chapter's edit canvas. Deliberately a widget-
+  // decoration feed and NOT editor content: see figure-decos.ts for why placing
+  // them in the document would let `toMarkdown()` serialize them into book.md.
+  const editorFigures: { current: EditorFigure[] } = { current: [] };
   let contentChangedThisSession = false; // a save landed → in-memory render is stale
   // Flush any pending autosave for the active editor; resolves true if the chapter
   // is safely saved (or had nothing to save), false if the save failed.
@@ -704,8 +716,10 @@ function boot(): void {
     const bridge = createComposeEditorBridge(depthLevels, glossarySorted);
     const chapterTitle = chapterByKey.get(selectedChapter)?.title ?? "";
 
+    syncEditorFigures();
     activeEditor = mountChapterEditor(host, pristine, [
       createStudioDecos(bridge),
+      createFigureDecos({ figuresRef: editorFigures }),
     ]);
     bridge.editorRef.current = activeEditor.editor;
     const originalTexts: string[] = [];
@@ -1102,6 +1116,11 @@ function boot(): void {
     for (const [key, figs] of byChapter)
       insertFiguresInline(bodyByKey.get(key)!.el, figs);
 
+    // The loop above fills the READ body, which edit mode hides. Feed the edit
+    // canvas too, so a placement is visible in the mode the composer actually
+    // opens in — the reason clicking a candidate used to look like a no-op.
+    syncEditorFigures();
+
     // palette = unplaced candidates for the selected chapter (+ book-level ones,
     // which have no resolved chapter and must stay reachable from any chapter)
     paletteEl.textContent = "";
@@ -1127,6 +1146,44 @@ function boot(): void {
     // prose — the Companion panel's passage marks among them. Announce it so
     // they can be re-applied; nothing here needs to know who is listening.
     window.dispatchEvent(new CustomEvent(PROSE_RENDERED_EVENT));
+  }
+
+  // Rebuild the edit canvas's figure feed for the chapter now open, then ask the
+  // editor to redraw. Safe to call when no editor is mounted (enterEdit calls it
+  // to seed `editorFigures` before the first render).
+  function syncEditorFigures(): void {
+    editorFigures.current = placements
+      .filter((p) => {
+        const key = anchorKey(p.anchor);
+        // A placement whose chapter no longer resolves falls to the first
+        // chapter in the read render; mirror that so the two never disagree.
+        const target = bodyByKey.has(key)
+          ? key
+          : (bodyByKey.keys().next().value ?? "");
+        return target === selectedChapter;
+      })
+      .map((p) => {
+        const v = visualsById.get(p.visual_id);
+        return { p, v };
+      })
+      .filter((x): x is { p: Placement; v: Visual } => Boolean(x.v))
+      .map(({ p, v }) => ({
+        idx: p.anchor_para == null ? 1 : p.anchor_para,
+        // Every property that changes how the figure draws is in the key, so an
+        // untouched figure reuses its DOM (and its already-loaded <img>).
+        key: `fig-${p.visual_id}-${p.anchor_para}-${p.align}-${p.flow}-${p.width_pct}-${p.page_fit}-${p.caption}-${p.visual_id === selected ? "sel" : "un"}`,
+        el: () => {
+          const fig = figureEl(p, v);
+          // Chrome, not prose: the caret must never enter it and it must never
+          // be swept into a selection that the autosave then serializes.
+          fig.contentEditable = "false";
+          return fig;
+        },
+      }));
+    // An empty transaction is how this editor asks its decoration plugins to
+    // recompute (same idiom as the focus/blur handlers in enterEdit).
+    if (activeEditor)
+      activeEditor.editor.view.dispatch(activeEditor.editor.state.tr);
   }
 
   // Insert figures into a chapter body at their paragraph index, mirroring the
@@ -1259,7 +1316,7 @@ function boot(): void {
       }
     });
     fig.addEventListener("dragstart", (e) => {
-      e.dataTransfer?.setData("text/plain", p.visual_id);
+      e.dataTransfer?.setData(VISUAL_DRAG_TYPE, p.visual_id);
     });
 
     const handle = document.createElement("span");
@@ -1328,15 +1385,20 @@ function boot(): void {
     );
     item.append(placeBtn, actions);
 
+    // Clicking places into the chapter ON SCREEN. The pipeline's
+    // `suggested_anchor` is only a hint, and honouring it over the visible
+    // chapter meant a click could file the figure into a chapter the human was
+    // not looking at — it then appeared to do nothing. The suggestion is still
+    // used to decide which chapter a candidate is OFFERED under (see render);
+    // once offered here, the human's current position wins.
     const target =
-      v.suggested_anchor && chapterByKey.get(anchorKey(v.suggested_anchor))
+      chapterByKey.get(selectedChapter)?.anchor ??
+      (v.suggested_anchor && chapterByKey.get(anchorKey(v.suggested_anchor))
         ? v.suggested_anchor
-        : (chapterByKey.get(selectedChapter)?.anchor ??
-          data.chapters[0]?.anchor ??
-          "");
+        : (data.chapters[0]?.anchor ?? ""));
     placeBtn.addEventListener("click", () => place(v.id, target));
     item.addEventListener("dragstart", (e) =>
-      e.dataTransfer?.setData("text/plain", v.id),
+      e.dataTransfer?.setData(VISUAL_DRAG_TYPE, v.id),
     );
     item.addEventListener("mouseenter", () => showHoverPreview(v, item));
     item.addEventListener("mouseleave", hideHoverPreview);
@@ -2001,11 +2063,21 @@ function boot(): void {
     }
   }
   root.querySelectorAll<HTMLElement>(".cx-chapter").forEach((ch) => {
-    const body = ch.querySelector<HTMLElement>(".cx-body");
+    // The surface the human is actually looking at. In Edit mode — which is how
+    // the composer opens — `.cx-body` is hidden, and a hidden element's
+    // paragraphs all measure zero, so every drop counted as "below the last
+    // paragraph" and landed at the end of the chapter no matter where it was
+    // released. Measure the editor when the editor is what's on screen.
+    const dropSurface = (): HTMLElement | null => {
+      const body = ch.querySelector<HTMLElement>(".cx-body");
+      if (body && !body.hidden) return body;
+      return ch.querySelector<HTMLElement>(".cx-prose") ?? body;
+    };
     ch.addEventListener("dragover", (e) => {
       e.preventDefault();
       ch.classList.add("cx-dragover");
-      if (body) showDropMarker(body, e.clientY);
+      const surface = dropSurface();
+      if (surface) showDropMarker(surface, e.clientY);
     });
     ch.addEventListener("dragleave", () => {
       ch.classList.remove("cx-dragover");
@@ -2015,10 +2087,11 @@ function boot(): void {
       e.preventDefault();
       ch.classList.remove("cx-dragover");
       clearDropMarker();
-      const id = e.dataTransfer?.getData("text/plain");
+      const id = e.dataTransfer?.getData(VISUAL_DRAG_TYPE);
       const anchor = ch.dataset.anchor ?? "";
       if (!id || !anchor) return;
-      const anchor_para = body ? paraIndexAt(body, e.clientY).idx : null;
+      const surface = dropSurface();
+      const anchor_para = surface ? paraIndexAt(surface, e.clientY).idx : null;
       if (placements.some((p) => p.visual_id === id))
         update(id, { anchor, anchor_para });
       else place(id, anchor, anchor_para);

@@ -127,6 +127,15 @@ function docToMarkdown(editor: Editor): string {
   return lines.join("\n").trimEnd() + "\n";
 }
 
+/**
+ * The drag type carrying a visual's id from the Artifacts palette to the page.
+ *
+ * Deliberately NOT `text/plain`: a contenteditable treats a plain-text drop as
+ * something to insert, so the id landed in the prose as a paragraph. A custom
+ * type is invisible to that path — nothing but our own handlers can read it.
+ */
+export const VISUAL_DRAG_TYPE = "application/x-cx-visual";
+
 /** Mount a chapter editor into `el`, seeded from `html`. `extraExtensions`
  *  appends to the base [StarterKit] set — e.g. the shared StudioDecos
  *  decoration plugin (verse chips, section badges, Arabic overlay), so the
@@ -142,6 +151,16 @@ export function mountChapterEditor(
     content: html,
     editorProps: {
       attributes: { class: "cx-prose", "aria-label": "Chapter prose editor" },
+      // A visual dragged from the Artifacts palette is a LAYOUT action, never
+      // content: swallow it here so ProseMirror cannot insert the drag payload
+      // as prose. Returning true marks the drop handled and leaves the document
+      // untouched; the composer's own listener does the placement. Without this
+      // the editor accepted the drop as text and wrote bare `slide-4` /
+      // `slide-15` paragraphs straight into book.md (found 2026-07-21).
+      handleDrop: (_view, event) =>
+        Array.from((event as DragEvent).dataTransfer?.types ?? []).includes(
+          VISUAL_DRAG_TYPE,
+        ),
     },
   });
   return {

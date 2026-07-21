@@ -114,10 +114,10 @@ Columns: The parts | The number of parts | What full gnosis requires | The limit
 Visual metaphor, the limit of gnosis as a horizon that recedes.
 
 Abstract relation: a knowledge whose object cannot be exhausted.
-Metaphor: a far shore no traveller reaches.
+Metaphor: a far shore no traveler reaches.
 - Near water: as much as one is able to attain, one attains, and no more
 - The receding shore: since the beings are innumerable, the gnosis answering to them is likewise innumerable
-- The traveller: the intellect, left bewildered before the sheer immensity of what may be known
+- The traveler: the intellect, left bewildered before the sheer immensity of what may be known
 Reading: there is no completing this knowledge; there is only the journey deeper into it.
 
 Contrast pair, the reflexive formula against Tawhid as the work of a lifetime.
@@ -237,6 +237,6 @@ Start: deny origination to the ranks (tanzih)
   to: deny names to the Originator (tajrid)
   to: spend a lifetime coming to know, rank by rank, the ordered hierarchy
   to: that patient knowing met at every step by grace from above
-End: the good end, the far shore toward which the soul is travelling home
+End: the good end, the far shore toward which the soul is traveling home
 
 Annotation: Tawhid is not the counting of Allah as one, which taken as a definition is the very shirk it means to escape. Because the beings are innumerable, this gnosis is the highest and most inexhaustible of all knowledge, and a soul's own station is established by exactly how much of it he attains.

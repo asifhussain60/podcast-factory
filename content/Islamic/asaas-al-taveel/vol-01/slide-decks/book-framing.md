@@ -29,4 +29,4 @@ The deck visualizes the book's structures; the audio carries the argument. Each 
 - "Every slide must have a named diagram type."
 
 ## Visual Style
-Black-and-white pen-and-ink line-art only. Hierarchies as tree diagrams. Contrast pairs as two-panel layouts split by a vertical rule. Genealogies as arrow chains with named nodes. Process flows as numbered-step illustrations. Annotated structures as a drawn whole with callout lines. No colour, no photographs, no gradients. Each slide is a drawn diagram, not a bullet list.
+Black-and-white pen-and-ink line-art only. Hierarchies as tree diagrams. Contrast pairs as two-panel layouts split by a vertical rule. Genealogies as arrow chains with named nodes. Process flows as numbered-step illustrations. Annotated structures as a drawn whole with callout lines. No color, no photographs, no gradients. Each slide is a drawn diagram, not a bullet list.

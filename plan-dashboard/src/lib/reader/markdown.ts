@@ -118,7 +118,42 @@ function renderInline(text: string, opts: RenderOptions): string {
   s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   // italic: *text* (single asterisks, not part of bold)
   s = s.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<em>$2</em>");
-  return s;
+  return isolateInlineArabic(s);
+}
+
+/** An Arabic run woven into left-to-right prose, with the bracketing glyphs the
+ *  print renderer also absorbs. Mirror of `ARABIC_INLINE_RE` in
+ *  plan-dashboard/scripts/lib/book-html.mjs — keep the two in step. */
+const ARABIC_INLINE_RE = /[﴿«]?[\s؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]+[﴾»]?/g;
+
+/**
+ * Wrap each inline Arabic run in the same `.ar-inline` span the PRINT renderer
+ * emits (book-html.mjs `renderInline`).
+ *
+ * Block-level Arabic already gets `dir="rtl" lang="ar"`, but an Arabic run
+ * sitting INSIDE an English sentence had no wrapper at all on the reader path.
+ * The bidi algorithm then pulls the neighbouring brackets into the
+ * right-to-left run, so `… al-Yaman (جعفر بن منصور اليمن) and …` renders with
+ * its closing parenthesis stranded at the start of the next line. The PDF never
+ * had the bug because `.ar-inline` carries `unicode-bidi: isolate`; this brings
+ * the on-screen render to the same markup, which also gives it the same Arabic
+ * face for free.
+ *
+ * Applied last, so it cannot wrap the HTML tags the passes above emit.
+ */
+function isolateInlineArabic(html: string): string {
+  if (!ARABIC_SCRIPT_RE.test(html)) return html;
+  // Only rewrite text, never the inside of a tag.
+  return html.replace(/<[^>]+>|[^<]+/g, (chunk) => {
+    if (chunk.startsWith("<")) return chunk;
+    return chunk.replace(ARABIC_INLINE_RE, (match) => {
+      if (!ARABIC_SCRIPT_RE.test(match)) return match;
+      const leading = match.match(/^\s*/)?.[0] ?? "";
+      const trailing = match.match(/\s*$/)?.[0] ?? "";
+      const body = match.slice(leading.length, match.length - trailing.length);
+      return `${leading}<span class="ar-inline" dir="rtl" lang="ar">${body}</span>${trailing}`;
+    });
+  });
 }
 
 /** Split accumulated blockquote lines into paragraphs on blank lines. */

@@ -32,6 +32,7 @@ import {
   type SaveDepthFn,
 } from "./studio-editor-constants";
 import { openDepthPicker, openTagPicker } from "./studio-editor-pickers";
+import { alignBlocks } from "./block-align";
 
 export interface Box<T> {
   current: T;
@@ -74,15 +75,124 @@ export function createStudioDecos(bag: StudioDecosBag) {
     glossarySorted,
   } = bag;
 
+  // Compiled ONCE per editor mount, not once per (glossary term x text node x
+  // keystroke). `glossarySorted` is fixed for the life of the extension, so the
+  // pattern never changes; only `lastIndex` does, and every use below resets it
+  // before scanning. On a long chapter this is the difference between a few
+  // hundred RegExp constructions per keypress and tens of thousands.
+  const glossaryMatchers: { re: RegExp; script: string }[] = glossarySorted.map(
+    (e) => ({
+      re: new RegExp(
+        `(?<![\\w-])${e.phonetic.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?![\\w'’-])`,
+        "g",
+      ),
+      script: e.arabic_script,
+    }),
+  );
+  const arabicRunRe = new RegExp(ARABIC_SCRIPT_RUN.source, "g");
+
+  // Alignment is a pure function of (doc, baseline), and ProseMirror docs are
+  // immutable, so one WeakMap entry per doc is exact — a selection-only
+  // transaction reuses the previous result instead of rebuilding the table.
+  const alignCache = new WeakMap<
+    object,
+    { baseline: string[]; aligned: (number | null)[] }
+  >();
+  function alignmentFor(
+    doc: { textBetween?: unknown },
+    baseline: string[],
+    currentTexts: string[],
+  ): (number | null)[] {
+    const hit = alignCache.get(doc as object);
+    if (hit && hit.baseline === baseline) return hit.aligned;
+    const aligned = alignBlocks(baseline, currentTexts);
+    alignCache.set(doc as object, { baseline, aligned });
+    return aligned;
+  }
+
   return Extension.create({
     name: "studioDecos",
     addProseMirrorPlugins() {
       return [
         new Plugin({
           key: new PluginKey("studioDecos"),
+          // Keep the human-edit baseline structurally in step with the document.
+          //
+          // The baseline is a flat array of paragraph texts captured when the
+          // chapter opened. Split a paragraph and the document now has one more
+          // block than the baseline does, so the first half's baseline is the
+          // WHOLE original paragraph — every later keystroke in it then diffs
+          // against text that has merely moved to the sibling block, and the
+          // moved half reappears as struck-out prose. Re-splitting the baseline
+          // at the moment of the split keeps each half diffing against its own
+          // half, so editing after a split tracks normally and nothing phantom
+          // is ever drawn.
+          //
+          // This runs in `apply` — exactly once per transaction, outside the
+          // render path — rather than in `decorations`, which must stay pure.
+          state: {
+            init: () => null,
+            apply(tr, _value, oldState, newState) {
+              if (!tr.docChanged) return null;
+              const oldTexts: string[] = [];
+              oldState.doc.forEach((n) => oldTexts.push(n.textContent));
+              const newTexts: string[] = [];
+              newState.doc.forEach((n) => newTexts.push(n.textContent));
+              const delta = newTexts.length - oldTexts.length;
+              if (delta !== 1 && delta !== -1) return null;
+
+              const baseline = originalRef.current;
+              if (!baseline.length) return null;
+              const toOld = alignBlocks(baseline, oldTexts);
+              const baseIndexOf = (k: number): number | null =>
+                k >= 0 && k < toOld.length ? toOld[k] : null;
+
+              if (delta === 1) {
+                // A split: old block k became new blocks k and k+1.
+                const k = newTexts.findIndex(
+                  (t, i) => t !== oldTexts[i] || i >= oldTexts.length,
+                );
+                if (k < 0 || k + 1 >= newTexts.length) return null;
+                if (oldTexts[k] !== newTexts[k] + newTexts[k + 1]) return null;
+                const b = baseIndexOf(k);
+                if (b == null) return null;
+                const next = baseline.slice();
+                next.splice(b, 1, newTexts[k], newTexts[k + 1]);
+                originalRef.current = next;
+              } else {
+                // A merge: old blocks k and k+1 became new block k.
+                const k = oldTexts.findIndex(
+                  (t, i) => t !== newTexts[i] || i >= newTexts.length,
+                );
+                if (k < 0 || k + 1 >= oldTexts.length) return null;
+                if (newTexts[k] !== oldTexts[k] + oldTexts[k + 1]) return null;
+                const b = baseIndexOf(k);
+                const b2 = baseIndexOf(k + 1);
+                if (b == null || b2 == null || b2 !== b + 1) return null;
+                const next = baseline.slice();
+                next.splice(b, 2, baseline[b] + baseline[b2]);
+                originalRef.current = next;
+              }
+              return null;
+            },
+          },
           props: {
             decorations(state) {
               const orig = originalRef.current;
+              // The baseline each block is diffed against, and the map from a
+              // CURRENT block to its counterpart in that baseline. Positional
+              // indexing breaks the moment a paragraph is split or merged —
+              // see alignBlocks.
+              const baseline = showPrevDiffRef.current
+                ? prevStageTextsRef.current
+                : orig;
+              const currentTexts: string[] = [];
+              state.doc.forEach((n) => currentTexts.push(n.textContent));
+              const alignment = alignmentFor(
+                state.doc,
+                baseline,
+                currentTexts,
+              );
               // Group action-item marks by paragraph ordinal for inline badges.
               const actsByPara = new Map<number, ClientActionItem[]>();
               for (const a of actionsRef.current) {
@@ -130,7 +240,9 @@ export function createStudioDecos(bag: StudioDecosBag) {
                         chip.setAttribute("data-verse", verse);
                         return chip;
                       },
-                      { side: -1 },
+                      // Keyed on position + label so an unchanged chip keeps its
+                      // DOM node across transactions instead of being rebuilt.
+                      { side: -1, key: `qref-${from}-${label}` },
                     ),
                   );
                 }
@@ -369,13 +481,37 @@ export function createStudioDecos(bag: StudioDecosBag) {
                 // In prev-stage-diff mode: diff current node against the PREVIOUS stage's
                 // paragraph instead (showing what THIS step changed, not human edits).
                 const prevDiff = showPrevDiffRef.current;
-                const before = prevDiff
-                  ? (prevStageTextsRef.current[idx] ?? "")
-                  : orig[idx];
+                // A block with no counterpart in the baseline is genuinely new
+                // (the second half of a split, or a paragraph just typed).
+                // It gets the dirty background below, but NOT a word-diff —
+                // diffing it against an unrelated block is what produced the
+                // wall of struck-out neighbouring text.
+                const baseIdx = alignment[idx];
+                const before = baseIdx == null ? undefined : baseline[baseIdx];
                 const insClass = prevDiff ? "aug-ins" : "tc-ins";
                 const delClass = prevDiff ? "aug-del" : "tc-del";
                 const after = node.textContent;
-                if (before !== undefined && before !== after) {
+                // A PURE structural edit — splitting one paragraph in two, or
+                // merging two into one — moves text between blocks without
+                // changing a word of it. Diffing it would strike out the half
+                // that merely moved next door: pressing Enter once painted 433
+                // characters of untouched prose as "deleted", which reads as the
+                // editor dumping text into the chapter. Only exact
+                // concatenations qualify, so a split that also edits a word
+                // still tracks that word normally.
+                const isPureSplit =
+                  before !== undefined &&
+                  before === after + (currentTexts[idx + 1] ?? " ");
+                const isPureMerge =
+                  before !== undefined &&
+                  baseIdx != null &&
+                  after === before + (baseline[baseIdx + 1] ?? " ");
+                if (
+                  before !== undefined &&
+                  before !== after &&
+                  !isPureSplit &&
+                  !isPureMerge
+                ) {
                   let cursor = offset + 1; // content start of a textblock
                   for (const part of diffWords(before, after)) {
                     const len = part.value.length;
@@ -395,9 +531,17 @@ export function createStudioDecos(bag: StudioDecosBag) {
                             const del = document.createElement("span");
                             del.className = delClass;
                             del.textContent = text;
+                            // The struck-out word is track-changes chrome, not
+                            // prose: keep it out of the editable flow so a caret
+                            // can never land inside it and it is never selected
+                            // or copied as if it were text the author typed.
+                            del.contentEditable = "false";
                             return del;
                           },
-                          { side: -1 },
+                          // Keyed so a still-deleted word is not torn down and
+                          // rebuilt on every keystroke (the flicker that reads
+                          // as "my typing is being doubled").
+                          { side: -1, key: `${delClass}-${cursor}-${text}` },
                         ),
                       );
                     } else {
@@ -408,11 +552,7 @@ export function createStudioDecos(bag: StudioDecosBag) {
 
                 // Para-dirty: warm background on blocks the user has edited vs the original.
                 // Only shown in human-edit mode (not prev-stage diff) so it tracks real changes.
-                if (
-                  !prevDiff &&
-                  orig[idx] !== undefined &&
-                  orig[idx] !== after
-                ) {
+                if (!prevDiff && orig.length > 0 && before !== after) {
                   decos.push(
                     Decoration.node(offset, offset + node.nodeSize, {
                       class: "para-dirty",
@@ -466,13 +606,11 @@ export function createStudioDecos(bag: StudioDecosBag) {
                   node.descendants((child, childPos) => {
                     if (!child.isText || !child.text) return;
                     const base = offset + 1 + childPos;
-                    for (const e of glossarySorted) {
-                      // Don't fire inside compounds/possessives: skip if adjacent to a
-                      // letter, hyphen, or apostrophe (so "al-Quran"/"Ghazali's" stay English).
-                      const re = new RegExp(
-                        `(?<![\\w-])${e.phonetic.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?![\\w'’-])`,
-                        "g",
-                      );
+                    for (const { re, script } of glossaryMatchers) {
+                      // Don't fire inside compounds/possessives: the compiled pattern
+                      // skips a match adjacent to a letter, hyphen, or apostrophe (so
+                      // "al-Quran"/"Ghazali's" stay English).
+                      re.lastIndex = 0;
                       let mm: RegExpExecArray | null;
                       while ((mm = re.exec(child.text!))) {
                         const from = base + mm.index;
@@ -492,7 +630,6 @@ export function createStudioDecos(bag: StudioDecosBag) {
                         decos.push(
                           Decoration.inline(from, to, { class: "ar-hidden" }),
                         );
-                        const script = e.arabic_script;
                         decos.push(
                           Decoration.widget(
                             from,
@@ -504,7 +641,9 @@ export function createStudioDecos(bag: StudioDecosBag) {
                               s.textContent = script;
                               return s;
                             },
-                            { side: -1 },
+                            // Keyed so an unchanged overlay is reused instead of
+                            // torn down and rebuilt on every transaction.
+                            { side: -1, key: `ar-${from}-${script}` },
                           ),
                         );
                       }
@@ -521,9 +660,9 @@ export function createStudioDecos(bag: StudioDecosBag) {
                 node.descendants((child, childPos) => {
                   if (!child.isText || !child.text) return;
                   const base = offset + 1 + childPos;
-                  const arRe = new RegExp(ARABIC_SCRIPT_RUN.source, "g");
+                  arabicRunRe.lastIndex = 0;
                   let am: RegExpExecArray | null;
-                  while ((am = arRe.exec(child.text!))) {
+                  while ((am = arabicRunRe.exec(child.text!))) {
                     const from = base + am.index;
                     const to = from + am[0].length;
                     if (!arabicRef.current && inPairedArabic(from)) continue;

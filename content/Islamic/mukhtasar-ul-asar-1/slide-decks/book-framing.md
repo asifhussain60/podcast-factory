@@ -27,4 +27,4 @@ The audio carries the argument and devotional weight. The deck exists only to re
 - "Avoid stock-photo-style imagery. Every slide is a diagram or it does not exist."
 
 ## Visual Style
-Render every slide as black-and-white line-art, like pen-and-ink scholarly diagrams. Hierarchies become tree diagrams; contrast pairs become two-panel layouts; maturity and genealogy chains become arrow diagrams; process flows become numbered-step illustrations; matrices become ruled grids. Clean geometric shapes and lines only. No colour fills, no gradients, no photographs. Each slide must be a drawn diagram, not a bullet list.
+Render every slide as black-and-white line-art, like pen-and-ink scholarly diagrams. Hierarchies become tree diagrams; contrast pairs become two-panel layouts; maturity and genealogy chains become arrow diagrams; process flows become numbered-step illustrations; matrices become ruled grids. Clean geometric shapes and lines only. No color fills, no gradients, no photographs. Each slide must be a drawn diagram, not a bullet list.

@@ -29,6 +29,10 @@ import unicodedata
 _AYN_HAMZA = "ʿʾʻʼˈ’‘ʹ׳'"
 _SENTINEL = "\x00"
 
+# The complete set of word-endings that make an apostrophe genuinely English.
+# An apostrophe followed by anything else is an ayn/hamza and is dropped.
+_ENGLISH_CLITICS = frozenset({"s", "t", "d", "m", "re", "ve", "ll"})
+
 
 def simplify_transliteration(text: str) -> str:
     """Return *text* with scholarly Arabic diacritics reduced to plain English.
@@ -60,13 +64,22 @@ def simplify_transliteration(text: str) -> str:
             last_base_latin = "LATIN" in unicodedata.name(c, "")
     folded = "".join(out)
 
-    # 3. Resolve the sentinel: keep an apostrophe only between two letters.
+    # 3. Resolve the sentinel: keep an apostrophe ONLY where it is an English
+    #    contraction or possessive. Everywhere else it came from an ayn/hamza,
+    #    and the house style is plain letters — Quran, not Qur'an (see
+    #    _ENGLISH_CLITICS). The discriminator is what FOLLOWS the apostrophe to
+    #    the end of the word, so "God's"/"don't" keep theirs while "Qur'an",
+    #    "du'at", "Ja'far", "Ma'mur" and "ta'wil" lose theirs. It is deliberately
+    #    a rule and not a term list: a new Arabic name must not need a code edit.
     res: list[str] = []
     for i, c in enumerate(folded):
         if c == _SENTINEL:
             prev = folded[i - 1] if i > 0 else ""
-            nxt = folded[i + 1] if i + 1 < len(folded) else ""
-            if prev.isalpha() and nxt.isalpha():
+            j = i + 1
+            while j < len(folded) and folded[j].isalpha():
+                j += 1
+            suffix = folded[i + 1 : j]
+            if prev.isalpha() and suffix.lower() in _ENGLISH_CLITICS:
                 res.append("'")
         else:
             res.append(c)
@@ -76,19 +89,30 @@ def simplify_transliteration(text: str) -> str:
 # Self-test — run `python3 scripts/podcast/_translit.py`.
 if __name__ == "__main__":
     CASES = [
-        ("Kīmiyāʾ al-Saʿāda", "Kimiya al-Sa'ada"),
+        ("Kīmiyāʾ al-Saʿāda", "Kimiya al-Saada"),
         ("Iḥyāʾ ʿUlūm al-Dīn", "Ihya Ulum al-Din"),
-        ("Jawāhir al-Qurʾān", "Jawahir al-Qur'an"),
+        ("Jawāhir al-Qurʾān", "Jawahir al-Quran"),
         ("Minhāj al-ʿĀbidīn", "Minhaj al-Abidin"),
-        ("Arbaʿīn", "Arba'in"),
-        ("Sharīʿah", "Shari'ah"),
+        ("Arbaʿīn", "Arbain"),
+        ("Sharīʿah", "Shariah"),
         ("mujāhadah", "mujahadah"),
         ("Ḥasan al-Baṣrī", "Hasan al-Basri"),
         ("Ayyuhā al-Walad", "Ayyuha al-Walad"),
         # Arabic script must survive untouched (vowel marks kept):
         ("وَأَنْ لَيْسَ", "وَأَنْ لَيْسَ"),
-        # English apostrophes between letters survive:
+        # English possessives and contractions keep their apostrophe …
         ("God's mercy", "God's mercy"),
+        ("the book's own voice", "the book's own voice"),
+        (
+            "don't and we'll and I've and they're and he'd and I'm",
+            "don't and we'll and I've and they're and he'd and I'm",
+        ),
+        # … while ayn/hamza in a transliterated term does not.
+        ("Qur'an and Qur'anic", "Quran and Quranic"),
+        ("du'at, Ka'b, ta'wil, da'wa, Ja'far, Shu'ayb", "duat, Kab, tawil, dawa, Jafar, Shuayb"),
+        ("Bayt al-Ma'mur", "Bayt al-Mamur"),
+        # A possessive ON a transliterated name still reads as English.
+        ("Salih's road", "Salih's road"),
     ]
     failures = 0
     for src, want in CASES:

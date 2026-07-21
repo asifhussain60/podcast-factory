@@ -718,6 +718,20 @@
   padding-right: 0;
   text-align: center;
 }
+/* Inline Arabic (a term woven into English prose) — isolate the RTL run so the
+   surrounding Latin punctuation stays put; without this the closing bracket of
+   `al-Yaman (جعفر بن منصور اليمن)` strands itself on the next line. Matches
+   .bookv-body .ar-inline in book-reader.css and .ar-inline in book-print.css. */
+   Two selectors because the two modes mark Arabic differently: Read renders the
+   .ar-inline span the print pipeline emits, while the TipTap edit canvas strips
+   unknown spans from its seed and marks the same runs with the .ar-raw
+   decoration from studio-decos instead. */
+.cx-body .ar-inline,
+.cx-prose .ar-raw {
+  font-family: var(--q-ar-face);
+  direction: rtl;
+  unicode-bidi: isolate;
+}
 .cx-prose p.ar {
   font-family: var(--q-ar-face);
   font-size: 1.05rem;

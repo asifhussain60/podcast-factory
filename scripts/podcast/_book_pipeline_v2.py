@@ -87,6 +87,39 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         final_md.write_text(dedupe_seam_paragraphs(final_md.read_text(encoding="utf-8")), encoding="utf-8")
         book_md = final_md
 
+    # 5a-arabic. Put the Arabic script back beside inline terms. AFTER every
+    #     LLM text pass, so no model can romanize the script away again; BEFORE
+    #     the Composer replay and the audits, so a human edit sits on top of it
+    #     and the Arabic audit judges exactly what prints. Deterministic and
+    #     glossary-driven — no model, no cost, nothing recalled. See
+    #     _book_inline_arabic.py.
+    from _book_inline_arabic import apply_inline_arabic
+
+    try:
+        apply_inline_arabic(book_dir, log=lambda m: log(f"    {m}"))
+        book_md = book_dir / "book" / "book.md"
+    except Exception as e:  # an overlay is never worth a finished translation
+        log(f"    inline-arabic: skipped (non-fatal): {e}")
+
+    # 5a-spelling. One spelling standard for the whole edition. The drafting and
+    #     re-voicing models have no consistent preference, so without this a
+    #     single book ships "honour" in one chapter and "honor" in the next.
+    #     Deterministic, whole-word, and skips fenced blocks; source records under
+    #     _system/source/ are never in scope here — this only touches book.md,
+    #     which is prose the pipeline itself authored. See _american_spelling.py.
+    from _american_spelling import to_american
+
+    try:
+        _md = book_dir / "book" / "book.md"
+        if _md.exists():
+            _before = _md.read_text(encoding="utf-8")
+            _after = to_american(_before)
+            if _after != _before:
+                _md.write_text(_after, encoding="utf-8")
+                log("    spelling: normalized to American forms")
+    except Exception as e:  # a spelling pass is never worth a finished book
+        log(f"    spelling: skipped (non-fatal): {e}")
+
     # 5b. Replay durable Book Composer edits. LAST of the text-mutating steps, so
     #     the human's chapter sits on top of everything the pipeline just
     #     regenerated. This is what makes the Composer the SINGULAR path for

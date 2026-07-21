@@ -23,6 +23,22 @@ book_augmentation: source_only
 # word-for-word-from-Arabic phrasing so it reads like a book, not a gloss.
 book_voice: faithful
 
+# Which prose actually ships (verified 2026-07-21). book.md is composed by
+# `_book_pipeline_v2.compose_book_v2`, whose step 1 calls
+# `_translation_edition.author_translation_edition_compose` UNCONDITIONALLY —
+# the faithful, articulated translation. `book_voice: faithful` above then skips
+# step 4 (the author-companion re-voice), so the teacher-voice variant cannot be
+# reintroduced by a re-compose. Its old output still sits in the local build
+# cache at book/_chunks/book/ (gitignored, superseded, read by nothing); the live
+# chunks are book/_chunks/translation/. Do not "fix" a chapter by copying from
+# the former — see the README in that directory.
+#
+# `deliverable_mode: translation_edition` is deliberately NOT set. It would be
+# the truthful label, but it also switches phase skipping, the translation
+# contract gate, and ship validation (book_driver / initial_driver /
+# validate_book_ready) on a book that is already published. The route is already
+# pinned by the call above, so the flag would add risk without adding a guarantee.
+
 # Narrative frame — a property of the SOURCE, not of the delivery route.
 # The Arabic opens `بلغنا` ("it has reached us"): an anonymous transmitter
 # reporting what passed between the Master and the boy. Neither man narrates.
