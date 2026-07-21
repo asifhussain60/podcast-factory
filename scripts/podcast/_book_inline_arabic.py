@@ -111,6 +111,59 @@ def _glossary_terms(book_dir: Path) -> list[tuple[str, str]]:
     return out
 
 
+def _gloss_span(line: str, start: int, end: int) -> tuple[int, int] | None:
+    """If the term at [start,end) IS a parenthetical transliteration gloss, return
+    the span of the whole `(*term*)`.
+
+    The author's convention puts the romanisation in brackets after the English:
+    `his gate (*bab*)`. The term therefore sits INSIDE the parentheses, not
+    before them — so the script must REPLACE that bracket, not open a second one
+    inside it.
+    """
+    a = start
+    while a > 0 and line[a - 1] in "*_":
+        a -= 1
+    if a == 0 or line[a - 1] != "(":
+        return None
+    b = end
+    while b < len(line) and line[b] in "*_":
+        b += 1
+    if b >= len(line) or line[b] != ")":
+        return None
+    # Absorb one leading space so "gate (bab)" -> "gate (script)", not "gate  (…)".
+    open_at = a - 1
+    if open_at > 0 and line[open_at - 1] == " ":
+        open_at -= 1
+    return (open_at, b + 1)
+
+
+def _is_person(phonetic: str) -> bool:
+    """True for a personal name, where the transliteration IS the English.
+
+    A reader needs "Jafar ibn Mansur al-Yaman" romanised; they do not need
+    "bab" romanised once the script is beside it. Detected by a standalone name
+    particle, so "al-Imam al-Natiq" (a title, hyphen-prefixed) is NOT a person
+    while "Jafar ibn Mansur al-Yaman" is.
+    """
+    return any(w.lower() in _NAME_PARTICLES for w in phonetic.split())
+
+
+def _script_already_near(line: str, at: int, script: str) -> bool:
+    """Is this concept already carrying script in the immediate vicinity?
+
+    Containment both ways, because the glossary holds overlapping entries: the
+    bare "Imam" (\u0627\u0644\u0625\u0645\u0627\u0645) sits inside "al-Imam al-Natiq"
+    (\u0627\u0644\u0625\u0645\u0627\u0645 \u0627\u0644\u0646\u0627\u0637\u0642), and annotating both
+    printed the same idea twice in one breath.
+    """
+    window = line[at : at + len(script) + _ANNOTATED_WINDOW + 24]
+    for run in re.findall(rf"[{_ARABIC}][^()]*", window):
+        run = run.strip()
+        if run and (run in script or script in run):
+            return True
+    return False
+
+
 def _annotate_chapter(body: str, terms: list[tuple[str, str]]) -> tuple[str, int]:
     """Add ``(script)`` after the first prose mention of each term in one chapter.
 
@@ -140,7 +193,8 @@ def _annotate_chapter(body: str, terms: list[tuple[str, str]]) -> tuple[str, int
                     claimed.append((m.start(), m.end()))
         reserved = list(claimed)
 
-        inserts: list[tuple[int, str]] = []
+        edits: list[tuple[int, int, str]] = []
+        queued: list[tuple[int, str]] = []  # (position, script) already decided
         # `terms` is longest-phonetic-first, so a compound name claims its span
         # before any of its component words can.
         for phonetic, script in terms:
@@ -168,22 +222,47 @@ def _annotate_chapter(body: str, terms: list[tuple[str, str]]) -> tuple[str, int
             # the closing quote BETWEEN the term and its parenthetical, which a
             # strict `\s*\(` check walked straight past, producing the script
             # twice eight characters apart.
-            if script in line[m.end() : m.end() + len(script) + _ANNOTATED_WINDOW]:
+            # The line still holds its ORIGINAL text while we decide, so a script
+            # queued earlier in this pass is invisible to a text scan. Check both.
+            near_queued = any(
+                abs(pos - m.end()) < _ANNOTATED_WINDOW + 40 and (q in script or script in q) for pos, q in queued
+            )
+            if near_queued or _script_already_near(line, m.end(), script):
                 del pending[phonetic]
                 continue
-            # Land the annotation OUTSIDE any emphasis the term sits in. The
-            # term is often italicised as a gloss (`*al-Imam al-Natiq*`), and
-            # inserting before the closing marker put the Arabic inside the
-            # emphasis — where a browser synthesizes a slant, a thing Arabic
-            # script does not have. Walk past the closing markers first.
+
+            # Walk past any emphasis closing the term. Landing inside it put the
+            # Arabic in an <em>, where a browser synthesizes a slant — a thing
+            # Arabic script does not have.
             at = m.end()
             while at < len(line) and line[at] in "*_":
                 at += 1
-            inserts.append((at, f" ({script})"))
+
+            # THE GLOSS RULE. Where the book already glosses the term with its
+            # transliteration — the author's own convention, `his gate (*bab*)`
+            # — the script REPLACES that transliteration rather than nesting
+            # inside it. Nesting produced `his gate (*bab* (باب))`: the same
+            # word three ways, two parentheses deep. Once the script is there
+            # the romanisation earns nothing, because the English meaning is
+            # already the running prose.
+            #
+            # A personal name is the exception: its transliteration IS how an
+            # English reader says it, so the script is appended beside it.
+            gloss = None if _is_person(phonetic) else _gloss_span(line, m.start(), m.end())
+            if gloss:
+                edits.append((gloss[0], gloss[1], f" ({script})"))
+                queued.append((gloss[0], script))
+                del pending[phonetic]
+                added += 1
+                continue
+
+            edits.append((at, at, f" ({script})"))
+            queued.append((at, script))
             del pending[phonetic]
             added += 1
-        for pos, text in sorted(inserts, reverse=True):
-            lines[i] = lines[i][:pos] + text + lines[i][pos:]
+        # Right-to-left so no earlier offset shifts under a later edit.
+        for start, end, text in sorted(edits, reverse=True):
+            lines[i] = lines[i][:start] + text + lines[i][end:]
 
     return "\n".join(lines), added
 

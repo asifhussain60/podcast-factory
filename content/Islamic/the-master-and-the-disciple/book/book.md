@@ -10,7 +10,7 @@ Five figures carry the whole of it. **The Master** is a Persian who came to know
 
 One name has to be kept straight from the start. The pages immediately following this introduction — the book's own opening — begin with believers putting a question to "a Master among them". That teacher is not the Master of the story. He answers once and is not heard from again; everywhere after those opening pages, "the Master" means the Persian.
 
-From the fourth chapter onward a set of terms recurs that a reader may take for ordinary religious vocabulary: the speaking Imam (الإمام) (*al-Imam al-Natiq* (الإمام الناطق)), his gate (*bab* (باب)), his successor (*wasi* (الوصي)), his summoners (*duat* (الدعاة)). The terms first appear in chapter four and the book glosses each when it names it, in chapter five. It sets them out as ranks in a single structure in chapter four itself — imam and gate and summoners figured as sun and moon and stars — so the cosmology of chapters four through six is describing that structure rather than decorating it.
+From the fourth chapter onward a set of terms recurs that a reader may take for ordinary religious vocabulary: the speaking Imam (الإمام الناطق), his gate (باب), his successor (الوصي), his summoners (الدعاة). The terms first appear in chapter four and the book glosses each when it names it, in chapter five. It sets them out as ranks in a single structure in chapter four itself — imam and gate and summoners figured as sun and moon and stars — so the cosmology of chapters four through six is describing that structure rather than decorating it.
 
 As an edition, this one adds nothing. It translates the whole of the source without abridgment, keeps the Arabic the source carries with the English set beneath, and supplies the Arabic of Quranic verses the source quotes in translation only. Where the words are the book's own they are left unvowelled exactly as the scan leaves them; where they are Quran they carry the vowelling of the mushaf. The editorial notes and the notes to the reader are fenced and labeled, so a reader can always tell the book's voice from a note about it.
 
@@ -351,19 +351,19 @@ Do you not see that the mote, for all its smallness and the subtlety of its mean
 
 The boy said: "What is the likeness of the heaven, in its height above things and the breadth of its regions, so that it has gathered all things within it?"
 
-The Master said: "Its likeness is the speaking Imam (الإمام) (al-Imam al-Natiq (الإمام الناطق)), who is raised above all creation by his merit and the loftiness of his degrees, and who has gathered within him all the rulings — the rulings of the Sharia (الشريعة) — by the breadth of his knowledge."
+The Master said: "Its likeness is the speaking Imam (الإمام الناطق), who is raised above all creation by his merit and the loftiness of his degrees, and who has gathered within him all the rulings — the rulings of the Sharia (الشريعة) — by the breadth of his knowledge."
 
 The boy said: "What is the likeness of the zodiac and the rest of its stars?"
 
-The Master said: "The likeness of the twelve chiefs (nuqaba (النقباء)), the chiefs of the speaking Imam. Its stars are his summoners (duat (الدعاة)), who call to the good by the leave of their Lord."
+The Master said: "The likeness of the twelve chiefs (النقباء), the chiefs of the speaking Imam. Its stars are his summoners (الدعاة), who call to the good by the leave of their Lord."
 
 The boy said: "What is the likeness of the earth and its breadth, made a place of rest and a bed for this creation?"
 
-The Master said: "It is the likeness of the gate (bab (باب)) of the speaking Imam in his lifetime, and of his successor (wasi (الوصي)) after his death. It is a place of return for the people and a resting-place for the one who seeks guidance, and it is knowing of the parables and the inward interpretation (tawil (التأويل))."
+The Master said: "It is the likeness of the gate (باب) of the speaking Imam in his lifetime, and of his successor (الوصي) after his death. It is a place of return for the people and a resting-place for the one who seeks guidance, and it is knowing of the parables and the inward interpretation (التأويل)."
 
 The boy said: "What is the likeness of the twelve islands in the earth?"
 
-The Master said: "They are parables of the twelve arguments (hujaj (الحجج)), the arguments of the guardians."
+The Master said: "They are parables of the twelve arguments (الحجج), the arguments of the guardians."
 
 The boy said: "What is the likeness of its rivers and its springs?"
 
@@ -371,7 +371,7 @@ The Master said: "The likeness of those who call to the good."
 
 The boy said: "What is the likeness of the seven kingdoms of the heavens and their orbits?"
 
-The Master said: "They are the causes between God and the speaker (natiq (الناطق)), and they are His. These are the seven and the two orbits, and these are the greatest causes of God."
+The Master said: "They are the causes between God and the speaker (الناطق), and they are His. These are the seven and the two orbits, and these are the greatest causes of God."
 
 The boy said: "What is the likeness of the seven seas?"
 
