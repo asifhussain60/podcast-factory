@@ -352,6 +352,10 @@
   box-decoration-break: clone; /* a passage that wraps lines keeps both ends round */
   -webkit-box-decoration-break: clone;
   transition: background 0.2s ease;
+  /* revealPassage() scrolls with block:"start", so without this the passage lands
+     under the 52px sticky topnav. Same offset the LIVE session uses for its own
+     anchor jumps (live-session.css), so the two surfaces land a passage alike. */
+  scroll-margin-top: calc(52px + var(--sp-4, 1rem));
 }
 /* The one whose card is live. Same hue, more of it — the pairing is legible at a
    glance without introducing a colour the surface does not already use. */

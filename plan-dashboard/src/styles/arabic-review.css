@@ -728,12 +728,23 @@ body[data-arabic="off"] .arv-page .ar-script {
   border-radius: 6px;
   background: var(--c-bg-elev, #fffdf8);
   color: var(--q-maroon, #7a1f1f);
+  /* rows={2} is the floor, not the ceiling: a vowelled passage wraps to four or
+     more lines in the drawer's 20rem column, and at a fixed two rows the reading
+     you are being asked to accept was cut mid-glyph with the rest behind an inner
+     scrollbar. Grow to the content instead, capped so one long passage cannot
+     take over the surface. Browsers without field-sizing keep the old fixed box. */
+  field-sizing: content;
+  max-height: 40vh;
 }
 .vrp-row-actions {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.5rem;
+  /* Accept + Reject + the right-aligned status do not fit a 238px row at 390px,
+     where the status was clipped by the surface edge. Let it drop to its own
+     line; margin-inline-start:auto on .vrp-status keeps it right-aligned either way. */
+  flex-wrap: wrap;
 }
 .vrp-status {
   margin: 0 0 0 auto;

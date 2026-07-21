@@ -204,8 +204,15 @@ export function revealPassage(id: string): boolean {
   if (!mark) return false;
   const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")
     ?.matches;
+  // "start", not "center": mountPassageSync counts a passage as live only in the
+  // TOP 45% of the viewport (rootMargin below), so centring it at 50% landed the
+  // passage you just jumped to just OUTSIDE that band — nothing lit, or an earlier
+  // mark higher on screen won the document-order tiebreak and the wrong card rose.
+  // Landing it at the top puts it inside the band AND makes it the topmost visible
+  // mark, so it wins that tiebreak. .cpn-passage carries the scroll-margin-top that
+  // keeps it clear of the sticky topnav.
   mark.scrollIntoView({
-    block: "center",
+    block: "start",
     behavior: reduce ? "auto" : "smooth",
   });
   return true;
