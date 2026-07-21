@@ -87,6 +87,28 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         final_md.write_text(dedupe_seam_paragraphs(final_md.read_text(encoding="utf-8")), encoding="utf-8")
         book_md = final_md
 
+    # 5a-translit. Fold scholarly transliteration to the plain house form, AFTER
+    #     the model passes. The base composer already does this at the end of its
+    #     own run (_translation_edition), but the fluency and augment passes come
+    #     later and write whatever spelling they please — a rebuild on 2026-07-21
+    #     came out of them carrying Shu'ayb, Ka'b, ta'wil, du'at and Ma'mur again,
+    #     apostrophes and all. That is not only the wrong house style: the
+    #     inline-Arabic pass below matches glossary terms against this text, so an
+    #     un-folded "Bayt al-Ma'mur" silently matches nothing and the term loses
+    #     its script. Folding here is what makes the two steps below reliable.
+    from _translit import simplify_transliteration
+
+    try:
+        _md = book_dir / "book" / "book.md"
+        if _md.exists():
+            _before = _md.read_text(encoding="utf-8")
+            _after = simplify_transliteration(_before)
+            if _after != _before:
+                _md.write_text(_after, encoding="utf-8")
+                log("    translit: folded to plain transliteration")
+    except Exception as e:  # never worth a finished translation
+        log(f"    translit: skipped (non-fatal): {e}")
+
     # 5a-arabic. Put the Arabic script back beside inline terms. AFTER every
     #     LLM text pass, so no model can romanize the script away again; BEFORE
     #     the Composer replay and the audits, so a human edit sits on top of it

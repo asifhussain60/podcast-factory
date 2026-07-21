@@ -27,6 +27,10 @@ const SENTINEL = String.fromCharCode(0);
  *  Mirror of `_ENGLISH_CLITICS` in scripts/podcast/_translit.py. */
 const ENGLISH_CLITICS = new Set(["s", "t", "d", "m", "re", "ve", "ll"]);
 
+/** The one common English word whose apostrophe marks an elision rather than a
+ *  clitic. Without it, "o'clock" folded to "oclock". Mirror of `_ELISIONS`. */
+const ELISIONS = new Set(["o|clock"]);
+
 export function simplifyTransliteration(text: string): string {
   if (!text) return text;
 
@@ -53,11 +57,15 @@ export function simplifyTransliteration(text: string): string {
     }
   }
 
-  // 3. Resolve the sentinel: keep an apostrophe ONLY where it is an English
-  //    contraction or possessive. Everywhere else it came from an ayn/hamza and
-  //    the house style is plain letters — Quran, not Qur'an. The discriminator
-  //    is what FOLLOWS the apostrophe to the end of the word, so "God's"/"don't"
-  //    keep theirs while "Qur'an", "du'at", "Ja'far" and "ta'wil" lose theirs.
+  // 3. Resolve the sentinel: keep an apostrophe ONLY where it is genuinely
+  //    English. Everywhere else it came from an ayn/hamza and the house style is
+  //    plain letters — Quran, not Qur'an. Three ways to earn one:
+  //      a) a clitic suffix ending the word — God's, don't, we'll
+  //      b) word-final after an s — the plural or name possessive: "the
+  //         brothers' books", "Moses' staff". The `s` is what separates them
+  //         from a transliteration merely ending in an ayn (sama', Shia'),
+  //         which still folds away.
+  //      c) a listed elision — o'clock
   //    Mirror of _translit.py step 3 — keep the two in lockstep.
   const arr = Array.from(out);
   let res = "";
@@ -67,7 +75,12 @@ export function simplifyTransliteration(text: string): string {
       let j = i + 1;
       while (j < arr.length && /\p{L}/u.test(arr[j])) j++;
       const suffix = arr.slice(i + 1, j).join("").toLowerCase();
-      if (/\p{L}/u.test(prev) && ENGLISH_CLITICS.has(suffix)) res += "'";
+      const keep =
+        /\p{L}/u.test(prev) &&
+        (ENGLISH_CLITICS.has(suffix) ||
+          (!suffix && prev.toLowerCase() === "s") ||
+          ELISIONS.has(`${prev.toLowerCase()}|${suffix}`));
+      if (keep) res += "'";
     } else {
       res += arr[i];
     }

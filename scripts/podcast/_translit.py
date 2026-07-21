@@ -4,16 +4,18 @@ Converts academic ALA-LC / IJMES transliteration (macrons + under-dots + the
 ayn/hamza modifier letters) into the plain journalistic transliteration used in
 the reading-edition book body and on the Podcast Factory Astro Site.
 
-  Kīmiyāʾ al-Saʿāda   → Kimiya al-Sa'ada
+  Kīmiyāʾ al-Saʿāda   → Kimiya al-Saada
   Iḥyāʾ ʿUlūm al-Dīn  → Ihya Ulum al-Din
-  Jawāhir al-Qurʾān   → Jawahir al-Qur'an
+  Jawāhir al-Qurʾān   → Jawahir al-Quran
   Minhāj al-ʿĀbidīn   → Minhaj al-Abidin
 
 Rules:
   - macrons / under-dots / over-dots on LATIN letters → stripped to the base letter
-  - ʿ (ayn) and ʾ (hamza), and their curly-quote variants → an apostrophe, then
-    that apostrophe is KEPT only between two letters; dropped at a word's
-    start/end or next to a space/hyphen (so ʿUlūm→Ulum, Saʿāda→Sa'ada).
+  - ʿ (ayn) and ʾ (hamza), and their curly-quote variants → DROPPED. The house
+    style is plain letters: Quran, not Qur'an; duat, not du'at.
+  - an apostrophe is kept ONLY where it is genuinely English — a clitic (God's,
+    don't, we'll), a plural or name possessive (the brothers' books, Moses'
+    staff), or a listed elision (o'clock). Everything else folds away.
   - ARABIC SCRIPT IS NEVER TOUCHED — Arabic harakat (combining vowel marks) are
     also category Mn, so we only strip combining marks that sit on a Latin base.
 
@@ -32,6 +34,10 @@ _SENTINEL = "\x00"
 # The complete set of word-endings that make an apostrophe genuinely English.
 # An apostrophe followed by anything else is an ayn/hamza and is dropped.
 _ENGLISH_CLITICS = frozenset({"s", "t", "d", "m", "re", "ve", "ll"})
+
+# The one common English word whose apostrophe marks an elision rather than a
+# clitic. Without this, "o'clock" folded to "oclock".
+_ELISIONS = {("o", "clock")}
 
 
 def simplify_transliteration(text: str) -> str:
@@ -64,13 +70,21 @@ def simplify_transliteration(text: str) -> str:
             last_base_latin = "LATIN" in unicodedata.name(c, "")
     folded = "".join(out)
 
-    # 3. Resolve the sentinel: keep an apostrophe ONLY where it is an English
-    #    contraction or possessive. Everywhere else it came from an ayn/hamza,
-    #    and the house style is plain letters — Quran, not Qur'an (see
-    #    _ENGLISH_CLITICS). The discriminator is what FOLLOWS the apostrophe to
-    #    the end of the word, so "God's"/"don't" keep theirs while "Qur'an",
-    #    "du'at", "Ja'far", "Ma'mur" and "ta'wil" lose theirs. It is deliberately
-    #    a rule and not a term list: a new Arabic name must not need a code edit.
+    # 3. Resolve the sentinel: keep an apostrophe ONLY where it is genuinely
+    #    English. Everywhere else it came from an ayn/hamza, and the house style
+    #    is plain letters — Quran, not Qur'an. Three ways to earn one:
+    #
+    #      a) a clitic suffix at the end of the word — God's, don't, we'll
+    #      b) word-final after an s — the PLURAL or name possessive:
+    #         "the brothers' books", "Moses' staff". Both occur in the live
+    #         book, and an earlier version of this rule silently deleted them
+    #         ("the scholars' books" -> "the scholars books"). The `s` is what
+    #         separates them from a transliteration that merely ends in an ayn
+    #         (sama', Shia'), which still folds away.
+    #      c) a listed elision — o'clock
+    #
+    #    Deliberately a rule and not a term list: a new Arabic name must not
+    #    need a code edit to be spelled correctly.
     res: list[str] = []
     for i, c in enumerate(folded):
         if c == _SENTINEL:
@@ -79,7 +93,12 @@ def simplify_transliteration(text: str) -> str:
             while j < len(folded) and folded[j].isalpha():
                 j += 1
             suffix = folded[i + 1 : j]
-            if prev.isalpha() and suffix.lower() in _ENGLISH_CLITICS:
+            keep = prev.isalpha() and (
+                suffix.lower() in _ENGLISH_CLITICS
+                or (not suffix and prev.lower() == "s")
+                or (prev.lower(), suffix.lower()) in _ELISIONS
+            )
+            if keep:
                 res.append("'")
         else:
             res.append(c)
@@ -113,6 +132,14 @@ if __name__ == "__main__":
         ("Bayt al-Ma'mur", "Bayt al-Mamur"),
         # A possessive ON a transliterated name still reads as English.
         ("Salih's road", "Salih's road"),
+        # Plural and name possessives keep theirs — an earlier rule deleted these.
+        ("the brothers' books", "the brothers' books"),
+        ("Moses' staff", "Moses' staff"),
+        ("the scholars' obligation", "the scholars' obligation"),
+        # …but a transliteration merely ENDING in an ayn still folds away.
+        ("sama' and Shia'", "sama and Shia"),
+        # The one elision worth keeping.
+        ("five o'clock", "five o'clock"),
     ]
     failures = 0
     for src, want in CASES:

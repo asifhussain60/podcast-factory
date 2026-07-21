@@ -1,0 +1,43 @@
+{
+  "slug": "the-master-and-the-disciple",
+  "verdict": "BOOK-SOUND",
+  "summary": "reading edition sound (6 gates checked)",
+  "gates": [
+    {
+      "gate": "B1",
+      "name": "book-md-complete",
+      "passed": true,
+      "note": "book.md: 194 KB, 9 sections \u2265 8 TOC chapters"
+    },
+    {
+      "gate": "B2",
+      "name": "book-pdf-renderable",
+      "passed": true,
+      "note": "book.pdf: 1867 KB, 125 pages \u2265 8 chapters"
+    },
+    {
+      "gate": "B3",
+      "name": "book-arabic-coverage",
+      "passed": true,
+      "note": "translation-edition Arabic preservation signal: 411 rendered Arabic runs from 19271 source runs"
+    },
+    {
+      "gate": "B4",
+      "name": "book-prose-integrity",
+      "passed": true,
+      "note": "book.md: no model commentary or generated headings detected"
+    },
+    {
+      "gate": "B5",
+      "name": "book-chapter-body-coverage",
+      "passed": true,
+      "note": "book.md: 8 numbered chapters have body text"
+    },
+    {
+      "gate": "B6",
+      "name": "book-source-crosswalk",
+      "passed": true,
+      "note": "source-crosswalk.json: 8 chapters aligned"
+    }
+  ]
+}

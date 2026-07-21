@@ -188,7 +188,205 @@
       "source": {
         "provider": "manual"
       }
+    },
+    {
+      "id": "f5ea3724-4614-4dbe-b1b6-f97579edbb3b",
+      "kind": "analogy",
+      "body": "A striking image the hosts unpack: the fool's tongue moves first, blurting out a position, and then his heart scrambles to justify whatever he just said, so he becomes a prisoner of his own speech. The wise man runs it backwards. The words reach the heart first, get weighed against a higher measure, and only what passes is allowed out. That reversal is how the townspeople recognize the stranger as the real thing.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "Tongue behind the heart",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP02"
+      }
+    },
+    {
+      "id": "46072f9d-a3ee-4cdd-828c-b96555710602",
+      "kind": "etymology",
+      "body": "The word umma comes from a root meaning to aim toward something and to head for a source, the same root behind umm, mother, and imam, the one who stands at the front. An umma is not just a crowd; it is people bound together because they all face the same direction, gathered around one shared source and aim. So when the seeker sets out summoning others to the same obligation, he is not collecting followers. He is trying to turn scattered people back toward the single source he found.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "Umma, facing one source",
+      "quote": "summoning others to the same obligation",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "8bfd3149-b06b-47ce-a865-8a52715ce3d5",
+      "kind": "analogy",
+      "body": "One host lands a comparison that makes the whole chapter click. A gift like this isn't a static object you set on a shelf and admire. It's shaped like a road — a beginning that points to knowledge, which points to practice, which stretches on ahead of you. And you cannot thank a road with a word. You thank a road by walking it. That's why the Persian doesn't reply with a phrase; he replies with a journey. His gratitude has to be the same shape as the gift.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "You thank a road by walking it",
+      "quote": "what was owed from him was the very likeness of what had been owed to him",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP01"
+      }
+    },
+    {
+      "id": "e7952343-1682-4c7c-ad0d-24ae7c2b48d0",
+      "kind": "explanation",
+      "body": "He draws a sharp distinction. Once he was poor in the sense of not knowing — he lacked knowledge itself. Now he knows, but he says he's poor all over again, this time because knowing isn't enough: he still has to act on it. Learning the truth and living the truth are two separate riches. Having the first doesn't make you rich in the second. That's why finding knowledge only sends him back out to work.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "Two kinds of poverty",
+      "quote": "I remain as poor before the seeking of knowledge through action as I once was poor before the seeking of knowledge itself",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "07798186-dd39-410d-907d-1d92cfad4c7f",
+      "kind": "analogy",
+      "body": "Picture someone dying of thirst in a desert, running toward a shining patch on the horizon that looks like a lake. They run and run, and when they finally get there, there's only more sand. That's how the writer paints a life spent chasing the wrong things. The shimmer looked like water; up close it was nothing. Everyone knows that gut-drop of arriving somewhere you were sure would satisfy you, only to find it empty.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "Chasing a mirage",
+      "quote": "taking the shimmer of the mirage for the whiteness of water",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "08187892-5a87-443e-a6f2-f1fe2c621d30",
+      "kind": "explanation",
+      "body": "The Quran asks whether someone who was dead and then given life, with a light to walk by among people, could ever be the same as someone stuck in darkness he can never escape. That is exactly what the seeker means when he says he was dead and then revived. His death was not of the body; it was ignorance. Being taught was not just gaining facts, it was being brought back to life and handed a light to move through the world. The whole chapter rests on that one image.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "Dead, then given life",
+      "quote": "I was dead and He revived me, ignorant and He taught me.",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "f2e34db8-b693-4660-a423-94985ed4da30",
+      "kind": "note",
+      "body": "The hosts flag something a listener expects a teacher to do: walk in and correct everyone on the spot. He doesn't. Their reading is that pouring deep truth into an unready heart doesn't just waste effort, it does active harm, because the person turns the teaching into a tool for their own status. So he sits apart and studies faces first, testing whether real capacity is actually there.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "Why he waits in silence",
+      "quote": "So he sat down a little apart from them, holding himself aside, listening to their talk and reading their faces to see which among them held to the soundest way.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP02"
+      }
+    },
+    {
+      "id": "98205bf9-590b-4a24-95fa-79cf2efcb0b6",
+      "kind": "explanation",
+      "body": "When the Persian says he was dead and then revived, he doesn't mean he stopped breathing. In this book, ignorance is treated as a kind of death and knowledge as coming back to life. So his whole story is a resurrection story with no grave in it. Keep that in your ear for the rest of the chapter: every time you hear death and life, he's really talking about not knowing and then knowing.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "Dead means ignorant",
+      "quote": "I was dead and He revived me, ignorant and He taught me.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "c2d2a4fd-4b51-47e6-ba77-48ba61e78888",
+      "kind": "explanation",
+      "body": "The hosts sharpen the answer to that objection. He isn't scanning for people who agree, or for a flash of intellectual interest, because curiosity like that costs the ego nothing. What he listens for is the harder thing: people who know they lack a guide and keep searching anyway. That struggle against our natural pull toward easy comfort is the real signal, and without a trace of it, no teacher arrives at all.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "Mere curiosity is cheap",
+      "quote": "quarreling over religion without guidance and plunging into the depths of their own caprice",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP02"
+      }
+    },
+    {
+      "id": "70cd9889-9ff9-4776-8e4f-d2dc8feed0a8",
+      "kind": "explanation",
+      "body": "When the seeker walks along recalling the signs of his Lord, there is a subtlety worth knowing. The tradition draws a careful line: the sign that points to God is not like the signs that point to created things. None of the signs pointing to His creations is like His sign. So reading the signs of his Lord is not like reading ordinary clues in the world. It is attending to a completely different order of pointing, one that has no likeness among the marks of created things.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "Reading the signs",
+      "quote": "recalling the signs of his Lord and studying their marks",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "55b35682-3f29-4806-b1dc-5b2c65e75ca6",
+      "kind": "note",
+      "body": "There is a saying that the Prophet left two weighty things, the Book of Allah and his Family, and that they will never separate until they reach him at the pool. Notice the shape of it: something precious, handed down, meant to stay unbroken across generations. That is the same shape as what the seeker describes, a trust delivered to him by those before, which he is now bound to deliver onward. He sees himself as one link in a chain that is not allowed to snap.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "A trust that never breaks",
+      "quote": "delivering this trust to those who come after me just as it was delivered to me by those who came before.",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "cf3060c0-04fa-4c25-bbd7-4e92a0563598",
+      "kind": "note",
+      "body": "Notice how the chapter ends. He finally reaches a town, finds people loudly arguing about religion, and he doesn't jump in. He sits a little apart and listens, reading their faces to figure out who's actually on solid ground. Easy to miss, but it sets up everything that follows — the seeker is careful, patient, sizing people up before he speaks. Watch for who he decides is worth approaching.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "He watches first",
+      "quote": "quarreling over religion without guidance and plunging into the depths of their own caprice",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "04d31e1e-f79c-4941-8531-641de90bf85d",
+      "kind": "note",
+      "body": "This line is easy to skate past, so slow down on it. He flips the usual way we think about our own achievement. He says he isn't the one who earned this knowledge — the people who carried it before him earned it, and by their effort they earned him. He's not the winner; he's the prize their labor won. It's a strikingly humble way to see your own success as something others produced for you.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "Gained, not gainer",
+      "quote": "I am rather the one who has been gained for them by their labor",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "7e497ebf-24ed-4169-91d0-98aa7d1e4f4d",
+      "kind": "analogy",
+      "body": "He says his father's saying lived in him the way the soul lives in the body. Think about what that means: not a fact he memorized and could set down, but something animating him from the inside, inseparable from who he was. We've all had a sentence from a parent lodge that deep — you don't recall it, you just live by it. That's the weight he's putting on this one line.",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "Soul in the body",
+      "quote": "a saying that lived in him as the soul lives in the body",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "f40b8e2e-9ee1-471b-9e47-8c9473425e80",
+      "kind": "question",
+      "body": "The verse contrasts a person given life and a light to walk by with someone lost in a darkness he can never leave. Ask the person you are reading with: if the seeker's revival was really about being lifted out of ignorance, what does that say about what his death actually was, and whether the rest of us might be dead in the same way without knowing it?",
+      "createdAt": "2026-07-21T18:57:54Z",
+      "updatedAt": "2026-07-21T18:57:54Z",
+      "generated": true,
+      "anchor": "What really died?",
+      "quote": "He found him astray and guided him, found him in want and enriched him with knowledge",
+      "source": {
+        "provider": "corpus"
+      }
     }
   ],
-  "updatedAt": "2026-07-19T15:01:24Z"
+  "updatedAt": "2026-07-21T18:57:54Z"
 }

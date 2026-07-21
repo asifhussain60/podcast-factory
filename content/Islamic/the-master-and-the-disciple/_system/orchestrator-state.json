@@ -3,10 +3,10 @@
   "book_slug": "the-master-and-the-disciple",
   "category": "books",
   "branch": "Islamic/the-master-and-the-disciple",
-  "phase": "0book-compose",
+  "phase": "0book-render",
   "phase_status": "completed",
-  "last_completed_phase": "0book-compose",
-  "next_phase": "0book-illustrate",
+  "last_completed_phase": "0book-render",
+  "next_phase": "publish",
   "last_error": null,
   "pipeline_mode": "orchestrated",
   "v1_archive": {
@@ -464,14 +464,15 @@
       "manual_fallback": "Resume manually via /podcast and `--resume` the orchestrator."
     },
     "0book-illustrate": {
-      "status": "completed",
+      "status": "skipped",
       "ts_started": "2026-06-08T13:11:52Z",
-      "ts_completed": "2026-06-11T20:52:00Z"
+      "ts_completed": "2026-07-21T18:40:50Z",
+      "reason": "book_visuals=manual_only"
     },
     "0book-render": {
       "status": "completed",
       "ts_started": "2026-06-08T13:24:21Z",
-      "ts_completed": "2026-06-11T21:00:49Z"
+      "ts_completed": "2026-07-21T19:00:44Z"
     },
     "per-chapter-optimize": {
       "status": "skipped",
@@ -488,13 +489,14 @@
       }
     },
     "0book-slide-import": {
-      "status": "completed",
+      "status": "skipped",
       "ts_started": "2026-06-11T20:02:05Z",
-      "ts_completed": "2026-06-11T21:00:48Z",
+      "ts_completed": "2026-07-21T18:40:50Z",
       "imported": {
         "book": 13
       },
-      "exempt": []
+      "exempt": [],
+      "reason": "book_visuals=manual_only"
     }
   },
   "completed_slugs": [],
@@ -506,7 +508,7 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-07-21T18:40:49Z",
+  "ts_updated": "2026-07-21T19:00:44Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
