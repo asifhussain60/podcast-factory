@@ -146,8 +146,9 @@ from _rules import ALLOWED_CATEGORIES
 # references keep working without maintaining a parallel (drift-prone) copy.
 CANONICAL_PHASES: tuple[str, ...] = PHASES
 
-# 2026-05-26 restructure: canonical layout is content/<stage>/<category>/<slug>/
-LIBRARY_ROOT = REPO_ROOT / "content" / "drafts"
+# Canonical layout is content/<Bucket>/<slug>/ — resolved through _paths, never
+# by joining a root here. (The old LIBRARY_ROOT = content/drafts constant was
+# unreferenced and named a tree the type-first migration emptied.)
 SCAFFOLD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "scaffold_book.py"
 INGEST_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "ingest_source.py"
 EXTRACT_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "extract_chapter.py"

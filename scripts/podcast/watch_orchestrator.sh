@@ -48,19 +48,12 @@ else
 fi
 ORCH="$REPO_ROOT/scripts/podcast/orchestrate_book.py"
 
-# Resolve state file path via _paths.find_content() so non-books categories
-# (sites, lectures, articles, etc.) are found at their canonical location
-# content/drafts/<category>/<slug>/ rather than the legacy flat path.
-_CONTENT_DIR=$(cd "$REPO_ROOT" && $PYTHON - <<'PYEOF' 2>/dev/null
-import sys, os
-sys.path.insert(0, 'scripts/podcast')
-from _paths import find_content
-slug = os.environ.get('_WD_SLUG', '')
-r = find_content(slug)
-if r:
-    print(r[2])
-PYEOF
-)
+# Resolve state file path via _paths.find_content() so every bucket
+# (Islamic, Technical, Fiction, Guides) is found at its canonical location
+# content/<Bucket>/<slug>/ rather than the legacy flat path.
+#
+# This ran twice: the first copy executed before _WD_SLUG was exported, so it
+# always resolved the empty slug to nothing and was immediately overwritten.
 export _WD_SLUG="$SLUG"
 _CONTENT_DIR=$(cd "$REPO_ROOT" && _WD_SLUG="$SLUG" $PYTHON - <<'PYEOF' 2>/dev/null
 import sys, os

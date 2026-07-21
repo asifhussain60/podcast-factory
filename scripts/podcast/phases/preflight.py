@@ -28,7 +28,6 @@ from _rules import ALLOWED_CATEGORIES
 
 AZURE_PROBE = REPO_ROOT / "scripts" / "podcast" / "test_azure_connectivity.py"
 CHAPTER_SET_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "check_chapter_set.py"
-LIBRARY_ROOT = REPO_ROOT / "content" / "drafts"
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
@@ -144,9 +143,9 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
     fails: list[str] = []
     book_dir = _book_dir(book_slug)
     if book_dir is None:
-        fails.append(
-            f"no library directory matches book-slug {book_slug!r} under {LIBRARY_ROOT.relative_to(REPO_ROOT)}"
-        )
+        # _book_dir searches every bucket via _paths.find_content, so name the
+        # tree it actually searched — not the retired content/drafts/ root.
+        fails.append(f"no content directory matches book-slug {book_slug!r} under content/")
         return None, fails
 
     # 1. State file exists

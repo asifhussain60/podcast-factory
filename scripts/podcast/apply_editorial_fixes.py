@@ -26,7 +26,9 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-CONTENT = REPO_ROOT / "content" / "drafts" / "books"
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _paths import resolve_content  # noqa: E402
 
 
 def _paragraphs(text: str) -> list[str]:
@@ -158,7 +160,11 @@ def main() -> None:
     ap.add_argument("--dry-run", action="store_true", help="Print plan without writing files")
     args = ap.parse_args()
 
-    book_dir = CONTENT / args.slug
+    # Resolved through _paths so the book is found in whichever bucket holds it.
+    # This used to hardcode content/drafts/books/<slug>, a tree that stopped
+    # existing at the type-first migration — every invocation died on "book
+    # directory not found".
+    book_dir = resolve_content(args.slug)
     if not book_dir.exists():
         print(f"ERROR: book directory not found: {book_dir}", file=sys.stderr)
         sys.exit(1)

@@ -55,9 +55,7 @@ import re
 import sys
 from pathlib import Path
 
-from _paths import REPO_ROOT
-
-LIBRARY_DIR = REPO_ROOT / "content" / "drafts"
+from _paths import iter_content, slug_of
 
 # Length-target → (min, max) inclusive bands. Per SKILL.md INVARIANT 6.
 # Extended Deep Dive (~30–45 min audio) is the recommended default for dense /
@@ -174,32 +172,30 @@ def load_other_book_signals() -> dict[str, list[str]]:
     """Build a {book-slug → [canonical names + book-slug variants]} dict for
     every book except the one being checked. Caller filters out the in-scope book."""
     out: dict[str, list[str]] = {}
-    if not LIBRARY_DIR.exists():
-        return out
-    for cat in sorted(LIBRARY_DIR.iterdir()):
-        if not cat.is_dir():
+    # Enumerated through _paths so every bucket is covered. This used to walk
+    # content/drafts/<category>/<book>/, which the type-first migration emptied —
+    # so the cross-book signal set came back empty and the leakage check below had
+    # nothing to compare against.
+    for _status, _bucket, book in iter_content():
+        mangle = book / "_system" / "mangle-map.md"
+        # Require a mangle-map to treat a directory as a book. Without this,
+        # sibling subdirs under _workspace/ (e.g. plan/view, plan/research)
+        # get added as signals by their bare name, false-positiving on
+        # ordinary English prose.
+        if not mangle.exists():
             continue
-        for book in sorted(cat.iterdir()):
-            if not book.is_dir():
+        slug = slug_of(book)
+        signals: list[str] = []
+        for raw in mangle.read_text(encoding="utf-8").splitlines():
+            line = raw.strip()
+            if not line.startswith("|") or line.startswith("|---") or line.startswith("| Canonical"):
                 continue
-            mangle = book / "_system" / "mangle-map.md"
-            # Require a mangle-map to treat a directory as a book. Without this,
-            # sibling subdirs under _workspace/ (e.g. plan/view, plan/research)
-            # get added as signals by their bare name, false-positiving on
-            # ordinary English prose.
-            if not mangle.exists():
-                continue
-            signals: list[str] = []
-            for raw in mangle.read_text(encoding="utf-8").splitlines():
-                line = raw.strip()
-                if not line.startswith("|") or line.startswith("|---") or line.startswith("| Canonical"):
-                    continue
-                cells = [c.strip() for c in line.strip("|").split("|")]
-                if cells and cells[0]:
-                    signals.append(cells[0])
-            # Also include the book-slug itself.
-            signals.append(book.name)
-            out[book.name] = sorted(set(s for s in signals if s))
+            cells = [c.strip() for c in line.strip("|").split("|")]
+            if cells and cells[0]:
+                signals.append(cells[0])
+        # Also include the book-slug itself.
+        signals.append(slug)
+        out[slug] = sorted(set(s for s in signals if s))
     return out
 
 
