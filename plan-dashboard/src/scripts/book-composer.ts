@@ -41,6 +41,7 @@ import ComposeAiTools from "../components/studio/compose/ComposeAiTools";
 import ComposeCompanionTab from "../components/studio/compose/ComposeCompanionTab";
 import { mountPanelTextSize } from "./panel-text-size";
 import { mountIconTooltips } from "./icon-tooltip";
+import { enhanceSelect } from "./select-menu";
 import { PROSE_RENDERED_EVENT } from "../lib/reader/companion/passage-sync";
 import { GOTO_CHAPTER_EVENT } from "../components/reader/VowellingReviewPanel";
 import ComposeDetailsTab from "../components/studio/compose/ComposeDetailsTab";
@@ -139,6 +140,11 @@ function boot(): void {
   const layoutStatusEl = root.querySelector<HTMLElement>("#cx-layout-status")!;
   const chapterSelect =
     root.querySelector<HTMLSelectElement>("#cx-chapter-select");
+  // A native <select> paints its open list through the OS, so the chapter list
+  // dropped out of an editorial control as a grey system panel. This swaps in a
+  // list we draw ourselves; the <select> stays as the state holder, so every
+  // `chapterSelect.value` / `.disabled` / `change` usage below is unaffected.
+  const chapterMenu = enhanceSelect(chapterSelect);
   const scopeEl = root.querySelector<HTMLElement>("#cx-artifacts-scope");
   let selectedChapter = data.chapters[0]?.key ?? "";
   // After an autosave-triggered reload we restore the chapter the user was on
@@ -333,6 +339,7 @@ function boot(): void {
   }
   if (chapterSelect) {
     chapterSelect.value = selectedChapter;
+    chapterMenu?.sync();
     chapterSelect.addEventListener("change", async () => {
       const wasEditing = !!activeEditor;
       if (wasEditing) {
@@ -347,6 +354,7 @@ function boot(): void {
           });
           if (!leave) {
             chapterSelect.value = selectedChapter;
+            chapterMenu?.sync();
             return;
           } // stay on this chapter
         } else if (contentChangedThisSession) {
@@ -384,6 +392,7 @@ function boot(): void {
     if (!chapterSelect || !key || key === selectedChapter) return;
     if (!data.chapters.some((c) => c.key === key)) return; // stale request
     chapterSelect.value = key;
+    chapterMenu?.sync();
     chapterSelect.dispatchEvent(new Event("change"));
   });
 
@@ -499,6 +508,7 @@ function boot(): void {
     const bodyEl = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
     if (bodyEl) bodyEl.hidden = false;
     if (chapterSelect) chapterSelect.disabled = false;
+    chapterMenu?.sync();
     updateAiEnabled(); // no editor → AI actions disabled
   }
 

@@ -272,37 +272,12 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
-#cx-chapter-select {
-  height: 2.75rem;
-  padding: 0 0.9rem;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--c-ink, #1f1d18);
-  background: var(--c-bg-card, #fffdf8);
-  border: 1px solid var(--c-rule, #d9d3c4);
-  border-radius: 8px;
-  box-shadow: var(
-    --shadow-card,
-    0 1px 2px rgba(31, 29, 24, 0.04),
-    0 4px 12px rgba(31, 29, 24, 0.06)
-  );
-  transition:
-    border-color 140ms ease,
-    box-shadow 140ms ease;
-}
-#cx-chapter-select:hover {
-  border-color: var(--c-accent, #8b4513);
-}
-#cx-chapter-select:focus-visible {
-  border-color: var(--c-accent, #8b4513);
-  outline: 2px solid var(--c-accent, #8b4513);
-  outline-offset: 1px;
-  box-shadow: var(
-    --shadow-hover,
-    0 2px 4px rgba(31, 29, 24, 0.08),
-    0 8px 24px rgba(31, 29, 24, 0.12)
-  );
-}
+/* The chapter picker's own styling moved to styles/select-menu.css when the
+   native <select> was replaced by a drawn list (a native select paints its open
+   panel through the OS, so no stylesheet could reach it). The select survives
+   only as the hidden state holder; styling it here would fight .sm-native on
+   specificity — an ID selector beats a class — and half-undo the
+   visually-hidden contract. Deliberately not replaced. */
 /* Read / Edit segmented control. Read is the print-faithful render (the PDF's
    own markup); Edit is the TipTap surface. Sits beside the chapter picker so the
    two chapter-level controls read as one group. */
