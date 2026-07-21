@@ -6,6 +6,28 @@
 -->
 # Current work - status
 
+**Last updated:** 2026-07-21 5:46 PM EST (Composer authority + honorifics)
+
+**Newest — a Composer-authored chapter is no longer regenerated, and the
+conflict warning finally means something.** Every model stage of
+`compose_book_v2` (base compose, fluency, augment, re-voice) consults
+`_book_edits.edited_chapter_keys` and passes an authored chapter through
+untouched; `--force` still re-composes and warns first. The conflict signal was
+structurally false — the Composer hashed the live `book.md` (introduction and
+bridges included) while replay hashed the composed body from before either is
+injected — so the pipeline now stamps `_system/composer-base.json` and the
+Composer quotes that value back as `base_fingerprint`. The TS hash is deleted;
+`anchor_key`/`anchorKey` is the only remaining mirror pair. New deterministic
+pass `_honorifics.py` spells out the first honorific in the book and abbreviates
+the rest. Eight audit findings closed alongside, including a seam de-dup that
+deleted paragraphs with no record, a sidecar that discarded every prior edit on
+a parse failure, and a superseded whole-book composer that clobbered `book.md`
+when run. Site-side: `npm test` now reaches `src/` via a 40-line resolve hook
+(`scripts/lib/ts-resolve-hook.mjs`, no new dependency), starting with
+`book-md-write.ts` — the sole writer into `book.md`, previously untested.
+Gates: pytest 1734, npm test 55, tsc clean, lint:views 0, eslint 0 errors,
+smoke 32/32, ruff clean. Commit `0b52991`.
+
 **Last updated:** 2026-07-19 8:20 AM EST (Supplications lane — PDF-only sibling)
 
 **Newest — the Supplications category shipped as a standalone PDF-only lane.**
