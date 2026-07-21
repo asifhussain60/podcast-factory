@@ -43,6 +43,32 @@ export default defineConfig({
         '@orama/orama',
         'gsap', 'gsap/ScrollTrigger',
       ],
+      // React's CJS entry points branch on process.env.NODE_ENV at require time:
+      //
+      //   if (process.env.NODE_ENV === 'production')
+      //     module.exports = require('./cjs/react-jsx-dev-runtime.production.js')
+      //   else
+      //     module.exports = require('./cjs/react-jsx-dev-runtime.development.js')
+      //
+      // rolldown (Vite 8's dep optimizer) evaluates that branch while pre-bundling
+      // and, with NODE_ENV unset, resolved it to the PRODUCTION file — whose entire
+      // body is `exports.jsxDEV = void 0`. Every client island then died on
+      // "_jsxDEV is not a function" the moment it rendered, on every route with a
+      // React island, while the SSR HTML still returned 200. Vite defines NODE_ENV
+      // for app code but not for this pre-bundling pass, so it is set explicitly.
+      //
+      // Reading through to process.env keeps `astro build` (which sets NODE_ENV to
+      // production) on the production branch — only an unset NODE_ENV, i.e. dev,
+      // falls back to development.
+      rolldownOptions: {
+        transform: {
+          define: {
+            'process.env.NODE_ENV': JSON.stringify(
+              process.env.NODE_ENV || 'development',
+            ),
+          },
+        },
+      },
     },
     server: {
       fs: {
