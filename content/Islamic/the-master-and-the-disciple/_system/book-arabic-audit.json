@@ -9,9 +9,19 @@
     },
     {
       "chapter": "How to Read a Conversation Made of Doors",
-      "arabic_runs": 1,
+      "arabic_runs": 3,
       "unverified": 0,
       "runs": [
+        {
+          "text": "جعفر بن منصور اليمن",
+          "resolution": "ocr",
+          "skeleton": "جعفربنمنصوراليمن"
+        },
+        {
+          "text": "الإمام الناطق",
+          "resolution": "ocr",
+          "skeleton": "الامامالناطق"
+        },
         {
           "text": "مفاتيحها ذكرى، وأولها بلوى، وأوسطها هدى، وآخرها تقوى",
           "resolution": "ocr",
@@ -333,13 +343,52 @@
   ],
   "totals": {
     "canonical-mushaf": 23,
-    "ocr": 28,
+    "ocr": 30,
     "knowledge-base": 0,
     "honorific-formula": 1,
     "unverified": 0,
-    "arabic_runs": 29
+    "arabic_runs": 31
   },
   "vowelling_review": [
     "non-Quranic run vowelled beyond the scan: وَمَا يُلَقَّاهَا إِلَّا الَّذِينَ صَبَرُوا "
-  ]
+  ],
+  "stages": {
+    "base": {
+      "(front matter)": 0,
+      "How to Read a Conversation Made of Doors": 1,
+      "1. The Persian Who Was Dead and Revived": 1,
+      "2. A Stranger in the City": 1,
+      "3. The Boy at the Door — Limits and Conditions": 1,
+      "4. How the World Was Made": 7,
+      "5. The World, the Hereafter, and the Speech of Parables": 15,
+      "6. Three Layers of Knowledge": 7,
+      "7. The Five Shares and the Long Road to the Shaykh": 5,
+      "8. Homecoming, the Father, and the Debate with Abu Malik": 14
+    },
+    "augment": {
+      "(front matter)": 0,
+      "How to Read a Conversation Made of Doors": 1,
+      "1. The Persian Who Was Dead and Revived": 1,
+      "2. A Stranger in the City": 1,
+      "3. The Boy at the Door — Limits and Conditions": 1,
+      "4. How the World Was Made": 7,
+      "5. The World, the Hereafter, and the Speech of Parables": 15,
+      "6. Three Layers of Knowledge": 7,
+      "7. The Five Shares and the Long Road to the Shaykh": 5,
+      "8. Homecoming, the Father, and the Debate with Abu Malik": 14
+    },
+    "final": {
+      "(front matter)": 0,
+      "How to Read a Conversation Made of Doors": 3,
+      "1. The Persian Who Was Dead and Revived": 1,
+      "2. A Stranger in the City": 1,
+      "3. The Boy at the Door — Limits and Conditions": 1,
+      "4. How the World Was Made": 7,
+      "5. The World, the Hereafter, and the Speech of Parables": 15,
+      "6. Three Layers of Knowledge": 7,
+      "7. The Five Shares and the Long Road to the Shaykh": 5,
+      "8. Homecoming, the Father, and the Debate with Abu Malik": 14
+    }
+  },
+  "stage_losses": []
 }

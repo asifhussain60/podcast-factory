@@ -1,81 +1,104 @@
 {
   "schema": "podcast.book-fluency/v2",
   "narrative_frame": "transmitted_report",
-  "adapted": 0,
-  "reverted": 1,
+  "adapted": 9,
+  "reverted": 0,
   "chapters": [
     {
       "title": "How to Read a Conversation Made of Doors",
       "base_words": 734,
-      "output_words": 734,
+      "output_words": 726,
       "windows": 1,
-      "windows_kept": 0,
-      "status": "reverted",
-      "gates": [
-        "fluency-01: abridged re-voice (407<440 words)",
-        "fluency-01: P1 large length drop: 734->407 words (55% of source — possible content loss)",
-        "fluency-01: Arabic runs dropped (7<8)",
-        "fluency-01: Arabic script dropped (4 run(s)) — replaced or removed: بلوى،; هدى،; وآخرها"
-      ],
-      "warnings": []
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-01: output near-identical to base \u2014 copied, not re-voiced"
+      ]
     },
     {
       "title": "The Persian Who Was Dead and Revived",
-      "status": "record-lost",
-      "windows": 0,
-      "windows_kept": 0,
-      "note": "ran in the full pass; outcome record erased -- see record_note"
+      "base_words": 752,
+      "output_words": 740,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": []
     },
     {
       "title": "A Stranger in the City",
-      "status": "record-lost",
-      "windows": 0,
-      "windows_kept": 0,
-      "note": "ran in the full pass; outcome record erased -- see record_note"
+      "base_words": 851,
+      "output_words": 853,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": []
     },
     {
-      "title": "The Boy at the Door — Limits and Conditions",
-      "status": "record-lost",
-      "windows": 0,
-      "windows_kept": 0,
-      "note": "ran in the full pass; outcome record erased -- see record_note"
+      "title": "The Boy at the Door \u2014 Limits and Conditions",
+      "base_words": 3406,
+      "output_words": 3411,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": []
     },
     {
       "title": "How the World Was Made",
-      "status": "record-lost",
-      "windows": 0,
-      "windows_kept": 0,
-      "note": "ran in the full pass; outcome record erased -- see record_note"
+      "base_words": 1515,
+      "output_words": 1540,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": []
     },
     {
       "title": "The World, the Hereafter, and the Speech of Parables",
-      "status": "record-lost",
-      "windows": 0,
-      "windows_kept": 0,
-      "note": "ran in the full pass; outcome record erased -- see record_note"
+      "base_words": 3361,
+      "output_words": 3379,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": []
     },
     {
       "title": "Three Layers of Knowledge",
-      "status": "record-lost",
-      "windows": 0,
-      "windows_kept": 0,
-      "note": "ran in the full pass; outcome record erased -- see record_note"
+      "base_words": 3477,
+      "output_words": 3495,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": []
     },
     {
       "title": "The Five Shares and the Long Road to the Shaykh",
-      "status": "record-lost",
-      "windows": 0,
-      "windows_kept": 0,
-      "note": "ran in the full pass; outcome record erased -- see record_note"
+      "base_words": 7258,
+      "output_words": 7239,
+      "windows": 3,
+      "windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-08-part-03: output near-identical to base \u2014 copied, not re-voiced"
+      ]
     },
     {
       "title": "Homecoming, the Father, and the Debate with Abu Malik",
-      "status": "record-lost",
-      "windows": 0,
-      "windows_kept": 0,
-      "note": "ran in the full pass; outcome record erased -- see record_note"
+      "base_words": 14390,
+      "output_words": 14540,
+      "windows": 6,
+      "windows_kept": 6,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-09-part-03: output near-identical to base \u2014 copied, not re-voiced"
+      ]
     }
-  ],
-  "record_note": "Records for sections 2-9 were erased by the pre-6d2a42d targeted-re-run bug: two single-section re-runs of the preface (fluency-01 at 2026-07-20 12:12 and 12:14 EST) overwrote the full run's per-chapter records with 'skipped'. The full de-calque run DID cover all nine sections -- _system/cost-ledger.jsonl records fluency-01..fluency-07 plus fluency-08-part-01..03 and fluency-09-part-01..06 between 11:52 and 12:08 EST -- and diffing book.md across e265eb0..581a512 shows word-level rewriting in every section. Per-section adapted/partial/reverted outcomes for sections 2-9 are NOT recoverable and are therefore recorded as 'record-lost' rather than guessed. The counters below cover the preface only.",
-  "counts_incomplete": true
+  ]
 }

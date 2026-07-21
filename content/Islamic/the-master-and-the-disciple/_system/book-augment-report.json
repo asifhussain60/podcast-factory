@@ -8,95 +8,96 @@
   "relevance_threshold": 0.08,
   "per_chapter": [
     {
-      "chapter": "A Stranger in the City",
+      "chapter": "How the World Was Made",
       "selected": [
         {
-          "id": "doctrine:wisdom:1:73:4",
-          "score": 0.1161
-        },
-        {
-          "id": "quote:janab-ibrahim-(the-nabi):a765ae7ce0",
-          "score": 0.1159
-        },
-        {
-          "id": "doctrine:wisdom:1:73:3",
-          "score": 0.1155
-        },
-        {
-          "id": "doctrine:wisdom:1:74:10",
-          "score": 0.1149
-        },
-        {
-          "id": "doctrine:wisdom:1:125:1",
-          "score": 0.1094
-        },
-        {
-          "id": "quran:7:143",
-          "score": 0.1039
-        },
-        {
-          "id": "etymology:shr",
-          "score": 0.101
-        },
-        {
-          "id": "doctrine:wisdom:1:80:19",
-          "score": 0.101
-        }
-      ],
-      "used": [
-        "doctrine:wisdom:1:73:4",
-        "doctrine:wisdom:1:73:3",
-        "doctrine:wisdom:1:74:10",
-        "doctrine:wisdom:1:125:1",
-        "etymology:shr",
-        "doctrine:wisdom:1:80:19"
-      ]
-    },
-    {
-      "chapter": "The World, the Hereafter, and the Speech of Parables",
-      "selected": [
-        {
-          "id": "doctrine:wisdom:1:75:1",
-          "score": 0.1556
-        },
-        {
-          "id": "doctrine:wisdom:1:74:8",
-          "score": 0.1539
-        },
-        {
-          "id": "doctrine:wisdom:1:84:3",
-          "score": 0.1526
+          "id": "etymology:mm",
+          "score": 0.286
         },
         {
           "id": "doctrine:wisdom:1:80:9",
-          "score": 0.1467
+          "score": 0.157
         },
         {
-          "id": "doctrine:wisdom:1:73:1",
-          "score": 0.1446
+          "id": "doctrine:wisdom:1:84:3",
+          "score": 0.141
         },
         {
-          "id": "doctrine:wisdom:1:84:5",
-          "score": 0.1443
+          "id": "quote:the-author-of-the-book-the-correction:3203a62fe0",
+          "score": 0.1351
         },
         {
           "id": "doctrine:wisdom:1:20:5",
-          "score": 0.1382
+          "score": 0.128
         },
         {
-          "id": "doctrine:wisdom:1:84:1",
-          "score": 0.1367
+          "id": "doctrine:wisdom:1:80:16",
+          "score": 0.1271
+        },
+        {
+          "id": "doctrine:wisdom:1:74:11",
+          "score": 0.1244
+        },
+        {
+          "id": "doctrine:wisdom:1:74:8",
+          "score": 0.1243
         }
       ],
       "used": [
-        "doctrine:wisdom:1:75:1",
-        "doctrine:wisdom:1:74:8",
-        "doctrine:wisdom:1:84:3",
+        "etymology:mm",
         "doctrine:wisdom:1:80:9",
-        "doctrine:wisdom:1:73:1",
-        "doctrine:wisdom:1:84:5",
+        "doctrine:wisdom:1:84:3",
         "doctrine:wisdom:1:20:5",
-        "doctrine:wisdom:1:84:1"
+        "doctrine:wisdom:1:80:16",
+        "doctrine:wisdom:1:74:11",
+        "doctrine:wisdom:1:74:8"
+      ]
+    },
+    {
+      "chapter": "Homecoming, the Father, and the Debate with Abu Malik",
+      "selected": [
+        {
+          "id": "etymology:shykh",
+          "score": 0.2
+        },
+        {
+          "id": "doctrine:wisdom:1:78:6",
+          "score": 0.1762
+        },
+        {
+          "id": "doctrine:wisdom:1:73:3",
+          "score": 0.1684
+        },
+        {
+          "id": "doctrine:wisdom:1:20:7",
+          "score": 0.1629
+        },
+        {
+          "id": "doctrine:wisdom:1:78:4",
+          "score": 0.1566
+        },
+        {
+          "id": "doctrine:wisdom:1:74:10",
+          "score": 0.1534
+        },
+        {
+          "id": "etymology:hll",
+          "score": 0.1526
+        },
+        {
+          "id": "doctrine:wisdom:1:73:1",
+          "score": 0.1525
+        }
+      ],
+      "used": [
+        "etymology:shykh",
+        "doctrine:wisdom:1:78:6",
+        "doctrine:wisdom:1:73:3",
+        "doctrine:wisdom:1:20:7",
+        "doctrine:wisdom:1:78:4",
+        "doctrine:wisdom:1:74:10",
+        "etymology:hll",
+        "doctrine:wisdom:1:73:1"
       ]
     }
   ]

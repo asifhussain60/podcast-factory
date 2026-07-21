@@ -1,0 +1,64 @@
+{
+  "schema": "podcast.composer-edits-replay/v1",
+  "applied": 8,
+  "conflicts": 8,
+  "orphaned": 0,
+  "chapters": [
+    {
+      "chapter_key": "how to read a conversation made of doors",
+      "title": "## How to Read a Conversation Made of Doors",
+      "conflict": true,
+      "composed_fingerprint": "0ec2d48b2b77f44c",
+      "edited_from_fingerprint": "a2dc58b001beb835"
+    },
+    {
+      "chapter_key": "the persian who was dead and revived",
+      "title": "## 1. The Persian Who Was Dead and Revived",
+      "conflict": true,
+      "composed_fingerprint": "6fc53a11d6e67a8e",
+      "edited_from_fingerprint": "6a047e0c0aa40233"
+    },
+    {
+      "chapter_key": "a stranger in the city",
+      "title": "## 2. A Stranger in the City",
+      "conflict": true,
+      "composed_fingerprint": "9be6e7ba774d8057",
+      "edited_from_fingerprint": "907f947ebf171251"
+    },
+    {
+      "chapter_key": "the boy at the door — limits and conditions",
+      "title": "## 3. The Boy at the Door — Limits and Conditions",
+      "conflict": true,
+      "composed_fingerprint": "dab4af3b3154f197",
+      "edited_from_fingerprint": "d5480317b9d23662"
+    },
+    {
+      "chapter_key": "the world, the hereafter, and the speech of parables",
+      "title": "## 5. The World, the Hereafter, and the Speech of Parables",
+      "conflict": true,
+      "composed_fingerprint": "9c8f72a787ee2092",
+      "edited_from_fingerprint": "e262be8a35b6f7a3"
+    },
+    {
+      "chapter_key": "three layers of knowledge",
+      "title": "## 6. Three Layers of Knowledge",
+      "conflict": true,
+      "composed_fingerprint": "24686e45e498017c",
+      "edited_from_fingerprint": "c13c8e893a35f4b0"
+    },
+    {
+      "chapter_key": "the five shares and the long road to the shaykh",
+      "title": "## 7. The Five Shares and the Long Road to the Shaykh",
+      "conflict": true,
+      "composed_fingerprint": "ebb8519606921009",
+      "edited_from_fingerprint": "22e1ce757c63889f"
+    },
+    {
+      "chapter_key": "homecoming, the father, and the debate with abu malik",
+      "title": "## 8. Homecoming, the Father, and the Debate with Abu Malik",
+      "conflict": true,
+      "composed_fingerprint": "62a7c61aa7236424",
+      "edited_from_fingerprint": "5b8317947e5f2df6"
+    }
+  ]
+}
