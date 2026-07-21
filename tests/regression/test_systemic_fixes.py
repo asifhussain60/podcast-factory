@@ -629,10 +629,28 @@ class ValidateShipReadyExistsTest(unittest.TestCase):
             "gate_g3_sequential",
             "gate_g4_build_clean",
             "gate_g5_state",
-            "gate_g6_target",
             "gate_g7_challenger_convergence",
         ):
             self.assertIn(gate, body, f"validate_ship_ready missing {gate}")
+
+    def test_validate_ship_ready_skips_obsolete_g6(self):
+        """G6 (target wipe-safety) died with the file-copy publish model: draft vs
+        published is a status field now, so no published/ tree is created or wiped.
+        publish_to_library.py stopped calling gate_g6_target — this read-only mirror
+        must skip it too, or it blocks books on a gate the real publisher never runs.
+        """
+        body = (SCRIPTS_PODCAST / "validate_ship_ready.py").read_text()
+        self.assertNotIn(
+            "P.gate_g6_target(",
+            body,
+            "validate_ship_ready evaluates G6, which publish_to_library no longer does",
+        )
+        publisher = (SCRIPTS_PODCAST / "publish_to_library.py").read_text()
+        self.assertNotIn(
+            "if not gate_g6_target(",
+            publisher,
+            "publish_to_library resurrected G6 — re-check whether the mirror should too",
+        )
 
     def test_validate_ship_ready_never_writes(self):
         """Defensive: the validator must not call shutil.copy / write_text /

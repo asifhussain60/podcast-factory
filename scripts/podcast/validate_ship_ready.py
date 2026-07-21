@@ -4,14 +4,14 @@
 PURPOSE
 
 The orchestrator's `finalize` phase (added 2026-05-24) needs to verify
-"is this book production-ready?" without performing the actual file-copy
-to `content/published/books/<slug>/`. This script imports the gate
-functions from `publish_to_library.py` and runs them read-only.
+"is this book production-ready?" without actually publishing it. This script
+imports the gate functions from `publish_to_library.py` and runs them
+read-only, skipping G6 exactly as the publisher does.
 
 If all gates pass, the orchestrator halts at finalize so Asif can review
 the clean version in the Podcast Factory Astro Site + optionally run A/B
-transcription analysis. The actual publish (the file copy) is a
-separate human-authorized action.
+transcription analysis. The actual publish — flipping `status` to
+`published` in place — is a separate human-authorized action.
 
 If any gate fails, this script exits non-zero with the failing gate's
 reason — the orchestrator halts-and-surfaces for remediation.
@@ -42,14 +42,12 @@ sys.path.insert(0, str(SCRIPT_DIR))
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n", 1)[0])
-    ap.add_argument("slug", help="book slug under content/drafts/")
+    ap.add_argument("slug", help="book slug under content/<Bucket>/")
     ap.add_argument("--strict", action="store_true", help="treat P1 advisories as gate-fails")
     ap.add_argument(
         "--allow-mode-2", action="store_true", help="permit non_orchestrated_mode_2 / pre_orchestrator_authored books"
     )
-    ap.add_argument(
-        "--no-wipe", action="store_true", help="permit coexisting with prior content at target (G6 carve-out)"
-    )
+    ap.add_argument("--no-wipe", action="store_true", help="legacy no-op (G6 is obsolete); accepted for back-compat")
     ap.add_argument("--force", action="store_true", help="skip G5 state checkpoint")
     ap.add_argument("--json", action="store_true", help="emit JSON verdict (for orchestrator consumption)")
     args = ap.parse_args()
@@ -64,14 +62,12 @@ def main() -> int:
         else:
             print(f"validate_ship_ready: {msg}", file=sys.stderr)
         return 2
-    target = P.LIBRARY / "books" / args.slug
-
     gate_results: list[dict] = []
 
     if not args.json:
         print(f"==> validate_ship_ready: {args.slug}")
         print(f"    workspace: {workspace.relative_to(P.REPO_ROOT)}")
-        print(f"    target:    {target} (read-only check)")
+        print("    publish:   sets status=published in place (nothing is copied)")
         print()
         print("=== Gates ===")
 
@@ -100,10 +96,14 @@ def main() -> int:
     if not ok5:
         return _emit(args, gate_results, "BLOCKED", "G5 state-shippable failed")
 
-    ok6 = P.gate_g6_target(target, args.no_wipe)
-    gate_results.append({"gate": "G6", "name": "target-wipe-safe", "passed": bool(ok6)})
-    if not ok6:
-        return _emit(args, gate_results, "BLOCKED", "G6 target-wipe-safe failed")
+    # G6 is obsolete and MUST stay obsolete here too: publish_to_library.py stopped
+    # evaluating it when draft/published became a status field, because nothing is
+    # copied and no published/ tree is created or wiped. Running it in this
+    # read-only mirror judged a book against a gate the real publisher no longer
+    # applies — and printed a legacy target path that will never be written.
+    gate_results.append({"gate": "G6", "name": "target-wipe-safe", "passed": None, "skipped": "n/a"})
+    if not args.json:
+        print("n/a   [G6] status-flag model writes no published/ tree")
 
     ok7 = P.gate_g7_challenger_convergence(workspace, args.allow_mode_2)
     gate_results.append({"gate": "G7", "name": "challenger-verdict", "passed": bool(ok7)})

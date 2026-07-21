@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """cross_book_dashboard.py — fleet-level view across all in-flight and shipped books.
 
-Walks every BOOK_DIR under content/drafts/ and content/published/books/, reads
+Walks every BOOK_DIR under content/<Bucket>/ (with the legacy drafts/published
+fallback that _paths.iter_content still honors), reads
 each book's _system/orchestrator-state.json (for phase + status) and
 _system/cost-ledger.jsonl (for cumulative LLM spend), and emits a single
 markdown table summarizing the entire fleet.
@@ -26,7 +27,7 @@ USAGE
 EXIT CODES
 
   0 = dashboard emitted
-  1 = no books found (drafts + published both empty)
+  1 = no books found under content/
 """
 
 from __future__ import annotations
@@ -39,10 +40,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import REPO_ROOT, iter_content, slug_of
-
-DRAFTS = REPO_ROOT / "content" / "drafts"
-PUBLISHED = REPO_ROOT / "content" / "published" / "books"
+from _paths import iter_content, slug_of
 
 
 def _parse_since(spec: str | None) -> datetime | None:
@@ -131,29 +129,11 @@ def _chapter_timing_stats(book_dir: Path) -> str:
     return f"{mean / 60:.1f}m × {len(durations)}"
 
 
-def _stage_label_from_path(book_dir: Path) -> str:
-    """Return 'draft' or 'published' from the book directory path."""
-    if str(book_dir).startswith(str(DRAFTS)):
-        return "draft"
-    if str(book_dir).startswith(str(PUBLISHED)):
-        return "published"
-    return "unknown"
-
-
-def _category_label(book_dir: Path) -> str:
-    """Best-effort: 'in-flight' for drafts/, 'shipped' for published/books/."""
-    if str(book_dir).startswith(str(DRAFTS)):
-        return "in-flight"
-    if str(book_dir).startswith(str(PUBLISHED)):
-        return "shipped"
-    return "unknown"
-
-
 def collect_fleet(since: datetime | None) -> list[dict]:
-    """Walk both content trees via _paths.iter_content; return one dict per book."""
+    """Walk every bucket via _paths.iter_content; return one dict per book."""
     fleet: list[dict] = []
     seen: set[str] = set()
-    for stage, _category, entry in iter_content():
+    for publication_status, bucket, entry in iter_content():
         slug = slug_of(entry)
         if slug in seen:
             continue
@@ -166,7 +146,12 @@ def collect_fleet(since: datetime | None) -> list[dict]:
         fleet.append(
             {
                 "book": slug,
-                "category": "draft" if stage == "drafts" else "published",
+                # iter_content already yields the per-book publication status
+                # (status_of()); the old code compared it against the retired
+                # "drafts" FOLDER name, which no book has matched since the
+                # type-first migration, so every row printed "published".
+                "publication_status": publication_status,
+                "bucket": bucket,
                 "phase": phase,
                 "status": status,
                 "last_completed": last_phase,
@@ -189,23 +174,26 @@ def render_markdown(fleet: list[dict], since_label: str) -> str:
         "",
         f"Books tracked: **{len(fleet)}**.",
         "",
-        "| Book | Category | Phase | Status | Last completed | Chapters | Ch time | Cost (USD) | Ledger rows | Last activity |",
-        "|---|---|---|---|---|---|---|---|---|---|",
+        "| Book | Bucket | Publication | Phase | Status | Last completed | Chapters | Ch time | Cost (USD) | Ledger rows | Last activity |",
+        "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     total_usd = 0.0
     for b in fleet:
         lines.append(
-            f"| `{b['book']}` | {b['category']} | {b['phase']} | {b['status']} | "
+            f"| `{b['book']}` | {b['bucket']} | {b['publication_status']} | {b['phase']} | {b['status']} | "
             f"{b['last_completed']} | {b['chapters']} | {b.get('ch_mean_time', '—')} | "
             f"${b['cost_usd']:.2f} | {b['ledger_rows']} | {b['last_cost_ts'] or '—'} |"
         )
         total_usd += b["cost_usd"]
-    lines.append(f"| **TOTAL** | — | — | — | — | — | — | **${total_usd:.2f}** | — | — |")
+    lines.append(f"| **TOTAL** | — | — | — | — | — | — | — | **${total_usd:.2f}** | — | — |")
     lines.append("")
-    in_flight = [b for b in fleet if b["category"] == "in-flight"]
-    shipped = [b for b in fleet if b["category"] == "shipped"]
-    lines.append(f"- **In-flight books**: {len(in_flight)} ({', '.join(b['book'] for b in in_flight) or 'none'})")
-    lines.append(f"- **Shipped books**: {len(shipped)} ({', '.join(b['book'] for b in shipped) or 'none'})")
+    # Counted off the publication status, which is what iter_content yields. The
+    # previous code filtered for "in-flight"/"shipped" — labels collect_fleet has
+    # never emitted — so both counters always read 0 no matter what was on disk.
+    drafts = [b for b in fleet if b["publication_status"] == "draft"]
+    published = [b for b in fleet if b["publication_status"] == "published"]
+    lines.append(f"- **Draft books**: {len(drafts)} ({', '.join(b['book'] for b in drafts) or 'none'})")
+    lines.append(f"- **Published books**: {len(published)} ({', '.join(b['book'] for b in published) or 'none'})")
     return "\n".join(lines) + "\n"
 
 
@@ -222,7 +210,7 @@ def main(argv: list[str] | None = None) -> int:
     since_label = args.since if args.since else "all-time"
     fleet = collect_fleet(since)
     if not fleet:
-        sys.stderr.write("no books found under content/drafts/ or content/published/books/\n")
+        sys.stderr.write("no books found under content/\n")
         return 1
 
     if args.json:
