@@ -1,4 +1,5 @@
 {
   "schema": "book.citation-style/v1",
-  "family": "plain"
+  "family": "plain",
+  "translation_font": "cormorant-garamond"
 }
