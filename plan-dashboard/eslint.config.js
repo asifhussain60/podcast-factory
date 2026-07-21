@@ -78,6 +78,11 @@ export default tseslint.config(
         TextEncoder: "readonly",
         document: "readonly",
         window: "readonly",
+        // Same reason as document/window above: the layout invariants the smoke
+        // run asserts are measured INSIDE page.evaluate(), so they read computed
+        // styles in the browser context, not in Node.
+        getComputedStyle: "readonly",
+        Node: "readonly",
       },
     },
     rules: {

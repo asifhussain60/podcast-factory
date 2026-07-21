@@ -39,6 +39,13 @@ export interface RenderOptions {
   imageBlocks?: boolean;
   /** Fold scholarly transliteration to plain English first. Default true. */
   simplifyTranslit?: boolean;
+  /** Arabic runs the book's audit resolved against the CANONICAL MUSHAF, by their
+   *  exact text. A run in this set is tagged `is-quranic`, which switches the
+   *  Arabic face to the Uthmanic script; every other run keeps Scheherazade New.
+   *  Mirrors the `quranicRuns` option of renderMd (scripts/lib/book-html.mjs) —
+   *  same set, same class, so the reader and the printed page agree. Omitted
+   *  means nothing is tagged, which renders exactly as before. */
+  quranicRuns?: Set<string>;
 }
 
 /** The source-extractor bundle profile (the former source-render.ts). */
@@ -199,7 +206,7 @@ export function renderMarkdown(
               .map((p) => {
                 if (!hasArabic) return `<p>${renderInline(p, opts)}</p>`;
                 return ARABIC_SCRIPT_RE.test(p)
-                  ? `<p class="ar" dir="rtl" lang="ar">${renderInline(p, opts)}</p>`
+                  ? `<p class="${opts.quranicRuns?.has(p.trim()) ? "ar is-quranic" : "ar"}" dir="rtl" lang="ar">${renderInline(p, opts)}</p>`
                   : `<p class="tr">${renderInline(p, opts)}</p>`;
               })
               .join("");

@@ -47,3 +47,108 @@
   font-style: normal;
   font-display: swap;
 }
+
+/* ── Translation faces ────────────────────────────────────────────────────────
+ * The English rendering that sits under an Arabic verse/hadith/poem is set in a
+ * face DISTINCT from the body serif, so a reader can see at a glance which line
+ * is the book's prose and which is a rendering of the quoted Arabic. Chosen per
+ * book in the Composer's Citations tab and persisted to book/citation-style.json
+ * as `translation_font`; the renderer stamps it as a `tr-<font>` body class.
+ *
+ * MIRROR: book-print.css declares the SAME four families for the PDF. A face
+ * added here must be added there in the same commit, or a book previews in a
+ * face it cannot print. Files are the Fontsource woff2 builds under
+ * public/fonts/<family>/ (all four are SIL OFL; LICENSE ships beside them). */
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

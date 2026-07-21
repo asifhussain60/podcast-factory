@@ -147,14 +147,12 @@
    Amiri so it reads at the English body's visual size; isolate the RTL run so it
    doesn't disturb the surrounding Latin. */
 .bookv-body .ar-inline {
-  font-family: "AmiriSized", "Amiri", "DecoType Naskh", serif;
+  font-family: var(--q-ar-face);
   direction: rtl;
   unicode-bidi: isolate;
 }
 .bookv-body blockquote.quran p.ar {
-  font-family:
-    "AmiriQuranSized", "AmiriSized", "Amiri Quran", "Amiri", "DecoType Naskh",
-    serif;
+  font-family: var(--q-ar-face);
   font-size: 1.05rem;
   line-height: 1.9;
   color: var(--c-ink);
@@ -166,6 +164,30 @@
   line-height: 1.35;
   text-align: center;
   color: var(--c-ink-muted);
+}
+
+/* ── Citation families on the reading surface ─────────────────────────────────
+   Mirrors book-print.css body.style-<family> for the LIVE reader, which until
+   now rendered every book in the base look no matter what the Composer had
+   chosen. Only `plain` is redefined here — Scholarly IS the base look above, and
+   Elegant's framed treatment is a print/compose concern the reader does not
+   need. Values come from quote-typography.css. */
+.bookv-body.style-plain blockquote.quran {
+  border-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+.bookv-body.style-plain blockquote.quran p.ar {
+  color: var(--q-maroon);
+  text-align: center;
+}
+.bookv-body.style-plain blockquote.quran p.tr {
+  font-family: var(--q-tr-face);
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: var(--c-ink);
+  text-align: center;
 }
 
 /* ── Responsive: stack the TOC above the reading column ──── */

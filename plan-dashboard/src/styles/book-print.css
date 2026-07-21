@@ -26,6 +26,101 @@
   font-display: swap;
 }
 
+/* ── Translation faces ────────────────────────────────────────────────────────
+ * The English rendering under an Arabic verse/hadith/poem prints in a face
+ * DISTINCT from the Source Serif body, so the reader can tell the book's prose
+ * from a rendering of the quoted Arabic without reading a word of either. The
+ * face is chosen per book in the Composer's Citations tab, persisted to
+ * book/citation-style.json as `translation_font`, and stamped onto <body> as
+ * `tr-<font>` by buildBookHtml.
+ *
+ * MIRROR: editor-fonts.css declares the SAME four families for every on-screen
+ * surface. Add a face in one file and you MUST add it in the other in the same
+ * commit, or a book previews in a face it cannot print. All four are SIL OFL,
+ * self-hosted under public/fonts/<family>/ and served by render-book-pdf.mjs —
+ * so pagination is identical on every machine, as with Source Serif and Amiri. */
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
 /* size-adjust enlarges the Arabic glyphs ~35% so Arabic (verses + inline terms)
    reads at the same visual size as the Latin body — Arabic faces render smaller
    than Latin at equal point size. In print these families are Arabic-only (the
@@ -49,6 +144,42 @@
   font-family: "Amiri";
   src: url("/fonts/amiri/Amiri-Bold.ttf") format("truetype");
   font-weight: 700;
+  font-style: normal;
+  size-adjust: 135%;
+}
+
+/* The two Arabic reading faces (2026-07-21). Which one a run gets is decided by
+   PROVENANCE, not markup: renderMd tags a run `is-quranic` when the Arabic audit
+   resolved it against the canonical mushaf, and quote-typography.css switches
+   --q-ar-face on that class alone.
+ *
+ * Same 135% adjustment as Amiri above, and for the same reason — these sit beside
+ * a Source Serif body and Arabic renders smaller at equal point size. In print
+ * both families are Arabic-only, so the adjustment never touches Latin.
+ *
+ * The KFGQPC file is vendored byte-for-byte from quran.com. Its EULA grants free
+ * use, copy and distribution but forbids modification: never subset or re-encode
+ * public/fonts/uthmanic-hafs/*, and keep LICENSE.txt beside it. */
+@font-face {
+  font-family: "Scheherazade New";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: "Scheherazade New";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-600-normal.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: "UthmanicHafs";
+  src: url("/fonts/uthmanic-hafs/UthmanicHafs1Ver18.woff2") format("woff2");
+  font-weight: 400;
   font-style: normal;
   size-adjust: 135%;
 }
@@ -363,7 +494,10 @@ p {
 .ar-inline {
   direction: rtl;
   unicode-bidi: isolate;
-  font-family: "Amiri Quran", "Amiri", "DecoType Naskh", serif;
+  /* Inline terms woven into prose are never tagged is-quranic (a mid-sentence
+     word carries too little evidence to call scripture), so they always take the
+     non-Qur'anic face. */
+  font-family: var(--q-ar-face);
 }
 
 /* ── Quotation blocks ────────────────────────────────────────────────────── */
@@ -392,7 +526,9 @@ blockquote.quran {
   box-shadow: none;
 }
 blockquote.quran p.ar {
-  font-family: "Amiri Quran", "Amiri", "DecoType Naskh", serif;
+  /* Face by provenance — see quote-typography.css. `is-quranic` (stamped by
+     renderMd from the Arabic audit) swaps this token to the Uthmanic script. */
+  font-family: var(--q-ar-face);
   font-size: 1.05rem;
   line-height: 1.9;
   color: var(--c-ink, #1f1d18);
@@ -441,13 +577,33 @@ blockquote.quran p.tr {
    verse/quotation (hadith, poetry, sayings) light up here once the tagging step
    gives their text a class — the mirror of book-styles.css on the picker page. */
 
-/* Plain — no borders, no tint; black ink, set apart only by placement. */
+/* Plain — no borders, no tint. The Arabic and its rendering are set apart by
+   CENTRING, by the maroon of the script and by a translation face distinct from
+   the body serif, rather than by a rule or a panel. This is the family's whole
+   definition (locked with Asif 2026-07-21): where Scholarly says "quotation" with
+   a gold hairline and Elegant says it with a frame, Plain says it with typography
+   alone. Values come from quote-typography.css; the mirrors are compose-print.css,
+   book-composer.css, book-reader.css and book-styles.css. */
 body.style-plain blockquote.quran {
   border-left: 0;
   padding-left: 0;
+  padding-right: 0;
+  text-align: center;
 }
 body.style-plain blockquote.quran p.ar {
+  color: var(--q-maroon);
+  text-align: center;
+}
+/* The rendering steps up from 0.9rem and takes the book's ink rather than the
+   muted grey: it is the line a reader who has no Arabic actually reads, so it
+   should not be the faintest thing on the page. The face carries the distinction
+   the colour used to. */
+body.style-plain blockquote.quran p.tr {
+  font-family: var(--q-tr-face);
+  font-size: 1.02rem;
+  line-height: 1.45;
   color: var(--c-ink, #1f1d18);
+  text-align: center;
 }
 /* The plain family strips ornament from the Qur'an blocks above, which is the
    whole point of it. Zeroing the fence on EVERY other blockquote too was

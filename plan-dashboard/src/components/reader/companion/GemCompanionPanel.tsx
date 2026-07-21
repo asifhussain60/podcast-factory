@@ -26,6 +26,12 @@ interface Props {
   bookTitle: string;
   /** Selector for the reading-prose container the selection must live inside. */
   proseSelector?: string;
+  /** Render INSIDE a host drawer instead of as its own fixed slide-in.
+   *  The Book Composer runs one shared right drawer with three surfaces (Tools,
+   *  Companion notes, Scholar), so this panel drops its own launcher button and
+   *  its own close button there — the host's floating buttons own both jobs, and
+   *  two competing drawers on one page is the thing that consolidation removed. */
+  docked?: boolean;
 }
 
 /** Split a model answer into paragraphs for readable rendering. */
@@ -40,9 +46,10 @@ export default function GemCompanionPanel({
   slug,
   bookTitle,
   proseSelector = ".bookv-body",
+  docked = false,
 }: Props) {
   void slug; // reserved for future per-book gem selection / caching
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(docked);
   const [mode, setMode] = useState<Mode>("explain");
   const [input, setInput] = useState("");
   const [context, setContext] = useState("");
@@ -156,7 +163,7 @@ export default function GemCompanionPanel({
     }
   }
 
-  if (!open) {
+  if (!open && !docked) {
     return (
       <button
         type="button"
@@ -173,11 +180,11 @@ export default function GemCompanionPanel({
 
   return (
     <aside
-      className="gcp"
+      className={docked ? "gcp gcp--docked" : "gcp"}
       role="complementary"
       aria-label="AI Companion — Ismaili Scholar"
       onKeyDown={(e) => {
-        if (e.key === "Escape") setOpen(false);
+        if (e.key === "Escape" && !docked) setOpen(false);
       }}
     >
       <div className="gcp-head">
@@ -185,14 +192,16 @@ export default function GemCompanionPanel({
           <p className="gcp-eyebrow">AI Companion</p>
           <h2 className="gcp-title">Ismaili Scholar</h2>
         </div>
-        <button
-          type="button"
-          className="gcp-close"
-          aria-label="Close Companion"
-          onClick={() => setOpen(false)}
-        >
-          <i className="fa-solid fa-xmark" aria-hidden="true" />
-        </button>
+        {!docked && (
+          <button
+            type="button"
+            className="gcp-close"
+            aria-label="Close Companion"
+            onClick={() => setOpen(false)}
+          >
+            <i className="fa-solid fa-xmark" aria-hidden="true" />
+          </button>
+        )}
       </div>
 
       <div className="gcp-modes" role="group" aria-label="Companion mode">

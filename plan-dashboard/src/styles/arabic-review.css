@@ -580,3 +580,241 @@ body[data-arabic="off"] .arv-page .ar-script {
     transition: none;
   }
 }
+
+/* ── Vowelling review ─────────────────────────────────────────────────────────
+   The panel where proposed Arabic diacritics are accepted or rejected. Reuses the
+   page's existing --c-* tokens and the shared Arabic face token --q-ar-face, so a
+   proposal is previewed in the same face the book will set it in. */
+/* Same two-tier scale as the Composer drawer's .cx-surface. Declared again here
+   because this panel lives on the Arabic Review page, outside that drawer. */
+.vrp:not(.vrp--docked) {
+  --panel-fs: 15px;
+  --panel-fs-title: 16px;
+}
+.vrp {
+  /* Standing alone, this panel IS the declarer — it mounts its own stepper and
+     has no ancestor to inherit from. Docked in the Composer's drawer it must NOT
+     re-declare these: a custom property declared on the element that consumes it
+     beats one inherited from an ancestor, so a copy here would silently pin the
+     vowelling text at 15px while the drawer's dial moved everything around it.
+     Hence the :not() — the drawer declares, the docked panel consumes. */
+  font-size: var(--panel-fs, 15px);
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem 1.4rem;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: 10px;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  color: var(--c-ink);
+}
+.vrp-title {
+  margin: 0;
+  font-size: var(--panel-fs-title, 16px);
+}
+.vrp-lede,
+.vrp-empty,
+.vrp-counts {
+  margin: 0;
+  font-size: var(--panel-fs, 15px);
+  line-height: 1.5;
+  color: var(--c-ink-muted);
+}
+.vrp-sub {
+  margin: 0 0 0.35rem;
+  font-size: var(--panel-fs, 15px);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-ink-muted);
+}
+.vrp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.vrp-btn,
+.vrp-act {
+  appearance: none;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--c-rule);
+  border-radius: 7px;
+  background: var(--c-bg-elev, #fffdf8);
+  color: var(--c-ink);
+  font-family: inherit;
+  font-size: var(--panel-fs, 15px);
+  cursor: pointer;
+}
+.vrp-btn:hover:not(:disabled),
+.vrp-act:hover:not(:disabled) {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+.vrp-btn:focus-visible,
+.vrp-act:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.vrp-btn--primary {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: var(--c-bg-elev, #fffdf8);
+}
+.vrp-btn:disabled,
+.vrp-act:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.vrp-act[aria-pressed="true"] {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  font-weight: 600;
+}
+.vrp-error {
+  margin: 0;
+  font-size: var(--panel-fs, 15px);
+  color: var(--c-red, #b3261e);
+}
+.vrp-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.vrp-row {
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 8px;
+}
+/* An applied row is history, not work — recede it so the eye lands on what still
+   needs a decision. */
+.vrp-row[data-status="applied"] {
+  opacity: 0.6;
+}
+.vrp-row[data-status="accepted"] {
+  border-color: var(--c-accent);
+}
+.vrp-chapter,
+.vrp-field-label,
+.vrp-status,
+.vrp-reason {
+  margin: 0 0 0.3rem;
+  font-size: var(--panel-fs, 15px);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+.vrp-ar {
+  font-family: var(--q-ar-face);
+  direction: rtl;
+  font-size: 1.15rem;
+  line-height: 1.95;
+  margin: 0 0 0.4rem;
+}
+/* The bare source, deliberately shown ABOVE the proposal: the reviewer is being
+   asked to fix a reading onto these consonants, so they have to see them. */
+.vrp-ar--source {
+  color: var(--c-ink-dim, #4a463f);
+}
+.vrp-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--c-rule);
+  border-radius: 6px;
+  background: var(--c-bg-elev, #fffdf8);
+  color: var(--q-maroon, #7a1f1f);
+}
+.vrp-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.vrp-status {
+  margin: 0 0 0 auto;
+}
+.vrp-refused ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.vrp-refused li {
+  font-size: var(--panel-fs, 15px);
+}
+/* The two review panels share the page's right column. */
+.arv-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+/* ── Docked in the Book Composer's drawer ─────────────────────────────────────
+   Both panels moved here from the retired /studio/<slug>/arabic-review page
+   (2026-07-21), where each was a free-standing card in a page rail. Inside
+   .cx-surface the drawer already owns the frame, the inset and the scroll — its
+   surface contract, declared once in book-composer.css — so a panel that keeps
+   its own border, padding and overflow nests a second scroller in the first and
+   draws a box inside a box. Docked, each drops exactly that and keeps its
+   content. */
+.arv-panel--docked,
+.vrp--docked {
+  position: static;
+  max-height: none;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+/* The two panels stack in one scroller, so they need a rule between them rather
+   than the gap two separate cards used to get from .arv-side. */
+.vrp--docked {
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+}
+/* The term panel sets its own UI face; docked it should read as the drawer's. */
+.arv-panel--docked {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: var(--panel-fs, 15px);
+}
+/* Its heading was sized in rem for a page rail, so in the drawer it rendered
+   larger than the Companion and Scholar headings beside it and ignored the text
+   dial entirely. On the panel scale it matches its neighbours at every stop.
+   (.vrp-title was already on the scale.) */
+.arv-panel--docked .arv-title {
+  font-size: var(--panel-fs-title, 16px);
+  font-family: var(--font-ui, system-ui, sans-serif);
+}
+
+/* The chapter label as a jump (docked only). Reset to the label it replaces so
+   it reads as the same line it always was — the affordance is the pointer and
+   the underline on hover, not a second button in a list of passages. */
+.vrp-chapter--jump {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.vrp-chapter--jump:hover {
+  color: var(--c-accent);
+  text-decoration: underline;
+}
+.vrp-chapter--jump:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}

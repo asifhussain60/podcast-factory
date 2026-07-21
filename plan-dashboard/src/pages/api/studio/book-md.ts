@@ -14,24 +14,15 @@
  * (once) so the original is always recoverable.
  */
 import type { APIRoute } from "astro";
-import { readFileSync, writeFileSync, existsSync, copyFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { anchorKey } from "../../../../scripts/lib/anchor-key.mjs";
 import { findContentDirSync } from "../../../lib/content-paths";
 import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
-import { preserveFences } from "../../../lib/reader/book-fences";
-import {
-  recordComposerEdit,
-  fingerprintBody,
-} from "../../../lib/reader/composer-edits";
+import { writeChapterBody } from "../../../lib/reader/book-md-write";
 
 export const prerender = false;
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-
-// anchorKey comes from the single shared implementation — see the import above.
-// This route WRITES the sidecar that `_book_edits.py` replays, so a divergence
-// here orphans the edit it just saved.
 
 export const PUT: APIRoute = async ({ request }) => {
   let body: Record<string, unknown>;
@@ -57,83 +48,13 @@ export const PUT: APIRoute = async ({ request }) => {
   if (!existsSync(bookMd)) return apiError("book.md not found", 404);
 
   try {
-    const lines = readFileSync(bookMd, "utf-8").split("\n");
-    // Locate the target chapter's heading and the start of the next chapter.
-    let start = -1;
-    let end = lines.length;
-    let firstHeading = -1;
-    for (let i = 0; i < lines.length; i += 1) {
-      if (!/^##\s+/.test(lines[i])) continue;
-      if (firstHeading === -1) firstHeading = i;
-      if (start === -1 && anchorKey(lines[i]) === chapterKey) start = i;
-      else if (start !== -1) {
-        end = i;
-        break;
-      }
-    }
-    if (start === -1) return apiError(`Chapter not found: ${chapterKey}`, 404);
-
-    if (!existsSync(`${bookMd}.bak`)) copyFileSync(bookMd, `${bookMd}.bak`);
-
-    const head = lines.slice(0, start + 1); // through the heading line
-    const tail = lines.slice(end); // from the next heading (or EOF)
-
-    // Keep the pipeline's machine fences (editorial / bridge / study-summary)
-    // alive across this edit. The rich-text round trip cannot carry an HTML
-    // comment, so without this the markers are stripped and the Python phases
-    // silently stop protecting and stop replacing those asides. See
-    // lib/reader/book-fences.ts for the full rationale.
-    const previousBody = lines.slice(start + 1, end).join("\n");
-    const fences = preserveFences(previousBody, markdown);
-
-    const rebuilt = [...head, "", fences.body, "", ...tail]
-      .join("\n")
-      .replace(/\n{3,}/g, "\n\n");
-    writeFileSync(bookMd, rebuilt.endsWith("\n") ? rebuilt : `${rebuilt}\n`);
-
-    // DURABILITY — the sidecar, written alongside book.md.
-    // book.md alone is not durable: compose_book_v2 regenerates its layers
-    // (base -> augment -> voice) on every run, so an edit here survived only
-    // until anything upstream re-ran, and vanished with no report. The Composer
-    // can only be the SINGULAR path for chapter edits if its output outlives a
-    // re-compose, so every save is also recorded in
-    // _system/composer-edits.json and replayed as the final compose step by
-    // scripts/podcast/_book_edits.py. `baseFingerprint` is the body the human
-    // edited FROM, so a later replay can tell them the pipeline moved underneath
-    // their edit instead of silently overwriting one with the other.
-    // Sidecar failure must never fail the save — book.md is already written and
-    // is what the Composer previews.
-    let sidecar: { ok: boolean; error?: string } = { ok: false };
-    try {
-      recordComposerEdit(bookDir, {
-        chapterKey,
-        bodyMd: fences.body,
-        baseFingerprint: fingerprintBody(previousBody),
-        savedAt: new Date().toISOString(),
-      });
-      sidecar = { ok: true };
-    } catch (e) {
-      sidecar = { ok: false, error: String(e) };
-    }
-
-    // NOTE — deliberately NOT mirroring into book/_chunks/.
-    // An earlier version of this route also wrote the saved body into the
-    // compose cache so a re-compose would pick the human's text up. That was
-    // wrong on two counts, both verified against the pipeline:
-    //   1. It targeted book/_chunks/book/ (written by the retired
-    //      _book_compose.py). The live cache is book/_chunks/translation/,
-    //      written by _translation_edition.py — the only base composer
-    //      compose_book_v2 calls today.
-    //   2. More fundamentally, that cache holds the FAITHFUL BASE, and
-    //      compose_book_v2 re-applies fluency/augment/voice ON TOP of it every
-    //      run (those steps are gated by knobs, not by the cache). Seeding the
-    //      base with already-augmented, already-voiced, human-edited prose would
-    //      compound: the next run would augment an augmentation and re-voice a
-    //      voicing. A re-compose does NOT revert book.md to the base — it
-    //      regenerates the layers — so the mirror bought nothing and risked drift.
-    // Durable human edits therefore go through a SIDECAR re-applied after compose
-    // — the pattern _book_bridges.py established (_system/comprehension-bridges
-    // .json). That sidecar now exists and is written above.
+    // The file surgery, the fence preservation and the durable sidecar all live in
+    // ONE place now (lib/reader/book-md-write.ts) — the Arabic vowelling review
+    // became a second caller, and "the Composer is the singular path for PDF-bound
+    // chapter edits" only holds while there is a single function doing the writing.
+    const res = writeChapterBody(bookDir, chapterKey, markdown);
+    if (!res.ok) return apiError(res.error ?? "Save failed", 404);
+    const { fences, sidecar } = res;
 
     return apiOk({ slug, chapterKey, path: bookMd, fences, sidecar });
   } catch (e) {

@@ -1,0 +1,109 @@
+/* quote-typography.css — the VALUES behind the Plain family's quotation setting.
+ *
+ * Six stylesheets style an Arabic quotation block: book-print.css (the PDF),
+ * compose-print.css (Composer read mode), book-composer.css (.cx-body and the
+ * chapter editor), book-reader.css (.bookv-body) and book-styles.css (the
+ * Citations tab preview sheet). Their SELECTORS genuinely differ — each surface
+ * scopes the same markup differently — but their VALUES must not. When the
+ * maroon and the four translation stacks were copied into each file, a change in
+ * one meant the printed page and the screen quietly disagreed about what a verse
+ * looks like, which is exactly the defect the mirror-file comments exist to warn
+ * about. So the values live here, once, and every surface reads the tokens.
+ *
+ * Screen surfaces import this file. The PDF renderer (render-book-pdf.mjs)
+ * inlines it ahead of book-print.css, the same way it inlines the theme's :root.
+ *
+ * Colour policy: this file changes NO existing --c-* token. It adds two of its
+ * own, scoped to quotation blocks.
+ */
+:root {
+  /* Arabic scripture ink. Deep maroon — distinct from the accent brown
+     (--c-accent #8b4513) so a verse never reads as a UI element, and dark enough
+     to clear WCAG AA on the cream page (contrast ~9.6:1 on #fffdf8). */
+  --q-maroon: #7a1f1f;
+  /* The same maroon lifted for dark surfaces (the editor's Dark paper setting,
+     and any dark-scheme viewer). #7a1f1f on #201e1b is ~1.6:1 — unreadable — so
+     dark contexts override the token rather than the rules that use it. */
+  --q-maroon-dark: #e8a0a0;
+  /* Default translation face. A book with no `translation_font` recorded in
+     book/citation-style.json gets EB Garamond, so the intended pairing needs no
+     choice to be made. The four `tr-*` classes below override it. */
+  --q-tr-face: "EB Garamond", "Iowan Old Style", Georgia, serif;
+
+  /* ── Arabic faces ──────────────────────────────────────────────────────────
+     TWO faces, chosen by PROVENANCE rather than by markup (locked with Asif
+     2026-07-21). Scripture — a run the audit resolved against the canonical
+     mushaf — is set in the Uthmanic script quran.com serves; every other Arabic
+     run (hadith, sayings, poetry, the book's own phrases) is set in Scheherazade
+     New. This is a distinction the markup could not previously make: the
+     `blockquote.quran` class has always meant "contains Arabic", not "is
+     scripture", so the split needed the audit's per-run resolution to exist.
+
+     Surfaces read --q-ar-face and never name a family, so the `.is-quranic`
+     override below is the ONLY place the two faces are chosen between. */
+  --q-ar-face:
+    "ScheherazadeSized", "Scheherazade New", "Scheherazade", "Amiri",
+    "DecoType Naskh", serif;
+  --q-ar-face-quran:
+    "UthmanicHafsSized", "UthmanicHafs", "KFGQPC HAFS Uthmanic Script",
+    "ScheherazadeSized", "Scheherazade New", serif;
+}
+
+/* Per-book NON-Qur'anic Arabic face. Stamped as a class on <body> (print) or on
+   the page root (screen) from citation-style.json's `arabic_font`, exactly like
+   the `tr-*` faces below. Two faces only, and adding a third means declaring it
+   in BOTH theme-tokens.css (screen) and book-print.css (print) — the PDF does not
+   load the screen's @font-face block.
+
+   These are body-level, so the `.is-quranic` rule below still wins for scripture:
+   a custom property declared on the element that consumes it beats one inherited
+   from an ancestor. That ordering is the whole mechanism — the book chooses the
+   face for its hadith, poetry and prose Arabic, and cannot choose one for the
+   mushaf. */
+.ar-scheherazade-new {
+  --q-ar-face:
+    "ScheherazadeSized", "Scheherazade New", "Scheherazade", "Amiri",
+    "DecoType Naskh", serif;
+}
+.ar-amiri {
+  --q-ar-face:
+    "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
+}
+
+/* Scripture. Set on the run itself by renderMd/renderMarkdown from the audit's
+   `canonical-mushaf` resolution — never inferred from the surrounding block, and
+   never overridable by the book's Arabic-face choice above. */
+.is-quranic {
+  --q-ar-face: var(--q-ar-face-quran);
+}
+
+/* Per-book translation face. Stamped as a class on <body> (print) or on the
+   chapter container (screen) from citation-style.json's `translation_font`.
+   Faces are self-hosted and declared in book-print.css (print) and
+   editor-fonts.css (screen) — adding a family here means adding it in BOTH. */
+.tr-eb-garamond {
+  --q-tr-face: "EB Garamond", "Iowan Old Style", Georgia, serif;
+}
+.tr-cormorant-garamond {
+  --q-tr-face: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+}
+.tr-crimson-pro {
+  --q-tr-face: "Crimson Pro", "EB Garamond", Georgia, serif;
+}
+.tr-lora {
+  --q-tr-face: "Lora", "EB Garamond", Georgia, serif;
+}
+
+/* ── Dark-paper contrast guard ────────────────────────────────────────────────
+   The site itself is light-only; "dark" exists solely as the Kindle-style paper
+   setting on three reading/editing surfaces — the Book Composer editor
+   (.cx-edit-host), the Studio editor (.studio-editor__editor) and the LIVE
+   reader (.lsv). On those, #7a1f1f over #201e1b is about 1.6:1, which is not
+   readable. Lifting the TOKEN rather than re-stating the rules keeps every
+   surface's Plain-family block written once. Sepia (#f4ecd8) clears AA with the
+   base maroon and is deliberately left alone. */
+.cx-edit-host[data-paper="dark"],
+.studio-editor__editor[data-paper="dark"],
+.lsv[data-paper="dark"] {
+  --q-maroon: var(--q-maroon-dark);
+}

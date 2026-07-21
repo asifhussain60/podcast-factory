@@ -12,7 +12,8 @@
    identity block. The header structure itself is the shared Studio hero. */
 .composer-sub {
   color: var(--c-ink-muted, #66625a);
-  /* REQ-010 reading floor: descriptive prose, not chrome. */
+  /* REQ-010 reading floor: descriptive prose, not chrome. NOT on the panel scale —
+     this line sits in the page header, outside the drawer. */
   font-size: var(--fs-base);
   margin: 0.2rem 0 0;
   /* Span the banner's full width — no 60ch reading cap — so the description
@@ -100,31 +101,136 @@
   }
 }
 
+/* ── The right drawer ─────────────────────────────────────────────────────────
+   The inspector used to be a permanent 20rem column, so a reading pass paid for
+   tools it was not using, the private notes were buried behind a tab you had to
+   leave to do anything else, and the AI Scholar ran a SECOND slide-in drawer that
+   could overlap the first. All three are surfaces of ONE drawer now — Tools (the
+   four icon tabs), Companion notes, Scholar — and a floating button row at the
+   bottom right chooses between them. Clicking the lit button closes the drawer
+   and the chapter takes the full width back.
+
+   The buttons float; the PANEL does not (locked with Asif 2026-07-21). The panel
+   is a real grid track, so nothing is ever covered — and the buttons were moved
+   out of the layout precisely because a permanent rail was charging the chapter
+   width for chrome. The animated property is the track itself, which is why the
+   width lives on .composer-grid and not on the panel. */
 .composer-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 20rem;
-  gap: 1.5rem;
+  /* No column-gap: the drawer's gutter is its own padding, INSIDE its track, so
+     a closed drawer (track 0) leaves no orphan gap beside the chapter. */
+  grid-template-columns: minmax(0, 1fr) var(--cx-drawer-w, 0rem);
+  column-gap: 0;
   align-items: start;
+  transition: grid-template-columns 0.22s ease;
 }
-/* READ mode is a reading view: the inspector's tools (Refinement, Details) act
-   on the editor, and the Companion island is torn down with it — leaving a 91px
-   bordered shell around an empty tab strip. Hide the column entirely and give
-   the page its full width; `.is-editing` is set on .composer by
-   book-composer.ts setModeVisual(). */
-.composer:not(.is-editing) .composer-panel {
-  display: none;
+/* ONE width for every surface (2026-07-21). Companion and Scholar ran at 25.5rem
+   on the argument that their cards carry a quoted passage plus a paragraph and
+   read badly at the tool measure — true, but the drawer changing width as you
+   switch surface reads as several components sharing a frame rather than one
+   panel with several faces. Uniform wins; the measure cost is accepted.
+
+   Written as "anything but closed" rather than as a list of surface names: the
+   list version silently gave the Arabic surface a 0rem track when it was added,
+   so the drawer opened with no width and the panel simply was not there. There
+   is one state that closes the drawer and any number that open it, so the
+   selector says that. */
+.composer-grid:not([data-panel="closed"]) {
+  --cx-drawer-w: 21.5rem; /* 20rem of panel + its 1.5rem gutter */
 }
-.composer:not(.is-editing) .composer-grid {
-  grid-template-columns: minmax(0, 1fr);
+.composer-grid[data-panel="closed"] .composer-panel {
+  /* Kept in the DOM (its React island and editor bindings stay live) but taken
+     out of the layout, so reopening is instant and nothing re-mounts. */
+  visibility: hidden;
 }
-/* The floating "Ask the Scholar" launcher is fixed bottom-right and would sit
-   over the prose once the inspector column it was positioned against is gone. */
-.composer:not(.is-editing) .gcp-launcher {
-  display: none;
+
+/* Floating panel buttons — one horizontal row, bottom right, sitting to the LEFT
+   of the site-wide back-to-top control so that control stays rightmost. The
+   offset is computed from .to-top's own geometry in theme-components.css (44px at
+   right/bottom var(--sp-5), z-index 900) rather than guessed, and the z-index sits
+   just under it — the same reasoning the old .gcp-launcher used when it stacked
+   above that corner. */
+.cx-fabs {
+  position: fixed;
+  right: calc(var(--sp-5, 1.5rem) + 44px + var(--sp-3, 0.75rem));
+  bottom: var(--sp-5, 1.5rem);
+  z-index: 899;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--sp-3, 0.75rem);
 }
+.cx-fab {
+  appearance: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--c-rule, #e6e0d4);
+  border-radius: 999px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink-muted, #66625a);
+  box-shadow: var(--shadow-hover, 0 6px 20px rgba(31, 29, 24, 0.18));
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.cx-fab:hover {
+  color: var(--c-ink, #2b2823);
+  border-color: var(--c-accent, #8b4513);
+}
+.cx-fab:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+.cx-fab.is-active {
+  color: var(--c-bg-elev, #fffdf8);
+  background: var(--c-accent, #8b4513);
+  border-color: var(--c-accent, #8b4513);
+}
+.cx-fab[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+/* The label is always in the DOM — it is the button's accessible name. Clipped to
+   a 1px box rather than display:none so assistive tech still reads it; the
+   sighted affordance is the native tooltip from the button's `title`. */
+.cx-fab-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* READ mode: the Tools surface acts on the editor, which does not exist there, so
+   book-composer.ts disables that one button and lets the drawer fall closed —
+   Companion and Scholar stay reachable, because notes and explanations are
+   exactly what a reading pass wants. */
 @media (max-width: 60rem) {
-  .composer-grid {
+  .composer-grid,
+  .composer-grid:not([data-panel="closed"]) {
     grid-template-columns: 1fr;
+  }
+  /* Below the drawer's breakpoint the panel stacks under the chapter, so the
+     buttons scroll with it rather than hovering over the prose. */
+  .cx-fabs {
+    position: static;
+    justify-content: flex-end;
+    margin: 0 0 0.75rem;
+  }
+  /* ...and cover nothing, so the surfaces stop reserving room for them. */
+  .composer-panel {
+    --cx-fab-clear: 0px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .composer-grid {
+    transition: none;
   }
 }
 
@@ -162,7 +268,7 @@
 .cx-chapter-bar .cx-chapter-picker > label {
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
@@ -225,7 +331,7 @@
   padding: 0 0.9rem;
   border: 0;
   background: transparent;
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
   cursor: pointer;
   transition:
     background 0.16s,
@@ -258,7 +364,7 @@
 .cx-panel-hint {
   color: var(--c-ink-muted, #66625a);
   /* REQ-010 reading floor: instructional prose, not chrome. */
-  font-size: var(--fs-base);
+  font-size: var(--panel-fs, 15px);
   line-height: 1.45;
   margin: 0 0 0.7rem;
 }
@@ -282,10 +388,10 @@
   border-radius: 8px;
 }
 .cx-cite-form .bs-chip-name {
-  font-size: 0.9rem;
+  font-size: var(--panel-fs-title, 16px);
 }
 .cx-cite-form .bs-chip-tag {
-  font-size: 0.72rem;
+  font-size: var(--panel-fs, 15px);
 }
 .cx-cite-preview {
   padding: 0.9rem 1rem;
@@ -307,7 +413,7 @@
   border-top: 1px solid var(--c-rule-soft, #ebe6da);
 }
 .cx-cite-heading {
-  font-size: 0.85rem;
+  font-size: var(--panel-fs-title, 16px);
   font-weight: 600;
   margin: 0 0 0.5rem;
   color: var(--c-ink, #1f1d18);
@@ -465,7 +571,7 @@
 }
 .cx-paper-label {
   font-size: 0.72rem;
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
 }
 .cx-paper-btn {
   display: inline-flex;
@@ -594,6 +700,42 @@
   padding-left: 1rem;
   margin: 0.8rem 0;
 }
+
+/* ── Arabic quotations INSIDE the editor ──────────────────────────────────────
+   The seed HTML carries class="quran"/"ar"/"tr"; the QuotationClasses extension
+   in book-md-editor.ts is what keeps them alive through ProseMirror's parse. The
+   rules below are the Read-mode ones (compose-print.css .cx-print.style-plain)
+   restated for the editing surface, so a verse looks the same whether you are
+   reading it or editing it — the one thing you previously had to leave Edit mode
+   to check.
+
+   `dir`/`lang` are NOT preserved as attributes (fewer things to carry through the
+   schema); direction is CSS here, and the isolate stops the RTL run from
+   disturbing the Latin around it. */
+.cx-prose blockquote.quran {
+  border-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+.cx-prose p.ar {
+  font-family: var(--q-ar-face);
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--q-maroon);
+  direction: rtl;
+  unicode-bidi: isolate;
+  text-align: center;
+  margin: 0 0 0.2rem;
+}
+.cx-prose p.tr {
+  font-family: var(--q-tr-face);
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: inherit;
+  text-align: center;
+  margin: 0;
+}
 .cx-edit-actions {
   display: flex;
   gap: 0.5rem;
@@ -651,7 +793,7 @@
 }
 .cx-ai-btn {
   font: inherit;
-  font-size: 0.8rem;
+  font-size: var(--panel-fs, 15px);
   padding: 0.35rem 0.7rem;
   border: 1px solid var(--c-accent, #8b4513);
   border-radius: 5px;
@@ -667,7 +809,7 @@
   opacity: 0.45;
   cursor: default;
   border-color: var(--c-rule-soft, #ebe6da);
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
 }
 .cx-ai-popup {
   display: grid;
@@ -678,7 +820,7 @@
 }
 .cx-ai-popup-head {
   font-size: 0.78rem;
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
   margin: 0;
 }
 .cx-ai-opt {
@@ -721,7 +863,7 @@
 }
 .cx-btn-ai {
   font: inherit;
-  font-size: 0.78rem;
+  font-size: var(--panel-fs, 15px);
   padding: 0.35rem 0.7rem;
   border: 1px solid var(--c-accent, #8b4513);
   border-radius: 5px;
@@ -737,7 +879,7 @@
   opacity: 0.45;
   cursor: default;
   border-color: var(--c-rule-soft, #ebe6da);
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
 }
 .cx-ai-result {
   margin-top: 0.6rem;
@@ -788,15 +930,15 @@
 }
 .cx-details-block h3 {
   margin: 0 0 0.4rem;
-  font-size: 0.78rem;
+  font-size: var(--panel-fs-title, 16px);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
 }
 .cx-details-hint {
-  font-size: 0.82rem;
-  color: var(--c-ink-muted, #87827a);
+  font-size: var(--panel-fs, 15px);
+  color: var(--c-ink-muted, #66625a);
 }
 .cx-details-comment {
   width: 100%;
@@ -817,7 +959,7 @@
 }
 .cx-btn-mark {
   font: inherit;
-  font-size: 0.76rem;
+  font-size: var(--panel-fs, 15px);
   padding: 0.3rem 0.6rem;
   border: 1px solid var(--c-rule-soft, #ebe6da);
   border-radius: 5px;
@@ -886,7 +1028,7 @@
   border: 1px solid var(--c-rule-soft, #ebe6da);
   border-radius: 999px;
   background: var(--c-bg-sunken, #f0ece2);
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
   cursor: pointer;
 }
 .cx-btn-depth:hover,
@@ -911,7 +1053,7 @@
 }
 .cx-ety-meta {
   font-size: 0.75rem;
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
   margin: 0;
 }
 .cx-ety-warn {
@@ -924,7 +1066,7 @@
 }
 .cx-ety-label {
   font-size: 0.72rem;
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
   margin-top: 0.3rem;
 }
 .cx-ety-inline,
@@ -1014,9 +1156,7 @@
   padding: 0.25rem 0 0.25rem 1.1rem;
 }
 .cx-body blockquote.quran p.ar {
-  font-family:
-    "AmiriQuranSized", "AmiriSized", "Amiri Quran", "Amiri", "DecoType Naskh",
-    serif;
+  font-family: var(--q-ar-face);
   font-size: 1.05rem;
   line-height: 1.9;
   color: var(--c-ink, #1f1d18);
@@ -1027,7 +1167,7 @@
   font-size: 0.95rem;
   line-height: 1.35;
   text-align: center;
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
 }
 
 /* Drop indicator: a rule on the paragraph the figure will land above/below. */
@@ -1095,7 +1235,7 @@
 }
 .cx-fig figcaption {
   font-size: 0.78rem;
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
   font-style: italic;
   padding: 0.3rem 0.5rem;
   text-align: center;
@@ -1151,65 +1291,287 @@
   outline-offset: 2px;
 }
 
-/* ── Side panel — tabbed inspector (Artifacts · Refinement · Output) ─────── */
+/* ── Side panel — tabbed inspector (Artifacts · Refinement · Citations · Details)
+   ONE rule, not two. This selector used to be declared twice — once up in the grid
+   section for its box model, once here for its stickiness — which is exactly how
+   the padding and the sticky behaviour came to be reasoned about separately. The
+   two are merged; do not re-split them.
+
+   The panel is pinned to the VIEWPORT rather than sized by its content. A
+   content-sized panel stops halfway down the screen beside a long chapter, or runs
+   past the fold beside a short one, and either way reads as a mismatch against the
+   chapter column. At a fixed viewport height it is always exactly one screen tall.
+
+   Deliberately NOT the full-height app shell (the pattern where the workspace is
+   100vh and the page itself never scrolls). That guarantees equal heights, but it
+   also stops `window.scrollY` ever growing — and the site-wide back-to-top control
+   in theme-components.css only appears past 600px of window scroll. It would be
+   permanently dead on the one page whose button row was built around it. */
 .composer-panel {
   position: sticky;
   top: 1rem;
+  height: calc(100vh - 2rem);
+  min-width: 0;
+  box-sizing: border-box;
+  padding-left: 1.5rem;
+  overflow-x: hidden;
+  /* Column so the text-size bar can sit above a surface that still fills the
+     rest of the height. */
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  /* THE PANEL TYPE SCALE. Declared HERE, on the drawer, not on the surfaces: the
+     stepper (scripts/panel-text-size.ts) writes --panel-fs inline on this element,
+     and an inherited custom property loses to a declaration on the element that
+     consumes it — so a copy on .cx-surface silently pinned the text while the
+     readout moved. The drawer declares; the surfaces consume.
+
+       --panel-fs        content, every piece of it (default 15px, dial 11-24)
+       --panel-fs-title  headings, DERIVED as content + 2px so the hierarchy
+                         survives every stop on the dial rather than inverting
+
+     px, not rem: the root font-size on this site is 19.2px, so a rem-based panel
+     size silently lands a tier too high. The REQ-010 exception for these panels is
+     recorded in html-view-lint.config.json. */
+  --panel-fs: 15px;
+  --panel-fs-title: calc(var(--panel-fs) + 2px);
+
+  /* HOW MUCH ROOM THE FLOATING BUTTONS TAKE. .cx-fabs is `position: fixed` over
+     this drawer's bottom-right corner, and the drawer is sticky, so once the page
+     scrolls the two are pinned together and the last line of whatever surface is
+     showing ends up UNDER the buttons — measured at 17px of a full-width line,
+     and the covered part cannot be scrolled into view because it IS the end of
+     the scroll. Each scroller reserves this much after its content instead.
+     Derived, not guessed: the row is 44px tall sitting var(--sp-5) off the
+     viewport bottom, and the drawer's own bottom edge is 1rem above it (top: 1rem
+     + height: calc(100vh - 2rem) above). */
+  --cx-fab-clear: calc(44px + var(--sp-5, 1.5rem) - 1rem);
+}
+.cx-surface {
+  flex: 1;
+  min-height: 0; /* let the surface shrink so its own scroll engages */
+}
+
+/* ── Typography tab ───────────────────────────────────────────────────────────
+   ONE panel, TWO groups that must never be mistaken for each other. Above the
+   rule: the book's own type — written to book/citation-style.json, committed,
+   printed into the PDF, seen by every reader of the edition. Below it: this
+   browser's display preference, in localStorage, seen by nobody else. They are
+   in one panel because they answer the same question ("how does this read?"), and
+   separated by a scope line each because they have completely different blast
+   radii. */
+.cx-type-scope {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.6rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: var(--panel-fs, 15px);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--c-ink, #2b2823);
+}
+.cx-type-scope i {
+  color: var(--c-accent, #8b4513);
+}
+/* Why there is no Qur'anic face chip. Set as a note rather than left implicit —
+   an absent control reads as an oversight unless something says otherwise. */
+.cx-type-locked {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0.7rem 0 0;
+  padding: 0.55rem 0.7rem;
+  border-left: 2px solid var(--c-rule, #e6e0d4);
+  background: var(--c-bg, #faf7f0);
+  border-radius: 0 6px 6px 0;
+  font-size: var(--panel-fs, 15px);
+  line-height: 1.45;
+  color: var(--c-ink-muted, #87827a);
+}
+.cx-type-locked i {
+  margin-top: 0.15em;
+  color: var(--c-ink-dim, #6f6a61);
+}
+.cx-type-screen {
+  margin-top: 1.4rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.cx-type-screen-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.cx-type-screen-label {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: var(--panel-fs, 15px);
+  color: var(--c-ink, #2b2823);
+}
+
+/* THE SURFACE CONTRACT — the frame, the inset and the scroll, declared once for
+   all three surfaces. Each surface used to bring its own: .cx-tabpanel had padding
+   and a scroll cap, .cpn--docked had `padding: 0` (the flush Companion edge), and
+   .gcp--docked had a third value and no scroll at all. A fourth surface would have
+   invented a fourth. They are properties of the DRAWER, so they live on the drawer. */
+.cx-surface {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  font-size: var(--panel-fs, 15px);
+  line-height: 1.5;
   background: var(--c-bg-card, #fffdf8);
   border: 1px solid var(--c-rule-soft, #ebe6da);
   border-radius: 8px;
+  /* The FRAME clips; the scrolling belongs to whatever inside it is the content.
+     Which differs by surface: Tools has a tab strip that must stay put while its
+     panel scrolls under it, so the scroll sits on .cx-tabpanel; Companion and
+     Scholar are one continuous column, so it sits on the surface itself. Either
+     way the page never grows — a panel that grew the document is what made the
+     Companion notes drag the chapter's scrollbar with them. */
   overflow: hidden;
 }
+/* Only ONE surface is present at a time; `hidden` is toggled by book-composer.ts
+   so the inactive one is out of the accessibility tree, not merely invisible. */
+.cx-surface[hidden] {
+  display: none;
+}
+/* The inset, for the two surfaces with no tab strip of their own. Tools is padded
+   on .cx-tabpanel instead, because its strip sits flush to the surface edge. */
+#cx-surface-companion,
+#cx-surface-arabic,
+#cx-surface-scholar {
+  padding: 0.9rem 1rem calc(1.1rem + var(--cx-fab-clear, 0px));
+  overflow-y: auto;
+}
+.cx-tabbar {
+  flex-shrink: 0; /* the strip stays; the panel beneath it scrolls */
+}
+
+/* Four LARGE icons on one line. The former five text labels could not fit a
+   20rem row without truncating "Refinement" mid-word, so the strip wrapped to two
+   rows; icons fit at any panel width with room to spare. The label is not
+   discarded — it stays in the DOM (it IS each tab's accessible name) and reveals
+   under the icon on hover or keyboard focus. */
 .cx-tabbar {
   display: flex;
-  /* Wrap rather than squeeze: five labels cannot all fit one 20rem row without
-     truncating "Companion"/"Refinement", and a clipped tab label is worse than
-     a second row. */
-  flex-wrap: wrap;
-  gap: 0.1rem;
+  flex-wrap: nowrap;
+  gap: 0.15rem;
   padding: 0.35rem 0.5rem 0;
   border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
 }
 .cx-tab {
-  /* 1 1 0 + min-width:0 so the five labels SHRINK to fit the 20rem panel.
-     With `flex: 1 1 auto` the strip's intrinsic 442px overflowed a 382px panel
-     whose parent is overflow:hidden, so "Refinement" was cut mid-word with no
-     scroll affordance. Tighter horizontal padding lets all five fit at the
-     panel's real width; ellipsis is the graceful fallback below that. */
-  flex: 0 1 auto;
+  flex: 1 1 0;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
   appearance: none;
   background: transparent;
   border: 0;
   border-bottom: 2px solid transparent;
-  padding: 0.5rem 0.2rem;
+  padding: 0.55rem 0.2rem 0.45rem;
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.8rem;
-  color: var(--c-ink-muted, #87827a);
+  /* An ICON glyph, not text — deliberately off the --panel-fs scale, like
+     .cx-icon-btn and .gcp-launcher. Shrinking a glyph to 12px shrinks the target. */
+  font-size: 1.15rem;
+  color: var(--c-ink-muted, #66625a);
   cursor: pointer;
+}
+/* Clipped to a 1px box rather than display:none, so the text still reaches
+   assistive technology while taking no room until it is wanted. It stays clipped
+   in EVERY state: this label used to un-clip to `position: static` on
+   hover/focus/active, and revealing text inside a `flex: 1 1 0` tab widened that
+   tab, re-flowed the strip under the pointer and collided with its neighbours.
+   The sighted affordance is the tooltip below (scripts/icon-tooltip.ts), which
+   takes no part in layout at all. */
+.cx-tab-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  font-size: var(--panel-fs, 15px);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.1;
 }
 .cx-tab:hover {
   color: var(--c-ink, #2b2823);
+}
+.cx-tab:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: -2px;
 }
 .cx-tab.is-active {
   color: var(--c-accent);
   border-bottom-color: var(--c-accent);
   font-weight: 600;
 }
+
+/* ── Icon tooltip ─────────────────────────────────────────────────────────────
+   The label for an icon-only control, shown on hover or keyboard focus. Lives on
+   <body>, not inside the tab strip: .cx-surface is `overflow: hidden`, so a
+   tooltip parented to the strip is clipped at the surface edge. `position: fixed`
+   also keeps it out of the flex row it describes, which is the whole point — the
+   inline reveal it replaced widened the tab it belonged to.
+
+   The two coordinates are written as custom properties by scripts/icon-tooltip.ts
+   (the same JS-writes-a-token, CSS-declares-the-rule split panel-text-size.ts
+   uses for --panel-fs), so nothing here needs an inline style attribute.
+
+   Sizing is fixed at 12px rather than --panel-fs: this is chrome for an icon, it
+   sits outside the drawer that declares the panel scale, and a reader who dials
+   the panel text up is asking for more readable NOTES, not a bigger tooltip.
+   Stacking: above .cx-fabs (899) and the site's back-to-top (900). */
+.cx-tip {
+  position: fixed;
+  left: var(--tip-x, 0);
+  top: var(--tip-y, 0);
+  z-index: 950;
+  transform: translateX(-50%);
+  max-width: 16rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  background: var(--c-ink, #1f1d18);
+  color: var(--c-bg-card, #fffdf8);
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  white-space: nowrap;
+  box-shadow: var(--shadow-hover, 0 6px 20px rgba(31, 29, 24, 0.18));
+  /* Never a hit target: the pointer must reach the control underneath it, and a
+     tooltip that can be hovered can trap its own dismissal. */
+  pointer-events: none;
+}
+.cx-tip[hidden] {
+  display: none;
+}
+/* Fills whatever the surface leaves below the tab strip and scrolls there.
+   `min-height: 0` is load-bearing: without it a flex child refuses to shrink below
+   its content, so the panel would push past the surface instead of scrolling
+   inside it. The old `max-height: calc(100vh - 9rem)` is gone — the surface owns
+   the height now, and a hand-computed offset would drift from it. */
 .cx-tabpanel {
-  padding: 0.9rem 1rem;
-  max-height: calc(100vh - 9rem);
+  flex: 1;
+  min-height: 0;
+  padding: 0.9rem 1rem calc(0.9rem + var(--cx-fab-clear, 0px));
   overflow-y: auto;
 }
 .cx-tabpanel[hidden] {
   display: none;
 }
 .cx-hint {
-  color: var(--c-ink-muted, #87827a);
-  font-size: 0.85rem;
+  color: var(--c-ink-muted, #66625a);
+  font-size: var(--panel-fs, 15px);
   line-height: 1.45;
   margin: 0;
 }
@@ -1431,19 +1793,19 @@
   border-color: var(--c-red, #a83232);
 }
 .cx-palette-meta .cx-palette-cap {
-  font-size: 0.82rem;
+  font-size: var(--panel-fs, 15px);
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .cx-palette-meta .cx-palette-type {
-  font-size: 0.68rem;
-  color: var(--c-ink-muted, #87827a);
+  font-size: var(--panel-fs, 15px);
+  color: var(--c-ink-muted, #66625a);
   margin: 0.1rem 0 0;
 }
 .cx-empty {
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
   font-size: 0.85rem;
   margin: 0;
 }
@@ -1456,7 +1818,7 @@
 .cx-field > label {
   font-size: 0.72rem;
   font-family: var(--font-ui, system-ui, sans-serif);
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
 }
 .cx-field select,
 .cx-field input[type="text"],
@@ -1528,7 +1890,7 @@
   gap: 0.4rem;
 }
 .cx-autosave-text {
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
 }
 .cx-status.is-error .cx-autosave-text {
   color: var(--c-red, #a83232);
@@ -1536,7 +1898,7 @@
 
 .cx-autosave-icon {
   font-size: 0.85em;
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
 }
 .cx-autosave-icon:empty,
 .cx-autosave-icon[hidden] {
@@ -1634,7 +1996,7 @@
 
 .composer-empty {
   text-align: center;
-  color: var(--c-ink-muted, #87827a);
+  color: var(--c-ink-muted, #66625a);
   padding: 3rem 1rem;
 }
 

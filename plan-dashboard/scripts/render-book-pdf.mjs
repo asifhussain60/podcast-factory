@@ -60,6 +60,17 @@ const printCssPath = path.resolve(
   "styles",
   "book-print.css",
 );
+// The quotation-setting VALUES (Arabic maroon + the four translation faces).
+// Shared verbatim with every on-screen surface — see quote-typography.css's own
+// header for why the values are centralised while the selectors are not. Inlined
+// AHEAD of book-print.css so the print rules can consume its tokens.
+const quoteCssPath = path.resolve(
+  import.meta.dirname,
+  "..",
+  "src",
+  "styles",
+  "quote-typography.css",
+);
 const fontRoot = path.resolve(import.meta.dirname, "..", "public", "fonts");
 
 async function main() {
@@ -67,6 +78,9 @@ async function main() {
     ? themeRoot(readFileSync(themePath, "utf-8"))
     : "";
   const printCssTemplate = readFileSync(printCssPath, "utf-8");
+  const quoteCss = existsSync(quoteCssPath)
+    ? readFileSync(quoteCssPath, "utf-8")
+    : "";
 
   const {
     title: bookTitle,
@@ -86,7 +100,10 @@ async function main() {
   // stylesheet is substituted here. Quotes and backslashes are stripped rather
   // than escaped: this lands inside a CSS `content: "..."` string, and a stray
   // quote would silently break the whole @page rule rather than fail loudly.
-  const cssString = (s) => String(s || "").replace(/["\\]/g, "").trim();
+  const cssString = (s) =>
+    String(s || "")
+      .replace(/["\\]/g, "")
+      .trim();
   const runningHead = cssString(bookTitle);
 
   // Per-chapter running heads. Chromium's print engine ignores `string-set` /
@@ -120,6 +137,8 @@ async function main() {
     .join("\n");
 
   const printCss =
+    quoteCss +
+    "\n" +
     printCssTemplate.replaceAll("__BOOK_RUNNING_HEAD__", runningHead) +
     "\n" +
     chapterHeadCss;

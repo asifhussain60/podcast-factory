@@ -1,18 +1,25 @@
 {
   "_doc": "Config for scripts/lint-html-views.mjs (WC7c). Paths are relative to plan-dashboard/. Rule text: docs/standards/html-view-quality.md; digest: docs/standards/html-view-quality-digest.md.",
-  "blocking_paths": ["src/pages/", "src/layouts/"],
+  "blocking_paths": [
+    "src/pages/",
+    "src/layouts/"
+  ],
   "blocking_exclude_subpaths": [
     "src/pages/book-review/",
     "src/pages/library/",
     "src/pages/wisdom/"
   ],
-  "warn_paths": ["src/components/"],
+  "warn_paths": [
+    "src/components/"
+  ],
   "exclude_paths": [
     "src/components/reader/",
     "src/components/studio/editor/",
     "src/components/ui/"
   ],
-  "css_paths": ["src/styles/"],
+  "css_paths": [
+    "src/styles/"
+  ],
   "allow": {},
   "_notes": {
     "src/layouts/NarrativeBase.astro": "Skip-link present (the earlier 'missing skip-link' note was stale; corrected 2026-06-11). Its 2-line scoped <style> is accepted (under style_block_max_lines).",
@@ -20,7 +27,11 @@
     "REQ-010 exception — .cx-body / .cx-print (2026-07-19)": "The Book Composer's read surface (book-composer.css .cx-body, 1.02rem / max-width 60ch) sits BELOW the 1.2rem reading floor and inside REQ-003's measure, deliberately. Its entire contract is that what you see is what prints: the markup is renderMd() output (the PDF's own renderer) and compose-print.css mirrors book-print.css rule-for-rule. Raising the size or dropping the measure would reintroduce exactly the screen-vs-print divergence that layer was built to end, so REQ-009 (one view, one purpose) is what legitimises the exception. Scope: .cx-body/.cx-print and p.tr WITHIN the print surface only — chrome text outside it (.composer-sub, .cx-panel-hint) was raised to var(--fs-base) 2026-07-19 and has no such defence.",
     "REQ-013 exception — Studio <h1> gradient (2026-07-19)": "REQ-013's gradient heading treatment is NOT applied to .lib-title-row h1. It conflicts with the locked visual direction in skills-staging/ui-designer/SKILL.md (editorial-modern, colour as accent not fill; 'avoid garish gradients' per the reader-aesthetic lock), and the ui-designer skill is the declared ceiling on look while Cortex is the floor on mechanics. Applying it would also be a cross-site visual redesign, which the per-view rule says is discussed with Asif one page at a time. Revisit only if the design lock changes.",
     "style_block_policy": "Astro scoped <style> compiles to scoped external CSS and is DoD-compliant (Asif 2026-05-29). Only blocks > style_block_max_lines are flagged as oversized page-stylesheets that belong in src/styles/.",
-    "scope": "Blocking gate covers the 12 top-level architecture view pages + shared layouts (confirmed green 2026-05-29). Non-view subpages (book-review/library/wisdom) and interactive app surfaces (reader/, studio/editor/ \u2014 the former reader/poc/, moved R1 2026-07-18 \u2014 and ui/) are WARN or excluded by design."
+    "scope": "Blocking gate covers the 12 top-level architecture view pages + shared layouts (confirmed green 2026-05-29). Non-view subpages (book-review/library/wisdom) and interactive app surfaces (reader/, studio/editor/ — the former reader/poc/, moved R1 2026-07-18 — and ui/) are WARN or excluded by design.",
+    "scope — interactive Studio surfaces vs architecture views (2026-07-21)": "REQ-004 (numbered section ids) and REQ-044 (sticky jump nav with active-section highlight) are written for the long-scrolling ARCHITECTURE VIEW pages, which is what the blocking gate was built around. They do not apply to the interactive working surfaces that also live under src/pages/ — /studio/*/compose (the Book Composer) and /studio/*/arabic-review — where the page is one working document with its own chapter picker and drawer, and a numbered-section jump rail would be navigation for structure the user is editing rather than reading. REQ-009 (one view, one purpose) is the defence. Recorded because the blocking scope covers src/pages/ wholesale, so without this the scope statement and reality disagree.",
+    "REQ-010 exception — right-drawer panels (2026-07-21)": "The Book Composer's right drawer (.cx-surface: Tools / Companion / Scholar / Typography) and the Arabic Review vowelling panel (.vrp) size ALL their content — chrome and prose alike — from --panel-fs (default 15px, reader-adjustable 11-24) with headings at --panel-fs-title (= content + 2px). That is below the 1.2rem reading floor and is deliberate, per Asif 2026-07-21. Rationale: these are dense inspector surfaces in a 20rem column standing beside a 70ch reading column, not reading surfaces themselves. The reader reads the CHAPTER; the panel is instrumentation about it, and at 19.2px a Companion note ran longer than the passage it annotates. REQ-009 (one view, one purpose) is what legitimises the exception, the same argument the .cx-body entry above makes for the print-parity surface. NOTE this reverses the 2026-07-19 raise of .cx-panel-hint to --fs-base, knowingly. SCOPE (corrected 2026-07-21 after the html-view-challenger sweep — the earlier wording claimed less than the CSS does, and a scope statement that undersells reality misleads the next audit): the .cx-surface and .vrp subtrees, PLUS the drawer's own siblings and satellites that are chrome for those panels and cannot sit inside them — .cx-panel-bar/.cx-psize-* (the text-size stepper, a sibling of .cx-surface so that it stays reachable from whichever surface is showing) and .cx-tip (the icon-tab tooltip, appended to <body> BY CONSTRUCTION because .cx-surface is overflow:hidden and would clip it). Both are ~11-12px labels on a control whose meaning is its icon, and both are deliberately OFF the --panel-fs scale: a reader dialling the panel up wants bigger NOTES, not a bigger tooltip. ALSO in scope, on the print-parity argument rather than the inspector one: .cx-prose p.ar / p.tr (the Edit-mode twin of .cx-body — same contract, same sizes, it was simply never named) and .cx-fig figcaption. CORRECTION: the earlier claim that '.arv-* and .popover-* stay at --fs-base' was wrong — .popover-definition (0.95rem), .popover-etymology (0.85rem), .arv-sub (0.82rem) and .arv-edit-hint (0.7rem) have always been below it. They are annotation chrome on a review surface and are covered here on the same REQ-009 grounds. .composer-sub (the page header) genuinely does stay at --fs-base.",
+    "REQ-012 exception — the book's own typefaces (2026-07-21)": "REQ-012 caps a view at three font families and forbids decorative faces in body content. The Book Composer loads more, and must: the faces ARE the book's typography, not decoration on a view of it. Four English rendering faces (EB Garamond, Cormorant Garamond, Crimson Pro, Lora) and two Arabic faces (Scheherazade New, Amiri) are the per-book choices made in the Typography tab and written to book/citation-style.json; a seventh, the KFGQPC Uthmanic script, is not a choice at all — the Arabic audit assigns it to any run it resolved against the canonical mushaf, because that is the orthography scripture is written in. The editor's own Lato/Inter/mono/OpenDyslexic are a per-device reading preference on the editing surface. This is the same defence as the .cx-body entry: the surface's contract is that what you see is what prints, so a picker that could not show you the face would not answer the only question it exists to answer. SCOPE: the book-content surfaces (.cx-body, .cx-print, .cx-prose), the face-picker chips (.bs-trchip, .bs-archip, which render each face's NAME in that face) and the type specimens (.bs-preview). Site chrome outside them stays on the two-family system (Fraunces display + Inter body/UI) per skills-staging/ui-designer/SKILL.md.",
+    "REQ-018 record — the Arabic scripture maroon (2026-07-21)": "quote-typography.css adds ONE hue the palette did not have: --q-maroon #7a1f1f, the ink an Arabic quotation is set in, with --q-maroon-dark #e8a0a0 for the three surfaces that offer dark paper. Recorded rather than removed: it is CONTENT ink, not a UI accent — it is deliberately distinct from --c-accent #8b4513 so that a verse never reads as a piece of interface — and both values clear WCAG AA comfortably (~10:1 on the cream page, ~8:1 on dark paper; verified 2026-07-21). It changes no existing --c-* token; D25 (colour theme unchanged) is intact."
   },
   "style_block_max_lines": 50
 }

@@ -31,10 +31,12 @@
   box-shadow: 0 10px 40px rgba(31, 29, 24, 0.28);
 }
 
-/* Docked = lives in normal document flow inside its parent panel (the Book
-   Composer's Companion tab), not pinned over the viewport — the base .cpn's
-   position:fixed/top/right/z-index/max-height above are for the (now-retired)
-   floating reading-page context only. */
+/* Docked = a surface inside the Book Composer's drawer. The frame, the inset and
+   the scroll are the DRAWER's (book-composer.css .cx-surface) — this rule only
+   undoes the fixed-drawer positioning the standalone reader context needs. It
+   deliberately sets no padding and no overflow of its own: it did once, and
+   `padding: 0` is what left the Companion content flush against the card edge
+   while the Tools panel had a comfortable inset. */
 .cpn--docked {
   position: static;
   top: auto;
@@ -43,7 +45,6 @@
   width: 100%;
   max-width: none;
   max-height: none;
-  overflow-y: visible;
   border: none;
   border-radius: 0;
   padding: 0;
@@ -63,7 +64,7 @@
   color: var(--c-bg-elev);
   border: none;
   border-radius: 999px;
-  font-size: 0.95rem;
+  font-size: var(--panel-fs, 15px);
   font-family: var(--font-ui, system-ui, sans-serif);
   cursor: pointer;
   box-shadow: 0 6px 20px rgba(31, 29, 24, 0.25);
@@ -81,7 +82,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1.05rem;
+  font-size: var(--panel-fs-title, 16px);
   font-weight: 600;
 }
 .cpn-private {
@@ -89,7 +90,7 @@
   background: var(--c-bg-sunken);
   color: var(--c-ink-muted);
   border-radius: 999px;
-  font-size: 0.72rem;
+  font-size: var(--panel-fs, 15px);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -110,7 +111,7 @@
   color: var(--c-ink-dim);
   border: 1px solid transparent;
   border-radius: 7px;
-  font-size: 0.9rem;
+  font-size: var(--panel-fs, 15px);
   cursor: pointer;
 }
 .cpn-icon-btn:hover {
@@ -128,7 +129,7 @@
   color: var(--c-ink);
   border: 1px solid var(--c-rule);
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: var(--panel-fs, 15px);
   cursor: pointer;
 }
 .cpn-btn:hover {
@@ -155,7 +156,7 @@
   color: var(--c-accent);
   border: 1px dashed var(--c-rule);
   border-radius: 8px;
-  font-size: 0.92rem;
+  font-size: var(--panel-fs, 15px);
   cursor: pointer;
 }
 .cpn-add:hover {
@@ -166,10 +167,21 @@
 .cpn-chapter {
   margin-bottom: 0.75rem;
 }
+/* Controlled hosts (the Book Composer) name the chapter instead of offering a
+   second dropdown for something the page already decides. */
+.cpn-chapter-name {
+  margin-top: 0;
+}
+.cpn-chapter-title {
+  display: block;
+  font-size: var(--panel-fs, 15px);
+  line-height: 1.35;
+  color: var(--c-ink);
+}
 .cpn-field-label {
   display: block;
   margin: 0.35rem 0 0.25rem;
-  font-size: 0.78rem;
+  font-size: var(--panel-fs, 15px);
   font-weight: 600;
   color: var(--c-ink-muted);
   text-transform: uppercase;
@@ -184,7 +196,7 @@
   color: var(--c-ink);
   border: 1px solid var(--c-rule);
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: var(--panel-fs, 15px);
   font-family: inherit;
 }
 .cpn-textarea {
@@ -212,7 +224,7 @@
 .cpn-empty {
   padding: 0.75rem 0;
   color: var(--c-ink-dim);
-  font-size: 0.95rem;
+  font-size: var(--panel-fs, 15px);
 }
 .cpn-error {
   margin: 0.25rem 0;
@@ -220,7 +232,7 @@
   background: var(--c-bg-sunken);
   color: var(--c-red);
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: var(--panel-fs, 15px);
 }
 
 .cpn-card {
@@ -231,6 +243,15 @@
   border-radius: 8px;
 }
 /* Kind accent — add a case here when you add a kind (falls back to ink-dim). */
+/* The card whose passage is currently in view in the chapter. Deliberately a
+   quiet lift — a ring in the SAME highlighter colour the passage itself carries,
+   so the eye connects the two — not a colour change, which would collide with
+   the per-kind left border that is already doing a job. */
+.cpn-card.is-active {
+  border-color: color-mix(in oklab, var(--reader-mark-edge) 55%, var(--c-rule));
+  box-shadow: 0 0 0 2px
+    color-mix(in oklab, var(--reader-mark) 30%, transparent);
+}
 .cpn-card[data-kind="analogy"] {
   border-left-color: var(--c-gold);
 }
@@ -255,7 +276,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.78rem;
+  font-size: var(--panel-fs, 15px);
   font-weight: 600;
   color: var(--c-ink-muted);
   text-transform: uppercase;
@@ -273,7 +294,7 @@
   font-family: var(--font-display, serif);
   font-style: italic;
   font-weight: 460;
-  font-size: 1.3rem;
+  font-size: var(--panel-fs-title, 16px);
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
@@ -287,7 +308,7 @@
   border-radius: 5px;
   background: color-mix(in oklab, var(--reader-mark) 26%, transparent);
   color: var(--c-ink-dim);
-  font-size: 0.86rem;
+  font-size: var(--panel-fs, 15px);
   line-height: 1.4;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -296,9 +317,57 @@
 .cpn-quote-mark i {
   color: color-mix(in oklab, var(--reader-mark-edge) 80%, var(--c-ink-dim));
 }
+/* When the passage was found and marked in the chapter, the pill becomes the way
+   back to it. Reset the button chrome so it reads as the same pill it was — the
+   affordance is the pointer and the underline on hover, not a second button. */
+.cpn-quote-mark--jump {
+  width: 100%;
+  border: 0;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+.cpn-quote-mark--jump:hover {
+  background: color-mix(in oklab, var(--reader-mark) 45%, transparent);
+  text-decoration: underline;
+}
+.cpn-quote-mark--jump:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 1px;
+}
+
+/* ── The passage, marked in the chapter ──────────────────────────────────────
+   Set on a <mark> that lib/reader/companion/passage-sync.ts wraps around the
+   note's verbatim quote. Uses the reader surface's OWN highlighter token pair
+   (--reader-mark / --reader-mark-edge, declared once in book-reader.css) rather
+   than a second yellow of its own, so the Composer, the reader and the LIVE
+   session all light a passage the same way.
+
+   `background` alone, no colour change: the chapter's ink is the book's, and a
+   highlighter that recolours the words it marks stops looking like a highlighter. */
+.cpn-passage {
+  background: color-mix(in oklab, var(--reader-mark) 32%, transparent);
+  color: inherit;
+  border-radius: 3px;
+  box-decoration-break: clone; /* a passage that wraps lines keeps both ends round */
+  -webkit-box-decoration-break: clone;
+  transition: background 0.2s ease;
+}
+/* The one whose card is live. Same hue, more of it — the pairing is legible at a
+   glance without introducing a colour the surface does not already use. */
+.cpn-passage[data-active="1"] {
+  background: color-mix(in oklab, var(--reader-mark) 70%, transparent);
+  box-shadow: 0 0 0 1px
+    color-mix(in oklab, var(--reader-mark-edge) 60%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cpn-passage {
+    transition: none;
+  }
+}
 .cpn-body {
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--panel-fs, 15px);
   line-height: 1.5;
   color: var(--c-ink);
 }
@@ -307,7 +376,7 @@
   align-items: center;
   gap: 0.4rem;
   margin: 0.5rem 0 0;
-  font-size: 0.82rem;
+  font-size: var(--panel-fs, 15px);
   color: var(--c-ink-dim);
 }
 /* Source colour — add a case when you add a provider (falls back to ink-dim). */
@@ -348,7 +417,7 @@
 }
 .cpn-hint {
   margin: 0.3rem 0 0;
-  font-size: 0.78rem;
+  font-size: var(--panel-fs, 15px);
   line-height: 1.4;
   color: var(--c-ink-muted);
 }
@@ -370,7 +439,7 @@
   padding-top: 0.7rem;
   border-top: 1px solid var(--c-rule);
   color: var(--c-ink-muted);
-  font-size: 0.8rem;
+  font-size: var(--panel-fs, 15px);
 }
 
 /* Present mode — quieter chrome for screen-share reading. */

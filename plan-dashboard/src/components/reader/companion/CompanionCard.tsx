@@ -16,8 +16,14 @@ interface Props {
   note: CompanionNote;
   /** Present mode hides the edit/delete controls for distraction-free reading. */
   readOnly?: boolean;
+  /** This note's passage is the one currently in view in the chapter. */
+  active?: boolean;
   onEdit?: (note: CompanionNote) => void;
   onDelete?: (note: CompanionNote) => void;
+  /** Scroll the chapter to this note's marked passage. Omitted when the passage
+   *  could not be marked (absent from the text, or split by inline markup), so
+   *  the pill stays plain text rather than offering a jump that goes nowhere. */
+  onReveal?: (note: CompanionNote) => void;
 }
 
 function sourceLabel(note: CompanionNote): string | null {
@@ -31,15 +37,21 @@ function sourceLabel(note: CompanionNote): string | null {
 export default function CompanionCard({
   note,
   readOnly,
+  active,
   onEdit,
   onDelete,
+  onReveal,
 }: Props) {
   const kind = kindDef(note.kind);
   const src = note.source ? sourceProvider(note.source.provider) : null;
   const label = sourceLabel(note);
 
   return (
-    <article className="cpn-card" data-kind={note.kind}>
+    <article
+      className={`cpn-card${active ? " is-active" : ""}`}
+      data-kind={note.kind}
+      data-note-id={note.id}
+    >
       <header className="cpn-card-head">
         <span className="cpn-kind">
           <i className={kind.icon} aria-hidden="true" />
@@ -68,12 +80,26 @@ export default function CompanionCard({
       </header>
 
       {note.anchor && <p className="cpn-anchor">“{note.anchor}”</p>}
-      {note.quote && (
-        <p className="cpn-quote-mark" title={note.quote}>
-          <i className="fa-solid fa-highlighter" aria-hidden="true" />{" "}
-          {note.quote}
-        </p>
-      )}
+      {note.quote &&
+        (onReveal ? (
+          /* The passage IS marked in the chapter, so the pill is the way back to
+             it — a real button, so it is reachable by keyboard, not a click
+             handler bolted onto a paragraph. */
+          <button
+            type="button"
+            className="cpn-quote-mark cpn-quote-mark--jump"
+            title={`Go to this passage: ${note.quote}`}
+            onClick={() => onReveal(note)}
+          >
+            <i className="fa-solid fa-highlighter" aria-hidden="true" />{" "}
+            {note.quote}
+          </button>
+        ) : (
+          <p className="cpn-quote-mark" title={note.quote}>
+            <i className="fa-solid fa-highlighter" aria-hidden="true" />{" "}
+            {note.quote}
+          </p>
+        ))}
       <p className="cpn-body">{note.body}</p>
 
       {label && (

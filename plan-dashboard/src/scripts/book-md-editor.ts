@@ -9,10 +9,54 @@
  * bold/italic/code/strike/links) — the same serializer conventions StudioEditor uses.
  * Persistence is the caller's job (PUT /api/studio/book-md).
  */
-import { Editor } from "@tiptap/core";
+import { Editor, Extension } from "@tiptap/core";
 import type { Extensions } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 import type { Node as PMNode } from "@tiptap/pm/model";
+
+/** The only class names the editor is allowed to carry through from the seed
+ *  HTML. `quran` marks an Arabic-bearing quotation block, `ar` its Arabic line,
+ *  `tr` the English rendering — the three markdown.ts emits (markdown.ts:188-207)
+ *  and the three every quotation stylesheet keys off. */
+const PRESERVED_CLASSES = new Set(["quran", "ar", "tr"]);
+
+/**
+ * QuotationClasses — re-admit the verse markup TipTap would otherwise discard.
+ *
+ * StarterKit's paragraph and blockquote nodes have no `class` attribute, so
+ * ProseMirror drops it on parse. The consequence was visible: a verse that reads
+ * as centred maroon Arabic over its rendering in Read mode collapsed into an
+ * ordinary italic grey blockquote the moment you switched to Edit, and the only
+ * way to check verse formatting was to leave the editor.
+ *
+ * Only the three known class names survive, and only those — an attacker-supplied
+ * or hand-pasted class cannot ride in. Nothing here can reach book.md:
+ * docToMarkdown (below) dispatches on `node.type.name` and reads exactly one
+ * attribute, `heading.level`. Attributes are presentation-only by construction.
+ */
+const QuotationClasses = Extension.create({
+  name: "quotationClasses",
+  addGlobalAttributes() {
+    return [
+      {
+        types: ["paragraph", "blockquote"],
+        attributes: {
+          class: {
+            default: null,
+            parseHTML: (element) => {
+              const kept = (element.getAttribute("class") ?? "")
+                .split(/\s+/)
+                .filter((c) => PRESERVED_CLASSES.has(c));
+              return kept.length ? kept.join(" ") : null;
+            },
+            renderHTML: (attrs) =>
+              attrs.class ? { class: String(attrs.class) } : {},
+          },
+        },
+      },
+    ];
+  },
+});
 
 export interface ChapterEditor {
   editor: Editor;
@@ -94,7 +138,7 @@ export function mountChapterEditor(
 ): ChapterEditor {
   const editor = new Editor({
     element: el,
-    extensions: [StarterKit, ...extraExtensions],
+    extensions: [StarterKit, QuotationClasses, ...extraExtensions],
     content: html,
     editorProps: {
       attributes: { class: "cx-prose", "aria-label": "Chapter prose editor" },

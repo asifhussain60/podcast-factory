@@ -31,6 +31,11 @@ interface Term {
 }
 
 interface Props {
+  /** Rendered inside the Book Composer's drawer rather than as a page rail. The
+   *  drawer already supplies the frame, the inset and the scroll (see the surface
+   *  contract in book-composer.css), so the panel drops its own sticky box —
+   *  keeping it would nest a second scroller inside the first. */
+  docked?: boolean;
   slug: string;
 }
 
@@ -110,7 +115,7 @@ const ACTIONS: {
   },
 ];
 
-export default function ArabicReviewPanel({ slug }: Props) {
+export default function ArabicReviewPanel({ slug, docked }: Props) {
   const [terms, setTerms] = useState<Term[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterId>("all");
@@ -329,15 +334,27 @@ export default function ArabicReviewPanel({ slug }: Props) {
 
   if (error)
     return (
-      <div className="arv-panel arv-error" role="alert">
+      <div
+        className={`arv-panel arv-error${docked ? " arv-panel--docked" : ""}`}
+        role="alert"
+      >
         Could not load terms: {error}
       </div>
     );
   if (!terms)
-    return <div className="arv-panel arv-loading">Loading terms…</div>;
+    return (
+      <div
+        className={`arv-panel arv-loading${docked ? " arv-panel--docked" : ""}`}
+      >
+        Loading terms…
+      </div>
+    );
 
   return (
-    <aside className="arv-panel" aria-label="Arabic term review">
+    <aside
+      className={`arv-panel${docked ? " arv-panel--docked" : ""}`}
+      aria-label="Arabic term review"
+    >
       <div className="arv-head">
         <h2 className="arv-title">Arabic terms</h2>
         <p className="arv-sub">

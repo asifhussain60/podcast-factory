@@ -141,6 +141,24 @@ export function readAuthor(bookContentDir) {
   }
   return asciiFold(value.trim());
 }
+/** The style families and translation faces a book may choose. Duplicated as
+ *  typed constants in the API route (citation-style.ts) because this is a
+ *  plain-.mjs module the Astro route cannot import types from; the two lists must
+ *  change together. `plain` leads because it is the default (locked 2026-07-21). */
+export const CITATION_FAMILIES = ["plain", "scholarly", "elegant"];
+export const TRANSLATION_FONTS = [
+  "eb-garamond",
+  "cormorant-garamond",
+  "crimson-pro",
+  "lora",
+];
+/** The NON-Qur'anic Arabic face. Scripture is not in this list and never will
+ *  be: a run the audit resolved against the canonical mushaf is set in the KFGQPC
+ *  Uthmanic script because that is the orthography the text is written in, which
+ *  is a correctness rule, not a preference. This choice covers everything else —
+ *  hadith, sayings, poetry, the book's own Arabic phrases. */
+export const ARABIC_FONTS = ["scheherazade-new", "amiri"];
+
 /** Read the per-book citation-style family from book/citation-style.json.
  *  Returns 'plain' | 'scholarly' | 'elegant', or '' when the file is absent or
  *  the value is unknown (renderer then leaves the body unstyled = default look). */
@@ -149,11 +167,73 @@ export function readCitationFamily(bookDir) {
   if (!existsSync(p)) return "";
   try {
     const family = JSON.parse(readFileSync(p, "utf-8"))?.family;
-    return ["plain", "scholarly", "elegant"].includes(family) ? family : "";
+    return CITATION_FAMILIES.includes(family) ? family : "";
   } catch {
     return "";
   }
 }
+/** Read the per-book translation face from the same file. The field is OPTIONAL
+ *  and was added after the first books shipped, so an absent or unknown value
+ *  reads as '' and every consumer falls back to the --q-tr-face default (EB
+ *  Garamond) — an older book gains the face without its artifact being rewritten. */
+export function readTranslationFont(bookDir) {
+  const p = path.join(bookDir, "citation-style.json");
+  if (!existsSync(p)) return "";
+  try {
+    const font = JSON.parse(readFileSync(p, "utf-8"))?.translation_font;
+    return TRANSLATION_FONTS.includes(font) ? font : "";
+  } catch {
+    return "";
+  }
+}
+/** The book's non-Qur'anic Arabic face, from the same file. Optional in exactly
+ *  the way translation_font is: absent or unknown reads as '' and every surface
+ *  falls back to the --q-ar-face default (Scheherazade New), so no shipped book's
+ *  artifact needed rewriting to gain the setting. */
+export function readArabicFont(bookDir) {
+  const p = path.join(bookDir, "citation-style.json");
+  if (!existsSync(p)) return "";
+  try {
+    const font = JSON.parse(readFileSync(p, "utf-8"))?.arabic_font;
+    return ARABIC_FONTS.includes(font) ? font : "";
+  } catch {
+    return "";
+  }
+}
+/** The Arabic runs this book has resolved against the CANONICAL MUSHAF, as a set
+ *  of their exact text.
+ *
+ *  Why exact text rather than a recomputed skeleton: the classification lives in
+ *  `_system/book-arabic-audit.json`, written by the Python audit, and the only
+ *  honest way to recompute it here would be a JavaScript mirror of
+ *  `_arabic_coverage.normalize_arabic` — a fold table that must then be kept in
+ *  step with the Python forever, with a silent misclassification as the failure
+ *  mode. The audit already stores each run's verbatim text, and all 52 runs of
+ *  this book match `book.md` byte-for-byte, so a plain string set is both simpler
+ *  and impossible to drift.
+ *
+ *  Consumers use it to pick the Arabic FACE: scripture is set in the Uthmanic
+ *  face, everything else in Scheherazade New. An absent or stale audit yields an
+ *  empty set, and every run then renders in the non-Qur'anic face — the
+ *  conservative direction, since it never dresses ordinary prose as scripture. */
+export function readQuranicRuns(bookContentDir) {
+  const p = path.join(bookContentDir, "_system", "book-arabic-audit.json");
+  const set = new Set();
+  if (!existsSync(p)) return set;
+  try {
+    const data = JSON.parse(readFileSync(p, "utf-8"));
+    for (const ch of data?.chapters || []) {
+      for (const run of ch?.runs || []) {
+        if (run?.resolution === "canonical-mushaf" && run?.text)
+          set.add(String(run.text).trim());
+      }
+    }
+  } catch {
+    /* tolerant: a bad audit just means everything reads as non-Qur'anic */
+  }
+  return set;
+}
+
 /** Map visual_id -> { src, embeddedTitle } from book/visuals/index.json (v2).
  *  Absent index (today's state) yields an empty map — the layout applier then
  *  no-ops, so rendering is unchanged. */
@@ -199,9 +279,15 @@ export function readCrosswalk(bookContentDir) {
   try {
     data = JSON.parse(readFileSync(p, "utf-8"));
   } catch (err) {
-    throw new Error(`source-crosswalk.json is not valid JSON (${p})`, { cause: err });
+    throw new Error(`source-crosswalk.json is not valid JSON (${p})`, {
+      cause: err,
+    });
   }
-  const rows = Array.isArray(data) ? data : Array.isArray(data?.chapters) ? data.chapters : null;
+  const rows = Array.isArray(data)
+    ? data
+    : Array.isArray(data?.chapters)
+      ? data.chapters
+      : null;
   if (!rows || rows.length === 0) {
     throw new Error(
       `source-crosswalk.json yielded no chapter rows (${p}) — expected an object with a ` +
@@ -226,7 +312,12 @@ export function trimToWord(text, max) {
   if (s.length <= max) return s;
   const cut = s.slice(0, max);
   const boundary = cut.lastIndexOf(" ");
-  return (boundary > max / 2 ? cut.slice(0, boundary) : cut).replace(/[ ,;:.]+$/, "") + "…";
+  return (
+    (boundary > max / 2 ? cut.slice(0, boundary) : cut).replace(
+      /[ ,;:.]+$/,
+      "",
+    ) + "…"
+  );
 }
 
 export function renderSourceCrosswalk(items) {
@@ -293,7 +384,11 @@ export function wrapChapters(blocks) {
   let n = 0;
   const flush = () => {
     if (!current) return;
-    out.push(`<section class="chapter ch-page-${n}">`, ...current, "</section>");
+    out.push(
+      `<section class="chapter ch-page-${n}">`,
+      ...current,
+      "</section>",
+    );
     current = null;
   };
   for (const block of blocks) {
@@ -322,6 +417,20 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
   // <!-- editorial:begin -->…<!-- editorial:end -->) into distinctly-styled
   // Contextual-Note / Study-summary asides instead of plain blockquotes.
   const selfStudy = opts.selfStudy === true;
+  // quranicRuns (opt-in): the Set from readQuranicRuns(). Runs it contains are
+  // marked `is-quranic`, which switches the Arabic FACE to the Uthmanic script;
+  // everything else stays in Scheherazade New. Omitted (the default) means no run
+  // is marked, so a caller that does not pass it renders exactly as before.
+  //
+  // The class name is deliberate: `blockquote.quran` has ALWAYS meant "this block
+  // contains Arabic", not "this is scripture" (see the emit below — it fires on
+  // ARABIC_RE). Nothing in the markup distinguished a verse from a hadith until
+  // now, which is why the face could not be split without this.
+  const quranicRuns = opts.quranicRuns instanceof Set ? opts.quranicRuns : null;
+  const arClass = (text) =>
+    quranicRuns && quranicRuns.has(String(text).trim())
+      ? "ar is-quranic"
+      : "ar";
   // sawH2 (opt-in): seed the "have we already opened a chapter?" state. Whole-book
   // callers (buildBookHtml) leave it false, so their output is byte-for-byte
   // unchanged. A caller rendering ONE chapter in isolation (the Book Composer's
@@ -405,7 +514,7 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
           // place at the end of an Arabic line (bidi renders it mid-air).
           const cleaned = p.trim().replace(/\.\s*$/, "");
           inner.push(
-            `<p class="ar" dir="rtl" lang="ar">${renderInline(cleaned)}</p>`,
+            `<p class="${arClass(cleaned)}" dir="rtl" lang="ar">${renderInline(cleaned)}</p>`,
           );
           if (i < paras.length - 1) inner.push('<hr class="quran-divider">');
         } else {
@@ -614,7 +723,13 @@ export function buildBookHtml(mdPath, { v2 = false, selfStudy = false } = {}) {
   // v2: honor the human-curated visual-layout.json contract. Figures are placed
   // ONLY from the contract (book.md stays diagram-free). Absent/partial contract
   // is tolerated — applyLayout no-ops when there are no placements or assets.
-  let bodyHtml = renderMd(body, crosswalkByIndex, { selfStudy, wrapChapters: true });
+  let bodyHtml = renderMd(body, crosswalkByIndex, {
+    selfStudy,
+    wrapChapters: true,
+    // Scripture gets the Uthmanic face, the rest Scheherazade New. Sourced from
+    // the Arabic audit's own provenance rather than re-derived here.
+    quranicRuns: readQuranicRuns(assetRoot),
+  });
   const bodyClasses = [];
   if (selfStudy) bodyClasses.push("book-self-study");
   if (v2) {
@@ -627,11 +742,21 @@ export function buildBookHtml(mdPath, { v2 = false, selfStudy = false } = {}) {
     }
   }
   // Citation & quote family (book/citation-style.json) — global per-book choice
-  // made in /studio/<slug>/style. Applies regardless of the v2 flag; absent file
-  // or unknown value falls back to the unstyled default (scholarly look). Adds a
-  // body.style-<family> hook that book-print.css reskins passage blocks with.
-  const family = readCitationFamily(path.dirname(mdPath));
+  // made in the Composer's Citations tab. Applies regardless of the v2 flag;
+  // absent file or unknown value falls back to the unstyled default. Adds a
+  // body.style-<family> hook that book-print.css reskins passage blocks with,
+  // and a body.tr-<font> hook that sets --q-tr-face (quote-typography.css) for
+  // the English rendering under an Arabic quotation.
+  const bookDir = path.dirname(mdPath);
+  const family = readCitationFamily(bookDir);
   if (family) bodyClasses.push(`style-${family}`);
+  const trFont = readTranslationFont(bookDir);
+  if (trFont) bodyClasses.push(`tr-${trFont}`);
+  // ...and a body.ar-<font> hook for the NON-Qur'anic Arabic face. Scripture is
+  // unaffected: .is-quranic re-declares --q-ar-face on the run itself, and a
+  // declaration on the element beats one inherited from <body>.
+  const arFont = readArabicFont(bookDir);
+  if (arFont) bodyClasses.push(`ar-${arFont}`);
   const bodyClass = bodyClasses.join(" ");
 
   return {

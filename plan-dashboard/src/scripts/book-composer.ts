@@ -31,8 +31,11 @@ import {
 } from "../components/studio/editor/studio-editor-constants";
 import ComposeAiTools from "../components/studio/compose/ComposeAiTools";
 import ComposeCompanionTab from "../components/studio/compose/ComposeCompanionTab";
+import { mountPanelTextSize } from "./panel-text-size";
+import { mountIconTooltips } from "./icon-tooltip";
+import { PROSE_RENDERED_EVENT } from "../lib/reader/companion/passage-sync";
+import { GOTO_CHAPTER_EVENT } from "../components/reader/VowellingReviewPanel";
 import ComposeDetailsTab from "../components/studio/compose/ComposeDetailsTab";
-import { chapterKeyFor as companionChapterKeyFor } from "../components/reader/companion/CompanionPanel";
 
 type Align = "left" | "center" | "right";
 type Flow = "wrap" | "standalone";
@@ -143,12 +146,15 @@ function boot(): void {
     /* sessionStorage best-effort */
   }
 
-  // ── inspector tabs (Companion · Artifacts · Citations · Refinement · Details) ──
+  // ── inspector tabs (Artifacts · Refinement · Citations · Details) ────────────
+  // The order you work in: place what you are adding, reshape the prose, set how
+  // quotations are styled, check the chapter's facts last. Companion left this
+  // list on 2026-07-21 — it is a drawer SURFACE now, not a tab (see the rail).
   const TABS = [
-    "companion",
     "artifacts",
-    "citations",
     "refine",
+    "citations",
+    "type",
     "details",
   ] as const;
   type TabName = (typeof TABS)[number];
@@ -186,7 +192,103 @@ function boot(): void {
       }
     });
   });
-  activateTab("companion"); // initialize roving tabindex on the default tab
+  activateTab("artifacts"); // initialize roving tabindex on the default tab
+
+  // Each tab is an icon; its name lives in a clipped label span. The tooltip is
+  // how a sighted user learns which is which — a body-level fixed node, so it
+  // neither widens the tab (the bug this replaced) nor clips at the surface edge.
+  const tabbar = root.querySelector<HTMLElement>(".cx-tabbar");
+  if (tabbar)
+    mountIconTooltips(tabbar, { trigger: ".cx-tab", label: ".cx-tab-label" });
+
+  // ── drawer surfaces (Tools · Companion · Arabic · Scholar) ────────────────
+  // ONE drawer, four surfaces, one floating button each. Clicking the lit button
+  // closes the drawer and the chapter takes the full page width back. The Scholar
+  // used to run a SECOND, independent slide-in that could overlap this one; it is
+  // a surface here now, so only one panel can ever be open. The state is a
+  // per-browser preference, not book content, so it lives in localStorage.
+  const SURFACES = ["tools", "companion", "arabic", "scholar"] as const;
+  type Surface = (typeof SURFACES)[number];
+  type PanelState = Surface | "closed";
+  const PANEL_KEY = "cx-composer-panel";
+  const grid = root.querySelector<HTMLElement>(".composer-grid");
+  const surfaceBtn = (n: Surface) =>
+    root.querySelector<HTMLButtonElement>(`#cx-rail-${n}`);
+  const surfaceEl = (n: Surface) =>
+    root.querySelector<HTMLElement>(`#cx-surface-${n}`);
+  const railTools = surfaceBtn("tools");
+  let panelState: PanelState = (() => {
+    try {
+      const saved = localStorage.getItem(PANEL_KEY) ?? "";
+      if (saved === "closed") return saved;
+      if ((SURFACES as readonly string[]).includes(saved))
+        return saved as Surface;
+    } catch {
+      /* preference is best-effort */
+    }
+    return "tools"; // first visit matches the pre-drawer layout exactly
+  })();
+
+  function setPanel(next: PanelState, persist = true): void {
+    panelState = next;
+    grid?.setAttribute("data-panel", next);
+    for (const n of SURFACES) {
+      const on = n === next;
+      const btn = surfaceBtn(n);
+      btn?.classList.toggle("is-active", on);
+      btn?.setAttribute("aria-pressed", String(on));
+      const el = surfaceEl(n);
+      if (el) el.hidden = !on;
+    }
+    if (persist) {
+      try {
+        localStorage.setItem(PANEL_KEY, next);
+      } catch {
+        /* preference is best-effort */
+      }
+    }
+  }
+  for (const n of SURFACES) {
+    surfaceBtn(n)?.addEventListener("click", () => {
+      setPanel(panelState === n ? "closed" : n);
+      // The buttons are pinned to the bottom of the viewport but the drawer they
+      // open is anchored to the TOP of the page — so deep in a long chapter you
+      // could open a panel and see nothing happen. Ride back up with it.
+      // `smooth` unless the reader has asked for reduced motion, in which case an
+      // instant jump is the accessible answer rather than no jump at all.
+      const reduce = window.matchMedia?.(
+        "(prefers-reduced-motion: reduce)",
+      )?.matches;
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    });
+  }
+  root.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || panelState === "closed") return;
+    // Never steal Escape from a text field or a dialog inside the drawer.
+    const el = document.activeElement;
+    if (
+      el instanceof HTMLElement &&
+      el.closest("input, textarea, [role=dialog]")
+    )
+      return;
+    setPanel("closed");
+  });
+  setPanel(panelState, false);
+
+  // The panel text-size stepper. Targets the DRAWER, not a surface: all three
+  // surfaces inherit --panel-fs from it, so one control moves whichever one is
+  // showing and the two that are not.
+  const drawer = root.querySelector<HTMLElement>("#cx-drawer");
+  if (drawer) {
+    // Two mounts, one preference: the stepper module broadcasts a change to
+    // every mounted control, so the copy in the Typography tab (where the
+    // book/screen split is explained) and the one pinned above the drawer
+    // always read the same number.
+    for (const id of ["#cx-panel-size", "#cx-type-size"]) {
+      const host = root.querySelector<HTMLElement>(id);
+      if (host) mountPanelTextSize(host, drawer);
+    }
+  }
 
   // ── chapter scoping — one chapter visible at a time; tabs follow it ────────
   function showSelectedChapter(): void {
@@ -230,15 +332,31 @@ function boot(): void {
       selected = null; // a figure selection doesn't carry across chapters
       showSelectedChapter();
       renderCitations();
+      renderCompanion(); // notes follow the chapter — no picker of their own
       render();
       if (wasEditing) setMode("edit"); // stay in Edit on the newly selected chapter
     });
   }
 
+  // A drawer surface asking for a chapter — the Arabic panel's per-passage
+  // chapter labels. Driven through the SELECT rather than by setting
+  // selectedChapter directly, so the request goes down the one path that already
+  // handles the hard parts: flushing a pending edit, warning about unsaved
+  // prose, re-rendering the citations and the Companion notes. A second way to
+  // change chapter would be a second place for that logic to be missing.
+  window.addEventListener(GOTO_CHAPTER_EVENT, (ev) => {
+    const key = (ev as CustomEvent<{ key?: string }>).detail?.key;
+    if (!chapterSelect || !key || key === selectedChapter) return;
+    if (!data.chapters.some((c) => c.key === key)) return; // stale request
+    chapterSelect.value = key;
+    chapterSelect.dispatchEvent(new Event("change"));
+  });
+
   // ── Edit mode — the chapter opens straight into the TipTap editor ─────────
   // Layout mode (figure placement/resize) was removed from the UI 2026-07-16;
-  // the Companion notes panel that once sat behind a nav link is now the
-  // Companion tab (2026-07-19), and the Edit/Companion-Tool button pair is
+  // the Companion notes panel that once sat behind a nav link became a tab
+  // (2026-07-19) and is now a drawer surface of its own (2026-07-21), and the
+  // Edit/Companion-Tool button pair is
   // gone entirely — Edit is the sole, permanent state. Figure placement has
   // no UI home until Phase 4 (Edit-canvas merge) lands.
   const bookTitle =
@@ -269,6 +387,27 @@ function boot(): void {
     key: c.key,
     title: c.title,
   }));
+
+  /** Mount the private-notes panel ONCE for the page and re-render it with the
+   *  chapter currently selected. It used to be a tab that was created and
+   *  destroyed with the editor, which meant it (a) vanished in Read mode and (b)
+   *  needed a full unmount/remount on every chapter switch just to keep its own
+   *  chapter picker in step. It is a controlled component now — it takes the
+   *  chapter and shows those notes, so it cannot disagree with the page, and it
+   *  needs no picker of its own. */
+  function renderCompanion(): void {
+    const host = root.querySelector<HTMLElement>("#cx-companion-mount");
+    if (!host) return;
+    companionRoot ??= createRoot(host);
+    companionRoot.render(
+      createElement(ComposeCompanionTab, {
+        slug,
+        chapters: companionChapters,
+        chapter: selectedChapter,
+      }),
+    );
+  }
+  renderCompanion(); // page-lifetime surface: present in Read mode too
 
   // A prose autosave writes book.md on disk but the page still holds the ORIGINAL
   // server render in memory; reload (preserving the chapter) to re-sync the preview.
@@ -312,8 +451,8 @@ function boot(): void {
     aiToolsRoot = null;
     detailsRoot?.unmount();
     detailsRoot = null;
-    companionRoot?.unmount();
-    companionRoot = null;
+    // companionRoot is deliberately NOT torn down: the notes are a drawer
+    // surface of their own now, readable in Read mode too (see renderCompanion).
     activeEditor?.destroy();
     activeEditor = null;
     activeSaveFlush = null;
@@ -582,27 +721,6 @@ function boot(): void {
       }),
     );
 
-    // CompanionPanel remembers its last-viewed chapter per slug in
-    // localStorage (for its standalone reader-drawer use) and that
-    // remembered value wins over a fresh `initialChapter` prop on mount — so
-    // keep it in sync with the chapter actually being edited here BEFORE
-    // mounting, or a re-mount on chapter switch would still show stale notes.
-    try {
-      localStorage.setItem(companionChapterKeyFor(slug), selectedChapter);
-    } catch {
-      /* best-effort */
-    }
-    companionRoot = createRoot(
-      root.querySelector<HTMLElement>("#cx-companion-mount")!,
-    );
-    companionRoot.render(
-      createElement(ComposeCompanionTab, {
-        slug,
-        chapters: companionChapters,
-        initialChapter: selectedChapter,
-      }),
-    );
-
     // Autosave — no manual "Save prose" button; edits persist themselves (./autosave).
     const proseAutosave: AutosaveController = createAutosave({
       onStateChange: mountAutosaveStatus(shell, () => {
@@ -637,6 +755,24 @@ function boot(): void {
     root.classList.toggle("is-editing", mode === "edit");
     modeReadBtn?.setAttribute("aria-pressed", String(mode === "read"));
     modeEditBtn?.setAttribute("aria-pressed", String(mode === "edit"));
+    // In Read mode the Tools surface has nothing to act on — Refinement and
+    // Details drive the editor, which is torn down — so it is disabled and the
+    // drawer falls closed if it was showing them. Companion stays available on
+    // purpose: private notes are exactly what a reading pass wants beside the
+    // page. The state is NOT persisted here, so returning to Edit restores
+    // whatever the reader had chosen rather than "closed".
+    const reading = mode === "read";
+    if (railTools) railTools.disabled = reading;
+    if (reading && panelState === "tools") setPanel("closed", false);
+    else if (!reading) {
+      try {
+        const saved = localStorage.getItem(PANEL_KEY);
+        if (saved === "tools" && panelState === "closed")
+          setPanel("tools", false);
+      } catch {
+        /* preference is best-effort */
+      }
+    }
   }
   function enterEditMode(): void {
     if (activeEditor) return;
@@ -682,48 +818,135 @@ function boot(): void {
     if (activeSaveFlush) void activeSaveFlush();
   });
 
-  // ── Citations tab: predefined style (persisted) + this chapter's citations ──
+  // ── The book's look: the Citations tab's style family + the Typography tab's
+  //    two faces. THREE radio groups across TWO forms, one artifact
+  //    (book/citation-style.json) and one endpoint. They are handled together
+  //    here rather than per-form because the save contract is identical for all
+  //    three — send only the field that changed, let the route carry the rest
+  //    over — and a second copy of that would be a second thing to get wrong.
   const citeForm = root.querySelector<HTMLFormElement>(".cx-cite-form");
+  const typeForm = root.querySelector<HTMLFormElement>(".cx-type-form");
+  const styleForms = [citeForm, typeForm].filter(
+    (f): f is HTMLFormElement => !!f,
+  );
   const citeSave = root.querySelector<HTMLElement>("#cx-cite-save");
+  const typeSave = root.querySelector<HTMLElement>("#cx-type-save");
   const citeListEl = root.querySelector<HTMLElement>("#cx-citations-list");
 
-  function setCiteStatus(msg: string, state: "" | "saved" | "error"): void {
-    if (!citeSave) return;
-    citeSave.textContent = msg;
-    citeSave.classList.toggle("is-saved", state === "saved");
-    citeSave.classList.toggle("is-error", state === "error");
+  /** Status line for whichever panel the change came from — a save made in
+   *  Typography must not report into a status line the user cannot see. */
+  function setStyleStatus(
+    el: HTMLElement | null,
+    msg: string,
+    state: "" | "saved" | "error",
+  ): void {
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.toggle("is-saved", state === "saved");
+    el.classList.toggle("is-error", state === "error");
+  }
+  /** Check the radio for `value` in whichever form holds the `name` group. */
+  function checkRadio(name: string, value: string | undefined): void {
+    if (!value) return;
+    for (const form of styleForms) {
+      const input = form.querySelector<HTMLInputElement>(
+        `input[name="${name}"][value="${value}"]`,
+      );
+      if (input) {
+        input.checked = true;
+        return;
+      }
+    }
   }
   async function loadSavedFamily(): Promise<void> {
     try {
-      const saved = await apiFetch<{ family: string }>(
-        "/api/studio/citation-style",
-        { query: { slug } },
-      );
-      const match = citeForm?.querySelector<HTMLInputElement>(
-        `input[name="citation-style"][value="${saved.family}"]`,
-      );
-      if (match) match.checked = true;
+      const saved = await apiFetch<{
+        family: string;
+        translation_font?: string;
+        arabic_font?: string;
+      }>("/api/studio/citation-style", { query: { slug } });
+      checkRadio("citation-style", saved.family);
+      checkRadio("translation-font", saved.translation_font);
+      checkRadio("arabic-font", saved.arabic_font);
+      // The page root is server-rendered with the saved faces already, so this
+      // only matters when the artifact changed under a page that was left open.
+      applyStyleClasses(saved.family, saved.translation_font ?? null, saved.arabic_font ?? null);
     } catch {
-      /* keep the pre-checked default if the fetch fails */
+      /* keep the pre-checked defaults if the fetch fails */
     }
   }
-  citeForm?.addEventListener("change", async (ev) => {
-    const t = ev.target as HTMLInputElement;
-    if (t?.name !== "citation-style" || !t.checked) return;
-    setCiteStatus("Saving…", "");
-    try {
-      await apiFetch("/api/studio/citation-style", {
-        method: "PUT",
-        body: { slug, family: t.value },
+  /** Restyle the chapter you are LOOKING at, not just the swatch in the tab.
+   *  The family class lives on each chapter body (server-rendered) and the two
+   *  faces on the page root, so all three have to move when a chip changes.
+   *  The Arabic face is the NON-Qur'anic one only: `.is-quranic` re-declares
+   *  --q-ar-face on the run itself and a declaration on the consumer beats one
+   *  inherited from here, so scripture stays Uthmanic whatever is picked. */
+  function applyStyleClasses(
+    family: string | null,
+    font: string | null,
+    arabic: string | null,
+  ): void {
+    if (family) {
+      root.querySelectorAll<HTMLElement>(".cx-body").forEach((el) => {
+        el.classList.forEach((c) => {
+          if (c.startsWith("style-")) el.classList.remove(c);
+        });
+        el.classList.add(`style-${family}`);
       });
-      setCiteStatus(
-        `Saved — the book prints in the ${t.value} style.`,
-        "saved",
-      );
-    } catch (e) {
-      setCiteStatus(`Couldn't save: ${(e as Error).message}`, "error");
     }
-  });
+    const swap = (prefix: string, value: string) => {
+      root.classList.forEach((c) => {
+        if (c.startsWith(prefix)) root.classList.remove(c);
+      });
+      root.classList.add(`${prefix}${value}`);
+    };
+    if (font) swap("tr-", font);
+    if (arabic) swap("ar-", arabic);
+  }
+  /** One radio group -> one field on the artifact, one sentence of confirmation. */
+  const STYLE_FIELDS: Record<
+    string,
+    { field: string; said: (v: string) => string }
+  > = {
+    "citation-style": {
+      field: "family",
+      said: (v) => `Saved — the book prints in the ${v} style.`,
+    },
+    "translation-font": {
+      field: "translation_font",
+      said: (v) => `Saved — English renderings print in ${v.replace(/-/g, " ")}.`,
+    },
+    "arabic-font": {
+      field: "arabic_font",
+      said: (v) =>
+        `Saved — non-Qur'anic Arabic prints in ${v.replace(/-/g, " ")}. Scripture stays Uthmanic.`,
+    },
+  };
+  for (const form of styleForms) {
+    const status = form === typeForm ? typeSave : citeSave;
+    form.addEventListener("change", async (ev) => {
+      const t = ev.target as HTMLInputElement;
+      const spec = STYLE_FIELDS[t?.name ?? ""];
+      if (!spec || !t.checked) return;
+      applyStyleClasses(
+        t.name === "citation-style" ? t.value : null,
+        t.name === "translation-font" ? t.value : null,
+        t.name === "arabic-font" ? t.value : null,
+      );
+      setStyleStatus(status, "Saving…", "");
+      try {
+        // Send ONLY the field that changed — the route carries the others over
+        // from disk, so saving a face cannot wipe the family (or the reverse).
+        await apiFetch("/api/studio/citation-style", {
+          method: "PUT",
+          body: { slug, [spec.field]: t.value },
+        });
+        setStyleStatus(status, spec.said(t.value), "saved");
+      } catch (e) {
+        setStyleStatus(status, `Couldn't save: ${(e as Error).message}`, "error");
+      }
+    });
+  }
 
   function renderCitations(): void {
     if (!citeListEl) return;
@@ -873,6 +1096,10 @@ function boot(): void {
       const ch = chapterByKey.get(selectedChapter);
       scopeEl.textContent = ch ? `Candidates for “${ch.title}”.` : "";
     }
+    // The innerHTML reset above drops anything a client island added to the
+    // prose — the Companion panel's passage marks among them. Announce it so
+    // they can be re-applied; nothing here needs to know who is listening.
+    window.dispatchEvent(new CustomEvent(PROSE_RENDERED_EVENT));
   }
 
   // Insert figures into a chapter body at their paragraph index, mirroring the

@@ -24,6 +24,7 @@ import { readChapter } from "../../../lib/reader/companion/store.server";
 import { slugToTitle } from "../../../lib/content-paths";
 import "../../../styles/library.css";
 import "../../../styles/book-reader.css";
+import "../../../styles/quote-typography.css";
 import "../../../styles/editor-fonts.css";
 import "../../../styles/live-session.css";
 
@@ -237,7 +238,12 @@ const bucketsPresent = groups.map((g) => g.bucket);
           <div class="lsv-bookpane">
             <div class="lsv-viewport" id="lsv-viewport">
               <article
-                class="bookv-body lsv-read"
+                class:list={[
+                  "bookv-body",
+                  "lsv-read",
+                  book.citationFamily && `style-${book.citationFamily}`,
+                  book.translationFont && `tr-${book.translationFont}`,
+                ]}
                 id="lsv-read"
                 set:html={book.html}
               />

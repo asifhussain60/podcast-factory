@@ -119,6 +119,13 @@ function buildRoutes(slug) {
         `/studio/${slug}/book`,
         `/studio/${slug}/live`, // LIVE Session reading view (own CSS + scroll-synced explanations)
         `/studio/${slug}/preview`, // whole-book page-image preview (renders fresh from book.md on demand)
+        // `/studio/<slug>/arabic-review` was retired 2026-07-21 and now 302s to
+        // the Composer, whose new Arabic drawer surface holds both of its panels.
+        // The entry STAYS in this list on purpose: the browser follows the
+        // redirect, so a pass here proves the redirect still lands somewhere that
+        // renders clean rather than proving a page exists. Same reasoning as the
+        // `/style` removal below, one step further — that route reached the
+        // Composer's Citations tab; this one reached book.md itself.
         `/studio/${slug}/arabic-review`,
         // `/studio/<slug>/style` was removed 2026-07-19: it was a standalone
         // duplicate of the Book Composer's Citations tab (same FAMILIES list,
@@ -209,6 +216,38 @@ async function checkLayoutInvariants(page) {
           `series-deck-protrusion: "${name || "deck"}" — front card ${gap}px shorter than its cell (stacked sheets protrude as an empty panel)`,
         );
       }
+    }
+
+    // INV-2: the Book Composer's floating button row (.cx-fabs) is fixed over the
+    // drawer's bottom-right corner and the drawer is sticky, so once the page
+    // scrolls the two are pinned together — and whatever sits at the END of a
+    // panel's scroll ends up UNDER the buttons, where no further scrolling can
+    // reveal it. Each drawer scroller reserves --cx-fab-clear after its content
+    // (book-composer.css); this asserts the reserve is actually enough, measured
+    // at the one position where it matters: the bottom of the scroll.
+    const fabs = document.querySelector(".cx-fabs");
+    if (fabs && getComputedStyle(fabs).position === "fixed") {
+      window.scrollTo(0, 600); // put the sticky drawer in its steady state
+      const f = fabs.getBoundingClientRect();
+      const scrollers = document.querySelectorAll(
+        ".cx-tabpanel:not([hidden]), #cx-surface-companion:not([hidden]), #cx-surface-scholar:not([hidden])",
+      );
+      for (const sc of scrollers) {
+        if (!sc.clientHeight || sc.scrollHeight <= sc.clientHeight) continue;
+        sc.scrollTop = sc.scrollHeight;
+        const last = sc.lastElementChild;
+        if (!last) continue;
+        const r = last.getBoundingClientRect();
+        const covered = Math.round(
+          Math.min(r.bottom, f.bottom) - Math.max(r.top, f.top),
+        );
+        if (covered > 0 && r.right > f.left && r.left < f.right) {
+          out.push(
+            `composer-fab-covers-panel-tail: #${sc.id || sc.className} — the last ${covered}px of its scroll sits under the floating button row`,
+          );
+        }
+      }
+      window.scrollTo(0, 0);
     }
 
     return out;

@@ -1,16 +1,16 @@
 /**
  * ComposeCompanionTab.tsx — thin wrapper mounting the existing CompanionPanel
- * (manual reader notes, e.g. "ANALOGY" cards) inside Compose's first
- * inspector tab, docked instead of floating. Reuses the panel's own store and
- * CRUD untouched — this file only adapts Compose's chapter shape and picks
- * the right layout/prose selector.
+ * (manual reader notes, e.g. "ANALOGY" cards) inside the Book Composer's
+ * Companion drawer surface, docked instead of floating. Reuses the panel's own
+ * store and CRUD untouched — this file only adapts Compose's chapter shape and
+ * picks the right layout/prose selector.
  *
  * Mounted imperatively (React 19 createRoot) by book-composer.ts, same as
- * ComposeAiTools / ComposeDetailsTab, and re-mounted on every chapter switch
- * with a fresh `initialChapter` — otherwise the panel's own chapter selector
- * (and the notes it shows) stay pinned to whichever chapter was active when
- * it first mounted, going stale the moment the main Chapter dropdown moves
- * to a different one.
+ * ComposeAiTools / ComposeDetailsTab, but ONCE for the page: it passes the
+ * CONTROLLED `chapter` prop, so a chapter switch is a re-render with a new value
+ * rather than an unmount/remount. That is also what removes the panel's own
+ * chapter dropdown here — a second picker for the same thing the page already
+ * decides could only ever disagree with it.
  */
 import CompanionPanel, {
   type ChapterRef,
@@ -19,19 +19,20 @@ import CompanionPanel, {
 interface Props {
   slug: string;
   chapters: ChapterRef[];
-  initialChapter?: string;
+  /** The chapter open in the Composer. Controlled — the panel follows it. */
+  chapter: string;
 }
 
 export default function ComposeCompanionTab({
   slug,
   chapters,
-  initialChapter,
+  chapter,
 }: Props) {
   return (
     <CompanionPanel
       slug={slug}
       chapters={chapters}
-      initialChapter={initialChapter}
+      chapter={chapter}
       layout="docked"
       proseSelector=".cx-chapter"
     />

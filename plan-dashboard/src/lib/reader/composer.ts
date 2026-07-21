@@ -27,6 +27,9 @@ import {
   renderMd,
   readCrosswalk,
   readCitationFamily,
+  readTranslationFont,
+  readArabicFont,
+  readQuranicRuns,
 } from "../../../scripts/lib/book-html.mjs";
 
 export interface ComposerCitation {
@@ -115,6 +118,12 @@ export interface ComposerView {
    *  so picking a style visibly restyles the chapter you are looking at instead
    *  of only the swatch in the tab. '' = unset (the scholarly default). */
   citationFamily: string;
+  /** The book's English-rendering face for Arabic quotations, from the same
+   *  artifact (`translation_font`). Stamped beside the family as `tr-<font>`,
+   *  which sets --q-tr-face (quote-typography.css). '' = unset -> EB Garamond. */
+  translationFont: string;
+  /** The NON-Qur'anic Arabic face; '' falls back to Scheherazade New. */
+  arabicFont: string;
   // Arabic-script glossary — needed by the Refinement tab's term curation and
   // by the chapter editor's Arabic overlay decorations. Same source Edit &
   // Enrich reads (_system/glossary.yml); glossary = arabic_script-confirmed
@@ -152,6 +161,8 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
       placements: [],
       hasBook: false,
       citationFamily: "",
+      translationFont: "",
+      arabicFont: "",
       glossary: [],
       glossaryAll: [],
     };
@@ -171,6 +182,13 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
   const citationFamily = String(
     readCitationFamily(join(ref.dir, "book")) ?? "",
   );
+  const translationFont = String(
+    readTranslationFont(join(ref.dir, "book")) ?? "",
+  );
+  const arabicFont = String(readArabicFont(join(ref.dir, "book")) ?? "");
+  // Which Arabic runs the audit resolved against the canonical mushaf — read ONCE
+  // per page load and shared by every chapter's render.
+  const quranicRuns = readQuranicRuns(ref.dir) as Set<string>;
 
   // Split into chapters on "## " headings.
   const chapters: ComposerChapter[] = [];
@@ -196,6 +214,9 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     const html = String(
       renderMd(`${heading}\n\n${body}`, crosswalkByIndex, {
         sawH2: chapters.length > 0,
+        // Same provenance the PDF uses, so read mode sets scripture in the
+        // Uthmanic face and everything else in Scheherazade exactly as it prints.
+        quranicRuns,
       }),
     );
     // EDIT: the plain render, unchanged — the TipTap-safe seed (see editHtml).
@@ -262,6 +283,8 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     placements,
     hasBook: true,
     citationFamily,
+    translationFont,
+    arabicFont,
     glossary,
     glossaryAll,
   };

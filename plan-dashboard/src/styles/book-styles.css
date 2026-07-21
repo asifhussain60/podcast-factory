@@ -40,7 +40,7 @@
 }
 .bs-chips legend {
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.78rem;
+  font-size: var(--panel-fs, 15px);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--c-ink-muted, #87827a);
@@ -89,7 +89,7 @@
 .bs-chip-name {
   font-family: var(--font-ui, system-ui, sans-serif);
   font-weight: 700;
-  font-size: 1.02rem;
+  font-size: var(--panel-fs-title, 16px);
   color: var(--c-ink, #2b2823);
 }
 .bs-chip-check {
@@ -102,8 +102,97 @@
   opacity: 1;
 }
 .bs-chip-tag {
-  font-size: 0.8rem;
+  font-size: var(--panel-fs, 15px);
   color: var(--c-ink-muted, #87827a);
+}
+
+/* ── Translation-face chips ──────────────────────────────────────────────────
+   A second chip row under the family chips, choosing the face the English
+   rendering under an Arabic quotation is set in. Two things happen here:
+   each chip's NAME renders in its own face (so the choice is legible before it is
+   made), and selecting one re-declares --q-tr-face on this form — which is what
+   makes the preview sheet below change live, with no JavaScript. The declaration
+   sits on .bs-styleform, a descendant of the page root that carries the book's
+   saved face, so previewing overrides the page for this sheet only. */
+.bs-trchips {
+  margin-top: var(--sp-4, 16px);
+}
+.bs-trchip {
+  min-width: 8.5rem;
+  flex: 1 1 8.5rem;
+}
+.bs-trchip .bs-chip-name {
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+.bs-trchip[data-font="eb-garamond"] .bs-chip-name {
+  font-family: "EB Garamond", Georgia, serif;
+}
+.bs-trchip[data-font="cormorant-garamond"] .bs-chip-name {
+  font-family: "Cormorant Garamond", Georgia, serif;
+}
+.bs-trchip[data-font="crimson-pro"] .bs-chip-name {
+  font-family: "Crimson Pro", Georgia, serif;
+}
+.bs-trchip[data-font="lora"] .bs-chip-name {
+  font-family: "Lora", Georgia, serif;
+}
+.bs-styleform:has(.bs-trradio[value="eb-garamond"]:checked) {
+  --q-tr-face: "EB Garamond", "Iowan Old Style", Georgia, serif;
+}
+.bs-styleform:has(.bs-trradio[value="cormorant-garamond"]:checked) {
+  --q-tr-face: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+}
+.bs-styleform:has(.bs-trradio[value="crimson-pro"]:checked) {
+  --q-tr-face: "Crimson Pro", "EB Garamond", Georgia, serif;
+}
+.bs-styleform:has(.bs-trradio[value="lora"]:checked) {
+  --q-tr-face: "Lora", "EB Garamond", Georgia, serif;
+}
+
+/* ── Arabic face chips (Typography tab) ───────────────────────────────────────
+   Same construction as the translation chips above, one axis over: each chip's
+   name renders in the face it names, and selecting one re-declares --q-ar-face on
+   the form so the specimen changes live with no JavaScript.
+
+   TWO chips, not three. The Qur'anic face is absent by design — scripture is set
+   in the KFGQPC Uthmanic script because that is the orthography it is written in,
+   and `.is-quranic` re-declares --q-ar-face on the run itself, so it survives
+   whatever this form declares. The panel says so in words rather than leaving the
+   omission to be inferred. */
+.bs-archips {
+  margin-top: var(--sp-4, 16px);
+}
+.bs-archip {
+  min-width: 8.5rem;
+  flex: 1 1 8.5rem;
+}
+.bs-archip .bs-chip-name {
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+.bs-archip[data-font="scheherazade-new"] .bs-chip-name {
+  font-family: "Scheherazade New", "Amiri", serif;
+}
+.bs-archip[data-font="amiri"] .bs-chip-name {
+  font-family: "Amiri", "Scheherazade New", serif;
+}
+.bs-styleform:has(.bs-arradio[value="scheherazade-new"]:checked) {
+  --q-ar-face:
+    "ScheherazadeSized", "Scheherazade New", "Scheherazade", "Amiri",
+    "DecoType Naskh", serif;
+}
+.bs-styleform:has(.bs-arradio[value="amiri"]:checked) {
+  --q-ar-face:
+    "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
+}
+
+/* The Typography specimen carries no family chips, so the family rules further
+   down this file never match it. It is a FACE specimen — the family specimen is
+   the one in the Citations tab — and this is the one declaration it needs that
+   those rules would otherwise have supplied. */
+.cx-type-preview .bs-tr {
+  font-family: var(--q-tr-face);
 }
 
 /* Per-family blurb above the preview — only the selected family's shows. */
@@ -123,7 +212,13 @@
   display: block;
 }
 
-/* ── Live preview — one sheet, all passage types ─────────────────────────── */
+/* ── Live preview — one sheet, all passage types ───────────────────────────
+   DELIBERATELY OFF the --panel-fs scale. This sheet is a TYPE SPECIMEN: it shows
+   what a verse, a hadith and a poem will look like on the printed page, so it has
+   to be at reading size to be worth looking at. Set it to 12px and it stops
+   answering the only question it exists to answer — and Arabic at 12px is not
+   legible at all. Same argument as the .cx-body print-parity exception in
+   html-view-lint.config.json. The chips and labels AROUND it are on the scale. */
 .bs-preview {
   background: var(--c-bg-card, #fffdf8);
   border: 1px solid var(--c-rule-soft, #ebe6da);
@@ -139,7 +234,7 @@
 .bs-ct-label {
   display: block;
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.7rem;
+  font-size: var(--panel-fs, 15px);
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--c-ink-dim, #9a938a);
@@ -148,9 +243,10 @@
 
 /* Shared primitives (base look = the "Scholarly" default). */
 .bs-ar {
-  font-family:
-    "AmiriQuranSized", "AmiriSized", "Amiri Quran", "Amiri", "DecoType Naskh",
-    "Scheherazade New", serif;
+  /* One token, same as every other Arabic surface. The preview sheet's own
+     Qur'an-verse sample carries .is-quranic so it previews the Uthmanic face;
+     the hadith and poem samples take the default (Scheherazade New). */
+  font-family: var(--q-ar-face);
   direction: rtl;
   text-align: center;
   font-size: 1.05rem;
@@ -167,7 +263,7 @@
 }
 .bs-attr {
   font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.78rem;
+  font-size: var(--panel-fs, 15px);
   text-align: center;
   color: var(--c-ink-muted, #87827a);
   margin: 0.35rem 0 0;
@@ -182,7 +278,7 @@
   margin: 0;
 }
 .bs-inline .ar-inline {
-  font-family: "AmiriSized", "Amiri Quran", "Amiri", "DecoType Naskh", serif;
+  font-family: var(--q-ar-face);
   direction: rtl;
   unicode-bidi: isolate;
   color: var(--bs-arabic);
@@ -244,15 +340,28 @@
   margin: 0;
 }
 
-/* ── Family: Plain — no ornament, black ink, differentiated by set only ──── */
+/* ── Family: Plain — no ornament; centred, maroon Arabic + a distinct rendering
+   face. The preview must show what the page will show, so these rules mirror
+   book-print.css body.style-plain (and its compose-print/book-reader twins) using
+   the same quote-typography.css tokens. The `:has()` mechanism is the existing
+   one — the chips drive the sheet with no JavaScript. */
 .bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-ar {
-  color: var(--c-ink, #1f1d18);
+  color: var(--q-maroon);
   font-size: 1.18rem;
+  text-align: center;
+}
+.bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-tr {
+  font-family: var(--q-tr-face);
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: var(--c-ink, #1f1d18);
+  text-align: center;
 }
 .bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-verse,
 .bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-hadith {
   border-left: 0;
   padding-left: 0;
+  text-align: center;
 }
 .bs-styleform:has(.bs-radio[value="plain"]:checked) .bs-quote {
   border-left: 0;

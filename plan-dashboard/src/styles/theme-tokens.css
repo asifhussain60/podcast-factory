@@ -46,6 +46,61 @@
   size-adjust: 135%;
 }
 
+/* The two Arabic reading faces (2026-07-21). Scheherazade New carries every
+   non-Qur'anic run; the KFGQPC Uthmanic script carries scripture. Both are
+   size-adjusted on the same 135% basis as Amiri above, for the same reason —
+   Arabic renders visually smaller than Latin at equal point size, and these sit
+   beside a Latin body. The Sized aliases exist so the raw families stay
+   available unadjusted.
+
+   MIRROR: book-print.css declares both families for the PDF (which does not load
+   this file), WITHOUT the size adjustment — see its own note.
+
+   The KFGQPC file is vendored byte-for-byte from quran.com under an EULA that
+   grants free use/copy/distribution but forbids modification: never subset,
+   re-encode or otherwise alter public/fonts/uthmanic-hafs/*. */
+@font-face {
+  font-family: "ScheherazadeSized";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: "ScheherazadeSized";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-600-normal.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: "Scheherazade New";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "UthmanicHafsSized";
+  src: url("/fonts/uthmanic-hafs/UthmanicHafs1Ver18.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: "UthmanicHafs";
+  src: url("/fonts/uthmanic-hafs/UthmanicHafs1Ver18.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ── Design tokens ─────────────────────────────────────────────── */
 
 :root {

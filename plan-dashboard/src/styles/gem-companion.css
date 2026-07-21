@@ -4,14 +4,11 @@
  * those tokens via prefers-color-scheme in theme.css. Mode + state variants are
  * driven by data-attributes / classes, never inline styles.
  *
- * Mounted only on the Book Composer now (2026-07-19). The sidebar there
- * (.composer-panel) is `position: sticky` with a capped `.cx-tabpanel`
- * max-height, so its content never reaches the viewport's bottom edge --
- * there is always a clear band below it. The CLOSED launcher sits
- * bottom-RIGHT, in that clear band, matching the already right-anchored OPEN
- * panel below. bottom-LEFT was tried and reverted: the main editing pane has
- * no such reserved band, so a bottom-left launcher permanently sat on top of
- * chapter prose instead. */
+ * Mounted on the Book Composer as a DOCKED surface of the shared right drawer
+ * (2026-07-21) — see .gcp--docked below. It no longer opens a slide-in of its own
+ * there, and no longer has a launcher of its own: the drawer's floating button row
+ * owns opening and closing. The launcher rules below serve the standalone
+ * reading-page use only. */
 
 /* ── Launcher (shown when the panel is closed) ──────────────
  * Icon-only, compact — the Book Composer's two content columns both run
@@ -41,7 +38,7 @@
   color: var(--c-accent);
   border: 1px solid var(--c-accent);
   border-radius: 999px;
-  font-size: 1.1rem;
+  font-size: 1.1rem; /* the ICON glyph, not chrome text — not on the type scale */
   cursor: pointer;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
 }
@@ -75,6 +72,28 @@
   color: var(--c-ink);
 }
 
+/* Docked = a surface INSIDE a host drawer (the Book Composer's shared right
+   panel), not a slide-in of its own. Mirrors .cpn--docked in companion-notes.css:
+   the fixed positioning, viewport clamp, frame and shadow above all belong to the
+   standalone reading-page context and are neutralised here, because the host
+   drawer already provides them. */
+.gcp--docked {
+  position: static;
+  top: auto;
+  right: auto;
+  z-index: auto;
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  /* No padding and no overflow here — both belong to the host drawer's
+     .cx-surface, so all three surfaces share one inset and one scroll contract. */
+  padding: 0;
+}
+
 /* ── Header ────────────────────────────────────────────────── */
 .gcp-head {
   display: flex;
@@ -86,7 +105,7 @@
 
 .gcp-eyebrow {
   margin: 0;
-  font-size: 0.72rem;
+  font-size: var(--panel-fs, 15px);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--c-ink-muted);
@@ -94,7 +113,7 @@
 
 .gcp-title {
   margin: 0.1rem 0 0;
-  font-size: 1.15rem;
+  font-size: var(--panel-fs-title, 16px);
   line-height: 1.2;
   color: var(--c-ink);
 }
@@ -138,7 +157,7 @@
   background: transparent;
   border: none;
   border-radius: 7px;
-  font-size: 0.9rem;
+  font-size: var(--panel-fs, 15px);
   font-family: inherit;
   color: var(--c-ink-dim);
   cursor: pointer;
@@ -159,7 +178,7 @@
 .gcp-label {
   display: block;
   margin-bottom: 0.3rem;
-  font-size: 0.8rem;
+  font-size: var(--panel-fs, 15px);
   color: var(--c-ink-muted);
 }
 
@@ -170,7 +189,7 @@
   background: var(--c-bg-sunken);
   border: 1px solid var(--c-rule);
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: var(--panel-fs, 15px);
   font-family: inherit;
   line-height: 1.45;
   color: var(--c-ink);
@@ -195,7 +214,7 @@
   gap: 0.4rem;
   padding: 0.5rem 0.85rem;
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: var(--panel-fs, 15px);
   font-family: inherit;
   cursor: pointer;
 }
@@ -236,7 +255,7 @@
 .gcp-hint,
 .gcp-error {
   margin: 0.6rem 0 0;
-  font-size: 0.82rem;
+  font-size: var(--panel-fs, 15px);
   line-height: 1.4;
 }
 
@@ -247,7 +266,11 @@
   color: var(--c-ink-dim);
 }
 .gcp-error {
-  color: var(--c-danger, #b3261e);
+  /* --c-red, not --c-danger: the latter is declared nowhere in the theme, so this
+     rule silently painted its hard-coded #b3261e — a red the palette does not
+     contain — while every sibling error line (.cpn-error, .vrp-error) used the
+     theme token. Same token, same red, one palette (REQ-017). */
+  color: var(--c-red, #a83232);
 }
 
 /* ── Result ────────────────────────────────────────────────── */
@@ -259,7 +282,7 @@
 
 .gcp-result p {
   margin: 0 0 0.7rem;
-  font-size: 1.05rem;
+  font-size: var(--panel-fs, 15px);
   line-height: 1.62;
   color: var(--c-ink);
 }
@@ -268,7 +291,7 @@
   padding: 0.6rem 0.7rem;
   background: var(--c-bg-sunken);
   border-radius: 8px;
-  font-size: 0.9rem !important;
+  font-size: var(--panel-fs, 15px) !important;
   color: var(--c-ink-dim) !important;
 }
 
@@ -278,7 +301,7 @@
 }
 
 .gcp-disclaimer {
-  font-size: 0.76rem !important;
+  font-size: var(--panel-fs, 15px) !important;
   color: var(--c-ink-muted) !important;
   font-style: italic;
 }
