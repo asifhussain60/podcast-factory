@@ -3,6 +3,8 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import pytest
+
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
@@ -53,14 +55,22 @@ def test_explicit_knobs_override_translation_default(tmp_path: Path) -> None:
     assert book_voice(bd) == BOOK_VOICE_AUTHOR_COMPANION
 
 
-def test_invalid_knob_falls_back_to_default(tmp_path: Path) -> None:
-    bd = _book(
-        tmp_path,
-        "deliverable_mode: translation_edition\nbook_augmentation: bogus\nbook_voice: nonsense\n",
-    )
-    # A typo can never harden into a silent behaviour change — fall back to map.
-    assert book_augmentation(bd) == BOOK_AUGMENTATION_NONE
-    assert book_voice(bd) == BOOK_VOICE_FAITHFUL
+def test_an_unrecognised_knob_value_is_refused_not_defaulted(tmp_path: Path) -> None:
+    """A typo must not choose the book for us.
+
+    This used to fall back to the default map, which is the silent behaviour change
+    it was meant to prevent: `book_voice: fathful` on a book with no
+    `deliverable_mode` defaults to `author_companion`, so a translation edition
+    received a full author re-voice — hours of model time and a different book at
+    the end of it, with nothing anywhere saying why.
+    """
+    bd = _book(tmp_path, "deliverable_mode: translation_edition\nbook_augmentation: bogus\n")
+    with pytest.raises(ValueError, match="book_augmentation"):
+        book_augmentation(bd)
+
+    bd2 = _book(tmp_path / "second", "book_voice: fathful\n")
+    with pytest.raises(ValueError, match="book_voice"):
+        book_voice(bd2)
 
 
 def test_book_knobs_bundle(tmp_path: Path) -> None:

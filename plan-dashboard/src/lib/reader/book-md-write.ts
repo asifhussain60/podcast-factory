@@ -18,7 +18,7 @@ import { readFileSync, writeFileSync, existsSync, copyFileSync } from "node:fs";
 import { join } from "node:path";
 import { anchorKey } from "../../../scripts/lib/anchor-key.mjs";
 import { preserveFences } from "./book-fences";
-import { recordComposerEdit, fingerprintBody } from "./composer-edits";
+import { recordComposerEdit, baseFingerprintFor } from "./composer-edits";
 
 export interface ChapterWriteResult {
   ok: boolean;
@@ -86,15 +86,21 @@ export function writeChapterBody(
   // DURABILITY — the sidecar, written alongside book.md. book.md alone is not
   // durable: compose_book_v2 regenerates its layers (base -> augment -> voice) on
   // every run, so an edit here survives only until anything upstream re-runs, and
-  // vanishes with no report. `baseFingerprint` is the body the human edited FROM,
-  // so a later replay can tell them the pipeline moved underneath their edit
-  // instead of silently choosing one over the other.
+  // vanishes with no report. `baseFingerprint` identifies the COMPOSE this edit
+  // was made against, so a later replay can tell the author the pipeline moved
+  // underneath their edit instead of silently choosing one over the other.
+  //
+  // It is read from the pipeline's own stamp rather than hashed from
+  // `previousBody`. Hashing here was the bug: `previousBody` is the live body,
+  // introduction and comprehension bridges included, and the replay compares
+  // against the composed body from before either is injected — so the numbers
+  // could never match and the conflict warning was permanently on.
   let sidecar: { ok: boolean; error?: string };
   try {
     recordComposerEdit(bookDir, {
       chapterKey,
       bodyMd: fences.body,
-      baseFingerprint: fingerprintBody(previousBody),
+      baseFingerprint: baseFingerprintFor(bookDir, chapterKey),
       savedAt: new Date().toISOString(),
     });
     sidecar = { ok: true };

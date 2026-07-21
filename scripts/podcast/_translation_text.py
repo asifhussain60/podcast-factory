@@ -263,6 +263,9 @@ from _translation_seams import (
 from _translation_seams import (
     duplicate_passage_findings as duplicate_passage_findings,
 )
+from _translation_seams import (
+    record_seam_removals as record_seam_removals,
+)
 
 
 def _translation_long_enough(prose: str, source_words: int) -> bool:

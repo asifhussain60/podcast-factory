@@ -66,6 +66,26 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     voice = book_voice(book_dir)
     log(f"    book-pipeline-v2: augmentation={augmentation} · voice={voice}")
 
+    # The Composer is the singular path for PDF-bound chapter changes, so a chapter
+    # it has authored is not re-composed: every stage below consults this same set
+    # and passes those chapters through. `--force` overrides it, and the warning is
+    # not decoration — it is the only notice before a model rewrites human pages.
+    from _book_edits import edited_chapter_keys
+
+    _authored = edited_chapter_keys(book_dir)
+    if _authored:
+        if force:
+            log(
+                f"    book-pipeline-v2: FORCE — re-composing over {len(_authored)} "
+                "Composer-authored chapter(s); the replay restores them and reports each as a conflict"
+            )
+        else:
+            log(f"    book-pipeline-v2: {len(_authored)} Composer-authored chapter(s) will not be regenerated")
+
+    # Both de-dup passes append to this run's deletion record, so it starts empty:
+    # it describes THIS compose, not every compose the book has ever had.
+    (book_dir / "_system" / "book-seam-dedup.json").unlink(missing_ok=True)
+
     # 1. Faithful base — the shared foundation for BOTH modes. Reuse the
     #    translation-edition compose as the base, driven by knobs (not by the
     #    deliverable_mode contract), so there is exactly one faithful composer.
@@ -88,6 +108,11 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         from _book_voice import apply_fluency_adapt
 
         book_md = apply_fluency_adapt(book_dir, log=log, force=force)
+        # Stamped like every other stage. It was the one omission, and the worst
+        # one to omit: for a faithful-voice book the fluency pass is the ONLY model
+        # pass over the prose, so Arabic lost here showed up in the ledger as lost
+        # "somewhere between base and final" with no stage to name.
+        stages["fluency"] = stage_counts(book_dir)
 
     # 3. Additive source-grounded enrichment (optional, gated, non-destructive).
     if augmentation == BOOK_AUGMENTATION_SOURCE_ONLY:
@@ -107,12 +132,17 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     #    passes above reword each copy of any surviving seam double-render
     #    differently, hiding them from the verbatim trimmer inside the base compose;
     #    this similarity-based pass runs LAST so it sees the final wording.
-    from _translation_edition import dedupe_seam_paragraphs
+    from _translation_edition import dedupe_seam_paragraphs, record_seam_removals
 
     final_md = book_dir / "book" / "book.md"
     if final_md.exists():
-        final_md.write_text(dedupe_seam_paragraphs(final_md.read_text(encoding="utf-8")), encoding="utf-8")
+        # It deletes prose, so it reports what it deleted — see the docstring.
+        _removed: list[dict] = []
+        final_md.write_text(
+            dedupe_seam_paragraphs(final_md.read_text(encoding="utf-8"), removed=_removed), encoding="utf-8"
+        )
         book_md = final_md
+        record_seam_removals(book_dir, "final", _removed, log)
 
     # 5a-translit. Fold scholarly transliteration to the plain house form, AFTER
     #     the model passes. The base composer already does this at the end of its
@@ -169,19 +199,41 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # a spelling pass is never worth a finished book
         _record_skip(book_dir, "spelling", e, log)
 
-    # 5b. Replay durable Book Composer edits. LAST of the text-mutating steps, so
-    #     the human's chapter sits on top of everything the pipeline just
-    #     regenerated. This is what makes the Composer the SINGULAR path for
-    #     chapter modifications: without it a Composer edit survives only until the
-    #     next compose, which regenerates these layers and drops it with no report.
+    # 5b. Replay durable Book Composer edits, and stamp the per-chapter
+    #     fingerprints the Composer quotes back on its next save.
+    #
+    #     Since 2026-07-21 the stages above SKIP any chapter carrying a Composer
+    #     edit, so this is normally a confirming pass rather than a rescue: the
+    #     author's text is already in place and no model was asked to rewrite it.
+    #     The replay stays because it is what makes the guarantee unconditional —
+    #     under `--force`, and for any stage that grows a new path to book.md, the
+    #     author's chapter is restored here and the overwrite is reported.
     #     Idempotent and anchored by heading — see _book_edits.py.
     from _book_edits import apply_composer_edits
 
     try:
-        apply_composer_edits(book_dir, log=log)
+        apply_composer_edits(book_dir, log=log, force=force)
         book_md = book_dir / "book" / "book.md"
     except Exception as e:  # a bad sidecar must never destroy a good compose
         _record_skip(book_dir, "composer-edits", e, log)
+
+    # 5b-honorifics. Introduce each honorific in full, then abbreviate. Runs AFTER
+    #     the Composer replay because "first use" is a property of the whole book in
+    #     reading order, and a human's chapter is part of that book — scoping it to
+    #     the pipeline's own prose would spell the formula out in a chapter the
+    #     reader may meet second. Deterministic and idempotent; see _honorifics.py.
+    from _honorifics import expand_first_honorific_use
+
+    try:
+        _md = book_dir / "book" / "book.md"
+        if _md.exists():
+            _before = _md.read_text(encoding="utf-8")
+            _after, _n = expand_first_honorific_use(_before)
+            if _n:
+                _md.write_text(_after, encoding="utf-8")
+                log(f"    honorifics: {_n} first-use honorific(s) spelled out in full")
+    except Exception as e:  # a convention is never worth a finished book
+        _record_skip(book_dir, "honorifics", e, log)
 
     # 5c. The edition's introduction. AFTER the Composer replay, so a human who
     #     rewrote the preface keeps their words and the introduction sits above

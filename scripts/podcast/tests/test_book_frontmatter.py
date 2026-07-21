@@ -80,6 +80,33 @@ def test_injection_places_it_above_the_sources_own_opening() -> None:
     assert out.index("### The book's own opening") < out.index("We have been informed")
 
 
+def test_it_never_gets_injected_into_a_numbered_chapter() -> None:
+    """With `toc.preface.include` false, the first `## ` section IS Chapter 1.
+
+    The introduction used to be dropped into that chapter's body regardless, which
+    manufactured a "the book's own opening" subheading in the middle of Chapter 1
+    and told the reader the chapter's first page was front matter.
+    """
+    book = "# Title\n\n## 1. The Call and the Covenant\n\nThe chapter's own first sentence.\n"
+
+    out = inject_introduction(book, _GOOD)
+
+    assert out.index(INTRO_OPEN) < out.index("## 1. The Call and the Covenant")
+    assert "### The book's own opening" not in out
+    # The chapter is intact and still opens on its own words.
+    assert "## 1. The Call and the Covenant\n\nThe chapter's own first sentence." in out
+
+
+def test_injection_above_a_numbered_chapter_is_idempotent() -> None:
+    book = "# Title\n\n## 1. The Call and the Covenant\n\nThe chapter's own first sentence.\n"
+
+    once = inject_introduction(book, _GOOD)
+    twice = inject_introduction(once, _GOOD)
+
+    assert once == twice
+    assert twice.count(INTRO_OPEN) == 1
+
+
 def test_injection_is_idempotent() -> None:
     book = "# Title\n\n## How to Read This\n\nThe source's first words.\n"
 

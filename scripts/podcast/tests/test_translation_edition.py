@@ -409,6 +409,44 @@ def test_dedupe_keeps_legitimate_dialogue_and_openings() -> None:
     assert dedupe_seam_paragraphs(text) == text.strip() + "\n"
 
 
+def test_dedupe_reports_every_paragraph_it_deletes() -> None:
+    """It removes source-bearing prose, so it must say what it removed.
+
+    Until 2026-07-21 it deleted silently — no log, no count, no report — so a false
+    positive at the ratio floor (a liturgical refrain, a question restated before
+    its answer) simply left the book and nothing recorded it had been there.
+    """
+    text = (
+        "# Book\n\n"
+        "## 1. The Persian\n\n"
+        'They said, "But we have been taught that whoever stands in this position, one who '
+        "neither verifies the truth nor refutes falsehood, is ignorant in his conduct, for he "
+        'does not know the truth that he might follow it nor falsehood that he might avoid it."\n\n'
+        'They said, "But we have been taught that whoever stands in this position, one who '
+        "neither verifies the truth so as to follow it nor refutes falsehood so as to avoid it, "
+        'is ignorant in his conduct."\n'
+    )
+    removed: list[dict] = []
+
+    dedupe_seam_paragraphs(text, removed=removed)
+
+    assert len(removed) == 1
+    record = removed[0]
+    assert record["rule"] == "adjacent-echo"
+    assert record["chapter"] == "1. The Persian"
+    # The full text is kept, which is what makes an accidental deletion
+    # recoverable without a git archaeology session.
+    assert "is ignorant in his conduct." in record["removed_text"]
+    assert record["words"] > 20
+
+
+def test_dedupe_reports_nothing_when_it_deletes_nothing() -> None:
+    text = "# Book\n\n## 1. The Persian\n\nA first paragraph.\n\nA wholly different second one here.\n"
+    removed: list[dict] = []
+    dedupe_seam_paragraphs(text, removed=removed)
+    assert removed == []
+
+
 def test_duplicate_passage_findings_reports_a_re_narrated_block() -> None:
     # A window that ran past its own passage: the farewell, the journey, and the
     # counsel are narrated once, then narrated again in different words three
@@ -536,6 +574,51 @@ def test_preface_skipped_when_not_included(tmp_path: Path, monkeypatch: pytest.M
     )
 
     assert "Skip Me" not in text
+
+
+def test_a_composer_authored_chapter_is_never_re_translated(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """No model call, and the author's words reach book.md unaltered.
+
+    This is where the money was going: on 2026-07-21 a rebuild re-translated all
+    nine chapters of the-master-and-the-disciple and the replay then restored eight
+    of them, so the fresh prose was paid for and discarded. The Composer is the
+    singular path for PDF-bound chapter changes; composing over it bought nothing.
+    """
+    import _translation_edition as te
+    from _book_edits import record_edit
+
+    composed: list[str] = []
+
+    def spy(title, body, previous_tail, book_dir, label, log, **kw):
+        composed.append(title)
+        return body.strip()
+
+    monkeypatch.setattr(te, "_compose_one", spy)
+
+    bd = tmp_path / "the-book"
+    (bd / "book").mkdir(parents=True)
+    (bd / "_system" / "source" / "text").mkdir(parents=True)
+    (bd / "_system" / "source" / "text" / "refined-english.md").write_text(
+        "The traveller who was lost and then guided came to the city.\nHe learned and returned.",
+        encoding="utf-8",
+    )
+    toc = {
+        "book_title": "The Book",
+        "chapters": [
+            {"bk_index": 1, "title": "The Traveller Guided", "source_line_ranges": [[1, 1]]},
+            {"bk_index": 2, "title": "The Return", "source_line_ranges": [[2, 2]]},
+        ],
+    }
+    (bd / "book" / "book-toc.json").write_text(json.dumps(toc), encoding="utf-8")
+    record_edit(bd, chapter_key="the traveller guided", body_md="The author's own rendering of this chapter.")
+
+    text = te.author_translation_edition_compose(bd, log=lambda *a, **k: None, enforce_contract=False).read_text(
+        encoding="utf-8"
+    )
+
+    assert composed == ["The Return"]  # the authored chapter never reached a model
+    assert "The author's own rendering of this chapter." in text
+    assert "He learned and returned." in text  # the other chapter still composed
 
 
 # ─── Arabic-coverage gate (deterministic script-preservation net) ──────────────

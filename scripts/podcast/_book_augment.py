@@ -29,6 +29,7 @@ from typing import Any, Callable
 
 from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
+from _book_edits import anchor_key, edited_chapter_keys
 from _corpus_retrieval import RetrievalIndex, UsedLedger, attribute_used
 from _doctrinal import run_doctrinal_checks
 from _narrator_policy import atom_narrator, disallowed_narrator
@@ -288,10 +289,15 @@ def _generate_enrichment(
 _CHAPTER_HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 
 
-def insert_blocks(book_md: str, blocks_by_heading: dict[str, str]) -> str:
+def insert_blocks(book_md: str, blocks_by_position: dict[int, str]) -> str:
     """Append each chapter's editorial block immediately after that chapter's body.
 
-    Idempotent: an existing editorial block for a heading is replaced, never
+    Keyed by 1-based section POSITION, not by heading text. Heading text is not
+    unique — two chapters may legitimately carry the same title — and keying by it
+    gave both of them whichever block was generated last while the other silently
+    got none.
+
+    Idempotent: an existing editorial block for a section is replaced, never
     duplicated (fences make prior blocks findable).
     """
     text = _strip_existing_blocks(book_md)
@@ -305,7 +311,7 @@ def insert_blocks(book_md: str, blocks_by_heading: dict[str, str]) -> str:
     for i in range(1, len(sections), 2):
         head = sections[i].strip()
         body = (sections[i + 1] if i + 1 < len(sections) else "").strip()
-        block = blocks_by_heading.get(sections[i].strip())
+        block = blocks_by_position.get(i // 2 + 1)
         chunk = f"{head}\n\n{body}" if body else head
         if block:
             chunk = f"{chunk}\n\n{block.strip()}"
@@ -345,6 +351,10 @@ def author_phase_book_augment(
     gen = generator or _generate_enrichment
     text = book_md.read_text(encoding="utf-8")
     headings = _CHAPTER_HEADING_RE.findall(text)
+    # A chapter the human authored in the Book Composer gets no editorial block:
+    # an aside is an addition to the pipeline's own prose, and adding one to
+    # someone else's page — every run, unasked — is not enrichment.
+    authored = set() if force else edited_chapter_keys(book_dir)
 
     # One retrieval index over the WHOLE corpus, queried per chapter; a per-book
     # ledger so no atom is injected into more than one chapter of THIS book (a
@@ -352,12 +362,17 @@ def author_phase_book_augment(
     index = RetrievalIndex(_load_all_kb_atoms())
     ledger = UsedLedger(book_dir).reset()
 
-    blocks: dict[str, str] = {}
+    blocks: dict[int, str] = {}
     per_chapter: list[dict[str, Any]] = []
     accepted = dropped = no_relevant = 0
-    for head in headings:
+    authored_skipped = 0
+    for position, head in enumerate(headings, start=1):
         title = re.sub(r"^##\s+\d*\.?\s*", "", head).strip()
-        chapter_text = _chapter_body(text, head)
+        if anchor_key(head) in authored:
+            authored_skipped += 1
+            per_chapter.append({"chapter": title, "selected": [], "note": "Composer edit — not augmented"})
+            continue
+        chapter_text = _chapter_body(text, position)
         selected = index.select(
             chapter_text,
             k=_ATOMS_PER_CHAPTER,
@@ -387,7 +402,7 @@ def author_phase_book_augment(
         # are not starved of good atoms that were merely shown but never woven in.
         used_ids = attribute_used(note, atoms)
         ledger.record(used_ids)
-        blocks[head.strip()] = format_editorial_block(note)
+        blocks[position] = format_editorial_block(note)
         accepted += 1
         per_chapter.append(
             {
@@ -407,6 +422,7 @@ def author_phase_book_augment(
                 "dropped": dropped,
                 "chapters_seen": len(headings),
                 "chapters_no_relevant_atom": no_relevant,
+                "chapters_composer_authored": authored_skipped,
                 "atoms_per_chapter": _ATOMS_PER_CHAPTER,
                 "relevance_threshold": _RELEVANCE_THRESHOLD,
                 "per_chapter": per_chapter,
@@ -420,15 +436,23 @@ def author_phase_book_augment(
     log(
         f"    0book-augment: {accepted} editorial blocks added, {dropped} dropped, "
         f"{no_relevant} chapters had no relevant atom (across {len(headings)} chapters)"
+        + (f", {authored_skipped} Composer-authored and left alone" if authored_skipped else "")
     )
     return book_md
 
 
-def _chapter_body(text: str, head: str) -> str:
+def _chapter_body(text: str, position: int) -> str:
+    """The body of the 1-based ``position``-th ``##`` section.
+
+    By position rather than by heading text, for the same reason ``insert_blocks``
+    is: two chapters may share a title, and matching on the text handed both of
+    them the FIRST one's body — so the second was enriched against a page it does
+    not contain.
+    """
     parts = _CHAPTER_HEADING_RE.split(text)
-    for i in range(1, len(parts), 2):
-        if parts[i].strip() == head.strip():
-            return (parts[i + 1] if i + 1 < len(parts) else "").strip()
+    i = position * 2 - 1
+    if 1 <= i < len(parts):
+        return (parts[i + 1] if i + 1 < len(parts) else "").strip()
     return ""
 
 

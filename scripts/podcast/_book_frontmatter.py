@@ -168,12 +168,29 @@ def format_introduction(text: str, *, source_opening_heading: str = "The book's 
     return f"{INTRO_OPEN}\n{body}\n\n### {source_opening_heading}\n{INTRO_CLOSE}"
 
 
+# A section the introduction may sit inside: the source's own front matter, whose
+# heading the design step writes unnumbered. A NUMBERED heading is a chapter of the
+# book, and the introduction has no business inside one.
+_NUMBERED_HEADING_RE = re.compile(r"^##\s+[0-9٠-٩۰-۹]+\.\s")
+
+
 def inject_introduction(book_md: str, text: str) -> str:
-    """Place the introduction at the top of the first ``##`` section's body.
+    """Place the introduction above the book's body, never inside a chapter.
+
+    It goes at the top of the first ``##`` section when that section is the
+    source's own front matter, because the whole point of the split is that the
+    orientation sits in front of the source's opening and the opening keeps its
+    place beneath it, under a subheading.
+
+    When the first section is a NUMBERED chapter — which is what `toc.preface`
+    being excluded leaves behind — the introduction becomes its own section above
+    it instead. It used to be injected into that chapter's body regardless, which
+    manufactured a "the book's own opening" subheading in the middle of Chapter 1
+    and told the reader the chapter's first page was front matter.
 
     Idempotent: strips its own previous output first, so a convergence loop that
     re-enters compose many times never stacks introductions. Returns the markdown
-    unchanged when there is no section to place it in.
+    unchanged when there is no section to place it against.
     """
     stripped = strip_introduction(book_md)
     ok, _ = gate_introduction(text)
@@ -182,6 +199,14 @@ def inject_introduction(book_md: str, text: str) -> str:
     match = _HEADING_RE.search(stripped)
     if not match:
         return stripped
+    if _NUMBERED_HEADING_RE.match(match.group(1).strip()):
+        head, tail = stripped[: match.start()].rstrip(), stripped[match.start() :]
+        # The heading lives INSIDE the fenced span, so `strip_introduction` takes
+        # the whole section away. Left outside, a stripped book would keep a bare
+        # `## Introduction` — which the next injection reads as the source's own
+        # front matter and fills back in, so the pass would not be idempotent.
+        block = f"{INTRO_OPEN}\n## Introduction\n\n{text.strip()}\n{INTRO_CLOSE}"
+        return (head + "\n\n" if head else "") + block + "\n\n" + tail
     cut = stripped.find("\n", match.end())
     if cut == -1:
         return stripped

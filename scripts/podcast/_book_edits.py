@@ -37,6 +37,23 @@ from typing import Any
 
 SIDECAR_NAME = "composer-edits.json"
 SCHEMA = "podcast.composer-edits/v1"
+
+# The pipeline's own record of what it composed, per chapter, for the run that
+# produced the book.md a human is currently looking at. The Composer reads a
+# chapter's value out of this file and stores it as the edit's `base_fingerprint`;
+# the next replay compares against the same file. Both sides therefore quote ONE
+# number produced by ONE computation.
+#
+# They did not, until 2026-07-21. The Composer hashed the body it read out of the
+# LIVE book.md — which by then carried the edition introduction and the
+# comprehension bridges — while replay hashed the composed body three steps BEFORE
+# the introduction is injected and five before bridges run. For any chapter
+# carrying either, the two hashes could not match, so CONFLICT fired permanently
+# and every one of the eight reported that day was noise. A conflict warning that
+# is always on is worse than none: it teaches the reader to ignore it.
+BASE_STAMP_NAME = "composer-base.json"
+BASE_STAMP_SCHEMA = "podcast.composer-base/v1"
+
 _HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 
 # Characters trimmed from both ends of a heading, spelled out because Python's
@@ -82,12 +99,15 @@ def anchor_key(heading: str) -> str:
 def fingerprint(text: str) -> str:
     """Stable hash of a chapter body, whitespace-normalized.
 
-    Mirror of `fingerprintBody` in `plan-dashboard/src/lib/reader/composer-edits.ts`.
-    The BOM is stripped first because the two languages disagree about it — it
-    counts as whitespace to JavaScript's `\\s` and not to Python's `str.split()` —
-    and text pasted into the Composer is exactly where a BOM arrives. Without
-    this, one side hashed it away and the other did not, so a pasted chapter
-    reported a conflict against the very base it had been edited from.
+    NO LONGER A MIRROR PAIR, deliberately. `composer-edits.ts` used to carry a
+    `fingerprintBody` twin, and keeping two hash implementations agreeing across
+    two languages was a standing hazard — the BOM alone counts as whitespace to
+    JavaScript's `\\s` and not to Python's `str.split()`, and pasted text is exactly
+    where a BOM arrives. The TS side now quotes the stamp this function writes
+    (`_system/composer-base.json`) instead of computing its own number, so there is
+    one implementation and nothing to keep in sync.
+
+    The BOM strip stays because this side still meets pasted text on replay.
     """
     cleaned = (text or "").replace("﻿", "")
     return hashlib.sha256(" ".join(cleaned.split()).encode("utf-8")).hexdigest()[:16]
@@ -97,17 +117,44 @@ def sidecar_path(book_dir: Path) -> Path:
     return Path(book_dir) / "_system" / SIDECAR_NAME
 
 
-def load_edits(book_dir: Path) -> dict[str, Any]:
+class SidecarUnreadable(RuntimeError):
+    """The sidecar exists but could not be parsed.
+
+    Raised only on the WRITE path. A reader may fall back to "no edits" and lose
+    nothing; a writer that does the same overwrites the file with its own single
+    entry and destroys every edit the author ever made.
+    """
+
+
+def load_edits(book_dir: Path, *, strict: bool = False) -> dict[str, Any]:
+    """Read the sidecar. ``strict`` refuses to interpret a broken file as empty."""
     path = sidecar_path(book_dir)
     if not path.exists():
         return {"schema": SCHEMA, "edits": []}
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except Exception as e:
+        if strict:
+            raise SidecarUnreadable(f"{path} is not readable JSON: {e}") from e
         return {"schema": SCHEMA, "edits": []}
     if not isinstance(data, dict) or not isinstance(data.get("edits"), list):
+        if strict:
+            raise SidecarUnreadable(f"{path} does not hold a v1 edits list")
         return {"schema": SCHEMA, "edits": []}
     return data
+
+
+def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
+    """Write via temp file + rename, so a crash cannot leave a half-written file.
+
+    This matters more here than anywhere else in the pipeline: a truncated sidecar
+    is exactly the input that used to make the next save discard every prior edit,
+    and a non-atomic write is what manufactures one.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    tmp.replace(path)
 
 
 def record_edit(
@@ -118,9 +165,13 @@ def record_edit(
     base_fingerprint: str = "",
     saved_at: str = "",
 ) -> Path:
-    """Persist one Composer chapter edit. Last write per chapter wins."""
+    """Persist one Composer chapter edit. Last write per chapter wins.
+
+    Raises ``SidecarUnreadable`` rather than starting a fresh file when the
+    existing sidecar cannot be parsed — see that exception's docstring.
+    """
     book_dir = Path(book_dir)
-    data = load_edits(book_dir)
+    data = load_edits(book_dir, strict=True)
     edits = [e for e in data["edits"] if e.get("chapter_key") != chapter_key]
     edits.append(
         {
@@ -133,9 +184,55 @@ def record_edit(
     data["schema"] = SCHEMA
     data["edits"] = edits
     path = sidecar_path(book_dir)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    _write_json_atomic(path, data)
     return path
+
+
+def edited_chapter_keys(book_dir: Path) -> set[str]:
+    """Anchor keys of every chapter the human has authored through the Composer.
+
+    The Composer is the singular path for PDF-bound chapter changes, so a chapter
+    in this set is the AUTHOR'S chapter and the pipeline has no business
+    regenerating it. Callers use this to skip the model entirely — see
+    ``compose_book_v2``.
+    """
+    return {str(e.get("chapter_key")) for e in load_edits(book_dir)["edits"] if e.get("chapter_key")}
+
+
+def edited_body(book_dir: Path, chapter_key: str) -> str | None:
+    """The human's saved body for one chapter, or None. Empty bodies are None.
+
+    An empty body is treated as absent for the same reason replay refuses to apply
+    one: it would wipe the chapter, and the ship gate counts headings rather than
+    prose, so nothing downstream would notice.
+    """
+    for e in load_edits(book_dir)["edits"]:
+        if e.get("chapter_key") == chapter_key:
+            body = str(e.get("body_md") or "").strip()
+            return body or None
+    return None
+
+
+def base_stamp_path(book_dir: Path) -> Path:
+    return Path(book_dir) / "_system" / BASE_STAMP_NAME
+
+
+def load_base_stamp(book_dir: Path) -> dict[str, str]:
+    """Per-chapter composed fingerprints from the last compose. Never raises."""
+    path = base_stamp_path(book_dir)
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        chapters = data.get("chapters")
+        return {str(k): str(v) for k, v in chapters.items()} if isinstance(chapters, dict) else {}
+    except Exception:
+        return {}
+
+
+def base_fingerprint_for(book_dir: Path, chapter_key: str) -> str:
+    """What the Composer records as an edit's ``base_fingerprint``."""
+    return load_base_stamp(book_dir).get(chapter_key, "")
 
 
 def _normalize_replayed_body(body: str) -> str:
@@ -160,11 +257,23 @@ def _normalize_replayed_body(body: str) -> str:
     return body
 
 
-def apply_composer_edits(book_dir: Path, *, log=print) -> dict[str, Any]:
+def apply_composer_edits(book_dir: Path, *, log=print, force: bool = False) -> dict[str, Any]:
     """Replay every saved Composer edit into book/book.md. Returns a report.
 
-    Runs as the LAST compose step so the human's text sits on top of whatever the
-    pipeline just regenerated. Chapters with no saved edit are untouched.
+    Runs as the LAST of the text-mutating compose steps so the human's text sits on
+    top of whatever the pipeline just regenerated. Chapters with no saved edit are
+    untouched.
+
+    Also stamps ``_system/composer-base.json`` — the per-chapter fingerprints the
+    Composer will quote back as ``base_fingerprint`` on its next save. That happens
+    on EVERY run, edits or not, because a chapter with no edit today is exactly the
+    one a human may edit tomorrow.
+
+    ``force`` mirrors the compose flag: without it an edited chapter was never
+    regenerated, so its stamp is carried forward unchanged and a conflict is
+    impossible by construction. With it the pipeline really did re-compose over the
+    author's chapter, and the freshly composed fingerprint is stamped — which is
+    what makes the resulting conflict a true statement.
     """
     book_dir = Path(book_dir).resolve()
     book_md = book_dir / "book" / "book.md"
@@ -177,10 +286,12 @@ def apply_composer_edits(book_dir: Path, *, log=print) -> dict[str, Any]:
         "orphaned": 0,
         "chapters": [],
     }
-    if not edits or not book_md.exists():
+    if not book_md.exists():
         return report
 
     text = book_md.read_text(encoding="utf-8")
+    prev_stamp = load_base_stamp(book_dir)
+    stamp: dict[str, str] = {}
     parts = _HEADING_RE.split(text)
     out = [parts[0]]
     seen: set[str] = set()
@@ -189,20 +300,33 @@ def apply_composer_edits(book_dir: Path, *, log=print) -> dict[str, Any]:
         body = parts[i + 1] if i + 1 < len(parts) else ""
         key = anchor_key(head)
         edit = edits.get(key)
+        composed_fp = fingerprint(body)
         if not edit:
+            stamp[key] = composed_fp
             out.append(head + "\n\n" + body.strip() + "\n")
             continue
         seen.add(key)
-        composed_fp = fingerprint(body)
-        expected = edit.get("base_fingerprint") or ""
+        expected = str(edit.get("base_fingerprint") or "")
+        if force:
+            # The pipeline was told to re-compose over the author. `body` here is
+            # genuinely fresh prose, so its fingerprint is the honest new base.
+            current = composed_fp
+        else:
+            # The chapter was NOT regenerated: `body` is the author's own text,
+            # already substituted upstream, so fingerprinting it would compare the
+            # edit against itself-plus-noise. Carry the last real composed value.
+            # A missing entry means this book has not composed since the stamp
+            # existed — unknown, and an unknown must not be reported as a conflict.
+            current = prev_stamp.get(key) or expected or composed_fp
+        stamp[key] = current
         # A conflict means the pipeline regenerated this chapter since the human
         # edited it. The edit still wins — it is their chapter — but they are told,
         # because the improvement they are now overwriting may be one they want.
-        conflict = bool(expected) and expected != composed_fp
+        conflict = bool(expected) and expected != current
         record = {"chapter_key": key, "title": head.strip(), "conflict": conflict}
         if conflict:
             report["conflicts"] += 1
-            record["composed_fingerprint"] = composed_fp
+            record["composed_fingerprint"] = current
             record["edited_from_fingerprint"] = expected
             log(f"      composer-edits: {key!r} CONFLICT — pipeline regenerated this chapter since the edit")
         edited = str(edit.get("body_md", "")).strip()
@@ -243,9 +367,14 @@ def apply_composer_edits(book_dir: Path, *, log=print) -> dict[str, Any]:
     if report["applied"]:
         new_text = (out[0].rstrip() + "\n\n" + "\n".join(out[1:])).strip() + "\n"
         book_md.write_text(new_text, encoding="utf-8")
-    (book_dir / "_system" / "composer-edits-replay.json").write_text(
-        json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-    )
+
+    # Stamped unconditionally: a chapter nobody has edited is precisely the one
+    # somebody may edit next, and the Composer needs a number to quote for it.
+    _write_json_atomic(base_stamp_path(book_dir), {"schema": BASE_STAMP_SCHEMA, "chapters": stamp})
+    if not edits:
+        return report
+
+    _write_json_atomic(book_dir / "_system" / "composer-edits-replay.json", report)
     log(
         f"    composer-edits: {report['applied']} chapter(s) replayed"
         + (f", {report['conflicts']} conflict(s)" if report["conflicts"] else "")

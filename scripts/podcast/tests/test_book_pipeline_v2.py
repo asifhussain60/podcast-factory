@@ -18,6 +18,7 @@ from _book_augment import (
     gate_editorial_block,
     insert_blocks,
 )
+from _book_edits import record_edit
 from _book_voice import apply_author_companion_voice, revoice_gates
 
 
@@ -69,7 +70,7 @@ def test_format_block_is_labeled_and_fenced() -> None:
 
 # ─── Insertion is idempotent + non-destructive ──────────────────────────────
 def test_insert_blocks_appends_after_chapter() -> None:
-    blocks = {"## 1. On Knowledge": format_editorial_block("A grounded note for chapter one here now.")}
+    blocks = {1: format_editorial_block("A grounded note for chapter one here now.")}
     out = insert_blocks(_BASE, blocks)
     assert "Seek knowledge from cradle to grave." in out  # base preserved
     assert EDITORIAL_LABEL in out
@@ -78,7 +79,7 @@ def test_insert_blocks_appends_after_chapter() -> None:
 
 
 def test_insert_blocks_is_idempotent() -> None:
-    blocks = {"## 1. On Knowledge": format_editorial_block("A grounded note for chapter one here now.")}
+    blocks = {1: format_editorial_block("A grounded note for chapter one here now.")}
     once = insert_blocks(_BASE, blocks)
     twice = insert_blocks(once, blocks)
     assert once == twice
@@ -207,6 +208,70 @@ def test_voice_reverts_bad_chapter_keeps_good(tmp_path: Path) -> None:
     assert statuses["On Knowledge"] == "adapted" and statuses["On Patience"] == "reverted"
     patience = next(c for c in report["chapters"] if c["title"] == "On Patience")
     assert any("teaching" in g or "abridged" in g for g in patience["gates"])
+
+
+# ─── Composer authority: an authored chapter is never regenerated ────────────
+def test_voice_leaves_a_composer_authored_chapter_alone(tmp_path: Path) -> None:
+    """The chapter is the author's, so no model is asked to rewrite it.
+
+    Before 2026-07-21 every stage re-composed every chapter and the replay then
+    restored the human's text on top — so the fresh prose was paid for and thrown
+    away. One rebuild regenerated all nine chapters to keep one.
+    """
+    bd = _book(tmp_path, _BASE)
+    record_edit(bd, chapter_key="on knowledge", body_md="The author's own paragraph, kept verbatim.")
+    seen: list[str] = []
+
+    def fake_revoicer(title, base_text, book_dir, label, log, **kw):
+        seen.append(title)
+        return base_text + " I say this to you plainly."
+
+    apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer)
+    assert seen == ["On Patience"]  # the model never saw the authored chapter
+    report = json.loads((bd / "_system" / "book-voice-report.json").read_text())
+    assert {c["title"]: c["status"] for c in report["chapters"]}["On Knowledge"] == "composer-edit"
+
+
+def test_force_really_does_re_voice_a_composer_authored_chapter(tmp_path: Path) -> None:
+    bd = _book(tmp_path, _BASE)
+    record_edit(bd, chapter_key="on knowledge", body_md="The author's own paragraph.")
+    seen: list[str] = []
+
+    def fake_revoicer(title, base_text, book_dir, label, log, **kw):
+        seen.append(title)
+        return base_text + " I say this to you plainly."
+
+    apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer, force=True)
+    assert seen == ["On Knowledge", "On Patience"]
+
+
+def test_augment_adds_no_aside_to_a_composer_authored_chapter(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    bd = _book(tmp_path, _BASE, toc={"chapters": []})
+    record_edit(bd, chapter_key="on knowledge", body_md="The author's own paragraph.")
+    monkeypatch.setattr(
+        _book_augment,
+        "_load_all_kb_atoms",
+        lambda: [{"id": "d:1", "type": "doctrine", "body": {"text_en": "seeking knowledge is a lifelong obligation"}}],
+    )
+
+    def fake_gen(title, chapter_text, atoms, book_dir, label, log):
+        raise AssertionError(f"the generator must not be called for {title!r}")
+
+    author_phase_book_augment(bd, log=lambda *a: None, generator=fake_gen)
+    report = json.loads((bd / "_system" / "book-augment-report.json").read_text())
+    assert report["chapters_composer_authored"] == 1
+
+
+def test_two_chapters_sharing_a_title_get_their_own_bodies() -> None:
+    """Keying by heading text gave both the last block and the first one's body."""
+    from _book_augment import _chapter_body
+
+    same = "# B\n\n## 1. On Patience\n\nFirst body here.\n\n## 2. On Patience\n\nSecond body here.\n"
+    assert _chapter_body(same, 1) == "First body here."
+    assert _chapter_body(same, 2) == "Second body here."
+    out = insert_blocks(same, {2: format_editorial_block("A grounded note for the second chapter here now.")})
+    assert out.count("<!-- editorial:begin -->") == 1
+    assert out.index(EDITORIAL_LABEL) > out.index("Second body here.")
 
 
 def test_voice_preserves_editorial_asides(tmp_path: Path) -> None:

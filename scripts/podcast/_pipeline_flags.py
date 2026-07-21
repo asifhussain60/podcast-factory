@@ -78,12 +78,30 @@ def _default_knobs(cfg: dict[str, Any]) -> tuple[str, str]:
     return BOOK_AUGMENTATION_SOURCE_ONLY, BOOK_VOICE_AUTHOR_COMPANION
 
 
+def _reject_unknown(key: str, value: str, valid: frozenset[str]) -> None:
+    """A knob value nobody recognises is a typo, and typos here change the product.
+
+    ``book_voice: fathful`` used to fall through to the default map, so a
+    translation edition quietly received a full author re-voice — hours of model
+    time, a different book at the end of it, and nothing anywhere saying why. The
+    knob is four values wide; if a value is not one of them the config is wrong and
+    the run should stop rather than guess which book was intended.
+    """
+    raise ValueError(
+        f"_system/series-config.yaml: {key}: {value!r} is not a recognised value "
+        f"({', '.join(sorted(valid))}). Fix the config — a knob typo silently "
+        "changes which book the pipeline produces."
+    )
+
+
 def book_augmentation(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     """``none`` | ``source_only`` — the augmentation knob (see module docstring)."""
     if cfg is None:
         cfg = _read_series_config(book_dir)
     explicit = str(cfg.get(AUGMENTATION_KEY) or "").strip().lower()
-    if explicit in _VALID_AUGMENTATION:
+    if explicit and explicit not in _VALID_AUGMENTATION:
+        _reject_unknown(AUGMENTATION_KEY, explicit, _VALID_AUGMENTATION)
+    if explicit:
         return explicit
     return _default_knobs(cfg)[0]
 
@@ -93,7 +111,9 @@ def book_voice(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     if cfg is None:
         cfg = _read_series_config(book_dir)
     explicit = str(cfg.get(VOICE_KEY) or "").strip().lower()
-    if explicit in _VALID_VOICE:
+    if explicit and explicit not in _VALID_VOICE:
+        _reject_unknown(VOICE_KEY, explicit, _VALID_VOICE)
+    if explicit:
         return explicit
     return _default_knobs(cfg)[1]
 

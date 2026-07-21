@@ -306,8 +306,25 @@ def _drive_book_branch_body(book_dir: Path) -> int:
             __import__("json").dumps(_bv, indent=2), encoding="utf-8"
         )
     except Exception as e:
-        _err(f"0book-render: book-validation gate skipped (non-fatal): {e}")
-        _bv = {"verdict": "UNKNOWN", "gates": []}
+        # A crash in the gate is NOT a pass. It used to fall through to
+        # `status="completed"` alongside a genuinely validated book, so the one
+        # state field anybody reads could not tell "the deliverable is sound" from
+        # "the check that would have told us blew up". Recorded as its own verdict,
+        # which is neither.
+        _err(f"0book-render: book-validation gate CRASHED — the deliverable is unverified: {e}")
+        _bv = {"verdict": "UNKNOWN", "gates": [], "error": f"{type(e).__name__}: {e}"}
+
+    if _bv.get("verdict") == "UNKNOWN":
+        update_phase(
+            book_dir,
+            phase="0book-render",
+            status="failed",
+            error=f"deliverable unverified — validation gate crashed: {_bv.get('error')}",
+            extras={"book_validation": _bv},
+        )
+        _err("0book-render: reading edition UNVERIFIED (non-blocking for podcast) — validation gate crashed")
+        phase_git_commit(book_dir, f"book({slug}): 0book-render — book.pdf (validation crashed)")
+        return 0
 
     if _bv.get("verdict") == "BOOK-BROKEN":
         update_phase(

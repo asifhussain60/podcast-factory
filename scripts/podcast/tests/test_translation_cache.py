@@ -40,7 +40,11 @@ def _book(tmp_path: Path, *, config_at: float = OLD) -> tuple[Path, Path]:
 
 def test_a_chunk_newer_than_every_input_is_reusable(tmp_path: Path) -> None:
     bd, refined = _book(tmp_path)
-    chunk = _touch(bd / "book" / "_chunks" / "translation" / "bk-01.md", NEW)
+    # Newer than the floor, computed rather than assumed: the governing inputs
+    # include this repo's OWN modules, so a wall-clock constant made the test fail
+    # for anyone who had just edited `_translation_text.py` — which is the moment
+    # you are most likely to be running it.
+    chunk = _touch(bd / "book" / "_chunks" / "translation" / "bk-01.md", cache_floor(bd, refined) + 1)
     assert make_is_fresh(bd, refined)(chunk) is True
 
 

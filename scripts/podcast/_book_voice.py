@@ -42,6 +42,7 @@ from typing import Callable, Sequence
 
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _book_compose import _arabic_run_count
+from _book_edits import anchor_key, edited_chapter_keys
 from _book_voice_prompts import _fluency_prompt, _voice_prompt
 from _doctrinal import run_doctrinal_checks
 from _literary import teaching_loss_findings
@@ -360,6 +361,7 @@ def _run_pass(
     only: Sequence[int] | None = None,
     frame: str | None = None,
     narrator_subject: str = "",
+    force: bool = False,
 ) -> tuple[str, list[dict]]:
     """Walk book.md's ``##`` sections, adapting each selected one.
 
@@ -367,9 +369,16 @@ def _run_pass(
     step labels in the cost ledger). Sections outside it are passed through
     byte-identical — re-adapting already-adapted prose compounds, so a targeted
     re-run must be structurally unable to touch the chapters it is not fixing.
+
+    A chapter the human has authored in the Book Composer is passed through the
+    same way, for a stronger reason: the Composer is the singular path for
+    PDF-bound chapter changes, so that prose is the author's, and re-voicing it
+    would be paying a model to produce text the replay then discards. ``force``
+    is the deliberate override — and it really does overwrite human chapters.
     """
     book_dir = book_md.parent.parent
     selected = set(only) if only else None
+    authored = set() if force else edited_chapter_keys(book_dir)
     text = book_md.read_text(encoding="utf-8")
     parts = _CHAPTER_HEADING_RE.split(text)  # [pre, head1, body1, head2, body2, ...]
     out = [parts[0]]
@@ -379,6 +388,11 @@ def _run_pass(
         body = parts[i + 1] if i + 1 < len(parts) else ""
         number = i // 2 + 1
         title = re.sub(r"^##\s+\d*\.?\s*", "", head).strip()
+        if anchor_key(head) in authored:
+            log(f"      {label_prefix}-{number:02d}: {title} — Composer edit, not regenerated")
+            records.append({"title": title, "status": "composer-edit", "windows": 0, "windows_kept": 0})
+            out.append(head + "\n\n" + body.strip() + "\n")
+            continue
         if selected is not None and number not in selected:
             records.append({"title": title, "status": "skipped", "windows": 0, "windows_kept": 0})
             out.append(head + "\n\n" + body.strip() + "\n")  # same shape as an adapted section
@@ -419,7 +433,10 @@ def apply_fluency_adapt(
     gates as the re-voice pass: a chapter that drops a teaching, loses Arabic, gains
     a doctrinal P0, or abridges is REVERTED to its base text — per window, so a long
     chapter is not all-or-nothing. Editorial asides are left untouched. ``only``
-    restricts the pass to the given 1-based section numbers. Returns the book.md path.
+    restricts the pass to the given 1-based section numbers. Chapters authored in
+    the Book Composer are passed through untouched unless ``force`` — which had been
+    an accepted-and-ignored parameter until this became its meaning. Returns the
+    book.md path.
     """
     book_dir = Path(book_dir).resolve()
     book_md = book_dir / "book" / "book.md"
@@ -441,6 +458,7 @@ def apply_fluency_adapt(
         only=only,
         frame=frame,
         narrator_subject=subject,
+        force=force,
     )
     book_md.write_text(new_text, encoding="utf-8")
     report_path = book_dir / "_system" / "book-fluency-report.json"
@@ -480,8 +498,9 @@ def apply_author_companion_voice(
     ``_LONG_CHAPTER_WORDS`` are split into windows first, so one bad passage no
     longer reverts a whole chapter. ``only`` restricts the pass to the given 1-based
     section numbers — use it to re-run a chapter without re-voicing (and thereby
-    degrading) the ones already done. Editorial asides are preserved untouched.
-    Returns the book.md path.
+    degrading) the ones already done. Editorial asides are preserved untouched, as
+    are chapters authored in the Book Composer unless ``force``. Returns the
+    book.md path.
     """
     book_dir = Path(book_dir).resolve()
     book_md = book_dir / "book" / "book.md"
@@ -503,6 +522,7 @@ def apply_author_companion_voice(
         only=only,
         frame=frame,
         narrator_subject=subject,
+        force=force,
     )
     book_md.write_text(new_text, encoding="utf-8")
     report_path = book_dir / "_system" / "book-voice-report.json"

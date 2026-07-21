@@ -34,98 +34,44 @@ from _book_compose import (
     _quran_anchor_block,
     _slice_source,
 )
+from _book_edits import anchor_key, edited_body, edited_chapter_keys
 from _pipeline_flags import narrative_frame, narrator_subject
 from _translation_cache import make_is_fresh
 
-# R3 DR-005 re-exports — moved names, kept importable from this module.
-from _translation_contract import (
-    DEFAULT_VISUAL_STYLE as DEFAULT_VISUAL_STYLE,
-)
-from _translation_contract import (
-    TRANSLATION_EDITION_MODE as TRANSLATION_EDITION_MODE,
-)
-from _translation_contract import (
-    assert_translation_contract as assert_translation_contract,
-)
-from _translation_contract import (
-    contract_findings as contract_findings,
-)
-from _translation_contract import (
-    deliverable_mode as deliverable_mode,
-)
-from _translation_contract import (
-    is_faithful_translation_deliverable as is_faithful_translation_deliverable,
-)
-from _translation_contract import (
-    is_translation_edition as is_translation_edition,
-)
-from _translation_contract import (
-    read_series_config as read_series_config,
-)
-from _translation_contract import (
-    requires_monochrome_visuals as requires_monochrome_visuals,
-)
-from _translation_contract import (
-    translation_policy as translation_policy,
-)
+# R3 DR-005 re-exports — moved names, kept importable from this module. One line
+# each: the parenthesised three-line form cost 60 lines of the module's 600-line
+# budget and said nothing the single line does not.
+from _translation_contract import DEFAULT_VISUAL_STYLE as DEFAULT_VISUAL_STYLE
+from _translation_contract import TRANSLATION_EDITION_MODE as TRANSLATION_EDITION_MODE
+from _translation_contract import assert_translation_contract as assert_translation_contract
+from _translation_contract import contract_findings as contract_findings
+from _translation_contract import deliverable_mode as deliverable_mode
+from _translation_contract import is_faithful_translation_deliverable as is_faithful_translation_deliverable
+from _translation_contract import is_translation_edition as is_translation_edition
+from _translation_contract import read_series_config as read_series_config
+from _translation_contract import requires_monochrome_visuals as requires_monochrome_visuals
+from _translation_contract import translation_policy as translation_policy
 from _translation_prompts import _compose_prompt as _compose_prompt
-from _translation_text import (
-    _adjacent_echo as _adjacent_echo,
-)
-from _translation_text import (
-    _boundary_echo as _boundary_echo,
-)
-from _translation_text import (
-    _compress_line_ranges as _compress_line_ranges,
-)
-from _translation_text import (
-    _iter_source_windows as _iter_source_windows,
-)
-from _translation_text import (
-    _overlap_tokens as _overlap_tokens,
-)
-from _translation_text import (
-    _para_is_echo as _para_is_echo,
-)
-from _translation_text import (
-    _slugify as _slugify,
-)
-from _translation_text import (
-    _source_headings as _source_headings,
-)
-from _translation_text import (
-    _split_paragraphs as _split_paragraphs,
-)
-from _translation_text import (
-    _topic_hits as _topic_hits,
-)
-from _translation_text import (
-    _translation_long_enough as _translation_long_enough,
-)
-from _translation_text import (
-    _trim_seam_overlap as _trim_seam_overlap,
-)
-from _translation_text import (
-    build_source_crosswalk as build_source_crosswalk,
-)
-from _translation_text import (
-    dedupe_seam_paragraphs as dedupe_seam_paragraphs,
-)
-from _translation_text import (
-    duplicate_passage_findings as duplicate_passage_findings,
-)
-from _translation_text import (
-    monochrome_svg as monochrome_svg,
-)
-from _translation_text import (
-    normalize_translation_prose as normalize_translation_prose,
-)
-from _translation_text import (
-    source_title_drift_findings as source_title_drift_findings,
-)
-from _translation_text import (
-    translation_output_findings as translation_output_findings,
-)
+from _translation_text import _adjacent_echo as _adjacent_echo
+from _translation_text import _boundary_echo as _boundary_echo
+from _translation_text import _compress_line_ranges as _compress_line_ranges
+from _translation_text import _iter_source_windows as _iter_source_windows
+from _translation_text import _overlap_tokens as _overlap_tokens
+from _translation_text import _para_is_echo as _para_is_echo
+from _translation_text import _slugify as _slugify
+from _translation_text import _source_headings as _source_headings
+from _translation_text import _split_paragraphs as _split_paragraphs
+from _translation_text import _topic_hits as _topic_hits
+from _translation_text import _translation_long_enough as _translation_long_enough
+from _translation_text import _trim_seam_overlap as _trim_seam_overlap
+from _translation_text import build_source_crosswalk as build_source_crosswalk
+from _translation_text import dedupe_seam_paragraphs as dedupe_seam_paragraphs
+from _translation_text import duplicate_passage_findings as duplicate_passage_findings
+from _translation_text import monochrome_svg as monochrome_svg
+from _translation_text import normalize_translation_prose as normalize_translation_prose
+from _translation_text import record_seam_removals as record_seam_removals
+from _translation_text import source_title_drift_findings as source_title_drift_findings
+from _translation_text import translation_output_findings as translation_output_findings
 from _translit import simplify_transliteration
 
 _COMPOSE_TIMEOUT = 900
@@ -277,10 +223,23 @@ def author_translation_edition_compose(
     drives route selection through the two knobs (``book_augmentation`` /
     ``book_voice``), NOT through ``deliverable_mode``, so it reuses this function
     as the shared *faithful base* with ``enforce_contract=False``.
+
+    A chapter the human has authored in the Book Composer is NOT re-translated: its
+    saved body is emitted directly and no model call is made for it. The Composer is
+    the singular path for PDF-bound chapter changes, so composing over it bought
+    nothing — the replay at the end of compose discarded the fresh prose anyway. On
+    2026-07-21 that cost a full re-translation of nine chapters to keep one of them,
+    and the book moved 111 words in 33 minutes. ``force`` re-composes regardless,
+    and says so.
     """
     book_dir = Path(book_dir).resolve()
     if enforce_contract:
         assert_translation_contract(book_dir)
+
+    _edited = edited_chapter_keys(book_dir)
+    authored = set() if force else _edited
+    if force and _edited:
+        log(f"    0book-compose: --force will RE-COMPOSE OVER {len(_edited)} Composer-authored chapter(s)")
 
     # Who narrates is read once per run and applies to every chapter and window.
     # It is a property of the SOURCE, so it governs this route exactly as it
@@ -389,8 +348,12 @@ def author_translation_edition_compose(
         pf_source = _slice_source(lines, pf_ranges)
         if pf_source.strip():
             pf_path = chunks_dir / "preface.md"
-            pf_prose = ""
-            if not force and _cache_fresh(pf_path) and pf_path.exists() and pf_path.read_text(encoding="utf-8").strip():
+            pf_prose = edited_body(book_dir, anchor_key(pf_title)) if anchor_key(pf_title) in authored else ""
+            if pf_prose:
+                log(f"      preface: {pf_title} — Composer edit, not re-translated")
+            elif (
+                not force and _cache_fresh(pf_path) and pf_path.exists() and pf_path.read_text(encoding="utf-8").strip()
+            ):
                 cached_pf = normalize_translation_prose(pf_path.read_text(encoding="utf-8").strip(), title=pf_title)
                 if not translation_output_findings(cached_pf, expected_title=pf_title):
                     pf_prose = cached_pf
@@ -428,7 +391,15 @@ def author_translation_edition_compose(
         out_path = chunks_dir / f"{label}.md"
         prior = prior_manifest.get(idx) or {}
         cache_matches_source = prior.get("title") == title and prior.get("source_line_ranges") == ch_ranges
-        if (
+        # The author's own chapter, emitted as-is. Checked BEFORE the cache and the
+        # integrity gates below: those gates judge a MODEL's rendering of the
+        # source, and running them over a human's prose would recompute the chapter
+        # the moment they wrote something a gate did not expect.
+        authored_prose = edited_body(book_dir, anchor_key(title)) if anchor_key(title) in authored else None
+        if authored_prose:
+            log(f"      {label}: {title} — Composer edit, not re-translated")
+            prose = authored_prose
+        elif (
             not force
             and cache_matches_source
             and _cache_fresh(out_path)
@@ -550,7 +521,11 @@ def author_translation_edition_compose(
         # Cross-chapter seam trim: drop a chapter-opening paragraph that verbatim-
         # echoes the previous chapter's (or the preface's) tail — the boundary
         # over-run where one chapter runs into the next chapter's first passage.
-        prose = _trim_seam_overlap(prev_emitted_prose, prose)
+        # Never applied to an authored chapter: the seam is an artifact of windowed
+        # MODEL composition, and this trim deletes a whole paragraph, which is not
+        # something to do to a human's page on a similarity guess.
+        if not authored_prose:
+            prose = _trim_seam_overlap(prev_emitted_prose, prose)
 
         chapter_slug = f"ch{idx:02d}-{_slugify(title, label)}"
         chapter_path = chapters_dir / f"{chapter_slug}.txt"
@@ -570,8 +545,11 @@ def author_translation_edition_compose(
         )
 
     book_md = book_dir / "book" / "book.md"
-    assembled = dedupe_seam_paragraphs(simplify_transliteration("\n".join(parts).rstrip() + "\n"))
+    # It deletes prose on a similarity judgment, so it reports what it deleted.
+    seam_removed: list[dict] = []
+    assembled = dedupe_seam_paragraphs(simplify_transliteration("\n".join(parts).rstrip() + "\n"), removed=seam_removed)
     book_md.write_text(assembled, encoding="utf-8")
+    record_seam_removals(book_dir, "base", seam_removed, log)
     (book_dir / "_system" / "translation-edition-manifest.json").write_text(
         json.dumps(
             {

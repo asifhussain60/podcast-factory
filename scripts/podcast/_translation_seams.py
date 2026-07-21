@@ -16,9 +16,11 @@ Three rules, in the order they were needed, each blind to what the next one sees
 
 from __future__ import annotations
 
+import json
 import re
 from collections import Counter
 from difflib import SequenceMatcher
+from pathlib import Path
 
 _SEAM_LOOKBACK = 3
 _SEAM_MIN_WORDS = 6
@@ -108,7 +110,40 @@ def _boundary_echo(cur: str, prev: str) -> bool:
     return matcher.find_longest_match(0, len(a), 0, len(b)).size >= _BOUNDARY_DEDUP_MIN_RUN
 
 
-def dedupe_seam_paragraphs(text: str) -> str:
+def record_seam_removals(book_dir: Path, pass_name: str, removed: list[dict], log) -> None:
+    """Persist every paragraph ``dedupe_seam_paragraphs`` deleted, and say so.
+
+    The de-dup runs twice per compose (once inside the base assembly, once over
+    the fully re-voiced text) and each run can delete a paragraph on a similarity
+    judgment. A false positive is a passage that leaves the book forever, so the
+    removals are appended — not overwritten — and the full text of each is kept,
+    which is what makes an accidental deletion recoverable without a git
+    archaeology session. ``compose_book_v2`` clears the file at the start of a run,
+    so it describes THIS compose rather than every compose the book has had.
+    """
+    path = Path(book_dir) / "_system" / "book-seam-dedup.json"
+    try:
+        existing: list[dict] = []
+        if path.exists():
+            try:
+                existing = json.loads(path.read_text(encoding="utf-8")).get("removed", [])
+            except Exception:
+                existing = []
+        existing.extend({"pass": pass_name, **record} for record in removed)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps({"schema": "book.seam-dedup/v1", "removed": existing}, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+    except Exception:  # a recorder must never become the failure it records
+        pass
+    if removed:
+        log(f"    seam-dedup ({pass_name}): {len(removed)} paragraph(s) DELETED — see _system/book-seam-dedup.json")
+        for record in removed[:3]:
+            log(f"      {record['rule']} · {record['chapter'][:40]} · {record['words']} words")
+
+
+def dedupe_seam_paragraphs(text: str, *, removed: list[dict] | None = None) -> str:
     """Drop reworded seam double-renders that survive the verbatim trimmer.
 
     Runs LAST, on the fully-assembled (and, in v2, de-calqued) book text, because
@@ -121,24 +156,50 @@ def dedupe_seam_paragraphs(text: str) -> str:
         over-run — drop the echo so the chapter opens on its own content.
     Never edits surviving text; comparisons are immediate-neighbour only, so a
     distant legitimate refrain is untouched.
+
+    Pass ``removed`` to receive one record per deleted paragraph. This function
+    DELETES SOURCE-BEARING PROSE, and until 2026-07-21 it did so with no log, no
+    count and no report — a false positive at the ratio floor (a liturgical
+    refrain, a question restated before its answer) simply left the book and
+    nothing recorded that it had ever been there. Its sibling
+    ``duplicate_passage_findings`` is deliberately report-only for exactly this
+    reason; this one still deletes, so the least it can do is say what it took.
     """
     blocks = [b.strip() for b in re.split(r"\n\s*\n", text) if b.strip()]
     out: list[str] = []
     prev_para: str | None = None  # last kept paragraph (within-chapter adjacency)
     prev_chapter_last: str | None = None
     at_chapter_open = False  # first paragraph after a numbered chapter heading
+    chapter = ""
+
+    def _record(rule: str, block: str, against: str) -> None:
+        if removed is None:
+            return
+        removed.append(
+            {
+                "rule": rule,
+                "chapter": chapter,
+                "words": len(block.split()),
+                "removed_text": block,
+                "kept_neighbour_head": " ".join(against.split()[:30]),
+            }
+        )
+
     for block in blocks:
         if block.startswith("#"):
             if _NUMBERED_CHAPTER_RE.match(block):
                 prev_chapter_last = prev_para
                 at_chapter_open = True
+                chapter = block.lstrip("# ").strip()
             out.append(block)
             prev_para = None  # adjacency does not cross a heading
             continue
         if at_chapter_open and prev_chapter_last and _boundary_echo(block, prev_chapter_last):
             at_chapter_open = False
+            _record("boundary-echo", block, prev_chapter_last)
             continue  # drop the chapter-opening echo
         if not at_chapter_open and prev_para is not None and _adjacent_echo(block, prev_para):
+            _record("adjacent-echo", block, prev_para)
             continue  # drop the adjacent within-chapter echo
         at_chapter_open = False
         out.append(block)
