@@ -42,19 +42,32 @@ transliterations.
 
 ### The one open thread
 
-A `book-challenger` run was launched against this manuscript at the end of the
-last session, focused on: Arabic-script accuracy across all 68 annotations,
-programmatic-insertion damage (mid-sentence landings, split proper names,
-annotations inside blockquotes/headings), and terminological collisions created
-by the transliteration fold. **Its findings were not yet reviewed or fixed.**
-Re-run it if the report is not on disk:
+`book-challenger` ran and returned BLOCKED on four defects, all introduced by the
+three text passes. **All four are fixed at the generator** (commit `26a349b`) and
+verified gone, along with two P1s. A re-challenge has NOT been run against the
+corrected manuscript — do that first:
 
 ```
 Task → book-challenger: "the-master-and-the-disciple"
 ```
 
-Fix P0s first. Do not mutate `book.md` from the challenger directly — it surfaces,
-you fix.
+Still open from that report, all needing YOUR editorial call rather than a code
+fix:
+
+- **Nested parentheses, twelve sites.** `(natiq (الناطق))`, `(bab (باب))`,
+  `(hujaj (الحجج))` — concentrated in the preface and the chapter-5 vocabulary
+  passage, the book's most doctrinally load-bearing page. A comma or dash instead
+  of the inner pair fixes all twelve.
+- **The `(ع)` honorifics, six sites.** Inherited from the approved base. They were
+  fine when the book had ten parenthetical Arabic items; against the new 67-item
+  convention they read as "the Arabic for Joseph", and they sit inconsistently
+  beside a spelled-out `(عليهم السلام)`. Decide the convention: spell out
+  everywhere, or drop the abbreviations.
+- Four advisories in the report: Sinai annotated with الطور, vocative أبا against
+  nominative Abu, inconsistent definite articles, Arabic inside bold/italic spans.
+
+Report at `book/book-challenger-report.md`; 14 records in `_learning/findings.jsonl`.
+Do not mutate `book.md` from the challenger directly — it surfaces, you fix.
 
 ### Known issues worth picking up
 
