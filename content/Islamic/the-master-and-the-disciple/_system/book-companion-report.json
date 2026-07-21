@@ -1,6 +1,6 @@
 {
   "schema": "book.companion-report/v1",
-  "generated_at": "2026-07-19T16:10:10Z",
+  "generated_at": "2026-07-21T20:04:17Z",
   "target": {
     "min": 10,
     "max": 15,
@@ -10,9 +10,10 @@
     {
       "total": 15,
       "kinds": {
-        "analogy": 4,
         "question": 3,
-        "note": 4,
+        "analogy": 4,
+        "etymology": 1,
+        "note": 3,
         "explanation": 4
       },
       "dominant_share": 0.27,
@@ -20,55 +21,56 @@
       "within_ceiling": true,
       "chapter": "how-to-read-a-conversation-made-of-doors",
       "title": "How to Read a Conversation Made of Doors",
-      "candidates": 19,
-      "dropped": 1,
+      "candidates": 20,
+      "dropped": 4,
       "episodes": [
-        "EP01",
         "EP12",
-        "EP15"
+        "EP01",
+        "EP11"
       ]
     },
     {
       "total": 15,
       "kinds": {
-        "explanation": 5,
         "analogy": 4,
+        "etymology": 1,
+        "explanation": 5,
         "note": 4,
-        "question": 2
+        "question": 1
       },
       "dominant_share": 0.33,
       "within_target": true,
       "within_ceiling": true,
       "chapter": "1-the-persian-who-was-dead-and-revived",
       "title": "1. The Persian Who Was Dead and Revived",
-      "candidates": 18,
-      "dropped": 0,
+      "candidates": 20,
+      "dropped": 1,
       "episodes": [
         "EP01",
-        "EP10",
-        "EP02"
+        "EP02",
+        "EP10"
       ]
     },
     {
       "total": 15,
       "kinds": {
         "analogy": 3,
-        "etymology": 1,
-        "explanation": 5,
-        "question": 2,
-        "note": 4
+        "etymology": 3,
+        "note": 4,
+        "explanation": 4,
+        "question": 1
       },
-      "dominant_share": 0.33,
+      "dominant_share": 0.27,
       "within_target": true,
       "within_ceiling": true,
       "chapter": "2-a-stranger-in-the-city",
       "title": "2. A Stranger in the City",
-      "candidates": 20,
-      "dropped": 2,
+      "candidates": 21,
+      "dropped": 1,
       "episodes": [
         "EP02",
-        "EP16",
-        "EP15"
+        "EP01",
+        "EP11"
       ]
     },
     {
@@ -84,29 +86,29 @@
       "within_ceiling": true,
       "chapter": "3-the-boy-at-the-door-limits-and-conditions",
       "title": "3. The Boy at the Door — Limits and Conditions",
-      "candidates": 22,
-      "dropped": 4,
+      "candidates": 20,
+      "dropped": 2,
       "episodes": [
         "EP02",
-        "EP03",
-        "EP01"
+        "EP10",
+        "EP12"
       ]
     },
     {
       "total": 15,
       "kinds": {
-        "question": 3,
+        "analogy": 4,
         "explanation": 5,
-        "analogy": 3,
-        "note": 4
+        "note": 4,
+        "question": 2
       },
       "dominant_share": 0.33,
       "within_target": true,
       "within_ceiling": true,
       "chapter": "4-how-the-world-was-made",
       "title": "4. How the World Was Made",
-      "candidates": 19,
-      "dropped": 4,
+      "candidates": 17,
+      "dropped": 5,
       "episodes": [
         "EP02",
         "EP05",
@@ -116,18 +118,18 @@
     {
       "total": 15,
       "kinds": {
-        "analogy": 2,
+        "question": 3,
+        "analogy": 3,
         "explanation": 5,
-        "note": 5,
-        "question": 3
+        "note": 4
       },
       "dominant_share": 0.33,
       "within_target": true,
       "within_ceiling": true,
       "chapter": "5-the-world-the-hereafter-and-the-speech-of-parables",
       "title": "5. The World, the Hereafter, and the Speech of Parables",
-      "candidates": 16,
-      "dropped": 4,
+      "candidates": 20,
+      "dropped": 5,
       "episodes": [
         "EP07",
         "EP02",
@@ -137,18 +139,19 @@
     {
       "total": 15,
       "kinds": {
-        "explanation": 5,
         "note": 5,
-        "question": 2,
-        "analogy": 3
+        "etymology": 2,
+        "analogy": 2,
+        "explanation": 5,
+        "question": 1
       },
       "dominant_share": 0.33,
       "within_target": true,
       "within_ceiling": true,
       "chapter": "6-three-layers-of-knowledge",
       "title": "6. Three Layers of Knowledge",
-      "candidates": 23,
-      "dropped": 6,
+      "candidates": 25,
+      "dropped": 5,
       "episodes": [
         "EP10",
         "EP09",
@@ -156,21 +159,20 @@
       ]
     },
     {
-      "total": 15,
+      "total": 13,
       "kinds": {
-        "analogy": 4,
-        "note": 3,
-        "etymology": 2,
+        "analogy": 1,
         "explanation": 5,
-        "question": 1
+        "note": 4,
+        "question": 3
       },
-      "dominant_share": 0.33,
+      "dominant_share": 0.38,
       "within_target": true,
       "within_ceiling": true,
       "chapter": "7-the-five-shares-and-the-long-road-to-the-shaykh",
       "title": "7. The Five Shares and the Long Road to the Shaykh",
       "candidates": 15,
-      "dropped": 0,
+      "dropped": 3,
       "episodes": [
         "EP02",
         "EP10",
@@ -180,23 +182,23 @@
     {
       "total": 15,
       "kinds": {
-        "explanation": 5,
         "etymology": 1,
-        "analogy": 1,
-        "note": 5,
-        "question": 3
+        "explanation": 5,
+        "analogy": 3,
+        "note": 4,
+        "question": 2
       },
       "dominant_share": 0.33,
       "within_target": true,
       "within_ceiling": true,
       "chapter": "8-homecoming-the-father-and-the-debate-with-abu-malik",
       "title": "8. Homecoming, the Father, and the Debate with Abu Malik",
-      "candidates": 18,
+      "candidates": 20,
       "dropped": 1,
       "episodes": [
         "EP02",
-        "EP10",
-        "EP14"
+        "EP14",
+        "EP10"
       ]
     }
   ]

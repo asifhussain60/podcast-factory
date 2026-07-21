@@ -188,7 +188,210 @@
       "source": {
         "provider": "manual"
       }
+    },
+    {
+      "id": "9278547a-3e59-49f9-ba2f-30b16b289eb0",
+      "kind": "etymology",
+      "body": "The word for a people or community, umma, comes from a root meaning to aim toward something and to head for a source — the same root behind umm, mother, and imam, the one who stands in front. A community, then, is a crowd all facing one direction. That is why al-Bakhtari's old people panic when he turns toward a new creed: once he faces a different source, the shared direction that held them together is broken, and his pull on them slips away.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "Umma: a people facing one way",
+      "quote": "they feared that his leaving their religion would cut that influence off from them",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "1a11e6cd-b8a3-4fc7-ae97-2c80f7c79a3a",
+      "kind": "explanation",
+      "body": "This is a lovely, strange phrase. Knowledge is called the lost property of every believer — meaning it's something that already belongs to you and simply went missing, so when you find it anywhere, you're just reclaiming what was yours. That reframes the whole worry the visitors brought. If the family gained real knowledge, Abu Malik says, that's not a threat to fear; it's a recovery, and more of it beats less.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "Lost property of the believer",
+      "quote": "knowledge is the lost property of every believer, and an increase in knowledge is better than a lack of it",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "71d58045-bdee-417f-966f-813bc9a0cf13",
+      "kind": "analogy",
+      "body": "Here's the image that makes the stakes land. A flaw in your food? Easy — you toss it, you replace it, the harm is small and the cure is close. But a tear in religion is nothing like that. You can't patch it and you can't swap it for another. He even sharpens it: it's like a flaw in the medicine itself, the very thing meant to heal you now the thing that harms you. That's why haste here is so dangerous.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "A tear in food vs. a tear in religion",
+      "quote": "But a tear in religion is gravely harmful and heavy in loss; its flaw can neither be mended nor exchanged for another",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP14"
+      }
+    },
+    {
+      "id": "94e717ec-d2ac-4bf9-a08a-89b5139ad62a",
+      "kind": "note",
+      "body": "The discussion insisted that knowledge is safe only in someone with the ethical footing to carry it — that capacity, not curiosity, is what matters. Abu Malik names what that capacity is actually made of. The richest thing a person stores up, he says, is a sound mind and the manners they have worked to acquire; forbearance is what lets him meet alarming news without panic. That is the inner vessel the hosts kept describing.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "The vessel is made of manners",
+      "quote": "The best of provisions is the treasure of sound minds and the acquiring of good manners",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP02"
+      }
+    },
+    {
+      "id": "3e2ec10b-0933-4a91-8370-9a46d949f150",
+      "kind": "analogy",
+      "body": "Abu Malik quotes a saying to steady the panicked crowd. The person who moves deliberately keeps his footing and his authority; the one who rushes can't trust his own next step not to slip. Picture crossing a stream on wet stones — hurry and you go down. He's telling them: this news alarmed you, so slow down before you pronounce your friends right or wrong. Haste here isn't just rude, it's how you fall.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "Slow foot, sure ground",
+      "quote": "He who is deliberate in his affairs keeps his authority secure, and he who is hasty cannot keep his foot from slipping.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "16b8f380-3dd6-4565-b261-04d6a270d085",
+      "kind": "explanation",
+      "body": "You keep meeting that little al- — al-Bakhtari, al-Ahbar. In Arabic, al- is the definite article, the difference between a book and the book: it points to one particular thing rather than any old one. Tacked onto a name or title, it singles the person out and fixes the reference — this Bakhtari, this scholar — rather than leaving them one face in a crowd. A small word, but it is doing the work of pinning a name down to one man.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "The 'al-' that pins a name",
+      "quote": "his father's name was al-Bakhtari",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "d2adfb48-191b-4415-9636-74f23c59e9c7",
+      "kind": "explanation",
+      "body": "The son's argument to his father is airtight, and that's the point. Look at my forty years beside you, he says, and there are only two possibilities. Either you had knowledge and kept it from me — in which case don't blame me for seeking my rescue elsewhere. Or you didn't have it — in which case you're excused, but then you needed that stranger even more than I did. There's no third door.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "The son's two-horned question",
+      "quote": "Either you are a man of knowledge who withheld that knowledge from me — and then you must not blame me for seeking my own deliverance through another; or you are ignorant",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP14"
+      }
+    },
+    {
+      "id": "28f99047-ba5c-43b8-8d5b-aa7fa274d616",
+      "kind": "explanation",
+      "body": "This is the move that dissolves the panic through logic. Instead of narrowing toward one conclusion, he opens the field all the way up. Whatever happened to these men has to be one of exactly three things — there's no fourth. By laying out the entire map fairly, he shows the community that most of their fears are illusions, and that they can't judge until they know which of the three they're actually looking at.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "Mapping the whole territory",
+      "quote": "for it cannot be free of one of three states.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP14"
+      }
+    },
+    {
+      "id": "dc8f1a30-628b-45fd-a911-aa1481c148ff",
+      "kind": "question",
+      "body": "Ask your friend this: the son says he only reached the stranger before his father did because the father, being older, simply had more years to have found the truth already — so is that a fair point, or a clever dodge?",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "Who should have gone first?",
+      "quote": "If I went to him before you did, it was only because you are the elder, born long before me — for I heard his words just as you heard them, and I saw what you saw.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "cf505e27-6eca-4c40-a980-931c4d3114b0",
+      "kind": "explanation",
+      "body": "There is a teaching that at the moment of death two angels come as bearers of glad tidings, and that in every age the true Speaker and Guardian is, for those who love him, a herald of good news. Notice what Salih becomes at the end: he is sent out to bear the good news and returns as the cause of his people's guidance. He has stepped into exactly that role — not merely delivering a message, but being the good news that arrives for those ready to receive it.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "The herald of good news",
+      "quote": "The boy was sent out to bear the good news",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "aa643969-693a-44b7-98d9-0e0ea16de854",
+      "kind": "note",
+      "body": "And here's the tender turn. The father doesn't lose an argument and dig in — he weeps. He sees there's genuinely no way out of either branch, and instead of hardening, he opens. He tells his son: the same argument that fell on me falls back on you if you now hide your case from me. So set it before me. If it's sound I'll honor it; if it's false I'll turn you back from it, out of love for your soul.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "The father sees there's no escape",
+      "quote": "His father's heart was rent by his son's words. He saw that there was no escape for him from either argument",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP14"
+      }
+    },
+    {
+      "id": "15683bad-6cf5-44de-8b55-c421b661ed4a",
+      "kind": "note",
+      "body": "One host pushed back — isn't \"go and find out\" just polite avoidance dressed up as fairness? But that misreads him. This isn't stalling; it's a standing rule about the order of things. You look first, you rule second. He takes their panic and instead of soothing it with an easy answer, he turns the mirror back on them: your fear doesn't excuse you from the rules of evidence.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "Investigation before verdict",
+      "quote": "He who is deliberate in his affairs keeps his authority secure, and he who is hasty cannot keep his foot from slipping.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP14"
+      }
+    },
+    {
+      "id": "d3404876-1f3c-4e61-a9da-20f90ef4013e",
+      "kind": "question",
+      "body": "Abu Malik insists the family's situation must be one of just three things — same faith with some added talk, the same faith deepened, or a new guidance on clear proof. Ask your friend: does narrowing it to three make him wiser here, or is he quietly ruling out the possibility they simply got it wrong?",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "The three possibilities",
+      "quote": "it cannot be free of one of three states",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "0faa9184-618c-4288-8e0b-d7ea7519ad8e",
+      "kind": "analogy",
+      "body": "This is the second of his three readings, and it carries a striking idea. If the stranger brought a real increase in knowledge, then knowledge is like a lost animal that belongs to you — the moment you find it, you take it back, because it was always yours. In their world a lost camel wasn't an inconvenience, it was survival. So finding truth isn't adopting something foreign; it's recovering property that was already yours to hold.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "Knowledge as lost property",
+      "quote": "knowledge is the lost property of every believer, and an increase in knowledge is better than a lack of it.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP14"
+      }
+    },
+    {
+      "id": "6dca1fd2-2130-402b-b785-3e5a70b7cf87",
+      "kind": "note",
+      "body": "Watch what an anxious group does when it feels threatened — it hands the problem to someone else. They don't investigate. They summon their best mind, their apex scholar, and effectively ask him to carry their discomfort for them. And they don't just consult him; they pre-surrender their own judgment to whatever he decides, which is its own quiet way of avoiding the hard work.",
+      "createdAt": "2026-07-21T20:04:17Z",
+      "updatedAt": "2026-07-21T20:04:17Z",
+      "generated": true,
+      "anchor": "Calling in a champion",
+      "quote": "You are the head of our religion and one of our standards; we have come to inform you and to consult you, and we will not go beyond your opinion.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP14"
+      }
     }
   ],
-  "updatedAt": "2026-07-19T16:10:10Z"
+  "updatedAt": "2026-07-21T20:04:17Z"
 }
