@@ -19,7 +19,7 @@ from _authoring import AuthoringError
 from _authoring._book_design import author_phase_book_design
 from _authoring._core import AuthoringHalt
 from _book_illustrate import author_phase_book_illustrate
-from _progress import update_phase
+from _progress import read_state, update_phase
 
 from phases.scaffold import phase_git_commit
 
@@ -51,6 +51,38 @@ def _book_branch_enabled(book_dir: Path) -> bool:
 
 
 def _drive_book_branch(book_dir: Path) -> int:
+    """Wrapper that guarantees no phase is left pinned at "running".
+
+    The body below sets a phase to "running" and catches only AuthoringError.
+    Everything else it can raise — a JSONDecodeError on book-toc.json, an OSError,
+    an ImportError from one of eleven lazy imports, a Ctrl-C — propagated with the
+    state file frozen at "running" and no `last_error`. Recovery then had to wait
+    out the 900-second staleness window before a resume would touch the book.
+    That happened for real on 2026-07-21. Whatever escapes, the phase that was
+    running is now recorded as failed, with the exception on it, before it goes up.
+    """
+    try:
+        return _drive_book_branch_body(book_dir)
+    except AuthoringError:
+        raise  # the body's own handlers own these and have already recorded them
+    except BaseException as e:
+        try:
+            state = read_state(Path(book_dir))
+            for phase_id, rec in (state.get("phases") or {}).items():
+                if (rec or {}).get("status") == "running":
+                    update_phase(
+                        Path(book_dir),
+                        phase=phase_id,
+                        status="failed",
+                        error=f"{type(e).__name__}: {e}",
+                    )
+                    _err(f"{phase_id}: crashed ({type(e).__name__}: {e})")
+        except Exception:  # never let the recorder mask the real exception
+            pass
+        raise
+
+
+def _drive_book_branch_body(book_dir: Path) -> int:
     """Design → compose → illustrate → slide-import → render the companion book.
 
     Returns 0 (non-blocking — the podcast pipeline proceeds regardless of

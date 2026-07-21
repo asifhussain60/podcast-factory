@@ -35,6 +35,7 @@ from _book_compose import (
     _slice_source,
 )
 from _pipeline_flags import narrative_frame, narrator_subject
+from _translation_cache import make_is_fresh
 
 # R3 DR-005 re-exports — moved names, kept importable from this module.
 from _translation_contract import (
@@ -372,11 +373,9 @@ def author_translation_edition_compose(
     if arabic_pages:
         log(f"    translation-edition-compose: Arabic ground truth loaded ({len(arabic_pages)} OCR pages)")
 
-    def _cache_fresh(path: Path) -> bool:
-        try:
-            return path.stat().st_mtime >= refined_path.stat().st_mtime
-        except OSError:
-            return False
+    # Freshness rule lives in _translation_cache — see that module for why it
+    # covers the prompts and the config, not just the source text.
+    _cache_fresh = make_is_fresh(book_dir, refined_path)
 
     # Preface / front-matter. book-toc.json may declare a preface with its own
     # source range (e.g. the work's opening teaching). The chapter loop below
@@ -437,7 +436,15 @@ def author_translation_edition_compose(
         ):
             cached = out_path.read_text(encoding="utf-8").strip()
             cached = normalize_translation_prose(cached, title=title)
-            cached_findings = translation_output_findings(cached, expected_title=title)
+            # A CACHED chapter must clear the SAME gate as a fresh one. It used
+            # to be checked without `frame=` or `source=`, which skips
+            # frame_findings and narrative_person_findings entirely — BK-N1..N7,
+            # the whole narrative-frame battery. Every chapter of the live book
+            # was being served from a cache written before the frame was locked,
+            # so the shipping prose had never faced that gate at all.
+            cached_findings = translation_output_findings(
+                cached, expected_title=title, frame=_frame, narrator_subject=_narrator, source=source
+            )
             if cached_findings:
                 log(
                     f"      {label}: cached translation failed integrity gate "
@@ -478,7 +485,13 @@ def author_translation_edition_compose(
                 ):
                     cached_part = part_path.read_text(encoding="utf-8").strip()
                     cached_part = normalize_translation_prose(cached_part, title=title)
-                    cached_findings = translation_output_findings(cached_part, expected_title=title)
+                    cached_findings = translation_output_findings(
+                        cached_part,
+                        expected_title=title,
+                        frame=_frame,
+                        narrator_subject=_narrator,
+                        source=part_source,
+                    )
                     if cached_findings:
                         log(
                             f"        {part_label}: cached translation failed integrity gate "

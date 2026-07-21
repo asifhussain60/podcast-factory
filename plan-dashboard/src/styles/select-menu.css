@@ -33,6 +33,13 @@
 .sm-root {
   position: relative;
   display: block;
+  /* The root is dropped into whatever the host layout is — on the composer's
+     chapter bar that is a grid cell, where the default `min-width: auto` sizes
+     the item to its own min-content. The label inside is `white-space: nowrap`,
+     so min-content is the WHOLE untruncated chapter title: the control then
+     refused to shrink and pushed the page into horizontal scroll at narrow
+     widths. This is the same clamp `.composer-preview` uses. */
+  min-width: 0;
 }
 
 /* ── the closed control ──────────────────────────────────────────────────── */

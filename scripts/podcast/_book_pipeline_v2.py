@@ -28,6 +28,33 @@ from _pipeline_flags import (
 )
 
 
+# Every "non-fatal" step below is genuinely optional — a finished translation is
+# worth more than an overlay — but a skip must never be INVISIBLE. Nine steps
+# used to swallow their exception into a log line that scrolls away: a compose
+# could return "completed" having dropped the transliteration fold, the inline
+# Arabic, the spelling pass, the human's Composer edits and the introduction,
+# with nothing in state and nothing in any report. Each skip is now also written
+# to `_system/compose-skips.json`, which the ship gate and a human can both read.
+def _record_skip(book_dir: Path, step: str, exc: BaseException, log) -> None:
+    log(f"    {step}: skipped (non-fatal): {exc}")
+    try:
+        path = Path(book_dir) / "_system" / "compose-skips.json"
+        existing: list[dict] = []
+        if path.exists():
+            try:
+                existing = json.loads(path.read_text(encoding="utf-8")).get("skips", [])
+            except Exception:
+                existing = []
+        existing.append({"step": step, "error": f"{type(exc).__name__}: {exc}"})
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps({"schema": "book.compose-skips/v1", "skips": existing}, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+    except Exception:  # a recorder must never become the failure it records
+        pass
+
+
 def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     """Run the unified base -> augment -> voice compose. Returns book/book.md.
 
@@ -107,7 +134,7 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
                 _md.write_text(_after, encoding="utf-8")
                 log("    translit: folded to plain transliteration")
     except Exception as e:  # never worth a finished translation
-        log(f"    translit: skipped (non-fatal): {e}")
+        _record_skip(book_dir, "translit", e, log)
 
     # 5a-arabic. Put the Arabic script back beside inline terms. AFTER every
     #     LLM text pass, so no model can romanize the script away again; BEFORE
@@ -121,7 +148,7 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         apply_inline_arabic(book_dir, log=lambda m: log(f"    {m}"))
         book_md = book_dir / "book" / "book.md"
     except Exception as e:  # an overlay is never worth a finished translation
-        log(f"    inline-arabic: skipped (non-fatal): {e}")
+        _record_skip(book_dir, "inline-arabic", e, log)
 
     # 5a-spelling. One spelling standard for the whole edition. The drafting and
     #     re-voicing models have no consistent preference, so without this a
@@ -140,7 +167,7 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
                 _md.write_text(_after, encoding="utf-8")
                 log("    spelling: normalized to American forms")
     except Exception as e:  # a spelling pass is never worth a finished book
-        log(f"    spelling: skipped (non-fatal): {e}")
+        _record_skip(book_dir, "spelling", e, log)
 
     # 5b. Replay durable Book Composer edits. LAST of the text-mutating steps, so
     #     the human's chapter sits on top of everything the pipeline just
@@ -154,7 +181,7 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         apply_composer_edits(book_dir, log=log)
         book_md = book_dir / "book" / "book.md"
     except Exception as e:  # a bad sidecar must never destroy a good compose
-        log(f"    composer-edits: skipped (non-fatal): {e}")
+        _record_skip(book_dir, "composer-edits", e, log)
 
     # 5c. The edition's introduction. AFTER the Composer replay, so a human who
     #     rewrote the preface keeps their words and the introduction sits above
@@ -166,7 +193,7 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     try:
         apply_introduction(book_dir, log=log, force=force)
     except Exception as e:  # apparatus is never worth a finished translation
-        log(f"    front-matter: skipped (non-fatal): {e}")
+        _record_skip(book_dir, "front-matter", e, log)
 
     # 6. Arabic provenance audit over the FINAL edition. The gates upstream count
     #    Arabic runs; this one asks whether each surviving run is the source's own
@@ -177,7 +204,7 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     try:
         run_arabic_audit(book_dir, log=log, stages=stages)
     except Exception as e:  # never fail a good compose over its own audit
-        log(f"    arabic-audit: skipped (non-fatal): {e}")
+        _record_skip(book_dir, "arabic-audit", e, log)
 
     # 6b. Duplicated-passage sweep. The seam de-dup at step 5 drops a twin that
     #     sits NEXT to its original; this finds the one that does not — a window
@@ -208,7 +235,7 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
                     f"      {d['chapter'][:48]}: paragraphs {d['first_copy_paragraphs']} vs {d['second_copy_paragraphs']}"
                 )
     except Exception as e:  # never fail a good compose over its own audit
-        log(f"    duplication: skipped (non-fatal): {e}")
+        _record_skip(book_dir, "duplication", e, log)
 
     # 7. Visual policy. Skipping the generating phases states the intent; this
     #    measures the artifact, because image markup can also reach book.md from a
@@ -218,7 +245,7 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     try:
         check_text_only(book_dir, log=log)
     except Exception as e:
-        log(f"    visual-policy: skipped (non-fatal): {e}")
+        _record_skip(book_dir, "visual-policy", e, log)
 
     # 8. Comprehension bridges — LAST, so a fix from a prior review round survives
     #    this compose. Idempotent (strips its own previous output first), so a
@@ -229,6 +256,6 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     try:
         apply_bridges(book_dir, log=log)
     except Exception as e:
-        log(f"    bridges: skipped (non-fatal): {e}")
+        _record_skip(book_dir, "bridges", e, log)
 
     return book_md

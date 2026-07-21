@@ -162,6 +162,13 @@ export function enhanceSelect(select: HTMLSelectElement | null): SelectMenu | nu
     if (!list.hidden && activeIndex >= 0) setActive(activeIndex);
   }
 
+  /** Bottom edge of the sticky site nav, which paints UNDER this list's
+   *  z-index — so it is the real top of the space this component may use. */
+  function navBottom(): number {
+    const nav = document.querySelector(".topnav");
+    return nav ? Math.max(nav.getBoundingClientRect().bottom, 0) : 0;
+  }
+
   /**
    * Decide which side to open on, and how tall the list may be.
    *
@@ -185,9 +192,7 @@ export function enhanceSelect(select: HTMLSelectElement | null): SelectMenu | nu
     const below = viewportH - rect.bottom - VIEWPORT_MARGIN;
     // The site nav is sticky at the top and paints under this list's z-index, so
     // the space "above" ends at the nav's bottom edge, not the viewport's.
-    const nav = document.querySelector(".topnav");
-    const navBottom = nav ? nav.getBoundingClientRect().bottom : 0;
-    const above = rect.top - Math.max(navBottom, 0) - VIEWPORT_MARGIN;
+    const above = rect.top - navBottom() - VIEWPORT_MARGIN;
 
     // Measure the natural height with the cap lifted, then hand the measured
     // ceiling to CSS as a custom property. The `max-height` DECLARATION stays in
@@ -371,7 +376,22 @@ export function enhanceSelect(select: HTMLSelectElement | null): SelectMenu | nu
     reflowPending = true;
     requestAnimationFrame(() => {
       reflowPending = false;
-      if (isOpen()) place();
+      if (!isOpen()) return;
+      // The list is anchored to the control. Once a scroll has carried that
+      // control out of the band a reader can actually see — behind the sticky
+      // nav, or past the bottom edge — re-placing it is not enough: the list
+      // followed it up, painted straight over the nav, and ran off the top of
+      // the screen with its first rows unreachable. A native select's popup
+      // does not survive the page scrolling out from under it either. Dismiss,
+      // with close(false) so focus is not dragged to an off-screen control.
+      const rect = button.getBoundingClientRect();
+      const viewportH =
+        window.innerHeight || document.documentElement.clientHeight || 0;
+      if (viewportH && (rect.bottom <= navBottom() || rect.top >= viewportH)) {
+        close(false);
+        return;
+      }
+      place();
     });
   };
   document.addEventListener("pointerdown", onDocPointer);

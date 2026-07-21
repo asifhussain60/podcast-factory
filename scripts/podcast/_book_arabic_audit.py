@@ -157,8 +157,19 @@ def audit_book_arabic(book_md: str, arabic_src: str, kb_arabic: str = "") -> dic
                 "runs": runs,
             }
         )
+    # EVERY resolution tier, mushaf included. Omitting the canonical-Quran tier
+    # made the headline number a lie: the-master-and-the-disciple reported 31
+    # Arabic runs against 54 actually present, so the audit read as if a third of
+    # the book's Arabic had gone missing.
     totals["arabic_runs"] = sum(
-        totals[k] for k in (RESOLUTION_OCR, RESOLUTION_KB, RESOLUTION_HONORIFIC, RESOLUTION_UNVERIFIED)
+        totals[k]
+        for k in (
+            RESOLUTION_MUSHAF,
+            RESOLUTION_OCR,
+            RESOLUTION_KB,
+            RESOLUTION_HONORIFIC,
+            RESOLUTION_UNVERIFIED,
+        )
     )
     return {"schema": "book.arabic-audit/v1", "chapters": chapters, "totals": totals}
 
@@ -220,9 +231,9 @@ def run_arabic_audit(book_dir: Path, *, log=print, stages: dict[str, dict[str, i
     out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     t = report["totals"]
     log(
-        f"    arabic-audit: {t['arabic_runs']} Arabic runs · {t[RESOLUTION_OCR]} from source · "
-        f"{t[RESOLUTION_KB]} from knowledge base · {t[RESOLUTION_HONORIFIC]} honorific formulas · "
-        f"{t[RESOLUTION_UNVERIFIED]} unverified"
+        f"    arabic-audit: {t['arabic_runs']} Arabic runs · {t[RESOLUTION_MUSHAF]} canonical Quran · "
+        f"{t[RESOLUTION_OCR]} from source · {t[RESOLUTION_KB]} from knowledge base · "
+        f"{t[RESOLUTION_HONORIFIC]} honorific formulas · {t[RESOLUTION_UNVERIFIED]} unverified"
     )
     for ch in report["chapters"]:
         if ch["unverified"]:

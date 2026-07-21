@@ -138,6 +138,28 @@ def record_edit(
     return path
 
 
+def _normalize_replayed_body(body: str) -> str:
+    """Apply the pipeline's own deterministic text folds to a human's chapter.
+
+    Kept deliberately narrow and non-fatal: these are spelling and script
+    normalisations, never rewrites. If a module is unavailable the body is
+    returned untouched rather than dropped.
+    """
+    try:
+        from _translit import simplify_transliteration
+
+        body = simplify_transliteration(body)
+    except Exception:
+        pass
+    try:
+        from _american_spelling import to_american
+
+        body = to_american(body)
+    except Exception:
+        pass
+    return body
+
+
 def apply_composer_edits(book_dir: Path, *, log=print) -> dict[str, Any]:
     """Replay every saved Composer edit into book/book.md. Returns a report.
 
@@ -183,9 +205,32 @@ def apply_composer_edits(book_dir: Path, *, log=print) -> dict[str, Any]:
             record["composed_fingerprint"] = composed_fp
             record["edited_from_fingerprint"] = expected
             log(f"      composer-edits: {key!r} CONFLICT — pipeline regenerated this chapter since the edit")
+        edited = str(edit.get("body_md", "")).strip()
+
+        # An EMPTY body would wipe the chapter and keep wiping it on every later
+        # compose, and the ship gate would not notice: `gate_b1_book_md_complete`
+        # counts `## ` headings, not prose, so a gutted chapter passes B1 and B2.
+        # A human deleting a whole chapter through the Composer is not a thing we
+        # accept silently.
+        if not edited:
+            record["skipped"] = "empty edit body — refusing to wipe the chapter"
+            report.setdefault("skipped", 0)
+            report["skipped"] += 1
+            log(f"      composer-edits: {key!r} SKIPPED — empty body would wipe the chapter")
+            out.append(head + "\n\n" + body.strip() + "\n")
+            report["chapters"].append(record)
+            continue
+
+        # Run the human's chapter through the SAME deterministic folds the
+        # pipeline applies to its own prose. Replay happens after those passes,
+        # so without this a Composer-authored chapter keeps British spellings and
+        # scholarly apostrophes, and — because an unfolded "Ma'mur" matches no
+        # glossary entry — silently loses its inline Arabic too.
+        edited = _normalize_replayed_body(edited)
+
         report["applied"] += 1
         report["chapters"].append(record)
-        out.append(head + "\n\n" + str(edit.get("body_md", "")).strip() + "\n")
+        out.append(head + "\n\n" + edited + "\n")
 
     orphaned = sorted(set(edits) - seen)
     if orphaned:
