@@ -195,6 +195,28 @@ function currentCommit() {
   }
 }
 
+/**
+ * Commit timestamp of HEAD, ISO-8601.
+ *
+ * Used for the snapshots' `generated_at` so regenerating at the SAME commit
+ * produces a byte-identical file — no wall-clock churn, no perpetually-dirty
+ * working tree. Falls back to wall-clock only when git is unavailable.
+ *
+ * MIRROR: scripts/regenerate-snapshots.py::commit_iso — the two regenerators
+ * must emit byte-identical files, or machines with/without node thrash these
+ * JSONs back and forth on every commit.
+ */
+function generatedAt() {
+  try {
+    const out = execSync("git -C " + REPO + " log -1 --format=%cI", {
+      encoding: "utf-8",
+    }).trim();
+    return out || new Date().toISOString();
+  } catch {
+    return new Date().toISOString();
+  }
+}
+
 async function readPlanYaml() {
   if (!existsSync(PLAN_YAML)) return null;
   try {
@@ -346,9 +368,9 @@ async function mergeDashboard() {
 
   const merged = {
     ...existing,
-    generated_at: new Date().toISOString(),
+    generated_at: generatedAt(),
     source_commit: currentCommit(),
-    generator: "regenerate-snapshots.mjs",
+    generator: "regenerate-snapshots",
     roadmap,
     waves: wavesMeta,
     books_in_flight: inFlight,
@@ -368,7 +390,7 @@ async function touchExisting(name) {
   const p = path.join(DATA, name);
   const existing = await readJsonIfExists(p);
   if (!existing) return;
-  existing.generated_at = new Date().toISOString();
+  existing.generated_at = generatedAt();
   existing.source_commit = currentCommit();
   await writeFile(p, JSON.stringify(existing, null, 2) + "\n", "utf-8");
 }
@@ -452,7 +474,7 @@ async function mergeArchitecture() {
 
   const merged = {
     ...snap,
-    generated_at: new Date().toISOString(),
+    generated_at: generatedAt(),
     source_commit: currentCommit(),
     agents,
     adrs,

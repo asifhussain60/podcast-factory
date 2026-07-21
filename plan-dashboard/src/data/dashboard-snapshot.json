@@ -1325,7 +1325,7 @@
         "scripts/podcast/_book_illustrate.py",
         "scripts/podcast/_slide_import.py"
       ],
-      "last_touched": 531578
+      "last_touched": "0531578"
     },
     {
       "id": "BPV2-4",
@@ -1732,59 +1732,59 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-20T21:50:12.433Z",
-  "source_commit": "cf929c7",
-  "generator": "regenerate-snapshots.mjs",
+  "generated_at": "2026-07-21T08:07:17-04:00",
+  "source_commit": "6f770ffd",
+  "generator": "regenerate-snapshots",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "cf929c7",
+      "sha": "6f770ffd",
+      "subject": "fix(site): every React island died on \"_jsxDEV is not a function\"",
+      "date": "2026-07-21"
+    },
+    {
+      "sha": "31d944e5",
+      "subject": "fix(arabic): a lightly-marked scan span no longer exempts everything inside it",
+      "date": "2026-07-20"
+    },
+    {
+      "sha": "35ce17f2",
+      "subject": "feat(checks): find the words that point at more than one person",
+      "date": "2026-07-20"
+    },
+    {
+      "sha": "7e591ec8",
+      "subject": "feat(book): author the introduction, and wire it into every compose",
+      "date": "2026-07-20"
+    },
+    {
+      "sha": "b1fa665a",
+      "subject": "feat(book): the edition's introduction is apparatus, not a translated preface",
+      "date": "2026-07-20"
+    },
+    {
+      "sha": "e47a6cff",
+      "subject": "feat(print): per-chapter running heads on the engine we already have",
+      "date": "2026-07-20"
+    },
+    {
+      "sha": "b9092c4a",
+      "subject": "chore: delete the preview-fidelity gate — it policed a divergence that cannot occur",
+      "date": "2026-07-20"
+    },
+    {
+      "sha": "cf929c79",
       "subject": "docs: retire the two-engines story — the Preview rasterizes the PDF",
       "date": "2026-07-20"
     },
     {
-      "sha": "9bdfdfe",
+      "sha": "9bdfdfeb",
       "subject": "feat(watchdog): the run owns its own status heartbeat",
       "date": "2026-07-20"
     },
     {
-      "sha": "a7cce0c",
+      "sha": "a7cce0ca",
       "subject": "feat(render-checks): assert the render did what the renderer intended",
-      "date": "2026-07-20"
-    },
-    {
-      "sha": "f6b1537",
-      "subject": "feat(print): running heads, and apparatus set below the body",
-      "date": "2026-07-20"
-    },
-    {
-      "sha": "af4f2c6",
-      "subject": "fix(print,checks): one code path for the crosswalk column; front-matter-aware gaps",
-      "date": "2026-07-20"
-    },
-    {
-      "sha": "dddd3cf",
-      "subject": "fix(print): restore the page my last fix deleted, and stop it recurring silently",
-      "date": "2026-07-20"
-    },
-    {
-      "sha": "ad6f74f",
-      "subject": "fix(print): fence the asides, keep Arabic with its English, mend the crosswalk",
-      "date": "2026-07-20"
-    },
-    {
-      "sha": "564a544",
-      "subject": "feat(pipeline): autonomy levels — a run clears what it may, and records it",
-      "date": "2026-07-20"
-    },
-    {
-      "sha": "1b750a3",
-      "subject": "fix(book): the introduction claimed two things the book does not do",
-      "date": "2026-07-20"
-    },
-    {
-      "sha": "a20ff21",
-      "subject": "feat(book): a decision ledger, so an autonomous run discloses instead of asking",
       "date": "2026-07-20"
     }
   ],

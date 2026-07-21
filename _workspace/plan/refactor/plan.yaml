@@ -4498,7 +4498,9 @@ waves_bpv2:
         title: "Decouple visuals into a candidate asset library"
         plain: "Diagrams and cleaned slides become a palette of choices instead of being auto-stamped into the book."
         tools: [scripts/podcast/_visual_candidates.py, scripts/podcast/_book_illustrate.py, scripts/podcast/_slide_import.py]
-        last_touched: 0531578
+        # Quoted: an all-digit SHA is parsed as a number by js-yaml, which drops
+        # the leading zero and records the wrong commit in the dashboard snapshot.
+        last_touched: "0531578"
       - id: BPV2-4
         title: "Astro Book Composer view"
         plain: "The page where a person drags pictures into place, sizes them, and clicks Generate PDF."
