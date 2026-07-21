@@ -210,3 +210,6 @@
 {"phase": "0book-companion", "step": "comp-chapter-4-how-the-world-was-made", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-companion", "step": "comp-podcast-EP02-4-how-the-world-wa", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-companion", "step": "comp-podcast-EP05-4-how-the-world-wa", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-companion", "step": "comp-podcast-EP04-4-how-the-world-wa", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-companion", "step": "comp-corpus-4-how-the-world-was-made", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-companion", "step": "comp-judge-4-how-the-world-was-made", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
