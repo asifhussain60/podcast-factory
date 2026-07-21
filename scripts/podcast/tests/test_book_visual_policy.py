@@ -10,6 +10,8 @@ import json
 import sys
 from pathlib import Path
 
+import pytest
+
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
@@ -50,8 +52,21 @@ def test_an_explicit_key_wins_over_the_default(tmp_path: Path) -> None:
     assert book_visuals(bd) == BOOK_VISUALS_PIPELINE
 
 
-def test_an_invalid_value_falls_back_rather_than_raising(tmp_path: Path) -> None:
+def test_an_unrecognised_value_is_refused_not_defaulted(tmp_path: Path) -> None:
+    """Strict, like its two sibling knobs (2026-07-21).
+
+    This value decides whether the illustrate and slide-import phases run at all,
+    so a typo silently produces candidate assets behind the curator's back — or
+    silently stops producing them. `book_driver` catches the error and fails the
+    book lane visibly; the podcast is unaffected.
+    """
     bd = book(tmp_path, "# B\n", "book_augmentation: source_only\nbook_visuals: whatever\n")
+    with pytest.raises(ValueError, match="book_visuals"):
+        book_visuals(bd)
+
+
+def test_an_absent_value_still_follows_the_augmentation_knob(tmp_path: Path) -> None:
+    bd = book(tmp_path, "# B\n", "book_augmentation: source_only\n")
     assert book_visuals(bd) == BOOK_VISUALS_MANUAL_ONLY
 
 

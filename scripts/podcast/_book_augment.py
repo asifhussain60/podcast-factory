@@ -417,7 +417,7 @@ def author_phase_book_augment(
     (book_dir / "_system" / "book-augment-report.json").write_text(
         json.dumps(
             {
-                "schema": "podcast.book-augment/v2",
+                "schema": "podcast.book-augment/v3",
                 "accepted": accepted,
                 "dropped": dropped,
                 "chapters_seen": len(headings),

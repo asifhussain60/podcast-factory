@@ -57,10 +57,13 @@ def is_faithful_translation_deliverable(book_dir: Path) -> bool:
         return True
     try:
         from _pipeline_flags import BOOK_VOICE_FAITHFUL, book_voice
-
-        return book_voice(book_dir) == BOOK_VOICE_FAITHFUL
-    except Exception:
+    except ImportError:  # nothing to read the knob with — assume not faithful
         return False
+    # A ValueError from `book_voice` is a typo'd knob, and it is deliberately NOT
+    # caught: swallowing it returns False, which turns gates B3/B4/B5/B6 into
+    # "n/a (not a translation edition)". A config typo that silently disables four
+    # ship gates is worse than the fallback this replaced.
+    return book_voice(book_dir) == BOOK_VOICE_FAITHFUL
 
 
 def translation_policy(book_dir: Path) -> dict[str, Any]:

@@ -52,6 +52,12 @@ the Composer for the human to resolve.
 Note `fingerprint` ↔ `fingerprintBody` is a named TS↔Python mirror pair in
 CLAUDE.md and has **no parity test** — add one.
 
+> **RESOLVED 2026-07-21, differently.** There is no parity test because there is
+> no longer a pair: the TS `fingerprintBody` was deleted and the Composer now
+> quotes the pipeline's own stamp (`_system/composer-base.json`). One
+> computation, in one language. `anchor_key`/`anchorKey` remains the only mirror
+> pair, and it already has shared fixtures.
+
 ## 3. Remaining audit findings, ranked
 
 Not yet fixed (a repo-surgeon sweep found 14; six are done and pushed in

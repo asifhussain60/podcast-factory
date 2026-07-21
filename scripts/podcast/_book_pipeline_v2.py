@@ -82,9 +82,12 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         else:
             log(f"    book-pipeline-v2: {len(_authored)} Composer-authored chapter(s) will not be regenerated")
 
-    # Both de-dup passes append to this run's deletion record, so it starts empty:
-    # it describes THIS compose, not every compose the book has ever had.
-    (book_dir / "_system" / "book-seam-dedup.json").unlink(missing_ok=True)
+    # Both run-scoped records start empty, so each describes THIS compose rather
+    # than every compose the book has ever had. `compose-skips.json` appended
+    # forever until 2026-07-21, which meant a skip fixed three runs ago still read
+    # as current — the opposite of what a "what went wrong this run" file is for.
+    for _run_scoped in ("book-seam-dedup.json", "compose-skips.json"):
+        (book_dir / "_system" / _run_scoped).unlink(missing_ok=True)
 
     # 1. Faithful base — the shared foundation for BOTH modes. Reuse the
     #    translation-edition compose as the base, driven by knobs (not by the
@@ -144,6 +147,32 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         book_md = final_md
         record_seam_removals(book_dir, "final", _removed, log)
 
+    # 5a-replay. Replay durable Book Composer edits, and stamp the per-chapter
+    #     fingerprints the Composer quotes back on its next save.
+    #
+    #     Since 2026-07-21 the model stages above SKIP any chapter carrying a
+    #     Composer edit, so this is normally a confirming pass rather than a rescue.
+    #     It stays because it is what makes the guarantee unconditional: under
+    #     `--force`, and for any stage that grows a new path to book.md, the
+    #     author's chapter is restored here and the overwrite is reported.
+    #
+    #     It runs BEFORE the deterministic house-style passes below, not after.
+    #     After was wrong and cost the authored chapters their inline Arabic: the
+    #     script pass ran, annotated the human's terms, and then the replay wrote
+    #     the raw saved body back over the annotations, so exactly the chapters
+    #     someone cared enough to author printed with no Arabic beside their terms
+    #     — and gate B3 counts Arabic runs book-wide, so nothing noticed. Replaying
+    #     first means transliteration, script, spelling and honorifics all see the
+    #     final text, the author's chapters included, instead of a version of it.
+    #     Idempotent and anchored by heading — see _book_edits.py.
+    from _book_edits import apply_composer_edits
+
+    try:
+        apply_composer_edits(book_dir, log=log, force=force)
+        book_md = book_dir / "book" / "book.md"
+    except Exception as e:  # a bad sidecar must never destroy a good compose
+        _record_skip(book_dir, "composer-edits", e, log)
+
     # 5a-translit. Fold scholarly transliteration to the plain house form, AFTER
     #     the model passes. The base composer already does this at the end of its
     #     own run (_translation_edition), but the fluency and augment passes come
@@ -167,11 +196,12 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         _record_skip(book_dir, "translit", e, log)
 
     # 5a-arabic. Put the Arabic script back beside inline terms. AFTER every
-    #     LLM text pass, so no model can romanize the script away again; BEFORE
-    #     the Composer replay and the audits, so a human edit sits on top of it
-    #     and the Arabic audit judges exactly what prints. Deterministic and
-    #     glossary-driven — no model, no cost, nothing recalled. See
-    #     _book_inline_arabic.py.
+    #     LLM text pass, so no model can romanize the script away again, and AFTER
+    #     the Composer replay, so it annotates the author's chapters too — before
+    #     the replay it annotated them and the replay wrote the raw saved body back
+    #     over its work. BEFORE the audits, so the Arabic audit judges exactly what
+    #     prints. Deterministic and glossary-driven — no model, no cost, nothing
+    #     recalled. See _book_inline_arabic.py.
     from _book_inline_arabic import apply_inline_arabic
 
     try:
@@ -198,42 +228,6 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
                 log("    spelling: normalized to American forms")
     except Exception as e:  # a spelling pass is never worth a finished book
         _record_skip(book_dir, "spelling", e, log)
-
-    # 5b. Replay durable Book Composer edits, and stamp the per-chapter
-    #     fingerprints the Composer quotes back on its next save.
-    #
-    #     Since 2026-07-21 the stages above SKIP any chapter carrying a Composer
-    #     edit, so this is normally a confirming pass rather than a rescue: the
-    #     author's text is already in place and no model was asked to rewrite it.
-    #     The replay stays because it is what makes the guarantee unconditional —
-    #     under `--force`, and for any stage that grows a new path to book.md, the
-    #     author's chapter is restored here and the overwrite is reported.
-    #     Idempotent and anchored by heading — see _book_edits.py.
-    from _book_edits import apply_composer_edits
-
-    try:
-        apply_composer_edits(book_dir, log=log, force=force)
-        book_md = book_dir / "book" / "book.md"
-    except Exception as e:  # a bad sidecar must never destroy a good compose
-        _record_skip(book_dir, "composer-edits", e, log)
-
-    # 5b-honorifics. Introduce each honorific in full, then abbreviate. Runs AFTER
-    #     the Composer replay because "first use" is a property of the whole book in
-    #     reading order, and a human's chapter is part of that book — scoping it to
-    #     the pipeline's own prose would spell the formula out in a chapter the
-    #     reader may meet second. Deterministic and idempotent; see _honorifics.py.
-    from _honorifics import expand_first_honorific_use
-
-    try:
-        _md = book_dir / "book" / "book.md"
-        if _md.exists():
-            _before = _md.read_text(encoding="utf-8")
-            _after, _n = expand_first_honorific_use(_before)
-            if _n:
-                _md.write_text(_after, encoding="utf-8")
-                log(f"    honorifics: {_n} first-use honorific(s) spelled out in full")
-    except Exception as e:  # a convention is never worth a finished book
-        _record_skip(book_dir, "honorifics", e, log)
 
     # 5c. The edition's introduction. AFTER the Composer replay, so a human who
     #     rewrote the preface keeps their words and the introduction sits above
@@ -309,5 +303,26 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         apply_bridges(book_dir, log=log)
     except Exception as e:
         _record_skip(book_dir, "bridges", e, log)
+
+    # 9. Honorifics — introduce each in full, then abbreviate. Genuinely LAST,
+    #    after the introduction and the bridges, because "first use" is a property
+    #    of the whole book AS THE READER MEETS IT and both of those are prose a
+    #    reader reads. Run before them, an abbreviation in the introduction sat
+    #    ahead of its own expansion — the exact confusion this pass exists to end.
+    #    The Arabic audit above therefore counts the abbreviated form; that is the
+    #    same limitation bridges already have, and both are report-only.
+    #    Deterministic, book-scoped and idempotent; see _honorifics.py.
+    from _honorifics import expand_first_honorific_use
+
+    try:
+        _md = book_dir / "book" / "book.md"
+        if _md.exists():
+            _before = _md.read_text(encoding="utf-8")
+            _after, _n = expand_first_honorific_use(_before)
+            if _n:
+                _md.write_text(_after, encoding="utf-8")
+                log(f"    honorifics: {_n} first-use honorific(s) spelled out in full")
+    except Exception as e:  # a convention is never worth a finished book
+        _record_skip(book_dir, "honorifics", e, log)
 
     return book_md

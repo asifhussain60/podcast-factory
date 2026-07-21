@@ -67,6 +67,22 @@ def test_replay_wins_over_regenerated_prose(tmp_path: Path) -> None:
     assert "Pipeline prose for two." in _body(bd, "## 2. On Patience")  # untouched
 
 
+def test_replay_writes_the_body_verbatim(tmp_path: Path) -> None:
+    """No normalisation here — the deterministic passes run AFTER the replay.
+
+    This function used to fold transliteration and spelling itself, because it ran
+    after those passes. It could not fold in the inline Arabic that way, since that
+    pass had already run, so an authored chapter printed with no script beside its
+    terms. The replay moved ahead of all of them (compose step 5a-replay); folding
+    here as well would mean two places deciding house style.
+    """
+    bd = _book(tmp_path)
+    body = "The colour of honour, and Bayt al-Ma'mur."
+    record_edit(bd, chapter_key="on knowledge", body_md=body)
+    apply_composer_edits(bd, log=lambda *a: None)
+    assert _body(bd, "## 1. On Knowledge") == body
+
+
 def test_replay_is_idempotent(tmp_path: Path) -> None:
     bd = _book(tmp_path)
     record_edit(bd, chapter_key="on knowledge", body_md="The human's own sentence.")
@@ -80,11 +96,12 @@ def test_conflict_is_reported_not_papered_over(tmp_path: Path) -> None:
     # Only --force re-composes over an author's chapter, so only --force can
     # produce a true conflict. Everything else is the skip path below.
     bd = _book(tmp_path)
+    apply_composer_edits(bd, log=lambda *a: None)  # compose 1: stamps the base
     record_edit(
         bd,
         chapter_key="on knowledge",
         body_md="The human's own sentence.",
-        base_fingerprint=fingerprint("Pipeline prose for one."),
+        base_fingerprint=base_fingerprint_for(bd, "on knowledge"),
     )
     # Pipeline was forced to re-compose the chapter after the human edited it.
     (bd / "book" / "book.md").write_text(
@@ -100,14 +117,34 @@ def test_conflict_is_reported_not_papered_over(tmp_path: Path) -> None:
 
 def test_no_conflict_when_the_base_is_unchanged(tmp_path: Path) -> None:
     bd = _book(tmp_path)
+    apply_composer_edits(bd, log=lambda *a: None)
     record_edit(
         bd,
         chapter_key="on knowledge",
         body_md="The human's own sentence.",
-        base_fingerprint=fingerprint("Pipeline prose for one."),
+        base_fingerprint=base_fingerprint_for(bd, "on knowledge"),
     )
     report = apply_composer_edits(bd, log=lambda *a: None, force=True)
     assert report["applied"] == 1 and report["conflicts"] == 0
+
+
+def test_a_fingerprint_from_before_the_stamp_never_fires_a_conflict(tmp_path: Path) -> None:
+    """An edit saved by the retired TS hash carries a number from another
+    computation. Comparing across two computations is what made this signal
+    meaningless; an unknown is reported as no conflict, and the honest current
+    value is stamped so the NEXT compose can tell.
+    """
+    bd = _book(tmp_path)
+    record_edit(
+        bd,
+        chapter_key="on knowledge",
+        body_md="The human's own sentence.",
+        base_fingerprint="7f2f42eac1f48af6",  # the shape the deleted TS hash wrote
+    )
+    report = apply_composer_edits(bd, log=lambda *a: None)
+    assert report["conflicts"] == 0
+    assert base_fingerprint_for(bd, "on knowledge") != "7f2f42eac1f48af6"
+    assert base_fingerprint_for(bd, "on knowledge") == fingerprint("Pipeline prose for one.")
 
 
 # ─── the stamp: one number, produced once, quoted by both sides ───────────────

@@ -235,28 +235,6 @@ def base_fingerprint_for(book_dir: Path, chapter_key: str) -> str:
     return load_base_stamp(book_dir).get(chapter_key, "")
 
 
-def _normalize_replayed_body(body: str) -> str:
-    """Apply the pipeline's own deterministic text folds to a human's chapter.
-
-    Kept deliberately narrow and non-fatal: these are spelling and script
-    normalisations, never rewrites. If a module is unavailable the body is
-    returned untouched rather than dropped.
-    """
-    try:
-        from _translit import simplify_transliteration
-
-        body = simplify_transliteration(body)
-    except Exception:
-        pass
-    try:
-        from _american_spelling import to_american
-
-        body = to_american(body)
-    except Exception:
-        pass
-    return body
-
-
 def apply_composer_edits(book_dir: Path, *, log=print, force: bool = False) -> dict[str, Any]:
     """Replay every saved Composer edit into book/book.md. Returns a report.
 
@@ -314,15 +292,20 @@ def apply_composer_edits(book_dir: Path, *, log=print, force: bool = False) -> d
         else:
             # The chapter was NOT regenerated: `body` is the author's own text,
             # already substituted upstream, so fingerprinting it would compare the
-            # edit against itself-plus-noise. Carry the last real composed value.
-            # A missing entry means this book has not composed since the stamp
-            # existed — unknown, and an unknown must not be reported as a conflict.
-            current = prev_stamp.get(key) or expected or composed_fp
+            # edit against itself and report a conflict on every compose.
+            current = prev_stamp.get(key, composed_fp)
         stamp[key] = current
         # A conflict means the pipeline regenerated this chapter since the human
         # edited it. The edit still wins — it is their chapter — but they are told,
         # because the improvement they are now overwriting may be one they want.
-        conflict = bool(expected) and expected != current
+        #
+        # Only compared when a previous stamp EXISTS. Without one, `expected` came
+        # from somewhere else — an edit saved before the stamp did, carrying a
+        # number the retired TS hash produced — and comparing across two
+        # computations is what made this signal meaningless in the first place. An
+        # unknown is reported as no conflict, and the honest current value is
+        # stamped rather than the legacy one, so the NEXT compose can tell.
+        conflict = bool(expected) and key in prev_stamp and expected != current
         record = {"chapter_key": key, "title": head.strip(), "conflict": conflict}
         if conflict:
             report["conflicts"] += 1
@@ -345,13 +328,14 @@ def apply_composer_edits(book_dir: Path, *, log=print, force: bool = False) -> d
             report["chapters"].append(record)
             continue
 
-        # Run the human's chapter through the SAME deterministic folds the
-        # pipeline applies to its own prose. Replay happens after those passes,
-        # so without this a Composer-authored chapter keeps British spellings and
-        # scholarly apostrophes, and — because an unfolded "Ma'mur" matches no
-        # glossary entry — silently loses its inline Arabic too.
-        edited = _normalize_replayed_body(edited)
-
+        # No normalisation here, deliberately. This function used to fold
+        # transliteration and spelling itself, because it ran AFTER those passes
+        # and a Composer-authored chapter would otherwise keep British spellings
+        # and scholarly apostrophes. It could not fold in the inline Arabic that
+        # way — that pass had already run — so the author's chapters silently lost
+        # their script. The replay now runs BEFORE all of them (compose step
+        # 5a-replay), so every deterministic pass sees the author's text as part of
+        # the book, which is the only version of this that is actually complete.
         report["applied"] += 1
         report["chapters"].append(record)
         out.append(head + "\n\n" + edited + "\n")

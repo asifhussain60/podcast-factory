@@ -72,6 +72,11 @@ def _drive_publish_through_done(book_dir: Path) -> int:
             _bv = _json.loads(_bv_path.read_text())
             if _bv.get("verdict") == "BOOK-BROKEN":
                 _err(f"reading edition is BROKEN (podcast still ships): {_bv.get('summary')}")
+            elif _bv.get("verdict") == "UNKNOWN":
+                # Neither sound nor broken: the gate that would have said crashed.
+                # Without this branch the loop printed nothing at all, which reads
+                # exactly like a book that was never built.
+                _err(f"reading edition is UNVERIFIED — the validation gate crashed: {_bv.get('error')}")
             elif _bv.get("verdict") == "BOOK-SOUND":
                 _info(f"reading edition verdict: SOUND — {_bv.get('summary')}")
         except Exception:

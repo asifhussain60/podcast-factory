@@ -329,12 +329,23 @@ def _merge_records(previous: list[dict], current: list[dict]) -> list[dict]:
     were all adapted an hour earlier. That misreads as "the pass did nothing",
     and on 2026-07-20 it sent a reviewer to exactly that wrong conclusion. A
     skipped chapter therefore keeps whatever the previous report said about it.
+
+    ``composer-edit`` is the same trap wearing a different word. A chapter the
+    human has since authored is no longer adapted by this pass, but it very likely
+    WAS adapted before they took it over, and replacing the record outright loses
+    that. It keeps its new status — that is the true and current fact — and carries
+    what the last report said in ``superseded_status``, so the reviewer can still
+    see the chapter has a history.
     """
     prior = {r.get("title"): r for r in previous if r.get("title")}
     merged: list[dict] = []
     for record in current:
-        if record.get("status") == "skipped" and record.get("title") in prior:
-            merged.append(prior[record["title"]])
+        title = record.get("title")
+        status = record.get("status")
+        if status == "skipped" and title in prior:
+            merged.append(prior[title])
+        elif status == "composer-edit" and title in prior:
+            merged.append({**record, "superseded_status": prior[title].get("status")})
         else:
             merged.append(record)
     return merged
@@ -468,7 +479,7 @@ def apply_fluency_adapt(
     report_path.write_text(
         json.dumps(
             {
-                "schema": "podcast.book-fluency/v2",
+                "schema": "podcast.book-fluency/v3",
                 "narrative_frame": frame,
                 "adapted": adapted,
                 "reverted": reverted,
@@ -532,7 +543,7 @@ def apply_author_companion_voice(
     report_path.write_text(
         json.dumps(
             {
-                "schema": "podcast.book-voice/v2",
+                "schema": "podcast.book-voice/v3",
                 "narrative_frame": frame,
                 "revoiced": revoiced,
                 "reverted": reverted,

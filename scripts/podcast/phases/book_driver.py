@@ -143,6 +143,22 @@ def _drive_book_branch_body(book_dir: Path) -> int:
         )
         _err(f"0book-compose failed (non-blocking): {e}")
         return 0
+    except ValueError as e:
+        # An unrecognised knob value in series-config.yaml. It SHOULD stop the book
+        # — the config does not say which book to make — but it must stop it here,
+        # the way every other book failure does. Uncaught it propagates through the
+        # phase wrapper, out of publish_driver and into the orchestrator, aborting
+        # the run after the entire podcast has already been produced. The book
+        # branch is non-blocking for the podcast; a typo does not get to change that.
+        update_phase(
+            book_dir,
+            phase="0book-compose",
+            status="failed",
+            error=str(e),
+            extras={"manual_fallback": "Fix the knob value in _system/series-config.yaml, then re-run."},
+        )
+        _err(f"0book-compose failed (non-blocking): {e}")
+        return 0
     update_phase(book_dir, phase="0book-compose", status="completed")
     phase_git_commit(book_dir, f"book({slug}): 0book-compose — unified path")
 
@@ -153,7 +169,15 @@ def _drive_book_branch_body(book_dir: Path) -> int:
     # accidentally place, nothing to review away later.
     from _pipeline_flags import BOOK_VISUALS_MANUAL_ONLY, book_visuals
 
-    _visuals = book_visuals(book_dir)
+    try:
+        _visuals = book_visuals(book_dir)
+    except ValueError as e:
+        # Same containment as the compose knobs above: this value decides whether
+        # the illustrate and slide-import phases run at all, so a typo must fail
+        # the book lane visibly rather than escape into the orchestrator.
+        update_phase(book_dir, phase="0book-compose", status="failed", error=str(e))
+        _err(f"0book-visual-policy failed (non-blocking): {e}")
+        return 0
     _manual_visuals = _visuals == BOOK_VISUALS_MANUAL_ONLY
     if _manual_visuals:
         _info("0book-illustrate/slide-import: skipped — book_visuals=manual_only (figures curated in the Composer)")
@@ -302,9 +326,6 @@ def _drive_book_branch_body(book_dir: Path) -> int:
         from validate_book_ready import validate_book
 
         _bv = validate_book(book_dir)
-        (book_dir / "_system" / "book-validation-report.json").write_text(
-            __import__("json").dumps(_bv, indent=2), encoding="utf-8"
-        )
     except Exception as e:
         # A crash in the gate is NOT a pass. It used to fall through to
         # `status="completed"` alongside a genuinely validated book, so the one
@@ -313,6 +334,17 @@ def _drive_book_branch_body(book_dir: Path) -> int:
         # which is neither.
         _err(f"0book-render: book-validation gate CRASHED — the deliverable is unverified: {e}")
         _bv = {"verdict": "UNKNOWN", "gates": [], "error": f"{type(e).__name__}: {e}"}
+
+    # Written OUTSIDE the try, so the UNKNOWN verdict actually reaches disk. Inside
+    # it, a crash left the PREVIOUS run's report in place — and `publish_driver`
+    # reads that file to tell a human whether the reading edition is sound, so the
+    # ship surface went on printing "SOUND" from a report about a different build.
+    try:
+        (book_dir / "_system" / "book-validation-report.json").write_text(
+            __import__("json").dumps(_bv, indent=2), encoding="utf-8"
+        )
+    except Exception as e:  # a recorder must never become the failure it records
+        _err(f"0book-render: could not write book-validation-report.json: {e}")
 
     if _bv.get("verdict") == "UNKNOWN":
         update_phase(

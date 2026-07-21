@@ -14,9 +14,15 @@ established behaviour:
   * companion book (anything else)              -> ``{source_only, author_companion}``
     (the author-companion revoice with source-grounded enrichment)
 
-An explicit ``book_augmentation`` / ``book_voice`` key in ``series-config.yaml``
-overrides the default map. Invalid values fall back to the default map rather
-than raising, so a typo can never harden into a silent behaviour change.
+An explicit ``book_augmentation`` / ``book_voice`` / ``book_visuals`` key in
+``series-config.yaml`` overrides the default map. An UNRECOGNISED value RAISES
+``ValueError`` (2026-07-21). It used to fall back to the default map, which was
+the silent behaviour change that rule was meant to prevent: ``book_voice:
+fathful`` on a book with no ``deliverable_mode`` defaults to ``author_companion``,
+so a translation edition received a full author re-voice — hours of model time
+and a different book at the end of it, with nothing saying why. Callers that must
+not abort on a bad config catch the ValueError where they can report it; see
+``phases/book_driver``.
 
 This module intentionally re-implements a tiny YAML reader instead of importing
 ``_translation_edition.read_series_config`` — that module pulls in the heavy
@@ -83,8 +89,8 @@ def _reject_unknown(key: str, value: str, valid: frozenset[str]) -> None:
 
     ``book_voice: fathful`` used to fall through to the default map, so a
     translation edition quietly received a full author re-voice — hours of model
-    time, a different book at the end of it, and nothing anywhere saying why. The
-    knob is four values wide; if a value is not one of them the config is wrong and
+    time, a different book at the end of it, and nothing anywhere saying why. Each
+    knob is two values wide; if a value is not one of them the config is wrong and
     the run should stop rather than guess which book was intended.
     """
     raise ValueError(
@@ -135,7 +141,13 @@ def book_visuals(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     if cfg is None:
         cfg = _read_series_config(book_dir)
     explicit = str(cfg.get(VISUALS_KEY) or "").strip().lower()
-    if explicit in _VALID_VISUALS:
+    # Strict for the same reason its two siblings are: this value decides whether
+    # the illustrate and slide-import phases run at all, so a typo here silently
+    # produces candidate assets behind the curator's back, or silently stops
+    # producing them.
+    if explicit and explicit not in _VALID_VISUALS:
+        _reject_unknown(VISUALS_KEY, explicit, _VALID_VISUALS)
+    if explicit:
         return explicit
     if book_augmentation(book_dir, cfg) == BOOK_AUGMENTATION_SOURCE_ONLY:
         return BOOK_VISUALS_MANUAL_ONLY
