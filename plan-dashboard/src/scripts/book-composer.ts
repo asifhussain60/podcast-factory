@@ -248,18 +248,45 @@ function boot(): void {
       }
     }
   }
+  /** Bring the WORKING ROW to the top of the viewport — the chapter picker, the
+   *  Read/Edit toggle and the drawer's own text dial, all on one line just under
+   *  the site nav.
+   *
+   *  Not `scrollTo(0)`, which is what this used to do: that put the page hero
+   *  back on screen — breadcrumb, book title, the paragraph explaining what the
+   *  Composer is — none of which you are working on, and it cost most of a screen
+   *  before the first line of prose. The drawer is anchored to the top of the
+   *  GRID, not of the page, so the grid is the thing to bring into view.
+   *
+   *  Measured off the sticky nav rather than hard-coded: theme-components.css
+   *  owns that height and a copy of it here would drift the first time it moved. */
+  function scrollToWorkingRow(): void {
+    const grid = root.querySelector<HTMLElement>(".composer-grid");
+    if (!grid) return;
+    const navH =
+      document.querySelector<HTMLElement>(".topnav")?.getBoundingClientRect()
+        .height ?? 0;
+    const target = Math.max(
+      0,
+      grid.getBoundingClientRect().top + window.scrollY - navH - 8,
+    );
+    // Already there — don't animate a scroll of two pixels.
+    if (Math.abs(target - window.scrollY) < 4) return;
+    // `smooth` unless the reader has asked for reduced motion, in which case an
+    // instant jump is the accessible answer rather than no jump at all.
+    const reduce = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    )?.matches;
+    window.scrollTo({ top: target, behavior: reduce ? "auto" : "smooth" });
+  }
+
   for (const n of SURFACES) {
     surfaceBtn(n)?.addEventListener("click", () => {
       setPanel(panelState === n ? "closed" : n);
       // The buttons are pinned to the bottom of the viewport but the drawer they
-      // open is anchored to the TOP of the page — so deep in a long chapter you
-      // could open a panel and see nothing happen. Ride back up with it.
-      // `smooth` unless the reader has asked for reduced motion, in which case an
-      // instant jump is the accessible answer rather than no jump at all.
-      const reduce = window.matchMedia?.(
-        "(prefers-reduced-motion: reduce)",
-      )?.matches;
-      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+      // open starts at the top of the grid — so deep in a long chapter you could
+      // open a panel and see nothing happen. Ride back up with it.
+      scrollToWorkingRow();
     });
   }
   root.addEventListener("keydown", (e) => {

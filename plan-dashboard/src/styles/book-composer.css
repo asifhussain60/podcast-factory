@@ -1309,8 +1309,15 @@
    permanently dead on the one page whose button row was built around it. */
 .composer-panel {
   position: sticky;
-  top: 1rem;
-  height: calc(100vh - 2rem);
+  /* BELOW the sticky top nav, not under it. `top: 1rem` pinned the drawer at
+     16px while .topnav occupies 0-52px, so the moment the page scrolled, the
+     drawer's text-size dial slid behind the nav and could not be reached — the
+     surface below it was still clear, so the panel looked fine and the control
+     was simply gone. 52px is the nav's own height; it is written as a literal
+     here for the same reason .subnav-h does it in theme-components.css, which is
+     the existing precedent for sticking something below that bar. */
+  top: calc(52px + 0.5rem);
+  height: calc(100vh - 52px - 1rem);
   min-width: 0;
   box-sizing: border-box;
   padding-left: 1.5rem;
@@ -1344,9 +1351,9 @@
      and the covered part cannot be scrolled into view because it IS the end of
      the scroll. Each scroller reserves this much after its content instead.
      Derived, not guessed: the row is 44px tall sitting var(--sp-5) off the
-     viewport bottom, and the drawer's own bottom edge is 1rem above it (top: 1rem
-     + height: calc(100vh - 2rem) above). */
-  --cx-fab-clear: calc(44px + var(--sp-5, 1.5rem) - 1rem);
+     viewport bottom, and the drawer's own bottom edge is 0.5rem above that —
+     which follows from the top/height above, so it moves when they move. */
+  --cx-fab-clear: calc(44px + var(--sp-5, 1.5rem) - 0.5rem);
 }
 .cx-surface {
   flex: 1;
