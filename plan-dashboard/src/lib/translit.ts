@@ -76,10 +76,15 @@ export function simplifyTransliteration(text: string): string {
       while (j < arr.length && /\p{L}/u.test(arr[j])) j++;
       const suffix = arr.slice(i + 1, j).join("").toLowerCase();
       const keep =
-        /\p{L}/u.test(prev) &&
-        (ENGLISH_CLITICS.has(suffix) ||
-          (!suffix && prev.toLowerCase() === "s") ||
-          ELISIONS.has(`${prev.toLowerCase()}|${suffix}`));
+        (/\p{L}/u.test(prev) &&
+          (ENGLISH_CLITICS.has(suffix) ||
+            (!suffix && prev.toLowerCase() === "s") ||
+            ELISIONS.has(`${prev.toLowerCase()}|${suffix}`))) ||
+        // A ROOT RADICAL, not a diacritic: in "(sh-r-\u02bf)" the ayn IS the
+        // third consonant, and folding it printed "(sh-r-)". A hyphen before
+        // and nothing after marks that position; "al-\u02bfAbidin" has a
+        // suffix and still folds. Mirror of _translit.py.
+        (prev === "-" && !suffix);
       if (keep) res += "'";
     } else {
       res += arr[i];

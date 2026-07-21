@@ -54,6 +54,17 @@ _ARABIC = r"؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿"
 # Arabic run anyway.
 _SKIP_LINE = re.compile(r"^\s*(?:[>#]|```|<|\|)")
 
+# How far past a term to look for its script before deciding this mention is
+# already annotated. Wide enough to see past a closing quote, comma or footnote
+# marker sitting between the term and its parenthetical.
+_ANNOTATED_WINDOW = 12
+
+
+def _term_re(phonetic: str) -> re.Pattern[str]:
+    """Whole-token matcher: not inside a longer word, a hyphenated compound, or
+    a possessive — "al-Quran" and "Ghazali's" must not fire."""
+    return re.compile(rf"(?<![\w-]){re.escape(phonetic)}(?![\w'’-])")
+
 
 def _glossary_terms(book_dir: Path) -> list[tuple[str, str]]:
     """(phonetic, arabic_script) pairs worth injecting, longest phonetic first.
@@ -116,26 +127,48 @@ def _annotate_chapter(body: str, terms: list[tuple[str, str]]) -> tuple[str, int
     for i, line in enumerate(lines):
         if not pending or not line.strip() or _SKIP_LINE.search(line):
             continue
+        # Reserve the span of EVERY glossary term present on this line, whether
+        # or not it is still pending. Reserving only pending terms was not
+        # enough: once "Abd Allah" had been annotated in an earlier line it left
+        # `pending`, so on a later line the standalone "Allah" entry matched the
+        # Allah INSIDE "son of Abd Allah" and printed "Abd Allah (الله)" — one
+        # name carrying two different scripts in the same chapter.
         claimed: list[tuple[int, int]] = []
+        for phonetic, _script in terms:
+            for m in _term_re(phonetic).finditer(line):
+                if not any(s < m.end() and m.start() < e for s, e in claimed):
+                    claimed.append((m.start(), m.end()))
+        reserved = list(claimed)
+
         inserts: list[tuple[int, str]] = []
         # `terms` is longest-phonetic-first, so a compound name claims its span
         # before any of its component words can.
         for phonetic, script in terms:
             if phonetic not in pending:
                 continue
-            # Whole-token match; not inside a longer word, a hyphenated compound,
-            # or a possessive ("al-Quran", "Ghazali's" must not fire).
-            pattern = re.compile(rf"(?<![\w-]){re.escape(phonetic)}(?![\w'’-])")
+            # A term may only annotate at a span reserved for ITSELF — that is,
+            # one whose extent matches this term exactly. A span belonging to a
+            # longer name is off limits even though the shorter term matches
+            # inside it.
             m = next(
-                (m for m in pattern.finditer(line) if not any(s < m.end() and m.start() < e for s, e in claimed)),
+                (
+                    m
+                    for m in _term_re(phonetic).finditer(line)
+                    if (m.start(), m.end()) in reserved
+                    and not any(s < m.end() and m.start() < e for s, e in claimed if (s, e) != (m.start(), m.end()))
+                ),
                 None,
             )
             if not m:
                 continue
             claimed.append((m.start(), m.end()))
-            # Idempotent: if Arabic already follows in parentheses, this mention
-            # is annotated — claim the term and leave the text alone.
-            if re.match(rf"\s*\([{_ARABIC}][^)]*\)", line[m.end() :]):
+            # Idempotent: if this mention already carries its script, claim the
+            # term and leave the text alone. The window is deliberately loose —
+            # the approved base wrote one as `"Kab al-Ahbar (كعب الأحبار)"` with
+            # the closing quote BETWEEN the term and its parenthetical, which a
+            # strict `\s*\(` check walked straight past, producing the script
+            # twice eight characters apart.
+            if script in line[m.end() : m.end() + len(script) + _ANNOTATED_WINDOW]:
                 del pending[phonetic]
                 continue
             inserts.append((m.end(), f" ({script})"))

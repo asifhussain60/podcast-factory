@@ -194,6 +194,12 @@ ORTHOGRAPHY: dict[str, str] = {
     "counsellors": "counselors",
     "jewellery": "jewelry",
     "woollen": "woolen",
+    "labelled": "labeled",
+    "labelling": "labeling",
+    "modelled": "modeled",
+    "modelling": "modeling",
+    "quarrelled": "quarreled",
+    "rivalled": "rivaled",
     # single -> doubled, and -ment
     "fulfil": "fulfill",
     "fulfils": "fulfills",
@@ -225,8 +231,12 @@ ORTHOGRAPHY: dict[str, str] = {
     "moustache": "mustache",
     "storey": "story",
     "storeys": "stories",
-    "draught": "draft",
-    "draughts": "drafts",
+    # NOT draught->draft. Both are a British/American pair, but "draft" in
+    # American English reads first as a document or a conscription, so
+    # "his draught grew sweet" became "his draft grew sweet" and the
+    # spring-and-water image running through that passage collapsed
+    # (book-challenger, 2026-07-21). A spelling rule may not cost a
+    # sentence its meaning; this pair is left to the author.
     "gaol": "jail",
     "kerb": "curb",
     "mould": "mold",

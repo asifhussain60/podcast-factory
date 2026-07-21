@@ -57,6 +57,13 @@ test("the one listed elision survives", () => {
   assert.equal(f("five o'clock"), "five o'clock");
 });
 
+test("a root radical survives, an ordinary prefix still folds", () => {
+  // "(sh-r-\u02bf)" printed as "(sh-r-)" — a two-letter root with a dangling
+  // hyphen, a claim the reader can see is false.
+  assert.equal(f("The root of Sharia (sh-r-\u02bf)"), "The root of Sharia (sh-r-')");
+  assert.equal(f("Minh\u0101j al-\u02bf\u0100bid\u012bn"), "Minhaj al-Abidin");
+});
+
 test("Arabic script and its vowel marks are never touched", () => {
   assert.equal(f("وَأَنْ لَيْسَ"), "وَأَنْ لَيْسَ");
   assert.equal(f("the centre of البيت المعمور"), "the centre of البيت المعمور");

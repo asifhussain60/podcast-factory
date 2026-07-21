@@ -192,7 +192,210 @@
         "provider": "notebooklm",
         "ref": "EP15"
       }
+    },
+    {
+      "id": "e3510ef3-f433-421c-b2d2-2070bdb577df",
+      "kind": "analogy",
+      "body": "The hosts landed on a great image here. A real gift, they said, isn't an object you set on a shelf and admire. It's a trajectory, a road laid out for you to travel. And you can't thank a road with a word. You thank a road by walking it. So when the passage describes a broad, open highway with a clear inside and outside, hear it as a path meant to be walked, not just praised. Gratitude has to take the same shape as the gift.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "Thank a road by walking it",
+      "quote": "It is He who laid open the broad highways of the pasture and made their outward and their inward free of caprice",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP01"
+      }
+    },
+    {
+      "id": "7dae1e52-feda-4edb-a721-288a405b3791",
+      "kind": "etymology",
+      "body": "When he speaks of watering-places for those who journey and a clear-flowing drink, he's leaning on an old image. The word for sacred law, Shari'ah, comes from a root meaning to open up a path — specifically the trodden way down to water. So the law isn't pictured as a fence but as a road to a spring: the clear way of life God opens up, as vital to a thirsty soul as water is to a thirsty body. That's why every image here is about journeying and drinking.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "Shari'ah — the road to water",
+      "quote": "It has watering-places for those who journey toward Him",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "0f0ac6ba-8ba0-484e-a9a0-8908194a23c6",
+      "kind": "analogy",
+      "body": "The hosts reached for a vivid picture of what he's embodying. A fool's tongue moves first — he blurts a position, then his heart scrambles to justify whatever just fell out of his mouth. He's a prisoner of his own momentum. The wise man runs it backwards: truth arrives, the heart weighs it against a higher measure, and only when it's aligned does the tongue get permission to speak. When he disowns his own words, the townspeople are seeing a man whose tongue sits behind his heart.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "Tongue behind the heart",
+      "quote": "I am only a follower of the true saying.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP02"
+      }
+    },
+    {
+      "id": "92b0e840-8d10-4c28-9725-a39d72744f75",
+      "kind": "note",
+      "body": "Here's something easy to read past: he says God never steps into visible being, so that no one could claim His attributes or turn His path aside. The reason runs deep. God has no likeness at all — nothing resembles Him, not in any outward form and not in any inner reality. Everything that points to Him is only a sign; the One signified stays beyond resemblance. So becoming visible would be a kind of contradiction — a thing with no likeness can't take a form others might copy.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "Why He stays hidden",
+      "quote": "Yet He does not step forth into visible being, that His attributes might be claimed by another",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "d98e9b06-8f31-4afc-b5d2-01002ff4e36d",
+      "kind": "explanation",
+      "body": "He opens by saying God created everything by His power and gave each thing its exact measure. There's a teaching underneath this: creation came through a single word, 'Be' — in Arabic just two letters. One of them stands for movement, the other for stillness. So the whole of existence is held between motion and rest, and every created thing takes its own measured place within that. When he says 'in due measure to what He decreed,' that balance is what he's pointing at.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "Created by the word 'Be'",
+      "quote": "He who created the creation by His power set each thing in due measure to what He decreed for it.",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "8dd7ba9a-31d2-4587-86b3-af159192ee1f",
+      "kind": "etymology",
+      "body": "Notice he counts belonging to the Umma as a mark of the foremost among men. The word comes from a root meaning to aim toward something and to head for a source — the same root behind 'mother' and 'imam,' the one who stands at the front. So an Umma isn't just a crowd; it's a people bound together because they all face one direction, gathered around a shared source and a shared aim. That's why he pairs it with standing nearer to right guidance — they're all turned the same way.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "Umma — facing one source",
+      "quote": "they belong to the people of the Umma",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "2ea0868b-2577-493e-9126-752161acc175",
+      "kind": "etymology",
+      "body": "He says its practices are ordained ways. Behind 'ordained ways' sits the idea of the Sunnah, from a root that means to lay down and smooth a well-trodden course. It's the track walked so often it has become established — here, the way the Prophet set that others now follow. So he isn't describing rules invented on the spot; he's describing a road already graded and smoothed, one you can walk with confidence because those before you wore it in.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "Sunnah — the well-worn track",
+      "quote": "its rulings are obligations and its practices ordained ways",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "2296099e-0e66-4874-b861-b93c4cb3ae1e",
+      "kind": "explanation",
+      "body": "The hosts warned that piety usually gets flattened into just looking religious. The passage pushes back by calling it an adornment, a garment. Think about what that means. A garment is something you put on and carry everywhere, over everything else. That matches how the hosts defined it: a constant, deep awareness of the divine in whatever you happen to be doing. Not a costume for special occasions, but the layer worn across the whole of your life.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "Piety is a garment you wear",
+      "quote": "its most perfect adornment is the garment of piety",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP01"
+      }
+    },
+    {
+      "id": "2acf8dfa-549c-4325-a23b-2cdf03753902",
+      "kind": "note",
+      "body": "One host pushed on this: isn't 'I have nothing of my own' just a line every preacher uses? The discussion's answer is that he isn't making a slogan of it — he's submitting himself to the very test he just described, live, in front of them. He said good speech is speech that isn't the speaker's own ego talking. Then he disowns his own words. The disclaimer isn't false humility; it's him passing his own exam while they watch.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "Not modesty — proof",
+      "quote": "I have nothing to say on my own account; I am only a follower of the true saying.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP02"
+      }
+    },
+    {
+      "id": "807ebfe1-7648-4073-89b4-3ac43585eb08",
+      "kind": "analogy",
+      "body": "Picture someone who long ago lost something precious and never got it back, so now their entire day is simply looking for it. That's the shape of his answer here. His 'need' already got away from him, and rather than mourning it, he's turned the hunt itself into his occupation. It's like a person whose job title is just the word searching. Ask your friend whether that sounds like defeat or like the freest way to live.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "A life organized around a search",
+      "quote": "My need has slipped past me, and my occupation is to seek it.",
+      "source": {
+        "provider": "manual"
+      }
+    },
+    {
+      "id": "1a75979c-d4ea-489d-adc7-1195da59078e",
+      "kind": "explanation",
+      "body": "The hosts spent a while on what separates good speech from bad, and the passage gives the test in one line. Correct speech isn't the clever or eloquent kind. It's speech whose source is Allah and whose aim points back to Allah. Two things at once: where it comes from, and where it's driving you. If a saying starts somewhere else and leads you somewhere else, it fails the test no matter how polished it sounds.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "What makes speech correct",
+      "quote": "That whose origin is from Allah, and which calls to Allah.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP01"
+      }
+    },
+    {
+      "id": "3ca947ca-815e-4751-b554-e0be52b26e2b",
+      "kind": "note",
+      "body": "A fair objection surfaced in the discussion: eavesdropping and then anointing the people you overheard sounds like a teacher choosing whoever flatters him. But look at what he actually names. He doesn't pick them for agreeing with him. He picks them for three things you can see in how they argue — they finish their arguments, they belong to the community, and they're actively searching. Agreement isn't on the list. Rigorous inquiry is.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "Not picking flatterers",
+      "quote": "these are the foremost among men, for three qualities show even in the way they dispute.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP02"
+      }
+    },
+    {
+      "id": "8cf14811-55ee-4eaa-b336-1d5475932e5a",
+      "kind": "note",
+      "body": "The hosts described remembrance as something repeated so often it becomes a second pulse, quietly rewiring your habits until you stop reacting through the ego and start responding out of awareness. The passage seats that idea right in the structure of the path. Its outward face, it says, is a remembrance and a proof for the one being guided. So remembrance isn't decoration on top of the road. It's the road's own surface, the thing you keep meeting as you walk.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "Remembrance as a second pulse",
+      "quote": "Its outward is a remembrance and a proof for the one who is guided",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP01"
+      }
+    },
+    {
+      "id": "0724baeb-d101-43cb-a51d-e336b21001f8",
+      "kind": "explanation",
+      "body": "He ends with a pairing: seek knowledge and you'll know; act and you'll be shown mercy. There's a whole idea of existence packed in there. Created beings are given gifts — life, power, knowledge — but at first they hold them only as potential. The point of living is to put them to work, to move what's merely possible in you into something actual. Knowing without acting leaves the gift half-spent. So his closing line isn't just advice; it's the very reason the beings were made.",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "From potential into act",
+      "quote": "Seek knowledge, and you will come to know; and act, and you will be shown mercy.",
+      "source": {
+        "provider": "corpus"
+      }
+    },
+    {
+      "id": "9ba29a52-eee1-4d72-be27-11b40a13d15a",
+      "kind": "question",
+      "body": "The hosts pointed out that the seekers didn't just want answers. They wanted the rules of asking first, because seeking itself has a discipline. The passage rewards that instinct: whoever seeks a thing, it says, is on the verge of finding it. Here's a question for us to sit with. Is there something you've told yourself you can't find, when the honest truth is you've never actually taken up the search?",
+      "createdAt": "2026-07-21T19:08:53Z",
+      "updatedAt": "2026-07-21T19:08:53Z",
+      "generated": true,
+      "anchor": "On the verge of finding",
+      "quote": "and whoever seeks a thing is on the verge of finding it.",
+      "source": {
+        "provider": "notebooklm",
+        "ref": "EP01"
+      }
     }
   ],
-  "updatedAt": "2026-07-19T15:14:33Z"
+  "updatedAt": "2026-07-21T19:08:53Z"
 }

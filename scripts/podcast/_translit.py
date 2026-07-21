@@ -93,10 +93,21 @@ def simplify_transliteration(text: str) -> str:
             while j < len(folded) and folded[j].isalpha():
                 j += 1
             suffix = folded[i + 1 : j]
-            keep = prev.isalpha() and (
-                suffix.lower() in _ENGLISH_CLITICS
-                or (not suffix and prev.lower() == "s")
-                or (prev.lower(), suffix.lower()) in _ELISIONS
+            keep = (
+                prev.isalpha()
+                and (
+                    suffix.lower() in _ENGLISH_CLITICS
+                    or (not suffix and prev.lower() == "s")
+                    or (prev.lower(), suffix.lower()) in _ELISIONS
+                )
+            ) or (
+                # A ROOT RADICAL, not a diacritic: in a citation like the root of
+                # Sharia "(sh-r-ʿ)" the ayn IS the third consonant. Folding it
+                # away printed "(sh-r-)" — a two-letter root with a dangling
+                # hyphen, making a claim the reader can see is false. A hyphen
+                # before and nothing after marks that position; "al-ʿAbidin"
+                # has a suffix, so it still folds to "al-Abidin".
+                prev == "-" and not suffix
             )
             if keep:
                 res.append("'")
@@ -140,6 +151,10 @@ if __name__ == "__main__":
         ("sama' and Shia'", "sama and Shia"),
         # The one elision worth keeping.
         ("five o'clock", "five o'clock"),
+        # A ROOT RADICAL survives — the ayn IS the third consonant here.
+        ("The root of Sharia (sh-r-\u02bf)", "The root of Sharia (sh-r-')"),
+        # …but a hyphen followed by MORE letters is an ordinary prefix.
+        ("Minh\u0101j al-\u02bf\u0100bid\u012bn", "Minhaj al-Abidin"),
     ]
     failures = 0
     for src, want in CASES:

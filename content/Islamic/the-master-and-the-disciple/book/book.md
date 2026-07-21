@@ -10,9 +10,9 @@ Five figures carry the whole of it. **The Master** is a Persian who came to know
 
 One name has to be kept straight from the start. The pages immediately following this introduction — the book's own opening — begin with believers putting a question to "a Master among them". That teacher is not the Master of the story. He answers once and is not heard from again; everywhere after those opening pages, "the Master" means the Persian.
 
-From the fourth chapter onward a set of terms recurs that a reader may take for ordinary religious vocabulary: the speaking Imam (الإمام) (*al-Imam al-Natiq (الإمام الناطق)*), his gate (*bab (باب)*), his successor (*wasi (وصيه)*), his summoners (*duat (الدعاة)*). The terms first appear in chapter four and the book glosses each when it names it, in chapter five. It sets them out as ranks in a single structure in chapter four itself — imam and gate and summoners figured as sun and moon and stars — so the cosmology of chapters four through six is describing that structure rather than decorating it.
+From the fourth chapter onward a set of terms recurs that a reader may take for ordinary religious vocabulary: the speaking Imam (الإمام) (*al-Imam al-Natiq (الإمام الناطق)*), his gate (*bab (باب)*), his successor (*wasi (الوصي)*), his summoners (*duat (الدعاة)*). The terms first appear in chapter four and the book glosses each when it names it, in chapter five. It sets them out as ranks in a single structure in chapter four itself — imam and gate and summoners figured as sun and moon and stars — so the cosmology of chapters four through six is describing that structure rather than decorating it.
 
-As an edition, this one adds nothing. It translates the whole of the source without abridgment, keeps the Arabic the source carries with the English set beneath, and supplies the Arabic of Quranic verses the source quotes in translation only. Where the words are the book's own they are left unvowelled exactly as the scan leaves them; where they are Quran they carry the vowelling of the mushaf. The editorial notes and the notes to the reader are fenced and labelled, so a reader can always tell the book's voice from a note about it.
+As an edition, this one adds nothing. It translates the whole of the source without abridgment, keeps the Arabic the source carries with the English set beneath, and supplies the Arabic of Quranic verses the source quotes in translation only. Where the words are the book's own they are left unvowelled exactly as the scan leaves them; where they are Quran they carry the vowelling of the mushaf. The editorial notes and the notes to the reader are fenced and labeled, so a reader can always tell the book's voice from a note about it.
 
 ### The book's own opening
 
@@ -110,7 +110,7 @@ Then he said: "Fear Allah with the fear of one who dreads Him, and dread Him wit
 > **Editorial note (source-grounded).** 
 > When the stranger speaks of "open highways of the pasture," of "watering-places for those who
 > journey," and of an inward teaching that is "a clear-flowing drink," he is drawing on the oldest
-> sense of the word for sacred law itself. The root of *Sharia* (sh-r-) means to open up a path
+> sense of the word for sacred law itself. The root of *Sharia* (sh-r-') means to open up a path
 > — specifically the trodden way down to water. The law is that opened road turned into a
 > metaphor: the clear way of life God marks out, as vital to the soul as water is to the thirsty.
 > Read against that root, the chapter's cluster of images — the highway, the seeker's
@@ -359,7 +359,7 @@ The Master said: "The likeness of the twelve chiefs (nuqaba (النقباء)), t
 
 The boy said: "What is the likeness of the earth and its breadth, made a place of rest and a bed for this creation?"
 
-The Master said: "It is the likeness of the gate (bab (باب)) of the speaking Imam in his lifetime, and of his successor (wasi (وصيه)) after his death. It is a place of return for the people and a resting-place for the one who seeks guidance, and it is knowing of the parables and the inward interpretation (tawil (التأويل))."
+The Master said: "It is the likeness of the gate (bab (باب)) of the speaking Imam in his lifetime, and of his successor (wasi (الوصي)) after his death. It is a place of return for the people and a resting-place for the one who seeks guidance, and it is knowing of the parables and the inward interpretation (tawil (التأويل))."
 
 The boy said: "What is the likeness of the twelve islands in the earth?"
 
@@ -371,7 +371,7 @@ The Master said: "The likeness of those who call to the good."
 
 The boy said: "What is the likeness of the seven kingdoms of the heavens and their orbits?"
 
-The Master said: "They are the causes between God and the speaker (natiq (النطقاء)), and they are His. These are the seven and the two orbits, and these are the greatest causes of God."
+The Master said: "They are the causes between God and the speaker (natiq (الناطق)), and they are His. These are the seven and the two orbits, and these are the greatest causes of God."
 
 The boy said: "What is the likeness of the seven seas?"
 
@@ -776,7 +776,7 @@ He said: "Ubayd Allah (عُبيد الله), son of Abd Allah (عبد الله).
 
 The Shaykh said: "That is your description, and your news has already reached us."
 
-The boy said: "I am free, son of Abd Allah (الله)."
+The boy said: "I am free, son of Abd Allah."
 
 The Shaykh said: "And who freed you from a master, that you should become free?"
 
@@ -820,7 +820,7 @@ The Master said to him: "A promise has been given. The one who awaits it is thir
 
 So they remained until the seventh day. Then they sought leave of the Shaykh, and when he had granted it, he ordered the boy to wash and to put on his cleanest garments. As the boy took up this preparation, his heart sensed that his need would be granted that very day, and that the preparation he had been commanded pointed to a good that was coming after it. When he had done what was commanded and they had all gone out together, the boy went out saying, "A day of good fortune, and a patron of good fortune," repeating it again and again. Nothing drove him to this saying but the abundance of his joy and the intensity of his longing to know what would draw him nearer to the pleasure of God. When they came before the Shaykh, they found that he had taken up the implements of his work. He greeted them with peace, and they returned the greeting.
 
-Then he ordered the boy to draw near, and he drew near; and he brought him close, and he came close. He began to speak of matters that no imagining had ever encompassed, that no pen had ever traced, that had never crossed the heart of any mortal — matters not to be uttered in the assemblies of preachers nor set out openly in the collected books, on account of their surpassing worth, and unveiled only to their own people. When he had discharged what was due and brought the boy out of the wastes of bewilderment, in which he had wandered lost, to the very end of guidance, his way became clear and his draft grew sweet, and he came to know his Lord. So he released his pilgrim's consecration by magnifying the sanctities of God, held fast to the sure rope, circled the ancient House, spent his rites in remembrance, and completed his pilgrimage by the greatest sign.
+Then he ordered the boy to draw near, and he drew near; and he brought him close, and he came close. He began to speak of matters that no imagining had ever encompassed, that no pen had ever traced, that had never crossed the heart of any mortal — matters not to be uttered in the assemblies of preachers nor set out openly in the collected books, on account of their surpassing worth, and unveiled only to their own people. When he had discharged what was due and brought the boy out of the wastes of bewilderment, in which he had wandered lost, to the very end of guidance, his way became clear and his draught grew sweet, and he came to know his Lord. So he released his pilgrim's consecration by magnifying the sanctities of God, held fast to the sure rope, circled the ancient House, spent his rites in remembrance, and completed his pilgrimage by the greatest sign.
 
 They and his father kept returning to the Shaykh, studying what the boy had been given — the boy patient in his perseverance, never wearying of the question for its nobility, never sated with the answer for its sweetness. They stayed in that state for a season of the age, until the Shaykh knew that the root had been watered and the branch raised high.
 
@@ -838,7 +838,7 @@ Then the two rose, clasped hands, and embraced, each bidding the other farewell,
 
 The Master said to the boy: "My son, I have grasped the counsel of the Shaykh, and you have not yet grasped it. There is no right guidance except in his words. This is your city, and we have reached its edge. Sit with me here, apart from the road, for I wish to remind you of something of my own affair and to counsel you in what you should act upon."
 
-When they had sat down, the Master said: "My son, I know your father's state and his enmity toward the people of this way, and now your going out with me and your absence from him — without his leave or his safe-conduct — have come one upon another to weigh on him. I mean to carry out my own father's counsel and keep hidden somewhere in this open country, while you go back to your father, so that his soul may be set at ease and his anger toward us may subside. And I hope, if you are gentle with him, that he will be nearer than any other to what you desire, for the absence has alarmed him and the loneliness has distressed him. Know, my son, that God has opened for you, by the lightest of your striving, what I did not think you would attain except after a long while. God has been good to you, so be good to yourself, and honor the one through whom God has honored you; for our opinion of you has been good and our hope in you great. So you must guard the trust your father laid upon you, and stand firm in your affair. Piety and God-wary discretion are the twin guardians of your religion and your work, and thanksgiving and patience are an increase to your light. And seek from Allah the opening of your provisions, and the goodness of His enabling grace toward you."
+When they had sat down, the Master said: "My son, I know your father's state and his enmity toward the people of this way, and now your going out with me and your absence from him — without his leave or his safe-conduct — have come one upon another to weigh on him. I mean to carry out my own father's counsel and keep hidden somewhere in this open country, while you go back to your father, so that his soul may be set at ease and his anger toward us may subside. And I hope, if you are gentle with him, that he will be nearer than any other to what you desire, for the absence has alarmed him and the loneliness has distressed him. Know, my son, that God has opened for you, by the lightest of your striving, what I did not think you would attain except after a long while. God has been good to you, so be good to yourself, and honor the one through whom God has honored you; for our opinion of you has been good and our hope in you great. So you must guard the trust your father laid upon you, and stand firm in your affair. Piety and God-wary discretion are the twin guardians of your religion and your work, and thanksgiving and patience are an increase to your light. And seek from Allah (الله) the opening of your provisions, and the goodness of His enabling grace toward you."
 
 Then the Master said: "I charge you with six qualities. Rely upon Allah once you are resolved. Speak with a considered ruling when you are called upon. Do not fall into anger when you are wronged, and do not grow weary when you are slandered. Whoever answers your call to the good, be patient with him. And single out your own self for the best of all that you summon others to, for Allah will help you and open the way before you."
 
@@ -882,7 +882,7 @@ His father's heart was rent by his son's words. He saw that there was no escape 
 
 So they debated over a span of sittings and opened their hearts to one another at length, until their affair came to rest upon guidance and right direction: acting upon the religion of Allah, safeguarding it, holding fast to it, calling others to it, and helping one another in it. Through the two of them Allah revived many of His creatures. The boy was sent out to bear the good news, with his father's blessing, and to summon others to come in. He returned to them and became a cause of their guidance, and Allah poured His blessings upon the people of that country through them and at their hands. The command of Allah was fulfilled, and the slanderer was left disappointed.
 
-The boy's name was Salih (صالح), and his father's name was al-Bakhtari (البختري). The two of them held an honored rank among their people for the good they had done, and a high standing for the excellence of the manners they had gained. News of them spread across the land, together with news of the religion they now followed, until it reached a people who still clung to the old creed. Al-Bakhtari had long held influence among them, and they feared that his leaving their religion would cut that influence off from them. So they went out and gathered before a scholar of theirs named Abu Malik (أبو مالك), the mighty servant — the man they called, for his piety, the abundance of his forbearance, and his defense of their religion, "Kab al-Ahbar (كعب الأحبار)" (كعب الأحبار). Among them he was a man of standing through his knowledge, his command of speech, and his discernment of opinions.
+The boy's name was Salih (صالح), and his father's name was al-Bakhtari (البختري). The two of them held an honored rank among their people for the good they had done, and a high standing for the excellence of the manners they had gained. News of them spread across the land, together with news of the religion they now followed, until it reached a people who still clung to the old creed. Al-Bakhtari had long held influence among them, and they feared that his leaving their religion would cut that influence off from them. So they went out and gathered before a scholar of theirs named Abu Malik (أبو مالك), the mighty servant — the man they called, for his piety, the abundance of his forbearance, and his defense of their religion, "Kab al-Ahbar" (كعب الأحبار). Among them he was a man of standing through his knowledge, his command of speech, and his discernment of opinions.
 
 When they came in to him they said: "O Abu Malik, do you not see what the boy has gone over to?"
 
