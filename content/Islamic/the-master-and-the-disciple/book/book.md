@@ -6,7 +6,7 @@ This book is a translation of *Kitab al-Alim wa-l-Ghulam*, "The Book of the Mast
 
 Nobody narrates it in his own person. The book speaks as a transmitted report — "We have been informed" — and keeps that distance to the last page. When a first person appears, it belongs to whoever is speaking at that moment, not to a narrator and not to this edition.
 
-Five figures carry the whole of it. **The Master** is a Persian who came to knowledge late, after years of ignorance, and who spends the rest of his life carrying it to others. **The boy**, the youngest and most thoughtful of a company that hears the Master speak, follows him, is refused, and is admitted only on conditions; his name, given much later, is Salih (صالح). **His father** is al-Bakhtari (البختري), a chief among the Arabs, honorable in lineage and hard against the people of religion. **The Shaykh** is the greater teacher at the far end of the boy's journey, who tests him on his name and holds his naming back for seven days. **Abu Malik** (أبو مالك) is the scholar whom the grown Salih debates in the final chapter, and that debate is where the book puts its whole argument on trial.
+Five figures carry the whole of it. **The Master** is a Persian who came to knowledge late, after years of ignorance, and who spends the rest of his life carrying it to others. **The boy**, the youngest and most thoughtful of a company that hears the Master speak, follows him, is refused, and is admitted only on conditions; his name, given much later, is Salih (صالح, 'the righteous'). **His father** is al-Bakhtari (البختري), a chief among the Arabs, honorable in lineage and hard against the people of religion. **The Shaykh** is the greater teacher at the far end of the boy's journey, who tests him on his name and holds his naming back for seven days. **Abu Malik** (أبو مالك) is the scholar whom the grown Salih debates in the final chapter, and that debate is where the book puts its whole argument on trial.
 
 One name has to be kept straight from the start. The pages immediately following this introduction — the book's own opening — begin with believers putting a question to "a Master among them". That teacher is not the Master of the story. He answers once and is not heard from again; everywhere after those opening pages, "the Master" means the Persian.
 
@@ -772,7 +772,7 @@ And here he named the word of God:
 
 Then he turned his face toward the boy and said: "O youth, you have been honored as an estranged friend on his arrival, and greeted as a visitor who came with purpose. So what is your name?"
 
-He said: "Ubayd Allah (عُبيد الله), son of Abd Allah (عبد الله)."
+He said: "Ubayd Allah (عُبيد الله, 'little servant of Allah'), son of Abd Allah (عبد الله, 'servant of Allah')."
 
 The Shaykh said: "That is your description, and your news has already reached us."
 
@@ -984,7 +984,7 @@ They said:
 
 "We repent to Allah of every sin, we set aside every debt, and we do what you have commanded."
 
-So they did so that same day, and they went out all together until they came to the gate of al-Bakhtari. When they had greeted him and sat down, Abu Malik said to al-Bakhtari, "O Abu Salih (أبا صالح), how is your good son, and where is he?"
+So they did so that same day, and they went out all together until they came to the gate of al-Bakhtari. When they had greeted him and sat down, Abu Malik said to al-Bakhtari, "O Abu Salih (أبا صالح, 'father of Salih'), how is your good son, and where is he?"
 
 Al-Bakhtari said: "Today my father is Salih, and I am the son of Salih; and Salih is with his Lord."
 
@@ -1016,7 +1016,7 @@ Then he passed his hand over his face, cleared the assembly for them, and bade h
 
 When they had entered upon him, greeted him, and taken their seats — Abu Malik and those below him each being seated by introduction — the first thing Salih said was, "O Abu Malik, you have honored us with your visit and outrun us to the good by your generosity, though you had the greater right that we should visit you, to guard your affection and to discharge the duty long owed to you."
 
-Abu Malik said: "And when were you ever wanting in virtue, O Abu al-Khair (أبا الخير)? You were forbearing toward us when we were small and generous to us when we were grown. You became for us a summoner and a warner to the good. Your root is sound, your branch is high, your work is pure. Good fortune to you."
+Abu Malik said: "And when were you ever wanting in virtue, O Abu al-Khair (أبا الخير, 'father of the good')? You were forbearing toward us when we were small and generous to us when we were grown. You became for us a summoner and a warner to the good. Your root is sound, your branch is high, your work is pure. Good fortune to you."
 
 Salih said to him: "So you come to me accusing, O Kab al-Ahbar — or merely imitating? Where is that perfect mind and that noble forbearance I have always known in you?"
 
