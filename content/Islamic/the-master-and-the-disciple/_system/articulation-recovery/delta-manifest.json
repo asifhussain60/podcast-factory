@@ -1,0 +1,55 @@
+{
+  "schema": "book.articulation-recovery/v1",
+  "purpose": "Human/editorial deltas accumulated on top of the frozen (pre-articulation) chapter bodies. After the re-articulation pass, each delta must be re-applied or re-verified against the new prose.",
+  "frozen_baseline": "composer-edits.json as of commit 748c126 (2026-07-21 2:40 PM EST compose) — snapshots taken 2026-07-20 before articulation had succeeded",
+  "chapters": [
+    {
+      "chapter_key": "a stranger in the city",
+      "delta_file": "delta-a-stranger-in-the-city.diff",
+      "hunks": 0,
+      "changed_lines": 0
+    },
+    {
+      "chapter_key": "the boy at the door — limits and conditions",
+      "delta_file": "delta-the-boy-at-the-door-limits-and-conditions.diff",
+      "hunks": 1,
+      "changed_lines": 2
+    },
+    {
+      "chapter_key": "the world, the hereafter, and the speech of parables",
+      "delta_file": "delta-the-world-the-hereafter-and-the-speech-of-parables.diff",
+      "hunks": 2,
+      "changed_lines": 10
+    },
+    {
+      "chapter_key": "three layers of knowledge",
+      "delta_file": "delta-three-layers-of-knowledge.diff",
+      "hunks": 3,
+      "changed_lines": 6
+    },
+    {
+      "chapter_key": "the five shares and the long road to the shaykh",
+      "delta_file": "delta-the-five-shares-and-the-long-road-to-the-shaykh.diff",
+      "hunks": 2,
+      "changed_lines": 6
+    },
+    {
+      "chapter_key": "homecoming, the father, and the debate with abu malik",
+      "delta_file": "delta-homecoming-the-father-and-the-debate-with-abu-malik.diff",
+      "hunks": 7,
+      "changed_lines": 18
+    },
+    {
+      "chapter_key": "the persian who was dead and revived",
+      "delta_file": "delta-the-persian-who-was-dead-and-revived.diff",
+      "hunks": 2,
+      "changed_lines": 14
+    },
+    {
+      "chapter_key": "how to read a conversation made of doors",
+      "delta_file": "delta-how-to-read-a-conversation-made-of-doors.diff",
+      "hunks": 2,
+      "changed_lines": 8
+    }
+  ]
+}
