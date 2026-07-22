@@ -161,17 +161,14 @@ function boot(): void {
     /* sessionStorage best-effort */
   }
 
-  // ── inspector tabs (Artifacts · Refinement · Citations · Details) ────────────
-  // The order you work in: place what you are adding, reshape the prose, set how
-  // quotations are styled, check the chapter's facts last. Companion left this
-  // list on 2026-07-21 — it is a drawer SURFACE now, not a tab (see the rail).
-  const TABS = [
-    "artifacts",
-    "refine",
-    "citations",
-    "type",
-    "details",
-  ] as const;
+  // ── inspector tabs (Artifacts · Refine & Notes) ───────────────────────────
+  // Two tabs, both chapter work: place what you are adding, then reshape and
+  // annotate the prose (the former Details tab is merged into Refine). The
+  // one-time book-wide decisions — citation style, typography — left the list
+  // on 2026-07-22 for the gear's settings dialog: a setting touched once per
+  // book should not occupy a daily tab. Companion left earlier (2026-07-21)
+  // for the drawer rail.
+  const TABS = ["artifacts", "refine"] as const;
   type TabName = (typeof TABS)[number];
   const tabBtn = (n: TabName) =>
     root.querySelector<HTMLButtonElement>(`#cx-tab-${n}`);
@@ -215,6 +212,62 @@ function boot(): void {
   const tabbar = root.querySelector<HTMLElement>(".cx-tabbar");
   if (tabbar)
     mountIconTooltips(tabbar, { trigger: ".cx-tab", label: ".cx-tab-label" });
+
+  // ── Book settings dialog (citation style + typography, behind the gear) ───
+  // Same modal contract as confirm-dialog/image-lightbox: Esc, backdrop, X,
+  // focus in on open and restored on close. The forms inside were bound at
+  // init by class/id exactly as when they were tabs — only their home moved.
+  {
+    const scrim = root.querySelector<HTMLElement>("#cx-settings-scrim");
+    const openBtn = root.querySelector<HTMLButtonElement>("#cx-settings-open");
+    const closeBtn =
+      root.querySelector<HTMLButtonElement>("#cx-settings-close");
+    if (scrim && openBtn && closeBtn) {
+      let prevFocus: HTMLElement | null = null;
+      const focusables = (): HTMLElement[] =>
+        Array.from(
+          scrim.querySelectorAll<HTMLElement>(
+            "button, input, select, textarea, [href], [tabindex]:not([tabindex='-1'])",
+          ),
+        ).filter((el) => el.offsetParent !== null);
+      const onKey = (e: KeyboardEvent): void => {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          close();
+        } else if (e.key === "Tab") {
+          // Trap focus inside the dialog: cycle off either end back around.
+          const f = focusables();
+          if (!f.length) return;
+          const i = f.indexOf(document.activeElement as HTMLElement);
+          if (e.shiftKey && (i <= 0 || i === -1)) {
+            e.preventDefault();
+            f[f.length - 1].focus();
+          } else if (!e.shiftKey && (i === f.length - 1 || i === -1)) {
+            // i === -1: focus fell to <body> (a click on dialog dead space) —
+            // without this, forward Tab would walk out behind the scrim.
+            e.preventDefault();
+            f[0].focus();
+          }
+        }
+      };
+      const open = (): void => {
+        prevFocus = document.activeElement as HTMLElement | null;
+        scrim.hidden = false;
+        document.addEventListener("keydown", onKey, true);
+        closeBtn.focus();
+      };
+      const close = (): void => {
+        scrim.hidden = true;
+        document.removeEventListener("keydown", onKey, true);
+        prevFocus?.focus();
+      };
+      openBtn.addEventListener("click", open);
+      closeBtn.addEventListener("click", close);
+      scrim.addEventListener("mousedown", (e) => {
+        if (e.target === scrim) close();
+      });
+    }
+  }
 
   // ── drawer surfaces (Tools · Companion · Arabic · Scholar) ────────────────
   // ONE drawer, four surfaces, one floating button each. Clicking the lit button

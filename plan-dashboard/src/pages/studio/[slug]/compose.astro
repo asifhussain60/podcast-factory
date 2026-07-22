@@ -225,6 +225,9 @@ const ARABIC_FONTS = [
                 (visually hidden until hover/focus) so the accessible name and the
                 screen-reader text are unchanged by the icons. */}
             <div class="cx-surface" id="cx-surface-tools">
+              {/* One visual bar, two semantic parts: the tablist and, at its
+                  right edge, the settings gear (not a tab — see below). */}
+              <div class="cx-tabrow">
               <div
                 class="cx-tabbar"
                 role="tablist"
@@ -250,41 +253,24 @@ const ARABIC_FONTS = [
                   aria-controls="cx-panel-refine"
                 >
                   <i class="fa-solid fa-feather-pointed" aria-hidden="true" />
-                  <span class="cx-tab-label">Refinement</span>
+                  <span class="cx-tab-label">Refine &amp; Notes</span>
                 </button>
-                <button
-                  type="button"
-                  class="cx-tab"
-                  id="cx-tab-citations"
-                  role="tab"
-                  aria-selected="false"
-                  aria-controls="cx-panel-citations"
-                >
-                  <i class="fa-solid fa-quote-right" aria-hidden="true" />
-                  <span class="cx-tab-label">Citations</span>
-                </button>
-                <button
-                  type="button"
-                  class="cx-tab"
-                  id="cx-tab-type"
-                  role="tab"
-                  aria-selected="false"
-                  aria-controls="cx-panel-type"
-                >
-                  <i class="fa-solid fa-font" aria-hidden="true" />
-                  <span class="cx-tab-label">Typography</span>
-                </button>
-                <button
-                  type="button"
-                  class="cx-tab"
-                  id="cx-tab-details"
-                  role="tab"
-                  aria-selected="false"
-                  aria-controls="cx-panel-details"
-                >
-                  <i class="fa-solid fa-circle-info" aria-hidden="true" />
-                  <span class="cx-tab-label">Details</span>
-                </button>
+              </div>
+              {/* Book settings (citation style + typography) are decided once
+                  per book, not touched while working a chapter — so they live
+                  behind this gear in a dialog, not in the tab list. The gear
+                  sits IN the bar but OUTSIDE the tablist semantics: it is not
+                  a tab, arrow keys never reach it, and it opens a modal. */}
+              <button
+                type="button"
+                class="cx-tab-gear"
+                id="cx-settings-open"
+                aria-haspopup="dialog"
+                title="Book settings"
+                aria-label="Book settings"
+              >
+                <i class="fa-solid fa-gear" aria-hidden="true" />
+              </button>
               </div>
 
               <div
@@ -312,11 +298,70 @@ const ARABIC_FONTS = [
               <div
                 class="cx-tabpanel"
                 tabindex="0"
-                id="cx-panel-citations"
+                id="cx-panel-refine"
                 role="tabpanel"
-                aria-labelledby="cx-tab-citations"
+                aria-labelledby="cx-tab-refine"
                 hidden
               >
+                <div class="cx-controls" id="cx-controls" />
+                <div class="cx-ai-tools-mount" id="cx-ai-tools-mount" />
+                {/* Details (per-paragraph comments, deferred marks, section
+                    depth) merged into this tab 2026-07-22 — chapter work is one
+                    destination now. */}
+                <div id="cx-details-mount" />
+                {/* Chapter-scoped and read-only, so it is NOT a setting: the
+                    detected list stays with the working tab while the citation
+                    STYLE form moved to the settings dialog below. */}
+                <div class="cx-cite-detected">
+                  <h3 class="cx-cite-heading" id="cx-cite-detected-heading">
+                    Citations in this chapter
+                  </h3>
+                  <div
+                    class="cx-cite-list"
+                    id="cx-citations-list"
+                    aria-labelledby="cx-cite-detected-heading"
+                  />
+                </div>
+              </div>
+
+              {/* ── Book settings dialog ─────────────────────────────────────
+                  Citation style + typography are one-time, book-wide decisions,
+                  so they live behind the tab bar's gear instead of occupying
+                  daily tabs. The scrim reuses the shared modal contract
+                  (.cx-confirm-scrim); open/close/focus wiring is in
+                  book-composer.ts. The forms are the SAME elements the scripts
+                  bind by class/id — relocated, not rebuilt. */}
+              <div
+                class="cx-confirm-scrim cx-settings-scrim"
+                id="cx-settings-scrim"
+                hidden
+              >
+                <div
+                  class="cx-settings-box"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="cx-settings-title"
+                >
+                  <div class="cx-settings-head">
+                    <h2 class="cx-settings-title" id="cx-settings-title">
+                      Book settings
+                    </h2>
+                    <button
+                      type="button"
+                      class="cx-lightbox-close"
+                      id="cx-settings-close"
+                      aria-label="Close settings"
+                    >
+                      ×
+                    </button>
+                  </div>
+              <section
+                class="cx-settings-section"
+                aria-labelledby="cx-settings-cite-h"
+              >
+                <h3 class="cx-settings-sub" id="cx-settings-cite-h">
+                  Citation style
+                </h3>
                 <form
                   class="bs-styleform cx-cite-form"
                   data-slug={slug}
@@ -427,35 +472,12 @@ const ARABIC_FONTS = [
                   />
                 </form>
 
-                <div class="cx-cite-detected">
-                  <h3 class="cx-cite-heading" id="cx-cite-detected-heading">
-                    Citations in this chapter
-                  </h3>
-                  <div
-                    class="cx-cite-list"
-                    id="cx-citations-list"
-                    aria-labelledby="cx-cite-detected-heading"
-                  />
-                </div>
-
                 <p class="cx-panel-hint">
                   A predefined style and a translation face skin every citation
                   type book-wide and carry into the generated PDF. Distinct
                   per-type print styling is planned but not yet wired.
                 </p>
-              </div>
-
-              <div
-                class="cx-tabpanel"
-                tabindex="0"
-                id="cx-panel-refine"
-                role="tabpanel"
-                aria-labelledby="cx-tab-refine"
-                hidden
-              >
-                <div class="cx-controls" id="cx-controls" />
-                <div class="cx-ai-tools-mount" id="cx-ai-tools-mount" />
-              </div>
+              </section>
 
               {/* TYPOGRAPHY — the book's type, and the reader's own display
                   settings, in one place but never in one group. The split is the
@@ -465,14 +487,13 @@ const ARABIC_FONTS = [
                   preference in localStorage that no reader of the PDF will ever
                   see. Conflating the two is how a personal comfort setting ends
                   up looking like an editorial decision. */}
-              <div
-                class="cx-tabpanel"
-                tabindex="0"
-                id="cx-panel-type"
-                role="tabpanel"
-                aria-labelledby="cx-tab-type"
-                hidden
+              <section
+                class="cx-settings-section"
+                aria-labelledby="cx-settings-type-h"
               >
+                <h3 class="cx-settings-sub" id="cx-settings-type-h">
+                  Typography
+                </h3>
                 <form
                   class="bs-styleform cx-type-form"
                   data-slug={slug}
@@ -594,17 +615,8 @@ const ARABIC_FONTS = [
                     the editor toolbar, beside the text they change.
                   </p>
                 </div>
-              </div>
-
-              <div
-                class="cx-tabpanel"
-                tabindex="0"
-                id="cx-panel-details"
-                role="tabpanel"
-                aria-labelledby="cx-tab-details"
-                hidden
-              >
-                <div id="cx-details-mount" />
+              </section>
+                </div>
               </div>
             </div>
 
