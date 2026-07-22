@@ -30,17 +30,21 @@ entries:
   arabic_script: الطور
   audio_phonetic: TOOR
   first_seen_snippet: one of the scholars of [Mount] Tur
-  annotation_class: name
-  annotation_reason: A place-name English readers won't recognize as such from the
-    romanisation; script anchors the pronunciation.
+  annotation_class: teach
+  english_equivalent: the Mount
+  annotation_reason: Qur'anic locus (Surat al-Tur 52:1) alluded to alongside Bayt
+    al-Ma'mur; the prose glosses it as 'the Mount' with name and script introduced
+    once. Human decision, Asif 2026-07-22.
 - phonetic: Bayt al-Ma'mur
   transliteration: Bayt al-Ma'mūr
   arabic_script: البيت المعمور
   audio_phonetic: bait al-ma'a-moor
   first_seen_snippet: one of the dwellers of the Bayt al-Ma'mur
-  annotation_class: name
-  annotation_reason: A specific cosmological place-name with no established English
-    form.
+  annotation_class: teach
+  english_equivalent: the Frequented House
+  annotation_reason: Qur'anic locus (52:4), the celestial house the angels circle;
+    the prose glosses it as 'the Frequented House' — matching the companion lane —
+    with name and script introduced once. Human decision, Asif 2026-07-22.
 - phonetic: al-Jazira
   transliteration: al-Jazīra
   arabic_script: الجزيرة
