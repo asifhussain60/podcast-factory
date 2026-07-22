@@ -5,6 +5,7 @@ Mirrors test_convergence_safety_rails.py in spirit: drives the bounded loop with
 fake precheck/discriminator/fixer callbacks so NO LLM is invoked, and pins the
 flag-and-proceed + disabled-by-default + cost-ceiling + bounded-rounds contract.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,7 +16,7 @@ import pytest
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-from _authoring import _artifact_convergence as ac  # noqa: E402
+from _authoring import _artifact_convergence as ac
 
 
 @pytest.fixture
@@ -26,8 +27,7 @@ def book(tmp_path):
 
 
 def _finding(check_id="X-FAKE", severity="P1"):
-    return ac.ArtifactFinding(check_id=check_id, severity=severity,
-                              signature=check_id, message="fake")
+    return ac.ArtifactFinding(check_id=check_id, severity=severity, signature=check_id, message="fake")
 
 
 # ─── Pure deterministic pre-checks ───────────────────────────────────────────
@@ -84,28 +84,30 @@ class TestDisabledByDefault:
             return [_finding()]
 
         out = ac.converge_artifact(
-            label="t", book_dir=book,
+            label="t",
+            book_dir=book,
             precheck_fn=lambda: [],
-            discriminator_fn=_disc,   # supplied but cap=0 → must NOT fire
+            discriminator_fn=_disc,  # supplied but cap=0 → must NOT fire
             cost_cap_usd=0.0,
         )
         assert out.converged is True
         assert out.proceeded is True
         assert out.discriminator_calls == 0
-        assert calls["disc"] == 0          # LLM never called when cap unset
+        assert calls["disc"] == 0  # LLM never called when cap unset
         assert out.rounds == 1
 
     def test_findings_without_fixer_flag_and_proceed(self, book):
         # Deterministic finding, no enabled fixer → surface once and proceed.
         out = ac.converge_artifact(
-            label="t", book_dir=book,
+            label="t",
+            book_dir=book,
             precheck_fn=lambda: [_finding()],
             cost_cap_usd=0.0,
         )
         assert out.converged is False
         assert out.proceeded is True
         assert out.fixer_calls == 0
-        assert out.rounds == 1             # no fixer → does not loop
+        assert out.rounds == 1  # no fixer → does not loop
         assert any("no enabled fixer" in n for n in out.notes)
 
 
@@ -124,7 +126,8 @@ class TestEnabledPath:
             calls["fix"] += 1
 
         out = ac.converge_artifact(
-            label="t", book_dir=book,
+            label="t",
+            book_dir=book,
             precheck_fn=lambda: [],
             discriminator_fn=_disc,
             fixer_fn=_fix,
@@ -142,7 +145,8 @@ class TestEnabledPath:
             return [_finding()]
 
         out = ac.converge_artifact(
-            label="t", book_dir=book,
+            label="t",
+            book_dir=book,
             precheck_fn=lambda: [],
             discriminator_fn=_disc,
             fixer_fn=lambda f: None,
@@ -151,7 +155,7 @@ class TestEnabledPath:
         )
         assert out.converged is False
         assert out.proceeded is True
-        assert out.rounds == ac.MAX_ARTIFACT_ROUNDS   # exactly the cap, then proceed
+        assert out.rounds == ac.MAX_ARTIFACT_ROUNDS  # exactly the cap, then proceed
         assert any("round cap" in n for n in out.notes)
 
 
@@ -164,37 +168,42 @@ class TestCostCeiling:
             return [_finding()]
 
         out = ac.converge_artifact(
-            label="t", book_dir=book,
+            label="t",
+            book_dir=book,
             precheck_fn=lambda: [],
             discriminator_fn=_disc,
             fixer_fn=lambda f: None,
             cost_cap_usd=10.0,
-            cost_fn=lambda: 99.0,        # already over ceiling
+            cost_fn=lambda: 99.0,  # already over ceiling
         )
         assert out.cost_ceiling_tripped and "COST-CEILING" in out.cost_ceiling_tripped
-        assert out.proceeded is True     # NEVER raises / blocks
-        assert calls["disc"] == 0        # LLM never ran after breach
-        assert out.converged is True     # precheck clean → converged on det. only
+        assert out.proceeded is True  # NEVER raises / blocks
+        assert calls["disc"] == 0  # LLM never ran after breach
+        assert out.converged is True  # precheck clean → converged on det. only
 
 
 class TestHeartbeat:
     def test_heartbeat_each_round(self, book):
         beats = []
         ac.converge_artifact(
-            label="t", book_dir=book,
+            label="t",
+            book_dir=book,
             precheck_fn=lambda: [_finding()],
             discriminator_fn=lambda: [],
             fixer_fn=lambda f: None,
-            cost_cap_usd=5.0, cost_fn=lambda: 0.0,
+            cost_cap_usd=5.0,
+            cost_fn=lambda: 0.0,
             heartbeat=lambda rnd, note: beats.append(rnd),
         )
-        assert beats == [1, 2]           # ≤ MAX_ARTIFACT_ROUNDS
+        assert beats == [1, 2]  # ≤ MAX_ARTIFACT_ROUNDS
 
     def test_heartbeat_failure_never_breaks(self, book):
         def _boom(rnd, note):
             raise RuntimeError("beat exploded")
+
         out = ac.converge_artifact(
-            label="t", book_dir=book,
+            label="t",
+            book_dir=book,
             precheck_fn=lambda: [],
             heartbeat=_boom,
         )
@@ -207,14 +216,16 @@ class TestNeverRaises:
             raise RuntimeError("disc down")
 
         out = ac.converge_artifact(
-            label="t", book_dir=book,
+            label="t",
+            book_dir=book,
             precheck_fn=lambda: [],
             discriminator_fn=_disc,
             fixer_fn=lambda f: None,
-            cost_cap_usd=5.0, cost_fn=lambda: 0.0,
+            cost_cap_usd=5.0,
+            cost_fn=lambda: 0.0,
         )
         assert out.proceeded is True
-        assert out.converged is True     # precheck clean, disc failure swallowed
+        assert out.converged is True  # precheck clean, disc failure swallowed
         assert any("discriminator failed" in n for n in out.notes)
 
 
@@ -241,8 +252,7 @@ class TestWrappersNeverRaise:
         assert "U0B-LENGTH-DRIFT" in {f.check_id for f in out.findings}
 
     def test_run_0e_chapter_precheck_emits_and_returns(self, book):
-        out = ac.run_0e_chapter_precheck(
-            book, "ch01", "a b c d e f", "a b", file="x", log=lambda *a: None)
+        out = ac.run_0e_chapter_precheck(book, "ch01", "a b c d e f", "a b", file="x", log=lambda *a: None)
         assert out.proceeded is True
         assert "U0E-SHRANK" in {f.check_id for f in out.findings}
         brief = book / "_system" / "upstream-precheck-report.md"
@@ -304,8 +314,7 @@ class TestParseDiscriminatorFindings:
 class TestBuild0bDiscriminatorPrompt:
     def test_prompt_contains_check_ids(self):
         p = ac.build_0b_discriminator_prompt("test-book", "raw sample", "refined sample")
-        for cid in ["U0B-MEANING-DRIFT", "U0B-DROPPED-TEACHING",
-                    "U0B-HALLUCINATED-ADDITION", "U0B-REGISTER-SHIFT"]:
+        for cid in ["U0B-MEANING-DRIFT", "U0B-DROPPED-TEACHING", "U0B-HALLUCINATED-ADDITION", "U0B-REGISTER-SHIFT"]:
             assert cid in p
 
     def test_prompt_contains_samples(self):
@@ -324,19 +333,16 @@ class TestBuild0bDiscriminatorPrompt:
 class TestParseDiscriminatorFindingsWith0eSeverityMap:
     def test_hallucinated_citation_is_p0(self):
         out = 'FINDING: U0E-HALLUCINATED-CITATION | invented hadith | original: "" → enriched: "xyz"'
-        findings = ac._parse_discriminator_findings(
-            out, severity_map=ac._DISCRIMINATOR_0E_SEVERITY)
+        findings = ac._parse_discriminator_findings(out, severity_map=ac._DISCRIMINATOR_0E_SEVERITY)
         assert findings[0].severity == "P0"
 
     def test_source_altered_is_p1(self):
         out = 'FINDING: U0E-SOURCE-ALTERED | meaning changed | original: "x" → enriched: "y"'
-        findings = ac._parse_discriminator_findings(
-            out, severity_map=ac._DISCRIMINATOR_0E_SEVERITY)
+        findings = ac._parse_discriminator_findings(out, severity_map=ac._DISCRIMINATOR_0E_SEVERITY)
         assert findings[0].severity == "P1"
 
     def test_clean_verdict_still_returns_empty(self):
-        assert ac._parse_discriminator_findings(
-            "VERDICT: CLEAN", severity_map=ac._DISCRIMINATOR_0E_SEVERITY) == []
+        assert ac._parse_discriminator_findings("VERDICT: CLEAN", severity_map=ac._DISCRIMINATOR_0E_SEVERITY) == []
 
 
 class TestBuild0eDiscriminatorPrompt:
@@ -357,6 +363,7 @@ class TestRun0eChapterPrecheckWithDiscriminator:
 
     def test_discriminator_fires_when_cap_set(self, book, monkeypatch):
         import types
+
         sp_mock = types.SimpleNamespace(
             _series_numeric=lambda bd, name, default=0.0: 1.5,
             _book_cost_so_far=lambda bd: 0.0,
@@ -364,18 +371,19 @@ class TestRun0eChapterPrecheckWithDiscriminator:
         monkeypatch.setitem(sys.modules, "phases.series_plan", sp_mock)
 
         disc_calls = {"n": 0}
-        monkeypatch.setattr(ac, "discriminate_0e_faithfulness",
-                            lambda bd, stem, before, after, log=print: (
-                                disc_calls.__setitem__("n", disc_calls["n"] + 1) or []
-                            ))
+        monkeypatch.setattr(
+            ac,
+            "discriminate_0e_faithfulness",
+            lambda bd, stem, before, after, log=print: disc_calls.__setitem__("n", disc_calls["n"] + 1) or [],
+        )
 
-        out = ac.run_0e_chapter_precheck(
-            book, "ch01", "a b c d", "a b c d e f", log=lambda *a: None)
+        out = ac.run_0e_chapter_precheck(book, "ch01", "a b c d", "a b c d e f", log=lambda *a: None)
         assert out.proceeded is True
         assert disc_calls["n"] == 1
 
     def test_discriminator_off_when_cap_zero(self, book, monkeypatch):
         import types
+
         sp_mock = types.SimpleNamespace(
             _series_numeric=lambda bd, name, default=0.0: 0.0,
             _book_cost_so_far=lambda bd: 0.0,
@@ -383,13 +391,13 @@ class TestRun0eChapterPrecheckWithDiscriminator:
         monkeypatch.setitem(sys.modules, "phases.series_plan", sp_mock)
 
         disc_calls = {"n": 0}
-        monkeypatch.setattr(ac, "discriminate_0e_faithfulness",
-                            lambda bd, stem, before, after, log=print: (
-                                disc_calls.__setitem__("n", disc_calls["n"] + 1) or []
-                            ))
+        monkeypatch.setattr(
+            ac,
+            "discriminate_0e_faithfulness",
+            lambda bd, stem, before, after, log=print: disc_calls.__setitem__("n", disc_calls["n"] + 1) or [],
+        )
 
-        out = ac.run_0e_chapter_precheck(
-            book, "ch01", "a b c d", "a b c d e f", log=lambda *a: None)
+        out = ac.run_0e_chapter_precheck(book, "ch01", "a b c d", "a b c d e f", log=lambda *a: None)
         assert out.proceeded is True
         assert disc_calls["n"] == 0
 
@@ -405,6 +413,7 @@ class TestRun0bPrecheckWithDiscriminator:
         # Stub series-plan cap and cost function via monkeypatching the
         # import inside run_0b_precheck.
         import types
+
         sp_mock = types.SimpleNamespace(
             _series_numeric=lambda bd, name, default=0.0: 2.0,
             _book_cost_so_far=lambda bd: 0.0,
@@ -413,10 +422,11 @@ class TestRun0bPrecheckWithDiscriminator:
 
         disc_calls = {"n": 0}
         # Stub discriminate_0b_fidelity so no real LLM call happens.
-        monkeypatch.setattr(ac, "discriminate_0b_fidelity",
-                            lambda bd, raw, refined, log=print: (
-                                disc_calls.__setitem__("n", disc_calls["n"] + 1) or []
-                            ))
+        monkeypatch.setattr(
+            ac,
+            "discriminate_0b_fidelity",
+            lambda bd, raw, refined, log=print: disc_calls.__setitem__("n", disc_calls["n"] + 1) or [],
+        )
 
         # Create the required files.
         text_dir = book / "_system" / "source" / "text"
@@ -430,6 +440,7 @@ class TestRun0bPrecheckWithDiscriminator:
 
     def test_discriminator_off_when_cap_zero(self, book, monkeypatch):
         import types
+
         sp_mock = types.SimpleNamespace(
             _series_numeric=lambda bd, name, default=0.0: 0.0,
             _book_cost_so_far=lambda bd: 0.0,
@@ -437,10 +448,11 @@ class TestRun0bPrecheckWithDiscriminator:
         monkeypatch.setitem(sys.modules, "phases.series_plan", sp_mock)
 
         disc_calls = {"n": 0}
-        monkeypatch.setattr(ac, "discriminate_0b_fidelity",
-                            lambda bd, raw, refined, log=print: (
-                                disc_calls.__setitem__("n", disc_calls["n"] + 1) or []
-                            ))
+        monkeypatch.setattr(
+            ac,
+            "discriminate_0b_fidelity",
+            lambda bd, raw, refined, log=print: disc_calls.__setitem__("n", disc_calls["n"] + 1) or [],
+        )
 
         text_dir = book / "_system" / "source" / "text"
         text_dir.mkdir(parents=True)
@@ -467,25 +479,37 @@ class TestQueryUpstreamFindings:
 
     def test_groups_by_check_id_above_threshold(self, tmp_path):
         import json
+
         learning = tmp_path / "_learning"
         learning.mkdir()
         ledger = learning / "findings.jsonl"
         for i in range(4):
-            rec = {"source": "precheck-0b", "check_id": "U0B-LENGTH-DRIFT",
-                   "severity": "P1", "signature": "U0B-LENGTH-DRIFT",
-                   "book": f"book-{i}", "ts": "2026-01-01T00:00:00Z"}
-            ledger.write_text(
-                ledger.read_text() if ledger.exists() else "" +
-                json.dumps(rec) + "\n", encoding="utf-8"
-            )
+            rec = {
+                "source": "precheck-0b",
+                "check_id": "U0B-LENGTH-DRIFT",
+                "severity": "P1",
+                "signature": "U0B-LENGTH-DRIFT",
+                "book": f"book-{i}",
+                "ts": "2026-01-01T00:00:00Z",
+            }
+            ledger.write_text(ledger.read_text() if ledger.exists() else "" + json.dumps(rec) + "\n", encoding="utf-8")
         # Simpler: write all at once
         ledger.write_text(
-            "\n".join(json.dumps(
-                {"source": "precheck-0b", "check_id": "U0B-LENGTH-DRIFT",
-                 "severity": "P1", "signature": "U0B-LENGTH-DRIFT",
-                 "book": f"book-{i}", "ts": "2026-01-01T00:00:00Z"}
-            ) for i in range(4)) + "\n",
-            encoding="utf-8"
+            "\n".join(
+                json.dumps(
+                    {
+                        "source": "precheck-0b",
+                        "check_id": "U0B-LENGTH-DRIFT",
+                        "severity": "P1",
+                        "signature": "U0B-LENGTH-DRIFT",
+                        "book": f"book-{i}",
+                        "ts": "2026-01-01T00:00:00Z",
+                    }
+                )
+                for i in range(4)
+            )
+            + "\n",
+            encoding="utf-8",
         )
         result = ac.query_upstream_findings(repo_root=tmp_path, min_occurrences=3)
         assert "U0B-LENGTH-DRIFT" in result
@@ -493,12 +517,20 @@ class TestQueryUpstreamFindings:
 
     def test_below_threshold_excluded(self, tmp_path):
         import json
+
         learning = tmp_path / "_learning"
         learning.mkdir()
         ledger = learning / "findings.jsonl"
         ledger.write_text(
-            json.dumps({"source": "precheck-0b", "check_id": "U0B-EMPTY",
-                        "severity": "P0", "book": "x", "ts": "2026-01-01T00:00:00Z"})
+            json.dumps(
+                {
+                    "source": "precheck-0b",
+                    "check_id": "U0B-EMPTY",
+                    "severity": "P0",
+                    "book": "x",
+                    "ts": "2026-01-01T00:00:00Z",
+                }
+            )
             + "\n",
             encoding="utf-8",
         )
@@ -507,14 +539,18 @@ class TestQueryUpstreamFindings:
 
     def test_non_upstream_sources_excluded(self, tmp_path):
         import json
+
         learning = tmp_path / "_learning"
         learning.mkdir()
         ledger = learning / "findings.jsonl"
         ledger.write_text(
-            "\n".join(json.dumps(
-                {"source": "podcast-challenger", "check_id": "A1",
-                 "book": f"b{i}", "ts": "2026-01-01T00:00:00Z"}
-            ) for i in range(10)) + "\n",
+            "\n".join(
+                json.dumps(
+                    {"source": "podcast-challenger", "check_id": "A1", "book": f"b{i}", "ts": "2026-01-01T00:00:00Z"}
+                )
+                for i in range(10)
+            )
+            + "\n",
             encoding="utf-8",
         )
         result = ac.query_upstream_findings(repo_root=tmp_path, min_occurrences=1)

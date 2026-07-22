@@ -5,11 +5,12 @@ This is the candidate-list generator. The actual curated glossary lives at
 data/ismaili-glossary.json and is hand-curated (and FROZEN during the
 autonomous rollout).
 """
+
 from __future__ import annotations
+
 import re
 from collections import Counter
 from pathlib import Path
-
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 BINDER1_DIR = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted" / "wisdom" / "07-uloom-mabda-wa-maad"
@@ -42,7 +43,7 @@ def main() -> None:
     lines: list[str] = []
     lines.append(f"# Glossary candidates extracted from binder 1 ({len(files)} chapters)")
     lines.append(f"# Total unique phrases: {len(counter)}")
-    lines.append(f"# Sorted by frequency desc; phrase ≤ 60 chars only.")
+    lines.append("# Sorted by frequency desc; phrase ≤ 60 chars only.")
     lines.append("")
     for phrase, count in counter.most_common(400):
         lines.append(f"{count:>4d}  {phrase}")

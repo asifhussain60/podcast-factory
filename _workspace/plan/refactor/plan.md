@@ -1060,3 +1060,67 @@ Pre-authorized by the autonomy mandate in `CONTINUATION-2026-05-30.md`. Four blo
 > Chapter design now tolerates the model overshooting the last line of a source by a line or two (it clamps to the end instead of failing the whole chapter), and it forbids "previous/next episode" cross-references from leaking into the files that NotebookLM reads aloud. Both are gated so single-book behaviour is byte-identical.
 >
 > *Value gained:* fewer spurious failures and no self-referential narration, across the whole catalogue.
+
+## Book Pipeline v2 — unify book routes + decouple visuals (2026-07-13, flag OFF)
+
+Landed on `develop` (merge `4165160`, `--no-ff`) entirely behind the `book_pipeline_v2` flag, which defaults **off** — so nothing about today's books changes until one opts in. Two architectural moves.
+
+### 1. The two divergent book routes became one path with two dials
+
+> The pipeline used to make a reading-edition PDF two incompatible ways — a faithful translation and an author-companion revoice — that differed on three things at once. They are now one path steered by two independent dials in the book's config: one for the voice (faithful vs. author-companion) and one for whether to add clearly-labelled, source-grounded notes. The dials default so that each existing book keeps its current behaviour.
+>
+> *Value gained:* one path to maintain instead of two, and any book can now mix voice and enrichment freely.
+
+### 2. Pictures became a curated layer instead of being auto-stamped into the text
+
+> Diagrams and cleaned NotebookLM slides no longer get injected into the book automatically (the old cause of split figures, watermarks, and duplicated captions). The text stays picture-free; every candidate image goes into a palette; a person places each one in the new **Book Composer** page on the site — choosing size, alignment, whether text wraps beside it, and which chapter it anchors to — and clicks Generate PDF. The renderer honours those choices and fills pages like a professional book.
+>
+> *Value gained:* the human controls the look of the printed book, and the structural defects that plagued the old auto-injected PDFs are designed out.
+
+### 3. Accuracy is fenced at every content-touching step, and the risky switch is held
+
+> Added source notes are dropped if they fail the doctrinal checks; the revoice/de-calque passes revert any chapter that loses a teaching or an Arabic quotation; a new print-quality standard plus a render challenger inspect the finished PDF. The final cutover — flipping the flag on for everyone and deleting the old code — is deliberately **not** done yet: it waits on a full generation run over the two fixture books, documented in `book-pipeline-cutover.md`.
+>
+> *Value gained:* the new path can prove itself on real books before it ever becomes the default, with no teaching put at risk.
+
+## Clean-Code & Architecture Hardening — R0+R1 executed (2026-07-18)
+
+Approved plan: `refactor/clean-code-hardening-plan.md` (machine ledger: `waves_refactor:` in `plan.yaml`). Subsumes Wave H's open code-quality items. R2–R5 await separate approval.
+
+### 1. Both codebases now have real quality gates that cannot silently regress
+
+> The pipeline gained a linter and formatter (whole-tree mechanical baseline: ~465 files normalized, imports sorted, dead imports removed, three genuine data bugs fixed along the way) and the site gained the JavaScript equivalents, with warnings ratcheted to become errors as later phases land. The repo's own 600-line-per-file rule — documented as "enforced" but actually checked by nothing — is now a real gate in the commit hook and CI: the 24 files currently over the limit are grandfathered (they may shrink, never grow), and any new violation blocks the commit. The full 1,592-test suite and every site gate stayed green throughout.
+>
+> *Value gained:* every later refactor phase works against enforced standards instead of good intentions; drift now fails fast at commit time.
+
+### 2. The site's file tree stopped lying, and HTTP plumbing lives in one place
+
+> The production Studio editor no longer ships from a folder named "poc", and the corpus browser no longer claims to be a mock — folders, files, components, and style classes were renamed to what they actually are, with every reference patched and proven by the type checker and the 32-route browser smoke. A single typed fetch client now handles path building, JSON, errors, and response unwrapping for the site's own API; all non-editor call sites migrated (the editor's 23 calls move in the next phase, where that component is decomposed under browser-verify).
+>
+> *Value gained:* one place to fix HTTP behavior instead of 87; names that tell the truth to every future reader and tool.
+
+## Clean-Code & Architecture Hardening — R2+R3 executed (2026-07-18, second tranche)
+
+Asif approved both remaining independent tracks (option A). Fifteen commits landed; the packaging go/no-go (R4) and the wave-engine decision (R5) now await their gates as designed.
+
+### 1. The pipeline's structural debt is substantially paid down
+
+> Both module-name collisions that would break packaging are gone (one purposeful rename, one dead module deleted outright with its phantom-fallback claims corrected). The five untested critical modules gained 72 tests — and the citation checker turned out to have an unreachable failure branch that had been misreporting every dead link; it is fixed. Three oversized modules split along genuine seams (Azure services, translation edition, slide authoring — the over-limit list burns from 24 down to 21), while two others were examined and deliberately left whole with the reasoning recorded in the file, per the plan's own split-real-mixes-only rule. A real data drift was caught and fixed: the pipeline's stage list was missing a stage the live site renders.
+>
+> *Value gained:* the packaging conversion's known blockers are cleared, the riskiest untested code has a net, and every split-or-keep judgment is written down where the next reader will look.
+
+### 2. The editor decomposition is under way with its safety pattern proven
+
+> The giant editor component's mechanical layer is fully extracted (constants, types, marker extension, the imperative pickers), its last 23 hand-rolled server calls now go through the shared client, the two markdown renderers are one (proven byte-identical over a 61-file corpus), both fat page headers moved into typed library builders, and the two monolithic stylesheets are layered. Three of the nine stateful hooks are out — each landed as its own commit with a live browser check (preference persistence, the debounced draft autosave, section depth marking). The remaining six follow the same established pattern.
+>
+> *Value gained:* the most fragile surface in the repo is shrinking one verified step at a time, with zero behavior change so far and the commit-hook lint gate already catching real mistakes mid-refactor.
+
+## Clean-Code & Architecture Hardening — R5 resolved: dormant wave-engine deleted wholesale (2026-07-18)
+
+Asif asked for a direct recommendation rather than choosing blind between archive-or-delete. Verified first, not assumed: the background job that ran it was confirmed switched off on this machine, its own 27-item completion checklist was fully checked, and the live book pipeline was traced to confirm it never calls into this engine at all.
+
+### 1. The dormant wave-building engine is gone, not shelved
+
+> Deleted the wave dispatcher, its chain-runner, its 28 phase-runner modules (waves 1 through 6, all shipped), its acceptance-marking helper, and their dedicated tests — 39 tracked files in one commit. The background macOS scheduler that used to run it, plus its install script and template plist, went with it. Archiving into its own package was the other option on the table; deletion won because keeping 30 files and 50 tests on permanent life support for code that will never execute again is pure upkeep with no offsetting value, and git preserves every line if it's ever needed again.
+>
+> *Value gained:* removes one of the two colliding meanings of "phase" in the shared pipeline folder before the packaging conversion (R4) even starts, so that step inherits a simpler, less ambiguous import graph. The written record of what waves 1-6 delivered (this file, `plan.yaml`, `wave-acceptance-checklist.md`) stays exactly where it is — only the machinery that ran them is gone.

@@ -8,7 +8,7 @@
  *   - On timeout or network error: returns null (caller falls back to external service).
  */
 
-const LOCAL_BASE = 'http://localhost:4390';
+const LOCAL_BASE = "http://localhost:4390";
 const PROBE_INTERVAL_MS = 60_000;
 const FETCH_TIMEOUT_MS = 300;
 
@@ -88,20 +88,32 @@ export interface LocalTopic {
   chapter_slug: string;
   topic: string;
   content: string;
-  linked_ayats?: Array<{ surah: number; ayat: number; arabic: string; pickthall: string }>;
+  linked_ayats?: Array<{
+    surah: number;
+    ayat: number;
+    arabic: string;
+    pickthall: string;
+  }>;
 }
 
 // ── Query helpers ──────────────────────────────────────────────────────────
 
-export async function fetchLocalVerse(surah: number, ayat: number): Promise<LocalVerseData | null> {
+export async function fetchLocalVerse(
+  surah: number,
+  ayat: number,
+): Promise<LocalVerseData | null> {
   return localFetch(`/quran/verse?surah=${surah}&ayat=${ayat}`);
 }
 
-export async function fetchLocalTermDef(term: string): Promise<LocalTermDef | null> {
+export async function fetchLocalTermDef(
+  term: string,
+): Promise<LocalTermDef | null> {
   return localFetch(`/term/define?term=${encodeURIComponent(term)}`);
 }
 
-export async function fetchLocalEtymology(term: string): Promise<LocalEtymology | null> {
+export async function fetchLocalEtymology(
+  term: string,
+): Promise<LocalEtymology | null> {
   return localFetch(`/etymology?term=${encodeURIComponent(term)}`);
 }
 

@@ -43,20 +43,19 @@ import unicodedata
 from dataclasses import dataclass, field
 from typing import Pattern
 
-
 # ---------------------------------------------------------------------------
 # Typographic punctuation that is never ASCII-safe in NotebookLM-bound files.
 # Applied as Pass 0, before compound-term matching.
 # ---------------------------------------------------------------------------
 TYPOGRAPHIC_MAP: dict[str, str] = {
-    "‘": "'",    # left single quotation mark
-    "’": "'",    # right single quotation mark / apostrophe
-    "“": '"',    # left double quotation mark
-    "”": '"',    # right double quotation mark
+    "‘": "'",  # left single quotation mark
+    "’": "'",  # right single quotation mark / apostrophe
+    "“": '"',  # left double quotation mark
+    "”": '"',  # right double quotation mark
     "—": " - ",  # em dash -> space-hyphen-space
-    "–": "-",    # en dash -> hyphen
+    "–": "-",  # en dash -> hyphen
     "…": "...",  # horizontal ellipsis
-    " ": " ",    # non-breaking space
+    " ": " ",  # non-breaking space
 }
 
 
@@ -75,22 +74,34 @@ def _normalize_typographic(text: str) -> tuple[str, int]:
 # files (audit: i-diaeresis, a-macron, hamza, ayin, under-dot consonants, etc.).
 # ---------------------------------------------------------------------------
 DIACRITIC_MAP: dict[str, str] = {
-    "ʿ": "",   # Arabic ayin transliteration marker
-    "ʾ": "",   # Arabic hamza transliteration marker
-    "ʻ": "",   # turned comma (alt ayin)
-    "ʼ": "",   # modifier apostrophe (alt hamza)
-    "ḥ": "h", "Ḥ": "H",
-    "ṭ": "t", "Ṭ": "T",
-    "ḍ": "d", "Ḍ": "D",
-    "ṣ": "s", "Ṣ": "S",
-    "ẓ": "z", "Ẓ": "Z",
-    "ī": "i", "Ī": "I",
-    "ū": "u", "Ū": "U",
-    "ā": "a", "Ā": "A",
-    "ē": "e", "Ē": "E",
-    "ō": "o", "Ō": "O",
-    "ï": "i", "Ï": "I",
-    "ñ": "n", "Ñ": "N",
+    "ʿ": "",  # Arabic ayin transliteration marker
+    "ʾ": "",  # Arabic hamza transliteration marker
+    "ʻ": "",  # turned comma (alt ayin)
+    "ʼ": "",  # modifier apostrophe (alt hamza)
+    "ḥ": "h",
+    "Ḥ": "H",
+    "ṭ": "t",
+    "Ṭ": "T",
+    "ḍ": "d",
+    "Ḍ": "D",
+    "ṣ": "s",
+    "Ṣ": "S",
+    "ẓ": "z",
+    "Ẓ": "Z",
+    "ī": "i",
+    "Ī": "I",
+    "ū": "u",
+    "Ū": "U",
+    "ā": "a",
+    "Ā": "A",
+    "ē": "e",
+    "Ē": "E",
+    "ō": "o",
+    "Ō": "O",
+    "ï": "i",
+    "Ï": "I",
+    "ñ": "n",
+    "Ñ": "N",
 }
 
 
@@ -124,146 +135,131 @@ ARABIC_TERM_SUBS: list[tuple[str, str]] = [
     # These hyphenated forms (al-Moob-dee, Hoo-sayn, etc.) lived in ch14
     # before the script was built. Map them to the current natural-ASCII
     # convention so all 15 chapters are uniform.
-    ("Mah-add ibn is-Maa-eel",  "Maad ibn Ismail"),
-    ("Im-ran ibn hoo-Sayn",     "Imran ibn Husayn"),
-    ("Doo-ah ah-Rah-fah",       "the Supplication of Arafa"),
-    ("al-Moob-dee al-Aw-wal",   "al-Mubdi al-Awwal"),
-    ("al-Moob-dee",             "al-Mubdi"),
-    ("al-Yowm al-Aa-khir",      "the Last Day"),
-    ("al-Woo-jood al-Haqq",     "the true existence"),
-    ("al-Noo-ta-kaa",           "the speaker-Prophets"),
-    ("Ah-rah-faht",             "Arafat"),
-    ("Kar-bah-lah",             "Karbala"),
-    ("Hoo-sayn",                "Hussain"),
-    ("Sha-ree-ah",              "sacred law"),
-    ("Taw-heed",                "Divine Oneness"),
-    ("Dah-wah",                 "the mission"),
-    ("Ma-waa-lee",              "the loyalists"),
-    ("Bah-tin",                 "the hidden"),
-    ("Zah-hir",                 "the apparent"),
-    ("Hoo-wah",                 "huwa"),
-    ("Ah-rah-fah",              "Arafa"),
-    ("Ah-lee",                  "Ali"),
-    ("ib-Dah",                  "origination"),
-    ("Dah-ees",                 "the missionaries"),
-    ("Taa-weel",                "inner interpretation"),
-
+    ("Mah-add ibn is-Maa-eel", "Maad ibn Ismail"),
+    ("Im-ran ibn hoo-Sayn", "Imran ibn Husayn"),
+    ("Doo-ah ah-Rah-fah", "the Supplication of Arafa"),
+    ("al-Moob-dee al-Aw-wal", "al-Mubdi al-Awwal"),
+    ("al-Moob-dee", "al-Mubdi"),
+    ("al-Yowm al-Aa-khir", "the Last Day"),
+    ("al-Woo-jood al-Haqq", "the true existence"),
+    ("al-Noo-ta-kaa", "the speaker-Prophets"),
+    ("Ah-rah-faht", "Arafat"),
+    ("Kar-bah-lah", "Karbala"),
+    ("Hoo-sayn", "Hussain"),
+    ("Sha-ree-ah", "sacred law"),
+    ("Taw-heed", "Divine Oneness"),
+    ("Dah-wah", "the mission"),
+    ("Ma-waa-lee", "the loyalists"),
+    ("Bah-tin", "the hidden"),
+    ("Zah-hir", "the apparent"),
+    ("Hoo-wah", "huwa"),
+    ("Ah-rah-fah", "Arafa"),
+    ("Ah-lee", "Ali"),
+    ("ib-Dah", "origination"),
+    ("Dah-ees", "the missionaries"),
+    ("Taa-weel", "inner interpretation"),
     # ASIF-APPROVED 2026-05-23 (after EP09): Translate Arabic concept terms to
     # English equivalents. Eliminates an entire class of TTS pronunciation
     # failures (Tawhid → "Tahit" slur, daʿwa → spelling artifacts, Qaaf →
     # "Cough", etc.) and improves audio accessibility. Proper names and the
     # pronoun "huwa" (which the source discusses AS A WORD) are retained.
-
     # ===== COMPOUND FORMS (longest first to avoid partial matches) =====
-    ("Maʿadd ibn Isma'il",      "Maad ibn Ismail"),
-    ("Ma'add ibn Isma'il",      "Maad ibn Ismail"),
-    ("Maʿadd ibn Ismaʾil",      "Maad ibn Ismail"),
-    ("Duʿa ʿArafa",             "the Supplication of Arafa"),
-    ("Du'a Arafa",              "the Supplication of Arafa"),
-    ("Dua Arafa",               "the Supplication of Arafa"),  # already-sanitized form
-    ("Day of ʿArafa",           "Day of Arafa"),
-    ("Imran ibn Husayn",        "Imran ibn Husayn"),  # proper name — KEEP
-    ("al-aimma al-bararah",     "the righteous successors"),  # English gloss
-    ("al-wujud al-haqq",        "the true existence"),
-    ("al-yawm al-akhir",        "the Last Day"),
-    ("al-nuṭaqāʾ",              "the speaker-Prophets"),
-    ("al-nutaqa'",              "the speaker-Prophets"),
-
+    ("Maʿadd ibn Isma'il", "Maad ibn Ismail"),
+    ("Ma'add ibn Isma'il", "Maad ibn Ismail"),
+    ("Maʿadd ibn Ismaʾil", "Maad ibn Ismail"),
+    ("Duʿa ʿArafa", "the Supplication of Arafa"),
+    ("Du'a Arafa", "the Supplication of Arafa"),
+    ("Dua Arafa", "the Supplication of Arafa"),  # already-sanitized form
+    ("Day of ʿArafa", "Day of Arafa"),
+    ("Imran ibn Husayn", "Imran ibn Husayn"),  # proper name — KEEP
+    ("al-aimma al-bararah", "the righteous successors"),  # English gloss
+    ("al-wujud al-haqq", "the true existence"),
+    ("al-yawm al-akhir", "the Last Day"),
+    ("al-nuṭaqāʾ", "the speaker-Prophets"),
+    ("al-nutaqa'", "the speaker-Prophets"),
     # ===== CORE CONCEPT TRANSLATIONS (Asif-approved set) =====
-
     # Tawhid → Divine Oneness. Includes already-sanitized "Taw-heed" form.
-    ("Taw-heed",                "Divine Oneness"),
-    ("taw-heed",                "divine oneness"),
-    ("Tawheed",                 "Divine Oneness"),
-    ("Tawhid",                  "Divine Oneness"),
-    ("tawhid",                  "divine oneness"),
-
+    ("Taw-heed", "Divine Oneness"),
+    ("taw-heed", "divine oneness"),
+    ("Tawheed", "Divine Oneness"),
+    ("Tawhid", "Divine Oneness"),
+    ("tawhid", "divine oneness"),
     # Shariah → sacred law. Includes prior-sanitize "Sharia" form.
-    ("Shariʿah",                "sacred law"),
-    ("Shari'ah",                "sacred law"),
-    ("Shariah",                 "sacred law"),
-    ("Sharia",                  "sacred law"),
-    ("sharia",                  "sacred law"),
-
+    ("Shariʿah", "sacred law"),
+    ("Shari'ah", "sacred law"),
+    ("Shariah", "sacred law"),
+    ("Sharia", "sacred law"),
+    ("sharia", "sacred law"),
     # taʾwil → inner interpretation. Includes prior "taweel" / "tawil" forms.
-    ("taʾwil",                  "inner interpretation"),
-    ("ta'wil",                  "inner interpretation"),
-    ("Taweel",                  "Inner interpretation"),
-    ("taweel",                  "inner interpretation"),
-    ("tawil",                   "inner interpretation"),
-    ("tāʾwil",                  "inner interpretation"),
-
+    ("taʾwil", "inner interpretation"),
+    ("ta'wil", "inner interpretation"),
+    ("Taweel", "Inner interpretation"),
+    ("taweel", "inner interpretation"),
+    ("tawil", "inner interpretation"),
+    ("tāʾwil", "inner interpretation"),
     # daʿwa → the mission. Includes prior "Dawa" form.
     # Handle "the daʿwa" / "the Dawa" first to avoid "the the mission".
-    ("the daʿwa",               "the mission"),
-    ("the da'wa",               "the mission"),
-    ("the Dawa",                "the mission"),
-    ("the dawa",                "the mission"),
-    ("daʿwa",                   "the mission"),
-    ("Daʿwa",                   "The mission"),
-    ("da'wa",                   "the mission"),
-    ("Da'wa",                   "The mission"),
-    ("Dawa",                    "the mission"),
-    ("dawa",                    "the mission"),
-
+    ("the daʿwa", "the mission"),
+    ("the da'wa", "the mission"),
+    ("the Dawa", "the mission"),
+    ("the dawa", "the mission"),
+    ("daʿwa", "the mission"),
+    ("Daʿwa", "The mission"),
+    ("da'wa", "the mission"),
+    ("Da'wa", "The mission"),
+    ("Dawa", "the mission"),
+    ("dawa", "the mission"),
     # ibdaʿ → origination.
-    ("ibdaʿ",                   "origination"),
-    ("ibda'",                   "origination"),
-    ("Ibda",                    "Origination"),
-    ("ibda",                    "origination"),
-
+    ("ibdaʿ", "origination"),
+    ("ibda'", "origination"),
+    ("Ibda", "Origination"),
+    ("ibda", "origination"),
     # zahir → the apparent. Handle the article-prefixed forms FIRST so a bare
     # "zahir" replace cannot corrupt "al-zahir" into "al-the apparent".
-    ("the al-zahir",            "the apparent"),
-    ("al-zahir",                "the apparent"),
-    ("al-Zahir",                "the apparent"),
-    ("the zahir",               "the apparent"),
-    ("the Zahir",               "the apparent"),
-    ("Zahir",                   "The apparent"),
-    ("zahir",                   "the apparent"),
-
+    ("the al-zahir", "the apparent"),
+    ("al-zahir", "the apparent"),
+    ("al-Zahir", "the apparent"),
+    ("the zahir", "the apparent"),
+    ("the Zahir", "the apparent"),
+    ("Zahir", "The apparent"),
+    ("zahir", "the apparent"),
     # batin → the hidden. Article-prefixed forms first (see zahir note above).
-    ("the al-batin",            "the hidden"),
-    ("al-batin",                "the hidden"),
-    ("al-Batin",                "the hidden"),
-    ("the batin",               "the hidden"),
-    ("the Batin",               "the hidden"),
-    ("Batin",                   "The hidden"),
-    ("batin",                   "the hidden"),
-
+    ("the al-batin", "the hidden"),
+    ("al-batin", "the hidden"),
+    ("al-Batin", "the hidden"),
+    ("the batin", "the hidden"),
+    ("the Batin", "the hidden"),
+    ("Batin", "The hidden"),
+    ("batin", "the hidden"),
     # shirk → associating partners with God.
-    ("Shirk",                   "Associating partners with God"),
-    ("shirk",                   "associating partners with God"),
-
+    ("Shirk", "Associating partners with God"),
+    ("shirk", "associating partners with God"),
     # ===== ARABIC LETTER NAMES (from EP09 audit — TTS reads them as English) =====
-    ("Alif, Dal, Mim",          "Aleef, Daal, Meem"),
-    ("Mim-Waw-Sin-Ya",          "Meem-Waaw-Seen-Yaa"),
-    ("Alif-Ba-Ra-Ha-Ya-Mim",    "Aleef-Baa-Raa-Haa-Yaa-Meem"),
-    ("Nun-Waw-Ha",              "Noon-Waaw-Haa"),
-    ("Ayn-Ya-Sin-Ya",           "Ayn-Yaa-Seen-Yaa"),
-    ("Mim-Ha-Mim-Dal",          "Meem-Haa-Meem-Daal"),
-    (" vowel kaf ",             " vowel Kaaf "),
-    (" consonant nun ",         " consonant Noon "),
-    (" the kaf ",               " the Kaaf "),
-    (" the nun ",               " the Noon "),
-
+    ("Alif, Dal, Mim", "Aleef, Daal, Meem"),
+    ("Mim-Waw-Sin-Ya", "Meem-Waaw-Seen-Yaa"),
+    ("Alif-Ba-Ra-Ha-Ya-Mim", "Aleef-Baa-Raa-Haa-Yaa-Meem"),
+    ("Nun-Waw-Ha", "Noon-Waaw-Haa"),
+    ("Ayn-Ya-Sin-Ya", "Ayn-Yaa-Seen-Yaa"),
+    ("Mim-Ha-Mim-Dal", "Meem-Haa-Meem-Daal"),
+    (" vowel kaf ", " vowel Kaaf "),
+    (" consonant nun ", " consonant Noon "),
+    (" the kaf ", " the Kaaf "),
+    (" the nun ", " the Noon "),
     # ===== KEEP AS-IS (proper names + pronoun-as-word per Asif split) =====
     # huwa is discussed in the source AS a word (the philosophical point is
     # that it's the only pronoun fit for God); keep so the doctrinal moment
     # lands properly.
-    ("huwa",                    "huwa"),
-    ("Huwa",                    "Huwa"),
-
+    ("huwa", "huwa"),
+    ("Huwa", "Huwa"),
     # Persian/Arabic proper names with ASCII apostrophes that TTS misreads.
-    ("Sa'di",                   "Saadi"),
-    ("Hu'd",                    "Hud"),
-
+    ("Sa'di", "Saadi"),
+    ("Hu'd", "Hud"),
     # Proper nouns — kept (declared for sanitize-report visibility)
-    ("Karbala",                 "Karbala"),
-    ("Arafat",                  "Arafat"),
-    ("Hussain",                 "Hussain"),
-    ("al-mubdi",                "al-Mubdi"),
-    ("mawali",                  "the loyalists"),  # gloss for clarity
+    ("Karbala", "Karbala"),
+    ("Arafat", "Arafat"),
+    ("Hussain", "Hussain"),
+    ("al-mubdi", "al-Mubdi"),
+    ("mawali", "the loyalists"),  # gloss for clarity
 ]
 
 
@@ -278,41 +274,39 @@ ARABIC_TERM_SUBS: list[tuple[str, str]] = [
 # Add new entries here when new books cite new surahs.
 # ---------------------------------------------------------------------------
 SURAH_NAMES: dict[int, str] = {
-    3:   "the chapter of the family of Imran",
-    5:   "the chapter of the table spread",
-    6:   "the chapter of cattle",
-    7:   "the chapter of the heights",
-    13:  "the chapter of thunder",
-    15:  "the chapter of the rocky tract",
-    16:  "the chapter of the bee",
-    17:  "the chapter of the night journey",
-    2:   "the chapter of the Cow",
-    4:   "the chapter of women",
-    11:  "the chapter of Hud",
-    18:  "the chapter of the cave",
-    21:  "the chapter of the Prophets",
-    23:  "the chapter of the believers",
-    25:  "the chapter of the criterion",
-    33:  "the chapter of the confederates",
-    36:  "the chapter of Ya-Seen",
-    41:  "the chapter explained in detail",
-    42:  "the chapter of consultation",
-    50:  "the chapter of Qaaf",
-    53:  "the chapter of the star",
-    54:  "the chapter of the moon",
-    57:  "the chapter of iron",
-    70:  "the chapter of the ascending stairways",
-    89:  "the chapter of the dawn",
-    91:  "the chapter of the sun",
+    3: "the chapter of the family of Imran",
+    5: "the chapter of the table spread",
+    6: "the chapter of cattle",
+    7: "the chapter of the heights",
+    13: "the chapter of thunder",
+    15: "the chapter of the rocky tract",
+    16: "the chapter of the bee",
+    17: "the chapter of the night journey",
+    2: "the chapter of the Cow",
+    4: "the chapter of women",
+    11: "the chapter of Hud",
+    18: "the chapter of the cave",
+    21: "the chapter of the Prophets",
+    23: "the chapter of the believers",
+    25: "the chapter of the criterion",
+    33: "the chapter of the confederates",
+    36: "the chapter of Ya-Seen",
+    41: "the chapter explained in detail",
+    42: "the chapter of consultation",
+    50: "the chapter of Qaaf",
+    53: "the chapter of the star",
+    54: "the chapter of the moon",
+    57: "the chapter of iron",
+    70: "the chapter of the ascending stairways",
+    89: "the chapter of the dawn",
+    91: "the chapter of the sun",
     112: "the chapter of sincerity",
 }
 
 
 # Pattern: (Quran 12:34), (Quran 12:34–56), (Quran 12:34-56), (Quran 12)
 # Optional trailing "translation/note" content is preserved.
-_QURAN_RE = re.compile(
-    r"\(Quran\s+(\d+)(?::(\d+(?:[–\-]\d+)?))?([^)]*)\)"
-)
+_QURAN_RE = re.compile(r"\(Quran\s+(\d+)(?::(\d+(?:[–\-]\d+)?))?([^)]*)\)")
 
 
 def _substitute_surah(match: re.Match) -> str:
@@ -341,24 +335,22 @@ def _substitute_surah(match: re.Match) -> str:
 # Pre-name and "Surah <Arabic>" inline phrases that crept into the source
 # from earlier authoring passes. Replaced inline.
 _PRE_SURAH_REPLACEMENTS: list[tuple[Pattern, str]] = [
-    (re.compile(r"Surah\s+the\s+the\s+chapter\s+", re.IGNORECASE),
-     "the chapter "),
-    (re.compile(r"Surah\s+the\s+chapter\s+", re.IGNORECASE),
-     "the chapter "),
-    (re.compile(r"Surah\s+ash-Shams\b", re.IGNORECASE),  "the chapter of the sun"),
-    (re.compile(r"Surah\s+Al-Isra\b",   re.IGNORECASE),  "the chapter of the night journey"),
-    (re.compile(r"Surah\s+Al-Imran\b",  re.IGNORECASE),  "the chapter of the family of Imran"),
-    (re.compile(r"Surah\s+Al-Hadid\b",  re.IGNORECASE),  "the chapter of iron"),
-    (re.compile(r"Surah\s+Al-Ikhlas\b", re.IGNORECASE),  "the chapter of sincerity"),
-    (re.compile(r"Surah\s+Al-Shura\b",  re.IGNORECASE),  "the chapter of consultation"),
-    (re.compile(r"Surah\s+Qaaf?\b",     re.IGNORECASE),  "the chapter of Qaaf"),
-    (re.compile(r"Surah\s+al-Furqan\b", re.IGNORECASE),  "the chapter of the criterion"),
-    (re.compile(r"Surah\s+al-Mu'minun\b", re.IGNORECASE),  "the chapter of the believers"),
-    (re.compile(r"Surah\s+al-A'?raf\b", re.IGNORECASE),  "the chapter of the heights"),
-    (re.compile(r"Surah\s+Ya-?Sin\b",   re.IGNORECASE),  "the chapter of Ya-Seen"),
-    (re.compile(r"Surah\s+Al-Fajr\b",   re.IGNORECASE),  "the chapter of the dawn"),
-    (re.compile(r",\s*Surah\s+\S+\s*", re.IGNORECASE),  ", "),  # catch-all: ", Surah <something>" → ", "
-    (re.compile(r"\bSurah\b\s*,", re.IGNORECASE),        ""),
+    (re.compile(r"Surah\s+the\s+the\s+chapter\s+", re.IGNORECASE), "the chapter "),
+    (re.compile(r"Surah\s+the\s+chapter\s+", re.IGNORECASE), "the chapter "),
+    (re.compile(r"Surah\s+ash-Shams\b", re.IGNORECASE), "the chapter of the sun"),
+    (re.compile(r"Surah\s+Al-Isra\b", re.IGNORECASE), "the chapter of the night journey"),
+    (re.compile(r"Surah\s+Al-Imran\b", re.IGNORECASE), "the chapter of the family of Imran"),
+    (re.compile(r"Surah\s+Al-Hadid\b", re.IGNORECASE), "the chapter of iron"),
+    (re.compile(r"Surah\s+Al-Ikhlas\b", re.IGNORECASE), "the chapter of sincerity"),
+    (re.compile(r"Surah\s+Al-Shura\b", re.IGNORECASE), "the chapter of consultation"),
+    (re.compile(r"Surah\s+Qaaf?\b", re.IGNORECASE), "the chapter of Qaaf"),
+    (re.compile(r"Surah\s+al-Furqan\b", re.IGNORECASE), "the chapter of the criterion"),
+    (re.compile(r"Surah\s+al-Mu'minun\b", re.IGNORECASE), "the chapter of the believers"),
+    (re.compile(r"Surah\s+al-A'?raf\b", re.IGNORECASE), "the chapter of the heights"),
+    (re.compile(r"Surah\s+Ya-?Sin\b", re.IGNORECASE), "the chapter of Ya-Seen"),
+    (re.compile(r"Surah\s+Al-Fajr\b", re.IGNORECASE), "the chapter of the dawn"),
+    (re.compile(r",\s*Surah\s+\S+\s*", re.IGNORECASE), ", "),  # catch-all: ", Surah <something>" → ", "
+    (re.compile(r"\bSurah\b\s*,", re.IGNORECASE), ""),
 ]
 
 
@@ -367,11 +359,11 @@ _PRE_SURAH_REPLACEMENTS: list[tuple[Pattern, str]] = [
 # mispronounces or that read awkwardly when spoken aloud.
 # ---------------------------------------------------------------------------
 ENGLISH_SUBS: list[tuple[str, str]] = [
-    ("Dar the sanctified",  "the Abode of Holiness, Jerusalem"),
-    ("Dar al-Quds",         "the Abode of Holiness, Jerusalem"),
-    ("soteriology",         "the theology of salvation"),
-    ("soteriological",      "salvific"),
-    ("Soteriology",         "The theology of salvation"),
+    ("Dar the sanctified", "the Abode of Holiness, Jerusalem"),
+    ("Dar al-Quds", "the Abode of Holiness, Jerusalem"),
+    ("soteriology", "the theology of salvation"),
+    ("soteriological", "salvific"),
+    ("Soteriology", "The theology of salvation"),
 ]
 
 
@@ -384,10 +376,31 @@ ENGLISH_SUBS: list[tuple[str, str]] = [
 # Heuristic: a blockquote line whose words match the Arabic-romanization
 # pattern (no English vowel-cluster regularity, contains characteristic
 # Arabic stop words like "wa", "fi", "min", "ila", "lam", "lahu", "Allahu").
-_ARABIC_STOPWORDS = {"Allahu", "wa", "fi", "min", "ila", "lam", "lahu",
-                     "Qul", "Kana", "thumma", "alaa", "ala", "ghayruhu",
-                     "yakun", "yulad", "yalid", "kufuwan", "ahad", "samad",
-                     "khalaqa", "shay", "shayun", "arshuhu"}
+_ARABIC_STOPWORDS = {
+    "Allahu",
+    "wa",
+    "fi",
+    "min",
+    "ila",
+    "lam",
+    "lahu",
+    "Qul",
+    "Kana",
+    "thumma",
+    "alaa",
+    "ala",
+    "ghayruhu",
+    "yakun",
+    "yulad",
+    "yalid",
+    "kufuwan",
+    "ahad",
+    "samad",
+    "khalaqa",
+    "shay",
+    "shayun",
+    "arshuhu",
+}
 
 
 def _is_romanized_arabic_blockquote(line: str) -> bool:
@@ -400,9 +413,11 @@ def _is_romanized_arabic_blockquote(line: str) -> bool:
     if len(tokens) < 4:
         return False
     arabic_hits = sum(1 for t in tokens if t in _ARABIC_STOPWORDS)
-    english_hits = sum(1 for t in tokens if t.lower() in
-                       {"the", "and", "is", "of", "in", "to", "that",
-                        "with", "for", "on", "at", "by", "an", "be"})
+    english_hits = sum(
+        1
+        for t in tokens
+        if t.lower() in {"the", "and", "is", "of", "in", "to", "that", "with", "for", "on", "at", "by", "an", "be"}
+    )
     return arabic_hits >= 2 and english_hits == 0
 
 
@@ -412,7 +427,7 @@ def _drop_romanized_blockquote_pairs(text: str) -> tuple[str, int]:
     lines = text.split("\n")
     out: list[str] = []
     n_dropped = 0
-    skip_next_blockquote_arabic = False
+    skip_next_blockquote_arabic = False  # noqa: F841
     for line in lines:
         if line.lstrip().startswith(">") and _is_romanized_arabic_blockquote(line):
             n_dropped += 1
@@ -427,6 +442,7 @@ def _drop_romanized_blockquote_pairs(text: str) -> tuple[str, int]:
 @dataclass
 class SubstitutionReport:
     """Summary of what changed during a sanitize pass."""
+
     typographic_normalized: int = 0
     diacritics_stripped: int = 0
     arabic_terms_substituted: dict[str, int] = field(default_factory=dict)
@@ -459,13 +475,15 @@ class SubstitutionReport:
 
     @property
     def total_changes(self) -> int:
-        return (self.typographic_normalized
-                + self.diacritics_stripped
-                + sum(self.arabic_terms_substituted.values())
-                + self.surahs_substituted
-                + self.pre_surah_phrases_fixed
-                + sum(self.english_subs.values())
-                + self.romanized_blockquotes_dropped)
+        return (
+            self.typographic_normalized
+            + self.diacritics_stripped
+            + sum(self.arabic_terms_substituted.values())
+            + self.surahs_substituted
+            + self.pre_surah_phrases_fixed
+            + sum(self.english_subs.values())
+            + self.romanized_blockquotes_dropped
+        )
 
 
 def sanitize_text(text: str) -> tuple[str, SubstitutionReport]:
@@ -551,9 +569,10 @@ def sanitize_text_with_terms(
         import re as _re
         import sys as _sys
         from pathlib import Path as _Path
+
         _sys.path.insert(0, str(_Path(__file__).resolve().parent / "knowledge"))
         import term_render as _tr
-        from pronunciation_ledger import normalize_key as _nk  # noqa: F401 (validates the import chain)
+        from pronunciation_ledger import normalize_key as _nk  # noqa: F401
 
         if tables is None:
             tables = _tr.load_tables()
@@ -571,9 +590,7 @@ def sanitize_text_with_terms(
             if pat.search(text):
                 count = len(pat.findall(text))
                 text = pat.sub(english, text)
-                report.arabic_terms_substituted[arabic_key] = (
-                    report.arabic_terms_substituted.get(arabic_key, 0) + count
-                )
+                report.arabic_terms_substituted[arabic_key] = report.arabic_terms_substituted.get(arabic_key, 0) + count
 
         # Apply inline book glosses: concept transliteration → author's own translation.
         # Skip entries that are also personal-name keys (prevent wrong concept substitution).
@@ -582,9 +599,7 @@ def sanitize_text_with_terms(
             if pat.search(text):
                 count = len(pat.findall(text))
                 text = pat.sub(gloss_english, text)
-                report.arabic_terms_substituted[gloss_key] = (
-                    report.arabic_terms_substituted.get(gloss_key, 0) + count
-                )
+                report.arabic_terms_substituted[gloss_key] = report.arabic_terms_substituted.get(gloss_key, 0) + count
 
     except ImportError:
         pass  # term_render not on path (non-Islamic content); plain sanitize result stands

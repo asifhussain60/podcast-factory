@@ -1,0 +1,6 @@
+dist/
+node_modules/
+.astro/
+.visual-qa/
+src/data/*.json
+public/

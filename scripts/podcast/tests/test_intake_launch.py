@@ -5,6 +5,7 @@ Commits staged files into canonical _source/, writes series-config.yaml, upserts
 work.yml for a multi-volume work, scaffolds state at preflight, returns the launch
 argv. NEVER spawns the orchestrator (the confirm is the Tier-2 gate).
 """
+
 from __future__ import annotations
 
 import json
@@ -16,10 +17,10 @@ import pytest
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _paths  # noqa: E402
-import _work_manifest as wm  # noqa: E402
-import intake_staging as staging  # noqa: E402
-import intake_launch as launch  # noqa: E402
+import _paths
+import _work_manifest as wm
+import intake_launch as launch
+import intake_staging as staging
 
 try:
     import yaml
@@ -50,9 +51,12 @@ def _staged(role_files: list[tuple[str, str]]) -> str:
 
 
 SETTINGS = {
-    "content_profile": "islamic_scholarly", "source_language": "ar",
-    "audience_profile": "traditional", "host_dynamic": "deep_dive",
-    "length_tier": "extended", "video_style": "teaching_hybrid",
+    "content_profile": "islamic_scholarly",
+    "source_language": "ar",
+    "audience_profile": "traditional",
+    "host_dynamic": "deep_dive",
+    "length_tier": "extended",
+    "video_style": "teaching_hybrid",
     "episode_planning_mode": "tribunal_arc",
 }
 
@@ -60,8 +64,7 @@ SETTINGS = {
 class TestSingleBook:
     def test_prepares_single_book(self, temp_root):
         token = _staged([("book.pdf", "primary_source"), ("gloss.md", "pronunciation_reference")])
-        res = launch.prepare_launch(title="My Book", settings=SETTINGS,
-                                    staging_token=token, slug="my-book")
+        res = launch.prepare_launch(title="My Book", settings=SETTINGS, staging_token=token, slug="my-book")
         bd = temp_root / "Islamic" / "my-book"
         assert (bd / "_source" / "book.pdf").is_file()
         assert (bd / "_source" / "gloss.md").is_file()
@@ -84,8 +87,7 @@ class TestSingleBook:
 class TestMultiVolume:
     def test_prepares_work_volume_and_upserts_manifest(self, temp_root):
         token = _staged([("vol2.pdf", "primary_source")])
-        res = launch.prepare_launch(title="Asaas", settings=SETTINGS,
-                                    staging_token=token, work_slug="asaas", volume=2)
+        res = launch.prepare_launch(title="Asaas", settings=SETTINGS, staging_token=token, work_slug="asaas", volume=2)
         assert res["slug"] == "asaas-vol-02" and res["is_work"] is True
         assert res["branch"] == "Islamic/asaas"
         # work.yml upserted with the volume + role-tagged sources
@@ -107,8 +109,7 @@ class TestGuards:
     def test_requires_slug_xor_work(self, temp_root):
         token = _staged([("a.pdf", "primary_source")])
         with pytest.raises(ValueError):
-            launch.prepare_launch(title="x", settings=SETTINGS, staging_token=token,
-                                  slug="a", work_slug="b", volume=1)
+            launch.prepare_launch(title="x", settings=SETTINGS, staging_token=token, slug="a", work_slug="b", volume=1)
 
     def test_commit_fails_without_primary(self, temp_root):
         token = _staged([("a.txt", "supplementary_text")])  # no primary

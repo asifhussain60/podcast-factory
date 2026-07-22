@@ -8,21 +8,24 @@
  * NEVER imported from a browser bundle — only from /src/pages/api/* routes.
  */
 
-import Database from 'better-sqlite3';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import Database from "better-sqlite3";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // plan-dashboard/src/lib/db  →  ../../..  →  plan-dashboard  →  ../content/...
-const DB_PATH = path.resolve(__dirname, '../../../../content/knowledge-base/knowledge.db');
+const DB_PATH = path.resolve(
+  __dirname,
+  "../../../../content/knowledge-base/knowledge.db",
+);
 
 let _db: Database.Database | null = null;
 
 function getDb(): Database.Database {
   if (_db) return _db;
   _db = new Database(DB_PATH);
-  _db.pragma('journal_mode = WAL');
-  _db.pragma('foreign_keys = ON');
+  _db.pragma("journal_mode = WAL");
+  _db.pragma("foreign_keys = ON");
   ensureTables(_db);
   return _db;
 }
@@ -31,13 +34,28 @@ function getDb(): Database.Database {
 // Schema bootstrap
 // ---------------------------------------------------------------------------
 
-const DEFAULT_TAGS: { label: string; color: string; icon: string; sort_order: number }[] = [
-  { label: 'esoteric',             color: '#7c3aed', icon: 'Eye',               sort_order: 0 },
-  { label: 'reality',              color: '#0284c7', icon: 'Globe',             sort_order: 1 },
-  { label: 'sharia',               color: '#0f766e', icon: 'Scale',             sort_order: 2 },
-  { label: 'history',              color: '#b45309', icon: 'Scroll',            sort_order: 3 },
-  { label: 'mark for deletion',    color: '#e11d48', icon: 'Trash2',            sort_order: 4 },
-  { label: 'mark for improvement', color: '#d97706', icon: 'Lightbulb',         sort_order: 5 },
+const DEFAULT_TAGS: {
+  label: string;
+  color: string;
+  icon: string;
+  sort_order: number;
+}[] = [
+  { label: "esoteric", color: "#7c3aed", icon: "Eye", sort_order: 0 },
+  { label: "reality", color: "#0284c7", icon: "Globe", sort_order: 1 },
+  { label: "sharia", color: "#0f766e", icon: "Scale", sort_order: 2 },
+  { label: "history", color: "#b45309", icon: "Scroll", sort_order: 3 },
+  {
+    label: "mark for deletion",
+    color: "#e11d48",
+    icon: "Trash2",
+    sort_order: 4,
+  },
+  {
+    label: "mark for improvement",
+    color: "#d97706",
+    icon: "Lightbulb",
+    sort_order: 5,
+  },
 ];
 
 function ensureTables(db: Database.Database): void {
@@ -83,7 +101,7 @@ function ensureTables(db: Database.Database): void {
   // Seed defaults (idempotent — INSERT OR IGNORE)
   const insert = db.prepare(
     `INSERT OR IGNORE INTO annotation_tags (tag_label, tag_color, tag_icon, is_default, sort_order)
-     VALUES (?, ?, ?, 1, ?)`
+     VALUES (?, ?, ?, 1, ?)`,
   );
   for (const t of DEFAULT_TAGS) {
     insert.run(t.label, t.color, t.icon, t.sort_order);
@@ -109,17 +127,31 @@ export function getTags(): AnnotationTag[] {
     .all() as AnnotationTag[];
 }
 
-export function createTag(label: string, color: string, icon = 'Tag'): AnnotationTag {
+export function createTag(
+  label: string,
+  color: string,
+  icon = "Tag",
+): AnnotationTag {
   const db = getDb();
-  const maxOrder = (db.prepare(`SELECT COALESCE(MAX(sort_order),0) AS m FROM annotation_tags`).get() as { m: number }).m;
+  const maxOrder = (
+    db
+      .prepare(`SELECT COALESCE(MAX(sort_order),0) AS m FROM annotation_tags`)
+      .get() as { m: number }
+  ).m;
   const info = db
-    .prepare(`INSERT INTO annotation_tags (tag_label, tag_color, tag_icon, is_default, sort_order) VALUES (?,?,?,0,?)`)
+    .prepare(
+      `INSERT INTO annotation_tags (tag_label, tag_color, tag_icon, is_default, sort_order) VALUES (?,?,?,0,?)`,
+    )
     .run(label, color, icon, maxOrder + 1);
-  return db.prepare(`SELECT * FROM annotation_tags WHERE id = ?`).get(info.lastInsertRowid) as AnnotationTag;
+  return db
+    .prepare(`SELECT * FROM annotation_tags WHERE id = ?`)
+    .get(info.lastInsertRowid) as AnnotationTag;
 }
 
 export function deleteTag(id: number): void {
-  getDb().prepare(`DELETE FROM annotation_tags WHERE id = ? AND is_default = 0`).run(id);
+  getDb()
+    .prepare(`DELETE FROM annotation_tags WHERE id = ? AND is_default = 0`)
+    .run(id);
 }
 
 // ---------------------------------------------------------------------------
@@ -148,14 +180,17 @@ export interface ParagraphNote {
   updated_at: string;
 }
 
-export function getAnnotations(bookSlug: string, chapterId: string): Annotation[] {
+export function getAnnotations(
+  bookSlug: string,
+  chapterId: string,
+): Annotation[] {
   return getDb()
     .prepare(
       `SELECT pa.*, at.tag_label, at.tag_color, at.tag_icon
        FROM paragraph_annotations pa
        JOIN annotation_tags at ON at.id = pa.tag_id
        WHERE pa.book_slug = ? AND pa.chapter_id = ?
-       ORDER BY pa.para_idx, pa.created_at`
+       ORDER BY pa.para_idx, pa.created_at`,
     )
     .all(bookSlug, chapterId) as Annotation[];
 }
@@ -166,20 +201,26 @@ export function toggleAnnotation(
   chapterId: string,
   paraIdx: number,
   tagId: number,
-  note?: string
+  note?: string,
 ): { added: boolean; id: number | null } {
   const db = getDb();
   const existing = db
-    .prepare(`SELECT id FROM paragraph_annotations WHERE book_slug=? AND chapter_id=? AND para_idx=? AND tag_id=?`)
+    .prepare(
+      `SELECT id FROM paragraph_annotations WHERE book_slug=? AND chapter_id=? AND para_idx=? AND tag_id=?`,
+    )
     .get(bookSlug, chapterId, paraIdx, tagId) as { id: number } | undefined;
 
   if (existing) {
-    db.prepare(`DELETE FROM paragraph_annotations WHERE id = ?`).run(existing.id);
+    db.prepare(`DELETE FROM paragraph_annotations WHERE id = ?`).run(
+      existing.id,
+    );
     return { added: false, id: null };
   }
 
   const info = db
-    .prepare(`INSERT INTO paragraph_annotations (book_slug, chapter_id, para_idx, tag_id, note) VALUES (?,?,?,?,?)`)
+    .prepare(
+      `INSERT INTO paragraph_annotations (book_slug, chapter_id, para_idx, tag_id, note) VALUES (?,?,?,?,?)`,
+    )
     .run(bookSlug, chapterId, paraIdx, tagId, note ?? null);
   return { added: true, id: Number(info.lastInsertRowid) };
 }
@@ -188,19 +229,29 @@ export function deleteAnnotation(id: number): void {
   getDb().prepare(`DELETE FROM paragraph_annotations WHERE id = ?`).run(id);
 }
 
-export function clearChapterAnnotations(bookSlug: string, chapterId: string): void {
+export function clearChapterAnnotations(
+  bookSlug: string,
+  chapterId: string,
+): void {
   const db = getDb();
-  db.prepare(`DELETE FROM paragraph_annotations WHERE book_slug = ? AND chapter_id = ?`).run(bookSlug, chapterId);
-  db.prepare(`DELETE FROM paragraph_notes WHERE book_slug = ? AND chapter_id = ?`).run(bookSlug, chapterId);
+  db.prepare(
+    `DELETE FROM paragraph_annotations WHERE book_slug = ? AND chapter_id = ?`,
+  ).run(bookSlug, chapterId);
+  db.prepare(
+    `DELETE FROM paragraph_notes WHERE book_slug = ? AND chapter_id = ?`,
+  ).run(bookSlug, chapterId);
 }
 
-export function getParagraphNotes(bookSlug: string, chapterId: string): ParagraphNote[] {
+export function getParagraphNotes(
+  bookSlug: string,
+  chapterId: string,
+): ParagraphNote[] {
   return getDb()
     .prepare(
       `SELECT *
        FROM paragraph_notes
        WHERE book_slug = ? AND chapter_id = ?
-       ORDER BY para_idx ASC`
+       ORDER BY para_idx ASC`,
     )
     .all(bookSlug, chapterId) as ParagraphNote[];
 }
@@ -209,14 +260,14 @@ export function upsertParagraphNote(
   bookSlug: string,
   chapterId: string,
   paraIdx: number,
-  note: string
+  note: string,
 ): void {
   const text = note.trim();
   const db = getDb();
 
   if (!text) {
     db.prepare(
-      `DELETE FROM paragraph_notes WHERE book_slug=? AND chapter_id=? AND para_idx=?`
+      `DELETE FROM paragraph_notes WHERE book_slug=? AND chapter_id=? AND para_idx=?`,
     ).run(bookSlug, chapterId, paraIdx);
     return;
   }
@@ -225,11 +276,14 @@ export function upsertParagraphNote(
     `INSERT INTO paragraph_notes (book_slug, chapter_id, para_idx, note, updated_at)
      VALUES (?, ?, ?, ?, datetime('now'))
      ON CONFLICT(book_slug, chapter_id, para_idx)
-     DO UPDATE SET note = excluded.note, updated_at = datetime('now')`
+     DO UPDATE SET note = excluded.note, updated_at = datetime('now')`,
   ).run(bookSlug, chapterId, paraIdx, text);
 }
 
-export function getChapterAnnotationSnapshot(bookSlug: string, chapterId: string): {
+export function getChapterAnnotationSnapshot(
+  bookSlug: string,
+  chapterId: string,
+): {
   annotations: Annotation[];
   notes: ParagraphNote[];
 } {

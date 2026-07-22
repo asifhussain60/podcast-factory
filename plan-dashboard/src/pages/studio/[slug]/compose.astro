@@ -1,0 +1,730 @@
+---
+/**
+ * Studio — Book Composer (Book Pipeline v2).
+ *
+ * /studio/<slug>/compose — where a human curates how the decoupled visual
+ * candidates (book/visuals/index.json) are placed in the reading edition. The
+ * page server-renders the book preview + candidate palette; book-composer.ts
+ * drives placement (drag between chapters, align/flow/width/caption/page_fit),
+ * writes book/visual-layout.json via /api/studio/visual-layout, then triggers a
+ * render via /api/studio/generate-book-pdf.
+ */
+import Base from "../../../layouts/Base.astro";
+import { loadComposer } from "../../../lib/reader/composer";
+import { slugToTitle } from "../../../lib/content-paths";
+import GemCompanionPanel from "../../../components/reader/companion/GemCompanionPanel";
+import ArabicReviewPanel from "../../../components/reader/ArabicReviewPanel";
+import VowellingReviewPanel from "../../../components/reader/VowellingReviewPanel";
+import "../../../styles/library.css";
+import "../../../styles/book-reader.css";
+import "../../../styles/book-styles.css";
+import "../../../styles/quote-typography.css";
+import "../../../styles/editor-fonts.css";
+import "../../../styles/panel-text-size.css";
+import "../../../styles/arabic-review.css";
+import "../../../styles/select-menu.css";
+import "../../../styles/book-composer.css";
+import "../../../styles/compose-print.css";
+import "../../../styles/companion-notes.css";
+import "../../../styles/gem-companion.css";
+
+const slug = Astro.params.slug!;
+const view = await loadComposer(slug);
+const bookTitle = view?.title ?? slugToTitle(slug);
+const dataJson = view
+  ? JSON.stringify({
+      slug,
+      chapters: view.chapters.map((c) => ({
+        anchor: c.anchor,
+        key: c.key,
+        title: c.title,
+        paras: c.paras,
+        citations: c.citations,
+        // The TipTap-safe seed. The rich read-mode HTML is server-rendered into
+        // .cx-body for reading; the editor must be seeded from THIS instead, or
+        // the serializer would write its own losses back into book.md.
+        editHtml: c.editHtml,
+      })),
+      visuals: view.visuals,
+      placements: view.placements,
+      glossary: view.glossary,
+      glossaryAll: view.glossaryAll,
+    })
+  : "";
+
+// Predefined styles (one family skins every citation type). `plain` is the
+// book-print default since 2026-07-21 — it is the family that sets an Arabic
+// quotation as a centred maroon couplet over its rendering. The client re-selects
+// the book's saved value on load.
+const FAMILIES = [
+  { id: "plain", name: "Plain", tagline: "Centred, maroon — default" },
+  { id: "scholarly", name: "Scholarly", tagline: "Restrained gold rule" },
+  { id: "elegant", name: "Elegant", tagline: "Framed & editorial" },
+];
+
+// The book's translation face sits on the PAGE root, not on the chapter body:
+// the editor host (.cx-edit-host, created at runtime) and the Citations preview
+// both need --q-tr-face too, and inheriting it from here is what keeps them from
+// silently falling back to the default face. The Citations chips re-declare the
+// token on their own form, so previewing a face overrides this for the swatch only.
+const composerClass = [
+  "composer",
+  view?.translationFont ? `tr-${view.translationFont}` : "",
+  view?.arabicFont ? `ar-${view.arabicFont}` : "",
+].filter(Boolean);
+
+// The English rendering face under an Arabic quotation. Mirrors FONTS in
+// api/studio/citation-style.ts and TRANSLATION_FONTS in scripts/lib/book-html.mjs.
+// Each chip previews in its own face (bs-trchip sets font-family from data-font),
+// so the choice is legible before it is made.
+const TRANSLATION_FONTS = [
+  { id: "eb-garamond", name: "EB Garamond", tagline: "Classical — default" },
+  {
+    id: "cormorant-garamond",
+    name: "Cormorant",
+    tagline: "Delicate, high contrast",
+  },
+  { id: "crimson-pro", name: "Crimson Pro", tagline: "Quiet book face" },
+  { id: "lora", name: "Lora", tagline: "Contemporary, brushed" },
+];
+
+// The NON-Qur'anic Arabic face — hadith, sayings, poetry, the book's own Arabic.
+// Mirrors ARABIC_FONTS in api/studio/citation-style.ts and book-html.mjs. There
+// is deliberately no chip for the Qur'anic face: a run the Arabic audit resolved
+// against the canonical mushaf is set in the KFGQPC Uthmanic script because that
+// is the orthography it is written in. The panel says so rather than leaving its
+// absence to be noticed.
+const ARABIC_FONTS = [
+  {
+    id: "scheherazade-new",
+    name: "Scheherazade New",
+    tagline: "Open naskh — default",
+  },
+  { id: "amiri", name: "Amiri", tagline: "Classical naskh, tighter" },
+];
+---
+
+<Base
+  title={`Book Composer — ${bookTitle}`}
+  active="studio"
+  description={`Studio · Book Composer · ${bookTitle}`}
+>
+  {
+    view?.hasBook ? (
+      <div class:list={composerClass} data-slug={slug}>
+        <header class="cx-composer-header">
+          <div
+            class="cx-header-actions"
+            role="group"
+            aria-label="Studio surfaces"
+          >
+            <a class="cx-hdr-btn" href={`/studio/${slug}/preview`}>
+              <i class="fa-solid fa-file-lines" aria-hidden="true" /> Preview
+            </a>
+            <a class="cx-hdr-btn" href={`/studio/${slug}/edit`}>
+              <i class="fa-solid fa-feather-pointed" aria-hidden="true" /> Edit
+              &amp; Enrich
+            </a>
+            <a class="cx-hdr-btn cx-hdr-btn--end" href={`/studio/${slug}/live`}>
+              <i class="fa-solid fa-book-open-reader" aria-hidden="true" /> LIVE
+              Session
+            </a>
+          </div>
+          <div class="lib-hero-main">
+            <div class="lib-breadcrumb">
+              <a href="/studio">Studio</a>
+              <span class="lib-sep">›</span>
+              <span>Book Composer</span>
+            </div>
+            <div class="lib-title-row">
+              <h1>{bookTitle}</h1>
+            </div>
+            <p class="composer-sub">
+              Work one chapter at a time. The chapter opens in the editor —
+              reshape prose with the AI actions in Refinement, and set citation
+              styles in Citations.
+            </p>
+          </div>
+        </header>
+
+        {/* data-panel drives the layout: "closed" gives the chapter the full
+            width; "tools", "companion" and "scholar" each open the SAME drawer on
+            a different surface. book-composer.ts restores the last state. */}
+        <div class="composer-grid" data-panel="tools">
+          <section class="composer-preview" aria-label="Book preview">
+            <div class="cx-chapter-bar">
+              <div class="cx-field cx-chapter-picker">
+                <label for="cx-chapter-select">Chapter</label>
+                <select id="cx-chapter-select">
+                  {view.chapters.map((c) => (
+                    <option value={c.key} data-ordinal={c.ordinal ?? ""}>
+                      {c.ordinal ? `${c.ordinal}. ${c.title}` : c.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div
+                class="cx-mode-toggle"
+                role="group"
+                aria-label="Chapter view"
+              >
+                <button
+                  type="button"
+                  class="cx-mode-btn"
+                  id="cx-mode-read"
+                  aria-pressed="false"
+                >
+                  <i class="fa-solid fa-book-open" aria-hidden="true" /> Read
+                </button>
+                <button
+                  type="button"
+                  class="cx-mode-btn"
+                  id="cx-mode-edit"
+                  aria-pressed="true"
+                >
+                  <i class="fa-solid fa-pen-to-square" aria-hidden="true" />{" "}
+                  Edit
+                </button>
+              </div>
+              <div class="cx-layout-save" id="cx-layout-status" />
+            </div>
+            {view.chapters.map((ch) => (
+              <div
+                class="cx-chapter"
+                data-anchor={ch.anchor}
+                data-key={ch.key}
+                hidden
+              >
+                {/* The chapter title comes from the rendered body itself now —
+                    renderMd emits the book's own .chapter-open block (eyebrow,
+                    title, source range, rule), so a separate <h2> here would
+                    print the title twice. */}
+                <div
+                  class:list={[
+                    "cx-body",
+                    "cx-print",
+                    view.citationFamily && `style-${view.citationFamily}`,
+                  ]}
+                  set:html={ch.html}
+                />
+              </div>
+            ))}
+          </section>
+
+          <aside
+            class="composer-panel"
+            id="cx-drawer"
+            aria-label="Composer controls"
+          >
+            {/* One text-size stepper for the whole drawer. Only one surface shows
+                at a time, so a control pinned above them appears at the top of
+                whichever panel you are looking at — and there is no per-panel
+                setting that could disagree with its neighbours. */}
+            <div class="cx-panel-bar" id="cx-panel-size" />
+            {/* Surface 1 — the tools. Icon-only tabs; each label stays in the DOM
+                (visually hidden until hover/focus) so the accessible name and the
+                screen-reader text are unchanged by the icons. */}
+            <div class="cx-surface" id="cx-surface-tools">
+              {/* One visual bar, two semantic parts: the tablist and, at its
+                  right edge, the settings gear (not a tab — see below). */}
+              <div class="cx-tabrow">
+              <div
+                class="cx-tabbar"
+                role="tablist"
+                aria-label="Composer inspector"
+              >
+                <button
+                  type="button"
+                  class="cx-tab is-active"
+                  id="cx-tab-artifacts"
+                  role="tab"
+                  aria-selected="true"
+                  aria-controls="cx-panel-artifacts"
+                >
+                  <i class="fa-solid fa-images" aria-hidden="true" />
+                  <span class="cx-tab-label">Artifacts</span>
+                </button>
+                <button
+                  type="button"
+                  class="cx-tab"
+                  id="cx-tab-refine"
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="cx-panel-refine"
+                >
+                  <i class="fa-solid fa-feather-pointed" aria-hidden="true" />
+                  <span class="cx-tab-label">Refine &amp; Notes</span>
+                </button>
+              </div>
+              {/* Book settings (citation style + typography) are decided once
+                  per book, not touched while working a chapter — so they live
+                  behind this gear in a dialog, not in the tab list. The gear
+                  sits IN the bar but OUTSIDE the tablist semantics: it is not
+                  a tab, arrow keys never reach it, and it opens a modal. */}
+              <button
+                type="button"
+                class="cx-tab-gear"
+                id="cx-settings-open"
+                aria-haspopup="dialog"
+                title="Book settings"
+                aria-label="Book settings"
+              >
+                <i class="fa-solid fa-gear" aria-hidden="true" />
+              </button>
+              </div>
+
+              <div
+                class="cx-tabpanel"
+                tabindex="0"
+                id="cx-panel-artifacts"
+                role="tabpanel"
+                aria-labelledby="cx-tab-artifacts"
+              >
+                <p class="cx-panel-hint" id="cx-artifacts-scope" />
+                <button
+                  type="button"
+                  class="cx-action is-secondary cx-newai"
+                  id="cx-new-ai-image"
+                >
+                  <i
+                    class="fa-solid fa-wand-magic-sparkles"
+                    aria-hidden="true"
+                  />{" "}
+                  New AI image
+                </button>
+                <div class="cx-palette-list" id="cx-palette-list" />
+              </div>
+
+              <div
+                class="cx-tabpanel"
+                tabindex="0"
+                id="cx-panel-refine"
+                role="tabpanel"
+                aria-labelledby="cx-tab-refine"
+                hidden
+              >
+                {/* Workflow order (Asif-approved reorg 2026-07-22): reshape
+                    the text NOW first, then the follow-up queue / comments /
+                    section tags (the React tab below), then the chapter's
+                    detected citations. */}
+                <section class="cx-details-block cx-reshape-block">
+                  <h3>Reshape now</h3>
+                  <div class="cx-controls" id="cx-controls" />
+                  <div class="cx-ai-tools-mount" id="cx-ai-tools-mount" />
+                </section>
+                {/* The React half of this tab: the "Tell the AI" instruction
+                    box and the follow-up marks queue. Comment, section depth,
+                    and the detected-citations list left the tab 2026-07-22 at
+                    Asif's direction — the instruction box IS the way to ask
+                    for chapter changes now. */}
+                <div id="cx-details-mount" />
+              </div>
+
+              {/* ── Book settings dialog ─────────────────────────────────────
+                  Citation style + typography are one-time, book-wide decisions,
+                  so they live behind the tab bar's gear instead of occupying
+                  daily tabs. The scrim reuses the shared modal contract
+                  (.cx-confirm-scrim); open/close/focus wiring is in
+                  book-composer.ts. The forms are the SAME elements the scripts
+                  bind by class/id — relocated, not rebuilt. */}
+              <div
+                class="cx-confirm-scrim cx-settings-scrim"
+                id="cx-settings-scrim"
+                hidden
+              >
+                <div
+                  class="cx-settings-box"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="cx-settings-title"
+                >
+                  <div class="cx-settings-head">
+                    <h2 class="cx-settings-title" id="cx-settings-title">
+                      Book settings
+                    </h2>
+                    <button
+                      type="button"
+                      class="cx-lightbox-close"
+                      id="cx-settings-close"
+                      aria-label="Close settings"
+                    >
+                      ×
+                    </button>
+                  </div>
+              <section
+                class="cx-settings-section"
+                aria-labelledby="cx-settings-cite-h"
+              >
+                <h3 class="cx-settings-sub" id="cx-settings-cite-h">
+                  Citation style
+                </h3>
+                <form
+                  class="bs-styleform cx-cite-form"
+                  data-slug={slug}
+                  aria-label="Citation style"
+                >
+                  <fieldset class="bs-chips">
+                    <legend>Predefined style</legend>
+                    {FAMILIES.map((f, i) => (
+                      <label class="bs-chip" data-template={f.id}>
+                        <input
+                          type="radio"
+                          name="citation-style"
+                          value={f.id}
+                          class="bs-radio"
+                          checked={i === 0}
+                        />
+                        <span class="bs-chip-head">
+                          <span class="bs-chip-name">{f.name}</span>
+                          <span class="bs-chip-check" aria-hidden="true">
+                            <i class="fa-solid fa-circle-check" />
+                          </span>
+                        </span>
+                        <span class="bs-chip-tag">{f.tagline}</span>
+                      </label>
+                    ))}
+                  </fieldset>
+
+                  {/* The two FACES moved to the Typography tab on 2026-07-21 —
+                      this tab is about what a quotation BLOCK looks like and
+                      which citations are in the chapter. The face still shows in
+                      the sheet below: it is inherited from the page root's
+                      `tr-*` class, so the specimen never disagrees with the book. */}
+                  <div
+                    class="bs-preview cx-cite-preview"
+                    aria-label="Style preview"
+                  >
+                    <div class="bs-ct">
+                      <span class="bs-ct-label">Quran verse</span>
+                      <blockquote class="bs-verse">
+                        {/* A REAL ayah (42:11), quoted verbatim from the canonical
+                            mushaf in content/knowledge-base/mirror.db — this
+                            sample used to show a hadith labelled "Quran verse",
+                            which made the sheet lie about which face a verse gets.
+                            `is-quranic` is the same class renderMd stamps on a run
+                            the Arabic audit resolved against the mushaf, so this
+                            previews the Uthmanic face; the hadith and poem samples
+                            below omit it and preview Scheherazade New. */}
+                        <p class="bs-ar is-quranic" dir="rtl" lang="ar">
+                          لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ
+                        </p>
+                        <p class="bs-tr">
+                          &ldquo;There is nothing whatever like unto Him.&rdquo;
+                        </p>
+                      </blockquote>
+                    </div>
+                    <div class="bs-ct">
+                      <span class="bs-ct-label">Hadith</span>
+                      <blockquote class="bs-hadith">
+                        <p class="bs-ar" dir="rtl" lang="ar">
+                          مَنْ عَمِلَ بِمَا عَلِمَ وَرَّثَهُ اللَّهُ عِلْمَ مَا
+                          لَمْ يَعْلَمْ
+                        </p>
+                        <p class="bs-tr">
+                          &ldquo;Whoever acts upon what he knows, God will
+                          bequeath to him the knowledge of what he does not
+                          know.&rdquo;
+                        </p>
+                        <p class="bs-attr">
+                          The Prophet Muhammad&nbsp;&#65018;
+                        </p>
+                      </blockquote>
+                    </div>
+                    <div class="bs-ct">
+                      <span class="bs-ct-label">Arabic poem</span>
+                      <div class="bs-poem">
+                        <p class="bs-ar" dir="rtl" lang="ar">
+                          وَمَنْ طَلَبَ الْعُلَا سَهِرَ اللَّيَالِي
+                        </p>
+                        <p class="bs-tr">
+                          Whoever seeks the heights stays wakeful through the
+                          nights.
+                        </p>
+                      </div>
+                    </div>
+                    <div class="bs-ct">
+                      <span class="bs-ct-label">Saying</span>
+                      <div class="bs-saying">
+                        <p>Thanks for knowledge is to act upon it.</p>
+                        <p class="bs-attr">A maxim of the learned</p>
+                      </div>
+                    </div>
+                    <div class="bs-ct">
+                      <span class="bs-ct-label">Quotation</span>
+                      <blockquote class="bs-quote">
+                        <p>
+                          The most important things a person can learn are
+                          almost never delivered as lectures.
+                        </p>
+                      </blockquote>
+                    </div>
+                  </div>
+
+                  <p
+                    class="bs-save cx-cite-save"
+                    id="cx-cite-save"
+                    role="status"
+                    aria-live="polite"
+                  />
+                </form>
+
+                <p class="cx-panel-hint">
+                  A predefined style and a translation face skin every citation
+                  type book-wide and carry into the generated PDF. Distinct
+                  per-type print styling is planned but not yet wired.
+                </p>
+              </section>
+
+              {/* TYPOGRAPHY — the book's type, and the reader's own display
+                  settings, in one place but never in one group. The split is the
+                  point: everything under "This book" is written to
+                  book/citation-style.json, travels in git and prints into the
+                  PDF; everything under "On screen only" is a per-device
+                  preference in localStorage that no reader of the PDF will ever
+                  see. Conflating the two is how a personal comfort setting ends
+                  up looking like an editorial decision. */}
+              <section
+                class="cx-settings-section"
+                aria-labelledby="cx-settings-type-h"
+              >
+                <h3 class="cx-settings-sub" id="cx-settings-type-h">
+                  Typography
+                </h3>
+                <form
+                  class="bs-styleform cx-type-form"
+                  data-slug={slug}
+                  aria-label="Book typography"
+                >
+                  <p class="cx-type-scope">
+                    <i class="fa-solid fa-book" aria-hidden="true" /> This book —
+                    saved with the edition, prints into the PDF
+                  </p>
+
+                  {/* Each chip renders its own name IN its own face, and selecting
+                      one re-declares --q-ar-face / --q-tr-face on this form so the
+                      specimen below changes live — a :has() mechanism, no
+                      JavaScript for the preview itself. */}
+                  <fieldset class="bs-chips bs-archips">
+                    <legend>Arabic face</legend>
+                    {ARABIC_FONTS.map((f, i) => (
+                      <label class="bs-chip bs-archip" data-font={f.id}>
+                        <input
+                          type="radio"
+                          name="arabic-font"
+                          value={f.id}
+                          class="bs-radio bs-arradio"
+                          checked={i === 0}
+                        />
+                        <span class="bs-chip-head">
+                          <span class="bs-chip-name">{f.name}</span>
+                          <span class="bs-chip-check" aria-hidden="true">
+                            <i class="fa-solid fa-circle-check" />
+                          </span>
+                        </span>
+                        <span class="bs-chip-tag">{f.tagline}</span>
+                      </label>
+                    ))}
+                  </fieldset>
+
+                  <p class="cx-type-locked">
+                    <i class="fa-solid fa-lock" aria-hidden="true" />
+                    Qur&rsquo;anic runs are always set in the KFGQPC Uthmanic
+                    script. The Arabic audit decides which runs those are, by
+                    resolving each against the canonical mushaf — the face
+                    follows the orthography the verse is written in, so it is not
+                    a choice this panel offers.
+                  </p>
+
+                  <fieldset class="bs-chips bs-trchips">
+                    <legend>English face</legend>
+                    {TRANSLATION_FONTS.map((f, i) => (
+                      <label class="bs-chip bs-trchip" data-font={f.id}>
+                        <input
+                          type="radio"
+                          name="translation-font"
+                          value={f.id}
+                          class="bs-radio bs-trradio"
+                          checked={i === 0}
+                        />
+                        <span class="bs-chip-head">
+                          <span class="bs-chip-name">{f.name}</span>
+                          <span class="bs-chip-check" aria-hidden="true">
+                            <i class="fa-solid fa-circle-check" />
+                          </span>
+                        </span>
+                        <span class="bs-chip-tag">{f.tagline}</span>
+                      </label>
+                    ))}
+                  </fieldset>
+
+                  {/* One specimen showing all three faces at once — the two the
+                      chips above choose, and the one they cannot. Real text:
+                      42:11 from the canonical mushaf, and a hadith. */}
+                  <div class="bs-preview cx-type-preview" aria-label="Face preview">
+                    <div class="bs-ct">
+                      <span class="bs-ct-label">Scripture · Uthmanic</span>
+                      <blockquote class="bs-verse">
+                        <p class="bs-ar is-quranic" dir="rtl" lang="ar">
+                          لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ
+                        </p>
+                        <p class="bs-tr">
+                          &ldquo;There is nothing whatever like unto Him.&rdquo;
+                        </p>
+                      </blockquote>
+                    </div>
+                    <div class="bs-ct">
+                      <span class="bs-ct-label">Everything else</span>
+                      <blockquote class="bs-hadith">
+                        <p class="bs-ar" dir="rtl" lang="ar">
+                          مَنْ عَمِلَ بِمَا عَلِمَ وَرَّثَهُ اللَّهُ عِلْمَ مَا
+                          لَمْ يَعْلَمْ
+                        </p>
+                        <p class="bs-tr">
+                          &ldquo;Whoever acts upon what he knows, God will
+                          bequeath to him the knowledge of what he does not
+                          know.&rdquo;
+                        </p>
+                      </blockquote>
+                    </div>
+                  </div>
+
+                  <p
+                    class="bs-save cx-type-save"
+                    id="cx-type-save"
+                    role="status"
+                    aria-live="polite"
+                  />
+                </form>
+
+                <div class="cx-type-screen">
+                  <p class="cx-type-scope">
+                    <i class="fa-solid fa-display" aria-hidden="true" /> On
+                    screen only — your browser, never the PDF
+                  </p>
+                  <div class="cx-type-screen-row">
+                    <span class="cx-type-screen-label">Panel text</span>
+                    <div class="cx-panel-bar" id="cx-type-size" />
+                  </div>
+                  <p class="cx-panel-hint">
+                    The same dial as the one above the panel — moving either moves
+                    both. The chapter&rsquo;s own size and paper colour live on
+                    the editor toolbar, beside the text they change.
+                  </p>
+                </div>
+              </section>
+                </div>
+              </div>
+            </div>
+
+            {/* Surface 2 — the private Companion notes. Mounted ONCE by
+                book-composer.ts and told which chapter to show, so it can never
+                disagree with the chapter in the editor and needs no picker of
+                its own. */}
+            <div class="cx-surface" id="cx-surface-companion" hidden>
+              <div id="cx-companion-mount" />
+            </div>
+
+            {/* Surface 3 — the AI Scholar. Docked into this same drawer rather
+                than running a second slide-in of its own: two drawers on one page
+                could both be open, overlapping, each with its own close button. */}
+            <div class="cx-surface" id="cx-surface-scholar" hidden>
+              <GemCompanionPanel
+                client:load
+                slug={slug}
+                bookTitle={bookTitle}
+                proseSelector=".cx-chapter"
+                docked
+              />
+            </div>
+
+            {/* Surface 4 — the book's ARABIC. Both halves of the retired
+                /studio/<slug>/arabic-review page, which was the last surface
+                outside this one that could change what the printed edition
+                contains: the term decisions persist to _system/glossary.yml
+                (read by _book_frontmatter during composition) and an accepted
+                vowelling is written to book.md through the Composer's own
+                chapter writer. The write path was already the Composer's; only
+                the UI was somewhere else, on a page nothing in the app linked
+                to. Both panels are book-wide, not chapter-scoped, so they need
+                no chapter prop — the term list covers every run in the book
+                whichever chapter is open beside it. */}
+            <div class="cx-surface cx-surface--arabic" id="cx-surface-arabic" hidden>
+              <ArabicReviewPanel client:only="react" slug={slug} docked />
+              <VowellingReviewPanel client:only="react" slug={slug} docked />
+            </div>
+          </aside>
+        </div>
+
+        {/* One floating row, bottom-right, ordered so the site-wide back-to-top
+            control stays rightmost. This replaces the in-layout rail: a permanent
+            4rem column of buttons was charging the chapter width for chrome that
+            is only occasionally used. */}
+        <div class="cx-fabs" role="group" aria-label="Composer panels">
+          <button
+            type="button"
+            class="cx-fab is-active"
+            id="cx-rail-tools"
+            aria-pressed="true"
+            aria-controls="cx-drawer"
+            title="Tools"
+          >
+            <i class="fa-solid fa-toolbox" aria-hidden="true" />
+            <span class="cx-fab-label">Tools</span>
+          </button>
+          <button
+            type="button"
+            class="cx-fab"
+            id="cx-rail-companion"
+            aria-pressed="false"
+            aria-controls="cx-drawer"
+            title="Companion notes"
+          >
+            <i class="fa-solid fa-lock" aria-hidden="true" />
+            <span class="cx-fab-label">Companion notes</span>
+          </button>
+          <button
+            type="button"
+            class="cx-fab"
+            id="cx-rail-arabic"
+            aria-pressed="false"
+            aria-controls="cx-drawer"
+            title="Arabic"
+          >
+            <i class="fa-solid fa-language" aria-hidden="true" />
+            <span class="cx-fab-label">Arabic</span>
+          </button>
+          <button
+            type="button"
+            class="cx-fab"
+            id="cx-rail-scholar"
+            aria-pressed="false"
+            aria-controls="cx-drawer"
+            title="Ask the Scholar"
+          >
+            <i class="fa-solid fa-book-open-reader" aria-hidden="true" />
+            <span class="cx-fab-label">Ask the Scholar</span>
+          </button>
+        </div>
+
+        <script
+          type="application/json"
+          id="composer-data"
+          is:inline
+          set:html={dataJson}
+        />
+      </div>
+    ) : (
+      <div class="composer-empty">
+        <p>No reading edition has been composed for this book yet.</p>
+        <p>
+          <a class="bookv-back" href={`/studio/${slug}/edit`}>
+            ← Back to Edit &amp; Enrich
+          </a>
+        </p>
+      </div>
+    )
+  }
+  <script>
+    import "../../../scripts/book-composer.ts";
+  </script>
+</Base>

@@ -9,19 +9,27 @@
  * accepts one or rejects all.
  */
 
-import type { APIRoute } from 'astro';
-import { generate, rateLimitCheck } from '../../../lib/reader/gemini-server';
+import type { APIRoute } from "astro";
+import { generate, rateLimitCheck } from "../../../lib/reader/gemini-server";
 
 export const prerender = false;
 
 const MODE_HINTS: Record<string, string> = {
-  clarify:   'Rewrite for clarity. Same length or shorter. Preserve every named entity and transliterated Arabic term verbatim.',
-  tighten:   'Tighten — remove filler, redundancy, and stock phrasing. Cut word count by 20-30% if possible without losing content.',
-  simplify:  'Simplify the vocabulary for a non-specialist reader. Keep technical terms but explain them in-line when natural.',
-  formal:    'Raise the register slightly. Scholarly, restrained, no contractions. Same length.',
+  clarify:
+    "Rewrite for clarity. Same length or shorter. Preserve every named entity and transliterated Arabic term verbatim.",
+  tighten:
+    "Tighten — remove filler, redundancy, and stock phrasing. Cut word count by 20-30% if possible without losing content.",
+  simplify:
+    "Simplify the vocabulary for a non-specialist reader. Keep technical terms but explain them in-line when natural.",
+  expand:
+    "Expand — add helpful detail, unpack implicit reasoning, and gloss difficult terms in-line. Grow the passage ~20-40% WITHOUT inventing facts, doctrine, names, or citations not already implied. Preserve every named entity and transliterated Arabic term verbatim.",
+  formal:
+    "Raise the register slightly. Scholarly, restrained, no contractions. Same length.",
 };
 
-const SYSTEM = (modeHint: string) => `You are a careful editor working on a scholarly Ismaili text.
+const SYSTEM = (
+  modeHint: string,
+) => `You are a careful editor working on a scholarly Ismaili text.
 ${modeHint}
 
 Rules:
@@ -34,37 +42,64 @@ Three DISTINCT alternatives. No prefatory text, no markdown fences.`;
 
 export const POST: APIRoute = async ({ request }) => {
   const limit = rateLimitCheck();
-  if (!limit.ok) return new Response(JSON.stringify({ error: 'rate_limited' }), { status: 429 });
+  if (!limit.ok)
+    return new Response(JSON.stringify({ error: "rate_limited" }), {
+      status: 429,
+    });
   try {
-    const { text, mode = 'clarify', context } = await request.json();
-    if (!text || typeof text !== 'string') return new Response(JSON.stringify({ error: 'missing text' }), { status: 400 });
+    const { text, mode = "clarify", context } = await request.json();
+    if (!text || typeof text !== "string")
+      return new Response(JSON.stringify({ error: "missing text" }), {
+        status: 400,
+      });
     const hint = MODE_HINTS[mode] ?? MODE_HINTS.clarify;
     const user = [
-      context ? `Surrounding context (do not rewrite, just orient yourself):\n"""${context}"""` : '',
-      'Rewrite this passage three different ways:',
+      context
+        ? `Surrounding context (do not rewrite, just orient yourself):\n"""${context}"""`
+        : "",
+      "Rewrite this passage three different ways:",
       `"""${text}"""`,
-    ].filter(Boolean).join('\n\n');
+    ]
+      .filter(Boolean)
+      .join("\n\n");
 
     const raw = await generate({
-      model: 'flash',
+      model: "flash",
       systemInstruction: SYSTEM(hint),
-      contents: [{ role: 'user', parts: [{ text: user }] }],
+      contents: [{ role: "user", parts: [{ text: user }] }],
       temperature: 0.7,
       maxOutputTokens: 1500,
       jsonMode: true,
     });
 
     let parsed: any = {};
-    try { parsed = JSON.parse(raw); }
-    catch { parsed = { options: [raw] }; }
-    if (!Array.isArray(parsed.options)) parsed.options = [String(parsed.options ?? raw)];
-    parsed.options = parsed.options.slice(0, 3).map((s: any) => String(s).trim());
+    // Tolerate a code fence or stray prose around the JSON (some model turns wrap it).
+    const jsonText = (raw.match(/\{[\s\S]*\}/) ?? [raw])[0];
+    try {
+      parsed = JSON.parse(jsonText);
+    } catch {
+      try {
+        parsed = JSON.parse(raw);
+      } catch {
+        parsed = { options: [raw] };
+      }
+    }
+    if (!Array.isArray(parsed.options))
+      parsed.options = [String(parsed.options ?? raw)];
+    parsed.options = parsed.options
+      .slice(0, 3)
+      .map((s: any) => String(s).trim());
 
     return new Response(JSON.stringify(parsed), {
       status: 200,
-      headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
+      headers: {
+        "content-type": "application/json",
+        "cache-control": "no-store",
+      },
     });
   } catch (e) {
-    return new Response(JSON.stringify({ error: (e as Error).message }), { status: 500 });
+    return new Response(JSON.stringify({ error: (e as Error).message }), {
+      status: 500,
+    });
   }
 };

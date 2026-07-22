@@ -1,0 +1,367 @@
+{
+  "schema": "book.arabic-audit/v1",
+  "chapters": [
+    {
+      "chapter": "(front matter)",
+      "arabic_runs": 0,
+      "unverified": 0,
+      "runs": []
+    },
+    {
+      "chapter": "How to Read a Conversation Made of Doors",
+      "arabic_runs": 3,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "جعفر بن منصور اليمن",
+          "resolution": "ocr",
+          "skeleton": "جعفربنمنصوراليمن"
+        },
+        {
+          "text": "الإمام الناطق",
+          "resolution": "ocr",
+          "skeleton": "الامامالناطق"
+        },
+        {
+          "text": "مفاتيحها ذكرى، وأولها بلوى، وأوسطها هدى، وآخرها تقوى",
+          "resolution": "ocr",
+          "skeleton": "مفاتيحهاذكريواولهابلويواوسطهاهديواخرهاتق"
+        }
+      ]
+    },
+    {
+      "chapter": "1. The Persian Who Was Dead and Revived",
+      "arabic_runs": 2,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "البيت المعمور",
+          "resolution": "canonical-mushaf",
+          "skeleton": "البيتالمعمور"
+        },
+        {
+          "text": "إن أفضل الحسنات إحياء الأموات",
+          "resolution": "ocr",
+          "skeleton": "انافضلالحسناتاحياءالاموات"
+        }
+      ]
+    },
+    {
+      "chapter": "2. A Stranger in the City",
+      "arabic_runs": 1,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "فتبارك الَّذِي جَعَلَ اللَّيْلَ وَالنَّهَارَ خِلْفَةً لِمَنْ أَرَادَ أَنْ يَذَّكَّرَ أَوْ أَرَادَ شُكُورًا، وصلى الله على من اختاره من عباده وجعله للعالمين نذيراً",
+          "resolution": "ocr",
+          "skeleton": "فتباركالذيجعلالليلوالنهارخلفهلمنارادانيذ"
+        }
+      ]
+    },
+    {
+      "chapter": "3. The Boy at the Door — Limits and Conditions",
+      "arabic_runs": 1,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "فإنه من عمل لله بما يعلم، هداه الله إلى ما لا يعلم",
+          "resolution": "ocr",
+          "skeleton": "فانهمنعملللهبمايعلمهداهاللهاليمالايعلم"
+        }
+      ]
+    },
+    {
+      "chapter": "4. How the World Was Made",
+      "arabic_runs": 6,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "كُنْ فَيَكُونُ",
+          "resolution": "ocr",
+          "skeleton": "كنفيكون"
+        },
+        {
+          "text": "فَيَكُونُ",
+          "resolution": "ocr",
+          "skeleton": "فيكون"
+        },
+        {
+          "text": "لَيْسَ كَمِثْلِهِ شَيْءٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ليسكمثلهشيء"
+        },
+        {
+          "text": "فَسُبْحَانَ الَّذِي خَلَقَ الْأَزْوَاجَ كُلَّهَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فسبحانالذيخلقالازواجكلها"
+        },
+        {
+          "text": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "بسماللهالرحمنالرحيم"
+        },
+        {
+          "text": "لِئَلَّا يَكُونَ لِلنَّاسِ عَلَى اللَّهِ حُجَّةٌ بَعْدَ الرُّسُلِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ليلايكونللناسعلياللهحجهبعدالرسل"
+        }
+      ]
+    },
+    {
+      "chapter": "5. The World, the Hereafter, and the Speech of Parables",
+      "arabic_runs": 15,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "من حيث يشاء الله",
+          "resolution": "ocr",
+          "skeleton": "منحيثيشاءالله"
+        },
+        {
+          "text": "وبان كذب أهل الجهل بمدح الدنيا إذ لم يعرفوا باطنها وما أراد الله بها",
+          "resolution": "ocr",
+          "skeleton": "وبانكذباهلالجهلبمدحالدنيااذلميعرفواباطنه"
+        },
+        {
+          "text": "وظنوا أن الله خلقها لغير معناها، والله لم يخلق الأشياء عبثاً",
+          "resolution": "ocr",
+          "skeleton": "وظنوااناللهخلقهالغيرمعناهاواللهلميخلقالا"
+        },
+        {
+          "text": "ولو كانت الدنيا وما فيها لم يخلق إلا للدنيا، ينشئ فيها خلقاً",
+          "resolution": "ocr",
+          "skeleton": "ولوكانتالدنياومافيهالميخلقالاللدنياينشيف"
+        },
+        {
+          "text": "وجميع الأشياء ما كبر منها وما صغر، إلا وهو مثل مضروب",
+          "resolution": "ocr",
+          "skeleton": "وجميعالاشياءماكبرمنهاوماصغرالاوهومثلمضرو"
+        },
+        {
+          "text": "ألا ترى الذرّة على صغرها ولطف معناها لها حدود، أمامها وخلفها ويمينها وشمالها وفوقها وتحتها؟ فذلك ستة حدود وهي الحدّ السابع",
+          "resolution": "ocr",
+          "skeleton": "الاتريالذرهعليصغرهاولطفمعناهالهاحدودامام"
+        },
+        {
+          "text": "فكذلك جميع ما خلق الله من الأشياء",
+          "resolution": "ocr",
+          "skeleton": "فكذلكجميعماخلقاللهمنالاشياء"
+        },
+        {
+          "text": "فَلَا تَضْرِبُوا لِلَّهِ الْأَمْثَالَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فلاتضربواللهالامثال"
+        },
+        {
+          "text": "وَلِلَّهِ الْمَثَلُ الْأَعْلَى",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وللهالمثلالاعلي"
+        },
+        {
+          "text": "هذا مثل الإمام",
+          "resolution": "ocr",
+          "skeleton": "هذامثلالامام"
+        },
+        {
+          "text": "هذا مثل الداعي",
+          "resolution": "ocr",
+          "skeleton": "هذامثلالداعي"
+        },
+        {
+          "text": "وَلِلَّهِ الْمَثَلُ الْأَعْلَى",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وللهالمثلالاعلي"
+        },
+        {
+          "text": "يَا بَنِي آدَمَ قَدْ أَنْزَلْنَا عَلَيْكُمْ لِبَاسًا يُوَارِي سَوْآتِكُمْ وَرِيشًا وَلِبَاسُ التَّقْوَى ذَلِكَ خَيْرٌ",
+          "resolution": "ocr",
+          "skeleton": "يابنيادمقدانزلناعليكملباسايواريسواتكموري"
+        },
+        {
+          "text": "طلع القمر",
+          "resolution": "ocr",
+          "skeleton": "طلعالقمر"
+        },
+        {
+          "text": "وَذَرُوا ظَاهِرَ الْإِثْمِ وَبَاطِنَهُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وذرواظاهرالاثموباطنه"
+        }
+      ]
+    },
+    {
+      "chapter": "6. Three Layers of Knowledge",
+      "arabic_runs": 8,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "حَوْلَيْنِ كَامِلَيْنِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "حولينكاملين"
+        },
+        {
+          "text": "وَآتَيْنَاهُ مِنَ الْكُنُوزِ مَا إِنَّ مَفَاتِحَهُ لَتَنُوءُ بِالْعُصْبَةِ أُولِي الْقُوَّةِ",
+          "resolution": "ocr",
+          "skeleton": "واتيناهمنالكنوزماانمفاتحهلتنوءبالعصبهاول"
+        },
+        {
+          "text": "عليه السلام",
+          "resolution": "ocr",
+          "skeleton": "عليهالسلام"
+        },
+        {
+          "text": "يَا أَبَتِ إِنِّي رَأَيْتُ أَحَدَ عَشَرَ كَوْكَبًا وَالشَّمْسَ وَالْقَمَرَ رَأَيْتُهُمْ لِي سَاجِدِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ياابتانيرايتاحدعشركوكباوالشمسوالقمررايته"
+        },
+        {
+          "text": "لَيُوسُفُ وَأَخُوهُ أَحَبُّ إِلَىٰ أَبِينَا مِنَّا وَنَحْنُ عُصْبَةٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ليوسفواخوهاحباليابينامناونحنعصبه"
+        },
+        {
+          "text": "إِنِّي أَرَىٰ سَبْعَ بَقَرَاتٍ سِمَانٍ يَأْكُلُهُنَّ سَبْعٌ عِجَافٌ وَسَبْعَ سُنْبُلَاتٍ خُضْرٍ وَأُخَرَ يَابِسَاتٍ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انياريسبعبقراتسمانياكلهنسبععجافوسبعسنبلا"
+        },
+        {
+          "text": "فَلَا تَغُرَّنَّكُمُ الْحَيَاةُ الدُّنْيَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فلاتغرنكمالحياهالدنيا"
+        },
+        {
+          "text": "يَا لَيْتَنِي قَدَّمْتُ لِحَيَاتِي",
+          "resolution": "ocr",
+          "skeleton": "ياليتنيقدمتلحياتي"
+        }
+      ]
+    },
+    {
+      "chapter": "7. The Five Shares and the Long Road to the Shaykh",
+      "arabic_runs": 6,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "لَهُمْ قُلُوبٌ لَا يَفْقَهُونَ بِهَا وَلَهُمْ أَعْيُنٌ لَا يُبْصِرُونَ بِهَا وَلَهُمْ آذَانٌ لَا يَسْمَعُونَ بِهَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لهمقلوبلايفقهونبهاولهماعينلايبصرونبهاوله"
+        },
+        {
+          "text": "وَمَن يُطِعِ اللَّهَ وَالرَّسُولَ فَأُولَٰئِكَ مَعَ الَّذِينَ أَنْعَمَ اللَّهُ عَلَيْهِمْ مِنَ النَّبِيِّينَ وَالصِّدِّيقِينَ وَالشُّهَدَاءِ وَالصَّالِحِينَ وَحَسُنَ أُولَٰئِكَ رَفِيقاً ذَلِكَ الْفَضْلُ مِنَ اللَّهِ",
+          "resolution": "ocr",
+          "skeleton": "ومنيطعاللهوالرسولفاوليكمعالذينانعماللهعل"
+        },
+        {
+          "text": "فَمَنِ اضْطُرَّ غَيْرَ بَاغٍ وَلَا عَادٍ فَلَا إِثْمَ عَلَيْهِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فمناضطرغيرباغولاعادفلااثمعليه"
+        },
+        {
+          "text": "وَمَا يُلَقَّاهَا إِلَّا الَّذِينَ صَبَرُوا وَمَا يُلَقَّاهَا إِلَّا ذُو حَظٍّ عَظِيمٍ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ومايلقاهاالاالذينصبرواومايلقاهاالاذوحظعظ"
+        },
+        {
+          "text": "عُبيد الله",
+          "resolution": "ocr",
+          "skeleton": "عبيدالله"
+        },
+        {
+          "text": "ولكن المؤمن ينظر بنور الله",
+          "resolution": "ocr",
+          "skeleton": "ولكنالمومنينظربنورالله"
+        }
+      ]
+    },
+    {
+      "chapter": "8. Homecoming, the Father, and the Debate with Abu Malik",
+      "arabic_runs": 15,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "كعب الأحبار",
+          "resolution": "ocr",
+          "skeleton": "كعبالاحبار"
+        },
+        {
+          "text": "مَن تثبّت في الأمور لم يزل سلطانه محروزاً، ومن عجّل في أمره لم يأمن زلة قدمه",
+          "resolution": "ocr",
+          "skeleton": "منتثبتفيالامورلميزلسلطانهمحروزاومنعجلفيا"
+        },
+        {
+          "text": "أفضل الذخائر كنوز الألباب واكتساب الآداب",
+          "resolution": "ocr",
+          "skeleton": "افضلالذخايركنوزالالبابواكتسابالاداب"
+        },
+        {
+          "text": "وإن الله كل يوم هو في شأن",
+          "resolution": "ocr",
+          "skeleton": "واناللهكليومهوفيشان"
+        },
+        {
+          "text": "لا قوة إلا بالله",
+          "resolution": "canonical-mushaf",
+          "skeleton": "لاقوهالابالله"
+        },
+        {
+          "text": "إنا لله وإنا إليه راجعون",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اناللهوانااليهراجعون"
+        },
+        {
+          "text": "أبا الخير",
+          "resolution": "ocr",
+          "skeleton": "اباالخير"
+        },
+        {
+          "text": "لَيْسَ كَمِثْلِهِ شَيْءٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ليسكمثلهشيء"
+        },
+        {
+          "text": "عليهم السلام",
+          "resolution": "honorific-formula",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "وإنه كل يوم هو في شأن",
+          "resolution": "ocr",
+          "skeleton": "وانهكليومهوفيشان"
+        },
+        {
+          "text": "شهد فلان وهو عدل من العدول",
+          "resolution": "ocr",
+          "skeleton": "شهدفلانوهوعدلمنالعدول"
+        },
+        {
+          "text": "عَلَىٰ فَتْرَةٍ مِّنَ الرُّسُلِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "عليفترهمنالرسل"
+        },
+        {
+          "text": "وَلَا تَرْكَنُوا إِلَى الَّذِينَ ظَلَمُوا فَتَمَسَّكُمُ النَّارُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولاتركنوااليالذينظلموافتمسكمالنار"
+        },
+        {
+          "text": "أَطِيعُوا اللَّهَ وَأَطِيعُوا الرَّسُولَ وَأُولِي الْأَمْرِ مِنكُمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اطيعوااللهواطيعواالرسولواوليالامرمنكم"
+        },
+        {
+          "text": "قَاتِلُوا الَّذِينَ يَلُونَكُم مِّنَ الْكُفَّارِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "قاتلواالذينيلونكممنالكفار"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "canonical-mushaf": 24,
+    "ocr": 32,
+    "knowledge-base": 0,
+    "honorific-formula": 1,
+    "unverified": 0,
+    "arabic_runs": 57
+  }
+}

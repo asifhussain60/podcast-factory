@@ -5,6 +5,7 @@ Covers gemini_refine.load_protect_terms (per-book glossary.yml -> protect-list) 
 gemini_refine.sn7_guard (the prompt clause), plus the _rules.R_TERMINUS_PRESERVE constant.
 Pure unit tests — no Gemini/LLM calls.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,8 +16,8 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import gemini_refine as gr  # noqa: E402
-import _rules  # noqa: E402
+import _rules
+import gemini_refine as gr
 
 _GLOSSARY = """\
 # header comment ignored

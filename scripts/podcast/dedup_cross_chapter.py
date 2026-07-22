@@ -33,6 +33,7 @@ Usage:
     python3 scripts/podcast/dedup_cross_chapter.py <book-dir> --apply    # write edits
     python3 scripts/podcast/dedup_cross_chapter.py <book-dir> --json     # plan as JSON
 """
+
 from __future__ import annotations
 
 import argparse
@@ -44,11 +45,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from check_chapter_set import (  # noqa: E402
-    SHINGLE_N,
-    SHINGLE_DUP_THRESHOLD,
+from check_chapter_set import (
     _CITATION_SPAN_RES,
     _DUP_EXCLUDE_SUBSTRINGS,
+    SHINGLE_DUP_THRESHOLD,
+    SHINGLE_N,
     chapter_num,
     chapter_slug,
     list_chapter_files,
@@ -80,8 +81,8 @@ _FRAME_HEADING_RE = re.compile(
 @dataclass
 class Sentence:
     text: str
-    start: int          # absolute char offset in the chapter file
-    end: int            # absolute char offset (exclusive)
+    start: int  # absolute char offset in the chapter file
+    end: int  # absolute char offset (exclusive)
     shingles: set[tuple[str, ...]] = field(default_factory=set)
 
 
@@ -93,8 +94,10 @@ def _blank_citations(s: str) -> str:
     citation that straddles a sentence boundary (e.g. a parenthetical carrying a
     'vol. 8, p. 245' that the splitter would cut) is still fully neutralised. A
     bare citation tail must never read as repeated teaching."""
+
     def repl(m: re.Match) -> str:
         return " " * (m.end() - m.start())
+
     for cre in _CITATION_SPAN_RES:
         s = cre.sub(repl, s)
     return s
@@ -107,7 +110,7 @@ def _shingles(text: str) -> set[tuple[str, ...]]:
     tokens = re.findall(r"[a-z']+", text.lower())
     out: set[tuple[str, ...]] = set()
     for i in range(len(tokens) - SHINGLE_N + 1):
-        gram = tuple(tokens[i:i + SHINGLE_N])
+        gram = tuple(tokens[i : i + SHINGLE_N])
         joined = " ".join(gram)
         if any(x in joined for x in _DUP_EXCLUDE_SUBSTRINGS):
             continue
@@ -142,7 +145,7 @@ def concept_sentences(text: str) -> list[Sentence]:
                 sentences.append(Sentence(seg, start, start + len(seg)))
         pos += line_len + 1  # +1 for the '\n' removed by split
     for s in sentences:
-        s.shingles = _shingles(blanked[s.start:s.end])  # shingles from the blanked slice
+        s.shingles = _shingles(blanked[s.start : s.end])  # shingles from the blanked slice
     return sentences
 
 
@@ -175,8 +178,8 @@ class Collapse:
     callback: str
     shared: int
     scripture_hint: bool = False  # original carries a *…* quotation (verse/dua) — review before collapsing
-    embedded: bool = False        # repeat is woven INTO a larger unique paragraph — needs an authoring
-                                  # rewrite, NOT a blunt cut (a cut leaves dangling lead-ins / restatements)
+    embedded: bool = False  # repeat is woven INTO a larger unique paragraph — needs an authoring
+    # rewrite, NOT a blunt cut (a cut leaves dangling lead-ins / restatements)
 
 
 def _callback(home_title: str) -> str:
@@ -226,15 +229,20 @@ def plan(book_dir: Path) -> list[Collapse]:
                     para_end = len(texts[p])
                 para_len = max(1, len(texts[p][para_start:para_end].strip()))
                 coverage = len(original.strip()) / para_len
-                collapses.append(Collapse(
-                    chapter_slug=slugs[p], home_slug=slugs[home],
-                    home_title=titles[home] or slugs[home],
-                    start=start, end=end, original=original,
-                    callback=_callback(titles[home] or slugs[home]),
-                    shared=len(run_shared),
-                    scripture_hint=("*" in original),
-                    embedded=(coverage < STANDALONE_COVERAGE),
-                ))
+                collapses.append(
+                    Collapse(
+                        chapter_slug=slugs[p],
+                        home_slug=slugs[home],
+                        home_title=titles[home] or slugs[home],
+                        start=start,
+                        end=end,
+                        original=original,
+                        callback=_callback(titles[home] or slugs[home]),
+                        shared=len(run_shared),
+                        scripture_hint=("*" in original),
+                        embedded=(coverage < STANDALONE_COVERAGE),
+                    )
+                )
             run, run_home, run_shared = [], {}, set()
 
         for s in sents[p]:
@@ -265,7 +273,7 @@ def apply_collapses(book_dir: Path, collapses: list[Collapse]) -> dict[str, int]
         p = files[slug]
         text = p.read_text(encoding="utf-8")
         for c in sorted(cs, key=lambda x: x.start, reverse=True):
-            text = text[:c.start] + c.callback + text[c.end:]
+            text = text[: c.start] + c.callback + text[c.end :]
         p.write_text(text, encoding="utf-8")
         counts[slug] = len(cs)
     return counts
@@ -276,8 +284,11 @@ def main() -> int:
     ap.add_argument("book_dir", type=Path)
     ap.add_argument("--apply", action="store_true", help="write edits (default: dry-run)")
     ap.add_argument("--json", action="store_true", help="emit plan as JSON")
-    ap.add_argument("--skip", default="", help="comma-separated 1-based indices to leave untouched "
-                                               "(operator veto after reviewing the dry-run)")
+    ap.add_argument(
+        "--skip",
+        default="",
+        help="comma-separated 1-based indices to leave untouched (operator veto after reviewing the dry-run)",
+    )
     args = ap.parse_args()
 
     if not args.book_dir.is_dir():
@@ -289,11 +300,23 @@ def main() -> int:
     collapses = [c for i, c in enumerate(all_collapses, 1) if i not in skip]
 
     if args.json:
-        print(json.dumps([{
-            "chapter": c.chapter_slug, "home": c.home_slug,
-            "shared_shingles": c.shared, "chars": c.end - c.start,
-            "original": c.original, "callback": c.callback,
-        } for c in collapses], indent=2, ensure_ascii=False))
+        print(
+            json.dumps(
+                [
+                    {
+                        "chapter": c.chapter_slug,
+                        "home": c.home_slug,
+                        "shared_shingles": c.shared,
+                        "chars": c.end - c.start,
+                        "original": c.original,
+                        "callback": c.callback,
+                    }
+                    for c in collapses
+                ],
+                indent=2,
+                ensure_ascii=False,
+            )
+        )
         return 0
 
     if not all_collapses:
@@ -302,14 +325,16 @@ def main() -> int:
 
     auto = [c for i, c in enumerate(all_collapses, 1) if i not in skip and not c.embedded]
     flagged = [c for c in all_collapses if c.embedded]
-    print(f"dedup_cross_chapter: {args.book_dir.name} — {len(all_collapses)} repeated passage(s): "
-          f"{len(auto)} auto-collapsible, {len(flagged)} need an authoring rewrite "
-          f"(skipped: {sorted(skip) or 'none'}):\n")
+    print(
+        f"dedup_cross_chapter: {args.book_dir.name} — {len(all_collapses)} repeated passage(s): "
+        f"{len(auto)} auto-collapsible, {len(flagged)} need an authoring rewrite "
+        f"(skipped: {sorted(skip) or 'none'}):\n"
+    )
     for i, c in enumerate(all_collapses, 1):
         if i in skip:
             kind = "SKIP"
         elif c.embedded:
-            kind = "REWRITE"   # woven into unique prose — hand to authoring, never blunt-cut
+            kind = "REWRITE"  # woven into unique prose — hand to authoring, never blunt-cut
         else:
             kind = "AUTO"
         tag = " [scripture/quote]" if c.scripture_hint else ""
@@ -325,11 +350,12 @@ def main() -> int:
         else:
             print("No standalone repeats to auto-collapse.")
         if flagged:
-            print(f"\n{len(flagged)} embedded repeat(s) left untouched — they need an authoring "
-                  f"rewrite (fold the repeat into a one-line callback, preserving the unique prose).")
+            print(
+                f"\n{len(flagged)} embedded repeat(s) left untouched — they need an authoring "
+                f"rewrite (fold the repeat into a one-line callback, preserving the unique prose)."
+            )
     else:
-        print("(dry-run — re-run with --apply to write standalone collapses; "
-              "REWRITE items are never auto-edited)")
+        print("(dry-run — re-run with --apply to write standalone collapses; REWRITE items are never auto-edited)")
     return 0
 
 

@@ -25,36 +25,37 @@ import pytest
 _REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(_REPO / "scripts" / "podcast"))
 
-from _quality import score as peq_score  # noqa: E402
+from _quality import score as peq_score
 
 _CANONICAL_BOOKS = ["kitab-al-riyad", "the-master-and-the-disciple"]
 _DRAFTS = _REPO / "CONTENT" / "drafts" / "books"
 _BASELINES = _REPO / "_workspace" / "test-strategy" / "baselines"
-REGRESSION_THRESHOLD = 5.0   # points below baseline = regression
+REGRESSION_THRESHOLD = 5.0  # points below baseline = regression
 
 
 # ---------------------------------------------------------------------------
 # Helpers (duplicated from wisdom_quality_snapshot.py for test isolation)
 # ---------------------------------------------------------------------------
 
+
 def _quran_refs(text: str) -> int:
-    return len(re.findall(r'\bQ?\d+:\d+\b', text))
+    return len(re.findall(r"\bQ?\d+:\d+\b", text))
 
 
 def _domain_terms(text: str) -> tuple[int, int]:
-    italics = re.findall(r'\*([^*]+)\*', text)
+    italics = re.findall(r"\*([^*]+)\*", text)
     total = len(set(italics))
-    glossed = len(re.findall(r'\*[^*]+\*\s*\([^)]+\)', text))
+    glossed = len(re.findall(r"\*[^*]+\*\s*\([^)]+\)", text))
     return total, min(glossed, total)
 
 
 def _arc_labels(text: str) -> list[str]:
     labels: list[str] = []
-    if re.search(r'(let us begin|opening|before we dive)', text, re.I):
+    if re.search(r"(let us begin|opening|before we dive)", text, re.I):
         labels.append("open_hook")
-    if re.search(r'\b(first|second|third|point one|point two)\b', text, re.I):
+    if re.search(r"\b(first|second|third|point one|point two)\b", text, re.I):
         labels.append("three_points")
-    if re.search(r'(in closing|to close|so as we end|let that sit)', text, re.I):
+    if re.search(r"(in closing|to close|so as we end|let that sit)", text, re.I):
         labels.append("close")
     return labels
 
@@ -63,7 +64,7 @@ def _extract_citations(contract_path: Path | None) -> list[str]:
     if not contract_path or not contract_path.exists():
         return []
     text = contract_path.read_text(encoding="utf-8")
-    return re.findall(r'(?:quran|hadith|doctrine):\S+', text)
+    return re.findall(r"(?:quran|hadith|doctrine):\S+", text)
 
 
 def _score_chapter(chapter_txt: Path, contract_path: Path | None) -> float:
@@ -73,7 +74,7 @@ def _score_chapter(chapter_txt: Path, contract_path: Path | None) -> float:
     terms_total, terms_glossed = _domain_terms(text)
     arc_found = _arc_labels(text)
     citations_source = _extract_citations(contract_path)
-    citations_found = re.findall(r'(?:quran|hadith|doctrine):\S+', text)
+    citations_found = re.findall(r"(?:quran|hadith|doctrine):\S+", text)
     result = peq_score(
         adapted_text=text,
         citation_ids_source=citations_source,
@@ -93,6 +94,7 @@ def _score_chapter(chapter_txt: Path, contract_path: Path | None) -> float:
 # Test parametrization
 # ---------------------------------------------------------------------------
 
+
 def _collect_cases() -> list[tuple[str, str, float]]:
     """Return list of (book_slug, chapter_slug, baseline_total) tuples."""
     cases: list[tuple[str, str, float]] = []
@@ -109,8 +111,7 @@ def _collect_cases() -> list[tuple[str, str, float]]:
 _CASES = _collect_cases()
 
 
-@pytest.mark.parametrize("book_slug,chapter_slug,baseline_total", _CASES,
-                         ids=[f"{b}::{c}" for b, c, _ in _CASES])
+@pytest.mark.parametrize("book_slug,chapter_slug,baseline_total", _CASES, ids=[f"{b}::{c}" for b, c, _ in _CASES])
 def test_no_regression(book_slug: str, chapter_slug: str, baseline_total: float) -> None:
     """Fail if PEQ total drops more than REGRESSION_THRESHOLD points vs baseline."""
     chapter_file = _DRAFTS / book_slug / "chapters" / f"{chapter_slug}.txt"

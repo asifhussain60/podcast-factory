@@ -26,6 +26,7 @@ pipeline IGNORES on resume but the studio uses to persist accepted/dismissed
 state across sessions. The section is delimited by HTML comments so even if
 the pipeline reads it, it doesn't affect prompt assembly.
 """
+
 from __future__ import annotations
 
 import re
@@ -46,6 +47,7 @@ AI_BLOCK_END = "<!-- ai-suggestions-end -->"
 # ---------------------------------------------------------------------------
 # Dataclasses
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class FlagRow:
@@ -76,11 +78,12 @@ class ContentRange:
 @dataclass
 class AISuggestion:
     """Persisted AI suggestion (accepted or dismissed)."""
+
     id: str
     page: int
     quote: str
     reason: str
-    feature: str       # 'suggest-flags' | 'voice-shift' | etc.
+    feature: str  # 'suggest-flags' | 'voice-shift' | etc.
     status: str = "pending"  # 'pending' | 'accepted' | 'dismissed'
 
 
@@ -123,6 +126,7 @@ class ReviewStruct:
 # ---------------------------------------------------------------------------
 # Markdown ↔ struct serialization
 # ---------------------------------------------------------------------------
+
 
 def serialize_to_markdown(rs: ReviewStruct) -> str:
     """Render ReviewStruct → operator-review.md text.
@@ -203,6 +207,7 @@ def serialize_to_markdown(rs: ReviewStruct) -> str:
         out.append("<!-- Each suggestion JSON: { id, page, quote, reason, feature, status } -->")
         for s in rs.ai_suggestions:
             import json
+
             out.append(f"<!-- {json.dumps(asdict(s), ensure_ascii=False)} -->")
         out.append(AI_BLOCK_END)
         out.append("")
@@ -283,6 +288,7 @@ def parse_from_markdown(text: str, book_slug: str = "") -> ReviewStruct:
             am = _RE_AI_COMMENT.match(line)
             if am:
                 import json
+
                 try:
                     rs.ai_suggestions.append(AISuggestion(**json.loads(am.group(1))))
                 except (json.JSONDecodeError, TypeError):
@@ -362,6 +368,7 @@ def _section_target(rs: ReviewStruct, section: int | None) -> list[FlagRow] | No
 # Atomic write
 # ---------------------------------------------------------------------------
 
+
 def atomic_write(path: Path, content: str) -> None:
     """Write content to path via tmp + rename (atomic on POSIX)."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -370,6 +377,7 @@ def atomic_write(path: Path, content: str) -> None:
     # fsync to ensure durability before rename
     with open(tmp, "rb+") as f:
         import os
+
         os.fsync(f.fileno())
     tmp.replace(path)
 

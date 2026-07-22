@@ -40,15 +40,84 @@ WORD_RE = re.compile(r"[A-Za-z][A-Za-z'\-]+")
 # only — we do a simple capitalized-token frequency across the whole text
 # and pick tokens that appear 2+ times and aren't in a stop-list.
 COMMON_CAPS = {
-    "The", "A", "An", "In", "Of", "And", "Or", "But", "If", "He", "She", "It",
-    "They", "We", "You", "I", "His", "Her", "Their", "Our", "My", "Your",
-    "This", "That", "These", "Those", "Then", "When", "Where", "What", "Who",
-    "Why", "How", "Allaah", "Allah", "God", "Lord", "Master", "Disciple",
-    "Chapter", "Book", "Scholar", "Seeker", "Persia", "Persian",
-    "But", "So", "For", "Yet", "Even", "Such", "Also", "Now", "There", "Here",
-    "On", "At", "By", "To", "Be", "Is", "Was", "Are", "Were", "Have", "Has",
-    "Had", "Do", "Does", "Did", "Can", "Could", "Will", "Would", "Should",
-    "May", "Might", "Must",
+    "The",
+    "A",
+    "An",
+    "In",
+    "Of",
+    "And",
+    "Or",
+    "But",
+    "If",
+    "He",
+    "She",
+    "It",
+    "They",
+    "We",
+    "You",
+    "I",
+    "His",
+    "Her",
+    "Their",
+    "Our",
+    "My",
+    "Your",
+    "This",
+    "That",
+    "These",
+    "Those",
+    "Then",
+    "When",
+    "Where",
+    "What",
+    "Who",
+    "Why",
+    "How",
+    "Allaah",
+    "Allah",
+    "God",
+    "Lord",
+    "Master",
+    "Disciple",
+    "Chapter",
+    "Book",
+    "Scholar",
+    "Seeker",
+    "Persia",
+    "Persian",
+    "But",
+    "So",
+    "For",
+    "Yet",
+    "Even",
+    "Such",
+    "Also",
+    "Now",
+    "There",
+    "Here",
+    "On",
+    "At",
+    "By",
+    "To",
+    "Be",
+    "Is",
+    "Was",
+    "Are",
+    "Were",
+    "Have",
+    "Has",
+    "Had",
+    "Do",
+    "Does",
+    "Did",
+    "Can",
+    "Could",
+    "Will",
+    "Would",
+    "Should",
+    "May",
+    "Might",
+    "Must",
 }
 
 
@@ -132,20 +201,25 @@ def main() -> int:
     lines.append("")
     lines.append("## Aggregate")
     lines.append("")
-    lines.append(f"- OCR translated-en.md: **{ocr_stats['chars']:,} chars / "
-                 f"{ocr_stats['words']:,} words / {ocr_stats['paragraphs']:,} paragraphs**")
+    lines.append(
+        f"- OCR translated-en.md: **{ocr_stats['chars']:,} chars / "
+        f"{ocr_stats['words']:,} words / {ocr_stats['paragraphs']:,} paragraphs**"
+    )
     curated_total = Counter()
     for cp in chapters:
         s = chapter_stats(cp.read_text(encoding="utf-8"))
         curated_total["chars"] += s["chars"]
         curated_total["words"] += s["words"]
         curated_total["paragraphs"] += s["paragraphs"]
-    lines.append(f"- Curated chapters/*.md (sum): **{curated_total['chars']:,} chars / "
-                 f"{curated_total['words']:,} words / {curated_total['paragraphs']:,} paragraphs**")
+    lines.append(
+        f"- Curated chapters/*.md (sum): **{curated_total['chars']:,} chars / "
+        f"{curated_total['words']:,} words / {curated_total['paragraphs']:,} paragraphs**"
+    )
     if ocr_stats["chars"]:
         ratio = curated_total["chars"] / ocr_stats["chars"]
-        lines.append(f"- Curated/OCR ratio: **{ratio:.2f}×** "
-                     f"(>1 means curated added content; <1 means curator condensed)")
+        lines.append(
+            f"- Curated/OCR ratio: **{ratio:.2f}×** (>1 means curated added content; <1 means curator condensed)"
+        )
     lines.append("")
     lines.append("---")
     lines.append("")
@@ -170,16 +244,17 @@ def main() -> int:
         lines.append(f"- File: [`{cp.relative_to(book_dir)}`]({cp.relative_to(book_dir)})")
         lines.append(f"- Curated: {s['chars']:,} chars / {s['words']:,} words / {s['paragraphs']:,} paragraphs")
         lines.append(f"- Top proper nouns: {', '.join(nouns[:15]) or '_(none detected)_'}")
-        lines.append(f"- Proper-noun coverage in OCR: **{len(present)}/{len(present)+len(missing)} present**")
+        lines.append(f"- Proper-noun coverage in OCR: **{len(present)}/{len(present) + len(missing)} present**")
         if missing:
-            lines.append(f"  - **Missing** (may signal substantive divergence or just spelling drift): "
-                         f"`{'`, `'.join(missing)}`")
+            lines.append(
+                f"  - **Missing** (may signal substantive divergence or just spelling drift): `{'`, `'.join(missing)}`"
+            )
         if clarifications:
             lines.append(f"- Curator-added Explanatory Clarifications: **{len(clarifications)}**")
         else:
             lines.append("- Curator-added Explanatory Clarifications: 0")
         lines.append("")
-        lines.append(f"  Curated chapter opening (first 250 chars):")
+        lines.append("  Curated chapter opening (first 250 chars):")
         lines.append("")
         lines.append(f"  > {head.replace(chr(10), ' ')[:250]}")
         lines.append("")

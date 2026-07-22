@@ -25,6 +25,7 @@ Engine facts (verified against ElevenLabs docs 2026-06-12):
   - v3 supports Arabic script and mixed-language text; audio tags such as
     [warm] are billed as characters — keep sparse.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -35,8 +36,8 @@ ENGINE_ELEVENLABS = "elevenlabs"
 
 DEFAULT_AUDIO_ENGINE = ENGINE_NOTEBOOKLM
 
-RENDER_MODE_MANUAL = "manual"   # human uploads source + framing, downloads m4a
-RENDER_MODE_API = "api"         # pipeline renders audio autonomously
+RENDER_MODE_MANUAL = "manual"  # human uploads source + framing, downloads m4a
+RENDER_MODE_API = "api"  # pipeline renders audio autonomously
 
 # Notional USD per ElevenLabs credit for the cost ledger's usd column.
 # Creator plan list price ($22 / 100k credits). Credits are the REAL meter;
@@ -48,13 +49,14 @@ ELEVENLABS_USD_PER_CREDIT = 22.0 / 100_000
 @dataclass(frozen=True)
 class AudioEngine:
     """Capability card for one audio engine. All consumers read THESE flags."""
+
     name: str
-    render_mode: str              # RENDER_MODE_MANUAL | RENDER_MODE_API
+    render_mode: str  # RENDER_MODE_MANUAL | RENDER_MODE_API
     supports_arabic_script: bool  # may engine-specific artifacts carry Arabic Unicode?
-    supports_audio_tags: bool     # [warm]-style performance tags allowed in scripts?
-    max_chunk_chars: int          # per render-request character ceiling (0 = n/a)
-    credit_rate: float            # synthesis credits per character (0.0 = unmetered)
-    model_id: str                 # pinned synthesis model id ("" = n/a)
+    supports_audio_tags: bool  # [warm]-style performance tags allowed in scripts?
+    max_chunk_chars: int  # per render-request character ceiling (0 = n/a)
+    credit_rate: float  # synthesis credits per character (0.0 = unmetered)
+    model_id: str  # pinned synthesis model id ("" = n/a)
     # Tag-budget: the deterministic gate flags more than one [tag] per this many
     # turns. v3 WANTS expressive reaction tags, so its budget is looser than the
     # old flat 1-per-6 cap (which produced flat audio). Registry-driven so the
@@ -70,7 +72,7 @@ AUDIO_ENGINE_REGISTRY: dict[str, AudioEngine] = {
     ENGINE_NOTEBOOKLM: AudioEngine(
         name=ENGINE_NOTEBOOKLM,
         render_mode=RENDER_MODE_MANUAL,
-        supports_arabic_script=False,   # R-PHONETICS-OUT: TTS path is phonetic-only
+        supports_arabic_script=False,  # R-PHONETICS-OUT: TTS path is phonetic-only
         supports_audio_tags=False,
         max_chunk_chars=0,
         credit_rate=0.0,
@@ -92,10 +94,10 @@ AUDIO_ENGINE_REGISTRY: dict[str, AudioEngine] = {
         render_mode=RENDER_MODE_API,
         supports_arabic_script=True,
         supports_audio_tags=True,
-        max_chunk_chars=2000,           # documented reliability limit per request
-        credit_rate=1.0,                # eleven_v3: ~1 credit/char (API discounted)
+        max_chunk_chars=2000,  # documented reliability limit per request
+        credit_rate=1.0,  # eleven_v3: ~1 credit/char (API discounted)
         model_id="eleven_v3",
-        tag_budget_per_turns=3,         # v3 wants reaction tags — looser than the default
+        tag_budget_per_turns=3,  # v3 wants reaction tags — looser than the default
         default_voices={
             # Daniel — measured male, broadcast (scholar / Host A).
             "host_a": "onwK4e9ZLuTAKqWW03F9",
@@ -136,6 +138,7 @@ def resolve_audio_engine(book_dir: Path) -> str:
         return DEFAULT_AUDIO_ENGINE
     try:
         import yaml
+
         with cfg_path.open() as f:
             cfg = yaml.safe_load(f) or {}
     except Exception:
@@ -176,9 +179,10 @@ def episode_engine_overrides(book_dir: Path) -> dict[str, str]:
         return {}
     try:
         import yaml
+
         with cfg_path.open() as f:
             cfg = yaml.safe_load(f) or {}
-    except Exception:  # noqa: BLE001
+    except Exception:
         return {}
     raw = cfg.get("episode_engine_overrides") or {}
     if not isinstance(raw, dict):
@@ -217,9 +221,7 @@ def is_autonomous(engine: AudioEngine | str) -> bool:
     return card.render_mode == RENDER_MODE_API
 
 
-def notebooklm_episode_filter(
-    book_dir: Path, all_episode_ids: list[str] | None = None
-) -> set[str] | None:
+def notebooklm_episode_filter(book_dir: Path, all_episode_ids: list[str] | None = None) -> set[str] | None:
     """The set of episodes that render on NotebookLM (manual upload/download).
 
     SINGLE source of truth for "which episodes need the NotebookLM ritual",
@@ -245,9 +247,8 @@ def notebooklm_episode_filter(
         if not overrides:
             return None if not is_autonomous(audio_engine_for_book(book_dir)) else set()
         eps = all_episode_ids or []
-        return {ep for ep in eps
-                if engine_for_episode(book_dir, ep) == ENGINE_NOTEBOOKLM}
-    except Exception:  # noqa: BLE001 — fall back to the manual ritual
+        return {ep for ep in eps if engine_for_episode(book_dir, ep) == ENGINE_NOTEBOOKLM}
+    except Exception:
         return None
 
 
@@ -262,6 +263,7 @@ def credit_estimate(engine: AudioEngine | str, char_count: int) -> int:
     if card.credit_rate <= 0 or char_count <= 0:
         return 0
     import math
+
     return math.ceil(char_count * card.credit_rate)
 
 
@@ -287,13 +289,15 @@ def voices_for_book(book_dir: Path) -> dict[str, str]:
         return voices
     try:
         from _voice_library import pair_for_slug, resolve_name
+
         voices.update(pair_for_slug(Path(book_dir).name))
-    except Exception:  # noqa: BLE001 — library damage must not block casting
+    except Exception:
         resolve_name = None
     cfg_path = Path(book_dir) / "_system" / "series-config.yaml"
     if cfg_path.exists():
         try:
             import yaml
+
             with cfg_path.open() as f:
                 cfg = yaml.safe_load(f) or {}
             named = cfg.get("voice_cast") or {}

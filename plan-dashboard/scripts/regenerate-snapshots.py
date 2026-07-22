@@ -11,7 +11,6 @@ import json
 import os
 import re
 import subprocess
-import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -43,8 +42,7 @@ def head_commit_iso():
     """
     try:
         out = subprocess.check_output(
-            ["git", "-C", str(REPO), "log", "-1", "--format=%cI"],
-            text=True, stderr=subprocess.DEVNULL
+            ["git", "-C", str(REPO), "log", "-1", "--format=%cI"], text=True, stderr=subprocess.DEVNULL
         ).strip()
         return out or now_iso()
     except Exception:
@@ -59,14 +57,17 @@ def read_json(p):
 
 
 def write_json(p, data):
-    Path(p).write_text(json.dumps(data, indent=2) + "\n")
+    # ensure_ascii=False mirrors JSON.stringify in regenerate-snapshots.mjs, which
+    # emits raw UTF-8. Escaping here would rewrite every em dash as a \\u escape,
+    # so a machine without node and a machine with node would thrash these JSONs
+    # back and forth on every commit.
+    Path(p).write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
 
 
 def current_commit():
     try:
         return subprocess.check_output(
-            ["git", "-C", str(REPO), "rev-parse", "--short", "HEAD"],
-            text=True, stderr=subprocess.DEVNULL
+            ["git", "-C", str(REPO), "rev-parse", "--short", "HEAD"], text=True, stderr=subprocess.DEVNULL
         ).strip()
     except Exception:
         return "unknown"
@@ -75,9 +76,9 @@ def current_commit():
 def recent_commits():
     try:
         out = subprocess.check_output(
-            ["git", "-C", str(REPO), "log", "-n", "10",
-             "--pretty=format:%h|%s|%ad", "--date=short"],
-            text=True, stderr=subprocess.DEVNULL
+            ["git", "-C", str(REPO), "log", "-n", "10", "--pretty=format:%h|%s|%ad", "--date=short"],
+            text=True,
+            stderr=subprocess.DEVNULL,
         ).strip()
         rows = []
         for line in out.splitlines():
@@ -146,7 +147,8 @@ def derive_step_status(step, wave):
 def list_books():
     try:
         return [
-            e.name for e in sorted(DRAFTS.iterdir())
+            e.name
+            for e in sorted(DRAFTS.iterdir())
             if e.is_dir() and not e.name.startswith("_") and e.name == e.name.lower()
         ]
     except Exception:
@@ -179,9 +181,7 @@ def read_plan_yaml():
 
 
 def merge_dashboard():
-    existing = read_json(DATA / "dashboard-snapshot.json") or {
-        "roadmap": [], "waves": [], "debt": [], "metrics": {}
-    }
+    existing = read_json(DATA / "dashboard-snapshot.json") or {"roadmap": [], "waves": [], "debt": [], "metrics": {}}
 
     done_waves = set()
     try:
@@ -195,29 +195,32 @@ def merge_dashboard():
     for s in states:
         if s["phase"] == "done" or s["phase_status"] in ("shipped", "merged"):
             continue
-        existing_match = next(
-            (b for b in (existing.get("books_in_flight") or []) if b["slug"] == s["slug"]),
-            None
+        existing_match = next((b for b in (existing.get("books_in_flight") or []) if b["slug"] == s["slug"]), None)
+        in_flight.append(
+            {
+                "slug": s["slug"],
+                "title": (existing_match or {}).get("title") or s["slug"],
+                "phase": (existing_match or {}).get("phase") or s["phase"],
+                "phase_status": (existing_match or {}).get("phase_status") or s["phase_status"],
+                "cost_to_date_usd": (existing_match or {}).get("cost_to_date_usd") or 0,
+                "kind": (existing_match or {}).get("kind") or "unknown",
+            }
         )
-        in_flight.append({
-            "slug": s["slug"],
-            "title": (existing_match or {}).get("title") or s["slug"],
-            "phase": (existing_match or {}).get("phase") or s["phase"],
-            "phase_status": (existing_match or {}).get("phase_status") or s["phase_status"],
-            "cost_to_date_usd": (existing_match or {}).get("cost_to_date_usd") or 0,
-            "kind": (existing_match or {}).get("kind") or "unknown",
-        })
 
     plan = read_plan_yaml()
     roadmap = list(existing.get("roadmap") or [])
     # Every wave-shaped list in plan.yaml (waves, waves_ghj, waves_o_ph, and any
     # future waves_* section) — entries are dicts with an id + steps. Reading only
     # the first two lists silently hid waves O/PH/WM/SD+ from the dashboard.
+    # Document order, NOT sorted() — the roadmap is ordered by wave_order below,
+    # and plan.yaml's own sequencing is the authored order. Sorting the keys put
+    # waves_bpv2 ahead of waves_ghj, which reordered the whole roadmap away from
+    # what the .mjs mirror (insertion order) emits.
     wave_lists = []
     if plan:
-        for key in sorted(plan.keys()):
+        for key, value in plan.items():
             if key == "waves" or key.startswith("waves_"):
-                wave_lists.extend(list(plan.get(key) or []))
+                wave_lists.extend(list(value or []))
     all_waves = [w for w in wave_lists if isinstance(w, dict) and w.get("id")]
 
     if all_waves:
@@ -227,7 +230,7 @@ def merge_dashboard():
         wave_order = [w["id"] for w in all_waves]
 
         for wave in all_waves:
-            for step in (wave.get("steps") or []):
+            for step in wave.get("steps") or []:
                 prev = existing_by_id.get(step["id"]) or {}
                 entry = {
                     **prev,
@@ -239,8 +242,13 @@ def merge_dashboard():
                     "depends_on": step.get("depends_on") or prev.get("depends_on") or [],
                     "plain": step.get("plain") or prev.get("plain") or "",
                     "tools": step.get("tools") or prev.get("tools") or [],
-                    "last_touched": step.get("last_touched") or prev.get("last_touched"),
                 }
+                # JSON.stringify drops undefined keys, so the .mjs mirror omits
+                # last_touched entirely when neither source carries one. Emitting
+                # an explicit null here would diverge from it.
+                last_touched = step.get("last_touched") or prev.get("last_touched")
+                if last_touched is not None:
+                    entry["last_touched"] = last_touched
                 wave_num = WAVE_NUM_BY_LETTER.get(wave["id"])
                 if wave_num and wave_num in done_waves:
                     entry["status"] = "complete"
@@ -250,10 +258,7 @@ def merge_dashboard():
                     roadmap.append(entry)
 
         roadmap = [existing_by_id.get(r["id"], r) for r in roadmap]
-        roadmap.sort(key=lambda r: (
-            wave_order.index(r["wave"]) if r["wave"] in wave_order else 999,
-            str(r["id"])
-        ))
+        roadmap.sort(key=lambda r: (wave_order.index(r["wave"]) if r["wave"] in wave_order else 999, str(r["id"])))
 
     # Wave metadata (id/name/plain) drives the PlanDesign grouping — rebuild it
     # from plan.yaml so an empty `waves` array can never blank the Roadmap page.
@@ -276,19 +281,22 @@ def merge_dashboard():
             w = picked[wid]
             if not w.get("steps"):
                 continue  # empty band — no roadmap steps to show
-            plain = str(w.get("summary") or "").strip().split("\n")[0] \
-                or (prev_by_id.get(wid) or {}).get("plain", "")
-            waves_meta.append({
-                "id": wid,
-                "name": w.get("name") or wid,
-                "plain": plain,
-            })
+            plain = str(w.get("summary") or "").strip().split("\n")[0] or (prev_by_id.get(wid) or {}).get("plain", "")
+            waves_meta.append(
+                {
+                    "id": wid,
+                    "name": w.get("name") or wid,
+                    "plain": plain,
+                }
+            )
 
     merged = {
         **existing,
         "generated_at": head_commit_iso(),
         "source_commit": current_commit(),
-        "generator": "regenerate-snapshots.py",
+        # Deliberately NOT the filename: both regenerators must emit byte-identical
+        # snapshots, so neither may stamp which of the two produced this run.
+        "generator": "regenerate-snapshots",
         "roadmap": roadmap,
         "waves": waves_meta,
         "books_in_flight": in_flight,
@@ -329,20 +337,22 @@ def merge_architecture():
                     pass
             desc = str(fm.get("description") or "")
             title_case = " ".join(w[0].upper() + w[1:] for w in agent_id.split("-"))
-            agents.append({
-                "id": agent_id,
-                "name": title_case,
-                "role": desc.split(".")[0][:80],
-                "icon": "robot",
-                "tone": "neutral",
-                "plain": desc[:237] + "…" if len(desc) > 240 else desc,
-                "what_it_knows": f"See infra/claude-agents/{f}",
-                "boundary_in": "",
-                "boundary_out": "",
-                "does_not": "",
-                "cost_profile": "varies",
-                "failure_mode": "surfaces error and halts",
-            })
+            agents.append(
+                {
+                    "id": agent_id,
+                    "name": title_case,
+                    "role": desc.split(".")[0][:80],
+                    "icon": "robot",
+                    "tone": "neutral",
+                    "plain": desc[:237] + "…" if len(desc) > 240 else desc,
+                    "what_it_knows": f"See infra/claude-agents/{f}",
+                    "boundary_in": "",
+                    "boundary_out": "",
+                    "does_not": "",
+                    "cost_profile": "varies",
+                    "failure_mode": "surfaces error and halts",
+                }
+            )
         except Exception:
             pass
 
@@ -360,7 +370,13 @@ def merge_architecture():
                 title = title.strip()
                 adrs.append(existing_adrs.get(adr_id) or {"id": adr_id, "title": title, "plain": title})
 
-    merged = {**snap, "generated_at": head_commit_iso(), "source_commit": current_commit(), "agents": agents, "adrs": adrs}
+    merged = {
+        **snap,
+        "generated_at": head_commit_iso(),
+        "source_commit": current_commit(),
+        "agents": agents,
+        "adrs": adrs,
+    }
     write_json(p, merged)
 
 

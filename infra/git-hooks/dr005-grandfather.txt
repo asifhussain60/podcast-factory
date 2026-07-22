@@ -1,0 +1,24 @@
+# DR-005 grandfather allowlist — files over 600 lines when the gate landed (R0, 2026-07-18).
+# Format: <path> <ceiling>. Ratchet rules: R3 splits these and REMOVES entries;
+# a listed file may shrink but never grow past its ceiling; never add entries.
+# (19 files were over-limit pre-R0; the ruff-format pass pushed 5 borderline files over.)
+scripts/podcast/_authoring/_artifact_convergence.py 881
+scripts/podcast/_authoring/_chapter_design.py 1365
+scripts/podcast/_authoring/_framing.py 890
+scripts/podcast/_book_illustrate.py 695
+scripts/podcast/_quran_recitation.py 676
+scripts/podcast/_rules.py 1226
+scripts/podcast/_slide_convergence.py 714
+scripts/podcast/_svg_patterns.py 751
+scripts/podcast/_tts_sanitize.py 607
+scripts/podcast/_validator_constants.py 608
+scripts/podcast/arabic_integrity.py 676
+scripts/podcast/augment_book.py 622
+scripts/podcast/check_chapter_set.py 817
+scripts/podcast/density_planner.py 763
+scripts/podcast/generate_video_layer.py 742
+scripts/podcast/intake_book.py 1008
+scripts/podcast/intelligence/augmenter.py 883
+scripts/podcast/phases/chapter_driver.py 766
+scripts/podcast/render_dialogue_audio.py 680
+scripts/podcast/source_library_mirror.py 716

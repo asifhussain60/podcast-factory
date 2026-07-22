@@ -17,6 +17,7 @@ Overrides schema (all keys optional, per field):
       rename: {fiction: novel}
       remove: [consumer_explainer]
 """
+
 from __future__ import annotations
 
 import sys
@@ -24,12 +25,12 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import _paths  # noqa: E402
-from _rules import BUCKETS, CONTENT_PROFILES  # noqa: E402
-from _blueprint_schema import (  # noqa: E402
+import _paths
+from _blueprint_schema import (
     AUDIENCE_PROFILE_ENUM,
     EPISODE_PLANNING_MODE_ENUM,
 )
+from _rules import BUCKETS, CONTENT_PROFILES
 
 try:
     import yaml
@@ -39,9 +40,15 @@ except Exception as exc:  # pragma: no cover
 # The fields whose dropdowns the form renders, each pre-seeded from a canonical
 # pipeline vocabulary. Ordered as the form presents them.
 FIELDS: tuple[str, ...] = (
-    "content_profile", "bucket", "audience_profile", "host_dynamic",
-    "length_tier", "video_style", "episode_planning_mode",
-    "source_language", "volume_count",
+    "content_profile",
+    "bucket",
+    "audience_profile",
+    "host_dynamic",
+    "length_tier",
+    "video_style",
+    "episode_planning_mode",
+    "source_language",
+    "volume_count",
 )
 
 
@@ -185,8 +192,13 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="smart-intake-form dropdown options")
     sub = p.add_subparsers(dest="cmd", required=True)
     sub.add_parser("get")
-    a = sub.add_parser("add"); a.add_argument("field"); a.add_argument("value")
-    r = sub.add_parser("rename"); r.add_argument("field"); r.add_argument("old"); r.add_argument("new")
+    a = sub.add_parser("add")
+    a.add_argument("field")
+    a.add_argument("value")
+    r = sub.add_parser("rename")
+    r.add_argument("field")
+    r.add_argument("old")
+    r.add_argument("new")
     args = p.parse_args(argv)
     try:
         if args.cmd == "get":

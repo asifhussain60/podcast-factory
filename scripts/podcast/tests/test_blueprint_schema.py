@@ -21,9 +21,9 @@ Also exercises:
 
 Repo style: unittest + sys.path insert; matches test_cost_ledger.py.
 """
+
 from __future__ import annotations
 
-import copy
 import json
 import sys
 import tempfile
@@ -33,7 +33,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _blueprint_schema as bp  # noqa: E402
+import _blueprint_schema as bp
 
 
 def _valid_classification_dict() -> dict:
@@ -133,8 +133,7 @@ class EnumGateTests(unittest.TestCase):
                 bp.validate_classification(d)
 
     def test_planning_mode_enum(self):
-        valid = ("tribunal_arc", "chronological", "problem_solution",
-                 "vignette_grid", "dialectical_pairs")
+        valid = ("tribunal_arc", "chronological", "problem_solution", "vignette_grid", "dialectical_pairs")
         for v in valid:
             d = _valid_classification_dict()
             d["recommended_episode_planning_mode"] = v

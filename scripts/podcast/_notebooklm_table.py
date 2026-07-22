@@ -16,6 +16,7 @@ Every emitter (chapter_driver finalize halt, assemble_bundle, probe bundle)
 renders through this module so the format can never drift again. To change the
 format, change it HERE — not in each caller.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -40,6 +41,7 @@ def load_density_lengths(book_dir) -> dict[int, str]:
     byte-identically to before.
     """
     import json
+
     p = Path(book_dir) / "_system" / "density-plan.json"
     if not p.exists():
         return {}
@@ -58,8 +60,7 @@ def load_density_lengths(book_dir) -> dict[int, str]:
     return out
 
 
-def length_for_episode(book_dir, ep_num: int,
-                       lengths: dict[int, str] | None = None) -> str:
+def length_for_episode(book_dir, ep_num: int, lengths: dict[int, str] | None = None) -> str:
     """The Length cell for one episode: density-plan override or the default.
 
     Pass a pre-loaded *lengths* dict (from load_density_lengths) when
@@ -68,6 +69,7 @@ def length_for_episode(book_dir, ep_num: int,
     if lengths is None:
         lengths = load_density_lengths(book_dir)
     return lengths.get(ep_num, DEFAULT_LENGTH)
+
 
 COLUMNS = ("Chapters", "Episodes", "Deep dive or debate", "Length")
 
@@ -100,17 +102,17 @@ def conversation_style(episode_format: str | None) -> str:
 
 @dataclass
 class UploadRow:
-    n: int                            # episode / chapter number
-    chapter_title: str                # chapter display title
-    episode_title: str                # episode display title
+    n: int  # episode / chapter number
+    chapter_title: str  # chapter display title
+    episode_title: str  # episode display title
     episode_format: str = "deep_dive"
     length: str = DEFAULT_LENGTH
-    chapter_href: str | None = None   # link target for the Chapters cell (chapter SOURCE file)
-    episode_href: str | None = None   # link target for the Episodes cell (episode FRAMING file)
+    chapter_href: str | None = None  # link target for the Chapters cell (chapter SOURCE file)
+    episode_href: str | None = None  # link target for the Episodes cell (episode FRAMING file)
     session_index: int | None = None  # Session grouping (chapter-density standard) — None = flat
     session_title: str | None = None
-    chapter_stem: str | None = None   # canonical chapter stem (ch19c-...) — drives the
-                                      # worklist drop-target checklist; NOT rendered in cells()
+    chapter_stem: str | None = None  # canonical chapter stem (ch19c-...) — drives the
+    # worklist drop-target checklist; NOT rendered in cells()
 
     def chapters_text(self) -> str:
         title = self.chapter_title.strip() if self.chapter_title else f"Chapter {self.n}"
@@ -151,8 +153,7 @@ def render_upload_table(rows: list[UploadRow]) -> str:
         if r.session_index is not None and r.session_index != current_session:
             current_session = r.session_index
             label = r.session_title or f"Session {r.session_index}"
-            body.append(
-                f"| **Session {r.session_index} — {label}** | | | |")
+            body.append(f"| **Session {r.session_index} — {label}** | | | |")
         body.append("| " + " | ".join(r.cells()) + " |")
     return "\n".join(body)
 
@@ -175,8 +176,7 @@ import re as _re
 DEFAULT_SLIDE_FORMAT = "Detailed deck"
 DEFAULT_SLIDE_LENGTH = "Default"
 
-SLIDE_COLUMNS = ("Chapter", "Upload source", "Describe-box paste", "Format",
-                 "Length", "Save exported PDF as")
+SLIDE_COLUMNS = ("Chapter", "Upload source", "Describe-box paste", "Format", "Length", "Save exported PDF as")
 
 _FRAMING_RE = _re.compile(r"^(ch\d{2}[a-z]?)-framing-(.+)\.md$")
 
@@ -209,11 +209,11 @@ def expected_deck_pdf(book_dir: Path, ch: str, slug: str) -> Path:
 
 @dataclass
 class SlideDeckCardRow:
-    ch: str                          # "ch01"
+    ch: str  # "ch01"
     slug: str
     framing_href: str | None = None  # paste into the Describe box (below its H1)
-    deck_href: str | None = None     # upload source (.txt)
-    expected_pdf: str = ""           # repo-relative drop path
+    deck_href: str | None = None  # upload source (.txt)
+    expected_pdf: str = ""  # repo-relative drop path
     fmt: str = DEFAULT_SLIDE_FORMAT
     length: str = DEFAULT_SLIDE_LENGTH
 
@@ -271,25 +271,33 @@ def build_slide_deck_card(book_dir: Path) -> list[str]:
     rows = []
     for ch, slug, framing, deck_txt in discover_slide_framings(book_dir):
         pdf = expected_deck_pdf(book_dir, ch, slug)
-        rows.append(SlideDeckCardRow(
-            ch=ch, slug=slug,
-            framing_href=repo_rel_href(framing, book_dir),
-            deck_href=repo_rel_href(deck_txt, book_dir) if deck_txt else None,
-            expected_pdf=str(Path(pdf).resolve().relative_to(REPO_ROOT))
-            if Path(pdf).resolve().is_relative_to(REPO_ROOT) else str(pdf),
-        ))
+        rows.append(
+            SlideDeckCardRow(
+                ch=ch,
+                slug=slug,
+                framing_href=repo_rel_href(framing, book_dir),
+                deck_href=repo_rel_href(deck_txt, book_dir) if deck_txt else None,
+                expected_pdf=str(Path(pdf).resolve().relative_to(REPO_ROOT))
+                if Path(pdf).resolve().is_relative_to(REPO_ROOT)
+                else str(pdf),
+            )
+        )
     deck_dir = Path(book_dir) / "slide-decks"
     book_framing = deck_dir / "book-framing.md"
     if book_framing.exists():
         book_deck_txt = deck_dir / "book-deck-source.txt"
         book_pdf = deck_dir / "book-deck.pdf"
-        rows.append(SlideDeckCardRow(
-            ch="book", slug=Path(book_dir).name,
-            framing_href=repo_rel_href(book_framing, book_dir),
-            deck_href=repo_rel_href(book_deck_txt, book_dir) if book_deck_txt.exists() else None,
-            expected_pdf=str(book_pdf.resolve().relative_to(REPO_ROOT))
-            if book_pdf.resolve().is_relative_to(REPO_ROOT) else str(book_pdf),
-        ))
+        rows.append(
+            SlideDeckCardRow(
+                ch="book",
+                slug=Path(book_dir).name,
+                framing_href=repo_rel_href(book_framing, book_dir),
+                deck_href=repo_rel_href(book_deck_txt, book_dir) if book_deck_txt.exists() else None,
+                expected_pdf=str(book_pdf.resolve().relative_to(REPO_ROOT))
+                if book_pdf.resolve().is_relative_to(REPO_ROOT)
+                else str(book_pdf),
+            )
+        )
     return render_slide_deck_card_lines(rows)
 
 
@@ -301,6 +309,7 @@ def build_slide_deck_card(book_dir: Path) -> list[str]:
 # above (upload table + slide card) plus a live drop-target checklist — it never
 # re-implements a table, so the locked formats stay single-sourced.
 
+
 def build_worklist_lines(book_dir, *, upload_rows, resume_cmd: str) -> list[str]:
     """Compose the durable worklist: upload table + slide-deck card + drop checklist.
 
@@ -310,7 +319,7 @@ def build_worklist_lines(book_dir, *, upload_rows, resume_cmd: str) -> list[str]
     live: ``[x]`` when the canonical ``m4a/<stem>.m4a`` already exists on disk.
     """
     m4a_dir = Path(book_dir) / "m4a"
-    tx_dir = m4a_dir / "transcripts"
+    tx_dir = m4a_dir / "transcripts"  # noqa: F841
     lines: list[str] = [
         "# NotebookLM worklist",
         "",

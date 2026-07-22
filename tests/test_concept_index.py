@@ -4,6 +4,7 @@ Synthetic atoms (never the live DB) → assert: terms+etymology sharing a root m
 into one root-concept, hadith themes form theme-concepts, Quran/doctrine count as
 unmapped, and the build is deterministic.
 """
+
 from __future__ import annotations
 
 import json
@@ -28,15 +29,23 @@ def _conn():
     c.row_factory = sqlite3.Row
     c.executescript(_SCHEMA)
     rows = [
-        ("term:kqur:alim", "term", {"term": "ALIM", "arabic": "عالم", "root": "ilm", "definition": "One having knowledge, scholar"}),
+        (
+            "term:kqur:alim",
+            "term",
+            {"term": "ALIM", "arabic": "عالم", "root": "ilm", "definition": "One having knowledge, scholar"},
+        ),
         ("term:kqur:aleem", "term", {"term": "ALEEM", "arabic": "عليم", "root": "ilm", "definition": "All-Knowing"}),
-        ("etymology:ilm", "etymology", {"text_en": "root ilm — to know"}),       # merges into root:ilm
-        ("term:kqur:rahman", "term", {"term": "RAHMAN", "arabic": "رحمٰن", "root": "rhm", "definition": "Universally Merciful"}),
+        ("etymology:ilm", "etymology", {"text_en": "root ilm — to know"}),  # merges into root:ilm
+        (
+            "term:kqur:rahman",
+            "term",
+            {"term": "RAHMAN", "arabic": "رحمٰن", "root": "rhm", "definition": "Universally Merciful"},
+        ),
         ("hadith:kashkole:14", "hadith", {"collection": "soul", "english": "knows himself"}),
         ("hadith:kashkole:20", "hadith", {"collection": "soul", "english": "the soul ascends"}),
         ("hadith:kashkole:30", "hadith", {"collection": "tawheed", "english": "God is one"}),
-        ("quran:1:1", "quran", {"surah": 1, "ayat": 1, "arabic": "بسم"}),         # unmapped
-        ("doctrine:wisdom:1:1:0", "doctrine", {"text_en": "teaching"}),           # unmapped
+        ("quran:1:1", "quran", {"surah": 1, "ayat": 1, "arabic": "بسم"}),  # unmapped
+        ("doctrine:wisdom:1:1:0", "doctrine", {"text_en": "teaching"}),  # unmapped
     ]
     for aid, t, body in rows:
         c.execute("INSERT INTO atoms VALUES (?,?,?,?)", (aid, t, json.dumps(body), "universal"))
@@ -71,8 +80,9 @@ class ConceptIndex(unittest.TestCase):
     def test_deterministic(self):
         a = ci.build_concepts(_conn())
         b = ci.build_concepts(_conn())
-        self.assertEqual(json.dumps(a, ensure_ascii=False, sort_keys=True),
-                         json.dumps(b, ensure_ascii=False, sort_keys=True))
+        self.assertEqual(
+            json.dumps(a, ensure_ascii=False, sort_keys=True), json.dumps(b, ensure_ascii=False, sort_keys=True)
+        )
 
     def test_topic_tags_become_concepts_and_map_doctrine(self):
         c = _conn()
@@ -83,8 +93,9 @@ class ConceptIndex(unittest.TestCase):
         by_id = {x["id"]: x for x in idx["concepts"]}
         self.assertIn("tag:mercy", by_id)
         self.assertEqual(by_id["tag:mercy"]["by_type"], {"doctrine": 1})
-        self.assertEqual(idx["coverage"]["unmapped_by_type"].get("doctrine", 0), 0,
-                         "doctrine atom is now mapped via its tag")
+        self.assertEqual(
+            idx["coverage"]["unmapped_by_type"].get("doctrine", 0), 0, "doctrine atom is now mapped via its tag"
+        )
 
 
 if __name__ == "__main__":

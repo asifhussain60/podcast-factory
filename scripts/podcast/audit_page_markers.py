@@ -26,6 +26,7 @@ stripped across 7 of 49 chunked refinement windows. Body content preserved;
 metadata loss only. Without this audit tool, the defect would have only been
 discoverable post-hoc by manual sampling.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -43,10 +44,10 @@ PAGE_MARKER_RE = re.compile(r"<!-- page (\d+) -->")
 class WindowAudit:
     """One row of the per-window audit table."""
 
-    name: str             # e.g. "win-003"
-    in_pages: list[int]   # page numbers found in win-NNN.in.md
+    name: str  # e.g. "win-003"
+    in_pages: list[int]  # page numbers found in win-NNN.in.md
     out_pages: list[int]  # page numbers found in win-NNN.out.md
-    delta: int            # len(in_pages) - len(out_pages); positive = pages lost
+    delta: int  # len(in_pages) - len(out_pages); positive = pages lost
 
     @property
     def is_clean(self) -> bool:
@@ -133,8 +134,7 @@ def render_top_level(
         lines.append(f"LOST  ({len(lost)} pages absent from refined): {_summarize_ranges(lost)}")
     if hallucinated:
         lines.append(
-            f"HALLUCINATED  ({len(hallucinated)} pages in refined but not in raw): "
-            f"{_summarize_ranges(hallucinated)}"
+            f"HALLUCINATED  ({len(hallucinated)} pages in refined but not in raw): {_summarize_ranges(hallucinated)}"
         )
     if not lost and not hallucinated:
         lines.append("✓ All page markers preserved.")
@@ -160,9 +160,7 @@ def render_window_audit(audits: list[WindowAudit]) -> str:
         if a.hallucinated_pages:
             affected_parts.append(f"halluc {_summarize_ranges(a.hallucinated_pages)}")
         affected = "; ".join(affected_parts) or "(reordered)"
-        lines.append(
-            f"{a.name:<10} {len(a.in_pages):>4d} {len(a.out_pages):>4d} {a.delta:>+6d}  {affected}"
-        )
+        lines.append(f"{a.name:<10} {len(a.in_pages):>4d} {len(a.out_pages):>4d} {a.delta:>+6d}  {affected}")
     lines.append("")
     lines.append(f"Defective windows: {len(defective)} / {len(audits)}")
     return "\n".join(lines)
@@ -210,17 +208,16 @@ def main(argv: list[str] | None = None) -> int:
             "refined-english.md (and no hallucinated markers); exits non-zero "
             "with a per-window breakdown on mismatch."
         ),
-        epilog=(
-            "Example: python3 scripts/podcast/audit_page_markers.py "
-            "--book asaas-al-taveel"
-        ),
+        epilog=("Example: python3 scripts/podcast/audit_page_markers.py --book asaas-al-taveel"),
     )
     parser.add_argument("--book", required=True, help="book slug (e.g. asaas-al-taveel)")
     # ALLOWED_CATEGORIES centralized in _rules.py per AU-X1-001 (audit 2026-05-23)
     import sys as _sys
     from pathlib import Path as _Path
+
     _sys.path.insert(0, str(_Path(__file__).resolve().parent))
     from _rules import ALLOWED_CATEGORIES
+
     parser.add_argument(
         "--category",
         default="books",
@@ -246,9 +243,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"ERROR: {refined_english} not found (Phase 0b not complete?)", file=sys.stderr)
         return 2
 
-    raw_markers, refined_markers, lost, hallucinated = audit_top_level(
-        raw_extract, refined_english
-    )
+    raw_markers, refined_markers, lost, hallucinated = audit_top_level(raw_extract, refined_english)
 
     # Also check that within-refined, no marker is repeated (would indicate a
     # cross-window stitching duplication).
@@ -257,10 +252,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print(render_top_level(raw_markers, refined_markers, lost, hallucinated))
     if repeated:
-        print(
-            f"\nREPEATED  ({len(repeated)} pages appear >1 time in refined): "
-            f"{_summarize_ranges(repeated)}"
-        )
+        print(f"\nREPEATED  ({len(repeated)} pages appear >1 time in refined): {_summarize_ranges(repeated)}")
 
     if not args.skip_window_audit:
         chunks_dir = text_dir / "_chunks" / "0b"

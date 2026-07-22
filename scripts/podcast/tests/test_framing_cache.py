@@ -5,6 +5,7 @@ A watchdog restart with an unchanged chapter + an already-authored framing must
 SKIP the LLM re-authoring (and restore the authored framing that extract --force
 overwrote). A changed chapter (sig mismatch) must re-author.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,8 +16,8 @@ import pytest
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import phases.per_chapter as pc  # noqa: E402
-from _convergence import ChapterOutcome  # noqa: E402
+import phases.per_chapter as pc
+from _convergence import ChapterOutcome
 
 SLUG = "will-and-command"
 EP = f"EP01-{SLUG}"
@@ -51,8 +52,7 @@ def _wire(monkeypatch, book, *, author_calls: list):
         (draft / "00-framing.md").write_text("AUTHORED framing\n", encoding="utf-8")
 
     monkeypatch.setattr(pc, "author_framing", fake_author)
-    monkeypatch.setattr(pc, "converge_chapter",
-                        lambda *a, **k: ChapterOutcome(SLUG, "SHIP-READY", 1, 0, 0, 0, 0))
+    monkeypatch.setattr(pc, "converge_chapter", lambda *a, **k: ChapterOutcome(SLUG, "SHIP-READY", 1, 0, 0, 0, 0))
 
 
 class TestFramingCache:
@@ -68,10 +68,10 @@ class TestFramingCache:
     def test_restart_same_chapter_cache_hit(self, book, monkeypatch):
         calls = []
         _wire(monkeypatch, book, author_calls=calls)
-        pc.per_chapter_pass(book, SLUG)            # first run authors
+        pc.per_chapter_pass(book, SLUG)  # first run authors
         assert calls == [SLUG]
-        out = pc.per_chapter_pass(book, SLUG)      # restart: unchanged chapter
-        assert calls == [SLUG]                      # NOT re-authored (cache hit)
+        out = pc.per_chapter_pass(book, SLUG)  # restart: unchanged chapter
+        assert calls == [SLUG]  # NOT re-authored (cache hit)
         # authored framing restored despite extract --force template overwrite
         draft = book / "_system" / "episode-drafts" / EP
         assert (draft / "00-framing.md").read_text() == "AUTHORED framing\n"
@@ -80,9 +80,9 @@ class TestFramingCache:
     def test_changed_chapter_reauthors(self, book, monkeypatch):
         calls = []
         _wire(monkeypatch, book, author_calls=calls)
-        pc.per_chapter_pass(book, SLUG)            # authors with sig of v1
+        pc.per_chapter_pass(book, SLUG)  # authors with sig of v1
         (book / "chapters" / f"ch01-{SLUG}.txt").write_text("chapter body v2 CHANGED", encoding="utf-8")
-        pc.per_chapter_pass(book, SLUG)            # sig mismatch → re-author
+        pc.per_chapter_pass(book, SLUG)  # sig mismatch → re-author
         assert calls == [SLUG, SLUG]
 
 

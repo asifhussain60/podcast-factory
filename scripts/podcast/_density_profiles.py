@@ -24,14 +24,15 @@ Threshold lineage (NOT invented here -- aligned with existing constants):
     over-cramming brake would reject.
   - max_major_concepts for default tracks EPISODE_MAX_CONCEPTS (3).
 """
+
 from __future__ import annotations
 
 import sys
-from dataclasses import dataclass, replace, fields
+from dataclasses import dataclass, fields, replace
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _validator_constants import (  # noqa: E402
+from _validator_constants import (
     EPISODE_DENSITY_CEILING_DENSE,
     EPISODE_DENSITY_CEILING_NARRATIVE,
     EPISODE_MAX_CONCEPTS,
@@ -58,13 +59,14 @@ class DensityProfile:
     the planner optimizes for usable source density well below the hard
     source-size ceilings.
     """
+
     mode: str
-    min_words_soft: int          # below this a solo chapter is "thin"
-    max_words_soft: int          # above this the mode starts compressing
-    max_major_concepts: int      # concept sections one generation can honor
+    min_words_soft: int  # below this a solo chapter is "thin"
+    max_words_soft: int  # above this the mode starts compressing
+    max_major_concepts: int  # concept sections one generation can honor
     max_compression_risk: float  # 0..1; above this -> flag / pacing directive
-    combine_bias: float          # 0..1; reward for combining thin neighbours
-    split_bias: float            # 0..1; reward for splitting over-dense files
+    combine_bias: float  # 0..1; reward for combining thin neighbours
+    split_bias: float  # 0..1; reward for splitting over-dense files
 
 
 # ---------------------------------------------------------------------------
@@ -84,8 +86,8 @@ DENSITY_PROFILE_REGISTRY: dict[tuple[str, str], DensityProfile] = {
     ("islamic_scholarly", MODE_LONGER): DensityProfile(
         mode=MODE_LONGER,
         min_words_soft=3800,
-        max_words_soft=EPISODE_DENSITY_CEILING_DENSE,   # 6,000
-        max_major_concepts=EPISODE_MAX_CONCEPTS * 2,    # coherent pair budget
+        max_words_soft=EPISODE_DENSITY_CEILING_DENSE,  # 6,000
+        max_major_concepts=EPISODE_MAX_CONCEPTS * 2,  # coherent pair budget
         max_compression_risk=0.50,
         combine_bias=0.6,
         split_bias=0.2,
@@ -140,13 +142,13 @@ def _load_series_config(book_dir: Path | None) -> dict:
         return {}
     try:
         import yaml
+
         return yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
     except Exception:
         return {}
 
 
-def get_profile(content_profile: str | None, mode: str,
-                book_dir: Path | None = None) -> DensityProfile:
+def get_profile(content_profile: str | None, mode: str, book_dir: Path | None = None) -> DensityProfile:
     """Resolve the DensityProfile for (content_profile, mode).
 
     Resolution order: exact registry entry -> "*" fallback entry -> then
@@ -154,14 +156,12 @@ def get_profile(content_profile: str | None, mode: str,
     `density_profiles.<mode>` mapping (unknown fields ignored).
     """
     cp = (content_profile or "").strip() or "*"
-    prof = (DENSITY_PROFILE_REGISTRY.get((cp, mode))
-            or DENSITY_PROFILE_REGISTRY.get(("*", mode)))
+    prof = DENSITY_PROFILE_REGISTRY.get((cp, mode)) or DENSITY_PROFILE_REGISTRY.get(("*", mode))
     if prof is None:
         raise KeyError(f"Unknown density mode {mode!r}")
-    overrides = (_load_series_config(book_dir).get("density_profiles") or {})
+    overrides = _load_series_config(book_dir).get("density_profiles") or {}
     mode_overrides = overrides.get(mode) or {}
-    clean = {k: v for k, v in mode_overrides.items()
-             if k in _PROFILE_FIELD_NAMES and k != "mode"}
+    clean = {k: v for k, v in mode_overrides.items() if k in _PROFILE_FIELD_NAMES and k != "mode"}
     return replace(prof, **clean) if clean else prof
 
 

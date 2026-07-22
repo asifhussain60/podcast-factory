@@ -19,9 +19,16 @@
   letter-spacing: 0.18em;
   color: var(--c-ink-muted);
 }
-.kash-breadcrumb a { color: inherit; text-decoration: none; }
-.kash-breadcrumb a:hover { text-decoration: underline; }
-.kash-breadcrumb-active { color: var(--c-gold); }
+.kash-breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+}
+.kash-breadcrumb a:hover {
+  text-decoration: underline;
+}
+.kash-breadcrumb-active {
+  color: var(--c-gold);
+}
 
 .kash-title-row {
   margin-top: 24px;
@@ -35,7 +42,7 @@
   min-width: 0;
 }
 .kash-title {
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: "EB Garamond", Georgia, serif;
   font-size: 3rem;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -51,7 +58,7 @@
 .kash-tagline {
   margin-top: 12px;
   max-width: 640px;
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: "EB Garamond", Georgia, serif;
   font-size: 1rem;
   font-style: italic;
   line-height: 1.6;
@@ -72,13 +79,15 @@
   text-align: center;
 }
 .kash-stat-num {
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: "EB Garamond", Georgia, serif;
   font-size: 1.75rem;
   font-weight: 600;
   line-height: 1;
   color: var(--c-ink);
 }
-.kash-stat-num--gold { color: var(--color-gold-deep); }
+.kash-stat-num--gold {
+  color: var(--color-gold-deep);
+}
 .kash-stat-label {
   font-family: var(--font-ui);
   margin-top: 4px;
@@ -88,14 +97,21 @@
   letter-spacing: 0.15em;
   color: var(--c-ink-muted);
 }
-.kash-stat-label--gold { color: var(--color-gold-deep); }
+.kash-stat-label--gold {
+  color: var(--color-gold-deep);
+}
 .kash-stat-divider {
   width: 1px;
   background: var(--c-rule);
 }
 
-.kash-search-wrap { margin-top: 24px; }
-.kash-search-label { position: relative; display: block; }
+.kash-search-wrap {
+  margin-top: 24px;
+}
+.kash-search-label {
+  position: relative;
+  display: block;
+}
 .kash-search-input {
   box-sizing: border-box;
   font-family: var(--font-ui);
@@ -109,7 +125,9 @@
   outline: none;
   transition: box-shadow 0.15s;
 }
-.kash-search-input:focus { box-shadow: 0 0 0 2px var(--c-gold); }
+.kash-search-input:focus {
+  box-shadow: 0 0 0 2px var(--c-gold);
+}
 .kash-search-hint {
   position: absolute;
   right: 14px;
@@ -136,9 +154,18 @@
   padding: 1px 6px;
   font-size: 10px;
 }
-.kash-conf-high { background: var(--c-bg-sunken); color: var(--c-gold); }
-.kash-conf-med  { border: 1px solid var(--c-rule); color: var(--c-ink-dim); }
-.kash-conf-low  { border: 1px solid var(--c-rule); color: var(--c-ink-muted); }
+.kash-conf-high {
+  background: var(--c-bg-sunken);
+  color: var(--c-gold);
+}
+.kash-conf-med {
+  border: 1px solid var(--c-rule);
+  color: var(--c-ink-dim);
+}
+.kash-conf-low {
+  border: 1px solid var(--c-rule);
+  color: var(--c-ink-muted);
+}
 
 .kash-main {
   box-sizing: border-box;
@@ -160,7 +187,9 @@
   color: var(--c-ink-dim);
 }
 
-.binder-section { margin-bottom: 40px; }
+.binder-section {
+  margin-bottom: 40px;
+}
 .binder-header {
   display: flex;
   align-items: baseline;
@@ -191,7 +220,7 @@
   color: var(--c-gold);
 }
 .binder-title-en {
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: "EB Garamond", Georgia, serif;
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -223,8 +252,14 @@
   padding: 2px 6px;
   font-size: 9px;
 }
-.kash-tag-retitled { background: var(--c-bg-sunken); color: var(--c-gold); }
-.kash-tag-pending  { border: 1px solid var(--c-rule); color: var(--c-ink-muted); }
+.kash-tag-retitled {
+  background: var(--c-bg-sunken);
+  color: var(--c-gold);
+}
+.kash-tag-pending {
+  border: 1px solid var(--c-rule);
+  color: var(--c-ink-muted);
+}
 
 .chapter-grid {
   display: grid;
@@ -232,10 +267,14 @@
   gap: 12px;
 }
 @media (min-width: 768px) {
-  .chapter-grid { grid-template-columns: repeat(2, 1fr); }
+  .chapter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 @media (min-width: 1100px) {
-  .chapter-grid { grid-template-columns: repeat(3, 1fr); }
+  .chapter-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .chapter-card {
@@ -247,20 +286,25 @@
   background: var(--c-bg-card);
   color: var(--c-ink);
   text-decoration: none;
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition:
+    transform 0.1s,
+    box-shadow 0.1s;
 }
 .chapter-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px -4px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.12);
 }
 .chapter-card-top {
   display: flex;
   align-items: flex-start;
   gap: 12px;
 }
-.chapter-card-text { flex: 1; min-width: 0; }
+.chapter-card-text {
+  flex: 1;
+  min-width: 0;
+}
 .chapter-card-en {
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: "EB Garamond", Georgia, serif;
   font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1.3;
@@ -283,10 +327,18 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.chapter-card-conf { flex-shrink: 0; }
-.chapter-confidence--high { color: var(--color-gold-deep); }
-.chapter-confidence--medium { color: var(--color-ink-secondary); }
-.chapter-confidence--low { color: var(--color-ink-tertiary); }
+.chapter-card-conf {
+  flex-shrink: 0;
+}
+.chapter-confidence--high {
+  color: var(--color-gold-deep);
+}
+.chapter-confidence--medium {
+  color: var(--color-ink-secondary);
+}
+.chapter-confidence--low {
+  color: var(--color-ink-tertiary);
+}
 .chapter-card-foot {
   margin-top: 12px;
   display: flex;
@@ -341,9 +393,16 @@
   letter-spacing: 0.16em;
   color: var(--c-ink-muted);
 }
-.kb-breadcrumb a { color: inherit; text-decoration: none; }
-.kb-breadcrumb a:hover { text-decoration: underline; }
-.kb-breadcrumb-shelf { color: var(--c-gold); }
+.kb-breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+}
+.kb-breadcrumb a:hover {
+  text-decoration: underline;
+}
+.kb-breadcrumb-shelf {
+  color: var(--c-gold);
+}
 
 .kb-title-row {
   margin-top: 20px;
@@ -354,7 +413,7 @@
   gap: 16px;
 }
 .kb-title-en {
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: "EB Garamond", Georgia, serif;
   font-size: 2.2rem;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -387,7 +446,9 @@
   color: var(--c-ink-dim);
   background: var(--c-bg);
 }
-.kb-meta-stage { color: var(--c-ink-muted); }
+.kb-meta-stage {
+  color: var(--c-ink-muted);
+}
 
 .kb-view-toggle {
   display: flex;
@@ -411,20 +472,35 @@
   border-right: 1px solid var(--c-rule);
   transition: background 0.1s;
 }
-.kb-toggle-btn:last-child { border-right: none; }
-.kb-toggle-btn:hover { background: var(--c-bg-sunken); }
-.kb-toggle-btn.is-active { background: var(--c-bg-sunken); color: var(--c-ink); }
+.kb-toggle-btn:last-child {
+  border-right: none;
+}
+.kb-toggle-btn:hover {
+  background: var(--c-bg-sunken);
+}
+.kb-toggle-btn.is-active {
+  background: var(--c-bg-sunken);
+  color: var(--c-ink);
+}
 
 .bilingual-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-.bilingual-grid[data-mode="english-only"] { grid-template-columns: 1fr 0fr; }
+.bilingual-grid[data-mode="english-only"] {
+  grid-template-columns: 1fr 0fr;
+}
 .bilingual-grid[data-mode="english-only"] .ur-col-head,
-.bilingual-grid[data-mode="english-only"] .topic-ur { display: none; }
-.bilingual-grid[data-mode="urdu-only"] { grid-template-columns: 0fr 1fr; }
+.bilingual-grid[data-mode="english-only"] .topic-ur {
+  display: none;
+}
+.bilingual-grid[data-mode="urdu-only"] {
+  grid-template-columns: 0fr 1fr;
+}
 .bilingual-grid[data-mode="urdu-only"] .en-col-head,
-.bilingual-grid[data-mode="urdu-only"] .topic-en { display: none; }
+.bilingual-grid[data-mode="urdu-only"] .topic-en {
+  display: none;
+}
 
 .panel-col-head {
   font-family: var(--font-ui);
@@ -440,10 +516,17 @@
   top: 0;
   z-index: 2;
 }
-.en-col-head { border-right: 1px solid var(--c-rule); }
-.ur-col-head { text-align: right; direction: rtl; }
+.en-col-head {
+  border-right: 1px solid var(--c-rule);
+}
+.ur-col-head {
+  text-align: right;
+  direction: rtl;
+}
 
-.topic-row { display: contents; }
+.topic-row {
+  display: contents;
+}
 
 .topic-en {
   padding: 24px 32px;
@@ -462,7 +545,7 @@
   align-items: baseline;
   gap: 8px;
   margin-bottom: 14px;
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: "EB Garamond", Georgia, serif;
   font-size: 1rem;
   font-weight: 600;
   color: var(--c-ink);
@@ -486,7 +569,7 @@
 }
 
 .se-prose {
-  font-family: 'EB Garamond', Georgia, serif;
+  font-family: "EB Garamond", Georgia, serif;
   font-size: 17px;
   line-height: 1.75;
   color: var(--c-ink-dim);

@@ -36,6 +36,7 @@ Usage:
   python3 scripts/podcast/transcribe_audio_book.py --slug <slug> --language ur
   python3 scripts/podcast/transcribe_audio_book.py --slug <slug> --limit 1 --force
 """
+
 from __future__ import annotations
 
 import argparse
@@ -49,7 +50,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _paths import REPO_ROOT, content_dir, find_content  # noqa: E402
+from _paths import content_dir, find_content
 
 GEMINI_MODEL = "gemini-2.5-pro"
 
@@ -140,7 +141,7 @@ def _block_dup_ratio(text: str) -> float:
     seen: set[str] = set()
     dup_idx: set[int] = set()
     for i in range(n - w + 1):
-        key = " ".join(words[i:i + w])
+        key = " ".join(words[i : i + w])
         if key in seen:
             dup_idx.update(range(i, i + w))
         else:
@@ -151,8 +152,8 @@ def _block_dup_ratio(text: str) -> float:
 # ── P5: empty / suspiciously-short transcript guard ───────────────────────────
 # Real audio that returns ~0 words is a capture failure (corrupt/silent source or
 # a dead Gemini response), not a short lecture. Flag loudly; never accept silently.
-SHORT_TRANSCRIPT_MIN_BYTES = 200_000   # below this, a short transcript is plausible
-SHORT_TRANSCRIPT_MIN_WORDS = 50        # real audio above the size floor must beat this
+SHORT_TRANSCRIPT_MIN_BYTES = 200_000  # below this, a short transcript is plausible
+SHORT_TRANSCRIPT_MIN_WORDS = 50  # real audio above the size floor must beat this
 
 
 def _is_empty_or_short(word_count: int, source_bytes: int) -> bool:
@@ -166,9 +167,7 @@ def _is_empty_or_short(word_count: int, source_bytes: int) -> bool:
 # The prompt forbids native script, but ASR can still leak Arabic/Devanagari/etc.
 # tokens mid-English. We DETECT and flag them (deterministic, loud) rather than
 # auto-romanize (transliteration of arbitrary script is not deterministic).
-_NATIVE_SCRIPT_RE = re.compile(
-    r"[؀-ۿݐ-ݿऀ-ॿঀ-৿֐-׿]+"
-)
+_NATIVE_SCRIPT_RE = re.compile(r"[؀-ۿݐ-ݿऀ-ॿঀ-৿֐-׿]+")
 
 
 def _native_script_tokens(text: str) -> list[str]:
@@ -184,9 +183,16 @@ def _native_script_tokens(text: str) -> list[str]:
 # data/transcription-normalization.yml for the curated garble map + the rationale
 # for keeping risky linguistic variant-merges OUT of it.
 _TYPOGRAPHIC_FOLD = {
-    "‘": "'", "’": "'", "ʻ": "'", "ʿ": "'", "′": "'",
-    "“": '"', "”": '"', "″": '"',
-    "–": "-", "—": "-",
+    "‘": "'",
+    "’": "'",
+    "ʻ": "'",
+    "ʿ": "'",
+    "′": "'",
+    "“": '"',
+    "”": '"',
+    "″": '"',
+    "–": "-",
+    "—": "-",
     " ": " ",
 }
 _NORMALIZATION_PATH = SCRIPT_DIR / "data" / "transcription-normalization.yml"
@@ -198,17 +204,19 @@ def _load_garble_map() -> dict[str, str]:
     global _GARBLE_MAP_CACHE
     if _GARBLE_MAP_CACHE is None:
         try:
-            import yaml  # noqa: E402
+            import yaml
+
             data = yaml.safe_load(_NORMALIZATION_PATH.read_text(encoding="utf-8")) or {}
             _GARBLE_MAP_CACHE = dict(data.get("garbled_terms") or {})
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             # Fail safe (typographic fold still runs), but DON'T fail silent: the
             # garble map is the primary determinism lever for terminology, so a
             # malformed YAML that disables it must be visible, not swallowed.
             sys.stderr.write(
                 f"[transcribe] WARNING: garble map disabled — could not load "
                 f"{_NORMALIZATION_PATH.name} ({e!r}); terminology normalization "
-                f"will be skipped this run\n")
+                f"will be skipped this run\n"
+            )
             _GARBLE_MAP_CACHE = {}
     return _GARBLE_MAP_CACHE
 
@@ -244,7 +252,8 @@ def _gen_from_file(client, path: str, prompt: str) -> str:
 
 def _transcribe_chunked(client, mp3_bytes: bytes, prompt: str, *, max_bytes: int, log=_info) -> str:
     """Re-transcribe by splitting the audio into chunks (breaks Gemini loops)."""
-    from _mp3_chunk import chunk_mp3_bytes  # noqa: E402
+    from _mp3_chunk import chunk_mp3_bytes
+
     chunks = chunk_mp3_bytes(mp3_bytes, max_bytes=max_bytes)
     log(f"        ↻ chunked into {len(chunks)} pieces to break repetition loop")
     parts = []
@@ -261,26 +270,24 @@ def _transcribe_one(client, mp3: Path, *, language: str, book_title: str, log=_i
     loops by re-transcribing in audio chunks."""
     lang_name = _LANG_NAMES.get(language, language)
     output_clause = "ENGLISH TRANSLATION" if language != "en" else "ENGLISH TRANSCRIPTION"
-    prompt = TRANSCRIBE_PROMPT.format(
-        lang_name=lang_name, book_title=book_title, output_clause=output_clause
-    )
+    prompt = TRANSCRIBE_PROMPT.format(lang_name=lang_name, book_title=book_title, output_clause=output_clause)
     text = _gen_from_file(client, str(mp3), prompt)
     method = "whole-file"
     dup = _dup_ratio(text)
     bdup = _block_dup_ratio(text)  # P4: catches block repeats the sentence check misses
     if dup > DUP_RATIO_LOOP_THRESHOLD or bdup > BLOCK_DUP_LOOP_THRESHOLD:
-        why = (f"{dup:.0%} duplicate sentences" if dup > DUP_RATIO_LOOP_THRESHOLD
-               else f"{bdup:.0%} duplicate blocks")
+        why = f"{dup:.0%} duplicate sentences" if dup > DUP_RATIO_LOOP_THRESHOLD else f"{bdup:.0%} duplicate blocks"
         log(f"        ⚠ repetition loop detected ({why}) — re-chunking")
         chunked = _transcribe_chunked(client, mp3.read_bytes(), prompt, max_bytes=3_400_000, log=log)
         # Accept the chunked pass if it reduces EITHER loop signal.
         if _dup_ratio(chunked) < dup or _block_dup_ratio(chunked) < bdup:
             text, method = chunked, "chunked-recovery"
-        if (_dup_ratio(text) > DUP_RATIO_LOOP_THRESHOLD
-                or _block_dup_ratio(text) > BLOCK_DUP_LOOP_THRESHOLD):
-            log(f"        ⚠ STILL looping after re-chunk "
+        if _dup_ratio(text) > DUP_RATIO_LOOP_THRESHOLD or _block_dup_ratio(text) > BLOCK_DUP_LOOP_THRESHOLD:
+            log(
+                f"        ⚠ STILL looping after re-chunk "
                 f"(sent {_dup_ratio(text):.0%} / block {_block_dup_ratio(text):.0%}) "
-                f"— flagged in provenance")
+                f"— flagged in provenance"
+            )
             method = "chunked-recovery-FLAGGED"
     return text, method
 
@@ -319,10 +326,11 @@ def transcribe_audio_book(
     _info(f"    language: {language} ({_LANG_NAMES.get(language, language)})  model: {GEMINI_MODEL}")
 
     # Lazy imports so --help works without creds/SDK.
-    from _secrets import get_gemini_key  # noqa: E402
-    from google import genai  # noqa: E402
+    from _secrets import get_gemini_key
+    from google import genai
+
     try:
-        from _cost_ledger import append_gemini_cost  # noqa: E402
+        from _cost_ledger import append_gemini_cost
     except Exception:
         append_gemini_cost = None
 
@@ -345,11 +353,11 @@ def transcribe_audio_book(
         # P2: deterministic terminology/typographic normalization before persisting.
         text, n_norm = normalize_transcript(text)
         dup = _dup_ratio(text)
-        bdup = _block_dup_ratio(text)                       # P4
+        bdup = _block_dup_ratio(text)  # P4
         src_bytes = mp3.stat().st_size
         wc = len(text.split())
-        short = _is_empty_or_short(wc, src_bytes)           # P5
-        leaked = _native_script_tokens(text)                # P7
+        short = _is_empty_or_short(wc, src_bytes)  # P5
+        leaked = _native_script_tokens(text)  # P7
         if short:
             _info(f"        ⚠ EMPTY/SHORT: {wc} words from {src_bytes:,}-byte audio — FLAGGED")
             flagged_lectures.append((i, "empty_or_short", f"{wc} words / {src_bytes:,} bytes"))
@@ -359,30 +367,39 @@ def transcribe_audio_book(
             _info(f"        ⚠ {len(leaked)} native-script token(s) leaked into prose — FLAGGED")
             flagged_lectures.append((i, "native_script_leak", f"{len(leaked)} tokens e.g. {leaked[0]!r}"))
         out_txt.write_text(text + "\n", encoding="utf-8")
-        prov.write_text(json.dumps({
-            "lecture": i,
-            "source_audio": mp3.name,
-            "source_bytes": src_bytes,
-            "source_kind": "audio",
-            "source_language": language,
-            "transcription_engine": f"gemini/{GEMINI_MODEL}",
-            "transcription_method": method,
-            "dup_sentence_ratio": round(dup, 3),
-            "block_dup_ratio": round(bdup, 3),
-            "loop_flagged": method.endswith("FLAGGED"),
-            "normalization_subs": n_norm,
-            "empty_or_short": short,
-            "native_script_tokens": len(leaked),
-            "translated": language != "en",
-            "char_count": len(text),
-            "word_count": wc,
-            "elapsed_seconds": round(elapsed, 1),
-            "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        }, indent=2) + "\n", encoding="utf-8")
+        prov.write_text(
+            json.dumps(
+                {
+                    "lecture": i,
+                    "source_audio": mp3.name,
+                    "source_bytes": src_bytes,
+                    "source_kind": "audio",
+                    "source_language": language,
+                    "transcription_engine": f"gemini/{GEMINI_MODEL}",
+                    "transcription_method": method,
+                    "dup_sentence_ratio": round(dup, 3),
+                    "block_dup_ratio": round(bdup, 3),
+                    "loop_flagged": method.endswith("FLAGGED"),
+                    "normalization_subs": n_norm,
+                    "empty_or_short": short,
+                    "native_script_tokens": len(leaked),
+                    "translated": language != "en",
+                    "char_count": len(text),
+                    "word_count": wc,
+                    "elapsed_seconds": round(elapsed, 1),
+                    "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                },
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         if append_gemini_cost:
             try:
                 append_gemini_cost(
-                    book_dir, phase="0a", step=f"transcribe/lec{i:02d}",
+                    book_dir,
+                    phase="0a",
+                    step=f"transcribe/lec{i:02d}",
                     model=GEMINI_MODEL,
                     in_chars=int(mp3.stat().st_size / 1000),  # rough audio-input proxy
                     out_chars=len(text),
@@ -406,9 +423,11 @@ def transcribe_audio_book(
     (multi_dir / "audio-synthesized.md").write_text(master, encoding="utf-8")
 
     total_words = sum(len(t.split()) for _, t in transcripts)
-    _info(f"==> Assembled {len(transcripts)} lectures → raw-extract.md "
-          f"({total_words:,} words) in {time.monotonic()-t0:.0f}s")
-    _info(f"    stream: _system/source/multi/denoised/audio-synthesized.md")
+    _info(
+        f"==> Assembled {len(transcripts)} lectures → raw-extract.md "
+        f"({total_words:,} words) in {time.monotonic() - t0:.0f}s"
+    )
+    _info("    stream: _system/source/multi/denoised/audio-synthesized.md")
 
     # Fail-loud transcription-quality summary (P4/P5/P7). Never let a bad capture
     # pass silently — surface every flagged lecture and record it in state so the
@@ -419,9 +438,9 @@ def transcribe_audio_book(
         for lec, reason, detail in flagged_lectures:
             _info(f"      lec{lec:02d}: {reason} — {detail}")
         _info("    These are recorded in each lecNN.provenance.json and in state.json.")
-        state.setdefault("transcription_flags", {})[
-            datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-        ] = [{"lecture": l, "reason": r, "detail": d} for l, r, d in flagged_lectures]
+        state.setdefault("transcription_flags", {})[datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")] = [
+            {"lecture": lec_n, "reason": rsn, "detail": det} for lec_n, rsn, det in flagged_lectures
+        ]
 
     # Advance state — hand off to the SINGLE canonical pipeline at 0b (refine),
     # exactly like the bundle and audio-transcript intakes do. raw-extract.md is
@@ -452,20 +471,21 @@ def transcribe_audio_book(
         "source_language": language,
     }
     state_path.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
-    _info(f"    state.json: phase=0b (canonical refine), last_completed_phase=0a")
+    _info("    state.json: phase=0b (canonical refine), last_completed_phase=0a")
     _info("")
-    _info(f"==> DONE. Next (canonical path — same as every book):")
+    _info("==> DONE. Next (canonical path — same as every book):")
     _info(f"    python3 scripts/podcast/orchestrate_book.py --resume {slug}")
-    _info(f"    (0b refine -> 0c -> 0ci -> 0d chapters -> 0e enrich -> per-chapter")
-    _info(f"     chapters+episodes -> finalize -> book-render PDF)")
+    _info("    (0b refine -> 0c -> 0ci -> 0d chapters -> 0e enrich -> per-chapter")
+    _info("     chapters+episodes -> finalize -> book-render PDF)")
     return 0
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--slug", required=True, help="Book slug")
-    ap.add_argument("--language", default=None, help="Source language (ur|en|ar|fa); "
-                    "defaults to state.source_language or 'ur'")
+    ap.add_argument(
+        "--language", default=None, help="Source language (ur|en|ar|fa); defaults to state.source_language or 'ur'"
+    )
     ap.add_argument("--force", action="store_true", help="Re-transcribe even if a lecture txt exists")
     ap.add_argument("--limit", type=int, default=None, help="Only process the first N lectures (testing)")
     args = ap.parse_args()

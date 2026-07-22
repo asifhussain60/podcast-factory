@@ -1,0 +1,73 @@
+{
+  "_comment": "Shared fixtures for the anchorKey mirror pair. Read by BOTH plan-dashboard/scripts/lib/anchor-key.test.mjs and scripts/podcast/tests/test_book_edits.py, so a change to either implementation that is not matched in the other fails a test rather than silently orphaning a saved Composer edit. The whitespace-edge cases are here because the first version of this file had none, which let a 7-case BOM/C0 divergence ship unseen (2026-07-20).",
+  "cases": [
+    {
+      "in": "## 5. The World, the Hereafter, and the Speech of Parables",
+      "out": "the world, the hereafter, and the speech of parables"
+    },
+    {
+      "in": "## Preface",
+      "out": "preface"
+    },
+    {
+      "in": "### 12. A Thing",
+      "out": "a thing"
+    },
+    {
+      "in": "<b>## 3.</b> Title",
+      "out": "title"
+    },
+    {
+      "in": "##   Ragged   Spacing  ",
+      "out": "ragged   spacing"
+    },
+    {
+      "in": "## ١. Patience",
+      "out": "patience"
+    },
+    {
+      "in": "## ۵. Patience",
+      "out": "patience"
+    },
+    {
+      "in": "## 8. Homecoming, the Father, and the Debate with Abu Malik",
+      "out": "homecoming, the father, and the debate with abu malik"
+    },
+    {
+      "in": "",
+      "out": ""
+    },
+    {
+      "in": "## 2026. Not A Chapter Number",
+      "out": "not a chapter number"
+    },
+    {
+      "in": "﻿## Patience",
+      "out": "patience"
+    },
+    {
+      "in": "## Patience﻿",
+      "out": "patience"
+    },
+    {
+      "in": "## Patience",
+      "out": "patience"
+    },
+    {
+      "in": "## Patience",
+      "out": "patience"
+    },
+    {
+      "in": "\u001c## Patience",
+      "out": "patience"
+    },
+    {
+      "in": "## Patience\u001f",
+      "out": "patience"
+    },
+    {
+      "in": "﻿## ١. Patience﻿",
+      "out": "patience"
+    }
+  ]
+}

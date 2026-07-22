@@ -7,6 +7,7 @@ Unattended pipeline code MUST invoke the model via the Anthropic SDK
 cannot be cost-covered). This test fails if any executable `subprocess.* ["claude",
 …]` invocation reappears in the unattended modules.
 """
+
 from __future__ import annotations
 
 import re
@@ -53,4 +54,5 @@ def test_sdk_path_present():
 
 if __name__ == "__main__":
     import sys
+
     sys.exit(pytest.main([__file__, "-v"]))

@@ -12,8 +12,8 @@
  * When the Voice axis is unavailable its weight redistributes to Fidelity.
  * PASS ≥ 85 · WARN 70–84 · FAIL < 70
  */
-import { readFile, readdir } from 'node:fs/promises';
-import { join } from 'node:path';
+import { readFile, readdir } from "node:fs/promises";
+import { join } from "node:path";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -23,8 +23,8 @@ export const THRESHOLD_PASS = 85;
 export const THRESHOLD_WARN = 70;
 
 // Weights — mirror _quality.py (K6 5-axis; WEIGHT_INTEREST = R_INTEREST_WEIGHT).
-const WEIGHT_FIDELITY = 0.30;
-const WEIGHT_VOICE = 0.20;
+const WEIGHT_FIDELITY = 0.3;
+const WEIGHT_VOICE = 0.2;
 const WEIGHT_STRUCTURE = 0.18;
 const WEIGHT_ENRICHMENT = 0.17;
 const WEIGHT_INTEREST = 0.15;
@@ -78,13 +78,13 @@ const INTEREST_STRAWMAN_DENY = [
 // ---------------------------------------------------------------------------
 
 export interface PEQAxes {
-  fidelity: number;   // 0–100
-  voice: number;      // 0–100 (0 while the voice scorer is gated off)
-  structure: number;  // 0–100
+  fidelity: number; // 0–100
+  voice: number; // 0–100 (0 while the voice scorer is gated off)
+  structure: number; // 0–100
   enrichment: number; // 0–100
-  interest: number;   // 0–100 (K6)
-  total: number;      // 0–100
-  verdict: 'PASS' | 'WARN' | 'FAIL';
+  interest: number; // 0–100 (K6)
+  total: number; // 0–100
+  verdict: "PASS" | "WARN" | "FAIL";
 }
 
 export interface ChapterScore {
@@ -112,17 +112,43 @@ function quranRefs(text: string): number {
 }
 
 function domainTerms(text: string): { total: number; glossed: number } {
-  const italics = new Set((text.match(/\*([^*]+)\*/g) ?? []).map((s) => s.slice(1, -1)));
+  const italics = new Set(
+    (text.match(/\*([^*]+)\*/g) ?? []).map((s) => s.slice(1, -1)),
+  );
 
-  const STOP = new Set(['that','this','with','from','into','also','such','when',
-    'then','than','what','which','some','have','been','were','they','their',
-    'there','here','each','both']);
+  const STOP = new Set([
+    "that",
+    "this",
+    "with",
+    "from",
+    "into",
+    "also",
+    "such",
+    "when",
+    "then",
+    "than",
+    "what",
+    "which",
+    "some",
+    "have",
+    "been",
+    "were",
+    "they",
+    "their",
+    "there",
+    "here",
+    "each",
+    "both",
+  ]);
   const bareGlosses = new Set<string>();
-  for (const m of text.matchAll(/\b([A-Za-z\u0101\u012b\u016b\u1e0d\u1e6d\u1e93\u1e25\u1e63\u02bf\u02be]{4,})\s*\([^)]{5,80}\)/g)) {
+  for (const m of text.matchAll(
+    /\b([A-Za-z\u0101\u012b\u016b\u1e0d\u1e6d\u1e93\u1e25\u1e63\u02bf\u02be]{4,})\s*\([^)]{5,80}\)/g,
+  )) {
     if (!STOP.has(m[1].toLowerCase())) bareGlosses.add(m[1]);
   }
 
-  const total = italics.size + [...bareGlosses].filter((t) => !italics.has(t)).length;
+  const total =
+    italics.size + [...bareGlosses].filter((t) => !italics.has(t)).length;
   const glossedItalic = (text.match(/\*[^*]+\*\s*\([^)]+\)/g) ?? []).length;
   const glossed = glossedItalic + bareGlosses.size;
   return { total, glossed: Math.min(glossed, total) };
@@ -131,14 +157,26 @@ function domainTerms(text: string): { total: number; glossed: number } {
 function arcLabels(text: string): string[] {
   const labels: string[] = [];
 
-  if (/let us begin|opening|before we dive|where this chapter picks up|this chapter covers|the argument of this chapter|picks up|chapter picks up|where we left|where the chapter|##\s*(where|opening|introduction|context|background)|established the doctrine|settled the architecture/i.test(text)) {
-    labels.push('open_hook');
+  if (
+    /let us begin|opening|before we dive|where this chapter picks up|this chapter covers|the argument of this chapter|picks up|chapter picks up|where we left|where the chapter|##\s*(where|opening|introduction|context|background)|established the doctrine|settled the architecture/i.test(
+      text,
+    )
+  ) {
+    labels.push("open_hook");
   }
-  if (/\bfirst\b|\bsecond\b|\bthird\b|point one|point two|##\s*movement\s+\d|##\s*section\s+\d|##\s*part\s+\d|\bmovement \d|\bphase \d|\bstep \d|\bone[,:]|\btwo[,:]|\bthree[,:]|the first|the second|the third/i.test(text)) {
-    labels.push('three_points');
+  if (
+    /\bfirst\b|\bsecond\b|\bthird\b|point one|point two|##\s*movement\s+\d|##\s*section\s+\d|##\s*part\s+\d|\bmovement \d|\bphase \d|\bstep \d|\bone[,:]|\btwo[,:]|\bthree[,:]|the first|the second|the third/i.test(
+      text,
+    )
+  ) {
+    labels.push("three_points");
   }
-  if (/in closing|to close|so as we end|let that sit|what comes next|where this chapter ends|this is where.*ends|the next (chapter|sub-chapter|section)|we ask god|ask god to|may god|all[aā]h|inshallah|##\s*(what comes next|closing|conclusion|summary|end)|leaves the reader|has earned/i.test(text)) {
-    labels.push('close');
+  if (
+    /in closing|to close|so as we end|let that sit|what comes next|where this chapter ends|this is where.*ends|the next (chapter|sub-chapter|section)|we ask god|ask god to|may god|all[aā]h|inshallah|##\s*(what comes next|closing|conclusion|summary|end)|leaves the reader|has earned/i.test(
+      text,
+    )
+  ) {
+    labels.push("close");
   }
   return labels;
 }
@@ -157,7 +195,8 @@ function voiceScore(_text: string, exemplarVector: number[] | null): number {
   // Mirror _quality._voice_score: gated off until the K2+ shared TF-IDF
   // vocabulary is built. While VOICE_SCORER_READY is false this returns 0 and
   // peqTotal() redistributes the Voice weight to Fidelity — same as Python.
-  if (!exemplarVector || exemplarVector.length === 0 || !VOICE_SCORER_READY) return 0;
+  if (!exemplarVector || exemplarVector.length === 0 || !VOICE_SCORER_READY)
+    return 0;
   return 0; // K2+: cosine similarity in the shared vocabulary basis (not yet built).
 }
 
@@ -168,11 +207,16 @@ function structureScore(arcRules: string[], found: string[]): number {
   return Math.round((hits / arcRules.length) * 10000) / 100;
 }
 
-function enrichmentScore(termCount: number, glossedCount: number, qrefs: number, wordCount: number): number {
+function enrichmentScore(
+  termCount: number,
+  glossedCount: number,
+  qrefs: number,
+  wordCount: number,
+): number {
   if (wordCount === 0) return 0;
   const glossingRatio = glossedCount / Math.max(termCount, 1);
   const quranDensity = Math.min(qrefs / Math.max(wordCount / 100, 1), 1.0);
-  return Math.round((0.70 * glossingRatio + 0.30 * quranDensity) * 10000) / 100;
+  return Math.round((0.7 * glossingRatio + 0.3 * quranDensity) * 10000) / 100;
 }
 
 function interestScore(text: string): number {
@@ -180,19 +224,27 @@ function interestScore(text: string): number {
   if (!text.trim()) return 0;
 
   const words = text.split(/\s+/).filter(Boolean);
-  const first20 = words.slice(0, Math.max(Math.floor(words.length * 0.20), 50)).join(' ');
+  const first20 = words
+    .slice(0, Math.max(Math.floor(words.length * 0.2), 50))
+    .join(" ");
 
   const hook = INTEREST_HOOK_PATTERNS.some((p) => p.test(first20)) ? 1.0 : 0.0;
 
   const raised = INTEREST_CHALLENGE_RAISE_PATTERNS.some((p) => p.test(text));
-  const resolved = INTEREST_CHALLENGE_RESOLVE_PATTERNS.some((p) => p.test(text));
+  const resolved = INTEREST_CHALLENGE_RESOLVE_PATTERNS.some((p) =>
+    p.test(text),
+  );
   const challenge = raised && resolved ? 1.0 : raised ? 0.5 : 0.0;
 
-  const relevance = INTEREST_RELEVANCE_PATTERNS.some((p) => p.test(text)) ? 1.0 : 0.0;
+  const relevance = INTEREST_RELEVANCE_PATTERNS.some((p) => p.test(text))
+    ? 1.0
+    : 0.0;
 
   const fairness = INTEREST_STRAWMAN_DENY.some((p) => p.test(text)) ? 0.0 : 1.0;
 
-  return Math.round(((hook + challenge + relevance + fairness) / 4.0) * 10000) / 100;
+  return (
+    Math.round(((hook + challenge + relevance + fairness) / 4.0) * 10000) / 100
+  );
 }
 
 function peqTotal(
@@ -206,15 +258,24 @@ function peqTotal(
   // Mirror _quality.score(): Voice weight redistributes to Fidelity when the
   // voice axis is unavailable; total clamps to 0–100 and rounds to 1 dp.
   const total = voiceAvailable
-    ? WEIGHT_FIDELITY * fidelity + WEIGHT_VOICE * voice + WEIGHT_STRUCTURE * structure
-      + WEIGHT_ENRICHMENT * enrichment + WEIGHT_INTEREST * interest
-    : (WEIGHT_FIDELITY + WEIGHT_VOICE) * fidelity + WEIGHT_STRUCTURE * structure
-      + WEIGHT_ENRICHMENT * enrichment + WEIGHT_INTEREST * interest;
+    ? WEIGHT_FIDELITY * fidelity +
+      WEIGHT_VOICE * voice +
+      WEIGHT_STRUCTURE * structure +
+      WEIGHT_ENRICHMENT * enrichment +
+      WEIGHT_INTEREST * interest
+    : (WEIGHT_FIDELITY + WEIGHT_VOICE) * fidelity +
+      WEIGHT_STRUCTURE * structure +
+      WEIGHT_ENRICHMENT * enrichment +
+      WEIGHT_INTEREST * interest;
   return Math.round(Math.min(Math.max(total, 0), 100) * 10) / 10;
 }
 
-function verdict(total: number): 'PASS' | 'WARN' | 'FAIL' {
-  return total >= THRESHOLD_PASS ? 'PASS' : total >= THRESHOLD_WARN ? 'WARN' : 'FAIL';
+function verdict(total: number): "PASS" | "WARN" | "FAIL" {
+  return total >= THRESHOLD_PASS
+    ? "PASS"
+    : total >= THRESHOLD_WARN
+      ? "WARN"
+      : "FAIL";
 }
 
 // ---------------------------------------------------------------------------
@@ -223,23 +284,57 @@ function verdict(total: number): 'PASS' | 'WARN' | 'FAIL' {
 
 const _vectorCache = new Map<string, number[] | null>();
 
-async function loadExemplarVector(archetypeSlug: string | null): Promise<number[] | null> {
+async function loadExemplarVector(
+  archetypeSlug: string | null,
+): Promise<number[] | null> {
   if (!archetypeSlug) return null;
   if (_vectorCache.has(archetypeSlug)) return _vectorCache.get(archetypeSlug)!;
 
   // Try both CONTENT/ and content/ case variants (Mac filesystem quirk)
   const candidates = [
-    join(process.cwd(), '..', 'CONTENT', '_shared', 'archetypes', archetypeSlug, 'exemplar_vector.json'),
-    join(process.cwd(), '..', 'content', '_shared', 'archetypes', archetypeSlug, 'exemplar_vector.json'),
-    join(process.cwd(), 'CONTENT', '_shared', 'archetypes', archetypeSlug, 'exemplar_vector.json'),
-    join(process.cwd(), 'content', '_shared', 'archetypes', archetypeSlug, 'exemplar_vector.json'),
+    join(
+      process.cwd(),
+      "..",
+      "CONTENT",
+      "_shared",
+      "archetypes",
+      archetypeSlug,
+      "exemplar_vector.json",
+    ),
+    join(
+      process.cwd(),
+      "..",
+      "content",
+      "_shared",
+      "archetypes",
+      archetypeSlug,
+      "exemplar_vector.json",
+    ),
+    join(
+      process.cwd(),
+      "CONTENT",
+      "_shared",
+      "archetypes",
+      archetypeSlug,
+      "exemplar_vector.json",
+    ),
+    join(
+      process.cwd(),
+      "content",
+      "_shared",
+      "archetypes",
+      archetypeSlug,
+      "exemplar_vector.json",
+    ),
   ];
   for (const p of candidates) {
     try {
-      const vec = JSON.parse(await readFile(p, 'utf-8')) as number[];
+      const vec = JSON.parse(await readFile(p, "utf-8")) as number[];
       _vectorCache.set(archetypeSlug, vec);
       return vec;
-    } catch { /* try next */ }
+    } catch {
+      /* try next */
+    }
   }
   _vectorCache.set(archetypeSlug, null);
   return null;
@@ -259,35 +354,53 @@ export async function scoreChapter(
   const qrefs = quranRefs(chapterText);
   const { total: termCount, glossed: glossedCount } = domainTerms(chapterText);
   const arc = arcLabels(chapterText);
-  const citationsFound = chapterText.match(/(?:quran|hadith|doctrine):\S+/g) ?? [];
+  const citationsFound =
+    chapterText.match(/(?:quran|hadith|doctrine):\S+/g) ?? [];
 
   const voiceAvailable = exemplar !== null && VOICE_SCORER_READY;
   const fid = fidelityScore([], citationsFound);
   const voi = voiceScore(chapterText, exemplar);
-  const str = structureScore(['open_hook', 'three_points', 'close'], arc);
+  const str = structureScore(["open_hook", "three_points", "close"], arc);
   const enr = enrichmentScore(termCount, glossedCount, qrefs, words);
   const int = interestScore(chapterText);
   const tot = peqTotal(fid, voi, str, enr, int, voiceAvailable);
 
-  return { fidelity: fid, voice: voi, structure: str, enrichment: enr, interest: int, total: tot, verdict: verdict(tot) };
+  return {
+    fidelity: fid,
+    voice: voi,
+    structure: str,
+    enrichment: enr,
+    interest: int,
+    total: tot,
+    verdict: verdict(tot),
+  };
 }
 
 // ---------------------------------------------------------------------------
 // Whole-book scorer
 // ---------------------------------------------------------------------------
 
-const ARC_RULES = ['open_hook', 'three_points', 'close'];
+const ARC_RULES = ["open_hook", "three_points", "close"];
 
 export async function scoreBook(
   bookDir: string,
   archetypeSlug: string | null,
 ): Promise<BookScore | null> {
-  const chaptersDir = join(bookDir, 'chapters');
+  const chaptersDir = join(bookDir, "chapters");
   let entries: string[];
-  try { entries = await readdir(chaptersDir); } catch { return null; }
+  try {
+    entries = await readdir(chaptersDir);
+  } catch {
+    return null;
+  }
 
   const txtFiles = entries
-    .filter((n) => (n.endsWith('.txt') || n.endsWith('.md')) && !n.startsWith('_') && !n.startsWith('.'))
+    .filter(
+      (n) =>
+        (n.endsWith(".txt") || n.endsWith(".md")) &&
+        !n.startsWith("_") &&
+        !n.startsWith("."),
+    )
     .sort();
 
   if (txtFiles.length === 0) return null;
@@ -296,13 +409,22 @@ export async function scoreBook(
   const chapters: ChapterScore[] = [];
 
   for (const fname of txtFiles) {
-    const slug = fname.replace(/\.(txt|md)$/i, '');
-    let text = '';
-    try { text = await readFile(join(chaptersDir, fname), 'utf-8'); } catch { continue; }
+    const slug = fname.replace(/\.(txt|md)$/i, "");
+    let text = "";
+    try {
+      text = await readFile(join(chaptersDir, fname), "utf-8");
+    } catch {
+      continue;
+    }
 
     const title = (() => {
       const m = text.match(/^#\s+(.+)$/m);
-      return m ? m[1].trim() : slug.replace(/^ch\d+-/i, '').replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+      return m
+        ? m[1].trim()
+        : slug
+            .replace(/^ch\d+-/i, "")
+            .replace(/-/g, " ")
+            .replace(/\b\w/g, (c) => c.toUpperCase());
     })();
 
     const words = text.split(/\s+/).filter(Boolean).length;
@@ -319,18 +441,35 @@ export async function scoreBook(
     const int = interestScore(text);
     const tot = peqTotal(fid, voi, str, enr, int, voiceAvailable);
 
-    chapters.push({ slug, title, scores: { fidelity: fid, voice: voi, structure: str, enrichment: enr, interest: int, total: tot, verdict: verdict(tot) } });
+    chapters.push({
+      slug,
+      title,
+      scores: {
+        fidelity: fid,
+        voice: voi,
+        structure: str,
+        enrichment: enr,
+        interest: int,
+        total: tot,
+        verdict: verdict(tot),
+      },
+    });
   }
 
   const totals = chapters.map((c) => c.scores.total);
-  const avg = totals.length > 0 ? Math.round(totals.reduce((a, b) => a + b, 0) / totals.length * 10) / 10 : 0;
+  const avg =
+    totals.length > 0
+      ? Math.round((totals.reduce((a, b) => a + b, 0) / totals.length) * 10) /
+        10
+      : 0;
 
   return {
-    slug: bookDir.split('/').pop() ?? '',
+    slug: bookDir.split("/").pop() ?? "",
     archetype: archetypeSlug,
     avg,
     passCount: totals.filter((t) => t >= THRESHOLD_PASS).length,
-    warnCount: totals.filter((t) => t >= THRESHOLD_WARN && t < THRESHOLD_PASS).length,
+    warnCount: totals.filter((t) => t >= THRESHOLD_WARN && t < THRESHOLD_PASS)
+      .length,
     failCount: totals.filter((t) => t < THRESHOLD_WARN).length,
     chapters,
   };
@@ -340,22 +479,22 @@ export async function scoreBook(
 // Human-friendly helpers
 // ---------------------------------------------------------------------------
 
-export function verdictLabel(v: 'PASS' | 'WARN' | 'FAIL' | string): string {
-  if (v === 'PASS') return 'Excellent';
-  if (v === 'WARN') return 'Good';
-  return 'Needs work';
+export function verdictLabel(v: "PASS" | "WARN" | "FAIL" | string): string {
+  if (v === "PASS") return "Excellent";
+  if (v === "WARN") return "Good";
+  return "Needs work";
 }
 
-export function verdictColor(v: 'PASS' | 'WARN' | 'FAIL' | string): string {
-  if (v === 'PASS') return '#22c55e'; // green
-  if (v === 'WARN') return '#f59e0b'; // amber
-  return '#ef4444'; // red
+export function verdictColor(v: "PASS" | "WARN" | "FAIL" | string): string {
+  if (v === "PASS") return "#22c55e"; // green
+  if (v === "WARN") return "#f59e0b"; // amber
+  return "#ef4444"; // red
 }
 
 export function scoreGrade(total: number): string {
-  if (total >= 90) return 'A';
-  if (total >= 85) return 'B';
-  if (total >= 80) return 'C';
-  if (total >= 70) return 'D';
-  return 'F';
+  if (total >= 90) return "A";
+  if (total >= 85) return "B";
+  if (total >= 80) return "C";
+  if (total >= 70) return "D";
+  return "F";
 }

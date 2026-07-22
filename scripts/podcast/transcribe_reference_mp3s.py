@@ -43,13 +43,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _azure import (  # noqa: E402
-    AzureCredsError,
+from _azure import (
     SPEECH_AUDIO_MIME,
+    AzureCredsError,
     load_speech_creds,
     transcribe_audio,
 )
-from _mp3_chunk import chunk_mp3_bytes  # noqa: E402
+from _mp3_chunk import chunk_mp3_bytes
 
 # Azure Speech Fast Transcription practical ceiling: ~25 min / ~12 MB
 # returns content reliably; longer payloads either time out or return
@@ -109,7 +109,10 @@ def main() -> int:
         audio_bytes = audio.read_bytes()
         if audio.suffix.lower() == ".mp3" and len(audio_bytes) > CHUNK_THRESHOLD_BYTES:
             chunks = chunk_mp3_bytes(audio_bytes, max_bytes=CHUNK_MAX_BYTES)
-            print(f"      ↻ chunked into {len(chunks)} pieces (synchronous endpoint can't handle full file)", file=sys.stderr)
+            print(
+                f"      ↻ chunked into {len(chunks)} pieces (synchronous endpoint can't handle full file)",
+                file=sys.stderr,
+            )
             parts: list[str] = []
             for j, chunk in enumerate(chunks, 1):
                 print(f"      · chunk {j}/{len(chunks)} ({len(chunk):,} bytes) …", file=sys.stderr)
@@ -125,13 +128,15 @@ def main() -> int:
             f"      → {out_path.name} ({len(text):,} chars, {elapsed:.1f}s)",
             file=sys.stderr,
         )
-        results.append({
-            "audio": audio.name,
-            "transcript": out_path.name,
-            "audio_bytes": len(audio_bytes),
-            "transcript_chars": len(text),
-            "elapsed_s": round(elapsed, 1),
-        })
+        results.append(
+            {
+                "audio": audio.name,
+                "transcript": out_path.name,
+                "audio_bytes": len(audio_bytes),
+                "transcript_chars": len(text),
+                "elapsed_s": round(elapsed, 1),
+            }
+        )
 
     prov_path.write_text(
         json.dumps(

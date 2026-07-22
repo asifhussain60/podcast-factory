@@ -32,8 +32,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
-import subprocess
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -42,7 +40,7 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
-from _paths import REPO_ROOT, resolve_content  # noqa: E402
+from _paths import resolve_content
 
 PRICE_IN = 0.000_000_1  # $/char Gemini 2.5 Flash input (approx)
 PRICE_OUT = 0.000_000_4  # $/char output
@@ -52,31 +50,33 @@ PRICE_OUT = 0.000_000_4  # $/char output
 # Gemini call (mirrors gemini_refine.py pattern — no shared state)
 # ---------------------------------------------------------------------------
 
+
 def _load_key() -> str:
     # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
     from _secrets import get_gemini_key
-    return get_gemini_key()
 
+    return get_gemini_key()
 
 
 def _gemini(system: str, user: str, *, model: str = "gemini-2.5-flash") -> str:
     """Call Gemini with thinking disabled to keep output sizes predictable."""
-    url = (
-        f"https://generativelanguage.googleapis.com/v1beta/models"
-        f"/{model}:generateContent?key={_load_key()}"
-    )
-    body = json.dumps({
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"parts": [{"text": user}]}],
-        "generationConfig": {
-            "temperature": 0.3,
-            "maxOutputTokens": 8000,  # ~6,000 words max
-            "thinkingConfig": {"thinkingBudget": 0},  # disable thinking to prevent runaways
-        },
-    }).encode()
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={_load_key()}"
+    body = json.dumps(
+        {
+            "system_instruction": {"parts": [{"text": system}]},
+            "contents": [{"parts": [{"text": user}]}],
+            "generationConfig": {
+                "temperature": 0.3,
+                "maxOutputTokens": 8000,  # ~6,000 words max
+                "thinkingConfig": {"thinkingBudget": 0},  # disable thinking to prevent runaways
+            },
+        }
+    ).encode()
     req = urllib.request.Request(
-        url, data=body,
-        headers={"Content-Type": "application/json"}, method="POST",
+        url,
+        data=body,
+        headers={"Content-Type": "application/json"},
+        method="POST",
     )
     with urllib.request.urlopen(req, timeout=300) as resp:
         d = json.loads(resp.read())
@@ -184,6 +184,7 @@ def _build_slide_framing(chapter_text: str, chapter_title: str) -> str:
 # Chapter discovery
 # ---------------------------------------------------------------------------
 
+
 def _derive_episode_map_from_chapters(book_dir: Path) -> list[dict]:
     """Fallback: build mapping from chapters/ directory when JSON is absent.
 
@@ -191,6 +192,7 @@ def _derive_episode_map_from_chapters(book_dir: Path) -> list[dict]:
     Writes episode-chapter-map.json so subsequent callers find it.
     """
     import re as _re
+
     chapters_dir = book_dir / "chapters"
     if not chapters_dir.exists():
         return []
@@ -199,8 +201,7 @@ def _derive_episode_map_from_chapters(book_dir: Path) -> list[dict]:
     for f in sorted(chapters_dir.glob("ch*.txt")):
         m = pattern.match(f.name)
         if m:
-            entries.append({"chapter": m.group(1) + "-" + m.group(3),
-                            "n": int(m.group(2))})
+            entries.append({"chapter": m.group(1) + "-" + m.group(3), "n": int(m.group(2))})
     if entries:
         # Persist so subsequent callers don't have to re-derive.
         p = book_dir / "_system" / "episode-chapter-map.json"
@@ -253,6 +254,7 @@ def _chapter_prefix(chapter_slug: str, ep_num: int) -> str:
 # Per-chapter authoring
 # ---------------------------------------------------------------------------
 
+
 def author_chapter(
     slug: str,
     book_dir: Path,
@@ -304,13 +306,18 @@ def author_chapter(
     print(f" {len(framing_text):,} chars → ~${framing_cost:.5f}")
 
     ts = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    _log_cost(slug, {
-        "ts": ts, "op": "slide_deck", "service": "gemini/gemini-2.5-flash",
-        "chapter": chapter_slug,
-        "in_chars": in_chars * 2,
-        "out_chars": len(deck_text) + len(framing_text),
-        "cost_usd": round(deck_cost + framing_cost, 5),
-    })
+    _log_cost(
+        slug,
+        {
+            "ts": ts,
+            "op": "slide_deck",
+            "service": "gemini/gemini-2.5-flash",
+            "chapter": chapter_slug,
+            "in_chars": in_chars * 2,
+            "out_chars": len(deck_text) + len(framing_text),
+            "cost_usd": round(deck_cost + framing_cost, 5),
+        },
+    )
 
     return True
 
@@ -318,6 +325,7 @@ def author_chapter(
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def main() -> None:
     ap = argparse.ArgumentParser(description="WC8 Phase 8 — slide deck authoring (Gemini).")
@@ -354,7 +362,11 @@ def main() -> None:
         ep_num = entry["n"]
         print(f"\nChapter {ep_num}: {chapter_slug}")
         success = author_chapter(
-            args.slug, book_dir, chapter_slug, ep_num, force=args.force,
+            args.slug,
+            book_dir,
+            chapter_slug,
+            ep_num,
+            force=args.force,
         )
         if success:
             ok += 1

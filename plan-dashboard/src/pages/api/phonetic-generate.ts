@@ -11,9 +11,9 @@
  * Uses Gemini Flash (cheap, fast). Mirrors the define-term/ask-chapter pattern.
  */
 
-import type { APIRoute } from 'astro';
-import { generate, rateLimitCheck } from '../../lib/reader/gemini-server';
-import { apiOk, apiError, apiServerError } from '../../lib/api-responses';
+import type { APIRoute } from "astro";
+import { generate, rateLimitCheck } from "../../lib/reader/gemini-server";
+import { apiOk, apiError, apiServerError } from "../../lib/api-responses";
 
 export const prerender = false;
 
@@ -42,28 +42,35 @@ Reply with ONLY a JSON object: {"phonetic":"..."} — no markdown fences, no exp
 export const POST: APIRoute = async ({ request }) => {
   const limit = rateLimitCheck();
   if (!limit.ok) {
-    return new Response(JSON.stringify({ ok: false, error: 'rate_limited', retryMs: limit.retryMs }), {
-      status: 429,
-      headers: { 'content-type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: "rate_limited",
+        retryMs: limit.retryMs,
+      }),
+      {
+        status: 429,
+        headers: { "content-type": "application/json" },
+      },
+    );
   }
 
   let word: string;
   try {
     const body = await request.json();
-    word = (body.word ?? '').trim();
+    word = (body.word ?? "").trim();
   } catch {
-    return apiError('Invalid JSON');
+    return apiError("Invalid JSON");
   }
 
-  if (!word) return apiError('Missing word');
-  if (word.length > 120) return apiError('Word too long');
+  if (!word) return apiError("Missing word");
+  if (word.length > 120) return apiError("Word too long");
 
   try {
     const raw = await generate({
-      model: 'flash',
+      model: "flash",
       systemInstruction: SYSTEM,
-      contents: [{ role: 'user', parts: [{ text: `Word: ${word}` }] }],
+      contents: [{ role: "user", parts: [{ text: `Word: ${word}` }] }],
       temperature: 0.1,
       maxOutputTokens: 128,
       jsonMode: true,
@@ -72,10 +79,10 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Robust extraction: Gemini 2.5 Flash thinking can leak prose even with
     // jsonMode. Try strict parse → extract embedded JSON object → regex fallback.
-    let phonetic = '';
+    let phonetic = "";
     try {
       const parsed = JSON.parse(raw);
-      phonetic = (parsed.phonetic ?? '').trim();
+      phonetic = (parsed.phonetic ?? "").trim();
     } catch {
       // Try extracting a {...} object from anywhere in the text
       const objMatch = raw.match(/\{[^}]*"phonetic"\s*:\s*"([^"]+)"[^}]*\}/);
@@ -84,17 +91,19 @@ export const POST: APIRoute = async ({ request }) => {
       } else {
         // Last resort: strip fences and parse
         try {
-          const stripped = raw.replace(/```[a-z]*\n?/gi, '').trim();
+          const stripped = raw.replace(/```[a-z]*\n?/gi, "").trim();
           const parsed = JSON.parse(stripped);
-          phonetic = (parsed.phonetic ?? '').trim();
+          phonetic = (parsed.phonetic ?? "").trim();
         } catch {
           // Give up — surface the raw text as error context
-          return apiServerError(`Model returned non-JSON: ${raw.slice(0, 120)}`);
+          return apiServerError(
+            `Model returned non-JSON: ${raw.slice(0, 120)}`,
+          );
         }
       }
     }
 
-    if (!phonetic) return apiServerError('Model returned empty phonetic');
+    if (!phonetic) return apiServerError("Model returned empty phonetic");
     return apiOk({ phonetic });
   } catch (e) {
     return apiServerError(String(e));

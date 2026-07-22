@@ -16,26 +16,31 @@ Phases:
   finalize-review-seal — for each chapter with stage 'prepared', run
             finalize → review → seal. Logs failures.
 """
+
 from __future__ import annotations
-import json
+
 import subprocess
 import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-VENV = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / ".venv" / "bin" / "python"
+VENV = REPO_ROOT / "content" / "_shared" / "source-library" / ".venv" / "bin" / "python"
 FAILURE_LOG = REPO_ROOT / "_workspace" / "plan" / "wisdom-rollout-failures.log"
-EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted" / "wisdom"
+EXTRACT_ROOT = REPO_ROOT / "content" / "_shared" / "source-library" / "extracted" / "wisdom"
 
 
 def survey(binder_id: int) -> list[tuple[int, int, str]]:
     """Return list of (order, chapter_id, name) for the binder."""
     sys.path.insert(0, str(REPO_ROOT))
     from tools.source_extractor.db import query_json
-    chaps = query_json("KASHKOLE", f"""
+
+    chaps = query_json(
+        "KASHKOLE",
+        f"""
 SELECT bc.BinderChapterOrder AS ord, c.ChapterID AS id, c.ChapterName AS name
 FROM BinderChapters bc JOIN Chapters c ON c.ChapterID = bc.ChapterID
-WHERE bc.BinderID = {binder_id} ORDER BY bc.BinderChapterOrder FOR JSON PATH;""")
+WHERE bc.BinderID = {binder_id} ORDER BY bc.BinderChapterOrder FOR JSON PATH;""",
+    )
     return [(c["ord"], c["id"], c["name"]) for c in chaps]
 
 
@@ -45,6 +50,7 @@ def get_bundle_root(binder_id: int, chapter_id: int) -> Path:
     from tools.source_extractor.adapters import get_adapter
     from tools.source_extractor.adapters.base import BookIds
     from tools.source_extractor.bundle import bundle_paths
+
     adapter = get_adapter("wisdom")
     meta = adapter.resolve_book(BookIds(shelf_id=binder_id, book_id=chapter_id))
     return bundle_paths(EXTRACT_ROOT.parent, meta).root
@@ -99,12 +105,21 @@ def cmd_prepare(binder_id: int) -> None:
             continue
         print(f"#{ord_:02d}  id={cid}  preparing…")
         ok = _run(
-            [str(VENV), "-m", "tools.source_extractor", "prepare", "wisdom",
-             "--binder", str(binder_id), "--chapter", str(cid)],
+            [
+                str(VENV),
+                "-m",
+                "tools.source_extractor",
+                "prepare",
+                "wisdom",
+                "--binder",
+                str(binder_id),
+                "--chapter",
+                str(cid),
+            ],
             f"prepare binder={binder_id} chapter={cid}",
         )
         if ok:
-            print(f"  OK")
+            print("  OK")
 
 
 def cmd_vision_list(binder_id: int) -> None:
@@ -148,8 +163,17 @@ def cmd_finalize_review_seal(binder_id: int) -> None:
         if stage == "prepared":
             print(f"#{ord_:02d}  id={cid}  finalize…")
             if not _run(
-                [str(VENV), "-m", "tools.source_extractor", "finalize", "wisdom",
-                 "--binder", str(binder_id), "--chapter", str(cid)],
+                [
+                    str(VENV),
+                    "-m",
+                    "tools.source_extractor",
+                    "finalize",
+                    "wisdom",
+                    "--binder",
+                    str(binder_id),
+                    "--chapter",
+                    str(cid),
+                ],
                 f"finalize binder={binder_id} chapter={cid}",
             ):
                 continue
@@ -158,15 +182,33 @@ def cmd_finalize_review_seal(binder_id: int) -> None:
         if stage == "finalized":
             print(f"#{ord_:02d}  id={cid}  review…")
             if not _run(
-                [str(VENV), "-m", "tools.content_reviewer", "review", "wisdom",
-                 "--binder", str(binder_id), "--chapter", str(cid)],
+                [
+                    str(VENV),
+                    "-m",
+                    "tools.content_reviewer",
+                    "review",
+                    "wisdom",
+                    "--binder",
+                    str(binder_id),
+                    "--chapter",
+                    str(cid),
+                ],
                 f"review binder={binder_id} chapter={cid}",
             ):
                 continue
             print(f"#{ord_:02d}  id={cid}  seal…")
             if not _run(
-                [str(VENV), "-m", "tools.content_reviewer", "seal", "wisdom",
-                 "--binder", str(binder_id), "--chapter", str(cid)],
+                [
+                    str(VENV),
+                    "-m",
+                    "tools.content_reviewer",
+                    "seal",
+                    "wisdom",
+                    "--binder",
+                    str(binder_id),
+                    "--chapter",
+                    str(cid),
+                ],
                 f"seal binder={binder_id} chapter={cid}",
             ):
                 continue

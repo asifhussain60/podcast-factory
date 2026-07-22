@@ -10,7 +10,7 @@ export interface BookCardMeta {
   /** Native script title — Arabic for Islamic books, Chinese for Chinese-origin fiction. */
   nativeTitle?: string;
   /** BCP-47 language tag for the native title (drives `lang` attr + font selection). */
-  nativeLang?: 'ar' | 'zh';
+  nativeLang?: "ar" | "zh";
   /** English translation of the title shown on the card (overrides slug-derived title). */
   displayTitle?: string;
   /** Author name in plain English (no diacritics or special Unicode). */
@@ -23,55 +23,67 @@ export interface BookCardMeta {
 
 export const BOOK_CARD_META: Record<string, BookCardMeta> = {
   // ── Islamic Scholarship ────────────────────────────────────────────────────
-  'asaas-al-taveel': {
-    nativeTitle: 'أساس التأويل',
-    nativeLang: 'ar',
-    displayTitle: 'Foundation of Esoteric Interpretation',
-    author: 'al-Qadi al-Nauman',
-    icon: 'fa-key',
+  "al-anwaar-al-lateefah": {
+    nativeTitle: "الأنوار اللطيفة",
+    nativeLang: "ar",
+    displayTitle: "The Subtle Lights",
+    icon: "fa-lightbulb",
   },
-  'ayyuhal-walad': {
-    nativeTitle: 'أيُّها الولد',
-    nativeLang: 'ar',
-    displayTitle: 'O My Beloved Son',
-    author: 'Imam al-Ghazali',
-    icon: 'fa-feather-pointed',
+  "asaas-al-taveel": {
+    nativeTitle: "أساس التأويل",
+    nativeLang: "ar",
+    displayTitle: "Foundation of Esoteric Interpretation",
+    author: "al-Qadi al-Nauman",
+    icon: "fa-key",
   },
-  'kitab-al-riyad': {
-    nativeTitle: 'كتاب الرياض',
-    nativeLang: 'ar',
-    displayTitle: 'The Book of Gardens',
-    author: 'al-Qadi al-Nauman',
-    icon: 'fa-seedling',
+  "ayyuhal-walad": {
+    nativeTitle: "أيُّها الولد",
+    nativeLang: "ar",
+    displayTitle: "O My Beloved Son",
+    author: "Imam al-Ghazali",
+    icon: "fa-feather-pointed",
   },
-  'kunooz-al-hikmah': {
-    nativeTitle: 'كنوز الحكمة',
-    nativeLang: 'ar',
-    displayTitle: 'Treasures of Wisdom',
-    icon: 'fa-gem',
+  "kitab-al-riyad": {
+    nativeTitle: "كتاب الرياض",
+    nativeLang: "ar",
+    displayTitle: "The Book of Gardens",
+    author: "al-Qadi al-Nauman",
+    icon: "fa-seedling",
   },
-  'the-master-and-the-disciple': {
-    nativeTitle: 'كتاب العالم والغلام',
-    nativeLang: 'ar',
-    displayTitle: 'The Scholar and the Disciple',
-    author: 'Jaffer bin Mansoor al-Yamen',
-    icon: 'fa-graduation-cap',
+  "kunooz-al-hikmah": {
+    nativeTitle: "كنوز الحكمة",
+    nativeLang: "ar",
+    displayTitle: "Treasures of Wisdom",
+    icon: "fa-gem",
+  },
+  "mukhtasar-ul-asar-2": {
+    displayTitle: "Mukhtasar ul Asar 2",
+    author: "Qadi al-Nu'man ibn Muhammad ibn Hayyun al-Tamimi",
+    icon: "fa-book-open",
+  },
+  "the-master-and-the-disciple": {
+    nativeTitle: "كتاب العالم والغلام",
+    nativeLang: "ar",
+    displayTitle: "The Scholar and the Disciple",
+    author: "Jaffer bin Mansoor al-Yamen",
+    icon: "fa-graduation-cap",
   },
 
   // ── Technical ──────────────────────────────────────────────────────────────
-  'claude-code-training': {
-    displayTitle: 'Claude Code: From Copilot to Agentic AI',
-    author: 'Anthropic',
-    icon: 'fa-terminal',
-    blurb: 'A practical training series for developers switching from GitHub Copilot.',
+  "claude-code-training": {
+    displayTitle: "Claude Code: From Copilot to Agentic AI",
+    author: "Anthropic",
+    icon: "fa-terminal",
+    blurb:
+      "A practical training series for developers switching from GitHub Copilot.",
   },
 
   // ── Guides ─────────────────────────────────────────────────────────────────
-  'healthequity': {
-    displayTitle: 'HealthEquity',
-    author: 'Health Equity Initiative',
-    icon: 'fa-scale-balanced',
-    blurb: 'A consumer guide to HSA, FSA, COBRA, and commuter benefits.',
+  healthequity: {
+    displayTitle: "HealthEquity",
+    author: "Health Equity Initiative",
+    icon: "fa-scale-balanced",
+    blurb: "A consumer guide to HSA, FSA, COBRA, and commuter benefits.",
   },
 };
 

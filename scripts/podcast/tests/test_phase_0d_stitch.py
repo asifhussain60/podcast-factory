@@ -6,6 +6,7 @@ chapters-rationale.md and source-chapter-map.md. The expected strings below are
 derived by hand from the stitch logic as it existed BEFORE the audit-Spec-2
 extraction, so this test proves the extraction preserved behaviour exactly.
 """
+
 import sys
 import tempfile
 import unittest
@@ -13,17 +14,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _authoring._chapter_design import _phase_0d_stitch  # noqa: E402
+from _authoring._chapter_design import _phase_0d_stitch
 
 
 def _seed(chunks_dir: Path) -> None:
     chunks_dir.mkdir(parents=True, exist_ok=True)
     (chunks_dir / "sc-001.rationale.md").write_text("rationale one\n", encoding="utf-8")
     (chunks_dir / "sc-002.rationale.md").write_text("rationale two\n", encoding="utf-8")
-    (chunks_dir / "sc-001.source-map.md").write_text(
-        "| 1 | Alpha | ch01.txt | merged |\n", encoding="utf-8")
-    (chunks_dir / "sc-002.source-map.md").write_text(
-        "| 2 | Beta | ch02.txt | split |\n", encoding="utf-8")
+    (chunks_dir / "sc-001.source-map.md").write_text("| 1 | Alpha | ch01.txt | merged |\n", encoding="utf-8")
+    (chunks_dir / "sc-002.source-map.md").write_text("| 2 | Beta | ch02.txt | split |\n", encoding="utf-8")
 
 
 SOURCE_CHAPTERS = [
@@ -51,10 +50,7 @@ class Phase0dStitchGolden(unittest.TestCase):
 
             self.assertEqual(
                 out_rationale.read_text(encoding="utf-8"),
-                "## Source chapter 1 — Alpha\n\nrationale one\n"
-                "\n"
-                "## Source chapter 2 — Beta\n\nrationale two\n"
-                "\n",
+                "## Source chapter 1 — Alpha\n\nrationale one\n\n## Source chapter 2 — Beta\n\nrationale two\n\n",
             )
             self.assertEqual(
                 out_source_map.read_text(encoding="utf-8"),

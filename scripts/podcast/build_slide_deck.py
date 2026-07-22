@@ -99,11 +99,11 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 # Reuse the canonical meta-prose tells and phonetic-paren patterns from the
 # audio sibling so the two scripts never drift.
-from build_episode_txt import (  # noqa: E402
+from build_episode_txt import (
     HTML_COMMENT_RE,
     INLINE_PHONETIC_PATTERNS,
-    META_PROSE_TELLS,
     META_PROSE_REGEX_TELLS,
+    META_PROSE_TELLS,
 )
 
 # ── Regex / patterns ────────────────────────────────────────────────────────
@@ -162,8 +162,7 @@ def auto_discover_chapter(book_dir: Path, slug: str) -> Path:
         sys.exit(1)
     if len(candidates) > 1:
         print(
-            "BUILD-SLIDE FAIL: multiple chapters match slug "
-            f"{bare}: {[c.name for c in candidates]}",
+            f"BUILD-SLIDE FAIL: multiple chapters match slug {bare}: {[c.name for c in candidates]}",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -175,8 +174,7 @@ def chapter_prefix(chapter_file: Path) -> str:
     m = CH_PREFIX_RE.match(chapter_file.name)
     if not m:
         print(
-            f"BUILD-SLIDE FAIL: chapter file does not match chNN-<slug>.txt: "
-            f"{chapter_file.name}",
+            f"BUILD-SLIDE FAIL: chapter file does not match chNN-<slug>.txt: {chapter_file.name}",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -190,16 +188,14 @@ def check_em_dashes(text: str, file_label: str, findings: list[str]) -> None:
     if EM_DASH_RE.search(text):
         n = len(EM_DASH_RE.findall(text))
         findings.append(
-            f"BUILD-SLIDE FAIL: {file_label} contains {n} em-dash(es) — replace "
-            f"with commas or restructure."
+            f"BUILD-SLIDE FAIL: {file_label} contains {n} em-dash(es) — replace with commas or restructure."
         )
 
 
 def check_html_comments(text: str, file_label: str, findings: list[str]) -> None:
     if HTML_COMMENT_RE.search(text):
         findings.append(
-            f"BUILD-SLIDE FAIL: {file_label} contains HTML comments (`<!-- ... -->`) "
-            f"— remove before upload."
+            f"BUILD-SLIDE FAIL: {file_label} contains HTML comments (`<!-- ... -->`) — remove before upload."
         )
 
 
@@ -211,15 +207,9 @@ def check_meta_prose(text: str, file_label: str, findings: list[str]) -> None:
         for m in re.finditer(pat, text, flags=re.IGNORECASE):
             rx_hits.append((pat, m.group(0)))
     if sub_hits:
-        findings.append(
-            f"BUILD-SLIDE FAIL: {file_label} contains meta-prose tells: "
-            f"{sub_hits[:6]}"
-        )
+        findings.append(f"BUILD-SLIDE FAIL: {file_label} contains meta-prose tells: {sub_hits[:6]}")
     if rx_hits:
-        findings.append(
-            f"BUILD-SLIDE FAIL: {file_label} matches meta-prose regex tells: "
-            f"{[h[1] for h in rx_hits[:6]]}"
-        )
+        findings.append(f"BUILD-SLIDE FAIL: {file_label} matches meta-prose regex tells: {[h[1] for h in rx_hits[:6]]}")
 
 
 def check_inline_phonetics(text: str, file_label: str, findings: list[str]) -> None:
@@ -229,8 +219,7 @@ def check_inline_phonetics(text: str, file_label: str, findings: list[str]) -> N
             hits.append(m.group(0)[:60])
     if hits:
         findings.append(
-            f"BUILD-SLIDE FAIL: {file_label} contains inline phonetic parens "
-            f"(R-PHONETICS-OUT). Sample: {hits[:4]}"
+            f"BUILD-SLIDE FAIL: {file_label} contains inline phonetic parens (R-PHONETICS-OUT). Sample: {hits[:4]}"
         )
 
 
@@ -256,11 +245,7 @@ def check_quranic_attributions(text: str, file_label: str, findings: list[str]) 
         # Verse signal: an explicit "Quran" inside a non-attribution
         # blockquote line, OR a blockquote that begins with a quotation
         # mark / italic-emphasis run (typical verse rendering).
-        is_verse_like = (
-            "Quran" in line
-            or "qur'an" in line.lower()
-            or QURAN_VERSE_HINT_RE.match(line) is not None
-        )
+        is_verse_like = "Quran" in line or "qur'an" in line.lower() or QURAN_VERSE_HINT_RE.match(line) is not None
         if not is_verse_like:
             continue
         # Look ahead up to 2 blockquote lines for an attribution.
@@ -308,16 +293,13 @@ def validate_deck_source(
     if len(h1_matches) == 0:
         findings.append(f"BUILD-SLIDE FAIL: {label} missing H1 (`# Title`).")
     elif len(h1_matches) > 1:
-        findings.append(
-            f"BUILD-SLIDE FAIL: {label} has {len(h1_matches)} H1 lines; expected exactly 1."
-        )
+        findings.append(f"BUILD-SLIDE FAIL: {label} has {len(h1_matches)} H1 lines; expected exactly 1.")
 
     # H2 count
     h2_matches = H2_RE.findall(text)
     if len(h2_matches) < DECK_H2_MIN:
         findings.append(
-            f"BUILD-SLIDE FAIL: {label} has {len(h2_matches)} H2 section(s); "
-            f"required minimum {DECK_H2_MIN}."
+            f"BUILD-SLIDE FAIL: {label} has {len(h2_matches)} H2 section(s); required minimum {DECK_H2_MIN}."
         )
     elif len(h2_matches) > DECK_H2_MAX:
         findings.append(
@@ -374,9 +356,7 @@ def validate_framing(framing_path: Path, findings: list[str]) -> int:
         rx = re.compile(rf"^{re.escape(required)}\s*$", re.MULTILINE)
         n = len(rx.findall(text))
         if n == 0:
-            findings.append(
-                f"BUILD-SLIDE FAIL: {label} missing required section `{required}`."
-            )
+            findings.append(f"BUILD-SLIDE FAIL: {label} missing required section `{required}`.")
         elif n > 1:
             findings.append(
                 f"BUILD-SLIDE FAIL: {label} has {n} copies of `{required}`; "
@@ -385,10 +365,7 @@ def validate_framing(framing_path: Path, findings: list[str]) -> int:
 
     # Closing guard line
     if FRAMING_CLOSING_GUARD not in text:
-        findings.append(
-            f"BUILD-SLIDE FAIL: {label} missing closing guard line "
-            f"`{FRAMING_CLOSING_GUARD}`."
-        )
+        findings.append(f"BUILD-SLIDE FAIL: {label} missing closing guard line `{FRAMING_CLOSING_GUARD}`.")
 
     check_em_dashes(text, label, findings)
 
@@ -396,15 +373,9 @@ def validate_framing(framing_path: Path, findings: list[str]) -> int:
     body = re.sub(r"^#\s+.*$", "", text, count=1, flags=re.MULTILINE)
     wc = word_count(body)
     if wc < FRAMING_WORD_MIN:
-        findings.append(
-            f"BUILD-SLIDE FAIL: {label} body word count {wc} is below "
-            f"minimum {FRAMING_WORD_MIN}."
-        )
+        findings.append(f"BUILD-SLIDE FAIL: {label} body word count {wc} is below minimum {FRAMING_WORD_MIN}.")
     elif wc > FRAMING_WORD_MAX:
-        findings.append(
-            f"BUILD-SLIDE FAIL: {label} body word count {wc} is above "
-            f"maximum {FRAMING_WORD_MAX}."
-        )
+        findings.append(f"BUILD-SLIDE FAIL: {label} body word count {wc} is above maximum {FRAMING_WORD_MAX}.")
 
     return wc
 
@@ -462,8 +433,7 @@ def main(argv: list[str] | None = None) -> int:
     book_dir: Path = args.book_dir
     if not book_dir.is_dir():
         print(
-            f"BUILD-SLIDE FAIL: book_dir does not exist or is not a directory: "
-            f"{book_dir}",
+            f"BUILD-SLIDE FAIL: book_dir does not exist or is not a directory: {book_dir}",
             file=sys.stderr,
         )
         return 1
@@ -486,14 +456,16 @@ def main(argv: list[str] | None = None) -> int:
 
     # 3. Validate — category-aware Quranic attribution check.
     import json as _json
+
     _state_path = book_dir / "_system" / "orchestrator-state.json"
     _category = "books"
     if _state_path.exists():
         try:
             _category = _json.loads(_state_path.read_text()).get("category", "books")
-        except Exception:  # noqa: BLE001
+        except Exception:
             pass
     from _content_profile import is_islamic_scholarly as _is_islamic_fn  # Wave CP: canonical check
+
     _is_islamic = _is_islamic_fn(book_dir)
 
     deck_wc = validate_deck_source(deck_path, audio_wc, findings, _is_islamic=_is_islamic)
@@ -506,10 +478,7 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     write_sentinel(book_dir, ch_slug, deck_wc, framing_wc)
-    print(
-        f"build_slide_deck: OK — {ch_slug} "
-        f"deck={deck_wc} words framing={framing_wc} words"
-    )
+    print(f"build_slide_deck: OK — {ch_slug} deck={deck_wc} words framing={framing_wc} words")
     return 0
 
 

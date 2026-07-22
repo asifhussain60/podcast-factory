@@ -9,17 +9,19 @@ Stage B (in-conversation Claude vision) happens between prepare and finalize.
 It writes per-image JSON sidecars at _system/source/images/NNN.json which this
 stage substitutes into the draft.
 """
+
 from __future__ import annotations
-import json, re
+
+import json
+import re
 from pathlib import Path
 
-from ..adapters.base import SourceAdapter, BookIds
+from ..adapters.base import BookIds, SourceAdapter
 from ..bundle import (
     bundle_paths,
     update_bundle_yml_stage,
     update_provenance_finalize,
 )
-
 
 # Image refs in raw-extract.md are relative to text/, which sits next to
 # images/ under _system/source/. So images live at "../images/NNN.png".
@@ -38,15 +40,10 @@ def _render_image_block(sidecar: dict, image_index: str) -> str:
     rel = f"{_IMG_REL_PREFIX}/{image_index}.png"
 
     if cls == "teaching-diagram":
-        parts = [
-            f"\n[diagram: {alt}]" if alt
-            else f"\n[diagram from image {image_index}]"
-        ]
+        parts = [f"\n[diagram: {alt}]" if alt else f"\n[diagram from image {image_index}]"]
         parts.append(f"  (see {rel})")
         if arabic:
-            arabic_inline = " · ".join(
-                line.strip() for line in arabic.splitlines() if line.strip()
-            )
+            arabic_inline = " · ".join(line.strip() for line in arabic.splitlines() if line.strip())
             parts.append(f"  *Arabic labels in image:* ⟪ar:{arabic_inline}⟫")
         if notes:
             parts.append(f"  *Note:* {notes}")
@@ -61,10 +58,7 @@ def _render_image_block(sidecar: dict, image_index: str) -> str:
         out.append(f"> {urdu.strip()}")
     if citation and isinstance(citation, dict) and citation.get("surah"):
         s, a = citation["surah"], citation.get("ayat")
-        out.append(
-            f"> — **Quran {s}:{a}** "
-            f"*(from image; see _provenance.json for validation)*"
-        )
+        out.append(f"> — **Quran {s}:{a}** *(from image; see _provenance.json for validation)*")
     else:
         label = {
             "hadith": "Hadith",
@@ -72,18 +66,14 @@ def _render_image_block(sidecar: dict, image_index: str) -> str:
             "mixed": "Image text",
             "other": "Image text",
         }.get(cls, "Image text")
-        out.append(
-            f"> — *{label} (from image {image_index}; citation unverified)*"
-        )
+        out.append(f"> — *{label} (from image {image_index}; citation unverified)*")
     out.append(f"  (image preserved at {rel})")
     if notes:
         out.append(f"  *Note:* {notes}")
     return "\n".join(out) + "\n"
 
 
-_SECTION_MARKER_RE = re.compile(
-    r"(<!-- section (\d+) \(id=(\d+), raw_sort=(\d+)\): [^>]+? -->\n)"
-)
+_SECTION_MARKER_RE = re.compile(r"(<!-- section (\d+) \(id=(\d+), raw_sort=(\d+)\): [^>]+? -->\n)")
 
 
 def finalize_book(
@@ -114,10 +104,7 @@ def finalize_book(
             draft = draft.replace(f"{{{{IMG:{idx}}}}}", block)
             image_index_results[idx] = sidecar
         else:
-            placeholder_note = (
-                f"\n[image {idx}: AI vision pending — "
-                f"see {_IMG_REL_PREFIX}/{idx}.png]\n"
-            )
+            placeholder_note = f"\n[image {idx}: AI vision pending — see {_IMG_REL_PREFIX}/{idx}.png]\n"
             draft = draft.replace(f"{{{{IMG:{idx}}}}}", placeholder_note)
 
     # 2. Adapter-specific inline citation cleanup
@@ -131,19 +118,12 @@ def finalize_book(
         for i, m in enumerate(matches):
             section_id = int(m.group(3))
             this_start = m.start()
-            this_section_end = (
-                matches[i + 1].start() if i + 1 < len(matches) else len(draft)
-            )
+            this_section_end = matches[i + 1].start() if i + 1 < len(matches) else len(draft)
             new_parts.append(draft[last_end:this_start])
             section_body = draft[this_start:this_section_end]
 
             curated_refs = adapter.get_section_curated_citations(section_id)
-            footer = (
-                adapter.render_curated_citation_footer(
-                    section_body, curated_refs, corpus
-                )
-                if curated_refs else ""
-            )
+            footer = adapter.render_curated_citation_footer(section_body, curated_refs, corpus) if curated_refs else ""
             if footer:
                 new_parts.append(section_body.rstrip() + "\n" + footer + "\n")
             else:
@@ -181,10 +161,7 @@ def finalize_book(
     # 6. Update _provenance.json
     update_provenance_finalize(
         paths,
-        image_classifications={
-            idx: sc.get("classification", "?")
-            for idx, sc in image_index_results.items()
-        },
+        image_classifications={idx: sc.get("classification", "?") for idx, sc in image_index_results.items()},
         citation_replacements=len(citation_replacements),
     )
 

@@ -25,6 +25,7 @@ Exit/return contract:
 
 Standalone:  python3 scripts/podcast/preflight_doctor.py [--no-azure] [--no-ping]
 """
+
 from __future__ import annotations
 
 import json
@@ -69,7 +70,8 @@ def check_deps() -> CheckResult:
             missing.append(mod)
     if missing:
         return CheckResult(
-            "deps", FAIL,
+            "deps",
+            FAIL,
             f"missing under {sys.executable}: {', '.join(missing)}",
             "python3 -m venv .venv && .venv/bin/pip install -r requirements.txt",
         )
@@ -88,7 +90,9 @@ def _claude_keychain_expiry() -> CheckResult | None:
     try:
         proc = subprocess.run(
             ["security", "find-generic-password", "-s", KEYCHAIN_SERVICE, "-w"],
-            capture_output=True, text=True, timeout=10,
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
     except (OSError, subprocess.TimeoutExpired):
         return None
@@ -103,7 +107,8 @@ def _claude_keychain_expiry() -> CheckResult | None:
     age_h = (time.time() * 1000 - expires_at) / 3_600_000
     if age_h > 0:
         return CheckResult(
-            "claude-auth", FAIL,
+            "claude-auth",
+            FAIL,
             f"OAuth access token expired {age_h:.1f}h ago (keychain)",
             "claude login   # re-authenticate; writes a fresh token to the keychain",
         )
@@ -134,8 +139,13 @@ def check_claude_auth(do_ping: bool = True) -> CheckResult:
     # Live ping requires a TTY — claude -p hangs in capture_output subprocess mode.
     # If stdin is not a TTY (headless/watchdog/subprocess context), skip the ping.
     import sys as _sys
+
     if not _sys.stdin.isatty():
-        hint = " (headless — ping skipped, keychain used)" if not _early_hint else " (keychain shows expired; ping skipped headless)"
+        hint = (
+            " (headless — ping skipped, keychain used)"
+            if not _early_hint
+            else " (keychain shows expired; ping skipped headless)"
+        )
         return CheckResult("claude-auth", OK, f"keychain check done{hint}")
 
     # Mirror _authoring._core._run_claude_p: strip API-key env so auth resolves
@@ -146,38 +156,47 @@ def check_claude_auth(do_ping: bool = True) -> CheckResult:
     try:
         proc = subprocess.run(
             ["claude", "-p", "--output-format", "json", "Reply with exactly: pong"],
-            capture_output=True, text=True, timeout=90, env=child_env,
+            capture_output=True,
+            text=True,
+            timeout=90,
+            env=child_env,
             stdin=subprocess.DEVNULL,
         )
     except FileNotFoundError:
         return CheckResult(
-            "claude-auth", FAIL, "`claude` CLI not found on PATH",
+            "claude-auth",
+            FAIL,
+            "`claude` CLI not found on PATH",
             "Install Claude Code: https://docs.claude.com/en/docs/claude-code/quickstart",
         )
     except subprocess.TimeoutExpired:
         return CheckResult(
-            "claude-auth", FAIL, "`claude -p` timed out after 90s (network?)",
+            "claude-auth",
+            FAIL,
+            "`claude -p` timed out after 90s (network?)",
             "Check connectivity, then retry",
         )
     try:
         payload = json.loads(proc.stdout)
     except json.JSONDecodeError:
         return CheckResult(
-            "claude-auth", FAIL,
-            f"`claude -p` returned non-JSON (rc={proc.returncode}): "
-            f"{(proc.stdout or proc.stderr)[:120]}",
+            "claude-auth",
+            FAIL,
+            f"`claude -p` returned non-JSON (rc={proc.returncode}): {(proc.stdout or proc.stderr)[:120]}",
             "claude login",
         )
     if payload.get("is_error"):
         code = payload.get("api_error_status")
         if code == 401:
             return CheckResult(
-                "claude-auth", FAIL,
+                "claude-auth",
+                FAIL,
                 "`claude -p` auth failed (HTTP 401 — token expired/invalid)",
                 "claude login   # re-authenticate; writes a fresh token to the keychain",
             )
         return CheckResult(
-            "claude-auth", FAIL,
+            "claude-auth",
+            FAIL,
             f"`claude -p` errored: {str(payload.get('result'))[:90]}",
             "claude login",
         )
@@ -196,7 +215,9 @@ def check_anthropic_net() -> CheckResult:
             pass
     except OSError as exc:
         return CheckResult(
-            "anthropic-net", FAIL, f"cannot reach {host}:443 ({exc})",
+            "anthropic-net",
+            FAIL,
+            f"cannot reach {host}:443 ({exc})",
             "Check network / VPN / proxy",
         )
     return CheckResult("anthropic-net", OK, f"{host}:443 reachable")
@@ -211,14 +232,19 @@ def check_azure(needed: bool) -> CheckResult:
     try:
         proc = subprocess.run(
             [sys.executable, str(AZURE_PROBE)],
-            capture_output=True, text=True, timeout=90,
+            capture_output=True,
+            text=True,
+            timeout=90,
         )
     except subprocess.TimeoutExpired:
-        return CheckResult("azure", FAIL, "Azure probe timed out after 90s",
-                           f"python3 {AZURE_PROBE.relative_to(REPO_ROOT)}")
+        return CheckResult(
+            "azure", FAIL, "Azure probe timed out after 90s", f"python3 {AZURE_PROBE.relative_to(REPO_ROOT)}"
+        )
     if proc.returncode != 0:
         return CheckResult(
-            "azure", FAIL, f"Azure connectivity probe failed (rc={proc.returncode})",
+            "azure",
+            FAIL,
+            f"Azure connectivity probe failed (rc={proc.returncode})",
             f"python3 {AZURE_PROBE.relative_to(REPO_ROOT)}",
         )
     return CheckResult("azure", OK, "Azure OCR/Translate reachable")
@@ -247,10 +273,10 @@ def run_doctor(
     log("├" + "─" * width + "┤")
     for c in checks:
         line = f"│ {_GLYPH.get(c.status, '?')} {c.name:<13} {c.status:<5} {c.detail}"
-        log(line[:width + 1].ljust(width + 1) + "│")
+        log(line[: width + 1].ljust(width + 1) + "│")
         if c.fix and c.status in (FAIL, WARN):
             fix_line = f"│      ↳ fix: {c.fix}"
-            log(fix_line[:width + 1].ljust(width + 1) + "│")
+            log(fix_line[: width + 1].ljust(width + 1) + "│")
     log("└" + "─" * width + "┘")
 
     failures = [c for c in checks if c.status == FAIL]
@@ -267,8 +293,11 @@ def run_doctor(
         return 1
 
     warns = [c for c in checks if c.status == WARN]
-    log(f"SETUP OK — {len(checks) - len(warns)} checks passed"
-        + (f", {len(warns)} warning(s)" if warns else "") + ". Proceeding.")
+    log(
+        f"SETUP OK — {len(checks) - len(warns)} checks passed"
+        + (f", {len(warns)} warning(s)" if warns else "")
+        + ". Proceeding."
+    )
     return 0
 
 

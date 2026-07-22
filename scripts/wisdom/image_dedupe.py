@@ -9,16 +9,17 @@ Usage:
   python scripts/wisdom/image_dedupe.py pending      # unique hashes lacking a canonical
   python scripts/wisdom/image_dedupe.py propagate    # for each hash with one or more sidecars, copy sidecar to all PNGs that share the hash
 """
+
 from __future__ import annotations
+
 import hashlib
-import json
 import shutil
 import sys
 from collections import defaultdict
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted" / "wisdom"
+EXTRACT_ROOT = REPO_ROOT / "content" / "_shared" / "source-library" / "extracted" / "wisdom"
 
 
 def all_pngs() -> list[Path]:
@@ -41,7 +42,7 @@ def cmd_scan() -> None:
     print(f"# Total PNGs: {sum(len(v) for v in groups.values())}")
     print(f"# Unique hashes: {len(groups)}")
     sizes = sorted(((len(v), h, v[0]) for h, v in groups.items()), reverse=True)
-    print(f"# Top hashes by duplicate count:")
+    print("# Top hashes by duplicate count:")
     for count, h, sample in sizes[:30]:
         sidecar = sample.with_suffix(".json")
         marker = "  (HAS_SIDECAR)" if sidecar.exists() else "  (NO_SIDECAR)"
@@ -96,8 +97,7 @@ def cmd_propagate() -> None:
                 continue
             shutil.copy(canonical, target)
             copied += 1
-    print(f"# Propagated {copied} sidecars; {already_set} already set; "
-          f"{skipped_conflict} conflicts skipped.")
+    print(f"# Propagated {copied} sidecars; {already_set} already set; {skipped_conflict} conflicts skipped.")
 
 
 def main() -> None:

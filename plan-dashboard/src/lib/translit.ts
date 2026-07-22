@@ -22,6 +22,15 @@
 const AYN_HAMZA = new Set(Array.from("ʿʾʻʼˈ’‘ʹ׳'"));
 const SENTINEL = String.fromCharCode(0);
 
+/** The complete set of word-endings that make an apostrophe genuinely English.
+ *  An apostrophe followed by anything else is an ayn/hamza and is dropped.
+ *  Mirror of `_ENGLISH_CLITICS` in scripts/podcast/_translit.py. */
+const ENGLISH_CLITICS = new Set(["s", "t", "d", "m", "re", "ve", "ll"]);
+
+/** The one common English word whose apostrophe marks an elision rather than a
+ *  clitic. Without it, "o'clock" folded to "oclock". Mirror of `_ELISIONS`. */
+const ELISIONS = new Set(["o|clock"]);
+
 export function simplifyTransliteration(text: string): string {
   if (!text) return text;
 
@@ -48,14 +57,35 @@ export function simplifyTransliteration(text: string): string {
     }
   }
 
-  // 3. Resolve the sentinel: keep an apostrophe only between two letters.
+  // 3. Resolve the sentinel: keep an apostrophe ONLY where it is genuinely
+  //    English. Everywhere else it came from an ayn/hamza and the house style is
+  //    plain letters — Quran, not Qur'an. Three ways to earn one:
+  //      a) a clitic suffix ending the word — God's, don't, we'll
+  //      b) word-final after an s — the plural or name possessive: "the
+  //         brothers' books", "Moses' staff". The `s` is what separates them
+  //         from a transliteration merely ending in an ayn (sama', Shia'),
+  //         which still folds away.
+  //      c) a listed elision — o'clock
+  //    Mirror of _translit.py step 3 — keep the two in lockstep.
   const arr = Array.from(out);
   let res = "";
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] === SENTINEL) {
       const prev = arr[i - 1] ?? "";
-      const next = arr[i + 1] ?? "";
-      if (/\p{L}/u.test(prev) && /\p{L}/u.test(next)) res += "'";
+      let j = i + 1;
+      while (j < arr.length && /\p{L}/u.test(arr[j])) j++;
+      const suffix = arr.slice(i + 1, j).join("").toLowerCase();
+      const keep =
+        (/\p{L}/u.test(prev) &&
+          (ENGLISH_CLITICS.has(suffix) ||
+            (!suffix && prev.toLowerCase() === "s") ||
+            ELISIONS.has(`${prev.toLowerCase()}|${suffix}`))) ||
+        // A ROOT RADICAL, not a diacritic: in "(sh-r-\u02bf)" the ayn IS the
+        // third consonant, and folding it printed "(sh-r-)". A hyphen before
+        // and nothing after marks that position; "al-\u02bfAbidin" has a
+        // suffix and still folds. Mirror of _translit.py.
+        (prev === "-" && !suffix);
+      if (keep) res += "'";
     } else {
       res += arr[i];
     }

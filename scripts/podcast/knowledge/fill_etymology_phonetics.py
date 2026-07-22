@@ -25,12 +25,11 @@ USAGE
 
 Authority: Wave L plan §L-4. Cost: trivial (~35 atoms, Gemini Flash).
 """
+
 from __future__ import annotations
 
 import argparse
 import json
-import os
-import subprocess
 import sys
 import urllib.request
 from pathlib import Path
@@ -39,7 +38,7 @@ _HERE = Path(__file__).resolve().parent
 _SCRIPTS_PODCAST = _HERE.parent
 sys.path.insert(0, str(_SCRIPTS_PODCAST))
 
-import _db  # noqa: E402
+import _db
 
 REPO_ROOT = _SCRIPTS_PODCAST.parents[1]
 PRICE_IN = 0.000_000_1
@@ -63,27 +62,28 @@ _HOUSE_STYLE = (
 def _load_key() -> str:
     # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
     from _secrets import get_gemini_key
+
     return get_gemini_key()
 
 
-
-def _gemini(system: str, user: str, *, model: str = "gemini-2.5-flash",
-            max_tokens: int = 512) -> tuple[str, float]:
-    url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
-           f"{model}:generateContent?key={_load_key()}")
-    body = json.dumps({
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"parts": [{"text": user}]}],
-        "generationConfig": {"temperature": 0.1, "maxOutputTokens": max_tokens,
-                             "thinkingConfig": {"thinkingBudget": 0}},
-    }).encode()
-    req = urllib.request.Request(url, data=body,
-                                headers={"Content-Type": "application/json"}, method="POST")
+def _gemini(system: str, user: str, *, model: str = "gemini-2.5-flash", max_tokens: int = 512) -> tuple[str, float]:
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={_load_key()}"
+    body = json.dumps(
+        {
+            "system_instruction": {"parts": [{"text": system}]},
+            "contents": [{"parts": [{"text": user}]}],
+            "generationConfig": {
+                "temperature": 0.1,
+                "maxOutputTokens": max_tokens,
+                "thinkingConfig": {"thinkingBudget": 0},
+            },
+        }
+    ).encode()
+    req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"}, method="POST")
     with urllib.request.urlopen(req, timeout=300) as resp:
         d = json.loads(resp.read())
     parts = d["candidates"][0]["content"]["parts"]
-    text_out = next((p.get("text", "") for p in parts
-                     if not p.get("thought") and p.get("text", "").strip()), "")
+    text_out = next((p.get("text", "") for p in parts if not p.get("thought") and p.get("text", "").strip()), "")
     cost = (len(system) + len(user)) * PRICE_IN + len(text_out) * PRICE_OUT
     return text_out, round(cost, 6)
 
@@ -93,12 +93,12 @@ def _glossary_phonetics() -> dict[str, str]:
     out: dict[str, str] = {}
     try:
         import yaml  # type: ignore[import]
-    except Exception:  # noqa: BLE001
+    except Exception:
         return out
     for gloss in REPO_ROOT.glob("content/drafts/**/_system/glossary.yml"):
         try:
             data = yaml.safe_load(gloss.read_text(encoding="utf-8")) or {}
-        except Exception:  # noqa: BLE001
+        except Exception:
             continue
         for e in data.get("entries", []) or []:
             term = str(e.get("transliteration") or e.get("phonetic") or "").strip().lower()
@@ -116,9 +116,9 @@ def _gen_phonetics(root_translit: str, derivatives: list[dict]) -> tuple[dict, f
     if raw.startswith("```"):
         raw = raw.strip("`")
     try:
-        obj = json.loads(raw[raw.find("{"): raw.rfind("}") + 1])
+        obj = json.loads(raw[raw.find("{") : raw.rfind("}") + 1])
         return obj, cost
-    except Exception:  # noqa: BLE001
+    except Exception:
         return {}, cost
 
 
@@ -146,22 +146,25 @@ def fill(*, apply: bool) -> dict:
         if gloss.get(root.lower()):
             reused += 1
         body["root_phonetic"] = root_phon
-        gen_map = {d.get("term", "").upper(): d.get("phonetic", "")
-                   for d in gen.get("derivatives", [])}
+        gen_map = {d.get("term", "").upper(): d.get("phonetic", "") for d in gen.get("derivatives", [])}
         for d in derivs:
             term = d.get("term", "")
             d["phonetic"] = gloss.get(term.lower()) or gen_map.get(term.upper(), "")
         if apply:
             conn.execute(
-                "UPDATE atoms SET body=?, updated_at=strftime('%Y-%m-%dT%H:%M:%SZ','now') "
-                "WHERE id=?",
+                "UPDATE atoms SET body=?, updated_at=strftime('%Y-%m-%dT%H:%M:%SZ','now') WHERE id=?",
                 (json.dumps(body, ensure_ascii=False), atom_id),
             )
         updated += 1
     if apply:
         conn.commit()
-    return {"etymology_atoms": len(rows), "phonetics_generated": updated,
-            "glossary_reused": reused, "cost_usd": round(total_cost, 4), "applied": apply}
+    return {
+        "etymology_atoms": len(rows),
+        "phonetics_generated": updated,
+        "glossary_reused": reused,
+        "cost_usd": round(total_cost, 4),
+        "applied": apply,
+    }
 
 
 def main() -> None:

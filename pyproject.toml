@@ -1,0 +1,69 @@
+# podcast-factory — Python tooling configuration (R0 of the clean-code hardening plan).
+#
+# This file configures lint/format/type-check ONLY. It intentionally does NOT
+# declare a [project] package yet — the packaging conversion is phase R4 of
+# _workspace/plan/refactor/clean-code-hardening-plan.md, gated behind a go/no-go
+# decision after R3. Do not add [project]/[build-system] before that gate.
+
+# ── Ruff — linter + formatter (the R0 gate) ────────────────────────────────
+[tool.ruff]
+# Line length matches the repo's de-facto tolerance; E501 stays advisory via
+# the formatter (long strings/comments are never force-split).
+line-length = 120
+target-version = "py311"
+extend-exclude = [
+    "_archive",
+    ".venv",
+    "content",
+    "plan-dashboard",
+]
+
+[tool.ruff.lint]
+# R0 baseline: default correctness rules (E4/E7/E9, F) + import sorting (I).
+# Ratchet plan: broaden (W, UP, B) as R3 touches modules.
+select = ["E4", "E7", "E9", "F", "I"]
+ignore = [
+    # 261 modules use the `sys.path.insert` bootstrap before flat imports;
+    # E402 stays off until R4 (packaging) removes the bootstrap pattern.
+    "E402",
+    # 8 lambda-assignments + 27 ambiguous `l` loop vars pre-date the gate;
+    # renaming loop vars is judgment work deferred to R3. Ratchet: enable
+    # these two as their sites are cleaned.
+    "E731",
+    "E741",
+]
+# Other grandfathered residue (F841 unused vars, F401 availability-probe
+# imports) carries targeted `# noqa` comments added at R0 baseline; R3
+# removes them as modules are cleaned. New violations block.
+
+[tool.ruff.lint.per-file-ignores]
+# Package facades re-export their submodules' API on purpose.
+"**/__init__.py" = ["F401"]
+# _validators.py consumes `from _validators_* import *` re-export surfaces;
+# R3/R4 will qualify these imports, then this entry goes away.
+"scripts/podcast/_validators.py" = ["F403", "F405"]
+
+[tool.ruff.lint.isort]
+# Flat sibling imports (`from _paths import ...`) are first-party today; the
+# R4 packaging conversion will replace this with real package-absolute paths.
+known-first-party = ["scripts", "tools"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+# ── mypy — gradual, opt-in (NOT a global gate; see plan R0) ────────────────
+[tool.mypy]
+# Global posture: permissive. Strictness arrives per-module via the override
+# blocks below as R3/R4 touch files. CI runs mypy non-blocking until the
+# opt-in set is meaningful.
+python_version = "3.11"
+ignore_missing_imports = true
+follow_imports = "silent"
+explicit_package_bases = true
+exclude = '(^_archive/|^\.venv/|^content/|^plan-dashboard/)'
+
+# Opt-in strict set — add modules here as they are cleaned in R3/R4.
+# Example:
+# [[tool.mypy.overrides]]
+# module = "scripts.podcast._paths"
+# strict = true

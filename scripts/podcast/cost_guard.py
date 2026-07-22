@@ -10,6 +10,7 @@ Reuses the canonical aggregation in cost_ledger_summary (load_ledger + summarize
 -> real_spend_usd). Thresholds come from state["config"] (cost_cap_soft /
 cost_cap_hard), defaulting to 20 / 50; a non-positive hard cap disables the gate.
 """
+
 from __future__ import annotations
 
 from pathlib import Path

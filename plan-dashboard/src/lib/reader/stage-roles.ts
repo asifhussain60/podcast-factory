@@ -8,7 +8,7 @@
  * `kind` maps onto the existing theme swimlane tokens (--c-kind-mechanical /
  * -agentic / -hybrid / -gate) — no new colours.
  */
-export type StageKind = 'mechanical' | 'agentic' | 'hybrid' | 'gate';
+export type StageKind = "mechanical" | "agentic" | "hybrid" | "gate";
 
 export interface StageRole {
   /** Short plain-English label of the transformation this stage performs. */
@@ -20,16 +20,28 @@ export interface StageRole {
 }
 
 export const STAGE_ROLES: Record<string, StageRole> = {
-  source:     { role: 'Raw OCR',           kind: 'mechanical', tool: 'Azure OCR' },
-  core:       { role: 'Bilingual align',   kind: 'mechanical', tool: 'Azure' },
-  denoised:   { role: 'Noise stripped',    kind: 'agentic',    tool: 'Gemini' },
-  normalized: { role: 'Re-voiced',         kind: 'agentic',    tool: 'Gemini' },
-  augmented:  { role: 'Wisdom woven in',   kind: 'hybrid',     tool: 'Enrichment corpus' },
-  literary:   { role: 'Literary prose',    kind: 'agentic',    tool: 'Gemini literary' },
-  narrator:   { role: 'Lecture additions', kind: 'hybrid',     tool: 'Shaykh additions' },
+  source: { role: "Raw OCR", kind: "mechanical", tool: "Azure OCR" },
+  core: { role: "Bilingual align", kind: "mechanical", tool: "Azure" },
+  denoised: { role: "Noise stripped", kind: "agentic", tool: "Gemini" },
+  normalized: { role: "Re-voiced", kind: "agentic", tool: "Gemini" },
+  augmented: {
+    role: "Wisdom woven in",
+    kind: "hybrid",
+    tool: "Enrichment corpus",
+  },
+  literary: {
+    role: "Literary prose",
+    kind: "agentic",
+    tool: "Gemini literary",
+  },
+  narrator: {
+    role: "Lecture additions",
+    kind: "hybrid",
+    tool: "Shaykh additions",
+  },
 };
 
 /** Resilient lookup — unknown ids fall back to an empty, neutral role. */
 export function stageRole(id: string): StageRole {
-  return STAGE_ROLES[id] ?? { role: '', kind: 'mechanical', tool: '' };
+  return STAGE_ROLES[id] ?? { role: "", kind: "mechanical", tool: "" };
 }

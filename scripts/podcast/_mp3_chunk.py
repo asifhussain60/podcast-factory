@@ -29,22 +29,51 @@ WHAT WE SKIP
   size in synchsafe form). We DON'T need to preserve ID3 tags in the
   chunks — the transcription API doesn't care.
 """
+
 from __future__ import annotations
 
 # MPEG-1 Layer III bitrate table (kbps). Index 0 = "free", 15 = "bad" (reserved).
 _BITRATE_MPEG1_L3 = [
-    None, 32, 40, 48, 56, 64, 80, 96,
-    112, 128, 160, 192, 224, 256, 320, None,
+    None,
+    32,
+    40,
+    48,
+    56,
+    64,
+    80,
+    96,
+    112,
+    128,
+    160,
+    192,
+    224,
+    256,
+    320,
+    None,
 ]
 # MPEG-2/2.5 Layer III bitrate table (kbps)
 _BITRATE_MPEG2_L3 = [
-    None, 8, 16, 24, 32, 40, 48, 56,
-    64, 80, 96, 112, 128, 144, 160, None,
+    None,
+    8,
+    16,
+    24,
+    32,
+    40,
+    48,
+    56,
+    64,
+    80,
+    96,
+    112,
+    128,
+    144,
+    160,
+    None,
 ]
 _SAMPLE_RATE = {
     3: [44100, 48000, 32000, None],  # MPEG-1
     2: [22050, 24000, 16000, None],  # MPEG-2
-    0: [11025, 12000, 8000, None],   # MPEG-2.5
+    0: [11025, 12000, 8000, None],  # MPEG-2.5
 }
 
 
@@ -66,8 +95,8 @@ def _parse_frame(buf: bytes, off: int) -> int | None:
     b1 = buf[off + 1]
     if (b1 & 0xE0) != 0xE0:  # sync word incomplete
         return None
-    version_bits = (b1 >> 3) & 0x03   # 0=2.5, 2=2, 3=1
-    layer_bits = (b1 >> 1) & 0x03      # 1=L3, 2=L2, 3=L1
+    version_bits = (b1 >> 3) & 0x03  # 0=2.5, 2=2, 3=1
+    layer_bits = (b1 >> 1) & 0x03  # 1=L3, 2=L2, 3=L1
     if version_bits == 1 or layer_bits == 0:
         return None
     b2 = buf[off + 2]
@@ -109,7 +138,7 @@ def chunk_mp3_bytes(data: bytes, max_bytes: int = 9_500_000) -> list[bytes]:
         # Find next valid frame header
         if data[cursor] != 0xFF:
             # Resync: search forward for 0xFF
-            nxt = data.find(b"\xFF", cursor + 1)
+            nxt = data.find(b"\xff", cursor + 1)
             if nxt < 0:
                 break
             cursor = nxt

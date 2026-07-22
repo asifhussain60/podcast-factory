@@ -27,7 +27,6 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
-from typing import Any
 
 try:
     from PIL import Image, ImageDraw, ImageFont
@@ -36,19 +35,20 @@ except ImportError:
 
 # ─── Palette ──────────────────────────────────────────────────────────────────
 
-W, H       = 1920, 1080
-MARGIN     = 120          # safe-area margin on each side
-SAFE_W     = W - 2 * MARGIN
-SAFE_H     = H - 2 * MARGIN
+W, H = 1920, 1080
+MARGIN = 120  # safe-area margin on each side
+SAFE_W = W - 2 * MARGIN
+SAFE_H = H - 2 * MARGIN
 
-COL_BG        = (26,  26,  46)          # #1a1a2e navy
-COL_OVERLAY   = (0,   0,   0,  175)     # 68% black overlay over image
-COL_GOLD      = (212, 175,  55)         # #d4af37
-COL_CREAM     = (244, 228, 193)         # #f4e4c1
-COL_DIM       = (160, 144, 112)         # muted cream for attributions
-COL_ACCENT_H  = 4                       # accent-bar height (px)
+COL_BG = (26, 26, 46)  # #1a1a2e navy
+COL_OVERLAY = (0, 0, 0, 175)  # 68% black overlay over image
+COL_GOLD = (212, 175, 55)  # #d4af37
+COL_CREAM = (244, 228, 193)  # #f4e4c1
+COL_DIM = (160, 144, 112)  # muted cream for attributions
+COL_ACCENT_H = 4  # accent-bar height (px)
 
 # ─── Fonts ────────────────────────────────────────────────────────────────────
+
 
 def _find_font(names: list[str], size: int) -> "ImageFont.FreeTypeFont":
     """Try multiple font names across macOS font directories; fall back to default."""
@@ -78,24 +78,30 @@ def _fonts(scale: float = 1.0) -> dict[str, "ImageFont.FreeTypeFont"]:
     """Return the font set scaled by `scale` (1.0 = default, 0.8 = smaller)."""
     s = scale
     return {
-        "heading_lg":  _find_font(["HelveticaNeue-Bold",   "Helvetica-Bold",   "Arial-BoldMT", "DejaVuSans-Bold"],   int(72  * s)),
-        "heading_md":  _find_font(["HelveticaNeue-Bold",   "Helvetica-Bold",   "Arial-BoldMT", "DejaVuSans-Bold"],   int(54  * s)),
-        "heading_sm":  _find_font(["HelveticaNeue-Medium", "Helvetica",        "ArialMT",      "DejaVuSans"],        int(40  * s)),
-        "body":        _find_font(["HelveticaNeue",        "Helvetica",        "ArialMT",      "DejaVuSans"],        int(36  * s)),
-        "body_sm":     _find_font(["HelveticaNeue",        "Helvetica",        "ArialMT",      "DejaVuSans"],        int(28  * s)),
-        "italic":      _find_font(["HelveticaNeue-Italic", "Helvetica-Oblique","Arial-ItalicMT","DejaVuSans-Oblique"],int(34  * s)),
-        "dim":         _find_font(["HelveticaNeue",        "Helvetica",        "ArialMT",      "DejaVuSans"],        int(26  * s)),
+        "heading_lg": _find_font(
+            ["HelveticaNeue-Bold", "Helvetica-Bold", "Arial-BoldMT", "DejaVuSans-Bold"], int(72 * s)
+        ),
+        "heading_md": _find_font(
+            ["HelveticaNeue-Bold", "Helvetica-Bold", "Arial-BoldMT", "DejaVuSans-Bold"], int(54 * s)
+        ),
+        "heading_sm": _find_font(["HelveticaNeue-Medium", "Helvetica", "ArialMT", "DejaVuSans"], int(40 * s)),
+        "body": _find_font(["HelveticaNeue", "Helvetica", "ArialMT", "DejaVuSans"], int(36 * s)),
+        "body_sm": _find_font(["HelveticaNeue", "Helvetica", "ArialMT", "DejaVuSans"], int(28 * s)),
+        "italic": _find_font(
+            ["HelveticaNeue-Italic", "Helvetica-Oblique", "Arial-ItalicMT", "DejaVuSans-Oblique"], int(34 * s)
+        ),
+        "dim": _find_font(["HelveticaNeue", "Helvetica", "ArialMT", "DejaVuSans"], int(26 * s)),
     }
 
 
 # ─── Text helpers ─────────────────────────────────────────────────────────────
 
-def _wrap(text: str, font: "ImageFont.FreeTypeFont", max_w: int,
-          draw: ImageDraw.ImageDraw) -> list[str]:
+
+def _wrap(text: str, font: "ImageFont.FreeTypeFont", max_w: int, draw: ImageDraw.ImageDraw) -> list[str]:
     """Break `text` into lines that fit within `max_w` pixels."""
-    words  = text.split()
+    words = text.split()
     lines: list[str] = []
-    cur    = ""
+    cur = ""
     for w in words:
         test = f"{cur} {w}".strip()
         bbox = draw.textbbox((0, 0), test, font=font)
@@ -110,8 +116,9 @@ def _wrap(text: str, font: "ImageFont.FreeTypeFont", max_w: int,
     return lines or [""]
 
 
-def _text_block_height(lines: list[str], font: "ImageFont.FreeTypeFont",
-                       draw: ImageDraw.ImageDraw, line_gap: int = 8) -> int:
+def _text_block_height(
+    lines: list[str], font: "ImageFont.FreeTypeFont", draw: ImageDraw.ImageDraw, line_gap: int = 8
+) -> int:
     total = 0
     for ln in lines:
         bbox = draw.textbbox((0, 0), ln, font=font)
@@ -119,15 +126,22 @@ def _text_block_height(lines: list[str], font: "ImageFont.FreeTypeFont",
     return max(0, total - line_gap)
 
 
-def _draw_lines(draw: ImageDraw.ImageDraw, lines: list[str],
-                font: "ImageFont.FreeTypeFont", color: tuple,
-                x: int, y: int, line_gap: int = 8, align: str = "left") -> int:
+def _draw_lines(
+    draw: ImageDraw.ImageDraw,
+    lines: list[str],
+    font: "ImageFont.FreeTypeFont",
+    color: tuple,
+    x: int,
+    y: int,
+    line_gap: int = 8,
+    align: str = "left",
+) -> int:
     """Draw wrapped lines starting at (x, y). Returns final y position."""
     for ln in lines:
         bbox = draw.textbbox((0, 0), ln, font=font)
-        w    = bbox[2] - bbox[0]
-        h    = bbox[3] - bbox[1]
-        dx   = 0
+        w = bbox[2] - bbox[0]
+        h = bbox[3] - bbox[1]
+        dx = 0
         if align == "center":
             dx = (SAFE_W - w) // 2
         elif align == "right":
@@ -144,6 +158,7 @@ def _accent_bar(draw: ImageDraw.ImageDraw, y: int, width: int = 80) -> None:
 
 # ─── Background composer ──────────────────────────────────────────────────────
 
+
 def _make_base(bg_path: Path | None) -> Image.Image:
     """Return 1920×1080 RGBA base: darkened scenic image or solid navy."""
     if bg_path and bg_path.exists():
@@ -159,83 +174,75 @@ def _make_base(bg_path: Path | None) -> Image.Image:
 
 # ─── Slide renderers ──────────────────────────────────────────────────────────
 
-def _render_title_slide(draw: ImageDraw.ImageDraw, content: dict,
-                         fonts: dict) -> None:
-    title    = content.get("title", "")
+
+def _render_title_slide(draw: ImageDraw.ImageDraw, content: dict, fonts: dict) -> None:
+    title = content.get("title", "")
     subtitle = content.get("subtitle", "")
 
     title_lines = _wrap(title.upper(), fonts["heading_lg"], SAFE_W, draw)
-    sub_lines   = _wrap(subtitle, fonts["body"], SAFE_W, draw) if subtitle else []
+    sub_lines = _wrap(subtitle, fonts["body"], SAFE_W, draw) if subtitle else []
 
     title_h = _text_block_height(title_lines, fonts["heading_lg"], draw, line_gap=12)
-    sub_h   = _text_block_height(sub_lines,   fonts["body"],       draw, line_gap=10) if sub_lines else 0
-    gap     = 32 if sub_lines else 0
-    bar_h   = COL_ACCENT_H + 16
+    sub_h = _text_block_height(sub_lines, fonts["body"], draw, line_gap=10) if sub_lines else 0
+    gap = 32 if sub_lines else 0
+    bar_h = COL_ACCENT_H + 16
 
     total_h = title_h + bar_h + gap + sub_h
     y_start = (H - total_h) // 2
 
-    y = _draw_lines(draw, title_lines, fonts["heading_lg"], COL_GOLD,
-                    MARGIN, y_start, line_gap=12, align="center")
+    y = _draw_lines(draw, title_lines, fonts["heading_lg"], COL_GOLD, MARGIN, y_start, line_gap=12, align="center")
     _accent_bar(draw, y + 16, width=120)
     y += bar_h + gap
     if sub_lines:
-        _draw_lines(draw, sub_lines, fonts["body"], COL_CREAM,
-                    MARGIN, y, line_gap=10, align="center")
+        _draw_lines(draw, sub_lines, fonts["body"], COL_CREAM, MARGIN, y, line_gap=10, align="center")
 
 
-def _render_verse_slide(draw: ImageDraw.ImageDraw, content: dict,
-                         fonts: dict) -> None:
-    text        = content.get("text", "")
+def _render_verse_slide(draw: ImageDraw.ImageDraw, content: dict, fonts: dict) -> None:
+    text = content.get("text", "")
     attribution = content.get("attribution", "")
-    accent      = content.get("accent", "")   # e.g. "Quran 99:7"
+    accent = content.get("accent", "")  # e.g. "Quran 99:7"
 
     if accent:
         draw.text((MARGIN, MARGIN), accent.upper(), font=fonts["dim"], fill=COL_GOLD)
 
     verse_lines = _wrap(f"“{text}”", fonts["heading_sm"], SAFE_W, draw)
-    attr_lines  = _wrap(attribution, fonts["dim"], SAFE_W, draw) if attribution else []
+    attr_lines = _wrap(attribution, fonts["dim"], SAFE_W, draw) if attribution else []
 
     verse_h = _text_block_height(verse_lines, fonts["heading_sm"], draw, line_gap=14)
-    attr_h  = _text_block_height(attr_lines,  fonts["dim"],         draw, line_gap=8) + 20
+    attr_h = _text_block_height(attr_lines, fonts["dim"], draw, line_gap=8) + 20
 
     total_h = verse_h + attr_h
-    y       = max(MARGIN + 60, (H - total_h) // 2)
+    y = max(MARGIN + 60, (H - total_h) // 2)
 
-    y = _draw_lines(draw, verse_lines, fonts["heading_sm"], COL_CREAM,
-                    MARGIN, y, line_gap=14, align="center")
+    y = _draw_lines(draw, verse_lines, fonts["heading_sm"], COL_CREAM, MARGIN, y, line_gap=14, align="center")
     _accent_bar(draw, y + 12, width=60)
     y += COL_ACCENT_H + 20
     if attr_lines:
-        _draw_lines(draw, attr_lines, fonts["dim"], COL_DIM,
-                    MARGIN, y, align="center")
+        _draw_lines(draw, attr_lines, fonts["dim"], COL_DIM, MARGIN, y, align="center")
 
 
-def _render_hadith_slide(draw: ImageDraw.ImageDraw, content: dict,
-                          fonts: dict) -> None:
-    text        = content.get("text", "")
+def _render_hadith_slide(draw: ImageDraw.ImageDraw, content: dict, fonts: dict) -> None:
+    text = content.get("text", "")
     attribution = content.get("attribution", "")
 
     draw.text((MARGIN, MARGIN), "PROPHETIC SAYING", font=fonts["dim"], fill=COL_GOLD)
 
     hadith_lines = _wrap(f"“{text}”", fonts["italic"], SAFE_W, draw)
-    attr_lines   = _wrap(f"— {attribution}", fonts["dim"], SAFE_W, draw) if attribution else []
+    attr_lines = _wrap(f"— {attribution}", fonts["dim"], SAFE_W, draw) if attribution else []
 
     hadith_h = _text_block_height(hadith_lines, fonts["italic"], draw, line_gap=14)
-    attr_h   = _text_block_height(attr_lines,   fonts["dim"],    draw, line_gap=8) + 20
+    attr_h = _text_block_height(attr_lines, fonts["dim"], draw, line_gap=8) + 20
 
     total_h = hadith_h + attr_h
-    y       = max(MARGIN + 60, (H - total_h) // 2)
+    y = max(MARGIN + 60, (H - total_h) // 2)
 
-    y = _draw_lines(draw, hadith_lines, fonts["italic"], COL_CREAM,
-                    MARGIN, y, line_gap=14, align="center")
+    y = _draw_lines(draw, hadith_lines, fonts["italic"], COL_CREAM, MARGIN, y, line_gap=14, align="center")
     y += 20
     if attr_lines:
         _draw_lines(draw, attr_lines, fonts["dim"], COL_DIM, MARGIN, y, align="center")
 
 
-def _render_numbered_list(draw: ImageDraw.ImageDraw, content: dict,
-                           fonts: dict) -> None:
+def _render_numbered_list(draw: ImageDraw.ImageDraw, content: dict, fonts: dict) -> None:
     title = content.get("title", "")
     items = content.get("items", [])
 
@@ -246,15 +253,14 @@ def _render_numbered_list(draw: ImageDraw.ImageDraw, content: dict,
     y = MARGIN
     if title:
         title_lines = _wrap(title.upper(), f["heading_md"], SAFE_W, draw)
-        y = _draw_lines(draw, title_lines, f["heading_md"], COL_GOLD,
-                        MARGIN, y, line_gap=10)
+        y = _draw_lines(draw, title_lines, f["heading_md"], COL_GOLD, MARGIN, y, line_gap=10)
         _accent_bar(draw, y + 8, width=80)
         y += COL_ACCENT_H + 28
 
     for i, item in enumerate(items, 1):
-        num_str   = f"{i}."
-        num_bbox  = draw.textbbox((0, 0), num_str, font=f["body"])
-        num_w     = num_bbox[2] - num_bbox[0] + 16
+        num_str = f"{i}."
+        num_bbox = draw.textbbox((0, 0), num_str, font=f["body"])
+        num_w = num_bbox[2] - num_bbox[0] + 16
         item_lines = _wrap(item, f["body"], SAFE_W - num_w, draw)
 
         draw.text((MARGIN, y), num_str, font=f["body"], fill=COL_GOLD)
@@ -264,50 +270,44 @@ def _render_numbered_list(draw: ImageDraw.ImageDraw, content: dict,
             draw.text((MARGIN + num_w, y), ln, font=f["body"], fill=COL_CREAM)
             y += (bbox[3] - bbox[1]) + 6
         _ = y0  # suppress unused warning
-        y += 10   # extra gap between items
+        y += 10  # extra gap between items
 
 
-def _render_concept_slide(draw: ImageDraw.ImageDraw, content: dict,
-                           fonts: dict) -> None:
-    term       = content.get("term", "")
-    phonetic   = content.get("phonetic", "")
+def _render_concept_slide(draw: ImageDraw.ImageDraw, content: dict, fonts: dict) -> None:
+    term = content.get("term", "")
+    phonetic = content.get("phonetic", "")
     definition = content.get("definition", "")
 
     y = MARGIN + 80
 
     # Term (large gold) + phonetic (cream, smaller)
     term_lines = _wrap(term.upper(), fonts["heading_lg"], SAFE_W, draw)
-    y = _draw_lines(draw, term_lines, fonts["heading_lg"], COL_GOLD,
-                    MARGIN, y, line_gap=10, align="center")
+    y = _draw_lines(draw, term_lines, fonts["heading_lg"], COL_GOLD, MARGIN, y, line_gap=10, align="center")
 
     if phonetic:
         ph_lines = _wrap(f"({phonetic})", fonts["body_sm"], SAFE_W, draw)
-        y = _draw_lines(draw, ph_lines, fonts["body_sm"], COL_DIM,
-                        MARGIN, y + 4, line_gap=8, align="center")
+        y = _draw_lines(draw, ph_lines, fonts["body_sm"], COL_DIM, MARGIN, y + 4, line_gap=8, align="center")
 
     _accent_bar(draw, y + 16, width=80)
     y += COL_ACCENT_H + 32
 
     if definition:
         def_lines = _wrap(definition, fonts["body"], SAFE_W, draw)
-        _draw_lines(draw, def_lines, fonts["body"], COL_CREAM,
-                    MARGIN, y, line_gap=12, align="center")
+        _draw_lines(draw, def_lines, fonts["body"], COL_CREAM, MARGIN, y, line_gap=12, align="center")
 
 
-def _render_quote_slide(draw: ImageDraw.ImageDraw, content: dict,
-                         fonts: dict) -> None:
-    text    = content.get("text", "")
+def _render_quote_slide(draw: ImageDraw.ImageDraw, content: dict, fonts: dict) -> None:
+    text = content.get("text", "")
     speaker = content.get("speaker", "")
 
     q_lines = _wrap(f"“{text}”", fonts["heading_sm"], SAFE_W, draw)
     sp_lines = _wrap(f"— {speaker}", fonts["dim"], SAFE_W, draw) if speaker else []
 
-    q_h  = _text_block_height(q_lines,  fonts["heading_sm"], draw, line_gap=14)
-    sp_h = _text_block_height(sp_lines, fonts["dim"],         draw, line_gap=8) + 24
+    q_h = _text_block_height(q_lines, fonts["heading_sm"], draw, line_gap=14)
+    sp_h = _text_block_height(sp_lines, fonts["dim"], draw, line_gap=8) + 24
 
     y = max(MARGIN, (H - q_h - sp_h) // 2)
-    y = _draw_lines(draw, q_lines, fonts["heading_sm"], COL_CREAM,
-                    MARGIN, y, line_gap=14, align="center")
+    y = _draw_lines(draw, q_lines, fonts["heading_sm"], COL_CREAM, MARGIN, y, line_gap=14, align="center")
     y += 24
     if sp_lines:
         _draw_lines(draw, sp_lines, fonts["dim"], COL_DIM, MARGIN, y, align="center")
@@ -316,24 +316,24 @@ def _render_quote_slide(draw: ImageDraw.ImageDraw, content: dict,
 # ─── Dispatch ─────────────────────────────────────────────────────────────────
 
 _RENDERERS = {
-    "title_slide":    _render_title_slide,
-    "verse_slide":    _render_verse_slide,
-    "hadith_slide":   _render_hadith_slide,
-    "numbered_list":  _render_numbered_list,
-    "concept_slide":  _render_concept_slide,
-    "quote_slide":    _render_quote_slide,
-    "scenic_break":   None,              # background only — no text
+    "title_slide": _render_title_slide,
+    "verse_slide": _render_verse_slide,
+    "hadith_slide": _render_hadith_slide,
+    "numbered_list": _render_numbered_list,
+    "concept_slide": _render_concept_slide,
+    "quote_slide": _render_quote_slide,
+    "scenic_break": None,  # background only — no text
 }
 
 
 def render_slide(slide: dict, bg_path: Path | None, output_path: Path) -> None:
     """Render one slide to output_path as a 1920×1080 PNG."""
     slide_type = slide.get("slide_type", "scenic_break")
-    content    = slide.get("content", {})
+    content = slide.get("content", {})
 
-    base  = _make_base(bg_path)
-    image = base.convert("RGB")            # drop alpha before drawing opaque text
-    draw  = ImageDraw.Draw(image)
+    base = _make_base(bg_path)
+    image = base.convert("RGB")  # drop alpha before drawing opaque text
+    draw = ImageDraw.Draw(image)
     fonts = _fonts()
 
     renderer = _RENDERERS.get(slide_type)
@@ -355,8 +355,9 @@ def render_all_slides(
     images_dir — where to write s01_*.png … sNN_*.png
     ep_id      — for naming / logging
     """
-    backgrounds = {b["bg_id"]: images_dir / b.get("image_path", f"{b['bg_id']}.jpg")
-                   for b in manifest.get("backgrounds", [])}
+    backgrounds = {
+        b["bg_id"]: images_dir / b.get("image_path", f"{b['bg_id']}.jpg") for b in manifest.get("backgrounds", [])
+    }
 
     slides = manifest.get("slides", [])
     if not slides:
@@ -366,13 +367,13 @@ def render_all_slides(
     ep_slug = ep_id.split("-", 1)[1] if "-" in ep_id else ep_id
     n = 0
     for slide in slides:
-        seg_id     = slide.get("segment_id", f"s{n+1:02d}")
+        seg_id = slide.get("segment_id", f"s{n + 1:02d}")
         slide_type = slide.get("slide_type", "scenic_break")
-        bg_id      = slide.get("background_id", "bg01")
-        bg_path    = backgrounds.get(bg_id)
+        bg_id = slide.get("background_id", "bg01")
+        bg_path = backgrounds.get(bg_id)
 
-        filename   = f"{seg_id}_{slide_type}_{ep_slug[:24]}.png"
-        out_path   = images_dir / filename
+        filename = f"{seg_id}_{slide_type}_{ep_slug[:24]}.png"
+        out_path = images_dir / filename
 
         if out_path.exists():
             print(f"    {filename} already exists, skipping")
@@ -391,11 +392,12 @@ def render_all_slides(
 
 # ─── CLI ──────────────────────────────────────────────────────────────────────
 
+
 def main(argv: list[str] | None = None) -> int:
     import argparse
-    parser = argparse.ArgumentParser(description=__doc__,
-                                     formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("manifest",   help="Path to video-prompts.json")
+
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("manifest", help="Path to video-prompts.json")
     parser.add_argument("output_dir", help="Directory to write PNG slides")
     args = parser.parse_args(argv)
 

@@ -5,14 +5,18 @@
  * Lists all binders → chapters with English (R1/R2) and Urdu names.
  * Includes a live search across English titles, Urdu names, and topic counts.
  */
-import Base from '../../layouts/Base.astro';
-import Icon from '../../components/ui/Icon.astro';
-import { discoverBundles } from '../../lib/reader/source-extractor';
-import { getBinderEnglish, getChapterEnglish, isBinderTopicRetitled } from '../../lib/reader/decisions';
-import '../../styles/wisdom.css';
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/ui/Icon.astro";
+import { discoverBundles } from "../../lib/reader/source-extractor";
+import {
+  getBinderEnglish,
+  getChapterEnglish,
+  isBinderTopicRetitled,
+} from "../../lib/reader/decisions";
+import "../../styles/wisdom.css";
 
 const all = await discoverBundles();
-const wisdom = all.find((s) => s.source === 'wisdom');
+const wisdom = all.find((s) => s.source === "wisdom");
 
 interface EnrichedChapter {
   binderId: number;
@@ -21,7 +25,7 @@ interface EnrichedChapter {
   bookSlug: string;
   urduName: string;
   englishTitle?: string;
-  confidence?: 'high' | 'medium' | 'low';
+  confidence?: "high" | "medium" | "low";
   sections: number;
   inlineImages: number;
   stage: string;
@@ -83,7 +87,12 @@ const totalChapters = shelves.reduce((n, s) => n + s.chapterCount, 0);
 const totalSections = shelves.reduce((n, s) => n + s.totalSections, 0);
 const retitledBinders = shelves.filter((s) => s.topicsRetitled).length;
 ---
-<Base title="Wisdom" active="wisdom" description="Wisdom binder and chapter index">
+
+<Base
+  title="Wisdom"
+  active="wisdom"
+  description="Wisdom binder and chapter index"
+>
   <header class="kash-header">
     <div class="kash-header-inner">
       <nav class="kash-breadcrumb">
@@ -97,7 +106,10 @@ const retitledBinders = shelves.filter((s) => s.topicsRetitled).length;
           <h1 class="kash-title">Wisdom</h1>
           <div class="kash-title-urdu" lang="ur">کشکول</div>
           <p class="kash-tagline">
-            19 binders. 122 chapters. 1,337 topics. Tayyibi Ismaili philosophical, theological, jurisprudential, and devotional materials in Urdu — paired side-by-side with proposed English titles and (when translated) English text.
+            19 binders. 122 chapters. 1,337 topics. Tayyibi Ismaili
+            philosophical, theological, jurisprudential, and devotional
+            materials in Urdu — paired side-by-side with proposed English titles
+            and (when translated) English text.
           </p>
         </div>
 
@@ -136,7 +148,8 @@ const retitledBinders = shelves.filter((s) => s.topicsRetitled).length;
         </label>
         <div class="kash-search-sub">
           <span id="search-counter">{totalChapters} chapters</span>
-          <span> · Confidence:
+          <span>
+            · Confidence:
             <span class="kash-conf-badge kash-conf-high">★★★ high</span> ·
             <span class="kash-conf-badge kash-conf-med">★★ medium</span> ·
             <span class="kash-conf-badge kash-conf-low">★ low</span>
@@ -147,114 +160,156 @@ const retitledBinders = shelves.filter((s) => s.topicsRetitled).length;
   </header>
 
   <main class="kash-main">
-    {shelves.length === 0 ? (
-      <div class="kash-empty">
-        <Icon name="folder" size={36} />
-        <p>No Wisdom bundles found.</p>
-      </div>
-    ) : (
-      <div id="binder-list">
-        {shelves.map((sh) => (
-          <section data-binder-id={sh.binderId} class="binder-section">
-            <header class="binder-header">
-              <div class="binder-title-group">
-                <span class="binder-badge">Binder {sh.shelfPrefix}</span>
-                {sh.englishTitle && (
-                  <h2 class="binder-title-en">{sh.englishTitle}</h2>
-                )}
-                <span class="binder-title-ur" lang="ur">{sh.urduName}</span>
-              </div>
-              <div class="binder-meta">
-                {sh.topicsRetitled ? (
-                  <span class="kash-tag kash-tag-retitled">topics retitled</span>
-                ) : (
-                  <span class="kash-tag kash-tag-pending">topics pending</span>
-                )}
-                <span>{sh.chapterCount} chapter{sh.chapterCount === 1 ? '' : 's'}</span>
-                <span>{sh.totalSections} topics</span>
-              </div>
-            </header>
+    {
+      shelves.length === 0 ? (
+        <div class="kash-empty">
+          <Icon name="folder" size={36} />
+          <p>No Wisdom bundles found.</p>
+        </div>
+      ) : (
+        <div id="binder-list">
+          {shelves.map((sh) => (
+            <section data-binder-id={sh.binderId} class="binder-section">
+              <header class="binder-header">
+                <div class="binder-title-group">
+                  <span class="binder-badge">Binder {sh.shelfPrefix}</span>
+                  {sh.englishTitle && (
+                    <h2 class="binder-title-en">{sh.englishTitle}</h2>
+                  )}
+                  <span class="binder-title-ur" lang="ur">
+                    {sh.urduName}
+                  </span>
+                </div>
+                <div class="binder-meta">
+                  {sh.topicsRetitled ? (
+                    <span class="kash-tag kash-tag-retitled">
+                      topics retitled
+                    </span>
+                  ) : (
+                    <span class="kash-tag kash-tag-pending">
+                      topics pending
+                    </span>
+                  )}
+                  <span>
+                    {sh.chapterCount} chapter{sh.chapterCount === 1 ? "" : "s"}
+                  </span>
+                  <span>{sh.totalSections} topics</span>
+                </div>
+              </header>
 
-            <div class="chapter-grid">
-              {sh.chapters.map((ch) => (
-                <a
-                  href={`/wisdom/${ch.shelfSlug}/${ch.bookSlug}/`}
-                  data-chapter-en={(ch.englishTitle ?? '').toLowerCase()}
-                  data-chapter-ur={ch.urduName}
-                  class="chapter-card"
-                >
-                  <div class="chapter-card-top">
-                    <div class="chapter-card-text">
-                      {ch.englishTitle ? (
-                        <div class="chapter-card-en">{ch.englishTitle}</div>
-                      ) : (
-                        <div class="chapter-card-pending">English title pending</div>
-                      )}
-                      <div class="chapter-card-ur" lang="ur">{ch.urduName}</div>
+              <div class="chapter-grid">
+                {sh.chapters.map((ch) => (
+                  <a
+                    href={`/wisdom/${ch.shelfSlug}/${ch.bookSlug}/`}
+                    data-chapter-en={(ch.englishTitle ?? "").toLowerCase()}
+                    data-chapter-ur={ch.urduName}
+                    class="chapter-card"
+                  >
+                    <div class="chapter-card-top">
+                      <div class="chapter-card-text">
+                        {ch.englishTitle ? (
+                          <div class="chapter-card-en">{ch.englishTitle}</div>
+                        ) : (
+                          <div class="chapter-card-pending">
+                            English title pending
+                          </div>
+                        )}
+                        <div class="chapter-card-ur" lang="ur">
+                          {ch.urduName}
+                        </div>
+                      </div>
+                      <div class="chapter-card-conf">
+                        {ch.confidence === "high" && (
+                          <span
+                            title="High confidence translation"
+                            class="chapter-confidence chapter-confidence--high"
+                          >
+                            ★★★
+                          </span>
+                        )}
+                        {ch.confidence === "medium" && (
+                          <span
+                            title="Medium confidence"
+                            class="chapter-confidence chapter-confidence--medium"
+                          >
+                            ★★
+                          </span>
+                        )}
+                        {ch.confidence === "low" && (
+                          <span
+                            title="Low confidence"
+                            class="chapter-confidence chapter-confidence--low"
+                          >
+                            ★
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div class="chapter-card-conf">
-                      {ch.confidence === 'high' && <span title="High confidence translation" class="chapter-confidence chapter-confidence--high">★★★</span>}
-                      {ch.confidence === 'medium' && <span title="Medium confidence" class="chapter-confidence chapter-confidence--medium">★★</span>}
-                      {ch.confidence === 'low' && <span title="Low confidence" class="chapter-confidence chapter-confidence--low">★</span>}
+                    <div class="chapter-card-foot">
+                      <div class="chapter-card-stats">
+                        <span>{ch.sections} topics</span>
+                        {ch.inlineImages > 0 && (
+                          <span>{ch.inlineImages} img</span>
+                        )}
+                        <span class="chapter-card-stage">{ch.stage}</span>
+                      </div>
+                      <Icon name="arrow-right" size={13} />
                     </div>
-                  </div>
-                  <div class="chapter-card-foot">
-                    <div class="chapter-card-stats">
-                      <span>{ch.sections} topics</span>
-                      {ch.inlineImages > 0 && <span>{ch.inlineImages} img</span>}
-                      <span class="chapter-card-stage">{ch.stage}</span>
-                    </div>
-                    <Icon name="arrow-right" size={13} />
-                  </div>
-                </a>
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
-    )}
+                  </a>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      )
+    }
   </main>
 </Base>
 
 <script>
-  const input = document.getElementById('wisdom-search') as HTMLInputElement;
-  const counter = document.getElementById('search-counter')!;
-  const binderList = document.getElementById('binder-list')!;
+  const input = document.getElementById("wisdom-search") as HTMLInputElement;
+  const counter = document.getElementById("search-counter")!;
+  const binderList = document.getElementById("binder-list")!;
   if (input && binderList) {
-    const allCards = Array.from(binderList.querySelectorAll<HTMLElement>('.chapter-card'));
-    const allSections = Array.from(binderList.querySelectorAll<HTMLElement>('.binder-section'));
+    const allCards = Array.from(
+      binderList.querySelectorAll<HTMLElement>(".chapter-card"),
+    );
+    const allSections = Array.from(
+      binderList.querySelectorAll<HTMLElement>(".binder-section"),
+    );
     const totalN = allCards.length;
 
     function applyFilter(q: string) {
       const needle = q.trim().toLowerCase();
       if (!needle) {
-        allCards.forEach((c) => (c.style.display = ''));
-        allSections.forEach((s) => (s.style.display = ''));
+        allCards.forEach((c) => (c.style.display = ""));
+        allSections.forEach((s) => (s.style.display = ""));
         counter.textContent = `${totalN} chapters`;
         return;
       }
       let visible = 0;
       for (const card of allCards) {
-        const en = card.dataset.chapterEn ?? '';
-        const ur = card.dataset.chapterUr ?? '';
+        const en = card.dataset.chapterEn ?? "";
+        const ur = card.dataset.chapterUr ?? "";
         if (en.includes(needle) || ur.includes(needle)) {
-          card.style.display = '';
+          card.style.display = "";
           visible++;
         } else {
-          card.style.display = 'none';
+          card.style.display = "none";
         }
       }
       for (const sec of allSections) {
-        const anyVisible = Array.from(sec.querySelectorAll<HTMLElement>('.chapter-card'))
-          .some((c) => c.style.display !== 'none');
-        sec.style.display = anyVisible ? '' : 'none';
+        const anyVisible = Array.from(
+          sec.querySelectorAll<HTMLElement>(".chapter-card"),
+        ).some((c) => c.style.display !== "none");
+        sec.style.display = anyVisible ? "" : "none";
       }
       counter.textContent = `${visible} of ${totalN} chapters`;
     }
 
-    input.addEventListener('input', () => applyFilter(input.value));
-    window.addEventListener('keydown', (e) => {
-      if (e.key === '/' && document.activeElement?.tagName !== 'INPUT') {
+    input.addEventListener("input", () => applyFilter(input.value));
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "/" && document.activeElement?.tagName !== "INPUT") {
         e.preventDefault();
         input.focus();
         input.select();
@@ -262,4 +317,3 @@ const retitledBinders = shelves.filter((s) => s.topicsRetitled).length;
     });
   }
 </script>
-

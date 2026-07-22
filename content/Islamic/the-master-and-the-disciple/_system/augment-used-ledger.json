@@ -1,0 +1,20 @@
+{
+  "schema": "podcast.augment-used-ledger/v1",
+  "used": [
+    "doctrine:wisdom:1:20:5",
+    "doctrine:wisdom:1:20:7",
+    "doctrine:wisdom:1:73:1",
+    "doctrine:wisdom:1:73:3",
+    "doctrine:wisdom:1:74:10",
+    "doctrine:wisdom:1:74:11",
+    "doctrine:wisdom:1:74:8",
+    "doctrine:wisdom:1:78:4",
+    "doctrine:wisdom:1:78:6",
+    "doctrine:wisdom:1:80:16",
+    "doctrine:wisdom:1:80:9",
+    "doctrine:wisdom:1:84:3",
+    "etymology:hll",
+    "etymology:mm",
+    "etymology:shykh"
+  ]
+}

@@ -31,6 +31,7 @@ CLI:
 
 Exit codes: 0 = clean / allowlisted, 3 = forbidden Arabic mutation, 2 = error.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -46,17 +47,18 @@ from typing import Any
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _paths import REPO_ROOT, content_dir, find_content  # noqa: E402
-from _rules import (  # noqa: E402
+from _paths import REPO_ROOT, content_dir, find_content
+from _rules import (
     ARABIC_FINGERPRINT_VERSION,
     R_ARABIC_BIDI_STRIP,
     R_ARABIC_INTEGRITY,
     R_ARABIC_TASHKEEL,
-    phase_capabilities,
     emit_finding,
+    phase_capabilities,
 )
+
 # Single source of truth for Arabic detection — never re-declare the range.
-from restore_arabic import _ARABIC_RE, _has_arabic  # noqa: E402
+from restore_arabic import _ARABIC_RE, _has_arabic
 
 SNAPSHOT_NAME = "arabic-fingerprints.json"
 REPORT_NAME = "arabic-integrity-report.md"
@@ -155,6 +157,7 @@ def _resolve_book_dir(slug: str) -> Path | None:
 def _content_profile(book_dir: Path) -> str | None:
     """Best-effort content_profile from meta.yml, else series-config.yaml, else None."""
     import yaml
+
     for rel in ("meta.yml", "_system/series-config.yaml"):
         p = book_dir / rel
         if p.is_file():
@@ -186,8 +189,7 @@ def _is_islamic(book_dir: Path) -> bool:
             data = {}
         cat = (data.get("category") or "").strip().lower()
         # Islamic categories per _paths._CATEGORY_TO_BUCKET.
-        return cat in {"books", "lectures", "letters", "asbaaq", "interviews",
-                       "articles", "documents"}
+        return cat in {"books", "lectures", "letters", "asbaaq", "interviews", "articles", "documents"}
     return True  # historical default: run the full scholarly pipeline
 
 
@@ -219,6 +221,7 @@ def _prose_artifacts(book_dir: Path, phase: str) -> list[Path]:
 def _glossary_spans(book_dir: Path) -> list[dict[str, Any]]:
     """Arabic in glossary.yml `arabic_script` fields → fingerprint records."""
     import yaml
+
     gpath = book_dir / "_system" / "glossary.yml"
     if not gpath.is_file():
         return []
@@ -234,9 +237,15 @@ def _glossary_spans(book_dir: Path) -> list[dict[str, Any]]:
         if not _has_arabic(script):
             continue
         norm = normalize_arabic_span(script)
-        recs.append(_record(norm, "glossary.yml#arabic_script",
-                            {"entry_phonetic": e.get("phonetic") or ""},
-                            "glossary-curated", e.get("phonetic") or ""))
+        recs.append(
+            _record(
+                norm,
+                "glossary.yml#arabic_script",
+                {"entry_phonetic": e.get("phonetic") or ""},
+                "glossary-curated",
+                e.get("phonetic") or "",
+            )
+        )
     return recs
 
 
@@ -247,15 +256,14 @@ def _atom_spans() -> list[dict[str, Any]]:
     and must never be rewritten by a book's LLM pass — so they belong in the snapshot.
     """
     import sqlite3
+
     db = REPO_ROOT / "content" / "knowledge-base" / "knowledge.db"
     if not db.is_file():
         return []
     recs: list[dict[str, Any]] = []
     try:
         conn = sqlite3.connect(str(db))
-        rows = conn.execute(
-            "SELECT id, type, body FROM atoms WHERE type IN ('quran','hadith','quote')"
-        ).fetchall()
+        rows = conn.execute("SELECT id, type, body FROM atoms WHERE type IN ('quran','hadith','quote')").fetchall()
         conn.close()
     except Exception:
         return []
@@ -267,16 +275,24 @@ def _atom_spans() -> list[dict[str, Any]]:
         ar = (body.get("arabic") or "").strip()
         if not _has_arabic(ar):
             continue
-        prov = "atom-sdk-verified" if body.get("arabic_source") == "model-sdk-verified" \
+        prov = (
+            "atom-sdk-verified"
+            if body.get("arabic_source") == "model-sdk-verified"
             else ("canonical-quran" if atype == "quran" else "atom-preexisting")
-        recs.append(_record(normalize_arabic_span(ar), f"atom:{atype}:{atom_id}",
-                            {"atom_id": atom_id, "atom_type": atype}, prov,
-                            (body.get("text_en") or body.get("text") or "")[:80]))
+        )
+        recs.append(
+            _record(
+                normalize_arabic_span(ar),
+                f"atom:{atype}:{atom_id}",
+                {"atom_id": atom_id, "atom_type": atype},
+                prov,
+                (body.get("text_en") or body.get("text") or "")[:80],
+            )
+        )
     return recs
 
 
-def _record(norm: str, source_artifact: str, anchor: dict[str, Any],
-            provenance: str, context: str) -> dict[str, Any]:
+def _record(norm: str, source_artifact: str, anchor: dict[str, Any], provenance: str, context: str) -> dict[str, Any]:
     return {
         "hash": _hash(norm),
         "skeleton_hash": _hash(skeleton(norm)),
@@ -294,8 +310,7 @@ def _prose_records(book_dir: Path, phase: str) -> list[dict[str, Any]]:
         rel = p.relative_to(book_dir).as_posix()
         for i, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1):
             for span in extract_spans(line):
-                recs.append(_record(span, rel, {"line": i}, "unknown-preexisting",
-                                    line.strip()[:80]))
+                recs.append(_record(span, rel, {"line": i}, "unknown-preexisting", line.strip()[:80]))
     return recs
 
 
@@ -318,6 +333,7 @@ def _snapshot_path(book_dir: Path) -> Path:
 def _atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
     import os
     import tempfile
+
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(dir=str(path.parent), prefix=f".{path.name}.", suffix=".tmp")
     try:
@@ -360,8 +376,7 @@ def snapshot(slug: str, *, force: bool = False) -> int:
         "by_hash": dict(by_hash),
     }
     _atomic_write_json(spath, payload)
-    print(f"arabic_integrity: snapshot wrote {len(recs)} spans "
-          f"({len(by_hash)} distinct) → _system/{SNAPSHOT_NAME}")
+    print(f"arabic_integrity: snapshot wrote {len(recs)} spans ({len(by_hash)} distinct) → _system/{SNAPSHOT_NAME}")
     return EXIT_OK
 
 
@@ -421,7 +436,7 @@ def build_allowlist(book_dir: Path) -> dict[str, set[str]]:
             corrected = (resolved.get("arabic_script") if isinstance(resolved, dict) else "") or ""
             if _has_arabic(corrected):
                 added.add(_hash(normalize_arabic_span(corrected)))
-            orig = (e.get("arabic_script") or "")
+            orig = e.get("arabic_script") or ""
             if decision in ("replace_english", "drop_arabic", "drop") and _has_arabic(orig):
                 dropped.add(_hash(normalize_arabic_span(orig)))
     return {"added": added, "dropped": dropped}
@@ -430,19 +445,24 @@ def build_allowlist(book_dir: Path) -> dict[str, set[str]]:
 # ─────────────────────────────────────────────────────────────────────────────
 # Verify
 # ─────────────────────────────────────────────────────────────────────────────
-def _classify_drift(missing_hash: str, base_recs: list[dict[str, Any]],
-                    now_recs: list[dict[str, Any]]) -> dict[str, Any] | None:
+def _classify_drift(
+    missing_hash: str, base_recs: list[dict[str, Any]], now_recs: list[dict[str, Any]]
+) -> dict[str, Any] | None:
     """If a missing span has a present near-twin (same skeleton, diff vowels),
     return a vowel-drift descriptor; else None."""
     base = next((r for r in base_recs if r["hash"] == missing_hash), None)
     if not base:
         return None
-    twin = next((r for r in now_recs
-                 if r["skeleton_hash"] == base["skeleton_hash"] and r["hash"] != missing_hash),
-                None)
+    twin = next(
+        (r for r in now_recs if r["skeleton_hash"] == base["skeleton_hash"] and r["hash"] != missing_hash), None
+    )
     if twin:
-        return {"baseline": base["nfc_text"], "present": twin["nfc_text"],
-                "artifact": base["source_artifact"], "anchor": base["anchor"]}
+        return {
+            "baseline": base["nfc_text"],
+            "present": twin["nfc_text"],
+            "artifact": base["source_artifact"],
+            "anchor": base["anchor"],
+        }
     return None
 
 
@@ -466,8 +486,8 @@ def verify(slug: str, phase: str) -> int:
     now_count = Counter(r["hash"] for r in now_recs)
     allow = build_allowlist(book_dir)
 
-    missing = base_count - now_count       # spans that vanished (or dropped in count)
-    appeared = now_count - base_count      # spans that materialized (or grew)
+    missing = base_count - now_count  # spans that vanished (or dropped in count)
+    appeared = now_count - base_count  # spans that materialized (or grew)
 
     forbidden_drops: list[dict[str, Any]] = []
     vowel_drifts: list[dict[str, Any]] = []
@@ -479,9 +499,14 @@ def verify(slug: str, phase: str) -> int:
         if drift:
             vowel_drifts.append({**drift, "count": n})
         else:
-            forbidden_drops.append({"nfc_text": rec.get("nfc_text", ""),
-                                    "artifact": rec.get("source_artifact", ""),
-                                    "anchor": rec.get("anchor", {}), "count": n})
+            forbidden_drops.append(
+                {
+                    "nfc_text": rec.get("nfc_text", ""),
+                    "artifact": rec.get("source_artifact", ""),
+                    "anchor": rec.get("anchor", {}),
+                    "count": n,
+                }
+            )
 
     forbidden_new: list[dict[str, Any]] = []
     for h, n in appeared.items():
@@ -490,41 +515,63 @@ def verify(slug: str, phase: str) -> int:
         # A materialized span whose skeleton twins a baseline span is the OTHER side
         # of a vowel-drift (already reported under missing) — not a separate invention.
         rec = next((r for r in now_recs if r["hash"] == h), {})
-        twin_in_base = any(r["skeleton_hash"] == rec.get("skeleton_hash")
-                           for r in base_recs)
+        twin_in_base = any(r["skeleton_hash"] == rec.get("skeleton_hash") for r in base_recs)
         if twin_in_base:
             continue
-        forbidden_new.append({"nfc_text": rec.get("nfc_text", ""),
-                              "artifact": rec.get("source_artifact", ""),
-                              "anchor": rec.get("anchor", {}), "count": n})
+        forbidden_new.append(
+            {
+                "nfc_text": rec.get("nfc_text", ""),
+                "artifact": rec.get("source_artifact", ""),
+                "anchor": rec.get("anchor", {}),
+                "count": n,
+            }
+        )
 
-    report = _write_report(book_dir, slug, phase, forbidden_drops, forbidden_new,
-                           vowel_drifts)
+    _write_report(
+        book_dir,
+        slug,
+        phase,
+        forbidden_drops,
+        forbidden_new,
+        vowel_drifts,
+    )
     violations = len(forbidden_drops) + len(forbidden_new) + len(vowel_drifts)
     if violations:
-        for kind, items in (("AI-DROP", forbidden_drops),
-                            ("AI-INVENT", forbidden_new),
-                            ("AI-VOWEL-DRIFT", vowel_drifts)):
+        for kind, items in (
+            ("AI-DROP", forbidden_drops),
+            ("AI-INVENT", forbidden_new),
+            ("AI-VOWEL-DRIFT", vowel_drifts),
+        ):
             for it in items:
                 emit_finding(
-                    repo_root=REPO_ROOT, source="arabic-integrity",
-                    source_version=ARABIC_FINGERPRINT_VERSION, book=slug,
-                    check_id=kind, severity="P0",
-                    signature=f"{kind}:{it.get('artifact','')}:{(it.get('nfc_text') or it.get('baseline') or '')[:24]}",
+                    repo_root=REPO_ROOT,
+                    source="arabic-integrity",
+                    source_version=ARABIC_FINGERPRINT_VERSION,
+                    book=slug,
+                    check_id=kind,
+                    severity="P0",
+                    signature=f"{kind}:{it.get('artifact', '')}:{(it.get('nfc_text') or it.get('baseline') or '')[:24]}",
                     file=str(it.get("artifact", "")),
                     context_excerpt=(it.get("nfc_text") or it.get("baseline") or "")[:300],
                     resolution="flagged",
                 )
-        print(f"arabic_integrity: ✗ {violations} forbidden Arabic change(s) in phase {phase} "
-              f"— see _system/{REPORT_NAME}", file=sys.stderr)
+        print(
+            f"arabic_integrity: ✗ {violations} forbidden Arabic change(s) in phase {phase} — see _system/{REPORT_NAME}",
+            file=sys.stderr,
+        )
         return EXIT_FORBIDDEN
     print(f"arabic_integrity: ✓ phase {phase} clean ({len(base_recs)} baseline spans verified)")
     return EXIT_OK
 
 
-def _write_report(book_dir: Path, slug: str, phase: str,
-                  drops: list[dict[str, Any]], invents: list[dict[str, Any]],
-                  drifts: list[dict[str, Any]]) -> Path:
+def _write_report(
+    book_dir: Path,
+    slug: str,
+    phase: str,
+    drops: list[dict[str, Any]],
+    invents: list[dict[str, Any]],
+    drifts: list[dict[str, Any]],
+) -> Path:
     p = book_dir / "_system" / REPORT_NAME
     lines = [
         f"# Arabic Integrity Report — {slug}",
@@ -538,6 +585,7 @@ def _write_report(book_dir: Path, slug: str, phase: str,
         "sanctioning provenance (canonical injection or glossary curation).",
         "",
     ]
+
     def _tbl(title: str, items: list[dict[str, Any]], cols: list[str]) -> None:
         lines.append(f"## {title} ({len(items)})")
         if not items:
@@ -551,12 +599,10 @@ def _write_report(book_dir: Path, slug: str, phase: str,
         for it in items:
             lines.append("| " + " | ".join(str(it.get(c.lower().replace(" ", "_"), "")) for c in cols) + " |")
         lines.append("")
-    _tbl("AI-DROP — spans removed without sanction", drops,
-         ["NFC_text", "Artifact", "Anchor", "Count"])
-    _tbl("AI-INVENT — spans introduced without sanction", invents,
-         ["NFC_text", "Artifact", "Anchor", "Count"])
-    _tbl("AI-VOWEL-DRIFT — tashkeel altered on a protected span", drifts,
-         ["Baseline", "Present", "Artifact", "Anchor"])
+
+    _tbl("AI-DROP — spans removed without sanction", drops, ["NFC_text", "Artifact", "Anchor", "Count"])
+    _tbl("AI-INVENT — spans introduced without sanction", invents, ["NFC_text", "Artifact", "Anchor", "Count"])
+    _tbl("AI-VOWEL-DRIFT — tashkeel altered on a protected span", drifts, ["Baseline", "Present", "Artifact", "Anchor"])
     p.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return p
 

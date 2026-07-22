@@ -1,0 +1,108 @@
+schema: podcast.pending-work/v1
+
+# The backlog the status card prints. Scope is a book slug or `pipeline`.
+# Status is doing | open | done. Keep titles plain English — this is read on a
+# status card, not in a ticket system.
+
+items:
+  - id: companion-cards
+    scope: the-master-and-the-disciple
+    status: done
+    title: "Generate the reader's companion cards for all 9 chapters -- 135 cards total, every chapter at the top of the 10-15 target, balance rule held, zero cards cite a narrator-policy-restricted name"
+    noticed: 2026-07-19
+
+  - id: commit-and-merge-content
+    scope: the-master-and-the-disciple
+    status: done
+    title: "Commit the regenerated book content and merge it to develop -- content commit 2af5241, merge 8a81c8e"
+    noticed: 2026-07-19
+
+  - id: post-merge-sweep
+    scope: pipeline
+    status: done
+    title: "Post-merge sweep on develop@8a81c8e: clean, 0 P0/P1. One P2 (new modules + book-publication-reviewer agent missing from framework.md) found and fixed in fb96f66/cd36f92."
+    noticed: 2026-07-19
+
+  - id: collapse-duplicate-pdf
+    scope: pipeline
+    status: done
+    title: "RESOLVED: build_book_pdf now RENAMES the Playwright working file to the titled PDF (Path.replace, atomic) instead of copying -- one PDF per book folder. validate_book_ready/B2, _book_render_checks, and _book_comprehension all resolve through deliver_book._find_pdf (titled-preferred, book.pdf fallback) instead of a hardcoded path; export_distribution/deliver_book already did. A failed rename keeps book.pdf as the sole deliverable rather than losing the render. Verified live: removed the-master-and-the-disciple's now-redundant book.pdf (confirmed byte-identical to the titled copy first), re-ran all three gates against the titled-only folder -- all resolve correctly. 5 new tests."
+    noticed: 2026-07-19
+
+  - id: book-podcast-chapters-missing-arabic
+    scope: the-master-and-the-disciple
+    status: open
+    title: "Found while re-verifying gates post-fix (unrelated to the fix itself): validate_book_ready's B3 gate reports 20/20 podcast chapter files (chapters/ch01a-*.txt etc.) carry ZERO Arabic script. This is the PODCAST deliverable's own Arabic injection (inject_chapter_arabic.py / Phase 0e), a different subsystem from the reading edition's Arabic (verified extensively earlier -- 52 passages in book.md, traced to source). Non-blocking on the podcast ship (already live), but a real gap worth a look. No prior book-validation-report.json existed for this book, so unknown whether this predates today or was always the case for this book's podcast lane."
+    noticed: 2026-07-19
+
+  - id: publication-reviewer-agent
+    scope: pipeline
+    status: done
+    title: Build the publication reviewer agent and its fix-and-resubmit loop with durable bridges
+    noticed: 2026-07-19
+
+  - id: unverified-arabic
+    scope: the-master-and-the-disciple
+    status: done
+    title: "CHECKED, no book edit needed. All 3 real quotations verified against quran.com (not from memory) and are accurate, correctly translated Quranic verses this book's own OCR simply doesn't happen to cover on these pages: (1) 'fa-la taghurrannakum al-hayat al-dunya' = Quran 35:5 (also echoed in 31:33), ch.6; (2) 'fa-man udturra ghayra baghin wa-la 'adin fa-la ithma 'alayhi' = Quran 2:173, ch.7; (3) 'ala fatratin min al-rusul' = Quran 5:19, ch.8. The 4th flag ('alayhim al-salam', ch.8) was never a quotation at all -- a standard honorific formula, a tool false positive, not a book problem -- fixed at the tool level (see arabic-audit-honorific-false-positive)."
+    noticed: 2026-07-19
+
+  - id: late-introductions
+    scope: the-master-and-the-disciple
+    status: done
+    title: "Salih/al-Bakhtari flagged as late-introduced was a false positive (tool fixed, not the book) -- confirmed via publication review"
+    noticed: 2026-07-19
+
+  - id: thin-etymology-corpus
+    scope: pipeline
+    status: done
+    title: "ASSESSED, then acted on. No new SOURCE ingestion was needed -- scripts/podcast/_etymology.py already exists as a real, accuracy-gated miner (term_index veto + adversarial self-consistency verification + doctrinal gate, no fabrication), it simply had zero callers anywhere in the pipeline and had only ever been run once, on one book. Ran it against the-master-and-the-disciple (already fully in context this session): 6 candidate terms found, 2 passed the accuracy gate and were written -- 'quwwa' (root q-w-y, strength/potency/faculty) and 'Umma' (root '-m-m, the same root as umm/imam -- a community bound by facing one shared source). Corpus grew 12 -> 14, now from 2 books instead of 1. NOT swept across the rest of the repo -- that is a real, separately-scoped content-generation campaign (which books, how many terms, real LLM time per book), not this assessment task's natural conclusion. The miner remains unwired into any live phase; wiring it as an automatic per-book step is a separate decision, not made here."
+    noticed: 2026-07-19
+
+  - id: sharia-spelling-drift
+    scope: the-master-and-the-disciple
+    status: done
+    title: "RESOLVED: Asif chose 'Sharia' as the standard. Root cause was one level deeper than first found -- glossary.yml carried TWO entries for one term, and a second drifted spelling (line 334) existed beyond the one page the first review pass read. Both book.md occurrences corrected, duplicate glossary entry removed, PDF re-rendered (6/6 occurrences now read Sharia), comprehension re-run clean."
+    noticed: 2026-07-19
+
+  - id: naming-drift-scope-limit
+    scope: pipeline
+    status: done
+    title: "RESOLVED (the glossary-fold half of the gap): naming_drift()'s presence check now folds each glossary entry's spelling through simplify_transliteration (the same fold BK-A4 print already guarantees) before searching the page, instead of the entry's raw stored spelling. This is precisely what missed the-master-and-the-disciple's drift -- a glossary entry stored as 'Shariʿa' (scholarly ayn) never literally appears in a book that only prints plain transliteration, so it was invisible even though a second entry drifted from it. Two new regression tests pin this case and the 'do not invent drift that was never printed' guard."
+    noticed: 2026-07-19
+
+  - id: naming-drift-no-glossary-entry
+    scope: pipeline
+    status: open
+    title: "Residual half of the naming-drift gap, deliberately NOT fixed: naming_drift() only ever compares spellings that exist as glossary entries. An ad hoc spelling a single augment note introduces, with no glossary entry of its own at all (e.g. the-master-and-the-disciple's 'Shari'ah', which had no entry before today's manual fix), stays invisible. Needs a fuzzy near-neighbor scan across raw page text -- real new infrastructure, not another fold, so it was not built under this pass."
+    noticed: 2026-07-19
+
+  - id: narrator-attribution-policy
+    scope: pipeline
+    status: done
+    title: "CONFIRMED: augmentation excludes quotations attributed to Abu Bakr, Umar, Uthman, Aisha -- Ahl al-Bayt/Imam Ali/Ismail bin Muhammad and their followers remain approved. Verified: 3 Umar-attributed atoms now excluded from the live corpus load (428 -> 425); a doctrinal passage that only MENTIONS these names in prose was verified to survive untouched."
+    noticed: 2026-07-19
+
+  - id: narrator-policy-unwired-paths
+    scope: pipeline
+    status: done
+    title: "RESOLVED, and the risk was higher than first assessed. intelligence/augmenter.py::_fetch_matching_quotes is NOT dormant -- it's live-wired into phases/per_chapter.py, the real per-chapter podcast authoring phase; its own docstring says quote atoms are 'currently 0; wired for future runs', meaning the exclusion had to land BEFORE that data gap closes, not after. Fixed there. augment_book.py IS confirmed genuinely unwired (zero callers anywhere) -- fixed anyway in _load_atoms(), the single load point, so a future wiring inherits the policy rather than needing to rediscover it. Both reuse _narrator_policy, same module as the JSONL corpus. 4 new tests."
+    noticed: 2026-07-19
+
+  - id: book-chapters-shared-folder-collision
+    scope: the-master-and-the-disciple
+    status: done
+    title: "RESOLVED: publish was blocked -- _translation_edition.py wrote per-chapter .txt sidecars (ch01-<slug>.txt) into the SAME top-level chapters/ dir the podcast lane uses (ch01a-<slug>.txt, one per episode); the ship gate's ch*.txt glob read the book-lane files as chapters missing an episode. Root-caused (predates this session -- clean gate run on 2026-06-11, broke once book-pipeline-v2 started writing there) and fixed at the source: sidecars now write to book/_chapters/, alongside book/_chunks and book/_diagrams. This book's 8 existing files relocated via git mv; a regression test locks the new path. Ship gates G1-G4 now pass clean; book published live (status=published) with G5 (a state-bookkeeping check unrelated to content, unrecognized book-lane phase values) explicitly bypassed via its own documented --force flag, confirmed and authorized before running."
+    noticed: 2026-07-19
+
+  - id: book-chapters-collision-other-books
+    scope: pipeline
+    status: done
+    title: "CORRECTED AND RESOLVED. The original count (8 other affected items, by bare-filename pattern alone) was wrong -- verified by checking for _system/translation-edition-manifest.json (the only proof the book-lane sidecar route ever actually ran) plus reading actual file content. Only mukhtasar-ul-asar-1 and mukhtasar-ul-asar-2 are genuine book-lane sidecars; RELOCATED to book/_chapters/ (18 files, manifests updated) -- zero collision risk today since neither has any podcast episodes yet, but now matches the fixed convention. The other 6 (healthequity, ayyuhal-walad, kitab-al-riyad, kunooz-al-hikmah, claude-code-training) have NO translation-edition-manifest.json -- their bare ch<NN>-<slug>.txt naming is genuine, correctly-shaped podcast chapter content (verified by reading it: episode-framing prose, not book-lane teaching text) that simply never needed a letter-suffix disambiguator. Confirmed untouched, left exactly as they were -- moving them would have been a real, incorrect edit to live content, including one already-published book (ayyuhal-walad)."
+    noticed: 2026-07-19
+
+  - id: arabic-audit-honorific-false-positive
+    scope: pipeline
+    status: done
+    title: "RESOLVED: _book_arabic_audit.py gained a fourth resolution tier, 'honorific-formula', for standard liturgical phrases ('alayhi/alayha/alayhim al-salam', 'radiya Allahu anhu', etc.) matched by normalized skeleton against a small canonical allowlist. These are the author's own religious practice, not a quoted source -- flagging them alongside a genuine mis-sourced verse buried the real finding in boilerplate. Found live checking the-master-and-the-disciple's 4 unverified passages: 1 of the 4 was exactly this. 3 new tests, including one confirming the allowlist cannot become a loophole for a real ungrounded quotation."
+    noticed: 2026-07-19

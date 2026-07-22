@@ -1,0 +1,118 @@
+{
+  "slug": "fixture-arabic-supplication",
+  "source_language": "ar",
+  "title_en": "A Supplication of Vigil and Remembrance",
+  "title_src": "مُنَاجَاةُ التَّهَجُّدِ وَالذِّكْر",
+  "meta": {
+    "type": "Munajat (whispered prayer)",
+    "attributed_to": "Layout fixture — not an attributed text",
+    "occasion": "The last third of the night",
+    "purpose": "Proving facing-column row alignment on real OCR bytes",
+    "place": "n/a — fixture"
+  },
+  "preamble_en": "This file is a LAYOUT FIXTURE for the supplication print lane. Its Arabic lines are verbatim Azure Doc-Intelligence OCR output from a real vocalised Arabic scan, so the renderer is exercised against genuine tashkeel-bearing bytes rather than hand-typed text.\n\nEvery petition is DISTINCT. Exactly one line — the closing invocation — recurs, so the derived refrain rule (a unit is a refrain if and only if its source repeats verbatim) has precisely one thing to find. The units deliberately mix very short against very long so row alignment, the vertical rule, and per-row break-inside avoidance are all visible.\n\nIt is not a devotional text and must never be published as one.",
+  "units": [
+    {
+      "n": 1,
+      "source": "وَ مِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ نَافِلَةً لَكَ",
+      "english": "And in part of the night, keep vigil with it as a work of supererogation for you.",
+      "refrain": false
+    },
+    {
+      "n": 2,
+      "source": "فَاِنَّ الْجَنَّةَ هِيَ الْمَأْوَى",
+      "english": "Then surely the Garden — that is the abode.",
+      "refrain": false
+    },
+    {
+      "n": 3,
+      "source": "أَكْرَمَكُمْ عِنْدَ اللهِ أَتْقِيَكُمْ",
+      "english": "The noblest of you in the sight of God is the most God-fearing of you.",
+      "refrain": false
+    },
+    {
+      "n": 4,
+      "source": "آَوَ لَمْ يَسِيرُوا فِيِ اْلاَرْضِ فَيَنْظُرُوا",
+      "english": "Have they not journeyed through the earth and looked?",
+      "refrain": false
+    },
+    {
+      "n": 5,
+      "source": "يَا اَرْحَمَ الرَّاحِمِينَ",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    },
+    {
+      "n": 6,
+      "source": "فَاَعْرِضْ عَنْ مَنْ تَوَلَّى",
+      "english": "So turn away from whoever turns his back.",
+      "refrain": false
+    },
+    {
+      "n": 7,
+      "source": "إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلاً",
+      "english": "Truly those who believe and do righteous deeds — for them the Gardens of Paradise shall be a welcome, a lodging prepared for them, in which they shall abide and never seek to be removed.",
+      "refrain": false
+    },
+    {
+      "n": 8,
+      "source": "وَ لاَ يُظْلَمُونَ شَيْئًا",
+      "english": "And they shall not be wronged in the least.",
+      "refrain": false
+    },
+    {
+      "n": 9,
+      "source": "سَأُرِيكُمْ ذِكْرًا",
+      "english": "I shall show you a remembrance of it.",
+      "refrain": false
+    },
+    {
+      "n": 10,
+      "source": "يَا اَرْحَمَ الرَّاحِمِينَ",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    },
+    {
+      "n": 11,
+      "source": "لِقَاءَ رَبِّهِ فَلْيَعْمَلْ عَمَلاً صَالِحًا",
+      "english": "Whoever hopes for the meeting with his Lord, let him do righteous work.",
+      "refrain": false
+    },
+    {
+      "n": 12,
+      "source": "وَعَمِلَ صَالِحًا فَأُولَئِكَ يَدْخُلُونَ الْجَنَّةَ",
+      "english": "And whoever does righteous work — those shall enter the Garden.",
+      "refrain": false
+    },
+    {
+      "n": 13,
+      "source": "بِاْلأَسْحَارِ هُمْ يَسْتَغْفِرُونَ",
+      "english": "And in the hours before dawn they sought forgiveness.",
+      "refrain": false
+    },
+    {
+      "n": 14,
+      "source": "وَلَوْ اَنَّهُمْ صَبَرُوا حَتَّى تَخْرُجَ اِلَيْهِمْ لَكَانَ خَيْرًا لَهُمْ",
+      "english": "Had they been patient until you came out to them, it would have been better for them.",
+      "refrain": false
+    },
+    {
+      "n": 15,
+      "source": "يَا اَرْحَمَ الرَّاحِمِينَ",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    },
+    {
+      "n": 16,
+      "source": "خَلَفٌ اَضَاعُوا الصَّلَوةَ وَ اتَّبَعُوا الشَّهَوَاتِ",
+      "english": "A generation who neglected the prayer and followed their appetites.",
+      "refrain": false
+    },
+    {
+      "n": 17,
+      "source": "يَا اَرْحَمَ الرَّاحِمِينَ",
+      "english": "O Most Merciful of the merciful.",
+      "refrain": true
+    }
+  ]
+}

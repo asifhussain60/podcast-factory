@@ -2,18 +2,19 @@
 
 Extracted from orchestrate_book.py (A4 split). Authority: plan.md §A4.
 """
+
 from __future__ import annotations
 
 import hashlib
-import subprocess
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _paths import REPO_ROOT  # noqa: E402
-from _authoring import AuthoringError, author_framing  # noqa: E402
-from _convergence import ChapterOutcome, converge_chapter  # noqa: E402
-from phases.series_plan import _resolve_episode_id  # noqa: E402
+from _authoring import AuthoringError, author_framing
+from _convergence import ChapterOutcome, converge_chapter
+from _paths import REPO_ROOT
+
+from phases.series_plan import _resolve_episode_id
 
 EXTRACT_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "extract_chapter.py"
 BUILD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "build_episode_txt.py"
@@ -26,7 +27,8 @@ BUILD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "build_episode_txt.py"
 _FRAMING_SIG_NAME = ".framing-sig"
 
 
-from _subprocess import run as _run, info as _info  # noqa: E402
+from _subprocess import info as _info
+from _subprocess import run as _run
 
 
 def _chapter_sig(chapter_file: Path) -> str:
@@ -78,9 +80,10 @@ def per_chapter_pass(
             final_verdict="FAILED",
             outer_iterations=0,
             fixer_attempts=0,
-            p0_remaining=0, p1_remaining=0, p2_remaining=0,
-            notes=[f"chapter file missing for slug {chapter_slug} "
-                   f"(expected at chapters/ch*-{chapter_slug}.txt)"],
+            p0_remaining=0,
+            p1_remaining=0,
+            p2_remaining=0,
+            notes=[f"chapter file missing for slug {chapter_slug} (expected at chapters/ch*-{chapter_slug}.txt)"],
         )
     chapter_ref = f"{book_slug}/{chapter_file.stem}"
 
@@ -94,21 +97,20 @@ def per_chapter_pass(
         if _prior_draft is not None:
             _fp = _prior_draft / "00-framing.md"
             _sp = _prior_draft / _FRAMING_SIG_NAME
-            if (_fp.is_file() and _sp.is_file()
-                    and _sp.read_text(encoding="utf-8").strip() == sig):
+            if _fp.is_file() and _sp.is_file() and _sp.read_text(encoding="utf-8").strip() == sig:
                 cached_framing = _fp.read_text(encoding="utf-8")
 
     # 1. Extract — scaffold the episode-draft folder + bundle from the contract.
-    rc, out, err = _run(
-        [sys.executable, str(EXTRACT_SCRIPT), chapter_ref, "--force"]
-    )
+    rc, out, err = _run([sys.executable, str(EXTRACT_SCRIPT), chapter_ref, "--force"])
     if rc != 0:
         return ChapterOutcome(
             chapter_slug=chapter_slug,
             final_verdict="FAILED",
             outer_iterations=0,
             fixer_attempts=0,
-            p0_remaining=0, p1_remaining=0, p2_remaining=0,
+            p0_remaining=0,
+            p1_remaining=0,
+            p2_remaining=0,
             notes=[f"extract_chapter.py failed for {chapter_ref!r}: rc={rc}: {err.strip()[:200]}"],
         )
 
@@ -125,8 +127,10 @@ def per_chapter_pass(
         # prior run. Logged so "reproducible only via checkpoints" is observable:
         # a no-signature (first author) or signature-mismatch (chapter text
         # changed, e.g. after --force re-extract) re-enters the stochastic path.
-        _info(f"      framing cache miss for {chapter_slug}: re-authoring via LLM "
-              f"(non-deterministic — output will differ from any prior run)")
+        _info(
+            f"      framing cache miss for {chapter_slug}: re-authoring via LLM "
+            f"(non-deterministic — output will differ from any prior run)"
+        )
         # (The $0 deterministic smoke gate runs once at the loop level in
         # chapter_driver, before any chapter is attempted — see smoke_check_book.
         # It is intentionally NOT duplicated here: the extract step above already
@@ -139,7 +143,9 @@ def per_chapter_pass(
                 final_verdict="FAILED",
                 outer_iterations=0,
                 fixer_attempts=0,
-                p0_remaining=0, p1_remaining=0, p2_remaining=0,
+                p0_remaining=0,
+                p1_remaining=0,
+                p2_remaining=0,
                 notes=[f"framing authoring failed: {e}"],
             )
     # Stamp the framing signature so a later restart can reuse this framing.
@@ -155,9 +161,7 @@ def per_chapter_pass(
     _episode_id = _resolve_episode_id(book_dir, chapter_file, chapter_slug)
     _lint_path = Path(__file__).resolve().parents[1] / "pipeline_lint.py"
     _lint_rc, _lint_out, _lint_err = _run(
-        [sys.executable, str(_lint_path),
-         "--book-dir", str(book_dir),
-         "--episode", _episode_id]
+        [sys.executable, str(_lint_path), "--book-dir", str(book_dir), "--episode", _episode_id]
     )
     if _lint_rc == 1:
         return ChapterOutcome(
@@ -165,7 +169,9 @@ def per_chapter_pass(
             final_verdict="FAILED",
             outer_iterations=0,
             fixer_attempts=0,
-            p0_remaining=1, p1_remaining=0, p2_remaining=0,
+            p0_remaining=1,
+            p1_remaining=0,
+            p2_remaining=0,
             notes=[f"pipeline_lint P0: framing structural mismatch:\n{_lint_out.strip()[:600]}"],
         )
 
@@ -178,7 +184,9 @@ def per_chapter_pass(
             final_verdict="FAILED",
             outer_iterations=0,
             fixer_attempts=0,
-            p0_remaining=0, p1_remaining=0, p2_remaining=0,
+            p0_remaining=0,
+            p1_remaining=0,
+            p2_remaining=0,
             notes=[f"build_episode_txt.py failed: rc={rc}: {err.strip()[:300]}"],
         )
 
@@ -188,7 +196,8 @@ def per_chapter_pass(
     # Failure is non-fatal: the episode .txt remains as built.
     augmentation_note: str | None = None
     try:
-        from intelligence.augmenter import augment_episode_text as _augment  # noqa: PLC0415
+        from intelligence.augmenter import augment_episode_text as _augment
+
         episode_path = book_dir / "episodes" / f"{episode_id}.txt"
         if episode_path.exists():
             original = episode_path.read_text(encoding="utf-8")
@@ -196,12 +205,13 @@ def per_chapter_pass(
             if augmented != original:
                 episode_path.write_text(augmented, encoding="utf-8")
                 augmentation_note = "knowledge augmentation applied"
-    except Exception as _aug_err:  # noqa: BLE001
+    except Exception as _aug_err:
         augmentation_note = f"knowledge augmentation skipped ({_aug_err})"
 
     # 4. Convergence loop (with Phase 3 safety rails threaded through).
     outcome = converge_chapter(
-        book_dir, chapter_slug,
+        book_dir,
+        chapter_slug,
         per_chapter_cost_cap=per_chapter_cost_cap,
         book_cost_cap=book_cost_cap,
         chapter_cost_fn=chapter_cost_fn,

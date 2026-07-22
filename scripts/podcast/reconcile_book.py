@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """reconcile_book.py — WC8 holistic pipeline: align all source streams into one unified book.
 
+Manual toolchain, not wired into orchestrate_book.py or phases/*.py — run by hand
+via the USAGE examples below, not part of either main pipeline route
+(Podcast/NotebookLM or PDF/book). Flagged 2026-07-16, kept as-is pending a real
+need to retire it.
+
 Reads the three denoised source streams (Arabic spine + English translation +
 Scholarly commentary) plus the existing per-chapter narrator additions, and
 produces a single unified full-book text with content attributed by source layer.
@@ -28,8 +33,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
-import subprocess
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -37,9 +40,9 @@ from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
-from _paths import REPO_ROOT, resolve_content  # noqa: E402
+from _paths import REPO_ROOT, resolve_content
 
-PRICE_IN  = 0.000_000_1
+PRICE_IN = 0.000_000_1
 PRICE_OUT = 0.000_000_4
 
 _RECONCILE_SYSTEM = """\
@@ -87,28 +90,31 @@ No preamble, no meta-commentary, no explanation.
 def _load_key() -> str:
     # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
     from _secrets import get_gemini_key
+
     return get_gemini_key()
 
 
-
 def _gemini(system: str, text: str, *, model: str = "gemini-2.5-flash") -> str:
-    from _engine import engine_guard, TASK_RECONCILE, ENGINE_GEMINI
+    from _engine import ENGINE_GEMINI, TASK_RECONCILE, engine_guard
+
     engine_guard(TASK_RECONCILE, ENGINE_GEMINI)
-    url = (
-        f"https://generativelanguage.googleapis.com/v1beta/models/"
-        f"{model}:generateContent?key={_load_key()}"
-    )
-    body = json.dumps({
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"parts": [{"text": text}]}],
-        "generationConfig": {
-            "temperature": 0.2,
-            "maxOutputTokens": 32000,
-            "thinkingConfig": {"thinkingBudget": 0},
-        },
-    }).encode()
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={_load_key()}"
+    body = json.dumps(
+        {
+            "system_instruction": {"parts": [{"text": system}]},
+            "contents": [{"parts": [{"text": text}]}],
+            "generationConfig": {
+                "temperature": 0.2,
+                "maxOutputTokens": 32000,
+                "thinkingConfig": {"thinkingBudget": 0},
+            },
+        }
+    ).encode()
     req = urllib.request.Request(
-        url, data=body, headers={"Content-Type": "application/json"}, method="POST",
+        url,
+        data=body,
+        headers={"Content-Type": "application/json"},
+        method="POST",
     )
     with urllib.request.urlopen(req, timeout=600) as resp:
         d = json.loads(resp.read())
@@ -132,9 +138,7 @@ def _log_cost(slug: str, entry: dict) -> None:
 def _read_denoised(book_dir: Path, source: str) -> str:
     p = book_dir / "_system" / "source" / "multi" / "denoised" / f"{source}.md"
     if not p.exists():
-        raise FileNotFoundError(
-            f"Denoised {source} not found at {p}. Run full_book_denoise.py first."
-        )
+        raise FileNotFoundError(f"Denoised {source} not found at {p}. Run full_book_denoise.py first.")
     return p.read_text(encoding="utf-8")
 
 
@@ -157,20 +161,17 @@ def reconcile(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
     report_path = book_dir / "_system" / "reconcile-report.json"
 
     if out_path.exists() and not force:
-        print(f"  unified-book.md already exists — skip (--force to re-run)")
+        print("  unified-book.md already exists — skip (--force to re-run)")
         return out_path
 
-    arabic    = _read_denoised(book_dir, "arabic")
-    english   = _read_denoised(book_dir, "english")
+    arabic = _read_denoised(book_dir, "arabic")
+    english = _read_denoised(book_dir, "english")
     scholarly = _read_denoised(book_dir, "scholarly")
 
     combined_input = (
-        "=== SOURCE 1: ARABIC (authoritative spine) ===\n\n"
-        + arabic + "\n\n"
-        "=== SOURCE 2: ENGLISH TRANSLATION ===\n\n"
-        + english + "\n\n"
-        "=== SOURCE 3: SCHOLARLY COMMENTARY EDITION (marked) ===\n\n"
-        + scholarly
+        "=== SOURCE 1: ARABIC (authoritative spine) ===\n\n" + arabic + "\n\n"
+        "=== SOURCE 2: ENGLISH TRANSLATION ===\n\n" + english + "\n\n"
+        "=== SOURCE 3: SCHOLARLY COMMENTARY EDITION (marked) ===\n\n" + scholarly
     )
 
     in_chars = len(combined_input)
@@ -190,7 +191,8 @@ def reconcile(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(
         f"# Unified book — {slug} (reconciled, {datetime.now(timezone.utc).strftime('%Y-%m-%d')})\n\n"
-        + unified.strip() + "\n",
+        + unified.strip()
+        + "\n",
         encoding="utf-8",
     )
 
@@ -204,14 +206,17 @@ def reconcile(slug: str, *, dry_run: bool = False, force: bool = False) -> Path:
     }
     report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
-    _log_cost(slug, {
-        "ts": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-        "op": "reconcile_book",
-        "service": "gemini/gemini-2.5-flash",
-        "in_chars": in_chars,
-        "out_chars": out_chars,
-        "cost_usd": cost,
-    })
+    _log_cost(
+        slug,
+        {
+            "ts": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "op": "reconcile_book",
+            "service": "gemini/gemini-2.5-flash",
+            "in_chars": in_chars,
+            "out_chars": out_chars,
+            "cost_usd": cost,
+        },
+    )
 
     print(f" {out_chars:,} chars, {section_count} sections  ~${cost:.5f}")
     return out_path

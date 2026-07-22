@@ -51,7 +51,9 @@
   min-width: 820px;
   border-collapse: collapse;
   font-family: var(--font-body);
-  font-size: var(--fs-base); /* REQ-010 reading floor; .table-container scrolls if needed */
+  font-size: var(
+    --fs-base
+  ); /* REQ-010 reading floor; .table-container scrolls if needed */
   background: var(--c-bg-card);
 }
 
@@ -83,10 +85,18 @@
   background: color-mix(in oklab, var(--c-bg-sunken) 55%, transparent);
 }
 
-.swim-station { font-weight: 600; color: var(--c-ink); }
-.swim-service { color: var(--c-ink-dim); }
+.swim-station {
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.swim-service {
+  color: var(--c-ink-dim);
+}
 /* note text inherits the table's --fs-base (REQ-010 reading floor) */
-.swim-note-cell { color: var(--c-ink-muted); line-height: 1.45; }
+.swim-note-cell {
+  color: var(--c-ink-muted);
+  line-height: 1.45;
+}
 
 /* Phase-id badge, tinted by vendor (decorative — id text always present) */
 .swim-phase-badge {
@@ -99,11 +109,26 @@
   border-radius: 4px;
   white-space: nowrap;
 }
-.swim-phase-badge.v-anthropic { color: var(--c-vendor-anthropic); background: color-mix(in oklab, var(--c-vendor-anthropic) 14%, transparent); }
-.swim-phase-badge.v-azure     { color: var(--c-vendor-azure);     background: color-mix(in oklab, var(--c-vendor-azure) 14%, transparent); }
-.swim-phase-badge.v-google    { color: var(--c-vendor-google);    background: color-mix(in oklab, var(--c-vendor-google) 14%, transparent); }
-.swim-phase-badge.v-local     { color: var(--c-ink-muted);        background: color-mix(in oklab, var(--c-ink-muted) 16%, transparent); }
-.swim-phase-badge.v-human     { color: var(--c-diag-gate);        background: color-mix(in oklab, var(--c-diag-gate) 14%, transparent); }
+.swim-phase-badge.v-anthropic {
+  color: var(--c-vendor-anthropic);
+  background: color-mix(in oklab, var(--c-vendor-anthropic) 14%, transparent);
+}
+.swim-phase-badge.v-azure {
+  color: var(--c-vendor-azure);
+  background: color-mix(in oklab, var(--c-vendor-azure) 14%, transparent);
+}
+.swim-phase-badge.v-google {
+  color: var(--c-vendor-google);
+  background: color-mix(in oklab, var(--c-vendor-google) 14%, transparent);
+}
+.swim-phase-badge.v-local {
+  color: var(--c-ink-muted);
+  background: color-mix(in oklab, var(--c-ink-muted) 16%, transparent);
+}
+.swim-phase-badge.v-human {
+  color: var(--c-diag-gate);
+  background: color-mix(in oklab, var(--c-diag-gate) 14%, transparent);
+}
 
 /* Model pill, tinted by model tier */
 .swim-model {
@@ -114,19 +139,45 @@
   border-radius: 999px;
   white-space: nowrap;
 }
-.swim-model.m-opus   { color: var(--c-model-opus);   background: color-mix(in oklab, var(--c-model-opus) 14%, transparent); }
-.swim-model.m-sonnet { color: var(--c-model-sonnet); background: color-mix(in oklab, var(--c-model-sonnet) 14%, transparent); }
-.swim-model.m-haiku  { color: var(--c-model-haiku);  background: color-mix(in oklab, var(--c-model-haiku) 14%, transparent); }
-.swim-model.m-gemini { color: var(--c-model-gemini); background: color-mix(in oklab, var(--c-model-gemini) 14%, transparent); }
-.swim-model-none { color: var(--c-model-none); }
+.swim-model.m-opus {
+  color: var(--c-model-opus);
+  background: color-mix(in oklab, var(--c-model-opus) 14%, transparent);
+}
+.swim-model.m-sonnet {
+  color: var(--c-model-sonnet);
+  background: color-mix(in oklab, var(--c-model-sonnet) 14%, transparent);
+}
+.swim-model.m-haiku {
+  color: var(--c-model-haiku);
+  background: color-mix(in oklab, var(--c-model-haiku) 14%, transparent);
+}
+.swim-model.m-gemini {
+  color: var(--c-model-gemini);
+  background: color-mix(in oklab, var(--c-model-gemini) 14%, transparent);
+}
+.swim-model-none {
+  color: var(--c-model-none);
+}
 
 /* Cost-tier label, colour-coded (text label carries the meaning) */
-.swim-cost { font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
-.swim-cost.cost-high { color: var(--c-red); }
-.swim-cost.cost-mid  { color: var(--c-amber); }
-.swim-cost.cost-low  { color: var(--c-green); }
+.swim-cost {
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.swim-cost.cost-high {
+  color: var(--c-red);
+}
+.swim-cost.cost-mid {
+  color: var(--c-amber);
+}
+.swim-cost.cost-low {
+  color: var(--c-green);
+}
 .swim-cost.cost-zero,
-.swim-cost.cost-gate { color: var(--c-ink-muted); }
+.swim-cost.cost-gate {
+  color: var(--c-ink-muted);
+}
 
 /* Future-state rows — striped accent + tag (not colour-only: "Future" label) */
 .swimlane-table tr.swim-future > th,
@@ -164,5 +215,11 @@
   font-weight: 700;
   white-space: nowrap;
 }
-.swim-gate-name { font-weight: 700; color: var(--c-diag-gate); margin-right: 0.6rem; }
-.swim-gate-note { color: var(--c-ink-dim); } /* inherits --fs-base (REQ-010) */
+.swim-gate-name {
+  font-weight: 700;
+  color: var(--c-diag-gate);
+  margin-right: 0.6rem;
+}
+.swim-gate-note {
+  color: var(--c-ink-dim);
+} /* inherits --fs-base (REQ-010) */

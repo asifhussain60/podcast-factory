@@ -33,7 +33,7 @@ export interface WaveEvent {
 export interface LoopExecutionState {
   current_wave: string;
   current_status: string;
-  intent_check_result: 'pass' | 'corrected' | 'blocked';
+  intent_check_result: "pass" | "corrected" | "blocked";
   alignment_steps_taken: string[];
   iteration_count: number;
   pattern_tally: {

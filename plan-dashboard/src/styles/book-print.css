@@ -12,45 +12,238 @@
 /* Source Serif 4 — Latin body. Variable fonts: one upright file covers all
  * weights (100-900), one italic file covers all italic weights. */
 @font-face {
-  font-family: 'Source Serif 4';
-  src: url('/fonts/source-serif/SourceSerif4-VF.ttf') format('truetype');
+  font-family: "Source Serif 4";
+  src: url("/fonts/source-serif/SourceSerif4-VF.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Source Serif 4';
-  src: url('/fonts/source-serif/SourceSerif4-Italic-VF.ttf') format('truetype');
+  font-family: "Source Serif 4";
+  src: url("/fonts/source-serif/SourceSerif4-Italic-VF.ttf") format("truetype");
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
 }
 
+/* ── Translation faces ────────────────────────────────────────────────────────
+ * The English rendering under an Arabic verse/hadith/poem prints in a face
+ * DISTINCT from the Source Serif body, so the reader can tell the book's prose
+ * from a rendering of the quoted Arabic without reading a word of either. The
+ * face is chosen per book in the Composer's Citations tab, persisted to
+ * book/citation-style.json as `translation_font`, and stamped onto <body> as
+ * `tr-<font>` by buildBookHtml.
+ *
+ * MIRROR: editor-fonts.css declares the SAME four families for every on-screen
+ * surface. Add a face in one file and you MUST add it in the other in the same
+ * commit, or a book previews in a face it cannot print. All four are SIL OFL,
+ * self-hosted under public/fonts/<family>/ and served by render-book-pdf.mjs —
+ * so pagination is identical on every machine, as with Source Serif and Amiri. */
 @font-face {
-  font-family: 'Amiri Quran';
-  src: url('/fonts/amiri/AmiriQuran.ttf') format('truetype');
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-400-normal.woff2")
+    format("woff2");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
-  font-family: 'Amiri';
-  src: url('/fonts/amiri/Amiri-Regular.ttf') format('truetype');
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond/eb-garamond-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-400-normal.woff2")
+    format("woff2");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
-  font-family: 'Amiri';
-  src: url('/fonts/amiri/Amiri-Bold.ttf') format('truetype');
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond/cormorant-garamond-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-400-italic.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Crimson Pro";
+  src: url("/fonts/crimson-pro/crimson-pro-latin-600-normal.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Lora";
+  src: url("/fonts/lora/lora-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* size-adjust enlarges the Arabic glyphs ~35% so Arabic (verses + inline terms)
+   reads at the same visual size as the Latin body — Arabic faces render smaller
+   than Latin at equal point size. In print these families are Arabic-only (the
+   Latin body is Source Serif), so this never affects Latin. Matches the editor
+   and reader (theme.css AmiriSized/AmiriQuranSized). */
+@font-face {
+  font-family: "Amiri Quran";
+  src: url("/fonts/amiri/AmiriQuran.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: "Amiri";
+  src: url("/fonts/amiri/Amiri-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: "Amiri";
+  src: url("/fonts/amiri/Amiri-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
+  size-adjust: 135%;
 }
 
-@page { margin: 2.2cm 2cm; }
-@page :first { margin: 0; }
+/* The two Arabic reading faces (2026-07-21). Which one a run gets is decided by
+   PROVENANCE, not markup: renderMd tags a run `is-quranic` when the Arabic audit
+   resolved it against the canonical mushaf, and quote-typography.css switches
+   --q-ar-face on that class alone.
+ *
+ * Same 135% adjustment as Amiri above, and for the same reason — these sit beside
+ * a Source Serif body and Arabic renders smaller at equal point size. In print
+ * both families are Arabic-only, so the adjustment never touches Latin.
+ *
+ * The KFGQPC file is vendored byte-for-byte from quran.com. Its EULA grants free
+ * use, copy and distribution but forbids modification: never subset or re-encode
+ * public/fonts/uthmanic-hafs/*, and keep LICENSE.txt beside it. */
+@font-face {
+  font-family: "Scheherazade New";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: "Scheherazade New";
+  src: url("/fonts/scheherazade-new/scheherazade-new-arabic-600-normal.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: "UthmanicHafs";
+  src: url("/fonts/uthmanic-hafs/UthmanicHafs1Ver18.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 135%;
+}
 
-html { font-size: 19.2px; }
+/* Running head. A reader landing on page 60 of a 123-page book had no cue what
+   they were holding — the single largest gap between this and a commercial
+   reading edition, per the render challenger.
+
+   The book TITLE, not the chapter title: Chromium's print engine ignores
+   `string-set`/`string()`, so a margin box cannot carry per-chapter text (probed
+   on this book — the head simply did not render). Per-chapter recto heads would
+   mean rendering the PDF through Paged.js, which is a renderer swap with its own
+   pagination-parity risk, and the cue a lost reader actually needs first is the
+   book. `__BOOK_RUNNING_HEAD__` is substituted by render-book-pdf.mjs, which
+   already inlines this file; the stylesheet stays the single source of truth. */
+@page {
+  margin: 2.2cm 2cm;
+  @top-center {
+    content: "__BOOK_RUNNING_HEAD__";
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--c-ink-muted, #87827a);
+  }
+  @bottom-right {
+    content: counter(page);
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 0.72rem;
+    color: var(--c-ink-muted, #87827a);
+  }
+}
+/* Front matter and chapter openings carry no running head — a title page or a
+   Contents that announces the book title twice, and a chapter opening whose own
+   display title sits an inch below the head, both read as a mistake. Named pages
+   rather than :nth selectors, so the suppression follows the CONTENT wherever
+   pagination moves it. */
+@page bare {
+  @top-center {
+    content: "";
+  }
+}
+.title-page,
+.toc-page,
+.crosswalk-page {
+  page: bare;
+}
+
+@page:first {
+  margin: 0;
+  @top-center {
+    content: "";
+  }
+  @bottom-right {
+    content: "";
+  }
+}
+
+html {
+  font-size: 19.2px;
+}
 body {
-  font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
+  font-family:
+    "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman",
+    serif;
   font-size: 1rem;
   line-height: 1.62;
   color: var(--c-ink, #1f1d18);
@@ -102,9 +295,10 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 86vh;
-  page-break-after: auto;
-  break-after: auto;
+  min-height: 0;
+  height: 220mm;
+  page-break-after: always;
+  break-after: page;
 }
 .title-page .eyebrow {
   font-family: inherit;
@@ -132,12 +326,118 @@ body {
   border-top: 1px solid var(--c-accent, #8b4513);
   margin: 1.4rem auto 0;
 }
+.title-page .disclaimer-panel {
+  max-width: 18rem;
+  margin: 2.2rem auto 0;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--c-rule-soft, #d8d0bf);
+  border-radius: 3px;
+  color: var(--c-ink-muted, #6f6a61);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+/* ── Contents page ──────────────────────────────────────────────────────── */
+.toc-page {
+  page-break-after: always;
+  break-after: page;
+  padding-top: 2.4cm;
+}
+.toc-page .toc-eyebrow,
+.crosswalk-page .toc-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  color: var(--c-accent, #8b4513);
+  margin: 0 0 0.55rem;
+  text-align: center;
+}
+.toc-page h2,
+.crosswalk-page h2 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 0 0 1.7rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.crosswalk-page {
+  page-break-after: always;
+  break-after: page;
+  padding-top: 1.4cm;
+}
+/* Bind the heading to the (now atomic) table + trim its margin so eyebrow +
+   heading + all 8 rows fit on the crosswalk's single dedicated page — otherwise
+   `break-inside: avoid` on the table strands the heading alone on the page before. */
+.crosswalk-page h2 {
+  margin-bottom: 1rem;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+.crosswalk-page table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  line-height: 1.28;
+  /* Keep the whole crosswalk on its dedicated page — no lone row dangling onto
+     the next page. The page is already isolated (page-break-after: always), so
+     the table has a full page minus the top padding to fit into. */
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.crosswalk-page tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.crosswalk-page th,
+.crosswalk-page td {
+  padding: 0.28rem 0.45rem;
+  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+  vertical-align: top;
+}
+.crosswalk-page th {
+  color: var(--c-ink-muted, #6f6a61);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+}
+.crosswalk-page td:first-child {
+  width: 2rem;
+  color: var(--c-accent, #8b4513);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.toc-page ol {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 32rem;
+}
+.toc-page li {
+  display: grid;
+  grid-template-columns: 3.2rem 1fr;
+  column-gap: 0.9rem;
+  align-items: baseline;
+  padding: 0.44rem 0;
+  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.toc-page .toc-label {
+  color: var(--c-accent, #8b4513);
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.toc-page .toc-title {
+  line-height: 1.35;
+}
 
 /* ── Chapter openings — book-style ───────────────────────────────────────── */
 .chapter-open {
   page-break-before: always;
-  padding-top: 4.6cm;
-  margin-bottom: 2.2rem;
+  padding-top: 0;
+  margin-bottom: 1.35rem;
   text-align: center;
 }
 .chapter-open.first-chapter-open {
@@ -158,6 +458,12 @@ body {
   padding: 0;
   border: 0;
   font-weight: 600;
+}
+.chapter-open .ch-source {
+  margin: 0.55rem 0 0;
+  color: var(--c-ink-muted, #6f6a61);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
 }
 .chapter-open .ch-rule {
   width: 3.2rem;
@@ -181,12 +487,27 @@ h3 {
   margin: 1.3rem 0 0.6rem;
   page-break-after: avoid;
 }
-p { margin: 0 0 0.8rem; }
+p {
+  margin: 0 0 0.8rem;
+}
 
 .ar-inline {
+  /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
+     shearing the glyphs, which is wrong for the script and looked wrong on the
+     page; and an inherited bold would fake a weight the face does not have.
+     Pinned here so the run renders the same whatever prose it sits in. */
+  font-style: normal;
+  /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
+     descent are far taller than the Latin body face, so without an explicit
+     line-height a single Arabic word makes its line taller than its
+     neighbours and the column loses its rhythm. */
+  line-height: inherit;
   direction: rtl;
   unicode-bidi: isolate;
-  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
+  /* Inline terms woven into prose are never tagged is-quranic (a mid-sentence
+     word carries too little evidence to call scripture), so they always take the
+     non-Qur'anic face. */
+  font-family: var(--q-ar-face);
 }
 
 /* ── Quotation blocks ────────────────────────────────────────────────────── */
@@ -198,7 +519,9 @@ blockquote {
   background: var(--c-bg-card, #fffdf8);
   page-break-inside: avoid;
 }
-blockquote p { margin: 0.3rem 0; }
+blockquote p {
+  margin: 0.3rem 0;
+}
 
 /* Quranic / Arabic quotation blocks — woven scholarly style (IIIT/Kube convention).
    Arabic runs at body scale, left-border only, no box or gradient.
@@ -213,23 +536,151 @@ blockquote.quran {
   box-shadow: none;
 }
 blockquote.quran p.ar {
-  font-family: 'Amiri Quran', 'Amiri', 'DecoType Naskh', serif;
-  font-size: 1.18rem;
+  /* Face by provenance — see quote-typography.css. `is-quranic` (stamped by
+     renderMd from the Arabic audit) swaps this token to the Uthmanic script. */
+  font-family: var(--q-ar-face);
+  font-size: 1.05rem;
   line-height: 1.9;
-  color: #5a3a0a;
+  color: var(--c-ink, #1f1d18);
   margin: 0 0 0.2rem;
-  text-align: right;
+  text-align: center;
   direction: rtl;
 }
+/* Keep an Arabic display line with whatever renders it into English. The block
+   already refuses to split internally, which is enough when the gloss is the
+   paired `p.tr` INSIDE it — but in several passages the English is a sibling
+   paragraph after the block, and there the Arabic ended a page while its meaning
+   opened the next (pages 39/40, 50/51 and 118/119 of the 122-page render). A
+   reader met scripture with no rendering and had to turn the page to learn what
+   it said.
+
+   `break-before` closes the seam the `break-after` alone relocated: with only
+   keep-with-next, nine pages came to end on a colon lead-in with the quotation
+   overleaf, up from two. That is the milder failure — a reader meets "The
+   Almighty said:" and turns the page, rather than meeting scripture with no
+   rendering — but it is nine times instead of twice, and carrying the lead-in
+   across costs a few lines of white at each seam. */
+blockquote.quran {
+  break-after: avoid;
+  page-break-after: avoid;
+  break-before: avoid;
+  page-break-before: avoid;
+}
+
 blockquote.quran .quran-divider {
   display: none;
 }
 blockquote.quran p.tr {
   font-style: normal;
   font-size: 0.9rem;
-  line-height: 1.6;
+  line-height: 1.35;
+  text-align: center;
   color: var(--c-ink-muted, #6f6a61);
   margin: 0;
+}
+
+/* ── Citation & quote families (body.style-<family>) ─────────────────────────
+   One global family per book, chosen in /studio/<slug>/style and persisted to
+   book/citation-style.json; render-book-pdf.mjs stamps body.style-<family>.
+   `scholarly` is the default look defined above and needs no override. Plain
+   strips all ornament; Elegant frames the display blocks. Passage types beyond
+   verse/quotation (hadith, poetry, sayings) light up here once the tagging step
+   gives their text a class — the mirror of book-styles.css on the picker page. */
+
+/* Plain — no borders, no tint. The Arabic and its rendering are set apart by
+   CENTRING, by the maroon of the script and by a translation face distinct from
+   the body serif, rather than by a rule or a panel. This is the family's whole
+   definition (locked with Asif 2026-07-21): where Scholarly says "quotation" with
+   a gold hairline and Elegant says it with a frame, Plain says it with typography
+   alone. Values come from quote-typography.css; the mirrors are compose-print.css,
+   book-composer.css, book-reader.css and book-styles.css. */
+body.style-plain blockquote.quran {
+  border-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+body.style-plain blockquote.quran p.ar {
+  color: var(--q-maroon);
+  text-align: center;
+}
+/* The rendering steps up from 0.9rem and takes the book's ink rather than the
+   muted grey: it is the line a reader who has no Arabic actually reads, so it
+   should not be the faintest thing on the page. The face carries the distinction
+   the colour used to. */
+body.style-plain blockquote.quran p.tr {
+  font-family: var(--q-tr-face);
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: var(--c-ink, #1f1d18);
+  text-align: center;
+}
+/* The plain family strips ornament from the Qur'an blocks above, which is the
+   whole point of it. Zeroing the fence on EVERY other blockquote too was
+   collateral damage: the editorial notes and the reader notes then printed as
+   ordinary body paragraphs at the body margin, distinguishable only by their
+   bold run-in label — while the front matter of `the-master-and-the-disciple`
+   promises on page 6 that a reader "can always tell the book's voice from a note
+   about it". Caught by the render challenger, which is the only gate that sees
+   the page rather than the markup.
+
+   The fence restored here is the quietest one that still reads as a fence: a
+   hairline rule in the existing muted ink token and a single indent. No tint, no
+   radius, no colour outside the palette — the plain family's spirit is intact and
+   the theme is unchanged. */
+body.style-plain blockquote:not(.quran) {
+  border-left: 1px solid var(--c-rule, rgba(31, 29, 24, 0.18));
+  background: none;
+  padding-left: 0.9rem;
+  padding-right: 0;
+  /* Set one step below body. The fence alone created a hierarchy inversion the
+     render challenger flagged: an editorial aside carried a rule while scripture
+     carried none, which reads as emphasis. Smaller type says subordinate, and it
+     resolves the inversion WITHOUT ornamenting the Qur'an blocks — the plain
+     family exists precisely to leave those unornamented. Apparatus is marked as
+     apparatus; scripture is set apart by script, centring and its own face. */
+  font-size: 0.92rem;
+}
+
+/* Elegant — framed panels, gold detailing, centered display. */
+body.style-elegant blockquote.quran {
+  border: 1px solid rgba(201, 165, 92, 0.55);
+  border-radius: 8px;
+  background: rgba(201, 165, 92, 0.08);
+  padding: 0.9rem 1.2rem;
+  text-align: center;
+}
+body.style-elegant blockquote.quran p.ar {
+  text-align: center;
+}
+body.style-elegant blockquote.quran p.ar::after {
+  content: " \06DD"; /* ۝ end-of-ayah marker */
+  color: rgba(201, 165, 92, 0.9);
+  font-size: 0.9em;
+}
+body.style-elegant blockquote.quran p.tr {
+  text-align: center;
+  font-style: italic;
+  border-top: 1px solid rgba(201, 165, 92, 0.4);
+  padding-top: 0.45rem;
+  margin-top: 0.45rem;
+}
+body.style-elegant blockquote:not(.quran) {
+  position: relative;
+  border-left: 0;
+  border: 1px solid var(--c-rule, #e6e0d4);
+  border-radius: 8px;
+  padding-left: 2.2rem;
+}
+body.style-elegant blockquote:not(.quran)::before {
+  content: "\201C"; /* “ */
+  position: absolute;
+  left: 0.55rem;
+  top: 0.05rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: rgba(201, 165, 92, 0.9);
 }
 
 /* ── Figures ─────────────────────────────────────────────────────────────── */
@@ -260,4 +711,134 @@ figcaption {
   font-style: italic;
   font-family: var(--font-ui, system-ui, sans-serif);
   text-align: center;
+}
+
+/* ── Book Pipeline v2 — contract-driven figures + professional page-fill ──── */
+/* Every rule is scoped under body.book-v2, applied ONLY when the renderer is
+   handed the flag. Flag OFF => none of this matches => byte-for-byte unchanged.
+   Figures are placed solely from book/visual-layout.json (book.md is diagram-
+   free); width is data-driven via the --fig-w custom property on each figure. */
+body.book-v2 .v2-fig {
+  --fig-w: 60%;
+  margin: 1.4rem auto;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+body.book-v2 .v2-fig img,
+body.book-v2 .v2-fig svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* standalone: a centered full block that clears any prior float. */
+body.book-v2 .v2-fig.flow-standalone {
+  width: var(--fig-w);
+  margin-left: auto;
+  margin-right: auto;
+  clear: both;
+}
+body.book-v2 .v2-fig.flow-standalone.align-left {
+  margin-left: 0;
+  margin-right: auto;
+}
+body.book-v2 .v2-fig.flow-standalone.align-right {
+  margin-left: auto;
+  margin-right: 0;
+}
+/* wrap: float with body text flowing beside it (width_pct<=50 enforced upstream). */
+body.book-v2 .v2-fig.flow-wrap {
+  width: var(--fig-w);
+}
+body.book-v2 .v2-fig.flow-wrap.align-left {
+  float: left;
+  margin: 0.2rem 1.1rem 0.8rem 0;
+}
+body.book-v2 .v2-fig.flow-wrap.align-right {
+  float: right;
+  margin: 0.2rem 0 0.8rem 1.1rem;
+}
+/* one-plate rule: page_fit drives pagination so a tall figure never splits. */
+body.book-v2 .v2-fig.page-fit-before {
+  break-before: page;
+  page-break-before: always;
+}
+body.book-v2 .v2-fig.page-fit-isolate-plate {
+  break-before: page;
+  break-after: page;
+  page-break-before: always;
+  page-break-after: always;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* Professional page-fill: widow/orphan control + keep the chapter heading with
+   its first lines. A chapter still opens on a fresh page (chapter-open keeps its
+   page-break-before), but interior pages fill like a real book — no stranded
+   lines, no figure-forced half-empty verso. */
+body.book-v2 p,
+body.book-v2 blockquote {
+  /* 3 is the conventional print-quality floor: it pulls at least three lines
+     together at a page break, cutting the two-line chapter-tail strand that
+     otherwise lands alone on an almost-empty verso. */
+  orphans: 3;
+  widows: 3;
+}
+body.book-v2 .chapter-open {
+  break-after: avoid;
+  page-break-after: avoid;
+  /* A prior chapter's unresolved wrap float must not bleed onto the next
+     chapter's opening page and shove its heading/drop-cap off-axis. */
+  clear: both;
+}
+
+/* ── Self-study layer ───────────────────────────────────────────────────────
+ * Opt-in (body.book-self-study, set by buildBookHtml when selfStudy is on). The
+ * render-time self-study format adds two labeled asides — a source-grounded
+ * Contextual note (from 0book-augment's editorial fences) and a Study summary —
+ * plus proper bullet lists. Token-only styling; the reading edition is untouched
+ * when the class is absent. */
+.book-self-study .study-note,
+.book-self-study .study-summary {
+  margin: 1.1rem 0;
+  padding: 0.7rem 0.95rem;
+  background: var(--c-bg-sunken, #f3efe7);
+  border-left: 3px solid var(--c-accent, #8b4513);
+  border-radius: 0 6px 6px 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.book-self-study .study-summary {
+  border-left-style: double;
+  border-left-width: 5px;
+}
+
+.book-self-study .study-aside-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--c-accent, #8b4513);
+}
+
+.book-self-study .study-note p,
+.book-self-study .study-summary p {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.book-self-study .study-note p:last-child,
+.book-self-study .study-summary p:last-child {
+  margin-bottom: 0;
+}
+
+.book-self-study .study-list {
+  margin: 0.7rem 0 0.9rem;
+  padding-left: 1.4rem;
+}
+
+.book-self-study .study-list li {
+  margin: 0.25rem 0;
+  line-height: 1.5;
 }

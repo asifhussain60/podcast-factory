@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "'/Users/ahmac/Code/podcast-factory/.codex/hooks/plan-snapshot-regen.sh'",
+            "command": ".claude/hooks/plan-snapshot-regen.sh",
             "statusMessage": "Plan-snapshot regen"
           }
         ]
@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "'/Users/ahmac/Code/podcast-factory/.codex/hooks/site-work-status.sh'",
+            "command": ".claude/hooks/site-work-status.sh",
             "statusMessage": "Site-work continuity"
           }
         ]
@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "'/Users/ahmac/Code/podcast-factory/.codex/hooks/cortex-view-guard.sh'",
+            "command": ".claude/hooks/cortex-view-guard.sh",
             "statusMessage": "Cortex HTML-view guard"
           }
         ]
@@ -40,7 +40,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "'/Users/ahmac/Code/podcast-factory/.codex/hooks/ui-reviewer-stop.sh'"
+            "command": ".claude/hooks/ui-reviewer-stop.sh"
           }
         ]
       }

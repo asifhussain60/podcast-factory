@@ -20,6 +20,7 @@ Covers:
   - phases/preflight_chapter.smoke_check_book    ($0 gate surfaces findings)
   - phases/initial_driver._gate_0d_contracts     (0d fails loudly before 0e)
 """
+
 from __future__ import annotations
 
 import sys
@@ -31,15 +32,15 @@ _SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 if str(_SCRIPTS_PODCAST) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS_PODCAST))
 
-from _contract_validation import (  # noqa: E402
-    validate_contract_full,
+from _contract_validation import (
     validate_book_contracts,
+    validate_contract_full,
 )
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Fixture helpers
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def _valid_contract(slug: str = "alpha", n: int = 1, **overrides) -> dict:
     """A minimal contract that passes every gate (green path)."""
@@ -63,13 +64,13 @@ def _valid_contract(slug: str = "alpha", n: int = 1, **overrides) -> dict:
 def _valid_debate_block(role_a: str = "master", role_b: str = "debater") -> dict:
     """A complete debate block in tonight's repaired (passing) shape."""
     return {
-        "proposition": ("True seeking begins with demolition: the seeker's cup "
-                        "must be emptied before it can be refilled."),
+        "proposition": (
+            "True seeking begins with demolition: the seeker's cup must be emptied before it can be refilled."
+        ),
         "host_a": {
             "role": role_a,
             "position": "The seeker must first be emptied of borrowed certainty.",
-            "source_moves": ["The three kinds of seeker.",
-                             "The naming of kasrah and the mukasir."],
+            "source_moves": ["The three kinds of seeker.", "The naming of kasrah and the mukasir."],
         },
         "host_b": {
             "role": role_b,
@@ -86,13 +87,13 @@ def _make_book(tmp: Path, slugs: list[str]) -> Path:
     (book / "chapters").mkdir(parents=True)
     (book / "chapter-contracts").mkdir(parents=True)
     for i, s in enumerate(slugs, 1):
-        (book / "chapters" / f"ch{i:02d}-{s}.txt").write_text(
-            "word " * 600, encoding="utf-8")
+        (book / "chapters" / f"ch{i:02d}-{s}.txt").write_text("word " * 600, encoding="utf-8")
     return book
 
 
-def _contract_yaml(slug: str, n: int, *, episode_format: str = "deep_dive",
-                   debate_yaml: str = "", title: str | None = None) -> str:
+def _contract_yaml(
+    slug: str, n: int, *, episode_format: str = "deep_dive", debate_yaml: str = "", title: str | None = None
+) -> str:
     """YAML text parseable by BOTH PyYAML (smoke gate) and _extract_yaml.load_yaml."""
     title = title or f"Test Chapter {slug.title()}"
     return (
@@ -107,8 +108,7 @@ def _contract_yaml(slug: str, n: int, *, episode_format: str = "deep_dive",
         f"host_dynamic: curious_mind + scholar_companion\n"
         f"adaptation_mode: faithful\n"
         f"key_tensions:\n"
-        f"  - The first tension of chapter {n}.\n"
-        + debate_yaml
+        f"  - The first tension of chapter {n}.\n" + debate_yaml
     )
 
 
@@ -131,13 +131,13 @@ _DEBATE_YAML_OK = (
     "  resolution: host_b_concedes\n"
 )
 
-_DEBATE_YAML_BAD_ROLE = _DEBATE_YAML_OK.replace(
-    "    role: master\n", "    role: advocate — voices Salih\n")
+_DEBATE_YAML_BAD_ROLE = _DEBATE_YAML_OK.replace("    role: master\n", "    role: advocate — voices Salih\n")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1. The one validator — validate_contract_full
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class GreenPathTests(unittest.TestCase):
     def test_valid_deep_dive_contract_zero_findings(self):
@@ -150,8 +150,7 @@ class GreenPathTests(unittest.TestCase):
         """Tonight's repaired shape — master/debater roles, full block — passes."""
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha"])
-            contract = _valid_contract(
-                "alpha", episode_format="debate", debate=_valid_debate_block())
+            contract = _valid_contract("alpha", episode_format="debate", debate=_valid_debate_block())
             findings = validate_contract_full(contract, None, book)
             self.assertEqual(findings, [], findings)
 
@@ -160,10 +159,8 @@ class GreenPathTests(unittest.TestCase):
             book = _make_book(Path(tmp), ["alpha", "beta"])
             cpath = book / "chapter-contracts" / "alpha.yml"
             cpath.write_text(_contract_yaml("alpha", 1), encoding="utf-8")
-            (book / "chapter-contracts" / "beta.yml").write_text(
-                _contract_yaml("beta", 2), encoding="utf-8")
-            findings = validate_contract_full(
-                _valid_contract("alpha"), None, book, contract_path=cpath)
+            (book / "chapter-contracts" / "beta.yml").write_text(_contract_yaml("beta", 2), encoding="utf-8")
+            findings = validate_contract_full(_valid_contract("alpha"), None, book, contract_path=cpath)
             self.assertEqual(findings, [], findings)
 
 
@@ -184,8 +181,7 @@ class DebateNoBlockTests(unittest.TestCase):
             contract = _valid_contract("alpha", episode_format="debate")
             contract.pop("debate", None)
             findings = validate_contract_full(contract, None, book)
-            self.assertTrue(any("contract.debate is null/missing" in f for f in findings),
-                            findings)
+            self.assertTrue(any("contract.debate is null/missing" in f for f in findings), findings)
 
     def test_debate_partial_block_fails(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -215,8 +211,7 @@ class DebateNoBlockTests(unittest.TestCase):
             debate["resolution"] = "host_b_wins"
             contract = _valid_contract("alpha", episode_format="debate", debate=debate)
             findings = validate_contract_full(contract, None, book)
-            self.assertTrue(any("contract.debate.resolution" in f for f in findings),
-                            findings)
+            self.assertTrue(any("contract.debate.resolution" in f for f in findings), findings)
 
 
 class SlugMismatchTests(unittest.TestCase):
@@ -235,17 +230,14 @@ class SlugMismatchTests(unittest.TestCase):
             chapter = book / "chapters" / "ch01-alpha.txt"
             contract = _valid_contract("beta")
             findings = validate_contract_full(contract, chapter, book)
-            self.assertTrue(
-                any("does not match chapter slug" in f for f in findings), findings)
+            self.assertTrue(any("does not match chapter slug" in f for f in findings), findings)
 
     def test_chapter_ref_stem_mismatch_fails(self):
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha"])
             contract = _valid_contract("alpha", chapter_ref="ch99-alpha-old")
             findings = validate_contract_full(contract, None, book)
-            self.assertTrue(
-                any("contract.chapter_ref" in f and "does not match" in f
-                    for f in findings), findings)
+            self.assertTrue(any("contract.chapter_ref" in f and "does not match" in f for f in findings), findings)
 
 
 class HostRoleEnumTests(unittest.TestCase):
@@ -255,8 +247,8 @@ class HostRoleEnumTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha"])
             contract = _valid_contract(
-                "alpha", episode_format="debate",
-                debate=_valid_debate_block(role_a="master", role_b="debater"))
+                "alpha", episode_format="debate", debate=_valid_debate_block(role_a="master", role_b="debater")
+            )
             findings = validate_contract_full(contract, None, book)
             self.assertEqual(findings, [], findings)
 
@@ -265,8 +257,8 @@ class HostRoleEnumTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha"])
             contract = _valid_contract(
-                "alpha", episode_format="debate",
-                debate=_valid_debate_block(role_a="advocate — voices Salih"))
+                "alpha", episode_format="debate", debate=_valid_debate_block(role_a="advocate — voices Salih")
+            )
             findings = validate_contract_full(contract, None, book)
             self.assertTrue(any("R-HOST-ROLE-PARITY" in f for f in findings), findings)
 
@@ -274,11 +266,10 @@ class HostRoleEnumTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha"])
             contract = _valid_contract(
-                "alpha", episode_format="debate",
-                debate=_valid_debate_block(role_b="arbiter — voices Abu Malik"))
+                "alpha", episode_format="debate", debate=_valid_debate_block(role_b="arbiter — voices Abu Malik")
+            )
             findings = validate_contract_full(contract, None, book)
-            self.assertTrue(any("R-HOST-ROLE-PARITY" in f and "host_b" in f
-                                for f in findings), findings)
+            self.assertTrue(any("R-HOST-ROLE-PARITY" in f and "host_b" in f for f in findings), findings)
 
 
 class EnumAndSchemaTests(unittest.TestCase):
@@ -287,8 +278,7 @@ class EnumAndSchemaTests(unittest.TestCase):
             book = _make_book(Path(tmp), ["alpha"])
             contract = _valid_contract("alpha", episode_format="fireside_chat")
             findings = validate_contract_full(contract, None, book)
-            self.assertTrue(any("contract.episode_format" in f for f in findings),
-                            findings)
+            self.assertTrue(any("contract.episode_format" in f for f in findings), findings)
 
     def test_missing_required_fields_reported(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -305,26 +295,25 @@ class EnumAndSchemaTests(unittest.TestCase):
     def test_non_mapping_contract_single_finding(self):
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha"])
-            self.assertEqual(validate_contract_full(None, None, book),
-                             ["contract is not a YAML mapping"])
+            self.assertEqual(validate_contract_full(None, None, book), ["contract is not a YAML mapping"])
 
     def test_duplicate_title_fails_for_on_disk_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha", "beta"])
             cpath = book / "chapter-contracts" / "alpha.yml"
-            cpath.write_text(
-                _contract_yaml("alpha", 1, title="Same Title"), encoding="utf-8")
+            cpath.write_text(_contract_yaml("alpha", 1, title="Same Title"), encoding="utf-8")
             (book / "chapter-contracts" / "beta.yml").write_text(
-                _contract_yaml("beta", 2, title="Same Title"), encoding="utf-8")
+                _contract_yaml("beta", 2, title="Same Title"), encoding="utf-8"
+            )
             contract = _valid_contract("alpha", title="Same Title")
             findings = validate_contract_full(contract, None, book, contract_path=cpath)
-            self.assertTrue(any("duplicates another chapter" in f for f in findings),
-                            findings)
+            self.assertTrue(any("duplicates another chapter" in f for f in findings), findings)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 2. The $0 smoke gate surfaces every class pre-loop
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class SmokeGateContractTests(unittest.TestCase):
     def _write(self, book: Path, slug: str, text: str) -> None:
@@ -332,12 +321,12 @@ class SmokeGateContractTests(unittest.TestCase):
 
     def test_smoke_gate_catches_debate_no_block(self):
         from phases.preflight_chapter import smoke_check_book
+
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha", "beta"])
             self._write(book, "alpha", _contract_yaml("alpha", 1))
             # tonight's class (a): debate declared, no debate block at all
-            self._write(book, "beta",
-                        _contract_yaml("beta", 2, episode_format="debate"))
+            self._write(book, "beta", _contract_yaml("beta", 2, episode_format="debate"))
             failures = smoke_check_book(book, ["alpha", "beta"])
             failed_slugs = [s for s, _ in failures]
             self.assertEqual(failed_slugs, ["beta"], failures)
@@ -346,17 +335,19 @@ class SmokeGateContractTests(unittest.TestCase):
 
     def test_smoke_gate_catches_role_enum(self):
         from phases.preflight_chapter import smoke_check_book
+
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha"])
-            self._write(book, "alpha",
-                        _contract_yaml("alpha", 1, episode_format="debate",
-                                       debate_yaml=_DEBATE_YAML_BAD_ROLE))
+            self._write(
+                book, "alpha", _contract_yaml("alpha", 1, episode_format="debate", debate_yaml=_DEBATE_YAML_BAD_ROLE)
+            )
             failures = smoke_check_book(book, ["alpha"])
             self.assertEqual(len(failures), 1, failures)
             self.assertIn("R-HOST-ROLE-PARITY", failures[0][1])
 
     def test_smoke_gate_catches_renamed_slug(self):
         from phases.preflight_chapter import smoke_check_book
+
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha"])
             # contract for a slug whose chapter file does not exist
@@ -367,12 +358,11 @@ class SmokeGateContractTests(unittest.TestCase):
 
     def test_smoke_gate_green_path(self):
         from phases.preflight_chapter import smoke_check_book
+
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha", "beta"])
             self._write(book, "alpha", _contract_yaml("alpha", 1))
-            self._write(book, "beta",
-                        _contract_yaml("beta", 2, episode_format="debate",
-                                       debate_yaml=_DEBATE_YAML_OK))
+            self._write(book, "beta", _contract_yaml("beta", 2, episode_format="debate", debate_yaml=_DEBATE_YAML_OK))
             failures = smoke_check_book(book, ["alpha", "beta"])
             self.assertEqual(failures, [], failures)
 
@@ -381,31 +371,33 @@ class SmokeGateContractTests(unittest.TestCase):
 # 3. Book-level sweep + the Phase-0d post-write gate
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 class BookSweepAnd0dGateTests(unittest.TestCase):
     def test_validate_book_contracts_flags_bad_contract(self):
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha", "beta"])
-            (book / "chapter-contracts" / "alpha.yml").write_text(
-                _contract_yaml("alpha", 1), encoding="utf-8")
+            (book / "chapter-contracts" / "alpha.yml").write_text(_contract_yaml("alpha", 1), encoding="utf-8")
             (book / "chapter-contracts" / "beta.yml").write_text(
-                _contract_yaml("beta", 2, episode_format="debate"), encoding="utf-8")
+                _contract_yaml("beta", 2, episode_format="debate"), encoding="utf-8"
+            )
             failures = validate_book_contracts(book)
             self.assertEqual([s for s, _ in failures], ["beta"], failures)
 
     def test_validate_book_contracts_green(self):
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha"])
-            (book / "chapter-contracts" / "alpha.yml").write_text(
-                _contract_yaml("alpha", 1), encoding="utf-8")
+            (book / "chapter-contracts" / "alpha.yml").write_text(_contract_yaml("alpha", 1), encoding="utf-8")
             self.assertEqual(validate_book_contracts(book), [])
 
     def test_0d_gate_raises_authoring_error_with_findings(self):
         from _authoring import AuthoringError
         from phases.initial_driver import _gate_0d_contracts
+
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha"])
             (book / "chapter-contracts" / "alpha.yml").write_text(
-                _contract_yaml("alpha", 1, episode_format="debate"), encoding="utf-8")
+                _contract_yaml("alpha", 1, episode_format="debate"), encoding="utf-8"
+            )
             with self.assertRaises(AuthoringError) as ctx:
                 _gate_0d_contracts(book)
             msg = str(ctx.exception)
@@ -416,10 +408,10 @@ class BookSweepAnd0dGateTests(unittest.TestCase):
 
     def test_0d_gate_passes_clean_book(self):
         from phases.initial_driver import _gate_0d_contracts
+
         with tempfile.TemporaryDirectory() as tmp:
             book = _make_book(Path(tmp), ["alpha"])
-            (book / "chapter-contracts" / "alpha.yml").write_text(
-                _contract_yaml("alpha", 1), encoding="utf-8")
+            (book / "chapter-contracts" / "alpha.yml").write_text(_contract_yaml("alpha", 1), encoding="utf-8")
             _gate_0d_contracts(book)  # must not raise
 
 

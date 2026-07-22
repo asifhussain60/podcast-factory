@@ -1,0 +1,10 @@
+{
+  "schema": "podcast.arabic-ocr-ground-truth/v1",
+  "source_pdf": "content/Islamic/asaas-al-taveel/_source/Asaas Al-Taveel.pdf",
+  "model": "prebuilt-read",
+  "api_version": "2023-07-31",
+  "pages": "1-75 (sliced from container extract)",
+  "arabic_chars": 70953,
+  "generated_utc": "2026-07-18T20:25:48.263081+00:00",
+  "purpose": "original-language OCR ground truth for book-pipeline-v2 _load_arabic_pages"
+}

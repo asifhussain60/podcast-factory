@@ -9,27 +9,30 @@ Functions:
   _run_chapter_set_check        — post-0d advisory chapter-set check
   _sweep_orphan_episode_drafts  — F8: remove stale episode-draft dirs
 """
+
 from __future__ import annotations
 
 import json
 import re
-import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _paths import REPO_ROOT, content_dir as _content_dir, find_content as _find_content, relative_to_repo as _rel  # noqa: E402
-from _progress import read_state  # noqa: E402
-from _rules import ALLOWED_CATEGORIES  # noqa: E402
+from _paths import REPO_ROOT
+from _paths import content_dir as _content_dir
+from _paths import find_content as _find_content
+from _paths import relative_to_repo as _rel
+from _progress import read_state
+from _rules import ALLOWED_CATEGORIES
 
 AZURE_PROBE = REPO_ROOT / "scripts" / "podcast" / "test_azure_connectivity.py"
 CHAPTER_SET_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "check_chapter_set.py"
-LIBRARY_ROOT = REPO_ROOT / "content" / "drafts"
 SLUG_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
-from _subprocess import run as _run, err as _err, info as _info  # noqa: E402
+from _subprocess import info as _info
+from _subprocess import run as _run
 
 
 def _git(*args: str) -> tuple[int, str, str]:
@@ -59,7 +62,7 @@ def _in_preflight_artifacts_mode(slug: str, category: str) -> bool:
     """
     book_dir = _resolve_book_path(category, slug)
     registry = book_dir / "_system" / "registry.md"
-    state    = book_dir / "_system" / "orchestrator-state.json"
+    state = book_dir / "_system" / "orchestrator-state.json"
     return registry.exists() and not state.exists()
 
 
@@ -74,22 +77,18 @@ def preflight_initial(pdf_path: Path, slug: str, category: str) -> list[str]:
     # 1. Azure connectivity
     rc, _, _ = _run([sys.executable, str(AZURE_PROBE)])
     if rc != 0:
-        fails.append(
-            "Azure connectivity probe failed. Run: "
-            f"python3 {AZURE_PROBE.relative_to(REPO_ROOT)}"
-        )
+        fails.append(f"Azure connectivity probe failed. Run: python3 {AZURE_PROBE.relative_to(REPO_ROOT)}")
 
     # 2. Working tree clean
     rc, out, _ = _git("status", "--porcelain")
     if rc != 0 or out.strip():
-        fails.append(
-            "working tree not clean. Run `git status` and commit / stash first."
-        )
+        fails.append("working tree not clean. Run `git status` and commit / stash first.")
 
     # 3. On a valid starting branch
     rc, branch, _ = _git("rev-parse", "--abbrev-ref", "HEAD")
     branch = branch.strip() if rc == 0 else ""
     from _branching import branch_name as _branch_name
+
     expected_content_branch = _branch_name(category, slug)
     valid_branches = {"develop"}
     if preflight_mode:
@@ -144,10 +143,9 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
     fails: list[str] = []
     book_dir = _book_dir(book_slug)
     if book_dir is None:
-        fails.append(
-            f"no library directory matches book-slug {book_slug!r} under "
-            f"{LIBRARY_ROOT.relative_to(REPO_ROOT)}"
-        )
+        # _book_dir searches every bucket via _paths.find_content, so name the
+        # tree it actually searched — not the retired content/drafts/ root.
+        fails.append(f"no content directory matches book-slug {book_slug!r} under content/")
         return None, fails
 
     # 1. State file exists
@@ -164,7 +162,7 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
         n_swept = _sweep_orphan_episode_drafts(book_dir)
         if n_swept:
             _info(f"pre-flight sweep: removed {n_swept} orphan episode-drafts/ subdir(s)")
-    except Exception as _e:  # noqa: BLE001
+    except Exception as _e:
         _info(f"pre-flight sweep: skipped ({_e!r})")
 
     # 3. Working tree clean (with runtime-artifact allowlist)
@@ -228,17 +226,16 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
 
     # 4. On matching branch
     from _branching import branch_name as _branch_name
+
     expected_branch = (state or {}).get("branch") or _branch_name(
-        (state or {}).get("category"), book_slug,
+        (state or {}).get("category"),
+        book_slug,
         profile=(state or {}).get("content_profile"),
     )
     rc, branch, _ = _git("rev-parse", "--abbrev-ref", "HEAD")
     branch = branch.strip() if rc == 0 else ""
     if branch != expected_branch:
-        fails.append(
-            f"current branch is {branch!r}; expected {expected_branch!r}. "
-            f"Run: git checkout {expected_branch}"
-        )
+        fails.append(f"current branch is {branch!r}; expected {expected_branch!r}. Run: git checkout {expected_branch}")
 
     return book_dir, fails
 
@@ -273,8 +270,7 @@ def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
     if not stdout.strip():
         check_failed = True
         failure_reason = (
-            f"chapter-set check produced no output (rc={rc}); "
-            f"stderr: {(stderr or '').strip()[:400] or '<empty>'}"
+            f"chapter-set check produced no output (rc={rc}); stderr: {(stderr or '').strip()[:400] or '<empty>'}"
         )
     else:
         try:
@@ -302,25 +298,28 @@ def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
         # report + warning replace the old silent skip.
         ts = datetime.now(timezone.utc).isoformat(timespec="seconds")
         report_path.write_text(
-            "\n".join([
-                f"# Chapter-set advisory report — {book_dir.name}",
-                "",
-                f"Generated: {ts}",
-                f"Source: `scripts/podcast/check_chapter_set.py` (challenger Category P)",
-                "",
-                "## ⚠ CHECK DID NOT COMPLETE",
-                "",
-                f"{failure_reason}",
-                "",
-                "This is NOT a clean result — the chapter-set was not verified. "
-                "Fix the check failure and re-run before trusting chapter-set health.",
-                "",
-            ]),
+            "\n".join(
+                [
+                    f"# Chapter-set advisory report — {book_dir.name}",
+                    "",
+                    f"Generated: {ts}",
+                    "Source: `scripts/podcast/check_chapter_set.py` (challenger Category P)",
+                    "",
+                    "## ⚠ CHECK DID NOT COMPLETE",
+                    "",
+                    f"{failure_reason}",
+                    "",
+                    "This is NOT a clean result — the chapter-set was not verified. "
+                    "Fix the check failure and re-run before trusting chapter-set health.",
+                    "",
+                ]
+            ),
             encoding="utf-8",
         )
         log(f"  · ⚠ {failure_reason}")
         log(f"  · ⚠ chapter-set NOT verified — see {_rel(report_path)} (not a clean result)")
         from _content_profile import density_standard_active
+
         if density_standard_active(book_dir):
             raise RuntimeError(
                 f"chapter-set check did not complete for {book_dir.name}; "
@@ -333,7 +332,7 @@ def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
         f"# Chapter-set advisory report — {book_dir.name}",
         "",
         f"Generated: {ts}",
-        f"Source: `scripts/podcast/check_chapter_set.py` (challenger Category P)",
+        "Source: `scripts/podcast/check_chapter_set.py` (challenger Category P)",
         "",
         "## Summary",
         f"- P0 (would block ship if challenger ran): **{counts.get('P0', 0)}**",
@@ -355,11 +354,7 @@ def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
     lines.append("")
     report_path.write_text("\n".join(lines), encoding="utf-8")
 
-    summary = (
-        f"  · {counts.get('P0', 0)} P0 / "
-        f"{counts.get('P1', 0)} P1 / "
-        f"{counts.get('P2', 0)} P2 findings"
-    )
+    summary = f"  · {counts.get('P0', 0)} P0 / {counts.get('P1', 0)} P1 / {counts.get('P2', 0)} P2 findings"
     if counts.get("P0", 0) > 0:
         # _rel never raises on out-of-repo paths (tmp fixture books) — a bare
         # Path.relative_to(REPO_ROOT) here crashed the 0d post-checks for any
@@ -375,10 +370,10 @@ def _run_chapter_set_check(book_dir: Path, log=_info) -> None:
     # the never-raises advisory contract.
     if counts.get("P0", 0) > 0:
         from _content_profile import density_standard_active
+
         if density_standard_active(book_dir):
             p0_lines = "\n".join(
-                f"  - {f.get('check')} [{f.get('slug')}] {f.get('msg')}"
-                for f in findings if f.get("severity") == "P0"
+                f"  - {f.get('check')} [{f.get('slug')}] {f.get('msg')}" for f in findings if f.get("severity") == "P0"
             )
             raise RuntimeError(
                 f"chapter-set integrity gate (density_standard=2): "

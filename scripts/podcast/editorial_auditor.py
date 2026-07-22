@@ -41,9 +41,7 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
-import subprocess
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -51,7 +49,7 @@ from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
-from _paths import REPO_ROOT, resolve_content  # noqa: E402
+from _paths import REPO_ROOT, resolve_content
 
 STAGE = "narrator"
 STAGE_FILE = "additions-narrator.md"
@@ -111,11 +109,12 @@ BIO_MIN_PARAS = 2  # need at least this many consecutive bio paras to flag the b
 
 # ── Gemini judge (Layer 2) ────────────────────────────────────────────────────
 
+
 def _gemini_key() -> str:
     # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
     from _secrets import get_gemini_key
-    return get_gemini_key()
 
+    return get_gemini_key()
 
 
 def _gemini_judge(paragraph: str) -> str:
@@ -123,8 +122,7 @@ def _gemini_judge(paragraph: str) -> str:
     Returns 'background' or 'teaching'.
     """
     url = (
-        "https://generativelanguage.googleapis.com/v1beta/models/"
-        "gemini-2.5-flash:generateContent?key=" + _gemini_key()
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + _gemini_key()
     )
     system = (
         "You are an editorial classifier for an Islamic scholarly podcast pipeline. "
@@ -137,14 +135,18 @@ def _gemini_judge(paragraph: str) -> str:
         "hadith discussion, or direct engagement with the letter's teaching.\n\n"
         "Reply with ONLY one word: background OR teaching."
     )
-    body = json.dumps({
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"parts": [{"text": paragraph[:1200]}]}],
-        "generationConfig": {"temperature": 0.0, "maxOutputTokens": 10,
-                             "thinkingConfig": {"thinkingBudget": 0}},
-    }).encode()
+    body = json.dumps(
+        {
+            "system_instruction": {"parts": [{"text": system}]},
+            "contents": [{"parts": [{"text": paragraph[:1200]}]}],
+            "generationConfig": {"temperature": 0.0, "maxOutputTokens": 10, "thinkingConfig": {"thinkingBudget": 0}},
+        }
+    ).encode()
     req = urllib.request.Request(
-        url, data=body, headers={"Content-Type": "application/json"}, method="POST",
+        url,
+        data=body,
+        headers={"Content-Type": "application/json"},
+        method="POST",
     )
     with urllib.request.urlopen(req, timeout=30) as resp:
         d = json.loads(resp.read())
@@ -153,6 +155,7 @@ def _gemini_judge(paragraph: str) -> str:
 
 
 # ── Bio-block scanner ────────────────────────────────────────────────────────
+
 
 def _bio_block_scan(
     paras: list[str],
@@ -194,6 +197,7 @@ def _bio_block_scan(
 
 # ── Condensed replacement generator ─────────────────────────────────────────
 
+
 def _make_condensed_bio(paras: list[str]) -> str:
     """Produce a 2-3 sentence condensed replacement for a biographical block."""
     # Extract key facts from the paragraphs heuristically.
@@ -228,6 +232,7 @@ def _make_condensed_bio(paras: list[str]) -> str:
 
 
 # ── Main auditor ─────────────────────────────────────────────────────────────
+
 
 def audit_chapter(
     slug: str,
@@ -290,22 +295,24 @@ def audit_chapter(
     for start, end in bio_blocks:
         # Map back to original para indices
         orig_start = unmatched_paras[start][0]
-        orig_end   = unmatched_paras[end][0]
+        orig_end = unmatched_paras[end][0]
         block_paras = [unmatched_paras[j][1] for j in range(start, end + 1)]
         replacement = None if dry_run else _make_condensed_bio(block_paras)
         confidence = "medium" if use_llm else "high"
 
         for j in range(start, end + 1):
             orig_idx = unmatched_paras[j][0]
-            findings.append(_finding(
-                orig_idx,
-                "consolidate",
-                confidence,
-                f"Biographical background — {end - start + 1} consecutive paragraphs "
-                f"(P{orig_start}–P{orig_end}); condense to 1 para before substantive commentary.",
-                "BIO_INTRO_BLOCK",
-                replacement if j == start else "(see first paragraph of block)",
-            ))
+            findings.append(
+                _finding(
+                    orig_idx,
+                    "consolidate",
+                    confidence,
+                    f"Biographical background — {end - start + 1} consecutive paragraphs "
+                    f"(P{orig_start}–P{orig_end}); condense to 1 para before substantive commentary.",
+                    "BIO_INTRO_BLOCK",
+                    replacement if j == start else "(see first paragraph of block)",
+                )
+            )
             matched_indices.add(orig_idx)
             if verbose:
                 print(f"  P{orig_idx:02d} [BIO_INTRO_BLOCK] CONSOLIDATE: {unmatched_paras[j][1][:80]}...")
@@ -340,6 +347,7 @@ def audit_chapter(
 
 # ── CLI ────────────────────────────────────────────────────────────────────────
 
+
 def main() -> None:
     ap = argparse.ArgumentParser(
         description="Editorial auditor — scan narrator stage files for suppress/consolidate findings.",
@@ -363,17 +371,15 @@ def main() -> None:
         print(f"ERROR: _stages directory not found for {args.slug}", file=sys.stderr)
         sys.exit(1)
 
-    chapters = (
-        [args.chapter] if args.chapter
-        else sorted(d.name for d in stages_root.iterdir() if d.is_dir())
-    )
+    chapters = [args.chapter] if args.chapter else sorted(d.name for d in stages_root.iterdir() if d.is_dir())
 
     all_results = []
     for chapter in chapters:
         if args.verbose or not args.as_json:
             print(f"\nAudit: {chapter}")
         result = audit_chapter(
-            args.slug, chapter,
+            args.slug,
+            chapter,
             use_llm=not args.no_llm,
             dry_run=args.dry_run,
             verbose=args.verbose,

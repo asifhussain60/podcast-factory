@@ -31,9 +31,17 @@
   background: var(--c-bg-sunken);
   color: var(--c-ink-dim);
 }
-.pron-badge-ready { color: var(--c-green); border-color: var(--c-green); }
-.pron-badge-noaudio { color: var(--c-ink-muted); }
-.pron-badge-warn { color: var(--c-red); border-color: var(--c-red); }
+.pron-badge-ready {
+  color: var(--c-green);
+  border-color: var(--c-green);
+}
+.pron-badge-noaudio {
+  color: var(--c-ink-muted);
+}
+.pron-badge-warn {
+  color: var(--c-red);
+  border-color: var(--c-red);
+}
 
 /* ── phonetic key panel (collapsible reference) ───────────────────────── */
 .pron-key {
@@ -132,7 +140,7 @@
 .phgen-input {
   flex: 1 1 14rem;
   font-size: 2rem;
-  font-family: 'Traditional Arabic', 'Scheherazade New', Amiri, serif;
+  font-family: "Traditional Arabic", "Scheherazade New", Amiri, serif;
   font-weight: 700;
   padding: 0.45rem 0.6rem;
   border: 1px solid var(--c-rule);
@@ -230,7 +238,10 @@
   font-weight: 600;
   color: var(--c-ink);
 }
-.pron-noaudio { color: var(--c-ink-muted); font-size: 1.2rem; }
+.pron-noaudio {
+  color: var(--c-ink-muted);
+  font-size: 1.2rem;
+}
 .pron-bar-actions {
   display: flex;
   align-items: center;
@@ -272,8 +283,16 @@
   border-radius: 0.5rem;
   margin: 0;
 }
-.pron-msg-ok { background: var(--c-bg-sunken); color: var(--c-green); border: 1px solid var(--c-green); }
-.pron-msg-err { background: var(--c-bg-sunken); color: var(--c-red); border: 1px solid var(--c-red); }
+.pron-msg-ok {
+  background: var(--c-bg-sunken);
+  color: var(--c-green);
+  border: 1px solid var(--c-green);
+}
+.pron-msg-err {
+  background: var(--c-bg-sunken);
+  color: var(--c-red);
+  border: 1px solid var(--c-red);
+}
 
 /* ── pagination bar ──────────────────────────────────────────────────── */
 .pron-pagination {
@@ -322,7 +341,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.12s, color 0.12s;
+  transition:
+    border-color 0.12s,
+    color 0.12s;
 }
 .pron-page-num:hover:not(.is-current) {
   border-color: var(--c-accent);
@@ -361,10 +382,18 @@
   border-left: 4px solid var(--c-rule);
   border-radius: 0.55rem;
 }
-.pron-row-ok { border-left-color: var(--c-green); }
-.pron-row-fix { border-left-color: var(--c-gold); }
-.pron-row-cantsay { border-left-color: var(--c-red); }
-.pron-row-needsfix { background: var(--c-bg-sunken); }
+.pron-row-ok {
+  border-left-color: var(--c-green);
+}
+.pron-row-fix {
+  border-left-color: var(--c-gold);
+}
+.pron-row-cantsay {
+  border-left-color: var(--c-red);
+}
+.pron-row-needsfix {
+  background: var(--c-bg-sunken);
+}
 
 .pron-n {
   font-family: ui-monospace, Menlo, monospace;
@@ -398,15 +427,23 @@
   color: var(--c-ink-muted);
   border: 1px solid var(--c-rule-soft);
 }
-.pron-chip-seg { color: var(--c-ink-dim); }
+.pron-chip-seg {
+  color: var(--c-ink-dim);
+}
 .pron-chip-count {
   font-family: ui-monospace, Menlo, monospace;
   color: var(--c-accent);
   border-color: var(--c-accent);
   font-weight: 600;
 }
-.pron-chip-warn { color: var(--c-red); border-color: var(--c-red); }
-.pron-chip-known { color: var(--c-green); border-color: var(--c-green); }
+.pron-chip-warn {
+  color: var(--c-red);
+  border-color: var(--c-red);
+}
+.pron-chip-known {
+  color: var(--c-green);
+  border-color: var(--c-green);
+}
 
 /* English meaning gloss line — shown below chips */
 .pron-term-meaning {
@@ -420,7 +457,7 @@
 /* Arabic script — ghost heading at top of left column; editable on click */
 .pron-term-arabic {
   font-size: 1.5rem;
-  font-family: 'Traditional Arabic', 'Scheherazade New', Amiri, serif;
+  font-family: "Traditional Arabic", "Scheherazade New", Amiri, serif;
   font-weight: 700;
   direction: rtl;
   text-align: left;
@@ -475,7 +512,10 @@
   overflow: hidden;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: border-color 0.12s, color 0.12s, background 0.12s;
+  transition:
+    border-color 0.12s,
+    color 0.12s,
+    background 0.12s;
 }
 .pron-lang-toggle:hover {
   border-color: var(--c-accent);
@@ -535,8 +575,13 @@
   color: var(--c-ink-dim);
   cursor: pointer;
 }
-.bundle-segbtn:last-child { border-right: none; }
-.bundle-segbtn.is-on { background: var(--c-accent); color: #fff; }
+.bundle-segbtn:last-child {
+  border-right: none;
+}
+.bundle-segbtn.is-on {
+  background: var(--c-accent);
+  color: #fff;
+}
 
 .bundle-gen-btn {
   display: inline-flex;
@@ -558,13 +603,15 @@
 
 /* spinner */
 @keyframes bundle-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 .bundle-spinner {
   display: inline-block;
   width: 1em;
   height: 1em;
-  border: 2px solid rgba(255,255,255,0.35);
+  border: 2px solid rgba(255, 255, 255, 0.35);
   border-top-color: #fff;
   border-radius: 50%;
   animation: bundle-spin 0.7s linear infinite;
@@ -599,7 +646,9 @@
   gap: 0.8rem;
 }
 @media (max-width: 900px) {
-  .bundle-panels { grid-template-columns: 1fr; }
+  .bundle-panels {
+    grid-template-columns: 1fr;
+  }
 }
 
 .bundle-panel {
@@ -682,8 +731,13 @@
   color: var(--c-ink-dim);
   cursor: pointer;
 }
-.pron-segbtn:last-child { border-right: none; }
-.pron-segbtn.is-on { background: var(--c-accent); color: #fff; }
+.pron-segbtn:last-child {
+  border-right: none;
+}
+.pron-segbtn.is-on {
+  background: var(--c-accent);
+  color: #fff;
+}
 
 .pron-input {
   font-size: 1.1rem;

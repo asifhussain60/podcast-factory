@@ -31,11 +31,19 @@
   margin-top: 0.25rem;
 }
 
-.pq-pass { color: #2e7d32; }
-.pq-warn { color: #b45309; }
-.pq-fail { color: #b91c1c; }
+.pq-pass {
+  color: #2e7d32;
+}
+.pq-warn {
+  color: #b45309;
+}
+.pq-fail {
+  color: #b91c1c;
+}
 
-.pq-legend-section { padding: 2rem 0; }
+.pq-legend-section {
+  padding: 2rem 0;
+}
 .pq-legend-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -71,7 +79,9 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-  font-size: var(--fs-base); /* REQ-010: narrative copy keeps the 1.2rem reading floor */
+  font-size: var(
+    --fs-base
+  ); /* REQ-010: narrative copy keeps the 1.2rem reading floor */
   color: var(--c-ink-muted);
 }
 
@@ -86,7 +96,9 @@
   color: var(--c-ink);
   margin-bottom: 0.75rem;
 }
-.pq-table-wrap { overflow-x: auto; }
+.pq-table-wrap {
+  overflow-x: auto;
+}
 .pq-table {
   width: 100%;
   border-collapse: collapse;
@@ -107,12 +119,24 @@
   border-bottom: 1px solid var(--c-rule);
   vertical-align: middle;
 }
-.pq-table tr.pq-fail td { background: #fff5f5; }
-.pq-table tr.pq-warn td { background: #fffbf0; }
-.pq-table tr.pq-pass td { background: #f0fff4; }
+.pq-table tr.pq-fail td {
+  background: #fff5f5;
+}
+.pq-table tr.pq-warn td {
+  background: #fffbf0;
+}
+.pq-table tr.pq-pass td {
+  background: #f0fff4;
+}
 
-.pq-chapter-name { max-width: 220px; font-style: italic; }
-.pq-total { font-weight: 700; font-size: var(--fs-base); }
+.pq-chapter-name {
+  max-width: 220px;
+  font-style: italic;
+}
+.pq-total {
+  font-weight: 700;
+  font-size: var(--fs-base);
+}
 
 .pq-bar-wrap {
   display: flex;
@@ -125,7 +149,10 @@
   border-radius: 3px;
   min-width: 2px;
 }
-.pq-bar-wrap span { font-size: var(--fs-sm); white-space: nowrap; }
+.pq-bar-wrap span {
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+}
 
 .pq-verdict-badge {
   display: inline-block;
@@ -135,6 +162,15 @@
   font-weight: 700;
   letter-spacing: 0.05em;
 }
-.pq-verdict-badge.pq-pass { background: #dcfce7; color: #166534; }
-.pq-verdict-badge.pq-warn { background: #fef3c7; color: #92400e; }
-.pq-verdict-badge.pq-fail { background: #fee2e2; color: #991b1b; }
+.pq-verdict-badge.pq-pass {
+  background: #dcfce7;
+  color: #166534;
+}
+.pq-verdict-badge.pq-warn {
+  background: #fef3c7;
+  color: #92400e;
+}
+.pq-verdict-badge.pq-fail {
+  background: #fee2e2;
+  color: #991b1b;
+}

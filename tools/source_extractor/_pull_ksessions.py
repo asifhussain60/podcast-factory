@@ -5,17 +5,33 @@ files to content/Islamic/the-master-and-the-disciple/augment/.
 Usage:
     python3 tools/source_extractor/_pull_ksessions.py
 """
+
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
-import textwrap
 import uuid
 from pathlib import Path
 
 CONTAINER = "kashkole-mssql"
-PASSWORD = "Kashkole_Local_2026!"
+
+
+def _sa_password() -> str:
+    """Local kashkole-mssql `sa` password, read from the environment.
+
+    Set MSSQL_SA_PASSWORD before running (see .env.example).
+    """
+    pw = os.environ.get("MSSQL_SA_PASSWORD")
+    if not pw:
+        raise RuntimeError(
+            "MSSQL_SA_PASSWORD is not set. Export the local SQL Server "
+            "container's sa password first, e.g. `export MSSQL_SA_PASSWORD=...` "
+            "(see .env.example)."
+        )
+    return pw
+
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 AUGMENT_DIR = REPO_ROOT / "content/Islamic/the-master-and-the-disciple/augment"
@@ -37,24 +53,42 @@ def query(sql: str) -> list[dict]:
 
     subprocess.run(
         ["docker", "exec", "-i", CONTAINER, "sh", "-c", f"cat > {tmp_in}"],
-        input=wrapped.encode("utf-8"), check=True,
+        input=wrapped.encode("utf-8"),
+        check=True,
     )
     subprocess.run(
-        ["docker", "exec", CONTAINER,
-         "/opt/mssql-tools18/bin/sqlcmd",
-         "-S", "localhost", "-U", "sa", "-P", PASSWORD, "-C",
-         "-y", "0", "-Y", "0", "-i", tmp_in, "-o", tmp_out],
+        [
+            "docker",
+            "exec",
+            CONTAINER,
+            "/opt/mssql-tools18/bin/sqlcmd",
+            "-S",
+            "localhost",
+            "-U",
+            "sa",
+            "-P",
+            _sa_password(),
+            "-C",
+            "-y",
+            "0",
+            "-Y",
+            "0",
+            "-i",
+            tmp_in,
+            "-o",
+            tmp_out,
+        ],
         check=True,
     )
     raw = subprocess.run(
         ["docker", "exec", CONTAINER, "cat", tmp_out],
-        capture_output=True, check=True,
+        capture_output=True,
+        check=True,
     ).stdout.decode("utf-8")
     subprocess.run(["docker", "exec", CONTAINER, "rm", "-f", tmp_in, tmp_out], check=False)
 
     lines = [ln.rstrip("\r") for ln in raw.split("\n")]
-    payload = [ln for ln in lines
-               if ln.strip() and not ln.startswith("Changed database context")]
+    payload = [ln for ln in lines if ln.strip() and not ln.startswith("Changed database context")]
     return json.loads("".join(payload)) if payload else []
 
 
@@ -83,19 +117,27 @@ def html_to_md(html: str) -> str:
     text = re.sub(r"</[ou]l>", "\n", text, flags=re.IGNORECASE)
 
     # Arabic span (ksessions wraps Arabic in <span class="arabic"> or similar)
-    text = re.sub(r'<span[^>]*class="[^"]*arabic[^"]*"[^>]*>(.*?)</span>',
-                  r"⟪ar:\1⟫", text, flags=re.DOTALL | re.IGNORECASE)
+    text = re.sub(
+        r'<span[^>]*class="[^"]*arabic[^"]*"[^>]*>(.*?)</span>', r"⟪ar:\1⟫", text, flags=re.DOTALL | re.IGNORECASE
+    )
 
     # IMG_URL placeholder — convert to source-page citation placeholder
-    text = re.sub(r'\{\{IMG_URL:Resources/IMAGES/\d+/[^}]+\}\}',
-                  "[📄 _source-page-ref: see _system/source/images/_]", text)
+    text = re.sub(
+        r"\{\{IMG_URL:Resources/IMAGES/\d+/[^}]+\}\}", "[📄 _source-page-ref: see _system/source/images/_]", text
+    )
 
     # Strip remaining tags
     text = re.sub(r"<[^>]+>", "", text)
 
     # HTML entities
-    text = text.replace("&nbsp;", " ").replace("&amp;", "&").replace("&lt;", "<") \
-               .replace("&gt;", ">").replace("&quot;", '"').replace("&#39;", "'")
+    text = (
+        text.replace("&nbsp;", " ")
+        .replace("&amp;", "&")
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .replace("&quot;", '"')
+        .replace("&#39;", "'")
+    )
     text = re.sub(r"&[a-z]+;", " ", text)
 
     # Collapse excess blank lines
@@ -110,10 +152,19 @@ def tag_commentary(text: str) -> str:
     [BOOK-CONTENT].  This is a light pass — the LLM can refine downstream.
     """
     MODERN_SIGNALS = [
-        r"\bStarbucks\b", r"\bAmazon\b", r"\bCovid\b", r"\bcoronavirus\b",
-        r"\bpandemic\b", r"\bquarantine\b", r"\bprime delivery\b",
-        r"\btoilet paper\b", r"\bNetflix\b", r"\bsocial media\b",
-        r"\bsmartphone\b", r"\binternet\b", r"\bYouTube\b",
+        r"\bStarbucks\b",
+        r"\bAmazon\b",
+        r"\bCovid\b",
+        r"\bcoronavirus\b",
+        r"\bpandemic\b",
+        r"\bquarantine\b",
+        r"\bprime delivery\b",
+        r"\btoilet paper\b",
+        r"\bNetflix\b",
+        r"\bsocial media\b",
+        r"\bsmartphone\b",
+        r"\binternet\b",
+        r"\bYouTube\b",
     ]
     pattern = re.compile("|".join(MODERN_SIGNALS), re.IGNORECASE)
 
@@ -126,9 +177,12 @@ def tag_commentary(text: str) -> str:
             tagged.append(f"[BOOK-CONTENT]\n{para}")
         elif pattern.search(para):
             tagged.append(f"[TEACHING-CONTEXT]\n{para}")
-        elif re.search(r"\bRasul Allah\b|\bHadees\b|\bImam\b|\bQuran\b|\bSura\b"
-                       r"|\bAyat\b|\bSyedna\b|\bDaee\b|\bDuat\b|\bWali\b",
-                       para, re.IGNORECASE):
+        elif re.search(
+            r"\bRasul Allah\b|\bHadees\b|\bImam\b|\bQuran\b|\bSura\b"
+            r"|\bAyat\b|\bSyedna\b|\bDaee\b|\bDuat\b|\bWali\b",
+            para,
+            re.IGNORECASE,
+        ):
             tagged.append(f"[BOOK-CONTENT]\n{para}")
         else:
             tagged.append(para)
@@ -148,13 +202,13 @@ def pull_category(cat_id: int, prefix: str, slug: str) -> tuple[str, list[dict]]
         FOR JSON PATH;
     """)
 
-    cat_name = sessions[0].get("CategoryName") if sessions else slug
+    cat_name = sessions[0].get("CategoryName") if sessions else slug  # noqa: F841
     lines = [
         f"# {prefix} — {slug.replace('-', ' ').title()}",
-        f"",
+        "",
         f"> Source: KSESSIONS Group 12 (Master and the Disciple), Category {cat_id}",
         f"> Sessions: {len(sessions)}",
-        f"",
+        "",
         "---",
         "",
     ]
@@ -261,11 +315,13 @@ def main():
     for cat_id, (prefix, slug) in CATEGORIES.items():
         syn_lines.append(f"### {prefix} — {slug.replace('-', ' ').title()}")
         for s in all_meta.get(cat_id, []):
-            syn_lines.append(f"- **{s['seq']}.** {s['name']} — {s['desc'][:80] if s['desc'] and s['desc'].strip() != '<--- Enter Description --->' else '(no description)'}")
+            syn_lines.append(
+                f"- **{s['seq']}.** {s['name']} — {s['desc'][:80] if s['desc'] and s['desc'].strip() != '<--- Enter Description --->' else '(no description)'}"
+            )
         syn_lines.append("")
 
     syn_path.write_text("\n".join(syn_lines), encoding="utf-8")
-    print(f"  _synthesis.md written")
+    print("  _synthesis.md written")
 
     print(f"\nDone. Files written to {AUGMENT_DIR}/")
     for f in sorted(AUGMENT_DIR.iterdir()):

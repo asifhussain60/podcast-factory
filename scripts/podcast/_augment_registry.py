@@ -17,32 +17,31 @@ DESIGN PRINCIPLES
 Engine routing: all LLM augmentation uses ENGINE_CLAUDE_MAX (TASK_AUGMENT).
 The need-detector itself is pure Python and does not call any engine.
 """
+
 from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from pathlib import Path
 from typing import Callable
-
 
 # ─── Strategy identifiers ────────────────────────────────────────────────────
 
-STRATEGY_ISLAMIC      = "7-tier-islamic"
-STRATEGY_TECHNICAL    = "technical-accuracy"
-STRATEGY_FICTION      = "fiction-sidecar"
-STRATEGY_GUIDES       = "guides-anchoring"
-STRATEGY_SKIP         = "skip"
+STRATEGY_ISLAMIC = "7-tier-islamic"
+STRATEGY_TECHNICAL = "technical-accuracy"
+STRATEGY_FICTION = "fiction-sidecar"
+STRATEGY_GUIDES = "guides-anchoring"
+STRATEGY_SKIP = "skip"
 
 # Placement modes
-PLACEMENT_INLINE      = "inline"    # enriches the chapter file in place
-PLACEMENT_SIDECAR     = "sidecar"   # writes a companion glossary/aside file ONLY
+PLACEMENT_INLINE = "inline"  # enriches the chapter file in place
+PLACEMENT_SIDECAR = "sidecar"  # writes a companion glossary/aside file ONLY
 
 
 @dataclass(frozen=True)
 class AugmentStrategy:
     name: str
     placement: str
-    trigger_description: str   # one-line plain-English description of when augmentation fires
+    trigger_description: str  # one-line plain-English description of when augmentation fires
     needs_fn: Callable[[str], bool]
 
 
@@ -53,37 +52,38 @@ class AugmentStrategy:
 
 _CATEGORY_TO_STRATEGY: dict[str, str] = {
     # Islamic / scholarly (all variants)
-    "books":        STRATEGY_ISLAMIC,
-    "letters":      STRATEGY_ISLAMIC,
-    "lectures":     STRATEGY_ISLAMIC,
-    "articles":     STRATEGY_ISLAMIC,
-    "asbaaq":       STRATEGY_ISLAMIC,
-    "documents":    STRATEGY_ISLAMIC,
-    "interviews":   STRATEGY_ISLAMIC,
+    "books": STRATEGY_ISLAMIC,
+    "letters": STRATEGY_ISLAMIC,
+    "lectures": STRATEGY_ISLAMIC,
+    "articles": STRATEGY_ISLAMIC,
+    "asbaaq": STRATEGY_ISLAMIC,
+    "documents": STRATEGY_ISLAMIC,
+    "interviews": STRATEGY_ISLAMIC,
     # Technical
-    "explainers":   STRATEGY_TECHNICAL,
+    "explainers": STRATEGY_TECHNICAL,
     # Fiction / narrative
-    "fiction":      STRATEGY_FICTION,
-    "novels":       STRATEGY_FICTION,
-    "narrative":    STRATEGY_FICTION,
+    "fiction": STRATEGY_FICTION,
+    "novels": STRATEGY_FICTION,
+    "narrative": STRATEGY_FICTION,
     # Guides / how-to
-    "guides":       STRATEGY_GUIDES,
-    "howto":        STRATEGY_GUIDES,
+    "guides": STRATEGY_GUIDES,
+    "howto": STRATEGY_GUIDES,
     # Authoritative product docs — skip enrichment entirely
-    "sites":        STRATEGY_SKIP,
+    "sites": STRATEGY_SKIP,
 }
 
 # content_profile (engine-policy field) → strategy, for callers that have the
 # profile but not the category.
 _PROFILE_TO_STRATEGY: dict[str, str] = {
     "islamic_scholarly": STRATEGY_ISLAMIC,
-    "technical":         STRATEGY_TECHNICAL,
-    "fiction":           STRATEGY_FICTION,
-    "guides":            STRATEGY_GUIDES,
+    "technical": STRATEGY_TECHNICAL,
+    "fiction": STRATEGY_FICTION,
+    "guides": STRATEGY_GUIDES,
 }
 
 
 # ─── Need-detectors (cheap, text-only heuristics) ────────────────────────────
+
 
 def _needs_islamic(text: str) -> bool:
     """True if any scriptural quote lacks a Surah:Ayah or hadith attribution.
@@ -123,6 +123,7 @@ _TECH_VERSION_CLAIM = re.compile(
     re.IGNORECASE,
 )
 
+
 def _needs_technical(text: str) -> bool:
     """True if chapter has abstract claims without version pins or examples.
 
@@ -131,17 +132,17 @@ def _needs_technical(text: str) -> bool:
     If abstract density exceeds concrete density, enrichment is warranted.
     """
     abstract_hits = len(_TECH_ABSTRACT.findall(text))
-    code_fences    = text.count("```")
-    version_hits   = len(_TECH_VERSION_CLAIM.findall(text))
-    concrete_hits  = code_fences + version_hits
+    code_fences = text.count("```")
+    version_hits = len(_TECH_VERSION_CLAIM.findall(text))
+    concrete_hits = code_fences + version_hits
     # More abstract claims than concrete anchors → needs enrichment
     return abstract_hits > max(concrete_hits, 3)
 
 
 _FICTION_CULTURE_TERMS = re.compile(
-    r"\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\b"   # Title-cased proper noun phrases
+    r"\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\b"  # Title-cased proper noun phrases
 )
-_FICTION_CAST_THRESHOLD = 6    # distinct proper-noun clusters indicating a large cast
+_FICTION_CAST_THRESHOLD = 6  # distinct proper-noun clusters indicating a large cast
 _FICTION_MYTH_WORDS = re.compile(
     r"\b(immortal|celestial|deity|demon|spirit|heaven|palace|emperor|king|"
     r"dragon|jade|monk|pilgrim|scripture|prophecy|divine|general|army|"
@@ -149,18 +150,22 @@ _FICTION_MYTH_WORDS = re.compile(
     re.IGNORECASE,
 )
 
+
 def _needs_fiction(text: str) -> bool:
     """True if chapter has culture-dense content: large cast, mythological terms,
     or allusions that a Western listener would likely miss.
 
     Heuristic: count distinct proper-noun clusters and mythology-density score.
     """
-    proper_nouns = {m.group(1) for m in _FICTION_CULTURE_TERMS.finditer(text)
-                    if len(m.group(1).split()) >= 2 or m.group(1)[0].isupper()}
-    cast_size    = len(proper_nouns)
+    proper_nouns = {
+        m.group(1)
+        for m in _FICTION_CULTURE_TERMS.finditer(text)
+        if len(m.group(1).split()) >= 2 or m.group(1)[0].isupper()
+    }
+    cast_size = len(proper_nouns)
     myth_density = len(_FICTION_MYTH_WORDS.findall(text))
-    words        = len(text.split())
-    myth_ratio   = myth_density / max(words, 1)
+    words = len(text.split())
+    myth_ratio = myth_density / max(words, 1)
 
     return cast_size >= _FICTION_CAST_THRESHOLD or myth_ratio > 0.015
 
@@ -175,6 +180,7 @@ _GUIDES_CITATION = re.compile(
     r"data|evidence|cited|referenced|per \w)",
     re.IGNORECASE,
 )
+
 
 def _needs_guides(text: str) -> bool:
     """True if chapter uses absolute phrasing without sourced evidence.
@@ -227,6 +233,7 @@ _REGISTRY: dict[str, AugmentStrategy] = {
 
 
 # ─── Public API ───────────────────────────────────────────────────────────────
+
 
 def strategy_for_category(category: str) -> AugmentStrategy:
     """Return the augmentation strategy for a pipeline `category` string.

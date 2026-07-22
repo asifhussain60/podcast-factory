@@ -45,8 +45,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _tts_sanitize import sanitize_text  # noqa: E402
-
+from _tts_sanitize import sanitize_text
 
 # ---------------------------------------------------------------------------
 # The HARD CONSTRAINTS block — universal across all KaR episodes. Tailored
@@ -317,10 +316,12 @@ def main(argv: list[str]) -> int:
         description="Front-load HARD CONSTRAINTS block + sanitize an episode customise prompt.",
     )
     parser.add_argument("path", help="Episode prompt file or directory of episode .txt files")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Report changes without modifying files")
-    parser.add_argument("--force", action="store_true",
-                        help="Strip any existing HARD CONSTRAINTS block and re-inject the current template (use after editing the template)")
+    parser.add_argument("--dry-run", action="store_true", help="Report changes without modifying files")
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Strip any existing HARD CONSTRAINTS block and re-inject the current template (use after editing the template)",
+    )
     args = parser.parse_args(argv)
 
     target = Path(args.path).resolve()
@@ -340,7 +341,7 @@ def main(argv: list[str]) -> int:
     for f in files:
         total += process_file(f, args.dry_run, force=args.force)
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Total: {len(files)} file(s), {total} change(s){' (dry-run)' if args.dry_run else ''}")
     return 0
 

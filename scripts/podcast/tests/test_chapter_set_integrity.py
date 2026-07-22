@@ -4,6 +4,7 @@
 P7 source coverage, P8 overlap + n-gram duplication, P9 sermon integrity,
 P10 set density. Fixtures are synthetic book dirs under a tempdir.
 """
+
 from __future__ import annotations
 
 import json
@@ -16,7 +17,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import check_chapter_set as ccs  # noqa: E402
+import check_chapter_set as ccs
 
 
 def _mk_book(tmp: Path) -> Path:
@@ -30,18 +31,19 @@ def _mk_book(tmp: Path) -> Path:
 def _write_toc(book: Path, ranges: list[tuple[int, int]]) -> None:
     toc = {
         "source_chapters": [
-            {"sc_index": i + 1, "source_title": f"sc{i+1}",
-             "start_line": a, "end_line": b}
+            {"sc_index": i + 1, "source_title": f"sc{i + 1}", "start_line": a, "end_line": b}
             for i, (a, b) in enumerate(ranges)
         ]
     }
     (book / "_system" / "source" / "text" / "_chunks" / "0d" / "source-toc.json").write_text(
-        json.dumps(toc), encoding="utf-8")
+        json.dumps(toc), encoding="utf-8"
+    )
 
 
 def _write_refined(book: Path, n_lines: int) -> None:
     (book / "_system" / "source" / "text" / "refined-english.md").write_text(
-        "\n".join(f"line {i}" for i in range(1, n_lines + 1)), encoding="utf-8")
+        "\n".join(f"line {i}" for i in range(1, n_lines + 1)), encoding="utf-8"
+    )
 
 
 class SourceCoverageTests(unittest.TestCase):
@@ -79,8 +81,10 @@ class SourceCoverageTests(unittest.TestCase):
 
 class DuplicationTests(unittest.TestCase):
     def test_shared_block_flagged(self):
-        dup = ("the master explained that the seven heavens emerged from the smoke "
-               "and the seven earths from the thickness of mud below them all ")
+        dup = (
+            "the master explained that the seven heavens emerged from the smoke "
+            "and the seven earths from the thickness of mud below them all "
+        )
         a = "## Concept one\n\n" + dup * 2 + "\n\nunique alpha text here."
         b = "## Concept two\n\n" + dup * 2 + "\n\nunique beta text there."
         f = ccs.check_cross_chapter_duplication({"ch-a": a, "ch-b": b})
@@ -118,19 +122,28 @@ class DuplicationTests(unittest.TestCase):
         """A source cited in two chapters is scholarship, not 'taught twice'.
         Parenthetical AND bracketed citations (incl. nested parens) are stripped
         before shingling, so a shared citation alone must NOT trip P8."""
-        cite_paren = (" (Farhad Daftary, The Ismailis: Their History and Doctrines, "
-                      "second edition, Cambridge University Press, 2007, pp. 234-238) ")
-        cite_bracket = (" [Henry Corbin, Cyclical Time and Ismaili Gnosis, trans. Ralph "
-                        "Manheim (London: Kegan Paul, 1983), pp. 84-86.] ")
+        cite_paren = (
+            " (Farhad Daftary, The Ismailis: Their History and Doctrines, "
+            "second edition, Cambridge University Press, 2007, pp. 234-238) "
+        )
+        cite_bracket = (
+            " [Henry Corbin, Cyclical Time and Ismaili Gnosis, trans. Ralph "
+            "Manheim (London: Kegan Paul, 1983), pp. 84-86.] "
+        )
         a = "## Concept A\n\nThe line preserves itself across the eras." + cite_paren + cite_bracket
         b = "## Concept B\n\nA wholly different teaching about the soul." + cite_paren + cite_bracket
-        self.assertEqual(ccs.check_cross_chapter_duplication({"a": a, "b": b}), [],
-                         "shared citations must not register as duplicated teaching")
+        self.assertEqual(
+            ccs.check_cross_chapter_duplication({"a": a, "b": b}),
+            [],
+            "shared citations must not register as duplicated teaching",
+        )
 
     def test_real_duplication_still_flagged_amid_citations(self):
         """Citation stripping must not mask genuinely repeated teaching prose."""
-        dup = ("the imam's substance dissolves at each succession and the ranks "
-               "return that substance so the line is structurally never broken ")
+        dup = (
+            "the imam's substance dissolves at each succession and the ranks "
+            "return that substance so the line is structurally never broken "
+        )
         cite = " (Daftary, The Ismailis, Cambridge University Press, 2007, p. 4) "
         a = "## A\n\n" + dup * 2 + cite + "\n\nunique alpha."
         b = "## B\n\n" + dup * 2 + cite + "\n\nunique beta."
@@ -144,8 +157,8 @@ class SermonIntegrityTests(unittest.TestCase):
         self.tmp = Path(tempfile.mkdtemp())
         self.book = _mk_book(self.tmp)
         (self.book / "chapter-contracts" / "ep-one.yml").write_text(
-            'slug: ep-one\nsermon:\n  present: true\n  section_title: "The opening sermon"\n',
-            encoding="utf-8")
+            'slug: ep-one\nsermon:\n  present: true\n  section_title: "The opening sermon"\n', encoding="utf-8"
+        )
 
     def tearDown(self):
         shutil.rmtree(self.tmp, ignore_errors=True)
@@ -180,9 +193,7 @@ class SetDensityTests(unittest.TestCase):
         tmp = Path(tempfile.mkdtemp())
         try:
             cf = tmp / "ch01-over.txt"
-            cf.write_text(
-                "\n\n".join(f"## Concept {i}\n\n" + "word " * 50 for i in range(1, 7)),
-                encoding="utf-8")
+            cf.write_text("\n\n".join(f"## Concept {i}\n\n" + "word " * 50 for i in range(1, 7)), encoding="utf-8")
             f = ccs.check_set_density([cf], "fixture-book")
             self.assertEqual(len(f), 1)
             self.assertEqual(f[0]["check"], "P10")

@@ -1,4 +1,5 @@
 """Tests for scripts/podcast/phases/source_review_gate.py (Wave I, I4)."""
+
 from __future__ import annotations
 
 import json
@@ -34,13 +35,17 @@ class TestReviewGateDataStructure(unittest.TestCase):
     def test_gate_from_file(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "review-gate.json"
-            path.write_text(json.dumps({
-                "phase": "06a",
-                "approved": True,
-                "warnings": [],
-                "reviewed_at": "2026-01-01T00:00:00Z",
-                "approved_at": "2026-01-02T00:00:00Z",
-            }))
+            path.write_text(
+                json.dumps(
+                    {
+                        "phase": "06a",
+                        "approved": True,
+                        "warnings": [],
+                        "reviewed_at": "2026-01-01T00:00:00Z",
+                        "approved_at": "2026-01-02T00:00:00Z",
+                    }
+                )
+            )
             g = ReviewGate.from_file(path)
             self.assertTrue(g.approved)
             self.assertEqual(g.reviewed_at, "2026-01-01T00:00:00Z")
@@ -77,11 +82,17 @@ class TestRunSourceReviewGate(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = self._make_book_dir(tmp)
             gate_path = book_dir / "_system" / "review-gate.json"
-            gate_path.write_text(json.dumps({
-                "phase": "06a", "approved": True, "warnings": [],
-                "reviewed_at": "2026-01-01T00:00:00Z",
-                "approved_at": "2026-01-02T00:00:00Z",
-            }))
+            gate_path.write_text(
+                json.dumps(
+                    {
+                        "phase": "06a",
+                        "approved": True,
+                        "warnings": [],
+                        "reviewed_at": "2026-01-01T00:00:00Z",
+                        "approved_at": "2026-01-02T00:00:00Z",
+                    }
+                )
+            )
             gate = run_source_review_gate(book_dir, dry_run=False)
             self.assertTrue(gate.approved)
 
@@ -104,18 +115,27 @@ class TestApproveBookCLI(unittest.TestCase):
     def test_approve_sets_flag(self):
         sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts" / "podcast"))
         from approve_book import approve_book
+
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = Path(tmp) / "test-book-slug"
             (book_dir / "_system").mkdir(parents=True)
             gate_path = book_dir / "_system" / "review-gate.json"
-            gate_path.write_text(json.dumps({
-                "phase": "06a", "approved": False, "warnings": [],
-                "reviewed_at": "2026-01-01T00:00:00Z", "approved_at": None,
-            }))
+            gate_path.write_text(
+                json.dumps(
+                    {
+                        "phase": "06a",
+                        "approved": False,
+                        "warnings": [],
+                        "reviewed_at": "2026-01-01T00:00:00Z",
+                        "approved_at": None,
+                    }
+                )
+            )
             # approve_book resolves the book dir via _paths.find_content (bucket-aware,
             # 2026-06 refactor that replaced the old module-level BOOKS_DIR). Patch the
             # resolver to point at our tmp book; hit[2] is the book-dir path.
             import approve_book as ab
+
             orig = ab.find_content
             ab.find_content = lambda slug: ("Islamic", slug, str(book_dir))
             try:

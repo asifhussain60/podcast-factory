@@ -32,7 +32,6 @@ import argparse
 import json
 import os
 import sys
-import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -40,7 +39,7 @@ from typing import Callable
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-import _azure  # noqa: E402
+import _azure
 
 SKIP_LIVE = os.environ.get("SKIP_LIVE") == "1"
 
@@ -86,7 +85,7 @@ class TestResult:
             else:
                 print(f"  FAIL  {name}  {e}")
                 self.failed += 1
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             print(f"  FAIL  {name}  {type(e).__name__}: {e}")
             self.failed += 1
 
@@ -121,7 +120,7 @@ def main() -> int:
         assert creds.key, "key empty"
         if args.verbose:
             return f"endpoint={creds.endpoint}"
-        return f"endpoint=<resource>.cognitiveservices.azure.com"
+        return "endpoint=<resource>.cognitiveservices.azure.com"
 
     result.check("2. Doc Intelligence credentials", docintel_creds)
 
@@ -151,9 +150,7 @@ def main() -> int:
         except urllib.error.HTTPError as e:
             status = e.code
             body = e.read() or b""
-        assert status == 200, (
-            f"HTTP {status} from {url}\n        body: {body.decode('utf-8', errors='replace')[:200]}"
-        )
+        assert status == 200, f"HTTP {status} from {url}\n        body: {body.decode('utf-8', errors='replace')[:200]}"
         info = json.loads(body)
         custom_limit = info.get("customDocumentModels", {}).get("limit", "?")
         return f"reachable (custom-model limit: {custom_limit})"
@@ -183,7 +180,7 @@ def main() -> int:
         assert creds.key, "key empty"
         if args.verbose:
             return f"endpoint={creds.endpoint}  region={creds.region}"
-        return f"endpoint=<resource>.cognitiveservices.azure.com"
+        return "endpoint=<resource>.cognitiveservices.azure.com"
 
     result.check("6. Language (TextAnalytics) credentials (optional)", language_creds, skip_on_missing_creds=True)
 
@@ -202,13 +199,17 @@ def main() -> int:
     # ── 8. Anthropic API key resolves + live 1-token completion ──────────
     def anthropic_live() -> str:
         from _secrets import get_anthropic_key
+
         key = get_anthropic_key()
         assert key, "empty key"
         import anthropic
+
         client = anthropic.Anthropic(api_key=key)
         msg = client.messages.create(
-            model="claude-haiku-4-5-20251001", max_tokens=4,
-            messages=[{"role": "user", "content": "ping"}], timeout=20.0,
+            model="claude-haiku-4-5-20251001",
+            max_tokens=4,
+            messages=[{"role": "user", "content": "ping"}],
+            timeout=20.0,
         )
         assert msg.content, "empty completion"
         return "live completion OK (haiku)"
@@ -217,6 +218,7 @@ def main() -> int:
 
     def anthropic_key_only() -> str:
         from _secrets import get_anthropic_key
+
         assert get_anthropic_key(), "empty key"
         return "key resolved"
 
@@ -226,14 +228,14 @@ def main() -> int:
     # ── 7. Gemini API key resolves + live generateContent ────────────────
     def gemini_live() -> str:
         from _secrets import get_gemini_key
+
         key = get_gemini_key()
         assert key, "empty key"
-        body = json.dumps({"contents": [{"parts": [{"text": "ping"}]}],
-                           "generationConfig": {"maxOutputTokens": 4}}).encode()
-        url = ("https://generativelanguage.googleapis.com/v1beta/models/"
-               f"gemini-2.5-flash:generateContent?key={key}")
-        req = urllib.request.Request(url, data=body,
-                                     headers={"Content-Type": "application/json"}, method="POST")
+        body = json.dumps(
+            {"contents": [{"parts": [{"text": "ping"}]}], "generationConfig": {"maxOutputTokens": 4}}
+        ).encode()
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={key}"
+        req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"}, method="POST")
         with urllib.request.urlopen(req, timeout=20) as resp:
             assert resp.status == 200, f"HTTP {resp.status}"
         return "live generateContent OK (flash)"
@@ -242,6 +244,7 @@ def main() -> int:
 
     def gemini_key_only() -> str:
         from _secrets import get_gemini_key
+
         assert get_gemini_key(), "empty key"
         return "key resolved"
 

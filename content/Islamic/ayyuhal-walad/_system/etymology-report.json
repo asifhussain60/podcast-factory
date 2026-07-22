@@ -1,0 +1,72 @@
+{
+  "schema": "podcast.etymology/v1",
+  "book": "ayyuhal-walad",
+  "candidates": 30,
+  "generated": 12,
+  "kept": 12,
+  "written": 12,
+  "dropped": 0,
+  "drop_reasons": [],
+  "entries": [
+    {
+      "term": "Shaykh",
+      "root": "sh-y-kh",
+      "confirmed_by_reference": false
+    },
+    {
+      "term": "Shari'ah",
+      "root": "sh-r-'",
+      "confirmed_by_reference": false
+    },
+    {
+      "term": "Riya",
+      "root": "r-'-y",
+      "confirmed_by_reference": false
+    },
+    {
+      "term": "Nafs",
+      "root": "n-f-s",
+      "confirmed_by_reference": true
+    },
+    {
+      "term": "mujahadah",
+      "root": "j-h-d",
+      "confirmed_by_reference": false
+    },
+    {
+      "term": "halal",
+      "root": "h-l-l",
+      "confirmed_by_reference": false
+    },
+    {
+      "term": "Ikhlas",
+      "root": "kh-l-s",
+      "confirmed_by_reference": false
+    },
+    {
+      "term": "Sunnah",
+      "root": "s-n-n",
+      "confirmed_by_reference": false
+    },
+    {
+      "term": "Tawakkul",
+      "root": "w-k-l",
+      "confirmed_by_reference": false
+    },
+    {
+      "term": "tawfiq",
+      "root": "w-f-q",
+      "confirmed_by_reference": false
+    },
+    {
+      "term": "Bay'a",
+      "root": "b-y-'",
+      "confirmed_by_reference": false
+    },
+    {
+      "term": "Haram",
+      "root": "h-r-m",
+      "confirmed_by_reference": false
+    }
+  ]
+}

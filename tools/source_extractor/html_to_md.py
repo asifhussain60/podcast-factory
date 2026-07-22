@@ -11,8 +11,11 @@ Inline base64 images are NOT processed here — they're left as
 {{IMG:<placeholder>}} tokens that the prepare stage replaces after it
 decodes and saves the image bytes.
 """
+
 from __future__ import annotations
+
 import re
+
 from bs4 import BeautifulSoup, NavigableString, Tag
 
 
@@ -111,8 +114,25 @@ def _render_kahskole_quran_inline(widget: Tag) -> str:
     return "\n" + "\n".join(out) + "\n" if out else ""
 
 
-BLOCK_TAGS = {"h1", "h2", "h3", "h4", "h5", "h6", "p", "div", "ul", "ol", "li",
-              "blockquote", "pre", "table", "tr", "td", "th"}
+BLOCK_TAGS = {
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "p",
+    "div",
+    "ul",
+    "ol",
+    "li",
+    "blockquote",
+    "pre",
+    "table",
+    "tr",
+    "td",
+    "th",
+}
 
 
 def _walk_blocks(node, out: list[str]) -> None:
@@ -180,8 +200,7 @@ def _walk_blocks(node, out: list[str]) -> None:
         rendered_rows = []
         for tr in rows:
             cells = tr.find_all(["td", "th"])
-            cell_texts = ["".join(_txt(c) for c in cell.children).strip().replace("\n", " ")
-                          for cell in cells]
+            cell_texts = ["".join(_txt(c) for c in cell.children).strip().replace("\n", " ") for cell in cells]
             rendered_rows.append(cell_texts)
         if rendered_rows and all(len(r) == len(rendered_rows[0]) for r in rendered_rows):
             width = len(rendered_rows[0])

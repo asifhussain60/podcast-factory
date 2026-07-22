@@ -1,0 +1,59 @@
+{
+  "schema": "book.publication-review/v1",
+  "verdict": "APPROVED",
+  "iterations": 2,
+  "reviewer": "book-publication-reviewer (2026-07-20) — supersedes the 2026-07-19 verdict, which predated the narrative-frame recompose, the de-calque fluency pass, and commits 8a9c1e7 / 370e0d6 / 052330a",
+  "artifact_reviewed": "book/The Master and the Disciple.pdf (121 pages, re-rendered 2026-07-20)",
+  "findings": [
+    {
+      "id": "PR-1",
+      "severity": "P1",
+      "status": "resolved-by-bridge",
+      "page": 65,
+      "term": "father",
+      "summary": "The deterministic evidence reports zero prerequisite gaps because it only tracks glossary terms, and 'father' is not one. Reading the PDF, the word carries THREE referents across chapters 7-8 with nothing on the page to separate them: the boy's father by birth (the Arab chief, al-Bakhtari); the Master, addressed and described as the boy's father; and the Master's OWN elder father. The register enters at p64 ('he reached his own elder father') and the collisions land immediately after — p65 'He gave abundant thanks to his father' (the Master), p70 'his father went out with him' (the Master), p71 'They and his father kept returning to the Shaykh' (the Master), and then p72 alternates inside a single speech: 'sending my father along with me' (the Master) against 'the safeguarding of your father, who raised you when you were small' (al-Bakhtari). p73 adds a third: 'I mean to carry out my own father's counsel' (the Master's father). The identical phrase 'elder father' points at the Master's father on p64 and at the Master himself on p76. The book DOES resolve it — 'his father, the Master who had first sent him out' — but on page 120, fifty-five pages after first use. Classic explained-late, and genuinely disorienting on pp.70-76 where the two men alternate line by line.",
+      "bridge": {
+        "term": "father",
+        "anchor": "He said: \"Bring this boy to me quickly, for I hope he will be a door of mercy that God has opened for the people of his age.\"",
+        "text": "In this account a teacher is also called the father of the one he guides, so “father” now carries three men: the Master's own elder father here, the Master himself when the boy speaks, and the Arab chief who fathered the boy.",
+        "placement_confirmed": "top of p65 in the re-rendered PDF, ahead of every ambiguous use"
+      }
+    },
+    {
+      "id": "PR-6",
+      "severity": "P2",
+      "status": "reported-for-human-judgment",
+      "page": 5,
+      "term": "preface",
+      "summary": "Asif's known open item, reported not bridged. The cost, measured on the page: the preface is a translation of the source's opening paragraphs, so the reader closes it knowing about the three thanks and the houses of the traveler but not who Ja'far ibn Mansur al-Yaman is, what kind of text this is, who the two speakers of the following 113 pages are, or that the vocabulary of chapters 4-6 (natiq, imam, bab, wasi, hujaj, du'at) is a technical hierarchy rather than ordinary religious usage. Sharpest single cost: the preface's own opening introduces 'a Master among them' — the frame teacher of the source's dedication — and chapter 3 then begins calling the Persian convert 'the Master' with no signal that these are different men. A reader who carries the preface's Master forward is quietly wrong from p15 to the end. NOT bridge-fixed: a bridge inside the preface would be authoring the orientation the preface lacks, which is Asif's structural decision about the edition.",
+      "bridge": null
+    },
+    {
+      "id": "PR-5",
+      "severity": "P2",
+      "status": "reported-for-human-judgment",
+      "page": 27,
+      "term": "chapter 4 narration",
+      "summary": "Chapter 4 opens in indirect report — 'The Master began with the first of the causes... God, he said, is the Creator' — and then drops the frame for four pages. p27 reads 'We turn next to the signs of the heavens and the powers of the earth' and 'which we now pass over'; p28 'I do not mean male and female in the literal sense'; p30 'the causes of God that I have described to you'. The first-person is the Master's and p30 finally proves it, but on pp.27-29 the sentences read like an editorial or translator's voice deciding what to include and what to skip — the one register this edition otherwise never uses. A reader can reasonably conclude the edition is abridging. Not applied as a bridge because the fix asserts who is speaking, which is a narrative-frame judgment the semantic gate owns, not a reader-orientation gap. Proposed text if Asif wants it, anchored to the chapter's first paragraph: \"Chapter four is the Master's own discourse, delivered to the boy without interruption; the 'I' and 'we' in it are his, not the edition's.\"",
+      "bridge": null
+    },
+    {
+      "id": "PR-4",
+      "severity": "P2",
+      "status": "advisory",
+      "page": 73,
+      "term": "merged chapter 7 passage",
+      "summary": "Read specifically for flow, as asked. The merged passage runs continuously and its seams are not visible as seams — the pivot from practical counsel about the father into spiritual congratulation ('Know, my son, that God has opened for you...') is a natural turn of the speech, and the restored close ('And seek from Allah the opening of your provisions...') lands as the Master's charge rather than an appended fragment. One soft join: 'honor the one through whom God has honored you; for our opinion of you has been good and our hope in you great' — the causal 'for' does not actually explain the honoring, so the semicolon joins two thoughts that only sit adjacent. It reads as slightly loose rather than wrong, and correcting it would edit restored source clauses. Advisory only.",
+      "bridge": null
+    }
+  ],
+  "no_findings": [
+    "PR-2 naming drift: zero on the evidence and zero on the page. The unified cast holds — 'the Master' (435 head tags), 'the Shaykh', 'the master of the house', 'the greater Master' — and each keeps one referent throughout. The only word that failed this test was 'father', filed above as PR-1 because the detector cannot see it (not a glossary term).",
+    "Speech-tag convention: not a mixed convention as feared, but a consistent three-rule system a reader will not notice. 435 head tags take the colon; the 19 remaining commas are all interrupted quotations ('X,' he said, 'Y') where the comma is correct English; chapter 8's inverted tags cluster in rapid-fire exchange where they read as pacing, not inconsistency. No finding.",
+    "PR-3 dense page 36 (11 terms): over-flagged. Every term on that page arrives as an English phrase with the transliteration in parentheses — 'the speaking Imam (al-Imam al-Natiq)', 'the twelve chiefs (nuqaba)', 'his summoners (du'at)', 'the gate (bab)', 'his successor (wasi)' — and the hierarchy they belong to was laid out plainly seven pages earlier on p29 ('Among them are the imams and the speakers; among them are the arguments and the chiefs... Their imam is like the great sun'). The page teaches; it does not assume.",
+    "PR-4 long sentences: the twenty flagged spans are almost all extraction artifacts where the page text joins consecutive speech turns into one run. The genuine long sentences (p68's chain of rights, 163 words; p37 on salt and sweet water) are cumulative anaphora that carries the reader forward rather than losing him. No finding.",
+    "Voice: uniform across all nine chapters. No translator's note, no editorial intrusion, no modern register anywhere in 121 pages. 'The narrator said:' appears four times as a consistent source device."
+  ],
+  "bridges_applied": 1,
+  "bridges_unplaced": 0
+}

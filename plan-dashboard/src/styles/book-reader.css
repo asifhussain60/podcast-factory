@@ -1,27 +1,21 @@
 /* book-reader.css — the Studio "Reading edition" view (companion book).
  * External stylesheet (no inline styling). Reuses the existing --c-* theme
- * tokens; introduces no new colours and changes no theme value. */
+ * tokens and changes no theme value. Defines ONE shared reader-surface marker
+ * token pair (--reader-mark / --reader-mark-edge) — the single source of truth
+ * for the passage highlighter used by the LIVE Session reader AND the Companion
+ * editor's passage pill, so the two can never drift. Not a --c-* theme colour. */
 
+:root {
+  --reader-mark: #ffd529; /* passage-highlighter yellow */
+  --reader-mark-edge: #d6a414; /* its darker edge */
+}
+
+/* Width wrapper that keeps the shared .lib-hero header aligned with the 1140px
+   reading-edition body below it. The header itself is the shared Studio hero. */
 .bookv-head {
   max-width: 1140px;
   margin: 0 auto;
   padding: 1.5rem 1.25rem 0;
-}
-.bookv-head-eyebrow {
-  margin: 0 0 0.25rem;
-  font-family: var(--font-ui, system-ui, sans-serif);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--c-accent);
-}
-.bookv-head h1 {
-  margin: 0;
-  font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
-  font-size: 2.1rem;
-  line-height: 1.2;
-  color: var(--c-ink);
 }
 
 .bookv {
@@ -54,7 +48,9 @@
   color: var(--c-accent);
   text-decoration: none;
 }
-.bookv-back:hover { text-decoration: underline; }
+.bookv-back:hover {
+  text-decoration: underline;
+}
 
 .bookv-toc-eyebrow {
   margin: 0 0 0.6rem;
@@ -70,7 +66,9 @@
   padding: 0;
   list-style: none;
 }
-.bookv-toc-list li { margin: 0 0 0.15rem; }
+.bookv-toc-list li {
+  margin: 0 0 0.15rem;
+}
 .bookv-toc-list a {
   display: block;
   padding: 0.35rem 0.5rem;
@@ -80,7 +78,9 @@
   color: var(--c-ink);
   text-decoration: none;
 }
-.bookv-toc-list a:hover { background: var(--c-bg-sunken); }
+.bookv-toc-list a:hover {
+  background: var(--c-bg-sunken);
+}
 
 /* ── Reading column ──────────────────────────────────────── */
 .bookv-body {
@@ -88,7 +88,9 @@
   /* A reading edition is a book — serif, matching the reader theme's reading
      face. (The Studio page's active --font-body is the UI sans, so we name the
      serif stack explicitly rather than inherit sans here.) */
-  font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
+  font-family:
+    "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman",
+    serif;
   font-size: 1.2rem;
   line-height: 1.75;
   color: var(--c-ink);
@@ -96,7 +98,9 @@
 
 .bookv-body :is(h2, h3) {
   scroll-margin-top: 1.5rem; /* so anchor jumps clear the top */
-  font-family: "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman", serif;
+  font-family:
+    "Source Serif 4", "Iowan Old Style", "Charter", Georgia, "Times New Roman",
+    serif;
   color: var(--c-ink);
   line-height: 1.25;
 }
@@ -106,8 +110,13 @@
   padding-bottom: 0.4rem;
   border-bottom: 1px solid var(--c-rule-soft);
 }
-.bookv-body h3 { margin: 1.8rem 0 0.7rem; font-size: 1.3rem; }
-.bookv-body p { margin: 0 0 1.1rem; }
+.bookv-body h3 {
+  margin: 1.8rem 0 0.7rem;
+  font-size: 1.3rem;
+}
+.bookv-body p {
+  margin: 0 0 1.1rem;
+}
 
 /* Scripture / hadith blockquotes: Arabic line over the English translation. */
 .bookv-body blockquote {
@@ -117,16 +126,90 @@
   background: var(--c-bg-card);
   border-radius: 0 8px 8px 0;
 }
-.bookv-body blockquote p { margin: 0.35rem 0; }
+.bookv-body blockquote p {
+  margin: 0.35rem 0;
+}
 .bookv-body blockquote p:first-child {
   font-size: 1.45rem;
   line-height: 1.9;
 }
 
+/* Arabic-bearing verses read as part of the page, not a boxed placard: no card
+   fill, minimal padding, a thin neutral rule, and Arabic at body scale in body
+   ink (matches book-print.css blockquote.quran). */
+.bookv-body blockquote.quran {
+  background: none;
+  border-radius: 0;
+  border-left: 2px solid var(--c-rule, #d9d3c4);
+  padding: 0.25rem 0 0.25rem 1.1rem;
+}
+/* Inline Arabic (etymology inserts, terms woven into prose) — the size-adjusted
+   Amiri so it reads at the English body's visual size; isolate the RTL run so it
+   doesn't disturb the surrounding Latin. */
+.bookv-body .ar-inline {
+  font-family: var(--q-ar-face);
+  /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
+     shearing the glyphs, which is wrong for the script and looked wrong on the
+     page; and an inherited bold would fake a weight the face does not have.
+     Pinned here so the run renders the same whatever prose it sits in. */
+  font-style: normal;
+  /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
+     descent are far taller than the Latin body face, so without an explicit
+     line-height a single Arabic word makes its line taller than its
+     neighbours and the column loses its rhythm. */
+  line-height: inherit;
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+.bookv-body blockquote.quran p.ar {
+  font-family: var(--q-ar-face);
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--c-ink);
+  direction: rtl;
+  text-align: center;
+}
+.bookv-body blockquote.quran p.tr {
+  font-size: 0.95rem;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--c-ink-muted);
+}
+
+/* ── Citation families on the reading surface ─────────────────────────────────
+   Mirrors book-print.css body.style-<family> for the LIVE reader, which until
+   now rendered every book in the base look no matter what the Composer had
+   chosen. Only `plain` is redefined here — Scholarly IS the base look above, and
+   Elegant's framed treatment is a print/compose concern the reader does not
+   need. Values come from quote-typography.css. */
+.bookv-body.style-plain blockquote.quran {
+  border-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+.bookv-body.style-plain blockquote.quran p.ar {
+  color: var(--q-maroon);
+  text-align: center;
+}
+.bookv-body.style-plain blockquote.quran p.tr {
+  font-family: var(--q-tr-face);
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: var(--c-ink);
+  text-align: center;
+}
+
 /* ── Responsive: stack the TOC above the reading column ──── */
 @media (max-width: 860px) {
-  .bookv { grid-template-columns: 1fr; gap: 1.25rem; }
-  .bookv-toc { position: static; max-height: none; }
+  .bookv {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .bookv-toc {
+    position: static;
+    max-height: none;
+  }
 }
 
 .bookv-empty {
@@ -143,5 +226,7 @@
   outline-offset: 2px;
 }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html {
+    scroll-behavior: auto;
+  }
 }

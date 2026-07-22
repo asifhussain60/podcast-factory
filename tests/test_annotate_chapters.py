@@ -1,7 +1,7 @@
 """Tests for scripts/wisdom/annotate_chapters.py (Wave I, I0a)."""
+
 from __future__ import annotations
 
-import json
 import sys
 import unittest
 from pathlib import Path
@@ -32,8 +32,15 @@ class TestProtectedTagDemotion(unittest.TestCase):
 
     def test_mark_for_deletion_on_esoteric_demoted(self):
         """mark-for-deletion on an esoteric category must be demoted to mark-for-improvement."""
-        annotations = [{"para_idx": 1, "tag": "mark-for-deletion", "confidence": 0.9,
-                        "note": "should be demoted", "category_hint": "esoteric"}]
+        annotations = [
+            {
+                "para_idx": 1,
+                "tag": "mark-for-deletion",
+                "confidence": 0.9,
+                "note": "should be demoted",
+                "category_hint": "esoteric",
+            }
+        ]
         result = _demote_protected(annotations)
         # If the annotation targets protected content, it must be demoted
         # The function demotes any mark-for-deletion where the surrounding context
@@ -46,15 +53,15 @@ class TestProtectedTagDemotion(unittest.TestCase):
 
     def test_non_protected_deletion_not_changed(self):
         """mark-for-deletion on non-protected content must stay."""
-        annotations = [{"para_idx": 2, "tag": "mark-for-deletion", "confidence": 0.92,
-                        "note": "this is pure padding"}]
+        annotations = [{"para_idx": 2, "tag": "mark-for-deletion", "confidence": 0.92, "note": "this is pure padding"}]
         result = _demote_protected(annotations)
         self.assertEqual(result[0]["tag"], "mark-for-deletion")
 
     def test_mark_for_improvement_on_protected_retained(self):
         """mark-for-improvement is always valid — never promoted to deletion."""
-        annotations = [{"para_idx": 3, "tag": "mark-for-improvement", "confidence": 0.7,
-                        "note": "needs cleaner phrasing"}]
+        annotations = [
+            {"para_idx": 3, "tag": "mark-for-improvement", "confidence": 0.7, "note": "needs cleaner phrasing"}
+        ]
         result = _demote_protected(annotations)
         self.assertEqual(result[0]["tag"], "mark-for-improvement")
 
@@ -65,7 +72,9 @@ class TestAnnotateChapterMocked(unittest.TestCase):
     def test_annotate_dry_run_returns_empty_list(self):
         """dry_run must return a list (dry-run stubs) without calling the API."""
         import tempfile
+
         from annotate_chapters import annotate_chapter
+
         with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
             f.write("Some paragraph text.")
             path = Path(f.name)
@@ -81,7 +90,9 @@ class TestAnnotateChapterMocked(unittest.TestCase):
     def test_annotate_dry_run_multiple_paragraphs(self):
         """dry_run with a longer text must still return a list."""
         import tempfile
+
         from annotate_chapters import annotate_chapter
+
         text = "Para one.\n\nPara two.\n\nPara three with some content."
         with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
             f.write(text)

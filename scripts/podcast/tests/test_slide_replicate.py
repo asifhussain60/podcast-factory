@@ -5,6 +5,7 @@ classify_value (final high/low rubric), verify_svg (exact text/digit/Arabic
 survival), and inject_slides svg_overrides (inline SVG figure + raster
 fallback + idempotent strip of both figure variants).
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,8 +16,8 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-from _slide_replicate import classify_value, verify_svg  # noqa: E402
-from inject_slide_deck import inject_slides, strip_slide_figures  # noqa: E402
+from _slide_replicate import classify_value, verify_svg
+from inject_slide_deck import inject_slides, strip_slide_figures
 
 
 def _entry(**kw) -> dict:
@@ -64,8 +65,7 @@ class ClassifyValueTests(unittest.TestCase):
         self.assertTrue(any("too dense" in r for r in reasons))
 
     def test_manual_override_wins(self):
-        final, reasons = classify_value(
-            _entry(diagram_type="none", manual_value_class="high"))
+        final, reasons = classify_value(_entry(diagram_type="none", manual_value_class="high"))
         self.assertEqual(final, "high")
         self.assertEqual(reasons, ["manual override"])
 
@@ -110,15 +110,20 @@ class VerifySvgTests(unittest.TestCase):
 
 class InjectSvgOverrideTests(unittest.TestCase):
     BOOK = "Intro paragraph.\n\nThe seven heavens emerged from the smoke that day.\n\nClosing paragraph."
-    ENTRIES = [{"slide_id": "ch01-s03", "page": 1003, "title": "Seven heavens",
-                "anchor_text": "seven heavens emerged from the smoke"}]
+    ENTRIES = [
+        {
+            "slide_id": "ch01-s03",
+            "page": 1003,
+            "title": "Seven heavens",
+            "anchor_text": "seven heavens emerged from the smoke",
+        }
+    ]
     PAGES = {1003: "slide-decks/_pages/ch01/page-03.jpg"}
 
     def test_svg_override_inlines_svg(self):
         svg = Path(tempfile.mkdtemp()) / "page-03.svg"
         svg.write_text(_GOOD_SVG, encoding="utf-8")
-        out = inject_slides(self.BOOK, self.ENTRIES, pages=self.PAGES,
-                            svg_overrides={1003: svg})
+        out = inject_slides(self.BOOK, self.ENTRIES, pages=self.PAGES, svg_overrides={1003: svg})
         self.assertIn("book-slide-svg", out)
         self.assertIn("<svg viewBox=", out)
         self.assertNotIn("page-03.jpg", out)
@@ -131,16 +136,14 @@ class InjectSvgOverrideTests(unittest.TestCase):
     def test_invalid_svg_falls_back_to_raster(self):
         bad = Path(tempfile.mkdtemp()) / "page-03.svg"
         bad.write_text("not svg at all", encoding="utf-8")
-        out = inject_slides(self.BOOK, self.ENTRIES, pages=self.PAGES,
-                            svg_overrides={1003: bad})
+        out = inject_slides(self.BOOK, self.ENTRIES, pages=self.PAGES, svg_overrides={1003: bad})
         self.assertIn("page-03.jpg", out)
         self.assertNotIn("book-slide-svg", out)
 
     def test_strip_removes_both_variants(self):
         svg = Path(tempfile.mkdtemp()) / "page-03.svg"
         svg.write_text(_GOOD_SVG, encoding="utf-8")
-        with_svg = inject_slides(self.BOOK, self.ENTRIES, pages=self.PAGES,
-                                 svg_overrides={1003: svg})
+        with_svg = inject_slides(self.BOOK, self.ENTRIES, pages=self.PAGES, svg_overrides={1003: svg})
         with_raster = inject_slides(self.BOOK, self.ENTRIES, pages=self.PAGES)
         self.assertEqual(strip_slide_figures(with_svg), strip_slide_figures(with_raster))
         # Re-injecting over an already-injected doc stays idempotent.

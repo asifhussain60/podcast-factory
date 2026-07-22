@@ -1,9 +1,8 @@
 """Tests for scripts/podcast/phases/per_chapter_optimize.py (Wave I, I6)."""
+
 from __future__ import annotations
 
-import json
 import sys
-import tempfile
 import unittest
 from pathlib import Path
 
@@ -11,7 +10,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts" / "pod
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts" / "podcast" / "phases"))
 
 from per_chapter_optimize import (
-    OptimizeFinding,
     OptimizeReport,
     _check_arc,
     _check_format,
@@ -118,6 +116,7 @@ class TestOptimizeChapter(unittest.TestCase):
     def test_dry_run_skips_sonnet(self):
         """dry_run must not call Sonnet."""
         from unittest.mock import patch
+
         with patch("per_chapter_optimize._call_sonnet_optimize") as mock_sonnet:
             optimize_chapter("ch03", "HOST: Hello.\nGUEST: World.", dry_run=True)
             mock_sonnet.assert_not_called()

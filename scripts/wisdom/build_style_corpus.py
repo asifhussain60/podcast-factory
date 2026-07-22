@@ -12,6 +12,7 @@ CLI usage:
     python3 scripts/wisdom/build_style_corpus.py [--sql-path PATH]
     python3 scripts/wisdom/build_style_corpus.py --dry-run
 """
+
 from __future__ import annotations
 
 import argparse
@@ -25,7 +26,7 @@ _HERE = Path(__file__).resolve().parent
 _REPO = _HERE.parent.parent
 sys.path.insert(0, str(_REPO / "scripts" / "podcast"))
 
-KSESSIONS_SQL = _REPO / "CONTENT" / "_shared" / "source-library" / "KSessions.sql"
+KSESSIONS_SQL = _REPO / "content" / "_shared" / "source-library" / "KSessions.sql"
 STYLE_CORPUS_JSONL = _HERE / "_style_corpus.jsonl"
 STYLE_IMPRINT_MD = _REPO / "content" / "_shared" / "source-library" / "style-imprint.md"
 STYLE_GROUPS = {3, 17, 18}
@@ -68,10 +69,7 @@ def _load_sql_content(sql_path: Path) -> str:
 def parse_groups(content: str) -> dict[int, str]:
     """Parse Groups table. Returns {group_id: group_name}."""
     result = {}
-    for m in re.finditer(
-        r"INSERT \[dbo\]\.\[Groups\][^V]*VALUES\s*\((\d+),\s*N'([^']+)'",
-        content, re.DOTALL
-    ):
+    for m in re.finditer(r"INSERT \[dbo\]\.\[Groups\][^V]*VALUES\s*\((\d+),\s*N'([^']+)'", content, re.DOTALL):
         result[int(m.group(1))] = m.group(2)
     return result
 
@@ -79,10 +77,7 @@ def parse_groups(content: str) -> dict[int, str]:
 def parse_sessions(content: str) -> dict[int, int]:
     """Parse Sessions table. Returns {session_id: group_id}."""
     result = {}
-    for m in re.finditer(
-        r"INSERT \[dbo\]\.\[Sessions\][^V]*VALUES\s*\((\d+),\s*(\d+),",
-        content, re.DOTALL
-    ):
+    for m in re.finditer(r"INSERT \[dbo\]\.\[Sessions\][^V]*VALUES\s*\((\d+),\s*(\d+),", content, re.DOTALL):
         result[int(m.group(1))] = int(m.group(2))
     return result
 
@@ -94,7 +89,7 @@ def parse_summaries(content: str) -> list[dict]:
     pattern = re.compile(
         r"INSERT \[dbo\]\.\[SessionSummary\][^V]*VALUES\s*\("
         r"(\d+),\s*(\d+),\s*(\d+),\s*N'((?:[^']|'')*)',\s*N'((?:[^']|'')*)'",
-        re.DOTALL
+        re.DOTALL,
     )
     for m in pattern.finditer(content):
         session_id = int(m.group(2))
@@ -102,27 +97,26 @@ def parse_summaries(content: str) -> list[dict]:
         raw_html = m.group(5).replace("''", "'")
         text = strip_html(raw_html)
         if text and len(text) > 40:
-            results.append({
-                "session_id": session_id,
-                "title": title,
-                "text": text,
-            })
+            results.append(
+                {
+                    "session_id": session_id,
+                    "title": title,
+                    "text": text,
+                }
+            )
     return results
 
 
 def build_corpus(sql_path: Path) -> list[dict]:
     """Extract style passages from target groups."""
-    print(f"Loading {sql_path.name} ({sql_path.stat().st_size // (1024*1024)}MB)…")
+    print(f"Loading {sql_path.name} ({sql_path.stat().st_size // (1024 * 1024)}MB)…")
     content = _load_sql_content(sql_path)
 
     groups = parse_groups(content)
     sessions = parse_sessions(content)
     summaries = parse_summaries(content)
 
-    target_sessions = {
-        sid for sid, gid in sessions.items()
-        if gid in STYLE_GROUPS
-    }
+    target_sessions = {sid for sid, gid in sessions.items() if gid in STYLE_GROUPS}
     target_sessions.add(ISBAT_SESSION_ID)
 
     corpus = []
@@ -131,13 +125,15 @@ def build_corpus(sql_path: Path) -> list[dict]:
         if sid not in target_sessions:
             continue
         gid = sessions.get(sid, 0)
-        corpus.append({
-            "session_id": sid,
-            "group_id": gid,
-            "group_name": groups.get(gid, f"Group {gid}"),
-            "title": summary["title"],
-            "text": summary["text"],
-        })
+        corpus.append(
+            {
+                "session_id": sid,
+                "group_id": gid,
+                "group_name": groups.get(gid, f"Group {gid}"),
+                "title": summary["title"],
+                "text": summary["text"],
+            }
+        )
 
     print(f"Extracted {len(corpus)} style passages from {len(target_sessions)} sessions.")
     return corpus
@@ -228,10 +224,8 @@ def distill_style_imprint(corpus: list[dict]) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build KSessions style corpus.")
-    parser.add_argument("--sql-path", type=Path, default=KSESSIONS_SQL,
-                        help="Path to KSessions.sql dump")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Parse only; do not write output files")
+    parser.add_argument("--sql-path", type=Path, default=KSESSIONS_SQL, help="Path to KSessions.sql dump")
+    parser.add_argument("--dry-run", action="store_true", help="Parse only; do not write output files")
     args = parser.parse_args()
 
     if not args.sql_path.exists():

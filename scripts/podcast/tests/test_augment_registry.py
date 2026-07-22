@@ -2,20 +2,21 @@
 
 Tests the profile-keyed registry + need-detector without any LLM calls.
 """
+
 import sys
 from pathlib import Path
+
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import _augment_registry as R
 
-
 # ─── Registry coverage ────────────────────────────────────────────────────────
+
 
 class TestRegistryCoverage:
     def test_all_strategies_registered(self):
-        expected = {R.STRATEGY_ISLAMIC, R.STRATEGY_TECHNICAL, R.STRATEGY_FICTION,
-                    R.STRATEGY_GUIDES, R.STRATEGY_SKIP}
+        expected = {R.STRATEGY_ISLAMIC, R.STRATEGY_TECHNICAL, R.STRATEGY_FICTION, R.STRATEGY_GUIDES, R.STRATEGY_SKIP}
         assert set(R.all_strategies()) == expected
 
     def test_every_category_maps_to_a_strategy(self):
@@ -33,6 +34,7 @@ class TestRegistryCoverage:
 
 
 # ─── strategy_for_category ────────────────────────────────────────────────────
+
 
 class TestStrategyForCategory:
     def test_books_is_islamic(self):
@@ -66,6 +68,7 @@ class TestStrategyForCategory:
 
 # ─── strategy_for_profile ─────────────────────────────────────────────────────
 
+
 class TestStrategyForProfile:
     def test_islamic_scholarly(self):
         assert R.strategy_for_profile("islamic_scholarly").name == R.STRATEGY_ISLAMIC
@@ -84,6 +87,7 @@ class TestStrategyForProfile:
 
 
 # ─── needs_augmentation routing ───────────────────────────────────────────────
+
 
 class TestNeedsAugmentationRouting:
     def test_requires_category_or_profile(self):
@@ -119,6 +123,7 @@ class TestNeedsAugmentationRouting:
 
 # ─── Islamic need-detector ────────────────────────────────────────────────────
 
+
 class TestIslamicNeedDetector:
     def test_no_quotes_needs_augmentation(self):
         # No quotations → doctrinal claims without citations → needs enrichment
@@ -133,14 +138,12 @@ class TestIslamicNeedDetector:
         assert R._needs_islamic(text) is False
 
     def test_quoted_text_without_citation_needs_augmentation(self):
-        text = (
-            '"Knowledge is the foundation of all worship." '
-            "This teaching is central to the spiritual path. " * 10
-        )
+        text = '"Knowledge is the foundation of all worship." This teaching is central to the spiritual path. ' * 10
         assert R._needs_islamic(text) is True
 
 
 # ─── Technical need-detector ─────────────────────────────────────────────────
+
 
 class TestTechnicalNeedDetector:
     def test_abstract_heavy_needs_augmentation(self):
@@ -161,6 +164,7 @@ class TestTechnicalNeedDetector:
 
 # ─── Fiction need-detector ────────────────────────────────────────────────────
 
+
 class TestFictionNeedDetector:
     def test_culture_dense_needs_augmentation(self):
         text = (
@@ -178,6 +182,7 @@ class TestFictionNeedDetector:
 
 
 # ─── Guides need-detector ─────────────────────────────────────────────────────
+
 
 class TestGuidesNeedDetector:
     def test_absolute_unsourced_needs_augmentation(self):
@@ -198,6 +203,7 @@ class TestGuidesNeedDetector:
 
 
 # ─── Placement modes ──────────────────────────────────────────────────────────
+
 
 class TestPlacementModes:
     def test_fiction_is_sidecar(self):

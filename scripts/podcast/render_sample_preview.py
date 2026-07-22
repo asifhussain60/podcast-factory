@@ -14,22 +14,22 @@ Usage:
 Output:
     content/<Bucket>/<slug>/_system/scratchpad/<EP-id>-preview.mp3
 """
+
 from __future__ import annotations
 
 import argparse
 import hashlib
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _paths import find_content                                    # noqa: E402
-from _audio_engines import get_engine, ENGINE_ELEVENLABS, voices_for_book  # noqa: E402
-from _dialogue_script import parse_dialogue_script, script_path_for        # noqa: E402
-from _elevenlabs import ElevenLabsClient                                   # noqa: E402
-from pronunciation_compiler import ensure_dictionary                       # noqa: E402
+from _audio_engines import ENGINE_ELEVENLABS, get_engine, voices_for_book
+from _dialogue_script import parse_dialogue_script, script_path_for
+from _elevenlabs import ElevenLabsClient
+from _paths import find_content
+from pronunciation_compiler import ensure_dictionary
 
 DEFAULT_TURNS = 6
 STABILITY = 0.0
@@ -40,12 +40,11 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("slug", help="book slug")
     ap.add_argument("episode", help="episode id, e.g. EP01-what-ismaili-interpretation-is")
-    ap.add_argument("--turns", type=int, default=DEFAULT_TURNS,
-                    help=f"number of turns to render (default {DEFAULT_TURNS})")
-    ap.add_argument("--confirm", action="store_true",
-                    help="authorize ElevenLabs spend")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="show plan without rendering")
+    ap.add_argument(
+        "--turns", type=int, default=DEFAULT_TURNS, help=f"number of turns to render (default {DEFAULT_TURNS})"
+    )
+    ap.add_argument("--confirm", action="store_true", help="authorize ElevenLabs spend")
+    ap.add_argument("--dry-run", action="store_true", help="show plan without rendering")
     args = ap.parse_args()
 
     found = find_content(args.slug)
@@ -66,10 +65,10 @@ def main() -> int:
     voices = voices_for_book(book_dir)
 
     total_chars = sum(len(t.text) for t in sample_turns)
-    print(f"Sample preview plan")
+    print("Sample preview plan")
     print(f"  episode : {args.episode}")
     print(f"  turns   : {len(sample_turns)} of {len(turns)}")
-    print(f"  chars   : {total_chars:,}  (~{total_chars/13:.0f} sec at 13 cps)")
+    print(f"  chars   : {total_chars:,}  (~{total_chars / 13:.0f} sec at 13 cps)")
     print(f"  voices  : host_a={voices.get('host_a')}  host_b={voices.get('host_b')}")
     print(f"  model   : {engine.model_id}")
 
@@ -114,13 +113,10 @@ def main() -> int:
 
     for i, chunk in enumerate(chunks):
         chunk_chars = sum(len(t.text) for t in chunk)
-        content_hash = hashlib.sha256(
-            "".join(t.text for t in chunk).encode()).hexdigest()
+        content_hash = hashlib.sha256("".join(t.text for t in chunk).encode()).hexdigest()
         seed = int(content_hash[:8], 16) % (2**31)
-        payload = [{"text": t.text, "voice_id": voices[t.speaker.lower()]}
-                   for t in chunk]
-        print(f"  chunk {i + 1}/{len(chunks)}: {len(chunk)} turns, "
-              f"{chunk_chars:,} chars, seed={seed}")
+        payload = [{"text": t.text, "voice_id": voices[t.speaker.lower()]} for t in chunk]
+        print(f"  chunk {i + 1}/{len(chunks)}: {len(chunk)} turns, {chunk_chars:,} chars, seed={seed}")
         audio = client.text_to_dialogue(
             payload,
             model_id=engine.model_id,
@@ -138,13 +134,12 @@ def main() -> int:
         chunk_files[0].rename(out_path)
     else:
         list_txt = out_dir / f"{args.episode}-preview-list.txt"
-        list_txt.write_text(
-            "".join(f"file '{p.resolve()}'\n" for p in chunk_files),
-            encoding="utf-8")
+        list_txt.write_text("".join(f"file '{p.resolve()}'\n" for p in chunk_files), encoding="utf-8")
         subprocess.run(
-            ["ffmpeg", "-y", "-f", "concat", "-safe", "0",
-             "-i", str(list_txt), "-c", "copy", str(out_path)],
-            check=True, capture_output=True)
+            ["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(list_txt), "-c", "copy", str(out_path)],
+            check=True,
+            capture_output=True,
+        )
         list_txt.unlink(missing_ok=True)
         for p in chunk_files:
             p.unlink(missing_ok=True)

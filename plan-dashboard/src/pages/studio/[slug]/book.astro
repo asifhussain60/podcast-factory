@@ -1,48 +1,13 @@
 ---
 /**
- * Studio — the companion Reading edition (PDF path).
+ * Studio — /studio/<slug>/book redirect.
  *
- * /studio/<slug>/book — a focused reading view of the whole book (book/book.md),
- * reached from the "Reading edition" entry at the top of the Edit & Enrich left
- * rail. A static route, so it takes precedence over [step].astro for this path.
+ * The Reading edition page that used to live here (a floating Companion
+ * notes panel over a read-only book view) was folded into the Book
+ * Composer's Companion tab (2026-07-19) — editing a chapter and its
+ * companion notes now happens in one place instead of two. This route stays
+ * only so old links/bookmarks land somewhere real.
  */
-import Base from '../../../layouts/Base.astro';
-import { loadBook } from '../../../lib/reader/book';
-import { slugToTitle } from '../../../lib/content-paths';
-import '../../../styles/book-reader.css';
-
 const slug = Astro.params.slug!;
-const book = await loadBook(slug);
-const bookTitle = book?.title ?? slugToTitle(slug);
+return Astro.redirect(`/studio/${slug}/compose`);
 ---
-<Base
-  title={`Reading edition — ${bookTitle}`}
-  active="studio"
-  description={`Studio · Reading edition · ${bookTitle}`}
->
-  {book ? (
-    <>
-    <header class="bookv-head">
-      <p class="bookv-head-eyebrow">Reading edition</p>
-      <h1>{bookTitle}</h1>
-    </header>
-    <div class="bookv">
-      <nav class="bookv-toc" aria-label="Chapters">
-        <a class="bookv-back" href={`/studio/${slug}/edit`}>← Edit &amp; Enrich</a>
-        <p class="bookv-toc-eyebrow">Contents</p>
-        <ol class="bookv-toc-list">
-          {book.toc.map((t) => (
-            <li><a href={`#${t.id}`}>{t.title}</a></li>
-          ))}
-        </ol>
-      </nav>
-      <article class="bookv-body" set:html={book.html}></article>
-    </div>
-    </>
-  ) : (
-    <div class="bookv-empty">
-      <p>No reading edition has been generated for this book yet.</p>
-      <p><a class="bookv-back" href={`/studio/${slug}/edit`}>← Back to Edit &amp; Enrich</a></p>
-    </div>
-  )}
-</Base>

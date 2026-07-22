@@ -455,23 +455,67 @@
     "0book-design": {
       "status": "completed",
       "ts_started": "2026-06-08T12:43:44Z",
-      "ts_completed": "2026-06-11T20:34:57Z"
+      "ts_completed": "2026-07-21T18:23:57Z"
     },
     "0book-compose": {
       "status": "completed",
       "ts_started": "2026-06-08T12:45:18Z",
-      "ts_completed": "2026-06-11T20:34:58Z",
+      "ts_completed": "2026-07-21T18:40:49Z",
       "manual_fallback": "Resume manually via /podcast and `--resume` the orchestrator."
     },
     "0book-illustrate": {
-      "status": "completed",
+      "status": "skipped",
       "ts_started": "2026-06-08T13:11:52Z",
-      "ts_completed": "2026-06-11T20:52:00Z"
+      "ts_completed": "2026-07-21T18:40:50Z",
+      "reason": "book_visuals=manual_only"
     },
     "0book-render": {
       "status": "completed",
       "ts_started": "2026-06-08T13:24:21Z",
-      "ts_completed": "2026-06-11T21:00:49Z"
+      "ts_completed": "2026-07-21T20:04:17Z",
+      "book_validation": {
+        "slug": "the-master-and-the-disciple",
+        "verdict": "BOOK-SOUND",
+        "summary": "reading edition sound (6 gates checked)",
+        "gates": [
+          {
+            "gate": "B1",
+            "name": "book-md-complete",
+            "passed": true,
+            "note": "book.md: 194 KB, 9 sections ≥ 8 TOC chapters"
+          },
+          {
+            "gate": "B2",
+            "name": "book-pdf-renderable",
+            "passed": true,
+            "note": "book.pdf: 1867 KB, 125 pages ≥ 8 chapters"
+          },
+          {
+            "gate": "B3",
+            "name": "book-arabic-coverage",
+            "passed": true,
+            "note": "translation-edition Arabic preservation signal: 411 rendered Arabic runs from 19271 source runs"
+          },
+          {
+            "gate": "B4",
+            "name": "book-prose-integrity",
+            "passed": true,
+            "note": "book.md: no model commentary or generated headings detected"
+          },
+          {
+            "gate": "B5",
+            "name": "book-chapter-body-coverage",
+            "passed": true,
+            "note": "book.md: 8 numbered chapters have body text"
+          },
+          {
+            "gate": "B6",
+            "name": "book-source-crosswalk",
+            "passed": true,
+            "note": "source-crosswalk.json: 8 chapters aligned"
+          }
+        ]
+      }
     },
     "per-chapter-optimize": {
       "status": "skipped",
@@ -488,13 +532,14 @@
       }
     },
     "0book-slide-import": {
-      "status": "completed",
+      "status": "skipped",
       "ts_started": "2026-06-11T20:02:05Z",
-      "ts_completed": "2026-06-11T21:00:48Z",
+      "ts_completed": "2026-07-21T18:40:50Z",
       "imported": {
         "book": 13
       },
-      "exempt": []
+      "exempt": [],
+      "reason": "book_visuals=manual_only"
     }
   },
   "completed_slugs": [],
@@ -506,10 +551,11 @@
     "total_usd": 0.0
   },
   "ts_started": "2026-06-07T00:00:00Z",
-  "ts_updated": "2026-06-11T21:00:49Z",
+  "ts_updated": "2026-07-21T20:04:17Z",
   "wall_clock_sec": 0,
   "orchestrator_version": "1.2",
   "challenger_version": "2.0",
-  "status": "draft",
-  "notes": []
+  "status": "published",
+  "notes": [],
+  "published_at": "2026-07-19T16:40:44Z"
 }

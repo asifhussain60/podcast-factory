@@ -15,6 +15,7 @@ USAGE
     python3 scripts/podcast/build_voice_samples.py --confirm     # render missing clips
     python3 scripts/podcast/build_voice_samples.py --confirm --force   # re-render all
 """
+
 from __future__ import annotations
 
 import argparse
@@ -23,13 +24,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _voice_library import pools  # noqa: E402
-from _audio_engines import get_engine, ENGINE_ELEVENLABS  # noqa: E402
+from _audio_engines import ENGINE_ELEVENLABS, get_engine
+from _voice_library import pools
 
 # A short, neutral line in the two-host register — long enough to hear timbre +
 # pace, short enough to keep the spend trivial. ASCII only.
-SAMPLE_LINE = ("Gratitude is not a feeling you keep to yourself. It is a debt "
-               "you repay with how you live.")
+SAMPLE_LINE = "Gratitude is not a feeling you keep to yourself. It is a debt you repay with how you live."
 
 OUTPUT_DIR_REL = "plan-dashboard/public/voice-samples"
 OUTPUT_FORMAT = "mp3_44100_128"
@@ -37,6 +37,7 @@ OUTPUT_FORMAT = "mp3_44100_128"
 
 def _output_dir() -> Path:
     from _paths import REPO_ROOT
+
     return Path(REPO_ROOT) / OUTPUT_DIR_REL
 
 
@@ -75,27 +76,29 @@ def main() -> int:
         return 0
 
     from _elevenlabs import ElevenLabsClient
+
     client = ElevenLabsClient()
     out_dir.mkdir(parents=True, exist_ok=True)
     try:
         meter_start = int(client.subscription().get("character_count"))
-    except Exception:  # noqa: BLE001
+    except Exception:
         meter_start = None
 
     for v in todo:
         audio = client.text_to_dialogue(
-            [{"text": SAMPLE_LINE, "voice_id": v["voice_id"]}],
-            model_id=engine.model_id, output_format=OUTPUT_FORMAT)
+            [{"text": SAMPLE_LINE, "voice_id": v["voice_id"]}], model_id=engine.model_id, output_format=OUTPUT_FORMAT
+        )
         v["_dest"].write_bytes(audio)
         print(f"  wrote {v['_dest'].name}")
 
     if meter_start is not None:
         try:
             import time
+
             time.sleep(5)
             metered = int(client.subscription().get("character_count")) - meter_start
             print(f"\nMetered credits this run: {metered:,}")
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             print(f"(credit metering failed: {e})")
     return 0
 

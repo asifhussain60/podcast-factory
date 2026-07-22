@@ -3,6 +3,7 @@
 Extracted from _authoring.py (A4 split). Contains everything through
 _assert_artifact so the per-phase modules can import from here.
 """
+
 from __future__ import annotations
 
 import os
@@ -39,6 +40,7 @@ PHASE_0D_SC_TIMEOUT_BASELINE = 600
 def _compute_sc_timeout(words: int) -> int:
     """Word-count-aware per-source-chapter timeout in seconds."""
     import math
+
     raw = math.ceil(words * PHASE_0D_SC_TIMEOUT_RATE + PHASE_0D_SC_TIMEOUT_BASELINE)
     return max(PHASE_0D_SC_TIMEOUT_MIN, min(PHASE_0D_SC_TIMEOUT_MAX, raw))
 
@@ -54,28 +56,44 @@ CLAUDE_CMD = "claude"
 # pipeline: OCR→translate, Phase 0b (scholarly refinement), Phase 0c (Arabic
 # phonetics), Phase 0d (scholarly chapter design), Phase 0e (7-tier Islamic
 # enrichment), Islamic framing prompt, Islamic challenger rules.
-ARABIC_SCHOLARLY_CATEGORIES: frozenset[str] = frozenset({
-    "books", "letters", "lectures", "articles", "asbaaq", "documents", "interviews",
-})
+ARABIC_SCHOLARLY_CATEGORIES: frozenset[str] = frozenset(
+    {
+        "books",
+        "letters",
+        "lectures",
+        "articles",
+        "asbaaq",
+        "documents",
+        "interviews",
+    }
+)
 
 # Categories that skip Phase 0c (Arabic phonetics) entirely — no Arabic terms
 # to extract, no _phonetics.md output needed.
-SKIP_PHONETICS_CATEGORIES: frozenset[str] = frozenset({
-    "sites", "explainers",
-})
+SKIP_PHONETICS_CATEGORIES: frozenset[str] = frozenset(
+    {
+        "sites",
+        "explainers",
+    }
+)
 
 # Categories that skip Phase 0e (enrichment) — source material is already
 # authoritative (product docs, official technical docs) and outside enrichment
 # would introduce inaccuracy.
-SKIP_ENRICHMENT_CATEGORIES: frozenset[str] = frozenset({
-    "sites",
-})
+SKIP_ENRICHMENT_CATEGORIES: frozenset[str] = frozenset(
+    {
+        "sites",
+    }
+)
 
 # Categories that skip Phase 0a (OCR + Azure translation) — source text is
 # already in English (scraped web content, synthesized markdown, pre-written docs).
-SKIP_OCR_CATEGORIES: frozenset[str] = frozenset({
-    "sites", "explainers",
-})
+SKIP_OCR_CATEGORIES: frozenset[str] = frozenset(
+    {
+        "sites",
+        "explainers",
+    }
+)
 
 # content_profile values that trigger the fiction sidecar augmenter in Phase 0e.
 # The sidecar augmenter NEVER modifies chapter prose — it writes a companion
@@ -96,6 +114,7 @@ def _read_category(book_dir: "Path") -> str:
     pre-dates category stamping continues to use the correct path.
     """
     import json as _json
+
     state_path = book_dir / "_system" / "orchestrator-state.json"
     if state_path.exists():
         try:
@@ -103,7 +122,7 @@ def _read_category(book_dir: "Path") -> str:
             cat = state.get("category", "").strip()
             if cat:
                 return cat.lower()
-        except Exception:  # noqa: BLE001
+        except Exception:
             pass
 
     meta_path = book_dir / "_system" / "meta.yml"
@@ -131,6 +150,7 @@ def _read_content_profile(book_dir: "Path") -> str:
     content_profile wins for Phase 0e routing decisions.
     """
     import json as _json
+
     state_path = book_dir / "_system" / "orchestrator-state.json"
     if state_path.exists():
         try:
@@ -138,7 +158,7 @@ def _read_content_profile(book_dir: "Path") -> str:
             prof = state.get("content_profile", "").strip()
             if prof:
                 return prof.lower()
-        except Exception:  # noqa: BLE001
+        except Exception:
             pass
 
     cfg_path = book_dir / "_system" / "series-config.yaml"
@@ -155,8 +175,7 @@ def _read_content_profile(book_dir: "Path") -> str:
 class AuthoringError(RuntimeError):
     """Raised when an LLM-authoring shellout fails to produce its declared artifact."""
 
-    def __init__(self, phase: str, message: str, manual_fallback: str = "",
-                 stdout: str = "", stderr: str = ""):
+    def __init__(self, phase: str, message: str, manual_fallback: str = "", stdout: str = "", stderr: str = ""):
         super().__init__(message)
         self.phase = phase
         self.manual_fallback = manual_fallback
@@ -195,8 +214,10 @@ DEFAULT_MODEL_LABEL = "claude-opus-4-8"
 # Pinning sampling is impossible until the CLI grows the knob; do NOT claim the
 # content route is byte-deterministic.
 
-def record_model_provenance(book_dir: "Path | None", *, phase: str, step: str,
-                            model: str, fallback: bool = False) -> None:
+
+def record_model_provenance(
+    book_dir: "Path | None", *, phase: str, step: str, model: str, fallback: bool = False
+) -> None:
     """Append one row to _system/model-provenance.jsonl naming the model that
     authored this call. A row whose model != DEFAULT_MODEL_LABEL (or fallback=True)
     is a content-provenance divergence — surfaced so mixed-model books are visible.
@@ -205,14 +226,19 @@ def record_model_provenance(book_dir: "Path | None", *, phase: str, step: str,
         return
     try:
         import json as _json
+
         sysdir = Path(book_dir) / "_system"
         sysdir.mkdir(parents=True, exist_ok=True)
-        row = {"phase": phase or "(unspecified)", "step": step or "(unspecified)",
-               "model": model, "fallback": bool(fallback),
-               "divergence": bool(fallback or model != DEFAULT_MODEL_LABEL)}
+        row = {
+            "phase": phase or "(unspecified)",
+            "step": step or "(unspecified)",
+            "model": model,
+            "fallback": bool(fallback),
+            "divergence": bool(fallback or model != DEFAULT_MODEL_LABEL),
+        }
         with (sysdir / "model-provenance.jsonl").open("a", encoding="utf-8") as fh:
             fh.write(_json.dumps(row) + "\n")
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         sys.stderr.write(f"[record_model_provenance] skipped: {e!r}\n")
 
 
@@ -233,9 +259,14 @@ def _run_claude_p(
     # instead of writing. --allowedTools grants the specific tools each phase needs.
     _ALLOWED = "Write,Edit,MultiEdit,Read,Bash,Grep,Glob"
     argv: list[str] = [
-        CLAUDE_CMD, "-p", "--permission-mode", "acceptEdits",
-        "--allowedTools", _ALLOWED,
-        "--output-format", "json",
+        CLAUDE_CMD,
+        "-p",
+        "--permission-mode",
+        "acceptEdits",
+        "--allowedTools",
+        _ALLOWED,
+        "--output-format",
+        "json",
     ]
     if model_flag:
         argv.extend(["--model", model_flag])
@@ -261,6 +292,7 @@ def _run_claude_p(
         if book_dir is not None:
             try:
                 from _cost_ledger import append_from_claude_p_stdout
+
                 append_from_claude_p_stdout(
                     book_dir,
                     phase=phase or "(unspecified)",
@@ -268,17 +300,22 @@ def _run_claude_p(
                     model=model_flag or model,
                     stdout=raw_stdout,
                 )
-            except Exception as e:  # noqa: BLE001
+            except Exception as e:
                 sys.stderr.write(f"[_run_claude_p] cost-ledger append failed: {e!r}\n")
             # Record which model authored this artifact (provenance). A non-default
             # model (the Sonnet timeout-fallback passes model_flag) is flagged as a
             # content-provenance divergence so mixed-model books are never silent.
             _effective_model = model_flag or model
             record_model_provenance(
-                book_dir, phase=phase, step=step, model=_effective_model,
-                fallback=_effective_model != DEFAULT_MODEL_LABEL)
+                book_dir,
+                phase=phase,
+                step=step,
+                model=_effective_model,
+                fallback=_effective_model != DEFAULT_MODEL_LABEL,
+            )
         try:
             from _cost_ledger import parse_text_from_json_stdout
+
             stdout = parse_text_from_json_stdout(raw_stdout)
         except Exception:
             stdout = raw_stdout
@@ -315,24 +352,33 @@ def _run_claude_p_with_retry(
     """Timeout → single retry with fallback model → halt."""
     try:
         return _run_claude_p(
-            prompt, timeout=timeout,
-            book_dir=book_dir, phase=phase, step=step,
+            prompt,
+            timeout=timeout,
+            book_dir=book_dir,
+            phase=phase,
+            step=step,
         )
     except AuthoringError as e:
         if "timed out after" not in str(e):
             raise
 
     bumped = int(timeout * fallback_timeout_multiplier)
-    log(f"      [retry] {step}: first attempt timed out ({timeout}s); "
+    log(
+        f"      [retry] {step}: first attempt timed out ({timeout}s); "
         f"retrying once with model={fallback_model}, timeout={bumped}s "
         f"— CONTENT-PROVENANCE DIVERGENCE: this artifact will be authored by "
         f"{fallback_model}, not {DEFAULT_MODEL_LABEL} (recorded in "
-        f"_system/model-provenance.jsonl)")
+        f"_system/model-provenance.jsonl)"
+    )
     try:
         return _run_claude_p(
-            prompt, timeout=bumped,
-            book_dir=book_dir, phase=phase, step=f"{step}-retry-sonnet",
-            model=fallback_model, model_flag=fallback_model,
+            prompt,
+            timeout=bumped,
+            book_dir=book_dir,
+            phase=phase,
+            step=f"{step}-retry-sonnet",
+            model=fallback_model,
+            model_flag=fallback_model,
         )
     except AuthoringError as e:
         if "timed out after" not in str(e):

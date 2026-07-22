@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from "react";
+import { apiFetch, ApiFetchError } from "../lib/api-fetch";
 
 const PAGE_SIZE = 40;
 
@@ -13,7 +14,7 @@ const PAGE_SIZE = 40;
  * No inline styles — all visual state is class-driven (pronunciation.css).
  */
 
-type Decision = 'pending' | 'ok' | 'fix' | 'cantsay';
+type Decision = "pending" | "ok" | "fix" | "cantsay";
 
 interface ProbeTerm {
   n: number;
@@ -28,7 +29,7 @@ interface ProbeTerm {
   reasons: string[];
   arabicScript: string;
   meaning: string;
-  libraryStatus: 'confirmed' | 'unfixable' | null;
+  libraryStatus: "confirmed" | "unfixable" | null;
   libraryPhonetic: string;
   libraryGloss: string;
 }
@@ -48,27 +49,43 @@ interface Props {
 }
 
 const SEGMENT_LABEL: Record<string, string> = {
-  names: 'Name',
-  places: 'Place',
-  terms: 'Term',
+  names: "Name",
+  places: "Place",
+  terms: "Term",
 };
 
 function prefill(t: ProbeTerm): string {
-  if (t.libraryStatus === 'confirmed' && t.libraryPhonetic) return t.libraryPhonetic;
+  if (t.libraryStatus === "confirmed" && t.libraryPhonetic)
+    return t.libraryPhonetic;
   if (t.house_style_ok && t.phonetic) return t.phonetic;
-  return t.suggested_baseline || '';
+  return t.suggested_baseline || "";
 }
 
 function initialState(terms: ProbeTerm[]): Record<string, RowState> {
   const out: Record<string, RowState> = {};
   for (const t of terms) {
-    const base = { arabic: t.arabicScript || '', phoneSuggested: false };
-    if (t.libraryStatus === 'confirmed') {
-      out[t.term] = { ...base, decision: 'ok', phonetic: prefill(t), gloss: '' };
-    } else if (t.libraryStatus === 'unfixable') {
-      out[t.term] = { ...base, decision: 'cantsay', phonetic: '', gloss: t.libraryGloss };
+    const base = { arabic: t.arabicScript || "", phoneSuggested: false };
+    if (t.libraryStatus === "confirmed") {
+      out[t.term] = {
+        ...base,
+        decision: "ok",
+        phonetic: prefill(t),
+        gloss: "",
+      };
+    } else if (t.libraryStatus === "unfixable") {
+      out[t.term] = {
+        ...base,
+        decision: "cantsay",
+        phonetic: "",
+        gloss: t.libraryGloss,
+      };
     } else {
-      out[t.term] = { ...base, decision: 'pending', phonetic: prefill(t), gloss: '' };
+      out[t.term] = {
+        ...base,
+        decision: "pending",
+        phonetic: prefill(t),
+        gloss: "",
+      };
     }
   }
   return out;
@@ -76,7 +93,9 @@ function initialState(terms: ProbeTerm[]): Record<string, RowState> {
 
 export default function PronunciationReview({ slug, terms }: Props) {
   const storageKey = `pronunciation-review:${slug}`;
-  const [rows, setRows] = useState<Record<string, RowState>>(() => initialState(terms));
+  const [rows, setRows] = useState<Record<string, RowState>>(() =>
+    initialState(terms),
+  );
   const [saving, setSaving] = useState(false);
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -94,35 +113,54 @@ export default function PronunciationReview({ slug, terms }: Props) {
       const raw = localStorage.getItem(storageKey);
       if (!raw) return;
       const stored = JSON.parse(raw) as Record<string, RowState>;
-      const savedKeys = new Set(terms.filter((t) => t.libraryStatus !== null).map((t) => t.term));
+      const savedKeys = new Set(
+        terms.filter((t) => t.libraryStatus !== null).map((t) => t.term),
+      );
       const merged: Record<string, RowState> = {};
       for (const [term, st] of Object.entries(stored)) {
         if (!savedKeys.has(term)) merged[term] = st;
       }
       setRows((prev) => ({ ...prev, ...merged }));
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    try { localStorage.setItem(storageKey, JSON.stringify(rows)); } catch { /* ignore */ }
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(rows));
+    } catch {
+      /* ignore */
+    }
   }, [rows, storageKey]);
 
   function isDecided(r: RowState): boolean {
-    if (r.decision === 'ok' || r.decision === 'fix') return !!r.phonetic.trim();
-    if (r.decision === 'cantsay') return !!r.gloss.trim();
+    if (r.decision === "ok" || r.decision === "fix") return !!r.phonetic.trim();
+    if (r.decision === "cantsay") return !!r.gloss.trim();
     return false;
   }
 
-  const decidedCount = useMemo(() => Object.values(rows).filter(isDecided).length, [rows]);
+  const decidedCount = useMemo(
+    () => Object.values(rows).filter(isDecided).length,
+    [rows],
+  );
   // acceptableCount is page-scoped — the Accept button applies to the visible batch.
   const acceptableCount = useMemo(
-    () => pagedTerms.filter((t) => { const r = rows[t.term]; return r && r.decision === 'pending' && r.phonetic.trim(); }).length,
+    () =>
+      pagedTerms.filter((t) => {
+        const r = rows[t.term];
+        return r && r.decision === "pending" && r.phonetic.trim();
+      }).length,
     [rows, pagedTerms],
   );
   // Single-mention terms with a translation ready — bulk-English candidate count.
   const lowFreqEnglishCount = useMemo(
-    () => pagedTerms.filter((t) => t.freq === 1 && t.meaning && rows[t.term]?.decision === 'pending').length,
+    () =>
+      pagedTerms.filter(
+        (t) =>
+          t.freq === 1 && t.meaning && rows[t.term]?.decision === "pending",
+      ).length,
     [rows, pagedTerms],
   );
 
@@ -136,8 +174,8 @@ export default function PronunciationReview({ slug, terms }: Props) {
       const next = { ...prev };
       for (const t of pagedTerms) {
         const r = next[t.term];
-        if (r && r.decision === 'pending' && r.phonetic.trim()) {
-          next[t.term] = { ...r, decision: 'ok', phoneSuggested: false };
+        if (r && r.decision === "pending" && r.phonetic.trim()) {
+          next[t.term] = { ...r, decision: "ok", phoneSuggested: false };
         }
       }
       return next;
@@ -151,8 +189,13 @@ export default function PronunciationReview({ slug, terms }: Props) {
       for (const t of pagedTerms) {
         if (t.freq !== 1 || !t.meaning) continue;
         const r = next[t.term];
-        if (r && r.decision === 'pending') {
-          next[t.term] = { ...r, decision: 'cantsay', gloss: t.meaning, phoneSuggested: false };
+        if (r && r.decision === "pending") {
+          next[t.term] = {
+            ...r,
+            decision: "cantsay",
+            gloss: t.meaning,
+            phoneSuggested: false,
+          };
         }
       }
       return next;
@@ -162,59 +205,87 @@ export default function PronunciationReview({ slug, terms }: Props) {
 
   function goToPage(p: number) {
     setPage(p);
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0, behavior: "instant" });
   }
 
   async function handleArabicBlur(term: string, arabicValue: string) {
     const r = rows[term];
-    if (!r || r.decision !== 'pending') return;
+    if (!r || r.decision !== "pending") return;
     const text = arabicValue.trim();
     if (!text) return;
     try {
-      const res = await fetch('/api/phonetic-generate', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ word: text }),
-      });
-      const json = await res.json();
-      if (json.ok && json.data?.phonetic) {
+      const data = await apiFetch<{ phonetic: string }>(
+        "/api/phonetic-generate",
+        {
+          method: "POST",
+          body: { word: text },
+        },
+      );
+      if (data?.phonetic) {
         setRows((prev) => ({
           ...prev,
-          [term]: { ...prev[term], phonetic: json.data.phonetic, phoneSuggested: true },
+          [term]: {
+            ...prev[term],
+            phonetic: data.phonetic,
+            phoneSuggested: true,
+          },
         }));
       }
-    } catch { /* silent */ }
+    } catch {
+      /* silent */
+    }
   }
 
   async function save() {
     setSaving(true);
     setError(null);
     setResult(null);
-    const corrections = terms.map((t) => {
-      const r = rows[t.term];
-      if (!r || r.decision === 'pending') return null;
-      if (r.decision === 'cantsay') {
-        if (!r.gloss.trim()) return null;
-        return { term: t.term, transliteration: t.transliteration, status: 'unfixable' as const, gloss: r.gloss.trim() };
-      }
-      const value = r.phonetic.trim();
-      const unchanged = t.house_style_ok && value === (t.phonetic || '').trim();
-      return { term: t.term, transliteration: t.transliteration, status: (unchanged ? 'ok' : 'respell') as 'ok' | 'respell', phonetic: value };
-    }).filter(Boolean);
+    const corrections = terms
+      .map((t) => {
+        const r = rows[t.term];
+        if (!r || r.decision === "pending") return null;
+        if (r.decision === "cantsay") {
+          if (!r.gloss.trim()) return null;
+          return {
+            term: t.term,
+            transliteration: t.transliteration,
+            status: "unfixable" as const,
+            gloss: r.gloss.trim(),
+          };
+        }
+        const value = r.phonetic.trim();
+        const unchanged =
+          t.house_style_ok && value === (t.phonetic || "").trim();
+        return {
+          term: t.term,
+          transliteration: t.transliteration,
+          status: (unchanged ? "ok" : "respell") as "ok" | "respell",
+          phonetic: value,
+        };
+      })
+      .filter(Boolean);
 
     try {
-      const res = await fetch('/api/pronunciation', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ slug, corrections }),
+      const data = await apiFetch<{
+        counts: { confirmed: number; respelled: number; unfixable: number };
+        library_size: number;
+        phonetics_md_updated: boolean;
+      }>("/api/pronunciation", {
+        method: "POST",
+        body: { slug, corrections },
       });
-      const json = await res.json();
-      if (!json.ok) throw new Error(json.error || 'save failed');
-      const c = json.data.counts;
-      setResult(`Saved — ${c.confirmed} confirmed, ${c.respelled} respelled, ${c.unfixable} unfixable. Library now ${json.data.library_size} entries; _phonetics.md updated ${json.data.phonetics_md_updated}.`);
-      try { localStorage.removeItem(storageKey); } catch { /* ignore */ }
+      const c = data.counts;
+      setResult(
+        `Saved — ${c.confirmed} confirmed, ${c.respelled} respelled, ${c.unfixable} unfixable. Library now ${data.library_size} entries; _phonetics.md updated ${data.phonetics_md_updated}.`,
+      );
+      try {
+        localStorage.removeItem(storageKey);
+      } catch {
+        /* ignore */
+      }
     } catch (e) {
-      setError(String(e));
+      // String(Error) keeps the pre-migration `Error: …` display text.
+      setError(String(e instanceof ApiFetchError ? new Error(e.message) : e));
     } finally {
       setSaving(false);
     }
@@ -224,20 +295,34 @@ export default function PronunciationReview({ slug, terms }: Props) {
     <div className="pron">
       <div className="pron-bar">
         <div className="pron-bar-info">
-          <span className="pron-count">{decidedCount}/{terms.length} reviewed</span>
+          <span className="pron-count">
+            {decidedCount}/{terms.length} reviewed
+          </span>
           {totalPages > 1 && (
-            <span className="pron-page-indicator">pg {page + 1}/{totalPages}</span>
+            <span className="pron-page-indicator">
+              pg {page + 1}/{totalPages}
+            </span>
           )}
         </div>
         <div className="pron-bar-actions">
           {lowFreqEnglishCount > 0 && (
-            <button className="pron-acceptall" onClick={applyEnglishForLowFreq} disabled={saving}>
-              English for {lowFreqEnglishCount} ×1 term{lowFreqEnglishCount === 1 ? '' : 's'}
+            <button
+              className="pron-acceptall"
+              onClick={applyEnglishForLowFreq}
+              disabled={saving}
+            >
+              English for {lowFreqEnglishCount} ×1 term
+              {lowFreqEnglishCount === 1 ? "" : "s"}
             </button>
           )}
           {acceptableCount > 0 && (
-            <button className="pron-acceptall" onClick={acceptAllSuggestions} disabled={saving}>
-              Accept {acceptableCount} suggestion{acceptableCount === 1 ? '' : 's'}
+            <button
+              className="pron-acceptall"
+              onClick={acceptAllSuggestions}
+              disabled={saving}
+            >
+              Accept {acceptableCount} suggestion
+              {acceptableCount === 1 ? "" : "s"}
             </button>
           )}
         </div>
@@ -245,23 +330,31 @@ export default function PronunciationReview({ slug, terms }: Props) {
 
       {totalPages > 1 && (
         <div className="pron-pagination">
-          <button className="pron-page-btn" disabled={page === 0} onClick={() => goToPage(page - 1)}>
+          <button
+            className="pron-page-btn"
+            disabled={page === 0}
+            onClick={() => goToPage(page - 1)}
+          >
             ← Prev
           </button>
           <div className="pron-page-nums">
             {Array.from({ length: totalPages }, (_, i) => (
               <button
                 key={i}
-                className={`pron-page-num${i === page ? ' is-current' : ''}`}
+                className={`pron-page-num${i === page ? " is-current" : ""}`}
                 onClick={() => goToPage(i)}
                 aria-label={`Page ${i + 1}`}
-                aria-current={i === page ? 'page' : undefined}
+                aria-current={i === page ? "page" : undefined}
               >
                 {i + 1}
               </button>
             ))}
           </div>
-          <button className="pron-page-btn" disabled={page === totalPages - 1} onClick={() => goToPage(page + 1)}>
+          <button
+            className="pron-page-btn"
+            disabled={page === totalPages - 1}
+            onClick={() => goToPage(page + 1)}
+          >
             Next →
           </button>
         </div>
@@ -269,14 +362,19 @@ export default function PronunciationReview({ slug, terms }: Props) {
 
       <ol className="pron-list" ref={listRef}>
         {pagedTerms.map((t) => {
-          const r = rows[t.term] ?? { decision: 'pending' as Decision, phonetic: prefill(t), gloss: '', arabic: t.arabicScript || '' };
+          const r = rows[t.term] ?? {
+            decision: "pending" as Decision,
+            phonetic: prefill(t),
+            gloss: "",
+            arabic: t.arabicScript || "",
+          };
           const known = t.libraryStatus !== null;
-          const useGloss = r.decision === 'cantsay';
+          const useGloss = r.decision === "cantsay";
 
           return (
             <li
               key={t.term}
-              className={`pron-row pron-row-${r.decision}${!t.house_style_ok ? ' pron-row-needsfix' : ''}`}
+              className={`pron-row pron-row-${r.decision}${!t.house_style_ok ? " pron-row-needsfix" : ""}`}
             >
               <span className="pron-n">{t.n}</span>
 
@@ -286,21 +384,44 @@ export default function PronunciationReview({ slug, terms }: Props) {
                   className="pron-term-arabic"
                   type="text"
                   dir="rtl"
-                  value={r.arabic || ''}
-                  onChange={(e) => update(t.term, { arabic: e.target.value, phoneSuggested: false })}
+                  value={r.arabic || ""}
+                  onChange={(e) =>
+                    update(t.term, {
+                      arabic: e.target.value,
+                      phoneSuggested: false,
+                    })
+                  }
                   onBlur={(e) => handleArabicBlur(t.term, e.target.value)}
                   placeholder="Arabic…"
                   aria-label={`Arabic script for ${t.term}`}
                 />
                 {t.transliteration !== t.term && (
-                  <span className="pron-term-translit">{t.transliteration}</span>
+                  <span className="pron-term-translit">
+                    {t.transliteration}
+                  </span>
                 )}
                 <span className="pron-chips">
-                  <span className="pron-chip pron-chip-seg">{SEGMENT_LABEL[t.segment] ?? t.segment}</span>
-                  {t.freq > 0 && <span className="pron-chip pron-chip-count">×{t.freq}</span>}
-                  {!t.house_style_ok && <span className="pron-chip pron-chip-warn">needs respelling</span>}
-                  {known && <span className="pron-chip pron-chip-known">in library</span>}
-                  {t.signature.map((s) => <span key={s} className="pron-chip">{s}</span>)}
+                  <span className="pron-chip pron-chip-seg">
+                    {SEGMENT_LABEL[t.segment] ?? t.segment}
+                  </span>
+                  {t.freq > 0 && (
+                    <span className="pron-chip pron-chip-count">×{t.freq}</span>
+                  )}
+                  {!t.house_style_ok && (
+                    <span className="pron-chip pron-chip-warn">
+                      needs respelling
+                    </span>
+                  )}
+                  {known && (
+                    <span className="pron-chip pron-chip-known">
+                      in library
+                    </span>
+                  )}
+                  {t.signature.map((s) => (
+                    <span key={s} className="pron-chip">
+                      {s}
+                    </span>
+                  ))}
                 </span>
                 {t.meaning && (
                   <span className="pron-term-meaning">{t.meaning}</span>
@@ -311,38 +432,64 @@ export default function PronunciationReview({ slug, terms }: Props) {
               <div className="pron-controls">
                 <div className="pron-decision-row">
                   {/* Correct / Fix toggle */}
-                  <div className="pron-seg" role="group" aria-label={`Decision for ${t.term}`}>
+                  <div
+                    className="pron-seg"
+                    role="group"
+                    aria-label={`Decision for ${t.term}`}
+                  >
                     <button
-                      className={`pron-segbtn${r.decision === 'ok' ? ' is-on' : ''}`}
-                      onClick={() => update(t.term, { decision: 'ok', phonetic: prefill(t), phoneSuggested: false })}
-                    >✓ Correct</button>
+                      className={`pron-segbtn${r.decision === "ok" ? " is-on" : ""}`}
+                      onClick={() =>
+                        update(t.term, {
+                          decision: "ok",
+                          phonetic: prefill(t),
+                          phoneSuggested: false,
+                        })
+                      }
+                    >
+                      ✓ Correct
+                    </button>
                     <button
-                      className={`pron-segbtn${r.decision === 'fix' ? ' is-on' : ''}`}
-                      onClick={() => update(t.term, { decision: 'fix', phoneSuggested: false })}
-                    >✎ Fix</button>
+                      className={`pron-segbtn${r.decision === "fix" ? " is-on" : ""}`}
+                      onClick={() =>
+                        update(t.term, {
+                          decision: "fix",
+                          phoneSuggested: false,
+                        })
+                      }
+                    >
+                      ✎ Fix
+                    </button>
                   </div>
 
                   {/* English toggle pill — always shows the translation as a preview */}
                   <button
                     type="button"
-                    className={`pron-lang-toggle${useGloss ? ' is-active' : ''}${!t.meaning ? ' has-no-meaning' : ''}`}
+                    className={`pron-lang-toggle${useGloss ? " is-active" : ""}${!t.meaning ? " has-no-meaning" : ""}`}
                     onClick={() => {
                       if (useGloss) {
-                        update(t.term, { decision: 'pending', phonetic: prefill(t), gloss: '', phoneSuggested: false });
-                      } else {
-                        const currentGloss = rows[t.term]?.gloss ?? '';
                         update(t.term, {
-                          decision: 'cantsay',
-                          gloss: currentGloss.trim() || t.meaning || '',
+                          decision: "pending",
+                          phonetic: prefill(t),
+                          gloss: "",
+                          phoneSuggested: false,
+                        });
+                      } else {
+                        const currentGloss = rows[t.term]?.gloss ?? "";
+                        update(t.term, {
+                          decision: "cantsay",
+                          gloss: currentGloss.trim() || t.meaning || "",
                           phoneSuggested: false,
                         });
                       }
                     }}
                     aria-pressed={useGloss}
-                    aria-label={`Use English for ${t.term}: ${t.meaning || 'no translation yet'}`}
+                    aria-label={`Use English for ${t.term}: ${t.meaning || "no translation yet"}`}
                   >
-                    <span className="pron-lang-icon" aria-hidden="true">{useGloss ? '✓' : '⇄'}</span>
-                    <span className="pron-lang-text">{t.meaning || '…'}</span>
+                    <span className="pron-lang-icon" aria-hidden="true">
+                      {useGloss ? "✓" : "⇄"}
+                    </span>
+                    <span className="pron-lang-text">{t.meaning || "…"}</span>
                   </button>
                 </div>
 
@@ -359,22 +506,33 @@ export default function PronunciationReview({ slug, terms }: Props) {
                 ) : (
                   <>
                     <input
-                      className={`pron-input${r.phoneSuggested ? ' pron-input-suggested' : ''}`}
+                      className={`pron-input${r.phoneSuggested ? " pron-input-suggested" : ""}`}
                       type="text"
                       value={r.phonetic}
-                      readOnly={r.decision === 'ok'}
+                      readOnly={r.decision === "ok"}
                       placeholder="house-style respelling, e.g. gha-zaa-lee"
-                      onChange={(e) => update(t.term, { decision: 'fix', phonetic: e.target.value, phoneSuggested: false })}
+                      onChange={(e) =>
+                        update(t.term, {
+                          decision: "fix",
+                          phonetic: e.target.value,
+                          phoneSuggested: false,
+                        })
+                      }
                       aria-label={`Phonetic respelling for ${t.term}`}
                     />
                     {r.phoneSuggested && (
-                      <span className="pron-suggested-note">AI suggestion — confirm or edit</span>
+                      <span className="pron-suggested-note">
+                        AI suggestion — confirm or edit
+                      </span>
                     )}
                   </>
                 )}
 
-                <span className="pron-intended" title="what NotebookLM was told to say">
-                  intended: <code>{t.house_style_ok ? t.phonetic : '—'}</code>
+                <span
+                  className="pron-intended"
+                  title="what NotebookLM was told to say"
+                >
+                  intended: <code>{t.house_style_ok ? t.phonetic : "—"}</code>
                 </span>
               </div>
             </li>
@@ -384,33 +542,55 @@ export default function PronunciationReview({ slug, terms }: Props) {
 
       {totalPages > 1 && (
         <div className="pron-pagination">
-          <button className="pron-page-btn" disabled={page === 0} onClick={() => goToPage(page - 1)}>
+          <button
+            className="pron-page-btn"
+            disabled={page === 0}
+            onClick={() => goToPage(page - 1)}
+          >
             ← Prev
           </button>
           <div className="pron-page-nums">
             {Array.from({ length: totalPages }, (_, i) => (
               <button
                 key={i}
-                className={`pron-page-num${i === page ? ' is-current' : ''}`}
+                className={`pron-page-num${i === page ? " is-current" : ""}`}
                 onClick={() => goToPage(i)}
                 aria-label={`Page ${i + 1}`}
-                aria-current={i === page ? 'page' : undefined}
+                aria-current={i === page ? "page" : undefined}
               >
                 {i + 1}
               </button>
             ))}
           </div>
-          <button className="pron-page-btn" disabled={page === totalPages - 1} onClick={() => goToPage(page + 1)}>
+          <button
+            className="pron-page-btn"
+            disabled={page === totalPages - 1}
+            onClick={() => goToPage(page + 1)}
+          >
             Next →
           </button>
         </div>
       )}
 
       <div className="pron-footer">
-        {result && <p className="pron-msg pron-msg-ok" role="status">{result}</p>}
-        {error && <p className="pron-msg pron-msg-err" role="alert">{error}</p>}
-        <button className="pron-save" onClick={save} disabled={saving || decidedCount === 0}>
-          {saving ? 'Saving…' : `Save ${decidedCount} correction${decidedCount === 1 ? '' : 's'}`}
+        {result && (
+          <p className="pron-msg pron-msg-ok" role="status">
+            {result}
+          </p>
+        )}
+        {error && (
+          <p className="pron-msg pron-msg-err" role="alert">
+            {error}
+          </p>
+        )}
+        <button
+          className="pron-save"
+          onClick={save}
+          disabled={saving || decidedCount === 0}
+        >
+          {saving
+            ? "Saving…"
+            : `Save ${decidedCount} correction${decidedCount === 1 ? "" : "s"}`}
         </button>
       </div>
     </div>

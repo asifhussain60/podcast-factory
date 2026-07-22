@@ -44,21 +44,23 @@ from __future__ import annotations
 import re
 import sys
 from pathlib import Path
+
 from _paths import REPO_ROOT
-from collections import Counter
 
 # Canonical rule lists live in _rules.py. (The prior mirror in
 # content/podcast/.skill/handbook/notebooklm-customize-prompt-rules.md was
 # retired 2026-05-23; _rules.py is the sole source of truth now.)
 sys.path.insert(0, str(Path(__file__).parent))
 from _rules import (
+    FILLER_INTERJECTIONS,
     MODERNIZE_DENY,
     SURPRISE_DENY,
     WELCOME_COLD,
-    HONORIFICS as HONORIFIC_EXPANSIONS,
-    FILLER_INTERJECTIONS,
     abbreviations_for_audit,
     emit_finding,
+)
+from _rules import (
+    HONORIFICS as HONORIFIC_EXPANSIONS,
 )
 
 # Version tag stamped into every finding record this script emits.
@@ -86,9 +88,7 @@ FORBIDDEN_ABBREVIATIONS = abbreviations_for_audit()
 # `Hadith Qudsi` mangling is detected by the adjacent-repetition heuristic in
 # `detect_phonetic_doublings`, not the lookup map — leaving it out of the
 # handbook file is intentional.
-GENERIC_MANGLE_MAP_PATH = (
-    REPO_ROOT / "content/podcast/.skill/handbook/_mangle-map.md"
-)
+GENERIC_MANGLE_MAP_PATH = REPO_ROOT / "content/podcast/.skill/handbook/_mangle-map.md"
 
 
 def load_generic_mangle_map() -> dict[str, list[str]]:
@@ -164,9 +164,7 @@ def detect_phonetic_doublings(text: str) -> list[str]:
     Heuristic: a capitalized Arabic-style token followed by a comma/space and
     then a hyphen-bearing lowercase token whose letters loosely match.
     """
-    pattern = re.compile(
-        r"\b([A-Z][a-zA-Z']{2,})\b[\s,]+([a-z]+(?:[\s\-][a-z]+){1,3})"
-    )
+    pattern = re.compile(r"\b([A-Z][a-zA-Z']{2,})\b[\s,]+([a-z]+(?:[\s\-][a-z]+){1,3})")
     hits = []
     for m in pattern.finditer(text):
         a, b = m.group(1), m.group(2).replace("-", " ").replace(",", "")
@@ -235,22 +233,20 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     lines: list[str] = []
     lines.append(f"# Transcript Audit · {episode_id}")
     lines.append("")
-    lines.append(f"**Transcript:** `{transcript_path.relative_to(book_dir.parent.parent) if book_dir.parent.parent in transcript_path.parents else transcript_path}`")
+    lines.append(
+        f"**Transcript:** `{transcript_path.relative_to(book_dir.parent.parent) if book_dir.parent.parent in transcript_path.parents else transcript_path}`"
+    )
     lines.append(f"**Word count:** {wc}")
     lines.append(f"**Audit tool:** `scripts/podcast/audit_transcript.py` v{AUDIT_TRANSCRIPT_VERSION}")
     lines.append("")
 
     # Headline verdict
-    total_p0 = (
-        len(phonetic_doublings) +
-        sum(n for _, _, n in mangled) +
-        sum(n for _, n in welcome_hits)
-    )
+    total_p0 = len(phonetic_doublings) + sum(n for _, _, n in mangled) + sum(n for _, n in welcome_hits)
     total_p1 = (
-        sum(n for _, n in modernize_hits) +
-        sum(n for _, n in surprise_hits) +
-        sum(n for _, n in honorific_hits) +
-        sum(n for _, n in abbreviation_hits)
+        sum(n for _, n in modernize_hits)
+        + sum(n for _, n in surprise_hits)
+        + sum(n for _, n in honorific_hits)
+        + sum(n for _, n in abbreviation_hits)
     )
     if total_p0 == 0 and total_p1 == 0:
         verdict = "CLEAN"
@@ -268,7 +264,9 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     # Section 1 — Phonetic doublings (R-PHONETICS-OUT)
     lines.append("## Phonetic doublings · R-PHONETICS-OUT (P0)")
     lines.append("")
-    lines.append("Pattern: `Term, term-phonetic` — the hosts read the transliteration AND its respelled phonetic. Indicates either inline phonetics survived in the chapter file or the framing's `## Pronunciation` block was not in imperative form.")
+    lines.append(
+        "Pattern: `Term, term-phonetic` — the hosts read the transliteration AND its respelled phonetic. Indicates either inline phonetics survived in the chapter file or the framing's `## Pronunciation` block was not in imperative form."
+    )
     lines.append("")
     if phonetic_doublings:
         lines.append(f"**Count:** {len(phonetic_doublings)}")
@@ -284,7 +282,9 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     # Section 2 — Mangled names
     lines.append("## Mangled names (P0)")
     lines.append("")
-    lines.append("Known-mangling lookup: each canonical name is scanned against its empirically-observed mangled forms.")
+    lines.append(
+        "Known-mangling lookup: each canonical name is scanned against its empirically-observed mangled forms."
+    )
     lines.append("")
     if mangled:
         lines.append("| Canonical | Mangled form | Count |")
@@ -308,7 +308,9 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     lines.append("")
 
     # Section 4 — Modernization injections
-    lines.append(f"## Modernization injections · R-NOMODERNIZE (P1) · density {per_kw(sum(n for _, n in modernize_hits))} per 1k words")
+    lines.append(
+        f"## Modernization injections · R-NOMODERNIZE (P1) · density {per_kw(sum(n for _, n in modernize_hits))} per 1k words"
+    )
     lines.append("")
     if modernize_hits:
         lines.append("| Phrase | Count |")
@@ -320,7 +322,9 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     lines.append("")
 
     # Section 5 — Surprise noise
-    lines.append(f"## Surprise-noise loops · R-NOSURPRISE (P1) · density {per_kw(sum(n for _, n in surprise_hits))} per 1k words")
+    lines.append(
+        f"## Surprise-noise loops · R-NOSURPRISE (P1) · density {per_kw(sum(n for _, n in surprise_hits))} per 1k words"
+    )
     lines.append("")
     if surprise_hits:
         lines.append("| Phrase | Count |")
@@ -334,7 +338,9 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     # Section 6 — Honorific repetition
     lines.append("## Honorific repetitions · R-HONORIFIC-ONCE (P1)")
     lines.append("")
-    lines.append("Each form allowed exactly once per chapter; the transcript should reflect ≤1 expansion per honorific phrase form.")
+    lines.append(
+        "Each form allowed exactly once per chapter; the transcript should reflect ≤1 expansion per honorific phrase form."
+    )
     lines.append("")
     if honorific_hits:
         lines.append("| Honorific form | Count |")
@@ -358,7 +364,9 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     lines.append("")
 
     # Section 8 — Filler interjections
-    lines.append(f"## Filler interjections · R-NOINTERRUPT (P2) · density {per_kw(sum(n for _, n in filler_hits))} per 1k words")
+    lines.append(
+        f"## Filler interjections · R-NOINTERRUPT (P2) · density {per_kw(sum(n for _, n in filler_hits))} per 1k words"
+    )
     lines.append("")
     if filler_hits:
         lines.append("| Phrase | Count |")
@@ -374,13 +382,27 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     lines.append("")
     lines.append("| Finding | Action |")
     lines.append("|---|---|")
-    lines.append("| Phonetic doublings | Inspect chapter for surviving inline `(PHO-ne-tic)` parens; verify framing's `## Pronunciation` block uses imperative form per R-PRONUNCIATION-IMPERATIVE. |")
-    lines.append("| Mangled names | Add explicit `Pronounce \"<canonical>\" as \"<phonetic>\". Say it as one fluent word.` line to the framing's Pronunciation block. Check `content/_shared/arabic/03-arabic-english-manifest.md` for canonical spelling. |")
-    lines.append("| Welcome opening violations | Verify framing carries the R-WELCOME directive; tighten the Opening section to forbid the specific phrase. |")
-    lines.append("| Modernization injections | Extend the framing's `## Do not` block with the specific phrase; confirm R-NOMODERNIZE canonical list is present. |")
-    lines.append("| Surprise loops | Extend `## Do not` with the specific phrase; confirm R-NOSURPRISE canonical list is present. |")
-    lines.append("| Honorific repetition | Audit chapter file with `assert_honorifics_once_only` in `build_episode_txt.py`; strip 2nd+ expansions. |")
-    lines.append("| Abbreviated titles | Search-and-replace per the `FORBIDDEN_ABBREVIATIONS` map in `build_episode_txt.py`. |")
+    lines.append(
+        "| Phonetic doublings | Inspect chapter for surviving inline `(PHO-ne-tic)` parens; verify framing's `## Pronunciation` block uses imperative form per R-PRONUNCIATION-IMPERATIVE. |"
+    )
+    lines.append(
+        '| Mangled names | Add explicit `Pronounce "<canonical>" as "<phonetic>". Say it as one fluent word.` line to the framing\'s Pronunciation block. Check `content/_shared/arabic/03-arabic-english-manifest.md` for canonical spelling. |'
+    )
+    lines.append(
+        "| Welcome opening violations | Verify framing carries the R-WELCOME directive; tighten the Opening section to forbid the specific phrase. |"
+    )
+    lines.append(
+        "| Modernization injections | Extend the framing's `## Do not` block with the specific phrase; confirm R-NOMODERNIZE canonical list is present. |"
+    )
+    lines.append(
+        "| Surprise loops | Extend `## Do not` with the specific phrase; confirm R-NOSURPRISE canonical list is present. |"
+    )
+    lines.append(
+        "| Honorific repetition | Audit chapter file with `assert_honorifics_once_only` in `build_episode_txt.py`; strip 2nd+ expansions. |"
+    )
+    lines.append(
+        "| Abbreviated titles | Search-and-replace per the `FORBIDDEN_ABBREVIATIONS` map in `build_episode_txt.py`. |"
+    )
     lines.append("")
 
     report_dir = book_dir / "_system"
@@ -391,7 +413,9 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
     # ── Sense stage of the learning pipeline ─────────────────────────────
     # Emit one JSONL record per finding into _learning/findings.jsonl so the
     # aggregator + proposer can pick up recurring patterns across books.
-    transcript_file = str(transcript_path.relative_to(REPO_ROOT)) if REPO_ROOT in transcript_path.parents else str(transcript_path)
+    transcript_file = (
+        str(transcript_path.relative_to(REPO_ROOT)) if REPO_ROOT in transcript_path.parents else str(transcript_path)
+    )
     book_slug = book_dir.name
     emit_kw = dict(
         repo_root=REPO_ROOT,
@@ -402,37 +426,65 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
         file=transcript_file,
     )
     for d in phonetic_doublings:
-        emit_finding(check_id="TX-PHON-DOUBLE", severity="P0",
-                     signature=f"TX-PHON-DOUBLE:{d}",
-                     context_excerpt=d, **emit_kw)
+        emit_finding(
+            check_id="TX-PHON-DOUBLE", severity="P0", signature=f"TX-PHON-DOUBLE:{d}", context_excerpt=d, **emit_kw
+        )
     for canonical, mangled_form, _n in mangled:
-        emit_finding(check_id="TX-MANGLE", severity="P0",
-                     signature=f"TX-MANGLE:{canonical}->{mangled_form}",
-                     context_excerpt=f"{canonical} → {mangled_form}", **emit_kw)
+        emit_finding(
+            check_id="TX-MANGLE",
+            severity="P0",
+            signature=f"TX-MANGLE:{canonical}->{mangled_form}",
+            context_excerpt=f"{canonical} → {mangled_form}",
+            **emit_kw,
+        )
     for phrase, _n in welcome_hits:
-        emit_finding(check_id="TX-WELCOME-COLD", severity="P0",
-                     signature=f"TX-WELCOME-COLD:{phrase.strip()}",
-                     context_excerpt=phrase.strip(), **emit_kw)
+        emit_finding(
+            check_id="TX-WELCOME-COLD",
+            severity="P0",
+            signature=f"TX-WELCOME-COLD:{phrase.strip()}",
+            context_excerpt=phrase.strip(),
+            **emit_kw,
+        )
     for phrase, _n in modernize_hits:
-        emit_finding(check_id="TX-MODERNIZE", severity="P1",
-                     signature=f"TX-MODERNIZE:{phrase.strip()}",
-                     context_excerpt=phrase.strip(), **emit_kw)
+        emit_finding(
+            check_id="TX-MODERNIZE",
+            severity="P1",
+            signature=f"TX-MODERNIZE:{phrase.strip()}",
+            context_excerpt=phrase.strip(),
+            **emit_kw,
+        )
     for phrase, _n in surprise_hits:
-        emit_finding(check_id="TX-SURPRISE", severity="P1",
-                     signature=f"TX-SURPRISE:{phrase.strip()}",
-                     context_excerpt=phrase.strip(), **emit_kw)
+        emit_finding(
+            check_id="TX-SURPRISE",
+            severity="P1",
+            signature=f"TX-SURPRISE:{phrase.strip()}",
+            context_excerpt=phrase.strip(),
+            **emit_kw,
+        )
     for pattern, _n in honorific_hits:
-        emit_finding(check_id="TX-HONORIFIC-REPEAT", severity="P1",
-                     signature=f"TX-HONORIFIC-REPEAT:{pattern}",
-                     context_excerpt=pattern, **emit_kw)
+        emit_finding(
+            check_id="TX-HONORIFIC-REPEAT",
+            severity="P1",
+            signature=f"TX-HONORIFIC-REPEAT:{pattern}",
+            context_excerpt=pattern,
+            **emit_kw,
+        )
     for phrase, _n in abbreviation_hits:
-        emit_finding(check_id="TX-ABBREV", severity="P1",
-                     signature=f"TX-ABBREV:{phrase.strip()}",
-                     context_excerpt=phrase.strip(), **emit_kw)
+        emit_finding(
+            check_id="TX-ABBREV",
+            severity="P1",
+            signature=f"TX-ABBREV:{phrase.strip()}",
+            context_excerpt=phrase.strip(),
+            **emit_kw,
+        )
     for phrase, _n in filler_hits:
-        emit_finding(check_id="TX-FILLER", severity="P2",
-                     signature=f"TX-FILLER:{phrase.strip()}",
-                     context_excerpt=phrase.strip(), **emit_kw)
+        emit_finding(
+            check_id="TX-FILLER",
+            severity="P2",
+            signature=f"TX-FILLER:{phrase.strip()}",
+            context_excerpt=phrase.strip(),
+            **emit_kw,
+        )
 
     return report_path
 

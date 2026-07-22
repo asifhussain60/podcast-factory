@@ -8,10 +8,13 @@
  *   2. The sequential STEPPER — Intake → Source Review → Edit & Enrich → Publish
  *      with live status icons from the pipeline state.
  */
-import type { StudioStep, StepId } from '../../lib/reader/studio-pipeline';
-import BookPalette from './BookPalette.tsx';
+import type { StudioStep, StepId } from "../../lib/reader/studio-pipeline";
+import BookPalette from "./BookPalette.tsx";
 
-interface BookOption { slug: string; title: string }
+interface BookOption {
+  slug: string;
+  title: string;
+}
 
 interface Props {
   slug: string;
@@ -25,15 +28,23 @@ interface Props {
   compact?: boolean;
 }
 
-const { slug, bookTitle, activeStep, steps, books, compact = false } = Astro.props;
+const {
+  slug,
+  bookTitle,
+  activeStep,
+  steps,
+  books,
+  compact = false,
+} = Astro.props;
 
 const STATE_ICON: Record<string, string> = {
-  done: 'fa-circle-check',
-  active: 'fa-circle-dot',
-  pending: 'fa-circle',
-  blocked: 'fa-circle-exclamation',
+  done: "fa-circle-check",
+  active: "fa-circle-dot",
+  pending: "fa-circle",
+  blocked: "fa-circle-exclamation",
 };
 ---
+
 <nav class="studio-subnav" aria-label="Studio pipeline">
   <div class="studio-subnav-inner">
     <nav class="studio-subnav-crumb" aria-label="Breadcrumb">
@@ -43,24 +54,39 @@ const STATE_ICON: Record<string, string> = {
     </nav>
     <BookPalette client:load books={books} currentSlug={slug} />
 
-    {/* Compact pages (Edit & Enrich, Arabic review) carry their own surface
+    {
+      /* Compact pages (Edit & Enrich, Arabic review) carry their own surface
         toggle + page header, so the redundant non-interactive current-step
-        label is omitted — only the breadcrumb + book picker show here. */}
-    {compact ? null : (
-      <ol class="studio-stepper">
-        {steps.map((step, i) => (
-          <li class={`studio-step state-${step.state}${step.id === activeStep ? ' is-active' : ''}`}>
-            <a href={`/studio/${slug}/${step.id}`} class="studio-step-link" aria-current={step.id === activeStep ? 'step' : undefined}>
-              <span class="studio-step-icon"><i class={`fa-solid ${STATE_ICON[step.state]}`} aria-hidden="true"></i></span>
-              <span class="studio-step-copy">
-                <span class="studio-step-num">Step {i + 1}</span>
-                <span class="studio-step-label">{step.label}</span>
-                <span class="studio-step-detail">{step.detail}</span>
-              </span>
-            </a>
-          </li>
-        ))}
-      </ol>
-    )}
+        label is omitted — only the breadcrumb + book picker show here. */
+    }
+    {
+      compact ? null : (
+        <ol class="studio-stepper">
+          {steps.map((step, i) => (
+            <li
+              class={`studio-step state-${step.state}${step.id === activeStep ? " is-active" : ""}`}
+            >
+              <a
+                href={`/studio/${slug}/${step.id}`}
+                class="studio-step-link"
+                aria-current={step.id === activeStep ? "step" : undefined}
+              >
+                <span class="studio-step-icon">
+                  <i
+                    class={`fa-solid ${STATE_ICON[step.state]}`}
+                    aria-hidden="true"
+                  />
+                </span>
+                <span class="studio-step-copy">
+                  <span class="studio-step-num">Step {i + 1}</span>
+                  <span class="studio-step-label">{step.label}</span>
+                  <span class="studio-step-detail">{step.detail}</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      )
+    }
   </div>
 </nav>

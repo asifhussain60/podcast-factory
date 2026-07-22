@@ -1,0 +1,301 @@
+/* supplication-print.css — print stylesheet for the facing-column
+ * supplication PDF (du'a / ziyarat / munajat).
+ *
+ * Consumed by scripts/render-supplication-pdf.mjs (inlined at render time;
+ * this file is the single source of truth — never style inside the script).
+ * Theme tokens (--c-*) are injected from theme.css :root by the renderer.
+ *
+ * DELIBERATELY SEPARATE from book-print.css. The supplication lane is a
+ * standalone PDF-only lane; book-print.css governs every existing Islamic
+ * reading edition and is never touched by this work.
+ *
+ * Fonts — self-hosted, served by the renderer from plan-dashboard/public/fonts/.
+ * TWO faces per script, split by ROLE, so each side has a display voice and a
+ * reading voice:
+ *   Arabic  → Amiri Regular (source body) + Amiri Bold (title, refrains)
+ *   Urdu    → Noto Nastaliq Urdu (Urdu is conventionally set in Nastaliq; Amiri
+ *             is a Naskh face and would be wrong for it)
+ *   English → Inter (display + labels: title, eyebrow, metadata keys)
+ *             Lato  (reading text: translations, preamble, metadata values)
+ * NOTE: "Traditional Arabic Bold" was requested as the Arabic bold partner. It
+ * is a proprietary Microsoft font — not present on this machine and not
+ * licensable to self-host — so Amiri Bold stands in. Scheherazade New (SIL) is
+ * the closest freely-licensable analogue if that specific texture is wanted.
+ * All faces are bundled, NOT host-resolved, so pagination is identical on
+ * every machine for the same units.json.
+ *
+ * LAYOUT PRIMITIVE — an HTML <table>. One <tr> per unit. A table row is what
+ * GUARANTEES the English cell and the source cell occupy the same height
+ * block, which is the lane's core requirement ("translations match
+ * line-for-line"). Floats, flex, and CSS columns cannot promise that.
+ */
+
+/* ── Faces ───────────────────────────────────────────────────────────────── */
+
+/* English — Inter for display/labels, Lato for reading text. Both Latin-only
+   here, so neither ever touches the Arabic column. */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter/inter-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter/inter-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lato";
+  src: url("/fonts/lato/lato-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Lato";
+  src: url("/fonts/lato/lato-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Arabic — Amiri. size-adjust enlarges the Arabic glyphs so the source column
+   reads at the same visual weight as the Latin English column; Arabic faces
+   render smaller than Latin at equal point size. Amiri is Arabic-script only
+   in this stylesheet, so this never affects the English column. Matches the
+   135% already used by the reading edition (book-print.css) so the two
+   deliverables set Arabic at the same optical size. */
+@font-face {
+  font-family: "Amiri";
+  src: url("/fonts/amiri/Amiri-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 135%;
+}
+@font-face {
+  font-family: "Amiri";
+  src: url("/fonts/amiri/Amiri-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  size-adjust: 135%;
+}
+
+/* Urdu — Nastaliq is a sloped, deeply-cascading script: glyphs descend far
+   below the baseline and ascend far above it. It needs its own size-adjust AND
+   a much larger line-height than Naskh (see .sup-src[lang="ur"] below), hence a
+   separate family/class pair rather than one shared Arabic-script rule. */
+@font-face {
+  font-family: "Noto Nastaliq Urdu";
+  src: url("/fonts/noto-nastaliq-urdu/NotoNastaliqUrdu-Regular.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 108%;
+}
+@font-face {
+  font-family: "Noto Nastaliq Urdu";
+  src: url("/fonts/noto-nastaliq-urdu/NotoNastaliqUrdu-Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  size-adjust: 108%;
+}
+
+/* ── Page ────────────────────────────────────────────────────────────────── */
+@page {
+  margin: 2cm 1.6cm;
+  @bottom-center {
+    content: counter(page);
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 0.72rem;
+    color: var(--c-ink-muted, #87827a);
+  }
+}
+@page:first {
+  @bottom-center {
+    content: "";
+  }
+}
+
+html {
+  font-size: 19.2px;
+}
+body {
+  /* Lato is the READING voice — translations, preamble, metadata values. */
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--c-ink, #1f1d18);
+  background: #fff;
+  margin: 0;
+}
+
+/* ── Title block: metadata header + merits/occasion preamble ─────────────── */
+.sup-titleblock {
+  text-align: center;
+  padding: 0 0 1.6rem;
+  border-bottom: 2px solid var(--c-gold, #b8860b);
+  margin-bottom: 1.9rem;
+}
+.sup-titleblock .sup-eyebrow {
+  font-family: "Inter", system-ui, sans-serif;
+  margin: 0 0 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-gold, #b8860b);
+}
+.sup-titleblock h1 {
+  font-family: "Inter", system-ui, sans-serif;
+  margin: 0 0 0.35rem;
+  font-size: 2.1rem;
+  line-height: 1.16;
+  font-weight: 600;
+  color: var(--c-ink, #1f1d18);
+}
+.sup-titleblock .sup-title-src {
+  margin: 0 0 1.1rem;
+  font-size: 1.6rem;
+  font-weight: 700; /* Amiri Bold — the Arabic display voice */
+  line-height: 1.9;
+  color: var(--c-ink, #1f1d18);
+}
+
+/* Metadata grid: type · attributed to · recommended occasion · purpose · place.
+   A definition list, not a table — this is label/value reference data, and the
+   row-height guarantee that justifies a <table> is only needed for the units. */
+.sup-meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.3rem 0.9rem;
+  max-width: 30rem;
+  margin: 0 auto 1.2rem;
+  text-align: left;
+  font-size: 0.84rem;
+}
+.sup-meta dt {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted, #6f6a61);
+  padding-top: 0.16rem;
+}
+.sup-meta dd {
+  margin: 0;
+  color: var(--c-ink, #1f1d18);
+}
+
+.sup-preamble {
+  max-width: 34rem;
+  margin: 0 auto;
+  text-align: left;
+  font-size: 0.92rem;
+  line-height: 1.66;
+  color: var(--c-ink-muted, #4c4842);
+}
+.sup-preamble p {
+  margin: 0 0 0.7rem;
+}
+.sup-preamble p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── The facing-column table — the heart of the layout ───────────────────── */
+.sup-units {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* equal, predictable columns; no content-driven drift */
+}
+
+/* Per-ROW break avoidance (NOT per-table): a supplication can run to hundreds
+   of units across many pages, so the table itself must be breakable. Only the
+   individual unit is atomic — that is what keeps an English line and its
+   source on the same page as each other. Mirrors the row-level pattern already
+   proven for the reading edition's crosswalk table. */
+.sup-units tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.sup-units td {
+  /* Middle alignment: the two blocks are centred against each other in the
+     shared row box, so a short source facing a long translation reads as
+     balanced rather than as a block hanging from the top with a gap beneath.
+     The row itself is still what guarantees the two cells share a height. */
+  vertical-align: middle;
+  padding: 0.62rem 0.95rem 0.72rem;
+  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+  width: 50%;
+}
+
+/* The vertical rule between the columns — a cell border, so it can never drift
+   out of alignment with the row it separates. */
+.sup-units .sup-en {
+  border-right: 1px solid var(--c-rule, #d8d2c4);
+  text-align: left;
+}
+
+.sup-units .sup-src {
+  text-align: right;
+}
+
+/* Unit numbers are deliberately NOT rendered. `n` still exists in units.json
+   and in the review CLI, where it is how a human refers to a unit — it just has
+   no place on the printed page, which is a devotional text and not a numbered
+   reference edition. */
+
+/* ── Script-specific source typography ──────────────────────────────────── */
+/* Arabic (Naskh) — compact, upright, tashkeel sits close to the baseline. */
+.sup-src[lang="ar"] {
+  font-family: "Amiri", serif;
+  font-size: 1.02rem;
+  /* Generous leading: `size-adjust: 135%` scales the GLYPHS but not the line
+     box, so a line-height tuned for an unadjusted face leaves multi-line Amiri
+     cramped — ascending tashkeel on one line crowds the descenders above it. */
+  line-height: 2.45;
+}
+
+/* Urdu (Nastaliq) — the cascading nastaliq line needs far more vertical room
+   than Naskh, and a row min-height so a one-line Urdu unit still clears its
+   own descenders. Kept as a SEPARATE rule (not merged with Arabic) exactly as
+   the layout plan requires. */
+.sup-src[lang="ur"] {
+  font-family: "Noto Nastaliq Urdu", serif;
+  font-size: 1rem;
+  line-height: 2.5;
+  padding-top: 0.5rem;
+  padding-bottom: 0.85rem;
+}
+.sup-units tr:has(.sup-src[lang="ur"]) td {
+  min-height: 3.1rem;
+}
+
+.sup-units .sup-en {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.62;
+}
+
+/* A unit the model marked as a refrain/response repeats verbatim; tint it so a
+   reader can find their place in a long litany. */
+.sup-units tr.sup-refrain td {
+  background: color-mix(in oklab, var(--c-gold, #b8860b) 7%, #fff);
+}
+
+/* Colophon at the end of the document. */
+.sup-colophon {
+  font-family: "Inter", system-ui, sans-serif;
+  margin-top: 2rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--c-ink-muted, #8b867c);
+}

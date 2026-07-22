@@ -3,7 +3,9 @@
 We hand-emit YAML because the meta files are simple and we want byte-for-byte
 deterministic output for diffability across runs.
 """
+
 from __future__ import annotations
+
 import json
 
 

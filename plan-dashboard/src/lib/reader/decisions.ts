@@ -9,10 +9,10 @@
  * Each lookup returns the proposed English title or `undefined` if not
  * yet retitled (Round 2 is still partial for ~1,102 topics).
  */
-import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import yaml from 'js-yaml';
-import { getRepoRoot } from '../content-paths';
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+import yaml from "js-yaml";
+import { getRepoRoot } from "../content-paths";
 
 interface BinderRetitle {
   binder_id: number;
@@ -25,7 +25,7 @@ interface ChapterRetitle {
   chapter_id: number;
   source: string;
   en_title: string;
-  confidence: 'high' | 'medium' | 'low';
+  confidence: "high" | "medium" | "low";
 }
 
 interface TopicRetitle {
@@ -34,14 +34,19 @@ interface TopicRetitle {
   topic_id: number;
   source: string;
   en_title: string;
-  confidence: 'high' | 'medium' | 'low';
+  confidence: "high" | "medium" | "low";
 }
 
 interface DedupCluster {
   cluster_id: string;
   kind: string;
   primary?: { binder_id: number; chapter_id: number; topic_id?: number };
-  cross_refs?: Array<{ binder_id: number; chapter_id: number; topic_id?: number; action: string }>;
+  cross_refs?: Array<{
+    binder_id: number;
+    chapter_id: number;
+    topic_id?: number;
+    action: string;
+  }>;
   topic_id?: number;
   topic_name?: string;
   chapters?: Array<{ binder_id: number; chapter_id: number }>;
@@ -67,8 +72,8 @@ interface R2Decisions {
 let _cache: {
   binderByName: Map<string, BinderRetitle>;
   binderById: Map<number, BinderRetitle>;
-  chapterById: Map<string, ChapterRetitle>;       // key: `${bid}:${cid}`
-  topicById: Map<string, TopicRetitle>;           // key: `${bid}:${cid}:${tid}`
+  chapterById: Map<string, ChapterRetitle>; // key: `${bid}:${cid}`
+  topicById: Map<string, TopicRetitle>; // key: `${bid}:${cid}:${tid}`
   dedupClusters: DedupCluster[];
   coveredBinders: Set<number>;
   deferredBinders: Set<number>;
@@ -78,12 +83,18 @@ let _cache: {
 export async function loadDecisions() {
   if (_cache) return _cache;
   const root = getRepoRoot();
-  const r1Path = join(root, 'tools/content_classifier/data/wisdom-r1-decisions.yaml');
-  const r2Path = join(root, 'tools/content_classifier/data/wisdom-r2-decisions.yaml');
+  const r1Path = join(
+    root,
+    "tools/content_classifier/data/wisdom-r1-decisions.yaml",
+  );
+  const r2Path = join(
+    root,
+    "tools/content_classifier/data/wisdom-r2-decisions.yaml",
+  );
 
   const [r1Text, r2Text] = await Promise.all([
-    readFile(r1Path, 'utf-8').catch(() => null),
-    readFile(r2Path, 'utf-8').catch(() => null),
+    readFile(r1Path, "utf-8").catch(() => null),
+    readFile(r2Path, "utf-8").catch(() => null),
   ]);
 
   const r1 = r1Text ? (yaml.load(r1Text) as R1Decisions) : null;
@@ -114,7 +125,7 @@ export async function loadDecisions() {
   }
 
   const r2BatchStatus = {
-    batch: r2?.batch ?? 'not-loaded',
+    batch: r2?.batch ?? "not-loaded",
     covered: r2?.covered_binders?.length ?? 0,
     deferred: r2?.deferred_binders?.length ?? 0,
   };
@@ -132,12 +143,16 @@ export async function loadDecisions() {
   return _cache;
 }
 
-export async function getBinderEnglish(sourceName: string): Promise<string | undefined> {
+export async function getBinderEnglish(
+  sourceName: string,
+): Promise<string | undefined> {
   const d = await loadDecisions();
   return d.binderByName.get(sourceName)?.en_title;
 }
 
-export async function getBinderEnglishById(binderId: number): Promise<string | undefined> {
+export async function getBinderEnglishById(
+  binderId: number,
+): Promise<string | undefined> {
   const d = await loadDecisions();
   return d.binderById.get(binderId)?.en_title;
 }
@@ -159,7 +174,9 @@ export async function getTopicEnglish(
   return d.topicById.get(`${binderId}:${chapterId}:${topicId}`);
 }
 
-export async function isBinderTopicRetitled(binderId: number): Promise<boolean> {
+export async function isBinderTopicRetitled(
+  binderId: number,
+): Promise<boolean> {
   const d = await loadDecisions();
   return d.coveredBinders.has(binderId);
 }
@@ -170,9 +187,23 @@ export async function getDedupClustersForChapter(
 ): Promise<DedupCluster[]> {
   const d = await loadDecisions();
   return d.dedupClusters.filter((c) => {
-    if (c.primary?.binder_id === binderId && c.primary?.chapter_id === chapterId) return true;
-    if (c.cross_refs?.some((r) => r.binder_id === binderId && r.chapter_id === chapterId)) return true;
-    if (c.chapters?.some((ch) => ch.binder_id === binderId && ch.chapter_id === chapterId)) return true;
+    if (
+      c.primary?.binder_id === binderId &&
+      c.primary?.chapter_id === chapterId
+    )
+      return true;
+    if (
+      c.cross_refs?.some(
+        (r) => r.binder_id === binderId && r.chapter_id === chapterId,
+      )
+    )
+      return true;
+    if (
+      c.chapters?.some(
+        (ch) => ch.binder_id === binderId && ch.chapter_id === chapterId,
+      )
+    )
+      return true;
     return false;
   });
 }

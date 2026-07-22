@@ -7,30 +7,49 @@
  * render through the shared markdown renderer (which folds scholarly transliteration
  * to plain English and leaves Arabic script untouched).
  */
-import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import { findContent } from '../content-paths';
-import { renderMarkdown } from './markdown';
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+import { findContent } from "../content-paths";
+import { renderMarkdown } from "./markdown";
+// Same readers the PDF renderer uses, so the LIVE reader cannot disagree with the
+// printed page about how a book's quotations are set. Node-only module; this
+// loader runs server-side.
+import {
+  readCitationFamily,
+  readTranslationFont,
+  readArabicFont,
+  readQuranicRuns,
+} from "../../../scripts/lib/book-html.mjs";
 
 export interface BookTocEntry {
-  id: string;     // anchor id, matches renderMarkdown's heading slug
-  title: string;  // the `## ` heading text
+  id: string; // anchor id, matches renderMarkdown's heading slug
+  title: string; // the `## ` heading text
 }
 
 export interface BookView {
   slug: string;
-  title: string;     // the book's `# ` title
-  html: string;      // rendered body (h1 stripped — shown in the page header instead)
+  title: string; // the book's `# ` title
+  html: string; // rendered body (h1 stripped — shown in the page header instead)
   toc: BookTocEntry[];
+  /** The book's citation/quote family and translation face from
+   *  book/citation-style.json. The caller stamps them on the prose container as
+   *  `style-<family> tr-<font>`, the same hooks the PDF puts on <body> — without
+   *  them this surface rendered every book in the base look regardless of the
+   *  choice made in the Composer. '' = unset (falls back to the base look and the
+   *  default translation face). */
+  citationFamily: string;
+  translationFont: string;
+  /** The NON-Qur'anic Arabic face; '' falls back to Scheherazade New. */
+  arabicFont: string;
 }
 
 /** Same slug rule renderMarkdown uses for heading ids (markdown.ts) — keep in sync. */
 function headingSlug(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/[^a-z0-9\s-]/g, "")
     .trim()
-    .replace(/\s+/g, '-')
+    .replace(/\s+/g, "-")
     .slice(0, 80);
 }
 
@@ -38,10 +57,10 @@ export async function loadBook(slug: string): Promise<BookView | null> {
   const ref = await findContent(slug);
   if (!ref) return null;
 
-  const mdPath = join(ref.dir, 'book', 'book.md');
+  const mdPath = join(ref.dir, "book", "book.md");
   let md: string;
   try {
-    md = await readFile(mdPath, 'utf-8');
+    md = await readFile(mdPath, "utf-8");
   } catch {
     return null; // no reading edition generated yet
   }
@@ -57,7 +76,20 @@ export async function loadBook(slug: string): Promise<BookView | null> {
   }
 
   // Strip the leading `# ` title line from the body — the page header shows it.
-  const body = md.replace(/^#\s+.+$\n?/m, '');
+  const body = md.replace(/^#\s+.+$\n?/m, "");
 
-  return { slug, title, html: renderMarkdown(body), toc };
+  const bookDir = join(ref.dir, "book");
+  return {
+    slug,
+    title,
+    // Scripture is set in the Uthmanic face and everything else in Scheherazade,
+    // from the same audit provenance the printed page uses.
+    html: renderMarkdown(body, {
+      quranicRuns: readQuranicRuns(ref.dir) as Set<string>,
+    }),
+    toc,
+    citationFamily: String(readCitationFamily(bookDir) ?? ""),
+    translationFont: String(readTranslationFont(bookDir) ?? ""),
+    arabicFont: String(readArabicFont(bookDir) ?? ""),
+  };
 }

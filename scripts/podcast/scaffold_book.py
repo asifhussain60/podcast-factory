@@ -35,6 +35,7 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
+
 from _paths import REPO_ROOT, ensure_book_skeleton
 
 LIBRARY_DIR = REPO_ROOT / "content" / "drafts"
@@ -42,6 +43,7 @@ BOOKS_INDEX = REPO_ROOT / "content" / "podcast" / ".skill" / "books.md"
 
 import sys as _sys
 from pathlib import Path as _Path
+
 _sys.path.insert(0, str(_Path(__file__).resolve().parent))
 from _rules import ALLOWED_CATEGORIES  # centralized 2026-05-23 per AU-X1-001 (audit report)
 
@@ -191,7 +193,9 @@ def append_books_index_row(category: str, book_slug: str, title: str) -> bool:
     return True
 
 
-def scaffold(category: str, book_slug: str, title: str, author: str | None, force: bool, allow_existing: bool = False) -> int:
+def scaffold(
+    category: str, book_slug: str, title: str, author: str | None, force: bool, allow_existing: bool = False
+) -> int:
     if category not in ALLOWED_CATEGORIES:
         print(
             f"ERROR: category {category!r} not in {sorted(ALLOWED_CATEGORIES)}",
@@ -220,9 +224,7 @@ def scaffold(category: str, book_slug: str, title: str, author: str | None, forc
     author_clause = f" by {author}" if author else ""
     author_line = f"Author: **{author}**." if author else "Author: _unspecified_."
     author_short = author.split(",")[0].split(" ")[-1] if author else "the author"
-    author_corpus_placeholder = (
-        "- _Enumerate this book's author's corpus here. One work per line._"
-    )
+    author_corpus_placeholder = "- _Enumerate this book's author's corpus here. One work per line._"
 
     bindings = dict(
         title=title,
@@ -267,7 +269,9 @@ def scaffold(category: str, book_slug: str, title: str, author: str | None, forc
     )
     print()
     print("Next steps:")
-    print(f"  1. Drop the verbatim source file into {(book_dir / '_system' / 'source').relative_to(REPO_ROOT)}/<Source-Title>.<ext>")
+    print(
+        f"  1. Drop the verbatim source file into {(book_dir / '_system' / 'source').relative_to(REPO_ROOT)}/<Source-Title>.<ext>"
+    )
     print("  2. Run Phase 0a (OCR / format normalization) → _system/source/text/normalized.md")
     print("  3. Run Phase 0b (English refinement), Phase 0c (Arabic phonetic pass)")
     print("  4. Run Phase 0d (content-depth-driven chapter design) → chapters/ch##-<slug>.txt")
@@ -288,7 +292,7 @@ def main() -> int:
         "--allow-existing",
         action="store_true",
         help="Fill in only missing stub files when BOOK_DIR is non-empty "
-             "(preflight-artifacts mode: registry.md / concept-glossary.md / source/ pre-staged).",
+        "(preflight-artifacts mode: registry.md / concept-glossary.md / source/ pre-staged).",
     )
     args = ap.parse_args()
 

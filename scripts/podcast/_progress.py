@@ -61,29 +61,29 @@ PHASES = (
     "pre-flight",
     "branch",
     "scaffold",
-    "0a",       # Azure OCR + Translation (deterministic)
-    "0b",       # English refinement (LLM)
-    "0c",       # Arabic phonetic pass (LLM)
-    "0ci",      # Book intelligence: gap analysis + corpus cross-reference (LLM); Islamic-content halt
-    "0d",       # Chapter design (LLM)
-    "0e",       # Enrichment (LLM)
+    "0a",  # Azure OCR + Translation (deterministic)
+    "0b",  # English refinement (LLM)
+    "0c",  # Arabic phonetic pass (LLM)
+    "0ci",  # Book intelligence: gap analysis + corpus cross-reference (LLM); Islamic-content halt
+    "0d",  # Chapter design (LLM)
+    "0e",  # Enrichment (LLM)
     "0literary",  # 08b literary transformation (Gemini); after enrichment, emitted by initial_driver
-    "06a",      # Wave I — source review gate (human approval before series plan)
-    "0f",       # Series plan halt (deterministic write + human gate)
-    "0g",       # Register series (deterministic)
+    "06a",  # Wave I — source review gate (human approval before series plan)
+    "0f",  # Series plan halt (deterministic write + human gate)
+    "0g",  # Register series (deterministic)
     "per-chapter",  # iterated across the chapter list on --resume
     "per-chapter-optimize",  # Wave I — Sonnet arc/format check per chapter
     "per-chapter-slides",  # optional; gated by series.enable_slide_decks. Per-chapter slide-deck authoring + slide-deck-challenger convergence. Skipped (status="skipped") when flag is false.
-    "audio-script",   # Audio Engine v2 — per-chapter dialogue-script authorship + pre-synthesis gate convergence (API engines only; skipped for notebooklm)
-    "audio-render",   # Audio Engine v2 — H1 spend halt (exact credit estimate) then ElevenLabs render into canonical m4a layout (API engines only; skipped for notebooklm)
-    "finalize",     # G1-G7 quality gates + human review halt — podcast-only; book branch has not run yet
-    "audio-ingest",   # NotebookLM path — self-correcting normalize + Azure-transcribe of dropped m4a (skipped for API/ElevenLabs books); halts cleanly until audio is dropped, then re-enters idempotently on --resume
-    "0book-design",   # PDF path — book-craft re-segmentation -> book/book-toc.json (gated by series.enable_book_branch; runs post-finalize so book is built from reviewed podcast content)
+    "audio-script",  # Audio Engine v2 — per-chapter dialogue-script authorship + pre-synthesis gate convergence (API engines only; skipped for notebooklm)
+    "audio-render",  # Audio Engine v2 — H1 spend halt (exact credit estimate) then ElevenLabs render into canonical m4a layout (API engines only; skipped for notebooklm)
+    "finalize",  # G1-G7 quality gates + human review halt — podcast-only; book branch has not run yet
+    "audio-ingest",  # NotebookLM path — self-correcting normalize + Azure-transcribe of dropped m4a (skipped for API/ElevenLabs books); halts cleanly until audio is dropped, then re-enters idempotently on --resume
+    "0book-design",  # PDF path — book-craft re-segmentation -> book/book-toc.json (gated by series.enable_book_branch; runs post-finalize so book is built from reviewed podcast content)
     "0book-compose",  # PDF path — whole-book revoice -> book/book.md (modern author voice, Arabic script + English)
     "0book-illustrate",  # PDF path — teaching diagrams injected -> book/book-illustrated.md
     "0book-slide-import",  # PDF path — NotebookLM-exported deck PDFs (slide-decks/chNN-*.pdf) -> LLM anchor manifests -> book/book-slides.md; HALTS when framed chapters lack dropped PDFs (.SKIP exempts)
-    "0book-render",   # PDF path — book-slides.md (or book-illustrated.md / book.md) -> book.pdf (Playwright); non-blocking on the podcast ship
-    "publish",      # copy drafts → published/ catalog (publish_driver)
+    "0book-render",  # PDF path — book-slides.md (or book-illustrated.md / book.md) -> book.pdf (Playwright); non-blocking on the podcast ship
+    "publish",  # copy drafts → published/ catalog (publish_driver)
     "trainer",
     "merge",
     "done",
@@ -138,9 +138,7 @@ def read_state(book_dir: Path) -> dict[str, Any] | None:
         return None
 
 
-def initial_state(
-    book_slug: str, category: str, *, content_profile: str | None = None
-) -> dict[str, Any]:
+def initial_state(book_slug: str, category: str, *, content_profile: str | None = None) -> dict[str, Any]:
     """Build the initial state dict for a new orchestrator run.
 
     ``content_profile`` (when known) selects the branch bucket; otherwise the
@@ -152,13 +150,14 @@ def initial_state(
     try:
         sys.path.insert(0, str(Path(__file__).resolve().parent))
         from _rules import CHALLENGER_VERSION as _cv  # type: ignore
+
         challenger_version = _cv
     except Exception:
         challenger_version = "unknown"
 
     # Branch is <Bucket>/<slug> — bucket-grouped per content profile (2026-06-07).
     # See _branching.py.
-    from _branching import branch_name as _branch_name   # noqa: E402
+    from _branching import branch_name as _branch_name
 
     return {
         "schema_version": SCHEMA_VERSION,
@@ -205,9 +204,7 @@ def write_state(book_dir: Path, state: dict[str, Any]) -> Path:
     state = {**state, "ts_updated": _utc_now()}
 
     # tmpfile in the same directory so rename is atomic on the same filesystem.
-    tmp_fd, tmp_path = tempfile.mkstemp(
-        prefix=".orchestrator-state.", suffix=".tmp", dir=p.parent
-    )
+    tmp_fd, tmp_path = tempfile.mkstemp(prefix=".orchestrator-state.", suffix=".tmp", dir=p.parent)
     try:
         with os.fdopen(tmp_fd, "w", encoding="utf-8") as f:
             json.dump(state, f, indent=2, ensure_ascii=False)
@@ -316,12 +313,12 @@ def render_status(state: dict[str, Any]) -> str:
         block = state.get("phases", {}).get(p, {"status": "pending"})
         status = block.get("status", "pending")
         marker = {
-            "pending":   "·",
-            "running":   "›",
+            "pending": "·",
+            "running": "›",
             "completed": "✓",
-            "failed":    "✗",
-            "halted":    "⏸",
-            "skipped":   "—",
+            "failed": "✗",
+            "halted": "⏸",
+            "skipped": "—",
         }.get(status, "?")
         ts = block.get("ts_completed") or block.get("ts_started") or ""
         lines.append(f"  {marker} {p:<14} {status:<10} {ts}")

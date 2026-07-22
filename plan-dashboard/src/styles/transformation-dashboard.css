@@ -25,10 +25,20 @@
   text-align: left;
   font-family: var(--font-ui, var(--font-sans, sans-serif));
 }
-.txd-toggle:hover { background: var(--c-bg-elev); }
-.txd-toggle:focus-visible { outline: 2px solid var(--c-accent); outline-offset: -2px; }
-.txd-toggle.is-open { border-bottom: 1px solid var(--c-rule-soft, var(--c-rule)); }
-.txd-toggle-caret { color: var(--c-accent); font-size: 0.7rem; }
+.txd-toggle:hover {
+  background: var(--c-bg-elev);
+}
+.txd-toggle:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: -2px;
+}
+.txd-toggle.is-open {
+  border-bottom: 1px solid var(--c-rule-soft, var(--c-rule));
+}
+.txd-toggle-caret {
+  color: var(--c-accent);
+  font-size: 0.7rem;
+}
 .txd-toggle-label {
   font-size: 0.8rem;
   font-weight: 700;
@@ -41,7 +51,9 @@
   color: var(--c-ink-dim);
 }
 
-.txd-panel { padding: 14px; }
+.txd-panel {
+  padding: 14px;
+}
 
 /* Chart + chips side by side on wide screens; stack when narrow. */
 .txd-grid {
@@ -51,11 +63,19 @@
   align-items: start;
 }
 @media (max-width: 900px) {
-  .txd-grid { grid-template-columns: 1fr; }
+  .txd-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-.txd-chart { margin: 0; }
-.txd-chart .svg-host { width: 100%; height: auto; display: block; }
+.txd-chart {
+  margin: 0;
+}
+.txd-chart .svg-host {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 .txd-chart figcaption {
   margin-top: 6px;
   font-family: var(--font-ui, var(--font-sans, sans-serif));
@@ -116,7 +136,12 @@
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 6px 18px;
 }
-.txd-legend-row { display: flex; align-items: baseline; gap: 8px; margin: 0; }
+.txd-legend-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+}
 .txd-legend-term {
   display: flex;
   align-items: center;
@@ -128,24 +153,37 @@
   font-weight: 700;
   color: var(--c-ink);
 }
-.txd-legend-term.is-uncaptured { color: var(--c-ink-dim); font-weight: 500; }
+.txd-legend-term.is-uncaptured {
+  color: var(--c-ink-dim);
+  font-weight: 500;
+}
 .txd-legend-dot {
   width: 9px;
   height: 9px;
   border-radius: 50%;
   background: var(--c-rule);
 }
-.txd-legend-dot--mechanical { background: var(--c-kind-mechanical, var(--c-rule)); }
-.txd-legend-dot--agentic    { background: var(--c-kind-agentic, var(--c-accent)); }
-.txd-legend-dot--hybrid     { background: var(--c-kind-hybrid, var(--c-green)); }
-.txd-legend-dot--gate       { background: var(--c-kind-gate, var(--c-amber)); }
+.txd-legend-dot--mechanical {
+  background: var(--c-kind-mechanical, var(--c-rule));
+}
+.txd-legend-dot--agentic {
+  background: var(--c-kind-agentic, var(--c-accent));
+}
+.txd-legend-dot--hybrid {
+  background: var(--c-kind-hybrid, var(--c-green));
+}
+.txd-legend-dot--gate {
+  background: var(--c-kind-gate, var(--c-amber));
+}
 .txd-legend dd {
   margin: 0;
   font-family: var(--font-ui, var(--font-sans, sans-serif));
   font-size: 0.72rem;
   color: var(--c-ink-dim);
 }
-.txd-legend-tool { color: var(--c-ink-muted); }
+.txd-legend-tool {
+  color: var(--c-ink-muted);
+}
 
 .txd-foot {
   margin: 12px 0 0;
@@ -160,19 +198,39 @@
    would blow out these chrome-sized chart labels, so every `.sbc-*` text rule is
    qualified with `.sbc` (specificity 0,2,0 > the global 0,1,1) to keep the
    intended sizes. Colours/fonts map to theme tokens only. */
-.sbc { width: 100%; height: auto; }
-.sbc .sbc-grid { stroke: var(--c-rule-soft, var(--c-rule)); stroke-width: 1; stroke-dasharray: 3 4; }
-.sbc .sbc-axis-line { stroke: var(--c-rule); stroke-width: 1.5; }
+.sbc {
+  width: 100%;
+  height: auto;
+}
+.sbc .sbc-grid {
+  stroke: var(--c-rule-soft, var(--c-rule));
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+.sbc .sbc-axis-line {
+  stroke: var(--c-rule);
+  stroke-width: 1.5;
+}
 .sbc .sbc-axis {
   font-family: var(--font-ui, var(--font-sans, sans-serif));
   font-size: 12px;
   fill: var(--c-ink-dim);
 }
-.sbc .sbc-bar { fill: var(--c-accent-soft, var(--c-accent)); }
-.sbc .sbc-bar--mechanical { fill: var(--c-kind-mechanical, var(--c-rule)); }
-.sbc .sbc-bar--agentic    { fill: var(--c-kind-agentic, var(--c-accent)); }
-.sbc .sbc-bar--hybrid     { fill: var(--c-kind-hybrid, var(--c-green)); }
-.sbc .sbc-bar--gate       { fill: var(--c-kind-gate, var(--c-amber)); }
+.sbc .sbc-bar {
+  fill: var(--c-accent-soft, var(--c-accent));
+}
+.sbc .sbc-bar--mechanical {
+  fill: var(--c-kind-mechanical, var(--c-rule));
+}
+.sbc .sbc-bar--agentic {
+  fill: var(--c-kind-agentic, var(--c-accent));
+}
+.sbc .sbc-bar--hybrid {
+  fill: var(--c-kind-hybrid, var(--c-green));
+}
+.sbc .sbc-bar--gate {
+  fill: var(--c-kind-gate, var(--c-amber));
+}
 .sbc .sbc-value {
   font-family: var(--font-ui, var(--font-sans, sans-serif));
   font-size: 13px;

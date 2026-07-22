@@ -31,6 +31,7 @@ Usage:
   apply_pronunciation_corrections.py <book_dir> <corrections.json>
   apply_pronunciation_corrections.py <book_dir> -   # read payload from stdin
 """
+
 from __future__ import annotations
 
 import argparse
@@ -44,7 +45,7 @@ _SCRIPTS_PODCAST = Path(__file__).resolve().parent
 if str(_SCRIPTS_PODCAST) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS_PODCAST))
 
-from knowledge import pronunciation_ledger as ledger  # noqa: E402
+from knowledge import pronunciation_ledger as ledger
 
 
 def _update_phonetics_md(book_dir: Path, term_to_phonetic: dict[str, str]) -> int:
@@ -108,12 +109,20 @@ def _seed_mangle_map(book_dir: Path, term_variants: dict[str, list[str]]) -> int
     if not variants:
         return 0
     path = book_dir / "_system" / "mangle-map.md"
-    existing = path.read_text(encoding="utf-8") if path.exists() else (
-        "# Mangle-map — canonical term -> TTS misreadings heard in NotebookLM audio.\n\n"
-        "| Canonical | Mangled forms (CSV) |\n|---|---|\n"
+    existing = (
+        path.read_text(encoding="utf-8")
+        if path.exists()
+        else (
+            "# Mangle-map — canonical term -> TTS misreadings heard in NotebookLM audio.\n\n"
+            "| Canonical | Mangled forms (CSV) |\n|---|---|\n"
+        )
     )
     lines = existing.rstrip().splitlines()
-    have = {ledger.normalize_key(l.split("|")[1]) for l in lines if l.strip().startswith("|") and "Canonical" not in l and len(l.split("|")) > 1}
+    have = {
+        ledger.normalize_key(row.split("|")[1])
+        for row in lines
+        if row.strip().startswith("|") and "Canonical" not in row and len(row.split("|")) > 1
+    }
     added = 0
     for term, vs in variants.items():
         if ledger.normalize_key(term) in have:
@@ -131,7 +140,7 @@ def apply_corrections(book_dir: Path, payload: dict, *, confirmed_date: str | No
     corrections = payload.get("corrections", [])
 
     lib = ledger.load()
-    phonetic_updates: dict[str, str] = {}    # term -> phonetic (for _phonetics.md / glossary)
+    phonetic_updates: dict[str, str] = {}  # term -> phonetic (for _phonetics.md / glossary)
     variant_updates: dict[str, list[str]] = {}
     counts = {"confirmed": 0, "respelled": 0, "unfixable": 0, "skipped": 0}
 
@@ -151,18 +160,32 @@ def apply_corrections(book_dir: Path, payload: dict, *, confirmed_date: str | No
             if not phon:
                 counts["skipped"] += 1
                 continue
-            lib.record(term, phon, status="confirmed", transliteration=translit,
-                       arabic_script=c.get("arabic_script", ""),
-                       mangled_variants=variants, source_book=book_slug, confirmed_date=cdate)
+            lib.record(
+                term,
+                phon,
+                status="confirmed",
+                transliteration=translit,
+                arabic_script=c.get("arabic_script", ""),
+                mangled_variants=variants,
+                source_book=book_slug,
+                confirmed_date=cdate,
+            )
             counts["confirmed"] += 1
         elif status == "respell":
             phon = (c.get("phonetic") or "").strip()
             if not phon:
                 counts["skipped"] += 1
                 continue
-            lib.record(term, phon, status="confirmed", transliteration=translit,
-                       arabic_script=c.get("arabic_script", ""),
-                       mangled_variants=variants, source_book=book_slug, confirmed_date=cdate)
+            lib.record(
+                term,
+                phon,
+                status="confirmed",
+                transliteration=translit,
+                arabic_script=c.get("arabic_script", ""),
+                mangled_variants=variants,
+                source_book=book_slug,
+                confirmed_date=cdate,
+            )
             phonetic_updates[term] = phon
             counts["respelled"] += 1
         elif status == "unfixable":
@@ -170,8 +193,16 @@ def apply_corrections(book_dir: Path, payload: dict, *, confirmed_date: str | No
             if not gloss:
                 counts["skipped"] += 1
                 continue
-            lib.record(term, "", status="unfixable", gloss=gloss, transliteration=translit,
-                       mangled_variants=variants, source_book=book_slug, confirmed_date=cdate)
+            lib.record(
+                term,
+                "",
+                status="unfixable",
+                gloss=gloss,
+                transliteration=translit,
+                mangled_variants=variants,
+                source_book=book_slug,
+                confirmed_date=cdate,
+            )
             counts["unfixable"] += 1
         else:
             counts["skipped"] += 1

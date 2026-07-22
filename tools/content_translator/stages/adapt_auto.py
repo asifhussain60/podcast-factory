@@ -10,6 +10,7 @@ Stage transition: translated → adapted.
 Idempotent: skips if already adapted.
 Chunks large chapters (>60KB) into section batches to stay within output limits.
 """
+
 from __future__ import annotations
 
 import json
@@ -25,8 +26,8 @@ CLASSIFIER_DATA = REPO_ROOT / "tools" / "content_classifier" / "data"
 ADAPT_COST_LEDGER = REPO_ROOT / "_workspace" / "plan" / "wisdom-adapt-cost-ledger.jsonl"
 
 MODEL = "claude-haiku-4-5-20251001"
-MAX_CHUNK_BYTES = 25_000   # chunk threshold — reduced from 55K; claude -p needs <30min/chunk
-MAX_ADAPT_RETRIES = 3      # per-chunk retry limit when markers are dropped
+MAX_CHUNK_BYTES = 25_000  # chunk threshold — reduced from 55K; claude -p needs <30min/chunk
+MAX_ADAPT_RETRIES = 3  # per-chunk retry limit when markers are dropped
 # Passthrough chapters (English origin) use deterministic adaptation for sections > this size
 PASSTHROUGH_LLM_THRESHOLD = 40_000  # bytes — above this: skip LLM for passthrough, use deterministic
 
@@ -116,8 +117,11 @@ def _call_claude_p(user_content: str, timeout: int = 1800) -> tuple[str, int, in
     full_prompt = SYSTEM_PROMPT + "\n\n---\n\n" + user_content
     result = subprocess.run(
         [
-            "claude", "-p", full_prompt,
-            "--tools", "",
+            "claude",
+            "-p",
+            full_prompt,
+            "--tools",
+            "",
             "--no-session-persistence",
         ],
         capture_output=True,
@@ -126,9 +130,7 @@ def _call_claude_p(user_content: str, timeout: int = 1800) -> tuple[str, int, in
         check=False,
     )
     if result.returncode != 0:
-        raise RuntimeError(
-            f"claude -p exited {result.returncode}.\nstderr: {result.stderr[:400]}"
-        )
+        raise RuntimeError(f"claude -p exited {result.returncode}.\nstderr: {result.stderr[:400]}")
     return result.stdout.strip(), 0, 0
 
 
@@ -140,15 +142,17 @@ def _find_r2_entries(binder_id: int, chapter_id: int) -> list[dict]:
     text = r2_file.read_text(encoding="utf-8")
     for block in text.split("- {"):
         if f"binder_id: {binder_id}" in block and f"chapter_id: {chapter_id}" in block:
-            topic_m = re.search(r'topic_id:\s*(\d+)', block)
+            topic_m = re.search(r"topic_id:\s*(\d+)", block)
             source_m = re.search(r'source:\s*"([^"]+)"', block)
             en_m = re.search(r'en_title:\s*"([^"]+)"', block)
             if en_m:
-                entries.append({
-                    "topic_id": int(topic_m.group(1)) if topic_m else None,
-                    "source": source_m.group(1) if source_m else "",
-                    "en_title": en_m.group(1),
-                })
+                entries.append(
+                    {
+                        "topic_id": int(topic_m.group(1)) if topic_m else None,
+                        "source": source_m.group(1) if source_m else "",
+                        "en_title": en_m.group(1),
+                    }
+                )
     return entries
 
 
@@ -166,7 +170,7 @@ def _split_into_chunks(text: str, max_bytes: int) -> list[str]:
         segments.append((i, text[seg_start:seg_end]))
 
     # Also capture the header (before first section marker)
-    header = text[:markers[0].start()]
+    header = text[: markers[0].start()]
 
     chunks: list[str] = []
     current = header
@@ -182,10 +186,10 @@ def _split_into_chunks(text: str, max_bytes: int) -> list[str]:
 
 
 def _build_user_message(raw_en_text: str, r2_entries: list[dict], chapter_title: str, cite_offset: int) -> str:
-    r2_map = "\n".join(
-        f"  topic_id={e['topic_id']}: → ## {e['en_title']}"
-        for e in r2_entries
-    ) or "  (none — translate Urdu section labels literally)"
+    r2_map = (
+        "\n".join(f"  topic_id={e['topic_id']}: → ## {e['en_title']}" for e in r2_entries)
+        or "  (none — translate Urdu section labels literally)"
+    )
 
     cite_note = f"Citation counter starts at cite-{cite_offset + 1} for this chunk." if cite_offset > 0 else ""
 
@@ -256,7 +260,6 @@ def _check_chunk_markers(source_chunk: str, adapted_chunk: str) -> list[str]:
     if missing_q:
         violations.append(f"V3: {len(missing_q)} quran marker(s) missing: {' '.join(sorted(missing_q))}")
     return violations
-
 
 
 def _parse_response(response_text: str) -> tuple[str, list[dict]]:
@@ -372,10 +375,7 @@ def _adapt_empty_chapter_deterministic(raw_text: str) -> str:
 
 def _update_stage(bundle_yml: Path, new_stage: str) -> None:
     text = bundle_yml.read_text(encoding="utf-8")
-    lines = [
-        f"stage: {new_stage}" if l.startswith("stage:") else l
-        for l in text.splitlines()
-    ]
+    lines = [f"stage: {new_stage}" if l.startswith("stage:") else l for l in text.splitlines()]
     bundle_yml.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -393,16 +393,13 @@ def _append_adapt_block(bundle_yml: Path, model: str, cost: float, completed_at:
             continue
         skipping = False
         out.append(line)
-    block = (
-        f"\nadaptation:\n"
-        f"  engine: {model}\n"
-        f"  completed_at: {completed_at}\n"
-        f"  adapt_cost_usd: {cost:.6f}\n"
-    )
+    block = f"\nadaptation:\n  engine: {model}\n  completed_at: {completed_at}\n  adapt_cost_usd: {cost:.6f}\n"
     bundle_yml.write_text("\n".join(out).rstrip() + block, encoding="utf-8")
 
 
-def _append_cost_ledger(binder_id: Optional[int], chapter_id: Optional[int], cost_usd: float, completed_at: str) -> None:
+def _append_cost_ledger(
+    binder_id: Optional[int], chapter_id: Optional[int], cost_usd: float, completed_at: str
+) -> None:
     ADAPT_COST_LEDGER.parent.mkdir(parents=True, exist_ok=True)
     entry = {
         "binder_id": binder_id,
@@ -552,12 +549,12 @@ def adapt_bundle_auto(
                 break
             if attempt < MAX_ADAPT_RETRIES:
                 print(
-                    f"    chunk {i+1}: attempt {attempt} marker violations {violations} — retrying",
+                    f"    chunk {i + 1}: attempt {attempt} marker violations {violations} — retrying",
                     file=sys.stderr,
                 )
         if best_violations:
             print(
-                f"    chunk {i+1}: marker violations after {MAX_ADAPT_RETRIES} attempts: {best_violations}",
+                f"    chunk {i + 1}: marker violations after {MAX_ADAPT_RETRIES} attempts: {best_violations}",
                 file=sys.stderr,
             )
 

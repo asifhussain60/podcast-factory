@@ -20,6 +20,7 @@ System instruction:
     Alternatively set GEMINI_SYSTEM_INSTRUCTION in the environment.
     If neither is provided, the model runs with no system instruction.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -36,12 +37,14 @@ _MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 
 # ── env / dotenv ──────────────────────────────────────────────────────────────
 
+
 def _load_env() -> None:
     """Load .env from the repo root if present (python-dotenv, best-effort)."""
     env_path = _REPO / ".env"
     if env_path.exists():
         try:
             from dotenv import load_dotenv
+
             load_dotenv(env_path)
         except ImportError:
             pass  # python-dotenv optional; env var must be set another way
@@ -59,6 +62,7 @@ def _get_api_key() -> str:
 
 
 # ── argument parsing ──────────────────────────────────────────────────────────
+
 
 def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -88,6 +92,7 @@ def _parse_args() -> argparse.Namespace:
 
 # ── system instruction ────────────────────────────────────────────────────────
 
+
 def _resolve_system_instruction(raw: str | None) -> str | None:
     """Return the system instruction text, or None if not configured."""
     if raw is None:
@@ -102,6 +107,7 @@ def _resolve_system_instruction(raw: str | None) -> str | None:
 
 
 # ── knowledge file handling ───────────────────────────────────────────────────
+
 
 def _mime_for(path: Path) -> str:
     """Best-effort MIME type for a file path."""
@@ -129,7 +135,7 @@ def _load_knowledge_files(
         size = p.stat().st_size
         mime = _mime_for(p)
         if size >= _FILE_SIZE_THRESHOLD:
-            print(f"  Uploading {p.name} ({size // (1024*1024)} MB) via Files API ...", end=" ", flush=True)
+            print(f"  Uploading {p.name} ({size // (1024 * 1024)} MB) via Files API ...", end=" ", flush=True)
             try:
                 uploaded = client.files.upload(file=p, config={"mime_type": mime})
                 parts.append(types.Part.from_uri(file_uri=uploaded.uri, mime_type=mime))
@@ -156,6 +162,7 @@ def _load_knowledge_files(
 
 
 # ── chat loop ─────────────────────────────────────────────────────────────────
+
 
 def _run(args: argparse.Namespace, api_key: str) -> None:
     try:
@@ -238,6 +245,7 @@ def _handle_api_error(exc: Exception) -> None:
 
 
 # ── entry point ───────────────────────────────────────────────────────────────
+
 
 def main() -> None:
     _load_env()

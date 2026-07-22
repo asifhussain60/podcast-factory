@@ -9,6 +9,7 @@ design) begins.
 Fits into the A4 split package alongside _refine (0b/0c), _chapter_design (0d),
 and _enrichment (0e).
 """
+
 from __future__ import annotations
 
 import sys
@@ -16,13 +17,14 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from ._core import (  # noqa: E402
+from _content_profile import is_islamic_scholarly
+
+from ._core import (
+    DEFAULT_TIMEOUT,
     AuthoringError,
     AuthoringHalt,
-    DEFAULT_TIMEOUT,
     _run_claude_p,
 )
-from _content_profile import is_islamic_scholarly  # noqa: E402
 
 
 def author_phase_0ci(book_dir: Path, *, timeout: int = DEFAULT_TIMEOUT, log=print) -> str:
@@ -77,10 +79,7 @@ def author_phase_0ci(book_dir: Path, *, timeout: int = DEFAULT_TIMEOUT, log=prin
     synthesis_path = augment_dir / "_synthesis.md"
     synthesis_block = ""
     if synthesis_path.exists():
-        synthesis_block = (
-            f"\n\n## Session → Chapter alignment\n\n"
-            f"{synthesis_path.read_text(encoding='utf-8')[:3_000]}"
-        )
+        synthesis_block = f"\n\n## Session → Chapter alignment\n\n{synthesis_path.read_text(encoding='utf-8')[:3_000]}"
 
     prompt = (
         f"You are driving Phase 0ci (Book Intelligence Gap Analysis) of the /podcast skill "

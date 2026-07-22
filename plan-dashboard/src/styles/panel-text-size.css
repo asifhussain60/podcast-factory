@@ -1,0 +1,72 @@
+/* panel-text-size.css — the -/+ stepper on --panel-fs.
+
+   Lives in its own layer, beside the script that builds its markup
+   (src/scripts/panel-text-size.ts), because TWO views mount that script: the
+   Book Composer's drawer and the Arabic Review's vowelling panel. It used to sit
+   in book-composer.css, which only the Composer loads — so on /arabic-review the
+   control rendered as unstyled text ("Text-15+") with no pill, no spacing and
+   1px hit targets. Rule text belongs in one place; the file both views import is
+   that place.
+
+   The 11px labels are the REQ-010 exception already recorded for
+   .cx-panel-bar/.cx-psize-* in html-view-lint.config.json: chrome for a panel,
+   deliberately off the --panel-fs scale the panel's CONTENT rides. */
+
+/* ── Panel text size ──────────────────────────────────────────────────────────
+   A -/+ stepper on --panel-fs, pinned above whichever surface is showing. Visual
+   language is deliberately the editor toolbar's own size stepper (.cx-size), so
+   the two controls read as the same affordance for the same job in two places. */
+.cx-panel-bar {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+.cx-psize {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  height: 1.7rem;
+  padding: 0 0.15rem 0 0.5rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 999px;
+  background: var(--c-bg-card, #fffdf8);
+}
+.cx-psize-label {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-psize-btn {
+  width: 1.5rem;
+  height: 1.4rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--c-ink, #1f1d18);
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.cx-psize-btn:hover:not(:disabled) {
+  color: var(--c-accent, #8b4513);
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 10%, transparent);
+}
+.cx-psize-btn:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 1px;
+}
+.cx-psize-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.cx-psize-val {
+  min-width: 1.4rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--c-ink-muted, #66625a);
+}

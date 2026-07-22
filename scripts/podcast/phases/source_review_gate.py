@@ -13,10 +13,10 @@ CLI usage:
     python3 scripts/podcast/phases/source_review_gate.py <book-dir>
     python3 scripts/podcast/phases/source_review_gate.py <book-dir> --dry-run
 """
+
 from __future__ import annotations
 
 import json
-import os
 import sys
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
@@ -24,8 +24,6 @@ from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_HERE))
-
-from _paths import REPO_ROOT  # noqa: E402
 
 
 @dataclass
@@ -124,6 +122,7 @@ def _call_haiku_review(summary: str) -> dict:
         }
 
     from _secrets import get_anthropic_key  # vault-deterministic
+
     api_key = get_anthropic_key()
     if not api_key:
         return {
@@ -146,7 +145,7 @@ def _call_haiku_review(summary: str) -> dict:
         if start == -1 or end == 0:
             raise ValueError("No JSON in response")
         return json.loads(raw[start:end])
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         return {
             "warnings": [{"severity": "P1", "message": f"Haiku review error: {exc}"}],
             "overall_assessment": "WARN",
@@ -164,7 +163,7 @@ def run_source_review_gate(book_dir: Path, *, dry_run: bool = False) -> ReviewGa
     if gate_path.exists():
         existing = ReviewGate.from_file(gate_path)
         if existing.approved:
-            print(f"  Source review gate already approved — skipping re-run.")
+            print("  Source review gate already approved — skipping re-run.")
             return existing
 
     summary = _build_source_summary(book_dir)
@@ -204,6 +203,7 @@ def run_source_review_gate(book_dir: Path, *, dry_run: bool = False) -> ReviewGa
 
 def main() -> None:
     import argparse
+
     parser = argparse.ArgumentParser(description="Phase 06a source review gate.")
     parser.add_argument("book_dir", type=Path)
     parser.add_argument("--dry-run", action="store_true")
@@ -213,7 +213,7 @@ def main() -> None:
     print(f"\ngate approved={gate.approved}, warnings={len(gate.warnings)}")
     if gate.warnings:
         for w in gate.warnings[:5]:
-            print(f"  [{w.get('severity','?')}] {w.get('message','')}")
+            print(f"  [{w.get('severity', '?')}] {w.get('message', '')}")
 
 
 if __name__ == "__main__":

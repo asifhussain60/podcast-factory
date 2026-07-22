@@ -8,18 +8,19 @@
  * Dependency-free: no Zod, no React Hook Form — the form is simple enough to
  * hand-roll and keeping dependencies minimal is the standing preference.
  */
-import { useState } from 'react';
+import { useState } from "react";
+import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const CATEGORIES = [
-  { value: 'books',      label: 'Book' },
-  { value: 'articles',   label: 'Article' },
-  { value: 'documents',  label: 'Document' },
-  { value: 'lectures',   label: 'Lecture' },
-  { value: 'interviews', label: 'Interview' },
-  { value: 'letters',    label: 'Letter' },
-  { value: 'asbaaq',     label: 'Sabaq (lesson)' },
+  { value: "books", label: "Book" },
+  { value: "articles", label: "Article" },
+  { value: "documents", label: "Document" },
+  { value: "lectures", label: "Lecture" },
+  { value: "interviews", label: "Interview" },
+  { value: "letters", label: "Letter" },
+  { value: "asbaaq", label: "Sabaq (lesson)" },
 ];
 
 interface CreateResult {
@@ -35,24 +36,28 @@ interface Props {
 }
 
 export default function NewContentForm({ onCreated, onCleared }: Props) {
-  const [slug, setSlug]           = useState('');
-  const [category, setCategory]   = useState('books');
-  const [title, setTitle]         = useState('');
-  const [sourceHint, setSourceHint] = useState('');
-  const [slugError, setSlugError] = useState('');
-  const [serverError, setServerError] = useState('');
-  const [created, setCreated]     = useState<CreateResult | null>(null);
+  const [slug, setSlug] = useState("");
+  const [category, setCategory] = useState("books");
+  const [title, setTitle] = useState("");
+  const [sourceHint, setSourceHint] = useState("");
+  const [slugError, setSlugError] = useState("");
+  const [serverError, setServerError] = useState("");
+  const [created, setCreated] = useState<CreateResult | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   function validateSlug(v: string): string {
-    if (!v) return 'Slug is required';
-    if (!SLUG_RE.test(v)) return 'Lowercase letters, digits, and hyphens only (e.g. my-book-title)';
-    return '';
+    if (!v) return "Slug is required";
+    if (!SLUG_RE.test(v))
+      return "Lowercase letters, digits, and hyphens only (e.g. my-book-title)";
+    return "";
   }
 
   function handleSlugChange(v: string) {
     // Auto-convert spaces and underscores to hyphens, strip other invalid chars.
-    const clean = v.toLowerCase().replace(/[\s_]+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const clean = v
+      .toLowerCase()
+      .replace(/[\s_]+/g, "-")
+      .replace(/[^a-z0-9-]/g, "");
     setSlug(clean);
     setSlugError(validateSlug(clean));
   }
@@ -60,27 +65,32 @@ export default function NewContentForm({ onCreated, onCleared }: Props) {
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const err = validateSlug(slug);
-    if (err) { setSlugError(err); return; }
+    if (err) {
+      setSlugError(err);
+      return;
+    }
     if (!title.trim()) return;
 
     setSubmitting(true);
-    setServerError('');
+    setServerError("");
     try {
-      const r = await fetch('/api/intake/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, category, title: title.trim(), sourceHint: sourceHint.trim() }),
+      const result = await apiFetch<CreateResult>("/api/intake/create", {
+        method: "POST",
+        body: {
+          slug,
+          category,
+          title: title.trim(),
+          sourceHint: sourceHint.trim(),
+        },
       });
-      const json = await r.json();
-      if (!r.ok || !json.ok) {
-        setServerError(json.error ?? `Server error ${r.status}`);
-        return;
-      }
-      const result: CreateResult = json.data;
       setCreated(result);
       onCreated?.(result);
     } catch (e) {
-      setServerError(`Network error: ${String(e)}`);
+      setServerError(
+        e instanceof ApiFetchError && e.status !== 0
+          ? e.message
+          : `Network error: ${String(e)}`,
+      );
     } finally {
       setSubmitting(false);
     }
@@ -88,8 +98,12 @@ export default function NewContentForm({ onCreated, onCleared }: Props) {
 
   function handleReset() {
     setCreated(null);
-    setSlug(''); setCategory('books'); setTitle(''); setSourceHint('');
-    setSlugError(''); setServerError('');
+    setSlug("");
+    setCategory("books");
+    setTitle("");
+    setSourceHint("");
+    setSlugError("");
+    setServerError("");
     onCleared?.();
   }
 
@@ -100,12 +114,15 @@ export default function NewContentForm({ onCreated, onCleared }: Props) {
           <p className="intake-success-title">"{created.title}" scaffolded</p>
           <p className="intake-success-path">{created.path}</p>
           <p className="intake-success-next">
-            Set canonical editorial decisions in the panel on the right, then ask Claude Code
-            to run intake for this content.
+            Set canonical editorial decisions in the panel on the right, then
+            ask Claude Code to run intake for this content.
           </p>
         </div>
         <div className="intake-actions">
-          <button className="intake-btn intake-btn--ghost" onClick={handleReset}>
+          <button
+            className="intake-btn intake-btn--ghost"
+            onClick={handleReset}
+          >
             Add another
           </button>
         </div>
@@ -117,7 +134,6 @@ export default function NewContentForm({ onCreated, onCleared }: Props) {
     <div className="intake-card">
       <h2 className="intake-card-title">New content</h2>
       <form onSubmit={handleSubmit} noValidate>
-
         <div className="intake-field">
           <label className="intake-label" htmlFor="intake-title">
             Title <span>(required)</span>
@@ -139,15 +155,26 @@ export default function NewContentForm({ onCreated, onCleared }: Props) {
           </label>
           <input
             id="intake-slug"
-            className={`intake-input${slugError ? ' error' : ''}`}
+            className={`intake-input${slugError ? " error" : ""}`}
             type="text"
             placeholder="e.g. kitab-al-riyad"
-            value={slug || (title ? title.toLowerCase().replace(/[\s_]+/g, '-').replace(/[^a-z0-9-]/g, '') : '')}
+            value={
+              slug ||
+              (title
+                ? title
+                    .toLowerCase()
+                    .replace(/[\s_]+/g, "-")
+                    .replace(/[^a-z0-9-]/g, "")
+                : "")
+            }
             onChange={(e) => handleSlugChange(e.target.value)}
             required
           />
           {slugError && <p className="intake-error">{slugError}</p>}
-          <p className="intake-hint">Lowercase, hyphens, no spaces. Used as the folder name and branch slug.</p>
+          <p className="intake-hint">
+            Lowercase, hyphens, no spaces. Used as the folder name and branch
+            slug.
+          </p>
         </div>
 
         <div className="intake-field">
@@ -161,7 +188,9 @@ export default function NewContentForm({ onCreated, onCleared }: Props) {
             onChange={(e) => setCategory(e.target.value)}
           >
             {CATEGORIES.map((c) => (
-              <option key={c.value} value={c.value}>{c.label}</option>
+              <option key={c.value} value={c.value}>
+                {c.label}
+              </option>
             ))}
           </select>
         </div>
@@ -178,7 +207,9 @@ export default function NewContentForm({ onCreated, onCleared }: Props) {
             onChange={(e) => setSourceHint(e.target.value)}
             rows={2}
           />
-          <p className="intake-hint">Where the source material lives — helps Claude find it on resume.</p>
+          <p className="intake-hint">
+            Where the source material lives — helps Claude find it on resume.
+          </p>
         </div>
 
         {serverError && <p className="intake-error">{serverError}</p>}
@@ -189,7 +220,7 @@ export default function NewContentForm({ onCreated, onCleared }: Props) {
             type="submit"
             disabled={submitting || !!slugError || !title.trim()}
           >
-            {submitting ? 'Creating…' : 'Create workshop folder'}
+            {submitting ? "Creating…" : "Create workshop folder"}
           </button>
         </div>
       </form>

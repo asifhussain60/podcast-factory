@@ -40,6 +40,7 @@ Usage:
     python3 scripts/podcast/render_dialogue_audio.py <slug> --confirm
     python3 scripts/podcast/render_dialogue_audio.py <slug> --episode EP01-... --confirm
 """
+
 from __future__ import annotations
 
 import argparse
@@ -55,15 +56,24 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _audio_engines import (  # noqa: E402
-    audio_engine_for_book, voices_for_book, credit_estimate, is_autonomous,
-    engine_for_episode, ENGINE_NOTEBOOKLM,
+from _audio_engines import (
+    ENGINE_NOTEBOOKLM,
+    audio_engine_for_book,
+    credit_estimate,
+    engine_for_episode,
+    is_autonomous,
+    voices_for_book,
 )
-from _dialogue_script import (  # noqa: E402
-    parse_dialogue_script, script_path_for, script_char_count,
-    chunk_turns, chunk_content_hash, chunk_seed, Turn,
+from _dialogue_convergence import read_verdict
+from _dialogue_script import (
+    Turn,
+    chunk_content_hash,
+    chunk_seed,
+    chunk_turns,
+    parse_dialogue_script,
+    script_char_count,
+    script_path_for,
 )
-from _dialogue_convergence import read_verdict  # noqa: E402
 
 RENDER_LEDGER = "render-ledger.jsonl"
 RENDER_CACHE_DIR = "render-cache"
@@ -147,13 +157,29 @@ def chapter_stem_for_episode(book_dir: Path, episode_id: str) -> str:
 def _concat_to_m4a(chunk_files: list[Path], out_path: Path) -> None:
     """Concat the rendered mp3 chunks into one canonical .m4a (AAC)."""
     list_file = out_path.parent / f".{out_path.stem}.concat.txt"
-    list_file.write_text(
-        "".join(f"file '{p.resolve()}'\n" for p in chunk_files), encoding="utf-8")
+    list_file.write_text("".join(f"file '{p.resolve()}'\n" for p in chunk_files), encoding="utf-8")
     try:
         subprocess.run(
-            ["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0",
-             "-i", str(list_file), "-c:a", "aac", "-b:a", "128k", str(out_path)],
-            check=True, capture_output=True)
+            [
+                "ffmpeg",
+                "-y",
+                "-loglevel",
+                "error",
+                "-f",
+                "concat",
+                "-safe",
+                "0",
+                "-i",
+                str(list_file),
+                "-c:a",
+                "aac",
+                "-b:a",
+                "128k",
+                str(out_path),
+            ],
+            check=True,
+            capture_output=True,
+        )
     finally:
         list_file.unlink(missing_ok=True)
 
@@ -161,11 +187,13 @@ def _concat_to_m4a(chunk_files: list[Path], out_path: Path) -> None:
 def _audio_duration_s(path: Path) -> float | None:
     try:
         out = subprocess.run(
-            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
-             "-of", "csv=p=0", str(path)],
-            capture_output=True, text=True, check=True).stdout.strip()
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(path)],
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.strip()
         return float(out)
-    except Exception:  # noqa: BLE001 — ffprobe absent => sanity check skipped
+    except Exception:
         return None
 
 
@@ -216,7 +244,8 @@ def render_episode(
     if not is_autonomous(engine):
         raise RuntimeError(
             f"book {book_dir.name!r} uses audio_engine={engine.name!r} "
-            f"(render_mode={engine.render_mode}) — nothing to render via API.")
+            f"(render_mode={engine.render_mode}) — nothing to render via API."
+        )
     # Defense-in-depth: an episode flipped to NotebookLM via
     # episode_engine_overrides is rendered manually, never here — refuse even a
     # direct --episode CLI call so a flipped episode can't be rendered by mistake.
@@ -224,23 +253,26 @@ def render_episode(
         raise RuntimeError(
             f"REFUSED: episode {episode_id} is overridden to notebooklm "
             f"(episode_engine_overrides) — generate it in NotebookLM and drop the "
-            f"m4a into m4a/; it is never API-rendered.")
+            f"m4a into m4a/; it is never API-rendered."
+        )
 
     verdict = read_verdict(book_dir, episode_id)
-    result = RenderResult(episode_id=episode_id,
-                          ch_stem=chapter_stem_for_episode(book_dir, episode_id),
-                          verdict=verdict or "(none)")
+    result = RenderResult(
+        episode_id=episode_id, ch_stem=chapter_stem_for_episode(book_dir, episode_id), verdict=verdict or "(none)"
+    )
     if verdict not in SHIPPABLE_VERDICTS:
         raise RuntimeError(
             f"REFUSED: episode {episode_id} has gate verdict {verdict!r} — "
             f"nothing renders before a passing verdict "
-            f"(run the dialogue convergence loop first).")
+            f"(run the dialogue convergence loop first)."
+        )
 
     script = script_path_for(book_dir, episode_id)
     turns = parse_dialogue_script(script.read_text(encoding="utf-8"))
 
     # Script-compile layer: Arabic-recitation scaffold (identity until H2).
     from pronunciation_compiler import compile_turns_for_render, ensure_dictionary
+
     turns = compile_turns_for_render(book_dir, turns)
 
     voices = voices_for_book(book_dir)
@@ -250,6 +282,7 @@ def render_episode(
 
     if client is None:
         from _elevenlabs import ElevenLabsClient
+
         client = ElevenLabsClient()
 
     # Pronunciation dictionary: compile + pin (upload only on glossary change).
@@ -265,8 +298,8 @@ def render_episode(
     to_render = 0
     for i, chunk in enumerate(chunks):
         ihash = chunk_content_hash(
-            chunk, model_id=engine.model_id, voices=voices,
-            dictionary_version=dictionary_version)
+            chunk, model_id=engine.model_id, voices=voices, dictionary_version=dictionary_version
+        )
         cpath = cache_dir / f"{ihash}.mp3"
         plan.append((i, chunk, ihash, cpath))
         if not cpath.exists():
@@ -277,33 +310,32 @@ def render_episode(
             f"REFUSED: {to_render}/{len(chunks)} chunk(s) need PAID synthesis "
             f"(estimate {result.credits_estimated:,} credits for the full "
             f"script) and spend is not approved. Pass approved=True "
-            f"(orchestrator H1) or --confirm (CLI).")
+            f"(orchestrator H1) or --confirm (CLI)."
+        )
 
     meter_start: int | None = None
     if to_render:
         try:
             meter_start = int(client.subscription().get("character_count"))
-        except Exception as e:  # noqa: BLE001 — meter probe is best-effort
+        except Exception as e:
             log(f"  [render] WARN subscription meter probe failed: {e}")
 
     ledger_rows: list[dict] = []
     chunk_files: list[Path] = []
     for i, chunk, ihash, cpath in plan:
         chars = sum(len(t.text) for t in chunk)
-        cr = ChunkRender(index=i, input_hash=ihash, chars=chars,
-                         cached=cpath.exists())
+        cr = ChunkRender(index=i, input_hash=ihash, chars=chars, cached=cpath.exists())
         if not cr.cached:
             seed = chunk_seed(ihash)
-            log(f"  [render] chunk {i + 1}/{len(chunks)}: {len(chunk)} turns, "
-                f"{chars:,} chars, seed={seed}")
+            log(f"  [render] chunk {i + 1}/{len(chunks)}: {len(chunk)} turns, {chars:,} chars, seed={seed}")
             audio = client.text_to_dialogue(
-                [{"text": t.text, "voice_id": voices[t.speaker.lower()]}
-                 for t in chunk],
+                [{"text": t.text, "voice_id": voices[t.speaker.lower()]} for t in chunk],
                 model_id=engine.model_id,
                 seed=seed,
                 settings=DIALOGUE_SETTINGS,
                 pronunciation_dictionary_locators=locators,
-                output_format=OUTPUT_FORMAT)
+                output_format=OUTPUT_FORMAT,
+            )
             cpath.write_bytes(audio)
         else:
             log(f"  [render] chunk {i + 1}/{len(chunks)}: cache hit ({ihash[:12]})")
@@ -316,18 +348,29 @@ def render_episode(
             if not cr.sanity_ok:
                 result.notes.append(
                     f"chunk {i}: {cr.cps} chars/sec outside [{CPS_MIN}, {CPS_MAX}] "
-                    f"— possible {'truncation' if cr.cps > CPS_MAX else 'runaway/silence'}")
+                    f"— possible {'truncation' if cr.cps > CPS_MAX else 'runaway/silence'}"
+                )
         result.chunks.append(cr)
         chunk_files.append(cpath)
-        ledger_rows.append({
-            "ts": _utc_now(), "episode_id": episode_id, "chunk_index": i,
-            "input_hash": ihash, "output_sha256": cr.output_sha256,
-            "chars": chars, "cached": cr.cached,
-            "seed": chunk_seed(ihash), "model_id": engine.model_id,
-            "voices": voices, "dictionary_version": dictionary_version,
-            "settings": DIALOGUE_SETTINGS,
-            "duration_s": cr.duration_s, "cps": cr.cps, "sanity_ok": cr.sanity_ok,
-        })
+        ledger_rows.append(
+            {
+                "ts": _utc_now(),
+                "episode_id": episode_id,
+                "chunk_index": i,
+                "input_hash": ihash,
+                "output_sha256": cr.output_sha256,
+                "chars": chars,
+                "cached": cr.cached,
+                "seed": chunk_seed(ihash),
+                "model_id": engine.model_id,
+                "voices": voices,
+                "dictionary_version": dictionary_version,
+                "settings": DIALOGUE_SETTINGS,
+                "duration_s": cr.duration_s,
+                "cps": cr.cps,
+                "sanity_ok": cr.sanity_ok,
+            }
+        )
     _append_render_ledger(book_dir, ledger_rows)
 
     # Exact credit metering (subscription delta — the experiment's pattern).
@@ -337,12 +380,19 @@ def render_episode(
             meter_end = int(client.subscription().get("character_count"))
             result.credits_metered = meter_end - meter_start
             from _cost_ledger import append_elevenlabs_cost
+
             append_elevenlabs_cost(
-                book_dir, phase="audio-render", step=episode_id,
-                credits=result.credits_metered, char_count=result.chars_total)
-            log(f"  [render] credits this render: {result.credits_metered:,} "
-                f"(estimate was {result.credits_estimated:,})")
-        except Exception as e:  # noqa: BLE001
+                book_dir,
+                phase="audio-render",
+                step=episode_id,
+                credits=result.credits_metered,
+                char_count=result.chars_total,
+            )
+            log(
+                f"  [render] credits this render: {result.credits_metered:,} "
+                f"(estimate was {result.credits_estimated:,})"
+            )
+        except Exception as e:
             result.notes.append(f"credit metering failed: {e}")
 
     # Assemble canonical outputs.
@@ -365,24 +415,40 @@ def render_episode(
     # ── Post-render style gate (default off) ─────────────────────────────────
     if style_gate:
         _apply_style_gate(
-            book_dir, episode_id, result, out_m4a, transcript_text,
-            chunks=chunks, voices=voices, engine=engine, locators=locators,
-            dictionary_version=dictionary_version, cache_dir=cache_dir,
-            m4a_dir=m4a_dir, concat=concat, client=client, approved=approved,
+            book_dir,
+            episode_id,
+            result,
+            out_m4a,
+            transcript_text,
+            chunks=chunks,
+            voices=voices,
+            engine=engine,
+            locators=locators,
+            dictionary_version=dictionary_version,
+            cache_dir=cache_dir,
+            m4a_dir=m4a_dir,
+            concat=concat,
+            client=client,
+            approved=approved,
             style_retake_budget=style_retake_budget,
-            meter_settle_s=meter_settle_s, log=log)
+            meter_settle_s=meter_settle_s,
+            log=log,
+        )
 
     if deep_verify:
         _deep_verify(book_dir, result, transcript_text, log=log)
 
-    log(f"  [render] {episode_id}: wrote {out_m4a.name} "
+    log(
+        f"  [render] {episode_id}: wrote {out_m4a.name} "
         f"({len(chunks)} chunks, {result.cache_hits} cached, "
-        f"{len(result.sanity_failures)} sanity flags)")
+        f"{len(result.sanity_failures)} sanity flags)"
+    )
     return result
 
 
-def _render_salted_take(client, chunks, voices, engine, locators,
-                        dictionary_version, cache_dir, take_salt, log) -> list[Path]:
+def _render_salted_take(
+    client, chunks, voices, engine, locators, dictionary_version, cache_dir, take_salt, log
+) -> list[Path]:
     """Render an ALTERNATE take of every chunk (salted seed -> distinct delivery).
 
     Cache-keyed by the salted hash so a repeat call is free; only un-cached
@@ -391,27 +457,45 @@ def _render_salted_take(client, chunks, voices, engine, locators,
     files: list[Path] = []
     for i, chunk in enumerate(chunks):
         ihash = chunk_content_hash(
-            chunk, model_id=engine.model_id, voices=voices,
-            dictionary_version=dictionary_version, take_salt=take_salt)
+            chunk, model_id=engine.model_id, voices=voices, dictionary_version=dictionary_version, take_salt=take_salt
+        )
         cpath = cache_dir / f"{ihash}.mp3"
         if not cpath.exists():
             audio = client.text_to_dialogue(
-                [{"text": t.text, "voice_id": voices[t.speaker.lower()]}
-                 for t in chunk],
-                model_id=engine.model_id, seed=chunk_seed(ihash),
+                [{"text": t.text, "voice_id": voices[t.speaker.lower()]} for t in chunk],
+                model_id=engine.model_id,
+                seed=chunk_seed(ihash),
                 settings=DIALOGUE_SETTINGS,
                 pronunciation_dictionary_locators=locators,
-                output_format=OUTPUT_FORMAT)
+                output_format=OUTPUT_FORMAT,
+            )
             cpath.write_bytes(audio)
             log(f"  [style] retake chunk {i + 1}/{len(chunks)}: {ihash[:12]}")
         files.append(cpath)
     return files
 
 
-def _apply_style_gate(book_dir, episode_id, result, out_m4a, transcript_text, *,
-                      chunks, voices, engine, locators, dictionary_version,
-                      cache_dir, m4a_dir, concat, client, approved,
-                      style_retake_budget, meter_settle_s, log) -> None:
+def _apply_style_gate(
+    book_dir,
+    episode_id,
+    result,
+    out_m4a,
+    transcript_text,
+    *,
+    chunks,
+    voices,
+    engine,
+    locators,
+    dictionary_version,
+    cache_dir,
+    m4a_dir,
+    concat,
+    client,
+    approved,
+    style_retake_budget,
+    meter_settle_s,
+    log,
+) -> None:
     """Fingerprint the assembled audio vs the gold standard; one bounded retake.
 
     A quality FLAG, never a block: keeps the better-scoring take and records a
@@ -419,8 +503,8 @@ def _apply_style_gate(book_dir, episode_id, result, out_m4a, transcript_text, *,
     retake re-spends, so it runs ONLY when spend is approved (inside the H1
     scope) and is logged to the cost ledger.
     """
-    from _content_profile import resolve_content_profile
     from _audio_fingerprint import fingerprint_m4a, score_against_profile, word_count
+    from _content_profile import resolve_content_profile
 
     profile = resolve_content_profile(book_dir)
     words = word_count(transcript_text)
@@ -430,24 +514,23 @@ def _apply_style_gate(book_dir, episode_id, result, out_m4a, transcript_text, *,
     if base.get("score") is None:
         log(f"  [style] {episode_id}: no gold standard for profile {profile!r} — skipped")
         return
-    log(f"  [style] {episode_id}: score {base['score']} "
-        f"(threshold {base['threshold']}, passed={base['passed']})")
+    log(f"  [style] {episode_id}: score {base['score']} (threshold {base['threshold']}, passed={base['passed']})")
 
     if base.get("passed") or style_retake_budget <= 0 or not approved:
         if not base.get("passed"):
             result.notes.append(
-                f"style score {base['score']} below threshold "
-                f"{base['threshold']} (no retake: budget/approval)")
+                f"style score {base['score']} below threshold {base['threshold']} (no retake: budget/approval)"
+            )
         return
 
     log(f"  [style] {episode_id}: below threshold — rendering ONE retake (salted seed)")
     try:
         r_start = int(client.subscription().get("character_count"))
-    except Exception:  # noqa: BLE001
+    except Exception:
         r_start = None
     cand_files = _render_salted_take(
-        client, chunks, voices, engine, locators, dictionary_version,
-        cache_dir, "retake1", log)
+        client, chunks, voices, engine, locators, dictionary_version, cache_dir, "retake1", log
+    )
     cand_m4a = m4a_dir / f".{result.ch_stem}.retake.m4a"
     concat(cand_files, cand_m4a)
     cand = score_against_profile(fingerprint_m4a(cand_m4a, words=words), profile)
@@ -458,68 +541,79 @@ def _apply_style_gate(book_dir, episode_id, result, out_m4a, transcript_text, *,
             retake_credits = int(client.subscription().get("character_count")) - r_start
             result.credits_metered = (result.credits_metered or 0) + retake_credits
             from _cost_ledger import append_elevenlabs_cost
+
             append_elevenlabs_cost(
-                book_dir, phase="audio-render", step=f"{episode_id}/style-retake",
-                credits=retake_credits, char_count=result.chars_total)
+                book_dir,
+                phase="audio-render",
+                step=f"{episode_id}/style-retake",
+                credits=retake_credits,
+                char_count=result.chars_total,
+            )
             log(f"  [style] retake credits: {retake_credits:,}")
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             result.notes.append(f"style retake metering failed: {e}")
 
     if (cand.get("score") or 0) > (base.get("score") or 0):
         cand_m4a.replace(out_m4a)
         result.style_score = cand["score"]
         result.style_passed = cand.get("passed", False)
-        result.notes.append(
-            f"style retake kept ({base['score']} -> {cand['score']})")
+        result.notes.append(f"style retake kept ({base['score']} -> {cand['score']})")
         log(f"  [style] retake WON: {base['score']} -> {cand['score']}")
     else:
         cand_m4a.unlink(missing_ok=True)
-        result.notes.append(
-            f"style retake discarded (base {base['score']} >= retake {cand.get('score')})")
+        result.notes.append(f"style retake discarded (base {base['score']} >= retake {cand.get('score')})")
         log(f"  [style] retake kept base ({base['score']} >= {cand.get('score')})")
     if not result.style_passed:
         result.notes.append(
             f"style score {result.style_score} still below threshold "
-            f"{base['threshold']} after retake — review before publish")
+            f"{base['threshold']} after retake — review before publish"
+        )
 
 
-def _deep_verify(book_dir: Path, result: RenderResult, script_text: str,
-                 *, log=print) -> None:
+def _deep_verify(book_dir: Path, result: RenderResult, script_text: str, *, log=print) -> None:
     """Optional Azure STT verification: transcribe the final m4a and report
 
     token containment vs the script. Writes the report under m4a/_review/;
     never overwrites the canonical (script-derived) transcripts."""
     try:
         import _azure
-        from _engine import engine_guard, TASK_TRANSCRIBE, ENGINE_AZURE
+        from _engine import ENGINE_AZURE, TASK_TRANSCRIBE, engine_guard
+
         engine_guard(TASK_TRANSCRIBE, ENGINE_AZURE)
         creds = _azure.load_speech_creds()
-        stt = _azure.transcribe_audio(
-            creds, result.m4a_path.read_bytes(), result.m4a_path.name)
-        script_tokens = {w for w in re.split(r"[^a-z0-9']+", script_text.lower())
-                         if len(w) > 3}
+        stt = _azure.transcribe_audio(creds, result.m4a_path.read_bytes(), result.m4a_path.name)
+        script_tokens = {w for w in re.split(r"[^a-z0-9']+", script_text.lower()) if len(w) > 3}
         stt_tokens = {w for w in re.split(r"[^a-z0-9']+", stt.lower()) if len(w) > 3}
-        containment = (len(script_tokens & stt_tokens) / len(script_tokens)
-                       if script_tokens else 0.0)
+        containment = len(script_tokens & stt_tokens) / len(script_tokens) if script_tokens else 0.0
         review = book_dir / "m4a" / "_review"
         review.mkdir(parents=True, exist_ok=True)
         report = review / f"{result.ch_stem}.deep-verify.json"
-        report.write_text(json.dumps({
-            "ts": _utc_now(), "episode_id": result.episode_id,
-            "token_containment": round(containment, 3),
-            "script_tokens": len(script_tokens), "stt_tokens": len(stt_tokens),
-        }, indent=2) + "\n", encoding="utf-8")
+        report.write_text(
+            json.dumps(
+                {
+                    "ts": _utc_now(),
+                    "episode_id": result.episode_id,
+                    "token_containment": round(containment, 3),
+                    "script_tokens": len(script_tokens),
+                    "stt_tokens": len(stt_tokens),
+                },
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
         result.notes.append(f"deep-verify token containment: {containment:.1%}")
         try:
             from _cost_ledger import append_azure_stt_cost
+
             dur = _audio_duration_s(result.m4a_path) or 0.0
-            append_azure_stt_cost(book_dir, phase="audio-render",
-                                  step=f"deep-verify/{result.ch_stem}",
-                                  duration_seconds=dur)
-        except Exception:  # noqa: BLE001
+            append_azure_stt_cost(
+                book_dir, phase="audio-render", step=f"deep-verify/{result.ch_stem}", duration_seconds=dur
+            )
+        except Exception:
             pass
         log(f"  [deep-verify] containment {containment:.1%} -> {report.name}")
-    except Exception as e:  # noqa: BLE001 — verification is optional, never fatal
+    except Exception as e:
         result.notes.append(f"deep-verify failed: {e}")
         log(f"  [deep-verify] WARN: {e}")
 
@@ -529,24 +623,22 @@ def episodes_with_scripts(book_dir: Path) -> list[str]:
     d = Path(book_dir) / "_system" / "dialogue-scripts"
     if not d.is_dir():
         return []
-    return sorted(p.name.removesuffix(".script.md")
-                  for p in d.glob("EP*.script.md"))
+    return sorted(p.name.removesuffix(".script.md") for p in d.glob("EP*.script.md"))
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(
-        description="Render gated dialogue scripts via ElevenLabs into the canonical m4a layout.")
+        description="Render gated dialogue scripts via ElevenLabs into the canonical m4a layout."
+    )
     ap.add_argument("slug", help="book slug (any bucket)")
     ap.add_argument("--episode", help="single EP##-<slug> (default: all gated scripts)")
-    ap.add_argument("--confirm", action="store_true",
-                    help="approve PAID synthesis (H1 spend approval)")
-    ap.add_argument("--deep-verify", action="store_true",
-                    help="STT-verify the rendered audio via Azure (extra spend)")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="show the render plan + credit estimate, render nothing")
+    ap.add_argument("--confirm", action="store_true", help="approve PAID synthesis (H1 spend approval)")
+    ap.add_argument("--deep-verify", action="store_true", help="STT-verify the rendered audio via Azure (extra spend)")
+    ap.add_argument("--dry-run", action="store_true", help="show the render plan + credit estimate, render nothing")
     args = ap.parse_args()
 
     from _paths import find_content
+
     found = find_content(args.slug)
     if not found:
         print(f"ERROR: no content directory matches slug {args.slug!r}", file=sys.stderr)
@@ -570,17 +662,15 @@ def main() -> int:
             chars = script_char_count(turns)
             est = credit_estimate(engine, chars)
             total += est
-            print(f"  {ep}: verdict={read_verdict(book_dir, ep) or '(none)'} "
-                  f"chars={chars:,} est={est:,} credits")
+            print(f"  {ep}: verdict={read_verdict(book_dir, ep) or '(none)'} chars={chars:,} est={est:,} credits")
         print(f"\nTOTAL estimate: {total:,} credits")
         return 0
 
     failures = 0
     for ep in targets:
         try:
-            render_episode(book_dir, ep, approved=args.confirm,
-                           deep_verify=args.deep_verify)
-        except Exception as e:  # noqa: BLE001
+            render_episode(book_dir, ep, approved=args.confirm, deep_verify=args.deep_verify)
+        except Exception as e:
             failures += 1
             print(f"ERROR [{ep}]: {e}", file=sys.stderr)
     return 1 if failures else 0

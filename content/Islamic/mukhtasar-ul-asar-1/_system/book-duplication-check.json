@@ -1,0 +1,39 @@
+{
+  "schema": "book.duplication-check/v1",
+  "findings": [
+    {
+      "chapter": "8. The Journey to the House: Pilgrimage",
+      "lag": 3,
+      "first_copy_paragraphs": [
+        28,
+        29
+      ],
+      "second_copy_paragraphs": [
+        31,
+        32
+      ],
+      "paragraphs": 2,
+      "min_ratio": 0.462,
+      "min_shared_words": 6,
+      "first_copy_opens": "As for the marking of the offering and the raising of the voice, Abu Ja'far Muhammad ibn Ali (ع) said that in former times people used to garland camels, cattle",
+      "second_copy_opens": "The one who offers a sacrificial animal wounds it upon the right side of its hump with his iron blade until its blood flows, so that it may be known to be a sac"
+    },
+    {
+      "chapter": "9. The Sword and the State: Jihad, Governance, and Justice",
+      "lag": 3,
+      "first_copy_paragraphs": [
+        26,
+        27
+      ],
+      "second_copy_paragraphs": [
+        29,
+        30
+      ],
+      "paragraphs": 2,
+      "min_ratio": 0.584,
+      "min_shared_words": 8,
+      "first_copy_opens": "Allah Almighty said: \"O you who believe, obey Allah, obey the Messenger, and those in authority among you.\" [Al-Nisa: 59] They committed their authority to the ",
+      "second_copy_opens": "Consider next what the commanders of armies are obliged to observe toward those under their command. Allah the Almighty said: *\"O you who believe, obey Allah an"
+    }
+  ]
+}

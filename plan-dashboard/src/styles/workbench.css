@@ -40,7 +40,9 @@
   font-size: 0.8rem;
   color: var(--c-ink-muted);
   text-decoration: none;
-  transition: color 120ms, border-color 120ms;
+  transition:
+    color 120ms,
+    border-color 120ms;
 }
 
 .wb-quick-actions a:hover {
@@ -70,8 +72,12 @@
   color: var(--c-ink);
 }
 
-.wb-metric.tone-good strong  { color: var(--c-green); }
-.wb-metric.tone-accent strong { color: var(--c-accent); }
+.wb-metric.tone-good strong {
+  color: var(--c-green);
+}
+.wb-metric.tone-accent strong {
+  color: var(--c-accent);
+}
 
 .wb-metric span {
   font-size: 0.76rem;
@@ -101,11 +107,15 @@
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--c-ink-muted);
-  transition: color 130ms, border-color 130ms;
+  transition:
+    color 130ms,
+    border-color 130ms;
   white-space: nowrap;
 }
 
-.wb-tab:hover { color: var(--c-ink); }
+.wb-tab:hover {
+  color: var(--c-ink);
+}
 
 .wb-tab.is-active {
   color: var(--c-accent);
@@ -165,10 +175,14 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 0.5rem;
-  transition: background 120ms, border-color 120ms;
+  transition:
+    background 120ms,
+    border-color 120ms;
 }
 
-.wb-chapter-btn:hover { background: var(--c-bg-elev); }
+.wb-chapter-btn:hover {
+  background: var(--c-bg-elev);
+}
 
 .wb-chapter-btn.is-active {
   background: color-mix(in oklab, var(--c-accent) 9%, var(--c-bg-card));
@@ -238,7 +252,9 @@
   cursor: pointer;
   text-align: left;
   min-width: 7.5rem;
-  transition: border-color 130ms, background 130ms;
+  transition:
+    border-color 130ms,
+    background 130ms;
 }
 
 .wb-stage-tab:disabled {
@@ -286,17 +302,26 @@
   gap: 0.75rem;
 }
 
-.wb-surface-head h3 { margin: 0; }
-.wb-surface-head span { font-size: 0.8rem; color: var(--c-ink-muted); }
+.wb-surface-head h3 {
+  margin: 0;
+}
+.wb-surface-head span {
+  font-size: 0.8rem;
+  color: var(--c-ink-muted);
+}
 
-.wb-stage-copy { max-width: 76ch; }
+.wb-stage-copy {
+  max-width: 76ch;
+}
 
 .wb-stage-copy :where(p, li) {
   font-size: 1rem;
   line-height: 1.72;
 }
 
-.wb-stage-copy :where(h2, h3) { margin-top: 1.2rem; }
+.wb-stage-copy :where(h2, h3) {
+  margin-top: 1.2rem;
+}
 
 .wb-note {
   padding: 0.8rem 1rem;
@@ -304,8 +329,16 @@
   border-radius: 10px;
 }
 
-.wb-note h4 { margin: 0 0 0.3rem; font-size: 0.8rem; font-weight: 700; }
-.wb-note p  { margin: 0; font-size: 0.875rem; color: var(--c-ink-dim); }
+.wb-note h4 {
+  margin: 0 0 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.wb-note p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--c-ink-dim);
+}
 
 .wb-kv {
   display: grid;
@@ -314,8 +347,15 @@
   margin: 0;
 }
 
-.wb-kv dt { font-size: 0.8rem; color: var(--c-ink-muted); }
-.wb-kv dd { margin: 0; font-size: 0.8rem; color: var(--c-ink); }
+.wb-kv dt {
+  font-size: 0.8rem;
+  color: var(--c-ink-muted);
+}
+.wb-kv dd {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--c-ink);
+}
 
 /* ── Augment mode ──────────────────────────────────────── */
 .wb-augment-pair {
@@ -325,7 +365,10 @@
   align-items: start;
 }
 
-.wb-chip-list { display: grid; gap: 0.75rem; }
+.wb-chip-list {
+  display: grid;
+  gap: 0.75rem;
+}
 
 .wb-atom-card {
   background: var(--c-bg-elev);
@@ -337,8 +380,14 @@
   gap: 0.4rem;
 }
 
-.wb-atom-card strong { font-size: 0.875rem; }
-.wb-atom-card p { margin: 0; font-size: 0.82rem; color: var(--c-ink-dim); }
+.wb-atom-card strong {
+  font-size: 0.875rem;
+}
+.wb-atom-card p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--c-ink-dim);
+}
 
 .wb-atom-head {
   display: flex;
@@ -353,8 +402,16 @@
   color: var(--c-ink-muted);
 }
 
-.wb-brief-block { display: flex; flex-direction: column; gap: 0.35rem; }
-.wb-brief-block h4 { margin: 0; font-size: 0.82rem; font-weight: 700; }
+.wb-brief-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.wb-brief-block h4 {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
 
 .wb-list {
   margin: 0;
@@ -373,12 +430,23 @@
 
 /* ── Responsive ────────────────────────────────────────── */
 @media (max-width: 960px) {
-  .wb-body { grid-template-columns: 1fr; }
-  .wb-chapter-rail { position: static; }
-  .wb-augment-pair { grid-template-columns: 1fr; }
+  .wb-body {
+    grid-template-columns: 1fr;
+  }
+  .wb-chapter-rail {
+    position: static;
+  }
+  .wb-augment-pair {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {
-  .wb-tabs { overflow-x: auto; }
-  .wb-tab { padding: 0.55rem 0.75rem; font-size: 0.82rem; }
+  .wb-tabs {
+    overflow-x: auto;
+  }
+  .wb-tab {
+    padding: 0.55rem 0.75rem;
+    font-size: 0.82rem;
+  }
 }

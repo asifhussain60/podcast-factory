@@ -28,8 +28,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
-import subprocess
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -37,11 +35,11 @@ from pathlib import Path
 
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
-from _paths import REPO_ROOT, resolve_content  # noqa: E402
-from _rules import R_NOISE_APPARATUS_DIRECTIVE, strip_noise_reference_attributions  # noqa: E402
+from _paths import resolve_content
+from _rules import R_NOISE_APPARATUS_DIRECTIVE, strip_noise_reference_attributions
 
-PRICE_IN  = 0.000_000_1   # $/char Gemini Flash input
-PRICE_OUT = 0.000_000_4   # $/char output
+PRICE_IN = 0.000_000_1  # $/char Gemini Flash input
+PRICE_OUT = 0.000_000_4  # $/char output
 
 SOURCES = ["arabic", "english", "scholarly"]
 
@@ -127,11 +125,7 @@ def build_system_prompts(slug: str) -> dict[str, str]:
     shared Wave-N apparatus directive. Result is book-specific yet never hardcoded."""
     book = _book_label(slug)
     return {
-        src: (
-            tmpl.format(book=book).rstrip()
-            + "\n\n" + R_NOISE_APPARATUS_DIRECTIVE
-            + "\n"
-        )
+        src: (tmpl.format(book=book).rstrip() + "\n\n" + R_NOISE_APPARATUS_DIRECTIVE + "\n")
         for src, tmpl in _TEMPLATES.items()
     }
 
@@ -139,26 +133,28 @@ def build_system_prompts(slug: str) -> dict[str, str]:
 def _load_key() -> str:
     # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
     from _secrets import get_gemini_key
+
     return get_gemini_key()
 
 
-
 def _gemini(system: str, text: str, *, model: str = "gemini-2.5-flash") -> str:
-    url = (
-        f"https://generativelanguage.googleapis.com/v1beta/models/"
-        f"{model}:generateContent?key={_load_key()}"
-    )
-    body = json.dumps({
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"parts": [{"text": text}]}],
-        "generationConfig": {
-            "temperature": 0.1,
-            "maxOutputTokens": 32000,
-            "thinkingConfig": {"thinkingBudget": 0},
-        },
-    }).encode()
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={_load_key()}"
+    body = json.dumps(
+        {
+            "system_instruction": {"parts": [{"text": system}]},
+            "contents": [{"parts": [{"text": text}]}],
+            "generationConfig": {
+                "temperature": 0.1,
+                "maxOutputTokens": 32000,
+                "thinkingConfig": {"thinkingBudget": 0},
+            },
+        }
+    ).encode()
     req = urllib.request.Request(
-        url, data=body, headers={"Content-Type": "application/json"}, method="POST",
+        url,
+        data=body,
+        headers={"Content-Type": "application/json"},
+        method="POST",
     )
     with urllib.request.urlopen(req, timeout=600) as resp:
         d = json.loads(resp.read())
@@ -182,8 +178,8 @@ def _log_cost(slug: str, entry: dict) -> None:
 def denoise_source(slug: str, source: str, *, force: bool = False) -> Path:
     """Denoise one source stream. Returns the output path."""
     book_dir = resolve_content(slug)
-    in_path  = book_dir / "_system" / "source" / "multi" / "ocr" / f"{source}.md"
-    out_dir  = book_dir / "_system" / "source" / "multi" / "denoised"
+    in_path = book_dir / "_system" / "source" / "multi" / "ocr" / f"{source}.md"
+    out_dir = book_dir / "_system" / "source" / "multi" / "denoised"
     out_path = out_dir / f"{source}.md"
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -208,14 +204,17 @@ def denoise_source(slug: str, source: str, *, force: bool = False) -> Path:
     retention = round(out_chars / max(in_chars, 1) * 100, 1)
     print(f" {out_chars:,} chars ({retention}% retained)  ~${cost:.5f}")
 
-    _log_cost(slug, {
-        "ts": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-        "op": f"full_book_denoise_{source}",
-        "service": "gemini/gemini-2.5-flash",
-        "in_chars": in_chars,
-        "out_chars": out_chars,
-        "cost_usd": cost,
-    })
+    _log_cost(
+        slug,
+        {
+            "ts": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "op": f"full_book_denoise_{source}",
+            "service": "gemini/gemini-2.5-flash",
+            "in_chars": in_chars,
+            "out_chars": out_chars,
+            "cost_usd": cost,
+        },
+    )
     return out_path
 
 

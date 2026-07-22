@@ -16,10 +16,11 @@ See:
   • principle P-7 in podcast-plan.yaml (Manual handoff for cross-skill
     content, never automatic)
 """
+
 from __future__ import annotations
 
 import datetime as _dt
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Literal
 

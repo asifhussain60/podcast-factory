@@ -32,12 +32,13 @@ Usage:
     # per-task override (e.g. a book that pins Gemini for a task it does better):
     eng = select_engine(TASK_REVOICE, override=ENGINE_GEMINI)
 """
+
 from __future__ import annotations
 
 # ─── Engine identifiers ───────────────────────────────────────────────────────
-ENGINE_CLAUDE_MAX = "claude_max"        # claude -p, flat-rate Max, $0 marginal
-ENGINE_AZURE = "azure"                  # committed Azure services
-ENGINE_GEMINI = "gemini"                # pay-as-you-go Google
+ENGINE_CLAUDE_MAX = "claude_max"  # claude -p, flat-rate Max, $0 marginal
+ENGINE_AZURE = "azure"  # committed Azure services
+ENGINE_GEMINI = "gemini"  # pay-as-you-go Google
 ENGINE_ANTHROPIC_SDK = "anthropic_sdk"  # metered Anthropic API (windowed exception)
 
 ENGINE_TIER = {
@@ -53,21 +54,21 @@ TASK_TRANSLATE_BULK = "translate_bulk"
 TASK_OCR = "ocr"
 TASK_TRANSCRIBE = "transcribe"
 TASK_TTS = "tts"
-TASK_REFINE_WINDOWED = "refine_windowed"   # phase 0b / 0c windowed refine
-TASK_CHAPTER_DESIGN = "chapter_design"     # phase 0d
-TASK_ENRICH = "enrich"                      # phase 0e
-TASK_AUTHOR = "author"                      # per-chapter framing/authoring
-TASK_IMAGE_PROMPT = "image_prompt"          # storyboard / slide-manifest text
-TASK_IMAGE_GEN = "image_gen"                # actual image rendering (DALL-E 3 via Azure OpenAI)
-TASK_AUGMENT = "augment"                    # augmentation (any profile)
-TASK_REVOICE = "revoice"                    # literary re-voice (_literary.py)
-TASK_DENOISE = "denoise"                    # WC8 denoise/normalize (gemini_refine)
-TASK_AUDIT = "audit"                        # bundle audit (second-model gate)
-TASK_RECONCILE = "reconcile"                # split-source reconcile
-TASK_REVIEW_HELPER = "review_helper"        # review-studio helper features
-TASK_NER = "ner"                            # named-entity recognition (Azure Language)
-TASK_KEY_PHRASES = "key_phrases"            # key-phrase extraction (Azure Language)
-TASK_SENTIMENT = "sentiment"                # sentiment analysis (Azure Language)
+TASK_REFINE_WINDOWED = "refine_windowed"  # phase 0b / 0c windowed refine
+TASK_CHAPTER_DESIGN = "chapter_design"  # phase 0d
+TASK_ENRICH = "enrich"  # phase 0e
+TASK_AUTHOR = "author"  # per-chapter framing/authoring
+TASK_IMAGE_PROMPT = "image_prompt"  # storyboard / slide-manifest text
+TASK_IMAGE_GEN = "image_gen"  # actual image rendering (DALL-E 3 via Azure OpenAI)
+TASK_AUGMENT = "augment"  # augmentation (any profile)
+TASK_REVOICE = "revoice"  # literary re-voice (_literary.py)
+TASK_DENOISE = "denoise"  # WC8 denoise/normalize (gemini_refine)
+TASK_AUDIT = "audit"  # bundle audit (second-model gate)
+TASK_RECONCILE = "reconcile"  # split-source reconcile
+TASK_REVIEW_HELPER = "review_helper"  # review-studio helper features
+TASK_NER = "ner"  # named-entity recognition (Azure Language)
+TASK_KEY_PHRASES = "key_phrases"  # key-phrase extraction (Azure Language)
+TASK_SENTIMENT = "sentiment"  # sentiment analysis (Azure Language)
 
 # ─── The policy table ─────────────────────────────────────────────────────────
 # Maps each task to its default engine per the locked hierarchy. Per-task
@@ -76,56 +77,56 @@ TASK_SENTIMENT = "sentiment"                # sentiment analysis (Azure Language
 _POLICY: dict[str, str] = {
     # Tier 1 — Claude Max (default for reasoning + text generation)
     TASK_TRANSLATE_LITERARY: ENGINE_CLAUDE_MAX,
-    TASK_CHAPTER_DESIGN:      ENGINE_CLAUDE_MAX,
-    TASK_ENRICH:              ENGINE_CLAUDE_MAX,
-    TASK_AUTHOR:              ENGINE_CLAUDE_MAX,
-    TASK_IMAGE_PROMPT:        ENGINE_CLAUDE_MAX,   # swapped from Gemini (Max-first)
-    TASK_AUGMENT:             ENGINE_CLAUDE_MAX,
+    TASK_CHAPTER_DESIGN: ENGINE_CLAUDE_MAX,
+    TASK_ENRICH: ENGINE_CLAUDE_MAX,
+    TASK_AUTHOR: ENGINE_CLAUDE_MAX,
+    TASK_IMAGE_PROMPT: ENGINE_CLAUDE_MAX,  # swapped from Gemini (Max-first)
+    TASK_AUGMENT: ENGINE_CLAUDE_MAX,
     # Tier 2 — Azure (the attached committed services do these jobs)
-    TASK_OCR:                 ENGINE_AZURE,
-    TASK_TRANSLATE_BULK:      ENGINE_AZURE,
-    TASK_TRANSCRIBE:          ENGINE_AZURE,
-    TASK_TTS:                 ENGINE_AZURE,
+    TASK_OCR: ENGINE_AZURE,
+    TASK_TRANSLATE_BULK: ENGINE_AZURE,
+    TASK_TRANSCRIBE: ENGINE_AZURE,
+    TASK_TTS: ENGINE_AZURE,
     # Tier 2 — Azure Language (TextAnalytics — NER, key-phrase, sentiment)
-    TASK_NER:                 ENGINE_AZURE,
-    TASK_KEY_PHRASES:         ENGINE_AZURE,
-    TASK_SENTIMENT:           ENGINE_AZURE,
+    TASK_NER: ENGINE_AZURE,
+    TASK_KEY_PHRASES: ENGINE_AZURE,
+    TASK_SENTIMENT: ENGINE_AZURE,
     # Tier 3 — Gemini (image gen: Azure OpenAI has no active image model in eastus as of 2026-06-06;
     #           DALL-E 3 deprecated March 2026, gpt-image-1 not yet available in this region.
     #           Revisit when Azure lands gpt-image-1. Route through _engine so the swap is one line.)
-    TASK_IMAGE_GEN:           ENGINE_GEMINI,
+    TASK_IMAGE_GEN: ENGINE_GEMINI,
     # Tier 3 — Gemini (kept where genuinely better today)
-    TASK_REVOICE:             ENGINE_GEMINI,       # kept (Gemini-tuned today)
-    TASK_DENOISE:             ENGINE_GEMINI,
-    TASK_AUDIT:               ENGINE_GEMINI,       # second-model gate vs Claude
-    TASK_RECONCILE:           ENGINE_GEMINI,
-    TASK_REVIEW_HELPER:       ENGINE_GEMINI,
+    TASK_REVOICE: ENGINE_GEMINI,  # kept (Gemini-tuned today)
+    TASK_DENOISE: ENGINE_GEMINI,
+    TASK_AUDIT: ENGINE_GEMINI,  # second-model gate vs Claude
+    TASK_RECONCILE: ENGINE_GEMINI,
+    TASK_REVIEW_HELPER: ENGINE_GEMINI,
     # Registered exception — windowed parallelism the CLI can't do
-    TASK_REFINE_WINDOWED:     ENGINE_ANTHROPIC_SDK,
+    TASK_REFINE_WINDOWED: ENGINE_ANTHROPIC_SDK,
 }
 
 # Human-readable rationale per task (for logs + the policy doc; tested for coverage).
 _RATIONALE: dict[str, str] = {
     TASK_TRANSLATE_LITERARY: "tier-1 Max; better literary quality than Azure MT",
-    TASK_TRANSLATE_BULK:     "tier-2 Azure Translator for bulk/utility translation",
-    TASK_OCR:                "tier-2 Azure Document Intelligence",
-    TASK_TRANSCRIBE:         "tier-2 Azure Speech STT",
-    TASK_TTS:                "tier-2 Azure Speech Neural TTS",
-    TASK_REFINE_WINDOWED:    "exception: SDK windowed parallelism the CLI can't do",
-    TASK_CHAPTER_DESIGN:     "tier-1 Max reasoning",
-    TASK_ENRICH:             "tier-1 Max reasoning",
-    TASK_AUTHOR:             "tier-1 Max reasoning",
-    TASK_IMAGE_PROMPT:       "tier-1 Max (Max-first swap off Gemini text)",
-    TASK_IMAGE_GEN:          "tier-3 Gemini Imagen3 — Azure OpenAI DALL-E deprecated Mar 2026, gpt-image-1 not yet in eastus",
-    TASK_AUGMENT:            "tier-1 Max reasoning",
-    TASK_NER:                "tier-2 Azure Language TextAnalytics (journal-language-market, F0 free)",
-    TASK_KEY_PHRASES:        "tier-2 Azure Language TextAnalytics (journal-language-market, F0 free)",
-    TASK_SENTIMENT:          "tier-2 Azure Language TextAnalytics (journal-language-market, F0 free)",
-    TASK_REVOICE:            "tier-3 Gemini — kept where currently better",
-    TASK_DENOISE:            "tier-3 Gemini — kept where currently better",
-    TASK_AUDIT:              "tier-3 Gemini — independent second-model gate",
-    TASK_RECONCILE:          "tier-3 Gemini — kept where currently better",
-    TASK_REVIEW_HELPER:      "tier-3 Gemini — review-studio helpers",
+    TASK_TRANSLATE_BULK: "tier-2 Azure Translator for bulk/utility translation",
+    TASK_OCR: "tier-2 Azure Document Intelligence",
+    TASK_TRANSCRIBE: "tier-2 Azure Speech STT",
+    TASK_TTS: "tier-2 Azure Speech Neural TTS",
+    TASK_REFINE_WINDOWED: "exception: SDK windowed parallelism the CLI can't do",
+    TASK_CHAPTER_DESIGN: "tier-1 Max reasoning",
+    TASK_ENRICH: "tier-1 Max reasoning",
+    TASK_AUTHOR: "tier-1 Max reasoning",
+    TASK_IMAGE_PROMPT: "tier-1 Max (Max-first swap off Gemini text)",
+    TASK_IMAGE_GEN: "tier-3 Gemini Imagen3 — Azure OpenAI DALL-E deprecated Mar 2026, gpt-image-1 not yet in eastus",
+    TASK_AUGMENT: "tier-1 Max reasoning",
+    TASK_NER: "tier-2 Azure Language TextAnalytics (journal-language-market, F0 free)",
+    TASK_KEY_PHRASES: "tier-2 Azure Language TextAnalytics (journal-language-market, F0 free)",
+    TASK_SENTIMENT: "tier-2 Azure Language TextAnalytics (journal-language-market, F0 free)",
+    TASK_REVOICE: "tier-3 Gemini — kept where currently better",
+    TASK_DENOISE: "tier-3 Gemini — kept where currently better",
+    TASK_AUDIT: "tier-3 Gemini — independent second-model gate",
+    TASK_RECONCILE: "tier-3 Gemini — kept where currently better",
+    TASK_REVIEW_HELPER: "tier-3 Gemini — review-studio helpers",
 }
 
 
@@ -182,6 +183,7 @@ def engine_guard(task: str, actual_engine: str) -> None:
     expected = select_engine(task)
     if expected != actual_engine:
         import sys
+
         print(
             f"[engine-policy] WARNING: {task!r} policy says {expected!r} "
             f"but this function uses {actual_engine!r}. "

@@ -9,13 +9,13 @@
  * semantic judgment beat Gemini Flash: paragraph auto-tagging, complex instruct
  * edits, and the Finalize handoff brief. Fast/cheap tasks stay on Gemini.
  */
-import Anthropic from '@anthropic-ai/sdk';
-import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
+import Anthropic from "@anthropic-ai/sdk";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 
 const exec = promisify(execFile);
 
-const MODEL = 'claude-sonnet-4-6';
+const MODEL = "claude-sonnet-4-6";
 
 let cachedKey: string | null = null;
 let keyPromise: Promise<string> | null = null;
@@ -31,15 +31,22 @@ async function getAnthropicKey(): Promise<string> {
     keyPromise = (async () => {
       try {
         // Keychain service name is `anthropic-api-key` (no -a account scope).
-        const { stdout } = await exec('security',
-          ['find-generic-password', '-s', 'anthropic-api-key', '-w']);
+        const { stdout } = await exec("security", [
+          "find-generic-password",
+          "-s",
+          "anthropic-api-key",
+          "-w",
+        ]);
         const key = stdout.trim();
-        if (!key) throw new Error('empty key from keychain');
+        if (!key) throw new Error("empty key from keychain");
         cachedKey = key;
         return key;
       } catch (e) {
         keyPromise = null;
-        throw new Error(`Could not read anthropic-api-key from keychain: ${(e as Error).message}`);
+        throw new Error(
+          `Could not read anthropic-api-key from keychain: ${(e as Error).message}`,
+          { cause: e },
+        );
       }
     })();
   }
@@ -63,19 +70,22 @@ export interface ClaudeOptions {
  * Single-shot completion. Returns the concatenated text of all text blocks.
  * Throws on API error — callers convert to apiServerError.
  */
-export async function claudeComplete(prompt: string, opts: ClaudeOptions = {}): Promise<string> {
+export async function claudeComplete(
+  prompt: string,
+  opts: ClaudeOptions = {},
+): Promise<string> {
   const client = await getClient();
   const msg = await client.messages.create({
     model: MODEL,
     max_tokens: opts.maxTokens ?? 1024,
     temperature: opts.temperature ?? 0.2,
     ...(opts.system ? { system: opts.system } : {}),
-    messages: [{ role: 'user', content: prompt }],
+    messages: [{ role: "user", content: prompt }],
   });
   return msg.content
-    .filter((b): b is Anthropic.TextBlock => b.type === 'text')
+    .filter((b): b is Anthropic.TextBlock => b.type === "text")
     .map((b) => b.text)
-    .join('')
+    .join("")
     .trim();
 }
 

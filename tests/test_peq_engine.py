@@ -14,21 +14,21 @@ import pytest
 _REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_REPO / "scripts" / "podcast"))
 
-from _quality import (  # noqa: E402
+from _quality import (
     FAIL,
     PASS,
+    THRESHOLD_PASS,
+    THRESHOLD_WARN,
     WARN,
     PEQScore,
     score,
     verdict_from_total,
-    THRESHOLD_PASS,
-    THRESHOLD_WARN,
 )
-
 
 # ---------------------------------------------------------------------------
 # Verdict thresholds
 # ---------------------------------------------------------------------------
+
 
 class TestVerdictThresholds:
     def test_pass_at_exactly_85(self):
@@ -57,6 +57,7 @@ class TestVerdictThresholds:
 # ---------------------------------------------------------------------------
 # Fidelity axis
 # ---------------------------------------------------------------------------
+
 
 class TestFidelityAxis:
     def test_perfect_match(self):
@@ -103,6 +104,7 @@ class TestFidelityAxis:
 # Voice axis
 # ---------------------------------------------------------------------------
 
+
 class TestVoiceAxis:
     def test_no_exemplar_returns_zero(self):
         result = score(adapted_text="some text", voice_exemplar_vector=None)
@@ -144,6 +146,7 @@ class TestVoiceAxis:
 # Structure axis
 # ---------------------------------------------------------------------------
 
+
 class TestStructureAxis:
     def test_no_arc_rules_returns_100(self):
         result = score(arc_rules=[], arc_labels_found=[])
@@ -182,6 +185,7 @@ class TestStructureAxis:
 # Enrichment axis
 # ---------------------------------------------------------------------------
 
+
 class TestEnrichmentAxis:
     def test_zero_words_returns_zero(self):
         result = score(word_count=0)
@@ -189,8 +193,10 @@ class TestEnrichmentAxis:
 
     def test_fully_glossed_no_quran(self):
         result = score(
-            term_count=10, glossed_count=10,
-            quran_ref_count=0, word_count=500,
+            term_count=10,
+            glossed_count=10,
+            quran_ref_count=0,
+            word_count=500,
         )
         # glossing=1.0, quran_density=0 → combined=0.70 → 70.0
         assert result.enrichment == pytest.approx(70.0, abs=1.0)
@@ -198,16 +204,20 @@ class TestEnrichmentAxis:
     def test_quran_density_capped_at_one(self):
         # 50 refs per 100 words would normally exceed 1.0 — must be capped
         result = score(
-            term_count=0, glossed_count=0,
-            quran_ref_count=500, word_count=100,
+            term_count=0,
+            glossed_count=0,
+            quran_ref_count=500,
+            word_count=100,
         )
         # glossing=0, quran_density=1.0 (capped) → 0.30 × 100 = 30
         assert result.enrichment == pytest.approx(30.0, abs=1.0)
 
     def test_perfect_enrichment(self):
         result = score(
-            term_count=10, glossed_count=10,
-            quran_ref_count=100, word_count=100,
+            term_count=10,
+            glossed_count=10,
+            quran_ref_count=100,
+            word_count=100,
         )
         # glossing=1.0 (×0.70) + quran_density=1.0 (×0.30) = 1.0 → 100
         assert result.enrichment == pytest.approx(100.0, abs=1.0)
@@ -217,6 +227,7 @@ class TestEnrichmentAxis:
 # Full score integration
 # ---------------------------------------------------------------------------
 
+
 class TestFullScore:
     def test_result_is_peqscore_instance(self):
         result = score()
@@ -224,10 +235,14 @@ class TestFullScore:
 
     def test_total_clamped_to_100(self):
         result = score(
-            citation_ids_source=[], citation_ids_found=[],
-            arc_rules=[], arc_labels_found=[],
-            term_count=10, glossed_count=10,
-            quran_ref_count=100, word_count=100,
+            citation_ids_source=[],
+            citation_ids_found=[],
+            arc_rules=[],
+            arc_labels_found=[],
+            term_count=10,
+            glossed_count=10,
+            quran_ref_count=100,
+            word_count=100,
         )
         assert result.total <= 100.0
 
@@ -237,8 +252,10 @@ class TestFullScore:
             citation_ids_found=[],
             arc_rules=["open_hook", "close"],
             arc_labels_found=[],
-            term_count=10, glossed_count=0,
-            quran_ref_count=0, word_count=500,
+            term_count=10,
+            glossed_count=0,
+            quran_ref_count=0,
+            word_count=500,
         )
         assert result.total >= 0.0
 
@@ -250,8 +267,10 @@ class TestFullScore:
             citation_ids_found=["quran:1:1"],
             arc_rules=["open_hook"],
             arc_labels_found=["open_hook"],
-            term_count=5, glossed_count=3,
-            quran_ref_count=1, word_count=200,
+            term_count=5,
+            glossed_count=3,
+            quran_ref_count=1,
+            word_count=200,
         )
         r1 = score(**kwargs)
         r2 = score(**kwargs)

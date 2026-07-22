@@ -23,6 +23,7 @@ OUTPUTS (per chapter that passes the need-detector)
     BOOK_DIR/_system/fiction-companion/ch-001.companion.md
     BOOK_DIR/_system/fiction-sidecar-log.md
 """
+
 from __future__ import annotations
 
 import argparse
@@ -33,18 +34,18 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _engine import engine_guard, TASK_AUGMENT, ENGINE_CLAUDE_MAX  # noqa: E402
-from _paths import resolve_content  # noqa: E402
-from _augment_registry import needs_augmentation  # noqa: E402
-from _authoring._core import (  # noqa: E402
-    AuthoringError,
+from _augment_registry import needs_augmentation
+from _authoring._core import (
     PHASE_0E_CHAPTER_TIMEOUT,
-    _run_claude_p_with_retry,
+    AuthoringError,
     _compute_sc_timeout,
+    _run_claude_p_with_retry,
 )
-
+from _engine import ENGINE_CLAUDE_MAX, TASK_AUGMENT, engine_guard
+from _paths import resolve_content
 
 # ─── Sidecar prompt ───────────────────────────────────────────────────────────
+
 
 def _build_sidecar_prompt(chapter_file: Path, companion_path: Path) -> str:
     return (
@@ -81,6 +82,7 @@ def _build_sidecar_prompt(chapter_file: Path, companion_path: Path) -> str:
 
 
 # ─── Per-chapter sidecar runner ───────────────────────────────────────────────
+
 
 def author_fiction_sidecar(
     book_dir: Path,
@@ -123,8 +125,7 @@ def author_fiction_sidecar(
             stem = s[2:].split(":", 1)[0].strip()
             already_done.add(stem)
 
-    log(f"  phase 0e-fiction · sidecar loop ({len(chapter_files)} chapters, "
-        f"{len(already_done)} already done)")
+    log(f"  phase 0e-fiction · sidecar loop ({len(chapter_files)} chapters, {len(already_done)} already done)")
 
     skipped_no_need = 0
     done = 0
@@ -155,8 +156,11 @@ def author_fiction_sidecar(
         prompt = _build_sidecar_prompt(chapter_file, companion_path)
         try:
             rc, stdout, stderr = _run_claude_p_with_retry(
-                prompt, timeout=per_chapter_timeout,
-                book_dir=book_dir, phase="0e-fiction-sidecar", step=stem,
+                prompt,
+                timeout=per_chapter_timeout,
+                book_dir=book_dir,
+                phase="0e-fiction-sidecar",
+                step=stem,
                 log=log,
             )
         except AuthoringError as e:
@@ -173,8 +177,7 @@ def author_fiction_sidecar(
             raise AuthoringError(
                 phase="0e-fiction-sidecar",
                 message=(
-                    f"{stem} returned rc=0 but no companion file at {companion_path}. "
-                    f"claude -p exited without writing."
+                    f"{stem} returned rc=0 but no companion file at {companion_path}. claude -p exited without writing."
                 ),
                 manual_fallback="Check stdout/stderr. If a permission issue, use --permission-mode acceptEdits.",
                 stdout=stdout or "",
@@ -210,6 +213,7 @@ def author_fiction_sidecar(
 
 # ─── CLI entry point ──────────────────────────────────────────────────────────
 
+
 def main() -> int:
     ap = argparse.ArgumentParser(
         description="Fiction sidecar augmenter — companion glossary for podcast hosts.",
@@ -227,7 +231,7 @@ def main() -> int:
         log_path = book_dir / "_system" / "fiction-sidecar-log.md"
         if log_path.exists():
             log_path.unlink()
-        print(f"  --force: cleared sidecar log, will re-generate all companion files")
+        print("  --force: cleared sidecar log, will re-generate all companion files")
 
     print(f"Fiction sidecar augmenter — {args.slug}")
     result = author_fiction_sidecar(book_dir)

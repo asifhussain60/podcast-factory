@@ -6,27 +6,35 @@
  * "Step 0" of the pipeline (before a book exists, so no stepper yet). Once the
  * book is scaffolded the operator continues at /studio/<slug>/intake.
  */
-import Base from '../../layouts/Base.astro';
-import IntakeWorkspace from '../../components/intake/IntakeWorkspace.tsx';
-import { CARD_DEFS } from '../../lib/reader/editorial';
-import '../../styles/intake.css';
-import '../../styles/studio-pipeline.css';
+import Base from "../../layouts/Base.astro";
+import IntakeWorkspace from "../../components/intake/IntakeWorkspace.tsx";
+import { CARD_DEFS } from "../../lib/reader/editorial";
+import "../../styles/intake.css";
+import "../../styles/studio-pipeline.css";
 ---
-<Base title="New content — Studio" active="studio" description="Scaffold a new book, lecture, or article and set its editorial decisions.">
+
+<Base
+  title="New content — Studio"
+  active="studio"
+  description="Scaffold a new book, lecture, or article and set its editorial decisions."
+>
   <div class="studio-step-body">
     <header class="studio-step-head">
       <h1>New content</h1>
       <p>
-        Scaffold a workshop folder for a new book, lecture, or article and set its canonical
-        editorial decisions. Once created, the book opens in the pipeline at the Intake step.
+        Scaffold a workshop folder for a new book, lecture, or article and set
+        its canonical editorial decisions. Once created, the book opens in the
+        pipeline at the Intake step.
       </p>
     </header>
 
     <IntakeWorkspace client:only="react" cardDefs={CARD_DEFS} />
 
     <footer class="intake-conformance">
-      Cortex HTML View Quality — Level 1 conformant (DoD-clean: external CSS only,
-      theme unchanged, WCAG-AA controls). <strong>Scoped exception (REQ-010):</strong>
+      Cortex HTML View Quality — Level 1 conformant (DoD-clean: external CSS
+      only, theme unchanged, WCAG-AA controls). <strong
+        >Scoped exception (REQ-010):</strong
+      >
       this intake surface uses compact form/status chrome that intentionally runs
       below the 1.2rem prose reading floor — it is a dense data-entry + monitoring
       panel, not long-form reading. Recorded per §13 (2026-06-09).

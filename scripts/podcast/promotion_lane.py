@@ -18,13 +18,14 @@ EXIT CODES
     2 — patterns found and promotion proposals written
     3 — proposals written but require human review before commit
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import sys
-from collections import Counter
 from pathlib import Path
+
 from _paths import REPO_ROOT
 
 DRAFTS_DIR = REPO_ROOT / "content" / "drafts"
@@ -101,13 +102,13 @@ def _write_proposal(
         f"{records[0].get('description', 'no description')}\n\n"
         f"## Affected books\n\n"
         + "\n".join(f"- {b}" for b in sample_books)
-        + f"\n\n## Sample chapters\n\n"
+        + "\n\n## Sample chapters\n\n"
         + "\n".join(f"- {c}" for c in sample_chapters)
         + "\n\n## Proposed spec change\n\n"
-        f"*(Human reviewer: fill in the specific R-rule or invariant edit here.)*\n\n"
-        f"## Regression gate\n\n"
-        f"Run `scripts/podcast/tests/test_challenger.py` with the proposed change applied "
-        f"before committing. All existing tests must pass.\n"
+        "*(Human reviewer: fill in the specific R-rule or invariant edit here.)*\n\n"
+        "## Regression gate\n\n"
+        "Run `scripts/podcast/tests/test_challenger.py` with the proposed change applied "
+        "before committing. All existing tests must pass.\n"
     )
 
     safe_id = finding_id.replace("/", "-").replace(":", "-")
@@ -116,11 +117,14 @@ def _write_proposal(
     if not dry_run:
         PROPOSALS_DIR.mkdir(parents=True, exist_ok=True)
         proposal_path.write_text(proposal_text)
-        print(f"  wrote: {proposal_path.relative_to(REPO_ROOT)}"
-              + (" [HUMAN REVIEW REQUIRED]" if requires_human else ""))
+        print(
+            f"  wrote: {proposal_path.relative_to(REPO_ROOT)}" + (" [HUMAN REVIEW REQUIRED]" if requires_human else "")
+        )
     else:
-        print(f"  [dry-run] would write: {proposal_path.relative_to(REPO_ROOT)}"
-              + (" [HUMAN REVIEW REQUIRED]" if requires_human else ""))
+        print(
+            f"  [dry-run] would write: {proposal_path.relative_to(REPO_ROOT)}"
+            + (" [HUMAN REVIEW REQUIRED]" if requires_human else "")
+        )
 
     return proposal_path
 
@@ -134,8 +138,9 @@ def run(book_slug: str | None, dry_run: bool) -> int:
 
     clusters = _cluster_findings(findings)
     if not clusters:
-        print(f"promotion_lane: {len(findings)} findings loaded; none meet the "
-              f"{CLUSTER_THRESHOLD}-occurrence threshold.")
+        print(
+            f"promotion_lane: {len(findings)} findings loaded; none meet the {CLUSTER_THRESHOLD}-occurrence threshold."
+        )
         return 0
 
     requires_review_count = 0
@@ -152,8 +157,10 @@ def run(book_slug: str | None, dry_run: bool) -> int:
             auto_promote_count += 1
 
     total = len(clusters)
-    print(f"\npromotion_lane: {total} cluster(s) — "
-          f"{auto_promote_count} auto-promotable, {requires_review_count} require human review.")
+    print(
+        f"\npromotion_lane: {total} cluster(s) — "
+        f"{auto_promote_count} auto-promotable, {requires_review_count} require human review."
+    )
 
     if requires_review_count > 0:
         return 3  # proposals written but require human review
@@ -168,8 +175,7 @@ def main(argv: list[str] | None = None) -> int:
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--book", metavar="SLUG", help="Restrict to one book slug.")
     group.add_argument("--all-books", action="store_true", help="Scan all books in the ledger.")
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Print proposals without writing files.")
+    parser.add_argument("--dry-run", action="store_true", help="Print proposals without writing files.")
     args = parser.parse_args(argv)
     return run(book_slug=args.book, dry_run=args.dry_run)
 

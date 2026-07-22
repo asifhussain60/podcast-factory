@@ -8,7 +8,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _rules import R_NOISE_APPARATUS_PATTERNS, strip_noise_reference_attributions  # noqa: E402
+from _rules import R_NOISE_APPARATUS_PATTERNS, strip_noise_reference_attributions
 
 
 class ReferenceAttributionNoiseTests(unittest.TestCase):
@@ -54,8 +54,7 @@ class ReferenceAttributionNoiseTests(unittest.TestCase):
         self.assertEqual(count, 1)
         self.assertEqual(
             cleaned,
-            "> The foremost in religion is the knowledge of Him. — Ali ibn Abi Talib, "
-            "the Father of Imams.\n",
+            "> The foremost in religion is the knowledge of Him. — Ali ibn Abi Talib, the Father of Imams.\n",
         )
 
     def test_ghurar_maxims_tail_is_stripped(self):
@@ -70,8 +69,7 @@ class ReferenceAttributionNoiseTests(unittest.TestCase):
         self.assertEqual(count, 1)
         self.assertEqual(
             cleaned,
-            "> Knowledge is the life of the hearts. — Ali ibn Abi Talib, the Father "
-            "of Imams.\n",
+            "> Knowledge is the life of the hearts. — Ali ibn Abi Talib, the Father of Imams.\n",
         )
 
     def test_plain_prose_is_not_changed(self):
@@ -87,11 +85,7 @@ class ReferenceAttributionNoiseTests(unittest.TestCase):
 
     def test_noise_taxonomy_tracks_reference_tail(self):
         sample = "in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam (Saying) 147"
-        matches = [
-            label
-            for pattern, label in R_NOISE_APPARATUS_PATTERNS
-            if pattern.search(sample)
-        ]
+        matches = [label for pattern, label in R_NOISE_APPARATUS_PATTERNS if pattern.search(sample)]
 
         self.assertIn("NZ-REFERENCE-TAIL", matches)
 

@@ -65,6 +65,46 @@ if [ "$fail" -ne 0 ]; then
     exit 1
 fi
 
+# Check 2b — lint gates (R0, clean-code hardening plan 2026-07-18).
+# Ruff (lint + format) over staged Python; DR-005 line-count gate over staged
+# scripts/podcast/ production modules; ESLint (errors only) over staged site
+# source. Each skips cleanly when its tool is absent.
+repo_root=$(git rev-parse --show-toplevel)
+ruff_bin="$repo_root/.venv/bin/ruff"
+command -v ruff >/dev/null 2>&1 && [ ! -x "$ruff_bin" ] && ruff_bin=$(command -v ruff)
+
+py_staged=$(printf '%s\n' "$staged_files" | grep -E '\.py$' || true)
+if [ -n "$py_staged" ] && [ -x "$ruff_bin" ]; then
+    if ! printf '%s\n' "$py_staged" | tr '\n' '\0' | xargs -0 "$ruff_bin" check --quiet >&2; then
+        echo "pre-commit: ruff check failed. Run: .venv/bin/ruff check --fix" >&2
+        exit 1
+    fi
+    if ! printf '%s\n' "$py_staged" | tr '\n' '\0' | xargs -0 "$ruff_bin" format --check --quiet >&2; then
+        echo "pre-commit: ruff format drift. Run: .venv/bin/ruff format" >&2
+        exit 1
+    fi
+fi
+
+dr005_staged=$(printf '%s\n' "$staged_files" | grep -E '^scripts/podcast/.*\.py$' | grep -v '/tests/' || true)
+if [ -n "$dr005_staged" ] && [ -f "$repo_root/infra/git-hooks/check-dr005.py" ]; then
+    if ! printf '%s\n' "$dr005_staged" | tr '\n' '\0' | xargs -0 python3 "$repo_root/infra/git-hooks/check-dr005.py" >&2; then
+        echo "pre-commit: DR-005 line-count gate failed (see above)." >&2
+        exit 1
+    fi
+fi
+
+site_staged=$(printf '%s\n' "$staged_files" \
+    | grep -E '^plan-dashboard/(src|scripts)/.*\.(ts|tsx|astro|mjs|js)$' || true)
+if [ -n "$site_staged" ] && command -v node >/dev/null 2>&1 \
+        && [ -d "$repo_root/plan-dashboard/node_modules/eslint" ]; then
+    files_rel=$(printf '%s\n' "$site_staged" | sed 's|^plan-dashboard/||' | tr '\n' ' ')
+    if ! (cd "$repo_root/plan-dashboard" && npx eslint --quiet --no-warn-ignored $files_rel) >&2; then
+        echo "pre-commit: eslint errors on staged site files (warnings don't block)." >&2
+        echo "pre-commit: run: cd plan-dashboard && npm run lint:fix" >&2
+        exit 1
+    fi
+fi
+
 # Check 3 — HTML View Quality gate (WC7c).
 # Run the deterministic Cortex linter over staged Astro-site view/layout/style files.
 # Blocking-tier checks (inline style= on view pages, external SVG, <svg> w/h attrs,

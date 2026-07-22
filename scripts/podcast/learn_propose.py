@@ -38,8 +38,9 @@ import sys
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
-from _paths import REPO_ROOT
 from typing import Any
+
+from _paths import REPO_ROOT
 
 DEFAULT_LEDGER = REPO_ROOT / "_learning/findings.jsonl"
 DEFAULT_PROPOSALS_DIR = REPO_ROOT / "_learning/proposals"
@@ -68,9 +69,11 @@ PROPOSER_VERSION = "1.3"  # 2026-05-18: skip when ALL records are auto-fixed (po
 # carried there now live in the in-code authority below. These constants point
 # at the current canonical homes so proposers see paths that actually exist.
 SOURCE_RULES = "infra/claude-agents/podcast-challenger.md (chapter-source check Categories) + scripts/podcast/_rules.py"
-CUSTOMIZE_RULES = "infra/claude-agents/podcast-challenger.md (customize-prompt check Categories) + scripts/podcast/_rules.py"
+CUSTOMIZE_RULES = (
+    "infra/claude-agents/podcast-challenger.md (customize-prompt check Categories) + scripts/podcast/_rules.py"
+)
 ENRICHMENT = "scripts/podcast/_authoring.py Phase 0e prompt + infra/claude-agents/podcast-challenger.md Category D"
-SHARED_ARABIC = "content/_shared/arabic/"   # still exists; canonical pronunciation reference
+SHARED_ARABIC = "content/_shared/arabic/"  # still exists; canonical pronunciation reference
 CONTRACT_TPL = "scripts/podcast/extract_chapter.py (stub_contract + validate_contract — the in-code schema)"
 DEBATE = "infra/claude-agents/podcast-challenger.md Category P + scripts/podcast/_blueprint_schema.py (DebateBlock)"
 RULES_PY = "scripts/podcast/_rules.py"
@@ -127,7 +130,7 @@ CHECK_ID_TO_TARGET = {
     # ── Category G: Extract Mode contracts ──────────────────────────────
     "G1": f"{CONTRACT_TPL} + scripts/podcast/extract_chapter.py",
     "G2": f"{CONTRACT_TPL} + scripts/podcast/extract_chapter.py",
-    "G3": f"scripts/podcast/extract_chapter.py (CONTRACT_META_PROSE_TELLS)",
+    "G3": "scripts/podcast/extract_chapter.py (CONTRACT_META_PROSE_TELLS)",
     "G4": f"{CONTRACT_TPL} (derived_from)",
     "G5": "scripts/podcast/extract_chapter.py (Splitting Policy — formerly extract-capability.md, retired 2026-05-23)",
     "G6": "scripts/podcast/check_lineage.py",
@@ -196,18 +199,18 @@ CHECK_ID_TO_TARGET = {
     # at Phase 0b/0e generation time. Target is author-resolution (generator
     # prompt edits in _authoring/_refine.py / _enrichment.py) — the trainer
     # surfaces these patterns but cannot auto-edit generator-prompt Python files.
-    "U0B-EMPTY":               "HUMAN REVIEW — Phase 0b produced empty refined-english.md; re-run 0b",
-    "U0B-LENGTH-DRIFT":        "author: 0b window prompt — tighten length-ratio constraint",
-    "U0B-STRUCTURE-COLLAPSE":  "author: 0b window prompt — add explicit paragraph-preservation rule",
-    "U0E-SHRANK":              "author: 0e prompt — add explicit DO NOT drop source content constraint",
-    "U0E-BALLOON":             "author: 0e prompt — add explicit cap on word-count growth ratio",
-    "U0B-MEANING-DRIFT":       "author: 0b window prompt — strengthen DO NOT change meaning instruction",
-    "U0B-DROPPED-TEACHING":    "author: 0b window prompt — preserve ALL teachings, examples, illustrations",
+    "U0B-EMPTY": "HUMAN REVIEW — Phase 0b produced empty refined-english.md; re-run 0b",
+    "U0B-LENGTH-DRIFT": "author: 0b window prompt — tighten length-ratio constraint",
+    "U0B-STRUCTURE-COLLAPSE": "author: 0b window prompt — add explicit paragraph-preservation rule",
+    "U0E-SHRANK": "author: 0e prompt — add explicit DO NOT drop source content constraint",
+    "U0E-BALLOON": "author: 0e prompt — add explicit cap on word-count growth ratio",
+    "U0B-MEANING-DRIFT": "author: 0b window prompt — strengthen DO NOT change meaning instruction",
+    "U0B-DROPPED-TEACHING": "author: 0b window prompt — preserve ALL teachings, examples, illustrations",
     "U0B-HALLUCINATED-ADDITION": "HUMAN REVIEW REQUIRED (P0) — fabricated content in refined-english.md",
-    "U0B-REGISTER-SHIFT":      "author: 0b window prompt — preserve scholarly register",
+    "U0B-REGISTER-SHIFT": "author: 0b window prompt — preserve scholarly register",
     "U0E-HALLUCINATED-CITATION": "HUMAN REVIEW REQUIRED (P0) — fabricated citation in enriched chapter",
-    "U0E-SOURCE-ALTERED":      "author: 0e prompt — add explicit DO NOT alter source text constraint",
-    "U0E-DOCTRINE-DRIFT":      "author: 0e prompt — add tradition-coherence guard to enrichment rules",
+    "U0E-SOURCE-ALTERED": "author: 0e prompt — add explicit DO NOT alter source text constraint",
+    "U0E-DOCTRINE-DRIFT": "author: 0e prompt — add tradition-coherence guard to enrichment rules",
 }
 
 
@@ -310,8 +313,7 @@ def render_proposal(
         f"Add to `_learning/fixtures/{check_id}/`:",
         "- `input.txt` — minimal artifact exhibiting the failure (e.g., a 3-sentence "
         "framing snippet that contains the phrase)",
-        "- `expected.json` — challenger findings the new rule should emit when run "
-        "against `input.txt`",
+        "- `expected.json` — challenger findings the new rule should emit when run against `input.txt`",
         "",
         "## Acceptance",
         "",
@@ -325,8 +327,7 @@ def render_proposal(
         "",
         "- [ ] **Accept** — promote rule to the normative file named in Target, move this "
         "file to `_learning/promoted/` with the merging commit hash appended below.",
-        "- [ ] **Reject** — move this file to `_learning/archive/` with a `Rejected because…` "
-        "line appended below.",
+        "- [ ] **Reject** — move this file to `_learning/archive/` with a `Rejected because…` line appended below.",
         "- [ ] **Defer** — leave in place; revisit after N more episodes.",
         "",
         "## Decision log",
@@ -399,7 +400,9 @@ def main() -> int:
         out_path = args.proposals_dir / f"{today}-{slug}.md"
 
         if args.dry_run:
-            print(f"[dry-run] would write: {out_path.relative_to(REPO_ROOT) if REPO_ROOT in out_path.parents else out_path}")
+            print(
+                f"[dry-run] would write: {out_path.relative_to(REPO_ROOT) if REPO_ROOT in out_path.parents else out_path}"
+            )
             continue
 
         if out_path.exists() and out_path.read_text(encoding="utf-8") == body:
@@ -440,14 +443,16 @@ def main() -> int:
         )
         out_path = args.proposals_dir / f"{today}-{slug}.md"
         if args.dry_run:
-            print(f"[dry-run] would write (density): {out_path.relative_to(REPO_ROOT) if REPO_ROOT in out_path.parents else out_path}")
+            print(
+                f"[dry-run] would write (density): {out_path.relative_to(REPO_ROOT) if REPO_ROOT in out_path.parents else out_path}"
+            )
             continue
         if out_path.exists() and out_path.read_text(encoding="utf-8") == body:
             continue
         out_path.write_text(body, encoding="utf-8")
         density_written.append(out_path)
 
-    print(f"Proposer summary:")
+    print("Proposer summary:")
     print(f"  records read:               {len(records)}")
     print(f"  signatures grouped:         {len(by_sig)}")
     print(f"  proposals written (recur):  {len(written)}")
