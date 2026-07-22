@@ -412,6 +412,27 @@
       0 8px 24px rgba(31, 29, 24, 0.12)
     );
 }
+
+/* Articulation guard (RCA-001 AI-3) — advisory banner at the top of the edit
+   shell when the open chapter's base prose never passed articulation. Same
+   red-tint idiom as .cx-ety-warn; the confirm dialog carries the hard stop. */
+.cx-articulation-warn {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--c-red, #a83232);
+  background: color-mix(in oklab, var(--c-red, #a83232) 8%, transparent);
+  border-bottom: 1px solid
+    color-mix(in oklab, var(--c-red, #a83232) 25%, transparent);
+}
+.cx-articulation-warn i {
+  flex: none;
+  translate: 0 1px;
+}
 .cx-edit-toolbar {
   display: flex;
   align-items: center;
@@ -1035,7 +1056,12 @@
   font-size: 0.72rem;
   font-weight: 600;
   padding: 0.15rem 0.5rem;
-  border: 1px solid color-mix(in oklab, var(--c-accent, #8b4513) 60%, var(--c-rule-soft, #ebe6da));
+  border: 1px solid
+    color-mix(
+      in oklab,
+      var(--c-accent, #8b4513) 60%,
+      var(--c-rule-soft, #ebe6da)
+    );
   border-radius: 999px;
   color: var(--c-accent, #8b4513);
   background: var(--c-bg-card, #fffdf8);
@@ -1743,7 +1769,12 @@
   display: grid;
   place-items: center;
   /* 60% accent keeps the resting border itself at >=3:1 against the card. */
-  border: 1px solid color-mix(in oklab, var(--c-accent, #8b4513) 60%, var(--c-rule-soft, #ebe6da));
+  border: 1px solid
+    color-mix(
+      in oklab,
+      var(--c-accent, #8b4513) 60%,
+      var(--c-rule-soft, #ebe6da)
+    );
   border-radius: 6px;
   background: var(--c-bg-card, #fffdf8);
   box-shadow: 0 1px 4px rgba(31, 29, 24, 0.18);
@@ -1751,7 +1782,11 @@
 }
 .cx-icon-btn:hover {
   border-color: var(--c-accent, #8b4513);
-  background: color-mix(in oklab, var(--c-accent, #8b4513) 9%, var(--c-bg-card, #fffdf8));
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 9%,
+    var(--c-bg-card, #fffdf8)
+  );
   box-shadow: 0 3px 9px rgba(31, 29, 24, 0.26);
 }
 
@@ -2259,7 +2294,8 @@
   0% {
     opacity: 0;
     transform: translateY(6px) scale(0.98);
-    box-shadow: 0 0 0 3px color-mix(in oklab, var(--c-accent, #8b4513) 45%, transparent);
+    box-shadow: 0 0 0 3px
+      color-mix(in oklab, var(--c-accent, #8b4513) 45%, transparent);
   }
   60% {
     opacity: 1;

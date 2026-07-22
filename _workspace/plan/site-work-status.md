@@ -6,7 +6,26 @@
 -->
 # Current work - status
 
-**Last updated:** 2026-07-22 2:27 PM EST (Composer UX session: 6 ships on develop)
+**Last updated:** 2026-07-22 4:35 PM EST (RCA-001 AI-3: Composer articulation guard)
+
+**Newest — Composer articulation save guard (RCA-001 AI-3), shipped and
+challenger-gated (Level 1).** The Book Composer now warns before a save would
+freeze a chapter whose current prose never passed the articulation (fluency)
+pass — the exact failure that froze 8 calqued chapters on 2026-07-20. Server
+side: `lib/reader/articulation.ts` (pure, 6 unit tests) reads
+`_system/book-fluency-report.json` and maps at-risk chapter keys to
+plain-language reasons (`adapted` safe; `partial`/`reverted`/`skipped` warn;
+`composer-edit` judged by `superseded_status`; unknown chapters warn; no
+report = contract doesn't apply, no warnings). Client side: a red advisory
+banner tops the edit shell on at-risk chapters, and the FIRST autosave of such
+a chapter raises a confirm ("Freeze un-articulated machine text?" — Save
+anyway / Don't save, danger variant). Confirm-once-per-chapter-per-session
+(sessionStorage, survives autosave reloads); a decline parks the autosave in
+its error state and the pill's Retry re-asks. Advisory only — a deliberate
+save always proceeds. Verified live in the browser on all three states.
+Also fixed in passing: a broken comment in book-composer.css was silently
+discarding the `.cx-body .ar-inline, .cx-prose .ar-raw` font rule (inline
+Arabic in the Composer rendered in the wrong face).
 
 **Newest — a full Composer UX session, all shipped and challenger-gated.**
 (1) Chapter dropdown fixed — option mousedown moved focus to the skip-link

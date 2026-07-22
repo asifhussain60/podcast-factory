@@ -15,6 +15,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { anchorKey } from "../../../scripts/lib/anchor-key.mjs";
+import { articulationWarningsFrom } from "./articulation";
 import { editionIntroDelta } from "./book-fences";
 import { findContent } from "../content-paths";
 import { loadGlossary, loadGlossaryAll, type GlossaryEntry } from "./glossary";
@@ -136,6 +137,12 @@ export interface ComposerView {
   // entries only, glossaryAll = every entry including those awaiting one.
   glossary: GlossaryEntry[];
   glossaryAll: GlossaryEntry[];
+  /** RCA-001 AI-3 — chapters whose CURRENT prose never passed articulation,
+   *  keyed by chapter key, valued with a plain-language reason. The Composer
+   *  warns (advisory confirm, never a block) before a save freezes one of
+   *  these as a durable human edit. Empty when the book has no fluency report
+   *  (the articulation contract does not apply) or every chapter is safe. */
+  articulationWarnings: Record<string, string>;
 }
 
 // anchorKey is re-exported, not redefined: it had four byte-identical copies and
@@ -171,6 +178,7 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
       arabicFont: "",
       glossary: [],
       glossaryAll: [],
+      articulationWarnings: {},
     };
   }
 
@@ -211,7 +219,8 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     const heading = parts[i].trim();
     const body = (parts[i + 1] ?? "").trim();
     const insideIntro = introDepth > 0;
-    introDepth += editionIntroDelta(parts[i]) + editionIntroDelta(parts[i + 1] ?? "");
+    introDepth +=
+      editionIntroDelta(parts[i]) + editionIntroDelta(parts[i + 1] ?? "");
     if (insideIntro) continue; // the edition's front matter — not an editable chapter
     const numbered = /^##\s+(\d+)\.\s*/.exec(heading);
     const ordinal = numbered ? numbered[1] : null;
@@ -298,6 +307,19 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     loadGlossaryAll(slug),
   ]);
 
+  // RCA-001 AI-3 — read the articulation pass's own report so the Composer can
+  // warn before a save freezes a chapter whose base is still machine text.
+  // Best-effort: an absent or unreadable report yields no warnings, exactly as
+  // for a book the articulation contract does not cover.
+  const fluencyReport = await readJson<unknown>(
+    join(ref.dir, "_system", "book-fluency-report.json"),
+    null,
+  );
+  const articulationWarnings = articulationWarningsFrom(
+    fluencyReport,
+    chapters.map((c) => c.key),
+  );
+
   return {
     slug,
     title,
@@ -310,5 +332,6 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     arabicFont,
     glossary,
     glossaryAll,
+    articulationWarnings,
   };
 }

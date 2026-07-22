@@ -94,7 +94,7 @@ snapshots exactly.
 |---|---|---|---|
 | AI-1 | Recover: re-articulate 8 frozen chapters, re-apply deltas, re-gate | mitigate | in progress (this session) |
 | AI-2 | Fluency/compose honesty: report `adapted-and-kept` vs `adapted-then-overwritten`; compose warns loudly when replay discards adapted text | prevent | task chip spawned |
-| AI-3 | Composer save guard: warn when a save would freeze a chapter whose current base never passed articulation | prevent | task chip spawned |
+| AI-3 | Composer save guard: warn when a save would freeze a chapter whose current base never passed articulation | prevent | done 2026-07-22 — advisory banner + confirm-before-first-save in the Book Composer, driven by `lib/reader/articulation.ts` over `_system/book-fluency-report.json` |
 | AI-4 | RCA practice: `docs/rca/` process + template + standing memory rule | process | done (this session) |
 | AI-5 | Compose-run interference watch: heartbeat monitors the composer-edits sidecar for mid-run saves (open Composer tab autosave is a live clobber vector) | detect | active for this recovery run |
 

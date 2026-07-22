@@ -93,6 +93,9 @@ interface ComposerData {
   placements: Placement[];
   glossary: GlossaryEntry[];
   glossaryAll: GlossaryEntry[];
+  /** RCA-001 AI-3 — chapterKey -> why a save would freeze machine text.
+   *  Mirrors ComposerView.articulationWarnings in lib/reader/composer.ts. */
+  articulationWarnings?: Record<string, string>;
 }
 
 const WRAP_MAX = 50;
@@ -159,6 +162,41 @@ function boot(): void {
     }
   } catch {
     /* sessionStorage best-effort */
+  }
+
+  // ── Articulation guard (RCA-001 AI-3) ─────────────────────────────────────
+  // A save persists the ENTIRE chapter body as a durable human edit, and the
+  // pipeline then never re-voices that chapter. For a chapter whose current
+  // base never passed articulation, that save freezes machine text — the exact
+  // failure that shipped 8 calqued chapters on 2026-07-20. The guard is
+  // ADVISORY: a confirmed save always proceeds. Confirmations persist for the
+  // session (per book) because autosave routinely reloads the page; a decline
+  // is remembered in-memory only, and the status pill's Retry re-asks.
+  const articulationWarnings: Record<string, string> =
+    data.articulationWarnings ?? {};
+  const ARTICULATION_OK_KEY = `cx-articulation-ok:${slug}`;
+  const articulationConfirmed = new Set<string>(
+    (() => {
+      try {
+        const raw = sessionStorage.getItem(ARTICULATION_OK_KEY);
+        const parsed: unknown = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed.map(String) : [];
+      } catch {
+        return [];
+      }
+    })(),
+  );
+  const articulationDeclined = new Set<string>();
+  function confirmArticulationFreeze(chapterKey: string): void {
+    articulationConfirmed.add(chapterKey);
+    try {
+      sessionStorage.setItem(
+        ARTICULATION_OK_KEY,
+        JSON.stringify([...articulationConfirmed]),
+      );
+    } catch {
+      /* sessionStorage best-effort */
+    }
   }
 
   // ── inspector tabs (Artifacts · Refine & Notes) ───────────────────────────
@@ -577,6 +615,25 @@ function boot(): void {
     const shell = document.createElement("div");
     shell.className = "cx-edit-shell";
 
+    // Articulation guard (RCA-001 AI-3), passive half: say so the moment the
+    // editor opens on an at-risk chapter, before the first keystroke. The
+    // active half — the explicit confirm — sits in the autosave's save().
+    const articulationReason = articulationWarnings[selectedChapter];
+    if (articulationReason) {
+      const warn = document.createElement("p");
+      warn.className = "cx-articulation-warn";
+      warn.setAttribute("role", "note");
+      const warnIcon = document.createElement("i");
+      warnIcon.className = "fa-solid fa-triangle-exclamation";
+      warnIcon.setAttribute("aria-hidden", "true");
+      const warnText = document.createElement("span");
+      warnText.textContent =
+        `This chapter's prose has not been articulated — ${articulationReason}. ` +
+        "Saving freezes the whole chapter as human-authored machine text; the pipeline will never re-voice it.";
+      warn.append(warnIcon, warnText);
+      shell.append(warn);
+    }
+
     const host = document.createElement("div");
     host.className = "cx-edit-host";
 
@@ -883,10 +940,39 @@ function boot(): void {
     // Autosave — no manual "Save prose" button; edits persist themselves (./autosave).
     const proseAutosave: AutosaveController = createAutosave({
       onStateChange: mountAutosaveStatus(shell, () => {
+        // An explicit Retry is the deliberate act the articulation guard waits
+        // for after a decline — clear the decline so the confirm re-asks.
+        articulationDeclined.delete(selectedChapter);
         void proseAutosave.flush();
       }),
       save: async () => {
         if (!activeEditor) return { ok: true };
+        // Articulation guard (RCA-001 AI-3), active half: the first save of an
+        // at-risk chapter must be a deliberate act. Confirm once per chapter
+        // per session; a decline parks the autosave in the error state (the
+        // pill's Retry re-asks) rather than nagging on every debounce tick.
+        const chapterKey = selectedChapter;
+        const freezeReason = articulationWarnings[chapterKey];
+        if (freezeReason && !articulationConfirmed.has(chapterKey)) {
+          const declinedMsg =
+            "the chapter isn't articulated; press Retry to save anyway";
+          if (articulationDeclined.has(chapterKey))
+            return { ok: false, error: declinedMsg };
+          const freeze = await confirmDialog({
+            title: "Freeze un-articulated machine text?",
+            body:
+              `This save would freeze machine text that has not been articulated — ${freezeReason}. ` +
+              "The pipeline treats a Composer save as human-authored, so this chapter will never be re-voiced. Save anyway?",
+            confirmLabel: "Save anyway",
+            cancelLabel: "Don't save",
+            danger: true,
+          });
+          if (!freeze) {
+            articulationDeclined.add(chapterKey);
+            return { ok: false, error: declinedMsg };
+          }
+          confirmArticulationFreeze(chapterKey);
+        }
         // apiFetch throws on failure; createAutosave's own catch renders the
         // same "Couldn't save — …" state the old envelope check produced.
         await apiFetch("/api/studio/book-md", {
@@ -1028,7 +1114,11 @@ function boot(): void {
       checkRadio("arabic-font", saved.arabic_font);
       // The page root is server-rendered with the saved faces already, so this
       // only matters when the artifact changed under a page that was left open.
-      applyStyleClasses(saved.family, saved.translation_font ?? null, saved.arabic_font ?? null);
+      applyStyleClasses(
+        saved.family,
+        saved.translation_font ?? null,
+        saved.arabic_font ?? null,
+      );
     } catch {
       /* keep the pre-checked defaults if the fetch fails */
     }
@@ -1072,7 +1162,8 @@ function boot(): void {
     },
     "translation-font": {
       field: "translation_font",
-      said: (v) => `Saved — English renderings print in ${v.replace(/-/g, " ")}.`,
+      said: (v) =>
+        `Saved — English renderings print in ${v.replace(/-/g, " ")}.`,
     },
     "arabic-font": {
       field: "arabic_font",
@@ -1101,7 +1192,11 @@ function boot(): void {
         });
         setStyleStatus(status, spec.said(t.value), "saved");
       } catch (e) {
-        setStyleStatus(status, `Couldn't save: ${(e as Error).message}`, "error");
+        setStyleStatus(
+          status,
+          `Couldn't save: ${(e as Error).message}`,
+          "error",
+        );
       }
     });
   }
@@ -1509,8 +1604,9 @@ function boot(): void {
     // which paragraph the figure will follow. The hover-to-enlarge card that
     // used to shadow the pointer is gone for the same reason — it was too small
     // to read and it covered the list while you moved.
-    placeBtn.addEventListener("click", () =>
-      void imageLightbox({ src: v.src, caption: v.caption || v.id }),
+    placeBtn.addEventListener(
+      "click",
+      () => void imageLightbox({ src: v.src, caption: v.caption || v.id }),
     );
     item.addEventListener("dragstart", (e) => {
       e.dataTransfer?.setData(VISUAL_DRAG_TYPE, v.id);
