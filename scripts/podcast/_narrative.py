@@ -364,13 +364,48 @@ def enumeration_findings(base_text: str, candidate: str, *, minimum: int = 3) ->
     Loses no words, so every word-level fidelity check passes it — while a text
     that argues by enumerated structure loses the structure the argument hangs on.
     Only fires when the source enumerates substantially (``minimum`` items).
+
+    Section numbering is NOT an enumeration. A scholarly transcription that
+    numbers EVERY paragraph — "(1)", "(2)", "(3)" down the whole text — is
+    carrying per-paragraph apparatus, and the edition drops those numbers as
+    editorial policy. Requiring their survival blocked the RCA-001 recovery
+    compose on a chapter whose source numbers all of its paragraphs: the gate
+    read the transcription's numbering as a 19-item argument list no faithful
+    translation could ever "preserve". The discriminator is shape, not count:
+    apparatus is a LONG CONSECUTIVE ASCENDING run of NUMERIC markers — "(3)"
+    through "(12)" straight down the slice, heading teaching paragraphs and
+    one-line dialogue turns alike — where an argument list is lettered, or
+    numbered but short of a six-item unbroken ascent. Apparatus markers are
+    subtracted; any real enumeration that coexists with them (a lettered list
+    inside numbered sections) stays policed.
     """
-    base_n = len(_ENUM_MARKER_RE.findall(base_text or ""))
+    # ONE scan, in document order, for both the total and the run detection.
+    # (A paragraph-head scan under-counted: a section number that follows an
+    # inline Arabic line sits mid-paragraph, so the run looked broken and the
+    # apparatus went half-detected.)
+    markers = [(m.group(1) or m.group(2)) for m in _ENUM_MARKER_RE.finditer(base_text or "")]
+    base_n = len(markers)
     if base_n < minimum:
         return []
+    # Longest consecutive ascending run of numeric markers; 6+ is apparatus.
+    best = run = 0
+    prev = None
+    for digits in markers:
+        if digits and digits.isdigit():
+            number = int(digits)
+            run = run + 1 if (prev is not None and number == prev + 1) else 1
+            best = max(best, run)
+            prev = number
+        else:
+            run = 0
+            prev = None
+    apparatus = best if best >= 6 else 0
+    effective = base_n - apparatus
+    if effective < minimum:
+        return []
     cand_n = len(_ENUM_MARKER_RE.findall(candidate or ""))
-    if cand_n < base_n:
-        return [f"source enumeration lost ({cand_n} of {base_n} items survive as items)"]
+    if cand_n < effective:
+        return [f"source enumeration lost ({cand_n} of {effective} items survive as items)"]
     return []
 
 
