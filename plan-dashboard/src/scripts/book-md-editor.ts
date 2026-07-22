@@ -89,10 +89,12 @@ function serializeInline(node: PMNode): string {
   return out;
 }
 
-/** Serialize the whole doc to the book.md markdown subset. */
-function docToMarkdown(editor: Editor): string {
+/** Serialize a ProseMirror doc to the book.md markdown subset. Takes the doc
+ *  node (not the Editor) so the round-trip test can drive the same serializer
+ *  the live editor saves through, without mounting a view. */
+export function docToMarkdown(doc: PMNode): string {
   const lines: string[] = [];
-  editor.state.doc.forEach((node) => {
+  doc.forEach((node) => {
     const type = node.type.name;
     if (type === "heading") {
       lines.push(
@@ -136,6 +138,13 @@ function docToMarkdown(editor: Editor): string {
  */
 export const VISUAL_DRAG_TYPE = "application/x-cx-visual";
 
+/** The editor's extension set — one definition, shared by the live mount and
+ *  the round-trip test, so the schema the test parses with can never drift
+ *  from the schema the Composer actually edits in. */
+export function editorExtensions(extra: Extensions = []): Extensions {
+  return [StarterKit, QuotationClasses, ...extra];
+}
+
 /** Mount a chapter editor into `el`, seeded from `html`. `extraExtensions`
  *  appends to the base [StarterKit] set — e.g. the shared StudioDecos
  *  decoration plugin (verse chips, section badges, Arabic overlay), so the
@@ -147,7 +156,7 @@ export function mountChapterEditor(
 ): ChapterEditor {
   const editor = new Editor({
     element: el,
-    extensions: [StarterKit, QuotationClasses, ...extraExtensions],
+    extensions: editorExtensions(extraExtensions),
     content: html,
     editorProps: {
       attributes: { class: "cx-prose", "aria-label": "Chapter prose editor" },
@@ -165,7 +174,7 @@ export function mountChapterEditor(
   });
   return {
     editor,
-    toMarkdown: () => docToMarkdown(editor),
+    toMarkdown: () => docToMarkdown(editor.state.doc),
     destroy: () => editor.destroy(),
   };
 }

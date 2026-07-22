@@ -49,6 +49,9 @@ const dataJson = view
       placements: view.placements,
       glossary: view.glossary,
       glossaryAll: view.glossaryAll,
+      // RCA-001 AI-3 — chapters whose current prose never passed articulation;
+      // book-composer.ts warns (advisory confirm) before a save freezes one.
+      articulationWarnings: view.articulationWarnings,
     })
   : "";
 
