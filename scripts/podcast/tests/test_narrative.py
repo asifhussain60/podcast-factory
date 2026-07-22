@@ -194,6 +194,22 @@ def test_section_numbering_apparatus_is_exempt() -> None:
     assert enumeration_findings(_SECTION_NUMBERED, translated) == []
 
 
+def test_mid_book_section_run_starting_above_one_is_exempt() -> None:
+    # A chapter slice is a WINDOW into the numbered source: its run starts
+    # above 1 ("(3) (4) (5)"), which no argument list ever does. This is the
+    # exact shape that blocked the RCA-001 recovery compose on bk-01.
+    base = "\n\n".join(f"({n}) {_SECTION_PARA}" for n in (3, 4, 5))
+    translated = "\n\n".join(_SECTION_PARA for _ in range(3))
+    assert enumeration_findings(base, translated) == []
+
+
+def test_short_numbered_list_starting_at_one_stays_policed() -> None:
+    base = "1. Rely upon Allah.\n\n2. Speak with a considered ruling.\n\n3. Do not fall into anger."
+    dissolved = "Rely upon Allah, speak with a considered ruling, and do not fall into anger."
+    findings = enumeration_findings(base, dissolved)
+    assert findings and "enumeration lost" in findings[0]
+
+
 def test_real_list_inside_numbered_sections_stays_policed() -> None:
     base = _SECTION_NUMBERED + "\n\n" + _ENUMERATED
     dissolved = "\n\n".join(_SECTION_PARA for _ in range(8)) + (

@@ -371,13 +371,18 @@ def enumeration_findings(base_text: str, candidate: str, *, minimum: int = 3) ->
     editorial policy. Requiring their survival blocked the RCA-001 recovery
     compose on a chapter whose source numbers all of its paragraphs: the gate
     read the transcription's numbering as a 19-item argument list no faithful
-    translation could ever "preserve". The discriminator is shape, not count:
-    apparatus is a LONG CONSECUTIVE ASCENDING run of NUMERIC markers — "(3)"
-    through "(12)" straight down the slice, heading teaching paragraphs and
-    one-line dialogue turns alike — where an argument list is lettered, or
-    numbered but short of a six-item unbroken ascent. Apparatus markers are
-    subtracted; any real enumeration that coexists with them (a lettered list
-    inside numbered sections) stays policed.
+    translation could ever "preserve". The discriminator is the run's SHAPE:
+    a chapter slice is a WINDOW into the numbered source, so its markers run
+    "(3) (4) (5)" — a consecutive ascending NUMERIC run that starts above 1,
+    which no argument list ever does. A run starting above 1 is numbering
+    continued from earlier text (apparatus at any length); a run starting AT 1
+    is apparatus only when it is long (6+ — a whole-document scan), because a
+    genuine numbered list also starts at 1 and stays short. Lettered markers
+    never qualify. Apparatus markers are subtracted; any real enumeration that
+    coexists with them (a lettered list inside numbered sections) stays
+    policed. A run-length gate alone was tried first and passed a whole-source
+    check while failing the per-chapter slices the pipeline actually judges —
+    its retry then "preserved" the section numbers into the translation.
     """
     # ONE scan, in document order, for both the total and the run detection.
     # (A paragraph-head scan under-counted: a section number that follows an
@@ -387,19 +392,28 @@ def enumeration_findings(base_text: str, candidate: str, *, minimum: int = 3) ->
     base_n = len(markers)
     if base_n < minimum:
         return []
-    # Longest consecutive ascending run of numeric markers; 6+ is apparatus.
-    best = run = 0
-    prev = None
+    # Maximal consecutive ascending numeric runs, in document order.
+    runs: list[tuple[int, int]] = []  # (start_number, length)
+    start = prev = None
+    length = 0
     for digits in markers:
         if digits and digits.isdigit():
             number = int(digits)
-            run = run + 1 if (prev is not None and number == prev + 1) else 1
-            best = max(best, run)
+            if prev is not None and number == prev + 1 and length:
+                length += 1
+            else:
+                if length:
+                    runs.append((start, length))
+                start, length = number, 1
             prev = number
         else:
-            run = 0
+            if length:
+                runs.append((start, length))
+            start, length = None, 0
             prev = None
-    apparatus = best if best >= 6 else 0
+    if length:
+        runs.append((start, length))
+    apparatus = sum(n for s, n in runs if s > 1 or n >= 6)
     effective = base_n - apparatus
     if effective < minimum:
         return []
