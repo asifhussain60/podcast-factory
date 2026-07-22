@@ -156,3 +156,39 @@ test("a fence-free chapter is passed through untouched", () => {
   assert.equal(body, edited, "byte-identical passthrough");
   assert.equal(restored + rewrapped + appended, 0, "no fence work done");
 });
+
+// ─── edition-intro joined the fence kinds (2026-07-21) ────────────────────────
+// On a book whose front matter opens the first chapter, the introduction's span
+// lives inside that chapter's BODY. Before this kind existed, one Composer save
+// stripped the markers, `strip_introduction` stopped matching, and every later
+// compose stacked a second introduction next to the first.
+import { editionIntroDelta } from "../src/lib/reader/book-fences.ts";
+
+const INTRO_ORIGINAL = [
+  "<!-- edition-intro:begin -->",
+  "This book is a translation of a teaching dialogue.",
+  "",
+  "### The book's own opening",
+  "<!-- edition-intro:end -->",
+  "",
+  "We have been informed that some believers came.",
+].join("\n");
+
+test("an edition-intro span survives the rich-text round trip", () => {
+  // The editor serializes the comment markers back as bare text lines.
+  const edited = INTRO_ORIGINAL.replace(/<!-- (edition-intro:(?:begin|end)) -->/g, "$1").replace(
+    "some believers came",
+    "some believers came, edited",
+  );
+  const out = preserveFences(INTRO_ORIGINAL, edited);
+  assert.equal(out.restored, 2);
+  assert.match(out.body, /<!-- edition-intro:begin -->/);
+  assert.match(out.body, /<!-- edition-intro:end -->/);
+  assert.match(out.body, /some believers came, edited/);
+});
+
+test("editionIntroDelta counts opens minus closes", () => {
+  assert.equal(editionIntroDelta("<!-- edition-intro:begin -->"), 1);
+  assert.equal(editionIntroDelta(INTRO_ORIGINAL), 0);
+  assert.equal(editionIntroDelta("no markers here"), 0);
+});

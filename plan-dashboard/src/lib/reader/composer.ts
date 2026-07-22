@@ -15,6 +15,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { anchorKey } from "../../../scripts/lib/anchor-key.mjs";
+import { editionIntroDelta } from "./book-fences";
 import { findContent } from "../content-paths";
 import { loadGlossary, loadGlossaryAll, type GlossaryEntry } from "./glossary";
 import { renderMarkdown } from "./markdown";
@@ -201,9 +202,17 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
   // suggested_anchor is a passage phrase (slides) rather than a heading (diagrams).
   const bodyByKey: { key: string; lc: string }[] = [];
   const parts = md.split(/^(##\s+.+)$/m);
+  // Running edition-intro depth: the introduction's `## Introduction` heading
+  // lives INSIDE its fenced span, and it is apparatus, not a chapter. Offering
+  // it here made it editable — and an edit of it can never survive, because the
+  // pipeline strips and re-authors the introduction on every compose.
+  let introDepth = editionIntroDelta(parts[0] ?? "");
   for (let i = 1; i < parts.length; i += 2) {
     const heading = parts[i].trim();
     const body = (parts[i + 1] ?? "").trim();
+    const insideIntro = introDepth > 0;
+    introDepth += editionIntroDelta(parts[i]) + editionIntroDelta(parts[i + 1] ?? "");
+    if (insideIntro) continue; // the edition's front matter — not an editable chapter
     const numbered = /^##\s+(\d+)\.\s*/.exec(heading);
     const ordinal = numbered ? numbered[1] : null;
     const displayTitle = heading.replace(/^##\s+\d*\.?\s*/, "").trim();

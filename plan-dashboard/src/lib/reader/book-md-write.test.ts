@@ -94,3 +94,42 @@ test("it takes a one-time backup before the first write", () => {
   writeChapterBody(dir, "on knowledge", "second");
   assert.equal(readFileSync(join(dir, "book", "book.md.bak"), "utf8"), BOOK);
 });
+
+// ─── the edition's introduction is apparatus, not an editable chapter ─────────
+const BOOK_WITH_INTRO = [
+  "# The Book",
+  "",
+  "<!-- edition-intro:begin -->",
+  "## Introduction",
+  "",
+  "The editor's orientation to the work.",
+  "<!-- edition-intro:end -->",
+  "",
+  "## 1. On Knowledge",
+  "",
+  "Pipeline prose for one.",
+  "",
+  "## 2. On Patience",
+  "",
+  "Pipeline prose for two.",
+  "",
+].join("\n");
+
+test("the fenced introduction cannot be written as a chapter", () => {
+  // Its `## Introduction` heading lives inside the edition-intro span, and the
+  // pipeline strips and re-authors that span on every compose — so an edit
+  // recorded against it could never survive. Refusing is the honest answer.
+  const dir = makeBook(BOOK_WITH_INTRO);
+  const result = writeChapterBody(dir, "introduction", "A rewrite of the front matter.");
+  assert.equal(result.ok, false);
+  assert.equal(readFileSync(join(dir, "book", "book.md"), "utf8"), BOOK_WITH_INTRO);
+});
+
+test("real chapters around the introduction still resolve", () => {
+  const dir = makeBook(BOOK_WITH_INTRO);
+  const result = writeChapterBody(dir, "on knowledge", "The author's own sentence.");
+  assert.equal(result.ok, true);
+  const out = readFileSync(join(dir, "book", "book.md"), "utf8");
+  assert.match(out, /## 1\. On Knowledge\n\nThe author's own sentence\./);
+  assert.match(out, /<!-- edition-intro:begin -->/); // apparatus untouched
+});

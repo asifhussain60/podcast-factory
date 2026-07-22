@@ -17,7 +17,7 @@
 import { readFileSync, writeFileSync, existsSync, copyFileSync } from "node:fs";
 import { join } from "node:path";
 import { anchorKey } from "../../../scripts/lib/anchor-key.mjs";
-import { preserveFences } from "./book-fences";
+import { preserveFences, editionIntroDelta } from "./book-fences";
 import { recordComposerEdit, baseFingerprintFor } from "./composer-edits";
 
 export interface ChapterWriteResult {
@@ -52,10 +52,17 @@ export function writeChapterBody(
   if (!existsSync(bookMd)) return { ok: false, error: "book.md not found" };
 
   const lines = readFileSync(bookMd, "utf-8").split("\n");
-  // Locate the target chapter's heading and the start of the next chapter.
+  // Locate the target chapter's heading and the start of the next chapter. A
+  // heading inside an edition-intro span is skipped: that is the edition's front
+  // matter, whose `## Introduction` heading lives inside the fenced span, and it
+  // is stripped and re-authored on every compose — so an edit addressed to it
+  // could never survive, and this writer refuses to record one.
   let start = -1;
   let end = lines.length;
+  let introDepth = 0;
   for (let i = 0; i < lines.length; i += 1) {
+    introDepth += editionIntroDelta(lines[i]);
+    if (introDepth > 0) continue;
     if (!/^##\s+/.test(lines[i])) continue;
     if (start === -1 && anchorKey(lines[i]) === chapterKey) start = i;
     else if (start !== -1) {

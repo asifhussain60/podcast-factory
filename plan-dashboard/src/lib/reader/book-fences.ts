@@ -35,8 +35,41 @@
  * usable from both the API route and any future caller.
  */
 
-/** Fence kinds the pipeline owns. Add one here and every step below follows. */
-export const FENCE_KINDS = ["editorial", "study-summary", "bridge"] as const;
+/** Fence kinds the pipeline owns. Add one here and every step below follows.
+ *
+ * `edition-intro` joined 2026-07-21: `_book_frontmatter.py` fences the edition's
+ * introduction with it, and on a book whose front matter opens the first chapter
+ * the span lives inside that chapter's BODY — so a Composer save of that chapter
+ * used to strip the markers, after which the Python `strip_introduction` stopped
+ * matching and every later compose stacked a second introduction next to the
+ * first. */
+export const FENCE_KINDS = [
+  "editorial",
+  "study-summary",
+  "bridge",
+  "edition-intro",
+] as const;
+
+const INTRO_BEGIN_RE = /<!--\s*edition-intro:begin\s*-->/g;
+const INTRO_END_RE = /<!--\s*edition-intro:end\s*-->/g;
+
+/**
+ * Net count of edition-intro spans opened minus closed in `text`.
+ *
+ * The introduction's own `## Introduction` heading lives INSIDE the fenced span
+ * (so the Python strip removes the whole section in one cut), which means any
+ * consumer that enumerates `## ` headings — the Composer's chapter list, the
+ * chapter writer — will otherwise mistake the edition's apparatus for an
+ * editable chapter. An "edit" of that section can never survive: the pipeline
+ * strips and re-authors the introduction on every compose, so the saved edit is
+ * orphaned each time. Callers walk the document keeping a running depth from
+ * this delta and skip headings seen while the depth is positive.
+ */
+export function editionIntroDelta(text: string): number {
+  const begins = text.match(INTRO_BEGIN_RE)?.length ?? 0;
+  const ends = text.match(INTRO_END_RE)?.length ?? 0;
+  return begins - ends;
+}
 
 const KIND_ALT = FENCE_KINDS.join("|");
 const COMMENT_RE = new RegExp(`^<!--\\s*(${KIND_ALT}):(begin|end)\\s*-->$`);
