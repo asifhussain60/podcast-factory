@@ -93,7 +93,7 @@ snapshots exactly.
 | # | Action | Type | Status |
 |---|---|---|---|
 | AI-1 | Recover: re-articulate 8 frozen chapters, re-apply deltas, re-gate | mitigate | in progress (this session) |
-| AI-2 | Fluency/compose honesty: report `adapted-and-kept` vs `adapted-then-overwritten`; compose warns loudly when replay discards adapted text | prevent | task chip spawned |
+| AI-2 | Fluency/compose honesty: report `adapted-and-kept` vs `adapted-then-overwritten`; compose warns loudly when replay discards adapted text | prevent | done — `reconcile_reports_after_replay` re-stamps discarded chapters after the replay, `_merge_records` can no longer resurrect a stale `adapted` for an edited chapter, compose warns loudly; schema `podcast.book-fluency/v4` + `podcast.book-voice/v4` (additive: `overwritten_by_replay`, `pre_replay_status`) |
 | AI-3 | Composer save guard: warn when a save would freeze a chapter whose current base never passed articulation | prevent | task chip spawned |
 | AI-4 | RCA practice: `docs/rca/` process + template + standing memory rule | process | done (this session) |
 | AI-5 | Compose-run interference watch: heartbeat monitors the composer-edits sidecar for mid-run saves (open Composer tab autosave is a live clobber vector) | detect | active for this recovery run |

@@ -165,11 +165,28 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     #     first means transliteration, script, spelling and honorifics all see the
     #     final text, the author's chapters included, instead of a version of it.
     #     Idempotent and anchored by heading — see _book_edits.py.
+    #
+    #     The replay must also keep the pass reports honest (RCA-001): fluency
+    #     and voice wrote "adapted" BEFORE this step, so a replayed edit landing
+    #     on an adapted chapter — under `--force`, or from a save that arrived
+    #     mid-run — makes that claim stale in the same compose that wrote it,
+    #     and in July 2026 exactly that report waved 8 discarded chapters
+    #     through every gate. The reconcile re-stamps those chapters
+    #     'adapted-then-overwritten', and the discard is announced here, loudly,
+    #     because it means model spend bought prose the book does not carry.
     from _book_edits import apply_composer_edits
+    from _book_pass_reports import reconcile_reports_after_replay
 
     try:
-        apply_composer_edits(book_dir, log=log, force=force)
+        _replay_report = apply_composer_edits(book_dir, log=log, force=force)
         book_md = book_dir / "book" / "book.md"
+        _discarded = reconcile_reports_after_replay(book_dir, _replay_report, log=log)
+        if _discarded:
+            log(
+                f"    WARNING: composer-edit replay DISCARDED adapted prose in {_discarded} chapter(s) — "
+                "the pass reports now read 'adapted-then-overwritten'; that model spend bought text "
+                "the book does not carry"
+            )
     except Exception as e:  # a bad sidecar must never destroy a good compose
         _record_skip(book_dir, "composer-edits", e, log)
 
