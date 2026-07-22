@@ -364,13 +364,62 @@ def enumeration_findings(base_text: str, candidate: str, *, minimum: int = 3) ->
     Loses no words, so every word-level fidelity check passes it — while a text
     that argues by enumerated structure loses the structure the argument hangs on.
     Only fires when the source enumerates substantially (``minimum`` items).
+
+    Section numbering is NOT an enumeration. A scholarly transcription that
+    numbers EVERY paragraph — "(1)", "(2)", "(3)" down the whole text — is
+    carrying per-paragraph apparatus, and the edition drops those numbers as
+    editorial policy. Requiring their survival blocked the RCA-001 recovery
+    compose on a chapter whose source numbers all of its paragraphs: the gate
+    read the transcription's numbering as a 19-item argument list no faithful
+    translation could ever "preserve". The discriminator is the run's SHAPE:
+    a chapter slice is a WINDOW into the numbered source, so its markers run
+    "(3) (4) (5)" — a consecutive ascending NUMERIC run that starts above 1,
+    which no argument list ever does. A run starting above 1 is numbering
+    continued from earlier text (apparatus at any length); a run starting AT 1
+    is apparatus only when it is long (6+ — a whole-document scan), because a
+    genuine numbered list also starts at 1 and stays short. Lettered markers
+    never qualify. Apparatus markers are subtracted; any real enumeration that
+    coexists with them (a lettered list inside numbered sections) stays
+    policed. A run-length gate alone was tried first and passed a whole-source
+    check while failing the per-chapter slices the pipeline actually judges —
+    its retry then "preserved" the section numbers into the translation.
     """
-    base_n = len(_ENUM_MARKER_RE.findall(base_text or ""))
+    # ONE scan, in document order, for both the total and the run detection.
+    # (A paragraph-head scan under-counted: a section number that follows an
+    # inline Arabic line sits mid-paragraph, so the run looked broken and the
+    # apparatus went half-detected.)
+    markers = [(m.group(1) or m.group(2)) for m in _ENUM_MARKER_RE.finditer(base_text or "")]
+    base_n = len(markers)
     if base_n < minimum:
         return []
+    # Maximal consecutive ascending numeric runs, in document order.
+    runs: list[tuple[int, int]] = []  # (start_number, length)
+    start = prev = None
+    length = 0
+    for digits in markers:
+        if digits and digits.isdigit():
+            number = int(digits)
+            if prev is not None and number == prev + 1 and length:
+                length += 1
+            else:
+                if length:
+                    runs.append((start, length))
+                start, length = number, 1
+            prev = number
+        else:
+            if length:
+                runs.append((start, length))
+            start, length = None, 0
+            prev = None
+    if length:
+        runs.append((start, length))
+    apparatus = sum(n for s, n in runs if s > 1 or n >= 6)
+    effective = base_n - apparatus
+    if effective < minimum:
+        return []
     cand_n = len(_ENUM_MARKER_RE.findall(candidate or ""))
-    if cand_n < base_n:
-        return [f"source enumeration lost ({cand_n} of {base_n} items survive as items)"]
+    if cand_n < effective:
+        return [f"source enumeration lost ({cand_n} of {effective} items survive as items)"]
     return []
 
 
