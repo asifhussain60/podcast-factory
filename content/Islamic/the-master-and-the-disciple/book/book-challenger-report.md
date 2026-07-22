@@ -1,146 +1,155 @@
 # Book Challenger Report
 
 **Book:** the-master-and-the-disciple
-**Run:** 2026-07-22 09:30 EST (book_challenger_version 1.0)
-**Scope:** whole-book (re-challenge after annotation policy 40cc2ef — one deliberate change: `_book_inline_arabic.apply_inline_arabic` under per-term `annotation_class`, plus sidecar restamp)
+**Run:** 2026-07-22 9:46 AM EST (book_challenger_version 1.0)
+**Scope:** whole-book — FINAL convergence run (verification of the BK1/BK4/BK5 corrections + settlement of BK2/BK3/BK6)
 **Content profile:** islamic_scholarly
 **Route:** augmented-companion knobs, translation-edition behaviour (`book_augmentation: source_only`, `book_voice: faithful`)
 **Declared narrative_frame:** transmitted_report
 **Chapters reviewed:** 8 + preface
-**Iterations:** 1 (of 5 max)
-**Verdict (book-level):** SHIP-WITH-CAUTION
+**Iterations:** 1 (of 5 max) — third full sweep today; prior sweeps 09:30 (SHIP-WITH-CAUTION) and morning (SHIP-READY pre-annotation)
+**Verdict (book-level):** SHIP-READY
 
 ## Method note
 
-Word-level diff of working-tree `book.md` against the last committed state (HEAD, last touched
-0b52991): 31 changed lines, 31 insertions / 31 deletions, every hunk an annotation add / remove /
-reshape. **Zero prose sentences, zero speech tags, zero enumerations, zero blockquotes, zero Quranic
-text, zero honorifics changed.** Pass 1 / Pass 2 / Pass 3 fidelity is therefore inherited from the
-morning's SHIP-READY run for all unchanged text; review concentrated on (a) the 31 changed lines,
-(b) glyph-verification of all 30 surviving Arabic parentheticals, (c) the R-ARABIC-SCRIPT-RETAINED
-judgment call, (d) the four prior P2 dispositions, (e) sidecar freshness — plus one source-grounded
-spot-check that surfaced a NEW upstream P1 (BK1) in text this change did not touch.
+Word-level diff of working-tree `book.md` against git HEAD (b0f7d02): **exactly three changed
+lines** — 296, 567, 885 — each matching one declared correction, nothing else moved. One upstream
+line changed in `refined-english.md` (the (181) paragraph, source line 447 area), mirroring the
+BK1 fix. `composer-edits.json` diff: exactly three new entries appended. `book-arabic-audit.json`
+diff: exactly the expected restamp (أولياء الله run removed, 58→57, canonical 25→24). Zero speech
+tags, zero enumerations, zero blockquotes, zero Quranic text changed — confirmed deterministically:
+`_narrative.frame_findings(HEAD, working-tree, frame=transmitted_report)` returns 0 findings, and
+`ocr_vowelling_findings` returns 0. All unchanged text inherits Pass 1/2/3 verdicts from today's
+two prior sweeps.
 
-## The annotation change itself: CLEAN
+## Verification of the three corrections (all VERIFIED against the scan/glossary)
 
-- 65 → 30 Arabic parentheticals (24 term annotations + 6 honorific formulae), matching the approved
-  policy. All familiar-class removals (Allah ×7, Adam ×3, Islam ×2, Imam ×2, sunna ×2, Sharia ×2,
-  zakat ×2, Shaykh, Sinai, Shuayb, Talut) and silent-class removals (quwwa, al-Kabir) verified as
-  policy, not defects. No double spaces, no orphaned punctuation (one advisory, BK5).
-- **Glyph verification:** all 24 surviving term annotations match the curated glossary
-  `arabic_script` glyph-for-glyph, except the pre-existing fossil at line 296 (BK4). Honorific
-  formulae excluded by design. Zero scholarly diacritics in Latin text (BK-A4 pass).
-- **Teach-class introductions:** al-Imam al-Natiq / bab / wasi / duat introduced `(name, script)` at
-  preface line 13; nuqaba (358), tawil (362), hujaj (366), natiq (374) at first use; dawa (5),
-  hawl (533), alif (1137) script-appended at first prose use. Every later mention (`(*bab*)`,
-  `(*wasi*)`, `(*duat*)`, `(*al-Imam al-Natiq*)`) OCCURS AFTER its introduction — ordering verified.
-- **Name-class:** Salih / al-Bakhtari / Abu Malik carry script in the front-matter cast list (line 9);
-  Ja'far ibn Mansur al-Yaman (5), Tur + Bayt al-Mamur (45), Ubayd Allah + Abd Allah (775, damma is
-  scan vowelling), Kab al-Ahbar (885), Abu Salih (987), Abu al-Khair (1019) — all at true first
-  mention, all glossary-exact.
-- **R-ARABIC-SCRIPT-RETAINED judgment:** NO surviving site violates the rule outright. Every term
-  the book teaches and names in Latin carries script at exactly one introduction (or in an adjacent
-  quotation block); teach terms with no introduction (batin, zahir, Kun, Taqiyya, hujja, ta'zir, dai)
-  never appear in romanized form anywhere in the prose — their concepts are translated — so nothing
-  was removed from them. The one-introduction-per-term interpretation is satisfied. Two gaps noted:
-  awliya's introduction is script-only with no Latin name (BK4), and al-Khidr has no script at all —
-  which investigation shows is not an annotation gap but a translation misreading (BK1).
+### BK1 — al-Khidr misreading (P1) — FIXED, verified against the scan
+Line 567 now reads: "The seven green ears are causes between God and the guardians." The scan
+(`_system/source/ocr/raw-extract.md` lines 724–726) reads
+`والسبع السنبلات٦ الخضر أسباب بين الله وبين الأوصياء` — الخضر is the adjective *khudr* ("green",
+modifying السنبلات), the predicate أسباب is indefinite plural "causes". The corrected sentence
+matches the Arabic word-for-word, restores the plural predicate, and restores the sevenfold
+parallelism (fat cows = causes of God; lean cows = the seven natiqs; green ears = causes; dry
+ears = the guardians). The fabricated person al-Khidr is gone from `book.md` entirely (zero
+matches for Khidr/خضر book-wide). The same correction was applied upstream:
+`refined-english.md` (181) now reads "The seven green ears⁶ are causes between God and the
+guardians [awliyāʾ]" — the root cause (Phase-0b translation misreading) is corrected at source,
+so no future compose can re-inherit it. **RESOLVED.**
 
-## Resolution of the four prior P2 advisories
+### BK4 — awliya fossil annotation (P2) — FIXED, glossary-exact
+Line 296 now reads: "the friends of God (awliya, أولياء) are bound". The script matches the
+curated glossary entry `awliyāʾ → أولياء` glyph-for-glyph; the teach-term introduction now
+carries its Latin name in the standard `(name, script)` intro form (same shape as the preface's
+al-Imam al-Natiq / bab intros); the Latin side is plain ASCII (BK-A4 pass). The Worker reports
+the site byte-stable across two re-runs of the annotation pass (inside the derive loop) —
+stability under future derivation is Worker-attested (not re-run here, since a re-run would
+mutate `book.md`); the current bytes are VERIFIED correct. **RESOLVED.**
 
-| Prior | Site | Now | Status |
-|---|---|---|---|
-| Sinai/الطور mismatch | 701 | `the light of Sinai.` plain (familiar class); Tur keeps `(الطور)` at its true site, line 45 | RESOLVED |
-| Vocative أبا beside nominative Abu | 987, 1019 | Unchanged bytes, but glossary now deliberately curates `أبا صالح` / `أبا الخير` — both sites are vocative address ("O Abu Salih"), script matches the scan's own form, annotation matches glossary glyph-for-glyph | RESOLVED by curation |
-| Definite-article inconsistency | 13, 358–374 | Latin side now uniform bare citation form (bab, wasi, duat, nuqaba, hujaj, natiq, tawil). Script side still mixes باب (bare) vs الوصي/الدعاة/النقباء (article) per glossary curation | SUBSTANTIALLY RESOLVED — residual noted as BK6 |
-| Adam under the verse | 462 | Annotation removed; script آدم on the page in the adjacent Quranic block (adjacent-block rule) | RESOLVED |
+### BK5 — punctuation placement (P2) — FIXED
+Line 885 now reads `"Kab al-Ahbar (كعب الأحبار)."` — period inside the closing quotation mark,
+American convention, matching the edition's locked American-spelling standard. Script unchanged
+and still scan-grounded. **RESOLVED.**
 
-Also closed from the prior run: BK5 (teach vocabulary unnameable in Latin) — the `(name, script)`
-introduction form restores every core term's Latin name except awliya (BK4); BK6 (imla'i-rasm false
-positive) — audit now reports 0 `vowelling_review` items after the a8df8dd normalizer fix; BK7
-(stale sidecars) — see below.
+## Settlements (accepted by author authorization — recorded, not findings)
 
-## Sidecar freshness (VERIFIED current)
+- **BK2 (al-Khidr glossary entry):** deliberately KEPT with empty `arabic_script`. It serves the
+  PODCAST lane (ch07d's editorial "the figure traditionally identified as Khidr" — legitimate
+  enrichment, not a misreading), and the empty script keeps it out of the book pass. Accepted.
+- **BK3 (Hizb Allah romanization anchor):** `(*Hizb Allah*)` at line 244 stays — it is the
+  author's gloss shape and the derive loop's re-derivation anchor. Accepted as convention.
+- **BK6 (script-side definite-article mix):** bare باب vs articled الوصي/الدعاة/النقباء etc.
+  follows curated citation forms in the glossary. Accepted as convention.
 
-`_system/book-arabic-audit.json` and `_system/book-duplication-check.json` are stamped one second
-AFTER the current `book.md` bytes (mtime 1784726497 vs 1784726496). Audit totals: 58 Arabic runs =
-25 canonical-mushaf + 32 ocr + 1 honorific-formula + **0 unverified**, 0 vowelling_review. This
-matches the current inventory (30 inline parentheticals + blockquote runs). Duplication check:
-schema v1, findings empty.
+## Composer-edit sidecar (the durability check)
+
+`_system/composer-edits.json` carries four entries; anchor keys all resolve against live
+headings via `_book_edits.anchor_key` (no orphans):
+
+| chapter_key | anchors to | body vs live |
+|---|---|---|
+| how to read a conversation made of doors (2026-07-21) | preface | pre-existing; body predates the approved annotation reshape — self-healing (replay → derive loop restyles), noted below |
+| how the world was made (2026-07-22) | ch 4 | **byte-identical** (8,491 chars) |
+| three layers of knowledge (2026-07-22) | ch 6 | **byte-identical** (18,401 chars) |
+| homecoming, the father, and the debate with abu malik (2026-07-22) | ch 8 | **byte-identical** (77,183 chars) |
+
+The three fix-carrying edits embed the corrected sentences (including the awliya annotation
+reshape), so every correction survives a re-compose. **Observation, not a finding:** the
+2026-07-21 preface edit's body carries the pre-reshape annotation forms
+(`(الإمام) (*al-Imam al-Natiq (الإمام الناطق)*)` vs live `(al-Imam al-Natiq, الإمام الناطق)`).
+This pre-dates today's work, was present at the 09:30 APPROVED sweep, and is self-correcting:
+on a future re-compose the replayed body passes through the same annotation derive loop that
+produced the live shape (verified idempotent by the Worker). Not new, not material — recorded
+for continuity only.
+
+## Sidecar freshness (VERIFIED current — recomputed in memory, not trusted from mtime)
+
+- `book-arabic-audit.json`: recomputed via `audit_book_arabic` over current `book.md` bytes +
+  OCR + knowledge base — **chapter lists byte-equal to the stored sidecar**; totals identical:
+  57 runs = 24 canonical-mushaf + 32 ocr + 0 knowledge-base + 1 honorific-formula +
+  **0 unverified**; `ocr_vowelling_findings` = 0 (no vowelling_review key, correctly absent).
+- Canonical count 25→24 explained and expected: the removed parenthetical أولياء الله (a Quranic
+  phrase, resolved canonical) gave way to bare أولياء, which at 6 Arabic letters sits below the
+  audit's 8-letter run threshold (`_ARABIC_RUN_MIN_CHARS = 8`) and so does not register as a run
+  at all — same as every other short annotation term (باب, الشيخ). The ocr total is unchanged at
+  32. **No Quranic verse text was touched** — the delta is an annotation parenthetical, not a
+  quotation block.
+- `book-duplication-check.json`: recomputed via `duplicate_passage_findings` over current bytes —
+  0 findings, matching the stored sidecar.
 
 ## Per-chapter verdicts
 | Chapter | Pass 1 | Pass 3 | Verdict |
 |---|---|---|---|
-| Preface — How to Read a Conversation Made of Doors | pass | pass (4 teach intros verified) | SHIP-READY |
+| Preface — How to Read a Conversation Made of Doors | pass | pass | SHIP-READY |
 | 1. The Persian Who Was Dead and Revived | pass | pass | SHIP-READY |
 | 2. A Stranger in the City | pass | pass | SHIP-READY |
-| 3. The Boy at the Door — Limits and Conditions | pass | pass (BK3 advisory) | SHIP-READY |
-| 4. How the World Was Made | pass | pass (BK4 advisory) | SHIP-READY |
+| 3. The Boy at the Door — Limits and Conditions | pass | pass (BK3 accepted) | SHIP-READY |
+| 4. How the World Was Made | pass | pass (BK4 fixed, verified) | SHIP-READY |
 | 5. The World, the Hereafter, and the Speech of Parables | pass | pass | SHIP-READY |
-| 6. Three Layers of Knowledge | **fail — BK1 (inherited from refined source)** | pass | **SHIP-WITH-CAUTION** |
+| 6. Three Layers of Knowledge | **pass (BK1 fixed, verified against scan)** | pass | SHIP-READY |
 | 7. The Five Shares and the Long Road to the Shaykh | pass | pass | SHIP-READY |
-| 8. Homecoming, the Father, and the Debate with Abu Malik | pass | pass (BK5 advisory) | SHIP-READY |
+| 8. Homecoming, the Father, and the Debate with Abu Malik | pass | pass (BK5 fixed) | SHIP-READY |
 
 ## Whole-book passes
 | Check | Result |
 |---|---|
-| BK-A1 voice consistency | pass (zero prose deltas) |
-| BK-A2 segmentation sanity | pass (inherited; TOC/crosswalk unchanged) |
+| BK-A1 voice consistency | pass (three sentence-level deltas, register unchanged) |
+| BK-A2 segmentation sanity | pass (TOC/crosswalk untouched) |
 | BK-A3 preface + TOC integrity | pass — headings monotonic, match book-toc.json |
-| BK-A4 plain transliteration | pass — zero Latin diacritics book-wide |
+| BK-A4 plain transliteration | pass — "awliya" plain ASCII; zero Latin diacritics book-wide |
 | BK-A5 tradition fit | n/a — source_only, no enrichment |
-| BK-N1 narrative person | pass (inherited — no narration changed) |
-| BK-N2 speech attribution | pass — zero tag deltas |
+| BK-N1 narrative person | pass — frame_findings(HEAD→tree) = 0 |
+| BK-N2 speech attribution | pass — zero tag deltas ("The Master said:" unchanged at 567) |
 | BK-N3 frame consistency | pass — transmitted_report, one narrator |
-| BK-N4 Arabic script retention | pass with advisories (BK2/BK4); no script removed without introduction |
-| BK-N5 supplied diacritics | pass — no new diacritics; عُبيد الله damma is scan vowelling |
-| BK-N6 enumeration | pass — untouched |
-| BK-N7 register/terminology | pass — Latin citation forms now MORE consistent than prior run |
-| BK-P7 duplicated passage | pass — findings empty, restamped over current bytes |
+| BK-N4 Arabic script retention | pass — أولياء retained with transliteration BESIDE the script |
+| BK-N5 supplied diacritics | pass — ocr_vowelling_findings = 0; both changed scripts unvowelled |
+| BK-N6 enumeration | pass — sevenfold structure RESTORED by the BK1 fix |
+| BK-N7 register/terminology | pass — "causes" now consistent across all four limbs of the dream |
+| BK-P7 duplicated passage | pass — 0 findings, recomputed over current bytes |
 
-## Findings (P1 → P2)
+## Findings
 
-### BK1 · BK-P4 · P1 · VERIFIED (NEW — pre-existing text, upstream of the annotation change)
-- **Chapter:** 6 — Three Layers of Knowledge
-- **book.md:** line 567 — "The seven green ears are al-Khidr, a cause between God and the guardians."
-- **Source:** `_system/source/ocr/raw-extract.md` (offset ~36700) — `والسبع السنبلات الخضر أسباب بين الله وبين الأوصياء` — "And the seven green ears are CAUSES between God and the guardians."
-- **Why it fails:** الخضر here is the ADJECTIVE khudr, "green" (plural of akhdar), modifying السنبلات — the Quranic phrase of the king's dream (Q 12:43, سنبلات خضر), which the boy's own question two lines above (line 565) already renders "seven green ears of grain." The predicate is أسباب, indefinite PLURAL: "are causes." The shipped sentence reads الخضر a second time as the PERSON al-Khidr and flattens plural "causes" to "a cause" — inserting a named figure the source never mentions (the scan's ONLY الخضر is this adjective) and breaking the passage's sevenfold parallelism (fat cows = causes of God; lean cows = the seven natiqs; green ears = causes; dry ears = the guardians — seven ears cannot be one person). The compose is NOT at fault: `refined-english.md` line 447 already reads "The seven green ears are al-Khidr, a cause…", so the defect is in the Phase-0b refined translation and every prior challenge inherited it as ground truth. The glossary's al-Khidr entry (class `name`, EMPTY `arabic_script` — the curator could find no matching script, because there is none) is a symptom of the same misreading.
-- **Worker action:** correct `refined-english.md` line 447 to "The seven green ears are causes between God and the guardians [awliya]", then fix the shipped sentence through the Book Composer (the singular PDF edit path): "The seven green ears are causes between God and the guardians." Remove or reclassify the glossary's al-Khidr entry. Escalate to Asif — this is an author-judgment translation correction, not a re-run.
-
-### BK2 · BK-P3 · P2 · VERIFIED
-- **Glossary:** `_system/glossary.yml` — entry `al-Khidr`, class `name`, `arabic_script` empty.
-- **Why:** The policy's intent ("names gained script once at first mention") is unmet for this entry — but per BK1 the entry itself encodes a misreading; the fix is BK1's, not curation of الخضر as a person.
-
-### BK3 · BK-N7 · P2 · VERIFIED (open editorial call)
-- **Chapter:** 3 — line 244 — "he had entered the Party of God (*Hizb Allah*)"
-- **Why:** Hizb Allah is silent-class ("carries nothing"), yet the site carries a machine-written romanization that never existed in any committed book.md (verified via `git log -S`). `_normalize_annotations` judged the old `(حزب الله)` a gloss site (the phonetic does not precede the paren — "Party of God" does) and reseeded `(*Hizb Allah*)` to preserve a re-derivation anchor. The romanization is correct Arabic and arguably useful; it just deviates from the stated silent-class contract. Either accept as convention or teach the normalizer that a paren matching a SILENT term's script is removed, not reseeded.
-
-### BK4 · BK-P3 · P2 · VERIFIED (fossil annotation, pre-existing)
-- **Chapter:** 4 — line 296 — "the friends of God (أولياء الله)"
-- **Why:** Script `أولياء الله` matches NO glossary `arabic_script` (glossary `awliyāʾ` = `أولياء`), so the derive-from-scratch normalizer cannot see, fold, or restyle it — it is fossilized outside the policy loop. It is also the teach-class term awliya's only introduction, and it is script-only: "awliya" appears in Latin nowhere in the book, so a reader without Arabic cannot name the one teach term the policy meant to make nameable. The script itself is correct (appears 16× in the scan) — no accuracy defect. Fix: curate glossary `arabic_script: أولياء الله` (or align the site), letting the next derivation restyle it `(awliya, أولياء الله)`.
-
-### BK5 · BK-N7 · P2 · VERIFIED
-- **Chapter:** 8 — line 885 — `the man they called … "Kab al-Ahbar (كعب الأحبار)".`
-- **Why:** The reshape moved the script inside the quotation marks and left the period OUTSIDE the closing quote — British placement in an American-spelling edition (locked convention). Prior form was `"Kab al-Ahbar" (كعب الأحبار).` Cosmetic; content identical.
-
-### BK6 · BK-P3 · P2 · VERIFIED (residual of prior definite-article advisory)
-- **Chapters:** preface (13), 5 (358–374)
-- **Why:** Latin citation forms are now uniformly bare (bab, wasi, duat…), resolving the reader-facing inconsistency; the script side still mixes bare باب against articled الوصي / الدعاة / النقباء / الحجج / الناطق / التأويل per glossary curation. Advisory only.
+None open. 0 × P0, 0 × P1, 0 × P2. Three prior findings RESOLVED (BK1, BK4, BK5 — all fixes
+verified against the scan/glossary/convention); three prior advisories ACCEPTED as conventions
+by author authorization (BK2, BK3, BK6). No new material findings; the preface composer-edit
+staleness is a pre-existing, self-healing observation recorded above.
 
 ## Verified vs Inferred summary
-6 findings, all VERIFIED — against `book.md` (working tree), git history (HEAD, 26a349b~1, 1b750a3,
-`git log -S`), `_system/glossary.yml`, `_system/annotation-policy-report.json`,
-`_system/source/ocr/raw-extract.md`, `_system/source/text/refined-english.md`, and the audit/dup
-sidecars. 0 INFERRED. Arabic accuracy not silently passed: all 24 surviving term annotations
-glyph-checked; audit reports 0 unverified runs; the one newly-found mismatch (BK1) is verified
-against the scan, not model recall.
+
+All six dispositions VERIFIED against concrete evidence: the OCR scan (green-ears passage,
+lines 724–726), `refined-english.md` (181), `glossary.yml` (awliyāʾ/أولياء, al-Khidr entries),
+word-level git diffs of all four changed files, byte-comparison of composer-edit bodies vs live
+chapter bodies, in-memory recomputation of both audit sidecars, and deterministic
+`_narrative` seeds. One Worker-attested claim noted as such (annotation-pass byte-stability at
+the awliya site across future re-derivations); current bytes independently VERIFIED.
 
 ## Ledger emission summary
-6 records appended to `_learning/findings.jsonl` (source `book-challenger`, version 1.0, resolution
-`flagged`): 0 × P0, 1 × P1, 5 × P2.
 
-**Verdict: SHIP-WITH-CAUTION.** The annotation change under review is APPROVED — every delta is
-annotation-only, glossary-exact, and policy-conformant; all four prior editorial advisories are
-resolved; sidecars describe the current bytes. The verdict downgrade is carried entirely by BK1, a
-newly discovered upstream translation misreading (al-Khidr for "green") in text this change did not
-touch — an author-judgment fix via the Composer, then re-challenge of that one sentence.
+6 records appended to `_learning/findings.jsonl` (source `book-challenger`, version 1.0):
+3 × `resolved` (BK1/BK4/BK5 signatures), 3 × `accepted-convention` (BK2/BK3/BK6 signatures).
+
+**Verdict: SHIP-READY.** Every delta since HEAD is one of the three declared corrections (plus
+the awliya annotation reshape they required); the al-Khidr fabrication is corrected at both the
+edition and its source ground truth and verified word-for-word against the Arabic scan; all
+corrections are durably recorded in the Composer sidecar and survive re-compose; both audit
+sidecars describe the current bytes exactly. No open findings at any severity.

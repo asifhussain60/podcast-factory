@@ -6,6 +6,24 @@
 -->
 # Current work - status
 
+**Last updated:** 2026-07-22 9:55 AM EST (annotation policy applied; book SHIP-READY, zero open findings)
+
+**Newest — the annotation policy is live and the book converged to SHIP-READY
+with zero open findings.** Asif's rule ("annotations once and intelligently;
+commonly-known terms speak English") shipped as the four-class policy
+(`_annotation_policy.py` + class-aware `_book_inline_arabic.py`): one model
+call classified all 74 glossary terms (22 teach / 23 familiar / 15 name / 14
+silent), reviewable + durable in `glossary.yml`; annotations are DERIVED state
+(fold back, re-derive), taking the-master-and-the-disciple from 65
+parentheticals to 30 — vocabulary now introduced as `(bab, باب)`, cast named
+with script at true first mention, familiar terms plain. The final challenger
+sweep also caught and fixed a REAL P1 every prior review had inherited: line
+567 read the adjective الخضر ("green ears") as the person al-Khidr — corrected
+through the Composer path (3 chapters now carry durable composer edits) and
+upstream in refined-english.md. Sidecars restamped clean (57 runs, 0
+unverified); three sweeps ran today, final verdict SHIP-READY. Gates: pytest
+1754, npm test 59, tsc clean, lint:views 0, smoke 32/32, ruff clean.
+
 **Last updated:** 2026-07-22 8:27 AM EST (introduction is apparatus, not a chapter)
 
 **Newest — the fenced edition introduction can no longer be edited as a

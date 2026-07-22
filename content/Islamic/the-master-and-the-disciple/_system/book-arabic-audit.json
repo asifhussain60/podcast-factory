@@ -72,7 +72,7 @@
     },
     {
       "chapter": "4. How the World Was Made",
-      "arabic_runs": 7,
+      "arabic_runs": 6,
       "unverified": 0,
       "runs": [
         {
@@ -104,11 +104,6 @@
           "text": "لِئَلَّا يَكُونَ لِلنَّاسِ عَلَى اللَّهِ حُجَّةٌ بَعْدَ الرُّسُلِ",
           "resolution": "canonical-mushaf",
           "skeleton": "ليلايكونللناسعلياللهحجهبعدالرسل"
-        },
-        {
-          "text": "أولياء الله",
-          "resolution": "canonical-mushaf",
-          "skeleton": "اولياءالله"
         }
       ]
     },
@@ -362,11 +357,11 @@
     }
   ],
   "totals": {
-    "canonical-mushaf": 25,
+    "canonical-mushaf": 24,
     "ocr": 32,
     "knowledge-base": 0,
     "honorific-formula": 1,
     "unverified": 0,
-    "arabic_runs": 58
+    "arabic_runs": 57
   }
 }
