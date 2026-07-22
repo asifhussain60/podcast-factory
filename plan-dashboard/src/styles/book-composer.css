@@ -951,6 +951,42 @@
   color: var(--c-ink, #1f1d18);
   resize: vertical;
 }
+/* "Reshape now" wraps the vanilla AI row + the React AI tools as ONE card in
+   the workflow order; spacing matches the React tab's grid gap below it. */
+.cx-reshape-block {
+  margin: 0 0 1rem;
+}
+
+/* Pending-marks count in the section heading. */
+.cx-count-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.3rem;
+  height: 1.3rem;
+  margin-left: 0.45rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--c-bg-card, #fffdf8);
+  background: var(--c-accent, #8b4513);
+}
+
+/* Outcome groups inside Mark for follow-up (Text · Knowledge · Visual). */
+.cx-mark-group {
+  margin: 0 0 0.55rem;
+}
+.cx-mark-group-name {
+  display: block;
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-ink-dim, #4d4a42);
+}
+
 .cx-details-mark-row {
   display: flex;
   flex-wrap: wrap;
@@ -992,13 +1028,58 @@
   border-radius: 5px;
   background: var(--c-bg, #f7f4ee);
 }
-.cx-details-queue button {
+/* The mark's label + snippet IS the jump control — click to select the
+   anchored text in the editor. */
+.cx-queue-jump {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--c-ink-dim, #4d4a42);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.cx-queue-jump:hover {
+  color: var(--c-accent, #8b4513);
+}
+.cx-queue-run {
+  flex: none;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid color-mix(in oklab, var(--c-accent, #8b4513) 60%, var(--c-rule-soft, #ebe6da));
+  border-radius: 999px;
+  color: var(--c-accent, #8b4513);
+  background: var(--c-bg-card, #fffdf8);
+  cursor: pointer;
+}
+.cx-queue-run:hover {
+  color: var(--c-bg-card, #fffdf8);
+  background: var(--c-accent, #8b4513);
+}
+.cx-queue-remove {
+  flex: none;
   font: inherit;
   font-size: 0.72rem;
   color: var(--c-red, #a83232);
   background: transparent;
   border: 0;
   cursor: pointer;
+}
+/* Explicit rings matching the file's focus convention — the borderless jump
+   button especially would otherwise rely on the faint browser default. */
+.cx-queue-jump:focus-visible,
+.cx-queue-run:focus-visible,
+.cx-queue-remove:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
 }
 .cx-details-sections {
   list-style: none;

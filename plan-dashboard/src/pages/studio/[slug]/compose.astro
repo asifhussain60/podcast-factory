@@ -303,9 +303,16 @@ const ARABIC_FONTS = [
                 aria-labelledby="cx-tab-refine"
                 hidden
               >
-                <div class="cx-controls" id="cx-controls" />
-                <div class="cx-ai-tools-mount" id="cx-ai-tools-mount" />
-                {/* Details (per-paragraph comments, deferred marks, section
+                {/* Workflow order (Asif-approved reorg 2026-07-22): reshape
+                    the text NOW first, then the follow-up queue / comments /
+                    section tags (the React tab below), then the chapter's
+                    detected citations. */}
+                <section class="cx-details-block cx-reshape-block">
+                  <h3>Reshape now</h3>
+                  <div class="cx-controls" id="cx-controls" />
+                  <div class="cx-ai-tools-mount" id="cx-ai-tools-mount" />
+                </section>
+                {/* Details (follow-up marks, per-paragraph comments, section
                     depth) merged into this tab 2026-07-22 — chapter work is one
                     destination now. */}
                 <div id="cx-details-mount" />

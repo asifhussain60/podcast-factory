@@ -823,6 +823,26 @@ function boot(): void {
         chapter: selectedChapter,
         editor: activeEditor.editor,
         bridge,
+        // The follow-up queue's way back into this file's machinery: jump to a
+        // mark's anchored text, or run a text-transform mark through the SAME
+        // immediate-AI path as the toolbar (accepting the result clears the
+        // mark via onApplied). Only the transforms are runnable — the
+        // knowledge/visual marks wait for the pipeline drain pass.
+        queueOps: {
+          jumpTo: (anchor: string) => void selectAnchor(anchor),
+          runNow: (kind: string, anchor: string, onApplied: () => void) => {
+            if (!selectAnchor(anchor)) {
+              setAiStatus(
+                "Couldn't find the marked text — the chapter may have changed since it was marked.",
+                true,
+              );
+              return;
+            }
+            const a = AI_ACTIONS.find((x) => x.kind === kind);
+            if (a) void runAiAction(a, onApplied);
+          },
+          runnableKinds: ["rewrite", "expand", "condense", "simplify"],
+        },
       }),
     );
 
@@ -1703,7 +1723,38 @@ function boot(): void {
     updateAiEnabled();
   }
 
-  async function runAiAction(a: AiAction): Promise<void> {
+  // Scroll to and select a follow-up mark's anchored text. The mark stores a
+  // drift-proof COPY of the target text (anchor_text), so this searches the
+  // live document rather than trusting a paragraph ordinal. Offsets map 1:1
+  // from a textblock's textContent to ProseMirror positions for inline text
+  // (marks included), which is all book.md prose contains.
+  function selectAnchor(anchor: string): boolean {
+    const ed = activeEditor?.editor;
+    const needle = (anchor ?? "").trim();
+    if (!ed || !needle) return false;
+    let found: { from: number; to: number } | null = null;
+    ed.state.doc.descendants((node, pos) => {
+      if (found) return false;
+      if (!node.isTextblock) return true;
+      const i = node.textContent.indexOf(needle);
+      if (i >= 0)
+        found = { from: pos + 1 + i, to: pos + 1 + i + needle.length };
+      return !found;
+    });
+    if (!found) return false;
+    ed.chain().focus().setTextSelection(found).scrollIntoView().run();
+    return true;
+  }
+
+  async function runAiAction(
+    a: AiAction,
+    // Fires when the human ACCEPTS a result — the queue's "Run now" passes it
+    // so the accepted mark clears itself; toolbar runs pass nothing. Threaded
+    // through showAiOptions as a CLOSURE, never module state: two runs whose
+    // fetches interleave each keep their own callback bound to their own
+    // popup, so accepting one run's result can never clear the other's mark.
+    onApplied: (() => void) | null = null,
+  ): Promise<void> {
     const sel = selectionText();
     if (!activeEditor || !sel) {
       setAiStatus("Select some text in the editor first.", true);
@@ -1748,7 +1799,7 @@ function boot(): void {
       }
       if (!options.length) throw new Error("no suggestions returned");
       setAiStatus("");
-      showAiOptions(a.label, options, sel.from, sel.to);
+      showAiOptions(a.label, options, sel.from, sel.to, onApplied);
     } catch (e) {
       setAiStatus(`${a.label} failed: ${(e as Error).message}`, true);
     }
@@ -1759,6 +1810,7 @@ function boot(): void {
     options: string[],
     from: number,
     to: number,
+    onApplied: (() => void) | null = null,
   ): void {
     aiPopupEl?.remove();
     const pop = document.createElement("div");
@@ -1781,6 +1833,9 @@ function boot(): void {
         pop.remove();
         aiPopupEl = null;
         setAiStatus("Applied. Remember to Save prose.");
+        // A queue-run mark clears itself once ITS result is accepted — the
+        // callback is closed over this popup, so interleaved runs stay safe.
+        onApplied?.();
       });
       pop.appendChild(card);
     });
@@ -1790,7 +1845,7 @@ function boot(): void {
     cancel.textContent = "Discard";
     cancel.addEventListener("click", () => {
       pop.remove();
-      aiPopupEl = null;
+      aiPopupEl = null; // discarded — the mark stays queued
     });
     pop.appendChild(cancel);
     controlsEl.appendChild(pop);
