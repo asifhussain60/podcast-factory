@@ -1,25 +1,23 @@
 {
-  "schema": "podcast.book-fluency/v2",
+  "schema": "podcast.book-fluency/v3",
   "narrative_frame": "transmitted_report",
   "adapted": 9,
   "reverted": 0,
   "chapters": [
     {
       "title": "How to Read a Conversation Made of Doors",
-      "base_words": 734,
-      "output_words": 726,
+      "base_words": 412,
+      "output_words": 417,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
-      "warnings": [
-        "fluency-01: output near-identical to base \u2014 copied, not re-voiced"
-      ]
+      "warnings": []
     },
     {
       "title": "The Persian Who Was Dead and Revived",
-      "base_words": 752,
-      "output_words": 740,
+      "base_words": 705,
+      "output_words": 741,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
@@ -28,8 +26,8 @@
     },
     {
       "title": "A Stranger in the City",
-      "base_words": 851,
-      "output_words": 853,
+      "base_words": 987,
+      "output_words": 984,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
@@ -38,8 +36,8 @@
     },
     {
       "title": "The Boy at the Door \u2014 Limits and Conditions",
-      "base_words": 3406,
-      "output_words": 3411,
+      "base_words": 3409,
+      "output_words": 3390,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
@@ -48,8 +46,8 @@
     },
     {
       "title": "How the World Was Made",
-      "base_words": 1515,
-      "output_words": 1540,
+      "base_words": 1752,
+      "output_words": 1715,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
@@ -58,8 +56,8 @@
     },
     {
       "title": "The World, the Hereafter, and the Speech of Parables",
-      "base_words": 3361,
-      "output_words": 3379,
+      "base_words": 3754,
+      "output_words": 3773,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
@@ -68,8 +66,8 @@
     },
     {
       "title": "Three Layers of Knowledge",
-      "base_words": 3477,
-      "output_words": 3495,
+      "base_words": 3406,
+      "output_words": 3425,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
@@ -78,27 +76,23 @@
     },
     {
       "title": "The Five Shares and the Long Road to the Shaykh",
-      "base_words": 7258,
-      "output_words": 7239,
+      "base_words": 6935,
+      "output_words": 7044,
       "windows": 3,
       "windows_kept": 3,
       "status": "adapted",
       "gates": [],
-      "warnings": [
-        "fluency-08-part-03: output near-identical to base \u2014 copied, not re-voiced"
-      ]
+      "warnings": []
     },
     {
       "title": "Homecoming, the Father, and the Debate with Abu Malik",
-      "base_words": 14390,
-      "output_words": 14540,
+      "base_words": 14724,
+      "output_words": 14918,
       "windows": 6,
       "windows_kept": 6,
       "status": "adapted",
       "gates": [],
-      "warnings": [
-        "fluency-09-part-03: output near-identical to base \u2014 copied, not re-voiced"
-      ]
+      "warnings": []
     }
   ]
 }
