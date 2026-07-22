@@ -35,7 +35,12 @@ from _doctrinal import run_doctrinal_checks
 from _narrator_policy import atom_narrator, disallowed_narrator
 
 # ─── Editorial-block contract (the ONLY shape enrichment may take) ──────────
-EDITORIAL_LABEL = "Editorial note (source-grounded)"
+# "tradition-grounded", not "source-grounded": the atoms come from the
+# knowledge-base corpus (other works of the same tradition), and a published
+# edition may not label corpus material as this book's own (BK1007,
+# challenger 2026-07-22). The note prose must likewise never claim "the
+# book's own teaching" for corpus-derived content — see the prompt below.
+EDITORIAL_LABEL = "Editorial note (tradition-grounded)"
 _BLOCK_OPEN = "<!-- editorial:begin -->"
 _BLOCK_CLOSE = "<!-- editorial:end -->"
 _MAX_BLOCK_WORDS = 220
@@ -239,12 +244,16 @@ def _augment_prompt(title: str, chapter_text: str, atoms: list[dict[str, Any]]) 
         if len(snippet) >= _ATOM_MIN_CHARS:
             lines.append(f"- {_atom_label(a)}{snippet[:_ATOM_SNIPPET_CHARS]}")
     corpus = "\n".join(lines)[:_CORPUS_CHARS]
-    return f"""You are adding a short, source-grounded editorial note to a chapter of a faithful
+    return f"""You are adding a short, tradition-grounded editorial note to a chapter of a faithful
 Islamic reading edition. The note is an ADDITION printed as a clearly-labeled aside — it must never
 change, restate, or contradict the chapter's teaching.
 
 Hard rules:
 - Ground EVERY claim only in the reliable source corpus below. Add nothing from outside it.
+- The corpus lines come from OTHER works of the same tradition, NOT from this book. Never attribute
+  them to this book: no "the book's own teaching", no "elsewhere in this same teaching", no "this
+  chapter elsewhere". Introduce them honestly — "a related teaching preserved in this tradition",
+  "the wider tradition records", or name nothing at all.
 - One short paragraph (at most ~150 words). No headings, no lists, no preamble.
 - Do not summarize the chapter. Add context (a cross-reference, a clarified term, a connected
   verse/hadith already in the corpus) that helps a modern reader.

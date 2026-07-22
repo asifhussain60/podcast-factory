@@ -24,11 +24,9 @@ As for gratitude toward the Master, it is to obey him.
 
 As for gratitude toward the knowledge, it is to act upon what it contains and to call others to it.
 
+As for gratitude toward the work, it is to be patient in it and to call others to it.
+
 ## 1. The Persian Who Was Dead and Revived
-
-إن أفضل الحسنات إحياء الأموات — I must keep this Arabic verbatim.
-
-Let me produce the polished prose directly.
 
 As for the doctrines of the righteous and the manners of those who seek the truth: it has reached us that a certain man among the people of Persia was afflicted by the calamity of ignorance. He was a man of keen and retentive heart, of sound intellect, and of a learning he had cultivated in himself; yet ignorance held sway over him in the very knowledge already described, for it had overtaken him early and he had grown up in the midst of it. And so he faltered in the heat of his thirst, taking the shimmer of the mirage for the whiteness of water, until, when he came to it, he found nothing of it there — and he found Allah waiting for him, and there his account was settled. Then Allah honored his resting-place and lifted from him the veil that had covered him. He found him astray and guided him, found him destitute and made him rich with knowledge. By that grace bestowed upon him he became one of the scholars of the Mount (Tur, الطور) and one who dwells at the Frequented House (Bayt al-Mamur, البيت المعمور).
 
@@ -93,7 +91,7 @@ Then he said, "Fear Allah with the fear of one who dreads Him, and fear Him with
 Then his eyes overflowed with tears, and he broke off his speech and took his leave of the people weeping, and rose to return to his lodging, turning away. Weeping came over the company at the warmth of his words and the reach of his admonition, and they meant to rise and go with him. But good manners held them back from thronging after him all at once, for they did not know whether that would suit him, and so they returned to their dwellings. Yet one of the company followed after him, a youth who was the youngest of them in years and the most forbearing of them in mind, whose reason discipline had perfected and whose heart thought had kindled, and upon whom all that he had heard now pressed.
 
 <!-- editorial:begin -->
-> **Editorial note (source-grounded).** 
+> **Editorial note (tradition-grounded).** 
 > > **A clarified term for this chapter.** When the boy names being "of the people of the Umma" as
 > one of the three qualities that make these men worth debating, the word carries more than
 > "community." Umma comes from a root meaning to aim toward and to head for a source — the same
@@ -232,8 +230,8 @@ The boy said, "Yes, take from me whatever you love. I do not refuse your judgmen
 The narrator said: Then the Master set about reciting the covenant to the boy, conveying it to him slowly and binding him fast by it, while the boy could not master himself for dread, and his tears streamed down from the intensity of his weeping, until he came to the end of the covenant. He praised Allah and glorified Him, and thanked Him for what had reached him, and he became certain that, by accepting their pledge, he had entered the Party of Allah (Hizb Allah) and the company of His friends. Then he fell silent out of his composure, and the Master set about the exposition and the explanation.
 
 <!-- editorial:begin -->
-> **Editorial note (source-grounded).** 
-> The book's own teaching elsewhere illuminates the Master's principle here that "knowledge cannot
+> **Editorial note (tradition-grounded).** 
+> A related teaching preserved in this tradition illuminates the Master's principle here that "knowledge cannot
 > be borne unless a lesser knowledge is brought in before it": the human being, unlike the animal
 > that has sound but no rational speech, learns gradually from his parents through metaphorical
 > speech until he reaches adulthood. That is the same graded ascent the Master describes to the
@@ -295,7 +293,7 @@ Through these causes — the causes of God the Master had described — the argu
 The discourse upon this is long, and it grows ever greater; and the more its answer multiplies from the words of wisdom, the more its rightness is hidden, and its end makes one forget its beginning, because of its preciousness and the purity of its essence. For the light of wisdom overcasts one part of itself with another, just as the light of the sun overcasts the light of the moon and the stars and dims them. So too do the words of wisdom adorn the tongue of the man who is wise.
 
 <!-- editorial:begin -->
-> **Editorial note (source-grounded).** 
+> **Editorial note (tradition-grounded).** 
 > Where this chapter closes by naming "the signs of the heavens and the earth, which people pass
 > by while turning away from them," it is echoing a specific verse the reader may not recognize:
 > *And how many a sign in the heavens and the earth they pass by, while they are averse therefrom*
@@ -354,7 +352,7 @@ The boy said: You have spoken truly. Now make plain to me the features of the wo
 
 The Master said: God, blessed and exalted, has not created a single one of the things of the world — no beast upon the earth, no bird that flies with its wings, nothing moist and nothing dry, nothing fixed and lifeless such as the mountains, the stones, the trees, the minerals of gold and silver and gem —
 
-> ، وجميع الأشياء ما كبر منها وما صغر، إلا وهو مثل مضروب. ألا ترى الذرّة على صغرها ولطف معناها لها حدود، أمامها وخلفها ويمينها وشمالها وفوقها وتحتها؟ فذلك سئَّة حدود وهي الحدّ السابع. فكذلك جميع ما خلق الله من الأشياء
+> ، وجميع الأشياء ما كبر منها وما صغر، إلا وهو مثل مضروب. ألا ترى الذرّة على صغرها ولطف معناها لها حدود، أمامها وخلفها ويمينها وشمالها وفوقها وتحتها؟ فذلك ستة حدود وهي الحدّ السابع. فكذلك جميع ما خلق الله من الأشياء
 
 nothing at all, great or small, except that it is a parable struck. Do you not see the atom, for all its smallness and the subtlety of its meaning, that it has limits — before it and behind it, to its right and to its left, above it and below it? Those are six limits, and the seventh is the atom itself. So it is with everything God has created, from the ant and the gnat up to what is above them of the heaven and the earth, and what lies between them of things great and small. This is the parable: each of them has six limits, and the seventh of them is the proof of it, pointing to the six origins from which things were created. And the air that surrounds them is the seventh, encompassing them all and holding them. If your chest is wide enough for such questions, and for looking into the parables, and for setting each thing against its form among the hidden pairs, then ask about what has occurred to you.
 
@@ -446,6 +444,8 @@ The boy said: What is it?
 
 The Master said: It is the time.
 
+The boy said: And what is time?
+
 The Master said: It is the time of the Will by which He created what He willed and commanded what He wished.
 
 The boy said: You have brought me into the deeps of the seas, down from the highest assembly. Return me now to the sciences of the world and its parables, that I may seek help by them in my affair and be strengthened by them to bear what I am meant to bear. I have grown afraid for myself and anxious for my mind, lest I be led into what I have not the strength to fathom.
@@ -468,7 +468,7 @@ The boy said: I did not think there was, beyond what I had reached, any doctrine
 
 The Master said: As for the Book of God Almighty, it is His saying,
 
-> يَا بَنِي آدَمَ قَدْ أَنْزَلْنَا عَلَيْكُمْ لِبَاساً يُوَارِي سَوْآتِكِمْ وَرَيْشًا وَلِبَاسُ التَّقْوَى ذَلِكَ خَيرٌ
+> يَا بَنِي آدَمَ قَدْ أَنْزَلْنَا عَلَيْكُمْ لِبَاساً يُوَارِي سَوْآتِكُمْ وَرِيشًا وَلِبَاسُ التَّقْوَى ذَلِكَ خَيرٌ
 
 "O children of Adam, We have sent down upon you a garment that hides your nakedness, and feathers for adornment; and the garment of piety — that is better." These are three: an outward, an inward, and the inward of the inward.
 
@@ -480,18 +480,10 @@ The Master said: As for the proof of the intellect, a thing is not known except 
 
 "And forsake the outward of sin and its inward." So sin became a thing having an outward and an inward. Such too is the greater religion of God, of which it is said that the laws are its outward and the inward is its inward, and it subsists by itself. And for the knowing of its meaning there are many parables that point to it, such as the guarded egg, which has an outward that shelters it, an inward which is the white within it, and an inward of its inward which is the yellow yolk — and that is its essence and its meaning.
 
-The boy said: Are not the world and the hereafter a pair, the soul and the body a pair, the knowledge of the outward and the inward a pair, and the like of these, as you have described, many pairs, all of them?
-
-The Master said: You have spoken truly. But whose pairs are they, and likenesses of what?
-
-The boy said: Pairs that point to the religion of God.
-
-The Master said: You have spoken truly. The pair is an outward that is a name and an inward that is an attribute, pointing to the knowledge of God and to the religion of God, and that is the inward of the inward. Likewise the creation was created upon three stations: the first of them the creation of the angels, the second the creation of the children of Adam, and the third the creation of the beasts. The outward of knowledge is the limit of the beasts, and whoever knows it with no inward is at the station of the beasts. The knowledge of the inward is the knowledge of the children of Adam and their limit, and whoever knows it is a believer and is at the station of the children of Adam. And the knowledge of the inward of the inward is the knowledge of the angels, and whoever knows it is spiritual in his knowledge though bodily in his frame, and is a prophet sent, whom God sets as His deputy in His earth and by whom He establishes His argument over His creation. He is the veil of the angels; he is the cipher of the revelation and its interpreter to the children of Adam. With him are the keys of the gardens, which none enters but the one who obeys him, and with him is the passage from the Fire, which none enters but the one who disobeys him. And the people are only two men: a knower, godly and firm in knowledge,
-
 <!-- editorial:begin -->
-> **Editorial note (source-grounded).** 
+> **Editorial note (tradition-grounded).** 
 > This chapter turns on a single figure: the world is an outward whose life depends on an inward,
-> "as the soul stands to the body." Elsewhere in this same teaching the soul so invoked is named
+> "as the soul stands to the body." A related teaching preserved in this tradition names the soul so invoked
 > plainly — the Commander of the Faithful calls the universal soul "a divine force," vast in
 > essence, "the origin from which one seeks help and to whom one calls." Read against that, the
 > Master's warning is precise: a body known only as body, cut off from that animating origin, is a
@@ -504,37 +496,39 @@ The Master said: You have spoken truly. The pair is an outward that is a name an
 
 ## 6. Three Layers of Knowledge
 
-The scholar said: "I accept. But are they pairs of a single kind?"
+The boy said: "Are not the world and the hereafter a pair, the soul and the body a pair, the knowledge of the outward and the inward a pair, and the like of these — many pairs, all of them?"
+
+The Master said: "I accept. But are they pairs of a single kind?"
 
 The boy said: "The pairs point to the religion of Allah."
 
-The scholar said: "I accept. Within the pair, the outward is a name and the inward is an attribute, and the attribute signifies the knowledge of God and the religion of God, which is the inner meaning. In the same way, creation was made upon three stations: first the creation of the angels, second the creation of human beings, and third the creation of the beasts. The outward is the knowledge that is the beasts' limit; whoever knows it alone, without the inward, stands at the level of the beasts. The knowledge of the inward is the knowledge of the children of Adam and their limit; whoever knows it is a believer, at the level of a true human being. The knowledge of the inner of the inward is the knowledge of the angels; whoever knows it becomes spiritual in his knowledge though bodily in his frame, and he is a prophet sent by God in His land, through whom He establishes His argument against His creation. He is the veil of the angels, the cipher of revelation and its interpreter for the children of Adam. With him are the keys of Paradise, which none enters but the one who obeys him, and with him is the passage from the Fire, which none enters but the one who disobeys him. And the people are only two men:
+The Master said: "I accept. Within the pair, the outward is a name and the inward is an attribute, and the attribute signifies the knowledge of God and the religion of God, which is the inner meaning. In the same way, creation was made upon three stations: first the creation of the angels, second the creation of human beings, and third the creation of the beasts. The outward is the knowledge that is the beasts' limit; whoever knows it alone, without the inward, stands at the level of the beasts. The knowledge of the inward is the knowledge of the children of Adam and their limit; whoever knows it is a believer, at the level of a true human being. The knowledge of the inner of the inward is the knowledge of the angels; whoever knows it becomes spiritual in his knowledge though bodily in his frame, and he is a prophet sent by God in His land, through whom He establishes His argument against His creation. He is the veil of the angels, the cipher of revelation and its interpreter for the children of Adam. With him are the keys of Paradise, which none enters but the one who obeys him, and with him is the passage from the Fire, which none enters but the one who disobeys him. And the people are only two men:
 
 one who has been taught the purpose of knowledge, whose soul has been quickened by the spirit of certainty, so that he is a scholar by his knowledge and a master by his work; and another, a learner upon the way of salvation. The rest of the people are savages and a rabble who know nothing, followers of every braying voice, each one gone astray in his own error and leading others astray by his ignorance. They imagine that they are doing well. Yet the punishments of old have already passed away before them, and God will not fail His promise, and the disbelievers shall have the like of it."
 
 The boy said: "So this is what virtue is, and this is what knowledge and its exposition are. Blessed are the friends of God, and blessed are the followers in benevolence. Will I attain this great station by way of the stations that lie below it?"
 
-The scholar said: "Far from it, O my son. That is a station God has honored above all stations and degrees, so that it is attained only by excellent work. If you do its work and strive its striving with truthful certainty and a pure, mindful heart, I hope that you will attain of it what the chosen friends of God, the righteous, have attained."
+The Master said: "Far from it, O my son. That is a station God has honored above all stations and degrees, so that it is attained only by excellent work. If you do its work and strive its striving with truthful certainty and a pure, mindful heart, I hope that you will attain of it what the chosen friends of God, the righteous, have attained."
 
 The boy said: "And who can aspire to attain the like of this station by which God has raised His friends?"
 
-The scholar said: "Their God is your God, and between God and anyone there is no kinship; nothing brings the creation near to God but piety and righteous work. As for the knowledge by which God has raised His friends, you are at its beginning; if you act upon it, you will reach its end. It is binding upon God to bring you to the reaches of the righteous among them, and He will not deprive you of anything of what He gave them."
+The Master said: "Their God is your God, and between God and anyone there is no kinship; nothing brings the creation near to God but piety and righteous work. As for the knowledge by which God has raised His friends, you are at its beginning; if you act upon it, you will reach its end. It is binding upon God to bring you to the reaches of the righteous among them, and He will not deprive you of anything of what He gave them."
 
 The boy said: "Can you help me to that, as the favor first came from you?"
 
-The scholar said: "This is a station in which nothing avails but the work of its own people."
+The Master said: "This is a station in which nothing avails but the work of its own people."
 
 The boy said: "How can that be, when it was granted to you before?"
 
-The scholar said: "The sower can make the earth good, and sow, and water it, but he cannot bring forth the plant and the buds. A man may bring forth his seed whenever he wills, but he cannot fashion from it what he wills. So it grieves me, O my son, that you should seek my help in a thing to which I cannot help you. May God expand your breast and light your heart with guidance. So keep the fear of God and do good, for God does not waste the reward of one who does good work. You are upon the path of salvation, the way of guidance, the road of the people of piety — your own path, the one whose beginning you stand at. Hold fast to the rope to which you have been called, until you are guided by a rope from God to the rope of God, for that is the goal of the seekers."
+The Master said: "The sower can make the earth good, and sow, and water it, but he cannot bring forth the plant and the buds. A man may bring forth his seed whenever he wills, but he cannot fashion from it what he wills. So it grieves me, O my son, that you should seek my help in a thing to which I cannot help you. May God expand your breast and light your heart with guidance. So keep the fear of God and do good, for God does not waste the reward of one who does good work. You are upon the path of salvation, the way of guidance, the road of the people of piety — your own path, the one whose beginning you stand at. Hold fast to the rope to which you have been called, until you are guided by a rope from God to the rope of God, for that is the goal of the seekers."
 
 The boy said: "Is the rope of God not the Imam to whom you have called me?"
 
-The scholar said: "He is its outward sign. He is your rope and the most trustworthy handhold, your hujja (الحجة), your proof, and the door of your Imam."
+The Master said: "He is its outward sign. He is your rope and the most trustworthy handhold, your hujja (الحجة), your proof, and the door of your Imam."
 
 The boy said: "Then what is the rope of God, and what is the rope that comes from God?"
 
-The scholar said: "That is the end of your guidance and the utmost of the worlds."
+The Master said: "That is the end of your guidance and the utmost of the worlds."
 
 The boy said:
 
@@ -542,11 +536,11 @@ The boy said:
 
 "There is no might and no power except by God. He who has no guide has drowned in the depths of ignorance, just as he who has no ship has drowned in the seas of the world."
 
-The scholar said: "And what are the might and the power you have mentioned, which cannot be except by God?"
+The Master said: "And what are the might and the power you have mentioned, which cannot be except by God?"
 
 The boy said: "We say: I have no stratagem to draw a benefit to myself, and no power to ward off from myself a harm I dislike, except by God."
 
-The scholar said: "Then why do you say, there is no might (hawl, الحول), and not, there is no stratagem (hila)?"
+The Master said: "Then why do you say, there is no might (hawl, الحول), and not, there is no stratagem (hila)?"
 
 The boy said: "It is narrated to us in our sciences that hawl is the year, by the words of God,
 
@@ -554,19 +548,19 @@ The boy said: "It is narrated to us in our sciences that hawl is the year, by th
 
 two complete years, meaning two years. And we have it narrated, as the common people too have transmitted, that quwwa, power, means mules, by the words of God,
 
-> وَآتَيْنَاهُ مِنَ الكُنُوْزِ مَا إِن مَفَاتِحَهُ لَتَنُوْءُ بِالْعُصْبَةِ أوْلي القُوَّةِ
+> وَآتَيْنَاهُ مِنَ الكُنُوْزِ مَا إِنَّ مَفَاتِحَهُ لَتَنُوْءُ بِالْعُصْبَةِ أوْلي القُوَّةِ
 
 And We gave him of the treasures such that the keys of them would weigh down a band (usba) of men possessed of power. They said: the usba is forty men, and the quwwa is the mules; and the keys of his treasures were the load of forty mules."
 
-The scholar said: "So it is as if, by your words there is no might and no power except by God, you meant there is no year and no mules except by God? Is this the interpretation of your saying and its meaning?"
+The Master said: "So it is as if, by your words there is no might and no power except by God, you meant there is no year and no mules except by God? Is this the interpretation of your saying and its meaning?"
 
 The boy said: "I have no saying other than this, yet it is weak, and it resembles nothing of the words of wisdom. Indeed I reckon that the meaning within it is other than this, something stronger in speech and firmer in the mind. Do the two words have an inward interpretation other than this?"
 
-The scholar said: "Creation has uttered no word of truth but that it has a root in the inward, and there is no false word but that it once had a meaning. When speech is turned away from its meaning it becomes impossible, and the impossible, moved from its place, is altered, and the truth, when it is altered, becomes falsehood. It is only a speech by which what comes after is grasped through analogy and forms, just as what came before was grasped through likeness and parables."
+The Master said: "Creation has uttered no word of truth but that it has a root in the inward, and there is no false word but that it once had a meaning. When speech is turned away from its meaning it becomes impossible, and the impossible, moved from its place, is altered, and the truth, when it is altered, becomes falsehood. It is only a speech by which what comes after is grasped through analogy and forms, just as what came before was grasped through likeness and parables."
 
 The boy said: "I am convinced. So what is the meaning of the two words and their likes?"
 
-The scholar said: "As for al-hawl, he is the speaking Imam of God and His truthful Caliph, the lord of the twelve captains, just as the hawl, which is the year, is completed only in twelve months. The Imam is named hawl because he turns (yuhawwil) the speech of the Creator, in the subtlety of its essence, into the speech of the children of Adam, until it is understood and becomes outward speech; and so the words of wisdom acquire a body and a frame, while the speech of the Creator holds within them the spirit of life and the light of salvation. The excellence of the words of wisdom over all other speech is by the excellence of the speech of the Creator that is their inward. So the Imam is named the hawl for this turning of speech, and he does not turn it except by the permission of God. And quwwa, power, is his hujja and his door, whom God has strengthened to bear the heavy burden of utterance. He takes the speech from the Imam in summary and distributes it among the callers (duat) in detail, each according to his station. So the hujja is named quwwa, for it is strengthened only by God. Therefore whoever says there is no might and no power except by God means: there is no Imam and no hujja except by God, and from God come their light and their sustenance. And the usba, those possessed of power, are the twelve hujjas. Likewise Joseph (عليه السلام) said to his father:
+The Master said: "As for al-hawl, he is the speaking Imam of God and His truthful Caliph, the lord of the twelve captains, just as the hawl, which is the year, is completed only in twelve months. The Imam is named hawl because he turns (yuhawwil) the speech of the Creator, in the subtlety of its essence, into the speech of the children of Adam, until it is understood and becomes outward speech; and so the words of wisdom acquire a body and a frame, while the speech of the Creator holds within them the spirit of life and the light of salvation. The excellence of the words of wisdom over all other speech is by the excellence of the speech of the Creator that is their inward. So the Imam is named the hawl for this turning of speech, and he does not turn it except by the permission of God. And quwwa, power, is his hujja and his door, whom God has strengthened to bear the heavy burden of utterance. He takes the speech from the Imam in summary and distributes it among the callers (duat) in detail, each according to his station. So the hujja is named quwwa, for it is strengthened only by God. Therefore whoever says there is no might and no power except by God means: there is no Imam and no hujja except by God, and from God come their light and their sustenance. And the usba, those possessed of power, are the twelve hujjas. Likewise Joseph (عليه السلام) said to his father:
 
 > يَا أَبَتِ إني رأيْتُ أَحَدَ عَشَرَ كَوْكَباً وَالشَّمْسَ وَالقَمَرَ رَأَيْتُهُمْ لِي سَاجِدِيْنَ
 
@@ -582,11 +576,11 @@ The boy said: "Praise be to God, who cleansed them of impurity and returned them
 
 I see seven fat cows being eaten by seven lean ones, and seven green ears of grain and others dry? What are they, and what is the dream-vision in sleep?"
 
-The scholar said: "As for the dream-vision, it is like the outward when a work is worked — like the mirage that, when one comes upon it, one finds to be nothing. So too is the work of the outward without the inward: nothing of it is accepted, however much there may be. And likewise the vision in sleep: nothing is realized from what is seen, however often it is seen. So the king said I see, in the account of the common people, seven things turning upon seven. As for the seven fat cows, they are the causes of God that stand between Him and His creation. As for the seven lean ones, they are the seven appointed speakers (natiqs) who are driven by need to what comes from God at the hands of His seven causes. And the seven green ears are causes between God and the guardians (awliya, أولياء). And the seven dry ones are the guardians, driven by need to what comes from God at the hands of these seven causes. So blessed be God, Lord of the worlds."
+The Master said: "As for the dream-vision, it is like the outward when a work is worked — like the mirage that, when one comes upon it, one finds to be nothing. So too is the work of the outward without the inward: nothing of it is accepted, however much there may be. And likewise the vision in sleep: nothing is realized from what is seen, however often it is seen. So the king said I see, in the account of the common people, seven things turning upon seven. As for the seven fat cows, they are the causes of God that stand between Him and His creation. As for the seven lean ones, they are the seven appointed speakers (natiqs) who are driven by need to what comes from God at the hands of His seven causes. And the seven green ears are causes between God and the guardians (awliya, أولياء). And the seven dry ones are the guardians, driven by need to what comes from God at the hands of these seven causes. So blessed be God, Lord of the worlds."
 
 The boy said: "And what is the like of this among us?"
 
-The scholar said: "That is in the foundation of Islam, and its child is like a grain that sprouted seven ears — meaning that seven imams came out of his loins."
+The Master said: "That is in the foundation of Islam, and its child is like a grain that sprouted seven ears — meaning that seven imams came out of his loins."
 
 The boy said: "How, then, did God forbid the world, saying,
 
@@ -594,7 +588,7 @@ The boy said: "How, then, did God forbid the world, saying,
 
 Let not the life of this world deceive you?"
 
-The scholar said: "God has spoken truly. He did not say, Let not the world deceive you. He said, Let not the life of this world deceive you. Life has four meanings: a life that is outward in this world, whose end is annihilation, and the life of the Hereafter, whose end is permanence. He said: do not work for the perishing life; work for the lasting life. This is His saying,
+The Master said: "God has spoken truly. He did not say, Let not the world deceive you. He said, Let not the life of this world deceive you. Life has four meanings: a life that is outward in this world, whose end is annihilation, and the life of the Hereafter, whose end is permanence. He said: do not work for the perishing life; work for the lasting life. This is His saying,
 
 > يَا لَيْتَنِي قَدَّمْتُ لِحَيَاتِي
 
@@ -602,39 +596,39 @@ Oh, would that I had sent something forward for my life — meaning, would that 
 
 The boy said: "What of one who knows the inward knowledge but does not know the outward and does not act upon it? What is his standing among the people of religion?"
 
-The scholar said: "A wretched station. For then his inward does not stand, nor is it made sound, when he abandons a thing he was commanded to do — a thing he was to make a shield for his inward. He is like the outward of fruits: if the rind is peeled from them before their harvest, they spoil and are not made good afterward; and like the body: if its limbs are severed, the soul is not sustained in it for a single hour. Such is the outward of religion: if its obligations are neglected, its inward does not stand for its owner. And his leaving the outward, without the permission of the one who imposed it upon him, does not escape one of two traits: if he left it out of incapacity, he is more incapable still of the inward; and if he left it deliberately, having the power to keep it, he is disobedient to the one who commanded him. The disobedient is a transgressor, and the transgressor does not dwell as a neighbor to the friends of God; rather he is their enemy and they are his enemies, because he has severed what God commanded to be joined."
+The Master said: "A wretched station. For then his inward does not stand, nor is it made sound, when he abandons a thing he was commanded to do — a thing he was to make a shield for his inward. He is like the outward of fruits: if the rind is peeled from them before their harvest, they spoil and are not made good afterward; and like the body: if its limbs are severed, the soul is not sustained in it for a single hour. Such is the outward of religion: if its obligations are neglected, its inward does not stand for its owner. And his leaving the outward, without the permission of the one who imposed it upon him, does not escape one of two traits: if he left it out of incapacity, he is more incapable still of the inward; and if he left it deliberately, having the power to keep it, he is disobedient to the one who commanded him. The disobedient is a transgressor, and the transgressor does not dwell as a neighbor to the friends of God; rather he is their enemy and they are his enemies, because he has severed what God commanded to be joined."
 
 The boy said: "And one who knows the outward knowledge and acts upon it but does not know the inward? What is his standing among the people of religion?"
 
-The scholar said: "A worse station, for he is like a body that was formed but into which no soul was breathed. He is counted among the dead, and death is the station of the disbelievers; and one who disbelieves in the signs of God is an enemy to religion and its people."
+The Master said: "A worse station, for he is like a body that was formed but into which no soul was breathed. He is counted among the dead, and death is the station of the disbelievers; and one who disbelieves in the signs of God is an enemy to religion and its people."
 
 The boy said: "So I see that the outward is not made good except by the inward, and the inward does not stand except by the outward; and that the world is not lawful except for one who knows the Hereafter, which is its life and its inward. Likewise religion is not made complete for its people until they establish both its outward and its inward."
 
-The scholar said: "Yes, this is the meaning, and upon this is the work. For to establish all that God has commanded is to merit His good pleasure, and to abandon any of what God commanded is to expose oneself to His wrath."
+The Master said: "Yes, this is the meaning, and upon this is the work. For to establish all that God has commanded is to merit His good pleasure, and to abandon any of what God commanded is to expose oneself to His wrath."
 
 The boy said: "Then is not one who knows the outward together with the inward and establishes them both a believer?"
 
-The scholar said: "Yes, he is a true believer."
+The Master said: "Yes, he is a true believer."
 
 The boy said: "And is not one who has knowledge and then works for the Hereafter granted a good world, its good things made lawful for him and the turning about in its gains?"
 
-The scholar said: "Yes. The world is not made good except for them, and they are the most deserving of the world and the worthiest of it."
+The Master said: "Yes. The world is not made good except for them, and they are the most deserving of the world and the worthiest of it."
 
 The boy said: "Then why do I see the people of this description — the scholars among the people of this affair — having rejected the world and all that is in it, until the ignorant among them suppose that it is forbidden to them, turning away from this world, seeing it only askance, their souls finding it heavy? And why do I see their colors yellowed without illness, their bodies weak, their skins clinging to their bones, until it is as though they do not eat food, though they do eat?"
 
-The narrator said: When the scholar heard the mention of his brethren and this description of them, he choked with tears and his eyes overflowed, and for a time he could not speak from the intensity of his weeping. And the boy wept at his weeping, until the scholar feared that some of their enemies might overcome them. So he restrained himself, and his heart grew calm within him, and then the scholar turned to the boy.
+The narrator said: When the Master heard the mention of his brethren and this description of them, he choked with tears and his eyes overflowed, and for a time he could not speak from the intensity of his weeping. And the boy wept at his weeping, until the Master feared that some of their enemies might overcome them. So he restrained himself, and his heart grew calm within him, and then the Master turned to the boy.
 
-The scholar said: "O my son, the people you have described in this way looked upon themselves by the light of life and busied themselves in their affair with the certainty of salvation, and they were not harsh upon themselves. O my son, the world is seen by wealth and children, and the Hereafter is seen by knowledge and certainty. O my son, the faith of these people in the unseen is sound, so they were certain of the promise and the warning; their souls yearned for what they were promised, so they sought it, and the fear of the warning alarmed them, so they labored, and they feared the drunkenness of death, so they hastened to good deeds. Their bodies grew weak from the persistence of fasting, and their colors yellowed from the length of vigil. They do not sleep with the sleepers, out of dread, nor do they eat of their sustenance except with a bitter reluctance. The desires of thought have distracted them from the pleasure of living, and the sweetness of remembrance has kept them from the respite of sleep. Their souls have turned away from the desires, so the world is not sweet to them; they remember death often, so life is not pleasant to them; they have seen the bounties of the Hereafter with certainty, so they see the world only askance. So they refused the world as men occupied away from it, without holding it forbidden."
+The Master said: "O my son, the people you have described in this way looked upon themselves by the light of life and busied themselves in their affair with the certainty of salvation, and they were not harsh upon themselves. O my son, the world is seen by wealth and children, and the Hereafter is seen by knowledge and certainty. O my son, the faith of these people in the unseen is sound, so they were certain of the promise and the warning; their souls yearned for what they were promised, so they sought it, and the fear of the warning alarmed them, so they labored, and they feared the drunkenness of death, so they hastened to good deeds. Their bodies grew weak from the persistence of fasting, and their colors yellowed from the length of vigil. They do not sleep with the sleepers, out of dread, nor do they eat of their sustenance except with a bitter reluctance. The desires of thought have distracted them from the pleasure of living, and the sweetness of remembrance has kept them from the respite of sleep. Their souls have turned away from the desires, so the world is not sweet to them; they remember death often, so life is not pleasant to them; they have seen the bounties of the Hereafter with certainty, so they see the world only askance. So they refused the world as men occupied away from it, without holding it forbidden."
 
 The boy said: "This is the true report, and in this sense was the scholars' aversion to the world, while the people are heedless of them, supposing that they have forbidden to themselves what God made lawful for them. So describe to me the deception of the people of the world by their world, and their heedlessness of the Hereafter."
 
-The scholar said: "If those enamored of the world would reflect upon their own creation and the turning about of their states — from weakness to strength and from strength to weakness, from bliss to passing away and from life to death — and would then look upon those who passed before them of the vanished generations, among whom were the good and the wicked who went alike to one dust, seeing no reward for the good in this world nor punishment for the wicked in this world, they would know that they were created for other than this world. But earning weighed heavily upon them, so they did not take upon themselves the burden of the search. So they took the trifle of this lower world and were content with the bliss of the world in place of the Hereafter. This is their way, and this is their meaning. They have no argument before God, and no ground of reproach against His friends, and there has already come to them of the tidings that which holds a deterrent."
+The Master said: "If those enamored of the world would reflect upon their own creation and the turning about of their states — from weakness to strength and from strength to weakness, from bliss to passing away and from life to death — and would then look upon those who passed before them of the vanished generations, among whom were the good and the wicked who went alike to one dust, seeing no reward for the good in this world nor punishment for the wicked in this world, they would know that they were created for other than this world. But earning weighed heavily upon them, so they did not take upon themselves the burden of the search. So they took the trifle of this lower world and were content with the bliss of the world in place of the Hereafter. This is their way, and this is their meaning. They have no argument before God, and no ground of reproach against His friends, and there has already come to them of the tidings that which holds a deterrent."
 
 ## 7. The Five Shares and the Long Road to the Shaykh
 
 Praise be to God, said the boy, who has guided us to His religion, for we could never have been guided without His favor. Now tell me about the beginning of this creation and how it is composed. Is it a single creation, or one that differs from itself? For I see so much difference among people, in their opinions and in their passions.
 
-The scholar said: As for the creation of bodies, it does differ, as you can see in the variety of tongues and colors. That variety is a proof of His power, made plain through His signs, so that created beings may know one another — a child knowing his father and a father his son, a man knowing his own wife and no other, a woman her own husband and no other. So God created them. But as for the creation of the instrument — that is, the senses, both what is visible of them and what is hidden — it is a single creation, and what is visible tells you about what is hidden. Have you ever seen a scholar with three eyes, so that his surplus of knowledge showed on him, or an ignorant man with a single eye, so that his lack showed on him — such that one might say the scholar saw because he had more and the ignorant man failed to see because he had less? Have you ever seen the outward instrument of one man exceed that of another? No — you see their creation as nothing but a single, even creation in the visible instrument, and the sense of the composition is one and the same. From this we know that the inner senses follow the very same pattern. This is justice. God would not be just in what is visible and unjust in what is hidden. He gave the scholar no second heart in one breast, nor did He rob the ignorant man of anything. The instrument is one, and the composition belongs to the One who gathered it. By this very thing God has argued against them — by the instrument He gave them and which they failed to use. The Almighty said:
+The Master said: As for the creation of bodies, it does differ, as you can see in the variety of tongues and colors. That variety is a proof of His power, made plain through His signs, so that created beings may know one another — a child knowing his father and a father his son, a man knowing his own wife and no other, a woman her own husband and no other. So God created them. But as for the creation of the instrument — that is, the senses, both what is visible of them and what is hidden — it is a single creation, and what is visible tells you about what is hidden. Have you ever seen a scholar with three eyes, so that his surplus of knowledge showed on him, or an ignorant man with a single eye, so that his lack showed on him — such that one might say the Master saw because he had more and the ignorant man failed to see because he had less? Have you ever seen the outward instrument of one man exceed that of another? No — you see their creation as nothing but a single, even creation in the visible instrument, and the sense of the composition is one and the same. From this we know that the inner senses follow the very same pattern. This is justice. God would not be just in what is visible and unjust in what is hidden. He gave the Master no second heart in one breast, nor did He rob the ignorant man of anything. The instrument is one, and the composition belongs to the One who gathered it. By this very thing God has argued against them — by the instrument He gave them and which they failed to use. The Almighty said:
 
 > لَهُمْ قُلُوبٌ لَا يَفْقَهُونَ بِهَا وَلَهُمْ أَعْيُنٌ لَا يُبْصِرُونَ بِهَا وَلَهُمْ آذَانٌ لَا يَسْمَعُونَ بِهَا
 
@@ -644,19 +638,19 @@ Do you imagine that God, in His bounty and His generosity, laid upon them a char
 
 The boy said: I see it no other way, and I would not claim otherwise. But I ask you about the difference of passions. Where did it come to them from, when the instrument is sound and the origin of the composition is one?
 
-The scholar said: As for the origin, it is one. All of them descend from Adam, and Adam is from dust, created by his Lord, who breathed into him of His Spirit. But they departed from the Sunna in their marriages. They were born on a footing other than the religion and were raised in something other than guidance. And I do not doubt that among them are the children of fornication, who claim as fathers men who are not their own. When the roots were corrupted, the branches were corrupted with them and grew strange, and the return to the truth grew hard for them — all the harder for the arrogance that had entered them against obedience, the laziness against worship, and the envy of the friends of God, so that they no longer held themselves within what is lawful or held back from what is forbidden.
+The Master said: As for the origin, it is one. All of them descend from Adam, and Adam is from dust, created by his Lord, who breathed into him of His Spirit. But they departed from the Sunna in their marriages. They were born on a footing other than the religion and were raised in something other than guidance. And I do not doubt that among them are the children of fornication, who claim as fathers men who are not their own. When the roots were corrupted, the branches were corrupted with them and grew strange, and the return to the truth grew hard for them — all the harder for the arrogance that had entered them against obedience, the laziness against worship, and the envy of the friends of God, so that they no longer held themselves within what is lawful or held back from what is forbidden.
 
 The boy said: If the origin is one and the instrument is one, where did the passions come to differ, when the aim in seeking is one — since every man seeks what is good for himself?
 
-The scholar said: By my life, their aim in seeking is one, yet they differ in striking the mark, like archers aiming at a target. They agree in shooting at it with resolve and with the same instrument, and for all that they still differ in whether they hit it. So it is with the hearts within the breasts: they are gathered upon the minds, and the minds are gathered upon the safeguarding of the bodies and their dignity. When the call of truth came, they differed. Some judged that answering the Messengers and humbling themselves before them belonged to their own dignity and guarded them from folly. Others judged that denying the Messengers and setting themselves above obedience to them belonged to their own dignity and guarded them from the narrowness of worship. The origin was one — the pursuit of ease for the body and of dignity for the soul. So one party chose what the Messengers promised them of God's reward, even though in this world it was rare and hard to reach, for the sake of its lasting. And the other party chose from the pleasures of this world, even though they perish, for the sake of their being at hand, the ease of pursuing them, and the swiftness of their reward. The very hearts by which the first sought the bliss of the Hereafter were the same hearts by which the others sought the bliss of this world. Each looks to himself, and each supposes himself a sincere counselor to himself. So they came together in the seeking and differed in the striking. That is of the justice of God, of His generosity, and of the reach of His gift: to every seeker is given from Him what he sought. Whoever desires the reward of this world, We give him of it, and whoever desires the reward of the Hereafter, We give him of it.
+The Master said: By my life, their aim in seeking is one, yet they differ in striking the mark, like archers aiming at a target. They agree in shooting at it with resolve and with the same instrument, and for all that they still differ in whether they hit it. So it is with the hearts within the breasts: they are gathered upon the minds, and the minds are gathered upon the safeguarding of the bodies and their dignity. When the call of truth came, they differed. Some judged that answering the Messengers and humbling themselves before them belonged to their own dignity and guarded them from folly. Others judged that denying the Messengers and setting themselves above obedience to them belonged to their own dignity and guarded them from the narrowness of worship. The origin was one — the pursuit of ease for the body and of dignity for the soul. So one party chose what the Messengers promised them of God's reward, even though in this world it was rare and hard to reach, for the sake of its lasting. And the other party chose from the pleasures of this world, even though they perish, for the sake of their being at hand, the ease of pursuing them, and the swiftness of their reward. The very hearts by which the first sought the bliss of the Hereafter were the same hearts by which the others sought the bliss of this world. Each looks to himself, and each supposes himself a sincere counselor to himself. So they came together in the seeking and differed in the striking. That is of the justice of God, of His generosity, and of the reach of His gift: to every seeker is given from Him what he sought. Whoever desires the reward of this world, We give him of it, and whoever desires the reward of the Hereafter, We give him of it.
 
 The boy said: The people of this world stand in classes within their world. Some are rich, above all labor, kings by the abundance of their wealth. Others are poor, in need of wealth, and they serve the rich to gain from them. Then does the bliss of this world gather them onto one level, so that they end up all alike in the evil of the outcome? Or is there for some of them a standing apart from the rest?
 
-The scholar said: It is of the justice of God that He joins them one to another and does not separate them from their companions and the people of their affection. They are equal in His punishment, just as they were gathered together in His disobedience.
+The Master said: It is of the justice of God that He joins them one to another and does not separate them from their companions and the people of their affection. They are equal in His punishment, just as they were gathered together in His disobedience.
 
 The boy said: And what of this religion which God has honored, and perfected, and was pleased with as a religion for Himself, and made binding upon His servants? Will He accept from them a part of it without the rest, so that they stand in classes as the people of this world do? Or will He accept it only from the one who brings it whole?
 
-The scholar said: If the people of this world stand in classes within their world, then the people of religion stand in degrees within their religion. In justice, it is a duty that the Creator be worshipped with the fullness of what He willed. But His riches are great, and great too is their need of Him. His mercy was wide enough for them, and He knew that among them are the weak; so He accepted from them whatever came easily of sincere striving in work and of effort spent in obedience, whether little or much of it. Then He charged each one with knowledge according to his strength and his deed, and gave every man of merit his due of merit, so that they stand in degrees with their Lord. Then, by His justice, He appointed for them, as the fruit of their obedience, that He would join them to the people of the complete religion and the excellent deed among His servants. The Almighty said:
+The Master said: If the people of this world stand in classes within their world, then the people of religion stand in degrees within their religion. In justice, it is a duty that the Creator be worshipped with the fullness of what He willed. But His riches are great, and great too is their need of Him. His mercy was wide enough for them, and He knew that among them are the weak; so He accepted from them whatever came easily of sincere striving in work and of effort spent in obedience, whether little or much of it. Then He charged each one with knowledge according to his strength and his deed, and gave every man of merit his due of merit, so that they stand in degrees with their Lord. Then, by His justice, He appointed for them, as the fruit of their obedience, that He would join them to the people of the complete religion and the excellent deed among His servants. The Almighty said:
 
 > وَمَنْ يُطِعِ اللهَ وَالرَّسُولَ فَأُولَئِكَ مَعَ الَّذِينَ أَنْعَمَ اللهُ عَلَيْهِمْ مِنَ النَّبِيِّينَ وَالصِّدِّيقِينَ وَالشُّهَدَاءِ وَالصَّالِحِينَ وَحَسُنَ أُولَئِكَ رَفِيقًا ذَلِكَ الفَضْلُ مِنَ اللهِ
 
@@ -666,27 +660,27 @@ This is granted them for the effort they spent in obedience. It is not that thei
 
 The boy said: Praise be to God, who has done this for them. Then is it to be feared for anyone that he be punished for something other than disobedience, even if his work was little?
 
-The scholar said: God is more just than that.
+The Master said: God is more just than that.
 
 The boy said: Is it to be hoped, then, for anyone to enter Paradise without works — like the insane and the young children?
 
-The scholar said: That falls under the grace of God, His generosity, and the breadth of His mercy.
+The Master said: That falls under the grace of God, His generosity, and the breadth of His mercy.
 
 The boy said: Then what is the limit of effort in obedience and of sincere work at which God becomes bound to accept a man's excuse in all the rest?
 
-The scholar said: The reach of his knowledge and the utmost of his strength.
+The Master said: The reach of his knowledge and the utmost of his strength.
 
 The boy said: Then describe to me, in the duty of knowledge and of action, the goal of each, that I may measure myself against it. If I am able to reach the goal in what pleases my Lord, I press on. And if not, I halt at the limit of my strength, and God has the greater right to excuse me for what I fell short of. I am certain of the justice of God and safe from His wronging me, yet afraid of the evil of my own soul.
 
-The scholar said: Do not be afraid where you are safe, and do not feel safe where you should be afraid. Strive for God in the work with your self and your wealth. For God is not pleased by what He hates, nor does He hate what pleases Him. He has hated unbelief for His creation, and He is pleased by thankfulness from His servants and by justice in their ruling, and He accepts nothing else. Truthfulness and faithfulness are His two gardens, and none is saved with Him except the people of truthfulness and faithfulness.
+The Master said: Do not be afraid where you are safe, and do not feel safe where you should be afraid. Strive for God in the work with your self and your wealth. For God is not pleased by what He hates, nor does He hate what pleases Him. He has hated unbelief for His creation, and He is pleased by thankfulness from His servants and by justice in their ruling, and He accepts nothing else. Truthfulness and faithfulness are His two gardens, and none is saved with Him except the people of truthfulness and faithfulness.
 
 The boy said: Then make plain to me the goal of the work within myself, and what God has made binding upon me in it.
 
-The scholar said: Obedience to God ennobles its people, however humble their origins, and the good deed is the crown of the one who does it. As for what is a duty upon you in your own self, it is to perform all the obligations and to shun all the forbidden things, for that is what sustains the religion and keeps the body pure. And the sum of what makes the pleasure of God binding for you and secures His acceptance of you is this: that you bring to another what you would love him to bring to you, and that you hold back from him what you would love him to hold back from you. In that is justice, and God is pleased with justice.
+The Master said: Obedience to God ennobles its people, however humble their origins, and the good deed is the crown of the one who does it. As for what is a duty upon you in your own self, it is to perform all the obligations and to shun all the forbidden things, for that is what sustains the religion and keeps the body pure. And the sum of what makes the pleasure of God binding for you and secures His acceptance of you is this: that you bring to another what you would love him to bring to you, and that you hold back from him what you would love him to hold back from you. In that is justice, and God is pleased with justice.
 
 The boy said: Yes, this is the binding truth, and whoever does not do it has no share with God in anything. Then is there, in what you have mentioned, any room in a time of necessity?
 
-The scholar said: God has made room in that for His servants, out of tenderness and mercy from Him. He said:
+The Master said: God has made room in that for His servants, out of tenderness and mercy from Him. He said:
 
 > فَمَنِ اضْطُرَّ غَيْرَ بَاغٍ وَلَا عَادٍ فَلَا إِثْمَ عَلَيْهِ
 
@@ -694,49 +688,49 @@ Whoever is compelled, without willful transgression and without excess, there is
 
 The boy said: Praise be to God, who has laid upon His servants no hardship in the religion. I am resolved to guard what I have been commanded, and I seek the help of God in what He has ordered of me. Then what is the duty regarding my wealth, which you joined to my self when you told me, Work with your self and your wealth?
 
-The scholar said: As for your wealth, it is whatever God has granted you of every kind of gain. Take it only from what is lawful, and spend it only in its rightful place.
+The Master said: As for your wealth, it is whatever God has granted you of every kind of gain. Take it only from what is lawful, and spend it only in its rightful place.
 
 The boy said: And what is the lawful source it is taken from, and what is the rightful place it is spent in?
 
-The scholar said: Its lawful source is the wholesomeness of the gains in which you have wronged no one and which you have not mixed with falsehood. As for its rightful claim, it is its zakat: that you look to all that has come into your hand, whether little of it or much, and bring out a fifth of the best of it — the dearest of it to you — and deliver it to the one whose claim upon you is binding. At that, your wealth is purified by the alms, just as your body was purified by the work. The work is a shield, and the zakat is a cleansing, and he has prospered who purifies himself.
+The Master said: Its lawful source is the wholesomeness of the gains in which you have wronged no one and which you have not mixed with falsehood. As for its rightful claim, it is its zakat: that you look to all that has come into your hand, whether little of it or much, and bring out a fifth of the best of it — the dearest of it to you — and deliver it to the one whose claim upon you is binding. At that, your wealth is purified by the alms, just as your body was purified by the work. The work is a shield, and the zakat is a cleansing, and he has prospered who purifies himself.
 
 The boy said: I will do it, and I turn to God in repentance for what has passed. Then what is the work in what remains of the wealth?
 
-The scholar said: You spend it upon yourself and your dependents with kindness. And if a surplus of it stays with you, relieve with it the people of need among your brothers, and give your kindness to everyone who turns to you seeking it, for the one who has no surplus is in need that another give to him. So be swift to every good and foremost in every act of bounty. This is the goal of the work — if you have the patience for it.
+The Master said: You spend it upon yourself and your dependents with kindness. And if a surplus of it stays with you, relieve with it the people of need among your brothers, and give your kindness to everyone who turns to you seeking it, for the one who has no surplus is in need that another give to him. So be swift to every good and foremost in every act of bounty. This is the goal of the work — if you have the patience for it.
 
 The boy said: Yes, I will be patient, and then patient again. And how should a man in great need not be patient toward the one who has no need of his work? Every needy man is patient, and every man given a favor gives thanks.
 
-The scholar, gladdened by the boy's words, said: Praise be to God, who has granted you what is right in speech. I ask Him to help you to the completion of the deed, for that is the perfection of merit.
+The Master, gladdened by the boy's words, said: Praise be to God, who has granted you what is right in speech. I ask Him to help you to the completion of the deed, for that is the perfection of merit.
 
 The boy said: I had been seeking, for myself, the merit of a favor from another man's hand, and now that the merit has at last become mine from my own hand, I was on the point of denying it to myself — and I find no one more treacherous to my soul than myself. So here is all my wealth, between your hands, in five shares. One share of it is its zakat. One share is expiation for what I have squandered. One share is thanksgiving to God for what I have come to know. One share is for the poor among my brothers. And one share you are to accept by your grace, that it may be a provision for you. Gather them all to yourself, for God will send the like of them in their place.
 
-The narrator said: The scholar's heart went out to the boy when he saw how clearly his true worth had come to light, and what the trial had brought out of the praiseworthy character within him, so that his merit stood revealed and his conduct proved pure.
+The narrator said: The Master's heart went out to the boy when he saw how clearly his true worth had come to light, and what the trial had brought out of the praiseworthy character within him, so that his merit stood revealed and his conduct proved pure.
 
-The scholar said, his tears running down: O my son, it is for the like of you that the scholars set out upon the road. It is for the like of you that the earth is held firm and the sky is kept aloft. It is for the like of you that the bonds of kinship are made plain, and for the like of you that the rain falls from the openings of the clouds. So rejoice, O my son, in what God has granted you and in the breast He has opened to Islam. Receive the good news of a light from your Lord and an opening close at hand. Accept God's gift to you and the good things of His favors upon you, with abundant work and noble thanks. As for my share of this wealth, I have no need of it. I came out from wealth and fled the trial of it, and it would be no act of piety, O my son, for you to turn me back to what I have come to hate. As for your brothers' share, let it remain with you. If they ask you for anything, hand it to them yourself, so that they may know your merit and give thanks for your kindness. As for the share of expiation, keep it by you until you come to know your sin. As for the share of thanksgiving, let it be a trust in your keeping for God until you reach your maturity and rise to the highest of what you have come to know. As for the share of zakat, that too is a trust in your keeping for the one to whom it belongs. So gather them all to yourself until you meet him, for he is the one who holds authority over you and on your behalf.
+The Master said, his tears running down: O my son, it is for the like of you that the scholars set out upon the road. It is for the like of you that the earth is held firm and the sky is kept aloft. It is for the like of you that the bonds of kinship are made plain, and for the like of you that the rain falls from the openings of the clouds. So rejoice, O my son, in what God has granted you and in the breast He has opened to Islam. Receive the good news of a light from your Lord and an opening close at hand. Accept God's gift to you and the good things of His favors upon you, with abundant work and noble thanks. As for my share of this wealth, I have no need of it. I came out from wealth and fled the trial of it, and it would be no act of piety, O my son, for you to turn me back to what I have come to hate. As for your brothers' share, let it remain with you. If they ask you for anything, hand it to them yourself, so that they may know your merit and give thanks for your kindness. As for the share of expiation, keep it by you until you come to know your sin. As for the share of thanksgiving, let it be a trust in your keeping for God until you reach your maturity and rise to the highest of what you have come to know. As for the share of zakat, that too is a trust in your keeping for the one to whom it belongs. So gather them all to yourself until you meet him, for he is the one who holds authority over you and on your behalf.
 
 The boy said: Then who is this generous one you speak of, whose judgment you never overstep and whose command you never transgress?
 
-The scholar said: He is the one whose right God has made binding upon me and upon all the believers, in whose hand are the keys of the gardens and the landmarks of the kingdom, whose palms are open wide.
+The Master said: He is the one whose right God has made binding upon me and upon all the believers, in whose hand are the keys of the gardens and the landmarks of the kingdom, whose palms are open wide.
 
 By the light of Sinai he is the cause behind the signs, the one whose knowledge summons to the loftiest of ends. Through him your light is made complete; through him God brings your affair to its perfection; and at his hand you are blessed.
 
 The boy said: Kindness such as this — to whom does it belong, and who are you yourself?
 
-The scholar said: I am his son and one of his servants in good works, seeking his pleasure and shunning his displeasure.
+The Master said: I am his son and one of his servants in good works, seeking his pleasure and shunning his displeasure.
 
 The boy said: I think myself far from his good pleasure, and yet near enough that, had I never known of him, I would have had an excuse. Do I have an excuse, now that I know?
 
-The scholar said: An excuse is granted only before one is exposed to such knowledge.
+The Master said: An excuse is granted only before one is exposed to such knowledge.
 
 The boy said: Shall I speak, or shall I hold back?
 
-The scholar said: Say what seems best to you.
+The Master said: Say what seems best to you.
 
 The boy said: Should you not, at this very moment, take me by the hand to the door of his chamber, that I may enter, and to the house of light, that I may draw from it? This belongs to the full measure of the truthfulness that is binding upon you.
 
-The scholar said: This is your due, but only with his leave and his decision.
+The Master said: This is your due, but only with his leave and his decision.
 
-Then the scholar took his leave of the boy and departed. The boy longed to press him further, but thought better of forcing the matter. The scholar went on until he reached the boy's greater father, and he described the boy to him and assured him that the boy now belonged to the company of the people of goodness and to the lineage of truthfulness. The father marveled at it.
+Then the Master took his leave of the boy and departed. The boy wished him to take provisions from his own store, but the Master would not accept them. He went on until he reached his own greater father, and described the boy to him and assured him that the boy now belonged to the company of the people of goodness and to the lineage of truthfulness. The father marveled at it.
 
 He said: Bring this boy to me swiftly, for I hope he will be a door of mercy that God opens for the people of his age.
 
@@ -744,21 +738,21 @@ He said: Bring this boy to me swiftly, for I hope he will be a door of mercy tha
 > **A note for the reader.** *In this account a teacher is also called the father of the one he guides, so "father" now carries three men: the Master's own elder father here, the Master himself when the boy speaks, and the Arab chief who fathered the boy.*
 <!-- bridge:end -->
 
-The scholar tarried only a little, then returned to the boy, and found his body in a different state from the one in which he had left him.
+The Master tarried only a little, then returned to the boy, and found his body in a different state from the one in which he had left him.
 
-The scholar said: What is this I see in you, unlike the state in which I left you?
+The Master said: What is this I see in you, unlike the state in which I left you?
 
 The boy said: And what is it you have noticed in me, may my father and mother be your ransom?
 
-The scholar said: A weakness of body and a yellowness of color.
+The Master said: A weakness of body and a yellowness of color.
 
 The boy said: That comes from a desolation that fell upon me after you left.
 
-The scholar said: What is this desolation, and what has brought on this weakness?
+The Master said: What is this desolation, and what has brought on this weakness?
 
 The boy said: Your absence left me desolate, and the fear of some misfortune before I could meet you again weakened me.
 
-The scholar said: God has known what is in your heart, and so has made the affliction light for you, and has cast into the heart of the one who has charge of you a mercy toward you. So take up your provisions for the journey, for through you I shall reach my hope, and I shall bring you to the door of your goal. There is no power except by God.
+The Master said: God has known what is in your heart, and so has made the affliction light for you, and has cast into the heart of the one who has charge of you a mercy toward you. So take up your provisions for the journey, for through you I shall reach my hope, and I shall bring you to the door of your goal. There is no power except by God.
 
 At this the boy was so overcome by joy and reverence that his soul all but left his body, until God, knowing his condition, took hold of him and returned it to him. When he came to himself, he said:
 
@@ -766,17 +760,17 @@ Praise be to God, who has never ceased to be merciful to the believers.
 
 And he gave great thanks to his father, and reached up to his palms to kiss them, and to his feet. He rose at once and took up the traveling kit, and the two of them set out until they came to the greater scholar. They asked leave and were admitted. They entered, gave their greetings, and sat down at his invitation. When they had settled into the gathering, the boy said to his teacher: Teach me how to speak and how to ask for what I need.
 
-The teacher said to him: It is not lawful for me to instruct you in anything while you are in this place, out of reverence for its master. For you are in the hands of one who knows your need and knows what you desire.
+The Master said to him: It is not lawful for me to instruct you in anything while you are in this place, out of reverence for its master. For you are in the hands of one who knows your need and knows what you desire.
 
-So the boy held back, and they remained with the scholar for a time, until he had brought the boy's affair to completion and perfected his guidance, and the boy reached the end of his hope and came to know what he possessed and what was asked of him. Then they took their leave and went out, the two of them keeping their counsel. They had spoken no words in the gathering save those of peace and good cheer, for the boy had turned yellow from the depth of his awe and could not speak. The Shaykh, the lord of the house, gave orders that the two be treated well and honored, and that whatever they needed be provided. He then went along with them to his house, and when he had brought them inside he greeted them and showed his gladness at their coming.
+So the boy held back, and they remained with the greater scholar for a time, until he had brought the boy's affair to completion and perfected his guidance, and the boy reached the end of his hope and came to know what he possessed and what was asked of him. Then they took their leave and went out, the two of them keeping their counsel. They had spoken no words in the gathering save those of peace and good cheer, for the boy had turned yellow from the depth of his awe and could not speak. The Shaykh, the lord of the house, gave orders that the two be treated well and honored, and that whatever they needed be provided. He then went along with them to his house, and when he had brought them inside he greeted them and showed his gladness at their coming.
 
-He said to the scholar — for the two of them were friends, and between them lay brotherhood and a long acquaintance: Brother, is this the boy we used to hear of?
+He said to the Master — for the two of them were friends, and between them lay brotherhood and a long acquaintance: Brother, is this the boy we used to hear of?
 
 He said: Yes, this is the one whose report has grown sweet in men's hearts, so that the mention of him has risen upon the tongues of the believers.
 
 The boy said: Has the report of my story truly reached the friends of God, so that they speak of me in their gatherings?
 
-The scholar said: Yes, my brother, so it is.
+The Master said: Yes, my brother, so it is.
 
 The boy said: Favors have gathered round me from every side, and bounties have overtaken me from every path. I do not know whom to thank, nor whom to repay.
 
@@ -800,7 +794,7 @@ The boy said: I am free, son of Abd Allah.
 
 The Shaykh said: And who freed you from a master, that you should be free?
 
-The boy said: This scholar freed me — and he pointed with his hand to the scholar who had summoned him.
+The boy said: This scholar freed me — and he pointed with his hand to the Master who had summoned him.
 
 The Shaykh said: Consider now: if this man were himself owned and possessed nothing of his own, would his freeing of you be valid?
 
@@ -834,7 +828,7 @@ So the boy rose in haste, in the goodness of his obedience, and made no reply, i
 
 He said: How does this brother of ours stand concerning his need?
 
-The scholar said to him: A promise has been made, and the one promised is thirsty, and the term is near.
+The Master said to him: A promise has been made, and the one promised is thirsty, and the term is near.
 
 So they stayed until the seventh day. Then they asked leave of the Shaykh, and when he had granted it, he ordered the boy to wash and to put on his purest garments. As the boy set about the preparation, his heart sensed that his need would be granted that day, and that this preparation he had been ordered to make pointed to some good that would follow it. When he had done what he was ordered, they all went out. The boy went out saying, A day of fortune, and a patron of fortune, repeating it over and over. Nothing moved him to this saying but the fullness of his joy and the depth of his longing to know what would bring him nearer to the pleasure of God. When they came in upon the Shaykh, they found that he had taken up the implements of his work. He greeted them with peace, and they returned the greeting.
 
@@ -854,23 +848,23 @@ The boy said: May Allah reward you, as a patron of grace, on behalf of every gra
 
 Then they rose, clasped hands, and embraced, and each bade his friend farewell, unable to hold himself together under the weight of the parting, able to speak only by gesture. Then they went their separate ways.
 
-So the scholar and the boy set out together, and when they had drawn near to the boy's city, where his father was, the scholar said to the boy: "O my son, I have understood the will of the Shaykh, and you have not. Guidance lies only in his words. This is your city, and we have come to its edge. So sit with us here, off the road, for I wish to remind you of some of my concerns and to charge you with what you should do."
+So the Master and the boy set out together, and when they had drawn near to the boy's city, where his father was, the Master said to the boy: "O my son, I have understood the will of the Shaykh, and you have not. Guidance lies only in his words. This is your city, and we have come to its edge. So sit with us here, off the road, for I wish to remind you of some of my concerns and to charge you with what you should do."
 
-When they had sat down, the scholar said: "O my son, I know your father and his enmity toward the people of this matter. Added to it now is your going out with me and your absence from him without his leave and without his trust. I wish to honor your father's view by keeping some of these affairs concealed, so that you may return to him, and he may be at ease once more, and stay near us. And I hope, if you are gentle with him, that he will be closer than anyone else to what you desire. Your absence has worn him down, and his solitude has come to frighten him. Know, my son, that Allah has opened to you, for the least of your striving, what I did not suppose you would reach until a long stretch of time had passed. Allah has been good to you, so be good to yourself, and honor the one through whom Allah has honored you. We have thought well of you, and our hope in you has been great. So keep the trust your father entrusted to you, and stand firm in your affair. Piety and wary devotion are the mainstay of your religion and your work; thanksgiving and patience are an increase to your light. Ask of Allah the opening of your provision and the goodness of His granting you success."
+When they had sat down, the Master said: "O my son, I know your father and his enmity toward the people of this matter. Added to it now is your going out with me and your absence from him without his leave and without his trust. I wish to honor your father's view by keeping some of these affairs concealed, so that you may return to him, and he may be at ease once more, and stay near us. And I hope, if you are gentle with him, that he will be closer than anyone else to what you desire. Your absence has worn him down, and his solitude has come to frighten him. Know, my son, that Allah has opened to you, for the least of your striving, what I did not suppose you would reach until a long stretch of time had passed. Allah has been good to you, so be good to yourself, and honor the one through whom Allah has honored you. We have thought well of you, and our hope in you has been great. So keep the trust your father entrusted to you, and stand firm in your affair. Piety and wary devotion are the mainstay of your religion and your work; thanksgiving and patience are an increase to your light. Ask of Allah the opening of your provision and the goodness of His granting you success."
 
-Then the scholar said: "I commend to you six qualities: that you trust in Allah when you are resolved; that you speak with a ruling when you are called upon; that you do not grow angry when you are wronged; that you do not weary when you are slandered; that whoever answers your call to the good, you bear with him patiently; and that you keep for yourself the best of that to which you call others. For Allah will help you and open the way before you."
+Then the Master said: "I commend to you six qualities: that you trust in Allah when you are resolved; that you speak with a ruling when you are called upon; that you do not grow angry when you are wronged; that you do not weary when you are slandered; that whoever answers your call to the good, you bear with him patiently; and that you keep for yourself the best of that to which you call others. For Allah will help you and open the way before you."
 
 The boy said: "May Allah reward you with three goods: an imam whose case you have upheld and whose trust you have counseled well, and a dead man whose life you graced with your kindness. My heart is full, and my breast is packed with light and gladness at the greatness of what you have laid open to me. I do not know which of your words is the finer: the outward, which you arranged in its sequence, or the inward, whose meanings you expounded."
 
-The scholar said: "Praise be to Allah, who has made His way easy for you, brought its far reaches near to you, and helped you to bear its weight. I take my leave of you now and turn away from you. Is there any need still left?"
+The Master said: "Praise be to Allah, who has made His way easy for you, brought its far reaches near to you, and helped you to bear its weight. I take my leave of you now and turn away from you. Is there any need still left?"
 
 The boy said: "The pillars of my needs are three: a need already fulfilled, a need I hope for, and a need I ask you to grant of your kindness."
 
-The scholar said: "I have understood your three needs, and I answer you concerning what you have asked. As for the need already past, it is your life in knowledge after death. May Allah bless you with a life in it and grant you the best of what you intended. As for the need for which you hope, it is to act upon what you have come to know and to accept it when you are brought to account. May Allah bring that about for you by His mercy. As for the need you ask of me, it is as though you have desired an increase upon what you have heard."
+The Master said: "I have understood your three needs, and I answer you concerning what you have asked. As for the need already past, it is your life in knowledge after death. May Allah bless you with a life in it and grant you the best of what you intended. As for the need for which you hope, it is to act upon what you have come to know and to accept it when you are brought to account. May Allah bring that about for you by His mercy. As for the need you ask of me, it is as though you have desired an increase upon what you have heard."
 
 The boy said: "There is no increase greater than your knowing what is within me. So grant of your kindness what you see fit."
 
-The scholar said: "As for my knowing what is within you, none knows the unseen but Allah. But the believer sees by the light of Allah:
+The Master said: "As for my knowing what is within you, none knows the unseen but Allah. But the believer sees by the light of Allah:
 
 المؤمن ينظر بنور الله
 
@@ -878,7 +872,7 @@ the believer sees by the light of Allah. As for the increase, I will lay its mat
 
 When he had finished his discourse, and brought him to his place of safety, and completed his nurture of him, he said: "O my son, take care of yourself, for I have a work other than you, and this is the parting between me and you."
 
-At the mention of parting the boy gave a gasp so violent that he almost took his own life, his spirit near to taking flight and his soul near to leaving his body. Then he bent to kiss the scholar's feet and wiped their dust upon his cheeks, and bade him farewell and departed. The boy returned to his house, his heart torn from him in dread, unable to hold back a single word of his grief at parting from his elder father, and from the father who had been the cause of his grace, until his family and his neighbors grew afraid for him. He passed his day and his night restless with sorrow and alarm. Then his father came in upon him, in anger.
+At the mention of parting the boy gave a gasp so violent that he almost took his own life, his spirit near to taking flight and his soul near to leaving his body. Then he bent to kiss the Master's feet and wiped their dust upon his cheeks, and bade him farewell and departed. The boy returned to his house, his heart torn from him in dread, unable to hold back a single word of his grief at parting from his elder father, and from the father who had been the cause of his grace, until his family and his neighbors grew afraid for him. He passed his day and his night restless with sorrow and alarm. Then his father came in upon him, in anger.
 
 ## 8. Homecoming, the Father, and the Debate with Abu Malik
 
@@ -886,15 +880,15 @@ The father said: "My son, is this how sons repay their fathers? I taught you onl
 
 The boy said: "My father, I have shown you nothing but tenderness and compassion. You raised me out of mercy, and you provided for me, preferring me over family and wealth. I have no wish to be so ungrateful to you in our own day that I would fail you in either of the two forms of gratitude I owe you."
 
-The Shaykh said: "What is the difference between the two?"
+The father said: "What is the difference between the two?"
 
 The boy said: "Either you let me offer you my courtesies and kindnesses, since I am your son, whom you raised as a child and who guides us to Allah; or you give me leave to debate with you openly and to speak my mind, so that I am safe from your anger and can draw freely on your understanding."
 
-The Shaykh said: "As for outward courtesy while our hearts differ within — that is a reproach standing between us. How long can an outward agreement hold when its foundations are at odds? I do not want it. But your debate and your candor — those you have. So say what seems best to you."
+The father said: "As for outward courtesy while our hearts differ within — that is a reproach standing between us. How long can an outward agreement hold when its foundations are at odds? I do not want it. But your debate and your candor — those you have. So say what seems best to you."
 
 The boy said: "In these forty years I have stood with you, have you ever found me to be anything but one of two things? Either you are a scholar who has withheld from me the teaching I was owed — and then do not blame me if you forbid me to seek my salvation elsewhere — or you are unlearned, and so you are excused in my eyes, but you needed a man who was a stranger to me. I went ahead of you to him because of your age and your late years, for I have heard his words just as you have heard them, and I have seen what you have seen."
 
-The boy's words tore at the Shaykh's heart, and he saw there was no escaping any of these arguments, and his eyes brimmed with tears. He said: "My son, the argument raised against me is yours to make. You would meet the same fate as I if you kept your affairs hidden from me. Hold this to my account: if it is true, I will accept honor from you for my own sake; and even if it is false, I have set it aside for your sake, out of compassion for you."
+The boy's words tore at his father's heart, and he saw there was no escaping any of these arguments, and his eyes brimmed with tears. He said: "My son, the argument raised against me is yours to make. You would meet the same fate as I if you kept your affairs hidden from me. Hold this to my account: if it is true, I will accept honor from you for my own sake; and even if it is false, I have set it aside for your sake, out of compassion for you."
 
 So they debated over many sittings and opened their hearts to one another at length, until they were guided to the straight path — living by the religion of Allah, upholding it, holding fast to it, calling others to it, and helping one another in it. Through them Allah revived many of His creatures. He sent the boy out into the world to preach, with his father's blessing, and to summon others to him; and the boy returned to them and became a means of their guidance. Allah blessed the people of that country through them and at their hands. Allah's command was carried out, and slander came to nothing.
 
@@ -1210,7 +1204,7 @@ He said: "No, but He created them ignorant, knowing nothing."
 
 Salih said: "Then from where do they come to know what He wants, so that it becomes binding upon them to please Him and to be guarded against His wrath?"
 
-Abu Malik said that they had learned this from God.
+Abu Malik said: "They learned this from God."
 
 Salih said: "If He is higher than sight can reach, wider than perception can grasp, and greater than the bounds of speech, then how does the one whom He commands and forbids come to know Him—so as to obey and not disobey, to give thanks and not deny—unless you grant that there are causes for this knowledge set between Him and His creation? Must there not be those who deliver His justice and bear witness to His witnessing, both for the servants and against them, whom He has chosen by His knowledge and singled out from all His creation, and made messengers to them and proofs against them, so that they stand as the just ones between Him and His servants, conveying His command and His prohibition, so that obedience to them is obedience to God and His good pleasure, and disobedience to them is His wrath and His punishment? For otherwise, how could the command reach creation from God?"
 
@@ -1312,8 +1306,6 @@ Salih said to him: "And whoever does not reach the one who is described, does th
 
 He said: "The description does not profit him except by reaching the one who is described."
 
-For whoever fell short of him could take no comfort in the description while the one described remained beyond his reach.
-
 Salih said: "Then whoever does not know the just one of Allah and His guardian—will his speech be just?"
 
 The narrator said: Abu Malik smiled and said: "You have drawn me out of my own chapter on justice and monotheism, and nothing has drawn me out of it but the truth itself, in the clearest of arguments and the gentlest of speech. After this, what chapter is left to prove?"
@@ -1322,7 +1314,7 @@ Salih said to him: "From here, O Abu Malik, the counterfeit glass falls away fro
 
 Abu Malik said: "I have believed, and I have acted upon it. But how are we to be kept safe from the nations that lead astray, and how are we to know the causes of Allah—or even one cause among them—when we never reach them in their own time, and in ours there is neither prophet nor messenger, as there was among the nations before us?"
 
-Salih answered him: "Glory be to Allah, O Abu Malik. For a stretch of your life you have not ceased to speak of the justice of Allah, yet the moment We reasoned with you to establish it for you where it binds you, you turned back to speak of tyranny toward Allah, and to charge Him with injustice."
+Salih answered him: "Glory be to Allah, O Abu Malik. For a stretch of your life you have not ceased to speak of the justice of Allah, yet the moment we reasoned with you to establish it for you where it binds you, you turned back to speak of tyranny toward Allah, and to charge Him with injustice."
 
 Abu Malik said: "Allah forbid. I do not say that, for whoever says it has transgressed and forged a lie against Allah. From where have you bound me to it?"
 
@@ -1376,7 +1368,7 @@ Salih said to him: "You have spoken the truth, O Abu Malik. Have you, then, been
 
 And do not incline toward those who have done wrong, lest the Fire touch you. So you severed what Allah commanded to be joined, and you saw yourselves do it. You spoke of the outward forms of justice while straying from its path. You came upon His saying,
 
-أَطِيْعُوْا اللهَ وَأَطِيْعُوْا الرَّسُوْلَ وَأَوْلِي الأَمْرِ مِنْكُمْ
+أَطِيْعُوْا اللهَ وَأَطِيْعُوْا الرَّسُوْلَ وَأُولِي الأَمْرِ مِنْكُمْ
 
 Obey Allah, and obey the Messenger and those in authority among you, and you claimed that these powers of darkness were the ones in authority over you—though they disbelieve. And you forgot the word of Allah, exalted is He,
 
@@ -1400,9 +1392,9 @@ Abu Malik said: "Then I seek refuge from the punishment of Allah by repenting to
 
 Salih said to him: "If you do that, you will find Allah nearer to pardoning you than you are to repenting to Him, for He loves those who turn to Him. And you will find me eager for your guidance, watchful over you."
 
-Then Salih's eyes brimmed with tears at the mention of repentance, and the fullness of his feeling broke off his speech. He gave them heart and bade them go to his father's house. He went in to his father, the scholar who had first sent him out, and took counsel with him over the affair of Abu Malik and his companions.
+Then Salih's eyes brimmed with tears at the mention of repentance, and the fullness of his feeling broke off his speech. He gave them heart and bade them go to his father's house. He went in to his father, the Master who had first sent him out, and took counsel with him over the affair of Abu Malik and his companions.
 
-The scholar said: "You know your companions best. If you find good in them, guide them with your guidance; and when you warn them, let no eagerness move you to impose tazir (تعزير) upon them. Test them by leaving them to themselves, without harshness, and bid your father be kind to them and deal righteously with them in due season. The one who inclines toward good is not hidden, and Allah will not abandon you behind your back. From the light of His enabling grace He will open for you that by which the affairs of His creation are set in order, and from the gates of guidance that by which He shows you the deeds of the rightly guided."
+The Master said: "You know your companions best. If you find good in them, guide them with your guidance; and when you warn them, let no eagerness move you to impose tazir (تعزير) upon them. Test them by leaving them to themselves, without harshness, and bid your father be kind to them and deal righteously with them in due season. The one who inclines toward good is not hidden, and Allah will not abandon you behind your back. From the light of His enabling grace He will open for you that by which the affairs of His creation are set in order, and from the gates of guidance that by which He shows you the deeds of the rightly guided."
 
 He said: So Abu Malik and his companions went back and forth under this testing until their affair was fulfilled and they came to know their own guidance, and the guardian of Allah among them inclined kindly toward guiding them. They gave thanks to Allah for that, and returned to their people as warners, and through them Allah guided a great many of His servants to His religion.
 
@@ -1411,8 +1403,8 @@ The author said: Whatever in this account took the shape of a narrative was no i
 Praise be to Allah, first and last. May Allah bless His Messenger, our master Muhammad, sent forth from Him to His creation as a bearer of good tidings and a warner; and His guardian, the Imam of the God-fearing, the leader of the radiant and honored, the beloved of the Lord of the Worlds; and the Imams from the people of his house, upon whom Allah has bestowed His favor, from whom He has removed all defilement, and whom He has purified completely. Allah is sufficient for us, and how excellent a Trustee, how excellent a Master, and how excellent a Helper. There is no power and no strength except by Allah, the Most High, the Most Great.
 
 <!-- editorial:begin -->
-> **Editorial note (source-grounded).** 
-> Throughout this chapter the father is called "the Shaykh," a title the story keeps binding to
+> **Editorial note (tradition-grounded).** 
+> In the source's Arabic the father of this chapter is called "the Shaykh" (الشيخ), a title the story keeps binding to
 > his advanced years — "the day I grew old," "your age and your late years." The word repays a
 > moment's attention: it grows from a root (sh-y-kh) meaning to grow old and become an elder, and
 > it begins as simply "old man" before ripening into "master," the one whose accumulated years
