@@ -134,10 +134,17 @@ def _compose_one(
     )
     if findings:
         log(f"      {label}: invalid translation output ({'; '.join(findings[:3])}) - retry")
+        # Name the ACTUAL failures. This retry used to assert "process commentary
+        # or model-owned headings" no matter what the gate found, so a retry for
+        # a lost enumeration (or any non-commentary finding) re-ran the model
+        # with instructions about a defect it did not have — and failed again.
         retry_prompt = (
-            prompt + "\n\nYour previous answer included process commentary or model-owned headings. "
-            "Rewrite now as clean chapter prose only. Do not mention instructions, options, "
-            "source mismatch, inability, the title selection, or the prompt. Do not emit Markdown headings."
+            prompt
+            + "\n\nYour previous answer failed these integrity checks: "
+            + "; ".join(findings[:5])
+            + ". Rewrite now as clean chapter prose only, correcting exactly those failures. "
+            "Do not mention instructions, options, source mismatch, inability, the title "
+            "selection, or the prompt. Do not emit Markdown headings."
         )
         rc2, out2, err2 = _run_claude_p_with_retry(
             retry_prompt,

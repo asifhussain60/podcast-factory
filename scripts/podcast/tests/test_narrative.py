@@ -178,6 +178,49 @@ def test_unenumerated_source_is_not_policed() -> None:
     assert enumeration_findings(prose, prose) == []
 
 
+# Eight consecutive numbered SECTIONS, each a full prose paragraph — the shape
+# of a scholarly transcription's per-paragraph numbering, not an argument list.
+_SECTION_PARA = (
+    "the Master said to them that the matter to which he had called them was "
+    "the one he honored, and he asked that Allah be with His servants and "
+    "complete it for them and ennoble those who answered Him in every affair "
+    "of theirs, first and last, outward and inward, early and late alike."
+)
+_SECTION_NUMBERED = "\n\n".join(f"({n}) {_SECTION_PARA}" for n in range(1, 9))
+
+
+def test_section_numbering_apparatus_is_exempt() -> None:
+    translated = "\n\n".join(_SECTION_PARA for _ in range(8))
+    assert enumeration_findings(_SECTION_NUMBERED, translated) == []
+
+
+def test_mid_book_section_run_starting_above_one_is_exempt() -> None:
+    # A chapter slice is a WINDOW into the numbered source: its run starts
+    # above 1 ("(3) (4) (5)"), which no argument list ever does. This is the
+    # exact shape that blocked the RCA-001 recovery compose on bk-01.
+    base = "\n\n".join(f"({n}) {_SECTION_PARA}" for n in (3, 4, 5))
+    translated = "\n\n".join(_SECTION_PARA for _ in range(3))
+    assert enumeration_findings(base, translated) == []
+
+
+def test_short_numbered_list_starting_at_one_stays_policed() -> None:
+    base = "1. Rely upon Allah.\n\n2. Speak with a considered ruling.\n\n3. Do not fall into anger."
+    dissolved = "Rely upon Allah, speak with a considered ruling, and do not fall into anger."
+    findings = enumeration_findings(base, dissolved)
+    assert findings and "enumeration lost" in findings[0]
+
+
+def test_real_list_inside_numbered_sections_stays_policed() -> None:
+    base = _SECTION_NUMBERED + "\n\n" + _ENUMERATED
+    dissolved = "\n\n".join(_SECTION_PARA for _ in range(8)) + (
+        "\n\nThe heavens are seven, the earths are seven, the light has seven "
+        "days, the darkness is the seven nights, the vessels are seven, and "
+        "the blessings rest upon seven."
+    )
+    findings = enumeration_findings(base, dissolved)
+    assert findings and "enumeration lost" in findings[0]
+
+
 # ─── Combined wiring ────────────────────────────────────────────────────────
 def test_frame_findings_composes_every_guard() -> None:
     base = "The scholar said: From them is derived كُنْ.\n\n(a) One.\n\n(b) Two.\n\n(c) Three."
