@@ -824,3 +824,26 @@ OPEN (spend-gated, need Asif):
   `lint:views` 0; `npm run smoke` 33 clean / 0 FAILED; eslint 0 errors on new
   files; renderer unit test 18 assertions. Isolation proof: an existing Islamic
   book's PDF re-renders to an identical normalized SHA-256 before and after.
+
+## 2026-07-22 — RCA-001 AI-3: Composer articulation save guard (Claude Code, worktree session)
+
+- New `plan-dashboard/src/lib/reader/articulation.ts`: pure map of chapter key ->
+  "why a save would freeze machine text", computed from
+  `_system/book-fluency-report.json` (statuses per `_book_voice.py`: adapted safe;
+  partial/reverted/skipped warn; composer-edit judged by `superseded_status`;
+  chapter absent from report warns; report absent = no warnings). 6 node tests in
+  `articulation.test.ts` pin both RCA incident shapes.
+- `lib/reader/composer.ts` exposes `articulationWarnings` on ComposerView;
+  `compose.astro` passes it through the composer-data JSON island.
+- `src/scripts/book-composer.ts`: advisory banner (`.cx-articulation-warn`) at the
+  top of the edit shell for at-risk chapters + confirmDialog gate on the FIRST
+  autosave per chapter per session (sessionStorage key `cx-articulation-ok:<slug>`);
+  decline -> autosave error state, status-pill Retry clears the decline and re-asks.
+  Advisory by design: a confirmed save always proceeds (RCA-001 AI-3 contract).
+- `src/styles/book-composer.css`: banner styles on `--c-red` + color-mix (same
+  idiom as `.cx-ety-warn`); separate commit fixes a pre-existing broken comment
+  that was silently dropping the `.cx-body .ar-inline, .cx-prose .ar-raw` rule.
+- Gates: npm test 65/65, lint:views clean, astro check 0 errors, smoke 32/0,
+  html-view-challenger PASS Level 1. anchor-key mirror untouched (consumed, not
+  changed). Verified live: banner + dialog + decline/Retry/confirm on a temporary
+  worktree-local report fixture, restored afterward.

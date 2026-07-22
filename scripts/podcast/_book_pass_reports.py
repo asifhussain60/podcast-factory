@@ -53,6 +53,13 @@ def merge_records(
     what the last report said in ``superseded_status``, so the reviewer can still
     see the chapter has a history.
 
+    The carried value is what the pass last said BEFORE any takeover — the prior
+    record's own ``superseded_status`` when it has one. Carrying the prior
+    ``status`` unconditionally chained ``composer-edit`` onto itself from the
+    second run onward, erasing the "was adapted" origin the field exists to keep
+    (and making the Composer's articulation guard warn on chapters that were
+    legitimately adapted before the human took them over).
+
     ``edited_keys`` closes the remaining honesty hole (RCA-001): inheriting is
     only truthful while the inherited claim still describes the book. A prior
     "adapted" for a chapter that NOW carries a Composer edit describes text the
@@ -75,7 +82,9 @@ def merge_records(
                 }
             merged.append(inherited)
         elif status == "composer-edit" and title in prior:
-            merged.append({**record, "superseded_status": prior[title].get("status")})
+            p = prior[title]
+            superseded = p.get("superseded_status") or p.get("status")
+            merged.append({**record, "superseded_status": superseded})
         else:
             merged.append(record)
     return merged

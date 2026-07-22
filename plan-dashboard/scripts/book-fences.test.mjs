@@ -71,6 +71,38 @@ test("REGRESSION: markers that survive as bare text are restored to comments", (
   );
 });
 
+test("REGRESSION: a soft-wrapped aside collapsed to one line is still ONE span, not duplicated", () => {
+  // The pipeline writes an aside soft-wrapped over many `> ` lines; the TipTap
+  // serializer returns the same blockquote as a single long line. The survival
+  // key must treat those as the same span. It didn't: norm() stripped the `>`
+  // prefix only after space-joining the lines, so its /^>/ anchor missed every
+  // line but the first — the keys diverged, the survival check failed, and the
+  // whole aside was re-appended as a duplicate on every save of the chapter
+  // (found 2026-07-22 by the whole-book round-trip audit).
+  const edited = [
+    "Opening prose of the chapter.",
+    "",
+    "editorial:begin",
+    "",
+    "> **Editorial note (source-grounded).** A grounding note for the reader.",
+    "",
+    "editorial:end",
+    "",
+    "Closing prose.",
+  ].join("\n");
+
+  const { body, restored, appended } = preserveFences(ORIGINAL, edited);
+
+  assert.equal(restored, 2, "both markers restored");
+  assert.equal(appended, 0, "surviving span recognized — nothing re-appended");
+  assert.equal(extractSpans(body).length, 1, "exactly one span");
+  assert.equal(
+    (body.match(/A grounding note/g) || []).length,
+    1,
+    "the aside appears exactly once",
+  );
+});
+
 test("markers lost entirely are re-wrapped around the surviving prose, in place", () => {
   const edited = [
     "Opening prose of the chapter.",

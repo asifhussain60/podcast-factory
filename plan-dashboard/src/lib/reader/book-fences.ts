@@ -108,11 +108,19 @@ const begin = (kind: string) => `<!-- ${kind}:begin -->`;
 const end = (kind: string) => `<!-- ${kind}:end -->`;
 
 /** Comparable form of a span's prose: blockquote markers, emphasis and spacing
- *  all removed, so a cosmetic edit still matches its original span. */
+ *  all removed, so a cosmetic edit still matches its original span.
+ *
+ *  The `>` prefix is stripped PER LINE, before joining. It used to be stripped
+ *  after a space-join, where the `/^>/m` anchor only ever saw the first line —
+ *  so a pipeline-authored aside (a blockquote soft-wrapped over many `> ` lines)
+ *  and its editor serialization (the same blockquote on one line) normalized to
+ *  different keys, the survival check missed the surviving span, and step 3
+ *  re-appended a full duplicate of the aside on every save of that chapter. */
 function norm(lines: string[] | string): string {
-  const s = Array.isArray(lines) ? lines.join(" ") : lines;
-  return s
-    .replace(/^>\s?/gm, "")
+  const arr = Array.isArray(lines) ? lines : lines.split("\n");
+  return arr
+    .map((l) => l.replace(/^\s*>\s?/, ""))
+    .join(" ")
     .replace(/[*_`~#]/g, "")
     .replace(/\s+/g, " ")
     .trim()
