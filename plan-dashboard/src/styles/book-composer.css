@@ -1131,6 +1131,7 @@
 .cx-chapter.cx-dragover {
   outline: 2px dashed var(--c-accent, #8b4513);
   outline-offset: 4px;
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 4%, transparent);
 }
 /* Reads like a printed page, not large-print web text: normal book size, tight
    leading, a real reading measure — this is what actually reclaims the space. */
@@ -1588,15 +1589,27 @@
   display: grid;
   gap: 0.6rem;
 }
+/* Card + a dedicated actions column BESIDE it — the actions used to be an
+   absolute overlay revealed on hover, which (a) hid them until you knew to
+   hover and (b) sat on top of the caption text once revealed. In-flow flex
+   children can never overlap the caption, and they are always visible. */
 .cx-palette-item {
   position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 0.35rem;
+}
+.cx-palette-item.is-dragging {
+  opacity: 0.45;
+  transform: scale(0.97);
 }
 .cx-palette-place {
   display: grid;
   grid-template-columns: 3rem 1fr;
   gap: 0.6rem;
   align-items: center;
-  width: 100%;
+  flex: 1;
+  min-width: 0; /* let the caption ellipsize instead of pushing the actions out */
   text-align: left;
   border: 1px solid var(--c-rule-soft, #ebe6da);
   border-radius: 6px;
@@ -1617,33 +1630,32 @@
   border-radius: 4px;
 }
 
-/* Per-artifact actions (AI edit + delete), revealed on hover/focus. */
+/* Per-artifact actions (AI edit + delete) — always visible, own column. */
 .cx-palette-actions {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
   display: flex;
-  gap: 0.2rem;
-  opacity: 0;
-}
-.cx-palette-item:hover .cx-palette-actions,
-.cx-palette-item:focus-within .cx-palette-actions {
-  opacity: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
+  flex: none;
 }
 .cx-icon-btn {
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   line-height: 1;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.9rem;
+  height: 1.9rem;
   display: grid;
   place-items: center;
-  border: 1px solid var(--c-rule-soft, #ebe6da);
-  border-radius: 4px;
+  /* 60% accent keeps the resting border itself at >=3:1 against the card. */
+  border: 1px solid color-mix(in oklab, var(--c-accent, #8b4513) 60%, var(--c-rule-soft, #ebe6da));
+  border-radius: 6px;
   background: var(--c-bg-card, #fffdf8);
+  box-shadow: 0 1px 4px rgba(31, 29, 24, 0.18);
   cursor: pointer;
 }
 .cx-icon-btn:hover {
   border-color: var(--c-accent, #8b4513);
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 9%, var(--c-bg-card, #fffdf8));
+  box-shadow: 0 3px 9px rgba(31, 29, 24, 0.26);
 }
 
 /* Full-size image lightbox (image-lightbox.ts) — opened by clicking a palette
@@ -2043,5 +2055,72 @@
   .cx-fig,
   .cx-palette-place {
     transition: outline-color 0.15s ease;
+  }
+
+  /* Drag-and-drop motion (all of it lives here, so reduced-motion users get a
+     fully static — but fully functional — palette). */
+  .cx-icon-btn {
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      border-color 0.15s ease,
+      background 0.15s ease;
+  }
+  .cx-icon-btn:hover {
+    transform: translateY(-1px) scale(1.08);
+  }
+  .cx-palette-item {
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+  .cx-palette-place {
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+  .cx-palette-place:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(31, 29, 24, 0.14);
+  }
+  .cx-chapter.cx-dragover {
+    transition: background 0.2s ease;
+  }
+  /* The landing line breathes while you aim. */
+  .cx-drop-before::before,
+  .cx-drop-after::after {
+    animation: cx-drop-pulse 0.9s ease-in-out infinite;
+  }
+  /* The figure a drop just created announces itself once, then settles. */
+  .cx-fig-arrived {
+    animation: cx-fig-arrive 0.45s ease-out;
+  }
+}
+
+@keyframes cx-drop-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scaleY(1.6);
+  }
+}
+
+@keyframes cx-fig-arrive {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--c-accent, #8b4513) 45%, transparent);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
   }
 }

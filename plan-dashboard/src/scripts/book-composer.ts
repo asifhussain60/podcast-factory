@@ -1088,6 +1088,30 @@ function boot(): void {
     selected = visualId;
     markDirty();
     render();
+    flashPlaced(visualId);
+  }
+
+  // One-shot arrival highlight on the figure a drop just created, on whichever
+  // surface (read body or edit canvas — both build through figureEl) is
+  // showing. The class removes itself when its animation ends, so a later
+  // re-render never replays it; under prefers-reduced-motion the class simply
+  // has no animation and is inert.
+  function flashPlaced(visualId: string): void {
+    // A short timer, not requestAnimationFrame: in Edit mode the figure is
+    // drawn by the editor's own decoration redraw a beat after render()
+    // returns, and rAF never fires at all in a hidden/backgrounded tab.
+    window.setTimeout(() => {
+      const fig = root.querySelector<HTMLElement>(
+        `.cx-fig[data-visual-id="${CSS.escape(visualId)}"]`,
+      );
+      if (!fig) return;
+      fig.classList.add("cx-fig-arrived");
+      fig.addEventListener(
+        "animationend",
+        () => fig.classList.remove("cx-fig-arrived"),
+        { once: true },
+      );
+    }, 60);
   }
 
   function remove(visualId: string): void {
@@ -1287,6 +1311,7 @@ function boot(): void {
   function figureEl(p: Placement, v: Visual): HTMLElement {
     const fig = document.createElement("figure");
     fig.className = `cx-fig flow-${p.flow} align-${p.align} page-fit-${p.page_fit}`;
+    fig.dataset.visualId = p.visual_id; // lets the arrival flash find its figure
     fig.style.setProperty("--cx-w", `${p.width_pct}%`);
     fig.tabIndex = 0;
     fig.setAttribute("role", "group");
@@ -1408,8 +1433,12 @@ function boot(): void {
     placeBtn.addEventListener("click", () =>
       void imageLightbox({ src: v.src, caption: v.caption || v.id }),
     );
-    item.addEventListener("dragstart", (e) =>
-      e.dataTransfer?.setData(VISUAL_DRAG_TYPE, v.id),
+    item.addEventListener("dragstart", (e) => {
+      e.dataTransfer?.setData(VISUAL_DRAG_TYPE, v.id);
+      item.classList.add("is-dragging"); // ghost the card while it travels
+    });
+    item.addEventListener("dragend", () =>
+      item.classList.remove("is-dragging"),
     );
     return item;
   }
