@@ -15,7 +15,7 @@
         ]
       ],
       "source_words": 631,
-      "output_words": 752
+      "output_words": 705
     },
     {
       "index": 2,
@@ -28,7 +28,7 @@
         ]
       ],
       "source_words": 808,
-      "output_words": 851
+      "output_words": 987
     },
     {
       "index": 3,
@@ -41,7 +41,7 @@
         ]
       ],
       "source_words": 3443,
-      "output_words": 3406
+      "output_words": 3409
     },
     {
       "index": 4,
@@ -54,7 +54,7 @@
         ]
       ],
       "source_words": 1438,
-      "output_words": 1515
+      "output_words": 1871
     },
     {
       "index": 5,
@@ -67,7 +67,7 @@
         ]
       ],
       "source_words": 3067,
-      "output_words": 3361
+      "output_words": 3762
     },
     {
       "index": 6,
@@ -79,8 +79,8 @@
           492
         ]
       ],
-      "source_words": 3359,
-      "output_words": 3477
+      "source_words": 3357,
+      "output_words": 3446
     },
     {
       "index": 7,
@@ -93,7 +93,7 @@
         ]
       ],
       "source_words": 6703,
-      "output_words": 7258
+      "output_words": 6949
     },
     {
       "index": 8,
@@ -106,7 +106,7 @@
         ]
       ],
       "source_words": 14043,
-      "output_words": 14390
+      "output_words": 14724
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
