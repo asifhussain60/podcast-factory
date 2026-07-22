@@ -6,6 +6,19 @@
 -->
 # Current work - status
 
+**Last updated:** 2026-07-22 8:27 AM EST (introduction is apparatus, not a chapter)
+
+**Newest — the fenced edition introduction can no longer be edited as a
+chapter.** Its `## Introduction` heading lives inside the `edition-intro` span,
+so the Composer offered it as an editable chapter whose edit was orphaned on
+every compose — and a save through the editor stripped the unknown markers,
+after which `strip_introduction` stopped matching and composes stacked a second
+introduction. `edition-intro` joined `FENCE_KINDS` (round-trip survival), the
+Composer's chapter enumeration skips headings inside the span, and
+`writeChapterBody` refuses a key resolving into it. Dormant on
+the-master-and-the-disciple (hand-split front matter, still editable by
+design); live for the next book whose preface is excluded. Commit `c1f5146`.
+
 **Last updated:** 2026-07-21 5:46 PM EST (Composer authority + honorifics)
 
 **Newest — a Composer-authored chapter is no longer regenerated, and the
