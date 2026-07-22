@@ -114,7 +114,7 @@
     },
     {
       "chapter": "5. The World, the Hereafter, and the Speech of Parables",
-      "arabic_runs": 16,
+      "arabic_runs": 15,
       "unverified": 0,
       "runs": [
         {
@@ -151,11 +151,6 @@
           "text": "فكذلك جميع ما خلق الله من الأشياء",
           "resolution": "ocr",
           "skeleton": "فكذلكجميعماخلقاللهمنالاشياء"
-        },
-        {
-          "text": "الإمام الناطق",
-          "resolution": "ocr",
-          "skeleton": "الامامالناطق"
         },
         {
           "text": "فَلَا تَضْرِبُوا لِلَّهِ الْأَمْثَالَ",
@@ -368,10 +363,10 @@
   ],
   "totals": {
     "canonical-mushaf": 25,
-    "ocr": 33,
+    "ocr": 32,
     "knowledge-base": 0,
     "honorific-formula": 1,
     "unverified": 0,
-    "arabic_runs": 59
+    "arabic_runs": 58
   }
 }
