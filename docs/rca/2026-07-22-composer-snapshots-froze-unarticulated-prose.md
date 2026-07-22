@@ -10,7 +10,9 @@ Claude (investigation + forensics), reviewed by Asif
 
 ### Status
 
-Recovery in progress. Corrective actions tracked below.
+RESOLVED 2026-07-22 — book-challenger verdict SHIP-READY after a 3-iteration
+convergence on the recovered text. Open corrective actions: AI-2 (in a
+separate task session), AI-6, AI-7.
 
 ### Template
 
@@ -67,18 +69,32 @@ overwritten with 2026-07-20 snapshots).
 
 ### Resolution
 
-(In progress, this session.)
-
 1. Human/editorial deltas vs the frozen baseline extracted to
    `content/Islamic/the-master-and-the-disciple/_system/articulation-recovery/`
-   (19 hunks across 8 chapters — includes one doctrinal fix that exists
+   (19 hunks across 8 chapters — includes one doctrinal fix that existed
    nowhere else).
 2. Stale composer-edits archived alongside; live sidecar cleared.
-3. Full re-compose with the articulation pass over all 9 chapters (base
-   reused from integrity-gated chunk cache — only the fluency windows spend).
-4. Deltas re-applied/re-verified against the articulated prose; fresh Composer
-   edits saved so durability now protects articulated text.
-5. book-challenger convergence re-run before the edition is called done.
+3. Full re-compose. NOT cache-cheap as first planned: the chunk-cache
+   freshness rule counts the gate/prompt modules as governing inputs, so the
+   July 19 chunks were deliberately stale (they predate the narrative-frame
+   gates) — the recovery was a full fresh base translation + articulation.
+   Three launches: two were killed by a false-positive enumeration gate
+   (fixed at root twice — final rule: a consecutive ascending numeric marker
+   run starting above 1 is section-numbering apparatus; the second launch's
+   retry had "satisfied" the gate by writing section numbers into the prose,
+   caught by the live log monitor within a minute). Third launch completed:
+   9/9 chapters de-calqued, 0 reverted, 0 copied-not-revoiced.
+4. Punchlist re-applied to the articulated prose. The green-ears doctrinal
+   fix proved unnecessary — the fresh translation renders "causes" correctly
+   from source, confirming the old error was model-introduced. Name glosses
+   and bridges re-applied/re-anchored by hand.
+5. book-challenger iteration 1 on the recovered text: BLOCKED with 4 P0 /
+   5 P1 / 6 P2 (incl. model chatter that had been snapshotted into a fresh
+   Composer edit, a seam double-telling, and a book-wide naming regression
+   against Asif's locked one-name ruling). All P0s/P1s + 3 P2s fixed;
+   iteration 2 verification sweep run before the edition is called done.
+   All six curated chapters saved as fresh Composer edits protecting the
+   fixed, articulated text.
 
 ### Detection
 
@@ -92,11 +108,13 @@ snapshots exactly.
 
 | # | Action | Type | Status |
 |---|---|---|---|
-| AI-1 | Recover: re-articulate 8 frozen chapters, re-apply deltas, re-gate | mitigate | in progress (this session) |
+| AI-1 | Recover: re-articulate 8 frozen chapters, re-apply deltas, re-gate | mitigate | done 2026-07-22 — SHIP-READY at challenger iteration 3; 4 P0 / 7 P1 / 3 P2 found-and-fixed on the way; only advisory P2s remain (apparatus pass) |
 | AI-2 | Fluency/compose honesty: report `adapted-and-kept` vs `adapted-then-overwritten`; compose warns loudly when replay discards adapted text | prevent | task chip spawned |
 | AI-3 | Composer save guard: warn when a save would freeze a chapter whose current base never passed articulation | prevent | done 2026-07-22 — advisory banner + confirm-before-first-save in the Book Composer, driven by `lib/reader/articulation.ts` over `_system/book-fluency-report.json` |
 | AI-4 | RCA practice: `docs/rca/` process + template + standing memory rule | process | done (this session) |
-| AI-5 | Compose-run interference watch: heartbeat monitors the composer-edits sidecar for mid-run saves (open Composer tab autosave is a live clobber vector) | detect | active for this recovery run |
+| AI-5 | Compose-run interference watch: heartbeat monitors the composer-edits sidecar for mid-run saves (open Composer tab autosave is a live clobber vector) | detect | done for this run (tab closed + monitored); durable fix is AI-3's save guard |
+| AI-6 | Strengthen the compose prompt's no-headings instruction — 6 of 9 fresh windows drew a model-owned-heading retry (each costs a full window recompose). NOTE: prompt modules govern the chunk cache, so land this WITH a planned re-compose, never casually | prevent | open |
+| AI-7 | Enumeration gate refined twice during recovery (section-numbering apparatus vs argument lists — see commits d009943, 3160738); watch one more book's compose before considering it settled | verify | open |
 
 ## Lessons Learned
 
