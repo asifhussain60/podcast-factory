@@ -382,25 +382,6 @@
   font-size: 0.8rem;
   min-height: 1.1rem;
 }
-.cx-cite-detected {
-  margin-top: 1rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--c-rule-soft, #ebe6da);
-}
-.cx-cite-heading {
-  font-size: var(--panel-fs-title, 16px);
-  font-weight: 600;
-  margin: 0 0 0.5rem;
-  color: var(--c-ink, #1f1d18);
-}
-.cx-cite-list {
-  display: grid;
-  gap: 0.6rem;
-}
-.cx-cite-item {
-  margin: 0;
-}
-
 /* ── Edit mode — the chapter prose editor (TipTap) in the left column ───────
    The whole shell reads as a distinct editing surface (not plain prose): a
    framed card with an accent-tinted toolbar header, a clean paper writing area,
@@ -1081,40 +1062,45 @@
   outline: 2px solid var(--c-accent, #8b4513);
   outline-offset: 2px;
 }
-.cx-details-sections {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 0.4rem;
+/* "Tell the AI" — the free-form chapter-instruction box (first consumer of
+   /api/ai/instruct). The textarea reuses the comment box's look; the button is
+   the accent action; the reasons list echoes the model's per-edit whys. */
+.cx-instruct-box {
+  min-height: 5rem;
 }
-.cx-details-sections li {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem;
-}
-.cx-details-section-title {
-  flex: 1 1 auto;
-  min-width: 8rem;
-  font-size: 0.82rem;
-  color: var(--c-ink, #1f1d18);
-}
-.cx-btn-depth,
-.cx-btn-tags {
+.cx-instruct-run {
+  margin-top: 0.45rem;
   font: inherit;
-  font-size: 0.72rem;
-  padding: 0.25rem 0.55rem;
-  border: 1px solid var(--c-rule-soft, #ebe6da);
-  border-radius: 999px;
-  background: var(--c-bg-sunken, #f0ece2);
-  color: var(--c-ink-muted, #66625a);
+  font-size: var(--panel-fs, 15px);
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--c-accent, #8b4513);
+  border-radius: 6px;
+  color: var(--c-bg-card, #fffdf8);
+  background: var(--c-accent, #8b4513);
   cursor: pointer;
 }
-.cx-btn-depth:hover,
-.cx-btn-tags:hover {
-  border-color: var(--c-accent, #8b4513);
-  color: var(--c-accent, #8b4513);
+.cx-instruct-run:hover:not(:disabled) {
+  filter: brightness(1.12);
+}
+.cx-instruct-run:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.cx-instruct-run:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+.cx-instruct-note {
+  margin-top: 0.45rem;
+}
+.cx-instruct-reasons {
+  margin: 0.3rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+  color: var(--c-ink-dim, #4d4a42);
+  display: grid;
+  gap: 0.2rem;
 }
 
 /* Etymology review card — two outputs (inline insert + companion note). */

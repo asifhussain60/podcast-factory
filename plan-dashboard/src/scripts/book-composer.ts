@@ -428,7 +428,6 @@ function boot(): void {
       selectedChapter = chapterSelect.value;
       selected = null; // a figure selection doesn't carry across chapters
       showSelectedChapter();
-      renderCitations();
       renderCompanion(); // notes follow the chapter — no picker of their own
       render();
       if (wasEditing) setMode("edit"); // stay in Edit on the newly selected chapter
@@ -842,6 +841,41 @@ function boot(): void {
             if (a) void runAiAction(a, onApplied);
           },
           runnableKinds: ["rewrite", "expand", "condense", "simplify"],
+          // After the instruction box applies its edits, persist and re-render
+          // the way every other content change does: flush the prose autosave,
+          // then reload preserving chapter + Edit mode. (Painting the edits
+          // in-place was abandoned: the tracked-changes decoration layer
+          // reliably fails to repaint a replaced block whenever the same
+          // transaction also inserts a paragraph.) The note survives the
+          // reload via sessionStorage and is re-shown by the remounted tab.
+          applyAndSync: async (note: string): Promise<boolean> => {
+            try {
+              // Scoped to book + chapter so the remounted tab can verify the
+              // note belongs to it before showing it.
+              sessionStorage.setItem(
+                "cx-instruct-note",
+                JSON.stringify({ slug, chapter: selectedChapter, note }),
+              );
+            } catch {
+              /* best-effort */
+            }
+            const saved = activeSaveFlush ? await activeSaveFlush() : true;
+            if (!saved) {
+              try {
+                sessionStorage.removeItem("cx-instruct-note");
+              } catch {
+                /* best-effort */
+              }
+              return false;
+            }
+            try {
+              sessionStorage.setItem("cx-restore-edit", "1");
+            } catch {
+              /* best-effort */
+            }
+            reloadPreservingChapter();
+            return true;
+          },
         },
       }),
     );
@@ -956,7 +990,6 @@ function boot(): void {
   );
   const citeSave = root.querySelector<HTMLElement>("#cx-cite-save");
   const typeSave = root.querySelector<HTMLElement>("#cx-type-save");
-  const citeListEl = root.querySelector<HTMLElement>("#cx-citations-list");
 
   /** Status line for whichever panel the change came from — a save made in
    *  Typography must not report into a status line the user cannot see. */
@@ -1073,35 +1106,6 @@ function boot(): void {
     });
   }
 
-  function renderCitations(): void {
-    if (!citeListEl) return;
-    citeListEl.textContent = "";
-    const items = chapterByKey.get(selectedChapter)?.citations ?? [];
-    if (!items.length) {
-      const p = document.createElement("p");
-      p.className = "cx-empty";
-      p.textContent = "No Quran or hadith citations detected in this chapter.";
-      citeListEl.appendChild(p);
-      return;
-    }
-    for (const c of items) {
-      const bq = document.createElement("blockquote");
-      bq.className = "bs-verse cx-cite-item";
-      const ar = document.createElement("p");
-      ar.className = "bs-ar";
-      ar.setAttribute("dir", "rtl");
-      ar.setAttribute("lang", "ar");
-      ar.textContent = c.ar;
-      bq.appendChild(ar);
-      if (c.tr) {
-        const tr = document.createElement("p");
-        tr.className = "bs-tr";
-        tr.textContent = c.tr;
-        bq.appendChild(tr);
-      }
-      citeListEl.appendChild(bq);
-    }
-  }
   void loadSavedFamily();
 
   function normalize(p: Placement): Placement {
@@ -2236,7 +2240,6 @@ function boot(): void {
   });
 
   showSelectedChapter();
-  renderCitations();
   renderAiActions();
   render();
 

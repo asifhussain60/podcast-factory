@@ -312,23 +312,12 @@ const ARABIC_FONTS = [
                   <div class="cx-controls" id="cx-controls" />
                   <div class="cx-ai-tools-mount" id="cx-ai-tools-mount" />
                 </section>
-                {/* Details (follow-up marks, per-paragraph comments, section
-                    depth) merged into this tab 2026-07-22 — chapter work is one
-                    destination now. */}
+                {/* The React half of this tab: the "Tell the AI" instruction
+                    box and the follow-up marks queue. Comment, section depth,
+                    and the detected-citations list left the tab 2026-07-22 at
+                    Asif's direction — the instruction box IS the way to ask
+                    for chapter changes now. */}
                 <div id="cx-details-mount" />
-                {/* Chapter-scoped and read-only, so it is NOT a setting: the
-                    detected list stays with the working tab while the citation
-                    STYLE form moved to the settings dialog below. */}
-                <div class="cx-cite-detected">
-                  <h3 class="cx-cite-heading" id="cx-cite-detected-heading">
-                    Citations in this chapter
-                  </h3>
-                  <div
-                    class="cx-cite-list"
-                    id="cx-citations-list"
-                    aria-labelledby="cx-cite-detected-heading"
-                  />
-                </div>
               </div>
 
               {/* ── Book settings dialog ─────────────────────────────────────

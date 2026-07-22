@@ -1,9 +1,15 @@
 /**
- * ComposeDetailsTab.tsx — per-paragraph comments (useAnnotations), deferred
- * action-item marks (useAnnotations), and section depth/tag summary
- * (useSectionDepth), reusing the SAME hooks StudioEditor.tsx uses, fed the
- * Book Composer's own vanilla TipTap editor via the compose-editor-bridge.
- * This is Compose's new 5th (last) inspector tab.
+ * ComposeDetailsTab.tsx — the "Tell the AI" chapter-instruction box (the
+ * orphaned /api/ai/instruct route's first consumer) and the deferred
+ * action-item marks queue (useAnnotations), fed the Book Composer's own
+ * vanilla TipTap editor via the compose-editor-bridge.
+ *
+ * The per-paragraph Comment box and the Section-depth list left this tab on
+ * 2026-07-22 (Asif: "I don't need comments, section depth, citations — I need
+ * a text box where I say what I want and the AI makes the changes"). Their
+ * HOOKS remain wired: useAnnotations still powers the marks queue, and
+ * useSectionDepth still feeds the bridge boxes the editor-margin depth
+ * widgets read — only the tab UI is gone.
  *
  * Mounted imperatively (React 19 createRoot) by book-composer.ts alongside
  * ComposeAiTools — see that file's header comment for why (editor/chapter
@@ -14,10 +20,6 @@ import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import type { Editor } from "@tiptap/core";
 
 import { ACTION_REGISTRY } from "../editor/studio-editor-constants";
-import {
-  openDepthPicker,
-  openTagPicker,
-} from "../editor/studio-editor-pickers";
 import { useAnnotations } from "../editor/useAnnotations";
 import { useSectionDepth } from "../editor/useSectionDepth";
 import type { ComposeEditorBridge } from "../../../scripts/compose-editor-bridge";
@@ -52,6 +54,10 @@ export interface ComposeQueueOps {
   runNow: (kind: string, anchor: string, onApplied: () => void) => void;
   /** Mark kinds runNow can serve (the text transforms). */
   runnableKinds: readonly string[];
+  /** Flush the prose autosave and reload preserving chapter + Edit mode —
+   *  the Composer's own idiom after content changes. Returns false (and does
+   *  not reload) if the save failed. */
+  applyAndSync?: (note: string) => Promise<boolean>;
 }
 
 interface Props {
@@ -109,9 +115,6 @@ export default function ComposeDetailsTab({
   } = bridge;
 
   const {
-    commentsRef,
-    refreshComments,
-    persistComment,
     actionsRef,
     removeActionFnRef,
     markedCount,
@@ -150,24 +153,196 @@ export default function ComposeDetailsTab({
     bridgeSaveSectionDepthRef.current = saveSectionDepthRef.current;
   });
 
-  const activeComment =
-    activeParaIdx !== null
-      ? (commentsRef.current.get(activeParaIdx) ?? "")
-      : "";
+  // ── "Tell the AI" — free-form chapter instruction via /api/ai/instruct ────
+  const [instruction, setInstruction] = useState("");
+  const [aiBusy, setAiBusy] = useState(false);
+  // The result note survives the post-apply reload (see applyAndSync). Stored
+  // as {slug, chapter, note} and validated here, so a stashed note can never
+  // surface on a different book's or chapter's tab.
+  const [aiNote, setAiNote] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem("cx-instruct-note");
+      if (saved) {
+        sessionStorage.removeItem("cx-instruct-note");
+        const p = JSON.parse(saved) as { slug?: string; chapter?: string; note?: string };
+        if (p.slug === slug && p.chapter === chapter && p.note) return p.note;
+      }
+    } catch {
+      /* best-effort */
+    }
+    return "";
+  });
+  const [aiReasons, setAiReasons] = useState<string[]>([]);
 
-  const sectionTitles = useCallback((): string[] => {
-    const titles: string[] = [];
-    editor.state.doc.forEach((node) => {
-      if (node.type.name === "heading" && node.attrs.level === 2)
-        titles.push(node.textContent);
+  const runInstruction = useCallback(async () => {
+    const ask = instruction.trim();
+    if (!ask || aiBusy) return;
+    setAiBusy(true);
+    setAiNote("Asking Gemini…");
+    setAiReasons([]);
+    // Snapshot the chapter's top-level blocks WITH stable ids. The snapshot is
+    // also the apply-time guard: an edit only lands on a block whose text
+    // still matches what the model was shown.
+    const blocks: { id: string; tag: string; text: string }[] = [];
+    editor.state.doc.forEach((node, _off, idx) => {
+      blocks.push({ id: `b#${idx}`, tag: node.type.name, text: node.textContent });
     });
-    return titles;
-  }, [editor]);
-
-  const sections = sectionTitles();
+    try {
+      const res = await fetch("/api/ai/instruct", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ instruction: ask, blocks, chapterTitle: chapter }),
+      });
+      const j = (await res.json()) as {
+        error?: string;
+        note?: string;
+        edits?: {
+          block_id: string;
+          action: "replace" | "delete" | "insert_after";
+          new_text?: string;
+          reason?: string;
+        }[];
+      };
+      if (j.error) throw new Error(j.error);
+      if (editor.isDestroyed) return; // the user left Edit mode mid-fetch
+      const edits = j.edits ?? [];
+      if (!edits.length) {
+        setAiNote(j.note || "No change needed.");
+        return;
+      }
+      // ONE ProseMirror transaction for the whole application: atomic (all
+      // edits land or none) and a single undo step. Edits are applied in
+      // ASCENDING block order with every snapshot position remapped through
+      // tr.mapping, so an earlier edit can never invalidate a later one's
+      // coordinates. (The first version dispatched per-edit chains; an
+      // insert_after silently broke the PAINT of a replace on another block.)
+      let skipped = 0;
+      const seenIdx = new Set<number>();
+      const byIdx = edits
+        .map((e) => ({ ...e, idx: Number(String(e.block_id ?? "").split("#")[1]) }))
+        .filter((e) => {
+          // Malformed / out-of-range / duplicate targets are counted, never guessed.
+          if (!Number.isInteger(e.idx) || e.idx < 0 || e.idx >= blocks.length) {
+            skipped++;
+            return false;
+          }
+          if (seenIdx.has(e.idx)) {
+            skipped++; // a second edit on the same block would use stale sizes
+            return false;
+          }
+          seenIdx.add(e.idx);
+          return true;
+        })
+        .sort((a, b) => a.idx - b.idx);
+      // Snapshot walk: pos/size/current-text for every top-level block.
+      const at: { pos: number; size: number; text: string }[] = [];
+      editor.state.doc.forEach((node, off) => {
+        at.push({ pos: off, size: node.nodeSize, text: node.textContent });
+      });
+      const { tr, schema } = editor.state;
+      let applied = 0;
+      const reasons: string[] = [];
+      for (const e of byIdx) {
+        const t = at[e.idx];
+        if (!t || t.text !== blocks[e.idx].text) {
+          skipped++;
+          continue; // the chapter changed under the model — never guess
+        }
+        // Ascending order + tr.mapping: each snapshot position is remapped
+        // through the steps already added, so earlier edits can never
+        // invalidate a later one's coordinates.
+        const pos = tr.mapping.map(t.pos, 1);
+        if (e.action === "replace" && e.new_text) {
+          // Replace the block's INLINE content, not the node itself — the
+          // block keeps its type and attrs (a heading stays a heading).
+          tr.insertText(e.new_text, pos + 1, pos + t.size - 1);
+        } else if (e.action === "delete") {
+          tr.delete(pos, pos + t.size);
+        } else if (e.action === "insert_after" && e.new_text) {
+          tr.insert(
+            pos + t.size,
+            schema.nodes.paragraph.create(null, schema.text(e.new_text)),
+          );
+        } else {
+          skipped++;
+          continue;
+        }
+        applied++;
+        if (e.reason) reasons.push(e.reason);
+      }
+      const summary =
+        `${j.note ? j.note + " — " : ""}${applied} edit${applied === 1 ? "" : "s"} applied` +
+        (skipped ? `, ${skipped} skipped (unusable, or the text changed while the AI worked)` : "") +
+        (reasons.length ? `. ${reasons.join(" · ")}` : ".");
+      if (applied) {
+        editor.view.dispatch(tr);
+        setInstruction("");
+        if (queueOps?.applyAndSync) {
+          setAiNote("Applied — saving and refreshing…");
+          const ok = await queueOps.applyAndSync(summary);
+          if (!ok)
+            setAiNote(
+              "Applied in the editor, but the save failed — retry from the save status above.",
+            );
+          return; // on success the page is reloading; the note comes back after
+        }
+      }
+      setAiReasons(reasons); // document order (ascending apply)
+      setAiNote(summary);
+    } catch (err) {
+      setAiNote(`Failed: ${(err as Error).message}`);
+    } finally {
+      setAiBusy(false);
+    }
+  }, [instruction, aiBusy, editor, chapter, queueOps]);
 
   return (
     <div className="cx-details-tab">
+      <section className="cx-details-block">
+        <h3>Tell the AI</h3>
+        <textarea
+          className="cx-details-comment cx-instruct-box"
+          aria-label="Tell the AI what to change in this chapter"
+          placeholder="Say what you want changed in this chapter — e.g. “add diacritical marks to the citation”, “tighten the opening two paragraphs”…"
+          value={instruction}
+          disabled={aiBusy}
+          onChange={(e) => setInstruction(e.target.value)}
+        />
+        <button
+          type="button"
+          className="cx-instruct-run"
+          disabled={aiBusy || !instruction.trim()}
+          onClick={() => void runInstruction()}
+        >
+          {aiBusy ? (
+            <>
+              <i
+                className="fa-solid fa-circle-notch cx-autosave-spin"
+                aria-hidden="true"
+              />{" "}
+              Working…
+            </>
+          ) : (
+            <>
+              <i className="fa-solid fa-wand-magic-sparkles" aria-hidden="true" />{" "}
+              Make the changes
+            </>
+          )}
+        </button>
+        {aiNote && (
+          <p className="cx-details-hint cx-instruct-note" role="status">
+            {aiNote}
+          </p>
+        )}
+        {aiReasons.length > 0 && (
+          <ul className="cx-instruct-reasons">
+            {aiReasons.map((r, i) => (
+              <li key={i}>{r}</li>
+            ))}
+          </ul>
+        )}
+      </section>
+
       <section className="cx-details-block">
         <h3>
           Mark for follow-up
@@ -258,79 +433,6 @@ export default function ComposeDetailsTab({
         )}
       </section>
 
-      <section className="cx-details-block">
-        <h3>Comment</h3>
-        {activeParaIdx === null ? (
-          <p className="cx-details-hint">
-            Click into a paragraph to leave a comment.
-          </p>
-        ) : (
-          <textarea
-            className="cx-details-comment"
-            placeholder="Comment on this paragraph…"
-            value={activeComment}
-            onChange={(e) => {
-              commentsRef.current.set(activeParaIdx, e.target.value);
-              refreshComments();
-            }}
-            onBlur={(e) => persistComment(activeParaIdx, e.target.value)}
-          />
-        )}
-      </section>
-
-      <section className="cx-details-block">
-        <h3>Section depth &amp; tags</h3>
-        {sections.length === 0 ? (
-          <p className="cx-details-hint">
-            This chapter has no subsection headings to tag.
-          </p>
-        ) : (
-          <ul className="cx-details-sections">
-            {sections.map((title, ord) => {
-              const depth = sectionDepths[ord];
-              const tags = sectionTagsMap[ord] ?? [];
-              return (
-                <li key={ord}>
-                  <span className="cx-details-section-title">{title}</span>
-                  <button
-                    type="button"
-                    className="cx-btn-depth"
-                    onClick={(e) =>
-                      openDepthPicker(
-                        e.currentTarget,
-                        saveSectionDepthRef.current,
-                        ord,
-                        title,
-                        depth,
-                        bridge.depthLevels,
-                        tags,
-                      )
-                    }
-                  >
-                    {depth ?? "∅ depth"}
-                  </button>
-                  <button
-                    type="button"
-                    className="cx-btn-tags"
-                    onClick={(e) =>
-                      openTagPicker(
-                        e.currentTarget,
-                        saveSectionDepthRef.current,
-                        ord,
-                        title,
-                        tags,
-                        depth ?? "",
-                      )
-                    }
-                  >
-                    {tags.length ? tags.join(", ") : "+ tags"}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </section>
     </div>
   );
 }
