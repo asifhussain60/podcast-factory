@@ -568,3 +568,42 @@ def test_compose_v2_warns_loudly_when_replay_discards_adapted(tmp_path: Path, mo
     assert {c["title"]: c["status"] for c in report["chapters"]}["On Knowledge"] == "adapted-then-overwritten"
     out = (bd / "book" / "book.md").read_text(encoding="utf-8")
     assert "The author's own paragraph." in out  # the replay still won
+
+
+def test_reconcile_failure_does_not_relabel_the_replay(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A reconcile crash after a SUCCESSFUL replay must be recorded as its own
+    skip — sharing the replay's try block recorded it as a "composer-edits" skip,
+    telling the operator their edits were dropped when the replay had applied
+    them, while silently keeping the stale "adapted" the reconcile exists to end.
+    """
+    import _book_frontmatter
+    import _book_pass_reports
+    import _book_pipeline_v2
+    import _book_voice as voice
+    import _translation_edition
+
+    bd = _book(tmp_path, _BASE)
+    (bd / "_system" / "series-config.yaml").write_text(
+        "book_pipeline_v2: true\ndeliverable_mode: translation_edition\n", encoding="utf-8"
+    )
+    monkeypatch.setattr(
+        _translation_edition,
+        "author_translation_edition_compose",
+        lambda bd_, **k: Path(bd_) / "book" / "book.md",
+    )
+    monkeypatch.setattr(voice, "_fluency_chapter", _GOOD)
+    monkeypatch.setattr(_book_frontmatter, "apply_introduction", lambda bd_, **k: {"applied": False})
+    record_edit(bd, chapter_key="on knowledge", body_md="The author's own paragraph.")
+
+    def boom(*a, **k):
+        raise OSError("disk full")
+
+    monkeypatch.setattr(_book_pass_reports, "reconcile_reports_after_replay", boom)
+    _book_pipeline_v2.compose_book_v2(bd, log=lambda *a: None, force=True)
+
+    skips = json.loads((bd / "_system" / "compose-skips.json").read_text())["skips"]
+    steps = [s["step"] for s in skips]
+    assert "report-reconcile" in steps  # the failure is named for what actually failed
+    assert "composer-edits" not in steps  # the successful replay is not disowned
+    out = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    assert "The author's own paragraph." in out  # the replay's work stands

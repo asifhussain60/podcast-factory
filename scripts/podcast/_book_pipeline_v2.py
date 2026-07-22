@@ -177,18 +177,30 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     from _book_edits import apply_composer_edits
     from _book_pass_reports import reconcile_reports_after_replay
 
+    _replay_report = None
     try:
         _replay_report = apply_composer_edits(book_dir, log=log, force=force)
         book_md = book_dir / "book" / "book.md"
-        _discarded = reconcile_reports_after_replay(book_dir, _replay_report, log=log)
-        if _discarded:
-            log(
-                f"    WARNING: composer-edit replay DISCARDED adapted prose in {_discarded} chapter(s) — "
-                "the pass reports now read 'adapted-then-overwritten'; that model spend bought text "
-                "the book does not carry"
-            )
     except Exception as e:  # a bad sidecar must never destroy a good compose
         _record_skip(book_dir, "composer-edits", e, log)
+
+    # The reconcile gets its OWN guard, deliberately not shared with the replay's.
+    # Sharing one try block meant a reconcile failure was recorded as a
+    # "composer-edits" skip — telling the operator their edits were dropped when
+    # the replay had in fact applied them — while ALSO suppressing the discard
+    # warning and leaving the stale "adapted" in place: the one failure mode this
+    # step exists to end, hidden behind a false skip record.
+    if _replay_report is not None:
+        try:
+            _discarded = reconcile_reports_after_replay(book_dir, _replay_report, log=log)
+            if _discarded:
+                log(
+                    f"    WARNING: composer-edit replay DISCARDED adapted prose in {_discarded} chapter(s) — "
+                    "the pass reports now read 'adapted-then-overwritten'; that model spend bought text "
+                    "the book does not carry"
+                )
+        except Exception as e:  # a truth-teller must never fail the compose it describes
+            _record_skip(book_dir, "report-reconcile", e, log)
 
     # 5a-translit. Fold scholarly transliteration to the plain house form, AFTER
     #     the model passes. The base composer already does this at the end of its
