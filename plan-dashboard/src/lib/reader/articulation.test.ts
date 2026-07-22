@@ -95,6 +95,23 @@ test("a superseded chain that never reaches an adaptation warns as frozen-before
   assert.match(warnings["on patience"], /before articulation/);
 });
 
+test("adapted-then-overwritten warns — the replay discarded the articulated prose", () => {
+  // Stamped by the post-replay reconcile (RCA-001 AI-2): the pass adapted the
+  // chapter but a replayed Composer edit overwrote it in the same compose, so
+  // the current base is NOT articulated and a save would freeze it again.
+  const warnings = articulationWarningsFrom(
+    report([
+      {
+        title: "On Patience",
+        status: "adapted-then-overwritten",
+        pre_replay_status: "adapted",
+      },
+    ]),
+    ["on patience"],
+  );
+  assert.match(warnings["on patience"], /replay discarded/);
+});
+
 test("a chapter the report has never heard of warns as unknown, not safe", () => {
   const warnings = articulationWarningsFrom(
     report([{ title: "On Knowledge", status: "adapted" }]),

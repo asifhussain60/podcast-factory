@@ -43,6 +43,7 @@ from typing import Callable, Sequence
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _book_compose import _arabic_run_count
 from _book_edits import anchor_key, edited_chapter_keys
+from _book_pass_reports import KEPT_STATUSES, STATUS_OVERWRITTEN, load_prior_records, merge_records
 from _book_voice_prompts import _fluency_prompt, _voice_prompt
 from _doctrinal import run_doctrinal_checks
 from _literary import teaching_loss_findings
@@ -320,57 +321,6 @@ def _fluency_chapter(
     return (out or "").strip()
 
 
-def _merge_records(previous: list[dict], current: list[dict]) -> list[dict]:
-    """Carry a prior run's per-chapter records through a targeted re-run.
-
-    A pass run with ``only=`` marks every other chapter ``skipped``. Writing that
-    straight out ERASES the record of the full run that produced the text now on
-    disk — the report then says "0 adapted, 8 skipped" for a book whose chapters
-    were all adapted an hour earlier. That misreads as "the pass did nothing",
-    and on 2026-07-20 it sent a reviewer to exactly that wrong conclusion. A
-    skipped chapter therefore keeps whatever the previous report said about it.
-
-    ``composer-edit`` is the same trap wearing a different word. A chapter the
-    human has since authored is no longer adapted by this pass, but it very likely
-    WAS adapted before they took it over, and replacing the record outright loses
-    that. It keeps its new status — that is the true and current fact — and carries
-    what the last report said in ``superseded_status``, so the reviewer can still
-    see the chapter has a history.
-
-    The carried value is what the pass last said BEFORE any takeover — the prior
-    record's own ``superseded_status`` when it has one. Carrying the prior
-    ``status`` unconditionally chained ``composer-edit`` onto itself from the
-    second run onward, erasing the "was adapted" origin the field exists to keep
-    (and making the Composer's articulation guard warn on chapters that were
-    legitimately adapted before the human took them over).
-    """
-    prior = {r.get("title"): r for r in previous if r.get("title")}
-    merged: list[dict] = []
-    for record in current:
-        title = record.get("title")
-        status = record.get("status")
-        if status == "skipped" and title in prior:
-            merged.append(prior[title])
-        elif status == "composer-edit" and title in prior:
-            p = prior[title]
-            superseded = p.get("superseded_status") or p.get("status")
-            merged.append({**record, "superseded_status": superseded})
-        else:
-            merged.append(record)
-    return merged
-
-
-def _load_prior_records(report_path: Path) -> list[dict]:
-    if not report_path.exists():
-        return []
-    try:
-        data = json.loads(report_path.read_text(encoding="utf-8"))
-    except Exception:
-        return []
-    records = data.get("chapters")
-    return records if isinstance(records, list) else []
-
-
 def _run_pass(
     book_md: Path,
     fn: Callable[..., str],
@@ -482,16 +432,18 @@ def apply_fluency_adapt(
     )
     book_md.write_text(new_text, encoding="utf-8")
     report_path = book_dir / "_system" / "book-fluency-report.json"
-    records = _merge_records(_load_prior_records(report_path), records)
-    adapted = sum(1 for r in records if r["status"] in ("adapted", "partial"))
+    records = merge_records(load_prior_records(report_path), records, edited_keys=edited_chapter_keys(book_dir))
+    adapted = sum(1 for r in records if r["status"] in KEPT_STATUSES)
     reverted = sum(1 for r in records if r["status"] == "reverted")
+    overwritten = sum(1 for r in records if r["status"] == STATUS_OVERWRITTEN)
     report_path.write_text(
         json.dumps(
             {
-                "schema": "podcast.book-fluency/v3",
+                "schema": "podcast.book-fluency/v4",
                 "narrative_frame": frame,
                 "adapted": adapted,
                 "reverted": reverted,
+                "overwritten_by_replay": overwritten,
                 "chapters": records,
             },
             indent=2,
@@ -546,16 +498,18 @@ def apply_author_companion_voice(
     )
     book_md.write_text(new_text, encoding="utf-8")
     report_path = book_dir / "_system" / "book-voice-report.json"
-    records = _merge_records(_load_prior_records(report_path), records)
-    revoiced = sum(1 for r in records if r["status"] in ("adapted", "partial"))
+    records = merge_records(load_prior_records(report_path), records, edited_keys=edited_chapter_keys(book_dir))
+    revoiced = sum(1 for r in records if r["status"] in KEPT_STATUSES)
     reverted = sum(1 for r in records if r["status"] == "reverted")
+    overwritten = sum(1 for r in records if r["status"] == STATUS_OVERWRITTEN)
     report_path.write_text(
         json.dumps(
             {
-                "schema": "podcast.book-voice/v3",
+                "schema": "podcast.book-voice/v4",
                 "narrative_frame": frame,
                 "revoiced": revoiced,
                 "reverted": reverted,
+                "overwritten_by_replay": overwritten,
                 "chapters": records,
             },
             indent=2,

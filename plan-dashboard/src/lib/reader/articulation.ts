@@ -43,6 +43,11 @@ function freezeReason(status: string): string {
       return "the articulation pass reverted this chapter to the machine base";
     case "skipped":
       return "the articulation pass skipped this chapter";
+    // Stamped by the post-replay reconcile (RCA-001 AI-2): the pass adapted the
+    // chapter, then the Composer-edit replay overwrote it in the same compose —
+    // so the CURRENT base is not articulated and a save would freeze it again.
+    case "adapted-then-overwritten":
+      return "the replay discarded this chapter's articulated prose — its current base is not articulated";
     // "composer-edit" as the SUPERSEDED status means the takeover chain never
     // reaches an adaptation — reports written before the _merge_records origin
     // fix (2026-07-22) can also carry it; both read as never-articulated.

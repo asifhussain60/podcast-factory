@@ -479,3 +479,131 @@ def test_targeted_rerun_keeps_the_prior_runs_records(tmp_path: Path) -> None:
     statuses = {c["title"]: c["status"] for c in after["chapters"]}
     assert statuses["On Knowledge"] == "adapted"  # carried through, not "skipped"
     assert after["revoiced"] == 2
+
+
+# ─── Report honesty after the Composer-edit replay (RCA-001) ─────────────────
+# The fluency/voice reports are written BEFORE the replay, so "adapted" is a
+# claim about a moment the replay can invalidate in the same compose. On
+# 2026-07-21 exactly that report — `adapted: 9` with 8 chapters discarded
+# minutes later — shipped un-articulated prose through every downstream gate.
+_GOOD = lambda title, base, *a, **k: base + " I say this plainly to you."  # noqa: E731
+
+
+def test_replay_overwrite_restamps_adapted_as_overwritten(tmp_path: Path) -> None:
+    from _book_edits import apply_composer_edits
+    from _book_pass_reports import reconcile_reports_after_replay
+    from _book_voice import apply_fluency_adapt
+
+    bd = _book(tmp_path, _BASE)
+    apply_fluency_adapt(bd, log=lambda *a: None, adapter=_GOOD)
+    # The save lands AFTER the pass adapted the chapter — the RCA-001 shape.
+    record_edit(bd, chapter_key="on knowledge", body_md="The author's own paragraph, kept verbatim.")
+    replay = apply_composer_edits(bd, log=lambda *a: None)
+    assert reconcile_reports_after_replay(bd, replay, log=lambda *a: None) == 1
+
+    report = json.loads((bd / "_system" / "book-fluency-report.json").read_text())
+    chapters = {c["title"]: c for c in report["chapters"]}
+    assert chapters["On Knowledge"]["status"] == "adapted-then-overwritten"
+    assert chapters["On Knowledge"]["pre_replay_status"] == "adapted"
+    assert chapters["On Patience"]["status"] == "adapted"  # untouched by the replay
+    # Top-level counts only ever count SURVIVING work.
+    assert report["adapted"] == 1
+    assert report["overwritten_by_replay"] == 1
+    assert report["schema"] == "podcast.book-fluency/v4"
+
+
+def test_reconcile_is_a_noop_without_applied_edits(tmp_path: Path) -> None:
+    from _book_edits import apply_composer_edits
+    from _book_pass_reports import reconcile_reports_after_replay
+    from _book_voice import apply_fluency_adapt
+
+    bd = _book(tmp_path, _BASE)
+    apply_fluency_adapt(bd, log=lambda *a: None, adapter=_GOOD)
+    replay = apply_composer_edits(bd, log=lambda *a: None)  # no edits saved
+    assert reconcile_reports_after_replay(bd, replay, log=lambda *a: None) == 0
+    report = json.loads((bd / "_system" / "book-fluency-report.json").read_text())
+    assert report["adapted"] == 2 and all(c["status"] == "adapted" for c in report["chapters"])
+
+
+def test_merge_cannot_resurrect_stale_adapted_for_an_edited_chapter(tmp_path: Path) -> None:
+    """A targeted --force re-run must not inherit a live "adapted" claim for a
+    chapter the Composer now owns — the replay overwrites that chapter's text."""
+    bd = _book(tmp_path, _BASE)
+    apply_author_companion_voice(bd, log=lambda *a: None, revoicer=_GOOD)
+    record_edit(bd, chapter_key="on knowledge", body_md="The author's own paragraph.")
+
+    apply_author_companion_voice(bd, log=lambda *a: None, revoicer=_GOOD, only=[2], force=True)
+    report = json.loads((bd / "_system" / "book-voice-report.json").read_text())
+    chapters = {c["title"]: c for c in report["chapters"]}
+    assert chapters["On Knowledge"]["status"] == "adapted-then-overwritten"  # not "adapted"
+    assert chapters["On Knowledge"]["pre_replay_status"] == "adapted"
+    assert report["revoiced"] == 1
+    assert report["overwritten_by_replay"] == 1
+
+
+def test_compose_v2_warns_loudly_when_replay_discards_adapted(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import _book_frontmatter
+    import _book_pipeline_v2
+    import _book_voice as voice
+    import _translation_edition
+
+    bd = _book(tmp_path, _BASE)
+    (bd / "_system" / "series-config.yaml").write_text(
+        "book_pipeline_v2: true\ndeliverable_mode: translation_edition\n", encoding="utf-8"
+    )
+    monkeypatch.setattr(
+        _translation_edition,
+        "author_translation_edition_compose",
+        lambda bd_, **k: Path(bd_) / "book" / "book.md",  # book.md already on disk
+    )
+    monkeypatch.setattr(voice, "_fluency_chapter", _GOOD)
+    monkeypatch.setattr(_book_frontmatter, "apply_introduction", lambda bd_, **k: {"applied": False})
+    record_edit(bd, chapter_key="on knowledge", body_md="The author's own paragraph.")
+
+    logs: list[str] = []
+    # --force re-composes over the author's chapter; the replay then restores it.
+    _book_pipeline_v2.compose_book_v2(bd, log=logs.append, force=True)
+    assert any("WARNING" in m and "DISCARDED" in m for m in logs)
+    report = json.loads((bd / "_system" / "book-fluency-report.json").read_text())
+    assert {c["title"]: c["status"] for c in report["chapters"]}["On Knowledge"] == "adapted-then-overwritten"
+    out = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    assert "The author's own paragraph." in out  # the replay still won
+
+
+def test_reconcile_failure_does_not_relabel_the_replay(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A reconcile crash after a SUCCESSFUL replay must be recorded as its own
+    skip — sharing the replay's try block recorded it as a "composer-edits" skip,
+    telling the operator their edits were dropped when the replay had applied
+    them, while silently keeping the stale "adapted" the reconcile exists to end.
+    """
+    import _book_frontmatter
+    import _book_pass_reports
+    import _book_pipeline_v2
+    import _book_voice as voice
+    import _translation_edition
+
+    bd = _book(tmp_path, _BASE)
+    (bd / "_system" / "series-config.yaml").write_text(
+        "book_pipeline_v2: true\ndeliverable_mode: translation_edition\n", encoding="utf-8"
+    )
+    monkeypatch.setattr(
+        _translation_edition,
+        "author_translation_edition_compose",
+        lambda bd_, **k: Path(bd_) / "book" / "book.md",
+    )
+    monkeypatch.setattr(voice, "_fluency_chapter", _GOOD)
+    monkeypatch.setattr(_book_frontmatter, "apply_introduction", lambda bd_, **k: {"applied": False})
+    record_edit(bd, chapter_key="on knowledge", body_md="The author's own paragraph.")
+
+    def boom(*a, **k):
+        raise OSError("disk full")
+
+    monkeypatch.setattr(_book_pass_reports, "reconcile_reports_after_replay", boom)
+    _book_pipeline_v2.compose_book_v2(bd, log=lambda *a: None, force=True)
+
+    skips = json.loads((bd / "_system" / "compose-skips.json").read_text())["skips"]
+    steps = [s["step"] for s in skips]
+    assert "report-reconcile" in steps  # the failure is named for what actually failed
+    assert "composer-edits" not in steps  # the successful replay is not disowned
+    out = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    assert "The author's own paragraph." in out  # the replay's work stands

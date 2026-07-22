@@ -120,24 +120,24 @@ def test_fluency_prompt_does_not_contradict_its_own_frame_directive() -> None:
 
 
 def test_merge_records_carries_superseded_origin_through_repeat_runs() -> None:
-    from _book_voice import _merge_records
+    from _book_pass_reports import merge_records
 
     adapted = [{"title": "T", "status": "adapted", "windows": 1, "windows_kept": 1}]
     takeover = [{"title": "T", "status": "composer-edit", "windows": 0, "windows_kept": 0}]
-    run1 = _merge_records(adapted, takeover)
+    run1 = merge_records(adapted, takeover)
     assert run1[0]["superseded_status"] == "adapted"
-    run2 = _merge_records(run1, takeover)
+    run2 = merge_records(run1, takeover)
     assert run2[0]["superseded_status"] == "adapted"  # NOT "composer-edit"
-    run3 = _merge_records(run2, takeover)
+    run3 = merge_records(run2, takeover)
     assert run3[0]["superseded_status"] == "adapted"
 
 
 def test_merge_records_takeover_before_any_adaptation_stays_composer_edit() -> None:
-    from _book_voice import _merge_records
+    from _book_pass_reports import merge_records
 
     never_adapted = [{"title": "T", "status": "composer-edit", "windows": 0, "windows_kept": 0}]
     takeover = [{"title": "T", "status": "composer-edit", "windows": 0, "windows_kept": 0}]
-    run2 = _merge_records(never_adapted, takeover)
+    run2 = merge_records(never_adapted, takeover)
     # No adaptation in the history: the chain resolves to composer-edit, which
     # the articulation guard treats as "frozen before articulation succeeded".
     assert run2[0]["superseded_status"] == "composer-edit"

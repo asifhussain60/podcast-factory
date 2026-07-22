@@ -11,8 +11,8 @@ Claude (investigation + forensics), reviewed by Asif
 ### Status
 
 RESOLVED 2026-07-22 — book-challenger verdict SHIP-READY after a 3-iteration
-convergence on the recovered text. Open corrective actions: AI-2 (in a
-separate task session), AI-6, AI-7.
+convergence on the recovered text. Open corrective actions: AI-6, AI-7
+(AI-2 landed from its task session with the develop merge).
 
 ### Template
 
@@ -109,7 +109,7 @@ snapshots exactly.
 | # | Action | Type | Status |
 |---|---|---|---|
 | AI-1 | Recover: re-articulate 8 frozen chapters, re-apply deltas, re-gate | mitigate | done 2026-07-22 — SHIP-READY at challenger iteration 3; 4 P0 / 7 P1 / 3 P2 found-and-fixed on the way; only advisory P2s remain (apparatus pass) |
-| AI-2 | Fluency/compose honesty: report `adapted-and-kept` vs `adapted-then-overwritten`; compose warns loudly when replay discards adapted text | prevent | task chip spawned |
+| AI-2 | Fluency/compose honesty: report `adapted-and-kept` vs `adapted-then-overwritten`; compose warns loudly when replay discards adapted text | prevent | done 2026-07-22 — `reconcile_reports_after_replay` (`_book_pass_reports.py`) re-stamps discarded chapters after the replay, `merge_records` can no longer resurrect a stale `adapted` for an edited chapter, compose warns loudly; schema `podcast.book-fluency/v4` + `podcast.book-voice/v4` (additive: `overwritten_by_replay`, `pre_replay_status`) |
 | AI-3 | Composer save guard: warn when a save would freeze a chapter whose current base never passed articulation | prevent | done 2026-07-22 — advisory banner + confirm-before-first-save in the Book Composer, driven by `lib/reader/articulation.ts` over `_system/book-fluency-report.json` |
 | AI-4 | RCA practice: `docs/rca/` process + template + standing memory rule | process | done (this session) |
 | AI-5 | Compose-run interference watch: heartbeat monitors the composer-edits sidecar for mid-run saves (open Composer tab autosave is a live clobber vector) | detect | done for this run (tab closed + monitored); durable fix is AI-3's save guard |
