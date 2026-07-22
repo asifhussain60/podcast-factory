@@ -1416,7 +1416,9 @@ function boot(): void {
     const actions = document.createElement("div");
     actions.className = "cx-palette-actions";
     actions.append(
-      iconBtn("✨", "Edit this image with AI", () =>
+      // A pencil, not a sparkle: the sparkle read as "AI magic", and nobody
+      // recognized it as the EDIT affordance (the tooltip still says AI).
+      iconBtn("✏️", "Edit this image with AI", () =>
         openAiImageBox(v.file, v.caption),
       ),
       iconBtn("🗑", "Delete artifact", () => void deleteArtifact(v)),
