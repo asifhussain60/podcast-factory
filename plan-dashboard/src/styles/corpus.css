@@ -97,7 +97,13 @@
 .cm-grouprow {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  /* `min()` guards the track floor against the container: 20rem is 384px at this
+     site's root font size, which is WIDER than the ~342px a 390px phone leaves
+     after the page gutters — so a bare `minmax(20rem, 1fr)` laid a single column
+     wider than its own grid and pushed the whole page into horizontal scroll.
+     Clamping the floor to 100% keeps the two-column intent where there is room
+     and collapses cleanly where there is not. */
+  grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
 }
 .cm-group {
   background: var(--c-bg-card);

@@ -57,6 +57,13 @@
   color: var(--c-ink-dim, #4d4a42);
   font-size: 0.85rem;
 }
+/* Left unstyled, the range renders with the browser's own accent — a bright
+   blue that is the one cold colour anywhere on this warm editorial page. This
+   is the same one-line treatment library.css and studio-editor-popovers.css
+   already use for their sliders; no new palette, just the existing token. */
+#pv-zoom-range {
+  accent-color: var(--c-accent, #8b4513);
+}
 .pv-zoom-value {
   color: var(--c-ink-muted, #66625a);
   font-size: 0.85rem;

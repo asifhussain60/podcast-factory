@@ -4585,6 +4585,33 @@ table.data tr:hover td {
   .intel-cards {
     grid-template-columns: 1fr;
   }
+  /* The five-column step row reserves 90+130+100+24 of FIXED track plus gaps —
+     around 390px before the title is given a single pixel — so on a phone it ran
+     past the right edge and put the whole plan page into horizontal scroll.
+     Re-lay it as three short rows: identity + chevron, then the title across the
+     full width, then the status pair. Placement is explicit so the cells cannot
+     land in auto-flow order. */
+  .step-row-header {
+    grid-template-columns: 1fr auto;
+    row-gap: var(--sp-2);
+  }
+  .step-row-header .step-id-cell {
+    grid-area: 1 / 1;
+  }
+  .step-row-header .step-chevron {
+    grid-area: 1 / 2;
+  }
+  .step-row-header .step-title {
+    grid-area: 2 / 1 / auto / -1;
+  }
+  .step-row-header .step-badge {
+    grid-area: 3 / 1;
+    justify-self: start;
+  }
+  .step-row-header .step-touched {
+    grid-area: 3 / 2;
+    justify-self: end;
+  }
 }
 
 /* ── L1 → L2 boundary divider (shared by architecture + security pages) ── */
@@ -4603,6 +4630,10 @@ table.data tr:hover td {
   display: flex;
   align-items: flex-start;
   gap: var(--sp-4);
+  /* The label is nowrap + flex-shrink:0 by design, so on a phone the badge and
+     the sub-line had nowhere to go and ran off the right edge of the page.
+     Wrapping lets the row become two lines instead of a horizontal scrollbar. */
+  flex-wrap: wrap;
 }
 .l1-l2-label {
   font-size: var(--fs-sm);
