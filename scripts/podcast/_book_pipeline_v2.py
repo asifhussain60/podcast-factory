@@ -195,6 +195,20 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # never worth a finished translation
         _record_skip(book_dir, "translit", e, log)
 
+    # 5a-policy. Classify the glossary's annotation policy — ONCE per book. Which
+    #     terms deserve an inline annotation is a judgment call, so a model makes
+    #     it, and it is durable: proposals land in glossary.yml where a human can
+    #     override any line, and entries already carrying a class are never
+    #     touched again, so this is a no-op (and zero cost) on every compose
+    #     after the first. Per the learning-loop rule, suggestions are pre-applied
+    #     and visible (_system/annotation-policy-report.json), never silent.
+    from _annotation_policy import propose_annotation_policy
+
+    try:
+        propose_annotation_policy(book_dir, log=log)
+    except Exception as e:  # a policy miss must never cost a finished book
+        _record_skip(book_dir, "annotation-policy", e, log)
+
     # 5a-arabic. Put the Arabic script back beside inline terms. AFTER every
     #     LLM text pass, so no model can romanize the script away again, and AFTER
     #     the Composer replay, so it annotates the author's chapters too — before
