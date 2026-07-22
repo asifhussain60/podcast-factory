@@ -6,6 +6,33 @@
 -->
 # Current work - status
 
+**Last updated:** 2026-07-22 2:27 PM EST (Composer UX session: 6 ships on develop)
+
+**Newest — a full Composer UX session, all shipped and challenger-gated.**
+(1) Chapter dropdown fixed — option mousedown moved focus to the skip-link
+target, whose focusout closed the list before the click committed; standard
+combobox preventDefault, guarded to option rows (select-menu.ts). (2) The
+candidate palette now filters by chapter — slide-deck anchors quote the deck
+NARRATION, so the producer resolves and stamps an explicit `chapter` into
+visuals/index.json at emit (`resolve_candidate_chapter` in
+_visual_candidates.py, heading rung via the pinned anchor_key); composer.ts
+prefers the stamp; this book backfilled 27/29. (3) Palette gestures: CLICK
+opens a self-sizing lightbox (image-lightbox.ts, shared modal contract), DRAG
+is the ONLY placement path (per-paragraph drop marker); hover-preview deleted.
+(4) Actions always visible in their own column (no hover-reveal, no caption
+overlap), accent borders >=3:1, shadows; drag ghost, marker pulse, one-shot
+arrival flash — all motion behind prefers-reduced-motion. Edit icon is ✏️.
+(5) Inspector restructure (Asif-approved plan): tabs are [Artifacts, Refine &
+Notes] (Details merged in, detected-citations list included); citation style +
+typography moved VERBATIM into a Book-settings dialog behind a tab-bar gear —
+forms keep their bindings, saves verified end-to-end. (6) Book content:
+Tur/Bayt al-Mamur glossed per Asif ("the Mount"/"the Frequented House", NOT
+"House of Light"), plus 4 name-gloss composer edits (Salih 'the righteous',
+the Ubayd Allah name-riddle, Abu Salih, Abu al-Khair); 6 chapters now carry
+durable composer edits. Gates every ship: astro check, lint:views, npm test
+59, smoke 32/32, pytest 1751 (+4 new), html-view-challenger. Standing
+advisory: placement is drag-only (no keyboard path) — accepted by design.
+
 **Last updated:** 2026-07-22 9:55 AM EST (annotation policy applied; book SHIP-READY, zero open findings)
 
 **Newest — the annotation policy is live and the book converged to SHIP-READY
