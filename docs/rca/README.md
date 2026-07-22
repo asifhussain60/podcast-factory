@@ -48,4 +48,4 @@ Analysis discipline, always:
 
 | ID | Date | Title | Status |
 |---|---|---|---|
-| RCA-001 | 2026-07-22 | [Composer snapshots froze un-articulated prose across 8 of 9 chapters](2026-07-22-composer-snapshots-froze-unarticulated-prose.md) | Recovery in progress |
+| RCA-001 | 2026-07-22 | [Composer snapshots froze un-articulated prose across 8 of 9 chapters](2026-07-22-composer-snapshots-froze-unarticulated-prose.md) | Resolved — SHIP-READY; AI-2/6/7 open |

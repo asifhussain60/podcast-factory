@@ -1,12 +1,33 @@
-<!--
-  SINGLE LIVING SOURCE for "where the work stands." The SessionStart hook
-  (.claude/hooks/site-work-status.sh) injects this into every new conversation so
-  the next session inherits context with zero re-reminding (WC7e). KEEP IT SHORT and
-  CURRENT. Recover older entries from git history when needed.
--->
 # Current work - status
 
-**Last updated:** 2026-07-22 4:35 PM EST (RCA-001 AI-3: Composer articulation guard)
+**Last updated:** 2026-07-22 06:11 PM EST (RCA-001 recovery session: the book is articulated and SHIP-READY)
+
+**Newest — RCA-001: the composer-snapshot freeze, found, root-caused, recovered.**
+Asif reported "original bad English" in the compose tab; forensics showed 8 of
+9 chapters were byte-frozen at their 2026-07-20 pre-articulation Composer
+snapshots — the 07-21 compose articulated all 9 chapters and its own replay
+discarded 8 in the same run. Standing RCA practice established (docs/rca/ —
+SRE postmortem format; RCA-001 written and Resolved). Recovery: human deltas
+extracted first, stale sidecar archived, full fresh compose (base + fluency,
+9/9 de-calqued, 0 reverted), punchlist re-applied (green-ears proved correct
+from source; name glosses + bridges re-applied), then book-challenger
+convergence in 3 iterations — 4 P0 / 7 P1 / 3 P2 found-and-fixed (seam
+double-telling, one-name-for-the-teacher restored per the locked ruling,
+Quran tokens vs canonical mushaf, the العالِم/العالَم garble) — final verdict
+SHIP-READY. Six chapters now carry Composer edits whose bodies are the
+ARTICULATED text. Pipeline hardening: enumeration gate refined (section
+numbering is apparatus — run-shape rule), integrity-retry now names actual
+findings, augment notes are "(tradition-grounded)" with an honest-provenance
+prompt rule. Composer save-guard (AI-3) shipped from a task chip; AI-2
+(articulation-survival reporting) still in its chip session; AI-6 (no-headings
+prompt strengthening — must ride with a planned recompose) and AI-7
+(enumeration-gate watch) open in the RCA. Advisory P2s for a future apparatus
+pass: intro diacritic register, front-matter basmala, two ch5 Arabic slab
+openings.
+
+---
+
+## Previous sessions
 
 **Newest — Composer articulation save guard (RCA-001 AI-3), shipped and
 challenger-gated (Level 1).** The Book Composer now warns before a save would
