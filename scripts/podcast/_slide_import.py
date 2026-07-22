@@ -28,13 +28,16 @@ figures, autonomously:
      slides — non-blocking contract).
      Sig cache: _manifests/.<ch>-sig = sha256(deck pdf)+sha256(source md);
      hit -> the LLM call is skipped (mirrors the framing .framing-sig cache).
-  4. INJECT — ONE combined inject_slides() call across all chapters (pages
-     re-keyed uniquely; figure placed BEFORE its anchor paragraph) ->
-     book/book-slides.md, which build_book_pdf prefers at render.
+  4. EMIT CANDIDATES — the extracted, watermark-cleaned slides are offered as
+     CANDIDATES to book/visuals/index.json (raster watermark-cropped; verified
+     vector replicas preferred) for human curation in the Book Composer. They
+     are NOT injected into the book text — book.md stays diagram-free and is the
+     render input.
 
 Standalone:
   python3 scripts/podcast/_slide_import.py <BOOK_DIR> [--force]
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -43,36 +46,37 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _authoring._core import (  # noqa: E402
+from _authoring._core import (
     AuthoringError,
     AuthoringHalt,
     _assert_artifact,
     _run_claude_p,
 )
-from _notebooklm_table import (  # noqa: E402
+from _notebooklm_table import (
     build_slide_deck_card,
     discover_slide_framings,
     expected_deck_pdf,
     repo_rel_href,
 )
-from inject_slide_deck import (  # noqa: E402
+from inject_slide_deck import (
+    _page_map,
     extract_pages,
-    injection_source,
     inject_slides,
+    injection_source,
     load_manifest,
     page_titles,
-    _page_map,
 )
 
 _PHASE = "0book-slide-import"
 _MANIFEST_TIMEOUT = 900
 # Synthetic page-key stride: chapter index N's deck page P -> N*1000 + P.
-# Keeps multi-deck page numbers collision-free in the single combined
-# inject_slides() call (decks are well under 1000 pages).
+# Keeps multi-deck page numbers collision-free across the combined slide set
+# (decks are well under 1000 pages).
 _STRIDE = 1000
 
 
 # ── sig cache ────────────────────────────────────────────────────────────────
+
 
 def _sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -92,16 +96,17 @@ def _manifest_path(book_dir: Path, ch: str) -> Path:
 
 # ── manifest authoring (claude -p) ───────────────────────────────────────────
 
-def _manifest_prompt(book_md_path: Path, titles: list[str], ch: str,
-                     out_path: Path, problems: list[str] | None = None) -> str:
-    numbered = "\n".join(f"  page {i}: {t or '(untitled page)'}"
-                         for i, t in enumerate(titles, start=1))
+
+def _manifest_prompt(
+    book_md_path: Path, titles: list[str], ch: str, out_path: Path, problems: list[str] | None = None
+) -> str:
+    numbered = "\n".join(f"  page {i}: {t or '(untitled page)'}" for i, t in enumerate(titles, start=1))
     retry_block = ""
     if problems:
         retry_block = (
             "\nA PREVIOUS ATTEMPT FAILED validation. Fix EXACTLY these problems "
-            "(choose different anchors where named):\n"
-            + "\n".join(f"  - {p}" for p in problems) + "\n")
+            "(choose different anchors where named):\n" + "\n".join(f"  - {p}" for p in problems) + "\n"
+        )
     return f"""You are mapping slide-deck pages to the passages of a book they illustrate.
 
 READ this book markdown file IN FULL:
@@ -139,9 +144,17 @@ OUTPUT: write the JSON file at the path above. No other output is needed.
 Do not modify any other file."""
 
 
-def _author_manifest(book_dir: Path, ch: str, slug: str, deck_pdf: Path,
-                     source_md: Path, source_text: str, pages_rel: dict[int, str],
-                     *, log=print) -> list[dict]:
+def _author_manifest(
+    book_dir: Path,
+    ch: str,
+    slug: str,
+    deck_pdf: Path,
+    source_md: Path,
+    source_text: str,
+    pages_rel: dict[int, str],
+    *,
+    log=print,
+) -> list[dict]:
     """Author + validate the chapter manifest, with one retry. Returns entries."""
     titles = page_titles(deck_pdf)
     out_path = _manifest_path(book_dir, ch)
@@ -150,11 +163,20 @@ def _author_manifest(book_dir: Path, ch: str, slug: str, deck_pdf: Path,
     for attempt in (1, 2):
         prompt = _manifest_prompt(source_md, titles, ch, out_path, problems)
         rc, stdout, stderr = _run_claude_p(
-            prompt, timeout=_MANIFEST_TIMEOUT, book_dir=book_dir,
-            phase=_PHASE, step=f"slide-manifest/{slug}/attempt-{attempt}")
+            prompt,
+            timeout=_MANIFEST_TIMEOUT,
+            book_dir=book_dir,
+            phase=_PHASE,
+            step=f"slide-manifest/{slug}/attempt-{attempt}",
+        )
         _assert_artifact(
-            _PHASE, out_path, rc, stdout, stderr,
-            manual_fallback=f"Author {out_path} by hand (slide_id/page/title/anchor_text).")
+            _PHASE,
+            out_path,
+            rc,
+            stdout,
+            stderr,
+            manual_fallback=f"Author {out_path} by hand (slide_id/page/title/anchor_text).",
+        )
         entries = load_manifest(out_path)
         try:
             # Dry validation against the REAL injection source.
@@ -162,20 +184,19 @@ def _author_manifest(book_dir: Path, ch: str, slug: str, deck_pdf: Path,
             return entries
         except AuthoringError as e:
             problems = [ln.strip() for ln in str(e).splitlines() if ln.strip()][1:]
-            log(f"    {_PHASE}: {ch} manifest attempt {attempt} failed validation "
-                f"({len(problems)} problem(s))")
+            log(f"    {_PHASE}: {ch} manifest attempt {attempt} failed validation ({len(problems)} problem(s))")
             out_path.unlink(missing_ok=True)
     raise AuthoringError(
         phase=_PHASE,
-        message=f"{ch}: manifest failed validation twice — last problems:\n  "
-                + "\n  ".join(problems or ["(unknown)"]),
-        manual_fallback=f"Author {out_path} by hand, then re-run --resume.")
+        message=f"{ch}: manifest failed validation twice — last problems:\n  " + "\n  ".join(problems or ["(unknown)"]),
+        manual_fallback=f"Author {out_path} by hand, then re-run --resume.",
+    )
 
 
 # ── main phase entry ─────────────────────────────────────────────────────────
 
-def author_phase_slide_import(book_dir: Path, *, force: bool = False,
-                              log=print) -> dict:
+
+def author_phase_slide_import(book_dir: Path, *, force: bool = False, log=print) -> dict:
     """Weave dropped deck PDFs into book/book-slides.md.
 
     Raises AuthoringHalt (PDF drops missing) or AuthoringError (manifest
@@ -198,7 +219,7 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False,
         return {"skipped": "no slide-deck framings and no book-deck.pdf"}
 
     # ── gate: every framed, non-exempt chapter needs its dropped PDF ─────────
-    work: list[tuple[str, str, Path]] = []   # (ch, slug, deck_pdf)
+    work: list[tuple[str, str, Path]] = []  # (ch, slug, deck_pdf)
     exempt: list[str] = []
     missing: list[str] = []
     for ch, slug, _framing, _deck_txt in framings:
@@ -213,19 +234,19 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False,
             missing.append(repo_rel_href(pdf, book_dir) or str(pdf))
     # Book mode (slide_deck_mode: book): the authored book-framing.md means ONE
     # deck is expected at slide-decks/book-deck.pdf — gate on it like a chapter.
-    if book_framing.exists() and not book_level_pdf.exists() \
-            and not (deck_dir / "book.SKIP").exists():
+    if book_framing.exists() and not book_level_pdf.exists() and not (deck_dir / "book.SKIP").exists():
         missing.append(repo_rel_href(book_level_pdf, book_dir) or str(book_level_pdf))
     if missing:
         card = "\n".join(build_slide_deck_card(book_dir))
         raise AuthoringHalt(
             phase=_PHASE,
-            message=("slide decks not yet dropped for "
-                     f"{len(missing)} chapter(s):\n  " + "\n  ".join(missing)
-                     + "\n\n" + card),
+            message=(
+                f"slide decks not yet dropped for {len(missing)} chapter(s):\n  " + "\n  ".join(missing) + "\n\n" + card
+            ),
             manual_fallback="Generate each deck in NotebookLM (card above), drop the "
-                            "exported PDFs at the listed paths (or create the .SKIP "
-                            "marker), then re-run --resume.")
+            "exported PDFs at the listed paths (or create the .SKIP "
+            "marker), then re-run --resume.",
+        )
     if has_book_level:
         work.append(("book", book_dir.name, book_level_pdf))
 
@@ -249,23 +270,26 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False,
         # everything else keeps the raster JPEG. Degrades to {} on failure
         # (non-blocking contract — the import proceeds all-raster).
         from _slide_replicate import analyze_and_replicate_slides
-        svg_overrides = analyze_and_replicate_slides(
-            book_dir, ch, pdf, pages_dir, force=force, log=log)
+
+        svg_overrides = analyze_and_replicate_slides(book_dir, ch, pdf, pages_dir, force=force, log=log)
         svg_counts[ch] = len(svg_overrides)
 
         manifest_file = _manifest_path(book_dir, ch)
         sig_file = _sig_path(book_dir, ch)
         sig = _sig(pdf, source_md)
-        if (ch == "book" and manifest_file.exists() and not sig_file.exists()):
+        if ch == "book" and manifest_file.exists() and not sig_file.exists():
             # Hand-authored book manifest (legacy manual mode, no sig) — honor as-is.
             entries = load_manifest(manifest_file)
-        elif manifest_file.exists() and sig_file.exists() \
-                and sig_file.read_text(encoding="utf-8").strip() == sig and not force:
+        elif (
+            manifest_file.exists()
+            and sig_file.exists()
+            and sig_file.read_text(encoding="utf-8").strip() == sig
+            and not force
+        ):
             log(f"    {_PHASE}: {ch} manifest cache hit — skipping LLM")
             entries = load_manifest(manifest_file)
         else:
-            entries = _author_manifest(book_dir, ch, slug, pdf, source_md,
-                                       source_text, pages_rel, log=log)
+            entries = _author_manifest(book_dir, ch, slug, pdf, source_md, source_text, pages_rel, log=log)
             sig_file.parent.mkdir(parents=True, exist_ok=True)
             sig_file.write_text(sig, encoding="utf-8")
 
@@ -280,17 +304,21 @@ def author_phase_slide_import(book_dir: Path, *, force: bool = False,
             combined_svgs[offset + n] = svg
         imported[ch] = sum(1 for e in entries if e["anchor_text"])
 
-    # ── single combined injection ────────────────────────────────────────────
-    out = inject_slides(source_text, combined_entries, pages=combined_pages,
-                        svg_overrides=combined_svgs)
-    out_path = book_dir / "book" / "book-slides.md"
-    out_path.write_text(out, encoding="utf-8")
     total = sum(imported.values())
     total_svg = sum(svg_counts.values())
-    log(f"    {_PHASE}: {source_md.name} + {total} slides "
-        f"({len(work)} deck(s), {total_svg} as SVG) -> {out_path.name}")
-    return {"imported": imported, "exempt": exempt, "svg": svg_counts,
-            "out": str(out_path.relative_to(book_dir))}
+
+    # Decouple visuals: extract + watermark-clean the slides exactly as before,
+    # then emit them as CANDIDATES to book/visuals/index.json (raster
+    # watermark-cropped; verified vector replicas preferred) rather than
+    # injecting them into the book text. book.md stays diagram-free.
+    from _visual_candidates import emit_slide_candidates, merge_entries
+
+    merge_entries(book_dir, emit_slide_candidates(book_dir, combined_entries, combined_pages, combined_svgs, log=log))
+    log(
+        f"    {_PHASE}: {total} slide candidate(s) offered "
+        f"({len(work)} deck(s), {total_svg} as SVG), book.md left diagram-free"
+    )
+    return {"imported": imported, "exempt": exempt, "svg": svg_counts, "awaiting_layout": True}
 
 
 def main() -> int:

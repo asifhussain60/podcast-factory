@@ -12,15 +12,17 @@ sidecar with classification + OCR + suggested citation. Then `finalize`
 substitutes placeholders, runs adapter-specific citation cleanup, and emits
 the final .md.
 """
+
 from __future__ import annotations
-import argparse, json
+
+import argparse
+import json
 from pathlib import Path
 
 from .adapters import get_adapter
 from .adapters.base import BookIds
-from .stages.prepare import prepare_book
 from .stages.finalize import finalize_book
-
+from .stages.prepare import prepare_book
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "extracted"
@@ -29,23 +31,29 @@ DEFAULT_EXTRACT_ROOT = REPO_ROOT / "CONTENT" / "_shared" / "source-library" / "e
 def _add_ids_args(parser: argparse.ArgumentParser, adapter_name: str) -> None:
     """Add --shelf-id / --book-id (canonical) plus adapter-specific aliases."""
     parser.add_argument(
-        "--shelf-id", type=int,
+        "--shelf-id",
+        type=int,
         help="Generic shelf id (adapter-specific aliases also accepted).",
     )
     parser.add_argument(
-        "--book-id", type=int,
+        "--book-id",
+        type=int,
         help="Generic book id (adapter-specific aliases also accepted).",
     )
     if adapter_name in ("wisdom", "kashkole", "kahskole"):
-        parser.add_argument("--binder", type=int, dest="shelf_id_alias",
-                            help="Alias for --shelf-id (KAHSKOLE.BinderID).")
-        parser.add_argument("--chapter", type=int, dest="book_id_alias",
-                            help="Alias for --book-id (KAHSKOLE.ChapterID).")
+        parser.add_argument(
+            "--binder", type=int, dest="shelf_id_alias", help="Alias for --shelf-id (KAHSKOLE.BinderID)."
+        )
+        parser.add_argument(
+            "--chapter", type=int, dest="book_id_alias", help="Alias for --book-id (KAHSKOLE.ChapterID)."
+        )
     elif adapter_name == "ksessions":
-        parser.add_argument("--group", type=int, dest="shelf_id_alias",
-                            help="Alias for --shelf-id (KSESSIONS.GroupID).")
-        parser.add_argument("--category", type=int, dest="book_id_alias",
-                            help="Alias for --book-id (KSESSIONS.CategoryID).")
+        parser.add_argument(
+            "--group", type=int, dest="shelf_id_alias", help="Alias for --shelf-id (KSESSIONS.GroupID)."
+        )
+        parser.add_argument(
+            "--category", type=int, dest="book_id_alias", help="Alias for --book-id (KSESSIONS.CategoryID)."
+        )
 
 
 def _resolve_ids(args: argparse.Namespace) -> BookIds:
@@ -65,7 +73,9 @@ def main() -> None:
         description="SQL source database → podcast-pipeline source bundle.",
     )
     ap.add_argument(
-        "--extract-root", type=Path, default=DEFAULT_EXTRACT_ROOT,
+        "--extract-root",
+        type=Path,
+        default=DEFAULT_EXTRACT_ROOT,
         help=f"Filesystem root for extracted output. Default: {DEFAULT_EXTRACT_ROOT}",
     )
 
@@ -94,18 +104,13 @@ def main() -> None:
         bundle_root = prepare_book(adapter, ids, extract_root)
         print(f"PREPARED: {bundle_root}/")
         print(f"  bundle.yml:                {bundle_root}/bundle.yml")
-        print(f"  raw-extract (draft):       "
-              f"{bundle_root}/_system/source/text/raw-extract.md.draft")
-        print(f"  images:                    "
-              f"{bundle_root}/_system/source/images/")
+        print(f"  raw-extract (draft):       {bundle_root}/_system/source/text/raw-extract.md.draft")
+        print(f"  images:                    {bundle_root}/_system/source/images/")
         tasks_path = bundle_root / "_system" / "source" / "images" / "vision-tasks.json"
         if tasks_path.exists():
             with tasks_path.open() as f:
                 tasks = json.load(f)
-            print(
-                f"  vision tasks: {len(tasks['images'])} "
-                f"images awaiting processing"
-            )
+            print(f"  vision tasks: {len(tasks['images'])} images awaiting processing")
     elif args.cmd == "finalize":
         final = finalize_book(adapter, ids, extract_root)
         print(f"FINALIZED: {final}")

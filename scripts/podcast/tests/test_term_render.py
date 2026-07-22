@@ -4,6 +4,7 @@ The contract: render_for_audio NEVER returns a hyphen-CAPS respelling — only a
 English substitute or a plain transliteration — and the four-tier classifier
 (loanword > exonym > gloss > transliteration) resolves in priority order.
 """
+
 import sys
 from pathlib import Path
 
@@ -12,7 +13,7 @@ import pytest
 _KNOW = Path(__file__).resolve().parents[1] / "knowledge"
 sys.path.insert(0, str(_KNOW))
 
-import term_render as tr  # noqa: E402
+import term_render as tr
 
 # Real corpus tables (loaded from content/knowledge-base/).
 TABLES = tr.load_tables()

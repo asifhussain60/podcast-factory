@@ -29,13 +29,14 @@ The four locked design decisions (2026-05-20) are reflected here:
 Repo style: @dataclass(frozen=True) + hand-rolled enum validation, no pydantic,
 no jsonschema. Matches _cost_ledger.py.
 """
+
 from __future__ import annotations
 
 import datetime as _dt
 import hashlib
 import json
 import re
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
@@ -50,42 +51,50 @@ SCHEMA_VERSION = 1
 # Locked enums. (The earlier external mirror at content/podcast/.skill/
 # handbook/_schemas/classification.schema.json was retired 2026-05-23; the
 # Python frozensets below are the sole source-of-truth now.)
-GENRE_PRIMARY_ENUM = frozenset({
-    "polemic_tribunal",
-    "memoir",
-    "self_help",
-    "essay_collection",
-    "didactic_dialogue",
-    "exegesis",
-    "epistle",
-})
+GENRE_PRIMARY_ENUM = frozenset(
+    {
+        "polemic_tribunal",
+        "memoir",
+        "self_help",
+        "essay_collection",
+        "didactic_dialogue",
+        "exegesis",
+        "epistle",
+    }
+)
 
-NARRATIVE_MODE_ENUM = frozenset({
-    "first_person",
-    "third_person_omniscient",
-    "dialectical",
-    "epistolary",
-    "vignette",
-})
+NARRATIVE_MODE_ENUM = frozenset(
+    {
+        "first_person",
+        "third_person_omniscient",
+        "dialectical",
+        "epistolary",
+        "vignette",
+    }
+)
 
 LOAD_LEVEL_ENUM = frozenset({"low", "medium", "high"})
 
 MODEL_RECOMMENDATION_ENUM = frozenset({"haiku", "sonnet", "opus"})
 
-AUDIENCE_PROFILE_ENUM = frozenset({
-    "traditional",
-    "modern-secular",
-    "clinical-wellness",
-    "academic",
-})
+AUDIENCE_PROFILE_ENUM = frozenset(
+    {
+        "traditional",
+        "modern-secular",
+        "clinical-wellness",
+        "academic",
+    }
+)
 
-EPISODE_PLANNING_MODE_ENUM = frozenset({
-    "tribunal_arc",
-    "chronological",
-    "problem_solution",
-    "vignette_grid",
-    "dialectical_pairs",
-})
+EPISODE_PLANNING_MODE_ENUM = frozenset(
+    {
+        "tribunal_arc",
+        "chronological",
+        "problem_solution",
+        "vignette_grid",
+        "dialectical_pairs",
+    }
+)
 
 # Genre → default planning mode. Layer 1 may override per source signals; this
 # is the fallback used by schema-validation tests for the cross-field
@@ -96,9 +105,10 @@ GENRE_TO_DEFAULT_PLANNING_MODE: dict[str, str] = {
     "self_help": "problem_solution",
     "essay_collection": "vignette_grid",
     "didactic_dialogue": "dialectical_pairs",
-    "exegesis": "chronological",      # default; vignette_grid for non-linear
-    "epistle": "chronological",        # default; vignette_grid for non-linear
+    "exegesis": "chronological",  # default; vignette_grid for non-linear
+    "epistle": "chronological",  # default; vignette_grid for non-linear
 }
+
 
 # Density-score → default model recommendation. Layer 1 may upgrade further
 # based on cross_reference_load or vocabulary_contestedness.
@@ -123,6 +133,7 @@ class BlueprintSchemaError(ValueError):
 # ---------------------------------------------------------------------------
 # Layer 1 — Classification
 # ---------------------------------------------------------------------------
+
 
 @dataclass(frozen=True)
 class Classification:
@@ -158,18 +169,25 @@ def validate_classification(data: dict[str, Any]) -> Classification:
     coerces, never warns, never silently drops fields.
     """
     required = {
-        "schema_version", "book_slug", "source_signature", "classified_at",
-        "genre_primary", "density_score", "narrative_mode", "structural_units",
-        "cross_reference_load", "vocabulary_contestedness",
-        "recommended_model_for_layer_2", "recommended_audience_profile",
-        "recommended_source_tradition", "recommended_episode_planning_mode",
+        "schema_version",
+        "book_slug",
+        "source_signature",
+        "classified_at",
+        "genre_primary",
+        "density_score",
+        "narrative_mode",
+        "structural_units",
+        "cross_reference_load",
+        "vocabulary_contestedness",
+        "recommended_model_for_layer_2",
+        "recommended_audience_profile",
+        "recommended_source_tradition",
+        "recommended_episode_planning_mode",
         "rationale",
     }
     missing = required - set(data.keys())
     if missing:
-        raise BlueprintSchemaError(
-            f"classification.json missing required fields: {sorted(missing)}"
-        )
+        raise BlueprintSchemaError(f"classification.json missing required fields: {sorted(missing)}")
 
     extra = set(data.keys()) - required
     if extra:
@@ -180,8 +198,7 @@ def validate_classification(data: dict[str, Any]) -> Classification:
 
     if data["schema_version"] != SCHEMA_VERSION:
         raise BlueprintSchemaError(
-            f"classification.json schema_version={data['schema_version']!r} "
-            f"!= {SCHEMA_VERSION} — refusing"
+            f"classification.json schema_version={data['schema_version']!r} != {SCHEMA_VERSION} — refusing"
         )
 
     book_slug = data["book_slug"]
@@ -202,9 +219,7 @@ def validate_classification(data: dict[str, Any]) -> Classification:
 
     genre = data["genre_primary"]
     if genre not in GENRE_PRIMARY_ENUM:
-        raise BlueprintSchemaError(
-            f"genre_primary={genre!r} not in {sorted(GENRE_PRIMARY_ENUM)}"
-        )
+        raise BlueprintSchemaError(f"genre_primary={genre!r} not in {sorted(GENRE_PRIMARY_ENUM)}")
 
     density = data["density_score"]
     if not isinstance(density, (int, float)) or isinstance(density, bool):
@@ -215,30 +230,22 @@ def validate_classification(data: dict[str, Any]) -> Classification:
 
     mode = data["narrative_mode"]
     if mode not in NARRATIVE_MODE_ENUM:
-        raise BlueprintSchemaError(
-            f"narrative_mode={mode!r} not in {sorted(NARRATIVE_MODE_ENUM)}"
-        )
+        raise BlueprintSchemaError(f"narrative_mode={mode!r} not in {sorted(NARRATIVE_MODE_ENUM)}")
 
     units = data["structural_units"]
     if not isinstance(units, list) or not 1 <= len(units) <= 6:
-        raise BlueprintSchemaError(
-            f"structural_units must be 1-6 element list; got {units!r}"
-        )
+        raise BlueprintSchemaError(f"structural_units must be 1-6 element list; got {units!r}")
     for u in units:
         if not isinstance(u, str) or not STRUCTURAL_UNIT_RE.match(u):
             raise BlueprintSchemaError(f"invalid structural_unit: {u!r}")
 
     crl = data["cross_reference_load"]
     if crl not in LOAD_LEVEL_ENUM:
-        raise BlueprintSchemaError(
-            f"cross_reference_load={crl!r} not in {sorted(LOAD_LEVEL_ENUM)}"
-        )
+        raise BlueprintSchemaError(f"cross_reference_load={crl!r} not in {sorted(LOAD_LEVEL_ENUM)}")
 
     vc = data["vocabulary_contestedness"]
     if vc not in LOAD_LEVEL_ENUM:
-        raise BlueprintSchemaError(
-            f"vocabulary_contestedness={vc!r} not in {sorted(LOAD_LEVEL_ENUM)}"
-        )
+        raise BlueprintSchemaError(f"vocabulary_contestedness={vc!r} not in {sorted(LOAD_LEVEL_ENUM)}")
 
     rec_model = data["recommended_model_for_layer_2"]
     if rec_model not in MODEL_RECOMMENDATION_ENUM:
@@ -251,23 +258,18 @@ def validate_classification(data: dict[str, Any]) -> Classification:
     rec_profile = data["recommended_audience_profile"]
     if rec_profile not in AUDIENCE_PROFILE_ENUM:
         raise BlueprintSchemaError(
-            f"recommended_audience_profile={rec_profile!r} not in "
-            f"{sorted(AUDIENCE_PROFILE_ENUM)}"
+            f"recommended_audience_profile={rec_profile!r} not in {sorted(AUDIENCE_PROFILE_ENUM)}"
         )
 
     rec_tradition = data["recommended_source_tradition"]
     if rec_tradition is not None:
         if not isinstance(rec_tradition, str) or not TRADITION_SLUG_RE.match(rec_tradition):
-            raise BlueprintSchemaError(
-                f"recommended_source_tradition={rec_tradition!r} must be "
-                f"tradition-slug or null"
-            )
+            raise BlueprintSchemaError(f"recommended_source_tradition={rec_tradition!r} must be tradition-slug or null")
 
     rec_mode = data["recommended_episode_planning_mode"]
     if rec_mode not in EPISODE_PLANNING_MODE_ENUM:
         raise BlueprintSchemaError(
-            f"recommended_episode_planning_mode={rec_mode!r} not in "
-            f"{sorted(EPISODE_PLANNING_MODE_ENUM)}"
+            f"recommended_episode_planning_mode={rec_mode!r} not in {sorted(EPISODE_PLANNING_MODE_ENUM)}"
         )
 
     rationale = data["rationale"]
@@ -309,17 +311,18 @@ def write_classification(path: Path, c: Classification) -> None:
 # Layer 2 — EpisodePlan (frontmatter only; body is freeform markdown)
 # ---------------------------------------------------------------------------
 
+
 @dataclass(frozen=True)
 class EpisodePlanFrontmatter:
     schema_version: int
     book_slug: str
-    classification_source_signature: str   # SHA-256 of the classification.json that drove this plan
+    classification_source_signature: str  # SHA-256 of the classification.json that drove this plan
     planned_at: str
     episode_count: int
     planning_mode: str
     audience_profile: str
-    model_used: str                         # the actual model invoked
-    model_recommended: str                  # what Layer 1 recommended
+    model_used: str  # the actual model invoked
+    model_recommended: str  # what Layer 1 recommended
     model_overridden_by_operator: bool
 
     def to_dict(self) -> dict[str, Any]:
@@ -328,9 +331,16 @@ class EpisodePlanFrontmatter:
 
 def validate_episode_plan_frontmatter(data: dict[str, Any]) -> EpisodePlanFrontmatter:
     required = {
-        "schema_version", "book_slug", "classification_source_signature",
-        "planned_at", "episode_count", "planning_mode", "audience_profile",
-        "model_used", "model_recommended", "model_overridden_by_operator",
+        "schema_version",
+        "book_slug",
+        "classification_source_signature",
+        "planned_at",
+        "episode_count",
+        "planning_mode",
+        "audience_profile",
+        "model_used",
+        "model_recommended",
+        "model_overridden_by_operator",
     }
     missing = required - set(data.keys())
     if missing:
@@ -340,9 +350,7 @@ def validate_episode_plan_frontmatter(data: dict[str, Any]) -> EpisodePlanFrontm
         raise BlueprintSchemaError(f"episode-plan frontmatter unknown fields: {sorted(extra)}")
 
     if data["schema_version"] != SCHEMA_VERSION:
-        raise BlueprintSchemaError(
-            f"episode-plan schema_version={data['schema_version']!r} != {SCHEMA_VERSION}"
-        )
+        raise BlueprintSchemaError(f"episode-plan schema_version={data['schema_version']!r} != {SCHEMA_VERSION}")
 
     book_slug = data["book_slug"]
     if not isinstance(book_slug, str) or not BOOK_SLUG_RE.match(book_slug):
@@ -358,23 +366,17 @@ def validate_episode_plan_frontmatter(data: dict[str, Any]) -> EpisodePlanFrontm
 
     pm = data["planning_mode"]
     if pm not in EPISODE_PLANNING_MODE_ENUM:
-        raise BlueprintSchemaError(
-            f"planning_mode={pm!r} not in {sorted(EPISODE_PLANNING_MODE_ENUM)}"
-        )
+        raise BlueprintSchemaError(f"planning_mode={pm!r} not in {sorted(EPISODE_PLANNING_MODE_ENUM)}")
 
     ap = data["audience_profile"]
     if ap not in AUDIENCE_PROFILE_ENUM:
-        raise BlueprintSchemaError(
-            f"audience_profile={ap!r} not in {sorted(AUDIENCE_PROFILE_ENUM)}"
-        )
+        raise BlueprintSchemaError(f"audience_profile={ap!r} not in {sorted(AUDIENCE_PROFILE_ENUM)}")
 
     # model_used is freeform (matches whatever was returned by claude -p, e.g.
     # "claude-haiku-4-5-20251001"); model_recommended is the LAYER-1 enum.
     mr = data["model_recommended"]
     if mr not in MODEL_RECOMMENDATION_ENUM:
-        raise BlueprintSchemaError(
-            f"model_recommended={mr!r} not in {sorted(MODEL_RECOMMENDATION_ENUM)}"
-        )
+        raise BlueprintSchemaError(f"model_recommended={mr!r} not in {sorted(MODEL_RECOMMENDATION_ENUM)}")
 
     if not isinstance(data["model_used"], str) or not data["model_used"].strip():
         raise BlueprintSchemaError("model_used must be non-empty string")
@@ -399,6 +401,7 @@ def validate_episode_plan_frontmatter(data: dict[str, Any]) -> EpisodePlanFrontm
 # ---------------------------------------------------------------------------
 # Layer 3 — ArcConventions (frontmatter dataclass; body is template-rendered)
 # ---------------------------------------------------------------------------
+
 
 @dataclass(frozen=True)
 class ArcConventionsFrontmatter:
@@ -458,6 +461,7 @@ def arc_conventions_from_classification(
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def compute_source_signature(text: str | bytes) -> str:
     """Canonical SHA-256 source-signature format used across all three layers."""

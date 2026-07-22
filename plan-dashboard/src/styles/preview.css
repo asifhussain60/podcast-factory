@@ -1,0 +1,114 @@
+/* preview.css — chrome for the Studio Preview surface (/studio/<slug>/preview).
+ *
+ * Preview stacks one <img> per PDF page (rasterized by scripts/lib/preview-pages.mjs)
+ * in normal document flow, so the page's own scrollbar carries the reader
+ * through the whole book — no nested/boxed scroll region. This file styles the
+ * surrounding chrome + page stack only; the page IMAGES are pixel-identical to
+ * the printed PDF (book-print.css by way of render-book-pdf.mjs), so nothing
+ * here re-styles page content.
+ */
+
+.pv-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3, 1rem);
+}
+
+.pv-sub {
+  color: var(--c-ink-dim, #4d4a42);
+  max-width: 60ch;
+}
+
+/* Reset native <button> chrome so #pv-generate matches the anchor pills
+ * (.lib-studio-link) it sits beside. */
+#pv-generate {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+}
+#pv-generate:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.pv-status {
+  color: var(--c-ink-muted, #66625a);
+  font-size: 0.9rem;
+  min-height: 1.2em;
+}
+
+/* Sticky under Base's own sticky .topnav (52px tall, z-index 50) so the zoom
+ * control stays reachable while scrolling through a long book. */
+.pv-toolbar {
+  position: sticky;
+  top: 52px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.9rem;
+  margin-bottom: 0.5rem;
+  background: var(--c-bg-elev, #fff);
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+  width: fit-content;
+}
+.pv-zoom-label {
+  color: var(--c-ink-dim, #4d4a42);
+  font-size: 0.85rem;
+}
+/* Left unstyled, the range renders with the browser's own accent — a bright
+   blue that is the one cold colour anywhere on this warm editorial page. This
+   is the same one-line treatment library.css and studio-editor-popovers.css
+   already use for their sliders; no new palette, just the existing token. */
+#pv-zoom-range {
+  accent-color: var(--c-accent, #8b4513);
+}
+.pv-zoom-value {
+  color: var(--c-ink-muted, #66625a);
+  font-size: 0.85rem;
+  min-width: 2.6em;
+  text-align: right;
+}
+
+.pv-pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding-bottom: 3rem;
+  /* Default before JS applies a saved preference — matches the page's native
+   * render width closely (745px @ 90 DPI) without upscale blur. */
+  --pv-zoom: 50%;
+}
+
+/* Width is user-controlled (the toolbar's Zoom slider, 30%-90% of this
+ * container) — capped at 90% so it can never run edge-to-edge. Percent, not a
+ * fixed px/rem value: this site's html font-size is 19.2px (REQ-010 reading
+ * floor), not the standard 16px, so a rem value here would silently render
+ * ~1.2x larger than intended (bit us once already — see git history). */
+.pv-page-img {
+  width: var(--pv-zoom, 50%);
+  max-width: 90%;
+  height: auto;
+  background: #fff;
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.12),
+    0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .pv-page-img {
+    box-shadow:
+      0 1px 4px rgba(0, 0, 0, 0.4),
+      0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.pv-empty {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--c-ink-dim, #4d4a42);
+  border: 1px dashed var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+}

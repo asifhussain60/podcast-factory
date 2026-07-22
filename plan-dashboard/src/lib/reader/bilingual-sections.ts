@@ -16,10 +16,11 @@
  * Section header content (Urdu) survives into the panel; the topic_id from
  * the comment is used to look up the English retitle in R2 decisions.
  */
-import { renderSourceMarkdown } from './source-render';
-import { getTopicEnglish } from './decisions';
+import { renderSourceMarkdown } from "./markdown";
+import { getTopicEnglish } from "./decisions";
 
-const SECTION_RE = /<!--\s*section\s+(\d+)\s+\(id=(\d+),\s*raw_sort=(\d+)\):\s*(.*?)\s*-->/g;
+const SECTION_RE =
+  /<!--\s*section\s+(\d+)\s+\(id=(\d+),\s*raw_sort=(\d+)\):\s*(.*?)\s*-->/g;
 
 export interface BilingualSection {
   position: number;
@@ -27,14 +28,14 @@ export interface BilingualSection {
   rawSort: number;
   urduLabel: string;
   englishTitle?: string;
-  englishConfidence?: 'high' | 'medium' | 'low';
+  englishConfidence?: "high" | "medium" | "low";
   bodyMarkdown: string;
   bodyHtml: string;
 }
 
 export interface BilingualChapter {
-  chapterHeader: string;          // First line of raw-extract (title + meta)
-  preludeMarkdown: string;        // Anything before the first section marker
+  chapterHeader: string; // First line of raw-extract (title + meta)
+  preludeMarkdown: string; // Anything before the first section marker
   preludeHtml: string;
   sections: BilingualSection[];
 }
@@ -44,9 +45,16 @@ export async function parseBilingual(
   chapterId: number,
   rawMarkdown: string,
 ): Promise<BilingualChapter> {
-  const matches: Array<{ idx: number; position: number; topicId: number; rawSort: number; label: string; matchLen: number }> = [];
+  const matches: Array<{
+    idx: number;
+    position: number;
+    topicId: number;
+    rawSort: number;
+    label: string;
+    matchLen: number;
+  }> = [];
   let m: RegExpExecArray | null;
-  const re = new RegExp(SECTION_RE.source, 'gm');
+  const re = new RegExp(SECTION_RE.source, "gm");
   while ((m = re.exec(rawMarkdown)) !== null) {
     matches.push({
       idx: m.index,
@@ -58,8 +66,8 @@ export async function parseBilingual(
     });
   }
 
-  let chapterHeader = '';
-  let preludeMarkdown = '';
+  let chapterHeader = "";
+  let preludeMarkdown: string;
   if (matches.length > 0) {
     preludeMarkdown = rawMarkdown.slice(0, matches[0].idx);
   } else {
@@ -73,10 +81,15 @@ export async function parseBilingual(
   const sections: BilingualSection[] = [];
   for (let i = 0; i < matches.length; i++) {
     const start = matches[i].idx + matches[i].matchLen;
-    const end = i + 1 < matches.length ? matches[i + 1].idx : rawMarkdown.length;
+    const end =
+      i + 1 < matches.length ? matches[i + 1].idx : rawMarkdown.length;
     const body = rawMarkdown.slice(start, end).trim();
 
-    const enRetitle = await getTopicEnglish(binderId, chapterId, matches[i].topicId);
+    const enRetitle = await getTopicEnglish(
+      binderId,
+      chapterId,
+      matches[i].topicId,
+    );
 
     sections.push({
       position: matches[i].position,

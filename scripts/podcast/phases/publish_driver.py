@@ -11,22 +11,22 @@ resolved before the book branch is generated. The two deliverables (podcast +
 reading edition) stay in sync because the book is always built from reviewed,
 finalize-approved chapter content.
 """
+
 from __future__ import annotations
 
-import subprocess
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _paths import REPO_ROOT  # noqa: E402
-from _progress import update_phase  # noqa: E402
-from _authoring import AuthoringError, invoke_trainer  # noqa: E402
-from phases.scaffold import phase_git_commit  # noqa: E402
-from phases.merge import phase_merge_to_develop  # noqa: E402
-from phases.book_driver import _drive_book_branch  # noqa: E402
+from _authoring import AuthoringError, invoke_trainer
+from _progress import update_phase
+from _subprocess import err as _err
+from _subprocess import info as _info
+from _subprocess import run as _run
 
-
-from _subprocess import run as _run, err as _err, info as _info  # noqa: E402
+from phases.book_driver import _drive_book_branch
+from phases.merge import phase_merge_to_develop
+from phases.scaffold import phase_git_commit
 
 
 def _drive_publish_through_done(book_dir: Path) -> int:
@@ -44,7 +44,8 @@ def _drive_publish_through_done(book_dir: Path) -> int:
     # HALT (rc 3) when audio isn't dropped yet, mirroring the slide-import
     # convention (BEFORE the book branch so the book is built once audio exists).
     # --resume re-enters idempotently.
-    from phases.audio_ingest_driver import drive_audio_ingest  # noqa: PLC0415
+    from phases.audio_ingest_driver import drive_audio_ingest
+
     _ai_outcome, _ai_rc = drive_audio_ingest(book_dir)
     if _ai_outcome == "halted":
         return 0
@@ -66,13 +67,19 @@ def _drive_publish_through_done(book_dir: Path) -> int:
     _bv_path = book_dir / "_system" / "book-validation-report.json"
     if _bv_path.exists():
         try:
-            import json as _json  # noqa: PLC0415
+            import json as _json
+
             _bv = _json.loads(_bv_path.read_text())
             if _bv.get("verdict") == "BOOK-BROKEN":
                 _err(f"reading edition is BROKEN (podcast still ships): {_bv.get('summary')}")
+            elif _bv.get("verdict") == "UNKNOWN":
+                # Neither sound nor broken: the gate that would have said crashed.
+                # Without this branch the loop printed nothing at all, which reads
+                # exactly like a book that was never built.
+                _err(f"reading edition is UNVERIFIED — the validation gate crashed: {_bv.get('error')}")
             elif _bv.get("verdict") == "BOOK-SOUND":
                 _info(f"reading edition verdict: SOUND — {_bv.get('summary')}")
-        except Exception:  # noqa: BLE001
+        except Exception:
             pass
 
     _info("phase: publish · copy clean chapters + episodes to published/")
@@ -81,11 +88,17 @@ def _drive_publish_through_done(book_dir: Path) -> int:
     rc, pout, perr = _run([sys.executable, str(publish_script), book_slug])
     print(pout)
     if rc != 0:
-        update_phase(book_dir, phase="publish", status="failed",
-                     error="publish_to_library.py rc != 0; gates re-ran defensively",
-                     extras={"publisher_stdout": pout[-2000:], "publisher_stderr": perr[-1000:]})
-        _err("publish failed — defensive gate re-run blocked the copy. "
-             "Investigate and re-invoke `orchestrate_book.py --resume`.")
+        update_phase(
+            book_dir,
+            phase="publish",
+            status="failed",
+            error="publish_to_library.py rc != 0; gates re-ran defensively",
+            extras={"publisher_stdout": pout[-2000:], "publisher_stderr": perr[-1000:]},
+        )
+        _err(
+            "publish failed — defensive gate re-run blocked the copy. "
+            "Investigate and re-invoke `orchestrate_book.py --resume`."
+        )
         return 2
     update_phase(book_dir, phase="publish", status="completed")
     phase_git_commit(book_dir, f"podcast({book_slug}): published to library")
@@ -96,7 +109,9 @@ def _drive_publish_through_done(book_dir: Path) -> int:
         invoke_trainer(book_dir)
     except AuthoringError as e:
         update_phase(
-            book_dir, phase="trainer", status="failed",
+            book_dir,
+            phase="trainer",
+            status="failed",
             error=str(e),
             extras={"manual_fallback": e.manual_fallback},
         )

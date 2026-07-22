@@ -11,6 +11,7 @@ This module reads those files, validates them, and provides the single
 resolution function used by the pipeline and the challenger when deciding
 which authoring doctrine applies to a book.
 """
+
 from __future__ import annotations
 
 import re
@@ -35,6 +36,7 @@ _ARCHETYPES_ROOT = _REPO_ROOT / "content" / "_shared" / "archetypes"
 # Data types
 # ---------------------------------------------------------------------------
 
+
 @dataclass(frozen=True)
 class Archetype:
     slug: str
@@ -55,6 +57,7 @@ class Archetype:
 # Internal helpers
 # ---------------------------------------------------------------------------
 
+
 def _parse_spec(spec_text: str, slug: str) -> dict[str, Any]:
     """Parse spec.yml text into a dict.
 
@@ -67,7 +70,7 @@ def _parse_spec(spec_text: str, slug: str) -> dict[str, Any]:
     # Minimal fallback: extract only scalar top-level keys.
     data = {}
     for line in spec_text.splitlines():
-        m = re.match(r'^(\w[\w_-]*):\s*(.+)$', line)
+        m = re.match(r"^(\w[\w_-]*):\s*(.+)$", line)
         if m:
             data[m.group(1)] = m.group(2).strip()
     return data
@@ -81,9 +84,7 @@ def _load_one(archetype_dir: Path) -> Archetype:
 
     missing = [p.name for p in (spec_path, exemplar_path, anti_path) if not p.exists()]
     if missing:
-        raise FileNotFoundError(
-            f"_archetypes: {slug} is missing required files: {', '.join(missing)}"
-        )
+        raise FileNotFoundError(f"_archetypes: {slug} is missing required files: {', '.join(missing)}")
 
     spec_text = spec_path.read_text(encoding="utf-8")
     exemplar_text = exemplar_path.read_text(encoding="utf-8")
@@ -95,14 +96,14 @@ def _load_one(archetype_dir: Path) -> Archetype:
         slug=slug,
         display_name=spec.get("display_name", slug),
         genre_tags=list(spec.get("genre_tags") or []),
-        genre_signals=list((spec.get("genre_signals") or {}).values()
-                           if isinstance(spec.get("genre_signals"), dict)
-                           else (spec.get("genre_signals") or [])),
+        genre_signals=list(
+            (spec.get("genre_signals") or {}).values()
+            if isinstance(spec.get("genre_signals"), dict)
+            else (spec.get("genre_signals") or [])
+        ),
         required_fields=list(spec.get("required_fields") or []),
         authoring_doctrine=dict(spec.get("authoring_doctrine") or {}),
-        challenger_categories_active=list(
-            spec.get("challenger_categories_active") or []
-        ),
+        challenger_categories_active=list(spec.get("challenger_categories_active") or []),
         anti_patterns_summary=list(spec.get("anti_patterns_summary") or []),
         spec_yml_text=spec_text,
         exemplar_md_text=exemplar_text,
@@ -127,9 +128,7 @@ def load_archetype(slug: str) -> Archetype:
         return _cache[slug]
     archetype_dir = _ARCHETYPES_ROOT / slug
     if not archetype_dir.is_dir():
-        raise FileNotFoundError(
-            f"_archetypes: no archetype directory at {archetype_dir}"
-        )
+        raise FileNotFoundError(f"_archetypes: no archetype directory at {archetype_dir}")
     archetype = _load_one(archetype_dir)
     _cache[slug] = archetype
     return archetype
@@ -174,6 +173,7 @@ def build_exemplar_vector(archetype_slug: str) -> list[float]:
     reloads.  Calling this again overwrites the cached file.
     """
     import json
+
     archetype_dir = _ARCHETYPES_ROOT / archetype_slug
     exemplar_path = archetype_dir / "exemplar.md"
     if not exemplar_path.exists():
@@ -200,6 +200,7 @@ def load_exemplar_vector(archetype_slug: str) -> list[float] | None:
     the vector has not yet been built so the scorer can fall back gracefully.
     """
     import json
+
     vec_path = _ARCHETYPES_ROOT / archetype_slug / "exemplar_vector.json"
     if not vec_path.exists():
         return None
@@ -222,6 +223,7 @@ def resolve_archetype_for_book(meta: dict[str, Any]) -> Archetype | None:
         return load_archetype(slug)
     except FileNotFoundError:
         import warnings
+
         warnings.warn(
             f"_archetypes: archetype {slug!r} declared in meta but not found on disk; "
             "continuing without archetype doctrine.",

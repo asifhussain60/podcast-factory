@@ -5,6 +5,7 @@ Verifies:
 - Augmentation is skipped (no file write) when the augmenter returns unchanged text.
 - Augmentation failure is non-fatal: the pipeline continues with the original episode .txt.
 """
+
 from __future__ import annotations
 
 import sys
@@ -42,15 +43,17 @@ class PerChapterAugmentStepTests(unittest.TestCase):
         augment_raises: Exception | None = None,
     ) -> tuple:
         """Invoke per_chapter_pass with subprocess, authoring, converge, and augmenter mocked."""
-        from scripts.podcast.phases import per_chapter as _m
         from scripts.podcast._convergence import ChapterOutcome
+        from scripts.podcast.phases import per_chapter as _m
 
         dummy_outcome = ChapterOutcome(
             chapter_slug="intro",
             final_verdict="SHIP-READY",
             outer_iterations=1,
             fixer_attempts=0,
-            p0_remaining=0, p1_remaining=0, p2_remaining=0,
+            p0_remaining=0,
+            p1_remaining=0,
+            p2_remaining=0,
             notes=[],
         )
 

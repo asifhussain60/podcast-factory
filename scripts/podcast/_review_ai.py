@@ -27,16 +27,15 @@ Cost-ledger: every call writes a row via _cost_ledger.append_gemini_cost().
 Boundary: book_dir is validated to be inside worktree_root before any
 file read or API call.
 """
+
 from __future__ import annotations
 
 import hashlib
 import json
-import os
-import subprocess
 import sys
 import time
 import urllib.request
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -44,26 +43,27 @@ from typing import Any
 if str(Path(__file__).parent) not in sys.path:
     sys.path.insert(0, str(Path(__file__).parent))
 
-from _paths import REPO_ROOT  # noqa: E402
+from _paths import REPO_ROOT
 
 try:
     from _cost_ledger import append_gemini_cost  # type: ignore
 except ImportError:
+
     def append_gemini_cost(*args, **kwargs):  # type: ignore
         pass
 
 
 # All features use gemini-2.5-flash (text-analysis tasks, no vision needed)
 MODEL_FOR_FEATURE: dict[str, str] = {
-    "summarize":     "gemini-2.5-flash",
-    "diff-explain":  "gemini-2.5-flash",
-    "arabic":        "gemini-2.5-flash",
-    "preflight":     "gemini-2.5-flash",
-    "voice-shift":   "gemini-2.5-flash",
-    "episode-plan":  "gemini-2.5-flash",
+    "summarize": "gemini-2.5-flash",
+    "diff-explain": "gemini-2.5-flash",
+    "arabic": "gemini-2.5-flash",
+    "preflight": "gemini-2.5-flash",
+    "voice-shift": "gemini-2.5-flash",
+    "episode-plan": "gemini-2.5-flash",
     "suggest-flags": "gemini-2.5-flash",
-    "autocomplete":  "gemini-2.5-flash",
-    "categorize":    "gemini-2.5-flash",
+    "autocomplete": "gemini-2.5-flash",
+    "categorize": "gemini-2.5-flash",
     "content-range": "gemini-2.5-flash",
 }
 
@@ -90,6 +90,7 @@ BOOK_AI_BUDGET_USD = 2.00
 # Data classes
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class AIResult:
     feature: str
@@ -115,6 +116,7 @@ class BoundaryViolation(ValueError):
 # Boundary check
 # ---------------------------------------------------------------------------
 
+
 def assert_within_worktree(book_dir: Path, worktree_root: Path) -> None:
     """Refuse if book_dir escapes worktree_root.
 
@@ -125,14 +127,13 @@ def assert_within_worktree(book_dir: Path, worktree_root: Path) -> None:
     try:
         bd.relative_to(wr)
     except ValueError as e:
-        raise BoundaryViolation(
-            f"book_dir {bd} is not inside worktree_root {wr}"
-        ) from e
+        raise BoundaryViolation(f"book_dir {bd} is not inside worktree_root {wr}") from e
 
 
 # ---------------------------------------------------------------------------
 # Cache helpers
 # ---------------------------------------------------------------------------
+
 
 def _cache_path(book_dir: Path, feature: str, source_signature: str) -> Path:
     """Per-source-signature cache file."""
@@ -166,6 +167,7 @@ def compute_source_signature(text: str | bytes) -> str:
 # Budget enforcement
 # ---------------------------------------------------------------------------
 
+
 def book_ai_spend_so_far(book_dir: Path) -> float:
     """Sum cost_usd of all rows in cost-ledger.jsonl for this book where
     agent_id starts with 'podcast-review-studio'."""
@@ -190,32 +192,32 @@ def check_budget(book_dir: Path, feature: str) -> None:
         raise BudgetExceeded(feature=feature, requested=est, remaining=BOOK_AI_BUDGET_USD - spent)
 
 
-
 # ---------------------------------------------------------------------------
 # Gemini REST call (replaces former claude -p subprocess)
 # ---------------------------------------------------------------------------
 
+
 def _load_gemini_key() -> str:
     # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
     from _secrets import get_gemini_key
-    return get_gemini_key()
 
+    return get_gemini_key()
 
 
 def _call_gemini(prompt: str, model: str = "gemini-2.5-flash", timeout_sec: int = 120) -> str:
     """Call Gemini generateContent endpoint. Returns the text response."""
-    from _engine import engine_guard, TASK_REVIEW_HELPER, ENGINE_GEMINI
+    from _engine import ENGINE_GEMINI, TASK_REVIEW_HELPER, engine_guard
+
     engine_guard(TASK_REVIEW_HELPER, ENGINE_GEMINI)
     key = _load_gemini_key()
-    url = (f"https://generativelanguage.googleapis.com/v1beta/models/{model}"
-           f":generateContent?key={key}")
-    body = json.dumps({
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"temperature": 0.3, "maxOutputTokens": 8000},
-    }).encode()
-    req = urllib.request.Request(
-        url, data=body, headers={"Content-Type": "application/json"}, method="POST"
-    )
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+    body = json.dumps(
+        {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {"temperature": 0.3, "maxOutputTokens": 8000},
+        }
+    ).encode()
+    req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"}, method="POST")
     with urllib.request.urlopen(req, timeout=timeout_sec) as r:
         d = json.loads(r.read())
     return d["candidates"][0]["content"]["parts"][0]["text"]
@@ -237,7 +239,7 @@ def _extract_json(text: str) -> Any:
             j = text.rfind(end_char)
             if j > i:
                 try:
-                    return json.loads(text[i:j+1])
+                    return json.loads(text[i : j + 1])
                 except json.JSONDecodeError:
                     continue
     raise ValueError(f"no parseable JSON in response: {text[:200]}")
@@ -246,6 +248,7 @@ def _extract_json(text: str) -> Any:
 # ---------------------------------------------------------------------------
 # Feature implementations
 # ---------------------------------------------------------------------------
+
 
 def run_feature(
     feature: str,
@@ -287,12 +290,17 @@ def run_feature(
     prompt, in_chars = _build_prompt(feature, book_dir, params)
 
     raw = _call_gemini(prompt, model)
-    payload = _extract_json(raw) if feature != "autocomplete" else {"completions": [s.strip() for s in raw.strip().split("\n") if s.strip()][:3]}
+    payload = (
+        _extract_json(raw)
+        if feature != "autocomplete"
+        else {"completions": [s.strip() for s in raw.strip().split("\n") if s.strip()][:3]}
+    )
     elapsed = time.time() - start
     out_chars = len(raw)
 
-    append_gemini_cost(book_dir, phase=f"ai/{feature}", step="review-studio",
-                       model=model, in_chars=in_chars, out_chars=out_chars)
+    append_gemini_cost(
+        book_dir, phase=f"ai/{feature}", step="review-studio", model=model, in_chars=in_chars, out_chars=out_chars
+    )
 
     if feature in CACHEABLE:
         _save_cache(book_dir, feature, source_signature, payload)
@@ -310,6 +318,7 @@ def run_feature(
 # ---------------------------------------------------------------------------
 # Prompt builders (one per feature)
 # ---------------------------------------------------------------------------
+
 
 def _read_optional(path: Path) -> str:
     """Read a file; return empty string if missing (never raises)."""

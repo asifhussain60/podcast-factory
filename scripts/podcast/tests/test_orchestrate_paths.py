@@ -5,6 +5,7 @@ The 2026-05-24 commit fixed an infinite-recursion bug in `_resolve_book_path`
 that crashed on every non-'books' category in ALLOWED_CATEGORIES. This test
 pins the fix so re-introducing the recursion regresses immediately.
 """
+
 from __future__ import annotations
 
 import sys
@@ -14,12 +15,11 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import orchestrate_book as ob   # noqa: E402
-from _rules import ALLOWED_CATEGORIES, BUCKETS   # noqa: E402
+import orchestrate_book as ob
+from _rules import ALLOWED_CATEGORIES, BUCKETS
 
 
 class ResolveBookPathTests(unittest.TestCase):
-
     def test_books_resolves_to_islamic_bucket(self):
         # 2026-06-04 type-first layout: content/<Bucket>/<slug>. A 'books'
         # category maps to the Islamic bucket (no drafts/ or category folder).

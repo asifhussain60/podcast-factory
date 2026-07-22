@@ -8,6 +8,7 @@ Covers the Workstream-A/B additions (2026-06-13):
   - the bundle/upload-table golden-test latch (no overrides => unfiltered)
   - the fingerprint gold-standard loader + scoring (pass/fail vs threshold)
 """
+
 from __future__ import annotations
 
 import sys
@@ -18,9 +19,9 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _audio_engines as ae  # noqa: E402
-import _rules as rules  # noqa: E402
-import _audio_fingerprint as fp  # noqa: E402
+import _audio_engines as ae
+import _audio_fingerprint as fp
+import _rules as rules
 
 
 def _book(tmp: str, cfg: str) -> Path:
@@ -38,8 +39,7 @@ class TestEpisodeEngineOverride(unittest.TestCase):
 
     def test_override_parsed_and_resolved(self):
         with tempfile.TemporaryDirectory() as t:
-            d = _book(t, "audio_engine: elevenlabs\n"
-                         "episode_engine_overrides:\n  EP07-x: notebooklm\n")
+            d = _book(t, "audio_engine: elevenlabs\nepisode_engine_overrides:\n  EP07-x: notebooklm\n")
             self.assertEqual(ae.episode_engine_overrides(d), {"EP07-x": "notebooklm"})
             self.assertEqual(ae.engine_for_episode(d, "EP07-x"), "notebooklm")
             # Non-overridden episode falls back to the book default.
@@ -47,15 +47,13 @@ class TestEpisodeEngineOverride(unittest.TestCase):
 
     def test_unknown_override_engine_raises(self):
         with tempfile.TemporaryDirectory() as t:
-            d = _book(t, "audio_engine: elevenlabs\n"
-                         "episode_engine_overrides:\n  EP01-x: gimicktts\n")
+            d = _book(t, "audio_engine: elevenlabs\nepisode_engine_overrides:\n  EP01-x: gimicktts\n")
             with self.assertRaises(ValueError):
                 ae.episode_engine_overrides(d)
 
     def test_notebooklm_book_with_elevenlabs_override_symmetric(self):
         with tempfile.TemporaryDirectory() as t:
-            d = _book(t, "audio_engine: notebooklm\n"
-                         "episode_engine_overrides:\n  EP03-z: elevenlabs\n")
+            d = _book(t, "audio_engine: notebooklm\nepisode_engine_overrides:\n  EP03-z: elevenlabs\n")
             self.assertEqual(ae.engine_for_episode(d, "EP03-z"), "elevenlabs")
             self.assertEqual(ae.engine_for_episode(d, "EP01-a"), "notebooklm")
 
@@ -63,8 +61,7 @@ class TestEpisodeEngineOverride(unittest.TestCase):
 class TestProfileDefaults(unittest.TestCase):
     def test_islamic_defaults_to_notebooklm_with_cast(self):
         # Locked 2026-06-13: all Islamic books use NotebookLM (ElevenLabs rejected).
-        self.assertEqual(rules.audio_engine_default_for_profile("islamic_scholarly"),
-                         "notebooklm")
+        self.assertEqual(rules.audio_engine_default_for_profile("islamic_scholarly"), "notebooklm")
         cast = rules.default_voice_cast_for_profile("islamic_scholarly")
         self.assertEqual(cast.get("host_a"), "Eric")
         self.assertEqual(cast.get("host_b"), "Lily")
@@ -84,11 +81,11 @@ class TestIntakeStamp(unittest.TestCase):
         # (it is ElevenLabs-only and gated by `if audio_engine == "elevenlabs"`).
         import yaml
         from intake_launch import _write_series_config
+
         with tempfile.TemporaryDirectory() as t:
             d = Path(t) / "bk"
             (d / "_system").mkdir(parents=True)
-            _write_series_config(d, "bk", "Title",
-                                 {"content_profile": "islamic_scholarly"}, None)
+            _write_series_config(d, "bk", "Title", {"content_profile": "islamic_scholarly"}, None)
             cfg = yaml.safe_load((d / "_system" / "series-config.yaml").read_text())
             self.assertEqual(cfg["audio_engine"], "notebooklm")
             self.assertNotIn("voice_cast", cfg)
@@ -98,14 +95,22 @@ class TestIntakeStamp(unittest.TestCase):
         # select the engine AND the cast for it to land in series-config.yaml.
         import yaml
         from intake_launch import _write_series_config
+
         with tempfile.TemporaryDirectory() as t:
             d = Path(t) / "bk"
             (d / "_system").mkdir(parents=True)
-            _write_series_config(d, "bk", "Title", {
-                "content_profile": "islamic_scholarly",
-                "audio_engine": "elevenlabs",
-                "voice_cast_host_a": "George", "voice_cast_host_b": "Sarah",
-            }, None)
+            _write_series_config(
+                d,
+                "bk",
+                "Title",
+                {
+                    "content_profile": "islamic_scholarly",
+                    "audio_engine": "elevenlabs",
+                    "voice_cast_host_a": "George",
+                    "voice_cast_host_b": "Sarah",
+                },
+                None,
+            )
             cfg = yaml.safe_load((d / "_system" / "series-config.yaml").read_text())
             self.assertEqual(cfg["audio_engine"], "elevenlabs")
             self.assertEqual(cfg["voice_cast"], {"host_a": "George", "host_b": "Sarah"})
@@ -113,6 +118,7 @@ class TestIntakeStamp(unittest.TestCase):
     def test_fiction_book_stays_notebooklm_no_cast(self):
         import yaml
         from intake_launch import _write_series_config
+
         with tempfile.TemporaryDirectory() as t:
             d = Path(t) / "bk"
             (d / "_system").mkdir(parents=True)
@@ -134,7 +140,7 @@ class TestFingerprintGoldStandard(unittest.TestCase):
         gold = fp.load_gold_standard("islamic_scholarly")
         center = {k: v["center"] for k, v in gold["metrics"].items()}
         out = fp.score_against_profile(center, "islamic_scholarly")
-        self.assertGreaterEqual(out["score"], 95)   # a clip at the corpus median
+        self.assertGreaterEqual(out["score"], 95)  # a clip at the corpus median
         self.assertTrue(out["passed"])
 
     def test_score_far_clip_fails(self):
@@ -151,7 +157,7 @@ class TestFingerprintGoldStandard(unittest.TestCase):
 
     def test_word_count_strips_tags_and_labels(self):
         n = fp.word_count("HOST_A: [warm] hello there friend\n\nHOST_B: yes indeed")
-        self.assertEqual(n, 5)   # hello there friend yes indeed
+        self.assertEqual(n, 5)  # hello there friend yes indeed
 
 
 if __name__ == "__main__":

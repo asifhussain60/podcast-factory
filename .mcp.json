@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "bluedot": {
+      "type": "http",
+      "url": "https://app.bluedothq.com/api/v1/mcp"
+    }
+  }
+}

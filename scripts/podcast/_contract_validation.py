@@ -35,51 +35,59 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from _extract_yaml import load_yaml
 from _rules import ALLOWED_CATEGORIES, EPISODE_FORMAT_ALLOWED
 from _validator_constants import CH_PATTERN
 from _validators import validate_host_role_parity
-from _extract_yaml import load_yaml
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Canonical enums (moved verbatim from _extract_contract.validate_contract so
 # extract/lint/smoke/0d-gate all enforce the same sets).
 # ─────────────────────────────────────────────────────────────────────────────
 
-REQUIRED_FIELDS = ["chapter_ref", "slug", "source_type", "title", "audience", "angle",
-                   "host_dynamic", "key_tensions"]
+REQUIRED_FIELDS = ["chapter_ref", "slug", "source_type", "title", "audience", "angle", "host_dynamic", "key_tensions"]
 
 VALID_ANGLES = {
     # Islamic scholarly angles (R-ANGLE family)
-    "faithful_exposition", "personal_application",
-    "critical_dialectical", "comparative",
+    "faithful_exposition",
+    "personal_application",
+    "critical_dialectical",
+    "comparative",
     # Fiction / narrative angles
     "faithful_narrative",
 }
 
 VALID_ADAPTATION_MODES = {"faithful", "bridge", "modern_paraphrase"}
 
-VALID_SOURCE_TYPES = {"book-chapter", "article", "document", "lecture",
-                      "interview", "letter",
-                      "synthesized-explainer", "explainer-doc"}
+VALID_SOURCE_TYPES = {
+    "book-chapter",
+    "article",
+    "document",
+    "lecture",
+    "interview",
+    "letter",
+    "synthesized-explainer",
+    "explainer-doc",
+}
 
 SOURCE_TYPE_TO_CATEGORY = {
     "book-chapter": "books",
-    "article":      "articles",
-    "document":     "documents",
-    "lecture":      "lectures",
-    "interview":    "interviews",
-    "letter":       "letters",
+    "article": "articles",
+    "document": "documents",
+    "lecture": "lectures",
+    "interview": "interviews",
+    "letter": "letters",
     "synthesized-explainer": "explainers",
     "explainer-doc": "explainers",
 }
 
-VALID_DEBATE_RESOLUTIONS = {"synthesis", "open", "host_a_concedes",
-                            "host_b_concedes", "historical_division"}
+VALID_DEBATE_RESOLUTIONS = {"synthesis", "open", "host_a_concedes", "host_b_concedes", "historical_division"}
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # The one validator
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def _find_chapter_file(chapters_dir: Path, slug: str) -> tuple[Path | None, str | None]:
     """Resolve chapters/ch*-<slug>.txt by EXACT slug match. Never raises.
@@ -136,18 +144,14 @@ def _validate_debate_block(contract: dict[str, Any]) -> list[str]:
 
     resolution = debate.get("resolution")
     if resolution and resolution not in VALID_DEBATE_RESOLUTIONS:
-        findings.append(
-            f"contract.debate.resolution {resolution!r} not in {VALID_DEBATE_RESOLUTIONS}."
-        )
+        findings.append(f"contract.debate.resolution {resolution!r} not in {VALID_DEBATE_RESOLUTIONS}.")
 
     for host_key in ("host_a", "host_b"):
         host = debate.get(host_key)
         if host is None:
             continue  # already flagged by the required-keys loop above
         if not isinstance(host, dict):
-            findings.append(
-                f"contract.debate.{host_key} must be a mapping with role + position + source_moves."
-            )
+            findings.append(f"contract.debate.{host_key} must be a mapping with role + position + source_moves.")
             continue
         for sub in ("role", "position"):
             if not host.get(sub):
@@ -306,6 +310,7 @@ def validate_contract_full(
 # Book-level sweep (Phase-0d post-write gate + ad-hoc audits)
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def validate_book_contracts(book_dir: Path) -> list[tuple[str, list[str]]]:
     """Validate every chapter-contracts/*.yml in a book. Never raises.
 
@@ -317,7 +322,7 @@ def validate_book_contracts(book_dir: Path) -> list[tuple[str, list[str]]]:
     for cpath in sorted(contracts_dir.glob("*.yml")):
         try:
             contract = load_yaml(cpath.read_text(encoding="utf-8"))
-        except Exception as e:  # noqa: BLE001 — parse failure is a finding, not a crash
+        except Exception as e:
             failures.append((cpath.stem, [f"contract parse error: {type(e).__name__}: {e}"]))
             continue
         findings = validate_contract_full(contract, None, book_dir, contract_path=cpath)

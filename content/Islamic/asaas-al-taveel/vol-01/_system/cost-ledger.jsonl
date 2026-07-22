@@ -123,3 +123,4 @@
 {"ts": "2026-06-17T11:59:47Z", "phase": "audio-script", "step": "term-default-language", "model": "claude-opus-4-8", "input_tokens": 6, "output_tokens": 1692, "cache_read": 15666, "cache_create": 48358, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-06-17T12:00:05Z", "phase": "audio-script", "step": "term-default-language", "model": "claude-opus-4-8", "input_tokens": 6, "output_tokens": 1508, "cache_read": 63617, "cache_create": 0, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-06-17T12:00:23Z", "phase": "audio-script", "step": "term-default-language", "model": "claude-opus-4-8", "input_tokens": 6, "output_tokens": 1291, "cache_read": 15666, "cache_create": 47264, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-07-18T20:26:04Z", "phase": "0a", "step": "arabic-ground-truth/docintel", "model": "azure-docintel-prebuilt-read", "input_tokens": 416, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.624, "engine": "api"}

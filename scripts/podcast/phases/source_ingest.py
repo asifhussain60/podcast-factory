@@ -20,6 +20,7 @@ INVOCATION (internal — called by _drive_source_ready_through_0f)
     from phases.source_ingest import phase_0a_ingest_source_md
     phase_0a_ingest_source_md(book_dir, category="explainers", slug="my-slug")
 """
+
 from __future__ import annotations
 
 import json
@@ -30,8 +31,8 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent.parent  # scripts/podcast
 sys.path.insert(0, str(_HERE))
 
-from _paths import REPO_ROOT  # noqa: E402
-from _authoring._core import SKIP_OCR_CATEGORIES  # noqa: E402
+from _authoring._core import SKIP_OCR_CATEGORIES
+from _paths import REPO_ROOT
 
 
 def _word_count(text: str) -> int:
@@ -104,11 +105,13 @@ def phase_0a_ingest_source_md(
         text = f.read_text(encoding="utf-8")
         wc = _word_count(text)
         sections.append(f"<!-- source: {f.name} -->\n\n{text}")
-        file_meta.append({
-            "name": f.name,
-            "byte_size": f.stat().st_size,
-            "word_count": wc,
-        })
+        file_meta.append(
+            {
+                "name": f.name,
+                "byte_size": f.stat().st_size,
+                "word_count": wc,
+            }
+        )
 
     concatenated = "\n\n".join(sections)
     total_words = sum(m["word_count"] for m in file_meta)

@@ -13,13 +13,13 @@
  * Claude (not Gemini) handles these because they need semantic nuance /
  * structured reasoning. Fast tasks (rewrite, summarize) stay on Gemini.
  */
-import type { APIRoute } from 'astro';
-import { claudeComplete } from '../../../lib/ai/claude-client';
-import { apiOk, apiError, apiServerError } from '../../../lib/api-responses';
+import type { APIRoute } from "astro";
+import { claudeComplete } from "../../../lib/ai/claude-client";
+import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
 
 export const prerender = false;
 
-const TAGS = ['esoteric', 'reality', 'sharia', 'history', 'improve', 'delete'];
+const TAGS = ["esoteric", "reality", "sharia", "history", "improve", "delete"];
 
 const CATEGORISE_SYSTEM = `You classify a single paragraph from an Islamic scholarly text into ONE editorial tag:
 - esoteric  — inner/allegorical/spiritual interpretation (ta'wil, batin).
@@ -48,53 +48,73 @@ Keep it under ~400 words. No fenced code blocks. Return ONLY the markdown.`;
 
 function stripFences(s: string): string {
   let t = s.trim();
-  if (t.startsWith('```')) {
-    t = t.replace(/^```[a-z]*\n?/i, '').replace(/```$/, '').trim();
+  if (t.startsWith("```")) {
+    t = t
+      .replace(/^```[a-z]*\n?/i, "")
+      .replace(/```$/, "")
+      .trim();
   }
   return t;
 }
 
 export const POST: APIRoute = async ({ request }) => {
   let body: Record<string, unknown>;
-  try { body = await request.json(); }
-  catch { return apiError('Invalid JSON body'); }
+  try {
+    body = await request.json();
+  } catch {
+    return apiError("Invalid JSON body");
+  }
 
-  const task = String(body.task ?? '').trim();
+  const task = String(body.task ?? "").trim();
 
   try {
-    if (task === 'categorise') {
-      const text = String(body.text ?? '').trim();
-      if (!text) return apiError('text is required');
-      const out = await claudeComplete(text.slice(0, 4000),
-        { system: CATEGORISE_SYSTEM, maxTokens: 200 });
-      let tag = 'improve';
-      let reason = '';
+    if (task === "categorise") {
+      const text = String(body.text ?? "").trim();
+      if (!text) return apiError("text is required");
+      const out = await claudeComplete(text.slice(0, 4000), {
+        system: CATEGORISE_SYSTEM,
+        maxTokens: 200,
+      });
+      let tag = "improve";
+      let reason = "";
       try {
-        const o = JSON.parse(stripFences(out).match(/\{[\s\S]*\}/)?.[0] ?? '{}');
+        const o = JSON.parse(
+          stripFences(out).match(/\{[\s\S]*\}/)?.[0] ?? "{}",
+        );
         if (TAGS.includes(String(o.tag))) tag = String(o.tag);
-        reason = String(o.reason ?? '');
-      } catch { /* fall through to default */ }
+        reason = String(o.reason ?? "");
+      } catch {
+        /* fall through to default */
+      }
       return apiOk({ tag, reason });
     }
 
-    if (task === 'instruct') {
-      const text = String(body.text ?? '').trim();
-      const instruction = String(body.instruction ?? '').trim();
-      if (!text || !instruction) return apiError('text and instruction are required');
+    if (task === "instruct") {
+      const text = String(body.text ?? "").trim();
+      const instruction = String(body.instruction ?? "").trim();
+      if (!text || !instruction)
+        return apiError("text and instruction are required");
       const prompt = `INSTRUCTION:\n${instruction}\n\nPARAGRAPH:\n${text}`;
-      const replacement = await claudeComplete(prompt,
-        { system: INSTRUCT_SYSTEM, maxTokens: 1024 });
+      const replacement = await claudeComplete(prompt, {
+        system: INSTRUCT_SYSTEM,
+        maxTokens: 1024,
+      });
       return apiOk({ replacement: stripFences(replacement) });
     }
 
-    if (task === 'finalize') {
-      const slug = String(body.slug ?? '').trim();
-      const chapter = String(body.chapter ?? '').trim();
+    if (task === "finalize") {
+      const slug = String(body.slug ?? "").trim();
+      const chapter = String(body.chapter ?? "").trim();
       const paragraphs = Array.isArray(body.paragraphs) ? body.paragraphs : [];
-      if (!slug || !chapter) return apiError('slug and chapter are required');
-      const prompt = JSON.stringify({ slug, chapter, paragraphs }).slice(0, 20000);
-      const brief = await claudeComplete(prompt,
-        { system: FINALIZE_SYSTEM, maxTokens: 1500 });
+      if (!slug || !chapter) return apiError("slug and chapter are required");
+      const prompt = JSON.stringify({ slug, chapter, paragraphs }).slice(
+        0,
+        20000,
+      );
+      const brief = await claudeComplete(prompt, {
+        system: FINALIZE_SYSTEM,
+        maxTokens: 1500,
+      });
       return apiOk({ brief: stripFences(brief) });
     }
 

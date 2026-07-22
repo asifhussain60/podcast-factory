@@ -3,6 +3,7 @@
 episode-rebuild surfacing, heartbeat). Drives converge_chapter with monkeypatched
 challenger/fixer so no LLM is invoked; asserts the rails fire at the right time.
 """
+
 from __future__ import annotations
 
 import sys
@@ -13,8 +14,8 @@ import pytest
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _convergence as cv  # noqa: E402
-from _authoring import AuthoringError  # noqa: E402
+import _convergence as cv
+from _authoring import AuthoringError
 
 
 @pytest.fixture
@@ -36,8 +37,10 @@ class TestCostCeilings:
     def test_per_book_ceiling_systemic_halt(self, book, monkeypatch):
         monkeypatch.setattr(cv, "invoke_challenger", lambda *a, **k: _write_report(book, "BLOCKED"))
         out = cv.converge_chapter(
-            book, "ch01",
-            book_cost_cap=10.0, book_cost_fn=lambda: 99.0,
+            book,
+            "ch01",
+            book_cost_cap=10.0,
+            book_cost_fn=lambda: 99.0,
         )
         assert out.final_verdict == "FAILED"
         assert out.systemic_halt and "COST-CEILING" in out.systemic_halt
@@ -47,8 +50,10 @@ class TestCostCeilings:
     def test_per_chapter_ceiling_fails_chapter_only(self, book, monkeypatch):
         monkeypatch.setattr(cv, "invoke_challenger", lambda *a, **k: _write_report(book, "BLOCKED"))
         out = cv.converge_chapter(
-            book, "ch01",
-            per_chapter_cost_cap=5.0, chapter_cost_fn=lambda: 7.5,
+            book,
+            "ch01",
+            per_chapter_cost_cap=5.0,
+            chapter_cost_fn=lambda: 7.5,
         )
         assert out.final_verdict == "FAILED"
         assert out.systemic_halt is None  # per-chapter breach is NOT systemic
@@ -70,8 +75,10 @@ class TestHeartbeat:
 
     def test_heartbeat_failure_never_breaks_loop(self, book, monkeypatch):
         monkeypatch.setattr(cv, "invoke_challenger", lambda *a, **k: _write_report(book, "SHIP-READY"))
+
         def _boom(outer, note):
             raise RuntimeError("beat exploded")
+
         out = cv.converge_chapter(book, "ch01", heartbeat=_boom)
         assert out.final_verdict == "SHIP-READY"
 
@@ -79,8 +86,10 @@ class TestHeartbeat:
 class TestFixerHalt:
     def test_two_consecutive_fixer_failures_early_halt(self, book, monkeypatch):
         monkeypatch.setattr(cv, "invoke_challenger", lambda *a, **k: _write_report(book, "BLOCKED"))
+
         def _always_fail(*a, **k):
             raise AuthoringError("fixer", "fixer down")
+
         monkeypatch.setattr(cv, "invoke_fixer", _always_fail)
         out = cv.converge_chapter(book, "ch01")
         assert out.final_verdict == "FAILED"

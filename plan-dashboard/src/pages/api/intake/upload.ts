@@ -9,21 +9,29 @@
  * resolver-based staging dir. Nothing touches the canonical _source/ until the
  * final confirm. Returns the session token + file records + role validation.
  */
-import type { APIRoute } from 'astro';
-import { writeFile } from 'node:fs/promises';
-import { runPythonJson } from '../../../lib/intake-cli';
-import { apiOk, apiError, apiServerError } from '../../../lib/api-responses';
+import type { APIRoute } from "astro";
+import { writeFile } from "node:fs/promises";
+import { runPythonJson } from "../../../lib/intake-cli";
+import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
 
 export const prerender = false;
 
 // Mirror of intake_staging.ALLOWED_EXT / MAX_FILE_BYTES for a fast client-facing
 // reject (the Python register() is the authoritative gate).
-const ALLOWED_EXT = new Set(['.pdf', '.mp3', '.m4a', '.wav', '.txt', '.md', '.docx']);
+const ALLOWED_EXT = new Set([
+  ".pdf",
+  ".mp3",
+  ".m4a",
+  ".wav",
+  ".txt",
+  ".md",
+  ".docx",
+]);
 const MAX_FILE_BYTES = 500 * 1024 * 1024;
 
 function ext(name: string): string {
-  const i = name.lastIndexOf('.');
-  return i >= 0 ? name.slice(i).toLowerCase() : '';
+  const i = name.lastIndexOf(".");
+  return i >= 0 ? name.slice(i).toLowerCase() : "";
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -31,18 +39,22 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     form = await request.formData();
   } catch {
-    return apiError('expected multipart/form-data');
+    return apiError("expected multipart/form-data");
   }
 
   // Resolve (or create) the staging session token.
-  let token = (form.get('token') as string | null)?.trim() || '';
+  let token = (form.get("token") as string | null)?.trim() || "";
   if (!token) {
-    const created = (await runPythonJson('intake_staging.py', ['new'])) as { token: string };
+    const created = (await runPythonJson("intake_staging.py", ["new"])) as {
+      token: string;
+    };
     token = created.token;
   }
 
-  const files = form.getAll('files').filter((f): f is File => f instanceof File);
-  if (files.length === 0) return apiError('no files in upload');
+  const files = form
+    .getAll("files")
+    .filter((f): f is File => f instanceof File);
+  if (files.length === 0) return apiError("no files in upload");
 
   const staged: unknown[] = [];
   const rejected: { filename: string; reason: string }[] = [];
@@ -50,30 +62,36 @@ export const POST: APIRoute = async ({ request }) => {
     for (const file of files) {
       const name = file.name;
       if (!ALLOWED_EXT.has(ext(name))) {
-        rejected.push({ filename: name, reason: 'file type not allowed' });
+        rejected.push({ filename: name, reason: "file type not allowed" });
         continue;
       }
       if (file.size > MAX_FILE_BYTES) {
-        rejected.push({ filename: name, reason: 'exceeds size cap' });
+        rejected.push({ filename: name, reason: "exceeds size cap" });
         continue;
       }
       const role = (form.get(`role_${name}`) as string | null) || undefined;
-      const args = ['register', token, name, ...(role ? ['--role', role] : [])];
-      const reg = (await runPythonJson('intake_staging.py', args)) as {
+      const args = ["register", token, name, ...(role ? ["--role", role] : [])];
+      const reg = (await runPythonJson("intake_staging.py", args)) as {
         ok: boolean;
         file?: Record<string, unknown>;
         stored_path?: string;
         error?: string;
       };
       if (!reg.ok || !reg.stored_path) {
-        rejected.push({ filename: name, reason: reg.error ?? 'register failed' });
+        rejected.push({
+          filename: name,
+          reason: reg.error ?? "register failed",
+        });
         continue;
       }
       await writeFile(reg.stored_path, Buffer.from(await file.arrayBuffer()));
       staged.push(reg.file);
     }
 
-    const validation = await runPythonJson('intake_staging.py', ['validate', token]);
+    const validation = await runPythonJson("intake_staging.py", [
+      "validate",
+      token,
+    ]);
     return apiOk({ token, staged, rejected, validation });
   } catch (e) {
     return apiServerError(String(e));

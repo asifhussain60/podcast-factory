@@ -1,0 +1,58 @@
+name: lint
+
+# R0 of the clean-code hardening plan (2026-07-18): Ruff + DR-005 gate the
+# pipeline surface; ESLint + Prettier gate the site surface. mypy runs
+# non-blocking (gradual opt-in per pyproject.toml) until the strict set is
+# meaningful.
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+permissions:
+  contents: read
+
+jobs:
+  pipeline:
+    name: ruff + DR-005 (pipeline)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install ruff + mypy
+        run: python3 -m pip install ruff mypy
+      - name: Ruff lint
+        run: ruff check
+      - name: Ruff format check
+        run: ruff format --check
+      - name: DR-005 line-count gate
+        run: python3 infra/git-hooks/check-dr005.py
+      - name: mypy (non-blocking, gradual opt-in)
+        continue-on-error: true
+        run: mypy scripts tools || true
+
+  site:
+    name: eslint + prettier (site)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: plan-dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: plan-dashboard/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: ESLint (errors block, warnings advisory)
+        run: npx eslint src scripts --quiet
+      - name: Prettier check
+        run: npm run format:check

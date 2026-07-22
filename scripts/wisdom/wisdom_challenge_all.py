@@ -11,7 +11,9 @@ Usage:
     python scripts/wisdom/wisdom_challenge_all.py --binder 35
     python scripts/wisdom/wisdom_challenge_all.py --warn-only
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import subprocess
@@ -34,20 +36,20 @@ BINDER_ORDER = [
     (32, "Al-Ghazali — Kimiya"),
     (36, "Islam Iman Ihsan"),
     (12, "Duʿāt Lives"),
-    (5,  "Devotional Poetry"),
+    (5, "Devotional Poetry"),
     (16, "Selected Duʿāʾs"),
     (18, "Prophet Stories"),
     (25, "Daʿāʾim: Ṭahāra"),
     (27, "Ādāb wa-Akhlāq"),
     (29, "Daʿāʾim: Ṣawm"),
-    (1,  "Sciences of Origin/Return"),
+    (1, "Sciences of Origin/Return"),
     (24, "Tawḥīd"),
     (26, "Daʿāʾim: Ṣalāt"),
     (19, "Daʿāʾim: Wilāya"),
     (34, "Quranic Studies"),
     (28, "Drafts"),
-    (6,  "Imam ʿAlī"),
-    (8,  "Taʾwīl of Divine Words"),
+    (6, "Imam ʿAlī"),
+    (8, "Taʾwīl of Divine Words"),
     (23, "Selected Scholarly Treatises"),
 ]
 
@@ -94,7 +96,10 @@ def _get_stage(binder_id: int, chapter_id: int) -> str:
 
 def _get_chapters(binder_id: int) -> list[int]:
     result = subprocess.run(
-        [str(VENV), "-c", f"""
+        [
+            str(VENV),
+            "-c",
+            f"""
 from tools.source_extractor.db import query_json
 rows = query_json('WISDOM', '''
 SELECT bc.ChapterID AS id
@@ -102,8 +107,11 @@ FROM BinderChapters bc
 WHERE bc.BinderID = {binder_id}
 ORDER BY bc.BinderChapterOrder FOR JSON PATH;''')
 for r in rows: print(r['id'])
-"""],
-        capture_output=True, text=True, cwd=REPO,
+""",
+        ],
+        capture_output=True,
+        text=True,
+        cwd=REPO,
     )
     return [int(x) for x in result.stdout.strip().splitlines() if x.strip()]
 
@@ -152,20 +160,21 @@ def _commit_binder(binder_id: int, name: str, chapters: int, cost: float, dry_ru
     if dry_run:
         print(f"  [dry-run] would commit binder {binder_id}")
         return
-    msg = (
-        f"feat(wisdom-challenge): binder {binder_id} — {name} "
-        f"({chapters} chapters challenged, ${cost:.2f} Anthropic)"
+    msg = f"feat(wisdom-challenge): binder {binder_id} — {name} ({chapters} chapters challenged, ${cost:.2f} Anthropic)"
+    subprocess.run(
+        [
+            "git",
+            "add",
+            "CONTENT/_shared/source-library/extracted/wisdom/",
+            "_workspace/plan/wisdom-challenge-cost-ledger.jsonl",
+        ],
+        cwd=REPO,
+        check=False,
     )
     subprocess.run(
-        ["git", "add",
-         "CONTENT/_shared/source-library/extracted/wisdom/",
-         "_workspace/plan/wisdom-challenge-cost-ledger.jsonl"],
-        cwd=REPO, check=False,
-    )
-    subprocess.run(
-        ["git", "commit", "-m", msg,
-         f"--trailer=Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"],
-        cwd=REPO, check=False,
+        ["git", "commit", "-m", msg, "--trailer=Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"],
+        cwd=REPO,
+        check=False,
     )
 
 
@@ -173,8 +182,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--binder", type=int, help="Run a single binder only")
-    ap.add_argument("--warn-only", action="store_true",
-                    help="Continue even on WARN; only halt on FAIL")
+    ap.add_argument("--warn-only", action="store_true", help="Continue even on WARN; only halt on FAIL")
     args = ap.parse_args()
 
     session_start = _ledger_total()
@@ -198,9 +206,9 @@ def main() -> None:
         done = skipped = failed = 0
         binder_cost = 0.0
 
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"Binder {binder_id} — {binder_name} ({len(chapters)} chapters)")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
         for ch_id in chapters:
             cumulative = session_start + session_cost
@@ -247,16 +255,16 @@ def main() -> None:
         _commit_binder(binder_id, binder_name, done, binder_cost, args.dry_run)
 
     total = session_start + session_cost
-    print(f"\n{'='*60}")
-    print(f"Challenge complete.")
+    print(f"\n{'=' * 60}")
+    print("Challenge complete.")
     print(f"WARNs: {len(all_warns)}  FAILs: {len(all_fails)}")
     print(f"Session spend: ${session_cost:.4f}  |  Total: ${total:.4f}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     if all_warns or all_fails:
         FAIL_REPORT.parent.mkdir(parents=True, exist_ok=True)
         with FAIL_REPORT.open("w") as f:
-            f.write(f"# KAHSKOLE Challenge Results\n\n")
+            f.write("# KAHSKOLE Challenge Results\n\n")
             f.write(f"Generated: {datetime.now(timezone.utc).isoformat()}\n\n")
             if all_warns:
                 f.write(f"## WARNs ({len(all_warns)})\n")

@@ -4,23 +4,27 @@ Generic: works against any SourceAdapter. Output is a podcast-pipeline-ready
 bundle (see bundle.py for the layout contract). Stage B (in-conversation
 Claude vision) runs between prepare and finalize.
 """
+
 from __future__ import annotations
-import base64, hashlib, json, re
+
+import base64
+import hashlib
+import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 
-from ..adapters.base import SourceAdapter, BookIds
-from ..html_to_md import html_to_md
+from ..adapters.base import BookIds, SourceAdapter
 from ..bundle import (
     bundle_paths,
     ensure_bundle_dirs,
+    write_audit_anchor_html,
     write_bundle_yml,
+    write_extraction_notes,
     write_provenance,
     write_readme,
-    write_audit_anchor_html,
-    write_extraction_notes,
 )
-
+from ..html_to_md import html_to_md
 
 _INLINE_IMG_RE = re.compile(
     r'<img[^>]*src="data:image/(?P<fmt>png|jpeg|jpg|gif|webp);base64,(?P<b64>[^"]+)"[^>]*>',
@@ -39,6 +43,7 @@ def _extract_inline_images(
     """Replace each <img src='data:image/...'> with a {{IMG:NNN}} placeholder
     and dump the decoded bytes to images_dir/NNN.<fmt>. Returns rewritten HTML.
     image_counter is a single-element list so we can mutate the running counter."""
+
     def _sub(m: re.Match) -> str:
         fmt = m.group("fmt").lower()
         if fmt == "jpeg":
@@ -47,28 +52,32 @@ def _extract_inline_images(
         try:
             data = base64.b64decode(b64, validate=False)
         except Exception as e:
-            image_records.append({
-                "placeholder": f"IMG_DECODE_FAIL_T{section_id}",
-                "section_id": section_id,
-                "section_label": section_label,
-                "error": f"base64 decode failed: {e}",
-            })
+            image_records.append(
+                {
+                    "placeholder": f"IMG_DECODE_FAIL_T{section_id}",
+                    "section_id": section_id,
+                    "section_label": section_label,
+                    "error": f"base64 decode failed: {e}",
+                }
+            )
             return f"\n[IMG_DECODE_FAIL T{section_id}]\n"
         image_counter[0] += 1
         idx = image_counter[0]
         fname = f"{idx:03d}.{fmt}"
         (images_dir / fname).write_bytes(data)
         sha = hashlib.sha256(data).hexdigest()[:12]
-        image_records.append({
-            "placeholder": f"IMG:{idx:03d}",
-            "file": f"_system/source/images/{fname}",
-            "section_id": section_id,
-            "section_label": section_label,
-            "bytes": len(data),
-            "sha256_12": sha,
-            "source": "section html (inline base64)",
-            "status": "awaiting-vision",
-        })
+        image_records.append(
+            {
+                "placeholder": f"IMG:{idx:03d}",
+                "file": f"_system/source/images/{fname}",
+                "section_id": section_id,
+                "section_label": section_label,
+                "bytes": len(data),
+                "sha256_12": sha,
+                "source": "section html (inline base64)",
+                "status": "awaiting-vision",
+            }
+        )
         return f"\n{{{{IMG:{idx:03d}}}}}\n"
 
     return _INLINE_IMG_RE.sub(_sub, html)
@@ -131,25 +140,26 @@ def prepare_book(
 
         curated_refs = adapter.get_section_curated_citations(section.id)
 
-        sections_meta.append({
-            "position": section.position,
-            "id": section.id,
-            "raw_sort": section.raw_sort,
-            "label": section.label,
-            "name_en": section.extras.get("name_en"),
-            "has_content": bool(section.html),
-            "image_count_inline": imgs_here,
-            "curated_citations": curated_refs,
-        })
+        sections_meta.append(
+            {
+                "position": section.position,
+                "id": section.id,
+                "raw_sort": section.raw_sort,
+                "label": section.label,
+                "name_en": section.extras.get("name_en"),
+                "has_content": bool(section.html),
+                "image_count_inline": imgs_here,
+                "curated_citations": curated_refs,
+            }
+        )
 
         md_lines.append(
-            f"\n<!-- section {section.position} "
-            f"(id={section.id}, raw_sort={section.raw_sort}): {section.label} -->\n"
+            f"\n<!-- section {section.position} (id={section.id}, raw_sort={section.raw_sort}): {section.label} -->\n"
         )
         if md_body.strip():
             md_lines.append(md_body)
         else:
-            md_lines.append(f"\n*(no Unicode content — see _extraction-notes.md)*\n")
+            md_lines.append("\n*(no Unicode content — see _extraction-notes.md)*\n")
 
     paths.raw_extract_draft.write_text("".join(md_lines), encoding="utf-8")
 
@@ -186,17 +196,20 @@ def prepare_book(
 
     # _provenance.json
     write_provenance(
-        paths, meta, labels,
+        paths,
+        meta,
+        labels,
         db_name="KASHKOLE" if meta.source_name in ("wisdom", "kashkole") else meta.source_name.upper(),
         section_query_count=len(sections),
         stage="prepared",
     )
 
     # bundle.yml + _README.md (root-level)
-    write_bundle_yml(paths, meta, labels, sections_meta, len(image_records),
-                     stage="prepared")
+    write_bundle_yml(paths, meta, labels, sections_meta, len(image_records), stage="prepared")
     write_readme(
-        paths, meta, labels,
+        paths,
+        meta,
+        labels,
         section_count=len(sections),
         sections_with_content=sum(1 for s in sections_meta if s["has_content"]),
         image_count=len(image_records),

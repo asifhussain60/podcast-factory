@@ -15,6 +15,7 @@ Risk is a heuristic ON PURPOSE: its only job is to put the worst offenders at
 the top of a ~40-item list a human listens to once. It does not need to be
 exact, only well-ordered.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -29,8 +30,8 @@ _SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 if str(_SCRIPTS_PODCAST) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS_PODCAST))
 
-from knowledge import pronunciation_ledger as ledger  # noqa: E402
-from knowledge import pronunciation_patterns as patterns  # noqa: E402
+from knowledge import pronunciation_ledger as ledger
+from knowledge import pronunciation_patterns as patterns
 
 DEFAULT_TOP_N = 40
 
@@ -40,12 +41,12 @@ DEFAULT_TOP_N = 40
 _PROPER_NOUN_RE = re.compile(r"^[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*$")
 
 # Transliteration glyphs that signal phonemes NotebookLM routinely mangles.
-_AYN = re.compile(r"[ʿʾ’’’]")                       # hamza / ayn
-_EMPHATIC = re.compile(r"[ḥḍṣṭẓḏṯġḫ]")              # emphatics + uncommon fricatives
+_AYN = re.compile(r"[ʿʾ’’’]")  # hamza / ayn
+_EMPHATIC = re.compile(r"[ḥḍṣṭẓḏṯġḫ]")  # emphatics + uncommon fricatives
 _QAF = re.compile(r"q", re.IGNORECASE)
 _LINEAGE = re.compile(r"\b(ibn|bin|bint|abu|abi|umm|al-| al )", re.IGNORECASE)
 _PLACE_HINT = re.compile(r"\b(mount|island|river|valley|city|mosque|masjid|bayt|dwell)", re.IGNORECASE)
-_APOST_RE = re.compile(r"[ʿʾ’’ʻ`]")   # ayn / hamza variants
+_APOST_RE = re.compile(r"[ʿʾ’’ʻ`]")  # ayn / hamza variants
 
 
 def _normalise_translit(s: str) -> str:
@@ -142,22 +143,25 @@ def _dedup_article_variants(scored: list[dict]) -> list[dict]:
             out.append(members[0])
             continue
         # Prefer the bare form (no leading al-) as canonical.
-        bare = [
-            m for m in members
-            if not _normalise_translit(m.get("transliteration") or m["term"]).startswith("al-")
-        ]
+        bare = [m for m in members if not _normalise_translit(m.get("transliteration") or m["term"]).startswith("al-")]
         primary = max(bare or members, key=lambda m: (m["freq"], m["score"]))
         total_freq = sum(m["freq"] for m in members)
 
         # Recalculate score's frequency contribution for the merged total.
         score = primary["score"]
         old = primary["freq"]
-        if old >= 10:    score -= 3
-        elif old >= 4:   score -= 2
-        elif old >= 2:   score -= 1
-        if total_freq >= 10:   score += 3
-        elif total_freq >= 4:  score += 2
-        elif total_freq >= 2:  score += 1
+        if old >= 10:
+            score -= 3
+        elif old >= 4:
+            score -= 2
+        elif old >= 2:
+            score -= 1
+        if total_freq >= 10:
+            score += 3
+        elif total_freq >= 4:
+            score += 2
+        elif total_freq >= 2:
+            score += 1
 
         # Build merged reasons: drop the old per-term freq entry, add merged one.
         reasons = [rr for rr in primary["reasons"] if not re.match(r"^x\d+ in text", rr)]
@@ -165,17 +169,17 @@ def _dedup_article_variants(scored: list[dict]) -> list[dict]:
         reasons.append(f"x{total_freq} in text (+ {', '.join(merged_forms)})")
 
         # Use primary's meaning; fall back to any member's meaning.
-        merged_meaning = primary.get("meaning") or next(
-            (m.get("meaning") for m in members if m.get("meaning")), ""
-        )
+        merged_meaning = primary.get("meaning") or next((m.get("meaning") for m in members if m.get("meaning")), "")
 
-        out.append({
-            **primary,
-            "freq": total_freq,
-            "score": max(0, score),
-            "reasons": reasons,
-            "meaning": merged_meaning,
-        })
+        out.append(
+            {
+                **primary,
+                "freq": total_freq,
+                "score": max(0, score),
+                "reasons": reasons,
+                "meaning": merged_meaning,
+            }
+        )
     return out
 
 
@@ -191,12 +195,14 @@ def _parse_phonetics_md(path: Path) -> list[dict]:
             continue
         if cells[0].lower() in ("term", "") or set(cells[0]) <= {"-", ":"}:
             continue  # header or divider
-        rows.append({
-            "term": cells[0],
-            "transliteration": cells[1] if len(cells) > 1 else cells[0],
-            "phonetic": cells[2] if len(cells) > 2 else "",
-            "snippet": cells[3] if len(cells) > 3 else "",
-        })
+        rows.append(
+            {
+                "term": cells[0],
+                "transliteration": cells[1] if len(cells) > 1 else cells[0],
+                "phonetic": cells[2] if len(cells) > 2 else "",
+                "snippet": cells[3] if len(cells) > 3 else "",
+            }
+        )
     return rows
 
 
@@ -337,24 +343,26 @@ def build_probe_terms(book_dir: Path, top_n: int = DEFAULT_TOP_N) -> dict:
             or (translit_str if _PROPER_NOUN_RE.match(translit_str) else "")
         )
 
-        scored.append({
-            "term": row["term"],
-            "transliteration": row["transliteration"],
-            "phonetic": phon,
-            "house_style_ok": house_ok,
-            # deterministic pattern baseline — pre-fills a suggestion for unseen /
-            # IPA-broken terms so the reviewer confirms instead of types from blank
-            "suggested_baseline": pat.baseline_phonetic(row["transliteration"] or row["term"]),
-            "signature": patterns.feature_signature(row["term"], row["transliteration"]),
-            "segment": _segment_of(row),
-            "snippet": snippet,
-            "freq": freq,
-            "score": score,
-            "reasons": reasons,
-            # term field IS Arabic script; bake it so the UI pre-fills the Arabic input
-            "arabic_script": row.get("arabic_script") or row["term"],
-            "meaning": meaning or "",
-        })
+        scored.append(
+            {
+                "term": row["term"],
+                "transliteration": row["transliteration"],
+                "phonetic": phon,
+                "house_style_ok": house_ok,
+                # deterministic pattern baseline — pre-fills a suggestion for unseen /
+                # IPA-broken terms so the reviewer confirms instead of types from blank
+                "suggested_baseline": pat.baseline_phonetic(row["transliteration"] or row["term"]),
+                "signature": patterns.feature_signature(row["term"], row["transliteration"]),
+                "segment": _segment_of(row),
+                "snippet": snippet,
+                "freq": freq,
+                "score": score,
+                "reasons": reasons,
+                # term field IS Arabic script; bake it so the UI pre-fills the Arabic input
+                "arabic_script": row.get("arabic_script") or row["term"],
+                "meaning": meaning or "",
+            }
+        )
 
     # Merge terms that differ only by the ال / al- definite article.
     scored = _dedup_article_variants(scored)

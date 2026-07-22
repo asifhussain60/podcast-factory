@@ -48,6 +48,7 @@ The composite volume slug is ``<work_slug>-<dir>`` (e.g. ``asaas`` + ``vol-02`` 
 importing this module (no yaml dep, no circular import); this module is the
 authoritative reader for the manifest CONTENTS (titles, sources, order, shared).
 """
+
 from __future__ import annotations
 
 import os
@@ -57,10 +58,10 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import _paths  # noqa: E402
+import _paths
 
 try:
-    import yaml  # noqa: E402
+    import yaml
 except Exception as exc:  # pragma: no cover - yaml is a hard dep everywhere else
     raise ImportError("_work_manifest requires PyYAML") from exc
 

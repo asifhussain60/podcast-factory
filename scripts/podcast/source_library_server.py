@@ -20,12 +20,13 @@ Usage:
 To register in .mcp.json (one-time):
     python3 scripts/podcast/source_library_server.py --register
 """
+
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import sys
-import io
 from pathlib import Path
 from typing import Any
 
@@ -37,10 +38,10 @@ sys.path.insert(0, str(REPO_ROOT))
 from scripts.podcast.source_library_queries import (
     quran_lookup,
     quran_theme_search,
-    word_etymology,
-    topic_search,
-    topic_get,
     session_style_fetch,
+    topic_get,
+    topic_search,
+    word_etymology,
 )
 
 # ── tool manifest (shared by both transports) ─────────────────────────────────
@@ -53,7 +54,7 @@ TOOLS: list[dict[str, Any]] = [
             "type": "object",
             "properties": {
                 "surah": {"type": "integer", "description": "Surah (chapter) number 1–114"},
-                "ayat":  {"type": "integer", "description": "Ayat (verse) number"},
+                "ayat": {"type": "integer", "description": "Ayat (verse) number"},
             },
             "required": ["surah", "ayat"],
         },
@@ -65,7 +66,7 @@ TOOLS: list[dict[str, Any]] = [
             "type": "object",
             "properties": {
                 "keyword": {"type": "string"},
-                "limit":   {"type": "integer", "default": 10},
+                "limit": {"type": "integer", "default": 10},
             },
             "required": ["keyword"],
         },
@@ -88,7 +89,7 @@ TOOLS: list[dict[str, Any]] = [
             "type": "object",
             "properties": {
                 "keyword": {"type": "string"},
-                "limit":   {"type": "integer", "default": 10},
+                "limit": {"type": "integer", "default": 10},
             },
             "required": ["keyword"],
         },
@@ -110,9 +111,9 @@ TOOLS: list[dict[str, Any]] = [
         "inputSchema": {
             "type": "object",
             "properties": {
-                "theme":    {"type": "string", "description": "Theme or keyword to search"},
+                "theme": {"type": "string", "description": "Theme or keyword to search"},
                 "group_id": {"type": ["integer", "null"], "default": None},
-                "limit":    {"type": "integer", "default": 4},
+                "limit": {"type": "integer", "default": 4},
             },
             "required": ["theme"],
         },
@@ -144,6 +145,7 @@ def _dispatch(name: str, args: dict[str, Any]) -> Any:
 
 # ── MCP stdio server ──────────────────────────────────────────────────────────
 
+
 def _mcp_send(msg: dict[str, Any]) -> None:
     body = json.dumps(msg, ensure_ascii=False)
     header = f"Content-Length: {len(body.encode('utf-8'))}\r\n\r\n"
@@ -156,8 +158,7 @@ def _mcp_ok(req_id: Any, result: Any) -> None:
 
 
 def _mcp_err(req_id: Any, code: int, message: str) -> None:
-    _mcp_send({"jsonrpc": "2.0", "id": req_id,
-               "error": {"code": code, "message": message}})
+    _mcp_send({"jsonrpc": "2.0", "id": req_id, "error": {"code": code, "message": message}})
 
 
 def run_stdio() -> None:
@@ -193,11 +194,14 @@ def run_stdio() -> None:
         req_id = msg.get("id")
 
         if method == "initialize":
-            _mcp_ok(req_id, {
-                "protocolVersion": "2024-11-05",
-                "capabilities": {"tools": {}},
-                "serverInfo": {"name": "source-library", "version": "1.0.0"},
-            })
+            _mcp_ok(
+                req_id,
+                {
+                    "protocolVersion": "2024-11-05",
+                    "capabilities": {"tools": {}},
+                    "serverInfo": {"name": "source-library", "version": "1.0.0"},
+                },
+            )
 
         elif method == "initialized":
             pass  # notification, no response
@@ -211,15 +215,21 @@ def run_stdio() -> None:
             tool_args = params.get("arguments", {})
             try:
                 result = _dispatch(tool_name, tool_args)
-                _mcp_ok(req_id, {
-                    "content": [{"type": "text", "text": json.dumps(result, ensure_ascii=False)}],
-                    "isError": False,
-                })
-            except Exception as exc:  # noqa: BLE001
-                _mcp_ok(req_id, {
-                    "content": [{"type": "text", "text": str(exc)}],
-                    "isError": True,
-                })
+                _mcp_ok(
+                    req_id,
+                    {
+                        "content": [{"type": "text", "text": json.dumps(result, ensure_ascii=False)}],
+                        "isError": False,
+                    },
+                )
+            except Exception as exc:
+                _mcp_ok(
+                    req_id,
+                    {
+                        "content": [{"type": "text", "text": str(exc)}],
+                        "isError": True,
+                    },
+                )
 
         elif req_id is not None:
             _mcp_err(req_id, -32601, f"Method not found: {method!r}")
@@ -233,9 +243,10 @@ HTTP_PORT = 4390
 def run_http(port: int = HTTP_PORT) -> None:
     """Serve the six query functions over HTTP on the given port."""
     try:
-        from fastapi import FastAPI, Query as Q
-        from fastapi.responses import JSONResponse
         import uvicorn
+        from fastapi import FastAPI
+        from fastapi import Query as Q
+        from fastapi.responses import JSONResponse
     except ImportError as exc:
         sys.exit(f"HTTP mode requires fastapi and uvicorn: {exc}")
 
@@ -279,6 +290,7 @@ def run_http(port: int = HTTP_PORT) -> None:
 
 # ── .mcp.json registration helper ─────────────────────────────────────────────
 
+
 def _register_mcp() -> None:
     """Add this server to .mcp.json (idempotent)."""
     mcp_file = REPO_ROOT / ".mcp.json"
@@ -299,11 +311,12 @@ def _register_mcp() -> None:
 
 # ── entry point ───────────────────────────────────────────────────────────────
 
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Source Library dual-interface server")
-    parser.add_argument("--stdio",    action="store_true", help="Run MCP stdio transport")
+    parser.add_argument("--stdio", action="store_true", help="Run MCP stdio transport")
     parser.add_argument("--register", action="store_true", help="Register in .mcp.json and exit")
-    parser.add_argument("--port",     type=int, default=HTTP_PORT, help="HTTP port (default 4390)")
+    parser.add_argument("--port", type=int, default=HTTP_PORT, help="HTTP port (default 4390)")
     args = parser.parse_args()
 
     if args.register:

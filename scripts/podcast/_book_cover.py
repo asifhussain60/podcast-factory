@@ -15,6 +15,7 @@ pass force=True to regenerate).
 Standalone:
     python3 scripts/podcast/_book_cover.py <BOOK_DIR> [--force]
 """
+
 from __future__ import annotations
 
 import json
@@ -43,9 +44,11 @@ def _read_theme(book_dir: Path) -> str:
         return ""
     title = data.get("book_title", "")
     chapters = ", ".join(c.get("title", "") for c in data.get("chapters", [])[:6])
-    return (f"The book is titled '{title}'. Its chapters include: {chapters}. "
-            f"Depict ONE quiet, emblematic scene evoking the book's heart — "
-            f"figures small within the setting, never portrait close-ups.")
+    return (
+        f"The book is titled '{title}'. Its chapters include: {chapters}. "
+        f"Depict ONE quiet, emblematic scene evoking the book's heart — "
+        f"figures small within the setting, never portrait close-ups."
+    )
 
 
 def ensure_cover(book_dir: Path, *, force: bool = False, log=print) -> Path | None:
@@ -55,13 +58,15 @@ def ensure_cover(book_dir: Path, *, force: bool = False, log=print) -> Path | No
     if out.exists() and not force:
         return out
     try:
-        from generate_video_layer import _gemini_client, IMAGE_MODEL
+        from generate_video_layer import IMAGE_MODEL, _gemini_client
         from google.genai import types
+
         client, _ = _gemini_client()
         prompt = f"{_read_theme(book_dir)} {_STYLE}"
         log(f"    0book-render: generating cover.png ({IMAGE_MODEL})")
         resp = client.models.generate_content(
-            model=IMAGE_MODEL, contents=prompt,
+            model=IMAGE_MODEL,
+            contents=prompt,
             config=types.GenerateContentConfig(response_modalities=["image", "text"]),
         )
         image_bytes = None
@@ -70,16 +75,14 @@ def ensure_cover(book_dir: Path, *, force: bool = False, log=print) -> Path | No
                 image_bytes = part.inline_data.data
                 break
         if not image_bytes:
-            log("    0book-render: cover generation returned no image — "
-                "rendering without a cover")
+            log("    0book-render: cover generation returned no image — rendering without a cover")
             return None
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_bytes(image_bytes)
         log(f"    0book-render: wrote cover.png ({len(image_bytes) // 1024}KB)")
         return out
-    except Exception as e:  # noqa: BLE001 — non-blocking contract
-        log(f"    0book-render: cover generation skipped ({e}) — "
-            "rendering without a cover")
+    except Exception as e:
+        log(f"    0book-render: cover generation skipped ({e}) — rendering without a cover")
         return None
 
 

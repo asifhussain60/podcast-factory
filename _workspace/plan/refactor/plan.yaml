@@ -1022,7 +1022,12 @@ waves:
             function: "check_manual_review_resolved()"
             fails_if: "any unresolved <div class='alert manual-review'...> in finalize-phase book"
           rich_diagram_classifier:
-            path: "scripts/podcast/slides/classify_slides.py"
+            resolution: >-
+              RETIRED 2026-07-18 (repo-audit R19): scripts/podcast/slides/classify_slides.py
+              deleted as dead code — never invoked by any live path; phases/p3_4.py had
+              used it only as a file-existence marker (gaming its own gate) and now
+              detects the pilot findings doc alone. Per the fallback clause below, the
+              rich-diagram coverage gate is permanently demoted to P2 advisory.
             max_lines: 200
             engine: "claude-vision (default), gemini-vision (fallback)"
             labels: ["diagram", "prose", "title", "quote"]
@@ -1886,7 +1891,7 @@ waves_ghj:
           - "5 remaining test modules (phonetics, enrichment, publish gates G1-G6, state-machine extras)"
           - "Azure transient-error retry decorator; subprocess timeout wrapper"
           - "DR-005 sweep: _authoring.py (2025L), build_episode_txt.py (1563L), extract_chapter.py (1301L), tighten_source.py (1051L), run_wave.py (824L)"
-        note: "Steps 1-2 done 2026-05-29. orchestrate_book split requires dedicated session — complex internal dependency graph."
+        note: "Steps 1-2 done 2026-05-29. orchestrate_book split requires dedicated session — complex internal dependency graph. SUBSUMED 2026-07-18: the deferred DR-005 sweep + remaining code-quality items are carried by waves_refactor (R3); track them there."
 
       - id: H3
         title: "Cross-wave autonomous execution chain driver"
@@ -1906,7 +1911,8 @@ waves_ghj:
         authorization: tier_one
         branch: develop
         cost_estimate_usd: 0
-        execution_status: in_progress
+        execution_status: built_test_pending
+        status_note: "Reconciled 2026-07-17: the driver scripts/podcast/run_waves_chain.py is built (461 lines, <=600 per DR-005) with authorize/status/run subcommands. Outstanding acceptance: tests/test_waves_chain.py does not yet exist. Was stale at in_progress."
 
   - id: I
     name: Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g
@@ -2558,8 +2564,8 @@ waves_ghj:
           wisdom/search.ts: GET /api/wisdom/search route. TopicPopover mounted in
           library chapter page. lint:views clean; 0 new TS errors.
 
-  - wave: K
-    title: "Quality Scoring + Pipeline Hardening"
+  - id: K
+    name: "Quality Scoring + Pipeline Hardening"
     status: not_started
     authorization: awaiting_approval
     depends_on: [B, I, J]
@@ -2941,7 +2947,8 @@ waves_ghj:
           - "_quality.py and challenger_scoring.py both <= 600 lines (DR-005)"
         authorization: tier_one
         cost_estimate_usd: 0
-        execution_status: not_started
+        execution_status: completed
+        status_note: "Reconciled 2026-07-17: the 5th PEQ axis is LIVE. scripts/podcast/_quality.py carries the Interest axis in the formula (0.15 x Interest) and _rules.py defines R_INTEREST_WEIGHT + the interest rules; the TS mirror peq-scores.ts is on the 5-axis contract. Was stale at not_started."
         branch: "feature/wave-k-interest-scoring"
 
 # ===========================================================================
@@ -3331,7 +3338,8 @@ wisdom_corpus_program:
     - id: WC3
       name: Intelligence knowledge phase
       depends_on: [WC2]
-      execution_status: planned
+      execution_status: partial
+      status_note: "Reconciled 2026-07-17: the knowledge/intelligence substrate is shipped (scripts/podcast/intelligence/extractor.py + extract_terms_from_doctrine.py, the atoms schema, and podcast-librarian's 0h-knowledge-extract). Whether a single dedicated knowledge PHASE was inserted after 0e per this spec is NOT confirmed — likely partly subsumed by shipped Wave B/I. Gated under the wisdom_corpus_program keep/kill decision (see parent, AWAITING_APPROVAL)."
       authorization: tier_two
       cost_estimate_usd: medium
       key_steps:
@@ -3344,7 +3352,8 @@ wisdom_corpus_program:
     - id: WC4
       name: Wisdom Corpus UI
       depends_on: [WC1]
-      execution_status: planned
+      execution_status: partial
+      status_note: "Reconciled 2026-07-17: the D9 rename is DONE (reader nav says 'Wisdom Corpus'; the /wisdom route is live with browse/search — pages/wisdom/*, api/wisdom/{search,topic}). The CURATION half is NOT built: no keep/delete over corpus records and no dedup review/confirm queue in the UI. Was overstated as fully done in the 2026-07-17 audit; the curation UI remains, gated under the wisdom_corpus_program decision."
       authorization: tier_two
       cost_estimate_usd: low
       key_steps:
@@ -3356,7 +3365,8 @@ wisdom_corpus_program:
     - id: WC5
       name: Audio intake + translation + gates (absorbed 'Wave I')
       depends_on: [B]
-      execution_status: planned
+      execution_status: partial
+      status_note: "Reconciled 2026-07-17: substantially subsumed by shipped waves — audio intake/routing (Wave I), the noise router (Wave H), Azure STT (Wave AT), and the source/publish review gates (06a; intake_status.py, _phases.py, orchestrate_work.py). The Urdu-specific translation branch (Turboscribe -> Azure Translator + ismaili-glossary) is not confirmed as a distinct shipped path. Recommend closing as superseded once the wisdom_corpus_program keep/kill call is made."
       authorization: tier_two
       cost_estimate_usd: medium
       key_steps:
@@ -4140,11 +4150,14 @@ waves_o_ph:
     depends_on: [PH]
     note: |
       Holistic pipeline review to production standard with first-class multi-volume
-      routing. Phases 1-4 + Phase 6 foundation landed on develop; Phase 5 (asaas
-      migration + content/->library/ rename) is DEFERRED (bundled, runs at asaas's
-      next clean boundary). The Phase 6 React visual screens are the collaborative
-      remainder (per-screen with Asif — LOCKED convention); the testable server
-      foundation shipped here. Full suite 625 passed.
+      routing. Phases 1-4 + Phase 6 foundation landed on develop. Phase 5's
+      content/->library/ rename is DROPPED BY DESIGN (reconciled 2026-07-17): the
+      type-first content/<Bucket>/<slug> tree is the permanent layout per CLAUDE.md,
+      so the rename will not happen; any asaas volume migration rides its own content
+      branch. The Phase 6 React visual screens are the collaborative remainder
+      (per-screen with Asif — LOCKED convention), so execution_status stays
+      in_progress for WM6, not for stale work; the testable server foundation
+      (WM1-WM4) shipped. Full suite 625 passed (at WM landing).
     steps:
       - id: WM1
         title: "Multi-volume foundation — work.yml manifest + volume-aware _paths/_branching + TS mirror"
@@ -4446,6 +4459,271 @@ waves_o_ph:
       - id: TAd
         title: "al-anwaar-al-lateefah vol-01 SHIP-READY end-to-end (11 episodes + slide decks, G1-G14 pass)"
         status: completed
+
+waves_bpv2:
+  - id: BPV2
+    name: "Book Pipeline v2 — unify book routes + decouple visuals (cutover complete)"
+    execution_status: cutover_complete_2026_07_17
+    branch: book-pipeline-v2
+    merged_to_develop: "4165160 (--no-ff, 2026-07-13); cutover on chore/book-pipeline-v2-cutover"
+    note: >
+      Two architectural moves, now the SOLE book path (the book_pipeline_v2 flag was
+      removed at cutover): (1) collapse the divergent translation + author-companion
+      book routes into ONE path with two independent knobs (book_augmentation,
+      book_voice); (2) decouple visuals from content — book.md stays diagram-free,
+      candidates go to book/visuals/index.json, a human curates placement in the Astro
+      Book Composer which writes book/visual-layout.json, and the renderer consumes
+      that contract. Cutover (2026-07-17): after the knob-matrix validation went green
+      on all 4 cells, the default was flipped ON and the legacy paths deleted
+      (generate_translation_edition.py, _inject_figures, the book-slides.md injection
+      write, the legacy book_driver dispatch, and all flag scaffolding). See BPV2-9 and
+      _workspace/plan/book-pipeline-cutover.md.
+    steps:
+      - id: BPV2-0
+        title: "Flag scaffold + Astro write-back spike"
+        plain: "The on/off switch for the whole feature, defaulting to off, plus confirming the site can save files."
+        tools: [scripts/podcast/_pipeline_flags.py]
+        last_touched: deb9902
+      - id: BPV2-1
+        title: "Unify the two book routes into one path (two knobs)"
+        plain: "One book-making path; two dials pick the voice and whether to add source-grounded notes."
+        tools: [scripts/podcast/_book_pipeline_v2.py, scripts/podcast/_book_augment.py, scripts/podcast/_book_voice.py]
+        last_touched: 2b1fe88
+      - id: BPV2-2
+        title: "Renderer honors the visual-layout contract + professional pagination"
+        plain: "The PDF places each picture where the human chose and fills pages like a real book."
+        tools: [scripts/podcast/_visual_layout.py, plan-dashboard/scripts/visual-layout.mjs, plan-dashboard/src/styles/book-print.css]
+        last_touched: 301f3e1
+      - id: BPV2-3
+        title: "Decouple visuals into a candidate asset library"
+        plain: "Diagrams and cleaned slides become a palette of choices instead of being auto-stamped into the book."
+        tools: [scripts/podcast/_visual_candidates.py, scripts/podcast/_book_illustrate.py, scripts/podcast/_slide_import.py]
+        # Quoted: an all-digit SHA is parsed as a number by js-yaml, which drops
+        # the leading zero and records the wrong commit in the dashboard snapshot.
+        last_touched: "0531578"
+      - id: BPV2-4
+        title: "Astro Book Composer view"
+        plain: "The page where a person drags pictures into place, sizes them, and clicks Generate PDF."
+        tools: ["plan-dashboard/src/pages/studio/[slug]/compose.astro", plan-dashboard/src/scripts/book-composer.ts]
+        last_touched: e201e4b
+      - id: BPV2-5
+        title: "Modern-English prose (de-calque + fluency pass)"
+        plain: "Smooths stiff word-for-word-from-Arabic phrasing into fluent English without changing any teaching."
+        tools: [scripts/podcast/_authoring/_refine.py, scripts/podcast/_book_voice.py]
+        last_touched: 90faeda
+      - id: BPV2-6
+        title: "Governance — print standard + book-render-challenger"
+        plain: "A quality bar for the printed pages and a checker that inspects the finished PDF."
+        tools: [docs/standards/book-print-quality.md, scripts/podcast/_book_render_checks.py]
+        last_touched: ba7ae11
+      - id: BPV2-7
+        title: "Acceptance matrix; cutover held"
+        plain: "A test suite pinning the whole contract; the risky final switch is documented and deliberately not flipped yet."
+        tools: [scripts/podcast/tests/test_book_pipeline_v2_acceptance.py, _workspace/plan/book-pipeline-cutover.md]
+        last_touched: 3aed8e3
+      - id: BPV2-8
+        title: "repo-surgeon v2 probes + merge to develop"
+        plain: "Taught the repo auditor to verify the new architecture, then merged everything to the working branch."
+        tools: [skills-staging/repo-surgeon/SKILL.md]
+        last_touched: 06df259
+      - id: BPV2-9
+        title: "Cutover — v2 becomes the only route, legacy paths deleted"
+        plain: "After the validation matrix passed, made the new path the default and removed the old book-making code so there is just one route."
+        tools: [scripts/podcast/phases/book_driver.py, scripts/podcast/_pipeline_flags.py, scripts/podcast/build_book_pdf.py, framework.md]
+        last_touched: chore/book-pipeline-v2-cutover
+
+waves_refactor:
+  # Clean-Code & Architecture Hardening (approved 2026-07-18). Source plan:
+  # refactor/clean-code-hardening-plan.md. Subsumes Wave H's open code-quality
+  # items (H2 deferred DR-005 sweep -> R3; packaging root-cause -> R4).
+  # Each phase separately approved; R2-R5 await explicit go-ahead.
+
+  - id: R0
+    name: "Foundation — lint/format/type gates on both surfaces"
+    depends_on: []
+    execution_status: completed_2026_07_18
+    steps:
+      - id: R0a
+        title: "Ruff gate (lint+format) + mechanical auto-fix baseline, pipeline surface"
+        status: completed
+        committed_at: 1c26f42
+        deliverables:
+          - "pyproject.toml — ruff E4/E7/E9/F/I @ line-length 120; gradual opt-in mypy scaffold"
+          - "~465 files reformatted; imports sorted; unused imports removed; 35 targeted noqa grandfathers"
+          - "3 duplicate-dict-key data fixes (behavior-preserving); re-export chains restored with X-as-X aliases"
+        acceptance:
+          - "ruff check clean; ruff format --check clean"
+          - "pytest 1592 passed (baseline held); _boundary_check pass"
+      - id: R0b
+        title: "ESLint + Prettier gates + mechanical format baseline, site surface"
+        status: completed
+        committed_at: 936291e
+        deliverables:
+          - "plan-dashboard/eslint.config.js (flat; ratchet warns for no-explicit-any / set-state-in-effect / exhaustive-deps pending R2)"
+          - "plan-dashboard/.prettierrc.json + full format pass over src+scripts"
+          - "npm scripts: lint / lint:fix / format / format:check"
+        acceptance:
+          - "eslint 0 errors; prettier clean; astro check 0 errors; lint:views clean; smoke 32 routes clean"
+      - id: R0c
+        title: "Enforceable DR-005 line gate + lint wiring (pre-commit, CI, Makefile)"
+        status: completed
+        committed_at: 7fd115c
+        deliverables:
+          - "infra/git-hooks/check-dr005.py + dr005-grandfather.txt (24 files, shrink-only ratchet)"
+          - "pre-commit: ruff + DR-005 + eslint over staged files; .github/workflows/lint.yml (mypy non-blocking)"
+          - "make lint / lint-fix; architecture.md DR-005 row corrected (stale enforcement claim)"
+        acceptance:
+          - "make lint clean; new DR-005 violations and grandfather growth block commits"
+
+  - id: R1
+    name: "Site — honest names + shared fetch client"
+    depends_on: [R0]
+    execution_status: completed_2026_07_18
+    steps:
+      - id: R1a
+        title: "Studio-centric renames (poc -> studio/editor, corpus-mock -> corpus, css pairs)"
+        status: completed
+        committed_at: 0bddb02
+        deliverables:
+          - "components/reader/poc/ -> components/studio/editor/ (StudioPoc -> StudioEditor, class family studio-poc__* -> studio-editor__*)"
+          - "corpus-mock/ -> corpus/; corpus-mock-sample.ts -> corpus-fallback.ts; studio-poc.css -> studio-editor.css; corpus-mock.css -> corpus.css"
+        acceptance:
+          - "zero residual references; astro check 0 errors; smoke clean"
+      - id: R1b
+        title: "apiFetch<T>() client + migrate non-editor /api fetches; envelope adoption in safe hold-out routes"
+        status: completed
+        committed_at: 7a5cbb1
+        deliverables:
+          - "src/lib/api-fetch.ts — typed envelope-aware client (throw-on-error, opt-in timeout)"
+          - "~35 call sites across 21 files migrated off raw fetch (StudioEditor's 23 deferred to R2 by design)"
+          - "3 documented raw-fetch exceptions: ai/rewrite non-envelope errors, intake/upload multipart, gem 429-retryMs"
+          - "apiOk/apiError gain optional headers param; ai/etymology + ai/english-term flipped to the envelope"
+        note: |
+          Envelope hold-outs remaining: 9 routes are StudioEditor-consumed (flip in
+          R2 with the editor migration); ai/gem-answer+gem-explain carry retryMs in
+          the 429 body a raw consumer reads (R2); library/file+source+archive serve
+          text/HTML (wrong fit for a JSON envelope); ai/define-term + ai/instruct +
+          approve/[slug] + library/new + quran/verse + wisdom/topic have no live src
+          consumers - orphan-or-server-consumed question goes to R3's audit pass.
+        acceptance:
+          - "astro check 0 errors; eslint 0 errors; smoke clean; editor behavior unchanged"
+
+  - id: R2
+    name: "Site — decompose the StudioEditor God component"
+    depends_on: [R1]
+    execution_status: in_progress_2026_07_18
+    note: |
+      Approved 2026-07-18 (Asif, option A). Pass 1 complete + all peripheral
+      items; pass 2 = one hook per commit with a browser-verify between each,
+      3 of 9 hooks landed this session — remaining six continue next session
+      with the pattern established (useEditorPrefs / useAutosaveDraft /
+      useSectionDepth are the exemplars).
+    steps:
+      - id: R2a
+        title: "Pass 1 mechanical: constants/types/marker-extension/pickers + the 23 fetch migrations"
+        status: completed
+        committed_at: 6ff4d2c
+        deliverables:
+          - "studio-editor-constants.ts, studio-editor-types.ts, marker-highlight.ts, studio-editor-pickers.ts (verbatim moves; StudioEditor 4605 -> ~3900 lines)"
+          - "21/23 editor fetches on apiFetch (2 justified raw: ai/rewrite + ai/research non-envelope errors); english-term envelope consumer fixed"
+      - id: R2b
+        title: "Merge markdown renderers behind one options API (byte-diff proven)"
+        status: completed
+        committed_at: 844b17d
+        deliverables:
+          - "source-render.ts folded into lib/reader/markdown.ts; 61-file corpus byte-diff: 0 mismatches"
+      - id: R2c
+        title: "Thin fat astro frontmatter into typed lib builders"
+        status: completed
+        committed_at: 0bd2ec4
+        deliverables:
+          - "studio/[slug]/index.astro 285 -> 42 frontmatter lines (lib/reader/library-view.ts)"
+          - "studio.astro 199 -> 17 frontmatter lines (lib/reader/studio-shelves.ts)"
+      - id: R2d
+        title: "CSS layer splits (import-shell entry points, cascade order preserved)"
+        status: completed
+        committed_at: de788e5
+      - id: R2e
+        title: "Pass 2 stateful hooks (one per commit, browser-verified) - ALL NINE EXTRACTED"
+        status: completed
+        committed_at: 9b7c6df
+        note: "useEditorPrefs, useAutosaveDraft, useSectionDepth, useStageApproval, useAiActions, useTermCuration, useReplaceTool, useDenoiseTool, useAnnotations - each verbatim (byte-diff-verified), each its own commit with browser/smoke verification. StudioEditor 4605 -> 2754 lines. Remaining R2 tail (R2f, pending): JSX child-component splits + editor-coupled route envelope flips toward the <=600 target."
+
+  - id: R3
+    name: "Pipeline — clean-code hardening (no packaging)"
+    depends_on: [R0]
+    execution_status: substantially_complete_2026_07_18
+    note: |
+      Approved 2026-07-18 (Asif, option A). All items landed except the
+      Callable-DI standardization sweep (framing registry done as its first
+      instance; remaining injection points better sequenced with R4's
+      packaging evaluation). Split judgments follow the plan's own rule -
+      genuine mixes split, cohesive strategy-families declined with recorded
+      AS-EXECUTED notes.
+    steps:
+      - id: R3a
+        title: "Basename collisions dissolved (both)"
+        status: completed
+        committed_at: 9dc46a5
+        note: "_authoring/_convergence -> _agent_invocations (9dc46a5); knowledge/augmenter deleted as dead (846144c) - packaging blockers gone."
+      - id: R3b
+        title: "Coverage for the 5 untested critical modules (+72 tests, 1 real bug fixed)"
+        status: completed
+        committed_at: 28a81d3
+        note: "citation-verify HTTPError bug: 'failed' branch was unreachable; dead links misreported as indeterminate."
+      - id: R3c
+        title: "Framing strategy registry (decomposition Spec 1) completed"
+        status: completed
+        committed_at: a4f69d9
+      - id: R3d
+        title: "_azure.py split: creds / transport / language / openai; grandfather entry removed"
+        status: completed
+        committed_at: ffa8482
+      - id: R3e
+        title: "Audit deferrals resolved: dead augmenter + classify_slides deleted; stage-order drift fixed"
+        status: completed
+        committed_at: 846144c
+        note: "REAL drift: Python STAGE_ORDER lacked the live 'literary' stage; reconciled to 7-stage runtime truth with lockstep headers."
+      - id: R3f
+        title: "Split judgments: intake_book DECLINED (test-patched globals; strategy family); chapter_design stands per Spec-2 AS-EXECUTED"
+        status: completed
+        committed_at: 1a4df90
+      - id: R3g
+        title: "_translation_edition + _slide_authoring split along genuine seams"
+        status: completed
+        committed_at: 6fbda63
+        note: "1056->576 + 999->569; light-import contract module fixes the _pipeline_flags heavy-import smell; both off the grandfather list (burns to 21)."
+      - id: R3h
+        title: "Callable-DI standardization sweep (remainder)"
+        status: pending
+        note: "Framing registry is the first instance; evaluate remaining LLM-touching injection points with R4's packaging decision."
+
+  - id: R4
+    name: "Pipeline — packaging conversion (go/no-go gated after R3)"
+    depends_on: [R3, R5]
+    execution_status: pending_approval
+    note: |
+      Real package (__init__ + pyproject [project] + pip install -e .),
+      package-absolute imports unifying the phases/ import root, strip
+      the 261 sys.path.insert blocks. Decision gate first — re-evaluate
+      after R3 rather than auto-proceed. R5 shipped first, so this now
+      inherits one import root instead of two colliding ones.
+
+  - id: R5
+    name: "Pipeline — resolve the dormant wave-engine"
+    depends_on: []
+    execution_status: completed
+    note: |
+      Deleted wholesale (not archived), verified first: launchd job
+      confirmed not loaded on this machine, 27/27 wave-acceptance-checklist
+      items done, zero live callers traced from orchestrate_book.py.
+      Removed run_wave.py, run_waves_chain.py, _acceptance.py, phases/_base.py,
+      phases/_dor_halt.py, dor_halts.py, 28 p*/pw* phase modules, their tests
+      (test_run_wave.py, test_acceptance.py, test_waves_chain.py), the launchd
+      installer + template plist, and the DR-005 grandfather entry for
+      run_wave.py — 39 tracked files in one commit. wave-acceptance-checklist.md
+      kept as the historical record (still read by the snapshot generator).
+
 
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)

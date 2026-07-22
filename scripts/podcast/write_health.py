@@ -49,12 +49,13 @@ import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
 from _paths import REPO_ROOT
 
 HEALTH_DIR = REPO_ROOT / "_learning/health"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _rules import CHALLENGER_VERSION  # noqa: E402
+from _rules import CHALLENGER_VERSION
 
 
 def compute_score(p0: int, p1: int, p2: int, chapters: int) -> float:
@@ -82,6 +83,7 @@ def find_book_dir(book_slug: str) -> Path:
     Fails with a clear error if the slug cannot be found.
     """
     from _paths import find_content
+
     found = find_content(book_slug)
     if found:
         return found[2]
@@ -122,11 +124,9 @@ def main() -> int:
     p.add_argument("--p0", type=int, required=True)
     p.add_argument("--p1", type=int, required=True)
     p.add_argument("--p2", type=int, required=True)
-    p.add_argument("--chapters", type=int, required=True,
-                   help="Chapters in scope for this run.")
+    p.add_argument("--chapters", type=int, required=True, help="Chapters in scope for this run.")
     p.add_argument("--auto-fixes", type=int, default=0)
-    p.add_argument("--verdict", required=True,
-                   choices=["SHIP-READY", "SHIP-WITH-CAUTION", "BLOCKED"])
+    p.add_argument("--verdict", required=True, choices=["SHIP-READY", "SHIP-WITH-CAUTION", "BLOCKED"])
     p.add_argument("--challenger-version", default=CHALLENGER_VERSION)
     args = p.parse_args()
 

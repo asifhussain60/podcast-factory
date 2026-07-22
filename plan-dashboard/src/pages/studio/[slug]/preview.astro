@@ -1,0 +1,156 @@
+---
+/**
+ * Studio — Preview (Studio redesign Phase 3, studio-composer REQ-SC-020..025).
+ *
+ * /studio/<slug>/preview — the whole book, as one continuous page-level
+ * scroll, reflecting your CURRENT edits in the Composer — not the last
+ * published book.pdf. This is deliberately a WORKING preview: every load
+ * checks book.md / visual-layout.json / citation-style.json for changes since
+ * the last render and, if anything moved, re-renders a scratch PDF from
+ * scratch before rasterizing it to the page-image stack you see
+ * (scripts/lib/preview-pages.mjs). The canonical book/book.pdf — the file
+ * delivered to readers and Google Drive — is only ever written by the
+ * "Generate PDF" button below, behind a confirmation, via the same
+ * /api/studio/generate-book-pdf endpoint the Composer used to expose in its
+ * (now removed) Output tab.
+ *
+ * History: this went through two designs before landing here. (1) Live
+ * in-browser pagination via vendored Paged.js hung/crashed on this
+ * environment's Chromium (148) on every real test, including a trivial
+ * two-paragraph, zero-stylesheet case — an unresolved Paged.js ↔ modern-
+ * Chromium gap, not a bug in our markup (Chromium only gained native
+ * paged-media support, print-context only, in v131; Paged.js's last stable
+ * release predates that). (2) Embedding the canonical book.pdf directly in an
+ * <iframe> was byte-perfect but wrong on two counts: a native PDF viewer owns
+ * its own internal scroll region (the book never joined the page's own
+ * scroll), and it only ever showed the last-published PDF, not current edits.
+ *
+ * This version rasterizes a freshly-rendered scratch PDF to PNGs (pdftoppm —
+ * cached under book/_preview-cache/, regenerated only when book.md/
+ * visual-layout.json/citation-style.json are newer than the cache) and stacks
+ * plain <img> elements in normal document flow, so the browser's ONE
+ * scrollbar carries the reader through the whole book — while staying
+ * byte-perfect to what the PDF renderer would produce (same renderer, same
+ * fonts/figures; REQ-SC-021 true by construction).
+ */
+import Base from "../../../layouts/Base.astro";
+import { findContentDirSync, slugToTitle } from "../../../lib/content-paths";
+import { ensurePreviewPageImages } from "../../../../scripts/lib/preview-pages.mjs";
+import "../../../styles/library.css";
+import "../../../styles/book-composer.css";
+import "../../../styles/preview.css";
+
+const slug = Astro.params.slug!;
+const bookDir = findContentDirSync(slug);
+const { pageCount } = bookDir
+  ? ensurePreviewPageImages(bookDir)
+  : { pageCount: 0 };
+const bookTitle = slugToTitle(slug);
+const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
+---
+
+<Base
+  title={`Preview — ${bookTitle}`}
+  active="studio"
+  description={`Studio · Preview · ${bookTitle}`}
+>
+  <div class="pv-wrap" data-slug={slug}>
+    <header class="lib-hero">
+      <div class="lib-hero-main">
+        <div class="lib-breadcrumb">
+          <a href="/studio">Studio</a>
+          <span class="lib-sep">›</span>
+          <a href={`/studio/${slug}/compose`}>Book Composer</a>
+          <span class="lib-sep">›</span>
+          <span>Preview</span>
+        </div>
+        <div class="lib-title-row">
+          <h1>{bookTitle} — Preview</h1>
+        </div>
+        <p class="pv-sub">
+          Scroll through the whole book as your current edits will print — fonts
+          and figure placement match the PDF, refreshed automatically whenever
+          you've changed something.
+        </p>
+      </div>
+      <div class="lib-hero-aside">
+        <div class="lib-title-actions">
+          <button type="button" class="lib-studio-link" id="pv-generate">
+            <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Generate PDF
+          </button>
+          <button type="button" class="lib-studio-link" id="pv-generate-ss">
+            <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> Self-study
+            PDF
+          </button>
+          <a class="lib-studio-link" href={`/studio/${slug}/compose`}>
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Composer
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <p class="pv-status" id="pv-status" role="status" aria-live="polite">
+      {
+        pageCount > 0
+          ? `${pageCount} page${pageCount === 1 ? "" : "s"} — reflecting your saved edits`
+          : ""
+      }
+    </p>
+
+    {
+      pageCount > 0 && (
+        <div class="pv-toolbar" role="toolbar" aria-label="Preview zoom">
+          <label for="pv-zoom-range" class="pv-zoom-label">
+            Zoom
+          </label>
+          <input
+            type="range"
+            id="pv-zoom-range"
+            min="30"
+            max="90"
+            step="5"
+            value="50"
+          />
+          <span class="pv-zoom-value" id="pv-zoom-value">
+            50%
+          </span>
+        </div>
+      )
+    }
+
+    {
+      pageCount > 0 ? (
+        <div class="pv-pages">
+          {pages.map((n) => (
+            <img
+              class="pv-page-img"
+              src={`/api/studio/book-pdf-page?slug=${slug}&page=${n}`}
+              alt={`Page ${n} of ${pageCount}`}
+              loading={n <= 2 ? "eager" : "lazy"}
+              width="745"
+              height="1054"
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="pv-empty">
+          <p>No reading edition composed yet.</p>
+          <p>
+            <a href={`/studio/${slug}/compose`}>Go to the Composer</a> to add
+            chapters and figures.
+          </p>
+        </div>
+      )
+    }
+
+    <script
+      type="application/json"
+      id="preview-data"
+      is:inline
+      set:html={JSON.stringify({ slug }).replace(/</g, "\\u003c")}
+    />
+    <script>
+      import "../../../scripts/book-preview.ts";
+    </script>
+  </div>
+</Base>

@@ -7,7 +7,7 @@ Asif's children, thoughtful young adults who heard the audio but never read the 
 The audio carries the argument and the awe of bringing-being-from-nothing. Each slide must add spatial structure the spoken word cannot hold. If a slide could be one narrated sentence, omit it.
 
 ## Visual Priorities
-- The three negations (no prior matter, no concurrent matter, no underlying place) as a matrix mapping each denial to the imagination's reflex and the everyday image (clay, mould, floor) it cancels.
+- The three negations (no prior matter, no concurrent matter, no underlying place) as a matrix mapping each denial to the imagination's reflex and the everyday image (clay, mold, floor) it cancels.
 - Origination versus ordinary making, side by side attribute by attribute.
 - The descent from luminous form to soul to dense body, as a directed downward genealogy, each stage falling from the one above.
 - The reversal: the luminous form is the original and the body its shadow, not the reverse.

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Tests for scripts/podcast/cost_ledger_summary.py (P6.2 deliverable)."""
+
 from __future__ import annotations
 
 import io
@@ -13,19 +14,42 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import cost_ledger_summary as cls  # noqa: E402
-
+import cost_ledger_summary as cls
 
 SAMPLE_ROWS = [
-    {"ts": "2026-05-19T12:00:00Z", "phase": "05-refine-english", "step": "win-001",
-     "model": "claude-opus-4-7", "input_tokens": 1000, "output_tokens": 500,
-     "cache_read": 0, "cache_create": 0, "cost_usd": 0.052500},
-    {"ts": "2026-05-19T12:01:00Z", "phase": "05-refine-english", "step": "win-002",
-     "model": "claude-opus-4-7", "input_tokens": 1200, "output_tokens": 600,
-     "cache_read": 100, "cache_create": 0, "cost_usd": 0.063150},
-    {"ts": "2026-05-19T12:05:00Z", "phase": "06-phonetics", "step": "(global)",
-     "model": "claude-sonnet-4-6", "input_tokens": 5000, "output_tokens": 2000,
-     "cache_read": 0, "cache_create": 0, "cost_usd": 0.045000},
+    {
+        "ts": "2026-05-19T12:00:00Z",
+        "phase": "05-refine-english",
+        "step": "win-001",
+        "model": "claude-opus-4-7",
+        "input_tokens": 1000,
+        "output_tokens": 500,
+        "cache_read": 0,
+        "cache_create": 0,
+        "cost_usd": 0.052500,
+    },
+    {
+        "ts": "2026-05-19T12:01:00Z",
+        "phase": "05-refine-english",
+        "step": "win-002",
+        "model": "claude-opus-4-7",
+        "input_tokens": 1200,
+        "output_tokens": 600,
+        "cache_read": 100,
+        "cache_create": 0,
+        "cost_usd": 0.063150,
+    },
+    {
+        "ts": "2026-05-19T12:05:00Z",
+        "phase": "06-phonetics",
+        "step": "(global)",
+        "model": "claude-sonnet-4-6",
+        "input_tokens": 5000,
+        "output_tokens": 2000,
+        "cache_read": 0,
+        "cache_create": 0,
+        "cost_usd": 0.045000,
+    },
 ]
 
 
@@ -66,9 +90,7 @@ class SummarizeTests(unittest.TestCase):
 
 class LoadLedgerTests(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.NamedTemporaryFile(
-            mode="w", suffix=".jsonl", delete=False, encoding="utf-8"
-        )
+        self.tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False, encoding="utf-8")
 
     def tearDown(self):
         Path(self.tmp.name).unlink(missing_ok=True)

@@ -11,6 +11,7 @@ Behaviour is preserved exactly:
   - ``info(msg)`` → ``print(msg)`` (stdout).
   - ``err(msg)``  → ``print(f"ERROR: {msg}")`` to stderr.
 """
+
 from __future__ import annotations
 
 import subprocess
@@ -18,13 +19,9 @@ import sys
 from pathlib import Path
 
 
-def run(
-    cmd: list[str], *, cwd: "Path | None" = None, timeout: "float | None" = None
-) -> tuple[int, str, str]:
+def run(cmd: list[str], *, cwd: "Path | None" = None, timeout: "float | None" = None) -> tuple[int, str, str]:
     """Run ``cmd``, capturing output; return ``(returncode, stdout, stderr)``."""
-    proc = subprocess.run(
-        cmd, cwd=cwd, capture_output=True, text=True, timeout=timeout
-    )
+    proc = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=timeout)
     return proc.returncode, proc.stdout, proc.stderr
 
 

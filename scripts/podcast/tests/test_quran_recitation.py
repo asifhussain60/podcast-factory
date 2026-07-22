@@ -5,6 +5,7 @@ pronunciation_compiler render-layer integration. Verse-Arabic assertions that
 need the wisdom-corpus mirror are guarded by skipUnless so the suite stays
 portable on machines without content/knowledge-base/mirror.db.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,11 +16,11 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _quran_recitation as qr  # noqa: E402
-import pronunciation_compiler as pc  # noqa: E402
-from _dialogue_script import Turn  # noqa: E402
+import _quran_recitation as qr
+import pronunciation_compiler as pc
+from _dialogue_script import Turn
 
-MIRROR = (SCRIPTS_PODCAST.parents[1] / "content" / "knowledge-base" / "mirror.db")
+MIRROR = SCRIPTS_PODCAST.parents[1] / "content" / "knowledge-base" / "mirror.db"
 HAS_MIRROR = MIRROR.exists() and bool(qr.verse_record(14, 7))
 
 
@@ -127,13 +128,14 @@ class TestCompileLayer(unittest.TestCase):
         bk = self._book("audio_engine: elevenlabs\nelevenlabs_arabic_recitation: true\n", gloss)
         turns = [Turn("HOST_A", "Tawhid is taught by Jafar ibn Mansur here")]
         out = pc.compile_turns_for_render(bk, turns)
-        self.assertIn("توحيد", out[0].text)   # term recited
-        self.assertIn("Jafar ibn Mansur", out[0].text)                # name left ASCII
+        self.assertIn("توحيد", out[0].text)  # term recited
+        self.assertIn("Jafar ibn Mansur", out[0].text)  # name left ASCII
 
     @unittest.skipUnless(HAS_MIRROR, "mirror.db not present")
     def test_flag_on_injects_verse(self):
-        bk = self._book("audio_engine: elevenlabs\nelevenlabs_arabic_recitation: true\n",
-                        "schema_version: 1\nentries: []\n")
+        bk = self._book(
+            "audio_engine: elevenlabs\nelevenlabs_arabic_recitation: true\n", "schema_version: 1\nentries: []\n"
+        )
         turns = [Turn("HOST_A", "he recites the chapter of Abraham, verse seven on gratitude")]
         out = pc.compile_turns_for_render(bk, turns)
         self.assertIn("«", out[0].text)
@@ -146,6 +148,7 @@ class TestIntakeRecitationStamp(unittest.TestCase):
         # operator explicitly selects the (quarantined) ElevenLabs engine.
         import yaml
         from intake_launch import _write_series_config
+
         with tempfile.TemporaryDirectory() as t:
             d = Path(t) / "bk"
             (d / "_system").mkdir(parents=True)
@@ -159,13 +162,13 @@ class TestIntakeRecitationStamp(unittest.TestCase):
         # (it is quarantined/dormant, not deleted) — the recitation flag is stamped.
         import yaml
         from intake_launch import _write_series_config
+
         with tempfile.TemporaryDirectory() as t:
             d = Path(t) / "bk"
             (d / "_system").mkdir(parents=True)
             _write_series_config(
-                d, "bk", "T",
-                {"content_profile": "islamic_scholarly", "audio_engine": "elevenlabs"},
-                None)
+                d, "bk", "T", {"content_profile": "islamic_scholarly", "audio_engine": "elevenlabs"}, None
+            )
             cfg = yaml.safe_load((d / "_system" / "series-config.yaml").read_text())
             self.assertEqual(cfg.get("audio_engine"), "elevenlabs")
             self.assertTrue(cfg.get("elevenlabs_arabic_recitation"))
@@ -173,6 +176,7 @@ class TestIntakeRecitationStamp(unittest.TestCase):
     def test_fiction_book_no_recitation_flag(self):
         import yaml
         from intake_launch import _write_series_config
+
         with tempfile.TemporaryDirectory() as t:
             d = Path(t) / "bk"
             (d / "_system").mkdir(parents=True)

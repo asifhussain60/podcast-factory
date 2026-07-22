@@ -14,27 +14,47 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from _extract_yaml import load_yaml
 from _extract_contract import (
-    PROHIBITED_PATH_PREFIXES, assert_boundary_safe,
-    CH_PREFIX_RE, ResolvedChapter,
-    REQUIRED_FIELDS, Contract,
-    contract_path_for, load_contract, stub_contract, validate_contract,
-    CONTRACT_META_PROSE_TELLS, CONTRACT_META_PROSE_REGEX, CONTRACT_LINTED_FIELDS,
+    CH_PREFIX_RE,
+    CONTRACT_LINTED_FIELDS,
+    CONTRACT_META_PROSE_REGEX,
+    CONTRACT_META_PROSE_TELLS,
+    PROHIBITED_PATH_PREFIXES,
+    REQUIRED_FIELDS,
+    Contract,
+    ResolvedChapter,
+    assert_boundary_safe,
+    contract_path_for,
     lint_contract_meta_prose,
+    load_contract,
+    stub_contract,
+    validate_contract,
 )
+from _extract_yaml import load_yaml
 
 # Re-export everything so callers that do `from _extract_helpers import X` keep working.
 __all__ = [
     "load_yaml",
-    "PROHIBITED_PATH_PREFIXES", "assert_boundary_safe",
-    "CH_PREFIX_RE", "ResolvedChapter",
-    "REQUIRED_FIELDS", "Contract",
-    "contract_path_for", "load_contract", "stub_contract", "validate_contract",
-    "CONTRACT_META_PROSE_TELLS", "CONTRACT_META_PROSE_REGEX", "CONTRACT_LINTED_FIELDS",
+    "PROHIBITED_PATH_PREFIXES",
+    "assert_boundary_safe",
+    "CH_PREFIX_RE",
+    "ResolvedChapter",
+    "REQUIRED_FIELDS",
+    "Contract",
+    "contract_path_for",
+    "load_contract",
+    "stub_contract",
+    "validate_contract",
+    "CONTRACT_META_PROSE_TELLS",
+    "CONTRACT_META_PROSE_REGEX",
+    "CONTRACT_LINTED_FIELDS",
     "lint_contract_meta_prose",
-    "fmt_list", "render_framing", "render_key_passages",
-    "render_context_pack", "render_discussion_spine", "render_show_notes",
+    "fmt_list",
+    "render_framing",
+    "render_key_passages",
+    "render_context_pack",
+    "render_discussion_spine",
+    "render_show_notes",
 ]
 
 
@@ -179,8 +199,12 @@ def _render_framing_debate(c: Contract, chapter: ResolvedChapter, ep_num: int) -
 
     moves_a = host_a.get("source_moves", []) or []
     moves_b = host_b.get("source_moves", []) or []
-    moves_a_block = fmt_list(moves_a) if moves_a else "  - [LLM-FILL — quotes, passages, and traditions Host A draws on]\n"
-    moves_b_block = fmt_list(moves_b) if moves_b else "  - [LLM-FILL — quotes, passages, and traditions Host B draws on]\n"
+    moves_a_block = (
+        fmt_list(moves_a) if moves_a else "  - [LLM-FILL — quotes, passages, and traditions Host A draws on]\n"
+    )
+    moves_b_block = (
+        fmt_list(moves_b) if moves_b else "  - [LLM-FILL — quotes, passages, and traditions Host B draws on]\n"
+    )
 
     phonetics = c.get("phonetic_overrides") or {}
     if phonetics:
@@ -192,8 +216,7 @@ def _render_framing_debate(c: Contract, chapter: ResolvedChapter, ep_num: int) -
         )
     else:
         pronunciation_block = (
-            "[LLM-FILL — list every non-English term with respelling and gloss, "
-            "or set contract.phonetic_overrides.]"
+            "[LLM-FILL — list every non-English term with respelling and gloss, or set contract.phonetic_overrides.]"
         )
 
     return f"""# {title}
@@ -218,13 +241,13 @@ In the first twenty seconds, the hosts name the work, state the proposition unde
 
 ## Roles + positions
 
-**Host A — {host_a.get('role', '[LLM-FILL role]')}.**
-Position: {host_a.get('position', '[LLM-FILL position]')}
+**Host A — {host_a.get("role", "[LLM-FILL role]")}.**
+Position: {host_a.get("position", "[LLM-FILL position]")}
 
 Source moves available to Host A:
 {moves_a_block}
-**Host B — {host_b.get('role', '[LLM-FILL role]')}.**
-Position: {host_b.get('position', '[LLM-FILL position]')}
+**Host B — {host_b.get("role", "[LLM-FILL role]")}.**
+Position: {host_b.get("position", "[LLM-FILL position]")}
 
 Source moves available to Host B:
 {moves_b_block}
@@ -391,7 +414,11 @@ def _build_apparatus_table(book_dir: Path) -> str:
         return ""
 
     rows: list[tuple[str, str, str, str, str]] = []  # (orig, category, written, audio_label, first_use)
-    for section_key, category_label in (("figures", "Person"), ("book_titles", "Book Title"), ("concept_words", "Concept Term")):
+    for section_key, category_label in (
+        ("figures", "Person"),
+        ("book_titles", "Book Title"),
+        ("concept_words", "Concept Term"),
+    ):
         section = data.get(section_key) or {}
         if not isinstance(section, dict):
             continue
@@ -411,10 +438,9 @@ def _build_apparatus_table(book_dir: Path) -> str:
 
     header = "## Name and Title Preservation Table\n\n"
     table_header = "| Original / Transliteration | Category | Written Form | Audio Label | First Audio Use |\n"
-    separator    = "|---|---|---|---|---|\n"
+    separator = "|---|---|---|---|---|\n"
     table_rows = "".join(
-        f"| {orig} | {cat} | {written} | {audio} | {first} |\n"
-        for orig, cat, written, audio, first in rows
+        f"| {orig} | {cat} | {written} | {audio} | {first} |\n" for orig, cat, written, audio, first in rows
     )
     return header + table_header + separator + table_rows
 
@@ -448,7 +474,7 @@ def render_show_notes(c: Contract, chapter: ResolvedChapter, ep_num: int) -> str
 
 **Blurb:** {blurb}
 
-**Length estimate:** see contract.length_target ({c.get('length_target')})
+**Length estimate:** see contract.length_target ({c.get("length_target")})
 {apparatus_block}
 ## Related episodes
 

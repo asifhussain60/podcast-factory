@@ -1,4 +1,5 @@
 """tests/test_archetypes.py — Tests for scripts/podcast/_archetypes.py"""
+
 import sys
 from pathlib import Path
 
@@ -7,12 +8,12 @@ import pytest
 SCRIPTS_DIR = Path(__file__).resolve().parents[1] / "scripts" / "podcast"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
-import _archetypes  # noqa: E402
-
+import _archetypes
 
 # ---------------------------------------------------------------------------
 # list_archetypes
 # ---------------------------------------------------------------------------
+
 
 def test_list_archetypes_returns_at_least_seven():
     slugs = _archetypes.list_archetypes()
@@ -35,6 +36,7 @@ def test_list_archetypes_is_sorted():
 # ---------------------------------------------------------------------------
 # load_archetype
 # ---------------------------------------------------------------------------
+
 
 def test_load_play_novel():
     _archetypes._cache.clear()
@@ -99,6 +101,7 @@ def test_archetype_has_non_empty_spec_text():
 # resolve_archetype_for_book
 # ---------------------------------------------------------------------------
 
+
 def test_resolve_underscore_variant():
     _archetypes._cache.clear()
     result = _archetypes.resolve_archetype_for_book({"archetype_id": "scholarly_deep_dive"})
@@ -127,6 +130,7 @@ def test_resolve_empty_meta_returns_none():
 
 def test_resolve_unknown_archetype_returns_none_with_warning():
     import warnings
+
     _archetypes._cache.clear()
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")

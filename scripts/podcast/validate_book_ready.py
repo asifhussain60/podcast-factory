@@ -23,6 +23,12 @@ reproducible on identical input:
                           the chapter count (catches an empty / 1-page render).
   B3  book-arabic-coverage — Islamic scholarly books must carry Arabic script
                           in every persisted chapter; missing Arabic blocks.
+  B4  book-prose-integrity — translation editions must not contain model process
+                          chatter or generated Markdown headings inside chapter prose.
+  B5  book-chapter-body-coverage — translation-edition chapters must have real
+                          body text, not heading-only/blank chapters.
+  B6  book-source-crosswalk — translation editions must persist a source
+                          crosswalk and pass title/source alignment checks.
 
 USAGE
 
@@ -35,6 +41,7 @@ EXIT CODES
     1  — a blocking book gate failed; the reading edition is NOT sound
     2  — couldn't run (book dir missing)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -50,20 +57,20 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
 # Reuse the exact render-input selection the renderer uses, so the content gate
-# validates the file that actually becomes the PDF (book-slides.md >
-# book-illustrated.md > book.md).
-from build_book_pdf import _pick_book_md  # noqa: E402
+# validates the file that actually becomes the PDF. That is always book.md now —
+# visuals are decoupled and come from the curated visual-layout.json, so the
+# older book-slides.md > book-illustrated.md > book.md fallback is gone. Import
+# it rather than hardcoding the path, so the two cannot drift again.
+from build_book_pdf import _pick_book_md
 
 # Arabic script Unicode ranges (base + supplement + extended + presentation forms).
-_ARABIC_RE = re.compile(
-    r"[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]+"
-)
+_ARABIC_RE = re.compile(r"[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]+")
 # A bracketed transliteration marker the compose prompt emits, e.g. "(Ayyuhal Walad)".
 # Used only as a rough denominator for the advisory coverage signal.
 _TRANSLIT_HINT_RE = re.compile(r"\([A-Z][a-z]+(?:[ -][A-Za-z']+){0,4}\)")
 
-_MIN_MD_BYTES = 1024          # a real reading edition is far larger; < 1KB == broken
-_MIN_PDF_BYTES = 10 * 1024    # a one-page error PDF is tiny; floor catches it
+_MIN_MD_BYTES = 1024  # a real reading edition is far larger; < 1KB == broken
+_MIN_PDF_BYTES = 10 * 1024  # a one-page error PDF is tiny; floor catches it
 
 
 def _book_branch_enabled(book_dir: Path) -> bool:
@@ -72,12 +79,14 @@ def _book_branch_enabled(book_dir: Path) -> bool:
         return False
     try:
         from _translation_edition import is_translation_edition
+
         if is_translation_edition(book_dir):
             return True
         import yaml  # type: ignore[import]
+
         data = yaml.safe_load(meta.read_text(encoding="utf-8")) or {}
         return bool(data.get("series", {}).get("enable_book_branch", False))
-    except Exception:  # noqa: BLE001
+    except Exception:
         return False
 
 
@@ -88,7 +97,7 @@ def _toc_chapter_count(book_dir: Path) -> int:
     try:
         data = json.loads(toc.read_text(encoding="utf-8"))
         return len(data.get("chapters") or data.get("toc") or [])
-    except Exception:  # noqa: BLE001
+    except Exception:
         return 0
 
 
@@ -136,7 +145,7 @@ def _pdf_text_blank_pages(pdf: Path, pages: int) -> list[int]:
                 )
                 if not out.read_text(encoding="utf-8", errors="ignore").strip():
                     blank.append(page)
-    except Exception:  # noqa: BLE001
+    except Exception:
         return []
     return blank
 
@@ -153,30 +162,32 @@ def gate_b1_book_md_complete(book_dir: Path) -> tuple[bool, str]:
     n_sections = len(re.findall(r"(?m)^## ", text))
     n_chapters = _toc_chapter_count(book_dir)
     if n_chapters and n_sections < n_chapters:
-        return False, (f"{md.name} has {n_sections} '## ' sections but the TOC lists "
-                       f"{n_chapters} chapters — compose is truncated/incomplete")
-    return True, (f"{md.name}: {size // 1024} KB, {n_sections} sections "
-                  f"≥ {n_chapters} TOC chapters")
+        return False, (
+            f"{md.name} has {n_sections} '## ' sections but the TOC lists "
+            f"{n_chapters} chapters — compose is truncated/incomplete"
+        )
+    return True, (f"{md.name}: {size // 1024} KB, {n_sections} sections ≥ {n_chapters} TOC chapters")
 
 
 def gate_b2_book_pdf_renderable(book_dir: Path) -> tuple[bool, str]:
     """book.pdf exists, is non-trivially sized, and has a sane page count."""
-    pdf = book_dir / "book" / "book.pdf"
-    if not pdf.exists():
+    from deliver_book import _find_pdf
+
+    pdf = _find_pdf(book_dir)
+    if pdf is None or not pdf.exists():
         return False, "book.pdf missing — 0book-render did not produce a PDF"
     size = pdf.stat().st_size
     if size < _MIN_PDF_BYTES:
         return False, f"book.pdf is only {size} bytes — render produced an empty/error PDF"
     try:
         pages = _pdf_page_count(pdf.read_bytes())
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         return False, f"book.pdf unreadable: {e}"
     n_chapters = _toc_chapter_count(book_dir)
     if pages < 1:
         return False, "book.pdf has 0 detectable pages — render is broken"
     if n_chapters and pages < n_chapters:
-        return False, (f"book.pdf has {pages} pages but the TOC lists {n_chapters} "
-                       f"chapters — render is truncated")
+        return False, (f"book.pdf has {pages} pages but the TOC lists {n_chapters} chapters — render is truncated")
     blank_pages = _pdf_text_blank_pages(pdf, pages)
     if blank_pages:
         shown = ", ".join(str(p) for p in blank_pages[:12])
@@ -189,9 +200,10 @@ def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
     """Hard gate for Islamic chapter Arabic, plus rendered-book coverage signal."""
     try:
         from _content_profile import is_islamic_scholarly
-        from _translation_edition import is_translation_edition
+        from _translation_edition import is_faithful_translation_deliverable
+
         if is_islamic_scholarly(book_dir):
-            if is_translation_edition(book_dir):
+            if is_faithful_translation_deliverable(book_dir):
                 md = _pick_book_md(book_dir)
                 rendered = md.read_text(encoding="utf-8", errors="replace") if md.exists() else ""
                 rendered_runs = len(_ARABIC_RE.findall(rendered))
@@ -207,21 +219,22 @@ def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
                             break
                 source_runs = len(_ARABIC_RE.findall(source_text))
                 if source_runs >= 50 and rendered_runs == 0:
-                    return False, (
-                        "translation-edition source has Arabic script but the rendered book has none"
-                    )
+                    return False, ("translation-edition source has Arabic script but the rendered book has none")
                 return True, (
                     f"translation-edition Arabic preservation signal: "
                     f"{rendered_runs} rendered Arabic runs from {source_runs} source runs"
                 )
             from inject_chapter_arabic import chapter_arabic_status
+
             status = chapter_arabic_status(book_dir)
             if not status.get("ok"):
                 return False, str(status.get("note") or "Arabic chapter coverage failed")
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         return False, f"Arabic chapter coverage check failed: {e}"
 
-    md = _pick_book_md(book_dir)
+    md = book_dir / "book" / "book.md"
+    if not md.exists():
+        md = _pick_book_md(book_dir)
     if not md.exists():
         return True, "n/a (no render input)"
     text = md.read_text(encoding="utf-8", errors="replace")
@@ -235,21 +248,135 @@ def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
         try:
             r = json.loads(report.read_text(encoding="utf-8"))
             if r.get("cited"):
-                anchor_note = (f"; Quran anchoring {r.get('anchored')}/{r.get('cited')} "
-                               f"({r.get('coverage', 0):.0%}) cited verses canonical")
-        except Exception:  # noqa: BLE001
+                anchor_note = (
+                    f"; Quran anchoring {r.get('anchored')}/{r.get('cited')} "
+                    f"({r.get('coverage', 0):.0%}) cited verses canonical"
+                )
+        except Exception:
             pass
-    return True, (f"{arabic_runs} Arabic runs vs ~{translit_hints} transliteration "
-                  f"markers ({pct:.0%} script coverage){anchor_note}")
+    return True, (
+        f"{arabic_runs} Arabic runs vs ~{translit_hints} transliteration "
+        f"markers ({pct:.0%} script coverage){anchor_note}"
+    )
+
+
+def gate_b4_book_prose_integrity(book_dir: Path) -> tuple[bool, str]:
+    """Reject model process chatter in translation-edition render input."""
+    try:
+        from _translation_edition import is_faithful_translation_deliverable, translation_output_findings
+
+        if not is_faithful_translation_deliverable(book_dir):
+            return True, "n/a (not a translation edition)"
+    except Exception as e:
+        return False, f"translation-edition integrity check unavailable: {e}"
+
+    md = _pick_book_md(book_dir)
+    if not md.exists():
+        return False, f"render input missing ({md.name})"
+    text = md.read_text(encoding="utf-8", errors="replace")
+    chapters = re.split(r"(?m)^##\s+\d+\.\s+", text)
+    bad: list[str] = []
+    for i, chunk in enumerate(chapters[1:], start=1):
+        lines = chunk.splitlines()
+        title = lines[0].strip() if lines else f"chapter {i}"
+        prose = "\n".join(lines[1:]).strip()
+        findings = translation_output_findings(prose, expected_title=title)
+        if findings:
+            bad.append(f"chapter {i} ({title}): {'; '.join(findings[:3])}")
+    if bad:
+        shown = "; ".join(bad[:4])
+        more = f"; +{len(bad) - 4} more" if len(bad) > 4 else ""
+        return False, shown + more
+    return True, f"{md.name}: no model commentary or generated headings detected"
+
+
+def gate_b5_book_chapter_body_coverage(book_dir: Path) -> tuple[bool, str]:
+    """Reject heading-only translation-edition chapters."""
+    try:
+        from _translation_edition import is_faithful_translation_deliverable
+
+        if not is_faithful_translation_deliverable(book_dir):
+            return True, "n/a (not a translation edition)"
+    except Exception as e:
+        return False, f"translation-edition body check unavailable: {e}"
+
+    md = _pick_book_md(book_dir)
+    if not md.exists():
+        return False, f"render input missing ({md.name})"
+    text = md.read_text(encoding="utf-8", errors="replace")
+    matches = list(re.finditer(r"(?m)^##\s+(\d+)\.\s+(.+)$", text))
+    if not matches:
+        return False, f"{md.name}: no numbered chapter headings found"
+    bad: list[str] = []
+    for pos, match in enumerate(matches):
+        start = match.end()
+        end = matches[pos + 1].start() if pos + 1 < len(matches) else len(text)
+        body = text[start:end]
+        body = re.sub(r"(?m)^#{1,6}\s+.*$", "", body)
+        body = re.sub(r"<[^>]+>", "", body)
+        compact = re.sub(r"\s+", " ", body).strip()
+        if len(compact) < 400:
+            bad.append(f"chapter {match.group(1)} ({match.group(2).strip()}): {len(compact)} chars")
+    if bad:
+        shown = "; ".join(bad[:4])
+        more = f"; +{len(bad) - 4} more" if len(bad) > 4 else ""
+        return False, f"heading-only/blank chapter body detected: {shown}{more}"
+    return True, f"{md.name}: {len(matches)} numbered chapters have body text"
+
+
+def gate_b6_book_source_crosswalk(book_dir: Path) -> tuple[bool, str]:
+    """Validate persisted source crosswalk and title/source alignment."""
+    try:
+        from _book_compose import _slice_source
+        from _translation_edition import is_faithful_translation_deliverable, source_title_drift_findings
+
+        if not is_faithful_translation_deliverable(book_dir):
+            return True, "n/a (not a translation edition)"
+    except Exception as e:
+        return False, f"source-crosswalk check unavailable: {e}"
+
+    crosswalk_path = book_dir / "book" / "source-crosswalk.json"
+    if not crosswalk_path.exists():
+        return False, "book/source-crosswalk.json missing"
+    refined_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
+    if not refined_path.exists():
+        return False, "refined English source missing; cannot verify crosswalk"
+    try:
+        data = json.loads(crosswalk_path.read_text(encoding="utf-8"))
+        entries = data.get("chapters") or []
+    except Exception as e:
+        return False, f"source-crosswalk.json unreadable: {e}"
+    n_chapters = _toc_chapter_count(book_dir)
+    if n_chapters and len(entries) != n_chapters:
+        return False, f"crosswalk has {len(entries)} chapters but TOC lists {n_chapters}"
+    lines = refined_path.read_text(encoding="utf-8", errors="replace").split("\n")
+    bad: list[str] = []
+    for entry in entries:
+        title = str(entry.get("title") or "")
+        idx = entry.get("index")
+        ranges = entry.get("source_line_ranges") or []
+        source = _slice_source(lines, ranges)
+        findings = list(entry.get("drift_findings") or [])
+        findings.extend(source_title_drift_findings(title, source))
+        if findings:
+            bad.append(f"chapter {idx} ({title}): {'; '.join(dict.fromkeys(findings))}")
+    if bad:
+        shown = "; ".join(bad[:4])
+        more = f"; +{len(bad) - 4} more" if len(bad) > 4 else ""
+        return False, shown + more
+    return True, f"source-crosswalk.json: {len(entries)} chapters aligned"
 
 
 def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
-    """Run B1-B3 and return a verdict dict. Pure read-only."""
+    """Run B1-B6 and return a verdict dict. Pure read-only."""
     book_dir = Path(book_dir).resolve()
     if not _book_branch_enabled(book_dir):
-        return {"slug": book_dir.name, "verdict": "N/A",
-                "summary": "series.enable_book_branch is false — no reading edition expected",
-                "gates": []}
+        return {
+            "slug": book_dir.name,
+            "verdict": "N/A",
+            "summary": "series.enable_book_branch is false — no reading edition expected",
+            "gates": [],
+        }
 
     gates: list[dict] = []
     blocking_fail: str | None = None
@@ -265,14 +392,27 @@ def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
         blocking_fail = blocking_fail or f"B2 book-pdf-renderable: {why2}"
 
     ok3, why3 = gate_b3_book_arabic_coverage(book_dir)
-    gates.append({"gate": "B3", "name": "book-arabic-coverage",
-                  "passed": ok3, "note": why3})
+    gates.append({"gate": "B3", "name": "book-arabic-coverage", "passed": ok3, "note": why3})
     if not ok3:
         blocking_fail = blocking_fail or f"B3 book-arabic-coverage: {why3}"
 
+    ok4, why4 = gate_b4_book_prose_integrity(book_dir)
+    gates.append({"gate": "B4", "name": "book-prose-integrity", "passed": ok4, "note": why4})
+    if not ok4:
+        blocking_fail = blocking_fail or f"B4 book-prose-integrity: {why4}"
+
+    ok5, why5 = gate_b5_book_chapter_body_coverage(book_dir)
+    gates.append({"gate": "B5", "name": "book-chapter-body-coverage", "passed": ok5, "note": why5})
+    if not ok5:
+        blocking_fail = blocking_fail or f"B5 book-chapter-body-coverage: {why5}"
+
+    ok6, why6 = gate_b6_book_source_crosswalk(book_dir)
+    gates.append({"gate": "B6", "name": "book-source-crosswalk", "passed": ok6, "note": why6})
+    if not ok6:
+        blocking_fail = blocking_fail or f"B6 book-source-crosswalk: {why6}"
+
     verdict = "BOOK-SOUND" if blocking_fail is None else "BOOK-BROKEN"
-    summary = (f"reading edition sound ({len(gates)} gates checked)"
-               if blocking_fail is None else blocking_fail)
+    summary = f"reading edition sound ({len(gates)} gates checked)" if blocking_fail is None else blocking_fail
     return {"slug": book_dir.name, "verdict": verdict, "summary": summary, "gates": gates}
 
 
@@ -281,6 +421,7 @@ def _resolve_book_dir(slug_or_dir: str) -> Path | None:
     if p.is_dir() and (p / "meta.yml").exists():
         return p.resolve()
     import publish_to_library as P  # reuse the canonical bucket-aware resolver
+
     ws = P.resolve_workspace(slug_or_dir)
     return ws if ws.is_dir() else None
 
@@ -311,8 +452,7 @@ def main() -> int:
             tag = " (advisory)" if g.get("advisory") else ""
             print(f"  {mark} {g['gate']} {g['name']}{tag} — {g['note']}")
         print()
-        print(f"{'✓' if result['verdict'] != 'BOOK-BROKEN' else '✗'} "
-              f"{result['verdict']} — {result['summary']}")
+        print(f"{'✓' if result['verdict'] != 'BOOK-BROKEN' else '✗'} {result['verdict']} — {result['summary']}")
     return 1 if result["verdict"] == "BOOK-BROKEN" else 0
 
 

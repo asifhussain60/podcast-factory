@@ -30,6 +30,7 @@ irreplaceable mp3 audio lives there); promotion only COPIES out of them.
 Usage:
   python3 scripts/podcast/promote_staging_to_book.py --slug al-anwaar-al-lateefah [--dry-run] [--force]
 """
+
 from __future__ import annotations
 
 import argparse
@@ -43,8 +44,8 @@ from typing import Any
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _paths import REPO_ROOT, find_content, resolve_bucket  # noqa: E402
-from _branching import branch_name  # noqa: E402
+from _branching import branch_name
+from _paths import REPO_ROOT, find_content, resolve_bucket
 
 EXIT_OK = 0
 EXIT_ERROR = 2
@@ -139,14 +140,15 @@ def promote(slug: str, *, dry_run: bool = False, force: bool = False) -> int:
 
     canonical_state = book_dir / "_system" / "orchestrator-state.json"
     if canonical_state.is_file() and not force:
-        print(f"promote: canonical state already exists ({_rel(canonical_state)}); "
-              f"use --force to re-promote.")
+        print(f"promote: canonical state already exists ({_rel(canonical_state)}); use --force to re-promote.")
         return EXIT_OK
 
     spine, augs = _discover(book_dir)
     if spine is None:
-        print(f"promote: no spine staging workspace (source/ with a *-staging slug) "
-              f"under {_rel(book_dir)}", file=sys.stderr)
+        print(
+            f"promote: no spine staging workspace (source/ with a *-staging slug) under {_rel(book_dir)}",
+            file=sys.stderr,
+        )
         return EXIT_ERROR
 
     spine_state = _read_state(spine) or {}
@@ -154,12 +156,16 @@ def promote(slug: str, *, dry_run: bool = False, force: bool = False) -> int:
     plan = _Plan(dry_run)
 
     print(f"promote: {slug}  (bucket={bucket})")
-    print(f"  spine: {_rel(spine)}  slug={spine_state.get('book_slug')}  "
-          f"lectures={spine_state.get('phases', {}).get('0a', {}).get('lectures')}")
+    print(
+        f"  spine: {_rel(spine)}  slug={spine_state.get('book_slug')}  "
+        f"lectures={spine_state.get('phases', {}).get('0a', {}).get('lectures')}"
+    )
     for name, d in augs:
         st = _read_state(d) or {}
-        print(f"  aug:   {name:<20} slug={st.get('book_slug')}  "
-              f"lectures={st.get('phases', {}).get('0a', {}).get('lectures')}")
+        print(
+            f"  aug:   {name:<20} slug={st.get('book_slug')}  "
+            f"lectures={st.get('phases', {}).get('0a', {}).get('lectures')}"
+        )
 
     sys_dir = book_dir / "_system"
 
@@ -187,17 +193,21 @@ def promote(slug: str, *, dry_run: bool = False, force: bool = False) -> int:
             plan.copy_tree(a_lec, dst_root / "lectures")
         if a_raw.is_file():
             plan.copy_file(a_raw, dst_root / "raw-extract.md")
-        manifest.append({
-            "name": name,
-            "staging_slug": st.get("book_slug"),
-            "lectures": st.get("phases", {}).get("0a", {}).get("lectures"),
-            "source_language": st.get("source_language"),
-            "raw_extract": (dst_root / "raw-extract.md").relative_to(book_dir).as_posix(),
-            "origin_state": (d / "_system" / "orchestrator-state.json").relative_to(book_dir).as_posix(),
-        })
-    plan.write_text(sys_dir / "source" / "augmentation" / "_manifest.json",
-                    json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
-                    "augmentation manifest")
+        manifest.append(
+            {
+                "name": name,
+                "staging_slug": st.get("book_slug"),
+                "lectures": st.get("phases", {}).get("0a", {}).get("lectures"),
+                "source_language": st.get("source_language"),
+                "raw_extract": (dst_root / "raw-extract.md").relative_to(book_dir).as_posix(),
+                "origin_state": (d / "_system" / "orchestrator-state.json").relative_to(book_dir).as_posix(),
+            }
+        )
+    plan.write_text(
+        sys_dir / "source" / "augmentation" / "_manifest.json",
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        "augmentation manifest",
+    )
 
     # 3 — preserve every cost ledger + archive every staging state
     ledger_prov: dict[str, dict[str, Any]] = {}
@@ -222,9 +232,11 @@ def promote(slug: str, *, dry_run: bool = False, force: bool = False) -> int:
         sp_state = d / "_system" / "orchestrator-state.json"
         if sp_state.is_file():
             plan.copy_file(sp_state, sys_dir / "staging-archive" / f"{slug_d}-state.json")
-    plan.write_text(sys_dir / "cost-ledger-provenance.json",
-                    json.dumps(ledger_prov, ensure_ascii=False, indent=2) + "\n",
-                    "cost-ledger provenance")
+    plan.write_text(
+        sys_dir / "cost-ledger-provenance.json",
+        json.dumps(ledger_prov, ensure_ascii=False, indent=2) + "\n",
+        "cost-ledger provenance",
+    )
 
     # 4 — canonical orchestrator-state.json (WRITTEN LAST — the existence signal)
     now = _utc()
@@ -263,9 +275,9 @@ def promote(slug: str, *, dry_run: bool = False, force: bool = False) -> int:
         },
         "intake_via": "scripts/podcast/promote_staging_to_book.py",
     }
-    plan.write_text(canonical_state,
-                    json.dumps(canonical, ensure_ascii=False, indent=2) + "\n",
-                    "CANONICAL orchestrator-state.json")
+    plan.write_text(
+        canonical_state, json.dumps(canonical, ensure_ascii=False, indent=2) + "\n", "CANONICAL orchestrator-state.json"
+    )
 
     # 5 — wire the branch (skip in dry-run; leave tree dirty for review)
     target_branch = branch_name(spine_state.get("category"), slug, bucket=bucket)
@@ -276,26 +288,28 @@ def promote(slug: str, *, dry_run: bool = False, force: bool = False) -> int:
 
     # report
     print()
-    print(f"  plan: {len(plan.ops)} ops"
-          f"{'  (DRY-RUN — nothing written)' if dry_run else ''}")
+    print(f"  plan: {len(plan.ops)} ops{'  (DRY-RUN — nothing written)' if dry_run else ''}")
     for op in plan.ops:
         print(f"    {op}")
     print()
     if dry_run:
-        print(f"  spine lectures={spine_lectures}  augmentation lectures={aug_lectures}  "
-              f"({len(manifest)} corpora)")
+        print(f"  spine lectures={spine_lectures}  augmentation lectures={aug_lectures}  ({len(manifest)} corpora)")
         print("  Re-run without --dry-run to execute.")
     else:
-        print(f"==> promoted {slug}: spine={spine_lectures} + aug={aug_lectures} lectures, "
-              f"state→0a-synthesize/pending. Next: multi_source_synthesis.py --slug {slug}")
+        print(
+            f"==> promoted {slug}: spine={spine_lectures} + aug={aug_lectures} lectures, "
+            f"state→0a-synthesize/pending. Next: multi_source_synthesis.py --slug {slug}"
+        )
     return EXIT_OK
 
 
 def _ensure_branch(target: str) -> None:
     import subprocess
+
     def _git(*a: str) -> tuple[int, str]:
         p = subprocess.run(["git", *a], cwd=REPO_ROOT, capture_output=True, text=True)
         return p.returncode, (p.stdout + p.stderr).strip()
+
     rc, cur = _git("rev-parse", "--abbrev-ref", "HEAD")
     cur = cur if rc == 0 else ""
     if cur == target:

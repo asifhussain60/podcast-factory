@@ -56,8 +56,8 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
-from _paths import REPO_ROOT, resolve_content  # noqa: E402
-from _stage_gate import (  # noqa: E402
+from _paths import resolve_content
+from _stage_gate import (
     STAGE_ORDER,
     awaiting_approval_stage,
     chapter_stage_summary,
@@ -71,12 +71,10 @@ SCRIPT_DIR = _HERE
 # Stage → producer command factory
 # ---------------------------------------------------------------------------
 
+
 def _lecture_slugs_for(slug: str, chapter: str) -> list[str]:
     """Read lecture-chapter-map.json and return the lecture slugs for this chapter."""
-    map_path = (
-        resolve_content(slug)
-        / "_system" / "lecture-chapter-map.json"
-    )
+    map_path = resolve_content(slug) / "_system" / "lecture-chapter-map.json"
     if not map_path.exists():
         return []
     data = json.loads(map_path.read_text(encoding="utf-8"))
@@ -91,16 +89,13 @@ def _build_command(slug: str, chapter: str, stage: str) -> list[str] | None:
         # Expensive Azure OCR — we run --role english as the canonical spine.
         # intake_stage.py only OCRs; core alignment is done by the agent.
         # Re-run is a no-op if cached (no re-spend).
-        return [py, str(SCRIPT_DIR / "intake_stage.py"),
-                "--slug", slug, "--role", "english"]
+        return [py, str(SCRIPT_DIR / "intake_stage.py"), "--slug", slug, "--role", "english"]
 
     if stage == "denoised":
-        return [py, str(SCRIPT_DIR / "gemini_refine.py"),
-                "--slug", slug, "--chapter", chapter, "--mode", "denoise"]
+        return [py, str(SCRIPT_DIR / "gemini_refine.py"), "--slug", slug, "--chapter", chapter, "--mode", "denoise"]
 
     if stage == "normalized":
-        return [py, str(SCRIPT_DIR / "gemini_refine.py"),
-                "--slug", slug, "--chapter", chapter, "--mode", "normalize"]
+        return [py, str(SCRIPT_DIR / "gemini_refine.py"), "--slug", slug, "--chapter", chapter, "--mode", "normalize"]
 
     if stage == "narrator":
         lectures = _lecture_slugs_for(slug, chapter)
@@ -108,9 +103,16 @@ def _build_command(slug: str, chapter: str, stage: str) -> list[str] | None:
             # No lectures mapped — produce an empty narrator stub so the
             # pipeline can continue without blocking on this stage.
             return None
-        return [py, str(SCRIPT_DIR / "narrator_additions.py"),
-                "--slug", slug, "--chapter", chapter,
-                "--lectures", ",".join(lectures)]
+        return [
+            py,
+            str(SCRIPT_DIR / "narrator_additions.py"),
+            "--slug",
+            slug,
+            "--chapter",
+            chapter,
+            "--lectures",
+            ",".join(lectures),
+        ]
 
     # core, augmented — no standalone script yet
     return None
@@ -133,6 +135,7 @@ def _parse_cost(stdout: str) -> float:
 # Single-chapter runner
 # ---------------------------------------------------------------------------
 
+
 def run_chapter(slug: str, chapter: str, *, dry_run: bool = False, as_json: bool = False) -> int:
     """Run the next eligible stage for one chapter.
 
@@ -141,10 +144,17 @@ def run_chapter(slug: str, chapter: str, *, dry_run: bool = False, as_json: bool
 
     def _emit(status: str, stage: str, msg: str, cost: float = 0.0) -> None:
         if as_json:
-            print(json.dumps({
-                "status": status, "stage": stage, "chapter": chapter,
-                "message": msg, "cost_usd": cost,
-            }))
+            print(
+                json.dumps(
+                    {
+                        "status": status,
+                        "stage": stage,
+                        "chapter": chapter,
+                        "message": msg,
+                        "cost_usd": cost,
+                    }
+                )
+            )
         else:
             print(f"[{status.upper()}] chapter={chapter} stage={stage}: {msg}")
 
@@ -155,8 +165,11 @@ def run_chapter(slug: str, chapter: str, *, dry_run: bool = False, as_json: bool
         # Either all stages done, or predecessor not yet approved.
         blocking = awaiting_approval_stage(slug, chapter)
         if blocking:
-            _emit("awaiting_approval", blocking,
-                  f"Stage '{blocking}' is complete — approve it in Studio before continuing.")
+            _emit(
+                "awaiting_approval",
+                blocking,
+                f"Stage '{blocking}' is complete — approve it in Studio before continuing.",
+            )
             return 2
 
         # Check if truly all done.
@@ -168,8 +181,11 @@ def run_chapter(slug: str, chapter: str, *, dry_run: bool = False, as_json: bool
         # A preceding done_pending stage is blocking but wasn't caught above.
         for e in summary:
             if e["status"] == "done_pending":
-                _emit("awaiting_approval", e["stage"],
-                      f"Stage '{e['stage']}' is complete — approve it in Studio before continuing.")
+                _emit(
+                    "awaiting_approval",
+                    e["stage"],
+                    f"Stage '{e['stage']}' is complete — approve it in Studio before continuing.",
+                )
                 return 2
 
         _emit("all_done", "", "All available stages complete.")
@@ -178,9 +194,11 @@ def run_chapter(slug: str, chapter: str, *, dry_run: bool = False, as_json: bool
     # Build the command for the target stage.
     cmd = _build_command(slug, chapter, target)
     if cmd is None:
-        _emit("no_script", target,
-              f"Stage '{target}' has no standalone producer — produce the artifact manually "
-              f"then approve it in Studio.")
+        _emit(
+            "no_script",
+            target,
+            f"Stage '{target}' has no standalone producer — produce the artifact manually then approve it in Studio.",
+        )
         return 3
 
     if dry_run:
@@ -190,7 +208,7 @@ def run_chapter(slug: str, chapter: str, *, dry_run: bool = False, as_json: bool
     # Run the producer.
     try:
         result = subprocess.run(cmd, capture_output=True, text=True)
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         _emit("error", target, f"subprocess error: {exc}")
         return 1
 
@@ -198,19 +216,22 @@ def run_chapter(slug: str, chapter: str, *, dry_run: bool = False, as_json: bool
     cost = _parse_cost(stdout)
 
     if result.returncode != 0:
-        _emit("error", target,
-              f"producer exited {result.returncode}: {stdout.strip()[-200:]}", cost)
+        _emit("error", target, f"producer exited {result.returncode}: {stdout.strip()[-200:]}", cost)
         return 1
 
-    _emit("ran", target,
-          f"Stage '{target}' produced successfully. {stdout.strip().splitlines()[-1] if stdout.strip() else ''}",
-          cost)
+    _emit(
+        "ran",
+        target,
+        f"Stage '{target}' produced successfully. {stdout.strip().splitlines()[-1] if stdout.strip() else ''}",
+        cost,
+    )
     return 0
 
 
 # ---------------------------------------------------------------------------
 # All-chapters runner
 # ---------------------------------------------------------------------------
+
 
 def run_all(slug: str, *, dry_run: bool = False, as_json: bool = False) -> int:
     """Run the next stage for every chapter in the book, in order."""
@@ -237,6 +258,7 @@ def run_all(slug: str, *, dry_run: bool = False, as_json: bool = False) -> int:
 # Status display
 # ---------------------------------------------------------------------------
 
+
 def show_status(slug: str, chapters: list[str]) -> None:
     """Print a table of per-chapter stage state."""
     hdr = f"{'CHAPTER':<45} " + " ".join(f"{s[:6]:>7}" for s in STAGE_ORDER)
@@ -253,6 +275,7 @@ def show_status(slug: str, chapters: list[str]) -> None:
 # CLI
 # ---------------------------------------------------------------------------
 
+
 def main() -> None:
     ap = argparse.ArgumentParser(
         description="WC8 stage runner — check gate + run next stage producer.",
@@ -264,8 +287,7 @@ def main() -> None:
     group.add_argument("--all", action="store_true", help="Advance all chapters one stage each")
     group.add_argument("--status", action="store_true", help="Print stage-state table and exit")
     ap.add_argument("--dry-run", action="store_true", help="Show what would run; do nothing")
-    ap.add_argument("--json", action="store_true", dest="as_json",
-                    help="Emit result as JSON (for API callers)")
+    ap.add_argument("--json", action="store_true", dest="as_json", help="Emit result as JSON (for API callers)")
     args = ap.parse_args()
 
     book_dir = resolve_content(args.slug)

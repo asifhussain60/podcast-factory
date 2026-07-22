@@ -1,4 +1,7 @@
-manifest_version: "2026-06-14"
+manifest_version: "2026-07-13"
+# Reconciled 2026-07-13 from base 2026-06-14 (develop @ d4cfbc92). Delta: +82 commits
+# since the 2026-06-20 static snapshot. Added surface: translation_edition (below).
+# Narrative reconciliation + risk-register deltas: docs/assessment/capability-manifest-reconciliation-2026-07-13.md.
 # Sources: git log --all, framework.md, CLAUDE.md, _workspace/plan/architecture.md,
 # _workspace/plan/refactor/plan.yaml, scripts/podcast/*.py, scripts/podcast/phases/*.py,
 # plan-dashboard/src/pages/, plan-dashboard/src/components/, plan-dashboard/src/lib/,
@@ -1880,6 +1883,109 @@ surfaces:
           Key test files: test_retry_phase_clearing.py,
           test_chapter_set_integrity.py, test_no_claude_p_in_unattended.py,
           test_challenger.py, test_azure_connectivity.py. 70+ tests.
+
+  # -------------------------------------------------------------------------
+  # SURFACE 3 — TRANSLATION EDITION (added 2026-07-13 reconciliation)
+  # A distinct deliverable path (deliverable_mode: translation_edition): a
+  # faithful, source-aligned reading edition + monochrome slide pair. Reuses
+  # ingest/refine/book-design/illustrate/render but runs NO podcast audio,
+  # phonetics, enrichment, or gap-analysis. Not covered by the 2026-06-20 twin.
+  # -------------------------------------------------------------------------
+  translation_edition:
+
+    capabilities:
+
+      - id: translation-edition-orchestration
+        name: Translation-edition end-to-end driver
+        inputs: [slug, source_pdf, src_lang]
+        outputs: [book/book.pdf, book/source-crosswalk.json, slide-decks/*]
+        code_files:
+          - scripts/podcast/generate_translation_edition.py
+        shipped_commit: 67449eed
+        shipped_date: "2026-06-29"
+        status: shipped
+        notes: >
+          source PDF -> 0a ingest -> 0b refine -> 0book-design -> translation
+          compose -> 0book-illustrate -> book-level NotebookLM slide pair ->
+          0book-render. Ends with validate_book(); raises on BOOK-BROKEN.
+          Verified 2026-07-13: imports clean; 36 unit tests pass.
+
+      - id: translation-compose
+        name: Faithful translation compose (source-aligned, no augmentation)
+        inputs: [refined-english.md, book-toc.json]
+        outputs: [book/book.md, book/book-illustrated.md]
+        code_files:
+          - scripts/podcast/_translation_edition.py
+        shipped_commit: c13d6049
+        shipped_date: "2026-07-13"
+        status: shipped
+        notes: >
+          author_translation_edition_compose + translation_output_findings
+          reject model commentary / model-owned headings; source_title_drift
+          guards against wrong-source titling. Statically Sound.
+
+      - id: translation-contract-gate
+        name: Deterministic translation-edition config contract
+        inputs: [_system/series-config.yaml]
+        outputs: [contract_findings, AuthoringError on breach]
+        code_files:
+          - scripts/podcast/_translation_edition.py
+        shipped_commit: c13d6049
+        shipped_date: "2026-07-13"
+        status: shipped
+        notes: >
+          assert_translation_contract enforces deliverable_mode, forbidden
+          augmentation, teaching_only denoise, preserve_arabic_terms, and
+          monochrome visual_style before any LLM spend. Statically Sound.
+
+      - id: translation-book-ready-gate
+        name: Source-aligned book-artifact readiness gate
+        inputs: [book/book.md, book/book-toc.json]
+        outputs: [book-validation-report.json, verdict]
+        code_files:
+          - scripts/podcast/validate_book_ready.py
+        shipped_commit: c13d6049
+        shipped_date: "2026-07-13"
+        status: shipped
+        notes: >
+          Backstops compose; gates emission of source-aligned book artifacts to
+          genuine linear-prose translations. Verified 2026-07-13 (imports clean;
+          test_validate_book_ready.py green). NOTE — the 2026-06-20 twin does
+          NOT describe an evaluate_book_gate/gate_and_emit disk-read gate; those
+          symbols do not exist. Gating is config-contract + final validate_book.
+
+      - id: source-crosswalk
+        name: Source-to-translation crosswalk map
+        inputs: [source lines, composed prose]
+        outputs: [book/source-crosswalk.json]
+        code_files:
+          - scripts/podcast/_translation_edition.py
+        shipped_commit: c13d6049
+        shipped_date: "2026-07-13"
+        status: shipped
+        notes: build_source_crosswalk preserves source line ranges. Statically Sound.
+
+    # Adjacent capabilities added in the same 2026-06-24..07-13 window (not part
+    # of the translation-edition path proper, but new since the 2026-06-20 twin):
+    adjacent_new_capabilities:
+      - id: reference-attribution-denoise
+        code_files: [scripts/podcast/strip_reference_attribution_noise.py]
+        tests: [test_reference_attribution_noise.py, test_denoise_contract.py]
+        status: shipped
+      - id: chapter-arabic-injection
+        code_files: [scripts/podcast/inject_chapter_arabic.py]
+        tests: [test_arabic_recitation_path.py]
+        status: shipped
+      - id: book-illustrate-mindmap-normalization
+        code_files: [scripts/podcast/_book_illustrate.py]
+        tests: [test_book_illustrate_mindmap.py]
+        status: shipped
+        risk: >
+          R15 (FIXED 2026-07-13) — the live-render test previously asserted
+          instead of skipping when plan-dashboard node_modules (playwright) was
+          absent; was the sole cause of red develop CI 2026-06-24..07-13. Fix:
+          the test class is gated on the playwright package, with a runtime skip
+          on chromium/module-missing signals. Suite: 1476 passed, 2 skipped.
 
 # ---------------------------------------------------------------------------
 # EXCLUDED

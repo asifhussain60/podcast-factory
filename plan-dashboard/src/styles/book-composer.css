@@ -1,0 +1,2271 @@
+/* book-composer.css — the Book Pipeline v2 "Book Composer" view.
+ * Theme-adapter: all colour comes from the existing --c-* tokens (fallbacks only
+ * so the file is legible in isolation). No new palette, no inline styles — the
+ * data-driven figure width rides the --cx-w custom property set at runtime by
+ * book-composer.ts. */
+
+/* Editor-view @font-face declarations now live in the shared editor-fonts.css
+ * (imported by both compose.astro and the Studio [step].astro), so the same
+ * self-hosted faces back the font picker on both editor surfaces. */
+
+/* One-line help text that sits under the title inside the shared .lib-hero
+   identity block. The header structure itself is the shared Studio hero. */
+.composer-sub {
+  color: var(--c-ink-muted, #66625a);
+  /* REQ-010 reading floor: descriptive prose, not chrome. NOT on the panel scale —
+     this line sits in the page header, outside the drawer. */
+  font-size: var(--fs-base);
+  margin: 0.2rem 0 0;
+  /* Span the banner's full width — no 60ch reading cap — so the description
+     uses the empty space to the right instead of wrapping early. */
+  max-width: none;
+}
+
+/* The top identity block reads as a white header banner spanning the full page
+   width (scoped to this view — the shared Studio/Library heroes are untouched).
+   Same near-white surface as the right-hand inspector panel. */
+.composer .cx-composer-header {
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 10px;
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1.6rem;
+}
+
+/* Studio-surface entry points: one horizontal row pinned above the title
+ * (not a vertical stack beside it), small rectangular buttons — deliberately
+ * its own compact style, not a reuse of the site-wide pill .lib-studio-link
+ * (which other Studio pages still use unchanged). */
+.cx-composer-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+/* .lib-hero-main's shared rule (library.css) sets `flex: 1 1 24rem` for its
+ * normal home in a ROW-direction .lib-hero (main+aside side by side), where
+ * the 24rem basis sizes its WIDTH. Reused here inside a COLUMN-direction
+ * header, that same flex-basis applies to the main axis instead — HEIGHT —
+ * forcing a ~460px-tall block padded out with blank space below its actual
+ * content. Reset it back to content-sized for this column context. */
+.cx-composer-header .lib-hero-main {
+  flex: 0 1 auto;
+}
+.cx-header-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.cx-hdr-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.32rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid var(--c-accent, #8b4513);
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 8%,
+    var(--c-bg-card, #fffdf8)
+  );
+  color: var(--c-accent, #8b4513);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.16s;
+}
+.cx-hdr-btn:hover {
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 16%,
+    var(--c-bg-card, #fffdf8)
+  );
+  text-decoration: none;
+}
+.cx-hdr-btn:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+/* Pushed to the far right of the row, separated from the other entries. */
+.cx-hdr-btn--end {
+  margin-left: auto;
+}
+@media (max-width: 640px) {
+  .cx-header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cx-hdr-btn--end {
+    margin-left: 0;
+  }
+}
+
+/* ── The right drawer ─────────────────────────────────────────────────────────
+   The inspector used to be a permanent 20rem column, so a reading pass paid for
+   tools it was not using, the private notes were buried behind a tab you had to
+   leave to do anything else, and the AI Scholar ran a SECOND slide-in drawer that
+   could overlap the first. All three are surfaces of ONE drawer now — Tools (the
+   four icon tabs), Companion notes, Scholar — and a floating button row at the
+   bottom right chooses between them. Clicking the lit button closes the drawer
+   and the chapter takes the full width back.
+
+   The buttons float; the PANEL does not (locked with Asif 2026-07-21). The panel
+   is a real grid track, so nothing is ever covered — and the buttons were moved
+   out of the layout precisely because a permanent rail was charging the chapter
+   width for chrome. The animated property is the track itself, which is why the
+   width lives on .composer-grid and not on the panel. */
+.composer-grid {
+  display: grid;
+  /* No column-gap: the drawer's gutter is its own padding, INSIDE its track, so
+     a closed drawer (track 0) leaves no orphan gap beside the chapter. */
+  grid-template-columns: minmax(0, 1fr) var(--cx-drawer-w, 0rem);
+  column-gap: 0;
+  align-items: start;
+  transition: grid-template-columns 0.22s ease;
+}
+/* ONE width for every surface (2026-07-21). Companion and Scholar ran at 25.5rem
+   on the argument that their cards carry a quoted passage plus a paragraph and
+   read badly at the tool measure — true, but the drawer changing width as you
+   switch surface reads as several components sharing a frame rather than one
+   panel with several faces. Uniform wins; the measure cost is accepted.
+
+   Written as "anything but closed" rather than as a list of surface names: the
+   list version silently gave the Arabic surface a 0rem track when it was added,
+   so the drawer opened with no width and the panel simply was not there. There
+   is one state that closes the drawer and any number that open it, so the
+   selector says that. */
+.composer-grid:not([data-panel="closed"]) {
+  --cx-drawer-w: 21.5rem; /* 20rem of panel + its 1.5rem gutter */
+}
+.composer-grid[data-panel="closed"] .composer-panel {
+  /* Kept in the DOM (its React island and editor bindings stay live) but taken
+     out of the layout, so reopening is instant and nothing re-mounts. */
+  visibility: hidden;
+}
+
+/* Floating panel buttons — one horizontal row, bottom right, sitting to the LEFT
+   of the site-wide back-to-top control so that control stays rightmost. The
+   offset is computed from .to-top's own geometry in theme-components.css (44px at
+   right/bottom var(--sp-5), z-index 900) rather than guessed, and the z-index sits
+   just under it — the same reasoning the old .gcp-launcher used when it stacked
+   above that corner. */
+.cx-fabs {
+  position: fixed;
+  right: calc(var(--sp-5, 1.5rem) + 44px + var(--sp-3, 0.75rem));
+  bottom: var(--sp-5, 1.5rem);
+  z-index: 899;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--sp-3, 0.75rem);
+}
+.cx-fab {
+  appearance: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--c-rule, #e6e0d4);
+  border-radius: 999px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink-muted, #66625a);
+  box-shadow: var(--shadow-hover, 0 6px 20px rgba(31, 29, 24, 0.18));
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.cx-fab:hover {
+  color: var(--c-ink, #2b2823);
+  border-color: var(--c-accent, #8b4513);
+}
+.cx-fab:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+.cx-fab.is-active {
+  color: var(--c-bg-elev, #fffdf8);
+  background: var(--c-accent, #8b4513);
+  border-color: var(--c-accent, #8b4513);
+}
+.cx-fab[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+/* The label is always in the DOM — it is the button's accessible name. Clipped to
+   a 1px box rather than display:none so assistive tech still reads it; the
+   sighted affordance is the native tooltip from the button's `title`. */
+.cx-fab-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* READ mode: the Tools surface acts on the editor, which does not exist there, so
+   book-composer.ts disables that one button and lets the drawer fall closed —
+   Companion and Scholar stay reachable, because notes and explanations are
+   exactly what a reading pass wants. */
+@media (max-width: 60rem) {
+  .composer-grid,
+  .composer-grid:not([data-panel="closed"]) {
+    grid-template-columns: 1fr;
+  }
+  /* Below the drawer's breakpoint the panel stacks under the chapter, so the
+     buttons scroll with it rather than hovering over the prose. */
+  .cx-fabs {
+    position: static;
+    justify-content: flex-end;
+    margin: 0 0 0.75rem;
+  }
+  /* ...and cover nothing, so the surfaces stop reserving room for them. */
+  .composer-panel {
+    --cx-fab-clear: 0px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .composer-grid {
+    transition: none;
+  }
+}
+
+/* ── Preview column ──────────────────────────────────────────────────────── */
+/* Clean reading surface: no card frame, no tint, no borders — the prose sits
+   directly on the page in near-black ink, like a printed page. Chrome that
+   belonged to a "panel" (background, border, heavy padding, ruled headings) is
+   deliberately gone; the type does the work. */
+.composer-preview {
+  min-width: 0;
+  color: var(--c-ink, #1f1d18);
+}
+
+/* Chapter picker + Read/Edit toggle, pinned to the top-left of the chapter. */
+.cx-chapter-bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 1.2rem;
+  flex-wrap: wrap;
+}
+.cx-chapter-picker {
+  margin: 0;
+  min-width: 16rem;
+  flex: 1 1 auto;
+  max-width: 32rem;
+}
+/* The chapter picker is the primary navigation control for this whole view —
+   give it its own prominent treatment instead of the generic small .cx-field
+   styling shared with minor inspector inputs (figure width, caption, etc.).
+   Selectors are scoped/specific (compound + #id) so they win regardless of
+   source order against the generic .cx-field rules defined later in this
+   file, without raising specificity on those shared rules themselves. */
+.cx-chapter-bar .cx-chapter-picker > label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--c-ink-muted, #66625a);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+/* The chapter picker's own styling moved to styles/select-menu.css when the
+   native <select> was replaced by a drawn list (a native select paints its open
+   panel through the OS, so no stylesheet could reach it). The select survives
+   only as the hidden state holder; styling it here would fight .sm-native on
+   specificity — an ID selector beats a class — and half-undo the
+   visually-hidden contract. Deliberately not replaced. */
+/* Read / Edit segmented control. Read is the print-faithful render (the PDF's
+   own markup); Edit is the TipTap surface. Sits beside the chapter picker so the
+   two chapter-level controls read as one group. */
+.cx-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: var(
+    --shadow-card,
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 4px 12px rgba(31, 29, 24, 0.06)
+  );
+}
+.cx-mode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  height: 2.75rem;
+  padding: 0 0.9rem;
+  border: 0;
+  background: transparent;
+  color: var(--c-ink-muted, #66625a);
+  cursor: pointer;
+  transition:
+    background 0.16s,
+    color 0.16s;
+}
+.cx-mode-btn + .cx-mode-btn {
+  border-left: 1px solid var(--c-rule, #d9d3c4);
+}
+.cx-mode-btn:hover {
+  color: var(--c-accent, #8b4513);
+}
+.cx-mode-btn[aria-pressed="true"] {
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 11%,
+    var(--c-bg-card, #fffdf8)
+  );
+  color: var(--c-accent, #8b4513);
+}
+
+.cx-layout-save {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.cx-layout-save .cx-status {
+  margin: 0;
+}
+
+.cx-panel-hint {
+  color: var(--c-ink-muted, #66625a);
+  /* REQ-010 reading floor: instructional prose, not chrome. */
+  font-size: var(--panel-fs, 15px);
+  line-height: 1.45;
+  margin: 0 0 0.7rem;
+}
+#cx-panel-artifacts .cx-panel-hint {
+  margin: 0 0 0.6rem;
+}
+
+/* Citations tab — fit the reused book-styles picker + preview into the 20rem
+   panel; the detected list previews this chapter's verses in the toned look. */
+.cx-cite-form {
+  margin: 0;
+}
+.cx-cite-form .bs-chips {
+  gap: 0.4rem;
+  margin: 0 0 0.8rem;
+}
+.cx-cite-form .bs-chip {
+  min-width: 0;
+  flex: 1 1 100%;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+}
+.cx-cite-form .bs-chip-name {
+  font-size: var(--panel-fs-title, 16px);
+}
+.cx-cite-form .bs-chip-tag {
+  font-size: var(--panel-fs, 15px);
+}
+.cx-cite-preview {
+  padding: 0.9rem 1rem;
+  margin: 0;
+  max-width: none;
+}
+.cx-cite-preview .bs-ct + .bs-ct {
+  margin-top: 0.9rem;
+  padding-top: 0.9rem;
+}
+.cx-cite-save {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  min-height: 1.1rem;
+}
+/* ── Edit mode — the chapter prose editor (TipTap) in the left column ───────
+   The whole shell reads as a distinct editing surface (not plain prose): a
+   framed card with an accent-tinted toolbar header, a clean paper writing area,
+   and an accent focus ring that lights up while you type. All colours reuse the
+   light-theme --c-* tokens, so it stays on-theme in both light and dark. */
+.cx-edit-shell {
+  margin: 0.4rem 0 1.6rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 10px;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: var(
+    --shadow-card,
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 4px 12px rgba(31, 29, 24, 0.06)
+  );
+  overflow: clip;
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+}
+.cx-edit-shell:focus-within {
+  border-color: var(--c-accent, #8b4513);
+  box-shadow:
+    0 0 0 3px color-mix(in oklab, var(--c-accent, #8b4513) 20%, transparent),
+    var(
+      --shadow-hover,
+      0 2px 4px rgba(31, 29, 24, 0.08),
+      0 8px 24px rgba(31, 29, 24, 0.12)
+    );
+}
+.cx-edit-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.25rem;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 11%,
+    var(--c-bg-card, #fffdf8)
+  );
+  border-bottom: 1px solid var(--c-rule, #d9d3c4);
+}
+/* Toolbar groups (font/size · formatting · paper), separated by a hairline. */
+.cx-tb-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.cx-edit-toolbar .cx-tb-group + .cx-tb-group {
+  padding-left: 0.55rem;
+  border-left: 1px solid var(--c-rule-soft, #ebe6da);
+}
+
+/* Font-family selector — a native <select> (keeps the OS dropdown + a11y),
+   boxed to match the size stepper and format buttons. */
+.cx-font-select {
+  font: inherit;
+  font-size: 0.8rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+}
+.cx-font-select:hover {
+  border-color: var(--c-accent, #8b4513);
+}
+
+/* Text-size stepper — [ − 17 + ], a single boxed control. */
+.cx-size {
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--c-bg-card, #fffdf8);
+}
+.cx-size-btn {
+  font: inherit;
+  font-size: 0.95rem;
+  width: 1.7rem;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+  line-height: 1;
+}
+.cx-size-btn:hover {
+  color: var(--c-accent, #8b4513);
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 8%, transparent);
+}
+.cx-size-val {
+  min-width: 1.7rem;
+  padding: 0 0.3rem;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--c-ink, #1f1d18);
+  border-inline: 1px solid var(--c-rule-soft, #ebe6da);
+  line-height: 2rem;
+}
+
+.cx-edit-tool {
+  font: inherit;
+  font-size: 0.85rem;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+}
+.cx-edit-tool:hover {
+  border-color: var(--c-accent, #8b4513);
+  color: var(--c-accent, #8b4513);
+}
+/* The B / I / U glyphs carry their own emphasis so the buttons read at a glance. */
+.cx-tool-b {
+  font-weight: 700;
+}
+.cx-tool-i {
+  font-style: italic;
+}
+.cx-tool-u {
+  text-decoration: underline;
+}
+
+/* Paper picker — Kindle-style Light / Sepia / Dark for the writing surface.
+   Sits at the right of the toolbar header. */
+.cx-paper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+}
+.cx-paper-label {
+  font-size: 0.72rem;
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-paper-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font: inherit;
+  font-size: 0.75rem;
+  height: 1.75rem;
+  padding: 0 0.55rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 999px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+}
+.cx-paper-btn::before {
+  content: "";
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  border: 1px solid color-mix(in oklab, var(--c-ink, #1f1d18) 28%, transparent);
+  background: var(--swatch, #fff);
+}
+.cx-paper-btn[data-paper="light"] {
+  --swatch: #fefdfb;
+}
+.cx-paper-btn[data-paper="sepia"] {
+  --swatch: #f4ecd8;
+}
+.cx-paper-btn[data-paper="dark"] {
+  --swatch: #201e1b;
+}
+.cx-paper-btn:hover {
+  border-color: var(--c-accent, #8b4513);
+}
+.cx-paper-btn[aria-pressed="true"] {
+  border-color: var(--c-accent, #8b4513);
+  color: var(--c-accent, #8b4513);
+  font-weight: 600;
+}
+
+/* The writing surface takes its colours from the selected paper preset. These
+   are deliberate reading-paper values (the feature), scoped to the editor only
+   — they never touch the site --c-* theme tokens. Default is Light. */
+.cx-edit-host {
+  padding: 1.1rem 1.3rem;
+  background: var(--paper-bg, var(--c-bg-card, #fffdf8));
+  color: var(--paper-ink, var(--c-ink, #1f1d18));
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+.cx-edit-host[data-paper="light"] {
+  --paper-bg: #fefdfb;
+  --paper-ink: #1f1d18;
+  --paper-rule: #d9d3c4;
+}
+.cx-edit-host[data-paper="sepia"] {
+  --paper-bg: #f4ecd8;
+  --paper-ink: #5b4636;
+  --paper-rule: #ddd0b4;
+}
+.cx-edit-host[data-paper="dark"] {
+  --paper-bg: #201e1b;
+  --paper-ink: #d8d2c6;
+  --paper-rule: #3d3a32;
+}
+
+/* Editor-view font family + size, driven by the toolbar. View-only: book.md
+   carries no font/size, so these never restyle the printed book. --prose-size is
+   set at runtime by book-composer.ts (in-pattern with --cx-w). */
+/* Each stack keeps its chosen Latin face, then routes Arabic to the size-adjusted
+   Amiri (AmiriSized — declared once in theme.css) BEFORE the generic fallback, so
+   the system Arabic face never wins and the Arabic reads at the same visual size
+   as the English. */
+.cx-edit-host[data-font="sans"] {
+  --prose-font: "Lato", "AmiriSized", "Amiri", system-ui, sans-serif;
+}
+.cx-edit-host[data-font="serif"] {
+  --prose-font:
+    Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, "AmiriSized",
+    "Amiri", serif;
+}
+.cx-edit-host[data-font="lato"] {
+  --prose-font: "Lato", "AmiriSized", "Amiri", system-ui, sans-serif;
+}
+.cx-edit-host[data-font="inter"] {
+  --prose-font: "Inter", "AmiriSized", "Amiri", system-ui, sans-serif;
+}
+.cx-edit-host[data-font="mono"] {
+  --prose-font: ui-monospace, "SF Mono", "AmiriSized", "Amiri", monospace;
+}
+.cx-edit-host[data-font="dyslexic"] {
+  --prose-font:
+    "OpenDyslexic", "Comic Sans MS", "AmiriSized", "Amiri", sans-serif;
+}
+
+/* The editor writing area fills the full column, ragged-right. Justification was
+   tried and removed: on a wide editing column it opens rivers of white space and
+   the auto-hyphenation it needs to stay tolerable breaks words that are being
+   actively edited. Left-aligned keeps word spacing even and the caret honest.
+   On-screen editing preference only — the Read-mode preview (.cx-body) and the
+   printed PDF keep the book's own narrower reading measure. */
+.cx-prose {
+  outline: none;
+  font-family: var(--prose-font, inherit);
+  font-size: var(--prose-size, 1.02rem);
+  line-height: 1.6;
+  color: inherit;
+  max-width: none;
+  text-align: left;
+  hyphens: manual;
+}
+.cx-prose p {
+  margin: 0 0 0.8rem;
+}
+.cx-prose h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 1.2rem 0 0.5rem;
+}
+/* (The former heading-only left-align override is gone — the whole editor
+   surface is left-aligned now, so it had nothing left to override.) */
+.cx-prose blockquote {
+  border-left: 2px solid var(--paper-rule, var(--c-rule, #d9d3c4));
+  padding-left: 1rem;
+  margin: 0.8rem 0;
+}
+
+/* ── Arabic quotations INSIDE the editor ──────────────────────────────────────
+   The seed HTML carries class="quran"/"ar"/"tr"; the QuotationClasses extension
+   in book-md-editor.ts is what keeps them alive through ProseMirror's parse. The
+   rules below are the Read-mode ones (compose-print.css .cx-print.style-plain)
+   restated for the editing surface, so a verse looks the same whether you are
+   reading it or editing it — the one thing you previously had to leave Edit mode
+   to check.
+
+   `dir`/`lang` are NOT preserved as attributes (fewer things to carry through the
+   schema); direction is CSS here, and the isolate stops the RTL run from
+   disturbing the Latin around it. */
+.cx-prose blockquote.quran {
+  border-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+/* Inline Arabic (a term woven into English prose) — isolate the RTL run so the
+   surrounding Latin punctuation stays put; without this the closing bracket of
+   `al-Yaman (جعفر بن منصور اليمن)` strands itself on the next line. Matches
+   .bookv-body .ar-inline in book-reader.css and .ar-inline in book-print.css. */
+   Two selectors because the two modes mark Arabic differently: Read renders the
+   .ar-inline span the print pipeline emits, while the TipTap edit canvas strips
+   unknown spans from its seed and marks the same runs with the .ar-raw
+   decoration from studio-decos instead. */
+.cx-body .ar-inline,
+.cx-prose .ar-raw {
+  font-family: var(--q-ar-face);
+  /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
+     shearing the glyphs, which is wrong for the script and looked wrong on the
+     page; and an inherited bold would fake a weight the face does not have.
+     Pinned here so the run renders the same whatever prose it sits in. */
+  font-style: normal;
+  /* Keep the paragraph's line box. The Arabic face's intrinsic ascent and
+     descent are far taller than the Latin body face, so without an explicit
+     line-height a single Arabic word makes its line taller than its
+     neighbours and the column loses its rhythm. */
+  line-height: inherit;
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+.cx-prose p.ar {
+  font-family: var(--q-ar-face);
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--q-maroon);
+  direction: rtl;
+  unicode-bidi: isolate;
+  text-align: center;
+  margin: 0 0 0.2rem;
+}
+.cx-prose p.tr {
+  font-family: var(--q-tr-face);
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: inherit;
+  text-align: center;
+  margin: 0;
+}
+.cx-edit-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.9rem 1.3rem 1.1rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.cx-edit-actions .cx-action {
+  flex: 0 0 auto;
+}
+.cx-edit-shell > .cx-status {
+  margin: 0;
+  padding: 0 1.3rem 1rem;
+}
+.cx-edit-shell > .cx-status:empty {
+  display: none;
+}
+
+/* ── Inline figure controls — a floating card on the selected figure ──────── */
+.cx-fig-card {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  z-index: 30;
+  width: min(22rem, 90vw);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem 0.6rem;
+  padding: 0.7rem 0.8rem;
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(31, 29, 24, 0.14);
+  cursor: default;
+  text-align: left;
+}
+.cx-fig-card .cx-field {
+  margin: 0;
+}
+/* Wide controls (width slider, chapter select, caption) + remove span both cols;
+   align / flow / position / page-fit pair up two-per-row to keep the card small. */
+.cx-fig-card .cx-field:has(input[type="range"]),
+.cx-fig-card .cx-field:has(input[type="text"]),
+.cx-fig-card .cx-field:has(select[aria-label="Anchor chapter"]),
+.cx-fig-card .cx-delete {
+  grid-column: 1 / -1;
+}
+
+/* ── Refinement tab — AI text actions + accept/reject options ─────────────── */
+.cx-ai-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.2rem 0 0.6rem;
+}
+.cx-ai-btn {
+  font: inherit;
+  font-size: var(--panel-fs, 15px);
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--c-accent, #8b4513);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--c-accent, #8b4513);
+  cursor: pointer;
+}
+.cx-ai-btn:hover:not(:disabled) {
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+}
+.cx-ai-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+  border-color: var(--c-rule-soft, #ebe6da);
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-ai-popup {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+  padding-top: 0.6rem;
+}
+.cx-ai-popup-head {
+  font-size: 0.78rem;
+  color: var(--c-ink-muted, #66625a);
+  margin: 0;
+}
+.cx-ai-opt {
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.45;
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  background: var(--c-bg, #f7f4ee);
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+}
+.cx-ai-opt:hover {
+  border-color: var(--c-accent, #8b4513);
+}
+.cx-ai-opt-cancel {
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--c-red, #a83232);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  justify-self: start;
+  padding: 0.2rem 0;
+}
+
+/* Refinement tab additions — Research/Auto-tag + Arabic/English/Explain term
+   curation (ComposeAiTools.tsx), reusing .cx-ai-btn's own token pattern. */
+.cx-ai-tools {
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.cx-ai-tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.cx-btn-ai {
+  font: inherit;
+  font-size: var(--panel-fs, 15px);
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--c-accent, #8b4513);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--c-accent, #8b4513);
+  cursor: pointer;
+}
+.cx-btn-ai:hover:not(:disabled) {
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+}
+.cx-btn-ai:disabled {
+  opacity: 0.45;
+  cursor: default;
+  border-color: var(--c-rule-soft, #ebe6da);
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-ai-result {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-ai-result.is-error,
+.cx-ai-error {
+  color: var(--c-red, #a83232);
+}
+.cx-ai-proposal {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+  padding-top: 0.6rem;
+}
+.cx-ai-proposal-arabic {
+  font-family: "AmiriSized", "Amiri", serif;
+  font-size: 1.2rem;
+  text-align: right;
+}
+.cx-ai-proposal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.cx-ai-proposal-actions button {
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg, #f7f4ee);
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+}
+.cx-ai-proposal-actions button:hover {
+  border-color: var(--c-accent, #8b4513);
+}
+
+/* Details tab (ComposeDetailsTab.tsx) — comments, action-item marks,
+   section depth/tags. Same token pattern as the Refinement additions above. */
+.cx-details-tab {
+  display: grid;
+  gap: 1rem;
+}
+.cx-details-block h3 {
+  margin: 0 0 0.4rem;
+  font-size: var(--panel-fs-title, 16px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-details-hint {
+  font-size: var(--panel-fs, 15px);
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-details-comment {
+  width: 100%;
+  min-height: 4rem;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  background: var(--c-bg, #f7f4ee);
+  color: var(--c-ink, #1f1d18);
+  resize: vertical;
+}
+/* "Reshape now" wraps the vanilla AI row + the React AI tools as ONE card in
+   the workflow order; spacing matches the React tab's grid gap below it. */
+.cx-reshape-block {
+  margin: 0 0 1rem;
+}
+
+/* Pending-marks count in the section heading. */
+.cx-count-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.3rem;
+  height: 1.3rem;
+  margin-left: 0.45rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--c-bg-card, #fffdf8);
+  background: var(--c-accent, #8b4513);
+}
+
+/* Outcome groups inside Mark for follow-up (Text · Knowledge · Visual). */
+.cx-mark-group {
+  margin: 0 0 0.55rem;
+}
+.cx-mark-group-name {
+  display: block;
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-ink-dim, #4d4a42);
+}
+
+.cx-details-mark-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.cx-btn-mark {
+  font: inherit;
+  font-size: var(--panel-fs, 15px);
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink-dim, #4d4a42);
+  cursor: pointer;
+}
+.cx-btn-mark:hover:not(:disabled) {
+  border-color: var(--c-accent, #8b4513);
+  color: var(--c-accent, #8b4513);
+}
+.cx-btn-mark:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.cx-details-queue {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+.cx-details-queue li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg, #f7f4ee);
+}
+/* The mark's label + snippet IS the jump control — click to select the
+   anchored text in the editor. */
+.cx-queue-jump {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--c-ink-dim, #4d4a42);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.cx-queue-jump:hover {
+  color: var(--c-accent, #8b4513);
+}
+.cx-queue-run {
+  flex: none;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid color-mix(in oklab, var(--c-accent, #8b4513) 60%, var(--c-rule-soft, #ebe6da));
+  border-radius: 999px;
+  color: var(--c-accent, #8b4513);
+  background: var(--c-bg-card, #fffdf8);
+  cursor: pointer;
+}
+.cx-queue-run:hover {
+  color: var(--c-bg-card, #fffdf8);
+  background: var(--c-accent, #8b4513);
+}
+.cx-queue-remove {
+  flex: none;
+  font: inherit;
+  font-size: 0.72rem;
+  color: var(--c-red, #a83232);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+/* Explicit rings matching the file's focus convention — the borderless jump
+   button especially would otherwise rely on the faint browser default. */
+.cx-queue-jump:focus-visible,
+.cx-queue-run:focus-visible,
+.cx-queue-remove:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+/* "Tell the AI" — the free-form chapter-instruction box (first consumer of
+   /api/ai/instruct). The textarea reuses the comment box's look; the button is
+   the accent action; the reasons list echoes the model's per-edit whys. */
+.cx-instruct-box {
+  min-height: 5rem;
+}
+.cx-instruct-run {
+  margin-top: 0.45rem;
+  font: inherit;
+  font-size: var(--panel-fs, 15px);
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--c-accent, #8b4513);
+  border-radius: 6px;
+  color: var(--c-bg-card, #fffdf8);
+  background: var(--c-accent, #8b4513);
+  cursor: pointer;
+}
+.cx-instruct-run:hover:not(:disabled) {
+  filter: brightness(1.12);
+}
+.cx-instruct-run:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.cx-instruct-run:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+.cx-instruct-note {
+  margin-top: 0.45rem;
+}
+.cx-instruct-reasons {
+  margin: 0.3rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+  color: var(--c-ink-dim, #4d4a42);
+  display: grid;
+  gap: 0.2rem;
+}
+
+/* Etymology review card — two outputs (inline insert + companion note). */
+.cx-ety-card {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+  padding-top: 0.6rem;
+}
+.cx-ety-head {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--c-ink, #1f1d18);
+  margin: 0;
+}
+.cx-ety-meta {
+  font-size: 0.75rem;
+  color: var(--c-ink-muted, #66625a);
+  margin: 0;
+}
+.cx-ety-warn {
+  font-size: 0.75rem;
+  color: var(--c-red, #a83232);
+  background: color-mix(in oklab, var(--c-red, #a83232) 10%, transparent);
+  border-radius: 5px;
+  padding: 0.3rem 0.45rem;
+  margin: 0.1rem 0;
+}
+.cx-ety-label {
+  font-size: 0.72rem;
+  color: var(--c-ink-muted, #66625a);
+  margin-top: 0.3rem;
+}
+.cx-ety-inline,
+.cx-ety-companion {
+  font: inherit;
+  font-size: 1rem;
+  /* Latin stays in the UI font; Arabic falls through to Amiri (loaded site-wide
+     via theme.css) — placed BEFORE the generic fallback so the system Arabic
+     face never wins. Matches the reading edition's Amiri Arabic. */
+  font-family: "Lato", "AmiriSized", "Amiri", system-ui, sans-serif;
+  line-height: 1.75;
+  width: 100%;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  background: var(--c-bg, #f7f4ee);
+  color: var(--c-ink, #1f1d18);
+  box-sizing: border-box;
+}
+.cx-ety-companion {
+  resize: vertical;
+}
+.cx-ety-inline:focus,
+.cx-ety-companion:focus {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 1px;
+}
+.cx-ety-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.3rem;
+}
+.cx-ety-accept {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--c-accent, #8b4513);
+  border-radius: 6px;
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+  cursor: pointer;
+}
+.cx-ety-accept:hover {
+  filter: brightness(1.08);
+}
+.cx-ety-discard {
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--c-red, #a83232);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0.2rem 0;
+}
+
+.cx-chapter {
+  margin: 0 0 1.8rem;
+}
+/* The chapter title is no longer a sibling <h2> here — read mode renders the
+   book's own .chapter-open block (styled in compose-print.css), so the former
+   `.cx-chapter > h2` rule is gone rather than left as dead weight. */
+.cx-chapter.cx-dragover {
+  outline: 2px dashed var(--c-accent, #8b4513);
+  outline-offset: 4px;
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 4%, transparent);
+}
+/* Reads like a printed page, not large-print web text: normal book size, tight
+   leading, a real reading measure — this is what actually reclaims the space. */
+.cx-body {
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--c-ink, #1f1d18);
+  max-width: 60ch;
+  /* Centre the reading measure in its column — a 60ch page pinned to the left
+     edge of a 979px column reads lopsided, not page-like. */
+  margin-inline: auto;
+  display: flow-root; /* contain floated (wrap) figures within the chapter */
+}
+.cx-body :is(p, blockquote) {
+  margin: 0 0 0.8rem;
+}
+
+/* Arabic verses in the preview mirror the printed page: no box, body-ink Arabic
+   at body scale (matches book-print.css / book-reader.css blockquote.quran). */
+.cx-body blockquote.quran {
+  border-left: 2px solid var(--c-rule, #d9d3c4);
+  padding: 0.25rem 0 0.25rem 1.1rem;
+}
+.cx-body blockquote.quran p.ar {
+  font-family: var(--q-ar-face);
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--c-ink, #1f1d18);
+  direction: rtl;
+  text-align: center;
+}
+.cx-body blockquote.quran p.tr {
+  font-size: 0.95rem;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--c-ink-muted, #66625a);
+}
+
+/* Drop indicator: a rule on the paragraph the figure will land above/below. */
+.cx-drop-before,
+.cx-drop-after {
+  position: relative;
+}
+.cx-drop-before::before,
+.cx-drop-after::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--c-accent, #8b4513);
+}
+.cx-drop-before::before {
+  top: -0.45rem;
+}
+.cx-drop-after::after {
+  bottom: -0.45rem;
+}
+
+.cx-fig {
+  --cx-w: 60%;
+  position: relative;
+  margin: 0.6rem 0;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  background: var(--c-bg, #f7f4ee);
+  cursor: grab;
+}
+.cx-fig.is-selected {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+.cx-fig img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px 6px 0 0;
+}
+.cx-fig.flow-standalone {
+  width: var(--cx-w);
+  margin-left: auto;
+  margin-right: auto;
+}
+.cx-fig.flow-standalone.align-left {
+  margin-left: 0;
+}
+.cx-fig.flow-standalone.align-right {
+  margin-right: 0;
+  margin-left: auto;
+}
+.cx-fig.flow-wrap {
+  width: var(--cx-w);
+}
+.cx-fig.flow-wrap.align-left {
+  float: left;
+  margin: 0.2rem 1rem 0.6rem 0;
+}
+.cx-fig.flow-wrap.align-right {
+  float: right;
+  margin: 0.2rem 0 0.6rem 1rem;
+}
+.cx-fig figcaption {
+  font-size: 0.78rem;
+  color: var(--c-ink-muted, #66625a);
+  font-style: italic;
+  padding: 0.3rem 0.5rem;
+  text-align: center;
+}
+.cx-fig .cx-fig-badge {
+  position: absolute;
+  top: 0.3rem;
+  left: 0.3rem;
+  font-size: 0.62rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+}
+
+/* Corner resize handle — width_pct by direct manipulation. Sits at the growing
+   edge: bottom-right normally, bottom-left when the figure is right-aligned. */
+.cx-fig-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  cursor: se-resize;
+  touch-action: none;
+  border-radius: 0 0 6px 0;
+  background: linear-gradient(
+    135deg,
+    transparent 45%,
+    var(--c-accent, #8b4513) 45%
+  );
+  opacity: 0.55;
+}
+.cx-fig-handle:hover {
+  opacity: 1;
+}
+.cx-fig.align-right .cx-fig-handle {
+  right: auto;
+  left: 0;
+  cursor: sw-resize;
+  border-radius: 0 0 0 6px;
+  background: linear-gradient(
+    225deg,
+    transparent 45%,
+    var(--c-accent, #8b4513) 45%
+  );
+}
+.cx-fig.is-resizing {
+  user-select: none;
+  outline: 2px dashed var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+
+/* ── Side panel — tabbed inspector (Artifacts · Refinement · Citations · Details)
+   ONE rule, not two. This selector used to be declared twice — once up in the grid
+   section for its box model, once here for its stickiness — which is exactly how
+   the padding and the sticky behaviour came to be reasoned about separately. The
+   two are merged; do not re-split them.
+
+   The panel is pinned to the VIEWPORT rather than sized by its content. A
+   content-sized panel stops halfway down the screen beside a long chapter, or runs
+   past the fold beside a short one, and either way reads as a mismatch against the
+   chapter column. At a fixed viewport height it is always exactly one screen tall.
+
+   Deliberately NOT the full-height app shell (the pattern where the workspace is
+   100vh and the page itself never scrolls). That guarantees equal heights, but it
+   also stops `window.scrollY` ever growing — and the site-wide back-to-top control
+   in theme-components.css only appears past 600px of window scroll. It would be
+   permanently dead on the one page whose button row was built around it. */
+.composer-panel {
+  position: sticky;
+  /* BELOW the sticky top nav, not under it. `top: 1rem` pinned the drawer at
+     16px while .topnav occupies 0-52px, so the moment the page scrolled, the
+     drawer's text-size dial slid behind the nav and could not be reached — the
+     surface below it was still clear, so the panel looked fine and the control
+     was simply gone. 52px is the nav's own height; it is written as a literal
+     here for the same reason .subnav-h does it in theme-components.css, which is
+     the existing precedent for sticking something below that bar. */
+  top: calc(52px + 0.5rem);
+  height: calc(100vh - 52px - 1rem);
+  min-width: 0;
+  box-sizing: border-box;
+  padding-left: 1.5rem;
+  overflow-x: hidden;
+  /* Column so the text-size bar can sit above a surface that still fills the
+     rest of the height. */
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  /* THE PANEL TYPE SCALE. Declared HERE, on the drawer, not on the surfaces: the
+     stepper (scripts/panel-text-size.ts) writes --panel-fs inline on this element,
+     and an inherited custom property loses to a declaration on the element that
+     consumes it — so a copy on .cx-surface silently pinned the text while the
+     readout moved. The drawer declares; the surfaces consume.
+
+       --panel-fs        content, every piece of it (default 15px, dial 11-24)
+       --panel-fs-title  headings, DERIVED as content + 2px so the hierarchy
+                         survives every stop on the dial rather than inverting
+
+     px, not rem: the root font-size on this site is 19.2px, so a rem-based panel
+     size silently lands a tier too high. The REQ-010 exception for these panels is
+     recorded in html-view-lint.config.json. */
+  --panel-fs: 15px;
+  --panel-fs-title: calc(var(--panel-fs) + 2px);
+
+  /* HOW MUCH ROOM THE FLOATING BUTTONS TAKE. .cx-fabs is `position: fixed` over
+     this drawer's bottom-right corner, and the drawer is sticky, so once the page
+     scrolls the two are pinned together and the last line of whatever surface is
+     showing ends up UNDER the buttons — measured at 17px of a full-width line,
+     and the covered part cannot be scrolled into view because it IS the end of
+     the scroll. Each scroller reserves this much after its content instead.
+     Derived, not guessed: the row is 44px tall sitting var(--sp-5) off the
+     viewport bottom, and the drawer's own bottom edge is 0.5rem above that —
+     which follows from the top/height above, so it moves when they move. */
+  --cx-fab-clear: calc(44px + var(--sp-5, 1.5rem) - 0.5rem);
+}
+.cx-surface {
+  flex: 1;
+  min-height: 0; /* let the surface shrink so its own scroll engages */
+}
+
+/* ── Typography tab ───────────────────────────────────────────────────────────
+   ONE panel, TWO groups that must never be mistaken for each other. Above the
+   rule: the book's own type — written to book/citation-style.json, committed,
+   printed into the PDF, seen by every reader of the edition. Below it: this
+   browser's display preference, in localStorage, seen by nobody else. They are
+   in one panel because they answer the same question ("how does this read?"), and
+   separated by a scope line each because they have completely different blast
+   radii. */
+.cx-type-scope {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.6rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: var(--panel-fs, 15px);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--c-ink, #2b2823);
+}
+.cx-type-scope i {
+  color: var(--c-accent, #8b4513);
+}
+/* Why there is no Qur'anic face chip. Set as a note rather than left implicit —
+   an absent control reads as an oversight unless something says otherwise. */
+.cx-type-locked {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0.7rem 0 0;
+  padding: 0.55rem 0.7rem;
+  border-left: 2px solid var(--c-rule, #e6e0d4);
+  background: var(--c-bg, #faf7f0);
+  border-radius: 0 6px 6px 0;
+  font-size: var(--panel-fs, 15px);
+  line-height: 1.45;
+  color: var(--c-ink-muted, #87827a);
+}
+.cx-type-locked i {
+  margin-top: 0.15em;
+  color: var(--c-ink-dim, #6f6a61);
+}
+.cx-type-screen {
+  margin-top: 1.4rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.cx-type-screen-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.cx-type-screen-label {
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: var(--panel-fs, 15px);
+  color: var(--c-ink, #2b2823);
+}
+
+/* THE SURFACE CONTRACT — the frame, the inset and the scroll, declared once for
+   all three surfaces. Each surface used to bring its own: .cx-tabpanel had padding
+   and a scroll cap, .cpn--docked had `padding: 0` (the flush Companion edge), and
+   .gcp--docked had a third value and no scroll at all. A fourth surface would have
+   invented a fourth. They are properties of the DRAWER, so they live on the drawer. */
+.cx-surface {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  font-size: var(--panel-fs, 15px);
+  line-height: 1.5;
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 8px;
+  /* The FRAME clips; the scrolling belongs to whatever inside it is the content.
+     Which differs by surface: Tools has a tab strip that must stay put while its
+     panel scrolls under it, so the scroll sits on .cx-tabpanel; Companion and
+     Scholar are one continuous column, so it sits on the surface itself. Either
+     way the page never grows — a panel that grew the document is what made the
+     Companion notes drag the chapter's scrollbar with them. */
+  overflow: hidden;
+}
+/* Only ONE surface is present at a time; `hidden` is toggled by book-composer.ts
+   so the inactive one is out of the accessibility tree, not merely invisible. */
+.cx-surface[hidden] {
+  display: none;
+}
+/* The inset, for the two surfaces with no tab strip of their own. Tools is padded
+   on .cx-tabpanel instead, because its strip sits flush to the surface edge. */
+#cx-surface-companion,
+#cx-surface-arabic,
+#cx-surface-scholar {
+  padding: 0.9rem 1rem calc(1.1rem + var(--cx-fab-clear, 0px));
+  overflow-y: auto;
+}
+.cx-tabbar {
+  flex-shrink: 0; /* the strip stays; the panel beneath it scrolls */
+}
+
+/* Four LARGE icons on one line. The former five text labels could not fit a
+   20rem row without truncating "Refinement" mid-word, so the strip wrapped to two
+   rows; icons fit at any panel width with room to spare. The label is not
+   discarded — it stays in the DOM (it IS each tab's accessible name) and reveals
+   under the icon on hover or keyboard focus. */
+/* The row holds the tablist AND the settings gear on one line; the rule that
+   used to sit on the tablist moved here so the gear sits on the same shelf. */
+.cx-tabrow {
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--c-rule-soft, #ebe6da);
+}
+.cx-tabbar {
+  display: flex;
+  flex-wrap: nowrap;
+  flex: 1;
+  min-width: 0;
+  gap: 0.15rem;
+  padding: 0.35rem 0.5rem 0;
+}
+/* The gear is IN the bar but not a tab: no role=tab, no roving tabindex, no
+   active underline — it opens the Book-settings dialog. */
+.cx-tab-gear {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  font-size: 1.05rem;
+  color: var(--c-ink-muted, #66625a);
+  cursor: pointer;
+}
+.cx-tab-gear:hover {
+  color: var(--c-accent, #8b4513);
+}
+.cx-tab-gear:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: -2px;
+}
+.cx-tab {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 0.55rem 0.2rem 0.45rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  /* An ICON glyph, not text — deliberately off the --panel-fs scale, like
+     .cx-icon-btn and .gcp-launcher. Shrinking a glyph to 12px shrinks the target. */
+  font-size: 1.15rem;
+  color: var(--c-ink-muted, #66625a);
+  cursor: pointer;
+}
+/* Clipped to a 1px box rather than display:none, so the text still reaches
+   assistive technology while taking no room until it is wanted. It stays clipped
+   in EVERY state: this label used to un-clip to `position: static` on
+   hover/focus/active, and revealing text inside a `flex: 1 1 0` tab widened that
+   tab, re-flowed the strip under the pointer and collided with its neighbours.
+   The sighted affordance is the tooltip below (scripts/icon-tooltip.ts), which
+   takes no part in layout at all. */
+.cx-tab-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  font-size: var(--panel-fs, 15px);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.cx-tab:hover {
+  color: var(--c-ink, #2b2823);
+}
+.cx-tab:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: -2px;
+}
+.cx-tab.is-active {
+  color: var(--c-accent);
+  border-bottom-color: var(--c-accent);
+  font-weight: 600;
+}
+
+/* ── Icon tooltip ─────────────────────────────────────────────────────────────
+   The label for an icon-only control, shown on hover or keyboard focus. Lives on
+   <body>, not inside the tab strip: .cx-surface is `overflow: hidden`, so a
+   tooltip parented to the strip is clipped at the surface edge. `position: fixed`
+   also keeps it out of the flex row it describes, which is the whole point — the
+   inline reveal it replaced widened the tab it belonged to.
+
+   The two coordinates are written as custom properties by scripts/icon-tooltip.ts
+   (the same JS-writes-a-token, CSS-declares-the-rule split panel-text-size.ts
+   uses for --panel-fs), so nothing here needs an inline style attribute.
+
+   Sizing is fixed at 12px rather than --panel-fs: this is chrome for an icon, it
+   sits outside the drawer that declares the panel scale, and a reader who dials
+   the panel text up is asking for more readable NOTES, not a bigger tooltip.
+   Stacking: above .cx-fabs (899) and the site's back-to-top (900). */
+.cx-tip {
+  position: fixed;
+  left: var(--tip-x, 0);
+  top: var(--tip-y, 0);
+  z-index: 950;
+  transform: translateX(-50%);
+  max-width: 16rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  background: var(--c-ink, #1f1d18);
+  color: var(--c-bg-card, #fffdf8);
+  font-family: var(--font-ui, system-ui, sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  white-space: nowrap;
+  box-shadow: var(--shadow-hover, 0 6px 20px rgba(31, 29, 24, 0.18));
+  /* Never a hit target: the pointer must reach the control underneath it, and a
+     tooltip that can be hovered can trap its own dismissal. */
+  pointer-events: none;
+}
+.cx-tip[hidden] {
+  display: none;
+}
+/* Fills whatever the surface leaves below the tab strip and scrolls there.
+   `min-height: 0` is load-bearing: without it a flex child refuses to shrink below
+   its content, so the panel would push past the surface instead of scrolling
+   inside it. The old `max-height: calc(100vh - 9rem)` is gone — the surface owns
+   the height now, and a hand-computed offset would drift from it. */
+.cx-tabpanel {
+  flex: 1;
+  min-height: 0;
+  padding: 0.9rem 1rem calc(0.9rem + var(--cx-fab-clear, 0px));
+  overflow-y: auto;
+}
+.cx-tabpanel[hidden] {
+  display: none;
+}
+.cx-hint {
+  color: var(--c-ink-muted, #66625a);
+  font-size: var(--panel-fs, 15px);
+  line-height: 1.45;
+  margin: 0;
+}
+.cx-filter {
+  margin-bottom: 0.8rem;
+}
+.cx-palette-list {
+  display: grid;
+  gap: 0.6rem;
+}
+/* Card + a dedicated actions column BESIDE it — the actions used to be an
+   absolute overlay revealed on hover, which (a) hid them until you knew to
+   hover and (b) sat on top of the caption text once revealed. In-flow flex
+   children can never overlap the caption, and they are always visible. */
+.cx-palette-item {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 0.35rem;
+}
+.cx-palette-item.is-dragging {
+  opacity: 0.45;
+  transform: scale(0.97);
+}
+.cx-palette-place {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 0.6rem;
+  align-items: center;
+  flex: 1;
+  min-width: 0; /* let the caption ellipsize instead of pushing the actions out */
+  text-align: left;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  padding: 0.4rem;
+  background: var(--c-bg-card, #fffdf8);
+  color: inherit;
+  font: inherit;
+  cursor: grab;
+}
+.cx-palette-place:hover {
+  border-color: var(--c-ink-dim, #9a938a);
+}
+.cx-palette-item img {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+  background: var(--c-bg, #f7f4ee);
+  border-radius: 4px;
+}
+
+/* Per-artifact actions (AI edit + delete) — always visible, own column. */
+.cx-palette-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
+  flex: none;
+}
+.cx-icon-btn {
+  font-size: 0.95rem;
+  line-height: 1;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: grid;
+  place-items: center;
+  /* 60% accent keeps the resting border itself at >=3:1 against the card. */
+  border: 1px solid color-mix(in oklab, var(--c-accent, #8b4513) 60%, var(--c-rule-soft, #ebe6da));
+  border-radius: 6px;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: 0 1px 4px rgba(31, 29, 24, 0.18);
+  cursor: pointer;
+}
+.cx-icon-btn:hover {
+  border-color: var(--c-accent, #8b4513);
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 9%, var(--c-bg-card, #fffdf8));
+  box-shadow: 0 3px 9px rgba(31, 29, 24, 0.26);
+}
+
+/* Book settings dialog — the gear's modal sheet holding the citation-style and
+   typography forms (one-time, book-wide decisions; see compose.astro). Scrim
+   layout/darkening come from .cx-confirm-scrim; this box is a scrolling sheet
+   sized for its two form sections. */
+/* The scrim class forces display:flex, which would defeat the static markup's
+   `hidden` attribute if Tailwind preflight's [hidden] reset ever went away —
+   same guard the file already gives .cx-surface[hidden] / .cx-tabpanel[hidden]. */
+.cx-settings-scrim[hidden] {
+  display: none;
+}
+.cx-settings-box {
+  width: min(46rem, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 1.1rem 1.4rem 1.4rem;
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 10px;
+  box-shadow: 0 18px 50px rgba(31, 29, 24, 0.35);
+}
+.cx-settings-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0 0 0.6rem;
+}
+.cx-settings-head .cx-lightbox-close {
+  position: static; /* in-flow beside the title, not pinned to a corner */
+}
+.cx-settings-title {
+  margin: 0;
+  font-family: var(--font-display, serif);
+  font-size: 1.25rem;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-settings-section {
+  padding: 0.9rem 0 0;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+  margin: 0.9rem 0 0;
+}
+.cx-settings-sub {
+  margin: 0 0 0.7rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--c-ink, #1f1d18);
+}
+
+/* Full-size image lightbox (image-lightbox.ts) — opened by clicking a palette
+   card (drag is the placement gesture; the old hover-to-enlarge card is gone —
+   too small to read, and it covered the list while the pointer moved). The
+   figure sizes ITSELF to the image's natural aspect, capped to the viewport;
+   vectors stay sharp at any size. Scrim layout and darkening come from
+   .cx-confirm-scrim (shared modal contract). */
+.cx-lightbox-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  max-width: min(94vw, 90rem);
+  max-height: 94vh;
+  margin: 0;
+  padding: 1.1rem;
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 10px;
+  box-shadow: 0 18px 50px rgba(31, 29, 24, 0.35);
+}
+.cx-lightbox-img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(94vh - 6rem); /* room for padding + caption */
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 6px;
+  background: var(--c-bg, #f7f4ee);
+}
+.cx-lightbox-cap {
+  max-width: 60ch;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-lightbox-close {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--c-ink-muted, #66625a);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.cx-lightbox-close:hover {
+  color: var(--c-ink, #1f1d18);
+  background: color-mix(in oklab, var(--c-ink, #1f1d18) 8%, transparent);
+}
+.cx-lightbox-close:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+
+/* New / edit AI-image box. */
+.cx-newai {
+  width: 100%;
+  margin: 0 0 0.7rem;
+  font-size: 0.82rem;
+}
+.cx-aiimg-box {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0 0 0.8rem;
+  padding: 0.7rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+  background: var(--c-bg, #f7f4ee);
+}
+.cx-aiimg-head {
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-aiimg-input {
+  width: 100%;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink, #1f1d18);
+  resize: vertical;
+}
+.cx-aiimg-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.cx-aiimg-actions .cx-action {
+  flex: 0 0 auto;
+}
+.cx-palette-meta {
+  min-width: 0;
+}
+
+/* Themed confirm dialog (confirm-dialog.ts) — replaces the native window.confirm(). */
+.cx-confirm-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: color-mix(in oklab, var(--c-ink, #1f1d18) 45%, transparent);
+}
+.cx-confirm-box {
+  width: min(28rem, 100%);
+  padding: 1.1rem 1.2rem;
+  background: var(--c-bg-card, #fffdf8);
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 10px;
+  box-shadow: 0 20px 50px rgba(31, 29, 24, 0.28);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cx-confirm-box {
+    animation: cx-confirm-in 0.16s ease both;
+  }
+}
+@keyframes cx-confirm-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.cx-confirm-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-confirm-body {
+  margin: 0 0 1rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--c-ink-dim, #5c574d);
+}
+.cx-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.cx-confirm-btn {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+  background: var(--c-bg-card, #fffdf8);
+  color: var(--c-ink, #1f1d18);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cx-confirm-btn:hover {
+  border-color: var(--c-ink-dim, #5c574d);
+}
+.cx-confirm-btn:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 1px;
+}
+.cx-confirm-btn--primary {
+  background: var(--c-accent, #8b4513);
+  border-color: var(--c-accent, #8b4513);
+  color: #fff;
+}
+.cx-confirm-btn--danger {
+  background: var(--c-red, #a83232);
+  border-color: var(--c-red, #a83232);
+}
+.cx-palette-meta .cx-palette-cap {
+  font-size: var(--panel-fs, 15px);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cx-palette-meta .cx-palette-type {
+  font-size: var(--panel-fs, 15px);
+  color: var(--c-ink-muted, #66625a);
+  margin: 0.1rem 0 0;
+}
+.cx-empty {
+  color: var(--c-ink-muted, #66625a);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.cx-field {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0 0 0.7rem;
+}
+.cx-field > label {
+  font-size: 0.72rem;
+  font-family: var(--font-ui, system-ui, sans-serif);
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-field select,
+.cx-field input[type="text"],
+.cx-field input[type="range"] {
+  width: 100%;
+  font: inherit;
+  padding: 0.3rem 0.4rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg, #f7f4ee);
+  color: var(--c-ink, #1f1d18);
+}
+.cx-btn-row {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+.cx-toggle {
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  background: var(--c-bg, #f7f4ee);
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+}
+.cx-toggle[aria-pressed="true"] {
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+  border-color: var(--c-accent, #8b4513);
+}
+.cx-actions {
+  display: grid;
+  gap: 0.5rem;
+}
+.cx-action {
+  font: inherit;
+  font-weight: 600;
+  padding: 0.55rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--c-accent, #8b4513);
+  background: var(--c-accent, #8b4513);
+  color: var(--c-bg-card, #fffdf8);
+  cursor: pointer;
+}
+.cx-action.is-secondary {
+  background: transparent;
+  color: var(--c-accent, #8b4513);
+}
+.cx-action:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.cx-status {
+  font-size: 0.8rem;
+  margin: 0.3rem 0 0;
+  min-height: 1.1rem;
+}
+.cx-status.is-error {
+  color: var(--c-red);
+}
+
+/* Autosave status pill (scripts/autosave.ts — shared by the prose editor AND
+ * the figure-layout autosave) — icon + text + a Retry button on failure. */
+.cx-autosave {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.cx-autosave-text {
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-status.is-error .cx-autosave-text {
+  color: var(--c-red, #a83232);
+}
+
+.cx-autosave-icon {
+  font-size: 0.85em;
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-autosave-icon:empty,
+.cx-autosave-icon[hidden] {
+  display: none;
+}
+.cx-autosave-icon.cx-autosave-spin {
+  animation: cx-autosave-spin 0.8s linear infinite;
+}
+.fa-circle-check.cx-autosave-icon {
+  color: var(--c-green, #4a7c4a);
+  animation: cx-autosave-pop 0.28s ease;
+}
+.fa-triangle-exclamation.cx-autosave-icon {
+  color: var(--c-red, #a83232);
+}
+
+@keyframes cx-autosave-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes cx-autosave-pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-autosave-icon.cx-autosave-spin {
+    animation: none;
+  }
+  .fa-circle-check.cx-autosave-icon {
+    animation: none;
+  }
+}
+.cx-autosave-retry {
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--c-red, #a83232);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--c-red, #a83232);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cx-autosave-retry:hover {
+  background: color-mix(in oklab, var(--c-red, #a83232) 12%, transparent);
+}
+.cx-autosave-retry:focus-visible {
+  outline: 2px solid var(--c-red, #a83232);
+  outline-offset: 1px;
+}
+
+.cx-delete {
+  font: inherit;
+  font-size: 0.78rem;
+  color: var(--c-red);
+  background: transparent;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 5px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+}
+
+:is(
+  .cx-tab,
+  .cx-toggle,
+  .cx-action,
+  .cx-delete,
+  .cx-palette-place,
+  .cx-fig,
+  .cx-edit-tool,
+  .cx-mode-btn,
+  .cx-size-btn,
+  .cx-font-select,
+  .cx-paper-btn,
+  .cx-ai-btn,
+  .cx-ai-opt,
+  .cx-ai-opt-cancel,
+  .cx-icon-btn,
+  .cx-ety-accept,
+  .cx-ety-discard
+):focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+
+.composer-empty {
+  text-align: center;
+  color: var(--c-ink-muted, #66625a);
+  padding: 3rem 1rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cx-fig,
+  .cx-palette-place {
+    transition: outline-color 0.15s ease;
+  }
+
+  /* Drag-and-drop motion (all of it lives here, so reduced-motion users get a
+     fully static — but fully functional — palette). */
+  .cx-icon-btn {
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      border-color 0.15s ease,
+      background 0.15s ease;
+  }
+  .cx-icon-btn:hover {
+    transform: translateY(-1px) scale(1.08);
+  }
+  .cx-palette-item {
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+  .cx-palette-place {
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      transform 0.15s ease;
+  }
+  .cx-palette-place:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(31, 29, 24, 0.14);
+  }
+  .cx-chapter.cx-dragover {
+    transition: background 0.2s ease;
+  }
+  /* The landing line breathes while you aim. */
+  .cx-drop-before::before,
+  .cx-drop-after::after {
+    animation: cx-drop-pulse 0.9s ease-in-out infinite;
+  }
+  /* The figure a drop just created announces itself once, then settles. */
+  .cx-fig-arrived {
+    animation: cx-fig-arrive 0.45s ease-out;
+  }
+}
+
+@keyframes cx-drop-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scaleY(1.6);
+  }
+}
+
+@keyframes cx-fig-arrive {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--c-accent, #8b4513) 45%, transparent);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}

@@ -1,46 +1,78 @@
 ---
-import Base from '../layouts/Base.astro';
-import AudienceBadge from '../components/AudienceBadge.astro';
-import OverviewSystemMap from '../components/OverviewSystemMap.astro';
-import OverviewIndexRail from '../components/OverviewIndexRail.astro';
-import Mermaid from '../components/Mermaid.astro';
-import dashboard from '../data/dashboard-snapshot.json';
-import infra from '../data/infrastructure-snapshot.json';
-import { sumAllVendorCosts } from '../lib/billing';
+import Base from "../layouts/Base.astro";
+import AudienceBadge from "../components/AudienceBadge.astro";
+import WaveItem from "../components/WaveItem.astro";
+import OverviewSystemMap from "../components/OverviewSystemMap.astro";
+import OverviewIndexRail from "../components/OverviewIndexRail.astro";
+import Mermaid from "../components/Mermaid.astro";
+import dashboard from "../data/dashboard-snapshot.json";
+import infra from "../data/infrastructure-snapshot.json";
+import { sumAllVendorCosts } from "../lib/billing";
 
-const inFlight   = dashboard.books_in_flight?.length ?? 0;
-const openSteps  = dashboard.roadmap?.filter((s: any) => s.status === 'in_progress' || s.status === 'ready').length ?? 0;
+const inFlight = dashboard.books_in_flight?.length ?? 0;
+const openSteps =
+  dashboard.roadmap?.filter(
+    (s: any) => s.status === "in_progress" || s.status === "ready",
+  ).length ?? 0;
 const monthSpend = sumAllVendorCosts(infra.vendors ?? []);
 
-const shipped       = (dashboard.books_shipped ?? []) as Array<{slug: string, title: string, shipped: string, episodes: number}>;
-const waves         = (dashboard.waves ?? []) as Array<{id: string, name: string, plain: string}>;
-const totalEpisodes = shipped.reduce((s: number, b: any) => s + (b.episodes ?? 0), 0);
+const shipped = (dashboard.books_shipped ?? []) as Array<{
+  slug: string;
+  title: string;
+  shipped: string;
+  episodes: number;
+}>;
+const waves = (dashboard.waves ?? []) as Array<{
+  id: string;
+  name: string;
+  plain: string;
+}>;
+const totalEpisodes = shipped.reduce(
+  (s: number, b: any) => s + (b.episodes ?? 0),
+  0,
+);
 ---
-<Base title="Overview" active="overview" description="Turning centuries of Islamic scholarship into beautifully produced podcast series.">
 
+<Base
+  title="Overview"
+  active="overview"
+  description="Turning centuries of Islamic scholarship into beautifully produced podcast series."
+>
   <!-- ═══════════════════════════════════════════════════════════
        HERO — story-led, magazine layout
        ══════════════════════════════════════════════════════════ -->
   <section class="page-hero home-hero">
     <div class="home-hero-inner page-hero-inner">
-
       <div class="home-hero-text">
         <span class="eyebrow">Podcast Factory</span>
-        <h1 class="page-hero-title home-h1">Centuries of Islamic scholarship.<br>Now in your ears.</h1>
+        <h1 class="page-hero-title home-h1">
+          Centuries of Islamic scholarship.<br />Now in your ears.
+        </h1>
         <p class="home-hero-audience"><AudienceBadge tier="both" /></p>
         <p class="page-hero-lede">
-          This factory takes scholarly Arabic manuscripts — some over a thousand years old —
-          and turns them into beautifully produced podcast series. Every episode is verified,
-          every citation is checked, every name is correctly pronounced.
+          This factory takes scholarly Arabic manuscripts — some over a thousand
+          years old — and turns them into beautifully produced podcast series.
+          Every episode is verified, every citation is checked, every name is
+          correctly pronounced.
         </p>
         <div class="home-stat-chips">
-          <span class="home-stat-chip"><strong>{shipped.length}</strong> books published</span>
-          <span class="home-stat-chip"><strong>{totalEpisodes}</strong> episodes</span>
-          <span class="home-stat-chip"><strong>15</strong> quality checks per book</span>
+          <span class="home-stat-chip"
+            ><strong>{shipped.length}</strong> books published</span
+          >
+          <span class="home-stat-chip"
+            ><strong>{totalEpisodes}</strong> episodes</span
+          >
+          <span class="home-stat-chip"
+            ><strong>15</strong> quality checks per book</span
+          >
         </div>
         <div class="home-cta-row">
-          <a href="/library" class="home-cta-btn home-cta-green">Browse the catalog →</a>
-          <a href="/architecture" class="home-cta-btn home-cta-brown">How it works →</a>
+          <a href="/library" class="home-cta-btn home-cta-green"
+            >Browse the catalog →</a
+          >
+          <a href="/how-it-works" class="home-cta-btn home-cta-brown"
+            >How it works →</a
+          >
         </div>
       </div>
 
@@ -53,60 +85,211 @@ const totalEpisodes = shipped.reduce((s: number, b: any) => s + (b.episodes ?? 0
              mapped to the --c-* tokens — gold-leaf ornament is not an accent
              token, and forcing the mapping would be dishonest token usage and
              risk regressing this hand-tuned mark. Scoped to this single logo. -->
-        <svg viewBox="0 0 280 300" xmlns="http://www.w3.org/2000/svg" class="home-logo-svg" role="img" aria-labelledby="home-logo-title home-logo-desc">
-          <title id="home-logo-title">Podcast Factory manuscript to audio mark</title>
-          <desc id="home-logo-desc">An illuminated manuscript opening into sound waves to represent turning books into podcast audio.</desc>
+        <svg
+          viewBox="0 0 280 300"
+          xmlns="http://www.w3.org/2000/svg"
+          class="home-logo-svg"
+          role="img"
+          aria-labelledby="home-logo-title home-logo-desc"
+        >
+          <title id="home-logo-title">
+            Podcast Factory manuscript to audio mark
+          </title>
+          <desc id="home-logo-desc"
+            >An illuminated manuscript opening into sound waves to represent
+            turning books into podcast audio.</desc
+          >
           <!-- Decorative outer circle -->
-          <circle cx="140" cy="158" r="128" fill="color-mix(in oklab, #8b4513 5%, #fffdf8)" stroke="#d9d3c4" stroke-width="1.5"/>
+          <circle
+            cx="140"
+            cy="158"
+            r="128"
+            fill="color-mix(in oklab, #8b4513 5%, #fffdf8)"
+            stroke="#d9d3c4"
+            stroke-width="1.5"></circle>
           <!-- Inner dashed ring -->
-          <circle cx="140" cy="158" r="116" fill="none" stroke="#d2b48c" stroke-width="0.75" stroke-dasharray="2 9"/>
+          <circle
+            cx="140"
+            cy="158"
+            r="116"
+            fill="none"
+            stroke="#d2b48c"
+            stroke-width="0.75"
+            stroke-dasharray="2 9"></circle>
           <!-- 8 gold ornament dots (cardinal + intercardinal) -->
-          <circle cx="140" cy="30"  r="4.5" fill="#b8860b" opacity="0.75"/>
-          <circle cx="231" cy="67"  r="4.5" fill="#b8860b" opacity="0.75"/>
-          <circle cx="268" cy="158" r="4.5" fill="#b8860b" opacity="0.75"/>
-          <circle cx="231" cy="249" r="4.5" fill="#b8860b" opacity="0.75"/>
-          <circle cx="140" cy="286" r="4.5" fill="#b8860b" opacity="0.75"/>
-          <circle cx="49"  cy="249" r="4.5" fill="#b8860b" opacity="0.75"/>
-          <circle cx="12"  cy="158" r="4.5" fill="#b8860b" opacity="0.75"/>
-          <circle cx="49"  cy="67"  r="4.5" fill="#b8860b" opacity="0.75"/>
+          <circle cx="140" cy="30" r="4.5" fill="#b8860b" opacity="0.75"
+          ></circle>
+          <circle cx="231" cy="67" r="4.5" fill="#b8860b" opacity="0.75"
+          ></circle>
+          <circle cx="268" cy="158" r="4.5" fill="#b8860b" opacity="0.75"
+          ></circle>
+          <circle cx="231" cy="249" r="4.5" fill="#b8860b" opacity="0.75"
+          ></circle>
+          <circle cx="140" cy="286" r="4.5" fill="#b8860b" opacity="0.75"
+          ></circle>
+          <circle cx="49" cy="249" r="4.5" fill="#b8860b" opacity="0.75"
+          ></circle>
+          <circle cx="12" cy="158" r="4.5" fill="#b8860b" opacity="0.75"
+          ></circle>
+          <circle cx="49" cy="67" r="4.5" fill="#b8860b" opacity="0.75"
+          ></circle>
           <!-- Open book — left page -->
-          <path d="M46 144 Q84 136 133 142 L133 212 Q84 206 46 214 Z"
-                fill="#fffdf8" stroke="#8b4513" stroke-width="2" stroke-linejoin="round"/>
+          <path
+            d="M46 144 Q84 136 133 142 L133 212 Q84 206 46 214 Z"
+            fill="#fffdf8"
+            stroke="#8b4513"
+            stroke-width="2"
+            stroke-linejoin="round"></path>
           <!-- Open book — right page -->
-          <path d="M147 142 Q196 136 234 144 L234 214 Q196 206 147 212 Z"
-                fill="#fffdf8" stroke="#8b4513" stroke-width="2" stroke-linejoin="round"/>
+          <path
+            d="M147 142 Q196 136 234 144 L234 214 Q196 206 147 212 Z"
+            fill="#fffdf8"
+            stroke="#8b4513"
+            stroke-width="2"
+            stroke-linejoin="round"></path>
           <!-- Spine -->
-          <line x1="140" y1="139" x2="140" y2="214" stroke="#8b4513" stroke-width="3" stroke-linecap="round"/>
+          <line
+            x1="140"
+            y1="139"
+            x2="140"
+            y2="214"
+            stroke="#8b4513"
+            stroke-width="3"
+            stroke-linecap="round"></line>
           <!-- Book base shadow -->
-          <ellipse cx="140" cy="218" rx="90" ry="5.5" fill="#8b4513" opacity="0.10"/>
+          <ellipse
+            cx="140"
+            cy="218"
+            rx="90"
+            ry="5.5"
+            fill="#8b4513"
+            opacity="0.10"></ellipse>
           <!-- Left page: Arabic-style manuscript text lines (right-heavy, fading down) -->
-          <line x1="125" y1="157" x2="63" y2="155" stroke="#8b4513" stroke-width="1.75" stroke-linecap="round" opacity="0.50"/>
-          <line x1="123" y1="169" x2="60" y2="167" stroke="#8b4513" stroke-width="1.50" stroke-linecap="round" opacity="0.40"/>
-          <line x1="121" y1="181" x2="62" y2="179" stroke="#8b4513" stroke-width="1.25" stroke-linecap="round" opacity="0.30"/>
-          <line x1="117" y1="193" x2="64" y2="192" stroke="#8b4513" stroke-width="1.00" stroke-linecap="round" opacity="0.20"/>
-          <line x1="111" y1="205" x2="65" y2="204" stroke="#8b4513" stroke-width="0.75" stroke-linecap="round" opacity="0.12"/>
+          <line
+            x1="125"
+            y1="157"
+            x2="63"
+            y2="155"
+            stroke="#8b4513"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            opacity="0.50"></line>
+          <line
+            x1="123"
+            y1="169"
+            x2="60"
+            y2="167"
+            stroke="#8b4513"
+            stroke-width="1.50"
+            stroke-linecap="round"
+            opacity="0.40"></line>
+          <line
+            x1="121"
+            y1="181"
+            x2="62"
+            y2="179"
+            stroke="#8b4513"
+            stroke-width="1.25"
+            stroke-linecap="round"
+            opacity="0.30"></line>
+          <line
+            x1="117"
+            y1="193"
+            x2="64"
+            y2="192"
+            stroke="#8b4513"
+            stroke-width="1.00"
+            stroke-linecap="round"
+            opacity="0.20"></line>
+          <line
+            x1="111"
+            y1="205"
+            x2="65"
+            y2="204"
+            stroke="#8b4513"
+            stroke-width="0.75"
+            stroke-linecap="round"
+            opacity="0.12"></line>
           <!-- Right page: stylised audio waveform -->
           <polyline
             points="153,178 160,155 167,196 174,141 181,196 188,157 195,178 202,163 209,178 216,169 223,178"
-            stroke="#8b4513" stroke-width="2" fill="none"
-            stroke-linecap="round" stroke-linejoin="round" opacity="0.70"/>
+            stroke="#8b4513"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            opacity="0.70"></polyline>
           <!-- Rising sound arcs — 3 symmetric pairs, fading with distance -->
-          <path d="M140 139 Q163 116 183 104" stroke="#b8860b" stroke-width="2.75" fill="none" stroke-linecap="round" opacity="0.82"/>
-          <path d="M140 139 Q117 116 97 104"  stroke="#b8860b" stroke-width="2.75" fill="none" stroke-linecap="round" opacity="0.82"/>
-          <path d="M140 139 Q177 96 208 79"   stroke="#b8860b" stroke-width="1.75" fill="none" stroke-linecap="round" opacity="0.55"/>
-          <path d="M140 139 Q103 96 72 79"    stroke="#b8860b" stroke-width="1.75" fill="none" stroke-linecap="round" opacity="0.55"/>
-          <path d="M140 139 Q193 76 232 56"   stroke="#b8860b" stroke-width="1.00" fill="none" stroke-linecap="round" opacity="0.28"/>
-          <path d="M140 139 Q87 76 48 56"     stroke="#b8860b" stroke-width="1.00" fill="none" stroke-linecap="round" opacity="0.28"/>
+          <path
+            d="M140 139 Q163 116 183 104"
+            stroke="#b8860b"
+            stroke-width="2.75"
+            fill="none"
+            stroke-linecap="round"
+            opacity="0.82"></path>
+          <path
+            d="M140 139 Q117 116 97 104"
+            stroke="#b8860b"
+            stroke-width="2.75"
+            fill="none"
+            stroke-linecap="round"
+            opacity="0.82"></path>
+          <path
+            d="M140 139 Q177 96 208 79"
+            stroke="#b8860b"
+            stroke-width="1.75"
+            fill="none"
+            stroke-linecap="round"
+            opacity="0.55"></path>
+          <path
+            d="M140 139 Q103 96 72 79"
+            stroke="#b8860b"
+            stroke-width="1.75"
+            fill="none"
+            stroke-linecap="round"
+            opacity="0.55"></path>
+          <path
+            d="M140 139 Q193 76 232 56"
+            stroke="#b8860b"
+            stroke-width="1.00"
+            fill="none"
+            stroke-linecap="round"
+            opacity="0.28"></path>
+          <path
+            d="M140 139 Q87 76 48 56"
+            stroke="#b8860b"
+            stroke-width="1.00"
+            fill="none"
+            stroke-linecap="round"
+            opacity="0.28"></path>
           <!-- Apex ornament — layered medallion -->
           <g transform="translate(140,42)">
-            <rect x="-10" y="-10" width="20" height="20" rx="2" fill="#b8860b" opacity="0.80"/>
-            <rect x="-10" y="-10" width="20" height="20" rx="2" fill="#b8860b" opacity="0.80" transform="rotate(45)"/>
-            <circle r="8" fill="color-mix(in oklab, #8b4513 5%, #fffdf8)" stroke="#b8860b" stroke-width="1.25"/>
-            <circle r="3" fill="#b8860b"/>
+            <rect
+              x="-10"
+              y="-10"
+              width="20"
+              height="20"
+              rx="2"
+              fill="#b8860b"
+              opacity="0.80"></rect>
+            <rect
+              x="-10"
+              y="-10"
+              width="20"
+              height="20"
+              rx="2"
+              fill="#b8860b"
+              opacity="0.80"
+              transform="rotate(45)"></rect>
+            <circle
+              r="8"
+              fill="color-mix(in oklab, #8b4513 5%, #fffdf8)"
+              stroke="#b8860b"
+              stroke-width="1.25"></circle>
+            <circle r="3" fill="#b8860b"></circle>
           </g>
         </svg>
       </div>
-
     </div>
   </section>
 
@@ -114,20 +297,32 @@ const totalEpisodes = shipped.reduce((s: number, b: any) => s + (b.episodes ?? 0
        BODY — story sections
        ══════════════════════════════════════════════════════════ -->
   <div class="home-body">
-
     <!-- 0.1 The whole system, one picture -->
     <section class="home-section" id="s01-system">
       <p class="eyebrow home-section-eyebrow">The whole system</p>
-      <h2 class="home-section-h2"><span class="num">01</span> One picture, top to bottom</h2>
-      <p class="home-section-lede">Three sources of knowledge feed one shared library. The factory reaches that library through a single access layer while it works, and what it produces flows to two places — a reader you can browse and a podcast you can listen to.</p>
+      <h2 class="home-section-h2">
+        <span class="num">01</span> One picture, top to bottom
+      </h2>
+      <p class="home-section-lede">
+        Three sources of knowledge feed one shared library. The factory reaches
+        that library through a single access layer while it works, and what it
+        produces flows to two places — a reader you can browse and a podcast you
+        can listen to.
+      </p>
       <OverviewSystemMap />
     </section>
 
     <!-- How it works -->
     <section class="home-section" id="s02-pipeline">
       <p class="eyebrow home-section-eyebrow">The pipeline</p>
-      <h2 class="home-section-h2"><span class="num">02</span> From PDF to podcast in eight steps</h2>
-      <p class="home-section-lede">Every book follows the same path. Here is how a centuries-old manuscript becomes an episode ready to play — including the two points where a human reviews the work before it moves on.</p>
+      <h2 class="home-section-h2">
+        <span class="num">02</span> From PDF to podcast in eight steps
+      </h2>
+      <p class="home-section-lede">
+        Every book follows the same path. Here is how a centuries-old manuscript
+        becomes an episode ready to play — including the two points where a
+        human reviews the work before it moves on.
+      </p>
       <Mermaid
         id="book-journey"
         title="The journey a book takes through the factory: intake, scan and polish, learn names, design episodes, enrich and verify, a source-review gate, write the narration, fifteen challenger quality checks, twelve publish gates, then finished episodes and annotated chapters. Two gates can send the work back to be redone."
@@ -137,72 +332,121 @@ const totalEpisodes = shipped.reduce((s: number, b: any) => s + (b.episodes ?? 0
         <div class="pipeline-step">
           <span class="pipeline-step-num">01</span>
           <h3>Scan the manuscript</h3>
-          <p>Azure Document Intelligence reads the PDF and recognises the Arabic text — character by character — handing it off as structured, searchable data.</p>
+          <p>
+            Azure Document Intelligence reads the PDF and recognises the Arabic
+            text — character by character — handing it off as structured,
+            searchable data.
+          </p>
         </div>
         <div class="pipeline-step">
           <span class="pipeline-step-num">02</span>
           <h3>Polish the text</h3>
-          <p>Claude reviews the raw transcription, corrects scanning artifacts, and ensures Arabic script diacritics and ligatures are preserved exactly as written.</p>
+          <p>
+            Claude reviews the raw transcription, corrects scanning artifacts,
+            and ensures Arabic script diacritics and ligatures are preserved
+            exactly as written.
+          </p>
         </div>
         <div class="pipeline-step">
           <span class="pipeline-step-num">03</span>
           <h3>Learn every name</h3>
-          <p>A phonetics pass records how each scholar, place, and technical term should be pronounced — so the audio host never stumbles over unfamiliar words.</p>
+          <p>
+            A phonetics pass records how each scholar, place, and technical term
+            should be pronounced — so the audio host never stumbles over
+            unfamiliar words.
+          </p>
         </div>
         <div class="pipeline-step">
           <span class="pipeline-step-num">04</span>
           <h3>Design the episodes</h3>
-          <p>Claude analyses the book's genre and structure, then plans an episode arc that fits how the material actually wants to be heard.</p>
+          <p>
+            Claude analyses the book's genre and structure, then plans an
+            episode arc that fits how the material actually wants to be heard.
+          </p>
         </div>
         <div class="pipeline-step">
           <span class="pipeline-step-num">05</span>
           <h3>Enrich with context</h3>
-          <p>Historical background, scholarly biography, and theological context are woven in. Quran verses are served from a local source library — no external call needed, sub-millisecond lookup, exact Arabic with two English translations.</p>
+          <p>
+            Historical background, scholarly biography, and theological context
+            are woven in. Quran verses are served from a local source library —
+            no external call needed, sub-millisecond lookup, exact Arabic with
+            two English translations.
+          </p>
         </div>
         <div class="pipeline-step">
           <span class="pipeline-step-num">06</span>
           <h3>Verify every citation</h3>
-          <p>Every Quran verse is confirmed chapter and verse from the canonical source. Every term is defined from the Wisdom knowledge corpus. Readers can hover any verse or term in the reader and see the source directly.</p>
+          <p>
+            Every Quran verse is confirmed chapter and verse from the canonical
+            source. Every term is defined from the Wisdom knowledge corpus.
+            Readers can hover any verse or term in the reader and see the source
+            directly.
+          </p>
         </div>
         <div class="pipeline-step">
           <span class="pipeline-step-num">07</span>
           <h3>Write the narration</h3>
-          <p>Claude authors the host and guest scripts — the conversational layer that guides a listener through the manuscript without losing them.</p>
+          <p>
+            Claude authors the host and guest scripts — the conversational layer
+            that guides a listener through the manuscript without losing them.
+          </p>
         </div>
         <div class="pipeline-step">
           <span class="pipeline-step-num">08</span>
           <h3>Review and ship</h3>
-          <p>A challenger AI runs 15 quality checks in a loop, rewriting failures until each episode passes. Then 12 publish gates confirm readiness before anything goes live.</p>
+          <p>
+            A challenger AI runs 15 quality checks in a loop, rewriting failures
+            until each episode passes. Then 12 publish gates confirm readiness
+            before anything goes live.
+          </p>
         </div>
       </div>
     </section>
 
     <!-- Published catalog -->
-    {shipped.length > 0 && (
-      <section class="home-section">
-        <p class="eyebrow home-section-eyebrow">The catalog</p>
-        <h2 class="home-section-h2">What's been published</h2>
-        <div class="catalog-grid">
-          {shipped.map((book: any, i: number) => (
-            <div class={`catalog-card spine-${i % 5}`}>
-              <div class="catalog-card-spine"></div>
-              <div class="catalog-card-body">
-                <h3 class="catalog-card-title">{book.title}</h3>
-                <p class="catalog-card-meta">{book.episodes} episodes · shipped {book.shipped}</p>
+    {
+      shipped.length > 0 && (
+        <section class="home-section">
+          <p class="eyebrow home-section-eyebrow">The catalog</p>
+          <h2 class="home-section-h2">What's been published</h2>
+          <div class="catalog-grid">
+            {shipped.map((book: any, i: number) => (
+              <div class={`catalog-card spine-${i % 5}`}>
+                <div class="catalog-card-spine" />
+                <div class="catalog-card-body">
+                  <h3 class="catalog-card-title">{book.title}</h3>
+                  <p class="catalog-card-meta">
+                    {book.episodes} episodes · shipped {book.shipped}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    )}
+            ))}
+          </div>
+        </section>
+      )
+    }
 
     <!-- Intelligence layer -->
     <section class="home-section" id="s03-intelligence">
       <p class="eyebrow home-section-eyebrow">Intelligence</p>
-      <h2 class="home-section-h2"><span class="num">03</span> How the factory learns over time</h2>
-      <p class="home-section-lede">Every book processed teaches the factory something. Citations, names, and concepts accumulate in a shared knowledge library that every future book draws from automatically. And now — for the first time — that same knowledge is queryable live by both the authoring pipeline and the reader.</p>
+      <h2 class="home-section-h2">
+        <span class="num">03</span> How the factory learns over time
+      </h2>
+      <p class="home-section-lede">
+        Every book processed teaches the factory something. Citations, names,
+        and concepts accumulate in a shared knowledge library that every future
+        book draws from automatically. And now — for the first time — that same
+        knowledge is queryable live by both the authoring pipeline and the
+        reader.
+      </p>
       <h3 class="home-section-h3">One read, two outputs</h3>
-      <p class="home-section-lede">The expensive part — reading and understanding a chapter — happens once. From that single read the factory produces both the podcast's conversational framing and the markers the reader uses to show verses and definitions. The chapter is never re-read.</p>
+      <p class="home-section-lede">
+        The expensive part — reading and understanding a chapter — happens once.
+        From that single read the factory produces both the podcast's
+        conversational framing and the markers the reader uses to show verses
+        and definitions. The chapter is never re-read.
+      </p>
       <Mermaid
         id="one-read-two-outputs"
         title="A sequence showing the knowledge phase reading a chapter once, extracting verses, terms, names and concepts, then producing two outputs from that single read: the podcast framing and the reader's verse and term markers."
@@ -210,24 +454,49 @@ const totalEpisodes = shipped.reduce((s: number, b: any) => s + (b.episodes ?? 0
       />
       <div class="intel-cards">
         <div class="intel-card intel-card-quran">
-          <div class="intel-card-icon"><i class="fa-solid fa-star-and-crescent"></i></div>
+          <div class="intel-card-icon">
+            <i class="fa-solid fa-star-and-crescent"></i>
+          </div>
           <h3>Quran citations</h3>
-          <p>When an author quotes a Quranic verse, the pipeline traces it to its exact chapter and verse number, verifies the Arabic, and stores it with two English translations (Pickthall and Muhammad Asad). Every future book draws on this without re-checking.</p>
+          <p>
+            When an author quotes a Quranic verse, the pipeline traces it to its
+            exact chapter and verse number, verifies the Arabic, and stores it
+            with two English translations (Pickthall and Muhammad Asad). Every
+            future book draws on this without re-checking.
+          </p>
         </div>
         <div class="intel-card intel-card-hadith">
           <div class="intel-card-icon"><i class="fa-solid fa-scroll"></i></div>
           <h3>Hadith recognition</h3>
-          <p>Hadith citations are linked to their canonical collection — Bukhari, Muslim, Tirmidhi, and others. The factory knows not just what was said, but exactly where it comes from.</p>
+          <p>
+            Hadith citations are linked to their canonical collection — Bukhari,
+            Muslim, Tirmidhi, and others. The factory knows not just what was
+            said, but exactly where it comes from.
+          </p>
         </div>
         <div class="intel-card intel-card-corpus">
-          <div class="intel-card-icon"><i class="fa-solid fa-database"></i></div>
+          <div class="intel-card-icon">
+            <i class="fa-solid fa-database"></i>
+          </div>
           <h3>Source library</h3>
-          <p>Three SQL Server databases — the full Quran with Arabic etymology, a 20-year Islamic knowledge anthology, and 343 lecture transcripts — are now queryable live by the pipeline and the reader's hover panels, with no external API calls.</p>
+          <p>
+            Three SQL Server databases — the full Quran with Arabic etymology, a
+            20-year Islamic knowledge anthology, and 343 lecture transcripts —
+            are now queryable live by the pipeline and the reader's hover
+            panels, with no external API calls.
+          </p>
         </div>
         <div class="intel-card intel-card-reader">
-          <div class="intel-card-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <div class="intel-card-icon">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
           <h3>Reader intelligence</h3>
-          <p>Hover any Quran verse in the reader to see the full Arabic with two English translations. Hover any Islamic term to see its canonical definition from the Wisdom corpus. All served from a local server — zero token cost, instant response.</p>
+          <p>
+            Hover any Quran verse in the reader to see the full Arabic with two
+            English translations. Hover any Islamic term to see its canonical
+            definition from the Wisdom corpus. All served from a local server —
+            zero token cost, instant response.
+          </p>
         </div>
       </div>
     </section>
@@ -240,48 +509,73 @@ const totalEpisodes = shipped.reduce((s: number, b: any) => s + (b.episodes ?? 0
         <div class="card metric">
           <span class="metric-label">Books in flight</span>
           <span class="metric-value">{inFlight}</span>
-          <span class="card-sub">Active runs the factory is currently working on</span>
+          <span class="card-sub"
+            >Active runs the factory is currently working on</span
+          >
         </div>
         <div class="card metric">
           <span class="metric-label">Improvements queued</span>
           <span class="metric-value">{openSteps}</span>
-          <span class="card-sub">Roadmap steps ready or already in progress</span>
+          <span class="card-sub"
+            >Roadmap steps ready or already in progress</span
+          >
         </div>
         <div class="card metric">
           <span class="metric-label">This month — outside services</span>
           <span class="metric-value">${monthSpend.toFixed(0)}</span>
-          <span class="card-sub">Combined spend across Anthropic, Google, and Azure</span>
+          <span class="card-sub"
+            >Combined spend across Anthropic, Google, and Azure</span
+          >
         </div>
       </div>
     </section>
 
     <!-- Wave history -->
-    {waves.length > 0 && (
-      <section class="home-section">
-        <p class="eyebrow home-section-eyebrow">How we got here</p>
-        <h2 class="home-section-h2">Six waves of improvements</h2>
-        <p class="home-section-lede">The factory has been rebuilt in structured waves. Each wave left the system more capable than it found it.</p>
-        <div class="wave-history">
-          {waves.map((w: any) => (
-            <div class="wave-row">
-              <span class="wave-badge">{w.id}</span>
-              <div class="wave-content">
-                <strong>{w.name}</strong>
-                <p>{w.plain}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    )}
+    {
+      waves.length > 0 && (
+        <section class="home-section">
+          <p class="eyebrow home-section-eyebrow">How we got here</p>
+          <h2 class="home-section-h2">{waves.length} waves of improvements</h2>
+          <p class="home-section-lede">
+            The factory has been rebuilt in structured waves. Each wave left the
+            system more capable than it found it. Expand any row to see what
+            changed.
+          </p>
+          <div class="wave-history">
+            {waves.slice(0, 6).map((w: any) => (
+              <WaveItem wave={w} />
+            ))}
+            {waves.length > 6 && (
+              <details class="wave-more">
+                <summary class="wave-more-summary">
+                  <span class="wave-more-open">
+                    Show all {waves.length} waves
+                  </span>
+                  <span class="wave-more-close">Show fewer waves</span>
+                  <span class="wave-chevron" aria-hidden="true" />
+                </summary>
+                {waves.slice(6).map((w: any) => (
+                  <WaveItem wave={w} />
+                ))}
+              </details>
+            )}
+          </div>
+        </section>
+      )
+    }
 
     <!-- 0.4 Where to go next -->
     <section class="home-section" id="s04-next">
       <p class="eyebrow home-section-eyebrow">Where to go next</p>
-      <h2 class="home-section-h2"><span class="num">04</span> Explore any part in depth</h2>
-      <p class="home-section-lede">Each link goes to a focused view. The badge tells you who it is written for — the conceptual views for any reader, the technical views for engineers, and some useful to both.</p>
+      <h2 class="home-section-h2">
+        <span class="num">04</span> Explore any part in depth
+      </h2>
+      <p class="home-section-lede">
+        Each link goes to a focused view. The badge tells you who it is written
+        for — the conceptual views for any reader, the technical views for
+        engineers, and some useful to both.
+      </p>
       <OverviewIndexRail />
     </section>
-
   </div>
 </Base>

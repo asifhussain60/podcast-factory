@@ -1,303 +1,82 @@
-"""Translation-edition helpers.
+"""Translation-edition compose orchestration.
 
 This module defines the contract for a faithful, visually enhanced translation
 PDF path. It is deliberately separate from ``content_profile``: the profile says
 what the source is about; ``deliverable_mode`` says what product we are making.
+
+R3 DR-005 split (2026-07-18): the config/contract predicates moved verbatim to
+``_translation_contract.py`` and the deterministic text post-processing (seam
+trim/dedup, prose normalization, output findings, monochrome SVG, crosswalk
+builder) to ``_translation_text.py``. Every moved name is re-exported here
+(`X as X`, the `_azure.py` pattern) so importers and test patch-targets keep
+working unchanged. What REMAINS is the one thing that could not move without
+smell: the `claude -p` retry/caching orchestration. The compose PROMPT moved to
+``_translation_prompts.py`` on 2026-07-20 (DR-005 gate) and is re-exported here —
+see that module for why the Spec-2 "prompt stays with its orchestration" precedent
+does not apply to it.
 """
+
 from __future__ import annotations
 
 import json
-import os
-import re
 from pathlib import Path
 from typing import Any
 
-import yaml
-
+from _arabic_coverage import (
+    arabic_coverage_shortfall,
+    arabic_run_spans,
+)
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _book_compose import (
-    _PAGE_MARK,
-    _load_arabic_pages,
     _line_pages,
+    _load_arabic_pages,
     _pages_for_ranges,
     _quran_anchor_block,
     _slice_source,
 )
-from _translit import simplify_transliteration
+from _book_edits import anchor_key, edited_body, edited_chapter_keys
+from _pipeline_flags import narrative_frame, narrator_subject
+from _translation_cache import make_is_fresh
 
-TRANSLATION_EDITION_MODE = "translation_edition"
-DEFAULT_VISUAL_STYLE = "black_white"
+# R3 DR-005 re-exports — moved names, kept importable from this module. One line
+# each: the parenthesised three-line form cost 60 lines of the module's 600-line
+# budget and said nothing the single line does not.
+from _translation_contract import DEFAULT_VISUAL_STYLE as DEFAULT_VISUAL_STYLE
+from _translation_contract import TRANSLATION_EDITION_MODE as TRANSLATION_EDITION_MODE
+from _translation_contract import assert_translation_contract as assert_translation_contract
+from _translation_contract import contract_findings as contract_findings
+from _translation_contract import deliverable_mode as deliverable_mode
+from _translation_contract import is_faithful_translation_deliverable as is_faithful_translation_deliverable
+from _translation_contract import is_translation_edition as is_translation_edition
+from _translation_contract import read_series_config as read_series_config
+from _translation_contract import requires_monochrome_visuals as requires_monochrome_visuals
+from _translation_contract import translation_policy as translation_policy
+from _translation_prompts import _compose_prompt as _compose_prompt
+from _translation_text import _adjacent_echo as _adjacent_echo
+from _translation_text import _boundary_echo as _boundary_echo
+from _translation_text import _compress_line_ranges as _compress_line_ranges
+from _translation_text import _iter_source_windows as _iter_source_windows
+from _translation_text import _overlap_tokens as _overlap_tokens
+from _translation_text import _para_is_echo as _para_is_echo
+from _translation_text import _slugify as _slugify
+from _translation_text import _source_headings as _source_headings
+from _translation_text import _split_paragraphs as _split_paragraphs
+from _translation_text import _topic_hits as _topic_hits
+from _translation_text import _translation_long_enough as _translation_long_enough
+from _translation_text import _trim_seam_overlap as _trim_seam_overlap
+from _translation_text import build_source_crosswalk as build_source_crosswalk
+from _translation_text import dedupe_seam_paragraphs as dedupe_seam_paragraphs
+from _translation_text import duplicate_passage_findings as duplicate_passage_findings
+from _translation_text import monochrome_svg as monochrome_svg
+from _translation_text import normalize_translation_prose as normalize_translation_prose
+from _translation_text import record_seam_removals as record_seam_removals
+from _translation_text import source_title_drift_findings as source_title_drift_findings
+from _translation_text import translation_output_findings as translation_output_findings
+from _translit import simplify_transliteration
 
 _COMPOSE_TIMEOUT = 900
 _RETRY_TIMEOUT = 1350
 _LONG_CHAPTER_WORDS = 4500
-_CHAPTER_WINDOW_WORDS = 2800
-_MIN_ACCEPTABLE_RATIO = 0.24
-
-
-def read_series_config(book_dir: Path) -> dict[str, Any]:
-    cfg_path = Path(book_dir) / "_system" / "series-config.yaml"
-    if not cfg_path.exists():
-        return {}
-    try:
-        data = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
-    except Exception:
-        return {}
-    return data if isinstance(data, dict) else {}
-
-
-def deliverable_mode(book_dir: Path) -> str:
-    cfg = read_series_config(book_dir)
-    return str(cfg.get("deliverable_mode") or "").strip()
-
-
-def is_translation_edition(book_dir: Path) -> bool:
-    return deliverable_mode(book_dir) == TRANSLATION_EDITION_MODE
-
-
-def translation_policy(book_dir: Path) -> dict[str, Any]:
-    cfg = read_series_config(book_dir)
-    policy = cfg.get("translation_policy") or {}
-    return policy if isinstance(policy, dict) else {}
-
-
-def requires_monochrome_visuals(book_dir: Path) -> bool:
-    cfg = read_series_config(book_dir)
-    policy = translation_policy(book_dir)
-    style = str(
-        cfg.get("visual_style")
-        or policy.get("visual_style")
-        or ""
-    ).strip().lower()
-    if style in {"black_white", "black-and-white", "monochrome", "bw"}:
-        return True
-    return bool(policy.get("monochrome_visuals"))
-
-
-def contract_findings(book_dir: Path) -> list[str]:
-    """Return contract findings for translation-edition mode.
-
-    Empty means the book is configured safely. The checks are deterministic and
-    cheap, so callers can run them before any LLM spend.
-    """
-    findings: list[str] = []
-    cfg = read_series_config(book_dir)
-    policy = translation_policy(book_dir)
-
-    if cfg.get("deliverable_mode") != TRANSLATION_EDITION_MODE:
-        findings.append("deliverable_mode must be 'translation_edition'")
-
-    augmentation = str(policy.get("augmentation") or "forbidden").strip().lower()
-    if augmentation not in {"forbidden", "none", "source_only"}:
-        findings.append("translation_policy.augmentation must forbid outside-source augmentation")
-
-    denoise = str(policy.get("denoise") or "teaching_only").strip().lower()
-    if denoise not in {"teaching_only", "none", "light"}:
-        findings.append("translation_policy.denoise must be teaching_only, light, or none")
-
-    if not bool(policy.get("preserve_arabic_terms", True)):
-        findings.append("translation_policy.preserve_arabic_terms must stay true")
-
-    if not requires_monochrome_visuals(book_dir):
-        findings.append("visual_style must be black_white/monochrome for this path")
-
-    return findings
-
-
-def assert_translation_contract(book_dir: Path) -> None:
-    findings = contract_findings(book_dir)
-    if findings:
-        raise AuthoringError(
-            phase="translation-edition",
-            message="translation-edition contract failed: " + "; ".join(findings),
-            manual_fallback=(
-                "Set _system/series-config.yaml deliverable_mode=translation_edition "
-                "and translation_policy.augmentation=forbidden before running this path."
-            ),
-        )
-
-
-_HEX_RE = re.compile(r"#[0-9a-fA-F]{3,8}\b")
-_RGB_RE = re.compile(
-    r"rgba?\(\s*([0-9.]+)%?\s*,\s*([0-9.]+)%?\s*,\s*([0-9.]+)%?"
-    r"(?:\s*,\s*([0-9.]+)\s*)?\)",
-    re.IGNORECASE,
-)
-_HSL_RE = re.compile(r"hsl\([^)]*\)", re.IGNORECASE)
-
-_MONO_MAP = {
-    "#f7f4ee": "#f7f7f7",
-    "#fffdf8": "#ffffff",
-    "#efeae0": "#eeeeee",
-    "#1f1d18": "#111111",
-    "#4d4a42": "#444444",
-    "#87827a": "#777777",
-    "#d9d3c4": "#d0d0d0",
-    "#ebe6da": "#e8e8e8",
-    "#8b4513": "#000000",
-    "#d2b48c": "#d9d9d9",
-    "#c8956c": "#b8b8b8",
-    "#a0522d": "#555555",
-}
-
-
-def monochrome_svg(svg: str) -> str:
-    """Normalize known SVG theme colors to black, white, and gray."""
-    def _to_gray(r: float, g: float, b: float) -> int:
-        return max(0, min(255, round((0.2126 * r) + (0.7152 * g) + (0.0722 * b))))
-
-    def _hex_sub(match: re.Match[str]) -> str:
-        raw = match.group(0)
-        mapped = _MONO_MAP.get(raw.lower())
-        if mapped:
-            return mapped
-        h = raw[1:]
-        if len(h) == 3:
-            vals = [int(ch * 2, 16) for ch in h]
-        elif len(h) in (6, 8):
-            vals = [int(h[i:i + 2], 16) for i in (0, 2, 4)]
-        else:
-            return raw
-        gray = _to_gray(*vals)
-        return f"#{gray:02x}{gray:02x}{gray:02x}"
-
-    def _rgb_sub(match: re.Match[str]) -> str:
-        r, g, b = (float(match.group(i)) for i in (1, 2, 3))
-        gray = _to_gray(r, g, b)
-        alpha = match.group(4)
-        if alpha is not None:
-            return f"rgba({gray}, {gray}, {gray}, {alpha})"
-        return f"rgb({gray}, {gray}, {gray})"
-
-    svg = _HEX_RE.sub(_hex_sub, svg)
-    svg = _RGB_RE.sub(_rgb_sub, svg)
-    svg = _HSL_RE.sub("#cccccc", svg)
-    return svg
-
-
-def _slugify(text: str, fallback: str) -> str:
-    slug = re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
-    return re.sub(r"-+", "-", slug)[:72] or fallback
-
-
-def _compress_line_ranges(indices: list[int]) -> list[list[int]]:
-    if not indices:
-        return []
-    ranges: list[list[int]] = []
-    start = prev = indices[0]
-    for idx in indices[1:]:
-        if idx == prev + 1:
-            prev = idx
-            continue
-        ranges.append([start, prev])
-        start = prev = idx
-    ranges.append([start, prev])
-    return ranges
-
-
-def _iter_source_windows(
-    lines: list[str],
-    ranges: list[list[int]],
-    *,
-    target_words: int = _CHAPTER_WINDOW_WORDS,
-) -> list[tuple[str, list[list[int]]]]:
-    pairs: list[tuple[int, str]] = []
-    for raw_range in ranges:
-        if len(raw_range) != 2:
-            continue
-        a, b = raw_range
-        lo, hi = max(1, int(a)), min(len(lines), int(b))
-        pairs.extend((idx, lines[idx - 1]) for idx in range(lo, hi + 1))
-    if not pairs:
-        return []
-
-    windows: list[tuple[str, list[list[int]]]] = []
-    cur: list[tuple[int, str]] = []
-    cur_words = 0
-
-    def flush() -> None:
-        nonlocal cur, cur_words
-        if not cur:
-            return
-        body = "\n".join(line for _, line in cur).strip()
-        if body:
-            windows.append((body, _compress_line_ranges([idx for idx, _ in cur])))
-        cur = []
-        cur_words = 0
-
-    for idx, line in pairs:
-        cur.append((idx, line))
-        cur_words += len(line.split())
-        if cur_words >= target_words and (not line.strip() or _PAGE_MARK.search(line)):
-            flush()
-    flush()
-    return windows
-
-
-def _translation_long_enough(prose: str, source_words: int) -> bool:
-    if source_words < 500:
-        return bool(prose.strip())
-    return len(prose.split()) >= _MIN_ACCEPTABLE_RATIO * source_words
-
-
-def _arabic_ground_truth_block(arabic_src: str) -> str:
-    if not arabic_src:
-        return ""
-    return f"""
-ORIGINAL-LANGUAGE SOURCE — GROUND TRUTH
-The Arabic OCR for the source pages behind this chapter is reproduced below. Use it only to preserve
-Arabic terms, Quran verses, hadith, poetry, and direct quotations that belong in the teaching. The OCR
-may contain stray marks or broken letters, so correct obvious OCR artifacts. Do not add outside material.
-
-{arabic_src}
-"""
-
-
-def _compose_prompt(
-    title: str,
-    body: str,
-    previous_tail: str,
-    *,
-    arabic_src: str = "",
-    quran_anchor: str = "",
-) -> str:
-    continuity = (
-        "\nContinuity note: the previous chapter ended with this thought. "
-        "Open naturally without repeating it:\n"
-        f"{previous_tail}\n"
-        if previous_tail else ""
-    )
-    return f"""You are preparing a faithful English translation edition of a non-English Islamic teaching text.
-
-Write one polished chapter titled "{title}" from the source passage below.
-
-Core rule: this is LLM-enriched translation, not augmentation. Enrichment here means clear articulation,
-clean paragraphing, careful denoising, and readable English. It does not mean adding outside facts,
-new examples, modern analogies, doctrine from other books, or explanatory material not present in the source.
-
-Preserve meaning:
-- Preserve every teaching, argument, example, named person, citation, Quran verse, hadith, quote, and Arabic term present in the source.
-- Preserve Arabic script when it appears in the source. Do not romanize it away.
-- If a Quran verse, hadith, poem, or quoted saying appears, keep it visibly quoted and keep the attribution present in the source.
-- Do not invent canonical Arabic from memory. If the source gives Arabic, preserve it; if the source gives only a translation, translate/polish only that.
-- Use the original-language source block only as preservation evidence, not as permission to add new side material.
-{quran_anchor}{_arabic_ground_truth_block(arabic_src)}
-
-Denoise:
-- Remove or compress historical side information, bibliographic apparatus, editorial notes, damaged-manuscript notes, chain-of-publication details, translator/editor commentary, and background digressions unless they directly teach the point of the chapter.
-- Keep the author's teaching as the spine.
-
-Style:
-- Clear, dignified English.
-- No podcast language.
-- No episode references.
-- No bullet-list study guide unless the source itself is enumerating points.
-- No em dashes.
-{continuity}
-Output only the chapter prose. No preamble, no code fences, no notes.
-
-SOURCE PASSAGE
-{body}"""
 
 
 def _compose_one(
@@ -310,6 +89,8 @@ def _compose_one(
     *,
     arabic_src: str = "",
     quran_anchor: str = "",
+    frame: str = "",
+    narrator: str = "",
 ) -> str:
     prompt = _compose_prompt(
         title,
@@ -317,10 +98,16 @@ def _compose_one(
         previous_tail,
         arabic_src=arabic_src,
         quran_anchor=quran_anchor,
+        frame=frame,
+        narrator=narrator,
     )
     rc, out, err = _run_claude_p_with_retry(
-        prompt, timeout=_COMPOSE_TIMEOUT, book_dir=book_dir,
-        phase="0book-compose", step=f"translation-{label}", log=log,
+        prompt,
+        timeout=_COMPOSE_TIMEOUT,
+        book_dir=book_dir,
+        phase="0book-compose",
+        step=f"translation-{label}",
+        log=log,
     )
     out = (out or "").strip()
     if rc != 0:
@@ -333,35 +120,133 @@ def _compose_one(
     if source_words >= 200 and len(out.split()) < 0.55 * source_words:
         log(f"      {label}: short ({len(out.split())}/{source_words}w) - retry")
         rc2, out2, _ = _run_claude_p_with_retry(
-            prompt
-            + "\n\nYour previous attempt was too compressed. Rewrite faithfully, preserving the full teaching.",
-            timeout=_RETRY_TIMEOUT, book_dir=book_dir,
-            phase="0book-compose", step=f"translation-{label}-retry", log=log,
+            prompt + "\n\nYour previous attempt was too compressed. Rewrite faithfully, preserving the full teaching.",
+            timeout=_RETRY_TIMEOUT,
+            book_dir=book_dir,
+            phase="0book-compose",
+            step=f"translation-{label}-retry",
+            log=log,
         )
         if rc2 == 0 and len((out2 or "").split()) > len(out.split()):
             out = (out2 or "").strip()
+    findings = translation_output_findings(
+        out, expected_title=title, frame=frame, narrator_subject=narrator, source=body
+    )
+    if findings:
+        log(f"      {label}: invalid translation output ({'; '.join(findings[:3])}) - retry")
+        retry_prompt = (
+            prompt + "\n\nYour previous answer included process commentary or model-owned headings. "
+            "Rewrite now as clean chapter prose only. Do not mention instructions, options, "
+            "source mismatch, inability, the title selection, or the prompt. Do not emit Markdown headings."
+        )
+        rc2, out2, err2 = _run_claude_p_with_retry(
+            retry_prompt,
+            timeout=_RETRY_TIMEOUT,
+            book_dir=book_dir,
+            phase="0book-compose",
+            step=f"translation-{label}-integrity-retry",
+            log=log,
+        )
+        if rc2 == 0:
+            candidate = (out2 or "").strip()
+            if not translation_output_findings(
+                candidate, expected_title=title, frame=frame, narrator_subject=narrator, source=body
+            ):
+                out = candidate
+            else:
+                out = candidate or out
+        else:
+            log(f"      {label}: integrity retry failed rc={rc2}: {err2[:160]}")
+        findings = translation_output_findings(
+            out, expected_title=title, frame=frame, narrator_subject=narrator, source=body
+        )
+    if findings:
+        raise AuthoringError(
+            phase="0book-compose",
+            message=f"{label}: translation edition output failed integrity gate: " + "; ".join(findings),
+            manual_fallback=(
+                "Re-run 0book-design/0book-compose after inspecting the source range; "
+                "the pipeline refused to persist model commentary or generated headings."
+            ),
+        )
+    # Arabic-coverage safety net (see _arabic_coverage): when the output drops too
+    # much of the ground truth's quoted Arabic, retry ONCE with the specific spans
+    # named. Non-fatal and keep-best — a residual shortfall never blocks the book,
+    # and an empty suffix (no Arabic source, or coverage already adequate) skips it.
+    arabic_retry = arabic_coverage_shortfall(out, arabic_src)
+    if arabic_retry:
+        log(f"      {label}: Arabic coverage low - retrying with the dropped spans named")
+        rc3, out3, _err3 = _run_claude_p_with_retry(
+            prompt + arabic_retry,
+            timeout=_RETRY_TIMEOUT,
+            book_dir=book_dir,
+            phase="0book-compose",
+            step=f"translation-{label}-arabic-retry",
+            log=log,
+        )
+        cand = (out3 or "").strip()
+        if (
+            rc3 == 0
+            and cand
+            and not translation_output_findings(
+                cand, expected_title=title, frame=frame, narrator_subject=narrator, source=body
+            )
+            and len(arabic_run_spans(cand)) > len(arabic_run_spans(out))
+            and _translation_long_enough(cand, source_words)
+        ):
+            out = cand
+        else:
+            log(f"      {label}: Arabic-coverage retry did not improve - keeping best attempt")
     if not _translation_long_enough(out, source_words):
         raise AuthoringError(
             phase="0book-compose",
             message=(
-                f"{label}: translation edition output is too compressed "
-                f"({len(out.split())}/{source_words} words)"
+                f"{label}: translation edition output is too compressed ({len(out.split())}/{source_words} words)"
             ),
             manual_fallback="Re-run after reducing chapter/window size or inspect the source range.",
         )
-    return out
+    return normalize_translation_prose(out, title=title)
 
 
-def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool = False) -> Path:
+def author_translation_edition_compose(
+    book_dir: Path, *, log=print, force: bool = False, enforce_contract: bool = True
+) -> Path:
     """Compose ``book/book.md`` for the translation-edition lane.
 
     Uses the existing ``book/book-toc.json`` from 0book-design, but writes a
     faithful translation edition instead of the normal author-first-person
     companion book. It also mirrors each generated chapter into ``chapters/`` so
     existing slide-deck authoring can operate without a separate adapter.
+
+    ``enforce_contract`` gates the ``deliverable_mode == translation_edition`` +
+    monochrome-visual contract. The legacy lane keeps it True. Book Pipeline v2
+    drives route selection through the two knobs (``book_augmentation`` /
+    ``book_voice``), NOT through ``deliverable_mode``, so it reuses this function
+    as the shared *faithful base* with ``enforce_contract=False``.
+
+    A chapter the human has authored in the Book Composer is NOT re-translated: its
+    saved body is emitted directly and no model call is made for it. The Composer is
+    the singular path for PDF-bound chapter changes, so composing over it bought
+    nothing — the replay at the end of compose discarded the fresh prose anyway. On
+    2026-07-21 that cost a full re-translation of nine chapters to keep one of them,
+    and the book moved 111 words in 33 minutes. ``force`` re-composes regardless,
+    and says so.
     """
     book_dir = Path(book_dir).resolve()
-    assert_translation_contract(book_dir)
+    if enforce_contract:
+        assert_translation_contract(book_dir)
+
+    _edited = edited_chapter_keys(book_dir)
+    authored = set() if force else _edited
+    if force and _edited:
+        log(f"    0book-compose: --force will RE-COMPOSE OVER {len(_edited)} Composer-authored chapter(s)")
+
+    # Who narrates is read once per run and applies to every chapter and window.
+    # It is a property of the SOURCE, so it governs this route exactly as it
+    # governs the re-voice route — see _rules.NARRATIVE_FRAMES.
+    _frame = narrative_frame(book_dir)
+    _narrator = narrator_subject(book_dir)
+    log(f"    0book-compose: narrative frame = {_frame}")
 
     toc_path = book_dir / "book" / "book-toc.json"
     refined_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
@@ -381,15 +266,60 @@ def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool
     toc = json.loads(toc_path.read_text(encoding="utf-8"))
     lines = refined_path.read_text(encoding="utf-8").split("\n")
     chunks_dir = book_dir / "book" / "_chunks" / "translation"
-    chapters_dir = book_dir / "chapters"
+    # Scoped under book/, alongside _chunks — NEVER the top-level chapters/ dir,
+    # which is the podcast lane's own namespace (one ch<NN><letter>-<slug>.txt per
+    # episode). The ship gate globs that folder expecting every match to pair with
+    # an episode; a book-lane sidecar sharing the glob shape blocks publish. Found
+    # live 2026-07-19 — see _workspace/plan/pending-work.yaml for the incident.
+    chapters_dir = book_dir / "book" / "_chapters"
     chunks_dir.mkdir(parents=True, exist_ok=True)
     chapters_dir.mkdir(parents=True, exist_ok=True)
     arabic_pages = _load_arabic_pages(book_dir)
     line_pages = _line_pages(lines) if arabic_pages else []
+    crosswalk = build_source_crosswalk(book_dir, toc, lines, line_pages or _line_pages(lines))
+    drift = [
+        f"chapter {entry['index']} ({entry['title']}): {'; '.join(entry['drift_findings'])}"
+        for entry in crosswalk
+        if entry.get("drift_findings")
+    ]
+    if drift:
+        raise AuthoringError(
+            phase="0book-compose",
+            message="source crosswalk failed title/source alignment: " + "; ".join(drift[:4]),
+            manual_fallback=(
+                "Fix book/book-toc.json source_line_ranges or chapter titles, then rerun "
+                "translation edition compose. OCR/refinement/audio do not need to rerun."
+            ),
+        )
+    (book_dir / "book" / "source-crosswalk.json").write_text(
+        json.dumps(
+            {
+                "schema": "podcast.translation-edition.source-crosswalk/v1",
+                "book": book_dir.name,
+                "chapters": crosswalk,
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
     parts: list[str] = [f"# {toc.get('book_title', book_dir.name)}\n"]
     previous_tail = ""
     manifest: list[dict[str, Any]] = []
+    prior_manifest: dict[int, dict[str, Any]] = {}
+    prior_manifest_path = book_dir / "_system" / "translation-edition-manifest.json"
+    if prior_manifest_path.exists():
+        try:
+            prior_data = json.loads(prior_manifest_path.read_text(encoding="utf-8"))
+            prior_manifest = {
+                int(item.get("index")): item
+                for item in (prior_data.get("chapters") or [])
+                if item.get("index") is not None
+            }
+        except Exception:
+            prior_manifest = {}
 
     def _arabic_for(ranges: list[list[int]]) -> tuple[str, str]:
         if not arabic_pages or not ranges:
@@ -401,13 +331,56 @@ def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool
 
     if arabic_pages:
         log(f"    translation-edition-compose: Arabic ground truth loaded ({len(arabic_pages)} OCR pages)")
-    max_workers = max(1, int(os.environ.get("TRANSLATION_EDITION_MAX_WORKERS", "3")))
 
-    def _cache_fresh(path: Path) -> bool:
-        try:
-            return path.stat().st_mtime >= refined_path.stat().st_mtime
-        except OSError:
-            return False
+    # Freshness rule lives in _translation_cache — see that module for why it
+    # covers the prompts and the config, not just the source text.
+    _cache_fresh = make_is_fresh(book_dir, refined_path)
+
+    # Preface / front-matter. book-toc.json may declare a preface with its own
+    # source range (e.g. the work's opening teaching). The chapter loop below
+    # only iterates ``chapters``, so without this the planned preface is silently
+    # dropped at assembly and its teaching is lost from the deliverable.
+    prev_emitted_prose = ""
+    preface = toc.get("preface") or {}
+    pf_ranges = preface.get("source_line_ranges") or []
+    if preface.get("include") and pf_ranges:
+        pf_title = str(preface.get("title") or "Preface")
+        pf_source = _slice_source(lines, pf_ranges)
+        if pf_source.strip():
+            pf_path = chunks_dir / "preface.md"
+            pf_prose = edited_body(book_dir, anchor_key(pf_title)) if anchor_key(pf_title) in authored else ""
+            if pf_prose:
+                log(f"      preface: {pf_title} — Composer edit, not re-translated")
+            elif (
+                not force and _cache_fresh(pf_path) and pf_path.exists() and pf_path.read_text(encoding="utf-8").strip()
+            ):
+                cached_pf = normalize_translation_prose(pf_path.read_text(encoding="utf-8").strip(), title=pf_title)
+                if not translation_output_findings(cached_pf, expected_title=pf_title):
+                    pf_prose = cached_pf
+            if not pf_prose:
+                pf_qa, _ = _quran_anchor_block(pf_source)
+                pf_arabic, pf_span = _arabic_for(pf_ranges)
+                log(
+                    f"      preface: {pf_title} ({len(pf_source.split())} source words"
+                    + (f", Arabic {pf_span}" if pf_span else "")
+                    + ") -> translation edition"
+                )
+                pf_prose = _compose_one(
+                    pf_title,
+                    pf_source,
+                    "",
+                    book_dir,
+                    "preface",
+                    log,
+                    arabic_src=pf_arabic,
+                    quran_anchor=pf_qa,
+                    frame=_frame,
+                    narrator=_narrator,
+                )
+                pf_path.write_text(pf_prose.rstrip() + "\n", encoding="utf-8")
+            parts.append(f"## {pf_title}\n\n{pf_prose}\n")
+            previous_tail = " ".join(pf_prose.split()[-80:])
+            prev_emitted_prose = pf_prose
 
     for ch in toc.get("chapters", []):
         idx = int(ch.get("bk_index") or len(manifest) + 1)
@@ -416,9 +389,40 @@ def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool
         ch_ranges = ch.get("source_line_ranges", [])
         source = _slice_source(lines, ch_ranges)
         out_path = chunks_dir / f"{label}.md"
-        if not force and _cache_fresh(out_path) and out_path.read_text(encoding="utf-8").strip():
+        prior = prior_manifest.get(idx) or {}
+        cache_matches_source = prior.get("title") == title and prior.get("source_line_ranges") == ch_ranges
+        # The author's own chapter, emitted as-is. Checked BEFORE the cache and the
+        # integrity gates below: those gates judge a MODEL's rendering of the
+        # source, and running them over a human's prose would recompute the chapter
+        # the moment they wrote something a gate did not expect.
+        authored_prose = edited_body(book_dir, anchor_key(title)) if anchor_key(title) in authored else None
+        if authored_prose:
+            log(f"      {label}: {title} — Composer edit, not re-translated")
+            prose = authored_prose
+        elif (
+            not force
+            and cache_matches_source
+            and _cache_fresh(out_path)
+            and out_path.read_text(encoding="utf-8").strip()
+        ):
             cached = out_path.read_text(encoding="utf-8").strip()
-            if _translation_long_enough(cached, len(source.split())):
+            cached = normalize_translation_prose(cached, title=title)
+            # A CACHED chapter must clear the SAME gate as a fresh one. It used
+            # to be checked without `frame=` or `source=`, which skips
+            # frame_findings and narrative_person_findings entirely — BK-N1..N7,
+            # the whole narrative-frame battery. Every chapter of the live book
+            # was being served from a cache written before the frame was locked,
+            # so the shipping prose had never faced that gate at all.
+            cached_findings = translation_output_findings(
+                cached, expected_title=title, frame=_frame, narrator_subject=_narrator, source=source
+            )
+            if cached_findings:
+                log(
+                    f"      {label}: cached translation failed integrity gate "
+                    f"({'; '.join(cached_findings[:3])}) - recompute"
+                )
+                prose = ""
+            elif _translation_long_enough(cached, len(source.split())):
                 prose = cached
             else:
                 log(
@@ -429,10 +433,7 @@ def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool
         else:
             prose = ""
         if not prose:
-            windows = (
-                _iter_source_windows(lines, ch_ranges)
-                if len(source.split()) > _LONG_CHAPTER_WORDS else []
-            )
+            windows = _iter_source_windows(lines, ch_ranges) if len(source.split()) > _LONG_CHAPTER_WORDS else []
             if not windows:
                 windows = [(source, ch_ranges)]
             log(
@@ -442,17 +443,38 @@ def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool
             )
             prose_parts: list[str] = []
 
-            def compose_part(part_idx: int, part_source: str, part_ranges: list[list[int]]) -> tuple[int, str]:
+            def compose_part(
+                part_idx: int, part_source: str, part_ranges: list[list[int]], part_tail: str
+            ) -> tuple[int, str]:
                 part_label = label if len(windows) == 1 else f"{label}-part-{part_idx:02d}"
                 part_path = chunks_dir / f"{part_label}.md"
-                if not force and _cache_fresh(part_path) and part_path.read_text(encoding="utf-8").strip():
+                if (
+                    not force
+                    and cache_matches_source
+                    and _cache_fresh(part_path)
+                    and part_path.read_text(encoding="utf-8").strip()
+                ):
                     cached_part = part_path.read_text(encoding="utf-8").strip()
-                    if _translation_long_enough(cached_part, len(part_source.split())):
-                        return part_idx, cached_part
-                    log(
-                        f"        {part_label}: cached translation is too compressed "
-                        f"({len(cached_part.split())}/{len(part_source.split())} words) - recompute"
+                    cached_part = normalize_translation_prose(cached_part, title=title)
+                    cached_findings = translation_output_findings(
+                        cached_part,
+                        expected_title=title,
+                        frame=_frame,
+                        narrator_subject=_narrator,
+                        source=part_source,
                     )
+                    if cached_findings:
+                        log(
+                            f"        {part_label}: cached translation failed integrity gate "
+                            f"({'; '.join(cached_findings[:3])}) - recompute"
+                        )
+                    elif _translation_long_enough(cached_part, len(part_source.split())):
+                        return part_idx, cached_part
+                    else:
+                        log(
+                            f"        {part_label}: cached translation is too compressed "
+                            f"({len(cached_part.split())}/{len(part_source.split())} words) - recompute"
+                        )
                 qa_block, qa_stats = _quran_anchor_block(part_source)
                 arabic_src, arabic_span = _arabic_for(part_ranges)
                 if qa_stats["cited"]:
@@ -467,60 +489,81 @@ def author_translation_edition_compose(book_dir: Path, *, log=print, force: bool
                 part_prose = _compose_one(
                     title,
                     part_source,
-                    previous_tail,
+                    part_tail,
                     book_dir,
                     part_label,
                     log,
                     arabic_src=arabic_src,
                     quran_anchor=qa_block,
+                    frame=_frame,
+                    narrator=_narrator,
                 )
                 part_path.write_text(part_prose.rstrip() + "\n", encoding="utf-8")
                 return part_idx, part_prose
 
-            if len(windows) > 1 and max_workers > 1:
-                from concurrent.futures import ThreadPoolExecutor, as_completed
-
-                log(f"        {label}: composing windows in parallel (max_workers={max_workers})")
-                results: list[tuple[int, str]] = []
-                with ThreadPoolExecutor(max_workers=max_workers) as ex:
-                    futures = [
-                        ex.submit(compose_part, part_idx, part_source, part_ranges)
-                        for part_idx, (part_source, part_ranges) in enumerate(windows, start=1)
-                    ]
-                    for fut in as_completed(futures):
-                        results.append(fut.result())
-                prose_parts = [prose for _, prose in sorted(results)]
-            else:
-                for part_idx, (part_source, part_ranges) in enumerate(windows, start=1):
-                    _, part_prose = compose_part(part_idx, part_source, part_ranges)
-                    prose_parts.append(part_prose)
+            # Windows are composed SEQUENTIALLY (not in parallel): each window is
+            # given the real tail of the window before it, so the compose prompt's
+            # "do not repeat this" continuity note actually holds at the seam. This
+            # is what stops the chunk-seam double-render (composing the boundary
+            # passage into both adjacent windows). A deterministic seam trim then
+            # removes any residual echo before the parts are joined.
+            window_tail = previous_tail
+            for part_idx, (part_source, part_ranges) in enumerate(windows, start=1):
+                _, part_prose = compose_part(part_idx, part_source, part_ranges, window_tail)
+                if prose_parts:
+                    part_prose = _trim_seam_overlap(prose_parts[-1], part_prose)
+                prose_parts.append(part_prose)
+                window_tail = " ".join(part_prose.split()[-80:])
             prose = "\n\n".join(prose_parts).strip()
+            prose = normalize_translation_prose(prose, title=title)
             out_path.write_text(prose.rstrip() + "\n", encoding="utf-8")
+
+        # Cross-chapter seam trim: drop a chapter-opening paragraph that verbatim-
+        # echoes the previous chapter's (or the preface's) tail — the boundary
+        # over-run where one chapter runs into the next chapter's first passage.
+        # Never applied to an authored chapter: the seam is an artifact of windowed
+        # MODEL composition, and this trim deletes a whole paragraph, which is not
+        # something to do to a human's page on a similarity guess.
+        if not authored_prose:
+            prose = _trim_seam_overlap(prev_emitted_prose, prose)
 
         chapter_slug = f"ch{idx:02d}-{_slugify(title, label)}"
         chapter_path = chapters_dir / f"{chapter_slug}.txt"
         chapter_path.write_text(f"# {title}\n\n{prose.rstrip()}\n", encoding="utf-8")
         parts.append(f"## {idx}. {title}\n\n{prose}\n")
         previous_tail = " ".join(prose.split()[-80:])
-        manifest.append({
-            "index": idx,
-            "title": title,
-            "chapter_file": str(chapter_path.relative_to(book_dir)),
-            "source_line_ranges": ch.get("source_line_ranges", []),
-            "source_words": len(source.split()),
-            "output_words": len(prose.split()),
-        })
+        prev_emitted_prose = prose
+        manifest.append(
+            {
+                "index": idx,
+                "title": title,
+                "chapter_file": str(chapter_path.relative_to(book_dir)),
+                "source_line_ranges": ch.get("source_line_ranges", []),
+                "source_words": len(source.split()),
+                "output_words": len(prose.split()),
+            }
+        )
 
     book_md = book_dir / "book" / "book.md"
-    book_md.write_text(simplify_transliteration("\n".join(parts).rstrip() + "\n"), encoding="utf-8")
+    # It deletes prose on a similarity judgment, so it reports what it deleted.
+    seam_removed: list[dict] = []
+    assembled = dedupe_seam_paragraphs(simplify_transliteration("\n".join(parts).rstrip() + "\n"), removed=seam_removed)
+    book_md.write_text(assembled, encoding="utf-8")
+    record_seam_removals(book_dir, "base", seam_removed, log)
     (book_dir / "_system" / "translation-edition-manifest.json").write_text(
-        json.dumps({
-            "schema": "podcast.translation-edition/v1",
-            "mode": TRANSLATION_EDITION_MODE,
-            "augmentation": "forbidden",
-            "visual_style": DEFAULT_VISUAL_STYLE,
-            "chapters": manifest,
-        }, indent=2, ensure_ascii=False) + "\n",
+        json.dumps(
+            {
+                "schema": "podcast.translation-edition/v1",
+                "mode": TRANSLATION_EDITION_MODE,
+                "augmentation": "forbidden",
+                "visual_style": DEFAULT_VISUAL_STYLE,
+                "chapters": manifest,
+                "source_crosswalk": "book/source-crosswalk.json",
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+        + "\n",
         encoding="utf-8",
     )
     log(f"    translation-edition-compose: assembled book.md with {len(manifest)} chapters")

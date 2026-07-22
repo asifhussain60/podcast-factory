@@ -16,6 +16,7 @@ OUTPUTS
     _system/source/multi/ocr/<role>.md          — cached OCR markdown (page-anchored)
     _system/cost-ledger.json                     — running cost ledger (appended)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -24,9 +25,9 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-import _azure  # noqa: E402
-from _paths import REPO_ROOT, content_dir  # noqa: E402
-from _cost_ledger import append_azure_docintel_cost  # noqa: E402
+import _azure
+from _cost_ledger import append_azure_docintel_cost
+from _paths import REPO_ROOT, content_dir
 
 ROLE_PATTERNS = {
     "arabic": "*arabic*orig*",

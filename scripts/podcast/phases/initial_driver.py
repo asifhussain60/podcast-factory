@@ -2,29 +2,39 @@
 
 Extracted from orchestrate_book.py (A4 split). Authority: plan.md §A4.
 """
+
 from __future__ import annotations
 
 import argparse
-import subprocess
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _paths import REPO_ROOT  # noqa: E402
-from _progress import initial_state, read_state, update_phase, write_state  # noqa: E402
-from _rules import CONSUMER_CATEGORIES, ISLAMIC_SCHOLARLY_PROFILE, phase_capabilities  # noqa: E402
-from _content_profile import resolve_content_profile  # noqa: E402
-from _authoring import AuthoringError, AuthoringHalt, author_phase_0b, author_phase_0c, author_phase_0ci, author_phase_0d, author_phase_0e  # noqa: E402
-from _contract_validation import validate_book_contracts  # noqa: E402  # FIX 14: 0d post-write gate
-from phases.preflight import preflight_initial  # noqa: E402
-from phases.scaffold import phase_branch, phase_scaffold, phase_0a_ingest, phase_git_commit  # noqa: E402
-from phases.source_ingest import phase_0a_ingest_source_md  # noqa: E402
-from phases.series_plan import phase_0f_write_series_plan  # noqa: E402
-from phases.preflight import _run_chapter_set_check  # noqa: E402
-from phases.source_review_gate import run_source_review_gate  # noqa: E402
+from _authoring import (
+    AuthoringError,
+    AuthoringHalt,
+    author_phase_0b,
+    author_phase_0c,
+    author_phase_0ci,
+    author_phase_0d,
+    author_phase_0e,
+)
+from _content_profile import resolve_content_profile
+from _contract_validation import validate_book_contracts  # FIX 14: 0d post-write gate
+from _paths import REPO_ROOT
+from _progress import initial_state, read_state, update_phase, write_state
+from _rules import CONSUMER_CATEGORIES, ISLAMIC_SCHOLARLY_PROFILE, phase_capabilities
+from _subprocess import err as _err
+from _subprocess import info as _info
 
-
-from _subprocess import err as _err, info as _info  # noqa: E402
+from phases.preflight import (
+    _run_chapter_set_check,
+    preflight_initial,
+)
+from phases.scaffold import phase_0a_ingest, phase_branch, phase_git_commit, phase_scaffold
+from phases.series_plan import phase_0f_write_series_plan
+from phases.source_ingest import phase_0a_ingest_source_md
+from phases.source_review_gate import run_source_review_gate
 
 
 def _guard_before_phase(book_dir: Path, phase_id: str, log=_info) -> None:
@@ -63,20 +73,18 @@ def _guard_before_phase(book_dir: Path, phase_id: str, log=_info) -> None:
         if not chapter_txts:
             raise AuthoringError(
                 phase="0e",
-                message=("Guard-0e FAIL: no ch*.txt chapter files under "
-                         "chapters/ — phase 0d may not have produced output."),
+                message=(
+                    "Guard-0e FAIL: no ch*.txt chapter files under chapters/ — phase 0d may not have produced output."
+                ),
                 manual_fallback="Re-run with: --retry-phase 0d",
             )
         if not contracts:
             raise AuthoringError(
                 phase="0e",
-                message=("Guard-0e FAIL: no contract .yml files under "
-                         "chapter-contracts/ — phase 0d incomplete."),
+                message=("Guard-0e FAIL: no contract .yml files under chapter-contracts/ — phase 0d incomplete."),
                 manual_fallback="Re-run with: --retry-phase 0d",
             )
-        log(
-            f"  guard-0e: {len(chapter_txts)} chapter(s) + {len(contracts)} contract(s) present ✓"
-        )
+        log(f"  guard-0e: {len(chapter_txts)} chapter(s) + {len(contracts)} contract(s) present ✓")
 
     else:
         # Stub for 0b, 0ci, and any future phases.
@@ -99,14 +107,15 @@ def _gate_0d_contracts(book_dir: Path) -> None:
     # so conform them rather than fail the whole run on metadata (2026-06-15).
     # Genuinely unfixable findings still fail the gate loudly below.
     try:
-        from repair_contracts import repair_contracts_in_dir  # noqa: PLC0415
+        from repair_contracts import repair_contracts_in_dir
+
         repair_contracts_in_dir(book_dir, log=_info)
-    except Exception as e:  # noqa: BLE001 — repair is best-effort; the gate still guards
+    except Exception as e:
         _info(f"  gate-0d: contract auto-repair skipped ({e})")
 
     failures = validate_book_contracts(book_dir)
     if not failures:
-        _info(f"  gate-0d: all chapter contracts pass unified validation ✓")
+        _info("  gate-0d: all chapter contracts pass unified validation ✓")
         return
     lines: list[str] = []
     for slug, findings in failures:
@@ -144,6 +153,7 @@ def resolve_phase_profile(book_dir: Path, category: str | None) -> str:
 def derive_slug(pdf_path: Path) -> str:
     """Stem of the PDF, lowercased, non-alphanumeric → hyphen, collapsed."""
     import re
+
     stem = pdf_path.stem.lower()
     s = re.sub(r"[^a-z0-9]+", "-", stem).strip("-")
     return re.sub(r"-+", "-", s)
@@ -156,6 +166,7 @@ def _series_config_length_tier(book_dir: Path) -> str | None:
         return None
     try:
         import yaml
+
         cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
     except Exception:
         return None
@@ -178,9 +189,7 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
     config = state.get("config") or {}
     # Tier precedence: explicit intake config > the book's series-config.yaml
     # (the human-editable surface, e.g. density-standard re-runs) > "extended".
-    length_tier = (config.get("length_tier")
-                   or _series_config_length_tier(book_dir)
-                   or "extended")
+    length_tier = config.get("length_tier") or _series_config_length_tier(book_dir) or "extended"
     unit_mode = config.get("unit_mode", "auto")
     category = config.get("category", "books")
     # Phase-skip decisions are driven by the book's content_profile via the single
@@ -193,7 +202,8 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
     profile = resolve_phase_profile(book_dir, category)
     caps = phase_capabilities(profile)
     try:
-        from _translation_edition import is_translation_edition  # noqa: PLC0415
+        from _translation_edition import is_translation_edition
+
         translation_edition = is_translation_edition(book_dir)
     except Exception:
         translation_edition = False
@@ -211,10 +221,14 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
         if _ai.verify(bd.name, phase) == _ai.EXIT_FORBIDDEN:
             raise AuthoringError(
                 phase=phase,
-                message=(f"R-ARABIC-INTEGRITY: an LLM pass altered/dropped/invented Arabic "
-                         f"script in phase {phase}. See _system/{_ai.REPORT_NAME}."),
-                manual_fallback=("Restore the affected Arabic from canonical source, or record "
-                                 "the change as a glossary curation decision, then --resume."),
+                message=(
+                    f"R-ARABIC-INTEGRITY: an LLM pass altered/dropped/invented Arabic "
+                    f"script in phase {phase}. See _system/{_ai.REPORT_NAME}."
+                ),
+                manual_fallback=(
+                    "Restore the affected Arabic from canonical source, or record "
+                    "the change as a glossary curation decision, then --resume."
+                ),
             )
 
     def _run_0b(bd: Path) -> None:
@@ -267,7 +281,8 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
         ("0e", _run_0e, "phase 0e enrichment"),
     ]
     completed = {
-        p for p, blk in state.get("phases", {}).items()
+        p
+        for p, blk in state.get("phases", {}).items()
         # A "halted" phase has done its LLM work and only paused for human review.
         # Running --resume IS the human's review acknowledgement — skip the phase
         # rather than re-running it (and re-spending the LLM call).
@@ -281,8 +296,9 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
         try:
             _guard_before_phase(book_dir, phase_id, log=_info)
         except AuthoringError as e:
-            update_phase(book_dir, phase=phase_id, status="failed",
-                         error=str(e), extras={"manual_fallback": e.manual_fallback})
+            update_phase(
+                book_dir, phase=phase_id, status="failed", error=str(e), extras={"manual_fallback": e.manual_fallback}
+            )
             _err(f"phase {phase_id} guard failed: {e}")
             if e.manual_fallback:
                 _err("fix:")
@@ -296,8 +312,9 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
         except AuthoringHalt as e:
             # Phase completed its core work but requires human review before the next phase.
             # Commit the phase output, then halt cleanly (status="halted", not "failed").
-            update_phase(book_dir, phase=phase_id, status="halted",
-                         error=str(e), extras={"manual_fallback": e.manual_fallback})
+            update_phase(
+                book_dir, phase=phase_id, status="halted", error=str(e), extras={"manual_fallback": e.manual_fallback}
+            )
             phase_git_commit(book_dir, f"podcast({book_slug}): {subject} [halted for review]")
             _info("")
             _info("─" * 72)
@@ -311,8 +328,9 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
             _info("─" * 72)
             return 0
         except AuthoringError as e:
-            update_phase(book_dir, phase=phase_id, status="failed",
-                         error=str(e), extras={"manual_fallback": e.manual_fallback})
+            update_phase(
+                book_dir, phase=phase_id, status="failed", error=str(e), extras={"manual_fallback": e.manual_fallback}
+            )
             _err(f"phase {phase_id} failed: {e}")
             if e.manual_fallback:
                 _err("manual fallback:")
@@ -350,7 +368,7 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
         update_phase(book_dir, phase="06a", status="running")
         try:
             gate = run_source_review_gate(book_dir)
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             update_phase(book_dir, phase="06a", status="failed", error=str(e))
             _err(f"phase 06a failed: {e}")
             return 2
@@ -399,14 +417,26 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
     )
     phase_git_commit(book_dir, f"podcast({book_slug}): phase 0f series plan written; awaiting human review")
 
+    # Autonomy: an approval this level is allowed to give, the run gives — and
+    # records, so the author reads WHAT was approved at the finalize halt instead
+    # of being asked to approve it before there was anything to look at.
+    from phases.autonomy_gate import clear_series_plan_gate
+
+    if clear_series_plan_gate(book_dir, plan_path, log=_info):
+        # Deferred import: chapter_driver imports from this package, so a
+        # module-level import here would close the cycle at load time.
+        from phases.chapter_driver import _drive_per_chapter_and_after
+
+        return _drive_per_chapter_and_after(book_dir)
+
     _info("")
     _info("─" * 72)
-    _info(f"Phase 0f complete · halted for human review.")
+    _info("Phase 0f complete · halted for human review.")
     _info("")
-    _info(f"Review the series plan:")
+    _info("Review the series plan:")
     _info(f"  {plan_path.relative_to(REPO_ROOT)}")
     _info("")
-    _info(f"Resume when approved:")
+    _info("Resume when approved:")
     _info(f"  python3 scripts/podcast/orchestrate_book.py --resume {book_slug}")
     _info("─" * 72)
     return 0
@@ -426,10 +456,7 @@ def _drive_source_ready_through_0f(book_dir: Path, state: dict) -> int:
     category = state.get("category", "explainers")
     title = _read_book_title_local(book_dir) or book_slug.replace("-", " ").title()
 
-    phases_done = {
-        p for p, blk in state.get("phases", {}).items()
-        if blk.get("status") == "completed"
-    }
+    phases_done = {p for p, blk in state.get("phases", {}).items() if blk.get("status") == "completed"}
 
     # ── Mark branch + scaffold completed (done out-of-band for source-ready books)
     for synthetic_phase in ("pre-flight", "branch", "scaffold"):
@@ -466,7 +493,7 @@ def _read_book_title_local(book_dir: Path) -> str | None:
     for line in readme.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if line.startswith("# Podcast — "):
-            return line[len("# Podcast — "):].strip()
+            return line[len("# Podcast — ") :].strip()
     return None
 
 
@@ -487,6 +514,7 @@ def run_initial(args: argparse.Namespace) -> int:
 
     _info("pre-flight: OK")
     from _branching import branch_name as _branch_name
+
     _expected = _branch_name(category, slug)
     _info(f"phase: branch · creating {_expected}")
     try:
@@ -509,9 +537,10 @@ def run_initial(args: argparse.Namespace) -> int:
     }
     write_state(book_dir, state)
     update_phase(book_dir, phase="pre-flight", status="completed")
-    update_phase(book_dir, phase="branch",     status="completed")
-    update_phase(book_dir, phase="scaffold",   status="completed",
-                 extras={"book_dir": str(book_dir.relative_to(REPO_ROOT))})
+    update_phase(book_dir, phase="branch", status="completed")
+    update_phase(
+        book_dir, phase="scaffold", status="completed", extras={"book_dir": str(book_dir.relative_to(REPO_ROOT))}
+    )
     phase_git_commit(book_dir, f"podcast({slug}): scaffold book directory")
 
     _info(f"phase: 0a · Azure OCR + Translation on {pdf_path.name}")

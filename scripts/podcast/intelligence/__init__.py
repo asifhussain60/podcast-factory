@@ -5,9 +5,10 @@ B2: librarian — scratch JSONL → knowledge DB (dedup / conflict)
 B3: augmenter — DB-backed doctrine injection into episode text
 B0: wisdom_ingest_knowledge — Kashkole corpus → doctrine atoms
 """
-from .extractor import extract_chapter, extract_atoms_for_book, ExtractionSummary
-from .librarian import merge_into_library, MergeReport
+
 from .augmenter import augment_episode_text, fetch_atoms_for_tags
+from .extractor import ExtractionSummary, extract_atoms_for_book, extract_chapter
+from .librarian import MergeReport, merge_into_library
 
 __all__ = [
     "extract_chapter",

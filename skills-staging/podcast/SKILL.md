@@ -22,7 +22,7 @@ At session start, list `content/*/` (or run `scripts/podcast/cross_book_dashboar
 
 - **Loop B/C/D/E/H/I/J/K rules** (formerly `notebooklm-source-chapter-rules.md` + `notebooklm-customize-prompt-rules.md`) → [scripts/podcast/_rules.py](../../scripts/podcast/_rules.py) + [infra/claude-agents/podcast-challenger.md](../../infra/claude-agents/podcast-challenger.md) Categories.
 - **Two-host + debate framing** (formerly `two-host-framing.md` + `debate-framing.md`) → podcast-challenger.md Categories F + P; format-decision matrix per book at `BOOK_DIR/audits/notebooklm-format-matrix.md`.
-- **Enrichment sources** (formerly `enrichment-sources.md`) → inlined into [scripts/podcast/_authoring.py](../../scripts/podcast/_authoring.py) Phase 0e prompt.
+- **Enrichment sources** (formerly `enrichment-sources.md`) → inlined into [scripts/podcast/_authoring/_enrichment.py](../../scripts/podcast/_authoring/_enrichment.py) Phase 0e prompt.
 - **Schemas + templates** (formerly `_schemas/` + `_templates/`) → [scripts/podcast/_blueprint_schema.py](../../scripts/podcast/_blueprint_schema.py) dataclasses; [scripts/podcast/extract_chapter.py](../../scripts/podcast/extract_chapter.py) contract validator.
 
 Treat any reference below to a `content/podcast/.skill/handbook/*` path as advisory documentation pointing at retired-but-conceptually-still-relevant material. Do not try to Read those paths — they don't exist on disk.
@@ -46,7 +46,7 @@ Treat any reference below to a `content/podcast/.skill/handbook/*` path as advis
 - **Concurrency-safe ledgers** — fcntl LOCK_EX on findings.jsonl + cost-ledger.jsonl. Safe for N-parallel writers (e.g., the new Phase 0b/0c parallel windows).
 - **Azure cost tracking** — `_cost_ledger.append_azure_{docintel,translator,speech}_cost` helpers wired at all four Azure callsites. Per-book cost-ledger.jsonl now captures Azure spend alongside LLM spend.
 
-Authority files for these additions: [_workspace/plan/pipeline-debt.md](../../_workspace/plan/pipeline-debt.md) F1/F4/F11/F12/F23/F30-F37, [_rules.py:CHALLENGER_VERSION](../../scripts/podcast/_rules.py), [framework.md §"2026-05-25 cleanup wave"](../../framework.md), [docs/runbooks/e2e-book.md](../../docs/runbooks/e2e-book.md) (intake → publish), [docs/runbooks/publish.md](../../docs/runbooks/publish.md) (G1-G7 gates), [docs/runbooks/watchdog.md](../../docs/runbooks/watchdog.md) (three-layer self-healing).
+Authority files for these additions: [_workspace/plan/debt/pipeline-debt.md](../../_workspace/plan/debt/pipeline-debt.md) F1/F4/F11/F12/F23/F30-F37, [_rules.py:CHALLENGER_VERSION](../../scripts/podcast/_rules.py), [framework.md §"2026-05-25 cleanup wave"](../../framework.md), [docs/runbooks/e2e-book.md](../../docs/runbooks/e2e-book.md) (intake → publish), [docs/runbooks/publish.md](../../docs/runbooks/publish.md) (G1-G7 gates), [docs/runbooks/watchdog.md](../../docs/runbooks/watchdog.md) (three-layer self-healing).
 
 ============================================================
 SECTION 0: THE MISSION CONSTANT — GOVERNS EVERY EPISODE
@@ -481,15 +481,29 @@ If the source is a single chapter or article (not a PDF, not multi-chapter), ski
 
 After Phase 0g, every planned episode runs Phases 1–4 below. Phase 1 intake for each episode is shortcut: most fields are inherited from the series intake; only per-episode overrides are surfaced. Phases 2–4 run normally per episode.
 
-### PHASE 0book — COMPANION READING EDITION (PDF path, optional, gated)
+### PHASE 0book — PDF ROUTES (optional, gated)
 
-Distinct from the podcast (podcast path). When `series.enable_book_branch` is true, after the per-chapter work and BEFORE the finalize halt, three phases produce a companion **book** — a PDF + an in-site reader view — a peer deliverable to the podcast that NEVER becomes a NotebookLM source:
+Distinct from the podcast path. The podcast source remains `chapters/chNN-<slug>.txt`; PDF artifacts live under `book/` and never become a NotebookLM source. There are two PDF routes:
+
+**Augmented companion-book route.** When `series.enable_book_branch` is true, the publish driver runs the book branch after the finalize review so the PDF is built from approved podcast content. The route produces a companion **book** — a PDF + an in-site reader view — as a peer deliverable to the podcast:
 
 - **`0book-design`** ([_authoring/_book_design.py](../../scripts/podcast/_authoring/_book_design.py)) — re-segments `refined-english.md` into a book-craft chapter structure (its OWN count/boundaries/titles + a preface, independent of the podcast episode cuts) → `book/book-toc.json`.
-- **`0book-compose`** ([_book_compose.py](../../scripts/podcast/_book_compose.py)) — revoices each chapter into modern author-first-person prose: Arabic quotations rendered as vowelled SCRIPT with the English translation beneath, faithful (no abridgement, no teaching lost), plain transliteration folded by `_translit` → `book/book.md`. Independent enrichment is pluggable, pending a tradition-appropriate corpus.
+- **`0book-compose`** ([_book_pipeline_v2.py](../../scripts/podcast/_book_pipeline_v2.py) `compose_book_v2`) — the ONE compose route, selected by the `book_augmentation` / `book_voice` knobs: a faithful base (`_translation_edition.author_translation_edition_compose`) → optional additive `0book-augment` → optional `0book-voice`, then the deterministic passes (Composer replay, transliteration fold, inline Arabic, American spelling, first-use honorifics) → `book/book.md`. Prose is written **in the book's declared `narrative_frame`**, never automatically first person. Arabic quotations are rendered as SCRIPT with the English beneath, faithful (no abridgement, no teaching lost). A chapter carrying a Book Composer edit is NOT regenerated — see the Composer rule in `framework.md`. (`_book_compose.py` is a helper module only; its standalone whole-book composer was deleted 2026-07-21 because running it clobbered `book.md`.)
 - **`0book-render`** ([build_book_pdf.py](../../scripts/podcast/build_book_pdf.py)) — renders `book.md` to `book/book.pdf` via Playwright (one-time `npx playwright install chromium`) + the reader view at `/studio/<slug>/book`.
 
-NON-blocking (a book failure never sinks the podcast ship); gated by the **`book-challenger`** agent (whole-book voice consistency, verbatim-quote survival, **Arabic-script accuracy**, no-teaching-lost, segmentation sanity, authored-book prose craft). Driver: [phases/book_driver.py](../../scripts/podcast/phases/book_driver.py).
+**Narrative frame (every book, every route).** `narrative_frame` in `_system/series-config.yaml` declares who narrates — `transmitted_report` | `external_narrator` | `first_person_author` | `participant_narrator` (registry: `_rules.NARRATIVE_FRAMES`). It is a property of the SOURCE, never of the product: do NOT pick it from the deliverable or the voice knob. Set it at intake by reading how the source actually opens; an Arabic text opening `بلغنا` ("it has reached us") is `transmitted_report` and narrates in the third person. Every prose-rewriting phase both instructs and enforces it through `_narrative.py`, and `book-challenger` closes with it as Pass 3. First-person narration is legitimate ONLY when the source itself speaks that way.
+
+**Articulated translation edition.** When `_system/series-config.yaml` has `deliverable_mode: translation_edition`, the PDF is the primary deliverable: a faithful, readable translation/articulation of the provided non-English source. The book driver's unified `0book-compose` runs it via the `{book_augmentation: none, book_voice: faithful}` knob defaults (the faithful base, no augmentation, no re-voice). It skips podcast phonetics, gap analysis, outside-source enrichment, and audio. Contract:
+
+- `translation_policy.augmentation` must be `forbidden`, `none`, or `source_only`; no doctrine, modern examples, external citations, or research may be added.
+- `translation_policy.preserve_arabic_terms` stays true; source Arabic and quoted material are preserved from OCR/refined source rather than invented.
+- `visual_style` is `black_white`/monochrome; diagrams and the book-level slide pair are monochrome.
+- `0book-compose` uses [_translation_edition.py](../../scripts/podcast/_translation_edition.py), writes `book/book.md`, mirrors generated chapters into `chapters/`, normalizes long English salutations into compact forms, and persists `book/source-crosswalk.json`.
+- `book/source-crosswalk.json` is required. It records each chapter's source line ranges, source pages, Arabic source pages, source headings/excerpt, and deterministic title/source drift findings.
+
+Validation is deterministic via [validate_book_ready.py](../../scripts/podcast/validate_book_ready.py): B1 book.md exists and is non-trivial, B2 PDF page count is sane, B3 Islamic scholarly chapters retain Arabic script, B4 translation editions contain no model process chatter or generated opening headings, B5 translation-edition chapters have real body text, and B6 translation editions persist and pass the source crosswalk. In the normal podcast publish flow a broken PDF is recorded as non-blocking state; in the standalone translation-edition driver, `BOOK-BROKEN` is a hard failure because the PDF is the product.
+
+Both PDF routes are gated by the **`book-challenger`** agent with route-specific probes. Driver: [phases/book_driver.py](../../scripts/podcast/phases/book_driver.py).
 
 > **Branch boundary (locked 2026-06-04):** `chapters/chNN-<slug>.txt` (author voice) is the SOLE NotebookLM source. The book revoice lives only under `book/` and never feeds NotebookLM. The old per-chapter `0literary` step is retired.
 
@@ -1077,7 +1091,7 @@ After completing an episode, the podcast skill MAY propose additions to two shar
  4. The journal-side operator reviews each proposal manually and PROMOTES selected entries to the libraries. Promotion is always human-mediated — there is no auto-promotion script.
  5. The journal-side operator appends a promotion-ledger row inside the proposal file for each entry moved; the proposal file is the audit trail.
 
-Full operator guide: [`docs/podcast/manual-library-handoff.md`](../../docs/podcast/manual-library-handoff.md). Cross-skill rationale: principle P-7 in `_workspace/plan/podcast-plan.yaml`.
+The operator guide that used to be linked here (`docs/podcast/manual-library-handoff.md`) and the plan file that carried its rationale (`_workspace/plan/podcast-plan.yaml`) were both removed in the 2026-05-23 docs consolidation. The five steps above are the contract; there is nothing further to read. Note also that the journal side of this handoff moved to the sibling `journal` repo in the 2026-05-22 split, so the cross-repo half of this section is historical.
 
 ### CORTEX governance
 

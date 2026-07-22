@@ -7,6 +7,7 @@ writes raw-extract.en.md.
 NEVER modifies raw-extract.md. (Source of truth stays byte-faithful.)
 Stage transition: reviewed → translated.
 """
+
 from __future__ import annotations
 
 import json
@@ -18,7 +19,7 @@ from typing import Optional
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO_ROOT / "scripts" / "podcast"))
-import _azure  # noqa: E402
+import _azure
 
 COST_LEDGER = REPO_ROOT / "_workspace" / "plan" / "wisdom-translation-cost-ledger.jsonl"
 
@@ -142,10 +143,7 @@ def translate_bundle(
         if stage in ("translated", "adapted", "challenged"):
             print(f"SKIPPED (already {stage}): {bundle_root}")
             return {"skipped": True, "stage": stage}
-        raise RuntimeError(
-            f"Unexpected stage '{stage}' — expected 'reviewed'. "
-            "Re-run review/seal first."
-        )
+        raise RuntimeError(f"Unexpected stage '{stage}' — expected 'reviewed'. Re-run review/seal first.")
 
     source_text = raw_extract.read_text(encoding="utf-8")
 
@@ -155,8 +153,7 @@ def translate_bundle(
         completed_at = datetime.now(timezone.utc).isoformat()
         if not dry_run:
             raw_extract_en.write_text(source_text, encoding="utf-8")
-            _append_translation_block(bundle_yml, 0, 0, 0.0, completed_at,
-                                      engine="passthrough-english")
+            _append_translation_block(bundle_yml, 0, 0, 0.0, completed_at, engine="passthrough-english")
             _update_stage(bundle_yml, "translated")
             _append_cost_ledger(binder_id, chapter_id, "passthrough", 0.0, completed_at)
         return {
@@ -232,6 +229,7 @@ def translate_bundle(
 
 # ── bundle.yml helpers ────────────────────────────────────────────────────────
 
+
 def _read_stage(bundle_yml: Path) -> str:
     for line in bundle_yml.read_text(encoding="utf-8").splitlines():
         if line.startswith("stage:"):
@@ -241,10 +239,7 @@ def _read_stage(bundle_yml: Path) -> str:
 
 def _update_stage(bundle_yml: Path, new_stage: str) -> None:
     text = bundle_yml.read_text(encoding="utf-8")
-    lines = [
-        f"stage: {new_stage}" if l.startswith("stage:") else l
-        for l in text.splitlines()
-    ]
+    lines = [f"stage: {new_stage}" if l.startswith("stage:") else l for l in text.splitlines()]
     bundle_yml.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 

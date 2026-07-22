@@ -33,6 +33,7 @@ OUTPUTS (under <out-book>/_system/source/text/)
     raw-extract.md      English translation, same markers (Stage 2 — feeds 0b)
     ingest-provenance.json
 """
+
 from __future__ import annotations
 
 import argparse
@@ -45,7 +46,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _paths import content_dir, find_content  # noqa: E402
+from _paths import content_dir, find_content
 
 # NOTE on numbering: this Gutenberg edition (#23962) uses an INCONSISTENT chapter
 # numeral convention — positional digit strings (一一=11, 一○=10 using ○ U+25CB as
@@ -58,8 +59,7 @@ _START_RE = re.compile(r"\*\*\* START OF THE PROJECT GUTENBERG")
 _END_RE = re.compile(r"\*\*\* END OF THE PROJECT GUTENBERG")
 # A chapter heading paragraph: <p ...>第<numeral>回   <title></p>. The numeral class
 # covers standard (一-十百千) AND positional-zero forms (○ U+25CB, 〇 U+3007, 零).
-_CHAPTER_RE = re.compile(
-    r"<p[^>]*>\s*第([一二三四五六七八九十百千零○〇]+)回\s+([^<]*)</p>", re.UNICODE)
+_CHAPTER_RE = re.compile(r"<p[^>]*>\s*第([一二三四五六七八九十百千零○〇]+)回\s+([^<]*)</p>", re.UNICODE)
 _P_RE = re.compile(r"<p[^>]*>(.*?)</p>", re.DOTALL | re.UNICODE)
 _TAG_RE = re.compile(r"<[^>]+>")
 
@@ -73,7 +73,7 @@ def parse_chapters(html: str) -> list[dict]:
     # Trim to the content between START and END boilerplate markers.
     start = _START_RE.search(html)
     end = _END_RE.search(html)
-    body_html = html[start.end() if start else 0: end.start() if end else len(html)]
+    body_html = html[start.end() if start else 0 : end.start() if end else len(html)]
 
     # Find chapter heading positions.
     heads = list(_CHAPTER_RE.finditer(body_html))
@@ -88,12 +88,14 @@ def parse_chapters(html: str) -> list[dict]:
         seg_html = body_html[seg_start:seg_end]
         paras = [_strip_tags(m.group(1)) for m in _P_RE.finditer(seg_html)]
         paras = [p for p in paras if p]
-        chapters.append({
-            "num": i + 1,                 # canonical chapter index = sequence position
-            "label": h.group(1),          # printed numeral as-is (display only)
-            "title": title,
-            "body": "\n\n".join(paras),
-        })
+        chapters.append(
+            {
+                "num": i + 1,  # canonical chapter index = sequence position
+                "label": h.group(1),  # printed numeral as-is (display only)
+                "title": title,
+                "body": "\n\n".join(paras),
+            }
+        )
     return chapters
 
 
@@ -174,13 +176,16 @@ def translate_volume(book_dir: Path, *, model_flag: str | None, timeout: int) ->
             done += 1
             continue
         m = re.search(r"#\s*第\S*回[　\s]+(.*)", chunk)
-        title = (m.group(1).strip() if m else "")
+        title = m.group(1).strip() if m else ""
         body = chunk.strip()
         print(f"  translating chapter {num} ({len(body):,} chars)…", flush=True)
         rc, stdout, stderr = _run_claude_p(
             _translate_prompt(num, title, body),
-            book_dir=book_dir, phase="0a-translate", step=f"ch{num:03d}",
-            model_flag=model_flag, timeout=timeout,
+            book_dir=book_dir,
+            phase="0a-translate",
+            step=f"ch{num:03d}",
+            model_flag=model_flag,
+            timeout=timeout,
         )
         if rc != 0:
             sys.exit(f"ERROR: claude -p failed for chapter {num} (rc={rc}): {stderr[:300]}")
@@ -205,13 +210,13 @@ def translate_volume(book_dir: Path, *, model_flag: str | None, timeout: int) ->
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(prog="ingest_gutenberg_zh.py",
-                                 description="Chinese Gutenberg HTML → volume slice → English.")
+    ap = argparse.ArgumentParser(
+        prog="ingest_gutenberg_zh.py", description="Chinese Gutenberg HTML → volume slice → English."
+    )
     ap.add_argument("--source", help="Path to the Gutenberg Chinese HTML (Stage 1).")
     ap.add_argument("--out-book", required=True, help="Target volume slug or path.")
     ap.add_argument("--chapters", help="Chapter range to slice, e.g. '1-33' (Stage 1).")
-    ap.add_argument("--translate", action="store_true",
-                    help="Stage 2: translate the sliced Chinese source to English.")
+    ap.add_argument("--translate", action="store_true", help="Stage 2: translate the sliced Chinese source to English.")
     ap.add_argument("--model", default=None, help="Model flag for translation (e.g. claude-opus-4-8).")
     ap.add_argument("--timeout", type=int, default=900, help="Per-chapter translate timeout (s).")
     args = ap.parse_args(argv)
@@ -249,8 +254,7 @@ def main(argv: list[str] | None = None) -> int:
         "selected_count": len(selected),
         "selected_chapters": [c["num"] for c in selected],
     }
-    (text_dir / "ingest-provenance.json").write_text(json.dumps(prov, indent=2) + "\n",
-                                                     encoding="utf-8")
+    (text_dir / "ingest-provenance.json").write_text(json.dumps(prov, indent=2) + "\n", encoding="utf-8")
     words = sum(len(c["body"]) for c in selected)
     print(f"Stage 1 split: chapters {lo}-{hi} ({len(selected)} of {max_n}) → {zh_path}")
     print(f"  {words:,} Chinese chars. Next: --translate to produce raw-extract.md.")

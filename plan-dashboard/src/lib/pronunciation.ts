@@ -10,35 +10,40 @@
  * Mirrors: scripts/podcast/probe/score_pronunciation_risk.py (term shape) and
  * scripts/podcast/knowledge/pronunciation_ledger.py (normalizeKey, entry shape).
  */
-import { join } from 'node:path';
-import { readFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
-import { getRepoRoot, listContent, findContent, slugToTitle } from './content-paths';
+import { join } from "node:path";
+import { readFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
+import {
+  getRepoRoot,
+  listContent,
+  findContent,
+  slugToTitle,
+} from "./content-paths";
 
-export const PROBE_REL = '_system/probe/probe-terms.json';
+export const PROBE_REL = "_system/probe/probe-terms.json";
 export const PROBE_AUDIO_REL =
-  '_system/probe/EP00-pronunciation-probe/audio/EP00-pronunciation-probe.m4a';
+  "_system/probe/EP00-pronunciation-probe/audio/EP00-pronunciation-probe.m4a";
 
 export interface ProbeTerm {
   n: number;
   term: string;
   transliteration: string;
-  phonetic: string;            // intended (from _phonetics.md; may be IPA/invalid)
+  phonetic: string; // intended (from _phonetics.md; may be IPA/invalid)
   house_style_ok: boolean;
-  suggested_baseline: string;  // deterministic pattern baseline (pre-fill)
+  suggested_baseline: string; // deterministic pattern baseline (pre-fill)
   signature: string[];
   segment: string;
   snippet: string;
   freq: number;
   score: number;
   reasons: string[];
-  arabic_script: string;       // baked from glossary.yml by score_pronunciation_risk.py
-  meaning: string;             // short English gloss (concept-glossary or snippet extraction)
+  arabic_script: string; // baked from glossary.yml by score_pronunciation_risk.py
+  meaning: string; // short English gloss (concept-glossary or snippet extraction)
   // ── live library overlay (added here) ──
-  libraryStatus: 'confirmed' | 'unfixable' | null;
+  libraryStatus: "confirmed" | "unfixable" | null;
   libraryPhonetic: string;
   libraryGloss: string;
-  arabicScript: string;        // exposed to the UI (alias of arabic_script, set in getProbe)
+  arabicScript: string; // exposed to the UI (alias of arabic_script, set in getProbe)
 }
 
 export interface ProbeBookSummary {
@@ -46,8 +51,8 @@ export interface ProbeBookSummary {
   title: string;
   bucket: string;
   termCount: number;
-  needsRespell: number;        // count of non-house-style intended phonetics
-  alreadyKnown: number;        // count already confirmed/unfixable in the library
+  needsRespell: number; // count of non-house-style intended phonetics
+  alreadyKnown: number; // count already confirmed/unfixable in the library
   hasAudio: boolean;
 }
 
@@ -55,7 +60,7 @@ export interface LibraryEntry {
   key: string;
   term: string;
   phonetic: string;
-  status: 'confirmed' | 'unfixable';
+  status: "confirmed" | "unfixable";
   transliteration: string;
   gloss: string;
   source_books: string[];
@@ -65,20 +70,25 @@ export interface LibraryEntry {
 /** Diacritic- and case-insensitive key — mirror of ledger.normalize_key. */
 export function normalizeKey(s: string): string {
   return s
-    .normalize('NFKD')
-    .replace(/\p{M}/gu, '')
-    .replace(/[ʿʾ'‘’`]/g, '')
+    .normalize("NFKD")
+    .replace(/\p{M}/gu, "")
+    .replace(/[ʿʾ'‘’`]/g, "")
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, ' ');
+    .replace(/\s+/g, " ");
 }
 
 export async function loadLibrary(): Promise<Map<string, LibraryEntry>> {
-  const p = join(getRepoRoot(), 'content', 'knowledge-base', 'pronunciations.jsonl');
+  const p = join(
+    getRepoRoot(),
+    "content",
+    "knowledge-base",
+    "pronunciations.jsonl",
+  );
   const map = new Map<string, LibraryEntry>();
   if (!existsSync(p)) return map;
-  const raw = await readFile(p, 'utf-8');
-  for (const line of raw.split('\n')) {
+  const raw = await readFile(p, "utf-8");
+  for (const line of raw.split("\n")) {
     const t = line.trim();
     if (!t) continue;
     try {
@@ -96,7 +106,7 @@ async function readProbeTerms(dir: string): Promise<any | null> {
   const p = join(dir, PROBE_REL);
   if (!existsSync(p)) return null;
   try {
-    return JSON.parse(await readFile(p, 'utf-8'));
+    return JSON.parse(await readFile(p, "utf-8"));
   } catch {
     return null;
   }
@@ -104,7 +114,7 @@ async function readProbeTerms(dir: string): Promise<any | null> {
 
 /** All Islamic books that have a generated probe. */
 export async function listProbeBooks(): Promise<ProbeBookSummary[]> {
-  const refs = await listContent({ bucket: 'Islamic' });
+  const refs = await listContent({ bucket: "Islamic" });
   const lib = await loadLibrary();
   const out: ProbeBookSummary[] = [];
   for (const ref of refs) {
@@ -144,11 +154,11 @@ export async function getProbe(slug: string): Promise<ProbeDetail | null> {
     const hit = lib.get(normalizeKey(t.term));
     return {
       ...t,
-      arabicScript: t.arabic_script ?? t.term ?? '',
-      meaning: t.meaning ?? '',
+      arabicScript: t.arabic_script ?? t.term ?? "",
+      meaning: t.meaning ?? "",
       libraryStatus: hit ? hit.status : null,
-      libraryPhonetic: hit?.phonetic ?? '',
-      libraryGloss: hit?.gloss ?? '',
+      libraryPhonetic: hit?.phonetic ?? "",
+      libraryGloss: hit?.gloss ?? "",
     };
   });
 

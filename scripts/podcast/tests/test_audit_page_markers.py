@@ -5,6 +5,7 @@ Verifies the audit logic against synthesized mini-fixtures — no real book
 required. The acceptance contract is: exit 0 on clean match, exit non-zero
 with per-window breakdown on any mismatch (lost, hallucinated, repeated).
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,7 +16,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import audit_page_markers as apm  # noqa: E402
+import audit_page_markers as apm
 
 
 class ExtractPageMarkersTests(unittest.TestCase):
@@ -177,7 +178,7 @@ class IntegrationTests(unittest.TestCase):
             # Monkeypatch the repo-root resolver so it points at our temp tree
             orig_resolver = apm._resolve_book_dir
             try:
-                apm._resolve_book_dir = lambda slug, cat: text_dir.parent.parent.parent  # noqa: E731
+                apm._resolve_book_dir = lambda slug, cat: text_dir.parent.parent.parent
                 rc = apm.main(["--book", book_slug, "--skip-window-audit"])
                 self.assertEqual(rc, 0)
             finally:

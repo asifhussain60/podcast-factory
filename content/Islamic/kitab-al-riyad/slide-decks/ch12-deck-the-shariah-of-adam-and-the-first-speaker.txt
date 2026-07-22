@@ -81,7 +81,7 @@ Annotations on the verse:
 
 The canonical witness at the rank of *the foundation*:
 
-> *He sent His prophets in succession that they might exact the pledge from creatures concerning His Lordship, remind them of His forgotten favours, present to them the proof through preaching, unearth for them the buried treasures of the intellects, show them the signs of dominion, and inform them of how the prophets had been raised up before them.*
+> *He sent His prophets in succession that they might exact the pledge from creatures concerning His Lordship, remind them of His forgotten favors, present to them the proof through preaching, unearth for them the buried treasures of the intellects, show them the signs of dominion, and inform them of how the prophets had been raised up before them.*
 > Imam *the Commander of the Faithful*, *the book The Path of Eloquence*, Sermon 1, compiled by *the compiler of the sermons* c. 1009 CE.
 
 Mapping the sermon's clauses onto the chapter's architecture:
@@ -89,7 +89,7 @@ Mapping the sermon's clauses onto the chapter's architecture:
 | Sermon clause | Chapter doctrine |
 |---|---|
 | Exact the pledge concerning His Lordship | The primordial covenant of Quran 7:172, the *fitra*-rank that grounds Adam's *sacred law* |
-| Remind them of His forgotten favours | The teaching function |
+| Remind them of His forgotten favors | The teaching function |
 | Present to them the proof through preaching | The establishment of arguments, which requires a *sacred law* |
 | Unearth the buried treasures of the intellects | The raising-by-degrees of the *the mission* |
 | In succession | The chain of cycles whose head is Adam |

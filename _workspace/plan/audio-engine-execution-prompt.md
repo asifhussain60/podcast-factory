@@ -47,7 +47,8 @@ never by cutting content.
    deterministic rule system (R-* constants) to extend to dialogue scripts.
 6. `scripts/podcast/orchestrate_book.py` + `scripts/podcast/phases/` — phase registry
    (`_progress.PHASES` is the single source of truth) and the per-chapter convergence
-   loop (`_authoring/_convergence.py`).
+   loop (`scripts/podcast/_convergence.py`; the challenger/fixer/trainer
+   shellouts it drives live in `_authoring/_agent_invocations.py`).
 7. `scripts/podcast/normalize_m4a.py` + `transcribe_notebooklm.py` — canonical m4a +
    transcript layout the new renderer must write into directly.
 8. A real book's `_system/series-config.yaml` + `_system/glossary.yml`

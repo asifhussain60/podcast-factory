@@ -42,7 +42,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _authoring import (   # noqa: E402
+from _authoring import (
     AuthoringError,
     invoke_challenger,
     invoke_fixer,
@@ -60,14 +60,15 @@ CONVERGENCE_VERSION = "1.0"
 @dataclass
 class ChapterOutcome:
     """The verdict-and-state of one chapter's convergence pass."""
+
     chapter_slug: str
-    final_verdict: str               # "SHIP-READY" | "SHIP-WITH-CAUTION" | "FAILED"
+    final_verdict: str  # "SHIP-READY" | "SHIP-WITH-CAUTION" | "FAILED"
     outer_iterations: int
     fixer_attempts: int
     p0_remaining: int
     p1_remaining: int
     p2_remaining: int
-    peq_total: float | None = None   # last PEQ total recorded; None if not scored
+    peq_total: float | None = None  # last PEQ total recorded; None if not scored
     notes: list[str] = field(default_factory=list)
     # Phase 3: mid-loop safety-rail signals. systemic_halt is non-None when a
     # per-BOOK ceiling was breached — the driver must halt the whole book and
@@ -79,6 +80,7 @@ class ChapterOutcome:
 
 
 # ─── Episode-txt rebuild helper ──────────────────────────────────────────────
+
 
 def _find_episode_id(book_dir: Path, chapter_slug: str) -> str | None:
     """Derive the EP##-<slug> id from the episode-drafts directory.
@@ -185,9 +187,9 @@ def converge_chapter(
     *,
     per_chapter_cost_cap: float = 0.0,
     book_cost_cap: float = 0.0,
-    chapter_cost_fn=None,   # () -> float : per-chapter spend since chapter start
-    book_cost_fn=None,      # () -> float : per-book total spend so far
-    heartbeat=None,         # (outer: int, note: str) -> None : cheap state beat
+    chapter_cost_fn=None,  # () -> float : per-chapter spend since chapter start
+    book_cost_fn=None,  # () -> float : per-book total spend so far
+    heartbeat=None,  # (outer: int, note: str) -> None : cheap state beat
 ) -> ChapterOutcome:
     """Drive the per-chapter convergence loop. Returns a ChapterOutcome.
 
@@ -254,8 +256,7 @@ def converge_chapter(
         if book_cost_fn is not None and book_cost_cap > 0:
             _bc = book_cost_fn()
             if _bc > book_cost_cap:
-                msg = (f"COST-CEILING: book spent ${_bc:.2f} > cap "
-                       f"${book_cost_cap:.2f} at iter {outer}")
+                msg = f"COST-CEILING: book spent ${_bc:.2f} > cap ${book_cost_cap:.2f} at iter {outer}"
                 outcome.notes.append(msg)
                 outcome.systemic_halt = msg
                 outcome.final_verdict = "FAILED"
@@ -263,8 +264,10 @@ def converge_chapter(
         if chapter_cost_fn is not None and per_chapter_cost_cap > 0:
             _cc = chapter_cost_fn()
             if _cc > per_chapter_cost_cap:
-                msg = (f"COST-CAPPED (mid-loop): chapter spent ${_cc:.2f} > cap "
-                       f"${per_chapter_cost_cap:.2f} at iter {outer}")
+                msg = (
+                    f"COST-CAPPED (mid-loop): chapter spent ${_cc:.2f} > cap "
+                    f"${per_chapter_cost_cap:.2f} at iter {outer}"
+                )
                 outcome.notes.append(msg)
                 outcome.final_verdict = "FAILED"
                 return outcome
@@ -284,8 +287,7 @@ def converge_chapter(
                     f"(later challenger timeout did not invalidate the prior ship signal)"
                 )
                 return outcome
-            if (best_verdict_so_far == "SHIP-WITH-CAUTION"
-                    and best_verdict_at_iter >= SHIP_WITH_CAUTION_MIN_ITER):
+            if best_verdict_so_far == "SHIP-WITH-CAUTION" and best_verdict_at_iter >= SHIP_WITH_CAUTION_MIN_ITER:
                 outcome.final_verdict = "SHIP-WITH-CAUTION"
                 outcome.notes.append(
                     f"iter {outer}: preserved SHIP-WITH-CAUTION from iter "
@@ -303,7 +305,7 @@ def converge_chapter(
 
         # Extract PEQ total from report for recording and gate enforcement.
         peq_m = re.search(
-            r'\|\s*\*\*Total\*\*\s*\|\s*100%\s*\|\s*—\s*\|\s*\*\*(\d+(?:\.\d+)?)\*\*',
+            r"\|\s*\*\*Total\*\*\s*\|\s*100%\s*\|\s*—\s*\|\s*\*\*(\d+(?:\.\d+)?)\*\*",
             report.read_text(encoding="utf-8") if report.exists() else "",
         )
         if peq_m:
@@ -359,8 +361,7 @@ def converge_chapter(
                 if not _rebuild_episode_txt(book_dir, episode_id):
                     outcome.episode_rebuild_failed = True
                     outcome.notes.append(
-                        f"iter {outer}: episode.txt rebuild FAILED after P1 fixer "
-                        f"(surfaced, not swallowed)"
+                        f"iter {outer}: episode.txt rebuild FAILED after P1 fixer (surfaced, not swallowed)"
                     )
             continue
 
@@ -373,9 +374,7 @@ def converge_chapter(
                     invoke_fixer(book_dir, chapter_slug, severity="P0")
                     outcome.fixer_attempts += 1
                 except AuthoringError as e:
-                    outcome.notes.append(
-                        f"iter {outer}: fixer/P0 attempt {attempt} failed — {e}"
-                    )
+                    outcome.notes.append(f"iter {outer}: fixer/P0 attempt {attempt} failed — {e}")
                     continue
                 # After fixer, also clean up any P1s on the same attempt — cheap.
                 try:
@@ -390,8 +389,7 @@ def converge_chapter(
                     if not _rebuild_episode_txt(book_dir, episode_id):
                         outcome.episode_rebuild_failed = True
                         outcome.notes.append(
-                            f"iter {outer}: episode.txt rebuild FAILED after P0 fixer "
-                            f"(surfaced, not swallowed)"
+                            f"iter {outer}: episode.txt rebuild FAILED after P0 fixer (surfaced, not swallowed)"
                         )
                 _fixer_succeeded = True
                 break  # fixer attempt OK; let next outer iteration re-validate
@@ -404,13 +402,14 @@ def converge_chapter(
                 consecutive_fixer_failures += 1
                 if consecutive_fixer_failures >= 2:
                     outcome.notes.append(
-                        f"iter {outer}: 2 consecutive structural fixer failures — "
-                        f"early halt (not grinding to the cap)"
+                        f"iter {outer}: 2 consecutive structural fixer failures — early halt (not grinding to the cap)"
                     )
                     if best_verdict_so_far == "SHIP-READY":
                         outcome.final_verdict = "SHIP-READY"
-                    elif (best_verdict_so_far == "SHIP-WITH-CAUTION"
-                            and best_verdict_at_iter >= SHIP_WITH_CAUTION_MIN_ITER):
+                    elif (
+                        best_verdict_so_far == "SHIP-WITH-CAUTION"
+                        and best_verdict_at_iter >= SHIP_WITH_CAUTION_MIN_ITER
+                    ):
                         outcome.final_verdict = "SHIP-WITH-CAUTION"
                     else:
                         outcome.final_verdict = "FAILED"
@@ -420,9 +419,7 @@ def converge_chapter(
             continue
 
         # Unknown verdict — fail loudly to avoid silent ships
-        outcome.notes.append(
-            f"iter {outer}: unknown verdict {verdict!r} — refusing to ship"
-        )
+        outcome.notes.append(f"iter {outer}: unknown verdict {verdict!r} — refusing to ship")
         outcome.final_verdict = "FAILED"
         return outcome
 

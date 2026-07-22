@@ -73,7 +73,7 @@ tools/source_extractor/
 
 The pipeline-side `intake_book.py --from-bundle <dir>` (Phase D) reads
 `bundle.yml`, creates the content branch, copies `_system/source/` into
-`content/drafts/<slug>/_system/source/`, and marks Phase 0a complete. If
+`content/<Bucket>/<slug>/_system/source/`, and marks Phase 0a complete. If
 `source_language != en`, the orchestrator runs the new Phase 0a-translate
 step (Phase E, deferred).
 

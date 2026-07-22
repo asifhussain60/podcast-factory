@@ -7,6 +7,7 @@ Valid transitions:
 
 Also validates that the required output files exist for each stage before stamping.
 """
+
 from __future__ import annotations
 
 from datetime import datetime, timezone
@@ -29,10 +30,7 @@ def _read_stage(bundle_yml: Path) -> str:
 
 def _update_stage(bundle_yml: Path, new_stage: str) -> None:
     text = bundle_yml.read_text(encoding="utf-8")
-    lines = [
-        f"stage: {new_stage}" if l.startswith("stage:") else l
-        for l in text.splitlines()
-    ]
+    lines = [f"stage: {new_stage}" if l.startswith("stage:") else l for l in text.splitlines()]
     bundle_yml.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -82,17 +80,14 @@ def seal_stage(bundle_root: Path, target_stage: str, *, force: bool = False) -> 
         if current == target_stage:
             print(f"SKIPPED (already {target_stage}): {bundle_root}")
             return {"sealed": False, "skipped": True, "stage": target_stage}
-        raise RuntimeError(
-            f"Cannot transition from '{current}' to '{target_stage}' — would go backwards."
-        )
+        raise RuntimeError(f"Cannot transition from '{current}' to '{target_stage}' — would go backwards.")
 
     # Validate required output files
     required = _REQUIRED_FILES.get(target_stage, [])
     missing = [f for f in required if not (text_dir / f).exists()]
     if missing:
         raise FileNotFoundError(
-            f"Missing required files for stage '{target_stage}': {missing}\n"
-            f"  Expected under: {text_dir}"
+            f"Missing required files for stage '{target_stage}': {missing}\n  Expected under: {text_dir}"
         )
 
     # PEQ gate: block 'challenged' seal if total < 70 (unless --force)
@@ -100,8 +95,9 @@ def seal_stage(bundle_root: Path, target_stage: str, *, force: bool = False) -> 
         report = text_dir / "wisdom-challenger-report.md"
         if report.exists():
             import re as _re
+
             report_text = report.read_text(encoding="utf-8")
-            m = _re.search(r'\|\s*\*\*Total\*\*\s*\|\s*100%\s*\|\s*—\s*\|\s*\*\*(\d+(?:\.\d+)?)\*\*', report_text)
+            m = _re.search(r"\|\s*\*\*Total\*\*\s*\|\s*100%\s*\|\s*—\s*\|\s*\*\*(\d+(?:\.\d+)?)\*\*", report_text)
             if m:
                 peq_total = float(m.group(1))
                 if peq_total < 70.0 and not force:

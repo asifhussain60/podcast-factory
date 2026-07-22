@@ -17,6 +17,7 @@ CLI:
     python3 scripts/podcast/intelligence/ingest_kqur.py --dry-run
     python3 scripts/podcast/intelligence/ingest_kqur.py
 """
+
 from __future__ import annotations
 
 import json
@@ -41,7 +42,7 @@ from intelligence._mirror_corpus import (
 )
 
 QURAN_CORPUS_ID = "quran"
-QURAN_TRADITION = "universal"   # D5: raw scripture is tradition-neutral
+QURAN_TRADITION = "universal"  # D5: raw scripture is tradition-neutral
 
 
 def ingest_all(*, dry_run: bool = False) -> MirrorSummary:
@@ -57,9 +58,7 @@ def ingest_all(*, dry_run: bool = False) -> MirrorSummary:
         summary.corpora_registered += 1
 
     # ---- Quran verses -> corpus_chapters (per surah) + quran atoms (per verse) ----
-    verses = mirror.execute(
-        "SELECT surah, ayat, arabic, pickthall, asad, urdu, phonetic FROM fts_quran"
-    ).fetchall()
+    verses = mirror.execute("SELECT surah, ayat, arabic, pickthall, asad, urdu, phonetic FROM fts_quran").fetchall()
     surahs_seen: set[int] = set()
     surah_verse_counts: dict[int, int] = {}
     for v in verses:
@@ -74,20 +73,34 @@ def ingest_all(*, dry_run: bool = False) -> MirrorSummary:
             continue
         if surah not in surahs_seen:
             if upsert_chapter(
-                conn, f"quran:{surah}", QURAN_CORPUS_ID,
-                number=surah, title_en=f"Surah {surah}",
+                conn,
+                f"quran:{surah}",
+                QURAN_CORPUS_ID,
+                number=surah,
+                title_en=f"Surah {surah}",
                 verse_count=surah_verse_counts[surah],
             ):
                 summary.total_chapters += 1
             surahs_seen.add(surah)
-        body = json.dumps({
-            "surah": surah, "ayat": ayat,
-            "arabic": v["arabic"], "pickthall": v["pickthall"], "asad": v["asad"],
-            "urdu": v["urdu"], "phonetic": v["phonetic"],
-            "tradition": QURAN_TRADITION,
-        }, ensure_ascii=False)
+        body = json.dumps(
+            {
+                "surah": surah,
+                "ayat": ayat,
+                "arabic": v["arabic"],
+                "pickthall": v["pickthall"],
+                "asad": v["asad"],
+                "urdu": v["urdu"],
+                "phonetic": v["phonetic"],
+                "tradition": QURAN_TRADITION,
+            },
+            ensure_ascii=False,
+        )
         if insert_atom(
-            conn, f"quran:{surah}:{ayat}", "quran", body, QURAN_TRADITION,
+            conn,
+            f"quran:{surah}:{ayat}",
+            "quran",
+            body,
+            QURAN_TRADITION,
             first_seen_book=QURAN_CORPUS_ID,
         ):
             summary.total_atoms_created += 1
@@ -113,8 +126,10 @@ def _main() -> int:
     run_migrations()
     s = ingest_all(dry_run=args.dry_run)
     flag = " (dry-run)" if args.dry_run else ""
-    print(f"KQUR ingest{flag}: {s.total_atoms_created} atoms created, "
-          f"{s.atoms_skipped_existing} already present, {s.total_chapters} surahs")
+    print(
+        f"KQUR ingest{flag}: {s.total_atoms_created} atoms created, "
+        f"{s.atoms_skipped_existing} already present, {s.total_chapters} surahs"
+    )
     for e in s.errors:
         print(f"  ! {e}")
     return 1 if s.errors else 0

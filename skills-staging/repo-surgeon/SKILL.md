@@ -23,7 +23,7 @@ Before any action, read in order:
    - `meta.scope_in` / `meta.scope_out` — the contracted boundaries Pass 5 enforces.
    - `intelligence_sources` — files agents must consult before edits; Pass 5 L3 verifies existence.
    - `async_safety` — wait-banner format + pre-edit checklist; Pass 5 L6 honors.
-   - `phases[]` — phase ids that Pass 5 L7 cross-checks against the HTML view.
+   - `waves` / `waves_*` / `wave_*` — wave ids that Pass 5 L7 cross-checks against the HTML view. (There is no `phases[]` key; enumerate the wave families dynamically.)
 6. **`_workspace/plan/operations/per-book-ship-checklist.md`** (if present) — the master checklist Pass 5 L10 syncs against the YAML.
 
 Severity is **P0 / P1 / P2 / P3** per bootstrap §2. Legacy labels (Critical / High / Medium / Low) map: Critical → P0, High → P1, Medium → P2, Low → P3. See "Severity tier mapping" below for per-pass examples.
@@ -104,7 +104,7 @@ Pass 5: Plan Conformance      → v2 plan YAML/MD/HTML parity, intelligence-sour
 
 | ID | Rule | Action |
 |---|---|---|
-| R1 | **Root hygiene** — Only these files may exist at repo root: `framework.md`, `package.json`, `release-please-config.json`, `.release-please-manifest.json`, `site-worker.js`, `wrangler.toml`, `CHANGELOG.md`, `.gitignore`, `.gitattributes`, `.mcp.json`, `LICENSE`, `README.md`. Everything else is clutter. | Move to `_workspace/scratch/` or correct location, or delete if stale. |
+| R1 | **Root hygiene** — Only these files may exist at repo root: `framework.md`, `CLAUDE.md`, `AGENTS.md`, `Makefile`, `package.json`, `pyproject.toml`, `pytest.ini`, `requirements.txt`, `release-please-config.json`, `.release-please-manifest.json`, `CHANGELOG.md`, `.gitignore`, `.gitattributes`, `.mcp.json`, `.env.example`, `LICENSE`, `README.md`. Everything else is clutter. **`site-worker.js` and `wrangler.toml` were removed from this list 2026-07-20** — they are retired surfaces that CLAUDE.md forbids recreating, so allow-listing them invited exactly what the ban prohibits. | Move to `_workspace/scratch/` or correct location, or delete if stale. |
 | R2 | **No loose dotfiles** — `.env*`, `.tool-versions`, editor configs (`.vscode/settings.json` excepted) at root are violations unless gitignored. | Add to `.gitignore` or relocate. |
 | R3 | **No temp/scratch at root** — `*.prompt.md`, `scratchpad-*`, `tmp-*`, `test-*`, `debug-*` at root are violations. | Move to `_workspace/scratch/`. |
 | R4 | **Folder depth** — No content file should be more than 4 levels deep from repo root (exception: `node_modules/`, `.git/`). | Flag for review. |
@@ -115,7 +115,10 @@ Pass 5: Plan Conformance      → v2 plan YAML/MD/HTML parity, intelligence-sour
 
 ```bash
 # R1: Root clutter scan
-ls -1 | grep -v -E '^(framework\.md|package\.json|release-please-config\.json|\.release-please-manifest\.json|site-worker\.js|wrangler\.toml|CHANGELOG\.md|\.gitignore|\.gitattributes|\.mcp\.json|LICENSE|README\.md)$' | grep -v -E '^(\.|_workspace|content|docs|infra|reference|scripts|server|shared|site|skills-staging)$'
+# Allow-list kept in step with the R1 rule above. Run verbatim against the repo as
+# it actually is: the previous version reported eleven violations, every one of
+# them a governed file or directory it simply had not been told about.
+ls -1 | grep -v -E '^(framework\.md|CLAUDE\.md|AGENTS\.md|Makefile|package\.json|pyproject\.toml|pytest\.ini|requirements\.txt|release-please-config\.json|\.release-please-manifest\.json|CHANGELOG\.md|\.gitignore|\.gitattributes|\.mcp\.json|\.env\.example|LICENSE|README\.md)$' | grep -v -E '^(\.|_learning|_workspace|content|docs|infra|plan-dashboard|scripts|skills-staging|tests|tools|node_modules)$'
 
 # R3: Scratch files at root
 ls -1 *.prompt.md scratchpad-* tmp-* test-* debug-* 2>/dev/null
@@ -211,6 +214,19 @@ If ANY of the three returns a hit referencing this candidate, downgrade to "POSS
 | AU-X2 | Extensibility | P1 | **Missing plugin points** — Classes/functions with the same shape in N>1 places without a registration pattern. |
 | AU-X3 | Extensibility | P2 | **Convention drift** — Recent additions that don't match established naming/file-layout/invocation patterns. |
 | AU-H1 | Hygiene | P1 | **Workspace-root sprawl** — Files at any folder root not in vacuum's root-legit whitelist (vacuum.agent.md §9). Report with `delegate_to: vacuum`. |
+
+### Book Pipeline conformance (AU-V*, added 2026-07-13; cutover 2026-07-17)
+
+Verifies the unified book path is intact and is the SOLE compose route (the `book_pipeline_v2` flag + the legacy dispatch were removed at cutover). Source of truth for the architecture: `_workspace/plan/book-pipeline-plan.md`; cutover state: `_workspace/plan/book-pipeline-cutover.md`.
+
+| ID | Axis | Severity | What to detect |
+|---|---|---|---|
+| AU-V1 | Accuracy | P0 | **Unified compose is the only route** — `scripts/podcast/_pipeline_flags.py` defines the `book_augmentation` + `book_voice` knobs, and `phases/book_driver.py`'s 0book-compose calls `compose_book_v2` unconditionally (no legacy `if/elif` dispatch). A resurrected legacy branch, or a re-introduced `book_pipeline_v2_enabled`/`FEATURE_FLAG_*`, is a regression. |
+| AU-V2 | Accuracy | P0 | **Contract mirrors in sync** — the `book.visual-layout/v1` schema, the `align`/`flow`/`page_fit` enums, the wrap `width_pct<=50` rule, and the center=>standalone rule agree across the three mirrors: `scripts/podcast/_visual_layout.py`, `plan-dashboard/scripts/visual-layout.mjs`, and (anchorKey) `plan-dashboard/src/lib/reader/composer.ts`. Any divergence is drift. |
+| AU-V3 | Accuracy | P0 | **Schema-string agreement** — `book.visual-layout/v1` (both mirrors) and `book.visuals-index/v1` (`_visual_candidates.py` ↔ `render-book-pdf.mjs` reader) match verbatim. |
+| AU-V4 | Extensibility | P1 | **Unified stages exist** — `_book_pipeline_v2.compose_book_v2`, `_book_augment.author_phase_book_augment` (0book-augment), `_book_voice.apply_fluency_adapt` + `apply_author_companion_voice`. A stage referenced by the knob matrix but absent is a regression. |
+| AU-V5 | Accuracy | P0 | **Governance present + aligned** — `docs/standards/book-print-quality.md` exists; the `book-render-challenger` agent spec exists in BOTH tracked mirrors (`infra/claude-agents/`, `.github/agents/`); and the `REQ-BR-*` IDs cited by `_book_render_checks.py` (BR-WATERMARK/CAPTION-DUP/BLANK-PAGE/PAGE-FILL) exist in the standard. |
+| AU-V6 | Hygiene | P1 | **No legacy compose fallback** — the retired paths stay retired: no `generate_translation_edition.py`, no `_inject_figures` / `book-illustrated.md` assembly in `_book_illustrate.py`, no `book-slides.md` injection write in `_slide_import.py`, no `book_pipeline_v2_enabled`/`FEATURE_FLAG_*` anywhere. `_pick_book_md` returns `book.md` unconditionally. Re-appearance of any = a resurrected legacy route. |
 
 **Findings:** emit one JSONL record per finding to `_learning/findings.jsonl` with `source: "repo-surgeon/podcast"` and `finding_id` prefixed `AU`. Report written to `_workspace/audit-reports/<ISO>-podcast-probes.md`.
 
@@ -321,15 +337,15 @@ grep -rnE 'trips/|trip-edit|trip-planner|dayone|FloatingChat|LogModule|InsertEve
 | ID | Rule | Action |
 |---|---|---|
 | L1 | **YAML parses cleanly** — `ruby -r yaml -e "YAML.load_file('_workspace/plan/refactor/plan.yaml')"` exits 0; or `python3 -c "import yaml; yaml.safe_load(open('…'))"` if PyYAML installed. | Report syntax error with line/column; halt before fix. |
-| L2 | **Phase list reachable** — every phase referenced in `done_when` exists in `phases[].id`; every `depends_on` entry resolves to a real phase. | Flag dangling refs; suggest insertion or removal. |
+| L2 | **Wave list reachable** — every wave referenced in `depends_on` / `parallel_with` resolves to a real wave `id`. Waves live under the top-level keys matching `waves`, `waves_*`, `wave_*` (today: `waves`, `waves_ghj`, `wave_8_studio`, `waves_o_ph`, `waves_bpv2`, `waves_refactor`) — enumerate them dynamically rather than hardcoding, since new wave families are added over time. **There is no `phases[]` key**; this rule referenced one until 2026-07-20 and was therefore inert. | Flag dangling refs; suggest insertion or removal. |
 | L3 | **`intelligence_sources` paths exist** — each `path:` under `intelligence_sources.podcast.consult_before_any_edit` / `journal.consult_before_any_edit` / `cross_cutting` resolves to an extant file. Exceptions: paths containing `<book>` (template variable), paths containing `*` (glob), and paths whose `staleness_signal` declares them as a forward deliverable (literal match: `deliverable`, `created in`, `to be created`). | Flag missing paths; offer plausible-replacement suggestions from `git log` filename history. |
 | L4 | **Scope contracts honored** — no file inside `meta.scope_in` patterns imports from any file inside `meta.scope_out` patterns. | Run AST + grep check (see procedure below); flag any cross-import as **P0**. |
 | L5 | **Boundary contract (podcast → journal)** — under `scripts/podcast/**`, no `open(...,'w')` / `open(...,'a')` / `pathlib.Path(...).write_*` / shutil.copy* targets `content/babu-memoir/**`, `content/_shared/**`, `scripts/memoir/**`, or `scripts/site/**`. Reads of `content/_shared/arabic/**` are allowed (READ-ONLY exception). | Flag any write target as **P0**; the only allowed cross-skill write is `BOOK_DIR/_system/episode-drafts/EP##-*/proposed-library-entries.md`. |
 | L6 | **Async-safety state** — if any `orchestrator-state.json` shows `phase_status: running` with `ts_updated` within the last 5 minutes, AND a `pgrep -fl 'orchestrate_book\|claude -p\|extract_chapter\|build_episode'` returns non-empty, emit the wait-banner from `meta.async_safety.wait_banner_format` and HALT all subsequent passes that would touch the active book directory. | Halt + emit banner; do not fix. |
-| L7 | **HTML/YAML parity** — every phase id in `_workspace/plan/refactor/plan.yaml` `phases[].id` must appear in at least one file under `_workspace/plan/view/*.html` (the view system is split — `index.html` is the landing/capability surface; `phased-plan.html` is the canonical phase content; `acceptance-criteria.html` and `podcast-capabilities.html` are role-specific surfaces). | Flag any phase id missing from EVERY view HTML as **P2**. |
+| L7 | **HTML/YAML parity** — every wave id in `_workspace/plan/refactor/plan.yaml` (across every `waves`/`waves_*`/`wave_*` key — NOT `phases[].id`, which does not exist) must appear in at least one file under `_workspace/plan/view/*.html` (the view system is split — `index.html` is the landing/capability surface; `phased-plan.html` is the canonical phase content; `acceptance-criteria.html` and `podcast-capabilities.html` are role-specific surfaces). | Flag any phase id missing from EVERY view HTML as **P2**. |
 | L8 | **Broken-ref audit after legacy-file cleanup** — for every basename listed under `meta.legacy_cleanup_basenames` (if present), every remaining mention in the repo must occur within 80 characters of one of the literal substrings: `deleted`, `retired`, `RETIRED`, `DELETED`, `closed`. | Flag unannotated mentions as **P1**. |
 | L9 | **HTML view freshness** — `_workspace/plan/view/index.html` mtime older than `_workspace/plan/refactor/plan.yaml` mtime → flag for re-render. (Best-effort check; the HTML is hand-edited, so age alone is not destructive; tag as **P3 advisory**.) | Flag. |
-| L10 | **Acceptance-criteria sync** — if `_workspace/plan/operations/per-book-ship-checklist.md` exists, every ID mentioned on a checkbox row must resolve to one of: (a) a current phase id (`phases[].id`), (b) a current task id (`phases[].tasks[].id`), (c) an open-question id (`open_questions[].id`), (d) a risk id (`risks[].id`), (e) a legacy id retained for v2→v3 traceability (`phases[].legacy_id`, `phases[].tasks[].legacy_id`, or any key/value in `meta.legacy_id_map`). | Flag drift between checklist and canonical plan as **P1**. |
+| L10 | **Acceptance-criteria sync** — if `_workspace/plan/operations/per-book-ship-checklist.md` exists, every ID mentioned on a checkbox row must resolve to one of: (a) a current wave id (any `waves`/`waves_*`/`wave_*` entry's `id` — NOT `phases[].id`, which does not exist), (b) a current step id (that wave's `steps[].id`), (c) an open-question id (`open_questions[].id`), (d) a risk id (`risks[].id`), (e) a legacy id retained for v2→v3 traceability (a wave's `legacy_id`, a step's `legacy_id`, or any key/value in `meta.legacy_id_map`). | Flag drift between checklist and canonical plan as **P1**. |
 
 ### Procedure
 
@@ -339,14 +355,16 @@ PLAN="_workspace/plan/refactor/plan.yaml"
 # L1: YAML lint
 ruby -r yaml -e "YAML.load_file('$PLAN'); puts 'OK'" 2>&1
 
-# L2: Reachable phase ids
-ruby -r yaml -e "
+# L2: Reachable wave ids. There is NO phases[] key -- this block called one until
+# 2026-07-20 and died with NoMethodError on nil, so the rule never ran.
+ruby -r yaml -r set -e "
 d=YAML.load_file('$PLAN')
-ids=d['phases'].map{|p|p['id']}.to_set
-d['phases'].each do |p|
-  (p['depends_on']||[]).each{|x| puts \"DANGLING depends_on: #{p['id']} -> #{x}\" unless ids.include?(x)}
+waves = d.keys.select{|k| k=='waves' || k.start_with?('waves_','wave_')}.flat_map{|k| d[k].is_a?(Array) ? d[k] : [] }
+ids = waves.map{|w| w['id']}.compact.to_set
+waves.each do |w|
+  ((w['depends_on']||[]) + (w['parallel_with']||[])).each{|x| puts \"DANGLING ref: #{w['id']} -> #{x}\" unless ids.include?(x)}
 end
-(d['done_when']||[]).each{|line| ids.each{|i| } } # advisory only
+puts \"L2: #{ids.size} wave ids checked\"
 "
 
 # L3: intelligence_sources existence (forward-deliverable paths skipped)
@@ -384,7 +402,10 @@ fi
 # L7: HTML/YAML phase parity — phase id must appear in at least one view HTML.
 # Implemented in Ruby for shell portability (bash word-splits `$VAR`; zsh does not).
 ruby -r yaml -e "
-phase_ids = YAML.load_file('$PLAN')['phases'].map{|p| p['id']}
+d = YAML.load_file('$PLAN')
+waves = d.keys.select{|k| k=='waves' || k.start_with?('waves_','wave_')}.flat_map{|k| d[k].is_a?(Array) ? d[k] : [] }
+ids = waves.map{|w| w['id']}.compact.to_set
+phase_ids = ids.to_a
 htmls = Dir.glob('_workspace/plan/view/*.html')
 bodies = htmls.map{|f| File.read(f) }
 missing = phase_ids.reject{|id| bodies.any?{|b| b.include?(id) } }
@@ -416,7 +437,8 @@ end
 [ -f _workspace/plan/operations/per-book-ship-checklist.md ] && \
   ruby -r yaml -e "
   d=YAML.load_file('$PLAN')
-  ids = (d['phases']||[]).flat_map{|p| [p['id'], p['legacy_id']] + ((p['tasks']||[]).flat_map{|t| [t['id'], t['legacy_id']]})}.compact.flat_map{|x| x.is_a?(String) ? [x] : []}.to_set
+  waves = d.keys.select{|k| k=='waves' || k.start_with?('waves_','wave_')}.flat_map{|k| d[k].is_a?(Array) ? d[k] : [] }
+  ids = waves.flat_map{|w| [w['id'], w['legacy_id']] + ((w['steps']||[]).flat_map{|s| [s['id'], s['legacy_id']]})}.compact.flat_map{|x| x.is_a?(String) ? [x] : []}.to_set
   ids.merge((d['open_questions']||[]).map{|q|q['id']}.compact)
   ids.merge((d['risks']||[]).map{|r|r['id']}.compact)
   legacy_map = d.dig('meta','legacy_id_map') || {}
@@ -584,35 +606,55 @@ The repo root is a **governed surface**. It is NOT a dumping ground.
 
 ```
 framework.md
+CLAUDE.md
+AGENTS.md
+Makefile
 package.json
+pyproject.toml
+pytest.ini
+requirements.txt
 release-please-config.json
 .release-please-manifest.json
-site-worker.js
-wrangler.toml
 CHANGELOG.md
 .gitignore
 .gitattributes
-.mcp.json (gitignored)
+.mcp.json
+.env.example
 LICENSE
 README.md
 ```
 
+Corrected 2026-07-20, in step with rule R1 above. This list had drifted the same
+way the directory list below it had: it still blessed `site-worker.js` and
+`wrangler.toml`, both retired in the 2026-05-22 split and explicitly forbidden
+from being recreated — so the Prime Directive was authorising precisely what the
+ban prohibits — while omitting seven files that are governed and tracked.
+
 ### Allowed directories at root
 
 ```
-_workspace/       ← untracked workspace (gitignored)
-content/          ← all authored content (memoir + podcasts)
-docs/             ← documentation
-infra/            ← infrastructure configs
-reference/        ← repo-wide skill governance (framework, bootstrap, registry, overlays)
-scripts/          ← shell + python scripts (memoir/, podcast/, git-hooks/)
-server/           ← Express API server
-shared/           ← shared JS modules
-site/             ← SPA frontend
+_learning/        ← cross-book findings ledger the challengers append to
+_workspace/       ← plan, docs, scratch
+content/          ← all authored content (books, by bucket)
+docs/             ← documentation + standards
+infra/            ← infrastructure configs + canonical agent specs
+plan-dashboard/   ← the Podcast Factory Astro Site (keep this directory token verbatim)
+scripts/          ← shell + python scripts (podcast/, git-hooks/)
 skills-staging/   ← skill definitions
-.github/          ← GitHub config + agents
-.claude/          ← Claude config + agents
+tests/            ← repo-level tests
+tools/            ← standalone helper tools
+.github/          ← GitHub config + agent wrappers
+.claude/          ← Claude config + agent activation copies
+.codex/           ← Codex agent specs (generated — see sync_codex_agents.py)
+.vscode/          ← editor config
 ```
+
+Corrected 2026-07-20. This list had drifted badly: it still named `server/`,
+`shared/` and `site/`, all retired in the 2026-05-22 repo split and explicitly
+forbidden from being recreated, plus `reference/` which does not exist — while
+omitting `plan-dashboard/`, `_learning/`, `.codex/`, `tests/` and `tools/`, which
+all do. A rule that flags real directories and blesses deleted ones is worse than
+no rule, because its output has to be ignored to get any work done.
 
 **Anything else at root is a violation.** Move it or delete it. No exceptions. No "temporary" files. The root tells the story of the repo at a glance.
 

@@ -64,23 +64,25 @@ import argparse
 import re
 import sys
 from pathlib import Path
-from _paths import REPO_ROOT, BUCKETS, bucket_dir
 from typing import Any
 
 # Re-export helpers so existing callers that do
 #   `from extract_chapter import X`
 # continue to work without modification.
-from _extract_helpers import *  # noqa: F401, F403
+from _extract_helpers import *  # noqa: F403
 from _extract_helpers import (
-    load_yaml, assert_boundary_safe, PROHIBITED_PATH_PREFIXES,
-    CH_PREFIX_RE, ResolvedChapter,
-    Contract, REQUIRED_FIELDS,
-    contract_path_for, load_contract, stub_contract, validate_contract,
-    CONTRACT_META_PROSE_TELLS, CONTRACT_META_PROSE_REGEX, CONTRACT_LINTED_FIELDS,
+    CH_PREFIX_RE,
+    Contract,
+    ResolvedChapter,
+    assert_boundary_safe,
+    contract_path_for,
     lint_contract_meta_prose,
-    fmt_list, render_framing, render_key_passages, render_context_pack,
-    render_discussion_spine, render_show_notes,
+    load_contract,
+    render_framing,
+    render_show_notes,
+    validate_contract,
 )
+from _paths import BUCKETS, REPO_ROOT, bucket_dir
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Repo layout
@@ -193,9 +195,8 @@ def resolve_chapter_ref(ref: str) -> ResolvedChapter:
     if len(matches) > 1:
         sys.exit(
             f"ERROR: chapter ref {ref!r} matches in {len(matches)} books:\n"
-            + "\n".join(f"    {c.parents[1].name}/  →  {c.relative_to(REPO_ROOT)}"
-                        for c in matches) +
-            f"\n  Disambiguate by passing `<book-slug>/{ref}` "
+            + "\n".join(f"    {c.parents[1].name}/  →  {c.relative_to(REPO_ROOT)}" for c in matches)
+            + f"\n  Disambiguate by passing `<book-slug>/{ref}` "
             f"(e.g. `<book-slug>/{ref}`) or the full repo-relative path."
         )
 
@@ -259,7 +260,8 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
     #   - drafts:    content/drafts/<book>/chapters/<file>.txt    → parents[1] = <book>
     #   - published: content/published/books/<book>/chapters/<file>.txt → parents[1] = <book>
     bucket_root = chapter.path.parents[1]
-    from _rules import ALLOWED_CATEGORIES as _CATS  # noqa: PLC0415
+    from _rules import ALLOWED_CATEGORIES as _CATS
+
     # Type-first buckets (content/<Bucket>/<book>/chapters/) → parents[2] is the
     # bucket name; legacy roots → "library"/"drafts"/"books"/<category>.
     valid_root_ancestors = {"library", "drafts", "books"} | set(_CATS) | set(BUCKETS)
@@ -308,8 +310,7 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
         )
     elif word_count < 500:
         band_warnings.append(
-            f"  WARN: chapter is {word_count} words — under the 500 word floor. "
-            f"Hosts will resort to filler."
+            f"  WARN: chapter is {word_count} words — under the 500 word floor. Hosts will resort to filler."
         )
 
     # 1. Chapter copy — always write to the SAME filename we resolved from (Bug X4 fix).
@@ -336,7 +337,9 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
         stub_dest = contract_path_for(chapter)
         stub_yaml = render_stub_contract_yaml(c.raw)
         write_if_needed(stub_dest, stub_yaml, force, written, skipped)
-        print(f"NOTE: no contract found — wrote stub at {stub_dest.relative_to(REPO_ROOT)}. Edit it and re-run with --force.")
+        print(
+            f"NOTE: no contract found — wrote stub at {stub_dest.relative_to(REPO_ROOT)}. Edit it and re-run with --force."
+        )
 
     print(f"\nExtracted EP{ep_num:02d}-{slug} from {chapter.path.name}")
     print(f"  Source bucket: {bucket}")
@@ -356,7 +359,7 @@ def emit_bundle(chapter: ResolvedChapter, c: Contract, force: bool) -> None:
         print("\n  Unchanged (deterministic re-render):")
         for p in skipped:
             print(f"    {p.relative_to(REPO_ROOT)}")
-    print(f"\nNext: build the customize-prompt episode txt:")
+    print("\nNext: build the customize-prompt episode txt:")
     print(f"  python3 scripts/podcast/build_episode_txt.py {bucket_root.relative_to(REPO_ROOT)} {ep_id}")
 
 
@@ -413,10 +416,13 @@ def main() -> None:
         description="Extract a chapter into a deterministic NotebookLM Audio Overview bundle.",
     )
     ap.add_argument("chapter_ref", help="Chapter path, slug, or basename (e.g. ch01-man).")
-    ap.add_argument("--contract", type=Path, default=None,
-                    help="Explicit contract file. Default: _workspace/<category>/<book>/chapter-contracts/<slug>.yml")
-    ap.add_argument("--force", action="store_true",
-                    help="Overwrite existing bundle files even if they differ.")
+    ap.add_argument(
+        "--contract",
+        type=Path,
+        default=None,
+        help="Explicit contract file. Default: _workspace/<category>/<book>/chapter-contracts/<slug>.yml",
+    )
+    ap.add_argument("--force", action="store_true", help="Overwrite existing bundle files even if they differ.")
     args = ap.parse_args()
 
     chapter = resolve_chapter_ref(args.chapter_ref)

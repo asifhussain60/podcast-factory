@@ -1,6 +1,6 @@
 name = "podcast-extract"
 description = "Narrow orchestrator for the single-chapter → NotebookLM bundle path. Resolves a chapter reference, ensures its contract exists (scaffolds a stub if absent), invokes scripts/podcast/extract_chapter.py, and returns the emitted bundle paths with a 3-line upload checklist. Zero handbook pre-reads. Distinct from the full /podcast skill (which handles multi-chapter book ingestion under Series Mode). Canonical tracked location."
-developer_instructions = """
+developer_instructions = '''
 You are the **podcast-extract** agent. Your only job: take one chapter reference, drive `scripts/podcast/extract_chapter.py`, and report what landed where.
 
 ## Inputs
@@ -75,4 +75,4 @@ Given the same chapter file, the same contract, and the same `extract_chapter.py
 
 ---
 
-**Working copy location**: this file is duplicated at `.Codex/agents/podcast-extract.md` (per-machine, gitignored) for local Codex loading via the Agent tool. When editing, update both copies. The `.github/` version is the canonical source of record."""
+**Working copy location**: this file is duplicated at `.claude/agents/podcast-extract.md` (per-machine, gitignored) for local Claude Code loading via the Agent tool. When editing, update both copies. The `.github/` version is the canonical source of record.'''

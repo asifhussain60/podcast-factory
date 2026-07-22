@@ -31,16 +31,31 @@ import argparse
 import re
 import sys
 from pathlib import Path
-from _paths import REPO_ROOT
 
-DEFAULT_LIBRARY = REPO_ROOT / "content" / "drafts"
+from _paths import REPO_ROOT, iter_content
 
 DERIVED_FROM_RE = re.compile(r"^derived_from:\s*(.+?)\s*$", re.MULTILINE)
 
 
-def find_contracts(library_dir: Path) -> list[Path]:
-    """Find every chapter-contracts/*.yml under library/<category>/<book>/."""
+def find_contracts(library_dir: Path | None = None) -> list[Path]:
+    """Find every chapter-contracts/*.yml across all content.
+
+    With no ``library_dir``, books are enumerated through _paths.iter_content, so
+    every bucket (and each volume of a multi-volume work) is covered. The previous
+    default walked content/drafts/<category>/<book>/, a tree the type-first
+    migration emptied — the check silently found zero contracts and reported
+    "nothing to check" on a repo full of them.
+
+    An explicit ``library_dir`` keeps the old two-level <parent>/<book>/ walk, for
+    pointing the check at an archive or a scratch tree.
+    """
     out: list[Path] = []
+    if library_dir is None:
+        for _status, _bucket, book in iter_content():
+            cdir = book / "chapter-contracts"
+            if cdir.is_dir():
+                out.extend(sorted(cdir.glob("*.yml")))
+        return sorted(out)
     if not library_dir.exists():
         return out
     for category in sorted(library_dir.iterdir()):
@@ -88,15 +103,17 @@ def find_chapter_for_contract(contract_path: Path) -> Path | None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument(
-        "--root", type=Path, default=None,
-        help="Library root. Default: _workspace/",
+        "--root",
+        type=Path,
+        default=None,
+        help="Walk this <parent>/<book>/ tree instead of every book under content/.",
     )
     args = ap.parse_args()
-    library_dir = args.root or DEFAULT_LIBRARY
-    contracts = find_contracts(library_dir)
+    contracts = find_contracts(args.root)
 
     if not contracts:
-        print(f"check_lineage: no contracts found under {library_dir} — nothing to check.")
+        where = args.root or (REPO_ROOT / "content")
+        print(f"check_lineage: no contracts found under {where} — nothing to check.")
         return 0
 
     derivatives = 0

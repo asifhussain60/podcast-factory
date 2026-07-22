@@ -15,8 +15,8 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
-from _paths import resolve_content  # noqa: E402
-from _rules import strip_noise_reference_attributions  # noqa: E402
+from _paths import resolve_content
+from _rules import strip_noise_reference_attributions
 
 
 def strip_book(book_dir: Path, *, dry_run: bool = False) -> tuple[int, int]:

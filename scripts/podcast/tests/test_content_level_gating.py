@@ -9,6 +9,7 @@ Covers:
 
 Pure unit tests — no Gemini/LLM calls, no live DB writes.
 """
+
 from __future__ import annotations
 
 import sys
@@ -20,8 +21,8 @@ SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 sys.path.insert(0, str(SCRIPTS_PODCAST / "intelligence"))
 
-import _rules  # noqa: E402
-import augmenter  # noqa: E402
+import _rules
+import augmenter
 
 
 class TestAllowedContentLevels(unittest.TestCase):

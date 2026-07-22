@@ -1,6 +1,7 @@
 """Tests for pronunciation_compiler.py (Step 4) + the _elevenlabs client's
 
 dictionary upload path. All network mocked via the injectable transport."""
+
 from __future__ import annotations
 
 import json
@@ -13,16 +14,17 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import pronunciation_compiler as pc  # noqa: E402
-from _dialogue_script import Turn  # noqa: E402
+import pronunciation_compiler as pc
+from _dialogue_script import Turn
 
 ENTRIES = [
-    {"phonetic": "Sayyidina", "transliteration": "Sayyidina",
-     "arabic_script": "سيدنا",
-     "audio_phonetic": "sai-yi-DEE-nah"},
-    {"phonetic": "batin", "transliteration": "batin",
-     "arabic_script": "الباطن",
-     "audio_phonetic": "BAA-tin"},
+    {
+        "phonetic": "Sayyidina",
+        "transliteration": "Sayyidina",
+        "arabic_script": "سيدنا",
+        "audio_phonetic": "sai-yi-DEE-nah",
+    },
+    {"phonetic": "batin", "transliteration": "batin", "arabic_script": "الباطن", "audio_phonetic": "BAA-tin"},
     # Trivial: alias == grapheme modulo case/punct — must be skipped.
     {"phonetic": "Umma", "audio_phonetic": "UM-MA"},
     # No audio_phonetic — skipped.
@@ -80,14 +82,14 @@ class TestEnsureDictionary(unittest.TestCase):
 
     def _write_glossary(self, entries):
         import yaml
+
         (self.book / "_system" / "glossary.yml").write_text(
-            yaml.safe_dump({"schema_version": 1, "entries": entries}),
-            encoding="utf-8")
+            yaml.safe_dump({"schema_version": 1, "entries": entries}), encoding="utf-8"
+        )
 
     def test_upload_once_then_pin(self):
         loc1 = pc.ensure_dictionary(self.book, self.client, log=lambda *a: None)
-        self.assertEqual(loc1, {"pronunciation_dictionary_id": "dict-1",
-                                "version_id": "ver-1"})
+        self.assertEqual(loc1, {"pronunciation_dictionary_id": "dict-1", "version_id": "ver-1"})
         # Second call: glossary unchanged -> NO re-upload, same pin.
         loc2 = pc.ensure_dictionary(self.book, self.client, log=lambda *a: None)
         self.assertEqual(loc2, loc1)
@@ -100,8 +102,7 @@ class TestEnsureDictionary(unittest.TestCase):
         loc = pc.ensure_dictionary(self.book, self.client, log=lambda *a: None)
         self.assertEqual(loc["pronunciation_dictionary_id"], "dict-2")
         self.assertEqual(len(self.client.uploads), 2)
-        st = json.loads((self.book / "_system" / "pronunciation-dictionary.json")
-                        .read_text(encoding="utf-8"))
+        st = json.loads((self.book / "_system" / "pronunciation-dictionary.json").read_text(encoding="utf-8"))
         self.assertEqual(len(st["history"]), 1)  # old pin recorded in the ledger
         self.assertEqual(st["history"][0]["dictionary_id"], "dict-1")
 
@@ -124,10 +125,9 @@ class TestArabicRecitationScaffold(unittest.TestCase):
         self.book = Path(tmp) / "book"
         (self.book / "_system").mkdir(parents=True)
         import yaml
-        (self.book / "_system" / "glossary.yml").write_text(
-            yaml.safe_dump({"entries": ENTRIES}), encoding="utf-8")
-        self.turns = [Turn("HOST_A", "The word Sayyidina opens the line."),
-                      Turn("HOST_B", "And batin stays hidden.")]
+
+        (self.book / "_system" / "glossary.yml").write_text(yaml.safe_dump({"entries": ENTRIES}), encoding="utf-8")
+        self.turns = [Turn("HOST_A", "The word Sayyidina opens the line."), Turn("HOST_B", "And batin stays hidden.")]
 
     def test_default_off_is_identity(self):
         self.assertFalse(pc.arabic_recitation_enabled(self.book))
@@ -136,8 +136,8 @@ class TestArabicRecitationScaffold(unittest.TestCase):
 
     def test_flag_on_substitutes_arabic_script(self):
         (self.book / "_system" / "series-config.yaml").write_text(
-            "audio_engine: elevenlabs\nelevenlabs_arabic_recitation: true\n",
-            encoding="utf-8")
+            "audio_engine: elevenlabs\nelevenlabs_arabic_recitation: true\n", encoding="utf-8"
+        )
         self.assertTrue(pc.arabic_recitation_enabled(self.book))
         out = pc.compile_turns_for_render(self.book, self.turns)
         self.assertIn("سيدنا", out[0].text)
@@ -155,23 +155,33 @@ class TestGlossaryCuration(unittest.TestCase):
         book = Path(tmp) / "book"
         (book / "_system").mkdir(parents=True)
         import yaml
-        (book / "_system" / "glossary.yml").write_text(
-            yaml.safe_dump({"entries": entries}), encoding="utf-8")
+
+        (book / "_system" / "glossary.yml").write_text(yaml.safe_dump({"entries": entries}), encoding="utf-8")
         (book / "_system" / "series-config.yaml").write_text(
-            "audio_engine: elevenlabs\nelevenlabs_arabic_recitation: true\n",
-            encoding="utf-8")
+            "audio_engine: elevenlabs\nelevenlabs_arabic_recitation: true\n", encoding="utf-8"
+        )
         return book
 
     def test_keep_and_absent_are_unchanged(self):
-        for entry in ({"phonetic": "batin", "arabic_script": "الباطن"},
-                      {"phonetic": "batin", "arabic_script": "الباطن", "decision": "keep"}):
+        for entry in (
+            {"phonetic": "batin", "arabic_script": "الباطن"},
+            {"phonetic": "batin", "arabic_script": "الباطن", "decision": "keep"},
+        ):
             book = self._book([entry])
             out = pc.compile_turns_for_render(book, [Turn("HOST_A", "the batin within")])
             self.assertIn("الباطن", out[0].text)
 
     def test_correct_arabic_uses_corrected_script(self):
-        book = self._book([{"phonetic": "batin", "arabic_script": "WRONG",
-                            "decision": "correct_arabic", "corrected_arabic": "الباطن"}])
+        book = self._book(
+            [
+                {
+                    "phonetic": "batin",
+                    "arabic_script": "WRONG",
+                    "decision": "correct_arabic",
+                    "corrected_arabic": "الباطن",
+                }
+            ]
+        )
         out = pc.compile_turns_for_render(book, [Turn("HOST_A", "the batin within")])
         self.assertIn("الباطن", out[0].text)
         self.assertNotIn("WRONG", out[0].text)
@@ -179,24 +189,40 @@ class TestGlossaryCuration(unittest.TestCase):
     def test_fix_phonetic_changes_match_key(self):
         # Script carries "ta'wil"; glossary phonetic was the Arabic form (no match).
         # Human fixes the phonetic so the substitution now fires.
-        book = self._book([{"phonetic": "تأويل", "arabic_script": "تأويل",
-                            "decision": "fix_phonetic", "corrected_phonetic": "ta'wil"}])
+        book = self._book(
+            [
+                {
+                    "phonetic": "تأويل",
+                    "arabic_script": "تأويل",
+                    "decision": "fix_phonetic",
+                    "corrected_phonetic": "ta'wil",
+                }
+            ]
+        )
         out = pc.compile_turns_for_render(book, [Turn("HOST_A", "the ta'wil of the verse")])
         self.assertIn("تأويل", out[0].text)
 
     def test_replace_english_recites_nothing(self):
-        book = self._book([{"phonetic": "batin", "arabic_script": "الباطن",
-                            "decision": "replace_english"}])
+        book = self._book([{"phonetic": "batin", "arabic_script": "الباطن", "decision": "replace_english"}])
         out = pc.compile_turns_for_render(book, [Turn("HOST_A", "the batin within")])
         self.assertNotIn("الباطن", out[0].text)
         self.assertIn("batin", out[0].text)
 
     def test_fill_roundtrip_preserves_decision_fields(self):
         import fill_glossary_arabic as fg
-        entries = [{"phonetic": "batin", "transliteration": "batin",
-                    "arabic_script": "الباطن", "audio_phonetic": "BAA-tin",
-                    "first_seen_snippet": "x", "decision": "correct_arabic",
-                    "corrected_arabic": "الباطنُ", "decided_by": "asif"}]
+
+        entries = [
+            {
+                "phonetic": "batin",
+                "transliteration": "batin",
+                "arabic_script": "الباطن",
+                "audio_phonetic": "BAA-tin",
+                "first_seen_snippet": "x",
+                "decision": "correct_arabic",
+                "corrected_arabic": "الباطنُ",
+                "decided_by": "asif",
+            }
+        ]
         emitted = fg.emit_glossary_yml(entries, {"schema_version": 2})
         self.assertIn('decision: "correct_arabic"', emitted)
         self.assertIn('corrected_arabic: "الباطنُ"', emitted)
@@ -213,6 +239,7 @@ class TestGlossaryCuration(unittest.TestCase):
 class TestClientDictionaryUpload(unittest.TestCase):
     def test_multipart_upload_parses_ids(self):
         from _elevenlabs import ElevenLabsClient
+
         captured = {}
 
         def transport(method, url, headers, body, timeout):
@@ -220,8 +247,7 @@ class TestClientDictionaryUpload(unittest.TestCase):
             return 200, json.dumps({"id": "d1", "version_id": "v1"}).encode()
 
         c = ElevenLabsClient(api_key="k", transport=transport)
-        did, vid = c.create_pronunciation_dictionary(
-            name="book-glossary", pls_text="<lexicon/>")
+        did, vid = c.create_pronunciation_dictionary(name="book-glossary", pls_text="<lexicon/>")
         self.assertEqual((did, vid), ("d1", "v1"))
         self.assertIn("/v1/pronunciation-dictionaries/add-from-file", captured["url"])
         self.assertIn(b"<lexicon/>", captured["body"])
@@ -232,16 +258,18 @@ class TestClientDictionaryUpload(unittest.TestCase):
 
     def test_locator_cap_three(self):
         from _elevenlabs import ElevenLabsClient
+
         c = ElevenLabsClient(api_key="k", transport=lambda *a: (200, b"{}"))
         with self.assertRaises(ValueError):
             c.text_to_dialogue(
-                [{"text": "x", "voice_id": "v"}], model_id="eleven_v3",
-                pronunciation_dictionary_locators=[{}] * 4)
+                [{"text": "x", "voice_id": "v"}], model_id="eleven_v3", pronunciation_dictionary_locators=[{}] * 4
+            )
 
     def test_loanword_skip_list(self):
         # Common English loanwords never get alias rules ("Imam" -> "e-Maam"
         # mangled live audio, 2026-06-12); multi-word names keep theirs.
         import pronunciation_compiler as pc
+
         entries = [
             {"phonetic": "Imam", "audio_phonetic": "e-Maam"},
             {"phonetic": "Sunnah", "audio_phonetic": "SOON-nah"},
@@ -253,7 +281,7 @@ class TestClientDictionaryUpload(unittest.TestCase):
         self.assertNotIn("Imam", rules)
         self.assertNotIn("Sunnah", rules)
         self.assertNotIn("Allah", rules)
-        self.assertIn("Abd Allah", rules)      # name, not a loanword
+        self.assertIn("Abd Allah", rules)  # name, not a loanword
         self.assertIn("Sinai", rules)
 
 

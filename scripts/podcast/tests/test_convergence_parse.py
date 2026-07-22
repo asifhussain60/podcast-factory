@@ -6,6 +6,7 @@ Without these tests, the silent BLOCKED-on-unparseable fallback hides drift
 between what the challenger LLM writes and what the loop reads. Each test
 pins one shape we have seen in real challenger-report.md output.
 """
+
 from __future__ import annotations
 
 import sys
@@ -16,10 +17,10 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-from _convergence import (  # noqa: E402
+from _convergence import (
     VERDICT_LINE_RE,
-    parse_challenger_report,
     ChapterOutcome,
+    parse_challenger_report,
 )
 
 
@@ -56,7 +57,6 @@ class VerdictRegexTests(unittest.TestCase):
 
 
 class ParseReportTests(unittest.TestCase):
-
     def _write_report(self, body: str) -> Path:
         tmp = Path(tempfile.mkdtemp()) / "challenger-report.md"
         tmp.write_text(body, encoding="utf-8")

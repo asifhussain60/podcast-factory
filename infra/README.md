@@ -63,26 +63,6 @@ bash scripts/install-git-hooks.sh
 
 The install script symlinks the hook into `.git/hooks/` — it is per-machine (not tracked by git). Re-run after pulling hook updates.
 
-## launchd/ — background Wave 1 pipeline
-
-`infra/launchd/install-pipeline-w1.sh` installs a macOS launchd agent that runs `scripts/podcast/run_wave.py 1` on an hourly interval. This is **optional** — used for autonomous background processing without manual orchestrator invocation.
-
-```bash
-# Install and start:
-bash infra/launchd/install-pipeline-w1.sh install
-bash infra/launchd/install-pipeline-w1.sh start
-
-# Monitor:
-bash infra/launchd/install-pipeline-w1.sh status
-bash infra/launchd/install-pipeline-w1.sh logs
-
-# Stop / remove:
-bash infra/launchd/install-pipeline-w1.sh stop
-bash infra/launchd/install-pipeline-w1.sh uninstall
-```
-
-Logs land at `~/Library/Logs/podcast-w1.log` and `~/Library/Logs/podcast-w1.err`.
-
 ## llm-apis/ — Claude + Gemini accounts
 
 Full documentation at [infra/llm-apis/README.md](llm-apis/README.md). Key facts:

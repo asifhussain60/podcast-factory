@@ -11,6 +11,7 @@ already exists unless force=True.
 Standalone:
   python3 -m _authoring._book_design <BOOK_DIR> [--force]
 """
+
 from __future__ import annotations
 
 import json
@@ -78,6 +79,13 @@ multiple non-contiguous ranges if book-craft merges scattered material.
 whether to include it, give it a title, and optionally point to the source lines it draws on).
 5. Give each chapter a real, evocative modern chapter TITLE (not the source's clause \
 headings) and a one-sentence rationale naming the thematic seam.
+6. Ground every title in its OWN assigned source ranges. Before finalizing, compare \
+each chapter title/rationale against the first and last substantive lines inside that \
+chapter's ranges. Do not shift a neighboring theme onto the wrong range. If the range \
+is about hunting, slaughter, marriage, sales, inheritance, retaliation, or another \
+explicit source heading, the title/rationale must reflect that same material.
+7. Never ask the later writer to resolve a title/source conflict. If a proposed title \
+does not match the assigned source lines, change either the title or the ranges now.
 
 OUTPUT
 Return ONLY a JSON object, no prose around it, in exactly this shape:
@@ -110,37 +118,41 @@ def author_phase_book_design(book_dir: Path, *, log=print, force: bool = False) 
     log(f"    0book-design: {book_dir.name}: {n_lines} source lines -> Opus segmentation")
 
     rc, stdout, stderr = _run_claude_p_with_retry(
-        prompt, timeout=_DESIGN_TIMEOUT, book_dir=book_dir,
-        phase="0book-design", step="segment", log=log)
+        prompt, timeout=_DESIGN_TIMEOUT, book_dir=book_dir, phase="0book-design", step="segment", log=log
+    )
     if rc != 0:
         raise AuthoringError(
             phase="0book-design",
             message=f"claude -p exited rc={rc}.\n{stderr[:400]}",
-            manual_fallback="Re-run the phase, or author book-toc.json by hand.")
+            manual_fallback="Re-run the phase, or author book-toc.json by hand.",
+        )
     try:
         toc = _extract_json(stdout)
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         raise AuthoringError(
             phase="0book-design",
             message=f"could not parse book-toc.json from model output: {e}\n{stdout[:800]}",
-            manual_fallback="Re-run the phase.") from e
+            manual_fallback="Re-run the phase.",
+        ) from e
 
     chapters = toc.get("chapters") or []
     if not chapters:
         raise AuthoringError(
-            phase="0book-design",
-            message="book-toc.json has no chapters[].",
-            manual_fallback="Re-run the phase.")
+            phase="0book-design", message="book-toc.json has no chapters[].", manual_fallback="Re-run the phase."
+        )
 
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(toc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    log(f"    0book-design: wrote {out_path.name} — {len(chapters)} chapters + "
-        f"preface={toc.get('preface', {}).get('include')}")
+    log(
+        f"    0book-design: wrote {out_path.name} — {len(chapters)} chapters + "
+        f"preface={toc.get('preface', {}).get('include')}"
+    )
     return out_path
 
 
 def main() -> int:
     import sys
+
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     if not args:
         print("usage: python3 -m _authoring._book_design <BOOK_DIR> [--force]", file=__import__("sys").stderr)

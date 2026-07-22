@@ -26,7 +26,6 @@ POLICY (locked 2026-06-07, reintroducing category grouping by content bucket):
    - 2026-06-04 → 2026-06-07 used the BARE slug with no prefix.
    - 2026-06-07 reintroduced grouping, now by content BUCKET (this file). This
      is distinct from the old type prefixes: buckets come from content_profile.
-   ``branch_prefix()`` is retained for back-compat but is no longer used in names.
 
 Consumers:
   - scripts/podcast/orchestrate_book.py   — branch creation + state stamp
@@ -36,39 +35,14 @@ Consumers:
   - infra/claude-agents/podcast-orchestrator.md — agent doc
   - CLAUDE.md, framework.md               — operator-facing policy doc
 """
+
 from __future__ import annotations
 
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paths import resolve_bucket  # noqa: E402
-
-# Category → branch-prefix map. Keys must mirror _rules.ALLOWED_CATEGORIES;
-# values are the singular form used in branch names.
-_CATEGORY_TO_PREFIX = {
-    "books":      "book",
-    "documents":  "doc",
-    "lectures":   "lecture",
-    "articles":   "article",
-    "letters":    "letter",
-    "interviews": "interview",
-    "asbaaq":     "sabaq",
-    "sites":      "site",
-    "explainers": "explainer",
-}
-
-# Fallback prefix when category is unknown, unset, or doesn't match the map.
-# Intentionally generic — `draft/` keeps the branch trackable while signaling
-# that classification is pending.
-_FALLBACK_PREFIX = "draft"
-
-
-def branch_prefix(category: str | None) -> str:  # deprecated (kept for back-compat)
-    """Legacy category→prefix lookup. No longer used in branch names (2026-06-04)."""
-    if not category:
-        return _FALLBACK_PREFIX
-    return _CATEGORY_TO_PREFIX.get(category.strip().lower(), _FALLBACK_PREFIX)
+from _paths import resolve_bucket
 
 
 def branch_name(
@@ -122,7 +96,7 @@ def branch_for_work(
     # Local import to avoid a module-load cycle (_work_manifest imports _paths,
     # _paths is imported here at module top; _branching is only imported lazily
     # by callers, never by _paths).
-    from _work_manifest import work_slug_of  # noqa: E402
+    from _work_manifest import work_slug_of
 
     work = work_slug_of(volume_or_work_slug) or volume_or_work_slug
     return branch_name(category, work, profile=profile, bucket=bucket)

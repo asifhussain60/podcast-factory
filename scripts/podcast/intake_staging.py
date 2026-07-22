@@ -14,6 +14,7 @@ Each session is a token dir holding the raw files + a ``.staging.json`` manifest
 (ordered files, each with id / filename / role). Roles (Q7): exactly one
 ``primary_source`` per session; audio-as-primary is flagged (needs transcription).
 """
+
 from __future__ import annotations
 
 import json
@@ -26,15 +27,26 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import _paths  # noqa: E402
+import _paths
 
-ALLOWED_EXT: frozenset[str] = frozenset({
-    ".pdf", ".mp3", ".m4a", ".wav", ".txt", ".md", ".docx",
-})
+ALLOWED_EXT: frozenset[str] = frozenset(
+    {
+        ".pdf",
+        ".mp3",
+        ".m4a",
+        ".wav",
+        ".txt",
+        ".md",
+        ".docx",
+    }
+)
 AUDIO_EXT: frozenset[str] = frozenset({".mp3", ".m4a", ".wav"})
 
 ROLES: tuple[str, ...] = (
-    "primary_source", "source_recording", "pronunciation_reference", "supplementary_text",
+    "primary_source",
+    "source_recording",
+    "pronunciation_reference",
+    "supplementary_text",
 )
 DEFAULT_ROLE = "supplementary_text"
 MANIFEST_NAME = ".staging.json"
@@ -105,6 +117,7 @@ def _write_manifest(token: str, manifest: dict[str, Any]) -> None:
 
 def tempfile_mkstemp(d: Path) -> tuple[int, str]:
     import tempfile
+
     return tempfile.mkstemp(dir=str(d), prefix=".staging.", suffix=".tmp")
 
 
@@ -246,12 +259,23 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="intake staging lifecycle")
     sub = p.add_subparsers(dest="cmd", required=True)
     sub.add_parser("new")
-    sp = sub.add_parser("path"); sp.add_argument("token")
-    rg = sub.add_parser("register"); rg.add_argument("token"); rg.add_argument("filename"); rg.add_argument("--role")
-    ls = sub.add_parser("list"); ls.add_argument("token")
-    rl = sub.add_parser("set-role"); rl.add_argument("token"); rl.add_argument("file_id"); rl.add_argument("role")
-    rm = sub.add_parser("remove"); rm.add_argument("token"); rm.add_argument("file_id")
-    va = sub.add_parser("validate"); va.add_argument("token")
+    sp = sub.add_parser("path")
+    sp.add_argument("token")
+    rg = sub.add_parser("register")
+    rg.add_argument("token")
+    rg.add_argument("filename")
+    rg.add_argument("--role")
+    ls = sub.add_parser("list")
+    ls.add_argument("token")
+    rl = sub.add_parser("set-role")
+    rl.add_argument("token")
+    rl.add_argument("file_id")
+    rl.add_argument("role")
+    rm = sub.add_parser("remove")
+    rm.add_argument("token")
+    rm.add_argument("file_id")
+    va = sub.add_parser("validate")
+    va.add_argument("token")
     args = p.parse_args(argv)
     try:
         if args.cmd == "new":
@@ -259,8 +283,10 @@ def main(argv: list[str] | None = None) -> int:
         elif args.cmd == "path":
             out = {"path": str(staging_dir(args.token))}
         elif args.cmd == "register":
-            out = {"file": register_file(args.token, args.filename, role=args.role),
-                   "stored_path": str(stored_path(args.token, "") or "")}
+            out = {
+                "file": register_file(args.token, args.filename, role=args.role),
+                "stored_path": str(stored_path(args.token, "") or ""),
+            }
             # re-resolve stored path for the just-created id
             out["stored_path"] = str(stored_path(args.token, out["file"]["id"]))
         elif args.cmd == "list":
@@ -268,7 +294,8 @@ def main(argv: list[str] | None = None) -> int:
         elif args.cmd == "set-role":
             out = {"file": set_role(args.token, args.file_id, args.role)}
         elif args.cmd == "remove":
-            remove_file(args.token, args.file_id); out = {"removed": args.file_id}
+            remove_file(args.token, args.file_id)
+            out = {"removed": args.file_id}
         else:  # validate
             out = validate_roles(args.token)
     except (ValueError, KeyError) as e:

@@ -4,14 +4,14 @@
 PURPOSE
 
 The orchestrator's `finalize` phase (added 2026-05-24) needs to verify
-"is this book production-ready?" without performing the actual file-copy
-to `content/published/books/<slug>/`. This script imports the gate
-functions from `publish_to_library.py` and runs them read-only.
+"is this book production-ready?" without actually publishing it. This script
+imports the gate functions from `publish_to_library.py` and runs them
+read-only, skipping G6 exactly as the publisher does.
 
 If all gates pass, the orchestrator halts at finalize so Asif can review
 the clean version in the Podcast Factory Astro Site + optionally run A/B
-transcription analysis. The actual publish (the file copy) is a
-separate human-authorized action.
+transcription analysis. The actual publish — flipping `status` to
+`published` in place — is a separate human-authorized action.
 
 If any gate fails, this script exits non-zero with the failing gate's
 reason — the orchestrator halts-and-surfaces for remediation.
@@ -42,17 +42,14 @@ sys.path.insert(0, str(SCRIPT_DIR))
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n", 1)[0])
-    ap.add_argument("slug", help="book slug under content/drafts/")
-    ap.add_argument("--strict", action="store_true",
-                    help="treat P1 advisories as gate-fails")
-    ap.add_argument("--allow-mode-2", action="store_true",
-                    help="permit non_orchestrated_mode_2 / pre_orchestrator_authored books")
-    ap.add_argument("--no-wipe", action="store_true",
-                    help="permit coexisting with prior content at target (G6 carve-out)")
-    ap.add_argument("--force", action="store_true",
-                    help="skip G5 state checkpoint")
-    ap.add_argument("--json", action="store_true",
-                    help="emit JSON verdict (for orchestrator consumption)")
+    ap.add_argument("slug", help="book slug under content/<Bucket>/")
+    ap.add_argument("--strict", action="store_true", help="treat P1 advisories as gate-fails")
+    ap.add_argument(
+        "--allow-mode-2", action="store_true", help="permit non_orchestrated_mode_2 / pre_orchestrator_authored books"
+    )
+    ap.add_argument("--no-wipe", action="store_true", help="legacy no-op (G6 is obsolete); accepted for back-compat")
+    ap.add_argument("--force", action="store_true", help="skip G5 state checkpoint")
+    ap.add_argument("--json", action="store_true", help="emit JSON verdict (for orchestrator consumption)")
     args = ap.parse_args()
 
     import publish_to_library as P
@@ -65,14 +62,12 @@ def main() -> int:
         else:
             print(f"validate_ship_ready: {msg}", file=sys.stderr)
         return 2
-    target = P.LIBRARY / "books" / args.slug
-
     gate_results: list[dict] = []
 
     if not args.json:
         print(f"==> validate_ship_ready: {args.slug}")
         print(f"    workspace: {workspace.relative_to(P.REPO_ROOT)}")
-        print(f"    target:    {target} (read-only check)")
+        print("    publish:   sets status=published in place (nothing is copied)")
         print()
         print("=== Gates ===")
 
@@ -101,10 +96,14 @@ def main() -> int:
     if not ok5:
         return _emit(args, gate_results, "BLOCKED", "G5 state-shippable failed")
 
-    ok6 = P.gate_g6_target(target, args.no_wipe)
-    gate_results.append({"gate": "G6", "name": "target-wipe-safe", "passed": bool(ok6)})
-    if not ok6:
-        return _emit(args, gate_results, "BLOCKED", "G6 target-wipe-safe failed")
+    # G6 is obsolete and MUST stay obsolete here too: publish_to_library.py stopped
+    # evaluating it when draft/published became a status field, because nothing is
+    # copied and no published/ tree is created or wiped. Running it in this
+    # read-only mirror judged a book against a gate the real publisher no longer
+    # applies — and printed a legacy target path that will never be written.
+    gate_results.append({"gate": "G6", "name": "target-wipe-safe", "passed": None, "skipped": "n/a"})
+    if not args.json:
+        print("n/a   [G6] status-flag model writes no published/ tree")
 
     ok7 = P.gate_g7_challenger_convergence(workspace, args.allow_mode_2)
     gate_results.append({"gate": "G7", "name": "challenger-verdict", "passed": bool(ok7)})
@@ -120,6 +119,7 @@ def main() -> int:
     if meta_path.exists():
         try:
             import yaml as _yaml
+
             _meta = _yaml.safe_load(meta_path.read_text()) or {}
             capstone_mode = str(_meta.get("capstone_mode", "none"))
         except Exception:
@@ -131,8 +131,12 @@ def main() -> int:
         ok8 = len(capstone_eps) > 0
     gate_results.append({"gate": "G8", "name": "capstone-mode-honored", "passed": bool(ok8)})
     if not ok8:
-        return _emit(args, gate_results, "BLOCKED",
-                     f"G8 capstone-mode-honored failed — capstone_mode={capstone_mode} but no capstone episode found")
+        return _emit(
+            args,
+            gate_results,
+            "BLOCKED",
+            f"G8 capstone-mode-honored failed — capstone_mode={capstone_mode} but no capstone episode found",
+        )
 
     # G9 — rich-diagram-coverage: if diagram_density == high, slide classifier
     # must report coverage ≥ 60% (WARN threshold from pilot findings).
@@ -140,6 +144,7 @@ def main() -> int:
     if meta_path.exists():
         try:
             import yaml as _yaml
+
             _meta2 = _yaml.safe_load(meta_path.read_text()) or {}
             diagram_density = str(_meta2.get("diagram_density", "low"))
         except Exception:
@@ -150,14 +155,16 @@ def main() -> int:
         if coverage_report.exists():
             try:
                 import json as _json
+
                 _cov = _json.loads(coverage_report.read_text())
                 ok9 = float(_cov.get("coverage", 1.0)) >= 0.60
             except Exception:
                 ok9 = True  # missing report → advisory only, not blocking
     gate_results.append({"gate": "G9", "name": "rich-diagram-coverage", "passed": bool(ok9)})
     if not ok9:
-        return _emit(args, gate_results, "BLOCKED",
-                     "G9 rich-diagram-coverage failed — diagram_density=high but coverage < 60%")
+        return _emit(
+            args, gate_results, "BLOCKED", "G9 rich-diagram-coverage failed — diagram_density=high but coverage < 60%"
+        )
 
     # G10 — manual-review-resolved: no open manual-review alert divs in any episode file.
     open_manual_reviews: list[str] = []
@@ -167,11 +174,14 @@ def main() -> int:
             if "<div class='alert manual-review'>" in ep_file.read_text():
                 open_manual_reviews.append(ep_file.name)
     ok10 = len(open_manual_reviews) == 0
-    gate_results.append({"gate": "G10", "name": "manual-review-resolved",
-                         "passed": bool(ok10)})
+    gate_results.append({"gate": "G10", "name": "manual-review-resolved", "passed": bool(ok10)})
     if not ok10:
-        return _emit(args, gate_results, "BLOCKED",
-                     f"G10 manual-review-resolved failed — open reviews in: {', '.join(open_manual_reviews)}")
+        return _emit(
+            args,
+            gate_results,
+            "BLOCKED",
+            f"G10 manual-review-resolved failed — open reviews in: {', '.join(open_manual_reviews)}",
+        )
 
     # G11 — knowledge-base-merge-clean: librarian merge report has zero conflicts.
     ok11 = True
@@ -180,11 +190,14 @@ def main() -> int:
         report_text = merge_report.read_text()
         if "conflict" in report_text.lower() and "zero" not in report_text.lower():
             ok11 = False
-    gate_results.append({"gate": "G11", "name": "knowledge-base-merge-clean",
-                         "passed": bool(ok11)})
+    gate_results.append({"gate": "G11", "name": "knowledge-base-merge-clean", "passed": bool(ok11)})
     if not ok11:
-        return _emit(args, gate_results, "BLOCKED",
-                     "G11 knowledge-base-merge-clean failed — unresolved conflicts in librarian merge report")
+        return _emit(
+            args,
+            gate_results,
+            "BLOCKED",
+            "G11 knowledge-base-merge-clean failed — unresolved conflicts in librarian merge report",
+        )
 
     # G12 — augmenter-A/B-acceptance: for books with enable_knowledge_augmenter=true,
     # challenger must have surfaced ≥1 finding referencing an augmented atom.
@@ -193,6 +206,7 @@ def main() -> int:
     if meta_path.exists():
         try:
             import yaml as _yaml
+
             _meta3 = _yaml.safe_load(meta_path.read_text()) or {}
             enable_augmenter = bool(_meta3.get("enable_knowledge_augmenter", False))
         except Exception:
@@ -203,8 +217,7 @@ def main() -> int:
         if challenger_report.exists():
             ok12 = "augmented atom" in challenger_report.read_text().lower()
         # Else: file missing → advisory pass (book hasn't been challenged yet)
-    gate_results.append({"gate": "G12", "name": "augmenter-AB-acceptance",
-                         "passed": bool(ok12)})
+    gate_results.append({"gate": "G12", "name": "augmenter-AB-acceptance", "passed": bool(ok12)})
     # G12 is advisory — warn but do not block ship
 
     # G13 — arabic-script-in-chapters (P0): Islamic scholarly books must persist
@@ -212,25 +225,31 @@ def main() -> int:
     # by the glossary / Customize prompt. Missing Arabic is a ship blocker.
     try:
         from _content_profile import is_islamic_scholarly
+
         if is_islamic_scholarly(workspace):
             from inject_chapter_arabic import chapter_arabic_status
+
             _status = chapter_arabic_status(workspace)
             _note = str(_status.get("note") or "")
-            gate_results.append({"gate": "G13", "name": "arabic-script-in-chapters",
-                                 "passed": bool(_status.get("ok")), "note": _note})
+            gate_results.append(
+                {"gate": "G13", "name": "arabic-script-in-chapters", "passed": bool(_status.get("ok")), "note": _note}
+            )
             if not _status.get("ok"):
-                return _emit(args, gate_results, "BLOCKED",
-                             f"G13 arabic-script-in-chapters failed — {_note}")
+                return _emit(args, gate_results, "BLOCKED", f"G13 arabic-script-in-chapters failed — {_note}")
         else:
-            gate_results.append({"gate": "G13", "name": "arabic-script-in-chapters",
-                                 "passed": True,
-                                 "note": "n/a (not islamic_scholarly)"})
+            gate_results.append(
+                {
+                    "gate": "G13",
+                    "name": "arabic-script-in-chapters",
+                    "passed": True,
+                    "note": "n/a (not islamic_scholarly)",
+                }
+            )
     except Exception as _e:
-        gate_results.append({"gate": "G13", "name": "arabic-script-in-chapters",
-                             "passed": False,
-                             "note": f"check failed: {_e}"})
-        return _emit(args, gate_results, "BLOCKED",
-                     f"G13 arabic-script-in-chapters failed — {_e}")
+        gate_results.append(
+            {"gate": "G13", "name": "arabic-script-in-chapters", "passed": False, "note": f"check failed: {_e}"}
+        )
+        return _emit(args, gate_results, "BLOCKED", f"G13 arabic-script-in-chapters failed — {_e}")
 
     # G14 — arabic-integrity: every protected Arabic span is byte-stable against
     # the pre-LLM baseline snapshot (allowing only canonical injection + glossary
@@ -239,33 +258,37 @@ def main() -> int:
     # (Distinct from G13: G13 reports glossary script coverage; G14 forbids any LLM
     # pass from mutating/dropping/inventing a verse/hadith/term.)
     import arabic_integrity as _ai
+
     ok14, msg14 = _ai.gate_arabic_integrity(workspace)
     gate_results.append({"gate": "G14", "name": "arabic-integrity", "passed": bool(ok14)})
     if not ok14:
         return _emit(args, gate_results, "BLOCKED", f"G14 arabic-integrity failed — {msg14}")
 
     total_gates = len(gate_results)
-    return _emit(args, gate_results, "SHIP-READY",
-                 f"all {total_gates} gates passed for {args.slug}; ready for publish")
+    return _emit(args, gate_results, "SHIP-READY", f"all {total_gates} gates passed for {args.slug}; ready for publish")
 
 
 def _emit(args, gate_results: list[dict], verdict: str, summary: str) -> int:
     if args.json:
-        print(json.dumps({
-            "slug": args.slug,
-            "verdict": verdict,
-            "summary": summary,
-            "gates": gate_results,
-            "passed_count": sum(1 for g in gate_results if g["passed"]),
-            "total_count": len(gate_results),
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "slug": args.slug,
+                    "verdict": verdict,
+                    "summary": summary,
+                    "gates": gate_results,
+                    "passed_count": sum(1 for g in gate_results if g["passed"]),
+                    "total_count": len(gate_results),
+                },
+                indent=2,
+            )
+        )
     else:
         # Echo advisory gate notes (e.g. G12 augmenter, G13 Arabic-script
         # coverage). These never block ship, but they were previously written to
         # the gate result and never printed in non-json mode — so the coverage
         # signal was invisible at the finalize halt. Surface them now.
-        _advisories = [g for g in gate_results
-                       if g.get("advisory") and g.get("note")]
+        _advisories = [g for g in gate_results if g.get("advisory") and g.get("note")]
         if _advisories:
             print()
             print("--- Advisories (non-blocking) ---")
@@ -275,11 +298,11 @@ def _emit(args, gate_results: list[dict], verdict: str, summary: str) -> int:
         if verdict == "SHIP-READY":
             print(f"✓ SHIP-READY — {summary}")
             print()
-            print(f"  Next: human review in podcast-reader, then authorize")
+            print("  Next: human review in podcast-reader, then authorize")
             print(f"        `python3 scripts/podcast/publish_to_library.py {args.slug}`")
         else:
             print(f"✗ {verdict} — {summary}")
-            print(f"  Remediation: see the failing gate's reason above.")
+            print("  Remediation: see the failing gate's reason above.")
     return 0 if verdict == "SHIP-READY" else 1
 
 

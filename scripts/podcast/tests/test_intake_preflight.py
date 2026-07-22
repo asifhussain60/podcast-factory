@@ -4,6 +4,7 @@
 The estimate is chapter_count × historical mean, capped per-chapter by the rail
 Phase 3 enforces, and surfaces the caps in effect. Pure — no LLM, no launch.
 """
+
 from __future__ import annotations
 
 import json
@@ -15,8 +16,8 @@ import pytest
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _paths  # noqa: E402
-import intake_preflight as pf  # noqa: E402
+import _paths
+import intake_preflight as pf
 
 
 @pytest.fixture
@@ -33,16 +34,20 @@ def temp_root(tmp_path, monkeypatch):
 def _book_with_timings(root: Path, slug: str, timings: dict) -> None:
     bd = root / "Islamic" / slug / "_system"
     bd.mkdir(parents=True)
-    (bd / "orchestrator-state.json").write_text(json.dumps({
-        "status": "draft",
-        "phases": {"per-chapter": {"chapter_timings": timings}},
-    }), encoding="utf-8")
+    (bd / "orchestrator-state.json").write_text(
+        json.dumps(
+            {
+                "status": "draft",
+                "phases": {"per-chapter": {"chapter_timings": timings}},
+            }
+        ),
+        encoding="utf-8",
+    )
 
 
 class TestEstimate:
     def test_explicit_means(self):
-        est = pf.estimate(chapter_count=10, mean_cost_usd=3.0, mean_sec=3600,
-                          per_chapter_cost_cap_usd=5.0)
+        est = pf.estimate(chapter_count=10, mean_cost_usd=3.0, mean_sec=3600, per_chapter_cost_cap_usd=5.0)
         assert est["projected_cost_usd"] == 30.0
         assert est["projected_sec"] == 36000
         assert est["projected_human"] == "10h"
@@ -53,8 +58,7 @@ class TestEstimate:
         assert est["projected_cost_usd"] == 20.0  # 4 × $5 cap
 
     def test_caps_surfaced(self):
-        est = pf.estimate(chapter_count=1, mean_cost_usd=1.0,
-                          per_chapter_cost_cap_usd=5.0, book_cost_cap_usd=40.0)
+        est = pf.estimate(chapter_count=1, mean_cost_usd=1.0, per_chapter_cost_cap_usd=5.0, book_cost_cap_usd=40.0)
         assert est["caps"]["book_cost_cap_active"] is True
         assert est["caps"]["book_cost_cap_usd"] == 40.0
 
@@ -75,20 +79,28 @@ class TestHistoricalMeans:
         assert n == 0
 
     def test_averages_recorded_chapters(self, temp_root):
-        _book_with_timings(temp_root, "book-a", {
-            "ch01": {"cost_usd": 2.0, "duration_sec": 1000, "verdict": "SHIP-READY"},
-            "ch02": {"cost_usd": 4.0, "duration_sec": 3000, "verdict": "SHIP-READY"},
-        })
+        _book_with_timings(
+            temp_root,
+            "book-a",
+            {
+                "ch01": {"cost_usd": 2.0, "duration_sec": 1000, "verdict": "SHIP-READY"},
+                "ch02": {"cost_usd": 4.0, "duration_sec": 3000, "verdict": "SHIP-READY"},
+            },
+        )
         c, s, n = pf.historical_means()
-        assert c == 3.0           # (2+4)/2
-        assert s == 2000.0        # (1000+3000)/2
+        assert c == 3.0  # (2+4)/2
+        assert s == 2000.0  # (1000+3000)/2
         assert n == 2
 
     def test_skips_zero_cost_partial_chapters(self, temp_root):
-        _book_with_timings(temp_root, "book-a", {
-            "ch01": {"cost_usd": 6.0, "duration_sec": 1200},
-            "ch02": {"cost_usd": 0, "duration_sec": None},  # partial — skipped
-        })
+        _book_with_timings(
+            temp_root,
+            "book-a",
+            {
+                "ch01": {"cost_usd": 6.0, "duration_sec": 1200},
+                "ch02": {"cost_usd": 0, "duration_sec": None},  # partial — skipped
+            },
+        )
         c, _s, _n = pf.historical_means()
         assert c == 6.0
 

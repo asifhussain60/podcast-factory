@@ -24,9 +24,9 @@ deleted, weakened, or moved into a sub-clause where the LLM might overlook it.
 
 Runs in <5s with zero `claude -p` invocations (pure prompt-string assertion).
 """
+
 from __future__ import annotations
 
-import re
 import sys
 import unittest
 from pathlib import Path
@@ -34,7 +34,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _authoring  # noqa: E402
+import _authoring
 
 
 class Phase0bPromptPageMarkerTests(unittest.TestCase):
@@ -86,13 +86,17 @@ class Phase0bPromptPageMarkerTests(unittest.TestCase):
             msg="No paragraph references `<!-- page` syntax in the prompt.",
         )
 
-        preservation_verbs = ("preserve", "keep", "retain", "do not remove",
-                              "do not omit", "do not collapse", "verbatim")
-        # At least one of the page-mentioning paragraphs must use a strong verb.
-        verb_present = any(
-            any(verb in p.lower() for verb in preservation_verbs)
-            for p in page_paragraphs
+        preservation_verbs = (
+            "preserve",
+            "keep",
+            "retain",
+            "do not remove",
+            "do not omit",
+            "do not collapse",
+            "verbatim",
         )
+        # At least one of the page-mentioning paragraphs must use a strong verb.
+        verb_present = any(any(verb in p.lower() for verb in preservation_verbs) for p in page_paragraphs)
         self.assertTrue(
             verb_present,
             msg=(
@@ -133,11 +137,17 @@ class Phase0bPromptPageMarkerTests(unittest.TestCase):
         anchoring for body text.
         """
         lower = self.prompt.lower()
-        position_signals = ("same position", "same relative position",
-                            "at the same", "where they appear",
-                            "where it appears", "in place", "in-place",
-                            "in their original position",
-                            "at the same relative position")
+        position_signals = (
+            "same position",
+            "same relative position",
+            "at the same",
+            "where they appear",
+            "where it appears",
+            "in place",
+            "in-place",
+            "in their original position",
+            "at the same relative position",
+        )
         self.assertTrue(
             any(signal in lower for signal in position_signals),
             msg=(

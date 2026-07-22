@@ -9,9 +9,10 @@ Each adapter implements SourceAdapter (base.py) and provides:
 Stages (stages/) call adapter methods generically — they never branch on
 adapter identity.
 """
-from .base import SourceAdapter, BookIds, BookMeta, Section, AdapterLabels
-from .wisdom import WisdomAdapter
+
+from .base import AdapterLabels, BookIds, BookMeta, Section, SourceAdapter
 from .ksessions import KsessionsAdapter
+from .wisdom import WisdomAdapter
 
 
 def get_adapter(name: str) -> SourceAdapter:

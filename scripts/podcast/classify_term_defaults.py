@@ -21,6 +21,7 @@ Usage:
   python3 scripts/podcast/classify_term_defaults.py <slug> --dry-run
   python3 scripts/podcast/classify_term_defaults.py <slug> --reclassify   # redo auto rows
 """
+
 from __future__ import annotations
 
 import argparse
@@ -30,7 +31,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fill_glossary_arabic import parse_glossary_yml, emit_glossary_yml  # noqa: E402
+from fill_glossary_arabic import emit_glossary_yml, parse_glossary_yml
 
 _LLM_BATCH = 60
 _CLAUDE_TIMEOUT = 600
@@ -43,7 +44,8 @@ def _build_prompt(items: list[tuple[int, dict]]) -> str:
         rows.append(
             f'{i}. term="{e.get("transliteration") or e.get("phonetic")}" '
             f'arabic="{e.get("arabic_script") or ""}" '
-            f'context="{(e.get("first_seen_snippet") or "").strip()[:160]}"')
+            f'context="{(e.get("first_seen_snippet") or "").strip()[:160]}"'
+        )
     listing = "\n".join(rows)
     return f"""You decide, for each Arabic term from a scholarly Ismaili / broader Islamic book, \
 whether an audio narrator should SPEAK IT IN ENGLISH or RECITE IT IN ARABIC.
@@ -70,15 +72,19 @@ def _llm(items: list[tuple[int, dict]], book_dir: Path, log) -> dict[int, dict]:
     """Batched Claude-Max judgment. Returns {idx: {"lang":..., "english":...}}."""
     try:
         from _authoring._core import _run_claude_p
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         log(f"    [defaults] claude unavailable ({e}) — leaving terms unchanged")
         return {}
     out: dict[int, dict] = {}
     for start in range(0, len(items), _LLM_BATCH):
-        batch = items[start:start + _LLM_BATCH]
+        batch = items[start : start + _LLM_BATCH]
         rc, text, err = _run_claude_p(
-            _build_prompt(batch), timeout=_CLAUDE_TIMEOUT, book_dir=book_dir,
-            phase="audio-script", step="term-default-language")
+            _build_prompt(batch),
+            timeout=_CLAUDE_TIMEOUT,
+            book_dir=book_dir,
+            phase="audio-script",
+            step="term-default-language",
+        )
         if rc != 0:
             log(f"    [defaults] batch rc={rc}: {(err or '')[:120]} — skipped")
             continue
@@ -93,22 +99,21 @@ def _llm(items: list[tuple[int, dict]], book_dir: Path, log) -> dict[int, dict]:
                 eng = str(obj.get("english") or "").strip()
                 if lang in ("english", "arabic"):
                     out[idx] = {"lang": lang, "english": eng}
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             log(f"    [defaults] JSON parse failed ({e}) — batch skipped")
     return out
 
 
-def classify_defaults(entries: list[dict], book_dir: Path, *, reclassify: bool = False,
-                      log=print) -> dict[str, int]:
+def classify_defaults(entries: list[dict], book_dir: Path, *, reclassify: bool = False, log=print) -> dict[str, int]:
     """Mutate entries in place. Returns {english, arabic, skipped} counts."""
     todo: list[tuple[int, dict]] = []
     skipped = 0
     for i, e in enumerate(entries):
         decided_by = str(e.get("decided_by") or "").strip().lower()
-        if decided_by and decided_by != _AUTO:        # human decision — never touch
+        if decided_by and decided_by != _AUTO:  # human decision — never touch
             skipped += 1
             continue
-        if decided_by == _AUTO and not reclassify:     # already auto-classified
+        if decided_by == _AUTO and not reclassify:  # already auto-classified
             skipped += 1
             continue
         todo.append((i, e))
@@ -123,7 +128,7 @@ def classify_defaults(entries: list[dict], book_dir: Path, *, reclassify: bool =
         if not v:
             continue
         if v["english"]:
-            e["english_override"] = v["english"]       # display + flip value (all terms)
+            e["english_override"] = v["english"]  # display + flip value (all terms)
         if v["lang"] == "english":
             e["decision"] = "replace_english"
             e["decided_by"] = _AUTO
@@ -160,8 +165,11 @@ def main(argv: list[str] | None = None) -> int:
     print(f"{gloss.relative_to(book_dir.parent.parent)} — {len(entries)} terms", file=sys.stderr)
 
     counts = classify_defaults(entries, book_dir, reclassify=args.reclassify)
-    print(f"  english (auto-flip): {counts['english']}  ·  arabic (recite): {counts['arabic']}  "
-          f"·  skipped: {counts['skipped']}", file=sys.stderr)
+    print(
+        f"  english (auto-flip): {counts['english']}  ·  arabic (recite): {counts['arabic']}  "
+        f"·  skipped: {counts['skipped']}",
+        file=sys.stderr,
+    )
 
     if args.dry_run:
         print("  --dry-run: not written", file=sys.stderr)

@@ -25,6 +25,7 @@ files are present, the LLM + render steps are skipped.  Pass force=True to regen
 Standalone:
   python3 _book_illustrate.py <BOOK_DIR> [--force]
 """
+
 from __future__ import annotations
 
 import json
@@ -34,8 +35,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _authoring._core import AuthoringError, _run_claude_p  # noqa: E402
-from _paths import REPO_ROOT  # noqa: E402
+from _authoring._core import AuthoringError, _run_claude_p
+from _paths import REPO_ROOT
 
 # Per-section classifier budget. 180s proved too tight under real Opus
 # latency (2026-06-11: every section timed out and was skipped, yielding a
@@ -82,7 +83,9 @@ JSON FIELD DEFINITIONS (apply to all types):
 
 """
 
-_CLASSIFY_TEMPLATE_ISLAMIC = _CLASSIFY_HEADER + """\
+_CLASSIFY_TEMPLATE_ISLAMIC = (
+    _CLASSIFY_HEADER
+    + """\
 STRUCTURE TYPES FOR ISLAMIC PHILOSOPHICAL CONTENT:
 
 1. "concentric-layers"
@@ -181,9 +184,12 @@ SECTION TITLE: {section_title}
 
 PASSAGE:
 {section_text}"""
+)
 
 
-_CLASSIFY_TEMPLATE_TECHNICAL = _CLASSIFY_HEADER + """\
+_CLASSIFY_TEMPLATE_TECHNICAL = (
+    _CLASSIFY_HEADER
+    + """\
 STRUCTURE TYPES FOR TECHNICAL CONTENT:
 
 1. "hierarchy-tree" — system component hierarchies, module dependency trees.
@@ -215,9 +221,12 @@ SECTION TITLE: {section_title}
 
 PASSAGE:
 {section_text}"""
+)
 
 
-_CLASSIFY_TEMPLATE_DEFAULT = _CLASSIFY_HEADER + """\
+_CLASSIFY_TEMPLATE_DEFAULT = (
+    _CLASSIFY_HEADER
+    + """\
 STRUCTURE TYPES:
 
 1. "mermaid-flowchart" — sequential/causal stages (3-6 steps).
@@ -249,22 +258,28 @@ SECTION TITLE: {section_title}
 
 PASSAGE:
 {section_text}"""
+)
 
-_SVG_PATTERN_TYPES = frozenset({
-    "concentric-layers", "cosmic-pair", "quadrant-map",
-    "hierarchy-tree", "cascade-chain",
-})
+_SVG_PATTERN_TYPES = frozenset(
+    {
+        "concentric-layers",
+        "cosmic-pair",
+        "quadrant-map",
+        "hierarchy-tree",
+        "cascade-chain",
+    }
+)
 _MERMAID_TYPES = frozenset({"mermaid-flowchart", "mermaid-mindmap", "mermaid-graph"})
 _ALL_TYPES = _SVG_PATTERN_TYPES | _MERMAID_TYPES
 
 
 def _sections_from_md(md: str) -> list[tuple[str, str]]:
     """Split book.md into [(heading, body)] pairs by H2 headings."""
-    parts = re.split(r'^(## .+)$', md, flags=re.MULTILINE)
+    parts = re.split(r"^(## .+)$", md, flags=re.MULTILINE)
     result: list[tuple[str, str]] = []
     i = 1
     while i < len(parts) - 1:
-        heading = parts[i].lstrip('#').strip()
+        heading = parts[i].lstrip("#").strip()
         body = parts[i + 1].strip()
         if body:
             result.append((heading, body))
@@ -281,8 +296,9 @@ def _select_classify_template(content_profile: str) -> str:
     return _CLASSIFY_TEMPLATE_DEFAULT
 
 
-def _classify_section(section_title: str, section_text: str,
-                       content_profile: str, *, book_dir: Path) -> list[dict]:
+def _classify_section(
+    section_title: str, section_text: str, content_profile: str, *, book_dir: Path, model_flag: str | None = None
+) -> list[dict]:
     """Stage-1 classification.  Returns validated concept specs (max 3) for the section."""
     template = _select_classify_template(content_profile)
     text = section_text[:6000] if len(section_text) > 6000 else section_text
@@ -294,21 +310,20 @@ def _classify_section(section_title: str, section_text: str,
         phase="0book-illustrate",
         step=section_title[:40],
         timeout=_TIMEOUT,
+        model_flag=model_flag,
     )
     if rc != 0:
         sys.stderr.write(f"  [illustrate] claude -p rc={rc}: {stderr[:200]}\n")
         return []
 
-    raw = re.sub(r'^```(?:json)?\s*\n?', '', stdout.strip())
-    raw = re.sub(r'\n?```\s*$', '', raw)
+    raw = re.sub(r"^```(?:json)?\s*\n?", "", stdout.strip())
+    raw = re.sub(r"\n?```\s*$", "", raw)
 
     try:
         data = json.loads(raw)
         concepts = data.get("concepts", [])
     except (json.JSONDecodeError, AttributeError):
-        sys.stderr.write(
-            f"  [illustrate] JSON parse failed for {section_title!r}: {raw[:200]}\n"
-        )
+        sys.stderr.write(f"  [illustrate] JSON parse failed for {section_title!r}: {raw[:200]}\n")
         return []
 
     return _validate_concepts(concepts)
@@ -342,15 +357,17 @@ def _validate_concepts(raw_concepts: list) -> list[dict]:
     return valid[:3]  # hard cap at 3 per section
 
 
-def _generate_pattern_svg_file(spec: dict, diagram_id: str,
-                                diagram_dir: Path, book_dir: Path | None = None) -> str | None:
+def _generate_pattern_svg_file(
+    spec: dict, diagram_id: str, diagram_dir: Path, book_dir: Path | None = None
+) -> str | None:
     """Stage-2 generation for SVG-pattern types.
 
     Calls _svg_patterns.render_pattern() and writes the SVG file directly.
     Returns the svg_path string, or None on failure.
     """
     from _svg_patterns import render_pattern  # local import: avoids circular deps
-    stype  = spec["structure_type"]
+
+    stype = spec["structure_type"]
     params = dict(spec.get("parameters", {}))
 
     # Ensure a title exists (fall back to a cleaned diagram_id)
@@ -359,14 +376,13 @@ def _generate_pattern_svg_file(spec: dict, diagram_id: str,
 
     svg_str = render_pattern(stype, params)
     if not svg_str:
-        sys.stderr.write(
-            f"  [illustrate] render_pattern returned None for {diagram_id} ({stype})\n"
-        )
+        sys.stderr.write(f"  [illustrate] render_pattern returned None for {diagram_id} ({stype})\n")
         return None
 
     if book_dir is not None:
         try:
-            from _translation_edition import monochrome_svg, requires_monochrome_visuals  # noqa: PLC0415
+            from _translation_edition import monochrome_svg, requires_monochrome_visuals
+
             if requires_monochrome_visuals(book_dir):
                 svg_str = monochrome_svg(svg_str)
         except Exception:
@@ -375,8 +391,8 @@ def _generate_pattern_svg_file(spec: dict, diagram_id: str,
     # Geometry gate (2026-06-11): auto-expand the viewBox over escaping text;
     # surface any remaining overlap/min-type findings in the phase log.
     from _svg_geometry import gate_svg
-    svg_str = gate_svg(svg_str, diagram_id,
-                       log=lambda m: sys.stderr.write(f"  {m.strip()}\n"))
+
+    svg_str = gate_svg(svg_str, diagram_id, log=lambda m: sys.stderr.write(f"  {m.strip()}\n"))
 
     svg_path = diagram_dir / f"{diagram_id}.svg"
     try:
@@ -401,8 +417,7 @@ def _normalize_mindmap_dsl(dsl: str) -> str:
     """
     lines = dsl.splitlines()
     # Locate the `mindmap` declaration line.
-    decl_idx = next((i for i, ln in enumerate(lines)
-                     if ln.strip().lower() == "mindmap"), None)
+    decl_idx = next((i for i, ln in enumerate(lines) if ln.strip().lower() == "mindmap"), None)
     if decl_idx is None:
         return dsl  # not a mindmap — leave untouched
 
@@ -410,8 +425,7 @@ def _normalize_mindmap_dsl(dsl: str) -> str:
         return len(ln) - len(ln.lstrip(" "))
 
     # First non-blank line after the declaration is the root node.
-    root_idx = next((i for i in range(decl_idx + 1, len(lines)) if lines[i].strip()),
-                    None)
+    root_idx = next((i for i in range(decl_idx + 1, len(lines)) if lines[i].strip()), None)
     if root_idx is None:
         return dsl  # nothing but a declaration
 
@@ -443,9 +457,10 @@ def _render_diagrams(book_dir: Path, *, log=print) -> None:
         raise AuthoringError(
             phase="0book-illustrate",
             message=f"render-mermaid.mjs not found at {_RENDER_SCRIPT}",
-            manual_fallback="Ensure plan-dashboard/scripts/ is present.")
+            manual_fallback="Ensure plan-dashboard/scripts/ is present.",
+        )
 
-    log(f"    0book-illustrate: rendering Mermaid diagrams via Playwright")
+    log("    0book-illustrate: rendering Mermaid diagrams via Playwright")
     proc = subprocess.run(
         ["node", str(_RENDER_SCRIPT), f"--book-dir={book_dir}"],
         cwd=str(_DASHBOARD),
@@ -460,13 +475,15 @@ def _render_diagrams(book_dir: Path, *, log=print) -> None:
         raise AuthoringError(
             phase="0book-illustrate",
             message=f"render-mermaid.mjs failed rc={proc.returncode}.\n{proc.stderr[:400]}",
-            manual_fallback="Run `npx playwright install chromium` in plan-dashboard/ then retry.")
+            manual_fallback="Run `npx playwright install chromium` in plan-dashboard/ then retry.",
+        )
     else:
         for line in proc.stdout.strip().splitlines():
             log(f"    {line}")
         # Geometry gate over the freshly rendered .svg files (same contract
         # as the pattern path: auto-expand G1, surface the rest in the log).
         from _svg_geometry import gate_svg
+
         for mmd in sorted(diagram_dir.glob("*.mmd")):
             svgf = mmd.with_suffix(".svg")
             if not svgf.exists():
@@ -474,7 +491,8 @@ def _render_diagrams(book_dir: Path, *, log=print) -> None:
             src = svgf.read_text(encoding="utf-8")
             fixed = gate_svg(src, svgf.name, log=log)
             try:
-                from _translation_edition import monochrome_svg, requires_monochrome_visuals  # noqa: PLC0415
+                from _translation_edition import monochrome_svg, requires_monochrome_visuals
+
                 if requires_monochrome_visuals(book_dir):
                     fixed = monochrome_svg(fixed)
             except Exception:
@@ -483,52 +501,16 @@ def _render_diagrams(book_dir: Path, *, log=print) -> None:
                 svgf.write_text(fixed, encoding="utf-8")
 
 
-def _inject_figures(book_md: str, manifest: list[dict]) -> str:
-    """Insert <figure class="book-diagram"> blocks after anchor paragraphs in book_md."""
-    result = book_md
-    insertions: list[tuple[int, str]] = []
+def author_phase_book_illustrate(
+    book_dir: Path, *, log=print, force: bool = False, model_flag: str | None = None
+) -> Path:
+    """Main entry point for 0book-illustrate. Returns path to book/book-illustrated.md.
 
-    for entry in manifest:
-        anchor = entry.get("anchor_text", "").strip()
-        svg_path_str = entry.get("svg_path", "")
-        caption = entry.get("caption", "")
-
-        if not anchor or not svg_path_str:
-            continue
-
-        svg_file = Path(svg_path_str)
-        if not svg_file.exists():
-            sys.stderr.write(f"  [illustrate] SVG missing: {svg_path_str}, skipping\n")
-            continue
-
-        svg_content = svg_file.read_text(encoding="utf-8").strip()
-        pos = result.find(anchor)
-        if pos == -1:
-            sys.stderr.write(f"  [illustrate] anchor not found: {repr(anchor[:60])}, skipping\n")
-            continue
-
-        # Insert after the paragraph containing the anchor (next blank line boundary)
-        end_of_para = result.find('\n\n', pos + len(anchor))
-        insert_at = (end_of_para + 2) if end_of_para != -1 else len(result)
-
-        figure_block = (
-            f'<figure class="book-diagram">\n'
-            f'{svg_content}\n'
-            f'<figcaption>{caption}</figcaption>\n'
-            f'</figure>\n\n'
-        )
-        insertions.append((insert_at, figure_block))
-
-    # Apply in reverse order so earlier insertions don't shift later offsets
-    insertions.sort(key=lambda x: x[0], reverse=True)
-    for pos, block in insertions:
-        result = result[:pos] + block + result[pos:]
-
-    return result
-
-
-def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = False) -> Path:
-    """Main entry point for 0book-illustrate. Returns path to book/book-illustrated.md."""
+    model_flag overrides the default model (Opus) for the diagram-classification
+    LLM call — a mechanical structure-triage task, not translation-fidelity-
+    critical, so callers may safely pass a lighter model (e.g. translation-edition
+    passes Sonnet). None preserves the prior default for all other callers.
+    """
     book_dir = Path(book_dir).resolve()
     book_md_path = book_dir / "book" / "book.md"
     illustrated_path = book_dir / "book" / "book-illustrated.md"
@@ -539,18 +521,42 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
         raise AuthoringError(
             phase="0book-illustrate",
             message=f"book.md not found at {book_md_path} — run 0book-compose first.",
-            manual_fallback="python3 _book_compose.py <BOOK_DIR>")
+            manual_fallback="python3 scripts/podcast/orchestrate_book.py --resume <slug>",
+        )
 
     # Resolve content_profile once: used for both the fiction gate and template selection.
     from _content_profile import resolve_content_profile  # local import: avoid circularity
+
     content_profile = resolve_content_profile(book_dir)
 
     # Fiction passthrough: novels use scenic raster illustrations (separate path),
     # not teaching diagrams.  Emit book-illustrated.md as a clean copy of book.md
     # so downstream build_book_pdf still finds the expected file name.
     if content_profile == "fiction":
-        log(f"    0book-illustrate: {book_dir.name}: content_profile='fiction' — "
-            f"skipping teaching-diagram injection (novels use scenic illustration)")
+        log(
+            f"    0book-illustrate: {book_dir.name}: content_profile='fiction' — "
+            f"skipping teaching-diagram injection (novels use scenic illustration)"
+        )
+        diagram_dir.mkdir(parents=True, exist_ok=True)
+        manifest_path.write_text("[]\n", encoding="utf-8")
+        illustrated_path.write_text(book_md_path.read_text(encoding="utf-8"), encoding="utf-8")
+        return illustrated_path
+
+    # book_augmentation=none passthrough: a diagram is model-added interpretive
+    # content (it does not exist in the source text), which is augmentation by
+    # definition — so it is forbidden for the same books that forbid textual
+    # augmentation. This is the ONLY gate on illustration; every caller
+    # (phases/book_driver.py and any direct invocation) inherits it
+    # automatically via the `book_augmentation` knob, which resolves to "none"
+    # for deliverable_mode == translation_edition.
+    from _pipeline_flags import BOOK_AUGMENTATION_NONE, book_augmentation
+
+    if book_augmentation(book_dir) == BOOK_AUGMENTATION_NONE:
+        log(
+            f"    0book-illustrate: {book_dir.name}: book_augmentation='none' — "
+            f"skipping diagram generation (faithful/translation edition forbids "
+            f"added visual content)"
+        )
         diagram_dir.mkdir(parents=True, exist_ok=True)
         manifest_path.write_text("[]\n", encoding="utf-8")
         illustrated_path.write_text(book_md_path.read_text(encoding="utf-8"), encoding="utf-8")
@@ -560,10 +566,8 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
     if not force and illustrated_path.exists() and manifest_path.exists():
         try:
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-            if all((diagram_dir / Path(e["svg_path"]).name).exists()
-                   for e in manifest if e.get("svg_path")):
-                log(f"    0book-illustrate: {book_dir.name}: "
-                    f"already complete ({len(manifest)} diagrams) — skipping")
+            if all((diagram_dir / Path(e["svg_path"]).name).exists() for e in manifest if e.get("svg_path")):
+                log(f"    0book-illustrate: {book_dir.name}: already complete ({len(manifest)} diagrams) — skipping")
                 return illustrated_path
         except Exception:
             pass  # fall through to re-run
@@ -572,8 +576,10 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
 
     book_md = book_md_path.read_text(encoding="utf-8")
     sections = _sections_from_md(book_md)
-    log(f"    0book-illustrate: {book_dir.name}: profile={content_profile!r} — "
-        f"analysing {len(sections)} sections for diagram opportunities")
+    log(
+        f"    0book-illustrate: {book_dir.name}: profile={content_profile!r} — "
+        f"analysing {len(sections)} sections for diagram opportunities"
+    )
 
     manifest: list[dict] = []
 
@@ -585,19 +591,20 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
 
         try:
             log(f"    0book-illustrate: {heading[:60]!r} — classifying structure")
-            specs = _classify_section(heading, body, content_profile, book_dir=book_dir)
+            specs = _classify_section(heading, body, content_profile, book_dir=book_dir, model_flag=model_flag)
 
             if not specs:
                 log(f"    0book-illustrate: {heading[:60]!r} — no diagrams warranted")
                 continue
 
-            log(f"    0book-illustrate: {heading[:60]!r} — "
-                f"{len(specs)} diagram(s): "
-                + ", ".join(s["structure_type"] for s in specs))
-            section_slug = re.sub(r'[^a-z0-9]+', '-', heading.lower())[:40].strip('-')
+            log(
+                f"    0book-illustrate: {heading[:60]!r} — "
+                f"{len(specs)} diagram(s): " + ", ".join(s["structure_type"] for s in specs)
+            )
+            section_slug = re.sub(r"[^a-z0-9]+", "-", heading.lower())[:40].strip("-")
 
             for i, spec in enumerate(specs, 1):
-                stype      = spec["structure_type"]
+                stype = spec["structure_type"]
                 diagram_id = f"{section_slug}-{i}"
 
                 if stype in _MERMAID_TYPES:
@@ -606,28 +613,28 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
                     # .mmd → .svg in _render_diagrams() below.
                     mmd_dsl = spec["parameters"].get("mermaid_dsl", "")
                     if not isinstance(mmd_dsl, str) or not mmd_dsl.strip():
-                        sys.stderr.write(
-                            f"  [illustrate] empty mermaid_dsl for {diagram_id}, skipping\n"
-                        )
+                        sys.stderr.write(f"  [illustrate] empty mermaid_dsl for {diagram_id}, skipping\n")
                         continue
                     # Guard the mindmap DSL: re-nest any stray top-level branch
                     # under the root so a render-breaking "multiple roots" output
                     # can't slip through (no-op for flowchart/graph DSL).
                     if stype == "mermaid-mindmap":
                         mmd_dsl = _normalize_mindmap_dsl(mmd_dsl)
-                    mmd_file  = diagram_dir / f"{diagram_id}.mmd"
-                    svg_path  = str(diagram_dir / f"{diagram_id}.svg")
+                    mmd_file = diagram_dir / f"{diagram_id}.mmd"
+                    svg_path = str(diagram_dir / f"{diagram_id}.svg")
                     mmd_file.write_text(mmd_dsl, encoding="utf-8")
-                    manifest.append({
-                        "diagram_id":     diagram_id,
-                        "section":        heading,
-                        "anchor_text":    spec["anchor_text"],
-                        "structure_type": stype,
-                        "diagram_type":   stype.replace("mermaid-", ""),  # compat
-                        "caption":        spec["caption"],
-                        "mmd_path":       str(mmd_file),
-                        "svg_path":       svg_path,
-                    })
+                    manifest.append(
+                        {
+                            "diagram_id": diagram_id,
+                            "section": heading,
+                            "anchor_text": spec["anchor_text"],
+                            "structure_type": stype,
+                            "diagram_type": stype.replace("mermaid-", ""),  # compat
+                            "caption": spec["caption"],
+                            "mmd_path": str(mmd_file),
+                            "svg_path": svg_path,
+                        }
+                    )
 
                 else:
                     # ── SVG-pattern path ──
@@ -635,33 +642,37 @@ def author_phase_book_illustrate(book_dir: Path, *, log=print, force: bool = Fal
                     svg_path = _generate_pattern_svg_file(spec, diagram_id, diagram_dir, book_dir)
                     if not svg_path:
                         continue
-                    manifest.append({
-                        "diagram_id":     diagram_id,
-                        "section":        heading,
-                        "anchor_text":    spec["anchor_text"],
-                        "structure_type": stype,
-                        "diagram_type":   stype,  # for manifest clarity
-                        "caption":        spec["caption"],
-                        "svg_path":       svg_path,
-                    })
+                    manifest.append(
+                        {
+                            "diagram_id": diagram_id,
+                            "section": heading,
+                            "anchor_text": spec["anchor_text"],
+                            "structure_type": stype,
+                            "diagram_type": stype,  # for manifest clarity
+                            "caption": spec["caption"],
+                            "svg_path": svg_path,
+                        }
+                    )
 
         except Exception as exc:
-            sys.stderr.write(f"  [illustrate] section {heading[:50]!r} failed "
-                             f"({type(exc).__name__}: {exc}), skipping\n")
+            sys.stderr.write(
+                f"  [illustrate] section {heading[:50]!r} failed ({type(exc).__name__}: {exc}), skipping\n"
+            )
 
-    manifest_path.write_text(
-        json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
+    manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
     log(f"    0book-illustrate: manifest written — {len(manifest)} total diagram(s)")
 
     _render_diagrams(book_dir, log=log)
 
-    log(f"    0book-illustrate: assembling book-illustrated.md")
-    illustrated_md = _inject_figures(book_md, manifest)
-    illustrated_path.write_text(illustrated_md, encoding="utf-8")
-    log(f"    0book-illustrate: wrote {illustrated_path.name} "
-        f"({illustrated_path.stat().st_size // 1024} KB)")
+    # Decouple visuals: the diagrams are generated exactly as before, but instead
+    # of injecting them into the book text they are emitted as CANDIDATES to
+    # book/visuals/index.json for human curation. book.md stays diagram-free; the
+    # render input is book.md (see build_book_pdf._pick_book_md).
+    from _visual_candidates import emit_diagram_candidates, merge_entries
 
-    return illustrated_path
+    merge_entries(book_dir, emit_diagram_candidates(book_dir, manifest, log=log))
+    log(f"    0book-illustrate: {len(manifest)} diagram candidate(s) offered, book.md left diagram-free")
+    return book_md_path
 
 
 def main() -> int:

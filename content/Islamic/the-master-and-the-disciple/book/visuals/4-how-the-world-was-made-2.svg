@@ -1,0 +1,33 @@
+<svg id="The_Seven_Principles_of_Creation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 356" role="img" aria-labelledby="The_Seven_Principles_of_Creation_t The_Seven_Principles_of_Creation_d">
+<title id="The_Seven_Principles_of_Creation_t">The Seven Principles of Creation</title>
+<desc id="The_Seven_Principles_of_Creation_d">Hierarchy: Air (presides, without partner) → Water, Darkness… → Smoke (from water), Condensation (from darkness)…</desc>
+<style>#The_Seven_Principles_of_Creation{font-family:'Lato', system-ui, sans-serif;font-size:14px;fill:#1f1d18;}#The_Seven_Principles_of_Creation text{font-family:'Lato', system-ui, sans-serif;}</style>
+<defs><marker id="svgp_arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#87827a"/></marker></defs>
+<text x="250.0" y="24.0" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="600" fill="#8b4513"><tspan x="250.0" dy="0">The Seven Principles of Creation</tspan></text>
+<rect x="166.0" y="52.0" width="168.0" height="44.0" fill="#8b4513" stroke="#8b4513" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="66.5" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#fffdf8"><tspan x="250.0" dy="0">Air (presides, without</tspan><tspan x="250.0" dy="15">partner)</tspan></text>
+<rect x="-12.0" y="148.0" width="168.0" height="44.0" fill="#a0522d" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="72.0" y="170.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#fffdf8"><tspan x="72.0" dy="0">Water</tspan></text>
+<rect x="166.0" y="148.0" width="168.0" height="44.0" fill="#a0522d" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="170.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#fffdf8"><tspan x="250.0" dy="0">Darkness</tspan></text>
+<rect x="344.0" y="148.0" width="168.0" height="44.0" fill="#a0522d" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="428.0" y="170.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#fffdf8"><tspan x="428.0" dy="0">Light</tspan></text>
+<rect x="-12.0" y="244.0" width="168.0" height="44.0" fill="#d2b48c" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="72.0" y="266.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#1f1d18"><tspan x="72.0" dy="0">Smoke (from water)</tspan></text>
+<rect x="166.0" y="244.0" width="168.0" height="44.0" fill="#d2b48c" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="250.0" y="259.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#1f1d18"><tspan x="250.0" dy="0">Condensation (from</tspan><tspan x="250.0" dy="14">darkness)</tspan></text>
+<rect x="344.0" y="244.0" width="168.0" height="44.0" fill="#d2b48c" stroke="#d9d3c4" stroke-width="1.0" rx="4"/>
+<text x="428.0" y="266.0" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="600" fill="#1f1d18"><tspan x="428.0" dy="0">Fire (from light)</tspan></text>
+<line x1="250.0" y1="96.0" x2="250.0" y2="122.0" stroke="#87827a" stroke-width="1.5"/>
+<line x1="72.0" y1="122.0" x2="428.0" y2="122.0" stroke="#87827a" stroke-width="1.5"/>
+<line x1="72.0" y1="122.0" x2="72.0" y2="142.0" stroke="#87827a" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="250.0" y1="122.0" x2="250.0" y2="142.0" stroke="#87827a" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="428.0" y1="122.0" x2="428.0" y2="142.0" stroke="#87827a" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="72.0" y1="192.0" x2="72.0" y2="218.0" stroke="#87827a" stroke-width="1.5"/>
+<line x1="250.0" y1="192.0" x2="250.0" y2="218.0" stroke="#87827a" stroke-width="1.5"/>
+<line x1="428.0" y1="192.0" x2="428.0" y2="218.0" stroke="#87827a" stroke-width="1.5"/>
+<line x1="72.0" y1="218.0" x2="428.0" y2="218.0" stroke="#87827a" stroke-width="1.5"/>
+<line x1="72.0" y1="218.0" x2="72.0" y2="238.0" stroke="#87827a" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="250.0" y1="218.0" x2="250.0" y2="238.0" stroke="#87827a" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+<line x1="428.0" y1="218.0" x2="428.0" y2="238.0" stroke="#87827a" stroke-width="1.5" marker-end="url(#svgp_arrow)"/>
+</svg>

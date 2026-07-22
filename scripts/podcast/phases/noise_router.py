@@ -13,10 +13,10 @@ Output: _system/noise-stripped.jsonl with per-paragraph action + pass.
 CLI usage:
     python3 scripts/podcast/phases/noise_router.py <book-dir> [--dry-run]
 """
+
 from __future__ import annotations
 
 import json
-import os
 import re
 import sys
 from dataclasses import dataclass
@@ -25,18 +25,23 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent.parent  # scripts/podcast
 sys.path.insert(0, str(_HERE))
 
-from _paths import REPO_ROOT  # noqa: E402
-from _rules import R_NOISE_PROTECTED_CATEGORIES, R_NOISE_RULE_PATTERNS  # noqa: E402
+from _rules import R_NOISE_PROTECTED_CATEGORIES, R_NOISE_RULE_PATTERNS
 
-_ARABIC_RE = re.compile(
-    r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff]"
-)
+_ARABIC_RE = re.compile(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff]")
 
 # Categories that follow the Islamic/scholarly noise-routing logic.
 # Anything not in this set gets a category-appropriate Sonnet system prompt.
-_ARABIC_SCHOLARLY_CATEGORIES = frozenset({
-    "books", "letters", "lectures", "articles", "asbaaq", "documents", "interviews",
-})
+_ARABIC_SCHOLARLY_CATEGORIES = frozenset(
+    {
+        "books",
+        "letters",
+        "lectures",
+        "articles",
+        "asbaaq",
+        "documents",
+        "interviews",
+    }
+)
 
 
 def _build_sonnet_system_for_category(category: str) -> str:
@@ -57,8 +62,8 @@ def _build_sonnet_system_for_category(category: str) -> str:
             "- keep: substantive content that teaches something\n\n"
             "IMPORTANT: Never mark for deletion any paragraph containing spiritual,"
             " doctrinal, scriptural, or philosophical content.\n\n"
-            "Respond with JSON array: [{\"idx\": N, \"action\": \"keep|delete|improve\","
-            " \"confidence\": 0.0-1.0, \"reason\": \"...\"}]"
+            'Respond with JSON array: [{"idx": N, "action": "keep|delete|improve",'
+            ' "confidence": 0.0-1.0, "reason": "..."}]'
         )
 
     if category == "explainers":
@@ -74,8 +79,8 @@ def _build_sonnet_system_for_category(category: str) -> str:
             "  - Technical specifications, capability descriptions, or performance figures\n"
             "  - Direct quotes from official documentation\n"
             "  - Pricing, limits, or access requirements that affect a developer's decisions\n\n"
-            "Respond with JSON array: [{\"idx\": N, \"action\": \"keep|delete|improve\","
-            " \"confidence\": 0.0-1.0, \"reason\": \"...\"}]"
+            'Respond with JSON array: [{"idx": N, "action": "keep|delete|improve",'
+            ' "confidence": 0.0-1.0, "reason": "..."}]'
         )
 
     if category == "sites":
@@ -89,8 +94,8 @@ def _build_sonnet_system_for_category(category: str) -> str:
             "  - Specific dollar figures, contribution limits, or deadlines\n"
             "  - Product feature descriptions or eligibility requirements\n"
             "  - Action steps a person needs to take\n\n"
-            "Respond with JSON array: [{\"idx\": N, \"action\": \"keep|delete|improve\","
-            " \"confidence\": 0.0-1.0, \"reason\": \"...\"}]"
+            'Respond with JSON array: [{"idx": N, "action": "keep|delete|improve",'
+            ' "confidence": 0.0-1.0, "reason": "..."}]'
         )
 
     # Unreachable with current ALLOWED_CATEGORIES but safe fallback.
@@ -100,9 +105,9 @@ def _build_sonnet_system_for_category(category: str) -> str:
 @dataclass
 class ParagraphDecision:
     para_idx: int
-    text_preview: str      # first 80 chars
-    action: str            # "keep" | "delete" | "improve"
-    routing_pass: str      # "protected" | "rule" | "sonnet"
+    text_preview: str  # first 80 chars
+    action: str  # "keep" | "delete" | "improve"
+    routing_pass: str  # "protected" | "rule" | "sonnet"
     reason: str
     confidence: float
 
@@ -133,8 +138,7 @@ def _pass1_rule(para: str) -> ParagraphDecision | None:
     return None
 
 
-def _pass2_sonnet(paragraphs: list[tuple[int, str]],
-                  category: str = "books") -> list[ParagraphDecision]:
+def _pass2_sonnet(paragraphs: list[tuple[int, str]], category: str = "books") -> list[ParagraphDecision]:
     """Ask Sonnet to evaluate ambiguous paragraphs."""
     if not paragraphs:
         return []
@@ -145,20 +149,27 @@ def _pass2_sonnet(paragraphs: list[tuple[int, str]],
         # Graceful degradation: keep everything if Sonnet unavailable
         return [
             ParagraphDecision(
-                para_idx=idx, text_preview=text[:80], action="keep",
-                routing_pass="sonnet-skip", reason="anthropic not installed",
+                para_idx=idx,
+                text_preview=text[:80],
+                action="keep",
+                routing_pass="sonnet-skip",
+                reason="anthropic not installed",
                 confidence=0.5,
             )
             for idx, text in paragraphs
         ]
 
     from _secrets import get_anthropic_key  # vault-deterministic
+
     api_key = get_anthropic_key()
     if not api_key:
         return [
             ParagraphDecision(
-                para_idx=idx, text_preview=text[:80], action="keep",
-                routing_pass="sonnet-skip", reason="no API key",
+                para_idx=idx,
+                text_preview=text[:80],
+                action="keep",
+                routing_pass="sonnet-skip",
+                reason="no API key",
                 confidence=0.5,
             )
             for idx, text in paragraphs
@@ -181,28 +192,28 @@ def _pass2_sonnet(paragraphs: list[tuple[int, str]],
         if start == -1 or end == 0:
             raise ValueError("No JSON array in response")
         items = json.loads(raw[start:end])
-    except Exception:  # noqa: BLE001
-        items = [{"idx": idx, "action": "keep", "confidence": 0.5,
-                  "reason": "sonnet-error"} for idx, _ in paragraphs]
+    except Exception:
+        items = [{"idx": idx, "action": "keep", "confidence": 0.5, "reason": "sonnet-error"} for idx, _ in paragraphs]
 
     idx_map = {idx: text for idx, text in paragraphs}
     results = []
     for item in items:
         idx = item.get("idx", -1)
         text = idx_map.get(idx, "")
-        results.append(ParagraphDecision(
-            para_idx=idx,
-            text_preview=text[:80],
-            action=item.get("action", "keep"),
-            routing_pass="sonnet",
-            reason=item.get("reason", ""),
-            confidence=float(item.get("confidence", 0.5)),
-        ))
+        results.append(
+            ParagraphDecision(
+                para_idx=idx,
+                text_preview=text[:80],
+                action=item.get("action", "keep"),
+                routing_pass="sonnet",
+                reason=item.get("reason", ""),
+                confidence=float(item.get("confidence", 0.5)),
+            )
+        )
     return results
 
 
-def route_chapter(chapter_txt: Path, *, dry_run: bool = False,
-                  category: str = "books") -> list[ParagraphDecision]:
+def route_chapter(chapter_txt: Path, *, dry_run: bool = False, category: str = "books") -> list[ParagraphDecision]:
     """Route all paragraphs of a chapter through the two-pass noise router."""
     text = chapter_txt.read_text(encoding="utf-8")
     paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
@@ -211,10 +222,16 @@ def route_chapter(chapter_txt: Path, *, dry_run: bool = False,
 
     for i, para in enumerate(paragraphs):
         if _is_protected(para):
-            decisions.append(ParagraphDecision(
-                para_idx=i, text_preview=para[:80], action="keep",
-                routing_pass="protected", reason="protected-category", confidence=1.0,
-            ))
+            decisions.append(
+                ParagraphDecision(
+                    para_idx=i,
+                    text_preview=para[:80],
+                    action="keep",
+                    routing_pass="protected",
+                    reason="protected-category",
+                    confidence=1.0,
+                )
+            )
             continue
 
         rule_decision = _pass1_rule(para)
@@ -231,10 +248,16 @@ def route_chapter(chapter_txt: Path, *, dry_run: bool = False,
             decisions.append(d)
     elif dry_run:
         for idx, para in sonnet_queue:
-            decisions.append(ParagraphDecision(
-                para_idx=idx, text_preview=para[:80], action="keep",
-                routing_pass="sonnet-skip[dry-run]", reason="dry-run", confidence=0.5,
-            ))
+            decisions.append(
+                ParagraphDecision(
+                    para_idx=idx,
+                    text_preview=para[:80],
+                    action="keep",
+                    routing_pass="sonnet-skip[dry-run]",
+                    reason="dry-run",
+                    confidence=0.5,
+                )
+            )
 
     decisions.sort(key=lambda d: d.para_idx)
     return decisions
@@ -262,15 +285,17 @@ def run_book_noise_routing(book_dir: Path, *, dry_run: bool = False) -> dict:
     for cf in chapter_files:
         decisions = route_chapter(cf, dry_run=dry_run)
         for d in decisions:
-            records.append({
-                "chapter": cf.stem,
-                "para_idx": d.para_idx,
-                "action": d.action,
-                "pass": d.routing_pass,
-                "reason": d.reason,
-                "confidence": d.confidence,
-                "preview": d.text_preview,
-            })
+            records.append(
+                {
+                    "chapter": cf.stem,
+                    "para_idx": d.para_idx,
+                    "action": d.action,
+                    "pass": d.routing_pass,
+                    "reason": d.reason,
+                    "confidence": d.confidence,
+                    "preview": d.text_preview,
+                }
+            )
             if d.action == "delete" and d.routing_pass == "rule":
                 results["deleted_rule"] += 1
             elif d.action == "delete" and d.routing_pass == "sonnet":
@@ -290,6 +315,7 @@ def run_book_noise_routing(book_dir: Path, *, dry_run: bool = False) -> dict:
 
 def main() -> None:
     import argparse
+
     parser = argparse.ArgumentParser(description="Two-pass noise router.")
     parser.add_argument("book_dir", type=Path, help="Book directory (CONTENT/drafts/books/<slug>)")
     parser.add_argument("--dry-run", action="store_true")

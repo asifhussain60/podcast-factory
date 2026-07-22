@@ -1,12 +1,12 @@
-# Makefile — canonical entry point for the journal repo's infra + podcast pipeline.
+# Makefile — canonical entry point for the podcast-factory repo's infra + podcast pipeline.
 #
 # These targets are thin aliases over scripts under `infra/azure/` and
 # `scripts/`. The scripts remain the source of truth — this Makefile exists
 # so a new Mac can `git clone && make bootstrap` and the canonical workflows
 # are discoverable via `make help`.
 #
-# Web-app + Express-proxy targets stay in `package.json` (npm scripts), as
-# this Makefile focuses on shell-orchestrated infra + podcast operations.
+# Astro-site (plan-dashboard) targets stay in its own `package.json` (npm
+# scripts); this Makefile focuses on shell-orchestrated infra + podcast ops.
 
 .DEFAULT_GOAL := help
 SHELL := /bin/bash
@@ -35,6 +35,22 @@ install-skills:  ## Install Claude Code skills + agent wrappers from this repo i
 .PHONY: install-skills-dry
 install-skills-dry:  ## Dry-run the skill installer (no files written).
 	@$(SCRIPTS_DIR)/install-claude-skills.sh --dry-run
+
+# ── Lint gates (R0, clean-code hardening plan) ──────────────────────────────
+
+RUFF := $(shell [ -x .venv/bin/ruff ] && echo .venv/bin/ruff || echo ruff)
+
+.PHONY: lint
+lint:  ## Ruff lint + format check + DR-005 line-count gate (pipeline surface).
+	@$(RUFF) check
+	@$(RUFF) format --check
+	@python3 infra/git-hooks/check-dr005.py
+	@echo "lint: clean"
+
+.PHONY: lint-fix
+lint-fix:  ## Auto-fix ruff findings + reformat.
+	@$(RUFF) check --fix
+	@$(RUFF) format
 
 # ── Azure infra ─────────────────────────────────────────────────────────────
 

@@ -19,6 +19,7 @@ has no script to display. This module restores it, **cheapest-source-first**:
 CLI:
   python3 scripts/podcast/restore_arabic.py repair-glossary <slug> [--dry-run]
 """
+
 from __future__ import annotations
 
 import re
@@ -27,9 +28,8 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _paths import REPO_ROOT, content_dir, find_content  # noqa: E402
-
-import yaml  # noqa: E402
+import yaml
+from _paths import REPO_ROOT, content_dir, find_content
 
 # Arabic + Arabic-Supplement + Arabic Extended + presentation forms.
 _ARABIC_RE = re.compile(r"[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]")
@@ -64,9 +64,9 @@ def repair_glossary(book_dir: Path, *, dry_run: bool = False) -> dict[str, int]:
     if not isinstance(entries, list):
         return {"error_bad_schema": 1}
 
-    remapped_script = 0   # arabic_script newly filled from phonetic
-    fixed_phonetic = 0    # phonetic match-token corrected to Roman
-    skipped_ok = 0        # already correctly shaped
+    remapped_script = 0  # arabic_script newly filled from phonetic
+    fixed_phonetic = 0  # phonetic match-token corrected to Roman
+    skipped_ok = 0  # already correctly shaped
 
     for e in entries:
         if not isinstance(e, dict):
@@ -91,6 +91,7 @@ def repair_glossary(book_dir: Path, *, dry_run: bool = False) -> dict[str, int]:
         # atomic write
         import os
         import tempfile
+
         fd, tmp = tempfile.mkstemp(dir=str(gpath.parent), prefix=".glossary.", suffix=".yml.tmp")
         with os.fdopen(fd, "w", encoding="utf-8") as fh:
             yaml.safe_dump(data, fh, sort_keys=False, allow_unicode=True)
@@ -113,8 +114,9 @@ def enrich_quran_atoms(*, dry_run: bool = False) -> dict[str, int]:
     """
     import json
     import sqlite3
+
     sys.path.insert(0, str(SCRIPT_DIR))
-    from source_library_mirror import quran_ayat_lookup  # noqa: E402
+    from source_library_mirror import quran_ayat_lookup
 
     conn = sqlite3.connect(str(REPO_ROOT / "content" / "knowledge-base" / "knowledge.db"))
     rows = conn.execute("SELECT id, body FROM atoms WHERE type='quran'").fetchall()
@@ -145,8 +147,7 @@ def enrich_quran_atoms(*, dry_run: bool = False) -> dict[str, int]:
     if not dry_run:
         conn.commit()
     conn.close()
-    return {"quran_atoms": len(rows), "enriched": enriched,
-            "already_had_arabic": skipped, "unresolved": unresolved}
+    return {"quran_atoms": len(rows), "enriched": enriched, "already_had_arabic": skipped, "unresolved": unresolved}
 
 
 _QUOTE_ARABIC_PROMPT = """You are given transliterated Arabic quotations, hadith, and sayings \
@@ -168,18 +169,20 @@ ITEMS:
 """
 
 
-def enrich_quote_atoms_arabic(*, batch_size: int = 12, model: str = "claude-sonnet-4-6",
-                              limit: int | None = None, dry_run: bool = False) -> dict[str, int]:
+def enrich_quote_atoms_arabic(
+    *, batch_size: int = 12, model: str = "claude-sonnet-4-6", limit: int | None = None, dry_run: bool = False
+) -> dict[str, int]:
     """Add verified-model Arabic to quote + hadith atoms via the metered Anthropic SDK
     (DR-015: NEVER claude -p in unattended code). Confident Arabic is stored on the atom;
     uncertain items are flagged to _conflicts/arabic-review.jsonl for human review — never
     silently trusted."""
     import json
     import sqlite3
+
     sys.path.insert(0, str(SCRIPT_DIR))
-    from _secrets import get_anthropic_key  # noqa: E402
-    from _tighten_helpers import extract_json  # noqa: E402
-    import anthropic  # noqa: E402
+    import anthropic
+    from _secrets import get_anthropic_key
+    from _tighten_helpers import extract_json
 
     db = REPO_ROOT / "content" / "knowledge-base" / "knowledge.db"
     conn = sqlite3.connect(str(db))
@@ -204,13 +207,11 @@ def enrich_quote_atoms_arabic(*, batch_size: int = 12, model: str = "claude-sonn
     enriched = flagged = failed = 0
     review_lines = []
     for i in range(0, len(todo), batch_size):
-        batch = todo[i:i + batch_size]
-        items = [{"idx": j, "type": t, "speaker": sp, "text": tx}
-                 for j, (aid, t, sp, tx, b) in enumerate(batch)]
+        batch = todo[i : i + batch_size]
+        items = [{"idx": j, "type": t, "speaker": sp, "text": tx} for j, (aid, t, sp, tx, b) in enumerate(batch)]
         prompt = _QUOTE_ARABIC_PROMPT.format(items=json.dumps(items, ensure_ascii=False, indent=2))
         try:
-            resp = client.messages.create(model=model, max_tokens=4096,
-                                          messages=[{"role": "user", "content": prompt}])
+            resp = client.messages.create(model=model, max_tokens=4096, messages=[{"role": "user", "content": prompt}])
             out = extract_json(resp.content[0].text)
         except Exception:
             failed += len(batch)
@@ -223,15 +224,24 @@ def enrich_quote_atoms_arabic(*, batch_size: int = 12, model: str = "claude-sonn
                 body["arabic"] = ar
                 body["arabic_source"] = "model-sdk-verified"
                 if not dry_run:
-                    conn.execute("UPDATE atoms SET body=?, updated_at=datetime('now') WHERE id=?",
-                                 (json.dumps(body, ensure_ascii=False), atom_id))
+                    conn.execute(
+                        "UPDATE atoms SET body=?, updated_at=datetime('now') WHERE id=?",
+                        (json.dumps(body, ensure_ascii=False), atom_id),
+                    )
                 enriched += 1
             else:
                 flagged += 1
-                review_lines.append(json.dumps(
-                    {"atom_id": atom_id, "type": atype, "text_en": tx,
-                     "reason": "uncertain" if o.get("uncertain") else "no-arabic"},
-                    ensure_ascii=False))
+                review_lines.append(
+                    json.dumps(
+                        {
+                            "atom_id": atom_id,
+                            "type": atype,
+                            "text_en": tx,
+                            "reason": "uncertain" if o.get("uncertain") else "no-arabic",
+                        },
+                        ensure_ascii=False,
+                    )
+                )
     if not dry_run:
         conn.commit()
         if review_lines:
@@ -239,12 +249,17 @@ def enrich_quote_atoms_arabic(*, batch_size: int = 12, model: str = "claude-sonn
             with review_path.open("a", encoding="utf-8") as fh:
                 fh.write("\n".join(review_lines) + "\n")
     conn.close()
-    return {"candidates": len(todo), "enriched": enriched, "flagged_for_review": flagged,
-            "failed_batches_items": failed}
+    return {
+        "candidates": len(todo),
+        "enriched": enriched,
+        "flagged_for_review": flagged,
+        "failed_batches_items": failed,
+    }
 
 
 def main() -> int:
     import argparse
+
     ap = argparse.ArgumentParser(description="Restore Arabic script for audio-sourced books.")
     sub = ap.add_subparsers(dest="cmd", required=True)
     rg = sub.add_parser("repair-glossary", help="Fix field-misassignment in glossary.yml (zero LLM).")

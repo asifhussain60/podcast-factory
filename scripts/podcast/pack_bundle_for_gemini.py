@@ -60,7 +60,6 @@ import argparse
 import sys
 from pathlib import Path
 
-
 # File-extension policy.
 TEXT_LANG_BY_SUFFIX = {
     ".md": "markdown",
@@ -81,10 +80,28 @@ TEXT_LANG_BY_SUFFIX = {
 }
 
 EXCLUDED_SUFFIXES = {
-    ".m4a", ".mp3", ".wav", ".mp4", ".mov", ".ogg", ".flac", ".aac",
-    ".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".ico",
-    ".zip", ".tar", ".gz", ".bz2", ".7z",
-    ".pyc", ".pyo",
+    ".m4a",
+    ".mp3",
+    ".wav",
+    ".mp4",
+    ".mov",
+    ".ogg",
+    ".flac",
+    ".aac",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".gif",
+    ".webp",
+    ".svg",
+    ".ico",
+    ".zip",
+    ".tar",
+    ".gz",
+    ".bz2",
+    ".7z",
+    ".pyc",
+    ".pyo",
     ".DS_Store",
 }
 
@@ -130,13 +147,7 @@ def _read_text_safely(path: Path) -> str:
 
 def _format_block(rel_path: str, content: str, lang: str) -> str:
     fence_lang = lang if lang else ""
-    return (
-        f"<!-- FILE: {rel_path} START -->\n"
-        f"```{fence_lang}\n"
-        f"{content.rstrip()}\n"
-        f"```\n"
-        f"<!-- FILE: {rel_path} END -->\n"
-    )
+    return f"<!-- FILE: {rel_path} START -->\n```{fence_lang}\n{content.rstrip()}\n```\n<!-- FILE: {rel_path} END -->\n"
 
 
 def _format_pdf_stub(rel_path: str, size_bytes: int) -> str:
@@ -157,9 +168,9 @@ def _format_header(bundle_root: Path, files: list[Path], dropped: list[Path]) ->
         dropped_lines = [f"- `{p.relative_to(bundle_root)}` ({p.stat().st_size:,} bytes)" for p in dropped]
         dropped_section = (
             "\n## Files dropped to fit the size budget\n\n"
-            f"The following files were not included because the consolidated output "
-            f"would have exceeded the size cap. Re-run with a larger `--max-mb` if you "
-            f"need them:\n\n" + "\n".join(dropped_lines) + "\n"
+            "The following files were not included because the consolidated output "
+            "would have exceeded the size cap. Re-run with a larger `--max-mb` if you "
+            "need them:\n\n" + "\n".join(dropped_lines) + "\n"
         )
     return (
         f"# Podcast bundle (consolidated for Gemini)\n\n"

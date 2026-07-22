@@ -3,10 +3,10 @@
  * /pre-upload — list books that have a pronunciation probe or ambiguity items.
  * Links to /pre-upload/[slug] for the combined review view.
  */
-import Base from '../../layouts/Base.astro';
-import { listContent, slugToTitle } from '../../lib/content-paths';
-import { getChecklist } from '../../lib/pre-upload';
-import '../../styles/pre-upload.css';
+import Base from "../../layouts/Base.astro";
+import { listContent, slugToTitle } from "../../lib/content-paths";
+import { getChecklist } from "../../lib/pre-upload";
+import "../../styles/pre-upload.css";
 
 export const prerender = false;
 
@@ -15,37 +15,53 @@ const books = await Promise.all(
   allContent.map(async (b) => {
     const checklist = await getChecklist(b.slug).catch(() => null);
     return { slug: b.slug, title: slugToTitle(b.slug), checklist };
-  })
+  }),
 );
-const withData = books.filter(b => b.checklist !== null);
+const withData = books.filter((b) => b.checklist !== null);
 ---
-<Base title="Pre-Upload Review" active="pre-upload" description="Combined pronunciation + framing review before NotebookLM upload.">
+
+<Base
+  title="Pre-Upload Review"
+  active="pre-upload"
+  description="Combined pronunciation + framing review before NotebookLM upload."
+>
   <header class="stack">
     <span class="eyebrow">Pipeline · Pre-Upload Review</span>
     <h1>Pre-Upload Review</h1>
     <p class="lede">
-      Complete pronunciation and framing fixes for each book before generating audio in NotebookLM.
+      Complete pronunciation and framing fixes for each book before generating
+      audio in NotebookLM.
     </p>
   </header>
 
-  {withData.length === 0 ? (
-    <div class="pu-empty card">
-      No books with a pronunciation probe found. Run Phase 0c to generate the probe.
-    </div>
-  ) : (
-    <div class="stack">
-      {withData.map(b => {
-        const done  = b.checklist?.terms.filter(t => t.ok === 'y' || (t.ok === 'n' && t.fix.trim())).length ?? 0;
-        const total = b.checklist?.terms.length ?? 0;
-        return (
-          <a href={`/pre-upload/${b.slug}`} class="card card-hover" aria-label={`Review ${b.title}`}>
-            <div class="card-title">{b.title}</div>
-            <div class="card-sub">
-              {done}/{total} pronunciation terms reviewed
-            </div>
-          </a>
-        );
-      })}
-    </div>
-  )}
+  {
+    withData.length === 0 ? (
+      <div class="pu-empty card">
+        No books with a pronunciation probe found. Run Phase 0c to generate the
+        probe.
+      </div>
+    ) : (
+      <div class="stack">
+        {withData.map((b) => {
+          const done =
+            b.checklist?.terms.filter(
+              (t) => t.ok === "y" || (t.ok === "n" && t.fix.trim()),
+            ).length ?? 0;
+          const total = b.checklist?.terms.length ?? 0;
+          return (
+            <a
+              href={`/pre-upload/${b.slug}`}
+              class="card card-hover"
+              aria-label={`Review ${b.title}`}
+            >
+              <div class="card-title">{b.title}</div>
+              <div class="card-sub">
+                {done}/{total} pronunciation terms reviewed
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    )
+  }
 </Base>

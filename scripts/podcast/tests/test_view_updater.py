@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Tests for scripts/podcast/_view_updater.py (wave-completion HTML rendering)."""
+
 from __future__ import annotations
 
 import sys
@@ -10,8 +11,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _view_updater as vu  # noqa: E402
-
+import _view_updater as vu
 
 SAMPLE_YAML = """\
 some_top_level: value
@@ -65,9 +65,7 @@ waves:
 
 class LoadCompletionTests(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.NamedTemporaryFile(
-            mode="w", suffix=".yaml", delete=False, encoding="utf-8"
-        )
+        self.tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False, encoding="utf-8")
         self.tmp.write(SAMPLE_YAML)
         self.tmp.close()
         self.yaml_path = Path(self.tmp.name)
@@ -105,7 +103,8 @@ class LoadCompletionTests(unittest.TestCase):
 class RenderBlockTests(unittest.TestCase):
     def test_block_has_markers(self):
         wc = vu.WaveCompletion(
-            wave_id="W1", wave_name="Foundation",
+            wave_id="W1",
+            wave_name="Foundation",
             html_summary="One paragraph.\n",
             target_files=(),
         )
@@ -117,7 +116,8 @@ class RenderBlockTests(unittest.TestCase):
 
     def test_multi_paragraph_renders_separate_p_tags(self):
         wc = vu.WaveCompletion(
-            wave_id="W2", wave_name="X",
+            wave_id="W2",
+            wave_name="X",
             html_summary="Para one.\n\nPara two.\n",
             target_files=(),
         )
@@ -126,7 +126,8 @@ class RenderBlockTests(unittest.TestCase):
 
     def test_html_escapes_special_chars(self):
         wc = vu.WaveCompletion(
-            wave_id="W1", wave_name="Foundation & Guardrails",
+            wave_id="W1",
+            wave_name="Foundation & Guardrails",
             html_summary="<script>alert</script>",
             target_files=(),
         )
@@ -157,11 +158,7 @@ class EnsureSectionTests(unittest.TestCase):
 
 class ReplaceMarkerBlockTests(unittest.TestCase):
     def test_replaces_existing_block(self):
-        html = (
-            "<body>"
-            "<!-- WAVE_SUMMARY_W1_START -->OLD<!-- WAVE_SUMMARY_W1_END -->"
-            "</body>"
-        )
+        html = "<body><!-- WAVE_SUMMARY_W1_START -->OLD<!-- WAVE_SUMMARY_W1_END --></body>"
         new_block = "<!-- WAVE_SUMMARY_W1_START -->NEW<!-- WAVE_SUMMARY_W1_END -->"
         out, changed = vu._replace_marker_block(html, "W1", new_block)
         self.assertTrue(changed)
@@ -194,9 +191,7 @@ class UpdateViewForWaveTests(unittest.TestCase):
         self.yaml_path = plan_dir / "podcast-plan.yaml"
         self.yaml_path.write_text(SAMPLE_YAML)
         self.view_path = view_dir / "index.html"
-        self.view_path.write_text(
-            "<html><body><main><h1>Plan</h1></main></body></html>"
-        )
+        self.view_path.write_text("<html><body><main><h1>Plan</h1></main></body></html>")
 
     def tearDown(self):
         self.tmp.cleanup()
@@ -242,9 +237,7 @@ class UpdateViewForWaveTests(unittest.TestCase):
     def test_summary_edit_in_yaml_re_renders(self):
         vu.update_view_for_wave(1, repo_root=self.repo, plan_yaml=self.yaml_path)
         # Edit the YAML summary
-        text = self.yaml_path.read_text().replace(
-            "Paragraph one about W1.", "TOTALLY DIFFERENT W1 OPENING."
-        )
+        text = self.yaml_path.read_text().replace("Paragraph one about W1.", "TOTALLY DIFFERENT W1 OPENING.")
         self.yaml_path.write_text(text)
         result = vu.update_view_for_wave(1, repo_root=self.repo, plan_yaml=self.yaml_path)
         self.assertEqual(len(result["updated"]), 1)

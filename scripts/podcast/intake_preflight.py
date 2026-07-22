@@ -10,6 +10,7 @@ Pure + testable: no LLM, no pipeline launch. The caller passes a chapter count
 (or a book_dir to count contracts) and the caps; this returns a dict the UI
 renders. NOTHING here authorises spend — the confirm button does.
 """
+
 from __future__ import annotations
 
 import sys
@@ -17,8 +18,8 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import _paths  # noqa: E402
-from _progress import read_state  # noqa: E402
+import _paths
+from _progress import read_state
 
 # Conservative fallbacks when no history exists yet (fresh install). Grounded in
 # the cost-ledger analysis in pipeline-debt.md (clean chapter ≈ $3.5 / ≈ 2h20m).
@@ -38,9 +39,7 @@ def historical_means() -> tuple[float, float, int]:
     durs: list[float] = []
     for _status, _bucket, book_dir in _paths.iter_content():
         state = read_state(book_dir) or {}
-        timings = (
-            state.get("phases", {}).get("per-chapter", {}).get("chapter_timings", {})
-        )
+        timings = state.get("phases", {}).get("per-chapter", {}).get("chapter_timings", {})
         if not isinstance(timings, dict):
             continue
         for _slug, t in timings.items():

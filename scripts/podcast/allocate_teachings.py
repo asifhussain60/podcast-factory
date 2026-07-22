@@ -39,6 +39,7 @@ Usage:
   .venv/bin/python scripts/podcast/allocate_teachings.py <work-slug> --all      # full run
   .venv/bin/python scripts/podcast/allocate_teachings.py <work-slug> --emit-only
 """
+
 from __future__ import annotations
 
 import argparse
@@ -50,24 +51,25 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import _work_manifest as wm  # noqa: E402
-from _paths import find_content  # noqa: E402
-from intelligence.dedup_corpus import _normalize, _tokens, _jaccard  # noqa: E402
+import _work_manifest as wm
+from _paths import find_content
+from intelligence.dedup_corpus import _jaccard, _normalize, _tokens
 
-_LLM_BATCH = 200         # each `claude -p` cold-starts the full CLI/MCP env (~minutes),
-                         # so minimize CALL COUNT, not batch size. Output is tiny
-                         # ({i,section}); ~10 calls for ~1,900 items beats ~24 small ones.
+_LLM_BATCH = 200  # each `claude -p` cold-starts the full CLI/MCP env (~minutes),
+# so minimize CALL COUNT, not batch size. Output is tiny
+# ({i,section}); ~10 calls for ~1,900 items beats ~24 small ones.
 _CLAUDE_TIMEOUT = 900
 # Use the DEFAULT model (no --model flag). Passing an explicit --model to `claude`
 # hangs under nohup/no-TTY (it works only with a TTY), so the background allocator
 # must not set one. Placement/dedup are constrained classification tasks anyway.
 _PLACEMENT_MODEL = None
 _SHORTLIST_K = 5
-_DEDUP_KT_MIN = 0.60          # key-term Jaccard floor to even consider a dup pair
-_DEDUP_MAX_PAIRS = 200        # cap LLM dedup-confirmation candidates
+_DEDUP_KT_MIN = 0.60  # key-term Jaccard floor to even consider a dup pair
+_DEDUP_MAX_PAIRS = 200  # cap LLM dedup-confirmation candidates
 
 
 # ------------------------------------------------------------------ loading
+
 
 def _load(work_slug: str):
     found = find_content(work_slug)
@@ -80,7 +82,7 @@ def _load(work_slug: str):
     led_rel = (manifest.get("shared") or {}).get("ledger")
     ledger = json.loads((work_dir / led_rel).read_text())
     book = (work_dir / ((manifest.get("shared") or {}).get("synthesis") or "_system/unified-book.md")).read_text()
-    sections = _parse_sections(book)            # [(title, body)]
+    sections = _parse_sections(book)  # [(title, body)]
     if len(sections) != 28:
         # not fatal for other works; we drive purely off h2_sections in the manifest
         pass
@@ -100,7 +102,7 @@ def _parse_sections(text: str):
     bounds = idx + [len(lines)]
     out = []
     for k in range(len(idx)):
-        block = lines[bounds[k]:bounds[k + 1]]
+        block = lines[bounds[k] : bounds[k + 1]]
         out.append((block[0][3:].strip(), "\n".join(block)))
     return out
 
@@ -113,15 +115,16 @@ def _alloc_dir(work_dir: Path) -> Path:
 
 # ------------------------------------------------------------------ LLM glue
 
+
 def _claude_json_array(prompt: str, *, book_dir: Path, step: str, log, model=_PLACEMENT_MODEL):
     """Run flat-rate claude -p, return the first JSON array in stdout (or None).
 
     model=None => default model, no --model flag (required under nohup/no-TTY).
     """
     from _authoring._core import _run_claude_p
+
     kw = {"model": model, "model_flag": model} if model else {}
-    rc, text, err = _run_claude_p(prompt, timeout=_CLAUDE_TIMEOUT, book_dir=book_dir,
-                                  phase="allocate", step=step, **kw)
+    rc, text, err = _run_claude_p(prompt, timeout=_CLAUDE_TIMEOUT, book_dir=book_dir, phase="allocate", step=step, **kw)
     if rc != 0:
         log(f"    [{step}] rc={rc}: {(err or '')[:120]}")
         return None
@@ -137,6 +140,7 @@ def _claude_json_array(prompt: str, *, book_dir: Path, step: str, log, model=_PL
 
 
 # ------------------------------------------------------ stage 1: spine -> volume
+
 
 def _spine_indices(ledger):
     return [i for i, t in enumerate(ledger) if t.get("source") == "spine"]
@@ -158,7 +162,7 @@ def stage_boundaries(work_dir, ledger, sections, sec2vol, vol_titles, *, no_llm,
     secw = [len(b.split()) for _, b in sections] if sections else [1] * len(sec2vol)
     total = sum(secw) or 1
     edges, acc = [], 0
-    for i, w in enumerate(secw):              # cumulative word-fraction edge per section
+    for i, w in enumerate(secw):  # cumulative word-fraction edge per section
         acc += w
         edges.append((i + 1, acc / total))
     K = len(spine)
@@ -173,6 +177,7 @@ def stage_boundaries(work_dir, ledger, sections, sec2vol, vol_titles, *, no_llm,
         out[str(gi)] = {"section": sec, "volume": sec2vol.get(sec)}
     (_alloc_dir(work_dir) / "spine-assign.json").write_text(json.dumps(out, indent=1))
     from collections import Counter
+
     dist = Counter(v["volume"] for v in out.values())
     log(f"  boundaries: {len(out)} spine teachings -> volumes {dict(sorted(dist.items()))} (deterministic)")
     return out
@@ -180,11 +185,13 @@ def stage_boundaries(work_dir, ledger, sections, sec2vol, vol_titles, *, no_llm,
 
 # --------------------------------------------------- stage 2: augmentation -> section
 
+
 def stage_place(work_dir, ledger, sections, sec2vol, *, no_llm, log):
     aug = [i for i, t in enumerate(ledger) if t.get("source") != "spine"]
     n_sec = len(sec2vol)
-    sec_titles = [sections[s - 1][0] if sections and s - 1 < len(sections) else f"section {s}"
-                  for s in range(1, n_sec + 1)]
+    sec_titles = [
+        sections[s - 1][0] if sections and s - 1 < len(sections) else f"section {s}" for s in range(1, n_sec + 1)
+    ]
     # per-section key-term profile from spine teachings of that section (for shortlist)
     spine_assign = json.loads((_alloc_dir(work_dir) / "spine-assign.json").read_text())
     sec_kt = defaultdict(set)
@@ -205,22 +212,23 @@ def stage_place(work_dir, ledger, sections, sec2vol, *, no_llm, log):
     sect_list = "\n".join(f"  {s}: {sec_titles[s - 1]}" for s in range(1, n_sec + 1))
     done = len(out)
     for start in range(0, len(todo), _LLM_BATCH):
-        batch = todo[start:start + _LLM_BATCH]
+        batch = todo[start : start + _LLM_BATCH]
         lines = []
         for gi in batch:
             kt = {x.lower() for x in (ledger[gi].get("key_terms") or [])}
-            scored = sorted(((len(kt & sec_kt[s]) / (len(kt | sec_kt[s]) or 1), s)
-                             for s in range(1, n_sec + 1)), reverse=True)
+            scored = sorted(
+                ((len(kt & sec_kt[s]) / (len(kt | sec_kt[s]) or 1), s) for s in range(1, n_sec + 1)), reverse=True
+            )
             short = [s for _, s in scored[:_SHORTLIST_K]]
-            lines.append(f'{{"i": {gi}, "shortlist": {short}, "t": '
-                         f'{json.dumps(ledger[gi]["teaching"][:260])}}}')
+            lines.append(f'{{"i": {gi}, "shortlist": {short}, "t": {json.dumps(ledger[gi]["teaching"][:260])}}}')
         prompt = (
             "Place each scholarly teaching into the ONE section it most belongs to.\n"
             f"SECTIONS (number: title):\n{sect_list}\n\n"
             "Each teaching includes a 'shortlist' of likely section numbers (by term overlap) "
             "— prefer one of them, but choose any section if the content clearly fits elsewhere.\n"
             'Return ONLY a JSON array: [{"i": <i>, "section": <number 1..%d>}].\n\n'
-            "TEACHINGS:\n%s" % (n_sec, "\n".join(lines)))
+            "TEACHINGS:\n%s" % (n_sec, "\n".join(lines))
+        )
         arr = _claude_json_array(prompt, book_dir=work_dir, step="aug-section", log=log) or []
         for o in arr:
             try:
@@ -245,6 +253,7 @@ def stage_place(work_dir, ledger, sections, sec2vol, *, no_llm, log):
 
 # ------------------------------------------------------------- stage 3: dedup
 
+
 def stage_dedup(work_dir, ledger, *, no_llm, log):
     kts = [frozenset(x.lower().strip() for x in (t.get("key_terms") or []) if x.strip()) for t in ledger]
     txt = [_tokens(_normalize(t["teaching"])) for t in ledger]
@@ -261,23 +270,27 @@ def stage_dedup(work_dir, ledger, *, no_llm, log):
                 i, j = idxs[a], idxs[b]
                 if kts[i] and kts[j] and _jaccard(kts[i], kts[j]) >= _DEDUP_KT_MIN:
                     cand.add((i, j) if i < j else (j, i))
-    scored = sorted(cand, key=lambda p: _jaccard(kts[p[0]], kts[p[1]]) + 0.25 * _jaccard(txt[p[0]], txt[p[1]]),
-                    reverse=True)[:_DEDUP_MAX_PAIRS]
+    scored = sorted(
+        cand, key=lambda p: _jaccard(kts[p[0]], kts[p[1]]) + 0.25 * _jaccard(txt[p[0]], txt[p[1]]), reverse=True
+    )[:_DEDUP_MAX_PAIRS]
     log(f"  dedup: {len(cand)} candidate pairs -> {len(scored)} sent for confirmation")
 
     confirmed = []
     if not no_llm and scored:
         for start in range(0, len(scored), _LLM_BATCH):
-            batch = scored[start:start + _LLM_BATCH]
-            lines = [f'{{"i": {n}, "a": {json.dumps(ledger[p[0]]["teaching"][:220])}, '
-                     f'"b": {json.dumps(ledger[p[1]]["teaching"][:220])}}}'
-                     for n, p in enumerate(batch)]
+            batch = scored[start : start + _LLM_BATCH]
+            lines = [
+                f'{{"i": {n}, "a": {json.dumps(ledger[p[0]]["teaching"][:220])}, '
+                f'"b": {json.dumps(ledger[p[1]]["teaching"][:220])}}}'
+                for n, p in enumerate(batch)
+            ]
             prompt = (
                 "For each pair, decide if A and B teach the SAME core concept such that airing both "
                 "in a podcast would be redundant repetition (not merely related or sequential).\n"
                 "Be CONSERVATIVE: only 'same' when they assert essentially the same point.\n"
                 'Return ONLY a JSON array: [{"i": <i>, "same": true|false}].\n\n'
-                "PAIRS:\n" + "\n".join(lines))
+                "PAIRS:\n" + "\n".join(lines)
+            )
             arr = _claude_json_array(prompt, book_dir=work_dir, step="dedup-confirm", log=log) or []
             for o in arr:
                 try:
@@ -285,8 +298,7 @@ def stage_dedup(work_dir, ledger, *, no_llm, log):
                         confirmed.append(batch[int(o["i"])])
                 except Exception:
                     pass
-            log(f"    [dedup] confirmed {len(confirmed)} so far "
-                f"({min(start + _LLM_BATCH, len(scored))}/{len(scored)})")
+            log(f"    [dedup] confirmed {len(confirmed)} so far ({min(start + _LLM_BATCH, len(scored))}/{len(scored)})")
 
     # union-find clusters from confirmed pairs
     parent = list(range(len(ledger)))
@@ -303,15 +315,20 @@ def stage_dedup(work_dir, ledger, *, no_llm, log):
     for i in range(len(ledger)):
         clusters[find(i)].append(i)
     multi = {r: m for r, m in clusters.items() if len(m) > 1}
-    out = {"confirmed_pairs": [[ledger[i]["id"], ledger[j]["id"]] for i, j in confirmed],
-           "clusters": [[ledger[i]["id"] for i in m] for m in multi.values()]}
+    out = {
+        "confirmed_pairs": [[ledger[i]["id"], ledger[j]["id"]] for i, j in confirmed],
+        "clusters": [[ledger[i]["id"] for i in m] for m in multi.values()],
+    }
     (_alloc_dir(work_dir) / "dedup.json").write_text(json.dumps(out, indent=1))
-    log(f"  dedup: {len(confirmed)} same-concept pairs -> {len(multi)} variant clusters "
-        f"({sum(len(m) - 1 for m in multi.values())} variants suppressed from audio)")
+    log(
+        f"  dedup: {len(confirmed)} same-concept pairs -> {len(multi)} variant clusters "
+        f"({sum(len(m) - 1 for m in multi.values())} variants suppressed from audio)"
+    )
     return parent
 
 
 # ------------------------------------------------------------- stage 4: emit + gate
+
 
 def stage_emit(work_dir, manifest, ledger, sections, sec2vol, vol_titles, parent, *, log):
     spine_assign = json.loads((_alloc_dir(work_dir) / "spine-assign.json").read_text())
@@ -351,11 +368,14 @@ def stage_emit(work_dir, manifest, ledger, sections, sec2vol, vol_titles, parent
         # volume than the concept it restates (no cross-volume duplication, even in
         # the reading edition). The canonical airs; variants are book-only.
         sec, vol = assign.get(can, (None, None))
-        is_canon = (can == i)
+        is_canon = can == i
         full_assignment[ledger[i]["id"]] = {
-            "volume": vol, "section": sec, "cluster": ledger[can]["id"],
+            "volume": vol,
+            "section": sec,
+            "cluster": ledger[can]["id"],
             "role": "canonical" if is_canon else "variant",
-            "source": ledger[i]["source"]}
+            "source": ledger[i]["source"],
+        }
         if is_canon and vol is not None:
             per_vol[vol].append((sec, i))
 
@@ -367,11 +387,17 @@ def stage_emit(work_dir, manifest, ledger, sections, sec2vol, vol_titles, parent
             "title": vol_titles.get(v, v),
             "sections": sorted({s for s, vv in sec2vol.items() if vv == v}),
             "n_concepts": len(concepts),
-            "concepts": [{
-                "cluster": ledger[i]["id"], "section": sec, "source": ledger[i]["source"],
-                "teaching": ledger[i]["teaching"],
-                "variant_ids": [ledger[j]["id"] for j in cluster_members[root(i)] if j != i],
-            } for sec, i in concepts]}
+            "concepts": [
+                {
+                    "cluster": ledger[i]["id"],
+                    "section": sec,
+                    "source": ledger[i]["source"],
+                    "teaching": ledger[i]["teaching"],
+                    "variant_ids": [ledger[j]["id"] for j in cluster_members[root(i)] if j != i],
+                }
+                for sec, i in concepts
+            ],
+        }
 
     # ---- no-loss / no-repeat GATE ----
     all_ids = {t["id"] for t in ledger}
@@ -393,25 +419,39 @@ def stage_emit(work_dir, manifest, ledger, sections, sec2vol, vol_titles, parent
                 break
     n_canon = len(canon_ids)
     n_variant = sum(1 for a in full_assignment.values() if a["role"] == "variant")
-    gate = {"n_teachings": len(ledger), "n_assigned": len(assigned_ids),
-            "union_ok": union_ok, "one_volume_each": one_volume,
-            "each_cluster_one_home": one_home, "variant_volume_consistent": variant_consistent,
-            "n_concepts_aired": n_canon, "n_variants_book_only": n_variant,
-            "per_volume_concepts": {v: volumes_out[v]["n_concepts"] for v in vols}}
+    gate = {
+        "n_teachings": len(ledger),
+        "n_assigned": len(assigned_ids),
+        "union_ok": union_ok,
+        "one_volume_each": one_volume,
+        "each_cluster_one_home": one_home,
+        "variant_volume_consistent": variant_consistent,
+        "n_concepts_aired": n_canon,
+        "n_variants_book_only": n_variant,
+        "per_volume_concepts": {v: volumes_out[v]["n_concepts"] for v in vols},
+    }
 
-    doc = {"work_slug": manifest["work_slug"],
-           "generated_by": "allocate_teachings.py v1",
-           "section_to_volume": {str(s): v for s, v in sorted(sec2vol.items())},
-           "verification": gate, "volumes": volumes_out, "assignment": full_assignment}
+    doc = {
+        "work_slug": manifest["work_slug"],
+        "generated_by": "allocate_teachings.py v1",
+        "section_to_volume": {str(s): v for s, v in sorted(sec2vol.items())},
+        "verification": gate,
+        "volumes": volumes_out,
+        "assignment": full_assignment,
+    }
     out_path = work_dir / "_system" / "_volume-split.json"
     out_path.write_text(json.dumps(doc, indent=1, ensure_ascii=False))
 
     ok = union_ok and one_volume and one_home and variant_consistent
     log("")
-    log(f"  GATE union_ok={union_ok} one_volume_each={one_volume} "
-        f"each_cluster_one_home={one_home} variant_consistent={variant_consistent}")
-    log(f"  {n_canon} concepts aired (canonical) + {n_variant} variants (reading edition only) "
-        f"= {len(ledger)} teachings, 0 lost")
+    log(
+        f"  GATE union_ok={union_ok} one_volume_each={one_volume} "
+        f"each_cluster_one_home={one_home} variant_consistent={variant_consistent}"
+    )
+    log(
+        f"  {n_canon} concepts aired (canonical) + {n_variant} variants (reading edition only) "
+        f"= {len(ledger)} teachings, 0 lost"
+    )
     for v in vols:
         log(f"    {v}: {volumes_out[v]['n_concepts']} concepts  ({vol_titles.get(v, v)})")
     log(f"  wrote {out_path.relative_to(REPO_ROOT)}")
@@ -421,6 +461,7 @@ def stage_emit(work_dir, manifest, ledger, sections, sec2vol, vol_titles, parent
 
 
 # ------------------------------------------------------------------ driver
+
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
@@ -433,8 +474,10 @@ def main() -> int:
     log = print
 
     work_dir, manifest, ledger, sections, sec2vol, vol_titles = _load(args.work_slug)
-    log(f"work={args.work_slug}  teachings={len(ledger)}  sections={len(sections)}  "
-        f"volumes={len(set(sec2vol.values()))}  mode={'no-llm' if args.no_llm else 'llm'}")
+    log(
+        f"work={args.work_slug}  teachings={len(ledger)}  sections={len(sections)}  "
+        f"volumes={len(set(sec2vol.values()))}  mode={'no-llm' if args.no_llm else 'llm'}"
+    )
 
     def _parent_from_ckpt():
         p = list(range(len(ledger)))
@@ -445,8 +488,10 @@ def main() -> int:
 
             def find(x):
                 while p[x] != x:
-                    p[x] = p[p[x]]; x = p[x]
+                    p[x] = p[p[x]]
+                    x = p[x]
                 return x
+
             for a, b in d.get("confirmed_pairs", []):
                 if a in idx and b in idx:
                     p[find(idx[a])] = find(idx[b])

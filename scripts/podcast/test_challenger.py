@@ -51,29 +51,28 @@ import json
 import re
 import sys
 from pathlib import Path
+
 from _paths import REPO_ROOT
-from typing import Any
 
 DEFAULT_FIXTURES_DIR = REPO_ROOT / "_learning/fixtures"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _rules import (
-    MODERNIZE_DENY,
-    SURPRISE_DENY,
-    HONORIFICS as HONORIFICS_RAW,
     AI_CLICHE_DENY,
     DEEP_DIVE_SELF_REFERENCE_PATTERNS,
     ESSENTIALISM_STEM_PATTERNS,
     FAUX_PROFUNDITY_OPENING_PATTERNS,
+    MODERNIZE_DENY,
     PREMATURE_CLOSURE_PATTERNS,
+    SURPRISE_DENY,
 )
 
 # Pull canonical regex sets from build_episode_txt without triggering its CLI
 # (the module has top-level side-effect-free constants only).
-from build_episode_txt import (  # noqa: E402
-    INLINE_PHONETIC_PATTERNS,
+from build_episode_txt import (
     FORBIDDEN_ABBREVIATIONS,
     HONORIFIC_PHRASES,
+    INLINE_PHONETIC_PATTERNS,
 )
 
 # Custom detectors below mirror the auto-fix detection logic the challenger
@@ -125,8 +124,13 @@ def detect_modernize(text: str) -> list[str]:
 def detect_formal_transition(text: str) -> list[str]:
     """R4 / R6 — formal-essay transitions banned by R-NOFORMAL."""
     formal_transitions = [
-        "Firstly", "Secondly", "Furthermore",
-        "In conclusion", "Moving on to", "To summarize", "Lastly",
+        "Firstly",
+        "Secondly",
+        "Furthermore",
+        "In conclusion",
+        "Moving on to",
+        "To summarize",
+        "Lastly",
     ]
     hits = []
     for phrase in formal_transitions:
@@ -215,10 +219,7 @@ def detect_ai_cliche(text: str) -> list[str]:
     # Dedup: if phrase A is a strict prefix of phrase B and both matched, keep A only.
     deduped: list[str] = []
     for phrase in matched:
-        dominated = any(
-            other != phrase and phrase.startswith(other)
-            for other in matched
-        )
+        dominated = any(other != phrase and phrase.startswith(other) for other in matched)
         if not dominated:
             deduped.append(phrase)
     return sorted(set(deduped))
@@ -246,7 +247,7 @@ def detect_essentialism(text: str) -> list[str]:
             # No-True-Scotsman pattern ends at "would/don't/…"; extend to include
             # "never" when it is the very next word in the source text.
             if re.search(r"\bwould$", hit, re.IGNORECASE):
-                tail = text[m.end():]
+                tail = text[m.end() :]
                 extra = re.match(r"[ \t]+never\b", tail, re.IGNORECASE)
                 if extra:
                     hit = hit + " never"

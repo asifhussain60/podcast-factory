@@ -17,20 +17,20 @@ _REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_REPO / "scripts" / "podcast"))
 sys.path.insert(0, str(_REPO))
 
-from scripts.podcast.intelligence.challenger_scoring import (  # noqa: E402
-    score_report,
-    _remove_existing_peq_section,
-    _quran_refs,
-    _domain_terms,
-    _arc_labels,
-    _extract_citations,
-)
-from _quality import PASS, WARN, FAIL  # noqa: E402
 
+from scripts.podcast.intelligence.challenger_scoring import (
+    _arc_labels,
+    _domain_terms,
+    _extract_citations,
+    _quran_refs,
+    _remove_existing_peq_section,
+    score_report,
+)
 
 # ---------------------------------------------------------------------------
 # Helper builders
 # ---------------------------------------------------------------------------
+
 
 def _make_chapter_txt(tmp_path: Path, content: str = "") -> Path:
     """Write a chapter .txt file and return its path."""
@@ -49,6 +49,7 @@ def _make_report(tmp_path: Path, content: str = "") -> Path:
 # ---------------------------------------------------------------------------
 # Internal parser helpers
 # ---------------------------------------------------------------------------
+
 
 class TestQuranRefs:
     def test_detects_surah_ayat(self):
@@ -124,6 +125,7 @@ class TestExtractCitations:
 # Remove existing PEQ section
 # ---------------------------------------------------------------------------
 
+
 class TestRemoveExistingPeqSection:
     def test_removes_peq_section(self):
         report = textwrap.dedent("""\
@@ -156,6 +158,7 @@ class TestRemoveExistingPeqSection:
 # ---------------------------------------------------------------------------
 # score_report integration
 # ---------------------------------------------------------------------------
+
 
 class TestScoreReport:
     def test_missing_chapter_raises(self, tmp_path: Path):

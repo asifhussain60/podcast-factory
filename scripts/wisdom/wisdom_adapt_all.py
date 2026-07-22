@@ -10,7 +10,9 @@ Usage:
     python scripts/wisdom/wisdom_adapt_all.py --dry-run
     python scripts/wisdom/wisdom_adapt_all.py --binder 35
 """
+
 from __future__ import annotations
+
 import argparse
 import json
 import subprocess
@@ -25,7 +27,7 @@ LEDGER = REPO / "_workspace/plan/wisdom-adapt-cost-ledger.jsonl"
 FAILURE_LOG = REPO / "_workspace/plan/wisdom-adapt-failures.log"
 EXTRACT_ROOT = REPO / "CONTENT/_shared/source-library/extracted/wisdom"
 
-SESSION_COST_CAP = 30.0   # USD — adaptation is cheaper than translation
+SESSION_COST_CAP = 30.0  # USD — adaptation is cheaper than translation
 
 # Same binder order as translation driver
 BINDER_ORDER = [
@@ -33,20 +35,20 @@ BINDER_ORDER = [
     (32, "Al-Ghazali — Kimiya"),
     (36, "Islam Iman Ihsan"),
     (12, "Duʿāt Lives"),
-    (5,  "Devotional Poetry"),
+    (5, "Devotional Poetry"),
     (16, "Selected Duʿāʾs"),
     (18, "Prophet Stories"),
     (25, "Daʿāʾim: Ṭahāra"),
     (27, "Ādāb wa-Akhlāq"),
     (29, "Daʿāʾim: Ṣawm"),
-    (1,  "Sciences of Origin/Return"),
+    (1, "Sciences of Origin/Return"),
     (24, "Tawḥīd"),
     (26, "Daʿāʾim: Ṣalāt"),
     (19, "Daʿāʾim: Wilāya"),
     (34, "Quranic Studies"),
     (28, "Drafts"),
-    (6,  "Imam ʿAlī"),
-    (8,  "Taʾwīl of Divine Words"),
+    (6, "Imam ʿAlī"),
+    (8, "Taʾwīl of Divine Words"),
     (23, "Selected Scholarly Treatises"),
 ]
 
@@ -94,7 +96,10 @@ def _get_stage(binder_id: int, chapter_id: int) -> str:
 
 def _get_chapters(binder_id: int) -> list[int]:
     result = subprocess.run(
-        [str(VENV), "-c", f"""
+        [
+            str(VENV),
+            "-c",
+            f"""
 from tools.source_extractor.db import query_json
 rows = query_json('WISDOM', '''
 SELECT bc.ChapterID AS id
@@ -102,8 +107,11 @@ FROM BinderChapters bc
 WHERE bc.BinderID = {binder_id}
 ORDER BY bc.BinderChapterOrder FOR JSON PATH;''')
 for r in rows: print(r['id'])
-"""],
-        capture_output=True, text=True, cwd=REPO,
+""",
+        ],
+        capture_output=True,
+        text=True,
+        cwd=REPO,
     )
     return [int(x) for x in result.stdout.strip().splitlines() if x.strip()]
 
@@ -145,20 +153,21 @@ def _commit_binder(binder_id: int, name: str, chapters: int, cost: float, dry_ru
     if dry_run:
         print(f"  [dry-run] would commit binder {binder_id}")
         return
-    msg = (
-        f"feat(wisdom-adapt): binder {binder_id} — {name} "
-        f"({chapters} chapters adapted, ${cost:.2f} Anthropic)"
+    msg = f"feat(wisdom-adapt): binder {binder_id} — {name} ({chapters} chapters adapted, ${cost:.2f} Anthropic)"
+    subprocess.run(
+        [
+            "git",
+            "add",
+            "CONTENT/_shared/source-library/extracted/wisdom/",
+            "_workspace/plan/wisdom-adapt-cost-ledger.jsonl",
+        ],
+        cwd=REPO,
+        check=False,
     )
     subprocess.run(
-        ["git", "add",
-         "CONTENT/_shared/source-library/extracted/wisdom/",
-         "_workspace/plan/wisdom-adapt-cost-ledger.jsonl"],
-        cwd=REPO, check=False,
-    )
-    subprocess.run(
-        ["git", "commit", "-m", msg,
-         f"--trailer=Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"],
-        cwd=REPO, check=False,
+        ["git", "commit", "-m", msg, "--trailer=Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"],
+        cwd=REPO,
+        check=False,
     )
 
 
@@ -187,10 +196,10 @@ def main() -> None:
         done = skipped = failed = 0
         binder_cost = 0.0
 
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"Binder {binder_id} — {binder_name} ({len(chapters)} chapters)")
         print(f"  Session cost so far: ${session_start + session_cost:.2f}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
         for ch_id in chapters:
             cumulative = session_start + session_cost
@@ -220,7 +229,7 @@ def main() -> None:
                     print(f"✅ $0.00 ({elapsed:.1f}s)")
                     done += 1
                 else:
-                    print(f"❌ failed")
+                    print("❌ failed")
                     failed += 1
             else:
                 print(f"✅ ${cost:.4f} ({elapsed:.1f}s)")
@@ -233,10 +242,10 @@ def main() -> None:
         _commit_binder(binder_id, binder_name, done, binder_cost, args.dry_run)
 
     total = session_start + session_cost
-    print(f"\n{'='*60}")
-    print(f"All binders processed.")
+    print(f"\n{'=' * 60}")
+    print("All binders processed.")
     print(f"Session spend: ${session_cost:.4f}  |  Corpus total: ${total:.4f}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
 
 if __name__ == "__main__":

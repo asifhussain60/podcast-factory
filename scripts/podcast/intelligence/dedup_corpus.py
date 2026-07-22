@@ -33,6 +33,7 @@ CLI:
 Python API:
     from intelligence.dedup_corpus import dedup, DedupSummary
 """
+
 from __future__ import annotations
 
 import json
@@ -49,7 +50,7 @@ if str(_SCRIPTS) not in sys.path:
 
 from _db import get_connection, run_migrations
 
-VARIANT_BOOK_PREFIX = "corpus-dedup:"     # marks variants this engine wrote (idempotency)
+VARIANT_BOOK_PREFIX = "corpus-dedup:"  # marks variants this engine wrote (idempotency)
 REASON_HIGH = "corpus_dedup_high"
 REASON_REVIEW = "corpus_dedup_review"
 _WORD_RE = re.compile(r"[^\w]+", re.UNICODE)
@@ -58,6 +59,7 @@ _WORD_RE = re.compile(r"[^\w]+", re.UNICODE)
 # ---------------------------------------------------------------------------
 # Data
 # ---------------------------------------------------------------------------
+
 
 @dataclass
 class _Atom:
@@ -76,7 +78,7 @@ class DedupSummary:
     pairs_compared: int = 0
     high_pairs: int = 0
     borderline_pairs: int = 0
-    clusters: int = 0          # HIGH clusters with >1 member
+    clusters: int = 0  # HIGH clusters with >1 member
     variants_written: int = 0
     review_high: int = 0
     review_borderline: int = 0
@@ -86,6 +88,7 @@ class DedupSummary:
 # ---------------------------------------------------------------------------
 # Text helpers
 # ---------------------------------------------------------------------------
+
 
 def _normalize(text: str) -> str:
     return _WORD_RE.sub(" ", text.lower()).strip()
@@ -119,6 +122,7 @@ def _extract_text(body_raw: str) -> str:
 # Union-find (cluster HIGH edges)
 # ---------------------------------------------------------------------------
 
+
 class _UF:
     def __init__(self) -> None:
         self.parent: dict[str, str] = {}
@@ -128,7 +132,7 @@ class _UF:
         root = x
         while self.parent[root] != root:
             root = self.parent[root]
-        while self.parent[x] != root:        # path compression
+        while self.parent[x] != root:  # path compression
             self.parent[x], x = root, self.parent[x]
         return root
 
@@ -141,6 +145,7 @@ class _UF:
 # ---------------------------------------------------------------------------
 # Loading + blocking
 # ---------------------------------------------------------------------------
+
 
 def _load_atoms(conn, types: tuple[str, ...]) -> list[_Atom]:
     placeholders = ",".join("?" for _ in types)
@@ -156,14 +161,16 @@ def _load_atoms(conn, types: tuple[str, ...]) -> list[_Atom]:
     atoms: list[_Atom] = []
     for atom_id, body_raw, corpus in rows:
         norm = _normalize(_extract_text(body_raw))
-        atoms.append(_Atom(
-            id=atom_id,
-            text=norm,
-            tags=tuple(sorted(tags_by_atom.get(atom_id, ()))),
-            corpus=corpus or "?",
-            tokens=_tokens(norm),
-            norm=norm,
-        ))
+        atoms.append(
+            _Atom(
+                id=atom_id,
+                text=norm,
+                tags=tuple(sorted(tags_by_atom.get(atom_id, ()))),
+                corpus=corpus or "?",
+                tokens=_tokens(norm),
+                norm=norm,
+            )
+        )
     return atoms
 
 
@@ -180,6 +187,7 @@ def _build_blocks(atoms: list[_Atom]) -> dict[str, list[_Atom]]:
 # ---------------------------------------------------------------------------
 # Core
 # ---------------------------------------------------------------------------
+
 
 def dedup(
     *,
@@ -253,12 +261,19 @@ def dedup(
             )
             summary.variants_written += 1
             conn.execute(
-                "INSERT INTO manual_review_queue (book_slug, chapter_id, reason, payload)"
-                " VALUES ('', '', ?, ?)",
-                (REASON_HIGH, json.dumps({
-                    "tier": "high", "canonical": canonical, "duplicate": dup_id,
-                    "action": "auto-merge-candidate",
-                }, ensure_ascii=False)),
+                "INSERT INTO manual_review_queue (book_slug, chapter_id, reason, payload) VALUES ('', '', ?, ?)",
+                (
+                    REASON_HIGH,
+                    json.dumps(
+                        {
+                            "tier": "high",
+                            "canonical": canonical,
+                            "duplicate": dup_id,
+                            "action": "auto-merge-candidate",
+                        },
+                        ensure_ascii=False,
+                    ),
+                ),
             )
             summary.review_high += 1
 
@@ -267,12 +282,20 @@ def dedup(
         if a_id in uf.parent and b_id in uf.parent and uf.find(a_id) == uf.find(b_id):
             continue
         conn.execute(
-            "INSERT INTO manual_review_queue (book_slug, chapter_id, reason, payload)"
-            " VALUES ('', '', ?, ?)",
-            (REASON_REVIEW, json.dumps({
-                "tier": "borderline", "atom_a": a_id, "atom_b": b_id, "similarity": sim,
-                "action": "needs-human-judgement",
-            }, ensure_ascii=False)),
+            "INSERT INTO manual_review_queue (book_slug, chapter_id, reason, payload) VALUES ('', '', ?, ?)",
+            (
+                REASON_REVIEW,
+                json.dumps(
+                    {
+                        "tier": "borderline",
+                        "atom_a": a_id,
+                        "atom_b": b_id,
+                        "similarity": sim,
+                        "action": "needs-human-judgement",
+                    },
+                    ensure_ascii=False,
+                ),
+            ),
         )
         summary.review_borderline += 1
 
@@ -284,13 +307,13 @@ def dedup(
 # CLI
 # ---------------------------------------------------------------------------
 
+
 def main() -> int:
     import argparse
 
     run_migrations()
     p = argparse.ArgumentParser(description="Tiered corpus dedup engine (D7)")
-    p.add_argument("--types", default="doctrine",
-                   help="Comma list of atom types to scan (default: doctrine)")
+    p.add_argument("--types", default="doctrine", help="Comma list of atom types to scan (default: doctrine)")
     p.add_argument("--high", type=float, default=0.90, help="HIGH (auto-merge) Jaccard threshold")
     p.add_argument("--review", type=float, default=0.65, help="BORDERLINE (review) Jaccard threshold")
     p.add_argument("--max-block", type=int, default=600, help="Skip blocks larger than this")
@@ -299,13 +322,18 @@ def main() -> int:
 
     s = dedup(
         types=tuple(t.strip() for t in args.types.split(",") if t.strip()),
-        high=args.high, review=args.review, max_block=args.max_block, dry_run=args.dry_run,
+        high=args.high,
+        review=args.review,
+        max_block=args.max_block,
+        dry_run=args.dry_run,
     )
     flag = " (dry-run)" if args.dry_run else ""
     print(f"Dedup{flag}:")
     print(f"  atoms scanned:        {s.atoms_scanned}")
     print(f"  blocks compared:      {s.blocks}  ({s.pairs_compared} pairs)")
-    print(f"  HIGH clusters:        {s.clusters}  -> {s.variants_written} variants, {s.review_high} auto-merge candidates")
+    print(
+        f"  HIGH clusters:        {s.clusters}  -> {s.variants_written} variants, {s.review_high} auto-merge candidates"
+    )
     print(f"  BORDERLINE for review: {s.review_borderline}")
     if s.skipped_blocks:
         print(f"  skipped blocks ({len(s.skipped_blocks)}): " + "; ".join(s.skipped_blocks))

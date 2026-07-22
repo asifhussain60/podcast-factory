@@ -1,0 +1,126 @@
+{
+  "schema": "podcast.translation-edition/v1",
+  "mode": "translation_edition",
+  "augmentation": "forbidden",
+  "visual_style": "black_white",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "The First Obligation: Seeking Knowledge",
+      "chapter_file": "book/_chapters/ch01-the-first-obligation-seeking-knowledge.txt",
+      "source_line_ranges": [
+        [
+          33,
+          47
+        ]
+      ],
+      "source_words": 535,
+      "output_words": 573
+    },
+    {
+      "index": 2,
+      "title": "Purity: Water, Ablution, and the Body Made Ready",
+      "chapter_file": "book/_chapters/ch02-purity-water-ablution-and-the-body-made-ready.txt",
+      "source_line_ranges": [
+        [
+          49,
+          149
+        ]
+      ],
+      "source_words": 6537,
+      "output_words": 7235
+    },
+    {
+      "index": 3,
+      "title": "The Pillar of Religion: Standing in Prayer",
+      "chapter_file": "book/_chapters/ch03-the-pillar-of-religion-standing-in-prayer.txt",
+      "source_line_ranges": [
+        [
+          151,
+          289
+        ]
+      ],
+      "source_words": 11345,
+      "output_words": 11476
+    },
+    {
+      "index": 4,
+      "title": "Supplication and the Many Forms of Prayer",
+      "chapter_file": "book/_chapters/ch04-supplication-and-the-many-forms-of-prayer.txt",
+      "source_line_ranges": [
+        [
+          291,
+          722
+        ]
+      ],
+      "source_words": 21934,
+      "output_words": 22849
+    },
+    {
+      "index": 5,
+      "title": "Facing Death: The Rites of the Departed",
+      "chapter_file": "book/_chapters/ch05-facing-death-the-rites-of-the-departed.txt",
+      "source_line_ranges": [
+        [
+          725,
+          831
+        ]
+      ],
+      "source_words": 4927,
+      "output_words": 5148
+    },
+    {
+      "index": 6,
+      "title": "The Due of Wealth: Zakat",
+      "chapter_file": "book/_chapters/ch06-the-due-of-wealth-zakat.txt",
+      "source_line_ranges": [
+        [
+          833,
+          966
+        ]
+      ],
+      "source_words": 5988,
+      "output_words": 6521
+    },
+    {
+      "index": 7,
+      "title": "The Fast: Ramadan and the Discipline of Abstention",
+      "chapter_file": "book/_chapters/ch07-the-fast-ramadan-and-the-discipline-of-abstention.txt",
+      "source_line_ranges": [
+        [
+          969,
+          1070
+        ]
+      ],
+      "source_words": 6362,
+      "output_words": 6389
+    },
+    {
+      "index": 8,
+      "title": "The Journey to the House: Pilgrimage",
+      "chapter_file": "book/_chapters/ch08-the-journey-to-the-house-pilgrimage.txt",
+      "source_line_ranges": [
+        [
+          1072,
+          1563
+        ]
+      ],
+      "source_words": 24059,
+      "output_words": 24942
+    },
+    {
+      "index": 9,
+      "title": "The Sword and the State: Jihad, Governance, and Justice",
+      "chapter_file": "book/_chapters/ch09-the-sword-and-the-state-jihad-governance-and-justice.txt",
+      "source_line_ranges": [
+        [
+          1564,
+          1818
+        ]
+      ],
+      "source_words": 12606,
+      "output_words": 14082
+    }
+  ],
+  "source_crosswalk": "book/source-crosswalk.json"
+}

@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import NewContentForm from './NewContentForm';
-import EditorialDefaults from './EditorialDefaults';
-import UploadStaging from './UploadStaging';
-import SmartForm from './SmartForm';
-import PreflightSummary from './PreflightSummary';
-import Cockpit from './Cockpit';
-import type { CardDef } from '../../lib/reader/editorial';
+import { useState } from "react";
+import NewContentForm from "./NewContentForm";
+import EditorialDefaults from "./EditorialDefaults";
+import UploadStaging from "./UploadStaging";
+import SmartForm from "./SmartForm";
+import PreflightSummary from "./PreflightSummary";
+import Cockpit from "./Cockpit";
+import type { CardDef } from "../../lib/reader/editorial";
 
 interface CreateResult {
   slug: string;
@@ -37,9 +37,15 @@ export default function IntakeWorkspace({ cardDefs }: Props) {
   return (
     <div className="intake-shell">
       <div className="intake-column">
-        <NewContentForm onCreated={setCreated} onCleared={() => setCreated(null)} />
+        <NewContentForm
+          onCreated={setCreated}
+          onCleared={() => setCreated(null)}
+        />
         <UploadStaging
-          onChange={({ token, valid }) => { setStagingToken(token); setUploadValid(valid); }}
+          onChange={({ token, valid }) => {
+            setStagingToken(token);
+            setUploadValid(valid);
+          }}
         />
         <EditorialDefaults slug={created?.slug ?? null} cardDefs={cardDefs} />
       </div>

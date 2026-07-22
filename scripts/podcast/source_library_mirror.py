@@ -20,6 +20,7 @@ Usage:
     python3 scripts/podcast/source_library_mirror.py --verify  # compare mirror
     python3 scripts/podcast/source_library_mirror.py --db-path /custom/path.db
 """
+
 from __future__ import annotations
 
 import argparse
@@ -38,7 +39,7 @@ from tools.source_extractor.db import query_json
 
 MIRROR_PATH = REPO_ROOT / "content" / "knowledge-base" / "mirror.db"
 
-_BATCH = 500          # rows per paginated SQL Server request
+_BATCH = 500  # rows per paginated SQL Server request
 _HTML_TAG = re.compile(r"<[^>]+>")
 _WHITESPACE = re.compile(r"\s+")
 
@@ -259,6 +260,7 @@ def discover_hadith_schema() -> list[str]:
 
 # ── build steps ────────────────────────────────────────────────────────────
 
+
 def _build_fts_quran(conn: sqlite3.Connection) -> int:
     """Populate fts_quran from KQUR.QuranAyats. Returns row count."""
     conn.execute("DELETE FROM fts_quran;")
@@ -267,9 +269,13 @@ def _build_fts_quran(conn: sqlite3.Connection) -> int:
         "INSERT INTO fts_quran VALUES (?,?,?,?,?,?,?)",
         [
             (
-                r.get("surah"), r.get("ayat"),
-                r.get("arabic", ""), r.get("pickthall", ""),
-                r.get("asad", ""), r.get("urdu", ""), r.get("phonetic", ""),
+                r.get("surah"),
+                r.get("ayat"),
+                r.get("arabic", ""),
+                r.get("pickthall", ""),
+                r.get("asad", ""),
+                r.get("urdu", ""),
+                r.get("phonetic", ""),
             )
             for r in rows
         ],
@@ -295,8 +301,10 @@ def _build_fts_hadith(conn: sqlite3.Connection) -> int:
         "INSERT INTO fts_hadith VALUES (?,?,?,?,?)",
         [
             (
-                r.get("hadith_id"), r.get("collection", ""),
-                r.get("hadith_num", ""), r.get("arabic", ""),
+                r.get("hadith_id"),
+                r.get("collection", ""),
+                r.get("hadith_num", ""),
+                r.get("arabic", ""),
                 _strip_html(r.get("english", "")),
             )
             for r in rows
@@ -313,10 +321,14 @@ def _build_fts_topics(conn: sqlite3.Connection) -> int:
         "INSERT INTO fts_topics VALUES (?,?,?,?,?,?,?,?)",
         [
             (
-                r.get("topic_id"), r.get("topic_type_id", 0),
-                r.get("name", ""), r.get("name_en", ""),
-                r.get("description", ""), r.get("binder", ""),
-                r.get("chapter", ""), r.get("body_plain", ""),
+                r.get("topic_id"),
+                r.get("topic_type_id", 0),
+                r.get("name", ""),
+                r.get("name_en", ""),
+                r.get("description", ""),
+                r.get("binder", ""),
+                r.get("chapter", ""),
+                r.get("body_plain", ""),
             )
             for r in rows
         ],
@@ -332,8 +344,10 @@ def _build_fts_sessions(conn: sqlite3.Connection) -> int:
         "INSERT INTO fts_sessions VALUES (?,?,?,?)",
         [
             (
-                r.get("session_id"), r.get("session_name", ""),
-                r.get("group_id"), _strip_html(r.get("content_html", "")),
+                r.get("session_id"),
+                r.get("session_name", ""),
+                r.get("group_id"),
+                _strip_html(r.get("content_html", "")),
             )
             for r in rows
         ],
@@ -353,17 +367,20 @@ def _build_term_index(conn: sqlite3.Connection) -> int:
         " VALUES (?,?,?,?,?,?,?,?)",
         [
             (
-                r.get("term", ""), r.get("arabic", ""), r.get("root", ""),
-                r.get("grammar_tag", ""), r.get("definition", ""),
-                r.get("etymology", ""), "ismaili", "KQUR",
+                r.get("term", ""),
+                r.get("arabic", ""),
+                r.get("root", ""),
+                r.get("grammar_tag", ""),
+                r.get("definition", ""),
+                r.get("etymology", ""),
+                "ismaili",
+                "KQUR",
             )
             for r in kqur_rows
             if r.get("term", "").strip()
         ],
     )
-    inserted += conn.execute(
-        "SELECT COUNT(*) FROM term_index WHERE source='KQUR'"
-    ).fetchone()[0]
+    inserted += conn.execute("SELECT COUNT(*) FROM term_index WHERE source='KQUR'").fetchone()[0]
 
     kashkole_rows = _paginate("KASHKOLE", _SQL_KASHKOLE_TERMS)
     conn.executemany(
@@ -372,21 +389,25 @@ def _build_term_index(conn: sqlite3.Connection) -> int:
         " VALUES (?,?,?,?,?,?,?,?)",
         [
             (
-                r.get("term", ""), r.get("arabic", ""), r.get("root", ""),
-                r.get("grammar_tag", ""), r.get("definition", ""),
-                r.get("etymology", ""), "ismaili", "KASHKOLE",
+                r.get("term", ""),
+                r.get("arabic", ""),
+                r.get("root", ""),
+                r.get("grammar_tag", ""),
+                r.get("definition", ""),
+                r.get("etymology", ""),
+                "ismaili",
+                "KASHKOLE",
             )
             for r in kashkole_rows
             if r.get("term", "").strip()
         ],
     )
-    inserted = conn.execute(
-        "SELECT COUNT(*) FROM term_index"
-    ).fetchone()[0]
+    inserted = conn.execute("SELECT COUNT(*) FROM term_index").fetchone()[0]
     return inserted
 
 
 # ── public API ──────────────────────────────────────────────────────────────
+
 
 def build_mirror(
     db_path: Path | None = None,
@@ -403,11 +424,19 @@ def build_mirror(
         # Just report what SQL Server currently holds — no writes.
         counts: dict[str, int] = {}
         for key, db, sql in [
-            ("fts_quran",    "KQUR",      "SELECT COUNT(*) AS n FROM QuranAyats FOR JSON PATH;"),
-            ("fts_hadith",   "KQUR",      "SELECT COUNT(*) AS n FROM Ahadees WHERE AhadeesArabic IS NOT NULL AND AhadeesArabic != '' AND IsDeleted=0 FOR JSON PATH;"),
-            ("fts_topics",   "KASHKOLE",  "SELECT COUNT(*) AS n FROM Topics FOR JSON PATH;"),
-            ("fts_sessions", "KSESSIONS", "SELECT COUNT(*) AS n FROM Sessions s JOIN SessionSummary ss ON ss.SessionId=s.SessionID WHERE ss.IsActive=1 FOR JSON PATH;"),
-            ("term_index",   "KQUR",      "SELECT COUNT(*) AS n FROM Roots FOR JSON PATH;"),
+            ("fts_quran", "KQUR", "SELECT COUNT(*) AS n FROM QuranAyats FOR JSON PATH;"),
+            (
+                "fts_hadith",
+                "KQUR",
+                "SELECT COUNT(*) AS n FROM Ahadees WHERE AhadeesArabic IS NOT NULL AND AhadeesArabic != '' AND IsDeleted=0 FOR JSON PATH;",
+            ),
+            ("fts_topics", "KASHKOLE", "SELECT COUNT(*) AS n FROM Topics FOR JSON PATH;"),
+            (
+                "fts_sessions",
+                "KSESSIONS",
+                "SELECT COUNT(*) AS n FROM Sessions s JOIN SessionSummary ss ON ss.SessionId=s.SessionID WHERE ss.IsActive=1 FOR JSON PATH;",
+            ),
+            ("term_index", "KQUR", "SELECT COUNT(*) AS n FROM Roots FOR JSON PATH;"),
         ]:
             try:
                 rows = query_json(db, sql) or []
@@ -422,11 +451,11 @@ def build_mirror(
         conn.executescript(_SCHEMA)
         conn.execute("BEGIN;")
         counts: dict[str, int] = {}
-        counts["fts_quran"]   = _build_fts_quran(conn)
-        counts["fts_hadith"]  = _build_fts_hadith(conn)
-        counts["fts_topics"]  = _build_fts_topics(conn)
+        counts["fts_quran"] = _build_fts_quran(conn)
+        counts["fts_hadith"] = _build_fts_hadith(conn)
+        counts["fts_topics"] = _build_fts_topics(conn)
         counts["fts_sessions"] = _build_fts_sessions(conn)
-        counts["term_index"]  = _build_term_index(conn)
+        counts["term_index"] = _build_term_index(conn)
         conn.execute("COMMIT;")
         conn.execute("PRAGMA optimize;")
     except Exception:
@@ -448,30 +477,33 @@ def verify_mirror(db_path: Path | None = None) -> dict[str, dict[str, int]]:
 
     conn = sqlite3.connect(str(target))
     mirror_counts = {
-        "fts_quran":    conn.execute("SELECT COUNT(*) FROM fts_quran").fetchone()[0],
-        "fts_hadith":   conn.execute("SELECT COUNT(*) FROM fts_hadith").fetchone()[0],
-        "fts_topics":   conn.execute("SELECT COUNT(*) FROM fts_topics").fetchone()[0],
+        "fts_quran": conn.execute("SELECT COUNT(*) FROM fts_quran").fetchone()[0],
+        "fts_hadith": conn.execute("SELECT COUNT(*) FROM fts_hadith").fetchone()[0],
+        "fts_topics": conn.execute("SELECT COUNT(*) FROM fts_topics").fetchone()[0],
         "fts_sessions": conn.execute("SELECT COUNT(*) FROM fts_sessions").fetchone()[0],
-        "term_index":   conn.execute("SELECT COUNT(*) FROM term_index").fetchone()[0],
+        "term_index": conn.execute("SELECT COUNT(*) FROM term_index").fetchone()[0],
     }
     conn.close()
 
     server_counts: dict[str, int] = {}
     for table, db, sql in [
-        ("fts_quran", "KQUR",
-         "SELECT COUNT(*) AS n FROM QuranAyats FOR JSON PATH;"),
-        ("fts_hadith", "KQUR",
-         "SELECT COUNT(*) AS n FROM Ahadees "
-         "WHERE AhadeesArabic IS NOT NULL AND AhadeesArabic != '' AND IsDeleted=0 "
-         "FOR JSON PATH;"),
-        ("fts_topics", "KASHKOLE",
-         "SELECT COUNT(*) AS n FROM Topics FOR JSON PATH;"),
-        ("fts_sessions", "KSESSIONS",
-         "SELECT COUNT(*) AS n FROM Sessions s "
-         "JOIN SessionSummary ss ON ss.SessionId=s.SessionID "
-         "WHERE ss.IsActive=1 FOR JSON PATH;"),
-        ("term_index", "KQUR",
-         "SELECT COUNT(*) AS n FROM Roots FOR JSON PATH;"),
+        ("fts_quran", "KQUR", "SELECT COUNT(*) AS n FROM QuranAyats FOR JSON PATH;"),
+        (
+            "fts_hadith",
+            "KQUR",
+            "SELECT COUNT(*) AS n FROM Ahadees "
+            "WHERE AhadeesArabic IS NOT NULL AND AhadeesArabic != '' AND IsDeleted=0 "
+            "FOR JSON PATH;",
+        ),
+        ("fts_topics", "KASHKOLE", "SELECT COUNT(*) AS n FROM Topics FOR JSON PATH;"),
+        (
+            "fts_sessions",
+            "KSESSIONS",
+            "SELECT COUNT(*) AS n FROM Sessions s "
+            "JOIN SessionSummary ss ON ss.SessionId=s.SessionID "
+            "WHERE ss.IsActive=1 FOR JSON PATH;",
+        ),
+        ("term_index", "KQUR", "SELECT COUNT(*) AS n FROM Roots FOR JSON PATH;"),
     ]:
         try:
             rows = query_json(db, sql) or []
@@ -479,13 +511,11 @@ def verify_mirror(db_path: Path | None = None) -> dict[str, dict[str, int]]:
         except Exception:
             server_counts[table] = -1
 
-    return {
-        t: {"mirror": mirror_counts[t], "server": server_counts[t]}
-        for t in mirror_counts
-    }
+    return {t: {"mirror": mirror_counts[t], "server": server_counts[t]} for t in mirror_counts}
 
 
 # ── mirror-backed query helpers (used by source_library_queries.py) ────────
+
 
 def open_mirror(db_path: Path | None = None) -> sqlite3.Connection | None:
     """Return a read-only sqlite3 connection to mirror.db, or None if absent."""
@@ -500,9 +530,7 @@ def open_mirror(db_path: Path | None = None) -> sqlite3.Connection | None:
         return None
 
 
-def fts_quran_search(
-    keyword: str, limit: int = 10, conn: sqlite3.Connection | None = None
-) -> list[dict]:
+def fts_quran_search(keyword: str, limit: int = 10, conn: sqlite3.Connection | None = None) -> list[dict]:
     """FTS5 search over fts_quran. Returns [] if mirror unavailable."""
     own = conn is None
     conn = conn or open_mirror()
@@ -512,8 +540,7 @@ def fts_quran_search(
     kw_safe = keyword.replace('"', '""')
     try:
         rows = conn.execute(
-            "SELECT surah, ayat, arabic, pickthall, asad, phonetic "
-            "FROM fts_quran WHERE fts_quran MATCH ? LIMIT ?",
+            "SELECT surah, ayat, arabic, pickthall, asad, phonetic FROM fts_quran WHERE fts_quran MATCH ? LIMIT ?",
             (f'"{kw_safe}"', n),
         ).fetchall()
         return [dict(r) for r in rows]
@@ -524,9 +551,7 @@ def fts_quran_search(
             conn.close()
 
 
-def fts_topics_search(
-    keyword: str, limit: int = 10, conn: sqlite3.Connection | None = None
-) -> list[dict]:
+def fts_topics_search(keyword: str, limit: int = 10, conn: sqlite3.Connection | None = None) -> list[dict]:
     """FTS5 search over fts_topics. Returns [] if mirror unavailable."""
     own = conn is None
     conn = conn or open_mirror()
@@ -549,9 +574,7 @@ def fts_topics_search(
             conn.close()
 
 
-def quran_ayat_lookup(
-    surah: int, ayat: int, conn: sqlite3.Connection | None = None
-) -> dict | None:
+def quran_ayat_lookup(surah: int, ayat: int, conn: sqlite3.Connection | None = None) -> dict | None:
     """Direct lookup of a single Quran verse by surah + ayat. Returns None if not found."""
     own = conn is None
     conn = conn or open_mirror()
@@ -605,9 +628,7 @@ def fts_sessions_search(
             conn.close()
 
 
-def term_index_lookup(
-    term: str, conn: sqlite3.Connection | None = None
-) -> dict | None:
+def term_index_lookup(term: str, conn: sqlite3.Connection | None = None) -> dict | None:
     """Exact/prefix lookup in term_index. Returns None if mirror unavailable."""
     own = conn is None
     conn = conn or open_mirror()
@@ -635,20 +656,22 @@ def term_index_lookup(
 
 # ── CLI ────────────────────────────────────────────────────────────────────
 
+
 def _cli() -> None:
-    parser = argparse.ArgumentParser(
-        description="Build or inspect the SQLite FTS5 source library mirror."
-    )
+    parser = argparse.ArgumentParser(description="Build or inspect the SQLite FTS5 source library mirror.")
     parser.add_argument(
-        "--dry-run", action="store_true",
+        "--dry-run",
+        action="store_true",
         help="Print SQL Server row counts without writing anything.",
     )
     parser.add_argument(
-        "--verify", action="store_true",
+        "--verify",
+        action="store_true",
         help="Compare mirror row counts against SQL Server.",
     )
     parser.add_argument(
-        "--db-path", metavar="PATH",
+        "--db-path",
+        metavar="PATH",
         help=f"Override mirror path (default: {MIRROR_PATH})",
     )
     args = parser.parse_args()

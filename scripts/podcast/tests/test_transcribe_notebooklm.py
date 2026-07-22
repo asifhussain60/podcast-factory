@@ -1,11 +1,12 @@
 """Tests for transcribe_notebooklm — Azure batch path (transcriber injected)."""
+
 import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from transcribe_notebooklm import _episode_id, plan_missing, transcribe_book  # noqa: E402
+from transcribe_notebooklm import _episode_id, plan_missing, transcribe_book
 
 
 def _book(tmp_path: Path) -> Path:
@@ -23,8 +24,7 @@ def _fake_transcriber(audio_path: Path, locale: str) -> str:
 
 def test_plan_lists_only_missing(tmp_path):
     book = _book(tmp_path)
-    (book / "m4a" / "transcripts" / "ch01a-the-garden.transcript.txt").write_text(
-        "done", encoding="utf-8")
+    (book / "m4a" / "transcripts" / "ch01a-the-garden.transcript.txt").write_text("done", encoding="utf-8")
     todo, nc = plan_missing(book)
     assert [p.stem for p in todo] == ["ch02b-the-mountain"]
     assert nc == []
@@ -52,8 +52,7 @@ def test_transcribe_writes_both_contracts(tmp_path):
 
 def test_audit_copy_suppressed(tmp_path):
     book = _book(tmp_path)
-    written = transcribe_book(book, audit_copy=False,
-                              transcriber=_fake_transcriber, log=lambda *_: None)
+    written = transcribe_book(book, audit_copy=False, transcriber=_fake_transcriber, log=lambda *_: None)
     assert len(written) == 2
     assert not (book / "transcripts").exists()
 
@@ -63,15 +62,15 @@ def test_idempotent_skip_and_force(tmp_path):
     transcribe_book(book, transcriber=_fake_transcriber, log=lambda *_: None)
     again = transcribe_book(book, transcriber=_fake_transcriber, log=lambda *_: None)
     assert again == []
-    forced = transcribe_book(book, force=True, only="ch01a-the-garden",
-                             transcriber=_fake_transcriber, log=lambda *_: None)
+    forced = transcribe_book(
+        book, force=True, only="ch01a-the-garden", transcriber=_fake_transcriber, log=lambda *_: None
+    )
     assert len(forced) == 2
 
 
 def test_empty_transcript_skipped_not_written(tmp_path):
     book = _book(tmp_path)
-    written = transcribe_book(book, transcriber=lambda *_: "   ",
-                              log=lambda *_: None)
+    written = transcribe_book(book, transcriber=lambda *_: "   ", log=lambda *_: None)
     assert written == []
     assert list((book / "m4a" / "transcripts").glob("*.txt")) == []
 

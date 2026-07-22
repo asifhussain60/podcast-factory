@@ -1,25 +1,33 @@
 """Tests for _book_cover — theme brief + non-blocking ensure_cover contract."""
+
 import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-import _book_cover  # noqa: E402
-from _book_cover import _read_theme, ensure_cover  # noqa: E402
+import _book_cover
+from _book_cover import _read_theme, ensure_cover
 
 
-def _write_toc(book_dir: Path, title="The Master and the Disciple",
-               chapters=("Opening", "The Covenant", "The Debate")) -> None:
+def _write_toc(
+    book_dir: Path, title="The Master and the Disciple", chapters=("Opening", "The Covenant", "The Debate")
+) -> None:
     toc = book_dir / "book" / "book-toc.json"
     toc.parent.mkdir(parents=True, exist_ok=True)
-    toc.write_text(json.dumps({
-        "book_title": title,
-        "chapters": [{"title": c} for c in chapters],
-    }), encoding="utf-8")
+    toc.write_text(
+        json.dumps(
+            {
+                "book_title": title,
+                "chapters": [{"title": c} for c in chapters],
+            }
+        ),
+        encoding="utf-8",
+    )
 
 
 # --- _read_theme -----------------------------------------------------------
+
 
 def test_read_theme_missing_toc_is_empty(tmp_path):
     assert _read_theme(tmp_path) == ""
@@ -52,6 +60,7 @@ def test_style_prompt_forbids_text():
 
 
 # --- ensure_cover ----------------------------------------------------------
+
 
 def test_existing_cover_is_honored_not_regenerated(tmp_path):
     out = tmp_path / "book" / "cover.png"

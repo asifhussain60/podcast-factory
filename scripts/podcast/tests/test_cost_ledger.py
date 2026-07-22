@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Tests for scripts/podcast/_cost_ledger.py (P6.1 deliverable)."""
+
 from __future__ import annotations
 
 import json
@@ -11,7 +12,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _cost_ledger  # noqa: E402
+import _cost_ledger
 
 
 class PricingTests(unittest.TestCase):
@@ -35,10 +36,14 @@ class PricingTests(unittest.TestCase):
     def test_cache_read_discount(self):
         """Cache reads should be ~10% of input price."""
         normal = _cost_ledger.compute_cost_usd(
-            "claude-opus-4-7", input_tokens=1_000_000, output_tokens=0,
+            "claude-opus-4-7",
+            input_tokens=1_000_000,
+            output_tokens=0,
         )
         cached = _cost_ledger.compute_cost_usd(
-            "claude-opus-4-7", input_tokens=0, output_tokens=0,
+            "claude-opus-4-7",
+            input_tokens=0,
+            output_tokens=0,
             cache_read=1_000_000,
         )
         self.assertAlmostEqual(cached / normal, 0.10, places=2)
@@ -46,11 +51,15 @@ class PricingTests(unittest.TestCase):
     def test_unknown_model_warns_and_returns_zero(self):
         """No silent zero — must emit a stderr warning."""
         import io
+
         buf = io.StringIO()
         from contextlib import redirect_stderr
+
         with redirect_stderr(buf):
             cost = _cost_ledger.compute_cost_usd(
-                "totally-made-up-model", input_tokens=1000, output_tokens=500,
+                "totally-made-up-model",
+                input_tokens=1000,
+                output_tokens=500,
             )
         self.assertEqual(cost, 0.0)
         self.assertIn("WARNING", buf.getvalue())
@@ -159,6 +168,7 @@ class AppendCostRowTests(unittest.TestCase):
     def test_unknown_model_records_zero_cost_with_warning(self):
         import io
         from contextlib import redirect_stderr
+
         buf = io.StringIO()
         with redirect_stderr(buf):
             row = _cost_ledger.append_cost_row(

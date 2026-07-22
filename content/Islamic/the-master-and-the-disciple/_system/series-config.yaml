@@ -12,6 +12,39 @@ conversation_style: deep_dive
 # 17k-word source, the extended band (5,500w+/episode) would demand ~6x
 # padding; 1,800-2,800w/episode keeps the render faithful (2026-06-10).
 length_tier: default_deep_dive
+# Augmented companion edition (2026-07-19): both knobs pinned explicitly rather
+# than inherited from the deliverable-mode default map, so the reading edition's
+# behaviour is readable here and cannot shift if that map is ever re-tuned.
+book_augmentation: source_only
+# Switched from author_companion 2026-07-20. With narrative_frame enforcing third
+# person, the author-companion prompt had nothing left to do -- six of nine chapters
+# came back 92-100% identical to the faithful base and chapter 3 byte-identical.
+# The fluency pass is the one actually written for de-calque work: fix stiff
+# word-for-word-from-Arabic phrasing so it reads like a book, not a gloss.
+book_voice: faithful
+
+# Which prose actually ships (verified 2026-07-21). book.md is composed by
+# `_book_pipeline_v2.compose_book_v2`, whose step 1 calls
+# `_translation_edition.author_translation_edition_compose` UNCONDITIONALLY —
+# the faithful, articulated translation. `book_voice: faithful` above then skips
+# step 4 (the author-companion re-voice), so the teacher-voice variant cannot be
+# reintroduced by a re-compose. Its old output still sits in the local build
+# cache at book/_chunks/book/ (gitignored, superseded, read by nothing); the live
+# chunks are book/_chunks/translation/. Do not "fix" a chapter by copying from
+# the former — see the README in that directory.
+#
+# `deliverable_mode: translation_edition` is deliberately NOT set. It would be
+# the truthful label, but it also switches phase skipping, the translation
+# contract gate, and ship validation (book_driver / initial_driver /
+# validate_book_ready) on a book that is already published. The route is already
+# pinned by the call above, so the flag would add risk without adding a guarantee.
+
+# Narrative frame — a property of the SOURCE, not of the delivery route.
+# The Arabic opens `بلغنا` ("it has reached us"): an anonymous transmitter
+# reporting what passed between the Master and the boy. Neither man narrates.
+# Locked 2026-07-20 after the re-voice pass produced four different narrators
+# across one volume and, in chapter 8, re-pointed a speech to the wrong speaker.
+narrative_frame: transmitted_report
 enable_video: false
 video_style: none
 # Density-standard re-run (2026-06-10): opts this book into the chapter-density

@@ -11,9 +11,10 @@ Usage:
     python scripts/wisdom/wisdom_pipeline_all.py --binder 35
     python scripts/wisdom/wisdom_pipeline_all.py --status
 """
+
 from __future__ import annotations
+
 import argparse
-import json
 import subprocess
 import sys
 from pathlib import Path
@@ -43,7 +44,7 @@ def _print_status() -> None:
     counts = _count_stages()
     total = sum(counts.values())
     print(f"\nKAHSKOLE Pipeline Status ({total} chapters)")
-    print(f"{'='*40}")
+    print(f"{'=' * 40}")
     for stage in ("reviewed", "translated", "adapted", "challenged"):
         n = counts.get(stage, 0)
         bar = "█" * (n // 3) if n else ""
@@ -64,9 +65,9 @@ def _run_phase(phase: str, binder: int | None, dry_run: bool) -> int:
         cmd.append("--dry-run")
     if binder:
         cmd += ["--binder", str(binder)]
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Starting Phase: {phase.upper()}")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
     result = subprocess.run(cmd, cwd=REPO)
     return result.returncode
 
@@ -101,15 +102,16 @@ def main() -> None:
 
 # ─── K5: PEQ summary report ────────────────────────────────────────────────────
 
+
 def _emit_peq_summary(binder_filter: int | None = None) -> None:
     """Scan all challenged reports; emit a per-binder PEQ summary to stdout."""
     import re as _re
     from datetime import datetime
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("PEQ Quality Summary (Wave K)")
     print(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     binder_dirs = sorted(EXTRACT_ROOT.glob("**/bundle.yml"))
     binder_reports: dict[str, list[tuple[str, float]]] = {}
@@ -124,7 +126,7 @@ def _emit_peq_summary(binder_filter: int | None = None) -> None:
             continue
         rtext = report.read_text(encoding="utf-8", errors="replace")
         m = _re.search(
-            r'\|\s*\*\*Total\*\*\s*\|\s*100%\s*\|\s*—\s*\|\s*\*\*(\d+(?:\.\d+)?)\*\*',
+            r"\|\s*\*\*Total\*\*\s*\|\s*100%\s*\|\s*—\s*\|\s*\*\*(\d+(?:\.\d+)?)\*\*",
             rtext,
         )
         if m:
@@ -154,7 +156,7 @@ def _emit_peq_summary(binder_filter: int | None = None) -> None:
     if all_scores:
         grand = sum(all_scores) / len(all_scores)
         print(f"\n  Grand total: {len(all_scores)} chapters  |  Grand avg PEQ: {grand:.1f}")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
 
 if __name__ == "__main__":

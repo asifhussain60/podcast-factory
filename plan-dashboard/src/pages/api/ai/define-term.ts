@@ -11,9 +11,9 @@
  * Returns: { definition: string, etymology?: string, related?: string[], source: 'local'|'gemini' }
  */
 
-import type { APIRoute } from 'astro';
-import { generate, rateLimitCheck } from '../../../lib/reader/gemini-server';
-import { fetchLocalTermDef } from '../../../lib/localServerClient';
+import type { APIRoute } from "astro";
+import { generate, rateLimitCheck } from "../../../lib/reader/gemini-server";
+import { fetchLocalTermDef } from "../../../lib/localServerClient";
 
 export const prerender = false;
 
@@ -26,42 +26,60 @@ Stay specific to the Ismaili/Shi'i context when the surrounding text is clearly 
 export const POST: APIRoute = async ({ request }) => {
   const limit = rateLimitCheck();
   if (!limit.ok) {
-    return new Response(JSON.stringify({ error: 'rate_limited', retryMs: limit.retryMs }), {
-      status: 429, headers: { 'content-type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({ error: "rate_limited", retryMs: limit.retryMs }),
+      {
+        status: 429,
+        headers: { "content-type": "application/json" },
+      },
+    );
   }
 
   try {
-    const { phonetic, transliteration, arabic, context, book } = await request.json();
-    if (!phonetic) return new Response(JSON.stringify({ error: 'missing phonetic' }), { status: 400 });
+    const { phonetic, transliteration, arabic, context, book } =
+      await request.json();
+    if (!phonetic)
+      return new Response(JSON.stringify({ error: "missing phonetic" }), {
+        status: 400,
+      });
 
     // ── Try local mirror first ───────────────────────────────────────────
     const local = await fetchLocalTermDef(phonetic);
     if (local && local.found) {
-      return new Response(JSON.stringify({
-        definition: local.definition ?? '',
-        etymology: local.etymology,
-        related: local.related,
-        source: 'local',
-      }), {
-        status: 200,
-        headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
-      });
+      return new Response(
+        JSON.stringify({
+          definition: local.definition ?? "",
+          etymology: local.etymology,
+          related: local.related,
+          source: "local",
+        }),
+        {
+          status: 200,
+          headers: {
+            "content-type": "application/json",
+            "cache-control": "no-store",
+          },
+        },
+      );
     }
 
     // ── Fall back to Gemini Flash ────────────────────────────────────────
     const user = [
       `Term: ${phonetic}`,
-      transliteration && transliteration !== phonetic ? `Transliteration: ${transliteration}` : '',
-      arabic ? `Arabic script: ${arabic}` : '',
-      book ? `Book context: ${book}` : '',
-      context ? `Surrounding sentence: "${context}"` : '',
-    ].filter(Boolean).join('\n');
+      transliteration && transliteration !== phonetic
+        ? `Transliteration: ${transliteration}`
+        : "",
+      arabic ? `Arabic script: ${arabic}` : "",
+      book ? `Book context: ${book}` : "",
+      context ? `Surrounding sentence: "${context}"` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
 
     const text = await generate({
-      model: 'flash',
+      model: "flash",
       systemInstruction: SYSTEM,
-      contents: [{ role: 'user', parts: [{ text: user }] }],
+      contents: [{ role: "user", parts: [{ text: user }] }],
       temperature: 0.2,
       maxOutputTokens: 400,
       jsonMode: true,
@@ -69,16 +87,21 @@ export const POST: APIRoute = async ({ request }) => {
 
     let parsed: any = {};
     try {
-      const cleaned = text.replace(/^```json\s*|\s*```$/g, '').trim();
+      const cleaned = text.replace(/^```json\s*|\s*```$/g, "").trim();
       parsed = JSON.parse(cleaned);
     } catch {
       parsed = { definition: text };
     }
-    return new Response(JSON.stringify({ ...parsed, source: 'gemini' }), {
+    return new Response(JSON.stringify({ ...parsed, source: "gemini" }), {
       status: 200,
-      headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
+      headers: {
+        "content-type": "application/json",
+        "cache-control": "no-store",
+      },
     });
   } catch (e) {
-    return new Response(JSON.stringify({ error: (e as Error).message }), { status: 500 });
+    return new Response(JSON.stringify({ error: (e as Error).message }), {
+      status: 500,
+    });
   }
 };

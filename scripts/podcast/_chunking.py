@@ -79,7 +79,7 @@ InvokeFn = Callable[[str, str, int], str]
 
 DEFAULT_TARGET_WORDS = 3000
 DEFAULT_OVERLAP_WORDS = 120
-DEFAULT_WINDOW_TIMEOUT = 600   # 10 min per window — generous; small windows finish in ~1-2 min
+DEFAULT_WINDOW_TIMEOUT = 600  # 10 min per window — generous; small windows finish in ~1-2 min
 
 
 class ChunkingError(RuntimeError):
@@ -158,8 +158,12 @@ def iter_windows(
             if yielded:
                 yield yielded
             yield (
-                (f"<!-- context-overlap from prior window -->\n{prior_tail}\n\n<!-- /context-overlap -->\n\n"
-                 if prior_tail else "") + para
+                (
+                    f"<!-- context-overlap from prior window -->\n{prior_tail}\n\n<!-- /context-overlap -->\n\n"
+                    if prior_tail
+                    else ""
+                )
+                + para
             )
             prior_tail = " ".join(para.split()[-overlap_words:]) if overlap_words else ""
             continue
@@ -176,10 +180,7 @@ def iter_windows(
         else:
             # Soft preference: if this paragraph is a heading and we're already >= 60%
             # of target, flush before it so headings start a window.
-            if (
-                _HEADING_RE.match(para)
-                and current_wc >= int(target_words * 0.6)
-            ):
+            if _HEADING_RE.match(para) and current_wc >= int(target_words * 0.6):
                 yielded = flush()
                 if yielded:
                     yield yielded
@@ -225,9 +226,11 @@ def make_sdk_invoke_fn(model: str, client: "_anthropic.Anthropic | None" = None)
         # Source the key via the central resolver (env → keychain → Azure Key Vault)
         # so 0b/0c work on any machine with `az login`, even with no keychain entry.
         from _secrets import get_anthropic_key
+
         _client = _anthropic.Anthropic(api_key=get_anthropic_key())
 
     import threading as _threading
+
     _tls = _threading.local()  # per-thread usage stash (parallel-window safe)
 
     def _invoke(instructions: str, body: str, timeout_secs: int) -> str:
@@ -239,11 +242,13 @@ def make_sdk_invoke_fn(model: str, client: "_anthropic.Anthropic | None" = None)
         # single-string prompt, so model behaviour is unchanged; only the first
         # block carries cache_control.
         content_blocks = [
-            {"type": "text", "text": clean_instructions,
-             "cache_control": {"type": "ephemeral"}},
-            {"type": "text",
-             "text": (f"\n\n<content>\n{body}\n</content>\n\n"
-                      "Output ONLY the processed text. No preamble, no fences.")},
+            {"type": "text", "text": clean_instructions, "cache_control": {"type": "ephemeral"}},
+            {
+                "type": "text",
+                "text": (
+                    f"\n\n<content>\n{body}\n</content>\n\nOutput ONLY the processed text. No preamble, no fences."
+                ),
+            },
         ]
         _tls.usage = (0, 0)
         try:
@@ -255,12 +260,11 @@ def make_sdk_invoke_fn(model: str, client: "_anthropic.Anthropic | None" = None)
             )
             u = getattr(msg, "usage", None)
             if u is not None:
-                _tls.usage = (getattr(u, "input_tokens", 0) or 0,
-                              getattr(u, "output_tokens", 0) or 0)
+                _tls.usage = (getattr(u, "input_tokens", 0) or 0, getattr(u, "output_tokens", 0) or 0)
             return msg.content[0].text if msg.content else ""
         except _anthropic.APITimeoutError:
             return ""
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             sys.stderr.write(f"[_chunking] SDK call failed: {exc!r}\n")
             return ""
 
@@ -347,7 +351,9 @@ def run_windowed(
 
     total = len(windows)
     if max_workers > 1:
-        log(f"    chunking: {total} windows · target={target_words} words · overlap={overlap_words} · parallel={max_workers}")
+        log(
+            f"    chunking: {total} windows · target={target_words} words · overlap={overlap_words} · parallel={max_workers}"
+        )
     else:
         log(f"    chunking: {total} windows · target={target_words} words · overlap={overlap_words}")
 
@@ -356,7 +362,7 @@ def run_windowed(
     out_paths: list[Path] = []
     work_items: list[tuple[int, str, Path]] = []
     for idx, body in enumerate(windows, start=1):
-        in_path = chunks_dir / f"win-{idx:03d}.in.md"
+        in_path = chunks_dir / f"win-{idx:03d}.in.md"  # noqa: F841
         out_path = chunks_dir / f"win-{idx:03d}.out.md"
         out_paths.append(out_path)
         # Resume: if the output already exists and is non-empty, skip queueing.
@@ -371,6 +377,7 @@ def run_windowed(
 
     # Shared-state guards for the worker function.
     import threading as _threading
+
     failures: list[tuple[int, str]] = []
     fatal_error: list[ChunkingError] = []  # use list as mutable holder for first fatal
     state_lock = _threading.Lock()
@@ -393,13 +400,17 @@ def run_windowed(
         if book_dir is not None:
             try:
                 from _cost_ledger import append_cost_row
+
                 in_tok, out_tok = getattr(_invoke_fn, "get_last_usage", lambda: (0, 0))()
                 append_cost_row(
-                    book_dir, phase=phase or "(unspecified)",
-                    step=f"win-{idx:03d}", model=model,
-                    input_tokens=in_tok, output_tokens=out_tok,
+                    book_dir,
+                    phase=phase or "(unspecified)",
+                    step=f"win-{idx:03d}",
+                    model=model,
+                    input_tokens=in_tok,
+                    output_tokens=out_tok,
                 )
-            except Exception:  # noqa: BLE001
+            except Exception:
                 pass
         log(f"    win {idx:03d}/{total} · OK ({out_path.stat().st_size} bytes)")
 
@@ -411,9 +422,9 @@ def run_windowed(
                 raise fatal_error[0]
     else:
         from concurrent.futures import ThreadPoolExecutor, as_completed
+
         with ThreadPoolExecutor(max_workers=max_workers) as ex:
-            futures = [ex.submit(_process_window, idx, body, out_path)
-                       for idx, body, out_path in work_items]
+            futures = [ex.submit(_process_window, idx, body, out_path) for idx, body, out_path in work_items]
             for f in as_completed(futures):
                 _ = f.result()  # surface any worker exception
                 if fatal_error:

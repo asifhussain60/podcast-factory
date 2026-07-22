@@ -1,0 +1,160 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 125,
+  "terms_tracked": 60,
+  "prerequisite_gaps": [],
+  "naming_drift": [],
+  "referent_collisions": [
+    {
+      "role_word": "father",
+      "pages": [
+        25,
+        76,
+        77
+      ],
+      "first_page": 25,
+      "frames": [
+        "his",
+        "my",
+        "your"
+      ],
+      "kind": "referent-collision"
+    }
+  ],
+  "dense_pages": [
+    {
+      "page": 6,
+      "term_count": 6,
+      "terms": [
+        "Imam",
+        "bāb",
+        "du'āt",
+        "duʿāt",
+        "nāṭiq",
+        "waṣī"
+      ]
+    },
+    {
+      "page": 39,
+      "term_count": 9,
+      "terms": [
+        "Imam",
+        "Sharia",
+        "bāb",
+        "du'āt",
+        "duʿāt",
+        "nuqabā'",
+        "nuqabāʾ",
+        "taʾwīl",
+        "waṣī"
+      ]
+    }
+  ],
+  "long_sentences": [
+    {
+      "page": 109,
+      "words": 154,
+      "text": "Once creation stands in need of God's justice to teach them what He wills from them, by the hand of the righteous one He has appointed for it, then each will th"
+    },
+    {
+      "page": 39,
+      "words": 150,
+      "text": "If your breast is wide enough for these questions, and for looking into the parables and matching each thing to its counterpart among the inward pairs, then ask"
+    },
+    {
+      "page": 72,
+      "words": 141,
+      "text": "Now, among the rights of thought is that hearts pay their zakat (‫ )زكاة‬through good manners; and among the rights of good manners is the seeking of knowledge;"
+    },
+    {
+      "page": 111,
+      "words": 137,
+      "text": "Both the sending down and the interpreting are from God, and what is with God is not attained except by revelation.\" Abu Malik said: \"And the lesser one too is "
+    },
+    {
+      "page": 69,
+      "words": 135,
+      "text": "It is not the state I left you in.\" The boy said: \"And what have you noticed in me — may my father and mother be your ransom?\" The Master said: \"A weakness of b"
+    },
+    {
+      "page": 87,
+      "words": 134,
+      "text": "If it is right guidance we will follow it, and if it is error we will avoid it.\" Abu Malik said: \"This is doubt on your part about what you hold, and one who do"
+    },
+    {
+      "page": 41,
+      "words": 132,
+      "text": "What thing represented could ever grasp this and serve as an evidence and a likeness for it?\" The boy said: \"What, then, is its meaning?\" The Master said: \"It i"
+    },
+    {
+      "page": 57,
+      "words": 122,
+      "text": "You have described to me the delusion of the people of the world in their state and their heedlessness of the Hereafter.\" The Master said: \"If the people who cl"
+    },
+    {
+      "page": 117,
+      "words": 122,
+      "text": "Homecoming, the Father, and the Debate with Abu Malik Salih said to him: \"Then it is settled for you that the just one is the friend of God, and the matter has "
+    },
+    {
+      "page": 15,
+      "words": 121,
+      "text": "Then minds were driven, by ignorance and by need, to seek knowledge and sufficiency.\" ‫فتبارك اَّلِذ ي َج َع َل الَّلْي َل َو الَّنَه اَر ِخ ْل َف ًة ِلَم ْن َأ"
+    },
+    {
+      "page": 50,
+      "words": 118,
+      "text": "Three Layers of Knowledge The Master said: \"And what is this strength you have named, which cannot be had except by Allah?\" The boy said: \"We say that I have no"
+    },
+    {
+      "page": 108,
+      "words": 117,
+      "text": "Homecoming, the Father, and the Debate with Abu Malik Salih said: \"Is speech heard from Him?\" He said: \"There is no speech but from a speaker, and the speaker i"
+    },
+    {
+      "page": 108,
+      "words": 116,
+      "text": "And God is too exalted for that.\" Salih said: \"O Abu Malik, this One who is thus far above injustice and above all wrongdoing — would He be content that ignoran"
+    },
+    {
+      "page": 20,
+      "words": 111,
+      "text": "Upon the one specially favored is thanks for it, action upon it, and the call of others to it; upon the one deprived of it is the seeking after it until he know"
+    },
+    {
+      "page": 63,
+      "words": 111,
+      "text": "Then is it to be feared that any man should be punished for something other than disobedience, even when his work is little?\" The Master said: \"God is more just"
+    },
+    {
+      "page": 22,
+      "words": 110,
+      "text": "But what argument have you against me, when I already agree with what you have said, stand by what you have described, deny what you have denied, and know the t"
+    },
+    {
+      "page": 76,
+      "words": 110,
+      "text": "May you never cease to be so, until the One who is pleased with you makes you pleased.\" The Shaykh said: \"As for you, may God bless you in what He has given you"
+    },
+    {
+      "page": 13,
+      "words": 109,
+      "text": "When they had finished the discussion they were engaged in, they turned toward him and asked, \"Who are you, young man, and where are you from?\" He answered: \"I "
+    },
+    {
+      "page": 94,
+      "words": 107,
+      "text": "When they had entered upon him, greeted him, and taken their seats — Abu Malik and those below him each being seated by introduction — the first thing Salih sai"
+    },
+    {
+      "page": 77,
+      "words": 106,
+      "text": "The Five Shares and the Long Road to the Shaykh not clothe him in the garments of disdain, do not set him upon the mounts of ruin, do not leave his name unspoke"
+    }
+  ],
+  "summary": {
+    "never_explained": 0,
+    "explained_late": 0,
+    "referent_collisions": 1
+  }
+}

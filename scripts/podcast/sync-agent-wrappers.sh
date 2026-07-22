@@ -109,6 +109,20 @@ for canonical in "${CANONICAL_DIR}"/*.md; do
   fi
 done
 
+# The FOURTH mirror: .codex/agents/*.toml. It is a format transform rather than a
+# copy, so it lives in its own generator — but it runs from here, because a mirror
+# nothing invokes is a mirror that rots. `book-challenger.toml` was a whole
+# generation behind when the 2026-07-20 sweep found it, and ten of the eighteen
+# carried a blind Claude->Codex substitution that had produced paths which do not
+# exist (`infra/Codex-agents/`) and model names which do not exist ("Codex Opus").
+# A scalar, not an array: macOS ships bash 3.2, where an EMPTY array expanded
+# under `set -u` is an unbound-variable error rather than nothing.
+codex_arg=""
+[[ "$mode" == "check" ]] && codex_arg="--check"
+if ! python3 "${REPO_ROOT}/scripts/podcast/sync_codex_agents.py" ${codex_arg}; then
+  drift_count=$((drift_count + 1))
+fi
+
 if [[ "$mode" == "check" ]]; then
   if [[ $drift_count -gt 0 ]]; then
     echo "" >&2

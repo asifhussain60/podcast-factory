@@ -5,6 +5,7 @@ The LOCKED episode upload table is untouched; these cover only the new card:
 framing-driven discovery (letter suffixes included), expected-PDF drop paths,
 and the rendered card shape.
 """
+
 from __future__ import annotations
 
 import sys
@@ -15,7 +16,7 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _notebooklm_table as nt  # noqa: E402
+import _notebooklm_table as nt
 
 
 def _book(framings: list[tuple[str, str]], decks: list[tuple[str, str]] = ()) -> Path:
@@ -31,11 +32,9 @@ def _book(framings: list[tuple[str, str]], decks: list[tuple[str, str]] = ()) ->
 
 class DiscoveryTests(unittest.TestCase):
     def test_framing_driven_with_letter_suffix(self) -> None:
-        d = _book([("ch01", "intro"), ("ch14b", "appendix-arc")],
-                  decks=[("ch01", "intro")])
+        d = _book([("ch01", "intro"), ("ch14b", "appendix-arc")], decks=[("ch01", "intro")])
         found = nt.discover_slide_framings(d)
-        self.assertEqual([(c, s) for c, s, _, _ in found],
-                         [("ch01", "intro"), ("ch14b", "appendix-arc")])
+        self.assertEqual([(c, s) for c, s, _, _ in found], [("ch01", "intro"), ("ch14b", "appendix-arc")])
         # deck txt present only for ch01
         self.assertIsNotNone(found[0][3])
         self.assertIsNone(found[1][3])
@@ -45,9 +44,7 @@ class DiscoveryTests(unittest.TestCase):
 
     def test_expected_pdf_path(self) -> None:
         d = _book([("ch02", "x")])
-        self.assertEqual(
-            nt.expected_deck_pdf(d, "ch02", "x"),
-            d / "slide-decks" / "ch02-x.pdf")
+        self.assertEqual(nt.expected_deck_pdf(d, "ch02", "x"), d / "slide-decks" / "ch02-x.pdf")
 
 
 class CardRenderTests(unittest.TestCase):
@@ -55,11 +52,15 @@ class CardRenderTests(unittest.TestCase):
         self.assertEqual(nt.render_slide_deck_card_lines([]), [])
 
     def test_card_shape(self) -> None:
-        rows = [nt.SlideDeckCardRow(
-            ch="ch01", slug="intro",
-            framing_href="content/X/b/slide-decks/ch01-framing-intro.md",
-            deck_href="content/X/b/slide-decks/ch01-deck-intro.txt",
-            expected_pdf="content/X/b/slide-decks/ch01-intro.pdf")]
+        rows = [
+            nt.SlideDeckCardRow(
+                ch="ch01",
+                slug="intro",
+                framing_href="content/X/b/slide-decks/ch01-framing-intro.md",
+                deck_href="content/X/b/slide-decks/ch01-deck-intro.txt",
+                expected_pdf="content/X/b/slide-decks/ch01-intro.pdf",
+            )
+        ]
         lines = nt.render_slide_deck_card_lines(rows)
         text = "\n".join(lines)
         self.assertIn("SLIDE DECK GENERATION", text)

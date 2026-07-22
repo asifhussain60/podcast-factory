@@ -2,6 +2,7 @@
 
 Extracted from _authoring.py (A4 split).
 """
+
 from __future__ import annotations
 
 import sys
@@ -9,20 +10,21 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from ._core import (  # noqa: E402
-    AuthoringError,
-    DEFAULT_TIMEOUT,
-    PHASE_0E_CHAPTER_TIMEOUT,
-    _run_claude_p_with_retry,
-    _compute_sc_timeout,
+from _validator_constants import META_PROSE_TELLS
+
+from ._core import (
     ARABIC_SCHOLARLY_CATEGORIES,
+    DEFAULT_TIMEOUT,
     FICTION_CONTENT_PROFILES,
+    PHASE_0E_CHAPTER_TIMEOUT,
     SKIP_ENRICHMENT_CATEGORIES,
+    AuthoringError,
+    _compute_sc_timeout,
     _read_category,
     _read_content_profile,
+    _run_claude_p_with_retry,
 )
-from ._refine import _run  # noqa: E402
-from _validator_constants import META_PROSE_TELLS  # noqa: E402
+from ._refine import _run
 
 
 def build_technical_enrichment_prompt(
@@ -41,22 +43,26 @@ def build_technical_enrichment_prompt(
     categories where background and context are the content, not the noise.
     """
     _explainer_items = (
-        f"  6. **Editorial denoising**: Identify any passage that explains the internal\n"
-        f"     implementation of a mechanism — kernel-level details, benchmark statistics,\n"
-        f"     release dates for a comparison tool, version-specific rollout timelines for\n"
-        f"     a third-party product — and convert it to its *practical outcome* for the\n"
-        f"     developer: what do they type, what do they see, what happens if they don't\n"
-        f"     act. Theory that serves no hands-on purpose should be cut, not trimmed.\n"
-        f"  7. **Practical anchors**: For every concept introduced (any H2-level section or\n"
-        f"     named feature), ensure at least one 'type this → see this' sequence exists:\n"
-        f"     a CLI command, a before/after code diff, or a session-step walkthrough.\n"
-        f"     If the source material supports it, include one sequence per concept.\n"
-        f"     If it does not, a concrete outcome sentence is the acceptable minimum.\n"
-        f"  8. **Habit-mapping for migration audiences**: If the chapter addresses developers\n"
-        f"     migrating from another tool, include at least one explicit 'old habit → new\n"
-        f"     habit' mapping per major workflow. Format: 'In [old tool] you [did X]; in\n"
-        f"     Claude Code you [describe Y].'\n"
-    ) if category == "explainers" else ""
+        (
+            "  6. **Editorial denoising**: Identify any passage that explains the internal\n"
+            "     implementation of a mechanism — kernel-level details, benchmark statistics,\n"
+            "     release dates for a comparison tool, version-specific rollout timelines for\n"
+            "     a third-party product — and convert it to its *practical outcome* for the\n"
+            "     developer: what do they type, what do they see, what happens if they don't\n"
+            "     act. Theory that serves no hands-on purpose should be cut, not trimmed.\n"
+            "  7. **Practical anchors**: For every concept introduced (any H2-level section or\n"
+            "     named feature), ensure at least one 'type this → see this' sequence exists:\n"
+            "     a CLI command, a before/after code diff, or a session-step walkthrough.\n"
+            "     If the source material supports it, include one sequence per concept.\n"
+            "     If it does not, a concrete outcome sentence is the acceptable minimum.\n"
+            "  8. **Habit-mapping for migration audiences**: If the chapter addresses developers\n"
+            "     migrating from another tool, include at least one explicit 'old habit → new\n"
+            "     habit' mapping per major workflow. Format: 'In [old tool] you [did X]; in\n"
+            "     Claude Code you [describe Y].'\n"
+        )
+        if category == "explainers"
+        else ""
+    )
 
     return (
         f"You are driving Phase 0e (Technical Accuracy Enrichment) of the /podcast skill "
@@ -77,9 +83,7 @@ def build_technical_enrichment_prompt(
         f"  4. **Version specificity**: Where a feature is version-gated, ensure the "
         f"     version number is stated explicitly (e.g. 'available since v2.1.59+').\n"
         f"  5. **Developer voice**: Enrich in active developer voice. Prefer 'Run X to do Y' "
-        f"     over 'X can be used to do Y'.\n"
-        + _explainer_items +
-        f"CONSTRAINTS:\n"
+        f"     over 'X can be used to do Y'.\n" + _explainer_items + f"CONSTRAINTS:\n"
         f"- Outside material ≤ 40% of THIS chapter's word count. The source content is "
         f"  the spine — enrichment adds depth, not bulk.\n"
         f"- Every added claim must be derivable from the source document. No hallucinated "
@@ -92,6 +96,7 @@ def build_technical_enrichment_prompt(
         f"OUTPUTS: `{chapter_file}` (enriched in place). No other files.\n\n"
         f"Exit when `{chapter_file}` has been enriched."
     )
+
 
 # ─── Phase 0e — Chapter enrichment ──────────────────────────────────────────
 # Modern-science apologetics block (gated by series.enable_modern_science_responses;
@@ -121,6 +126,7 @@ def _modern_science_enabled(book_dir: Path) -> bool:
         return False
     try:
         import yaml
+
         data = yaml.safe_load(cfg.read_text(encoding="utf-8")) or {}
     except Exception:
         return False
@@ -130,12 +136,14 @@ def _modern_science_enabled(book_dir: Path) -> bool:
     return bool((data.get("series") or {}).get("enable_modern_science_responses"))
 
 
-def author_phase_0e(book_dir: Path,
-                    timeout: int = DEFAULT_TIMEOUT,
-                    chapter_timeout: int = PHASE_0E_CHAPTER_TIMEOUT,
-                    log=print,
-                    category: str | None = None,
-                    content_profile: str | None = None) -> str:
+def author_phase_0e(
+    book_dir: Path,
+    timeout: int = DEFAULT_TIMEOUT,
+    chapter_timeout: int = PHASE_0E_CHAPTER_TIMEOUT,
+    log=print,
+    category: str | None = None,
+    content_profile: str | None = None,
+) -> str:
     """Enrich each chapter with citations — routes to the correct strategy per category.
 
     Islamic/scholarly categories: 7-tier Islamic hierarchy (Quran → Hadith → … → modern scholarship).
@@ -169,8 +177,11 @@ def author_phase_0e(book_dir: Path,
     if content_profile in FICTION_CONTENT_PROFILES:
         log(f"  phase 0e · content_profile={content_profile!r} → fiction sidecar augmenter")
         from augment_fiction_sidecar import author_fiction_sidecar
+
         return author_fiction_sidecar(
-            book_dir, timeout=chapter_timeout, log=log,
+            book_dir,
+            timeout=chapter_timeout,
+            log=log,
         )
 
     # Sites category: authoritative product docs — outside enrichment would be inaccurate.
@@ -182,12 +193,15 @@ def author_phase_0e(book_dir: Path,
     # tiers to enrich. Honor the registry's skip_enrichment intent for fiction WITHOUT
     # touching technical/Islamic routing below (the flag is otherwise dead for those).
     from _content_profile import resolve_content_profile  # local import: avoid circularity
+
     if resolve_content_profile(book_dir) == "fiction":
         log("  phase 0e · SKIPPED (content_profile='fiction' — narrative needs no citation enrichment)")
         return "0e skipped: content_profile='fiction' does not require enrichment"
 
     _use_technical_enrichment = category not in ARABIC_SCHOLARLY_CATEGORIES
-    log(f"  phase 0e · category={category!r}, strategy={'technical' if _use_technical_enrichment else 'islamic-7-tier'}")
+    log(
+        f"  phase 0e · category={category!r}, strategy={'technical' if _use_technical_enrichment else 'islamic-7-tier'}"
+    )
 
     import datetime as _dt
 
@@ -220,8 +234,7 @@ def author_phase_0e(book_dir: Path,
             stem = s[2:].split(":", 1)[0].strip()
             already_done.add(stem)
 
-    log(f"  phase 0e · per-chapter loop ({len(chapter_files)} chapters, "
-        f"{len(already_done)} already enriched)")
+    log(f"  phase 0e · per-chapter loop ({len(chapter_files)} chapters, {len(already_done)} already enriched)")
 
     failures: list[tuple[str, str]] = []
     for chapter_file in chapter_files:
@@ -234,101 +247,101 @@ def author_phase_0e(book_dir: Path,
             prompt = build_technical_enrichment_prompt(book_slug, chapter_file, category=category or "")
         else:
             prompt = (
-            f"You are driving Phase 0e (Chapter Enrichment from Outside Sources) of the "
-            f"/podcast skill on book-slug `{book_slug}`, **chapter `{stem}` only**. Read "
-            f"the canonical procedure from `skills-staging/podcast/SKILL.md` "
-            f"(search `### PHASE 0e`) and apply it to THIS ONE chapter.\n\n"
-            f"INPUT (the chapter file to enrich in place): `{chapter_file}`\n"
-            f"AUTHORITY (the prior `content/podcast/.skill/handbook/` tree was retired in the\n"
-            f"2026-05-23 restructure; the R-rules, tier-diversity rule, and Arabic manifest\n"
-            f"that lived there are inlined below — proceed without trying to Read those paths):\n"
-            f"  - DOCTRINAL accuracy: `content/_shared/islam/imam-lineage-ismaili.yml`,\n"
-            f"    `naming-conventions.yml`, `canonical-attributions.yml` ARE source-of-truth\n"
-            f"    and DO exist on disk. The literal phrase pairing the leadership-title\n"
-            f"    with the personal name of the Father of Imams is FORBIDDEN — always\n"
-            f"    use 'Father of Imams'. Hassan is the 1st Imam in the canonical lineage.\n"
-            f"    Do NOT write the forbidden phrase anywhere — not even inside DO-NOT-SAY\n"
-            f"    guards. The doctrinal scanner is substring-only and flags the guard.\n"
-            f"  - ENRICHMENT-SOURCE TIERS: seven tiers ranging from Quran/Nahj/Prophetic\n"
-            f"    hadith (Tier 1) down to modern Ismaili scholarship (Tier 7). Each chapter\n"
-            f"    should pull from at least 3 different tiers; quotations/citations together\n"
-            f"    should not exceed 60% of total wordcount; no consecutive blockquote stacks.\n"
-            f"  - R-RULES: see the rule lists inlined below in this prompt; the canonical\n"
-            f"    Python data lives in `scripts/podcast/_rules.py`.\n\n"
-            f"OUTPUTS (write ONLY these — do NOT touch any other file):\n"
-            f"  - `{chapter_file}` (enriched in place)\n\n"
-            f"Constraints:\n"
-            f"- Outside material ≤ 60% of THIS chapter's word count. The original author's "
-            f"argument stays the spine.\n"
-            f"- Tier diversity required — don't pull all enrichments from one tier.\n"
-            f"- Keep chapter prose listener-clean: Quranic and hadith quotations may carry "
-            f"the concise source locator needed for trust, but wisdom/saying blockquotes "
-            f"should name the speaker only. Do NOT append bibliographic tails such as "
-            f"'in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam (Saying) 147' "
-            f"or translator/source-edition details to chapter prose; those are reference "
-            f"noise for the audio source.\n"
-            f"- Apply R-PHONETICS-OUT: no inline `*term* (PHO-NE-TIC)` parens in chapter "
-            f"prose; phonetic discipline lives in the customize prompt only.\n"
-            f"- Apply R-HONORIFIC-ONCE STRICTLY (F5 framework guard 2026-05-21): each "
-            f"honorific FORM appears AT MOST ONCE per chapter. This includes the glyph "
-            f"`ﷺ` AND the text expansions `(peace be upon him)`, `(peace be upon them)`, "
-            f"`(peace and blessings be upon him)`, `(may Allah be pleased with him)`, "
-            f"`(may God be pleased with him)`. On first mention of a figure, include "
-            f"their honorific; on subsequent mentions, use the bare name only "
-            f"('the Prophet', 'the Father of Imams', 'Moses' — NEVER the title-and-name "
-            f"pairing for the Father of Imams). Before returning the chapter file, "
-            f"COUNT each honorific form's occurrences — if any form appears more than "
-            f"once, trim duplicates. NotebookLM vocalizes every honorific aloud; "
-            f"repetition is jarring in audio.\n"
-            f"- Apply R-NO-MANUSCRIPT-META (F3 framework guard 2026-05-21): the chapter "
-            f"file is the SPOKEN CONTENT NotebookLM will read aloud. Do NOT include "
-            f"editorial framings about the source manuscript's physical state — no "
-            f"paragraphs about damaged folios, reconstructed fragments, OCR breakdowns, "
-            f"translator's notes, editor's notes, manuscript provenance, or what the "
-            f"text 'breaks off' at. Examples of language to AVOID emitting: 'The opening "
-            f"folios are heavily damaged', 'What can be reconstructed reads', 'The text "
-            f"breaks off', 'collapses in the OCR', 'A second damaged folio carries "
-            f"fragments'. Only include prose the hosts should discuss as substantive "
-            f"philosophical or theological content from the author's own work.\n"
-            f"- Apply R-HEADING-CONCISE (2026-06-16): keep every concept `## H2` heading a "
-            f"SHORT noun-phrase heading (<= 6 words), like a professional book heading — "
-            f"NEVER expand a heading into a full statement. If a heading already reads as a "
-            f"sentence, TIGHTEN it to a short noun phrase ('The veiling chain', not 'The "
-            f"veiling chain that runs from the Father of Imams to the hidden Imam'); the "
-            f"detail belongs in the prose. Structural frame headings keep their canonical shape.\n"
-            f"- Apply R-PRESERVE-ARABIC-SOURCE (2026-06-24; supersedes R-NO-ARABIC-NAMES "
-            f"/ R-SURAH-ENGLISH-ONLY / R-ALQAAB for Arabic-scholarly content under the "
-            f"human phonetic/pronunciation workflow). PRESERVE every Arabic-script term "
-            f"that is already present in the chapter source, and preserve every "
-            f"transliterated Arabic / Islamic technical term, proper name, book title, "
-            f"surah name, and honorific-title (alqaab) exactly as it appears when no "
-            f"script is available. Do NOT translate, anglicize, paraphrase, romanize "
-            f"Arabic script, or replace terms with English role-labels or audio "
-            f"substitutes. The reader edition and the per-term review in the Astro site "
-            f"('keep Arabic / fix phonetic / correct Arabic / use English translation') "
-            f"depend on these terms surviving intact; the English-vs-Arabic decision is "
-            f"made LATER by the human, NOT baked in here. Audio anglicization for TTS is "
-            f"applied downstream from the human's decisions, never in the persisted "
-            f"chapter source. Established English exonyms for the major prophets remain "
-            f"(Noah, Moses, Abraham, Jesus, Adam). Established English alqaab already in "
-            f"common use (Commander of the Faithful, Lion of God) may stay English, but "
-            f"never STRIP an Arabic term to English on your own initiative.\n"
-            f"- Apply the root denoise noise rule: front matter about who should read the "
-            f"book, prefaces, descriptions of the book as a book, author biography/posture, "
-            f"chain of narrations/transmission, permission-to-read, and book-object "
-            f"provenance are noise. Do not restore them during enrichment; preserve only "
-            f"real teaching and knowledge.\n"
-            f"- Apply R-NO-EPISODE-BRIDGE (hard-gate, 2026-06-08): the chapter file is "
-            f"uploaded as a STANDALONE source to NotebookLM — it has no knowledge of other "
-            f"episodes. Any prose that references other episodes is rejected by the build "
-            f"validator. FORBIDDEN anywhere in the chapter output: 'next episode', 'previous "
-            f"episode', 'prior episode', 'earlier episode', 'episode opens', 'episode closes', "
-            f"'episode lands'. Do not write bridge paragraphs that narrate what comes before "
-            f"or after this chapter. End on the chapter's own content.\n"
-            f"- Do NOT modify any other chapter file, contract, or `enrichment-log.md` — "
-            f"the orchestrator appends the log row after validating your output.\n\n"
-            f"Exit when `{chapter_file}` has been rewritten in place with citations woven in."
-        )
+                f"You are driving Phase 0e (Chapter Enrichment from Outside Sources) of the "
+                f"/podcast skill on book-slug `{book_slug}`, **chapter `{stem}` only**. Read "
+                f"the canonical procedure from `skills-staging/podcast/SKILL.md` "
+                f"(search `### PHASE 0e`) and apply it to THIS ONE chapter.\n\n"
+                f"INPUT (the chapter file to enrich in place): `{chapter_file}`\n"
+                f"AUTHORITY (the prior `content/podcast/.skill/handbook/` tree was retired in the\n"
+                f"2026-05-23 restructure; the R-rules, tier-diversity rule, and Arabic manifest\n"
+                f"that lived there are inlined below — proceed without trying to Read those paths):\n"
+                f"  - DOCTRINAL accuracy: `content/_shared/islam/imam-lineage-ismaili.yml`,\n"
+                f"    `naming-conventions.yml`, `canonical-attributions.yml` ARE source-of-truth\n"
+                f"    and DO exist on disk. The literal phrase pairing the leadership-title\n"
+                f"    with the personal name of the Father of Imams is FORBIDDEN — always\n"
+                f"    use 'Father of Imams'. Hassan is the 1st Imam in the canonical lineage.\n"
+                f"    Do NOT write the forbidden phrase anywhere — not even inside DO-NOT-SAY\n"
+                f"    guards. The doctrinal scanner is substring-only and flags the guard.\n"
+                f"  - ENRICHMENT-SOURCE TIERS: seven tiers ranging from Quran/Nahj/Prophetic\n"
+                f"    hadith (Tier 1) down to modern Ismaili scholarship (Tier 7). Each chapter\n"
+                f"    should pull from at least 3 different tiers; quotations/citations together\n"
+                f"    should not exceed 60% of total wordcount; no consecutive blockquote stacks.\n"
+                f"  - R-RULES: see the rule lists inlined below in this prompt; the canonical\n"
+                f"    Python data lives in `scripts/podcast/_rules.py`.\n\n"
+                f"OUTPUTS (write ONLY these — do NOT touch any other file):\n"
+                f"  - `{chapter_file}` (enriched in place)\n\n"
+                f"Constraints:\n"
+                f"- Outside material ≤ 60% of THIS chapter's word count. The original author's "
+                f"argument stays the spine.\n"
+                f"- Tier diversity required — don't pull all enrichments from one tier.\n"
+                f"- Keep chapter prose listener-clean: Quranic and hadith quotations may carry "
+                f"the concise source locator needed for trust, but wisdom/saying blockquotes "
+                f"should name the speaker only. Do NOT append bibliographic tails such as "
+                f"'in Nahj al-Balagha (compiled by al-Sharif al-Radi), Hikam (Saying) 147' "
+                f"or translator/source-edition details to chapter prose; those are reference "
+                f"noise for the audio source.\n"
+                f"- Apply R-PHONETICS-OUT: no inline `*term* (PHO-NE-TIC)` parens in chapter "
+                f"prose; phonetic discipline lives in the customize prompt only.\n"
+                f"- Apply R-HONORIFIC-ONCE STRICTLY (F5 framework guard 2026-05-21): each "
+                f"honorific FORM appears AT MOST ONCE per chapter. This includes the glyph "
+                f"`ﷺ` AND the text expansions `(peace be upon him)`, `(peace be upon them)`, "
+                f"`(peace and blessings be upon him)`, `(may Allah be pleased with him)`, "
+                f"`(may God be pleased with him)`. On first mention of a figure, include "
+                f"their honorific; on subsequent mentions, use the bare name only "
+                f"('the Prophet', 'the Father of Imams', 'Moses' — NEVER the title-and-name "
+                f"pairing for the Father of Imams). Before returning the chapter file, "
+                f"COUNT each honorific form's occurrences — if any form appears more than "
+                f"once, trim duplicates. NotebookLM vocalizes every honorific aloud; "
+                f"repetition is jarring in audio.\n"
+                f"- Apply R-NO-MANUSCRIPT-META (F3 framework guard 2026-05-21): the chapter "
+                f"file is the SPOKEN CONTENT NotebookLM will read aloud. Do NOT include "
+                f"editorial framings about the source manuscript's physical state — no "
+                f"paragraphs about damaged folios, reconstructed fragments, OCR breakdowns, "
+                f"translator's notes, editor's notes, manuscript provenance, or what the "
+                f"text 'breaks off' at. Examples of language to AVOID emitting: 'The opening "
+                f"folios are heavily damaged', 'What can be reconstructed reads', 'The text "
+                f"breaks off', 'collapses in the OCR', 'A second damaged folio carries "
+                f"fragments'. Only include prose the hosts should discuss as substantive "
+                f"philosophical or theological content from the author's own work.\n"
+                f"- Apply R-HEADING-CONCISE (2026-06-16): keep every concept `## H2` heading a "
+                f"SHORT noun-phrase heading (<= 6 words), like a professional book heading — "
+                f"NEVER expand a heading into a full statement. If a heading already reads as a "
+                f"sentence, TIGHTEN it to a short noun phrase ('The veiling chain', not 'The "
+                f"veiling chain that runs from the Father of Imams to the hidden Imam'); the "
+                f"detail belongs in the prose. Structural frame headings keep their canonical shape.\n"
+                f"- Apply R-PRESERVE-ARABIC-SOURCE (2026-06-24; supersedes R-NO-ARABIC-NAMES "
+                f"/ R-SURAH-ENGLISH-ONLY / R-ALQAAB for Arabic-scholarly content under the "
+                f"human phonetic/pronunciation workflow). PRESERVE every Arabic-script term "
+                f"that is already present in the chapter source, and preserve every "
+                f"transliterated Arabic / Islamic technical term, proper name, book title, "
+                f"surah name, and honorific-title (alqaab) exactly as it appears when no "
+                f"script is available. Do NOT translate, anglicize, paraphrase, romanize "
+                f"Arabic script, or replace terms with English role-labels or audio "
+                f"substitutes. The reader edition and the per-term review in the Astro site "
+                f"('keep Arabic / fix phonetic / correct Arabic / use English translation') "
+                f"depend on these terms surviving intact; the English-vs-Arabic decision is "
+                f"made LATER by the human, NOT baked in here. Audio anglicization for TTS is "
+                f"applied downstream from the human's decisions, never in the persisted "
+                f"chapter source. Established English exonyms for the major prophets remain "
+                f"(Noah, Moses, Abraham, Jesus, Adam). Established English alqaab already in "
+                f"common use (Commander of the Faithful, Lion of God) may stay English, but "
+                f"never STRIP an Arabic term to English on your own initiative.\n"
+                f"- Apply the root denoise noise rule: front matter about who should read the "
+                f"book, prefaces, descriptions of the book as a book, author biography/posture, "
+                f"chain of narrations/transmission, permission-to-read, and book-object "
+                f"provenance are noise. Do not restore them during enrichment; preserve only "
+                f"real teaching and knowledge.\n"
+                f"- Apply R-NO-EPISODE-BRIDGE (hard-gate, 2026-06-08): the chapter file is "
+                f"uploaded as a STANDALONE source to NotebookLM — it has no knowledge of other "
+                f"episodes. Any prose that references other episodes is rejected by the build "
+                f"validator. FORBIDDEN anywhere in the chapter output: 'next episode', 'previous "
+                f"episode', 'prior episode', 'earlier episode', 'episode opens', 'episode closes', "
+                f"'episode lands'. Do not write bridge paragraphs that narrate what comes before "
+                f"or after this chapter. End on the chapter's own content.\n"
+                f"- Do NOT modify any other chapter file, contract, or `enrichment-log.md` — "
+                f"the orchestrator appends the log row after validating your output.\n\n"
+                f"Exit when `{chapter_file}` has been rewritten in place with citations woven in."
+            )
             if _modern_science_enabled(book_dir):
                 prompt = prompt.replace(
                     "Exit when `",
@@ -350,8 +363,11 @@ def author_phase_0e(book_dir: Path,
         pre_mtime = chapter_file.stat().st_mtime
         try:
             rc, stdout, stderr = _run_claude_p_with_retry(
-                prompt, timeout=per_chapter_timeout,
-                book_dir=book_dir, phase="0e", step=stem,
+                prompt,
+                timeout=per_chapter_timeout,
+                book_dir=book_dir,
+                phase="0e",
+                step=stem,
                 log=log,
             )
         except AuthoringError as e:
@@ -366,8 +382,7 @@ def author_phase_0e(book_dir: Path,
             failures.append(
                 (
                     stem,
-                    f"rc={rc}: stderr={(stderr or '').strip()[:300]} | "
-                    f"stdout={(stdout or '').strip()[:300]}",
+                    f"rc={rc}: stderr={(stderr or '').strip()[:300]} | stdout={(stdout or '').strip()[:300]}",
                 )
             )
             log(f"    {stem} · FAILED rc={rc}")
@@ -384,9 +399,9 @@ def author_phase_0e(book_dir: Path,
                     f"acceptEdits this should not recur."
                 ),
                 manual_fallback=(
-                    f"Inspect stdout/stderr on this error. If a content-filter "
-                    f"refusal or quota issue, address the cause and resume. "
-                    f"DO NOT silently advance."
+                    "Inspect stdout/stderr on this error. If a content-filter "
+                    "refusal or quota issue, address the cause and resume. "
+                    "DO NOT silently advance."
                 ),
                 stdout=stdout or "",
                 stderr=stderr or "",
@@ -400,9 +415,14 @@ def author_phase_0e(book_dir: Path,
         _found_tells = [t for t in META_PROSE_TELLS if t in _chapter_lower]
         if _found_tells:
             _tell_list = ", ".join(repr(t) for t in _found_tells)
-            failures.append((stem, f"episode-bridge tells found: {_tell_list}. "
-                             f"Remove all 'next/previous/prior/earlier episode' paragraphs "
-                             f"before per-chapter authoring."))
+            failures.append(
+                (
+                    stem,
+                    f"episode-bridge tells found: {_tell_list}. "
+                    f"Remove all 'next/previous/prior/earlier episode' paragraphs "
+                    f"before per-chapter authoring.",
+                )
+            )
             log(f"    {stem} · FAIL — episode-bridge tells: {_tell_list}")
             continue
 
@@ -412,12 +432,16 @@ def author_phase_0e(book_dir: Path,
         # Flag-and-proceed: NEVER raises, NEVER blocks enrichment. Zero LLM cost.
         try:
             from ._artifact_convergence import run_0e_chapter_precheck
+
             run_0e_chapter_precheck(
-                book_dir, stem, _pre_enrichment_text,
+                book_dir,
+                stem,
+                _pre_enrichment_text,
                 chapter_file.read_text(encoding="utf-8"),
-                file=str(chapter_file), log=log,
+                file=str(chapter_file),
+                log=log,
             )
-        except Exception as _e:  # noqa: BLE001 — a precheck must never break 0e
+        except Exception as _e:
             log(f"    {stem} · precheck skipped (non-fatal: {_e!r})")
 
         # Append checkpoint row.
@@ -475,6 +499,7 @@ def _bake_strip_inline_phonetics(book_dir: Path, *, log=print) -> str:
         log(f"  phase 0e · strip_inline_phonetics skipped (rc={rc}): {err.strip()[:200]}")
         return ""
     return " + strip-inline-phonetics"
+
 
 def _bake_strip_reference_attribution_noise(book_dir: Path, *, log=print) -> str:
     """Run scripts/podcast/strip_reference_attribution_noise.py over chapters/.

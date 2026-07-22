@@ -15,6 +15,7 @@ Exit codes:
     1 — ledger file missing or unparseable
     2 — no usable rows (ledger exists but is empty)
 """
+
 from __future__ import annotations
 
 import argparse
@@ -22,6 +23,7 @@ import json
 import sys
 from collections import defaultdict
 from pathlib import Path
+
 from _paths import find_content
 
 
@@ -73,19 +75,14 @@ def load_ledger(ledger_path: Path) -> list[dict]:
 def summarize(rows: list[dict]) -> dict:
     """Compute totals: by phase, by model, grand totals."""
     by_phase: dict[str, dict] = defaultdict(
-        lambda: {"input_tokens": 0, "output_tokens": 0,
-                 "cache_read": 0, "cache_create": 0, "cost_usd": 0.0, "calls": 0}
+        lambda: {"input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0, "calls": 0}
     )
     by_model: dict[str, dict] = defaultdict(
-        lambda: {"input_tokens": 0, "output_tokens": 0,
-                 "cache_read": 0, "cache_create": 0, "cost_usd": 0.0, "calls": 0}
+        lambda: {"input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0, "calls": 0}
     )
-    totals = {"input_tokens": 0, "output_tokens": 0,
-              "cache_read": 0, "cache_create": 0, "cost_usd": 0.0, "calls": 0}
+    totals = {"input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0, "calls": 0}
     # Real money is metered (api); Max (claude -p) cost_usd is notional, $0 marginal.
-    by_engine: dict[str, dict] = defaultdict(
-        lambda: {"cost_usd": 0.0, "calls": 0}
-    )
+    by_engine: dict[str, dict] = defaultdict(lambda: {"cost_usd": 0.0, "calls": 0})
 
     for r in rows:
         phase = r.get("phase", "(unknown)")
@@ -93,14 +90,14 @@ def summarize(rows: list[dict]) -> dict:
         eng = _row_engine(r)
         cost = float(r.get("cost_usd", 0))
         for d in (by_phase[phase], by_model[model], totals):
-            d["input_tokens"]  += int(r.get("input_tokens", 0))
+            d["input_tokens"] += int(r.get("input_tokens", 0))
             d["output_tokens"] += int(r.get("output_tokens", 0))
-            d["cache_read"]    += int(r.get("cache_read", 0))
-            d["cache_create"]  += int(r.get("cache_create", 0))
-            d["cost_usd"]      += cost
-            d["calls"]         += 1
+            d["cache_read"] += int(r.get("cache_read", 0))
+            d["cache_create"] += int(r.get("cache_create", 0))
+            d["cost_usd"] += cost
+            d["calls"] += 1
         by_engine[eng]["cost_usd"] += cost
-        by_engine[eng]["calls"]    += 1
+        by_engine[eng]["calls"] += 1
 
     # Round costs for diff-stability
     for d in (totals, *by_phase.values(), *by_model.values(), *by_engine.values()):
@@ -119,7 +116,7 @@ def summarize(rows: list[dict]) -> dict:
         "by_model": dict(by_model),
         "by_engine": dict(by_engine),
         "real_spend_usd": real_spend_usd,
-        "max_calls": max_calls,   # subscription usage indicator (not billed)
+        "max_calls": max_calls,  # subscription usage indicator (not billed)
     }
 
 
@@ -150,9 +147,7 @@ def fmt_text(summary: dict, book_slug: str) -> str:
     lines.append("")
     lines.append("By model:")
     for model, d in sorted(summary["by_model"].items()):
-        lines.append(
-            f"  {model:<30}  calls={d['calls']:>3}  cost=${d['cost_usd']:>8.4f}"
-        )
+        lines.append(f"  {model:<30}  calls={d['calls']:>3}  cost=${d['cost_usd']:>8.4f}")
     return "\n".join(lines)
 
 
@@ -162,10 +157,8 @@ def main(argv: list[str] | None = None) -> int:
         description="Sum cost-ledger.jsonl by phase + model; emit cost-validation.json snapshot.",
     )
     parser.add_argument("book", help="Book slug (e.g., 'ayyuhal-walad') or full path to book dir.")
-    parser.add_argument("--json", action="store_true",
-                        help="Emit JSON to stdout instead of human-readable text.")
-    parser.add_argument("--no-write", action="store_true",
-                        help="Don't write _system/cost-validation.json snapshot.")
+    parser.add_argument("--json", action="store_true", help="Emit JSON to stdout instead of human-readable text.")
+    parser.add_argument("--no-write", action="store_true", help="Don't write _system/cost-validation.json snapshot.")
     args = parser.parse_args(argv)
 
     try:

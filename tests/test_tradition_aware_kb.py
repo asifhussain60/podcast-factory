@@ -6,6 +6,7 @@ Covers:
 - augmenter tradition-aware filtering
 - librarian inserts tradition column
 """
+
 from __future__ import annotations
 
 import json
@@ -14,7 +15,6 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
 
 # Import intelligence modules package-qualified (intelligence.extractor, not bare
 # `extractor`): scripts/podcast/knowledge/ has same-named modules, and a bare name
@@ -73,6 +73,7 @@ class TestBookTradition(unittest.TestCase):
 
     def test_reads_ismaili_from_meta(self):
         from intelligence.extractor import _book_tradition
+
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = Path(tmp)
             (book_dir / "meta.yml").write_text("tradition_affinity: ismaili\n")
@@ -80,6 +81,7 @@ class TestBookTradition(unittest.TestCase):
 
     def test_defaults_to_universal(self):
         from intelligence.extractor import _book_tradition
+
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = Path(tmp)
             # No meta.yml
@@ -87,6 +89,7 @@ class TestBookTradition(unittest.TestCase):
 
     def test_reads_sunni_from_meta(self):
         from intelligence.extractor import _book_tradition
+
         with tempfile.TemporaryDirectory() as tmp:
             book_dir = Path(tmp)
             (book_dir / "meta.yml").write_text("tradition_affinity: sunni\n")
@@ -99,7 +102,7 @@ class TestAugmenterTraditionFiltering(unittest.TestCase):
     def test_universal_atoms_included_for_any_tradition(self):
         """Universal tradition atoms are always included."""
         try:
-            from intelligence.augmenter import _fetch_doctrine_atoms
+            from intelligence.augmenter import _fetch_doctrine_atoms  # noqa: F401
         except ImportError:
             self.skipTest("augmenter not importable in this test environment")
 
@@ -110,8 +113,7 @@ class TestAugmenterTraditionFiltering(unittest.TestCase):
             )""")
             conn.execute(
                 "INSERT INTO atoms VALUES (?, ?, ?, ?, ?)",
-                ("doc:universal:1", "doctrine", json.dumps({"text": "universal wisdom"}),
-                 "universal", 0.9),
+                ("doc:universal:1", "doctrine", json.dumps({"text": "universal wisdom"}), "universal", 0.9),
             )
             # This should pass — universal atoms appear in both sunni and ismaili books
             rows = conn.execute(
@@ -129,8 +131,7 @@ class TestAugmenterTraditionFiltering(unittest.TestCase):
             )""")
             conn.execute(
                 "INSERT INTO atoms VALUES (?, ?, ?, ?, ?)",
-                ("doc:ismaili:1", "doctrine", json.dumps({"text": "ismaili doctrine"}),
-                 "ismaili", 0.9),
+                ("doc:ismaili:1", "doctrine", json.dumps({"text": "ismaili doctrine"}), "ismaili", 0.9),
             )
             # Sunni book should not see ismaili atoms
             rows = conn.execute(

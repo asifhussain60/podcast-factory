@@ -17,17 +17,18 @@ This does NOT replace the deep content validators (doctrinal, phonetics, framing
 structure) that run at build time — those need the authored framing and are
 content judgments, not the systemic/deterministic class this gate guards.
 """
+
 from __future__ import annotations
 
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _validator_constants import CHAPTER_WORD_MIN_HARD, CHAPTER_WORD_MAX_HARD  # noqa: E402
-from _contract_validation import validate_contract_full  # noqa: E402  # FIX 14: one validator, four gates
+from _contract_validation import validate_contract_full  # FIX 14: one validator, four gates
+from _validator_constants import CHAPTER_WORD_MAX_HARD, CHAPTER_WORD_MIN_HARD
 
 try:
-    import yaml  # noqa: E402
+    import yaml
 except Exception:  # pragma: no cover - PyYAML is a hard dep elsewhere
     yaml = None
 
@@ -54,7 +55,7 @@ def smoke_check_chapter(book_dir: Path, slug: str) -> tuple[bool, str]:
     if yaml is not None:
         try:
             contract = yaml.safe_load(contract_file.read_text(encoding="utf-8"))
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             return False, f"contract parse error: {str(e).splitlines()[0][:160]}"
         if not isinstance(contract, dict):
             return False, "contract is not a YAML mapping"
@@ -69,24 +70,21 @@ def smoke_check_chapter(book_dir: Path, slug: str) -> tuple[bool, str]:
         # debate-with-no-block, slug/chapter-file rename mismatch, and
         # R-HOST-ROLE-PARITY role enums included.
         findings = validate_contract_full(
-            contract, chapter_file, book_dir, contract_path=contract_file,
+            contract,
+            chapter_file,
+            book_dir,
+            contract_path=contract_file,
         )
         if findings:
-            return False, (
-                f"contract validation ({len(findings)} finding(s)): "
-                + " | ".join(findings)
-            )
+            return False, (f"contract validation ({len(findings)} finding(s)): " + " | ".join(findings))
 
     # 3. Chapter word count inside the hard band (catches empty / truncated / huge).
     try:
         n = len(chapter_file.read_text(encoding="utf-8").split())
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         return False, f"chapter unreadable: {str(e).splitlines()[0][:160]}"
     if n < CHAPTER_WORD_MIN_HARD or n > CHAPTER_WORD_MAX_HARD:
-        return False, (
-            f"chapter word count {n} outside hard band "
-            f"[{CHAPTER_WORD_MIN_HARD}, {CHAPTER_WORD_MAX_HARD}]"
-        )
+        return False, (f"chapter word count {n} outside hard band [{CHAPTER_WORD_MIN_HARD}, {CHAPTER_WORD_MAX_HARD}]")
 
     # 4. Density gate (R-MAX-CONCEPTS, 2026-06-10) — OPT-IN via
     #    `density_standard: 2` in series-config.yaml. Halts the per-chapter
@@ -95,8 +93,10 @@ def smoke_check_chapter(book_dir: Path, slug: str) -> tuple[bool, str]:
     #    pre-standard chapters would otherwise dead-halt on every retry.
     try:
         from _content_profile import density_standard_active
+
         if density_standard_active(book_dir):
             from chapter_density_audit import audit_chapter
+
             density = audit_chapter(chapter_file, book_dir.name, "")
             if density.status == "FAIL":
                 return False, (

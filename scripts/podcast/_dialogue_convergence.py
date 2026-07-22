@@ -23,6 +23,7 @@ the trainer learning loop compounds on this path too. Every gate report
 carries the EXACT credit estimate (chars x registry rate) — the H1 spend
 halt reads its number from here.
 """
+
 from __future__ import annotations
 
 import re
@@ -32,14 +33,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _authoring._core import _run_claude_p, AuthoringError  # noqa: E402
-from _authoring._dialogue import author_dialogue_script, _episode_id_for_chapter  # noqa: E402
-from _validators_dialogue import (  # noqa: E402
-    DIALOGUE_GATE_VERSION, DialogueGateReport, Finding,
-    gate_dialogue_script, render_gate_report,
+from _authoring._core import AuthoringError, _run_claude_p
+from _authoring._dialogue import _episode_id_for_chapter, author_dialogue_script
+from _dialogue_script import script_path_for
+from _paths import REPO_ROOT
+from _validators_dialogue import (
+    DIALOGUE_GATE_VERSION,
+    Finding,
+    gate_dialogue_script,
+    render_gate_report,
 )
-from _dialogue_script import script_path_for  # noqa: E402
-from _paths import REPO_ROOT  # noqa: E402
 
 MAX_ITERATIONS = 5
 SHIP_WITH_CAUTION_MIN_ITER = 2
@@ -54,7 +57,7 @@ _SEM_FINDING_RE = re.compile(r"^-\s*\[(P0|P1|P2)\]\s*([A-Z0-9-]+):\s*(.+)$", re.
 class DialogueConvergenceResult:
     chapter_slug: str
     episode_id: str
-    verdict: str                 # SHIP-READY | SHIP-WITH-CAUTION | FAILED
+    verdict: str  # SHIP-READY | SHIP-WITH-CAUTION | FAILED
     iterations: int = 0
     p0_remaining: int = 0
     p1_remaining: int = 0
@@ -84,11 +87,11 @@ def read_verdict(book_dir: Path, episode_id: str) -> str | None:
     return p.read_text(encoding="utf-8").strip() or None
 
 
-def _emit_findings(book_dir: Path, episode_id: str, chapter_slug: str,
-                   findings: list[Finding]) -> None:
+def _emit_findings(book_dir: Path, episode_id: str, chapter_slug: str, findings: list[Finding]) -> None:
     """Append gate findings to the learning ledger (trainer substrate)."""
     try:
         from _rules import emit_finding
+
         for f in findings:
             emit_finding(
                 repo_root=REPO_ROOT,
@@ -103,13 +106,13 @@ def _emit_findings(book_dir: Path, episode_id: str, chapter_slug: str,
                 file=str(script_path_for(book_dir, episode_id)),
                 context_excerpt=f.excerpt,
             )
-    except Exception as e:  # noqa: BLE001 — ledger failure never blocks convergence
-        print(f"  [dialogue-converge] WARN: findings ledger append failed: {e}",
-              file=sys.stderr)
+    except Exception as e:
+        print(f"  [dialogue-converge] WARN: findings ledger append failed: {e}", file=sys.stderr)
 
 
-def _semantic_pass(book_dir: Path, episode_id: str, chapter_slug: str,
-                   timeout: int = SEMANTIC_TIMEOUT) -> tuple[str, list[Finding]]:
+def _semantic_pass(
+    book_dir: Path, episode_id: str, chapter_slug: str, timeout: int = SEMANTIC_TIMEOUT
+) -> tuple[str, list[Finding]]:
     """LLM challenger pass (Max, $0 marginal) for what the deterministic gate
 
     cannot judge: faithfulness-against-addition (no invented doctrine),
@@ -161,25 +164,27 @@ def _semantic_pass(book_dir: Path, episode_id: str, chapter_slug: str,
     )
     try:
         rc, stdout, stderr = _run_claude_p(
-            prompt, timeout=timeout,
-            book_dir=book_dir, phase="audio-script",
+            prompt,
+            timeout=timeout,
+            book_dir=book_dir,
+            phase="audio-script",
             step=f"dialogue-challenger/{chapter_slug}",
         )
     except AuthoringError as e:
-        return "BLOCKED", [Finding("DLG-SEM-ERROR", "P1",
-                                   f"semantic pass failed to run: {e}")]
+        return "BLOCKED", [Finding("DLG-SEM-ERROR", "P1", f"semantic pass failed to run: {e}")]
     m = _SEM_VERDICT_RE.search(stdout or "")
     if not m:
-        return "BLOCKED", [Finding("DLG-SEM-UNPARSEABLE", "P1",
-                                   "semantic challenger output had no VERDICT line")]
-    findings = [Finding(check_id=fm.group(2), severity=fm.group(1),
-                        message=fm.group(3).strip()[:300])
-                for fm in _SEM_FINDING_RE.finditer(stdout)]
+        return "BLOCKED", [Finding("DLG-SEM-UNPARSEABLE", "P1", "semantic challenger output had no VERDICT line")]
+    findings = [
+        Finding(check_id=fm.group(2), severity=fm.group(1), message=fm.group(3).strip()[:300])
+        for fm in _SEM_FINDING_RE.finditer(stdout)
+    ]
     return m.group(1), findings
 
 
-def _fixer_pass(book_dir: Path, episode_id: str, chapter_slug: str,
-                findings: list[Finding], timeout: int = FIXER_TIMEOUT) -> None:
+def _fixer_pass(
+    book_dir: Path, episode_id: str, chapter_slug: str, findings: list[Finding], timeout: int = FIXER_TIMEOUT
+) -> None:
     """One focused fixer pass: edit the script in place to resolve findings.
 
     CONTENT QUALITY FIRST: the fixer is explicitly forbidden from deleting
@@ -187,8 +192,7 @@ def _fixer_pass(book_dir: Path, episode_id: str, chapter_slug: str,
     script = script_path_for(book_dir, episode_id)
     chapter_files = sorted((book_dir / "chapters").glob(f"ch*-{chapter_slug}.txt"))
     chapter = chapter_files[0] if chapter_files else "(missing)"
-    listed = "\n".join(f"  - [{f.severity}] {f.check_id}: {f.message}"
-                       for f in findings if f.severity in ("P0", "P1"))
+    listed = "\n".join(f"  - [{f.severity}] {f.check_id}: {f.message}" for f in findings if f.severity in ("P0", "P1"))
     prompt = (
         f"Fix the dialogue script at `{script}` IN PLACE to resolve these gate "
         f"findings:\n\n{listed}\n\n"
@@ -204,8 +208,9 @@ def _fixer_pass(book_dir: Path, episode_id: str, chapter_slug: str,
         f"  - Do not modify any other file.\n"
         f"Exit when the script is fixed."
     )
-    _run_claude_p(prompt, timeout=timeout, book_dir=book_dir,
-                  phase="audio-script", step=f"dialogue-fixer/{chapter_slug}")
+    _run_claude_p(
+        prompt, timeout=timeout, book_dir=book_dir, phase="audio-script", step=f"dialogue-fixer/{chapter_slug}"
+    )
 
 
 def converge_dialogue_script(
@@ -231,8 +236,7 @@ def converge_dialogue_script(
         log(f"  [dialogue-converge] authoring script for {episode_id}")
         author_dialogue_script(book_dir, chapter_slug)
 
-    result = DialogueConvergenceResult(
-        chapter_slug=chapter_slug, episode_id=episode_id, verdict="FAILED")
+    result = DialogueConvergenceResult(chapter_slug=chapter_slug, episode_id=episode_id, verdict="FAILED")
     verdict_history: list[str] = []
 
     for iteration in range(1, max_iterations + 1):
@@ -263,25 +267,23 @@ def converge_dialogue_script(
             break
         if not blocked and iteration >= SHIP_WITH_CAUTION_MIN_ITER:
             result.verdict = "SHIP-WITH-CAUTION"
-            result.notes.append(
-                f"{report.p1} P1 finding(s) accepted at iteration {iteration}")
+            result.notes.append(f"{report.p1} P1 finding(s) accepted at iteration {iteration}")
             break
 
         verdict_label = "BLOCKED" if blocked else "P1-ITERATE"
         verdict_history.append(
-            verdict_label + ":" + ",".join(sorted(f.check_id for f in report.findings
-                                                  if f.severity in ("P0", "P1"))))
+            verdict_label + ":" + ",".join(sorted(f.check_id for f in report.findings if f.severity in ("P0", "P1")))
+        )
         if len(verdict_history) >= 2 and verdict_history[-1] == verdict_history[-2]:
             result.notes.append(
-                "stall: identical findings across two iterations — not burning "
-                "further passes (archetype-over-rerun)")
+                "stall: identical findings across two iterations — not burning further passes (archetype-over-rerun)"
+            )
             break
         if iteration == max_iterations:
             result.notes.append(f"iteration cap {max_iterations} reached")
             break
 
-        log(f"  [dialogue-converge] iter {iteration}: P0={report.p0} P1={report.p1} "
-            f"-> fixer pass")
+        log(f"  [dialogue-converge] iter {iteration}: P0={report.p0} P1={report.p1} -> fixer pass")
         actionable = [f for f in report.findings if f.severity in ("P0", "P1")]
         try:
             _fixer_pass(book_dir, episode_id, chapter_slug, actionable)
@@ -291,14 +293,14 @@ def converge_dialogue_script(
             # (observed live 2026-06-12 — both fixes were on disk when the
             # 900s timeout fired). The artifact on disk is the truth; loop
             # back and let the next gate judge it as it stands.
-            result.notes.append(
-                f"fixer error at iteration {iteration} (re-gating artifact "
-                f"as-is): {e}")
+            result.notes.append(f"fixer error at iteration {iteration} (re-gating artifact as-is): {e}")
             log(f"  [dialogue-converge] fixer error — re-gating as-is: {e}")
 
     verdict_path(book_dir, episode_id).parent.mkdir(parents=True, exist_ok=True)
     verdict_path(book_dir, episode_id).write_text(result.verdict + "\n", encoding="utf-8")
-    log(f"  [dialogue-converge] {episode_id}: {result.verdict} "
+    log(
+        f"  [dialogue-converge] {episode_id}: {result.verdict} "
         f"(iter={result.iterations}, P0={result.p0_remaining}, "
-        f"P1={result.p1_remaining}, est={result.credit_estimate:,} credits)")
+        f"P1={result.p1_remaining}, est={result.credit_estimate:,} credits)"
+    )
     return result

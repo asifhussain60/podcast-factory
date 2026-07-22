@@ -1,51 +1,76 @@
 ---
-import Base from '../../layouts/Base.astro';
-import PronunciationReview from '../../components/PronunciationReview.tsx';
-import PhoneticsGenerator from '../../components/PhoneticsGenerator.tsx';
-import BuildBundleButton from '../../components/BuildBundleButton.tsx';
-import { getProbe } from '../../lib/pronunciation';
-import '../../styles/pronunciation.css';
+import Base from "../../layouts/Base.astro";
+import PronunciationReview from "../../components/PronunciationReview.tsx";
+import PhoneticsGenerator from "../../components/PhoneticsGenerator.tsx";
+import BuildBundleButton from "../../components/BuildBundleButton.tsx";
+import { getProbe } from "../../lib/pronunciation";
+import "../../styles/pronunciation.css";
 
 export const prerender = false;
 
 const { slug } = Astro.params;
 const detail = slug ? await getProbe(slug) : null;
 ---
+
 <Base
-  title={detail ? `Pronunciation · ${detail.title}` : 'Pronunciation'}
+  title={detail ? `Pronunciation · ${detail.title}` : "Pronunciation"}
   active="pronunciation"
   description="Review and correct Arabic-term pronunciations for this book."
 >
   <header class="stack">
-    <span class="eyebrow"><a href="/pronunciation">Pronunciation</a> · Review</span>
-    {detail ? (
-      <>
-        <h1>{detail.title}</h1>
-        <p class="lede">
-          Arabic terms are preserved in the chapter source until this review stage.
-          Play the probe below, then for each term: <strong>Correct</strong> if NotebookLM
-          said it right, <strong>Fix</strong> to enter a house-style respelling, or check
-          <strong>Use English translation</strong> to substitute an English phrase.
-          {detail.generatedNote}.
-        </p>
-      </>
-    ) : (
-      <h1>No probe found</h1>
-    )}
+    <span class="eyebrow"
+      ><a href="/pronunciation">Pronunciation</a> · Review</span
+    >
+    {
+      detail ? (
+        <>
+          <h1>{detail.title}</h1>
+          <p class="lede">
+            Arabic terms are preserved in the chapter source until this review
+            stage. Play the probe below, then for each term:{" "}
+            <strong>Correct</strong> if NotebookLM said it right,{" "}
+            <strong>Fix</strong> to enter a house-style respelling, or check
+            <strong>Use English translation</strong> to substitute an English
+            phrase.
+            {detail.generatedNote}.
+          </p>
+        </>
+      ) : (
+        <h1>No probe found</h1>
+      )
+    }
   </header>
 
   <details class="pron-key">
-    <summary>Phonetic key — how to write a respelling NotebookLM reads correctly</summary>
+    <summary
+      >Phonetic key — how to write a respelling NotebookLM reads correctly</summary
+    >
     <div class="pron-key-body">
       <p class="pron-key-lede">
-        A respelling is plain English spelling that <em>sounds out</em> the word. Four rules:
+        A respelling is plain English spelling that <em>sounds out</em> the word.
+        Four rules:
       </p>
       <ol class="pron-key-rules">
-        <li><strong>Split every syllable with a hyphen</strong> — <code>ja-zee-ra</code>, not <code>jazeera</code>.</li>
-        <li><strong>CAPITALS mark the one stressed syllable</strong> — and nothing else.
-          <code>ee-MAAM</code> stresses syllable 2. Never use caps for a different vowel, and never cap two syllables.</li>
-        <li><strong>Vowel sound comes from the letters, not the case</strong> — see the legend. Don't triple letters (<code>QOO-wa</code>, not <code>quw-wwah</code>).</li>
-        <li><strong>An apostrophe <code>'</code> is a tiny glottal catch</strong> (the ʿayn / hamza), or just drop it.</li>
+        <li>
+          <strong>Split every syllable with a hyphen</strong> — <code
+            >ja-zee-ra</code
+          >, not <code>jazeera</code>.
+        </li>
+        <li>
+          <strong>CAPITALS mark the one stressed syllable</strong> — and nothing else.
+          <code>ee-MAAM</code> stresses syllable 2. Never use caps for a different
+          vowel, and never cap two syllables.
+        </li>
+        <li>
+          <strong>Vowel sound comes from the letters, not the case</strong> — see
+          the legend. Don't triple letters (<code>QOO-wa</code>, not <code
+            >quw-wwah</code
+          >).
+        </li>
+        <li>
+          <strong>An apostrophe <code>'</code> is a tiny glottal catch</strong> (the
+          ʿayn / hamza), or just drop it.
+        </li>
       </ol>
 
       <p class="pron-key-sub">Vowel legend</p>
@@ -64,72 +89,128 @@ const detail = slug ? await getProbe(slug) : null;
       </ul>
 
       <p class="pron-key-sub">Worked examples</p>
-      <div class="table-container" role="region" aria-label="Pronunciation respelling worked examples" tabindex="0">
-      <table class="pron-key-table">
-        <thead>
-          <tr><th>Arabic (transliterated)</th><th>Respelling</th><th>Why</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>imām</td><td><code>ee-MAAM</code></td><td>i → "ee"; stress 2nd syllable. Not "Imam" (reads as English).</td></tr>
-          <tr><td>Ṣāliḥ</td><td><code>SAA-lih</code></td><td>ā = long "aa"; stress 1st; ḥ ≈ h. One stress only.</td></tr>
-          <tr><td>ʿAbd Allāh</td><td><code>ab-dul-LAH</code></td><td>One stress (last). Lowercase the rest.</td></tr>
-          <tr><td>quwwa</td><td><code>QOO-wa</code></td><td>Doubled w → one "oo" + "w". Don't triple letters.</td></tr>
-          <tr><td>Qurʾān</td><td><code>kur-AAN</code></td><td>q ≈ "k" for the TTS; stress last.</td></tr>
-          <tr><td>al-Khiḍr</td><td><code>al-KHIDR</code></td><td>kh kept; ḍ ≈ d (a "d", not "z").</td></tr>
-          <tr><td>daʿwa</td><td><code>DAH-wa</code></td><td>ʿayn is a soft catch — usually just a vowel.</td></tr>
-          <tr><td>al-Ghazālī</td><td><code>al-gha-zaa-LEE</code></td><td>"al-" stays; gh kept; ī = "ee"; stress last.</td></tr>
-        </tbody>
-      </table>
+      <div
+        class="table-container"
+        role="region"
+        aria-label="Pronunciation respelling worked examples"
+        tabindex="0"
+      >
+        <table class="pron-key-table">
+          <thead>
+            <tr
+              ><th>Arabic (transliterated)</th><th>Respelling</th><th>Why</th
+              ></tr
+            >
+          </thead>
+          <tbody>
+            <tr
+              ><td>imām</td><td><code>ee-MAAM</code></td><td
+                >i → "ee"; stress 2nd syllable. Not "Imam" (reads as English).</td
+              ></tr
+            >
+            <tr
+              ><td>Ṣāliḥ</td><td><code>SAA-lih</code></td><td
+                >ā = long "aa"; stress 1st; ḥ ≈ h. One stress only.</td
+              ></tr
+            >
+            <tr
+              ><td>ʿAbd Allāh</td><td><code>ab-dul-LAH</code></td><td
+                >One stress (last). Lowercase the rest.</td
+              ></tr
+            >
+            <tr
+              ><td>quwwa</td><td><code>QOO-wa</code></td><td
+                >Doubled w → one "oo" + "w". Don't triple letters.</td
+              ></tr
+            >
+            <tr
+              ><td>Qurʾān</td><td><code>kur-AAN</code></td><td
+                >q ≈ "k" for the TTS; stress last.</td
+              ></tr
+            >
+            <tr
+              ><td>al-Khiḍr</td><td><code>al-KHIDR</code></td><td
+                >kh kept; ḍ ≈ d (a "d", not "z").</td
+              ></tr
+            >
+            <tr
+              ><td>daʿwa</td><td><code>DAH-wa</code></td><td
+                >ʿayn is a soft catch — usually just a vowel.</td
+              ></tr
+            >
+            <tr
+              ><td>al-Ghazālī</td><td><code>al-gha-zaa-LEE</code></td><td
+                >"al-" stays; gh kept; ī = "ee"; stress last.</td
+              ></tr
+            >
+          </tbody>
+        </table>
       </div>
 
       <p class="pron-key-sub">Generate a respelling</p>
       <PhoneticsGenerator client:load />
 
       <p class="pron-key-foot">
-        Convention: standard English pronunciation respelling
-        (<a href="https://en.wikipedia.org/wiki/Help:Pronunciation_respelling_key" target="_blank" rel="noopener">Wikipedia key</a>,
-        <a href="https://www.merriam-webster.com/dictionary/syllable" target="_blank" rel="noopener">Merriam-Webster</a>).
+        Convention: standard English pronunciation respelling (<a
+          href="https://en.wikipedia.org/wiki/Help:Pronunciation_respelling_key"
+          target="_blank"
+          rel="noopener">Wikipedia key</a
+        >,
+        <a
+          href="https://www.merriam-webster.com/dictionary/syllable"
+          target="_blank"
+          rel="noopener">Merriam-Webster</a
+        >).
       </p>
     </div>
   </details>
 
-  {detail ? (
-    <>
-      {detail.audioUrl ? (
-        <div class="pron-audio-inline">
-          <p class="pron-audio-label">Probe audio</p>
-          <audio controls preload="none" src={detail.audioUrl}>
-            Your browser does not support audio playback.
-          </audio>
-        </div>
-      ) : (
-        <p class="pron-noaudio">No probe audio found for this book.</p>
-      )}
+  {
+    detail ? (
+      <>
+        {detail.audioUrl ? (
+          <div class="pron-audio-inline">
+            <p class="pron-audio-label">Probe audio</p>
+            <audio controls preload="none" src={detail.audioUrl}>
+              Your browser does not support audio playback.
+            </audio>
+          </div>
+        ) : (
+          <p class="pron-noaudio">No probe audio found for this book.</p>
+        )}
 
-      <PronunciationReview
-        client:load
-        slug={detail.slug}
-        title={detail.title}
-        terms={detail.terms}
-      />
+        <PronunciationReview
+          client:load
+          slug={detail.slug}
+          title={detail.title}
+          terms={detail.terms}
+        />
 
-      <section class="pron-bundle-panel">
-        <h2 class="pron-bundle-panel-title">Generate NotebookLM bundle</h2>
-        <p class="pron-bundle-panel-desc">
-          After saving corrections, generate the pronunciation-probe source and framing
-          for upload to Google NotebookLM. Choose your episode format and length, then
-          copy each file directly from the preview panels.
+        <section class="pron-bundle-panel">
+          <h2 class="pron-bundle-panel-title">Generate NotebookLM bundle</h2>
+          <p class="pron-bundle-panel-desc">
+            After saving corrections, generate the pronunciation-probe source
+            and framing for upload to Google NotebookLM. Choose your episode
+            format and length, then copy each file directly from the preview
+            panels.
+          </p>
+          <BuildBundleButton client:load slug={detail.slug} />
+        </section>
+      </>
+    ) : (
+      <div class="card card-tight">
+        <p class="card-sub">
+          No <code>_system/probe/probe-terms.json</code> for <code>{slug}</code>
+          . Generate it with
+          <code>
+            python3 scripts/podcast/probe/score_pronunciation_risk.py
+            &lt;book-dir&gt;
+          </code>{" "}
+          then
+          <code>build_probe_bundle.py</code>.{" "}
+          <a href="/pronunciation">Back to all probes</a>.
         </p>
-        <BuildBundleButton client:load slug={detail.slug} />
-      </section>
-    </>
-  ) : (
-    <div class="card card-tight">
-      <p class="card-sub">
-        No <code>_system/probe/probe-terms.json</code> for <code>{slug}</code>. Generate it with
-        <code>python3 scripts/podcast/probe/score_pronunciation_risk.py &lt;book-dir&gt;</code> then
-        <code>build_probe_bundle.py</code>. <a href="/pronunciation">Back to all probes</a>.
-      </p>
-    </div>
-  )}
+      </div>
+    )
+  }
 </Base>

@@ -15,6 +15,7 @@ Reusable so the heartbeat / watchdog can auto-repair on a contract-gate failure:
     python3 scripts/podcast/repair_contracts.py <slug> [--dry-run]
 Exit 0 = all contracts now conform (or already did); 2 = book/contracts missing.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -23,10 +24,9 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from _paths import find_content  # noqa: E402
-from _contract_validation import VALID_ANGLES, VALID_SOURCE_TYPES  # noqa: E402
-
-import yaml  # noqa: E402
+import yaml
+from _contract_validation import VALID_ANGLES, VALID_SOURCE_TYPES
+from _paths import find_content
 
 
 class _IndentDumper(yaml.SafeDumper):
@@ -42,9 +42,14 @@ def _dump_contract(data: dict) -> str:
     # width huge so long one-line prose fields never wrap (the loader reads only
     # single-line quoted scalars; a wrapped value would break parsing).
     return yaml.dump(
-        data, Dumper=_IndentDumper, sort_keys=False, allow_unicode=True,
-        width=1_000_000, default_flow_style=False,
+        data,
+        Dumper=_IndentDumper,
+        sort_keys=False,
+        allow_unicode=True,
+        width=1_000_000,
+        default_flow_style=False,
     )
+
 
 # Defaults chosen for faithful Islamic-scholarly exposition (the Kunooz/KaR family):
 # deep-dive teaching, audio-lecture source. Both are members of the validator enums.
@@ -71,8 +76,7 @@ def _chapter_stem_for(book_dir: Path, contract_slug: str) -> str | None:
         return None
     for p in sorted(chdir.glob("*.txt")):
         stem = p.stem
-        if stem == contract_slug or stem.split("-", 1)[-1] == contract_slug \
-                or stem.endswith(f"-{contract_slug}"):
+        if stem == contract_slug or stem.split("-", 1)[-1] == contract_slug or stem.endswith(f"-{contract_slug}"):
             return stem
     return None
 

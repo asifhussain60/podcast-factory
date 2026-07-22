@@ -6,11 +6,12 @@ Tests assert the locked hierarchy (Asif, 2026-06-06):
   Tier 3 — Gemini (pay-as-you-go): tasks where Gemini genuinely wins today
   Exception — Anthropic SDK: windowed 0b/0c parallelism the CLI cannot do
 """
+
 from __future__ import annotations
 
+import sys
 import unittest
 from pathlib import Path
-import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 

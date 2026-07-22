@@ -12,6 +12,7 @@ placeholder so that:
 Until then, the helpers below are imported directly by the unittest E2E
 tests (`from scripts.podcast.tests.e2e.conftest import tiny_book_dir`).
 """
+
 from __future__ import annotations
 
 from pathlib import Path

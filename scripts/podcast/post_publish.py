@@ -37,8 +37,8 @@ sys.path.insert(0, str(SCRIPT_DIR))
 
 # Delegate to the two underlying scripts. Re-import their entry points rather
 # than shelling out, so a single Python invocation runs the whole sequence.
-import audit_transcript  # noqa: E402
-import transcribe_episode  # noqa: E402
+import audit_transcript
+import transcribe_episode
 
 
 def main() -> None:
@@ -76,7 +76,7 @@ def main() -> None:
         print(f"[1/3] Using existing transcript: {transcript_path}")
 
     # ── Step 2 — Lexical audit ────────────────────────────────────────────
-    print(f"\n[2/3] Running empirical-transcript audit…")
+    print("\n[2/3] Running empirical-transcript audit…")
     report_path = audit_transcript.audit(book_dir, episode_id, transcript_path)
     print(f"      → {report_path}")
 

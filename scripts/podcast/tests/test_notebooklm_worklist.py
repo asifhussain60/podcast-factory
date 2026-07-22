@@ -8,6 +8,7 @@ Guards:
     a per-episode drop-target checklist, and the checkbox flips on m4a presence.
   - the filter argument scopes rows (mixed-engine books).
 """
+
 from __future__ import annotations
 
 import sys
@@ -18,8 +19,8 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import assemble_bundle  # noqa: E402
-import _notebooklm_table as nlt  # noqa: E402
+import _notebooklm_table as nlt
+import assemble_bundle
 
 STEMS = ["ch01-the-call", "ch02-the-covenant"]
 EPS = ["EP01-the-call", "EP02-the-covenant"]
@@ -52,8 +53,7 @@ class UploadRowBuilderTests(unittest.TestCase):
     def test_filter_scopes_rows(self):
         with tempfile.TemporaryDirectory() as d:
             book = _make_book(d)
-            rows = assemble_bundle.build_upload_rows(
-                book, _mapping(book), filter_episode_ids={"EP02-the-covenant"})
+            rows = assemble_bundle.build_upload_rows(book, _mapping(book), filter_episode_ids={"EP02-the-covenant"})
         self.assertEqual([r.n for r in rows], [2])
         self.assertEqual(rows[0].chapter_stem, "ch02-the-covenant")
 
@@ -70,13 +70,12 @@ class WorklistCompositionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             book = _make_book(d)
             rows = assemble_bundle.build_upload_rows(book, _mapping(book))
-            lines = nlt.build_worklist_lines(
-                book, upload_rows=rows, resume_cmd="RESUME-CMD")
+            lines = nlt.build_worklist_lines(book, upload_rows=rows, resume_cmd="RESUME-CMD")
         text = "\n".join(lines)
         self.assertIn("# NotebookLM worklist", text)
-        self.assertIn("Deep dive or debate", text)          # the upload table
-        self.assertIn("Drop-target checklist", text)         # the checklist section
-        self.assertIn("RESUME-CMD", text)                    # the resume command
+        self.assertIn("Deep dive or debate", text)  # the upload table
+        self.assertIn("Drop-target checklist", text)  # the checklist section
+        self.assertIn("RESUME-CMD", text)  # the resume command
         # One checklist row per episode, all unchecked (no audio dropped yet).
         self.assertEqual(text.count("- [ ] EP"), 2)
         self.assertEqual(text.count("- [x] EP"), 0)
@@ -87,10 +86,9 @@ class WorklistCompositionTests(unittest.TestCase):
             (book / "m4a").mkdir()
             (book / "m4a" / "ch01-the-call.m4a").write_bytes(b"AUDIO")
             rows = assemble_bundle.build_upload_rows(book, _mapping(book))
-            text = "\n".join(nlt.build_worklist_lines(
-                book, upload_rows=rows, resume_cmd="x"))
-        self.assertEqual(text.count("- [x] EP"), 1)          # ch01 present
-        self.assertEqual(text.count("- [ ] EP"), 1)          # ch02 still missing
+            text = "\n".join(nlt.build_worklist_lines(book, upload_rows=rows, resume_cmd="x"))
+        self.assertEqual(text.count("- [x] EP"), 1)  # ch01 present
+        self.assertEqual(text.count("- [ ] EP"), 1)  # ch02 still missing
 
 
 if __name__ == "__main__":

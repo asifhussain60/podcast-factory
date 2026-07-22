@@ -5,28 +5,34 @@ Extracted from orchestrate_book.py (A4 split). Authority: plan.md §A4.
 Drives the per-chapter convergence loop, Phase 0g, slide decks, and the
 finalize halt. Called by resume_dispatcher after Phase 0f approval.
 """
+
 from __future__ import annotations
 
 import re
-import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _paths import REPO_ROOT  # noqa: E402
-from _progress import read_state, update_phase  # noqa: E402
-from _convergence import ChapterOutcome, render_outcome  # noqa: E402
-from phases.preflight import _sweep_orphan_episode_drafts  # noqa: E402
-from phases.preflight_chapter import smoke_check_book  # noqa: E402
-from phases.per_chapter import per_chapter_pass  # noqa: E402
-from phases.series_plan import _series_numeric, _series_flag, _chapter_cost_so_far, _book_cost_so_far  # noqa: E402
-from phases.series_plan import phase_0g_register  # noqa: E402
-from phases.bundle_audit import phase_0g_audit_bundles  # noqa: E402
-from phases.scaffold import phase_git_commit  # noqa: E402
+from _convergence import ChapterOutcome, render_outcome
+from _paths import REPO_ROOT
+from _progress import read_state, update_phase
+from _subprocess import err as _err
+from _subprocess import info as _info
+from _subprocess import run as _run
 
-
-from _subprocess import run as _run, err as _err, info as _info  # noqa: E402
+from phases.bundle_audit import phase_0g_audit_bundles
+from phases.per_chapter import per_chapter_pass
+from phases.preflight import _sweep_orphan_episode_drafts
+from phases.preflight_chapter import smoke_check_book
+from phases.scaffold import phase_git_commit
+from phases.series_plan import (
+    _book_cost_so_far,
+    _chapter_cost_so_far,
+    _series_flag,
+    _series_numeric,
+    phase_0g_register,
+)
 
 
 def _is_bad_slide_outcome(v: str) -> bool:
@@ -43,8 +49,7 @@ def _is_bad_slide_outcome(v: str) -> bool:
     return v in {"BLOCKED", "ERROR", "STALLED"} or v.startswith("FAILED")
 
 
-def _phase_boundary_gate(book_dir: Path, boundary_name: str,
-                         projected_cost_usd: float | None = None) -> None:
+def _phase_boundary_gate(book_dir: Path, boundary_name: str, projected_cost_usd: float | None = None) -> None:
     _info(
         f"[phased_rollout] phase boundary: {boundary_name}"
         + (f" (projected cost: ${projected_cost_usd:.2f})" if projected_cost_usd else "")
@@ -81,10 +86,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     contracts_dir = book_dir / "chapter-contracts"
     chapter_slugs = sorted(p.stem for p in contracts_dir.glob("*.yml"))
     if not chapter_slugs:
-        _err(
-            f"no chapter contracts under {contracts_dir} — "
-            "Phase 0d should have produced them. Cannot proceed."
-        )
+        _err(f"no chapter contracts under {contracts_dir} — Phase 0d should have produced them. Cannot proceed.")
         return 2
 
     n_swept = _sweep_orphan_episode_drafts(book_dir)
@@ -92,9 +94,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         _info(f"per-chapter sweep: removed {n_swept} orphan episode-drafts/ subdir(s)")
 
     state = read_state(book_dir) or {}
-    completed_chapter_slugs = set(
-        state.get("phases", {}).get("per-chapter", {}).get("completed_slugs", [])
-    )
+    completed_chapter_slugs = set(state.get("phases", {}).get("per-chapter", {}).get("completed_slugs", []))
 
     # C2: $0 pre-flight smoke gate. Validate every not-yet-shipped chapter's
     # deterministic prerequisites (chapter file present, contract parses + has
@@ -105,10 +105,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     _smoke_failures = smoke_check_book(book_dir, _pending)
     if _smoke_failures:
         _reason = "; ".join(f"{s}: {r}" for s, r in _smoke_failures)
-        _err(
-            f"pre-flight smoke gate ($0) failed for {len(_smoke_failures)} "
-            f"chapter(s) — halting before any LLM spend:"
-        )
+        _err(f"pre-flight smoke gate ($0) failed for {len(_smoke_failures)} chapter(s) — halting before any LLM spend:")
         for s, r in _smoke_failures:
             _err(f"  {s}: {r}")
         update_phase(
@@ -123,14 +120,12 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     outcomes: list[ChapterOutcome] = []
     chapter_timings: dict[str, dict] = {}
     prior_state = read_state(book_dir) or {}
-    chapter_timings.update(
-        prior_state.get("phases", {}).get("per-chapter", {}).get("chapter_timings", {})
-    )
-    failed_chapter_slugs: set[str] = set(
-        prior_state.get("phases", {}).get("per-chapter", {}).get("failed_slugs", [])
-    )
+    chapter_timings.update(prior_state.get("phases", {}).get("per-chapter", {}).get("chapter_timings", {}))
+    failed_chapter_slugs: set[str] = set(prior_state.get("phases", {}).get("per-chapter", {}).get("failed_slugs", []))
     per_chapter_cost_cap_usd = _series_numeric(
-        book_dir, "per_chapter_cost_cap_usd", default=5.0,
+        book_dir,
+        "per_chapter_cost_cap_usd",
+        default=5.0,
     )
     if per_chapter_cost_cap_usd > 0:
         _info(f"per-chapter cost cap: ${per_chapter_cost_cap_usd:.2f} (per series-plan)")
@@ -181,6 +176,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                 "chapter_timings": chapter_timings,
             },
         )
+
         # Phase 3: thread the mid-loop safety rails. Closures read the live ledger
         # so the convergence loop can check ceilings at each iteration boundary; the
         # heartbeat refreshes state so the supervisor's hang detection stays accurate.
@@ -192,7 +188,9 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
 
         def _heartbeat(outer: int, note: str, _bd=book_dir, _slug=slug) -> None:
             update_phase(
-                _bd, phase="per-chapter", status="running",
+                _bd,
+                phase="per-chapter",
+                status="running",
                 extras={
                     "current_chapter": _slug,
                     "last_beat": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -201,7 +199,8 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             )
 
         outcome = per_chapter_pass(
-            book_dir, slug,
+            book_dir,
+            slug,
             per_chapter_cost_cap=per_chapter_cost_cap_usd,
             book_cost_cap=book_cost_cap_usd,
             chapter_cost_fn=_chapter_cost_fn,
@@ -216,10 +215,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         chapter_timings[slug]["verdict"] = outcome.final_verdict
         chapter_timings[slug]["cost_usd"] = _chapter_cost
         if per_chapter_cost_cap_usd > 0 and _chapter_cost > per_chapter_cost_cap_usd:
-            cost_msg = (
-                f"COST-CAPPED: chapter spent ${_chapter_cost:.2f} > cap "
-                f"${per_chapter_cost_cap_usd:.2f}"
-            )
+            cost_msg = f"COST-CAPPED: chapter spent ${_chapter_cost:.2f} > cap ${per_chapter_cost_cap_usd:.2f}"
             _err(f"  [{slug}] {cost_msg}")
             outcome.notes.append(cost_msg)
             outcome.final_verdict = "FAILED"
@@ -236,7 +232,9 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             chapter_timings[slug]["error"] = outcome.systemic_halt
             failed_chapter_slugs.add(slug)
             update_phase(
-                book_dir, phase="per-chapter", status="failed",
+                book_dir,
+                phase="per-chapter",
+                status="failed",
                 error=outcome.systemic_halt,
                 extras={
                     "completed_slugs": sorted(completed_chapter_slugs),
@@ -250,10 +248,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             failed_chapter_slugs.add(slug)
             # C1: capture the real reason into durable state (was swallowed —
             # only outcome.notes held it, and render_outcome dropped it).
-            _reason = (
-                outcome.notes[-1].strip().splitlines()[0][:300]
-                if outcome.notes else "no reason captured"
-            )
+            _reason = outcome.notes[-1].strip().splitlines()[0][:300] if outcome.notes else "no reason captured"
             chapter_timings[slug]["error"] = _reason
 
             # C3 circuit breaker: is this a SYSTEMIC failure (halt) or a genuine
@@ -292,10 +287,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                     },
                 )
                 _err(f"CIRCUIT-BREAKER halt: {_systemic}")
-                _err(
-                    "Not grinding through remaining chapters — fix the root cause, "
-                    "then --resume."
-                )
+                _err("Not grinding through remaining chapters — fix the root cause, then --resume.")
                 return 2
 
             # Genuine per-chapter content failure → graceful-degrade (F33-second).
@@ -367,47 +359,57 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
 
     # Phase per-chapter-optimize (Wave I) — Sonnet arc/format/host-role check.
     # Guarded by optimize_enabled flag in meta.yml (default False — backward compat).
-    _opt_done = (
-        (read_state(book_dir) or {})
-        .get("phases", {})
-        .get("per-chapter-optimize", {})
-        .get("status") in ("completed", "skipped")
+    _opt_done = (read_state(book_dir) or {}).get("phases", {}).get("per-chapter-optimize", {}).get("status") in (
+        "completed",
+        "skipped",
     )
     if _opt_done:
         _info("phase: per-chapter-optimize · already completed/skipped, skipping")
     else:
-        from phases.per_chapter_optimize import run_book_optimize  # noqa: E402
+        from phases.per_chapter_optimize import run_book_optimize
+
         _info("phase: per-chapter-optimize · Sonnet arc/format/host-role check")
         update_phase(book_dir, phase="per-chapter-optimize", status="running")
         try:
             opt_results = run_book_optimize(book_dir)
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             update_phase(book_dir, phase="per-chapter-optimize", status="failed", error=str(e))
             _err(f"phase per-chapter-optimize failed: {e}")
             return 2
         if opt_results.get("skipped"):
-            update_phase(book_dir, phase="per-chapter-optimize", status="skipped",
-                         extras={"reason": opt_results.get("reason", "optimize_enabled=false")})
+            update_phase(
+                book_dir,
+                phase="per-chapter-optimize",
+                status="skipped",
+                extras={"reason": opt_results.get("reason", "optimize_enabled=false")},
+            )
             _info(f"  per-chapter-optimize: skipped ({opt_results.get('reason', '')})")
         elif opt_results.get("blocked", 0):
-            update_phase(book_dir, phase="per-chapter-optimize", status="failed",
-                         error=f"{opt_results['blocked']} chapter(s) blocked by P0 findings")
+            update_phase(
+                book_dir,
+                phase="per-chapter-optimize",
+                status="failed",
+                error=f"{opt_results['blocked']} chapter(s) blocked by P0 findings",
+            )
             _err(f"per-chapter-optimize: {opt_results['blocked']} chapter(s) blocked. Fix P0s and --resume.")
             return 2
         else:
-            update_phase(book_dir, phase="per-chapter-optimize", status="completed",
-                         extras={"chapters": opt_results.get("chapters", 0),
-                                  "warn": opt_results.get("warn", 0)})
-            phase_git_commit(book_dir, f"podcast({book_slug}): phase per-chapter-optimize ({opt_results.get('chapters', 0)} chapters, {opt_results.get('warn', 0)} warnings)")
-            _info(f"  per-chapter-optimize: {opt_results.get('chapters', 0)} chapters checked, {opt_results.get('warn', 0)} warnings.")
+            update_phase(
+                book_dir,
+                phase="per-chapter-optimize",
+                status="completed",
+                extras={"chapters": opt_results.get("chapters", 0), "warn": opt_results.get("warn", 0)},
+            )
+            phase_git_commit(
+                book_dir,
+                f"podcast({book_slug}): phase per-chapter-optimize ({opt_results.get('chapters', 0)} chapters, {opt_results.get('warn', 0)} warnings)",
+            )
+            _info(
+                f"  per-chapter-optimize: {opt_results.get('chapters', 0)} chapters checked, {opt_results.get('warn', 0)} warnings."
+            )
 
     # Phase 0g — register + dual-auditor bundle sweep.
-    _0g_done = (
-        (read_state(book_dir) or {})
-        .get("phases", {})
-        .get("0g", {})
-        .get("status") == "completed"
-    )
+    _0g_done = (read_state(book_dir) or {}).get("phases", {}).get("0g", {}).get("status") == "completed"
     if _0g_done:
         _info("phase: 0g · already completed, skipping")
     else:
@@ -422,7 +424,9 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             _err(str(e))
             return 2
         update_phase(
-            book_dir, phase="0g", status="completed",
+            book_dir,
+            phase="0g",
+            status="completed",
             extras={"audit_outcomes": audit_outcomes},
         )
         phase_git_commit(
@@ -432,12 +436,9 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
 
     # Phase 11b — slide-deck cohort.
     enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=True)
-    _slides_already_done = (
-        (read_state(book_dir) or {})
-        .get("phases", {})
-        .get("per-chapter-slides", {})
-        .get("status") in ("completed", "skipped")
-    )
+    _slides_already_done = (read_state(book_dir) or {}).get("phases", {}).get("per-chapter-slides", {}).get(
+        "status"
+    ) in ("completed", "skipped")
     if _slides_already_done:
         _info("phase: per-chapter-slides · already completed/skipped, advancing to finalize")
     elif enable_slide_decks:
@@ -447,11 +448,13 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             from _slide_convergence import run_slide_convergence  # optional module
         except ImportError as e:
             _err(f"slide-deck integration missing: {e}; skipping phase")
-            update_phase(book_dir, phase="per-chapter-slides", status="skipped",
-                         extras={"reason": "module-not-available"})
+            update_phase(
+                book_dir, phase="per-chapter-slides", status="skipped", extras={"reason": "module-not-available"}
+            )
         else:
             slide_outcomes: dict[str, str] = {}
             from _content_profile import slide_deck_mode
+
             if slide_deck_mode(book_dir) == "book":
                 # Book mode (2026-06-10): ONE deck pair for the whole book —
                 # one NotebookLM generation instead of one per chapter. The
@@ -462,12 +465,12 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                 _info("phase: per-chapter-slides · slide_deck_mode=book → single book-level pair")
                 try:
                     from _slide_authoring import author_book_deck_pair
+
                     result = author_book_deck_pair(book_dir)
                     slide_outcomes["book"] = (
-                        "AUTHORED" if result.success
-                        else f"FAILED: {'; '.join(result.validation_findings[:3])}"
+                        "AUTHORED" if result.success else f"FAILED: {'; '.join(result.validation_findings[:3])}"
                     )
-                except Exception as e:  # noqa: BLE001
+                except Exception as e:
                     _err(f"book-level slide-deck authoring failed (non-fatal): {e}")
                     slide_outcomes["book"] = "ERROR"
             else:
@@ -476,7 +479,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
                     try:
                         result = run_slide_convergence(book_dir, slug)
                         slide_outcomes[slug] = result.verdict
-                    except Exception as e:  # noqa: BLE001
+                    except Exception as e:
                         _err(f"slide-deck convergence failed for {slug} (non-fatal): {e}")
                         slide_outcomes[slug] = "ERROR"
             # Honest phase status (fail-loud safety net): if every — or a
@@ -489,26 +492,30 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             _n_bad = sum(1 for v in slide_outcomes.values() if _is_bad_slide_outcome(v))
             _slide_status = "failed" if _n_total and _n_bad * 2 >= _n_total else "completed"
             update_phase(
-                book_dir, phase="per-chapter-slides", status=_slide_status,
-                extras={"outcomes": slide_outcomes,
-                        "bad_outcomes": _n_bad, "total_outcomes": _n_total},
+                book_dir,
+                phase="per-chapter-slides",
+                status=_slide_status,
+                extras={"outcomes": slide_outcomes, "bad_outcomes": _n_bad, "total_outcomes": _n_total},
             )
             if _slide_status == "failed":
-                _err(f"per-chapter-slides: {_n_bad}/{_n_total} deck outcomes "
-                     f"BLOCKED/ERROR/FAILED — phase marked failed (was silently "
-                     f"'completed' before)")
+                _err(
+                    f"per-chapter-slides: {_n_bad}/{_n_total} deck outcomes "
+                    f"BLOCKED/ERROR/FAILED — phase marked failed (was silently "
+                    f"'completed' before)"
+                )
             phase_git_commit(book_dir, f"podcast({book_slug}): phase 11b slide-deck cohort")
     else:
-        update_phase(book_dir, phase="per-chapter-slides", status="skipped",
-                     extras={"reason": "enable_slide_decks=false"})
+        update_phase(
+            book_dir, phase="per-chapter-slides", status="skipped", extras={"reason": "enable_slide_decks=false"}
+        )
 
     # Audio Engine v2 phases — autonomous (API) engines author + gate dialogue
     # scripts, halt ONCE at H1 with the exact credit estimate, then render
     # into the canonical m4a layout. NotebookLM books mark both phases
     # skipped and continue to the manual finalize halt unchanged.
-    from phases.audio_driver import drive_audio_phases  # noqa: E402
-    _audio_outcome, _audio_rc = drive_audio_phases(
-        book_dir, approve_render=approve_audio_render)
+    from phases.audio_driver import drive_audio_phases
+
+    _audio_outcome, _audio_rc = drive_audio_phases(book_dir, approve_render=approve_audio_render)
     if _audio_outcome == "halted":
         return 0  # clean stop at the H1 spend gate; --resume approves
     if _audio_outcome == "failed":
@@ -530,11 +537,14 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     # until they land the G13 ship-gate only REPORTS coverage, it does not block.
     try:
         import json as _json
+
         from _content_profile import is_islamic_scholarly
+
         _state_p = book_dir / "_system" / "orchestrator-state.json"
         _st = _json.loads(_state_p.read_text()) if _state_p.exists() else {}
         if _st.get("source_kind") == "audio" and is_islamic_scholarly(book_dir):
             from restore_arabic import repair_glossary
+
             _rep = repair_glossary(book_dir)
             _info(f"phase: finalize · auto Arabic-restore (audio Islamic): {_rep}")
     except Exception as _e:  # never block finalize on a best-effort restore
@@ -544,32 +554,26 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     rc, vout, verr = _run([sys.executable, str(validate_script), book_slug])
     print(vout)
     if rc != 0:
-        update_phase(book_dir, phase="finalize", status="failed",
-                     error="G1-G7 gates failed; see stdout for the failing gate",
-                     extras={"validator_stdout": vout[-2000:], "validator_stderr": verr[-1000:]})
-        _err("finalize halt — at least one G1-G7 gate failed. "
-             "Fix the cause, then re-invoke `orchestrate_book.py --resume`.")
+        update_phase(
+            book_dir,
+            phase="finalize",
+            status="failed",
+            error="G1-G7 gates failed; see stdout for the failing gate",
+            extras={"validator_stdout": vout[-2000:], "validator_stderr": verr[-1000:]},
+        )
+        _err(
+            "finalize halt — at least one G1-G7 gate failed. "
+            "Fix the cause, then re-invoke `orchestrate_book.py --resume`."
+        )
         return 2
-    update_phase(book_dir, phase="finalize", status="halted",
-                 extras={"verdict": "SHIP-READY"})
+    update_phase(book_dir, phase="finalize", status="halted", extras={"verdict": "SHIP-READY"})
 
-    # Surface the advisory transcription flags here. They are recorded into state
-    # by transcribe_audio_book.py (dup ratio, empty/short, native-script leakage,
-    # normalization substitutions) but were never read by any consumer — so a
-    # reviewer never saw them. The finalize halt is the one moment a human reviews
-    # the book before publish, so emit them as plain advisories (never blocking).
-    try:
-        import json as _json  # noqa: PLC0415
-        _sp = book_dir / "_system" / "orchestrator-state.json"
-        _tf = (_json.loads(_sp.read_text()).get("transcription_flags")
-               if _sp.exists() else None)
-        if _tf:
-            _info("")
-            _info("Transcription advisories (audio path — review, non-blocking):")
-            for _k, _v in (_tf.items() if isinstance(_tf, dict) else []):
-                _info(f"  · {_k}: {_v}")
-    except Exception:  # noqa: BLE001 — advisory surface must never break the halt
-        pass
+    # Non-blocking advisories. Emitters live in `_halt_advisories` so this file
+    # (grandfathered by the line-count gate) stays their caller, not their home.
+    from _halt_advisories import emit_decision_ledger, emit_transcription_advisories
+
+    emit_transcription_advisories(book_dir, _info)
+    emit_decision_ledger(book_dir, _info)
 
     _info("")
     _info("─" * 72)
@@ -591,10 +595,11 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     # None = pure-NotebookLM (all episodes); empty set = pure-API (none); a subset
     # = mixed-engine book.
     try:
-        from _audio_engines import notebooklm_episode_filter  # noqa: PLC0415
+        from _audio_engines import notebooklm_episode_filter
+
         _all_eps = [e["episode"] for e in _discover_episode_mapping(book_dir)]
         _nlm_filter: set[str] | None = notebooklm_episode_filter(book_dir, _all_eps)
-    except Exception:  # noqa: BLE001 — fall back to the manual ritual
+    except Exception:
         _all_eps, _nlm_filter = [], None
 
     if _nlm_filter is None:
@@ -626,21 +631,20 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         # (it survives terminal scroll); audio-ingest + 0book-slide-import consume
         # the drops automatically on --resume.
         try:
-            from assemble_bundle import build_upload_rows  # noqa: PLC0415
-            from _notebooklm_table import build_worklist_lines  # noqa: PLC0415
-            _wl_rows = build_upload_rows(
-                book_dir, _discover_episode_mapping(book_dir),
-                filter_episode_ids=_nlm_filter)
+            from _notebooklm_table import build_worklist_lines
+            from assemble_bundle import build_upload_rows
+
+            _wl_rows = build_upload_rows(book_dir, _discover_episode_mapping(book_dir), filter_episode_ids=_nlm_filter)
             _resume_cmd = f"python3 scripts/podcast/orchestrate_book.py --resume {book_slug}"
             _wl_path = book_dir / "_system" / "notebooklm-worklist.md"
             _wl_path.parent.mkdir(parents=True, exist_ok=True)
             _wl_path.write_text(
-                "\n".join(build_worklist_lines(
-                    book_dir, upload_rows=_wl_rows, resume_cmd=_resume_cmd)) + "\n",
-                encoding="utf-8")
+                "\n".join(build_worklist_lines(book_dir, upload_rows=_wl_rows, resume_cmd=_resume_cmd)) + "\n",
+                encoding="utf-8",
+            )
             _info(f"Durable worklist written: {_wl_path.relative_to(REPO_ROOT)}")
             _info("")
-        except Exception as _wl_exc:  # noqa: BLE001 — worklist is a convenience view
+        except Exception as _wl_exc:
             _info(f"  [worklist file skipped: {_wl_exc}]")
     # Slide-deck generation always runs through NotebookLM's Slide-deck tool,
     # independent of the audio engine — print the card on EVERY path (it
@@ -667,7 +671,7 @@ def _print_slide_deck_card(book_dir: Path) -> None:
     parent = Path(__file__).resolve().parents[1]
     if str(parent) not in sys.path:
         sys.path.insert(0, str(parent))
-    from _notebooklm_table import build_slide_deck_card  # noqa: PLC0415
+    from _notebooklm_table import build_slide_deck_card
 
     lines = build_slide_deck_card(book_dir)
     if not lines:
@@ -688,12 +692,13 @@ def _discover_episode_mapping(book_dir: Path) -> list[dict]:
     parent = Path(__file__).resolve().parents[1]
     if str(parent) not in sys.path:
         sys.path.insert(0, str(parent))
-    from assemble_bundle import _load_episode_map  # noqa: PLC0415
+    from assemble_bundle import _load_episode_map
 
     mapping = _load_episode_map(book_dir)
     if mapping:
         return mapping
     import re as _re
+
     ep_pat = _re.compile(r"^(EP(\d+)-(.*))\.txt$")
     ep_dir = book_dir / "episodes"
     if not ep_dir.exists():
@@ -704,13 +709,11 @@ def _discover_episode_mapping(book_dir: Path) -> list[dict]:
         if not m:
             continue
         ep_slug, ep_num_str, ch_slug = m.group(1), m.group(2), m.group(3)
-        out.append({"episode": ep_slug, "chapter": f"ch{ep_num_str}-{ch_slug}",
-                    "n": int(ep_num_str)})
+        out.append({"episode": ep_slug, "chapter": f"ch{ep_num_str}-{ch_slug}", "n": int(ep_num_str)})
     return out
 
 
-def _print_notebooklm_table(book_dir: Path,
-                            filter_episode_ids: set[str] | None = None) -> None:
+def _print_notebooklm_table(book_dir: Path, filter_episode_ids: set[str] | None = None) -> None:
     """Print the NotebookLM upload table at finalize halt.
 
     Reuses discovery + formatting helpers from assemble_bundle.py.
@@ -727,8 +730,8 @@ def _print_notebooklm_table(book_dir: Path,
         parent = Path(__file__).resolve().parents[1]
         if str(parent) not in sys.path:
             sys.path.insert(0, str(parent))
-        from assemble_bundle import build_upload_rows  # noqa: PLC0415
-        from _notebooklm_table import render_upload_table_lines  # noqa: PLC0415
+        from _notebooklm_table import render_upload_table_lines
+        from assemble_bundle import build_upload_rows
     except ImportError as exc:
         _info(f"  [notebooklm table skipped — import error: {exc}]")
         return

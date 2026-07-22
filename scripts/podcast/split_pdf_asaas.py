@@ -3,6 +3,9 @@
 
 Book-specific script for Islamic/asaas-al-taveel only.
 Do NOT merge to develop -- page ranges are hardcoded for this title.
+(Flagged 2026-07-16: this file is currently present on develop despite that
+note — pre-existing, not touched by this review; Asif chose to flag rather
+than delete it, so left as-is.)
 
 Usage:
     python3 scripts/podcast/split_pdf_asaas.py --vol N
@@ -19,12 +22,12 @@ SOURCE = pathlib.Path.home() / "Documents" / "BOOKS" / "Asaas Al-Taveel.pdf"
 # 0-indexed page slices [start, end) matching the physical PDF pages 1-368.
 # Back matter (pages 369-416) excluded from all volumes.
 VOLUMES = {
-    1: {"pages": (0, 75),   "prophet": "Adam",               "page_range": "1-75"},
-    2: {"pages": (75, 106),  "prophet": "Noah",               "page_range": "76-106"},
-    3: {"pages": (106, 178), "prophet": "Abraham",            "page_range": "107-178"},
-    4: {"pages": (178, 298), "prophet": "Moses",              "page_range": "179-298"},
-    5: {"pages": (298, 314), "prophet": "Jesus",              "page_range": "299-314"},
-    6: {"pages": (314, 368), "prophet": "Muhammad and Qaim",  "page_range": "315-368"},
+    1: {"pages": (0, 75), "prophet": "Adam", "page_range": "1-75"},
+    2: {"pages": (75, 106), "prophet": "Noah", "page_range": "76-106"},
+    3: {"pages": (106, 178), "prophet": "Abraham", "page_range": "107-178"},
+    4: {"pages": (178, 298), "prophet": "Moses", "page_range": "179-298"},
+    5: {"pages": (298, 314), "prophet": "Jesus", "page_range": "299-314"},
+    6: {"pages": (314, 368), "prophet": "Muhammad and Qaim", "page_range": "315-368"},
 }
 
 
@@ -56,10 +59,7 @@ def split(vol: int) -> None:
         writer.write(fh)
 
     n_pages = end - start
-    print(
-        f"Vol {vol} ({info['prophet']}, pp {info['page_range']}): "
-        f"{n_pages} pages -> {out_path}"
-    )
+    print(f"Vol {vol} ({info['prophet']}, pp {info['page_range']}): {n_pages} pages -> {out_path}")
 
 
 def main() -> None:

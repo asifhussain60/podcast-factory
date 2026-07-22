@@ -19,11 +19,13 @@ block in a documented insertion location.
 The whole pipeline is YAML-driven — to change a wave's summary, edit the
 YAML; the next wave-done tick re-renders.
 """
+
 from __future__ import annotations
 
 import re
 from dataclasses import dataclass
 from pathlib import Path
+
 from _paths import REPO_ROOT
 
 PLAN_YAML = REPO_ROOT / "_workspace" / "plan" / "podcast-plan.yaml"
@@ -37,9 +39,9 @@ COMPLETION_SECTION_ANCHOR = "<!-- WAVE_COMPLETIONS_SECTION -->"
 
 @dataclass(frozen=True)
 class WaveCompletion:
-    wave_id: str           # "W1" / "W2" / ...
-    wave_name: str         # "Foundation & Guardrails"
-    html_summary: str      # multi-paragraph text from YAML
+    wave_id: str  # "W1" / "W2" / ...
+    wave_name: str  # "Foundation & Guardrails"
+    html_summary: str  # multi-paragraph text from YAML
     target_files: tuple[Path, ...]
 
 
@@ -141,7 +143,7 @@ def _render_html_block(wc: WaveCompletion) -> str:
     paragraph_html = "\n".join(f"    <p>{_escape_html(p)}</p>" for p in paragraphs)
     return (
         f"<!-- WAVE_SUMMARY_{wc.wave_id}_START -->\n"
-        f"  <div class=\"wave-completion\" data-wave=\"{wc.wave_id}\">\n"
+        f'  <div class="wave-completion" data-wave="{wc.wave_id}">\n'
         f"    <h3>{wc.wave_id} · {_escape_html(wc.wave_name)} — what was delivered</h3>\n"
         f"{paragraph_html}\n"
         f"  </div>\n"
@@ -167,9 +169,9 @@ def _ensure_completions_section(html: str) -> str:
     section = (
         "\n<!-- =================================================== WAVE COMPLETIONS -->\n"
         f"{COMPLETION_SECTION_ANCHOR}\n"
-        "<section aria-labelledby=\"wave-completions-title\">\n"
-        "  <h2 id=\"wave-completions-title\">Wave completions</h2>\n"
-        "  <p class=\"section-lead\">Plain-language summary of what each wave delivered. "
+        '<section aria-labelledby="wave-completions-title">\n'
+        '  <h2 id="wave-completions-title">Wave completions</h2>\n'
+        '  <p class="section-lead">Plain-language summary of what each wave delivered. '
         "Auto-rendered from <code>_workspace/plan/podcast-plan.yaml</code> "
         "<code>waves[].on_completion.html_summary</code> when a wave's "
         "<code>done_signal</code> flips.</p>\n"
@@ -216,7 +218,7 @@ def _replace_marker_block(html: str, wave_id: str, new_block: str) -> tuple[str,
     existing = m.group(0)
     if existing == new_block:
         return html, False
-    return html[:m.start()] + new_block + html[m.end():], True
+    return html[: m.start()] + new_block + html[m.end() :], True
 
 
 def update_view_for_wave(

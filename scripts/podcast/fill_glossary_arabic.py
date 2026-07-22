@@ -55,17 +55,17 @@ from pathlib import Path
 
 # Re-use the same YAML escaping convention as build_glossary.py.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build_glossary import _q  # noqa: E402
+from build_glossary import _q
 
 CLAUDE_CMD = "claude"
 CLAUDE_TIMEOUT_S = 1800  # 30 min — bumped 2026-05-24 after 600s proved too tight for
-                          # 75-entry / 106KB-OCR master-disciple. Sonnet streams output
-                          # slower on long context windows than the dense per-entry
-                          # processing rate suggests. 30 min absorbs the worst case.
+# 75-entry / 106KB-OCR master-disciple. Sonnet streams output
+# slower on long context windows than the dense per-entry
+# processing rate suggests. 30 min absorbs the worst case.
 MODEL = "claude-sonnet-4-6"
-BATCH_SIZE = 40           # Max entries per LLM call. If a book has > BATCH_SIZE empty
-                          # entries, split into multiple calls and merge results. Keeps
-                          # each call's prompt small enough to finish within the timeout.
+BATCH_SIZE = 40  # Max entries per LLM call. If a book has > BATCH_SIZE empty
+# entries, split into multiple calls and merge results. Keeps
+# each call's prompt small enough to finish within the timeout.
 
 
 def parse_glossary_yml(path: Path) -> tuple[list[dict[str, str]], dict[str, object]]:
@@ -126,8 +126,15 @@ def emit_glossary_yml(entries: list[dict[str, str]], top: dict[str, object]) -> 
     # Optional schema-v2 human-curation fields (set in the Astro reader). Emitted
     # only when present so re-running fill never wipes Asif's decisions, and v1
     # glossaries with none round-trip byte-identically.
-    _V2_FIELDS = ("teaching_relevance", "decision", "corrected_phonetic",
-                  "corrected_arabic", "english_override", "decided_by", "decided_at")
+    _V2_FIELDS = (
+        "teaching_relevance",
+        "decision",
+        "corrected_phonetic",
+        "corrected_arabic",
+        "english_override",
+        "decided_by",
+        "decided_at",
+    )
     for r in entries:
         lines.append(f'  - phonetic: "{_q(r.get("phonetic", ""))}"')
         lines.append(f'    transliteration: "{_q(r.get("transliteration", ""))}"')
@@ -153,13 +160,13 @@ def build_prompt(empty_rows: list[dict[str, str]], ocr_text: str) -> str:
         "transliteration + first-occurrence-snippet refer to, by searching the "
         "OCR text appended at the end.\n\n"
         "OUTPUT FORMAT — strict; one entry per row, in input order:\n"
-        "  - phonetic: \"<verbatim from input>\"\n"
-        "    arabic_script: \"<the Arabic script as it appears in the OCR; "
-        "preserve diacritics + spacing>\"\n\n"
+        '  - phonetic: "<verbatim from input>"\n'
+        '    arabic_script: "<the Arabic script as it appears in the OCR; '
+        'preserve diacritics + spacing>"\n\n'
         "RULES\n"
         "  1. Phonetic value MUST match the input verbatim (used for join).\n"
         "  2. If you cannot find a confident match in the OCR, set arabic_script "
-        "to the EMPTY string \"\" — do not guess. Empty fields stay empty in the "
+        'to the EMPTY string "" — do not guess. Empty fields stay empty in the '
         "glossary.\n"
         "  3. Do NOT emit any row whose phonetic is not in the input.\n"
         "  4. Do NOT emit prose around the YAML. Just the YAML block.\n"
@@ -176,10 +183,10 @@ def parse_llm_yaml(raw: str) -> dict[str, str]:
     current_phon: str | None = None
     for line in raw.splitlines():
         s = line.strip()
-        if s.startswith('- phonetic:'):
-            current_phon = _unq(s[len("- phonetic:"):].strip())
-        elif s.startswith('arabic_script:') and current_phon is not None:
-            val = _unq(s[len("arabic_script:"):].strip())
+        if s.startswith("- phonetic:"):
+            current_phon = _unq(s[len("- phonetic:") :].strip())
+        elif s.startswith("arabic_script:") and current_phon is not None:
+            val = _unq(s[len("arabic_script:") :].strip())
             out[current_phon] = val
             current_phon = None
     return out
@@ -202,10 +209,8 @@ def _normalize_taa_marbuta(entries: list[dict]) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n", 1)[0])
     ap.add_argument("--book-dir", required=True, type=Path)
-    ap.add_argument("--force", action="store_true",
-                    help="Re-fill entries that already have arabic_script populated.")
-    ap.add_argument("--dry-run", action="store_true",
-                    help="Print the prompt that would be sent; do not call the LLM.")
+    ap.add_argument("--force", action="store_true", help="Re-fill entries that already have arabic_script populated.")
+    ap.add_argument("--dry-run", action="store_true", help="Print the prompt that would be sent; do not call the LLM.")
     args = ap.parse_args()
 
     book_dir: Path = args.book_dir.resolve()
@@ -216,8 +221,7 @@ def main() -> int:
     ]
     ocr_path = next((p for p in ocr_candidates if p.exists()), None)
     if not glossary_path.exists():
-        sys.stderr.write(f"glossary.yml not found at {glossary_path}\n"
-                         f"Run scripts/podcast/build_glossary.py first.\n")
+        sys.stderr.write(f"glossary.yml not found at {glossary_path}\nRun scripts/podcast/build_glossary.py first.\n")
         return 2
     if ocr_path is None:
         sys.stderr.write(f"raw-extract.md not found in either:\n  {ocr_candidates[0]}\n  {ocr_candidates[1]}\n")
@@ -242,9 +246,7 @@ def main() -> int:
     # Batch the empty entries so each LLM call's prompt stays small enough
     # to finish within CLAUDE_TIMEOUT_S. Sonnet's streaming rate drops as the
     # response gets longer; chunking keeps each call under the timeout.
-    batches: list[list[dict[str, str]]] = [
-        empty[i : i + BATCH_SIZE] for i in range(0, len(empty), BATCH_SIZE)
-    ]
+    batches: list[list[dict[str, str]]] = [empty[i : i + BATCH_SIZE] for i in range(0, len(empty), BATCH_SIZE)]
     print(
         f"calling {MODEL} for {len(empty)} entries in {len(batches)} batch(es) "
         f"of ≤{BATCH_SIZE} (OCR {len(ocr_text):,} chars per call) …",
@@ -272,10 +274,7 @@ def main() -> int:
             break
         elapsed = time.monotonic() - t0
         if result.returncode != 0:
-            sys.stderr.write(
-                f"  batch {i} claude -p failed (rc={result.returncode}):\n"
-                f"{result.stderr[:600]}\n"
-            )
+            sys.stderr.write(f"  batch {i} claude -p failed (rc={result.returncode}):\n{result.stderr[:600]}\n")
             break
         batch_fills = parse_llm_yaml(result.stdout)
         print(
@@ -304,9 +303,11 @@ def main() -> int:
         print(f"  normalized {n_taa} taa-marbuta phonetics (-t -> -h)", file=sys.stderr)
 
     glossary_path.write_text(emit_glossary_yml(entries, top), encoding="utf-8")
-    print(f"wrote {glossary_path.relative_to(book_dir)} — {n_filled} entries filled "
-          f"(total non-empty: {sum(1 for r in entries if r.get('arabic_script', ''))})",
-          file=sys.stderr)
+    print(
+        f"wrote {glossary_path.relative_to(book_dir)} — {n_filled} entries filled "
+        f"(total non-empty: {sum(1 for r in entries if r.get('arabic_script', ''))})",
+        file=sys.stderr,
+    )
     return 0
 
 

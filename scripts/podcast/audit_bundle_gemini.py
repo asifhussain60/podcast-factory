@@ -25,14 +25,12 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
-import subprocess
 import sys
 import tempfile
 from pathlib import Path
-from _paths import REPO_ROOT
 
+from _paths import REPO_ROOT
 
 GEM_PROMPT_PATH = REPO_ROOT / "prompts" / "gemini-bundle-auditor.md"
 DEFAULT_MODEL = "gemini-2.5-pro"
@@ -60,12 +58,12 @@ def _load_gem_prompt() -> str:
 def _load_api_key() -> str:
     # Vault-deterministic: env -> keychain -> Azure Key Vault (llm-gemini-api-key).
     from _secrets import get_gemini_key
+
     return get_gemini_key()
 
 
-
 def _pack_bundle_inline(bundle_dir: Path) -> Path:
-    from importlib.util import spec_from_file_location, module_from_spec
+    from importlib.util import module_from_spec, spec_from_file_location
 
     packer_path = Path(__file__).resolve().parent / "pack_bundle_for_gemini.py"
     spec = spec_from_file_location("pack_bundle_for_gemini", packer_path)
@@ -83,23 +81,19 @@ def _pack_bundle_inline(bundle_dir: Path) -> Path:
 
 def _run_gemini(system_prompt: str, packed_text: str, model: str, timeout: int = 600) -> str:
     """Call Gemini with the Gem prompt as system_instruction + packed bundle as user content."""
-    from _engine import engine_guard, TASK_AUDIT, ENGINE_GEMINI
+    from _engine import ENGINE_GEMINI, TASK_AUDIT, engine_guard
+
     engine_guard(TASK_AUDIT, ENGINE_GEMINI)
     try:
         from google import genai
         from google.genai import types
     except ImportError as exc:
-        raise AuditError(
-            "google-genai SDK not installed. Run: pip3 install google-genai"
-        ) from exc
+        raise AuditError("google-genai SDK not installed. Run: pip3 install google-genai") from exc
 
     api_key = _load_api_key()
     client = genai.Client(api_key=api_key)
 
-    user_content = (
-        "## Consolidated bundle (input)\n\n"
-        + packed_text
-    )
+    user_content = "## Consolidated bundle (input)\n\n" + packed_text
 
     try:
         response = client.models.generate_content(
@@ -204,8 +198,7 @@ def main() -> int:
     parser.add_argument("--packed", type=Path, default=None)
     parser.add_argument("--out", type=Path, default=None)
     parser.add_argument("--json-only", action="store_true")
-    parser.add_argument("--model", default=DEFAULT_MODEL,
-                        help=f"Gemini model (default: {DEFAULT_MODEL})")
+    parser.add_argument("--model", default=DEFAULT_MODEL, help=f"Gemini model (default: {DEFAULT_MODEL})")
     args = parser.parse_args()
 
     return audit_bundle_gemini(

@@ -1,7 +1,7 @@
 ---
 name: reconcile
 description: "Reconciliation agent for architecture docs. Given (a) a file:// or https:// link to one of Asif's architecture HTML views and (b) a free-text change request, the agent first verifies whether the underlying skill/agent/script ALREADY implements the requested behaviour, fixes any gap in the code FIRST with zero regression, then updates the HTML view (and any sibling views) to reflect the new reality. Never updates docs ahead of code. Invoke for: 'fix this view', 'this should also support X', 'pipeline is wrong about Y', 'docs and code disagree', '/reconcile <link> <request>', or any time Asif pastes an architecture-docs URL + a sentence saying what is wrong or missing."
-tools: [read, edit, search, execute]
+tools: Read, Edit, Glob, Grep, Bash
 reconcile_contract:
   code_before_docs: true
   max_iterations: 3

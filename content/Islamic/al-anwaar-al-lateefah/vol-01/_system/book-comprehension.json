@@ -1,0 +1,139 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 95,
+  "terms_tracked": 27,
+  "prerequisite_gaps": [
+    {
+      "term": "Huwiyyah",
+      "first_use_page": 15,
+      "explained_page": 29,
+      "pages_carried": 14,
+      "kind": "explained-late"
+    }
+  ],
+  "naming_drift": [],
+  "dense_pages": [
+    {
+      "page": 29,
+      "term_count": 13,
+      "terms": [
+        "Ahadiyyah",
+        "Anza'iyyah",
+        "Du'at",
+        "Fathiyyah",
+        "Hijabiyyah",
+        "Hujjiyyah",
+        "Huwiyyah",
+        "Ilahiyyah",
+        "Jiddiyyah",
+        "Jussiyyah"
+      ]
+    }
+  ],
+  "long_sentences": [
+    {
+      "page": 70,
+      "words": 227,
+      "text": "That act is where this turns now, drawing on a long exposition by Sayyidna Mohyuddin, whose argument follows here in summary, its bones kept whole — beginning w"
+    },
+    {
+      "page": 21,
+      "words": 160,
+      "text": "The First Intellect, and with it the entire order of created being, first confessed that it could not create itself or its kind, and then pointed past itself wi"
+    },
+    {
+      "page": 75,
+      "words": 151,
+      "text": "I come now to the first of the perfections, and to a doctrine I do not want you to pass over lightly, because it is the seedbed of justice itself: ‫َفَأ ْوَجَد "
+    },
+    {
+      "page": 54,
+      "words": 149,
+      "text": "Hear it first in the words themselves: ‫ِإَو َذا َكاَن َذِلَك َكَذِلَك َفِإ َّن َنْفَس اْلَحِّد اَّلِذي ُهَو اْلُمَكاِثُر َقْد َتَلَّط َفْت‬ ‫ ُثَّم اَّتَصَل ِب"
+    },
+    {
+      "page": 56,
+      "words": 144,
+      "text": "‫َفِإ َذا َقاَبَلُه اْلُمْس َتِفيُد ِبالِّص ْدِق َوِص َّح ِة الِّنَّيِة َوَصَفاِء الَّط ِبيَعِة َوَتَكَّلَم َمَعُه َوَأ َفاَدُه‬ ‫ِمَن اْلَكَلاِم اْلَمَلُكوِتِّ"
+    },
+    {
+      "page": 49,
+      "words": 141,
+      "text": "‫َوَغْيُرُه ِمْن َهِذِه اْلَأ ْش َخاِص اْلِإ ْنَساِنَّي ِة ِإَو ْن َكاَن َعَلى اْل َحاَلِة اَّل ِتي ُهَو َعَلْيَها َفِإ َّن‬ ‫ِمَزاَجُه َغْيُر ُمَتَلِّطٍف َوَجْ"
+    },
+    {
+      "page": 37,
+      "words": 136,
+      "text": "It begins by opening a division inside the gnosis of the ranks itself: ‫ َمْعِرَفٌة َظاِهَرٌة ُيْعَرُف ِبَها َش ْخُص اْلَحِّد‬:‫ِلَأ َّن اْلَمْعِرَفَة ِباْل ُحُ"
+    },
+    {
+      "page": 8,
+      "words": 135,
+      "text": "‫ َوالَّت َقُّر ِب ِإ َلى‬،‫ َوَطاَعِة َأ ْوِلَياِء الَّل ِه َوَمَحَّب ِتِهْم‬،‫ِإ ْذ ِبَمْعِرَفِة َٰذِلَك َواِلاِّطَلاِع َعَلْيِه‬ ‫ ِبالِعْلِم َوالَعَمِل ِبَم"
+    },
+    {
+      "page": 92,
+      "words": 134,
+      "text": "‫ُثَّم ِإ َّن الَّل َه َتَعاَلٰى اَّت َخَذُه َلُه ِح َجاًبا َوَجَعَلُه َلُه َباًبا َلا ُيَتَوَّس ُل ِإ َلْيِه ِإ َّل ا ِبِه َوَلا‬ ‫ َفَصاَر اْس ُمُه اْلَأ ْعَظ"
+    },
+    {
+      "page": 51,
+      "words": 130,
+      "text": "‫َوَذِلَك َأ َّن اْلَبَهاِئ َم اْلُمَحَّلَلَة ِمَن اْلَبَقِر َواْلَغَنِم َواْلِإ ِبِل َوَغْيِر َذِلَك ُمَتَماِثَلٌة ِفي‬ ‫اْل َخْلِق ِهَي َوالِّس َباُع اْلُمَحّ"
+    },
+    {
+      "page": 20,
+      "words": 124,
+      "text": "And now the text recounts the first act of all — the primal moment in which the First Intellect first denied divinity, then affirmed it: ‫ َوَأ ْثَبَتَها َلُه‬،"
+    },
+    {
+      "page": 45,
+      "words": 121,
+      "text": "And this is anchored in the Book itself: ‫ِفي ُبُيوٍت َأ ِذَن الَّل ُه َأ ن ُتْرَفَع َوُيْذَكَر ِفيَها اْس ُمُه ُيَسِّبُح َلُه ِفيَها ِباْلُغُدِّو َواْلآَصاِل‬ "
+    },
+    {
+      "page": 43,
+      "words": 120,
+      "text": "Here is how the matter is stated: ‫َوَذِلَك َأ َّن ُه ِإَو ْن َكاَن َيْجَمُعُه َوَغْيَرُه ِمَن اْلَأ ْش َخاِص اْلِإ ْنَساِنَّي ِة اْل ُحُدوُد‬ ‫َواْلَأ ْقَطاُر "
+    },
+    {
+      "page": 73,
+      "words": 118,
+      "text": "He grounds it like this: ‫ َلا‬،‫ َوِمْن َس ِجَّيِة اْلَعِزيِز اْلَعِظيِم اْل ُجوُد‬،‫ِإ ْذ ِمْن ِشيَمِة اْل َكِر يِم اْلَقاِدِر الَّت َفُّض ُل‬ ‫ ِإ ْذ ُهَو ُم"
+    },
+    {
+      "page": 79,
+      "words": 118,
+      "text": "Following Mohyuddin, I have to tell you exactly what the first perfection does and does not include: ‫ُيِريُد ِبَذِلَك َأ ْعَلى الَّل ُه ُقْدَسُه ِفي َحاِل ُوُج"
+    },
+    {
+      "page": 83,
+      "words": 116,
+      "text": "The letter sets it down in these words: ‫ُثَّم ِإ َّن َواِحًدا ِمْن ِتْلَك اْلَأ ْش َباِح الُّص وِر َّيِة َنَظَر ِبَذاِتِه ِإ َلٰى َذاِتِه َو َلٰى َأ ْبَناِء‬ ‫"
+    },
+    {
+      "page": 10,
+      "words": 113,
+      "text": "As the text prays: ‫ ِب َحِّق ُمَحَّمٍد َوآِلِه‬،‫ َوَأ َعاَنَنا َعَلى اِلاْرِتَقاِء َوالُوُصوِل ِإ َلْيِهْم‬،‫َبَّلَغَنا الَّل ُه ِإ َلْيِهْم‬ ‫ َص َلَواُت الّ"
+    },
+    {
+      "page": 62,
+      "words": 112,
+      "text": "‫ اَّلِذي َلا ِإ َلَه ِإ َّل ا ُهَو ِمْن َهِذِه اْلآِلَهِة اْلَمْخُلوَقِة‬،‫َوَأ ْثَبَتَها َّلِلِه َتَعاَلى َوَتَكَّب َر‬ ‫ الَّش اِمِل ِلُكِّل َواِحٍد ِمْنُهُم"
+    },
+    {
+      "page": 12,
+      "words": 108,
+      "text": "Listen to how the text opens: ‫ اَّلِذي ِبِذْكِرِه ِفي‬،‫َوَكاَن َلا َدِليَل َعَلٰى ِذْكِر َٰذِلَك ِإ َّل ا ِبِذْكِر الَّل ِه َتَعاَلٰى َوَتَكَّب َر‬ ‫ َوِبَأ ْ"
+    },
+    {
+      "page": 40,
+      "words": 108,
+      "text": "‫ ِإ َّن‬،‫ َسَلاُم الَّل ِه َعَلْيِه‬،‫َفَأ ُقوُل ِبَعْوِن الَّل ِه ُسْبَحاَنُه َوَلَحَظاِت َوِلِّيِه ِفي َأ ْرِضِه‬ ‫َأ ْقَرَب اْل ُحُدوِد ِإ َلْيَنا ُهَو اْل"
+    }
+  ],
+  "summary": {
+    "never_explained": 0,
+    "explained_late": 1
+  }
+}

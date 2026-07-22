@@ -11,6 +11,7 @@ three failure modes that previously coexisted in the codebase:
      and 'publish' entries until the e2e suite caught them).
   3. update_phase() silently accepting an unknown phase name.
 """
+
 from __future__ import annotations
 
 import sys
@@ -20,20 +21,36 @@ from pathlib import Path
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
-import _phases  # noqa: E402
-import _progress  # noqa: E402
-import orchestrate_book  # noqa: E402
-
+import _phases
+import _progress
+import orchestrate_book
 
 # Phase ids that drivers pass to update_phase(). Each MUST be in the registry or
 # the orchestrator crashes when that phase runs.
 DRIVER_EMITTED_PHASES = (
-    "pre-flight", "branch", "scaffold",
-    "0a", "0b", "0c", "0d", "0e", "0literary",
-    "06a", "0f", "0g",
-    "per-chapter", "per-chapter-optimize", "per-chapter-slides",
-    "audio-script", "audio-render",
-    "finalize", "audio-ingest", "publish", "trainer", "merge", "done",
+    "pre-flight",
+    "branch",
+    "scaffold",
+    "0a",
+    "0b",
+    "0c",
+    "0d",
+    "0e",
+    "0literary",
+    "06a",
+    "0f",
+    "0g",
+    "per-chapter",
+    "per-chapter-optimize",
+    "per-chapter-slides",
+    "audio-script",
+    "audio-render",
+    "finalize",
+    "audio-ingest",
+    "publish",
+    "trainer",
+    "merge",
+    "done",
 )
 
 
@@ -54,7 +71,7 @@ class PhaseRegistryTests(unittest.TestCase):
     def test_update_phase_accepts_every_registered_phase(self):
         # update_phase() validates the phase name against PHASES; every entry must pass.
         import tempfile
-        import json
+
         with tempfile.TemporaryDirectory() as d:
             book_dir = Path(d)
             (book_dir / "_system").mkdir()
@@ -67,6 +84,7 @@ class PhaseRegistryTests(unittest.TestCase):
 
     def test_update_phase_rejects_unknown_phase(self):
         import tempfile
+
         with tempfile.TemporaryDirectory() as d:
             book_dir = Path(d)
             (book_dir / "_system").mkdir()
