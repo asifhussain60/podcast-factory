@@ -43,7 +43,11 @@ function freezeReason(status: string): string {
       return "the articulation pass reverted this chapter to the machine base";
     case "skipped":
       return "the articulation pass skipped this chapter";
+    // "composer-edit" as the SUPERSEDED status means the takeover chain never
+    // reaches an adaptation — reports written before the _merge_records origin
+    // fix (2026-07-22) can also carry it; both read as never-articulated.
     case "":
+    case "composer-edit":
       return "this chapter was frozen by a Composer save before articulation ever succeeded";
     default:
       return `the articulation pass left this chapter in state "${status}"`;
@@ -53,15 +57,28 @@ function freezeReason(status: string): string {
 /**
  * Map each at-risk chapter key to a plain-language reason. Keys with a kept
  * "adapted" status are absent. An empty object means every chapter is safe —
- * or that `report` is not a fluency report at all (absent file, wrong shape),
- * in which case the articulation contract does not apply to this book.
+ * or that this book is not on the translation route at all.
+ *
+ * A missing/unreadable report is ambiguous, so `translationRoute` (the book has
+ * a source-crosswalk) disambiguates: on the translation route, no report means
+ * the articulation pass has NOT RUN YET and every chapter's base is still the
+ * calqued machine translation — every save must warn. Off that route (companion
+ * books, whose voice pass writes book-voice-report.json instead), the
+ * articulation contract simply does not apply and nothing warns.
  */
 export function articulationWarningsFrom(
   report: unknown,
   chapterKeys: string[],
+  opts: { translationRoute?: boolean } = {},
 ): Record<string, string> {
   const records = (report as { chapters?: unknown } | null)?.chapters;
-  if (!Array.isArray(records)) return {};
+  if (!Array.isArray(records)) {
+    if (!opts.translationRoute) return {};
+    const out: Record<string, string> = {};
+    for (const key of chapterKeys)
+      out[key] = "the articulation pass has not run for this book";
+    return out;
+  }
   const statusByKey = new Map<string, string>();
   for (const rec of records as FluencyRecordish[]) {
     const key = anchorKey(String(rec?.title ?? ""));

@@ -109,3 +109,35 @@ def test_fluency_prompt_does_not_contradict_its_own_frame_directive() -> None:
         prompt = _fluency_prompt("Ch", "text", frame=frame)
         assert "third-person scholarly register" in prompt, frame
         assert "Do not switch to first person" in prompt, frame
+
+
+# ── _merge_records: the superseded chain keeps its origin ────────────────────
+# RCA-001 follow-up: a composer-edit record used to carry the PRIOR RUN's status
+# verbatim, so from the second run onward superseded_status chained
+# "composer-edit" onto itself and the "was adapted before the takeover" origin —
+# the fact the field exists to preserve, and the fact the Composer's
+# articulation guard classifies by — was erased.
+
+
+def test_merge_records_carries_superseded_origin_through_repeat_runs() -> None:
+    from _book_voice import _merge_records
+
+    adapted = [{"title": "T", "status": "adapted", "windows": 1, "windows_kept": 1}]
+    takeover = [{"title": "T", "status": "composer-edit", "windows": 0, "windows_kept": 0}]
+    run1 = _merge_records(adapted, takeover)
+    assert run1[0]["superseded_status"] == "adapted"
+    run2 = _merge_records(run1, takeover)
+    assert run2[0]["superseded_status"] == "adapted"  # NOT "composer-edit"
+    run3 = _merge_records(run2, takeover)
+    assert run3[0]["superseded_status"] == "adapted"
+
+
+def test_merge_records_takeover_before_any_adaptation_stays_composer_edit() -> None:
+    from _book_voice import _merge_records
+
+    never_adapted = [{"title": "T", "status": "composer-edit", "windows": 0, "windows_kept": 0}]
+    takeover = [{"title": "T", "status": "composer-edit", "windows": 0, "windows_kept": 0}]
+    run2 = _merge_records(never_adapted, takeover)
+    # No adaptation in the history: the chain resolves to composer-edit, which
+    # the articulation guard treats as "frozen before articulation succeeded".
+    assert run2[0]["superseded_status"] == "composer-edit"

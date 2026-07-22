@@ -19,10 +19,20 @@ function report(chapters: object[]): unknown {
   return { schema: "podcast.book-fluency/v3", chapters };
 }
 
-test("no fluency report → no warnings (the contract does not apply)", () => {
+test("no fluency report off the translation route → no warnings (the contract does not apply)", () => {
   assert.deepEqual(articulationWarningsFrom(null, KEYS), {});
   assert.deepEqual(articulationWarningsFrom({}, KEYS), {});
   assert.deepEqual(articulationWarningsFrom({ chapters: "bogus" }, KEYS), {});
+});
+
+test("no fluency report ON the translation route → every chapter warns (pass never ran)", () => {
+  // A translation edition composed before articulation ran carries the calqued
+  // machine base in every chapter — a save would freeze it, so all must warn.
+  const warnings = articulationWarningsFrom(null, KEYS, {
+    translationRoute: true,
+  });
+  assert.match(warnings["on knowledge"], /not run/);
+  assert.match(warnings["on patience"], /not run/);
 });
 
 test("a kept adapted chapter is safe; skipped and reverted warn", () => {
@@ -66,6 +76,22 @@ test("composer-edit is judged by what the pass said before the takeover", () => 
     KEYS,
   );
   assert.equal(warnings["on knowledge"], undefined);
+  assert.match(warnings["on patience"], /before articulation/);
+});
+
+test("a superseded chain that never reaches an adaptation warns as frozen-before", () => {
+  // Reports written before the _merge_records origin fix chained
+  // superseded_status = "composer-edit" onto itself; read it as never-articulated.
+  const warnings = articulationWarningsFrom(
+    report([
+      {
+        title: "On Patience",
+        status: "composer-edit",
+        superseded_status: "composer-edit",
+      },
+    ]),
+    ["on patience"],
+  );
   assert.match(warnings["on patience"], /before articulation/);
 });
 

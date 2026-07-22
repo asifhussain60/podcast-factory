@@ -308,9 +308,10 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
   ]);
 
   // RCA-001 AI-3 — read the articulation pass's own report so the Composer can
-  // warn before a save freezes a chapter whose base is still machine text.
-  // Best-effort: an absent or unreadable report yields no warnings, exactly as
-  // for a book the articulation contract does not cover.
+  // warn before a save freezes a chapter whose base is still machine text. The
+  // crosswalk (already read above) marks the translation route: there, a book
+  // with NO report has not been articulated at all and every chapter warns;
+  // off it, the articulation contract does not apply and nothing warns.
   const fluencyReport = await readJson<unknown>(
     join(ref.dir, "_system", "book-fluency-report.json"),
     null,
@@ -318,6 +319,7 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
   const articulationWarnings = articulationWarningsFrom(
     fluencyReport,
     chapters.map((c) => c.key),
+    { translationRoute: crosswalk.length > 0 },
   );
 
   return {
