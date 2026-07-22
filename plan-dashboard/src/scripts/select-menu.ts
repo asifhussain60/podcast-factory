@@ -348,6 +348,22 @@ export function enhanceSelect(select: HTMLSelectElement | null): SelectMenu | nu
     }
   });
 
+  // A mouse selection must not move focus off the button. The rows are not
+  // focusable, so mousedown's default action walks up to the nearest focusable
+  // ancestor — on this site the skip-link target <main tabindex="-1"> — and
+  // that focus move fires focusout on the root, which closes the list BEFORE
+  // the click event can reach the row: the click then lands on whatever was
+  // painted behind the vanished list and no option is ever committed.
+  // Preventing the default keeps focus on the button for the whole gesture.
+  // Guarded to option rows: a mousedown on the list's own scrollbar (the <ul>
+  // is the scroll container) must keep its default, or dragging the thumb goes
+  // dead on browsers that dispatch scrollbar mousedowns to content (Firefox,
+  // WebKit with always-visible scroll bars) — and a scrollbar press moves no
+  // focus anyway, so the close-on-focusout bug cannot re-enter through it.
+  list.addEventListener("mousedown", (e) => {
+    if ((e.target as HTMLElement).closest(".sm-option")) e.preventDefault();
+  });
+
   // Pointer and keyboard share one highlight, so they cannot disagree.
   list.addEventListener("mousemove", (e) => {
     const li = (e.target as HTMLElement).closest<HTMLLIElement>(".sm-option");
