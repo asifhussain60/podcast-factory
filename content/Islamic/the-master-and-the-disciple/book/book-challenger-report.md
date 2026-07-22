@@ -1,122 +1,117 @@
 # Book Challenger Report
 
 **Book:** the-master-and-the-disciple
-**Run:** 2026-07-21 (book_challenger_version 1.0)
-**Scope:** whole-book (delta-focused against approved base 1b750a3)
+**Run:** 2026-07-22 (book_challenger_version 1.0)
+**Scope:** whole-book (re-challenge after generator fixes 26a349b, 93fe1f4, 53ffdf9, 0b52991)
 **Content profile:** islamic_scholarly
-**Route:** augmented-companion knobs, translation-edition behaviour (`book_augmentation: source_only`, `book_voice: faithful`; `deliverable_mode` deliberately unset)
+**Route:** augmented-companion knobs, translation-edition behaviour (`book_augmentation: source_only`, `book_voice: faithful`; `deliverable_mode` deliberately unset; route pinned by compose_book_v2 step 1)
 **Declared narrative_frame:** transmitted_report
 **Chapters reviewed:** 8 + preface
 **Iterations:** 1 (of 5 max)
-**Verdict (book-level):** BLOCKED
+**Verdict (book-level):** SHIP-READY
 
 ## Method note
 
-Current `book.md` (62a3cf2) differs from the challenger-converged, publication-reviewed base
-(1b750a3) by exactly 42 lines. Everything outside those 42 lines is byte-identical to the approved
-manuscript, so Pass 1 / Pass 2 fidelity properties are inherited; review effort was concentrated on
-the three deterministic passes (transliteration fold, inline Arabic, American spelling) plus a full
-Pass 3 re-run.
+Re-challenge scope: word-level diff of current `book.md` against the challenger-converged approved
+base (1b750a3) enumerates every delta. All 42 changed lines fall into exactly four sanctioned
+categories — inline Arabic annotation, plain-transliteration fold, American spelling, and the
+first-use honorific expansion. Zero prose sentences, zero speech tags, zero enumerations, and zero
+Quranic/source blockquotes changed, so Pass 1 / Pass 2 fidelity is inherited from the converged base
+and review effort concentrated on the changed lines plus a fresh Pass 3 and Arabic verification sweep.
+
+## Resolution of the prior run's findings (all closed)
+
+| Prior | Was | Now | Status |
+|---|---|---|---|
+| BK1 natiq plural script | `(natiq (النطقاء))` | line 374 `the speaker (الناطق)`; glossary `arabic_script: الناطق` | RESOLVED (generator) |
+| BK2 Allah fired inside Abd Allah | line 779 `Abd Allah (الله)` | annotation removed; standalone `Allah (الله)` correctly re-fired at ch-7 first standalone use (line 841) — verified first-use-per-chapter across all 8 chapters | RESOLVED (span reservation) |
+| BK3 Kab al-Ahbar doubled script | script twice in 8 chars | line 885 single `"Kab al-Ahbar" (كعب الأحبار)` | RESOLVED (idempotency window) |
+| BK4 sh-r- root stub | third radical dropped | line 113 `*Sharia* (sh-r-')` restored | RESOLVED (fold exemption) |
+| BK5 nested parentheses (12 sites) | `(natiq (النطقاء))` etc. | script REPLACES the romanization: `his gate (باب)` — zero nested parens remain book-wide | RESOLVED by 53ffdf9; residual editorial call noted as BK5 below |
+| BK6 wasi with suffix | `وصيه` | `الوصي` (lines 13, 362; glossary fixed) | RESOLVED |
+| BK7 draught→draft | sense destroyed | line 823 `his draught grew sweet` restored; exclusion in the American fold | RESOLVED |
+| BK8 honorific mixing | bare `(ع)` under the annotation convention | first-use expansion: line 551 `Joseph (عليه السلام)` in full; later `(ع)` sites (559, 1255, 1273) abbreviate per the LOCKED convention (full on first use, abbreviation after); the plural formula's only occurrence (1255, عليهم السلام) is full | RESOLVED by convention (0b52991) — later (ع) sites deliberately NOT flagged |
+| P2s: labelled; Arabic in bold/italic spans | — | `labeled` (line 15); scripts moved outside `**…**`/`*…*` spans (lines 9, 533, 537) | RESOLVED |
 
 ## Per-chapter verdicts
 | Chapter | Pass 1 | Pass 3 | Verdict |
 |---|---|---|---|
-| Preface — How to Read a Conversation Made of Doors | pass | fail (BK-P3 sh-r-, nested parens) | BLOCKED |
+| Preface — How to Read a Conversation Made of Doors | pass (inherited; Composer-edited — author's text) | pass | SHIP-READY |
 | 1. The Persian Who Was Dead and Revived | pass | pass | SHIP-READY |
-| 2. A Stranger in the City | pass | fail (BK-P3 sh-r- root) | BLOCKED |
+| 2. A Stranger in the City | pass | pass (sh-r-' restored) | SHIP-READY |
 | 3. The Boy at the Door — Limits and Conditions | pass | pass | SHIP-READY |
 | 4. How the World Was Made | pass | pass | SHIP-READY |
-| 5. The World, the Hereafter, and the Speech of Parables | pass | fail (BK-P3 natiq) | BLOCKED |
+| 5. The World, the Hereafter, and the Speech of Parables | pass | pass (natiq singular) | SHIP-READY |
 | 6. Three Layers of Knowledge | pass | pass | SHIP-READY |
-| 7. The Five Shares and the Long Road to the Shaykh | pass | fail (BK-P3 Abd Allah split; draught) | BLOCKED |
-| 8. Homecoming, the Father, and the Debate with Abu Malik | pass | fail (BK-P3 duplicated Kab al-Ahbar) | BLOCKED |
+| 7. The Five Shares and the Long Road to the Shaykh | pass | pass (Abd Allah healed; draught restored) | SHIP-READY |
+| 8. Homecoming, the Father, and the Debate with Abu Malik | pass | pass (single Kab al-Ahbar script) | SHIP-READY |
 
 ## Whole-book passes
 | Check | Result |
 |---|---|
-| BK-A1 voice consistency | pass (unchanged from approved base) |
-| BK-A2 segmentation sanity | pass (8 chapters, contiguous source ranges 14–1353, no gaps) |
-| BK-A3 preface + TOC integrity | pass (headings monotonic, match book-toc.json) |
-| BK-A4 plain transliteration | pass on diacritics; P2 residue (`labelled`; Arabic inside italic/bold spans) |
-| BK-A5 tradition fit | n/a — no enrichment atoms woven (source_only) |
-| BK-N3 frame consistency | pass — transmitted_report throughout; deterministic frame_findings = 0 |
-| BK-P7 duplicated passage | pass — `_system/book-duplication-check.json` empty; manual sweep clean |
-| Deterministic Pass 3 (`_narrative.py`) | frame 0 / speech-tag 0 / arabic-retention 0 / supplied-diacritics 0 / enumeration 0 |
-| Terminological consistency after fold | pass — no split renderings, no collisions (Sharia 6/6, Shuayb 2/2, Salih 92/92, Kab vs Kabir distinct) |
-| Quranic + source Arabic blockquotes | untouched by all three passes (verified by diff + arabic_retention_findings) |
+| BK-A1 voice consistency | pass (no prose changed vs converged base) |
+| BK-A2 segmentation sanity | pass — TOC ranges 14–1353 contiguous, preface 8–13, source head 1–7 in front matter; crosswalk present and matches TOC exactly |
+| BK-A3 preface + TOC integrity | pass — headings monotonic, match book-toc.json |
+| BK-A4 plain transliteration | pass — zero scholarly diacritics in Latin text; apostrophe folds consistent (Jafar, dawa, Kab 2/2, Shuayb 2/2, Mamur); `sh-r-'` exempted by design |
+| BK-A5 tradition fit | n/a — source_only, no enrichment atoms |
+| BK-N1 narrative person | pass — transmitted_report throughout |
+| BK-N2 speech attribution | pass — zero tag deltas vs converged base |
+| BK-N3 frame consistency | pass — one narrator, all chapters |
+| BK-N4 Arabic script retention | pass — 65 inline annotations, each glyph-checked against glossary; all scripts correct for their terms |
+| BK-N5 supplied diacritics | pass — عُبيد الله damma is scan vowelling (raw-extract 1064); honorific formulae unvowelled; Quranic vowelling covered by the mushaf convention (see BK6 advisory) |
+| BK-N6 enumeration | pass — no enumeration touched by the deltas |
+| BK-N7 register/terminology | pass — no split renderings after folds |
+| BK-P7 duplicated passage | pass — duplication-check findings empty; no prose changed since the manual ch7 merge review |
+| Arabic audit | 23 canonical-mushaf / 30 ocr / 1 honorific / 0 unverified; 1 vowelling_review item disposed as BK6 below |
+| Allah annotation placement | verified first-standalone-use-per-chapter: preface 23, ch1 45, ch2 65, ch3 130, ch4–5 none (chapters use "God"), ch6 497, ch7 841, ch8 875 — none earlier unannotated |
 
-## Findings
+## Findings (P2 only — advisory, no verdict impact)
 
-### BK1 · BK-P3 · P0 · VERIFIED
-- **Chapter:** 5 — The World, the Hereafter, and the Speech of Parables
-- **book.md:** line 374 — `"They are the causes between God and the speaker (natiq (النطقاء)), and they are His."`
-- **Source:** `_system/source/ocr/raw-extract.md` line 509 — `تلك أسباب بين الله وبين النطقاء، وهي له`
-- **Why it fails:** النطقاء is the definite PLURAL (*al-nutaqa*); the transliteration it sits beside is the singular *natiq*, and the English is singular "the speaker". The script does not correspond to the term it annotates. Root cause is the glossary entry itself (`_system/glossary.yml`: `nāṭiq → النطقاء`), so it would propagate on any re-run.
-- **Worker action:** Correct the glossary `arabic_script` to `الناطق` for the singular entry (or re-render the English as plural to match the source's النطقاء and annotate `nutaqa (النطقاء)`), then re-apply the inline pass.
-
-### BK2 · BK-P3 · P0 · VERIFIED
+### BK1 · BK-P3 · P2 · VERIFIED (carry-over — open editorial call, unchanged)
 - **Chapter:** 7 — The Five Shares and the Long Road to the Shaykh
-- **book.md:** line 779 — `The boy said: "I am free, son of Abd Allah (الله)."`
-- **Source:** raw-extract line 1064 — `قال: عُبيد الله ابن عبد الله`
-- **Why it fails:** The "Allah" glossary entry fired on the *Allah* inside the proper name *Abd Allah*, splitting the name and annotating half of it. Four lines earlier (775) the same name is correctly annotated `Abd Allah (عبد الله)`, so the book now carries two different scripts for one name inside one chapter.
-- **Worker action:** Suppress the standalone `Allah → الله` match when it falls inside a multi-word name already in the glossary (`Abd Allah`, `Ubayd Allah`); drop the annotation at 779 entirely (the name's first mention in the chapter is already annotated).
+- **book.md:** line 701 — `whose palms are opened with the light of Sinai (الطور)`
+- **Why:** الطور is *al-Tur*; the English word beside it is "Sinai". Script correct for the term, mismatched to the word it annotates. Prefer `the Mount, al-Tur (الطور)`.
 
-### BK3 · BK-P3 · P0 · VERIFIED
-- **Chapter:** 8 — Homecoming, the Father, and the Debate with Abu Malik
-- **book.md:** line 885 — `... their religion, "Kab al-Ahbar (كعب الأحبار)" (كعب الأحبار). Among them he was a man of standing ...`
-- **Why it fails:** The Arabic was already present in the approved base as a trailing parenthetical; the inline pass added a second copy inside the quoted epithet. The printed page will show the same Arabic twice in eight characters.
-- **Worker action:** Teach the inline pass to skip a term whose Arabic already appears within the same sentence, and delete one of the two copies here (keep the one inside the quoted epithet, drop the trailing pair).
+### BK2 · BK-P3 · P2 · VERIFIED (carry-over — open editorial call, unchanged)
+- **Chapter:** 8 — lines 987, 1019 — `O Abu Salih (أبا صالح)`, `O Abu al-Khair (أبا الخير)`
+- **Why:** Script is vocative accusative (correct Arabic after يا) beside nominative *Abu*. Contextually right, conventionally mismatched.
 
-### BK4 · BK-P3 · P0 · VERIFIED
-- **Chapter:** 2 — A Stranger in the City (editorial note)
-- **book.md:** line 114 — `> sense of the word for sacred law itself. The root of *Sharia* (sh-r-) means to open up a path`
-- **Base (1b750a3):** `The root of *Sharia* (sh-r-') means to open up a path`
-- **Why it fails:** The transliteration fold dropped the apostrophe that was standing for the third radical **ʿayn**. What was a correct trilateral root citation (sh-r-ʿ) is now a two-letter stub with a dangling hyphen, and the etymological claim the note makes is no longer true as printed. The apostrophe-drop rule is right for names and terms; it must not apply inside a root citation.
-- **Worker action:** Restore the third radical. Preferred form given the book's own new convention: `The root of *Sharia* (ش ر ع)` — Arabic letters, no Latin apostrophe needed. Add a fold exemption for `X-Y-Z'` root patterns.
+### BK3 · BK-P3 · P2 · VERIFIED (carry-over — open editorial call; shape changed with script-only annotations, issue persists)
+- **Chapters:** preface (lines 5, 13), 5 (line 362)
+- **book.md:** `his gate (باب)` vs `his successor (الوصي)`, `his summoners (الدعاة)`, `the twelve arguments (الحجج)`; `the Ismaili dawa (دعوة)` vs definite English
+- **Why:** Definite article carried inconsistently across annotations. Normalize to citation form (الباب or bab throughout).
 
-### BK5 · BK-P6 · P1 · VERIFIED
-- **Chapters:** preface (line 13) and 5 (lines 354, 358, 362, 366, 374)
-- **book.md:** line 13 — `the speaking Imam (الإمام) (*al-Imam al-Natiq (الإمام الناطق)*), his gate (*bab (باب)*), his successor (*wasi (وصيه)*), his summoners (*duat (الدعاة)*)`
-- **Why it fails:** Twelve sites where the annotation landed inside an existing parenthetical, producing parentheses nested one inside another — `(natiq (النطقاء))`, `(bab (باب))`, `(hujaj (الحجج))`, `(tawil (التأويل))`, `(nuqaba (النقباء))`, `(duat (الدعاة))`. Line 13 and line 354 additionally give the script for *Imam* twice in a single clause (`الإمام` then `الإمام الناطق`). This is the book's most doctrinally important vocabulary passage and it now reads as machine output.
-- **Worker action:** When the anchor is already inside `(...)`, set the script off with a comma or an em-dash instead of a second paren pair — `the gate (bab, باب)` — and suppress the standalone term when a compound containing it is annotated in the same clause.
+### BK4 · BK-P3 · P2 · VERIFIED (carry-over — open editorial call, unchanged)
+- **Chapter:** 5 — line 462 — `O children of Adam (آدم), We have sent down…`
+- **Why:** The annotation sits in the translation directly beneath the Quranic block that already reads `يَا بَنِي آدَمَ`, restating the same word unvowelled beside the vowelled mushaf form.
 
-### BK6 · BK-P3 · P1 · VERIFIED
-- **Chapters:** preface (line 13), 5 (line 362)
-- **book.md:** `his successor (*wasi (وصيه)*)`
-- **Why it fails:** وصيه carries the pronominal suffix ـه ("HIS wasi"); the transliteration beside it is the bare *wasi*. Glossary-sourced (`waṣī → وصيه`), so it will recur.
-- **Worker action:** Set the glossary `arabic_script` to the citation form `وصي` (or `الوصي`), matching how `bab`, `hujaj`, `nuqaba` are handled.
+### BK5 · BK-N7 · P2 · VERIFIED (new state of the nested-parens editorial call)
+- **Chapters:** preface (line 13), 5 (lines 354–374)
+- **book.md:** `the speaking Imam (الإمام الناطق), his gate (باب), his successor (الوصي), his summoners (الدعاة)`
+- **Why:** The 53ffdf9 resolution (script replaces romanization) eliminated all twelve nested-paren sites — verified zero remain book-wide — but as a side effect the terms *natiq, bab, wasi, duat, nuqaba, hujaj, tawil* no longer appear in Latin anywhere in the book. A reader who cannot read Arabic script can no longer NAME the book's core technical vocabulary, and the preface sentence introducing "a set of terms" now shows only glyphs. Where the romanization is itself the running text (*hawl*, *quwwa*, lines 533/537) it survives — so the alternative form `the gate (bab, باب)` remains available if Asif wants the names back. Open editorial call; no verdict impact.
 
-### BK7 · BK-P1 · P1 · VERIFIED
-- **Chapter:** 7 — The Five Shares and the Long Road to the Shaykh
-- **book.md:** line 231 — `his way became clear and his draft grew sweet, and he came to know his Lord`
-- **Base (1b750a3):** `his way became clear and his draught grew sweet`
-- **Why it fails:** The American-spelling pass converted *draught* (a drink drawn from a spring — the water imagery that runs from the preface's "watering-places" through this sentence) into *draft*, which in American English reads as a preliminary document. The sentence's sense is destroyed.
-- **Worker action:** Restore `draught`, or re-word to `his drink grew sweet`. Add `draught` to the American-fold exclusion list (the beverage/drawing sense has no safe American substitute here).
+### BK6 · BK-P3 · P2 · VERIFIED (new — verification-infrastructure advisory)
+- **Chapter:** 7 — line 769 — `وَمَا يُلَقَّاهَا إِلَّا الَّذِينَ صَبَرُوا وَمَا يُلَقَّاهَا إِلَّا ذُو حَظٍّ عَظِيمٍ`
+- **Source:** raw-extract line 1059 — `وما يُلقاها إلا الذين صبروا وما يُلقاها إلا ذو حظ عظيم` (scan, near-bare)
+- **Why:** This IS canonical Quran (41:35) — verified against `mirror.db` (surah 41, ayat 35) by manual comparison; the harakat supplied are recitation-correct and the full vowelling is licensed by the book's stated convention ("where they are Quran they carry the vowelling of the mushaf"). But the book keeps the scan's standard (imla'i) rasm `يُلَقَّاهَا` where the Uthmani mushaf has `يُلَقَّىٰهَآ`, and `_arabic_coverage.normalize_arabic` does not fold `ىٰ`→`ا` — so `_mushaf.is_quranic` returns False and the audit lists this verse under `vowelling_review` on EVERY run, a recurring false positive that will erode trust in that review list. Worker action: extend the normalizer (or the defective-substring path) to equate alif-maqsura-with-dagger-alif with plain alif; advisory only, never a gate.
 
-### BK8 · BK-N7 · P1 · VERIFIED
-- **Chapter:** 8 — lines 1255, 1273 (and 551, 559)
-- **book.md:** `So it was revealed to Lot (ع) by the hand of Abraham (ع)` / `no messenger after Moses (ع)` / `Ishmael and Isaac (عليهم السلام)`
-- **Why it fails:** These six honorific abbreviations are inherited from the approved base and were correct when the book had only ten parenthetical Arabic items. The inline pass has now established, across 68 sites, the convention *English/transliteration (its Arabic)*. Under that convention `Joseph (ع)` reads as though ع were the Arabic for Joseph. The book also mixes the abbreviation `(ع)` with the spelled-out `(عليهم السلام)` for the same function — an elegant-variation defect in exactly the place terminological consistency matters.
-- **Worker action:** Pick one form and apply it uniformly. Recommended: spell out `(عليه السلام)` / `(عليهم السلام)` everywhere, so the reader never sees a bare letter in a slot the rest of the book uses for a term's script.
-
-### BK9–BK14 · P2 · advisory (no verdict impact)
-- **BK-P3, line 701** — `the light of Sinai (الطور)`: الطور is *al-Tur*, transliterated as **Tur** at line 45. The script is correct for the term but does not correspond to the English word it sits beside. Prefer `the light of the Mount, al-Tur (الطور)`.
-- **BK-P3, lines 987, 1019** — `O Abu Salih (أبا صالح)`, `O Abu al-Khair (أبا الخير)`: the script is the vocative accusative (correct Arabic after يا) while the transliteration is nominative *Abu*. Contextually right, conventionally mismatched.
-- **BK-P3, line 358 et al.** — inconsistent definite article: `nuqaba (النقباء)` and `duat (الدعاة)` carry `al-` in the script but not the transliteration, while `bab (باب)` and `Imam (الإمام)` go the other way. Normalize to citation form.
-- **BK-A4, lines 9, 533, 537** — Arabic script placed inside `**bold**` (`**The Shaykh (الشيخ)**`) and `*italic*` (`*hawl (الحول)*`) spans. Arabic has no italic; renderers synthesize an oblique. Move the script outside the emphasis markers.
-- **BK-P3, line 462** — `O children of Adam (آدم)` sits in the English translation directly beneath the Quranic block that already reads `يَا بَنِي آدَمَ`, restating the same word unvowelled next to the vowelled mushaf form.
-- **BK-A4, line 15** — `labelled` survived the American-spelling fold (should be `labeled`).
+### BK7 · BK-A2 · P2 · VERIFIED (new — process staleness)
+- **Artifacts:** `_system/book-arabic-audit.json`, `_system/book-duplication-check.json`
+- **Why:** Both predate the last book.md commit (0b52991, honorific expansion) by ~2h50m. The only textual delta since their stamp is `(ع)`→`(عليه السلام)` at line 551 — manually verified benign (correct formula, unvowelled) — but the audit's honorific-formula count (1) no longer reflects the manuscript. Restamp on next compose/audit run.
 
 ## Verified vs Inferred summary
-14 findings, all VERIFIED against `book.md`, the approved base at 1b750a3, `_system/glossary.yml`, and `_system/source/ocr/raw-extract.md`. 0 INFERRED.
+7 findings, all VERIFIED — against `book.md`, the approved base at 1b750a3, `_system/glossary.yml`,
+`_system/source/ocr/raw-extract.md`, and `content/knowledge-base/mirror.db` (canonical mushaf,
+consulted directly for Q 41:35, 2:233, 28:76, 12:4, 7:26). 0 INFERRED.
 
-Arabic verification coverage: all 68 inline annotations checked glyph-by-glyph against their glossary
-`arabic_script` field and, where the term appears in the scan, against `raw-extract.md`. All Quranic
-and source blockquote Arabic is byte-identical to the approved base (no re-verification required; it
-was verified at that commit, resolution ladder canonical-mushaf/ocr, 0 unverified in
-`_system/book-arabic-audit.json`). `عُبيد الله` at line 775 carries a damma — CONFIRMED as scan
-vowelling (raw-extract line 1064), not model-supplied. BK-N5 clean.
+Arabic verification coverage: all 65 inline annotations glyph-checked against the glossary and, where
+present in the scan, against raw-extract; all Quranic/source blockquotes byte-identical to the base
+verified at 1b750a3 (fresh mushaf spot-checks passed modulo the imla'i-vs-Uthmani orthography
+convention documented at BK6). Nothing passed silently: the single `vowelling_review` item is
+disposed above with a canonical verification, not waved through.
 
 ## Ledger emission summary
-14 records appended to `_learning/findings.jsonl` (source `book-challenger`, version 1.0,
-resolution `flagged`): 4 × P0, 4 × P1, 6 × P2. No file under `book/` other than this report was modified.
+7 records appended to `_learning/findings.jsonl` (source `book-challenger`, version 1.0,
+resolution `flagged`): 0 × P0, 0 × P1, 7 × P2. No file under `book/` other than this report was
+modified. Verdict: SHIP-READY — the four P0s and four P1s of the prior run are all resolved at the
+generator; only advisory P2s remain, all open editorial calls or infrastructure notes.
