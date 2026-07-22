@@ -276,7 +276,13 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     file: v.file,
     src: `/api/studio/visual-asset?slug=${encodeURIComponent(slug)}&file=${encodeURIComponent(v.file)}`,
     suggested_anchor: v.suggested_anchor ?? "",
-    chapter: resolveChapter(v.suggested_anchor ?? ""),
+    // The producer stamps `chapter` (bare heading text) at emit time — it is
+    // the only side that can resolve a slide-deck anchor, whose needle quotes
+    // the deck narration rather than book.md (the flood-every-chapter bug).
+    // The needle fallback stays for pre-stamp index files.
+    chapter:
+      resolveChapter(v.chapter ?? "") ||
+      resolveChapter(v.suggested_anchor ?? ""),
     cleaned: v.cleaned ?? true,
     embedded_title: v.embedded_title ?? "",
   }));
