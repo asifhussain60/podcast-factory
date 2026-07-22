@@ -1646,41 +1646,12 @@
   border-color: var(--c-accent, #8b4513);
 }
 
-/* Hover-to-enlarge preview (position rides runtime custom props, never inline style). */
-.cx-hover-preview {
-  position: fixed;
-  left: var(--hx, 0);
-  top: var(--hy, 0);
-  z-index: 60;
-  width: 22rem;
-  max-width: 90vw;
-  padding: 0.4rem;
-  background: var(--c-bg-card, #fffdf8);
-  border: 1px solid var(--c-rule, #d9d3c4);
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(31, 29, 24, 0.2);
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-}
-.cx-hover-preview.is-visible {
-  opacity: 1;
-  visibility: visible;
-}
-.cx-hover-preview img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 20rem;
-  object-fit: contain;
-  border-radius: 5px;
-  background: var(--c-bg, #f7f4ee);
-}
-
-/* Full-size image lightbox (image-lightbox.ts) — the readable alternative to
-   the fixed-size hover card. The figure sizes ITSELF to the image's natural
-   aspect, capped to the viewport; vectors stay sharp at any size. Scrim layout
-   and darkening come from .cx-confirm-scrim (shared modal contract). */
+/* Full-size image lightbox (image-lightbox.ts) — opened by clicking a palette
+   card (drag is the placement gesture; the old hover-to-enlarge card is gone —
+   too small to read, and it covered the list while the pointer moved). The
+   figure sizes ITSELF to the image's natural aspect, capped to the viewport;
+   vectors stay sharp at any size. Scrim layout and darkening come from
+   .cx-confirm-scrim (shared modal contract). */
 .cx-lightbox-box {
   position: relative;
   display: flex;

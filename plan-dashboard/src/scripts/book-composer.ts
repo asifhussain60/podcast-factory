@@ -1151,7 +1151,9 @@ function boot(): void {
     }
     if (scopeEl) {
       const ch = chapterByKey.get(selectedChapter);
-      scopeEl.textContent = ch ? `Candidates for “${ch.title}”.` : "";
+      scopeEl.textContent = ch
+        ? `Candidates for “${ch.title}”. Click to read one full size; drag it into the chapter to place it.`
+        : "";
     }
     // The innerHTML reset above drops anything a client island added to the
     // prose — the Companion panel's passage marks among them. Announce it so
@@ -1371,7 +1373,7 @@ function boot(): void {
     const placeBtn = document.createElement("button");
     placeBtn.type = "button";
     placeBtn.className = "cx-palette-place";
-    placeBtn.setAttribute("aria-label", `Place ${v.caption || v.id}`);
+    placeBtn.setAttribute("aria-label", `View ${v.caption || v.id} full size`);
     const img = document.createElement("img");
     img.src = v.src;
     img.alt = "";
@@ -1389,12 +1391,6 @@ function boot(): void {
     const actions = document.createElement("div");
     actions.className = "cx-palette-actions";
     actions.append(
-      // The hover card is a fixed ~22rem box — a dense slide is unreadable in
-      // it, and hover doesn't exist on touch or keyboard. The magnifier opens
-      // the self-sizing lightbox instead (Esc / backdrop / X to close).
-      iconBtn("🔍", "View full size", () =>
-        void imageLightbox({ src: v.src, caption: v.caption || v.id }),
-      ),
       iconBtn("✨", "Edit this image with AI", () =>
         openAiImageBox(v.file, v.caption),
       ),
@@ -1402,51 +1398,24 @@ function boot(): void {
     );
     item.append(placeBtn, actions);
 
-    // Clicking places into the chapter ON SCREEN. The pipeline's
-    // `suggested_anchor` is only a hint, and honouring it over the visible
-    // chapter meant a click could file the figure into a chapter the human was
-    // not looking at — it then appeared to do nothing. The suggestion is still
-    // used to decide which chapter a candidate is OFFERED under (see render);
-    // once offered here, the human's current position wins.
-    const target =
-      chapterByKey.get(selectedChapter)?.anchor ??
-      (v.suggested_anchor && chapterByKey.get(anchorKey(v.suggested_anchor))
-        ? v.suggested_anchor
-        : (data.chapters[0]?.anchor ?? ""));
-    placeBtn.addEventListener("click", () => place(v.id, target));
+    // CLICK reads, DRAG places — two gestures, two meanings (Asif 2026-07-22).
+    // Clicking used to place the figure into the chapter, which made "let me
+    // look at this first" impossible: the only readable view is the lightbox,
+    // and the only way to place is now the drag, whose drop marker says exactly
+    // which paragraph the figure will follow. The hover-to-enlarge card that
+    // used to shadow the pointer is gone for the same reason — it was too small
+    // to read and it covered the list while you moved.
+    placeBtn.addEventListener("click", () =>
+      void imageLightbox({ src: v.src, caption: v.caption || v.id }),
+    );
     item.addEventListener("dragstart", (e) =>
       e.dataTransfer?.setData(VISUAL_DRAG_TYPE, v.id),
     );
-    item.addEventListener("mouseenter", () => showHoverPreview(v, item));
-    item.addEventListener("mouseleave", hideHoverPreview);
     return item;
-  }
-
-  // ── hover-to-enlarge preview ──────────────────────────────────────────────
-  let hoverEl: HTMLElement | null = null;
-  function showHoverPreview(v: Visual, anchorEl: HTMLElement): void {
-    if (!hoverEl) {
-      hoverEl = document.createElement("div");
-      hoverEl.className = "cx-hover-preview";
-      hoverEl.appendChild(document.createElement("img"));
-      document.body.appendChild(hoverEl);
-    }
-    (hoverEl.querySelector("img") as HTMLImageElement).src = v.src;
-    const r = anchorEl.getBoundingClientRect();
-    hoverEl.style.setProperty("--hx", `${Math.max(8, r.left - 372)}px`);
-    hoverEl.style.setProperty(
-      "--hy",
-      `${Math.max(8, Math.min(window.innerHeight - 360, r.top - 40))}px`,
-    );
-    hoverEl.classList.add("is-visible");
-  }
-  function hideHoverPreview(): void {
-    hoverEl?.classList.remove("is-visible");
   }
 
   // ── delete an artifact (index entry + file) ───────────────────────────────
   async function deleteArtifact(v: Visual): Promise<void> {
-    hideHoverPreview();
     const ok = await confirmDialog({
       title: "Delete this artifact?",
       body: `“${v.caption || v.id}” will be removed from the library and disk. This can't be undone.`,
@@ -1476,7 +1445,6 @@ function boot(): void {
 
   // ── generate / edit an artifact with Gemini ───────────────────────────────
   function openAiImageBox(fromFile?: string, baseCaption?: string): void {
-    hideHoverPreview();
     root.querySelector(".cx-aiimg-box")?.remove();
     const panel = root.querySelector<HTMLElement>("#cx-panel-artifacts");
     if (!panel) return;
