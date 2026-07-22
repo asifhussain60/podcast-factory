@@ -19,6 +19,7 @@ import {
   type ChapterEditor,
 } from "./book-md-editor";
 import { confirmDialog, noticeDialog } from "./confirm-dialog";
+import { imageLightbox } from "./image-lightbox";
 import {
   createAutosave,
   mountAutosaveStatus,
@@ -1388,6 +1389,12 @@ function boot(): void {
     const actions = document.createElement("div");
     actions.className = "cx-palette-actions";
     actions.append(
+      // The hover card is a fixed ~22rem box — a dense slide is unreadable in
+      // it, and hover doesn't exist on touch or keyboard. The magnifier opens
+      // the self-sizing lightbox instead (Esc / backdrop / X to close).
+      iconBtn("🔍", "View full size", () =>
+        void imageLightbox({ src: v.src, caption: v.caption || v.id }),
+      ),
       iconBtn("✨", "Edit this image with AI", () =>
         openAiImageBox(v.file, v.caption),
       ),
