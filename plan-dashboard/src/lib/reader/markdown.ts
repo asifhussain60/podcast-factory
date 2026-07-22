@@ -467,6 +467,22 @@ export function renderSourceMarkdown(input: string): string {
 }
 
 /**
+ * The Book Composer's EDIT-mode seed — the byte-faithful profile.
+ *
+ * Everything this render loses, the next autosave writes into book.md, so no
+ * display-only transform may run here. The one the default profile applies —
+ * simplifyTransliteration — treats a straight apostrophe as a probable
+ * ayn/hamza and folds it away unless it is verifiably English, which ate the
+ * OPENING quote of "(صالح, 'the righteous')" (space before it → dropped;
+ * the closing one follows an `s` → kept). Seeding the editor from that fold
+ * corrupted the round trip before the author typed a single character.
+ * Display surfaces keep folding; the editor sees the file's actual bytes.
+ */
+export function renderEditSeed(input: string): string {
+  return renderMarkdown(input, { simplifyTranslit: false });
+}
+
+/**
  * Render a YAML-folded scalar as a single paragraph or as paragraphs.
  * YAML's `>` folding collapses newlines into spaces, so we typically
  * get one paragraph back. We still run renderInline so emphasis works.

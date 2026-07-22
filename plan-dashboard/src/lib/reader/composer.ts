@@ -18,7 +18,7 @@ import { anchorKey } from "../../../scripts/lib/anchor-key.mjs";
 import { editionIntroDelta } from "./book-fences";
 import { findContent } from "../content-paths";
 import { loadGlossary, loadGlossaryAll, type GlossaryEntry } from "./glossary";
-import { renderMarkdown } from "./markdown";
+import { renderEditSeed } from "./markdown";
 // The PDF's own renderer. Importing it here (rather than re-implementing the
 // book-craft layer in TypeScript) is what makes the Composer's read mode and
 // the printed page ONE code path — the same consolidation render-book-pdf.mjs
@@ -235,8 +235,11 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
         quranicRuns,
       }),
     );
-    // EDIT: the plain render, unchanged — the TipTap-safe seed (see editHtml).
-    const editHtml = renderMarkdown(body);
+    // EDIT: the byte-faithful render — the TipTap-safe seed (see editHtml).
+    // Never the default profile: its display-only transliteration fold ate
+    // leading straight apostrophes, and a seed loss becomes a book.md loss on
+    // the first autosave (see renderEditSeed in markdown.ts).
+    const editHtml = renderEditSeed(body);
     chapters.push({
       anchor: heading,
       key,
