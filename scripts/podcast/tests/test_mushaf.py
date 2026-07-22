@@ -28,6 +28,13 @@ _QURANIC = [
     ("أَطِيعُوا اللَّهَ وَأَطِيعُوا الرَّسُولَ", "Q 4:59"),
     ("عَلَىٰ فَتْرَةٍ مِّنَ الرُّسُلِ", "Q 5:19"),
     ("وَلَا تَرْكَنُوا إِلَى الَّذِينَ ظَلَمُوا", "Q 11:113"),
+    # Uthmani MID-WORD maqsura+dagger-alif vs modern plain alif: the mushaf sets
+    # `يُلَقَّىٰهَا` where a modern text writes `يُلَقَّاهَا`. Stripping the dagger as a
+    # vowel mark left the maqsura to fold to ya, so the two spellings skeletonised
+    # differently and this canonical verse false-positived on the
+    # fabricated-vowelling review list on every audit of the-master-and-the-disciple.
+    ("وَمَا يُلَقَّاهَا إِلَّا الَّذِينَ صَبَرُوا وَمَا يُلَقَّاهَا إِلَّا ذُو حَظٍّ عَظِيمٍ", "Q 41:35, modern spelling"),
+    ("وَمَا يُلَقَّىٰهَآ إِلَّا ٱلَّذِينَ صَبَرُوا۟", "Q 41:35, Uthmani spelling"),
 ]
 
 _NOT_QURANIC = [

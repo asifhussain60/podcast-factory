@@ -31,9 +31,14 @@
     },
     {
       "chapter": "1. The Persian Who Was Dead and Revived",
-      "arabic_runs": 1,
+      "arabic_runs": 2,
       "unverified": 0,
       "runs": [
+        {
+          "text": "البيت المعمور",
+          "resolution": "canonical-mushaf",
+          "skeleton": "البيتالمعمور"
+        },
         {
           "text": "إن أفضل الحسنات إحياء الأموات",
           "resolution": "ocr",
@@ -109,7 +114,7 @@
     },
     {
       "chapter": "5. The World, the Hereafter, and the Speech of Parables",
-      "arabic_runs": 15,
+      "arabic_runs": 16,
       "unverified": 0,
       "runs": [
         {
@@ -146,6 +151,11 @@
           "text": "فكذلك جميع ما خلق الله من الأشياء",
           "resolution": "ocr",
           "skeleton": "فكذلكجميعماخلقاللهمنالاشياء"
+        },
+        {
+          "text": "الإمام الناطق",
+          "resolution": "ocr",
+          "skeleton": "الامامالناطق"
         },
         {
           "text": "فَلَا تَضْرِبُوا لِلَّهِ الْأَمْثَالَ",
@@ -191,7 +201,7 @@
     },
     {
       "chapter": "6. Three Layers of Knowledge",
-      "arabic_runs": 7,
+      "arabic_runs": 8,
       "unverified": 0,
       "runs": [
         {
@@ -203,6 +213,11 @@
           "text": "وَآتَيْنَاهُ مِنَ الْكُنُوزِ مَا إِنَّ مَفَاتِحَهُ لَتَنُوءُ بِالْعُصْبَةِ أُولِي الْقُوَّةِ",
           "resolution": "ocr",
           "skeleton": "واتيناهمنالكنوزماانمفاتحهلتنوءبالعصبهاول"
+        },
+        {
+          "text": "عليه السلام",
+          "resolution": "ocr",
+          "skeleton": "عليهالسلام"
         },
         {
           "text": "يَا أَبَتِ إِنِّي رَأَيْتُ أَحَدَ عَشَرَ كَوْكَبًا وَالشَّمْسَ وَالْقَمَرَ رَأَيْتُهُمْ لِي سَاجِدِينَ",
@@ -233,7 +248,7 @@
     },
     {
       "chapter": "7. The Five Shares and the Long Road to the Shaykh",
-      "arabic_runs": 5,
+      "arabic_runs": 6,
       "unverified": 0,
       "runs": [
         {
@@ -253,8 +268,13 @@
         },
         {
           "text": "وَمَا يُلَقَّاهَا إِلَّا الَّذِينَ صَبَرُوا وَمَا يُلَقَّاهَا إِلَّا ذُو حَظٍّ عَظِيمٍ",
-          "resolution": "ocr",
+          "resolution": "canonical-mushaf",
           "skeleton": "ومايلقاهاالاالذينصبرواومايلقاهاالاذوحظعظ"
+        },
+        {
+          "text": "عُبيد الله",
+          "resolution": "ocr",
+          "skeleton": "عبيدالله"
         },
         {
           "text": "ولكن المؤمن ينظر بنور الله",
@@ -265,7 +285,7 @@
     },
     {
       "chapter": "8. Homecoming, the Father, and the Debate with Abu Malik",
-      "arabic_runs": 14,
+      "arabic_runs": 15,
       "unverified": 0,
       "runs": [
         {
@@ -297,6 +317,11 @@
           "text": "إنا لله وإنا إليه راجعون",
           "resolution": "canonical-mushaf",
           "skeleton": "اناللهوانااليهراجعون"
+        },
+        {
+          "text": "أبا الخير",
+          "resolution": "ocr",
+          "skeleton": "اباالخير"
         },
         {
           "text": "لَيْسَ كَمِثْلِهِ شَيْءٌ",
@@ -342,53 +367,11 @@
     }
   ],
   "totals": {
-    "canonical-mushaf": 23,
-    "ocr": 30,
+    "canonical-mushaf": 25,
+    "ocr": 33,
     "knowledge-base": 0,
     "honorific-formula": 1,
     "unverified": 0,
-    "arabic_runs": 31
-  },
-  "vowelling_review": [
-    "non-Quranic run vowelled beyond the scan: وَمَا يُلَقَّاهَا إِلَّا الَّذِينَ صَبَرُوا "
-  ],
-  "stages": {
-    "base": {
-      "(front matter)": 0,
-      "How to Read a Conversation Made of Doors": 1,
-      "1. The Persian Who Was Dead and Revived": 1,
-      "2. A Stranger in the City": 1,
-      "3. The Boy at the Door — Limits and Conditions": 1,
-      "4. How the World Was Made": 7,
-      "5. The World, the Hereafter, and the Speech of Parables": 15,
-      "6. Three Layers of Knowledge": 7,
-      "7. The Five Shares and the Long Road to the Shaykh": 5,
-      "8. Homecoming, the Father, and the Debate with Abu Malik": 14
-    },
-    "augment": {
-      "(front matter)": 0,
-      "How to Read a Conversation Made of Doors": 1,
-      "1. The Persian Who Was Dead and Revived": 1,
-      "2. A Stranger in the City": 1,
-      "3. The Boy at the Door — Limits and Conditions": 1,
-      "4. How the World Was Made": 7,
-      "5. The World, the Hereafter, and the Speech of Parables": 15,
-      "6. Three Layers of Knowledge": 7,
-      "7. The Five Shares and the Long Road to the Shaykh": 5,
-      "8. Homecoming, the Father, and the Debate with Abu Malik": 14
-    },
-    "final": {
-      "(front matter)": 0,
-      "How to Read a Conversation Made of Doors": 3,
-      "1. The Persian Who Was Dead and Revived": 1,
-      "2. A Stranger in the City": 1,
-      "3. The Boy at the Door — Limits and Conditions": 1,
-      "4. How the World Was Made": 7,
-      "5. The World, the Hereafter, and the Speech of Parables": 15,
-      "6. Three Layers of Knowledge": 7,
-      "7. The Five Shares and the Long Road to the Shaykh": 5,
-      "8. Homecoming, the Father, and the Debate with Abu Malik": 14
-    }
-  },
-  "stage_losses": []
+    "arabic_runs": 59
+  }
 }

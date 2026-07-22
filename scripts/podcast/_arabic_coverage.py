@@ -149,9 +149,21 @@ _ARABIC_LETTERS_ONLY_RE = re.compile(r"[^ء-ي]")
 _GROUNDING_WINDOW_CHARS = 24
 
 
+# Uthmani mid-word alif: alif maqsura + dagger alif (U+0670) followed by another
+# letter spells the long /a/ that modern imla'i writes as a plain alif — the
+# mushaf's `يُلَقَّىٰهَا` is a modern text's `يُلَقَّاهَا`. Stripping the dagger as "just a
+# vowel mark" (the old behaviour) left the maqsura behind to fold to ya, so the
+# two spellings produced DIFFERENT skeletons and canonical Q 41:35 read as
+# non-Quranic — landing a correct verse on the fabricated-vowelling review list,
+# one step from being "repaired". Word-FINAL maqsura+dagger (`عَلَىٰ`) is excluded:
+# there modern spelling also uses maqsura, so both sides already agree.
+_UTHMANI_MIDWORD_ALIF_RE = re.compile("ىٰ(?=[ء-ي])")
+
+
 def normalize_arabic(text: str) -> str:
     """The consonantal skeleton of an Arabic run — vowels, tatweel, spelling folded away."""
-    stripped = _ARABIC_TASHKEEL_RE.sub("", text or "")
+    folded = _UTHMANI_MIDWORD_ALIF_RE.sub("ا", text or "")
+    stripped = _ARABIC_TASHKEEL_RE.sub("", folded)
     return _ARABIC_LETTERS_ONLY_RE.sub("", stripped.translate(_ARABIC_FOLD))
 
 
