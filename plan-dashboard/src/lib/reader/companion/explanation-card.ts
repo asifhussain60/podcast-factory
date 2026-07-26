@@ -50,9 +50,11 @@ export interface CardOptions {
   onToggle?: (id: string, open: boolean) => void;
   /** Header clicked: the card wants its passage shown in the prose. */
   onReveal?: (id: string) => void;
-  /** Editing capability. Given, the card offers Edit; the reader omits it. */
+  /** Editing capability. Given, the expanded card IS a form — title and text are
+   *  live fields that save on blur, with no Edit button to press first. Omitted
+   *  by the reader, which renders the same content as formatted prose. */
   onSave?: (id: string, edit: CardEdit) => Promise<void> | void;
-  /** Delete capability. Given, the card offers Remove; the reader omits it. */
+  /** Delete capability. Given, the card carries a delete button in its header. */
   onRemove?: (id: string) => void;
 }
 
@@ -99,15 +101,6 @@ export function setTextWithArabic(el: HTMLElement, text: string): void {
   if (last < text.length) el.append(text.slice(last));
 }
 
-function button(cls: string, label: string, title?: string): HTMLButtonElement {
-  const b = document.createElement("button");
-  b.type = "button";
-  b.className = cls;
-  b.textContent = label;
-  if (title) b.title = title;
-  return b;
-}
-
 /** Build one collapsible explanation card. */
 export function renderExplanationCard(
   note: CardNote,
@@ -117,7 +110,11 @@ export function renderExplanationCard(
   card.className = "xpl";
   card.dataset.note = note.id;
 
-  // ── header: what this card is about ──────────────────────────────────────
+  // ── header: what this card is about, and the control that deletes it ─────
+  // A row, not one big button: delete sits BESIDE the toggle where it is always
+  // reachable, and a button cannot legally nest inside another button.
+  const headRow = document.createElement("div");
+  headRow.className = "xpl-headrow";
   const head = document.createElement("button");
   head.type = "button";
   head.className = "xpl-head";
@@ -156,6 +153,21 @@ export function renderExplanationCard(
     head.append(quote);
   }
   head.append(caret);
+  headRow.append(head);
+
+  if (opts.onRemove) {
+    const del = document.createElement("button");
+    del.type = "button";
+    del.className = "xpl-del";
+    del.title = "Delete this explanation";
+    del.setAttribute("aria-label", "Delete this explanation");
+    del.innerHTML = '<i class="fa-solid fa-trash-can" aria-hidden="true"></i>';
+    del.addEventListener("click", (e) => {
+      e.stopPropagation();
+      opts.onRemove?.(note.id);
+    });
+    headRow.append(del);
+  }
 
   const preview = document.createElement("p");
   preview.className = "xpl-preview";
@@ -177,109 +189,116 @@ export function renderExplanationCard(
   };
   fillFull(note.body);
 
-  card.append(head, preview, full);
+  card.append(headRow, preview, full);
 
-  // ── editing: the Composer's half of the contract ─────────────────────────
-  if (opts.onSave || opts.onRemove) {
-    const foot = document.createElement("div");
-    foot.className = "xpl-foot";
-    card.append(foot);
+  // ── editing: live fields, saved on blur ──────────────────────────────────
+  // No Edit button and no Save button. An expanded card in the Composer IS the
+  // text — you click into it and type, and leaving the field writes it. Buttons
+  // between an author and their own sentence are the thing this replaces.
+  if (opts.onSave) {
+    card.dataset.editable = "true";
 
-    if (opts.onSave) {
-      const form = document.createElement("div");
-      form.className = "xpl-edit";
+    const form = document.createElement("div");
+    form.className = "xpl-edit";
 
-      const titleLabel = document.createElement("label");
-      titleLabel.className = "xpl-edit-label";
-      titleLabel.textContent = "Title";
-      const titleInput = document.createElement("input");
-      titleInput.type = "text";
-      titleInput.className = "xpl-edit-title";
-      titleInput.value = note.anchor ?? "";
+    const titleInput = document.createElement("input");
+    titleInput.type = "text";
+    titleInput.className = "xpl-edit-title";
+    titleInput.value = note.anchor ?? "";
+    titleInput.placeholder = "Title";
+    titleInput.setAttribute("aria-label", "Explanation title");
 
-      const bodyLabel = document.createElement("label");
-      bodyLabel.className = "xpl-edit-label";
-      bodyLabel.textContent = "Explanation";
-      const bodyInput = document.createElement("textarea");
-      bodyInput.className = "xpl-edit-body";
-      bodyInput.rows = 12;
-      bodyInput.value = note.body;
+    const bodyInput = document.createElement("textarea");
+    bodyInput.className = "xpl-edit-body";
+    bodyInput.value = note.body;
+    bodyInput.setAttribute("aria-label", "Explanation text");
 
-      titleLabel.append(titleInput);
-      bodyLabel.append(bodyInput);
+    const status = document.createElement("span");
+    status.className = "xpl-status";
+    status.setAttribute("aria-live", "polite");
 
-      const actions = document.createElement("div");
-      actions.className = "xpl-edit-actions";
-      const save = button("xpl-btn xpl-btn--primary", "Save");
-      const cancel = button("xpl-btn", "Cancel");
-      actions.append(save, cancel);
-      form.append(titleLabel, bodyLabel, actions);
-      card.insertBefore(form, foot);
+    form.append(titleInput, bodyInput, status);
+    card.insertBefore(form, full);
 
-      const setEditing = (on: boolean) => {
-        card.dataset.editing = String(on);
-        if (on) bodyInput.focus();
+    // Grow with the text, up to a cap — a fixed-height box hides most of a long
+    // explanation, and an uncapped one turns the panel into a mile of textarea.
+    //
+    // Measured through a ResizeObserver, not once at build time: a card is built
+    // detached and the drawer it lands in may be CLOSED, where the textarea has
+    // no width, every word wraps to its own line and scrollHeight comes back in
+    // the tens of thousands of pixels. The observer fires when the box first has
+    // a real width, and again whenever that width changes.
+    const grow = () => {
+      const cap = Math.max(220, Math.round(window.innerHeight * 0.55));
+      bodyInput.style.height = "auto";
+      const needed = bodyInput.scrollHeight;
+      bodyInput.style.height = `${Math.min(needed, cap)}px`;
+      bodyInput.style.overflowY = needed > cap ? "auto" : "hidden";
+    };
+    bodyInput.addEventListener("input", grow);
+    let lastWidth = -1;
+    new ResizeObserver(() => {
+      // Width only: reacting to the height we just set would loop.
+      const w = bodyInput.clientWidth;
+      if (w === lastWidth || w === 0) return;
+      lastWidth = w;
+      grow();
+    }).observe(bodyInput);
+
+    let saved = { anchor: note.anchor ?? "", body: note.body };
+    let timer = 0;
+    const flash = (text: string) => {
+      status.textContent = text;
+      window.clearTimeout(timer);
+      if (text)
+        timer = window.setTimeout(() => (status.textContent = ""), 1600);
+    };
+
+    const commit = async () => {
+      const next = {
+        anchor: titleInput.value.trim(),
+        body: bodyInput.value.trim(),
       };
-      setEditing(false);
+      if (!next.body) {
+        // An emptied explanation is a delete, and deleting is the trash button's
+        // job — restore rather than silently write a note with no text.
+        bodyInput.value = saved.body;
+        grow();
+        return;
+      }
+      if (next.anchor === saved.anchor && next.body === saved.body) return;
+      flash("Saving…");
+      try {
+        await opts.onSave?.(note.id, next);
+        saved = next;
+        note.anchor = next.anchor;
+        note.body = next.body;
+        setTextWithArabic(title, next.anchor || note.quote || "Explanation");
+        setTextWithArabic(preview, cardPreview(next.body));
+        fillFull(next.body);
+        flash("Saved");
+      } catch {
+        flash("Not saved — try again");
+      }
+    };
 
-      const edit = button(
-        "xpl-btn",
-        "Edit",
-        "Change this explanation's title or text",
-      );
-      edit.addEventListener("click", (e) => {
-        e.stopPropagation();
-        titleInput.value = note.anchor ?? "";
-        bodyInput.value = note.body;
-        setEditing(true);
-      });
-      cancel.addEventListener("click", (e) => {
-        e.stopPropagation();
-        setEditing(false);
-      });
-      save.addEventListener("click", async (e) => {
-        e.stopPropagation();
-        const next = {
-          anchor: titleInput.value.trim(),
-          body: bodyInput.value.trim(),
-        };
-        if (!next.body) return; // an empty explanation is a delete, not a save
-        save.disabled = true;
-        try {
-          await opts.onSave?.(note.id, next);
-          // Reflect the save immediately. The host re-renders too, but the card
-          // must not show stale text for the frame in between.
-          note.anchor = next.anchor;
-          note.body = next.body;
-          setTextWithArabic(title, next.anchor || note.quote || "Explanation");
-          setTextWithArabic(preview, cardPreview(next.body));
-          fillFull(next.body);
-          setEditing(false);
-        } finally {
-          save.disabled = false;
-        }
-      });
-      foot.append(edit);
-    }
-
-    if (opts.onRemove) {
-      const remove = button(
-        "xpl-btn xpl-btn--danger",
-        "Remove",
-        "Delete this explanation",
-      );
-      remove.addEventListener("click", (e) => {
-        e.stopPropagation();
-        opts.onRemove?.(note.id);
-      });
-      foot.append(remove);
-    }
+    titleInput.addEventListener("blur", () => void commit());
+    bodyInput.addEventListener("blur", () => void commit());
+    // Escape abandons the edit in progress rather than saving it.
+    const onEscape = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      titleInput.value = saved.anchor;
+      bodyInput.value = saved.body;
+      grow();
+      (e.target as HTMLElement).blur();
+    };
+    titleInput.addEventListener("keydown", onEscape);
+    bodyInput.addEventListener("keydown", onEscape);
   }
 
   const setOpen = (open: boolean) => {
     card.dataset.open = String(open);
     head.setAttribute("aria-expanded", String(open));
-    if (!open) card.dataset.editing = "false"; // never leave a hidden edit form open
   };
   setOpen(!!opts.open);
 
