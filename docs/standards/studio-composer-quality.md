@@ -114,6 +114,35 @@ behaviour, never Cortex conformance and never meaning.
   `book-md` PUT) with a visible status indicator; the manual "Save layout" for the
   visual layout is retained.
 
+### Formatting toolbar (Phase 5, added 2026-07-26)
+
+- **REQ-SC-035 (MUST · P0) — A control may only produce what a save can write AND a
+  reload can read back.** Every formatting control on the Edit canvas must satisfy
+  BOTH directions: `docToMarkdown` writes it, and `renderEditSeed` parses it back to
+  the same document. One direction is not enough — `~~strike~~` and a fenced code
+  block both serialize cleanly and neither has a parse rule, so a click survives one
+  save and returns as literal punctuation in the editor, the reader and the printed
+  page. A control is not shipped until a round-trip test pins its output.
+- **REQ-SC-036 (MUST · P0) — No control may author a chapter boundary.**
+  `writeChapterBody` splits `book.md` on `/^##\s+/`, so an H2 typed inside a chapter
+  body creates a new chapter on save. The paragraph-format control offers only levels
+  below the chapter level, and rejects anything outside its configured set.
+- **REQ-SC-037 (MUST · —) — The editor package never owns the schema.** The Composer
+  binds `@asifhussain/prose-editor` with `attach()`, never `mount()`:
+  `mountChapterEditor` stays the sole owner of `editorExtensions()` (the schema the
+  round-trip test parses with), of the `cx-prose` class, and of the `handleDrop` that
+  swallows a palette drag. A package release must not be able to widen or restyle any
+  of them.
+- **REQ-SC-038 (MUST · —) — `covers` is declared, not derived.** The serializer
+  coverage list handed to `attach()` is written out by hand. Deriving it from the
+  schema makes the assertion agree with itself and check nothing; declared, adding a
+  node without teaching the serializer about it makes the editor refuse to open.
+- **REQ-SC-039 (MUST · P1) — Toolbar interaction preserves the selection.** Every
+  control prevents `mousedown` default. Without it a click blurs the editor, the
+  selection collapses, the command runs against nothing, and the AI actions (which
+  disable on an empty selection) switch themselves off as the user reaches for the
+  bar.
+
 ### Cross-cutting
 
 - **REQ-SC-040 (MUST · —) — Cortex + DoD deferral.** All three surfaces obey the

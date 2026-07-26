@@ -41,10 +41,12 @@
   },
   "dependencies": {},
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "npm run build:esm && npm run build:standalone",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "node --test \"test/**/*.test.ts\"",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "build:esm": "tsc -p tsconfig.build.json",
+    "build:standalone": "vite build -c vite.standalone.config.mts"
   },
   "keywords": [
     "editor",

@@ -77,6 +77,20 @@ export default tseslint.config(
     },
   },
   {
+    // Package EXAMPLES are browser files for other hosts to copy, not app code:
+    // they legitimately reference browser globals and, in the AngularJS recipe,
+    // that host's own global. Linted for real mistakes, not for existing.
+    files: ["packages/*/examples/**/*.js"],
+    languageOptions: {
+      globals: {
+        window: "readonly",
+        document: "readonly",
+        angular: "readonly",
+        console: "readonly",
+      },
+    },
+  },
+  {
     // Node-side scripts (smoke, snapshots, mermaid render, lint-views).
     // document/window/fetch cover code inside Playwright page.evaluate().
     files: ["scripts/**/*.mjs"],

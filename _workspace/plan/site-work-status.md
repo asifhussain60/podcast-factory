@@ -1,6 +1,44 @@
 # Current work - status
 
-**Last updated:** 2026-07-26 11:20 AM EST (lane switch + list pass + fence work, then a full audit pass)
+**Last updated:** 2026-07-26 2:37 PM EST (a reusable editor package, and the Composer adopting it)
+
+**Newest — the Composer's toolbar is now `@asifhussain/prose-editor`.**
+A self-contained npm workspace at `plan-dashboard/packages/prose-editor/`,
+framework-free core plus a React wrapper plus a standalone IIFE for hosts with no
+bundler. Its defining guarantee is that nothing typable can be lost on save:
+every node and mark in the schema must declare how it serializes, enforced at
+compile time by a branded type and at runtime by a coverage assertion against the
+FINAL schema. The Composer binds it with `attach()`, handing over `docToMarkdown`
+unchanged — so adoption changed nothing about what a save writes.
+
+*What the toolbar gained.* Thirteen controls where there were five: undo/redo, a
+Body/Section/Subsection format dropdown, bold, italic, inline code, link, bullet
+and numbered lists, quote, a Quranic-quotation button registered through the
+package's extension point, divider, clear formatting. Plus a selection bubble, a
+keyboard-shortcut registry that throws on a duplicate binding, and an allow-list
+paste sanitizer that replaces the deny-list-over-a-string approach.
+
+*Four things a keystroke could lose, closed first.* Ordered lists were renumbered
+from 1 on every save, destroying the stated ordinals `renderMarkdown` carries as
+`value=`. Shift+Enter fused the words either side of it. Underline and Mod-U
+discarded silently. And TipTap's `autolink` defaulted on, so typing a bare domain
+put a link into `book.md` that nobody authored. All four are now schema-level
+impossibilities rather than serializer omissions.
+
+*Two gates were weaker than their green output suggested.* The runtime smoke check
+FOLLOWS redirects, so a route that 302s away was reported clean — which is exactly
+how a broken `/studio/<slug>/compose` (an unresolvable CSS import, caused by a Vite
+string alias matching by prefix) passed. It now compares the landed path with the
+one asked for, with legitimate redirects declared per route, and was proven to
+catch the original defect. Separately, the view linter's CSS scan cannot see a
+single-line rule at all — found while proving the linter reached `packages/`, and
+spawned as its own task.
+
+*Known and not mine to fix here.* Round-tripping every chapter of all four books
+shows the seed/serialize pair is not byte-exact on real content — multi-line quotes
+get joined, and an asterisk used as an ayah separator loses its spacing. Identical
+before and after this work (5/0/1/7 chapters), so pre-existing; spawned separately.
+
 
 **Newest — the audit pass, and the two things it found that a human would have seen.**
 `repo-surgeon` (report-only, because a visual-QA agent was writing the same tree)
