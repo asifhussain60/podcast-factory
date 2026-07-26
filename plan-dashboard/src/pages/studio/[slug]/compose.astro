@@ -12,7 +12,6 @@
 import Base from "../../../layouts/Base.astro";
 import { loadComposer } from "../../../lib/reader/composer";
 import { slugToTitle } from "../../../lib/content-paths";
-import GemCompanionPanel from "../../../components/reader/companion/GemCompanionPanel";
 import ArabicReviewPanel from "../../../components/reader/ArabicReviewPanel";
 import VowellingReviewPanel from "../../../components/reader/VowellingReviewPanel";
 import "../../../styles/library.css";
@@ -33,6 +32,7 @@ import "@asifhussain/prose-editor/styles.css";
 import "../../../styles/book-composer.css";
 import "../../../styles/compose-print.css";
 import "../../../styles/gem-companion.css";
+import "../../../styles/companion-card.css";
 
 const slug = Astro.params.slug!;
 const view = await loadComposer(slug);
@@ -749,13 +749,7 @@ const ARABIC_FONTS = [
                 button) was retired on 2026-07-26 — one panel writes those notes
                 now, and the reader that consumes them is the LIVE Session. */}
             <div class="cx-surface" id="cx-surface-scholar" hidden>
-              <GemCompanionPanel
-                client:load
-                slug={slug}
-                bookTitle={bookTitle}
-                proseSelector=".cx-chapter"
-                docked
-              />
+              <div id="cx-scholar-mount" />
             </div>
 
             {/* Surface 3 — the book's ARABIC. Both halves of the retired

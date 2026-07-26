@@ -12,32 +12,38 @@
  *   From selection   — select a sentence IN THE CHAPTER: the panel explains it AND
  *                      files the answer as a Companion note against that chapter,
  *                      with the selected sentence as the note's verbatim `quote`.
- *                      The LIVE Session (/studio/<slug>/live) then highlights that
- *                      sentence and raises this explanation as you reach it.
+ *                      The passage is tinted in the chapter from that moment on,
+ *                      and the LIVE Session raises the same card as you reach it.
  *
- * Where the note lands is deliberately narrow: _system/companion-notes/<chapter>.json,
- * which the LIVE Session reads and NOTHING else does — never book.md, never the PDF.
- * Its chapter key comes from `sectionKeyFromHeading`, the same rule that produces the
- * LIVE Session's TOC ids, so a filed note is always one the reader looks up.
+ * The panel is a LIST, not a one-shot: it opens showing every explanation already
+ * filed for the chapter in front of you, each a collapsed card, newest first. That
+ * is what the chapter's tinted passages point AT — a highlight with no card to
+ * open would be a marker for something you could not read.
+ *
+ * Where a note lands is deliberately narrow: _system/companion-notes/<chapter>.json,
+ * which the Composer and the LIVE Session read and NOTHING else does — never
+ * book.md, never the PDF. Its chapter key comes from `sectionKeyFromHeading`, the
+ * same rule that produces the LIVE Session's TOC ids.
  *
  * Design decision (2026-07-17): a slide-in side panel, so the prose stays readable
  * alongside the answer. Follows TermPopover's fetch/stale-guard; all styling lives
- * in gem-companion.css using the shared --c-* tokens (no inline styles).
+ * in gem-companion.css + companion-card.css using the shared --c-* tokens (no
+ * inline styles).
  */
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { sectionKeyFromHeading } from "../../../lib/reader/companion/keys";
 import { defaultStore } from "../../../lib/reader/companion/store.client";
+import { renderExplanationCard } from "../../../lib/reader/companion/explanation-card";
+import type { CompanionNote } from "../../../lib/reader/companion/types";
 
 interface Result {
   body: string;
   etymology: string | null;
 }
 
-/** A note this panel filed, kept only so it can be taken back off the reader. */
-interface Saved {
-  chapter: string;
-  id: string;
-  quote: string;
+/** An answer to a typed concept, with the title it will carry as a card. */
+interface Ephemeral extends Result {
+  title: string;
 }
 
 interface Props {
@@ -51,14 +57,17 @@ interface Props {
    *  close button there — the host's floating buttons own both jobs, and two
    *  competing drawers on one page is the thing that consolidation removed. */
   docked?: boolean;
-}
-
-/** Split a model answer into paragraphs for readable rendering. */
-function paragraphs(text: string): string[] {
-  return text
-    .split(/\n{2,}/)
-    .map((p) => p.replace(/\s+/g, " ").trim())
-    .filter(Boolean);
+  /** The chapter whose explanations to list — the LIVE Session section key. The
+   *  host owns this: the Composer already has a chapter picker, and a second one
+   *  in here could only ever disagree with it. */
+  chapter?: string;
+  /** Expand and scroll to this note (a passage was clicked in the chapter). The
+   *  nonce makes a repeat click on the SAME note re-fire; the id alone wouldn't. */
+  focusNote?: { id: string; nonce: number } | null;
+  /** The chapter's notes changed — the host re-tints the prose. */
+  onNotesChanged?: (notes: CompanionNote[]) => void;
+  /** A card wants its passage shown in the prose. */
+  onReveal?: (noteId: string) => void;
 }
 
 /** The element a selection boundary sits in (a text node reports its parent). */
@@ -107,21 +116,28 @@ export default function GemCompanionPanel({
   bookTitle,
   proseSelector = ".bookv-body",
   docked = false,
+  chapter = "",
+  focusNote = null,
+  onNotesChanged,
+  onReveal,
 }: Props) {
   const [open, setOpen] = useState(docked);
   const [input, setInput] = useState("");
   const [context, setContext] = useState("");
-  const [result, setResult] = useState<Result | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hint, setHint] = useState<string | null>(null);
-  const [saved, setSaved] = useState<Saved | null>(null);
+  const [notes, setNotes] = useState<CompanionNote[]>([]);
+  const [openIds, setOpenIds] = useState<string[]>([]);
+  /** An answer to a typed concept: shown as a card, never stored. */
+  const [ephemeral, setEphemeral] = useState<Ephemeral | null>(null);
 
   // Monotonic request id: only the newest in-flight request may write results,
   // so a late response can never overwrite a newer one (mirrors TermPopover).
   const reqId = useRef(0);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
 
   useEffect(() => {
@@ -133,6 +149,113 @@ export default function GemCompanionPanel({
       launcherRef.current?.focus();
     }
   }, [open]);
+
+  // The host's callback, held in a ref so the load effect below depends on the
+  // CHAPTER and nothing else. Depending on the callback identity meant a host
+  // that passes an inline arrow re-ran the load on every re-render — which
+  // refetched the chapter and collapsed the card a click had just expanded.
+  const notify = useRef(onNotesChanged);
+  useEffect(() => {
+    notify.current = onNotesChanged;
+  }, [onNotesChanged]);
+
+  const publish = useCallback((next: CompanionNote[]) => {
+    setNotes(next);
+    notify.current?.(next);
+  }, []);
+
+  // Load the chapter's explanations whenever the chapter changes. Newest first:
+  // the note you filed a minute ago is the one you are most likely to reopen.
+  useEffect(() => {
+    if (!chapter) {
+      publish([]);
+      return;
+    }
+    let live = true;
+    void defaultStore
+      .read(slug, chapter)
+      .then((doc) => {
+        if (!live) return;
+        publish([...doc.notes].reverse());
+        setOpenIds([]);
+        setEphemeral(null);
+      })
+      .catch(() => {
+        if (live) publish([]);
+      });
+    return () => {
+      live = false;
+    };
+  }, [slug, chapter, publish]);
+
+  // A passage was clicked in the chapter: expand its card and bring it into view.
+  useEffect(() => {
+    if (!focusNote) return;
+    setOpenIds((ids) =>
+      ids.includes(focusNote.id) ? ids : [...ids, focusNote.id],
+    );
+    const card = listRef.current?.querySelector<HTMLElement>(
+      `[data-note="${CSS.escape(focusNote.id)}"]`,
+    );
+    card?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }, [focusNote]);
+
+  const removeNote = useCallback(
+    async (id: string) => {
+      if (!chapter) return;
+      const prev = notes;
+      publish(notes.filter((n) => n.id !== id));
+      try {
+        await defaultStore.remove(slug, chapter, id);
+      } catch (e) {
+        publish(prev); // put it back — nothing was deleted
+        setError(`Could not remove it: ${(e as Error).message}`);
+      }
+    },
+    [chapter, notes, publish, slug],
+  );
+
+  // Render the card list. Framework-free cards mounted into a container, so the
+  // Composer panel and the LIVE Session reader draw a note with the same code.
+  useEffect(() => {
+    const host = listRef.current;
+    if (!host) return;
+    host.textContent = "";
+    if (ephemeral) {
+      host.append(
+        renderExplanationCard(
+          {
+            id: "__ephemeral__",
+            kind: "explanation",
+            body: ephemeral.etymology
+              ? `${ephemeral.body}\n\nEtymology. ${ephemeral.etymology}`
+              : ephemeral.body,
+            anchor: ephemeral.title,
+            source: { provider: "scholar", label: "Not saved" },
+          },
+          {
+            open: true,
+            onToggle: () => {
+              /* ephemeral card owns its own open state */
+            },
+          },
+        ),
+      );
+    }
+    for (const note of notes) {
+      host.append(
+        renderExplanationCard(note, {
+          open: openIds.includes(note.id),
+          onToggle: (id, isOpen) =>
+            setOpenIds((ids) =>
+              isOpen ? [...ids, id] : ids.filter((x) => x !== id),
+            ),
+          onReveal: (id) => onReveal?.(id),
+          onRemove: (id) => void removeNote(id),
+        }),
+      );
+    }
+  }, [notes, openIds, ephemeral, onReveal, removeNote]);
 
   /**
    * Read the live selection out of the chapter.
@@ -174,7 +297,7 @@ export default function GemCompanionPanel({
         .replace(/\s+/g, " ")
         .trim()
         .slice(0, 600),
-      chapter: chapterKeyFor(sel?.anchorNode ?? null),
+      chapter: chapterKeyFor(sel?.anchorNode ?? null) || chapter,
     };
   }
 
@@ -188,8 +311,7 @@ export default function GemCompanionPanel({
     setLoading(true);
     setError(null);
     setHint(null);
-    setResult(null);
-    setSaved(null);
+    setEphemeral(null);
 
     try {
       // Deliberately raw fetch (not apiFetch): the 429 branch reads `retryMs`
@@ -220,8 +342,8 @@ export default function GemCompanionPanel({
         body: String(data.body ?? ""),
         etymology: data.etymology ?? null,
       };
-      setResult(answer);
       if (passage) await file(answer, passage, id);
+      else setEphemeral({ ...answer, title: labelFor(concept) });
     } catch (e) {
       if (id !== reqId.current) return;
       setError((e as Error).message);
@@ -237,13 +359,14 @@ export default function GemCompanionPanel({
     id: number,
   ): Promise<void> {
     if (!passage.chapter) {
+      setEphemeral({ ...answer, title: labelFor(passage.text) });
       setHint(
         "Explained, but not filed — I could not tell which chapter that selection is in.",
       );
       return;
     }
-    // The etymology rides along in the note body: the LIVE Session's card is one
-    // block of prose, so an answer split across two fields would lose half of itself.
+    // The etymology rides along in the note body: the card is one block of prose,
+    // so an answer split across two fields would lose half of itself.
     const body = answer.etymology
       ? `${answer.body}\n\nEtymology. ${answer.etymology}`
       : answer.body;
@@ -256,23 +379,12 @@ export default function GemCompanionPanel({
         source: { provider: "scholar", label: "Ismaili Scholar" },
       });
       if (id !== reqId.current) return;
-      setSaved({ chapter: passage.chapter, id: note.id, quote: passage.text });
+      publish([note, ...notes.filter((n) => n.id !== note.id)]);
+      setOpenIds((ids) => [...ids, note.id]); // the new answer opens; the rest stay shut
     } catch (e) {
       if (id !== reqId.current) return;
+      setEphemeral({ ...answer, title: labelFor(passage.text) });
       setHint(`Explained, but not filed: ${(e as Error).message}`);
-    }
-  }
-
-  async function undoSave(): Promise<void> {
-    if (!saved) return;
-    const target = saved;
-    setSaved(null);
-    try {
-      await defaultStore.remove(slug, target.chapter, target.id);
-      setHint("Removed from the LIVE Session.");
-    } catch (e) {
-      setSaved(target);
-      setError(`Could not remove it: ${(e as Error).message}`);
     }
   }
 
@@ -369,7 +481,7 @@ export default function GemCompanionPanel({
           className="gcp-btn gcp-btn--ghost"
           onClick={fromSelection}
           disabled={loading}
-          title="Explain the selected sentence and show it in the LIVE Session"
+          title="Explain the selected sentence and keep it with the chapter"
         >
           <i className="fa-solid fa-highlighter" aria-hidden="true" /> From
           selection
@@ -389,22 +501,7 @@ export default function GemCompanionPanel({
         </p>
       )}
 
-      {saved && (
-        <p className="gcp-saved" role="status">
-          <i className="fa-solid fa-circle-check" aria-hidden="true" /> Added to
-          the LIVE Session — this passage will be highlighted there, with this
-          explanation beside it.
-          <button
-            type="button"
-            className="gcp-undo"
-            onClick={() => void undoSave()}
-          >
-            Undo
-          </button>
-        </p>
-      )}
-
-      {loading && !result && (
+      {loading && (
         <div className="gcp-result gcp-result--loading" aria-busy="true">
           <span className="gcp-skel" />
           <span className="gcp-skel" />
@@ -412,22 +509,21 @@ export default function GemCompanionPanel({
         </div>
       )}
 
-      {result && (
-        <div className="gcp-result">
-          {paragraphs(result.body).map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
-          {result.etymology && (
-            <p className="gcp-etym">
-              <span className="gcp-etym-label">Etymology.</span>{" "}
-              {result.etymology}
-            </p>
-          )}
-          <p className="gcp-disclaimer">
-            Generated by AI in a scholarly persona. Verify against the source;
-            AI can make mistakes.
-          </p>
-        </div>
+      <div className="gcp-list" ref={listRef} />
+
+      {!loading && !notes.length && !ephemeral && (
+        <p className="gcp-hint">
+          {chapter
+            ? "No explanations for this chapter yet. Select a sentence and press “From selection”."
+            : "Open a chapter to see its explanations."}
+        </p>
+      )}
+
+      {(notes.length > 0 || ephemeral) && (
+        <p className="gcp-disclaimer">
+          Generated by AI in a scholarly persona. Verify against the source; AI
+          can make mistakes.
+        </p>
       )}
     </aside>
   );

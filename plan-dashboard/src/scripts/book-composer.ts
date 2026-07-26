@@ -49,6 +49,12 @@ import {
 } from "../components/studio/editor/figure-decos";
 import { createFenceDecos } from "../components/studio/editor/fence-decos";
 import {
+  createCompanionDecos,
+  type CompanionMark,
+} from "../components/studio/editor/companion-decos";
+import { markPassages } from "../lib/reader/companion/passage-match";
+import GemCompanionPanel from "../components/reader/companion/GemCompanionPanel";
+import {
   DEFAULT_DEPTH_PROFILE,
   DEPTH_LEVELS_BY_PROFILE,
   type GlossaryEntry,
@@ -540,6 +546,7 @@ function boot(): void {
       selectedChapter = chapterSelect.value;
       selected = null; // a figure selection doesn't carry across chapters
       showSelectedChapter();
+      renderScholar(); // explanations follow the chapter — no picker of their own
       render();
       if (wasEditing) setMode("edit"); // stay in Edit on the newly selected chapter
     });
@@ -608,6 +615,77 @@ function boot(): void {
     const anchor =
       data.chapters.find((c) => c.key === selectedChapter)?.anchor ?? "";
     return sectionKeyFromHeading(anchor) || safeChapterKey(selectedChapter);
+  }
+
+  // ── Companion explanations: the panel, and the tint on the passages ────────
+  // The panel is mounted HERE rather than as an Astro island because it is a
+  // controlled component: the chapter it lists explanations for is the one in the
+  // picker, and an island cannot be handed a new prop after mount. The notes it
+  // loads come straight back through onNotesChanged, because the same list drives
+  // the tint over the prose — one fetch, two consumers, no chance of the panel and
+  // the page disagreeing about which sentences are annotated.
+  let scholarRoot: Root | null = null;
+  const companionNotes: { current: CompanionMark[] } = { current: [] };
+  let focusNote: { id: string; nonce: number } | null = null;
+  let focusNonce = 0;
+
+  /** Stable identities, declared ONCE. A fresh arrow function per render would
+   *  change the panel's props on every re-render, and the panel keys its chapter
+   *  load on those props — so passing new ones re-fetched the chapter and reset
+   *  which cards were expanded, a beat after a click had just expanded one. */
+  const onNotesChanged = (notes: { id: string; quote?: string }[]): void => {
+    companionNotes.current = notes.map((n) => ({ id: n.id, quote: n.quote }));
+    markCompanionPassages();
+  };
+
+  function renderScholar(): void {
+    const host = root.querySelector<HTMLElement>("#cx-scholar-mount");
+    if (!host) return;
+    scholarRoot ??= createRoot(host);
+    scholarRoot.render(
+      createElement(GemCompanionPanel, {
+        slug,
+        bookTitle,
+        proseSelector: ".cx-chapter",
+        docked: true,
+        chapter: liveChapterKey(),
+        focusNote,
+        onNotesChanged,
+        onReveal: revealPassage,
+      }),
+    );
+  }
+
+  /** Tint every annotated passage in the chapter's READ body, and ask the edit
+   *  canvas to redraw its own (decoration-based) tint for the same notes. */
+  function markCompanionPassages(): void {
+    const body = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
+    if (body) {
+      body
+        .querySelectorAll<HTMLElement>(".cx-note-hl")
+        .forEach((el) => el.replaceWith(...el.childNodes));
+      body.normalize(); // re-fuse the text nodes an earlier wrap split
+      markPassages(body, companionNotes.current, "cx-note-hl");
+    }
+    // Same idiom as syncEditorFigures: an empty transaction asks the decoration
+    // plugins to recompute against the notes they now see.
+    if (activeEditor)
+      activeEditor.editor.view.dispatch(activeEditor.editor.state.tr);
+  }
+
+  /** Bring a note's passage into view and flash it — the card→prose direction. */
+  function revealPassage(noteId: string): void {
+    const scope = root.querySelector<HTMLElement>(".composer-preview");
+    const marks = Array.from(
+      scope?.querySelectorAll<HTMLElement>(
+        `.cx-note-hl[data-note="${CSS.escape(noteId)}"]`,
+      ) ?? [],
+    );
+    scope
+      ?.querySelectorAll<HTMLElement>(".cx-note-hl.is-active")
+      .forEach((el) => el.classList.remove("is-active"));
+    marks.forEach((el) => el.classList.add("is-active"));
+    marks[0]?.scrollIntoView({ block: "center", behavior: "smooth" });
   }
 
   // A prose autosave writes book.md on disk but the page still holds the ORIGINAL
@@ -868,6 +946,9 @@ function boot(): void {
     activeEditor = mountChapterEditor(host, pristine, [
       createStudioDecos(bridge),
       createFigureDecos({ figuresRef: editorFigures }),
+      // The Companion tint, as a DECORATION: an annotated passage is visible
+      // while you edit, and cannot reach book.md on the next autosave.
+      createCompanionDecos({ notesRef: companionNotes }),
       // A pipeline fence marker arrives here as bare text (TipTap has no
       // HTML-comment node) and must STAY in the document for preserveFences to
       // restore it — so it is decorated, never removed. See fence-decos.ts.
@@ -1432,6 +1513,10 @@ function boot(): void {
         ? `Candidates for “${ch.title}”. Click to read one full size; drag it into the chapter to place it.`
         : "";
     }
+
+    // The innerHTML reset above dropped every Companion tint with it. Re-mark:
+    // an annotated passage must stay visible across a figure placement.
+    markCompanionPassages();
   }
 
   // Rebuild the edit canvas's figure feed for the chapter now open, then ask the
@@ -2414,7 +2499,22 @@ function boot(): void {
 
   showSelectedChapter();
   renderAiActions();
+  renderScholar(); // page-lifetime surface: loads the chapter's explanations
   render();
+
+  // A tinted passage is the entry point to its explanation, in BOTH modes: the
+  // read body wraps a span and the edit canvas paints a decoration, and one
+  // delegated listener over the preview column covers each of them.
+  root.querySelector(".composer-preview")?.addEventListener("click", (e) => {
+    const mark = (e.target as HTMLElement)?.closest<HTMLElement>(".cx-note-hl");
+    const id = mark?.dataset.note;
+    if (!id) return;
+    setPanel("scholar");
+    focusNonce += 1;
+    focusNote = { id, nonce: focusNonce };
+    renderScholar();
+    revealPassage(id);
+  });
 
   // If we reloaded mid-edit (autosave re-sync), drop back into Edit on arrival.
   try {

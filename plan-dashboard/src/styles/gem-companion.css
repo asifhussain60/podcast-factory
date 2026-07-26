@@ -232,39 +232,6 @@
 .gcp-hint {
   color: var(--c-ink-dim);
 }
-/* Filed-for-the-reader confirmation. Same type scale as the other message lines;
-   the accent tint is the panel's existing one, no new colour. */
-.gcp-saved {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 0.7rem 0 0;
-  padding: 0.5rem 0.65rem;
-  background: var(--c-bg-sunken);
-  border-left: 3px solid var(--c-accent);
-  border-radius: 6px;
-  font-size: var(--panel-fs, 15px);
-  line-height: 1.45;
-  color: var(--c-ink-dim);
-}
-
-.gcp-undo {
-  padding: 0;
-  background: none;
-  border: none;
-  font-family: inherit;
-  font-size: inherit;
-  color: var(--c-accent);
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.gcp-undo:focus-visible {
-  outline: 2px solid var(--c-accent);
-  outline-offset: 2px;
-}
-
 .gcp-error {
   /* --c-red, not --c-danger: the latter is declared nowhere in the theme, so this
      rule silently painted its hard-coded #b3261e — a red the palette does not
@@ -274,35 +241,30 @@
 }
 
 /* ── Result ────────────────────────────────────────────────── */
+/* The explanations for the open chapter, newest first. The cards themselves are
+   dressed by companion-card.css — one card, both surfaces. */
+.gcp-list {
+  margin-top: 0.9rem;
+}
+
+.gcp-list:not(:empty) {
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--c-rule);
+}
+
 .gcp-result {
   margin-top: 0.9rem;
   padding-top: 0.85rem;
   border-top: 1px solid var(--c-rule);
 }
 
-.gcp-result p {
-  margin: 0 0 0.7rem;
-  font-size: var(--panel-fs, 15px);
-  line-height: 1.62;
-  color: var(--c-ink);
-}
-
-.gcp-etym {
-  padding: 0.6rem 0.7rem;
-  background: var(--c-bg-sunken);
-  border-radius: 8px;
-  font-size: var(--panel-fs, 15px) !important;
-  color: var(--c-ink-dim) !important;
-}
-
-.gcp-etym-label {
-  font-weight: 600;
-  color: var(--c-ink);
-}
-
+/* The provenance line under the card list. Explanation prose itself is the
+   card's job now, so nothing here styles it. */
 .gcp-disclaimer {
-  font-size: var(--panel-fs, 15px) !important;
-  color: var(--c-ink-muted) !important;
+  margin: 0.7rem 0 0;
+  font-size: calc(var(--panel-fs, 15px) * 0.9);
+  line-height: 1.5;
+  color: var(--c-ink-muted);
   font-style: italic;
 }
 

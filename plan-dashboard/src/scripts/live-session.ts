@@ -17,6 +17,8 @@
  * All logic lives here (external module); the .astro page carries only markup, a
  * JSON data island, and the one-line import (Cortex DoD: no inline script bodies).
  */
+import { markPassages } from "../lib/reader/companion/passage-match";
+import { renderExplanationCard } from "../lib/reader/companion/explanation-card";
 
 interface LiveNote {
   kind: string;
@@ -71,7 +73,6 @@ function readData(): { slug: string; sections: LiveSection[] } | null {
   }
 }
 
-const norm = (s: string) => s.replace(/\s+/g, " ").trim();
 const clamp = (n: number, lo: number, hi: number) =>
   Math.min(Math.max(lo, n), hi);
 const prefersReducedMotion = () =>
@@ -157,142 +158,37 @@ function boot(): void {
     spans: HTMLElement[];
   }
 
-  /**
-   * A flattened, whitespace-normalized view of the chapter text, with each
-   * character mapped back to the text node and offset it came from.
-   *
-   * This is what lets a passage be found ACROSS inline markup. The Composer files
-   * a note from a selection, and a selected sentence very often contains an
-   * italicized term or a footnote link — which puts it in three text nodes, not
-   * one. Matching a single node (what this did until 2026-07-26) silently found
-   * nothing for exactly the sentences most worth annotating.
-   */
-  interface FlatText {
-    text: string; // lowercased, single-spaced
-    nodes: Text[];
-    at: Int32Array; // flat index -> nodes index
-    off: Int32Array; // flat index -> offset within that node
-  }
-
-  function flattenText(rootEl: HTMLElement): FlatText {
-    const walker = document.createTreeWalker(rootEl, NodeFilter.SHOW_TEXT);
-    const nodes: Text[] = [];
-    const chars: string[] = [];
-    const at: number[] = [];
-    const off: number[] = [];
-    let prevBlock: Element | null = null;
-    let node: Node | null;
-    while ((node = walker.nextNode())) {
-      const t = node as Text;
-      const raw = t.textContent ?? "";
-      if (!raw) continue;
-      const idx = nodes.push(t) - 1;
-      // A block boundary reads as a space, so the end of one paragraph can never
-      // fuse with the start of the next into a phantom match.
-      const block =
-        t.parentElement?.closest("p, li, blockquote, h1, h2, h3, td") ?? null;
-      if (
-        block !== prevBlock &&
-        chars.length &&
-        chars[chars.length - 1] !== " "
-      ) {
-        chars.push(" ");
-        at.push(idx);
-        off.push(0);
-      }
-      prevBlock = block;
-      for (let i = 0; i < raw.length; i++) {
-        const ch = raw[i];
-        const space = /\s/.test(ch);
-        if (space && chars[chars.length - 1] === " ") continue; // collapse runs
-        chars.push(space ? " " : ch.toLowerCase());
-        at.push(idx);
-        off.push(i);
-      }
-    }
-    return {
-      text: chars.join(""),
-      nodes,
-      at: Int32Array.from(at),
-      off: Int32Array.from(off),
-    };
-  }
-
-  // Wrap a note's VERBATIM quote in highlight spans so its passage can be lit.
-  // Returns one span per text node the passage crosses (empty = not found).
-  function wrapQuote(
-    flat: FlatText,
-    needle: string,
-    key: string,
-  ): HTMLElement[] {
-    const target = norm(needle).toLowerCase();
-    if (target.length < 4) return [];
-    const start = flat.text.indexOf(target);
-    if (start < 0) return [];
-    const end = start + target.length - 1; // inclusive
-
-    // Split the match into one (node, from, to) segment per text node it covers.
-    const segments: { node: Text; from: number; to: number }[] = [];
-    let i = start;
-    while (i <= end) {
-      const nodeIdx = flat.at[i];
-      const from = flat.off[i];
-      let to = from;
-      while (i <= end && flat.at[i] === nodeIdx) {
-        to = flat.off[i];
-        i++;
-      }
-      segments.push({ node: flat.nodes[nodeIdx], from, to: to + 1 });
-    }
-
-    // Wrap back-to-front: surroundContents splits the node it wraps, so working
-    // from the end keeps every earlier segment's offsets valid.
-    const spans: HTMLElement[] = [];
-    for (const seg of segments.reverse()) {
-      const range = document.createRange();
-      try {
-        range.setStart(seg.node, seg.from);
-        range.setEnd(seg.node, Math.min(seg.to, seg.node.length));
-      } catch {
-        continue;
-      }
-      const mark = document.createElement("span");
-      mark.className = "lsv-hl";
-      mark.dataset.note = key;
-      try {
-        range.surroundContents(mark);
-        spans.unshift(mark);
-      } catch {
-        /* already inside another note's mark — skip this fragment */
-      }
-    }
-    return spans;
-  }
-
   const chapters = splitChapters();
 
-  // Build note entries per chapter, wrapping each note's quote into spans.
-  // The search is scoped to the note's OWN chapter sheet — a sentence repeated in
-  // two chapters must light in the one the note belongs to — and re-flattened per
-  // note, because wrapping splits the text nodes the previous index described.
+  // Build note entries per chapter and tint each note's passage. The search is
+  // scoped to the note's OWN chapter sheet — a sentence repeated in two chapters
+  // must light in the one the note belongs to. The matcher itself is the shared
+  // one (passage-match.ts), which the Composer uses over the same prose, so the
+  // two surfaces can never disagree about where a note is attached.
   const notesByChapter = new Map<string, NoteEntry[]>();
   if (data) {
     for (const section of data.sections) {
       const scope =
         chapters.find((c) => c.id === section.id)?.el ?? (pages as HTMLElement);
-      const entries: NoteEntry[] = section.notes.map((note, i) => {
-        const key = `${section.id}::${i}`;
-        return {
+      const keyed = section.notes.map((note, i) => ({
+        key: `${section.id}::${i}`,
+        note,
+      }));
+      const marked = markPassages(
+        scope,
+        keyed.map((k) => ({ id: k.key, quote: k.note.quote })),
+        "lsv-hl",
+      );
+      notesByChapter.set(
+        section.id,
+        keyed.map(({ key, note }) => ({
           chapterId: section.id,
           chapterTitle: section.title,
           key,
           note,
-          spans: note.quote
-            ? wrapQuote(flattenText(scope), note.quote, key)
-            : [],
-        };
-      });
-      notesByChapter.set(section.id, entries);
+          spans: marked.get(key) ?? [],
+        })),
+      );
     }
   }
 
@@ -333,36 +229,22 @@ function boot(): void {
       bodyEl.appendChild(p);
       return;
     }
+    // The SAME card the Composer's Scholar panel builds: collapsed to a header
+    // and a short extract as you reach the passage, expanding on click. A
+    // thousand-word explanation opened in full would bury the page it explains.
     const note = entry.note;
-    const card = document.createElement("article");
-    card.className = "lsv-note";
-    card.dataset.note = entry.key;
-
-    const head = document.createElement("div");
-    head.className = "lsv-note-head";
-    const kind = document.createElement("span");
-    kind.className = "lsv-note-kind";
-    kind.textContent = note.kind || "note";
-    head.appendChild(kind);
-    if (note.source) {
-      const src = document.createElement("span");
-      src.className = "lsv-note-source";
-      src.textContent = note.source;
-      head.appendChild(src);
-    }
-    card.appendChild(head);
-
-    if (note.anchor) {
-      const label = document.createElement("p");
-      label.className = "lsv-note-anchor";
-      label.textContent = note.anchor;
-      card.appendChild(label);
-    }
-    const body = document.createElement("p");
-    body.className = "lsv-note-body";
-    body.textContent = note.body;
-    card.appendChild(body);
-    bodyEl.appendChild(card);
+    bodyEl.appendChild(
+      renderExplanationCard({
+        id: entry.key,
+        kind: note.kind || "note",
+        body: note.body,
+        anchor: note.anchor || note.quote,
+        quote: note.quote,
+        source: note.source
+          ? { provider: "manual", label: note.source }
+          : undefined,
+      }),
+    );
   }
 
   // Swap the shown card + lit passage only when the active note changes.
