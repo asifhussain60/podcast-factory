@@ -351,7 +351,6 @@ The canonical source-of-truth for every agent is [infra/claude-agents/](infra/cl
 |---|---|---|
 | `podcast-orchestrator` | [infra/claude-agents/podcast-orchestrator.md](infra/claude-agents/podcast-orchestrator.md) | Autonomous book-to-NotebookLM pipeline driver |
 | `podcast-auditor` | [skills-staging/repo-surgeon/SKILL.md](skills-staging/repo-surgeon/SKILL.md) | DEPRECATED 2026-06-02 — use `repo-surgeon --scope podcast` (Pass 2b in the repo-surgeon skill is the canonical probe catalog) |
-| `podcast-blueprint` | [infra/claude-agents/podcast-blueprint.md](infra/claude-agents/podcast-blueprint.md) | Content-aware episode-structure planner (slot 05.5-blueprint) |
 | `podcast-challenger` | [infra/claude-agents/podcast-challenger.md](infra/claude-agents/podcast-challenger.md) | Semantic-quality review (convergence loop ≤5 iterations before any bundle ships) |
 | `slide-deck-challenger` | [infra/claude-agents/slide-deck-challenger.md](infra/claude-agents/slide-deck-challenger.md) | Visual-quality challenger for slide-deck bundles |
 | `book-challenger` | [infra/claude-agents/book-challenger.md](infra/claude-agents/book-challenger.md) | Semantic-quality challenger for both PDF routes: augmented companion books and articulated translation editions. Applies route-specific probes for Arabic/script accuracy, source coverage, voice/prose craft, no outside-source invention, and source-crosswalk alignment. |

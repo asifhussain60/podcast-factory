@@ -93,6 +93,21 @@ if [ -n "$dr005_staged" ] && [ -f "$repo_root/infra/git-hooks/check-dr005.py" ];
     fi
 fi
 
+# Dead-link gate over the NORMATIVE docs only (agent specs, skills, root docs).
+# The 2026-07-26 sweep found 13 dead links, dominated by a handbook tree gone since
+# the 2026-05-23 restructure that six files still cited. Historical trees like
+# _workspace/reviews/ are deliberately out of scope — their stale paths are correct
+# as history, and a gate that flags those gets routed around.
+docs_staged=$(printf '%s\n' "$staged_files" \
+    | grep -E '^(infra/claude-agents/.*\.md|skills-staging/.*\.md|CLAUDE\.md|AGENTS\.md|framework\.md|README\.md)$' || true)
+if [ -n "$docs_staged" ] && [ -f "$repo_root/scripts/check_doc_links.py" ]; then
+    files_csv=$(printf '%s\n' "$docs_staged" | paste -sd, -)
+    if ! python3 "$repo_root/scripts/check_doc_links.py" --files "$files_csv" >&2; then
+        echo "pre-commit: dead link(s) in the normative docs (see above)." >&2
+        exit 1
+    fi
+fi
+
 site_staged=$(printf '%s\n' "$staged_files" \
     | grep -E '^plan-dashboard/(src|scripts)/.*\.(ts|tsx|astro|mjs|js)$' || true)
 if [ -n "$site_staged" ] && command -v node >/dev/null 2>&1 \

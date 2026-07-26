@@ -34,7 +34,7 @@ chapters, produce structured atoms, dedup against the canonical library, and rep
 
 ## Authority
 
-- **Spec**: [_workspace/plan/intelligence-pipeline-wave1-spec.md](../../_workspace/plan/intelligence-pipeline-wave1-spec.md)
+- **Spec**: `_workspace/plan/intelligence-pipeline-wave1-spec.md` no longer exists (de-linked 2026-07-26). The behaviour is defined by [scripts/podcast/intelligence/](../../scripts/podcast/intelligence/) — `extractor.py`, `librarian.py`, `augmenter.py`.
 - **Implementation modules** (Wave B DB-backed; superseded the Wave 1 JSONL
   scripts — `knowledge/extractor.py` + `knowledge/librarian.py` deleted 2026-06-10):
   - `scripts/podcast/intelligence/extractor.py`

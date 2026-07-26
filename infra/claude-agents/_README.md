@@ -74,7 +74,7 @@ installation path.
 ## Operating contract
 
 The behavioral floor every agent enforces lives at
-[reference/operating-contract.md](../../reference/operating-contract.md).
+[docs/reference/operating-contract.md](../../docs/reference/operating-contract.md).
 Agents read this file at invocation time; they never inline its full text.
 
 ---

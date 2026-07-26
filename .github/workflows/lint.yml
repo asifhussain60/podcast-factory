@@ -32,6 +32,11 @@ jobs:
         run: ruff format --check
       - name: DR-005 line-count gate
         run: python3 infra/git-hooks/check-dr005.py
+      # Scoped to the normative docs (agent specs, skills, root docs) — not all
+      # markdown. Historical review transcripts carry stale paths that are correct
+      # as history; flagging those would make the gate un-adoptable.
+      - name: Dead-link gate (normative docs)
+        run: python3 scripts/check_doc_links.py
       # `continue-on-error` already makes this advisory. It used to ALSO end in
       # `|| true`, which forced a green step and hid the result entirely — a gate
       # that cannot fail teaches you to ignore it. Dropped 2026-07-26; the step

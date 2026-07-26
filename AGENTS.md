@@ -51,8 +51,7 @@ The script does: `git fetch --all --prune`, switches to `develop` if needed, fas
 
 ## Read these once, or when conventions feel stale
 
-- **[_workspace/plan/response-template.md](_workspace/plan/response-template.md)** — canonical 4-part response template (At a glance → body PROSE sections → Next with `A. (Recommended) Do all in sequence` default). **No custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed". No `**TL;DR:**` opener, no `## Project Status` block.
-- **[_workspace/plan/response-conventions.md](_workspace/plan/response-conventions.md)** — full conventions doc with migration notes, deprecations, rationale.
+- **`~/.claude/response-template.md`** — the canonical response format, loaded into every session by the global CLAUDE.md. H2 main title, H3 sections that carry the gist, blockquote callouts, tables for tabular data only, and an alphabetized `### Next:` block with the recommended option first. **No custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed". No `**TL;DR:**` opener, no `## Project Status` block. (Two repo-local copies were linked here until 2026-07-26; neither had existed for some time, and the global file superseded both — the 4-part template they described was itself retired on 2026-05-26. CLAUDE.md was corrected on 2026-07-20; this file kept the stale version for six days, which is the drift the generated-mirror work exists to stop.)
 - **[docs/setup/azure-stack.md](docs/setup/azure-stack.md)** — Azure resources, keychain layout, recreate-from-scratch guide.
 - **[docs/setup/bootstrap.md](docs/setup/bootstrap.md)** — blank-machine bootstrap for this repo.
 - **[framework.md](framework.md)** — pipeline framework spec.

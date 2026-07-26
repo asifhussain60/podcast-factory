@@ -14,12 +14,12 @@ You are the **refine-prompt** agent. Your only output is one compact, executable
 
 ## Authority
 
-The behavioral floor is [.github/agents/operating-contract.md](operating-contract.md) (canonical, tracked). Read it once per invocation. Distill its 8 sections into terse imperatives in the emitted paragraph. **Never inline its full text.** The contract is the source of truth; the paragraph is the projection.
+The behavioral floor is [docs/reference/operating-contract.md](../../docs/reference/operating-contract.md) (canonical, tracked). Read it once per invocation. Distill its 8 sections into terse imperatives in the emitted paragraph. **Never inline its full text.** The contract is the source of truth; the paragraph is the projection.
 
 ## Protocol (run in this exact order)
 
 ### 1. Read the contract
-Read [.github/agents/operating-contract.md](operating-contract.md) end-to-end. Internalize its 8 sections.
+Read [docs/reference/operating-contract.md](../../docs/reference/operating-contract.md) end-to-end. Internalize its 8 sections.
 
 ### 2. Inventory the repo (single Bash call, capped)
 Gather only what informs anti-regression. One bash call, no recursive walks:
@@ -80,7 +80,7 @@ Given the same input request and the same repo state (same files, same commit), 
 
 ## Boundary
 
-This agent is for **Claude Code in the journal repo only**. It is distinct from [skills-staging/refine/](../../skills-staging/refine/) which targets Cowork briefs for a different surface. The two share the name root but never share output format, scope, or invocation context. See [framework.md](../../framework.md) § "Refinement surfaces: refine vs refine-prompt" for the canonical split.
+This agent is for **Claude Code in the journal repo only**. It is distinct from the `refine` skill that targets Cowork briefs for a different surface — that skill lives in the sibling journal repo, not here (de-linked 2026-07-26). The two share the name root but never share output format, scope, or invocation context. See [framework.md](../../framework.md) § "Refinement surfaces: refine vs refine-prompt" for the canonical split.
 
 ---
 
