@@ -26,6 +26,9 @@ import "../../../styles/select-menu.css";
 // The editor package's own stylesheet, imported BEFORE book-composer.css so the
 // theme adapter in that file (which aliases --rte-* onto --c-*) wins over the
 // package's neutral defaults.
+// Word-level track-change rendering. Shared with Edit & Enrich, which is
+// the point: both mount the same decoration plugin.
+import "../../../styles/track-changes.css";
 import "@asifhussain/prose-editor/styles.css";
 import "../../../styles/book-composer.css";
 import "../../../styles/compose-print.css";

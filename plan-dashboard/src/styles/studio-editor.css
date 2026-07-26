@@ -1,5 +1,6 @@
 /* studio-editor.css — entry point. The 3,970-line monolith was split (R2)
    by concern; import order preserves the original cascade exactly. */
+@import "./track-changes.css";
 @import "./studio-editor-core.css";
 @import "./studio-editor-tools.css";
 @import "./studio-editor-popovers.css";

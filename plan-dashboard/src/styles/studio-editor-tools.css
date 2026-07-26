@@ -455,21 +455,8 @@
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--c-accent) 18%, transparent);
 }
 
-/* Augmentation diff: teal palette distinguishes pipeline additions from human edits (tc-*). */
-.studio-editor__editor .aug-ins {
-  color: #0d7a61;
-  text-decoration: underline;
-  text-decoration-thickness: 1.5px;
-  background: color-mix(in srgb, #0d9488 12%, transparent);
-  border-radius: 2px;
-}
-.studio-editor__editor .aug-del {
-  color: var(--c-red, #b91c1c);
-  text-decoration: line-through;
-  text-decoration-thickness: 1.5px;
-  opacity: 0.75;
-  margin: 0 1px;
-}
+/* Augmentation diff (aug-ins / aug-del) moved to track-changes.css, beside
+   the tc-* pair it mirrors, so both apply in every editor host. */
 
 /* Aug-diff toggle row (sits between read-only note and editor body). */
 .sp-augdiff-row {

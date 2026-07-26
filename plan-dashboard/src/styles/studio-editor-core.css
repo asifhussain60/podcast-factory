@@ -467,21 +467,9 @@
   border-color: #d97706;
 }
 
-/* FC-3 MICROSOFT-WORD TRACK CHANGES (word-level, via jsdiff). */
-.studio-editor__editor .tc-ins {
-  color: var(--c-green, #15803d);
-  text-decoration: underline;
-  text-decoration-thickness: 1.5px;
-  background: color-mix(in srgb, var(--c-green, #16a34a) 12%, transparent);
-  border-radius: 2px;
-}
-.studio-editor__editor .tc-del {
-  color: var(--c-red, #b91c1c);
-  text-decoration: line-through;
-  text-decoration-thickness: 1.5px;
-  opacity: 0.75;
-  margin: 0 1px;
-}
+/* FC-3 track changes (tc-ins / tc-del) moved to track-changes.css: the
+   Book Composer mounts the same decoration plugin and had no such ancestor,
+   so its deletion widgets rendered unstyled. */
 /* Per-paragraph hover affordance: pointer cursor + glow outline shows editability on mouseover.
    Guards prevent override of active-section and active-paragraph states. */
 .studio-editor__editor
