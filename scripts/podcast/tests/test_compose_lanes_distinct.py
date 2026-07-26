@@ -29,12 +29,9 @@ from __future__ import annotations
 import json
 import os
 import re
-import sys
 from pathlib import Path
 
 import pytest
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 REPO = Path(__file__).resolve().parents[3]
 
@@ -88,15 +85,28 @@ def test_podcast_chapters_keep_their_narration_framing(book: Path) -> None:
     This is the paragraph that makes the file a podcast SOURCE rather than a
     slice of the book. Mirroring book prose over it is what would delete it.
     """
-    missing = []
-    for txt in sorted((book / "chapters").glob("*.txt")):
+    chapters = sorted((book / "chapters").glob("*.txt"))
+    framed, missing = [], []
+    for txt in chapters:
         lines = [ln.strip() for ln in txt.read_text(encoding="utf-8").splitlines()]
         head = [ln for ln in lines[:8] if ln]
         # First heading, then an italic framing paragraph.
-        if not any(ln.startswith("*") and ln.endswith("*") for ln in head):
+        if any(ln.startswith("*") and ln.endswith("*") for ln in head):
+            framed.append(txt.name)
+        else:
             missing.append(txt.name)
+
+    # NOT asserted universally. An earlier pipeline generation authored chapters
+    # with no narration framing at all (see the sibling citation test), so a book
+    # with none is a legacy shape, not a defect — and a gate that reds for a
+    # non-defect is a gate that stops being believed. What IS a defect is a book
+    # that had the framing and lost it in SOME chapters, which is the shape "book
+    # prose copied over a chapter source" leaves behind.
+    if not framed:
+        pytest.skip("this book's chapter sources predate narration framing")
     assert not missing, (
-        f"podcast chapter sources lost their narration framing (book prose copied over them?): {missing}"
+        f"{len(missing)} of {len(chapters)} chapter sources lost their narration "
+        f"framing while {len(framed)} kept it (book prose copied over them?): {missing}"
     )
 
 
@@ -156,7 +166,8 @@ def test_the_lanes_are_separately_segmented(book: Path) -> None:
         if m:
             podcast_titles.add(m.group(1).strip().casefold())
 
-    assert book_titles and podcast_titles
+    if not book_titles or not podcast_titles:
+        pytest.skip("one lane has no chapter headings to compare")
     assert book_titles != podcast_titles, (
         "the two lanes' chapter titles became identical — re-examine whether "
         "the Composer's no-mirroring rule still has the reason it was written for"

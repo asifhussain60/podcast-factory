@@ -177,6 +177,25 @@ export const MACHINE_FENCE_KINDS = [
   "edition-intro",
 ];
 
+/** An ordered-list item. MIRRORS `OL_ITEM_RE` in src/lib/reader/markdown.ts —
+ *  the reader and the printed page must agree on what a list is, and on the
+ *  ordinal each item states. Pinned by the cross-renderer test in
+ *  book-html.test.mjs. */
+const OL_ITEM_RE = /^(\d+)\.\s+(.+)$/;
+const UL_ITEM_RE = /^\s*[-*]\s+(.+)$/;
+
+/** Does an open list continue past the blank line at `from`? Same contract as
+ *  `continuesList` in markdown.ts: a blank line between items does NOT end a
+ *  list, so a loose `1. / 2. / 3.` stays one list with its ordinals intact. */
+function listContinues(lines, from, kind) {
+  for (let j = from; j < lines.length; j += 1) {
+    const next = lines[j].trim();
+    if (next.length === 0) continue;
+    return kind === "ol" ? OL_ITEM_RE.test(next) : UL_ITEM_RE.test(next);
+  }
+  return false;
+}
+
 const MACHINE_FENCE_RE = new RegExp(
   `^<!--\\s*(?:${MACHINE_FENCE_KINDS.join("|")}):(?:begin|end)\\s*-->$`,
 );
@@ -467,6 +486,7 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
   let para = [];
   let quote = [];
   let list = [];
+  let listKind = null; // 'ol' | 'ul'
   let inHtmlBlock = false;
   let chapterJustOpened = false;
   let sawH2 = opts.sawH2 === true;
@@ -478,11 +498,29 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
     summary: { cls: "study-summary", label: "Study summary" },
   };
   const flushList = () => {
-    if (!list.length) return;
-    out.push(
-      `<ul class="study-list">${list.map((li) => `<li>${renderInline(li)}</li>`).join("")}</ul>`,
-    );
+    if (!list.length) {
+      listKind = null;
+      return;
+    }
+    // `value` carries the ordinal the SOURCE states, exactly as markdown.ts
+    // does, so the printed page cannot renumber a list that starts at 3 — the
+    // faked numbering REQ-015 forbids. Bulleted items never get it.
+    if (listKind === "ol") {
+      out.push(
+        `<ol class="book-list">${list
+          .map(
+            (it) =>
+              `<li${it.value === undefined ? "" : ` value="${it.value}"`}>${renderInline(it.text)}</li>`,
+          )
+          .join("")}</ol>`,
+      );
+    } else {
+      out.push(
+        `<ul class="study-list">${list.map((it) => `<li>${renderInline(it.text)}</li>`).join("")}</ul>`,
+      );
+    }
     list = [];
+    listKind = null;
   };
   const flushAside = () => {
     if (!aside) return;
@@ -552,7 +590,11 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
     quote = [];
   };
 
-  for (const line of lines) {
+  // Indexed rather than for-of: the blank-line handler below needs to look
+  // AHEAD to decide whether an open list continues past it. `ln` (not `i`) to
+  // avoid shadowing anything in this long body.
+  for (let ln = 0; ln < lines.length; ln += 1) {
+    const line = lines[ln];
     // Raw HTML block pass-through: <figure class="book-diagram">...</figure>
     if (inHtmlBlock) {
       out.push(line);
@@ -660,18 +702,42 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
       }
       continue;
     }
-    // Self-study: markdown bullet lists → <ul> (default render has no list
-    // parser, so a '- ' line stays inline in a paragraph — unchanged when off).
+    // Ordered lists, in EVERY render. This one is not opt-in: `renderMd` builds
+    // the printed edition, and with no ordered-list parser a real enumeration
+    // came out as one run-together paragraph with "1." "2." "3." as literal text
+    // — faked numbering in the publication deliverable, and disagreeing with the
+    // reader, which renders the same source as a real <ol>.
+    const oli = line.match(OL_ITEM_RE);
+    if (oli) {
+      flushPara();
+      flushQuote();
+      if (listKind !== "ol") {
+        flushList();
+        listKind = "ol";
+      }
+      list.push({ text: oli[2], value: Number(oli[1]) });
+      continue;
+    }
+    // Self-study: markdown bullet lists → <ul>. Still opt-in — no book.md in the
+    // corpus uses '- ' bullets, so turning them on for print would be a change
+    // with nothing to render and no way to see it was right.
     if (selfStudy) {
-      const li = line.match(/^\s*[-*]\s+(.+)$/);
+      const li = line.match(UL_ITEM_RE);
       if (li) {
         flushPara();
         flushQuote();
-        list.push(li[1]);
+        if (listKind !== "ul") {
+          flushList();
+          listKind = "ul";
+        }
+        list.push({ text: li[1] });
         continue;
       }
-      if (list.length) flushList();
     }
+    // Any other CONTENT ends the list — but a blank line is not content, and
+    // flushing here would split a loose list before the blank-line handler
+    // below ever got its lookahead.
+    if (list.length && line.trim() !== "") flushList();
     const q = line.match(/^>\s?(.*)$/);
     if (q) {
       flushPara();
@@ -682,7 +748,8 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
     if (quote.length) flushQuote();
     if (line.trim() === "") {
       flushPara();
-      flushList();
+      if (listKind !== null && !listContinues(lines, ln + 1, listKind))
+        flushList();
       continue;
     }
     para.push(line);

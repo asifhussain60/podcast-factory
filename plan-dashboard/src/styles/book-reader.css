@@ -118,6 +118,30 @@
   margin: 0 0 1.1rem;
 }
 
+/* REQ-015 list rendering. This host had no ul/ol/li rule of ANY kind, and it
+   renders `renderMarkdown`'s default profile — which started emitting real
+   <ol>/<li> on 2026-07-26. Tailwind's preflight sets `list-style: none` with no
+   padding on every ol/ul, so the reader showed a real enumeration as unmarked,
+   unindented paragraphs: the numbering gone entirely, which is worse than the
+   run-together paragraph it replaced, and invisible to any DOM assertion.
+   Values match .src-view-prose (library.css) and .se-prose (wisdom.css) — four
+   hosts of two renderers, one indent. */
+.bookv-body ul,
+.bookv-body ol {
+  margin-block: 0.85rem 1.1rem;
+  padding-inline-start: 2.25rem;
+  list-style-position: outside;
+}
+.bookv-body ol {
+  list-style-type: decimal;
+}
+.bookv-body ul {
+  list-style-type: disc;
+}
+.bookv-body li {
+  margin-block: 0.3rem;
+}
+
 /* Scripture / hadith blockquotes: Arabic line over the English translation. */
 .bookv-body blockquote {
   margin: 1.4rem 0;

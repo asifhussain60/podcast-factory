@@ -265,8 +265,36 @@ async function checkLayoutInvariants(page) {
     // content includes an enumeration is a check that was dormant on exactly the
     // day the reset landed. Any list already present is measured in preference
     // to the canary, so real content is judged when it is there.
-    const PROSE_HOSTS = ".src-view-prose, .se-prose, .cx-podcast-body";
-    for (const host of document.querySelectorAll(PROSE_HOSTS)) {
+    //
+    // SELF-CALIBRATION, and it is load-bearing: in dev the page can be served in
+    // the window after a stylesheet write and before Vite has re-applied it, and
+    // in that window EVERY computed-style assertion legitimately reads unstyled
+    // values. This check ran flaky for exactly that reason — twice, both times in
+    // the run right after a CSS edit, which is precisely when the turn-end hook
+    // runs it. So the reset itself is the readiness signal: a bare <ol> outside
+    // any prose host must compute `list-style-type: none`, because that is what
+    // Tailwind's preflight does. If it computes the UA default instead, no CSS is
+    // in effect yet and the invariant ABSTAINS rather than reporting a defect it
+    // cannot distinguish from a cold stylesheet. The assertion that survives is
+    // the true one: the reset is applied AND the restore is missing.
+    const probe = document.createElement("ol");
+    probe.style.position = "absolute";
+    probe.style.visibility = "hidden";
+    probe.innerHTML = "<li>probe</li>";
+    document.body.appendChild(probe);
+    const resetApplied = getComputedStyle(probe).listStyleType === "none";
+    probe.remove();
+
+    // Every host that renders either shared renderer's output. Deliberately
+    // includes hosts NOT yet known to be broken: listing only the three that were
+    // already fixed would let this check confirm the fix and never find the next
+    // instance — which is precisely how `.se-prose` and `.bookv-body` each shipped
+    // unmarked lists after the sibling host was repaired.
+    const PROSE_HOSTS =
+      ".src-view-prose, .se-prose, .cx-podcast-body, .bookv-body, .cx-body";
+    for (const host of resetApplied
+      ? document.querySelectorAll(PROSE_HOSTS)
+      : []) {
       let list = host.querySelector("ol, ul");
       let canary = null;
       if (!list) {

@@ -37,7 +37,7 @@ applies_to: "Podcast Factory Astro Site (plan-dashboard/)"
 - **REQ-012** Three font roles only (`--font-sans/--font-display/--font-mono`); no decorative fonts in body.
 - **REQ-013** Page `<h1>` uses the two-stop gradient text treatment (single-accent → `--text-primary`→`--accent-primary`).
 - **REQ-014** Inline `<code>`/`.mono`: mono font, tinted bg, accent foreground, small radius.
-- **REQ-015** Lists: `padding-inline-start ≥ 1.75rem`, `list-style-position: outside`; real `<ol>` numbering.
+- **REQ-015** Lists: `padding-inline-start ≥ 1.75rem`, `list-style-position: outside`, **and `list-style-type` declared** (a framework reset zeroes it, leaving a real `<ol>` with invisible markers); real `<ol>` numbering, source ordinals as `value="N"`.
 - **REQ-052** Wide tables wrapped in scrollable `.table-container` (`role="region"`, `tabindex="0"`).
 
 ## Colour & surface

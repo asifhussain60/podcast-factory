@@ -1020,6 +1020,11 @@ a.lib-fact-file:focus-visible {
   line-height: 1.7;
   color: var(--c-ink);
 }
+/* NOTE: these three heading rules are duplicated at book-composer.css
+   (`#cx-podcast-body h2/h3/h4`) so the podcast lane's DEMOTED headings keep the
+   same look — the lane shifts h1→h2 to preserve one <h1> per page, and a
+   selector list cannot serve both because that host carries this class too and
+   would win on source order. Change both. */
 .src-view-prose h1 {
   font-family: var(--font-display, "Cinzel", Georgia, serif);
   font-size: 1.9rem;
@@ -1056,8 +1061,11 @@ a.lib-fact-file:focus-visible {
    indentation has to be deliberate rather than inherited. `padding-inline-start`
    (not a left margin) is what the rule asks for, at or above the 1.75rem floor,
    with markers OUTSIDE so a wrapped line aligns to the text and not under its
-   own number. Logical properties so an RTL section (the Urdu bilingual view
-   renders through this same class) indents from the correct side.
+   own number. Logical properties on principle, not for a caller: this class has
+   no RTL host. The Urdu bilingual view renders the SAME renderer's output into
+   `.se-prose` (wisdom.css), NOT this class — a wrong assumption when this block
+   was written, and the reason that view kept unmarked lists until `.se-prose`
+   got its own REQ-015 block. Two hosts, two rules, matching values on purpose.
 
    `list-style-type` is RESTORED here, not merely positioned: Tailwind's
    preflight sets `list-style: none` on every ol/ul/menu
@@ -1068,7 +1076,7 @@ a.lib-fact-file:focus-visible {
    showed it. This is the reset REQ-015 was written about. */
 .src-view-prose ul,
 .src-view-prose ol {
-  margin: 0 0 1.1rem;
+  margin-block: 0.85rem 1.1rem;
   padding-inline-start: 2.25rem;
   list-style-position: outside;
 }
@@ -1081,6 +1089,10 @@ a.lib-fact-file:focus-visible {
 .src-view-prose ul ul {
   list-style-type: circle;
 }
+/* Forward-looking, not live: renderMarkdown's item matchers are anchored at ^
+   with no leading-whitespace class, so an indented sub-item becomes a paragraph
+   and the renderer cannot nest. Kept so nesting is styled the day it is added,
+   rather than deleted and re-derived. */
 .src-view-prose ol ol,
 .src-view-prose ol ul,
 .src-view-prose ul ol,

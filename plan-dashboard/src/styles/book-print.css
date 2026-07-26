@@ -833,6 +833,25 @@ body.book-v2 .chapter-open {
   margin-bottom: 0;
 }
 
+/* Ordered lists in the reading edition. renderMd gained an ordered-list parser
+   on 2026-07-26 — before that a real enumeration printed as one run-together
+   paragraph with "1." "2." as literal text. The PDF inlines only theme.css,
+   quote-typography.css and this file, with no framework reset, so markers come
+   from the UA by default; these values are the book's own measure rather than
+   the browser's, and `list-style-position: outside` keeps a wrapped line aligned
+   to the text instead of under its own number. REQ-015 values, matching the
+   on-screen hosts. */
+.book-list {
+  margin: 0.85rem 0 1.1rem;
+  padding-inline-start: 2.25rem;
+  list-style-position: outside;
+  list-style-type: decimal;
+}
+.book-list li {
+  margin: 0.3rem 0;
+  line-height: 1.55;
+}
+
 .book-self-study .study-list {
   margin: 0.7rem 0 0.9rem;
   padding-left: 1.4rem;

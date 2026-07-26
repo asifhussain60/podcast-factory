@@ -1,8 +1,64 @@
 # Current work - status
 
-**Last updated:** 2026-07-26 10:22 AM EST (Composer lane switch shipped; shared list pass follows)
+**Last updated:** 2026-07-26 11:20 AM EST (lane switch + list pass + fence work, then a full audit pass)
 
-**Newest — real enumerations now render as real lists, on all three source surfaces.**
+**Newest — the audit pass, and the two things it found that a human would have seen.**
+`repo-surgeon` (report-only, because a visual-QA agent was writing the same tree)
+plus `site-health-sentinel`. No P0. Both agents found that this session's work had
+stopped one renderer short, twice, and in both cases the missing renderer was the
+one a human actually looks at.
+
+*Lists.* Turning on real list rendering changed `renderMarkdown`, not just its
+source profile — and there are FOUR renderers of the same markdown. Two were
+fixed, two were not: the reader at `/studio/<slug>/live` (`.bookv-body`) had no
+list CSS at all, and `renderMd` — the PDF renderer — had no ordered-list parser
+at all, so the next PDF render would have printed the one real enumeration in the
+corpus as a run-together paragraph with "1." "2." as literal text. That is faked
+numbering in the publication deliverable. `renderMd` now parses ordered lists in
+every render (bullets stay self-study-only; no `book.md` uses them) and carries
+the source ordinal as `value="N"`, pinned by a cross-renderer test asserting the
+print and reader numbering agree on four fixtures.
+
+*The marker-CSS reset has now needed the same fix in FIVE hosts* —
+`.src-view-prose`, `.se-prose`, `.cx-podcast-body`, `.bookv-body`, `.cx-body` —
+and each was found only after the previous one was repaired. The runtime smoke
+check (INV-3) was listing only the hosts already fixed, so it could confirm the
+fix and never find the next instance; widened, it immediately reported `.cx-body`.
+REQ-015 itself said nothing about `list-style-type`, so the rule as written
+reproduced the defect — the standard and its digest now say so, and name the
+runtime gate as the enforcement.
+
+*Fences.* Recorded here for the first time: `MACHINE_FENCE_KINDS` in
+`book-html.mjs` fixed the print renderer's skip list (it had three of the four
+kinds and missed `edition-intro`), `fence-decos.ts` decorates the marker in the
+edit canvas instead of removing it (the text is load-bearing —
+`preserveFences` reads it back), and `markdown.ts` now skips fence lines in
+display renders while the EDIT seed opts back in via `keepMachineFences`. That
+last one removed 16 visible grey `editorial:begin` chips from the reader. The
+fence-kind contract is now pinned in both directions and registered in
+`.repo-audit/profile.yaml`: JS↔TS by a live `deepEqual`, and — the gap the JS pin
+structurally cannot see — Python↔TS by a scan of what the producers actually
+write. Comparing the two renderer lists to each other stays green when both are
+wrong together, which is exactly how the `edition-intro` bug shipped.
+
+*Also fixed:* the lane switch's reload-restore path could never fire —
+`location.reload()` queues a navigation rather than halting the task, so the
+clear after `leave()` deleted the stash before the reload read it, and a user who
+pressed Podcast landed back in the editor. Plus a bounded heading read (336 KB →
+40 KB per compose render), two softened test assertions that would have redded on
+legacy content rather than on a defect, and one incorrect CSS comment of mine.
+
+*Reported, not fixed:* the Wisdom section is dead two ways —
+`source-extractor.ts:21` points at a directory that does not exist, and the Urdu
+`raw-extract.md` it wants has never been tracked; `$RefreshSig$` throws on the
+Composer route for a book with no composed `book/` (dev-only); fenced code blocks
+render their ``` markers as text; `.bilingual-grid` never collapses at mobile.
+
+---
+
+**Composer lane switch + shared list pass (earlier the same day)**
+
+**Real enumerations now render as real lists (superseded above: it was FOUR renderers, not three).**
 The read-only source renderer ran with `lists: false`, so a numbered list in a
 chapter source rendered as one run-together paragraph with the numbering as
 literal text. Asif authorised the shared pass. Flipping the flag ALONE would

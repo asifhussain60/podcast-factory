@@ -46,7 +46,12 @@ import { renderSourceMarkdown } from "../lib/reader/markdown";
 export type Lane = "book" | "podcast";
 
 /** One `chapters/*.txt` file, as the server listed it. Bodies are NOT included
- *  — see the header note on why they are fetched on demand. */
+ *  — see the header note on why they are fetched on demand.
+ *
+ *  STRUCTURAL TWIN of `ComposerPodcastChapter` in lib/reader/composer.ts, which
+ *  is what actually produces these objects. Unpinned by design (three strings
+ *  across the Node/browser boundary is not worth a shared module) — so keep them
+ *  in step by hand. */
 export interface PodcastChapterMeta {
   /** Basename inside `chapters/`, e.g. `ch01a-three-thanks.txt`. */
   file: string;
@@ -296,7 +301,13 @@ export function createComposeLane(opts: ComposeLaneOptions): ComposeLane {
         if (!left) clearLane(slug);
       }
       if (!left) return lane; // user kept editing — book lane untouched
-      clearLane(slug);
+      // The stash is deliberately NOT cleared here. `leave()` is leaveEditMode,
+      // which RELOADS the page when prose changed — and `location.reload()`
+      // queues a navigation rather than halting this task, so a clear on this
+      // line ran BEFORE the reload and deleted the request in exactly the case
+      // the mechanism exists for. The user pressed Podcast and landed back in
+      // the editor. The stash now always names the lane in effect, and the
+      // flip back to book is what clears it.
       lane = "podcast";
       paintLane();
       const file = select?.value || chapters[0]?.file || "";
@@ -317,6 +328,7 @@ export function createComposeLane(opts: ComposeLaneOptions): ComposeLane {
     // (or serialized as) chapter content.
     loadToken += 1;
     lane = "book";
+    clearLane(slug); // the book lane is the default; nothing to restore
     shownFile = "";
     body.replaceChildren();
     setStatus("");

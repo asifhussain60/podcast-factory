@@ -68,6 +68,7 @@ import {
   assertReadOnly,
   createComposeLane,
   demoteHeadings,
+  pendingLane,
   type PodcastChapterMeta,
 } from "./compose-lane";
 import { renderEditSeed, renderSourceMarkdown } from "../lib/reader/markdown";
@@ -639,4 +640,67 @@ test("demoteHeadings shifts one level, keeps attributes, and never double-demote
   );
   // h6 has nowhere to go and must be left alone rather than dropped.
   assert.equal(host.querySelectorAll("h6").length, 2);
+});
+
+// ── 7. the reload-restore path: the stash must OUTLIVE leave() ──────────────
+
+test("a successful flip leaves the lane stashed for a reload to restore", async (t) => {
+  // `leave()` is leaveEditMode, which reloads the page when prose changed.
+  // `location.reload()` queues a navigation instead of halting the task, so any
+  // clear after leave() runs BEFORE the reload — which deleted the request in
+  // exactly the case the mechanism exists for, landing the user back in the
+  // editor after pressing Podcast. Asserted from inside the hook, which is the
+  // only vantage point a stubbed leave can offer on the reload window.
+  const sess = session(t, []);
+  const dom = laneDom();
+  let stashedDuringLeave: string | null = null;
+
+  const l = createComposeLane({
+    slug: SLUG,
+    chapters: CHAPTERS,
+    root: dom.root,
+    pane: dom.pane,
+    body: dom.body,
+    select: dom.select,
+    status: dom.statusEl,
+    bookBtn: dom.bookBtn,
+    podcastBtn: dom.podcastBtn,
+    book: {
+      leave: async () => {
+        stashedDuringLeave = sessionStorage.getItem(`cx-restore-lane:${SLUG}`);
+        return sess.leave();
+      },
+      enter: () => sess.enter(),
+    },
+    fetchChapterText: async () => PODCAST_CHAPTER_TXT,
+  });
+
+  await l.setLane("podcast");
+  assert.equal(stashedDuringLeave, "podcast", "stashed before leave() runs");
+  assert.equal(
+    sessionStorage.getItem(`cx-restore-lane:${SLUG}`),
+    "podcast",
+    "and STILL stashed after — a reload queued inside leave() must find it",
+  );
+});
+
+test("flipping back to the book clears the stash", async (t) => {
+  const sess = session(t, []);
+  const dom = laneDom();
+  const l = lane(dom, sess);
+
+  await l.setLane("podcast");
+  assert.equal(sessionStorage.getItem(`cx-restore-lane:${SLUG}`), "podcast");
+  await l.setLane("book");
+  assert.equal(
+    sessionStorage.getItem(`cx-restore-lane:${SLUG}`),
+    null,
+    "the book lane is the default — nothing to restore",
+  );
+});
+
+test("pendingLane consumes the stash so it cannot restore twice", () => {
+  sessionStorage.setItem(`cx-restore-lane:${SLUG}`, "podcast");
+  assert.equal(pendingLane(SLUG), "podcast");
+  assert.equal(pendingLane(SLUG), null, "consumed on read");
 });

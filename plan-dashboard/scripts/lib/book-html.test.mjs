@@ -8,6 +8,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { renderMd, MACHINE_FENCE_KINDS } from "./book-html.mjs";
+import { renderMarkdown } from "../../src/lib/reader/markdown.ts";
 import { FENCE_KINDS } from "../../src/lib/reader/book-fences.ts";
 
 const AUGMENTED = [
@@ -229,4 +230,100 @@ test("the fence-kind list matches the contract's own declaration", () => {
     [...FENCE_KINDS].sort(),
     "book-html.mjs MACHINE_FENCE_KINDS and book-fences.ts FENCE_KINDS diverged",
   );
+});
+
+// ── the printed page and the reader must agree on what a list is ────────────
+
+/** The <li> ordinals a render actually NUMBERS, read off the markup. */
+function orderedNumbers(html) {
+  const out = [];
+  let counter = 0;
+  for (const m of html.matchAll(/<(ol|\/ol|li)(?:\s+value="(\d+)")?[^>]*>/g)) {
+    if (m[1] === "ol" || m[1] === "/ol") counter = 0;
+    else if (m[2]) out.push((counter = Number(m[2])));
+    else out.push((counter += 1));
+  }
+  return out;
+}
+
+const LIST_FIXTURES = [
+  {
+    name: "the real 5-condition enumeration from the-master-and-the-disciple",
+    md: [
+      'The Master said, "My conditions upon you are five:',
+      "",
+      "1. Do not fail me if I entrust you with something.",
+      "2. Do not conceal anything from me if I ask you.",
+      "3. Do not seek me out until I answer you.",
+      "4. Do not ask me for anything until I begin with you.",
+      '5. Do not mention my affair to your father."',
+      "",
+      "The boy accepted.",
+    ].join("\n"),
+    numbers: [1, 2, 3, 4, 5],
+  },
+  {
+    name: "a list starting at 3",
+    md: "3. Third.\n4. Fourth.\n",
+    numbers: [3, 4],
+  },
+  {
+    name: "a loose list, blank lines between items",
+    md: "1. One.\n\n2. Two.\n\n3. Three.\n",
+    numbers: [1, 2, 3],
+  },
+  {
+    name: "source numbering that repeats",
+    md: "1. One.\n1. Also one.\n",
+    numbers: [1, 1],
+  },
+];
+
+for (const fx of LIST_FIXTURES) {
+  test(`print and reader agree on ${fx.name}`, () => {
+    // renderMd builds book.pdf; renderMarkdown's default profile builds the
+    // reader at /studio/<slug>/live. Both read book.md. Before renderMd had an
+    // ordered-list parser it emitted a run-together paragraph with the numbering
+    // as literal text while the reader emitted a real <ol> — the two deliverables
+    // disagreeing about the same source.
+    const print = renderMd(fx.md);
+    const reader = renderMarkdown(fx.md);
+    assert.deepEqual(orderedNumbers(print), fx.numbers, "print numbering");
+    assert.deepEqual(orderedNumbers(reader), fx.numbers, "reader numbering");
+    for (const [label, html] of [
+      ["print", print],
+      ["reader", reader],
+    ]) {
+      assert.equal(
+        (html.match(/<ol/g) ?? []).length,
+        1,
+        `${label} must emit exactly one <ol>`,
+      );
+      assert.doesNotMatch(
+        html,
+        /<p>[^<]*\b1\.\s/,
+        `${label} left literal numbering in a paragraph`,
+      );
+    }
+  });
+}
+
+test("prose around a list survives in both renderers", () => {
+  const md = "Before.\n\n1. One.\n2. Two.\n\nAfter.\n";
+  for (const html of [renderMd(md), renderMarkdown(md)]) {
+    assert.match(html, /Before\./);
+    assert.match(html, /After\./);
+    assert.ok(
+      html.indexOf("</ol>") < html.indexOf("After."),
+      "the list must close before the following prose",
+    );
+  }
+});
+
+test("a bulleted line is still NOT a list in the default print render", () => {
+  // Deliberate: no book.md in the corpus uses '- ' bullets, so enabling them for
+  // print would be an unverifiable change. Pinned so the asymmetry is a decision
+  // rather than an oversight.
+  const html = renderMd("- alpha\n- beta\n");
+  assert.equal((html.match(/<ul/g) ?? []).length, 0);
 });

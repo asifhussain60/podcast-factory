@@ -17,7 +17,16 @@
  * re-parsing.
  */
 
+import { FENCE_KINDS } from "./book-fences";
 import { simplifyTransliteration } from "../translit";
+
+/** A pipeline fence marker line. Built from the contract in book-fences.ts —
+ *  imported, not copied, because this module is TypeScript in the same directory
+ *  and a fourth hand-kept list is a fourth chance to miss a kind (which is
+ *  exactly how `edition-intro` came to render as visible text). */
+const MACHINE_FENCE_LINE_RE = new RegExp(
+  `^<!--\\s*(?:${FENCE_KINDS.join("|")}):(?:begin|end)\\s*-->$`,
+);
 
 /** A list item, by marker. Declared once: the parse below and the blank-line
  *  lookahead in renderMarkdown must agree on what counts as an item, and two
@@ -46,6 +55,11 @@ export interface RenderOptions {
   imageBlocks?: boolean;
   /** Fold scholarly transliteration to plain English first. Default true. */
   simplifyTranslit?: boolean;
+  /** Render pipeline fence markers as visible `.md-comment` chips instead of
+   *  skipping them. Default false — they are machine markers, never prose. Only
+   *  the Composer's EDIT seed sets this, where the marker text must survive into
+   *  the editor for `preserveFences` to restore it after a save. */
+  keepMachineFences?: boolean;
   /** Arabic runs the book's audit resolved against the CANONICAL MUSHAF, by their
    *  exact text. A run in this set is tagged `is-quranic`, which switches the
    *  Arabic face to the Uthmanic script; every other run keeps Scheherazade New.
@@ -494,7 +508,20 @@ export function renderMarkdown(
         continue;
       }
     } else if (trimmed.startsWith("<!--")) {
-      // Book flavor: comment line (used in transcripts: `<!-- page 1 -->`)
+      // Book flavor: comment line (used in transcripts: `<!-- page 1 -->`).
+      //
+      // A PIPELINE FENCE is not that kind of comment. It delimits a span the
+      // Python phases own, and rendering it as a visible chip put 16 grey
+      // `editorial:begin` / `edition-intro:begin` labels into the reader on
+      // /studio/<slug>/live. Skipped by default; the EDIT seed opts back in via
+      // `keepMachineFences`, because there the marker text is load-bearing —
+      // `preserveFences` reads it back to restore the comment form after a save,
+      // and dropping it from the seed would strip the fence on the first save.
+      if (!opts.keepMachineFences && MACHINE_FENCE_LINE_RE.test(trimmed)) {
+        flushAll();
+        i++;
+        continue;
+      }
       flushAll();
       const inner = trimmed.replace(/^<!--\s*/, "").replace(/\s*-->$/, "");
       out.push(
@@ -548,7 +575,14 @@ export function renderSourceMarkdown(input: string): string {
  * Display surfaces keep folding; the editor sees the file's actual bytes.
  */
 export function renderEditSeed(input: string): string {
-  return renderMarkdown(input, { simplifyTranslit: false });
+  // keepMachineFences: the editor MUST receive the fence marker lines. TipTap
+  // has no comment node, so they arrive as bare text, which is exactly what
+  // `preserveFences` step 1 reads to put the comment form back on save. Skipping
+  // them here would strip every fence on the first save of that chapter.
+  return renderMarkdown(input, {
+    simplifyTranslit: false,
+    keepMachineFences: true,
+  });
 }
 
 /**

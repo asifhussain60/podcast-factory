@@ -101,6 +101,28 @@ mirrors:
     b: scripts/podcast/_book_edits.py
     pinned_by: plan-dashboard/scripts/lib/anchor-key.fixtures.json
     note: A divergence here silently orphans every saved Composer edit.
+  - a: plan-dashboard/src/lib/reader/book-fences.ts
+    b: plan-dashboard/scripts/lib/book-html.mjs
+    pinned_by: plan-dashboard/scripts/lib/book-html.test.mjs
+    note: >-
+      The pipeline's machine fence kinds — FENCE_KINDS (the contract) vs
+      MACHINE_FENCE_KINDS (the print renderer's skip list). Test-pinned by a direct
+      deepEqual of the two LIVE values rather than by a fixture, because both sides are
+      JS-loadable and a shared artifact would be a third thing that can drift. Added
+      2026-07-26 after the skip list was found missing `edition-intro`, which had been
+      in the contract since 2026-07-21 and was rendering as visible text.
+  - a: plan-dashboard/src/lib/reader/book-fences.ts
+    b: scripts/podcast/_book_augment.py + _book_bridges.py + _self_study.py + _book_frontmatter.py
+    pinned_by: scripts/podcast/tests/test_fence_kinds_cross_language.py
+    note: >-
+      The Python LEG of the same contract, and the one the JS pin cannot see. No Python
+      module enumerates the set; each producer declares only the kind it authors, so the
+      pin derives the set by scanning for marker literals and compares it to FENCE_KINDS.
+      This is what catches a kind added on one side of the language boundary — comparing
+      the two renderer lists to each other stays green when both are wrong together,
+      which is exactly how the edition-intro bug shipped. A refactor that moves the
+      producers onto a shared Python constant must keep the scan honest; the test's
+      fourth case fails loudly if the scan ever matches nothing.
   - a: plan-dashboard/scripts/regenerate-snapshots.mjs
     b: plan-dashboard/scripts/regenerate-snapshots.py
     pinned_by: tests/test_snapshot_regenerator_parity.py

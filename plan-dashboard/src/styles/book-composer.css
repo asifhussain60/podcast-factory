@@ -1439,6 +1439,30 @@
   margin: 0 0 0.8rem;
 }
 
+/* REQ-015 list rendering for Read mode. This host renders renderMd's output —
+   the same markup the PDF prints — and renderMd gained an ordered-list parser on
+   2026-07-26. Found by the widened INV-3 smoke check, which reported `.cx-body`
+   the moment it stopped listing only the hosts already fixed: `list-style-type:
+   none`, `padding-inline-start: 0px`, so a real <ol> showed as unmarked,
+   unindented paragraphs. The FIFTH host of this same reset. Values match the
+   other four; the print stylesheet carries its own copy because the PDF is
+   rendered without the framework reset at all. */
+.cx-body ul,
+.cx-body ol {
+  margin-block: 0.85rem 1.1rem;
+  padding-inline-start: 2.25rem;
+  list-style-position: outside;
+}
+.cx-body ol {
+  list-style-type: decimal;
+}
+.cx-body ul {
+  list-style-type: disc;
+}
+.cx-body li {
+  margin-block: 0.3rem;
+}
+
 /* Arabic verses in the preview mirror the printed page: no box, body-ink Arabic
    at body scale (matches book-print.css / book-reader.css blockquote.quran). */
 .cx-body blockquote.quran {

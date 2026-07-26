@@ -610,6 +610,8 @@
 .se-prose ul ul {
   list-style-type: circle;
 }
+/* Forward-looking, not live — the renderer cannot nest (see the twin note in
+   library.css). */
 .se-prose ol ol,
 .se-prose ol ul,
 .se-prose ul ol,

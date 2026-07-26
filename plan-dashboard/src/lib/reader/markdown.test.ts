@@ -26,7 +26,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { renderMarkdown, renderSourceMarkdown } from "./markdown";
+import {
+  renderEditSeed,
+  renderMarkdown,
+  renderSourceMarkdown,
+} from "./markdown";
+import { FENCE_KINDS } from "./book-fences";
 
 /** Ordered-item numbers as the browser would NUMBER them, read back off the
  *  markup — the only thing that matters for "did the numbering survive". */
@@ -170,4 +175,47 @@ test("the source profile's other behaviours are unchanged", () => {
     /Kīmiyāʾ al-Saʿāda/,
     "no display fold in this profile",
   );
+});
+
+// ── machine fences: hidden when displaying, KEPT when seeding the editor ────
+
+test("display renders skip every fence marker instead of showing a chip", () => {
+  // These lines delimit spans the Python phases own. Rendered as `.md-comment`
+  // chips they put 16 grey `editorial:begin` / `edition-intro:begin` labels into
+  // the reader at /studio/<slug>/live, reading as if they were the author's text.
+  for (const kind of FENCE_KINDS) {
+    const html = renderMarkdown(
+      [
+        `<!-- ${kind}:begin -->`,
+        "The fenced prose.",
+        `<!-- ${kind}:end -->`,
+      ].join("\n"),
+    );
+    assert.doesNotMatch(
+      html,
+      /md-comment/,
+      `${kind} rendered as a comment chip`,
+    );
+    assert.ok(!html.includes(kind), `${kind} leaked as visible text`);
+    assert.match(html, /The fenced prose\./, `${kind} swallowed its content`);
+  }
+});
+
+test("a NON-fence comment is still shown — the skip is targeted", () => {
+  // `<!-- page 12 -->` in a transcript is a comment the reader deliberately
+  // displays. Only the pipeline's own fence kinds are hidden.
+  const html = renderMarkdown("<!-- page 12 -->\n\nProse.\n");
+  assert.match(html, /md-comment/);
+  assert.match(html, /page 12/);
+});
+
+test("the EDIT seed keeps fence markers — they are load-bearing there", () => {
+  // TipTap has no comment node, so the marker arrives as bare text; that text is
+  // exactly what preserveFences reads back to restore the comment form on save.
+  // Skipping it in the seed would strip every fence on the first save.
+  const seed = renderEditSeed(
+    "<!-- edition-intro:begin -->\nIntro.\n<!-- edition-intro:end -->\n",
+  );
+  assert.match(seed, /edition-intro:begin/);
+  assert.match(seed, /edition-intro:end/);
 });

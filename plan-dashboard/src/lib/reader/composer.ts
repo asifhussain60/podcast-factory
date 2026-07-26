@@ -12,7 +12,7 @@
  * /api/studio/visual-layout (PUT); the renderer (render-book-pdf.mjs) consumes
  * that contract. Read-only here — persistence is the API route's job.
  */
-import { readFile, readdir } from "node:fs/promises";
+import { open, readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { anchorKey } from "../../../scripts/lib/anchor-key.mjs";
 import { articulationWarningsFrom } from "./articulation";
@@ -132,8 +132,15 @@ export interface ComposerPodcastChapter {
   ordinal: string;
 }
 
-/** Read the chapter sources' titles without shipping their bodies. Sorted by
- *  filename, which is how the pipeline numbers them (`ch01a`, `ch02b`, …). */
+/** Bytes read per chapter file to find its `# ` heading. The heading is the
+ *  first line the pipeline writes, so a small window always contains it; this
+ *  used to be a full `readFile`, which meant 336 KB of I/O across 20 files on
+ *  every SSR render of the compose page to extract 20 short strings. */
+const HEADING_PROBE_BYTES = 2048;
+
+/** Read the chapter sources' titles without reading — or shipping — their
+ *  bodies. Sorted by filename, which is how the pipeline numbers them
+ *  (`ch01a`, `ch02b`, …). */
 async function loadPodcastChapters(
   dir: string,
 ): Promise<ComposerPodcastChapter[]> {
@@ -148,11 +155,20 @@ async function loadPodcastChapters(
   return Promise.all(
     names.map(async (file) => {
       let heading = "";
+      let handle;
       try {
-        const raw = await readFile(join(dir, "chapters", file), "utf-8");
-        heading = (raw.match(/^#\s+(.+)$/m)?.[1] ?? "").trim();
+        handle = await open(join(dir, "chapters", file), "r");
+        const buf = Buffer.alloc(HEADING_PROBE_BYTES);
+        const { bytesRead } = await handle.read(buf, 0, HEADING_PROBE_BYTES, 0);
+        // Decode only whole lines: a multi-byte character could straddle the
+        // window's end, and the heading is never the truncated last line.
+        const head = buf.subarray(0, bytesRead).toString("utf-8");
+        const whole = head.slice(0, head.lastIndexOf("\n") + 1) || head;
+        heading = (whole.match(/^#\s+(.+)$/m)?.[1] ?? "").trim();
       } catch {
         /* unreadable file still lists, under its filename */
+      } finally {
+        await handle?.close();
       }
       const ordinal = /^ch(\d+[a-z]?)-/.exec(file)?.[1] ?? "";
       return {
