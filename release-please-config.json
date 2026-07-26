@@ -3,7 +3,7 @@
   "packages": {
     ".": {
       "release-type": "simple",
-      "package-name": "journal",
+      "package-name": "podcast-factory",
       "include-component-in-tag": false,
       "include-v-in-tag": true,
       "changelog-sections": [
