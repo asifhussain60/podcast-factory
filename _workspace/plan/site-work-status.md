@@ -1,8 +1,40 @@
 # Current work - status
 
-**Last updated:** 2026-07-26 09:10 AM EST (Book Composer lane switch — Phase 1 shipped)
+**Last updated:** 2026-07-26 10:22 AM EST (Composer lane switch shipped; shared list pass follows)
 
-**Newest — the Composer can now show the podcast source, read-only.**
+**Newest — real enumerations now render as real lists, on all three source surfaces.**
+The read-only source renderer ran with `lists: false`, so a numbered list in a
+chapter source rendered as one run-together paragraph with the numbering as
+literal text. Asif authorised the shared pass. Flipping the flag ALONE would
+have been worse than leaving it off, and the investigation is the point: a blank
+line used to flush the list, so a loose `1. / 2. / 3.` — the dominant style in
+this corpus — became three separate `<ol>`s that each restarted at 1, and the
+ordinal came from the `<ol>` counter, so a list starting at 3 renumbered itself
+to 1. Both are the faked numbering REQ-015 forbids. Fixed at root first: ordered
+items carry `<li value="N">` reproducing whatever the source states, and a blank
+line keeps the list open when the next content is an item of the same kind.
+
+Then a defect only the pixels showed: with padding and `list-style-position` set
+but not `list-style-type`, Tailwind's preflight (`list-style: none` on every
+ol/ul) left a numbered list with NO NUMBERS — the enumeration gone entirely,
+worse than the paragraph it replaced. The DOM read as correct throughout. The
+CSS now restores `decimal`/`disc`/`circle` alongside the REQ-015 indentation,
+using logical properties so an RTL panel indents from the correct side.
+
+Blast radius, measured rather than assumed: 88 of 170 source files now render
+real lists, across THREE surfaces — the chapter/file viewer, the Composer's new
+podcast lane, and the Urdu bilingual wisdom view (`bilingual-sections.ts`, which
+the original recommendation had not accounted for). Zero numbering mismatches
+against the corpus. 13 new renderer tests; 3 of 5 mutants killed and the other
+two shown to be behaviourally equivalent rather than coverage gaps. **Not
+verified: the Urdu bilingual view** — `/wisdom` exposes no reachable book page,
+so the RTL path rests on logical properties by construction, not observation.
+Known cosmetic case: a page marker like `- 87` alone on a line in a raw-extract
+file now renders as a one-item bullet.
+
+---
+
+**The Composer can now show the podcast source, read-only.**
 The Book Composer at `/studio/<slug>/compose` gained a lane switch: "Reading
 edition" (book.md, editable — unchanged) vs "Podcast source" (`chapters/*.txt`,
 read-only). The original ask was for the same edit to apply to BOTH lanes; that

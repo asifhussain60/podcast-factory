@@ -19,6 +19,13 @@
 
 import { simplifyTransliteration } from "../translit";
 
+/** A list item, by marker. Declared once: the parse below and the blank-line
+ *  lookahead in renderMarkdown must agree on what counts as an item, and two
+ *  copies of these would be two chances to disagree. A marker needs trailing
+ *  whitespace, which is what keeps an italic line (`*Three Thanks…*`) prose. */
+const UL_ITEM_RE = /^[-*+]\s+(.+)$/;
+const OL_ITEM_RE = /^(\d+)\.\s+(.+)$/;
+
 /** Arabic-script detection (matches the print renderer's ARABIC_RE). */
 const ARABIC_SCRIPT_RE = /[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/;
 
@@ -48,10 +55,45 @@ export interface RenderOptions {
   quranicRuns?: Set<string>;
 }
 
+/**
+ * Does the list currently open continue after the blank line at `from`?
+ *
+ * Skips further blank lines, then reports whether the next line with content is
+ * an item of the SAME kind. Anything else — prose, a heading, a rule, a table,
+ * end of input — ends the list.
+ *
+ * The `kind` comparison is DEFENSIVE rather than load-bearing: when the marker
+ * kind changes, keeping the list open here would make no difference, because the
+ * item branch in the main loop flushes on a kind switch anyway. It is checked
+ * here so the decision "does this list continue" is answerable from this
+ * function alone, instead of being correct only by virtue of what happens next.
+ */
+function continuesList(
+  lines: string[],
+  from: number,
+  kind: "ul" | "ol",
+): boolean {
+  for (let j = from; j < lines.length; j++) {
+    const next = lines[j].trim();
+    if (next.length === 0) continue;
+    return kind === "ul" ? UL_ITEM_RE.test(next) : OL_ITEM_RE.test(next);
+  }
+  return false;
+}
+
 /** The source-extractor bundle profile (the former source-render.ts). */
 const SOURCE_PROFILE: RenderOptions = {
   headingIds: false,
-  lists: false,
+  // Real enumerations render as real lists (2026-07-26). This was `false`, which
+  // flattened a numbered list into one run-together paragraph with the numbering
+  // as literal text — visible in the chapter viewer, the Urdu bilingual view and
+  // the Composer's podcast lane, and it made enumeration survival (a
+  // narrative-frame rule) unreviewable on the surfaces a human actually reads.
+  // Turning it on required fixing the shared list handling FIRST: a blank line
+  // used to split a loose list, and the ordinal came from the `<ol>` counter
+  // rather than the source. See flushList + continuesList, pinned by
+  // markdown.test.ts.
+  lists: true,
   tables: true,
   angleMarkers: true,
   sectionMarkers: true,
@@ -215,7 +257,9 @@ export function renderMarkdown(
   let paraBuffer: string[] = [];
   let quoteBuffer: string[] = [];
   let listKind: ListKind = null;
-  let listItems: string[] = [];
+  /** Open list items. `value` carries the SOURCE ordinal for an ordered item —
+   *  see flushList on why the `<ol>` counter is not trusted. */
+  let listItems: { text: string; value?: number }[] = [];
 
   const flushPara = () => {
     if (paraBuffer.length === 0) return;
@@ -260,6 +304,18 @@ export function renderMarkdown(
     quoteBuffer = [];
   };
 
+  /**
+   * Close the open list.
+   *
+   * An ordered item carries `value="N"` from the SOURCE rather than leaning on
+   * `<ol>`'s own counter. The counter is not trustworthy for this corpus: a list
+   * legitimately starting at 3 rendered as 1, and an author style that repeats
+   * "1." per item was silently rewritten to 1,2,3. Both are the faked numbering
+   * the view standard forbids (REQ-015), and `value` makes the rendered number
+   * equal the number the source actually states — whatever it states.
+   *
+   * `value` is only valid on an `<ol>`'s items, so a bulleted list never gets it.
+   */
   const flushList = () => {
     if (listKind === null || listItems.length === 0) {
       listKind = null;
@@ -267,8 +323,13 @@ export function renderMarkdown(
       return;
     }
     out.push(`<${listKind}>`);
-    for (const item of listItems)
-      out.push(`<li>${renderInline(item, opts)}</li>`);
+    for (const item of listItems) {
+      const attr =
+        listKind === "ol" && item.value !== undefined
+          ? ` value="${item.value}"`
+          : "";
+      out.push(`<li${attr}>${renderInline(item.text, opts)}</li>`);
+    }
     out.push(`</${listKind}>`);
     listKind = null;
     listItems = [];
@@ -286,7 +347,14 @@ export function renderMarkdown(
     const trimmed = line.trim();
 
     if (trimmed.length === 0) {
-      flushAll();
+      flushPara();
+      flushQuote();
+      // A blank line does NOT end a list whose next content is another item of
+      // the same kind. Loose lists are the dominant enumeration style in this
+      // corpus, and flushing here split one `1. / 2. / 3.` into three separate
+      // lists — each of which then restarted its own numbering.
+      if (listKind !== null && !continuesList(lines, i + 1, listKind))
+        flushList();
       i++;
       continue;
     }
@@ -335,7 +403,7 @@ export function renderMarkdown(
 
     if (opts.lists) {
       // unordered list
-      const ulMatch = line.match(/^[-*+]\s+(.+)$/);
+      const ulMatch = line.match(UL_ITEM_RE);
       if (ulMatch) {
         flushPara();
         flushQuote();
@@ -343,13 +411,13 @@ export function renderMarkdown(
           flushList();
           listKind = "ul";
         }
-        listItems.push(ulMatch[1]);
+        listItems.push({ text: ulMatch[1] });
         i++;
         continue;
       }
 
       // ordered list
-      const olMatch = line.match(/^\d+\.\s+(.+)$/);
+      const olMatch = line.match(OL_ITEM_RE);
       if (olMatch) {
         flushPara();
         flushQuote();
@@ -357,7 +425,8 @@ export function renderMarkdown(
           flushList();
           listKind = "ol";
         }
-        listItems.push(olMatch[1]);
+        // The stated ordinal, carried through to `value` — see flushList.
+        listItems.push({ text: olMatch[2], value: Number(olMatch[1]) });
         i++;
         continue;
       } else if (listKind !== null) {

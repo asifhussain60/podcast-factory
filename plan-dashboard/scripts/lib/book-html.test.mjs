@@ -7,7 +7,8 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { renderMd } from "./book-html.mjs";
+import { renderMd, MACHINE_FENCE_KINDS } from "./book-html.mjs";
+import { FENCE_KINDS } from "../../src/lib/reader/book-fences.ts";
 
 const AUGMENTED = [
   "## 1. A Chapter",
@@ -185,4 +186,47 @@ test("sawH2 defaults to false — whole-book callers are unaffected", () => {
     "omitting the option matches passing an empty options object",
   );
   assert.ok(renderMd(md).includes("Preface"), "default behaviour preserved");
+});
+
+// ── machine fences never render as visible text ─────────────────────────────
+
+test("every machine fence kind is skipped, not escaped into the prose", () => {
+  // The regression: the skip listed editorial/study-summary/bridge and missed
+  // `edition-intro`. On a book whose front matter opens the first chapter (the
+  // introduction is fenced INSIDE that chapter's body), the Composer rendered
+  // `<!-- edition-intro:begin -->` as the chapter's first line — and `<!` took
+  // the drop-cap treatment. Asserted for EVERY kind so the next one added
+  // cannot regress only its own case.
+  for (const kind of MACHINE_FENCE_KINDS) {
+    const html = renderMd(
+      [
+        "## 1. A Chapter",
+        "",
+        `<!-- ${kind}:begin -->`,
+        "The fenced prose itself must still render.",
+        `<!-- ${kind}:end -->`,
+        "",
+        "And the prose after it.",
+      ].join("\n"),
+    );
+    assert.ok(!html.includes(kind), `${kind} marker leaked as text`);
+    assert.ok(!html.includes("&lt;!--"), `${kind} left an escaped comment`);
+    assert.ok(
+      html.includes("The fenced prose itself must still render."),
+      `${kind} swallowed its own content`,
+    );
+    assert.ok(html.includes("And the prose after it."));
+  }
+});
+
+test("the fence-kind list matches the contract's own declaration", () => {
+  // This renderer also runs under plain node for the PDF build, so it cannot
+  // import the TypeScript contract — the lists are mirrored by hand and pinned
+  // here instead. A one-sided edit fails this rather than silently letting one
+  // renderer show a marker the other hides.
+  assert.deepEqual(
+    [...MACHINE_FENCE_KINDS].sort(),
+    [...FENCE_KINDS].sort(),
+    "book-html.mjs MACHINE_FENCE_KINDS and book-fences.ts FENCE_KINDS diverged",
+  );
 });

@@ -39,6 +39,7 @@ import {
   createFigureDecos,
   type EditorFigure,
 } from "../components/studio/editor/figure-decos";
+import { createFenceDecos } from "../components/studio/editor/fence-decos";
 import {
   DEFAULT_DEPTH_PROFILE,
   DEPTH_LEVELS_BY_PROFILE,
@@ -849,6 +850,10 @@ function boot(): void {
     activeEditor = mountChapterEditor(host, pristine, [
       createStudioDecos(bridge),
       createFigureDecos({ figuresRef: editorFigures }),
+      // A pipeline fence marker arrives here as bare text (TipTap has no
+      // HTML-comment node) and must STAY in the document for preserveFences to
+      // restore it — so it is decorated, never removed. See fence-decos.ts.
+      createFenceDecos(),
     ]);
     bridge.editorRef.current = activeEditor.editor;
     const originalTexts: string[] = [];

@@ -164,47 +164,25 @@ const ARABIC_FONTS = [
         <div class="composer-grid" data-panel="tools">
           <section class="composer-preview" aria-label="Book preview">
             <div class="cx-chapter-bar">
-              {/* WHICH TEXT — not which rendering. The two lanes are separate
-                  deliverables translated independently from the same Arabic
-                  source, with their own segmentation (this book: 9 chapters
-                  against 20) and their own content: the podcast source carries
-                  narration framing, teaching commentary and cited references
-                  the reading edition deliberately omits. Kept apart from the
-                  Read/Edit control below on purpose — folding "Podcast" in as a
-                  third mode would read as another view of one text, which is
-                  exactly the wrong mental model for a pane that must never be
-                  edited. Only rendered when the book HAS a podcast source. */}
-              {hasPodcastLane && (
-                <div
-                  class="cx-lane-toggle"
-                  role="group"
-                  aria-label="Which text"
-                >
-                  <button
-                    type="button"
-                    class="cx-lane-btn"
-                    id="cx-lane-book"
-                    aria-pressed="true"
-                  >
-                    <i class="fa-solid fa-book" aria-hidden="true" /> Reading
-                    edition
-                  </button>
-                  <button
-                    type="button"
-                    class="cx-lane-btn"
-                    id="cx-lane-podcast"
-                    aria-pressed="false"
-                  >
-                    <i class="fa-solid fa-headphones" aria-hidden="true" />{" "}
-                    Podcast source
-                  </button>
-                </div>
-              )}
               <div class="cx-field cx-chapter-picker">
                 <label for="cx-chapter-select">Chapter</label>
                 <select id="cx-chapter-select">
                   {view.chapters.map((c) => (
                     <option value={c.key} data-ordinal={c.ordinal ?? ""}>
+                      {c.ordinal ? `${c.ordinal}. ${c.title}` : c.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {/* The podcast lane's own chapter picker, in the SAME row slot as
+                  the reading edition's — so flipping lanes changes which text the
+                  row points at, not where the controls sit. Shown/hidden by
+                  data-lane on the composer root. */}
+              <div class="cx-field cx-podcast-picker">
+                <label for="cx-podcast-select">Podcast chapter</label>
+                <select id="cx-podcast-select">
+                  {view.podcastChapters.map((c) => (
+                    <option value={c.file}>
                       {c.ordinal ? `${c.ordinal}. ${c.title}` : c.title}
                     </option>
                   ))}
@@ -233,6 +211,46 @@ const ARABIC_FONTS = [
                   Edit
                 </button>
               </div>
+              {/* WHICH TEXT — not which rendering. The two lanes are separate
+                  deliverables translated independently from the same Arabic
+                  source, with their own segmentation (this book: 9 chapters
+                  against 20) and their own content: the podcast source carries
+                  narration framing, teaching commentary and cited references
+                  the reading edition deliberately omits. Kept a SEPARATE control
+                  from Read/Edit on purpose — folding "Podcast" in as a third mode
+                  would read as another view of one text, which is exactly the
+                  wrong mental model for a pane that must never be edited. Sits at
+                  the END of the row (Asif, 2026-07-26): the chapter picker leads
+                  on the left and the two view controls group to the right, with
+                  the lane switch outermost because it is the coarser choice — it
+                  decides WHICH text, and Read/Edit then decides how to show it.
+                  Only rendered when the book HAS a podcast source. */}
+              {hasPodcastLane && (
+                <div
+                  class="cx-lane-toggle"
+                  role="group"
+                  aria-label="Which text"
+                >
+                  <button
+                    type="button"
+                    class="cx-lane-btn"
+                    id="cx-lane-book"
+                    aria-pressed="true"
+                  >
+                    <i class="fa-solid fa-book" aria-hidden="true" /> Reading
+                    edition
+                  </button>
+                  <button
+                    type="button"
+                    class="cx-lane-btn"
+                    id="cx-lane-podcast"
+                    aria-pressed="false"
+                  >
+                    <i class="fa-solid fa-headphones" aria-hidden="true" />{" "}
+                    Podcast source
+                  </button>
+                </div>
+              )}
               <div class="cx-layout-save" id="cx-layout-status" />
             </div>
             {view.chapters.map((ch) => (
@@ -274,24 +292,12 @@ const ARABIC_FONTS = [
                 aria-label="Podcast source"
                 hidden
               >
-                <div class="cx-podcast-bar">
-                  <div class="cx-field cx-podcast-picker">
-                    <label for="cx-podcast-select">Podcast chapter</label>
-                    <select id="cx-podcast-select">
-                      {view.podcastChapters.map((c) => (
-                        <option value={c.file}>
-                          {c.ordinal ? `${c.ordinal}. ${c.title}` : c.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <p
-                    class="cx-podcast-status"
-                    id="cx-podcast-status"
-                    role="status"
-                    aria-live="polite"
-                  />
-                </div>
+                <p
+                  class="cx-podcast-status"
+                  id="cx-podcast-status"
+                  role="status"
+                  aria-live="polite"
+                />
                 <p class="cx-podcast-note" role="note">
                   <i class="fa-solid fa-headphones" aria-hidden="true" />
                   <span>

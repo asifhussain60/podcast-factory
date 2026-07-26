@@ -1051,9 +1051,42 @@ a.lib-fact-file:focus-visible {
   color: var(--c-ink-muted);
   font-style: italic;
 }
+/* REQ-015 list rendering standard. These lists carry real content now — the
+   source profile stopped flattening enumerations on 2026-07-26 — so the
+   indentation has to be deliberate rather than inherited. `padding-inline-start`
+   (not a left margin) is what the rule asks for, at or above the 1.75rem floor,
+   with markers OUTSIDE so a wrapped line aligns to the text and not under its
+   own number. Logical properties so an RTL section (the Urdu bilingual view
+   renders through this same class) indents from the correct side.
+
+   `list-style-type` is RESTORED here, not merely positioned: Tailwind's
+   preflight sets `list-style: none` on every ol/ul/menu
+   (node_modules/tailwindcss/preflight.css), so declaring padding and position
+   alone produced a numbered list with NO NUMBERS — every marker invisible, the
+   enumeration gone entirely, which is worse than the run-together paragraph it
+   replaced. The DOM looked correct while the page did not; only the pixels
+   showed it. This is the reset REQ-015 was written about. */
 .src-view-prose ul,
 .src-view-prose ol {
-  margin: 0 0 1.1rem 1.4rem;
+  margin: 0 0 1.1rem;
+  padding-inline-start: 2.25rem;
+  list-style-position: outside;
+}
+.src-view-prose ol {
+  list-style-type: decimal;
+}
+.src-view-prose ul {
+  list-style-type: disc;
+}
+.src-view-prose ul ul {
+  list-style-type: circle;
+}
+.src-view-prose ol ol,
+.src-view-prose ol ul,
+.src-view-prose ul ol,
+.src-view-prose ul ul {
+  margin-block: 0.4rem;
+  padding-inline-start: 1.75rem;
 }
 .src-view-prose li {
   margin: 0.3rem 0;

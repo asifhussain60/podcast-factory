@@ -244,14 +244,29 @@
   color: var(--c-ink, #1f1d18);
 }
 
-/* Chapter picker + Read/Edit toggle, pinned to the top-left of the chapter. */
+/* The working row: chapter picker on the LEFT, lane switch pinned to the RIGHT
+   (Asif, 2026-07-26), with Read/Edit beside the picker — the two reading-edition
+   controls together, and the coarser "which text" choice held apart at the end.
+
+   `space-between` cannot express this with three children: it spreads all three
+   evenly and strands Read/Edit mid-row. A single auto inline-start margin on the
+   lane switch absorbs the free space instead.
+
+   The margin sits on the LANE SWITCH rather than on Read/Edit deliberately. In
+   the podcast lane both the picker and Read/Edit are hidden, so an auto margin
+   on Read/Edit would stop applying and the lane switch would jump from the right
+   edge to the left the moment you pressed it — a control moving out from under
+   the cursor that just clicked it. On the switch, it holds the right edge in
+   both lanes. */
 .cx-chapter-bar {
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
   gap: 1rem;
   margin: 0 0 1.2rem;
   flex-wrap: wrap;
+}
+.cx-chapter-bar > .cx-lane-toggle {
+  margin-inline-start: auto;
 }
 /* Basis is the picker's own minimum, NOT `auto`: flex decides line breaks from
    the base size before any shrinking happens, so an `auto` basis (the select's
@@ -344,6 +359,25 @@
   color: var(--c-accent, #8b4513);
 }
 
+/* A pipeline fence marker in the edit canvas (fence-decos.ts). The marker is
+   load-bearing text in book.md — `preserveFences` reads it back to restore the
+   comment form — so it cannot be removed from the document, only made to look
+   like what it is. Before this it rendered as an ordinary paragraph, which made
+   `edition-intro:begin` the apparent first sentence of the chapter. Toned as
+   inert machine chrome: mono, small, muted, on a sunken strip. */
+.cx-prose .cx-fence-marker {
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--c-ink-dim, #4d4a42);
+  background: var(--c-bg-sunken, #f0ece2);
+  border-inline-start: 2px solid var(--c-rule, #d9d3c4);
+  border-radius: 3px;
+  padding: 0.15rem 0.5rem;
+  margin: 0.9rem 0;
+  user-select: none;
+}
+
 /* ── The Podcast lane ───────────────────────────────────────────────────────
    The NotebookLM upload source (chapters/*.txt), read-only. compose-lane.ts
    stamps data-lane on the .composer root; everything that belongs to the
@@ -353,6 +387,14 @@
    The book chapter bodies keep their own `hidden` attribute untouched, so
    flipping back restores exactly the chapter that was open — this rule only
    overlays the lane, it never rewrites the chapter selection. */
+/* Both pickers live in the working row; each lane shows its own. The book lane
+   is the default, so the podcast picker and its file-path status hide unless
+   data-lane says otherwise — which also means they are hidden before
+   compose-lane.ts has run at all. */
+.composer:not([data-lane="podcast"]) .cx-podcast-picker,
+.composer:not([data-lane="podcast"]) .cx-podcast-status {
+  display: none;
+}
 .composer[data-lane="podcast"] .cx-chapter,
 .composer[data-lane="podcast"] .cx-chapter-picker,
 .composer[data-lane="podcast"] .cx-mode-toggle,
@@ -364,31 +406,32 @@
   display: none;
 }
 
-.cx-podcast-bar {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin: 0 0 1rem;
-}
+/* Same shape as .cx-chapter-picker, including the flex BASIS (see the note on
+   that rule — an `auto` basis breaks the row onto two lines). The two pickers
+   occupy the same slot in the working row, one per lane, so they must size
+   identically or the row would shift when you flip. */
 .cx-podcast-picker {
   margin: 0;
   min-width: 16rem;
-  flex: 1 1 auto;
+  flex: 1 1 16rem;
   max-width: 32rem;
 }
-.cx-podcast-bar .cx-podcast-picker > label {
+.cx-chapter-bar .cx-podcast-picker > label {
   font-size: 0.75rem;
   font-weight: 700;
   color: var(--c-ink-muted, #66625a);
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
+/* Which file the prose below came from. Lives in the PANE, above the banner —
+   it was briefly in the working row, where a full `chapters/<long-slug>.txt`
+   path is wide enough to wrap that row onto three lines. */
 .cx-podcast-status {
-  margin: 0;
+  margin: 0 0 0.5rem;
   font-size: 0.8rem;
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
   color: var(--c-ink-dim, #4d4a42);
+  overflow-wrap: anywhere;
 }
 /* --c-red, not --c-danger: the latter is declared nowhere in the theme, so a
    var(--c-danger, …) fallback paints a hex that is NOT in the palette. Same

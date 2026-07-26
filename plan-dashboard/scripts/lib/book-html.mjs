@@ -159,6 +159,28 @@ export const TRANSLATION_FONTS = [
  *  hadith, sayings, poetry, the book's own Arabic phrases. */
 export const ARABIC_FONTS = ["scheherazade-new", "amiri"];
 
+/**
+ * The pipeline's machine fence kinds — comment markers that delimit spans the
+ * Python phases own (`0book-augment` asides, `_book_bridges` bridges, the
+ * self-study summary layer, `_book_frontmatter`'s edition introduction). They
+ * are load-bearing in book.md and must NEVER render as visible text.
+ *
+ * MIRRORS `FENCE_KINDS` in src/lib/reader/book-fences.ts, which is the
+ * contract's declaration; the two are pinned in agreement by a test rather than
+ * trusted, because this renderer also runs under plain node for the PDF build
+ * and so cannot import the TypeScript side.
+ */
+export const MACHINE_FENCE_KINDS = [
+  "editorial",
+  "study-summary",
+  "bridge",
+  "edition-intro",
+];
+
+const MACHINE_FENCE_RE = new RegExp(
+  `^<!--\\s*(?:${MACHINE_FENCE_KINDS.join("|")}):(?:begin|end)\\s*-->$`,
+);
+
 /** Read the per-book citation-style family from book/citation-style.json.
  *  Returns 'plain' | 'scholarly' | 'elegant', or '' when the file is absent or
  *  the value is unknown (renderer then leaves the body unstyled = default look). */
@@ -561,16 +583,19 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
         continue;
       }
     }
-    // The editorial/study-summary/bridge fences are machine markers, never
-    // visible text. Self-study consumes editorial/study-summary into styled
-    // asides (above); every other case (default reading edition, and bridge
-    // fences always) skips the marker line so it never renders as escaped
-    // <!-- --> text — the fenced content's own lines render as ordinary prose.
-    if (
-      /^<!--\s*(?:editorial|study-summary|bridge):(?:begin|end)\s*-->$/.test(
-        line.trim(),
-      )
-    ) {
+    // The pipeline's fences are machine markers, never visible text. Self-study
+    // consumes editorial/study-summary into styled asides (above); every other
+    // case skips the marker line so it never renders as escaped <!-- --> text —
+    // the fenced content's own lines render as ordinary prose.
+    //
+    // Driven off MACHINE_FENCE_KINDS rather than an inline alternation. The
+    // alternation listed three of the four kinds and missed `edition-intro`
+    // (added to the contract 2026-07-21), so on a book whose front matter opens
+    // the first chapter the Composer showed `<!-- edition-intro:begin -->` as
+    // the chapter's first line, with the `<!` taking the drop-cap. One list, so
+    // the next kind added cannot be missed here; the list is pinned against
+    // FENCE_KINDS by book-html.test.mjs.
+    if (MACHINE_FENCE_RE.test(line.trim())) {
       continue;
     }
     if (line.trimStart().toLowerCase().startsWith("<figure")) {

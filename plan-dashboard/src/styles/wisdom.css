@@ -579,6 +579,47 @@
   font-size: 1.25rem;
   line-height: 2;
 }
+/* REQ-015 list rendering standard — the .se-prose half.
+   `.se-prose` renders `renderSourceMarkdown` output, the SAME renderer as
+   `.src-view-prose` (library.css), which stopped flattening enumerations on
+   2026-07-26. This class is the OTHER host of that output, and it had no list
+   rule at all: Tailwind's preflight sets `list-style: none` on every ol/ul with
+   no padding, so a real `<ol>` rendered here with NO markers and NO indent —
+   items sat flush with the surrounding paragraphs and the enumeration was
+   simply gone, which is worse than the run-together paragraph it replaced. The
+   values match library.css's block on purpose; the two hosts of one renderer
+   must not indent differently.
+
+   Logical properties are load-bearing here, not stylistic: the Urdu panel
+   inherits `direction: rtl` from `.topic-ur`, so `padding-inline-start`
+   indents from the right and the markers sit on the right of the text. A
+   physical `padding-left` would indent the RTL column away from its own
+   markers. */
+.se-prose ul,
+.se-prose ol {
+  margin-block: 0.85rem 1.1rem;
+  padding-inline-start: 2.25rem;
+  list-style-position: outside;
+}
+.se-prose ol {
+  list-style-type: decimal;
+}
+.se-prose ul {
+  list-style-type: disc;
+}
+.se-prose ul ul {
+  list-style-type: circle;
+}
+.se-prose ol ol,
+.se-prose ol ul,
+.se-prose ul ol,
+.se-prose ul ul {
+  margin-block: 0.4rem;
+  padding-inline-start: 1.75rem;
+}
+.se-prose li {
+  margin-block: 0.3rem;
+}
 .se-prose .ar {
   font-family: var(--font-arabic-naskh, serif);
   direction: rtl;
