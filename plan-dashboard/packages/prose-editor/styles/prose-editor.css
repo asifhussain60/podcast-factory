@@ -212,3 +212,54 @@
     animation-duration: 0.01ms !important;
   }
 }
+
+/* ── Selection bubble ─────────────────────────────────────────────────────── */
+/* Positioned from --rte-bubble-x/y, which the script sets as custom properties
+   rather than as style.left — so THIS file keeps control of placement and can
+   clamp or re-anchor it at a narrow width. */
+
+.rte-bubble {
+  position: absolute;
+  z-index: var(--rte-z-bubble);
+  left: var(--rte-bubble-x, 0);
+  top: var(--rte-bubble-y, 0);
+  transform: translate(-50%, -100%);
+  max-width: min(90vw, 26rem);
+  background: var(--rte-surface);
+  border: 1px solid var(--rte-border-strong);
+  border-radius: var(--rte-radius);
+}
+
+.rte-bubble[hidden] {
+  display: none;
+}
+
+.rte-bubble .rte-toolbar {
+  border-bottom: 0;
+  padding: 0.2rem 0.25rem;
+}
+
+/* ── Counter ──────────────────────────────────────────────────────────────── */
+
+.rte-counter {
+  margin-inline-start: auto;
+  padding-inline: 0.4rem;
+  color: var(--rte-ink-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ── Fullscreen ───────────────────────────────────────────────────────────── */
+/* A CSS state, never the Fullscreen API: the native one takes the element out
+   of the page's stacking context, so any dialog the HOST raises — including a
+   blocking one its save path is waiting on — renders behind it or not at all.
+   The z-index sits deliberately BELOW where a host puts its modals. */
+
+[data-rte-fullscreen="true"] {
+  position: fixed;
+  z-index: var(--rte-z-fullscreen);
+  inset: 0;
+  overflow: auto;
+  background: var(--rte-paper-bg, var(--rte-surface));
+  color: var(--rte-paper-ink, var(--rte-ink));
+}

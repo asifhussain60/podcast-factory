@@ -114,6 +114,9 @@ export interface ProseEditor {
   readonly api: EditorApi;
   /** The toolbar element, if a toolbar was configured. Place it anywhere. */
   readonly toolbarEl: HTMLElement | null;
+  /** The selection-bubble element, if one was configured. The host places it —
+   *  usually appended to the editor's own container. */
+  readonly bubbleEl: HTMLElement | null;
   serialize(): string;
   counts(): { words: number; characters: number };
   /** Idempotent, and safe after the editor itself is destroyed. */

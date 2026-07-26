@@ -92,6 +92,30 @@ export type { BuiltinOptions } from "./toolbar/builtins.ts";
 export { planOverflow } from "./toolbar/overflow.ts";
 export type { MeasurePort, OverflowPlan } from "./toolbar/overflow.ts";
 export { ICONS } from "./toolbar/icons.ts";
+export { createBubble } from "./toolbar/bubble.ts";
+export type { Bubble, BubbleOptions } from "./toolbar/bubble.ts";
+export { createCounter } from "./toolbar/counter.ts";
+export type { Counter, CounterOptions } from "./toolbar/counter.ts";
+export { createFullscreen } from "./toolbar/fullscreen.ts";
+export type { FullscreenController } from "./toolbar/fullscreen.ts";
+
+export { createPasteSanitizer, sanitizeHtml } from "./input/paste.ts";
+export type { PasteOptions } from "./input/paste.ts";
+export {
+  bindingsFromButtons,
+  createShortcutRegistry,
+  normalizeShortcut,
+} from "./input/shortcuts.ts";
+export type { ShortcutBinding, ShortcutRegistry } from "./input/shortcuts.ts";
+
+export { createPreferences } from "./prefs/preferences.ts";
+export type {
+  Preferences,
+  PreferencesController,
+  PreferencesSpec,
+  PrefChoice,
+  PrefStorage,
+} from "./prefs/preferences.ts";
 
 export type {
   DialogField,

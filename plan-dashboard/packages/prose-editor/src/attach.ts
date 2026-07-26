@@ -26,6 +26,16 @@ import type {
 import { createFallbackUiHost } from "./ui/fallback-ui-host.ts";
 import { createToolbar } from "./toolbar/toolbar.ts";
 import type { Toolbar, ToolbarOptions } from "./toolbar/toolbar.ts";
+import { createBubble } from "./toolbar/bubble.ts";
+import type { Bubble, BubbleOptions } from "./toolbar/bubble.ts";
+import { builtinButtons } from "./toolbar/builtins.ts";
+import { createPasteSanitizer, pasteSanitizerKey } from "./input/paste.ts";
+import type { PasteOptions } from "./input/paste.ts";
+import {
+  bindingsFromButtons,
+  createShortcutRegistry,
+} from "./input/shortcuts.ts";
+import type { ShortcutBinding } from "./input/shortcuts.ts";
 import type { RegisteredExtension } from "./extend/define.ts";
 
 export interface AttachOptions {
@@ -43,6 +53,20 @@ export interface AttachOptions {
   /** Build a toolbar. `false` (the default) builds none — a host may want only
    *  the serializer guarantee and its own chrome. */
   toolbar?: ToolbarOptions | false;
+  /** Build a selection bubble. `false` (the default) builds none. The host
+   *  places `bubbleEl` itself. */
+  bubble?: BubbleOptions | false;
+  /** Install the paste sanitizer. `false` disables it. Default: on, in
+   *  "schema" mode. */
+  paste?: PasteOptions | false;
+  /**
+   * Keyboard shortcuts. `true` (the default) binds the ones declared on the
+   * built-in buttons; a list adds host bindings on top. `false` binds none.
+   *
+   * A duplicate combination THROWS rather than last-wins — silent last-wins is
+   * how a shortcut ends up doing something other than its tooltip says.
+   */
+  shortcuts?: boolean | readonly ShortcutBinding[];
 }
 
 const WORD_RE = /\S+/g;
@@ -209,12 +233,74 @@ export function attach(editor: Editor, options: AttachOptions): ProseEditor {
     });
   }
 
+  // ── Selection bubble ───────────────────────────────────────────────────────
+  let bubble: Bubble | null = null;
+  if (options.bubble) {
+    bubble = createBubble(api, {
+      document: eventTarget.ownerDocument,
+      ...options.bubble,
+    });
+    const onSelection = () => bubble?.update();
+    editor.on("selectionUpdate", onSelection);
+    editor.on("transaction", onSelection);
+    editor.on("blur", onSelection);
+    cleanups.push(() => {
+      editor.off("selectionUpdate", onSelection);
+      editor.off("transaction", onSelection);
+      editor.off("blur", onSelection);
+    });
+    bubble.update();
+  }
+
+  // ── Paste sanitizer ────────────────────────────────────────────────────────
+  // Registered as a ProseMirror plugin using `transformPastedHTML`, which is a
+  // DIFFERENT hook from `handleDrop` — so a host's own drop handling (the kind
+  // that stops a dragged payload being inserted as prose) cannot be clobbered
+  // by installing this.
+  if (options.paste !== false) {
+    const allowances = (options.extensions ?? [])
+      .map((e) => e.def.pasteAllow)
+      .filter((a): a is NonNullable<typeof a> => Boolean(a));
+    const plugin = createPasteSanitizer({
+      ...(options.paste ?? {}),
+      extensionAllowances: [
+        ...allowances,
+        ...((options.paste || {}).extensionAllowances ?? []),
+      ],
+    });
+    editor.registerPlugin(plugin);
+    cleanups.push(() => {
+      try {
+        editor.unregisterPlugin(pasteSanitizerKey);
+      } catch {
+        /* editor already torn down */
+      }
+    });
+  }
+
+  // ── Shortcuts ──────────────────────────────────────────────────────────────
+  if (options.shortcuts !== false) {
+    const registry = createShortcutRegistry();
+    const builtins = builtinButtons((options.toolbar || {}).builtins ?? {});
+    const buttonDefs = Object.values(builtins)
+      .filter((c) => c.kind === "button")
+      .map((c) => c.def);
+    for (const binding of bindingsFromButtons(buttonDefs)) {
+      registry.register(binding);
+    }
+    if (Array.isArray(options.shortcuts)) {
+      for (const binding of options.shortcuts) registry.register(binding);
+    }
+    cleanups.push(registry.listen(eventTarget, api));
+  }
+
   let destroyed = false;
 
   return {
     editor,
     api,
     toolbarEl: toolbar?.el ?? null,
+    bubbleEl: bubble?.el ?? null,
     serialize: () => serializer.serialize(editor.state.doc),
     counts: () => {
       const text = editor.state.doc.textContent;
@@ -228,6 +314,7 @@ export function attach(editor: Editor, options: AttachOptions): ProseEditor {
       destroyed = true;
       mappings = [];
       toolbar?.destroy();
+      bubble?.destroy();
       // The editor may already be gone; its own teardown removes listeners, so
       // a second removal here can throw and must not.
       for (const fn of cleanups) {
