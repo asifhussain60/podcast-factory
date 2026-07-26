@@ -665,7 +665,7 @@
   height: 1.9rem;
   box-shadow: 0 1px 0 rgb(0 0 0 / 4%);
   padding: 0 0.5rem;
-  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border: 1px solid var(--cx-control-border, var(--c-rule, #d9d3c4));
   border-radius: 5px;
   background: var(--c-bg-card, #fffdf8);
   color: var(--c-ink, #1f1d18);
@@ -681,7 +681,7 @@
   align-items: center;
   height: 1.9rem;
   box-shadow: 0 1px 0 rgb(0 0 0 / 4%);
-  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border: 1px solid var(--cx-control-border, var(--c-rule, #d9d3c4));
   border-radius: 5px;
   overflow: hidden;
   background: var(--c-bg-card, #fffdf8);
@@ -708,7 +708,7 @@
   font-variant-numeric: tabular-nums;
   text-align: center;
   color: var(--c-ink, #1f1d18);
-  border-inline: 1px solid var(--c-rule-soft, #ebe6da);
+  border-inline: 1px solid var(--cx-control-border, var(--c-rule, #d9d3c4));
   line-height: 1.9rem;
 }
 
@@ -739,14 +739,24 @@
    defaults cannot leak onto anything else on the page. */
 .cx-edit-toolbar,
 .rte-bubble {
+  /* The control outline: a DARK shade of the bar's own warm background rather
+     than a neutral hairline. --c-rule-soft was so close to the tinted bar that
+     the buttons read as floating glyphs; mixing the accent brown into the card
+     keeps the outline in the same family as the surface it sits on while making
+     each control an unmistakable object. */
+  --cx-control-border: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 42%,
+    var(--c-bg-card, #fffdf8)
+  );
   --rte-surface: var(--c-bg-card, #fffdf8);
   --rte-surface-sunken: var(--c-bg-sunken, #efeae0);
   --rte-surface-hover: var(--c-bg-elev, #f6f2e9);
   --rte-ink: var(--c-ink, #1f1d18);
   --rte-ink-muted: var(--c-ink-muted, #66625a);
   --rte-accent: var(--c-accent, #8b4513);
-  --rte-border: var(--c-rule-soft, #ebe6da);
-  --rte-border-strong: var(--c-rule, #d9d3c4);
+  --rte-border: var(--cx-control-border);
+  --rte-border-strong: var(--c-accent, #8b4513);
   --rte-focus: var(--c-accent, #8b4513);
   --rte-radius: 6px;
   --rte-control-size: 1.9rem;
@@ -763,6 +773,9 @@
    does not draw a second. */
 .cx-edit-toolbar > .rte-toolbar {
   flex: 1 1 auto;
+  /* Centred, to sit over the centred reading column below it and to balance
+     against the view-preference cluster centred on the row beneath. */
+  justify-content: center;
   border-bottom: 0;
   background: transparent;
   padding-inline: 0;
@@ -792,7 +805,7 @@
   display: inline-flex;
   align-items: center;
   height: 1.9rem;
-  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border: 1px solid var(--cx-control-border, var(--c-rule, #d9d3c4));
   border-radius: 6px;
   background: var(--c-bg-card, #fffdf8);
   box-shadow: 0 1px 0 rgb(0 0 0 / 4%);
@@ -803,7 +816,7 @@
   padding-inline: 0.55rem;
   font-size: 0.72rem;
   color: var(--c-ink-muted, #66625a);
-  border-inline-end: 1px solid var(--c-rule-soft, #ebe6da);
+  border-inline-end: 1px solid var(--cx-control-border, var(--c-rule, #d9d3c4));
   line-height: 1.9rem;
 }
 .cx-paper-btn {
@@ -815,7 +828,8 @@
   height: 100%;
   padding: 0 0.55rem;
   border: 0;
-  border-inline-start: 1px solid var(--c-rule-soft, #ebe6da);
+  border-inline-start: 1px solid
+    var(--cx-control-border, var(--c-rule, #d9d3c4));
   background: transparent;
   color: var(--c-ink, #1f1d18);
   cursor: pointer;

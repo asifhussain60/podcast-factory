@@ -32,7 +32,7 @@ As for the doctrines of the righteous and the manners of those who seek the trut
 
 When his guidance was complete and he had attained the utmost of his hope, it fell to him as a duty to give thanks to his Maker and to labor his way toward his Lord. He had heard from his father a saying that was to him as the soul is to the body:
 
-إن أفضل الحسنات إحياء الأموات
+إِنَّ أَفْضَلَ الْحَسَنَاتِ إِحْيَاءُ الْأَمْوَاتِ
 
 "The best of good deeds is the reviving of the dead."
 
