@@ -23,6 +23,10 @@ import "../../../styles/editor-fonts.css";
 import "../../../styles/panel-text-size.css";
 import "../../../styles/arabic-review.css";
 import "../../../styles/select-menu.css";
+// The editor package's own stylesheet, imported BEFORE book-composer.css so the
+// theme adapter in that file (which aliases --rte-* onto --c-*) wins over the
+// package's neutral defaults.
+import "@asifhussain/prose-editor/styles.css";
 import "../../../styles/book-composer.css";
 import "../../../styles/compose-print.css";
 import "../../../styles/companion-notes.css";

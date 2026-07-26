@@ -47,11 +47,32 @@ export default defineConfig({
       //
       // The cost is that the published dist/ path is not exercised in-repo; the
       // package's own `npm pack` + install-into-a-scratch-dir check covers it.
-      alias: {
-        '@asifhussain/prose-editor': fileURLToPath(
-          new URL('./packages/prose-editor/src/index.ts', import.meta.url),
-        ),
-      },
+      //
+      // The ARRAY form with anchored regexes, not the object form. A plain
+      // string alias key matches by PREFIX, so `@asifhussain/prose-editor`
+      // would also capture `@asifhussain/prose-editor/styles.css` and rewrite
+      // it to `.../src/index.ts/styles.css` — a path that cannot exist. That
+      // failure does not surface as a build error: the dev server answered the
+      // compose route with a 302 to /edit, and because the smoke check follows
+      // redirects it reported the route clean while the page was in fact
+      // unreachable. Anchored patterns make each subpath explicit.
+      alias: [
+        {
+          find: /^@asifhussain\/prose-editor$/,
+          replacement: fileURLToPath(
+            new URL('./packages/prose-editor/src/index.ts', import.meta.url),
+          ),
+        },
+        {
+          find: /^@asifhussain\/prose-editor\/styles\.css$/,
+          replacement: fileURLToPath(
+            new URL(
+              './packages/prose-editor/styles/prose-editor.css',
+              import.meta.url,
+            ),
+          ),
+        },
+      ],
     },
     optimizeDeps: {
       // React 19 uses a conditional IIFE that Vite's CJS→ESM static analyser

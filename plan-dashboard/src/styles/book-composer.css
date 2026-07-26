@@ -724,12 +724,44 @@
   border-color: var(--c-accent, #8b4513);
   color: var(--c-accent, #8b4513);
 }
-/* The B / I glyphs carry their own emphasis so the buttons read at a glance. */
-.cx-tool-b {
-  font-weight: 700;
+
+/* ── Theme adapter for @asifhussain/prose-editor ──────────────────────────────
+   Pattern B: the package reads its own --rte-* custom properties and ships
+   neutral defaults; this ALIASES them onto the site palette. Nothing here
+   changes a --c-* value, so a package release can never restyle the site and a
+   site theme change carries into the editor for free.
+
+   Scoped to the surfaces the package renders into rather than :root, so its
+   defaults cannot leak onto anything else on the page. */
+.cx-edit-toolbar,
+.rte-bubble {
+  --rte-surface: var(--c-bg-card, #fffdf8);
+  --rte-surface-sunken: var(--c-bg-sunken, #efeae0);
+  --rte-surface-hover: var(--c-bg-elev, #f6f2e9);
+  --rte-ink: var(--c-ink, #1f1d18);
+  --rte-ink-muted: var(--c-ink-muted, #66625a);
+  --rte-accent: var(--c-accent, #8b4513);
+  --rte-border: var(--c-rule-soft, #ebe6da);
+  --rte-border-strong: var(--c-rule, #d9d3c4);
+  --rte-focus: var(--c-accent, #8b4513);
+  --rte-radius: 6px;
+  --rte-control-size: 1.9rem;
+  --rte-font-size: 0.85rem;
+  /* Under .cx-fabs (899) and .cx-tip (950), and far under .cx-confirm-scrim
+     (960): a blocking question must always be able to cover the editor. */
+  --rte-z-bubble: 700;
+  --rte-z-menu: 750;
+  --rte-z-fullscreen: 800;
 }
-.cx-tool-i {
-  font-style: italic;
+
+/* The row that holds the package's bar plus the host's view-preference
+   controls. The package's own toolbar supplies the bottom rule, so this one
+   does not draw a second. */
+.cx-edit-toolbar > .rte-toolbar {
+  flex: 1 1 auto;
+  border-bottom: 0;
+  background: transparent;
+  padding-inline: 0;
 }
 
 /* Paper picker — Kindle-style Light / Sepia / Dark for the writing surface.

@@ -12,8 +12,13 @@
  */
 import { createElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
+import { attach } from "@asifhussain/prose-editor";
+import type { ProseEditor } from "@asifhussain/prose-editor";
+import { quranQuotationButton } from "./compose-quran-command";
 import { anchorKey } from "../../scripts/lib/anchor-key.mjs";
 import {
+  docToMarkdown,
+  PRESERVED_CLASSES,
   mountChapterEditor,
   VISUAL_DRAG_TYPE,
   type ChapterEditor,
@@ -111,6 +116,62 @@ interface ComposerData {
 const WRAP_MAX = 50;
 
 // anchorKey comes from the single shared implementation — see the import above.
+
+/**
+ * Everything `docToMarkdown` actually knows how to write.
+ *
+ * Declared by hand rather than derived from the schema on purpose: deriving it
+ * would make the package's coverage assertion agree with itself and check
+ * nothing. Adding a node to editorExtensions without also teaching the
+ * serializer about it must fail loudly here, not quietly in book.md.
+ */
+const DOC_TO_MARKDOWN_COVERS = [
+  "doc",
+  "text",
+  "paragraph",
+  "heading",
+  "blockquote",
+  "bulletList",
+  "orderedList",
+  "listItem",
+  "codeBlock",
+  "horizontalRule",
+  "bold",
+  "italic",
+  "code",
+  "strike",
+  "link",
+];
+
+/**
+ * The formatting bar, in order.
+ *
+ * `strike` and `codeBlock` are deliberately ABSENT even though docToMarkdown
+ * writes both: neither `~~x~~` nor a fence has a parse rule on the way back in
+ * (renderMarkdown has no rule for either, and neither does the print renderer),
+ * so a click would survive one save and then come back as literal punctuation —
+ * in the editor, in the reader, AND in the printed page. A button whose output
+ * degrades on the second save is worse than no button.
+ */
+const COMPOSE_TOOLBAR_ITEMS = [
+  "undo",
+  "redo",
+  "|",
+  "paragraphFormat",
+  "|",
+  "bold",
+  "italic",
+  "code",
+  "link",
+  "|",
+  "bulletList",
+  "orderedList",
+  "blockquote",
+  quranQuotationButton(),
+  "|",
+  "horizontalRule",
+  "clearFormatting",
+];
 
 function boot(): void {
   const rootMaybe = document.querySelector<HTMLElement>(".composer[data-slug]");
@@ -518,6 +579,7 @@ function boot(): void {
   // Flush any pending autosave for the active editor; resolves true if the chapter
   // is safely saved (or had nothing to save), false if the save failed.
   let activeSaveFlush: (() => Promise<boolean>) | null = null;
+  let composerRte: ProseEditor | null = null;
 
   // Companion/AI-tools/Details tools (Studio-decos + the reused hooks) — one
   // shared bridge + two imperatively-mounted React roots per open chapter.
@@ -577,24 +639,6 @@ function boot(): void {
     );
   }
 
-  function toolbarBtn(
-    label: string,
-    title: string,
-    run: (ed: ChapterEditor) => void,
-  ): HTMLButtonElement {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "cx-edit-tool";
-    b.textContent = label;
-    b.title = title;
-    b.setAttribute("aria-label", title); // glyph text is decorative; announce the action
-    b.addEventListener("mousedown", (e) => e.preventDefault()); // keep editor selection
-    b.addEventListener("click", () => {
-      if (activeEditor) run(activeEditor);
-    });
-    return b;
-  }
-
   function exitEdit(): void {
     aiToolsRoot?.unmount();
     aiToolsRoot = null;
@@ -602,6 +646,10 @@ function boot(): void {
     detailsRoot = null;
     // companionRoot is deliberately NOT torn down: the notes are a drawer
     // surface of their own now, readable in Read mode too (see renderCompanion).
+    // Before the editor: the package holds document-level listeners, and a
+    // chapter switch runs this on every change.
+    composerRte?.destroy();
+    composerRte = null;
     activeEditor?.destroy();
     activeEditor = null;
     activeSaveFlush = null;
@@ -647,10 +695,17 @@ function boot(): void {
     const host = document.createElement("div");
     host.className = "cx-edit-host";
 
+    // The editing-chrome ROW. The formatting toolbar the package builds is
+    // inserted at its head once the editor exists (it reads editor state, so it
+    // cannot be built before there is an editor); the font/size/paper controls
+    // that follow are view preferences, not formatting, and stay host-owned.
+    // Deliberately NOT role="toolbar" itself — the package's bar carries that
+    // landmark, and nesting two of them would announce a toolbar inside a
+    // toolbar.
     const toolbar = document.createElement("div");
     toolbar.className = "cx-edit-toolbar";
-    toolbar.setAttribute("role", "toolbar");
-    toolbar.setAttribute("aria-label", "Editor");
+    toolbar.setAttribute("role", "group");
+    toolbar.setAttribute("aria-label", "Editing view preferences");
 
     // ── Font family + text size ──────────────────────────────────────────────
     // These are EDITING-VIEW rendering preferences only: book.md carries no font
@@ -751,36 +806,7 @@ function boot(): void {
     sizeWrap.append(sizeDown, sizeVal, sizeUp);
     fontGroup.append(fontSel, sizeWrap);
 
-    // ── Formatting cluster: B / I + structure ────────────────────────────────
-    // Every control here persists to book.md. Underline used to sit between I
-    // and H, labelled "editing view only — not saved"; the mark is gone from the
-    // schema now (see editorExtensions), because a control that discards on save
-    // is a defect however honestly it is captioned.
-    const fmtGroup = document.createElement("div");
-    fmtGroup.className = "cx-tb-group";
-    const bBtn = toolbarBtn("B", "Bold", (ed) =>
-      ed.editor.chain().focus().toggleBold().run(),
-    );
-    bBtn.classList.add("cx-tool-b");
-    const iBtn = toolbarBtn("I", "Italic", (ed) =>
-      ed.editor.chain().focus().toggleItalic().run(),
-    );
-    iBtn.classList.add("cx-tool-i");
-    fmtGroup.append(
-      bBtn,
-      iBtn,
-      toolbarBtn("H", "Heading", (ed) =>
-        ed.editor.chain().focus().toggleHeading({ level: 3 }).run(),
-      ),
-      toolbarBtn("❝", "Quote", (ed) =>
-        ed.editor.chain().focus().toggleBlockquote().run(),
-      ),
-      toolbarBtn("•", "Bulleted list", (ed) =>
-        ed.editor.chain().focus().toggleBulletList().run(),
-      ),
-    );
-
-    toolbar.append(fontGroup, fmtGroup);
+    toolbar.append(fontGroup);
     applySize(); // seed --prose-size + the readout
 
     // Paper picker — Kindle-style Light / Sepia / Dark tint for the writing area.
@@ -850,6 +876,55 @@ function boot(): void {
       // restore it — so it is decorated, never removed. See fence-decos.ts.
       createFenceDecos(),
     ]);
+    // ── The formatting toolbar ────────────────────────────────────────────────
+    // attach(), never mount(): mountChapterEditor above stays the sole owner of
+    // the schema (the one the round-trip test parses with), of the `cx-prose`
+    // class, and of the handleDrop that swallows a palette drag so it cannot be
+    // inserted as prose. The package reads state and contributes UI; it cannot
+    // widen or restyle any of that.
+    //
+    // The serializer handed over is book.md's OWN writer, unchanged, so adopting
+    // the package changes nothing about what a save produces. `covers` is the
+    // honest list of what that writer actually handles — not a reflection of the
+    // schema, which would make the assertion vacuous. Add a node to
+    // editorExtensions without teaching docToMarkdown about it and the editor
+    // refuses to open, which is the entire point.
+    try {
+      composerRte = attach(activeEditor.editor, {
+        serializer: {
+          kind: "custom",
+          serialize: docToMarkdown,
+          covers: DOC_TO_MARKDOWN_COVERS,
+        },
+        toolbar: {
+          items: COMPOSE_TOOLBAR_ITEMS,
+          ariaLabel: "Formatting",
+          builtins: {
+            // H2 is the CHAPTER boundary in book.md — writeChapterBody splits
+            // the file on /^##\s+/ — so an H2 typed inside a chapter body would
+            // create a new chapter on save. Only levels below it are offered,
+            // and named for what they do rather than for their tag.
+            bodyLabel: "Body",
+            headingLevels: [
+              { level: 3, id: "h3", label: "Section" },
+              { level: 4, id: "h4", label: "Subsection" },
+            ],
+          },
+        },
+        paste: {
+          // The three classes QuotationClasses re-admits. Without these, pasting
+          // a verse copied from elsewhere in the book silently loses its shape.
+          allowClasses: [...PRESERVED_CLASSES],
+        },
+      });
+      toolbar.prepend(composerRte.toolbarEl as HTMLElement);
+    } catch (err) {
+      // A failed toolbar must degrade to NO TOOLBAR, never to no editor: this
+      // page boots straight into Edit mode, so a throw here would take the whole
+      // route down with it.
+      console.error("Formatting toolbar unavailable:", err);
+    }
+
     bridge.editorRef.current = activeEditor.editor;
     const originalTexts: string[] = [];
     activeEditor.editor.state.doc.forEach((n) =>

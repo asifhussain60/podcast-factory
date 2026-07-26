@@ -110,6 +110,21 @@ function buildRoutes(slug) {
     "/wisdom",
   ].map((path) => ({ path, tier: 1 }));
 
+  // Routes that legitimately redirect, and where to. Declared rather than
+  // inferred: a route that redirects somewhere UNDECLARED is the failure mode
+  // this exists to catch — on 2026-07-26 an unresolvable CSS import made the
+  // Composer answer 302 to /edit, and because the browser follows redirects the
+  // check reported the route clean while the page was unreachable.
+  const EXPECTED_REDIRECTS = {
+    "/library": "/studio",
+    [`/library/${slug}`]: `/studio/${slug}`,
+    // Retired 2026-07-21; the Composer's Arabic drawer holds both its panels.
+    [`/studio/${slug}/arabic-review`]: `/studio/${slug}/compose`,
+    [`/studio/${slug}/book`]: `/studio/${slug}/compose`,
+    [`/studio/${slug}/view`]: `/studio/${slug}`,
+    [`/pre-upload/${slug}`]: "/pre-upload",
+  };
+
   const tier2 = slug
     ? [
         `/library/${slug}`,
@@ -138,7 +153,11 @@ function buildRoutes(slug) {
       ].map((path) => ({ path, tier: 2 }))
     : [];
 
-  const all = [...tier1, ...tier2];
+  const all = [...tier1, ...tier2].map((r) =>
+    EXPECTED_REDIRECTS[r.path]
+      ? { ...r, redirectsTo: EXPECTED_REDIRECTS[r.path] }
+      : r,
+  );
   return ONE_ROUTE ? all.filter((r) => r.path === ONE_ROUTE) : all;
 }
 
@@ -385,6 +404,23 @@ async function probeRoute(context, baseUrl, route) {
       timeout: 30000,
     });
     navStatus = resp ? resp.status() : null;
+    // A route that REDIRECTS AWAY is not a healthy route, but page.goto follows
+    // the redirect and reports the destination's 200 — so the check passed while
+    // the requested page was in fact unreachable. That is exactly how a broken
+    // /studio/<slug>/compose (an unresolvable CSS import, answered with a 302 to
+    // /edit) was reported clean on 2026-07-26. Compare the landed path with the
+    // one asked for; query strings and a trailing slash are not a redirect.
+    const landed = new URL(page.url()).pathname.replace(/\/$/, "");
+    const asked = new URL(url).pathname.replace(/\/$/, "");
+    const allowed = (route.redirectsTo ?? "").replace(/\/$/, "");
+    if (landed !== asked && landed !== allowed) {
+      findings.push({
+        kind: "unexpected-redirect",
+        detail: allowed
+          ? `asked for ${asked}, expected ${allowed}, landed on ${landed}`
+          : `asked for ${asked}, landed on ${landed} (no redirect declared)`,
+      });
+    }
     // Let client islands mount + throw if they're going to.
     await page.waitForTimeout(700);
     // Deterministic layout invariants (measurable visual defects).
