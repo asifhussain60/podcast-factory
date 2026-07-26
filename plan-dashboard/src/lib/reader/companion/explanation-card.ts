@@ -2,85 +2,105 @@
  * explanation-card.ts — ONE card for a Companion note, in every surface.
  *
  * The Book Composer's Scholar panel and the LIVE Session reader show the SAME
- * cards: same component, same data, same look. The only difference between them is
- * capability — the Composer passes `onSave`/`onRemove` and the card grows an edit
- * form and a delete control; the reader passes neither and the card is read-only.
- * Two implementations of one card is how the two surfaces would start to disagree
- * about what a note looks like, so there is exactly one.
+ * cards: same component, same markdown, same look. The only difference is
+ * CAPABILITY. Given `onSave`, an expanded card mounts the repo's own rich-text
+ * editor (`@asifhussain/prose-editor`) over the note's markdown and writes on blur;
+ * given `onRemove`, it carries a delete button. The reader passes neither, so it
+ * renders the same markdown as read-only prose with no controls at all — there is
+ * no read-only "mode" to keep in step, only elements that are never built.
  *
- * Framework-free (a builder returning an element) because one of those hosts is
- * React and the other is plain DOM.
+ * Framework-free (a builder returning a handle) because one host is React and the
+ * other is plain DOM.
  *
- * The card is COLLAPSED by default: the passage it annotates, plus a short opening
- * extract. Clicking the header expands it to the full explanation — an answer can
- * run a thousand words, and a wall of them buries both the chapter you are reading
- * beside it and the other notes on the same page.
- *
- * The QUOTE is shown in the header, not just stored: a card exists to explain one
- * highlighted sentence, and a card headed only by a theme ("Have you met your own
- * resistance?") leaves you unable to tell which highlight it belongs to.
- *
- * Arabic inside an explanation is set in the book's own Arabic face at a size that
- * reads as equal to the Latin text around it (Arabic renders visually smaller at
- * equal point size). All of it is class names resolved by companion-card.css;
- * nothing here sets a style attribute.
+ * THE HANDLE MATTERS. A card owns an editor, which owns document listeners and a
+ * ProseMirror view; a host that drops the element without calling `destroy` leaks
+ * both. `setOpen` exists for the same reason: the panel must be able to expand and
+ * collapse a card WITHOUT rebuilding it, because rebuilding is how you destroy the
+ * editor a keystroke after the author opened it.
  */
+import { mount } from "@asifhussain/prose-editor";
+import type { ProseEditor } from "@asifhussain/prose-editor";
 import { sourceProvider, kindDef } from "./registry";
+import { cardMarkdownToHtml } from "./card-markdown";
 
 export interface CardNote {
   id: string;
   kind: string;
+  /** Markdown. */
   body: string;
   /** Card title — a short theme label for the note. */
   anchor?: string;
   /** The chapter sentence this card explains. */
   quote?: string;
+  /** One entry per term. */
+  etymology?: string[];
   source?: { provider: string; label?: string; ref?: string };
 }
 
 export interface CardEdit {
   anchor: string;
   body: string;
+  etymology: string[];
 }
 
 export interface CardOptions {
   /** Expanded on mount. */
   open?: boolean;
-  /** Header clicked: the card wants to expand/collapse. */
   onToggle?: (id: string, open: boolean) => void;
-  /** Header clicked: the card wants its passage shown in the prose. */
+  /** The card wants its passage shown in the prose. */
   onReveal?: (id: string) => void;
-  /** Editing capability. Given, the expanded card IS a form — title and text are
-   *  live fields that save on blur, with no Edit button to press first. Omitted
-   *  by the reader, which renders the same content as formatted prose. */
+  /** Editing capability: the expanded card becomes a rich-text editor that saves
+   *  on blur. Omitted by the reader. */
   onSave?: (id: string, edit: CardEdit) => Promise<void> | void;
-  /** Delete capability. Given, the card carries a delete button in its header. */
+  /** Delete capability: a trash button in the header. Omitted by the reader. */
   onRemove?: (id: string) => void;
 }
+
+/** What a host holds onto. */
+export interface ExplanationCard {
+  el: HTMLElement;
+  setOpen(open: boolean): void;
+  destroy(): void;
+}
+
+/** The toolbar a note needs — and nothing the card's markdown cannot round-trip. */
+const CARD_TOOLBAR = [
+  "paragraphFormat",
+  "|",
+  "bold",
+  "italic",
+  "|",
+  "bulletList",
+  "orderedList",
+  "blockquote",
+  "|",
+  "clearFormatting",
+];
 
 /** Arabic script, including the presentation forms an OCR pass can emit. */
 const ARABIC_RUN = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿][؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿\sً-ْ]*/g;
 
-/** Split an answer into paragraphs, dropping the blank runs between them. */
-export function cardParagraphs(text: string): string[] {
-  return String(text ?? "")
-    .split(/\n{2,}/)
-    .map((p) => p.replace(/[ \t]+/g, " ").trim())
-    .filter(Boolean);
-}
-
 /** The one-line gist shown while the card is collapsed. */
-export function cardPreview(text: string, limit = 150): string {
-  const first = cardParagraphs(text)[0] ?? "";
-  if (first.length <= limit) return first;
-  return `${first.slice(0, limit).replace(/\s+\S*$/, "")}…`;
+export function cardPreview(markdown: string, limit = 150): string {
+  const firstProse =
+    String(markdown ?? "")
+      .split(/\n{2,}/)
+      .map((b) => b.trim())
+      .find((b) => b && !/^#{1,6}\s/.test(b)) ?? "";
+  const flat = firstProse
+    .replace(/^\s*[-*]\s+|^\s*\d+[.)]\s+/gm, "")
+    .replace(/[*`>]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (flat.length <= limit) return flat;
+  return `${flat.slice(0, limit).replace(/\s+\S*$/, "")}…`;
 }
 
 /**
  * Fill an element with text, with every Arabic run in its own styled span.
  *
- * Deliberately NOT innerHTML: an explanation is model output and must never be
- * able to introduce markup into a page that also hosts the book's own prose.
+ * Deliberately NOT innerHTML: these are short strings from model output, and the
+ * page they land on also hosts the book's prose.
  */
 export function setTextWithArabic(el: HTMLElement, text: string): void {
   el.textContent = "";
@@ -101,24 +121,40 @@ export function setTextWithArabic(el: HTMLElement, text: string): void {
   if (last < text.length) el.append(text.slice(last));
 }
 
+function iconButton(
+  cls: string,
+  icon: string,
+  label: string,
+): HTMLButtonElement {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = cls;
+  b.title = label;
+  b.setAttribute("aria-label", label);
+  const i = document.createElement("i");
+  i.className = `fa-solid ${icon}`;
+  i.setAttribute("aria-hidden", "true");
+  b.append(i);
+  return b;
+}
+
 /** Build one collapsible explanation card. */
 export function renderExplanationCard(
   note: CardNote,
   opts: CardOptions = {},
-): HTMLElement {
+): ExplanationCard {
+  const editable = !!opts.onSave;
   const card = document.createElement("article");
   card.className = "xpl";
   card.dataset.note = note.id;
+  if (editable) card.dataset.editable = "true";
 
-  // ── header: what this card is about, and the control that deletes it ─────
-  // A row, not one big button: delete sits BESIDE the toggle where it is always
-  // reachable, and a button cannot legally nest inside another button.
+  // ── header ───────────────────────────────────────────────────────────────
   const headRow = document.createElement("div");
   headRow.className = "xpl-headrow";
   const head = document.createElement("button");
   head.type = "button";
   head.className = "xpl-head";
-  head.setAttribute("aria-expanded", String(!!opts.open));
 
   const meta = document.createElement("span");
   meta.className = "xpl-meta";
@@ -126,12 +162,13 @@ export function renderExplanationCard(
   kind.className = "xpl-kind";
   kind.textContent = kindDef(note.kind).label;
   meta.append(kind);
-  const provider = note.source?.provider;
-  if (provider) {
+  if (note.source?.provider) {
     const src = document.createElement("span");
     src.className = "xpl-source";
     src.textContent =
-      note.source?.label || note.source?.ref || sourceProvider(provider).label;
+      note.source.label ||
+      note.source.ref ||
+      sourceProvider(note.source.provider).label;
     meta.append(src);
   }
 
@@ -144,8 +181,8 @@ export function renderExplanationCard(
   caret.setAttribute("aria-hidden", "true");
   head.append(meta, title);
 
-  // The sentence this card is tied to. Shown whenever it isn't already the
-  // title, so a card and a highlight can always be matched up by eye.
+  // The sentence this card is tied to, so a card and a highlight can be matched
+  // up by eye.
   if (note.quote && note.anchor && note.quote !== note.anchor) {
     const quote = document.createElement("span");
     quote.className = "xpl-quote";
@@ -154,14 +191,12 @@ export function renderExplanationCard(
   }
   head.append(caret);
   headRow.append(head);
-
   if (opts.onRemove) {
-    const del = document.createElement("button");
-    del.type = "button";
-    del.className = "xpl-del";
-    del.title = "Delete this explanation";
-    del.setAttribute("aria-label", "Delete this explanation");
-    del.innerHTML = '<i class="fa-solid fa-trash-can" aria-hidden="true"></i>';
+    const del = iconButton(
+      "xpl-del",
+      "fa-trash-can",
+      "Delete this explanation",
+    );
     del.addEventListener("click", (e) => {
       e.stopPropagation();
       opts.onRemove?.(note.id);
@@ -173,132 +208,175 @@ export function renderExplanationCard(
   preview.className = "xpl-preview";
   setTextWithArabic(preview, cardPreview(note.body));
 
-  const full = document.createElement("div");
-  full.className = "xpl-full";
-  const fillFull = (body: string) => {
-    full.textContent = "";
-    for (const para of cardParagraphs(body)) {
-      const p = document.createElement("p");
-      // The etymology the Scholar appends is a distinct kind of statement about
-      // the passage, so it keeps its own treatment rather than reading as one
-      // more paragraph of the explanation.
-      if (/^etymology\.\s/i.test(para)) p.className = "xpl-etym";
-      setTextWithArabic(p, para);
-      full.append(p);
+  // ── body: rendered prose (reader) or the editor's host (Composer) ────────
+  const bodyEl = document.createElement("div");
+  bodyEl.className = "xpl-full";
+  if (!editable)
+    bodyEl.innerHTML = cardMarkdownToHtml(note.body, { arabicSpans: true });
+
+  const status = document.createElement("span");
+  status.className = "xpl-status";
+  status.setAttribute("aria-live", "polite");
+
+  // ── etymology: discrete items, curated one at a time ─────────────────────
+  let items = [...(note.etymology ?? [])];
+  const etym = document.createElement("div");
+  etym.className = "xpl-etym";
+
+  const renderEtymology = () => {
+    etym.textContent = "";
+    if (!items.length && !editable) return;
+    const label = document.createElement("p");
+    label.className = "xpl-etym-label";
+    label.textContent = "Etymology";
+    etym.append(label);
+    items.forEach((item, i) => {
+      const row = document.createElement("div");
+      row.className = "xpl-etym-item";
+      if (editable) {
+        const field = document.createElement("textarea");
+        field.className = "xpl-etym-text";
+        field.rows = 2;
+        field.value = item;
+        field.setAttribute("aria-label", `Etymology entry ${i + 1}`);
+        field.addEventListener("blur", () => {
+          const next = field.value.trim();
+          if (next === items[i]) return;
+          items[i] = next;
+          void save();
+        });
+        row.append(field);
+        const del = iconButton(
+          "xpl-etym-del",
+          "fa-xmark",
+          "Delete this etymology entry",
+        );
+        del.addEventListener("click", () => {
+          items.splice(i, 1);
+          renderEtymology();
+          void save();
+        });
+        row.append(del);
+      } else {
+        const p = document.createElement("p");
+        p.className = "xpl-etym-text";
+        setTextWithArabic(p, item);
+        row.append(p);
+      }
+      etym.append(row);
+    });
+    if (editable) {
+      const add = document.createElement("button");
+      add.type = "button";
+      add.className = "xpl-etym-add";
+      add.textContent = "+ Add etymology";
+      add.addEventListener("click", () => {
+        items.push("");
+        renderEtymology();
+        etym
+          .querySelector<HTMLTextAreaElement>(
+            ".xpl-etym-item:last-of-type .xpl-etym-text",
+          )
+          ?.focus();
+      });
+      etym.append(add);
     }
   };
-  fillFull(note.body);
+  renderEtymology();
 
-  card.append(headRow, preview, full);
+  card.append(headRow, preview, bodyEl, etym, status);
 
-  // ── editing: live fields, saved on blur ──────────────────────────────────
-  // No Edit button and no Save button. An expanded card in the Composer IS the
-  // text — you click into it and type, and leaving the field writes it. Buttons
-  // between an author and their own sentence are the thing this replaces.
-  if (opts.onSave) {
-    card.dataset.editable = "true";
+  // ── the editor, and the one thing it must never do ───────────────────────
+  let editor: ProseEditor | null = null;
+  let savedBody = note.body;
+  // The title is the passage label, set when the note was filed; the card does not
+  // edit it, so it is carried through the save unchanged rather than dropped.
+  const savedAnchor = note.anchor ?? "";
+  let flashTimer = 0;
 
-    const form = document.createElement("div");
-    form.className = "xpl-edit";
+  const flash = (text: string) => {
+    status.textContent = text;
+    window.clearTimeout(flashTimer);
+    if (text)
+      flashTimer = window.setTimeout(() => (status.textContent = ""), 1600);
+  };
 
-    const titleInput = document.createElement("input");
-    titleInput.type = "text";
-    titleInput.className = "xpl-edit-title";
-    titleInput.value = note.anchor ?? "";
-    titleInput.placeholder = "Title";
-    titleInput.setAttribute("aria-label", "Explanation title");
-
-    const bodyInput = document.createElement("textarea");
-    bodyInput.className = "xpl-edit-body";
-    bodyInput.value = note.body;
-    bodyInput.setAttribute("aria-label", "Explanation text");
-
-    const status = document.createElement("span");
-    status.className = "xpl-status";
-    status.setAttribute("aria-live", "polite");
-
-    form.append(titleInput, bodyInput, status);
-    card.insertBefore(form, full);
-
-    // Grow with the text, up to a cap — a fixed-height box hides most of a long
-    // explanation, and an uncapped one turns the panel into a mile of textarea.
-    //
-    // Measured through a ResizeObserver, not once at build time: a card is built
-    // detached and the drawer it lands in may be CLOSED, where the textarea has
-    // no width, every word wraps to its own line and scrollHeight comes back in
-    // the tens of thousands of pixels. The observer fires when the box first has
-    // a real width, and again whenever that width changes.
-    const grow = () => {
-      const cap = Math.max(220, Math.round(window.innerHeight * 0.55));
-      bodyInput.style.height = "auto";
-      const needed = bodyInput.scrollHeight;
-      bodyInput.style.height = `${Math.min(needed, cap)}px`;
-      bodyInput.style.overflowY = needed > cap ? "auto" : "hidden";
-    };
-    bodyInput.addEventListener("input", grow);
-    let lastWidth = -1;
-    new ResizeObserver(() => {
-      // Width only: reacting to the height we just set would loop.
-      const w = bodyInput.clientWidth;
-      if (w === lastWidth || w === 0) return;
-      lastWidth = w;
-      grow();
-    }).observe(bodyInput);
-
-    let saved = { anchor: note.anchor ?? "", body: note.body };
-    let timer = 0;
-    const flash = (text: string) => {
-      status.textContent = text;
-      window.clearTimeout(timer);
-      if (text)
-        timer = window.setTimeout(() => (status.textContent = ""), 1600);
-    };
-
-    const commit = async () => {
-      const next = {
-        anchor: titleInput.value.trim(),
-        body: bodyInput.value.trim(),
-      };
-      if (!next.body) {
-        // An emptied explanation is a delete, and deleting is the trash button's
-        // job — restore rather than silently write a note with no text.
-        bodyInput.value = saved.body;
-        grow();
-        return;
-      }
-      if (next.anchor === saved.anchor && next.body === saved.body) return;
-      flash("Saving…");
-      try {
-        await opts.onSave?.(note.id, next);
-        saved = next;
-        note.anchor = next.anchor;
-        note.body = next.body;
-        setTextWithArabic(title, next.anchor || note.quote || "Explanation");
-        setTextWithArabic(preview, cardPreview(next.body));
-        fillFull(next.body);
-        flash("Saved");
-      } catch {
-        flash("Not saved — try again");
-      }
-    };
-
-    titleInput.addEventListener("blur", () => void commit());
-    bodyInput.addEventListener("blur", () => void commit());
-    // Escape abandons the edit in progress rather than saving it.
-    const onEscape = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return;
-      titleInput.value = saved.anchor;
-      bodyInput.value = saved.body;
-      grow();
-      (e.target as HTMLElement).blur();
-    };
-    titleInput.addEventListener("keydown", onEscape);
-    bodyInput.addEventListener("keydown", onEscape);
+  async function save(): Promise<void> {
+    if (!opts.onSave) return;
+    const body = (editor ? editor.serialize() : savedBody).trim();
+    const anchor = savedAnchor.trim();
+    const cleaned = items.map((i) => i.trim()).filter(Boolean);
+    const unchanged =
+      body === savedBody.trim() &&
+      anchor === (note.anchor ?? "").trim() &&
+      cleaned.join(" ") === (note.etymology ?? []).join(" ");
+    if (unchanged) return;
+    if (!body) {
+      // An emptied explanation is a delete, and deleting has its own button.
+      if (editor)
+        editor.editor.commands.setContent(
+          cardMarkdownToHtml(savedBody, { arabicSpans: false }),
+        );
+      return;
+    }
+    flash("Saving…");
+    try {
+      await opts.onSave(note.id, { anchor, body, etymology: cleaned });
+      savedBody = body;
+      note.body = body;
+      note.anchor = anchor;
+      note.etymology = cleaned;
+      items = [...cleaned];
+      setTextWithArabic(preview, cardPreview(body));
+      flash("Saved");
+    } catch {
+      flash("Not saved — try again");
+    }
   }
+
+  /** Mount the editor the first time the card is opened, never before. */
+  function ensureEditor(): void {
+    if (editor || !editable) return;
+    bodyEl.textContent = "";
+    // The editor owns its own host element so the toolbar can be placed ABOVE it
+    // — mount() hands the toolbar back rather than positioning it, on purpose.
+    const host = document.createElement("div");
+    bodyEl.append(host);
+    editor = mount(host, {
+      content: cardMarkdownToHtml(note.body, { arabicSpans: false }),
+      serializer: { kind: "markdown" },
+      toolbar: {
+        items: CARD_TOOLBAR,
+        ariaLabel: "Formatting",
+        // The package's OWN prefix, deliberately: its stylesheet dresses `.rte-*`
+        // and the Composer's theme adapter already aliases those onto the site's
+        // tokens. A private prefix here would ship an unstyled toolbar.
+        builtins: {
+          bodyLabel: "Text",
+          headingLevels: [
+            { level: 3, id: "h3", label: "Heading" },
+            { level: 4, id: "h4", label: "Subheading" },
+          ],
+        },
+      },
+      editorAttributes: { class: "rte-prose xpl-prose" },
+    });
+    if (editor.toolbarEl) bodyEl.prepend(editor.toolbarEl);
+  }
+
+  // Save when focus leaves the CARD — not on any blur. The toolbar lives inside
+  // the card, so a plain blur handler would fire (and save) between clicking Bold
+  // and the command running.
+  card.addEventListener("focusout", (e) => {
+    const next = (e as FocusEvent).relatedTarget as Node | null;
+    if (next && card.contains(next)) return;
+    void save();
+  });
 
   const setOpen = (open: boolean) => {
     card.dataset.open = String(open);
     head.setAttribute("aria-expanded", String(open));
+    if (open) ensureEditor();
   };
   setOpen(!!opts.open);
 
@@ -306,10 +384,17 @@ export function renderExplanationCard(
     const open = card.dataset.open !== "true";
     setOpen(open);
     opts.onToggle?.(note.id, open);
-    // Expanding a card is also how you ask "where is this in the text?" — so the
-    // passage lights and scrolls, and the link runs in both directions.
+    // Expanding a card is also how you ask "where is this in the text?"
     opts.onReveal?.(note.id);
   });
 
-  return card;
+  return {
+    el: card,
+    setOpen,
+    destroy() {
+      window.clearTimeout(flashTimer);
+      editor?.destroy();
+      editor = null;
+    },
+  };
 }

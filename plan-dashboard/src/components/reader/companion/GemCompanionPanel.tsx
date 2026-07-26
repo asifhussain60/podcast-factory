@@ -35,12 +35,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { sectionKeyFromHeading } from "../../../lib/reader/companion/keys";
 import { defaultStore } from "../../../lib/reader/companion/store.client";
-import { renderExplanationCard } from "../../../lib/reader/companion/explanation-card";
+import {
+  renderExplanationCard,
+  type CardEdit,
+  type ExplanationCard,
+} from "../../../lib/reader/companion/explanation-card";
 import type { CompanionNote } from "../../../lib/reader/companion/types";
 
 interface Result {
   body: string;
-  etymology: string | null;
+  /** One entry per term — the shape the route returns since 2026-07-26. */
+  etymology: string[];
 }
 
 /** An answer to a typed concept, with the title it will carry as a card. */
@@ -118,6 +123,9 @@ function chapterKeyFor(node: Node | null): string {
   return found.id || sectionKeyFromHeading(found.textContent ?? "");
 }
 
+/** The transient answer's card id — never a note id, which are uuids. */
+const EPHEMERAL = "__ephemeral__";
+
 /** A short card title for the filed note — the passage, not a paraphrase of it. */
 function labelFor(text: string): string {
   return text.length <= 72 ? text : `${text.slice(0, 69).trimEnd()}…`;
@@ -144,6 +152,7 @@ export default function GemCompanionPanel({
   const [openIds, setOpenIds] = useState<string[]>([]);
   /** An answer to a typed concept: shown as a card, never stored. */
   const [ephemeral, setEphemeral] = useState<Ephemeral | null>(null);
+  const [stage, setStage] = useState("Thinking…");
 
   // Monotonic request id: only the newest in-flight request may write results,
   // so a late response can never overwrite a newer one (mirrors TermPopover).
@@ -152,6 +161,13 @@ export default function GemCompanionPanel({
   const launcherRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const wasOpen = useRef(false);
+  /** Live cards by note id. The list is reconciled against this, never rebuilt. */
+  const cardsRef = useRef(new Map<string, ExplanationCard>());
+  // Read by card callbacks, which outlive the render that created them.
+  const openIdsRef = useRef<string[]>([]);
+  const onRevealRef = useRef(onReveal);
+  const saveRef = useRef<(id: string, edit: CardEdit) => void>(() => {});
+  const removeRef = useRef<(id: string) => void>(() => {});
 
   useEffect(() => {
     if (open) {
@@ -170,7 +186,11 @@ export default function GemCompanionPanel({
   const notify = useRef(onNotesChanged);
   useEffect(() => {
     notify.current = onNotesChanged;
-  }, [onNotesChanged]);
+    onRevealRef.current = onReveal;
+  }, [onNotesChanged, onReveal]);
+  useEffect(() => {
+    openIdsRef.current = openIds;
+  }, [openIds]);
 
   const publish = useCallback((next: CompanionNote[]) => {
     setNotes(next);
@@ -233,7 +253,10 @@ export default function GemCompanionPanel({
 
   /** Save an edited title/body back to the note's file. */
   const saveNote = useCallback(
-    async (id: string, edit: { anchor: string; body: string }) => {
+    async (
+      id: string,
+      edit: { anchor: string; body: string; etymology: string[] },
+    ) => {
       if (!chapter) return;
       const current = notes.find((n) => n.id === id);
       if (!current) return;
@@ -247,6 +270,7 @@ export default function GemCompanionPanel({
           // not the author's to retype here, and losing it would unanchor the
           // card from the passage it explains.
           quote: current.quote,
+          etymology: edit.etymology,
           source: current.source,
         });
         publish(notes.map((n) => (n.id === id ? saved : n)));
@@ -256,6 +280,14 @@ export default function GemCompanionPanel({
     },
     [chapter, notes, publish, slug],
   );
+
+  // A card's callbacks are bound once, at creation, but `saveNote`/`removeNote`
+  // close over the CURRENT notes — so the card calls through a ref that is kept
+  // fresh, rather than through a stale copy from the render that built it.
+  useEffect(() => {
+    saveRef.current = (id, edit) => void saveNote(id, edit);
+    removeRef.current = (id) => void removeNote(id);
+  }, [saveNote, removeNote]);
 
   // The cards actually shown: in the Composer, the notes whose passage is in the
   // chapter on screen. Memoized on the id list (a string, so a host that rebuilds
@@ -272,48 +304,91 @@ export default function GemCompanionPanel({
       .filter((n): n is CompanionNote => Boolean(n));
   }, [notes, anchorKeyList]);
 
-  // Render the card list. Framework-free cards mounted into a container, so the
-  // Composer panel and the LIVE Session reader draw a note with the same code.
+  /**
+   * Mount the card list, REUSING the cards that are already there.
+   *
+   * Not a wipe-and-rebuild, which is what this was: an expanded card owns a live
+   * rich-text editor, and rebuilding the list on every state change destroyed that
+   * editor a keystroke after it was opened — taking any unsaved text with it. So
+   * cards are keyed by note id, created once, reordered by moving their elements,
+   * and destroyed only when their note leaves the list.
+   */
   useEffect(() => {
     const host = listRef.current;
     if (!host) return;
-    host.textContent = "";
+    const live = cardsRef.current;
+
+    const wanted: HTMLElement[] = [];
     if (ephemeral) {
-      host.append(
-        renderExplanationCard(
-          {
-            id: "__ephemeral__",
-            kind: "explanation",
-            body: ephemeral.etymology
-              ? `${ephemeral.body}\n\nEtymology. ${ephemeral.etymology}`
-              : ephemeral.body,
-            anchor: ephemeral.title,
-            source: { provider: "scholar", label: "Not saved" },
-          },
-          {
-            open: true,
-            onToggle: () => {
-              /* ephemeral card owns its own open state */
-            },
-          },
-        ),
+      // Rebuilt every time on purpose: it is one transient answer, never stored,
+      // and it carries no editor to lose.
+      live.get(EPHEMERAL)?.destroy();
+      live.get(EPHEMERAL)?.el.remove();
+      const card = renderExplanationCard(
+        {
+          id: EPHEMERAL,
+          kind: "explanation",
+          body: ephemeral.body,
+          anchor: ephemeral.title,
+          etymology: ephemeral.etymology,
+          source: { provider: "scholar", label: "Not saved" },
+        },
+        { open: true },
       );
+      live.set(EPHEMERAL, card);
+      wanted.push(card.el);
+    } else if (live.has(EPHEMERAL)) {
+      live.get(EPHEMERAL)!.destroy();
+      live.get(EPHEMERAL)!.el.remove();
+      live.delete(EPHEMERAL);
     }
+
     for (const note of visible) {
-      host.append(
-        renderExplanationCard(note, {
-          open: openIds.includes(note.id),
+      let card = live.get(note.id);
+      if (!card) {
+        card = renderExplanationCard(note, {
+          open: openIdsRef.current.includes(note.id),
           onToggle: (id, isOpen) =>
             setOpenIds((ids) =>
               isOpen ? [...ids, id] : ids.filter((x) => x !== id),
             ),
-          onReveal: (id) => onReveal?.(id),
-          onSave: saveNote,
-          onRemove: (id) => void removeNote(id),
-        }),
-      );
+          onReveal: (id) => onRevealRef.current?.(id),
+          onSave: (id, edit) => saveRef.current(id, edit),
+          onRemove: (id) => void removeRef.current(id),
+        });
+        live.set(note.id, card);
+      }
+      wanted.push(card.el);
     }
-  }, [visible, openIds, ephemeral, onReveal, removeNote, saveNote]);
+
+    const keep = new Set(wanted);
+    for (const [id, card] of live) {
+      if (keep.has(card.el)) continue;
+      card.destroy();
+      card.el.remove();
+      live.delete(id);
+    }
+    // Appending an element already in the DOM MOVES it — the editor inside is
+    // untouched, which is the whole point of reusing rather than rebuilding.
+    host.append(...wanted);
+  }, [visible, ephemeral]);
+
+  // Open state is not a reason to rebuild a card; it is a reason to tell it.
+  useEffect(() => {
+    for (const [id, card] of cardsRef.current) {
+      if (id === EPHEMERAL) continue;
+      card.setOpen(openIds.includes(id));
+    }
+  }, [openIds, visible]);
+
+  // Tear every editor down when the panel goes away.
+  useEffect(() => {
+    const live = cardsRef.current;
+    return () => {
+      for (const card of live.values()) card.destroy();
+      live.clear();
+    };
+  }, []);
 
   /**
    * Read the live selection out of the chapter.
@@ -370,6 +445,8 @@ export default function GemCompanionPanel({
     setError(null);
     setHint(null);
     setEphemeral(null);
+    // Three server steps behind one button; say which one is running.
+    setStage(passage ? "Reading the corpus…" : "Thinking…");
 
     try {
       // Deliberately raw fetch (not apiFetch): the 429 branch reads `retryMs`
@@ -381,6 +458,9 @@ export default function GemCompanionPanel({
           concept,
           context: ctx || undefined,
           bookTitle,
+          // Ground a PASSAGE in the library's corpus; a typed concept is a
+          // question about an idea, not about a sentence in this chapter.
+          ground: Boolean(passage),
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -398,7 +478,9 @@ export default function GemCompanionPanel({
       }
       const answer: Result = {
         body: String(data.body ?? ""),
-        etymology: data.etymology ?? null,
+        etymology: Array.isArray(data.etymology)
+          ? data.etymology.map((e: unknown) => String(e ?? "")).filter(Boolean)
+          : [],
       };
       if (passage) await file(answer, passage, id);
       else setEphemeral({ ...answer, title: labelFor(concept) });
@@ -423,15 +505,11 @@ export default function GemCompanionPanel({
       );
       return;
     }
-    // The etymology rides along in the note body: the card is one block of prose,
-    // so an answer split across two fields would lose half of itself.
-    const body = answer.etymology
-      ? `${answer.body}\n\nEtymology. ${answer.etymology}`
-      : answer.body;
     try {
       const note = await defaultStore.upsert(slug, passage.chapter, {
         kind: "explanation",
-        body,
+        body: answer.body,
+        etymology: answer.etymology,
         anchor: labelFor(passage.text),
         quote: passage.text,
         source: { provider: "scholar", label: "Ismaili Scholar" },
@@ -532,7 +610,7 @@ export default function GemCompanionPanel({
           onClick={submit}
           disabled={loading}
         >
-          {loading ? "Thinking…" : "Explain"}
+          {loading ? stage : "Explain"}
         </button>
         <button
           type="button"

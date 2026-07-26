@@ -7,6 +7,13 @@ never enter ``book/book.md`` and never enter the PDF; they live in
 ``_system/companion-notes/<chapter-key>.json``, the same on-disk shape the Studio
 UI writes (mirror of ``plan-dashboard/src/lib/reader/companion/types.ts``).
 
+MIRROR NOTE (2026-07-26): that type gained an optional ``etymology: string[]`` —
+the Studio's Scholar cards keep etymology as discrete, individually deletable
+items rather than as prose inside ``body``. This module does not write the field;
+a card without it is valid, and the reader treats absence as "no items". If cards
+authored here ever carry etymology of their own, write it as that array rather
+than appending an "Etymology" paragraph to ``body``.
+
 Until now nothing produced them — every card was hand-authored one at a time, and
 the result drifted: four cards a chapter, more than half of them analogies,
 etymology present only on the preface. This module is the generator, and its

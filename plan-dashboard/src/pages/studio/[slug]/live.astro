@@ -41,6 +41,9 @@ function notesFor(sectionId: string) {
       body: n.body,
       anchor: n.anchor ?? "",
       quote: n.quote ?? "",
+      // Discrete items, rendered by the shared card exactly as the Composer
+      // renders them — read-only here, with no add or delete control.
+      etymology: n.etymology ?? [],
       source: n.source?.label ?? n.source?.ref ?? "",
     }));
   } catch {

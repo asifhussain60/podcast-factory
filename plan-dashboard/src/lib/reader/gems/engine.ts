@@ -22,9 +22,9 @@ const CONTEXT_TRUNCATE_AT = 80_000;
 const JSON_ENVELOPE_ADDENDUM = `
 
 ---
-Return your ENTIRE response as a single JSON object with exactly two string fields:
-  - "body": everything before the Etymology section — the full paragraph explanation with its plain-text headings/subheadings.
-  - "etymology": only the content of the Etymology section. Do NOT repeat the word "Etymology" as a heading inside this field — the caller supplies that label.
+Return your ENTIRE response as a single JSON object with exactly two fields:
+  - "body": a STRING — the explanation, in markdown: '### ' headings, '- ' and '1. ' lists, blank line between blocks. No etymology here.
+  - "etymology": an ARRAY OF STRINGS — one entry per term, each covering exactly one term in at most 60 words. Do NOT include the word "Etymology" as a heading in any entry; the reader supplies that label. Empty array if there is nothing worth saying.
 No other fields. No markdown fences around the JSON.`;
 
 function resolveGem(gemId: string | undefined): GemDef {
@@ -60,7 +60,7 @@ function buildUserTurn(opts: {
 /** Fence-strip + JSON.parse, then brace-extraction fallback (matches arabic-term.ts's extractJson). */
 function extractGemJson(
   raw: string,
-): { body?: string; etymology?: string } | null {
+): { body?: string; etymology?: unknown } | null {
   if (!raw) return null;
   const cleaned = raw.replace(/^```json\s*|\s*```$/g, "").trim();
   try {
@@ -81,16 +81,29 @@ function extractGemJson(
 /** Defense-in-depth fallback: split raw text on a bare "Etymology" line. */
 function splitEtymology(text: string): {
   body: string;
-  etymology: string | null;
+  etymology: string[];
 } {
-  const m = text.match(/\n\s*Etymology\s*\n/i);
-  if (!m || m.index === undefined)
-    return { body: text.trim(), etymology: null };
-  const etymology = text.slice(m.index + m[0].length).trim();
-  return {
-    body: text.slice(0, m.index).trim(),
-    etymology: etymology || null,
-  };
+  const m = text.match(/\n\s*#*\s*Etymology\s*\n/i);
+  if (!m || m.index === undefined) return { body: text.trim(), etymology: [] };
+  // One item per paragraph — the same unit the JSON path returns, so a parse
+  // failure degrades to the same shape rather than to a different one.
+  const etymology = toItems(text.slice(m.index + m[0].length));
+  return { body: text.slice(0, m.index).trim(), etymology };
+}
+
+/** Normalize whatever the model returned for `etymology` into discrete items. */
+function toItems(value: unknown): string[] {
+  const raw = Array.isArray(value)
+    ? value.map((v) => String(v ?? ""))
+    : String(value ?? "").split(/\n{2,}/);
+  return raw
+    .map((s) =>
+      s
+        .replace(/^\s*[-*]\s+/, "")
+        .replace(/\s+/g, " ")
+        .trim(),
+    )
+    .filter(Boolean);
 }
 
 function toResult(raw: string, sources?: string[]): GemResult {
@@ -99,7 +112,7 @@ function toResult(raw: string, sources?: string[]): GemResult {
     return {
       raw,
       body: parsed.body.trim(),
-      etymology: (parsed.etymology ?? "").trim() || null,
+      etymology: toItems(parsed.etymology),
       ...(sources ? { sources } : {}),
     };
   }

@@ -25,6 +25,39 @@ export function normalizeQuote(s: string): string {
     .trim();
 }
 
+/**
+ * Fold one character to what BOTH renderers agree on, or to nothing.
+ *
+ * The same source sentence reaches the two surfaces spelled differently. The
+ * Composer shows the PDF's rendering, which keeps scholarly transliteration
+ * (ẓāhir, bāṭin); the LIVE reader folds it to plain English (zahir, batin) — see
+ * `simplifyTransliteration` in lib/translit.ts. A quote captured in one therefore
+ * could not be found in the other, and a card that appeared beside the prose in
+ * the Composer vanished in the reader. Vowelled Arabic has the same problem: the
+ * diacritics are combining marks, so the same word matched only if it carried the
+ * same vowelling.
+ *
+ * So matching happens on a folded skeleton: combining marks and the modifier
+ * letters (ʾ ʿ and their curly-quote spellings) fold to NOTHING, everything else
+ * to its base character, lowercased. Positions survive because the flattener maps
+ * every EMITTED character back to the source index it came from — a character
+ * that folds away simply contributes no entry.
+ */
+export function foldChar(ch: string): string {
+  if (/[\u02BE\u02BF\u2018\u2019\u02B9\u02BC']/.test(ch)) return "";
+  const base = ch
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f\u064B-\u0652\u0670]/g, "");
+  return base.slice(0, 1).toLowerCase();
+}
+
+/** The whole string, folded — used for the needle. */
+export function foldText(s: string): string {
+  let out = "";
+  for (const ch of String(s ?? "")) out += foldChar(ch);
+  return out;
+}
+
 /** One piece of source text, in the caller's own coordinate space. */
 export interface PassageChunk {
   text: string;
@@ -65,9 +98,14 @@ export function flatten(chunks: PassageChunk[]): FlatText {
     }
     for (let i = 0; i < c.text.length; i++) {
       const ch = c.text[i];
-      const space = /\s/.test(ch);
-      if (space && chars[chars.length - 1] === " ") continue; // collapse runs
-      chars.push(space ? " " : ch.toLowerCase());
+      if (/\s/.test(ch)) {
+        if (chars[chars.length - 1] === " ") continue; // collapse runs
+        chars.push(" ");
+      } else {
+        const folded = foldChar(ch);
+        if (!folded) continue; // a mark the other surface does not print
+        chars.push(folded);
+      }
       pos.push(c.at + i);
       chunkOf.push(idx);
     }
@@ -83,7 +121,7 @@ export function flatten(chunks: PassageChunk[]): FlatText {
  * whitespace collapsed inside the match is included rather than left behind.
  */
 export function findPassage(flat: FlatText, quote: string): PassageRange[] {
-  const needle = normalizeQuote(quote).toLowerCase();
+  const needle = foldText(normalizeQuote(quote));
   if (needle.length < 4) return []; // too short to be a passage; never guess
   const start = flat.text.indexOf(needle);
   if (start < 0) return [];

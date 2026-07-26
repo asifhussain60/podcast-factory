@@ -57,6 +57,12 @@ export const POST: APIRoute = async ({ request }) => {
     return apiError("Missing note body");
   if (!note.kind || typeof note.kind !== "string")
     return apiError("Missing note kind");
+  if (
+    note.etymology !== undefined &&
+    (!Array.isArray(note.etymology) ||
+      note.etymology.some((e) => typeof e !== "string"))
+  )
+    return apiError("etymology must be an array of strings");
   try {
     const { note: saved } = upsertNote(slug, chapter, note);
     return apiOk(saved);

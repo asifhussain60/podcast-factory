@@ -26,6 +26,7 @@ interface LiveNote {
   anchor: string;
   /** Verbatim chapter passage this note explains (highlighted + drives the spy). */
   quote: string;
+  etymology: string[];
   source: string;
 }
 interface LiveSection {
@@ -273,6 +274,7 @@ function boot(): void {
             body: note.body,
             anchor: note.anchor || note.quote,
             quote: note.quote,
+            etymology: note.etymology,
             source: note.source
               ? { provider: "manual", label: note.source }
               : undefined,
@@ -285,7 +287,7 @@ function boot(): void {
             },
             onReveal: (id) => highlightOnly(id),
           },
-        ),
+        ).el,
       );
     }
   }

@@ -22,8 +22,10 @@ export interface GemResult {
   raw: string;
   /** The main explanation/answer body. */
   body: string;
-  /** The closing Etymology section, if present. '' is normalized to null. */
-  etymology: string | null;
+  /** The etymology, as DISCRETE ITEMS — one per term (2026-07-26). It used to be
+   *  one prose blob; the reader curates these one at a time, adding and deleting
+   *  entries, which a single string cannot express. Empty array = none. */
+  etymology: string[];
   /** Source URLs, only populated when the call used grounded (web-search) mode. */
   sources?: string[];
 }

@@ -46,6 +46,14 @@ function chapterPath(slug: string, chapter: string): string {
   return join(companionDir(slug), `${chapter}.json`);
 }
 
+/** Trimmed, empties dropped. `undefined` when nothing survives, so a note with no
+ *  etymology has no key rather than an empty array. */
+function cleanItems(items: string[] | undefined): string[] | undefined {
+  if (!Array.isArray(items)) return undefined;
+  const out = items.map((s) => String(s ?? "").trim()).filter(Boolean);
+  return out.length ? out : undefined;
+}
+
 function nowIso(): string {
   return new Date().toISOString().replace(/\.\d+Z$/, "Z");
 }
@@ -106,6 +114,10 @@ export function upsertNote(
       body,
       anchor: input.anchor?.trim() || undefined,
       quote: input.quote?.trim() || undefined,
+      etymology:
+        input.etymology === undefined
+          ? existing.etymology
+          : cleanItems(input.etymology),
       source: input.source ?? existing.source,
       updatedAt: ts,
     };
@@ -117,6 +129,7 @@ export function upsertNote(
       body,
       anchor: input.anchor?.trim() || undefined,
       quote: input.quote?.trim() || undefined,
+      etymology: cleanItems(input.etymology),
       source: input.source,
       createdAt: ts,
       updatedAt: ts,

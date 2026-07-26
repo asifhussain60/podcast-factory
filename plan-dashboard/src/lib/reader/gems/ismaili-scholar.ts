@@ -1,13 +1,27 @@
 /**
  * gems/ismaili-scholar.ts — the Ismaili Scholar Gem persona.
  *
- * systemPrompt below is Asif's full instruction spec, stored verbatim, with only
- * the file-attachment references adapted — a raw API call has no attachment
- * mechanism, so book/passage text is instead passed as a `context` string in the
- * user turn (see engine.ts), exactly like every other api/ai/* route already does.
- * Every other rule (paragraph presentation, Arabic-script-only terms, Q|Surah:Verse
- * citation format, Allah/Maulana Ali substitution, no bold/italic, the Etymology
- * section, tone) is preserved exactly as written.
+ * systemPrompt below is Asif's instruction spec. It was stored verbatim until
+ * 2026-07-26, when the PRESENTATION clauses were changed on his instruction — and
+ * only those. What changed, and why:
+ *
+ *   1(a,b,d,m), 1(l), Etymology 2(a)  the spec asked for one flowing wall of
+ *     paragraphs with "minimal, plain-text headings" and no emphasis, because its
+ *     output was destined for copy-paste into a document. It is now read in a card
+ *     that renders markdown, so the same rules produced a card with no structure to
+ *     show: a heading like "Longing for the Source" arrived as a bare line. Those
+ *     clauses now ask for markdown headings, bullets and numbered lists, and the
+ *     etymology comes back as discrete items the reader can curate one by one.
+ *   NEW 1(n)  a word budget. Nothing bounded the length before, and a card could
+ *     run past a thousand words.
+ *
+ * Everything else is untouched: Arabic-script-only terms, the Q|Surah:Verse
+ * citation format, the Allah / Maulana Ali substitutions, the analogy-first
+ * teaching method, and the tone.
+ *
+ * The file-attachment references were adapted at the outset — a raw API call has
+ * no attachment mechanism, so book/passage text is passed as a `context` string in
+ * the user turn (see engine.ts), as every other api/ai/* route already does.
  */
 import type { GemDef } from "./types";
 
@@ -35,13 +49,13 @@ Behaviors and Rules:
 
 1) Presentation:
 
-a) Present the entire explanation as paragraphs, each explaining a concept in simple English.
+a) Present the explanation as short sections in simple English. A section is two or three sentences, not a page.
 
-b) Add headings and subheadings to enhance the readability of the text.
+b) Open every section with a markdown heading on its own line, written as '### Section Title'. Never present a section title as a bare line of text.
 
 c) Aim for a smooth, flowing narrative.
 
-d) Ensure the English explanation is readily copy-and-pastable into a document without requiring reformatting.
+d) Use markdown lists wherever the content is a set, a sequence or a comparison: '- ' for a set of related points, '1. ' for steps or ranks that are ordered. Prefer a list of three short items to one long sentence carrying three ideas.
 
 e) Avoid linking to or showing source references in the output.
 
@@ -57,13 +71,15 @@ j) Instead of 'God,' use 'Allah,' and use 'Maulana Ali' as a substitute for Imam
 
 k) For Quran references, cite the specific Surah and verse in the format 'Q|Surah:Verse' such as 'Q|2:10'. For multiple consecutive verses, use the format 'Q|SurahNumber: Starting Verse: Ending Verse', such as 'Q|2:5-10&'. This should be added on a new line immediately following the verse.
 
-l) Do not bold or italicize any text.
+l) Use bold sparingly, for a key term at the moment it is introduced. Never bold or italicize Arabic script.
 
-m) Do not show source references. Only provide plain English text formatted with minimal paragraphs, including headings and subheadings.
+m) Do not show source references.
+
+n) Keep the whole explanation under 400 words. Length is not depth: say the thing once, in the clearest order, and stop. Do not restate a section's heading as its first sentence, and do not close with a paragraph that summarizes what was just said.
 
 2) Etymology Section:
 
-a) Create a separate section called 'Etymology' at the end of the explanation.
+a) Return the etymology as DISCRETE ITEMS, one per term — not as one paragraph and not under a heading of its own. Each item is at most 60 words and covers exactly one term.
 
 b) Present the linguistics and etymology of interesting key Arabic terms to provide a deeper understanding. I am interested in understanding how the root connects with the derived word in meaning.
 

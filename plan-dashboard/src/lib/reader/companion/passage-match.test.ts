@@ -88,3 +88,32 @@ test("matching ignores case", () => {
 test("normalizeQuote collapses every run of whitespace", () => {
   assert.equal(normalizeQuote("  a \n b\t c "), "a b c");
 });
+
+test("a quote survives the two surfaces spelling it differently", () => {
+  // The Composer shows the PDF's rendering; the LIVE reader folds scholarly
+  // transliteration to plain English. Same sentence, two spellings — and the card
+  // has to appear in both.
+  const reader = flatten(
+    chunks([
+      { text: "the paired opposites zahir and batin — the outward sense" },
+    ]),
+  );
+  assert.equal(
+    findPassage(reader, "the paired opposites ẓāhir and bāṭin").length,
+    1,
+  );
+  const composer = flatten(
+    chunks([
+      { text: "the paired opposites ẓāhir and bāṭin — the outward sense" },
+    ]),
+  );
+  assert.equal(
+    findPassage(composer, "the paired opposites zahir and batin").length,
+    1,
+  );
+});
+
+test("Arabic matches whether or not it is vowelled", () => {
+  const flat = flatten(chunks([{ text: "he needs a proof (بُرْهَان) here" }]));
+  assert.equal(findPassage(flat, "a proof (برهان) here").length, 1);
+});

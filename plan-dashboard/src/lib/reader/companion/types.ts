@@ -48,6 +48,12 @@ export interface CompanionNote {
    *  show the one relevant card as you scroll. Distinct from `anchor` (the label):
    *  `anchor` is what the card is called, `quote` is where it lives in the text. */
   quote?: string;
+  /** Etymology as DISCRETE ITEMS, one per term (2026-07-26). It used to be prose
+   *  appended to `body`, which made it uncurateable: the reader adds and deletes
+   *  entries one at a time, and the body's word cap could eat the last of them.
+   *  Optional — a note without etymology simply omits it, and the Python writer
+   *  (scripts/podcast/_book_companion.py) does not write the field at all. */
+  etymology?: string[];
   source?: CompanionSource;
   createdAt: string;
   updatedAt: string;
@@ -76,5 +82,6 @@ export type CompanionNoteInput = {
   body: string;
   anchor?: string;
   quote?: string;
+  etymology?: string[];
   source?: CompanionSource;
 };
