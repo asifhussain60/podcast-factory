@@ -61,8 +61,14 @@ CONTENT_ROOT = REPO_ROOT / "content"
 # manifest CONTENTS are read by _work_manifest.py. When no work.yml exists
 # anywhere, every function below is byte-identical to flat resolution.
 WORK_MANIFEST_NAME = "work.yml"
-_VOL_DIR_RE = re.compile(r"^vol-\d+$")
-_COMPOSITE_SLUG_RE = re.compile(r"^(?P<work>.+)-(?P<dir>vol-\d+)$")
+# `[0-9]`, not `\d`. Python's `\d` is Unicode-aware and JavaScript's is ASCII-only,
+# so `vol-٠١` matched here and not in content-paths.ts — the same dialect split that
+# silently orphaned Composer edits through anchorKey until 2026-07-20. Volume dirs
+# are minted by the pipeline as ASCII (`vol-01`), so pinning to ASCII costs nothing
+# and makes both languages agree by construction rather than by coincidence.
+# Pinned by plan-dashboard/scripts/lib/content-paths.fixtures.json.
+_VOL_DIR_RE = re.compile(r"^vol-[0-9]+$")
+_COMPOSITE_SLUG_RE = re.compile(r"^(?P<work>.+)-(?P<dir>vol-[0-9]+)$")
 
 
 def is_work_parent(dir_: Path) -> bool:
@@ -309,9 +315,12 @@ def find_content(slug: str) -> tuple[str, str, Path] | None:
             p = st_root / cat / slug
             if p.is_dir():
                 return (st, cat, p)
-    # Legacy: flat drafts/<slug>.
+    # Legacy: flat drafts/<slug>. BOOKS and LECTURES are legacy CONTAINERS, not
+    # books — iter_content skips both when enumerating, and content-paths.ts guarded
+    # both here while this side guarded only BOOKS. Aligned 2026-07-26; pinned by
+    # plan-dashboard/scripts/lib/content-paths.fixtures.json.
     flat = DRAFTS_ROOT / slug
-    if flat.is_dir() and slug not in ALLOWED_CATEGORIES and slug != "BOOKS":
+    if flat.is_dir() and slug not in ALLOWED_CATEGORIES and slug not in ("BOOKS", "LECTURES"):
         return ("drafts", "books", flat)
     # Legacy: nested orphan drafts/BOOKS/<slug>.
     nested = DRAFTS_ROOT / "BOOKS" / slug

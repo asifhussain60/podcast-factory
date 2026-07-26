@@ -1,0 +1,279 @@
+{
+  "_comment": [
+    "Shared fixtures for the content-paths <-> _paths mirror pair.",
+    "",
+    "Read by BOTH plan-dashboard/scripts/lib/content-paths.test.mjs AND",
+    "tests/test_paths_mirror.py. Neither side owns this file; a change to either",
+    "implementation that is not matched on the other fails a test here.",
+    "",
+    "WHY THIS EXISTS. content-paths.ts (569 lines) and _paths.py (412 lines) both",
+    "answer 'where does this book live on disk'. Until 2026-07-26 nothing checked",
+    "they agreed - the contract was a prose comment in each file plus a rule in",
+    "CLAUDE.md. If the two break a tie differently, the Astro site and the pipeline",
+    "operate on DIFFERENT DIRECTORIES FOR THE SAME BOOK, silently. That is worse",
+    "than a crash, because nothing surfaces it.",
+    "",
+    "Modelled on anchor-key.fixtures.json, the one mirror pair that was already",
+    "pinned. Three sections because there are three distinct failure modes:",
+    "  vocabulary   - an enum extended on one side only",
+    "  pure_cases   - regex/casing dialect drift (JS \\d is ASCII, Python's is not)",
+    "  layout_cases - the two resolution ladders disagreeing about precedence",
+    "",
+    "layout_cases are declarative: each harness materialises `tree` in its own temp",
+    "dir, points PODCAST_FACTORY_ROOT at it, and asserts the same answer. Paths in",
+    "`expect` are repo-root-relative so the two languages compare equal without",
+    "separator or absolute-prefix skew."
+  ],
+
+  "vocabulary": {
+    "buckets": ["Islamic", "Technical", "Fiction", "Guides", "Supplications"],
+    "stages": ["drafts", "published"],
+    "statuses": ["draft", "published", "archived"],
+    "allowed_categories": [
+      "books",
+      "articles",
+      "documents",
+      "lectures",
+      "interviews",
+      "letters",
+      "asbaaq",
+      "sites",
+      "explainers"
+    ],
+    "work_manifest_name": "work.yml",
+    "category_to_bucket": {
+      "books": "Islamic",
+      "lectures": "Islamic",
+      "letters": "Islamic",
+      "asbaaq": "Islamic",
+      "interviews": "Islamic",
+      "articles": "Islamic",
+      "documents": "Islamic",
+      "sites": "Guides",
+      "explainers": "Guides"
+    }
+  },
+
+  "resolve_bucket_cases": [
+    {
+      "why": "explicit bucket wins",
+      "bucket": "Fiction",
+      "category": null,
+      "out": "Fiction"
+    },
+    {
+      "why": "category maps via the table",
+      "bucket": null,
+      "category": "lectures",
+      "out": "Islamic"
+    },
+    {
+      "why": "guides-side category",
+      "bucket": null,
+      "category": "sites",
+      "out": "Guides"
+    },
+    {
+      "why": "category lookup is case-insensitive",
+      "bucket": null,
+      "category": "BOOKS",
+      "out": "Islamic"
+    },
+    {
+      "why": "category lookup trims",
+      "bucket": null,
+      "category": " explainers ",
+      "out": "Guides"
+    },
+    {
+      "why": "unknown category defaults to Islamic",
+      "bucket": null,
+      "category": "nonesuch",
+      "out": "Islamic"
+    },
+    {
+      "why": "no signal at all defaults to Islamic",
+      "bucket": null,
+      "category": null,
+      "out": "Islamic"
+    }
+  ],
+
+  "vol_dir_cases": [
+    { "in": "vol-01", "is_vol": true },
+    { "in": "vol-1", "is_vol": true },
+    { "in": "vol-123", "is_vol": true },
+    { "in": "vol-", "is_vol": false },
+    { "in": "vol-01a", "is_vol": false },
+    { "in": "volume-01", "is_vol": false },
+    {
+      "why": "JS \\d is ASCII-only, Python's is Unicode-aware. Arabic-Indic digits must NOT match on either side.",
+      "in": "vol-٠١",
+      "is_vol": false
+    }
+  ],
+
+  "composite_slug_cases": [
+    {
+      "in": "asaas-al-taveel-vol-02",
+      "work": "asaas-al-taveel",
+      "dir": "vol-02"
+    },
+    {
+      "why": "greedy work part - the LAST vol-NN wins",
+      "in": "a-vol-01-vol-02",
+      "work": "a-vol-01",
+      "dir": "vol-02"
+    },
+    { "in": "plain-book", "work": null, "dir": null },
+    { "in": "vol-02", "work": null, "dir": null },
+    {
+      "why": "Arabic-Indic digits must not parse as a volume on either side",
+      "in": "book-vol-٠٢",
+      "work": null,
+      "dir": null
+    }
+  ],
+
+  "layout_cases": [
+    {
+      "name": "type-first: a flat book in a bucket resolves to its bucket dir",
+      "tree": ["content/Islamic/alpha/_system/"],
+      "files": {
+        "content/Islamic/alpha/_system/orchestrator-state.json": "{\"status\": \"draft\"}"
+      },
+      "slug": "alpha",
+      "expect_dir": "content/Islamic/alpha"
+    },
+    {
+      "name": "type-first: buckets are searched in declared order, Islamic first",
+      "tree": ["content/Islamic/dup/", "content/Fiction/dup/"],
+      "files": {},
+      "slug": "dup",
+      "expect_dir": "content/Islamic/dup"
+    },
+    {
+      "name": "type-first WINS over a legacy dir carrying the same slug",
+      "tree": ["content/Islamic/beta/", "content/drafts/books/beta/"],
+      "files": {},
+      "slug": "beta",
+      "expect_dir": "content/Islamic/beta"
+    },
+    {
+      "name": "composite volume slug resolves under a real work parent",
+      "tree": [
+        "content/Islamic/work-a/vol-01/",
+        "content/Islamic/work-a/vol-02/"
+      ],
+      "files": { "content/Islamic/work-a/work.yml": "title: Work A\n" },
+      "slug": "work-a-vol-02",
+      "expect_dir": "content/Islamic/work-a/vol-02"
+    },
+    {
+      "name": "composite slug does NOT resolve when the parent has no work.yml marker",
+      "tree": ["content/Islamic/notwork/vol-01/"],
+      "files": {},
+      "slug": "notwork-vol-01",
+      "expect_dir": null
+    },
+    {
+      "name": "a flat book whose name ends in -vol-N resolves as itself, not as a volume",
+      "tree": ["content/Islamic/standalone-vol-01/"],
+      "files": {},
+      "slug": "standalone-vol-01",
+      "expect_dir": "content/Islamic/standalone-vol-01"
+    },
+    {
+      "name": "legacy fallback: drafts/<category>/<slug>",
+      "tree": ["content/drafts/lectures/gamma/"],
+      "files": {},
+      "slug": "gamma",
+      "expect_dir": "content/drafts/lectures/gamma"
+    },
+    {
+      "name": "legacy fallback: published/<category>/<slug>",
+      "tree": ["content/published/books/delta/"],
+      "files": {},
+      "slug": "delta",
+      "expect_dir": "content/published/books/delta"
+    },
+    {
+      "name": "legacy fallback: flat drafts/<slug>",
+      "tree": ["content/drafts/epsilon/"],
+      "files": {},
+      "slug": "epsilon",
+      "expect_dir": "content/drafts/epsilon"
+    },
+    {
+      "why": "THE PRECEDENCE CASE. Python scanned every category under drafts, then every category under published, and only then fell back to flat drafts. TypeScript scanned drafts categories, then flat drafts, then published categories - so this tree resolved to two DIFFERENT directories depending on which side asked. Found and fixed 2026-07-26.",
+      "name": "flat drafts vs categorised published: categorised published wins",
+      "tree": ["content/drafts/ghost/", "content/published/books/ghost/"],
+      "files": {},
+      "slug": "ghost",
+      "expect_dir": "content/published/books/ghost"
+    },
+    {
+      "why": "Python guarded flat resolution against a slug that is itself a category name; TypeScript guarded only the drafts stage.",
+      "name": "a category name is never resolved as a flat book",
+      "tree": ["content/drafts/books/"],
+      "files": {},
+      "slug": "books",
+      "expect_dir": null
+    },
+    {
+      "why": "BOOKS and LECTURES are legacy CONTAINERS, not books - iter_content skips both when enumerating. content-paths.ts guarded both; _paths.py guarded only BOOKS. Aligned 2026-07-26.",
+      "name": "the LECTURES container is never resolved as a flat book",
+      "tree": ["content/drafts/LECTURES/"],
+      "files": {},
+      "slug": "LECTURES",
+      "expect_dir": null
+    },
+    {
+      "why": "Python had a drafts/BOOKS/<slug> fallback that TypeScript lacked entirely. Skipped on a case-insensitive filesystem (macOS default), where drafts/BOOKS and drafts/books are the same directory and the category loop legitimately matches first - the outcome would differ by platform, not by implementation, which is not what this pair is pinning.",
+      "name": "legacy nested orphan drafts/BOOKS/<slug>",
+      "requires_case_sensitive_fs": true,
+      "tree": ["content/drafts/BOOKS/zeta/"],
+      "files": {},
+      "slug": "zeta",
+      "expect_dir": "content/drafts/BOOKS/zeta"
+    },
+    {
+      "name": "an unknown slug resolves to nothing",
+      "tree": ["content/Islamic/alpha/"],
+      "files": {},
+      "slug": "does-not-exist",
+      "expect_dir": null
+    },
+    {
+      "why": "Load-bearing: _paths skips _-prefixed names to tell plumbing from books. If one side stopped skipping, content/_system would enumerate as a book.",
+      "name": "underscore-prefixed dirs are plumbing, never content",
+      "tree": ["content/_system/shared/", "content/Islamic/eta/"],
+      "files": {},
+      "slug": "_system",
+      "expect_dir": null
+    }
+  ],
+
+  "status_cases": [
+    {
+      "name": "status comes from orchestrator-state.json",
+      "state": "{\"status\": \"published\"}",
+      "expect": "published"
+    },
+    {
+      "name": "archived is preserved",
+      "state": "{\"status\": \"archived\"}",
+      "expect": "archived"
+    },
+    {
+      "name": "a missing status key falls back to draft",
+      "state": "{}",
+      "expect": "draft"
+    },
+    {
+      "name": "an unreadable state file falls back to draft, never throws",
+      "state": "not json at all",
+      "expect": "draft"
+    }
+  ]
+}

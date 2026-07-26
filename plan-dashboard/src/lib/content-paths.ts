@@ -170,8 +170,12 @@ function isDirSync(p: string): boolean {
 // marker + glob; the manifest contents are not parsed here. When no work.yml
 // exists, every function is byte-identical to flat resolution.
 export const WORK_MANIFEST_NAME = "work.yml";
-const VOL_DIR_RE = /^vol-\d+$/;
-const COMPOSITE_SLUG_RE = /^(.+)-(vol-\d+)$/;
+// `[0-9]`, not `\d`. JavaScript's `\d` is already ASCII-only, but Python's is
+// Unicode-aware — `vol-٠١` matched in _paths.py and not here. Both sides now spell
+// the class out so they agree by construction rather than by coincidence, the same
+// fix anchorKey needed in July. Pinned by scripts/lib/content-paths.fixtures.json.
+const VOL_DIR_RE = /^vol-[0-9]+$/;
+const COMPOSITE_SLUG_RE = /^(.+)-(vol-[0-9]+)$/;
 
 function isWorkParentSync(dir: string): boolean {
   return isDirSync(dir) && existsSync(join(dir, WORK_MANIFEST_NAME));
@@ -250,18 +254,33 @@ export function findContentDirSync(slug: string): string | null {
       if (isWorkParentSync(wp) && isDirSync(vp)) return vp;
     }
   }
+  // Legacy ladder — order matters, and it must match _paths.find_content exactly.
+  // Until 2026-07-26 this loop checked flat `<stage>/<slug>` INSIDE the stage loop,
+  // so `drafts/<slug>` was consulted before `published/<cat>/<slug>` while Python
+  // scanned every category in both stages first. A repo carrying both resolved to
+  // two different directories depending on which side asked — the site and the
+  // pipeline silently reading different folders for the same book. Python is
+  // canonical here (it writes and moves content; this file only reads).
+  // Pinned by scripts/lib/content-paths.fixtures.json.
   for (const stage of ["drafts", "published"] as Stage[]) {
     for (const cat of ALLOWED_CATEGORIES) {
       const dir = join(legacyStageRoot(stage), cat, slug);
       if (isDirSync(dir)) return dir;
     }
-    const flat = join(legacyStageRoot(stage), slug);
-    if (
-      !(ALLOWED_CATEGORIES as readonly string[]).includes(slug) &&
-      isDirSync(flat)
-    )
-      return flat;
   }
+  // Flat drafts/<slug>. Never resolves a slug that is itself a category name, nor
+  // the BOOKS container — both would match a directory that is not a book.
+  const flat = join(legacyStageRoot("drafts"), slug);
+  if (
+    !(ALLOWED_CATEGORIES as readonly string[]).includes(slug) &&
+    slug !== "BOOKS" &&
+    slug !== "LECTURES" &&
+    isDirSync(flat)
+  )
+    return flat;
+  // Nested orphan drafts/BOOKS/<slug>.
+  const nested = join(legacyStageRoot("drafts"), "BOOKS", slug);
+  if (isDirSync(nested)) return nested;
   return null;
 }
 
@@ -371,6 +390,21 @@ export async function findContent(slug: string): Promise<ContentRef | null> {
       status: "draft",
       slug,
       dir: flat,
+      stage: "drafts",
+      category: "books",
+    };
+  }
+  // Legacy nested orphan (drafts/BOOKS/<slug>/). Present in _paths.find_content and
+  // in findContentDirSync; this async twin lacked it, so a book surviving only at
+  // that path resolved for the pipeline and the sync loaders but not here. Added
+  // 2026-07-26 so all three ladders end the same way.
+  const nested = join(legacyStageRoot("drafts"), "BOOKS", slug);
+  if (await isDir(nested)) {
+    return {
+      bucket: "Islamic",
+      status: "draft",
+      slug,
+      dir: nested,
       stage: "drafts",
       category: "books",
     };
