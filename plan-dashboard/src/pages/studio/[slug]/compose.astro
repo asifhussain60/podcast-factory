@@ -32,7 +32,6 @@ import "../../../styles/track-changes.css";
 import "@asifhussain/prose-editor/styles.css";
 import "../../../styles/book-composer.css";
 import "../../../styles/compose-print.css";
-import "../../../styles/companion-notes.css";
 import "../../../styles/gem-companion.css";
 
 const slug = Astro.params.slug!;
@@ -166,7 +165,7 @@ const ARABIC_FONTS = [
         </header>
 
         {/* data-panel drives the layout: "closed" gives the chapter the full
-            width; "tools", "companion" and "scholar" each open the SAME drawer on
+            width; "tools", "arabic" and "scholar" each open the SAME drawer on
             a different surface. book-composer.ts restores the last state. */}
         <div class="composer-grid" data-panel="tools">
           <section class="composer-preview" aria-label="Book preview">
@@ -738,17 +737,17 @@ const ARABIC_FONTS = [
               </div>
             </div>
 
-            {/* Surface 2 — the private Companion notes. Mounted ONCE by
-                book-composer.ts and told which chapter to show, so it can never
-                disagree with the chapter in the editor and needs no picker of
-                its own. */}
-            <div class="cx-surface" id="cx-surface-companion" hidden>
-              <div id="cx-companion-mount" />
-            </div>
+            {/* Surface 2 — the Ismaili Scholar Companion. Docked into this same
+                drawer rather than running a second slide-in of its own: two
+                drawers on one page could both be open, overlapping, each with its
+                own close button.
 
-            {/* Surface 3 — the AI Scholar. Docked into this same drawer rather
-                than running a second slide-in of its own: two drawers on one page
-                could both be open, overlapping, each with its own close button. */}
+                It is also where a private Companion note now comes FROM: select a
+                sentence, press "From selection", and the explanation is filed
+                against this chapter for the LIVE Session to raise. The separate
+                hand-authored notes surface that used to sit here (and its floating
+                button) was retired on 2026-07-26 — one panel writes those notes
+                now, and the reader that consumes them is the LIVE Session. */}
             <div class="cx-surface" id="cx-surface-scholar" hidden>
               <GemCompanionPanel
                 client:load
@@ -759,7 +758,7 @@ const ARABIC_FONTS = [
               />
             </div>
 
-            {/* Surface 4 — the book's ARABIC. Both halves of the retired
+            {/* Surface 3 — the book's ARABIC. Both halves of the retired
                 /studio/<slug>/arabic-review page, which was the last surface
                 outside this one that could change what the printed edition
                 contains: the term decisions persist to _system/glossary.yml
@@ -796,17 +795,6 @@ const ARABIC_FONTS = [
           >
             <i class="fa-solid fa-toolbox" aria-hidden="true" />
             <span class="cx-fab-label">Tools</span>
-          </button>
-          <button
-            type="button"
-            class="cx-fab"
-            id="cx-rail-companion"
-            aria-pressed="false"
-            aria-controls="cx-drawer"
-            title="Companion notes"
-          >
-            <i class="fa-solid fa-lock" aria-hidden="true" />
-            <span class="cx-fab-label">Companion notes</span>
           </button>
           <button
             type="button"

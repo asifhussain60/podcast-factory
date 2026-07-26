@@ -37,7 +37,10 @@ import {
   type ComposeLane,
   type PodcastChapterMeta,
 } from "./compose-lane";
-import { safeChapterKey } from "../lib/reader/companion/keys";
+import {
+  safeChapterKey,
+  sectionKeyFromHeading,
+} from "../lib/reader/companion/keys";
 import { apiFetch } from "../lib/api-fetch";
 import { createStudioDecos } from "../components/studio/editor/studio-decos";
 import {
@@ -51,11 +54,9 @@ import {
   type GlossaryEntry,
 } from "../components/studio/editor/studio-editor-constants";
 import ComposeAiTools from "../components/studio/compose/ComposeAiTools";
-import ComposeCompanionTab from "../components/studio/compose/ComposeCompanionTab";
 import { mountPanelTextSize } from "./panel-text-size";
 import { mountIconTooltips } from "./icon-tooltip";
 import { enhanceSelect } from "./select-menu";
-import { PROSE_RENDERED_EVENT } from "../lib/reader/companion/passage-sync";
 import { GOTO_CHAPTER_EVENT } from "../components/reader/VowellingReviewPanel";
 import ComposeDetailsTab from "../components/studio/compose/ComposeDetailsTab";
 
@@ -378,13 +379,15 @@ function boot(): void {
     }
   }
 
-  // ── drawer surfaces (Tools · Companion · Arabic · Scholar) ────────────────
-  // ONE drawer, four surfaces, one floating button each. Clicking the lit button
+  // ── drawer surfaces (Tools · Arabic · Scholar) ────────────────────────────
+  // ONE drawer, three surfaces, one floating button each. Clicking the lit button
   // closes the drawer and the chapter takes the full page width back. The Scholar
   // used to run a SECOND, independent slide-in that could overlap this one; it is
   // a surface here now, so only one panel can ever be open. The state is a
-  // per-browser preference, not book content, so it lives in localStorage.
-  const SURFACES = ["tools", "companion", "arabic", "scholar"] as const;
+  // per-browser preference, not book content, so it lives in localStorage — and a
+  // preference saved as the retired "companion" surface simply fails the
+  // membership test below and falls back to Tools.
+  const SURFACES = ["tools", "arabic", "scholar"] as const;
   type Surface = (typeof SURFACES)[number];
   type PanelState = Surface | "closed";
   const PANEL_KEY = "cx-composer-panel";
@@ -537,7 +540,6 @@ function boot(): void {
       selectedChapter = chapterSelect.value;
       selected = null; // a figure selection doesn't carry across chapters
       showSelectedChapter();
-      renderCompanion(); // notes follow the chapter — no picker of their own
       render();
       if (wasEditing) setMode("edit"); // stay in Edit on the newly selected chapter
     });
@@ -593,32 +595,20 @@ function boot(): void {
     DEPTH_LEVELS_BY_PROFILE[Object.keys(DEPTH_LEVELS_BY_PROFILE)[0]];
   let aiToolsRoot: Root | null = null;
   let detailsRoot: Root | null = null;
-  let companionRoot: Root | null = null;
-  const companionChapters = data.chapters.map((c) => ({
-    key: c.key,
-    title: c.title,
-  }));
 
-  /** Mount the private-notes panel ONCE for the page and re-render it with the
-   *  chapter currently selected. It used to be a tab that was created and
-   *  destroyed with the editor, which meant it (a) vanished in Read mode and (b)
-   *  needed a full unmount/remount on every chapter switch just to keep its own
-   *  chapter picker in step. It is a controlled component now — it takes the
-   *  chapter and shows those notes, so it cannot disagree with the page, and it
-   *  needs no picker of its own. */
-  function renderCompanion(): void {
-    const host = root.querySelector<HTMLElement>("#cx-companion-mount");
-    if (!host) return;
-    companionRoot ??= createRoot(host);
-    companionRoot.render(
-      createElement(ComposeCompanionTab, {
-        slug,
-        chapters: companionChapters,
-        chapter: selectedChapter,
-      }),
-    );
+  /** The chapter key a Companion note is filed under — the LIVE Session's TOC id,
+   *  derived from the chapter's raw heading by the one shared rule.
+   *
+   *  NOT `safeChapterKey(selectedChapter)`, which is what this used to be: the
+   *  Composer's own chapter key comes from `anchorKey`, which strips the leading
+   *  "N." — so an etymology note for chapter 2 was filed as
+   *  `a-stranger-in-the-city` while the reader looked under
+   *  `2-a-stranger-in-the-city` and showed nothing. */
+  function liveChapterKey(): string {
+    const anchor =
+      data.chapters.find((c) => c.key === selectedChapter)?.anchor ?? "";
+    return sectionKeyFromHeading(anchor) || safeChapterKey(selectedChapter);
   }
-  renderCompanion(); // page-lifetime surface: present in Read mode too
 
   // A prose autosave writes book.md on disk but the page still holds the ORIGINAL
   // server render in memory; reload (preserving the chapter) to re-sync the preview.
@@ -644,8 +634,6 @@ function boot(): void {
     aiToolsRoot = null;
     detailsRoot?.unmount();
     detailsRoot = null;
-    // companionRoot is deliberately NOT torn down: the notes are a drawer
-    // surface of their own now, readable in Read mode too (see renderCompanion).
     // Before the editor: the package holds document-level listeners, and a
     // chapter switch runs this on every change.
     composerRte?.destroy();
@@ -1444,10 +1432,6 @@ function boot(): void {
         ? `Candidates for “${ch.title}”. Click to read one full size; drag it into the chapter to place it.`
         : "";
     }
-    // The innerHTML reset above drops anything a client island added to the
-    // prose — the Companion panel's passage marks among them. Announce it so
-    // they can be re-applied; nothing here needs to know who is listening.
-    window.dispatchEvent(new CustomEvent(PROSE_RENDERED_EVENT));
   }
 
   // Rebuild the edit canvas's figure feed for the chapter now open, then ask the
@@ -2198,7 +2182,7 @@ function boot(): void {
           method: "POST",
           body: {
             slug,
-            chapter: safeChapterKey(selectedChapter),
+            chapter: liveChapterKey(),
             note: {
               kind: "etymology",
               body,

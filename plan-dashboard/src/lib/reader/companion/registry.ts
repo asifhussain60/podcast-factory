@@ -99,6 +99,12 @@ export const SOURCE_PROVIDERS: SourceProvider[] = [
     icon: "fa-solid fa-book-bookmark",
     tokenVar: "--c-ink-dim",
   },
+  {
+    id: "scholar",
+    label: "Ismaili Scholar",
+    icon: "fa-solid fa-book-open-reader",
+    tokenVar: "--c-accent",
+  },
 ];
 
 const PROVIDER_MAP = new Map(SOURCE_PROVIDERS.map((p) => [p.id, p]));

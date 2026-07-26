@@ -11,6 +11,9 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { findContent } from "../content-paths";
 import { renderMarkdown } from "./markdown";
+// The TOC id IS the key Companion notes are filed under — one rule, one module,
+// so a note can never be written under a key this reader does not look up.
+import { sectionKeyFromHeading } from "./companion/keys";
 // Same readers the PDF renderer uses, so the LIVE reader cannot disagree with the
 // printed page about how a book's quotations are set. Node-only module; this
 // loader runs server-side.
@@ -43,16 +46,6 @@ export interface BookView {
   arabicFont: string;
 }
 
-/** Same slug rule renderMarkdown uses for heading ids (markdown.ts) — keep in sync. */
-function headingSlug(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-")
-    .slice(0, 80);
-}
-
 export async function loadBook(slug: string): Promise<BookView | null> {
   const ref = await findContent(slug);
   if (!ref) return null;
@@ -72,7 +65,7 @@ export async function loadBook(slug: string): Promise<BookView | null> {
   const toc: BookTocEntry[] = [];
   for (const m of md.matchAll(/^##\s+(.+)$/gm)) {
     const t = m[1].trim();
-    toc.push({ id: headingSlug(t), title: t });
+    toc.push({ id: sectionKeyFromHeading(t), title: t });
   }
 
   // Strip the leading `# ` title line from the body — the page header shows it.

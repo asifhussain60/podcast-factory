@@ -18,6 +18,7 @@
  */
 
 import { FENCE_KINDS } from "./book-fences";
+import { sectionKeyFromHeading } from "./companion/keys";
 import { simplifyTransliteration } from "../translit";
 
 /** A pipeline fence marker line. Built from the contract in book-fences.ts —
@@ -388,13 +389,9 @@ export function renderMarkdown(
       const level = hMatch[1].length;
       const inner = renderInline(hMatch[2], opts);
       if (opts.headingIds) {
-        // slug for in-chapter anchoring (mini-TOC). Strip HTML, lowercase, hyphenate.
-        const plain = hMatch[2]
-          .toLowerCase()
-          .replace(/[^a-z0-9\s-]/g, "")
-          .trim()
-          .replace(/\s+/g, "-")
-          .slice(0, 80);
+        // slug for in-chapter anchoring (mini-TOC) — and, because the LIVE Session
+        // keys Companion notes by this id, the one rule both sides import.
+        const plain = sectionKeyFromHeading(hMatch[2]);
         out.push(`<h${level} id="${plain}">${inner}</h${level}>`);
       } else {
         out.push(`<h${level}>${inner}</h${level}>`);

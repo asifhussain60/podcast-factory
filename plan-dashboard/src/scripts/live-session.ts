@@ -145,56 +145,141 @@ function boot(): void {
     }));
   }
 
-  // ---- one note entry per companion note, with its passage span (if found) --
+  // ---- one note entry per companion note, with its passage spans (if found) --
   interface NoteEntry {
     chapterId: string;
     chapterTitle: string;
     key: string;
     note: LiveNote;
-    span: HTMLElement | null;
+    /** Every span the passage was wrapped in — one per text node it crosses.
+     *  Empty when the passage isn't in the chapter (a note about the chapter as
+     *  a whole, or a quote that no longer matches the composed text). */
+    spans: HTMLElement[];
   }
 
-  // Wrap a note's VERBATIM quote in a highlight span so its passage can be lit.
-  // Returns the span, or null if the quote isn't a clean single-text-node match.
-  function wrapQuote(needle: string, key: string): HTMLElement | null {
-    const target = norm(needle);
-    if (target.length < 4) return null;
-    const low = target.toLowerCase();
-    const probe = low.slice(0, 16);
-    const walker = document.createTreeWalker(pages, NodeFilter.SHOW_TEXT);
+  /**
+   * A flattened, whitespace-normalized view of the chapter text, with each
+   * character mapped back to the text node and offset it came from.
+   *
+   * This is what lets a passage be found ACROSS inline markup. The Composer files
+   * a note from a selection, and a selected sentence very often contains an
+   * italicized term or a footnote link — which puts it in three text nodes, not
+   * one. Matching a single node (what this did until 2026-07-26) silently found
+   * nothing for exactly the sentences most worth annotating.
+   */
+  interface FlatText {
+    text: string; // lowercased, single-spaced
+    nodes: Text[];
+    at: Int32Array; // flat index -> nodes index
+    off: Int32Array; // flat index -> offset within that node
+  }
+
+  function flattenText(rootEl: HTMLElement): FlatText {
+    const walker = document.createTreeWalker(rootEl, NodeFilter.SHOW_TEXT);
+    const nodes: Text[] = [];
+    const chars: string[] = [];
+    const at: number[] = [];
+    const off: number[] = [];
+    let prevBlock: Element | null = null;
     let node: Node | null;
     while ((node = walker.nextNode())) {
-      const text = node.textContent ?? "";
-      if (norm(text).toLowerCase().indexOf(low) < 0) continue; // whole quote lives in this node
-      const raw = text.toLowerCase().indexOf(probe);
-      if (raw < 0) continue;
-      const end = Math.min(text.length, raw + target.length);
+      const t = node as Text;
+      const raw = t.textContent ?? "";
+      if (!raw) continue;
+      const idx = nodes.push(t) - 1;
+      // A block boundary reads as a space, so the end of one paragraph can never
+      // fuse with the start of the next into a phantom match.
+      const block =
+        t.parentElement?.closest("p, li, blockquote, h1, h2, h3, td") ?? null;
+      if (
+        block !== prevBlock &&
+        chars.length &&
+        chars[chars.length - 1] !== " "
+      ) {
+        chars.push(" ");
+        at.push(idx);
+        off.push(0);
+      }
+      prevBlock = block;
+      for (let i = 0; i < raw.length; i++) {
+        const ch = raw[i];
+        const space = /\s/.test(ch);
+        if (space && chars[chars.length - 1] === " ") continue; // collapse runs
+        chars.push(space ? " " : ch.toLowerCase());
+        at.push(idx);
+        off.push(i);
+      }
+    }
+    return {
+      text: chars.join(""),
+      nodes,
+      at: Int32Array.from(at),
+      off: Int32Array.from(off),
+    };
+  }
+
+  // Wrap a note's VERBATIM quote in highlight spans so its passage can be lit.
+  // Returns one span per text node the passage crosses (empty = not found).
+  function wrapQuote(
+    flat: FlatText,
+    needle: string,
+    key: string,
+  ): HTMLElement[] {
+    const target = norm(needle).toLowerCase();
+    if (target.length < 4) return [];
+    const start = flat.text.indexOf(target);
+    if (start < 0) return [];
+    const end = start + target.length - 1; // inclusive
+
+    // Split the match into one (node, from, to) segment per text node it covers.
+    const segments: { node: Text; from: number; to: number }[] = [];
+    let i = start;
+    while (i <= end) {
+      const nodeIdx = flat.at[i];
+      const from = flat.off[i];
+      let to = from;
+      while (i <= end && flat.at[i] === nodeIdx) {
+        to = flat.off[i];
+        i++;
+      }
+      segments.push({ node: flat.nodes[nodeIdx], from, to: to + 1 });
+    }
+
+    // Wrap back-to-front: surroundContents splits the node it wraps, so working
+    // from the end keeps every earlier segment's offsets valid.
+    const spans: HTMLElement[] = [];
+    for (const seg of segments.reverse()) {
       const range = document.createRange();
       try {
-        range.setStart(node, raw);
-        range.setEnd(node, end);
+        range.setStart(seg.node, seg.from);
+        range.setEnd(seg.node, Math.min(seg.to, seg.node.length));
       } catch {
-        return null;
+        continue;
       }
       const mark = document.createElement("span");
       mark.className = "lsv-hl";
       mark.dataset.note = key;
       try {
         range.surroundContents(mark);
-        return mark;
+        spans.unshift(mark);
       } catch {
-        return null; // passage straddles inline markup — can't wrap cleanly
+        /* already inside another note's mark — skip this fragment */
       }
     }
-    return null;
+    return spans;
   }
 
   const chapters = splitChapters();
 
-  // Build note entries per chapter, wrapping each note's quote into a span.
+  // Build note entries per chapter, wrapping each note's quote into spans.
+  // The search is scoped to the note's OWN chapter sheet — a sentence repeated in
+  // two chapters must light in the one the note belongs to — and re-flattened per
+  // note, because wrapping splits the text nodes the previous index described.
   const notesByChapter = new Map<string, NoteEntry[]>();
   if (data) {
     for (const section of data.sections) {
+      const scope =
+        chapters.find((c) => c.id === section.id)?.el ?? (pages as HTMLElement);
       const entries: NoteEntry[] = section.notes.map((note, i) => {
         const key = `${section.id}::${i}`;
         return {
@@ -202,7 +287,9 @@ function boot(): void {
           chapterTitle: section.title,
           key,
           note,
-          span: note.quote ? wrapQuote(note.quote, key) : null,
+          spans: note.quote
+            ? wrapQuote(flattenText(scope), note.quote, key)
+            : [],
         };
       });
       notesByChapter.set(section.id, entries);
@@ -223,12 +310,13 @@ function boot(): void {
     });
   }
 
-  // Exactly ONE passage is ever lit — the one whose card is showing.
-  function highlightOnly(span: HTMLElement | null): void {
-    pages.querySelectorAll<HTMLElement>(".lsv-hl.is-active").forEach((el) => {
-      if (el !== span) el.classList.remove("is-active");
+  // Exactly ONE passage is ever lit — the one whose card is showing. A passage
+  // that crosses inline markup is several spans sharing one note key; they light
+  // and go dark together, so the reader sees one continuous highlight.
+  function highlightOnly(key: string | null): void {
+    pages.querySelectorAll<HTMLElement>(".lsv-hl").forEach((el) => {
+      el.classList.toggle("is-active", !!key && el.dataset.note === key);
     });
-    if (span) span.classList.add("is-active");
   }
 
   // Render the single companion card for the active note (or an empty state).
@@ -279,7 +367,7 @@ function boot(): void {
 
   // Swap the shown card + lit passage only when the active note changes.
   function setActiveNote(entry: NoteEntry | null, chapterTitle: string): void {
-    highlightOnly(entry?.span ?? null);
+    highlightOnly(entry?.spans.length ? entry.key : null);
     const key = entry?.key ?? "";
     if (key === currentNoteKey) {
       if (titleEl) titleEl.textContent = chapterTitle || "Explanations";
@@ -303,17 +391,16 @@ function boot(): void {
     // Within that chapter, the active note is the last one whose passage has
     // scrolled past the focus line (i.e. the passage you've most recently reached).
     const entries = notesByChapter.get(chapters[chIdx].id) ?? [];
-    const withSpans = entries.filter((e) => e.span);
+    const withSpans = entries.filter((e) => e.spans.length);
+    // A multi-span passage is positioned by its FIRST span — where the sentence
+    // starts is where the reader reaches it.
+    const topOf = (e: NoteEntry) => e.spans[0].getBoundingClientRect().top;
     let active: NoteEntry | null = null;
     if (withSpans.length) {
-      withSpans.sort(
-        (a, b) =>
-          a.span!.getBoundingClientRect().top -
-          b.span!.getBoundingClientRect().top,
-      );
+      withSpans.sort((a, b) => topOf(a) - topOf(b));
       active = withSpans[0];
       for (const e of withSpans) {
-        if (e.span!.getBoundingClientRect().top <= focusY) active = e;
+        if (topOf(e) <= focusY) active = e;
         else break;
       }
     } else if (entries.length) {
