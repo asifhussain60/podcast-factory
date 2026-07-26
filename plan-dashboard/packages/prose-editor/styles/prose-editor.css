@@ -1,0 +1,109 @@
+/* @asifhussain/prose-editor — the package's only stylesheet.
+ *
+ * THEMING CONTRACT (Theme-Adapter Pattern B). Every colour, radius and size in
+ * this file reads a `--rte-*` custom property. The block below supplies neutral
+ * defaults so the editor is usable with no host CSS at all; a host themes it by
+ * ALIASING its own tokens onto these, scoped to the toolbar, and never by
+ * editing this file:
+ *
+ *   .my-toolbar-host {
+ *     --rte-surface: var(--c-bg-card);
+ *     --rte-ink:     var(--c-ink);
+ *     --rte-accent:  var(--c-accent);
+ *   }
+ *
+ * No hardcoded colour may appear outside the defaults block — a test enforces
+ * it, so a host's palette can never be overridden by a package release.
+ */
+
+:root {
+  --rte-surface: #ffffff;
+  --rte-surface-sunken: #f1efe9;
+  --rte-surface-hover: #e9e6de;
+  --rte-ink: #1f1d18;
+  --rte-ink-muted: #66625a;
+  --rte-accent: #3b5bdb;
+  --rte-border: #e6e2d8;
+  --rte-border-strong: #d5cfc2;
+  --rte-focus: var(--rte-accent);
+  --rte-radius: 5px;
+  --rte-control-size: 2rem;
+  --rte-gap: 0.25rem;
+  --rte-font: inherit;
+  --rte-font-size: 0.85rem;
+  /* Layered BELOW a host's own modal/dialog scrim on purpose: a blocking
+     question must always be able to cover the editor, never the reverse. */
+  --rte-z-bubble: 700;
+  --rte-z-menu: 750;
+  --rte-z-fullscreen: 800;
+}
+
+/* ── Toolbar ──────────────────────────────────────────────────────────────── */
+
+.rte-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--rte-gap);
+  padding: 0.3rem 0.4rem;
+  background: var(--rte-surface);
+  border-bottom: 1px solid var(--rte-border);
+  color: var(--rte-ink);
+  font-family: var(--rte-font);
+  font-size: var(--rte-font-size);
+}
+
+/* Toolbar controls are chrome, not a reading surface, so they sit below the
+   1.2rem body-text floor by design (the same exception the host's own control
+   chrome takes). Reading text lives in the editor below, never in here. */
+.rte-tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--rte-control-size);
+  height: var(--rte-control-size);
+  padding: 0 0.4rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--rte-radius);
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.rte-tool:hover:not(:disabled) {
+  background: var(--rte-surface-hover);
+}
+
+.rte-tool[aria-pressed="true"] {
+  background: var(--rte-surface-sunken);
+  border-color: var(--rte-border-strong);
+  color: var(--rte-accent);
+}
+
+.rte-tool:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.rte-tool:focus-visible {
+  outline: 2px solid var(--rte-focus);
+  outline-offset: 2px;
+}
+
+.rte-sep {
+  width: 1px;
+  height: 1.1rem;
+  margin-inline: 0.2rem;
+  background: var(--rte-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rte-toolbar *,
+  .rte-toolbar *::before,
+  .rte-toolbar *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

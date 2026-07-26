@@ -1,0 +1,61 @@
+{
+  "name": "@asifhussain/prose-editor",
+  "version": "0.1.0",
+  "description": "A self-contained, framework-free rich-text editor toolbar and extension system for TipTap/ProseMirror, whose defining guarantee is that nothing typable can be lost on save.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist",
+    "styles",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js"
+    },
+    "./styles.css": "./styles/prose-editor.css",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@tiptap/core": "^3.23.0",
+    "@tiptap/pm": "^3.23.0",
+    "@tiptap/starter-kit": "^3.23.0",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "dependencies": {},
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "editor",
+    "wysiwyg",
+    "rich-text",
+    "tiptap",
+    "prosemirror",
+    "toolbar",
+    "markdown"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -88,7 +88,9 @@ const ListItemValue = Extension.create({
               return Number.isInteger(n) ? n : null;
             },
             renderHTML: (attrs) =>
-              typeof attrs.value === "number" ? { value: String(attrs.value) } : {},
+              typeof attrs.value === "number"
+                ? { value: String(attrs.value) }
+                : {},
           },
         },
       },

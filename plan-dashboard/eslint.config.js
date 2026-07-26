@@ -58,6 +58,22 @@ export default tseslint.config(
     },
   },
   {
+    // The reusable packages/* workspaces. Held STRICTER than the app: the
+    // ratchet above exists because the pre-R2 editor surface trips those rules
+    // heavily, and a package published for other projects to consume has no such
+    // history to grandfather. A library that ships `any` exports its uncertainty
+    // to every consumer.
+    files: ["packages/**/*.{ts,tsx}"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+      "no-empty": ["error", { allowEmptyCatch: true }],
+    },
+  },
+  {
     // Node-side scripts (smoke, snapshots, mermaid render, lint-views).
     // document/window/fetch cover code inside Playwright page.evaluate().
     files: ["scripts/**/*.mjs"],

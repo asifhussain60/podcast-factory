@@ -70,7 +70,15 @@ function classify(rel) {
   return null;
 }
 
-let candidates = walk(join(ROOT, "src")).map((p) => relative(ROOT, p));
+// Walk every configured root, not just src/. `packages/` was added 2026-07-26
+// with the prose-editor workspace: a toolbar component is exactly the shape that
+// trips REQ-049 (real <button>, never <div onclick>) and the zero-inline-styling
+// DoD, so a package living beside src/ must not be held to a laxer standard than
+// the code it replaces. Roots are config-driven so adding the next one is data.
+const WALK_ROOTS = config.walk_roots ?? ["src"];
+let candidates = WALK_ROOTS.flatMap((root) => walk(join(ROOT, root))).map((p) =>
+  relative(ROOT, p),
+);
 if (filesArg) {
   const want = new Set(filesArg.map((f) => f.replace(/^plan-dashboard\//, "")));
   candidates = candidates.filter((rel) => want.has(rel));

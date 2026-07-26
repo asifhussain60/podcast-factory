@@ -171,7 +171,9 @@ test("a Quranic quotation the toolbar inserts is a serialization fixed point", (
         {
           type: "paragraph",
           attrs: { class: "tr" },
-          content: [{ type: "text", text: "Thanks to the teacher is to obey him." }],
+          content: [
+            { type: "text", text: "Thanks to the teacher is to obey him." },
+          ],
         },
       ],
     },

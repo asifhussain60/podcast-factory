@@ -21,7 +21,20 @@ export default defineConfig({
     // instance and return null — surfacing as "Cannot read properties of null
     // (reading 'useContext' / 'useRef')" and a blanked island (e.g. /corpus,
     // Edit & Enrich). dedupe collapses them to one copy so this can't happen.
-    resolve: { dedupe: ['react', 'react-dom'] },
+    //
+    // ProseMirror is deduped for a DIFFERENT and harsher reason than React: it
+    // compares plugin keys and node types by IDENTITY, so a second copy is not a
+    // degradation but a hard throw ("Adding different instances of a keyed
+    // plugin" / "Invalid content for node"). The packages/* workspace symlink
+    // makes a nested copy reachable in a way it was not before, so these are
+    // pinned the same way react is.
+    resolve: {
+      dedupe: [
+        'react', 'react-dom',
+        '@tiptap/core', '@tiptap/pm', '@tiptap/starter-kit',
+        'prosemirror-model', 'prosemirror-state', 'prosemirror-view',
+      ],
+    },
     optimizeDeps: {
       // React 19 uses a conditional IIFE that Vite's CJS→ESM static analyser
       // can't resolve without explicit pre-bundling — forces esbuild to process
@@ -42,6 +55,12 @@ export default defineConfig({
         '@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities',
         '@orama/orama',
         'gsap', 'gsap/ScrollTrigger',
+        // A LINKED workspace dep is not pre-bundled by default, so it would be
+        // discovered mid-session — the exact trigger for the two outages above.
+        // Its own import surface is capped at @tiptap/core, @tiptap/pm/* and
+        // @tiptap/starter-kit (enforced by a test in the package), all already
+        // listed here, so adopting it adds nothing else to this list.
+        '@asifhussain/prose-editor',
       ],
       // React's CJS entry points branch on process.env.NODE_ENV at require time:
       //
