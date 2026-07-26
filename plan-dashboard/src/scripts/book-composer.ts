@@ -675,8 +675,15 @@ function boot(): void {
       // The READ body is marked even while the editor is open (it is hidden, not
       // removed), so which notes are anchored is answered the same way in both
       // modes — from the prose, never from whichever tint happens to be drawn.
+      markPassages(body, companionNotes.current, "cx-note-hl");
+      // Read back in DOM order, so the panel lists cards the way the chapter
+      // meets them — the same order the LIVE Session lists them in.
       const found = [
-        ...markPassages(body, companionNotes.current, "cx-note-hl").keys(),
+        ...new Set(
+          [...body.querySelectorAll<HTMLElement>(".cx-note-hl")]
+            .map((el) => el.dataset.note ?? "")
+            .filter(Boolean),
+        ),
       ];
       if (found.join("|") !== anchoredIds.join("|")) {
         anchoredIds = found;

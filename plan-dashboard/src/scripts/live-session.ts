@@ -192,8 +192,35 @@ function boot(): void {
     }
   }
 
+  /**
+   * ONE contract with the Composer: a chapter's cards are the notes whose passage
+   * is FOUND in that chapter's text — no more, no less. A card with no passage
+   * could not be reached by reading and could not be matched to a highlight, so
+   * neither surface shows one, and the two surfaces therefore show the same set.
+   */
+  function anchoredIn(chapterId: string): NoteEntry[] {
+    const entries = (notesByChapter.get(chapterId) ?? []).filter(
+      (e) => e.spans.length,
+    );
+    // Reading order, not authoring order: the list runs down the chapter the way
+    // you will meet the passages. Taken from the MARKS in document order — the
+    // same rule the Composer uses — rather than by comparing spans pairwise,
+    // because two notes can annotate the same sentence and their marks then nest
+    // rather than follow one another.
+    const chapterEl = chapters.find((c) => c.id === chapterId)?.el;
+    const order = [
+      ...new Set(
+        [...(chapterEl?.querySelectorAll<HTMLElement>(".lsv-hl") ?? [])].map(
+          (el) => el.dataset.note ?? "",
+        ),
+      ),
+    ];
+    return entries.sort((a, b) => order.indexOf(a.key) - order.indexOf(b.key));
+  }
+
   let currentChapter = -1;
   let currentNoteKey = "__initial__"; // sentinel so the first render always runs
+  let listedChapter = "__none__"; // which chapter's cards are currently mounted
 
   // Mark the in-view chapter (rail + TOC), independent of which note shows.
   function setActiveChapter(idx: number): void {
@@ -215,48 +242,82 @@ function boot(): void {
     });
   }
 
-  // Render the single companion card for the active note (or an empty state).
-  function renderCard(entry: NoteEntry | null, chapterTitle: string): void {
+  /**
+   * Mount the chapter's cards — the SAME cards the Composer lists, built by the
+   * same component, minus the edit and delete controls this surface must not have.
+   * The list is the whole chapter, not just the passage you are on: you can look
+   * ahead, look back, and expand anything. What the scroll does is decide which
+   * card OPENS by itself as you reach its sentence.
+   */
+  function renderChapterCards(chapterId: string, chapterTitle: string): void {
     if (!bodyEl || !titleEl) return;
     titleEl.textContent = chapterTitle || "Explanations";
     bodyEl.textContent = "";
-    if (!entry) {
+    const entries = anchoredIn(chapterId);
+    if (!entries.length) {
       const p = document.createElement("p");
       p.className = "lsv-explain-empty";
       p.textContent = anyNotes
-        ? "No companion note for this passage yet."
+        ? "No companion notes for this chapter."
         : "No companion notes have been written for this book yet.";
       bodyEl.appendChild(p);
       return;
     }
-    // The SAME card the Composer's Scholar panel builds: collapsed to a header
-    // and a short extract as you reach the passage, expanding on click. A
-    // thousand-word explanation opened in full would bury the page it explains.
-    const note = entry.note;
-    bodyEl.appendChild(
-      renderExplanationCard({
-        id: entry.key,
-        kind: note.kind || "note",
-        body: note.body,
-        anchor: note.anchor || note.quote,
-        quote: note.quote,
-        source: note.source
-          ? { provider: "manual", label: note.source }
-          : undefined,
-      }),
-    );
+    for (const entry of entries) {
+      const note = entry.note;
+      bodyEl.appendChild(
+        renderExplanationCard(
+          {
+            id: entry.key,
+            kind: note.kind || "note",
+            body: note.body,
+            anchor: note.anchor || note.quote,
+            quote: note.quote,
+            source: note.source
+              ? { provider: "manual", label: note.source }
+              : undefined,
+          },
+          {
+            // Read-only: no onSave, no onRemove. Opening a card also lights its
+            // passage, so the link runs both ways here too.
+            onToggle: (id, open) => {
+              if (open) highlightOnly(id);
+            },
+            onReveal: (id) => highlightOnly(id),
+          },
+        ),
+      );
+    }
   }
 
-  // Swap the shown card + lit passage only when the active note changes.
+  /** Open one card (and only one), and light the passage it belongs to. */
+  function openCard(key: string | null): void {
+    bodyEl?.querySelectorAll<HTMLElement>(".xpl").forEach((card) => {
+      const on = card.dataset.note === key;
+      card.dataset.open = String(on);
+      card
+        .querySelector(".xpl-head")
+        ?.setAttribute("aria-expanded", String(on));
+      if (on) card.scrollIntoView({ block: "nearest" });
+    });
+  }
+
+  // Follow the reading position: the chapter's cards stay listed, and the one for
+  // the passage you have just reached opens itself and lights in the text.
   function setActiveNote(entry: NoteEntry | null, chapterTitle: string): void {
+    const chapterId = chapters[currentChapter]?.id ?? "";
+    if (chapterId !== listedChapter) {
+      listedChapter = chapterId;
+      currentNoteKey = "__initial__";
+      renderChapterCards(chapterId, chapterTitle);
+    } else if (titleEl) {
+      titleEl.textContent = chapterTitle || "Explanations";
+    }
     highlightOnly(entry?.spans.length ? entry.key : null);
     const key = entry?.key ?? "";
-    if (key === currentNoteKey) {
-      if (titleEl) titleEl.textContent = chapterTitle || "Explanations";
-      return;
-    }
+    if (key === currentNoteKey) return;
     currentNoteKey = key;
-    renderCard(entry, chapterTitle);
+    openCard(key || null);
   }
 
   // ---- scroll-spy: pick the in-view chapter, then the passage you're reading
@@ -272,21 +333,19 @@ function boot(): void {
 
     // Within that chapter, the active note is the last one whose passage has
     // scrolled past the focus line (i.e. the passage you've most recently reached).
-    const entries = notesByChapter.get(chapters[chIdx].id) ?? [];
-    const withSpans = entries.filter((e) => e.spans.length);
+    // Already in reading order (anchoredIn sorts by document position), so the
+    // last one whose passage has crossed the focus line is the one you are on.
+    const ordered = anchoredIn(chapters[chIdx].id);
     // A multi-span passage is positioned by its FIRST span — where the sentence
     // starts is where the reader reaches it.
     const topOf = (e: NoteEntry) => e.spans[0].getBoundingClientRect().top;
     let active: NoteEntry | null = null;
-    if (withSpans.length) {
-      withSpans.sort((a, b) => topOf(a) - topOf(b));
-      active = withSpans[0];
-      for (const e of withSpans) {
+    if (ordered.length) {
+      active = ordered[0];
+      for (const e of ordered) {
         if (topOf(e) <= focusY) active = e;
         else break;
       }
-    } else if (entries.length) {
-      active = entries[0]; // chapter has notes, but none matched a passage
     }
     setActiveNote(active, chapters[chIdx].title);
   }

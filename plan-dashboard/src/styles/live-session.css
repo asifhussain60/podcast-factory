@@ -444,11 +444,19 @@
   line-height: var(--lh-tight);
   color: var(--c-ink);
 }
+/* The chapter's cards — the same list the Composer shows, read-only here. It is
+   the ONE place in this reader that scrolls inside itself: the panel is sticky
+   and a chapter can carry more cards than a viewport holds, and the alternative
+   (growing the panel) would push the cards for later passages off the screen
+   entirely. Capped against the viewport, not a fixed height. */
 .lsv-explain-body {
   padding: var(--sp-4);
   display: flex;
   flex-direction: column;
   gap: var(--sp-3);
+  max-height: calc(100vh - 15rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .lsv-explain-empty {
   margin: 0;
@@ -457,69 +465,10 @@
   line-height: var(--lh-base);
 }
 
-.lsv-note {
-  padding: var(--sp-3);
-  background: var(--c-bg);
-  border: 1px solid var(--c-rule-soft);
-  border-left: 3px solid var(--c-accent);
-  border-radius: var(--r-md);
-  animation: lsv-note-in 0.28s ease both;
-}
-.lsv-note.has-anchor {
-  cursor: pointer;
-}
-.lsv-note.has-anchor:hover {
-  border-color: var(--c-accent);
-  box-shadow: var(--shadow-card);
-}
-.lsv-note.has-anchor:focus-visible {
-  outline: 2px solid var(--c-accent);
-  outline-offset: 2px;
-}
-@keyframes lsv-note-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-.lsv-note-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-2);
-  margin-bottom: var(--sp-2);
-}
-.lsv-note-kind {
-  font-family: var(--font-ui);
-  font-size: var(--fs-2xs);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--c-accent);
-}
-.lsv-note-source {
-  font-family: var(--font-ui);
-  font-size: var(--fs-2xs);
-  color: var(--c-ink-muted);
-}
-.lsv-note-anchor {
-  margin: 0 0 var(--sp-2);
-  padding-left: var(--sp-3);
-  border-left: 2px solid var(--c-rule);
-  color: var(--c-ink-dim);
-  font-style: italic;
-  font-size: var(--fs-base);
-}
-.lsv-note-body {
-  margin: 0;
-  color: var(--c-ink);
-  font-size: var(--fs-base);
-  line-height: var(--lh-base);
-}
+/* The note card itself is companion-card.css's `.xpl` — the SAME component the
+   Composer renders, read-only here (no edit form, no delete). The bespoke
+   .lsv-note rules that used to live here were retired with the bespoke card:
+   one card, one stylesheet, two surfaces. */
 
 /* ── table of contents drawer ────────────────────────────────────────────── */
 .lsv-toc-scrim {

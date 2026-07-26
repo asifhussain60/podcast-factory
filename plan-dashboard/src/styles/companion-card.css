@@ -3,7 +3,9 @@
  *
  * Shared by BOTH surfaces that show Companion notes: the Book Composer's Scholar
  * panel and the LIVE Session reader. One stylesheet for one component, so the two
- * cannot drift apart visually the way two copies would.
+ * cannot drift apart visually the way two copies would. The Composer's cards carry
+ * an edit form and a delete control (.xpl-edit / .xpl-foot); the reader's do not
+ * render those elements at all, so the same rules dress both.
  *
  * External stylesheet, existing --c-* tokens only, no new colour: the passage
  * tint reuses --reader-mark / --reader-mark-edge, the highlighter pair declared
@@ -72,6 +74,29 @@
   color: var(--c-ink);
 }
 
+/* The sentence the card is tied to. Quoted and clamped: enough to recognise the
+   highlight it belongs to, never enough to compete with the explanation. */
+.xpl-quote {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: calc(var(--panel-fs, 15px) * 0.92);
+  line-height: 1.45;
+  font-style: italic;
+  color: var(--c-ink-muted);
+  border-left: 2px solid var(--reader-mark-edge, #d6a414);
+  padding-left: 0.45rem;
+}
+
+.xpl-quote::before {
+  content: "“";
+}
+.xpl-quote::after {
+  content: "”";
+}
+
 .xpl-caret {
   position: absolute;
   top: 0.75rem;
@@ -132,35 +157,122 @@
   unicode-bidi: isolate;
 }
 
+/* ── Edit + delete: present only where the host granted them ──────────────
+   The reader never renders these elements, so nothing here needs a read-only
+   variant — the capability IS the difference between the two surfaces. */
 .xpl-foot {
   display: flex;
   justify-content: flex-end;
+  gap: 0.4rem;
   padding: 0 0.7rem 0.6rem;
 }
 
-.xpl[data-open="false"] .xpl-foot {
+.xpl[data-open="false"] .xpl-foot,
+.xpl[data-editing="true"] .xpl-foot {
   display: none;
 }
 
-.xpl-remove {
-  padding: 0.2rem 0.5rem;
+.xpl-btn {
+  padding: 0.25rem 0.6rem;
   background: transparent;
   border: 1px solid var(--c-rule);
   border-radius: 6px;
   font-family: inherit;
   font-size: calc(var(--panel-fs, 15px) * 0.85);
-  color: var(--c-ink-muted);
+  color: var(--c-ink-dim);
   cursor: pointer;
 }
 
-.xpl-remove:hover {
+.xpl-btn:hover {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+.xpl-btn--primary {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: #fff;
+}
+
+.xpl-btn--primary:hover {
+  filter: brightness(1.05);
+  color: #fff;
+}
+
+.xpl-btn--primary:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.xpl-btn--danger:hover {
   border-color: var(--c-red);
   color: var(--c-red);
 }
 
-.xpl-remove:focus-visible {
+.xpl-btn:focus-visible {
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;
+}
+
+/* The edit form replaces the rendered explanation in place, so the card keeps
+   its position in the list while you work on it. */
+.xpl-edit {
+  display: none;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0 0.7rem 0.7rem;
+}
+
+.xpl[data-editing="true"] .xpl-edit {
+  display: flex;
+}
+
+.xpl[data-editing="true"] .xpl-full,
+.xpl[data-editing="true"] .xpl-preview {
+  display: none;
+}
+
+.xpl-edit-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: calc(var(--panel-fs, 15px) * 0.8);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.xpl-edit-title,
+.xpl-edit-body {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: var(--panel-fs, 15px);
+  line-height: 1.55;
+  color: var(--c-ink);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.xpl-edit-body {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+.xpl-edit-title:focus-visible,
+.xpl-edit-body:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 1px;
+}
+
+.xpl-edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  padding-top: 0.15rem;
 }
 
 /* ── The passage tint, in the Composer ─────────────────────────

@@ -15,10 +15,12 @@
  *                      The passage is tinted in the chapter from that moment on,
  *                      and the LIVE Session raises the same card as you reach it.
  *
- * The panel is a LIST, not a one-shot: it opens showing every explanation already
- * filed for the chapter in front of you, each a collapsed card, newest first. That
- * is what the chapter's tinted passages point AT — a highlight with no card to
- * open would be a marker for something you could not read.
+ * The panel is a LIST, not a one-shot: it opens showing every explanation anchored
+ * in the chapter in front of you, each a collapsed card, in the order the chapter
+ * meets them. That is what the chapter's tinted passages point AT — a highlight
+ * with no card to open would be a marker for something you could not read. The
+ * LIVE Session lists exactly the same cards from the same component; the only
+ * difference is that these ones can be edited and deleted and those cannot.
  *
  * Where a note lands is deliberately narrow: _system/companion-notes/<chapter>.json,
  * which the Composer and the LIVE Session read and NOTHING else does — never
@@ -175,8 +177,11 @@ export default function GemCompanionPanel({
     notify.current?.(next);
   }, []);
 
-  // Load the chapter's explanations whenever the chapter changes. Newest first:
-  // the note you filed a minute ago is the one you are most likely to reopen.
+  // Load the chapter's explanations whenever the chapter changes, in FILE order.
+  // Not newest-first: the list the reader sees is ordered by where the passages
+  // fall in the chapter, and the order notes are handed to the matcher decides
+  // which of two notes on the same sentence wraps the outer mark — so file order
+  // here is what keeps the two surfaces listing the same cards the same way.
   useEffect(() => {
     if (!chapter) {
       publish([]);
@@ -187,7 +192,7 @@ export default function GemCompanionPanel({
       .read(slug, chapter)
       .then((doc) => {
         if (!live) return;
-        publish([...doc.notes].reverse());
+        publish(doc.notes);
         setOpenIds([]);
         setEphemeral(null);
       })
@@ -226,18 +231,46 @@ export default function GemCompanionPanel({
     [chapter, notes, publish, slug],
   );
 
+  /** Save an edited title/body back to the note's file. */
+  const saveNote = useCallback(
+    async (id: string, edit: { anchor: string; body: string }) => {
+      if (!chapter) return;
+      const current = notes.find((n) => n.id === id);
+      if (!current) return;
+      try {
+        const saved = await defaultStore.upsert(slug, chapter, {
+          id,
+          kind: current.kind,
+          body: edit.body,
+          anchor: edit.anchor || undefined,
+          // The quote is what ties the card to a sentence in the chapter; it is
+          // not the author's to retype here, and losing it would unanchor the
+          // card from the passage it explains.
+          quote: current.quote,
+          source: current.source,
+        });
+        publish(notes.map((n) => (n.id === id ? saved : n)));
+      } catch (e) {
+        setError(`Could not save it: ${(e as Error).message}`);
+      }
+    },
+    [chapter, notes, publish, slug],
+  );
+
   // The cards actually shown: in the Composer, the notes whose passage is in the
   // chapter on screen. Memoized on the id list (a string, so a host that rebuilds
   // the array every render doesn't rebuild every card with it).
   const anchorKeyList = anchoredIds ? anchoredIds.join("|") : null;
-  const visible = useMemo(
-    () =>
-      anchorKeyList === null
-        ? notes
-        : notes.filter((n) => anchorKeyList.split("|").includes(n.id)),
-    [notes, anchorKeyList],
-  );
-  const hiddenCount = notes.length - visible.length;
+  const visible = useMemo(() => {
+    if (anchorKeyList === null) return notes;
+    const byId = new Map(notes.map((n) => [n.id, n]));
+    // The host's order IS reading order — the cards run down the chapter the way
+    // the passages do, matching the LIVE Session's list.
+    return anchorKeyList
+      .split("|")
+      .map((id) => byId.get(id))
+      .filter((n): n is CompanionNote => Boolean(n));
+  }, [notes, anchorKeyList]);
 
   // Render the card list. Framework-free cards mounted into a container, so the
   // Composer panel and the LIVE Session reader draw a note with the same code.
@@ -275,11 +308,12 @@ export default function GemCompanionPanel({
               isOpen ? [...ids, id] : ids.filter((x) => x !== id),
             ),
           onReveal: (id) => onReveal?.(id),
+          onSave: saveNote,
           onRemove: (id) => void removeNote(id),
         }),
       );
     }
-  }, [visible, openIds, ephemeral, onReveal, removeNote]);
+  }, [visible, openIds, ephemeral, onReveal, removeNote, saveNote]);
 
   /**
    * Read the live selection out of the chapter.
@@ -403,7 +437,7 @@ export default function GemCompanionPanel({
         source: { provider: "scholar", label: "Ismaili Scholar" },
       });
       if (id !== reqId.current) return;
-      publish([note, ...notes.filter((n) => n.id !== note.id)]);
+      publish([...notes.filter((n) => n.id !== note.id), note]);
       setOpenIds((ids) => [...ids, note.id]); // the new answer opens; the rest stay shut
     } catch (e) {
       if (id !== reqId.current) return;
@@ -537,21 +571,9 @@ export default function GemCompanionPanel({
 
       {!loading && !visible.length && !ephemeral && (
         <p className="gcp-hint">
-          {!chapter
-            ? "Open a chapter to see its explanations."
-            : hiddenCount > 0
-              ? `No explanation is anchored in this chapter's text. ${hiddenCount} older ${hiddenCount === 1 ? "note quotes" : "notes quote"} prose that has since been rewritten — ${hiddenCount === 1 ? "it is" : "they are"} still in the LIVE Session.`
-              : "No explanations for this chapter yet. Select a sentence and press “From selection”."}
-        </p>
-      )}
-
-      {/* Said once, quietly: the panel is not the whole file, and what it leaves
-          out is not lost. */}
-      {!loading && visible.length > 0 && hiddenCount > 0 && (
-        <p className="gcp-hint">
-          {hiddenCount} older {hiddenCount === 1 ? "note" : "notes"} for this
-          chapter quote prose that has since been rewritten —{" "}
-          {hiddenCount === 1 ? "it is" : "they are"} still in the LIVE Session.
+          {chapter
+            ? "No explanations for this chapter yet. Select a sentence and press \u201cFrom selection\u201d."
+            : "Open a chapter to see its explanations."}
         </p>
       )}
 
