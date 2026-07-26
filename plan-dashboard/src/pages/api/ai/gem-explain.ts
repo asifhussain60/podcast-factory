@@ -10,6 +10,8 @@
  *   2. EXPLAIN — the persona writes the card, in markdown, with etymology as items.
  *   3. TIGHTEN — a guarded articulation pass removes repetition, then the body is
  *      capped to a word budget on a block boundary.
+ *   4. CITE     — `Q|S:V` is resolved to a surah NAME and the cited verse is given
+ *      its canonical English rendering from the repo's mushaf mirror.
  * Steps 1 and 3 are best-effort by construction: each returns the input unchanged
  * on any failure, so a card is never lost to an enrichment step.
  *
@@ -26,6 +28,7 @@ import {
 } from "../../../lib/reader/companion/corpus-grounding.server";
 import { articulate } from "../../../lib/reader/companion/articulate.server";
 import { capWords } from "../../../lib/reader/companion/articulate-rules";
+import { resolveQuranCitations } from "../../../lib/reader/companion/quran-citation.server";
 
 /** The body budget. ~400 words is about half of what an ungoverned card ran to. */
 const DEFAULT_MAX_WORDS = 400;
@@ -99,7 +102,12 @@ export const POST: APIRoute = async ({ request }) => {
       typeof maxWords === "number" && maxWords > 50
         ? Math.min(maxWords, 2000)
         : DEFAULT_MAX_WORDS;
-    const tightened = capWords(await articulate(result.body), budget);
+    // 4. Citations last, so the cap can never cut a verse away from its
+    //    rendering: `Q|18:65` becomes `Al-Kahf 18:65`, and a cited verse gets its
+    //    canonical English from the mushaf mirror rather than from the model.
+    const tightened = resolveQuranCitations(
+      capWords(await articulate(result.body), budget),
+    );
 
     return new Response(
       JSON.stringify({

@@ -32,10 +32,21 @@ const CANDIDATES = [
   "/index.tsx",
 ];
 
+/**
+ * A specifier "has an extension" only if it ends in one this resolver knows.
+ *
+ * `/\.[a-z]+$/` did the job until a module was called `articulate.server` — the
+ * repo's own convention for server-only files, alongside `store.server.ts` and
+ * `store.client.ts`. That reads as extension ".server", so the hook skipped it and
+ * every `*.server.ts` module in the codebase was silently untestable: the import
+ * failed with MODULE_NOT_FOUND and the natural fix was to stop testing it.
+ */
+const KNOWN_EXTENSION = /\.(ts|tsx|mts|cts|js|mjs|cjs|jsx|json|css|node)$/i;
+
 registerHooks({
   resolve(specifier, context, nextResolve) {
     const relative = specifier.startsWith("./") || specifier.startsWith("../");
-    const hasExtension = /\.[a-z]+$/i.test(specifier);
+    const hasExtension = KNOWN_EXTENSION.test(specifier);
     if (relative && !hasExtension && context.parentURL?.startsWith("file:")) {
       const base = resolvePath(
         dirname(fileURLToPath(context.parentURL)),

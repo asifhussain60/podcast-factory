@@ -11,6 +11,8 @@ import assert from "node:assert/strict";
 import { cardMarkdownToHtml } from "./card-markdown";
 import { cardPreview } from "./explanation-card";
 import { capWords, articulationGuardsPass } from "./articulate-rules";
+import { surahName, SURAH_NAMES } from "./surah-names";
+import { resolveQuranCitations } from "./quran-citation.server";
 
 test("a heading becomes a heading, clamped into the card's range", () => {
   assert.equal(
@@ -97,4 +99,54 @@ test("articulation may not drop Arabic, a citation, or grow", () => {
     false,
   );
   assert.equal(articulationGuardsPass(before, "   "), false);
+});
+
+test("every surah has a name, and 18 is Al-Kahf", () => {
+  assert.equal(SURAH_NAMES.length, 114);
+  assert.equal(surahName(18), "Al-Kahf");
+  assert.equal(surahName(1), "Al-Fatihah");
+  assert.equal(surahName(114), "An-Nas");
+  assert.equal(surahName(115), "");
+  assert.equal(surahName(0), "");
+});
+
+test("a citation is named, and the verse above it gets its canonical English", () => {
+  const md = "> فَوَجَدَا عَبْدًا مِّنْ عِبَادِنَا\n> Q|18:65";
+  const out = resolveQuranCitations(md);
+  assert.match(out, /Al-Kahf 18:65/);
+  assert.doesNotMatch(out, /Q\|/);
+  // The rendering is looked up, not generated — and it lands between the script
+  // and the citation, inside the same quotation.
+  const lines = out.split("\n");
+  assert.equal(lines.length, 5);
+  assert.match(lines[2], /^> [A-Za-z]/);
+  assert.match(lines[4], /Al-Kahf 18:65/);
+});
+
+test("a range is named but not translated, and an unknown surah is left alone", () => {
+  const ranged = resolveQuranCitations("> الله\n> Q|2:5-10");
+  assert.match(ranged, /Al-Baqarah 2:5-10/);
+  assert.equal(ranged.split("\n").length, 2); // no rendering inserted
+  assert.equal(resolveQuranCitations("Q|200:1"), "Q|200:1");
+});
+
+test("text with no citation is returned untouched", () => {
+  const md = "### Heading\n\nProse with an Arabic term (برهان) in it.";
+  assert.equal(resolveQuranCitations(md), md);
+});
+
+test("a verse and its citation sharing ONE line are split into three", () => {
+  // What the model actually writes most of the time.
+  const md =
+    "> \u0648\u064e\u0643\u064e\u0623\u064e\u064a\u0651\u0650\u0646 \u0645\u0651\u0650\u0646\u0652 \u0622\u064a\u064e\u0629\u064d Q|12:105";
+  const lines = resolveQuranCitations(md).split("\n");
+  // arabic, gap, rendering, gap, citation — the blank quote lines are what make
+  // them three PARAGRAPHS rather than one run-on line.
+  assert.equal(lines.length, 5);
+  assert.match(lines[0], /^> [\u0600-\u06ff]/);
+  assert.equal(lines[1], ">");
+  assert.match(lines[2], /^> [A-Za-z]/); // the canonical rendering
+  assert.equal(lines[3], ">");
+  assert.equal(lines[4].trim(), "> Yusuf 12:105");
+  assert.ok(lines.every((l) => l.startsWith(">")));
 });

@@ -14,6 +14,13 @@
  *     etymology comes back as discrete items the reader can curate one by one.
  *   NEW 1(n)  a word budget. Nothing bounded the length before, and a card could
  *     run past a thousand words.
+ *   1(i), 1(k)  (2026-07-26, second pass) an Arabic quotation is now followed by
+ *     its English rendering — the spec's "do not translate" was written to protect
+ *     the SCRIPT from being replaced, and a card that shows only Arabic leaves a
+ *     reader who does not read it with nothing. And a citation names its surah
+ *     ('Al-Kahf 18:65') instead of the machine form 'Q|18:65'; a Qur'anic verse's
+ *     rendering and its name are looked up in the repo's own mushaf mirror rather
+ *     than recalled, in quran-citation.server.ts.
  *
  * Everything else is untouched: Arabic-script-only terms, the Q|Surah:Verse
  * citation format, the Allah / Maulana Ali substitutions, the analogy-first
@@ -65,11 +72,11 @@ g) Use an instructional tone but remain casual like you're speaking to someone. 
 
 h) Present explanations in well-structured paragraphs using straightforward language accessible to young students.
 
-i) Do not translate Arabic text into English; keep the original script.
+i) Keep every Arabic term and quotation in Arabic script — never replace the script with a transliteration. A quotation in Arabic is always FOLLOWED, on the next line, by its English rendering, so a reader who does not read Arabic still knows what was said.
 
 j) Instead of 'God,' use 'Allah,' and use 'Maulana Ali' as a substitute for Imam Ali.
 
-k) For Quran references, cite the specific Surah and verse in the format 'Q|Surah:Verse' such as 'Q|2:10'. For multiple consecutive verses, use the format 'Q|SurahNumber: Starting Verse: Ending Verse', such as 'Q|2:5-10&'. This should be added on a new line immediately following the verse.
+k) For Quran references, cite the surah by NAME and number in the format 'Al-Kahf 18:65' — the English name of the surah, then chapter:verse. For a run of verses, 'Al-Baqarah 2:5-10'. The citation goes on a new line immediately following the verse and its English rendering, never inline in a sentence. (The machine form 'Q|18:65' is also accepted and is converted for you, but the named form is what a reader should see.)
 
 l) Use bold sparingly, for a key term at the moment it is introduced. Never bold or italicize Arabic script.
 

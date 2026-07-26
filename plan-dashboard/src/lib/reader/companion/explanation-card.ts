@@ -21,6 +21,7 @@
 import { mount } from "@asifhussain/prose-editor";
 import type { ProseEditor } from "@asifhussain/prose-editor";
 import { sourceProvider, kindDef } from "./registry";
+import { cardHeadingButtons } from "./card-heading-buttons";
 import { cardMarkdownToHtml } from "./card-markdown";
 
 export interface CardNote {
@@ -63,9 +64,18 @@ export interface ExplanationCard {
   destroy(): void;
 }
 
-/** The toolbar a note needs — and nothing the card's markdown cannot round-trip. */
+/**
+ * The toolbar a note needs — one row, no dropdown, nothing the card's markdown
+ * cannot round-trip (Asif, 2026-07-26).
+ *
+ * The heading dropdown is replaced by two toggles rather than dropped: a card can
+ * only carry h3 and h4, and removing the control outright would have removed the
+ * headings the cards were restructured around. Clear-formatting is gone; with six
+ * controls left there is nothing to clear that a second press of the same button
+ * does not undo.
+ */
 const CARD_TOOLBAR = [
-  "paragraphFormat",
+  ...cardHeadingButtons(),
   "|",
   "bold",
   "italic",
@@ -73,8 +83,6 @@ const CARD_TOOLBAR = [
   "bulletList",
   "orderedList",
   "blockquote",
-  "|",
-  "clearFormatting",
 ];
 
 /** Arabic script, including the presentation forms an OCR pass can emit. */
@@ -348,16 +356,12 @@ export function renderExplanationCard(
       toolbar: {
         items: CARD_TOOLBAR,
         ariaLabel: "Formatting",
+        // One row: no overflow menu to fold controls into, and the CSS keeps
+        // them from wrapping.
+        overflow: "none",
         // The package's OWN prefix, deliberately: its stylesheet dresses `.rte-*`
         // and the Composer's theme adapter already aliases those onto the site's
         // tokens. A private prefix here would ship an unstyled toolbar.
-        builtins: {
-          bodyLabel: "Text",
-          headingLevels: [
-            { level: 3, id: "h3", label: "Heading" },
-            { level: 4, id: "h4", label: "Subheading" },
-          ],
-        },
       },
       editorAttributes: { class: "rte-prose xpl-prose" },
     });
