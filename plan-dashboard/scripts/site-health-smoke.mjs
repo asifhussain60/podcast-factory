@@ -250,6 +250,62 @@ async function checkLayoutInvariants(page) {
       window.scrollTo(0, 0);
     }
 
+    // INV-3: REQ-015 list rendering, on the prose hosts that render the shared
+    // read-only renderer's output. Tailwind's preflight sets `list-style: none`
+    // with no padding on every ol/ul, so a host that does not RESTORE both ships
+    // a real <ol> with invisible markers and zero indent — the enumeration is
+    // simply gone, and the DOM looks perfectly correct while the page does not.
+    // That is how it escaped review: `.src-view-prose` was fixed and `.se-prose`
+    // (the Urdu bilingual dual-panel, same renderer) was not, because only the
+    // first was screenshotted. Measured from computed style so it holds for any
+    // host, in either writing direction.
+    // It asserts the STYLESHEET contract, with a canary list it inserts and
+    // removes, rather than waiting for a host to happen to contain a list: the
+    // thing that regresses is the CSS, and a check that only fires when live
+    // content includes an enumeration is a check that was dormant on exactly the
+    // day the reset landed. Any list already present is measured in preference
+    // to the canary, so real content is judged when it is there.
+    const PROSE_HOSTS = ".src-view-prose, .se-prose, .cx-podcast-body";
+    for (const host of document.querySelectorAll(PROSE_HOSTS)) {
+      let list = host.querySelector("ol, ul");
+      let canary = null;
+      if (!list) {
+        // A SIBLING stand-in carrying the host's own classes, never a child of
+        // the live host: one of these hosts is the Book Composer's, and nothing
+        // in a read-only gate should insert nodes into the Composer's subtree.
+        // Same parent chain and same class list, so ancestor-scoped list rules
+        // (and any override of them) still apply.
+        canary = document.createElement(host.tagName);
+        canary.className = host.className;
+        canary.style.position = "absolute";
+        canary.style.visibility = "hidden";
+        canary.innerHTML = "<ol><li>canary</li></ol>";
+        host.parentElement?.appendChild(canary);
+        list = canary.firstElementChild;
+        if (!list) {
+          canary.remove();
+          continue;
+        }
+      }
+      const s = getComputedStyle(list);
+      const pad = parseFloat(s.paddingInlineStart) || 0;
+      const why = [];
+      if (s.listStyleType === "none")
+        why.push("list-style-type is none (markers invisible)");
+      if (pad < 28) why.push(`padding-inline-start ${pad}px < 1.75rem`);
+      if (s.listStylePosition !== "outside")
+        why.push(`list-style-position ${s.listStylePosition}, not outside`);
+      canary?.remove();
+      if (why.length) {
+        const where = (host.className || host.id || "prose host")
+          .toString()
+          .trim();
+        out.push(
+          `prose-list-unstyled: ${canary ? "canary" : "live"} <${list.tagName.toLowerCase()}> in "${where}" — ${why.join("; ")} (REQ-015)`,
+        );
+      }
+    }
+
     return out;
   });
 }

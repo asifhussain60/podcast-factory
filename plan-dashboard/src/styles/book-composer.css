@@ -276,10 +276,20 @@
    min-width it already declares lets all three sit on one row and the picker
    still grow into whatever is left, up to max-width. */
 .cx-chapter-picker {
-  margin: 0;
   min-width: 16rem;
   flex: 1 1 16rem;
   max-width: 32rem;
+}
+/* Zero the generic .cx-field bottom margin for the pickers that sit IN this row.
+   Two classes, because `.cx-field { margin: 0 0 0.7rem }` is declared later in
+   this file at equal specificity and was winning — and with `align-items: end` a
+   bottom margin lifts the control off the row's shared bottom edge, which is
+   what left the dropdown sitting ~13px higher than the two toggles beside it.
+   Every control in the row is the same height, so once they share a bottom edge
+   they share a centre line too. */
+.cx-chapter-bar .cx-chapter-picker,
+.cx-chapter-bar .cx-podcast-picker {
+  margin: 0;
 }
 /* The chapter picker is the primary navigation control for this whole view —
    give it its own prominent treatment instead of the generic small .cx-field

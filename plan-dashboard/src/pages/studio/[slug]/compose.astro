@@ -236,18 +236,19 @@ const ARABIC_FONTS = [
                     class="cx-lane-btn"
                     id="cx-lane-book"
                     aria-pressed="true"
+                    title="The reading edition — the text that becomes book.pdf. Editable."
                   >
-                    <i class="fa-solid fa-book" aria-hidden="true" /> Reading
-                    edition
+                    <i class="fa-solid fa-book" aria-hidden="true" /> PDF
                   </button>
                   <button
                     type="button"
                     class="cx-lane-btn"
                     id="cx-lane-podcast"
                     aria-pressed="false"
+                    title="The NotebookLM upload source. Read-only; never reaches book.pdf."
                   >
                     <i class="fa-solid fa-headphones" aria-hidden="true" />{" "}
-                    Podcast source
+                    Podcast
                   </button>
                 </div>
               )}
@@ -289,7 +290,7 @@ const ARABIC_FONTS = [
               <section
                 class="cx-podcast-lane"
                 id="cx-podcast-lane"
-                aria-label="Podcast source"
+                aria-label="Podcast source text"
                 hidden
               >
                 <p
@@ -301,8 +302,8 @@ const ARABIC_FONTS = [
                 <p class="cx-podcast-note" role="note">
                   <i class="fa-solid fa-headphones" aria-hidden="true" />
                   <span>
-                    <strong>Podcast source — read-only.</strong> This is the
-                    text uploaded to NotebookLM, translated separately from the
+                    <strong>Podcast — read-only.</strong> This is the text
+                    uploaded to NotebookLM, translated separately from the
                     reading edition and split into its own chapters. Nothing
                     here reaches <code>book.pdf</code>. Edit the reading edition
                     on the other tab; change wording here through Edit &amp;
