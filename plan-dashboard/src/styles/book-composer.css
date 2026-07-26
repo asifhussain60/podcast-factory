@@ -634,9 +634,11 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.4rem 0.25rem;
+  /* Row gap larger than column gap: when the bar wraps, the two clusters need
+     to read as separate rows rather than as one crowded block. */
+  gap: 0.6rem 0.5rem;
   margin: 0;
-  padding: 0.5rem 0.75rem;
+  padding: 0.55rem 0.8rem;
   background: color-mix(
     in oklab,
     var(--c-accent, #8b4513) 11%,
@@ -660,7 +662,8 @@
 .cx-font-select {
   font: inherit;
   font-size: 0.8rem;
-  height: 2rem;
+  height: 1.9rem;
+  box-shadow: 0 1px 0 rgb(0 0 0 / 4%);
   padding: 0 0.5rem;
   border: 1px solid var(--c-rule-soft, #ebe6da);
   border-radius: 5px;
@@ -676,7 +679,8 @@
 .cx-size {
   display: inline-flex;
   align-items: center;
-  height: 2rem;
+  height: 1.9rem;
+  box-shadow: 0 1px 0 rgb(0 0 0 / 4%);
   border: 1px solid var(--c-rule-soft, #ebe6da);
   border-radius: 5px;
   overflow: hidden;
@@ -705,7 +709,7 @@
   text-align: center;
   color: var(--c-ink, #1f1d18);
   border-inline: 1px solid var(--c-rule-soft, #ebe6da);
-  line-height: 2rem;
+  line-height: 1.9rem;
 }
 
 .cx-edit-tool {
@@ -764,17 +768,43 @@
   padding-inline: 0;
 }
 
-/* Paper picker — Kindle-style Light / Sepia / Dark for the writing surface.
-   Sits at the right of the toolbar header. */
+/* ── View preferences: font · size · paper ────────────────────────────────────
+   Everything in here changes how the chapter LOOKS while you edit it and
+   nothing in here reaches book.md. Pushed to the trailing edge and separated
+   from the formatting controls by a rule, so the row reads as two clusters with
+   different consequences rather than as one undifferentiated strip. */
+.cx-view-prefs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* CENTRED, and measured rather than guessed: the formatting bar alone needs
+     ~946px of the composer column's ~977px, so this cluster is on its own row
+     at every realistic width. A right-aligned orphan row under a full-width bar
+     reads as something that failed to fit; centred, it reads as a deliberate
+     second tier. */
+  margin-inline: auto;
+}
+
+/* Paper picker — Kindle-style Light / Sepia / Dark. A single SEGMENTED control
+   rather than three separate pills: these are three states of one choice, and
+   pills spaced apart read as three independent toggles. */
 .cx-paper {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  margin-left: auto;
+  height: 1.9rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 6px;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 4%);
+  overflow: hidden;
 }
+/* The word "Paper" is a label for the group, not a fourth segment. */
 .cx-paper-label {
+  padding-inline: 0.55rem;
   font-size: 0.72rem;
   color: var(--c-ink-muted, #66625a);
+  border-inline-end: 1px solid var(--c-rule-soft, #ebe6da);
+  line-height: 1.9rem;
 }
 .cx-paper-btn {
   display: inline-flex;
@@ -782,13 +812,19 @@
   gap: 0.35rem;
   font: inherit;
   font-size: 0.75rem;
-  height: 1.75rem;
+  height: 100%;
   padding: 0 0.55rem;
-  border: 1px solid var(--c-rule, #d9d3c4);
-  border-radius: 999px;
-  background: var(--c-bg-card, #fffdf8);
+  border: 0;
+  border-inline-start: 1px solid var(--c-rule-soft, #ebe6da);
+  background: transparent;
   color: var(--c-ink, #1f1d18);
   cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+.cx-paper-btn:first-of-type {
+  border-inline-start: 0;
 }
 .cx-paper-btn::before {
   content: "";
@@ -808,10 +844,14 @@
   --swatch: #201e1b;
 }
 .cx-paper-btn:hover {
-  border-color: var(--c-accent, #8b4513);
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 8%, transparent);
+}
+.cx-paper-btn:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: -2px;
 }
 .cx-paper-btn[aria-pressed="true"] {
-  border-color: var(--c-accent, #8b4513);
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 14%, transparent);
   color: var(--c-accent, #8b4513);
   font-weight: 600;
 }

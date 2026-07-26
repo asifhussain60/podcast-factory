@@ -806,7 +806,16 @@ function boot(): void {
     sizeWrap.append(sizeDown, sizeVal, sizeUp);
     fontGroup.append(fontSel, sizeWrap);
 
-    toolbar.append(fontGroup);
+    // Font, size and paper are all VIEW preferences — none of them reaches
+    // book.md. Grouping them into one cluster, pushed to the trailing edge,
+    // balances the row and says what they have in common; scattered across two
+    // wrapped rows they read as leftovers.
+    const viewPrefs = document.createElement("div");
+    viewPrefs.className = "cx-view-prefs";
+    viewPrefs.setAttribute("role", "group");
+    viewPrefs.setAttribute("aria-label", "Editing view preferences");
+    viewPrefs.append(fontGroup);
+    toolbar.append(viewPrefs);
     applySize(); // seed --prose-size + the readout
 
     // Paper picker — Kindle-style Light / Sepia / Dark tint for the writing area.
@@ -857,7 +866,7 @@ function boot(): void {
       paperBtns.push(b);
       paperGroup.append(b);
     }
-    toolbar.append(paperGroup);
+    viewPrefs.append(paperGroup);
 
     shell.append(toolbar, host);
     bodyEl.insertAdjacentElement("afterend", shell);

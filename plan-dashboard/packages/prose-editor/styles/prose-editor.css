@@ -28,7 +28,10 @@
   --rte-focus: var(--rte-accent);
   --rte-radius: 5px;
   --rte-control-size: 2rem;
-  --rte-gap: 0.25rem;
+  /* Breathing room BETWEEN controls. Buttons that touch read as one segmented
+     control; these are independent actions and should look it. */
+  --rte-gap: 0.3rem;
+  --rte-shadow: 0 1px 0 rgb(0 0 0 / 4%);
   --rte-font: inherit;
   --rte-font-size: 0.85rem;
   /* Layered BELOW a host's own modal/dialog scrim on purpose: a blocking
@@ -55,35 +58,54 @@
 
 /* Toolbar controls are chrome, not a reading surface, so they sit below the
    1.2rem body-text floor by design (the same exception the host's own control
-   chrome takes). Reading text lives in the editor below, never in here. */
+   chrome takes). Reading text lives in the editor below, never in here.
+
+   Each control carries its OWN surface and hairline border rather than being a
+   bare glyph that only appears on hover. A transparent control reads as a
+   decoration until you happen to touch it, and on a tinted toolbar it reads as
+   nothing at all — the affordance has to be visible before the pointer arrives. */
 .rte-tool {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: var(--rte-control-size);
   height: var(--rte-control-size);
-  padding: 0 0.4rem;
-  background: transparent;
-  border: 1px solid transparent;
+  padding: 0 0.45rem;
+  background: var(--rte-surface);
+  border: 1px solid var(--rte-border);
   border-radius: var(--rte-radius);
+  box-shadow: var(--rte-shadow);
   color: inherit;
   font: inherit;
   line-height: 1;
   cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    transform 120ms ease;
 }
 
 .rte-tool:hover:not(:disabled) {
   background: var(--rte-surface-hover);
+  border-color: var(--rte-border-strong);
+}
+
+.rte-tool:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: none;
 }
 
 .rte-tool[aria-pressed="true"] {
   background: var(--rte-surface-sunken);
-  border-color: var(--rte-border-strong);
+  border-color: var(--rte-accent);
   color: var(--rte-accent);
+  box-shadow: none;
 }
 
 .rte-tool:disabled {
-  opacity: 0.4;
+  opacity: 0.35;
+  box-shadow: none;
   cursor: default;
 }
 
@@ -92,11 +114,21 @@
   outline-offset: 2px;
 }
 
+/* The glyph, sized once so every icon sits on the same optical centre. */
+.rte-tool svg {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Separators earn more room than the gap between buttons — that difference is
+   what makes the bar read as CLUSTERS rather than as one long undifferentiated
+   run of controls. */
 .rte-sep {
   width: 1px;
-  height: 1.1rem;
-  margin-inline: 0.2rem;
-  background: var(--rte-border);
+  height: 1.35rem;
+  margin-inline: 0.45rem;
+  background: var(--rte-border-strong);
 }
 
 /* ── Paragraph-format control (button + ARIA listbox) ─────────────────────── */
@@ -111,19 +143,24 @@
   align-items: center;
   gap: 0.3rem;
   height: var(--rte-control-size);
-  padding: 0 0.5rem;
-  background: transparent;
+  padding: 0 0.55rem;
+  background: var(--rte-surface);
   border: 1px solid var(--rte-border);
   border-radius: var(--rte-radius);
+  box-shadow: var(--rte-shadow);
   color: inherit;
   font: inherit;
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
 }
 
 .rte-select-button:hover:not(:disabled) {
   background: var(--rte-surface-hover);
+  border-color: var(--rte-border-strong);
 }
 
 .rte-select-button:focus-visible {
