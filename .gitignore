@@ -40,9 +40,10 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Test runner caches (regenerated on each run)
+# Test/lint runner caches (regenerated on each run)
 .pytest_cache/
 .benchmarks/
+.ruff_cache/
 
 # STALE/RETIRED: there is no separate podcast-reader app — the reader is a
 # section inside the Podcast Factory Astro Site (plan-dashboard/). This ignore
