@@ -7,9 +7,9 @@
  * schema without a serializer rule is a startup error, not a silent corruption
  * discovered later in the file the editor writes.
  *
- * The package knows nothing about any host's domain — no books, no chapters, no
- * scripture, no CMS. A `domain-neutrality` test enforces that, because the editor
- * this replaces became a 4,700-line file by absorbing its host's services one
+ * The package knows nothing about any host's domain — no documents, no chapters,
+ * no CMS. A domain-neutrality test enforces that, because the editor this
+ * replaces became a 4,700-line file by absorbing its host's services one
  * convenience at a time.
  *
  * Two entry points:
@@ -19,5 +19,73 @@
  */
 
 export { VERSION } from "./version.ts";
+
+export { attach } from "./attach.ts";
+export type { AttachOptions } from "./attach.ts";
+export { mount } from "./mount.ts";
+export type { MountOptions } from "./mount.ts";
+
+export { baseExtensions } from "./schema/base-extensions.ts";
+export type { BaseExtensionOptions } from "./schema/base-extensions.ts";
+
+export {
+  defineButton,
+  defineDropdown,
+  defineMark,
+  defineNode,
+} from "./extend/define.ts";
+export type {
+  AttrDef,
+  ButtonDef,
+  CustomMarkDef,
+  CustomNodeDef,
+  DropdownDef,
+  DropdownOption,
+  IconSpec,
+  PasteAllowance,
+  RegisteredButton,
+  RegisteredDropdown,
+  RegisteredExtension,
+  RegisteredMark,
+  RegisteredNode,
+} from "./extend/define.ts";
+
+export { createSerializer } from "./serialize/serializer.ts";
+export {
+  createMarkdownRules,
+  createMarkdownSerializer,
+  MARKDOWN_MARK_ORDER,
+} from "./serialize/markdown.ts";
+export { assertSerializerTotal } from "./serialize/coverage.ts";
+export type {
+  AttrMap,
+  MarkdownOptions,
+  MarkSerializerRule,
+  NodeSerializeContext,
+  NodeSerializerRule,
+  Serializer,
+  SerializerRules,
+  SerializerSpec,
+} from "./serialize/types.ts";
+
+export {
+  DuplicateRegistrationError,
+  ProseEditorError,
+  SerializerCoverageError,
+  ShortcutConflictError,
+} from "./errors.ts";
+
+export { createFallbackUiHost } from "./ui/fallback-ui-host.ts";
+
 export { createToolbar } from "./toolbar/toolbar.ts";
 export type { Toolbar, ToolbarOptions } from "./toolbar/toolbar.ts";
+
+export type {
+  DialogField,
+  DialogRequest,
+  EditorApi,
+  ProseEditor,
+  SelectionAnchor,
+  SelectionState,
+  UiHost,
+} from "./types.ts";

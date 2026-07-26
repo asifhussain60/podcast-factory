@@ -21,6 +21,14 @@ Object.assign(globalThis, {
   Event: win.Event,
   CustomEvent: win.CustomEvent,
   getComputedStyle: win.getComputedStyle.bind(win),
+  // happy-dom ships no rAF, and TipTap's focus() schedules through it. Run the
+  // callback synchronously: the tests assert on state AFTER a command, so a
+  // deferred frame would just make every assertion race.
+  requestAnimationFrame: (cb: FrameRequestCallback) => {
+    cb(0);
+    return 0;
+  },
+  cancelAnimationFrame: () => {},
 });
 
 /** happy-dom's element types are structurally compatible but nominally distinct;

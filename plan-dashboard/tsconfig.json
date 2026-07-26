@@ -6,7 +6,13 @@
     "ignoreDeprecations": "5.0",
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["src/*"],
+      // Mirrors the Vite alias in astro.config.mjs. Without it TypeScript would
+      // resolve the package through its published `exports` to dist/*.d.ts,
+      // making a build a prerequisite for `astro check` — and reporting phantom
+      // errors whenever dist/ is stale relative to the source beside it.
+      "@asifhussain/prose-editor": ["packages/prose-editor/src/index.ts"],
+      "@asifhussain/prose-editor/*": ["packages/prose-editor/src/*"]
     }
   },
   "include": [".astro/types.d.ts", "**/*"],

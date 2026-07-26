@@ -1,4 +1,5 @@
 // @ts-check
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import node from '@astrojs/node';
@@ -34,6 +35,23 @@ export default defineConfig({
         '@tiptap/core', '@tiptap/pm', '@tiptap/starter-kit',
         'prosemirror-model', 'prosemirror-state', 'prosemirror-view',
       ],
+      // Resolve the in-repo editor package to its SOURCE rather than its built
+      // dist/. Both routes work — pre-bundling the linked workspace dep was
+      // measured at 32/32 routes clean too — so this is a choice, not a
+      // workaround:
+      //
+      //   - dist/ resolution makes `npm run build:packages` a prerequisite for
+      //     `astro dev` on every fresh checkout AND after every package edit.
+      //     That is a trap nobody remembers until the dev server won't start.
+      //   - source resolution gives HMR while editing the package.
+      //
+      // The cost is that the published dist/ path is not exercised in-repo; the
+      // package's own `npm pack` + install-into-a-scratch-dir check covers it.
+      alias: {
+        '@asifhussain/prose-editor': fileURLToPath(
+          new URL('./packages/prose-editor/src/index.ts', import.meta.url),
+        ),
+      },
     },
     optimizeDeps: {
       // React 19 uses a conditional IIFE that Vite's CJS→ESM static analyser
@@ -50,17 +68,19 @@ export default defineConfig({
       include: [
         'react', 'react-dom', 'react-dom/client', 'lucide-react',
         '@tiptap/react', '@tiptap/starter-kit', '@tiptap/core',
-        '@tiptap/pm/model', '@tiptap/pm/state', '@tiptap/pm/view', 'diff',
+        '@tiptap/pm/model', '@tiptap/pm/state', '@tiptap/pm/view',
+        // Reached only through packages/prose-editor. Type-only today, so it is
+        // erased before the bundler sees it — listed anyway so the day someone
+        // adds a value import there is not the day a route 504s. A host-side
+        // test asserts every bare import in packages/*/src appears here.
+        '@tiptap/pm/transform',
+        'diff',
         'cmdk', '@radix-ui/react-toast',
         '@dnd-kit/core', '@dnd-kit/sortable', '@dnd-kit/utilities',
         '@orama/orama',
         'gsap', 'gsap/ScrollTrigger',
-        // A LINKED workspace dep is not pre-bundled by default, so it would be
-        // discovered mid-session — the exact trigger for the two outages above.
-        // Its own import surface is capped at @tiptap/core, @tiptap/pm/* and
-        // @tiptap/starter-kit (enforced by a test in the package), all already
-        // listed here, so adopting it adds nothing else to this list.
-        '@asifhussain/prose-editor',
+        // NOTE: @asifhussain/prose-editor is deliberately ABSENT — aliased to
+        // source above, it is first-party code, not a dep to pre-bundle.
       ],
       // React's CJS entry points branch on process.env.NODE_ENV at require time:
       //

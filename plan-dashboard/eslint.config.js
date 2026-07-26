@@ -13,8 +13,11 @@ import tseslint from "typescript-eslint";
 export default tseslint.config(
   {
     ignores: [
-      "dist/",
-      "node_modules/",
+      // `**/` matters: a bare "dist/" matches only the top-level one, so the
+      // packages/*/dist build output was being linted as if it were source
+      // (and failing, on emitted code eslint has no business judging).
+      "**/dist/",
+      "**/node_modules/",
       ".astro/",
       ".visual-qa/",
       "src/data/*.json",
