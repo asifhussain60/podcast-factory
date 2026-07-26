@@ -99,6 +99,111 @@
   background: var(--rte-border);
 }
 
+/* ── Paragraph-format control (button + ARIA listbox) ─────────────────────── */
+
+.rte-select {
+  position: relative;
+  display: inline-flex;
+}
+
+.rte-select-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  height: var(--rte-control-size);
+  padding: 0 0.5rem;
+  background: transparent;
+  border: 1px solid var(--rte-border);
+  border-radius: var(--rte-radius);
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.rte-select-button:hover:not(:disabled) {
+  background: var(--rte-surface-hover);
+}
+
+.rte-select-button:focus-visible {
+  outline: 2px solid var(--rte-focus);
+  outline-offset: 2px;
+}
+
+.rte-select-button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.rte-select-value {
+  min-width: 6ch;
+  text-align: start;
+}
+
+.rte-select-chevron {
+  display: inline-flex;
+  color: var(--rte-ink-muted);
+}
+
+.rte-select-list {
+  position: absolute;
+  z-index: var(--rte-z-menu);
+  top: calc(var(--rte-control-size) + 0.25rem);
+  inset-inline-start: 0;
+  min-width: 100%;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  background: var(--rte-surface);
+  border: 1px solid var(--rte-border-strong);
+  border-radius: var(--rte-radius);
+}
+
+.rte-select-option {
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--rte-radius);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.rte-select-option:hover {
+  background: var(--rte-surface-hover);
+}
+
+.rte-select-option:focus-visible {
+  outline: 2px solid var(--rte-focus);
+  outline-offset: -2px;
+}
+
+.rte-select-option[aria-selected="true"] {
+  background: var(--rte-surface-sunken);
+  color: var(--rte-accent);
+}
+
+/* ── Overflow menu ────────────────────────────────────────────────────────── */
+/* Controls MOVE here; they are never removed. A control that disappears at a
+   narrow width is indistinguishable from one that was never built. */
+
+.rte-more-menu {
+  position: absolute;
+  z-index: var(--rte-z-menu);
+  inset-inline-end: 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--rte-gap);
+  max-width: min(20rem, 90vw);
+  margin-top: 0.25rem;
+  padding: 0.3rem;
+  background: var(--rte-surface);
+  border: 1px solid var(--rte-border-strong);
+  border-radius: var(--rte-radius);
+}
+
+.rte-toolbar {
+  position: relative;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rte-toolbar *,
   .rte-toolbar *::before,

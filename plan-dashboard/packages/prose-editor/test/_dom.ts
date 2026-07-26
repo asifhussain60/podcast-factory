@@ -20,6 +20,8 @@ Object.assign(globalThis, {
   Node: win.Node,
   Event: win.Event,
   CustomEvent: win.CustomEvent,
+  KeyboardEvent: win.KeyboardEvent,
+  MouseEvent: win.MouseEvent,
   getComputedStyle: win.getComputedStyle.bind(win),
   // happy-dom ships no rAF, and TipTap's focus() schedules through it. Run the
   // callback synchronously: the tests assert on state AFTER a command, so a

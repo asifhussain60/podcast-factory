@@ -78,7 +78,20 @@ export {
 export { createFallbackUiHost } from "./ui/fallback-ui-host.ts";
 
 export { createToolbar } from "./toolbar/toolbar.ts";
-export type { Toolbar, ToolbarOptions } from "./toolbar/toolbar.ts";
+export type {
+  Toolbar,
+  ToolbarItem,
+  ToolbarOptions,
+} from "./toolbar/toolbar.ts";
+export {
+  builtinButtons,
+  TOOLBAR_FULL,
+  TOOLBAR_INLINE,
+} from "./toolbar/builtins.ts";
+export type { BuiltinOptions } from "./toolbar/builtins.ts";
+export { planOverflow } from "./toolbar/overflow.ts";
+export type { MeasurePort, OverflowPlan } from "./toolbar/overflow.ts";
+export { ICONS } from "./toolbar/icons.ts";
 
 export type {
   DialogField,

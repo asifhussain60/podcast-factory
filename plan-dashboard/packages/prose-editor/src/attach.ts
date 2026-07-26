@@ -24,6 +24,8 @@ import type {
   UiHost,
 } from "./types.ts";
 import { createFallbackUiHost } from "./ui/fallback-ui-host.ts";
+import { createToolbar } from "./toolbar/toolbar.ts";
+import type { Toolbar, ToolbarOptions } from "./toolbar/toolbar.ts";
 import type { RegisteredExtension } from "./extend/define.ts";
 
 export interface AttachOptions {
@@ -38,6 +40,9 @@ export interface AttachOptions {
   ui?: UiHost;
   /** Element CustomEvents are fired on. Defaults to the editor's own DOM. */
   eventTarget?: HTMLElement;
+  /** Build a toolbar. `false` (the default) builds none — a host may want only
+   *  the serializer guarantee and its own chrome. */
+  toolbar?: ToolbarOptions | false;
 }
 
 const WORD_RE = /\S+/g;
@@ -51,6 +56,11 @@ export function attach(editor: Editor, options: AttachOptions): ProseEditor {
 
   const ui = options.ui ?? createFallbackUiHost();
   const eventTarget = options.eventTarget ?? (editor.view.dom as HTMLElement);
+
+  /** Every listener registered here, so tearing down and re-attaching (which a
+   *  host does whenever it swaps the document being edited) cannot leave one
+   *  firing against an editor that is already gone. */
+  const cleanups: Array<() => void> = [];
 
   // Position mapping for anchors. Collected ONLY while an anchor is outstanding,
   // so a long editing session does not accumulate a mapping per keystroke.
@@ -66,6 +76,7 @@ export function attach(editor: Editor, options: AttachOptions): ProseEditor {
     }
   };
   editor.on("transaction", onTransaction as never);
+  cleanups.push(() => editor.off("transaction", onTransaction as never));
 
   const mapPos = (pos: number, since: number): number => {
     let p = pos;
@@ -175,12 +186,35 @@ export function attach(editor: Editor, options: AttachOptions): ProseEditor {
     },
   };
 
+  // Built AFTER `api`, because every control reads state through it.
+  let toolbar: Toolbar | null = null;
+  if (options.toolbar) {
+    toolbar = createToolbar(api, {
+      document: eventTarget.ownerDocument,
+      ...options.toolbar,
+    });
+    // Repaint pressed/disabled state on anything that could change it. The
+    // toolbar is a pure OBSERVER here: it never calls focus() in response, or
+    // it would fire the very event it is reacting to.
+    const repaint = () => toolbar?.refresh();
+    editor.on("selectionUpdate", repaint);
+    editor.on("transaction", repaint);
+    editor.on("focus", repaint);
+    editor.on("blur", repaint);
+    cleanups.push(() => {
+      editor.off("selectionUpdate", repaint);
+      editor.off("transaction", repaint);
+      editor.off("focus", repaint);
+      editor.off("blur", repaint);
+    });
+  }
+
   let destroyed = false;
 
   return {
     editor,
     api,
-    toolbarEl: null,
+    toolbarEl: toolbar?.el ?? null,
     serialize: () => serializer.serialize(editor.state.doc),
     counts: () => {
       const text = editor.state.doc.textContent;
@@ -193,12 +227,17 @@ export function attach(editor: Editor, options: AttachOptions): ProseEditor {
       if (destroyed) return;
       destroyed = true;
       mappings = [];
-      // The editor may already be gone; its own teardown removes listeners.
-      try {
-        editor.off("transaction", onTransaction as never);
-      } catch {
-        /* already torn down */
+      toolbar?.destroy();
+      // The editor may already be gone; its own teardown removes listeners, so
+      // a second removal here can throw and must not.
+      for (const fn of cleanups) {
+        try {
+          fn();
+        } catch {
+          /* already torn down */
+        }
       }
+      cleanups.length = 0;
     },
   };
 }
