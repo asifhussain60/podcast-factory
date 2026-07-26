@@ -32,14 +32,18 @@ jobs:
         run: ruff format --check
       - name: DR-005 line-count gate
         run: python3 infra/git-hooks/check-dr005.py
+      # `continue-on-error` already makes this advisory. It used to ALSO end in
+      # `|| true`, which forced a green step and hid the result entirely — a gate
+      # that cannot fail teaches you to ignore it. Dropped 2026-07-26; the step
+      # now reports honestly while still not blocking the job.
       - name: mypy (non-blocking, gradual opt-in)
         continue-on-error: true
-        run: mypy scripts tools || true
+        run: mypy scripts tools
 
   site:
-    name: eslint + prettier (site)
+    name: eslint + prettier + astro + tests + views (site)
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: plan-dashboard
@@ -56,3 +60,37 @@ jobs:
         run: npx eslint src scripts --quiet
       - name: Prettier check
         run: npm run format:check
+      # The four gates below were all built and all uncalled by any workflow
+      # until 2026-07-26. Each was verified green locally before being wired:
+      # astro check 0 errors, 76/76 unit tests, view lint clean.
+      - name: Astro type check
+        run: npm run check
+      - name: Unit tests
+        run: npm test
+      - name: HTML-view quality gate (Cortex MUST rules)
+        run: npm run lint:views
+
+  site-runtime:
+    name: runtime smoke (site)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: plan-dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: plan-dashboard/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      # Playwright is already a devDependency; only the browser binary is missing
+      # on a fresh runner. Its own job because it boots a dev server and drives a
+      # real browser — slower than the static gates and worth isolating so a
+      # runtime failure is legible at a glance.
+      - name: Install chromium
+        run: npx playwright install --with-deps chromium
+      - name: Runtime smoke — every route, console errors, 5xx, failed requests
+        run: npm run smoke
