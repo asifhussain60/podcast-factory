@@ -1,0 +1,75 @@
+# Findings the owner has ruled not-a-defect. Read by repo-audit Phase 0.5c.
+#
+# Three rules the skill enforces:
+#   1. Suppression is NEVER invisible — every run reports "N finding(s) suppressed by
+#      waiver", each with its reason and date.
+#   2. Waivers EXPIRE. Past `expires` the finding is re-raised and tagged as a lapsed
+#      ruling. A dismissal about a repo that has since changed must not become permanent
+#      blindness.
+#   3. Only the owner rules something not-a-defect. The audit may draft one and ask; it
+#      may never write one for itself.
+#
+# Seeded 2026-07-26 from rulings made during the audit that produced this contract.
+schema: repo-audit/waivers/v1
+
+waivers:
+  - id: R2
+    fingerprint: "prior-audit-2026-07-18:R2"
+    verdict: not-a-defect
+    reason: >-
+      Rejected during the 2026-07-18 execution log: the investigator compared against the
+      wrong reference file, so the finding described a defect that did not exist. This is
+      the ruling that motivated the whole waiver mechanism — nothing previously stopped
+      the next run from raising it again.
+    ruled_by: owner
+    ruled_on: 2026-07-18
+    expires: 2027-01-18
+
+  - id: codex-agent-subset
+    fingerprint: ".codex/agents:missing-5-of-23"
+    verdict: not-a-defect
+    reason: >-
+      .codex/agents holds a CURATED SUBSET of the agent roster, documented in
+      scripts/podcast/sync_codex_agents.py: promoting an agent into another tool's
+      registry is deliberately not that script's call to make. Missing entries are
+      reported by the generator itself and are intentional, not drift.
+    ruled_by: owner
+    ruled_on: 2026-07-26
+    expires: 2027-07-26
+
+  - id: dual-snapshot-generator
+    fingerprint: "plan-dashboard/scripts/regenerate-snapshots:duplicate-implementation"
+    verdict: not-a-defect
+    reason: >-
+      915 lines of duplicated implementation guarded by a 123-line parity test looks like
+      debt and is not. The Python generator lets a Tier 0 snapshot obligation be met from
+      the Python-only pipeline with no Node install; the Node generator is invoked
+      directly by a launchd script. Collapsing either direction breaks a real caller.
+    ruled_by: owner
+    ruled_on: 2026-07-26
+    expires: 2027-07-26
+
+  - id: dr005-gate-hole
+    fingerprint: "infra/git-hooks/check-dr005.py:suspected-scope-gap"
+    verdict: not-a-defect
+    reason: >-
+      Five files were reported as slipping past the 600-line gate. Verified false: four
+      are in the grandfather ratchet (two having already shrunk against their ceiling,
+      which is the ratchet working as designed) and the fifth is under the limit. The
+      gate's git pathspec globs do cross directory separators. Do not "fix" this.
+    ruled_by: owner
+    ruled_on: 2026-07-26
+    expires: 2027-07-26
+
+  - id: underscore-sigil-three-meanings
+    fingerprint: "repo-wide:underscore-prefix-inconsistent"
+    verdict: not-a-defect
+    reason: >-
+      The `_` prefix means three different things by location and all three are
+      load-bearing: top-level working surface, plumbing-not-content inside content/ (the
+      path resolver skips these to tell books from machinery), and private-helper on
+      modules in scripts/podcast/ (104 of 224 files). Unifying it would touch the content
+      tree or half the pipeline. Documented in README.md instead.
+    ruled_by: owner
+    ruled_on: 2026-07-26
+    expires: 2027-07-26
