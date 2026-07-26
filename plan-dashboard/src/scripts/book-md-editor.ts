@@ -18,7 +18,7 @@ import type { Node as PMNode } from "@tiptap/pm/model";
  *  HTML. `quran` marks an Arabic-bearing quotation block, `ar` its Arabic line,
  *  `tr` the English rendering — the three markdown.ts emits (markdown.ts:188-207)
  *  and the three every quotation stylesheet keys off. */
-const PRESERVED_CLASSES = new Set(["quran", "ar", "tr"]);
+export const PRESERVED_CLASSES = new Set(["quran", "ar", "tr"]);
 
 /**
  * QuotationClasses — re-admit the verse markup TipTap would otherwise discard.
@@ -51,6 +51,44 @@ const QuotationClasses = Extension.create({
             },
             renderHTML: (attrs) =>
               attrs.class ? { class: String(attrs.class) } : {},
+          },
+        },
+      },
+    ];
+  },
+});
+
+/**
+ * ListItemValue — carry an ordered item's SOURCE ordinal through the round trip.
+ *
+ * `renderMarkdown` deliberately puts the stated number on each `<li value="N">`
+ * rather than trusting `<ol>`'s own counter, because this corpus contains a list
+ * that legitimately starts at 3 and an author style that repeats "1." per item
+ * (markdown.ts flushList). StarterKit's listItem has no `value` attribute, so
+ * ProseMirror dropped it on parse and docToMarkdown renumbered every list from 1
+ * — silently rewriting the one real enumeration in the corpus on the first
+ * autosave. That is the faked numbering REQ-015 forbids, written into book.md.
+ *
+ * An item with no stated ordinal (anything the toolbar creates) keeps `null` and
+ * falls back to counting, so a new list numbers 1, 2, 3 as expected.
+ */
+const ListItemValue = Extension.create({
+  name: "listItemValue",
+  addGlobalAttributes() {
+    return [
+      {
+        types: ["listItem"],
+        attributes: {
+          value: {
+            default: null,
+            parseHTML: (element) => {
+              const raw = element.getAttribute("value");
+              if (raw === null) return null;
+              const n = Number(raw);
+              return Number.isInteger(n) ? n : null;
+            },
+            renderHTML: (attrs) =>
+              typeof attrs.value === "number" ? { value: String(attrs.value) } : {},
           },
         },
       },
@@ -112,10 +150,18 @@ export function docToMarkdown(doc: PMNode): string {
       if (!q.length) lines.push(">");
       else q.forEach((l) => lines.push(l === "" ? ">" : `> ${l}`));
     } else if (type === "bulletList" || type === "orderedList") {
-      let n = 1;
+      // The ordinal an item STATES wins over the position it happens to hold —
+      // see ListItemValue. Only an item with no stated ordinal counts up.
+      let n = Number(node.attrs.start) || 1;
       node.forEach((li) => {
         const t = serializeInline(li).trim();
-        lines.push(type === "orderedList" ? `${n++}. ${t}` : `- ${t}`);
+        if (type !== "orderedList") {
+          lines.push(`- ${t}`);
+          return;
+        }
+        const stated = typeof li.attrs.value === "number" ? li.attrs.value : n;
+        lines.push(`${stated}. ${t}`);
+        n = stated + 1;
       });
     } else if (type === "codeBlock") {
       lines.push("```", node.textContent, "```");
@@ -138,11 +184,40 @@ export function docToMarkdown(doc: PMNode): string {
  */
 export const VISUAL_DRAG_TYPE = "application/x-cx-visual";
 
-/** The editor's extension set — one definition, shared by the live mount and
- *  the round-trip test, so the schema the test parses with can never drift
- *  from the schema the Composer actually edits in. */
+/**
+ * The editor's extension set — one definition, shared by the live mount and the
+ * round-trip test, so the schema the test parses with can never drift from the
+ * schema the Composer actually edits in.
+ *
+ * The StarterKit overrides all answer the same question: can a keystroke produce
+ * something docToMarkdown would drop, or something book.md's renderers cannot
+ * read back? If yes, the capability leaves the schema — a mark the toolbar can
+ * no longer reach is still reachable by its shortcut, so hiding a button is not
+ * a fix.
+ *
+ * - `underline` — book.md has no underline syntax. serializeInline never emitted
+ *   it, so Mod-U silently discarded on save.
+ * - `hardBreak` — serializeInline emits nothing for a childless leaf, so
+ *   Shift+Enter fused the words either side of it ("one<br>two" -> "onetwo").
+ *   Neither renderMarkdown nor the print renderer emits or parses `<br>`, so
+ *   there is no representation to save it AS; the honest fix is to not offer it.
+ * - `link.autolink` / `linkOnPaste` — on by default, so typing a bare domain in
+ *   prose wrote `[text](href)` into book.md and the PDF gained a link nobody
+ *   authored. Links are now deliberate only.
+ * - `link.openOnClick` — a click inside the editor navigated the browser away,
+ *   discarding whatever the autosave debounce had not yet flushed.
+ */
 export function editorExtensions(extra: Extensions = []): Extensions {
-  return [StarterKit, QuotationClasses, ...extra];
+  return [
+    StarterKit.configure({
+      underline: false,
+      hardBreak: false,
+      link: { autolink: false, linkOnPaste: false, openOnClick: false },
+    }),
+    QuotationClasses,
+    ListItemValue,
+    ...extra,
+  ];
 }
 
 /** Mount a chapter editor into `el`, seeded from `html`. `extraExtensions`

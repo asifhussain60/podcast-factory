@@ -751,9 +751,11 @@ function boot(): void {
     sizeWrap.append(sizeDown, sizeVal, sizeUp);
     fontGroup.append(fontSel, sizeWrap);
 
-    // ── Formatting cluster: B / I / U + structure ────────────────────────────
-    // B and I persist to book.md. U (underline) is an editing-view emphasis only
-    // — the book's markdown format has no underline, so it is not saved.
+    // ── Formatting cluster: B / I + structure ────────────────────────────────
+    // Every control here persists to book.md. Underline used to sit between I
+    // and H, labelled "editing view only — not saved"; the mark is gone from the
+    // schema now (see editorExtensions), because a control that discards on save
+    // is a defect however honestly it is captioned.
     const fmtGroup = document.createElement("div");
     fmtGroup.className = "cx-tb-group";
     const bBtn = toolbarBtn("B", "Bold", (ed) =>
@@ -764,16 +766,9 @@ function boot(): void {
       ed.editor.chain().focus().toggleItalic().run(),
     );
     iBtn.classList.add("cx-tool-i");
-    const uBtn = toolbarBtn(
-      "U",
-      "Underline (editing view only — not saved to the book)",
-      (ed) => ed.editor.chain().focus().toggleUnderline().run(),
-    );
-    uBtn.classList.add("cx-tool-u");
     fmtGroup.append(
       bBtn,
       iBtn,
-      uBtn,
       toolbarBtn("H", "Heading", (ed) =>
         ed.editor.chain().focus().toggleHeading({ level: 3 }).run(),
       ),

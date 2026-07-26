@@ -724,15 +724,12 @@
   border-color: var(--c-accent, #8b4513);
   color: var(--c-accent, #8b4513);
 }
-/* The B / I / U glyphs carry their own emphasis so the buttons read at a glance. */
+/* The B / I glyphs carry their own emphasis so the buttons read at a glance. */
 .cx-tool-b {
   font-weight: 700;
 }
 .cx-tool-i {
   font-style: italic;
-}
-.cx-tool-u {
-  text-decoration: underline;
 }
 
 /* Paper picker — Kindle-style Light / Sepia / Dark for the writing surface.
@@ -867,8 +864,40 @@
   font-weight: 700;
   margin: 1.2rem 0 0.5rem;
 }
+.cx-prose h4 {
+  font-size: 1.02rem;
+  font-weight: 700;
+  margin: 1rem 0 0.45rem;
+}
 /* (The former heading-only left-align override is gone — the whole editor
    surface is left-aligned now, so it had nothing left to override.) */
+
+/* REQ-015 list rendering for the EDIT canvas — the SIXTH host of the framework
+   preflight's marker reset, and the first one a human types into rather than
+   reads. `.cx-body` (Read mode) was fixed on 2026-07-26 as the fifth; this
+   surface was missed because INV-3's PROSE_HOSTS did not list it, so the check
+   that found the other five was blind here by construction. That is now fixed
+   too — the gate lists `.cx-prose`, so a seventh host gets found by the check
+   rather than by a person.
+
+   Without these, an <ol> in the editor renders as unmarked, unindented
+   paragraphs: `list-style-type: none`, `padding-inline-start: 0px`. Values match
+   the other five hosts so a list looks identical in Edit, in Read, and in print. */
+.cx-prose ul,
+.cx-prose ol {
+  margin-block: 0.85rem 1.1rem;
+  padding-inline-start: 2.25rem;
+  list-style-position: outside;
+}
+.cx-prose ol {
+  list-style-type: decimal;
+}
+.cx-prose ul {
+  list-style-type: disc;
+}
+.cx-prose li {
+  margin-block: 0.3rem;
+}
 .cx-prose blockquote {
   border-left: 2px solid var(--paper-rule, var(--c-rule, #d9d3c4));
   padding-left: 1rem;
@@ -2167,10 +2196,16 @@
 }
 
 /* Themed confirm dialog (confirm-dialog.ts) — replaces the native window.confirm(). */
+/* Above every floating layer on this page: .cx-fabs is 899, the site's
+   back-to-top 900, .cx-tip 950. At the old z-index of 100 the confirm dialog
+   rendered UNDER the floating action row — and the articulation guard raises
+   this dialog from inside the autosave, so a partly-hidden modal reads as an
+   autosave that has hung. A modal that asks a blocking question has to be the
+   topmost thing on the page. */
 .cx-confirm-scrim {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 960;
   display: flex;
   align-items: center;
   justify-content: center;

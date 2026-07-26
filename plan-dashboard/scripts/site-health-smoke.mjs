@@ -290,8 +290,12 @@ async function checkLayoutInvariants(page) {
     // already fixed would let this check confirm the fix and never find the next
     // instance — which is precisely how `.se-prose` and `.bookv-body` each shipped
     // unmarked lists after the sibling host was repaired.
+    // Every host that renders markdown prose. `.cx-prose` — the Book Composer's
+    // EDIT canvas — was added 2026-07-26 as the sixth: it had never carried the
+    // marker reset, and this check could not have found that while it listed
+    // only hosts already repaired. Add a host here the moment one is created.
     const PROSE_HOSTS =
-      ".src-view-prose, .se-prose, .cx-podcast-body, .bookv-body, .cx-body";
+      ".src-view-prose, .se-prose, .cx-podcast-body, .bookv-body, .cx-body, .cx-prose";
     for (const host of resetApplied
       ? document.querySelectorAll(PROSE_HOSTS)
       : []) {
