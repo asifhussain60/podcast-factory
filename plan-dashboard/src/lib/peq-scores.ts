@@ -37,6 +37,24 @@ const WEIGHT_INTEREST = 0.15;
 const VOICE_SCORER_READY = false;
 
 // Interest-axis patterns — mirror R_INTEREST_* in scripts/podcast/_rules.py.
+//
+// WORD BOUNDARIES. Python's `\b` is Unicode-aware and JavaScript's is ASCII-only,
+// so `دobjectionد` matched here and NOT in _quality.py — the same dialect split that
+// silently orphaned Composer edits through anchorKey until 2026-07-20, in an
+// Arabic-source project where Arabic-adjacent English is exactly the text at risk.
+// Every `\b` that _rules.py actually uses is therefore spelled out as an explicit
+// Unicode-aware lookaround
+// (`WB` / `WE`, requiring the `u` flag) so the two engines agree by
+// construction rather than by coincidence. Python is canonical: it gates real
+// bundles, this file only displays. Measured across all 58 chapter sources on
+// 2026-07-26: zero Arabic-adjacent trigger hits, so no shipped score moves.
+// Pinned by scripts/lib/peq-scores.fixtures.json.
+const WB = String.raw`(?<![\p{L}\p{N}_])`;
+const WE = String.raw`(?![\p{L}\p{N}_])`;
+/** Build a Unicode-aware, case-insensitive interest pattern from a `\b`-style body. */
+const ip = (body: string): RegExp => new RegExp(`${WB}(?:${body})${WE}`, "iu");
+// Deliberately UNANCHORED — 0 of 8 hook patterns in _rules.py use `\b`, and adding
+// boundaries here would silently narrow the axis on the display side only.
 const INTEREST_HOOK_PATTERNS = [
   /what (does|would|if|happens|kind of|makes|drives|compels)/i,
   /why (does|would|did|should|is|are|do|must)/i,
@@ -48,29 +66,35 @@ const INTEREST_HOOK_PATTERNS = [
   /(let'?s|let us) (begin|start|open|ask|explore|consider)/i,
 ];
 const INTEREST_CHALLENGE_RAISE_PATTERNS = [
-  /\b(objection|challenge|difficulty|problem|paradox|tension|puzzle|obstacle)\b/i,
-  /\b(one might (argue|say|object|think|wonder))\b/i,
-  /\b(it (might|may|could) seem)\b/i,
-  /\b(but (how|why|what|is this|does this|can))\b/i,
+  ip(
+    String.raw`(objection|challenge|difficulty|problem|paradox|tension|puzzle|obstacle)`,
+  ),
+  ip(String.raw`(one might (argue|say|object|think|wonder))`),
+  ip(String.raw`(it (might|may|could) seem)`),
+  ip(String.raw`(but (how|why|what|is this|does this|can))`),
 ];
 const INTEREST_CHALLENGE_RESOLVE_PATTERNS = [
-  /\b(the answer (is|lies|comes|emerges))\b/i,
-  /\b(in fact|actually|rather|instead|on the contrary)\b/i,
-  /\b(resolves?|dissolves?|overcomes?|addresses?|answers? (this|that|the))\b/i,
+  ip(String.raw`(the answer (is|lies|comes|emerges))`),
+  ip(String.raw`(in fact|actually|rather|instead|on the contrary)`),
+  ip(
+    String.raw`(resolves?|dissolves?|overcomes?|addresses?|answers? (this|that|the))`,
+  ),
 ];
 const INTEREST_RELEVANCE_PATTERNS = [
-  /\b(today|modern|contemporary|our (time|age|era|world|lives?))\b/i,
-  /\b(we (find|see|live|face|encounter|grapple))\b/i,
-  /\b(still (holds?|rings? true|matters?|applies?|speaks?))\b/i,
-  /\b(resonates?|relevant|speaks? to|timeless)\b/i,
-  /\b(in (our|this|any|every) (age|era|time|generation|society|context))\b/i,
+  ip(String.raw`(today|modern|contemporary|our (time|age|era|world|lives?))`),
+  ip(String.raw`(we (find|see|live|face|encounter|grapple))`),
+  ip(String.raw`(still (holds?|rings? true|matters?|applies?|speaks?))`),
+  ip(String.raw`(resonates?|relevant|speaks? to|timeless)`),
+  ip(
+    String.raw`(in (our|this|any|every) (age|era|time|generation|society|context))`,
+  ),
 ];
 const INTEREST_STRAWMAN_DENY = [
-  /\bobviously (wrong|false|absurd|incorrect|mistaken)\b/i,
-  /\bclearly (wrong|mistaken|misguided)\b/i,
-  /\babsurdly\b/i,
-  /\b(silly (argument|idea|notion|objection))\b/i,
-  /\b(no (sane|reasonable|serious) person)\b/i,
+  ip(String.raw`obviously (wrong|false|absurd|incorrect|mistaken)`),
+  ip(String.raw`clearly (wrong|mistaken|misguided)`),
+  ip(String.raw`absurdly`),
+  ip(String.raw`(silly (argument|idea|notion|objection))`),
+  ip(String.raw`(no (sane|reasonable|serious) person)`),
 ];
 
 // ---------------------------------------------------------------------------
@@ -181,6 +205,64 @@ function arcLabels(text: string): string[] {
   return labels;
 }
 
+/**
+ * Round half-to-EVEN, matching Python's built-in `round()`.
+ *
+ * `Math.round` rounds half UP, Python rounds half to even, so the two disagree on
+ * exact ties: 82.25 became 82.3 here and 82.2 in _quality.py. Enumerating every
+ * value from 0 to 100 at 3-decimal granularity, 500 of 100,001 diverge.
+ *
+ * Honest scope, because the obvious claim is wrong: NONE of those 500 can flip a
+ * PASS/WARN/FAIL verdict. A flip would need 84.95 or 69.95, and at both the nearest
+ * double sits ABOVE the tie, so half-to-even never engages and the two agree. What
+ * diverged was the displayed score against the gated score, by 0.1 — never the
+ * verdict. Fixed anyway: one rounding rule is cheaper to reason about than two, and
+ * the axis sub-scores feed the total.
+ *
+ * Python is canonical: it gates real bundles (assemble_bundle, challenger_scoring),
+ * this file only displays.
+ *
+ * IMPLEMENTATION NOTE, learned the hard way. "Scale by 10^digits, then round half to
+ * even" does NOT reproduce Python. Python rounds the EXACT decimal value of the
+ * double, and multiplying reintroduces error: 77.35 * 10 is 773.5000000000001 in
+ * binary, which reads as above-the-tie and rounds up to 77.4, while Python sees the
+ * double's true value (77.34999999999999431...) and gives 77.3. Only exact ties like
+ * 82.25 (a binary fraction) are genuine ties where half-to-even actually decides.
+ *
+ * So: expand to a decimal string with `toFixed`, which is specified to use the
+ * double's exact value, then round that string. Half-to-even applies only when every
+ * remaining digit is zero — a true tie.
+ *
+ * Pinned by peq-scores.fixtures.json.
+ */
+export function roundHalfEven(value: number, digits: number): number {
+  if (!Number.isFinite(value)) return value;
+  const negative = value < 0;
+  // 20 fractional digits is enough to distinguish a true tie from binary noise for
+  // any double in this scorer's 0–100 range.
+  const expanded = Math.abs(value).toFixed(20);
+  const dot = expanded.indexOf(".");
+  const allDigits = expanded.slice(0, dot) + expanded.slice(dot + 1);
+  const keep = dot + digits; // count of digits to retain
+  const head = allDigits.slice(0, keep);
+  const tail = allDigits.slice(keep);
+
+  let roundUp = false;
+  if (tail.length > 0) {
+    const first = tail[0];
+    if (first > "5") roundUp = true;
+    else if (first === "5") {
+      const restNonZero = /[1-9]/.test(tail.slice(1));
+      // A true tie only when nothing follows the 5; then break to even.
+      roundUp = restNonZero || Number(head[head.length - 1]) % 2 === 1;
+    }
+  }
+
+  const rounded = BigInt(head || "0") + (roundUp ? 1n : 0n);
+  const result = Number(rounded) / 10 ** digits;
+  return negative ? -result : result;
+}
+
 function fidelityScore(sourceIds: string[], foundIds: string[]): number {
   // Mirror _quality._fidelity_score: no source citations → no target → full credit.
   if (sourceIds.length === 0) return 100;
@@ -188,7 +270,7 @@ function fidelityScore(sourceIds: string[], foundIds: string[]): number {
   const f = new Set(foundIds);
   const intersection = [...s].filter((x) => f.has(x)).length;
   const union = new Set([...s, ...f]).size;
-  return union === 0 ? 100 : Math.round((intersection / union) * 10000) / 100;
+  return union === 0 ? 100 : roundHalfEven((intersection / union) * 100, 2);
 }
 
 function voiceScore(_text: string, exemplarVector: number[] | null): number {
@@ -204,7 +286,7 @@ function structureScore(arcRules: string[], found: string[]): number {
   if (arcRules.length === 0) return 100;
   const foundSet = new Set(found);
   const hits = arcRules.filter((r) => foundSet.has(r)).length;
-  return Math.round((hits / arcRules.length) * 10000) / 100;
+  return roundHalfEven((hits / arcRules.length) * 100, 2);
 }
 
 function enrichmentScore(
@@ -216,7 +298,7 @@ function enrichmentScore(
   if (wordCount === 0) return 0;
   const glossingRatio = glossedCount / Math.max(termCount, 1);
   const quranDensity = Math.min(qrefs / Math.max(wordCount / 100, 1), 1.0);
-  return Math.round((0.7 * glossingRatio + 0.3 * quranDensity) * 10000) / 100;
+  return roundHalfEven((0.7 * glossingRatio + 0.3 * quranDensity) * 100, 2);
 }
 
 function interestScore(text: string): number {
@@ -242,8 +324,9 @@ function interestScore(text: string): number {
 
   const fairness = INTEREST_STRAWMAN_DENY.some((p) => p.test(text)) ? 0.0 : 1.0;
 
-  return (
-    Math.round(((hook + challenge + relevance + fairness) / 4.0) * 10000) / 100
+  return roundHalfEven(
+    ((hook + challenge + relevance + fairness) / 4.0) * 100,
+    2,
   );
 }
 
@@ -267,7 +350,7 @@ function peqTotal(
       WEIGHT_STRUCTURE * structure +
       WEIGHT_ENRICHMENT * enrichment +
       WEIGHT_INTEREST * interest;
-  return Math.round(Math.min(Math.max(total, 0), 100) * 10) / 10;
+  return roundHalfEven(Math.min(Math.max(total, 0), 100), 1);
 }
 
 function verdict(total: number): "PASS" | "WARN" | "FAIL" {
@@ -457,10 +540,11 @@ export async function scoreBook(
   }
 
   const totals = chapters.map((c) => c.scores.total);
+  // No Python peer — the book average is a display-only aggregation. Rounded the
+  // same way as everything else here so the file has one rounding rule, not two.
   const avg =
     totals.length > 0
-      ? Math.round((totals.reduce((a, b) => a + b, 0) / totals.length) * 10) /
-        10
+      ? roundHalfEven(totals.reduce((a, b) => a + b, 0) / totals.length, 1)
       : 0;
 
   return {
@@ -498,3 +582,51 @@ export function scoreGrade(total: number): string {
   if (total >= 70) return "D";
   return "F";
 }
+
+/**
+ * Internals exposed for the mirror test ONLY.
+ *
+ * scripts/lib/peq-scores.test.mjs pins these against the same fixture file that
+ * tests/test_peq_mirror.py reads, so the two implementations cannot drift. They are
+ * grouped behind one clearly-named export rather than promoted to public API,
+ * because nothing in the site should call them directly — the site consumes
+ * scoreBook / scoreChapter.
+ */
+export const __testHooks = {
+  weights: {
+    fidelity: WEIGHT_FIDELITY,
+    voice: WEIGHT_VOICE,
+    structure: WEIGHT_STRUCTURE,
+    enrichment: WEIGHT_ENRICHMENT,
+    interest: WEIGHT_INTEREST,
+  },
+  voiceScorerReady: VOICE_SCORER_READY,
+  patternGroups: {
+    hook: INTEREST_HOOK_PATTERNS,
+    challenge_raise: INTEREST_CHALLENGE_RAISE_PATTERNS,
+    challenge_resolve: INTEREST_CHALLENGE_RESOLVE_PATTERNS,
+    relevance: INTEREST_RELEVANCE_PATTERNS,
+    strawman_deny: INTEREST_STRAWMAN_DENY,
+  },
+  interestScore,
+  aggregate(
+    axes: {
+      fidelity: number;
+      voice: number;
+      structure: number;
+      enrichment: number;
+      interest: number;
+    },
+    voiceAvailable: boolean,
+  ): { total: number; verdict: "PASS" | "WARN" | "FAIL" } {
+    const total = peqTotal(
+      axes.fidelity,
+      axes.voice,
+      axes.structure,
+      axes.enrichment,
+      axes.interest,
+      voiceAvailable,
+    );
+    return { total, verdict: verdict(total) };
+  },
+};

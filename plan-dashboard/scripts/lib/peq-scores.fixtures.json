@@ -1,0 +1,268 @@
+{
+  "_comment": [
+    "Shared fixtures for the peq-scores <-> _quality mirror pair.",
+    "",
+    "Read by BOTH plan-dashboard/scripts/lib/peq-scores.test.mjs AND",
+    "tests/test_peq_mirror.py. Neither side owns this file.",
+    "",
+    "AUTHORITY. This is a TRIPLE, not a pair. scripts/podcast/_rules.py holds",
+    "R_INTEREST_WEIGHT and the five R_INTEREST_* pattern lists; _quality.py IMPORTS",
+    "them (WEIGHT_INTEREST = R_INTEREST_WEIGHT); peq-scores.ts RE-TYPES them as",
+    "literals with no link to the authority. So the constants below are asserted",
+    "against _rules.py on the Python side, not against _quality.py - otherwise",
+    "_rules.py could change the weight, _quality.py's sum-to-1.0 assert could still",
+    "pass if another weight compensated, and the TypeScript 0.15 would diverge with",
+    "nothing complaining.",
+    "",
+    "TWO REAL DIVERGENCES were found here on 2026-07-26 and fixed at the root. Both",
+    "were provable in isolation and LATENT in practice - measured across all 58",
+    "chapter sources in the repo, zero were affected, so no shipped verdict moved.",
+    "",
+    "  1. ROUNDING. Math.round is half-UP; Python's round() is half-to-EVEN. 82.25",
+    "     -> 82.3 in TS and 82.2 in Python. Enumerating every value from 0 to 100 at",
+    "     3-decimal granularity: 500 of 100,001 diverge. Fixed by an explicit",
+    "     roundHalfEven() in peq-scores.ts - NOT by a test tolerance.",
+    "     HONEST SCOPE, because the obvious claim is wrong: NONE of those 500 can",
+    "     flip a PASS/WARN/FAIL verdict. A flip would need 84.95 or 69.95, and at",
+    "     both the nearest double sits ABOVE the tie so half-to-even never engages -",
+    "     Python and Math.round agree there. The displayed score could disagree with",
+    "     the gated score by 0.1; the VERDICT could not. Both boundary values are",
+    "     pinned below precisely because they are the cases people assume diverge.",
+    "",
+    "  2. WORD BOUNDARIES. Python's \\b is Unicode-aware, JavaScript's is ASCII-only,",
+    "     so `دobjectionد` matched in TS and not in Python. In an Arabic-source",
+    "     project, Arabic-adjacent English is precisely the text at risk. Fixed by",
+    "     spelling the boundary out as a Unicode-aware lookaround on the TS side -",
+    "     the same construction anchorKey needed for \\d in July.",
+    "",
+    "Python is canonical throughout: _quality.score gates real bundles via",
+    "assemble_bundle.py and challenger_scoring.py, while peq-scores.ts only displays."
+  ],
+
+  "constants": {
+    "threshold_pass": 85,
+    "threshold_warn": 70,
+    "weights": {
+      "fidelity": 0.3,
+      "voice": 0.2,
+      "structure": 0.18,
+      "enrichment": 0.17,
+      "interest": 0.15
+    },
+    "voice_scorer_ready": false,
+    "interest_pattern_counts": {
+      "hook": 8,
+      "challenge_raise": 4,
+      "challenge_resolve": 3,
+      "relevance": 5,
+      "strawman_deny": 5
+    },
+    "hook_patterns_are_unanchored": true
+  },
+
+  "rounding_cases": [
+    {
+      "why": "half-to-even rounds DOWN to the even digit",
+      "value": 82.25,
+      "digits": 1,
+      "out": 82.2
+    },
+    {
+      "why": "half-to-even at a .05 tie",
+      "value": 70.05,
+      "digits": 1,
+      "out": 70.0
+    },
+    {
+      "why": "the PASS boundary AGREES on both sides - 84.95's nearest double sits above the tie, so both round up. This case is pinned precisely because it is the one people assume diverges.",
+      "value": 84.95,
+      "digits": 1,
+      "out": 85.0
+    },
+    {
+      "why": "the WARN boundary also agrees, for the same reason",
+      "value": 69.95,
+      "digits": 1,
+      "out": 70.0
+    },
+    {
+      "why": "Math.round says 77.4 here",
+      "value": 77.35,
+      "digits": 1,
+      "out": 77.3
+    },
+    {
+      "why": "small-value divergence, Math.round says 0.2",
+      "value": 0.15,
+      "digits": 1,
+      "out": 0.1
+    },
+    { "why": "Math.round says 2.1", "value": 2.05, "digits": 1, "out": 2.0 },
+    {
+      "why": "ordinary round-down is unaffected",
+      "value": 82.24,
+      "digits": 1,
+      "out": 82.2
+    },
+    {
+      "why": "ordinary round-up is unaffected",
+      "value": 82.26,
+      "digits": 1,
+      "out": 82.3
+    },
+    {
+      "why": "two-decimal axis scores",
+      "value": 66.666,
+      "digits": 2,
+      "out": 66.67
+    },
+    {
+      "why": "an exact integer is untouched",
+      "value": 85.0,
+      "digits": 1,
+      "out": 85.0
+    },
+    { "why": "zero", "value": 0, "digits": 1, "out": 0 },
+    { "why": "one hundred", "value": 100, "digits": 1, "out": 100 }
+  ],
+
+  "boundary_cases": [
+    {
+      "why": "THE DIVERGENCE. Arabic letters are word characters to Python and not to JavaScript, so an ASCII-only boundary matched here and a Unicode-aware one did not.",
+      "text": "دobjectionد",
+      "pattern_group": "challenge_raise",
+      "expect_match": false
+    },
+    {
+      "why": "space-separated Arabic is a real boundary on both sides - this must still match",
+      "text": "الشيء objection here",
+      "pattern_group": "challenge_raise",
+      "expect_match": true
+    },
+    {
+      "why": "plain English match",
+      "text": "there is an objection to consider",
+      "pattern_group": "challenge_raise",
+      "expect_match": true
+    },
+    {
+      "why": "glued to ASCII letters is not a match on either side",
+      "text": "xobjectionx",
+      "pattern_group": "challenge_raise",
+      "expect_match": false
+    },
+    {
+      "why": "punctuation is a boundary",
+      "text": "the objection: consider it",
+      "pattern_group": "challenge_raise",
+      "expect_match": true
+    },
+    {
+      "why": "case-insensitive",
+      "text": "An OBJECTION was raised",
+      "pattern_group": "challenge_raise",
+      "expect_match": true
+    },
+    {
+      "why": "relevance axis, plain English",
+      "text": "this still holds today",
+      "pattern_group": "relevance",
+      "expect_match": true
+    },
+    {
+      "why": "relevance axis, Arabic-glued must not match",
+      "text": "دtodayد",
+      "pattern_group": "relevance",
+      "expect_match": false
+    },
+    {
+      "why": "strawman denial zeroes the fairness sub-score",
+      "text": "that view is obviously wrong",
+      "pattern_group": "strawman_deny",
+      "expect_match": true
+    },
+    {
+      "why": "strawman, Arabic-glued must not match",
+      "text": "دabsurdlyد",
+      "pattern_group": "strawman_deny",
+      "expect_match": false
+    },
+    {
+      "why": "resolve axis",
+      "text": "in fact the opposite is true",
+      "pattern_group": "challenge_resolve",
+      "expect_match": true
+    },
+    {
+      "why": "hook patterns are UNANCHORED in _rules.py, so a substring hit is a real hit on both sides. Pinned so nobody 'tidies' boundaries onto them.",
+      "text": "somewhat does it matter",
+      "pattern_group": "hook",
+      "expect_match": true
+    }
+  ],
+
+  "interest_cases": [
+    {
+      "why": "all four sub-scores fire - hook in the first 20%, challenge raised AND resolved, relevance present, no strawman",
+      "text": "Why does this matter? An objection arises here. In fact the answer is simpler than it looks, and it still holds today.",
+      "expect_interest": 100.0
+    },
+    {
+      "why": "a raised-but-unresolved challenge scores half on that sub-axis",
+      "text": "Why does this matter? There is a paradox here that we will leave standing. It still holds today.",
+      "expect_interest": 87.5
+    },
+    {
+      "why": "a strawman denial zeroes fairness",
+      "text": "Why does this matter? An objection arises. In fact it is obviously wrong. It still holds today.",
+      "expect_interest": 75.0
+    },
+    {
+      "why": "no triggers at all",
+      "text": "The text proceeds plainly, describing the arrangement of the chapters and nothing more.",
+      "expect_interest": 25.0
+    }
+  ],
+
+  "aggregation_cases": [
+    {
+      "why": "voice unavailable - its 0.20 weight redistributes to fidelity",
+      "axes": {
+        "fidelity": 90,
+        "voice": 0,
+        "structure": 80,
+        "enrichment": 70,
+        "interest": 60
+      },
+      "voice_available": false,
+      "expect_total": 80.3,
+      "expect_verdict": "WARN"
+    },
+    {
+      "why": "a perfect score is PASS",
+      "axes": {
+        "fidelity": 100,
+        "voice": 0,
+        "structure": 100,
+        "enrichment": 100,
+        "interest": 100
+      },
+      "voice_available": false,
+      "expect_total": 100.0,
+      "expect_verdict": "PASS"
+    },
+    {
+      "why": "all zero is FAIL",
+      "axes": {
+        "fidelity": 0,
+        "voice": 0,
+        "structure": 0,
+        "enrichment": 0,
+        "interest": 0
+      },
+      "voice_available": false,
+      "expect_total": 0.0,
+      "expect_verdict": "FAIL"
+    }
+  ]
+}
