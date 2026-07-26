@@ -1,7 +1,22 @@
 #!/usr/bin/env python3
-"""Schema models + validators for podcast-blueprint (P24.1).
+"""Schema models + validators originally written for podcast-blueprint (P24.1).
 
-Three artifacts the blueprint agent emits at slot 05.5-blueprint:
+THIS FILE IS LIVE. Do not read it as orphaned code.
+
+The podcast-blueprint agent and skill were retired 2026-07-26: the classifier they
+described was never built (no blueprint_book.py, no _blueprint.py, no slot in
+orchestrate_book.py — the phase diagram in the skill was aspirational), and their
+docs had rotted to the point that six of eight file references were dead links.
+
+The VOCABULARY survived and was repurposed. This module is imported by
+intake_form_options.py (which drives the intake form's audience_profile and
+episode_planning_mode enums) and cited by learn_propose.py. The enums below are the
+canonical definition of those value sets — nothing else defines them.
+
+The docstring below describes the three artifacts the never-built agent would have
+emitted. It is kept because the dataclasses still model exactly those shapes.
+
+Three artifacts the blueprint agent would have emitted at slot 05.5-blueprint:
 
   • Classification   — Layer 1 output. Schema-locked by 2026-05-20 design.
                        This file IS the canonical schema (Python dataclasses
