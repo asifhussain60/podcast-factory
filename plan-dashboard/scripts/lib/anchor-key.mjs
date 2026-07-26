@@ -35,8 +35,15 @@ const HEADING_NUMBER_RE = /^[0-9٠-٩۰-۹]+\.\s*/;
  * `.strip()` strips U+0085 and the C0 separators and `.trim()` does not. Mirror of
  * `_TRIM_RE` in scripts/podcast/_book_edits.py.
  */
-// eslint-disable-next-line no-control-regex
-const TRIM_RE = /^[\s\u0085\u001c-\u001f\uFEFF]+|[\s\u0085\u001c-\u001f\uFEFF]+$/g;
+// A BLOCK disable, not `disable-next-line`. The C0 separators here are deliberate
+// (they mirror Python's `.strip()`), but the declaration is long enough that Prettier
+// wraps the regex onto its own line — which moved it out from under a next-line
+// directive and turned a suppressed warning into a lint error. A block pair cannot be
+// separated from what it guards by reformatting.
+/* eslint-disable no-control-regex */
+const TRIM_RE =
+  /^[\s\u0085\u001c-\u001f\uFEFF]+|[\s\u0085\u001c-\u001f\uFEFF]+$/g;
+/* eslint-enable no-control-regex */
 
 /**
  * Normalize an anchor / heading to a comparable key: strip markup, "N." prefix, case.

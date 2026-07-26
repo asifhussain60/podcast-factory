@@ -26,12 +26,18 @@ function makeBook(md = BOOK): string {
 }
 
 function sidecar(dir: string) {
-  return JSON.parse(readFileSync(join(dir, "_system", "composer-edits.json"), "utf8"));
+  return JSON.parse(
+    readFileSync(join(dir, "_system", "composer-edits.json"), "utf8"),
+  );
 }
 
 test("it replaces one chapter body and leaves the others byte-identical", () => {
   const dir = makeBook();
-  const result = writeChapterBody(dir, "on knowledge", "The author's own sentence.");
+  const result = writeChapterBody(
+    dir,
+    "on knowledge",
+    "The author's own sentence.",
+  );
   assert.equal(result.ok, true);
   const out = readFileSync(join(dir, "book", "book.md"), "utf8");
   assert.match(out, /## 1\. On Knowledge\n\nThe author's own sentence\./);
@@ -74,16 +80,27 @@ test("an unreadable sidecar is refused, not silently replaced", () => {
   // discard every edit the author had ever made.
   const dir = makeBook();
   writeChapterBody(dir, "on knowledge", "worth keeping");
-  writeFileSync(join(dir, "_system", "composer-edits.json"), '{"edits": [{"chap', "utf8");
+  writeFileSync(
+    join(dir, "_system", "composer-edits.json"),
+    '{"edits": [{"chap',
+    "utf8",
+  );
   const result = writeChapterBody(dir, "on patience", "new");
   assert.equal(result.ok, true); // book.md is still saved — that is what the author sees
   assert.equal(result.sidecar?.ok, false); // ...but they are told the edit is not durable
-  assert.equal(readFileSync(join(dir, "_system", "composer-edits.json"), "utf8"), '{"edits": [{"chap');
+  assert.equal(
+    readFileSync(join(dir, "_system", "composer-edits.json"), "utf8"),
+    '{"edits": [{"chap',
+  );
 });
 
 test("an unknown chapter key is refused rather than written somewhere", () => {
   const dir = makeBook();
-  const result = writeChapterBody(dir, "a chapter that was renamed", "orphan text");
+  const result = writeChapterBody(
+    dir,
+    "a chapter that was renamed",
+    "orphan text",
+  );
   assert.equal(result.ok, false);
   assert.equal(readFileSync(join(dir, "book", "book.md"), "utf8"), BOOK);
 });
@@ -120,14 +137,25 @@ test("the fenced introduction cannot be written as a chapter", () => {
   // pipeline strips and re-authors that span on every compose — so an edit
   // recorded against it could never survive. Refusing is the honest answer.
   const dir = makeBook(BOOK_WITH_INTRO);
-  const result = writeChapterBody(dir, "introduction", "A rewrite of the front matter.");
+  const result = writeChapterBody(
+    dir,
+    "introduction",
+    "A rewrite of the front matter.",
+  );
   assert.equal(result.ok, false);
-  assert.equal(readFileSync(join(dir, "book", "book.md"), "utf8"), BOOK_WITH_INTRO);
+  assert.equal(
+    readFileSync(join(dir, "book", "book.md"), "utf8"),
+    BOOK_WITH_INTRO,
+  );
 });
 
 test("real chapters around the introduction still resolve", () => {
   const dir = makeBook(BOOK_WITH_INTRO);
-  const result = writeChapterBody(dir, "on knowledge", "The author's own sentence.");
+  const result = writeChapterBody(
+    dir,
+    "on knowledge",
+    "The author's own sentence.",
+  );
   assert.equal(result.ok, true);
   const out = readFileSync(join(dir, "book", "book.md"), "utf8");
   assert.match(out, /## 1\. On Knowledge\n\nThe author's own sentence\./);

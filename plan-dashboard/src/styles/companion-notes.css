@@ -249,8 +249,7 @@
    the per-kind left border that is already doing a job. */
 .cpn-card.is-active {
   border-color: color-mix(in oklab, var(--reader-mark-edge) 55%, var(--c-rule));
-  box-shadow: 0 0 0 2px
-    color-mix(in oklab, var(--reader-mark) 30%, transparent);
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--reader-mark) 30%, transparent);
 }
 .cpn-card[data-kind="analogy"] {
   border-left-color: var(--c-gold);

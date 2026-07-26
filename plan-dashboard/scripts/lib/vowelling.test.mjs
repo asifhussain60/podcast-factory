@@ -71,9 +71,15 @@ test("REJECTS a dropped clause even when every surviving letter is vowelled", ()
 });
 
 test("REJECTS a no-op, empty, or non-Arabic candidate", () => {
-  assert.match(rejectionReason(BARE_HADITH, BARE_HADITH), /adds no vowel marks/);
+  assert.match(
+    rejectionReason(BARE_HADITH, BARE_HADITH),
+    /adds no vowel marks/,
+  );
   assert.match(rejectionReason(BARE_HADITH, "   "), /empty/);
-  assert.match(rejectionReason(BARE_HADITH, "the best of good deeds"), /no Arabic/);
+  assert.match(
+    rejectionReason(BARE_HADITH, "the best of good deeds"),
+    /no Arabic/,
+  );
 });
 
 test("whitespace differences alone never make a proposal inadmissible", () => {

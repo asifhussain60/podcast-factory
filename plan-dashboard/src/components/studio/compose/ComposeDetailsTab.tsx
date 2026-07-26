@@ -164,7 +164,11 @@ export default function ComposeDetailsTab({
       const saved = sessionStorage.getItem("cx-instruct-note");
       if (saved) {
         sessionStorage.removeItem("cx-instruct-note");
-        const p = JSON.parse(saved) as { slug?: string; chapter?: string; note?: string };
+        const p = JSON.parse(saved) as {
+          slug?: string;
+          chapter?: string;
+          note?: string;
+        };
         if (p.slug === slug && p.chapter === chapter && p.note) return p.note;
       }
     } catch {
@@ -185,13 +189,21 @@ export default function ComposeDetailsTab({
     // still matches what the model was shown.
     const blocks: { id: string; tag: string; text: string }[] = [];
     editor.state.doc.forEach((node, _off, idx) => {
-      blocks.push({ id: `b#${idx}`, tag: node.type.name, text: node.textContent });
+      blocks.push({
+        id: `b#${idx}`,
+        tag: node.type.name,
+        text: node.textContent,
+      });
     });
     try {
       const res = await fetch("/api/ai/instruct", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ instruction: ask, blocks, chapterTitle: chapter }),
+        body: JSON.stringify({
+          instruction: ask,
+          blocks,
+          chapterTitle: chapter,
+        }),
       });
       const j = (await res.json()) as {
         error?: string;
@@ -219,7 +231,10 @@ export default function ComposeDetailsTab({
       let skipped = 0;
       const seenIdx = new Set<number>();
       const byIdx = edits
-        .map((e) => ({ ...e, idx: Number(String(e.block_id ?? "").split("#")[1]) }))
+        .map((e) => ({
+          ...e,
+          idx: Number(String(e.block_id ?? "").split("#")[1]),
+        }))
         .filter((e) => {
           // Malformed / out-of-range / duplicate targets are counted, never guessed.
           if (!Number.isInteger(e.idx) || e.idx < 0 || e.idx >= blocks.length) {
@@ -272,7 +287,9 @@ export default function ComposeDetailsTab({
       }
       const summary =
         `${j.note ? j.note + " — " : ""}${applied} edit${applied === 1 ? "" : "s"} applied` +
-        (skipped ? `, ${skipped} skipped (unusable, or the text changed while the AI worked)` : "") +
+        (skipped
+          ? `, ${skipped} skipped (unusable, or the text changed while the AI worked)`
+          : "") +
         (reasons.length ? `. ${reasons.join(" · ")}` : ".");
       if (applied) {
         editor.view.dispatch(tr);
@@ -324,7 +341,10 @@ export default function ComposeDetailsTab({
             </>
           ) : (
             <>
-              <i className="fa-solid fa-wand-magic-sparkles" aria-hidden="true" />{" "}
+              <i
+                className="fa-solid fa-wand-magic-sparkles"
+                aria-hidden="true"
+              />{" "}
               Make the changes
             </>
           )}
@@ -382,9 +402,9 @@ export default function ComposeDetailsTab({
           </div>
         ))}
         <p className="cx-details-hint">
-          Text marks can be run from the queue below. Knowledge and Visual
-          marks are stored for a future pipeline pass — they wait until that
-          pass exists.
+          Text marks can be run from the queue below. Knowledge and Visual marks
+          are stored for a future pipeline pass — they wait until that pass
+          exists.
         </p>
         {markedCount > 0 && (
           <ul className="cx-details-queue">
@@ -411,8 +431,10 @@ export default function ComposeDetailsTab({
                       className="cx-queue-run"
                       title="Run this mark now with AI; accepting the result clears it"
                       onClick={() =>
-                        queueOps.runNow(item.action_kind, item.anchor_text, () =>
-                          removeActionFnRef.current(item.id),
+                        queueOps.runNow(
+                          item.action_kind,
+                          item.anchor_text,
+                          () => removeActionFnRef.current(item.id),
                         )
                       }
                     >
@@ -432,7 +454,6 @@ export default function ComposeDetailsTab({
           </ul>
         )}
       </section>
-
     </div>
   );
 }

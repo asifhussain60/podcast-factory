@@ -121,8 +121,7 @@ export function rejectionReason(source, candidate) {
     while (i < a.length && i < b.length && a[i] === b[i]) i++;
     return `letters changed, not just marks (first difference at character ${i + 1}: source "${a.slice(i, i + 12)}" vs proposal "${b.slice(i, i + 12)}")`;
   }
-  if (markCount(candidate) <= markCount(source))
-    return "adds no vowel marks";
+  if (markCount(candidate) <= markCount(source)) return "adds no vowel marks";
   return null;
 }
 

@@ -74,7 +74,10 @@ export function simplifyTransliteration(text: string): string {
       const prev = arr[i - 1] ?? "";
       let j = i + 1;
       while (j < arr.length && /\p{L}/u.test(arr[j])) j++;
-      const suffix = arr.slice(i + 1, j).join("").toLowerCase();
+      const suffix = arr
+        .slice(i + 1, j)
+        .join("")
+        .toLowerCase();
       const keep =
         (/\p{L}/u.test(prev) &&
           (ENGLISH_CLITICS.has(suffix) ||

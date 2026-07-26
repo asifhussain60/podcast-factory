@@ -48,7 +48,9 @@ export interface SelectMenu {
  * Enhance one `<select>`. Returns null if the element is missing or already
  * enhanced, so callers can invoke it unconditionally.
  */
-export function enhanceSelect(select: HTMLSelectElement | null): SelectMenu | null {
+export function enhanceSelect(
+  select: HTMLSelectElement | null,
+): SelectMenu | null {
   if (!select || select.dataset.smEnhanced === "true") return null;
   // Bind once so the closures below keep the non-null narrowing.
   const el: HTMLSelectElement = select;
@@ -217,7 +219,9 @@ export function enhanceSelect(select: HTMLSelectElement | null): SelectMenu | nu
   function setActive(i: number): void {
     if (!options.length) return;
     const next = Math.max(0, Math.min(options.length - 1, i));
-    options.forEach((o, n) => o.setAttribute("data-active", String(n === next)));
+    options.forEach((o, n) =>
+      o.setAttribute("data-active", String(n === next)),
+    );
     activeIndex = next;
     const active = options[next];
     button.setAttribute("aria-activedescendant", active.id);
@@ -298,9 +302,14 @@ export function enhanceSelect(select: HTMLSelectElement | null): SelectMenu | nu
         e.preventDefault();
         const want = e.key.toLowerCase();
         const from = el.selectedIndex + 1;
-        const order = [...el.options].map((_, i) => (from + i) % el.options.length);
+        const order = [...el.options].map(
+          (_, i) => (from + i) % el.options.length,
+        );
         const hit = order.find((i) =>
-          (el.options[i].textContent ?? "").trim().toLowerCase().startsWith(want),
+          (el.options[i].textContent ?? "")
+            .trim()
+            .toLowerCase()
+            .startsWith(want),
         );
         if (hit !== undefined) commit(hit);
       }

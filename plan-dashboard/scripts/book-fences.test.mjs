@@ -208,10 +208,10 @@ const INTRO_ORIGINAL = [
 
 test("an edition-intro span survives the rich-text round trip", () => {
   // The editor serializes the comment markers back as bare text lines.
-  const edited = INTRO_ORIGINAL.replace(/<!-- (edition-intro:(?:begin|end)) -->/g, "$1").replace(
-    "some believers came",
-    "some believers came, edited",
-  );
+  const edited = INTRO_ORIGINAL.replace(
+    /<!-- (edition-intro:(?:begin|end)) -->/g,
+    "$1",
+  ).replace("some believers came", "some believers came, edited");
   const out = preserveFences(INTRO_ORIGINAL, edited);
   assert.equal(out.restored, 2);
   assert.match(out.body, /<!-- edition-intro:begin -->/);

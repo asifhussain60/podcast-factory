@@ -73,8 +73,7 @@ export function mountIconTooltips(
   }
 
   function show(trigger: HTMLElement): void {
-    const text =
-      trigger.querySelector(opts.label)?.textContent?.trim() ?? "";
+    const text = trigger.querySelector(opts.label)?.textContent?.trim() ?? "";
     if (!text) return;
     tip.textContent = text;
     tip.hidden = false; // unhide first: a hidden element measures as 0 wide

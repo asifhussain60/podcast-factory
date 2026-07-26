@@ -231,49 +231,49 @@ const ARABIC_FONTS = [
               {/* One visual bar, two semantic parts: the tablist and, at its
                   right edge, the settings gear (not a tab — see below). */}
               <div class="cx-tabrow">
-              <div
-                class="cx-tabbar"
-                role="tablist"
-                aria-label="Composer inspector"
-              >
-                <button
-                  type="button"
-                  class="cx-tab is-active"
-                  id="cx-tab-artifacts"
-                  role="tab"
-                  aria-selected="true"
-                  aria-controls="cx-panel-artifacts"
+                <div
+                  class="cx-tabbar"
+                  role="tablist"
+                  aria-label="Composer inspector"
                 >
-                  <i class="fa-solid fa-images" aria-hidden="true" />
-                  <span class="cx-tab-label">Artifacts</span>
-                </button>
-                <button
-                  type="button"
-                  class="cx-tab"
-                  id="cx-tab-refine"
-                  role="tab"
-                  aria-selected="false"
-                  aria-controls="cx-panel-refine"
-                >
-                  <i class="fa-solid fa-feather-pointed" aria-hidden="true" />
-                  <span class="cx-tab-label">Refine &amp; Notes</span>
-                </button>
-              </div>
-              {/* Book settings (citation style + typography) are decided once
+                  <button
+                    type="button"
+                    class="cx-tab is-active"
+                    id="cx-tab-artifacts"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="cx-panel-artifacts"
+                  >
+                    <i class="fa-solid fa-images" aria-hidden="true" />
+                    <span class="cx-tab-label">Artifacts</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="cx-tab"
+                    id="cx-tab-refine"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="cx-panel-refine"
+                  >
+                    <i class="fa-solid fa-feather-pointed" aria-hidden="true" />
+                    <span class="cx-tab-label">Refine &amp; Notes</span>
+                  </button>
+                </div>
+                {/* Book settings (citation style + typography) are decided once
                   per book, not touched while working a chapter — so they live
                   behind this gear in a dialog, not in the tab list. The gear
                   sits IN the bar but OUTSIDE the tablist semantics: it is not
                   a tab, arrow keys never reach it, and it opens a modal. */}
-              <button
-                type="button"
-                class="cx-tab-gear"
-                id="cx-settings-open"
-                aria-haspopup="dialog"
-                title="Book settings"
-                aria-label="Book settings"
-              >
-                <i class="fa-solid fa-gear" aria-hidden="true" />
-              </button>
+                <button
+                  type="button"
+                  class="cx-tab-gear"
+                  id="cx-settings-open"
+                  aria-haspopup="dialog"
+                  title="Book settings"
+                  aria-label="Book settings"
+                >
+                  <i class="fa-solid fa-gear" aria-hidden="true" />
+                </button>
               </div>
 
               <div
@@ -354,53 +354,53 @@ const ARABIC_FONTS = [
                       ×
                     </button>
                   </div>
-              <section
-                class="cx-settings-section"
-                aria-labelledby="cx-settings-cite-h"
-              >
-                <h3 class="cx-settings-sub" id="cx-settings-cite-h">
-                  Citation style
-                </h3>
-                <form
-                  class="bs-styleform cx-cite-form"
-                  data-slug={slug}
-                  aria-label="Citation style"
-                >
-                  <fieldset class="bs-chips">
-                    <legend>Predefined style</legend>
-                    {FAMILIES.map((f, i) => (
-                      <label class="bs-chip" data-template={f.id}>
-                        <input
-                          type="radio"
-                          name="citation-style"
-                          value={f.id}
-                          class="bs-radio"
-                          checked={i === 0}
-                        />
-                        <span class="bs-chip-head">
-                          <span class="bs-chip-name">{f.name}</span>
-                          <span class="bs-chip-check" aria-hidden="true">
-                            <i class="fa-solid fa-circle-check" />
-                          </span>
-                        </span>
-                        <span class="bs-chip-tag">{f.tagline}</span>
-                      </label>
-                    ))}
-                  </fieldset>
+                  <section
+                    class="cx-settings-section"
+                    aria-labelledby="cx-settings-cite-h"
+                  >
+                    <h3 class="cx-settings-sub" id="cx-settings-cite-h">
+                      Citation style
+                    </h3>
+                    <form
+                      class="bs-styleform cx-cite-form"
+                      data-slug={slug}
+                      aria-label="Citation style"
+                    >
+                      <fieldset class="bs-chips">
+                        <legend>Predefined style</legend>
+                        {FAMILIES.map((f, i) => (
+                          <label class="bs-chip" data-template={f.id}>
+                            <input
+                              type="radio"
+                              name="citation-style"
+                              value={f.id}
+                              class="bs-radio"
+                              checked={i === 0}
+                            />
+                            <span class="bs-chip-head">
+                              <span class="bs-chip-name">{f.name}</span>
+                              <span class="bs-chip-check" aria-hidden="true">
+                                <i class="fa-solid fa-circle-check" />
+                              </span>
+                            </span>
+                            <span class="bs-chip-tag">{f.tagline}</span>
+                          </label>
+                        ))}
+                      </fieldset>
 
-                  {/* The two FACES moved to the Typography tab on 2026-07-21 —
+                      {/* The two FACES moved to the Typography tab on 2026-07-21 —
                       this tab is about what a quotation BLOCK looks like and
                       which citations are in the chapter. The face still shows in
                       the sheet below: it is inherited from the page root's
                       `tr-*` class, so the specimen never disagrees with the book. */}
-                  <div
-                    class="bs-preview cx-cite-preview"
-                    aria-label="Style preview"
-                  >
-                    <div class="bs-ct">
-                      <span class="bs-ct-label">Quran verse</span>
-                      <blockquote class="bs-verse">
-                        {/* A REAL ayah (42:11), quoted verbatim from the canonical
+                      <div
+                        class="bs-preview cx-cite-preview"
+                        aria-label="Style preview"
+                      >
+                        <div class="bs-ct">
+                          <span class="bs-ct-label">Quran verse</span>
+                          <blockquote class="bs-verse">
+                            {/* A REAL ayah (42:11), quoted verbatim from the canonical
                             mushaf in content/knowledge-base/mirror.db — this
                             sample used to show a hadith labelled "Quran verse",
                             which made the sheet lie about which face a verse gets.
@@ -408,77 +408,79 @@ const ARABIC_FONTS = [
                             the Arabic audit resolved against the mushaf, so this
                             previews the Uthmanic face; the hadith and poem samples
                             below omit it and preview Scheherazade New. */}
-                        <p class="bs-ar is-quranic" dir="rtl" lang="ar">
-                          لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ
-                        </p>
-                        <p class="bs-tr">
-                          &ldquo;There is nothing whatever like unto Him.&rdquo;
-                        </p>
-                      </blockquote>
-                    </div>
-                    <div class="bs-ct">
-                      <span class="bs-ct-label">Hadith</span>
-                      <blockquote class="bs-hadith">
-                        <p class="bs-ar" dir="rtl" lang="ar">
-                          مَنْ عَمِلَ بِمَا عَلِمَ وَرَّثَهُ اللَّهُ عِلْمَ مَا
-                          لَمْ يَعْلَمْ
-                        </p>
-                        <p class="bs-tr">
-                          &ldquo;Whoever acts upon what he knows, God will
-                          bequeath to him the knowledge of what he does not
-                          know.&rdquo;
-                        </p>
-                        <p class="bs-attr">
-                          The Prophet Muhammad&nbsp;&#65018;
-                        </p>
-                      </blockquote>
-                    </div>
-                    <div class="bs-ct">
-                      <span class="bs-ct-label">Arabic poem</span>
-                      <div class="bs-poem">
-                        <p class="bs-ar" dir="rtl" lang="ar">
-                          وَمَنْ طَلَبَ الْعُلَا سَهِرَ اللَّيَالِي
-                        </p>
-                        <p class="bs-tr">
-                          Whoever seeks the heights stays wakeful through the
-                          nights.
-                        </p>
+                            <p class="bs-ar is-quranic" dir="rtl" lang="ar">
+                              لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ
+                            </p>
+                            <p class="bs-tr">
+                              &ldquo;There is nothing whatever like unto
+                              Him.&rdquo;
+                            </p>
+                          </blockquote>
+                        </div>
+                        <div class="bs-ct">
+                          <span class="bs-ct-label">Hadith</span>
+                          <blockquote class="bs-hadith">
+                            <p class="bs-ar" dir="rtl" lang="ar">
+                              مَنْ عَمِلَ بِمَا عَلِمَ وَرَّثَهُ اللَّهُ عِلْمَ
+                              مَا لَمْ يَعْلَمْ
+                            </p>
+                            <p class="bs-tr">
+                              &ldquo;Whoever acts upon what he knows, God will
+                              bequeath to him the knowledge of what he does not
+                              know.&rdquo;
+                            </p>
+                            <p class="bs-attr">
+                              The Prophet Muhammad&nbsp;&#65018;
+                            </p>
+                          </blockquote>
+                        </div>
+                        <div class="bs-ct">
+                          <span class="bs-ct-label">Arabic poem</span>
+                          <div class="bs-poem">
+                            <p class="bs-ar" dir="rtl" lang="ar">
+                              وَمَنْ طَلَبَ الْعُلَا سَهِرَ اللَّيَالِي
+                            </p>
+                            <p class="bs-tr">
+                              Whoever seeks the heights stays wakeful through
+                              the nights.
+                            </p>
+                          </div>
+                        </div>
+                        <div class="bs-ct">
+                          <span class="bs-ct-label">Saying</span>
+                          <div class="bs-saying">
+                            <p>Thanks for knowledge is to act upon it.</p>
+                            <p class="bs-attr">A maxim of the learned</p>
+                          </div>
+                        </div>
+                        <div class="bs-ct">
+                          <span class="bs-ct-label">Quotation</span>
+                          <blockquote class="bs-quote">
+                            <p>
+                              The most important things a person can learn are
+                              almost never delivered as lectures.
+                            </p>
+                          </blockquote>
+                        </div>
                       </div>
-                    </div>
-                    <div class="bs-ct">
-                      <span class="bs-ct-label">Saying</span>
-                      <div class="bs-saying">
-                        <p>Thanks for knowledge is to act upon it.</p>
-                        <p class="bs-attr">A maxim of the learned</p>
-                      </div>
-                    </div>
-                    <div class="bs-ct">
-                      <span class="bs-ct-label">Quotation</span>
-                      <blockquote class="bs-quote">
-                        <p>
-                          The most important things a person can learn are
-                          almost never delivered as lectures.
-                        </p>
-                      </blockquote>
-                    </div>
-                  </div>
 
-                  <p
-                    class="bs-save cx-cite-save"
-                    id="cx-cite-save"
-                    role="status"
-                    aria-live="polite"
-                  />
-                </form>
+                      <p
+                        class="bs-save cx-cite-save"
+                        id="cx-cite-save"
+                        role="status"
+                        aria-live="polite"
+                      />
+                    </form>
 
-                <p class="cx-panel-hint">
-                  A predefined style and a translation face skin every citation
-                  type book-wide and carry into the generated PDF. Distinct
-                  per-type print styling is planned but not yet wired.
-                </p>
-              </section>
+                    <p class="cx-panel-hint">
+                      A predefined style and a translation face skin every
+                      citation type book-wide and carry into the generated PDF.
+                      Distinct per-type print styling is planned but not yet
+                      wired.
+                    </p>
+                  </section>
 
-              {/* TYPOGRAPHY — the book's type, and the reader's own display
+                  {/* TYPOGRAPHY — the book's type, and the reader's own display
                   settings, in one place but never in one group. The split is the
                   point: everything under "This book" is written to
                   book/citation-style.json, travels in git and prints into the
@@ -486,135 +488,140 @@ const ARABIC_FONTS = [
                   preference in localStorage that no reader of the PDF will ever
                   see. Conflating the two is how a personal comfort setting ends
                   up looking like an editorial decision. */}
-              <section
-                class="cx-settings-section"
-                aria-labelledby="cx-settings-type-h"
-              >
-                <h3 class="cx-settings-sub" id="cx-settings-type-h">
-                  Typography
-                </h3>
-                <form
-                  class="bs-styleform cx-type-form"
-                  data-slug={slug}
-                  aria-label="Book typography"
-                >
-                  <p class="cx-type-scope">
-                    <i class="fa-solid fa-book" aria-hidden="true" /> This book —
-                    saved with the edition, prints into the PDF
-                  </p>
+                  <section
+                    class="cx-settings-section"
+                    aria-labelledby="cx-settings-type-h"
+                  >
+                    <h3 class="cx-settings-sub" id="cx-settings-type-h">
+                      Typography
+                    </h3>
+                    <form
+                      class="bs-styleform cx-type-form"
+                      data-slug={slug}
+                      aria-label="Book typography"
+                    >
+                      <p class="cx-type-scope">
+                        <i class="fa-solid fa-book" aria-hidden="true" /> This
+                        book — saved with the edition, prints into the PDF
+                      </p>
 
-                  {/* Each chip renders its own name IN its own face, and selecting
+                      {/* Each chip renders its own name IN its own face, and selecting
                       one re-declares --q-ar-face / --q-tr-face on this form so the
                       specimen below changes live — a :has() mechanism, no
                       JavaScript for the preview itself. */}
-                  <fieldset class="bs-chips bs-archips">
-                    <legend>Arabic face</legend>
-                    {ARABIC_FONTS.map((f, i) => (
-                      <label class="bs-chip bs-archip" data-font={f.id}>
-                        <input
-                          type="radio"
-                          name="arabic-font"
-                          value={f.id}
-                          class="bs-radio bs-arradio"
-                          checked={i === 0}
-                        />
-                        <span class="bs-chip-head">
-                          <span class="bs-chip-name">{f.name}</span>
-                          <span class="bs-chip-check" aria-hidden="true">
-                            <i class="fa-solid fa-circle-check" />
-                          </span>
-                        </span>
-                        <span class="bs-chip-tag">{f.tagline}</span>
-                      </label>
-                    ))}
-                  </fieldset>
+                      <fieldset class="bs-chips bs-archips">
+                        <legend>Arabic face</legend>
+                        {ARABIC_FONTS.map((f, i) => (
+                          <label class="bs-chip bs-archip" data-font={f.id}>
+                            <input
+                              type="radio"
+                              name="arabic-font"
+                              value={f.id}
+                              class="bs-radio bs-arradio"
+                              checked={i === 0}
+                            />
+                            <span class="bs-chip-head">
+                              <span class="bs-chip-name">{f.name}</span>
+                              <span class="bs-chip-check" aria-hidden="true">
+                                <i class="fa-solid fa-circle-check" />
+                              </span>
+                            </span>
+                            <span class="bs-chip-tag">{f.tagline}</span>
+                          </label>
+                        ))}
+                      </fieldset>
 
-                  <p class="cx-type-locked">
-                    <i class="fa-solid fa-lock" aria-hidden="true" />
-                    Qur&rsquo;anic runs are always set in the KFGQPC Uthmanic
-                    script. The Arabic audit decides which runs those are, by
-                    resolving each against the canonical mushaf — the face
-                    follows the orthography the verse is written in, so it is not
-                    a choice this panel offers.
-                  </p>
+                      <p class="cx-type-locked">
+                        <i class="fa-solid fa-lock" aria-hidden="true" />
+                        Qur&rsquo;anic runs are always set in the KFGQPC
+                        Uthmanic script. The Arabic audit decides which runs
+                        those are, by resolving each against the canonical
+                        mushaf — the face follows the orthography the verse is
+                        written in, so it is not a choice this panel offers.
+                      </p>
 
-                  <fieldset class="bs-chips bs-trchips">
-                    <legend>English face</legend>
-                    {TRANSLATION_FONTS.map((f, i) => (
-                      <label class="bs-chip bs-trchip" data-font={f.id}>
-                        <input
-                          type="radio"
-                          name="translation-font"
-                          value={f.id}
-                          class="bs-radio bs-trradio"
-                          checked={i === 0}
-                        />
-                        <span class="bs-chip-head">
-                          <span class="bs-chip-name">{f.name}</span>
-                          <span class="bs-chip-check" aria-hidden="true">
-                            <i class="fa-solid fa-circle-check" />
-                          </span>
-                        </span>
-                        <span class="bs-chip-tag">{f.tagline}</span>
-                      </label>
-                    ))}
-                  </fieldset>
+                      <fieldset class="bs-chips bs-trchips">
+                        <legend>English face</legend>
+                        {TRANSLATION_FONTS.map((f, i) => (
+                          <label class="bs-chip bs-trchip" data-font={f.id}>
+                            <input
+                              type="radio"
+                              name="translation-font"
+                              value={f.id}
+                              class="bs-radio bs-trradio"
+                              checked={i === 0}
+                            />
+                            <span class="bs-chip-head">
+                              <span class="bs-chip-name">{f.name}</span>
+                              <span class="bs-chip-check" aria-hidden="true">
+                                <i class="fa-solid fa-circle-check" />
+                              </span>
+                            </span>
+                            <span class="bs-chip-tag">{f.tagline}</span>
+                          </label>
+                        ))}
+                      </fieldset>
 
-                  {/* One specimen showing all three faces at once — the two the
+                      {/* One specimen showing all three faces at once — the two the
                       chips above choose, and the one they cannot. Real text:
                       42:11 from the canonical mushaf, and a hadith. */}
-                  <div class="bs-preview cx-type-preview" aria-label="Face preview">
-                    <div class="bs-ct">
-                      <span class="bs-ct-label">Scripture · Uthmanic</span>
-                      <blockquote class="bs-verse">
-                        <p class="bs-ar is-quranic" dir="rtl" lang="ar">
-                          لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ
-                        </p>
-                        <p class="bs-tr">
-                          &ldquo;There is nothing whatever like unto Him.&rdquo;
-                        </p>
-                      </blockquote>
-                    </div>
-                    <div class="bs-ct">
-                      <span class="bs-ct-label">Everything else</span>
-                      <blockquote class="bs-hadith">
-                        <p class="bs-ar" dir="rtl" lang="ar">
-                          مَنْ عَمِلَ بِمَا عَلِمَ وَرَّثَهُ اللَّهُ عِلْمَ مَا
-                          لَمْ يَعْلَمْ
-                        </p>
-                        <p class="bs-tr">
-                          &ldquo;Whoever acts upon what he knows, God will
-                          bequeath to him the knowledge of what he does not
-                          know.&rdquo;
-                        </p>
-                      </blockquote>
-                    </div>
-                  </div>
+                      <div
+                        class="bs-preview cx-type-preview"
+                        aria-label="Face preview"
+                      >
+                        <div class="bs-ct">
+                          <span class="bs-ct-label">Scripture · Uthmanic</span>
+                          <blockquote class="bs-verse">
+                            <p class="bs-ar is-quranic" dir="rtl" lang="ar">
+                              لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ
+                            </p>
+                            <p class="bs-tr">
+                              &ldquo;There is nothing whatever like unto
+                              Him.&rdquo;
+                            </p>
+                          </blockquote>
+                        </div>
+                        <div class="bs-ct">
+                          <span class="bs-ct-label">Everything else</span>
+                          <blockquote class="bs-hadith">
+                            <p class="bs-ar" dir="rtl" lang="ar">
+                              مَنْ عَمِلَ بِمَا عَلِمَ وَرَّثَهُ اللَّهُ عِلْمَ
+                              مَا لَمْ يَعْلَمْ
+                            </p>
+                            <p class="bs-tr">
+                              &ldquo;Whoever acts upon what he knows, God will
+                              bequeath to him the knowledge of what he does not
+                              know.&rdquo;
+                            </p>
+                          </blockquote>
+                        </div>
+                      </div>
 
-                  <p
-                    class="bs-save cx-type-save"
-                    id="cx-type-save"
-                    role="status"
-                    aria-live="polite"
-                  />
-                </form>
+                      <p
+                        class="bs-save cx-type-save"
+                        id="cx-type-save"
+                        role="status"
+                        aria-live="polite"
+                      />
+                    </form>
 
-                <div class="cx-type-screen">
-                  <p class="cx-type-scope">
-                    <i class="fa-solid fa-display" aria-hidden="true" /> On
-                    screen only — your browser, never the PDF
-                  </p>
-                  <div class="cx-type-screen-row">
-                    <span class="cx-type-screen-label">Panel text</span>
-                    <div class="cx-panel-bar" id="cx-type-size" />
-                  </div>
-                  <p class="cx-panel-hint">
-                    The same dial as the one above the panel — moving either moves
-                    both. The chapter&rsquo;s own size and paper colour live on
-                    the editor toolbar, beside the text they change.
-                  </p>
-                </div>
-              </section>
+                    <div class="cx-type-screen">
+                      <p class="cx-type-scope">
+                        <i class="fa-solid fa-display" aria-hidden="true" /> On
+                        screen only — your browser, never the PDF
+                      </p>
+                      <div class="cx-type-screen-row">
+                        <span class="cx-type-screen-label">Panel text</span>
+                        <div class="cx-panel-bar" id="cx-type-size" />
+                      </div>
+                      <p class="cx-panel-hint">
+                        The same dial as the one above the panel — moving either
+                        moves both. The chapter&rsquo;s own size and paper
+                        colour live on the editor toolbar, beside the text they
+                        change.
+                      </p>
+                    </div>
+                  </section>
                 </div>
               </div>
             </div>
@@ -651,7 +658,11 @@ const ARABIC_FONTS = [
                 to. Both panels are book-wide, not chapter-scoped, so they need
                 no chapter prop — the term list covers every run in the book
                 whichever chapter is open beside it. */}
-            <div class="cx-surface cx-surface--arabic" id="cx-surface-arabic" hidden>
+            <div
+              class="cx-surface cx-surface--arabic"
+              id="cx-surface-arabic"
+              hidden
+            >
               <ArabicReviewPanel client:only="react" slug={slug} docked />
               <VowellingReviewPanel client:only="react" slug={slug} docked />
             </div>

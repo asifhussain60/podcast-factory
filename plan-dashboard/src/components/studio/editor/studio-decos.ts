@@ -188,11 +188,7 @@ export function createStudioDecos(bag: StudioDecosBag) {
                 : orig;
               const currentTexts: string[] = [];
               state.doc.forEach((n) => currentTexts.push(n.textContent));
-              const alignment = alignmentFor(
-                state.doc,
-                baseline,
-                currentTexts,
-              );
+              const alignment = alignmentFor(state.doc, baseline, currentTexts);
               // Group action-item marks by paragraph ordinal for inline badges.
               const actsByPara = new Map<number, ClientActionItem[]>();
               for (const a of actionsRef.current) {

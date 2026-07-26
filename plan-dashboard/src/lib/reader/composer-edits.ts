@@ -13,7 +13,13 @@
  * The route writes; nothing here reads it back at request time. Reading is the
  * pipeline's job.
  */
-import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  renameSync,
+  writeFileSync,
+} from "node:fs";
 import { join } from "node:path";
 
 export const SIDECAR_NAME = "composer-edits.json";

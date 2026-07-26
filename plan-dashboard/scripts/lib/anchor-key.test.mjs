@@ -19,7 +19,9 @@ import { fileURLToPath } from "node:url";
 import { anchorKey } from "./anchor-key.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const { cases } = JSON.parse(readFileSync(join(HERE, "anchor-key.fixtures.json"), "utf8"));
+const { cases } = JSON.parse(
+  readFileSync(join(HERE, "anchor-key.fixtures.json"), "utf8"),
+);
 
 test("anchorKey matches the shared fixtures", () => {
   assert.ok(cases.length > 0, "fixture file is empty");

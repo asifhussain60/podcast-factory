@@ -22,14 +22,25 @@ import { existsSync } from "node:fs";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, resolve as resolvePath } from "node:path";
 
-const CANDIDATES = [".ts", ".tsx", ".mts", ".js", ".mjs", "/index.ts", "/index.tsx"];
+const CANDIDATES = [
+  ".ts",
+  ".tsx",
+  ".mts",
+  ".js",
+  ".mjs",
+  "/index.ts",
+  "/index.tsx",
+];
 
 registerHooks({
   resolve(specifier, context, nextResolve) {
     const relative = specifier.startsWith("./") || specifier.startsWith("../");
     const hasExtension = /\.[a-z]+$/i.test(specifier);
     if (relative && !hasExtension && context.parentURL?.startsWith("file:")) {
-      const base = resolvePath(dirname(fileURLToPath(context.parentURL)), specifier);
+      const base = resolvePath(
+        dirname(fileURLToPath(context.parentURL)),
+        specifier,
+      );
       for (const ext of CANDIDATES) {
         if (existsSync(base + ext)) {
           return { url: pathToFileURL(base + ext).href, shortCircuit: true };

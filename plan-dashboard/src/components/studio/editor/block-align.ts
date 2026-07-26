@@ -29,7 +29,10 @@ const MAX_ALIGN_BLOCKS = 1200;
  * to its true original regardless of how many blocks were inserted or removed
  * above it, so a split now marks only the blocks actually touched.
  */
-export function alignBlocks(original: string[], current: string[]): (number | null)[] {
+export function alignBlocks(
+  original: string[],
+  current: string[],
+): (number | null)[] {
   const n = original.length;
   const m = current.length;
   if (!n || !m) return new Array(m).fill(null);

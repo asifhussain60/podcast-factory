@@ -202,8 +202,9 @@ export function revealPassage(id: string): boolean {
     `.${MARK_CLASS}[data-note~="${CSS.escape(id)}"]`,
   );
   if (!mark) return false;
-  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)")
-    ?.matches;
+  const reduce = window.matchMedia?.(
+    "(prefers-reduced-motion: reduce)",
+  )?.matches;
   // "start", not "center": mountPassageSync counts a passage as live only in the
   // TOP 45% of the viewport (rootMargin below), so centring it at 50% landed the
   // passage you just jumped to just OUTSIDE that band — nothing lit, or an earlier
@@ -275,8 +276,7 @@ export function mountPassageSync(opts: PassageSyncOptions): () => void {
     // Document order, not notes order: the card that rises is the one whose
     // sentence you have actually reached, whatever order the notes were written.
     order = found.sort((a, b) =>
-      a.mark.compareDocumentPosition(b.mark) &
-      Node.DOCUMENT_POSITION_FOLLOWING
+      a.mark.compareDocumentPosition(b.mark) & Node.DOCUMENT_POSITION_FOLLOWING
         ? -1
         : 1,
     );

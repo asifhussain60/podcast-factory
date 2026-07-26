@@ -60,7 +60,10 @@ test("the one listed elision survives", () => {
 test("a root radical survives, an ordinary prefix still folds", () => {
   // "(sh-r-\u02bf)" printed as "(sh-r-)" — a two-letter root with a dangling
   // hyphen, a claim the reader can see is false.
-  assert.equal(f("The root of Sharia (sh-r-\u02bf)"), "The root of Sharia (sh-r-')");
+  assert.equal(
+    f("The root of Sharia (sh-r-\u02bf)"),
+    "The root of Sharia (sh-r-')",
+  );
   assert.equal(f("Minh\u0101j al-\u02bf\u0100bid\u012bn"), "Minhaj al-Abidin");
 });
 
