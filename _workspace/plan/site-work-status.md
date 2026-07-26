@@ -1,8 +1,50 @@
 # Current work - status
 
-**Last updated:** 2026-07-22 06:11 PM EST (RCA-001 recovery session: the book is articulated and SHIP-READY)
+**Last updated:** 2026-07-26 09:10 AM EST (Book Composer lane switch — Phase 1 shipped)
 
-**Newest — RCA-001: the composer-snapshot freeze, found, root-caused, recovered.**
+**Newest — the Composer can now show the podcast source, read-only.**
+The Book Composer at `/studio/<slug>/compose` gained a lane switch: "Reading
+edition" (book.md, editable — unchanged) vs "Podcast source" (`chapters/*.txt`,
+read-only). The original ask was for the same edit to apply to BOTH lanes; that
+turned out to be unimplementable and was replaced, with Asif's own agreement in
+the handoff, by a read-only flip. Re-verified against the code this session: the
+two lanes are independently translated (identical source passage, different
+English), independently segmented (9 book chapters vs 20 podcast chapters, no
+title correspondence), and the podcast lane deliberately carries narration
+framing, teaching commentary and attributed citations (22 of them; book.md has
+0) that mirroring would delete. 20 audio episodes already exist from the current
+chapter text.
+
+The read-only guarantee is structural, not intentional. `compose-lane.ts` owns
+the flip ORDER: it awaits the Composer's own `leaveEditMode` (flush the
+debounced autosave, then destroy the TipTap editor) before any pane swap, so an
+edit typed a moment before the flip lands in book.md and nothing editable
+survives behind the toggle; a declined leave aborts the flip. The podcast body
+is a host of its own, never the chapter body the editor seeds from — re-seeding
+one shared surface is what would write podcast prose into book.md AND freeze
+that chapter in `composer-edits.json` (RCA-001, with prose from the wrong lane).
+Flips are serialized so a double-click cannot flush twice. Bodies are fetched on
+demand through the read-only `/api/library/file` route and rendered by
+`renderSourceMarkdown`, the same path `studio/<slug>/view.astro` uses, so the
+lane reads like the existing chapter viewer; the podcast picker is drawn by
+`enhanceSelect` like the book picker rather than left as an OS dropdown.
+
+Test harness: 15 node:test cases in `compose-lane.test.ts` driving the REAL
+TipTap editor and REAL autosave against a recording transport (only the network
+is stubbed), plus 5 content-invariant pytest gates in
+`test_compose_lanes_distinct.py` whose content root is env-overridable so they
+can be falsified without touching `content/`. All 15 mutants killed — including
+"skip the flush", "make the host editable", "bypass leaveEditMode", "mirror book
+prose over a chapter source" and "leak an attributed citation into book.md". Two
+mutants exposed real gaps that were then closed (an unserialized flip; an
+untested picker sync). 12/12 repo-contract gates green before and after;
+`content/` byte-identical throughout. Phase 2 (extending
+`/api/studio/replace` across both lanes) is NOT built — it needs Asif's separate
+approval per the handoff.
+
+---
+
+**RCA-001: the composer-snapshot freeze, found, root-caused, recovered.**
 Asif reported "original bad English" in the compose tab; forensics showed 8 of
 9 chapters were byte-frozen at their 2026-07-20 pre-articulation Composer
 snapshots — the 07-21 compose articulated all 9 chapters and its own replay
@@ -29,7 +71,7 @@ openings.
 
 ## Previous sessions
 
-**Newest — Composer articulation save guard (RCA-001 AI-3), shipped and
+**Composer articulation save guard (RCA-001 AI-3), shipped and
 challenger-gated (Level 1).** The Book Composer now warns before a save would
 freeze a chapter whose current prose never passed the articulation (fluency)
 pass — the exact failure that froze 8 calqued chapters on 2026-07-20. Server

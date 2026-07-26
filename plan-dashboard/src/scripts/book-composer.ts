@@ -26,6 +26,12 @@ import {
   type AutosaveController,
 } from "./autosave";
 import { createComposeEditorBridge } from "./compose-editor-bridge";
+import {
+  createComposeLane,
+  pendingLane,
+  type ComposeLane,
+  type PodcastChapterMeta,
+} from "./compose-lane";
 import { safeChapterKey } from "../lib/reader/companion/keys";
 import { apiFetch } from "../lib/api-fetch";
 import { createStudioDecos } from "../components/studio/editor/studio-decos";
@@ -96,6 +102,9 @@ interface ComposerData {
   /** RCA-001 AI-3 — chapterKey -> why a save would freeze machine text.
    *  Mirrors ComposerView.articulationWarnings in lib/reader/composer.ts. */
   articulationWarnings?: Record<string, string>;
+  /** The read-only Podcast lane's chapter list (metadata only). Mirrors
+   *  ComposerView.podcastChapters; absent for a book with no podcast source. */
+  podcastChapters?: PodcastChapterMeta[];
 }
 
 const WRAP_MAX = 50;
@@ -2367,11 +2376,66 @@ function boot(): void {
   // Edit swaps in the TipTap surface, which is seeded from the plain render its
   // schema can round-trip. Without this control the print-faithful view has no
   // way of being reached: the editor opens on boot and nothing else leaves it.
-  modeReadBtn?.addEventListener("click", () => setMode("read"));
-  modeEditBtn?.addEventListener("click", () => setMode("edit"));
+  //
+  // `userMode` remembers the choice the human actually made, so returning from
+  // the Podcast lane restores it. It is NOT read off setModeVisual: the flip's
+  // own leave() drops the view to Read on its way out, which would make every
+  // return land in Read regardless of where the user came from.
+  let userMode: "read" | "edit" = "edit";
+  modeReadBtn?.addEventListener("click", () => {
+    userMode = "read";
+    setMode("read");
+  });
+  modeEditBtn?.addEventListener("click", () => {
+    userMode = "edit";
+    setMode("edit");
+  });
 
-  // The chapter opens straight in the editor, like the podcast editor.
-  setMode("edit");
+  // ── The lane switch — Reading edition ⇄ Podcast source ────────────────────
+  // See compose-lane.ts for why the podcast lane is read-only by construction
+  // rather than by intent. `leave` is leaveEditMode, which flushes the pending
+  // autosave and destroys the editor BEFORE the pane swaps: a keystroke typed a
+  // moment before the flip lands in book.md, and nothing editable survives
+  // behind the toggle. Mounted only when the book has a podcast source AND the
+  // page rendered the pane for it.
+  const podcastPane = root.querySelector<HTMLElement>("#cx-podcast-lane");
+  const podcastBody = root.querySelector<HTMLElement>("#cx-podcast-body");
+  const podcastSelect =
+    root.querySelector<HTMLSelectElement>("#cx-podcast-select");
+  // Drawn list, not the OS dropdown — the same treatment the book chapter
+  // picker gets above, so the two pickers look like one control in two lanes
+  // instead of an editorial list beside a grey system panel.
+  const podcastMenu = enhanceSelect(podcastSelect);
+  let composeLane: ComposeLane | null = null;
+  if (podcastPane && podcastBody && (data.podcastChapters?.length ?? 0) > 0) {
+    composeLane = createComposeLane({
+      slug,
+      chapters: data.podcastChapters ?? [],
+      root,
+      pane: podcastPane,
+      body: podcastBody,
+      select: podcastSelect,
+      syncSelect: () => podcastMenu?.sync(),
+      status: root.querySelector<HTMLElement>("#cx-podcast-status"),
+      bookBtn: root.querySelector<HTMLButtonElement>("#cx-lane-book"),
+      podcastBtn: root.querySelector<HTMLButtonElement>("#cx-lane-podcast"),
+      book: {
+        leave: () => leaveEditMode(),
+        enter: () => setMode(userMode),
+      },
+    });
+  }
+
+  // A flip whose leave() reloaded the page (prose had changed, so the preview
+  // re-renders from the authoritative book.md) left its intent in
+  // sessionStorage; honour it here instead of dropping the user back in Edit.
+  const restoreLane = pendingLane(slug); // consumed either way — never left stale
+  if (composeLane && restoreLane === "podcast") {
+    void composeLane.setLane("podcast");
+  } else {
+    // The chapter opens straight in the editor, like the podcast editor.
+    setMode("edit");
+  }
 }
 
 if (document.readyState === "loading") {

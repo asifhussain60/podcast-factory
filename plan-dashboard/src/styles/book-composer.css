@@ -253,10 +253,17 @@
   margin: 0 0 1.2rem;
   flex-wrap: wrap;
 }
+/* Basis is the picker's own minimum, NOT `auto`: flex decides line breaks from
+   the base size before any shrinking happens, so an `auto` basis (the select's
+   max-content, up to max-width) claimed the whole line and pushed the third
+   control in this bar — the Read/Edit toggle, once the lane switch joined the
+   row — onto a second line at 1440px with the line half empty. Basing it on the
+   min-width it already declares lets all three sit on one row and the picker
+   still grow into whatever is left, up to max-width. */
 .cx-chapter-picker {
   margin: 0;
   min-width: 16rem;
-  flex: 1 1 auto;
+  flex: 1 1 16rem;
   max-width: 32rem;
 }
 /* The chapter picker is the primary navigation control for this whole view —
@@ -280,8 +287,14 @@
    visually-hidden contract. Deliberately not replaced. */
 /* Read / Edit segmented control. Read is the print-faithful render (the PDF's
    own markup); Edit is the TipTap surface. Sits beside the chapter picker so the
-   two chapter-level controls read as one group. */
-.cx-mode-toggle {
+   two chapter-level controls read as one group.
+
+   The lane switch (Reading edition / Podcast source) is a DIFFERENT axis — which
+   TEXT, not which rendering — but the same kind of control, so it shares this
+   form rather than carrying a second copy of it. Selector lists, not duplicated
+   declarations: a change to the segmented look lands on both. */
+.cx-mode-toggle,
+.cx-lane-toggle {
   display: inline-flex;
   align-items: center;
   gap: 0;
@@ -295,7 +308,8 @@
     0 4px 12px rgba(31, 29, 24, 0.06)
   );
 }
-.cx-mode-btn {
+.cx-mode-btn,
+.cx-lane-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -312,19 +326,149 @@
     background 0.16s,
     color 0.16s;
 }
-.cx-mode-btn + .cx-mode-btn {
+.cx-mode-btn + .cx-mode-btn,
+.cx-lane-btn + .cx-lane-btn {
   border-left: 1px solid var(--c-rule, #d9d3c4);
 }
-.cx-mode-btn:hover {
+.cx-mode-btn:hover,
+.cx-lane-btn:hover {
   color: var(--c-accent, #8b4513);
 }
-.cx-mode-btn[aria-pressed="true"] {
+.cx-mode-btn[aria-pressed="true"],
+.cx-lane-btn[aria-pressed="true"] {
   background: color-mix(
     in oklab,
     var(--c-accent, #8b4513) 11%,
     var(--c-bg-card, #fffdf8)
   );
   color: var(--c-accent, #8b4513);
+}
+
+/* ── The Podcast lane ───────────────────────────────────────────────────────
+   The NotebookLM upload source (chapters/*.txt), read-only. compose-lane.ts
+   stamps data-lane on the .composer root; everything that belongs to the
+   reading-edition lane is hidden from CSS here rather than by a second set of
+   JS `hidden` toggles that could disagree with the lane state.
+
+   The book chapter bodies keep their own `hidden` attribute untouched, so
+   flipping back restores exactly the chapter that was open — this rule only
+   overlays the lane, it never rewrites the chapter selection. */
+.composer[data-lane="podcast"] .cx-chapter,
+.composer[data-lane="podcast"] .cx-chapter-picker,
+.composer[data-lane="podcast"] .cx-mode-toggle,
+/* The reading edition's figure-layout save pill. There are no figures to place
+   in this lane, so it can only ever show a state left over from the other one —
+   and "Saved 9:12 AM" floating above prose the banner just called read-only is
+   exactly the confusion the banner exists to prevent. */
+.composer[data-lane="podcast"] .cx-layout-save {
+  display: none;
+}
+
+.cx-podcast-bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0 0 1rem;
+}
+.cx-podcast-picker {
+  margin: 0;
+  min-width: 16rem;
+  flex: 1 1 auto;
+  max-width: 32rem;
+}
+.cx-podcast-bar .cx-podcast-picker > label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--c-ink-muted, #66625a);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.cx-podcast-status {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--c-ink-dim, #4d4a42);
+}
+/* --c-red, not --c-danger: the latter is declared nowhere in the theme, so a
+   var(--c-danger, …) fallback paints a hex that is NOT in the palette. Same
+   token .cx-status.is-error uses below. */
+.cx-podcast-status.is-error {
+  color: var(--c-red, #a83232);
+}
+
+/* The label that has to be unmissable: which lane this is, that it is
+   read-only, and that it never reaches the PDF. Toned like a standing notice
+   rather than an error — it is the normal state of this pane, not a fault. */
+.cx-podcast-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin: 0 0 1.6rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-left: 3px solid var(--c-accent, #8b4513);
+  border-radius: 8px;
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 5%,
+    var(--c-bg-card, #fffdf8)
+  );
+  /* REQ-010 reading floor: this is prose the human must actually read. */
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-podcast-note strong {
+  color: var(--c-ink, #1f1d18);
+}
+.cx-podcast-note i {
+  margin-top: 0.25rem;
+  color: var(--c-accent, #8b4513);
+}
+.cx-podcast-note code {
+  font-family: var(--font-mono, ui-monospace, Menlo, monospace);
+  font-size: 0.9em;
+}
+
+/* Typography comes from .src-view-prose (library.css) — the same read-only
+   render studio/<slug>/view.astro uses for these files, so the lane reads
+   exactly as the existing chapter viewer does. Only the measure is set here:
+   the viewer's own 70ch, CENTRED in the column the way .cx-body centres the
+   reading edition's 60ch. An uncapped-left measure under a full-width banner
+   and picker is the lopsided drift REQ-003 warns about. */
+.cx-podcast-body {
+  max-width: 70ch;
+  margin-inline: auto;
+}
+
+/* compose-lane.ts demotes the injected chapter's headings one level so the page
+   keeps its single <h1> (REQ-011) and the lane's outline matches the reading
+   edition's (whose chapter title is .chapter-open h2). These three rules point
+   .src-view-prose's h1/h2/h3 treatment at the demoted levels, so the demotion
+   costs nothing visually — same sizes, same rule, one level down.
+
+   Selected by #id + type, like the chapter picker's label above: that beats
+   .src-view-prose's own (0,1,1) heading rules regardless of which stylesheet the
+   bundler emits first, without touching the shared rules themselves. */
+#cx-podcast-body h2 {
+  font-size: 1.9rem;
+  line-height: 1.25;
+  margin: 0 0 1.2rem;
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+#cx-podcast-body h3 {
+  font-family: var(--font-display, "Cinzel", Georgia, serif);
+  font-size: 1.4rem;
+  line-height: 1.3;
+  margin: 2.2rem 0 0.8rem;
+  border-bottom: 1px solid var(--c-rule-soft, var(--c-rule, #d9d3c4));
+  padding-bottom: 0.3rem;
+}
+#cx-podcast-body h4 {
+  font-size: 1.15rem;
+  margin: 1.6rem 0 0.6rem;
 }
 
 .cx-layout-save {
@@ -2211,6 +2355,7 @@
   .cx-fig,
   .cx-edit-tool,
   .cx-mode-btn,
+  .cx-lane-btn,
   .cx-size-btn,
   .cx-font-select,
   .cx-paper-btn,
@@ -2223,6 +2368,17 @@
 ):focus-visible {
   outline: 2px solid var(--c-accent, #8b4513);
   outline-offset: 2px;
+}
+
+/* The segmented shells (Read/Edit, Reading edition/Podcast source) clip with
+   `overflow: hidden` — that is what keeps the pressed background inside their
+   rounded ends — and a clip swallows an OUTSET ring: focusing the first button
+   of a group showed no ring at all. Draw these inset instead, so the accent
+   ring is fully visible without unclipping the shell. Must stay AFTER the
+   :is() block above: same specificity, so source order decides. */
+.cx-mode-btn:focus-visible,
+.cx-lane-btn:focus-visible {
+  outline-offset: -2px;
 }
 
 .composer-empty {

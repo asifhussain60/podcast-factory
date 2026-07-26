@@ -12,7 +12,7 @@
  * /api/studio/visual-layout (PUT); the renderer (render-book-pdf.mjs) consumes
  * that contract. Read-only here — persistence is the API route's job.
  */
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { anchorKey } from "../../../scripts/lib/anchor-key.mjs";
 import { articulationWarningsFrom } from "./articulation";
@@ -112,10 +112,64 @@ export interface ComposerPlacement {
   page_fit: "avoid" | "before" | "isolate-plate";
 }
 
+/**
+ * One `chapters/*.txt` file — the NotebookLM upload source, listed for the
+ * Composer's read-only Podcast lane.
+ *
+ * Deliberately METADATA ONLY. The podcast lane is a different English text of
+ * the same source, independently segmented (a book can have 9 chapters against
+ * 20 podcast chapters) and typically LARGER than the whole reading edition —
+ * shipping those bodies in the compose page would roughly double its prose
+ * payload for a pane most visits never open. The lane fetches the one chapter
+ * it is showing through the read-only /api/library/file route instead.
+ */
+export interface ComposerPodcastChapter {
+  /** Basename inside `chapters/`. */
+  file: string;
+  /** The file's own `# ` heading, falling back to its filename. */
+  title: string;
+  /** The `chNN<letter>` ordinal the filename carries ('' if unparseable). */
+  ordinal: string;
+}
+
+/** Read the chapter sources' titles without shipping their bodies. Sorted by
+ *  filename, which is how the pipeline numbers them (`ch01a`, `ch02b`, …). */
+async function loadPodcastChapters(
+  dir: string,
+): Promise<ComposerPodcastChapter[]> {
+  let names: string[];
+  try {
+    names = (await readdir(join(dir, "chapters")))
+      .filter((n) => n.endsWith(".txt"))
+      .sort();
+  } catch {
+    return []; // no chapters/ — this book has no podcast lane
+  }
+  return Promise.all(
+    names.map(async (file) => {
+      let heading = "";
+      try {
+        const raw = await readFile(join(dir, "chapters", file), "utf-8");
+        heading = (raw.match(/^#\s+(.+)$/m)?.[1] ?? "").trim();
+      } catch {
+        /* unreadable file still lists, under its filename */
+      }
+      const ordinal = /^ch(\d+[a-z]?)-/.exec(file)?.[1] ?? "";
+      return {
+        file,
+        title: heading || file.replace(/\.txt$/, ""),
+        ordinal,
+      };
+    }),
+  );
+}
+
 export interface ComposerView {
   slug: string;
   title: string;
   chapters: ComposerChapter[];
+  /** The read-only Podcast lane's chapter list — see ComposerPodcastChapter. */
+  podcastChapters: ComposerPodcastChapter[];
   visuals: ComposerVisual[];
   placements: ComposerPlacement[];
   hasBook: boolean;
@@ -170,6 +224,9 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
       slug,
       title: slug,
       chapters: [],
+      // No reading edition composed yet, so the page renders its empty state
+      // and never mounts the lane switch — an unusable list would be noise.
+      podcastChapters: [],
       visuals: [],
       placements: [],
       hasBook: false,
@@ -305,9 +362,10 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
   );
   const placements: ComposerPlacement[] = layoutData.placements ?? [];
 
-  const [glossary, glossaryAll] = await Promise.all([
+  const [glossary, glossaryAll, podcastChapters] = await Promise.all([
     loadGlossary(slug),
     loadGlossaryAll(slug),
+    loadPodcastChapters(ref.dir),
   ]);
 
   // RCA-001 AI-3 — read the articulation pass's own report so the Composer can
@@ -329,6 +387,7 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     slug,
     title,
     chapters,
+    podcastChapters,
     visuals,
     placements,
     hasBook: true,
