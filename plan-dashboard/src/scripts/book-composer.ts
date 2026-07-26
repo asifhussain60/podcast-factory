@@ -628,6 +628,12 @@ function boot(): void {
   const companionNotes: { current: CompanionMark[] } = { current: [] };
   let focusNote: { id: string; nonce: number } | null = null;
   let focusNonce = 0;
+  /** Notes whose passage was actually found in the open chapter. The panel lists
+   *  only these (Asif, 2026-07-26): a chapter's file also holds reading notes
+   *  written against earlier drafts, and after a re-compose most of them quote
+   *  sentences the text no longer contains — cards that can never point at
+   *  anything. They stay on disk and stay in the LIVE Session. */
+  let anchoredIds: string[] = [];
 
   /** Stable identities, declared ONCE. A fresh arrow function per render would
    *  change the panel's props on every re-render, and the panel keys its chapter
@@ -650,6 +656,7 @@ function boot(): void {
         docked: true,
         chapter: liveChapterKey(),
         focusNote,
+        anchoredIds,
         onNotesChanged,
         onReveal: revealPassage,
       }),
@@ -665,7 +672,16 @@ function boot(): void {
         .querySelectorAll<HTMLElement>(".cx-note-hl")
         .forEach((el) => el.replaceWith(...el.childNodes));
       body.normalize(); // re-fuse the text nodes an earlier wrap split
-      markPassages(body, companionNotes.current, "cx-note-hl");
+      // The READ body is marked even while the editor is open (it is hidden, not
+      // removed), so which notes are anchored is answered the same way in both
+      // modes — from the prose, never from whichever tint happens to be drawn.
+      const found = [
+        ...markPassages(body, companionNotes.current, "cx-note-hl").keys(),
+      ];
+      if (found.join("|") !== anchoredIds.join("|")) {
+        anchoredIds = found;
+        renderScholar(); // the panel lists only what is anchored
+      }
     }
     // Same idiom as syncEditorFigures: an empty transaction asks the decoration
     // plugins to recompute against the notes they now see.
