@@ -37,6 +37,10 @@ jobs:
       # as history; flagging those would make the gate un-adoptable.
       - name: Dead-link gate (normative docs)
         run: python3 scripts/check_doc_links.py
+      # AGENTS.md is generated from CLAUDE.md. Both load into every session, so drift
+      # between them degrades every turn and is invisible to any other gate.
+      - name: Agent-instructions mirror (AGENTS.md <- CLAUDE.md)
+        run: python3 scripts/sync_agent_instructions.py --check
       # `continue-on-error` already makes this advisory. It used to ALSO end in
       # `|| true`, which forced a green step and hid the result entirely — a gate
       # that cannot fail teaches you to ignore it. Dropped 2026-07-26; the step

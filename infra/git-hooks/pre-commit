@@ -93,6 +93,18 @@ if [ -n "$dr005_staged" ] && [ -f "$repo_root/infra/git-hooks/check-dr005.py" ];
     fi
 fi
 
+# AGENTS.md is GENERATED from CLAUDE.md. Staging either without regenerating means the
+# two always-loaded instruction files have drifted — which is how AGENTS.md came to be
+# missing five standing rules and carrying a blind Claude->Codex rewrite that invented a
+# content slug and two filesystem paths.
+if printf '%s\n' "$staged_files" | grep -qE '^(CLAUDE|AGENTS)\.md$' \
+        && [ -f "$repo_root/scripts/sync_agent_instructions.py" ]; then
+    if ! python3 "$repo_root/scripts/sync_agent_instructions.py" --check >&2; then
+        echo "pre-commit: AGENTS.md is out of sync with CLAUDE.md." >&2
+        exit 1
+    fi
+fi
+
 # Dead-link gate over the NORMATIVE docs only (agent specs, skills, root docs).
 # The 2026-07-26 sweep found 13 dead links, dominated by a handbook tree gone since
 # the 2026-05-23 restructure that six files still cited. Historical trees like
