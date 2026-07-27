@@ -40,6 +40,38 @@ Rules:
 Return ONLY a JSON object: {"options": ["rewrite 1", "rewrite 2", "rewrite 3"]}.
 Three DISTINCT alternatives. No prefatory text, no markdown fences.`;
 
+/**
+ * Output budget for THREE rewrites of `text`, not for one sentence.
+ *
+ * The cap was a flat 1500 tokens, which quietly assumed the selection was short.
+ * It is not: a 1,621-character paragraph is ~406 tokens, three rewrites are ~1,218
+ * before the JSON envelope and before every internal quote doubles as \", and
+ * `expand` is instructed to GROW the passage 20-40%. The response was therefore cut
+ * mid-string, and on 2026-07-27 a real selection came back with zero usable options
+ * — "Rewrite failed: no suggestions returned" — because not even the first rewrite
+ * finished inside the budget.
+ *
+ * So the budget follows the input: three rewrites, each allowed to reach 2.5x the
+ * source, plus room for the envelope. The 2.5 is measured, not guessed — `expand`
+ * on a 1,621-character passage returned options of 3,429/3,850/3,909 characters,
+ * i.e. 2.4x each. Floored at the old value so short passages are unaffected, and
+ * ceilinged at the model's own output limit; past that, truncation resumes and
+ * salvage() below recovers whichever rewrites finished.
+ */
+const MODEL_OUTPUT_CEILING = 8192;
+const OPTIONS_REQUESTED = 3;
+const GROWTH_HEADROOM = 2.5; // observed worst case: `expand` at 2.4x
+export function outputBudgetFor(text: string): number {
+  const approxInputTokens = Math.ceil(text.length / 4);
+  return Math.min(
+    MODEL_OUTPUT_CEILING,
+    Math.max(
+      1500,
+      Math.round(approxInputTokens * OPTIONS_REQUESTED * GROWTH_HEADROOM) + 400,
+    ),
+  );
+}
+
 /** Does this string look like the envelope rather than a rewrite? */
 function looksLikeEnvelope(s: string): boolean {
   const t = s.trimStart();
@@ -128,7 +160,14 @@ export const POST: APIRoute = async ({ request }) => {
       systemInstruction: SYSTEM(hint),
       contents: [{ role: "user", parts: [{ text: user }] }],
       temperature: 0.7,
-      maxOutputTokens: 1500,
+      maxOutputTokens: outputBudgetFor(text),
+      // No thinking tokens — on 2.5 Flash they are drawn from the SAME budget as
+      // the answer, so a long passage spent its allowance reasoning and the JSON
+      // was cut mid-string. That is the whole "no suggestions returned" failure.
+      // etymology, explain, arabic-term, english-term and phonetic-generate all
+      // already pass 0 for this exact reason; rewrite was the one that missed it,
+      // and it is the one route asked to emit THREE long strings.
+      thinkingBudget: 0,
       jsonMode: true,
     });
 

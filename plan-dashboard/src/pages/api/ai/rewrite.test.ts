@@ -7,7 +7,7 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { salvage } from "./rewrite";
+import { salvage, outputBudgetFor } from "./rewrite";
 
 test("passes clean options straight through", () => {
   assert.deepEqual(salvage(["one", "two"]), ["one", "two"]);
@@ -47,5 +47,26 @@ test("never emits a string that is itself an envelope", () => {
         `leaked an envelope: ${out.slice(0, 40)}`,
       );
     }
+  }
+});
+
+test("output budget scales with the passage, floored and ceilinged", () => {
+  // A sentence keeps the old allowance — short passages never regressed.
+  assert.equal(outputBudgetFor("a short sentence."), 1500);
+  // The 1,621-char paragraph that returned zero options on 2026-07-27 now gets
+  // room for three rewrites at the observed 2.4x `expand` growth.
+  const long = "x".repeat(1621);
+  assert.ok(
+    outputBudgetFor(long) >= 3 * Math.ceil(1621 / 4) * 2.4,
+    "must cover three expanded rewrites",
+  );
+  // Never exceeds what the model will emit.
+  assert.equal(outputBudgetFor("x".repeat(100_000)), 8192);
+  // Monotonic: a longer passage never gets a smaller budget.
+  let prev = 0;
+  for (const n of [100, 1000, 2000, 4000, 8000, 20000]) {
+    const b = outputBudgetFor("x".repeat(n));
+    assert.ok(b >= prev, `budget shrank at ${n} chars`);
+    prev = b;
   }
 });
