@@ -22,7 +22,7 @@
  */
 import Database from "better-sqlite3";
 import { join } from "node:path";
-import { surahName } from "./surah-names";
+import { surahName, surahNumber } from "./surah-names";
 
 const DB_PATH = join(
   new URL("../../../../../content/knowledge-base/mirror.db", import.meta.url)
@@ -32,8 +32,11 @@ const DB_PATH = join(
 /** `Q|18:65`, `Q|2:5-10`, `Q|2: 5 : 10` — the forms the persona's spec allows. */
 const CITATION =
   /Q\|\s*(\d{1,3})\s*:\s*(\d{1,3})(?:\s*[-:]\s*(\d{1,3}))?\s*&?/g;
-/** The resolved form, used to find where the citation starts on a shared line. */
-const NAMED_CITATION = /[A-Z'][A-Za-z'-]*(?: [A-Za-z'-]+)* \d{1,3}:\d{1,3}/;
+/** The resolved form: a surah NAME then chapter:verse. Used both to find where a
+ *  citation starts on a shared line and — since the persona was taught to write
+ *  this form directly — to recognise a citation that never had a `Q|` at all. */
+const NAMED_CITATION =
+  /([A-Z'][A-Za-z'-]*(?: [A-Za-z'-]+){0,3}) (\d{1,3}):(\d{1,3})(?:-(\d{1,3}))?/;
 /** A line that is nothing but a citation. */
 const CITATION_ONLY = /^\s*[A-Z'][^\n]*\d{1,3}:\d{1,3}[-\d]*\s*$/;
 
@@ -60,6 +63,14 @@ function lookupVerse(
   };
 }
 
+/** Index of the last Arabic character (with its marks), or -1. */
+function lastArabicIndex(text: string): number {
+  for (let i = text.length - 1; i >= 0; i--) {
+    if (/[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]/.test(text[i])) return i;
+  }
+  return -1;
+}
+
 /** True when a line is Arabic script and carries no English of its own. */
 function isBareArabicLine(line: string): boolean {
   const stripped = line.replace(/^\s*>\s?/, "").trim();
@@ -76,7 +87,11 @@ function isBareArabicLine(line: string): boolean {
  * rendering belongs.
  */
 export function resolveQuranCitations(markdown: string): string {
-  if (!CITATION.test(markdown)) {
+  // Runs for the NAMED form too, not only the machine one. The persona was taught
+  // to write "Al-Kahf 18:65" directly, and when it does there is no `Q|` to
+  // trigger on — so a verse kept the model's own translation, on one line, outside
+  // any quotation: not centred, not on its own row, and not the canonical text.
+  if (!CITATION.test(markdown) && !NAMED_CITATION.test(markdown)) {
     CITATION.lastIndex = 0;
     return markdown;
   }
@@ -117,6 +132,22 @@ export function resolveQuranCitations(markdown: string): string {
         },
       );
 
+      // The NAMED form carries the same facts as `Q|18:65` and is now the one the
+      // persona writes, so it is parsed here too — by resolving the written name
+      // back to its number. A name that does not resolve is left alone: "Chapter
+      // 3:4" is not a citation and must not be treated as one.
+      if (!cites.length) {
+        const named = NAMED_CITATION.exec(rewritten);
+        const n = named ? surahNumber(named[1]) : 0;
+        if (named && n) {
+          cites.push({
+            surah: n,
+            ayat: Number(named[3]),
+            range: Boolean(named[4]),
+          });
+        }
+      }
+
       const cited = cites.length === 1 ? cites[0] : null;
       const verse =
         db && cited && !cited.range
@@ -132,12 +163,25 @@ export function resolveQuranCitations(markdown: string): string {
         rewritten.replace(/^\s*>\s?/, ""),
       );
       if (cited && !citationOnly && /[؀-ۿ]/.test(rewritten)) {
-        const mark = marker(rewritten);
-        const bare = rewritten.slice(mark.length);
+        // ALWAYS a quotation, whatever the model wrote it as. A verse the model
+        // set as an ordinary paragraph rendered flush-left and ran the script,
+        // the translation and the citation together on one line; as a blockquote
+        // it gets the centred, three-row treatment a quotation is meant to have.
+        const mark = "> ";
+        const bare = rewritten.replace(/^\s*>\s?/, "");
         const at = bare.search(NAMED_CITATION);
-        const arabic = bare.slice(0, at).trim();
-        const citation = bare.slice(at).trim();
-        const parts = [arabic, verse?.english ?? "", citation].filter(Boolean);
+        const beforeCite = at >= 0 ? bare.slice(0, at) : bare;
+        const citation = at >= 0 ? bare.slice(at).trim() : "";
+        // Split the script from whatever rendering the model put beside it: the
+        // Arabic ends at its last Arabic character.
+        const lastAr = lastArabicIndex(beforeCite);
+        const arabic = beforeCite.slice(0, lastAr + 1).trim();
+        const modelEnglish = beforeCite.slice(lastAr + 1).trim();
+        // The canonical rendering WINS over the model's paraphrase — that is the
+        // whole point of having the mushaf in the repo — and the model's is kept
+        // only when the mirror cannot answer.
+        const english = verse?.english || modelEnglish;
+        const parts = [arabic, english, citation].filter(Boolean);
         parts.forEach((part, i) => {
           if (i > 0) out.push(gap(mark));
           out.push(`${mark}${part}`);
@@ -149,8 +193,12 @@ export function resolveQuranCitations(markdown: string): string {
       // line above it, and the rendering belongs between them.
       const prev = out[out.length - 1] ?? "";
       if (verse?.english && citationOnly && isBareArabicLine(prev)) {
-        const mark = marker(prev);
+        const mark = marker(prev) || "> ";
+        // Pull the verse line into the quotation if it was not in one.
+        if (!marker(prev)) out[out.length - 1] = `${mark}${prev.trim()}`;
         out.push(gap(mark), `${mark}${verse.english}`, gap(mark));
+        out.push(`${mark}${rewritten.replace(/^\s*>\s?/, "").trim()}`);
+        continue;
       }
       out.push(rewritten);
     }

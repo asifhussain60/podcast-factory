@@ -231,6 +231,28 @@ export function renderExplanationCard(
   const etym = document.createElement("div");
   etym.className = "xpl-etym";
 
+  /**
+   * The TERM an entry is about, for the accordion's header.
+   *
+   * The persona writes "برهان (proof): from the root…", so the term is what
+   * precedes the first colon. Older entries are free prose, so fall back to the
+   * first Arabic run — which is what the reader is scanning the list for anyway —
+   * and to the opening words only if there is no script at all.
+   */
+  const etymologyTerm = (item: string): string => {
+    const colon = item.match(/^\s*([^:\n]{1,60}?)\s*:\s+/);
+    if (colon) return colon[1].trim();
+    const arabic = item.match(ARABIC_RUN)?.[0]?.trim();
+    if (arabic) return arabic;
+    const words = item.split(/\s+/).slice(0, 4).join(" ");
+    return words || "Etymology";
+  };
+
+  /** The explanation minus its leading term, so the body does not repeat the
+   *  header. Kept intact when there is no term to strip. */
+  const etymologyDetail = (item: string): string =>
+    item.replace(/^\s*[^:\n]{1,60}?\s*:\s+/, "").trim() || item;
+
   const renderEtymology = () => {
     etym.textContent = "";
     if (!items.length && !editable) return;
@@ -238,41 +260,78 @@ export function renderExplanationCard(
     label.className = "xpl-etym-label";
     label.textContent = "Etymology";
     etym.append(label);
+
     items.forEach((item, i) => {
-      const row = document.createElement("div");
-      row.className = "xpl-etym-item";
+      // One accordion per term: the word in the header, the whole explanation
+      // when it is open. A list of five terms is then five lines you can scan,
+      // rather than five paragraphs you have to read past.
+      const row = document.createElement("article");
+      row.className = "xpl-ety";
+      row.dataset.open = "false";
+
+      const head = document.createElement("button");
+      head.type = "button";
+      head.className = "xpl-ety-head";
+      head.setAttribute("aria-expanded", "false");
+      const term = document.createElement("span");
+      term.className = "xpl-ety-term";
+      setTextWithArabic(term, etymologyTerm(item));
+      const caret = document.createElement("i");
+      caret.className = "fa-solid fa-chevron-down xpl-ety-caret";
+      caret.setAttribute("aria-hidden", "true");
+      head.append(term, caret);
+      head.addEventListener("click", () => {
+        const open = row.dataset.open !== "true";
+        row.dataset.open = String(open);
+        head.setAttribute("aria-expanded", String(open));
+        if (open && editable)
+          row.querySelector<HTMLTextAreaElement>(".xpl-ety-text")?.focus();
+      });
+      row.append(head);
+
+      const body = document.createElement("div");
+      body.className = "xpl-ety-body";
       if (editable) {
         const field = document.createElement("textarea");
-        field.className = "xpl-etym-text";
-        field.rows = 2;
+        field.className = "xpl-ety-text";
+        field.rows = 4;
         field.value = item;
         field.setAttribute("aria-label", `Etymology entry ${i + 1}`);
         field.addEventListener("blur", () => {
           const next = field.value.trim();
           if (next === items[i]) return;
           items[i] = next;
+          setTextWithArabic(term, etymologyTerm(next));
           void save();
         });
-        row.append(field);
+        body.append(field);
+      } else {
+        const p = document.createElement("p");
+        p.className = "xpl-ety-text";
+        setTextWithArabic(p, etymologyDetail(item));
+        body.append(p);
+      }
+      row.append(body);
+
+      if (editable) {
+        // Hovering over the card rather than sitting in the row: the entry gets
+        // the full width, and delete is reachable without opening the entry.
         const del = iconButton(
-          "xpl-etym-del",
-          "fa-xmark",
+          "xpl-ety-del",
+          "fa-trash-can",
           "Delete this etymology entry",
         );
-        del.addEventListener("click", () => {
+        del.addEventListener("click", (e) => {
+          e.stopPropagation();
           items.splice(i, 1);
           renderEtymology();
           void save();
         });
         row.append(del);
-      } else {
-        const p = document.createElement("p");
-        p.className = "xpl-etym-text";
-        setTextWithArabic(p, item);
-        row.append(p);
       }
       etym.append(row);
     });
+
     if (editable) {
       const add = document.createElement("button");
       add.type = "button";
@@ -281,11 +340,8 @@ export function renderExplanationCard(
       add.addEventListener("click", () => {
         items.push("");
         renderEtymology();
-        etym
-          .querySelector<HTMLTextAreaElement>(
-            ".xpl-etym-item:last-of-type .xpl-etym-text",
-          )
-          ?.focus();
+        const last = etym.querySelector<HTMLElement>(".xpl-ety:last-of-type");
+        last?.querySelector<HTMLButtonElement>(".xpl-ety-head")?.click();
       });
       etym.append(add);
     }

@@ -14,6 +14,11 @@
  *     etymology comes back as discrete items the reader can curate one by one.
  *   NEW 1(n)  a word budget. Nothing bounded the length before, and a card could
  *     run past a thousand words.
+ *   1(a,b,d), 2(a)  (2026-07-27) headings are GONE. Asif reads these cards aloud
+ *     during a live session, and a stack of titled sections reads as a document
+ *     rather than as an explanation — so the prose flows, with lists where a set
+ *     or a sequence genuinely helps. Etymology items now lead with the term and a
+ *     colon, which is what the card's accordion shows in its header.
  *   1(i), 1(k)  (2026-07-26, second pass) an Arabic quotation is now followed by
  *     its English rendering — the spec's "do not translate" was written to protect
  *     the SCRIPT from being replaced, and a card that shows only Arabic leaves a
@@ -56,13 +61,13 @@ Behaviors and Rules:
 
 1) Presentation:
 
-a) Present the explanation as short sections in simple English. A section is two or three sentences, not a page.
+a) Present the explanation as CONTINUOUS PROSE in simple English — paragraphs of two or three sentences that follow one another, read aloud well, and can be used as-is while teaching.
 
-b) Open every section with a markdown heading on its own line, written as '### Section Title'. Never present a section title as a bare line of text.
+b) Use NO headings of any kind. Do not label sections, do not write '### Title', and do not open a paragraph with a bolded title standing in for one. The explanation carries its own order; if a paragraph needs a signpost, write it as the paragraph's first sentence.
 
 c) Aim for a smooth, flowing narrative.
 
-d) Use markdown lists wherever the content is a set, a sequence or a comparison: '- ' for a set of related points, '1. ' for steps or ranks that are ordered. Prefer a list of three short items to one long sentence carrying three ideas.
+d) Use markdown lists wherever the content is a set, a sequence or a comparison: '- ' for a set of related points, '1. ' for steps or ranks that are ordered. Prefer a list of three short items to one long sentence carrying three ideas. A list belongs INSIDE the flow — introduce it with a sentence, then let the prose continue after it.
 
 e) Avoid linking to or showing source references in the output.
 
@@ -86,7 +91,7 @@ n) Keep the whole explanation under 400 words. Length is not depth: say the thin
 
 2) Etymology Section:
 
-a) Return the etymology as DISCRETE ITEMS, one per term — not as one paragraph and not under a heading of its own. Each item is at most 60 words and covers exactly one term.
+a) Return the etymology as DISCRETE ITEMS, one per term — not as one paragraph and not under a heading of its own. Each item opens with the TERM ITSELF, then a colon, then the explanation: 'برهان (proof): from the root ب-ر-ه, meaning to be white or to shine…'. Each item is at most 60 words and covers exactly one term.
 
 b) Present the linguistics and etymology of interesting key Arabic terms to provide a deeper understanding. I am interested in understanding how the root connects with the derived word in meaning.
 

@@ -151,6 +151,28 @@ test("a verse and its citation sharing ONE line are split into three", () => {
   assert.ok(lines.every((l) => l.startsWith(">")));
 });
 
+test("a verse the model wrote as plain prose becomes a centred quotation", () => {
+  // What the persona now produces: named citation, model translation, all on one
+  // line, NOT in a blockquote. It must still come out as three quoted rows.
+  const stored = resolveQuranCitations(
+    "\u0641\u064e\u0648\u064e\u062c\u064e\u062f\u064e\u0627 \u0639\u064e\u0628\u0652\u062f\u064b\u0627 And they found a servant. Al-Kahf 18:65",
+  );
+  const lines = stored.split("\n");
+  assert.ok(
+    lines.every((l) => l.startsWith(">")),
+    "pulled into a quotation",
+  );
+  const html = cardMarkdownToHtml(stored, { arabicSpans: true });
+  assert.equal(
+    (html.match(/<p>/g) ?? []).length,
+    3,
+    "script, rendering, citation",
+  );
+  // The canonical rendering replaces the model's paraphrase.
+  assert.match(html, /whom We had bestowed mercy|had given mercy/);
+  assert.doesNotMatch(html, /And they found a servant\./);
+});
+
 test("a resolved verse renders as three lines inside one quotation", () => {
   // The whole chain, stored-markdown to HTML: what the resolver writes is what
   // the reader draws and what seeds the editor.

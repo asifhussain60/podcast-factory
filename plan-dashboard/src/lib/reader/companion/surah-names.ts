@@ -131,3 +131,18 @@ export const SURAH_NAMES: readonly string[] = [
 export function surahName(n: number): string {
   return SURAH_NAMES[n - 1] ?? "";
 }
+
+/** Comparable form: letters only, lowercased — so "Al-Kahf", "al kahf" and
+ *  "AlKahf" are one key. */
+function key(name: string): string {
+  return name.toLowerCase().replace(/[^a-z]/g, "");
+}
+
+const BY_NAME: ReadonlyMap<string, number> = new Map(
+  SURAH_NAMES.map((n, i) => [key(n), i + 1]),
+);
+
+/** The number behind a written name, or 0 when it is not a surah name. */
+export function surahNumber(name: string): number {
+  return BY_NAME.get(key(name)) ?? 0;
+}
