@@ -45,9 +45,22 @@ function buildUserTurn(opts: {
   value: string;
   bookTitle?: string;
   context?: string;
+  chapterContext?: string;
 }): string {
   return [
     opts.bookTitle ? `Book: ${opts.bookTitle}` : "",
+    // The WHOLE chapter, when the caller has it. A companion explanation is
+    // about a passage inside an argument, and the paragraph around it is not
+    // that argument: it cannot say what the Master has already established, what
+    // question the boy asked three pages earlier, or which term was defined
+    // before being used here. Until 2026-07-27 the Scholar received only the
+    // containing paragraph capped at 600 characters — 0.75% of the budget below
+    // — while the plain /api/ai/explain route on the same page sent the entire
+    // chapter. It is listed BEFORE the passage so the model reads the argument
+    // first and the sentence second.
+    opts.chapterContext
+      ? `The full chapter this passage belongs to, for orientation only — explain the passage, not the chapter:\n"""${truncateContext(opts.chapterContext)}"""`
+      : "",
     opts.context
       ? `Surrounding passage: "${truncateContext(opts.context)}"`
       : "",
@@ -124,6 +137,7 @@ export async function runGemConcept(opts: {
   gemId?: string;
   concept: string;
   context?: string;
+  chapterContext?: string;
   bookTitle?: string;
   model?: GeminiModel;
 }): Promise<GemResult> {
@@ -133,6 +147,7 @@ export async function runGemConcept(opts: {
     value: opts.concept,
     bookTitle: opts.bookTitle,
     context: opts.context,
+    chapterContext: opts.chapterContext,
   });
 
   const raw = await generate({
@@ -151,6 +166,7 @@ export async function runGemQuestion(opts: {
   gemId?: string;
   question: string;
   context?: string;
+  chapterContext?: string;
   bookTitle?: string;
   model?: GeminiModel;
   grounded?: boolean;
@@ -161,6 +177,7 @@ export async function runGemQuestion(opts: {
     value: opts.question,
     bookTitle: opts.bookTitle,
     context: opts.context,
+    chapterContext: opts.chapterContext,
   });
 
   if (opts.grounded) {

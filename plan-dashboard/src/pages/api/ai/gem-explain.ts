@@ -54,8 +54,16 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   try {
-    const { gem, concept, context, bookTitle, model, ground, maxWords } =
-      await request.json();
+    const {
+      gem,
+      concept,
+      context,
+      chapterContext,
+      bookTitle,
+      model,
+      ground,
+      maxWords,
+    } = await request.json();
     if (typeof concept !== "string" || !concept.trim()) {
       return new Response(
         JSON.stringify({ ok: false, error: "missing concept" }),
@@ -65,6 +73,9 @@ export const POST: APIRoute = async ({ request }) => {
 
     // 1. The corpus first, so the model writes WITH it rather than being corrected
     //    by it afterwards. Empty when nothing in the library bears on the passage.
+    // Grounding retrieval stays on the concept + its PARAGRAPH. Widening it to the
+    // whole chapter would swamp the query and pull atoms about whatever else the
+    // chapter happens to mention.
     const atoms = ground ? groundingFor(`${concept} ${context ?? ""}`) : [];
     const grounded = atoms.length
       ? [context ?? "", groundingBlock(atoms)].filter(Boolean).join("\n\n")
@@ -76,6 +87,8 @@ export const POST: APIRoute = async ({ request }) => {
         gemId: gem,
         concept: concept.trim(),
         context: grounded,
+        chapterContext:
+          typeof chapterContext === "string" ? chapterContext : undefined,
         bookTitle,
         model,
       });

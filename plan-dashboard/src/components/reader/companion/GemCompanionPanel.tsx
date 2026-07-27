@@ -402,6 +402,7 @@ export default function GemCompanionPanel({
   function readSelection(): {
     text: string;
     context: string;
+    chapterContext: string;
     chapter: string;
   } | null {
     if (typeof window === "undefined") return null;
@@ -424,12 +425,21 @@ export default function GemCompanionPanel({
       return null;
     }
     const para = anchorEl.closest("p, li, blockquote");
+    // The chapter the selection is actually IN, taken from the selection rather
+    // than from `document.querySelector(proseSelector)` — the Composer renders
+    // every chapter as its own container and hides all but one, so querying the
+    // document would hand back the first chapter no matter where you selected.
+    // That is the same trap the container test above already documents.
+    const chapterEl = anchorEl.closest(proseSelector);
     return {
       text,
       context: (para?.textContent || "")
         .replace(/\s+/g, " ")
         .trim()
         .slice(0, 600),
+      chapterContext: (chapterEl?.textContent || "")
+        .replace(/\s+/g, " ")
+        .trim(),
       chapter: chapterKeyFor(sel?.anchorNode ?? null) || chapter,
     };
   }
@@ -439,6 +449,7 @@ export default function GemCompanionPanel({
     concept: string,
     ctx: string,
     passage?: { text: string; chapter: string },
+    chapterCtx?: string,
   ): Promise<void> {
     const id = ++reqId.current;
     setLoading(true);
@@ -457,6 +468,9 @@ export default function GemCompanionPanel({
         body: JSON.stringify({
           concept,
           context: ctx || undefined,
+          // The chapter, so the explanation is written against the argument the
+          // passage sits in rather than against one paragraph of it.
+          chapterContext: chapterCtx || undefined,
           bookTitle,
           // Ground a PASSAGE in the library's corpus; a typed concept is a
           // question about an idea, not about a sentence in this chapter.
@@ -538,10 +552,12 @@ export default function GemCompanionPanel({
     if (!picked) return;
     setInput(picked.text);
     setContext(picked.context);
-    void explain(picked.text, picked.context, {
-      text: picked.text,
-      chapter: picked.chapter,
-    });
+    void explain(
+      picked.text,
+      picked.context,
+      { text: picked.text, chapter: picked.chapter },
+      picked.chapterContext,
+    );
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {

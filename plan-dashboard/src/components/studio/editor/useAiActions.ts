@@ -141,21 +141,12 @@ export function useAiActions({
         if (!res.ok || json.ok === false) {
           setAiError(json.error ?? `Request failed (${res.status})`);
         } else if (kind === "rewrite") {
-          let opts = (json.data?.options ?? json.options ?? []) as string[];
-          // Fallback fix: if opts[0] is a raw JSON string (from API error path), re-parse it.
-          if (
-            opts.length === 1 &&
-            typeof opts[0] === "string" &&
-            opts[0].trimStart().startsWith("{")
-          ) {
-            try {
-              const inner = JSON.parse(opts[0]) as { options?: string[] };
-              if (Array.isArray(inner.options) && inner.options.length > 0)
-                opts = inner.options;
-            } catch {
-              /* keep opts as-is */
-            }
-          }
+          // The envelope-leak re-parse that used to sit here moved into
+          // /api/ai/rewrite on 2026-07-27. It was only ever on this surface, so
+          // the Composer — calling the same endpoint — offered the raw
+          // `{"options": [...]}` blob as a rewrite you could click into the book.
+          // One guard, at the source both callers share.
+          const opts = (json.data?.options ?? json.options ?? []) as string[];
           setAiOptions(opts.slice(0, 3).map((o) => String(o).trim()));
         } else if (kind === "research") {
           const body = json.fullText ?? json.prompt ?? "";

@@ -40,6 +40,66 @@ Rules:
 Return ONLY a JSON object: {"options": ["rewrite 1", "rewrite 2", "rewrite 3"]}.
 Three DISTINCT alternatives. No prefatory text, no markdown fences.`;
 
+/** Does this string look like the envelope rather than a rewrite? */
+function looksLikeEnvelope(s: string): boolean {
+  const t = s.trimStart();
+  return t.startsWith("{") && t.includes('"options"');
+}
+
+/**
+ * Never hand a caller an "option" that is actually the envelope.
+ *
+ * The two parses above fail together in one real case: the model's JSON arrives
+ * TRUNCATED — `{"options": ["done", "also done", "half a th` — so there is no
+ * closing brace for the regex to find and no valid document for JSON.parse. The
+ * fallback then wraps the whole fragment as options[0], and a caller that trusts
+ * the contract offers a literal `{"options": [...]}` blob as a rewrite. On
+ * 2026-07-27 that reached a book: the Composer showed the JSON as its one
+ * suggestion, one click from pasting it into the prose. The edit surface carried
+ * a private re-parse of its own and survived; the Composer had none, and a guard
+ * only one of two callers holds is not a guard.
+ *
+ * Truncation is recoverable, because the rewrites that finished are complete JSON
+ * string literals — only the last one is cut. So salvage those and drop the
+ * fragment: two good rewrites beat one blob, and beat an error the user cannot
+ * act on. If nothing survives, return nothing, which makes the caller say "no
+ * suggestions returned" instead of rendering machinery as prose.
+ */
+export function salvage(options: string[]): string[] {
+  const clean = options.filter((s) => s && !looksLikeEnvelope(s));
+  if (clean.length) return clean;
+
+  const blob = options.find(looksLikeEnvelope);
+  if (!blob) return [];
+
+  try {
+    const inner = JSON.parse(blob);
+    if (Array.isArray(inner.options))
+      return inner.options
+        .map((s: unknown) => String(s).trim())
+        .filter(Boolean)
+        .slice(0, 3);
+  } catch {
+    // Unterminated. Pull out every COMPLETE string literal after `"options"`,
+    // which is exactly the set of rewrites the model finished writing.
+    const arrayStart = blob.indexOf("[", blob.indexOf('"options"'));
+    if (arrayStart === -1) return [];
+    const rescued: string[] = [];
+    const literal = /"((?:[^"\\]|\\.)*)"/g;
+    literal.lastIndex = arrayStart;
+    for (let m = literal.exec(blob); m; m = literal.exec(blob)) {
+      try {
+        const s = JSON.parse(`"${m[1]}"`).trim();
+        if (s) rescued.push(s);
+      } catch {
+        /* skip a literal that will not unescape */
+      }
+    }
+    return rescued.slice(0, 3);
+  }
+  return [];
+}
+
 export const POST: APIRoute = async ({ request }) => {
   const limit = rateLimitCheck();
   if (!limit.ok)
@@ -89,6 +149,8 @@ export const POST: APIRoute = async ({ request }) => {
     parsed.options = parsed.options
       .slice(0, 3)
       .map((s: any) => String(s).trim());
+
+    parsed.options = salvage(parsed.options);
 
     return new Response(JSON.stringify(parsed), {
       status: 200,
