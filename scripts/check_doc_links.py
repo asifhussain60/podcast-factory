@@ -42,6 +42,16 @@ GLOBS = (
     "infra/claude-agents/*.md",
     "skills-staging/*/SKILL.md",
     "skills-staging/*/references/*.md",
+    # _workspace/ is otherwise excluded on purpose — it is a working surface full of
+    # session notes and continuation prompts whose paths were correct WHEN WRITTEN, and
+    # flagging those would drown the gate. `operations/` is the exception: these are
+    # ACTIVE documents ("Read by: podcast-challenger agent, the human reviewer at ship
+    # time"), so a dead link there sends an agent and a human to a file that is gone.
+    # Added 2026-07-27 after the ship checklist was found with 26 of them — it had been
+    # moved into operations/ without re-depthing its `../../` prefixes, and still cited
+    # the handbook tree retired in May.
+    "_workspace/plan/operations/*.md",
+    "docs/standards/*.md",
 )
 ROOT_DOCS = ("CLAUDE.md", "AGENTS.md", "framework.md", "README.md")
 

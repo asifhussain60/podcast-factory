@@ -386,7 +386,7 @@ def audit(book_dir: Path, episode_id: str, transcript_path: Path) -> Path:
         "| Phonetic doublings | Inspect chapter for surviving inline `(PHO-ne-tic)` parens; verify framing's `## Pronunciation` block uses imperative form per R-PRONUNCIATION-IMPERATIVE. |"
     )
     lines.append(
-        '| Mangled names | Add explicit `Pronounce "<canonical>" as "<phonetic>". Say it as one fluent word.` line to the framing\'s Pronunciation block. Check `content/_shared/arabic/03-arabic-english-manifest.md` for canonical spelling. |'
+        '| Mangled names | Add explicit `Pronounce "<canonical>" as "<phonetic>". Say it as one fluent word.` line to the framing\'s Pronunciation block. Check the per-book `_system/glossary.yml` for canonical spelling. |'
     )
     lines.append(
         "| Welcome opening violations | Verify framing carries the R-WELCOME directive; tighten the Opening section to forbid the specific phrase. |"

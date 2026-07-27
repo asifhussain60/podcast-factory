@@ -93,8 +93,9 @@ Architecture: v3.5 (chapter-as-source; phonetics in customize prompt only).
 PRONUNCIATION_TEMPLATE = """# Pronunciation — {title} (book-specific overrides)
 
 Per-book phonetic overrides. Read by `build_episode_txt.py` (via `_rules`) and
-`podcast-challenger`. **May ADD terms; MUST NOT contradict** the shared manifest
-at `content/_shared/arabic/03-arabic-english-manifest.md`.
+`podcast-challenger`. **May ADD terms; MUST NOT contradict** the per-book
+glossary at `_system/glossary.yml` (the shared `content/_shared/arabic/` manifest was
+retired in the 2026-05-23 restructure).
 
 Format: pipe table.
 

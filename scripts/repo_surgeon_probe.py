@@ -508,6 +508,31 @@ class Probe:
                 out.extend(x for x in plan[k] if isinstance(x, dict))
         return out
 
+    @staticmethod
+    def all_plan_ids(plan: dict) -> dict:
+        """Every `id:` in the document, mapped to the key path that defines it.
+
+        Resolving references against the `waves`/`waves_*` families alone produced two
+        false positives in one sitting: `A1` is a STEP of wave A, and wave `F`
+        ("Archetype Completion") lives under the top-level `excluded_by_design` key,
+        which matches no wave-family pattern. A reference is only dangling if the id
+        exists nowhere in the plan, so the universe has to be the whole document.
+        """
+        found: dict[str, list[str]] = {}
+
+        def walk(node, path: str = "") -> None:
+            if isinstance(node, dict):
+                if node.get("id") is not None:
+                    found.setdefault(str(node["id"]), []).append(path)
+                for k, v in node.items():
+                    walk(v, f"{path}.{k}" if path else str(k))
+            elif isinstance(node, list):
+                for item in node:
+                    walk(item, path)
+
+        walk(plan)
+        return found
+
     def check_plan(self) -> None:
         rel = "_workspace/plan/refactor/plan.yaml"
         raw = self.read(rel)
@@ -525,38 +550,64 @@ class Probe:
         if not ids:
             self.add("P0", "L2", "no wave ids found in any wave family", rel)
             return
-        known_waves = set(ids)
 
-        # Duplicate ids across wave families make depends_on ambiguous: a reference to
-        # "G" cannot be resolved to a single wave. The prose rule never checked this.
+        # Which family defines each wave, so a reference can be judged intra- or
+        # cross-family. A duplicated id is only AMBIGUOUS when something outside the
+        # defining family points at it; within one family, proximity resolves it.
+        family_of: dict[str, set] = {}
+        for key in sorted(k for k in plan if k == "waves" or k.startswith(("waves_", "wave_"))):
+            for w in plan.get(key) or []:
+                if isinstance(w, dict) and w.get("id"):
+                    family_of.setdefault(str(w["id"]), set()).add(key)
+
         dupes = sorted({i for i in ids if ids.count(i) > 1})
         if dupes:
-            self.add(
-                "P1",
-                "L2-DUP",
-                f"wave id(s) {', '.join(dupes)} are defined in more than one wave family, "
-                "so dependency references to them are ambiguous",
-                rel,
-                fingerprint=f"L2-DUP:{','.join(dupes)}",
-            )
+            ambiguous = []
+            for key in sorted(k for k in plan if k == "waves" or k.startswith(("waves_", "wave_"))):
+                for w in plan.get(key) or []:
+                    if not isinstance(w, dict):
+                        continue
+                    for ref in (w.get("depends_on") or []) + (w.get("parallel_with") or []):
+                        if str(ref) in dupes and key not in family_of.get(str(ref), set()):
+                            ambiguous.append(f"{key}.{w.get('id')} -> {ref}")
+            if ambiguous:
+                self.add(
+                    "P1",
+                    "L2-DUP",
+                    f"wave id(s) {', '.join(dupes)} are defined in more than one family AND are "
+                    f"referenced across families, so these cannot be resolved: {'; '.join(ambiguous)}",
+                    rel,
+                    fingerprint=f"L2-DUP:ambiguous:{','.join(dupes)}",
+                )
+            else:
+                # Reported, not escalated. The condition is real and known: the snapshot
+                # generators resolve it by preferring the entry that carries steps, and
+                # that rule is pinned by tests/test_snapshot_regenerator_parity.py. The
+                # `waves` copies are completion records (execution_status: completed_*),
+                # the `waves_*` copies hold the live steps. No current reference crosses
+                # a family, so nothing is ambiguous today — but a future one would be,
+                # and a reader of the plan has no way to tell which entry is meant.
+                self.add(
+                    "P3",
+                    "L2-DUP",
+                    f"wave id(s) {', '.join(dupes)} are reused across wave families; no reference "
+                    "crosses a family today, so nothing is ambiguous yet, but the letters are "
+                    "overloaded and a cross-family reference would be unresolvable",
+                    rel,
+                    fingerprint=f"L2-DUP:{','.join(dupes)}",
+                )
 
-        # A wave may legitimately depend on a STEP, not just another wave — waves.D
-        # depends on A1, which is a step of wave A. Resolving against wave ids alone
-        # reported that as dangling, which is the false-positive class this refactor
-        # exists to remove.
-        known_targets = set(known_waves)
-        for w in waves:
-            for s in w.get("steps") or []:
-                if isinstance(s, dict) and s.get("id"):
-                    known_targets.add(str(s["id"]))
-
+        # Resolve against every id in the document, not just the wave families. See
+        # all_plan_ids: a wave may depend on a STEP, and a wave may live under a
+        # non-wave key (`excluded_by_design` holds wave F).
+        known_targets = self.all_plan_ids(plan)
         for w in waves:
             for dep in (w.get("depends_on") or []) + (w.get("parallel_with") or []):
                 if str(dep) not in known_targets:
                     self.add(
                         "P1",
                         "L2",
-                        f"wave {w.get('id')} references {dep}, which is neither a known wave nor a known step",
+                        f"wave {w.get('id')} references {dep}, which is defined nowhere in the plan",
                         rel,
                         fingerprint=f"L2:{w.get('id')}:{dep}",
                     )
@@ -566,24 +617,40 @@ class Probe:
         if not text:
             return
 
-        known = set(known_waves)
-        for w in waves:
-            if w.get("legacy_id"):
-                known.add(str(w["legacy_id"]))
-            for s in w.get("steps") or []:
-                known.update(str(x) for x in (s.get("id"), s.get("legacy_id")) if x)
-        for key in ("open_questions", "risks"):
-            for row in plan.get(key) or []:
-                if isinstance(row, dict) and row.get("id"):
-                    known.add(str(row["id"]))
+        # Same document-wide universe as L2 — plus legacy_id aliases and any explicit
+        # translation map. Scanning only the wave families under-resolved here too.
+        known = set(known_targets)
+        legacy_ids = []
+
+        def collect_legacy(node) -> None:
+            if isinstance(node, dict):
+                if node.get("legacy_id"):
+                    legacy_ids.append(str(node["legacy_id"]))
+                for v in node.values():
+                    collect_legacy(v)
+            elif isinstance(node, list):
+                for x in node:
+                    collect_legacy(x)
+
+        collect_legacy(plan)
+        known.update(legacy_ids)
         legacy = (plan.get("meta") or {}).get("legacy_id_map") or {}
         known.update(str(k) for k in legacy)
         known.update(str(v) for v in legacy.values())
 
+        # The checklist's trailing parenthetical cites the podcast-challenger CHECK
+        # CATALOG (ids A1..W6), not the plan — its own header says so. Resolving those
+        # against plan.yaml reported 18 healthy references as broken. The universe is
+        # the catalog first, then the plan, then any R-* rule name.
+        catalog = self.read("infra/claude-agents/podcast-challenger.md")
+        known |= set(re.findall(r"^\|\s*\*{0,2}([A-Z]\d{1,2})\*{0,2}\s*\|", catalog, re.M))
+        known |= set(re.findall(r"\b(R-[A-Z][A-Z0-9-]+)\b", catalog))
+        known |= set(re.findall(r"\b(R-[A-Z][A-Z0-9-]+)\b", self.read("scripts/podcast/_rules.py")))
+
         # The checklist's row ids (**A6**, **P4**, **T1**) are its OWN scheme; only the
-        # trailing italic parenthetical is a cross-reference INTO the plan. The prose
-        # rule scanned whole lines, so it flagged row ids and the P0-P3 severity grammar
-        # as unknown plan ids — 30 findings, none of them real.
+        # trailing italic parenthetical is a cross-reference. The prose rule scanned
+        # whole lines, so it flagged row ids and the P0-P3 severity grammar as unknown
+        # plan ids — 30 findings, none of them real.
         unresolved: dict[str, int] = {}
         for n, line in enumerate(text.splitlines(), 1):
             if not re.match(r"\s*-\s*\[", line):
@@ -601,21 +668,16 @@ class Probe:
         # One root cause, one finding. Thirty findings for a single missing translation
         # table is the same noise-generation failure this refactor exists to remove.
         if unresolved:
-            listed = ", ".join(f"{k}" for k in sorted(unresolved))
-            has_map = bool(legacy)
-            cause = (
-                "meta.legacy_id_map exists but does not cover them"
-                if has_map
-                else "the plan defines no meta.legacy_id_map to translate them"
-            )
+            listed = ", ".join(sorted(unresolved))
             self.add(
-                "P1",
+                "P2",
                 "L10",
-                f"the ship checklist cross-references {len(unresolved)} id(s) the current plan "
-                f"does not define ({listed}) — {cause}",
+                f"the ship checklist cross-references {len(unresolved)} id(s) that resolve against "
+                f"neither the podcast-challenger check catalog, the plan, nor any R-* rule "
+                f"({listed})",
                 checklist,
                 min(unresolved.values()),
-                fingerprint="L10:legacy-id-map-missing",
+                fingerprint="L10:unresolved-cross-references",
             )
 
     # ---------- waivers ----------

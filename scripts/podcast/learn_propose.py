@@ -73,7 +73,11 @@ CUSTOMIZE_RULES = (
     "infra/claude-agents/podcast-challenger.md (customize-prompt check Categories) + scripts/podcast/_rules.py"
 )
 ENRICHMENT = "scripts/podcast/_authoring.py Phase 0e prompt + infra/claude-agents/podcast-challenger.md Category D"
-SHARED_ARABIC = "content/_shared/arabic/"  # still exists; canonical pronunciation reference
+# The shared content/_shared/arabic/ tree was RETIRED in the 2026-05-23 restructure --
+# this constant claimed "still exists" until 2026-07-27, so every provenance string it
+# fed (C1/C2/C4, J1/J2/J3) sent a reader to a path that had been gone for two months.
+# The per-book glossary is the live pronunciation authority; _rules.py carries the data.
+SHARED_ARABIC = "BOOK_DIR/_system/glossary.yml + scripts/podcast/_rules.py "
 CONTRACT_TPL = "scripts/podcast/extract_chapter.py (stub_contract + validate_contract — the in-code schema)"
 DEBATE = "infra/claude-agents/podcast-challenger.md Category P + scripts/podcast/_blueprint_schema.py (DebateBlock)"
 RULES_PY = "scripts/podcast/_rules.py"
@@ -104,10 +108,10 @@ CHECK_ID_TO_TARGET = {
     "B5": f"{BUILD_PY} (em-dash auto-fix)",
     "B6": "author resolution — invented dialogue requires human verification",
     # ── Category C: Pronunciation discipline ─────────────────────────────
-    "C1": f"{SHARED_ARABIC}03-arabic-english-manifest.md + BOOK_DIR/_system/source/text/_phonetics.md",
-    "C2": f"{SHARED_ARABIC}03-arabic-english-manifest.md (manifest wins)",
+    "C1": f"{SHARED_ARABIC}(canonical spelling + phonetic) + BOOK_DIR/_system/source/text/_phonetics.md",
+    "C2": f"{SHARED_ARABIC}(the glossary wins over a per-chapter spelling)",
     "C3": f"{SOURCE_RULES} (R-HONORIFIC-ONCE) + {RULES_PY} (HONORIFICS)",
-    "C4": f"{SHARED_ARABIC}04-common-term-substitutions.md §2",
+    "C4": f"{SHARED_ARABIC}(substitution data)",
     # ── Category D: Enrichment & depth ──────────────────────────────────
     "D1": f"{ENRICHMENT} (tier diversity) — author decision",
     "D2": f"{ENRICHMENT} (enrichment ratio) — author decision",
@@ -144,9 +148,9 @@ CHECK_ID_TO_TARGET = {
     "I3": "author resolution — chapter movement structure",
     "I4": "author resolution — chapter background bound",
     # ── Category J: Name aliasing ───────────────────────────────────────
-    "J1": f"{CUSTOMIZE_RULES} (R-NAMEALIAS) + {SHARED_ARABIC}05-name-alias-policy.md",
-    "J2": f"{SOURCE_RULES} (R-NAMES) + {SHARED_ARABIC}05-name-alias-policy.md",
-    "J3": f"{SHARED_ARABIC}03-arabic-english-manifest.md (manifest wins)",
+    "J1": f"{CUSTOMIZE_RULES} (R-NAMEALIAS) + {SHARED_ARABIC}(name-alias data)",
+    "J2": f"{SOURCE_RULES} (R-NAMES) + {SHARED_ARABIC}(name-alias data)",
+    "J3": f"{SHARED_ARABIC}(the glossary wins over a per-chapter spelling)",
     # ── Category K: Interruption avoidance + host dynamic ───────────────
     "K1": f"{CUSTOMIZE_RULES} (R-NOINTERRUPT)",
     "K2": f"{CUSTOMIZE_RULES} (R-NOINTERRUPT, filler vocab)",
