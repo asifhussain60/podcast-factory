@@ -72,6 +72,10 @@ import {
   type PodcastChapterMeta,
 } from "./compose-lane";
 import { renderEditSeed, renderSourceMarkdown } from "../lib/reader/markdown";
+import {
+  composeLane as composeLaneState,
+  composePodcastFile,
+} from "./compose-view-state";
 
 const SLUG = "test-book";
 
@@ -222,11 +226,21 @@ function laneDom() {
   return { root, pane, body, statusEl, select, bookBtn, podcastBtn };
 }
 
+/** The lane and podcast-file memories are durable (localStorage) rather than
+ *  one-shot, so a case that flipped lanes would otherwise hand its restore to
+ *  every case after it. Cleared per lane construction; a case that WANTS a
+ *  remembered value seeds it between construction and the flip. */
+function forgetLaneState(): void {
+  composeLaneState.clear(SLUG);
+  composePodcastFile.clear(SLUG);
+}
+
 function lane(
   dom: ReturnType<typeof laneDom>,
   sess: ReturnType<typeof session>,
   fetched: string[] = [],
 ) {
+  forgetLaneState();
   return createComposeLane({
     slug: SLUG,
     chapters: CHAPTERS,
@@ -654,6 +668,7 @@ test("a successful flip leaves the lane stashed for a reload to restore", async 
   const sess = session(t, []);
   const dom = laneDom();
   let stashedDuringLeave: string | null = null;
+  forgetLaneState();
 
   const l = createComposeLane({
     slug: SLUG,
@@ -667,7 +682,7 @@ test("a successful flip leaves the lane stashed for a reload to restore", async 
     podcastBtn: dom.podcastBtn,
     book: {
       leave: async () => {
-        stashedDuringLeave = sessionStorage.getItem(`cx-restore-lane:${SLUG}`);
+        stashedDuringLeave = composeLaneState.read(SLUG);
         return sess.leave();
       },
       enter: () => sess.enter(),
@@ -678,7 +693,7 @@ test("a successful flip leaves the lane stashed for a reload to restore", async 
   await l.setLane("podcast");
   assert.equal(stashedDuringLeave, "podcast", "stashed before leave() runs");
   assert.equal(
-    sessionStorage.getItem(`cx-restore-lane:${SLUG}`),
+    composeLaneState.read(SLUG),
     "podcast",
     "and STILL stashed after — a reload queued inside leave() must find it",
   );
@@ -690,17 +705,52 @@ test("flipping back to the book clears the stash", async (t) => {
   const l = lane(dom, sess);
 
   await l.setLane("podcast");
-  assert.equal(sessionStorage.getItem(`cx-restore-lane:${SLUG}`), "podcast");
+  assert.equal(composeLaneState.read(SLUG), "podcast");
   await l.setLane("book");
   assert.equal(
-    sessionStorage.getItem(`cx-restore-lane:${SLUG}`),
+    composeLaneState.read(SLUG),
     null,
     "the book lane is the default — nothing to restore",
   );
 });
 
-test("pendingLane consumes the stash so it cannot restore twice", () => {
-  sessionStorage.setItem(`cx-restore-lane:${SLUG}`, "podcast");
+test("pendingLane is durable, so it survives past the reload that read it", () => {
+  // It used to be consumed on read, which made it a one-shot handoff: it kept
+  // your lane across the editor's own autosave reload and lost it on a plain
+  // F5 or a new tab. The same value now answers both questions, so reading it
+  // must NOT erase it.
+  forgetLaneState();
+  composeLaneState.write("podcast", SLUG);
   assert.equal(pendingLane(SLUG), "podcast");
-  assert.equal(pendingLane(SLUG), null, "consumed on read");
+  assert.equal(pendingLane(SLUG), "podcast", "still there on a second read");
+});
+
+test("a remembered podcast file is restored on the flip, over the picker default", async (t) => {
+  const sess = session(t, []);
+  const dom = laneDom();
+  const fetched: string[] = [];
+  const l = lane(dom, sess, fetched); // clears state, then we seed it
+  composePodcastFile.write(CHAPTERS[1].file, SLUG);
+
+  await l.setLane("podcast");
+  assert.deepEqual(
+    fetched,
+    [CHAPTERS[1].file],
+    "after a reload the picker is back at option one; the memory is what restores",
+  );
+});
+
+test("a remembered podcast file that no longer exists falls back to the first", async (t) => {
+  const sess = session(t, []);
+  const dom = laneDom();
+  const fetched: string[] = [];
+  const l = lane(dom, sess, fetched);
+  composePodcastFile.write("ch99-a-chapter-that-was-removed.txt", SLUG);
+
+  await l.setLane("podcast");
+  assert.deepEqual(
+    fetched,
+    [CHAPTERS[0].file],
+    "a stale memory must never be fetched into a 404",
+  );
 });

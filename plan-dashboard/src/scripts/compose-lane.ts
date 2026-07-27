@@ -42,6 +42,11 @@
  * rather than shipped in the page (they are ~40% larger than the whole book).
  */
 import { renderSourceMarkdown } from "../lib/reader/markdown";
+import {
+  composeLane,
+  composePodcastFile,
+  registerComposePodcastFiles,
+} from "./compose-view-state";
 
 export type Lane = "book" | "podcast";
 
@@ -121,36 +126,21 @@ export interface ComposeLane {
   showChapter: (file: string) => Promise<void>;
 }
 
-/** sessionStorage key holding a lane requested across a reload. Scoped per
- *  book so two Composer tabs on different books cannot inherit each other's. */
-const laneKey = (slug: string) => `cx-restore-lane:${slug}`;
-
-/** The lane the previous page requested before an autosave-triggered reload,
- *  consumed on read. Exported so the Composer can restore it on boot. */
+/** The lane last in effect for this book, or null if it was never flipped away
+ *  from the default. Durable (see compose-view-state) rather than consumed on
+ *  read: the same value now answers both "which lane did the reload interrupt"
+ *  and "which lane was I in yesterday". Exported so the Composer can restore
+ *  it on boot. */
 export function pendingLane(slug: string): Lane | null {
-  try {
-    const raw = sessionStorage.getItem(laneKey(slug));
-    sessionStorage.removeItem(laneKey(slug));
-    return raw === "podcast" || raw === "book" ? raw : null;
-  } catch {
-    return null; // sessionStorage best-effort
-  }
+  return composeLane.read(slug);
 }
 
 function stashLane(slug: string, lane: Lane): void {
-  try {
-    sessionStorage.setItem(laneKey(slug), lane);
-  } catch {
-    /* sessionStorage best-effort */
-  }
+  composeLane.write(lane, slug);
 }
 
 function clearLane(slug: string): void {
-  try {
-    sessionStorage.removeItem(laneKey(slug));
-  } catch {
-    /* sessionStorage best-effort */
-  }
+  composeLane.clear(slug);
 }
 
 /**
@@ -245,6 +235,10 @@ export function createComposeLane(opts: ComposeLaneOptions): ComposeLane {
   body.setAttribute("contenteditable", "false");
   body.setAttribute("aria-readonly", "true");
 
+  // The files this book actually has, so a remembered one that a re-run has
+  // since removed is discarded rather than fetched into a 404.
+  registerComposePodcastFiles(chapters.map((c) => c.file));
+
   function setStatus(message: string, isError = false): void {
     if (!status) return;
     status.textContent = message;
@@ -260,6 +254,10 @@ export function createComposeLane(opts: ComposeLaneOptions): ComposeLane {
 
   async function load(file: string): Promise<void> {
     const token = ++loadToken;
+    // Remembered before the fetch, not after: which chapter the reader ASKED
+    // for is the thing worth restoring, and a chapter whose file has since gone
+    // missing is rejected on read by the registered-files check anyway.
+    composePodcastFile.write(file, slug);
     setStatus("Loading…");
     let html: string;
     try {
@@ -310,7 +308,14 @@ export function createComposeLane(opts: ComposeLaneOptions): ComposeLane {
       // flip back to book is what clears it.
       lane = "podcast";
       paintLane();
-      const file = select?.value || chapters[0]?.file || "";
+      // The remembered file wins over the picker's current value: after a
+      // reload the picker is back at its first option, which is exactly the
+      // case this restore exists for.
+      const file =
+        composePodcastFile.read(slug) ||
+        select?.value ||
+        chapters[0]?.file ||
+        "";
       if (file) {
         if (select && select.value !== file) {
           select.value = file;

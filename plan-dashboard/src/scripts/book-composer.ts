@@ -37,6 +37,13 @@ import {
   type ComposeLane,
   type PodcastChapterMeta,
 } from "./compose-lane";
+// NB: the module also exports `composeLane`, deliberately NOT imported here —
+// this file already binds that name to its ComposeLane controller instance.
+import {
+  composeChapter,
+  composeMode,
+  registerComposeChapters,
+} from "./compose-view-state";
 import {
   safeChapterKey,
   sectionKeyFromHeading,
@@ -229,18 +236,13 @@ function boot(): void {
   const chapterMenu = enhanceSelect(chapterSelect);
   const scopeEl = root.querySelector<HTMLElement>("#cx-artifacts-scope");
   let selectedChapter = data.chapters[0]?.key ?? "";
-  // After an autosave-triggered reload we restore the chapter the user was on
-  // (the manual save used to always reset to chapter 1 — this fixes that too).
-  try {
-    const restore = sessionStorage.getItem("cx-restore-chapter");
-    if (restore) {
-      sessionStorage.removeItem("cx-restore-chapter");
-      if (data.chapters.some((c) => c.key === restore))
-        selectedChapter = restore;
-    }
-  } catch {
-    /* sessionStorage best-effort */
-  }
+  // Reopen on the chapter this book was last left on — across the editor's own
+  // autosave-triggered reload, and equally across a plain F5, a new tab, or
+  // tomorrow morning. Registering the live chapter keys first is what makes a
+  // remembered chapter that a re-compose has since renamed fall back to the
+  // first chapter instead of leaving the page pointed at nothing.
+  registerComposeChapters(data.chapters.map((c) => c.key));
+  selectedChapter = composeChapter.read(slug) ?? selectedChapter;
 
   // ── Articulation guard (RCA-001 AI-3) ─────────────────────────────────────
   // A save persists the ENTIRE chapter body as a durable human edit, and the
@@ -509,6 +511,13 @@ function boot(): void {
       ch.hidden = (ch.dataset.key ?? "") !== selectedChapter;
     });
   }
+
+  /** The one place `selectedChapter` moves, so remembering it cannot be
+   *  forgotten on a path that sets it directly. */
+  function selectChapter(key: string): void {
+    selectedChapter = key;
+    composeChapter.write(key, slug);
+  }
   if (chapterSelect) {
     chapterSelect.value = selectedChapter;
     chapterMenu?.sync();
@@ -532,18 +541,14 @@ function boot(): void {
         } else if (contentChangedThisSession) {
           // Prose was saved → reload so the target chapter renders from fresh book.md,
           // landing back in Edit (the user was editing) on the new chapter.
-          selectedChapter = chapterSelect.value;
-          try {
-            sessionStorage.setItem("cx-restore-edit", "1");
-          } catch {
-            /* best-effort */
-          }
+          selectChapter(chapterSelect.value);
+          composeMode.write("edit", slug);
           reloadPreservingChapter();
           return;
         }
       }
       if (activeEditor) exitEdit(); // tear down the editor bound to the old chapter
-      selectedChapter = chapterSelect.value;
+      selectChapter(chapterSelect.value);
       selected = null; // a figure selection doesn't carry across chapters
       showSelectedChapter();
       renderScholar(); // explanations follow the chapter — no picker of their own
@@ -713,12 +718,10 @@ function boot(): void {
 
   // A prose autosave writes book.md on disk but the page still holds the ORIGINAL
   // server render in memory; reload (preserving the chapter) to re-sync the preview.
+  // The chapter is already persisted by `selectChapter`, but write it here too:
+  // the very first chapter of a session was never *selected*, only defaulted to.
   function reloadPreservingChapter(): void {
-    try {
-      sessionStorage.setItem("cx-restore-chapter", selectedChapter);
-    } catch {
-      /* best-effort */
-    }
+    composeChapter.write(selectedChapter, slug);
     window.location.reload();
   }
 
@@ -1110,11 +1113,7 @@ function boot(): void {
               }
               return false;
             }
-            try {
-              sessionStorage.setItem("cx-restore-edit", "1");
-            } catch {
-              /* best-effort */
-            }
+            composeMode.write("edit", slug);
             reloadPreservingChapter();
             return true;
           },
@@ -1124,6 +1123,14 @@ function boot(): void {
 
     // Autosave — no manual "Save prose" button; edits persist themselves (./autosave).
     const proseAutosave: AutosaveController = createAutosave({
+      // RCA-002 AI-1. markDirty() below is wired to the editor's `update`
+      // event, which fires for things that are not edits — a stray keystroke,
+      // a pointer-drag that lands where it started, a normalisation on mount.
+      // Fingerprinting the serialized chapter means such an event writes
+      // nothing at all, and — since docToMarkdown's round trip is not
+      // byte-exact on real content — that reflow of untouched paragraphs never
+      // reaches book.md on its own. A genuine edit still saves; see autosave.ts.
+      fingerprint: () => activeEditor?.toMarkdown() ?? "",
       onStateChange: mountAutosaveStatus(shell, () => {
         // An explicit Retry is the deliberate act the articulation guard waits
         // for after a decline — clear the decline so the confirm re-asks.
@@ -2509,6 +2516,9 @@ function boot(): void {
 
   // ── persistence — autosaved, no manual button (see ./autosave) ─────────────
   layoutAutosave = createAutosave({
+    // Same guard as the prose editor: a drag that returns a figure to where it
+    // already was must not spend a request re-writing an identical layout.
+    fingerprint: () => JSON.stringify(placements),
     onStateChange: mountAutosaveStatus(layoutStatusEl),
     save: async () => {
       // apiFetch throws on failure; createAutosave's catch shows the message.
@@ -2539,16 +2549,6 @@ function boot(): void {
     revealPassage(id);
   });
 
-  // If we reloaded mid-edit (autosave re-sync), drop back into Edit on arrival.
-  try {
-    if (sessionStorage.getItem("cx-restore-edit")) {
-      sessionStorage.removeItem("cx-restore-edit");
-      enterEditMode();
-    }
-  } catch {
-    /* sessionStorage best-effort */
-  }
-
   // Deselect a placed figure (and hide its inline card) on an outside click.
   document.addEventListener("click", (e) => {
     if (!selected) return;
@@ -2572,13 +2572,18 @@ function boot(): void {
   // the Podcast lane restores it. It is NOT read off setModeVisual: the flip's
   // own leave() drops the view to Read on its way out, which would make every
   // return land in Read regardless of where the user came from.
-  let userMode: "read" | "edit" = "edit";
+  // Seeded from what this book was last left in, so a reload — the editor's own
+  // autosave re-sync, a plain F5, or a fresh visit tomorrow — reopens the way it
+  // was closed. Edit remains the default for a book never opened before.
+  let userMode: "read" | "edit" = composeMode.read(slug) ?? "edit";
   modeReadBtn?.addEventListener("click", () => {
     userMode = "read";
+    composeMode.write("read", slug);
     setMode("read");
   });
   modeEditBtn?.addEventListener("click", () => {
     userMode = "edit";
+    composeMode.write("edit", slug);
     setMode("edit");
   });
 
@@ -2617,15 +2622,15 @@ function boot(): void {
     });
   }
 
-  // A flip whose leave() reloaded the page (prose had changed, so the preview
-  // re-renders from the authoritative book.md) left its intent in
-  // sessionStorage; honour it here instead of dropping the user back in Edit.
-  const restoreLane = pendingLane(slug); // consumed either way — never left stale
+  // Which lane this book was last in — set by a deliberate flip, and equally by
+  // a flip whose leave() reloaded the page (prose had changed, so the preview
+  // re-renders from the authoritative book.md). Honour it instead of dropping
+  // the user back into the book lane's editor.
+  const restoreLane = pendingLane(slug);
   if (composeLane && restoreLane === "podcast") {
     void composeLane.setLane("podcast");
   } else {
-    // The chapter opens straight in the editor, like the podcast editor.
-    setMode("edit");
+    setMode(userMode);
   }
 }
 
