@@ -340,18 +340,47 @@
 }
 
 /* The rendering, then the citation: each its own line under the script, quieter
-   than it, sharing its centre line. */
+   than it, sharing its centre line.
+
+   LEADING. A quotation here is three paragraphs in a fixed order — script,
+   rendering, citation — and the first is Arabic while the other two are Latin.
+   They cannot share one line-height. The card's prose leading (1.62) is right for
+   Latin and far too tight for FULLY VOWELLED Uthmani, whose tashkeel reaches well
+   above and below the letterforms: at 1.62 the marks under one line touch the
+   letters of the next. So the script line is opened up here and the Latin lines
+   are brought back in.
+
+   The number is measured, not taste. Canvas `actualBoundingBox` on the Al-Kahf
+   18:65 verse as it actually renders here reports 31.3px of INK at 15px type — an
+   ink-to-size ratio of 2.09, because every letter carries a mark above or below.
+   At the old 1.62 the line box was 24.3px, so the ink overflowed it by 7px and the
+   marks of one line landed in the letters of the next. 2.1 clears it by 0.2px,
+   which is not clearance. 2.5 leaves ~6px of air between lines, which is what
+   vowelled naskh needs and roughly what a printed mushaf gives it.
+
+   Why the FIRST paragraph rather than a script-aware selector: on the read-only
+   path the Arabic sits in `.xpl-ar` and could be matched directly, but an editable
+   card mounts the rich-text editor into .xpl-full and its seed carries no spans by
+   design (the editor schema has no such node — see card-markdown.ts), so there is
+   nothing to match on the surface where this is most visible. Position is the only
+   hook both paths share, and it matches the contract this component already
+   documents. A quotation that led with Latin would render its first line airily —
+   never broken, just loose — and both quotations in the corpus today lead with the
+   script. If a Latin-leading one ever appears, that is the signal to mark the
+   script paragraph at the renderer instead of inferring it from position. */
 .xpl-full blockquote p,
 .xpl-prose blockquote p {
   padding-left: 0;
   padding-right: 0;
   text-align: center;
+  line-height: 2.5;
 }
 
 .xpl-full blockquote p + p,
 .xpl-prose blockquote p + p {
   padding-top: 0.25rem;
   font-size: calc(var(--panel-fs, 15px) * 0.95);
+  line-height: 1.5;
   color: var(--c-ink-dim);
 }
 
