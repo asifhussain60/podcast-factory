@@ -2725,6 +2725,16 @@ function boot(): void {
     // Spinner while the render runs (fa-spin; stilled under reduced motion in CSS).
     genPdfBtn.innerHTML =
       '<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Rendering PDF…';
+    // The download link stays DISABLED until the PDF is actually generated —
+    // during a render the on-disk file is about to be overwritten, so offering
+    // it would hand out a stale or mid-write download.
+    const pdfLink = document.querySelector<HTMLAnchorElement>("#cx-pdf-link");
+    const priorHref = pdfLink?.getAttribute("href") ?? null;
+    if (pdfLink) {
+      pdfLink.setAttribute("aria-disabled", "true");
+      pdfLink.setAttribute("tabindex", "-1");
+      pdfLink.removeAttribute("href");
+    }
     try {
       const data = await apiFetch<{
         kb?: number;
@@ -2733,27 +2743,34 @@ function boot(): void {
       }>("/api/studio/generate-book-pdf", { method: "POST", body: { slug } });
       genPdfBtn.innerHTML = idle;
       genPdfBtn.disabled = false;
-      // Refresh the persistent download link with the file just written.
-      const link = document.querySelector<HTMLAnchorElement>("#cx-pdf-link");
-      if (link && data.relPath) {
-        link.href = `/api/library/file?slug=${encodeURIComponent(slug)}&path=${encodeURIComponent(data.relPath)}`;
-        if (data.filename) link.setAttribute("download", data.filename);
-        link.innerHTML = `<i class="fa-solid fa-download" aria-hidden="true"></i> Download PDF (${data.kb ?? "?"} KB)`;
-        link.hidden = false;
+      // The PDF now actually exists — enable the link, pointing at the fresh file.
+      if (pdfLink && data.relPath) {
+        pdfLink.href = `/api/library/file?slug=${encodeURIComponent(slug)}&path=${encodeURIComponent(data.relPath)}`;
+        if (data.filename) pdfLink.setAttribute("download", data.filename);
+        pdfLink.innerHTML = `<i class="fa-solid fa-download" aria-hidden="true"></i> Download PDF (${data.kb ?? "?"} KB)`;
+        pdfLink.setAttribute("aria-disabled", "false");
+        pdfLink.removeAttribute("tabindex");
         // One attention pulse so the fresh link is noticed; the class is
         // animation-only and removed when it ends.
-        link.classList.remove("cx-pdf-link--fresh");
-        void link.offsetWidth; // restart the animation on back-to-back renders
-        link.classList.add("cx-pdf-link--fresh");
-        link.addEventListener(
+        pdfLink.classList.remove("cx-pdf-link--fresh");
+        void pdfLink.offsetWidth; // restart the animation on back-to-back renders
+        pdfLink.classList.add("cx-pdf-link--fresh");
+        pdfLink.addEventListener(
           "animationend",
-          () => link.classList.remove("cx-pdf-link--fresh"),
+          () => pdfLink.classList.remove("cx-pdf-link--fresh"),
           { once: true },
         );
       }
     } catch (err) {
       genPdfBtn.innerHTML = idle;
       genPdfBtn.disabled = false;
+      // Failed render: the file on disk (if any) is whatever it was before —
+      // restore the prior link rather than leaving a dead control.
+      if (pdfLink && priorHref) {
+        pdfLink.setAttribute("href", priorHref);
+        pdfLink.setAttribute("aria-disabled", "false");
+        pdfLink.removeAttribute("tabindex");
+      }
       await noticeDialog({
         title: "PDF generation failed",
         body: String((err as Error).message ?? err),

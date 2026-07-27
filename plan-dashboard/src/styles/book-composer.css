@@ -97,6 +97,13 @@ button.cx-hdr-btn:disabled {
   opacity: 0.55;
   cursor: default;
 }
+/* Download-PDF link: disabled (no PDF yet, or a render in flight) reads and
+ * behaves like the disabled button state — visible, inert, no pointer. */
+.cx-pdf-link[aria-disabled="true"] {
+  opacity: 0.55;
+  pointer-events: none;
+  cursor: default;
+}
 /* Download-PDF link: one attention pulse when a fresh render fills it. */
 .cx-pdf-link--fresh {
   animation: cx-pdf-fresh 0.9s ease-in-out 2;

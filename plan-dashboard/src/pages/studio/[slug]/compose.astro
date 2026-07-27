@@ -177,13 +177,16 @@ const ARABIC_FONTS = [
             >
               <i class="fa-solid fa-file-pdf" aria-hidden="true" /> Generate PDF
             </button>
-            {/* Pre-filled server-side when a rendered PDF already exists on
-                disk; refreshed by book-composer.ts after each successful
-                render, so the latest PDF stays one click away. */}
+            {/* Always present so the header never reflows — but DISABLED
+                (aria-disabled, no href, no tab stop) until a rendered PDF
+                actually exists on disk. Pre-filled server-side from the newest
+                book/*.pdf; book-composer.ts locks it during a render and
+                refreshes it after each success. */}
             <a
               class="cx-hdr-btn cx-pdf-link"
               id="cx-pdf-link"
-              hidden={!existingPdf}
+              aria-disabled={existingPdf ? "false" : "true"}
+              tabindex={existingPdf ? undefined : -1}
               href={
                 existingPdf
                   ? `/api/library/file?slug=${slug}&path=${encodeURIComponent(existingPdf.rel)}`
