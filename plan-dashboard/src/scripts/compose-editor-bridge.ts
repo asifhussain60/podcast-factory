@@ -39,6 +39,12 @@ export function createComposeEditorBridge(
     runAiFnRef: { current: () => {} },
     removeActionFnRef: { current: () => {} },
     showPrevDiffRef: { current: false },
+    // Human track changes are OFF by default here (2026-07-27). Compose is a
+    // WRITING surface: accepting an AI rewrite repainted the whole paragraph as
+    // strikethrough-plus-underline, so the version just chosen was the hardest
+    // to read. The "Show changes" toggle in the editor toolbar turns them on for
+    // as long as they are wanted, and the choice persists per browser.
+    showEditDiffRef: { current: false },
     prevStageTextsRef: { current: [] },
     arabicRef: { current: true },
     depthLevels,

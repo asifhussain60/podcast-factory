@@ -252,6 +252,10 @@ export default function StudioEditor({
   // paragraph against the PREVIOUS stage's text (prevStageTextsRef) instead of the human-edit
   // original — so "Show changes from {prev stage}" highlights what THAT step changed.
   const showPrevDiffRef = useRef(false);
+  // Edit & Enrich is a track-changes surface by design (FC-3), so human word
+  // diffs stay ON here. The Book Composer defaults the same box to false and
+  // exposes a toggle — see compose-editor-bridge.ts.
+  const showEditDiffRef = useRef(true);
   const prevStageTextsRef = useRef<string[]>([]);
   const [showPrevDiff, setShowPrevDiff] = useState(false);
   // Section-level AI action ref (useAiActions, called below): declared here —
@@ -351,6 +355,7 @@ export default function StudioEditor({
         runAiFnRef,
         removeActionFnRef,
         showPrevDiffRef,
+        showEditDiffRef,
         prevStageTextsRef,
         arabicRef,
         depthLevels,

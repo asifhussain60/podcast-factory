@@ -960,6 +960,44 @@ function boot(): void {
     }
     viewPrefs.append(paperGroup);
 
+    // ── Show changes ─────────────────────────────────────────────────────────
+    // Word-level track changes for HUMAN edits, off by default. Compose is a
+    // writing surface: with it always on, accepting an AI rewrite repainted the
+    // whole paragraph as strikethrough-plus-underline, so the version you had
+    // just chosen was the hardest one to read. The edited blocks still carry the
+    // para-dirty tint, so "changed and unsaved" never depended on this.
+    const diffToggle = document.createElement("button");
+    diffToggle.type = "button";
+    diffToggle.className = "cx-diff-toggle";
+    diffToggle.textContent = "Show changes";
+    diffToggle.title =
+      "Mark what changed since this chapter was loaded, word by word";
+    let showDiff = false;
+    try {
+      showDiff = localStorage.getItem("cx-editor-show-changes") === "1";
+    } catch {
+      /* preference is best-effort */
+    }
+    const paintDiffToggle = (): void => {
+      bridge.showEditDiffRef.current = showDiff;
+      diffToggle.setAttribute("aria-pressed", String(showDiff));
+      // `decorations()` reads the box live, so ANY dispatch repaints. An empty
+      // transaction is the cheapest one that is not an edit — it must not touch
+      // the document, or toggling a VIEW would dirty the chapter.
+      const ed = activeEditor?.editor;
+      if (ed && !ed.isDestroyed) ed.view.dispatch(ed.state.tr);
+    };
+    diffToggle.addEventListener("click", () => {
+      showDiff = !showDiff;
+      try {
+        localStorage.setItem("cx-editor-show-changes", showDiff ? "1" : "0");
+      } catch {
+        /* preference is best-effort */
+      }
+      paintDiffToggle();
+    });
+    viewPrefs.append(diffToggle);
+
     shell.append(toolbar, host);
     bodyEl.insertAdjacentElement("afterend", shell);
 
@@ -980,6 +1018,8 @@ function boot(): void {
       // restore it — so it is decorated, never removed. See fence-decos.ts.
       createFenceDecos(),
     ]);
+    paintDiffToggle();
+
     // ── The formatting toolbar ────────────────────────────────────────────────
     // attach(), never mount(): mountChapterEditor above stays the sole owner of
     // the schema (the one the round-trip test parses with), of the `cx-prose`

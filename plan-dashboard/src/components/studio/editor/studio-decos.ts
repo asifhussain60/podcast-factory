@@ -50,6 +50,18 @@ export interface StudioDecosBag {
   runAiFnRef: Box<(kind: string) => void>;
   removeActionFnRef: Box<(id: number) => void>;
   showPrevDiffRef: Box<boolean>;
+  /**
+   * Render HUMAN edits as word-level track changes (tc-ins / tc-del).
+   *
+   * Separate from showPrevDiffRef, which governs the pipeline-stage diff in its
+   * teal palette. Before 2026-07-27 the human diff had no switch at all: every
+   * difference between the editor and the text as loaded was painted, always. In
+   * Edit & Enrich that is the point — it is a track-changes surface. In the Book
+   * Composer it meant that accepting one AI rewrite repainted the whole paragraph
+   * as strikethrough-plus-underline, so the version you had just chosen became
+   * the hardest one to read.
+   */
+  showEditDiffRef: Box<boolean>;
   prevStageTextsRef: Box<string[]>;
   arabicRef: Box<boolean>;
   depthLevels: readonly DepthLevel[];
@@ -69,6 +81,7 @@ export function createStudioDecos(bag: StudioDecosBag) {
     runAiFnRef,
     removeActionFnRef,
     showPrevDiffRef,
+    showEditDiffRef,
     prevStageTextsRef,
     arabicRef,
     depthLevels,
@@ -502,7 +515,14 @@ export function createStudioDecos(bag: StudioDecosBag) {
                   before !== undefined &&
                   baseIdx != null &&
                   after === before + (baseline[baseIdx + 1] ?? " ");
+                // The stage diff has its own toggle; the human diff has this one,
+                // which the Composer defaults to OFF. With it off the text simply
+                // reads as text — the para-dirty tint below still marks WHICH
+                // blocks changed, so "edited and unsaved" is never lost, only the
+                // word-by-word markup.
+                const showWordDiff = prevDiff || showEditDiffRef.current;
                 if (
+                  showWordDiff &&
                   before !== undefined &&
                   before !== after &&
                   !isPureSplit &&

@@ -848,6 +848,46 @@
   border: 1px solid color-mix(in oklab, var(--c-ink, #1f1d18) 28%, transparent);
   background: var(--swatch, #fff);
 }
+/* Show-changes toggle — the word-level track-change view for human edits, off by
+   default (2026-07-27). Sits with the other view preferences because that is what
+   it is: it changes how the chapter is DISPLAYED, never what it contains. Styled
+   as a sibling of .cx-paper-btn so the group reads as one control strip. */
+.cx-diff-toggle {
+  display: inline-flex;
+  align-items: center;
+  font: inherit;
+  font-size: 0.75rem;
+  height: 100%;
+  padding: 0 0.65rem;
+  border: 0;
+  border-inline-start: 1px solid
+    var(--cx-control-border, var(--c-rule, #d9d3c4));
+  background: transparent;
+  color: var(--c-ink-muted, #66625a);
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.cx-diff-toggle:hover {
+  background: color-mix(in oklab, var(--c-ink, #1f1d18) 6%, transparent);
+  color: var(--c-ink, #1f1d18);
+}
+
+/* ON reads as ON at a glance: the accent, and the same warm wash the toggle's
+   own output (para-dirty) uses, so the control and its effect share a colour. */
+.cx-diff-toggle[aria-pressed="true"] {
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 12%, transparent);
+  color: var(--c-accent, #8b4513);
+  font-weight: 600;
+}
+
+.cx-diff-toggle:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: -2px;
+}
+
 .cx-paper-btn[data-paper="light"] {
   --swatch: #fefdfb;
 }
