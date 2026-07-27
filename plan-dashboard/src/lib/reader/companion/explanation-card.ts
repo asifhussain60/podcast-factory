@@ -314,11 +314,22 @@ export function renderExplanationCard(
   // listener caught only the first. Guarded on WIDTH: this callback's own work
   // changes the container's HEIGHT, and reacting to that would loop.
   let observedWidth = 0;
+  let resizeFrame = 0;
   const widthObserver = new ResizeObserver((entries) => {
     const width = entries[0]?.contentRect.width ?? 0;
     if (width === 0 || Math.abs(width - observedWidth) < 1) return;
     observedWidth = width;
-    resizeOpenEntry();
+    // Measured on the NEXT frame, not in the callback. The width guard stops
+    // this observer acting on its own output, but it cannot stop the browser
+    // NOTICING it: autoSizeEntry resizes an element inside the observed
+    // container, so the observation is still dirty when the callback returns,
+    // and Chrome reports that on `window` as "ResizeObserver loop completed
+    // with undelivered notifications" — once per width change, on every crossing
+    // of the mobile breakpoint. Deferring one frame ends the callback with the
+    // layout untouched. Coalesced, because a drag emits a width per frame and
+    // only the last one is worth measuring.
+    cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(resizeOpenEntry);
   });
   widthObserver.observe(etym);
 
@@ -564,6 +575,9 @@ export function renderExplanationCard(
     destroy() {
       window.clearTimeout(flashTimer);
       widthObserver.disconnect();
+      // Disconnecting stops new callbacks but not one already queued for the
+      // next frame, which would measure a card that is on its way out.
+      cancelAnimationFrame(resizeFrame);
       window.removeEventListener(PANEL_TEXT_SIZE_EVENT, resizeOpenEntry);
       editor?.destroy();
       editor = null;
