@@ -848,6 +848,27 @@
   border: 1px solid color-mix(in oklab, var(--c-ink, #1f1d18) 28%, transparent);
   background: var(--swatch, #fff);
 }
+/* The site-wide back-to-top is suppressed HERE only. The Composer carries its
+   own arrow in the floating row (#cx-rail-top), which is always present instead
+   of fading in after a screen of scroll, and lands on the working row rather
+   than at scrollY 0. Two arrows a few pixels apart doing subtly different things
+   is worse than either alone. `:has(.composer-grid)` scopes it to this page
+   without adding a body class to the shared layout — .to-top is a sibling of the
+   page content, so a descendant selector could never reach it. */
+body:has(.composer-grid) .to-top {
+  display: none;
+}
+
+/* The back-to-top FAB is an action, not a panel toggle, so it never takes the
+   is-active treatment its siblings use — it reads as quieter until hovered. */
+.cx-fab-top {
+  color: var(--c-ink-muted, #66625a);
+}
+
+.cx-fab-top:hover {
+  color: var(--c-accent, #8b4513);
+}
+
 /* Show-changes toggle — the word-level track-change view for human edits, off by
    default (2026-07-27). Sits with the other view preferences because that is what
    it is: it changes how the chapter is DISPLAYED, never what it contains. Styled

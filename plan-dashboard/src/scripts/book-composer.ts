@@ -286,7 +286,11 @@ function boot(): void {
   // on 2026-07-22 for the gear's settings dialog: a setting touched once per
   // book should not occupy a daily tab. Companion left earlier (2026-07-21)
   // for the drawer rail.
-  const TABS = ["artifacts", "refine"] as const;
+  // Order MATTERS: the roving tabindex and the arrow-key cycling below read it,
+  // so it must match the order the buttons appear in. Refine leads since
+  // 2026-07-27 (Asif) — reshaping prose is the daily job; placing artifacts is
+  // occasional. Artifacts stays the tab that OPENS, which is unchanged.
+  const TABS = ["refine", "artifacts"] as const;
   type TabName = (typeof TABS)[number];
   const tabBtn = (n: TabName) =>
     root.querySelector<HTMLButtonElement>(`#cx-tab-${n}`);
@@ -471,12 +475,21 @@ function boot(): void {
   for (const n of SURFACES) {
     surfaceBtn(n)?.addEventListener("click", () => {
       setPanel(panelState === n ? "closed" : n);
-      // The buttons are pinned to the bottom of the viewport but the drawer they
-      // open starts at the top of the grid — so deep in a long chapter you could
-      // open a panel and see nothing happen. Ride back up with it.
-      scrollToWorkingRow();
+      // Deliberately does NOT scroll (2026-07-27, Asif). It used to call
+      // scrollToWorkingRow() so the drawer — anchored to the top of the grid —
+      // could not open off-screen. But that moved the chapter out from under you
+      // every time you reached for a tool, and losing your place costs more than
+      // an off-screen panel does. Scrolling back up is the #cx-rail-top button
+      // beside these, asked for explicitly.
     });
   }
+
+  // The one control whose job IS to move the page. It lands on the working row
+  // rather than at scrollY 0 for the reason scrollToWorkingRow documents: the
+  // page hero is not what you are working on.
+  root
+    .querySelector<HTMLButtonElement>("#cx-rail-top")
+    ?.addEventListener("click", scrollToWorkingRow);
   root.addEventListener("keydown", (e) => {
     if (e.key !== "Escape" || panelState === "closed") return;
     // Never steal Escape from a text field or a dialog inside the drawer.

@@ -349,17 +349,6 @@ const ARABIC_FONTS = [
                 >
                   <button
                     type="button"
-                    class="cx-tab is-active"
-                    id="cx-tab-artifacts"
-                    role="tab"
-                    aria-selected="true"
-                    aria-controls="cx-panel-artifacts"
-                  >
-                    <i class="fa-solid fa-images" aria-hidden="true" />
-                    <span class="cx-tab-label">Artifacts</span>
-                  </button>
-                  <button
-                    type="button"
                     class="cx-tab"
                     id="cx-tab-refine"
                     role="tab"
@@ -368,6 +357,17 @@ const ARABIC_FONTS = [
                   >
                     <i class="fa-solid fa-feather-pointed" aria-hidden="true" />
                     <span class="cx-tab-label">Refine &amp; Notes</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="cx-tab is-active"
+                    id="cx-tab-artifacts"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="cx-panel-artifacts"
+                  >
+                    <i class="fa-solid fa-images" aria-hidden="true" />
+                    <span class="cx-tab-label">Artifacts</span>
                   </button>
                 </div>
                 {/* Book settings (citation style + typography) are decided once
@@ -811,6 +811,23 @@ const ARABIC_FONTS = [
           >
             <i class="fa-solid fa-book-open-reader" aria-hidden="true" />
             <span class="cx-fab-label">Ask the Scholar</span>
+          </button>
+          {/* Scrolling back up is now a BUTTON, not a side effect. Opening a
+              panel used to ride the page up with it, which moved the chapter out
+              from under you every time you reached for a tool. This asks for the
+              same movement explicitly, and unlike the site-wide back-to-top it is
+              always present rather than fading in after a screen of scroll —
+              that one is hidden on this page so there is never a second arrow
+              doing something slightly different. Not a panel, so no aria-pressed
+              and no aria-controls. */}
+          <button
+            type="button"
+            class="cx-fab cx-fab-top"
+            id="cx-rail-top"
+            title="Back to top"
+          >
+            <i class="fa-solid fa-arrow-up" aria-hidden="true" />
+            <span class="cx-fab-label">Back to top</span>
           </button>
         </div>
 
