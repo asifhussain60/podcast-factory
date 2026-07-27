@@ -180,6 +180,14 @@ export function renderExplanationCard(
     meta.append(src);
   }
 
+  // ONE identifier, not two. The panel titles a filed note with a truncation of
+  // its own passage, so title and quote were the same sentence printed twice —
+  // three wrapped lines of header before a word of explanation. When the anchor is
+  // just the passage cut short, the passage IS the title.
+  const anchorIsQuote =
+    !!note.quote &&
+    !!note.anchor &&
+    note.quote.startsWith(note.anchor.replace(/…$/, "").trim());
   const title = document.createElement("span");
   title.className = "xpl-title";
   setTextWithArabic(title, note.anchor || note.quote || "Explanation");
@@ -190,8 +198,8 @@ export function renderExplanationCard(
   head.append(meta, title);
 
   // The sentence this card is tied to, so a card and a highlight can be matched
-  // up by eye.
-  if (note.quote && note.anchor && note.quote !== note.anchor) {
+  // up by eye — shown only when it says something the title does not.
+  if (note.quote && note.anchor && !anchorIsQuote) {
     const quote = document.createElement("span");
     quote.className = "xpl-quote";
     setTextWithArabic(quote, note.quote);
@@ -199,18 +207,6 @@ export function renderExplanationCard(
   }
   head.append(caret);
   headRow.append(head);
-  if (opts.onRemove) {
-    const del = iconButton(
-      "xpl-del",
-      "fa-trash-can",
-      "Delete this explanation",
-    );
-    del.addEventListener("click", (e) => {
-      e.stopPropagation();
-      opts.onRemove?.(note.id);
-    });
-    headRow.append(del);
-  }
 
   const preview = document.createElement("p");
   preview.className = "xpl-preview";
@@ -349,6 +345,24 @@ export function renderExplanationCard(
   renderEtymology();
 
   card.append(headRow, preview, bodyEl, etym, status);
+
+  // Delete HOVERS over the card rather than sitting in the header row. In the row
+  // it took a fixed column out of the panel's width for a control used once in a
+  // card's life, and the header — which carries the sentence this card is about —
+  // wrapped to three lines to make room for it. Now the header has the full width
+  // and delete appears on hover, in the corner, over the content it removes.
+  if (opts.onRemove) {
+    const del = iconButton(
+      "xpl-del",
+      "fa-trash-can",
+      "Delete this explanation",
+    );
+    del.addEventListener("click", (e) => {
+      e.stopPropagation();
+      opts.onRemove?.(note.id);
+    });
+    card.append(del);
+  }
 
   // ── the editor, and the one thing it must never do ───────────────────────
   let editor: ProseEditor | null = null;

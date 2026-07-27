@@ -83,7 +83,7 @@ j) Instead of 'God,' use 'Allah,' and use 'Maulana Ali' as a substitute for Imam
 
 k) For Quran references, cite the surah by NAME and number in the format 'Al-Kahf 18:65' — the English name of the surah, then chapter:verse. For a run of verses, 'Al-Baqarah 2:5-10'. The citation goes on a new line immediately following the verse and its English rendering, never inline in a sentence. (The machine form 'Q|18:65' is also accepted and is converted for you, but the named form is what a reader should see.)
 
-l) Use bold sparingly, for a key term at the moment it is introduced. Never bold or italicize Arabic script.
+l) Emphasis is read at speed, so spend it deliberately: ONE bolded phrase per paragraph — the claim or the term that paragraph turns on — and italics only for an aside or a gloss. Do not bold a whole sentence, do not bold two things in one paragraph, and never bold or italicize Arabic script (it is already set apart by its own face and colour).
 
 m) Do not show source references.
 

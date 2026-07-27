@@ -15,6 +15,7 @@
 
 /* ── The card ──────────────────────────────────────────────── */
 .xpl {
+  position: relative;
   border: 1px solid var(--c-rule-soft);
   border-left: 3px solid var(--c-accent-soft);
   border-radius: 8px;
@@ -30,29 +31,40 @@
   border-left-color: var(--c-accent);
 }
 
-/* Header row: the toggle takes the width, delete sits at its right edge and is
-   visible whether the card is open or shut — a card you want gone should not have
-   to be opened first. */
+/* Header row: the toggle owns the FULL panel width. Delete used to sit here and
+   cost a fixed column for a control used once in a card's life — the header, which
+   carries the sentence the card is about, wrapped to three lines to make room. */
 .xpl-headrow {
   display: flex;
   align-items: flex-start;
-  gap: 0.15rem;
 }
 
+/* Delete hovers over the card's top-right corner instead, in the same idiom as an
+   etymology entry's. Hidden until the pointer is on the card, always present where
+   there is no pointer. */
 .xpl-del {
-  flex: none;
-  width: 1.9rem;
-  height: 1.9rem;
-  margin: 0.5rem 0.4rem 0 0;
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem;
+  z-index: 1;
+  width: 1.6rem;
+  height: 1.6rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
-  border: 1px solid transparent;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule-soft);
   border-radius: 6px;
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   color: var(--c-ink-muted);
+  opacity: 0;
   cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.xpl:hover .xpl-del,
+.xpl-del:focus-visible {
+  opacity: 1;
 }
 
 .xpl-del:hover {
@@ -65,6 +77,12 @@
   outline-offset: 1px;
 }
 
+@media (hover: none) {
+  .xpl-del {
+    opacity: 1;
+  }
+}
+
 /* The toggle — everything except the delete control. */
 .xpl-head {
   display: flex;
@@ -73,7 +91,7 @@
   gap: 0.2rem;
   flex: 1 1 auto;
   min-width: 0;
-  padding: 0.55rem 1.4rem 0.55rem 0.7rem;
+  padding: 0.55rem 2.1rem 0.55rem 0.7rem;
   position: relative;
   background: transparent;
   border: none;
@@ -109,6 +127,11 @@
    read at a glance during a session, and Fraunces' high-contrast serif is a
    reading face for the book's own pages, not for a 15px label in a side panel. */
 .xpl-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   font-family: var(--font-ui, Inter, system-ui, sans-serif);
   font-size: var(--panel-fs, 15px);
   line-height: 1.4;
@@ -256,6 +279,32 @@
   color: var(--c-ink-dim) !important;
 }
 
+/* ── Reading the card aloud ───────────────────────────────────────────────
+   Three signals, and deliberately only three (Asif, 2026-07-27). A card is scanned
+   mid-sentence while teaching, so the eye needs to land on the right word without
+   being asked to decode a palette:
+
+     BOLD    the claim or term that carries the paragraph. Weight is the strongest
+             cue at speed, so it is spent on one thing per paragraph.
+     ACCENT  Arabic script — the thing most often being pointed AT. Colour marks a
+             CATEGORY here, never importance; every Arabic run gets it, so its
+             absence means "not Arabic" rather than "less important".
+     ITALIC  an aside or a gloss, set quieter rather than louder.
+
+   No third colour, no highlight fills, no coloured headings: past three signals a
+   reader starts decoding instead of reading, which is the opposite of the point. */
+.xpl-full strong,
+.xpl-prose strong {
+  font-weight: 650;
+  color: var(--c-ink);
+}
+
+.xpl-full em,
+.xpl-prose em {
+  font-style: italic;
+  color: var(--c-ink-dim);
+}
+
 /* Arabic inside an explanation. The Sized face carries the site's 135%
    size-adjust — Arabic renders visually smaller than Latin at equal point size —
    and the extra line-height keeps a vowelled run from clipping its neighbours. */
@@ -264,12 +313,23 @@
     "ScheherazadeSized", "Scheherazade New", "Noto Naskh Arabic", serif;
   font-size: 1.08em;
   line-height: 1.9;
-  color: var(--c-ink);
+  /* The accent, so a term the explanation is pointing at is found without
+     reading around it. Deep enough on both papers to clear AA at this size. */
+  color: var(--c-accent);
   unicode-bidi: isolate;
   /* NEVER italic, whatever it sits inside. A blockquote slants its contents, and
      a slanted naskh is a synthetic oblique of a script that has no italic — the
      letterforms distort rather than emphasise. */
   font-style: normal;
+  font-weight: 500;
+}
+
+/* Inside a quotation the script is the MAIN text, not a pointer into prose — it
+   takes the ink colour back and a size that carries a whole verse. */
+.xpl-full blockquote .xpl-ar,
+.xpl-prose blockquote .xpl-ar {
+  color: var(--c-ink);
+  font-size: 1.15em;
 }
 
 /* Never italic — see .xpl-ar for why the script must stay upright, and the
