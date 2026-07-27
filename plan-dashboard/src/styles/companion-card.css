@@ -511,8 +511,27 @@
   cursor: pointer;
 }
 
+/* Hover LIFTS the entry rather than sinking it. It used to set --c-bg-sunken, which
+   is the exact token .xpl-etym paints the surrounding block with, so hovering an
+   entry made it the same colour as the panel behind it and the row dissolved into
+   its own container — the one place in the card where pointing at something made it
+   harder to see.
+
+   The surface ramp runs elev(#ffffff) → card(#fffdf8) → bg → sunken(#efeae0), and an
+   entry rests on card, so the only lighter step is elev. That step is nearly
+   invisible on its own (two channels, seven values), which is why the edge carries
+   the signal: every other control in this component — the add button, the delete
+   button, the note textarea — already hovers by border-colour, and this was the lone
+   outlier reaching for a background instead. Now it does both, and matches them. */
 .xpl-ety-head:hover {
-  background: var(--c-bg-sunken);
+  background: var(--c-bg-elev);
+}
+
+/* The edge, on hover anywhere in the entry — which is also when the delete control
+   fades in, so the two cues arrive together. An OPEN entry keeps its gold border:
+   that border says "this one is expanded", which outranks "the pointer is here". */
+.xpl-ety:not([data-open="true"]):hover {
+  border-color: var(--c-accent-soft);
 }
 
 .xpl-ety-head:focus-visible {
