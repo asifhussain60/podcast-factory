@@ -23,7 +23,7 @@ import {
   VISUAL_DRAG_TYPE,
   type ChapterEditor,
 } from "./book-md-editor";
-import { confirmDialog, noticeDialog } from "./confirm-dialog";
+import { busyDialog, confirmDialog, noticeDialog } from "./confirm-dialog";
 import { imageLightbox } from "./image-lightbox";
 import {
   createAutosave,
@@ -2010,14 +2010,16 @@ function boot(): void {
     mode?: string;
     explain?: boolean;
     etymology?: boolean;
+    /** FA classes shown at the centre of the busy modal's ring spinner. */
+    icon?: string;
   }
   const AI_ACTIONS: AiAction[] = [
-    { kind: "rewrite", label: "Rewrite", mode: "clarify" },
-    { kind: "expand", label: "Expand", mode: "expand" },
-    { kind: "condense", label: "Condense", mode: "tighten" },
-    { kind: "simplify", label: "Simplify", mode: "simplify" },
-    { kind: "explain", label: "Explain", explain: true },
-    { kind: "etymology", label: "Etymology", etymology: true },
+    { kind: "rewrite", label: "Rewrite", mode: "clarify", icon: "fa-solid fa-pen-nib" },
+    { kind: "expand", label: "Expand", mode: "expand", icon: "fa-solid fa-up-right-and-down-left-from-center" },
+    { kind: "condense", label: "Condense", mode: "tighten", icon: "fa-solid fa-down-left-and-up-right-to-center" },
+    { kind: "simplify", label: "Simplify", mode: "simplify", icon: "fa-solid fa-wand-magic-sparkles" },
+    { kind: "explain", label: "Explain", explain: true, icon: "fa-solid fa-lightbulb" },
+    { kind: "etymology", label: "Etymology", etymology: true, icon: "fa-solid fa-book-open" },
   ];
   let aiStatusEl: HTMLElement | null = null;
   let aiPopupEl: HTMLElement | null = null;
@@ -2098,12 +2100,33 @@ function boot(): void {
   async function runRearticulate(btn: HTMLButtonElement): Promise<void> {
     if (!activeEditor || rearticulating) return;
     const title = chapterByKey.get(selectedChapter)?.title ?? selectedChapter;
-    if (
-      !window.confirm(
-        `Rearticulate "${title}" in place?\n\nThe chapter is rewritten as simple, articulate English while preserving speeches, quotes, imagery, and Arabic. A result that fails the fidelity gates reverts automatically.`,
-      )
-    )
-      return;
+    const go = await confirmDialog({
+      title: "Rearticulate this chapter?",
+      titleIcon: "fa-solid fa-feather-pointed",
+      body: `“${title}” is rewritten in place as simple, articulate English.`,
+      points: [
+        {
+          icon: "fa-solid fa-quote-left",
+          text: "Speeches and quotations keep their speakers and their content.",
+        },
+        {
+          icon: "fa-solid fa-mountain-sun",
+          text: "Imagery stays imagery — nothing is flattened into abstraction.",
+        },
+        {
+          icon: "fa-solid fa-language",
+          text: "Arabic script is preserved verbatim, never romanized away.",
+        },
+        {
+          icon: "fa-solid fa-shield-halved",
+          text: "A result that fails the fidelity gates reverts automatically.",
+        },
+      ],
+      footnote:
+        "Takes a few minutes. The chapter is locked while the rewrite runs.",
+      confirmLabel: "Rearticulate",
+    });
+    if (!go) return;
     const flushed = await (activeSaveFlush?.() ?? Promise.resolve(true));
     if (!flushed) {
       setAiStatus("Autosave is failing — resolve that before rearticulating.", true);
@@ -2114,9 +2137,18 @@ function boot(): void {
     const editorDom = activeEditor.editor.view.dom as HTMLElement;
     activeEditor.editor.setEditable(false);
     editorDom.classList.add("cx-rearticulating");
-    setAiStatus("Rearticulating the chapter — this can take a few minutes…");
+    // Blocking progress modal for the whole run — on success it stays up
+    // through the page reload, so the page never looks interactive while its
+    // content is stale.
+    const busy = busyDialog({
+      title: "Rearticulating the chapter…",
+      status: `“${title}”`,
+      icon: "fa-solid fa-feather-pointed",
+      note: "Rewriting as simple, articulate English behind the fidelity gates — this can take a few minutes.",
+    });
 
     const unlock = (msg: string, isError: boolean) => {
+      busy.close();
       rearticulating = false;
       btn.disabled = false;
       editorDom.classList.remove("cx-rearticulating");
@@ -2153,6 +2185,8 @@ function boot(): void {
         return;
       }
       if (status.state === "running" || status.state === "none") {
+        const secs = Math.round((Date.now() - (DEADLINE - 120 * 60 * 1000)) / 1000);
+        busy.update(`“${title}” — ${Math.floor(secs / 60)}m ${secs % 60}s elapsed`);
         window.setTimeout(poll, 4000);
         return;
       }
@@ -2170,7 +2204,9 @@ function boot(): void {
         return;
       }
       // adapted or partial: book.md changed on disk; re-sync the page the
-      // Composer's normal way. The editor stays locked — its content is stale.
+      // Composer's normal way. The editor and the modal stay up — the page's
+      // content is stale until the reload lands.
+      busy.update("Done — reloading the chapter…");
       setAiStatus("Rearticulated. Reloading the chapter…");
       reloadPreservingChapter();
     };
@@ -2215,8 +2251,21 @@ function boot(): void {
       return;
     }
     aiPopupEl?.remove();
+    // Blocking progress modal for every AI action — the page is inert while
+    // the model works; every exit path below closes it in the finally.
+    const busy = busyDialog({
+      title: `${a.label}…`,
+      status:
+        sel.text.length > 90 ? `“${sel.text.slice(0, 90)}…”` : `“${sel.text}”`,
+      icon: a.icon,
+      note: "The AI is working on your selection — a few seconds.",
+    });
     if (a.etymology) {
-      await runEtymology(sel);
+      try {
+        await runEtymology(sel);
+      } finally {
+        busy.close();
+      }
       return;
     }
     setAiStatus(`${a.label}…`);
@@ -2256,6 +2305,8 @@ function boot(): void {
       showAiOptions(a.label, options, sel.from, sel.to, onApplied);
     } catch (e) {
       setAiStatus(`${a.label} failed: ${(e as Error).message}`, true);
+    } finally {
+      busy.close();
     }
   }
 
@@ -2716,7 +2767,19 @@ function boot(): void {
     }
     const go = await confirmDialog({
       title: "Generate the PDF?",
-      body: "This writes book/book.pdf — the file delivered to readers and Google Drive — from the chapters as saved right now.",
+      titleIcon: "fa-solid fa-file-pdf",
+      body: "The reading edition is rendered from the chapters exactly as saved right now.",
+      points: [
+        {
+          icon: "fa-solid fa-book-open-reader",
+          text: "This is the file delivered to readers and Google Drive.",
+        },
+        {
+          icon: "fa-solid fa-download",
+          text: "The Download PDF link lights up when the render finishes.",
+        },
+      ],
+      footnote: "About a minute. The page stays usable while it renders.",
       confirmLabel: "Generate",
     });
     if (!go) return;

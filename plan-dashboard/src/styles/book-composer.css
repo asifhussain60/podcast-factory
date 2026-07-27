@@ -2497,6 +2497,121 @@ body:has(.composer-grid) .to-top {
   background: var(--c-red, #a83232);
   border-color: var(--c-red, #a83232);
 }
+
+/* ── Rich confirm content: icon badge, icon-led points, footnote ─────────── */
+.cx-confirm-head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.5rem;
+}
+.cx-confirm-head .cx-confirm-title {
+  margin: 0;
+}
+.cx-confirm-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 12%, var(--c-bg-card, #fffdf8));
+  border: 1px solid color-mix(in oklab, var(--c-accent, #8b4513) 35%, var(--c-bg-card, #fffdf8));
+  color: var(--c-accent, #8b4513);
+  font-size: 1rem;
+}
+.cx-confirm-points {
+  list-style: none;
+  margin: 0 0 0.9rem;
+  padding: 0.75rem 0.85rem;
+  display: grid;
+  gap: 0.55rem;
+  border: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 4%, var(--c-bg-card, #fffdf8));
+}
+.cx-confirm-points li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-confirm-point-icon {
+  flex: 0 0 1.1rem;
+  text-align: center;
+  color: var(--c-accent, #8b4513);
+  font-size: 0.85rem;
+}
+.cx-confirm-foot {
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--c-ink-muted, #66625a);
+}
+
+/* ── Busy modal: blocking progress while an AI action runs ────────────────── */
+/* Sits over everything the confirm scrim covers; slightly darker so the page
+   clearly reads as inert, with the box floated on a deep two-layer shadow. */
+.cx-busy-scrim {
+  background: color-mix(in oklab, var(--c-ink, #1f1d18) 55%, transparent);
+}
+.cx-busy-box {
+  width: min(24rem, 100%);
+  text-align: center;
+  padding: 1.6rem 1.4rem 1.3rem;
+  box-shadow:
+    0 30px 80px rgba(31, 29, 24, 0.42),
+    0 8px 24px rgba(31, 29, 24, 0.22);
+  outline: none;
+}
+.cx-busy-box .cx-confirm-title {
+  margin: 0.85rem 0 0.25rem;
+}
+.cx-busy-status {
+  margin: 0;
+  min-height: 1.4em;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--c-ink-dim, #5c574d);
+}
+.cx-busy-box .cx-confirm-foot {
+  margin: 0.7rem 0 0;
+}
+/* Ring spinner: a conic accent ring rotating around the action's icon. */
+.cx-busy-spinner {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 10%, var(--c-bg-card, #fffdf8));
+  color: var(--c-accent, #8b4513);
+  font-size: 1.25rem;
+}
+.cx-busy-spinner::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 3px solid color-mix(in oklab, var(--c-accent, #8b4513) 22%, transparent);
+  border-top-color: var(--c-accent, #8b4513);
+  animation: cx-busy-ring 0.9s linear infinite;
+}
+@keyframes cx-busy-ring {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-busy-spinner::after {
+    animation: none;
+  }
+}
 .cx-palette-meta .cx-palette-cap {
   font-size: var(--panel-fs, 15px);
   margin: 0;

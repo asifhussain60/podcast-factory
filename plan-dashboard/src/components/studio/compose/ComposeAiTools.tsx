@@ -17,6 +17,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Editor } from "@tiptap/core";
 
 import { ApiFetchError } from "../../../lib/api-fetch";
+import { busyDialog } from "../../../scripts/confirm-dialog";
 import type { GlossaryEntry } from "../editor/studio-editor-constants";
 import { useAiActions } from "../editor/useAiActions";
 import { useTermCuration } from "../editor/useTermCuration";
@@ -194,6 +195,33 @@ export default function ComposeAiTools({
   });
 
   const hasSelection = !!editor && !editor.state.selection.empty;
+
+  // Blocking progress modal while ANY of this panel's AI actions runs — the
+  // same busyDialog the vanilla Refinement actions use, driven from the hooks'
+  // own busy flags so the shared hooks stay untouched. One modal at a time;
+  // the effect's cleanup closes it the moment the flag drops.
+  const busyState = aiBusy
+    ? aiKind === "research"
+      ? { title: "Researching the section…", icon: "fa-solid fa-magnifying-glass" }
+      : { title: "Auto-tagging the section…", icon: "fa-solid fa-tags" }
+    : arabicBusy
+      ? { title: "Proposing the Arabic term…", icon: "fa-solid fa-language" }
+      : englishBusy
+        ? { title: "Proposing the English term…", icon: "fa-solid fa-spell-check" }
+        : explainBusy
+          ? { title: "Explaining the selection…", icon: "fa-solid fa-lightbulb" }
+          : null;
+  const busyTitle = busyState?.title ?? null;
+  const busyIcon = busyState?.icon ?? null;
+  useEffect(() => {
+    if (!busyTitle) return;
+    const handle = busyDialog({
+      title: busyTitle,
+      icon: busyIcon ?? undefined,
+      note: "The AI is working — a few seconds.",
+    });
+    return () => handle.close();
+  }, [busyTitle, busyIcon]);
 
   return (
     <div className="cx-ai-tools" data-tick={tick}>
