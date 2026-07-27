@@ -9,9 +9,11 @@
  * writes book/visual-layout.json via /api/studio/visual-layout, then triggers a
  * render via /api/studio/generate-book-pdf.
  */
+import { readdirSync, statSync } from "node:fs";
+import { join } from "node:path";
 import Base from "../../../layouts/Base.astro";
 import { loadComposer } from "../../../lib/reader/composer";
-import { slugToTitle } from "../../../lib/content-paths";
+import { findContentDirSync, slugToTitle } from "../../../lib/content-paths";
 import ArabicReviewPanel from "../../../components/reader/ArabicReviewPanel";
 import VowellingReviewPanel from "../../../components/reader/VowellingReviewPanel";
 import "../../../styles/library.css";
@@ -37,6 +39,29 @@ import "../../../styles/companion-card.css";
 const slug = Astro.params.slug!;
 const view = await loadComposer(slug);
 const bookTitle = view?.title ?? slugToTitle(slug);
+
+// A previously generated PDF persists on disk — surface it as a download link
+// from first paint rather than only after the next render. Newest .pdf in
+// book/ wins (the renderer writes a title-named file there).
+let existingPdf: { rel: string; name: string; kb: number } | null = null;
+try {
+  const bookDir = findContentDirSync(slug);
+  if (bookDir) {
+    const dir = join(bookDir, "book");
+    const pdfs = readdirSync(dir)
+      .filter((f) => f.toLowerCase().endsWith(".pdf"))
+      .map((f) => ({ f, m: statSync(join(dir, f)) }))
+      .sort((a, b) => b.m.mtimeMs - a.m.mtimeMs);
+    if (pdfs.length)
+      existingPdf = {
+        rel: `book/${pdfs[0].f}`,
+        name: pdfs[0].f,
+        kb: Math.round(pdfs[0].m.size / 1024),
+      };
+  }
+} catch {
+  /* no PDF yet — the link stays hidden until a render succeeds */
+}
 const dataJson = view
   ? JSON.stringify({
       slug,
@@ -152,6 +177,24 @@ const ARABIC_FONTS = [
             >
               <i class="fa-solid fa-file-pdf" aria-hidden="true" /> Generate PDF
             </button>
+            {/* Pre-filled server-side when a rendered PDF already exists on
+                disk; refreshed by book-composer.ts after each successful
+                render, so the latest PDF stays one click away. */}
+            <a
+              class="cx-hdr-btn cx-pdf-link"
+              id="cx-pdf-link"
+              hidden={!existingPdf}
+              href={
+                existingPdf
+                  ? `/api/library/file?slug=${slug}&path=${encodeURIComponent(existingPdf.rel)}`
+                  : undefined
+              }
+              download={existingPdf?.name}
+            >
+              <i class="fa-solid fa-download" aria-hidden="true" /> Download PDF{
+                existingPdf ? ` (${existingPdf.kb} KB)` : ""
+              }
+            </a>
             <a class="cx-hdr-btn" href={`/studio/${slug}/live`}>
               <i class="fa-solid fa-book-open-reader" aria-hidden="true" /> LIVE
               Session

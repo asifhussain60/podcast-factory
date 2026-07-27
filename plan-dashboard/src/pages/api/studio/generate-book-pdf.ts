@@ -73,6 +73,14 @@ export const POST: APIRoute = async ({ request }) => {
     );
     if (result.ok === false)
       return apiServerError(String(result.error ?? "render failed"));
+    // The script reports the PDF as an absolute path; the client needs the
+    // book-relative path (for /api/library/file) and the bare filename (for
+    // the download attribute).
+    if (typeof result.pdf === "string" && result.pdf.startsWith(bookDir)) {
+      const rel = result.pdf.slice(bookDir.length).replace(/^\/+/, "");
+      result.relPath = rel;
+      result.filename = rel.split("/").pop();
+    }
     return apiOk(result);
   } catch (e) {
     return apiServerError(`Generate failed: ${String(e)}`);

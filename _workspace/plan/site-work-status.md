@@ -33,6 +33,11 @@ and was kept.
   re-prompt-until-pass.
 - The Refine panel's Rewrite modes now carry the REQ-BA register/imagery/
   spelling guards, so the original flattening path is constrained too.
+- Composer header: **Generate PDF** button beside LIVE Session (flush autosave
+  → themed confirm → /api/studio/generate-book-pdf; spinner while rendering,
+  reduced-motion safe) and a persistent **Download PDF** link — pre-filled
+  server-side from the newest book/*.pdf on load, refreshed with size after
+  each render, served via /api/library/file with a download filename.
 
 **Previous — RCA-002, then durable view state across the site.**
 

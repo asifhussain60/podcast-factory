@@ -2722,17 +2722,35 @@ function boot(): void {
     if (!go) return;
     const idle = genPdfBtn.innerHTML;
     genPdfBtn.disabled = true;
-    genPdfBtn.textContent = "Rendering PDF…";
+    // Spinner while the render runs (fa-spin; stilled under reduced motion in CSS).
+    genPdfBtn.innerHTML =
+      '<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Rendering PDF…';
     try {
-      const data = await apiFetch<{ kb?: number }>(
-        "/api/studio/generate-book-pdf",
-        { method: "POST", body: { slug } },
-      );
-      genPdfBtn.textContent = `PDF generated (${data.kb ?? "?"} KB)`;
-      window.setTimeout(() => {
-        genPdfBtn.innerHTML = idle;
-        genPdfBtn.disabled = false;
-      }, 4000);
+      const data = await apiFetch<{
+        kb?: number;
+        relPath?: string;
+        filename?: string;
+      }>("/api/studio/generate-book-pdf", { method: "POST", body: { slug } });
+      genPdfBtn.innerHTML = idle;
+      genPdfBtn.disabled = false;
+      // Refresh the persistent download link with the file just written.
+      const link = document.querySelector<HTMLAnchorElement>("#cx-pdf-link");
+      if (link && data.relPath) {
+        link.href = `/api/library/file?slug=${encodeURIComponent(slug)}&path=${encodeURIComponent(data.relPath)}`;
+        if (data.filename) link.setAttribute("download", data.filename);
+        link.innerHTML = `<i class="fa-solid fa-download" aria-hidden="true"></i> Download PDF (${data.kb ?? "?"} KB)`;
+        link.hidden = false;
+        // One attention pulse so the fresh link is noticed; the class is
+        // animation-only and removed when it ends.
+        link.classList.remove("cx-pdf-link--fresh");
+        void link.offsetWidth; // restart the animation on back-to-back renders
+        link.classList.add("cx-pdf-link--fresh");
+        link.addEventListener(
+          "animationend",
+          () => link.classList.remove("cx-pdf-link--fresh"),
+          { once: true },
+        );
+      }
     } catch (err) {
       genPdfBtn.innerHTML = idle;
       genPdfBtn.disabled = false;

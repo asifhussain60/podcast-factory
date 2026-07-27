@@ -97,6 +97,35 @@ button.cx-hdr-btn:disabled {
   opacity: 0.55;
   cursor: default;
 }
+/* Download-PDF link: one attention pulse when a fresh render fills it. */
+.cx-pdf-link--fresh {
+  animation: cx-pdf-fresh 0.9s ease-in-out 2;
+}
+@keyframes cx-pdf-fresh {
+  0%,
+  100% {
+    background: color-mix(
+      in oklab,
+      var(--c-accent, #8b4513) 8%,
+      var(--c-bg-card, #fffdf8)
+    );
+  }
+  50% {
+    background: color-mix(
+      in oklab,
+      var(--c-accent, #8b4513) 32%,
+      var(--c-bg-card, #fffdf8)
+    );
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #cx-generate-pdf .fa-spin {
+    animation: none;
+  }
+  .cx-pdf-link--fresh {
+    animation: none;
+  }
+}
 /* Pushed to the far right of the row, separated from the other entries. */
 .cx-hdr-btn--end {
   margin-left: auto;
