@@ -87,6 +87,16 @@
   outline: 2px solid var(--c-accent, #8b4513);
   outline-offset: 2px;
 }
+/* The Generate PDF entry is a <button> among <a> siblings — reset the UA
+ * button font and give it the pointer; lock it visibly while a render runs. */
+button.cx-hdr-btn {
+  font-family: inherit;
+  cursor: pointer;
+}
+button.cx-hdr-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
 /* Pushed to the far right of the row, separated from the other entries. */
 .cx-hdr-btn--end {
   margin-left: auto;

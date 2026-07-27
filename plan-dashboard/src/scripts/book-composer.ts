@@ -2697,6 +2697,53 @@ function boot(): void {
   renderScholar(); // page-lifetime surface: loads the chapter's explanations
   render();
 
+  // ── Generate PDF (header) — same contract as the Preview page's button ─────
+  // The renderer reads book.md from DISK, so the open chapter's pending edits
+  // are flushed first: what you see is what prints. Same themed confirm and
+  // endpoint as /studio/<slug>/preview; the page is fully usable while the
+  // render runs (only the button itself locks).
+  const genPdfBtn = document.querySelector<HTMLButtonElement>("#cx-generate-pdf");
+  genPdfBtn?.addEventListener("click", async () => {
+    if (genPdfBtn.disabled) return;
+    const flushed = await (activeSaveFlush?.() ?? Promise.resolve(true));
+    if (!flushed) {
+      await noticeDialog({
+        title: "Unsaved edits could not be saved",
+        body: "The open chapter has edits that failed to autosave. Resolve the save error first — otherwise the PDF would print without them.",
+        danger: true,
+      });
+      return;
+    }
+    const go = await confirmDialog({
+      title: "Generate the PDF?",
+      body: "This writes book/book.pdf — the file delivered to readers and Google Drive — from the chapters as saved right now.",
+      confirmLabel: "Generate",
+    });
+    if (!go) return;
+    const idle = genPdfBtn.innerHTML;
+    genPdfBtn.disabled = true;
+    genPdfBtn.textContent = "Rendering PDF…";
+    try {
+      const data = await apiFetch<{ kb?: number }>(
+        "/api/studio/generate-book-pdf",
+        { method: "POST", body: { slug } },
+      );
+      genPdfBtn.textContent = `PDF generated (${data.kb ?? "?"} KB)`;
+      window.setTimeout(() => {
+        genPdfBtn.innerHTML = idle;
+        genPdfBtn.disabled = false;
+      }, 4000);
+    } catch (err) {
+      genPdfBtn.innerHTML = idle;
+      genPdfBtn.disabled = false;
+      await noticeDialog({
+        title: "PDF generation failed",
+        body: String((err as Error).message ?? err),
+        danger: true,
+      });
+    }
+  });
+
   // A tinted passage is the entry point to its explanation, in BOTH modes: the
   // read body wraps a span and the edit canvas paints a decoration, and one
   // delegated listener over the preview column covers each of them.

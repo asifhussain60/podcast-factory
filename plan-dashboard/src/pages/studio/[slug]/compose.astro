@@ -142,7 +142,17 @@ const ARABIC_FONTS = [
               <i class="fa-solid fa-feather-pointed" aria-hidden="true" /> Edit
               &amp; Enrich
             </a>
-            <a class="cx-hdr-btn cx-hdr-btn--end" href={`/studio/${slug}/live`}>
+            {/* A button, not a link: it acts in place (flush edits → confirm →
+                render book/book.pdf via /api/studio/generate-book-pdf). Sits in
+                the right-hand group beside LIVE Session; wired in book-composer.ts. */}
+            <button
+              type="button"
+              class="cx-hdr-btn cx-hdr-btn--end"
+              id="cx-generate-pdf"
+            >
+              <i class="fa-solid fa-file-pdf" aria-hidden="true" /> Generate PDF
+            </button>
+            <a class="cx-hdr-btn" href={`/studio/${slug}/live`}>
               <i class="fa-solid fa-book-open-reader" aria-hidden="true" /> LIVE
               Session
             </a>
