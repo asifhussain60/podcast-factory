@@ -295,3 +295,4 @@
 {"phase": "0book-augment", "step": "aug-the-five-shares-and-the-long-road-to-the", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-augment", "step": "aug-homecoming-the-father-and-the-debate-wit", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "rearticulate", "step": "rearticulate-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

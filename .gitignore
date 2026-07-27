@@ -230,6 +230,8 @@ CONTENT/drafts/**/_system/stage-metrics.json
 # source-of-truth, must not dirty the tree at ANY bucket path.
 content/**/_system/stage-metrics.json
 content/**/_system/cost-validation.json
+# Rearticulate worker status — runtime polling state, rewritten every run.
+content/**/_system/rearticulate-status.json
 
 # Root-level package-lock.json (belongs only in plan-dashboard/; the root
 # package.json is metadata-only with no install dependencies).

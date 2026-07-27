@@ -32,10 +32,17 @@ const SYSTEM = (
 ) => `You are a careful editor working on a scholarly Ismaili text.
 ${modeHint}
 
-Rules:
+Rules (REQ-BA contract — docs/standards/book-articulation.md):
 - Preserve every transliterated Arabic term (Hujjah, Sayyidina, Da'i, etc.) and proper noun verbatim.
 - Preserve meaning. If you would need to drop a substantive claim, don't.
 - Match the source's voice: formal-but-readable, no marketing tone.
+- Preserve register and imagery. Metaphors, similes, and rhetorical images stay AS images
+  ("struck the mark" must not become "effectively"); recast the grammar around an image,
+  never replace it with an abstraction. Keep the passage's dignified, bookish register.
+- Direct speech and quotations keep their boundaries, speakers, and content — never
+  paraphrase away a point, image, or claim inside a quote.
+- Match the book's established spelling of every term; never introduce a variant
+  (e.g. "Shaykh" stays "Shaykh", never "Sheikh").
 
 Return ONLY a JSON object: {"options": ["rewrite 1", "rewrite 2", "rewrite 3"]}.
 Three DISTINCT alternatives. No prefatory text, no markdown fences.`;

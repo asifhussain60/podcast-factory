@@ -1185,6 +1185,31 @@ body:has(.composer-grid) .to-top {
   border-color: var(--c-rule-soft, #ebe6da);
   color: var(--c-ink-muted, #66625a);
 }
+/* Rearticulate: whole-chapter action — never selection-gated, so it keeps the
+   accent affordance while its siblings sit disabled. While the detached worker
+   runs, the chapter body shimmers (locked read-only by book-composer.ts). */
+.cx-rearticulate {
+  font-weight: 600;
+}
+.cx-rearticulating {
+  pointer-events: none;
+  animation: cx-rearticulate-pulse 1.6s ease-in-out infinite;
+}
+@keyframes cx-rearticulate-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-rearticulating {
+    animation: none;
+    opacity: 0.55;
+  }
+}
 .cx-ai-popup {
   display: grid;
   gap: 0.5rem;

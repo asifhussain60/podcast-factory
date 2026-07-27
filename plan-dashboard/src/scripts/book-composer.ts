@@ -2039,9 +2039,12 @@ function boot(): void {
 
   function updateAiEnabled(): void {
     const ok = !!selectionText();
-    root.querySelectorAll<HTMLButtonElement>(".cx-ai-btn").forEach((b) => {
-      b.disabled = !ok;
-    });
+    // Rearticulate acts on the whole chapter, not the selection — it opts out.
+    root
+      .querySelectorAll<HTMLButtonElement>(".cx-ai-btn:not(.cx-rearticulate)")
+      .forEach((b) => {
+        b.disabled = !ok;
+      });
   }
 
   function renderAiActions(): void {
@@ -2063,6 +2066,16 @@ function boot(): void {
       b.addEventListener("click", () => runAiAction(a));
       row.appendChild(b);
     }
+    // Rearticulate — whole-chapter, selection-independent. Rewrites the open
+    // chapter in place through the pipeline's gated engine (REQ-BA contract,
+    // docs/standards/book-articulation.md); a window that fails a fidelity
+    // gate reverts, so the worst outcome is a no-op.
+    const rearticulate = document.createElement("button");
+    rearticulate.type = "button";
+    rearticulate.className = "cx-ai-btn cx-rearticulate";
+    rearticulate.textContent = "Rearticulate chapter";
+    rearticulate.addEventListener("click", () => runRearticulate(rearticulate));
+    row.appendChild(rearticulate);
     controlsEl.appendChild(row);
 
     aiStatusEl = document.createElement("p");
@@ -2071,6 +2084,97 @@ function boot(): void {
     aiStatusEl.setAttribute("aria-live", "polite");
     controlsEl.appendChild(aiStatusEl);
     updateAiEnabled();
+  }
+
+  // ── Rearticulate: whole-chapter rewrite through the pipeline's gated engine ──
+  // The flow is deliberately page-reload-shaped (the Composer's normal re-sync
+  // pattern, see reloadPreservingChapter): flush pending edits so the engine
+  // reads what the author sees, lock the editor, shimmer while the detached
+  // Python worker runs, then reload from disk. NO editor-document surgery — the
+  // RCA-002 lesson is that live-editor writes racing book.md are how corruption
+  // happens, so the editor is read-only for the whole run.
+  let rearticulating = false;
+
+  async function runRearticulate(btn: HTMLButtonElement): Promise<void> {
+    if (!activeEditor || rearticulating) return;
+    const title = chapterByKey.get(selectedChapter)?.title ?? selectedChapter;
+    if (
+      !window.confirm(
+        `Rearticulate "${title}" in place?\n\nThe chapter is rewritten as simple, articulate English while preserving speeches, quotes, imagery, and Arabic. A result that fails the fidelity gates reverts automatically.`,
+      )
+    )
+      return;
+    const flushed = await (activeSaveFlush?.() ?? Promise.resolve(true));
+    if (!flushed) {
+      setAiStatus("Autosave is failing — resolve that before rearticulating.", true);
+      return;
+    }
+    rearticulating = true;
+    btn.disabled = true;
+    const editorDom = activeEditor.editor.view.dom as HTMLElement;
+    activeEditor.editor.setEditable(false);
+    editorDom.classList.add("cx-rearticulating");
+    setAiStatus("Rearticulating the chapter — this can take a few minutes…");
+
+    const unlock = (msg: string, isError: boolean) => {
+      rearticulating = false;
+      btn.disabled = false;
+      editorDom.classList.remove("cx-rearticulating");
+      activeEditor?.editor.setEditable(true);
+      setAiStatus(msg, isError);
+    };
+
+    try {
+      await apiFetch("/api/studio/rearticulate", {
+        method: "POST",
+        body: { slug, chapterKey: selectedChapter },
+      });
+    } catch (e) {
+      unlock(`Rearticulate failed to start: ${String(e)}`, true);
+      return;
+    }
+
+    // Poll the worker. A long chapter windows into several claude calls at up
+    // to 900 s each, so the ceiling is generous; the GET converts a dead worker
+    // into state:"error", so this loop cannot shimmer forever.
+    const DEADLINE = Date.now() + 120 * 60 * 1000;
+    const poll = async (): Promise<void> => {
+      if (Date.now() > DEADLINE) {
+        unlock("Rearticulate timed out — check the book before retrying.", true);
+        return;
+      }
+      let status: Record<string, unknown>;
+      try {
+        status = (await apiFetch(
+          `/api/studio/rearticulate?slug=${encodeURIComponent(slug)}`,
+        )) as Record<string, unknown>;
+      } catch {
+        window.setTimeout(poll, 5000); // transient poll failure — keep waiting
+        return;
+      }
+      if (status.state === "running" || status.state === "none") {
+        window.setTimeout(poll, 4000);
+        return;
+      }
+      if (status.state === "error") {
+        unlock(`Rearticulate failed: ${String(status.error ?? "unknown error")}`, true);
+        return;
+      }
+      const record = (status.record ?? {}) as Record<string, unknown>;
+      if (record.status === "reverted") {
+        const gates = Array.isArray(record.gates) ? record.gates : [];
+        unlock(
+          `Rearticulation reverted by the fidelity gates — the chapter is unchanged. ${String(gates[0] ?? "")}`,
+          true,
+        );
+        return;
+      }
+      // adapted or partial: book.md changed on disk; re-sync the page the
+      // Composer's normal way. The editor stays locked — its content is stale.
+      setAiStatus("Rearticulated. Reloading the chapter…");
+      reloadPreservingChapter();
+    };
+    window.setTimeout(poll, 4000);
   }
 
   // Scroll to and select a follow-up mark's anchored text. The mark stores a

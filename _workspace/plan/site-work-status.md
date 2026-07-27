@@ -1,8 +1,40 @@
 # Current work - status
 
-**Last updated:** 2026-07-27 (the site remembers where you were; autosave stops writing what nobody changed)
+**Last updated:** 2026-07-27 evening (Rearticulate ships; the flattened chapter is restored)
 
-**Newest — RCA-002, then durable view state across the site.**
+**Newest — the Rearticulate action, and the contract behind it.**
+
+*A Composer Rewrite had flattened one chapter.* A "clarify" rewrite (Gemini,
+generic-editor prompt) had rewritten the boy's opening speech in chapter 3 of
+`the-master-and-the-disciple` from 183 words to 139 — imagery abstracted away
+("struck the mark" → "effectively"), plus a stray "Sheikh" against the book's
+24 "Shaykh". Sat uncommitted; verified against the pipeline's translation
+chunks (paragraph-level sweep, all 8 chapters — only ch. 3 was flattened);
+restored via git. The companion note added the same day was genuine enrichment
+and was kept.
+
+*Shipped in response — the Rearticulate lane:*
+- `docs/standards/book-articulation.md` (REQ-BA-010..120) + the
+  `book-articulation` skill — the articulation contract (LAL-handbook-grounded:
+  simple lucid English, grammar may be rebuilt, meaning/speeches/quotes/imagery/
+  Arabic are inviolable).
+- `scripts/podcast/rearticulate_chapter.py` — chapter-scoped engine reusing the
+  fluency pass's `_run_pass` (windowing, revoice_gates, per-window revert);
+  addresses chapters by `anchor_key`, records results in `composer-edits.json`
+  like a human save, writes `_system/rearticulate-status.json` (gitignored).
+- `POST/GET /api/studio/rearticulate` — detached spawn + poll, single-run lock,
+  dead-worker detection.
+- Composer Refinement tab: **Rearticulate chapter** button — whole-chapter,
+  selection-independent; flushes autosave, locks the editor read-only, shimmers
+  (`.cx-rearticulating`, reduced-motion safe), reloads via
+  `reloadPreservingChapter()` on success. No live-editor surgery (RCA-002).
+- `book-rearticulator` agent (canonical infra/claude-agents/ + synced wrapper) —
+  judges results against REQ-BA-*; convergence action is revert, never
+  re-prompt-until-pass.
+- The Refine panel's Rewrite modes now carry the REQ-BA register/imagery/
+  spelling guards, so the original flattening path is constrained too.
+
+**Previous — RCA-002, then durable view state across the site.**
 
 *The session opened by finding corruption, not by writing code.* Two Book
 Composer autosaves from the previous evening sat uncommitted in the working

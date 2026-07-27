@@ -14,6 +14,7 @@ The skill set here is a STRICT SUBSET of what existed pre-split — the journal 
 |---|---|---|---|
 | **CORTEX** | BASELINE | Active (plugin) | `~/.claude/skills/cortex/SKILL.md` |
 | **ADLC** | GOLD | Active (plugin) | `~/.claude/skills/adlc/SKILL.md` |
+| **Book-articulation** | N/A — it IS a standard | Active in staging — the Book Articulation Standard (REQ-BA-*); contract for rearticulating chapter prose (Composer Rearticulate action, `book-rearticulator` agent, rewrite-mode guards) | `skills-staging/book-articulation/SKILL.md` + `docs/standards/book-articulation.md` |
 | **Clean-commit** | BRONZE (target) | Active in staging — overlay applies (duplicated copy) | `skills-staging/clean-commit/SKILL.md` + `docs/reference/skill-overlays/clean-commit-cortex-overlay.md` |
 | **Html-view-quality** | N/A — it IS a standard | Active in staging — the Cortex HTML View Quality Standard (REQ-NNN); mandatory for any work touching the Astro site, gated by the `html-view-challenger` agent | `skills-staging/html-view-quality/SKILL.md` + `docs/standards/html-view-quality.md` |
 | **Podcast** | OUT OF SCOPE (content-prep) | Active in staging — exempt from CORTEX per SKILL.md §9; quality judged by human listening | `skills-staging/podcast/SKILL.md` |
@@ -58,6 +59,7 @@ Detail on what each skill owns, what triggers it, and what it explicitly defers 
 | Skill | Purpose | Owns | Triggers |
 |---|---|---|---|
 | `studio-composer` | Behavioural contract for the three Studio authoring surfaces (merged Edit canvas, whole-book Preview, LIVE Session) | `docs/standards/studio-composer-quality.md` (REQ-SC-*); defers styling to `html-view-quality` | "book composer", "compose view", "preview mode", "live session", "figure placement" |
+| `book-articulation` | Rearticulation contract for chapter prose — simple lucid English, grammar may be rebuilt, meaning/speeches/quotes/imagery/Arabic inviolable | `docs/standards/book-articulation.md` (REQ-BA-*); engine `scripts/podcast/rearticulate_chapter.py` | "rearticulate", "de-calque", "reads like a literal translation", "make it read professionally" |
 
 ### General-utility skills (duplicated independent copies from journal repo)
 
