@@ -67,10 +67,16 @@ verify:
   # skills-staging/repo-surgeon/SKILL.md). It validates THIS contract, root membership,
   # the retired-surface ban, agent-mirror and skill-registry parity, mirror pins, the
   # book-pipeline invariants and plan conformance — but it is an audit instrument, not a
-  # change-safety check, and its baseline is currently 7 known P1s (three BR-* ids the
-  # print-quality standard omits, four plan-id issues). Listing it here, or wiring it
-  # into the pre-commit hook, would block every commit on a pre-existing backlog. Add it
-  # once that baseline is zero.
+  # change-safety check, and its baseline is 3 known P1s, all of them plan-AUTHORING
+  # decisions rather than code defects: one dangling wave reference to a wave F that no
+  # longer exists, five wave ids defined in two families at once (waves vs waves_ghj,
+  # which may supersede each other — undocumented), and 19 ship-checklist
+  # cross-references with no single id space to map onto. Listing it here, or wiring it
+  # into pre-commit, would block every commit on a planning question. Add it once that
+  # baseline is zero. See _workspace/reviews/reports/2026-07-27-repo-surgeon.md.
+  #
+  # `--scope podcast` IS at zero and is safe to gate on today — that is the sweep
+  # CLAUDE.md mandates after every merge into develop.
   - make lint # ruff check + ruff format --check + the DR-005 size gate
   - python3 -m pytest -q # all three test trees, per pytest.ini testpaths
   - python3 scripts/podcast/_boundary_check.py # never writes to the sibling journal repo

@@ -45,11 +45,32 @@ notion of waivers, so settled rulings were re-litigated every run.
 
 ---
 
+### Root cause of the rot, found while working the findings
+
+The five dead plan rules did not decay gradually — they died in one commit. `78ce80e`
+("consolidate `_workspace/plan` folder — nested structure + 24 file deletions") deleted
+`_workspace/plan/podcast-plan.yaml` and moved planning to
+`_workspace/plan/refactor/plan.yaml`. The deleted file has top-level `phases`,
+`intelligence_sources` and `async_safety`; the surviving one has none of them.
+
+Those are **exactly** the keys L3, L4, L6, L7 and L9 read. The moment the consolidation
+landed, all five stopped matching anything and started passing vacuously, and `L7` — which
+resolves a glob — began reporting every wave id as missing. Nothing failed, so nothing was
+noticed. The recoverable copy is at `78ce80e~1:_workspace/plan/podcast-plan.yaml`.
+
+This is the mechanism worth remembering: **a rule that reads a key by name reports success
+when the key disappears.** The probe now asserts its own targets exist, which is the only
+form of that check that degrades safely.
+
+---
+
 ## Part 2 — findings from the repaired auditor
 
-7 P1, 0 P0. No findings suppressed by waiver; no stale contract entries.
+3 P1 remain, 0 P0. First run found 7. Four are now closed (three fixed, one was a defect in the probe
+itself); three remain and need an authoring decision. No findings suppressed by waiver; no
+stale contract entries.
 
-### Book print-quality standard is missing three requirement ids — P1
+### CLOSED — Book print-quality standard was missing three requirement ids — P1
 
 `scripts/podcast/_book_render_checks.py` emits seven `BR-*` checks. Three cite
 requirement ids that `docs/standards/book-print-quality.md` does not define:
@@ -63,33 +84,76 @@ requirement ids that `docs/standards/book-print-quality.md` does not define:
 This is exactly the drift `AU-V5` exists to catch, and the old rule missed it by
 hardcoding the original four ids. The probe now derives the list from the code.
 
-**Fix:** add the three requirements to the standard, or retire the checks. A finding
-citing a requirement nobody can look up is unactionable for whoever receives it.
+**Fixed 2026-07-27.** Added `REQ-BR-004` (running head names the page's own chapter,
+MUST/P1, under Pagination) and a new *Text integrity + apparatus* section carrying
+`REQ-BR-030` (no unsubstituted `__TOKEN__` reaches print, MUST/P0) and `REQ-BR-031` (a
+book with `source-crosswalk.json` prints its crosswalk page, MUST/P0). Each cites its
+probe function by name. `--scope podcast` now exits 0.
 
-### The ship checklist references a legacy id scheme the plan no longer defines — P1
+### CLOSED — one of the two "dangling wave references" was a defect in the probe — P1
 
-`_workspace/plan/operations/per-book-ship-checklist.md` cross-references 19 ids the
-current plan does not define: `B6, F1–F6, G2–G6, M4, N4, N5, P1.1, P1.2, P6.1, R7`. The
-plan has no `meta.legacy_id_map` to translate them, so every one of those traceability
-links is broken.
+Wave `D` declares `depends_on: [A1]`. `A1` is a **step** of wave `A`, so the reference is
+legitimate; the check resolved only against wave ids and reported it as dangling. Fixed
+2026-07-27: `L2` now resolves against wave ids **and** step ids.
 
-**Fix:** add `meta.legacy_id_map` to the plan, or update the checklist's annotations to
-current ids. This is one root cause, not 19 defects.
+Recorded rather than quietly corrected, because it is the same false-positive class this
+refactor exists to remove, and it was found the same way — by checking the data instead of
+trusting the rule.
 
-### Two dangling wave references — P1
+### OPEN — one genuine dangling reference — P1
 
-- Wave `D` declares `depends_on: [A1]`; there is no wave `A1`.
-- Wave `G` (family `waves_ghj`) declares `parallel_with: [F]`; there is no wave `F`.
+Wave `G` (family `waves_ghj`) declares `parallel_with: [F]`. There is no wave `F` and no
+step `F`; the `waves` family skips the letter entirely (`A B C D E G H I J K L M N CP`).
+Most likely `F` was folded into `waves_ghj` when that family was created, and the
+reference outlived it.
 
-### Five wave ids are defined in more than one family — P1
+**Needs the operator:** either point it at the wave that absorbed `F`, or drop it. Not
+inferable — nothing in the repo records what `F` was.
 
-`G, H, I, J, K` each appear in two wave families, so any `depends_on` reference to them is
-ambiguous — including the two dangling ones above. The previous catalog never checked
-this. It is the likeliest reason the dangling references went unnoticed: dependency
-resolution was never well-defined.
+### OPEN — five wave ids are defined in two families each — P1
 
-**Fix:** namespace the ids per family, or rename the duplicates. Worth doing before
-adding another wave family.
+`G, H, I, J, K` each appear in both `waves` and `waves_ghj`, so a `depends_on` naming one
+cannot be resolved to a single wave. **This is not a naming slip.** The two families hold
+overlapping but different work:
+
+| id | `waves` | `waves_ghj` |
+|---|---|---|
+| G | Phase Runner Improvements + Orchestrator Hardening | Narrative Homepage |
+| H | Audio Intake + Noise Router + Azure Pipeline | Code-Quality Refactor |
+| I | Intelligence Pipeline — Tradition-Aware KB + Source Review Gate | Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB |
+| J | Local-First Lookups + Dual-Interface Source Library Server | Source Library — Dual-Interface Server and Live Editor Integration |
+| K | Knowledge Quality Pass — Terms, Quotes, Anti-Repetition | Quality Scoring + Pipeline Hardening |
+
+Rows `I` and `J` describe substantially the same programme twice, which suggests
+`waves_ghj` may **supersede** those `waves` entries — but nothing states so. No plan
+document, README, or architecture note mentions `waves_ghj` at all; its only self-
+description is a comment header, *"Wave G — Narrative Homepage (and beyond)"*.
+
+**Needs the operator:** deciding which family is canonical is an authoring judgement about
+what work is still live, not hygiene. Renaming either set without that decision would
+freeze the wrong answer into every downstream reference.
+
+### OPEN — the ship checklist's cross-references point at no single id space — P1
+
+19 ids: `B6, F1-F6, G2-G6, M4, N4, N5, P1.1, P1.2, P6.1, R7`. Provenance established:
+
+| Ids | Where they resolve |
+|---|---|
+| `P1.1`, `P1.2`, `P6.1`, `R7` | The **deleted** `podcast-plan.yaml`, recoverable at `78ce80e~1`. `P1.1` = "audit script confirming zero cross-boundary writes" (still cited by `_boundary_check.py`'s docstring, which also names the deleted file); `R7` = the learning-loop-degradation risk |
+| `B6, F1-F6, G2-G6, M4, N4, N5` | **No single source.** Scattered across unrelated documents with different meanings |
+
+The second row is why a `legacy_id_map` cannot be authored by inference. `G4` alone means
+three different things in this repo — a ship gate ("build-clean P0=0") in
+`capabilities-manifest.yml`, a risk row in `intelligence/locked-decisions.md`, and a
+checklist row id in the checklist itself. `F6` is a section heading in
+`editor-refactor-plan.md` in one place and a cross-reference in another. The checklist's
+own bold row ids also collide with its italic cross-references, so the id space is
+overloaded in both directions.
+
+**Deliberately not written.** A map guessed at 19 judgement calls would make broken
+traceability *look* resolved, which is worse than the honest failure it replaces — a
+partial map would also drop the finding from 19 ids to 15 and read as progress while the
+ambiguity survived untouched. Each id needs a human ruling on which document it meant.
 
 ---
 
@@ -109,7 +173,10 @@ adding another wave family.
 ## Not wired into pre-commit, deliberately
 
 The probe is not in the contract's `verify:` list and not in the pre-commit hook. Its
-baseline is the 7 P1s above — all pre-existing, none introduced by this refactor — so
-gating commits on it would block every commit on someone else's backlog. Add it once the
-baseline is zero. The reasoning is recorded in `.repo-audit/profile.yaml` beside the
-verify block so the next audit does not have to re-derive it.
+baseline is the **3 open P1s above**, all three plan-authoring decisions rather than code
+defects, so gating commits on it would block every commit on a planning question. Add it
+once that baseline is zero. The reasoning is recorded in `.repo-audit/profile.yaml` beside
+the verify block so the next audit does not have to re-derive it.
+
+`--scope podcast` — the sweep `CLAUDE.md` mandates after every merge into `develop` — is
+already at zero and **is** safe to gate on today.

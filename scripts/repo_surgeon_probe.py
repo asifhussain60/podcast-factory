@@ -540,13 +540,23 @@ class Probe:
                 fingerprint=f"L2-DUP:{','.join(dupes)}",
             )
 
+        # A wave may legitimately depend on a STEP, not just another wave — waves.D
+        # depends on A1, which is a step of wave A. Resolving against wave ids alone
+        # reported that as dangling, which is the false-positive class this refactor
+        # exists to remove.
+        known_targets = set(known_waves)
+        for w in waves:
+            for s in w.get("steps") or []:
+                if isinstance(s, dict) and s.get("id"):
+                    known_targets.add(str(s["id"]))
+
         for w in waves:
             for dep in (w.get("depends_on") or []) + (w.get("parallel_with") or []):
-                if dep not in known_waves:
+                if str(dep) not in known_targets:
                     self.add(
                         "P1",
                         "L2",
-                        f"wave {w.get('id')} references {dep}, which is not a known wave",
+                        f"wave {w.get('id')} references {dep}, which is neither a known wave nor a known step",
                         rel,
                         fingerprint=f"L2:{w.get('id')}:{dep}",
                     )
