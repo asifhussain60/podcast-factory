@@ -39,6 +39,30 @@ export interface AutosaveOptions {
   save: () => Promise<AutosaveResult>;
   onStateChange: (state: AutosaveState, message: string) => void;
   debounceMs?: number;
+  /**
+   * Optional content fingerprint — a stable string derived from whatever this
+   * controller persists. When supplied, the controller captures it ONCE at
+   * construction as the baseline and skips any save whose fingerprint still
+   * matches: no `save()` call, no network request, no write.
+   *
+   * This is the RCA-002 guard (AI-1). `markDirty()` is wired to editor events,
+   * not to actual content change, so a stray keystroke, an accidental
+   * pointer-drag that lands where it started, or a programmatic normalisation
+   * all used to persist the ENTIRE document. Two consequences, both real:
+   * an accident rewrote a whole chapter, and — because a document's
+   * markdown round trip is not byte-exact on real content — reflow of
+   * paragraphs nobody touched was written along with it.
+   *
+   * Fingerprinting the SERIALIZED output (rather than diffing against the file
+   * on disk) is what makes the second case safe: serializer drift is present
+   * in both the baseline and the current value, so it cancels out and never
+   * reaches disk on its own. Once a genuine edit lands the fingerprints
+   * differ, the save proceeds, and the baseline advances to what was written.
+   *
+   * Called at most once per debounce interval, so it may serialize a whole
+   * document without concern for per-keystroke cost.
+   */
+  fingerprint?: () => string;
 }
 
 export function createAutosave(opts: AutosaveOptions): AutosaveController {
@@ -48,14 +72,49 @@ export function createAutosave(opts: AutosaveOptions): AutosaveController {
   let needsResave = false;
   let dirty = false;
 
+  function safeFingerprint(): string | undefined {
+    if (!opts.fingerprint) return undefined;
+    try {
+      return opts.fingerprint();
+    } catch {
+      // A fingerprint that throws must not disable saving — fall back to the
+      // unguarded path, which is the behaviour that predates this option.
+      return undefined;
+    }
+  }
+
+  // The content as loaded, before any event. Captured eagerly: a lazy capture
+  // would take its baseline from an already-edited document and defeat the guard.
+  let baseline = safeFingerprint();
+  // The last state worth returning to when a save is skipped — a no-op must not
+  // wipe an earlier "Saved 9:42 AM" off the pill, nor invent a new timestamp.
+  let settled: [AutosaveState, string] = ["idle", ""];
+
   const savedTime = () =>
     new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+
+  function report(state: AutosaveState, message: string): void {
+    if (state === "idle" || state === "saved" || state === "error")
+      settled = [state, message];
+    opts.onStateChange(state, message);
+  }
 
   async function doSave(): Promise<boolean> {
     if (saving) {
       needsResave = true;
       return false;
     } // single-flight
+    // Nothing actually changed — report the pill back to rest and write nothing.
+    const current = safeFingerprint();
+    if (
+      current !== undefined &&
+      baseline !== undefined &&
+      current === baseline
+    ) {
+      dirty = false;
+      opts.onStateChange(settled[0], settled[1]);
+      return true;
+    }
     saving = true;
     opts.onStateChange("saving", "Saving…");
     try {
@@ -63,15 +122,18 @@ export function createAutosave(opts: AutosaveOptions): AutosaveController {
       if (!result.ok) throw new Error(result.error || "save failed");
       saving = false;
       dirty = false;
+      // Advance the baseline to what was just persisted, not to `current` — a
+      // change made mid-save belongs to the trailing re-save, not to this one.
+      baseline = safeFingerprint();
       if (needsResave) {
         needsResave = false;
         return doSave();
       } // fold in edits made mid-save
-      opts.onStateChange("saved", `Saved ${savedTime()}`);
+      report("saved", `Saved ${savedTime()}`);
       return true;
     } catch (err) {
       saving = false;
-      opts.onStateChange("error", `Couldn't save — ${(err as Error).message}`);
+      report("error", `Couldn't save — ${(err as Error).message}`);
       return false;
     }
   }
