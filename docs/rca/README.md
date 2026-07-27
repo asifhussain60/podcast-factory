@@ -49,3 +49,4 @@ Analysis discipline, always:
 | ID | Date | Title | Status |
 |---|---|---|---|
 | RCA-001 | 2026-07-22 | [Composer snapshots froze un-articulated prose across 8 of 9 chapters](2026-07-22-composer-snapshots-froze-unarticulated-prose.md) | Resolved — SHIP-READY; AI-2/6/7 open |
+| RCA-002 | 2026-07-27 | [Composer autosave wrote four corruptions into a publication-bound book.md](2026-07-27-composer-autosave-wrote-corruption-into-book-md.md) | Resolved — tree restored; AI-1…AI-5 open |
