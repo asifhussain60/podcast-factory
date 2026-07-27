@@ -61,6 +61,16 @@ verify:
   # In order. Phase 6 runs these after every group; a group that cannot be verified
   # does not ship. Sources: Makefile, pytest.ini, .github/workflows, plan-dashboard
   # package.json scripts.
+  #
+  # DELIBERATELY NOT LISTED HERE: `python3 scripts/repo_surgeon_probe.py`, the
+  # project-specific audit probe added 2026-07-27 (catalog:
+  # skills-staging/repo-surgeon/SKILL.md). It validates THIS contract, root membership,
+  # the retired-surface ban, agent-mirror and skill-registry parity, mirror pins, the
+  # book-pipeline invariants and plan conformance — but it is an audit instrument, not a
+  # change-safety check, and its baseline is currently 7 known P1s (three BR-* ids the
+  # print-quality standard omits, four plan-id issues). Listing it here, or wiring it
+  # into the pre-commit hook, would block every commit on a pre-existing backlog. Add it
+  # once that baseline is zero.
   - make lint # ruff check + ruff format --check + the DR-005 size gate
   - python3 -m pytest -q # all three test trees, per pytest.ini testpaths
   - python3 scripts/podcast/_boundary_check.py # never writes to the sibling journal repo
