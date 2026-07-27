@@ -210,13 +210,22 @@
   padding: 0;
 }
 
+/* A quotation — a verse, a hadith, a couplet — and its English rendering.
+   CENTRED, both of them (Asif, 2026-07-27): a quotation is a set piece, not a
+   paragraph of the argument, and the pair reads as one unit when they share an
+   axis. Centring also sidesteps the mixed-direction problem a flush edge creates:
+   Arabic sets right-to-left and English left-to-right, so aligning either one to
+   an edge pushes the other off it. */
 .xpl-full blockquote,
 .xpl-prose blockquote {
   margin: 0 0.7rem 0.6rem;
-  padding-left: 0.6rem;
+  padding: 0.35rem 0.5rem;
   border-left: 2px solid var(--c-rule);
+  border-radius: 0 6px 6px 0;
+  background: var(--c-bg-sunken);
   color: var(--c-ink-dim);
-  font-style: italic;
+  text-align: center;
+  text-wrap: balance;
 }
 
 .xpl-full {
@@ -256,18 +265,35 @@
   font-style: normal;
 }
 
-/* A verse quotation: the Arabic, its English rendering, then the citation. The
-   block is not italicised — see .xpl-ar — and the rendering sits directly under
-   the script it renders. */
+/* Never italic — see .xpl-ar for why the script must stay upright, and the
+   rendering keeps it company rather than slanting on its own. */
 .xpl-full blockquote,
 .xpl-prose blockquote {
   font-style: normal;
 }
 
+/* The rendering, then the citation: each its own line under the script, quieter
+   than it, sharing its centre line. */
+.xpl-full blockquote p,
+.xpl-prose blockquote p {
+  padding-left: 0;
+  padding-right: 0;
+  text-align: center;
+}
+
 .xpl-full blockquote p + p,
 .xpl-prose blockquote p + p {
-  padding-top: 0.2rem;
+  padding-top: 0.25rem;
+  font-size: calc(var(--panel-fs, 15px) * 0.95);
   color: var(--c-ink-dim);
+}
+
+/* The citation line — last in the quotation, and the quietest thing in it. */
+.xpl-full blockquote p:last-child,
+.xpl-prose blockquote p:last-child {
+  font-size: calc(var(--panel-fs, 15px) * 0.85);
+  letter-spacing: 0.02em;
+  color: var(--c-ink-muted);
 }
 
 /* ── The editor, inside an expanded card ──────────────────────────────────

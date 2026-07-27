@@ -150,3 +150,20 @@ test("a verse and its citation sharing ONE line are split into three", () => {
   assert.equal(lines[4].trim(), "> Yusuf 12:105");
   assert.ok(lines.every((l) => l.startsWith(">")));
 });
+
+test("a resolved verse renders as three lines inside one quotation", () => {
+  // The whole chain, stored-markdown to HTML: what the resolver writes is what
+  // the reader draws and what seeds the editor.
+  const stored = resolveQuranCitations(
+    "> \u0641\u064e\u0648\u064e\u062c\u064e\u062f\u064e\u0627 \u0639\u064e\u0628\u0652\u062f\u064b\u0627 Q|18:65",
+  );
+  const html = cardMarkdownToHtml(stored, { arabicSpans: true });
+  assert.match(html, /^<blockquote>/);
+  assert.equal(
+    (html.match(/<p>/g) ?? []).length,
+    3,
+    "script, rendering, citation",
+  );
+  assert.match(html, /<span class="xpl-ar"/);
+  assert.match(html, /Al-Kahf 18:65<\/p><\/blockquote>$/);
+});

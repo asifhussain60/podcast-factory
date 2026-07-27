@@ -77,7 +77,10 @@ export function cardMarkdownToHtml(
   const out: string[] = [];
   let para: string[] = [];
   let list: { tag: "ul" | "ol"; items: string[]; start: number } | null = null;
-  let quote: string[] = [];
+  /** A quotation's PARAGRAPHS, each a list of lines. A blank `> ` line ends a
+   *  paragraph and keeps the quotation open — which is what makes a verse, its
+   *  rendering and its citation three lines rather than one run-on. */
+  let quote: string[][] = [];
 
   const flushPara = () => {
     if (!para.length) return;
@@ -94,11 +97,12 @@ export function cardMarkdownToHtml(
     list = null;
   };
   const flushQuote = () => {
-    if (!quote.length) return;
-    out.push(
-      `<blockquote><p>${inline(quote.join(" "), opts)}</p></blockquote>`,
-    );
+    const paras = quote.map((lines) => lines.join(" ").trim()).filter(Boolean);
     quote = [];
+    if (!paras.length) return;
+    out.push(
+      `<blockquote>${paras.map((p) => `<p>${inline(p, opts)}</p>`).join("")}</blockquote>`,
+    );
   };
   const flushAll = () => {
     flushPara();
@@ -144,7 +148,11 @@ export function cardMarkdownToHtml(
     if (q) {
       flushPara();
       flushList();
-      quote.push(q[1]);
+      const content = q[1].trim();
+      if (!content)
+        quote.push([]); // blank quote line: next paragraph
+      else if (quote.length) quote[quote.length - 1].push(content);
+      else quote.push([content]);
       continue;
     }
     // A continuation line inside a list item belongs to that item, not to a new
