@@ -23,6 +23,7 @@ import type { ProseEditor } from "@asifhussain/prose-editor";
 import { sourceProvider, kindDef } from "./registry";
 import { cardHeadingButtons } from "./card-heading-buttons";
 import { cardMarkdownToHtml } from "./card-markdown";
+import { PANEL_TEXT_SIZE_EVENT } from "../../../scripts/panel-text-size";
 
 export interface CardNote {
   id: string;
@@ -249,6 +250,83 @@ export function renderExplanationCard(
   const etymologyDetail = (item: string): string =>
     item.replace(/^\s*[^:\n]{1,60}?\s*:\s+/, "").trim() || item;
 
+  /**
+   * Grow an entry's field to its whole content.
+   *
+   * A textarea has a fixed intrinsic height and scrolls whatever overflows it,
+   * which put a scrollbar inside a card that is itself inside a scrolling panel
+   * — two nested scrolls over one paragraph, and the end of an explanation
+   * hidden behind the second. The card is what grows now; the panel is the only
+   * thing that scrolls (`overflow-y: hidden` on the field enforces the other
+   * half). `height: auto` first, because scrollHeight of an already-grown field
+   * reports the height it was last given, never a smaller one, so deleting text
+   * would leave the field stuck at its high-water mark.
+   *
+   * The border has to be added back by hand. `scrollHeight` counts content and
+   * padding but NOT border, while under `box-sizing: border-box` the `height`
+   * being set INCLUDES it — so assigning scrollHeight directly leaves the field
+   * exactly its border short and quietly scrolling by that much. Two pixels,
+   * and enough to keep the last line clipped.
+   *
+   * REFUSING to measure a hidden field is the other half of the contract. An
+   * element inside a `display:none` ancestor reports `scrollHeight` 0, and
+   * writing that back pins the field at its minimum — so a window resize while
+   * the card was collapsed used to leave the entry permanently short on the
+   * next expand. With no scrollbar and no resize grip there is no way back from
+   * a bad measurement, so the only safe move is not to record one.
+   */
+  const autoSizeEntry = (field: HTMLTextAreaElement): void => {
+    if (field.offsetParent === null) return; // hidden — measures 0, would clamp
+    field.style.setProperty("--ety-h", "auto");
+    const cs = getComputedStyle(field);
+    const border =
+      cs.boxSizing === "border-box"
+        ? (parseFloat(cs.borderTopWidth) || 0) +
+          (parseFloat(cs.borderBottomWidth) || 0)
+        : 0;
+    field.style.setProperty("--ety-h", `${field.scrollHeight + border}px`);
+  };
+
+  /** Shut every entry, so opening one cannot leave two open. */
+  const closeAllEntries = (): void => {
+    etym
+      .querySelectorAll<HTMLElement>('.xpl-ety[data-open="true"]')
+      .forEach((other) => {
+        other.dataset.open = "false";
+        other
+          .querySelector(".xpl-ety-head")
+          ?.setAttribute("aria-expanded", "false");
+      });
+  };
+
+  /** Re-measure the open entry. Only one is ever open and the rest are
+   *  display:none, so this is a single measurement however many terms there are. */
+  const resizeOpenEntry = (): void => {
+    const field = etym.querySelector<HTMLTextAreaElement>(
+      '.xpl-ety[data-open="true"] textarea.xpl-ety-text',
+    );
+    if (field) autoSizeEntry(field);
+  };
+
+  // A width change re-wraps the text, so a height measured at the old width is
+  // wrong. An observer on the container catches every cause of that — a window
+  // resize, the drawer being dragged, a layout shift beside it — where a window
+  // listener caught only the first. Guarded on WIDTH: this callback's own work
+  // changes the container's HEIGHT, and reacting to that would loop.
+  let observedWidth = 0;
+  const widthObserver = new ResizeObserver((entries) => {
+    const width = entries[0]?.contentRect.width ?? 0;
+    if (width === 0 || Math.abs(width - observedWidth) < 1) return;
+    observedWidth = width;
+    resizeOpenEntry();
+  });
+  widthObserver.observe(etym);
+
+  // Text size is the input a resize observer cannot see: the box keeps its
+  // width while the text inside it reflows to a different number of lines. The
+  // shared stepper announces itself for exactly this (see panel-text-size).
+  window.addEventListener(PANEL_TEXT_SIZE_EVENT, resizeOpenEntry);
+
   const renderEtymology = () => {
     etym.textContent = "";
     if (!items.length && !editable) return;
@@ -278,10 +356,21 @@ export function renderExplanationCard(
       head.append(term, caret);
       head.addEventListener("click", () => {
         const open = row.dataset.open !== "true";
+        // One entry at a time. Five open entries is the wall of prose the
+        // accordion exists to prevent, and with the fields now grown to their
+        // full content it would be a very tall one.
+        if (open) closeAllEntries();
         row.dataset.open = String(open);
         head.setAttribute("aria-expanded", String(open));
-        if (open && editable)
-          row.querySelector<HTMLTextAreaElement>(".xpl-ety-text")?.focus();
+        if (open) {
+          const field = row.querySelector<HTMLTextAreaElement>(
+            "textarea.xpl-ety-text",
+          );
+          // Sizing has to happen HERE rather than at build time: the body is
+          // display:none while shut, and a hidden element reports scrollHeight 0.
+          if (field) autoSizeEntry(field);
+          if (editable) field?.focus();
+        }
       });
       row.append(head);
 
@@ -290,9 +379,10 @@ export function renderExplanationCard(
       if (editable) {
         const field = document.createElement("textarea");
         field.className = "xpl-ety-text";
-        field.rows = 4;
+        field.rows = 1; // the real height comes from autoSizeEntry, not from rows
         field.value = item;
         field.setAttribute("aria-label", `Etymology entry ${i + 1}`);
+        field.addEventListener("input", () => autoSizeEntry(field));
         field.addEventListener("blur", () => {
           const next = field.value.trim();
           if (next === items[i]) return;
@@ -387,7 +477,7 @@ export function renderExplanationCard(
     const unchanged =
       body === savedBody.trim() &&
       anchor === (note.anchor ?? "").trim() &&
-      cleaned.join(" ") === (note.etymology ?? []).join(" ");
+      cleaned.join("\0") === (note.etymology ?? []).join("\0");
     if (unchanged) return;
     if (!body) {
       // An emptied explanation is a delete, and deleting has its own button.
@@ -450,7 +540,13 @@ export function renderExplanationCard(
   const setOpen = (open: boolean) => {
     card.dataset.open = String(open);
     head.setAttribute("aria-expanded", String(open));
-    if (open) ensureEditor();
+    if (open) {
+      ensureEditor();
+      // The etymology block is display:none while the CARD is shut, so any
+      // measurement attempted in that window was refused. This is the first
+      // moment an open entry can be measured again.
+      resizeOpenEntry();
+    }
   };
   setOpen(!!opts.open);
 
@@ -467,6 +563,8 @@ export function renderExplanationCard(
     setOpen,
     destroy() {
       window.clearTimeout(flashTimer);
+      widthObserver.disconnect();
+      window.removeEventListener(PANEL_TEXT_SIZE_EVENT, resizeOpenEntry);
       editor?.destroy();
       editor = null;
     },

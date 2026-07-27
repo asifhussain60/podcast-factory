@@ -46,6 +46,17 @@ function paint(target: HTMLElement, px: number): void {
   target.style.setProperty("--panel-fs-title", `${px + 2}px`);
 }
 
+/**
+ * Fired on `window` after the size changes, with the new px in `detail`.
+ *
+ * Painting a custom property is enough for anything sized purely in CSS, but
+ * not for a surface that MEASURES its own text — a field grown to fit its
+ * content has a height computed at the old size, and nothing in a CSS variable
+ * tells it to measure again. The stepper is shared by every panel, so the
+ * notification belongs here rather than in each surface that needs it.
+ */
+export const PANEL_TEXT_SIZE_EVENT = "pf:panel-text-size";
+
 /** Every mounted stepper, so a change in one repaints the others on the page. */
 const mounted = new Set<{ target: HTMLElement; readout: HTMLElement }>();
 
@@ -54,6 +65,9 @@ function broadcast(px: number): void {
     paint(m.target, px);
     m.readout.textContent = String(px);
   }
+  window.dispatchEvent(
+    new CustomEvent(PANEL_TEXT_SIZE_EVENT, { detail: { px } }),
+  );
 }
 
 /**

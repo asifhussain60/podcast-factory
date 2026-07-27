@@ -531,14 +531,24 @@ p.xpl-ety-text {
   color: var(--c-ink-dim);
 }
 
+/* The field is grown to its content by autoSizeEntry, so it must never scroll
+   its own overflow and must never be clamped: an inner scrollbar inside a card
+   inside a scrolling panel hid the end of every long entry. `resize` is off
+   because a hand-dragged height is silently discarded by the next re-measure —
+   offering a grip that does not hold is worse than not offering one. */
 textarea.xpl-ety-text {
   width: 100%;
-  min-height: 5.5rem;
+  min-height: 2.4rem;
+  /* Written by autoSizeEntry as a custom property rather than a concrete
+     height, so the declaration stays here with the rest of the card's layout —
+     the same shape as --pv-zoom and --panel-fs elsewhere in this app. */
+  height: var(--ety-h, auto);
   padding: 0.35rem 0.4rem;
   background: var(--c-bg-elev);
   border: 1px solid transparent;
   border-radius: 5px;
-  resize: vertical;
+  overflow-y: hidden;
+  resize: none;
   font-family:
     var(--font-ui, system-ui, sans-serif), "ScheherazadeSized",
     "Scheherazade New", serif;
@@ -643,7 +653,11 @@ textarea.xpl-ety-text:focus {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* The etymology caret and its delete button animate on every accordion
+     interaction, which is now the most-used control on the card. */
   .xpl-caret,
+  .xpl-ety-caret,
+  .xpl-ety-del,
   .cx-note-hl {
     transition: none;
   }
