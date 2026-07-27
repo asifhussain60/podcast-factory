@@ -29,6 +29,8 @@ import StarterKit from "@tiptap/starter-kit";
 import type { Node as PMNode } from "@tiptap/pm/model";
 import * as Toast from "@radix-ui/react-toast";
 import { ApiFetchError, apiFetch } from "../../../lib/api-fetch";
+import { useViewState } from "../../../lib/use-view-state";
+import { editorInspectorTab } from "../../../lib/site-view-state";
 import { stageRole } from "../../../lib/reader/stage-roles";
 import type { EnrichmentSummary } from "../../../lib/reader/enrichment-ledger";
 import TransformationDashboard from "./TransformationDashboard";
@@ -187,10 +189,13 @@ export default function StudioEditor({
   const activeSectionOrdinalRef = useRef<number | null>(null);
   activeSectionOrdinalRef.current = activeSectionOrdinal;
 
-  // M-1 — Inspector tab state (Details · Comment · AI · References).
-  const [inspectorTab, setInspectorTab] = useState<
-    "details" | "comment" | "ai" | "refs"
-  >("details");
+  // M-1 — Inspector tab state (Details · Comment · AI · References), remembered
+  // per book so the panel reopens where it was left — see lib/view-state.
+  const [inspectorTab, setInspectorTab] = useViewState(
+    editorInspectorTab,
+    "details",
+    slug,
+  );
 
   // editorRef: stable ref to the editor instance so non-React callbacks (PM widgets)
   // can dispatch transactions without capturing a stale `editor` closure.

@@ -17,6 +17,7 @@
  * All logic lives here (external module); the .astro page carries only markup, a
  * JSON data island, and the one-line import (Cortex DoD: no inline script bodies).
  */
+import { liveScroll } from "../lib/site-view-state";
 import { markPassages } from "../lib/reader/companion/passage-match";
 import { renderExplanationCard } from "../lib/reader/companion/explanation-card";
 
@@ -466,13 +467,78 @@ function boot(): void {
   initPicker();
   updateActive(); // set the first active chapter + its notes
 
+  // Restore the reading position before wiring the scroll listener, so the
+  // programmatic jump is not itself recorded as a fresh position. Deferred past
+  // font loading where possible: the column reflows when the reading face
+  // swaps in, and an offset applied before that lands in the wrong passage.
+  // `updateActive` is handed in because the jump has to re-run the scroll-spy
+  // itself: the chapter highlight and the companion card follow the scroll
+  // EVENT, and a restored reader would otherwise sit in chapter three being
+  // told it was reading chapter one.
+  restoreReadingPosition(updateActive);
+
   // Update the active chapter directly on scroll. For a handful of chapters the
   // getBoundingClientRect reads are cheap, and a direct call can't latch the way an
   // rAF-throttled one can if a frame is ever dropped (hidden/throttled tab).
   window.addEventListener("scroll", updateActive, { passive: true });
+  window.addEventListener("scroll", rememberReadingPosition, { passive: true });
   window.addEventListener("resize", updateActive);
   if (document.fonts && document.fonts.ready)
     document.fonts.ready.then(() => updateActive());
+}
+
+/**
+ * Where the reader had got to, remembered per book.
+ *
+ * Throttled to once a second rather than written on every scroll event: the
+ * value is only ever read on load, so a write per frame would buy nothing and
+ * cost a storage round trip on the scroll path.
+ */
+let lastPositionWrite = 0;
+/** True across the restore jump — see restoreReadingPosition. */
+let restoringPosition = false;
+
+function rememberReadingPosition(): void {
+  if (restoringPosition) return;
+  const now = Date.now();
+  if (now - lastPositionWrite < 1000) return;
+  lastPositionWrite = now;
+  const slug = readData()?.slug;
+  if (slug) liveScroll.write(window.scrollY, slug);
+}
+
+function restoreReadingPosition(onLanded: () => void): void {
+  const slug = readData()?.slug;
+  if (!slug) return;
+  const px = liveScroll.read(slug);
+  // 0 is where the page already is; skip it rather than fight a deep link or
+  // the browser's own scroll restoration for no visible gain.
+  if (px === null || px <= 0) return;
+  // The jump must not be recorded as a fresh reading position. Calling this
+  // before the listeners are wired is NOT enough — the jump is deferred until
+  // fonts settle, by which time they are attached, so the programmatic
+  // scrollTo fed its own result straight back into storage. Usually that
+  // rewrote nearly the same number; the case that bites is a position saved on
+  // a phone, where the column is more than twice as tall. Opening on a desktop
+  // clamps it to the bottom, and the self-record then PERSISTED the clamped
+  // value — destroying the phone position rather than approximating it.
+  const jump = (): void => {
+    restoringPosition = true;
+    window.scrollTo({ top: px, behavior: "instant" });
+    onLanded();
+    // A programmatic scroll delivers its event in a later task, so the
+    // suppression has to outlive this one. Two frames covers the dispatch; the
+    // timeout is the backstop for a hidden or throttled tab, where rAF may not
+    // run at all and the flag would otherwise never clear. Both are idempotent.
+    const done = (): void => {
+      restoringPosition = false;
+    };
+    requestAnimationFrame(() => requestAnimationFrame(done));
+    window.setTimeout(done, 250);
+  };
+  if (document.fonts && document.fonts.ready)
+    void document.fonts.ready.then(jump);
+  else jump();
 }
 
 // ---- book picker (shared; also used on empty-state) -----------------------

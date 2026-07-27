@@ -10,6 +10,8 @@
 import { useState, useCallback } from "react";
 import { lookupTranslation } from "../lib/term-translations";
 import { apiFetch, ApiFetchError } from "../lib/api-fetch";
+import { useViewState } from "../lib/use-view-state";
+import { preUploadTab } from "../lib/site-view-state";
 
 // ─── shared types (mirror lib/pre-upload.ts) ─────────────────────────────
 
@@ -673,7 +675,12 @@ export default function PreUploadTabs({
   ambiguityItems,
   audioPath,
 }: Props) {
-  const [activeTab, setActiveTab] = useState<Tab>("pronunciation");
+  // Reopens on the tab this book was last reviewed in — see lib/view-state.
+  const [activeTab, setActiveTab] = useViewState<Tab>(
+    preUploadTab,
+    "pronunciation",
+    slug,
+  );
 
   const pronDone = terms.filter(
     (t) =>
