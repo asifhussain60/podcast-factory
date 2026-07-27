@@ -326,7 +326,12 @@ function boot(): void {
       }
     });
   });
-  activateTab("artifacts"); // initialize roving tabindex on the default tab
+  // Refine & Notes opens (Asif, 2026-07-27). It is the daily job — reshaping and
+  // annotating prose — while placing artifacts is occasional, so the tab you land
+  // on is the one you were going to click. The markup ships in this state too, so
+  // the server-rendered panel already matches and there is no flash of Artifacts
+  // before this line runs.
+  activateTab("refine"); // initialize roving tabindex on the default tab
 
   // Each tab is an icon; its name lives in a clipped label span. The tooltip is
   // how a sighted user learns which is which — a body-level fixed node, so it

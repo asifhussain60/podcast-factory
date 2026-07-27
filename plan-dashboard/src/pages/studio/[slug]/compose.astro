@@ -349,10 +349,10 @@ const ARABIC_FONTS = [
                 >
                   <button
                     type="button"
-                    class="cx-tab"
+                    class="cx-tab is-active"
                     id="cx-tab-refine"
                     role="tab"
-                    aria-selected="false"
+                    aria-selected="true"
                     aria-controls="cx-panel-refine"
                   >
                     <i class="fa-solid fa-feather-pointed" aria-hidden="true" />
@@ -360,10 +360,10 @@ const ARABIC_FONTS = [
                   </button>
                   <button
                     type="button"
-                    class="cx-tab is-active"
+                    class="cx-tab"
                     id="cx-tab-artifacts"
                     role="tab"
-                    aria-selected="true"
+                    aria-selected="false"
                     aria-controls="cx-panel-artifacts"
                   >
                     <i class="fa-solid fa-images" aria-hidden="true" />
@@ -393,6 +393,7 @@ const ARABIC_FONTS = [
                 id="cx-panel-artifacts"
                 role="tabpanel"
                 aria-labelledby="cx-tab-artifacts"
+                hidden
               >
                 <p class="cx-panel-hint" id="cx-artifacts-scope" />
                 <button
@@ -415,7 +416,6 @@ const ARABIC_FONTS = [
                 id="cx-panel-refine"
                 role="tabpanel"
                 aria-labelledby="cx-tab-refine"
-                hidden
               >
                 {/* Workflow order (Asif-approved reorg 2026-07-22): reshape
                     the text NOW first, then the follow-up queue / comments /
