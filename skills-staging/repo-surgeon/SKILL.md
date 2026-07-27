@@ -118,6 +118,16 @@ python3 scripts/repo_surgeon_probe.py
 findings. Exit 0 means no unwaived P0 or P1; exit 1 means there are; exit 2 means the
 probe could not run.
 
+**It is a live gate.** Since 2026-07-27 the probe runs in three places: the contract's
+`verify:` list (listed first — it is the cheapest at ~0.6s, and a stale contract
+invalidates the reasoning behind every gate below it), the pre-commit hook, and the
+`lint` workflow. CI is what actually binds; a hook can be bypassed with `--no-verify`
+and is absent on a fresh clone. It blocks on **P0/P1 only** — P2 and P3 report without
+failing, so an advisory can sit in the backlog without holding up unrelated work.
+
+It was deliberately left unwired until its baseline reached zero. A gate that fails on
+a backlog somebody else created is a gate people learn to route around.
+
 The script is the executable half of this catalog. It loads the contract, validates it,
 applies waivers with expiry, and machine-checks every claim below that can be checked
 deterministically. Findings sort by severity, then id, then path, then line — so two

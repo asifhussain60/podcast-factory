@@ -42,6 +42,11 @@ python3 scripts/repo_surgeon_probe.py --json     # machine-readable
 
 Exit 0 = no unwaived P0/P1. Exit 1 = there are. Exit 2 = the probe could not run.
 
+It is a LIVE GATE as of 2026-07-27 — wired into the contract's `verify:` list, the
+pre-commit hook, and the `lint` CI workflow. Blocks on P0/P1 only; P2/P3 report without
+failing. So a P0/P1 you introduce will stop a commit, and a bypassed hook will still be
+caught by CI.
+
 It validates the contract before trusting it, applies waivers with expiry, and reports
 findings in a deterministic order. **Never assert a probe result you did not run, and
 never re-derive by hand what it already reports.** What it cannot check, the skill file

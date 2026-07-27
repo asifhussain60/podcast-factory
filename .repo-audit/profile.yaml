@@ -62,17 +62,7 @@ verify:
   # does not ship. Sources: Makefile, pytest.ini, .github/workflows, plan-dashboard
   # package.json scripts.
   #
-  # DELIBERATELY NOT LISTED HERE: `python3 scripts/repo_surgeon_probe.py`, the
-  # project-specific audit probe added 2026-07-27 (catalog:
-  # skills-staging/repo-surgeon/SKILL.md). It validates THIS contract, root membership,
-  # the retired-surface ban, agent-mirror and skill-registry parity, mirror pins, the
-  # book-pipeline invariants and plan conformance — but it is an audit instrument, not a
-  # change-safety check. Its baseline is now ZERO P0/P1/P2 (one P3 advisory: the wave
-  # letters G-K are reused across the `waves` and `waves_ghj` families — a known,
-  # handled condition, since both snapshot generators prefer the entry carrying steps).
-  # Both the full run and `--scope podcast` exit 0, so gating on either is SAFE today.
-  # Adding it here or to pre-commit is a standing-policy change and the owner's call.
-  # See _workspace/reviews/reports/2026-07-27-repo-surgeon.md.
+  - python3 scripts/repo_surgeon_probe.py # the project probe — see the note below
   - make lint # ruff check + ruff format --check + the DR-005 size gate
   - python3 -m pytest -q # all three test trees, per pytest.ini testpaths
   - python3 scripts/podcast/_boundary_check.py # never writes to the sibling journal repo
@@ -82,6 +72,17 @@ verify:
   - cd plan-dashboard && npm run lint && npm run format:check
   - cd plan-dashboard && npm run check && npm test && npm run lint:views
   - cd plan-dashboard && npm run smoke # boots a dev server + headless chromium
+  #
+  # On the probe (added to this list 2026-07-27, catalog:
+  # skills-staging/repo-surgeon/SKILL.md). It validates THIS contract, root membership,
+  # the retired-surface ban, agent-mirror and skill-registry parity, mirror pins, the
+  # book-pipeline invariants and plan conformance. It is listed FIRST because it is the
+  # cheapest (~0.6s) and because a stale contract invalidates the reasoning behind every
+  # gate below it. Blocks on P0/P1 only; P2/P3 report without failing — today's baseline
+  # is one P3 (the wave letters G-K are reused across `waves` and `waves_ghj`, a known
+  # condition both snapshot generators already resolve by preferring the entry carrying
+  # steps). Also wired into infra/git-hooks/pre-commit and the lint workflow; CI is what
+  # actually binds, since a hook can be bypassed and is absent on a fresh clone.
 
 size_gates:
   - glob: "scripts/podcast/**/*.py"

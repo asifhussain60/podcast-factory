@@ -41,6 +41,11 @@ jobs:
       # between them degrades every turn and is invisible to any other gate.
       - name: Agent-instructions mirror (AGENTS.md <- CLAUDE.md)
         run: python3 scripts/sync_agent_instructions.py --check
+      # The project-specific audit probe. The pre-commit hook runs it too, but a hook
+      # can be bypassed with --no-verify and is not installed on a fresh clone, so CI
+      # is where it actually binds. Blocks on P0/P1 only; P2/P3 report without failing.
+      - name: repo-surgeon probe (contract, mirrors, retired surfaces, plan)
+        run: python3 scripts/repo_surgeon_probe.py
       # `continue-on-error` already makes this advisory. It used to ALSO end in
       # `|| true`, which forced a green step and hid the result entirely — a gate
       # that cannot fail teaches you to ignore it. Dropped 2026-07-26; the step

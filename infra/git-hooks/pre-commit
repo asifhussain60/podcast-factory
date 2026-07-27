@@ -120,6 +120,27 @@ if [ -n "$docs_staged" ] && [ -f "$repo_root/scripts/check_doc_links.py" ]; then
     fi
 fi
 
+# repo-surgeon project probe. Runs on EVERY commit rather than on a staged-file
+# filter: it validates the tracked contract, root membership, the retired-surface ban,
+# agent-mirror and skill-registry parity, the fixture-pinned mirrors, the book-pipeline
+# invariants and plan conformance — and almost any commit can break one of those, often
+# a commit that touches none of the files involved (deleting a file some contract entry
+# names, for instance). At ~0.6s the filter would cost more thought than it saves.
+#
+# Wired 2026-07-27, once the baseline reached zero. It exits non-zero only on P0/P1;
+# P2 and P3 findings are reported without blocking. Until that day the baseline carried
+# pre-existing findings, and a gate that fails on somebody else's backlog is a gate
+# people learn to bypass.
+if [ -f "$repo_root/scripts/repo_surgeon_probe.py" ]; then
+    if ! python3 "$repo_root/scripts/repo_surgeon_probe.py" >&2; then
+        echo "" >&2
+        echo "pre-commit: repo-surgeon probe found P0/P1 finding(s) (see above)." >&2
+        echo "pre-commit: catalog + what each id means: skills-staging/repo-surgeon/SKILL.md" >&2
+        echo "pre-commit: bypass requires explicit operator authorization (--no-verify)." >&2
+        exit 1
+    fi
+fi
+
 site_staged=$(printf '%s\n' "$staged_files" \
     | grep -E '^plan-dashboard/(src|scripts)/.*\.(ts|tsx|astro|mjs|js)$' || true)
 if [ -n "$site_staged" ] && command -v node >/dev/null 2>&1 \
