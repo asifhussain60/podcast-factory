@@ -1270,6 +1270,36 @@
       "tools": []
     },
     {
+      "id": "QMa",
+      "wave": "QM",
+      "title": "Data layer: _buckwalter + _morphology_parse + quranic_morphology (build/verify/query/--root CLI) + lexicon framework",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "QMb",
+      "wave": "QM",
+      "title": "Real-corpus build committed (morphology.db 22 MB) + lemma homograph-digit fix + whole-word OCR grounding for corpus_fill",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
+      "id": "QMc",
+      "wave": "QM",
+      "title": "Lane's Lexicon joined root-keyed (1,329/1,642 matched, gaps listed) via per-file-authored parser",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
       "id": "BPV2-0",
       "wave": "BPV2",
       "title": "Flag scaffold + Astro write-back spike",
@@ -1705,6 +1735,11 @@
       "plain": ""
     },
     {
+      "id": "QM",
+      "name": "Quranic morphology layer — corpus data + lexicon join + grounded etymology (2026-07-28)",
+      "plain": ""
+    },
+    {
       "id": "BPV2",
       "name": "Book Pipeline v2 — unify book routes + decouple visuals (cutover complete)",
       "plain": ""
@@ -1732,60 +1767,60 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-21T08:07:17-04:00",
-  "source_commit": "6f770ffd",
+  "generated_at": "2026-07-28T13:35:19-04:00",
+  "source_commit": "ceabb51",
   "generator": "regenerate-snapshots",
   "books_in_flight": [],
   "recent_commits": [
     {
-      "sha": "6f770ffd",
-      "subject": "fix(site): every React island died on \"_jsxDEV is not a function\"",
-      "date": "2026-07-21"
+      "sha": "ceabb51",
+      "subject": "feat(lexicon): Lane's Lexicon joined — 1,329 of 1,642 corpus roots carry a real Lane gloss",
+      "date": "2026-07-28"
     },
     {
-      "sha": "31d944e5",
-      "subject": "fix(arabic): a lightly-marked scan span no longer exempts everything inside it",
-      "date": "2026-07-20"
+      "sha": "c0f68b2",
+      "subject": "data(morphology): build + commit morphology.db from the real corpus; harden the glossary fill",
+      "date": "2026-07-28"
     },
     {
-      "sha": "35ce17f2",
-      "subject": "feat(checks): find the words that point at more than one person",
-      "date": "2026-07-20"
+      "sha": "78089a1",
+      "subject": "feat(morphology): Quranic Arabic Corpus data layer + lexicon join + etymology grounding",
+      "date": "2026-07-28"
     },
     {
-      "sha": "7e591ec8",
-      "subject": "feat(book): author the introduction, and wire it into every compose",
-      "date": "2026-07-20"
+      "sha": "3189a63",
+      "subject": "content(tmad): Asif's Composer rearticulation of chapter 3, plus run ledgers",
+      "date": "2026-07-27"
     },
     {
-      "sha": "b1fa665a",
-      "subject": "feat(book): the edition's introduction is apparatus, not a translated preface",
-      "date": "2026-07-20"
+      "sha": "2ec80f3",
+      "subject": "feat(compose): rich themed confirms and a blocking busy modal for AI actions",
+      "date": "2026-07-27"
     },
     {
-      "sha": "e47a6cff",
-      "subject": "feat(print): per-chapter running heads on the engine we already have",
-      "date": "2026-07-20"
+      "sha": "6b86240",
+      "subject": "fix(compose): Download PDF stays disabled until the PDF actually exists",
+      "date": "2026-07-27"
     },
     {
-      "sha": "b9092c4a",
-      "subject": "chore: delete the preview-fidelity gate — it policed a divergence that cannot occur",
-      "date": "2026-07-20"
+      "sha": "f93cc57",
+      "subject": "feat(compose): spinner while the PDF renders, persistent Download PDF link",
+      "date": "2026-07-27"
     },
     {
-      "sha": "cf929c79",
-      "subject": "docs: retire the two-engines story — the Preview rasterizes the PDF",
-      "date": "2026-07-20"
+      "sha": "a3b3052",
+      "subject": "feat(compose): Generate PDF from the Composer header, beside LIVE Session",
+      "date": "2026-07-27"
     },
     {
-      "sha": "9bdfdfeb",
-      "subject": "feat(watchdog): the run owns its own status heartbeat",
-      "date": "2026-07-20"
+      "sha": "8673b11",
+      "subject": "feat(compose): Rearticulate — gated whole-chapter articulation, contract, and agent",
+      "date": "2026-07-27"
     },
     {
-      "sha": "a7cce0ca",
-      "subject": "feat(render-checks): assert the render did what the renderer intended",
-      "date": "2026-07-20"
+      "sha": "5e36d68",
+      "subject": "content(tmad): scholar note on mercy and work for chapter 3",
+      "date": "2026-07-27"
     }
   ],
   "wave_execution_events": [],

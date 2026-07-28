@@ -1124,3 +1124,23 @@ Asif asked for a direct recommendation rather than choosing blind between archiv
 > Deleted the wave dispatcher, its chain-runner, its 28 phase-runner modules (waves 1 through 6, all shipped), its acceptance-marking helper, and their dedicated tests — 39 tracked files in one commit. The background macOS scheduler that used to run it, plus its install script and template plist, went with it. Archiving into its own package was the other option on the table; deletion won because keeping 30 files and 50 tests on permanent life support for code that will never execute again is pure upkeep with no offsetting value, and git preserves every line if it's ever needed again.
 >
 > *Value gained:* removes one of the two colliding meanings of "phase" in the shared pipeline folder before the packaging conversion (R4) even starts, so that step inherits a simpler, less ambiguous import graph. The written record of what waves 1-6 delivered (this file, `plan.yaml`, `wave-acceptance-checklist.md`) stays exactly where it is — only the machinery that ran them is gone.
+
+## Quranic morphology layer — real roots, real families, real meanings (2026-07-28)
+
+### 1. The etymology apparatus stopped depending on the model's memory
+
+> Every word of the Quran now sits in a local, committed database with its human-annotated root, dictionary form, and part of speech — about 128,000 annotated segments across 1,642 roots. When the pipeline prints a root breakdown for a term like *sakina*, the root, its real sibling words with verse locations, and Lane's Lexicon meaning are handed to the model as ground truth, and a deterministic check with 3,353 term keys (up from ~35 usable rows) vetoes any contradicted root before the adversarial verifier even runs. The engine that does this had never been wired into the pipeline; it now runs once per book inside compose, at no repeat cost.
+>
+> *Value gained:* printed etymology can no longer carry an invented root — and it quotes the standard classical reference instead of paraphrasing from recall.
+
+### 2. Glossary Arabic fills itself deterministically where it safely can
+
+> Before any model reads the scanned pages, the glossary's empty Arabic-script slots are matched against the corpus dictionary; a fill is accepted only when the match is unique and the word appears standalone in the book's own scan. A live probe on a finished book caught the loose version of this filling a wrong word — the fix (whole-word matching) is pinned by a regression test.
+>
+> *Value gained:* one more model-supplied-Arabic path becomes a grounded lookup, shrinking the fabrication surface the 2026-07-20 provenance work exists to police.
+
+### 3. The classical meanings layer is joined and extensible
+
+> Lane's Lexicon now supplies a genuine English meaning for 81% of the corpus roots, trimmed to each article's defining head; the gaps are listed openly in a coverage report, never silently dropped. Ibn Faris's *Maqayis* and Raghib's *Mufradat* have registered slots that activate the moment their text files are dropped in — one parser each, written against the real file like Lane's was.
+>
+> *Value gained:* "what does this root mean" is answered by the canonical references scholars actually cite, with visible coverage instead of quiet guesses.

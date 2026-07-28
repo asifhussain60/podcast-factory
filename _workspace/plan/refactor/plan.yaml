@@ -4460,6 +4460,47 @@ waves_o_ph:
         title: "al-anwaar-al-lateefah vol-01 SHIP-READY end-to-end (11 episodes + slide decks, G1-G14 pass)"
         status: completed
 
+  - id: QM
+    name: "Quranic morphology layer — corpus data + lexicon join + grounded etymology (2026-07-28)"
+    execution_status: completed_2026_07_28
+    depends_on: []
+    note: |
+      Replaces model recall with human-annotated reference data on the two
+      surfaces most exposed to fabrication. The Quranic Arabic Corpus
+      morphology file (GPL, Kais Dukes; committed verbatim with header intact)
+      builds content/knowledge-base/quranic-corpus/morphology.db via
+      quranic_morphology.py — shape hard-asserted at 114 chapters / 6,236
+      verses / 77,429 words / 128,219 segments / 1,642 roots / 4,832 lemmas —
+      over the pure parser _morphology_parse.py and the fixture-pinned
+      Buckwalter bridge _buckwalter.py (which also owns the shared
+      latin_fold/arabic_fold romanization space). lexicon_ingest.py joins
+      classical lexica per root into lexicon.jsonl (Lane's real article heads
+      for 1,329/1,642 roots; summaries in the source dataset are
+      model-generated and deliberately ignored; Maqayis/Mufradat are
+      registered soft-skips until files are acquired) with a no-silent-gaps
+      coverage report. _etymology gains a 3,353-key deterministic veto
+      (union-per-key over the 58-row legacy term_index) + corpus-grounded
+      generation (real derived families with verse locations + Lane glosses),
+      and build_etymology_atoms is WIRED into compose_book_v2 as the
+      once-per-book 0book-etymology sub-step — its first production caller.
+      fill_glossary_arabic gains corpus_fill: deterministic glossary script
+      before any claude -p, guarded by unique consonant-class match +
+      WHOLE-WORD OCR grounding (live probe caught substring grounding filling
+      a wrong word; regression-pinned).
+    steps:
+      - id: QMa
+        title: "Data layer: _buckwalter + _morphology_parse + quranic_morphology (build/verify/query/--root CLI) + lexicon framework"
+        status: completed
+        committed_at: 78089a1
+      - id: QMb
+        title: "Real-corpus build committed (morphology.db 22 MB) + lemma homograph-digit fix + whole-word OCR grounding for corpus_fill"
+        status: completed
+        committed_at: c0f68b2
+      - id: QMc
+        title: "Lane's Lexicon joined root-keyed (1,329/1,642 matched, gaps listed) via per-file-authored parser"
+        status: completed
+        committed_at: ceabb51
+
 waves_bpv2:
   - id: BPV2
     name: "Book Pipeline v2 — unify book routes + decouple visuals (cutover complete)"
