@@ -153,7 +153,14 @@
 .bookv-body blockquote p {
   margin: 0.35rem 0;
 }
-.bookv-body blockquote p:first-child {
+/* The Arabic line of a scripture block — NOT an editorial aside. `:not(.aside)`
+   because the pipeline's editorial/bridge/study-summary spans render as
+   blockquotes too, and this rule was sizing their first paragraph as display
+   type: a 220-word editorial note came out at 27.8px/52.9px centred against
+   20px/31px justified body prose. The aside class is emitted by
+   src/lib/reader/markdown.ts from the fence that already delimits the span.
+   Verse blocks are untouched — this is the same rule they always had. */
+.bookv-body blockquote:not(.aside) p:first-child {
   font-size: 1.45rem;
   line-height: 1.9;
 }

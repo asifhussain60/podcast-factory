@@ -373,7 +373,11 @@
 .lsv-read blockquote {
   border-left-color: var(--paper-rule, var(--c-rule));
 }
-.lsv-read blockquote p {
+/* Centred because a CITATION is short and sits as a placard in the column. An
+   editorial aside is running prose and reads as body text — centring it cost the
+   note its left margin and its justification. Same `:not(.aside)` split as
+   book-reader.css; the class comes from the pipeline fence via markdown.ts. */
+.lsv-read blockquote:not(.aside) p {
   text-align: center;
 }
 .lsv-read blockquote.quran p.ar,
