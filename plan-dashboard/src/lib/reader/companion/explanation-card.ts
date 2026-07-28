@@ -20,6 +20,7 @@
  */
 import { mount } from "@asifhussain/prose-editor";
 import type { ProseEditor } from "@asifhussain/prose-editor";
+import { confirmDialog } from "../../../scripts/confirm-dialog";
 import { sourceProvider, kindDef } from "./registry";
 import type { EtymologyMorphology } from "./types";
 import { cardHeadingButtons } from "./card-heading-buttons";
@@ -473,10 +474,22 @@ export function renderExplanationCard(
         );
         del.addEventListener("click", (e) => {
           e.stopPropagation();
-          items.splice(i, 1);
-          morphs.splice(i, 1);
-          renderEtymology();
-          void save();
+          // Confirmed first (Asif, 2026-07-28): a slip of the mouse must not
+          // discard an entry. Same themed dialog as every destructive action
+          // in the Composer; delete only exists there, where its CSS lives.
+          void confirmDialog({
+            title: "Delete this etymology entry?",
+            body: etymologyTerm(items[i]),
+            confirmLabel: "Delete",
+            danger: true,
+            titleIcon: "fa-solid fa-trash-can",
+          }).then((ok) => {
+            if (!ok) return;
+            items.splice(i, 1);
+            morphs.splice(i, 1);
+            renderEtymology();
+            void save();
+          });
         });
         row.append(del);
       }
@@ -515,7 +528,18 @@ export function renderExplanationCard(
     );
     del.addEventListener("click", (e) => {
       e.stopPropagation();
-      opts.onRemove?.(note.id);
+      // Confirmed first (Asif, 2026-07-28), through the Composer's own themed
+      // dialog: the note holds an AI answer that cannot be regenerated
+      // verbatim, and the button sits a hover away from the reading flow.
+      void confirmDialog({
+        title: "Delete this explanation?",
+        body: note.anchor || note.quote || "This explanation",
+        confirmLabel: "Delete",
+        danger: true,
+        titleIcon: "fa-solid fa-trash-can",
+      }).then((ok) => {
+        if (ok) opts.onRemove?.(note.id);
+      });
     });
     card.append(del);
   }
@@ -621,6 +645,21 @@ export function renderExplanationCard(
     setOpen(open);
     opts.onToggle?.(note.id, open);
     // Expanding a card is also how you ask "where is this in the text?"
+    opts.onReveal?.(note.id);
+  });
+
+  // A SHUT card opens from a click anywhere on it, not just the header strip —
+  // collapsed it is one preview line, and the whole line reads as the target
+  // (Asif, 2026-07-28). Open-only on purpose: an expanded card holds a live
+  // editor and etymology fields, where a click means "put the caret here",
+  // never "collapse what I'm reading". Collapse stays on the header, whose own
+  // listener above also handles clicks that land on it while shut.
+  card.addEventListener("click", (e) => {
+    if (card.dataset.open === "true") return;
+    const target = e.target as HTMLElement;
+    if (target.closest(".xpl-head, .xpl-del, button, a")) return;
+    setOpen(true);
+    opts.onToggle?.(note.id, true);
     opts.onReveal?.(note.id);
   });
 

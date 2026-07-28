@@ -21,6 +21,19 @@
   border-radius: 8px;
   background: var(--c-bg-card);
   overflow: hidden;
+  /* A card never gives way to make a list fit — the LIST scrolls instead.
+     `overflow: hidden` above (it rounds the corners) also sets this element's
+     automatic minimum size to 0 under flexbox, so in a height-capped flex column
+     the card is the child that collapses. Measured in the LIVE panel at 1440x900:
+     the open card held 1,355px of explanation inside 484px and silently clipped
+     871px of it, and because the card had shrunk to fit, the scroll container
+     (.lsv-explain-body, max-height + overflow-y:auto) measured no overflow at all
+     and offered no scrollbar — the text was unreachable by any means. The two
+     collapsed cards beneath it were sliced through their titles for the same
+     reason. Same failure the .gcp-input `flex: none` guards against one panel
+     over; this is the shared component, so it belongs here rather than in either
+     view's layer. Ignored wherever a card is not a flex item. */
+  flex-shrink: 0;
 }
 
 .xpl + .xpl {
@@ -29,6 +42,23 @@
 
 .xpl[data-open="true"] {
   border-left-color: var(--c-accent);
+}
+
+/* Shut, the WHOLE card is the expand target (the card's own click listener),
+   so the whole card advertises it. Open, only the controls keep the pointer. */
+.xpl:not([data-open="true"]) {
+  cursor: pointer;
+}
+
+/* A SHUT card is the TITLE alone (Asif, 2026-07-28): the panel is a table of
+   contents for the chapter's explanations, one scannable line per card, kept in
+   the order the chapter meets the passages. The eyebrow and the tied quote come
+   back when the card opens; the one-line preview earned its keep when cards were
+   paragraphs, and with title-only rows it never shows in either state. */
+.xpl:not([data-open="true"]) .xpl-meta,
+.xpl:not([data-open="true"]) .xpl-quote,
+.xpl-preview {
+  display: none;
 }
 
 /* Header row: the toggle owns the FULL panel width. Delete used to sit here and
@@ -175,7 +205,8 @@
   transform: rotate(180deg);
 }
 
-/* Body — exactly one of preview/full shows, so the card has one height. */
+/* Body. (.xpl-preview keeps these metrics only for a revert of the title-only
+   rule above — it is display:none in both states today.) */
 .xpl-preview,
 .xpl-full p {
   margin: 0;
@@ -264,10 +295,6 @@
 
 .xpl[data-open="true"] .xpl-full {
   display: block;
-}
-
-.xpl[data-open="true"] .xpl-preview {
-  display: none;
 }
 
 .xpl-full p {
