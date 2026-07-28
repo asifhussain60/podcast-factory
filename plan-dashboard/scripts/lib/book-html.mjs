@@ -738,7 +738,11 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
     // flushing here would split a loose list before the blank-line handler
     // below ever got its lookahead.
     if (list.length && line.trim() !== "") flushList();
-    const q = line.match(/^>\s?(.*)$/);
+    // `(?:>\s?)+`, not `>` — flatten a nested marker rather than print it. The
+    // markers are space-separated (`> > text`), so a `>+` character class only
+    // eats the first. Mirrors src/lib/reader/markdown.ts; see the note there for
+    // the failure this fixes (an augment double-prefix printed as a literal ">").
+    const q = line.match(/^(?:>\s?)+(.*)$/);
     if (q) {
       flushPara();
       flushList();

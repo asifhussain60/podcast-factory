@@ -224,3 +224,17 @@ test("editionIntroDelta counts opens minus closes", () => {
   assert.equal(editionIntroDelta(INTRO_ORIGINAL), 0);
   assert.equal(editionIntroDelta("no markers here"), 0);
 });
+
+import { renderMd } from "./lib/book-html.mjs";
+
+test("print: a nested blockquote marker is flattened, never printed as text", () => {
+  // Mirror of the same case in src/lib/reader/markdown.test.ts. The two markdown
+  // implementations must agree: a book composed before the augment fix renders
+  // the same on screen and on the page.
+  const html = renderMd(
+    "> **Editorial note (tradition-grounded).**\n> > **A clarified term.** Umma comes from a root.\n",
+  );
+  assert.match(html, /<blockquote>/);
+  assert.match(html, /A clarified term/);
+  assert.ok(!html.includes("&gt;"), `nested marker leaked into print: ${html}`);
+});

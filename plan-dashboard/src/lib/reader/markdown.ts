@@ -400,8 +400,16 @@ export function renderMarkdown(
       continue;
     }
 
-    // blockquote
-    const qMatch = line.match(/^>\s?(.*)$/);
+    // blockquote. `(?:>\s?)+` rather than `>`: a NESTED marker is flattened to one
+    // level instead of surviving into the reader as a literal ">" character.
+    // Nothing in this corpus quotes inside a quote — the single occurrence ever
+    // found was an authoring accident, where the augment pass wrapped model
+    // prose that had already opened its own blockquote, and it printed as
+    // `Editorial note (tradition-grounded). > A clarified term…` mid-sentence.
+    // `_book_augment.format_editorial_block` no longer emits it; this keeps the
+    // already-composed books readable without re-composing them, and mirrors
+    // scripts/lib/book-html.mjs, which renders the same markdown for print.
+    const qMatch = line.match(/^(?:>\s?)+(.*)$/);
     if (qMatch) {
       flushPara();
       flushList();
