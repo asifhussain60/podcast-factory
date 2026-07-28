@@ -1,8 +1,38 @@
 # Current work - status
 
-**Last updated:** 2026-07-28 afternoon (Quranic morphology wired into the site; both gates PASS)
+**Last updated:** 2026-07-28 evening (Scholar Companion panel rework; both gates PASS; one RCA filed)
 
-**Newest — the morphology layer is surfaced everywhere (commit 4aa8928).**
+**Newest — the Scholar Companion is a synced, one-button, title-only card rail.**
+
+- ONE Explain button: probes the live prose selection first (explains + files a
+  Companion note, tints the passage), falls back to the typed concept. The
+  "From selection" ghost button is retired (`GemCompanionPanel.tsx`,
+  `gem-companion.css`).
+- Cards: collapsed = TITLE-ONLY rows in chapter order; whole card is the expand
+  target; ONE card (and one etymology accordion) open at a time
+  (`explanation-card.ts`, `companion-card.css`).
+- Scroll sync both directions: scrolling the chapter drives the panel (capture
+  scroll listener + visible-mark sweep in `book-composer.ts` — mode-blind, works
+  over read spans AND editor decorations; scroll events/rAF do NOT fire in
+  hidden tabs, so verify in a rendering Playwright page); clicking a card
+  reveals its passage (revealPassage now targets the visible tint twin — it was
+  a silent no-op in Edit mode).
+- Deletes (card + etymology entry) go through `confirmDialog` (danger, Cancel
+  default) — shipped alongside RCA
+  `docs/rca/2026-07-28-automation-deleted-companion-notes.md`: an automated QA
+  pass deleted two real chapter-3 notes via the then-unguarded one-click
+  delete. Both restored (one from git, one regenerated as `5de6a25d`).
+  `site-health-sentinel` spec now hard-forbids operating destructive controls
+  in the browser; STANDING RULE (Asif-approved): commit
+  `content/*/_system/companion-notes/` at session end and before launching
+  browser-QA agents.
+- Gates: astro check 0 / lint:views clean / site tests green / smoke 32 clean;
+  html-view-challenger PASS twice (advisory: REQ-050 reduced-motion on three
+  smooth-scroll call sites, in-pattern); sentinel round re-ran post-RCA.
+
+---
+
+**Prior — the morphology layer is surfaced everywhere (commit 4aa8928).**
 
 - `/corpus/morphology` — new root-first explorer under the Corpus domain
   (nav: Corpus -> Morphology): all 1,642 roots, both-script client-side search

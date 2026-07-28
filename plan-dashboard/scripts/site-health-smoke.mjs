@@ -79,13 +79,47 @@ function discoverSlug() {
   return candidates.length ? candidates[0].slug : null;
 }
 
+// The wisdom leaf (`/wisdom/<shelf>/<book>`) reads a corpus that is NOT part of
+// a book bucket and is absent on some checkouts (`content/_shared/wisdom-corpus/`
+// does not exist on every machine). Returning null when there is no corpus is
+// deliberate: the route is then omitted from the sweep entirely rather than
+// added as a permanent "skipped (fixture gap)" line, which would train the eye
+// to ignore a skip that is sometimes real. Where the corpus IS present the leaf
+// gets gated like any other detail view.
+// Path mirrors `EXTRACT_RELPATH` in src/lib/reader/source-extractor.ts.
+function discoverWisdomLeaf() {
+  const root = join(CONTENT_DIR, "_shared", "wisdom-corpus", "extracted");
+  if (!existsSync(root)) return null;
+  const dirs = (p) => {
+    try {
+      return readdirSync(p, { withFileTypes: true })
+        .filter((e) => e.isDirectory() && !e.name.startsWith("_"))
+        .map((e) => e.name);
+    } catch {
+      return [];
+    }
+  };
+  for (const source of dirs(root)) {
+    for (const shelf of dirs(join(root, source))) {
+      for (const book of dirs(join(root, source, shelf))) {
+        // findChapter() resolves via loadManifest(), which reads `bundle.yml`;
+        // a directory without one 404s by design and is not a fixture.
+        if (existsSync(join(root, source, shelf, book, "bundle.yml"))) {
+          return { shelf, book };
+        }
+      }
+    }
+  }
+  return null;
+}
+
 // ---- route manifest -------------------------------------------------------
 // tier1 = fixture-free views that must ALWAYS render clean (the architecture
 //         views + top-level app index pages).
 // tier2 = detail views that need a live fixture; a 4xx here means the fixture
 //         didn't match (skipped, not failed) — but console/page errors and 5xx
 //         still fail, because those are real runtime bugs.
-function buildRoutes(slug) {
+export function buildRoutes(slug) {
   const tier1 = [
     "/",
     "/overview",
@@ -97,6 +131,11 @@ function buildRoutes(slug) {
     "/system-map",
     "/db-schema",
     "/corpus",
+    // Root-first morphology explorer under the Corpus domain (shipped 2026-07-28,
+    // commit 4aa8928). Fixture-free: it opens the committed morphology.db /
+    // lexicon.jsonl readonly and degrades to an empty state, so it must ALWAYS
+    // render clean — tier 1, not tier 2.
+    "/corpus/morphology",
     "/quality",
     "/security",
     "/plan",
@@ -125,11 +164,21 @@ function buildRoutes(slug) {
     [`/pre-upload/${slug}`]: "/pre-upload",
   };
 
+  const wisdom = discoverWisdomLeaf();
+
   const tier2 = slug
     ? [
         `/library/${slug}`,
         `/studio/${slug}`,
+        // The four sequential pipeline steps `[step].astro` serves
+        // (STUDIO_STEPS in src/lib/reader/studio-pipeline.ts). Only `edit` was
+        // listed until 2026-07-28, so three live surfaces — each mounting its own
+        // island stack — were never gated. `[step].astro` bounces an UNKNOWN step
+        // to `/edit`, which is why a missing entry here never showed up as a 404.
+        `/studio/${slug}/intake`,
+        `/studio/${slug}/review`,
         `/studio/${slug}/edit`, // the default Edit & Enrich rich-editor island (blank-island blind spot)
+        `/studio/${slug}/publish`,
         `/studio/${slug}/compose`,
         `/studio/${slug}/book`,
         `/studio/${slug}/live`, // LIVE Session reading view (own CSS + scroll-synced explanations)
@@ -153,7 +202,12 @@ function buildRoutes(slug) {
       ].map((path) => ({ path, tier: 2 }))
     : [];
 
-  const all = [...tier1, ...tier2].map((r) =>
+  // Present only where the wisdom corpus is on disk — see discoverWisdomLeaf().
+  const tier2Wisdom = wisdom
+    ? [{ path: `/wisdom/${wisdom.shelf}/${wisdom.book}`, tier: 2 }]
+    : [];
+
+  const all = [...tier1, ...tier2, ...tier2Wisdom].map((r) =>
     EXPECTED_REDIRECTS[r.path]
       ? { ...r, redirectsTo: EXPECTED_REDIRECTS[r.path] }
       : r,
@@ -524,7 +578,15 @@ async function main() {
   process.exit(failed.length ? 1 : 0);
 }
 
-main().catch((err) => {
-  console.error("site-health-smoke: fatal —", (err && err.message) || err);
-  process.exit(1);
-});
+// Run the sweep ONLY when executed directly. The route manifest above is also
+// imported by site-health-routes.test.mjs, which asserts it still covers every
+// page in src/pages/ — without this guard that import would boot a browser.
+const isDirectRun =
+  process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (isDirectRun) {
+  main().catch((err) => {
+    console.error("site-health-smoke: fatal —", (err && err.message) || err);
+    process.exit(1);
+  });
+}
