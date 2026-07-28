@@ -7,13 +7,15 @@
  * Composer's drawer was retired with its floating button, so this panel holds its
  * own state and talks to the note store and the AI route directly.
  *
- * Two ways in, one answer surface:
- *   Explain          — type a term, get it explained. Ephemeral; nothing is stored.
- *   From selection   — select a sentence IN THE CHAPTER: the panel explains it AND
- *                      files the answer as a Companion note against that chapter,
- *                      with the selected sentence as the note's verbatim `quote`.
- *                      The passage is tinted in the chapter from that moment on,
- *                      and the LIVE Session raises the same card as you reach it.
+ * ONE button, two ways in (2026-07-28 — the separate "From selection" button is
+ * retired; Explain now looks at the live selection first):
+ *   Selection — highlight a sentence IN THE CHAPTER and press Explain: the panel
+ *               explains it AND files the answer as a Companion note against that
+ *               chapter, with the selected sentence as the note's verbatim `quote`.
+ *               The passage is tinted in the chapter from that moment on, and the
+ *               LIVE Session raises the same card as you reach it.
+ *   Typed     — no selection: Explain answers the typed concept. Ephemeral;
+ *               nothing is stored.
  *
  * The panel is a LIST, not a one-shot: it opens showing every explanation anchored
  * in the chapter in front of you, each a collapsed card, in the order the chapter
@@ -225,11 +227,10 @@ export default function GemCompanionPanel({
   }, [slug, chapter, publish]);
 
   // A passage was clicked in the chapter: expand its card and bring it into view.
+  // ONE card at a time (Asif, 2026-07-28) — expanding this one shuts the rest.
   useEffect(() => {
     if (!focusNote) return;
-    setOpenIds((ids) =>
-      ids.includes(focusNote.id) ? ids : [...ids, focusNote.id],
-    );
+    setOpenIds([focusNote.id]);
     const card = listRef.current?.querySelector<HTMLElement>(
       `[data-note="${CSS.escape(focusNote.id)}"]`,
     );
@@ -348,10 +349,12 @@ export default function GemCompanionPanel({
       if (!card) {
         card = renderExplanationCard(note, {
           open: openIdsRef.current.includes(note.id),
-          onToggle: (id, isOpen) =>
-            setOpenIds((ids) =>
-              isOpen ? [...ids, id] : ids.filter((x) => x !== id),
-            ),
+          // ONE card at a time: opening a card is also what closes the others,
+          // so the list stays a scannable column of titles with a single
+          // explanation unfolded — and with at most one card open there can be
+          // at most one etymology accordion open (each card already enforces
+          // one within itself).
+          onToggle: (id, isOpen) => setOpenIds(isOpen ? [id] : []),
           onReveal: (id) => onRevealRef.current?.(id),
           onSave: (id, edit) => saveRef.current(id, edit),
           onRemove: (id) => void removeRef.current(id),
@@ -413,17 +416,11 @@ export default function GemCompanionPanel({
     const raw =
       sel?.toString() || (sel?.rangeCount ? sel.getRangeAt(0).toString() : "");
     const text = raw.replace(/\s+/g, " ").trim();
-    if (!text) {
-      setHint(
-        "Select a word or sentence in the chapter first, then try again.",
-      );
-      return null;
-    }
+    // Silent on failure: Explain PROBES for a selection and falls back to the
+    // typed concept, so "no usable selection" is a normal path, not an error.
+    if (!text) return null;
     const anchorEl = elementOf(sel?.anchorNode ?? null);
-    if (!anchorEl?.closest(proseSelector)) {
-      setHint("Select text inside the chapter, not the panel.");
-      return null;
-    }
+    if (!anchorEl?.closest(proseSelector)) return null;
     const para = anchorEl.closest("p, li, blockquote");
     // The chapter the selection is actually IN, taken from the selection rather
     // than from `document.querySelector(proseSelector)` — the Composer renders
@@ -496,8 +493,12 @@ export default function GemCompanionPanel({
           ? data.etymology.map((e: unknown) => String(e ?? "")).filter(Boolean)
           : [],
       };
-      if (passage) await file(answer, passage, id);
-      else setEphemeral({ ...answer, title: labelFor(concept) });
+      if (passage) {
+        await file(answer, passage, id);
+      } else {
+        setEphemeral({ ...answer, title: labelFor(concept) });
+        setOpenIds([]); // the ephemeral answer renders open — it is the ONE open card
+      }
     } catch (e) {
       if (id !== reqId.current) return;
       setError((e as Error).message);
@@ -530,7 +531,7 @@ export default function GemCompanionPanel({
       });
       if (id !== reqId.current) return;
       publish([...notes.filter((n) => n.id !== note.id), note]);
-      setOpenIds((ids) => [...ids, note.id]); // the new answer opens; the rest stay shut
+      setOpenIds([note.id]); // the new answer is the ONE open card
     } catch (e) {
       if (id !== reqId.current) return;
       setEphemeral({ ...answer, title: labelFor(passage.text) });
@@ -538,26 +539,33 @@ export default function GemCompanionPanel({
     }
   }
 
+  /**
+   * The ONE button. Selection first: a highlighted chapter passage is explained
+   * AND filed as a Companion note. No selection, fall back to the typed concept
+   * (ephemeral). Focusing the textarea collapses any prose selection, so typing
+   * a concept cannot be shadowed by a stale highlight.
+   */
   function submit(): void {
+    const picked = readSelection();
+    if (picked) {
+      setInput(picked.text);
+      setContext(picked.context);
+      void explain(
+        picked.text,
+        picked.context,
+        { text: picked.text, chapter: picked.chapter },
+        picked.chapterContext,
+      );
+      return;
+    }
     const value = input.trim();
     if (!value) {
-      setHint("Enter or select a concept to explain.");
+      setHint(
+        "Highlight a sentence in the chapter — or type a concept — then press Explain.",
+      );
       return;
     }
     void explain(value, context);
-  }
-
-  function fromSelection(): void {
-    const picked = readSelection();
-    if (!picked) return;
-    setInput(picked.text);
-    setContext(picked.context);
-    void explain(
-      picked.text,
-      picked.context,
-      { text: picked.text, chapter: picked.chapter },
-      picked.chapterContext,
-    );
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -613,7 +621,7 @@ export default function GemCompanionPanel({
         ref={inputRef}
         className="gcp-input"
         rows={2}
-        placeholder="e.g. wilayah — or select a sentence in the chapter and use “From selection”."
+        placeholder="e.g. wilayah — or highlight a sentence in the chapter and press Explain."
         value={input}
         onChange={(e) => setInput(e.currentTarget.value)}
         onKeyDown={onKeyDown}
@@ -625,18 +633,9 @@ export default function GemCompanionPanel({
           className="gcp-btn gcp-btn--primary"
           onClick={submit}
           disabled={loading}
+          title="Explain the highlighted passage (and keep it with the chapter) — or the typed concept"
         >
           {loading ? stage : "Explain"}
-        </button>
-        <button
-          type="button"
-          className="gcp-btn gcp-btn--ghost"
-          onClick={fromSelection}
-          disabled={loading}
-          title="Explain the selected sentence and keep it with the chapter"
-        >
-          <i className="fa-solid fa-highlighter" aria-hidden="true" /> From
-          selection
         </button>
       </div>
 
@@ -666,7 +665,7 @@ export default function GemCompanionPanel({
       {!loading && !visible.length && !ephemeral && (
         <p className="gcp-hint">
           {chapter
-            ? "No explanations for this chapter yet. Select a sentence and press \u201cFrom selection\u201d."
+            ? "No explanations for this chapter yet. Highlight a sentence and press Explain."
             : "Open a chapter to see its explanations."}
         </p>
       )}

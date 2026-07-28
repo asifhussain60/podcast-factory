@@ -150,6 +150,11 @@
 }
 
 .gcp-input {
+  /* The panel is a height-constrained flex column; without this the textarea is
+     the child that gives way, squashing to a sliver (clipped placeholder) when a
+     tall expanded card fills the drawer on a narrow screen. Keep its two rows;
+     the list below scrolls instead. */
+  flex: none;
   width: 100%;
   box-sizing: border-box;
   padding: 0.55rem 0.65rem;
@@ -202,16 +207,6 @@
   cursor: default;
 }
 
-.gcp-btn--ghost {
-  background: transparent;
-  color: var(--c-ink-dim);
-  border: 1px solid var(--c-rule);
-}
-
-.gcp-btn--ghost:hover {
-  background: var(--c-bg-sunken);
-  color: var(--c-ink);
-}
 .gcp-btn:focus-visible {
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;

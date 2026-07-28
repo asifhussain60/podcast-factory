@@ -16,6 +16,7 @@ sentinel_contract:
   verdict_states: [PASS, PASS-WITH-CAUTION, BLOCKED]
   hard_boundaries:
     - "NEVER edits content/ (real book data) — fixtures are read-only"
+    - "NEVER operates destructive or state-writing controls in the browser (delete/trash buttons, save, generate, upload) — a browser click that hits the app's API mutates the same content/ files the file-edit rule protects (RCA 2026-07-28: card exercising deleted two real Companion notes). Exercise cards/controls via expand, collapse, hover and focus ONLY; if a flow must be judged past a confirmation dialog, screenshot the dialog and press Cancel"
     - "NEVER adds a dependency (Playwright + chromium are already installed)"
     - "NEVER changes theme.css colour VALUES — adapter aliases onto existing --c-* only (D25)"
     - "NEVER introduces inline style= / inline <style>/<script> bodies (repo DoD)"
@@ -45,17 +46,37 @@ and looking at real pixels. The split mirrors the book pipeline's
 - **Input:** the whole site (default sweep) or a single route (`--route /plan`,
   `--route /studio/<slug>/compose`). Caller supplies the target; default sweep = every
   page route in the manifest below.
+- **The manifest is `buildRoutes()` in `plan-dashboard/scripts/site-health-smoke.mjs`,
+  not this list.** The list below is the human-readable mirror; the script is what runs.
+  They cannot drift apart silently any more — `scripts/site-health-routes.test.mjs`
+  fails when a page under `src/pages/` has no manifest entry, and when the manifest
+  names a route with no page behind it. (Both directions had real breaks: `/corpus/
+  morphology` and three of the four `[step]` surfaces were ungated, and this file went
+  on naming `/studio/<slug>/style` for nine days after the page was deleted.)
 - **The two view families** (they get different state matrices):
   - **Architecture views** (fixture-free, Cortex-governed): `/`, `/overview`,
-    `/architecture`, `/infrastructure`, `/intelligence`, `/pipeline-paths`,
-    `/system-map`, `/db-schema`, `/corpus`, `/quality`, `/security`, `/plan`, `/about`,
-    `/annotation-ops`. Long-scroll D3/diagram pages — hunt overflow, clipped diagrams,
-    contrast, broken responsive stacking, theme correctness.
+    `/how-it-works`, `/architecture`, `/infrastructure`, `/intelligence`,
+    `/pipeline-paths`, `/system-map`, `/db-schema`, `/corpus`, `/corpus/morphology`,
+    `/quality`, `/security`, `/plan`, `/about`, `/annotation-ops`. Long-scroll
+    D3/diagram pages — hunt overflow, clipped diagrams, contrast, broken responsive
+    stacking, theme correctness. `/corpus/morphology` is fixture-FREE despite reading
+    `morphology.db`: it opens the committed DB readonly and degrades to an empty state,
+    so it must always render clean.
   - **App / reader / studio views** (need a live fixture slug): `/library`,
-    `/library/<slug>`, `/studio`, `/studio/new`, `/studio/<slug>`,
-    `/studio/<slug>/{compose,book,live,arabic-review,style,view}`, `/pronunciation`,
-    `/pronunciation/<slug>`, `/pre-upload`, `/pre-upload/<slug>`, `/wisdom`. Interactive —
-    hunt the states that hide bugs (below).
+    `/library/<slug>`, `/studio`, `/studio/new`, `/studio/<slug>`, the four sequential
+    pipeline steps `/studio/<slug>/{intake,review,edit,publish}`, and
+    `/studio/<slug>/{compose,live,preview,book,arabic-review,view}`, plus
+    `/pronunciation`, `/pronunciation/<slug>`, `/pre-upload`, `/pre-upload/<slug>`,
+    `/wisdom`, `/wisdom/<shelf>/<book>`. Interactive — hunt the states that hide bugs
+    (below). Four of these are declared REDIRECTS, gated to prove they still land
+    somewhere that renders clean: `book` and `arabic-review` → `compose`, `view` →
+    `/studio/<slug>`, `/library/<slug>` → `/studio/<slug>`. `/studio/<slug>/style` was
+    DELETED on 2026-07-19 and is not a route — do not look for it.
+  - **Fixture-conditional:** `/wisdom/<shelf>/<book>` reads
+    `content/_shared/wisdom-corpus/`, which is absent on some checkouts. The manifest
+    omits the leaf entirely when there is no corpus rather than emitting a permanent
+    "skipped" line. On a checkout without it, `/wisdom` itself is a genuine EMPTY state
+    and should be judged as one.
 - **API routes (`/api/**`) are NOT in scope** — they are endpoints, not views. The smoke
   gate still flags a 5xx from any XHR a view fires.
 - **Authority:** this repo's own design system — the Cortex `--c-*` theme tokens
@@ -94,8 +115,15 @@ never reship on the strength of a screenshot nobody looked at.
 deliberately (these are where bugs hide):
   - **Architecture views:** default; `--theme dark`; a ~390px mobile pass (diagram
     stacking / horizontal overflow).
-  - **Studio editor** (`/studio/<slug>/book`, `arabic-review`): Read vs Edit toggle
-    (`--eval` the toggle), the left-gutter mark icons, long-Arabic overflow.
+  - **Studio pipeline steps** (`/studio/<slug>/{intake,review,edit,publish}`): four
+    distinct island stacks behind one `[step].astro`. `edit` is the Edit & Enrich
+    rich-editor island (blank-island blind spot); the other three mount the workbench,
+    editorial cards and stage timeline. An UNKNOWN step silently bounces to `/edit`, so
+    a step that renders wrong looks like a step that renders — check the subnav stepper
+    marks the step you actually asked for.
+  - **Corpus explorer** (`/corpus/morphology`): both-script search (Arabic and
+    Buckwalter into one fold space), the coverage strip, and a per-root expansion —
+    long Arabic roots and RTL `bdi` runs next to LTR text are where this one breaks.
   - **Book Composer** (`/studio/<slug>/compose`): chapter picker, a placed figure's
     wrap/float + resize handle, the Artifacts/Citations/Refinement/Output tablist, the
     floating `.cx-fig-card`. In the merged-Edit design: text edit + figure place/resize
@@ -155,7 +183,10 @@ PASS-WITH-CAUTION with a clean `npm run smoke`.
 
 - Runtime + visuals only — does NOT re-audit Cortex REQ-NNN rules (that is
   `html-view-challenger`); the two gates run as a pair.
-- Does NOT edit `content/` — book fixtures are read-only.
+- Does NOT edit `content/` — book fixtures are read-only. That covers browser
+  interactions too: clicking delete/save/generate controls writes those same
+  files through the app's API (RCA 2026-07-28). Safe interactions are expand,
+  collapse, hover, focus; at a confirmation dialog, screenshot it and Cancel.
 - Does NOT change `theme.css` colour values (D25) or add inline styling / dependencies.
 - Does NOT redesign, restyle working areas, or change copy/behaviour — defects only.
 - Does NOT rename `plan-dashboard/`; names the app "Podcast Factory Astro Site" in prose.

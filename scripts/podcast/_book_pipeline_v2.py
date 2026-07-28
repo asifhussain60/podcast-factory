@@ -238,6 +238,27 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # a policy miss must never cost a finished book
         _record_skip(book_dir, "annotation-policy", e, log)
 
+    # 5a-etymology. Root-level etymology atoms for the book's key Arabic terms —
+    #     grounded in the Quranic morphology corpus (real roots + derived
+    #     families, see _etymology.load_morphology_reference) and gated by the
+    #     deterministic veto + adversarial verify before anything persists.
+    #     ONCE per book: the report is the idempotency marker (delete
+    #     _system/etymology-report.json to re-run), so recomposes never re-spend
+    #     the two claude -p calls. Glossary-gated — only 0c books (Islamic
+    #     scholarly) carry one, so fiction/technical routes skip at zero cost.
+    from _etymology import build_etymology_atoms
+
+    try:
+        _ety_report = book_dir / "_system" / "etymology-report.json"
+        if not (book_dir / "_system" / "glossary.yml").exists():
+            log("    etymology: no glossary — skipped")
+        elif _ety_report.exists():
+            log("    etymology: report already present — skipped (delete _system/etymology-report.json to re-run)")
+        else:
+            build_etymology_atoms(book_dir, log=log)
+    except Exception as e:  # an apparatus miss must never cost a finished book
+        _record_skip(book_dir, "etymology", e, log)
+
     # 5a-arabic. Put the Arabic script back beside inline terms. AFTER every
     #     LLM text pass, so no model can romanize the script away again, and AFTER
     #     the Composer replay, so it annotates the author's chapters too — before

@@ -1,180 +1,60 @@
 # Current work - status
 
-**Last updated:** 2026-07-27 evening (Rearticulate ships; the flattened chapter is restored)
+**Last updated:** 2026-07-28 evening (Scholar Companion panel rework; both gates PASS; one RCA filed)
 
-**Newest — the Rearticulate action, and the contract behind it.**
+**Newest — the Scholar Companion is a synced, one-button, title-only card rail.**
 
-*A Composer Rewrite had flattened one chapter.* A "clarify" rewrite (Gemini,
-generic-editor prompt) had rewritten the boy's opening speech in chapter 3 of
-`the-master-and-the-disciple` from 183 words to 139 — imagery abstracted away
-("struck the mark" → "effectively"), plus a stray "Sheikh" against the book's
-24 "Shaykh". Sat uncommitted; verified against the pipeline's translation
-chunks (paragraph-level sweep, all 8 chapters — only ch. 3 was flattened);
-restored via git. The companion note added the same day was genuine enrichment
-and was kept.
+- ONE Explain button: probes the live prose selection first (explains + files a
+  Companion note, tints the passage), falls back to the typed concept. The
+  "From selection" ghost button is retired (`GemCompanionPanel.tsx`,
+  `gem-companion.css`).
+- Cards: collapsed = TITLE-ONLY rows in chapter order; whole card is the expand
+  target; ONE card (and one etymology accordion) open at a time
+  (`explanation-card.ts`, `companion-card.css`).
+- Scroll sync both directions: scrolling the chapter drives the panel (capture
+  scroll listener + visible-mark sweep in `book-composer.ts` — mode-blind, works
+  over read spans AND editor decorations; scroll events/rAF do NOT fire in
+  hidden tabs, so verify in a rendering Playwright page); clicking a card
+  reveals its passage (revealPassage now targets the visible tint twin — it was
+  a silent no-op in Edit mode).
+- Deletes (card + etymology entry) go through `confirmDialog` (danger, Cancel
+  default) — shipped alongside RCA
+  `docs/rca/2026-07-28-automation-deleted-companion-notes.md`: an automated QA
+  pass deleted two real chapter-3 notes via the then-unguarded one-click
+  delete. Both restored (one from git, one regenerated as `5de6a25d`).
+  `site-health-sentinel` spec now hard-forbids operating destructive controls
+  in the browser; STANDING RULE (Asif-approved): commit
+  `content/*/_system/companion-notes/` at session end and before launching
+  browser-QA agents.
+- Gates: astro check 0 / lint:views clean / site tests green / smoke 32 clean;
+  html-view-challenger PASS twice (advisory: REQ-050 reduced-motion on three
+  smooth-scroll call sites, in-pattern); sentinel round re-ran post-RCA.
 
-*Shipped in response — the Rearticulate lane:*
-- `docs/standards/book-articulation.md` (REQ-BA-010..120) + the
-  `book-articulation` skill — the articulation contract (LAL-handbook-grounded:
-  simple lucid English, grammar may be rebuilt, meaning/speeches/quotes/imagery/
-  Arabic are inviolable).
-- `scripts/podcast/rearticulate_chapter.py` — chapter-scoped engine reusing the
-  fluency pass's `_run_pass` (windowing, revoice_gates, per-window revert);
-  addresses chapters by `anchor_key`, records results in `composer-edits.json`
-  like a human save, writes `_system/rearticulate-status.json` (gitignored).
-- `POST/GET /api/studio/rearticulate` — detached spawn + poll, single-run lock,
-  dead-worker detection.
-- Composer Refinement tab: **Rearticulate chapter** button — whole-chapter,
-  selection-independent; flushes autosave, locks the editor read-only, shimmers
-  (`.cx-rearticulating`, reduced-motion safe), reloads via
-  `reloadPreservingChapter()` on success. No live-editor surgery (RCA-002).
-- `book-rearticulator` agent (canonical infra/claude-agents/ + synced wrapper) —
-  judges results against REQ-BA-*; convergence action is revert, never
-  re-prompt-until-pass.
-- The Refine panel's Rewrite modes now carry the REQ-BA register/imagery/
-  spelling guards, so the original flattening path is constrained too.
-- Composer header: **Generate PDF** button beside LIVE Session (flush autosave
-  → themed confirm → /api/studio/generate-book-pdf; spinner while rendering,
-  reduced-motion safe) and a persistent **Download PDF** link — pre-filled
-  server-side from the newest book/*.pdf on load, refreshed with size after
-  each render, served via /api/library/file with a download filename.
+---
 
-**Previous — RCA-002, then durable view state across the site.**
+**Prior — the morphology layer is surfaced everywhere (commit 4aa8928).**
 
-*The session opened by finding corruption, not by writing code.* Two Book
-Composer autosaves from the previous evening sat uncommitted in the working
-tree, and everything in that eighteen-hour delta was damage: the edition
-introduction of `the-master-and-the-disciple` stacked THREE times (fence count
-1 → 3 in both `book.md` and the sidecar), "The Master here **is is** a teacher
-figure", a clause transposed into "grown dear to your fellowship and us has
-become sweet to us", and a nested editorial-note blockquote collapsed from ten
-lines to one so its inner `>` would render as literal text. No authored content
-anywhere in the diff. Dev server stopped first so its autosave could not race
-the restore, evidence captured, both files restored, clean tree verified.
-Written up as [RCA-002](../../docs/rca/2026-07-27-composer-autosave-wrote-corruption-into-book-md.md)
-— the second incident in RCA-001's class, because RCA-001's fixes all pointed
-downstream at what the PIPELINE does with a Composer edit and never constrained
-what a Composer SAVE may write. Checked and KEPT: the vowelling change swept
-into the CSS commit `bff3680` is a correctly-applied entry from the approved
-review ledger. Only the commit hygiene was wrong there, not the content.
-
-*The root cause, fixed (AI-1).* `createAutosave` gained an optional
-`fingerprint`. It captures the serialized content once at construction and
-skips any save that still matches — no `save()` call, no request, no write.
-`markDirty()` is wired to the editor's `update` event, which fires for things
-that are not edits, so before this a stray keystroke or a pointer-drag that
-landed where it started rewrote the whole chapter; and because the markdown
-round trip is not byte-exact on real content, reflow of paragraphs nobody
-touched went with it. Fingerprinting the SERIALIZED output rather than diffing
-against disk is what makes that second case safe — drift sits in both the
-baseline and the current value, so it cancels and never reaches disk alone.
-Proven in a real browser with the save endpoint stubbed: typing then undoing
-inside the debounce window produced ZERO PUTs and settled the pill back to its
-previous "Saved 9:36 AM" rather than a new timestamp, while a real edit still
-saved and its undo saved the revert. Both Composer autosaves (prose + figure
-layout) now carry it. 10 unit tests.
-
-*Then the actual ask: the site remembers where you were.* The app already
-persisted PREFERENCES (font, size, paper, zoom, panel width) and always had.
-SELECTIONS mostly did not — and where they did it was a one-shot
-`sessionStorage` handoff written just before a scripted reload and deleted on
-read, so the editor's own refresh kept your place while a plain F5, a new tab,
-or the next morning lost it. New `src/lib/view-state.ts` is the one home for
-the second kind: storage access guarded (a blocked store degrades to "opens at
-its default"), keys namespaced by surface AND book slug so one book's chapter
-can never restore into another, every read validated by the caller so a
-chapter a re-compose renamed is discarded rather than leaving a blank page, and
-a registry that THROWS on a duplicate surface+field instead of letting two
-surfaces quietly share a key. `use-view-state.ts` binds it to React and
-deliberately does not seed from storage in the useState initializer — several
-islands are `client:load`, and a first-render read would trip a hydration
-mismatch.
-
-*What now survives a reload:* the Composer's selected chapter, its Read/Edit
-mode, its lane (Reading edition ⇄ Podcast source) and the selected podcast
-source file; the pre-upload review tab; Edit & Enrich's inspector tab; and the
-LIVE Session reading position (throttled to one write a second, restored after
-fonts load, re-running the scroll-spy on landing so you are not told you are in
-chapter one while sitting in chapter three). The three one-shot keys
-(`cx-restore-chapter`, `cx-restore-edit`, `cx-restore-lane:<slug>`) are GONE
-rather than left beside the new mechanism — one path, nothing to drift.
-Restoring straight into the editor is only safe because of AI-1 above; without
-that guard it would arm an editor over `book.md` on every page load.
-
-*Verified in the browser, not assumed:* chapter and mode restored across a real
-reload; a stale chapter key falls back to chapter one and still renders; with
-every `pf:` key cleared the original defaults return; the LIVE scroll throttle
-holds a value for a second then advances; the pre-upload tab reopens where it
-was left. `content/` byte-identical throughout, confirmed by git rather than by
-a checksum (an unsorted `find` briefly suggested otherwise — git is the
-authority). Gates: astro check 0 errors, npm test 317 (315 pass / 2 pre-existing
-skips), lint:views clean, eslint 0 errors, prettier clean, smoke 32/32.
-
-*Known harness limits, not defects:* the in-app browser pane does not dispatch
-scroll events for `window.scrollTo` and its hidden viewport reports
-`innerHeight: 0`, so the LIVE scroll listener was exercised by dispatching the
-same `scroll` event the pre-existing `updateActive` handler already depends on,
-and pixel-level layout readings from that pane are unreliable.
-
-*Still open from RCA-002:* AI-2 (reproduce and fix the `edition-intro`
-tripling), AI-3 (a pre-commit gate refusing a `plan-dashboard/` commit while
-`content/` is dirty), AI-4 (make the known round-trip losses fixed or blocking
-rather than recorded), AI-5 (session hygiene for a dev server left running).
-
-**Then — the etymology accordion opens one at a time and shows all of itself.**
-Asif's ask on the Companion card: no scrollbar inside an expanded entry, and
-only one entry open at a time. Both done. The interesting part is what the
-conformance gate found in the FIRST version, which looked right and was not:
-removing the inner scrollbar and the resize grip took away both escape hatches
-from a measurement that goes stale, and in two ordinary situations it did.
-Pressing the panel TEXT dial with an entry open reflowed the text to 333px
-inside a field still pinned at 173px — 160px of the explanation unreachable,
-a WCAG 1.4.4 failure. And a window resize while the card was COLLAPSED measured
-a `display:none` field, read `scrollHeight` 0, and wrote a 2px height that
-survived into the next expand.
-
-The fix changes WHEN the measurement runs rather than patching each case:
-`autoSizeEntry` refuses to measure a hidden field (`offsetParent === null`),
-the card's `setOpen(true)` re-measures at the first visible moment, a
-width-guarded `ResizeObserver` on `.xpl-etym` replaces the window listener (the
-callback's own work changes the container's HEIGHT, so reacting to height would
-loop), and `panel-text-size.ts` now exports `PANEL_TEXT_SIZE_EVENT` and
-dispatches it from `broadcast()`. That last one is the class fix, not the
-instance: the stepper is shared by every panel, so the next surface that
-measures its own text gets the notification for free. Height moved to a
-`--ety-h` custom property, matching `--pv-zoom` / `--panel-fs` / `--cx-w`
-rather than assigning a concrete `height` — the only place in the codebase
-that did.
-
-`html-view-challenger` re-audited and passed at Level 1, and its own re-run was
-sharper than mine: my collapse-then-resize case went 1440→1100, which does not
-move the drawer on this layout, so it would have passed even had the fix been
-broken. Its widths (1440→900, 900→390), a dial change while collapsed, and a
-six-change resize storm all came back clean with no observer-loop warning.
-
-*Also fixed here:* the LIVE scroll restore was recording its own jump —
-`restoreReadingPosition` runs before the listeners are wired but DEFERS into
-`document.fonts.ready`, by which time they are attached. Mostly it rewrote the
-same number; the case that bites is a position saved on a phone, where the
-column is more than twice as tall, which a desktop then clamps to the bottom
-AND persists, destroying the phone position. Found by `site-health-sentinel`.
-
-*And a two-byte fix worth recording:* `explanation-card.ts` carried two literal
-NUL bytes as a `.join()` separator, which made the file register as BINARY —
-`grep` silently returned nothing for it, which is what made the accordion hard
-to find at all. Now the `\0` escape: identical to the compiler, text again to
-every tool. Worth knowing because parts of this repo's own gates are grep-based.
-
-*Known and NOT taken up* (challenger SHOULDs, carried forward): the accordion's
-ARIA is correct but incomplete — no `aria-controls`/`id` on the body, no heading
-wrapper per term, the field labelled "Etymology entry N" rather than by its
-term, no arrow-key movement between headers, and the single-select collapse is
-unannounced. The Composer also prints the term twice (header + first words of
-the field) because `etymologyDetail` strips it for the reader only. Two
-governance items: `book-composer.css:1771` claims the `--panel-fs` exception is
-recorded in `html-view-lint.config.json` and it is not, and `lint:views`
-classifies only `.astro`/`.tsx` as code, so SVG built as a string in a `.ts`
-file is invisible to the gate.
+- `/corpus/morphology` — new root-first explorer under the Corpus domain
+  (nav: Corpus -> Morphology): all 1,642 roots, both-script client-side search
+  in the shared fold space (`src/lib/arabic-fold.ts`, fixture-pinned TS mirror
+  at `plan-dashboard/scripts/lib/buckwalter.fixtures.json`), per-root family +
+  POS + verse peeks (mirror.db) + Lane's meaning, coverage strip with the 313
+  meaning gaps listed. Data via `src/lib/db/morphology.server.ts` (per-call
+  readonly opens over the committed morphology.db/lexicon.jsonl; degrades to
+  an empty state, never crashes).
+- Etymology cards (Composer + live reader) are now VERIFIED CORE + persona
+  note: companion-notes GET/POST and live.astro attach computed (never
+  persisted) `morphology` per etymology row; explanation-card renders the
+  corpus block (.xpl-morph) above the persona textarea. gem-explain grounds +
+  vetoes generation; api/ai/etymology grounds from local DBs. Python parity:
+  `_book_companion.gate_card` vetoes against `load_morphology_reference`.
+- Gates: smoke 32 clean; lint:views + astro check 0 errors; site tests 327;
+  pytest 2,307. html-view-challenger PASS-WITH-CAUTION (7 CSS fixes applied);
+  site-health-sentinel PASS (bdi root line; mirror translation markup stripped).
+- Open advisories for Asif (non-blocking): REQ-070 source dates on the
+  attribution footer; REQ-004 tool-page deviation note (no numbered sections,
+  matches /corpus); .xpl-morph-chip location is title-only (keyboard/touch
+  inaccessible, supplementary info).
 
 ---
 
@@ -373,6 +253,183 @@ openings.
 
 ## Previous sessions
 
+**Last updated:** 2026-07-27 evening (Rearticulate ships; the flattened chapter is restored)
+
+**Newest — the Rearticulate action, and the contract behind it.**
+
+*A Composer Rewrite had flattened one chapter.* A "clarify" rewrite (Gemini,
+generic-editor prompt) had rewritten the boy's opening speech in chapter 3 of
+`the-master-and-the-disciple` from 183 words to 139 — imagery abstracted away
+("struck the mark" → "effectively"), plus a stray "Sheikh" against the book's
+24 "Shaykh". Sat uncommitted; verified against the pipeline's translation
+chunks (paragraph-level sweep, all 8 chapters — only ch. 3 was flattened);
+restored via git. The companion note added the same day was genuine enrichment
+and was kept.
+
+*Shipped in response — the Rearticulate lane:*
+- `docs/standards/book-articulation.md` (REQ-BA-010..120) + the
+  `book-articulation` skill — the articulation contract (LAL-handbook-grounded:
+  simple lucid English, grammar may be rebuilt, meaning/speeches/quotes/imagery/
+  Arabic are inviolable).
+- `scripts/podcast/rearticulate_chapter.py` — chapter-scoped engine reusing the
+  fluency pass's `_run_pass` (windowing, revoice_gates, per-window revert);
+  addresses chapters by `anchor_key`, records results in `composer-edits.json`
+  like a human save, writes `_system/rearticulate-status.json` (gitignored).
+- `POST/GET /api/studio/rearticulate` — detached spawn + poll, single-run lock,
+  dead-worker detection.
+- Composer Refinement tab: **Rearticulate chapter** button — whole-chapter,
+  selection-independent; flushes autosave, locks the editor read-only, shimmers
+  (`.cx-rearticulating`, reduced-motion safe), reloads via
+  `reloadPreservingChapter()` on success. No live-editor surgery (RCA-002).
+- `book-rearticulator` agent (canonical infra/claude-agents/ + synced wrapper) —
+  judges results against REQ-BA-*; convergence action is revert, never
+  re-prompt-until-pass.
+- The Refine panel's Rewrite modes now carry the REQ-BA register/imagery/
+  spelling guards, so the original flattening path is constrained too.
+- Composer header: **Generate PDF** button beside LIVE Session (flush autosave
+  → themed confirm → /api/studio/generate-book-pdf; spinner while rendering,
+  reduced-motion safe) and a persistent **Download PDF** link — pre-filled
+  server-side from the newest book/*.pdf on load, refreshed with size after
+  each render, served via /api/library/file with a download filename.
+
+**Previous — RCA-002, then durable view state across the site.**
+
+*The session opened by finding corruption, not by writing code.* Two Book
+Composer autosaves from the previous evening sat uncommitted in the working
+tree, and everything in that eighteen-hour delta was damage: the edition
+introduction of `the-master-and-the-disciple` stacked THREE times (fence count
+1 → 3 in both `book.md` and the sidecar), "The Master here **is is** a teacher
+figure", a clause transposed into "grown dear to your fellowship and us has
+become sweet to us", and a nested editorial-note blockquote collapsed from ten
+lines to one so its inner `>` would render as literal text. No authored content
+anywhere in the diff. Dev server stopped first so its autosave could not race
+the restore, evidence captured, both files restored, clean tree verified.
+Written up as [RCA-002](../../docs/rca/2026-07-27-composer-autosave-wrote-corruption-into-book-md.md)
+— the second incident in RCA-001's class, because RCA-001's fixes all pointed
+downstream at what the PIPELINE does with a Composer edit and never constrained
+what a Composer SAVE may write. Checked and KEPT: the vowelling change swept
+into the CSS commit `bff3680` is a correctly-applied entry from the approved
+review ledger. Only the commit hygiene was wrong there, not the content.
+
+*The root cause, fixed (AI-1).* `createAutosave` gained an optional
+`fingerprint`. It captures the serialized content once at construction and
+skips any save that still matches — no `save()` call, no request, no write.
+`markDirty()` is wired to the editor's `update` event, which fires for things
+that are not edits, so before this a stray keystroke or a pointer-drag that
+landed where it started rewrote the whole chapter; and because the markdown
+round trip is not byte-exact on real content, reflow of paragraphs nobody
+touched went with it. Fingerprinting the SERIALIZED output rather than diffing
+against disk is what makes that second case safe — drift sits in both the
+baseline and the current value, so it cancels and never reaches disk alone.
+Proven in a real browser with the save endpoint stubbed: typing then undoing
+inside the debounce window produced ZERO PUTs and settled the pill back to its
+previous "Saved 9:36 AM" rather than a new timestamp, while a real edit still
+saved and its undo saved the revert. Both Composer autosaves (prose + figure
+layout) now carry it. 10 unit tests.
+
+*Then the actual ask: the site remembers where you were.* The app already
+persisted PREFERENCES (font, size, paper, zoom, panel width) and always had.
+SELECTIONS mostly did not — and where they did it was a one-shot
+`sessionStorage` handoff written just before a scripted reload and deleted on
+read, so the editor's own refresh kept your place while a plain F5, a new tab,
+or the next morning lost it. New `src/lib/view-state.ts` is the one home for
+the second kind: storage access guarded (a blocked store degrades to "opens at
+its default"), keys namespaced by surface AND book slug so one book's chapter
+can never restore into another, every read validated by the caller so a
+chapter a re-compose renamed is discarded rather than leaving a blank page, and
+a registry that THROWS on a duplicate surface+field instead of letting two
+surfaces quietly share a key. `use-view-state.ts` binds it to React and
+deliberately does not seed from storage in the useState initializer — several
+islands are `client:load`, and a first-render read would trip a hydration
+mismatch.
+
+*What now survives a reload:* the Composer's selected chapter, its Read/Edit
+mode, its lane (Reading edition ⇄ Podcast source) and the selected podcast
+source file; the pre-upload review tab; Edit & Enrich's inspector tab; and the
+LIVE Session reading position (throttled to one write a second, restored after
+fonts load, re-running the scroll-spy on landing so you are not told you are in
+chapter one while sitting in chapter three). The three one-shot keys
+(`cx-restore-chapter`, `cx-restore-edit`, `cx-restore-lane:<slug>`) are GONE
+rather than left beside the new mechanism — one path, nothing to drift.
+Restoring straight into the editor is only safe because of AI-1 above; without
+that guard it would arm an editor over `book.md` on every page load.
+
+*Verified in the browser, not assumed:* chapter and mode restored across a real
+reload; a stale chapter key falls back to chapter one and still renders; with
+every `pf:` key cleared the original defaults return; the LIVE scroll throttle
+holds a value for a second then advances; the pre-upload tab reopens where it
+was left. `content/` byte-identical throughout, confirmed by git rather than by
+a checksum (an unsorted `find` briefly suggested otherwise — git is the
+authority). Gates: astro check 0 errors, npm test 317 (315 pass / 2 pre-existing
+skips), lint:views clean, eslint 0 errors, prettier clean, smoke 32/32.
+
+*Known harness limits, not defects:* the in-app browser pane does not dispatch
+scroll events for `window.scrollTo` and its hidden viewport reports
+`innerHeight: 0`, so the LIVE scroll listener was exercised by dispatching the
+same `scroll` event the pre-existing `updateActive` handler already depends on,
+and pixel-level layout readings from that pane are unreliable.
+
+*Still open from RCA-002:* AI-2 (reproduce and fix the `edition-intro`
+tripling), AI-3 (a pre-commit gate refusing a `plan-dashboard/` commit while
+`content/` is dirty), AI-4 (make the known round-trip losses fixed or blocking
+rather than recorded), AI-5 (session hygiene for a dev server left running).
+
+**Then — the etymology accordion opens one at a time and shows all of itself.**
+Asif's ask on the Companion card: no scrollbar inside an expanded entry, and
+only one entry open at a time. Both done. The interesting part is what the
+conformance gate found in the FIRST version, which looked right and was not:
+removing the inner scrollbar and the resize grip took away both escape hatches
+from a measurement that goes stale, and in two ordinary situations it did.
+Pressing the panel TEXT dial with an entry open reflowed the text to 333px
+inside a field still pinned at 173px — 160px of the explanation unreachable,
+a WCAG 1.4.4 failure. And a window resize while the card was COLLAPSED measured
+a `display:none` field, read `scrollHeight` 0, and wrote a 2px height that
+survived into the next expand.
+
+The fix changes WHEN the measurement runs rather than patching each case:
+`autoSizeEntry` refuses to measure a hidden field (`offsetParent === null`),
+the card's `setOpen(true)` re-measures at the first visible moment, a
+width-guarded `ResizeObserver` on `.xpl-etym` replaces the window listener (the
+callback's own work changes the container's HEIGHT, so reacting to height would
+loop), and `panel-text-size.ts` now exports `PANEL_TEXT_SIZE_EVENT` and
+dispatches it from `broadcast()`. That last one is the class fix, not the
+instance: the stepper is shared by every panel, so the next surface that
+measures its own text gets the notification for free. Height moved to a
+`--ety-h` custom property, matching `--pv-zoom` / `--panel-fs` / `--cx-w`
+rather than assigning a concrete `height` — the only place in the codebase
+that did.
+
+`html-view-challenger` re-audited and passed at Level 1, and its own re-run was
+sharper than mine: my collapse-then-resize case went 1440→1100, which does not
+move the drawer on this layout, so it would have passed even had the fix been
+broken. Its widths (1440→900, 900→390), a dial change while collapsed, and a
+six-change resize storm all came back clean with no observer-loop warning.
+
+*Also fixed here:* the LIVE scroll restore was recording its own jump —
+`restoreReadingPosition` runs before the listeners are wired but DEFERS into
+`document.fonts.ready`, by which time they are attached. Mostly it rewrote the
+same number; the case that bites is a position saved on a phone, where the
+column is more than twice as tall, which a desktop then clamps to the bottom
+AND persists, destroying the phone position. Found by `site-health-sentinel`.
+
+*And a two-byte fix worth recording:* `explanation-card.ts` carried two literal
+NUL bytes as a `.join()` separator, which made the file register as BINARY —
+`grep` silently returned nothing for it, which is what made the accordion hard
+to find at all. Now the `\0` escape: identical to the compiler, text again to
+every tool. Worth knowing because parts of this repo's own gates are grep-based.
+
+*Known and NOT taken up* (challenger SHOULDs, carried forward): the accordion's
+ARIA is correct but incomplete — no `aria-controls`/`id` on the body, no heading
+wrapper per term, the field labelled "Etymology entry N" rather than by its
+term, no arrow-key movement between headers, and the single-select collapse is
+unannounced. The Composer also prints the term twice (header + first words of
+the field) because `etymologyDetail` strips it for the reader only. Two
+governance items: `book-composer.css:1771` claims the `--panel-fs` exception is
+recorded in `html-view-lint.config.json` and it is not, and `lint:views`
+classifies only `.astro`/`.tsx` as code, so SVG built as a string in a `.ts`
+file is invisible to the gate.
+
+---
 **Composer articulation save guard (RCA-001 AI-3), shipped and
 challenger-gated (Level 1).** The Book Composer now warns before a save would
 freeze a chapter whose current prose never passed the articulation (fluency)

@@ -204,6 +204,19 @@ content/knowledge-base/*.db
 content/knowledge-base/*.db-shm
 content/knowledge-base/*.db-wal
 
+# Quranic morphology DB: the derived morphology.db IS committed (mirror.db
+# precedent — zero-step consumers on every checkout); only its WAL litter is
+# ignored. The raw corpus file under quranic-corpus/source/ is committed too
+# (GPL permits redistribution with the license header intact).
+content/knowledge-base/quranic-corpus/*.db-shm
+content/knowledge-base/quranic-corpus/*.db-wal
+
+# Classical-lexicon raw drops (Lane / Maqayis / Mufradat): large digitized
+# texts, ingested into the committed content/knowledge-base/lexicon.jsonl.
+# Untracked by default — committing a given source text is a per-file decision
+# (size + digitization rights), never an accident.
+content/knowledge-base/lexicon/source/
+
 # Astro site dev-time SQLite mirror — generated locally, never committed.
 plan-dashboard/knowledge.db
 plan-dashboard/knowledge.db-shm

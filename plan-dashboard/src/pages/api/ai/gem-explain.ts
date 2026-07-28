@@ -29,6 +29,10 @@ import {
 import { articulate } from "../../../lib/reader/companion/articulate.server";
 import { capWords } from "../../../lib/reader/companion/articulate-rules";
 import { resolveQuranCitations } from "../../../lib/reader/companion/quran-citation.server";
+import {
+  morphologyGroundingBlock,
+  vetoEtymologyItems,
+} from "../../../lib/db/morphology.server";
 
 /** The body budget. ~400 words is about half of what an ungoverned card ran to. */
 const DEFAULT_MAX_WORDS = 400;
@@ -77,9 +81,16 @@ export const POST: APIRoute = async ({ request }) => {
     // whole chapter would swamp the query and pull atoms about whatever else the
     // chapter happens to mention.
     const atoms = ground ? groundingFor(`${concept} ${context ?? ""}`) : [];
-    const grounded = atoms.length
-      ? [context ?? "", groundingBlock(atoms)].filter(Boolean).join("\n\n")
-      : context;
+    // Morphology grounding is UNCONDITIONAL (local committed DB, no spend): any
+    // Arabic term in the passage that resolves to one corpus root arrives in
+    // the prompt with its verified root, real family and Lane's meaning.
+    const morphBlock = morphologyGroundingBlock(`${concept} ${context ?? ""}`);
+    const grounded =
+      atoms.length || morphBlock
+        ? [context ?? "", morphBlock, ...(atoms.length ? [groundingBlock(atoms)] : [])]
+            .filter(Boolean)
+            .join("\n\n")
+        : context;
 
     let result;
     try {
@@ -122,13 +133,17 @@ export const POST: APIRoute = async ({ request }) => {
       capWords(await articulate(result.body), budget),
     );
 
+    // Deterministic veto LAST: an item whose claimed root contradicts the
+    // morphology corpus is dropped, never rewritten. Conservative by contract —
+    // unknown terms and unparseable items always pass.
+    const vetoed = vetoEtymologyItems(result.etymology);
+
     return new Response(
       JSON.stringify({
         ok: true,
         body: tightened,
-        etymology: result.etymology.map((e) =>
-          capWords(e, ETYMOLOGY_MAX_WORDS),
-        ),
+        etymology: vetoed.kept.map((e) => capWords(e, ETYMOLOGY_MAX_WORDS)),
+        etymologyVetoed: vetoed.dropped.length,
         grounded: atoms.length,
         source: "gemini",
       }),

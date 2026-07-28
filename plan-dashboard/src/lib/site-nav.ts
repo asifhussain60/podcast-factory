@@ -16,6 +16,7 @@ export type ActivePage =
   | "planner"
   | "system-map"
   | "corpus"
+  | "corpus-morphology"
   | "pronunciation"
   | "pipeline-paths"
   | "how-it-works"
@@ -53,7 +54,7 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
     href: "/corpus",
     label: "Corpus",
     section: "corpus",
-    pages: ["corpus", "wisdom", "db-schema"],
+    pages: ["corpus", "corpus-morphology", "wisdom", "db-schema"],
   },
   {
     href: "/overview",
@@ -88,6 +89,11 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
   // diagram is "how it works" docs and lives under System.)
   corpus: [
     { href: "/corpus", label: "Storehouse", pages: ["corpus"] },
+    {
+      href: "/corpus/morphology",
+      label: "Morphology",
+      pages: ["corpus-morphology"],
+    },
     { href: "/wisdom", label: "Wisdom shelf", pages: ["wisdom"] },
     { href: "/db-schema", label: "Data model", pages: ["db-schema"] },
   ],

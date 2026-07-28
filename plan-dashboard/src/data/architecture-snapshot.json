@@ -144,6 +144,20 @@
       "failure_mode": "surfaces error and halts"
     },
     {
+      "id": "book-rearticulator",
+      "name": "Book Rearticulator",
+      "role": "Articulation agent for book chapters on the reading-edition route: takes a poorl",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Articulation agent for book chapters on the reading-edition route: takes a poorly written, stiff, or literal Arabic-calqued chapter of `BOOK_DIR/book/book.md` and rearticulates it into modern, lucid, simple English that reads like a prof…",
+      "what_it_knows": "See infra/claude-agents/book-rearticulator.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
       "id": "book-render-challenger",
       "name": "Book Render Challenger",
       "role": "Print-render challenger for the Book Pipeline v2 reading edition — it gates the ",
@@ -193,20 +207,6 @@
       "tone": "neutral",
       "plain": "Cross-surface noise auditor for podcast-factory books. Detects AUTHORIAL-APPARATUS noise — clean authorial prose that is non-teaching meta-content about the book ITSELF (how it was recorded, authorized, transmitted, and may be circulated…",
       "what_it_knows": "See infra/claude-agents/noise-auditor.md",
-      "boundary_in": "",
-      "boundary_out": "",
-      "does_not": "",
-      "cost_profile": "varies",
-      "failure_mode": "surfaces error and halts"
-    },
-    {
-      "id": "podcast-blueprint",
-      "name": "Podcast Blueprint",
-      "role": "Content-aware episode-structure planner for the /podcast skill",
-      "icon": "robot",
-      "tone": "neutral",
-      "plain": "Content-aware episode-structure planner for the /podcast skill. Runs in slot 05.5-blueprint between the P22 transcript-review resume and 06-phonetics. Three layers: Layer 1 (Haiku-default scan/classify → classification.json with genre, d…",
-      "what_it_knows": "See infra/claude-agents/podcast-blueprint.md",
       "boundary_in": "",
       "boundary_out": "",
       "does_not": "",
@@ -601,6 +601,6 @@
       ]
     }
   ],
-  "generated_at": "2026-07-21T08:07:17-04:00",
-  "source_commit": "6f770ffd"
+  "generated_at": "2026-07-28T13:42:44-04:00",
+  "source_commit": "2cf8b4b"
 }

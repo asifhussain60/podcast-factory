@@ -1,0 +1,301 @@
+{
+  "_comment": "Shared ground truth for the Buckwalter ↔ Arabic converter (scripts/podcast/_buckwalter.py), read by tests/test_buckwalter.py (Python) AND plan-dashboard/scripts/lib/arabic-fold.test.mjs (TS mirror src/lib/arabic-fold.ts) — moved here 2026-07-28 when the site gained morphology lookups, per the TS<->Python mirror-pair convention. Pins the transliteration the Quranic Arabic Corpus morphology file (quranic-corpus-morphology-0.4.txt, Kais Dukes, GPL) uses for every FORM/LEM/ROOT, so the table can never drift silently: a wrong mapping here silently corrupts every skeleton join key downstream (etymology veto, glossary fill). bw2ar_cases are exact conversions (and are also round-tripped through ar2bw); skeleton_cases pin bw_skeleton — Buckwalter → Arabic → _arabic_coverage.normalize_arabic — including the folds that matter (ٱ→ا, ة→ه, ى→ي, harakat stripped). Created 2026-07-28 with the morphology data layer. fold_cases pin the shared romanization fold space (latin_fold / arabic_fold / folds_match) that the etymology veto and the deterministic glossary fill both key on — a drift here silently changes which terms the veto covers and which glossary rows fill deterministically.",
+  "bw2ar_cases": [
+    {
+      "name": "basmala-prefix-bi",
+      "bw": "bi",
+      "ar": "بِ"
+    },
+    {
+      "name": "basmala-somi",
+      "bw": "somi",
+      "ar": "سْمِ"
+    },
+    {
+      "name": "allah-with-wasla",
+      "bw": "{ll~ahi",
+      "ar": "ٱللَّهِ"
+    },
+    {
+      "name": "rahman-dagger-alif",
+      "bw": "r~aHoma`ni",
+      "ar": "رَّحْمَٰنِ"
+    },
+    {
+      "name": "raheem",
+      "bw": "r~aHiymi",
+      "ar": "رَّحِيمِ"
+    },
+    {
+      "name": "root-rhm",
+      "bw": "rHm",
+      "ar": "رحم"
+    },
+    {
+      "name": "root-slw",
+      "bw": "Slw",
+      "ar": "صلو"
+    },
+    {
+      "name": "hamza-on-alif",
+      "bw": ">aHad",
+      "ar": "أَحَد"
+    },
+    {
+      "name": "madda-alif",
+      "bw": "qur|n",
+      "ar": "قُرآن"
+    },
+    {
+      "name": "ta-marbuta",
+      "bw": "jan~ap",
+      "ar": "جَنَّة"
+    },
+    {
+      "name": "alif-maqsura",
+      "bw": "EiysaY",
+      "ar": "عِيسَى"
+    },
+    {
+      "name": "shin-dollar",
+      "bw": "$amos",
+      "ar": "شَمْس"
+    },
+    {
+      "name": "dhal-star",
+      "bw": "*ikor",
+      "ar": "ذِكْر"
+    },
+    {
+      "name": "hamza-under-alif",
+      "bw": "<ilaY",
+      "ar": "إِلَى"
+    },
+    {
+      "name": "hamza-on-waw-and-ya",
+      "bw": "&} '",
+      "ar": "ؤئ ء"
+    },
+    {
+      "name": "tanwin-set",
+      "bw": "FNK",
+      "ar": "ًٌٍ"
+    }
+  ],
+  "skeleton_cases": [
+    {
+      "name": "allah-folds-wasla-to-alif",
+      "bw": "{ll~ahi",
+      "skeleton": "الله"
+    },
+    {
+      "name": "bare-root-unchanged",
+      "bw": "rHm",
+      "skeleton": "رحم"
+    },
+    {
+      "name": "rahman-harakat-stripped",
+      "bw": "r~aHoma`ni",
+      "skeleton": "رحمن"
+    },
+    {
+      "name": "ta-marbuta-folds-to-ha",
+      "bw": "jan~ap",
+      "skeleton": "جنه"
+    },
+    {
+      "name": "maqsura-folds-to-ya",
+      "bw": "EiysaY",
+      "skeleton": "عيسي"
+    },
+    {
+      "name": "hamza-on-alif-folds",
+      "bw": ">aHad",
+      "skeleton": "احد"
+    },
+    {
+      "name": "extended-marks-carry-no-consonant",
+      "bw": "rHm^",
+      "skeleton": "رحم"
+    }
+  ],
+  "invalid_buckwalter": [
+    "rHm?",
+    "abc(def)",
+    "r Hm2"
+  ],
+  "fold_cases": [
+    {
+      "name": "nafs-matches",
+      "latin": "nafs",
+      "skeleton": "نفس",
+      "latin_fold": "nfs",
+      "arabic_fold": "nfs",
+      "match": true
+    },
+    {
+      "name": "shadda-collapses",
+      "latin": "tawakkul",
+      "skeleton": "توكل",
+      "latin_fold": "twkl",
+      "arabic_fold": "twkl",
+      "match": true
+    },
+    {
+      "name": "digraph-shin",
+      "latin": "shukr",
+      "skeleton": "شكر",
+      "latin_fold": "shkr",
+      "arabic_fold": "shkr",
+      "match": true
+    },
+    {
+      "name": "emphatic-sad-class",
+      "latin": "sabr",
+      "skeleton": "صبر",
+      "latin_fold": "sbr",
+      "arabic_fold": "sbr",
+      "match": true
+    },
+    {
+      "name": "ta-marbuta-silent",
+      "latin": "jannah",
+      "skeleton": "جنه",
+      "latin_fold": "jnh",
+      "arabic_fold": "jnh",
+      "match": true
+    },
+    {
+      "name": "ayn-vanishes",
+      "latin": "aql",
+      "skeleton": "عقل",
+      "latin_fold": "ql",
+      "arabic_fold": "ql",
+      "match": true
+    },
+    {
+      "name": "digraph-dhal",
+      "latin": "dhikr",
+      "skeleton": "ذكر",
+      "latin_fold": "dhkr",
+      "arabic_fold": "dhkr",
+      "match": true
+    },
+    {
+      "name": "long-vowel-ya-underfires",
+      "latin": "raheem",
+      "skeleton": "رحيم",
+      "latin_fold": "rhm",
+      "arabic_fold": "rhym",
+      "match": false
+    },
+    {
+      "name": "interposed-ya-underfires",
+      "latin": "sakina",
+      "skeleton": "سكينه",
+      "latin_fold": "skn",
+      "arabic_fold": "skynh",
+      "match": false
+    },
+    {
+      "name": "different-root-never-matches",
+      "latin": "nfs",
+      "skeleton": "سلم",
+      "latin_fold": "nfs",
+      "arabic_fold": "slm",
+      "match": false
+    }
+  ],
+  "normalize_cases": [
+    {
+      "name": "basmala-prefix-bi",
+      "arabic": "بِ",
+      "skeleton": "ب"
+    },
+    {
+      "name": "basmala-somi",
+      "arabic": "سْمِ",
+      "skeleton": "سم"
+    },
+    {
+      "name": "allah-with-wasla",
+      "arabic": "ٱللَّهِ",
+      "skeleton": "الله"
+    },
+    {
+      "name": "rahman-dagger-alif",
+      "arabic": "رَّحْمَٰنِ",
+      "skeleton": "رحمن"
+    },
+    {
+      "name": "raheem",
+      "arabic": "رَّحِيمِ",
+      "skeleton": "رحيم"
+    },
+    {
+      "name": "root-rhm",
+      "arabic": "رحم",
+      "skeleton": "رحم"
+    },
+    {
+      "name": "root-slw",
+      "arabic": "صلو",
+      "skeleton": "صلو"
+    },
+    {
+      "name": "hamza-on-alif",
+      "arabic": "أَحَد",
+      "skeleton": "احد"
+    },
+    {
+      "name": "madda-alif",
+      "arabic": "قُرآن",
+      "skeleton": "قران"
+    },
+    {
+      "name": "ta-marbuta",
+      "arabic": "جَنَّة",
+      "skeleton": "جنه"
+    },
+    {
+      "name": "alif-maqsura",
+      "arabic": "عِيسَى",
+      "skeleton": "عيسي"
+    },
+    {
+      "name": "shin-dollar",
+      "arabic": "شَمْس",
+      "skeleton": "شمس"
+    },
+    {
+      "name": "dhal-star",
+      "arabic": "ذِكْر",
+      "skeleton": "ذكر"
+    },
+    {
+      "name": "hamza-under-alif",
+      "arabic": "إِلَى",
+      "skeleton": "الي"
+    },
+    {
+      "name": "hamza-on-waw-and-ya",
+      "arabic": "ؤئ ء",
+      "skeleton": "ويء"
+    },
+    {
+      "name": "tanwin-set",
+      "arabic": "ًٌٍ",
+      "skeleton": ""
+    },
+    {
+      "name": "midword-dagger-maqsura",
+      "arabic": "يُلَقَّىٰهَا",
+      "skeleton": "يلقاها"
+    },
+    {
+      "name": "plain-english-passthrough-empty",
+      "arabic": "hello",
+      "skeleton": ""
+    }
+  ]
+}

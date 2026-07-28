@@ -847,3 +847,34 @@ OPEN (spend-gated, need Asif):
   html-view-challenger PASS Level 1. anchor-key mirror untouched (consumed, not
   changed). Verified live: banner + dialog + decline/Retry/confirm on a temporary
   worktree-local report fixture, restored afterward.
+
+## 2026-07-28 (evening) — Scholar Companion rework + note-loss RCA (Claude Code)
+
+- Companion panel (`GemCompanionPanel.tsx`): "From selection" button retired;
+  Explain probes the live prose selection first (files a note, tints passage),
+  falls back to the typed concept; `readSelection` is silent on failure. One
+  card open at a time (openIds is now single-element everywhere; the ephemeral
+  typed answer clears it).
+- `explanation-card.ts`: whole SHUT card is the expand target (guarded
+  card-level click; open-only so the editor never collapses under a click);
+  card + etymology deletes now route through `confirmDialog` (danger, Cancel
+  default). `companion-card.css`: title-only collapsed rows (meta/quote hidden
+  shut, preview retired), pointer cursor on shut cards.
+- `book-composer.ts`: prose->card scroll sync — document capture scroll
+  listener, rAF-coalesced sweep of VISIBLE `.cx-note-hl` (read spans or editor
+  decorations; registrations go stale, sweeps don't), scrolls the panel's card
+  to the top of its found scroll ancestor; `lastSyncedMark` stops self-fights.
+  `revealPassage` now scrolls the VISIBLE tint twin (was a silent no-op in Edit
+  mode). NOTE for future verification: scroll events + rAF do not fire in
+  hidden/CDP-backgrounded tabs — use a rendering Playwright page.
+- RCA `docs/rca/2026-07-28-automation-deleted-companion-notes.md`: automated QA
+  deleted two real chapter-3 Companion notes via the then-unguarded one-click
+  delete. Restored (4d9bc9db from HEAD; fa504bc8 regenerated as 5de6a25d via
+  the new selection->Explain flow). `site-health-sentinel` spec: new hard
+  boundary — never operate destructive/state-writing controls in the browser
+  (wrappers regenerated via sync-agent-wrappers.sh). STANDING RULE
+  (Asif-approved): commit `content/*/_system/companion-notes/` at session end
+  and before launching browser-QA agents.
+- Gates: astro check 0, lint:views clean, site tests green, smoke 32 clean,
+  html-view-challenger PASS x2 (advisory REQ-050: unconditional smooth scroll,
+  3 in-pattern call sites), sentinel re-run post-RCA.

@@ -206,6 +206,74 @@ def _normalize_taa_marbuta(entries: list[dict]) -> int:
     return n
 
 
+def corpus_fill(rows: list[dict[str, str]], ocr_text: str, db_path: Path | None = None) -> dict[str, str]:
+    """Deterministic Quranic-lemma fill — corpus-guided, OCR-grounded, model-free.
+
+    For each empty row, the romanized phonetic is matched against the Quranic
+    morphology corpus lemmas (``morphology.db``) in the shared consonant-class
+    fold space. Three guard rails, because the naive version of this would
+    reintroduce fabricated script deterministically (Latin consonants map
+    ambiguously: s→س/ص/ث, h→ه/ح/خ):
+
+      1. class-level fold match (``_buckwalter.folds_match``);
+      2. the match must be UNIQUE across all corpus lemma skeletons — any
+         second candidate falls through to the model path;
+      3. the winning lemma's skeleton must occur in the book's own OCR as a
+         WHOLE WORD (bare, or carrying the definite article) — the corpus
+         GUIDES the lookup, the book's pages remain the ground (the
+         provenance-ladder rule). Whole-word, not substring: on live probing
+         (the-master-and-the-disciple, 2026-07-28) a substring check let نقب
+         "ground" inside النقباء and filled a different word than the term —
+         the exact fabrication class these rails exist to stop.
+
+    Fills are the UNVOWELLED form (harakat stripped, letters intact): glossary
+    script prints inline beside terms, and a vowelled fill would land every
+    annotation on the fabricated-vowelling review list. Returns
+    ``{phonetic: arabic_script}``; empty dict when morphology.db is absent.
+    """
+    import quranic_morphology
+    from _arabic_coverage import _ARABIC_TASHKEEL_RE, normalize_arabic
+    from _buckwalter import folds_match, latin_fold
+
+    conn = quranic_morphology.open_db(db_path)
+    if conn is None:
+        return {}
+    try:
+        lemma_rows = conn.execute(
+            "SELECT lemma_ar, lemma_skel FROM lemmas WHERE lemma_skel IS NOT NULL AND lemma_skel != ''"
+        ).fetchall()
+    finally:
+        conn.close()
+
+    from _buckwalter import arabic_fold
+
+    lemmas = [(arabic_fold(skel), str(ar), str(skel)) for ar, skel in lemma_rows]
+    # Boundary-anchored word haystack (the _mushaf technique): each OCR word
+    # normalized separately, space-padded, so ` needle ` can only match a word
+    # the book actually prints — never a run inside a longer word.
+    ocr_words = " " + " ".join(normalize_arabic(w) for w in ocr_text.split()) + " "
+    fills: dict[str, str] = {}
+    for r in rows:
+        phon = str(r.get("phonetic") or "").strip()
+        term = re.sub(r"^al-", "", phon, flags=re.IGNORECASE)
+        fold = latin_fold(term)
+        if len(fold) < 2:
+            continue
+        cand_skels = {skel for lf, _ar, skel in lemmas if folds_match(fold, lf)}
+        if len(cand_skels) != 1:
+            continue  # unknown or ambiguous — the model path (OCR-read) handles it
+        skel = next(iter(cand_skels))
+        if f" {skel} " not in ocr_words and f" ال{skel} " not in ocr_words:
+            continue  # the book never prints this word standalone — decline
+        vowelled = next(ar for lf, ar, s in lemmas if s == skel)
+        # Printable bare form: harakat stripped, letters intact, and the corpus's
+        # Uthmani alif wasla (ٱ) folded to the plain alif a modern glossary prints.
+        bare = _ARABIC_TASHKEEL_RE.sub("", vowelled).replace("ٱ", "ا").strip()
+        if len(bare) >= 3:
+            fills[phon] = bare
+    return fills
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n", 1)[0])
     ap.add_argument("--book-dir", required=True, type=Path)
@@ -237,6 +305,35 @@ def main() -> int:
         return 0
 
     ocr_text = ocr_path.read_text(encoding="utf-8")
+
+    # Deterministic corpus fill FIRST — zero cost, zero recall. Only rows whose
+    # arabic_script is genuinely empty are eligible (even under --force, a
+    # populated/curated script is never deterministically overwritten); whatever
+    # the corpus cannot fill unambiguously goes to the model path as before.
+    eligible = [r for r in empty if not r.get("arabic_script", "")]
+    det_fills = corpus_fill(eligible, ocr_text)
+    for r in eligible:
+        script = det_fills.get(str(r.get("phonetic") or "").strip())
+        if script:
+            r["arabic_script"] = script
+    if not args.force:
+        empty = [r for r in empty if not r.get("arabic_script", "")]
+    print(
+        f"  corpus fill: {len(det_fills)} filled deterministically from the Quranic "
+        f"morphology corpus, {len(empty)} to the model",
+        file=sys.stderr,
+    )
+    if not empty:
+        n_taa = _normalize_taa_marbuta(entries)
+        if n_taa:
+            print(f"  normalized {n_taa} taa-marbuta phonetics (-t -> -h)", file=sys.stderr)
+        glossary_path.write_text(emit_glossary_yml(entries, top), encoding="utf-8")
+        print(
+            f"wrote {glossary_path.relative_to(book_dir)} — {len(det_fills)} entries filled "
+            f"deterministically (total non-empty: {sum(1 for r in entries if r.get('arabic_script', ''))})",
+            file=sys.stderr,
+        )
+        return 0
 
     if args.dry_run:
         # Show the prompt for the first batch only (rest are identical structure).

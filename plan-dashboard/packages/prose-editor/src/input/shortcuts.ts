@@ -75,6 +75,19 @@ export function createShortcutRegistry(options?: {
     listen(target, api) {
       const onKeyDown = (event: Event): void => {
         const e = event as KeyboardEvent;
+        // The editor's OWN keymap runs first — it is bound to the same element,
+        // and it was registered when the view was created, before attach() got
+        // here. ProseMirror calls preventDefault on a key its keymap handled, so
+        // a still-unprevented event is the only honest signal that the shortcut
+        // is ours to run.
+        //
+        // Without this the two registries both fire on every collision the
+        // toolbar shares with StarterKit — Mod-b, Mod-i, Mod-e, Mod-z and
+        // Mod-Shift-z — and a toggle applied twice is a toggle that did nothing.
+        // Bold and italic were dead from the keyboard while their buttons
+        // worked, which is the shape this file's header warns about: a shortcut
+        // doing something other than what its tooltip says (found 2026-07-28).
+        if (e.defaultPrevented) return;
         const binding = bindings.get(eventShortcut(e, isApple));
         if (!binding) return;
         e.preventDefault();

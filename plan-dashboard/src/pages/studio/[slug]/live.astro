@@ -21,6 +21,7 @@ import Base from "../../../layouts/Base.astro";
 import { loadBook } from "../../../lib/reader/book";
 import { loadLiveIndex } from "../../../lib/reader/live-index";
 import { readChapter } from "../../../lib/reader/companion/store.server";
+import { morphologyForEtymology } from "../../../lib/db/morphology.server";
 import { slugToTitle } from "../../../lib/content-paths";
 import "../../../styles/library.css";
 import "../../../styles/book-reader.css";
@@ -44,6 +45,9 @@ function notesFor(sectionId: string) {
       // Discrete items, rendered by the shared card exactly as the Composer
       // renders them — read-only here, with no add or delete control.
       etymology: n.etymology ?? [],
+      // Verified half of each row, computed from the Quranic morphology DB at
+      // render time (same enrichment the Composer gets from the notes API).
+      morphology: morphologyForEtymology(n.etymology ?? []),
       source: n.source?.label ?? n.source?.ref ?? "",
     }));
   } catch {

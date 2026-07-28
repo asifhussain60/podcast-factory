@@ -51,6 +51,12 @@ const settle = Number(opt("settle", 700));
 const desktopW = Number(opt("width", 1440));
 const mobileW = Number(opt("mobile-width", 390));
 const only = opt("only"); // desktop | mobile | (both)
+// Full-page by default (unchanged for every existing caller). `--full false`
+// captures the VIEWPORT instead, which is the only way to judge a long-scroll
+// surface: the LIVE reader renders a whole book, and its full-page PNG comes out
+// ~105,000px tall — scaled to fit, every defect it might contain is sub-pixel.
+// Pair with `--eval "window.scrollTo(0,N)"` to judge a specific band of a page.
+const fullPage = opt("full", "true") !== "false";
 
 if (!route) {
   console.error("site-health-shots: --route is required");
@@ -89,7 +95,7 @@ async function shoot(browser, vp) {
   await page.waitForTimeout(settle);
   mkdirSync(outDir, { recursive: true });
   const file = join(outDir, `${label}--${vp.name}--${theme}.png`);
-  await page.screenshot({ path: file, fullPage: true });
+  await page.screenshot({ path: file, fullPage });
   console.log(file);
   if (errors.length)
     console.error(`  [pageerror on ${vp.name}] ${errors.join(" | ")}`);

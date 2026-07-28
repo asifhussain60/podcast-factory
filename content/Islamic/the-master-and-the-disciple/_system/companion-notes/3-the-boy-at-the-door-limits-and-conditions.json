@@ -28,7 +28,6 @@
       "quote": "But my mercy toward you is not something that would bring your hope nearer without your own work",
       "etymology": [
         "رحمة (mercy): From the root ر-ح-م, which also gives us the word for 'womb' (رَحِم). This connection suggests a deep, nurturing, and life-giving compassion, like that of a mother for her child. Mercy is not just pity, but a creative and protective force that fosters growth.",
-        "عمل (work): From the root ع-م-ل, meaning to do, make, or act. It emphasizes tangible effort and practical application. In a spiritual context, it is the bridge between inner faith (إيمان) and outward reality, turning belief into a lived experience through deeds.",
         "صدق (truthfulness): From the root ص-د-ق, meaning to be true, sincere, and to verify. It implies a correspondence between one's inner state and outer speech or action. It is the foundation of trust and the quality that makes an action acceptable and meaningful.",
         "رجاء (hope): From the root ر-ج-و, which means to hope for, expect, or request. It is not passive wishing but active, directed anticipation. It is the spiritual aspiration that fuels the disciple's effort, giving purpose to their work on the path."
       ],
@@ -37,8 +36,27 @@
         "label": "Ismaili Scholar"
       },
       "createdAt": "2026-07-27T17:14:10Z",
-      "updatedAt": "2026-07-27T17:15:21Z"
+      "updatedAt": "2026-07-28T19:57:28Z"
+    },
+    {
+      "id": "5de6a25d-8227-4f72-b4e2-de43e5879571",
+      "kind": "explanation",
+      "body": "When asked if the knowledge offered is the ultimate truth, the Master replied with a lesson in humility and perspective: it is **neither the complete reality nor something entirely separate from it**.\n\nHe offered an analogy: Imagine cupping your hands in the mighty Euphrates river and drawing a single handful of its water. That water is truly from the river, possessing its same essence, purity, and life-giving potential. It is an authentic connection to the source.\n\nYet, that handful is not the entire river; you cannot hold its immense depth, powerful current, or boundless journey. Similarly, the spiritual knowledge we receive is a precious portion of the vast, limitless ocean of Divine wisdom—the knowledge of Allah, safeguarded and interpreted by the Imam of the Time in every age. It is a life-giving sip, suited to our capacity, connecting our spirit to that infinite source.\n\nThe outward form of religion—its rules and figures—is like the handful of water: essential for our spiritual life. Its purpose is to connect us to the inward knowledge (باطن), the vast river of spiritual reality from which it comes. The guidance we receive is our direct link to that living source, a part of its whole, a light from its sun, ensuring we are never separate from the truth.",
+      "anchor": "It is neither identical with it in its full reality, nor wholly other…",
+      "quote": "It is neither identical with it in its full reality, nor wholly other than it. Rather it is a part of it, like a single handful of water drawn from the breadth of the Euphrates.",
+      "etymology": [
+        "دين (religion): From the root د-ي-ن, which carries meanings of debt, judgment, and custom. This connects religion to a sacred debt we owe to Allah, a path of conduct that will be judged, and a complete way of life that governs our actions and beliefs.",
+        "علم (knowledge): From the root ع-ل-م, meaning to know, to mark, or to be a sign. Knowledge is not just information, but a sign that points to a deeper reality. The word for 'world' (عالم) and 'teacher' (معلم) come from the same root, linking knowledge to creation and guidance.",
+        "برهان (proof): From the root ب-ر-ه, which means to be white or to shine. A proof, therefore, is not just an argument but an evidence that is so clear and luminous that it dispels the darkness of doubt, much like a bright light shining in the dark.",
+        "حق (truth): From the root ح-ق-ق, meaning to be true, right, established, and binding. The truth is not a mere opinion but a reality that is firm, just, and has a right or claim upon us. It carries the weight of being necessary and real."
+      ],
+      "source": {
+        "provider": "scholar",
+        "label": "Ismaili Scholar"
+      },
+      "createdAt": "2026-07-28T19:54:09Z",
+      "updatedAt": "2026-07-28T19:54:09Z"
     }
   ],
-  "updatedAt": "2026-07-27T17:15:21Z"
+  "updatedAt": "2026-07-28T19:57:28Z"
 }

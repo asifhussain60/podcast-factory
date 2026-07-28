@@ -44,7 +44,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
-from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded
+from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded, normalize_arabic
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _book_companion_prompts import (
     chapter_lane_prompt,
@@ -55,6 +55,7 @@ from _book_companion_prompts import (
     podcast_lane_prompt,
     rank_order,
 )
+from _buckwalter import arabic_fold
 from _corpus_retrieval import RetrievalIndex, atom_searchable_text
 from _doctrinal import run_doctrinal_checks
 from _narrator_policy import atom_narrator, disallowed_narrator
@@ -183,6 +184,7 @@ def gate_card(
     prose: str,
     arabic_src: str = "",
     etymology_terms: frozenset[str] = frozenset(),
+    morphology_ref: dict[str, set[str]] | None = None,
 ) -> tuple[bool, list[str]]:
     """Deterministic accept/reject for ONE card. Returns (accepted, reasons).
 
@@ -216,11 +218,29 @@ def gate_card(
             reasons.append(f"Arabic not traceable to a source: {span[:32]}")
             break
 
-    # An etymology card must name a root the corpus actually carries.
+    # An etymology card must name a root the corpus actually carries — either an
+    # existing etymology atom OR a term the Quranic morphology corpus resolves
+    # (the same root truth the site's veto enforces; parity per plan S4).
     if kind == KIND_ETYMOLOGY:
-        if not etymology_terms:
+        ref = morphology_ref or {}
+        arabic_terms = arabic_run_spans(body, min_chars=2)
+        in_atoms = any(t in body.lower() for t in etymology_terms)
+        in_morphology = False
+        for span in arabic_terms:
+            fold = arabic_fold(normalize_arabic(span))
+            if fold in ref:
+                in_morphology = True
+                # A card that also CLAIMS a dashed root must not contradict the
+                # corpus for that term (membership veto, under-fires on unknowns).
+                m = re.search(r"[ء-ي]\s*(?:-\s*[ء-ي]\s*){1,3}", body)
+                if m:
+                    claimed = arabic_fold(normalize_arabic(re.sub(r"[-\s]", "", m.group())))
+                    if claimed and claimed not in ref[fold]:
+                        reasons.append(f"etymology root contradicts the morphology corpus for {span[:16]}")
+                break
+        if not etymology_terms and not ref:
             reasons.append("etymology card but the corpus carries no etymology atoms")
-        elif not any(t in body.lower() for t in etymology_terms):
+        elif not in_atoms and not in_morphology:
             reasons.append("etymology card names no term the corpus carries")
 
     p0 = [f for f in run_doctrinal_checks(body) if f.severity == "P0"]
@@ -369,6 +389,12 @@ def author_phase_book_companion(
 
     kb_root = Path(__file__).resolve().parents[2] / "content" / "knowledge-base"
     atoms = _load_kb_atoms(kb_root)
+    try:
+        from _etymology_corpus import load_morphology_reference
+
+        morphology_ref = load_morphology_reference()
+    except Exception:
+        morphology_ref = {}
     etymology_terms = frozenset(
         str(a["body"].get("term", "")).lower()
         for a in atoms
@@ -395,7 +421,13 @@ def author_phase_book_companion(
         def harvest(raw: str, source: dict[str, str] | None) -> None:
             for card in parse_cards(raw):
                 card["kind"] = str(card.get("kind") or "").strip().lower()
-                ok, reasons = gate_card(card, prose=prose, arabic_src=arabic_allowed, etymology_terms=etymology_terms)
+                ok, reasons = gate_card(
+                    card,
+                    prose=prose,
+                    arabic_src=arabic_allowed,
+                    etymology_terms=etymology_terms,
+                    morphology_ref=morphology_ref,
+                )
                 if not ok:
                     dropped.append(f"{card.get('kind')}: {reasons[0]}")
                     continue

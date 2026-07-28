@@ -87,6 +87,33 @@ export const POST: APIRoute = async ({ request }) => {
       /* mirror down → Gemini only */
     }
 
+    // ── Morphology-corpus grounding: unconditional (local DB, no server hop).
+    //    When the word resolves to exactly one root, the model receives the
+    //    verified root + real derived family + Lane's meaning as authoritative.
+    try {
+      const { resolveTermAnyScript } = await import(
+        "../../../lib/db/morphology.server"
+      );
+      const rec = resolveTermAnyScript(word.trim());
+      if (rec) {
+        const fam = rec.family
+          .slice(0, 4)
+          .map((l) => `${l.lemma_ar} (${l.occurrence_count}x)`)
+          .join("; ");
+        grounding = [
+          grounding,
+          `Verified morphology (Quranic Arabic Corpus): root ${rec.root_dashed} (${rec.root_ar}), ` +
+            `${rec.occurrences}x in the Quran. Real derived words: ${fam}.` +
+            (rec.lane_en ? ` Lane's Lexicon: ${rec.lane_en}` : ""),
+        ]
+          .filter(Boolean)
+          .join("\n");
+        source = "local+gemini";
+      }
+    } catch {
+      /* morphology DB absent → prior behavior */
+    }
+
     const user = [
       `Highlighted word: ${word.trim()}`,
       chapterTitle ? `Chapter topic: ${chapterTitle}` : "",

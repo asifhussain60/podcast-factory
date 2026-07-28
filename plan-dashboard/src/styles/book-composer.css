@@ -180,8 +180,15 @@ button.cx-hdr-btn:disabled {
    list version silently gave the Arabic surface a 0rem track when it was added,
    so the drawer opened with no width and the panel simply was not there. There
    is one state that closes the drawer and any number that open it, so the
-   selector says that. */
-.composer-grid:not([data-panel="closed"]) {
+   selector says that.
+
+   Declared on BODY rather than on .composer-grid so the one number is readable
+   by things that are not inside the grid — .cx-fabs is a SIBLING of it and is
+   position:fixed, so it has to know how wide the drawer is to stay clear of it.
+   The grid still consumes it by inheritance and behaves identically; when the
+   drawer is closed (or there is no Composer on the page) the selector does not
+   match, the variable is absent, and every `var(…, 0rem)` fallback applies. */
+body:has(.composer-grid:not([data-panel="closed"])) {
   --cx-drawer-w: 21.5rem; /* 20rem of panel + its 1.5rem gutter */
 }
 .composer-grid[data-panel="closed"] .composer-panel {
@@ -198,7 +205,17 @@ button.cx-hdr-btn:disabled {
    above that corner. */
 .cx-fabs {
   position: fixed;
-  right: calc(var(--sp-5, 1.5rem) + 44px + var(--sp-3, 0.75rem));
+  /* …and clear of the DRAWER, which occupies that same corner whenever it is
+     open. Without the drawer term the row sat on top of the panel's own
+     controls: measured at 1440x900 with the Tools surface open it covered
+     "Arabic term", "English term", "Explain" and the "Tell the AI" heading, and
+     won the paint because it carries z-index 899 against the panel's auto. The
+     term reads the ONE drawer width from body (see --cx-drawer-w above) and
+     collapses to 0rem when the drawer is closed, which is the old position. */
+  right: calc(
+    var(--sp-5, 1.5rem) + 44px + var(--sp-3, 0.75rem) +
+      var(--cx-drawer-w, 0rem)
+  );
   bottom: var(--sp-5, 1.5rem);
   z-index: 899;
   display: flex;
@@ -640,10 +657,34 @@ button.cx-hdr-btn:disabled {
     0 1px 2px rgba(31, 29, 24, 0.04),
     0 4px 12px rgba(31, 29, 24, 0.06)
   );
-  overflow: clip;
+  /* Deliberately NOT `overflow: clip`. Any overflow other than `visible` on an
+     ancestor makes THAT element the sticky scrollport, and a non-scrolling one
+     gives a sticky child nowhere to travel — so the clip that rounded these
+     corners was also what pinned the toolbar in place and let it scroll away
+     with the prose. The clipping moved down to .cx-edit-host (a SIBLING of the
+     toolbar, so it constrains prose without constraining the bar), and the
+     corners are carried by whichever child actually sits at one. */
   transition:
     border-color 140ms ease,
     box-shadow 140ms ease;
+}
+/* 9px, not 10px: the child sits inside a 1px border, so it needs the frame's
+   radius minus that border to trace the same curve. */
+.cx-edit-shell > :first-child {
+  border-start-start-radius: 9px;
+  border-start-end-radius: 9px;
+}
+.cx-edit-shell > :last-child {
+  border-end-start-radius: 9px;
+  border-end-end-radius: 9px;
+}
+/* The autosave line is transparent, so the shell's own background draws the
+   bottom corners — except when it is empty and display:none, which leaves the
+   paper of .cx-edit-host at the corner instead. */
+.cx-edit-shell:has(> .cx-status:empty) > .cx-edit-host,
+.cx-edit-host:last-child {
+  border-end-start-radius: 9px;
+  border-end-end-radius: 9px;
 }
 .cx-edit-shell:focus-within {
   border-color: var(--c-accent, #8b4513);
@@ -677,6 +718,19 @@ button.cx-hdr-btn:disabled {
   translate: 0 1px;
 }
 .cx-edit-toolbar {
+  /* Pinned, the way every writing tool pins its formatting bar: the prose runs
+     under it instead of taking it off-screen, so a format is always one click
+     away no matter how far into a chapter you have scrolled. It travels only
+     within its own shell, so the bar belongs to the chapter you are editing and
+     leaves with it rather than hanging over the page below.
+
+     52px is the site nav's own height — the same literal .composer-panel below
+     uses, and for the same reason: stick to 0 and the bar hides behind the nav.
+     z-index stays far under the nav's 50 so it passes beneath, and only needs to
+     beat the prose decorations it is pinned over. */
+  position: sticky;
+  top: 52px;
+  z-index: 5;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -981,6 +1035,12 @@ body:has(.composer-grid) .to-top {
    are deliberate reading-paper values (the feature), scoped to the editor only
    — they never touch the site --c-* theme tokens. Default is Light. */
 .cx-edit-host {
+  /* The clipping the shell used to do, moved to the one child that needs it:
+     wide prose (a long verse line, a figure) stays inside the card, and because
+     this is the toolbar's SIBLING rather than its ancestor it costs the sticky
+     bar nothing. The composer builds no selection bubble, and its tooltips are
+     body-level fixed nodes, so nothing that must escape the card lives in here. */
+  overflow: clip;
   padding: 1.1rem 1.3rem;
   background: var(--paper-bg, var(--c-bg-card, #fffdf8));
   color: var(--paper-ink, var(--c-ink, #1f1d18));
@@ -1536,7 +1596,13 @@ body:has(.composer-grid) .to-top {
    /api/ai/instruct). The textarea reuses the comment box's look; the button is
    the accent action; the reasons list echoes the model's per-edit whys. */
 .cx-instruct-box {
-  min-height: 5rem;
+  /* Tall enough for its OWN placeholder. At 5rem the box measured 94px of content
+     against a 117px placeholder, so the fourth line ("…the opening two
+     paragraphs") was sliced through the middle — the one line that teaches the
+     feature was the line you could not read. 6.5rem clears 117px + borders with
+     room for the wrap to shift a little between fonts. `resize: vertical` is
+     inherited from .cx-details-comment, so this is a floor, not a cage. */
+  min-height: 6.5rem;
 }
 .cx-instruct-run {
   margin-top: 0.45rem;

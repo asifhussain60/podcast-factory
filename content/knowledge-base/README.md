@@ -29,13 +29,36 @@ content/knowledge-base/
 ├── hadith.jsonl                    # committed source of truth (corpus_sync export)
 ├── doctrine.jsonl                  # committed source of truth (corpus_sync export)
 ├── quote.jsonl                     # committed source of truth (corpus_sync export)
+├── etymology.jsonl                 # committed source of truth (accuracy-gated etymology atoms)
+├── lexicon.jsonl                   # committed root→meaning join (Lane/Maqayis/Mufradat, per root)
+├── quranic-corpus/                 # Quranic Arabic Corpus morphology layer (GPL — see its README)
+│   ├── source/…morphology-0.4.txt  # raw annotation file, committed with GPL header intact
+│   └── morphology.db               # derived roots/lemmas/segments DB (committed, rebuildable)
+├── lexicon/
+│   └── source/{lane,maqayis,mufradat}/  # raw lexicon drops — untracked by default (gitignore)
 ├── _conflicts/
 │   └── pending-review.jsonl        # flagged conflicts halting phase 08b
 └── _index/
     ├── stats.json                  # counts, last-updated, top-cited
+    ├── lexicon-coverage.json       # root-join coverage per lexicon source (no silent gaps)
     ├── embeddings.faiss            # Wave 2 — DERIVED artifact, rebuilt from knowledge.db
     └── id_map.json                 # Wave 2 — FAISS int index → atom id string
 ```
+
+## Attribution & licensing
+
+External reference data carries its upstream license; everything else in this
+container is project-authored. Conventions:
+
+- **Quranic Arabic Corpus** (`quranic-corpus/`) — GNU GPL, Copyright (C) Kais
+  Dukes, <https://corpus.quran.com>. Redistributed with the license header
+  intact; `morphology.db` is a derived work under the same license. Full
+  notice + rebuild command: [quranic-corpus/README.md](quranic-corpus/README.md).
+- **Classical lexica** (`lexicon/source/`, joined into `lexicon.jsonl`) — the
+  texts (Lane's Arabic-English Lexicon; Ibn Faris, *Maqayis al-Lugha*;
+  al-Raghib, *al-Mufradat*) are public domain; a specific digitization's own
+  notes ship inside its drop folder. Drop folders are untracked by default —
+  committing a given source text is a per-file decision.
 
 ### Vector index contract (Wave 2 — FAISS sidecar)
 

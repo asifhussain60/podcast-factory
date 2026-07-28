@@ -28,6 +28,8 @@ interface LiveNote {
   /** Verbatim chapter passage this note explains (highlighted + drives the spy). */
   quote: string;
   etymology: string[];
+  /** Verified corpus block per etymology row (SSR-computed; see live.astro). */
+  morphology?: (import("../lib/reader/companion/types").EtymologyMorphology | null)[];
   source: string;
 }
 interface LiveSection {
@@ -276,6 +278,7 @@ function boot(): void {
             anchor: note.anchor || note.quote,
             quote: note.quote,
             etymology: note.etymology,
+            morphology: note.morphology,
             source: note.source
               ? { provider: "manual", label: note.source }
               : undefined,

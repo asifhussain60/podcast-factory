@@ -719,6 +719,85 @@ function boot(): void {
       activeEditor.editor.view.dispatch(activeEditor.editor.state.tr);
   }
 
+  // ── Scroll sync, the prose→card direction (Asif, 2026-07-28) ──────────────
+  // As the reader scrolls the chapter and a tinted passage comes into view, the
+  // Scholar panel scrolls its card for that passage to the top of the list — the
+  // panel tracks the chapter. Scroll only, never expand: auto-opening cards
+  // mid-scroll would collapse the one the author is reading or editing
+  // (one-card-at-a-time), so a passage entering view moves the list and nothing
+  // else. A scroll SWEEP rather than an IntersectionObserver, deliberately: the
+  // tint exists twice — spans in the read body, decorations in the edit canvas,
+  // whichever is visible — and both are torn down and rebuilt on every re-mark
+  // and every decoration redraw, so registered observations go stale in both
+  // modes. Sweeping whatever `.cx-note-hl` is visible AT scroll time needs no
+  // registration and is mode-blind.
+  let syncFrame = 0;
+  /** The last mark synced for, so re-sweeps (and the panel's own scroll events,
+   *  which the capture listener also hears) cannot re-issue the same scroll and
+   *  fight the reader for the panel. */
+  let lastSyncedMark = "";
+
+  /** Scroll the panel so this note's card sits at the top of the card list. */
+  function syncCardToMark(noteId: string): void {
+    const surface = root.querySelector<HTMLElement>("#cx-surface-scholar");
+    if (!surface || surface.hidden) return; // Scholar surface not showing
+    const card = surface.querySelector<HTMLElement>(
+      `.xpl[data-note="${CSS.escape(noteId)}"]`,
+    );
+    if (!card) return;
+    // The drawer's scroll contract lives on whichever ancestor actually
+    // scrolls — found rather than named, so a drawer re-layout cannot silently
+    // strand this at a non-scrolling node.
+    let scroller: HTMLElement | null = null;
+    for (let p = card.parentElement; p; p = p.parentElement) {
+      const cs = getComputedStyle(p);
+      if (
+        /(auto|scroll)/.test(cs.overflowY) &&
+        p.scrollHeight > p.clientHeight
+      ) {
+        scroller = p;
+        break;
+      }
+    }
+    if (!scroller) return;
+    const delta =
+      card.getBoundingClientRect().top - scroller.getBoundingClientRect().top;
+    scroller.scrollTo({
+      top: scroller.scrollTop + delta,
+      behavior: "smooth",
+    });
+  }
+
+  /** The topmost tint mark visible in the viewport drives the panel. */
+  function sweepVisibleMarks(): void {
+    const scope = root.querySelector<HTMLElement>(".composer-preview");
+    if (!scope) return;
+    const vh = window.innerHeight;
+    let best: { id: string; top: number } | null = null;
+    for (const el of scope.querySelectorAll<HTMLElement>(".cx-note-hl")) {
+      if (el.offsetParent === null) continue; // the hidden twin of the tint
+      const r = el.getBoundingClientRect();
+      if (r.bottom <= 0 || r.top >= vh) continue;
+      const id = el.dataset.note;
+      if (!id) continue;
+      if (!best || r.top < best.top) best = { id, top: r.top };
+    }
+    if (!best || best.id === lastSyncedMark) return;
+    lastSyncedMark = best.id;
+    syncCardToMark(best.id);
+  }
+
+  // Capture phase, so the sweep hears every scroller — the page, the preview
+  // column, whichever the layout uses. Coalesced to one sweep per frame.
+  document.addEventListener(
+    "scroll",
+    () => {
+      cancelAnimationFrame(syncFrame);
+      syncFrame = requestAnimationFrame(sweepVisibleMarks);
+    },
+    { capture: true, passive: true },
+  );
+
   /** Bring a note's passage into view and flash it — the card→prose direction. */
   function revealPassage(noteId: string): void {
     const scope = root.querySelector<HTMLElement>(".composer-preview");
@@ -730,8 +809,15 @@ function boot(): void {
     scope
       ?.querySelectorAll<HTMLElement>(".cx-note-hl.is-active")
       .forEach((el) => el.classList.remove("is-active"));
+    // Flag BOTH twins (read span + edit decoration) so the flash survives a
+    // mode toggle — but scroll to the VISIBLE one. The tint exists twice and
+    // `marks[0]` is the read body's span, which in Edit mode is hidden and
+    // scrollIntoView on it is a silent no-op — the click appeared to do
+    // nothing, which is exactly how it presented.
     marks.forEach((el) => el.classList.add("is-active"));
-    marks[0]?.scrollIntoView({ block: "center", behavior: "smooth" });
+    marks
+      .find((el) => el.offsetParent !== null)
+      ?.scrollIntoView({ block: "center", behavior: "smooth" });
   }
 
   // A prose autosave writes book.md on disk but the page still holds the ORIGINAL
