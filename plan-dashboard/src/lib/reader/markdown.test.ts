@@ -219,3 +219,21 @@ test("the EDIT seed keeps fence markers — they are load-bearing there", () => 
   assert.match(seed, /edition-intro:begin/);
   assert.match(seed, /edition-intro:end/);
 });
+
+test("a nested blockquote marker is flattened, never printed as text", () => {
+  // The augment pass once wrapped model prose that had already opened its own
+  // blockquote, so the composed book carried `> > **A clarified term…**` and the
+  // surviving ">" rendered mid-sentence in the reading edition. The emitter no
+  // longer produces it (scripts/podcast/tests/test_editorial_block_quote_prefix.py);
+  // this keeps books composed BEFORE that fix readable without re-composing them.
+  const html = renderMarkdown(
+    "> **Editorial note (tradition-grounded).**\n> > **A clarified term.** Umma comes from a root.\n",
+  );
+  assert.match(html, /<blockquote>/);
+  assert.match(html, /A clarified term/);
+  // The marker must not survive into the rendered text.
+  assert.ok(
+    !/&gt;\s*<strong>A clarified term/.test(html) && !/>\s*&gt;\s*/.test(html),
+    `nested marker leaked into output: ${html}`,
+  );
+});

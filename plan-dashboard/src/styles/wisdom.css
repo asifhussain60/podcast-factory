@@ -181,6 +181,14 @@
   text-align: center;
   background: var(--c-bg-card);
 }
+/* The Icon component renders a display:block <svg>, and `text-align: center` on
+   the box above cannot move a block child — so the sentence centred while the
+   folder stayed flush against the left padding edge (measured on the empty shelf:
+   box centre 720px, text centre 720px, icon centre 195px). Logical margin, since
+   this shelf carries Urdu and Arabic titles. */
+.kash-empty svg {
+  margin-inline: auto;
+}
 .kash-empty p {
   font-family: var(--font-ui);
   margin-top: 12px;

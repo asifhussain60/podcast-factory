@@ -68,6 +68,9 @@ _ATOM_SNIPPET_CHARS = 280
 _ATOM_MIN_CHARS = 25
 _CORPUS_CHARS = 6000
 _MD_HEADER_RE = re.compile(r"(?m)^#+\s.*$")
+# Line-leading blockquote markers in model output — stripped before the editorial
+# wrap adds its own, so the two can never compound into `> >`.
+_QUOTE_PREFIX_RE = re.compile(r"(?m)^[ \t]*>+[ \t]?")
 _INLINE_MARKUP_RE = re.compile(r"⟪[^⟫]*⟫")
 
 
@@ -98,8 +101,16 @@ def format_editorial_block(text: str) -> str:
     HTML-comment fences make the block deterministically findable (for the
     renderer's source/editorial styling and for idempotent re-runs) while the
     bold label and blockquote make the separation visible to the reader.
+
+    The model's prose is stripped of any blockquote markers it wrote for itself
+    BEFORE the wrap adds exactly one. A model that opened its own quote used to
+    have that marker preserved by the whitespace collapse below and then get a
+    second one here, and `> > **A clarified term for this chapter.**` reached the
+    reading edition with the ">" printed mid-sentence (the-master-and-the-disciple,
+    chapter 2). Stripping is per LINE and before the collapse, so a ">" inside
+    the prose itself is untouched.
     """
-    body = " ".join((text or "").split())
+    body = " ".join(_QUOTE_PREFIX_RE.sub("", text or "").split())
     inner = "\n".join(f"> {line}" for line in _wrap_para(body))
     return f"{_BLOCK_OPEN}\n> **{EDITORIAL_LABEL}.** \n{inner}\n{_BLOCK_CLOSE}"
 
