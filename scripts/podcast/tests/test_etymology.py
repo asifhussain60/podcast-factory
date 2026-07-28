@@ -112,6 +112,8 @@ def test_build_pipeline_keeps_only_gated(tmp_path: Path, monkeypatch) -> None:
     # atom makes the pipeline drop it as a reuse and the test flakes by machine.
     monkeypatch.setattr(ety, "_existing_etymology_roots", lambda: set())
     monkeypatch.setattr(ety, "load_term_index", lambda *a, **k: {})
+    monkeypatch.setattr(ety, "load_morphology_reference", lambda *a, **k: {})
+    monkeypatch.setattr(ety, "_resolve_corpus_terms", lambda *a, **k: {})
 
     good2 = {
         **_GOOD,
@@ -137,3 +139,86 @@ def test_build_pipeline_keeps_only_gated(tmp_path: Path, monkeypatch) -> None:
     assert report["kept"] == 1
     assert report["entries"][0]["term"] == "nafs"
     assert report["dropped"] == 1
+
+
+# ─── Morphology-corpus grounding (tmp DB built from the test excerpt) ────────
+def _tiny_morphology_db(tmp_path: Path, monkeypatch) -> Path:
+    import quranic_morphology as qm
+
+    monkeypatch.setattr(qm, "_assert_expected", lambda counts: None)
+    repo = Path(__file__).resolve().parents[3]
+    db = tmp_path / "morphology.db"
+    qm.build_db(db_path=db, source_path=repo / "tests" / "fixtures" / "morphology-excerpt.txt")
+    return db
+
+
+def test_load_morphology_reference_folds_lemmas_to_roots(tmp_path: Path, monkeypatch) -> None:
+    db = _tiny_morphology_db(tmp_path, monkeypatch)
+    ref = ety.load_morphology_reference(db)
+    # lemma r~aHoma`n (رحمن -> "rhmn") and the root's own fold both key to root rhm.
+    assert ref["rhmn"] == {"rhm"}
+    assert ref["rhm"] == {"rhm"}
+    # lemma Sabor (صبر) keys to its root fold "sbr".
+    assert ref["sbr"] == {"sbr"}
+
+
+def test_gate_veto_works_through_corpus_fold_keys(tmp_path: Path, monkeypatch) -> None:
+    db = _tiny_morphology_db(tmp_path, monkeypatch)
+    ref = ety.load_morphology_reference(db)
+    entry = {**_GOOD, "term": "rahman", "root_transliteration": "r-h-m"}
+    ok, _ = ety.gate_entry(entry, ref, {"confirmed": True, "root": "r-h-m"})
+    assert ok
+    wrong = {**_GOOD, "term": "rahman", "root_transliteration": "s-l-m"}
+    ok, reason = ety.gate_entry(wrong, ref, {"confirmed": True, "root": "s-l-m"})
+    assert not ok and "contradicts reference" in reason
+
+
+def test_resolve_corpus_terms_grounds_unambiguous_terms_only(tmp_path: Path, monkeypatch) -> None:
+    db = _tiny_morphology_db(tmp_path, monkeypatch)
+    import lexicon_ingest
+
+    monkeypatch.setattr(
+        lexicon_ingest,
+        "load_lexicon",
+        lambda *a, **k: {"رحم": {"root_skel": "رحم", "lane_en": "had mercy; tenderness"}},
+    )
+    resolved = ety._resolve_corpus_terms([("rahman", 3), ("unknownword", 1)], db_path=db)
+    assert set(resolved) == {"rahman"}
+    rec = resolved["rahman"]
+    assert rec["root_ar"] == "رحم" and rec["root_dashed"] == "ر-ح-م"
+    assert {lem["lemma_bw"] for lem in rec["family"]} == {"r~aHoma`n", "r~aHiym"}
+    assert rec["family"][0]["first_location"] in {"1:1:3", "1:1:4"}
+    assert rec["lexicon"]["lane_en"].startswith("had mercy")
+    grounding = ety._grounding_block(resolved)
+    assert "ر-ح-م" in grounding and "Lane's Lexicon" in grounding
+
+
+def test_to_atom_corpus_enrichment(tmp_path: Path, monkeypatch) -> None:
+    db = _tiny_morphology_db(tmp_path, monkeypatch)
+    import lexicon_ingest
+
+    monkeypatch.setattr(lexicon_ingest, "load_lexicon", lambda *a, **k: {"رحم": {"lane_en": "mercy gloss"}})
+    corpus = ety._resolve_corpus_terms([("rahman", 3)], db_path=db)["rahman"]
+    entry = {
+        **_GOOD,
+        "term": "rahman",
+        "root": "ر-ح-م",
+        "root_transliteration": "r-h-m",
+        "derivatives": [{"term": "rahman", "phonetic": "rah-MAN", "meaning_en": "the merciful"}],
+    }
+    atom = ety.to_atom(entry, "test-book", corpus=corpus)
+    body = atom["body"]
+    assert body["arabic"] == "رحم"  # corpus script, never model recall
+    assert body["root"] == "ر-ح-م"  # canonical dashed root
+    assert body["lexicon"] == {"lane_en": "mercy gloss"}
+    assert body["derivatives"][0]["location"] == "1:1:3"  # real verse location
+    # audio contract untouched
+    assert body["root_phonetic"] and body["meaning_en"] and body["derivatives"][0]["term"]
+
+
+def test_to_atom_without_corpus_matches_legacy_shape() -> None:
+    atom = ety.to_atom(_GOOD, "test-book")
+    assert atom["body"]["root"] == "ن-ف-س"
+    assert atom["body"]["arabic"] == "ن-ف-س"  # falls back to the model's root script
+    assert "lexicon" not in atom["body"]
+    assert "location" not in atom["body"]["derivatives"][0]

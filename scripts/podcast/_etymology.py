@@ -35,7 +35,13 @@ from pathlib import Path
 from typing import Any, Callable
 
 from _authoring._core import _run_claude_p_with_retry
+from _buckwalter import arabic_fold, folds_match, latin_fold
 from _doctrinal import run_doctrinal_checks
+from _etymology_corpus import (  # noqa: F401  (re-exported: tests patch via this module)
+    _grounding_block,
+    _resolve_corpus_terms,
+    load_morphology_reference,
+)
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 _KB_DIR = _REPO_ROOT / "content" / "knowledge-base"
@@ -183,8 +189,14 @@ def gate_entry(
         return False, "empty root skeleton"
 
     # Deterministic veto: a term the reference lists MUST match one of its roots.
-    ref_roots = term_index.get(term_key)
-    if ref_roots and not any(_roots_compatible(gen_root, r) for r in ref_roots):
+    # Two key spaces coexist: the legacy term_index keys (raw lowercase letters)
+    # and the morphology-corpus keys (the shared romanization fold — vowels
+    # stripped, doubling collapsed). Try both; the corpus fold also covers the
+    # generated root, whose digraphs (_norm_root keeps "shkr") already live in
+    # that space.
+    gen_fold = latin_fold(str(entry["root_transliteration"]))
+    ref_roots = term_index.get(term_key) or term_index.get(latin_fold(str(entry["term"])))
+    if ref_roots and not any(_roots_compatible(gen_root, r) or _roots_compatible(gen_fold, r) for r in ref_roots):
         return False, f"root {gen_root!r} contradicts reference {sorted(ref_roots)}"
 
     # Adversarial verification: confirm + agreement with the generated root.
@@ -214,28 +226,53 @@ def _roots_compatible(a: str, b: str) -> bool:
 
 
 # ─── Atom assembly + persistence ────────────────────────────────────────────
-def to_atom(entry: dict[str, Any], book_slug: str) -> dict[str, Any]:
-    """Build a corpus atom (id keyed by root so it dedups + reuses across books)."""
+def to_atom(entry: dict[str, Any], book_slug: str, corpus: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Build a corpus atom (id keyed by root so it dedups + reuses across books).
+
+    ``corpus`` is the term's ``_resolve_corpus_terms`` record when the root was
+    grounded in the morphology corpus: the Arabic root script then comes from
+    the corpus (never the model), derivatives gain verse locations where they
+    match real derived lemmas, and the classical-lexicon glosses ride along in
+    ``body.lexicon`` for the print apparatus. All additive — the audio contract
+    (root_transliteration/root_phonetic/meaning_en/derivatives) is unchanged.
+    """
+    corpus = corpus or {}
     root_id = _norm_root(entry["root_transliteration"]) or re.sub(r"[^a-z]", "", str(entry["term"]).lower())
+    family_folds = {
+        arabic_fold(str(lem.get("lemma_skel") or "")): str(lem.get("first_location") or "")
+        for lem in corpus.get("family", ())
+    }
+
+    def _derivative(d: dict[str, Any]) -> dict[str, Any]:
+        out = {
+            "term": str(d.get("term", "")).strip(),
+            "phonetic": str(d.get("phonetic", "")).strip(),
+            "meaning_en": str(d.get("meaning_en", "")).strip(),
+        }
+        for fold, loc in family_folds.items():
+            if loc and folds_match(latin_fold(out["term"]), fold):
+                out["location"] = loc
+                break
+        return out
+
     body = {
         "term": str(entry["term"]).strip(),
-        "root": str(entry.get("root", "")).strip(),
+        "root": str(corpus.get("root_dashed") or entry.get("root", "")).strip(),
+        "arabic": str(corpus.get("root_ar") or entry.get("root", "")).strip(),
         "root_transliteration": str(entry["root_transliteration"]).strip(),
         "root_phonetic": str(entry["root_phonetic"]).strip(),
         "meaning_en": str(entry["meaning_en"]).strip(),
         "morphology": str(entry.get("morphology", "")).strip(),
         "semantic_field": str(entry.get("semantic_field", "")).strip(),
-        "derivatives": [
-            {
-                "term": str(d.get("term", "")).strip(),
-                "phonetic": str(d.get("phonetic", "")).strip(),
-                "meaning_en": str(d.get("meaning_en", "")).strip(),
-            }
-            for d in (entry.get("derivatives") or [])
-            if str(d.get("term", "")).strip()
-        ],
+        "derivatives": [_derivative(d) for d in (entry.get("derivatives") or []) if str(d.get("term", "")).strip()],
         "text_en": str(entry.get("text_en", "")).strip(),
     }
+    lex = corpus.get("lexicon") or {}
+    lexicon_fields = {
+        k: str(lex[k]).strip() for k in ("lane_en", "maqayis_ar", "mufradat_ar") if str(lex.get(k) or "").strip()
+    }
+    if lexicon_fields:
+        body["lexicon"] = lexicon_fields
     return {
         "id": f"etymology:{root_id}",
         "type": "etymology",
@@ -313,7 +350,7 @@ def _persist_atoms(atoms: list[dict[str, Any]], book_dir: Path, log) -> int:
 
 
 # ─── LLM passes (isolated; injected in tests) ───────────────────────────────
-def _generation_prompt(candidates: list[tuple[str, int]], sample: str) -> str:
+def _generation_prompt(candidates: list[tuple[str, int]], sample: str, grounding: str = "") -> str:
     listing = "\n".join(f"- {t} (used {n}x)" for t, n in candidates)
     return f"""You are compiling accurate Arabic etymology for the KEY technical terms of an Islamic
 book, for a study apparatus. Accuracy is paramount: NEVER invent or guess a root — if you are not
@@ -336,7 +373,7 @@ For each KEPT term output an object with EXACTLY these fields:
 
 Output ONLY a JSON array of these objects (no prose, no code fence). Fewer, correct entries are
 better than more. If none qualify, output [].
-
+{grounding}
 CANDIDATE TERMS
 {listing}
 
@@ -373,9 +410,11 @@ def _parse_json_array(out: str) -> list[dict[str, Any]]:
         return []
 
 
-def _generate(candidates: list[tuple[str, int]], sample: str, book_dir: Path, log) -> list[dict[str, Any]]:
+def _generate(
+    candidates: list[tuple[str, int]], sample: str, book_dir: Path, log, grounding: str = ""
+) -> list[dict[str, Any]]:
     rc, out, err = _run_claude_p_with_retry(
-        _generation_prompt(candidates, sample),
+        _generation_prompt(candidates, sample, grounding),
         timeout=_GEN_TIMEOUT,
         book_dir=book_dir,
         phase="0book-etymology",
@@ -428,12 +467,25 @@ def build_etymology_atoms(
     """
     book_dir = Path(book_dir).resolve()
     book_slug = book_dir.name
-    gen = generator or _generate
     ver = verifier or _verify
 
     candidates = gather_candidate_terms(book_dir)
     existing_roots = _existing_etymology_roots()
+    # Merged deterministic reference: legacy KQUR/KASHKOLE term_index (weak, ~35
+    # roots) + the Quranic morphology corpus (~1,600 roots). Union per key — for
+    # a veto, permissiveness only ever under-fires.
     term_index = load_term_index()
+    for key, roots in load_morphology_reference().items():
+        term_index.setdefault(key, set()).update(roots)
+
+    # Corpus grounding for the generation prompt: real roots + derived families
+    # + lexicon glosses for every unambiguously-resolvable candidate.
+    resolved = _resolve_corpus_terms(candidates) if candidates else {}
+    if generator is not None:
+        gen = generator  # injected fakes keep the 4-arg contract
+    else:
+        grounding = _grounding_block(resolved)
+        gen = lambda c, s, b, l: _generate(c, s, b, l, grounding=grounding)  # noqa: E731
 
     if not candidates:
         report = {
@@ -471,12 +523,16 @@ def build_etymology_atoms(
             dropped.append({"term": e.get("term"), "reason": reason})
             continue
         seen_roots.add(root)
-        kept_atoms.append(to_atom(e, book_slug))
+        corpus_rec = resolved.get(str(e.get("term", "")).strip())
+        kept_atoms.append(to_atom(e, book_slug, corpus=corpus_rec))
         kept_meta.append(
             {
                 "term": e.get("term"),
                 "root": e.get("root_transliteration"),
-                "confirmed_by_reference": term_key in term_index,
+                "confirmed_by_reference": bool(
+                    term_index.get(term_key) or term_index.get(latin_fold(str(e.get("term", ""))))
+                ),
+                "corpus_grounded": corpus_rec is not None,
             }
         )
 
