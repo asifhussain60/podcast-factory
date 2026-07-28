@@ -105,3 +105,32 @@ test("Mod is Cmd on Apple and Ctrl elsewhere", () => {
     assert.equal(ran, 1, isApple ? "Cmd on Apple" : "Ctrl elsewhere");
   }
 });
+
+test("a key the editor's own keymap already handled is not run a second time", () => {
+  // The editor binds Mod-b too (StarterKit does), on the same element, and its
+  // handler runs first. Running ours as well toggles the mark on and straight
+  // back off, so bold and italic were dead from the keyboard while their
+  // toolbar buttons worked. preventDefault is the editor saying "mine".
+  const reg = createShortcutRegistry({ isApple: false });
+  let ran = 0;
+  reg.register({ shortcut: "Mod-b", id: "bold", run: () => void ran++ });
+
+  const target = globalThis.document.createElement("div");
+  // Stand in for ProseMirror's own keydown handler: registered first, claims
+  // the key, and marks the event handled.
+  target.addEventListener("keydown", (e) => e.preventDefault());
+  reg.listen(target, {} as EditorApi);
+
+  target.dispatchEvent(
+    new (
+      globalThis as unknown as { KeyboardEvent: typeof KeyboardEvent }
+    ).KeyboardEvent("keydown", {
+      key: "b",
+      ctrlKey: true,
+      bubbles: true,
+      cancelable: true,
+    }),
+  );
+
+  assert.equal(ran, 0, "the editor already did it — doing it again undoes it");
+});
