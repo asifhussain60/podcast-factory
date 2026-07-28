@@ -21,6 +21,7 @@
 import { mount } from "@asifhussain/prose-editor";
 import type { ProseEditor } from "@asifhussain/prose-editor";
 import { sourceProvider, kindDef } from "./registry";
+import type { EtymologyMorphology } from "./types";
 import { cardHeadingButtons } from "./card-heading-buttons";
 import { cardMarkdownToHtml } from "./card-markdown";
 import { PANEL_TEXT_SIZE_EVENT } from "../../../scripts/panel-text-size";
@@ -36,6 +37,9 @@ export interface CardNote {
   quote?: string;
   /** One entry per term. */
   etymology?: string[];
+  /** Verified corpus block per etymology row, index-aligned; null = the corpus
+   *  declined and the row renders exactly as before. Server-computed only. */
+  morphology?: (EtymologyMorphology | null)[];
   source?: { provider: string; label?: string; ref?: string };
 }
 
@@ -225,6 +229,12 @@ export function renderExplanationCard(
 
   // ── etymology: discrete items, curated one at a time ─────────────────────
   let items = [...(note.etymology ?? [])];
+  // Index-aligned with `items`. Spliced on delete, nulled when a row's text is
+  // edited (the term may have changed — decline until the next server read
+  // re-resolves), and padded with null on add.
+  const morphs: (EtymologyMorphology | null)[] = items.map(
+    (_, i) => note.morphology?.[i] ?? null,
+  );
   const etym = document.createElement("div");
   etym.className = "xpl-etym";
 
@@ -387,6 +397,46 @@ export function renderExplanationCard(
 
       const body = document.createElement("div");
       body.className = "xpl-ety-body";
+      // The VERIFIED half first: root, real derived family, Lane's meaning —
+      // straight from the committed morphology corpus, so no disclaimer applies
+      // to this block. Read-only in both surfaces (facts are not editable); the
+      // persona's interpretive text keeps the textarea below.
+      const morph = morphs[i];
+      if (morph) {
+        const v = document.createElement("div");
+        v.className = "xpl-morph";
+        const rootLine = document.createElement("p");
+        rootLine.className = "xpl-morph-root";
+        setTextWithArabic(
+          rootLine,
+          `Root ${morph.root_dashed} — ${morph.occurrences}× in the Quran, ${morph.lemma_count} derived words`,
+        );
+        v.append(rootLine);
+        const fam = document.createElement("p");
+        fam.className = "xpl-morph-family";
+        for (const lem of morph.family.slice(0, 8)) {
+          const chip = document.createElement("span");
+          chip.className = "xpl-morph-chip";
+          setTextWithArabic(chip, `${lem.lemma_ar} ${lem.occurrence_count}×`);
+          if (lem.first_location)
+            chip.title = `first at ${lem.first_location}${lem.pos ? ` · ${lem.pos}` : ""}`;
+          fam.append(chip);
+        }
+        v.append(fam);
+        if (morph.lane_en) {
+          const lane = document.createElement("p");
+          lane.className = "xpl-morph-lane";
+          setTextWithArabic(lane, morph.lane_en);
+          v.append(lane);
+        }
+        const src = document.createElement("p");
+        src.className = "xpl-morph-src";
+        src.textContent = morph.lane_en
+          ? "Quranic Arabic Corpus · Lane's Lexicon"
+          : "Quranic Arabic Corpus";
+        v.append(src);
+        body.append(v);
+      }
       if (editable) {
         const field = document.createElement("textarea");
         field.className = "xpl-ety-text";
@@ -398,6 +448,9 @@ export function renderExplanationCard(
           const next = field.value.trim();
           if (next === items[i]) return;
           items[i] = next;
+          // The term may have changed — the old verified block no longer
+          // provably belongs to this row. Decline until the next server read.
+          morphs[i] = null;
           setTextWithArabic(term, etymologyTerm(next));
           void save();
         });
@@ -421,6 +474,7 @@ export function renderExplanationCard(
         del.addEventListener("click", (e) => {
           e.stopPropagation();
           items.splice(i, 1);
+          morphs.splice(i, 1);
           renderEtymology();
           void save();
         });
@@ -436,6 +490,7 @@ export function renderExplanationCard(
       add.textContent = "+ Add etymology";
       add.addEventListener("click", () => {
         items.push("");
+        morphs.push(null);
         renderEtymology();
         const last = etym.querySelector<HTMLElement>(".xpl-ety:last-of-type");
         last?.querySelector<HTMLButtonElement>(".xpl-ety-head")?.click();

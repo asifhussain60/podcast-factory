@@ -19,7 +19,7 @@ sys.path.insert(0, str(REPO / "scripts" / "podcast"))
 
 import _buckwalter as bw  # noqa: E402
 
-FIXTURES = REPO / "tests" / "fixtures" / "buckwalter.fixtures.json"
+FIXTURES = REPO / "plan-dashboard" / "scripts" / "lib" / "buckwalter.fixtures.json"
 assert FIXTURES.is_file(), f"shared fixture file missing: {FIXTURES}"
 FIX = json.loads(FIXTURES.read_text(encoding="utf-8"))
 
@@ -68,6 +68,13 @@ def test_folds_match_the_shared_fixtures(case: dict) -> None:
     assert bw.latin_fold(case["latin"]) == case["latin_fold"]
     assert bw.arabic_fold(case["skeleton"]) == case["arabic_fold"]
     assert bw.folds_match(case["latin_fold"], case["arabic_fold"]) is case["match"]
+
+
+@pytest.mark.parametrize("case", FIX["normalize_cases"], ids=lambda c: c["name"])
+def test_normalize_arabic_matches_the_shared_fixtures(case: dict) -> None:
+    from _arabic_coverage import normalize_arabic
+
+    assert normalize_arabic(case["arabic"]) == case["skeleton"]
 
 
 def test_folds_never_match_empty() -> None:

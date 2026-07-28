@@ -4500,6 +4500,10 @@ waves_o_ph:
         title: "Lane's Lexicon joined root-keyed (1,329/1,642 matched, gaps listed) via per-file-authored parser"
         status: completed
         committed_at: ceabb51
+      - id: QMd
+        title: "Site surfacing: /corpus/morphology root explorer + verified-core etymology cards + grounded/vetoed generation routes"
+        status: completed
+        note: "TS mirror src/lib/arabic-fold.ts pinned by the shared buckwalter fixture (moved to plan-dashboard/scripts/lib/). morphology.server.ts reads the committed DBs per-call; companion-notes GET + live.astro attach computed (never persisted) morphology per etymology row; gem-explain grounds+vetoes; api/ai/etymology grounds unconditionally; gate_card gains morphology parity."
 
 waves_bpv2:
   - id: BPV2

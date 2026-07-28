@@ -1300,6 +1300,16 @@
       "tools": []
     },
     {
+      "id": "QMd",
+      "wave": "QM",
+      "title": "Site surfacing: /corpus/morphology root explorer + verified-core etymology cards + grounded/vetoed generation routes",
+      "status": "completed",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": []
+    },
+    {
       "id": "BPV2-0",
       "wave": "BPV2",
       "title": "Flag scaffold + Astro write-back spike",
@@ -1767,11 +1777,16 @@
   ],
   "debt": [],
   "metrics": {},
-  "generated_at": "2026-07-28T13:35:19-04:00",
-  "source_commit": "ceabb51",
+  "generated_at": "2026-07-28T13:42:44-04:00",
+  "source_commit": "2cf8b4b",
   "generator": "regenerate-snapshots",
   "books_in_flight": [],
   "recent_commits": [
+    {
+      "sha": "2cf8b4b",
+      "subject": "chore(plan): QM wave entry for the shipped morphology layer + sweep fixes",
+      "date": "2026-07-28"
+    },
     {
       "sha": "ceabb51",
       "subject": "feat(lexicon): Lane's Lexicon joined — 1,329 of 1,642 corpus roots carry a real Lane gloss",
@@ -1815,11 +1830,6 @@
     {
       "sha": "8673b11",
       "subject": "feat(compose): Rearticulate — gated whole-chapter articulation, contract, and agent",
-      "date": "2026-07-27"
-    },
-    {
-      "sha": "5e36d68",
-      "subject": "content(tmad): scholar note on mercy and work for chapter 3",
       "date": "2026-07-27"
     }
   ],

@@ -18,12 +18,24 @@ import {
   listChapters,
 } from "../../../lib/reader/companion/store.server";
 import { CHAPTER_KEY_RE } from "../../../lib/reader/companion/keys";
-import type { CompanionNoteInput } from "../../../lib/reader/companion/types";
+import type {
+  CompanionNote,
+  CompanionNoteInput,
+} from "../../../lib/reader/companion/types";
+import { morphologyForEtymology } from "../../../lib/db/morphology.server";
 import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
 
 export const prerender = false;
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+/** Attach the verified morphology block per etymology row — computed fresh
+ *  from the Quranic morphology DB on every read, never persisted, and never
+ *  accepted from a client (upsertNote does not know the field). */
+const withMorphology = (note: CompanionNote): CompanionNote =>
+  note.etymology?.length
+    ? { ...note, morphology: morphologyForEtymology(note.etymology) }
+    : note;
 
 export const GET: APIRoute = ({ request }) => {
   const url = new URL(request.url);
@@ -36,7 +48,8 @@ export const GET: APIRoute = ({ request }) => {
     const chapter = url.searchParams.get("chapter");
     if (!chapter || !CHAPTER_KEY_RE.test(chapter))
       return apiError("Missing or invalid chapter");
-    return apiOk(readChapter(slug, chapter));
+    const doc = readChapter(slug, chapter);
+    return apiOk({ ...doc, notes: doc.notes.map(withMorphology) });
   } catch (e) {
     return apiServerError(String(e));
   }
@@ -65,7 +78,7 @@ export const POST: APIRoute = async ({ request }) => {
     return apiError("etymology must be an array of strings");
   try {
     const { note: saved } = upsertNote(slug, chapter, note);
-    return apiOk(saved);
+    return apiOk(withMorphology(saved));
   } catch (e) {
     return apiServerError(String(e));
   }

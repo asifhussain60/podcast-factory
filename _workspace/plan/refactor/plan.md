@@ -1144,3 +1144,9 @@ Asif asked for a direct recommendation rather than choosing blind between archiv
 > Lane's Lexicon now supplies a genuine English meaning for 81% of the corpus roots, trimmed to each article's defining head; the gaps are listed openly in a coverage report, never silently dropped. Ibn Faris's *Maqayis* and Raghib's *Mufradat* have registered slots that activate the moment their text files are dropped in — one parser each, written against the real file like Lane's was.
 >
 > *Value gained:* "what does this root mean" is answered by the canonical references scholars actually cite, with visible coverage instead of quiet guesses.
+
+### 4. The morphology layer became visible and usable everywhere it matters
+
+> The site gained a root explorer at Corpus → Morphology — all 1,642 roots searchable in either script, each opening to its real derived family with verse peeks and Lane's meaning, with the 313 meaning gaps listed openly. The Composer's etymology cards now open with a verified block (root, family, Lane) computed live from the corpus and never stored, the scholar-persona generation is grounded and vetoed against the same data, and the pipeline's card gate enforces the identical root truth.
+>
+> *Value gained:* one committed source of morphological fact now feeds the study page, the editing surface, the reader, and the pipeline — and an invented root has nowhere left to appear.

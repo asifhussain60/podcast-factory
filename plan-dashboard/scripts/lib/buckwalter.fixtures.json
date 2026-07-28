@@ -1,5 +1,5 @@
 {
-  "_comment": "Shared ground truth for the Buckwalter ↔ Arabic converter (scripts/podcast/_buckwalter.py), read by tests/test_buckwalter.py. Pins the transliteration the Quranic Arabic Corpus morphology file (quranic-corpus-morphology-0.4.txt, Kais Dukes, GPL) uses for every FORM/LEM/ROOT, so the table can never drift silently: a wrong mapping here silently corrupts every skeleton join key downstream (etymology veto, glossary fill). bw2ar_cases are exact conversions (and are also round-tripped through ar2bw); skeleton_cases pin bw_skeleton — Buckwalter → Arabic → _arabic_coverage.normalize_arabic — including the folds that matter (ٱ→ا, ة→ه, ى→ي, harakat stripped). Created 2026-07-28 with the morphology data layer. fold_cases pin the shared romanization fold space (latin_fold / arabic_fold / folds_match) that the etymology veto and the deterministic glossary fill both key on — a drift here silently changes which terms the veto covers and which glossary rows fill deterministically.",
+  "_comment": "Shared ground truth for the Buckwalter ↔ Arabic converter (scripts/podcast/_buckwalter.py), read by tests/test_buckwalter.py (Python) AND plan-dashboard/scripts/lib/arabic-fold.test.mjs (TS mirror src/lib/arabic-fold.ts) — moved here 2026-07-28 when the site gained morphology lookups, per the TS<->Python mirror-pair convention. Pins the transliteration the Quranic Arabic Corpus morphology file (quranic-corpus-morphology-0.4.txt, Kais Dukes, GPL) uses for every FORM/LEM/ROOT, so the table can never drift silently: a wrong mapping here silently corrupts every skeleton join key downstream (etymology veto, glossary fill). bw2ar_cases are exact conversions (and are also round-tripped through ar2bw); skeleton_cases pin bw_skeleton — Buckwalter → Arabic → _arabic_coverage.normalize_arabic — including the folds that matter (ٱ→ا, ة→ه, ى→ي, harakat stripped). Created 2026-07-28 with the morphology data layer. fold_cases pin the shared romanization fold space (latin_fold / arabic_fold / folds_match) that the etymology veto and the deterministic glossary fill both key on — a drift here silently changes which terms the veto covers and which glossary rows fill deterministically.",
   "bw2ar_cases": [
     {
       "name": "basmala-prefix-bi",
@@ -204,6 +204,98 @@
       "latin_fold": "nfs",
       "arabic_fold": "slm",
       "match": false
+    }
+  ],
+  "normalize_cases": [
+    {
+      "name": "basmala-prefix-bi",
+      "arabic": "بِ",
+      "skeleton": "ب"
+    },
+    {
+      "name": "basmala-somi",
+      "arabic": "سْمِ",
+      "skeleton": "سم"
+    },
+    {
+      "name": "allah-with-wasla",
+      "arabic": "ٱللَّهِ",
+      "skeleton": "الله"
+    },
+    {
+      "name": "rahman-dagger-alif",
+      "arabic": "رَّحْمَٰنِ",
+      "skeleton": "رحمن"
+    },
+    {
+      "name": "raheem",
+      "arabic": "رَّحِيمِ",
+      "skeleton": "رحيم"
+    },
+    {
+      "name": "root-rhm",
+      "arabic": "رحم",
+      "skeleton": "رحم"
+    },
+    {
+      "name": "root-slw",
+      "arabic": "صلو",
+      "skeleton": "صلو"
+    },
+    {
+      "name": "hamza-on-alif",
+      "arabic": "أَحَد",
+      "skeleton": "احد"
+    },
+    {
+      "name": "madda-alif",
+      "arabic": "قُرآن",
+      "skeleton": "قران"
+    },
+    {
+      "name": "ta-marbuta",
+      "arabic": "جَنَّة",
+      "skeleton": "جنه"
+    },
+    {
+      "name": "alif-maqsura",
+      "arabic": "عِيسَى",
+      "skeleton": "عيسي"
+    },
+    {
+      "name": "shin-dollar",
+      "arabic": "شَمْس",
+      "skeleton": "شمس"
+    },
+    {
+      "name": "dhal-star",
+      "arabic": "ذِكْر",
+      "skeleton": "ذكر"
+    },
+    {
+      "name": "hamza-under-alif",
+      "arabic": "إِلَى",
+      "skeleton": "الي"
+    },
+    {
+      "name": "hamza-on-waw-and-ya",
+      "arabic": "ؤئ ء",
+      "skeleton": "ويء"
+    },
+    {
+      "name": "tanwin-set",
+      "arabic": "ًٌٍ",
+      "skeleton": ""
+    },
+    {
+      "name": "midword-dagger-maqsura",
+      "arabic": "يُلَقَّىٰهَا",
+      "skeleton": "يلقاها"
+    },
+    {
+      "name": "plain-english-passthrough-empty",
+      "arabic": "hello",
+      "skeleton": ""
     }
   ]
 }
