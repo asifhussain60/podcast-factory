@@ -106,6 +106,54 @@ def test_fake_parser_merges_additively_and_reports_coverage(tmp_path: Path, monk
     assert records["رحم"]["sources"] == ["lane"]
 
 
+def test_lane_parser_reads_the_root_keyed_dataset(tmp_path: Path) -> None:
+    # Mini file in the real aliozdenisik/quran-arabic-roots-lane-lexicon shape.
+    lane_dir = tmp_path / "source" / "lane"
+    lane_dir.mkdir(parents=True)
+    long_article = "He was patient. " * 60  # forces the definitional-head trim
+    payload = {
+        "metadata": {"total_roots": 3},
+        "roots": [
+            {
+                "root": "رحم",
+                "root_buckwalter": "rHm",
+                "definition_en": long_article,
+                "summary_en": "MODEL-GENERATED — must be ignored",
+            },
+            {"root": "سكن", "root_buckwalter": "skn", "definition_en": "He was still."},
+            {"root": "عون", "root_buckwalter": "Ewn", "definition_en": ""},  # no Lane match
+        ],
+    }
+    (lane_dir / "lane.json").write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    path = tmp_path / "lexicon.jsonl"
+    report = lx.ingest_all(
+        lexicon_path=path,
+        source_root=tmp_path / "source",
+        coverage_path=tmp_path / "coverage.json",
+        corpus_roots=CORPUS_ROOTS,
+    )
+    assert report["sources"]["lane"]["matched"] == 2
+    assert report["sources"]["lane"]["unmatched_roots"] == ["عون"]
+    records = lx.load_lexicon(path)
+    assert records["سكن"]["lane_en"] == "He was still."
+    trimmed = records["رحم"]["lane_en"]
+    assert len(trimmed) <= 600 and trimmed.endswith(".")  # head-trimmed at a sentence
+    assert "MODEL-GENERATED" not in json.dumps(records, ensure_ascii=False)
+
+
+def test_lane_dir_with_wrong_files_raises(tmp_path: Path) -> None:
+    lane_dir = tmp_path / "source" / "lane"
+    lane_dir.mkdir(parents=True)
+    (lane_dir / "notes.txt").write_text("not the dataset", encoding="utf-8")
+    with pytest.raises(lx.LexiconSourceUnparsed, match="lane"):
+        lx.ingest_all(
+            lexicon_path=tmp_path / "lexicon.jsonl",
+            source_root=tmp_path / "source",
+            corpus_roots=CORPUS_ROOTS,
+            dry_run=True,
+        )
+
+
 def test_lookup_accepts_any_notation(tmp_path: Path) -> None:
     records = {"رحم": {"root_skel": "رحم", "lane_en": "mercy"}}
     assert lx.lookup("rHm", records)["lane_en"] == "mercy"

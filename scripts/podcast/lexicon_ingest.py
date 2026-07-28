@@ -72,10 +72,52 @@ def _root_key(raw: str) -> str:
 
 # ─── Per-source parsers (written against the real files as acquired) ─────────
 def _parse_lane(source_dir: Path) -> Iterator[tuple[str, str]]:
-    raise LexiconSourceUnparsed(
-        f"lane: files present in {source_dir} but the Lane parser has not been "
-        "written against them yet — author it from the actual file format"
-    )
+    """Lane's Lexicon via the root-keyed dataset (aliozdenisik/quran-arabic-
+    roots-lane-lexicon, GPL-3.0): ``{metadata, roots:[{root, root_buckwalter,
+    definition_en, ...}]}``.
+
+    Only ``definition_en`` is used — it is the digitized text of Lane's actual
+    article for the root (present for 1,337 of 1,651 roots). The dataset's
+    ``summary_en``/``summary_tr`` fields are model-generated and are NOT Lane;
+    presenting them as Lane would violate the no-model-recall doctrine, so they
+    are ignored entirely. The article is trimmed to its definitional head —
+    Lane's opening senses — because the full article can run to pages of
+    philological apparatus no prompt or print block needs.
+    """
+    files = sorted(source_dir.glob("*.json"))
+    if not files:
+        raise LexiconSourceUnparsed(f"lane: files present in {source_dir} but none is the expected root-keyed *.json")
+    for path in files:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        roots = data.get("roots")
+        if not isinstance(roots, list):
+            raise LexiconSourceUnparsed(f"lane: {path.name} has no 'roots' list — unexpected format")
+        for rec in roots:
+            definition = str(rec.get("definition_en") or "").strip()
+            root = str(rec.get("root") or rec.get("root_buckwalter") or "").strip()
+            if root and definition:
+                yield root, _definitional_head(definition)
+
+
+def _definitional_head(article: str, *, min_chars: int = 200, max_chars: int = 600) -> str:
+    """The opening senses of a lexicon article, trimmed at a sentence boundary.
+
+    Deterministic: accumulate sentences until ``min_chars`` is reached, hard-cap
+    at ``max_chars`` (cutting at the last sentence end inside the cap, else at a
+    word boundary with an ellipsis).
+    """
+    import re as _re
+
+    text = " ".join(article.split())
+    if len(text) <= max_chars:
+        return text
+    ends = [m.end() for m in _re.finditer(r"[.!?؟](?=\s)", text[:max_chars])]
+    for end in ends:
+        if end >= min_chars:
+            return text[:end].strip()
+    if ends:
+        return text[: ends[-1]].strip()
+    return text[:max_chars].rsplit(" ", 1)[0].strip() + " …"
 
 
 def _parse_maqayis(source_dir: Path) -> Iterator[tuple[str, str]]:
