@@ -1,8 +1,56 @@
 # Current work - status
 
-**Last updated:** 2026-07-28 evening (Scholar Companion panel rework; both gates PASS; one RCA filed)
+**Last updated:** 2026-07-28 evening (visual-QA sweep of every view; route coverage
+closed and now test-enforced; both gates PASS)
 
-**Newest — the Scholar Companion is a synced, one-button, title-only card rail.**
+**Newest — a full visual-QA pass over all 36 routes, and the gate can no longer
+miss a page.**
+
+- **Route coverage was short by four live surfaces.** `/corpus/morphology` (shipped
+  that morning) and three of the four `[step].astro` steps — `intake`, `review`,
+  `publish` — were never visited by `npm run smoke`; the miss was invisible because
+  `[step].astro` redirects an unknown step to `/edit`. Manifest is 36 routes now, and
+  `scripts/site-health-routes.test.mjs` fails in BOTH directions: a page with no
+  manifest entry, and a manifest entry with no page (which is how the sentinel spec
+  went on naming `/studio/<slug>/style` for nine days after the page was deleted).
+  The wisdom leaf is gated only where `content/_shared/wisdom-corpus/` exists.
+- **`site-health-shots.mjs --full false`** captures the viewport instead of the page.
+  The LIVE reader's full-page PNG is ~105,000px tall; scaled to fit, nothing in it
+  can be judged.
+- **Five defects fixed**, each measured, fixed at the smallest in-pattern point, and
+  re-shot before being called done:
+  - Companion cards clipped 871px of an open explanation and the list never scrolled
+    — `.xpl` has `overflow: hidden`, which zeroes its flex minimum size, so the CARD
+    shrank and the scroller measured no overflow (`flex-shrink: 0`, companion-card.css).
+  - Composer FAB row covered four panel controls when the drawer was open
+    (`--cx-drawer-w` hoisted to body and added to the offset, book-composer.css).
+  - "Tell the AI" clipped its own placeholder by 23px (`min-height` 5rem → 6.5rem).
+  - Wisdom empty-state icon sat flush left under centred text — the Icon is a
+    `display: block` svg (`margin-inline: auto`, wisdom.css).
+  - Editorial asides rendered as scripture display type — 27.8px/52.9px centred
+    against 20px/31px body. `markdown.ts` now emits `blockquote.aside`, and the two
+    screen rules take `:not(.aside)`; verses keep the exact treatment they had.
+    Screen only — `book-print.css` scopes Arabic to `blockquote.quran p.ar` and
+    never had the bug.
+- **`> >` in composed books**: `_book_augment.format_editorial_block` strips
+  model-written blockquote markers before adding its own, and BOTH markdown
+  renderers flatten a nested marker, so the five notes already in
+  `the-master-and-the-disciple` read correctly without a re-compose.
+- **Judged NOT defects** (checked, not assumed): the mobile nav is a deliberate
+  scrolling tab strip (`overflow-x: auto`, 32px hidden, not a clip); dark theme is
+  not a supported state (`theme.css` declares no dark palette); sr-only labels,
+  `text-overflow: ellipsis` truncation, and volume titles inside a collapsed
+  `<details>` all read as "clipped" to a naive probe and are not.
+- Gates: smoke 36 clean · site tests 331 · pytest 2,303 · lint:views + astro check
+  0 errors. A DOM probe across all 36 routes at 1440px and 390px found zero
+  horizontal page overflow and zero broken images.
+- **Open for Asif:** nothing blocking. The `.mjs` print renderer deliberately does
+  NOT emit the aside class (the print CSS has no rule keyed on it); revisit only if
+  a print rule ever needs to tell asides apart.
+
+---
+
+**Prior — the Scholar Companion is a synced, one-button, title-only card rail.**
 
 - ONE Explain button: probes the live prose selection first (explains + files a
   Companion note, tints the passage), falls back to the typed concept. The
