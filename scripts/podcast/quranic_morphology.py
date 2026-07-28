@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sqlite3
 import sys
 from collections import Counter
@@ -37,8 +38,11 @@ _HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(_HERE))
 
 from _arabic_coverage import normalize_arabic  # noqa: E402
-from _buckwalter import bw2ar, bw_skeleton  # noqa: E402
+from _buckwalter import _BW2AR, bw2ar, bw_skeleton  # noqa: E402
 from _morphology_parse import group_words, parse_segments  # noqa: E402
+
+# Trailing homograph-disambiguator digit on corpus lemmas (`maE2`).
+_LEMMA_DISAMBIG_RE = re.compile(r"\d+$")
 
 REPO_ROOT = _HERE.parents[1]
 CORPUS_DIR = REPO_ROOT / "content" / "knowledge-base" / "quranic-corpus"
@@ -148,8 +152,15 @@ def build_db(
         try:
             return bw2ar(bw)
         except ValueError:
-            unknown_chars.update(c for c in bw if not c.isspace())
+            unknown_chars.update(c for c in bw if not c.isspace() and c not in _BW2AR)
             return bw2ar(bw, strict=False)
+
+    # The corpus disambiguates homograph lemmas with a trailing digit (`maE` vs
+    # `maE2` — 78 such lemmas in v0.4). The digit is part of the lemma's IDENTITY
+    # (lemma_bw keeps it, so the two stay distinct rows) but not of its SPELLING,
+    # so script and skeleton are derived from the digit-stripped base.
+    def _lemma_base(lemma: str) -> str:
+        return _LEMMA_DISAMBIG_RE.sub("", lemma)
 
     seg_rows: list[tuple] = []
     word_rows: list[tuple] = []
@@ -182,8 +193,8 @@ def build_db(
                         s["segment_type"],
                         s["pos"],
                         lemma,
-                        _ar(lemma) if lemma else None,
-                        bw_skeleton(lemma) if lemma else None,
+                        _ar(_lemma_base(lemma)) if lemma else None,
+                        bw_skeleton(_lemma_base(lemma)) if lemma else None,
                         root,
                         _ar(root) if root else None,
                         bw_skeleton(root) if root else None,
@@ -239,8 +250,8 @@ def build_db(
             [
                 (
                     lemma,
-                    _ar(lemma),
-                    bw_skeleton(lemma),
+                    _ar(_lemma_base(lemma)),
+                    bw_skeleton(_lemma_base(lemma)),
                     lemma_root.get(lemma),
                     (lemma_pos[lemma].most_common(1)[0][0] if lemma in lemma_pos else None),
                     n,

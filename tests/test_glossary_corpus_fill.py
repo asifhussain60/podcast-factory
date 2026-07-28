@@ -50,6 +50,14 @@ def test_not_in_ocr_declines_even_on_unique_match(db_path: Path) -> None:
     assert fills == {}
 
 
+def test_substring_inside_longer_word_never_grounds(db_path: Path) -> None:
+    # صبر appears INSIDE يصبرون but the book never prints the word standalone.
+    # Live regression (2026-07-28): a substring check grounded نقب inside
+    # النقباء and filled a different word than the term. Whole-word only.
+    fills = fga.corpus_fill(_rows("sabr"), "هم يصبرون دائما", db_path=db_path)
+    assert fills == {}
+
+
 def test_unknown_term_declines(db_path: Path) -> None:
     fills = fga.corpus_fill(_rows("xyzzy"), "صبر", db_path=db_path)
     assert fills == {}

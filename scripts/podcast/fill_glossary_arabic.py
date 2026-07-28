@@ -218,9 +218,13 @@ def corpus_fill(rows: list[dict[str, str]], ocr_text: str, db_path: Path | None 
       1. class-level fold match (``_buckwalter.folds_match``);
       2. the match must be UNIQUE across all corpus lemma skeletons — any
          second candidate falls through to the model path;
-      3. the winning lemma's skeleton must occur in the book's own OCR — the
-         corpus GUIDES the lookup, the book's pages remain the ground (the
-         provenance-ladder rule).
+      3. the winning lemma's skeleton must occur in the book's own OCR as a
+         WHOLE WORD (bare, or carrying the definite article) — the corpus
+         GUIDES the lookup, the book's pages remain the ground (the
+         provenance-ladder rule). Whole-word, not substring: on live probing
+         (the-master-and-the-disciple, 2026-07-28) a substring check let نقب
+         "ground" inside النقباء and filled a different word than the term —
+         the exact fabrication class these rails exist to stop.
 
     Fills are the UNVOWELLED form (harakat stripped, letters intact): glossary
     script prints inline beside terms, and a vowelled fill would land every
@@ -244,7 +248,10 @@ def corpus_fill(rows: list[dict[str, str]], ocr_text: str, db_path: Path | None 
     from _buckwalter import arabic_fold
 
     lemmas = [(arabic_fold(skel), str(ar), str(skel)) for ar, skel in lemma_rows]
-    ocr_skel = normalize_arabic(ocr_text)
+    # Boundary-anchored word haystack (the _mushaf technique): each OCR word
+    # normalized separately, space-padded, so ` needle ` can only match a word
+    # the book actually prints — never a run inside a longer word.
+    ocr_words = " " + " ".join(normalize_arabic(w) for w in ocr_text.split()) + " "
     fills: dict[str, str] = {}
     for r in rows:
         phon = str(r.get("phonetic") or "").strip()
@@ -256,8 +263,8 @@ def corpus_fill(rows: list[dict[str, str]], ocr_text: str, db_path: Path | None 
         if len(cand_skels) != 1:
             continue  # unknown or ambiguous — the model path (OCR-read) handles it
         skel = next(iter(cand_skels))
-        if skel not in ocr_skel:
-            continue  # not grounded in this book's own pages — decline
+        if f" {skel} " not in ocr_words and f" ال{skel} " not in ocr_words:
+            continue  # the book never prints this word standalone — decline
         vowelled = next(ar for lf, ar, s in lemmas if s == skel)
         # Printable bare form: harakat stripped, letters intact, and the corpus's
         # Uthmani alif wasla (ٱ) folded to the plain alif a modern glossary prints.
