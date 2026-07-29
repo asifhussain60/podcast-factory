@@ -28,7 +28,7 @@ As for gratitude toward the work, it is to be patient in it and to call others t
 
 ## 1. The Persian Who Was Dead and Revived
 
-As for the doctrines of the righteous and the manners of those who seek the truth: it has reached us that a certain man among the people of Persia was afflicted by the calamity of ignorance. He was a man of keen and retentive heart, of sound intellect, and of a learning he had cultivated in himself; yet ignorance held sway over him in the very knowledge already described, for it had overtaken him early and he had grown up in the midst of it. And so he faltered in the heat of his thirst, taking the shimmer of the mirage for the whiteness of water, until, when he came to it, he found nothing of it there — and he found Allah waiting for him, and there his account was settled. Then Allah honored his resting-place and lifted from him the veil that had covered him. He found him astray and guided him, found him destitute and made him rich with knowledge. By that grace bestowed upon him he became one of the scholars of the Mount (Tur, الطور) and one who dwells at the Frequented House (Bayt al-Mamur, البيت المعمور).
+As for the doctrines of the righteous and the manners of those who seek the truth: it has reached us that a certain man among the people of Persia was afflicted by the calamity of ignorance. He was a man of keen and retentive heart, of sound intellect, and of a learning he had cultivated in himself; yet ignorance held sway over him in the very knowledge already described, for it had overtaken him early and he had grown up in the midst of it. And so he faltered in the heat of his thirst, taking the shimmer of the mirage for the whiteness of water, until, when he came to it, he found nothing of it there — and he found Allah waiting for him, and there his account was settled. Then Allah honored his resting-place and lifted from him the veil that had covered him. He found him astray and guided him, found him destitute and made him rich with knowledge. By that grace bestowed upon him he became one of the scholars of the Mount (Tur, اَلطُّور) and one who dwells at the Frequented House (Bayt al-Mamur, اَلْبَيْتُ الْمَعْمُور).
 
 When his guidance was complete and he had attained the utmost of his hope, it fell to him as a duty to give thanks to his Maker and to labor his way toward his Lord. He had heard from his father a saying that was to him as the soul is to the body:
 
@@ -38,7 +38,7 @@ When his guidance was complete and he had attained the utmost of his hope, it fe
 
 So he said to himself: "I was dead and He revived me, ignorant and He taught me. I was not the first to be ignorant, that I should be the one to outstrip all people to knowledge, nor am I the last, that teaching should come to an end with me. It is a binding obligation upon me to be one who gives thanks for this blessing, discharging this trust to those who come after me just as it was discharged to me by those who came before. For this matter has its origin with Allah, and it reached me only through a long chain of intermediary causes — the first conveying it to the second, and the second to the third, until it came down from the highest assembly to the creatures who are the people of this world. Then the veil was torn and the doors were forced, one after another, until at last it reached me. Am I, then, its endpoint and its final limit? No. Those who carried it and kept faith with the trust in it have the prior claim to the gains and the merits. And if their gains are not mine to lean upon, then I am only the one who was gained for them through their labor. Their merit does not excuse me from labor of my own; I remain as poor in my need to seek knowledge through action as once I was poor in my need to seek knowledge at all." This he said within himself, and he understood that what was owed by him was the very likeness of what had been owed to him, and that the end of his affair, in the final reckoning, was as its beginning.
 
-So he set out, leaving his family and his wealth behind, toward his Lord — answering His call, praying for the good, and summoning others to the obligation, that there might become due to him the same thanksgiving that had become due from him. He took to journeying through the lands, passing among the peoples of the non-Arabs and the tribes of the Arabs, searching faces and putting questions, yet finding none to answer him and meeting no fellow seeker, until he reached the farthest bounds of the island (al-Jazira (الجزيرة)). He entered one of its cities at an hour when its people were heedless. And as he was calling the signs to mind and studying the marks, he caught sight of a company of the people of that land quarreling over religion without guidance and plunging headlong into the depths of their own caprice. So he sat down a little apart, withdrawn from them, listening to their words and observing them closely to see which among them held to the soundest way.
+So he set out, leaving his family and his wealth behind, toward his Lord — answering His call, praying for the good, and summoning others to the obligation, that there might become due to him the same thanksgiving that had become due from him. He took to journeying through the lands, passing among the peoples of the non-Arabs and the tribes of the Arabs, searching faces and putting questions, yet finding none to answer him and meeting no fellow seeker, until he reached the farthest bounds of the island (al-Jazira (اَلْجَزِيْرَة)). He entered one of its cities at an hour when its people were heedless. And as he was calling the signs to mind and studying the marks, he caught sight of a company of the people of that land quarreling over religion without guidance and plunging headlong into the depths of their own caprice. So he sat down a little apart, withdrawn from them, listening to their words and observing them closely to see which among them held to the soundest way.
 
 ## 2. A Stranger in the City
 
@@ -254,7 +254,7 @@ God is the Creator of all things and the One who composes them; He created them 
 >
 > He began the creation of what He created out of a light from which three words branched. The first of them is the will; from the will branched the command; and from the command branched the saying, that He says "Be" to what He wills, and it is. So the first of creation was a will, a command, by a saying.
 
-These are three words, and from them is derived كن (Kun), which is two letters, and فيكون (fa-yakun), which is five — seven letters in all, and from these seven letters seven things branch. Out of the light He created the air, the first of them: single and without consort, unique among all things, mingling with them and enclosing them, yet enclosed by none of them. It is the proof of the One of whom "there is nothing like Him."
+These are three words, and from them is derived كُن (Kun), which is two letters, and فَيَكُون (fa-yakun), which is five — seven letters in all, and from these seven letters seven things branch. Out of the light He created the air, the first of them: single and without consort, unique among all things, mingling with them and enclosing them, yet enclosed by none of them. It is the proof of the One of whom "there is nothing like Him."
 
 Then, out of these three words, He created water, darkness, and light — the light of the heavens and the earth. From the water He created smoke; from the darkness He created the condensation of heat; and from the light He created fire. These are three things branching from the three before them, and each became a consort to its origin, since it was created from it. The seventh, the air, holds sway over them all. Such was the beginning of creation and the beginning of things.
 
@@ -278,7 +278,7 @@ Then He rent it apart with His light, opened it with His command, created it by 
 >
 > In the name of Allah, the Most Gracious, the Most Merciful.
 
-When He had perfected them all by His making and joined them into pairs by His measure, He chose for Himself — out of the purest of His will and the depths of His unseen — an abundant knowledge and a manifest light, and made the two of them a religion by which God is served and by which nearness to Him is sought. He then honored it with the sacred laws and the books, and made it known through likenesses and customs. Out of the choicest of His creation He raised up for it banners, proofs, and rulers, making them the houses of His prophethood, the treasuries of His knowledge and wisdom, and the interpreters of His revelation. He set them as His successors in His earth, guides to the path of deliverance in both the outward and the inward. Among them are the imams and the speakers (nutaqa); among them are the proofs (hujaj, الحجج) and the chiefs (nuqaba, النقباء); and among them are the summoners to the good and the learned. In their stations they are like the stars of heaven, by whom works are set aright and in whom the likenesses reach their end. Their imam is like the great sun among the lights, veiled by its own coverings from the sight of eyes, and he is its outward showing and its likeness. The proof and gate of their imam is like the shining moon, and he too is its outward showing and its likeness. Their summoners are like the radiant stars (zawahir), and they are its outward showings and its likenesses.
+When He had perfected them all by His making and joined them into pairs by His measure, He chose for Himself — out of the purest of His will and the depths of His unseen — an abundant knowledge and a manifest light, and made the two of them a religion by which God is served and by which nearness to Him is sought. He then honored it with the sacred laws and the books, and made it known through likenesses and customs. Out of the choicest of His creation He raised up for it banners, proofs, and rulers, making them the houses of His prophethood, the treasuries of His knowledge and wisdom, and the interpreters of His revelation. He set them as His successors in His earth, guides to the path of deliverance in both the outward and the inward. Among them are the imams and the speakers (nutaqa); among them are the proofs (hujaj, اَلْحُجَج) and the chiefs (nuqaba, اَلنُّقَبَاء); and among them are the summoners to the good and the learned. In their stations they are like the stars of heaven, by whom works are set aright and in whom the likenesses reach their end. Their imam is like the great sun among the lights, veiled by its own coverings from the sight of eyes, and he is its outward showing and its likeness. The proof and gate of their imam is like the shining moon, and he too is its outward showing and its likeness. Their summoners are like the radiant stars (zawahir), and they are its outward showings and its likenesses.
 
 All the pairs the Master had described are outward and inward, likeness and thing likened. The outward of the seven heavens are likenesses, and their inward are the seven speakers, the messengers of firm resolve. The seven earths are outwardly likenesses, and their inward are the imams of guidance. To each speaker among them belong twelve chiefs, whose likeness from the seven heavens are the twelve constellations. Likewise, to each imam of the imams of guidance belong twelve proofs, by whom God's argument is established upon his people, and whose likeness in the earth are the twelve islands.
 
@@ -362,11 +362,11 @@ The Master said: Its likeness is the likeness of the Speaking Imam (al-Imam al-N
 
 The boy said: What is the likeness of the zodiac and the rest of its stars?
 
-The Master said: They are the likeness of the twelve chiefs (nuqaba), the chiefs of the Speaking Imam; and their stars are his summoners (duat, الدعاة), who call to the good by the leave of their Lord.
+The Master said: They are the likeness of the twelve chiefs (nuqaba), the chiefs of the Speaking Imam; and their stars are his summoners (duat, الدُّعَاة), who call to the good by the leave of their Lord.
 
 The boy said: What is the likeness of the earth and its breadth, since it was made a resting-place and a bed for this creation?
 
-The Master said: It is the likeness of the gate (bab, باب) of the Speaking Imam in his lifetime, and of his executor (wasi, الوصي) after his death. He is a place of return for the people and a resting-place for whoever seeks guidance, being a knower of the parables and of the inner interpretation (tawil, التأويل).
+The Master said: It is the likeness of the gate (bab, بَاب) of the Speaking Imam in his lifetime, and of his executor (wasi, اَلْوَصِي) after his death. He is a place of return for the people and a resting-place for whoever seeks guidance, being a knower of the parables and of the inner interpretation (tawil, اَلتَّأْوِيل).
 
 The boy said: What is the likeness of the twelve islands in the earth?
 
@@ -378,7 +378,7 @@ The Master said: The likenesses of the summoners to the good (duat).
 
 The boy said: What is the likeness of the seven kingdoms of the heavens and their orbits?
 
-The Master said: Those are causes between God and the Speakers (natiq, الناطق), and they belong to Him. These are the seven and the two orbits, and these are the greatest causes of God.
+The Master said: Those are causes between God and the Speakers (natiq, اَلنَّاطِق), and they belong to Him. These are the seven and the two orbits, and these are the greatest causes of God.
 
 The boy said: What is the likeness of the seven seas?
 
@@ -386,7 +386,7 @@ The Master said: These are causes between God and the imams of the Speaker, belo
 
 The boy said: What is the likeness of the salt water and the fresh water, and the difference between them, upon the earth?
 
-The Master said: The salt water is the likeness of the knowledge of the outward, in which there is no summons (dawa, دعوة) and no summoners, just as the salt water yields no sowing and nothing else. The fresh water is the likeness of the knowledge of the inward — whether the springs within the earth or the water that runs upon its surface. So too is knowledge: the knowledge of the inward is of two kinds, an outward that the summoners carry along, and an inward that is kept concealed.
+The Master said: The salt water is the likeness of the knowledge of the outward, in which there is no summons (dawa, دَعْوَة) and no summoners, just as the salt water yields no sowing and nothing else. The fresh water is the likeness of the knowledge of the inward — whether the springs within the earth or the water that runs upon its surface. So too is knowledge: the knowledge of the inward is of two kinds, an outward that the summoners carry along, and an inward that is kept concealed.
 
 The boy said: How did water come to be a likeness of knowledge?
 
@@ -524,7 +524,7 @@ The Master said: "The sower can make the earth good, and sow, and water it, but 
 
 The boy said: "Is the rope of God not the Imam to whom you have called me?"
 
-The Master said: "He is its outward sign. He is your rope and the most trustworthy handhold, your hujja (الحجة), your proof, and the door of your Imam."
+The Master said: "He is its outward sign. He is your rope and the most trustworthy handhold, your hujja (الْحُجَّة), your proof, and the door of your Imam."
 
 The boy said: "Then what is the rope of God, and what is the rope that comes from God?"
 
@@ -540,7 +540,7 @@ The Master said: "And what are the might and the power you have mentioned, which
 
 The boy said: "We say: I have no stratagem to draw a benefit to myself, and no power to ward off from myself a harm I dislike, except by God."
 
-The Master said: "Then why do you say, there is no might (hawl, الحول), and not, there is no stratagem (hila)?"
+The Master said: "Then why do you say, there is no might (hawl, اَلْحَوْل), and not, there is no stratagem (hila)?"
 
 The boy said: "It is narrated to us in our sciences that hawl is the year, by the words of God,
 
@@ -576,7 +576,7 @@ The boy said: "Praise be to God, who cleansed them of impurity and returned them
 
 I see seven fat cows being eaten by seven lean ones, and seven green ears of grain and others dry? What are they, and what is the dream-vision in sleep?"
 
-The Master said: "As for the dream-vision, it is like the outward when a work is worked — like the mirage that, when one comes upon it, one finds to be nothing. So too is the work of the outward without the inward: nothing of it is accepted, however much there may be. And likewise the vision in sleep: nothing is realized from what is seen, however often it is seen. So the king said I see, in the account of the common people, seven things turning upon seven. As for the seven fat cows, they are the causes of God that stand between Him and His creation. As for the seven lean ones, they are the seven appointed speakers (natiqs) who are driven by need to what comes from God at the hands of His seven causes. And the seven green ears are causes between God and the guardians (awliya, أولياء). And the seven dry ones are the guardians, driven by need to what comes from God at the hands of these seven causes. So blessed be God, Lord of the worlds."
+The Master said: "As for the dream-vision, it is like the outward when a work is worked — like the mirage that, when one comes upon it, one finds to be nothing. So too is the work of the outward without the inward: nothing of it is accepted, however much there may be. And likewise the vision in sleep: nothing is realized from what is seen, however often it is seen. So the king said I see, in the account of the common people, seven things turning upon seven. As for the seven fat cows, they are the causes of God that stand between Him and His creation. As for the seven lean ones, they are the seven appointed speakers (natiqs) who are driven by need to what comes from God at the hands of His seven causes. And the seven green ears are causes between God and the guardians (awliya, أَوْلِيَاء). And the seven dry ones are the guardians, driven by need to what comes from God at the hands of these seven causes. So blessed be God, Lord of the worlds."
 
 The boy said: "And what is the like of this among us?"
 
@@ -786,7 +786,7 @@ And none is granted it except those who are patient, and none is granted it exce
 
 Then he turned his face toward the boy and said: O young man, you have been honored as an intimate come to visit, and greeted as a guest who has set his course here. So what is your name?
 
-He said: Ubayd Allah (عُبَيْدُ اللَّهِ, 'little servant of Allah'), son of Abd Allah (عبد الله, 'servant of Allah').
+He said: Ubayd Allah (عُبَيْدُ اللَّهِ, 'little servant of Allah'), son of Abd Allah (عَبْدُ اللَّٰه, 'servant of Allah').
 
 The Shaykh said: That is your description, and your report has already reached us.
 
@@ -892,7 +892,7 @@ The boy's words tore at his father's heart, and he saw there was no escaping any
 
 So they debated over many sittings and opened their hearts to one another at length, until they were guided to the straight path — living by the religion of Allah, upholding it, holding fast to it, calling others to it, and helping one another in it. Through them Allah revived many of His creatures. And the boy sent word to the Master, bringing him the glad tidings of his father's rightness and asking him to come; so he came to them and was a cause of good for them. Allah blessed the people of that country through them and at their hands. Allah's command was carried out, and slander came to nothing.
 
-The boy's name was Salih (صالح, 'the righteous'), and his father's name was al-Bakhtari (البختري). The two were honored, raised above others, and given high standing for the excellence of the manners they had acquired. Word of them spread through the land, and word of their religion with it, until it reached a party of people who clung to the old creed. Al-Bakhtari had long held influence among them, and they feared that his leaving their religion would cut it off from them. So they set out and gathered before one of their scholars, called Abd al-Jabbar Abu Malik (أبو مالك), whom they had named — for his scrupulousness, the depth of his forbearance, and his defense of his religion — "Kab al-Ahbar (كَعْبُ الْأَحْبَارِ)." Among them he stood eminent for his knowledge, his grasp of speech, and his discernment of opinions. When they came in to him,
+The boy's name was Salih (صَالِح, 'the righteous'), and his father's name was al-Bakhtari (اَلْبَخْتَرِي). The two were honored, raised above others, and given high standing for the excellence of the manners they had acquired. Word of them spread through the land, and word of their religion with it, until it reached a party of people who clung to the old creed. Al-Bakhtari had long held influence among them, and they feared that his leaving their religion would cut it off from them. So they set out and gathered before one of their scholars, called Abd al-Jabbar Abu Malik (أَبُو مَالِك), whom they had named — for his scrupulousness, the depth of his forbearance, and his defense of his religion — "Kab al-Ahbar (كَعْبُ الْأَحْبَارِ)." Among them he stood eminent for his knowledge, his grasp of speech, and his discernment of opinions. When they came in to him,
 
 they said: "Abu Malik, do you not see what the boy has gone over to?"
 
@@ -988,7 +988,7 @@ He said, "No — only within this one day of ours. If you do it, well and good; 
 
 They said, "Then we repent to God from every sin, and we render every debt, and we do what you have commanded. There is no strength save in God."
 
-So they did this that very day, and they all went out together until they came to the gate of al-Bakhtari. When they had greeted him and were seated, Abu Malik said to al-Bakhtari, "O Abu Salih (أبا صالح, 'father of Salih'), how is your son Salih, and where is he?"
+So they did this that very day, and they all went out together until they came to the gate of al-Bakhtari. When they had greeted him and were seated, Abu Malik said to al-Bakhtari, "O Abu Salih (أَبَا صَالِح, 'father of Salih'), how is your son Salih, and where is he?"
 
 Al-Bakhtari said, "Salih today is my father, and I am the son of Salih; and Salih is with his Lord."
 
@@ -1138,7 +1138,7 @@ Salih said to him: "Your saying that God is One: one (واحد) is four letters,
 
 Abu Malik bowed his head for a while, then said: "I find no way out of this except that they are signs pointing to God."
 
-Salih said to him: "Which of them points to God? And by what do they point to Him—by standing apart or by being joined? Or by some standing alone while others are joined, as in your saying Allah, where the alif (الألف) stands alone and the three letters are connected? Which of them points to God: this one standing alone, or these joined together?"
+Salih said to him: "Which of them points to God? And by what do they point to Him—by standing apart or by being joined? Or by some standing alone while others are joined, as in your saying Allah, where the alif (الْأَلِف) stands alone and the three letters are connected? Which of them points to God: this one standing alone, or these joined together?"
 
 Abu Malik said: "I do not know what to tell you about this. Take us on to another door."
 
@@ -1394,7 +1394,7 @@ Salih said to him: "If you do that, you will find Allah nearer to pardoning you 
 
 Then Salih's eyes brimmed with tears at the mention of repentance, and the fullness of his feeling broke off his speech. He gave them heart and bade them go to his father's house. He went in to his father, the Master who had first sent him out, and took counsel with him over the affair of Abu Malik and his companions.
 
-The Master said: "You know your companions best. If you find good in them, guide them with your guidance; and when you warn them, let no eagerness move you to impose tazir (تعزير) upon them. Test them by leaving them to themselves, without harshness, and bid your father be kind to them and deal righteously with them in due season. The one who inclines toward good is not hidden, and Allah will not abandon you behind your back. From the light of His enabling grace He will open for you that by which the affairs of His creation are set in order, and from the gates of guidance that by which He shows you the deeds of the rightly guided."
+The Master said: "You know your companions best. If you find good in them, guide them with your guidance; and when you warn them, let no eagerness move you to impose tazir (تَعْزِير) upon them. Test them by leaving them to themselves, without harshness, and bid your father be kind to them and deal righteously with them in due season. The one who inclines toward good is not hidden, and Allah will not abandon you behind your back. From the light of His enabling grace He will open for you that by which the affairs of His creation are set in order, and from the gates of guidance that by which He shows you the deeds of the rightly guided."
 
 He said: So Abu Malik and his companions went back and forth under this testing until their affair was fulfilled and they came to know their own guidance, and the guardian of Allah among them inclined kindly toward guiding them. They gave thanks to Allah for that, and returned to their people as warners, and through them Allah guided a great many of His servants to His religion.
 
@@ -1404,7 +1404,7 @@ Praise be to Allah, first and last. May Allah bless His Messenger, our master Mu
 
 <!-- editorial:begin -->
 > **Editorial note (tradition-grounded).** 
-> In the source's Arabic the father of this chapter is called "the Shaykh" (الشيخ), a title the story keeps binding to
+> In the source's Arabic the father of this chapter is called "the Shaykh" (اَلشَّيْخ), a title the story keeps binding to
 > his advanced years — "the day I grew old," "your age and your late years." The word repays a
 > moment's attention: it grows from a root (sh-y-kh) meaning to grow old and become an elder, and
 > it begins as simply "old man" before ripening into "master," the one whose accumulated years

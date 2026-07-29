@@ -259,6 +259,22 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # an apparatus miss must never cost a finished book
         _record_skip(book_dir, "etymology", e, log)
 
+    # 5a-glossary-vowel. Mark the GLOSSARY's Arabic, and do it BEFORE the overlay
+    #     below — the overlay inserts whatever the glossary holds, so a bare
+    #     glossary prints bare terms however well the quotations are vowelled.
+    #     Order matters in one direction only, and it is not negotiable: changing
+    #     the glossary AFTER an overlay exists leaves `_normalize_annotations`
+    #     unable to recognise the annotation it already wrote (it keys on the old
+    #     script), so it annotates on top of it — measured on 2026-07-29 as
+    #     `Tur (اَلطُّور), الطور)`, a doubled parenthetical in live prose.
+    #     See vowel_glossary.py.
+    from vowel_glossary import vowel_glossary
+
+    try:
+        vowel_glossary(book_dir, log=lambda m: log(f"    {m}"))
+    except Exception as e:  # marks are never worth a finished book
+        _record_skip(book_dir, "glossary-vowelling", e, log)
+
     # 5a-arabic. Put the Arabic script back beside inline terms. AFTER every
     #     LLM text pass, so no model can romanize the script away again, and AFTER
     #     the Composer replay, so it annotates the author's chapters too — before
