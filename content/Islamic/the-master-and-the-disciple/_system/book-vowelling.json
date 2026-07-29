@@ -1,8 +1,9 @@
 {
-  "vowelled": 1,
-  "marks_added": 51,
-  "already": 49,
-  "quranic": 7,
+  "vowelled": 0,
+  "marks_added": 0,
+  "already": 56,
+  "quranic": 1,
+  "from_mushaf": 0,
   "refused": 0,
   "refusals": []
 }

@@ -6,19 +6,25 @@ Uthmani text in ``fts_quran`` (tracked in git, ~30 MB, so it is present on every
 checkout). ``source_library_mirror.quran_ayat_lookup`` reads single verses from
 it for the compose-time anchor block; nothing verified AGAINST it.
 
-Why that matters (2026-07-20): a run reached the printed edition fully vowelled
-while the scan carried it bare. Three attempts at a scan-grounded guard were
-abandoned because the review list came back dominated by canonical Quran, which
-is LEGITIMATELY vowelled — and the checks had no way to tell canonical from
-fabricated. This module is that missing discriminator, so the guard becomes
-possible:
+TWO JOBS, and the second arrived when the first outlived its original purpose.
 
-  * a span that IS canonical Quran may carry vowels the scan lacks;
-  * a span that is NOT canonical Quran must match the scan's own vowelling.
+``is_quranic`` was written (2026-07-20) as the discriminator a fabricated-vowelling
+guard needed: canonical Quran is legitimately vowelled whatever the scan carries,
+so without a way to recognise it every review list came back dominated by verses.
+That guard is gone — vowelling stopped being a defect on 2026-07-29 — but the
+discriminator did not become useless, it changed employer. ``vowel_book.py`` asks
+it WHICH SOURCE a run's marks must come from: the book's own Arabic is vowelled by
+a model under a marks-only gate, and scripture is not vowelled by anything, it is
+quoted.
 
-Degrades silently: if the mirror is absent, ``is_quranic`` returns False for
-everything, which makes callers MORE conservative (more spans flagged for review)
-rather than silently passing.
+``mushaf_vocalisation`` is that second job: given a bare verse, return the mushaf's
+own vowelled text for exactly the words quoted. For scripture there is a right
+answer and it is in this file's corpus, so no model is asked for one.
+
+Degrades silently: if the mirror is absent, ``is_quranic`` returns False and
+``mushaf_vocalisation`` returns None, so a verse is treated as ordinary Arabic —
+which the vowelling pass refuses to act on at all (it logs and stops), because
+model-vowelling scripture is the one outcome worse than leaving it bare.
 """
 
 from __future__ import annotations
@@ -46,8 +52,10 @@ _MIN_SKELETON = 10
 # The cost is that `كن فيكون` and `فَيَكُونُ` no longer resolve as canonical. That
 # is correct: a one- or two-word Arabic run carries too little evidence to call
 # scripture, and the consumer that cared -- the fabricated-vowelling review --
-# now declines to judge such runs at all rather than needing them excused. See
-# `_narrative.ocr_vowelling_findings`.
+# now declines to judge such runs at all rather than needing them excused. (That
+# consumer, `_narrative.ocr_vowelling_findings`, was itself deleted on 2026-07-29;
+# the floor stays because `mushaf_vocalisation` inherits the same requirement —
+# a two-word span is too little evidence to replace with canonical text.)
 _MIN_ALIGNED_WORDS = 3
 
 # Floor for the defective-substring path. Much higher than the plain one because
@@ -171,6 +179,87 @@ def _mushaf_word_haystack() -> str:
 
 def mushaf_available() -> bool:
     return bool(_mushaf_haystack())
+
+
+@lru_cache(maxsize=1)
+def _mushaf_verses() -> tuple[tuple[tuple[str, ...], tuple[str, ...]], ...]:
+    """Every ayah as (vowelled words, defective-skeleton words), index-aligned.
+
+    The two haystacks above answer "is this scripture" and throw the text away.
+    This one keeps it, because recognising a verse and being able to QUOTE it
+    correctly are different jobs.
+    """
+    try:
+        from source_library_mirror import open_mirror
+    except Exception:
+        return ()
+    conn = open_mirror()
+    if conn is None:
+        return ()
+    try:
+        rows = conn.execute("SELECT arabic FROM fts_quran").fetchall()
+    except Exception:
+        return ()
+    finally:
+        conn.close()
+    out = []
+    for row in rows:
+        # Words whose skeleton normalizes to nothing — a lone pause mark, a
+        # standalone ayah number — are dropped from BOTH tuples together, so the
+        # indices stay aligned. Dropping the whole verse when one word does this
+        # is what an earlier cut did, and it left 1 usable ayah out of 6,236.
+        pairs = [(w, _defective(normalize_arabic(w))) for w in (row[0] or "").split()]
+        pairs = [(w, k) for w, k in pairs if k]
+        if pairs:
+            out.append((tuple(w for w, _ in pairs), tuple(k for _, k in pairs)))
+    return tuple(out)
+
+
+def mushaf_vocalisation(span: str) -> str | None:
+    """The canonical vowelled text of ``span``, or ``None`` if it does not align.
+
+    WHY SUBSTITUTE AT ALL. ``is_quranic`` excuses a verse from vowelling on the
+    premise that scripture arrives already marked from the mushaf. Sometimes it
+    does not: `the-master-and-the-disciple` prints the basmala, `إنا لله وإنا إليه
+    راجعون` and five other verses completely bare. Skipping them left the most
+    familiar passages in the book the only unreadable ones. A model must not
+    supply those marks — for canonical scripture there is a right answer and it is
+    in the repo — so this returns the mushaf's OWN vocalisation instead.
+
+    WHAT THIS CHANGES ON THE PAGE, said plainly: the returned text is Uthmani, so
+    the letters change as well as the marks. `الرحمن` comes back as `ٱلرَّحْمَٰنِ` —
+    alif wasla, dagger alif, the lot. That is deliberate and it is the ONE place
+    in this repo where an Uthmani substitution is right rather than a defect: the
+    text being inserted is not a model's recollection of a verse, it is the verse,
+    read out of ``content/knowledge-base/mirror.db``. The reading edition already
+    sets every mushaf-resolved run in the KFGQPC Uthmanic face precisely because
+    that is the orthography such a run is written in, so after this the letters
+    and the typeface finally agree instead of the face implying a spelling the
+    letters did not have.
+
+    ALIGNMENT IS WHOLE-SPAN AND EXACT. Every word of the span must match a
+    consecutive word window of one ayah on the defective skeleton — the same fold
+    ``is_quranic`` aligns with. No proclitic retry, no partial match, no fuzzy
+    tail: a span that does not align completely returns ``None`` and is left
+    exactly as the book has it. The failure mode this refuses is replacing a
+    quotation with a DIFFERENT extent of the verse, which would silently change
+    what the book quotes.
+    """
+    words = [w for w in (span or "").split() if w.strip()]
+    keys = [_defective(normalize_arabic(w)) for w in words]
+    if not keys or not all(keys):
+        return None
+    n = len(keys)
+    needle = tuple(keys)
+    for vowelled, verse_keys in _mushaf_verses():
+        for i in range(len(verse_keys) - n + 1):
+            if verse_keys[i : i + n] == needle:
+                # The mirror stores some ayat with a leading bidi mark (U+200E /
+                # U+200F). It renders as nothing and means nothing inside a run
+                # that is already RTL, but it is an invisible character landing in
+                # book.md, so it comes off here rather than in every caller.
+                return " ".join(vowelled[i : i + n]).strip("\u200e\u200f").strip()
+    return None
 
 
 def is_quranic(span: str) -> bool:

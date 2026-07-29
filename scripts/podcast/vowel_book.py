@@ -19,11 +19,20 @@ drops a clause, normalises a hamza form or reaches for the mushaf's Uthmani
 spelling is refused and never reaches `book.md`. Relaxing the policy on marks was
 Asif's call; letting letters move under cover of it was not.
 
-TWO RUNS ARE SKIPPED, both for the same reason -- there is nothing to add:
-  * Anything already vowelled (`is_vowelling_candidate`).
-  * Every Qur'anic run, which carries the canonical mushaf's own vocalisation.
-    `_mushaf.is_quranic` is the discriminator, the same one the Arabic audit uses.
-    Re-vowelling canonical scripture from a model could only degrade it.
+TWO SOURCES OF MARKS, chosen by what the run IS:
+  * Ordinary Arabic -- the book's own words -- is vowelled by the model above,
+    under the marks-only gate.
+  * SCRIPTURE is not. `_mushaf.is_quranic` recognises a Qur'anic run and
+    `_mushaf.mushaf_vocalisation` returns the canonical vowelled text for it, out
+    of `content/knowledge-base/mirror.db`. For a verse there is a right answer and
+    it is in the repo, so no model is asked. That text is UTHMANI, so the letters
+    change too -- the one place in this repo where that is right rather than a
+    defect, and consistent with the reading edition already setting every
+    mushaf-resolved run in the KFGQPC Uthmanic face. A verse that does not align
+    word for word is left exactly as the book prints it.
+
+A run already carrying its marks (`is_vowelling_candidate`) is skipped by either
+path: there is nothing to add.
 
 IDEMPOTENT. A second run finds every previously-marked passage already vowelled
 and does nothing, so re-composing a book costs nothing and cannot double-mark.
@@ -127,7 +136,7 @@ def vowel_text(
     A run that occurs several times is vowelled once and replaced everywhere,
     which is correct: the same sentence has the same reading.
     """
-    from _mushaf import is_quranic, mushaf_available
+    from _mushaf import is_quranic, mushaf_available, mushaf_vocalisation
 
     ask = call or (lambda run: _clean(_gemini(SYSTEM, run)))
     have_mushaf = mushaf_available()
@@ -139,7 +148,14 @@ def vowel_text(
         return text, {"skipped": "no mushaf", "vowelled": 0}
 
     seen: set[str] = set()
-    stats = {"vowelled": 0, "marks_added": 0, "already": 0, "quranic": 0, "refused": 0}
+    stats = {
+        "vowelled": 0,
+        "marks_added": 0,
+        "already": 0,
+        "quranic": 0,
+        "from_mushaf": 0,
+        "refused": 0,
+    }
     refusals: list[dict] = []
     out = text
     for run in arabic_run_spans(text):
@@ -152,7 +168,21 @@ def vowel_text(
         if not is_arabic_passage(run):
             continue
         if is_quranic(run):
-            stats["quranic"] += 1
+            # Scripture the book prints BARE. Skipping it on the assumption that a
+            # verse arrives already marked left the most familiar passages in the
+            # book — the basmala, `إنا لله وإنا إليه راجعون` — as the only
+            # unreadable ones. A model must not supply these marks: for canonical
+            # scripture there is a right answer and it is in the repo, so take the
+            # mushaf's own vocalisation. Note this returns UTHMANI text, letters
+            # and all; see mushaf_vocalisation for why that is right here and
+            # nowhere else. A verse that does not align exactly is left alone.
+            canonical = mushaf_vocalisation(run) if not dry_run else None
+            if canonical and canonical != run:
+                out = out.replace(run, canonical)
+                stats["from_mushaf"] += 1
+                stats["marks_added"] += mark_count(canonical) - mark_count(run)
+            else:
+                stats["quranic"] += 1
             continue
         if dry_run:
             stats["vowelled"] += 1
@@ -195,8 +225,9 @@ def vowel_book(book_dir: Path, *, log: Callable[[str], None] = print, dry_run: b
     report.write_text(json.dumps(stats, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     log(
         f"vowelling: {stats.get('vowelled', 0)} run(s) marked "
-        f"(+{stats.get('marks_added', 0)} marks), {stats.get('already', 0)} already vowelled, "
-        f"{stats.get('quranic', 0)} Qur'anic, {stats.get('refused', 0)} refused"
+        f"(+{stats.get('marks_added', 0)} marks), {stats.get('from_mushaf', 0)} set from the mushaf, "
+        f"{stats.get('already', 0)} already vowelled, {stats.get('quranic', 0)} Qur'anic left as printed, "
+        f"{stats.get('refused', 0)} refused"
     )
     return stats
 

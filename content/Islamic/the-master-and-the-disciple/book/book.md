@@ -274,7 +274,7 @@ When the creation of things had been completed upon these principles, He made th
 
 Then He rent it apart with His light, opened it with His command, created it by His knowledge, and sealed it, out of His names, with the letters of "In the name of Allah, the Most Gracious, the Most Merciful."
 
-> بسم الله الرحمن الرحيم
+> بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ
 >
 > In the name of Allah, the Most Gracious, the Most Merciful.
 
@@ -544,7 +544,7 @@ The Master said: "Then why do you say, there is no might (hawl, الحول), and
 
 The boy said: "It is narrated to us in our sciences that hawl is the year, by the words of God,
 
-> حولين كاملين
+> حَوْلَيْنِ كَامِلَيْنِ
 
 two complete years, meaning two years. And we have it narrated, as the common people too have transmitted, that quwwa, power, means mules, by the words of God,
 
@@ -780,7 +780,7 @@ He said: Praise be to God, who has opened with His light the hearts that were se
 
 Then he said: Now to proceed. It is among the honors of minds that they be put to use in seeking, and among the fruits of seeking is finding, and among the marks of finding is the sweetness of what is found. Every sweet, fresh spring has a surface that is drunk and a depth that lies veiled. The one who seeks it never wearies of the thought that pursues it, and creation never reaches the end of its purpose. Its marks are truth, and the truth of the truth is an obligation, and from this it was named truth, for the establishing of its obligation. Whoever withholds from the truth what is due to it is a wrongdoer. Indeed, among the rights of thought is the purifying of hearts by good manners, and among the rights of good manners is the seeking of knowledge, and among the rights of knowledge is acting upon it, and among the rights of acting upon it is that it be kept pure by obedience to those charged with authority, and among the rights of obedience is that it be carried through in hardship and ease alike, in good fortune and in trial the same.
 
-وما يُلقاها إلا الذين صبروا وما يُلقاها إلا ذو حظ عظيم
+وَمَا يُلَقَّىٰهَآ إِلَّا ٱلَّذِينَ صَبَرُوا۟ وَمَا يُلَقَّىٰهَآ إِلَّا ذُو حَظٍّ عَظِيمٍۢ
 
 And none is granted it except those who are patient, and none is granted it except one of great fortune.
 
@@ -994,7 +994,7 @@ Al-Bakhtari said, "Salih today is my father, and I am the son of Salih; and Sali
 
 Abu Malik, supposing that Salih had died — for his father had said he was with his Lord — said,
 
-> إنا لله وإنا إليه راجعون
+> إِنَّا لِلَّهِ وَإِنَّآ إِلَيْهِ رَجِعُونَ
 
 "To God we belong, and to Him we return. Has Salih died?"
 
@@ -1128,7 +1128,7 @@ Abu Malik said: "If the doctrine of the people of justice is flawed, and their a
 
 Salih said to him: "Justice and oneness are among the noblest of all doctrines. Oneness is too great to be corrupted, for oneness has no opposite; and justice is not corrupted, for it is the judgment between God and His creation. But the doctrines are all corrupted by the way men have corrupted the saying of justice and the rest — for it is a claim by which no statement is proved, and they do not encompass the knowledge of what they have said until they defer to the command of God. So take up whichever of the two you wish, defend it, and make it your own, until I strip it from you by the proof of the truth."
 
-Abu Malik said: "I would not defend a saying I do not hold, nor one whose author has asked this of me; I have not set myself up as agent for his saying, nor am I a keeper over the authors of the doctrines. Before you I defend only my own saying. I say that God is One, that nothing is like Him (ليس كمثله شيء), just in His ruling, who lays upon His servants no burden they have no strength to bear. He commanded them and forbade them, yet He did not command by compulsion nor forbid by force; rather His command is a granting of choice, and His prohibition a warning — so that the obedient did not obey under coercion, and the disobedient did not disobey as men overpowered. This is my meaning, and this is what I hold."
+Abu Malik said: "I would not defend a saying I do not hold, nor one whose author has asked this of me; I have not set myself up as agent for his saying, nor am I a keeper over the authors of the doctrines. Before you I defend only my own saying. I say that God is One, that nothing is like Him (لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ), just in His ruling, who lays upon His servants no burden they have no strength to bear. He commanded them and forbade them, yet He did not command by compulsion nor forbid by force; rather His command is a granting of choice, and His prohibition a warning — so that the obedient did not obey under coercion, and the disobedient did not disobey as men overpowered. This is my meaning, and this is what I hold."
 
 Salih said to him: "Did I not tell you that this doctrine is among the noblest? But these are names and attributes that avail nothing unless their meaning is present. It is as when you say, fire is hot: you have spoken truly, yet the truth does you no good, for your saying fire is hot is a name and an attribute whose mere utterance avails nothing — no food is cooked by it, no darkness lit by it — apart from the meaning that fire actually exists. Were names and attributes to stand in things in the place of the meanings themselves, then the word fire would burn your tongue and the word food would fill you."
 
@@ -1174,7 +1174,7 @@ Salih said: "Then what is the difference between the name and the named? Which o
 
 Abu Malik was bewildered for a while, turning his answer over in his mind, and then said: "I find no way through this except that I have looked upon all the crafts, and every craft has its craftsman; and so I judged that this mighty creation has a Creator who resembles nothing of what He has created, just as craftsmen do not resemble the things they make."
 
-Salih said to him: "O Abu Malik, you have carried us away from the first meaning. The narrowness you feel in the meaning of oneness has driven you to seek Him by analogy and to coin likenesses for Him, and God is far too exalted for that. For every made thing is made from some thing, yet God did not create things out of anything that existed before them. These craftsmen you speak of you know only because you watched some of them with your own eyes, how each one fashions his work; and so you passed judgment upon a making whose maker was hidden from you, drawing your conclusion by analogy from the like of it that you had seen among the craftsmen you have watched and known. But when God created, He did not make you a witness to the creation of what He made, nor was there for Him any like who makes as He makes; and yet you have testified by the like that is present to the like that is absent. I have never known you, O Abu Malik, to be satisfied with analogy in your religion; how then are you satisfied to seek the knowledge of your Lord by measurement? Your saying, nothing is like Him (ليس كمثله شيء), proves out of your own mouth that He has a likeness and that nothing is like that likeness. Had you meant oneness, you would have said, He is not like anything (لَيْسَ كَهُوَ شَيْءٌ), and you would not have said, nothing is like Him (ليس كمثله شيء). Glory be to the One whom the reach of lofty resolves cannot seize by thought, and whom the straining of the pointing hand cannot attain by perception; rather He is exalted far above the description of those who are charged with duty. O Abu Malik, had you turned this quest toward one of His servants, or toward a king among His angels, you would have failed to grasp what might be said of him and how he was created—how then the One who created him? The lights of the people of the earth fall short of grasping the light of the sun, and the sun is but one of the lights of this world; so how shall the one who falls short of grasping a servant of His grasp the Creator? Say what seems right to you."
+Salih said to him: "O Abu Malik, you have carried us away from the first meaning. The narrowness you feel in the meaning of oneness has driven you to seek Him by analogy and to coin likenesses for Him, and God is far too exalted for that. For every made thing is made from some thing, yet God did not create things out of anything that existed before them. These craftsmen you speak of you know only because you watched some of them with your own eyes, how each one fashions his work; and so you passed judgment upon a making whose maker was hidden from you, drawing your conclusion by analogy from the like of it that you had seen among the craftsmen you have watched and known. But when God created, He did not make you a witness to the creation of what He made, nor was there for Him any like who makes as He makes; and yet you have testified by the like that is present to the like that is absent. I have never known you, O Abu Malik, to be satisfied with analogy in your religion; how then are you satisfied to seek the knowledge of your Lord by measurement? Your saying, nothing is like Him (لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ), proves out of your own mouth that He has a likeness and that nothing is like that likeness. Had you meant oneness, you would have said, He is not like anything (لَيْسَ كَهُوَ شَيْءٌ), and you would not have said, nothing is like Him (لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ). Glory be to the One whom the reach of lofty resolves cannot seize by thought, and whom the straining of the pointing hand cannot attain by perception; rather He is exalted far above the description of those who are charged with duty. O Abu Malik, had you turned this quest toward one of His servants, or toward a king among His angels, you would have failed to grasp what might be said of him and how he was created—how then the One who created him? The lights of the people of the earth fall short of grasping the light of the sun, and the sun is but one of the lights of this world; so how shall the one who falls short of grasping a servant of His grasp the Creator? Say what seems right to you."
 
 Abu Malik bowed long to the ground in his bewilderment, finding no path to speech.
 
@@ -1278,7 +1278,7 @@ Abu Malik said: "And what are those qualities in which their merit over us runs 
 
 Salih answered him: "Their saying is like yours, and yours is of the same stamp as theirs; your hearts have grown to resemble one another. And yet the merit in the argument is theirs over you. The first quality: they say they came to the religion of God before you, so theirs is the merit of the foremost. The second: the consensus, both theirs and yours, rests upon confirming what is with them, so theirs is the merit of the truthful. The third: your own testimony on their behalf, that their prophets are truthful and are the messengers of God—while not one of them has testified for your prophet, neither to prophethood nor to truthfulness. So the merit is theirs over you, by your own agreement with them together with their standing apart from you; for they say that whatever knowledge you possess is copied from theirs, and that theirs is the root of yours. This is their argument against you, clear in speech and plain in its justice. If, then, the ruling of creation is binding upon the Creator, the ruling of these people is the more binding still. But if it is the Creator who rules over His creation, abrogating what He wills and confirming what He wills, with none to overturn His ruling, then—by my life—the saying of all of them falls away, and the Creator stands foremost over creation and over the command, and every day He is engaged in some affair:
 
-كل يوم هو في شأن
+كُلَّ يَوْمٍ هُوَ فِى شَأْنٍۢ
 
 Every day He is engaged in some affair.
 

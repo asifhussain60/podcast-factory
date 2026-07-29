@@ -93,3 +93,38 @@ def test_mark_density_separates_bare_from_vowelled() -> None:
     assert mark_density("لَيْسَ كَمِثْلِهِ شَيْءٌ") > 0.4
     # No Arabic letters at all: a density of zero, not a division by zero.
     assert mark_density("plain english") == 0.0
+
+
+# ── Canonical scripture comes from the corpus, not from a model ────────────
+
+
+def test_mushaf_vocalisation_returns_the_canonical_text() -> None:
+    """A bare verse resolves to the mushaf's own vowelled words."""
+    from _mushaf import mushaf_available, mushaf_vocalisation
+
+    if not mushaf_available():  # pragma: no cover - mirror.db is tracked in git
+        pytest.skip("canonical mushaf unavailable")
+    source = "إنا لله وإنا إليه راجعون"
+    got = mushaf_vocalisation(source)
+    assert got is not None
+    assert mark_count(got) > 5, "the canonical text is fully vowelled"
+    # Uthmani, deliberately, and this is the one place in the repo where a
+    # changed LETTER is right: the mushaf writes `رَجِعُونَ` without the alif that
+    # modern spelling supplies, so the skeletons differ. Asserting that they do
+    # pins the documented behaviour — the text inserted is the verse itself, not
+    # a re-marking of the book's spelling of it.
+    assert skeleton(got) != skeleton(source)
+
+
+def test_mushaf_vocalisation_declines_a_span_that_does_not_align() -> None:
+    """No fuzzy tail, no partial window: a near-miss returns nothing at all.
+
+    The failure mode being refused is replacing a quotation with a DIFFERENT
+    extent of the verse, which would silently change what the book quotes.
+    """
+    from _mushaf import mushaf_available, mushaf_vocalisation
+
+    if not mushaf_available():  # pragma: no cover
+        pytest.skip("canonical mushaf unavailable")
+    assert mushaf_vocalisation("قال الشيخ لتلميذه في ذلك اليوم") is None
+    assert mushaf_vocalisation("") is None
