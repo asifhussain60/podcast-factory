@@ -5,11 +5,14 @@ The engine behind the Book Composer's Rearticulate action. Takes a stiff,
 word-for-word, Arabic-calqued chapter and rewrites it as modern, lucid, simple
 English under the Book Articulation Standard (docs/standards/book-articulation.md,
 REQ-BA-*), preserving every teaching, speech, quote, image, Arabic run, and
-enumeration. Reuses the fluency pass's engine (`_book_voice._run_pass`) so the
-windowing, the per-window `revoice_gates` (abridgement, teaching loss, Arabic
-retention, doctrinal P0s, narrative frame), the editorial-aside passthrough and
-the seam trimming are the SAME code the pipeline trusts — a window that fails a
-gate reverts to its base, so a failed rearticulation is a no-op, never a loss.
+enumeration. Builds its prompt from `_book_voice_prompts._articulation_prompt` —
+the SAME builder the automatic `0book-fluency` pass uses, so the on-demand tool
+and the automatic default cannot silently diverge. Reuses the fluency pass's
+engine (`_book_voice._run_pass`) so the windowing, the per-window `revoice_gates`
+(abridgement, teaching loss, Arabic retention, doctrinal P0s, narrative frame),
+the editorial-aside passthrough and the seam trimming are the SAME code the
+pipeline trusts — a window that fails a gate reverts to its base, so a failed
+rearticulation is a no-op, never a loss.
 
 The chapter is addressed by its Composer chapter key (`_book_edits.anchor_key`
 of the `##` heading), NEVER by printed chapter number — the introduction is an
@@ -40,74 +43,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _authoring._core import _run_claude_p_with_retry
 from _book_edits import anchor_key, base_fingerprint_for, record_edit
 from _book_voice import _CHAPTER_HEADING_RE, _run_pass
-from _narrative import ARABIC_DIRECTIVE, frame_prompt_directive
+from _book_voice_prompts import _articulation_prompt
 from _paths import resolve_content
 from _pipeline_flags import narrative_frame, narrator_subject
 
 _TIMEOUT = 900
 _PHASE = "rearticulate"
-
-
-def _rearticulate_prompt(
-    title: str,
-    base_text: str,
-    previous_tail: str = "",
-    *,
-    frame: str = "",
-    narrator: str = "",
-) -> str:
-    """The REQ-BA prompt: stronger than the fluency de-calque — grammar may be
-    rebuilt freely — but with the artifacts named and protected explicitly."""
-    directives = frame_prompt_directive(frame, narrator) + ARABIC_DIRECTIVE if frame else ""
-    continuity = (
-        "\nCONTINUITY\nThis passage continues a chapter already in progress. The preceding "
-        "passage ended with the words below. Carry straight on — do not re-introduce the "
-        "chapter, do not summarize what came before, and do not repeat these words:\n"
-        f"{previous_tail}\n"
-        if previous_tail
-        else ""
-    )
-    return f"""You are rearticulating one chapter of a scholarly Islamic book so it reads like a
-professionally published edition: modern, lucid, simple English that a general reader
-understands on first read. The source below is a stiff, literal, Arabic-calqued draft.
-Fix that completely. (Contract: the Book Articulation Standard, REQ-BA-010..120.)
-{directives}{continuity}
-
-YOU MAY (REQ-BA-020)
-Rebuild sentence and paragraph grammar freely: split long sentences, merge fragments,
-reorder clauses, replace calqued constructions ("the most X of them in Y and the most
-Z of them in W") with natural English. Re-draw paragraph breaks to serve the reading,
-keeping one paragraph per speech turn in dialogue.
-
-YOU MAY NOT (REQ-BA-030..060)
-- Change meaning. Every teaching, argument, example, named person, citation, and
-  enumerated list survives with its content intact. Add nothing: no outside facts, no
-  analogies, no explanations not in the source. Drop nothing, summarize nothing.
-- Touch the artifacts. Direct speech, Quran verses, hadith, poetry, prayers, and quoted
-  sayings keep their boundaries, their speakers, and their content. Never add, remove,
-  or re-point a speech tag. Inside a quote, de-calque the wording only — never
-  paraphrase away a point, an image, or a claim.
-- Flatten imagery. Metaphors, similes, and parables keep their concrete images: a
-  wellspring stays a wellspring, "struck the mark" stays an image of striking, branches
-  bearing fruit stay branches. Recast grammar AROUND an image, never replace the image
-  with an abstraction ("preached effectively" for "struck the mark" is the canonical
-  violation).
-- Alter Arabic. Arabic-script runs are copied verbatim — never romanized away, never
-  re-vowelled, never dropped. Transliteration stays beside script, never replaces it.
-
-REGISTER (REQ-BA-010, -070..110)
-Dignified and bookish, but plain: prefer the simple word when it carries the meaning.
-No contractions, no marketing tone. Render each technical term the SAME way on every
-occurrence, matching the spelling this book already uses — never introduce a variant
-spelling. Do not add parenthetical transliterations. Keep honorifics in the compact
-form the surrounding text uses. American spelling. The output must be about the same
-length as the source — this is a rewording, never an abridgement.
-
-OUTPUT
-Return ONLY the rearticulated chapter prose. No title line, no preamble, no code fences.
-
-CHAPTER "{title}"
-{base_text}"""
 
 
 def _adapter(
@@ -122,7 +63,7 @@ def _adapter(
     narrator: str = "",
 ) -> str:
     rc, out, err = _run_claude_p_with_retry(
-        _rearticulate_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator),
+        _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator),
         timeout=_TIMEOUT,
         book_dir=book_dir,
         phase=_PHASE,

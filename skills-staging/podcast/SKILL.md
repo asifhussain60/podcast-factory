@@ -497,6 +497,7 @@ Distinct from the podcast path. The podcast source remains `chapters/chNN-<slug>
 
 - `translation_policy.augmentation` must be `forbidden`, `none`, or `source_only`; no doctrine, modern examples, external citations, or research may be added.
 - `translation_policy.preserve_arabic_terms` stays true; source Arabic and quoted material are preserved from OCR/refined source rather than invented.
+- `0book-fluency` runs automatically over the faithful base (the `book_voice: faithful` default this route sets) — the full **Book Articulation Standard** (`docs/standards/book-articulation.md`, REQ-BA-*): modern, lucid, simple English, grammar rebuilt freely, meaning/artifacts/imagery/Arabic untouched. Same standard, same prompt builder (`_book_voice_prompts._articulation_prompt`) as the Book Composer's on-demand **Rearticulate** action — the automatic pass and the one-chapter tool cannot drift apart.
 - `visual_style` is `black_white`/monochrome; diagrams and the book-level slide pair are monochrome.
 - `0book-compose` uses [_translation_edition.py](../../scripts/podcast/_translation_edition.py), writes `book/book.md`, mirrors generated chapters into `chapters/`, normalizes long English salutations into compact forms, and persists `book/source-crosswalk.json`.
 - `book/source-crosswalk.json` is required. It records each chapter's source line ranges, source pages, Arabic source pages, source headings/excerpt, and deterministic title/source drift findings.

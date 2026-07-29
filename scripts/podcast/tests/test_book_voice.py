@@ -88,27 +88,61 @@ def test_revoice_gates_keeps_a_clean_re_voice() -> None:
     assert revoice_gates(base, revoiced) == []
 
 
-# ─── prompt / frame agreement ─────────────────────────────────────────────────
-def test_fluency_prompt_does_not_contradict_its_own_frame_directive() -> None:
-    """The de-calque prompt must not forbid the person its directives just mandated.
+def test_revoice_gates_reverts_a_leaked_articulation_notes_marker() -> None:
+    """REQ-BA-160 belt-and-suspenders: a marker that survives extraction (e.g. a
+    malformed block missing its END-NOTES terminator) must never ship."""
+    base = "The teacher began his lesson at dawn, as he always did, speaking first of patience."
+    revoiced = base + "\n\n===ARTICULATION-NOTES===\nAMBIGUITY: something\n"
+    gate = revoice_gates(base, revoiced)
+    assert any("leaked articulation" in f for f in gate)
 
-    `_fluency_prompt` hardcoded "the SAME third-person scholarly register" and
-    "Do not switch to first person" twenty lines below a directives block that,
-    for a first-person book, says to narrate in the first person throughout. The
-    frame is a SOURCE property and independent of the route, so a route that
-    hardcodes a person will eventually meet a book that disagrees with it.
+
+# ─── prompt / frame agreement ─────────────────────────────────────────────────
+def test_articulation_prompt_does_not_contradict_its_own_frame_directive() -> None:
+    """The articulation prompt must not forbid the person its directives just mandated.
+
+    A predecessor prompt hardcoded a register clause independent of the frame
+    directive, and a first-person book was told to narrate first person and then,
+    in the same prompt, forbidden from doing it. `_articulation_prompt` has no
+    such hardcoded clause — person comes ONLY from `frame_prompt_directive` — so
+    this is now a structural guarantee rather than something each route must get
+    right on its own.
     """
-    from _book_voice_prompts import _fluency_prompt
+    from _book_voice_prompts import _articulation_prompt
 
     for frame in ("first_person_author", "participant_narrator"):
-        prompt = _fluency_prompt("Ch", "text", frame=frame, narrator="Salih")
+        prompt = _articulation_prompt("Ch", "text", frame=frame, narrator="Salih")
         assert "Narrate in the FIRST PERSON" in prompt, frame
-        assert "Do not switch to first person" not in prompt, frame
+        assert "Narrate in the THIRD PERSON" not in prompt, frame
 
     for frame in ("transmitted_report", "external_narrator", ""):
-        prompt = _fluency_prompt("Ch", "text", frame=frame)
-        assert "third-person scholarly register" in prompt, frame
-        assert "Do not switch to first person" in prompt, frame
+        prompt = _articulation_prompt("Ch", "text", frame=frame)
+        if frame:
+            assert "Narrate in the THIRD PERSON" in prompt, frame
+        assert "Narrate in the FIRST PERSON" not in prompt, frame
+
+
+def test_fluency_and_rearticulate_share_the_same_prompt_builder() -> None:
+    """0book-fluency (automatic) and the Rearticulator (on-demand) must build from
+    the SAME function object — the guarantee that the two routes cannot drift
+    apart, per docs/standards/book-articulation.md."""
+    from _book_voice_prompts import _articulation_prompt
+    from rearticulate_chapter import _articulation_prompt as rearticulate_prompt_fn
+
+    assert rearticulate_prompt_fn is _articulation_prompt
+    assert rearticulate_prompt_fn("Ch", "some prose", frame="external_narrator") == _articulation_prompt(
+        "Ch", "some prose", frame="external_narrator"
+    )
+
+
+def test_articulation_prompt_carries_the_notes_block_instruction() -> None:
+    """REQ-BA-160: the prompt must teach the out-of-band notes format so a pass
+    never writes an ambiguity/comprehension/terminology note into the prose."""
+    from _book_voice_prompts import _articulation_prompt
+
+    prompt = _articulation_prompt("Ch", "text")
+    assert "===ARTICULATION-NOTES===" in prompt
+    assert "REQ-BA-160" in prompt
 
 
 # ── _merge_records: the superseded chain keeps its origin ────────────────────

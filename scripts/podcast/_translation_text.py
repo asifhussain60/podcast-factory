@@ -34,6 +34,12 @@ _META_COMMENTARY_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = (
     (re.compile(r"\bsource passage (?:is|was) about\b", re.I), "comments on source/title mismatch"),
     (re.compile(r"\bhere is the faithful chapter\b", re.I), "adds process preamble"),
     (re.compile(r"\bas an ai\b", re.I), "mentions AI identity"),
+    # Belt-and-suspenders for REQ-BA-160 (docs/standards/book-articulation.md):
+    # `_book_articulation_notes.extract_articulation_notes` strips this block
+    # before it ever reaches book.md and reverts the window if it survives. This
+    # catches it too, in case a future prompt/extraction change lets it through.
+    (re.compile(r"===ARTICULATION-NOTES===", re.I), "leaked articulation-notes block"),
+    (re.compile(r"\[Editorial query", re.I), "leaked inline editorial-query note"),
 )
 _MARKDOWN_HEADING_RE = re.compile(r"(?m)^#{1,6}\s+\S")
 _OPENING_HEADING_RE = re.compile(r"(?m)^#\s+\S")

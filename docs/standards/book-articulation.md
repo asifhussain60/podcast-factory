@@ -1,11 +1,17 @@
 # Book Articulation Standard (REQ-BA-*)
 
-Canonical rule text for **rearticulation** — taking a stiff, word-for-word,
+Canonical rule text for **articulation** — taking a stiff, word-for-word,
 Arabic-calqued English chapter and rewriting it so it reads like a professionally
-published book, without changing what it says. This is the contract behind the
-Book Composer's **Rearticulate** action (`scripts/podcast/rearticulate_chapter.py`),
-the `book-articulation` skill, and the `book-rearticulator` agent. Cite findings
-by `REQ-BA-NNN`; never re-copy rule text elsewhere.
+published book, without changing what it says. This is the contract behind
+**both** rewrite routes for the translation edition: `0book-fluency`
+(`scripts/podcast/_book_voice.py` / `_book_voice_prompts.py`), which runs
+automatically over every translation-edition book at compose time, and the Book
+Composer's **Rearticulate** action (`scripts/podcast/rearticulate_chapter.py`),
+which reruns one chapter on demand. Both call the same prompt builder
+(`_book_voice_prompts.py::_articulation_prompt`) so the automatic pass and the
+on-demand tool cannot drift apart. Also referenced by the `book-articulation`
+skill and the `book-rearticulator` agent. Cite findings by `REQ-BA-NNN`; never
+re-copy rule text elsewhere.
 
 Grounding: the [Library of Arabic Literature *Handbook for Editor–Translators*](https://dhjhkxawhe8q4.cloudfront.net/library-of-arabic-literature-wp/assets/20240716170340/Handbook-v5-2024-02-28.pdf)
 (NYU Press, 2022 — "LAL" below), the house style of the standard scholarly series
@@ -79,3 +85,47 @@ retention, narrative frame), the repo convention wins and is cited, not restated
   front of you. Grammatical person, one narrator per book, and enumeration
   survival are enforced by `_narrative.py` and gated by `book-challenger`
   Pass 3 (BK-N1–N7). Rearticulation runs inside those gates, never around them.
+
+## Rhetorical judgment and out-of-band notes
+
+- **REQ-BA-130 — Meaningful repetition survives; mechanical repetition may be
+  condensed.** Classical Arabic repetition used for rhythm, emphasis, or
+  deliberate parallelism is preserved in refined form — a passage that says "he
+  obeyed where they disobeyed, preserved what they squandered, and fulfilled
+  the responsibility they neglected" keeps that structure. Repetition that
+  reads as redundant only because it was carried over literally, with no
+  rhetorical work left for it to do in English, may be condensed — but only
+  where doing so drops no idea and weakens no emphasis the source intends.
+- **REQ-BA-140 — Divine-pronoun capitalization follows the passage.** If the
+  text already capitalizes pronouns referring to God ("He", "His", "Him"),
+  keep doing so consistently; if it uses lowercase, keep that instead. Never
+  introduce a new capitalization convention partway through a passage.
+- **REQ-BA-150 — Dialogue-tag wording may vary; attribution may not.** A
+  repetitive tag's wording may be varied ("he replied", "he asked" for "the
+  boy said") as long as the speaker stays unambiguous. This does not loosen
+  REQ-BA-040: no tag is added, removed, or re-pointed to a different speaker.
+- **REQ-BA-160 — Ambiguity, comprehension risk, and terminology drift are
+  reported out of band, never written into the prose.** If a passage is
+  genuinely ambiguous, may confuse a modern reader without help this pass is
+  not authorized to add, or uses a term worth standardizing book-wide, do not
+  insert a bracketed note, a parenthetical aside, or explanatory context into
+  the chapter itself (REQ-BA-030 already forbids added content — this is not
+  an exception to it). Instead, append ONE trailing block after the chapter
+  prose, in exactly this form, and nothing else:
+
+  ```
+  ===ARTICULATION-NOTES===
+  AMBIGUITY: <what is unclear, in one sentence>
+  COMPREHENSION: <what a modern reader may stumble on, in one sentence>
+  TERMINOLOGY: <term> — <what rendering should be standardized>
+  ===END-NOTES===
+  ```
+
+  Omit the block entirely when there is nothing to report. The pipeline strips
+  this block before anything reaches `book.md` (`_book_voice.py`
+  `_extract_articulation_notes`) and files each line into that chapter's pass
+  record for human review — never auto-applied, never inline. A block that
+  survives extraction is a defect, not a feature: it reverts the window
+  (`revoice_gates`). Comprehension gaps that genuinely need a fix stay
+  `book-publication-reviewer`'s job (its comprehension-bridges loop), not this
+  pass's.
