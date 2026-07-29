@@ -1,7 +1,27 @@
 # Current work - status
 
 **Last updated:** 2026-07-29 (Book Composer: cards track the chapter, buttons moved
-onto the right panel, Arabic surface removed; all three gates PASS)
+onto the right panel, Arabic surface removed, Diacritics button added; all three
+gates PASS)
+
+**Newest — Diacritics, and a reversed rule.**
+
+- **A Diacritics button** sits at the end of the Reshape now row, dark until the
+  selection is a predominantly-Arabic run that still lacks its marks. One click
+  vowels it in place through `POST /api/studio/vowelling` `action: "run"`.
+  Verified end to end on a real run: 34 marks added, consonantal skeleton
+  byte-identical.
+- **The rule that a model may never supply diacritics is reversed** (Asif,
+  2026-07-29). He does not read Arabic; an unvowelled run is unreadable to him, so
+  the propose-review-accept gate was making the book worse for its reader. Marks
+  are applied on the spot now. The skeleton gate STAYS — it refuses letters
+  changing under cover of marking, which was never the thing being relaxed — and
+  Qur'anic runs are still skipped because the mushaf already vowels them.
+- **Still to flip:** the pipeline-side BK-N5 gate in `scripts/podcast/_narrative.py`
+  and book-challenger Pass 3, which still fail model-supplied diacritics during
+  compose/voice/fluency. Flipping those means a vowelling pass in the pipeline plus
+  the docs sweep (`framework.md`, the podcast SKILL, the challenger spec + its
+  generated mirrors).
 
 **Newest — the Composer's Companion panel now follows the chapter you are reading,
 and the page no longer depends on an unrelated panel to boot.**

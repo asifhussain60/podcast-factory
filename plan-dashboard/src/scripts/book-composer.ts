@@ -2131,6 +2131,11 @@ function boot(): void {
     mode?: string;
     explain?: boolean;
     etymology?: boolean;
+    /** Vowel the selected Arabic and replace it. Its own branch in runAiAction:
+     *  it neither rewrites English nor offers alternatives to choose between. */
+    diacritics?: boolean;
+    /** Enabled only when the selection is BARE ARABIC, not on any selection. */
+    arabicOnly?: boolean;
     /** FA classes shown at the centre of the busy modal's ring spinner. */
     icon?: string;
   }
@@ -2141,6 +2146,11 @@ function boot(): void {
     { kind: "simplify", label: "Simplify", mode: "simplify", icon: "fa-solid fa-wand-magic-sparkles" },
     { kind: "explain", label: "Explain", explain: true, icon: "fa-solid fa-lightbulb" },
     { kind: "etymology", label: "Etymology", etymology: true, icon: "fa-solid fa-book-open" },
+    // Vowel the selected Arabic in place (Asif, 2026-07-29). Last in the row
+    // because it is the only one that acts on Arabic rather than on English —
+    // and it is the only one that stays dark until the selection is Arabic, so
+    // its own disabled state tells you when it applies.
+    { kind: "diacritics", label: "Diacritics", diacritics: true, arabicOnly: true, icon: "fa-solid fa-marker" },
   ];
   let aiStatusEl: HTMLElement | null = null;
   let aiPopupEl: HTMLElement | null = null;
@@ -2160,13 +2170,46 @@ function boot(): void {
     return text ? { text, from, to } : null;
   }
 
+  /** Arabic script, excluding the combining marks themselves. */
+  const ARABIC_LETTER_RE = /[ؠ-ي٠-ٯٱ-ۓ]/;
+  /** The combining marks a vowelled run carries. Mirrors MARKS_RE in
+   *  scripts/lib/vowelling.mjs — the server re-checks with the real thing, so a
+   *  drift here can only mis-enable a button, never admit a bad edit. */
+  const TASHKEEL_RE = /[ً-ْٰٓ-ٕـ]/g;
+
+  /** Is this selection Arabic that still needs its vowel marks?
+   *
+   *  Deliberately generous on the "still needs" half: a run the scan left with a
+   *  couple of disambiguating marks is bare for this purpose. The authority is
+   *  `isVowellingCandidate` on the server, which refuses an already-vowelled run
+   *  (every Qur'anic one included — those carry the canonical mushaf's marks) with
+   *  a message. This only decides whether the button looks available. */
+  function isBareArabic(text: string): boolean {
+    if (!ARABIC_LETTER_RE.test(text)) return false;
+    // Predominantly Arabic, not merely containing some. Mirrors the ratio the
+    // route's own candidate collector uses: a paragraph of English that quotes
+    // three Arabic words is not a passage to vowel, and sending it would ask the
+    // model to hand back English it must not touch.
+    const latin = (text.match(/[A-Za-z]/g) || []).length;
+    const arabicAll = (text.match(/[؀-ۿ]/g) || []).length;
+    if (latin > 2 || arabicAll < latin * 4) return false;
+    const letters = (text.match(/[؀-ۿ]/g) || []).filter(
+      (c) => !c.match(TASHKEEL_RE),
+    ).length;
+    if (letters < 8) return false;
+    const marks = (text.match(TASHKEEL_RE) || []).length;
+    return marks / letters < 0.15;
+  }
+
   function updateAiEnabled(): void {
-    const ok = !!selectionText();
+    const sel = selectionText();
+    const ok = !!sel;
+    const arabic = ok && isBareArabic(sel.text);
     // Rearticulate acts on the whole chapter, not the selection — it opts out.
     root
       .querySelectorAll<HTMLButtonElement>(".cx-ai-btn:not(.cx-rearticulate)")
       .forEach((b) => {
-        b.disabled = !ok;
+        b.disabled = b.classList.contains("cx-ai-arabic") ? !arabic : !ok;
       });
   }
 
@@ -2183,8 +2226,11 @@ function boot(): void {
     for (const a of AI_ACTIONS) {
       const b = document.createElement("button");
       b.type = "button";
-      b.className = "cx-ai-btn";
+      b.className = a.arabicOnly ? "cx-ai-btn cx-ai-arabic" : "cx-ai-btn";
       b.textContent = a.label;
+      if (a.arabicOnly)
+        b.title =
+          "Add Arabic vowel marks to the selected passage — select Arabic script to enable";
       b.disabled = true;
       b.addEventListener("click", () => runAiAction(a));
       row.appendChild(b);
@@ -2389,6 +2435,14 @@ function boot(): void {
       }
       return;
     }
+    if (a.diacritics) {
+      try {
+        await runDiacritics(sel);
+      } finally {
+        busy.close();
+      }
+      return;
+    }
     setAiStatus(`${a.label}…`);
     try {
       let options: string[] = [];
@@ -2494,6 +2548,51 @@ function boot(): void {
   // teaching note for the Companion Panel. Both are shown for review; accepting
   // replaces the highlighted word inline (autosaved into book.md → the PDF) AND
   // files the companion note.
+  /**
+   * Vowel the selected Arabic and put it back, in place.
+   *
+   * No options popup and no accept step, unlike every other action in this row
+   * (Asif, 2026-07-29): the others offer a REWRITE, where choosing between
+   * phrasings is the point, and this one adds marks to letters that do not
+   * change. There is nothing to choose between, and nothing to weigh — Asif does
+   * not read Arabic, so a bare run is unreadable to him and withholding the marks
+   * pending a decision helps nobody. The server refuses any answer whose
+   * consonantal skeleton differs from the source, so what lands can only be the
+   * same letters, marked.
+   *
+   * It replaces the selection in the OPEN EDITOR rather than writing book.md
+   * directly, which is what puts it on the Composer's own edit path: the prose
+   * autosave records it in composer-edits.json, the replay restores it after a
+   * re-compose, "Show changes" displays it as a human edit, and Cmd+Z undoes it
+   * like any other.
+   */
+  async function runDiacritics(sel: {
+    text: string;
+    from: number;
+    to: number;
+  }): Promise<void> {
+    if (!activeEditor) return;
+    setAiStatus("Adding diacritics…");
+    try {
+      const j = await apiFetch<{ vowelled: string; marksAdded: number }>(
+        "/api/studio/vowelling",
+        { method: "POST", body: { slug, action: "run", text: sel.text } },
+      );
+      const vowelled = String(j.vowelled ?? "").trim();
+      if (!vowelled) throw new Error("nothing came back");
+      activeEditor.editor
+        .chain()
+        .focus()
+        .insertContentAt({ from: sel.from, to: sel.to }, vowelled)
+        .run();
+      setAiStatus(
+        `Added ${j.marksAdded} vowel mark${j.marksAdded === 1 ? "" : "s"}. Remember to Save prose.`,
+      );
+    } catch (e) {
+      setAiStatus(`Diacritics failed: ${(e as Error).message}`, true);
+    }
+  }
+
   async function runEtymology(sel: {
     text: string;
     from: number;
