@@ -50,6 +50,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 import urllib.request
 from pathlib import Path
@@ -60,9 +61,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _arabic_coverage import arabic_run_spans  # noqa: E402
 from _paths import content_dir  # noqa: E402
 from _vowelling import (  # noqa: E402
+    VOWELLED_DENSITY,
     is_arabic_passage,
     is_vowelling_candidate,
     mark_count,
+    mark_density,
     rejection_reason,
 )
 
@@ -88,6 +91,37 @@ ABSOLUTE CONSTRAINTS - a response that breaks any of these is discarded:
   surrounding sense supports and still return only the passage.
 
 Return the vowelled Arabic on a single line, with no quotes and no preamble."""
+
+
+CITATION_SYSTEM = """You add Arabic vowel marks (tashkeel) to a single term and nothing else.
+
+You will be given one Arabic term from a classical Ismaili text, and the English
+around it. Return the SAME term fully vowelled, as a dictionary citation form.
+
+ABSOLUTE CONSTRAINTS - a response that breaks any of these is discarded:
+- Do not add, remove, reorder or change ANY letter. The consonantal skeleton of your
+  answer must be byte-identical to the input. This is checked mechanically.
+- Do not "correct" spelling, do not substitute Uthmani Qur'anic orthography, do not
+  normalise hamza forms. Write the definite article with a PLAIN alif (\u0627),
+  never alif wasla (\u0671) - that is a different character and discards the answer.
+- Mark the word fully INSIDE, and leave the FINAL letter unmarked (pausal form).
+  The term is printed beside its English as a gloss, where no syntax governs its
+  case ending; a citation form is what belongs there.
+- The English tells you which reading is meant - a noun or a verb, this sense or
+  that one. Follow it.
+- Return only the vowelled Arabic term: no quotes, no commentary, no translation."""
+
+# Arabic letters, excluding the combining marks themselves — for the length floor
+# the lexical sweep in vowel_text applies to a token.
+ARABIC_LETTER_RE = re.compile("[\u0620-\u064a\u0660-\u066f\u0671-\u06d3]")
+
+# A short bare Arabic token quoted or bracketed inside English prose: the book
+# discussing a word AS a word. `"باطن," "an inward"`, `one (واحد) is four letters`.
+# These fall below the run floor by design — a two-letter Arabic fragment loose in
+# prose is usually a stray — so they need their own finder, and the delimiter is
+# what makes them safe to act on: it says the author put the word there to be
+# looked at, which is exactly where a reader needs the marks most.
+_LEXICAL_TOKEN_RE = re.compile(r'(?<=[("\u00ab\u201c])([\u0600-\u06ff][\u0600-\u06ff\s]*?)(?=[)"\u00bb\u201d,.:;])')
 
 
 def _gemini(system: str, user: str, *, model: str = MODEL) -> str:
@@ -203,6 +237,56 @@ def vowel_text(
         out = out.replace(run, candidate)
         stats["vowelled"] += 1
         stats["marks_added"] += mark_count(candidate) - mark_count(run)
+
+    # ── The third layer: words the prose discusses AS words ───────────────────
+    # `"باطن," "an inward"` — the book arguing about what a word means, with the
+    # word set in quotes. Below the run floor, so the sweep above skipped every
+    # one; and belonging to no glossary entry, so `vowel_glossary` never saw them
+    # either. They are the passages where marks matter MOST, because the sentence
+    # is literally about how the word is read. The English beside each one names
+    # the reading — noun or verb, this sense or that — so it goes to the model as
+    # context and the answer is a citation form, the same as a glossary term.
+    stats["lexical"] = 0
+    lexical: dict[str, str] = {}
+    for token in dict.fromkeys(m.group(1).strip() for m in _LEXICAL_TOKEN_RE.finditer(out)):
+        # THREE Arabic letters minimum, and this floor is not stylistic. The book
+        # discusses individual LETTERS as well as words — `(ع)` — and a one-letter
+        # token is a substring of half the Arabic in the edition. The first cut had
+        # no floor, took `ع`, and the substitution below (then a plain str.replace)
+        # put a fatha on every ayn in nine chapters: `جَعَلَ` came out `جَعََلَ`. Reverted;
+        # the floor and the anchored substitution below are both that bug's fix.
+        letters = [c for c in token if ARABIC_LETTER_RE.match(c)]
+        if len(letters) < 3 or mark_density(token) >= VOWELLED_DENSITY:
+            continue
+        if dry_run:
+            stats["lexical"] += 1
+            continue
+        # A window around the FIRST occurrence: enough English for the gloss that
+        # follows the word to be in it, which is what disambiguates the reading.
+        at = out.find(token)
+        context = out[max(0, at - 90) : at + len(token) + 90].replace("\n", " ")
+        try:
+            candidate = _clean(_gemini(CITATION_SYSTEM, f"{token}\n\ncontext: {context}"))
+        except Exception as e:
+            stats["refused"] += 1
+            refusals.append({"run": token, "reason": f"model error: {e}"})
+            continue
+        reason = rejection_reason(token, candidate)
+        if reason:
+            stats["refused"] += 1
+            refusals.append({"run": token, "reason": reason})
+            continue
+        lexical[token] = candidate
+        stats["lexical"] += 1
+        stats["marks_added"] += mark_count(candidate) - mark_count(token)
+
+    # ANCHORED substitution, never a free str.replace. `قمر` is a substring of
+    # `القمر` and of any number of longer words; replacing it globally would mark
+    # the middle of words the sweep never looked at. Rewriting through the same
+    # pattern that found each token confines every edit to a delimited position.
+    if lexical:
+        out = _LEXICAL_TOKEN_RE.sub(lambda m: lexical.get(m.group(1).strip(), m.group(1)), out)
+
     stats["refusals"] = refusals
     return out, stats
 
@@ -226,8 +310,8 @@ def vowel_book(book_dir: Path, *, log: Callable[[str], None] = print, dry_run: b
     log(
         f"vowelling: {stats.get('vowelled', 0)} run(s) marked "
         f"(+{stats.get('marks_added', 0)} marks), {stats.get('from_mushaf', 0)} set from the mushaf, "
-        f"{stats.get('already', 0)} already vowelled, {stats.get('quranic', 0)} Qur'anic left as printed, "
-        f"{stats.get('refused', 0)} refused"
+        f"{stats.get('lexical', 0)} discussed word(s), {stats.get('already', 0)} already vowelled, "
+        f"{stats.get('quranic', 0)} Qur'anic left as printed, {stats.get('refused', 0)} refused"
     )
     return stats
 

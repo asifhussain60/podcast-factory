@@ -56,24 +56,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _paths import content_dir  # noqa: E402
 from _vowelling import ARABIC_RE, VOWELLED_DENSITY, mark_count, mark_density, rejection_reason  # noqa: E402
-from vowel_book import _clean, _gemini  # noqa: E402
+from vowel_book import CITATION_SYSTEM, _clean, _gemini  # noqa: E402
 
-SYSTEM = """You add Arabic vowel marks (tashkeel) to a single term and nothing else.
-
-You will be given one Arabic term from a classical Ismaili text, with its
-romanisation. Return the SAME term fully vowelled, as a dictionary citation form.
-
-ABSOLUTE CONSTRAINTS - a response that breaks any of these is discarded:
-- Do not add, remove, reorder or change ANY letter. The consonantal skeleton of your
-  answer must be byte-identical to the input. This is checked mechanically.
-- Do not "correct" spelling, do not substitute Uthmani Qur'anic orthography, do not
-  normalise hamza forms. Write the definite article with a PLAIN alif (ا),
-  never alif wasla (ٱ) - that is a different character and discards the answer.
-- Mark the word fully INSIDE, and leave the FINAL letter unmarked (pausal form).
-  This term is printed beside its English in parentheses, where no syntax governs
-  its case ending; a citation form is what belongs there.
-- The romanisation tells you the intended reading. Follow it.
-- Return only the vowelled Arabic term: no quotes, no commentary, no translation."""
+# The prompt lives in vowel_book.py, shared with the lexical-token sweep there:
+# both jobs ask for the same thing (a citation form for one term), and two copies
+# of it is how the two would drift apart on the next refinement.
+SYSTEM = CITATION_SYSTEM
 
 _LINE_RE = re.compile(r"^(?P<indent>\s*)arabic_script:\s*(?P<value>.*?)\s*$")
 
