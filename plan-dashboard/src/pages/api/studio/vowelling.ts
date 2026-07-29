@@ -126,6 +126,9 @@ ABSOLUTE CONSTRAINTS — a response that breaks any of these is discarded:
   answer must be byte-identical to the input. This is checked mechanically.
 - Do not "correct" spelling, do not substitute Uthmani Qur'anic orthography, do not
   normalise hamza forms, do not change punctuation or word order.
+- Write the definite article with a PLAIN alif (\u0627). Never use alif wasla
+  (\u0671) - it is a different character, so "\u0671\u0644\u0625\u0631\u0627\u062f\u0629" for "\u0627\u0644\u0625\u0631\u0627\u062f\u0629" is a letter change and the whole
+  answer is discarded, however correct the vowelling around it.
 - Do not translate, explain, or add commentary. Return only the vowelled Arabic.
 - Where the vocalisation is genuinely ambiguous, choose the reading that the
   surrounding sense supports and still return only the passage.

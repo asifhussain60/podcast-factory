@@ -82,7 +82,7 @@ He said, "Yes." So he composed himself to speak, and the people fell silent to l
 
 Then he said: "He who created the creation by His power made each thing equal to what He decreed for it. He is the One who opened the highways of the pasture and kept its outward and its inward free of caprice, who is not ambiguous and is not to be reached by the study of mere traces. Though imaginings are bewildered in their demand for Him, and minds fall short of attaining Him, still He does not appear within being so as to be possessed by His attributes, or so that the aim of His path might be altered. Rather He is generous. His knowledge is hidden by its very grace, and His secrets are guarded by their own rightful people. Its honor is the plumage of guidance, and it is completed by the garment of piety, marked with the light of lights, a deposit in the breasts of the righteous, the keepers of the Word, the honor of the scribes, a trust which they discharge and a bound which they do not exceed. It is the rule of the Judge and the bounty of the Most Merciful. He honored it and set it within, He protected it and concealed it, He granted it the sufficiency of its own rights and crowned it with His covenants. So the resolves of the thinkers do not reach it, and the schemes of the schemers do not arrive at it. Its outward is a remembrance and an evidence for those who are guided, and its inward is a sure drink, whose sky is brought low for the beholders, whose land is paved for the seekers, and whose falling stars are stations for the students. It has watering places for those who journey to Him, and signs whose wonders come one after another, pointing by their likenesses to Him. Its course is a preferment and its method a full unfolding. Its rulings are obligations and its practice is law. Truthfulness has ennobled its doctrines, and justice has refined its gains, so that He made it a leader and a way to every good, and made it a shield and a guide to its own inner chamber. Then He compelled minds, by ignorance and by want, to seek knowledge and capacity.
 
-> فتبارك الذي جعل الليل والنهار خلفة لمن أراد أن يذكّر أو أراد شكورًا، وصلى الله على من اختاره من عباده وجعله للعالمين نذيراً.
+> فَتَبَارَكَ الَّذِي جَعَلَ اللَّيْلَ وَالنَّهَارَ خِلْفَةً لِمَنْ أَرَادَ أَنْ يَذَّكَّرَ أَوْ أَرَادَ شُكُورًا، وَصَلَّى اللَّهُ عَلَى مَنِ اخْتَارَهُ مِنْ عِبَادِهِ وَجَعَلَهُ لِلْعَالَمِينَ نَذِيرًا.
 
 "Blessed is He who made the night and the day a succession for whoever would be reminded or would give thanks. And may Allah bless the one He chose from among His servants and made a warner to the worlds."
 
@@ -179,7 +179,7 @@ The boy said, "Set whatever limits you love, and lay down whatever conditions yo
 
 The Master said, "The first of the limits is to uphold the outward of the Book and its laws, and to act, in that, upon what you know. For:
 
-> فإنه من عمل لله بما يعلم، هداه الله إلى ما لا يعلم
+> فَإِنَّهُ مَنْ عَمِلَ لِلَّهِ بِمَا يَعْلَمُ، هَدَاهُ اللَّهُ إِلَى مَا لَا يَعْلَمُ
 
 > Whoever acts for God by what he knows, God guides him to what he does not know."
 
@@ -250,7 +250,7 @@ The narrator said: Then the Master set about reciting the covenant to the boy, c
 
 God is the Creator of all things and the One who composes them; He created them and brought them into being. He is not merely the first of every created thing, taken as evidence for what came after Him; rather He is the First of all firsts and the Inheritor of every existing thing. He began the creation of all He made out of a light, and from that light three words branched. The first is the will; from the will branched the command; and from the command branched the saying — that He says "Be" to whatever He wills, and it is. So the first of creation was a will, then a command, then a saying.
 
-> فابتدأ خلق ما خلق من نور تفرّع منه ثلاث كلمات. أولها إرادة، وتفرّع من الإرادة الأمر، وتفرّع من الأمر القول لما يشاء كن فيكون. فكان أول الخلق إرادة أمر بقول.
+> فَابْتَدَأَ خَلْقَ مَا خَلَقَ مِنْ نُورٍ تَفَرَّعَ مِنْهُ ثَلَاثُ كَلِمَاتٍ. أَوَّلُهَا إِرَادَةٌ، وَتَفَرَّعَ مِنَ الْإِرَادَةِ الْأَمْرُ، وَتَفَرَّعَ مِنَ الْأَمْرِ الْقَوْلُ لِمَا يَشَاءُ كُنْ فَيَكُونُ. فَكَانَ أَوَّلُ الْخَلْقِ إِرَادَةَ أَمْرٍ بِقَوْلٍ.
 >
 > He began the creation of what He created out of a light from which three words branched. The first of them is the will; from the will branched the command; and from the command branched the saying, that He says "Be" to what He wills, and it is. So the first of creation was a will, a command, by a saying.
 
@@ -262,7 +262,7 @@ Once creation had been established upon seven principles, and the succession of 
 
 The Master then turned to the signs of the heavens and the sustenances of the earth — what they are, and what bears witness to them — returning in his account to the three words and their letters, from which the seven were created: namely, "the will to command by a saying."
 
-> فرجعنا في القول إلى الكلمات الثلاث وحروفهن التي منها خلق السبعة، وهي إرادة أمر بقول.
+> فَرَجَعْنَا فِي الْقَوْلِ إِلَى الْكَلِمَاتِ الثَّلَاثِ وَحُرُوفِهِنَّ الَّتِي مِنْهَا خُلِقَ السَّبْعَةُ، وَهِيَ إِرَادَةُ أَمْرٍ بِقَوْلٍ.
 >
 > So we returned in the saying to the three words and their letters from which the seven were created, which are: a will, a command, by a saying.
 
@@ -282,7 +282,7 @@ When He had perfected them all by His making and joined them into pairs by His m
 
 All the pairs the Master had described are outward and inward, likeness and thing likened. The outward of the seven heavens are likenesses, and their inward are the seven speakers, the messengers of firm resolve. The seven earths are outwardly likenesses, and their inward are the imams of guidance. To each speaker among them belong twelve chiefs, whose likeness from the seven heavens are the twelve constellations. Likewise, to each imam of the imams of guidance belong twelve proofs, by whom God's argument is established upon his people, and whose likeness in the earth are the twelve islands.
 
-> حجة يحتجّ بها على قومه، ومثلها من الأرض اثنتا عشرة جزيرة.
+> حُجَّةٌ يَحْتَجُّ بِهَا عَلَى قَوْمِهِ، وَمِثْلُهَا مِنَ الْأَرْضِ اثْنَتَا عَشْرَةَ جَزِيرَةً.
 >
 > Proofs by which the argument is established upon his people, and their likeness in the earth are twelve islands.
 
@@ -332,7 +332,7 @@ The boy said: Then make plain to me the truth of what the learned say, so that t
 
 The Master said: This world, and all that I have described to you of it, is an outward for an inward. It has no subsistence except by that inward, for the inward stands to it as the soul stands to the body. Whoever knows the soul, the body is made wholesome for him; and whoever does not know the soul and acknowledges only the body — to him the body is a carcass, and the carcass is forbidden. From here the learned forbade the world, because it is dead. They forbade the dead thing that God has forbidden,
 
-> من حيث يشاء الله. وبان كذب أهل الجهل بمدح الدنيا إذ لم يعرفوا باطنها وما أراد الله بها. وظنوا أن الله خلقها لغير معناها، والله لم يخلق الأشياء عبثاً. ولو كانت الدنيا وما فيها لم يخلق إلا للدنيا، ينشئ فيها خلقاً
+> مِنْ حَيْثُ يَشَاءُ اللَّهُ. وَبَانَ كَذِبُ أَهْلِ الْجَهْلِ بِمَدْحِ الدُّنْيَا إِذْ لَمْ يَعْرِفُوا بَاطِنَهَا وَمَا أَرَادَ اللَّهُ بِهَا. وَظَنُّوا أَنَّ اللَّهَ خَلَقَهَا لِغَيْرِ مَعْنَاهَا، وَاللَّهُ لَمْ يَخْلُقِ الْأَشْيَاءَ عَبَثًا. وَلَوْ كَانَتِ الدُّنْيَا وَمَا فِيهَا لَمْ يُخْلَقْ إِلَّا لِلدُّنْيَا، يُنْشِئُ فِيهَا خَلْقًا
 
 until it is taken up in the way God wills. And the falsehood of the people of ignorance became plain in their praise of the world, for they did not know its inner meaning nor what God intended by it. They supposed that God created it for some meaning other than its own, yet God did not create things in vain. Had the world and all that is in it been created only for the world — so that He raised up in it a creation that then fades away — it would carry no consequence and no meaning. Every act without consequence is play, and every speech without meaning is falsehood, and God is far exalted above that.
 
@@ -352,13 +352,13 @@ The boy said: You have spoken truly. Now make plain to me the features of the wo
 
 The Master said: God, blessed and exalted, has not created a single one of the things of the world — no beast upon the earth, no bird that flies with its wings, nothing moist and nothing dry, nothing fixed and lifeless such as the mountains, the stones, the trees, the minerals of gold and silver and gem —
 
-> ، وجميع الأشياء ما كبر منها وما صغر، إلا وهو مثل مضروب. ألا ترى الذرّة على صغرها ولطف معناها لها حدود، أمامها وخلفها ويمينها وشمالها وفوقها وتحتها؟ فذلك ستة حدود وهي الحدّ السابع. فكذلك جميع ما خلق الله من الأشياء
+> ، وَجَمِيعُ الْأَشْيَاءِ مَا كَبُرَ مِنْهَا وَمَا صَغُرَ، إِلَّا وَهُوَ مَثَلٌ مَضْرُوبٌ. أَلَا تَرَى الذَّرَّةَ عَلَىٰ صِغَرِهَا وَلُطْفِ مَعْنَاهَا لَهَا حُدُودٌ، أَمَامَهَا وَخَلْفَهَا وَيَمِينَهَا وَشِمَالَهَا وَفَوْقَهَا وَتَحْتَهَا؟ فَذَٰلِكَ سِتَّةُ حُدُودٍ وَهِيَ الْحَدُّ السَّابِعُ. فَكَذَلِكَ جَمِيعُ مَا خَلَقَ اللَّهُ مِنَ الْأَشْيَاءِ
 
 nothing at all, great or small, except that it is a parable struck. Do you not see the atom, for all its smallness and the subtlety of its meaning, that it has limits — before it and behind it, to its right and to its left, above it and below it? Those are six limits, and the seventh is the atom itself. So it is with everything God has created, from the ant and the gnat up to what is above them of the heaven and the earth, and what lies between them of things great and small. This is the parable: each of them has six limits, and the seventh of them is the proof of it, pointing to the six origins from which things were created. And the air that surrounds them is the seventh, encompassing them all and holding them. If your chest is wide enough for such questions, and for looking into the parables, and for setting each thing against its form among the hidden pairs, then ask about what has occurred to you.
 
 The boy said: What is the likeness of the heaven, in its height above things and the breadth of its regions, such that it has gathered in all things?
 
-The Master said: Its likeness is the likeness of the Speaking Imam (al-Imam al-Natiq, الإمام الناطق), who is raised above all creation by his excellence and the loftiness of his ranks, and who has gathered in all the rulings — the rulings of the Sharia — by the breadth of his knowledge.
+The Master said: Its likeness is the likeness of the Speaking Imam (al-Imam al-Natiq, الْإِمَامُ النَّاطِقُ), who is raised above all creation by his excellence and the loftiness of his ranks, and who has gathered in all the rulings — the rulings of the Sharia — by the breadth of his knowledge.
 
 The boy said: What is the likeness of the zodiac and the rest of its stars?
 
@@ -420,15 +420,15 @@ The boy said: Glory be to Him who set riddles in His Book so that it might be en
 
 The Master said: Everything has a meaning, and the meaning of the parables is this: the outward is an indication of the inward. He, blessed and exalted, forbade that He be measured against anything of His creation, so that one should say,
 
-> هذا مثل الإمام
+> هَٰذَا مَثَلُ الْإِمَامِ
 
 "This is like the Imam," or
 
-> هذا مثل الحجة
+> هَٰذَا مَثَلُ الْحُجَّةِ
 
 "This is like the proof," or
 
-> هذا مثل الداعي
+> هَٰذَا مَثَلُ الدَّاعِي
 
 "This is like the summoner." For their likenesses became indications pointing to them and to the differences of rank among them. It is not permitted, in the matter of His greatness, that the Creator be measured against anything of His creation by word or by deed, so that one should say, "This is like God." Rather the parables are taken according to their meanings, for their meanings carry indications: the small of them points to the great, and the great points to the higher meanings, and the higher points to the Highest of the high. Therefore He said,
 
@@ -474,7 +474,7 @@ The Master said: As for the Book of God Almighty, it is His saying,
 
 The boy said: You have spoken truly.
 
-The Master said: As for the proof of the intellect, a thing is not known except by a name, or an attribute, or a meaning. The meaning is the very essence of the thing; the name is what it is called; and the attribute is an indication of it. So too is the religion of God: it has an outward, which is a name, and an inward, which is an indication of it, and it stands only by the two together. Nothing indicates a thing except a name or an attribute. Consider the saying of one who says "طلع القمر," "the moon has risen." The meaning is the disk; "القمر," "the moon," is its name; and "طلع," "has risen," is its attribute. Were he to say "قرص," "a disk," and then fall silent, it would carry no meaning. And were he to say "قمر," "a moon," and then fall silent, it would carry no meaning — until he joins the name to the attribute and says "طلع القمر," "the moon has risen," and then the meaning is made clear and the speech is sound. In the same way, if you say "ظاهر," "an outward," it calls for an answer, that one should ask, "an outward of what?" And if you say "باطن," "an inward," it calls for an answer, that one should ask, "an inward of what?" But if you say "ظاهر الدين وباطنه," "the outward of the religion and its inward," the speech is understood, and it becomes a religion having an outward and an inward, just as a thing has a name and an attribute. So He said,
+The Master said: As for the proof of the intellect, a thing is not known except by a name, or an attribute, or a meaning. The meaning is the very essence of the thing; the name is what it is called; and the attribute is an indication of it. So too is the religion of God: it has an outward, which is a name, and an inward, which is an indication of it, and it stands only by the two together. Nothing indicates a thing except a name or an attribute. Consider the saying of one who says "طَلَعَ الْقَمَرُ," "the moon has risen." The meaning is the disk; "القمر," "the moon," is its name; and "طلع," "has risen," is its attribute. Were he to say "قرص," "a disk," and then fall silent, it would carry no meaning. And were he to say "قمر," "a moon," and then fall silent, it would carry no meaning — until he joins the name to the attribute and says "طَلَعَ الْقَمَرُ," "the moon has risen," and then the meaning is made clear and the speech is sound. In the same way, if you say "ظاهر," "an outward," it calls for an answer, that one should ask, "an outward of what?" And if you say "باطن," "an inward," it calls for an answer, that one should ask, "an inward of what?" But if you say "ظَاهِرُ الدِّينِ وَبَاطِنُهُ," "the outward of the religion and its inward," the speech is understood, and it becomes a religion having an outward and an inward, just as a thing has a name and an attribute. So He said,
 
 > وَذَرُوْا ظَاهِرَ الإِثْمِ وَبَاطِنْهُ
 
@@ -532,7 +532,7 @@ The Master said: "That is the end of your guidance and the utmost of the worlds.
 
 The boy said:
 
-> لا حول ولا قوة إلا بالله
+> لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ
 
 "There is no might and no power except by God. He who has no guide has drowned in the depths of ignorance, just as he who has no ship has drowned in the seas of the world."
 
@@ -560,7 +560,7 @@ The Master said: "Creation has uttered no word of truth but that it has a root i
 
 The boy said: "I am convinced. So what is the meaning of the two words and their likes?"
 
-The Master said: "As for al-hawl, he is the speaking Imam of God and His truthful Caliph, the lord of the twelve captains, just as the hawl, which is the year, is completed only in twelve months. The Imam is named hawl because he turns (yuhawwil) the speech of the Creator, in the subtlety of its essence, into the speech of the children of Adam, until it is understood and becomes outward speech; and so the words of wisdom acquire a body and a frame, while the speech of the Creator holds within them the spirit of life and the light of salvation. The excellence of the words of wisdom over all other speech is by the excellence of the speech of the Creator that is their inward. So the Imam is named the hawl for this turning of speech, and he does not turn it except by the permission of God. And quwwa, power, is his hujja and his door, whom God has strengthened to bear the heavy burden of utterance. He takes the speech from the Imam in summary and distributes it among the callers (duat) in detail, each according to his station. So the hujja is named quwwa, for it is strengthened only by God. Therefore whoever says there is no might and no power except by God means: there is no Imam and no hujja except by God, and from God come their light and their sustenance. And the usba, those possessed of power, are the twelve hujjas. Likewise Joseph (عليه السلام) said to his father:
+The Master said: "As for al-hawl, he is the speaking Imam of God and His truthful Caliph, the lord of the twelve captains, just as the hawl, which is the year, is completed only in twelve months. The Imam is named hawl because he turns (yuhawwil) the speech of the Creator, in the subtlety of its essence, into the speech of the children of Adam, until it is understood and becomes outward speech; and so the words of wisdom acquire a body and a frame, while the speech of the Creator holds within them the spirit of life and the light of salvation. The excellence of the words of wisdom over all other speech is by the excellence of the speech of the Creator that is their inward. So the Imam is named the hawl for this turning of speech, and he does not turn it except by the permission of God. And quwwa, power, is his hujja and his door, whom God has strengthened to bear the heavy burden of utterance. He takes the speech from the Imam in summary and distributes it among the callers (duat) in detail, each according to his station. So the hujja is named quwwa, for it is strengthened only by God. Therefore whoever says there is no might and no power except by God means: there is no Imam and no hujja except by God, and from God come their light and their sustenance. And the usba, those possessed of power, are the twelve hujjas. Likewise Joseph (عَلَيْهِ السَّلَامُ) said to his father:
 
 > يَا أَبَتِ إني رأيْتُ أَحَدَ عَشَرَ كَوْكَباً وَالشَّمْسَ وَالقَمَرَ رَأَيْتُهُمْ لِي سَاجِدِيْنَ
 
@@ -786,7 +786,7 @@ And none is granted it except those who are patient, and none is granted it exce
 
 Then he turned his face toward the boy and said: O young man, you have been honored as an intimate come to visit, and greeted as a guest who has set his course here. So what is your name?
 
-He said: Ubayd Allah (عُبيد الله, 'little servant of Allah'), son of Abd Allah (عبد الله, 'servant of Allah').
+He said: Ubayd Allah (عُبَيْدُ اللَّهِ, 'little servant of Allah'), son of Abd Allah (عبد الله, 'servant of Allah').
 
 The Shaykh said: That is your description, and your report has already reached us.
 
@@ -866,7 +866,7 @@ The boy said: "There is no increase greater than your knowing what is within me.
 
 The Master said: "As for my knowing what is within you, none knows the unseen but Allah. But the believer sees by the light of Allah:
 
-المؤمن ينظر بنور الله
+الْمُؤْمِنُ يَنْظُرُ بِنُورِ اللَّهِ
 
 the believer sees by the light of Allah. As for the increase, I will lay its matter out plainly for you and set you upon the foundations by which you are to work. You are to take all these things whose outward form I have described to you, and turn them into parables. Whatever among them is praiseworthy is a likeness of the truth and its people — its noblest for their noblest, its tokens pointing to them. And whatever among the parables is blameworthy, I have turned upon the enemies of the truth and its people — its greatest for their greatest, its least for their least, its tokens pointing to them. These are the foundations of the science upon which action turns. If you preserve them, you will have need of none besides them. And I commend to you the fear of the One who created you when you were nothing, and the keeping of His covenant, and the fulfillment of the right He has laid upon you and upon all His creation."
 
@@ -892,7 +892,7 @@ The boy's words tore at his father's heart, and he saw there was no escaping any
 
 So they debated over many sittings and opened their hearts to one another at length, until they were guided to the straight path — living by the religion of Allah, upholding it, holding fast to it, calling others to it, and helping one another in it. Through them Allah revived many of His creatures. And the boy sent word to the Master, bringing him the glad tidings of his father's rightness and asking him to come; so he came to them and was a cause of good for them. Allah blessed the people of that country through them and at their hands. Allah's command was carried out, and slander came to nothing.
 
-The boy's name was Salih (صالح, 'the righteous'), and his father's name was al-Bakhtari (البختري). The two were honored, raised above others, and given high standing for the excellence of the manners they had acquired. Word of them spread through the land, and word of their religion with it, until it reached a party of people who clung to the old creed. Al-Bakhtari had long held influence among them, and they feared that his leaving their religion would cut it off from them. So they set out and gathered before one of their scholars, called Abd al-Jabbar Abu Malik (أبو مالك), whom they had named — for his scrupulousness, the depth of his forbearance, and his defense of his religion — "Kab al-Ahbar (كعب الأحبار)." Among them he stood eminent for his knowledge, his grasp of speech, and his discernment of opinions. When they came in to him,
+The boy's name was Salih (صالح, 'the righteous'), and his father's name was al-Bakhtari (البختري). The two were honored, raised above others, and given high standing for the excellence of the manners they had acquired. Word of them spread through the land, and word of their religion with it, until it reached a party of people who clung to the old creed. Al-Bakhtari had long held influence among them, and they feared that his leaving their religion would cut it off from them. So they set out and gathered before one of their scholars, called Abd al-Jabbar Abu Malik (أبو مالك), whom they had named — for his scrupulousness, the depth of his forbearance, and his defense of his religion — "Kab al-Ahbar (كَعْبُ الْأَحْبَارِ)." Among them he stood eminent for his knowledge, his grasp of speech, and his discernment of opinions. When they came in to him,
 
 they said: "Abu Malik, do you not see what the boy has gone over to?"
 
@@ -906,15 +906,15 @@ They said: "We are telling you that a stranger has come to the country, with fin
 
 Abu Malik said: "Go gently, for this speech of yours has alarmed me. You know that al-Bakhtari and his son were among those we counted among the people of forbearance and scrupulousness, and that they have rights over us and old favors to their credit. You have said about them what you have said, and you are, in my regard, among those who do not turn from truth to anything else, so that Allah has made you independent of that. This is news that has reached a people, and its proof has grown plain to them, so they have followed it and been content with it. We cannot rule them mistaken and so wrong them, nor rule them guided and so wrong ourselves by imitating them; nor can we say they have been deceived and so reject them without knowing them, for they stand nobler than that in our eyes. What we must do is look upon this news with a fair eye, in the light of justice, and with a steadfast mind. For it has been said:
 
-> من تثبّت في الأمور لم يزل سلطانه محروزاً، ومن عجّل في أمره لم يأمن زلة قدمه
+> مَنْ تَثَبَّتَ فِي الْأُمُورِ لَمْ يَزَلْ سُلْطَانُهُ مَحْرُوزًا، وَمَنْ عَجَّلَ فِي أَمْرِهِ لَمْ يَأْمَنْ زَلَّةَ قَدَمِهِ
 
 He who is steadfast in his affairs keeps his authority secure, and he who is hasty in his affair is not safe from a slip of the foot. For a breach in anything else admits of repair, and what has spoiled in it can be replaced — like a flaw in food, whose harm is slight and whose remedy is near. But a breach in religion is a grievous harm and a ruinous loss; its flaw cannot be mended, nor can anything be taken in its place — like a breach in the medicine itself, which neither frees its owner nor lets him restore his own soul. We have been told in this that the best of provisions are the treasures of the heart and the acquiring of manners, whose fruits and outcomes are praiseworthy; and among their fruits is the practice of forbearance. Forbearance is the crown of the learned; noble aims raise them by it to the summits of glory, and their merit is made plain in every place, along with the honor they win when their request comes easily. We have laid up for ourselves a share of that forbearance we borrowed, and something of the manners we acquired in the years now past — amid straitened means and hard demands. We bore that for the sake of its virtue, and we seek its aid against the disasters of affairs and the accidents of the ages. We cannot let it go to waste, and this is the very hour of our need for it, and of putting it to use in what has befallen us in this matter that has arisen among our brothers. There is no sense in leaving them and what they hold without laying it open with them and debating it, with the forbearance of the capable and the understanding of seekers — free of any doubt in what we ourselves hold, and free of any charge against these people that they have turned from the truth in heedlessness, for they stand nobler than that in our eyes, or that they have strayed into error, for such error is beneath them. Falsehood has no eminence for whose sake the plain truth should be abandoned. But reflect with me on the affair of these people, for it cannot escape one of three states. Either the people hold to what we know of religion, and this new thing among them is only an increase in manners, hadiths, and poetry — and people's speech is much; or the people have been granted an increase in what they hold of the religion, and they have delighted in it, and:
 
-> والعلم ضالة كل مؤمن
+> وَالْعِلْمُ ضَالَّةُ كُلِّ مُؤْمِنٍ
 
 Knowledge is the lost property of every believer, and an increase in knowledge is better than a loss of it; or the people have been given a guidance other than what they had — from the prophethood of a prophet who came to them with it and called them to it, and they followed it upon a clear proof. None of this can be ruled out of the command of Allah, nor will creation reach the limit of Allah's decree concerning them and His will for them, however hard they strive, for:
 
-> وإن الله كل يوم هو في شأن
+> وَإِنَّ اللَّهَ كُلَّ يَوْمٍ هُوَ فِي شَأْنٍ
 
 And Allah, every day, is upon some matter."
 
@@ -1016,7 +1016,7 @@ So the old man rose in haste and went in to his son Salih, and told him of Abu M
 
 When they had come in to him, greeted him, and taken their seats — Abu Malik and those beneath him settling into their places in order of rank — Salih drew Abu Malik near and seated him close beside himself. The first thing Salih said was, "O Abu Malik, you have honored us with your visit and outrun us to the good by your generosity; yet the greater right was yours, that we should have visited you, to keep faith with your affection and to render the long-standing debt owed to you."
 
-Abu Malik said, "When were you ever wanting in excellence, O Abu al-Khair (أبا الخير, 'father of the good')? You were forbearing with us when we were small, and generous to us once we were grown, and you became among us one who calls to the good and warns of its opposite. Your root is wholesome, your branch stands high, your work is pure — so joy be to you."
+Abu Malik said, "When were you ever wanting in excellence, O Abu al-Khair (أَبَا الْخَيْرِ, 'father of the good')? You were forbearing with us when we were small, and generous to us once we were grown, and you became among us one who calls to the good and warns of its opposite. Your root is wholesome, your branch stands high, your work is pure — so joy be to you."
 
 Salih said to him, "Have you come to me as one who suspects, O Kab al-Ahbar, or as one who merely imitates? Where is that complete mind and that fine forbearance I once knew in you?"
 
@@ -1174,7 +1174,7 @@ Salih said: "Then what is the difference between the name and the named? Which o
 
 Abu Malik was bewildered for a while, turning his answer over in his mind, and then said: "I find no way through this except that I have looked upon all the crafts, and every craft has its craftsman; and so I judged that this mighty creation has a Creator who resembles nothing of what He has created, just as craftsmen do not resemble the things they make."
 
-Salih said to him: "O Abu Malik, you have carried us away from the first meaning. The narrowness you feel in the meaning of oneness has driven you to seek Him by analogy and to coin likenesses for Him, and God is far too exalted for that. For every made thing is made from some thing, yet God did not create things out of anything that existed before them. These craftsmen you speak of you know only because you watched some of them with your own eyes, how each one fashions his work; and so you passed judgment upon a making whose maker was hidden from you, drawing your conclusion by analogy from the like of it that you had seen among the craftsmen you have watched and known. But when God created, He did not make you a witness to the creation of what He made, nor was there for Him any like who makes as He makes; and yet you have testified by the like that is present to the like that is absent. I have never known you, O Abu Malik, to be satisfied with analogy in your religion; how then are you satisfied to seek the knowledge of your Lord by measurement? Your saying, nothing is like Him (ليس كمثله شيء), proves out of your own mouth that He has a likeness and that nothing is like that likeness. Had you meant oneness, you would have said, He is not like anything (ليس كهو شيء), and you would not have said, nothing is like Him (ليس كمثله شيء). Glory be to the One whom the reach of lofty resolves cannot seize by thought, and whom the straining of the pointing hand cannot attain by perception; rather He is exalted far above the description of those who are charged with duty. O Abu Malik, had you turned this quest toward one of His servants, or toward a king among His angels, you would have failed to grasp what might be said of him and how he was created—how then the One who created him? The lights of the people of the earth fall short of grasping the light of the sun, and the sun is but one of the lights of this world; so how shall the one who falls short of grasping a servant of His grasp the Creator? Say what seems right to you."
+Salih said to him: "O Abu Malik, you have carried us away from the first meaning. The narrowness you feel in the meaning of oneness has driven you to seek Him by analogy and to coin likenesses for Him, and God is far too exalted for that. For every made thing is made from some thing, yet God did not create things out of anything that existed before them. These craftsmen you speak of you know only because you watched some of them with your own eyes, how each one fashions his work; and so you passed judgment upon a making whose maker was hidden from you, drawing your conclusion by analogy from the like of it that you had seen among the craftsmen you have watched and known. But when God created, He did not make you a witness to the creation of what He made, nor was there for Him any like who makes as He makes; and yet you have testified by the like that is present to the like that is absent. I have never known you, O Abu Malik, to be satisfied with analogy in your religion; how then are you satisfied to seek the knowledge of your Lord by measurement? Your saying, nothing is like Him (ليس كمثله شيء), proves out of your own mouth that He has a likeness and that nothing is like that likeness. Had you meant oneness, you would have said, He is not like anything (لَيْسَ كَهُوَ شَيْءٌ), and you would not have said, nothing is like Him (ليس كمثله شيء). Glory be to the One whom the reach of lofty resolves cannot seize by thought, and whom the straining of the pointing hand cannot attain by perception; rather He is exalted far above the description of those who are charged with duty. O Abu Malik, had you turned this quest toward one of His servants, or toward a king among His angels, you would have failed to grasp what might be said of him and how he was created—how then the One who created him? The lights of the people of the earth fall short of grasping the light of the sun, and the sun is but one of the lights of this world; so how shall the one who falls short of grasping a servant of His grasp the Creator? Say what seems right to you."
 
 Abu Malik bowed long to the ground in his bewilderment, finding no path to speech.
 
@@ -1294,7 +1294,7 @@ Salih answered him: "Then, once it is established that the company of the prophe
 
 He said: "Indeed, he is a just one, as it is said:
 
-شهد فلان وهو عدل من العدول
+شَهِدَ فُلَانٌ وَهُوَ عَدْلٌ مِنَ الْعُدُولِ
 
 So-and-so testified, and he was one of the just."
 
