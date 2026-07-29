@@ -1280,30 +1280,10 @@
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;
 }
-/* Link out to the full phonetic map (Arabic review page). */
-.sp-phonetic-map {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.74rem;
-  font-weight: 700;
-  color: var(--c-accent);
-  text-decoration: none;
-  white-space: nowrap;
-  border-bottom: 1px dotted
-    color-mix(in oklab, var(--c-accent) 45%, transparent);
-}
-.sp-phonetic-map:hover {
-  color: color-mix(in oklab, var(--c-accent) 80%, var(--c-ink));
-  border-bottom-color: var(--c-accent);
-}
-.sp-phonetic-map:focus-visible {
-  outline: 2px solid var(--c-accent);
-  outline-offset: 2px;
-}
+/* The .sp-phonetic-map rules were removed on 2026-07-29 with the link they
+   dressed — see the comment above .sp-global-strip's markup in StudioEditor. */
 @media (prefers-reduced-motion: reduce) {
   .sp-arabic-btn,
-  .sp-phonetic-map,
   .sp-tab-btn,
   .sp-approve,
   .sp-discard,

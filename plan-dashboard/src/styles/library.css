@@ -678,15 +678,8 @@ a.lib-fact-file:focus-visible {
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;
 }
-.lib-arabic-glyph {
-  font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
-  font-size: 1.1em;
-  line-height: 1;
-}
-/* Header "Review Arabic" link: same chip as Edit & Enrich, accent-tinted. */
-.lib-studio-link-arabic {
-  color: var(--c-accent);
-}
+/* .lib-arabic-glyph and .lib-studio-link-arabic dressed the header's "Review
+   Arabic" link, removed on 2026-07-29 with the Composer's Arabic surface. */
 .lib-binder-top {
   display: flex;
   align-items: center;

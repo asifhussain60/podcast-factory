@@ -1112,7 +1112,11 @@ export default function StudioEditor({
           aria-label="Contextual inspector"
           ref={inspectorRef}
         >
-          {/* View controls — Arabic overlay toggle + link to the phonetic map. */}
+          {/* View control — the Arabic overlay toggle. The "Phonetic Map" link
+              that sat beside it went with the Composer's Arabic drawer surface
+              on 2026-07-29: it pointed at /studio/<slug>/arabic-review, a page
+              retired in 2026-07 that redirects to the Composer, and with that
+              surface removed the link led to a panel that no longer exists. */}
           {glossaryCount > 0 && (
             <div className="sp-global-strip">
               <button
@@ -1134,14 +1138,6 @@ export default function StudioEditor({
                 />
                 <span className="sp-arabic-label">Toggle Arabic</span>
               </button>
-              <a
-                className="sp-phonetic-map"
-                href={`/studio/${slug}/arabic-review#${chapter}`}
-                title="Open the phonetic map (full Arabic review) for this chapter"
-              >
-                <i className="fa-solid fa-language" aria-hidden="true" />{" "}
-                Phonetic Map
-              </a>
             </div>
           )}
 

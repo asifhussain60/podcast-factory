@@ -67,6 +67,11 @@ export interface CardOptions {
 export interface ExplanationCard {
   el: HTMLElement;
   setOpen(open: boolean): void;
+  /** "The passage this card explains is on screen right now." A presentation
+   *  state, kept SEPARATE from open/shut: the Composer drives both from the
+   *  scroll position, and a card can be lit while its own expand animation is
+   *  still settling. The class is all it is — companion-card.css owns the glow. */
+  setInView(on: boolean): void;
   destroy(): void;
 }
 
@@ -666,6 +671,9 @@ export function renderExplanationCard(
   return {
     el: card,
     setOpen,
+    setInView(on: boolean) {
+      card.classList.toggle("is-inview", on);
+    },
     destroy() {
       window.clearTimeout(flashTimer);
       widthObserver.disconnect();

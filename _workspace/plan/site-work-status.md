@@ -1,9 +1,39 @@
 # Current work - status
 
-**Last updated:** 2026-07-28 evening (visual-QA sweep of every view; route coverage
-closed and now test-enforced; both gates PASS)
+**Last updated:** 2026-07-29 (Book Composer: cards track the chapter, buttons moved
+onto the right panel, Arabic surface removed; all three gates PASS)
 
-**Newest — a full visual-QA pass over all 36 routes, and the gate can no longer
+**Newest — the Composer's Companion panel now follows the chapter you are reading,
+and the page no longer depends on an unrelated panel to boot.**
+
+- **Companion cards are tied to the tinted passages.** A passage scrolling into
+  view opens its card and lights it with an accent ring; the passage leaving view
+  shuts the card and takes the ring off. Several on screen means several open, in
+  reading order. The previous sync scrolled the list without opening anything, so
+  arriving at the right card still showed only its title. The sync skips itself
+  entirely while the caret is inside the card list — an open card holds a live
+  editor and saves on focusout.
+- **The floating buttons sit over the bottom of the right panel**, ordered Ismaili
+  Scholar, Tools, back-to-top, and the Companion is the surface the page opens on.
+  Each surface scroller already reserved `--cx-fab-clear`, so nothing the buttons
+  cover is unreachable.
+- **The Arabic drawer surface is gone** (term curation + vowelling review). Its
+  components and `/api/studio/arabic-review` still exist; nothing mounts them, and
+  the three links still pointing at `/studio/<slug>/arabic-review` now land on the
+  Composer with no Arabic panel — see the open item below.
+- **A page with no Astro island cannot use React in dev.** Removing those two
+  `client:only="react"` panels removed the React Fast Refresh preamble Astro only
+  emits for pages that hydrate an island, and `book-composer.ts` — which mounts
+  every React surface imperatively — died on its first React import, leaving the
+  whole page as inert server HTML. `src/scripts/react-refresh-preamble.ts` declares
+  that dependency instead of inheriting it. It must stay SYNCHRONOUS: an awaited
+  runtime import only suspends its parent, so the sibling module still evaluated
+  first and lost the race exactly as before.
+- **Open item:** the "Arabic review" / "Phonetic Map" links in `StudioEditor.tsx`,
+  `[step].astro` (x2) and `library-view.ts` now lead nowhere useful. Either remove
+  them or give those two panels a new home.
+
+**Previous — a full visual-QA pass over all 36 routes, and the gate can no longer
 miss a page.**
 
 - **Route coverage was short by four live surfaces.** `/corpus/morphology` (shipped

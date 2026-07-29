@@ -70,7 +70,6 @@ import ComposeAiTools from "../components/studio/compose/ComposeAiTools";
 import { mountPanelTextSize } from "./panel-text-size";
 import { mountIconTooltips } from "./icon-tooltip";
 import { enhanceSelect } from "./select-menu";
-import { GOTO_CHAPTER_EVENT } from "../components/reader/VowellingReviewPanel";
 import ComposeDetailsTab from "../components/studio/compose/ComposeDetailsTab";
 
 type Align = "left" | "center" | "right";
@@ -396,15 +395,16 @@ function boot(): void {
     }
   }
 
-  // ── drawer surfaces (Tools · Arabic · Scholar) ────────────────────────────
-  // ONE drawer, three surfaces, one floating button each. Clicking the lit button
+  // ── drawer surfaces (Scholar · Tools) ─────────────────────────────────────
+  // ONE drawer, two surfaces, one floating button each. Clicking the lit button
   // closes the drawer and the chapter takes the full page width back. The Scholar
   // used to run a SECOND, independent slide-in that could overlap this one; it is
   // a surface here now, so only one panel can ever be open. The state is a
   // per-browser preference, not book content, so it lives in localStorage — and a
-  // preference saved as the retired "companion" surface simply fails the
-  // membership test below and falls back to Tools.
-  const SURFACES = ["tools", "arabic", "scholar"] as const;
+  // preference saved as a retired surface ("companion", and since 2026-07-29
+  // "arabic") simply fails the membership test below and falls back to the
+  // default.
+  const SURFACES = ["scholar", "tools"] as const;
   type Surface = (typeof SURFACES)[number];
   type PanelState = Surface | "closed";
   const PANEL_KEY = "cx-composer-panel";
@@ -423,7 +423,10 @@ function boot(): void {
     } catch {
       /* preference is best-effort */
     }
-    return "tools"; // first visit matches the pre-drawer layout exactly
+    // The Companion is the surface the Composer opens on (Asif, 2026-07-29):
+    // the panel is bound to the chapter beside it and lights up as you read, so
+    // it is the one that has something to say before you touch anything.
+    return "scholar";
   })();
 
   function setPanel(next: PanelState, persist = true): void {
@@ -575,20 +578,10 @@ function boot(): void {
     });
   }
 
-  // A drawer surface asking for a chapter — the Arabic panel's per-passage
-  // chapter labels. Driven through the SELECT rather than by setting
-  // selectedChapter directly, so the request goes down the one path that already
-  // handles the hard parts: flushing a pending edit, warning about unsaved
-  // prose, re-rendering the citations and the Companion notes. A second way to
-  // change chapter would be a second place for that logic to be missing.
-  window.addEventListener(GOTO_CHAPTER_EVENT, (ev) => {
-    const key = (ev as CustomEvent<{ key?: string }>).detail?.key;
-    if (!chapterSelect || !key || key === selectedChapter) return;
-    if (!data.chapters.some((c) => c.key === key)) return; // stale request
-    chapterSelect.value = key;
-    chapterMenu?.sync();
-    chapterSelect.dispatchEvent(new Event("change"));
-  });
+  // The GOTO_CHAPTER_EVENT listener that used to sit here went with the Arabic
+  // drawer surface on 2026-07-29 — the vowelling panel's per-passage chapter
+  // links were its only emitter. The event itself still exists on the component,
+  // so a future host can wire it again; nothing on this page listens now.
 
   // ── Edit mode — the chapter opens straight into the TipTap editor ─────────
   // Layout mode (figure placement/resize) was removed from the UI 2026-07-16;
@@ -657,6 +650,9 @@ function boot(): void {
    *  sentences the text no longer contains — cards that can never point at
    *  anything. They stay on disk and stay in the LIVE Session. */
   let anchoredIds: string[] = [];
+  /** Of those, the ones whose passage is ON SCREEN right now, in reading order.
+   *  The panel expands and lights exactly these — see the scroll sweep below. */
+  let inViewIds: string[] = [];
 
   /** Stable identities, declared ONCE. A fresh arrow function per render would
    *  change the panel's props on every re-render, and the panel keys its chapter
@@ -680,6 +676,7 @@ function boot(): void {
         chapter: liveChapterKey(),
         focusNote,
         anchoredIds,
+        inViewIds,
         onNotesChanged,
         onReveal: revealPassage,
       }),
@@ -717,25 +714,39 @@ function boot(): void {
     // plugins to recompute against the notes they now see.
     if (activeEditor)
       activeEditor.editor.view.dispatch(activeEditor.editor.state.tr);
+    // The tint just moved — which passages are on screen is now a different
+    // question, and nobody has scrolled to ask it. Loading a chapter, switching
+    // chapters and flipping Read/Edit all land here, so this is the one place the
+    // sync needs re-running from besides the scroll itself. Next frame, after the
+    // marks have been laid out.
+    scheduleSweep();
   }
 
-  // ── Scroll sync, the prose→card direction (Asif, 2026-07-28) ──────────────
-  // As the reader scrolls the chapter and a tinted passage comes into view, the
-  // Scholar panel scrolls its card for that passage to the top of the list — the
-  // panel tracks the chapter. Scroll only, never expand: auto-opening cards
-  // mid-scroll would collapse the one the author is reading or editing
-  // (one-card-at-a-time), so a passage entering view moves the list and nothing
-  // else. A scroll SWEEP rather than an IntersectionObserver, deliberately: the
-  // tint exists twice — spans in the read body, decorations in the edit canvas,
+  // ── Scroll sync, the prose→card direction (Asif, 2026-07-29) ──────────────
+  // The Scholar panel TRACKS the chapter. As a tinted passage scrolls into view
+  // its card lights up (an accent ring) and expands itself; when that passage
+  // leaves the viewport the card goes dark and shuts again. The panel scrolls so
+  // the topmost lit card sits at the top of the list.
+  //
+  // This supersedes the scroll-only sync of 2026-07-28, which moved the list but
+  // never opened anything: with every card shut, arriving at the right card still
+  // showed only its title, and the one-card-at-a-time rule meant the single open
+  // card was almost never the one whose sentence was on screen. Expanding is the
+  // whole point of pairing the two columns; the one thing it must not do is close
+  // a card someone is typing in, and the panel guards that by skipping the sync
+  // while the caret is inside the list.
+  //
+  // A scroll SWEEP rather than an IntersectionObserver, deliberately: the tint
+  // exists twice — spans in the read body, decorations in the edit canvas,
   // whichever is visible — and both are torn down and rebuilt on every re-mark
   // and every decoration redraw, so registered observations go stale in both
   // modes. Sweeping whatever `.cx-note-hl` is visible AT scroll time needs no
   // registration and is mode-blind.
   let syncFrame = 0;
-  /** The last mark synced for, so re-sweeps (and the panel's own scroll events,
-   *  which the capture listener also hears) cannot re-issue the same scroll and
-   *  fight the reader for the panel. */
-  let lastSyncedMark = "";
+  /** The last in-view set synced for, joined. Re-sweeps that compute the same set
+   *  — including the ones the panel's OWN scrolling triggers through the capture
+   *  listener — do nothing, so the sync can never fight the reader for the panel. */
+  let lastSyncedMarks = "";
 
   /** Scroll the panel so this note's card sits at the top of the card list. */
   function syncCardToMark(noteId: string): void {
@@ -768,35 +779,59 @@ function boot(): void {
     });
   }
 
-  /** The topmost tint mark visible in the viewport drives the panel. */
+  /** Every tint mark visible in the viewport, in reading order, drives the panel.
+   *
+   *  All of them, not just the topmost: a passage that is on screen has a card
+   *  that should be open, and picking one winner would leave the reader looking
+   *  at two lit sentences and one open card. Reading order comes free — the marks
+   *  are read in DOM order and a passage cannot be tinted twice — and it is the
+   *  order the panel already lists cards in, so the open ones stay in place
+   *  instead of the list reshuffling under them. */
   function sweepVisibleMarks(): void {
     const scope = root.querySelector<HTMLElement>(".composer-preview");
     if (!scope) return;
     const vh = window.innerHeight;
-    let best: { id: string; top: number } | null = null;
+    const seen = new Set<string>();
+    const found: string[] = [];
     for (const el of scope.querySelectorAll<HTMLElement>(".cx-note-hl")) {
       if (el.offsetParent === null) continue; // the hidden twin of the tint
       const r = el.getBoundingClientRect();
       if (r.bottom <= 0 || r.top >= vh) continue;
       const id = el.dataset.note;
-      if (!id) continue;
-      if (!best || r.top < best.top) best = { id, top: r.top };
+      if (!id || seen.has(id)) continue;
+      seen.add(id);
+      found.push(id);
     }
-    if (!best || best.id === lastSyncedMark) return;
-    lastSyncedMark = best.id;
-    syncCardToMark(best.id);
+    const key = found.join("|");
+    if (key === lastSyncedMarks) return;
+    lastSyncedMarks = key;
+    inViewIds = found;
+    renderScholar(); // expands + lights exactly these cards
+    // Two frames, not one. React commits the re-render on its own scheduler, and
+    // a card that is still shut when it is measured is a fraction of its open
+    // height — scrolling to it then lands somewhere else entirely once it opens.
+    // The first frame lets the commit land, the second measures the result.
+    if (found.length)
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => syncCardToMark(found[0])),
+      );
+  }
+
+  /** One sweep per frame, whatever asked for it. */
+  function scheduleSweep(): void {
+    cancelAnimationFrame(syncFrame);
+    syncFrame = requestAnimationFrame(sweepVisibleMarks);
   }
 
   // Capture phase, so the sweep hears every scroller — the page, the preview
   // column, whichever the layout uses. Coalesced to one sweep per frame.
-  document.addEventListener(
-    "scroll",
-    () => {
-      cancelAnimationFrame(syncFrame);
-      syncFrame = requestAnimationFrame(sweepVisibleMarks);
-    },
-    { capture: true, passive: true },
-  );
+  document.addEventListener("scroll", scheduleSweep, {
+    capture: true,
+    passive: true,
+  });
+  // A resize reflows the prose, so different passages are on screen afterwards
+  // even though nothing scrolled.
+  window.addEventListener("resize", scheduleSweep, { passive: true });
 
   /** Bring a note's passage into view and flash it — the card→prose direction. */
   function revealPassage(noteId: string): void {

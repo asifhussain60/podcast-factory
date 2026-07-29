@@ -197,25 +197,24 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   visibility: hidden;
 }
 
-/* Floating panel buttons — one horizontal row, bottom right, sitting to the LEFT
-   of the site-wide back-to-top control so that control stays rightmost. The
-   offset is computed from .to-top's own geometry in theme-components.css (44px at
-   right/bottom var(--sp-5), z-index 900) rather than guessed, and the z-index sits
-   just under it — the same reasoning the old .gcp-launcher used when it stacked
-   above that corner. */
+/* Floating panel buttons — one horizontal row pinned to the BOTTOM OF THE RIGHT
+   PANEL (Asif, 2026-07-29). The drawer is the chrome column; its own switches
+   belong over it, not out in the chapter's margin where they read as controls
+   for the prose.
+
+   Flush to the same page gutter the drawer's right edge sits on, so the row ends
+   where the panel ends. The site-wide back-to-top normally occupies this exact
+   corner — but it is suppressed on this page (see `body:has(.composer-grid)
+   .to-top` below), because the Composer carries its own arrow in this row. The
+   z-index stays just under that control's 900 for the same reason the old
+   .gcp-launcher did: nothing else on the page may come between them.
+
+   Covering the drawer's last line is not a hazard here, it is budgeted: every
+   surface scroller reserves --cx-fab-clear (declared on .composer-panel) after
+   its content, derived from this row's own height and offset. */
 .cx-fabs {
   position: fixed;
-  /* …and clear of the DRAWER, which occupies that same corner whenever it is
-     open. Without the drawer term the row sat on top of the panel's own
-     controls: measured at 1440x900 with the Tools surface open it covered
-     "Arabic term", "English term", "Explain" and the "Tell the AI" heading, and
-     won the paint because it carries z-index 899 against the panel's auto. The
-     term reads the ONE drawer width from body (see --cx-drawer-w above) and
-     collapses to 0rem when the drawer is closed, which is the old position. */
-  right: calc(
-    var(--sp-5, 1.5rem) + 44px + var(--sp-3, 0.75rem) +
-      var(--cx-drawer-w, 0rem)
-  );
+  right: var(--sp-5, 1.5rem);
   bottom: var(--sp-5, 1.5rem);
   z-index: 899;
   display: flex;
@@ -2077,7 +2076,6 @@ body:has(.composer-grid) .to-top {
 /* The inset, for the two surfaces with no tab strip of their own. Tools is padded
    on .cx-tabpanel instead, because its strip sits flush to the surface edge. */
 #cx-surface-companion,
-#cx-surface-arabic,
 #cx-surface-scholar {
   padding: 0.9rem 1rem calc(1.1rem + var(--cx-fab-clear, 0px));
   overflow-y: auto;
