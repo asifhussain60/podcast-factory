@@ -1,15 +1,19 @@
 /**
  * live-session.ts — client for the LIVE Session reader (/studio/<slug>/live).
  *
- * Read-only (never writes book state). The reader shows the WHOLE book as one
- * continuously-scrolling document: every chapter is a stacked, numbered sheet and a
- * single (window) scrollbar governs the view. Concerns:
- *   1. Chapters — split the book into per-chapter sheets and number them.
+ * Read-only (never writes book state). The reader shows ONE chapter at a time:
+ * every chapter is a numbered sheet, but only the current one is in the DOM's
+ * flow — the rest are hidden, so the window scrollbar governs reading WITHIN
+ * that chapter, not the whole book. Concerns:
+ *   1. Chapters — split the book into per-chapter sheets, number them, and give
+ *      each a Prev/Next control (disabled at the book's first/last chapter).
  *   2. Reading toolbar — font / size / paper theme, persisted to localStorage.
- *   3. Table of contents — jump (scroll) to any chapter.
- *   4. Scroll-spy — as a chapter scrolls into the reading zone it becomes "active":
- *      the sticky companion panel swaps to that chapter's Companion notes (REQ-SC-011)
- *      and the chapter sheet is highlighted, so panel/page stays visually linked.
+ *   3. Table of contents — switch to any chapter via a dropdown chained right
+ *      after the book picker (same popover pattern, shared open/close logic).
+ *   4. Scroll-spy — WITHIN the current chapter, as its notes scroll past the
+ *      reading zone the sticky companion panel swaps to follow (REQ-SC-011)
+ *      and the passage lights in the text. Switching chapters (dropdown,
+ *      Prev/Next, arrow keys) is a hard swap, not a scroll target.
  *   5. Anchor highlighting — a note's quoted passage is marked in the text when it
  *      appears verbatim, two-way-linked with its note card.
  *   6. Book picker — bucket filter + navigation.
@@ -17,7 +21,7 @@
  * All logic lives here (external module); the .astro page carries only markup, a
  * JSON data island, and the one-line import (Cortex DoD: no inline script bodies).
  */
-import { liveScroll } from "../lib/site-view-state";
+import { liveChapter } from "../lib/site-view-state";
 import { markPassages } from "../lib/reader/companion/passage-match";
 import { renderExplanationCard } from "../lib/reader/companion/explanation-card";
 
@@ -29,7 +33,9 @@ interface LiveNote {
   quote: string;
   etymology: string[];
   /** Verified corpus block per etymology row (SSR-computed; see live.astro). */
-  morphology?: (import("../lib/reader/companion/types").EtymologyMorphology | null)[];
+  morphology?: (
+    import("../lib/reader/companion/types").EtymologyMorphology | null
+  )[];
   source: string;
 }
 interface LiveSection {
@@ -48,7 +54,11 @@ const SIZE_MAX = 30;
 const SIZE_DEFAULT = 20;
 const FONT_DEFAULT = "serif";
 const PAPER_DEFAULT = "light";
-const NAV_OFFSET = 52; // height of the sticky top-nav
+/** Width at which .lsv-viewport switches from ordinary page flow (window
+ *  scroll governs it) to its own fixed, internally-scrolling box (see the
+ *  "reading bar" section and the max-width:960px block in live-session.css).
+ *  Mirrors that same breakpoint — the one place the two files have to agree. */
+const NARROW = window.matchMedia("(max-width: 960px)");
 
 const store = {
   get(key: string, fallback: string): string {
@@ -79,8 +89,6 @@ function readData(): { slug: string; sections: LiveSection[] } | null {
 
 const clamp = (n: number, lo: number, hi: number) =>
   Math.min(Math.max(lo, n), hi);
-const prefersReducedMotion = () =>
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function boot(): void {
   const rootEl = document.querySelector<HTMLElement>(".lsv");
@@ -92,6 +100,7 @@ function boot(): void {
   }
   const root: HTMLElement = rootEl;
   const pages: HTMLElement = pgEl;
+  const viewport: HTMLElement = vpEl;
   const data = readData();
 
   // The global snapshot footer is dashboard chrome, irrelevant on an immersive
@@ -141,6 +150,7 @@ function boot(): void {
       num.setAttribute("aria-hidden", "true");
       num.textContent = String(i + 1);
       s.appendChild(num);
+      s.appendChild(buildChapterNav(i, secs.length));
       pages.appendChild(s);
     });
     return secs.map((s) => ({
@@ -148,6 +158,35 @@ function boot(): void {
       title: s.querySelector("h1, h2, h3")?.textContent?.trim() ?? "",
       el: s,
     }));
+  }
+
+  /** Prev/Next row at the foot of a chapter sheet — the only in-page way to move
+   *  chapter-to-chapter besides the Chapters dropdown and the arrow keys, since
+   *  only the current chapter is ever in the DOM's flow. References `showChapter`,
+   *  defined further down in this same closure — safe: both are hoisted function
+   *  declarations in the same scope, and this only fires on a later click, by
+   *  which time `showChapter` is long since defined. */
+  function buildChapterNav(i: number, total: number): HTMLElement {
+    const nav = document.createElement("div");
+    nav.className = "lsv-chapter-nav";
+    const build = (dir: "prev" | "next", disabled: boolean): HTMLElement => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = `lsv-chapter-nav-btn lsv-chapter-nav-${dir}`;
+      btn.disabled = disabled;
+      const icon = document.createElement("i");
+      icon.className = `fa-solid fa-chevron-${dir === "prev" ? "left" : "right"}`;
+      icon.setAttribute("aria-hidden", "true");
+      const label = document.createElement("span");
+      label.textContent = dir === "prev" ? "Previous chapter" : "Next chapter";
+      btn.append(...(dir === "prev" ? [icon, label] : [label, icon]));
+      btn.addEventListener("click", () =>
+        showChapter(i + (dir === "prev" ? -1 : 1)),
+      );
+      return btn;
+    };
+    nav.append(build("prev", i === 0), build("next", i === total - 1));
+    return nav;
   }
 
   // ---- one note entry per companion note, with its passage spans (if found) --
@@ -233,7 +272,13 @@ function boot(): void {
     chapters.forEach((c, k) => c.el.classList.toggle("is-active", k === idx));
     const id = chapters[idx]?.id ?? "";
     document.querySelectorAll<HTMLElement>(".lsv-toc-link").forEach((el) => {
-      el.classList.toggle("is-active", el.dataset.target === id);
+      const active = el.dataset.target === id;
+      el.classList.toggle("is-active", active);
+      // The visual marker (accent border) isn't itself accessible — a
+      // programmatic signal is what tells a screen-reader user "this is where
+      // you are" while tabbing through the rail.
+      if (active) el.setAttribute("aria-current", "true");
+      else el.removeAttribute("aria-current");
     });
   }
 
@@ -259,12 +304,17 @@ function boot(): void {
     bodyEl.textContent = "";
     const entries = anchoredIn(chapterId);
     if (!entries.length) {
+      const wrap = document.createElement("div");
+      wrap.className = "lsv-explain-empty";
+      const icon = document.createElement("i");
+      icon.className = "fa-solid fa-comment-dots";
+      icon.setAttribute("aria-hidden", "true");
       const p = document.createElement("p");
-      p.className = "lsv-explain-empty";
       p.textContent = anyNotes
         ? "No companion notes for this chapter."
         : "No companion notes have been written for this book yet.";
-      bodyEl.appendChild(p);
+      wrap.append(icon, p);
+      bodyEl.appendChild(wrap);
       return;
     }
     for (const entry of entries) {
@@ -304,7 +354,12 @@ function boot(): void {
       card
         .querySelector(".xpl-head")
         ?.setAttribute("aria-expanded", String(on));
-      if (on) card.scrollIntoView({ block: "nearest" });
+      // "start", not "nearest": a card taller than the panel's own viewport
+      // can never be FULLY on screen, so the edge that must win is the top —
+      // the header that says which note this is. "nearest" could instead
+      // align to the bottom when scrolling down past a tall card, leaving
+      // that header scrolled out of view above the panel entirely.
+      if (on) card.scrollIntoView({ block: "start" });
     });
   }
 
@@ -326,22 +381,32 @@ function boot(): void {
     openCard(key || null);
   }
 
-  // ---- scroll-spy: pick the in-view chapter, then the passage you're reading
+  // ---- scroll-spy: WITHIN the current chapter, which passage is being read ---
+  // Only one chapter is ever in the DOM's flow (see showChapter), so there is no
+  // "which chapter is in view" question left to answer here — just which note's
+  // passage has scrolled past the reading zone.
   function updateActive(): void {
-    if (chapters.length === 0) return;
-    const focusY = NAV_OFFSET + Math.min(160, window.innerHeight * 0.28);
-    let chIdx = 0;
-    for (let k = 0; k < chapters.length; k++) {
-      if (chapters[k].el.getBoundingClientRect().top <= focusY) chIdx = k;
-      else break;
-    }
-    setActiveChapter(chIdx);
-
-    // Within that chapter, the active note is the last one whose passage has
-    // scrolled past the focus line (i.e. the passage you've most recently reached).
+    if (chapters.length === 0 || currentChapter < 0) return;
+    // The two widths scroll differently (see NARROW above), so "near the top
+    // of the reading zone" means something different in each:
+    //   - Narrow: .lsv-viewport is its own small, fixed-position box, so its
+    //     live on-screen top is a stable reference regardless of how far the
+    //     reader has scrolled within it.
+    //   - Wide: .lsv-viewport IS the whole chapter in ordinary page flow — its
+    //     "top" is wherever the chapter's first line sits, which drifts
+    //     thousands of pixels above the window the moment you scroll into a
+    //     long chapter. Using it here (as this used to) put focusY off-screen
+    //     entirely past the first screen of any chapter, and every note after
+    //     the first stopped lighting up. window.innerHeight is what's stable
+    //     instead — the site's sticky nav (52px) is the only fixed point left
+    //     once the bar itself scrolls away with the page.
+    const focusY = NARROW.matches
+      ? viewport.getBoundingClientRect().top +
+        Math.min(160, viewport.clientHeight * 0.28)
+      : 52 + Math.min(160, window.innerHeight * 0.28);
     // Already in reading order (anchoredIn sorts by document position), so the
     // last one whose passage has crossed the focus line is the one you are on.
-    const ordered = anchoredIn(chapters[chIdx].id);
+    const ordered = anchoredIn(chapters[currentChapter].id);
     // A multi-span passage is positioned by its FIRST span — where the sentence
     // starts is where the reader reaches it.
     const topOf = (e: NoteEntry) => e.spans[0].getBoundingClientRect().top;
@@ -352,16 +417,50 @@ function boot(): void {
         if (topOf(e) <= focusY) active = e;
         else break;
       }
+      // The focus-line pass above only ever ADVANCES to a later note — it
+      // never notices that the passage it landed on has since scrolled clean
+      // off the screen (above OR below), which happens whenever a chapter
+      // goes a long stretch after its last note before the next one. A card
+      // pinned open for a passage you can no longer see is worse than no
+      // card at all, so drop back to none rather than leave it stranded.
+      if (active) {
+        const r = active.spans[0].getBoundingClientRect();
+        if (r.bottom <= 0 || r.top >= window.innerHeight) active = null;
+      }
     }
-    setActiveNote(active, chapters[chIdx].title);
+    setActiveNote(active, chapters[currentChapter].title);
   }
 
-  function scrollToChapter(i: number): void {
+  /** Hard-swap to another chapter — the Chapters dropdown, Prev/Next, and the
+   *  arrow keys all funnel through this. Scrolls the new chapter's own top
+   *  into view (its scroll-margin-top clears the site's sticky nav — the bar
+   *  itself is ordinary flow now and scrolls with everything else), remembers
+   *  the choice per book, updates the dropdown trigger to show the new current
+   *  chapter (the way a real select displays its value), and lets
+   *  `updateActive` pick up whichever note (if any) already sits at the top. */
+  function showChapter(i: number): void {
     const idx = clamp(i, 0, chapters.length - 1);
-    chapters[idx].el.scrollIntoView({
-      behavior: prefersReducedMotion() ? "auto" : "smooth",
-      block: "start",
-    });
+    setActiveChapter(idx);
+    chapters[idx].el.scrollIntoView({ block: "start", behavior: "instant" });
+    if (data?.slug) liveChapter.write(chapters[idx].id, data.slug);
+    const trigLabel = document.getElementById("lsv-toc-trigger-text");
+    if (trigLabel) {
+      // Reuse the SSR-rendered num/label already sitting in the matching TOC
+      // row rather than reformatting chapters[idx].title ourselves — one
+      // source for that split, not two that could drift apart. The two spans
+      // are read separately (not link.textContent) because the "N. " gap
+      // between them is CSS grid spacing, not a text character — textContent
+      // would run the number straight into the title with no separator.
+      const link = [
+        ...document.querySelectorAll<HTMLElement>(".lsv-toc-link"),
+      ].find((l) => l.dataset.target === chapters[idx].id);
+      const num = link?.querySelector(".lsv-toc-num")?.textContent?.trim();
+      const text = link?.querySelector(".lsv-toc-text")?.textContent?.trim();
+      trigLabel.textContent = text
+        ? `${num ? num + ". " : ""}${text}`
+        : chapters[idx].title;
+    }
+    updateActive();
   }
 
   // ---- reading toolbar (font / size / paper) ------------------------------
@@ -417,33 +516,19 @@ function boot(): void {
     });
   }
 
-  // ---- table of contents --------------------------------------------------
+  // ---- table of contents (dropdown, chained after the book picker) --------
   function initToc(): void {
-    const toc = document.getElementById("lsv-toc");
-    const scrim = document.getElementById("lsv-toc-scrim");
-    const openBtn = document.getElementById("lsv-toc-btn");
-    const closeBtn = document.getElementById("lsv-toc-close");
-    if (!toc || !scrim || !openBtn) return;
-    const setOpen = (open: boolean) => {
-      toc.classList.toggle("is-open", open);
-      scrim.classList.toggle("is-open", open);
-      openBtn.setAttribute("aria-expanded", String(open));
-      if (open) toc.querySelector<HTMLElement>(".lsv-toc-link")?.focus();
-      else openBtn.focus(); // return focus to the trigger on close (mirrors the picker)
-    };
-    openBtn.addEventListener("click", () =>
-      setOpen(!toc.classList.contains("is-open")),
-    );
-    closeBtn?.addEventListener("click", () => setOpen(false));
-    scrim.addEventListener("click", () => setOpen(false));
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && toc.classList.contains("is-open"))
-        setOpen(false);
-    });
-    toc.querySelectorAll<HTMLElement>(".lsv-toc-link").forEach((link) => {
+    const wrapper = document.getElementById("lsv-toc-picker");
+    const trigger = document.getElementById(
+      "lsv-toc-btn",
+    ) as HTMLButtonElement | null;
+    const panel = document.getElementById("lsv-toc-panel");
+    if (!wrapper || !trigger || !panel || trigger.disabled) return;
+    const setOpen = initDropdown(wrapper, trigger, panel);
+    panel.querySelectorAll<HTMLElement>(".lsv-toc-link").forEach((link) => {
       link.addEventListener("click", () => {
         const idx = chapters.findIndex((c) => c.id === link.dataset.target);
-        if (idx >= 0) scrollToChapter(idx);
+        if (idx >= 0) showChapter(idx);
         setOpen(false);
       });
     });
@@ -455,10 +540,10 @@ function boot(): void {
       if (isTypingTarget(e.target)) return;
       if (e.key === "ArrowRight") {
         e.preventDefault();
-        scrollToChapter(currentChapter + 1);
+        showChapter(currentChapter + 1);
       } else if (e.key === "ArrowLeft") {
         e.preventDefault();
-        scrollToChapter(currentChapter - 1);
+        showChapter(currentChapter - 1);
       }
     });
   }
@@ -468,80 +553,61 @@ function boot(): void {
   initToc();
   initKeyboard();
   initPicker();
-  updateActive(); // set the first active chapter + its notes
 
-  // Restore the reading position before wiring the scroll listener, so the
-  // programmatic jump is not itself recorded as a fresh position. Deferred past
-  // font loading where possible: the column reflows when the reading face
-  // swaps in, and an offset applied before that lands in the wrong passage.
-  // `updateActive` is handed in because the jump has to re-run the scroll-spy
-  // itself: the chapter highlight and the companion card follow the scroll
-  // EVENT, and a restored reader would otherwise sit in chapter three being
-  // told it was reading chapter one.
-  restoreReadingPosition(updateActive);
+  // Open at the chapter the reader had last chosen for THIS book, if it still
+  // exists in the current TOC; otherwise the first chapter. No font-load
+  // deferral needed here (unlike the old pixel-scroll restore) — a hard swap
+  // to the top of a chapter is correct the instant it runs, reflow or not.
+  const savedId = data?.slug ? liveChapter.read(data.slug) : null;
+  const initialIdx = savedId
+    ? chapters.findIndex((c) => c.id === savedId)
+    : -1;
+  showChapter(initialIdx >= 0 ? initialIdx : 0);
 
-  // Update the active chapter directly on scroll. For a handful of chapters the
-  // getBoundingClientRect reads are cheap, and a direct call can't latch the way an
-  // rAF-throttled one can if a frame is ever dropped (hidden/throttled tab).
+  // Within the current chapter, follow scroll to keep the companion in sync.
+  // Two listeners because the two widths scroll differently: at desktop the
+  // BAR scrolls away and the WINDOW governs reading; on a narrow screen
+  // .lsv-viewport is still its own independent region (see the max-width:960
+  // block in live-session.css) since the companion sits stacked above it
+  // there and the two have to share one fixed-height budget.
+  viewport.addEventListener("scroll", updateActive, { passive: true });
   window.addEventListener("scroll", updateActive, { passive: true });
-  window.addEventListener("scroll", rememberReadingPosition, { passive: true });
   window.addEventListener("resize", updateActive);
   if (document.fonts && document.fonts.ready)
     document.fonts.ready.then(() => updateActive());
 }
 
 /**
- * Where the reader had got to, remembered per book.
- *
- * Throttled to once a second rather than written on every scroll event: the
- * value is only ever read on load, so a write per frame would buy nothing and
- * cost a storage round trip on the scroll path.
+ * Shared popover toggle — open state on the wrapper's `data-open`, `hidden` on
+ * the panel, outside-click and Escape both close it. Powers the book picker and
+ * the Chapters dropdown so the two read (and behave) as one connected control,
+ * chained left-to-right: pick the book, then the chapter. Returns `setOpen` so
+ * a caller can close the popover on its own actions (e.g. selecting a chapter).
  */
-let lastPositionWrite = 0;
-/** True across the restore jump — see restoreReadingPosition. */
-let restoringPosition = false;
-
-function rememberReadingPosition(): void {
-  if (restoringPosition) return;
-  const now = Date.now();
-  if (now - lastPositionWrite < 1000) return;
-  lastPositionWrite = now;
-  const slug = readData()?.slug;
-  if (slug) liveScroll.write(window.scrollY, slug);
-}
-
-function restoreReadingPosition(onLanded: () => void): void {
-  const slug = readData()?.slug;
-  if (!slug) return;
-  const px = liveScroll.read(slug);
-  // 0 is where the page already is; skip it rather than fight a deep link or
-  // the browser's own scroll restoration for no visible gain.
-  if (px === null || px <= 0) return;
-  // The jump must not be recorded as a fresh reading position. Calling this
-  // before the listeners are wired is NOT enough — the jump is deferred until
-  // fonts settle, by which time they are attached, so the programmatic
-  // scrollTo fed its own result straight back into storage. Usually that
-  // rewrote nearly the same number; the case that bites is a position saved on
-  // a phone, where the column is more than twice as tall. Opening on a desktop
-  // clamps it to the bottom, and the self-record then PERSISTED the clamped
-  // value — destroying the phone position rather than approximating it.
-  const jump = (): void => {
-    restoringPosition = true;
-    window.scrollTo({ top: px, behavior: "instant" });
-    onLanded();
-    // A programmatic scroll delivers its event in a later task, so the
-    // suppression has to outlive this one. Two frames covers the dispatch; the
-    // timeout is the backstop for a hidden or throttled tab, where rAF may not
-    // run at all and the flag would otherwise never clear. Both are idempotent.
-    const done = (): void => {
-      restoringPosition = false;
-    };
-    requestAnimationFrame(() => requestAnimationFrame(done));
-    window.setTimeout(done, 250);
+function initDropdown(
+  wrapper: HTMLElement,
+  trigger: HTMLElement,
+  panel: HTMLElement,
+): (open: boolean) => void {
+  const setOpen = (open: boolean) => {
+    wrapper.dataset.open = String(open);
+    trigger.setAttribute("aria-expanded", String(open));
+    panel.hidden = !open;
   };
-  if (document.fonts && document.fonts.ready)
-    void document.fonts.ready.then(jump);
-  else jump();
+  trigger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    setOpen(wrapper.dataset.open !== "true");
+  });
+  document.addEventListener("click", (e) => {
+    if (!wrapper.contains(e.target as Node)) setOpen(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && wrapper.dataset.open === "true") {
+      setOpen(false);
+      trigger.focus();
+    }
+  });
+  return setOpen;
 }
 
 // ---- book picker (shared; also used on empty-state) -----------------------
@@ -550,24 +616,7 @@ function initPicker(): void {
   const trigger = document.getElementById("lsv-picker-trigger");
   const panel = document.getElementById("lsv-picker-panel");
   if (!picker || !trigger || !panel) return;
-  const setOpen = (open: boolean) => {
-    picker.dataset.open = String(open);
-    trigger.setAttribute("aria-expanded", String(open));
-    panel.hidden = !open;
-  };
-  trigger.addEventListener("click", (e) => {
-    e.stopPropagation();
-    setOpen(picker.dataset.open !== "true");
-  });
-  document.addEventListener("click", (e) => {
-    if (!picker.contains(e.target as Node)) setOpen(false);
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && picker.dataset.open === "true") {
-      setOpen(false);
-      trigger.focus();
-    }
-  });
+  initDropdown(picker, trigger, panel);
   const chips = panel.querySelectorAll<HTMLElement>(".lsv-filter-chip");
   const groups = panel.querySelectorAll<HTMLElement>(".lsv-picker-group");
   chips.forEach((chip) => {

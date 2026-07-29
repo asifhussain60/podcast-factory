@@ -28,20 +28,30 @@ export const editorInspectorTab = defineViewState({
 });
 
 /**
- * LIVE Session — how far down the reading column the reader had got.
- *
- * Stored as a pixel offset rather than a chapter index: the view has no
- * chapter picker, it is one continuous scroll, and "where I was" in a reading
- * surface means the passage on screen, not the chapter containing it. A
- * negative or non-numeric value is rejected; an offset now past the end of a
- * shorter book simply lands at the bottom, which is harmless.
+ * Edit & Enrich — which chapter was last open, by its stable slug (not index:
+ * the chapter list can be regenerated between visits, and an index would then
+ * point at whatever happens to sit in that slot rather than the chapter the
+ * reader actually meant). A `?ch=` deep link (from the Library chapter reader)
+ * takes priority over this on arrival — see StudioEditor's mount effect.
  */
-export const liveScroll = defineViewState<number>({
+export const editorChapter = defineViewState<string>({
+  surface: "studio-editor",
+  field: "chapter",
+  validate: (raw) => (raw.length > 0 ? raw : null),
+});
+
+/**
+ * LIVE Session — which chapter was open, by its stable heading id.
+ *
+ * The reader shows one chapter at a time (not a continuous scroll of the whole
+ * book), so "where I was" means which chapter, not a pixel offset. The caller
+ * does the real existence check (does a chapter with this id still exist in
+ * THIS book's current TOC) since that requires runtime data this module
+ * doesn't have; a stale or unknown id just means the reader opens at the
+ * first chapter instead.
+ */
+export const liveChapter = defineViewState<string>({
   surface: "live",
-  field: "scroll",
-  serialize: (px) => String(Math.round(px)),
-  validate: (raw) => {
-    const px = Number(raw);
-    return Number.isFinite(px) && px >= 0 ? px : null;
-  },
+  field: "chapter",
+  validate: (raw) => (raw.length > 0 ? raw : null),
 });

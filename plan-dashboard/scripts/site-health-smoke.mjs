@@ -411,6 +411,54 @@ async function checkLayoutInvariants(page) {
       }
     }
 
+    // INV-4: the SAME failure as INV-2, one surface over. The LIVE Session's
+    // companion (.lsv-explain) is sticky against the viewport's bottom-right
+    // corner and the site-wide back-to-top control (.to-top, 44px at var(--sp-5))
+    // is FIXED to that same corner, so the two are pinned together and the panel's
+    // last lines sit under the button — unreachable, because that is the end of
+    // the panel's scroll. It shipped that way when the reader's redesign moved the
+    // panel 68px down the page and widened its height budget, which is exactly the
+    // kind of change a screenshot of the TOP of the page cannot catch. Measured
+    // against the panel BOX, not its scroll tail: the panel is capped so it stops
+    // clear of the control (--lsv-fab-clear, live-session.css), and the geometry
+    // is what has to hold.
+    //
+    // The BUDGET is asserted, not the panel's current height: the smoke fixture is
+    // whichever book the runner discovers, and a book with no companion notes
+    // renders a 118px panel that clears the control however wrong the budget is.
+    // A check that only fires on a well-annotated fixture is a check that is
+    // dormant on most checkouts. Worst case = the sticky offset plus the declared
+    // max-height, which is where the panel lands the moment a chapter has enough
+    // notes to fill it.
+    const lsvPanel = document.querySelector(".lsv-explain");
+    const toTop = document.querySelector(".to-top");
+    if (lsvPanel && toTop && getComputedStyle(toTop).display !== "none") {
+      const cs = getComputedStyle(lsvPanel);
+      const p = lsvPanel.getBoundingClientRect();
+      const t = toTop.getBoundingClientRect();
+      const stickyTop = parseFloat(cs.top);
+      const panelMax = parseFloat(cs.maxHeight);
+      // The cap has to be on the PANEL. Capping only its inner scroller does not
+      // bound the panel — the header above it wraps to two or three lines on a
+      // long chapter title, so the bottom edge moves by however tall the header
+      // happens to be, and that is precisely how this shipped. An uncapped panel
+      // is therefore the same finding as a cap that is too generous.
+      const worstBottom = Number.isFinite(panelMax)
+        ? stickyTop + panelMax
+        : Infinity;
+      const overlapX = Math.round(
+        Math.min(p.right, t.right) - Math.max(p.left, t.left),
+      );
+      if (worstBottom > t.top && overlapX > 0) {
+        const how = Number.isFinite(worstBottom)
+          ? `${Math.round(worstBottom - t.top)}px into`
+          : "uncapped, so it grows into";
+        out.push(
+          `live-companion-under-fab: the explanation panel's height budget puts its bottom ${how} the back-to-top control (${overlapX}px of horizontal overlap) — a full chapter's notes cannot be scrolled clear`,
+        );
+      }
+    }
+
     return out;
   });
 }

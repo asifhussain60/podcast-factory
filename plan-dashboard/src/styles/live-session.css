@@ -1,26 +1,40 @@
 /*
  * live-session.css — the LIVE Session reader (/studio/<slug>/live).
  *
- * A continuously-scrolling reader: a compact top-bar, a centered reading toolbar, and
- * a two-column body where every chapter is a stacked numbered sheet (left) beside a
- * sticky explanation panel (right). The whole view is governed by a SINGLE window
- * scrollbar — neither the sheets nor the companion scroll internally. A sticky
- * scroll-spy keeps the companion showing the in-view chapter's notes and highlights
- * that chapter. Chrome uses theme.css --c-* tokens (colour theme unchanged). The
- * reading PAPER (Light/Sepia/Dark) uses the same deliberate reading-paper colours as
- * the Book Composer editor — scoped to the reading surface only, the sanctioned
+ * A continuously-scrolling reader: an ordinary-flow bar (book picker, a Chapters
+ * dropdown chained right after it, and the reading settings — scrolls away with
+ * the page, on purpose, so it never has to keep reserving room from the reading
+ * pane) over a two-column body — the stacked chapter sheets and a sticky
+ * explanation panel. The whole view is governed by a SINGLE window scrollbar;
+ * the companion is the documented exception (a chapter can carry more cards
+ * than fit). A scroll-spy keeps the companion showing the in-view chapter's
+ * notes and marks that chapter in the Chapters dropdown.
+ * Chrome uses theme.css --c-* tokens (colour theme unchanged).
+ * The reading PAPER (Light/Sepia/Dark) uses the same deliberate reading-paper colours
+ * as the Book Composer editor — scoped to the reading surface only, the sanctioned
  * exception for reading paper. Read-only surface (studio-composer REQ-SC-010/014).
  */
 
 .lsv {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
+  gap: var(--sp-4);
   /* Cap the reader so the sheet's text lands at a comfortable reading measure
-     (~70ch) while the block stays centered with balanced left/right margins.
-     Note: the site's root font-size is 1.2rem base, so 1rem ≈ 19.2px. */
+     while the block stays centered with balanced left/right margins.
+     Note: theme-components.css sets html/body to --fs-base, so 1rem ≈ 19.2px. */
   width: min(100%, 68rem);
   margin-inline: auto;
+
+  /* HOW MUCH ROOM THE SITE'S BACK-TO-TOP CONTROL TAKES. `.to-top` is fixed to the
+     viewport's bottom-right corner (44px tall, var(--sp-5) off the edge, z-index
+     900 — theme-components.css), and the companion is sticky against that same
+     corner, so the two are pinned together once the page scrolls and the panel's
+     last lines end up UNDER the button. They cannot be scrolled clear either,
+     because that IS the end of the panel's scroll. Measured at 35.2px of the
+     companion covered at 1440x900. The Composer hit this first and solved it the
+     same way (--cx-fab-clear, book-composer.css); derived from the control's own
+     geometry rather than guessed, so it moves when that control moves. */
+  --lsv-fab-clear: calc(44px + var(--sp-5) + var(--sp-2));
 }
 
 /* ── paper themes (mirror book-composer.css; reader-surface only) ─────────── */
@@ -75,69 +89,165 @@
   --lsv-font: "OpenDyslexic", "Comic Sans MS", sans-serif;
 }
 
-/* ── top bar ─────────────────────────────────────────────────────────────── */
-.lsv-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+/* ── the reading bar ─────────────────────────────────────────────────────── */
+/* Two rows: the book/chapter pickers, then the reading-settings toolbar
+   centered beneath them, ONE rule under the whole bar. Row-per-concern rather
+   than trying to fit both in one row and centering the second via absolute
+   positioning — that approach let the (wide) settings toolbar's centered box
+   overlap and visually bury the Chapters dropdown whenever the picker row was
+   wide enough to cross the page column's midpoint. Stacking removes the
+   overlap risk entirely, at every width.
+
+   NOT sticky (deliberately, Asif 2026-07-29): it used to pin permanently, but
+   that meant the reading pane's own height always had to reserve room for it,
+   even mid-chapter where it is rarely touched. Ordinary flow instead — it
+   scrolls away with the page, and the reading pane gets that space back. The
+   book/chapter pickers stay reachable at the top of the chapter (arrow keys
+   and Prev/Next work regardless of scroll position); the settings row is a
+   less frequent action than the reading itself. */
+.lsv-bar {
+  display: grid;
+  /* Matches .lsv-reader's own column split so .lsv-bar-page (below) can center
+     the toolbar over the PAGE column specifically — not the whole bar, which
+     also spans the companion's reserved width. Collapses to one column below
+     960px in the mobile block, same threshold .lsv-reader collapses at. */
+  grid-template-columns: minmax(0, 1fr) 20rem;
   gap: var(--sp-4);
-  flex-wrap: wrap;
-  padding-bottom: var(--sp-2);
+  padding: var(--sp-2) 0;
   border-bottom: 1px solid var(--c-rule-soft);
+  /* Opaque: the chapter sheets scroll UNDER this bar. */
+  background: var(--c-bg);
 }
 
-.lsv-topbar-left {
+.lsv-bar-page {
+  grid-column: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+/* Bordered container, width-matched to the reading pane (both sit in grid-column
+   1 of the same column split as .lsv-reader — see .lsv-bar-page above), with the
+   Books/Chapters pair CENTERED inside it rather than pinned to the left edge. */
+.lsv-bar-left {
+  display: flex;
+  align-items: flex-end; /* the two field boxes share a bottom edge under their labels */
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  width: 100%;
+  padding: var(--sp-5) var(--sp-6);
+  /* --r-lg tops out at 6px in this theme's scale — deliberately rounder than
+     that here, and an accent (not neutral-rule) border, so the group reads as
+     its own distinct control rather than a plain outlined box. */
+  border: 1.5px solid var(--c-accent);
+  border-radius: 1rem;
+  background: var(--c-bg-card);
+  min-width: 0;
+}
+.lsv-bar-right {
+  align-self: center; /* centers this row's own width within the page column */
   display: flex;
   align-items: center;
-  flex-wrap: wrap; /* narrow screens: Contents drops below the picker instead of clipping off-edge */
-  gap: var(--sp-3);
+  flex-wrap: wrap;
+  gap: var(--sp-4);
   min-width: 0;
 }
 
-.lsv-topbar-title {
-  font-family: var(--font-display);
-  font-size: var(--fs-lg);
+/* One labeled field per dropdown ("Books" / "Chapters") — the caption sits
+   above the control the way a real form field's label does, distinct from the
+   control's OWN text (which shows the current value, like a native select). */
+.lsv-nav-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  min-width: 0;
+}
+.lsv-nav-label {
+  padding-left: var(--sp-1);
+  font-family: var(--font-ui);
+  font-size: var(--fs-2xs);
   font-weight: 700;
-  color: var(--c-ink);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 22rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
 }
 
-.lsv-icon-btn {
+/* Chevron between the two fields: reads as "book, then chapter" — a chained
+   pair, not two unrelated controls. Dims further when Chapters has nothing to
+   offer (see .lsv-dropdown-trigger:disabled below). Aligned with the controls'
+   own row, not the labels above them. */
+.lsv-nav-sep {
+  align-self: center;
+  margin-bottom: 0.6rem;
+  font-size: var(--fs-2xs);
+  color: var(--c-ink-muted);
+  opacity: 0.6;
+}
+.lsv-bar-left:has(.lsv-toc-trigger:disabled) .lsv-nav-sep {
+  opacity: 0.3;
+}
+
+/* ── shared dropdown-trigger look (book picker + Chapters) ───────────────── */
+/* ONE visual language for both — same neutral bordered box, same FIXED width —
+   so the pair reads as a matched pair rather than one filled/accent "primary"
+   pill next to one plain outlined one, and doesn't reflow width by whichever
+   book/chapter title happens to be longer (truncates with ellipsis instead —
+   see .lsv-dropdown-trigger-text). */
+.lsv-dropdown-trigger {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
+  width: 18rem;
   padding: var(--sp-2) var(--sp-3);
   border: 1px solid var(--c-rule);
-  border-radius: 999px;
-  background: var(--c-bg-card);
-  color: var(--c-ink-dim);
+  border-radius: var(--r-md);
+  background: var(--c-bg);
+  color: var(--c-ink);
   font-family: var(--font-ui);
   font-size: var(--fs-sm);
   font-weight: 600;
   cursor: pointer;
   transition:
-    background 0.15s,
-    color 0.15s,
-    border-color 0.15s;
+    border-color 0.15s,
+    background 0.15s;
 }
-.lsv-icon-btn:hover {
+.lsv-dropdown-trigger:hover {
   border-color: var(--c-accent);
-  color: var(--c-accent);
 }
-.lsv-icon-btn:focus-visible {
+.lsv-dropdown-trigger:focus-visible {
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;
 }
-
-/* ── reading toolbar ─────────────────────────────────────────────────────── */
-.lsv-toolbar {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  flex-wrap: wrap;
+/* A book with no TOC entries has nothing for the Chapters dropdown to jump to —
+   dimmed and inert rather than an interactive-looking dead end. */
+.lsv-dropdown-trigger:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.lsv-dropdown-icon {
+  flex-shrink: 0;
+  color: var(--c-ink-muted);
+}
+.lsv-dropdown-trigger-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+.lsv-dropdown-caret {
+  flex-shrink: 0;
+  font-size: var(--fs-2xs);
+  color: var(--c-ink-muted);
+  transition: transform 0.15s;
+}
+.lsv-picker[data-open="true"] .lsv-dropdown-caret,
+.lsv-toc-picker[data-open="true"] .lsv-dropdown-caret {
+  transform: rotate(180deg);
 }
 
 .lsv-tb-group {
@@ -243,30 +353,29 @@
   outline-offset: 2px;
 }
 
-/* ── reading controls bar (font/size/paper, centered above the page) ─────── */
-.lsv-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--sp-3);
-  flex-wrap: wrap;
-  padding-bottom: var(--sp-3);
-  border-bottom: 1px solid var(--c-rule-soft);
-}
-
-/* ── reader grid: [stacked page sheets] [sticky companion] ───────────────── */
+/* ── reader grid ─────────────────────────────────────────────────────────── */
+/* Two columns by default — [page][companion] — and three once there is width for
+   a rail without strangling the reading measure (see the docked-rail block).
+   The companion is 20rem: the SAME width as the Book Composer's drawer panel, so
+   a note occupies the same column whether you are writing it or reading it. */
 .lsv-reader {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 25rem;
-  gap: var(
-    --sp-4
-  ); /* small gap: sheets fill their column, companion sits close */
-  align-items: start; /* let the companion stick independently of the page height */
+  grid-template-columns: minmax(0, 1fr) 20rem;
+  gap: var(--sp-4);
+  align-items: start; /* let the side columns stick independently of page height */
 }
 
 /* ── book pane: a plain wrapper — the sheets themselves are the cards ─────── */
+/* padding-top is the "breathing room" (Asif, 2026-07-29): the bar above is
+   ordinary flow now, not sticky, so it scrolls away entirely rather than
+   permanently reserving height — but that means, scrolled all the way, the
+   chapter card would otherwise butt straight up against the site's own
+   sticky nav with nothing between them. This padding is what stays even at
+   full scroll, since it is baked into the pane's own box rather than being
+   inter-sibling spacing that scrolls past along with the bar. */
 .lsv-bookpane {
   min-width: 0;
+  padding-top: var(--sp-5);
 }
 .lsv-viewport {
   min-width: 0;
@@ -285,42 +394,46 @@
   color: var(--paper-ink, var(--c-ink));
 }
 
-/* each chapter = a paper sheet, separated by a margin, carrying its own number */
+/* each chapter = a paper sheet, carrying its own number. Only the CURRENT one is
+   ever shown — the reader is single-chapter, not a continuous scroll of the
+   whole book (see showChapter in live-session.ts) — so `.is-active` here is
+   both "the chapter with the accent edge" and "the chapter actually in the
+   DOM's flow"; the same class already meant "the current chapter" before this
+   had a layout consequence too. */
 .lsv-chapter {
   position: relative;
-  margin-bottom: var(--sp-6);
   padding: var(--sp-6) var(--sp-7) calc(var(--sp-6) + 1.4rem);
   background: var(--paper-bg, var(--c-bg-card));
   color: var(--paper-ink, var(--c-ink));
   border: 1px solid var(--paper-rule, var(--c-rule-soft));
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-card);
-  /* clear the sticky top-nav (52px) when a chapter is scrolled to via the TOC/keys */
-  scroll-margin-top: calc(52px + var(--sp-4));
+  /* Switching chapters scrolls this into view (see showChapter in
+     live-session.ts) — clear the site's sticky nav (52px), the one thing
+     still pinned above it now that the bar itself scrolls away. */
+  scroll-margin-top: calc(52px + var(--sp-3));
   transition:
     box-shadow 0.25s,
     border-color 0.25s,
     background 0.25s,
     color 0.25s;
 }
-.lsv-chapter:last-child {
-  margin-bottom: 0;
+.lsv-chapter:not(.is-active) {
+  display: none;
 }
 
-/* the active chapter — the one whose notes the companion is showing — is marked
-   with a bold accent rail down its left edge, always visible while that chapter is
-   in view, so the link between panel and page reads at a glance */
+/* the current chapter is marked with a slim accent edge, so the link between
+   the companion panel and the page reads at a glance even though there is only
+   ever one sheet to look at. */
 .lsv-chapter.is-active {
   border-color: color-mix(
     in oklab,
-    var(--paper-accent, var(--c-accent)) 45%,
+    var(--paper-accent, var(--c-accent)) 35%,
     var(--paper-rule, var(--c-rule))
   );
   box-shadow:
-    inset 5px 0 0 0 var(--paper-accent, var(--c-accent)),
-    0 0 0 1px
-      color-mix(in oklab, var(--paper-accent, var(--c-accent)) 35%, transparent),
-    var(--shadow-hover);
+    inset 3px 0 0 0 var(--paper-accent, var(--c-accent)),
+    var(--shadow-card);
 }
 
 /* the page number, bottom-right of each sheet */
@@ -334,6 +447,52 @@
   letter-spacing: 0.04em;
   color: var(--paper-ink-dim, var(--c-ink-muted));
   font-variant-numeric: tabular-nums;
+}
+
+/* Prev/Next — only the current chapter is ever in the DOM's flow (single-chapter
+   view), so this row is the in-page way to move besides the Chapters dropdown
+   and the arrow keys. Both buttons always render (space-between anchors them
+   left/right even when one is disabled), so the row never jumps width between
+   the book's first/last chapter and the ones in between. */
+.lsv-chapter-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--paper-rule, var(--c-rule-soft));
+}
+.lsv-chapter-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  border: 1px solid var(--paper-rule, var(--c-rule));
+  border-radius: 999px;
+  background: transparent;
+  color: var(--paper-ink-dim, var(--c-ink-dim));
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.12s,
+    color 0.12s,
+    border-color 0.12s;
+}
+.lsv-chapter-nav-btn:hover:not(:disabled) {
+  border-color: var(--paper-accent, var(--c-accent));
+  color: var(--paper-accent, var(--c-accent));
+}
+.lsv-chapter-nav-btn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.lsv-chapter-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .lsv-read :is(p, li) {
@@ -380,19 +539,87 @@
 .lsv-read blockquote:not(.aside) p {
   text-align: center;
 }
+/* A verse+translation pair, matched to the Book Composer's own proportions
+   (book-composer.css .cx-body/.cx-prose — the same markup, the reading edition
+   the Composer already gets right) rather than derived independently here.
+   FIXED sizes, not scaled by --lsv-size (Asif, 2026-07-29): the previous
+   `calc(var(--lsv-size) * 1.4)` grew the Arabic line to 28px at the default
+   reading size — 40% larger than the Composer's 1.05rem (~20px) for the exact
+   same verse — and the inherited generic `blockquote p { margin: 0.35rem 0 }`
+   (book-reader.css) put a full margin on BOTH the verse's bottom and the
+   translation's top, doubling the gap between two lines that read as one
+   unit. Matching the Composer's own numbers is what "systematic" means here:
+   one typography system for a verse, not a reader-specific reinterpretation
+   of it. */
+.lsv-read blockquote.quran {
+  margin: 0 0 0.8rem;
+}
+/* When a translation sibling immediately follows (see the adjacent-sibling
+   rule below), the verse's OWN trailing space is what was still keeping the
+   two apart — checked against the Composer's rendering of this exact verse,
+   which sits flush against its translation with no gap at all. A verse with
+   nothing following it (rare, but not impossible) keeps the normal spacing
+   above. */
+.lsv-read blockquote.quran:has(+ blockquote:not(.aside)) {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
 .lsv-read blockquote.quran p.ar,
 .lsv-read .ar {
   color: var(--paper-ink, var(--c-ink));
-  font-size: calc(
-    var(--lsv-size, 20px) * 1.4
-  ); /* Arabic scaled to match Latin visually */
+  font-size: 1.05rem;
   line-height: 1.9;
+  margin: 0 0 0.2rem;
   text-align: center;
 }
 .lsv-read blockquote p.tr,
 .lsv-read .tr {
   color: var(--paper-ink-dim, var(--c-ink-dim));
+  font-size: 1.02rem;
+  line-height: 1.45;
+  margin: 0;
   text-align: center;
+}
+
+/* A verse's translation sometimes renders as its OWN blockquote right after
+   blockquote.quran, rather than as a p.tr inside the SAME one — a rendering
+   quirk in how this particular passage came through (markdown → two sibling
+   blockquotes instead of one with two paragraphs), confirmed by inspecting the
+   live DOM: <blockquote class="quran"><p class="ar">…</p></blockquote>
+   immediately followed by a plain, classless <blockquote><p>…</p></blockquote>
+   carrying the English. That second block isn't reached by the p.tr rule
+   above at all — it instead fell through to book-reader.css's
+   ":not(.aside) p:first-child" rule (1.45rem), which exists for a genuine
+   standalone editorial pull-quote and sized this translation at 27.84px,
+   visibly larger than the reading pane's own body text. Scoped narrowly (the
+   adjacent-sibling selector) so a real standalone citation elsewhere in the
+   book keeps its intended display size — only a blockquote sitting directly
+   after a verse gets reinterpreted as that verse's translation. */
+.lsv-read blockquote.quran + blockquote:not(.aside) {
+  margin: 0 0 0.8rem;
+  /* Zero, not blockquote.quran's own 0.25rem — checked against the Composer's
+     rendering of this exact verse: its translation blockquote has NO padding
+     at all (the base blockquote's citation-card padding, 0.85rem 1.2rem, is
+     scoped to .cx-body's generic blockquote, which a plain unclassed one like
+     this never matches there either), so verse and translation sit flush
+     with zero gap between them. Left/right padding removed too — 1.1rem of
+     indent only reads as "part of the quote" on the verse itself, not on a
+     second, separately-bordered block underneath it. */
+  padding: 0;
+  /* Same comparison: Composer's translation carries no border, no card fill,
+     no rounded corner — it isn't its own citation, it's the second half of
+     the verse above it, and the base blockquote's card treatment (still
+     applying here since this block isn't .quran-classed) was the other
+     source of the "too much space around them" look. */
+  border: none;
+  background: none;
+  border-radius: 0;
+}
+.lsv-read blockquote.quran + blockquote:not(.aside) p:first-child {
+  font-size: 1.02rem;
+  line-height: 1.45;
+  margin: 0;
+  color: var(--paper-ink-dim, var(--c-ink-dim));
 }
 
 /* ── passage highlight ───────────────────────────────────────────────────── */
@@ -413,10 +640,43 @@
   box-shadow: 0 0 0 1px var(--lsv-mark-edge, rgba(214, 164, 20, 0.85));
 }
 
-/* ── explanation panel — sticky, follows the scroll, never scrolls internally ─ */
+/* ── explanation panel — sticky, follows the scroll ──────────────────────── */
+/* Type scale: the panel declares --panel-fs / --panel-fs-title, the same two
+   custom properties the Book Composer's drawer rides, at the same values. The
+   cards inside it are companion-card.css's `.xpl`, which already reads those
+   properties — so a note is set identically on both surfaces because they read
+   ONE variable, not because two stylesheets happen to agree on a number. The
+   header used to be --fs-lg (21px) over a --fs-base (19.2px) empty state, which
+   made the panel shout over the book it was annotating.
+
+   Off the REQ-010 reading floor deliberately, on the exception already recorded
+   for the Composer's right drawer: this is a companion apparatus beside the
+   reading surface, not the reading surface — the book itself is set by the
+   reader's own size control and starts at 20px. */
 .lsv-explain {
+  --panel-fs: 15px;
+  /* DERIVED, not copied: the Composer declares `calc(var(--panel-fs) + 2px)` so
+     the heading stays one step above the content at every stop on its text dial.
+     A hardcoded 16px here read a pixel SMALLER than the Composer's 17px on the
+     same note, which is the one thing this panel was meant not to do. */
+  --panel-fs-title: calc(var(--panel-fs) + 2px);
+  /* Where the panel sticks — declared once here because its height budget below
+     is measured from it, and re-pointed (not re-derived) on a narrow screen.
+     Clears the site's sticky top-nav (52px) plus a breathing margin — NOT the
+     bar, which is ordinary flow now (see the "reading bar" section above) and
+     scrolls away with the page, so there is nothing of its to reserve room
+     for here. This used to derive from the bar's own height and stuck the
+     panel ~200px down the page with a dead gap above it once the bar had
+     scrolled off — the exact thing sticky is supposed to prevent. */
+  --lsv-panel-top: calc(52px + var(--sp-3));
   position: sticky;
-  top: calc(52px + var(--sp-4)); /* clear the sticky top-nav */
+  top: var(--lsv-panel-top);
+  /* Capped on the PANEL rather than on its body: the header wraps to two or three
+     lines on a long chapter title, so a budget spent on the body alone pushed the
+     panel's bottom edge down by however tall the header happened to be. Against
+     the viewport, never a fixed height (REQ-002), and clear of the back-to-top
+     control (see --lsv-fab-clear). */
+  max-height: calc(100vh - var(--lsv-panel-top) - var(--lsv-fab-clear));
   display: flex;
   flex-direction: column;
   background: var(--c-bg-card);
@@ -426,184 +686,190 @@
   overflow: hidden; /* clips to the rounded corners; does NOT create an inner scrollbar */
 }
 .lsv-explain-head {
-  padding: var(--sp-4) var(--sp-4) var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
   border-bottom: 1px solid var(--c-rule-soft);
   background: var(--c-bg-sunken);
 }
 .lsv-explain-eyebrow {
-  margin: 0 0 var(--sp-1);
-  display: flex;
-  align-items: center;
-  gap: var(--sp-1);
+  margin: 0 0 2px;
   font-family: var(--font-ui);
-  font-size: var(--fs-2xs);
-  letter-spacing: 0.08em;
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--c-accent);
 }
 .lsv-explain-title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: var(--fs-lg);
-  line-height: var(--lh-tight);
+  font-size: var(--panel-fs-title);
+  font-weight: 600;
+  line-height: 1.35;
   color: var(--c-ink);
 }
 /* The chapter's cards — the same list the Composer shows, read-only here. It is
    the ONE place in this reader that scrolls inside itself: the panel is sticky
    and a chapter can carry more cards than a viewport holds, and the alternative
    (growing the panel) would push the cards for later passages off the screen
-   entirely. Capped against the viewport, not a fixed height. */
+   entirely. The cap lives on the panel; this is the part that gives way to it,
+   so it needs the same min-height:0 escape the contents list needs — a flex
+   item's automatic minimum size is its content, and without it the cards push
+   the panel past its max-height instead of scrolling inside it. */
 .lsv-explain-body {
-  padding: var(--sp-4);
+  padding: var(--sp-3);
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
-  max-height: calc(100vh - 15rem);
+  gap: var(--sp-2);
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
 }
+/* Filled in rather than a stray sentence over a blank column: when the current
+   chapter has no cards, the panel takes its full sticky height budget (same
+   formula as max-height below — no new number) and centers a small icon +
+   message inside it. A chapter WITH cards is untouched — a short 1-2 card list
+   is a normal sidebar, not the "dead space" this scopes to. */
+.lsv-explain:has(.lsv-explain-empty) {
+  min-height: calc(100vh - var(--lsv-panel-top) - var(--lsv-fab-clear));
+}
+.lsv-explain-body:has(.lsv-explain-empty) {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 .lsv-explain-empty {
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-4) var(--sp-2);
   color: var(--c-ink-muted);
-  font-size: var(--fs-base);
-  line-height: var(--lh-base);
+}
+.lsv-explain-empty i {
+  font-size: 1.5rem;
+  opacity: 0.8;
+  color: color-mix(
+    in oklab,
+    var(--paper-accent, var(--c-accent)) 45%,
+    var(--c-ink-muted)
+  );
+}
+.lsv-explain-empty p {
+  margin: 0;
+  font-size: var(--panel-fs);
+  line-height: 1.5;
 }
 
 /* The note card itself is companion-card.css's `.xpl` — the SAME component the
    Composer renders, read-only here (no edit form, no delete). The bespoke
    .lsv-note rules that used to live here were retired with the bespoke card:
    one card, one stylesheet, two surfaces. */
-
-/* ── table of contents drawer ────────────────────────────────────────────── */
-.lsv-toc-scrim {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  background: color-mix(in oklab, var(--c-ink) 45%, transparent);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s;
-}
-.lsv-toc-scrim.is-open {
-  opacity: 1;
-  pointer-events: auto;
+/* Scoped to THIS reader's panel, not the shared .xpl rule itself (the Composer's
+   drawer scrolls differently) — when a note opens automatically as you read,
+   openCard()'s scrollIntoView({block:"start"}) aligns the card's own top edge
+   to the top of .lsv-explain-body's viewport. Without a margin there, that
+   lands the card flush against the panel header with zero breathing room, and
+   for a card taller than the panel a plain "nearest" alignment could leave its
+   opening line — the part that says WHICH card this is — scrolled above the
+   visible area entirely. scroll-margin-top fixes both at once. */
+.lsv-explain-body .xpl {
+  scroll-margin-top: var(--sp-3);
 }
 
-.lsv-toc {
-  position: fixed;
-  top: 0;
+/* ── table of contents dropdown ──────────────────────────────────────────── */
+/* Same popover shape as the book picker (.lsv-picker-panel below) — one pattern,
+   chained right after it, so "book, then chapter" reads as one control at every
+   screen width. No docked/drawer split left to maintain. */
+.lsv-toc-picker {
+  position: relative;
+}
+.lsv-toc-panel {
+  position: absolute;
   left: 0;
-  z-index: 51;
-  width: min(22rem, 88vw);
-  height: 100vh;
+  top: calc(100% + var(--sp-2));
+  z-index: 40;
+  width: min(20rem, 90vw);
+  max-height: 70vh;
   display: flex;
   flex-direction: column;
   background: var(--c-bg-card);
-  border-right: 1px solid var(--c-rule);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
   box-shadow: var(--shadow-hover);
-  transform: translateX(-100%);
-  visibility: hidden;
-  transition:
-    transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
-    visibility 0.3s;
-}
-.lsv-toc.is-open {
-  transform: none;
-  visibility: visible;
-}
-.lsv-toc-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-2);
-  padding: var(--sp-4);
-  border-bottom: 1px solid var(--c-rule-soft);
-  background: var(--c-bg-sunken);
-}
-.lsv-toc-title {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-  font-family: var(--font-display);
-  font-size: var(--fs-lg);
-  color: var(--c-ink);
+  overflow: hidden;
 }
 .lsv-toc-list {
   margin: 0;
   padding: var(--sp-2) var(--sp-2) var(--sp-5);
   list-style: none;
   overflow-y: auto;
+  /* The list is the part that scrolls, so it is the part that must be allowed to
+     shrink. A flex item's automatic minimum size is its CONTENT, so without this
+     a book with more chapters than fit pushes the list past the bottom of the
+     rail (and of the drawer) instead of scrolling inside it — the overflow-y
+     above then has nothing to act on. Same failure the companion card guards
+     against with flex-shrink, one container over. */
+  flex: 1 1 auto;
+  min-height: 0;
 }
+/* Two columns so the titles align down one edge whether or not an entry carries
+   an ordinal — the preface does not, and left to inline text its title would sit
+   a character-width off from every chapter beneath it. */
 .lsv-toc-link {
-  display: block;
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  gap: var(--sp-1);
   width: 100%;
   text-align: left;
-  padding: var(--sp-2) var(--sp-3);
+  padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-1);
   border: none;
-  border-radius: var(--r-sm);
+  border-left: 2px solid transparent;
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
   background: transparent;
-  color: var(--c-ink);
+  color: var(--c-ink-dim);
   font-family: var(--font-body);
   font-size: var(--fs-sm);
-  line-height: 1.4;
+  line-height: 1.35;
   cursor: pointer;
   transition:
     background 0.12s,
-    color 0.12s;
+    color 0.12s,
+    border-color 0.12s;
+}
+.lsv-toc-num {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--c-ink-muted);
+  transition: color 0.12s;
 }
 .lsv-toc-link:hover {
   background: var(--c-bg-sunken);
-  color: var(--c-accent);
+  color: var(--c-ink);
 }
+/* Marked with an accent edge rather than a filled block: the rail is read at a
+   glance while your eye is really on the page, and a filled row at every scroll
+   position pulls attention off the prose. */
 .lsv-toc-link.is-active {
-  background: color-mix(in oklab, var(--c-accent) 12%, var(--c-bg-card));
+  border-left-color: var(--c-accent);
   color: var(--c-accent);
   font-weight: 600;
+}
+.lsv-toc-link.is-active .lsv-toc-num {
+  color: var(--c-accent);
 }
 .lsv-toc-link:focus-visible {
   outline: 2px solid var(--c-accent);
   outline-offset: -2px;
 }
 
+
 /* ── book picker (in the toolbar) ────────────────────────────────────────── */
+/* Trigger styling is the SHARED .lsv-dropdown-trigger (defined above, near
+   .lsv-bar-left) — this section only has what's specific to the book picker:
+   the wrapper and its panel. */
 .lsv-picker {
   position: relative;
-}
-.lsv-picker-trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-2);
-  max-width: 18rem;
-  padding: var(--sp-2) var(--sp-3);
-  border: 1px solid var(--c-accent);
-  border-radius: 999px;
-  background: color-mix(in oklab, var(--c-accent) 8%, var(--c-bg-card));
-  color: var(--c-accent);
-  font-family: var(--font-ui);
-  font-size: var(--fs-sm);
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.lsv-picker-trigger:hover {
-  background: color-mix(in oklab, var(--c-accent) 16%, var(--c-bg-card));
-}
-.lsv-picker-trigger:focus-visible {
-  outline: 2px solid var(--c-accent);
-  outline-offset: 2px;
-}
-.lsv-picker-current {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.lsv-picker-caret {
-  font-size: var(--fs-2xs);
-  transition: transform 0.15s;
-}
-.lsv-picker[data-open="true"] .lsv-picker-caret {
-  transform: rotate(180deg);
 }
 
 .lsv-picker-panel {
@@ -737,15 +1003,70 @@
 
 /* ── responsive: single column; companion becomes a sticky context card on top ─ */
 @media (max-width: 960px) {
-  .lsv-reader {
+  .lsv-bar {
+    /* No companion column to reserve room for at this width (it moves above
+       the chapter below) — matches .lsv-reader's own collapse right after. */
     grid-template-columns: minmax(0, 1fr);
   }
-  /* companion moves above the sheets and sticks under the top-nav as you scroll,
-     still swapping to the in-view chapter's notes (one scrollbar, no inner scroll) */
+  /* Stacked, not side-by-side, and FIXED to the remaining viewport height (not
+     document flow) so each pane can own its own scroll the same way the two
+     desktop columns do. Companion's row is CAPPED at 40vh rather than sized to
+     its own content: the side-column vh-formula it uses at desktop assumes it
+     is the only thing accounting for that height, but stacked above the
+     chapter it would otherwise claim the vast majority of a phone screen
+     (measured: ~84% of an empty viewport) and trap a swipe inside its own
+     scroller before it ever reached the chapter below. The chapter's `1fr` row
+     always gets whatever is left, at least 60% of the screen. */
+  .lsv-reader {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 40vh) minmax(0, 1fr);
+    height: calc(100vh - 52px);
+    /* The base rule sets align-items:start for the DESKTOP side-by-side case
+       (each column sizes to its own vh-formula, not stretched to match the
+       other) — carried over unchanged here, that starve every row of the
+       height this block just gave it: an unstretched grid item sizes to its
+       OWN content instead, so .lsv-explain's cards and .lsv-viewport's
+       chapter text both rendered at full, uncapped content height and blew
+       straight through both row caps (measured: a 2069px-tall companion and
+       a 22725px-tall chapter, i.e. no cap at all). Stretching is what lets
+       each pane's own min-height:0 + overflow-y:auto actually have a real
+       box to clip against and scroll within. */
+    align-items: stretch;
+  }
+  /* No longer sticky: the grid row above already fixes its slot, so there is
+     nothing left for position:sticky to do, and min-height:0 is what lets it
+     actually shrink to that 40vh cap instead of growing to its own max-height
+     formula (still declared on the base .lsv-explain rule) and overflowing it. */
   .lsv-explain {
     order: -1;
-    top: calc(52px + var(--sp-2));
-    z-index: 5;
+    position: static;
+    max-height: none;
+    min-height: 0;
+  }
+  /* The full-height "fill it in" empty-state treatment (base rule, scoped via
+     :has(.lsv-explain-empty)) is sized for a tall DESKTOP side column; forcing
+     that same height here would blow straight through the 40vh row cap this
+     block just imposed. A short empty message in an already-modest 40vh box
+     doesn't read as broken the way it did in a much taller one. */
+  .lsv-explain:has(.lsv-explain-empty) {
+    min-height: 0;
+  }
+  .lsv-bookpane {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .lsv-viewport {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    /* The desktop base rule no longer sets these (the bar there scrolls away
+       with the window instead — see the "reading bar" section above), but
+       mobile still needs its own independent scroll: the companion sits
+       stacked ABOVE the chapter here, sharing one fixed-height row split, so
+       there is no page-level scroll for the chapter to fall back on. */
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .lsv-chapter {
     padding: var(--sp-5) var(--sp-5) calc(var(--sp-5) + 1.4rem);
@@ -762,11 +1083,10 @@
   .lsv-read,
   .lsv-chapter,
   .lsv-paper-btn,
-  .lsv-note,
-  .lsv-toc,
-  .lsv-toc-scrim,
-  .lsv-picker-caret,
-  .lsv-picker-trigger,
+  .lsv-toc-link,
+  .lsv-toc-num,
+  .lsv-dropdown-caret,
+  .lsv-dropdown-trigger,
   .lsv-filter-chip,
   .lsv-book-link,
   .lsv-hl {

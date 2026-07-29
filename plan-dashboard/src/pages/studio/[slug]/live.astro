@@ -4,9 +4,12 @@
  *
  * /studio/<slug>/live — the composed book as one continuously-scrolling document:
  * every chapter is stacked as its own numbered sheet, the whole view governed by a
- * single (window) scrollbar. A Table of Contents jumps to any chapter, and a reading
- * toolbar (font / size / paper theme, mirroring the Book Composer editor) sits
- * centered above the page. A sticky right-hand explanation panel follows the scroll:
+ * single (window) scrollbar. Two columns — the page and the companion — with one
+ * sticky bar above them carrying the book picker, a Chapters dropdown chained
+ * right after it (same popover pattern, so "book, then chapter" reads as one
+ * connected control), and the reading settings (font / size / paper theme,
+ * mirroring the Book Composer editor), centered over the page column at wide
+ * widths. A sticky explanation panel follows the scroll:
  * as a chapter comes into view the panel swaps to that chapter's Companion notes
  * (Asif's private teaching notes, read-only here — never written to book.md or the
  * PDF) and the chapter that owns those notes is highlighted, so the link between
@@ -62,6 +65,16 @@ const sections = (book?.toc ?? []).map((t) => ({
 const totalNotes = sections.reduce((n, s) => n + s.notes.length, 0);
 const explainJson = JSON.stringify({ slug, sections }).replace(/</g, "\\u003c");
 
+// The Chapters dropdown sets each entry's leading ordinal in its own column, so
+// the titles align down a single edge whether or not an entry carries a number
+// (the preface does not). The number is AUTHORED — it arrives inside the `## `
+// heading text — so it is split off here rather than counted, and an entry that
+// never had one simply renders without it instead of being handed a wrong number.
+const tocEntries = (book?.toc ?? []).map((t) => {
+  const m = t.title.match(/^(\d+)\.\s+(.*)$/);
+  return { id: t.id, num: m ? m[1] : "", label: m ? m[2] : t.title };
+});
+
 // Reading toolbar options (mirror the Book Composer editor toolbar).
 const FONTS = [
   { id: "serif", name: "Serif" },
@@ -87,158 +100,224 @@ const bucketsPresent = groups.map((g) => g.bucket);
   {
     book ? (
       <div class="lsv" data-slug={slug} data-font="serif" data-paper="light">
-        <div class="lsv-topbar">
-          <div class="lsv-topbar-left">
-            <div class="lsv-picker" data-open="false">
-              <button
-                type="button"
-                class="lsv-picker-trigger"
-                id="lsv-picker-trigger"
-                aria-haspopup="true"
-                aria-expanded="false"
-                aria-controls="lsv-picker-panel"
-              >
-                <i class="fa-solid fa-book-open-reader" aria-hidden="true" />
-                <span class="lsv-picker-current">{bookTitle}</span>
-                <i
-                  class="fa-solid fa-chevron-down lsv-picker-caret"
-                  aria-hidden="true"
-                />
-              </button>
-              <div
-                class="lsv-picker-panel"
-                id="lsv-picker-panel"
-                aria-label="Choose a book"
-                hidden
-              >
-                <div
-                  class="lsv-filter"
-                  role="group"
-                  aria-label="Filter by collection"
-                >
+        <div class="lsv-bar">
+          <div class="lsv-bar-page">
+            <div class="lsv-bar-left">
+              <div class="lsv-nav-field">
+                <span class="lsv-nav-label" id="lsv-picker-label">Books</span>
+                <div class="lsv-picker" data-open="false">
                   <button
                     type="button"
-                    class="lsv-filter-chip is-active"
-                    data-bucket="all"
+                    class="lsv-dropdown-trigger"
+                    id="lsv-picker-trigger"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-controls="lsv-picker-panel"
+                    aria-labelledby="lsv-picker-label lsv-picker-trigger"
                   >
-                    All
+                    <i
+                      class="fa-solid fa-book-open-reader lsv-dropdown-icon"
+                      aria-hidden="true"
+                    />
+                    <span class="lsv-dropdown-trigger-text">{bookTitle}</span>
+                    <i
+                      class="fa-solid fa-chevron-down lsv-dropdown-caret"
+                      aria-hidden="true"
+                    />
                   </button>
-                  {bucketsPresent.map((b) => (
+                  <div
+                    class="lsv-picker-panel"
+                    id="lsv-picker-panel"
+                    aria-label="Choose a book"
+                    hidden
+                  >
+                  <div
+                    class="lsv-filter"
+                    role="group"
+                    aria-label="Filter by collection"
+                  >
                     <button
                       type="button"
-                      class="lsv-filter-chip"
-                      data-bucket={b}
+                      class="lsv-filter-chip is-active"
+                      data-bucket="all"
                     >
-                      {b}
+                      All
                     </button>
-                  ))}
+                    {bucketsPresent.map((b) => (
+                      <button
+                        type="button"
+                        class="lsv-filter-chip"
+                        data-bucket={b}
+                      >
+                        {b}
+                      </button>
+                    ))}
+                  </div>
+                  <div class="lsv-picker-list">
+                    {groups.map((g) => (
+                      <section class="lsv-picker-group" data-bucket={g.bucket}>
+                        <p class="lsv-picker-bucket">{g.bucket}</p>
+                        <ul class="lsv-picker-books">
+                          {g.entries.map((e) =>
+                            e.multiVolume ? (
+                              <li class="lsv-work">
+                                <p class="lsv-work-title">{e.title}</p>
+                                <ul class="lsv-vols">
+                                  {e.volumes.map((v) => (
+                                    <li>
+                                      <a
+                                        class={`lsv-book-link${v.slug === slug ? " is-current" : ""}`}
+                                        href={`/studio/${v.slug}/live`}
+                                        aria-current={
+                                          v.slug === slug ? "true" : undefined
+                                        }
+                                      >
+                                        {v.label}
+                                      </a>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </li>
+                            ) : (
+                              <li>
+                                <a
+                                  class={`lsv-book-link${e.volumes[0].slug === slug ? " is-current" : ""}`}
+                                  href={`/studio/${e.volumes[0].slug}/live`}
+                                  aria-current={
+                                    e.volumes[0].slug === slug
+                                      ? "true"
+                                      : undefined
+                                  }
+                                >
+                                  {e.title}
+                                </a>
+                              </li>
+                            ),
+                          )}
+                        </ul>
+                      </section>
+                    ))}
+                  </div>
                 </div>
-                <div class="lsv-picker-list">
-                  {groups.map((g) => (
-                    <section class="lsv-picker-group" data-bucket={g.bucket}>
-                      <p class="lsv-picker-bucket">{g.bucket}</p>
-                      <ul class="lsv-picker-books">
-                        {g.entries.map((e) =>
-                          e.multiVolume ? (
-                            <li class="lsv-work">
-                              <p class="lsv-work-title">{e.title}</p>
-                              <ul class="lsv-vols">
-                                {e.volumes.map((v) => (
-                                  <li>
-                                    <a
-                                      class={`lsv-book-link${v.slug === slug ? " is-current" : ""}`}
-                                      href={`/studio/${v.slug}/live`}
-                                      aria-current={
-                                        v.slug === slug ? "true" : undefined
-                                      }
-                                    >
-                                      {v.label}
-                                    </a>
-                                  </li>
-                                ))}
-                              </ul>
-                            </li>
-                          ) : (
-                            <li>
-                              <a
-                                class={`lsv-book-link${e.volumes[0].slug === slug ? " is-current" : ""}`}
-                                href={`/studio/${e.volumes[0].slug}/live`}
-                                aria-current={
-                                  e.volumes[0].slug === slug
-                                    ? "true"
-                                    : undefined
-                                }
-                              >
-                                {e.title}
-                              </a>
-                            </li>
-                          ),
-                        )}
-                      </ul>
-                    </section>
-                  ))}
+              </div>
+              </div>
+
+              <i class="fa-solid fa-chevron-right lsv-nav-sep" aria-hidden="true" />
+
+              <div class="lsv-nav-field">
+                <span class="lsv-nav-label" id="lsv-toc-label">Chapters</span>
+                <div class="lsv-toc-picker" id="lsv-toc-picker" data-open="false">
+                  <button
+                    type="button"
+                    class="lsv-dropdown-trigger lsv-toc-trigger"
+                    id="lsv-toc-btn"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    aria-controls="lsv-toc-panel"
+                    aria-labelledby="lsv-toc-label lsv-toc-btn"
+                    disabled={tocEntries.length === 0}
+                  >
+                    <i
+                      class="fa-solid fa-list-ul lsv-dropdown-icon"
+                      aria-hidden="true"
+                    />
+                    <span
+                      class="lsv-dropdown-trigger-text"
+                      id="lsv-toc-trigger-text"
+                    >
+                      {tocEntries[0]
+                        ? `${tocEntries[0].num ? tocEntries[0].num + ". " : ""}${tocEntries[0].label}`
+                        : "No chapters"}
+                    </span>
+                    <i
+                      class="fa-solid fa-chevron-down lsv-dropdown-caret"
+                      aria-hidden="true"
+                    />
+                  </button>
+                  <div
+                    class="lsv-toc-panel"
+                    id="lsv-toc-panel"
+                    aria-label="Table of contents"
+                    hidden
+                  >
+                    <ol class="lsv-toc-list">
+                      {tocEntries.map((t) => (
+                        <li>
+                          <button
+                            type="button"
+                            class="lsv-toc-link"
+                            data-target={t.id}
+                          >
+                            <span class="lsv-toc-num">{t.num}</span>
+                            <span class="lsv-toc-text">{t.label}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
                 </div>
               </div>
             </div>
-            <button
-              type="button"
-              class="lsv-icon-btn lsv-toc-btn"
-              id="lsv-toc-btn"
-              aria-haspopup="true"
-              aria-expanded="false"
-              aria-controls="lsv-toc"
-            >
-              <i class="fa-solid fa-list-ul" aria-hidden="true" />
-              <span class="lsv-icon-btn-label">Contents</span>
-            </button>
-          </div>
-        </div>
 
-        <div class="lsv-controls" role="group" aria-label="Reading settings">
-          <div class="lsv-tb-group">
-            <label class="lsv-sr" for="lsv-font">
-              Reading font
-            </label>
-            <select class="lsv-font-select" id="lsv-font" title="Reading font">
-              {FONTS.map((f) => (
-                <option value={f.id}>{f.name}</option>
-              ))}
-            </select>
-            <div class="lsv-size" role="group" aria-label="Text size">
-              <button
-                type="button"
-                class="lsv-size-btn"
-                id="lsv-size-down"
-                aria-label="Smaller text"
-              >
-                <i class="fa-solid fa-minus" aria-hidden="true" />
-              </button>
-              <span class="lsv-size-val" id="lsv-size-val" aria-live="polite">
-                20
-              </span>
-              <button
-                type="button"
-                class="lsv-size-btn"
-                id="lsv-size-up"
-                aria-label="Larger text"
-              >
-                <i class="fa-solid fa-plus" aria-hidden="true" />
-              </button>
+            <div
+              class="lsv-bar-right"
+              role="group"
+              aria-label="Reading settings"
+            >
+              <div class="lsv-tb-group">
+                <label class="lsv-sr" for="lsv-font">
+                  Reading font
+                </label>
+                <select
+                  class="lsv-font-select"
+                  id="lsv-font"
+                  title="Reading font"
+                >
+                  {FONTS.map((f) => (
+                    <option value={f.id}>{f.name}</option>
+                  ))}
+                </select>
+                <div class="lsv-size" role="group" aria-label="Text size">
+                  <button
+                    type="button"
+                    class="lsv-size-btn"
+                    id="lsv-size-down"
+                    aria-label="Smaller text"
+                  >
+                    <i class="fa-solid fa-minus" aria-hidden="true" />
+                  </button>
+                  <span
+                    class="lsv-size-val"
+                    id="lsv-size-val"
+                    aria-live="polite"
+                  >
+                    20
+                  </span>
+                  <button
+                    type="button"
+                    class="lsv-size-btn"
+                    id="lsv-size-up"
+                    aria-label="Larger text"
+                  >
+                    <i class="fa-solid fa-plus" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
+              <div class="lsv-paper" role="group" aria-label="Paper theme">
+                {PAPERS.map((p) => (
+                  <button
+                    type="button"
+                    class="lsv-paper-btn"
+                    data-paper={p.id}
+                    aria-pressed={p.id === "light" ? "true" : "false"}
+                    title={`${p.name} paper`}
+                    aria-label={`${p.name} paper`}
+                  >
+                    <i class={`fa-solid ${p.icon}`} aria-hidden="true" />
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-          <div class="lsv-paper" role="group" aria-label="Paper theme">
-            {PAPERS.map((p) => (
-              <button
-                type="button"
-                class="lsv-paper-btn"
-                data-paper={p.id}
-                aria-pressed={p.id === "light" ? "true" : "false"}
-                title={`${p.name} paper`}
-                aria-label={`${p.name} paper`}
-              >
-                <i class={`fa-solid ${p.icon}`} aria-hidden="true" />
-              </button>
-            ))}
           </div>
         </div>
 
@@ -264,48 +343,23 @@ const bucketsPresent = groups.map((g) => g.bucket);
             data-total={totalNotes}
           >
             <div class="lsv-explain-head">
-              <p class="lsv-explain-eyebrow">
-                <i class="fa-solid fa-lightbulb" aria-hidden="true" /> Companion
-              </p>
+              <p class="lsv-explain-eyebrow">Companion</p>
               <h2 class="lsv-explain-title" id="lsv-explain-title">
                 Explanations
               </h2>
             </div>
             <div class="lsv-explain-body" id="lsv-explain-body">
-              <p class="lsv-explain-empty">
-                {totalNotes > 0
-                  ? "Scroll the chapter — its companion notes appear here."
-                  : "No companion notes have been written for this book yet."}
-              </p>
+              <div class="lsv-explain-empty">
+                <i class="fa-solid fa-comment-dots" aria-hidden="true" />
+                <p>
+                  {totalNotes > 0
+                    ? "Scroll the chapter — its companion notes appear here."
+                    : "No companion notes have been written for this book yet."}
+                </p>
+              </div>
             </div>
           </aside>
         </div>
-
-        <div class="lsv-toc-scrim" id="lsv-toc-scrim" />
-        <nav class="lsv-toc" id="lsv-toc" aria-label="Table of contents">
-          <div class="lsv-toc-head">
-            <p class="lsv-toc-title">
-              <i class="fa-solid fa-list-ul" aria-hidden="true" /> Contents
-            </p>
-            <button
-              type="button"
-              class="lsv-icon-btn lsv-toc-close"
-              id="lsv-toc-close"
-              aria-label="Close contents"
-            >
-              <i class="fa-solid fa-xmark" aria-hidden="true" />
-            </button>
-          </div>
-          <ol class="lsv-toc-list">
-            {book.toc.map((t) => (
-              <li>
-                <button type="button" class="lsv-toc-link" data-target={t.id}>
-                  {t.title}
-                </button>
-              </li>
-            ))}
-          </ol>
-        </nav>
 
         <script
           type="application/json"

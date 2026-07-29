@@ -30,7 +30,7 @@ import type { Node as PMNode } from "@tiptap/pm/model";
 import * as Toast from "@radix-ui/react-toast";
 import { ApiFetchError, apiFetch } from "../../../lib/api-fetch";
 import { useViewState } from "../../../lib/use-view-state";
-import { editorInspectorTab } from "../../../lib/site-view-state";
+import { editorChapter, editorInspectorTab } from "../../../lib/site-view-state";
 import { stageRole } from "../../../lib/reader/stage-roles";
 import type { EnrichmentSummary } from "../../../lib/reader/enrichment-ledger";
 import TransformationDashboard from "./TransformationDashboard";
@@ -82,6 +82,9 @@ interface Props {
   glossary?: GlossaryEntry[];
   glossaryAll?: GlossaryEntry[];
   initialChapIdx?: number;
+  /** True when the URL carried a `?ch=` deep link — that explicit navigation
+   *  wins over the remembered chapter on arrival (see the mount effect below). */
+  hasChapterDeepLink?: boolean;
   contentProfile?: string;
   /** Archived view-only stage lineages (e.g. an earlier episode structure). */
   archivedLineages?: Lineage[];
@@ -101,6 +104,7 @@ export default function StudioEditor({
   glossary = [],
   glossaryAll = glossary,
   initialChapIdx = 0,
+  hasChapterDeepLink = false,
   contentProfile,
   archivedLineages = [],
   pipelineSteps: _pipelineSteps = [],
@@ -135,6 +139,19 @@ export default function StudioEditor({
   const metrics = chap.metrics;
   const chapter = chap.slug;
   const chapterTitle = chap.title;
+
+  // Reopen at the chapter the editor was last on, unless the URL itself named
+  // one (a `?ch=` deep link is an explicit navigation and wins). Runs once on
+  // mount, not through useViewState's generic restore effect: that helper has
+  // no notion of "skip the restore when the caller already knows better."
+  useEffect(() => {
+    if (hasChapterDeepLink) return;
+    const savedSlug = editorChapter.read(slug);
+    if (!savedSlug) return;
+    const idx = viewChapters.findIndex((c) => c.slug === savedSlug);
+    if (idx >= 0) setChapIdx(idx);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // The timeline's top step ("Review") is the last AVAILABLE stage — the one under
   // human review (editable); every older stage is a read-only comparison view.
@@ -858,7 +875,12 @@ export default function StudioEditor({
                 id="sp-chap"
                 value={chapIdx}
                 disabled={viewAll}
-                onChange={(e) => setChapIdx(Number(e.target.value))}
+                onChange={(e) => {
+                  const idx = Number(e.target.value);
+                  setChapIdx(idx);
+                  const picked = viewChapters[idx];
+                  if (picked) editorChapter.write(picked.slug, slug);
+                }}
               >
                 {viewChapters.map((c, i) => (
                   <option key={c.slug} value={i}>
