@@ -274,6 +274,22 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # an overlay is never worth a finished translation
         _record_skip(book_dir, "inline-arabic", e, log)
 
+    # 5a-vowelling. Put the vowel marks on the Arabic (Asif, 2026-07-29 — this
+    #     reverses the rule that a model may never supply tashkeel). AFTER the
+    #     inline-Arabic overlay, so glossary script inserted there is marked too,
+    #     and after every prose pass, so nothing rewrites a run once it is
+    #     vowelled. BEFORE the audits, so what they judge is what prints.
+    #     Qur'anic runs are skipped — the canonical mushaf already vowels them —
+    #     and every answer must come back with a byte-identical consonantal
+    #     skeleton or it is refused and recorded. See vowel_book.py.
+    from vowel_book import vowel_book
+
+    try:
+        vowel_book(book_dir, log=lambda m: log(f"    {m}"))
+        book_md = book_dir / "book" / "book.md"
+    except Exception as e:  # marks are never worth a finished book
+        _record_skip(book_dir, "vowelling", e, log)
+
     # 5a-spelling. One spelling standard for the whole edition. The drafting and
     #     re-voicing models have no consistent preference, so without this a
     #     single book ships "honour" in one chapter and "honor" in the next.

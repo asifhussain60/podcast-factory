@@ -30,7 +30,6 @@ from typing import Any
 
 from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded, normalize_arabic
 from _mushaf import is_quranic
-from _narrative import ocr_vowelling_findings
 
 # Resolution ladder, strongest provenance first. ``ocr`` means the run is the
 # source's own words. ``knowledge-base`` means it is not in THIS book's pages but
@@ -216,13 +215,12 @@ def run_arabic_audit(book_dir: Path, *, log=print, stages: dict[str, dict[str, i
     report = audit_book_arabic(book_md.read_text(encoding="utf-8"), arabic_src, _kb_arabic_corpus(kb_root))
     if not arabic_src:
         report["note"] = "no OCR ground truth for this book — every run falls back to the knowledge base"
-    # Advisory review list, never a gate: NON-Quranic runs carrying vowels the scan
-    # does not. Canonical verses are excluded via the mushaf, which is the whole
-    # reason this list is short enough to read. A human decides each one; nothing
-    # here may revert a chapter, because a wrong revert costs real authored text.
-    vowelling = ocr_vowelling_findings(book_md.read_text(encoding="utf-8"), arabic_src)
-    if vowelling:
-        report["vowelling_review"] = vowelling
+    # The `vowelling_review` list that used to be assembled here is gone
+    # (2026-07-29). It flagged non-Quranic runs vowelled beyond the scan, which
+    # after the reversal describes every non-Quranic run in the book by design —
+    # `vowel_book.py` marks them all. What replaces it as the human-facing record
+    # is that pass's own `_system/book-vowelling.json`, which lists the runs the
+    # marks-only gate REFUSED and why.
     if stages:
         report["stages"] = stages
         report["stage_losses"] = stage_losses(stages)

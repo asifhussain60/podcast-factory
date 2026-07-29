@@ -9,6 +9,9 @@
  * cases are the substitutions a model actually tends to make: Uthmani spelling for
  * imla'i, hamza-form drift, a dropped clause, a "corrected" word.
  */
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -17,6 +20,7 @@ import {
   markDensity,
   rejectionReason,
   isVowellingCandidate,
+  isArabicPassage,
 } from "./vowelling.mjs";
 
 // Real runs from the book (book/book.md).
@@ -96,4 +100,47 @@ test("candidate selection skips already-vowelled runs and stray words", () => {
   // vowel responsibly (the same reasoning _mushaf.py uses for its word floor).
   assert.ok(!isVowellingCandidate("حزب الله"));
   assert.ok(!isVowellingCandidate("no arabic here"));
+});
+
+// ── The mirror pair ────────────────────────────────────────────────────────
+// Everything above is this half's own coverage. What follows runs the SHARED
+// fixtures that scripts/podcast/tests/test_vowelling.py runs too, so the
+// Composer's Diacritics button and the compose-time vowelling pass cannot drift
+// into admitting different things — a divergence there would put text into
+// book.md that one side considers inadmissible.
+const FX = JSON.parse(
+  readFileSync(
+    join(dirname(fileURLToPath(import.meta.url)), "vowelling.fixtures.json"),
+    "utf8",
+  ),
+);
+
+test("mirror: skeleton matches the shared fixtures", () => {
+  for (const c of FX.skeleton) assert.equal(skeleton(c.in), c.out, c.in);
+});
+
+test("mirror: markCount matches the shared fixtures", () => {
+  for (const c of FX.markCount) assert.equal(markCount(c.in), c.out, c.in);
+});
+
+test("mirror: isVowellingCandidate matches the shared fixtures", () => {
+  for (const c of FX.isCandidate)
+    assert.equal(isVowellingCandidate(c.in), c.out, c._why ?? c.in);
+});
+
+test("mirror: isArabicPassage matches the shared fixtures", () => {
+  for (const c of FX.isArabicPassage)
+    assert.equal(isArabicPassage(c.in), c.out, c._why ?? c.in);
+});
+
+test("mirror: rejectionReason matches the shared fixtures", () => {
+  for (const c of FX.rejection) {
+    const got = rejectionReason(c.source, c.candidate);
+    if (c.outStartsWith !== undefined)
+      assert.ok(
+        String(got ?? "").startsWith(c.outStartsWith),
+        `${c._why ?? c.source}: got ${got}`,
+      );
+    else assert.equal(got, c.out, c._why ?? c.source);
+  }
 });

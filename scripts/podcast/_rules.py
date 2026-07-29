@@ -216,7 +216,11 @@ R_ARABIC_TASHKEEL: tuple[tuple[int, int], ...] = (
 R_NARRATIVE_FRAME: str = "R-NARRATIVE-FRAME"
 R_SPEECH_TAG_INTEGRITY: str = "R-SPEECH-TAG-INTEGRITY"
 R_ARABIC_SCRIPT_RETAINED: str = "R-ARABIC-SCRIPT-RETAINED"
-R_NO_SUPPLIED_DIACRITICS: str = "R-NO-SUPPLIED-DIACRITICS"
+# Renamed 2026-07-29 with the reversal: the rule is no longer "no supplied
+# diacritics" — Arabic in these editions is always vowelled — but "a vowelling may
+# differ from its source in MARKS ONLY". The gate lives in `_vowelling.py` and the
+# marks are supplied by `vowel_book.py`.
+R_VOWELLING_MARKS_ONLY: str = "R-VOWELLING-MARKS-ONLY"
 R_ENUMERATION_PRESERVED: str = "R-ENUMERATION-PRESERVED"
 
 NARRATIVE_FRAMES: dict[str, dict[str, object]] = {

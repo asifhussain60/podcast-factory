@@ -135,3 +135,23 @@ export function isVowellingCandidate(text) {
   if (skeleton(t).replace(/\s/g, "").length < 8) return false;
   return markDensity(t) < 0.15;
 }
+
+/**
+ * Predominantly Arabic, not merely containing some.
+ *
+ * An English paragraph that quotes three Arabic words is not a passage to vowel:
+ * sending it would ask the model to hand back English it must not touch, and the
+ * skeleton check would then refuse whatever came back — a refusal that reads as a
+ * model failure when it was really a bad selection. One or two Latin characters
+ * are tolerated because a stray reference marker inside an Arabic line is common.
+ *
+ * Lives here rather than inline in its callers so the button, the route's own
+ * candidate collector and the compose-time pass all draw the line in one place;
+ * the Python mirror is `_vowelling.is_arabic_passage`.
+ */
+export function isArabicPassage(text) {
+  const s = text ?? "";
+  const latin = (s.match(/[A-Za-z]/g) || []).length;
+  const arabic = (s.match(/[؀-ۿ]/g) || []).length;
+  return !(latin > 2 || arabic < latin * 4);
+}

@@ -19,7 +19,6 @@ from _narrative import (  # noqa: E402
     frame_findings,
     narrative_person_findings,
     speech_tag_findings,
-    supplied_diacritics_findings,
 )
 from _rules import narrative_frame_for, narrative_person_for  # noqa: E402
 
@@ -136,16 +135,18 @@ def test_swapping_one_quotation_for_another_is_caught_though_the_count_holds() -
 
 
 # ─── Supplied diacritics ────────────────────────────────────────────────────
-def test_vowelling_an_unvowelled_source_run_is_flagged() -> None:
-    base = "من حيث يشاء الله"
-    candidate = "مِنْ حَيْثُ يَشَاءُ اللهُ"
-    findings = supplied_diacritics_findings(base, candidate)
-    assert findings and "diacritics supplied" in findings[0]
-
-
-def test_carrying_source_vowelling_through_is_allowed() -> None:
-    base = "كُنْ فَيَكُونُ"
-    assert supplied_diacritics_findings(base, base) == []
+# The two tests that lived here pinned `supplied_diacritics_findings`, deleted on
+# 2026-07-29 with the rule it enforced: Arabic in these editions always carries
+# its vowel marks now, so "the rewrite added marks the source lacked" describes
+# the intended outcome. What replaces the guard is the marks-only gate in
+# `_vowelling.rejection_reason` (pinned by tests/test_vowelling.py against shared
+# fixtures) plus `arabic_retention_findings` below, which still refuses a rewrite
+# that moves a LETTER.
+def test_vowelling_a_run_is_not_a_retention_failure() -> None:
+    """Marking a run must stay invisible to the guard that survived."""
+    base = "من حيث يشاء الله وما شاء الله كان"
+    vowelled = "مِنْ حَيْثُ يَشَاءُ اللهُ وَمَا شَاءَ اللهُ كَانَ"
+    assert arabic_retention_findings(base, vowelled) == []
 
 
 # ─── Enumeration ────────────────────────────────────────────────────────────
@@ -265,14 +266,6 @@ def test_relationship_in_subject_position_is_still_narration() -> None:
         "My Master opened the matter at the root of it all.",
     ):
         assert narrative_person_findings(subject, "transmitted_report"), subject
-
-
-def test_repeated_run_vowelled_elsewhere_is_not_a_supplied_diacritic() -> None:
-    # `الله` appears bare in prose and vowelled in a scripture block in the same
-    # chapter. Keeping only the last source form made a chapter compared against
-    # ITSELF report fabricated vowelling.
-    base = "He said الله in the prose.\n\n> وَبَانَ اللهُ في الآية\n\nand الله again."
-    assert supplied_diacritics_findings(base, base) == []
 
 
 def test_real_base_chapters_are_self_consistent() -> None:
