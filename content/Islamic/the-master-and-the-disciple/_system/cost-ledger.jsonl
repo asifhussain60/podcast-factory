@@ -502,3 +502,5 @@
 {"ts": "2026-07-30T18:49:57Z", "phase": "0book-compose", "step": "arabic-alignment", "model": "gemini-2.5-pro", "input_tokens": 56824, "output_tokens": 288, "cache_read": 0, "cache_create": 0, "cost_usd": 0.018478, "engine": "api"}
 {"ts": "2026-07-30T20:55:29Z", "phase": "0a", "step": "vowel-source", "model": "gemini-2.5-pro", "input_tokens": 9201, "output_tokens": 14446, "cache_read": 0, "cache_create": 0, "cost_usd": 0.03899, "engine": "api"}
 {"ts": "2026-07-30T20:59:30Z", "phase": "0a", "step": "vowel-source", "model": "gemini-2.5-pro", "input_tokens": 859, "output_tokens": 1429, "cache_read": 0, "cache_create": 0, "cost_usd": 0.003841, "engine": "api"}
+{"ts": "2026-07-30T22:46:10Z", "phase": "0a", "step": "vowel-source", "model": "gemini-2.5-pro", "input_tokens": 402, "output_tokens": 530, "cache_read": 0, "cache_create": 0, "cost_usd": 0.001451, "engine": "api"}
+{"ts": "2026-07-30T22:47:34Z", "phase": "0a", "step": "vowel-source", "model": "gemini-2.5-pro", "input_tokens": 236, "output_tokens": 401, "cache_read": 0, "cache_create": 0, "cost_usd": 0.001076, "engine": "api"}

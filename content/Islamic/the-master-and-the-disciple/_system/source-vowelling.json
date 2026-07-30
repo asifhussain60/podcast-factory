@@ -5,15 +5,15 @@
       "source_sha256": "9b3b3c0e3d3f72a9cb866d2b416b726f3f94759d8f04b9e67e467a40952f0b39",
       "sibling": "_system/source/ocr/raw-extract.vowelled.md",
       "stats": {
-        "vowelled": 8,
-        "marks_added": 256,
-        "already": 1378,
+        "vowelled": 1,
+        "marks_added": 48,
+        "already": 1389,
         "quranic": 1,
         "from_mushaf": 0,
-        "refused": 7,
-        "recovered": 1,
-        "in_chars": 859,
-        "out_chars": 1429,
+        "refused": 2,
+        "recovered": 0,
+        "in_chars": 236,
+        "out_chars": 401,
         "mushaf_pairs": [],
         "refusals": [
           {
@@ -21,34 +21,13 @@
             "reason": "letters changed, not just marks (first difference at character 18: source \"ثكم إليه هو \" vs proposal \"تكم إليه هو \")"
           },
           {
-            "run": "فأقبل العالم يتلو العهد على الغلام ويرثله\nويعقده عليه،",
-            "reason": "letters changed, not just marks (first difference at character 39: source \"ثله ويعقده ع\" vs proposal \"تله ويعقده ع\")",
-            "partial": true
-          },
-          {
-            "run": "فما مثل أملاك السموات السبع وأفلاكها؟",
-            "reason": "letters changed, not just marks (first difference at character 19: source \"وات السبع وأ\" vs proposal \"اوات السبع و\")"
-          },
-          {
-            "run": "الأول إلى الثاني والثاني إلى الثالث حتى إذا هوى من\nالملأ الأ",
-            "reason": "letters changed, not just marks (first difference at character 56: source \"أ الأعلى إلى\" vs proposal \"إ الأعلى إلى\")"
-          },
-          {
-            "run": "فكإنك كنتَ متوقعاً لهذا الشأن قبل اليوم،",
-            "reason": "letters changed, not just marks (first difference at character 2: source \"كإنك كنت متو\" vs proposal \"إنك كنت متوق\")"
-          },
-          {
             "run": "كذلك هؤلاء\nالذين ضيّعوا منهاج رسلهم الجأهم الجهل إلى طلب الع",
             "reason": "letters changed, not just marks (first difference at character 36: source \"الجأهم الجهل\" vs proposal \"ألجأهم الجهل\")"
-          },
-          {
-            "run": "يأتي في تأويله بعلم من السماء وبيان من\nالملأ الأعلى ويشهد له",
-            "reason": "letters changed, not just marks (first difference at character 44: source \"أ الأعلى ويش\" vs proposal \"إ الأعلى ويش\")"
           }
         ],
         "retry_of_refused": true
       }
     }
   },
-  "generated_at": "2026-07-30T20:59:30.005747+00:00"
+  "generated_at": "2026-07-30T22:47:34.209947+00:00"
 }

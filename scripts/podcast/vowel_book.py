@@ -82,6 +82,7 @@ from _vowelling import (  # noqa: E402
     reflow_words_to_source_whitespace,
     rejection_reason,
 )
+from _vowelling_prompts import CITATION_SYSTEM, SYSTEM  # noqa: E402
 
 # Vocalisation is one independent call per run and the runs do not interact, so
 # the whole pass is embarrassingly parallel. It has to be: an Arabic SOURCE
@@ -93,44 +94,6 @@ DEFAULT_WORKERS = 8
 MODEL = "gemini-2.5-pro"
 """Vocalisation is a reasoning task, not a lookup: the reading of an ambiguous
 verb comes from the surrounding sense. Flash guesses; Pro deliberates."""
-
-SYSTEM = """You add Arabic vowel marks (tashkeel) and nothing else.
-
-You will be given one Arabic passage from a classical Ismaili teaching text. Return
-the SAME passage with full tashkeel applied.
-
-ABSOLUTE CONSTRAINTS - a response that breaks any of these is discarded:
-- Do not add, remove, reorder or change ANY letter. The consonantal skeleton of your
-  answer must be byte-identical to the input. This is checked mechanically.
-- Do not "correct" spelling, do not substitute Uthmani Qur'anic orthography, do not
-  normalise hamza forms, do not change punctuation or word order.
-- Write the definite article with a PLAIN alif (\u0627). Never use alif wasla
-  (\u0671) - it is a different character, so "\u0671\u0644\u0625\u0631\u0627\u062f\u0629" for "\u0627\u0644\u0625\u0631\u0627\u062f\u0629" is a letter change and the whole
-  answer is discarded, however correct the vowelling around it.
-- Do not translate, explain, or add commentary. Return only the vowelled Arabic.
-- Where the vocalisation is genuinely ambiguous, choose the reading that the
-  surrounding sense supports and still return only the passage.
-
-Return the vowelled Arabic on a single line, with no quotes and no preamble."""
-
-
-CITATION_SYSTEM = """You add Arabic vowel marks (tashkeel) to a single term and nothing else.
-
-You will be given one Arabic term from a classical Ismaili text, and the English
-around it. Return the SAME term fully vowelled, as a dictionary citation form.
-
-ABSOLUTE CONSTRAINTS - a response that breaks any of these is discarded:
-- Do not add, remove, reorder or change ANY letter. The consonantal skeleton of your
-  answer must be byte-identical to the input. This is checked mechanically.
-- Do not "correct" spelling, do not substitute Uthmani Qur'anic orthography, do not
-  normalise hamza forms. Write the definite article with a PLAIN alif (\u0627),
-  never alif wasla (\u0671) - that is a different character and discards the answer.
-- Mark the word fully INSIDE, and leave the FINAL letter unmarked (pausal form).
-  The term is printed beside its English as a gloss, where no syntax governs its
-  case ending; a citation form is what belongs there.
-- The English tells you which reading is meant - a noun or a verb, this sense or
-  that one. Follow it.
-- Return only the vowelled Arabic term: no quotes, no commentary, no translation."""
 
 # Arabic letters, excluding the combining marks themselves — for the length floor
 # the lexical sweep in vowel_text applies to a token.
