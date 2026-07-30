@@ -60,6 +60,7 @@ import {
   type CompanionMark,
 } from "../components/studio/editor/companion-decos";
 import { markPassages } from "../lib/reader/companion/passage-match";
+import { alignmentGroups } from "../lib/reader/arabic-groups";
 import GemCompanionPanel from "../components/reader/companion/GemCompanionPanel";
 import {
   DEFAULT_DEPTH_PROFILE,
@@ -745,9 +746,20 @@ function boot(): void {
    *  walk and `normalize()` never see the Arabic we injected. */
   function stripArabicReveals(body: HTMLElement): void {
     body.querySelectorAll(".cx-ar-reveal").forEach((el) => el.remove());
+    // The group bracket lives on the PARAGRAPHS, which are not ours to remove — so
+    // it has to be cleared here too, or a chapter change leaves the previous
+    // chapter's grouping drawn around this one's prose.
+    body.querySelectorAll<HTMLElement>("[data-ar-part]").forEach((el) => {
+      delete el.dataset.arPart;
+      delete el.dataset.arOpen;
+    });
   }
 
-  function arabicParagraphHtml(data: ArabicChapter, pair: ArabicPair): string {
+  function arabicParagraphHtml(
+    data: ArabicChapter,
+    pair: ArabicPair,
+    span = 1,
+  ): string {
     const byNumber = new Map(data.paragraphs.map((p) => [p.number, p.text]));
     const blocks = pair.source_paras
       .map((n) => byNumber.get(n))
@@ -756,10 +768,14 @@ function boot(): void {
         (t) => `<p class="ar" lang="ar" dir="rtl">${escapeHtml(String(t))}</p>`,
       )
       .join("");
-    const label =
+    const source =
       pair.confidence === "verified"
         ? `Source ${pair.source_paras.length > 1 ? "paragraphs" : "paragraph"} ${pair.source_paras.join(", ")}`
         : `Somewhere in source paragraphs ${pair.source_paras[0]}–${pair.source_paras[pair.source_paras.length - 1]}`;
+    // Say how much English this Arabic became, so a long block of script above two
+    // short paragraphs reads as deliberate rather than as a mismatch.
+    const label =
+      span > 1 ? `${source} — the ${span} paragraphs below` : source;
     return (
       `<div class="cx-ar-body">` +
       `<p class="cx-ar-note" data-confidence="${pair.confidence}">${escapeHtml(label)}</p>` +
@@ -795,22 +811,48 @@ function boot(): void {
       body.removeAttribute("data-arabic");
       return;
     }
-    const byFp = new Map(data.pairs.map((p) => [p.fp, p]));
-    paras.forEach((p, i) => {
-      const pair = byFp.get(keys[i]);
-      if (!pair) return;
-      const open = arabicMode === "only" || arabicRevealed.has(keys[i]);
+    // The grouping and the positional lookup both live in `alignmentGroups`
+    // (lib/reader/arabic-source.ts), where they are unit-tested — including the
+    // repeated-speech-tag case that used to collapse thirteen paragraphs onto one
+    // source. Read that function's header for why position is the key and the
+    // fingerprint is only the edit guard.
+    const groups = alignmentGroups(data.pairs, keys);
+    if (!groups.length && data.pairs.length !== keys.length) {
+      body.removeAttribute("data-arabic");
+      return;
+    }
+
+    for (const group of groups) {
+      const pair = group.pair;
+      const span = group.end - group.start + 1;
+      const fp = keys[group.start];
+      const open = arabicMode === "only" || arabicRevealed.has(fp);
       const aside = document.createElement("aside");
       aside.className = "cx-ar-reveal";
-      aside.dataset.fp = keys[i];
+      aside.dataset.fp = fp;
+      if (span > 1) aside.dataset.span = String(span);
       if (open) aside.dataset.open = "1";
+      const label =
+        span > 1
+          ? `Show the Arabic these ${span} paragraphs were translated from`
+          : "Show the Arabic this paragraph was translated from";
       aside.innerHTML =
         `<button type="button" class="cx-ar-tab" aria-expanded="${open}" ` +
-        `title="Show the Arabic this was translated from" ` +
-        `aria-label="Show the Arabic source for this paragraph">ع</button>` +
-        (open ? arabicParagraphHtml(data, pair) : "");
-      p.before(aside);
-    });
+        `title="${label}" aria-label="${label}">ع</button>` +
+        (open ? arabicParagraphHtml(data, pair, span) : "");
+      paras[group.start].before(aside);
+      // Bracket the English this Arabic produced. Only worth drawing when the
+      // group is more than one paragraph — a 1:1 pair needs no bracket to be read
+      // as a pair.
+      for (let i = group.start; i <= group.end; i++) {
+        delete paras[i].dataset.arPart;
+        if (span < 2) continue;
+        paras[i].dataset.arPart =
+          i === group.start ? "first" : i === group.end ? "last" : "mid";
+        if (open) paras[i].dataset.arOpen = "1";
+        else delete paras[i].dataset.arOpen;
+      }
+    }
     body.dataset.arabic = arabicMode;
   }
 

@@ -62,6 +62,16 @@ from concurrent.futures import ThreadPoolExecutor, as_completed  # noqa: E402
 
 from _arabic_coverage import arabic_run_spans  # noqa: E402
 from _paths import content_dir  # noqa: E402
+from _vowel_recovery import (  # noqa: E402
+    askable as segment_askable,
+)
+from _vowel_recovery import (  # noqa: E402
+    assemble as assemble_recovery,
+)
+from _vowel_recovery import (  # noqa: E402
+    plan as recovery_plan,
+)
+from _vowel_recovery import segment_answer  # noqa: E402
 from _vowelling import (  # noqa: E402
     VOWELLED_DENSITY,
     is_arabic_passage,
@@ -234,10 +244,14 @@ def vowel_runs(
         "quranic": 0,
         "from_mushaf": 0,
         "refused": 0,
+        # Runs that a refusal would have left completely bare and the salvage pass
+        # got most of the marks onto anyway.
+        "recovered": 0,
         "in_chars": 0,
         "out_chars": 0,
     }
     refusals: list[dict] = []
+    refused_runs: list[tuple[str, str]] = []
 
     # ── Sort each distinct run into what will answer for it ───────────────────
     pending: list[str] = []
@@ -299,11 +313,66 @@ def vowel_runs(
                 reason = rejection_reason(run, candidate)
                 if reason:
                     # Refusals are RECORDED, not swallowed. A passage the model keeps
-                    # failing on is a passage a human should look at directly.
-                    stats["refused"] += 1
-                    refusals.append({"run": run[:60], "reason": reason})
+                    # failing on is a passage a human should look at directly — but
+                    # the whole run no longer goes bare over it. See the salvage pass
+                    # below; this list is what it works from.
+                    refused_runs.append((run, reason))
                     continue
                 replacements.append((run, candidate))
+
+    # ── Salvage: the same gate, on smaller pieces ─────────────────────────────
+    # A refusal used to cost the entire run. On the first real source pass that was
+    # 94 runs, 92 of them refused over a SINGLE changed letter, leaving bare holes in
+    # the middle of otherwise-marked paragraphs. Cut each refused run at its sentence
+    # boundaries and re-ask piece by piece: only the fragment actually holding the
+    # disputed letter stays bare. The gate is untouched — `_vowel_recovery` calls the
+    # same `rejection_reason` on each piece and again on the assembly, and fails
+    # closed to the original run if either says no. See that module's header.
+    if refused_runs and not dry_run:
+        jobs: list[tuple[int, int, str]] = []
+        plans: dict[int, list[str]] = {}
+        for idx, (run, _reason) in enumerate(refused_runs):
+            parts = recovery_plan(run)
+            if parts is None:
+                continue
+            plans[idx] = parts
+            jobs += [(idx, i, part) for i, part in enumerate(parts) if segment_askable(part)]
+        answers: dict[int, dict[int, str]] = {}
+        if jobs:
+            log(f"vowelling: retrying {len(plans)} refused run(s) as {len(jobs)} fragment(s)")
+            with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
+                futures = {pool.submit(ask, part): (idx, i, part) for idx, i, part in jobs}
+                for future in as_completed(futures):
+                    idx, i, part = futures[future]
+                    try:
+                        marked = segment_answer(part, future.result())
+                    except Exception:
+                        continue  # one bad fragment must not cost its neighbours
+                    if marked:
+                        answers.setdefault(idx, {})[i] = marked
+        for idx, (run, reason) in enumerate(refused_runs):
+            got = answers.get(idx)
+            if not got:
+                stats["refused"] += 1
+                refusals.append({"run": run[:60], "reason": reason})
+                continue
+            rebuilt, still_bare = assemble_recovery(run, plans[idx], got)
+            if rebuilt == run:
+                stats["refused"] += 1
+                refusals.append({"run": run[:60], "reason": reason})
+                continue
+            replacements.append((run, rebuilt))
+            stats["recovered"] += 1
+            # The fragment is what a human should look at, not the paragraph it sits
+            # in — so the refusal we keep is narrowed to it, with the reason that
+            # explains why this much of the run is still bare.
+            for fragment in still_bare:
+                stats["refused"] += 1
+                refusals.append({"run": fragment[:60], "reason": reason, "partial": True})
+    elif refused_runs:
+        for run, reason in refused_runs:
+            stats["refused"] += 1
+            refusals.append({"run": run[:60], "reason": reason})
 
     # ── Apply LONGEST RUN FIRST ───────────────────────────────────────────────
     # Two distinct runs can stand in a substring relation — `قال العالم` occurs on

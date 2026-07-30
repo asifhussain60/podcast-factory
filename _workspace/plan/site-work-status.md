@@ -1,7 +1,43 @@
 # Current work - status
 
-**Last updated:** 2026-07-30 (full-system audit: the dashboard was reporting four
-confident zeros and none of them were measurements; all gates PASS)
+**Last updated:** 2026-07-30 (the Arabic reveal was showing the WRONG paragraph for
+37 paragraphs, and 94 bare runs are down to 7; all gates PASS)
+
+**Newest — the Arabic beside the English is the right Arabic now.**
+
+Asif opened the reveal on "The narrator continued:" and got a nine-paragraph block
+that plainly did not translate it, half of it unvowelled. Two independent defects,
+and the first one was worse than it looked.
+
+- **A repeated speech tag pointed at the wrong Arabic.** The Composer keyed the
+  alignment into a `Map` by paragraph fingerprint, and a Map keeps one entry per
+  key. This book repeats its speech tags — one fingerprint occurs THIRTEEN times
+  against thirteen different source paragraphs — so all thirteen rendered the last
+  one's Arabic. 37 paragraphs book-wide were showing text they did not come from,
+  with nothing on screen to say so. The alignment file was right the whole time:
+  it is written one entry per composed paragraph, verified monotone across all 696.
+  Position is the key now, and the fingerprint went back to being the edit guard
+  its own comment always claimed it was.
+- **One Arabic paragraph, one English block.** Articulation makes several English
+  paragraphs from one Arabic one — up to nine — and the source used to be printed
+  in full above each of them. They group now: the Arabic appears once, labelled
+  "the N paragraphs below", with a rule bracketing the English it produced. The
+  paragraphs are not reparented — their DOM order is persisted to
+  `visual-layout.json` and moves figures in the printed book.
+- **94 bare runs became 7.** The marks-only gate is all-or-nothing per run, so one
+  disputed letter cost the vowelling of everything around it — `ويرثله` in the
+  scan against the model's `ويرتله`, almost certainly the right word, took ~120
+  characters of good marking down with it. `_vowel_recovery` re-asks a refused run
+  sentence by sentence and clause by clause under the SAME gate, so only the
+  fragment holding the dispute stays bare. The gate did not move by one character:
+  every piece is checked, and the reassembly is checked again.
+- Both fixes are pinned by tests that fail when the defect is put back — the
+  fingerprint collapse returns `9, 2, 9, 6, 9` where the truth is `1, 2, 5, 6, 9`.
+
+Still to do: `book.md` was composed from the pre-salvage source, so the PRINTED
+edition does not yet carry the recovered marks. A re-compose picks them up.
+
+**Full-system audit: the dashboard was reporting four confident zeros.**
 
 **Newest — the dashboard stopped lying about the project.**
 

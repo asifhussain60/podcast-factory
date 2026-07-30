@@ -119,6 +119,28 @@
   font-weight: 600;
 }
 
+/* The English one Arabic paragraph produced, bracketed (Asif, 2026-07-30).
+ *
+ * The articulation pass splits a long Arabic paragraph into several readable
+ * English ones — nine, at the extreme — so "the translation of this" is a RUN of
+ * paragraphs, not one. The rule runs down the whole run, continuous with the
+ * Arabic panel's own left border above it, so the pairing is visible at a glance.
+ *
+ * Drawn with a border rather than a pseudo-element on purpose: `.cx-drop-before`
+ * and `.cx-drop-after` already own ::before and ::after on these same paragraphs
+ * while a figure is being dragged, and a more specific rule here would silently
+ * blank the drop indicator.
+ *
+ * The negative margin exactly cancels the padding, so the RULE moves out into the
+ * gutter and the text does not move at all — a bracketed paragraph keeps the same
+ * measure and the same left edge as its unbracketed neighbours. */
+.cx-body p[data-ar-part][data-ar-open] {
+  border-inline-start: 3px solid
+    color-mix(in oklab, var(--c-accent, #8a5a2b) 30%, transparent);
+  padding-inline-start: 1rem;
+  margin-inline-start: calc(-1rem - 3px);
+}
+
 /* Whole-chapter Arabic. The English is hidden rather than removed: the reveal is a
  * way of reading, not an edit, and nothing here may change what would be saved. */
 .cx-body[data-arabic="only"] > p,

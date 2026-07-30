@@ -111,6 +111,57 @@ def _structure_complaint(before: str, after: str, mushaf_pairs: list | None = No
     return None
 
 
+def retry_refused(
+    source: Path,
+    *,
+    log: Callable[[str], None] = print,
+    apply: bool = False,
+    call: Callable[[str], str] | None = None,
+) -> dict:
+    """Re-attempt only the runs an earlier pass left bare, in place on the sibling.
+
+    A full `--force` re-run would re-pay for all 1,266 runs of a book to reach the
+    94 that were refused. This reads the SIBLING instead of the raw scan and vowels
+    it: because the pass skips any run that already carries its marks, the only
+    candidates left in a vowelled sibling ARE the refusals, and `vowel_runs` now
+    salvages them fragment by fragment (`_vowel_recovery`). Cheap, idempotent, and
+    it converges — a second call finds nothing left to do.
+
+    The raw scan is untouched, so `is_current` still holds and no downstream reader
+    sees a source of unknown provenance.
+    """
+    from vowel_book import vowel_runs
+
+    sibling = sibling_for(source)
+    if not sibling.exists():
+        log(f"    {source.name}: no vowelled sibling yet — run the full pass first")
+        return {"skipped": "no sibling", "vowelled": 0}
+    if not is_current(source):
+        log(f"    {source.name}: sibling is stale for this scan — re-run the full pass")
+        return {"skipped": "stale", "vowelled": 0}
+
+    before = sibling.read_text(encoding="utf-8")
+    after, stats = vowel_runs(before, log=log, dry_run=not apply, call=call)
+    stats["retry_of_refused"] = True
+    if not apply:
+        log(f"    {source.name}: {stats.get('vowelled', 0)} still-bare run(s) would be retried")
+        return stats
+    if stats.get("skipped"):
+        return stats
+    complaint = _structure_complaint(before, after, stats.get("mushaf_pairs"))
+    if complaint:
+        stats["structure_refusal"] = complaint
+        log(f"    {source.name}: REFUSED — {complaint} (sibling left as it was)")
+        return stats
+    write_atomic(sibling, after)
+    log(
+        f"    {source.name}: {stats.get('recovered', 0)} refused run(s) salvaged, "
+        f"{stats.get('vowelled', 0)} marked (+{stats.get('marks_added', 0)} marks), "
+        f"{stats.get('refused', 0)} fragment(s) still bare -> {sibling.name}"
+    )
+    return stats
+
+
 def vowel_stream(
     source: Path,
     *,
@@ -174,6 +225,7 @@ def vowel_source(
     apply: bool = False,
     force: bool = False,
     only: str | None = None,
+    retry: bool = False,
 ) -> dict:
     """Vowel every Arabic source stream a book carries."""
     streams = arabic_streams(book_dir)
@@ -187,7 +239,11 @@ def vowel_source(
 
     all_stats: dict[str, dict] = {}
     for source in streams:
-        stats = vowel_stream(source, log=log, apply=apply, force=force)
+        stats = (
+            retry_refused(source, log=log, apply=apply)
+            if retry
+            else vowel_stream(source, log=log, apply=apply, force=force)
+        )
         all_stats[source.name] = stats
         if apply and not stats.get("skipped") and not stats.get("structure_refusal"):
             record_stream(book_dir, source=source, sibling=sibling_for(source), stats=stats)
@@ -216,6 +272,12 @@ def main() -> int:
     ap.add_argument("--all", action="store_true", help="sweep every book carrying an Arabic source")
     ap.add_argument("--apply", action="store_true", help="write the siblings (otherwise report only)")
     ap.add_argument("--force", action="store_true", help="re-vowel even when the sibling is current")
+    ap.add_argument(
+        "--retry-refused",
+        action="store_true",
+        help="re-attempt ONLY the runs an earlier pass left bare, in place on the sibling "
+        "(salvages them fragment by fragment; far cheaper than --force)",
+    )
     ap.add_argument("--stream", help="restrict to streams whose path contains this substring")
     a = ap.parse_args()
 
@@ -243,7 +305,7 @@ def main() -> int:
         except ValueError:  # pragma: no cover
             label = book_dir
         print(f"==> {label}")
-        vowel_source(book_dir, apply=a.apply, force=a.force, only=a.stream)
+        vowel_source(book_dir, apply=a.apply, force=a.force, only=a.stream, retry=a.retry_refused)
     return 0
 
 
