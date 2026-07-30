@@ -64,6 +64,7 @@ import GemCompanionPanel from "../components/reader/companion/GemCompanionPanel"
 import {
   DEFAULT_DEPTH_PROFILE,
   DEPTH_LEVELS_BY_PROFILE,
+  EDITOR_FONTS,
   type GlossaryEntry,
 } from "../components/studio/editor/studio-editor-constants";
 import ComposeAiTools from "../components/studio/compose/ComposeAiTools";
@@ -1118,14 +1119,12 @@ function boot(): void {
     // These are EDITING-VIEW rendering preferences only: book.md carries no font
     // or size, so they change how the chapter looks while you edit (persisted per
     // user, like the paper theme) — they never restyle the printed book.
-    const FONTS = [
-      { id: "sans", name: "Sans" },
-      { id: "serif", name: "Serif" },
-      { id: "lato", name: "Lato" },
-      { id: "inter", name: "Inter" },
-      { id: "mono", name: "Mono" },
-      { id: "dyslexic", name: "Dyslexic" },
-    ] as const;
+    // The SAME list the Studio editor offers, imported rather than restated. The two
+    // editors already share one localStorage key by design, so a face listed in only
+    // one of them is a value the other rejects on load — a private copy here was a
+    // drift waiting to happen, and adding Lexend and Cinzel is exactly the change
+    // that would have caused it.
+    const FONTS = EDITOR_FONTS;
     const savedFont = (() => {
       try {
         return localStorage.getItem("cx-editor-font") ?? "sans";

@@ -1097,6 +1097,14 @@
 .studio-editor__editor[data-font="inter"] {
   --prose-font: "Inter";
 }
+.studio-editor__editor[data-font="lexend"] {
+  --prose-font: "Lexend";
+}
+/* Cinzel has no lowercase of its own — its "lowercase" is small caps — so Georgia
+   sits behind it, keeping the fallback a serif while the face loads. */
+.studio-editor__editor[data-font="cinzel"] {
+  --prose-font: "Cinzel", Georgia;
+}
 .studio-editor__editor[data-font="mono"] {
   --prose-font: var(--font-mono, ui-monospace, monospace);
 }

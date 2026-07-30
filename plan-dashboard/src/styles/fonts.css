@@ -31,3 +31,46 @@
   font-style: normal;
   font-display: swap;
 }
+
+/* ── Lexend and Cinzel — named for a year, loadable since 2026-07-30 ────────
+ * Both were already written into stylesheets — Lexend in the chapter viewer's
+ * reading stacks, Cinzel behind --font-display and in the studio pipeline's
+ * inscription headings — and NEITHER had a face to load. The only thing that ever
+ * offered them was a Google Fonts @import sitting after an @font-face rule, which
+ * browsers drop; every one of those references had been quietly resolving to Inter
+ * or Georgia. Self-hosted here, under the same OFL terms and the same pattern as
+ * the faces above, so the stylesheets now render what they say.
+ *
+ * Site-wide rather than in editor-fonts.css: Cinzel is named on /studio and in the
+ * library, neither of which is an editor surface. The Composer's font dropdown
+ * picks them up from here for free. */
+@font-face {
+  font-family: "Lexend";
+  src: url("/fonts/lexend/lexend-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+/* Cinzel ships static weights only — no variable axis upstream. Three, matching
+   the weights the stylesheets actually ask for (400 body, 600 and 700 headings). */
+@font-face {
+  font-family: "Cinzel";
+  src: url("/fonts/cinzel/cinzel-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cinzel";
+  src: url("/fonts/cinzel/cinzel-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cinzel";
+  src: url("/fonts/cinzel/cinzel-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

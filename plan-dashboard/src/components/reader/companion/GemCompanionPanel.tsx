@@ -686,60 +686,72 @@ export default function GemCompanionPanel({
         )}
       </div>
 
-      <label className="gcp-label" htmlFor="gcp-input">
-        Concept to explain
-      </label>
-      <textarea
-        id="gcp-input"
-        ref={inputRef}
-        className="gcp-input"
-        rows={2}
-        placeholder="e.g. wilayah — or highlight a sentence in the chapter and press Explain."
-        value={input}
-        onChange={(e) => setInput(e.currentTarget.value)}
-        onKeyDown={onKeyDown}
-      />
+      {/* The composing half of the panel — ask for an explanation, watch it arrive.
+          Withheld in a reading pass (Asif, 2026-07-30): read-only cards beside a
+          live "Explain" box was half a contradiction, offering to WRITE a new note
+          into a chapter whose prose is currently a rendered page. Everything below
+          this block is the reading half and stays. */}
+      {!readOnly && (
+        <>
+          <label className="gcp-label" htmlFor="gcp-input">
+            Concept to explain
+          </label>
+          <textarea
+            id="gcp-input"
+            ref={inputRef}
+            className="gcp-input"
+            rows={2}
+            placeholder="e.g. wilayah — or highlight a sentence in the chapter and press Explain."
+            value={input}
+            onChange={(e) => setInput(e.currentTarget.value)}
+            onKeyDown={onKeyDown}
+          />
 
-      <div className="gcp-actions">
-        <button
-          type="button"
-          className="gcp-btn gcp-btn--primary"
-          onClick={submit}
-          disabled={loading}
-          title="Explain the highlighted passage (and keep it with the chapter) — or the typed concept"
-        >
-          {loading ? stage : "Explain"}
-        </button>
-      </div>
+          <div className="gcp-actions">
+            <button
+              type="button"
+              className="gcp-btn gcp-btn--primary"
+              onClick={submit}
+              disabled={loading}
+              title="Explain the highlighted passage (and keep it with the chapter) — or the typed concept"
+            >
+              {loading ? stage : "Explain"}
+            </button>
+          </div>
 
-      {context && (
-        <p className="gcp-context" title={context}>
-          <i className="fa-solid fa-quote-left" aria-hidden="true" /> Grounding
-          in the selected passage.
-        </p>
-      )}
-      {hint && <p className="gcp-hint">{hint}</p>}
-      {error && (
-        <p className="gcp-error" role="alert">
-          {error}
-        </p>
-      )}
+          {context && (
+            <p className="gcp-context" title={context}>
+              <i className="fa-solid fa-quote-left" aria-hidden="true" />{" "}
+              Grounding in the selected passage.
+            </p>
+          )}
+          {hint && <p className="gcp-hint">{hint}</p>}
+          {error && (
+            <p className="gcp-error" role="alert">
+              {error}
+            </p>
+          )}
 
-      {loading && (
-        <div className="gcp-result gcp-result--loading" aria-busy="true">
-          <span className="gcp-skel" />
-          <span className="gcp-skel" />
-          <span className="gcp-skel gcp-skel--short" />
-        </div>
+          {loading && (
+            <div className="gcp-result gcp-result--loading" aria-busy="true">
+              <span className="gcp-skel" />
+              <span className="gcp-skel" />
+              <span className="gcp-skel gcp-skel--short" />
+            </div>
+          )}
+        </>
       )}
 
       <div className="gcp-list" ref={listRef} />
 
       {!loading && !visible.length && !ephemeral && (
         <p className="gcp-hint">
-          {chapter
-            ? "No explanations for this chapter yet. Highlight a sentence and press Explain."
-            : "Open a chapter to see its explanations."}
+          {!chapter
+            ? "Open a chapter to see its explanations."
+            : readOnly
+              ? // Don't send a reader after a button that is not on screen.
+                "No explanations for this chapter yet. Switch to Edit to write one."
+              : "No explanations for this chapter yet. Highlight a sentence and press Explain."}
         </p>
       )}
 

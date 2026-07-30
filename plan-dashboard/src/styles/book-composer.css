@@ -1084,6 +1084,15 @@ body:has(.composer-grid) .to-top {
 .cx-edit-host[data-font="inter"] {
   --prose-font: "Inter", "AmiriSized", "Amiri", system-ui, sans-serif;
 }
+.cx-edit-host[data-font="lexend"] {
+  --prose-font: "Lexend", "AmiriSized", "Amiri", system-ui, sans-serif;
+}
+/* Cinzel has no lowercase of its own — it is a Roman inscription face, and its
+   "lowercase" is small caps. Georgia sits behind it rather than a sans, so the
+   fallback while it loads is at least a serif. */
+.cx-edit-host[data-font="cinzel"] {
+  --prose-font: "Cinzel", "AmiriSized", "Amiri", Georgia, serif;
+}
 .cx-edit-host[data-font="mono"] {
   --prose-font: ui-monospace, "SF Mono", "AmiriSized", "Amiri", monospace;
 }

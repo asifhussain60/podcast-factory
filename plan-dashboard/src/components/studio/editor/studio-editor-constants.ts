@@ -9,11 +9,20 @@
 // EDITING-VIEW preferences shared with the Book Composer via the SAME
 // localStorage keys, so a choice made in either editor applies to both. View
 // only: the enrichment text and the printed book are unaffected.
+// THE list, for both editors — the Book Composer imports it rather than keeping a
+// copy. Adding a face means adding it here, plus a `--prose-font` stack in
+// book-composer.css and studio-editor-core.css, plus a self-hosted @font-face; a
+// face listed with no stack silently renders as the surface's default.
 export const EDITOR_FONTS = [
   { id: "sans", name: "Sans" },
   { id: "serif", name: "Serif" },
   { id: "lato", name: "Lato" },
   { id: "inter", name: "Inter" },
+  // Self-hosted 2026-07-30. Lexend is drawn for reading ease — wide apertures,
+  // loose spacing. Cinzel is a Roman-inscription face whose lowercase is small
+  // caps, which sets a chapter of dialogue very differently.
+  { id: "lexend", name: "Lexend" },
+  { id: "cinzel", name: "Cinzel" },
   { id: "mono", name: "Mono" },
   { id: "dyslexic", name: "Dyslexic" },
 ] as const;
