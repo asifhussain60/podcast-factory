@@ -30,7 +30,10 @@ import type { Node as PMNode } from "@tiptap/pm/model";
 import * as Toast from "@radix-ui/react-toast";
 import { ApiFetchError, apiFetch } from "../../../lib/api-fetch";
 import { useViewState } from "../../../lib/use-view-state";
-import { editorChapter, editorInspectorTab } from "../../../lib/site-view-state";
+import {
+  editorChapter,
+  editorInspectorTab,
+} from "../../../lib/site-view-state";
 import { stageRole } from "../../../lib/reader/stage-roles";
 import type { EnrichmentSummary } from "../../../lib/reader/enrichment-ledger";
 import TransformationDashboard from "./TransformationDashboard";

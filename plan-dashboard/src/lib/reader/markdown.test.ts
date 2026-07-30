@@ -254,7 +254,9 @@ test("a pipeline aside is classed apart from a scripture citation", () => {
   assert.match(bridge, /<blockquote class="aside bridge">/);
 
   // A verse keeps `quran` and gains nothing — the display rule must still reach it.
-  const verse = renderMarkdown("> ٱلْحَمْدُ لِلَّٰهِ\n> Praise belongs to God.\n");
+  const verse = renderMarkdown(
+    "> ٱلْحَمْدُ لِلَّٰهِ\n> Praise belongs to God.\n",
+  );
   assert.match(verse, /<blockquote class="quran">/);
 
   // An unfenced citation stays bare, exactly as before.

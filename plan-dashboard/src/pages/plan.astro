@@ -11,10 +11,19 @@ const stepsDone = roadmap.filter((s) => s.status === "complete").length;
 const stepsTotal = roadmap.length;
 const waveCount = ((dash.waves ?? []) as Array<{ id: string }>).length;
 const inFlight = dash.books_in_flight.length;
-const burnMonth = (
-  (dash.metrics as any).burn_30d_usd ?? ([] as number[])
-).reduce((a: number, b: number) => a + b, 0);
-const nextReady = roadmap.find((s) => s.status === "ready");
+// One number the generator now actually writes, summed from the per-book cost
+// ledgers. It used to be reduced as if it were an array of numbers, over a key that
+// was never written — so this card had reported $0 since the day it was built.
+const burnMonth = Number(
+  (dash.metrics as Record<string, unknown>).burn_30d_usd ?? 0,
+);
+// The first step still to do. Anything in progress outranks anything merely
+// waiting. This asked for `status === "ready"` — a value no generator has ever
+// emitted and plan.yaml has never contained — so the card could only ever show a
+// dash, whatever the roadmap said.
+const nextReady =
+  roadmap.find((s) => s.status === "in_progress") ??
+  roadmap.find((s) => s.status === "pending");
 ---
 
 <Base title="Plan Design" active="plan" section="planner">

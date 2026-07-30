@@ -104,7 +104,9 @@ const bucketsPresent = groups.map((g) => g.bucket);
           <div class="lsv-bar-page">
             <div class="lsv-bar-left">
               <div class="lsv-nav-field">
-                <span class="lsv-nav-label" id="lsv-picker-label">Books</span>
+                <span class="lsv-nav-label" id="lsv-picker-label">
+                  Books
+                </span>
                 <div class="lsv-picker" data-open="false">
                   <button
                     type="button"
@@ -131,82 +133,94 @@ const bucketsPresent = groups.map((g) => g.bucket);
                     aria-label="Choose a book"
                     hidden
                   >
-                  <div
-                    class="lsv-filter"
-                    role="group"
-                    aria-label="Filter by collection"
-                  >
-                    <button
-                      type="button"
-                      class="lsv-filter-chip is-active"
-                      data-bucket="all"
+                    <div
+                      class="lsv-filter"
+                      role="group"
+                      aria-label="Filter by collection"
                     >
-                      All
-                    </button>
-                    {bucketsPresent.map((b) => (
                       <button
                         type="button"
-                        class="lsv-filter-chip"
-                        data-bucket={b}
+                        class="lsv-filter-chip is-active"
+                        data-bucket="all"
                       >
-                        {b}
+                        All
                       </button>
-                    ))}
-                  </div>
-                  <div class="lsv-picker-list">
-                    {groups.map((g) => (
-                      <section class="lsv-picker-group" data-bucket={g.bucket}>
-                        <p class="lsv-picker-bucket">{g.bucket}</p>
-                        <ul class="lsv-picker-books">
-                          {g.entries.map((e) =>
-                            e.multiVolume ? (
-                              <li class="lsv-work">
-                                <p class="lsv-work-title">{e.title}</p>
-                                <ul class="lsv-vols">
-                                  {e.volumes.map((v) => (
-                                    <li>
-                                      <a
-                                        class={`lsv-book-link${v.slug === slug ? " is-current" : ""}`}
-                                        href={`/studio/${v.slug}/live`}
-                                        aria-current={
-                                          v.slug === slug ? "true" : undefined
-                                        }
-                                      >
-                                        {v.label}
-                                      </a>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </li>
-                            ) : (
-                              <li>
-                                <a
-                                  class={`lsv-book-link${e.volumes[0].slug === slug ? " is-current" : ""}`}
-                                  href={`/studio/${e.volumes[0].slug}/live`}
-                                  aria-current={
-                                    e.volumes[0].slug === slug
-                                      ? "true"
-                                      : undefined
-                                  }
-                                >
-                                  {e.title}
-                                </a>
-                              </li>
-                            ),
-                          )}
-                        </ul>
-                      </section>
-                    ))}
+                      {bucketsPresent.map((b) => (
+                        <button
+                          type="button"
+                          class="lsv-filter-chip"
+                          data-bucket={b}
+                        >
+                          {b}
+                        </button>
+                      ))}
+                    </div>
+                    <div class="lsv-picker-list">
+                      {groups.map((g) => (
+                        <section
+                          class="lsv-picker-group"
+                          data-bucket={g.bucket}
+                        >
+                          <p class="lsv-picker-bucket">{g.bucket}</p>
+                          <ul class="lsv-picker-books">
+                            {g.entries.map((e) =>
+                              e.multiVolume ? (
+                                <li class="lsv-work">
+                                  <p class="lsv-work-title">{e.title}</p>
+                                  <ul class="lsv-vols">
+                                    {e.volumes.map((v) => (
+                                      <li>
+                                        <a
+                                          class={`lsv-book-link${v.slug === slug ? " is-current" : ""}`}
+                                          href={`/studio/${v.slug}/live`}
+                                          aria-current={
+                                            v.slug === slug ? "true" : undefined
+                                          }
+                                        >
+                                          {v.label}
+                                        </a>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </li>
+                              ) : (
+                                <li>
+                                  <a
+                                    class={`lsv-book-link${e.volumes[0].slug === slug ? " is-current" : ""}`}
+                                    href={`/studio/${e.volumes[0].slug}/live`}
+                                    aria-current={
+                                      e.volumes[0].slug === slug
+                                        ? "true"
+                                        : undefined
+                                    }
+                                  >
+                                    {e.title}
+                                  </a>
+                                </li>
+                              ),
+                            )}
+                          </ul>
+                        </section>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-              </div>
 
-              <i class="fa-solid fa-chevron-right lsv-nav-sep" aria-hidden="true" />
+              <i
+                class="fa-solid fa-chevron-right lsv-nav-sep"
+                aria-hidden="true"
+              />
 
               <div class="lsv-nav-field">
-                <span class="lsv-nav-label" id="lsv-toc-label">Chapters</span>
-                <div class="lsv-toc-picker" id="lsv-toc-picker" data-open="false">
+                <span class="lsv-nav-label" id="lsv-toc-label">
+                  Chapters
+                </span>
+                <div
+                  class="lsv-toc-picker"
+                  id="lsv-toc-picker"
+                  data-open="false"
+                >
                   <button
                     type="button"
                     class="lsv-dropdown-trigger lsv-toc-trigger"

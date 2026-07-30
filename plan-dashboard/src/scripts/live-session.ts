@@ -559,9 +559,7 @@ function boot(): void {
   // deferral needed here (unlike the old pixel-scroll restore) — a hard swap
   // to the top of a chapter is correct the instant it runs, reflow or not.
   const savedId = data?.slug ? liveChapter.read(data.slug) : null;
-  const initialIdx = savedId
-    ? chapters.findIndex((c) => c.id === savedId)
-    : -1;
+  const initialIdx = savedId ? chapters.findIndex((c) => c.id === savedId) : -1;
   showChapter(initialIdx >= 0 ? initialIdx : 0);
 
   // Within the current chapter, follow scroll to keep the companion in sync.

@@ -217,7 +217,9 @@ async function vowelOneRun(body: Record<string, unknown>): Promise<Response> {
   const latin = (source.match(/[A-Za-z]/g) || []).length;
   const arabic = (source.match(/[؀-ۿ]/g) || []).length;
   if (latin > 2 || arabic < latin * 4)
-    return apiError("Select the Arabic passage on its own, not the English around it");
+    return apiError(
+      "Select the Arabic passage on its own, not the English around it",
+    );
   // Already vowelled — including every Qur'anic run, which carries the canonical
   // mushaf's own marks. Re-vowelling those could only make them worse, so the
   // route says so rather than spending a model call to arrive back where it was.

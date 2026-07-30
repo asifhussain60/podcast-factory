@@ -32,7 +32,28 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const APP = path.resolve(HERE, "..");
 const REPO = path.resolve(APP, "..");
 const DATA = path.join(APP, "src", "data");
-const DRAFTS = path.join(REPO, "content", "drafts");
+const CONTENT = path.join(REPO, "content");
+/**
+ * Where a book's folder lives.
+ *
+ * This used to be a single constant pointing at `content/drafts` — a directory the
+ * type-first restructure DELETED on 2026-06-04. Nothing failed loudly: `readdir`
+ * threw ENOENT, the catch returned `[]`, and from that day the dashboard reported
+ * "0 books in flight" as a fact. It was still saying it on 2026-07-30 with six books
+ * mid-pipeline, one of them failed since June. A dead path that degrades to an empty
+ * list is worse than one that crashes, because the empty list looks like an answer.
+ *
+ * Buckets first, then the legacy trees — the same order, and the same reason, as
+ * `_paths.py` / `content-paths.ts`: a partial migration must never hide a book.
+ * BUCKETS is the list from content-paths.ts, restated because this script runs under
+ * plain node with no TS resolver.
+ */
+const BUCKETS = ["Islamic", "Technical", "Fiction", "Guides"];
+const BOOK_ROOTS = [
+  ...BUCKETS.map((b) => path.join(CONTENT, b)),
+  path.join(CONTENT, "drafts"),
+  path.join(CONTENT, "published", "books"),
+];
 const PLAN_YAML = path.join(
   REPO,
   "_workspace",
@@ -97,9 +118,51 @@ function parseChecklistDoneWaves(markdown) {
   return out;
 }
 
+/**
+ * One vocabulary out, whatever went in.
+ *
+ * plan.yaml is written by hand and says a step is finished in eight different
+ * ways — `completed`, `complete`, `done`, `shipped`, `built_committed`,
+ * `pilot_complete`, `resolved`, `completed_2026_05_28`. This function used to pass
+ * every one of them straight through, and only invented `complete` itself on the
+ * wave-level path. The site asks `status === "complete"`, so on 2026-07-30 the
+ * Roadmap read **56 / 140 steps done when 117 were** — 61 finished steps counted as
+ * unfinished because they had spelled it `completed`. Per-wave counts and the
+ * Overview's in-flight list were wrong the same way.
+ *
+ * So the mapping happens HERE, once, rather than in each of the four consumers:
+ * `complete | in_progress | deferred | pending`, and nothing else can reach the
+ * snapshot. A ninth spelling in plan.yaml lands on `pending` — visibly not-done,
+ * which is the safe direction to be wrong in, and easy to spot and add.
+ *
+ * Mirrored EXACTLY in regenerate-snapshots.py (`normalize_step_status`); the two
+ * are byte-parity-tested by tests/test_snapshot_regenerator_parity.py.
+ */
+const STATUS_DONE = new Set([
+  "complete",
+  "completed",
+  "done",
+  "shipped",
+  "built_committed",
+  "pilot_complete",
+  "resolved",
+]);
+
+function normalizeStepStatus(raw) {
+  const s = String(raw ?? "")
+    .trim()
+    .toLowerCase();
+  if (!s) return "pending";
+  // `completed_2026_05_28` and friends: a done marker with the date welded on.
+  if (STATUS_DONE.has(s) || s.startsWith("completed_")) return "complete";
+  if (s === "in_progress" || s === "in-progress") return "in_progress";
+  if (s === "deferred") return "deferred";
+  return "pending";
+}
+
 function deriveStepStatus(step, wave) {
   if (typeof step.status === "string" && step.status.trim())
-    return step.status.trim();
+    return normalizeStepStatus(step.status);
   const waveStatus = String(wave?.execution_status ?? "").toLowerCase();
   if (waveStatus.startsWith("completed")) return "complete";
   return "pending";
@@ -134,24 +197,43 @@ async function recentWaveEvents(limit = 15) {
   }
 }
 
+/** Every book slug, across every bucket. Sorted, so the two generators agree. */
 async function listBooks() {
-  try {
-    const entries = await readdir(DRAFTS, { withFileTypes: true });
-    return entries
-      .filter(
-        (e) =>
-          e.isDirectory() &&
-          !e.name.startsWith("_") &&
-          e.name === e.name.toLowerCase(),
-      )
-      .map((e) => e.name);
-  } catch {
-    return [];
+  const slugs = new Set();
+  for (const root of BOOK_ROOTS) {
+    let entries;
+    try {
+      entries = await readdir(root, { withFileTypes: true });
+    } catch {
+      continue; // a bucket with no books yet, or a legacy tree already gone
+    }
+    for (const e of entries) {
+      if (!e.isDirectory()) continue;
+      if (e.name.startsWith("_")) continue;
+      if (e.name !== e.name.toLowerCase()) continue;
+      slugs.add(e.name);
+    }
   }
+  return [...slugs].sort();
+}
+
+/** The book's folder, wherever it lives. Null when no root holds it. */
+async function bookDir(slug) {
+  for (const root of BOOK_ROOTS) {
+    const p = path.join(root, slug);
+    try {
+      if ((await stat(p)).isDirectory()) return p;
+    } catch {
+      /* not here */
+    }
+  }
+  return null;
 }
 
 async function bookState(slug) {
-  const p = path.join(DRAFTS, slug, "_system", "orchestrator-state.json");
+  const dir = await bookDir(slug);
+  if (!dir) return null;
+  const p = path.join(dir, "_system", "orchestrator-state.json");
   try {
     const s = await stat(p);
     if (!s.isFile()) return null;
@@ -165,6 +247,119 @@ async function bookState(slug) {
   } catch {
     return null;
   }
+}
+
+/**
+ * The published shelf: every book whose status says it is out, with its episode count.
+ *
+ * `books_shipped` was carried forward from whatever the JSON already held and computed
+ * by nothing, so it sat at `[]` and the Overview's hero opened with "0 books published,
+ * 0 episodes" — under a headline about turning manuscripts into podcast series, with
+ * two finished books and twenty-eight episodes on disk. The Library page had them the
+ * whole time; it reads content directly instead of the snapshot.
+ *
+ * `status` is the field, not the folder — draft vs published stopped being a location
+ * in the 2026-06-04 restructure. Sorted by slug so the two generators agree.
+ *
+ * MIRROR: regenerate-snapshots.py::books_shipped.
+ */
+async function booksShipped() {
+  const out = [];
+  for (const slug of await listBooks()) {
+    const dir = await bookDir(slug);
+    if (!dir) continue;
+    const state = await readJsonIfExists(
+      path.join(dir, "_system", "orchestrator-state.json"),
+    );
+    if (state?.status !== "published") continue;
+    // The title is meta.yml's, never the state file's — the state file has no title
+    // field at all, so reading one from it would silently print the slug forever.
+    let title = slug;
+    try {
+      const meta = yaml.load(
+        await readFile(path.join(dir, "meta.yml"), "utf-8"),
+      );
+      if (typeof meta?.title === "string" && meta.title.trim())
+        title = meta.title.trim();
+    } catch {
+      /* no meta.yml: the slug is a worse name than the title, but it is a name */
+    }
+    // One episode is one `EP##-*.txt` framing file. NOT the sibling directories:
+    // some books carry a per-episode folder as well and some do not, so counting
+    // directories reported 0 for a 20-episode book and double for a 4-episode one.
+    let episodes = 0;
+    try {
+      const entries = await readdir(path.join(dir, "episodes"), {
+        withFileTypes: true,
+      });
+      episodes = entries.filter(
+        (e) => e.isFile() && /^EP\d+.*\.txt$/.test(e.name),
+      ).length;
+    } catch {
+      /* a published book with no episode folder counts zero, not undefined */
+    }
+    out.push({
+      slug,
+      title,
+      shipped: state.published_at ?? null,
+      episodes,
+    });
+  }
+  return out;
+}
+
+/**
+ * Real money spent in the 30 days before HEAD, in dollars.
+ *
+ * The Roadmap has always had a "Spend / 30 Days" card and it has always read $0,
+ * because `metrics` was the one field the generator never wrote — the page summed an
+ * absent key and rendered the zero as if it had measured something. The ledgers were
+ * there the whole time: `<book>/_system/cost-ledger.jsonl`, one JSON object a line,
+ * `cost_usd` already priced per call.
+ *
+ * The window ends at HEAD's COMMIT time, not at wall clock, which is the same rule
+ * `generatedAt` follows and for the same reason: regenerating at an unchanged commit
+ * has to be a no-op, and a window that slides with the clock would make these files
+ * perpetually dirty.
+ *
+ * Only real money — the ledger prices paid APIs (Azure, Gemini); flat-rate Max work
+ * writes no row, so nothing here can inflate into token-equivalent theatre.
+ *
+ * MIRROR: regenerate-snapshots.py::burn_30d_usd.
+ */
+async function burn30dUsd() {
+  const end = Date.parse(generatedAt());
+  if (Number.isNaN(end)) return 0;
+  const start = end - 30 * 24 * 60 * 60 * 1000;
+  let cents = 0; // integer accumulation, so the two generators cannot drift on float
+  for (const slug of await listBooks()) {
+    const dir = await bookDir(slug);
+    if (!dir) continue;
+    let raw;
+    try {
+      raw = await readFile(
+        path.join(dir, "_system", "cost-ledger.jsonl"),
+        "utf-8",
+      );
+    } catch {
+      continue; // a book that has cost nothing yet has no ledger
+    }
+    for (const line of raw.split("\n")) {
+      if (!line.trim()) continue;
+      let row;
+      try {
+        row = JSON.parse(line);
+      } catch {
+        continue; // a torn last line mid-write is not a reason to report nothing
+      }
+      const usd = Number(row?.cost_usd);
+      if (!usd) continue;
+      const t = Date.parse(String(row?.ts ?? ""));
+      if (Number.isNaN(t) || t < start || t > end) continue;
+      cents += Math.round(usd * 100);
+    }
+  }
+  return cents / 100;
 }
 
 function recentCommits() {
@@ -374,6 +569,8 @@ async function mergeDashboard() {
     roadmap,
     waves: wavesMeta,
     books_in_flight: inFlight,
+    metrics: { ...(existing.metrics ?? {}), burn_30d_usd: await burn30dUsd() },
+    books_shipped: await booksShipped(),
     recent_commits: recentCommits(),
     wave_execution_events: await recentWaveEvents(),
   };

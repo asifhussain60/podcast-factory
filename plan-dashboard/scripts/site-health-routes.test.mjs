@@ -37,7 +37,10 @@ const NON_VIEW = new Map([
 // exactly the 2026-07-28 miss. Listing the domain forces all of them to be gated.
 const FINITE_PARAMS = new Map([
   // STUDIO_STEPS in src/lib/reader/studio-pipeline.ts
-  ["studio/[slug]/[step].astro", { param: "[step]", values: ["intake", "review", "edit", "publish"] }],
+  [
+    "studio/[slug]/[step].astro",
+    { param: "[step]", values: ["intake", "review", "edit", "publish"] },
+  ],
 ]);
 
 // Routes that are gated only when their fixture exists on this checkout. The

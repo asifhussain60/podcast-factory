@@ -119,11 +119,7 @@
       "skeleton": "رحم"
     }
   ],
-  "invalid_buckwalter": [
-    "rHm?",
-    "abc(def)",
-    "r Hm2"
-  ],
+  "invalid_buckwalter": ["rHm?", "abc(def)", "r Hm2"],
   "fold_cases": [
     {
       "name": "nafs-matches",

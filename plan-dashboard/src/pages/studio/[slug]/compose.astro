@@ -202,9 +202,8 @@ const ARABIC_FONTS = [
               }
               download={existingPdf?.name}
             >
-              <i class="fa-solid fa-download" aria-hidden="true" /> Download PDF{
-                existingPdf ? ` (${existingPdf.kb} KB)` : ""
-              }
+              <i class="fa-solid fa-download" aria-hidden="true" /> Download PDF
+              {existingPdf ? ` (${existingPdf.kb} KB)` : ""}
             </a>
             <a class="cx-hdr-btn" href={`/studio/${slug}/live`}>
               <i class="fa-solid fa-book-open-reader" aria-hidden="true" /> LIVE

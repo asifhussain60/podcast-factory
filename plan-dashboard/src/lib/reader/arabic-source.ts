@@ -81,7 +81,13 @@ function toInt(arabicDigits: string): number {
  */
 export function vowelledSourceIsCurrent(bookDir: string): boolean {
   const raw = join(bookDir, "_system", "source", "ocr", "raw-extract.md");
-  const sibling = join(bookDir, "_system", "source", "ocr", "raw-extract.vowelled.md");
+  const sibling = join(
+    bookDir,
+    "_system",
+    "source",
+    "ocr",
+    "raw-extract.vowelled.md",
+  );
   if (!existsSync(raw) || !existsSync(sibling)) return false;
   try {
     const report = JSON.parse(
@@ -150,7 +156,8 @@ export function parseBlocks(
   for (const [missing, host] of Object.entries(MERGED_INTO)) {
     const n = Number(missing);
     const h = blocks.get(host);
-    if (!blocks.has(n) && h) blocks.set(n, { number: n, text: h.text, merged: true });
+    if (!blocks.has(n) && h)
+      blocks.set(n, { number: n, text: h.text, merged: true });
   }
   return blocks;
 }
@@ -180,7 +187,10 @@ export function joinParagraphs(
 export function loadAlignment(
   bookDir: string,
 ): Map<string, { pairs: AlignmentPair[]; sourceParaRange: number[] }> {
-  const out = new Map<string, { pairs: AlignmentPair[]; sourceParaRange: number[] }>();
+  const out = new Map<
+    string,
+    { pairs: AlignmentPair[]; sourceParaRange: number[] }
+  >();
   const path = join(bookDir, "_system", "arabic-alignment.json");
   if (!existsSync(path)) return out;
   try {
@@ -212,8 +222,13 @@ export function quranicSkeletons(bookDir: string): Set<string> {
     const rows = doc?.runs ?? doc?.findings ?? [];
     return new Set(
       rows
-        .filter((r: { resolution?: string }) => r?.resolution === "canonical-mushaf")
-        .map((r: { skeleton?: string; text?: string }) => r.skeleton ?? r.text ?? "")
+        .filter(
+          (r: { resolution?: string }) => r?.resolution === "canonical-mushaf",
+        )
+        .map(
+          (r: { skeleton?: string; text?: string }) =>
+            r.skeleton ?? r.text ?? "",
+        )
         .filter(Boolean),
     );
   } catch {

@@ -206,7 +206,8 @@ export function reflowToSourceWhitespace(source, candidate) {
 export function reflowWordsToSourceWhitespace(source, candidate) {
   const srcWords = (source ?? "").split(/\s+/).filter(Boolean);
   const candWords = (candidate ?? "").split(/\s+/).filter(Boolean);
-  if (!srcWords.length || srcWords.length !== candWords.length) return candidate;
+  if (!srcWords.length || srcWords.length !== candWords.length)
+    return candidate;
   const out = [];
   let idx = 0;
   for (const piece of (source ?? "").split(/(\s+)/)) {

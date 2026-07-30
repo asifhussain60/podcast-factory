@@ -630,7 +630,8 @@ async function main() {
 // imported by site-health-routes.test.mjs, which asserts it still covers every
 // page in src/pages/ — without this guard that import would boot a browser.
 const isDirectRun =
-  process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+  process.argv[1] &&
+  resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 
 if (isDirectRun) {
   main().catch((err) => {

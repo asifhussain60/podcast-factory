@@ -863,7 +863,6 @@
   outline-offset: -2px;
 }
 
-
 /* ── book picker (in the toolbar) ────────────────────────────────────────── */
 /* Trigger styling is the SHARED .lsv-dropdown-trigger (defined above, near
    .lsv-bar-left) — this section only has what's specific to the book picker:

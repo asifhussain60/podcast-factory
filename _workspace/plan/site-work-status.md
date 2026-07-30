@@ -1,7 +1,48 @@
 # Current work - status
 
-**Last updated:** 2026-07-30 (Book Composer Read mode: reads as a page, Arabic set
-at the English's size, source numbers dropped, Companion read-only; all gates PASS)
+**Last updated:** 2026-07-30 (full-system audit: the dashboard was reporting four
+confident zeros and none of them were measurements; all gates PASS)
+
+**Newest — the dashboard stopped lying about the project.**
+
+A full audit of the pipeline and the site. Everything deterministic already passed
+— 2,360 Python tests, 349 site tests, 180 route renders across five book fixtures
+with no console error, ruff, the repo probe, doc links, agent-wrapper parity. What
+it found instead was a whole class of defect the gates cannot see: **snapshot fields
+that render a zero nobody computed.**
+
+- **"0 books in flight" — for two months.** Both snapshot generators read
+  `content/drafts`, a directory the 2026-06-04 restructure deleted. `readdir` threw,
+  the catch returned `[]`, and the dashboard reported the empty list as a fact while
+  six books sat mid-pipeline, one failed since June. They walk the buckets now, with
+  the legacy trees kept as fallbacks in the same order `_paths.py` uses.
+- **"56 / 140 steps done" when 117 were.** plan.yaml says "finished" eight different
+  ways; the generator passed each through verbatim and every consumer tests
+  `=== "complete"`, so 61 finished steps read as unfinished. One closed vocabulary is
+  now imposed in the generator — `complete | in_progress | pending | deferred` — not
+  in the four pages that were each getting it wrong separately.
+- **"Next Step —" always.** The card looked for status `"ready"`, a value no
+  generator has emitted and plan.yaml has never contained.
+- **"$0 spend" and "0 books published, 0 episodes".** `metrics` and `books_shipped`
+  were never written by anything, while the per-book cost ledgers and the published
+  shelf sat on disk. Both are computed now; the 30-day window ends at HEAD's commit
+  time, not wall clock, so regenerating at an unchanged commit stays a no-op.
+- **Both generators still emit byte-identical files**, verified by running them back
+  to back and diffing, and five new tests assert the snapshot AGREES WITH THE
+  FILESYSTEM rather than merely parsing — each one fails when its defect is put back.
+- **Also:** a dead Google-Fonts `@import` (misplaced after `@font-face`, so the
+  browser had always dropped it — a network trace confirms nothing leaves for
+  fonts.googleapis.com) removed with its build warning; one dead variable; 21 files
+  of accumulated prettier drift reformatted, and prettier added to the pre-commit
+  hook, since the repo has declared `format:check` since day one and nothing ever ran
+  it.
+
+Still open, needing Asif: `claude-code-training` has been `failed` since
+2026-06-02; and Lexend + Cinzel are named in three stylesheets but are not
+self-hosted, so they have been silently resolving to Inter and Georgia.
+
+**Book Composer Read mode: reads as a page, Arabic set at the English's size,
+source numbers dropped, Companion read-only.**
 
 **Newest — Read mode is a reading surface on both sides of the page.**
 

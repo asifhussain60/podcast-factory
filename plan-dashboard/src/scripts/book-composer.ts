@@ -718,8 +718,10 @@ function boot(): void {
   const arabicRevealed = new Set<string>();
   let arabicMode: "english" | "only" = "english";
   const arabicToggle = root.querySelector<HTMLElement>("#cx-arabic-toggle");
-  const arabicEnglishBtn = root.querySelector<HTMLButtonElement>("#cx-arabic-english");
-  const arabicOnlyBtn = root.querySelector<HTMLButtonElement>("#cx-arabic-only");
+  const arabicEnglishBtn =
+    root.querySelector<HTMLButtonElement>("#cx-arabic-english");
+  const arabicOnlyBtn =
+    root.querySelector<HTMLButtonElement>("#cx-arabic-only");
 
   async function ensureArabicData(key: string): Promise<ArabicChapter | null> {
     if (arabicByChapter.has(key)) return arabicByChapter.get(key) ?? null;
@@ -744,15 +746,14 @@ function boot(): void {
     body.querySelectorAll(".cx-ar-reveal").forEach((el) => el.remove());
   }
 
-  function arabicParagraphHtml(
-    data: ArabicChapter,
-    pair: ArabicPair,
-  ): string {
+  function arabicParagraphHtml(data: ArabicChapter, pair: ArabicPair): string {
     const byNumber = new Map(data.paragraphs.map((p) => [p.number, p.text]));
     const blocks = pair.source_paras
       .map((n) => byNumber.get(n))
       .filter(Boolean)
-      .map((t) => `<p class="ar" lang="ar" dir="rtl">${escapeHtml(String(t))}</p>`)
+      .map(
+        (t) => `<p class="ar" lang="ar" dir="rtl">${escapeHtml(String(t))}</p>`,
+      )
       .join("");
     const label =
       pair.confidence === "verified"
@@ -813,10 +814,7 @@ function boot(): void {
   }
 
   function escapeHtml(s: string): string {
-    return s
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
   function setArabicMode(next: "english" | "only"): void {
@@ -2329,17 +2327,53 @@ function boot(): void {
     icon?: string;
   }
   const AI_ACTIONS: AiAction[] = [
-    { kind: "rewrite", label: "Rewrite", mode: "clarify", icon: "fa-solid fa-pen-nib" },
-    { kind: "expand", label: "Expand", mode: "expand", icon: "fa-solid fa-up-right-and-down-left-from-center" },
-    { kind: "condense", label: "Condense", mode: "tighten", icon: "fa-solid fa-down-left-and-up-right-to-center" },
-    { kind: "simplify", label: "Simplify", mode: "simplify", icon: "fa-solid fa-wand-magic-sparkles" },
-    { kind: "explain", label: "Explain", explain: true, icon: "fa-solid fa-lightbulb" },
-    { kind: "etymology", label: "Etymology", etymology: true, icon: "fa-solid fa-book-open" },
+    {
+      kind: "rewrite",
+      label: "Rewrite",
+      mode: "clarify",
+      icon: "fa-solid fa-pen-nib",
+    },
+    {
+      kind: "expand",
+      label: "Expand",
+      mode: "expand",
+      icon: "fa-solid fa-up-right-and-down-left-from-center",
+    },
+    {
+      kind: "condense",
+      label: "Condense",
+      mode: "tighten",
+      icon: "fa-solid fa-down-left-and-up-right-to-center",
+    },
+    {
+      kind: "simplify",
+      label: "Simplify",
+      mode: "simplify",
+      icon: "fa-solid fa-wand-magic-sparkles",
+    },
+    {
+      kind: "explain",
+      label: "Explain",
+      explain: true,
+      icon: "fa-solid fa-lightbulb",
+    },
+    {
+      kind: "etymology",
+      label: "Etymology",
+      etymology: true,
+      icon: "fa-solid fa-book-open",
+    },
     // Vowel the selected Arabic in place (Asif, 2026-07-29). Last in the row
     // because it is the only one that acts on Arabic rather than on English —
     // and it is the only one that stays dark until the selection is Arabic, so
     // its own disabled state tells you when it applies.
-    { kind: "diacritics", label: "Diacritics", diacritics: true, arabicOnly: true, icon: "fa-solid fa-marker" },
+    {
+      kind: "diacritics",
+      label: "Diacritics",
+      diacritics: true,
+      arabicOnly: true,
+      icon: "fa-solid fa-marker",
+    },
   ];
   let aiStatusEl: HTMLElement | null = null;
   let aiPopupEl: HTMLElement | null = null;
@@ -2485,7 +2519,10 @@ function boot(): void {
     if (!go) return;
     const flushed = await (activeSaveFlush?.() ?? Promise.resolve(true));
     if (!flushed) {
-      setAiStatus("Autosave is failing — resolve that before rearticulating.", true);
+      setAiStatus(
+        "Autosave is failing — resolve that before rearticulating.",
+        true,
+      );
       return;
     }
     rearticulating = true;
@@ -2528,7 +2565,10 @@ function boot(): void {
     const DEADLINE = Date.now() + 120 * 60 * 1000;
     const poll = async (): Promise<void> => {
       if (Date.now() > DEADLINE) {
-        unlock("Rearticulate timed out — check the book before retrying.", true);
+        unlock(
+          "Rearticulate timed out — check the book before retrying.",
+          true,
+        );
         return;
       }
       let status: Record<string, unknown>;
@@ -2541,13 +2581,20 @@ function boot(): void {
         return;
       }
       if (status.state === "running" || status.state === "none") {
-        const secs = Math.round((Date.now() - (DEADLINE - 120 * 60 * 1000)) / 1000);
-        busy.update(`“${title}” — ${Math.floor(secs / 60)}m ${secs % 60}s elapsed`);
+        const secs = Math.round(
+          (Date.now() - (DEADLINE - 120 * 60 * 1000)) / 1000,
+        );
+        busy.update(
+          `“${title}” — ${Math.floor(secs / 60)}m ${secs % 60}s elapsed`,
+        );
         window.setTimeout(poll, 4000);
         return;
       }
       if (status.state === "error") {
-        unlock(`Rearticulate failed: ${String(status.error ?? "unknown error")}`, true);
+        unlock(
+          `Rearticulate failed: ${String(status.error ?? "unknown error")}`,
+          true,
+        );
         return;
       }
       const record = (status.record ?? {}) as Record<string, unknown>;
@@ -3162,7 +3209,8 @@ function boot(): void {
   // are flushed first: what you see is what prints. Same themed confirm and
   // endpoint as /studio/<slug>/preview; the page is fully usable while the
   // render runs (only the button itself locks).
-  const genPdfBtn = document.querySelector<HTMLButtonElement>("#cx-generate-pdf");
+  const genPdfBtn =
+    document.querySelector<HTMLButtonElement>("#cx-generate-pdf");
   genPdfBtn?.addEventListener("click", async () => {
     if (genPdfBtn.disabled) return;
     const flushed = await (activeSaveFlush?.() ?? Promise.resolve(true));
@@ -3279,8 +3327,14 @@ function boot(): void {
       const reopened = body?.querySelector<HTMLElement>(
         `.cx-ar-reveal[data-fp="${CSS.escape(fp)}"]`,
       );
-      const after = (reopened?.nextElementSibling as HTMLElement | null)?.getBoundingClientRect().top ?? before;
-      window.scrollBy({ top: after - before, behavior: "instant" as ScrollBehavior });
+      const after =
+        (
+          reopened?.nextElementSibling as HTMLElement | null
+        )?.getBoundingClientRect().top ?? before;
+      window.scrollBy({
+        top: after - before,
+        behavior: "instant" as ScrollBehavior,
+      });
       reopened?.querySelector<HTMLButtonElement>(".cx-ar-tab")?.focus();
       return;
     }

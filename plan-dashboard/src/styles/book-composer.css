@@ -2612,8 +2612,13 @@ body:has(.composer-grid) .to-top {
   width: 2.3rem;
   height: 2.3rem;
   border-radius: 50%;
-  background: color-mix(in oklab, var(--c-accent, #8b4513) 12%, var(--c-bg-card, #fffdf8));
-  border: 1px solid color-mix(in oklab, var(--c-accent, #8b4513) 35%, var(--c-bg-card, #fffdf8));
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 12%,
+    var(--c-bg-card, #fffdf8)
+  );
+  border: 1px solid
+    color-mix(in oklab, var(--c-accent, #8b4513) 35%, var(--c-bg-card, #fffdf8));
   color: var(--c-accent, #8b4513);
   font-size: 1rem;
 }
@@ -2625,7 +2630,11 @@ body:has(.composer-grid) .to-top {
   gap: 0.55rem;
   border: 1px solid var(--c-rule-soft, #ebe6da);
   border-radius: 8px;
-  background: color-mix(in oklab, var(--c-accent, #8b4513) 4%, var(--c-bg-card, #fffdf8));
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 4%,
+    var(--c-bg-card, #fffdf8)
+  );
 }
 .cx-confirm-points li {
   display: flex;
@@ -2685,7 +2694,11 @@ body:has(.composer-grid) .to-top {
   width: 3.4rem;
   height: 3.4rem;
   border-radius: 50%;
-  background: color-mix(in oklab, var(--c-accent, #8b4513) 10%, var(--c-bg-card, #fffdf8));
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 10%,
+    var(--c-bg-card, #fffdf8)
+  );
   color: var(--c-accent, #8b4513);
   font-size: 1.25rem;
 }
@@ -2694,7 +2707,8 @@ body:has(.composer-grid) .to-top {
   position: absolute;
   inset: -5px;
   border-radius: 50%;
-  border: 3px solid color-mix(in oklab, var(--c-accent, #8b4513) 22%, transparent);
+  border: 3px solid
+    color-mix(in oklab, var(--c-accent, #8b4513) 22%, transparent);
   border-top-color: var(--c-accent, #8b4513);
   animation: cx-busy-ring 0.9s linear infinite;
 }

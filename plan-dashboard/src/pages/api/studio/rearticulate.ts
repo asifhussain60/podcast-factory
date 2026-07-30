@@ -113,6 +113,10 @@ export const GET: APIRoute = async ({ url }) => {
   // A "running" whose process died without writing a terminal state is an error,
   // not a forever-shimmer.
   if (status.state === "running" && !pidAlive(status.pid))
-    return apiOk({ ...status, state: "error", error: "worker exited without a result" });
+    return apiOk({
+      ...status,
+      state: "error",
+      error: "worker exited without a result",
+    });
   return apiOk(status);
 };

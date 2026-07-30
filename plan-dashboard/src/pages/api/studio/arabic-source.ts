@@ -46,7 +46,13 @@ export const GET: APIRoute = ({ request }) => {
     const entry = alignment.get(chapter);
     const sourcePath = resolveArabicSource(bookDir);
     if (!entry || !sourcePath) {
-      return apiOk({ slug, chapter, available: false, pairs: [], paragraphs: [] });
+      return apiOk({
+        slug,
+        chapter,
+        available: false,
+        pairs: [],
+        paragraphs: [],
+      });
     }
 
     const blocks = parseBlocks(readFileSync(sourcePath, "utf8"), {
