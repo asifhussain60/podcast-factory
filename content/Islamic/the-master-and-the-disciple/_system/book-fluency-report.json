@@ -1,98 +1,157 @@
 {
-  "schema": "podcast.book-fluency/v3",
+  "schema": "podcast.book-fluency/v5",
   "narrative_frame": "transmitted_report",
   "adapted": 9,
   "reverted": 0,
+  "overwritten_by_replay": 0,
   "chapters": [
     {
       "title": "How to Read a Conversation Made of Doors",
-      "base_words": 412,
-      "output_words": 417,
+      "base_words": 801,
+      "output_words": 801,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
-      "warnings": []
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The phrase \"set his course toward guidance by the marks of the request\" is cryptic on first read and a modern reader may not grasp that \"the marks of the request\" means the signs or indications contained in the very question the believers posed."
+      ],
+      "terminology_notes": [
+        "preachers \u2014 the body calls the da\u02bfwa figures \"preachers\" while the edition introduction names the same office \"d\u0101\u02bf\u012b\"/\"callers\"; one rendering should be chosen and used book-wide."
+      ]
     },
     {
       "title": "The Persian Who Was Dead and Revived",
-      "base_words": 705,
-      "output_words": 741,
+      "base_words": 726,
+      "output_words": 727,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
-      "warnings": []
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
     },
     {
       "title": "A Stranger in the City",
-      "base_words": 987,
-      "output_words": 984,
+      "base_words": 984,
+      "output_words": 997,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
-      "warnings": []
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "Across the long sermon the pronoun \"it\" refers throughout to \"His knowledge,\" but so many clauses separate the noun from its pronouns that a reader may lose the antecedent."
+      ],
+      "terminology_notes": []
     },
     {
       "title": "The Boy at the Door \u2014 Limits and Conditions",
-      "base_words": 3409,
-      "output_words": 3390,
+      "base_words": 3319,
+      "output_words": 3344,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
-      "warnings": []
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": [
+        "\"Party of God\" \u2014 the rendering of \u062d\u0632\u0628 \u0627\u0644\u0644\u0647 should be standardized book-wide, as it recurs as a fixed term for the community of the Friends of God."
+      ]
     },
     {
       "title": "How the World Was Made",
-      "base_words": 1752,
-      "output_words": 1715,
+      "base_words": 1746,
+      "output_words": 1743,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
-      "warnings": []
+      "warnings": [
+        "fluency-05: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
     },
     {
       "title": "The World, the Hereafter, and the Speech of Parables",
-      "base_words": 3754,
-      "output_words": 3773,
+      "base_words": 3460,
+      "output_words": 3463,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
-      "warnings": []
+      "warnings": [
+        "fluency-06: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": [
+        "Speaking Imam / al-Natiq \u2014 the source uses both \"the Speaking Imam\" and \"the Speakers/natiq\"; the singular/plural rendering of \u0627\u0644\u0646\u064e\u0651\u0627\u0637\u0650\u0642 should be standardized book-wide."
+      ]
     },
     {
       "title": "Three Layers of Knowledge",
-      "base_words": 3406,
-      "output_words": 3425,
+      "base_words": 3469,
+      "output_words": 3478,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
-      "warnings": []
+      "warnings": [
+        "fluency-07: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": [
+        "hujja/hawl/quwwa/usba/natiqs/duat/awliya \u2014 these transliterated technical terms should be standardized book-wide to one spelling and one treatment (script-beside-transliteration on first use) across every chapter."
+      ]
     },
     {
       "title": "The Five Shares and the Long Road to the Shaykh",
-      "base_words": 6935,
-      "output_words": 7044,
+      "base_words": 7112,
+      "output_words": 7113,
       "windows": 3,
       "windows_kept": 3,
       "status": "adapted",
       "gates": [],
-      "warnings": []
+      "warnings": [
+        "fluency-08-part-01: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "editorial_queries": [
+        "The boy's \"three goods\" appears to enumerate the imam's upheld case, a well-counseled trust, and a graced dead man, but the source phrasing blurs whether these are truly three distinct items or two."
+      ],
+      "comprehension_flags": [
+        "A reader may not realize that \"his own greater father,\" \"the greater scholar,\" and \"the Shaykh, the lord of the house\" all appear to refer to the same senior figure the Master brings the boy to meet.",
+        "A reader may stumble on \"his elder father\" and \"the father who had been the cause of his grace,\" which both refer to the departing Master (not the boy's biological father), and on the opaque line \"at the outset there is room enough for you.\""
+      ],
+      "terminology_notes": [
+        "zakat \u2014 the source uses \"alms/zakat\" for two distinct ideas (the general purifying due, and here a specific one-fifth given to a binding claimant, closer to khums); the rendering \"zakat\" should be standardized book-wide and the one-fifth usage checked against how earlier chapters name it.",
+        "Shaykh \u2014 the senior figure's title is rendered \"Shaykh\" here but described elsewhere as \"the greater scholar\"/\"greater father\"; one consistent handling of this figure's title should be fixed book-wide.",
+        "\"the Master\" and \"the Shaykh\" \u2014 keep them as two distinct persons throughout; they are not interchangeable and must never be conflated."
+      ]
     },
     {
       "title": "Homecoming, the Father, and the Debate with Abu Malik",
-      "base_words": 14724,
-      "output_words": 14918,
+      "base_words": 14916,
+      "output_words": 14993,
       "windows": 6,
       "windows_kept": 6,
       "status": "adapted",
       "gates": [],
-      "warnings": []
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": [
+        "God / Allah \u2014 the source names the deity as \"God\" through the earlier exchange and shifts to \"Allah\" from the \"just one of Allah\" turn onward; this rendering preserves each occurrence as given, but the divine name should be standardized one way book-wide."
+      ]
     }
   ]
 }

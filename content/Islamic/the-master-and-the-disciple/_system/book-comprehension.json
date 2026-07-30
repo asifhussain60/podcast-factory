@@ -1,6 +1,6 @@
 {
   "schema": "book.comprehension/v1",
-  "pages": 124,
+  "pages": 128,
   "terms_tracked": 60,
   "prerequisite_gaps": [],
   "naming_drift": [],
@@ -8,10 +8,10 @@
     {
       "role_word": "father",
       "pages": [
-        23,
-        74
+        25,
+        78
       ],
-      "first_page": 23,
+      "first_page": 25,
       "frames": [
         "my",
         "your"
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "page": 37,
+      "page": 41,
       "term_count": 11,
       "terms": [
         "Imam",
@@ -55,104 +55,104 @@
   ],
   "long_sentences": [
     {
-      "page": 108,
-      "words": 261,
+      "page": 112,
+      "words": 262,
       "text": "Rather, by His justice He has preferred some of them above others, so that obedience may pass from the lesser to the greater, and from the greater to one greate"
     },
     {
-      "page": 105,
-      "words": 240,
-      "text": "Salih said to him: \"O Abu Malik, raise your head and say what has come to you of speech.\" Abu Malik said: \"Speech is gone, and there is none; the minds are bewi"
+      "page": 109,
+      "words": 260,
+      "text": "Homecoming, the Father, and the Debate with Abu Malik Abu Malik said: \"Speech is gone, and there is none left; the minds are bewildered before the answer, the f"
     },
     {
-      "page": 85,
+      "page": 89,
       "words": 183,
       "text": "If it is right guidance, we will follow it; and if it is error, we will shun it.\" Abu Malik said: \"That is doubt on your part in what you hold, and the doubter "
     },
     {
-      "page": 109,
-      "words": 156,
+      "page": 119,
+      "words": 164,
+      "text": "Homecoming, the Father, and the Debate with Abu Malik So-and-so testified, and he was one of the just.\" Salih said to him: \"Then it is settled for you that the "
+    },
+    {
+      "page": 113,
+      "words": 157,
       "text": "Homecoming, the Father, and the Debate with Abu Malik He said: \"Yes, and for that very reason obedience to him became obedience to God.\" Abu Malik said: \"If you"
     },
     {
-      "page": 115,
-      "words": 154,
-      "text": "Homecoming, the Father, and the Debate with Abu Malik Salih said to him: \"Then it is settled for you that the just one is the friend of God, and that this has p"
-    },
-    {
-      "page": 95,
+      "page": 99,
       "words": 141,
-      "text": "Relieve my want, then, by your excellence.\" Salih said: \"I see you rushing to ask before you have made certain.\" Abu Malik said: \"Want hurried me on with its st"
+      "text": "Relieve my want, then, by your excellence.\" Salih said, \"I see you rushing to ask before you have made certain.\" Abu Malik said, \"Want hurried me on with its st"
     },
     {
-      "page": 93,
-      "words": 136,
-      "text": "Come, then, to our need.\" Salih said, \"O Abu Malik, is not the man whose excellence you have come to know also a man whose right has become binding upon you?\" H"
-    },
-    {
-      "page": 106,
-      "words": 135,
-      "text": "Homecoming, the Father, and the Debate with Abu Malik Salih said: \"Were they, then, created already knowing, aware of what is wanted of them?\" He said: \"No, but"
-    },
-    {
-      "page": 107,
-      "words": 135,
+      "page": 111,
+      "words": 137,
       "text": "Were it not for the succession of the messengers and the standing of the command and the prohibition, the Truth would have no growth and creation no meaning.\" H"
     },
     {
-      "page": 22,
-      "words": 133,
-      "text": "For: ‫ هداه الله إلى ما ال يعلم‬،‫فإنه من عمل لله بما يعلم‬ Whoever acts for God by what he knows, God guides him to what he does not know.\" The boy said, \"But "
-    },
-    {
-      "page": 48,
-      "words": 127,
+      "page": 52,
+      "words": 135,
       "text": "He who has no guide has drowned in the depths of ignorance, just as he who has no ship has drowned in the seas of the world.\" The Master said: \"And what are the"
     },
     {
-      "page": 77,
+      "page": 87,
+      "words": 124,
+      "text": "Either the people hold to what we already know of religion, and this new thing among them is only an increase in manners, hadiths, and poetry — and people's spe"
+    },
+    {
+      "page": 81,
       "words": 118,
       "text": "And I commend to you the fear of the One who created you when you were nothing, and the keeping of His covenant, and the fulfillment of the right He has laid up"
     },
     {
-      "page": 114,
-      "words": 117,
+      "page": 118,
+      "words": 118,
       "text": "And how would the argument of God reach the whole of creation, if not through them?\" Abu Malik said: \"There is no way, and no escape, for the justice of God and"
     },
     {
       "page": 11,
-      "words": 115,
+      "words": 116,
       "text": "When they had finished the discussion they were engaged in, they turned to him and said, \"Who are you, boy, and where are you from?\" He said, \"I am a servant of"
     },
     {
-      "page": 83,
-      "words": 115,
-      "text": "Either the people hold to what we know of religion, and this new thing among them is only an increase in manners, hadiths, and poetry — and people's speech is m"
+      "page": 97,
+      "words": 114,
+      "text": "Homecoming, the Father, and the Debate with Abu Malik He said, \"Yes, it is binding.\" He said, \"Then when you came to know the excellence of the request, did you"
     },
     {
-      "page": 94,
-      "words": 115,
-      "text": "So teach me.\" He said, \"Did you come to know it, or did you come to know it by sight?\" Abu Malik said, \"And what is the difference between the two?\" Salih said,"
+      "page": 114,
+      "words": 113,
+      "text": "Homecoming, the Father, and the Debate with Abu Malik Abu Malik said: \"Then I bear witness to what the Books have borne witness to: that every interpretation to"
     },
     {
-      "page": 36,
+      "page": 39,
       "words": 112,
-      "text": "The Master said: God, blessed and exalted, has not created a single one of the things of the world — no beast upon the earth, no bird that flies with its wings,"
+      "text": "They forbade the dead thing that God has forbidden, ‫ َو َباَن َك ِذ ُب َأْه ِل اْلَج ْه ِل ِبَم ْد ِح الُّد ْنَي ا ِإْذ َلْم َيْع ِرُفوا‬.‫ِم ْن َح ْي ُث َيَش "
     },
     {
-      "page": 20,
-      "words": 109,
-      "text": "But what is your argument against me, when I already acknowledge what you have said, stand by what you have described, deny what you have denied, and know the t"
+      "page": 110,
+      "words": 112,
+      "text": "Homecoming, the Father, and the Debate with Abu Malik Salih said: \"Then how do they come to know what He wants, so that it becomes binding upon them to please H"
     },
     {
-      "page": 118,
-      "words": 109,
-      "text": "What is its cause?\" Salih said to him: \"And what was the cause of Moses's absence, when he went out from the city of Pharaoh and passed beyond it in fear and wa"
+      "page": 40,
+      "words": 111,
+      "text": "‫ ِإاَّل َو ُه َو َم َثٌل َم ْض ُر وٌب‬، ‫ َو َج ِم يُع اَأْلْش َي اِء َم ا َك ُبَر ِم ْن َه ا َو َم ا َص ُغ َر‬، ‫ َأَم اَم َه ا َو َخ ْل َف َه ا‬، ‫َتَرى الَّ"
     },
     {
-      "page": 18,
-      "words": 108,
-      "text": "Upon the one deprived of it lies the seeking after it until he knows, and obedience to the one who has guided him.\" The boy said, \"This blessing with which Alla"
+      "page": 122,
+      "words": 110,
+      "text": "What is its cause?\" Salih answered: \"And what was the cause of Moses's absence, when he left the city of Pharaoh and passed out beyond it in fear and watchfulne"
+    },
+    {
+      "page": 107,
+      "words": 102,
+      "text": "And which of the two do you worship — one of them, or both?\" Abu Malik was at a loss for a while, turning his answer over in his mind, and then said: \"I can fin"
+    },
+    {
+      "page": 83,
+      "words": 100,
+      "text": "I have no wish to be so ungrateful, in these days of ours, that I would fail you in either of the two forms of gratitude I owe you.\" The father said: \"What is t"
     }
   ],
   "summary": {
