@@ -15,6 +15,7 @@
 import { open, readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { anchorKey } from "../../../scripts/lib/anchor-key.mjs";
+import { fingerprints } from "../../../scripts/lib/para-blocks.mjs";
 import { articulationWarningsFrom } from "./articulation";
 import { editionIntroDelta } from "./book-fences";
 import { findContent } from "../content-paths";
@@ -62,6 +63,13 @@ export interface ComposerChapter {
    *  print-faithful WITHOUT putting the source file at risk. */
   editHtml: string;
   paras: number; // prose-paragraph count (for the anchor_para position control)
+  /** A stable name for each prose paragraph, in order — the key the Arabic-source
+   *  alignment is stored under. Computed from the RAW markdown by the same shared
+   *  splitter the Python aligner uses, so the two cannot disagree about which
+   *  blocks a chapter has. Lines up one-to-one with the read view's top-level
+   *  `<p>` elements; the Composer asserts that at runtime and disables the reveal
+   *  rather than trusting it. */
+  paraKeys: string[];
   citations: ComposerCitation[]; // Arabic-bearing verses/hadith detected in this chapter
 }
 
@@ -300,9 +308,11 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     const displayTitle = heading.replace(/^##\s+\d*\.?\s*/, "").trim();
     // Prose-paragraph count: blank-line-separated blocks that aren't a blockquote,
     // heading, or HTML block — mirrors what applyLayout counts as a paragraph.
-    const paras = body
-      .split(/\n\s*\n/)
-      .filter((b) => b.trim() && !/^\s*[>#<]/.test(b)).length;
+    // The rule now lives in scripts/lib/para-blocks.mjs, shared with the Python
+    // aligner (`_para_blocks.py`) under pinned fixtures, so "which blocks does this
+    // chapter have" is answered in one place rather than three.
+    const paraKeys = fingerprints(body);
+    const paras = paraKeys.length;
     const key = anchorKey(heading);
     // READ: the PDF's renderer, on this chapter's heading + body. `sawH2` is
     // seeded true for every chapter after the first so a later unnumbered
@@ -330,6 +340,7 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
       html,
       editHtml,
       paras,
+      paraKeys,
       // Citations are extracted from the READ render so the Citations tab lists
       // exactly the verses the printed page will show.
       citations: extractCitations(html),

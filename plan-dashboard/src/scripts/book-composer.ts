@@ -96,6 +96,10 @@ interface Chapter {
   key: string;
   title: string;
   paras: number;
+  /** A stable name per prose paragraph, in order — the key the Arabic-source
+   *  alignment is stored under. Mirrors ComposerChapter.paraKeys in
+   *  lib/reader/composer.ts, computed there by the shared block splitter. */
+  paraKeys: string[];
   citations: Citation[];
   /** TipTap-safe seed for edit mode. Mirrors ComposerChapter.editHtml in
    *  lib/reader/composer.ts — see the bodyByKey note in boot(). */
@@ -538,6 +542,8 @@ function boot(): void {
   function selectChapter(key: string): void {
     selectedChapter = key;
     composeChapter.write(key, slug);
+    // A different chapter has a different alignment; fetched once and cached.
+    void syncArabicForChapter();
   }
   if (chapterSelect) {
     chapterSelect.value = selectedChapter;
@@ -683,11 +689,171 @@ function boot(): void {
     );
   }
 
+  // ── The Arabic source, above the English, on demand ──────────────────────
+  // The alignment is computed offline (scripts/podcast/align_arabic_paragraphs.py)
+  // and addressed by paragraph FINGERPRINT, so a paragraph the Composer has since
+  // rewritten simply has no entry and offers no control — it never points at the
+  // wrong Arabic. Read mode only: the whole surface is display, and nothing here
+  // may reach book.md.
+  type ArabicPair = {
+    fp: string;
+    source_paras: number[];
+    confidence: "verified" | "bracketed";
+  };
+  type ArabicChapter = {
+    available: boolean;
+    vowelled?: boolean;
+    pairs: ArabicPair[];
+    paragraphs: { number: number; text: string }[];
+  };
+  const arabicByChapter = new Map<string, ArabicChapter | null>();
+  const arabicRevealed = new Set<string>();
+  let arabicMode: "english" | "only" = "english";
+  const arabicToggle = root.querySelector<HTMLElement>("#cx-arabic-toggle");
+  const arabicEnglishBtn = root.querySelector<HTMLButtonElement>("#cx-arabic-english");
+  const arabicOnlyBtn = root.querySelector<HTMLButtonElement>("#cx-arabic-only");
+
+  async function ensureArabicData(key: string): Promise<ArabicChapter | null> {
+    if (arabicByChapter.has(key)) return arabicByChapter.get(key) ?? null;
+    let data: ArabicChapter | null;
+    try {
+      const res = await fetch(
+        `/api/studio/arabic-source?slug=${encodeURIComponent(slug)}&chapter=${encodeURIComponent(key)}`,
+      );
+      const json = await res.json();
+      const payload = (json?.data ?? json) as ArabicChapter;
+      data = payload?.available ? payload : null;
+    } catch {
+      data = null; // the reveal is an affordance, never a reason to break the page
+    }
+    arabicByChapter.set(key, data);
+    return data;
+  }
+
+  /** Take our asides out. Called before the Companion re-marks, so its text-node
+   *  walk and `normalize()` never see the Arabic we injected. */
+  function stripArabicReveals(body: HTMLElement): void {
+    body.querySelectorAll(".cx-ar-reveal").forEach((el) => el.remove());
+  }
+
+  function arabicParagraphHtml(
+    data: ArabicChapter,
+    pair: ArabicPair,
+  ): string {
+    const byNumber = new Map(data.paragraphs.map((p) => [p.number, p.text]));
+    const blocks = pair.source_paras
+      .map((n) => byNumber.get(n))
+      .filter(Boolean)
+      .map((t) => `<p class="ar" lang="ar" dir="rtl">${escapeHtml(String(t))}</p>`)
+      .join("");
+    const label =
+      pair.confidence === "verified"
+        ? `Source ${pair.source_paras.length > 1 ? "paragraphs" : "paragraph"} ${pair.source_paras.join(", ")}`
+        : `Somewhere in source paragraphs ${pair.source_paras[0]}–${pair.source_paras[pair.source_paras.length - 1]}`;
+    return (
+      `<div class="cx-ar-body">` +
+      `<p class="cx-ar-note" data-confidence="${pair.confidence}">${escapeHtml(label)}</p>` +
+      blocks +
+      `</div>`
+    );
+  }
+
+  /** Put an aside before every paragraph the alignment knows about.
+   *
+   *  An `<aside>`, never a `<p>`: `paraIndexAt` counts `:scope > p` to decide where
+   *  a dragged figure anchors, and that number is PERSISTED to visual-layout.json
+   *  and drives the printed page. An injected paragraph would move figures in the
+   *  book. The control also sits in the aside rather than inside the paragraph, so
+   *  the paragraph's own text nodes — which the Companion's matcher walks by
+   *  offset — are left exactly as they were. */
+  function applyArabicReveals(): void {
+    const chapterEl = currentChapterEl();
+    const body = chapterEl?.querySelector<HTMLElement>(".cx-body");
+    if (!body) return;
+    const data = arabicByChapter.get(selectedChapter);
+    const keys = chapterByKey.get(selectedChapter)?.paraKeys ?? [];
+    if (!data) {
+      body.removeAttribute("data-arabic");
+      return;
+    }
+    const paras = [...body.querySelectorAll<HTMLElement>(":scope > p")];
+    if (keys.length !== paras.length) {
+      // Two different computations that are only ASSUMED to agree — the shared
+      // block splitter over the markdown, and what the renderer emitted. If they
+      // ever disagree the mapping is meaningless, so say nothing rather than
+      // point at the wrong paragraph.
+      body.removeAttribute("data-arabic");
+      return;
+    }
+    const byFp = new Map(data.pairs.map((p) => [p.fp, p]));
+    paras.forEach((p, i) => {
+      const pair = byFp.get(keys[i]);
+      if (!pair) return;
+      const open = arabicMode === "only" || arabicRevealed.has(keys[i]);
+      const aside = document.createElement("aside");
+      aside.className = "cx-ar-reveal";
+      aside.dataset.fp = keys[i];
+      if (open) aside.dataset.open = "1";
+      aside.innerHTML =
+        `<button type="button" class="cx-ar-tab" aria-expanded="${open}" ` +
+        `title="Show the Arabic this was translated from" ` +
+        `aria-label="Show the Arabic source for this paragraph">ع</button>` +
+        (open ? arabicParagraphHtml(data, pair) : "");
+      p.before(aside);
+    });
+    body.dataset.arabic = arabicMode;
+  }
+
+  function escapeHtml(s: string): string {
+    return s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  function setArabicMode(next: "english" | "only"): void {
+    arabicMode = next;
+    arabicEnglishBtn?.setAttribute("aria-pressed", String(next === "english"));
+    arabicOnlyBtn?.setAttribute("aria-pressed", String(next === "only"));
+    const body = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
+    if (body) {
+      stripArabicReveals(body);
+      applyArabicReveals();
+    }
+  }
+
+  arabicEnglishBtn?.addEventListener("click", () => setArabicMode("english"));
+  arabicOnlyBtn?.addEventListener("click", () => setArabicMode("only"));
+
+  /** Load this chapter's alignment, then draw. The control stays hidden until the
+   *  answer comes back available, so a book without a numbered Arabic edition
+   *  never shows a toggle that would do nothing. */
+  async function syncArabicForChapter(): Promise<void> {
+    const key = selectedChapter;
+    const data = await ensureArabicData(key);
+    if (key !== selectedChapter) return; // the reader moved on while we fetched
+    // Whole-chapter Arabic replaces the text on screen, which is a reading mode,
+    // not an editing one — and swapping the content under a surface that autosaves
+    // is the RCA-002 shape. Read mode only.
+    const usable = Boolean(data) && !activeEditor;
+    if (arabicToggle) arabicToggle.hidden = !usable;
+    if (!usable && arabicMode === "only") setArabicMode("english");
+    const body = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
+    if (body) {
+      stripArabicReveals(body);
+      applyArabicReveals();
+    }
+  }
+
   /** Tint every annotated passage in the chapter's READ body, and ask the edit
    *  canvas to redraw its own (decoration-based) tint for the same notes. */
   function markCompanionPassages(): void {
     const body = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
     if (body) {
+      // Ours come out first and go back last: the unwrap, `normalize()` and
+      // `markPassages` below all walk this subtree, and none of them should ever
+      // see the Arabic we injected.
+      stripArabicReveals(body);
       body
         .querySelectorAll<HTMLElement>(".cx-note-hl")
         .forEach((el) => el.replaceWith(...el.childNodes));
@@ -709,6 +875,10 @@ function boot(): void {
         anchoredIds = found;
         renderScholar(); // the panel lists only what is anchored
       }
+      // …and ours go back, after every walk above has finished. `render()` wipes
+      // this body on any figure placement or outside click and then lands here, so
+      // this is the one place the reveals need restoring from.
+      applyArabicReveals();
     }
     // Same idiom as syncEditorFigures: an empty transaction asks the decoration
     // plugins to recompute against the notes they now see.
@@ -1371,6 +1541,9 @@ function boot(): void {
     root.classList.toggle("is-editing", mode === "edit");
     modeReadBtn?.setAttribute("aria-pressed", String(mode === "read"));
     modeEditBtn?.setAttribute("aria-pressed", String(mode === "edit"));
+    // The Arabic toggle is a Read-mode control; entering Edit withdraws it and
+    // drops back to English so the editor is never showing a swapped chapter.
+    void syncArabicForChapter();
     // In Read mode the Tools surface has nothing to act on — Refinement and
     // Details drive the editor, which is torn down — so it is disabled and the
     // drawer falls closed if it was showing them. Companion stays available on
@@ -3066,6 +3239,35 @@ function boot(): void {
   // read body wraps a span and the edit canvas paints a decoration, and one
   // delegated listener over the preview column covers each of them.
   root.querySelector(".composer-preview")?.addEventListener("click", (e) => {
+    // The Arabic control first, and it RETURNS: a tinted passage can sit inside a
+    // paragraph whose reveal is open, and without this both handlers would fire —
+    // opening the Scholar panel every time the reader asked for the Arabic.
+    const tab = (e.target as HTMLElement)?.closest<HTMLElement>(".cx-ar-tab");
+    if (tab) {
+      const aside = tab.closest<HTMLElement>(".cx-ar-reveal");
+      const fp = aside?.dataset.fp;
+      if (!fp) return;
+      const opening = !arabicRevealed.has(fp);
+      // Inserting ABOVE pushes the paragraph down by the panel's height. Hold the
+      // clicked paragraph still, or the reader loses their line — and the
+      // Companion's visibility sweep fires and yanks its panel to another card.
+      const para = aside?.nextElementSibling as HTMLElement | null;
+      const before = para?.getBoundingClientRect().top ?? 0;
+      if (opening) arabicRevealed.add(fp);
+      else arabicRevealed.delete(fp);
+      const body = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
+      if (body) {
+        stripArabicReveals(body);
+        applyArabicReveals();
+      }
+      const reopened = body?.querySelector<HTMLElement>(
+        `.cx-ar-reveal[data-fp="${CSS.escape(fp)}"]`,
+      );
+      const after = (reopened?.nextElementSibling as HTMLElement | null)?.getBoundingClientRect().top ?? before;
+      window.scrollBy({ top: after - before, behavior: "instant" as ScrollBehavior });
+      reopened?.querySelector<HTMLButtonElement>(".cx-ar-tab")?.focus();
+      return;
+    }
     const mark = (e.target as HTMLElement)?.closest<HTMLElement>(".cx-note-hl");
     const id = mark?.dataset.note;
     if (!id) return;

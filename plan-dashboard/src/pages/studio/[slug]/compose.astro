@@ -25,6 +25,9 @@ import "../../../styles/panel-text-size.css";
 // .ar-script, emitted by lib/reader/glossary.ts) are dressed here too.
 import "../../../styles/arabic-review.css";
 import "../../../styles/select-menu.css";
+// The Arabic source shown above an English paragraph on demand. Loaded after
+// quote-typography.css so it can read --q-ar-face rather than name a font.
+import "../../../styles/arabic-reveal.css";
 // The editor package's own stylesheet, imported BEFORE book-composer.css so the
 // theme adapter in that file (which aliases --rte-* onto --c-*) wins over the
 // package's neutral defaults.
@@ -71,6 +74,10 @@ const dataJson = view
         key: c.key,
         title: c.title,
         paras: c.paras,
+        // One stable name per prose paragraph, in order — how the client looks a
+        // paragraph up in the Arabic-source alignment. Ordinal position would
+        // break the moment a Composer edit split a paragraph.
+        paraKeys: c.paraKeys,
         citations: c.citations,
         // The TipTap-safe seed. The rich read-mode HTML is server-rendered into
         // .cx-body for reading; the editor must be seeded from THIS instead, or
@@ -252,6 +259,36 @@ const ARABIC_FONTS = [
                     </option>
                   ))}
                 </select>
+              </div>
+              {/* The Arabic source. Hidden until the alignment sidecar says this
+                  book has one, so a book without a numbered Arabic edition never
+                  shows a control that would do nothing. Read mode only: swapping
+                  the text under an editor that autosaves is exactly the surface
+                  RCA-002 came from. */}
+              <div
+                class="cx-arabic-toggle"
+                role="group"
+                aria-label="Arabic source"
+                id="cx-arabic-toggle"
+                hidden
+              >
+                <button
+                  type="button"
+                  class="cx-mode-btn"
+                  id="cx-arabic-english"
+                  aria-pressed="true"
+                >
+                  English
+                </button>
+                <button
+                  type="button"
+                  class="cx-mode-btn"
+                  id="cx-arabic-only"
+                  aria-pressed="false"
+                  lang="ar"
+                >
+                  العربية
+                </button>
               </div>
               <div
                 class="cx-mode-toggle"

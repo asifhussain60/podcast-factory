@@ -1,0 +1,139 @@
+/* arabic-reveal.css — the Arabic source, shown above the English on demand.
+ *
+ * Theme-adapter only: every colour resolves through the site's own --c-* tokens
+ * and every Arabic face through --q-ar-face from quote-typography.css, so this
+ * file introduces no palette and no font of its own. A verse still resolves to the
+ * Uthmanic face by the same .is-quranic rule the printed page uses.
+ *
+ * The Arabic sits ABOVE its English, which is how the edition itself sets a
+ * quotation: the original first, the rendering beneath it.
+ */
+
+.cx-ar-reveal {
+  --cx-ar-accent: var(--c-accent, #8a5a2b);
+  --cx-ar-quiet: var(--c-text-muted, #6b6257);
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+/* The control. A real <button> so it is reachable and announced, sitting in the
+ * gutter so it never enters the paragraph's own text — putting it inside the <p>
+ * would shift the text offsets the Companion's passage matcher walks. */
+.cx-ar-tab {
+  position: absolute;
+  inset-inline-start: -2.1rem;
+  top: 0.15rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--cx-ar-quiet);
+  font-family: var(--q-ar-face);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.35;
+  transition: opacity 120ms ease, background-color 120ms ease;
+}
+
+.cx-ar-tab:hover,
+.cx-ar-tab:focus-visible,
+.cx-ar-reveal[data-open="1"] .cx-ar-tab {
+  opacity: 1;
+  background: var(--c-surface-2, rgba(0, 0, 0, 0.04));
+  border-color: var(--c-border, rgba(0, 0, 0, 0.12));
+  color: var(--cx-ar-accent);
+}
+
+.cx-ar-tab:focus-visible {
+  outline: 2px solid var(--cx-ar-accent);
+  outline-offset: 2px;
+}
+
+/* The panel itself. No height clamp: a long source paragraph is read, not peeked
+ * at, and REQ-002 forbids capping prose. */
+.cx-ar-body {
+  margin: 0 0 0.85rem;
+  padding: 0.85rem 1rem;
+  border-inline-start: 3px solid var(--cx-ar-accent);
+  border-radius: 0 6px 6px 0;
+  background: var(--c-surface-2, rgba(0, 0, 0, 0.03));
+}
+
+.cx-ar-reveal:not([data-open="1"]) .cx-ar-body {
+  display: none;
+}
+
+/* Right-to-left, isolated from the English around it, in the book's own Arabic
+ * face — the same three rules book-print.css and book-reader.css apply to .ar. */
+.cx-ar-body .ar {
+  margin: 0 0 0.6rem;
+  direction: rtl;
+  unicode-bidi: isolate;
+  text-align: right;
+  font-family: var(--q-ar-face);
+  font-size: 1.45rem;
+  line-height: 2.15;
+  color: var(--c-text, #241f1a);
+}
+
+.cx-ar-body .ar:last-child {
+  margin-bottom: 0;
+}
+
+.cx-ar-body .ar.is-quranic {
+  --q-ar-face: var(--q-ar-face-quran);
+}
+
+/* Provenance, stated rather than implied: which source paragraphs this is, and
+ * whether the pairing is exact or bounded. A reader must never have to guess
+ * which of the two they are looking at. */
+.cx-ar-note {
+  margin: 0 0 0.5rem;
+  color: var(--cx-ar-quiet);
+  font-size: 1.2rem;
+  letter-spacing: 0.01em;
+}
+
+.cx-ar-note[data-confidence="bracketed"]::before {
+  content: "≈ ";
+  font-weight: 600;
+}
+
+/* Whole-chapter Arabic. The English is hidden rather than removed: the reveal is a
+ * way of reading, not an edit, and nothing here may change what would be saved. */
+.cx-body[data-arabic="only"] > p,
+.cx-body[data-arabic="only"] > blockquote,
+.cx-body[data-arabic="only"] > figure {
+  display: none;
+}
+
+.cx-body[data-arabic="only"] .cx-ar-reveal .cx-ar-body {
+  display: block;
+}
+
+.cx-body[data-arabic="only"] .cx-ar-tab {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-ar-tab {
+    transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+  /* No gutter to sit in on a narrow screen: the control returns to the flow above
+   * its paragraph rather than overlapping the text. */
+  .cx-ar-tab {
+    position: static;
+    margin-bottom: 0.3rem;
+    opacity: 1;
+  }
+}
