@@ -18,7 +18,21 @@
           "confidence": "verified"
         },
         {
-          "fp": "c214c0a1d84882d5",
+          "fp": "7d012a17229e8821",
+          "source_paras": [
+            4
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "dcc6f37a3fede108",
+          "source_paras": [
+            4
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "587b35b3263e30b3",
           "source_paras": [
             4
           ],
@@ -321,14 +335,14 @@
           "confidence": "verified"
         },
         {
-          "fp": "f47f5c842f46c729",
+          "fp": "449b3ff22abda667",
           "source_paras": [
             44
           ],
           "confidence": "verified"
         },
         {
-          "fp": "c57498a419cf21ef",
+          "fp": "434d90f6e509ab08",
           "source_paras": [
             46
           ],
@@ -426,7 +440,21 @@
           "confidence": "verified"
         },
         {
-          "fp": "ad260a412371edf9",
+          "fp": "c3734a4546f023dc",
+          "source_paras": [
+            63
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "24c6a8ae6ae8d25a",
+          "source_paras": [
+            63
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "1e3d1d1400904316",
           "source_paras": [
             63
           ],
@@ -524,14 +552,14 @@
           "confidence": "verified"
         },
         {
-          "fp": "158a16daf79fb404",
+          "fp": "3b5ed9add2cd25c7",
           "source_paras": [
             77
           ],
           "confidence": "verified"
         },
         {
-          "fp": "4c305f49b9fdcd2b",
+          "fp": "5b9a9b181b0c50f3",
           "source_paras": [
             79
           ],
@@ -584,7 +612,21 @@
           "confidence": "verified"
         },
         {
-          "fp": "d9ecdafa94cfa1cc",
+          "fp": "0aa40bfa14fff2bc",
+          "source_paras": [
+            84
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "f30cd1bc2b24e2f7",
+          "source_paras": [
+            84
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "6a7be24a62fdf8b1",
           "source_paras": [
             84
           ],
@@ -605,7 +647,21 @@
           "confidence": "verified"
         },
         {
-          "fp": "82551c57c68ff178",
+          "fp": "5c334710f5b2132d",
+          "source_paras": [
+            87
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "01a9cc5a9b82847b",
+          "source_paras": [
+            87
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "749f61a3925875b8",
           "source_paras": [
             87
           ],
@@ -633,7 +689,21 @@
           "confidence": "verified"
         },
         {
-          "fp": "0833479c93abaa05",
+          "fp": "ea176570719b2027",
+          "source_paras": [
+            91
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "b2373ff71ee34389",
+          "source_paras": [
+            91
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "141c3796684447b9",
           "source_paras": [
             91
           ],
@@ -2019,7 +2089,14 @@
           "confidence": "verified"
         },
         {
-          "fp": "8708442a767bcf2f",
+          "fp": "9aaa214119f126e1",
+          "source_paras": [
+            267
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "96ff6aacf9b8edc4",
           "source_paras": [
             267
           ],
@@ -3706,7 +3783,21 @@
           "confidence": "verified"
         },
         {
-          "fp": "b6ef8228179ec419",
+          "fp": "6fba9b677ee884f7",
+          "source_paras": [
+            514
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "c33df6e52c765e09",
+          "source_paras": [
+            514
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "c2df4e71813c7d00",
           "source_paras": [
             514
           ],
@@ -3902,7 +3993,49 @@
           "confidence": "verified"
         },
         {
-          "fp": "c623a23b73b8974a",
+          "fp": "4cdbc9bf9d13cabc",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "fe90f85c1d81c315",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "e211675e994f8ab7",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "4970fdc2dd07cc57",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "abc74eead201bc80",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "1114fdbd0aae77d0",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "10bf4d67374d735e",
           "source_paras": [
             545
           ],

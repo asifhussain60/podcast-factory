@@ -47,6 +47,10 @@ from _para_blocks import para_fingerprint
 
 _SPLIT_RE = re.compile(r"\n\s*\n")
 _NOT_PROSE_RE = re.compile(r"^\s*[>#<]")
+# Letters only — Arabic-Indic digits and the combining marks are deliberately out,
+# so a footnote number inside a quotation does not tilt the proportion.
+ARABIC_LETTER_RE = re.compile("[\u0620-\u064a\u0671-\u06d3]")
+LATIN_LETTER_RE = re.compile("[A-Za-z]")
 
 # The opening marks a continued speech re-opens with. The straight quote is
 # ambiguous (it both opens and closes), so it is judged by PARITY of the text so
@@ -64,6 +68,30 @@ def raw_blocks(body: str) -> list[str]:
 def is_prose(block: str) -> bool:
     """The same test `_para_blocks.prose_blocks` applies, on one block."""
     return not _NOT_PROSE_RE.match(block)
+
+
+def is_arabic_block(block: str) -> bool:
+    """A paragraph that IS an Arabic quotation, rather than English containing one.
+
+    THE MERGE MUST NOT ABSORB THESE, and the first pass did: it treated any block
+    without a `>`, `#` or `<` as ordinary prose, so all 39 of this book's standalone
+    Arabic quotations were joined into the English on either side of them. In the
+    printed PDF the script then ran on inside a Latin paragraph, wrapping through the
+    English mid-sentence — which is what Asif saw (2026-07-30).
+
+    A quotation set on its own line is a DISPLAY block. It ends a run exactly as a
+    blockquote does, whatever the alignment says about which source paragraph it came
+    from — the source sets it apart on the page too.
+
+    The test is proportional rather than absolute: an English paragraph carrying a
+    glossary term in Arabic (`the bab (بَاب)`) is English and must still merge, while
+    a quotation carrying a bracketed footnote digit is Arabic. Two thirds of the
+    letters decides it, which separates this book's 39 quotations from its 9
+    term-bearing English paragraphs cleanly.
+    """
+    arabic = len(ARABIC_LETTER_RE.findall(block))
+    latin = len(LATIN_LETTER_RE.findall(block))
+    return arabic > 20 and arabic > 2 * latin
 
 
 def inside_quotation(text: str) -> bool:
@@ -155,7 +183,10 @@ def mirror_chapter(body: str, pairs: list[dict]) -> tuple[str, list[dict]] | Non
         # must stop there rather than carry prose across it.
         runs: list[list[int]] = [[slots[0]]]
         for slot in slots[1:]:
-            if slot == runs[-1][-1] + 1:
+            # Adjacent AND on the same side of the Arabic/English line. A display
+            # quotation is its own paragraph however the alignment groups it.
+            same_kind = is_arabic_block(blocks[slot]) == is_arabic_block(blocks[runs[-1][-1]])
+            if slot == runs[-1][-1] + 1 and same_kind:
                 runs[-1].append(slot)
             else:
                 runs.append([slot])

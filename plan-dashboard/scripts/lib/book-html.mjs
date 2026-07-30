@@ -544,11 +544,33 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
     aside = null;
   };
 
+  /** Is this paragraph an Arabic QUOTATION, rather than English containing Arabic?
+   *
+   *  Proportional, and mirroring `_book_mirror.is_arabic_block` on the Python side —
+   *  an English sentence carrying a glossary term (`the bab (بَاب)`) is English; a
+   *  quotation carrying a footnote digit is Arabic. Two thirds of the letters.
+   *
+   *  It matters because such a paragraph got NO display treatment in print: a plain
+   *  `<p>` inherits the body's 1.62 leading, and `.ar-inline` pins the runs inside it
+   *  to that same line-height to stop one Arabic word inflating a Latin line. That is
+   *  right for a word in a sentence and wrong for a whole paragraph of it — and once
+   *  every run carried its vowel marks the stacks had nowhere to go, which is how it
+   *  came to look oversized and cramped at the same time (Asif, 2026-07-30). */
+  const arabicOnlyPara = (s) => {
+    const arabic = (s.match(/[ؠ-يٱ-ۓ]/g) || []).length;
+    const latin = (s.match(/[A-Za-z]/g) || []).length;
+    return arabic > 20 && arabic > 2 * latin;
+  };
+
   const flushPara = () => {
     if (!para.length) return;
-    const cls = chapterJustOpened ? ' class="ch-first"' : "";
+    const text = para.join(" ");
+    const names = [];
+    if (chapterJustOpened) names.push("ch-first");
+    if (arabicOnlyPara(text)) names.push("ar-block");
     chapterJustOpened = false;
-    out.push(`<p${cls}>${renderInline(para.join(" "))}</p>`);
+    const cls = names.length ? ` class="${names.join(" ")}"` : "";
+    out.push(`<p${cls}>${renderInline(text)}</p>`);
     para = [];
   };
   const flushQuote = () => {

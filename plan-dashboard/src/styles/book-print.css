@@ -491,6 +491,33 @@ p {
   margin: 0 0 0.8rem;
 }
 
+/* An Arabic quotation set on its own line — a DISPLAY block, not a sentence with a
+   term in it. Until 2026-07-30 there was no rule for one: it printed as a plain <p>
+   at the body's 1rem/1.62, and `.ar-inline` below pins every run inside it to that
+   same leading. That pinning is right for one Arabic word in an English line (it
+   stops the word inflating the line) and wrong for a whole paragraph of Arabic —
+   and once every run carried its vowel marks the stacks had nowhere to go. It read
+   as oversized and cramped at once.
+
+   The numbers are this file's OWN display-Arabic pair, already set on
+   `blockquote.quran p.ar` below and matched by the Composer's read view: 1.05rem
+   over 1.9. Beside a 1rem Latin body that is the SAME visual size, because
+   --q-ar-face leads with the size-adjusted faces; the 1.9 is what the marks need. */
+.ar-block {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: isolate;
+  margin: 0.9rem 0;
+}
+/* The runs inside it must NOT inherit the body leading that `.ar-inline` pins —
+   here the paragraph's own line-height is the correct one. */
+.ar-block .ar-inline {
+  line-height: inherit;
+  font-size: inherit;
+}
+
 .ar-inline {
   /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
      shearing the glyphs, which is wrong for the script and looked wrong on the

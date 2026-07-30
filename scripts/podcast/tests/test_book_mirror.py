@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from _book_mirror import (  # noqa: E402
     inside_quotation,
+    is_arabic_block,
     join_blocks,
     mirror_chapter,
     raw_blocks,
@@ -147,3 +148,42 @@ def test_a_tag_above_a_displayed_verse_stays_where_it_is() -> None:
     text, pairs = out
     assert text.index(tag) < text.index(">") < text.index(rendering)
     assert len(pairs) == 2
+
+
+def test_an_arabic_quotation_is_never_absorbed_into_the_english() -> None:
+    """The regression Asif caught in the printed PDF (2026-07-30).
+
+    The first mirror pass called any block without a `>`/`#`/`<` prose, so all 39 of
+    this book's standalone Arabic quotations were merged into the English on either
+    side and the script ran on inside a Latin paragraph, wrapping mid-sentence.
+    """
+    english = "So the first of creation was a will, then a command, then a saying."
+    arabic = "فَابْتَدَأَ خَلْقَ مَا خَلَقَ مِنْ نُورٍ تَفَرَّعَ مِنْهُ ثَلَاثُ كَلِمَاتٍ."
+    after = "He began the creation of what He created out of a light."
+    out = mirror_chapter(
+        f"{english}\n\n{arabic}\n\n{after}\n",
+        [pair(english, 12), pair(arabic, 12), pair(after, 12)],
+    )
+    assert out is not None
+    text, pairs = out
+    # Three blocks in, three blocks out — all one source paragraph, none merged.
+    assert len(raw_blocks(text)) == 3
+    assert len(pairs) == 3
+    assert arabic in text.split("\n\n")[1]
+
+
+def test_english_carrying_a_glossary_term_still_merges() -> None:
+    """A term woven into a sentence is English, and must not stop a run."""
+    a = "The bab (بَاب) is the gate through which the teaching passes to the seeker."
+    b = "It is named so because nothing reaches the disciple except through it."
+    out = mirror_chapter(f"{a}\n\n{b}\n", [pair(a, 5), pair(b, 5)])
+    assert out is not None
+    text, pairs = out
+    assert len(pairs) == 1
+    assert len(raw_blocks(text)) == 1
+
+
+def test_is_arabic_block_separates_a_quotation_from_a_glossed_sentence() -> None:
+    assert is_arabic_block("فَابْتَدَأَ خَلْقَ مَا خَلَقَ مِنْ نُورٍ تَفَرَّعَ مِنْهُ ثَلَاثُ كَلِمَاتٍ.")
+    assert not is_arabic_block("The bab (بَاب) is the gate through which teaching passes.")
+    assert not is_arabic_block("Plain English with no Arabic in it at all.")
