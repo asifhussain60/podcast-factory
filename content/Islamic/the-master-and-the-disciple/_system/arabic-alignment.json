@@ -1,0 +1,5763 @@
+{
+  "schema": "podcast.arabic-alignment/v1",
+  "chapters": [
+    {
+      "chapter_key": "the persian who was dead and revived",
+      "title": "The Persian Who Was Dead and Revived",
+      "blocks_fingerprint": "595dec1af440c9c7",
+      "source_para_range": [
+        3,
+        5
+      ],
+      "pairs": [
+        {
+          "fp": "4efe74f50c5c4967",
+          "source_paras": [
+            3
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7d012a17229e8821",
+          "source_paras": [
+            4
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "dcc6f37a3fede108",
+          "source_paras": [
+            4
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "5b2f534c77f1523e",
+          "source_paras": [
+            4
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "2ea22c33487aee5a",
+          "source_paras": [
+            4
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "eeaf414c6c75cbc7",
+          "source_paras": [
+            5
+          ],
+          "confidence": "verified",
+          "anchored": false
+        }
+      ]
+    },
+    {
+      "chapter_key": "a stranger in the city",
+      "title": "A Stranger in the City",
+      "blocks_fingerprint": "a6ab0471510902ca",
+      "source_para_range": [
+        6,
+        26
+      ],
+      "pairs": [
+        {
+          "fp": "21763e70eddf6e43",
+          "source_paras": [
+            6
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0fa3a72ca15f84f2",
+          "source_paras": [
+            7
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b650c54b7ba19618",
+          "source_paras": [
+            8
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b4a1d597361eef85",
+          "source_paras": [
+            9
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "24e1c72608a76c6f",
+          "source_paras": [
+            10
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "de81865af504d57a",
+          "source_paras": [
+            11
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "31eaa67e19a39291",
+          "source_paras": [
+            13
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3ae9153c0a1d77e9",
+          "source_paras": [
+            13
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9d48fa230b1ae3fd",
+          "source_paras": [
+            14
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fbfee5edde9ef0ad",
+          "source_paras": [
+            15
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2382d1d001627c9d",
+          "source_paras": [
+            16
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fcd2d4aaf3bb97eb",
+          "source_paras": [
+            16
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6a8f03312cc5372f",
+          "source_paras": [
+            18
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b9fbda847d17242d",
+          "source_paras": [
+            19
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "53772f09952cc98f",
+          "source_paras": [
+            20
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f41b3a6652073cb9",
+          "source_paras": [
+            21
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "913b3454770fb7eb",
+          "source_paras": [
+            22
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6856ebd402340352",
+          "source_paras": [
+            23
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a7fccba16f3b5752",
+          "source_paras": [
+            24
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e374e813ac96ec88",
+          "source_paras": [
+            25
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "65f39c5bccf6c395",
+          "source_paras": [
+            25
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a382aaeb7c73eea0",
+          "source_paras": [
+            26
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "48dc2983bced2259",
+          "source_paras": [
+            26
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        }
+      ]
+    },
+    {
+      "chapter_key": "the boy at the door — limits and conditions",
+      "title": "The Boy at the Door — Limits and Conditions",
+      "blocks_fingerprint": "564563b3c45b9ede",
+      "source_para_range": [
+        27,
+        83
+      ],
+      "pairs": [
+        {
+          "fp": "f62387716e9e120b",
+          "source_paras": [
+            27
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "bda939abc4d3c878",
+          "source_paras": [
+            27
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b915ec50d4820de9",
+          "source_paras": [
+            28
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b34f01ddb251ff14",
+          "source_paras": [
+            28
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            29
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "35a8a0ce1cdbc875",
+          "source_paras": [
+            29
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e8449d6f91a93623",
+          "source_paras": [
+            29
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "adbb186bae2076f6",
+          "source_paras": [
+            29
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4e1067972401a491",
+          "source_paras": [
+            30
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "bf14870aa3907d08",
+          "source_paras": [
+            30
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            31
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "34f2e534c73186e4",
+          "source_paras": [
+            31
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "11f765440227cac4",
+          "source_paras": [
+            31
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "36115002213c11a3",
+          "source_paras": [
+            31,
+            32
+          ],
+          "confidence": "bracketed",
+          "anchored": false
+        },
+        {
+          "fp": "4e1067972401a491",
+          "source_paras": [
+            32
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "3954ea4474ca4bad",
+          "source_paras": [
+            32
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "dd9465a4a73e9d32",
+          "source_paras": [
+            32
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            33
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "19c74c082b48453d",
+          "source_paras": [
+            33
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "17ca5eb830b5373b",
+          "source_paras": [
+            33
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4b638286ff30a89a",
+          "source_paras": [
+            33
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7b9e4b3d6e586e3c",
+          "source_paras": [
+            33
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4e1067972401a491",
+          "source_paras": [
+            33,
+            34
+          ],
+          "confidence": "bracketed",
+          "anchored": false
+        },
+        {
+          "fp": "d863fdd7ff0a1a77",
+          "source_paras": [
+            34
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            34,
+            35
+          ],
+          "confidence": "bracketed",
+          "anchored": false
+        },
+        {
+          "fp": "ed8ad7706f26ca96",
+          "source_paras": [
+            35
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "22b5a6b1c4e0df27",
+          "source_paras": [
+            35
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3b69abeb40e8626e",
+          "source_paras": [
+            36
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "ba47403290e8268d",
+          "source_paras": [
+            36
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            37
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "9a64d71d7de822a5",
+          "source_paras": [
+            37
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3b69abeb40e8626e",
+          "source_paras": [
+            38
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "377f33331f3202d1",
+          "source_paras": [
+            38
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            39
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "bcf303366eea9c21",
+          "source_paras": [
+            39
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "36d0e376be7b8c8d",
+          "source_paras": [
+            39
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4e1067972401a491",
+          "source_paras": [
+            40
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "177634cd8d54778a",
+          "source_paras": [
+            40
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            41
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "e66d650b4c7e2bf0",
+          "source_paras": [
+            41
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ff8c1d743c86d9f7",
+          "source_paras": [
+            41
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "bb1e3f4f80000492",
+          "source_paras": [
+            41
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "1976fc4b4c6e16f8",
+          "source_paras": [
+            41
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a0802f09196d3802",
+          "source_paras": [
+            41
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "097fb1e123a585e2",
+          "source_paras": [
+            41
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4e1067972401a491",
+          "source_paras": [
+            42
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "b09f2b2aa0d271a5",
+          "source_paras": [
+            42
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            43
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "0406a9b6ba1360c8",
+          "source_paras": [
+            43
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ade7e2adebbc2391",
+          "source_paras": [
+            44
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "315a77416567c496",
+          "source_paras": [
+            44
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "978205f496b80112",
+          "source_paras": [
+            44
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4e1067972401a491",
+          "source_paras": [
+            44
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "5e46374cda34c297",
+          "source_paras": [
+            46
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            46
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "7311e9511ca56e37",
+          "source_paras": [
+            46
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "759a08b74d2bde94",
+          "source_paras": [
+            48
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0c4b29e415f17b12",
+          "source_paras": [
+            49
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "d8126a7f1a7c1b67",
+          "source_paras": [
+            49
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "517b4178bf809a0a",
+          "source_paras": [
+            50
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "a9b21492e002a0d0",
+          "source_paras": [
+            51
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "165edbafc36f491f",
+          "source_paras": [
+            52
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "d8a682566f16e0fb",
+          "source_paras": [
+            53
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4e1067972401a491",
+          "source_paras": [
+            54
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "fc96240aa31b8658",
+          "source_paras": [
+            54
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0c4b29e415f17b12",
+          "source_paras": [
+            55
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "3137a78923b3b986",
+          "source_paras": [
+            55
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "42c0da379cd01af1",
+          "source_paras": [
+            56
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "aa6d50571fd4356a",
+          "source_paras": [
+            59
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "033d4f9d347214fe",
+          "source_paras": [
+            59
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "df4ea186d7a96f83",
+          "source_paras": [
+            59
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4e1067972401a491",
+          "source_paras": [
+            60
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "01a53502490fe5ab",
+          "source_paras": [
+            60
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            61
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "b909a5ed17c365ed",
+          "source_paras": [
+            61
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4e1067972401a491",
+          "source_paras": [
+            62
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "042a45f98d340d3a",
+          "source_paras": [
+            62
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "cb8689abe5cb6817",
+          "source_paras": [
+            63
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "a36c0ba569c58762",
+          "source_paras": [
+            63
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "24c6a8ae6ae8d25a",
+          "source_paras": [
+            63
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "1e3d1d1400904316",
+          "source_paras": [
+            63
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "982d0e5516b30942",
+          "source_paras": [
+            64
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "7c1c9e35a35c752c",
+          "source_paras": [
+            64
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "cb8689abe5cb6817",
+          "source_paras": [
+            65
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "e0cc60091e63588c",
+          "source_paras": [
+            65
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "665b9ac7e79ecede",
+          "source_paras": [
+            66
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "e0eefe2f6bee0767",
+          "source_paras": [
+            67
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "46c64342a858fa15",
+          "source_paras": [
+            68
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            69
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "2dd5b03972c8950a",
+          "source_paras": [
+            69
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "42d670b2012e4504",
+          "source_paras": [
+            69
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4e1067972401a491",
+          "source_paras": [
+            70
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "29c1e6e3298e964a",
+          "source_paras": [
+            70
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            71
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "5a2d8d243fb8c036",
+          "source_paras": [
+            71
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b14317e28109576b",
+          "source_paras": [
+            71
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "c65b660e98897396",
+          "source_paras": [
+            71
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5c7a8e9492271996",
+          "source_paras": [
+            71
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5fa0460ae04d124c",
+          "source_paras": [
+            71
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "489eb28993bc46ec",
+          "source_paras": [
+            71
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "4e1067972401a491",
+          "source_paras": [
+            72
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "bb3282649526f9fb",
+          "source_paras": [
+            72
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b7c6be8e0b468cb3",
+          "source_paras": [
+            73
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "f45c891de5984d85",
+          "source_paras": [
+            73
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5b13a11f9290c537",
+          "source_paras": [
+            74
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "43bcc1e2224f097f",
+          "source_paras": [
+            74
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6065820c9d2ee000",
+          "source_paras": [
+            74
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "7c252648fe96fbd2",
+          "source_paras": [
+            74
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fe6b0458c691cc0c",
+          "source_paras": [
+            75
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "7e47729dbdcfdb4a",
+          "source_paras": [
+            75
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "982d0e5516b30942",
+          "source_paras": [
+            76
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "340ed28b666a6160",
+          "source_paras": [
+            76
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "cb8689abe5cb6817",
+          "source_paras": [
+            77
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "ffaf2c21624fed13",
+          "source_paras": [
+            77
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "982d0e5516b30942",
+          "source_paras": [
+            77
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "9aa84bbdd04424d0",
+          "source_paras": [
+            77
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "cb8689abe5cb6817",
+          "source_paras": [
+            77
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "4c305f49b9fdcd2b",
+          "source_paras": [
+            79
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "982d0e5516b30942",
+          "source_paras": [
+            80
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "e45fa83556819362",
+          "source_paras": [
+            80
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "cb8689abe5cb6817",
+          "source_paras": [
+            81
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "05303e167ee74034",
+          "source_paras": [
+            81
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "982d0e5516b30942",
+          "source_paras": [
+            82
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "d1117f553102163e",
+          "source_paras": [
+            82
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5b13a11f9290c537",
+          "source_paras": [
+            83
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "0771b30d974a9474",
+          "source_paras": [
+            83
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "73f70ccdf592b293",
+          "source_paras": [
+            83
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9b8c846a06bc6deb",
+          "source_paras": [
+            83
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "210812acdd9683ce",
+          "source_paras": [
+            83
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "cf82962ca766478a",
+          "source_paras": [
+            83
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "a6467b3e5415cdd7",
+          "source_paras": [
+            83
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "e2204a1f3b66f404",
+          "source_paras": [
+            83
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "5195725df0b83d1e",
+          "source_paras": [
+            83
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        }
+      ]
+    },
+    {
+      "chapter_key": "how the world was made",
+      "title": "How the World Was Made",
+      "blocks_fingerprint": "8c2343ddc82385f4",
+      "source_para_range": [
+        84,
+        93
+      ],
+      "pairs": [
+        {
+          "fp": "bf0aeda98ccfb74e",
+          "source_paras": [
+            84
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "0aa40bfa14fff2bc",
+          "source_paras": [
+            84
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f30cd1bc2b24e2f7",
+          "source_paras": [
+            84
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "6a7be24a62fdf8b1",
+          "source_paras": [
+            84
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "822977307b7419a5",
+          "source_paras": [
+            85
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "105edbafdae5e3da",
+          "source_paras": [
+            85
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e721c2736426b81b",
+          "source_paras": [
+            86
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5c334710f5b2132d",
+          "source_paras": [
+            87
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "01a9cc5a9b82847b",
+          "source_paras": [
+            87
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "f4668d54e6ea6e2b",
+          "source_paras": [
+            87
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e4e7d09f40b51cae",
+          "source_paras": [
+            87
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "58094f4082929f1b",
+          "source_paras": [
+            88
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "41aa73299175b3ec",
+          "source_paras": [
+            89
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0e057a6541232039",
+          "source_paras": [
+            90
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7798383513b5d92a",
+          "source_paras": [
+            90
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "4c99750e528396e5",
+          "source_paras": [
+            90
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e709ad576a6993a8",
+          "source_paras": [
+            90
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ea176570719b2027",
+          "source_paras": [
+            91
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b2373ff71ee34389",
+          "source_paras": [
+            91
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "e9f613f6409a7e43",
+          "source_paras": [
+            91
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5785719267429a3e",
+          "source_paras": [
+            91
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "65869e3b185e3f5c",
+          "source_paras": [
+            92
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0541d15628add729",
+          "source_paras": [
+            93
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "70f970175eb0e751",
+          "source_paras": [
+            93
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        }
+      ]
+    },
+    {
+      "chapter_key": "the world, the hereafter, and the speech of parables",
+      "title": "The World, the Hereafter, and the Speech of Parables",
+      "blocks_fingerprint": "43e01282d6ae793c",
+      "source_para_range": [
+        94,
+        153
+      ],
+      "pairs": [
+        {
+          "fp": "8b1abc51ef8e789d",
+          "source_paras": [
+            94
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "35bc0cf44f5b70d0",
+          "source_paras": [
+            95
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1398f982108ef4b8",
+          "source_paras": [
+            95
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d747bbc1a57a7c45",
+          "source_paras": [
+            95
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "23afacf17cec0c63",
+          "source_paras": [
+            95
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "82d77ba434728e79",
+          "source_paras": [
+            95
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1f0d20935b082465",
+          "source_paras": [
+            95
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7217f2fb571469fb",
+          "source_paras": [
+            95
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c0c4b2c3db82ca32",
+          "source_paras": [
+            95
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2242055cc53f0c66",
+          "source_paras": [
+            96
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ee503f88b40b1542",
+          "source_paras": [
+            97
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b8dbabe3b7cef252",
+          "source_paras": [
+            98
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1d25b4f09ae1edd5",
+          "source_paras": [
+            99
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "48863b3c6f0d8428",
+          "source_paras": [
+            99
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9bd159abbe36b18e",
+          "source_paras": [
+            100
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "def5e6fd1c9cf6ca",
+          "source_paras": [
+            101
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "93b60a83849b1d9a",
+          "source_paras": [
+            102
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "bb808fa04369454b",
+          "source_paras": [
+            103
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f503957a13c7f0e9",
+          "source_paras": [
+            104
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9be3caaa49102010",
+          "source_paras": [
+            105
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "359215a4f860ffdd",
+          "source_paras": [
+            106
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7df80d34651266cf",
+          "source_paras": [
+            107
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a24fbfa179fed6a4",
+          "source_paras": [
+            107
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3419290ac0e64615",
+          "source_paras": [
+            108
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1f51f2602d7e44bf",
+          "source_paras": [
+            109
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "850302d541dea58c",
+          "source_paras": [
+            110
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d047fd8f88d2e6ff",
+          "source_paras": [
+            111
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "490ace96133b8a3b",
+          "source_paras": [
+            112
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6a979081cf74e216",
+          "source_paras": [
+            113
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "32b9e23ec6e4f38c",
+          "source_paras": [
+            114
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3f78b37fe7664a8a",
+          "source_paras": [
+            114
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "184bae8917e12735",
+          "source_paras": [
+            116
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "86570f61e50991bc",
+          "source_paras": [
+            117
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f33de610dd0932a7",
+          "source_paras": [
+            118
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c8c643f8e2d8a613",
+          "source_paras": [
+            119
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6c8be921906488dd",
+          "source_paras": [
+            120
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d13f24be359e691e",
+          "source_paras": [
+            121
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a35bd3581bf777d8",
+          "source_paras": [
+            122
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7abc643b952b483b",
+          "source_paras": [
+            123
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ee63910b59d0b816",
+          "source_paras": [
+            124
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e74b192187c4c1ac",
+          "source_paras": [
+            125
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e88d71b093980bfc",
+          "source_paras": [
+            126
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "8adc70e67168d273",
+          "source_paras": [
+            127
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2b735859dc6e06bb",
+          "source_paras": [
+            128
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ff23a379097a50f9",
+          "source_paras": [
+            129
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1f28484c9e23a800",
+          "source_paras": [
+            130
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e88e862a3578417e",
+          "source_paras": [
+            131
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5fb71c028cc7133d",
+          "source_paras": [
+            132
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "578360cac6529ebd",
+          "source_paras": [
+            132
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "22d54426aa192c68",
+          "source_paras": [
+            133
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1b677cbf9e206a2a",
+          "source_paras": [
+            133
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "eb919b552f9e1390",
+          "source_paras": [
+            134
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "143f10c01b1810d8",
+          "source_paras": [
+            135
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0c9fa252223021c6",
+          "source_paras": [
+            135
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "6668750d3f93012f",
+          "source_paras": [
+            135
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "d1c3d5f7f475b465",
+          "source_paras": [
+            135
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "84f4f35a75c0a50f",
+          "source_paras": [
+            135
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d1daa9161b7412b4",
+          "source_paras": [
+            136
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "97ab2278c823d0dc",
+          "source_paras": [
+            137
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "249cb9746de50e31",
+          "source_paras": [
+            138
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "fe35ccfb15c0e92c",
+          "source_paras": [
+            140
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c37fa9c1b4b74e40",
+          "source_paras": [
+            140
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "60d591642e265a60",
+          "source_paras": [
+            141
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "cb5c4ba009590082",
+          "source_paras": [
+            142
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5704f66287ceb7b9",
+          "source_paras": [
+            143
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f594835dedd199c6",
+          "source_paras": [
+            144
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "619ce14c7d5e994a",
+          "source_paras": [
+            145
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f0f3b3844ff116a6",
+          "source_paras": [
+            146
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e8a3c7a40ab964ba",
+          "source_paras": [
+            146
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "040d4ad598b76ce8",
+          "source_paras": [
+            148
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "80b1120ac39c1b67",
+          "source_paras": [
+            149
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "361daccf9c203d48",
+          "source_paras": [
+            150
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0527176cfe9cdb9b",
+          "source_paras": [
+            151
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3900a8bff57e3cf6",
+          "source_paras": [
+            151
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f318dee35ff8557b",
+          "source_paras": [
+            152
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "5ec554f087af187b",
+          "source_paras": [
+            153
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "ad29ed9bb0c232b0",
+          "source_paras": [
+            153
+          ],
+          "confidence": "verified",
+          "anchored": false
+        }
+      ]
+    },
+    {
+      "chapter_key": "three layers of knowledge",
+      "title": "Three Layers of Knowledge",
+      "blocks_fingerprint": "2c3c97ad91b73016",
+      "source_para_range": [
+        154,
+        200
+      ],
+      "pairs": [
+        {
+          "fp": "bb73aea7f2d36e9d",
+          "source_paras": [
+            154
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0849cc71c5a17017",
+          "source_paras": [
+            155
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "82f7ba40e8d19e19",
+          "source_paras": [
+            156
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "10e380277760f57b",
+          "source_paras": [
+            157
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a4fb5f77e7352efa",
+          "source_paras": [
+            157
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9fe322dd6cd216e5",
+          "source_paras": [
+            158
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d600a57cc9c2930a",
+          "source_paras": [
+            159
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "db3db97e805fec19",
+          "source_paras": [
+            159
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "8ee75a8729c0a03a",
+          "source_paras": [
+            161
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2175592a9a0a5b63",
+          "source_paras": [
+            162
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a3573ea270d95667",
+          "source_paras": [
+            163
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ef2d220754fd7764",
+          "source_paras": [
+            163,
+            164,
+            165
+          ],
+          "confidence": "bracketed",
+          "anchored": false
+        },
+        {
+          "fp": "a2becd43ab255589",
+          "source_paras": [
+            165
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "788b4563a4cf5a91",
+          "source_paras": [
+            166
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "47efeafad3ca0ab6",
+          "source_paras": [
+            167
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "28e96fd68d68c9e6",
+          "source_paras": [
+            168
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6594e3d6deca585a",
+          "source_paras": [
+            169
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4e1067972401a491",
+          "source_paras": [
+            170
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "53f6cf7209a8c9fc",
+          "source_paras": [
+            170
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "355377673ceda9da",
+          "source_paras": [
+            171
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ad8684480390361a",
+          "source_paras": [
+            172
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b6d9ef2967550f05",
+          "source_paras": [
+            173
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "58d41c840775c46e",
+          "source_paras": [
+            174
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "40b522892ce2fcba",
+          "source_paras": [
+            174
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "dff9159661075f58",
+          "source_paras": [
+            174
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2286ce02fa151c70",
+          "source_paras": [
+            175
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7659d873e3032f9c",
+          "source_paras": [
+            176
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fb0e436351a6091c",
+          "source_paras": [
+            177
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "37ba114ad81b96d2",
+          "source_paras": [
+            178
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d5fa25a5893f9d9b",
+          "source_paras": [
+            179
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "a692651f64db0ffa",
+          "source_paras": [
+            179
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "bd7fce1da61b81af",
+          "source_paras": [
+            179
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f5cdb4cf04b0e1d2",
+          "source_paras": [
+            180
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9069ab3367018e43",
+          "source_paras": [
+            180
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "374426914753a245",
+          "source_paras": [
+            181
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "cf958bcfbaa0c3eb",
+          "source_paras": [
+            182
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2595c700721fda7a",
+          "source_paras": [
+            183
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2fd87f8048415259",
+          "source_paras": [
+            184
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "758bbdc9d79bfca5",
+          "source_paras": [
+            184
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f6e81fcfd46e2703",
+          "source_paras": [
+            185
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2bbe61d794b321af",
+          "source_paras": [
+            185
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "11a5a8477c522c00",
+          "source_paras": [
+            186
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ea5ecf5d97e22688",
+          "source_paras": [
+            187
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "78e97a079241a9e3",
+          "source_paras": [
+            188
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f839726d95025828",
+          "source_paras": [
+            189
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "16c431623b1ed043",
+          "source_paras": [
+            190
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a76d276a94b654aa",
+          "source_paras": [
+            191
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "34c31ff119f7bb05",
+          "source_paras": [
+            192
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "88d7fd1e5a130b64",
+          "source_paras": [
+            193
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f8684d476222846d",
+          "source_paras": [
+            194
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "407ff1961d61f1af",
+          "source_paras": [
+            195
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2abb44032d5259f4",
+          "source_paras": [
+            196
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "10285d57607e6749",
+          "source_paras": [
+            197
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7ea41959d06b99d3",
+          "source_paras": [
+            198
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "729f3d5a0df5ae85",
+          "source_paras": [
+            199
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b549ad1c6d9c3db3",
+          "source_paras": [
+            200
+          ],
+          "confidence": "verified",
+          "anchored": false
+        }
+      ]
+    },
+    {
+      "chapter_key": "the five shares and the long road to the shaykh",
+      "title": "The Five Shares and the Long Road to the Shaykh",
+      "blocks_fingerprint": "9086c2bd70a8e43d",
+      "source_para_range": [
+        201,
+        311
+      ],
+      "pairs": [
+        {
+          "fp": "727ef07e28af5f04",
+          "source_paras": [
+            201
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6ce35c3ced110972",
+          "source_paras": [
+            202
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e3a912ace07555ee",
+          "source_paras": [
+            202
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b7ef7c713c5c8684",
+          "source_paras": [
+            202
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fec3de456f8b5b40",
+          "source_paras": [
+            203
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "90e7c58129b65d75",
+          "source_paras": [
+            204
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "bc17fab5a75c0100",
+          "source_paras": [
+            205
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d9ee03f1ce5f232f",
+          "source_paras": [
+            206
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d106364d64dd39a4",
+          "source_paras": [
+            207
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "aa70ddbda39028eb",
+          "source_paras": [
+            208
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e37eea33ce35b779",
+          "source_paras": [
+            209
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "31c3f6882c21d136",
+          "source_paras": [
+            210
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "40e4c00aa69cfb91",
+          "source_paras": [
+            210
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a5949b7cf30ebd0f",
+          "source_paras": [
+            210
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ed20b841e88ee511",
+          "source_paras": [
+            211
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "dddc33333582c838",
+          "source_paras": [
+            212
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "428f75e0abe2215e",
+          "source_paras": [
+            213
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e00c10972bf87d93",
+          "source_paras": [
+            214
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "aaa7fe30b0125c1c",
+          "source_paras": [
+            215
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c53a7a2ce29e9f52",
+          "source_paras": [
+            216
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e53aa7b4e2e06e12",
+          "source_paras": [
+            217
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "956dbb61ed710c5f",
+          "source_paras": [
+            218
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f4a3e91e4f036f7d",
+          "source_paras": [
+            219
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4604e29f7080db33",
+          "source_paras": [
+            220
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9450d2d55d860f11",
+          "source_paras": [
+            221
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "37433e4369a3f462",
+          "source_paras": [
+            222
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "80c0e2e683bc7e77",
+          "source_paras": [
+            222
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e2ccc05fa21f97e9",
+          "source_paras": [
+            223
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5ef6df46952a89b6",
+          "source_paras": [
+            224
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "8d771ee00f26e672",
+          "source_paras": [
+            225
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c6a83e87bba7f0e1",
+          "source_paras": [
+            226
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1e4461aee439340c",
+          "source_paras": [
+            227
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "459e3e82312a3ba2",
+          "source_paras": [
+            228
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "979e280bd7a7bbc4",
+          "source_paras": [
+            229
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f43f90787c7fc7a5",
+          "source_paras": [
+            230
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a17a7bb5c6d6b080",
+          "source_paras": [
+            231
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c6c60d45f49f91bb",
+          "source_paras": [
+            232
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fa1fd81f7264f9a6",
+          "source_paras": [
+            233
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d5ddbb8897f8ac2c",
+          "source_paras": [
+            234
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1b8dcd29dec645ed",
+          "source_paras": [
+            235
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e205344aa18ccb84",
+          "source_paras": [
+            235
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b9d76394716f3d1d",
+          "source_paras": [
+            236
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "64c924454535f0f8",
+          "source_paras": [
+            237
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fa757af4ba911f0f",
+          "source_paras": [
+            238
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "17651ad55d1d5665",
+          "source_paras": [
+            239
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "40962bf17db6f3e1",
+          "source_paras": [
+            240
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "87d8f51102101ae4",
+          "source_paras": [
+            241
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1d4675cadfb40f15",
+          "source_paras": [
+            242
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1d7a2130d903b77c",
+          "source_paras": [
+            243
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "352ba969ba39cd8f",
+          "source_paras": [
+            244
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fd67bf3ec99ebfd2",
+          "source_paras": [
+            245
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2acec7c87d76e9c4",
+          "source_paras": [
+            246
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a5b7100113987ccd",
+          "source_paras": [
+            247
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c7eb3db8a773284d",
+          "source_paras": [
+            248
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9c1c4f51f917f7cc",
+          "source_paras": [
+            249
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "af9496f18b761db1",
+          "source_paras": [
+            250
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "be03549c197d2158",
+          "source_paras": [
+            251
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5c31d3984e7951b5",
+          "source_paras": [
+            252
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "bdef2aa57c2b8629",
+          "source_paras": [
+            253
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4bf36577a4dfbd19",
+          "source_paras": [
+            254
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b29f40a3c1b85d26",
+          "source_paras": [
+            255
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "22c5a2292b8bf4ff",
+          "source_paras": [
+            256
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0f769aaa2f2ab2b8",
+          "source_paras": [
+            258
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "afb8f294b4da87cb",
+          "source_paras": [
+            259
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b39d2b8779ace897",
+          "source_paras": [
+            260
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0f83375d551eb7f8",
+          "source_paras": [
+            261
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "621f218dc09c9e16",
+          "source_paras": [
+            262
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "442558a47707fda5",
+          "source_paras": [
+            263
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2231ae9e87f945cb",
+          "source_paras": [
+            264
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7c308b46d5d8745d",
+          "source_paras": [
+            265
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c3d53f2b86180d47",
+          "source_paras": [
+            266
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9aaa214119f126e1",
+          "source_paras": [
+            267
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "96ff6aacf9b8edc4",
+          "source_paras": [
+            267
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "d9622a805aa37c9b",
+          "source_paras": [
+            267,
+            268
+          ],
+          "confidence": "bracketed",
+          "anchored": false
+        },
+        {
+          "fp": "65eae203c596b54f",
+          "source_paras": [
+            268
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "887e8fdb69883b31",
+          "source_paras": [
+            269
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "38a441d5d7009332",
+          "source_paras": [
+            270
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4e18a479f7b522ad",
+          "source_paras": [
+            271
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c9e2b364a27dd138",
+          "source_paras": [
+            272
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f520e349507e1309",
+          "source_paras": [
+            272
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a8ab0c832946b06c",
+          "source_paras": [
+            274
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4314cd5f4f0e4b64",
+          "source_paras": [
+            275
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "dd3491aafcfb8680",
+          "source_paras": [
+            276
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "be5015d11abfcd69",
+          "source_paras": [
+            277
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "445c629f0f2820e0",
+          "source_paras": [
+            278
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c7fad61b265dfb92",
+          "source_paras": [
+            278
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a75c4723800a5453",
+          "source_paras": [
+            280
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "dad8a8162c253118",
+          "source_paras": [
+            282
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "540cee99ff7ce7c3",
+          "source_paras": [
+            283
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4dc166d772f73249",
+          "source_paras": [
+            284
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "70483ffe98087ee3",
+          "source_paras": [
+            285
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c34b404c86d3af51",
+          "source_paras": [
+            286
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "34372e5668b061eb",
+          "source_paras": [
+            287
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "a8547e703243686b",
+          "source_paras": [
+            288
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0c343f98fb6c2b78",
+          "source_paras": [
+            289
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6161d97e1f68dc82",
+          "source_paras": [
+            290
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "193e3378c0848a08",
+          "source_paras": [
+            291
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b838df546f81f24f",
+          "source_paras": [
+            292
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "958c0c7dd103691a",
+          "source_paras": [
+            293
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "518614bfeb4867d5",
+          "source_paras": [
+            294
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f0379a32098fffef",
+          "source_paras": [
+            295
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4d995de1cc5b9241",
+          "source_paras": [
+            296
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d0fbd17e29ef8a18",
+          "source_paras": [
+            297
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4f3aa9b56e2ab586",
+          "source_paras": [
+            298
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ef97eccf75c3693e",
+          "source_paras": [
+            299
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "8e1bcf9a51060587",
+          "source_paras": [
+            300
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ba1abe774d6a16cf",
+          "source_paras": [
+            301
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3cca3f6c69a69303",
+          "source_paras": [
+            302
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "202aaf1635188109",
+          "source_paras": [
+            303
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "012fbcb916f33fb2",
+          "source_paras": [
+            304
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a959fcc2f9473778",
+          "source_paras": [
+            305
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "17567720e6c0d6fd",
+          "source_paras": [
+            306
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "926dc27579175e5f",
+          "source_paras": [
+            307
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6a412b0358beaf5a",
+          "source_paras": [
+            308
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6aec594d987273a1",
+          "source_paras": [
+            309
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "047acde548527e44",
+          "source_paras": [
+            309
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "9d0172f25f30221d",
+          "source_paras": [
+            309
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "447ec9129f06aff4",
+          "source_paras": [
+            310
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a01663c1a9116446",
+          "source_paras": [
+            311
+          ],
+          "confidence": "verified",
+          "anchored": false
+        }
+      ]
+    },
+    {
+      "chapter_key": "homecoming, the father, and the debate with abu malik",
+      "title": "Homecoming, the Father, and the Debate with Abu Malik",
+      "blocks_fingerprint": "48a5c7c458c56c3f",
+      "source_para_range": [
+        312,
+        558
+      ],
+      "pairs": [
+        {
+          "fp": "d3026465e6f2d1ed",
+          "source_paras": [
+            312
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "bf58a42b2ea9e67b",
+          "source_paras": [
+            313
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b1515a01a008ca7f",
+          "source_paras": [
+            314
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0f1cda7b374fe2d9",
+          "source_paras": [
+            315
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6d99087316df9798",
+          "source_paras": [
+            316
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "99b18dbec07b9e9a",
+          "source_paras": [
+            317
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2ab1db3894546d17",
+          "source_paras": [
+            319
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e4754a445358851f",
+          "source_paras": [
+            320
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4526ee65b494b0d5",
+          "source_paras": [
+            320
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b8134cd4151fa1ec",
+          "source_paras": [
+            321
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "cce3c6548736891c",
+          "source_paras": [
+            322
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "23d4299e3c7fec12",
+          "source_paras": [
+            323
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e5c5aa358eb30d79",
+          "source_paras": [
+            324
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "36a4237d02f718b0",
+          "source_paras": [
+            325
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "767066f12bbc8ff5",
+          "source_paras": [
+            326
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "01497643baeb2e7a",
+          "source_paras": [
+            326
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9797c8ce7f491201",
+          "source_paras": [
+            326
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "25b2b6d9d75fd6a4",
+          "source_paras": [
+            326,
+            327
+          ],
+          "confidence": "bracketed",
+          "anchored": false
+        },
+        {
+          "fp": "685d1cbcdb032be3",
+          "source_paras": [
+            327
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "691283b4584627ab",
+          "source_paras": [
+            328
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2d32a9c6aed687d1",
+          "source_paras": [
+            329
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2331d4493e4b13a5",
+          "source_paras": [
+            330
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "60cac3b7735136d1",
+          "source_paras": [
+            331
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6afc4927bf1ba5a2",
+          "source_paras": [
+            332
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f6473f7310a9e8f3",
+          "source_paras": [
+            333
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6138f43aa221b01c",
+          "source_paras": [
+            334
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5c7b3e9b483d3cc4",
+          "source_paras": [
+            335
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7e8e74bfca257261",
+          "source_paras": [
+            336
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "221c03632aabbe07",
+          "source_paras": [
+            337
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "210c87112bdfe771",
+          "source_paras": [
+            338
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "07084f3aac943167",
+          "source_paras": [
+            339
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b8938d1d873fe944",
+          "source_paras": [
+            340
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4ef29187757230ab",
+          "source_paras": [
+            341
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e2dde2e3720d4d9d",
+          "source_paras": [
+            342
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7ef9010a5dab386d",
+          "source_paras": [
+            343
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5cbca3a645891007",
+          "source_paras": [
+            344
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "debd890d8520f5f5",
+          "source_paras": [
+            345
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "87ca8576e2ea9d8d",
+          "source_paras": [
+            346
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5f8a56a4d7a02427",
+          "source_paras": [
+            347
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "825e19a842907dbc",
+          "source_paras": [
+            348
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ae201afeae01e5c4",
+          "source_paras": [
+            349
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7f638bb3d122cee3",
+          "source_paras": [
+            350
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "237204c4bb70fa9b",
+          "source_paras": [
+            351
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "742d89a1dbc92559",
+          "source_paras": [
+            352
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0d40fa8bf426e355",
+          "source_paras": [
+            353
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5dea5e38e7db0132",
+          "source_paras": [
+            354
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0d81cd104a0658b5",
+          "source_paras": [
+            354
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "adc81568a3e365f6",
+          "source_paras": [
+            356
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9fac10658a7d14bb",
+          "source_paras": [
+            357
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0b1a21ba2da645c4",
+          "source_paras": [
+            358
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "671b5cace82b6669",
+          "source_paras": [
+            359
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7711f0d88b40dac2",
+          "source_paras": [
+            360
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "7af84ce4f9c6a5a0",
+          "source_paras": [
+            361
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ea87bd8474e4a107",
+          "source_paras": [
+            362
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "cbfd38559dea3ced",
+          "source_paras": [
+            364
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "8b141001af93e385",
+          "source_paras": [
+            364
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1678737b38e07c71",
+          "source_paras": [
+            365
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "58748c255d18376b",
+          "source_paras": [
+            366
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ade5175e01f6020e",
+          "source_paras": [
+            367
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ae69104fd51b9a90",
+          "source_paras": [
+            368
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fc84bbbdb727bc12",
+          "source_paras": [
+            369
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4bd30e6af7c7ebf5",
+          "source_paras": [
+            370
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0580e5ed0ac844d5",
+          "source_paras": [
+            371
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "6dd0c8cb51d3a04d",
+          "source_paras": [
+            372
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "cd8e3db267617ba7",
+          "source_paras": [
+            375
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3b8fbd3162009a9c",
+          "source_paras": [
+            376
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3e90d893708402b0",
+          "source_paras": [
+            377
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "68f793f3c379b97e",
+          "source_paras": [
+            378
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4a38c6fe1aee4f62",
+          "source_paras": [
+            379
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3fbfa14702b9ed5c",
+          "source_paras": [
+            380
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "62c0828d4f6db61a",
+          "source_paras": [
+            381
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "29846140e656473a",
+          "source_paras": [
+            382
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fd310ca6f853c046",
+          "source_paras": [
+            383
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "ec25d868d0a32019",
+          "source_paras": [
+            384
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a56e18eb50878c76",
+          "source_paras": [
+            385
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "cc285335e91d2886",
+          "source_paras": [
+            386
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "713e86764a52c22d",
+          "source_paras": [
+            387
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "99dd749fde0b0bd1",
+          "source_paras": [
+            388
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "35c3dfcfcab0a1ca",
+          "source_paras": [
+            389
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1476b635d2da8620",
+          "source_paras": [
+            390
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3cef0e70fb545137",
+          "source_paras": [
+            391
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "43a8b78e99798c0d",
+          "source_paras": [
+            392
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5df11e44a2a3264b",
+          "source_paras": [
+            393
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "eb553607483d7ad9",
+          "source_paras": [
+            394
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3a81b479bff51d12",
+          "source_paras": [
+            395
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "167d29aaef4b6364",
+          "source_paras": [
+            396
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c4f17a82958c2492",
+          "source_paras": [
+            397
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2dc2036d868c034b",
+          "source_paras": [
+            398
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e4c5d10c019bccb6",
+          "source_paras": [
+            399
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "35e71aa60f5b3a40",
+          "source_paras": [
+            400
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f5f9df05fce5b7fe",
+          "source_paras": [
+            401
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "280b171683b9e8d6",
+          "source_paras": [
+            402
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "c43b1ba86affa651",
+          "source_paras": [
+            403
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "c73abb83e1fc6da4",
+          "source_paras": [
+            404
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "489c9278ad565d68",
+          "source_paras": [
+            405
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a8ff2fc8e9ec98ab",
+          "source_paras": [
+            406
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ebf1c2e8ffb7b6f3",
+          "source_paras": [
+            407
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "389b4560c562fd68",
+          "source_paras": [
+            408
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0cf868a1362ce758",
+          "source_paras": [
+            409
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fd62571387de2f85",
+          "source_paras": [
+            410
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "49f32875add145a2",
+          "source_paras": [
+            411
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b5097a5cb288809d",
+          "source_paras": [
+            412
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a5b54b29538d2ffe",
+          "source_paras": [
+            413
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0bba7b88e66e6e6b",
+          "source_paras": [
+            414
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b15d07c34a20db4a",
+          "source_paras": [
+            415
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9ccc0ee97f242f5c",
+          "source_paras": [
+            416
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "cdc2388d7a8d50b0",
+          "source_paras": [
+            417
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "130476622546303a",
+          "source_paras": [
+            418
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b2aef7b55a6a8add",
+          "source_paras": [
+            419
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "da1a755aea4ba69e",
+          "source_paras": [
+            420
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0580e5ed0ac844d5",
+          "source_paras": [
+            421
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "941c5a2934741dc1",
+          "source_paras": [
+            422
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d31245e649c021f2",
+          "source_paras": [
+            424
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1c4cedbbdd864cc3",
+          "source_paras": [
+            425
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b2c8ffc34b781d49",
+          "source_paras": [
+            426
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6c138119e14148b5",
+          "source_paras": [
+            427
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "45a3890f123e1b03",
+          "source_paras": [
+            428
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "00e3d5e6ad27b9d6",
+          "source_paras": [
+            429
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "06191654c9609df9",
+          "source_paras": [
+            430
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0445b459f5e4b2a0",
+          "source_paras": [
+            431
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f9eb2600d9729686",
+          "source_paras": [
+            432
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ec35bebc524c1415",
+          "source_paras": [
+            433
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "eb1764d65e80902a",
+          "source_paras": [
+            434
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c3f9cda6c3e3c24d",
+          "source_paras": [
+            435
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "56a3562dbf188994",
+          "source_paras": [
+            436
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "82454cf1b1337324",
+          "source_paras": [
+            437
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "8326b6e251070b88",
+          "source_paras": [
+            439
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f39c1a79145fdc0b",
+          "source_paras": [
+            440
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2c3d065bfe815a92",
+          "source_paras": [
+            441
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "95a70cfbba5981a7",
+          "source_paras": [
+            442
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "eef4d662cd463e59",
+          "source_paras": [
+            443
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "94eecbd2f74f3ff8",
+          "source_paras": [
+            444
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "043884ae6131a678",
+          "source_paras": [
+            445
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "30f5fd4c171f3a03",
+          "source_paras": [
+            448
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "eef4d662cd463e59",
+          "source_paras": [
+            448
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "c6d82106f0395530",
+          "source_paras": [
+            448
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "463ce1ebf368b346",
+          "source_paras": [
+            449
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d1d060e8b57c1670",
+          "source_paras": [
+            450
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e0963398da847b83",
+          "source_paras": [
+            451
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1f3faadf08c0fe72",
+          "source_paras": [
+            452
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "463ce1ebf368b346",
+          "source_paras": [
+            453
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "700cdc22634f878f",
+          "source_paras": [
+            454
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "eef4d662cd463e59",
+          "source_paras": [
+            455
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "fc20edf993ce4de2",
+          "source_paras": [
+            456
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0eecd56fee4c4a96",
+          "source_paras": [
+            458
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e16eea13e3daba2a",
+          "source_paras": [
+            459
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "4a6145ff6bd8b17b",
+          "source_paras": [
+            460
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "336b32c55a9748de",
+          "source_paras": [
+            461
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7e28d1b965b8723f",
+          "source_paras": [
+            462
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6b8e068bb77840d1",
+          "source_paras": [
+            463
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a05bc4ca9b92301a",
+          "source_paras": [
+            464
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1722f19a858053c6",
+          "source_paras": [
+            465
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1bde889d9b8bf639",
+          "source_paras": [
+            466
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f2da18a720f2e6ba",
+          "source_paras": [
+            467
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "03c01e3e64effb5a",
+          "source_paras": [
+            468
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7ee9738520928277",
+          "source_paras": [
+            469
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "eec3183519318bd0",
+          "source_paras": [
+            470
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "d26c6a14dece2849",
+          "source_paras": [
+            471
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "41c0eb96e9bf490f",
+          "source_paras": [
+            472
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7a9f09e8fcb13044",
+          "source_paras": [
+            473
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "05442230f8642371",
+          "source_paras": [
+            474
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2300dcb241864411",
+          "source_paras": [
+            475
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a5e49cb0808961af",
+          "source_paras": [
+            476
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f38a8f7cd80c14f7",
+          "source_paras": [
+            477
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0f030dc4b2cae488",
+          "source_paras": [
+            478
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "034305e9844bee56",
+          "source_paras": [
+            479
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e9ec4386ab98fe1b",
+          "source_paras": [
+            480
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0d3816213683f73c",
+          "source_paras": [
+            481
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0b1c00b6c7325e8a",
+          "source_paras": [
+            482
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "8b21a9c81751f317",
+          "source_paras": [
+            483
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9c007a2d7b466478",
+          "source_paras": [
+            484
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "86265171f659f42e",
+          "source_paras": [
+            485
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4145bc2d0c59581c",
+          "source_paras": [
+            486
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6f1d01bb047d2af5",
+          "source_paras": [
+            487
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3f9a4d990b3ab814",
+          "source_paras": [
+            488
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "6ced6fff1c19682b",
+          "source_paras": [
+            489
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "8457340639e212a8",
+          "source_paras": [
+            490
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "49d27175355eb5b8",
+          "source_paras": [
+            491
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "113d6e56f9db6365",
+          "source_paras": [
+            492
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2266476f24980b5f",
+          "source_paras": [
+            493
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "72ab8e0cbe6ed15b",
+          "source_paras": [
+            494
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4f72de96c7ea30e7",
+          "source_paras": [
+            495
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "300dcbabd9b1ce7e",
+          "source_paras": [
+            496
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0665a89d8cefcb79",
+          "source_paras": [
+            497
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a5ffc1cfdeb0efe8",
+          "source_paras": [
+            498
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a4cf4126c85d4ef5",
+          "source_paras": [
+            499
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "104f38dca9e66b2b",
+          "source_paras": [
+            500
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4ae3317c595547a1",
+          "source_paras": [
+            501
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "14b2f5f77e30b1dd",
+          "source_paras": [
+            502
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "125b9cb2f817e473",
+          "source_paras": [
+            503
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "50a8c066f771cd87",
+          "source_paras": [
+            504
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9a7a5ba1753e875e",
+          "source_paras": [
+            505
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5c912d9881ad73e4",
+          "source_paras": [
+            506
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "95c0b1bd1c4834d1",
+          "source_paras": [
+            507
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "813099db5d6cac4b",
+          "source_paras": [
+            507
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3ed416f9fd3b8602",
+          "source_paras": [
+            508
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "bb9f2d26da702258",
+          "source_paras": [
+            509
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "5c32f5ad07c2b006",
+          "source_paras": [
+            509
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "59c8100e3309065e",
+          "source_paras": [
+            509
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "e8d2ba0d394f3629",
+          "source_paras": [
+            509,
+            510
+          ],
+          "confidence": "bracketed",
+          "anchored": false
+        },
+        {
+          "fp": "9560ecb1fa58a08a",
+          "source_paras": [
+            510
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "09a28ffa6e183875",
+          "source_paras": [
+            511
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "36e99ce35d06de1d",
+          "source_paras": [
+            512
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "3a648b92537335bd",
+          "source_paras": [
+            513
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6fba9b677ee884f7",
+          "source_paras": [
+            514
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c33df6e52c765e09",
+          "source_paras": [
+            514
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "c2df4e71813c7d00",
+          "source_paras": [
+            514
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "cd7b9a15c6efd89f",
+          "source_paras": [
+            516
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "0829c47a9c189e43",
+          "source_paras": [
+            516
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7cc99c228c55c0a5",
+          "source_paras": [
+            517
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "47fe3158fbbf451e",
+          "source_paras": [
+            518
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "bab9d0fd47a21fa0",
+          "source_paras": [
+            519
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "04613e716a790e35",
+          "source_paras": [
+            520
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "56adc7eaf1288216",
+          "source_paras": [
+            521
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "165f36d9a98f8fe2",
+          "source_paras": [
+            522
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "c7074085f0b382a1",
+          "source_paras": [
+            523
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a43836699450b11e",
+          "source_paras": [
+            524
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6f43a8636621f353",
+          "source_paras": [
+            525
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "65503db654594b06",
+          "source_paras": [
+            526
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9b87c9c412f940d3",
+          "source_paras": [
+            527
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "47d0859664fe24ac",
+          "source_paras": [
+            528
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7da9af7869f9c2b9",
+          "source_paras": [
+            529
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "228cddebee8bb39a",
+          "source_paras": [
+            529
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1d73a43f78f31130",
+          "source_paras": [
+            530
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7eb07fe8274de107",
+          "source_paras": [
+            530
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9e672f6a6c140a63",
+          "source_paras": [
+            532
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "651f0f51e31af039",
+          "source_paras": [
+            533
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "a2320cb607a792cf",
+          "source_paras": [
+            534
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6d1072051f3970e7",
+          "source_paras": [
+            535
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ec0dd7d71bbbd757",
+          "source_paras": [
+            536
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "493ae1a4ab971bbc",
+          "source_paras": [
+            536
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "349919423a0a367f",
+          "source_paras": [
+            538
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9dc8c5cbb63a8c35",
+          "source_paras": [
+            539
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ad72bd41600e1c5d",
+          "source_paras": [
+            540
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "ed591884eba392a2",
+          "source_paras": [
+            541
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b330b3959f68c518",
+          "source_paras": [
+            542
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "9d647f4c8b0e6cc1",
+          "source_paras": [
+            543
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "7caa193e02a149da",
+          "source_paras": [
+            544
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
+        },
+        {
+          "fp": "4cdbc9bf9d13cabc",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fe90f85c1d81c315",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "e211675e994f8ab7",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4970fdc2dd07cc57",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "abc74eead201bc80",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified",
+          "anchored": false,
+          "pinned": true
+        },
+        {
+          "fp": "1114fdbd0aae77d0",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified",
+          "anchored": true
+        },
+        {
+          "fp": "10bf4d67374d735e",
+          "source_paras": [
+            545
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "4781b5bf1c4b2201",
+          "source_paras": [
+            546
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "8cf986e7af11dbef",
+          "source_paras": [
+            547
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "1e848d59ab2875f9",
+          "source_paras": [
+            548
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "624d08ed319a36a1",
+          "source_paras": [
+            549
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "f4d0ea6caea7199e",
+          "source_paras": [
+            550
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b0755eac04378c85",
+          "source_paras": [
+            551
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "fe87ccd43681a1be",
+          "source_paras": [
+            552
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "6e21533b4b631796",
+          "source_paras": [
+            553
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "b120fd072125f301",
+          "source_paras": [
+            554
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "14eed4742d9d9e49",
+          "source_paras": [
+            555
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "2d920a16f03de135",
+          "source_paras": [
+            556
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "84714e793e8bfe4f",
+          "source_paras": [
+            557
+          ],
+          "confidence": "verified",
+          "anchored": false
+        },
+        {
+          "fp": "dd960f51a69e9a97",
+          "source_paras": [
+            558
+          ],
+          "confidence": "verified",
+          "anchored": false
+        }
+      ]
+    }
+  ]
+}

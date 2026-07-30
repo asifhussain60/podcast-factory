@@ -498,3 +498,5 @@
 {"ts": "2026-07-30T00:24:47Z", "phase": "0book-fluency", "step": "fluency-09-part-05", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 11020, "cache_read": 20129, "cache_create": 53234, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-07-30T00:26:32Z", "phase": "0book-fluency", "step": "fluency-09-part-06", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 9024, "cache_read": 20129, "cache_create": 52659, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-07-30T17:38:33Z", "phase": "0a", "step": "vowel-source", "model": "gemini-2.5-pro", "input_tokens": 91204, "output_tokens": 149086, "cache_read": 0, "cache_create": 0, "cost_usd": 0.401216, "engine": "api"}
+{"ts": "2026-07-30T18:44:23Z", "phase": "0book-compose", "step": "arabic-alignment", "model": "gemini-2.5-pro", "input_tokens": 46511, "output_tokens": 256, "cache_read": 0, "cache_create": 0, "cost_usd": 0.015175, "engine": "api"}
+{"ts": "2026-07-30T18:49:57Z", "phase": "0book-compose", "step": "arabic-alignment", "model": "gemini-2.5-pro", "input_tokens": 56824, "output_tokens": 288, "cache_read": 0, "cache_create": 0, "cost_usd": 0.018478, "engine": "api"}

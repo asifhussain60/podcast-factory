@@ -421,4 +421,23 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # a convention is never worth a finished book
         _record_skip(book_dir, "honorifics", e, log)
 
+    # 10. Which SOURCE paragraph each English paragraph came from, so the Composer
+    #     can show the Arabic behind a passage on demand. GENUINELY last, and the
+    #     position is forced rather than chosen: bridges (8) and honorifics (9) both
+    #     rewrite book.md after the audits, and this step fingerprints the
+    #     paragraphs it aligns. Run any earlier and it would name paragraphs the
+    #     shipped book no longer contains, and every pairing would silently miss.
+    #
+    #     Incremental: a chapter whose block fingerprints are unchanged is skipped
+    #     outright, so a re-compose costs nothing. Only a chapter whose prose
+    #     actually moved is re-aligned, and only the residue the deterministic pass
+    #     cannot settle goes to a model. Skips silently for a book with no Arabic
+    #     source or no translation-edition crosswalk.
+    from align_arabic_paragraphs import align_book
+
+    try:
+        align_book(book_dir, log=lambda m: log(f"    {m}"), apply=True)
+    except Exception as e:  # an alignment is never worth a finished book
+        _record_skip(book_dir, "arabic-alignment", e, log)
+
     return book_md
