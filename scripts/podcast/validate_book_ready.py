@@ -211,9 +211,12 @@ def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
                     book_dir / "_system" / "source" / "ocr" / "raw-extract.md",
                     book_dir / "_system" / "source" / "text" / "raw-extract.md",
                 ]
+                from _vowelled_source import resolve_arabic_source
+
                 source_text = ""
                 for candidate in src_candidates:
                     if candidate.exists():
+                        candidate = resolve_arabic_source(candidate)
                         source_text = candidate.read_text(encoding="utf-8", errors="replace")
                         if len(_ARABIC_RE.findall(source_text)) >= 50:
                             break

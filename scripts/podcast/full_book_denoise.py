@@ -234,6 +234,19 @@ def main() -> None:
         except FileNotFoundError as e:
             print(f"  [{source}] SKIP — {e}", file=sys.stderr)
 
+    # The Arabic stream is final once it is denoised, so this is where its marks
+    # go on. Idempotent against the fingerprint of each stream, so re-running the
+    # denoise with --force re-vowels only what actually changed. Never fatal — an
+    # unvowelled source still composes, and `vowel_book` is the net behind it.
+    if "arabic" in sources:
+        try:
+            from vowel_source import vowel_source
+
+            print("\nVowelling the Arabic source…")
+            vowel_source(resolve_content(args.slug), apply=True)
+        except Exception as e:
+            print(f"  vowelling failed (continuing): {e}", file=sys.stderr)
+
     ledger = resolve_content(args.slug) / "_system" / "cost-ledger.json"
     if ledger.exists():
         total = json.loads(ledger.read_text()).get("total_usd", 0.0)

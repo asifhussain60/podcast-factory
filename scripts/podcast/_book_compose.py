@@ -68,9 +68,17 @@ def _load_arabic_pages(book_dir: Path) -> dict[int, str] | None:
 
     Returns None for books without an Arabic OCR extract (fiction, technical, English
     sources) — composition then behaves exactly as before."""
+    from _vowelled_source import resolve_arabic_source
+
     src = book_dir / "_system" / "source" / "ocr" / "raw-extract.md"
     if not src.exists():
         return None
+    # Prefer the vowelled copy of this exact OCR when `vowel_source` has made one:
+    # the ground truth handed to the compose prompt then carries its marks, so a
+    # quoted verse arrives vowelled instead of being re-derived at the end. Falls
+    # back to the raw extract whenever no sibling exists or the OCR has since been
+    # re-run — see `_vowelled_source` for why staleness is fingerprinted.
+    src = resolve_arabic_source(src)
     text = src.read_text(encoding="utf-8")
     if _arabic_run_count(text) < 50:
         return None

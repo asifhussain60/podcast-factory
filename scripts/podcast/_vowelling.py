@@ -33,7 +33,20 @@ import re
 # Combining marks: tashkeel, superscript alif, Quranic annotation signs. Tatweel
 # is included because it stretches a letter rather than being one, and two
 # otherwise-identical skeletons must not differ over it.
-MARKS_RE = re.compile("[ً-ْٓ-ٰ۟۠-ۭـ]")
+#
+# WRITTEN AS ESCAPES, and the ranges are exact for a reason. The literal class
+# this replaced spelled the second range `ٓ-ٰ` — U+0653 to U+0670 — which also
+# contains U+0660-U+0669, the Arabic-Indic DIGITS, and U+066E/U+066F, the dotless
+# beh and qaf, which are LETTERS. Treating those as marks meant `skeleton()`
+# deleted them, so a vowelling that dropped every footnote and verse number was
+# admitted by `rejection_reason` as "marks only": on a real OCR line,
+# `تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣`, mark_count returned 3 for a completely
+# bare run and a candidate with all three digits gone passed the gate. The
+# inflated count also skewed `mark_density`, so a digit-bearing bare run could
+# read as already vowelled and be skipped. Both directions are closed here.
+# U+06D6-U+06ED (the Qur'anic annotation signs) were in the JS half of this pair
+# and not in this one; unified rather than left to diverge silently.
+MARKS_RE = re.compile("[\u064b-\u065f\u0670\u06d6-\u06ed\u0640]")
 
 # Arabic script, for asking whether a string contains Arabic at all.
 ARABIC_RE = re.compile("[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]")
@@ -94,6 +107,50 @@ def rejection_reason(source: str, candidate: str) -> str | None:
     if mark_count(candidate) <= mark_count(source):
         return "adds no vowel marks"
     return None
+
+
+def reflow_to_source_whitespace(source: str, candidate: str) -> str:
+    """``candidate``'s letters and marks, carrying ``source``'s exact whitespace.
+
+    A model asked to vowel one passage hands back one line however many lines the
+    passage occupied — ``vowel_book.SYSTEM`` even asks for that. ``skeleton()``
+    normalises whitespace before comparing, deliberately, so that collapse is
+    INVISIBLE to the gate and a vowelling that silently joined the lines of an OCR
+    page would be admitted as "marks only". Line structure is not cosmetic here:
+    ``produce_bilingual`` slices the Arabic source by line range, and 886 of the
+    1,395 distinct runs in one book's OCR span more than one line.
+
+    The repair is exact rather than heuristic. Once the skeletons agree the
+    non-whitespace characters correspond one for one, so walking both — taking
+    whitespace from the source and letters-with-their-marks from the candidate —
+    restores the original shape without moving a single mark. Marks already in the
+    source are skipped, since the candidate re-supplies them.
+
+    Returns ``candidate`` untouched when the two do not align, leaving
+    ``rejection_reason`` to refuse it and report why.
+    """
+    if skeleton(source) != skeleton(candidate):
+        return candidate
+    out: list[str] = []
+    i = 0
+    for ch in source:
+        if MARKS_RE.match(ch):
+            continue
+        if ch.isspace():
+            out.append(ch)
+            continue
+        while i < len(candidate) and candidate[i].isspace():
+            i += 1
+        if i >= len(candidate):
+            return candidate
+        out.append(candidate[i])
+        i += 1
+        while i < len(candidate) and MARKS_RE.match(candidate[i]):
+            out.append(candidate[i])
+            i += 1
+    if any(not c.isspace() for c in candidate[i:]):
+        return candidate
+    return "".join(out)
 
 
 def is_vowelling_candidate(text: str) -> bool:

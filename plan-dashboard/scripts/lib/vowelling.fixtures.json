@@ -8,6 +8,11 @@
     { "in": "فإنه من عمل لله", "out": "فإنه من عمل لله" },
     { "in": "  ragged   spacing  ", "out": "ragged spacing" },
     { "in": "الرحـــمن", "out": "الرحمن" },
+    {
+      "_why": "Arabic-Indic digits must SURVIVE the skeleton. They sit inside the U+0653-U+0670 span an earlier literal character class used, so they were being stripped as if they were marks — which let a vowelling that deleted every footnote and verse number pass as marks-only.",
+      "in": "تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣",
+      "out": "تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣"
+    },
     { "in": "", "out": "" }
   ],
   "markCount": [
@@ -17,6 +22,21 @@
       "out": 5
     },
     { "in": "فإنه", "out": 0 },
+    {
+      "_why": "digits are not marks — a bare line of them counts zero, or mark_density reads it as already vowelled and skips it",
+      "in": "٥٩",
+      "out": 0
+    },
+    {
+      "_why": "dotless beh and qaf are LETTERS that sit in the same span as the digits",
+      "in": "ٮٯ",
+      "out": 0
+    },
+    {
+      "_why": "Qur'anic annotation signs DO count — this range was in the JS half only until the two were unified",
+      "in": "ۖۗ",
+      "out": 2
+    },
     { "in": "", "out": 0 }
   ],
   "isCandidate": [
@@ -76,6 +96,39 @@
       "source": "فإنه من عمل لله بما يعلم",
       "candidate": "فَإِنَّهُ مَنْ عَمِلَ لِلَّهِ",
       "outStartsWith": "letters changed, not just marks"
+    },
+    {
+      "_why": "the footnote digits were deleted while the words were vowelled. On a real OCR line this was ADMITTED before the mark-range fix, because skeleton() stripped the digits from both sides.",
+      "source": "تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣",
+      "candidate": "تَأْلِيف سَيِّدنَا جَعْفَر بْن مَنْصُور اليَمَن",
+      "outStartsWith": "letters changed, not just marks"
+    }
+  ],
+  "_reflowComment": "reflow_to_source_whitespace / reflowToSourceWhitespace. skeleton() collapses whitespace before comparing, so a model that returns a multi-line passage as one line passes the gate unnoticed. Line structure is load-bearing — produce_bilingual slices the Arabic source by line range — so the vowelling pass reflows a candidate onto the source's own whitespace BEFORE the gate sees it, rather than adding a clause that would refuse the 886-of-1395 runs that span lines.",
+  "reflow": [
+    {
+      "_why": "the model collapsed three lines into one; the source's line breaks come back, and not one mark moves",
+      "source": "قال العالم\nودموعه تنحدر\nعلى لحيته",
+      "candidate": "قَالَ الْعَالِمُ وَدُمُوعُهُ تَنْحَدِرُ عَلَى لِحْيَتِهِ",
+      "out": "قَالَ الْعَالِمُ\nوَدُمُوعُهُ تَنْحَدِرُ\nعَلَى لِحْيَتِهِ"
+    },
+    {
+      "_why": "single-line in, single-line out — nothing to repair",
+      "source": "فإنه من عمل لله",
+      "candidate": "فَإِنَّهُ مَنْ عَمِلَ لِلَّهِ",
+      "out": "فَإِنَّهُ مَنْ عَمِلَ لِلَّهِ"
+    },
+    {
+      "_why": "digits survive a reflow in their original positions",
+      "source": "تأليف ١ سيدنا\nجعفر بن منصور ٢",
+      "candidate": "تَأْلِيف ١ سَيِّدنَا جَعْفَر بْن مَنْصُور ٢",
+      "out": "تَأْلِيف ١ سَيِّدنَا\nجَعْفَر بْن مَنْصُور ٢"
+    },
+    {
+      "_why": "skeletons disagree — hand the candidate back untouched so the gate reports the real reason",
+      "source": "قال العالم ودموعه تنحدر",
+      "candidate": "كلام آخر تماما",
+      "out": "كلام آخر تماما"
     }
   ]
 }

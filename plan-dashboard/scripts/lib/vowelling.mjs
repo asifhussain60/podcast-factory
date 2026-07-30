@@ -48,7 +48,13 @@ const SCHEMA = "book.vowelling-proposals/v1";
 /** Combining marks: tashkeel, superscript alif, Quranic annotation signs. Also
  *  tatweel, which is a stretching character rather than a letter and must not make
  *  two otherwise-identical skeletons differ. */
-const MARKS_RE = /[ً-ْٓ-ٰٟۖ-ۭـ]/g;
+const MARKS_RE = /[\u064b-\u065f\u0670\u06d6-\u06ed\u0640]/g;
+
+/** Non-global twin of MARKS_RE. `RegExp.test` on a /g regex advances lastIndex
+ *  and so alternates true/false across calls on single characters — which is
+ *  exactly how markDensity used it. Kept separate rather than dropping the /g,
+ *  which `replace` and `match` above rely on. */
+const MARK_RE_ONE = /[\u064b-\u065f\u0670\u06d6-\u06ed\u0640]/;
 
 /** Arabic letters, for detecting whether a string contains Arabic at all. */
 const ARABIC_RE = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
@@ -70,7 +76,7 @@ export function markCount(text) {
  *  an order of magnitude higher. Used only to pick candidates, never to judge. */
 export function markDensity(text) {
   const letters = ((text ?? "").match(/[؀-ۿ]/g) || []).filter(
-    (c) => !MARKS_RE.test(c),
+    (c) => !MARK_RE_ONE.test(c),
   ).length;
   return letters ? markCount(text) / letters : 0;
 }
@@ -123,6 +129,47 @@ export function rejectionReason(source, candidate) {
   }
   if (markCount(candidate) <= markCount(source)) return "adds no vowel marks";
   return null;
+}
+
+/**
+ * `candidate`'s letters and marks, carrying `source`'s exact whitespace.
+ *
+ * A model asked to vowel one passage hands back one line however many lines the
+ * passage occupied. `skeleton` normalises whitespace before comparing,
+ * deliberately, so that collapse is INVISIBLE to the gate and a vowelling which
+ * silently joined the lines of an OCR page would be admitted as "marks only".
+ * Line structure is not cosmetic: `produce_bilingual` slices the Arabic source by
+ * line range.
+ *
+ * The repair is exact rather than heuristic. Once the skeletons agree the
+ * non-whitespace characters correspond one for one, so walking both — whitespace
+ * from the source, letters-with-their-marks from the candidate — restores the
+ * original shape without moving a mark. Returns `candidate` untouched when the
+ * two do not align, leaving `rejectionReason` to refuse it and say why.
+ *
+ * The Python mirror is `_vowelling.reflow_to_source_whitespace`.
+ */
+export function reflowToSourceWhitespace(source, candidate) {
+  if (skeleton(source) !== skeleton(candidate)) return candidate;
+  const out = [];
+  let i = 0;
+  for (const ch of source ?? "") {
+    if (MARK_RE_ONE.test(ch)) continue;
+    if (/\s/.test(ch)) {
+      out.push(ch);
+      continue;
+    }
+    while (i < candidate.length && /\s/.test(candidate[i])) i++;
+    if (i >= candidate.length) return candidate;
+    out.push(candidate[i]);
+    i++;
+    while (i < candidate.length && MARK_RE_ONE.test(candidate[i])) {
+      out.push(candidate[i]);
+      i++;
+    }
+  }
+  if (/\S/.test(candidate.slice(i))) return candidate;
+  return out.join("");
 }
 
 /** A run worth proposing for: it has Arabic, it is long enough to be a real

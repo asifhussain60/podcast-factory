@@ -19,6 +19,7 @@ import {
   markCount,
   markDensity,
   rejectionReason,
+  reflowToSourceWhitespace,
   isVowellingCandidate,
   isArabicPassage,
 } from "./vowelling.mjs";
@@ -91,6 +92,40 @@ test("whitespace differences alone never make a proposal inadmissible", () => {
   assert.equal(rejectionReason(BARE_HADITH, spaced), null);
 });
 
+test("a digit is not a mark", () => {
+  // Arabic-Indic digits sit inside the U+0653-U+0670 span the mark class used to
+  // cover, so skeleton() deleted them from both sides and a vowelling that
+  // dropped every footnote number was admitted as marks-only. Real OCR line.
+  const line = "تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣";
+  assert.equal(markCount(line), 0);
+  assert.equal(skeleton(line), line);
+  assert.match(
+    rejectionReason(line, "تَأْلِيف سَيِّدنَا جَعْفَر بْن مَنْصُور اليَمَن"),
+    /letters changed/,
+  );
+});
+
+test("markDensity is not corrupted by the /g regex lastIndex", () => {
+  // markDensity filtered letters with MARKS_RE.test(c) on a /g regex, whose
+  // lastIndex advances on a match — so the same character alternated true/false
+  // across calls and the letter count depended on position. A bare run must read
+  // as bare however many characters precede it.
+  assert.equal(markDensity(BARE_HADITH), 0);
+  assert.ok(markDensity(VOWELLED_AYAH) > 0.4);
+});
+
+test("reflow restores the source's line structure without moving a mark", () => {
+  const source = "قال العالم\nودموعه تنحدر\nعلى لحيته";
+  const collapsed = "قَالَ الْعَالِمُ وَدُمُوعُهُ تَنْحَدِرُ عَلَى لِحْيَتِهِ";
+  const out = reflowToSourceWhitespace(source, collapsed);
+  assert.equal(out.split("\n").length, source.split("\n").length);
+  assert.equal(skeleton(out), skeleton(source));
+  assert.equal(markCount(out), markCount(collapsed));
+  assert.equal(rejectionReason(source, out), null);
+  assert.equal(reflowToSourceWhitespace(source, out), out);
+  assert.equal(reflowToSourceWhitespace(source, "كلام آخر"), "كلام آخر");
+});
+
 test("candidate selection skips already-vowelled runs and stray words", () => {
   assert.ok(isVowellingCandidate(BARE_HADITH));
   assert.ok(isVowellingCandidate(BARE_SAYING));
@@ -131,6 +166,15 @@ test("mirror: isVowellingCandidate matches the shared fixtures", () => {
 test("mirror: isArabicPassage matches the shared fixtures", () => {
   for (const c of FX.isArabicPassage)
     assert.equal(isArabicPassage(c.in), c.out, c._why ?? c.in);
+});
+
+test("mirror: reflowToSourceWhitespace matches the shared fixtures", () => {
+  for (const c of FX.reflow)
+    assert.equal(
+      reflowToSourceWhitespace(c.source, c.candidate),
+      c.out,
+      c._why ?? c.source,
+    );
 });
 
 test("mirror: rejectionReason matches the shared fixtures", () => {

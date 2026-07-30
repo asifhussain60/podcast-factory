@@ -287,7 +287,12 @@ def main() -> int:
         book_dir / "_system" / "source" / "ocr" / "raw-extract.md",
         book_dir / "_system" / "source" / "text" / "raw-extract.md",
     ]
-    ocr_path = next((p for p in ocr_candidates if p.exists()), None)
+    # The vowelled copy when there is a current one: this is what puts marks on
+    # `arabic_script` at its ROOT, so the terms the inline overlay weaves into the
+    # English arrive already vowelled rather than waiting on a later pass.
+    from _vowelled_source import resolve_arabic_source
+
+    ocr_path = next((resolve_arabic_source(p) for p in ocr_candidates if p.exists()), None)
     if not glossary_path.exists():
         sys.stderr.write(f"glossary.yml not found at {glossary_path}\nRun scripts/podcast/build_glossary.py first.\n")
         return 2

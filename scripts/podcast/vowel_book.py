@@ -58,6 +58,8 @@ from typing import Callable
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from concurrent.futures import ThreadPoolExecutor, as_completed  # noqa: E402
+
 from _arabic_coverage import arabic_run_spans  # noqa: E402
 from _paths import content_dir  # noqa: E402
 from _vowelling import (  # noqa: E402
@@ -66,8 +68,16 @@ from _vowelling import (  # noqa: E402
     is_vowelling_candidate,
     mark_count,
     mark_density,
+    reflow_to_source_whitespace,
     rejection_reason,
 )
+
+# Vocalisation is one independent call per run and the runs do not interact, so
+# the whole pass is embarrassingly parallel. It has to be: an Arabic SOURCE
+# stream carries 279-1,340 candidate runs where a composed book carries a few
+# dozen, and sequentially that is hours of wall clock for one book. Same width
+# `vowel_glossary` already uses against the same endpoint.
+DEFAULT_WORKERS = 8
 
 MODEL = "gemini-2.5-pro"
 """Vocalisation is a reasoning task, not a lookup: the reading of an ambiguous
@@ -156,14 +166,22 @@ def _clean(raw: str) -> str:
     return ""
 
 
-def vowel_text(
+def vowel_runs(
     text: str,
     *,
     log: Callable[[str], None] = print,
     dry_run: bool = False,
     call: Callable[[str], str] | None = None,
+    workers: int = DEFAULT_WORKERS,
 ) -> tuple[str, dict]:
-    """Return ``text`` with every bare non-Qur'anic Arabic run vowelled.
+    """Return ``text`` with every bare non-Qur'anic Arabic RUN vowelled.
+
+    Layers one and two only — the run sweep and the mushaf. The third layer, the
+    lexical sweep in `vowel_lexical`, is deliberately NOT here: it looks for bare
+    Arabic quoted inside ENGLISH prose, and on an Arabic-only source stream its
+    delimiters match footnote apparatus rather than words under discussion. A
+    caller with English prose (`vowel_text`) wants both; a caller holding an OCR
+    of an Arabic book wants only this.
 
     Replacement is by exact string, run by run, so nothing outside an Arabic run
     can be touched -- the English prose the runs sit in is never sent anywhere.
@@ -181,7 +199,6 @@ def vowel_text(
         log("vowelling: canonical mushaf unavailable - Qur'anic runs cannot be identified; skipping")
         return text, {"skipped": "no mushaf", "vowelled": 0}
 
-    seen: set[str] = set()
     stats = {
         "vowelled": 0,
         "marks_added": 0,
@@ -189,13 +206,16 @@ def vowel_text(
         "quranic": 0,
         "from_mushaf": 0,
         "refused": 0,
+        "in_chars": 0,
+        "out_chars": 0,
     }
     refusals: list[dict] = []
-    out = text
-    for run in arabic_run_spans(text):
-        if run in seen:
-            continue
-        seen.add(run)
+
+    # ── Sort each distinct run into what will answer for it ───────────────────
+    pending: list[str] = []
+    replacements: list[tuple[str, str]] = []
+    from_mushaf: set[str] = set()
+    for run in dict.fromkeys(arabic_run_spans(text)):
         if not is_vowelling_candidate(run):
             stats["already"] += 1
             continue
@@ -212,33 +232,84 @@ def vowel_text(
             # nowhere else. A verse that does not align exactly is left alone.
             canonical = mushaf_vocalisation(run) if not dry_run else None
             if canonical and canonical != run:
-                out = out.replace(run, canonical)
-                stats["from_mushaf"] += 1
-                stats["marks_added"] += mark_count(canonical) - mark_count(run)
+                replacements.append((run, canonical))
+                from_mushaf.add(run)
             else:
                 stats["quranic"] += 1
             continue
         if dry_run:
             stats["vowelled"] += 1
             continue
-        try:
-            candidate = ask(run)
-        except Exception as e:  # one bad run must never cost the whole book
-            stats["refused"] += 1
-            refusals.append({"run": run[:60], "reason": f"model error: {e}"})
-            continue
-        reason = rejection_reason(run, candidate)
-        if reason:
-            # Refusals are RECORDED, not swallowed. A passage the model keeps
-            # failing on is a passage a human should look at directly.
-            stats["refused"] += 1
-            refusals.append({"run": run[:60], "reason": reason})
-            continue
-        out = out.replace(run, candidate)
-        stats["vowelled"] += 1
-        stats["marks_added"] += mark_count(candidate) - mark_count(run)
+        pending.append(run)
 
-    # ── The third layer: words the prose discusses AS words ───────────────────
+    # ── Ask for all of them at once ───────────────────────────────────────────
+    if pending:
+        from _engine import ENGINE_GEMINI, TASK_VOWEL, engine_guard
+
+        engine_guard(TASK_VOWEL, ENGINE_GEMINI)
+        with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
+            futures = {pool.submit(ask, run): run for run in pending}
+            for future in as_completed(futures):
+                run = futures[future]
+                try:
+                    candidate = future.result()
+                except Exception as e:  # one bad run must never cost the whole book
+                    stats["refused"] += 1
+                    refusals.append({"run": run[:60], "reason": f"model error: {e}"})
+                    continue
+                stats["in_chars"] += len(run)
+                stats["out_chars"] += len(candidate or "")
+                # The model answers on one line however many the run occupied, and
+                # `skeleton` normalises whitespace, so the collapse would sail
+                # through the gate. Put the source's own whitespace back first.
+                candidate = reflow_to_source_whitespace(run, candidate)
+                reason = rejection_reason(run, candidate)
+                if reason:
+                    # Refusals are RECORDED, not swallowed. A passage the model keeps
+                    # failing on is a passage a human should look at directly.
+                    stats["refused"] += 1
+                    refusals.append({"run": run[:60], "reason": reason})
+                    continue
+                replacements.append((run, candidate))
+
+    # ── Apply LONGEST RUN FIRST ───────────────────────────────────────────────
+    # Two distinct runs can stand in a substring relation — `قال العالم` occurs on
+    # its own and inside `قال العالم، ودموعه تنحدر`, 37 such pairs in one book's
+    # OCR. Replacing the short one first rewrites the long one's opening, after
+    # which the long run's own `str.replace` matches nothing and silently no-ops
+    # while still being counted. Longest-first leaves no shorter run able to eat
+    # a longer one's prefix. Sorting also makes the output independent of the
+    # order the concurrent calls happened to finish in.
+    for run, replacement in sorted(replacements, key=lambda pair: len(pair[0]), reverse=True):
+        text = text.replace(run, replacement)
+        if run in from_mushaf:
+            stats["from_mushaf"] += 1
+        else:
+            stats["vowelled"] += 1
+        stats["marks_added"] += mark_count(replacement) - mark_count(run)
+
+    stats["refusals"] = refusals
+    return text, stats
+
+
+def vowel_lexical(
+    text: str,
+    *,
+    dry_run: bool = False,
+    stats: dict | None = None,
+) -> tuple[str, dict]:
+    """The third layer: bare Arabic words that ENGLISH prose discusses AS words.
+
+    Split out of `vowel_text` so a caller holding an Arabic-only source can skip
+    it. Its delimiters (quotes, parentheses) mean "the author put this word here
+    to be looked at" in English prose; in an Arabic critical edition the same
+    brackets hold footnote markers and manuscript-variant apparatus.
+    """
+    out = text
+    stats = stats if stats is not None else {"marks_added": 0, "refused": 0}
+    stats.setdefault("marks_added", 0)
+    stats.setdefault("refused", 0)
+    refusals: list[dict] = stats.setdefault("refusals", [])
     # `"باطن," "an inward"` — the book arguing about what a word means, with the
     # word set in quotes. Below the run floor, so the sweep above skipped every
     # one; and belonging to no glossary entry, so `vowel_glossary` never saw them
@@ -291,6 +362,57 @@ def vowel_text(
     return out, stats
 
 
+def vowel_text(
+    text: str,
+    *,
+    log: Callable[[str], None] = print,
+    dry_run: bool = False,
+    call: Callable[[str], str] | None = None,
+    workers: int = DEFAULT_WORKERS,
+) -> tuple[str, dict]:
+    """All three layers, for text that is ENGLISH prose carrying Arabic.
+
+    The composed book's own path. `vowel_runs` handles the quoted passages and
+    scripture; `vowel_lexical` then handles the individual words the prose
+    discusses AS words, which fall below the run floor by design.
+    """
+    out, stats = vowel_runs(text, log=log, dry_run=dry_run, call=call, workers=workers)
+    if stats.get("skipped"):  # no mushaf — vowel_runs already said so
+        return out, stats
+    return vowel_lexical(out, dry_run=dry_run, stats=stats)
+
+
+def record_spend(book_dir: Path, *, phase: str, step: str, stats: dict) -> None:
+    """Put this pass's Gemini spend and model choice on the book's ledgers.
+
+    Neither was recorded before, so a pass that makes hundreds of metered calls
+    was invisible in `cost-ledger.jsonl` and in `model-provenance.jsonl` — the two
+    files the cost policy and the provenance audit read. Best-effort on both
+    counts: a ledger problem must never cost a finished vowelling.
+    """
+    if not stats.get("in_chars") and not stats.get("out_chars"):
+        return
+    try:
+        from _cost_ledger import append_gemini_cost
+
+        append_gemini_cost(
+            book_dir=book_dir,
+            phase=phase,
+            step=step,
+            model=MODEL,
+            in_chars=stats.get("in_chars", 0),
+            out_chars=stats.get("out_chars", 0),
+        )
+    except Exception as e:  # pragma: no cover - ledger trouble is never fatal
+        print(f"    WARN: cost-ledger append failed: {e}", file=sys.stderr)
+    try:
+        from _authoring._core import record_model_provenance
+
+        record_model_provenance(book_dir, phase=phase, step=step, model=MODEL)
+    except Exception as e:  # pragma: no cover
+        print(f"    WARN: provenance append failed: {e}", file=sys.stderr)
+
+
 def vowel_book(book_dir: Path, *, log: Callable[[str], None] = print, dry_run: bool = False) -> dict:
     """Vowel `book/book.md` in place. Returns the run's stats."""
     md = book_dir / "book" / "book.md"
@@ -301,6 +423,8 @@ def vowel_book(book_dir: Path, *, log: Callable[[str], None] = print, dry_run: b
     after, stats = vowel_text(before, log=log, dry_run=dry_run)
     if not dry_run and after != before:
         md.write_text(after, encoding="utf-8")
+    if not dry_run:
+        record_spend(book_dir, phase="0book-compose", step="5a-vowelling", stats=stats)
     # The refusal list is the human-facing half of this pass: every run the gate
     # turned away, with the reason, so a passage the model cannot vowel is
     # visible rather than quietly left bare.
@@ -316,16 +440,50 @@ def vowel_book(book_dir: Path, *, log: Callable[[str], None] = print, dry_run: b
     return stats
 
 
+def _books_with_a_composed_book() -> list[Path]:
+    """Every book carrying a `book/book.md`, for the `--all` sweep.
+
+    Walks `content/` directly rather than a slug registry so a nested volume
+    (`asaas-al-taveel/vol-01`) is found at whatever depth it sits.
+    """
+    from _paths import REPO_ROOT
+
+    return sorted({md.parent.parent for md in (REPO_ROOT / "content").glob("*/**/book/book.md")})
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Vowel every bare non-Qur'anic Arabic run in a book.")
-    ap.add_argument("--slug", required=True)
+    ap.add_argument("--slug", help="one book; omit and pass --all to sweep every composed book")
+    ap.add_argument("--all", action="store_true", help="sweep every book that has a composed book.md")
     ap.add_argument("--dry-run", action="store_true", help="report what would be vowelled; spend nothing")
     a = ap.parse_args()
-    book_dir = content_dir(a.slug)
-    if not book_dir or not book_dir.exists():
-        print(f"Book not found: {a.slug}", file=sys.stderr)
-        return 1
-    vowel_book(book_dir, dry_run=a.dry_run)
+    if bool(a.slug) == bool(a.all):
+        print("Pass exactly one of --slug <slug> or --all.", file=sys.stderr)
+        return 2
+
+    if a.all:
+        targets = _books_with_a_composed_book()
+        if not targets:
+            print("No composed books found.", file=sys.stderr)
+            return 1
+    else:
+        book_dir = content_dir(a.slug)
+        if not book_dir or not book_dir.exists():
+            print(f"Book not found: {a.slug}", file=sys.stderr)
+            return 1
+        targets = [book_dir]
+
+    for book_dir in targets:
+        # Bucket/slug, not just the leaf: two different books both live at a leaf
+        # named `vol-01`, so the leaf alone does not say which one this is.
+        from _paths import REPO_ROOT
+
+        try:
+            label = book_dir.relative_to(REPO_ROOT / "content")
+        except ValueError:  # pragma: no cover - a book outside content/
+            label = book_dir
+        print(f"==> {label}")
+        vowel_book(book_dir, dry_run=a.dry_run)
     return 0
 
 

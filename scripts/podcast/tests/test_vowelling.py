@@ -22,6 +22,7 @@ from _vowelling import (  # noqa: E402
     is_vowelling_candidate,
     mark_count,
     mark_density,
+    reflow_to_source_whitespace,
     rejection_reason,
     skeleton,
 )
@@ -55,6 +56,12 @@ def test_is_arabic_passage_matches_shared_fixtures(fx: dict) -> None:
         assert is_arabic_passage(case["in"]) is case["out"], case.get("_why", case["in"])
 
 
+def test_reflow_matches_shared_fixtures(fx: dict) -> None:
+    for case in fx["reflow"]:
+        got = reflow_to_source_whitespace(case["source"], case["candidate"])
+        assert got == case["out"], case.get("_why", case["source"])
+
+
 def test_rejection_reason_matches_shared_fixtures(fx: dict) -> None:
     for case in fx["rejection"]:
         got = rejection_reason(case["source"], case["candidate"])
@@ -86,6 +93,38 @@ def test_whitespace_alone_never_makes_a_vowelling_inadmissible() -> None:
 
 def test_tatweel_is_not_a_letter() -> None:
     assert skeleton("العـــلم") == skeleton("العلم")
+
+
+def test_a_digit_is_not_a_mark() -> None:
+    """The regression that made unattended source vowelling unsafe.
+
+    Arabic-Indic digits sit inside U+0653-U+0670, the span the mark class used to
+    cover, so `skeleton` deleted them from BOTH sides of the comparison and a
+    model that dropped every footnote and verse number while vowelling was
+    admitted as "marks only". This is a real line from the Master-and-Disciple OCR.
+    """
+    line = "تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣"
+    assert mark_count(line) == 0, "a bare line carries no marks, digits included"
+    assert skeleton(line) == line, "digits belong to the skeleton"
+    stripped = "تَأْلِيف سَيِّدنَا جَعْفَر بْن مَنْصُور اليَمَن"
+    reason = rejection_reason(line, stripped)
+    assert reason is not None and reason.startswith("letters changed")
+
+
+def test_reflow_restores_line_structure_without_moving_marks() -> None:
+    """`skeleton` collapses whitespace, so a collapsed multi-line run passes the
+    gate. Reflow is what keeps the source's shape — 886 of 1,395 runs in one
+    book's OCR span more than one line, and the bilingual build slices by line."""
+    source = "قال العالم\nودموعه تنحدر\nعلى لحيته"
+    collapsed = "قَالَ الْعَالِمُ وَدُمُوعُهُ تَنْحَدِرُ عَلَى لِحْيَتِهِ"
+    out = reflow_to_source_whitespace(source, collapsed)
+    assert out.count("\n") == source.count("\n")
+    assert skeleton(out) == skeleton(source)
+    assert mark_count(out) == mark_count(collapsed), "reflow must not drop a mark"
+    assert rejection_reason(source, out) is None
+    # Idempotent, and a non-aligning candidate is handed back for the gate to judge.
+    assert reflow_to_source_whitespace(source, out) == out
+    assert reflow_to_source_whitespace(source, "كلام آخر") == "كلام آخر"
 
 
 def test_mark_density_separates_bare_from_vowelled() -> None:
