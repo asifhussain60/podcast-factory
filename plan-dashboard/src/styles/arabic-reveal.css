@@ -27,15 +27,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1.3rem;
+  height: 1.3rem;
   padding: 0;
   border: 1px solid transparent;
   border-radius: 50%;
   background: transparent;
+  /* Sized to sit BESIDE body prose, not above it: at 1.6rem/1.2rem the glyph
+     read as a heading-scale ornament next to 1.02rem text. */
   color: var(--cx-ar-quiet);
   font-family: var(--q-ar-face);
-  font-size: 1.2rem;
+  font-size: 0.95rem;
   line-height: 1;
   cursor: pointer;
   opacity: 0.35;
@@ -78,8 +80,13 @@
   unicode-bidi: isolate;
   text-align: right;
   font-family: var(--q-ar-face);
-  font-size: 1.45rem;
-  line-height: 2.15;
+  /* Arabic at the English's visual size. The SAME pair compose-print.css sets on
+     `.cx-print blockquote.quran p.ar`, and for the same reason: --q-ar-face leads
+     with the size-adjusted aliases, so 1.05rem here reads level with the 1.02rem
+     body prose beside it. The former 1.45rem/2.15 made the source tower over the
+     translation it was there to support. */
+  font-size: 1.05rem;
+  line-height: 1.9;
   color: var(--c-text, #241f1a);
 }
 
@@ -97,7 +104,11 @@
 .cx-ar-note {
   margin: 0 0 0.5rem;
   color: var(--cx-ar-quiet);
-  font-size: 1.2rem;
+  /* Apparatus, not prose — REQ-009/REQ-010 reading floor does not apply, the same
+     defence already recorded for the picker and toolbar chrome. At 1.2rem this
+     label was set LARGER than the body text and the Arabic it introduces, which
+     inverted the hierarchy of the panel. */
+  font-size: 0.85rem;
   letter-spacing: 0.01em;
 }
 

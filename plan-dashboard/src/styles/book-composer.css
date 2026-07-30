@@ -1741,11 +1741,43 @@ body:has(.composer-grid) .to-top {
   font-size: 1.02rem;
   line-height: 1.6;
   color: var(--c-ink, #1f1d18);
-  max-width: 60ch;
+  /* A sheet of paper, not a bare column of text (Asif, 2026-07-30). Same frame
+     the editing surface already wears — .cx-edit-shell's border, radius, card
+     background and shadow — so the book looks like the same document whether you
+     are reading it or editing it, and the reading measure now sits ON a page
+     instead of floating on the site background.
+
+     Read mode only by construction: the editor hides .cx-body and mounts
+     .cx-edit-shell beside it, so the two frames can never nest. */
+  --cx-page-pad-x: 3rem;
+  /* The 60ch measure is preserved, not eaten: the reset is border-box, so the
+     horizontal padding is added back here or the page silently narrows the line
+     length the whole print pipeline is set to. */
+  max-width: calc(60ch + 2 * var(--cx-page-pad-x));
+  padding: 3rem var(--cx-page-pad-x) 3.4rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 10px;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: var(
+    --shadow-card,
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 4px 12px rgba(31, 29, 24, 0.06)
+  );
   /* Centre the reading measure in its column — a 60ch page pinned to the left
      edge of a 979px column reads lopsided, not page-like. */
   margin-inline: auto;
   display: flow-root; /* contain floated (wrap) figures within the chapter */
+}
+/* Narrow screens get the page, not the margins: 3rem of padding either side of a
+   390px viewport leaves the text less room than the frame. The gutter the Arabic
+   control sits in is already returned to the flow at this width (arabic-reveal.css),
+   so nothing needs the wide margin here. */
+@media (max-width: 640px) {
+  .cx-body {
+    --cx-page-pad-x: 1.1rem;
+    padding: 1.5rem var(--cx-page-pad-x) 1.8rem;
+    border-radius: 8px;
+  }
 }
 .cx-body :is(p, blockquote) {
   margin: 0 0 0.8rem;

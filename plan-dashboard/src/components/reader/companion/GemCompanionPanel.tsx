@@ -89,6 +89,17 @@ interface Props {
    *  Composer, where every card is meant to point at a tinted sentence, a card
    *  with nothing to point at is noise. `null` disables the filter entirely. */
   anchoredIds?: string[] | null;
+  /** List the cards, but do not let this pass EDIT them (Asif, 2026-07-30).
+   *
+   *  The Composer's Read mode is a reading surface: the prose is a rendered page,
+   *  not a canvas, and the panel beside it must agree — same cards, same tint,
+   *  same follow-the-chapter sync, but no rich-text editor mounted in the card and
+   *  no delete button. Expressed as "withhold the write callbacks" rather than as
+   *  a second card style, because `renderExplanationCard` already derives
+   *  editability from `onSave` and already has a read-only render (it is the one
+   *  the public reader ships) whose CSS selectors are written as lists paired with
+   *  the editable ones — so the two look identical by construction. */
+  readOnly?: boolean;
   /** The chapter's notes changed — the host re-tints the prose. */
   onNotesChanged?: (notes: CompanionNote[]) => void;
   /** A card wants its passage shown in the prose. */
@@ -148,6 +159,7 @@ export default function GemCompanionPanel({
   focusNote = null,
   anchoredIds = null,
   inViewIds = null,
+  readOnly = false,
   onNotesChanged,
   onReveal,
 }: Props) {
@@ -172,6 +184,9 @@ export default function GemCompanionPanel({
   const wasOpen = useRef(false);
   /** Live cards by note id. The list is reconciled against this, never rebuilt. */
   const cardsRef = useRef(new Map<string, ExplanationCard>());
+  /** The setting the live cards were BUILT at, so a Read/Edit flip can be told
+   *  apart from every other reason the list re-runs. */
+  const builtReadOnly = useRef(readOnly);
   // Read by card callbacks, which outlive the render that created them.
   const openIdsRef = useRef<string[]>([]);
   const onRevealRef = useRef(onReveal);
@@ -326,6 +341,20 @@ export default function GemCompanionPanel({
     if (!host) return;
     const live = cardsRef.current;
 
+    // Editability is decided when a card is BUILT — renderExplanationCard reads it
+    // off the callbacks it was handed — so a Read/Edit flip is the one change the
+    // reuse above cannot absorb. Drop every card and let the loop below rebuild
+    // them at the new setting; the editors going away is the point, and nothing is
+    // lost because leaving Edit has already flushed its saves.
+    if (builtReadOnly.current !== readOnly) {
+      builtReadOnly.current = readOnly;
+      for (const [id, card] of live) {
+        card.destroy();
+        card.el.remove();
+        live.delete(id);
+      }
+    }
+
     const wanted: HTMLElement[] = [];
     if (ephemeral) {
       // Rebuilt every time on purpose: it is one transient answer, never stored,
@@ -363,8 +392,14 @@ export default function GemCompanionPanel({
           // one within itself).
           onToggle: (id, isOpen) => setOpenIds(isOpen ? [id] : []),
           onReveal: (id) => onRevealRef.current?.(id),
-          onSave: (id, edit) => saveRef.current(id, edit),
-          onRemove: (id) => void removeRef.current(id),
+          // Withheld in a reading pass: no editor mounted, no delete button.
+          ...(readOnly
+            ? {}
+            : {
+                onSave: (id: string, edit: CardEdit) =>
+                  saveRef.current(id, edit),
+                onRemove: (id: string) => void removeRef.current(id),
+              }),
         });
         live.set(note.id, card);
       }
@@ -381,7 +416,7 @@ export default function GemCompanionPanel({
     // Appending an element already in the DOM MOVES it — the editor inside is
     // untouched, which is the whole point of reusing rather than rebuilding.
     host.append(...wanted);
-  }, [visible, ephemeral]);
+  }, [visible, ephemeral, readOnly]);
 
   // Open state is not a reason to rebuild a card; it is a reason to tell it.
   useEffect(() => {

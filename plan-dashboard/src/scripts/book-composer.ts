@@ -656,6 +656,13 @@ function boot(): void {
    *  sentences the text no longer contains — cards that can never point at
    *  anything. They stay on disk and stay in the LIVE Session. */
   let anchoredIds: string[] = [];
+  /** Read mode gets the SAME panel — same cards, same tint, same follow-the-
+   *  chapter sync — with the writing withheld (Asif, 2026-07-30). Read is a
+   *  reading surface on both sides of the page: a card that mounts a rich-text
+   *  editor beside a rendered chapter offers an edit the prose next to it will
+   *  not accept. Kept as one boolean set from `setModeVisual`, so the panel can
+   *  never disagree with which mode the toggle says it is in. */
+  let scholarReadOnly = false;
   /** Of those, the ones whose passage is ON SCREEN right now, in reading order.
    *  The panel expands and lights exactly these — see the scroll sweep below. */
   let inViewIds: string[] = [];
@@ -683,6 +690,7 @@ function boot(): void {
         focusNote,
         anchoredIds,
         inViewIds,
+        readOnly: scholarReadOnly,
         onNotesChanged,
         onReveal: revealPassage,
       }),
@@ -1551,6 +1559,14 @@ function boot(): void {
     // page. The state is NOT persisted here, so returning to Edit restores
     // whatever the reader had chosen rather than "closed".
     const reading = mode === "read";
+    // The Companion follows the mode: read-only cards in Read, editable in Edit.
+    // Re-rendered here rather than left to the next sweep, because the mode can
+    // change without a scroll and a stale editable card would still take a
+    // keystroke.
+    if (scholarReadOnly !== reading) {
+      scholarReadOnly = reading;
+      renderScholar();
+    }
     if (railTools) railTools.disabled = reading;
     if (reading && panelState === "tools") setPanel("closed", false);
     else if (!reading) {

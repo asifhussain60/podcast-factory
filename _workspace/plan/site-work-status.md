@@ -1,10 +1,35 @@
 # Current work - status
 
-**Last updated:** 2026-07-29 (Book Composer: cards track the chapter, buttons moved
-onto the right panel, Arabic surface removed, Diacritics button added; all three
-gates PASS)
+**Last updated:** 2026-07-30 (Book Composer Read mode: reads as a page, Arabic set
+at the English's size, source numbers dropped, Companion read-only; all gates PASS)
 
-**Newest — Diacritics, and a reversed rule.**
+**Newest — Read mode is a reading surface on both sides of the page.**
+
+- **Read mode is a page now**, not a column of text on the site background: the
+  chapter body wears the frame the edit shell already wore — card background, 1px
+  rule, 10px radius, the shared card shadow — and the 60ch measure is preserved by
+  adding the horizontal padding back into `max-width` rather than letting the
+  border box eat it. Narrow screens drop the page margins to 1.1rem.
+- **The Arabic source reveal is set at the English's size.** 1.05rem/1.9 — the same
+  pair `compose-print.css` sets on a Qur'anic quotation, and for the same reason
+  (`--q-ar-face` leads with the size-adjusted aliases). It was 1.45rem/2.15, which
+  made the source tower over the translation it exists to support. The ع gutter
+  control came down with it, and the provenance label — which was set LARGER than
+  the prose it annotates — is now apparatus-sized.
+- **The paragraph marker is stripped from the served Arabic.** `(٢٩)` opened each
+  block only so the parser could find the boundary; the number survives on the
+  record and the panel already states it in words, so printing the Arabic-Indic
+  original into the middle of the quotation was scan furniture, like the page
+  comments dropped beside it.
+- **The Companion panel is read-only in Read mode** (Asif, 2026-07-30) — same
+  cards, same tint, same follow-the-chapter sync, no rich-text editor mounted in a
+  card and no delete button. Expressed as withholding the write callbacks, because
+  `renderExplanationCard` already derives editability from `onSave` and its
+  read-only render is the one the public reader ships, with CSS written as paired
+  selector lists — so the two cannot look different. A Read/Edit flip rebuilds the
+  cards, since editability is decided when a card is built.
+
+**Diacritics, and a reversed rule.**
 
 - **A Diacritics button** sits at the end of the Reshape now row, dark until the
   selection is a predominantly-Arabic run that still lacks its marks. One click

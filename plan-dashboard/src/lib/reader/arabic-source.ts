@@ -123,6 +123,13 @@ export function parseBlocks(
   const flush = () => {
     if (current === null) return;
     let body = buf.join("\n").trim();
+    // The marker itself is scan furniture, dropped like the page comments above.
+    // It opened the block only so this parser could find the boundary; the number
+    // survives on `.number`, and every consumer states it in its own words
+    // ("Source paragraph 29") rather than printing the Arabic-Indic original into
+    // the middle of the text. MARKER_RE is start-anchored and unflagged, so this
+    // takes the opening marker and nothing else.
+    body = body.replace(MARKER_RE, "").trimStart();
     if (opts.stripFootnoteRefs) body = body.replace(FOOTNOTE_REF_RE, "$1");
     blocks.set(current, { number: current, text: body });
   };
