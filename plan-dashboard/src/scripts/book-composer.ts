@@ -544,6 +544,11 @@ function boot(): void {
   function selectChapter(key: string): void {
     selectedChapter = key;
     composeChapter.write(key, slug);
+    // A reveal belongs to the chapter it was opened in. Carrying the key across
+    // would not merely be untidy: paragraph fingerprints REPEAT — a book of
+    // dialogue reuses "The boy said:" in every chapter — so a stale key can match
+    // a paragraph here and spring a panel open that nobody asked for.
+    arabicRevealed = null;
     // A different chapter has a different alignment; fetched once and cached.
     void syncArabicForChapter();
   }
@@ -717,7 +722,16 @@ function boot(): void {
     paragraphs: { number: number; text: string }[];
   };
   const arabicByChapter = new Map<string, ArabicChapter | null>();
-  const arabicRevealed = new Set<string>();
+  /** The ONE open reveal, by group key (Asif, 2026-07-30).
+   *
+   *  A single value rather than a set: opening a second panel pushed the first one's
+   *  English further from the Arabic above it, and with a few open the column was
+   *  more source than translation. One at a time keeps the pairing readable and
+   *  makes the control behave like every other accordion on the page — the same
+   *  one-card-at-a-time rule the Companion panel already follows.
+   *
+   *  Not consulted in العربية mode, where every panel is open by definition. */
+  let arabicRevealed: string | null = null;
   let arabicMode: "english" | "only" = "english";
   const arabicToggle = root.querySelector<HTMLElement>("#cx-arabic-toggle");
   const arabicEnglishBtn =
@@ -826,7 +840,7 @@ function boot(): void {
       const pair = group.pair;
       const span = group.end - group.start + 1;
       const fp = keys[group.start];
-      const open = arabicMode === "only" || arabicRevealed.has(fp);
+      const open = arabicMode === "only" || arabicRevealed === fp;
       const aside = document.createElement("aside");
       aside.className = "cx-ar-reveal";
       aside.dataset.fp = fp;
@@ -3352,14 +3366,14 @@ function boot(): void {
       const aside = tab.closest<HTMLElement>(".cx-ar-reveal");
       const fp = aside?.dataset.fp;
       if (!fp) return;
-      const opening = !arabicRevealed.has(fp);
+      const opening = arabicRevealed !== fp;
       // Inserting ABOVE pushes the paragraph down by the panel's height. Hold the
       // clicked paragraph still, or the reader loses their line — and the
       // Companion's visibility sweep fires and yanks its panel to another card.
       const para = aside?.nextElementSibling as HTMLElement | null;
       const before = para?.getBoundingClientRect().top ?? 0;
-      if (opening) arabicRevealed.add(fp);
-      else arabicRevealed.delete(fp);
+      // Opening one closes whichever was open — the assignment IS the close.
+      arabicRevealed = opening ? fp : null;
       const body = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
       if (body) {
         stripArabicReveals(body);

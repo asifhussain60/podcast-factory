@@ -107,13 +107,9 @@ The boy said: “Then I am too young for what I long for—so help me grow. I am
 
 The Master replied: “I was once in the condition you describe, and I am concerned for your welfare. But my compassion alone cannot bring you nearer your goal without effort on your part. Every claim must in the end be examined, and nothing should be accepted unless it is true. Knowledge is useless until it is put into practice, and action is useless unless it is worthy of acceptance. The soundness of speech lies in its truth and its fairness; the proof of knowledge shows itself in the lives and deeds of those who embody it. This testimony can be found across the world and across the generations. Do not accept or reject an argument carelessly. Do not accept a thing by mere imitation, without evidence, or the first doubt you meet may tear it from your heart. But once its proof stands firm, do not reject it, or you will become a defender of falsehood. And do not neglect careful inquiry, or your judgment will bear no fruit. Think well of me, but show me no blind favor. Question me in earnest, but without suspicion. Seek religion with the seriousness your condition deserves, and ask God to help you. When He sees that you truly seek what is good, He will neither waste your effort nor withhold its reward.”
 
-The boy said:
+The boy said: “You have dealt fairly with me and pointed me toward the truth with admirable clarity. I ask God for help, and now I ask you about the matter to which you call me. What is it? From whom does it come? And upon whom is it binding?”
 
-“You have dealt fairly with me and pointed me toward the truth with admirable clarity. I ask God for help, and now I ask you about the matter to which you call me. What is it? From whom does it come? And upon whom is it binding?”
-
-The Master replied:
-
-“It is the religion of God—the religion He has accepted, and in place of which He accepts no other. It comes from Him. It was entrusted first to His chosen messengers and, through them, addressed to all creation. Whoever has been specially favored with it must give thanks, live by it, and call others toward it. Whoever has been deprived of it must seek it until he comes to know it, and then obey the one who guided him to it.”
+The Master replied: “It is the religion of God—the religion He has accepted, and in place of which He accepts no other. It comes from Him. It was entrusted first to His chosen messengers and, through them, addressed to all creation. Whoever has been specially favored with it must give thanks, live by it, and call others toward it. Whoever has been deprived of it must seek it until he comes to know it, and then obey the one who guided him to it.”
 
 The boy asked: “Is the blessing with which God has favored His friends the same in every case, so that they are equal in excellence? Or do some receive a greater share than others?”
 

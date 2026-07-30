@@ -251,34 +251,18 @@
           "confidence": "verified"
         },
         {
-          "fp": "4e1067972401a491",
+          "fp": "cd81b0470dd2eb0d",
           "source_paras": [
-            33,
             34
           ],
           "confidence": "bracketed"
         },
         {
-          "fp": "d863fdd7ff0a1a77",
+          "fp": "1f19b78eab897ea7",
           "source_paras": [
-            34
-          ],
-          "confidence": "verified"
-        },
-        {
-          "fp": "b7c6be8e0b468cb3",
-          "source_paras": [
-            34,
             35
           ],
           "confidence": "bracketed"
-        },
-        {
-          "fp": "c14358d94e699d84",
-          "source_paras": [
-            35
-          ],
-          "confidence": "verified"
         },
         {
           "fp": "c667d71b84694ae3",

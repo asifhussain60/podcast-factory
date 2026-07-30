@@ -118,3 +118,32 @@ def test_headings_and_figures_survive_untouched() -> None:
     text, _pairs = out
     assert text.startswith("## A heading")
     assert len(raw_blocks(text)) == 2  # the heading, and one merged paragraph
+
+
+def test_a_lone_speech_tag_adopts_the_source_of_the_speech_it_opens() -> None:
+    """`قال الغلام:` opens an Arabic paragraph; it is never one on its own.
+
+    The aligner sometimes pairs the English tag with a span straddling two source
+    paragraphs while the speech is pinned to one, and two signatures never group.
+    """
+    tag, speech = "The boy said:", '"You have dealt fairly with me."'
+    out = mirror_chapter(
+        f"{tag}\n\n{speech}\n",
+        [pair(tag, 33, 34), pair(speech, 34)],
+    )
+    assert out is not None
+    text, pairs = out
+    assert text.strip() == f"{tag} {speech}"
+    assert pairs[0]["source_paras"] == [34]
+
+
+def test_a_tag_above_a_displayed_verse_stays_where_it_is() -> None:
+    """It introduces a BLOCK quotation, which is exactly where a tag belongs."""
+    tag = "The boy said:"
+    body = f'{tag}\n\n> لا حول ولا قوة إلا بالله\n\n"There is no might except by God."\n'
+    rendering = '"There is no might except by God."'
+    out = mirror_chapter(body, [pair(tag, 170), pair(rendering, 170)])
+    assert out is not None
+    text, pairs = out
+    assert text.index(tag) < text.index(">") < text.index(rendering)
+    assert len(pairs) == 2

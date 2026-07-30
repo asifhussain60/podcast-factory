@@ -87,6 +87,36 @@ def join_blocks(blocks: list[str]) -> str:
     return out
 
 
+# A paragraph that is nothing but "X said:" — the speech tag, alone on its line.
+_TAG_RE = re.compile(
+    r"^[\"“]?[A-Z][^.!?]{0,60}\s"
+    r"(?:said|replied|answered|asked|continued|spoke|went on|resumed)"
+    r"[^.!?]{0,30}:$"
+)
+
+
+def adopt_tag_sources(blocks: list[str], pairs: list[dict]) -> list[dict]:
+    """Let a lone speech tag take the source of the speech it introduces.
+
+    `قال الغلام:` is never a paragraph of its own in the Arabic — it OPENS one. But
+    the aligner sometimes pairs the English tag with a span straddling two source
+    paragraphs (`[33, 34]`) while the speech that follows is pinned to one (`[34]`),
+    and two different signatures never group. Three tags survived the first sweep
+    that way.
+
+    So a tag-only block adopts its follower's source, which is where the Arabic
+    actually puts it, and the ordinary grouping does the rest — including refusing
+    to merge when a blockquote sits between the two. That refusal is why the third
+    of those three is still on its own line, and rightly: it introduces a DISPLAYED
+    verse, and "The boy said:" belongs above a block quotation exactly as it stands.
+    """
+    out = [dict(p) for p in pairs]
+    for i, block in enumerate(blocks[:-1]):
+        if _TAG_RE.match(block.strip()):
+            out[i]["source_paras"] = list(out[i + 1].get("source_paras") or [])
+    return out
+
+
 def _groups(pairs: list[dict]) -> list[list[int]]:
     """Indices of the prose blocks that share a source paragraph, consecutively."""
     out: list[list[int]] = []
@@ -115,6 +145,7 @@ def mirror_chapter(body: str, pairs: list[dict]) -> tuple[str, list[dict]] | Non
         if para_fingerprint(blocks[slot].strip()) != pair.get("fp"):
             return None
 
+    pairs = adopt_tag_sources([blocks[s].strip() for s in prose_at], pairs)
     merged_blocks = list(blocks)
     new_pairs: list[dict] = []
     drop: set[int] = set()
