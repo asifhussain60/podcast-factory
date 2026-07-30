@@ -134,7 +134,7 @@ ARABIC_LETTER_RE = re.compile("[\u0620-\u064a\u0660-\u066f\u0671-\u06d3]")
 _LEXICAL_TOKEN_RE = re.compile(r'(?<=[("\u00ab\u201c])([\u0600-\u06ff][\u0600-\u06ff\s]*?)(?=[)"\u00bb\u201d,.:;])')
 
 
-def _gemini(system: str, user: str, *, model: str = MODEL) -> str:
+def _gemini(system: str, user: str, *, model: str = MODEL, max_output_tokens: int = 4000) -> str:
     """One vocalisation call. Same transport as gemini_refine.py."""
     from _secrets import get_gemini_key
 
@@ -147,13 +147,40 @@ def _gemini(system: str, user: str, *, model: str = MODEL) -> str:
             # task, and the same passage should come back the same way twice.
             # The token budget is headroom for 2.5 Pro's thinking, which is drawn
             # from this same allowance -- a tight budget returns an empty answer.
-            "generationConfig": {"temperature": 0.1, "maxOutputTokens": 4000},
+            "generationConfig": {"temperature": 0.1, "maxOutputTokens": max_output_tokens},
         }
     ).encode()
     req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"}, method="POST")
     with urllib.request.urlopen(req, timeout=300) as r:
         data = json.loads(r.read())
-    return data["candidates"][0]["content"]["parts"][0]["text"]
+    # 2.5 Pro draws its thinking from the SAME token allowance as the answer, so a
+    # long run can return a candidate carrying only thought parts, or no `parts`
+    # key at all. Indexing straight into `parts[0]["text"]` raised KeyError on
+    # those and they were recorded as "model error: 'parts'" — a spurious refusal
+    # of a passage nothing was actually wrong with. Read the first non-thought
+    # part instead, and treat an answerless response as empty so the caller can
+    # retry it with more room.
+    for candidate in data.get("candidates") or []:
+        for part in (candidate.get("content") or {}).get("parts") or []:
+            if part.get("thought"):
+                continue
+            text = part.get("text", "")
+            if text.strip():
+                return text
+    return ""
+
+
+def _ask_with_headroom(system: str, run: str) -> str:
+    """One vocalisation, retried once with a bigger budget if it came back empty.
+
+    An empty answer from 2.5 Pro nearly always means thinking consumed the token
+    allowance rather than that the passage is unvowellable, and the runs it
+    happens on are the long ones — exactly the passages worth having.
+    """
+    out = _clean(_gemini(system, run))
+    if out:
+        return out
+    return _clean(_gemini(system, run, max_output_tokens=12000))
 
 
 def _clean(raw: str) -> str:
@@ -190,7 +217,7 @@ def vowel_runs(
     """
     from _mushaf import is_quranic, mushaf_available, mushaf_vocalisation
 
-    ask = call or (lambda run: _clean(_gemini(SYSTEM, run)))
+    ask = call or (lambda run: _ask_with_headroom(SYSTEM, run))
     have_mushaf = mushaf_available()
     if not have_mushaf:
         # Degrade LOUDLY, not silently: without the mushaf every Qur'anic run
@@ -288,6 +315,11 @@ def vowel_runs(
             stats["vowelled"] += 1
         stats["marks_added"] += mark_count(replacement) - mark_count(run)
 
+    # The mushaf substitutions are the ONE place where letters legitimately change
+    # — the canonical text is Uthmani. Recording each pair lets a caller checking
+    # the whole file's skeleton account for them instead of reading a correct
+    # verse replacement as the file having been corrupted.
+    stats["mushaf_pairs"] = [[run, rep] for run, rep in replacements if run in from_mushaf]
     stats["refusals"] = refusals
     return text, stats
 

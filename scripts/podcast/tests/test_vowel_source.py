@@ -159,6 +159,24 @@ def test_a_model_that_reshapes_the_file_is_refused_wholesale(book: Path) -> None
     assert "structure_refusal" not in stats, "a well-behaved model must not be refused"
 
 
+def test_a_verse_restored_from_the_mushaf_does_not_read_as_corruption() -> None:
+    """Found by the first live run on a real book, which refused the whole file.
+
+    Setting a Qur'anic run from the canonical mushaf substitutes UTHMANI text —
+    letters and all — which is right here and nowhere else. The whole-file
+    skeleton check has to be told about those pairs or every Arabic source
+    carrying a recognised verse is refused wholesale.
+    """
+    book = "قال الله إنا لله وإنا إليه راجعون في الكتاب"
+    uthmani = "إِنَّا لِلَّهِ وَإِنَّآ إِلَيْهِ رَٰجِعُونَ"
+    after = book.replace("إنا لله وإنا إليه راجعون", uthmani)
+
+    # Unannounced, the Uthmani letters read as the file having been corrupted.
+    assert _structure_complaint(book, after) is not None
+    # Declared as a mushaf substitution, it is recognised as the verse itself.
+    assert _structure_complaint(book, after, [["إنا لله وإنا إليه راجعون", uthmani]]) is None
+
+
 def test_only_arabic_streams_are_picked_up(tmp_path: Path) -> None:
     """An English extract that quotes a little Arabic is not an Arabic source."""
     src = tmp_path / "_system" / "source" / "ocr" / "raw-extract.md"

@@ -82,7 +82,7 @@ def arabic_streams(book_dir: Path) -> list[Path]:
     return out
 
 
-def _structure_complaint(before: str, after: str) -> str | None:
+def _structure_complaint(before: str, after: str, mushaf_pairs: list | None = None) -> str | None:
     """Why this vowelling must not be written, or None when it is safe.
 
     A last check on the whole FILE, after the per-run gate has already passed on
@@ -90,8 +90,19 @@ def _structure_complaint(before: str, after: str) -> str | None:
     or two lines merging at a run boundary, and these are the invariants the
     downstream readers depend on: `_load_arabic_pages` splits on `<!-- page N -->`
     and `produce_bilingual` slices by line number.
+
+    `mushaf_pairs` is what keeps the skeleton check honest. Setting a Qur'anic run
+    from the canonical mushaf REPLACES it with Uthmani text, letters and all — the
+    one substitution in this repo that is right rather than a defect. Those
+    replacements are applied to `before` first, so a correctly-restored verse does
+    not read as the file having been corrupted. Without this every Arabic source
+    carrying a recognised verse would be refused outright, which is what the first
+    live run on a real book turned up.
     """
-    if normalize_arabic(before) != normalize_arabic(after):
+    expected = before
+    for pair in mushaf_pairs or []:
+        expected = expected.replace(pair[0], pair[1])
+    if normalize_arabic(expected) != normalize_arabic(after):
         return "the consonantal skeleton of the file changed"
     if before.count("\n") != after.count("\n"):
         return f"line count changed ({before.count(chr(10))} -> {after.count(chr(10))})"
@@ -128,7 +139,7 @@ def vowel_stream(
     if stats.get("skipped"):
         return stats
 
-    complaint = _structure_complaint(before, after)
+    complaint = _structure_complaint(before, after, stats.get("mushaf_pairs"))
     if complaint:
         # Refuse the whole file rather than write a source whose shape moved. Every
         # reader downstream keys off that shape.
