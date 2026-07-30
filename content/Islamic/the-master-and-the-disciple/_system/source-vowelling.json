@@ -2,32 +2,23 @@
   "schema": "podcast.source-vowelling/v1",
   "streams": {
     "_system/source/ocr/raw-extract.md": {
-      "source_sha256": "9b3b3c0e3d3f72a9cb866d2b416b726f3f94759d8f04b9e67e467a40952f0b39",
+      "source_sha256": "621a12b6ce4b03cd2bc3dfc4ec8c22fdef6203f5e6f2c59050e59a66827a56bc",
       "sibling": "_system/source/ocr/raw-extract.vowelled.md",
       "stats": {
-        "vowelled": 1,
-        "marks_added": 48,
-        "already": 1389,
+        "vowelled": 2,
+        "marks_added": 117,
+        "already": 1390,
         "quranic": 1,
         "from_mushaf": 0,
-        "refused": 2,
+        "refused": 0,
         "recovered": 0,
-        "in_chars": 236,
-        "out_chars": 401,
+        "in_chars": 164,
+        "out_chars": 281,
         "mushaf_pairs": [],
-        "refusals": [
-          {
-            "run": "إن الأمر الذي دعوثكم إليه هو الذي أكرمه\nالله لعباده وأكمله ل",
-            "reason": "letters changed, not just marks (first difference at character 18: source \"ثكم إليه هو \" vs proposal \"تكم إليه هو \")"
-          },
-          {
-            "run": "كذلك هؤلاء\nالذين ضيّعوا منهاج رسلهم الجأهم الجهل إلى طلب الع",
-            "reason": "letters changed, not just marks (first difference at character 36: source \"الجأهم الجهل\" vs proposal \"ألجأهم الجهل\")"
-          }
-        ],
+        "refusals": [],
         "retry_of_refused": true
       }
     }
   },
-  "generated_at": "2026-07-30T22:47:34.209947+00:00"
+  "generated_at": "2026-07-30T22:52:20.100247+00:00"
 }

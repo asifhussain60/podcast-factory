@@ -57,6 +57,16 @@ and the first one was worse than it looked.
 - Both fixes are pinned by tests that fail when the defect is put back — the
   fingerprint collapse returns `9, 2, 9, 6, 9` where the truth is `1, 2, 5, 6, 9`.
 
+- **The last two came from correcting the SCAN** (Asif approved, 2026-07-30). Both
+  were single-dot scanner errors the vowelling gate had surfaced by refusing to mark
+  the passages around them: `دعوثكم` for `دعوتكم`, and `الجأهم` for `ألجأهم`. They are
+  declared in a tracked ledger beside the scan with their evidence, applied by
+  `correct_ocr.py`, which keeps the vowelled sibling in step and re-stamps the
+  staleness hash — editing the scan alone would have marked a good vowelling stale
+  and sent every reader back to bare text. **Zero bare non-Qur'anic runs remain.**
+  The one bare run left is a verse the mushaf declines to align word for word, which
+  is the documented behaviour: a verse is left exactly as the book prints it.
+
 Still to do: `book.md` was composed from the pre-salvage source, so the PRINTED
 edition does not yet carry the recovered marks. A re-compose picks them up.
 

@@ -1,0 +1,26 @@
+{
+  "schema": "ocr.corrections/v1",
+  "note": "Declared corrections to the Arabic scan. Applied by scripts/podcast/correct_ocr.py, which keeps the vowelled sibling in step and re-stamps the staleness hash. Each entry states the reading the scan carries, the reading it should carry, and why — so a fixed scanner error can never be mistaken later for a manuscript variant.",
+  "corrections": [
+    {
+      "wrong": "دعوثكم",
+      "right": "دعوتكم",
+      "occurrences": 1,
+      "context": "إن الأمر الذي دعوتكم إليه هو الذي أكرمه الله لعباده",
+      "evidence": "\"I called you\" — root د-ع-و, 212 occurrences in the Quranic corpus (content/knowledge-base/quranic-corpus/morphology.db). دعوث is not a word in any form; ت and ث differ by a single dot, the commonest confusion in this scan. Surfaced because the vowelling gate refused the whole surrounding run rather than accept a changed letter.",
+      "approved_by": "Asif",
+      "approved_on": "2026-07-30",
+      "applied_at": "2026-07-30"
+    },
+    {
+      "wrong": "الجأهم",
+      "right": "ألجأهم",
+      "occurrences": 1,
+      "context": "كذلك هؤلاء الذين ضيعوا منهاج رسلهم ألجأهم الجهل إلى طلب العلم",
+      "evidence": "\"drove them to\" — form IV of ل-ج-أ. The scan reads the initial hamza (أ) as a bare alif, which turns the verb into the definite article plus a non-word. The sentence needs a verb here: الجهل (ignorance) is its subject and إلى طلب العلم its complement.",
+      "approved_by": "Asif",
+      "approved_on": "2026-07-30",
+      "applied_at": "2026-07-30"
+    }
+  ]
+}
