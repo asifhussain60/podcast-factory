@@ -2175,7 +2175,7 @@ function boot(): void {
   /** The combining marks a vowelled run carries. Mirrors MARKS_RE in
    *  scripts/lib/vowelling.mjs — the server re-checks with the real thing, so a
    *  drift here can only mis-enable a button, never admit a bad edit. */
-  const TASHKEEL_RE = /[ً-ْٰٓ-ٕـ]/g;
+  const TASHKEEL_RE = /[\u064b-\u065f\u0670\u06d6-\u06ed\u0640]/g;
 
   /** Is this selection Arabic that still needs its vowel marks?
    *
