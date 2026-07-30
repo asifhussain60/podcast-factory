@@ -1,0 +1,18 @@
+{
+  "vowelled": 0,
+  "marks_added": 0,
+  "already": 109,
+  "quranic": 0,
+  "from_mushaf": 0,
+  "refused": 1,
+  "in_chars": 306,
+  "out_chars": 127,
+  "mushaf_pairs": [],
+  "refusals": [
+    {
+      "run": "وجهت وجهي لله ناظر السموات والأرض حنيفًا مسلمًا وما أنا من ا",
+      "reason": "letters changed, not just marks (first difference at character 24: source \"وات والأرض ح\" vs proposal \"اوات والأرض \")"
+    }
+  ],
+  "lexical": 0
+}
