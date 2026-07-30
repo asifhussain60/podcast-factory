@@ -440,4 +440,25 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # an alignment is never worth a finished book
         _record_skip(book_dir, "arabic-alignment", e, log)
 
+    # 11. MIRROR THE PARAGRAPHING onto the Arabic's (Asif, 2026-07-30).
+    #
+    #     A translation edition's paragraphing belongs to its source. Articulation
+    #     splits a long Arabic paragraph into several readable English ones and
+    #     splits a speech tag off from the speech, so `قال الغلام: …` — one
+    #     paragraph in the source — printed as "The boy said:" on a line of its own
+    #     with the quotation beneath. Consecutive English paragraphs from one Arabic
+    #     paragraph are merged back into one.
+    #
+    #     AFTER the alignment, necessarily: the merge is driven by the pairing, and
+    #     it rewrites that pairing itself rather than leaving fingerprints naming
+    #     paragraphs the merge has just replaced. No model is called — the grouping
+    #     is already known exactly. A chapter the human authored in the Composer is
+    #     skipped: its paragraphing is a choice, not an artefact.
+    from mirror_paragraphs import mirror_book
+
+    try:
+        mirror_book(book_dir, log=lambda m: log(f"    {m}"), apply=True)
+    except Exception as e:  # paragraphing is never worth a finished book either
+        _record_skip(book_dir, "paragraph-mirror", e, log)
+
     return book_md

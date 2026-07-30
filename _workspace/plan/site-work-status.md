@@ -3,7 +3,30 @@
 **Last updated:** 2026-07-30 (the Arabic reveal was showing the WRONG paragraph for
 37 paragraphs, and 94 bare runs are down to 7; all gates PASS)
 
-**Newest — the Arabic beside the English is the right Arabic now.**
+**Newest — the English paragraphing is the Arabic's now.**
+
+Asif (2026-07-30): "I want the English paragraphs to mirror the Arabic." A
+translation edition's paragraphing belongs to its source, and articulation had been
+choosing its own — splitting long Arabic paragraphs for readability and splitting
+speech tags off from the speech, so `قال الغلام: …` (one paragraph in the source)
+printed as "The boy said:" on a line of its own.
+
+- **696 English paragraphs became 560**, merging 136 back into the Arabic paragraphs
+  they came from — 43 of them speech tags. Verified word-for-word: 37,550 words
+  before, 37,550 after, identical sequence. The only things that moved are paragraph
+  breaks and the 21 continuation quotation marks that became orphans once the
+  paragraphs either side of them joined.
+- **514 of 534 groups are now exactly 1:1.** The remaining 20 are runs a verse sits
+  inside — merging across a blockquote would carry prose over scripture, so the pass
+  refuses and the panel honestly says "the 2 paragraphs below".
+- `mirror_paragraphs.py`, wired as step 11 of the compose pipeline AFTER the
+  alignment (it is driven by the pairing and rewrites that pairing itself, so no
+  fingerprint is left naming a paragraph the merge replaced). No model is called —
+  the grouping is already known. Idempotent: a second pass merges nothing.
+- Refuses rather than guesses: a chapter whose alignment no longer describes its
+  prose is left alone, and so is any chapter the human authored in the Composer.
+
+**The Arabic beside the English is the right Arabic now.**
 
 Asif opened the reveal on "The narrator continued:" and got a nine-paragraph block
 that plainly did not translate it, half of it unvowelled. Two independent defects,
