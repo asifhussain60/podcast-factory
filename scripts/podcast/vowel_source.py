@@ -143,8 +143,17 @@ def vowel_stream(
     if complaint:
         # Refuse the whole file rather than write a source whose shape moved. Every
         # reader downstream keys off that shape.
+        #
+        # But KEEP the text, beside the source with a `.rejected` name no resolver
+        # looks for. A refusal at this point has already paid for every run in the
+        # file — forty-five minutes and the whole book's model spend the first time
+        # this fired — and throwing that away means re-deriving all of it to see
+        # what went wrong. The rejected copy is diagnosable and diffable, and it is
+        # named so it can never be mistaken for the real sibling.
         stats["structure_refusal"] = complaint
-        log(f"    {source.name}: REFUSED — {complaint}")
+        rejected = source.parent / (source.stem + ".vowelled.rejected.md")
+        write_atomic(rejected, after)
+        log(f"    {source.name}: REFUSED — {complaint} (output kept at {rejected.name})")
         return stats
 
     sibling = sibling_for(source)

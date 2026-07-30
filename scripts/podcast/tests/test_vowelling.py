@@ -23,6 +23,7 @@ from _vowelling import (  # noqa: E402
     mark_count,
     mark_density,
     reflow_to_source_whitespace,
+    reflow_words_to_source_whitespace,
     rejection_reason,
     skeleton,
 )
@@ -60,6 +61,53 @@ def test_reflow_matches_shared_fixtures(fx: dict) -> None:
     for case in fx["reflow"]:
         got = reflow_to_source_whitespace(case["source"], case["candidate"])
         assert got == case["out"], case.get("_why", case["source"])
+
+
+def test_reflow_words_matches_shared_fixtures(fx: dict) -> None:
+    for case in fx["reflowWords"]:
+        got = reflow_words_to_source_whitespace(case["source"], case["candidate"])
+        assert got == case["out"], case.get("_why", case["source"])
+
+
+def test_an_orphan_mark_does_not_derail_the_reflow() -> None:
+    """The defect that cost a 45-minute paid run on a real book.
+
+    A scan can leave a combining mark with no letter under it. Consuming that
+    orphan AS a letter put every later letter off by one; the walk ran off the end
+    of the candidate and the repair gave up, handing back the model's collapsed
+    single line. `rejection_reason` cannot see that — `skeleton` normalises
+    whitespace before comparing — so the collapse was ADMITTED and the file
+    silently lost lines.
+    """
+    source = "ْ توكل على الله\nإذا عزمت"
+    collapsed = "ْ تَوَكَّلْ عَلَى اللهِ إِذَا عَزَمْتَ"
+    out = reflow_to_source_whitespace(source, collapsed)
+    assert out.count("\n") == source.count("\n"), "the orphan mark broke the alignment"
+    assert skeleton(out) == skeleton(source)
+    assert mark_count(out) == mark_count(collapsed), "the orphan mark itself must survive"
+    # It lands after the adjacent space rather than before it — the source's marks
+    # are skipped and the candidate's orphan is emitted when the walk next looks
+    # for a letter. Harmless: a letterless mark moving across whitespace changes
+    # nothing the gate, a reader, or a reader-of-lines can see.
+    assert out.lstrip().startswith("ْ")
+
+
+def test_a_mushaf_verse_keeps_the_line_break_the_book_printed() -> None:
+    """The second half of the same failure.
+
+    A Qur'anic run is replaced by canonical UTHMANI text, whose letters differ, so
+    the character-level reflow correctly declines to align it — and the mushaf
+    returns the verse's words joined by single spaces. A verse the book prints
+    across two lines therefore came back as one, and the file lost a line.
+    """
+    source = "ليس كمثله\nشيء"
+    canonical = "لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ"
+    assert reflow_to_source_whitespace(source, canonical) == canonical, "letters differ; must decline"
+    out = reflow_words_to_source_whitespace(source, canonical)
+    assert out.count("\n") == source.count("\n")
+    assert out.split() == canonical.split(), "only the whitespace may move"
+    # A word-count mismatch is handed back rather than reshaped to fit.
+    assert reflow_words_to_source_whitespace(source, "لَيْسَ") == "لَيْسَ"
 
 
 def test_rejection_reason_matches_shared_fixtures(fx: dict) -> None:

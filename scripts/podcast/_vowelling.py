@@ -126,6 +126,16 @@ def reflow_to_source_whitespace(source: str, candidate: str) -> str:
     restores the original shape without moving a single mark. Marks already in the
     source are skipped, since the candidate re-supplies them.
 
+    ORPHAN MARKS are why the candidate scan skips marks as well as whitespace. A
+    scan can leave a combining mark with no letter under it — one run in the
+    Master-and-Disciple OCR literally begins with a bare sukun — and the first
+    version consumed that orphan AS a letter. Every later letter was then off by
+    one, the walk ran off the end of the candidate, and reflow bailed by returning
+    the model's collapsed single line. `rejection_reason` cannot catch that, since
+    `skeleton` had already normalised the whitespace away, so the collapse was
+    ADMITTED and the file lost lines. Orphans are carried into the output rather
+    than dropped, so no mark is lost repairing the shape.
+
     Returns ``candidate`` untouched when the two do not align, leaving
     ``rejection_reason`` to refuse it and report why.
     """
@@ -139,7 +149,10 @@ def reflow_to_source_whitespace(source: str, candidate: str) -> str:
         if ch.isspace():
             out.append(ch)
             continue
-        while i < len(candidate) and candidate[i].isspace():
+        # Advance to the candidate's next LETTER, keeping any orphan marks.
+        while i < len(candidate) and (candidate[i].isspace() or MARKS_RE.match(candidate[i])):
+            if not candidate[i].isspace():
+                out.append(candidate[i])
             i += 1
         if i >= len(candidate):
             return candidate
@@ -148,8 +161,48 @@ def reflow_to_source_whitespace(source: str, candidate: str) -> str:
         while i < len(candidate) and MARKS_RE.match(candidate[i]):
             out.append(candidate[i])
             i += 1
-    if any(not c.isspace() for c in candidate[i:]):
+    while i < len(candidate):
+        if candidate[i].isspace():
+            i += 1
+        elif MARKS_RE.match(candidate[i]):
+            out.append(candidate[i])
+            i += 1
+        else:
+            return candidate  # real letters left over — the two do not align
+    return "".join(out)
+
+
+def reflow_words_to_source_whitespace(source: str, candidate: str) -> str:
+    """``candidate``'s words laid back onto ``source``'s whitespace, word for word.
+
+    The companion to `reflow_to_source_whitespace`, for the ONE case that function
+    cannot serve: a Qur'anic run replaced by the canonical mushaf text. That
+    substitution changes LETTERS — the mushaf is Uthmani — so the skeletons
+    legitimately differ and the character-level walk correctly refuses to align
+    them. But `mushaf_vocalisation` joins the verse's words with single spaces, so
+    a verse the book prints across two lines came back as one and the file lost a
+    line. Aligning by WORD works precisely because the mushaf lookup is itself
+    word-aligned: it only returns a vocalisation when the word counts match.
+
+    Falls back to ``candidate`` unchanged if the word counts disagree, so a
+    mismatch shows up as the caller's own structural check rather than as text
+    silently reshaped to fit.
+    """
+    src_words = (source or "").split()
+    cand_words = (candidate or "").split()
+    if not src_words or len(src_words) != len(cand_words):
         return candidate
+    # Walk the source, emitting its whitespace verbatim and swapping each word.
+    out: list[str] = []
+    idx = 0
+    for piece in re.split(r"(\s+)", source):
+        if not piece:
+            continue
+        if piece.isspace():
+            out.append(piece)
+        else:
+            out.append(cand_words[idx])
+            idx += 1
     return "".join(out)
 
 

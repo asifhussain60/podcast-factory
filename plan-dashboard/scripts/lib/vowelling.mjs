@@ -159,7 +159,19 @@ export function reflowToSourceWhitespace(source, candidate) {
       out.push(ch);
       continue;
     }
-    while (i < candidate.length && /\s/.test(candidate[i])) i++;
+    // Advance to the candidate's next LETTER, keeping any orphan marks. A scan
+    // can leave a combining mark with no letter under it; consuming one AS a
+    // letter puts every later letter off by one, the walk runs off the end, and
+    // the repair silently gives up — handing back the model's collapsed line,
+    // which `rejectionReason` cannot catch because `skeleton` has already
+    // normalised the whitespace away.
+    while (
+      i < candidate.length &&
+      (/\s/.test(candidate[i]) || MARK_RE_ONE.test(candidate[i]))
+    ) {
+      if (!/\s/.test(candidate[i])) out.push(candidate[i]);
+      i++;
+    }
     if (i >= candidate.length) return candidate;
     out.push(candidate[i]);
     i++;
@@ -168,7 +180,40 @@ export function reflowToSourceWhitespace(source, candidate) {
       i++;
     }
   }
-  if (/\S/.test(candidate.slice(i))) return candidate;
+  while (i < candidate.length) {
+    if (/\s/.test(candidate[i])) i++;
+    else if (MARK_RE_ONE.test(candidate[i])) {
+      out.push(candidate[i]);
+      i++;
+    } else return candidate; // real letters left over — the two do not align
+  }
+  return out.join("");
+}
+
+/**
+ * `candidate`'s words laid back onto `source`'s whitespace, word for word.
+ *
+ * The companion to `reflowToSourceWhitespace`, for the one case it cannot serve:
+ * a Qur'anic run replaced by the canonical mushaf text. That substitution changes
+ * LETTERS — the mushaf is Uthmani — so the skeletons legitimately differ and the
+ * character walk correctly refuses to align them. But the canonical lookup joins
+ * a verse's words with single spaces, so a verse printed across two lines comes
+ * back as one and the file loses a line. Aligning by WORD is safe precisely
+ * because the mushaf lookup is itself word-aligned.
+ *
+ * The Python mirror is `_vowelling.reflow_words_to_source_whitespace`.
+ */
+export function reflowWordsToSourceWhitespace(source, candidate) {
+  const srcWords = (source ?? "").split(/\s+/).filter(Boolean);
+  const candWords = (candidate ?? "").split(/\s+/).filter(Boolean);
+  if (!srcWords.length || srcWords.length !== candWords.length) return candidate;
+  const out = [];
+  let idx = 0;
+  for (const piece of (source ?? "").split(/(\s+)/)) {
+    if (!piece) continue;
+    if (/^\s+$/.test(piece)) out.push(piece);
+    else out.push(candWords[idx++]);
+  }
   return out.join("");
 }
 

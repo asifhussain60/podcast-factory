@@ -20,6 +20,7 @@ import {
   markDensity,
   rejectionReason,
   reflowToSourceWhitespace,
+  reflowWordsToSourceWhitespace,
   isVowellingCandidate,
   isArabicPassage,
 } from "./vowelling.mjs";
@@ -172,6 +173,39 @@ test("mirror: reflowToSourceWhitespace matches the shared fixtures", () => {
   for (const c of FX.reflow)
     assert.equal(
       reflowToSourceWhitespace(c.source, c.candidate),
+      c.out,
+      c._why ?? c.source,
+    );
+});
+
+test("an orphan mark does not derail the reflow", () => {
+  // The defect that cost a 45-minute paid run: a scan can leave a combining mark
+  // with no letter under it, and consuming it AS a letter put every later letter
+  // off by one until the walk ran off the end and gave up — returning the
+  // collapsed line, which rejectionReason cannot catch.
+  const source = "ْ توكل على الله\nإذا عزمت";
+  const collapsed = "ْ تَوَكَّلْ عَلَى اللهِ إِذَا عَزَمْتَ";
+  const out = reflowToSourceWhitespace(source, collapsed);
+  assert.equal(out.split("\n").length, source.split("\n").length);
+  assert.equal(skeleton(out), skeleton(source));
+  assert.equal(markCount(out), markCount(collapsed));
+});
+
+test("a mushaf verse keeps the line break the book printed", () => {
+  const source = "ليس كمثله\nشيء";
+  const canonical = "لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ";
+  // Uthmani letters differ, so the character walk must decline.
+  assert.equal(reflowToSourceWhitespace(source, canonical), canonical);
+  const out = reflowWordsToSourceWhitespace(source, canonical);
+  assert.equal(out.split("\n").length, source.split("\n").length);
+  assert.deepEqual(out.split(/\s+/), canonical.split(/\s+/));
+  assert.equal(reflowWordsToSourceWhitespace(source, "لَيْسَ"), "لَيْسَ");
+});
+
+test("mirror: reflowWordsToSourceWhitespace matches the shared fixtures", () => {
+  for (const c of FX.reflowWords)
+    assert.equal(
+      reflowWordsToSourceWhitespace(c.source, c.candidate),
       c.out,
       c._why ?? c.source,
     );

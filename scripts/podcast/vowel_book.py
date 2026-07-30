@@ -69,6 +69,7 @@ from _vowelling import (  # noqa: E402
     mark_count,
     mark_density,
     reflow_to_source_whitespace,
+    reflow_words_to_source_whitespace,
     rejection_reason,
 )
 
@@ -259,6 +260,11 @@ def vowel_runs(
             # nowhere else. A verse that does not align exactly is left alone.
             canonical = mushaf_vocalisation(run) if not dry_run else None
             if canonical and canonical != run:
+                # The mushaf joins a verse's words with single spaces, so a verse
+                # the book prints across two lines comes back as one. Lay it back
+                # onto the source's own whitespace — by WORD, since the Uthmani
+                # letters differ and the character-level reflow cannot align them.
+                canonical = reflow_words_to_source_whitespace(run, canonical)
                 replacements.append((run, canonical))
                 from_mushaf.add(run)
             else:

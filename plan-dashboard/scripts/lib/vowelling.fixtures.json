@@ -129,6 +129,33 @@
       "source": "قال العالم ودموعه تنحدر",
       "candidate": "كلام آخر تماما",
       "out": "كلام آخر تماما"
+    },
+    {
+      "_why": "ORPHAN MARK. A scan can leave a combining mark with no letter under it — a real run in the Master-and-Disciple OCR begins with a bare sukun. Consuming that orphan AS a letter puts every later letter off by one, the walk runs off the end, and the repair gives up and returns the collapsed line. The gate cannot catch it: skeleton() has already normalised the whitespace away. This cost a 45-minute paid run. NOTE the orphan lands AFTER the space rather than before it: the source's own marks are skipped (the candidate re-supplies them) and the candidate's orphan is emitted when the walk next looks for a letter. The three invariants that matter all hold — line count, skeleton, and mark count — and shifting a letterless mark across adjacent whitespace changes nothing a reader or a downstream reader-of-lines can see.",
+      "source": "ْ توكل على الله\nإذا عزمت",
+      "candidate": "ْ تَوَكَّلْ عَلَى اللهِ إِذَا عَزَمْتَ",
+      "out": " ْتَوَكَّلْ عَلَى اللهِ\nإِذَا عَزَمْتَ"
+    }
+  ],
+  "_reflowWordsComment": "reflow_words_to_source_whitespace / reflowWordsToSourceWhitespace. The mushaf joins a verse's words with single spaces, so a verse the book prints across two lines comes back as one and the file loses a line. The character-level reflow cannot repair it — Uthmani letters legitimately differ, so the skeletons do not match and it correctly declines. Word alignment is safe here precisely because the mushaf lookup is itself word-aligned.",
+  "reflowWords": [
+    {
+      "_why": "a two-line verse restored from the mushaf keeps its line break",
+      "source": "ليس كمثله\nشيء",
+      "candidate": "لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ",
+      "out": "لَيْسَ كَمِثْلِهِۦ\nشَىْءٌۭ"
+    },
+    {
+      "_why": "already single-line — unchanged",
+      "source": "بسم الله الرحمن الرحيم",
+      "candidate": "بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ",
+      "out": "بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ"
+    },
+    {
+      "_why": "word counts disagree — hand it back rather than reshape text to fit",
+      "source": "ليس كمثله\nشيء",
+      "candidate": "لَيْسَ كَمِثْلِهِۦ",
+      "out": "لَيْسَ كَمِثْلِهِۦ"
     }
   ]
 }
