@@ -17,11 +17,15 @@ gates PASS)
   are applied on the spot now. The skeleton gate STAYS — it refuses letters
   changing under cover of marking, which was never the thing being relaxed — and
   Qur'anic runs are still skipped because the mushaf already vowels them.
-- **Still to flip:** the pipeline-side BK-N5 gate in `scripts/podcast/_narrative.py`
-  and book-challenger Pass 3, which still fail model-supplied diacritics during
-  compose/voice/fluency. Flipping those means a vowelling pass in the pipeline plus
-  the docs sweep (`framework.md`, the podcast SKILL, the challenger spec + its
-  generated mirrors).
+- **Flipped, and done (2026-07-30).** The pipeline-side BK-N5 gate was already
+  reversed — `_narrative.supplied_diacritics_findings` is deleted and the
+  challenger's BK-N5 now seeds from `_vowelling.rejection_reason` — so what this
+  entry listed as pending had in fact landed; corrected on sight. What was still
+  missing was the vowelling pass itself, which now exists on BOTH sides:
+  `vowel_source.py` marks the Arabic SOURCE stream once (so the glossary and every
+  later compose inherit it) and `vowel_book.py` remains the net at compose time.
+  Backfilled across the library: 62 bare Arabic runs in finished books went to 1,
+  and that one is the gate refusing a candidate that moved letters.
 
 **Newest — the Composer's Companion panel now follows the chapter you are reading,
 and the page no longer depends on an unrelated panel to boot.**

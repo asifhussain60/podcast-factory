@@ -253,6 +253,11 @@ The script routes the PDF through Azure Document Intelligence (`prebuilt-read`, 
 
 Pass `--no-translate` when the source is already English. Pass `--force` to re-ingest. The script refuses to write into a non-existent BOOK_DIR — run `scaffold_book.py` first.
 
+When the source was Arabic script, a second artifact appears beside the OCR:
+
+- `BOOK_DIR/_system/source/ocr/raw-extract.md` — the original-language OCR, written whenever Translator ran. **Never edited after 0a**: it is the provenance record the Arabic audit compares a quoted verse against to decide it was copied rather than recalled.
+- `BOOK_DIR/_system/source/ocr/raw-extract.vowelled.md` — the same OCR with its vowel marks on, written by `scripts/podcast/vowel_source.py` immediately after ingest (and after `full_book_denoise.py` on the multi-source lane). Arabic in these editions is always vowelled; doing it HERE rather than only at compose time is what puts marks on `glossary.yml`'s `arabic_script` at its root and stops every re-compose paying to re-derive them. Readers go through `_vowelled_source.resolve_arabic_source`, which prefers the sibling only while its recorded sha256 still matches the OCR — so a `--force` re-ingest silently demotes a now-stale vowelling instead of serving it. Idempotent, so a retried 0a costs nothing. Backfill an older book with `python3 scripts/podcast/vowel_source.py <slug> --apply` (dry-run by default).
+
 If the Azure stack is not yet provisioned, the script fails with a clear "run `infra/azure/store-keychain-keys.sh`" message; the Step 0 Azure pre-flight catches this before any ingestion attempt.
 
 **Format-to-text normalization table.** For sources that are NOT PDFs, every supported format becomes `raw-extract.md` via the matching method. Once `raw-extract.md` exists, the rest of the pipeline is identical regardless of where the input came from.

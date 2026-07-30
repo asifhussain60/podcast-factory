@@ -218,8 +218,19 @@ R_SPEECH_TAG_INTEGRITY: str = "R-SPEECH-TAG-INTEGRITY"
 R_ARABIC_SCRIPT_RETAINED: str = "R-ARABIC-SCRIPT-RETAINED"
 # Renamed 2026-07-29 with the reversal: the rule is no longer "no supplied
 # diacritics" — Arabic in these editions is always vowelled — but "a vowelling may
-# differ from its source in MARKS ONLY". The gate lives in `_vowelling.py` and the
-# marks are supplied by `vowel_book.py`.
+# differ from its source in MARKS ONLY". The gate lives in `_vowelling.py`; the
+# marks are supplied by `vowel_source.py` on the Arabic SOURCE stream (once, so
+# the glossary and every later compose inherit them) and by `vowel_book.py` at
+# compose time as the net behind it.
+#
+# WHAT "MARKS ONLY" COVERS, tightened 2026-07-29 after the gate was found not to
+# hold: the consonantal skeleton, AND the Arabic-Indic digits and dotless letters
+# that an over-wide mark range had been stripping (so a vowelling that deleted
+# every footnote and verse number read as marks-only), AND the line structure,
+# which `skeleton()` normalises away and which `produce_bilingual` addresses by
+# line number — restored by `reflow_to_source_whitespace` before the gate looks.
+# The ONE licensed exception is a Qur'anic run set from the canonical mushaf,
+# which is Uthmani and changes letters deliberately.
 R_VOWELLING_MARKS_ONLY: str = "R-VOWELLING-MARKS-ONLY"
 R_ENUMERATION_PRESERVED: str = "R-ENUMERATION-PRESERVED"
 
