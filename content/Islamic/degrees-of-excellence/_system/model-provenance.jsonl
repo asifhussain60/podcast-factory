@@ -16,3 +16,7 @@
 {"phase": "per-chapter", "step": "challenger/degrees-of-excellence-the-peak-of-every-kind", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/degrees-of-excellence-the-peak-of-every-kind/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/degrees-of-excellence-the-peak-of-every-kind", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/prophets-as-symbols-and-the-first-caliphs", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/prophets-as-symbols-and-the-first-caliphs", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/prophets-as-symbols-and-the-first-caliphs/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/prophets-as-symbols-and-the-first-caliphs", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

@@ -76,13 +76,22 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-07-31T15:47:03Z",
-      "current_chapter": "degrees-of-excellence-the-peak-of-every-kind",
-      "last_beat": "2026-07-31T16:09:15Z",
-      "completed_slugs": [],
+      "current_chapter": "prophets-as-symbols-and-the-first-caliphs",
+      "last_beat": "2026-07-31T16:31:29Z",
+      "completed_slugs": [
+        "degrees-of-excellence-the-peak-of-every-kind"
+      ],
       "failed_slugs": [],
       "chapter_timings": {
         "degrees-of-excellence-the-peak-of-every-kind": {
           "started_ts": "2026-07-31T15:47:03Z",
+          "completed_ts": "2026-07-31T16:15:42Z",
+          "duration_sec": 1719.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "prophets-as-symbols-and-the-first-caliphs": {
+          "started_ts": "2026-07-31T16:15:43Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -144,7 +153,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-07-31T16:09:15Z",
+  "ts_updated": "2026-07-31T16:31:29Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
