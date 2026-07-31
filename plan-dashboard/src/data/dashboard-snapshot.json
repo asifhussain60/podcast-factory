@@ -1777,10 +1777,10 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 6.35
+    "burn_30d_usd": 10.82
   },
-  "generated_at": "2026-07-30T15:40:46-04:00",
-  "source_commit": "336c13e",
+  "generated_at": "2026-07-31T08:03:41-04:00",
+  "source_commit": "01082672",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1796,6 +1796,14 @@
       "title": "claude-code-training",
       "phase": "per-chapter",
       "phase_status": "failed",
+      "cost_to_date_usd": 0,
+      "kind": "unknown"
+    },
+    {
+      "slug": "degrees-of-excellence",
+      "title": "degrees-of-excellence",
+      "phase": "0a",
+      "phase_status": "running",
       "cost_to_date_usd": 0,
       "kind": "unknown"
     },
@@ -1834,53 +1842,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "336c13e",
-      "subject": "feat(book-composer): Read mode reads like a page, and the panel beside it stops offering edits",
+      "sha": "01082672",
+      "subject": "docs(rules): the heartbeat rule pointed at a machine that no longer exists",
+      "date": "2026-07-31"
+    },
+    {
+      "sha": "6dd305bf",
+      "subject": "podcast(degrees-of-excellence): scaffold book directory",
+      "date": "2026-07-31"
+    },
+    {
+      "sha": "8455ab16",
+      "subject": "fix(scaffold): the scaffold wrote to a layout retired a month before",
+      "date": "2026-07-31"
+    },
+    {
+      "sha": "5593281d",
+      "subject": "fix(book): the mirror was swallowing every standalone Arabic quotation",
       "date": "2026-07-30"
     },
     {
-      "sha": "7a9159d",
-      "subject": "feat(book-composer): read the Arabic behind any paragraph, on demand",
+      "sha": "6c644c37",
+      "subject": "chore(render): rebuild the reading edition from the mirrored book.md",
       "date": "2026-07-30"
     },
     {
-      "sha": "14d92e9",
-      "subject": "feat(arabic-alignment): say which source paragraph each English one came from",
+      "sha": "94548951",
+      "subject": "fix(source): two recorded scan corrections — no bare non-Qur'anic Arabic left",
       "date": "2026-07-30"
     },
     {
-      "sha": "8634ddb",
-      "subject": "content(the-master-and-the-disciple): vowel the Arabic source",
+      "sha": "814f3688",
+      "subject": "fix(vowelling): teach the pass this book's classical spelling — 7 bare fragments to 2",
       "date": "2026-07-30"
     },
     {
-      "sha": "4567032",
-      "subject": "fix(vowelling): two line-losing defects the first real source run caught",
+      "sha": "7fb7c927",
+      "subject": "feat(compose): one Arabic panel open at a time, and the last stray speech tags",
       "date": "2026-07-30"
     },
     {
-      "sha": "59f7c77",
-      "subject": "fix(book-composer): align the client's mark range with the unified gate",
+      "sha": "a4014b18",
+      "subject": "feat(book): the English paragraphing is the Arabic's",
       "date": "2026-07-30"
     },
     {
-      "sha": "b551e62",
-      "subject": "docs(vowelling): record the source-stage pass, and correct a stale status claim",
-      "date": "2026-07-30"
-    },
-    {
-      "sha": "05e2506",
-      "subject": "content(vowelling): backfill the marks onto every finished book",
-      "date": "2026-07-30"
-    },
-    {
-      "sha": "5cec151",
-      "subject": "fix(vowelling): two defects the first live run on a real book exposed",
-      "date": "2026-07-30"
-    },
-    {
-      "sha": "4c08cbd",
-      "subject": "feat(vowelling): vowel the Arabic at its source, and close two holes in the gate",
+      "sha": "702e4dc1",
+      "subject": "fix(arabic): a repeated speech tag was pointing 37 paragraphs at the wrong Arabic",
       "date": "2026-07-30"
     }
   ],
