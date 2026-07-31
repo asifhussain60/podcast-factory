@@ -31,6 +31,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from _book_fences import span_re
+
 BRIDGE_OPEN = "<!-- bridge:begin -->"
 BRIDGE_CLOSE = "<!-- bridge:end -->"
 # Consumes the blank-line runs on BOTH sides of the fence, not just the trailing
@@ -39,7 +41,8 @@ BRIDGE_CLOSE = "<!-- bridge:end -->"
 # lines around a bridge grow by one on every compose. Normalizing the whole match
 # (fence plus its surrounding whitespace) to a single paragraph break is what
 # makes strip -> inject a true round trip instead of a slow leak.
-_BRIDGE_SPAN_RE = re.compile(r"\n*" + re.escape(BRIDGE_OPEN) + r".*?" + re.escape(BRIDGE_CLOSE) + r"\n*", re.S)
+# Matches the bare-marker form as well — see `_book_fences`.
+_BRIDGE_SPAN_RE = span_re("bridge", leading=r"\n*", trailing=r"\n*")
 
 # A bridge is one sentence. Longer and it stops being a handhold and becomes a
 # digression that competes with the passage it was meant to open.

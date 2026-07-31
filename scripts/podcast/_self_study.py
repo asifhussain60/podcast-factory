@@ -26,8 +26,6 @@ from pathlib import Path
 
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _book_augment import (
-    _BLOCK_CLOSE,
-    _BLOCK_OPEN,
     _CHAPTER_HEADING_RE,
     _MAX_BLOCK_WORDS,
     _MIN_BLOCK_WORDS,
@@ -37,6 +35,7 @@ from _book_augment import (
     format_editorial_block,
     gate_editorial_block,
 )
+from _book_fences import count_markers, find_spans, strip_spans
 
 # ─── Study-summary block contract (mirrors the editorial fence shape) ───────
 SUMMARY_LABEL = "Study summary"
@@ -60,21 +59,19 @@ def check_self_study_markdown(text: str) -> list[dict[str, str]]:
     def add(check: str, detail: str) -> None:
         findings.append({"check": check, "detail": detail})
 
-    for open_, close_, name in (
-        (_BLOCK_OPEN, _BLOCK_CLOSE, "editorial"),
-        (_SUMMARY_OPEN, _SUMMARY_CLOSE, "study-summary"),
-    ):
-        n_open, n_close = text.count(open_), text.count(close_)
+    # Marker counting and span matching both go through `_book_fences`, so a fence
+    # a Composer round-trip flattened to bare text is still counted as the fence it
+    # is — an unbalanced pair reported here is a real imbalance, not a serialization.
+    for kind in ("editorial", "study-summary"):
+        n_open = count_markers(text, kind, "begin")
+        n_close = count_markers(text, kind, "end")
         if n_open != n_close:
-            add("SS-FENCE-BALANCE", f"{name}: {n_open} begin vs {n_close} end fences")
+            add("SS-FENCE-BALANCE", f"{kind}: {n_open} begin vs {n_close} end fences")
 
     # Every fenced aside must carry its bold label line.
-    for open_, close_, label in (
-        (_BLOCK_OPEN, _BLOCK_CLOSE, "Editorial note"),
-        (_SUMMARY_OPEN, _SUMMARY_CLOSE, SUMMARY_LABEL),
-    ):
-        for m in re.finditer(re.escape(open_) + r"(.*?)" + re.escape(close_), text, re.DOTALL):
-            if f"**{label}" not in m.group(1):
+    for kind, label in (("editorial", "Editorial note"), ("study-summary", SUMMARY_LABEL)):
+        for span in find_spans(text, kind):
+            if f"**{label}" not in span:
                 add("SS-ASIDE-LABEL", f"aside missing its '{label}' label")
                 break
 
@@ -151,8 +148,8 @@ def _generate_summary(title: str, chapter_text: str, book_dir: Path, label: str,
 
 def _strip_all_fences(text: str) -> str:
     """Remove any prior editorial + study-summary fenced blocks (idempotency)."""
-    for open_, close_ in ((_BLOCK_OPEN, _BLOCK_CLOSE), (_SUMMARY_OPEN, _SUMMARY_CLOSE)):
-        text = re.sub(re.escape(open_) + r".*?" + re.escape(close_) + r"\n?", "", text, flags=re.DOTALL)
+    for kind in ("editorial", "study-summary"):
+        text = strip_spans(text, kind, trailing=r"\n?")
     return text
 
 
