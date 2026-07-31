@@ -58,7 +58,14 @@ def _drive_publish_through_done(book_dir: Path) -> int:
     # FAILURE is non-blocking and never prevents the podcast from publishing —
     # but a slide-import HALT (rc=3: NotebookLM deck PDFs not yet dropped) stops
     # BEFORE publish, mirroring the finalize-halt convention; --resume re-enters.
-    if _drive_book_branch(book_dir) == 3:
+    # Skipped when the finalize halt already built it (the common path since
+    # 2026-07-31). Re-running would re-compose the whole book — hours of model
+    # time — to arrive at the same PDF the human has already been reviewing.
+    from _book_preview import reading_edition_is_built
+
+    if reading_edition_is_built(book_dir):
+        _info("book branch: reading edition already built at the finalize halt — not re-composing")
+    elif _drive_book_branch(book_dir) == 3:
         return 0
 
     # Surface the reading-edition verdict before publish so a broken companion

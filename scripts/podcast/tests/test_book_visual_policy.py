@@ -42,9 +42,23 @@ def test_companion_edition_defaults_to_human_curated_visuals(tmp_path: Path) -> 
     assert book_visuals(bd) == BOOK_VISUALS_MANUAL_ONLY
 
 
-def test_a_faithful_translation_edition_keeps_the_historical_behaviour(tmp_path: Path) -> None:
+def test_a_translation_edition_is_ALSO_human_curated_now(tmp_path: Path) -> None:
+    """The default is manual_only for EVERY book (2026-07-31, Asif).
+
+    A translation edition used to fall through to `pipeline`, which auto-injected
+    generated diagrams and imported NotebookLM decks into the reading edition and
+    halted the book lane until those decks were dropped. The rule is that no image
+    reaches the PDF except by hand in the Book Composer, and that rule does not
+    have an exception for translation editions.
+    """
     bd = book(tmp_path, "# B\n", "deliverable_mode: translation_edition\n")
-    assert book_visuals(bd) == BOOK_VISUALS_PIPELINE
+    assert book_visuals(bd) == BOOK_VISUALS_MANUAL_ONLY
+
+
+def test_a_book_with_no_config_at_all_is_human_curated(tmp_path: Path) -> None:
+    # The state every book is in before 0f writes series-config.yaml.
+    bd = book(tmp_path, "# B\n", "")
+    assert book_visuals(bd) == BOOK_VISUALS_MANUAL_ONLY
 
 
 def test_an_explicit_key_wins_over_the_default(tmp_path: Path) -> None:

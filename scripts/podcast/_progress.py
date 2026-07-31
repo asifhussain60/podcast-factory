@@ -138,6 +138,25 @@ def read_state(book_dir: Path) -> dict[str, Any] | None:
         return None
 
 
+UNATTENDED_KEY = "unattended"
+
+
+def unattended_run(book_dir: Path) -> bool:
+    """True when this book was launched with ``--unattended``.
+
+    A property of the RUN, not of the book, so it lives in the state file rather
+    than series-config.yaml — and it persists there precisely because the
+    watchdog re-invokes ``--resume`` in a fresh process that never saw the flag.
+
+    It clears the human-approval gates that exist to pace an attended run (the
+    06a source review). It does NOT clear a halt that waits on an ARTIFACT only a
+    human can supply — dropped audio, curated visuals — because no amount of
+    authorization makes a missing file appear.
+    """
+    state = read_state(book_dir) or {}
+    return bool(state.get(UNATTENDED_KEY))
+
+
 def initial_state(book_slug: str, category: str, *, content_profile: str | None = None) -> dict[str, Any]:
     """Build the initial state dict for a new orchestrator run.
 

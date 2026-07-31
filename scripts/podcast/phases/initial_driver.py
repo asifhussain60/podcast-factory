@@ -22,7 +22,7 @@ from _authoring import (
 from _content_profile import resolve_content_profile
 from _contract_validation import validate_book_contracts  # FIX 14: 0d post-write gate
 from _paths import REPO_ROOT
-from _progress import initial_state, read_state, update_phase, write_state
+from _progress import UNATTENDED_KEY, initial_state, read_state, update_phase, write_state
 from _rules import CONSUMER_CATEGORIES, ISLAMIC_SCHOLARLY_PROFILE, phase_capabilities
 from _subprocess import err as _err
 from _subprocess import info as _info
@@ -535,6 +535,10 @@ def run_initial(args: argparse.Namespace) -> int:
         "length_tier": args.length_tier,
         "unit_mode": args.unit_mode,
     }
+    # Persisted, not held in argv: the watchdog re-invokes --resume in a fresh
+    # process that never saw the flag, so an in-memory choice would silently
+    # revert to attended on the first retry.
+    state[UNATTENDED_KEY] = bool(getattr(args, "unattended", False))
     write_state(book_dir, state)
     update_phase(book_dir, phase="pre-flight", status="completed")
     update_phase(book_dir, phase="branch", status="completed")
