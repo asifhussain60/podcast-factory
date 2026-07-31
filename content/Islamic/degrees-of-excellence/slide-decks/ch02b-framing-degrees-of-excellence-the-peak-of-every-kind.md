@@ -1,4 +1,4 @@
-# Slide Deck Framing, EP04-degrees-of-excellence-the-peak-of-every-kind
+# Slide Deck Framing, EP02-degrees-of-excellence-the-peak-of-every-kind
 
 ## Audience
 Asif's children and thoughtful adult listeners who have heard the audio but never read al-Naysaburi, and who do not read Arabic.

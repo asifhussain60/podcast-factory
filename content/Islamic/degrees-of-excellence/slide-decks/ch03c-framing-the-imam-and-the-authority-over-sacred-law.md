@@ -1,4 +1,4 @@
-# Slide Deck Framing, EP05-the-imam-and-the-authority-over-sacred-law
+# Slide Deck Framing, EP03-the-imam-and-the-authority-over-sacred-law
 
 ## Audience
 Asif's children and thoughtful adult listeners who have heard the audio but never read al-Naysaburi, and who do not read Arabic.

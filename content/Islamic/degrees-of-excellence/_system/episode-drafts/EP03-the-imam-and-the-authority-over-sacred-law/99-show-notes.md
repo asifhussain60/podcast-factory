@@ -1,4 +1,4 @@
-# Show notes — EP05
+# Show notes — EP03
 
 **Title:** The Imam's Authority
 

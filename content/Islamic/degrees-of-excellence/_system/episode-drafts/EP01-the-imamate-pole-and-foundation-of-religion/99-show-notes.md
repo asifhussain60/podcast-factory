@@ -1,4 +1,4 @@
-# Show notes — EP03
+# Show notes — EP01
 
 **Title:** The Imamate, Pole of Religion
 
@@ -8,7 +8,6 @@
 
 ## Related episodes
 
-  - the-theory-of-degrees-of-excellence-explained
   - degrees-of-excellence-the-peak-of-every-kind
 
 ## References

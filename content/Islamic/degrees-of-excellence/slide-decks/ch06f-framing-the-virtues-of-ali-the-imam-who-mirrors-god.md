@@ -1,4 +1,4 @@
-# Slide Deck Framing, EP08-the-virtues-of-ali-the-imam-who-mirrors-god
+# Slide Deck Framing, EP06-the-virtues-of-ali-the-imam-who-mirrors-god
 
 ## Audience
 Asif's children, thoughtful young adults who have heard the audio but never opened the treatise.

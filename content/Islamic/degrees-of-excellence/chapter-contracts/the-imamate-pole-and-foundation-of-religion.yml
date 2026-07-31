@@ -1,12 +1,12 @@
-chapter_ref: ch03a-the-imamate-pole-and-foundation-of-religion
+chapter_ref: ch01a-the-imamate-pole-and-foundation-of-religion
 slug: the-imamate-pole-and-foundation-of-religion
 source_type: book-chapter
 book_slug: degrees-of-excellence
 source_chapter_ref: 4
 section_index: 1
-episode_number: 3
+episode_number: 1
 title: The Imamate, Pole of Religion
-audience: 'Listeners who have the introduction''s context and are ready to enter al-Naysaburi''s treatise itself. They want his opening move: why he places the imamate, not prophecy, at the center of religion; why he treats it as a rational necessity that even its deniers confirm; and how he sets up nature and sacred law as two standing witnesses to the office. This is where the argument stops being previewed and starts being made, in the author''s own voice and order.
+audience: 'Listeners starting the series, ready to enter al-Naysaburi''s treatise itself. They want his opening move: why he places the imamate, not prophecy, at the center of religion; why he treats it as a rational necessity that even its deniers confirm; and how he sets up nature and sacred law as two standing witnesses to the office. This is where the argument is made, in the author''s own voice and order, from the first sentence.
 
   '
 angle: faithful_exposition
@@ -45,7 +45,7 @@ tone_constraints:
   - 'Quran references are given inline in plain English as (chapter N, verse M): the imam called messenger (chapter 19, verse 54), the messenger called imam (chapter 2, verse 124), the two witnesses (chapter 2, verse 282), and the signs on the horizons and in the selves (chapter 41, verse 53). Invent no others.
 
     '
-  - 'Give only a one-line callback to the cycles and the natiq/samit pairing taught in the introduction; do not re-teach them. Keep the reigning imam unnamed (the Commander of the Faithful, the imam of the age); refer to the first imam as the Father of Imams or the Commander of the Faithful, Ali b. Abi Talib. The phrase "Imam Ali" is forbidden.
+  - 'Introduce the cycles and the natiq/samit pairing plainly, in one line, without the Arabic technical terms — this is the first episode of the series, so nothing has been taught yet. Keep the reigning imam unnamed (the Commander of the Faithful, the imam of the age); refer to the first imam as the Father of Imams or the Commander of the Faithful, Ali b. Abi Talib. The phrase "Imam Ali" is forbidden.
 
     '
   - 'First-occurrence phonetics on first mention only: qutb, asas al-din, tawhid, ta''wil, fitra, jibla, siyasa, darura, tashbih.
@@ -62,7 +62,6 @@ show_notes:
 
     '
   related_episodes:
-    - the-theory-of-degrees-of-excellence-explained
     - degrees-of-excellence-the-peak-of-every-kind
   references:
     - Ahmad b. Ibrahim al-Naysaburi, Kitab ithbat al-imama — the opening sections on the imamate as pole and foundation of religion

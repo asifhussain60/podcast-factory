@@ -1,4 +1,4 @@
-# Slide Deck Framing, EP06-worship-alms-and-war-void-without-the-imam
+# Slide Deck Framing, EP04-worship-alms-and-war-void-without-the-imam
 
 ## Audience
 Asif's children and thoughtful adult readers who have heard the audio but not read al-Naysaburi's treatise, following an argument that moves from geometry to the pillars of Islam.

@@ -1,4 +1,4 @@
-# Slide Deck Framing, EP03-the-imamate-pole-and-foundation-of-religion
+# Slide Deck Framing, EP01-the-imamate-pole-and-foundation-of-religion
 
 ## Audience
 Asif's children, thoughtful young adults who have heard the audio episode but have never read al-Naysaburi and do not read classical Arabic.

@@ -1,4 +1,4 @@
-# Show notes — EP06
+# Show notes — EP04
 
 **Title:** Worship and Law Without the Imam
 

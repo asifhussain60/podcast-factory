@@ -1,4 +1,4 @@
-# Show notes — EP08
+# Show notes — EP06
 
 **Title:** The Imam Who Mirrors God
 

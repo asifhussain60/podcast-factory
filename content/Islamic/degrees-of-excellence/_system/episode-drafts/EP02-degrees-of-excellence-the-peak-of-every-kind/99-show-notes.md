@@ -1,4 +1,4 @@
-# Show notes — EP04
+# Show notes — EP02
 
 **Title:** The Peak of Every Kind
 

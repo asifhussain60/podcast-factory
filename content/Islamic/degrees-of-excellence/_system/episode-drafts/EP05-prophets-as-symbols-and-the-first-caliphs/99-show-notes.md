@@ -1,4 +1,4 @@
-# Show notes — EP07
+# Show notes — EP05
 
 **Title:** Prophets, Symbols, and the Caliphs
 

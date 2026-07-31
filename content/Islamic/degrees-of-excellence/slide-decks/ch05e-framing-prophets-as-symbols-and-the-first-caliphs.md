@@ -1,4 +1,4 @@
-# Slide Deck Framing, EP07-prophets-as-symbols-and-the-first-caliphs
+# Slide Deck Framing, EP05-prophets-as-symbols-and-the-first-caliphs
 
 ## Audience
 Asif's children and thoughtful adult listeners who have heard the audio but never read al-Naysaburi, and who do not read Arabic.

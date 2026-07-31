@@ -58,7 +58,13 @@ source_provenance:
     The treatise proper opens and sustains a first-person authorial voice -
     al-Naysaburi addressing the reader about his own argument ("We have said
     that the imamate is the pole and foundation of religion", "We shall now
-    examine some of the claims made by each pretender"). The two introduction
-    episodes are the translator's third-person scholarly framing, not the
-    author's voice. This split is why narrative_frame is not yet declared in
-    _system/series-config.yaml.
+    examine some of the claims made by each pretender"). Declared
+    narrative_frame: external_narrator in _system/series-config.yaml
+    2026-07-31, when the series still included the translator's two
+    third-person introduction episodes alongside the treatise's first-person
+    voice - external_narrator was the compromise that kept both consistent.
+    Those two episodes were removed later the same day (the treatise begins
+    on printed page 31; everything before it is the translator's own
+    writing, not the author's). With the split gone, the remaining series is
+    al-Naysaburi's own first-person voice throughout - external_narrator may
+    no longer be the best fit; that is a separate decision, not made here.

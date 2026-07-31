@@ -4,15 +4,11 @@
   "category": "books",
   "branch": "Islamic/degrees-of-excellence",
   "status": "draft",
-  "phase": "finalize",
-  "phase_status": "failed",
-  "last_completed_phase": "0g",
-  "next_phase": "per-chapter",
-  "last_error": {
-    "phase": "finalize",
-    "message": "G1-G7 gates failed; see stdout for the failing gate",
-    "ts": "2026-07-31T20:23:21Z"
-  },
+  "phase": "per-chapter-slides",
+  "phase_status": "running",
+  "last_completed_phase": "per-chapter",
+  "next_phase": "per-chapter-optimize",
+  "last_error": null,
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -31,7 +27,7 @@
       "status": "completed",
       "ts_started": "2026-07-31T11:39:48Z",
       "ts_completed": "2026-07-31T11:40:20Z",
-      "note": "Azure OCR + Translation SUCCEEDED at 11:40Z: _system/source/text/raw-extract.md (464589 bytes) and _system/source/ocr/raw-extract.md (504320 bytes) were both written and are the artifacts every later phase reads. What failed afterwards was the OPTIONAL vowel_arabic_source pass, which hung on the model with no wall-clock bound and was killed at 12:27Z; that left phase_status stuck even though 0a's own deliverable was already correct on disk. Re-running was impossible without discarding good work — ingest_source.py refuses to overwrite an existing raw-extract. Status corrected BY HAND on 2026-07-31 with Asif's explicit approval, not written by the orchestrator. The hang itself is fixed in d63a7bee (20-minute deadline on the vowelling pass); the Arabic source stays bare for this book, which vowel_book re-marks at compose time as designed."
+      "note": "Azure OCR + Translation SUCCEEDED at 11:40Z: _system/source/text/raw-extract.md (464589 bytes) and _system/source/ocr/raw-extract.md (504320 bytes) were both written and are the artifacts every later phase reads. What failed afterwards was the OPTIONAL vowel_arabic_source pass, which hung on the model with no wall-clock bound and was killed at 12:27Z; that left phase_status stuck even though 0a's own deliverable was already correct on disk. Re-running was impossible without discarding good work \u2014 ingest_source.py refuses to overwrite an existing raw-extract. Status corrected BY HAND on 2026-07-31 with Asif's explicit approval, not written by the orchestrator. The hang itself is fixed in d63a7bee (20-minute deadline on the vowelling pass); the Arabic source stays bare for this book, which vowel_book re-marks at compose time as designed."
     },
     "0b": {
       "status": "completed",
@@ -97,15 +93,6 @@
           "p1": 0,
           "p2": 0
         },
-        "the-fatimid-world-and-al-naysaburi": {
-          "status": "audited",
-          "ep_label": "EP01-the-fatimid-world-and-al-naysaburi",
-          "claude_rc": 1,
-          "gemini_rc": 1,
-          "p0": 0,
-          "p1": 0,
-          "p2": 0
-        },
         "the-imam-and-the-authority-over-sacred-law": {
           "status": "audited",
           "ep_label": "EP05-the-imam-and-the-authority-over-sacred-law",
@@ -118,15 +105,6 @@
         "the-imamate-pole-and-foundation-of-religion": {
           "status": "audited",
           "ep_label": "EP03-the-imamate-pole-and-foundation-of-religion",
-          "claude_rc": 1,
-          "gemini_rc": 1,
-          "p0": 0,
-          "p1": 0,
-          "p2": 0
-        },
-        "the-theory-of-degrees-of-excellence-explained": {
-          "status": "audited",
-          "ep_label": "EP02-the-theory-of-degrees-of-excellence-explained",
           "claude_rc": 1,
           "gemini_rc": 1,
           "p0": 0,
@@ -161,10 +139,8 @@
       "completed_slugs": [
         "degrees-of-excellence-the-peak-of-every-kind",
         "prophets-as-symbols-and-the-first-caliphs",
-        "the-fatimid-world-and-al-naysaburi",
         "the-imam-and-the-authority-over-sacred-law",
         "the-imamate-pole-and-foundation-of-religion",
-        "the-theory-of-degrees-of-excellence-explained",
         "the-virtues-of-ali-the-imam-who-mirrors-god",
         "worship-alms-and-war-void-without-the-imam"
       ],
@@ -184,24 +160,10 @@
           "verdict": "SHIP-WITH-CAUTION",
           "cost_usd": 0.0
         },
-        "the-fatimid-world-and-al-naysaburi": {
-          "started_ts": "2026-07-31T16:36:49Z",
-          "completed_ts": "2026-07-31T17:00:33Z",
-          "duration_sec": 1423.8,
-          "verdict": "SHIP-WITH-CAUTION",
-          "cost_usd": 0.0
-        },
         "the-imam-and-the-authority-over-sacred-law": {
           "started_ts": "2026-07-31T17:00:33Z",
           "completed_ts": "2026-07-31T17:15:53Z",
           "duration_sec": 919.7,
-          "verdict": "SHIP-WITH-CAUTION",
-          "cost_usd": 0.0
-        },
-        "the-theory-of-degrees-of-excellence-explained": {
-          "started_ts": "2026-07-31T17:15:54Z",
-          "completed_ts": "2026-07-31T17:34:44Z",
-          "duration_sec": 1130.2,
           "verdict": "SHIP-WITH-CAUTION",
           "cost_usd": 0.0
         },
@@ -228,7 +190,7 @@
         }
       },
       "convergence_iter": 3,
-      "ts_completed": "2026-07-31T19:19:40Z"
+      "ts_completed": "2026-07-31T20:49:20Z"
     },
     "per-chapter-optimize": {
       "status": "skipped",
@@ -237,37 +199,31 @@
       "reason": "optimize_enabled=false in meta.yml"
     },
     "per-chapter-slides": {
-      "status": "failed",
+      "status": "running",
       "ts_started": "2026-07-31T19:19:45Z",
-      "ts_completed": "2026-07-31T20:23:19Z",
       "outcomes": {
-        "the-fatimid-world-and-al-naysaburi": "BLOCKED",
         "the-virtues-of-ali-the-imam-who-mirrors-god": "BLOCKED",
         "degrees-of-excellence-the-peak-of-every-kind": "BLOCKED",
         "the-imam-and-the-authority-over-sacred-law": "BLOCKED",
         "prophets-as-symbols-and-the-first-caliphs": "BLOCKED",
-        "the-theory-of-degrees-of-excellence-explained": "BLOCKED",
         "the-imamate-pole-and-foundation-of-religion": "BLOCKED",
         "worship-alms-and-war-void-without-the-imam": "BLOCKED"
       },
-      "bad_outcomes": 8,
-      "total_outcomes": 8
+      "bad_outcomes": 6,
+      "total_outcomes": 6
     },
     "audio-script": {
-      "status": "skipped",
-      "ts_completed": "2026-07-31T20:23:19Z",
+      "status": "pending",
       "reason": "audio_engine=notebooklm (manual)"
     },
     "audio-render": {
-      "status": "skipped",
-      "ts_completed": "2026-07-31T20:23:19Z",
+      "status": "pending",
       "reason": "audio_engine=notebooklm (manual)"
     },
     "finalize": {
-      "status": "failed",
+      "status": "pending",
       "ts_started": "2026-07-31T20:23:19Z",
-      "ts_completed": "2026-07-31T20:23:21Z",
-      "validator_stdout": "==> validate_ship_ready: degrees-of-excellence\n    workspace: content/Islamic/degrees-of-excellence\n    publish:   sets status=published in place (nothing is copied)\n\n=== Gates ===\nOK    [G1] 8 chapters + 8 episodes present\nOK    [G2] 8 chapter/episode pairs match\nOK    [G3] chapters 1..8 + episodes 1..8 purely sequential\nOK    [G4] P0=0 across 8 episodes (P1=22, warn-only)\nOK    [G5] state.json phase=finalize phase_status=running\nn/a   [G6] status-flag model writes no published/ tree\nOK    [G7] challenger verdict=SHIP-WITH-CAUTION, pipeline_mode=None\n\n✗ BLOCKED — G13 arabic-script-in-chapters failed — no glossary entries with Arabic script\n  Remediation: see the failing gate's reason above.\n",
+      "validator_stdout": "==> validate_ship_ready: degrees-of-excellence\n    workspace: content/Islamic/degrees-of-excellence\n    publish:   sets status=published in place (nothing is copied)\n\n=== Gates ===\nOK    [G1] 8 chapters + 8 episodes present\nOK    [G2] 8 chapter/episode pairs match\nOK    [G3] chapters 1..8 + episodes 1..8 purely sequential\nOK    [G4] P0=0 across 8 episodes (P1=22, warn-only)\nOK    [G5] state.json phase=finalize phase_status=running\nn/a   [G6] status-flag model writes no published/ tree\nOK    [G7] challenger verdict=SHIP-WITH-CAUTION, pipeline_mode=None\n\n\u2717 BLOCKED \u2014 G13 arabic-script-in-chapters failed \u2014 no glossary entries with Arabic script\n  Remediation: see the failing gate's reason above.\n",
       "validator_stderr": "WARN  G4 EP01-the-fatimid-world-and-al-naysaburi: 3 P1 advisories (warn-only)\nWARN  G4 EP02-the-theory-of-degrees-of-excellence-explained: 3 P1 advisories (warn-only)\nWARN  G4 EP03-the-imamate-pole-and-foundation-of-religion: 3 P1 advisories (warn-only)\nWARN  G4 EP04-degrees-of-excellence-the-peak-of-every-kind: 3 P1 advisories (warn-only)\nWARN  G4 EP05-the-imam-and-the-authority-over-sacred-law: 3 P1 advisories (warn-only)\nWARN  G4 EP06-worship-alms-and-war-void-without-the-imam: 1 P1 advisory (warn-only)\nWARN  G4 EP07-prophets-as-symbols-and-the-first-caliphs: 3 P1 advisories (warn-only)\nWARN  G4 EP08-the-virtues-of-ali-the-imam-who-mirrors-god: 3 P1 advisories (warn-only)\n"
     },
     "audio-ingest": {
@@ -308,7 +264,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-07-31T20:23:21Z",
+  "ts_updated": "2026-07-31T20:49:20Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -317,11 +273,6 @@
   },
   "unattended": true,
   "slide_decks": {
-    "the-fatimid-world-and-al-naysaburi": {
-      "slide_deck_phase": "stalled",
-      "slide_challenger_iter": 1,
-      "slide_challenger_verdict": "BLOCKED"
-    },
     "the-virtues-of-ali-the-imam-who-mirrors-god": {
       "slide_deck_phase": "stalled",
       "slide_challenger_iter": 1,
@@ -338,11 +289,6 @@
       "slide_challenger_verdict": "BLOCKED"
     },
     "prophets-as-symbols-and-the-first-caliphs": {
-      "slide_deck_phase": "stalled",
-      "slide_challenger_iter": 1,
-      "slide_challenger_verdict": "BLOCKED"
-    },
-    "the-theory-of-degrees-of-excellence-explained": {
       "slide_deck_phase": "stalled",
       "slide_challenger_iter": 1,
       "slide_challenger_verdict": "BLOCKED"
