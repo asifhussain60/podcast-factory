@@ -4,3 +4,11 @@
 {"phase": "0d", "step": "sc-003", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0d", "step": "sc-004", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0d", "step": "sc-005", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch01a-the-fatimid-world-and-al-naysaburi", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch02b-the-theory-of-degrees-of-excellence-explained", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch03a-the-imamate-pole-and-foundation-of-religion", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch04b-degrees-of-excellence-the-peak-of-every-kind", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch05c-the-imam-and-the-authority-over-sacred-law", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch06d-worship-alms-and-war-void-without-the-imam", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch07e-prophets-as-symbols-and-the-first-caliphs", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0e", "step": "ch08f-the-virtues-of-ali-the-imam-who-mirrors-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
