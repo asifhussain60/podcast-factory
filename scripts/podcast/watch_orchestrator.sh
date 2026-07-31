@@ -193,7 +193,7 @@ if _is_human_review_gate; then
 fi
 if _is_iter_cap_halt; then
     _log "At iter-cap halt (per-chapter/failed) — human review required. Watchdog will not retry."
-    _log "Check findings: jq '.last_error' content/drafts/$SLUG/_system/orchestrator-state.json"
+    _log "Check findings: jq '.last_error' $STATE"
     _log "Fix the unresolved P0/P1, then re-run: python3 scripts/podcast/orchestrate_book.py --resume $SLUG --retry-phase per-chapter"
     rm -f "$SENTINEL"
     exit 0
@@ -244,8 +244,8 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
         # watchdog's attempt budget for zero gain. Stop here and tell the user what to do.
         _log "=== ITER-CAP HALT: $SLUG per-chapter/failed — human review required. ==="
         _log "Unresolved finding(s) blocked convergence. Do NOT re-run watchdog without fixing first."
-        _log "1. Check: jq '.last_error' content/drafts/$SLUG/_system/orchestrator-state.json"
-        _log "2. Read:  content/drafts/$SLUG/_system/challenger-report.md (P0 section)"
+        _log "1. Check: jq '.last_error' $STATE"
+        _log "2. Read:  $BOOK_DIR/_system/challenger-report.md (P0 section)"
         _log "3. Fix the P0, then: python3 scripts/podcast/orchestrate_book.py --resume $SLUG --retry-phase per-chapter"
         rm -f "$SENTINEL"
         exit 0

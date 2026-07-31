@@ -81,7 +81,7 @@ class TheFlagIsWiredToTheCLIAndPersistedTests(unittest.TestCase):
         """
         text = (SCRIPTS_PODCAST / "orchestrate_book.py").read_text(encoding="utf-8")
         latch = text.find("UNATTENDED_KEY")
-        handoff = text.find("_maybe_relaunch_under_watchdog(slug_for_lock)")
+        handoff = text.find("_maybe_relaunch_under_watchdog(slug_for_lock")
         self.assertGreater(latch, 0, "the resume path never persists the flag")
         self.assertGreater(handoff, 0)
         self.assertLess(latch, handoff, "the flag is latched after the watchdog handoff — it can never be written")

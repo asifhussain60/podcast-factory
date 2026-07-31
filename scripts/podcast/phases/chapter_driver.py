@@ -146,7 +146,7 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
             _info(f"phase: per-chapter[{slug}] · already shipped, skipping")
             continue
         if slug in failed_chapter_slugs:
-            _info(f"phase: per-chapter[{slug}] · prior FAILED, skipping (use --retry-chapter to re-attempt)")
+            _info(f"phase: per-chapter[{slug}] · prior FAILED, skipping (--retry-phase per-chapter re-attempts it)")
             continue
         attempted += 1
         _info(f"phase: per-chapter[{slug}] · extract → frame → build → converge")

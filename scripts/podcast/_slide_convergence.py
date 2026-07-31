@@ -642,9 +642,6 @@ def run_slide_convergence(
         # 2a. (Re-)author the deck pair, passing prior findings as constraints.
         try:
             ar = author_deck_pair(book_dir, slug, prior_findings=last_findings)
-        except TypeError:
-            # Fallback if author_deck_pair's signature omits prior_findings.
-            ar = author_deck_pair(book_dir, slug)  # type: ignore[misc]
         except AuthoringError as e:
             outcome.notes.append(f"iter {outer}: authoring failed — {e}")
             outcome.verdict = "BLOCKED"

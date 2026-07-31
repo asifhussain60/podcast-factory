@@ -183,6 +183,7 @@ def author_deck_pair(
     *,
     retry_on_validation_fail: bool = True,
     timeout: int = SLIDE_DECK_TIMEOUT,
+    prior_findings: list[dict] | None = None,
 ) -> AuthoringResult:
     """Author the slide-deck SOURCE + framing pair for one chapter.
 
@@ -198,6 +199,14 @@ def author_deck_pair(
     After authoring, calls `build_slide_deck.py` for validation. If validation
     fails and `retry_on_validation_fail` is True, re-invokes claude -p once with
     the validation findings appended to the prompt as constraints.
+
+    `prior_findings` — Slide Deck Challenger findings from the OUTER
+    convergence loop's previous iteration (`_slide_convergence.run_slide_convergence`),
+    shaped as `[{"id", "severity", "slides", "notes", "scope"}, ...]`. When
+    given, the FIRST authoring attempt already carries them as constraints,
+    so a re-author actually responds to what the Challenger flagged instead
+    of regenerating blind. Without this the outer loop retries identically
+    on every iteration.
 
     Returns an :class:`AuthoringResult`. Raises :class:`AuthoringError` only for
     unrecoverable errors (claude not on PATH, timeout, missing prerequisites).
@@ -216,7 +225,12 @@ def author_deck_pair(
     audio_words = _wordcount(chapter_file)
 
     book_slug = book_dir.name
-    extra_constraints = ""
+    if prior_findings:
+        extra_constraints = "\n".join(
+            f"- [{f.get('id', '?')}] {f.get('notes', '')} (slides: {f.get('slides', '?')})" for f in prior_findings
+        )
+    else:
+        extra_constraints = ""
     attempts = 0
     last_stdout = ""
     last_stderr = ""
