@@ -28,3 +28,7 @@
 {"phase": "per-chapter", "step": "challenger/the-imam-and-the-authority-over-sacred-law", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/the-imam-and-the-authority-over-sacred-law/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/the-imam-and-the-authority-over-sacred-law", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-theory-of-degrees-of-excellence-explained", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-theory-of-degrees-of-excellence-explained", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-theory-of-degrees-of-excellence-explained/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-theory-of-degrees-of-excellence-explained", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

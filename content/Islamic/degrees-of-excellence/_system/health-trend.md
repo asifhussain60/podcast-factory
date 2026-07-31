@@ -12,3 +12,5 @@ Append-only trend log. One row per `podcast-challenger` run.
 | 2026-07-31T16:59Z | 2.6 | 1 chs | P0:0 P1:4 P2:3 | auto:0 | score:0.05 | Unstable | SHIP-WITH-CAUTION |
 | 2026-07-31T17:09Z | 2.6 | 1 chs | P0:0 P1:0 P2:4 | auto:0 | score:0.80 | Drifting | SHIP-WITH-CAUTION |
 | 2026-07-31T17:15Z | 2.6 | 1 chs | P0:0 P1:0 P2:4 | auto:0 | score:0.80 | Drifting | SHIP-WITH-CAUTION |
+| 2026-07-31T17:26Z | 2.6 | 1 chs | P0:0 P1:2 P2:3 | auto:0 | score:0.45 | Unstable | SHIP-WITH-CAUTION |
+| 2026-07-31T17:34Z | 2.6 | 1 chs | P0:0 P1:1 P2:4 | auto:0 | score:0.60 | Drifting | SHIP-WITH-CAUTION |
