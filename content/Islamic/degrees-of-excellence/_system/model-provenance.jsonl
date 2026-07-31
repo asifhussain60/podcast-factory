@@ -40,3 +40,10 @@
 {"phase": "per-chapter", "step": "challenger/worship-alms-and-war-void-without-the-imam", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/worship-alms-and-war-void-without-the-imam/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/worship-alms-and-war-void-without-the-imam", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-imamate-pole-and-foundation-of-religion", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-imamate-pole-and-foundation-of-religion", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-imamate-pole-and-foundation-of-religion/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-imamate-pole-and-foundation-of-religion", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-imamate-pole-and-foundation-of-religion/P0", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-imamate-pole-and-foundation-of-religion/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-imamate-pole-and-foundation-of-religion", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
