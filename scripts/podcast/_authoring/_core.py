@@ -9,7 +9,9 @@ from __future__ import annotations
 import os
 import subprocess
 import sys
+import time
 from pathlib import Path
+from typing import Any
 
 # Ensure scripts/podcast/ is importable from within the package directory.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -242,6 +244,92 @@ def record_model_provenance(
         sys.stderr.write(f"[record_model_provenance] skipped: {e!r}\n")
 
 
+def _dump_failed_call(
+    book_dir: Path | None,
+    *,
+    step: str,
+    prompt: str,
+    stdout: Any,
+    stderr: Any,
+) -> str | None:
+    """On a FAILED call only, write the full prompt + both streams to a sidecar.
+
+    Hash-only logging is right for the success path and useless for the failure
+    path — you cannot diff a prompt you no longer have. Bounded excerpts go in
+    the timeline; the complete evidence goes here, and only when it is needed.
+    Returns a repo-relative-ish path string, or None.
+    """
+    try:
+        from _progress import current_run_id, init_run_log, run_log_path
+
+        if not current_run_id():
+            init_run_log(book_dir)
+        base = run_log_path()
+        if base is None:
+            return None
+        safe = "".join(c if (c.isalnum() or c in "-_") else "-" for c in (step or "call"))[:60]
+        stamp = time.strftime("%H%M%S", time.gmtime())
+        p = Path(base).parent / f"{Path(base).stem}.{safe}-{stamp}.failure.txt"
+
+        def _txt(v: Any) -> str:
+            if v is None:
+                return "(none)"
+            if isinstance(v, bytes):
+                return v.decode("utf-8", "replace")
+            return str(v)
+
+        p.write_text(
+            "\n".join(
+                [
+                    f"step:   {step}",
+                    f"run_id: {current_run_id()}",
+                    "",
+                    "===== PROMPT =====",
+                    prompt,
+                    "",
+                    "===== STDOUT =====",
+                    _txt(stdout),
+                    "",
+                    "===== STDERR =====",
+                    _txt(stderr),
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        return str(p)
+    except Exception as e:
+        sys.stderr.write(f"[_dump_failed_call] skipped: {e!r}\n")
+        return None
+
+
+def _log_claude_p(
+    event: str,
+    *,
+    book_dir: Path | None,
+    prompt: str | None = None,
+    stdout: Any = None,
+    stderr: Any = None,
+    **fields: Any,
+) -> None:
+    """Emit one claude_p.* timeline event. NEVER raises into the pipeline."""
+    try:
+        import hashlib
+
+        from _progress import log_event, tail
+
+        if prompt is not None:
+            fields["prompt_sha256"] = hashlib.sha256(prompt.encode("utf-8", "replace")).hexdigest()[:16]
+            fields["prompt_chars"] = len(prompt)
+        if stdout is not None:
+            fields["stdout_tail"] = tail(stdout)
+        if stderr is not None:
+            fields["stderr_tail"] = tail(stderr)
+        log_event(event, book_dir=book_dir, **fields)
+    except Exception as e:
+        sys.stderr.write(f"[_log_claude_p] dropped {event!r}: {e!r}\n")
+
+
 def _run_claude_p(
     prompt: str,
     *,
@@ -279,6 +367,7 @@ def _run_claude_p(
     child_env = dict(os.environ)
     for _v in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"):
         child_env.pop(_v, None)
+    _t0 = time.monotonic()
     try:
         proc = subprocess.run(
             argv,
@@ -289,17 +378,20 @@ def _run_claude_p(
             env=child_env,
         )
         rc, raw_stdout, stderr = proc.returncode, proc.stdout, proc.stderr
+        _elapsed_ms = int((time.monotonic() - _t0) * 1000)
+        _tokens_in = _tokens_out = None
         if book_dir is not None:
             try:
                 from _cost_ledger import append_from_claude_p_stdout
 
-                append_from_claude_p_stdout(
+                _row = append_from_claude_p_stdout(
                     book_dir,
                     phase=phase or "(unspecified)",
                     step=step or "(unspecified)",
                     model=model_flag or model,
                     stdout=raw_stdout,
                 )
+                _tokens_in, _tokens_out = _row.input_tokens, _row.output_tokens
             except Exception as e:
                 sys.stderr.write(f"[_run_claude_p] cost-ledger append failed: {e!r}\n")
             # Record which model authored this artifact (provenance). A non-default
@@ -319,8 +411,42 @@ def _run_claude_p(
             stdout = parse_text_from_json_stdout(raw_stdout)
         except Exception:
             stdout = raw_stdout
+
+        # Timeline event. On a NON-ZERO rc the full prompt and both streams are
+        # also dumped to a sidecar — before this, a failed call persisted nothing
+        # at all while a successful one wrote two artifacts.
+        _dump = (
+            None if rc == 0 else _dump_failed_call(book_dir, step=step, prompt=prompt, stdout=raw_stdout, stderr=stderr)
+        )
+        _log_claude_p(
+            "claude_p.call",
+            book_dir=book_dir,
+            level="info" if rc == 0 else "error",
+            phase=phase,
+            step=step,
+            model=model_flag or model,
+            rc=rc,
+            duration_ms=_elapsed_ms,
+            tokens_in=_tokens_in,
+            tokens_out=_tokens_out,
+            prompt=prompt,
+            stdout=raw_stdout,
+            stderr=stderr,
+            prompt_dump=_dump,
+            msg="" if rc == 0 else f"claude -p exited {rc}",
+        )
         return rc, stdout, stderr
     except FileNotFoundError as e:
+        _log_claude_p(
+            "claude_p.missing_binary",
+            book_dir=book_dir,
+            level="error",
+            phase=phase,
+            step=step,
+            model=model_flag or model,
+            duration_ms=int((time.monotonic() - _t0) * 1000),
+            msg=f"`{CLAUDE_CMD}` not found on PATH",
+        )
         raise AuthoringError(
             phase="(shellout)",
             message=(
@@ -331,6 +457,26 @@ def _run_claude_p(
             manual_fallback="Drive the phase via conversational /podcast skill.",
         ) from e
     except subprocess.TimeoutExpired as e:
+        # TimeoutExpired carries whatever the child had already written. That
+        # partial output was previously discarded unread — it is often the only
+        # evidence of WHY the call hung, so capture it before re-raising.
+        _partial_out, _partial_err = getattr(e, "stdout", None), getattr(e, "stderr", None)
+        _dump = _dump_failed_call(book_dir, step=step, prompt=prompt, stdout=_partial_out, stderr=_partial_err)
+        _log_claude_p(
+            "claude_p.timeout",
+            book_dir=book_dir,
+            level="error",
+            phase=phase,
+            step=step,
+            model=model_flag or model,
+            rc=None,
+            duration_ms=int((time.monotonic() - _t0) * 1000),
+            prompt=prompt,
+            stdout=_partial_out,
+            stderr=_partial_err,
+            prompt_dump=_dump,
+            msg=f"timed out after {timeout}s",
+        )
         raise AuthoringError(
             phase="(shellout)",
             message=f"LLM call timed out after {timeout}s.",
