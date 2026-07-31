@@ -184,6 +184,13 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             "/_system/health-trend.md",
             "/_system/watchdog.json",
             "/_system/orchestrator-state.json",
+            # The watchdog's OWN heartbeat writes these every 270s. Off the list
+            # they deadlock the thing that produced them: the heartbeat dirties
+            # the tree, the next resume's clean-tree gate rejects it, and the
+            # watchdog reports "working tree dirty" about a file only it wrote.
+            # Cost a live book its restart on 2026-07-31.
+            "/_system/status-velocity.json",
+            "/_system/status-card.txt",
             "scripts/podcast/tighten_source.py",
             ".code-workspace",
         )
