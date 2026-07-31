@@ -114,9 +114,37 @@ _THIRD_PERSON_SELF_REPORT = r"\b{name}\b\s+(?:said|replied|answered|asked|went|s
 # swamped, and any pass that legitimately ADDED quotation marks tripped the gate
 # purely by closing quotes it had opened. An interior tag interrupts a quotation
 # on its own line; a newline between them means the quotation already ended.
+#
+# THE QUOTATION MUST RE-OPEN AFTER THE TAG (2026-07-31). Everything above states
+# that the defect is a tag INTERRUPTING one utterance, and every example given is
+# `," he said, "` — but the pattern only ever matched up to the verb, so it could
+# not tell an interruption from a TRAILING tag. `"Thirty-three years," Hatim
+# replied.` is ordinary English with the attribution exactly where the source put
+# it, and it scored the same as `"I have gained," he said, "eight benefits."`,
+# where the words after the tag really can change owner.
+#
+# That is not a theoretical difference. A source in the head-tag style — `Hatim
+# replied: "Thirty-three years!"`, which is how this repo's Urdu-derived English
+# translations are written — has a base count of ZERO, so the first natural
+# de-calque of a line of dialogue trips a P0 and reverts the window. On
+# `ayyuhal-walad`, a book of nothing but reported dialogue, that killed chapter 1,
+# then killed chapter 3 twice and aborted the whole compose 27 minutes in
+# (2026-07-31). The articulation route makes this the COMMON case rather than a
+# corner: turning `X replied: "Y"` into `"Y," X replied.` is exactly what REQ-BA-020
+# asks for.
+#
+# The separator may be a comma, colon, semicolon or dash — never a full stop. `X
+# said. "..."` is two complete sentences with a terminated, unambiguous
+# attribution; `X said, "..."` is one utterance with a tag cut into it, which is
+# the shape that re-points speech. Narrowing here is deliberate and safe: this is
+# a SEED for the challenger's BK-N2, whose spec already says an empty determin-
+# istic result means "nothing cheap to find", not a pass — and the module's stated
+# philosophy is high precision over recall, because a false revert costs a chapter
+# while a missed finding is still caught by the semantic pass reading the source.
 _INTERIOR_TAG_RE = re.compile(
     r"[\"”][^\S\n]*,?[^\S\n]*(?:[A-Z][\w'\-]*(?:[^\S\n]+[A-Z][\w'\-]*)?|he|she|they)[^\S\n]+"
     r"(?:said|replied|answered|asked|told)\b"
+    r"[^\S\n]*[,:;—–-]?[^\S\n]*[\"“]"
 )
 
 # Source-style enumeration markers at the head of a paragraph: "(a)", "(1)", "1.".
