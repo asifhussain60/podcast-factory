@@ -319,7 +319,7 @@ def author_deck_pair(
             )
 
         # Validator pass.
-        ok, findings = _run_validator(book_dir, deck_path, framing_path)
+        ok, findings = _run_validator(book_dir, slug)
         if ok:
             return AuthoringResult(
                 success=True,
