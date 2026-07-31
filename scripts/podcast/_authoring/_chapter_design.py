@@ -144,14 +144,14 @@ def _topic_floor_violations(
     total_eps = 0
     for sc in source_chapters:
         try:
-            ep_count = int(sc.get("episode_count", 1) or 1)
+            ep_count = int(sc.get("episode_count", 1))  # 0 stays 0: a skip ships nothing
         except (TypeError, ValueError):
             ep_count = 1
         total_eps += ep_count
         label = f"sc {sc.get('sc_index', '?')} ({str(sc.get('source_title', '?'))[:40]})"
         topics = sc.get("topics") or []
         if not topics:
-            if enforce and not consolidate:
+            if enforce and not consolidate and ep_count >= 1:  # a skip owes no topics
                 violations.append(
                     f"{label}: plan is missing the `topics` enumeration (required under the chapter-density standard)"
                 )
