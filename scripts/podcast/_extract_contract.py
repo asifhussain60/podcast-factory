@@ -192,6 +192,34 @@ CONTRACT_META_PROSE_REGEX = [
     re.compile(r"\bEP\d{2}\b"),
 ]
 
+
+def stands_alone_rule() -> str:
+    """The instruction the CONTRACT AUTHOR needs, quoting the list enforced above.
+
+    Built from ``CONTRACT_META_PROSE_TELLS`` rather than restating it, so the
+    prompt and the gate cannot drift into forbidding different things — the
+    author being told one list while the validator enforces another is how a
+    contract gets written, paid for, and then rejected.
+
+    Until 2026-07-31 this rule reached only MULTI-VOLUME books: it lived inside
+    the volume-allocation block, which is emitted only when `_volume-split.json`
+    exists. Every single-volume book authored its contracts with no idea the rule
+    existed, and Degrees of Excellence lost a chapter mid-run to a tone constraint
+    reading "it belongs to the next episode".
+    """
+    phrases = ", ".join(f"{t!r}" for t in CONTRACT_META_PROSE_TELLS[:6])
+    return (
+        "CRITICAL — EACH EPISODE STANDS ALONE. Every chapter and contract you author is "
+        "uploaded to NotebookLM and read LITERALLY by the hosts, which have NO context for "
+        "any other episode. NEVER write a cross-episode or continuity reference in ANY field "
+        f"of a chapter or contract. Forbidden phrases include {phrases}, and any 'EP##' "
+        "reference; also avoid 'earlier we', 'as we saw', 'as we will see', 'this volume', "
+        "'handing off to'. If a teaching belongs elsewhere, say only that it is out of scope "
+        "HERE — never name where it goes. Put no authoring or ordering commentary in any "
+        "field.\n\n"
+    )
+
+
 # Fields whose values reach the rendered framing file verbatim.
 CONTRACT_LINTED_FIELDS = ("title", "audience", "key_tensions", "tone_constraints", "anchor_passages")
 
