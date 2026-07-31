@@ -5,8 +5,8 @@
   "branch": "Islamic/degrees-of-excellence",
   "status": "draft",
   "phase": "per-chapter",
-  "phase_status": "failed",
-  "last_completed_phase": "0e",
+  "phase_status": "running",
+  "last_completed_phase": "0g",
   "next_phase": "0literary",
   "last_error": {
     "phase": "per-chapter",
@@ -81,7 +81,7 @@
       "status": "running",
       "ts_started": "2026-07-31T15:47:03Z",
       "current_chapter": "worship-alms-and-war-void-without-the-imam",
-      "last_beat": "2026-07-31T18:00:03Z",
+      "last_beat": "2026-07-31T18:34:27Z",
       "completed_slugs": [
         "degrees-of-excellence-the-peak-of-every-kind",
         "prophets-as-symbols-and-the-first-caliphs",
@@ -145,7 +145,7 @@
           "cost_usd": 0.0
         },
         "worship-alms-and-war-void-without-the-imam": {
-          "started_ts": "2026-07-31T18:00:03Z",
+          "started_ts": "2026-07-31T18:23:22Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -207,7 +207,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-07-31T18:00:03Z",
+  "ts_updated": "2026-07-31T18:34:27Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {

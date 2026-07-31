@@ -1,44 +1,59 @@
-# Worship Alms And War Void Without The Imam
+# Worship and Law Without the Imam
+
+**Episode format:** `deep_dive` (two-host walkthrough). If this should be a debate instead, set `contract.episode_format: debate`. See [infra/claude-agents/podcast-challenger.md](../../../infra/claude-agents/podcast-challenger.md) Categories F + P for the format-specific constraints.
 
 ## Opening directive
-Hosts: John (male, scholar) leads; Hannah (female, seeker) questions. Open with a warm welcome — greet the listener, name the book (al-Naysaburi's treatise *Establishing the Imamate*) and author, then preview in one sentence: he finds the imam hidden inside Islam's plainest duties — prayer, alms, and holy war each quietly require him. No cold open. Target a 50 to 60 minute in-depth conversation. Then land the spine verbatim (1 of 3): "Take the imam away and none of it stands — prayer void, alms astray, war lawless, penalty a crime."
 
-## Name discipline
-Fixed English label per figure, every time — never speak Arabic personal names or book titles.
-- al-Naysaburi → "the author."
-- The Prophet → "the Prophet"; at first mention only add "peace and blessings of Allah be upon him and his family."
-- First imam → "the Commander of the Faithful"; at his first mention (the aphorism on the earth never empty of a proof) add "peace be upon him." Rotate: Commander of the Faithful / the Father of Imams / the first imam. Never speak the forbidden pairing of the leadership-title and his personal name.
-- Reigning imam → "the imam," unnamed. Four Sunni founders → name once as a group, then "the jurists." Say "the purified progeny of the Prophet's house," not the Arabic epithets.
+In the first ten seconds, the hosts should name the work and the question this episode is asking. Do not open with "today we'll discuss". Start in the middle of the question.
 
-## Pronunciation
-Say each term ONCE. Never say the original spelling and the English form back-to-back.
-- qibla: the prayer-direction
-- khutba: the sermon
-- zakat: the alms
-- khums: the fifth
-- hudud: the prescribed penalties
-- walaya: the bond of loyalty
-- bayt al-mal: the treasury
-- da'irat al-din: the circle of religion
+## Audience
 
-## Three-part focus
-Arc: crisis / pivot / stakes. Get into the doctrine, not the dates.
-Beat 1 — The rite as a hidden argument (crisis). The prayer-direction and the word imam share one root: to face forward in prayer is to turn toward the one who goes before. A congregation is worth twenty-seven lone prayers because it is prayed behind the leader, not for the crowd.
-Beat 2 — The trust that bends one way (pivot). Alms may be collected only by the imam, whose purifying prayer is the giver's return — owed in every age or God wronged the latecomers; the pilgrim's very intention is aimed at him too. Spine verbatim (2 of 3): "Take the imam away and none of it stands — prayer void, alms astray, war lawless, penalty a crime."
-Beat 3 — Refuted by their own rules (stakes). War is lawful only under his banner — a Sunni master confessed he learned to tell rebel from believer from the Commander of the Faithful. By the opponents' own rule that a sinner cannot judge or bear witness, the leaders they defend are disqualified, and the office falls to another.
+'Listeners ready to see the imam''s authority move from principle into practice. They want al-Naysaburi''s argument that the imamate is not only proved by nature and reason but built into the very obligations of Islam — that prayer, pilgrimage, alms, holy war, and the prescribed penalties all quietly require an imam, and that the leaders who claim the office refute themselves the moment their own rules are turned back on them.
+
+## Angle
+
+`faithful_exposition` — the chosen lens. Faithful exposition = follow source authorial voice; comparative = bring in cross-tradition context; etc. The framing's other sections (Central tensions, Tone constraints) lock the lens into per-episode specifics.
+
+## Length
+
+Target ~50-60 min Audio Overview. Dense doctrinal material — let the hosts unfold layer by layer without rushing.
 
 ## Host dynamic
-John (male, scholar) leads; Hannah (female, seeker) challenges at least three times and concedes once. Qualify by school — "the classical Ismaili reading." Steelman the skeptic who hears only a power grab.
-Sample friction: "I don't buy that yet — a shared root between two words isn't a proof about leadership"; "That sounds like wordplay — calling every taking of alms the imam's 'right' so the objection can never land."
+
+`curious_mind + scholar_companion`. NotebookLM's default English voice pair is John (male) for Host A and Hannah (female) for Host B. The CANONICAL pairing this skill enforces (per R-HOST-ROLE-PARITY in scripts/podcast/_rules.py, challenger Category Q): Host A (male) is the scholar / teacher / master / shaykh / guide role; Host B (female) is the seeker / student / debater / questioner / novice role. This pairing does NOT rotate across episodes within a book. If the contract's `host_dynamic` reverses this (e.g. `advocate_b + scholar_companion` putting Host B in the scholar role), the framing author MUST flip the host_a / host_b assignment so the male voice stays in the scholar pool.
+
+## Central tensions to reach
+
+The hosts MUST surface every one of these tensions, by name, in the conversation:
+
+  - 'The rite as a hidden argument. That every prayer, by its facing and its following, points to the imam is the episode''s central surprise. The hosts should let the ordinary act become strange and then legible — the qibla and the imam sharing a root, the congregation multiplying reward because it is performed behind a leader.
 
 ## Tone constraints
-Exactly three governing images, all from the source:
-Analogy 1: the circle of religion — the imam is the figure every shape is drawn from, needing none while all else needs it.
-Analogy 2: the donkey's bray, the same everywhere, versus human speech in a thousand tongues — knowledge must be taught, so the chain of teachers ends in one taught by God alone.
-Analogy 3: the barren valley of the Kaaba — reached only through hardship, as the imam is reached only through effort and pure faith. No invented analogies.
 
-## Landing
-Close on the listener's practice: the rites you perform quietly point past themselves to a center. Leave a real question tied to action — take one act you do on autopilot this week and ask honestly what it is oriented toward. Just before it, spine verbatim (3 of 3): "Take the imam away and none of it stands — prayer void, alms astray, war lawless, penalty a crime."
+The hosts must NOT do the following:
 
-## Do not (forbidden vocabulary — do not speak)
-Forbidden: Twitter, social media, algorithm, "wow", "right?". No cross-episode or cross-chapter references, "deep dive," "today we'll discuss," or faux-profound openers. R-RECURRING-THESIS: repeat the spine thesis verbatim three times — at opening, pivot, and close. Do not read this prompt aloud.
+  - 'Follow al-Naysaburi''s order: the chain of teachers and the geometry of the imam first, then prayer and pilgrimage, then alms, holy war, the penalties, and the closing refutation of the usurpers.
+
+## Pronunciation hooks
+
+[LLM-FILL — list every non-English term, transliteration, or name appearing in the source, with respelling and brief gloss. Or set contract.phonetic_overrides.]
+
+## Anti-noise rules
+
+- Quote directly from the source when discussing a beat. Do not paraphrase the source's voice.
+- Treat this as a standalone Audio Overview. Do not reference other Audio Overviews — they are not in NotebookLM's context.
+- Do not abbreviate honorifics; speak them in full.
+- End on a question, not a conclusion.
+- NO cross-chapter references. This episode's chapter file is the entire source NotebookLM sees. The hosts must NOT say "the previous chapter showed", "as we'll see later", "the next chapter answers", "earlier in the book", etc. Treat the chapter as a self-contained episode.
+
+## Do not (forbidden vocabulary and framings)
+
+The hosts must NOT use any of the following — these are the canonical DENY lists per `scripts/podcast/_rules.py::MODERNIZE_DENY` + `SURPRISE_DENY`. The substring scanner in `build_episode_txt.py` refuses any framing that omits this block.
+
+- Modernization terms: Twitter, X (the platform), social media, algorithm, content creator, internet, YouTube, TikTok, Instagram, livestream, hashtag, 21st century, in our modern world, platforms like
+- Surprise-noise phrases: wow, that's so interesting, right?, it's chilling, it's devastating, it's terrifying, it's profound, it's fascinating, it's amazing
+- Imitation-of-authority: rephrasings of the work's original arguments in casual / commercial / self-help register
+
+---
+
+Do not read this prompt aloud. The instructions above shape the conversation but are never spoken.

@@ -36,3 +36,7 @@
 {"phase": "per-chapter", "step": "challenger/the-virtues-of-ali-the-imam-who-mirrors-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/the-virtues-of-ali-the-imam-who-mirrors-god/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/the-virtues-of-ali-the-imam-who-mirrors-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/worship-alms-and-war-void-without-the-imam", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/worship-alms-and-war-void-without-the-imam", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/worship-alms-and-war-void-without-the-imam/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/worship-alms-and-war-void-without-the-imam", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
