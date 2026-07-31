@@ -1779,8 +1779,8 @@
   "metrics": {
     "burn_30d_usd": 6.39
   },
-  "generated_at": "2026-07-31T08:50:11-04:00",
-  "source_commit": "ec7d94d3",
+  "generated_at": "2026-07-31T09:44:46-04:00",
+  "source_commit": "9a54587",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1834,53 +1834,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "ec7d94d3",
+      "sha": "9a54587",
+      "subject": "docs(rca): RCA-006 — a premise recorded as a number, corroborated by its own copies",
+      "date": "2026-07-31"
+    },
+    {
+      "sha": "52948f8",
+      "subject": "fix(type): the supplication columns had the same false premise, worse",
+      "date": "2026-07-31"
+    },
+    {
+      "sha": "2161e91",
+      "subject": "fix(type): the Arabic was never level with the English, and never centered",
+      "date": "2026-07-31"
+    },
+    {
+      "sha": "fc48377",
+      "subject": "chore(snapshot): rebuild for develop's own content state",
+      "date": "2026-07-31"
+    },
+    {
+      "sha": "03d248d",
       "subject": "fix(preflight): the watchdog's own heartbeat was blocking the watchdog",
       "date": "2026-07-31"
     },
     {
-      "sha": "d67ab22a",
+      "sha": "eb64218",
       "subject": "fix(0a): a hang is not an exception, and the vowelling pass proved it",
       "date": "2026-07-31"
     },
     {
-      "sha": "e1d595be",
+      "sha": "d3c0598",
       "subject": "docs(rules): the heartbeat rule pointed at a machine that no longer exists",
       "date": "2026-07-31"
     },
     {
-      "sha": "8455ab16",
+      "sha": "411d426",
+      "subject": "fix(book): a fence the Composer flattened was invisible to every pass",
+      "date": "2026-07-31"
+    },
+    {
+      "sha": "8455ab1",
       "subject": "fix(scaffold): the scaffold wrote to a layout retired a month before",
       "date": "2026-07-31"
     },
     {
-      "sha": "5593281d",
+      "sha": "5593281",
       "subject": "fix(book): the mirror was swallowing every standalone Arabic quotation",
-      "date": "2026-07-30"
-    },
-    {
-      "sha": "6c644c37",
-      "subject": "chore(render): rebuild the reading edition from the mirrored book.md",
-      "date": "2026-07-30"
-    },
-    {
-      "sha": "94548951",
-      "subject": "fix(source): two recorded scan corrections — no bare non-Qur'anic Arabic left",
-      "date": "2026-07-30"
-    },
-    {
-      "sha": "814f3688",
-      "subject": "fix(vowelling): teach the pass this book's classical spelling — 7 bare fragments to 2",
-      "date": "2026-07-30"
-    },
-    {
-      "sha": "7fb7c927",
-      "subject": "feat(compose): one Arabic panel open at a time, and the last stray speech tags",
-      "date": "2026-07-30"
-    },
-    {
-      "sha": "a4014b18",
-      "subject": "feat(book): the English paragraphing is the Arabic's",
       "date": "2026-07-30"
     }
   ],

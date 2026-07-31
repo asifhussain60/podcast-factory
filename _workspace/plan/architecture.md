@@ -26,7 +26,7 @@ The podcast-factory turns a scholarly Arabic book into a NotebookLM-driven podca
 flowchart TB
     subgraph CLIENT["Inputs"]
         PDF[Book PDFs<br/>raw/]
-        AUDIO[Audio recordings<br/>m4a/v1/]
+        AUDIO[Audio recordings<br/>m4a/]
         TXT[Lecture transcripts<br/>various]
     end
 
