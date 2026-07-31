@@ -1777,10 +1777,10 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 10.82
+    "burn_30d_usd": 12.94
   },
-  "generated_at": "2026-07-31T08:03:41-04:00",
-  "source_commit": "01082672",
+  "generated_at": "2026-07-31T09:22:49-04:00",
+  "source_commit": "9cfd8daa",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1802,7 +1802,7 @@
     {
       "slug": "degrees-of-excellence",
       "title": "degrees-of-excellence",
-      "phase": "0a",
+      "phase": "0d",
       "phase_status": "running",
       "cost_to_date_usd": 0,
       "kind": "unknown"
@@ -1842,54 +1842,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "01082672",
-      "subject": "docs(rules): the heartbeat rule pointed at a machine that no longer exists",
+      "sha": "9cfd8daa",
+      "subject": "fix(0d): the topic floor asked skipped chapters to enumerate topics",
       "date": "2026-07-31"
     },
     {
-      "sha": "6dd305bf",
-      "subject": "podcast(degrees-of-excellence): scaffold book directory",
+      "sha": "9522df65",
+      "subject": "fix(0d): the density brake measured chapters that produce no episodes",
       "date": "2026-07-31"
     },
     {
-      "sha": "8455ab16",
-      "subject": "fix(scaffold): the scaffold wrote to a layout retired a month before",
+      "sha": "faeb044c",
+      "subject": "podcast(degrees-of-excellence): phase 0ci book intelligence gap analysis",
       "date": "2026-07-31"
     },
     {
-      "sha": "5593281d",
-      "subject": "fix(book): the mirror was swallowing every standalone Arabic quotation",
-      "date": "2026-07-30"
+      "sha": "04b2e666",
+      "subject": "podcast(degrees-of-excellence): phase 0c phonetic pass (chunked)",
+      "date": "2026-07-31"
     },
     {
-      "sha": "6c644c37",
-      "subject": "chore(render): rebuild the reading edition from the mirrored book.md",
-      "date": "2026-07-30"
+      "sha": "1807bda8",
+      "subject": "podcast(degrees-of-excellence): phase 0b English refinement (chunked)",
+      "date": "2026-07-31"
     },
     {
-      "sha": "94548951",
-      "subject": "fix(source): two recorded scan corrections — no bare non-Qur'anic Arabic left",
-      "date": "2026-07-30"
+      "sha": "4b4f8425",
+      "subject": "podcast(degrees-of-excellence): checkpoint runtime state at phase 0b",
+      "date": "2026-07-31"
     },
     {
-      "sha": "814f3688",
-      "subject": "fix(vowelling): teach the pass this book's classical spelling — 7 bare fragments to 2",
-      "date": "2026-07-30"
+      "sha": "902d3e91",
+      "subject": "fix(preflight): the watchdog's own heartbeat was blocking the watchdog",
+      "date": "2026-07-31"
     },
     {
-      "sha": "7fb7c927",
-      "subject": "feat(compose): one Arabic panel open at a time, and the last stray speech tags",
-      "date": "2026-07-30"
+      "sha": "a55df754",
+      "subject": "podcast(degrees-of-excellence): record that 0a succeeded, because it did",
+      "date": "2026-07-31"
     },
     {
-      "sha": "a4014b18",
-      "subject": "feat(book): the English paragraphing is the Arabic's",
-      "date": "2026-07-30"
+      "sha": "7936fdc1",
+      "subject": "podcast(degrees-of-excellence): stage the source PDF inside the book",
+      "date": "2026-07-31"
     },
     {
-      "sha": "702e4dc1",
-      "subject": "fix(arabic): a repeated speech tag was pointing 37 paragraphs at the wrong Arabic",
-      "date": "2026-07-30"
+      "sha": "4e0021db",
+      "subject": "podcast(degrees-of-excellence): phase 0a ingest — Azure OCR + translation",
+      "date": "2026-07-31"
     }
   ],
   "wave_execution_events": [],

@@ -55,6 +55,7 @@ from _book_companion_prompts import (
     podcast_lane_prompt,
     rank_order,
 )
+from _book_fences import span_re
 from _buckwalter import arabic_fold
 from _corpus_retrieval import RetrievalIndex, atom_searchable_text
 from _doctrinal import run_doctrinal_checks
@@ -96,7 +97,7 @@ _TRANSCRIPT_MATCH_FLOOR = 0.02
 _MAX_TRANSCRIPTS_PER_CHAPTER = 3
 
 _CHAPTER_HEADING_RE = re.compile(r"(?m)^##\s+(.+?)\s*$")
-_EDITORIAL_SPAN_RE = re.compile(r"<!-- editorial:begin -->.*?<!-- editorial:end -->", re.S)
+_EDITORIAL_SPAN_RE = span_re("editorial")
 _META_RE = re.compile(r"\b(as an ai|i cannot|here is the|the chapter says|this card)\b", re.I)
 _EP_STEM_RE = re.compile(r"^ch(\d+)")
 

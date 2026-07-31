@@ -1066,10 +1066,11 @@ body:has(.composer-grid) .to-top {
 /* Editor-view font family + size, driven by the toolbar. View-only: book.md
    carries no font/size, so these never restyle the printed book. --prose-size is
    set at runtime by book-composer.ts (in-pattern with --cx-w). */
-/* Each stack keeps its chosen Latin face, then routes Arabic to the size-adjusted
-   Amiri (AmiriSized — declared once in theme.css) BEFORE the generic fallback, so
-   the system Arabic face never wins and the Arabic reads at the same visual size
-   as the English. */
+/* Each stack keeps its chosen Latin face, then names AmiriSized (declared once in
+   theme-tokens.css) BEFORE the generic fallback, so the system Arabic face never
+   wins. The alias carried a 135% optical adjustment until 2026-07-31; it does not
+   any more, because the face is already proportioned to a Latin body — see
+   theme-tokens.css for the measurement. */
 .cx-edit-host[data-font="sans"] {
   --prose-font: "Lato", "AmiriSized", "Amiri", system-ui, sans-serif;
 }
@@ -1206,6 +1207,21 @@ body:has(.composer-grid) .to-top {
   direction: rtl;
   unicode-bidi: isolate;
 }
+/* A standalone Arabic quotation — a DISPLAY block, not a sentence with a term in
+   it. renderMd has always emitted `.ar-block` for these and Read had no rule for
+   it, so the same paragraph printed as a centered display quotation in the PDF
+   and as left-aligned running prose at body leading here. The values are the
+   print pair verbatim (book-print.css .ar-block) — Read is where the page is
+   verified, so it has to be the page. */
+.cx-body .ar-block {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  direction: rtl;
+  text-align: center;
+  unicode-bidi: isolate;
+  margin: 0.9rem 0;
+}
+
 .cx-prose p.ar {
   font-family: var(--q-ar-face);
   font-size: 1.05rem;

@@ -174,9 +174,10 @@
   border-left: 2px solid var(--c-rule, #d9d3c4);
   padding: 0.25rem 0 0.25rem 1.1rem;
 }
-/* Inline Arabic (etymology inserts, terms woven into prose) — the size-adjusted
-   Amiri so it reads at the English body's visual size; isolate the RTL run so it
-   doesn't disturb the surrounding Latin. */
+/* Inline Arabic (etymology inserts, terms woven into prose) — at the body size,
+   which reads level with the English because the face is already proportioned to
+   it (theme-tokens.css records the measurement that retired the old 135% optical
+   adjustment). Isolate the RTL run so it doesn't disturb the surrounding Latin. */
 .bookv-body .ar-inline {
   font-family: var(--q-ar-face);
   /* Arabic has no italic. Inside an <em> the browser SYNTHESIZES a slant by
@@ -192,6 +193,19 @@
   direction: rtl;
   unicode-bidi: isolate;
 }
+/* A standalone Arabic quotation — the same display block the PDF and the
+   Composer's Read view set, with the same values (book-print.css .ar-block).
+   The reader's own renderer gained the class on 2026-07-31; until then a
+   quotation standing between two English paragraphs was a bare <p> here. */
+.bookv-body .ar-block {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  direction: rtl;
+  text-align: center;
+  unicode-bidi: isolate;
+  margin: 0.9rem 0;
+}
+
 .bookv-body blockquote.quran p.ar {
   font-family: var(--q-ar-face);
   font-size: 1.05rem;

@@ -70,6 +70,35 @@ const NUMBER_WORDS = [
   "Thirty",
 ];
 
+/**
+ * Is this paragraph an Arabic QUOTATION, rather than English containing Arabic?
+ *
+ * Proportional: an English sentence carrying a glossary term (`the bab (بَاب)`)
+ * is English; a quotation carrying a footnote digit is Arabic. Two thirds of the
+ * letters decides it.
+ *
+ * It matters because such a paragraph gets a DISPLAY treatment — centered, at the
+ * quotation size, with the leading the vowel marks need. Without the class it is
+ * a plain `<p>` at the body's 1.62 leading, and `.ar-inline` pins the runs inside
+ * it to that same line-height to stop one Arabic word inflating a Latin line. That
+ * is right for a word in a sentence and wrong for a whole paragraph of it — and
+ * once every run carried its marks the stacks had nowhere to go, which is how it
+ * came to look oversized and cramped at once (Asif, 2026-07-30).
+ *
+ * THREE-WAY MIRROR, pinned by `arabic-block.fixtures.json`:
+ *   - here (the PDF and the Composer's Read view),
+ *   - `isArabicOnlyParagraph` in src/lib/reader/markdown.ts (the reader; it is
+ *     client-bundled and cannot import this Node-only module),
+ *   - `_book_mirror.is_arabic_block` in Python (the paragraph merge).
+ * A copy that drifts does not throw — it silently gives one surface a display
+ * block the others render as running prose.
+ */
+export function isArabicOnlyParagraph(s) {
+  const arabic = (s.match(/[ؠ-يٱ-ۓ]/g) || []).length;
+  const latin = (s.match(/[A-Za-z]/g) || []).length;
+  return arabic > 20 && arabic > 2 * latin;
+}
+
 export function escapeHtml(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
@@ -544,30 +573,12 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
     aside = null;
   };
 
-  /** Is this paragraph an Arabic QUOTATION, rather than English containing Arabic?
-   *
-   *  Proportional, and mirroring `_book_mirror.is_arabic_block` on the Python side —
-   *  an English sentence carrying a glossary term (`the bab (بَاب)`) is English; a
-   *  quotation carrying a footnote digit is Arabic. Two thirds of the letters.
-   *
-   *  It matters because such a paragraph got NO display treatment in print: a plain
-   *  `<p>` inherits the body's 1.62 leading, and `.ar-inline` pins the runs inside it
-   *  to that same line-height to stop one Arabic word inflating a Latin line. That is
-   *  right for a word in a sentence and wrong for a whole paragraph of it — and once
-   *  every run carried its vowel marks the stacks had nowhere to go, which is how it
-   *  came to look oversized and cramped at the same time (Asif, 2026-07-30). */
-  const arabicOnlyPara = (s) => {
-    const arabic = (s.match(/[ؠ-يٱ-ۓ]/g) || []).length;
-    const latin = (s.match(/[A-Za-z]/g) || []).length;
-    return arabic > 20 && arabic > 2 * latin;
-  };
-
   const flushPara = () => {
     if (!para.length) return;
     const text = para.join(" ");
     const names = [];
     if (chapterJustOpened) names.push("ch-first");
-    if (arabicOnlyPara(text)) names.push("ar-block");
+    if (isArabicOnlyParagraph(text)) names.push("ar-block");
     chapterJustOpened = false;
     const cls = names.length ? ` class="${names.join(" ")}"` : "";
     out.push(`<p${cls}>${renderInline(text)}</p>`);

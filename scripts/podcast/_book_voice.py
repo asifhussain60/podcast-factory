@@ -56,6 +56,7 @@ from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _book_articulation_notes import EMPTY_NOTES, extract_articulation_notes, leaked_marker_findings
 from _book_compose import _arabic_run_count
 from _book_edits import anchor_key, edited_chapter_keys
+from _book_fences import span_re
 from _book_pass_reports import KEPT_STATUSES, STATUS_OVERWRITTEN, load_prior_records, merge_records
 from _book_voice_prompts import _articulation_prompt, _voice_prompt
 from _doctrinal import run_doctrinal_checks
@@ -67,7 +68,9 @@ from _translation_text import _split_paragraphs, _trim_seam_overlap
 _VOICE_TIMEOUT = 900
 _CHAPTER_HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 # Editorial asides (from 0book-augment) are NOT re-voiced — skip these spans.
-_EDITORIAL_SPAN_RE = re.compile(r"<!-- editorial:begin -->.*?<!-- editorial:end -->\n?", re.DOTALL)
+# Tolerant of the bare-marker form a Composer round-trip leaves behind: a span
+# this pass cannot see is a span the model rewrites into the narrator's voice.
+_EDITORIAL_SPAN_RE = span_re("editorial", trailing=r"\n?")
 
 # Windowing thresholds. `_LONG_CHAPTER_WORDS` matches the translation composer's
 # own long-chapter threshold; `_WINDOW_WORDS` sits under it so a split chapter

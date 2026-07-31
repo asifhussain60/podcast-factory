@@ -121,41 +121,42 @@
   font-style: normal;
 }
 
-/* size-adjust enlarges the Arabic glyphs ~35% so Arabic (verses + inline terms)
-   reads at the same visual size as the Latin body — Arabic faces render smaller
-   than Latin at equal point size. In print these families are Arabic-only (the
-   Latin body is Source Serif), so this never affects Latin. Matches the editor
-   and reader (theme.css AmiriSized/AmiriQuranSized). */
+/* These carried `size-adjust: 135%` until 2026-07-31, to "enlarge the Arabic
+   glyphs so Arabic reads at the same visual size as the Latin body". Measured
+   against the real font files, the premise behind it is false of every Arabic
+   face this repo ships — unadjusted, each already sets its base letter between
+   the Latin x-height and cap height. The full measurement is recorded once, in
+   theme-tokens.css; that file is the MIRROR of this one and the two were
+   corrected together, because the printed page has to match the Composer it is
+   verified in.
+
+   With the descriptor gone, the sizes below finally mean what they say: a
+   display quotation at 1.05rem sets its base letter at 1.31x the Latin
+   x-height, and an inline term at the body size sets it at 1.25x. */
 @font-face {
   font-family: "Amiri Quran";
   src: url("/fonts/amiri/AmiriQuran.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  size-adjust: 135%;
 }
 @font-face {
   font-family: "Amiri";
   src: url("/fonts/amiri/Amiri-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  size-adjust: 135%;
 }
 @font-face {
   font-family: "Amiri";
   src: url("/fonts/amiri/Amiri-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
-  size-adjust: 135%;
 }
 
 /* The two Arabic reading faces (2026-07-21). Which one a run gets is decided by
    PROVENANCE, not markup: renderMd tags a run `is-quranic` when the Arabic audit
    resolved it against the canonical mushaf, and quote-typography.css switches
-   --q-ar-face on that class alone.
- *
- * Same 135% adjustment as Amiri above, and for the same reason — these sit beside
- * a Source Serif body and Arabic renders smaller at equal point size. In print
- * both families are Arabic-only, so the adjustment never touches Latin.
+   --q-ar-face on that class alone. Neither is optically adjusted — see the note
+   above the Amiri block.
  *
  * The KFGQPC file is vendored byte-for-byte from quran.com. Its EULA grants free
  * use, copy and distribution but forbids modification: never subset or re-encode
@@ -166,7 +167,6 @@
     format("woff2");
   font-weight: 400;
   font-style: normal;
-  size-adjust: 135%;
 }
 @font-face {
   font-family: "Scheherazade New";
@@ -174,14 +174,12 @@
     format("woff2");
   font-weight: 700;
   font-style: normal;
-  size-adjust: 135%;
 }
 @font-face {
   font-family: "UthmanicHafs";
   src: url("/fonts/uthmanic-hafs/UthmanicHafs1Ver18.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  size-adjust: 135%;
 }
 
 /* Running head. A reader landing on page 60 of a 123-page book had no cue what
@@ -501,13 +499,21 @@ p {
 
    The numbers are this file's OWN display-Arabic pair, already set on
    `blockquote.quran p.ar` below and matched by the Composer's read view: 1.05rem
-   over 1.9. Beside a 1rem Latin body that is the SAME visual size, because
-   --q-ar-face leads with the size-adjusted faces; the 1.9 is what the marks need. */
+   over 1.9. Beside a 1rem Latin body that reads a touch larger, as a display
+   quotation should; the 1.9 is what the marks need.
+
+   CENTERED, not right-aligned (2026-07-31). Right was inherited from `direction:
+   rtl` thinking — correct for a paragraph of running Arabic PROSE, wrong for
+   what this class actually matches, which is a display quotation standing alone
+   between English paragraphs. Right-aligned, every one of them hung off the
+   right margin with a ragged gap on the left while the 27 `blockquote.quran`
+   verses on the same pages sat centered: one book, two conventions. `direction`
+   stays rtl — that is bidi ordering, and only the alignment changed. */
 .ar-block {
   font-size: 1.05rem;
   line-height: 1.9;
   direction: rtl;
-  text-align: right;
+  text-align: center;
   unicode-bidi: isolate;
   margin: 0.9rem 0;
 }

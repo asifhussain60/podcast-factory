@@ -195,6 +195,21 @@ function renderInline(text: string, opts: RenderOptions): string {
 const ARABIC_INLINE_RE = /[﴿«]?[\s؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]+[﴾»]?/g;
 
 /**
+ * Is this paragraph an Arabic QUOTATION, rather than English containing Arabic?
+ *
+ * Deliberately duplicated rather than imported: the canonical copy lives in
+ * scripts/lib/book-html.mjs, which reads the filesystem and so cannot be pulled
+ * into this client-bundled module. The two, plus `_book_mirror.is_arabic_block`
+ * on the Python side, are pinned against each other by `arabic-block.fixtures.json`
+ * — see the canonical copy's own note for what drift costs.
+ */
+export function isArabicOnlyParagraph(s: string): boolean {
+  const arabic = (s.match(/[ؠ-يٱ-ۓ]/g) || []).length;
+  const latin = (s.match(/[A-Za-z]/g) || []).length;
+  return arabic > 20 && arabic > 2 * latin;
+}
+
+/**
  * Wrap each inline Arabic run in the same `.ar-inline` span the PRINT renderer
  * emits (book-html.mjs `renderInline`).
  *
@@ -293,7 +308,15 @@ export function renderMarkdown(
   const flushPara = () => {
     if (paraBuffer.length === 0) return;
     const text = paraBuffer.join(" ").trim();
-    if (text) out.push(`<p>${renderInline(text, opts)}</p>`);
+    if (text) {
+      // A standalone Arabic quotation is a DISPLAY block, not a sentence with a
+      // term in it. The reader used to emit a bare <p> for one while the PDF and
+      // the Composer's Read view (both renderMd) emitted `.ar-block` — so the same
+      // paragraph was a centered display quotation in two surfaces and left-aligned
+      // running prose at body leading in the third.
+      const cls = isArabicOnlyParagraph(text) ? ' class="ar-block"' : "";
+      out.push(`<p${cls}>${renderInline(text, opts)}</p>`);
+    }
     paraBuffer = [];
   };
 

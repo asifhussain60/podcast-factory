@@ -10,9 +10,11 @@ Most of what follows guards the ways a merge could quietly damage the text.
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
+REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from _book_mirror import (  # noqa: E402
@@ -187,3 +189,26 @@ def test_is_arabic_block_separates_a_quotation_from_a_glossed_sentence() -> None
     assert is_arabic_block("فَابْتَدَأَ خَلْقَ مَا خَلَقَ مِنْ نُورٍ تَفَرَّعَ مِنْهُ ثَلَاثُ كَلِمَاتٍ.")
     assert not is_arabic_block("The bab (بَاب) is the gate through which teaching passes.")
     assert not is_arabic_block("Plain English with no Arabic in it at all.")
+
+
+def test_is_arabic_block_matches_the_shared_fixtures() -> None:
+    """The Python third of a three-way mirror.
+
+    The same question is answered by ``isArabicOnlyParagraph`` in
+    ``plan-dashboard/scripts/lib/book-html.mjs`` (the PDF and the Composer's Read
+    view) and again in ``src/lib/reader/markdown.ts`` (the reader, which is
+    client-bundled and cannot import the Node-only module). All three read THIS
+    fixture file, because drift between them is silent: one surface centers a
+    paragraph as a display quotation while another sets it as running prose, and
+    on this side the paragraph merge absorbs a quotation into the English beside
+    it instead of leaving it standing alone.
+    """
+    fixtures = json.loads(
+        (REPO / "plan-dashboard" / "scripts" / "lib" / "arabic-block.fixtures.json").read_text(encoding="utf-8")
+    )
+    cases = fixtures["cases"]
+    assert cases, "fixture file is empty"
+    # Guard the guard: an all-true fixture set passes against a constant function.
+    assert any(c["out"] for c in cases) and any(not c["out"] for c in cases)
+    for case in cases:
+        assert is_arabic_block(case["in"]) is case["out"], case["why"]

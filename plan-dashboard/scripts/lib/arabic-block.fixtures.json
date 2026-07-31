@@ -1,0 +1,60 @@
+{
+  "_comment": "Shared fixtures for the standalone-Arabic-paragraph predicate, which exists in THREE places: isArabicOnlyParagraph in plan-dashboard/scripts/lib/book-html.mjs (the PDF + the Composer's Read view), isArabicOnlyParagraph in plan-dashboard/src/lib/reader/markdown.ts (the reader — client-bundled, so it cannot import the Node-only mjs module), and _book_mirror.is_arabic_block in scripts/podcast/_book_mirror.py (the paragraph merge). Read by plan-dashboard/scripts/lib/arabic-block.test.mjs and scripts/podcast/tests/test_book_mirror.py. Drift here does not throw: it gives one surface a centered display quotation that the others render as running left-aligned prose, or lets the merge absorb a quotation into the English around it. The threshold is proportional on purpose (over 20 Arabic letters AND more than twice the Latin) so an English sentence carrying a glossary term stays English.",
+  "cases": [
+    {
+      "why": "a hadith set on its own line — the case the whole class exists for",
+      "in": "إِنَّ أَفْضَلَ الْحَسَنَاتِ إِحْيَاءُ الْأَمْوَاتِ",
+      "out": true
+    },
+    {
+      "why": "a Qur'anic verse, likewise",
+      "in": "وَمَا يُلَقَّىٰهَآ إِلَّا ٱلَّذِينَ صَبَرُوا۟ وَمَا يُلَقَّىٰهَآ إِلَّا ذُو حَظٍّ عَظِيمٍۢ",
+      "out": true
+    },
+    {
+      "why": "English prose carrying one glossary term is ENGLISH and must not be centered",
+      "in": "He became one of the scholars of the Mount (Tur, اَلطُّور) and one of those who dwell at the Frequented House.",
+      "out": false
+    },
+    {
+      "why": "two glossary terms in a short English sentence — still English by proportion",
+      "in": "The bab (بَاب) opens onto the hujjah (حُجَّة).",
+      "out": false
+    },
+    {
+      "why": "an Arabic quotation carrying a bracketed footnote digit is still Arabic",
+      "in": "شَهِدَ فُلَانٌ وَهُوَ عَدْلٌ مِنَ الْعُدُولِ [12]",
+      "out": true
+    },
+    {
+      "why": "below the 20-letter floor — too little Arabic to be a display quotation",
+      "in": "اَلطُّور",
+      "out": false
+    },
+    {
+      "why": "exactly 20 Arabic letters is NOT enough; the test is strictly greater",
+      "in": "اااااااااااااااااااا",
+      "out": false
+    },
+    {
+      "why": "21 clears the floor — the other side of the same boundary",
+      "in": "ااااااااااااااااااااا",
+      "out": true
+    },
+    {
+      "why": "plain English",
+      "in": "The Master said: the first limit is that you uphold the outward teachings.",
+      "out": false
+    },
+    {
+      "why": "empty input",
+      "in": "",
+      "out": false
+    },
+    {
+      "why": "Arabic-Indic digits and punctuation are not letters and do not count either way",
+      "in": "١٢٣٤٥٦٧٨٩٠ ،؛؟",
+      "out": false
+    }
+  ]
+}

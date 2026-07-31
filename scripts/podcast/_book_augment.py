@@ -30,6 +30,7 @@ from typing import Any, Callable
 from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
 from _book_edits import anchor_key, edited_chapter_keys
+from _book_fences import strip_spans
 from _corpus_retrieval import RetrievalIndex, UsedLedger, attribute_used
 from _doctrinal import run_doctrinal_checks
 from _narrator_policy import atom_narrator, disallowed_narrator
@@ -340,12 +341,13 @@ def insert_blocks(book_md: str, blocks_by_position: dict[int, str]) -> str:
 
 
 def _strip_existing_blocks(text: str) -> str:
-    return re.sub(
-        re.escape(_BLOCK_OPEN) + r".*?" + re.escape(_BLOCK_CLOSE) + r"\n?",
-        "",
-        text,
-        flags=re.DOTALL,
-    )
+    """Remove prior editorial blocks so a re-run replaces rather than stacks.
+
+    Matches the bare-marker form too (see ``_book_fences``): a block whose fence a
+    Composer round-trip flattened is still THIS pass's own prior output, and
+    failing to recognise it is how the same aside ends up printed twice.
+    """
+    return strip_spans(text, "editorial", trailing=r"\n?")
 
 
 def author_phase_book_augment(

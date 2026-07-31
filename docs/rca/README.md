@@ -50,3 +50,7 @@ Analysis discipline, always:
 |---|---|---|---|
 | RCA-001 | 2026-07-22 | [Composer snapshots froze un-articulated prose across 8 of 9 chapters](2026-07-22-composer-snapshots-froze-unarticulated-prose.md) | Resolved — SHIP-READY; AI-2/6/7 open |
 | RCA-002 | 2026-07-27 | [Composer autosave wrote four corruptions into a publication-bound book.md](2026-07-27-composer-autosave-wrote-corruption-into-book-md.md) | Resolved — tree restored; AI-1…AI-5 open |
+| RCA-003 | 2026-07-28 | [Automated QA session deleted two Companion notes from a live book](2026-07-28-automation-deleted-companion-notes.md) | Resolved — data restored, delete path confirmation-guarded |
+| RCA-004 | 2026-07-30 | [A full paid vowelling run was refused at the last gate and discarded](2026-07-30-source-vowelling-refused-after-a-full-paid-run.md) | Resolved — both causes fixture-pinned; AI-3 open |
+| RCA-005 | 2026-07-31 | [An editorial aside printed twice, once in the narrator's own voice](2026-07-31-an-editorial-aside-printed-twice-in-the-reading-edition.md) | Resolved — fence matching now form-tolerant; AI-2/3/4 open |
+| RCA-006 | 2026-07-31 | [A typographic premise no one could check spread through four stylesheets](2026-07-31-an-unverified-typographic-premise-propagated-by-citation.md) | Resolved — descriptor removed, measurement recorded; AI-2/3 open |
