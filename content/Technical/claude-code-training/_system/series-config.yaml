@@ -5,6 +5,16 @@ content_type: explainer-series
 source_language: en
 pipeline_mode: explainer_series
 
+# Declared 2026-07-31. This was the ONLY book in the repo with no
+# `content_profile`, and `_content_profile.resolve_content_profile` treats an
+# undeclared profile as `islamic_scholarly` — a deliberate, documented fallback
+# so that every book predating the field kept working. Harmless while nothing
+# branched on it; not harmless once the reading-edition knob defaults did, which
+# would have routed a Claude Code training series down the Islamic scholarly
+# articulation path. Fixed where it is actually wrong — in the book that never
+# said what it was — rather than by teaching the shared resolver a second answer.
+content_profile: technical
+
 audience_profile:
   description: "Professional software developers currently using GitHub Copilot in VSCode"
   assumed_knowledge:

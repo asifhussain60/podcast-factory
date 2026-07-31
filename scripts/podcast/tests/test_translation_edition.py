@@ -93,8 +93,17 @@ def test_faithful_deliverable_covers_v2_faithful_and_legacy(tmp_path: Path) -> N
     )
     assert not is_faithful_translation_deliverable(v2c)
 
-    # Neither -> false.
-    plain = _book(tmp_path / "plain", "content_profile: islamic_scholarly\n")
+    # An Islamic book that declares NOTHING is a faithful deliverable (2026-07-31):
+    # the knob default puts it on the faithful voice, and this predicate follows the
+    # resolved voice rather than the config text — which is the point of it. So the
+    # translation-route ship gates (B3's translation branch, B4/B5/B6) now apply to
+    # it, matching the artifact the faithful route actually produces.
+    islamic_default = _book(tmp_path / "islamic", "content_profile: islamic_scholarly\n")
+    assert is_faithful_translation_deliverable(islamic_default)
+
+    # Neither -> false. A non-Islamic book with nothing declared still defaults to
+    # the author-companion voice, so it is not a faithful translation deliverable.
+    plain = _book(tmp_path / "plain", "content_profile: fiction\n")
     assert not is_faithful_translation_deliverable(plain)
 
 
