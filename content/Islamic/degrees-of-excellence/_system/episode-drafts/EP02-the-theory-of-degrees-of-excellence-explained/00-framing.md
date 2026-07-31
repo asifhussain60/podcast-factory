@@ -7,7 +7,7 @@ Hosts: John (male, scholar) leads; Hannah (female, seeker) questions. Open with 
 Fixed English label per figure, every time — never speak Arabic names or book titles.
 - al-Naysaburi → "the author" (named once in the welcome, then "the author").
 - The Prophet → "the Prophet"; first mention only add "peace and blessings of Allah be upon him and his family."
-- First imam → first mention add "peace be upon him"; Rotation: the Commander of the Faithful / the Father of Imams / the first imam. Never say "Imam Ali." Never speak the forbidden pairing of the leadership-title and the personal name.
+- First imam → first mention add "peace be upon him"; Rotation: the Commander of the Faithful / the Father of Imams / the first imam. Never speak the forbidden pairing of the leadership-title and the personal name.
 - Reigning imam → "the imam," unnamed. First Fatimid caliph → "the first Fatimid caliph." Khurasan thinker → "the great philosopher of the author's homeland."
 - Concepts in English: the one who arises (not the Arabic title); speaker-prophet and keeper of the inner meaning; the ten categories; the Universal Intellect.
 

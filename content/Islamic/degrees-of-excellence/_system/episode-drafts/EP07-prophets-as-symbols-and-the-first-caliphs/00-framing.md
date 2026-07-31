@@ -7,7 +7,7 @@ Hosts: John (male, scholar) leads; Hannah (female, seeker) questions. Open with 
 Fixed English label per figure, every time — never speak Arabic names or the book's Arabic title.
 - al-Naysaburi → "the author."
 - The Prophet → "the Prophet"; at first mention only add "peace and blessings of Allah be upon him and his family."
-- First imam → the Commander of the Faithful / the Father of Imams / the first imam; at first mention only add "peace be upon him." Never say "Imam Ali." Never speak the forbidden pairing of the leadership-title and the personal name.
+- First imam → the Commander of the Faithful / the Father of Imams / the first imam; at first mention only add "peace be upon him." Never speak the forbidden pairing of the leadership-title and the personal name.
 - Reigning imam → "the imam," unnamed. Caliphs may be named: Abu Bakr, Umar. Noah's son → "Shem." Speak all prophets by English name.
 
 ## Pronunciation
