@@ -29,3 +29,4 @@
 {"ts": "2026-07-31T13:01:08Z", "phase": "0b", "step": "win-027", "model": "claude-sonnet-4-6", "input_tokens": 5600, "output_tokens": 2276, "cache_read": 0, "cache_create": 0, "cost_usd": 0.05094, "engine": "api"}
 {"ts": "2026-07-31T13:01:36Z", "phase": "0b", "step": "win-028", "model": "claude-sonnet-4-6", "input_tokens": 5669, "output_tokens": 2354, "cache_read": 0, "cache_create": 0, "cost_usd": 0.052317, "engine": "api"}
 {"ts": "2026-07-31T13:02:56Z", "phase": "0b", "step": "win-029", "model": "claude-sonnet-4-6", "input_tokens": 6394, "output_tokens": 5420, "cache_read": 0, "cache_create": 0, "cost_usd": 0.100482, "engine": "api"}
+{"ts": "2026-07-31T13:11:56Z", "phase": "0d", "step": "toc", "model": "claude-opus-4-8", "input_tokens": 40, "output_tokens": 35559, "cache_read": 1845588, "cache_create": 139151, "cost_usd": 0.0, "engine": "max"}

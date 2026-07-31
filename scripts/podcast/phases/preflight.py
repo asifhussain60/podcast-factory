@@ -191,6 +191,7 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             # Cost a live book its restart on 2026-07-31.
             "/_system/status-velocity.json",
             "/_system/status-card.txt",
+            "/_system/model-provenance.jsonl",
             "scripts/podcast/tighten_source.py",
             ".code-workspace",
         )

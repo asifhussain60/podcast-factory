@@ -4,11 +4,15 @@
   "category": "books",
   "branch": "Islamic/degrees-of-excellence",
   "status": "draft",
-  "phase": "0ci",
-  "phase_status": "completed",
+  "phase": "0d",
+  "phase_status": "failed",
   "last_completed_phase": "0ci",
   "next_phase": "0d",
-  "last_error": null,
+  "last_error": {
+    "phase": "0d",
+    "message": "Phase 0d segmentation is over-crammed — too many teachings per episode (ceiling 6000w/episode for category 'books'):\n  sc 5 (Select Bibliography, Indexes, and a Seco): 30662w over 0 episode(s) = 30662w/episode > 6000w ceiling — split into >= 6 episodes",
+    "ts": "2026-07-31T13:11:56Z"
+  },
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -45,7 +49,10 @@
       "ts_completed": "2026-07-31T13:02:58Z"
     },
     "0d": {
-      "status": "pending"
+      "status": "failed",
+      "ts_started": "2026-07-31T13:02:58Z",
+      "ts_completed": "2026-07-31T13:11:56Z",
+      "manual_fallback": "Edit `/Users/ahmac/Code/podcast-factory/content/Islamic/degrees-of-excellence/_system/source/text/_chunks/0d/source-toc.json`: raise episode_count (unit_mode='sections') for the flagged source chapter(s), re-cutting at thematic seams so each episode is ONE coherent teaching cluster, then retry Phase 0d (--resume --retry-phase 0d)."
     },
     "0e": {
       "status": "pending"
@@ -118,7 +125,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-07-31T13:02:58Z",
+  "ts_updated": "2026-07-31T13:11:56Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {

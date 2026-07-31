@@ -28,7 +28,14 @@ class RuntimeAllowlistTests(unittest.TestCase):
         self.text = PREFLIGHT.read_text(encoding="utf-8")
 
     def test_the_heartbeat_artifacts_are_allowlisted(self) -> None:
-        for artifact in ("/_system/status-velocity.json", "/_system/status-card.txt"):
+        for artifact in (
+            "/_system/status-velocity.json",
+            "/_system/status-card.txt",
+            # Appended by the authoring phases as they call models — same class,
+            # found the same way: it stranded the 0d retry an hour after the
+            # heartbeat files stranded the 0b one.
+            "/_system/model-provenance.jsonl",
+        ):
             self.assertIn(
                 f'"{artifact}"',
                 self.text,
