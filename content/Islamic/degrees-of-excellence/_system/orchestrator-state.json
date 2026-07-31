@@ -5,7 +5,7 @@
   "branch": "Islamic/degrees-of-excellence",
   "status": "draft",
   "phase": "per-chapter",
-  "phase_status": "running",
+  "phase_status": "failed",
   "last_completed_phase": "0e",
   "next_phase": "0literary",
   "last_error": {
@@ -80,14 +80,15 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-07-31T15:47:03Z",
-      "current_chapter": "the-virtues-of-ali-the-imam-who-mirrors-god",
-      "last_beat": "2026-07-31T17:50:46Z",
+      "current_chapter": "worship-alms-and-war-void-without-the-imam",
+      "last_beat": "2026-07-31T18:00:03Z",
       "completed_slugs": [
         "degrees-of-excellence-the-peak-of-every-kind",
         "prophets-as-symbols-and-the-first-caliphs",
         "the-fatimid-world-and-al-naysaburi",
         "the-imam-and-the-authority-over-sacred-law",
-        "the-theory-of-degrees-of-excellence-explained"
+        "the-theory-of-degrees-of-excellence-explained",
+        "the-virtues-of-ali-the-imam-who-mirrors-god"
       ],
       "failed_slugs": [
         "the-imamate-pole-and-foundation-of-religion"
@@ -138,6 +139,13 @@
         },
         "the-virtues-of-ali-the-imam-who-mirrors-god": {
           "started_ts": "2026-07-31T17:34:45Z",
+          "completed_ts": "2026-07-31T18:00:02Z",
+          "duration_sec": 1516.9,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "worship-alms-and-war-void-without-the-imam": {
+          "started_ts": "2026-07-31T18:00:03Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -199,7 +207,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-07-31T17:50:46Z",
+  "ts_updated": "2026-07-31T18:00:03Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
