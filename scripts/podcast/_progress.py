@@ -50,6 +50,27 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+# Ensure scripts/podcast/ is importable when this module is loaded from within
+# a package directory (mirrors _authoring/_core.py).
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+# DR-005 re-exports — the run-log block moved verbatim to _runlog.py when it
+# pushed this module past the 600-line limit; the names stay importable here.
+# One line each: the parenthesised form costs a dozen lines and says no more.
+from _runlog import RUN_LOG_RETENTION as RUN_LOG_RETENTION
+from _runlog import RUN_LOG_TAIL_CHARS as RUN_LOG_TAIL_CHARS
+from _runlog import current_run_id as current_run_id
+from _runlog import init_run_log as init_run_log
+from _runlog import log_event as log_event
+from _runlog import mint_run_id as mint_run_id
+from _runlog import read_run_events as read_run_events
+from _runlog import reset_run_log as reset_run_log
+from _runlog import run_log_enabled as run_log_enabled
+from _runlog import run_log_path as run_log_path
+from _runlog import runs_dir as runs_dir
+from _runlog import tail as tail
+from _runlog import write_failure_dump as write_failure_dump
+
 ORCHESTRATOR_VERSION = "1.2"  # 2026-05-19: chunked 0b/0c + unit_mode (chapter|section|auto) + --retry-phase
 SCHEMA_VERSION = 1
 
@@ -291,7 +312,28 @@ def update_phase(
     elif status == "completed":
         state["last_error"] = None
 
+    # Run correlation (2026-07-31): stamp the run id into the checkpoint so
+    # state.json and the timeline under _workspace/runs/ share one key. Lazily
+    # mints a run id if nothing initialised one — a phase transition is proof a
+    # run is under way, so there is no ordering requirement on main().
+    run_id = current_run_id() or init_run_log(book_dir, slug=state.get("book_slug"))
+    if run_id:
+        state["run_id"] = run_id
+
     write_state(book_dir, state)
+
+    # Timeline + failure dump. Both are internally guarded: observability must
+    # never turn a working phase into a failed one.
+    log_event(
+        f"phase.{status}",
+        book_dir=book_dir,
+        level="error" if status == "failed" else "info",
+        phase=phase,
+        slug=state.get("book_slug"),
+        msg=error or "",
+    )
+    if status in ("failed", "halted"):
+        write_failure_dump(book_dir, state)
     return state
 
 

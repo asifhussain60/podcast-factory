@@ -1779,8 +1779,8 @@
   "metrics": {
     "burn_30d_usd": 12.94
   },
-  "generated_at": "2026-07-31T09:22:49-04:00",
-  "source_commit": "9cfd8daa",
+  "generated_at": "2026-07-31T17:32:00-04:00",
+  "source_commit": "1503103",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1802,7 +1802,7 @@
     {
       "slug": "degrees-of-excellence",
       "title": "degrees-of-excellence",
-      "phase": "0d",
+      "phase": "per-chapter-slides",
       "phase_status": "running",
       "cost_to_date_usd": 0,
       "kind": "unknown"
@@ -1842,53 +1842,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "9cfd8daa",
-      "subject": "fix(0d): the topic floor asked skipped chapters to enumerate topics",
+      "sha": "1503103",
+      "subject": "fix(orchestrator): five real bugs from a full control-flow + gate review",
       "date": "2026-07-31"
     },
     {
-      "sha": "9522df65",
-      "subject": "fix(0d): the density brake measured chapters that produce no episodes",
+      "sha": "27921e3",
+      "subject": "feat(degrees-of-excellence): drop the Introduction episodes, series is al-Naysaburi's treatise only",
       "date": "2026-07-31"
     },
     {
-      "sha": "faeb044c",
-      "subject": "podcast(degrees-of-excellence): phase 0ci book intelligence gap analysis",
+      "sha": "d62264b",
+      "subject": "fix(slides): build_slide_deck.py validator crashed on every single call",
       "date": "2026-07-31"
     },
     {
-      "sha": "04b2e666",
-      "subject": "podcast(degrees-of-excellence): phase 0c phonetic pass (chunked)",
+      "sha": "4d892f1",
+      "subject": "fix(degrees-of-excellence): build the glossary G13 needed, correctly this time",
       "date": "2026-07-31"
     },
     {
-      "sha": "1807bda8",
-      "subject": "podcast(degrees-of-excellence): phase 0b English refinement (chunked)",
+      "sha": "6aba2d9",
+      "subject": "podcast(degrees-of-excellence): phase 11b slide-deck cohort",
       "date": "2026-07-31"
     },
     {
-      "sha": "4b4f8425",
-      "subject": "podcast(degrees-of-excellence): checkpoint runtime state at phase 0b",
+      "sha": "4697431",
+      "subject": "docs(degrees-of-excellence): declare the narrative frame, decided not guessed",
       "date": "2026-07-31"
     },
     {
-      "sha": "902d3e91",
-      "subject": "fix(preflight): the watchdog's own heartbeat was blocking the watchdog",
+      "sha": "df0424b",
+      "subject": "podcast(degrees-of-excellence): phase 0g register series + dual-auditor bundle sweep",
       "date": "2026-07-31"
     },
     {
-      "sha": "a55df754",
-      "subject": "podcast(degrees-of-excellence): record that 0a succeeded, because it did",
+      "sha": "6d76cb6",
+      "subject": "podcast(degrees-of-excellence)[the-imamate-pole-and-foundation-of-religion]: SHIP-WITH-CAUTION (iter=3 · P0=0 P1=0)",
       "date": "2026-07-31"
     },
     {
-      "sha": "7936fdc1",
-      "subject": "podcast(degrees-of-excellence): stage the source PDF inside the book",
+      "sha": "d4d96c6",
+      "subject": "podcast(degrees-of-excellence)[worship-alms-and-war-void-without-the-imam]: SHIP-WITH-CAUTION (iter=2 · P0=0 P1=0)",
       "date": "2026-07-31"
     },
     {
-      "sha": "4e0021db",
-      "subject": "podcast(degrees-of-excellence): phase 0a ingest — Azure OCR + translation",
+      "sha": "f0923e1",
+      "subject": "docs(degrees-of-excellence): record the attribution the source had all along",
       "date": "2026-07-31"
     }
   ],
