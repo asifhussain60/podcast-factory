@@ -12,3 +12,7 @@
 {"phase": "0e", "step": "ch06d-worship-alms-and-war-void-without-the-imam", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0e", "step": "ch07e-prophets-as-symbols-and-the-first-caliphs", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0e", "step": "ch08f-the-virtues-of-ali-the-imam-who-mirrors-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/degrees-of-excellence-the-peak-of-every-kind", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/degrees-of-excellence-the-peak-of-every-kind", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/degrees-of-excellence-the-peak-of-every-kind/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/degrees-of-excellence-the-peak-of-every-kind", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
