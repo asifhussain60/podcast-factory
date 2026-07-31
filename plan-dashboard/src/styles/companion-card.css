@@ -362,9 +362,10 @@
   color: var(--c-ink-dim);
 }
 
-/* Arabic inside an explanation. The Sized face carries the site's 135%
-   size-adjust — Arabic renders visually smaller than Latin at equal point size —
-   and the extra line-height keeps a vowelled run from clipping its neighbours. */
+/* Arabic inside an explanation. The 1.08em nudge is this card's own — the Sized
+   face carried a site-wide 135% optical adjustment until 2026-07-31, when
+   measurement showed the faces need none (theme-tokens.css). The extra
+   line-height keeps a vowelled run from clipping its neighbours. */
 .xpl-ar {
   font-family:
     "ScheherazadeSized", "Scheherazade New", "Noto Naskh Arabic", serif;

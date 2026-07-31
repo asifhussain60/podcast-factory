@@ -63,6 +63,13 @@ def _podcasted_books() -> list[Path]:
     """Book dirs carrying BOTH a reading edition and podcast chapter sources."""
     found: list[Path] = []
     for bucket in sorted(CONTENT.glob("*/")):
+        # `Path.glob("*/")` does NOT filter to directories on every platform — on
+        # macOS it returns plain files too, so a stray `content/.DS_Store` made
+        # `iterdir()` raise NotADirectoryError and took the whole COLLECTION down,
+        # every test in this file with it. Finder leaves one behind whenever
+        # 0book-render opens the output folder, so this is a thing that happens.
+        if not bucket.is_dir():
+            continue
         if bucket.name.startswith("_") or bucket.name == "knowledge-base":
             continue
         for book in sorted(p for p in bucket.iterdir() if p.is_dir()):

@@ -83,10 +83,12 @@
   text-align: right;
   font-family: var(--q-ar-face);
   /* Arabic at the English's visual size. The SAME pair compose-print.css sets on
-     `.cx-print blockquote.quran p.ar`, and for the same reason: --q-ar-face leads
-     with the size-adjusted aliases, so 1.05rem here reads level with the 1.02rem
-     body prose beside it. The former 1.45rem/2.15 made the source tower over the
-     translation it was there to support. */
+     `.cx-print blockquote.quran p.ar`. Level with the 1.02rem body prose beside
+     it because the FACES are already proportioned that way — the 135% optical
+     adjustment this comment used to credit was measured in 2026-07-31 and removed
+     (see theme-tokens.css); with it in force, 1.05rem here was not level at all.
+     The earlier 1.45rem/2.15 made the source tower over the translation it was
+     there to support. */
   font-size: 1.05rem;
   line-height: 1.9;
   color: var(--c-text, #241f1a);

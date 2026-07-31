@@ -27,14 +27,36 @@
 @import "tailwindcss";
 @import "./chapter-viewer.css";
 
-/* ── Arabic, optically enlarged ────────────────────────────────────
-   Arabic faces render ~35% smaller than Latin at the same point size,
-   so inline Arabic (etymology inserts, terms) and verses looked shrunken
-   next to the English body. These size-adjusted, self-hosted faces scale
-   the Arabic glyphs up per-face — Latin text keeps its own font untouched.
-   Referenced (Latin-first, sized-Arabic-before-generic) by the editor,
-   reader, and citation Arabic stacks. The PDF self-hosts its own size-
-   adjusted Amiri in book-print.css (it doesn't load this file's @font-face).
+/* ── The Arabic faces ──────────────────────────────────────────────
+   These carried `size-adjust: 135%` from their introduction until 2026-07-31,
+   on the premise that "Arabic faces render ~35% smaller than Latin at the same
+   point size". Measured against the actual font files in Chromium, that premise
+   is FALSE of all four faces this repo ships. Comparing the base letter ب to a
+   19.2px Source Serif body (x-height 9.16px, cap height 12.86px), UNADJUSTED:
+
+     Scheherazade New  11.44px   1.25x the Latin x-height, 0.89x its cap
+     UthmanicHafs      10.58px   1.16x                     0.82x
+     Amiri             12.52px   1.37x                     0.97x
+     Amiri Quran       12.52px   1.37x                     0.97x
+
+   Every one already sits between the Latin x-height and cap height with no
+   adjustment at all, which is the proportion Arabic beside Latin wants. The
+   135% pushed the base letter to 1.11-1.31x the Latin CAPITAL height — before a
+   single vowel mark was stacked on top of it. In the reading edition a marked
+   run occupied 43px of ink where a whole Latin line from ascender to descender
+   occupies 18.8px, and the Arabic visibly towered over the English it sat in.
+
+   So the descriptor is gone and every Arabic `font-size` in the codebase now
+   means what its own comment always claimed: 1.05rem for a display quotation,
+   `inherit` for a term woven into prose, level with the Latin beside it.
+
+   The `*Sized` family names are kept — every Arabic stack in the editor, reader
+   and citation views names them first, and renaming is a rename, not a fix. They
+   are now plain self-hosted aliases carrying no optical adjustment.
+
+   MIRROR: book-print.css declares the same faces for the PDF (which does not
+   load this file) and was corrected in the same change. The two must move
+   together or the printed page stops matching the Composer it is verified in.
    ──────────────────────────────────────────────────────────────── */
 @font-face {
   font-family: "AmiriSized";
@@ -42,7 +64,6 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  size-adjust: 135%;
 }
 @font-face {
   font-family: "AmiriSized";
@@ -50,7 +71,6 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  size-adjust: 135%;
 }
 @font-face {
   font-family: "AmiriQuranSized";
@@ -58,18 +78,11 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  size-adjust: 135%;
 }
 
 /* The two Arabic reading faces (2026-07-21). Scheherazade New carries every
-   non-Qur'anic run; the KFGQPC Uthmanic script carries scripture. Both are
-   size-adjusted on the same 135% basis as Amiri above, for the same reason —
-   Arabic renders visually smaller than Latin at equal point size, and these sit
-   beside a Latin body. The Sized aliases exist so the raw families stay
-   available unadjusted.
-
-   MIRROR: book-print.css declares both families for the PDF (which does not load
-   this file), WITHOUT the size adjustment — see its own note.
+   non-Qur'anic run; the KFGQPC Uthmanic script carries scripture. Neither is
+   optically adjusted — see the measurement in the block above.
 
    The KFGQPC file is vendored byte-for-byte from quran.com under an EULA that
    grants free use/copy/distribution but forbids modification: never subset,
@@ -81,7 +94,6 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  size-adjust: 135%;
 }
 @font-face {
   font-family: "ScheherazadeSized";
@@ -90,7 +102,6 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  size-adjust: 135%;
 }
 @font-face {
   font-family: "Scheherazade New";
@@ -106,7 +117,6 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  size-adjust: 135%;
 }
 @font-face {
   font-family: "UthmanicHafs";

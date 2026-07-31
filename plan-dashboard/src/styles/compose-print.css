@@ -91,12 +91,13 @@
   color: var(--c-ink, #1f1d18);
   direction: rtl;
   /* The declared divergence that used to sit here is RESOLVED (2026-07-21).
-     Screen and print now name the same token, and the size correction lives in
-     the @font-face declarations rather than in the selector: the token's stack
-     leads with the *Sized aliases, which only the screen declares (theme-tokens.css,
-     size-adjust 135%), and falls through in print to the plain families, which
-     book-print.css declares with the same adjustment baked in. Both surfaces get
-     Arabic at Latin's visual size while naming one identical string. */
+     Screen and print name the same token: the stack leads with the *Sized aliases,
+     which only the screen declares (theme-tokens.css), and falls through in print
+     to the plain families that book-print.css declares. Neither carries an optical
+     adjustment any more — both did until 2026-07-31, at 135%, on a premise that
+     measurement disproved (theme-tokens.css records it). What kept the two
+     surfaces equal was that they were adjusted IDENTICALLY, and that still holds
+     now that neither is. */
   font-family: var(--q-ar-face);
   font-size: 1.05rem;
   line-height: 1.9;
