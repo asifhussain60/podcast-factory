@@ -4,8 +4,8 @@
   "category": "books",
   "branch": "Islamic/degrees-of-excellence",
   "status": "draft",
-  "phase": "0g",
-  "phase_status": "completed",
+  "phase": "per-chapter-slides",
+  "phase_status": "failed",
   "last_completed_phase": "0g",
   "next_phase": "per-chapter",
   "last_error": null,
@@ -233,7 +233,21 @@
       "reason": "optimize_enabled=false in meta.yml"
     },
     "per-chapter-slides": {
-      "status": "pending"
+      "status": "failed",
+      "ts_started": "2026-07-31T19:19:45Z",
+      "ts_completed": "2026-07-31T20:23:19Z",
+      "outcomes": {
+        "the-fatimid-world-and-al-naysaburi": "BLOCKED",
+        "the-virtues-of-ali-the-imam-who-mirrors-god": "BLOCKED",
+        "degrees-of-excellence-the-peak-of-every-kind": "BLOCKED",
+        "the-imam-and-the-authority-over-sacred-law": "BLOCKED",
+        "prophets-as-symbols-and-the-first-caliphs": "BLOCKED",
+        "the-theory-of-degrees-of-excellence-explained": "BLOCKED",
+        "the-imamate-pole-and-foundation-of-religion": "BLOCKED",
+        "worship-alms-and-war-void-without-the-imam": "BLOCKED"
+      },
+      "bad_outcomes": 8,
+      "total_outcomes": 8
     },
     "audio-script": {
       "status": "pending"
@@ -282,12 +296,54 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-07-31T19:19:45Z",
+  "ts_updated": "2026-07-31T20:23:19Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
     "length_tier": "extended",
     "unit_mode": "auto"
   },
-  "unattended": true
+  "unattended": true,
+  "slide_decks": {
+    "the-fatimid-world-and-al-naysaburi": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "the-virtues-of-ali-the-imam-who-mirrors-god": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "degrees-of-excellence-the-peak-of-every-kind": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "the-imam-and-the-authority-over-sacred-law": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "prophets-as-symbols-and-the-first-caliphs": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "the-theory-of-degrees-of-excellence-explained": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "the-imamate-pole-and-foundation-of-religion": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "BLOCKED"
+    },
+    "worship-alms-and-war-void-without-the-imam": {
+      "slide_deck_phase": "stalled",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "BLOCKED"
+    }
+  }
 }
