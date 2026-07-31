@@ -1,0 +1,32 @@
+slug: degrees-of-excellence
+title: Degrees of Excellence
+content_profile: islamic_scholarly
+source_language: en
+audience_profile: traditional
+conversation_style: deep_dive
+length_tier: extended
+
+# Narrative frame — a property of the SOURCE, not of the delivery route.
+# The treatise proper (source ch4, ch03a-ch08f) sustains al-Naysaburi's own
+# first-person authorial voice throughout ("We have said that the imamate is
+# the pole and foundation of religion", "We shall now examine some of the
+# claims made by each pretender"). The two introduction episodes (ch01a,
+# ch02b) are Lalani's third-person scholarly framing of that treatise, not
+# the author speaking.
+#
+# Declared external_narrator, not the profile default (transmitted_report),
+# and not first_person_author: transmitted_report is the shape of a hadith
+# chain (an anonymous transmitter reporting what passed between other
+# people) and nothing in this book transmits a report between named
+# parties; first_person_author would be accurate for the treatise chapters
+# alone but puts the two introduction chapters in permanent violation of a
+# gate that checks grammatical person per chapter, since Lalani's framing
+# cannot be rewritten into the author's "I" without inventing narration the
+# source does not contain. external_narrator keeps every chapter in the same
+# third person without asserting a transmission chain the source never
+# makes, so the whole book reads as one consistent voice. Decided with Asif
+# 2026-07-31: "I want the narrative to be consistent."
+narrative_frame: external_narrator
+
+enable_video: false
+video_style: none
