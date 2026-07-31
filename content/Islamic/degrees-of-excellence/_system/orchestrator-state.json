@@ -4,8 +4,8 @@
   "category": "books",
   "branch": "Islamic/degrees-of-excellence",
   "status": "draft",
-  "phase": "06a",
-  "phase_status": "awaiting_human_review",
+  "phase": "0f",
+  "phase_status": "halted",
   "last_completed_phase": "0e",
   "next_phase": "0literary",
   "last_error": null,
@@ -65,7 +65,10 @@
       "gate_warnings": 6
     },
     "0f": {
-      "status": "pending"
+      "status": "halted",
+      "ts_started": "2026-07-31T15:46:32Z",
+      "ts_completed": "2026-07-31T15:46:32Z",
+      "series_plan_path": "content/Islamic/degrees-of-excellence/_system/series-plan.md"
     },
     "0g": {
       "status": "pending"
@@ -126,11 +129,12 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-07-31T15:05:47Z",
+  "ts_updated": "2026-07-31T15:46:32Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
     "length_tier": "extended",
     "unit_mode": "auto"
-  }
+  },
+  "unattended": true
 }
