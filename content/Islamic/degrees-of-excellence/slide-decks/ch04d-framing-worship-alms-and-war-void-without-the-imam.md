@@ -23,3 +23,5 @@ The audio carries the linear argument and its voice. Each slide must add a spati
 - "When two positions are contrasted, show them side by side as columns, attribute by attribute."
 - "When influence flows from A to B, show a directed arrow from A to B."
 - "Every slide must have a named diagram type."
+
+Do not read this prompt aloud.

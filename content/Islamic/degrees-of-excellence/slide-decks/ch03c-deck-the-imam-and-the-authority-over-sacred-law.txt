@@ -1,62 +1,74 @@
-# The Imam and the Authority over Sacred Law
+# The Imam and the Authority Over Sacred Law
 
 ## Where the argument picks up
 
-Annotated structure. The opening image the whole chapter builds on, dissected into its claim.
+Visual metaphor. The single proportion the whole chapter is built on.
 
-Whole: a man standing over an animal, disposing of its life by his own judgment.
-Parts:
-- The acts: he rides it, milks it, shears it, works it in the field, slaughters it for a feast, or lets it graze.
-- The manner: by his own judgment, against the animal's own inclination.
-- The verdict: no one calls him a tyrant for it.
-Annotation: al-Naysaburi lifts this ordinary picture into a single sentence, humanity stands to the imam exactly as the animals stand to humanity. It is a claim about who owns the world, who may take from it, and by whose leave anyone holds anything at all.
+Abstract relation: how humanity stands to the imam.
+Metaphor: a proportion, two ratios set equal.
+Element assignments:
+- Animals stand to humanity as: property a man disposes of by his own judgment, ridden, milked, sheared, worked, slaughtered, or left to graze, against the animal's own inclination, and no one calls him a tyrant for it.
+- Humanity stands to the imam as: exactly that same relation, one rung higher.
+Reading: this is not a loose comparison. It is a claim about who owns the world, who may take from it, and by whose leave anyone holds anything at all.
 
-Process flow. The ladder the previous section climbed, and the question it left hanging.
+Genealogy chain. The ladder the previous stretch of the treatise climbed, rung by rung, to reach this point.
 
-Start: the four bare elements.
-  Step: up through the metals and the stars.
-  Step: up through gold, the unburnable ruby, the balanced grain.
-  Step: up to the human being.
-  Step: one step further, up to the imam.
-End: two conclusions locked together, humanity is the summit of the lower creation, and the imam is the summit of humanity.
-Open question left hanging: granted the imam is the summit, what does that summit actually authorize? What may he do, what may he demand, and what does his standing at the top mean for everyone below?
+four bare elements → metals and stars → gold, the unburnable ruby, the balanced grain → the human being → the imam
 
-Annotated structure. The three moves al-Naysaburi answers with, previewed as the chapter's spine.
+Reading: two conclusions sit locked together at the top. Humanity is the summit of the whole lower creation, and the imam is the summit of humanity. To stand at the top of an ordered world is to be owed something by everything beneath, or to owe something to it. This chapter asks what the summit actually authorizes.
 
-Whole: the whole of what the imam's summit authorizes.
-Parts:
-- The doctrine of dominion: the world was made for the imams, its benefit belongs to them, and to take from it without their leave is theft.
-- The doctrine of wisdom: because the imam is wise without qualification, the believer owes him a submission that does not stop to argue.
-- The doctrine of necessity: reason alone, with no scripture required, shows the world must have one supreme leader, and that leader must be the best of all who live.
-Annotation: dominion, wisdom, necessity, the ownership, the trust it demands, and the proof that the office cannot be empty or filled by a lesser man.
+Comparison matrix. The three moves al-Naysaburi answers with, and this chapter follows all three.
+
+Rows: Dominion, Wisdom, Necessity
+Columns: The claim | What it settles | The verdict it forces
+
+- Dominion: the whole world was made for the imams and its benefit belongs to them | who owns the world | to take from it without their leave is theft.
+- Wisdom: the imam is wise without qualification | how the believer must hold himself | he owes a submission that does not stop to argue.
+- Necessity: reason alone shows the world must have one supreme leader who is the best of all who live | why the office cannot be empty or filled by a lesser man | the office is proven with no scripture required.
+
+Reading: ownership, the trust it demands, and the proof that the office cannot be empty. That is the whole of what follows.
 
 ## Everything returns to the imam
 
-Process flow. The single descending sentence, why anything was made at all.
+Hierarchy. The descending chain of purpose that closes the whole order.
 
-Start: a question that sounds almost accusatory, why was any of it made?
-  Step: the stars, seas, metals, grain, and herds each exist for the sake of what stands above them.
-  Step: the whole of natural creation was made for the sake of humanity, because only a being who can know and benefit gives the rest any point.
-  Step: humanity was not made for its own sake either, human beings were created for the imams, to receive religion from them, to be perfected through them, to make manifest their order and foundation.
-End: the worlds exist for humanity, and humanity exists for the imams. The point of everything is finally the imam, because only in him does the whole ascent complete itself.
+- Level 1: The worlds of natural creation
+  - Level 2: exist for the sake of humanity
+    - Level 3: because only a being who can know and benefit gives the rest of it any point at all. Were there no human to eat the fruit, ride the beast, mine the ore, and read the sky, no plant or animal would carry any wisdom in its making.
+  - Level 2: Humanity, in turn, exists for the imams
+    - Level 3: created to receive religion from them, to be perfected through them, to make manifest their order, organization, and foundation.
 
-Process flow. The startling consequence al-Naysaburi refuses to soften.
+Reading: the worlds exist for humanity, and humanity exists for the imams. The point of everything is finally the imam, because it is only in him that the whole ascent completes itself.
 
-Start: all the worlds were made for the imams.
-  Step: therefore all the benefit of the worlds belongs to the imams.
-  Step: the rest of creation stands to them as children stand to a parent, dependent, provided for, owing everything and owed nothing.
-  Step: whatever the imams give is favour, generosity, mercy, a gift and not a debt repaid; whatever they withhold, they owe no account for.
-End, the hardest sentence in the section: whoever takes anything of this world without the permission and approval of the imam has taken what is haram, forbidden, and has committed usurpation. Not a discourtesy, a seizure from an owner who never granted it.
+Annotated structure. The startling consequence that falls out of that one premise.
 
-Annotated structure. The verse of the spoils, and the one word doing the heavy work.
+Whole: if all the worlds were made for the imams, then all the benefit of the worlds belongs to the imams.
+Parts:
+- The relation of creation to the imams.
+- What flows to creation.
+- What creation may claim back.
+Annotations:
+- Creation stands to the imams as children stand to a parent, dependent, provided for, owing everything and owed nothing.
+- Whatever the imams give is given by favour, generosity, and mercy. It is a gift, not a debt being repaid.
+- If they withhold anything, they are under no obligation to give it and owe no account for the withholding.
+Cross-reading: inside this frame al-Naysaburi says the hardest thing in the section. Whoever takes anything of this world without the permission and approval of the imam has taken what is haram, forbidden, and has committed usurpation. Not a discourtesy. A seizure of what was never his to seize.
 
-Whole: the scriptural grounding of the dominion.
-Citation:
+Citation. The verse he grounds the claim in, chosen for one exact word.
 
 > That which God bestows on His Messenger from the people of the villages, it is for God and His Messenger. (chapter 59, verse 7)
 
-Part, the crucial word: fay', the term the verse uses for that bestowal.
-Annotation: its root meaning is not gift but return. It is the same word Arabic uses for a shadow, called fay' because in the evening it comes back to the place from which it first stretched out.
+Annotated structure. The etymology doing the heavy lifting.
+
+Whole: the word the verse uses for that bestowal, fay'.
+Parts:
+- Its root meaning.
+- The image inside it.
+- What it proves about the world.
+Annotations:
+- The root means not gift but return.
+- It is the same word Arabic uses for a shadow, which is called fay' because in the evening it comes back to the place from which it first stretched out.
+- Everything in the world comes from the fortune and property of the imams in the first place, so whatever passes into their hands is a return, a shadow coming home at evening to the object that cast it.
+Cross-reading: the world does not become the imams' property when they receive it. It was always theirs. Receiving it only makes the ownership visible.
 
 Contrast pair. Why the etymology of return closes off every rival claim.
 
@@ -70,320 +82,293 @@ Column B: If the world was the imams' from the start
 - The imam's claim: not a handover to a stranger but a shadow coming home at evening to the object that cast it.
 - Result: no rival claim can even get started, because there is no ownerless ground to plant a flag on.
 
-Shared row: the world does not become the imams' property when they receive it, it was always theirs, and receiving it only makes the ownership visible. The doctrine of usurpation follows straight from the doctrine of return, you cannot usurp what is unowned, and nothing here is unowned.
+Shared row: you cannot usurp what is unowned, and once nothing here is unowned, taking without leave has only one name left. The doctrine of usurpation follows straight from the doctrine of return.
 
-Annotated structure. The command to obey, binding three objects into one imperative.
-
-Whole: the obligation to defer, written into the revealed command itself.
-Citation:
+Citation. The revealed command binds obedience to a human authority in the same breath as obedience to God.
 
 > O you who believe, obey God, and obey the Messenger, and those in authority among you. (chapter 4, verse 59)
 
-Parts, the three objects of obedience:
-- God.
-- The Messenger.
-- Uli'l-amr, those charged with the command.
-Annotation: for al-Naysaburi the third is not whoever happens to hold power, it is the imam, the summit at the top of the ladder. The world's benefit returning to its rightful owner and the believer's obedience flowing toward that same owner are two faces of one order.
+Annotated structure. How al-Naysaburi reads the verse's three objects of obedience.
 
-Comparison matrix. The law of nature, one added spirit as the whole difference between ruling and being ruled.
+Whole: the single imperative binding three objects, God, the Messenger, and uli'l-amr, those charged with the command.
+Parts:
+- The first two objects.
+- The third object.
+- What the two doctrines share.
+Annotations:
+- God and the Messenger are named first.
+- The third is not a loose reference to whoever holds power. It is the imam, the summit at the top of the ladder.
+- The world's benefit returning to its rightful owner and the believer's obedience flowing toward that same owner are two faces of one order. Return fixes the first, the verse fixes the second.
 
-Rows: Earth to plant | Plant to animal | Animal to human
-Columns: The one thing added | The name of that spirit | What the addition makes possible
+## The ladder of spirits and the duty of care
 
-- Earth to plant: a single spirit of growth | ruh al-nama' | the soil now feeds the root, the earth becomes subservient to the plant
-- Plant to animal: growth plus the power to feel and move | ruh al-hiss | the animal walks over the ground the plant is rooted in and eats the plant at will
-- Animal to human: sensation plus the power of speech and thought | ruh al-nutq | man builds, sows, plants, burns wood, rides, slaughters, milks and shears, using the whole lower world as he sees fit
+Comparison matrix. The law of one added spirit, read as a law of power and not a series of examples.
 
-Annotation: al-Naysaburi means this as a law, not a series of examples. At every level, one added spirit is the whole difference between ruling and being ruled.
+Rows: Earth to plant, Plant to animal, Animal to human
+Columns: The one thing added | The name of that spirit | The dominion it wins
 
-Hierarchy tree. The spirits gathered in the imam, lifting him above the human rung.
+- Earth to plant: a single spirit of growth | ruh al-nama' | the soil now feeds the root, the ground becomes what the plant draws its strength from.
+- Plant to animal: one further spirit of sensation, the power to feel and move | ruh al-hiss | the animal walks over the ground the plant is rooted in and eats the plant at will.
+- Animal to human: one further spirit of articulate reason, the power of speech and thought | ruh al-nutq | man builds, sows, and burns the earth, rides and slaughters and shears the animals, using every one as he sees fit, even against its will.
 
-Level 1: The ordinary human being, endowed with articulate reason.
-  Level 2: The imam, endowed at his charge with further spirits, powers, and a purity no ordinary human possesses.
-    Level 3: The quintessence of the whole world, the pinnacle of human purity joined to the choicest animal powers, the balance of the elements, the finest influence of the spheres and stars.
-    Level 3: The full sanctified spirit, ruh al-quds, of which an ordinary person holds only a portion, and no more of that portion than the imam bestows by grace.
-    Level 3: The creative spirit, ruh al-ibda', the perfect seventh spirit, the spirit of Oneness, ruh al-wahda, prepared for humanity in the world of reward.
-Annotation: the human climbed above the animal by one added spirit and won dominion over it. If one spirit was enough to make man the master of the beast, what does a ladder of spirits, up to the seventh and highest, make the imam?
+Reading: at every level, one added spirit is the whole difference between ruling and being ruled.
 
-Contrast pair. The dominion read from its two sides, mastery and care.
+Annotated structure. What the imam is endowed with when he takes up his charge, lifting him past the human rung.
+
+Whole: the array of further spirits and powers gathered in the imam.
+Parts:
+- The gathered purity of the lower world.
+- The sanctified spirit.
+- The creative spirit.
+- The seventh spirit.
+Annotations:
+- The pinnacle of human purity joined to the choicest animal powers, the balance of the elements, and the finest influence of the spheres and stars, so that he becomes the quintessence of the whole world.
+- The full sanctified spirit, ruh al-quds, of which an ordinary person holds only a portion, and no more of that portion than the imam bestows on him by grace.
+- The creative spirit, ruh al-ibda', the perfect seventh spirit God has prepared for humanity in the world of reward.
+- The spirit of Oneness, ruh al-wahda, the highest.
+Cross-reading: if one added spirit made man the master of the beast, a ladder of them, up to the seventh and highest, makes the imam master of man.
+
+Contrast pair. The same relationship read from two sides, so that dominion never becomes a one-way seizure.
 
 Column A: The mastery
-- Posture: the man disposes of his animals as he sees fit, even against their will.
-- Ground: the added spirit that lifts him above them.
+- What it grants: the imam rules over both spirit and body.
+- Its ground: the sheer weight of the spirits he carries.
+- Its danger if read alone: it could look like pure exploitation.
 
-Column B: The care
-- Posture: by the very norms of that rule he guards their watering places and grazing grounds, shields them from harm, tends their well-being even against their own foolish appetites.
-- Ground: the same rule, obliging the one who owns the flock to keep it alive.
+Column B: The duty of care
+- What it binds: by the norm of kingship, the demands of nature, sound policy, and law, the imam must protect the welfare of mankind exactly as a man protects the welfare of the animals he governs.
+- Its model: a man does not merely exploit his animals. He guards their watering places and grazing grounds, shields them from harm, and tends their well-being even against their own foolish appetites.
+- Its logic: the one who owns the flock is precisely the one obliged to keep it alive.
 
-Shared row: mastery and care are the same relationship read from two sides. So it is obligatory on the imam, by the norm of kingship, the demands of nature, sound policy, and law, to protect the welfare of mankind exactly as man protects the welfare of the animals he governs. The dominion comes with a charge attached.
+Shared row: mastery and care are the same relationship read from two sides. The dominion comes with a charge attached.
 
-Contrast pair. How people sort themselves by how they answer the charge.
+Citation. The duty of care is the heart of how the tradition has always described just rule.
 
-Column A: Whoever submits inwardly and outwardly
-- Submission: to the imam's rule over both spirit and body.
-- Result: saturated with knowledge and wisdom, lifted above his fellows.
-- Departure: leaves this world in an upright form, ready to receive his reward.
+> Let your heart be filled with mercy for the subjects, and love for them, and kindness toward them; do not be a ravening beast over them, seizing what they have. (the Father of Imams, peace be upon him, instructing a governor sent to Egypt)
 
-Column B: Whoever submits only outwardly
-- Submission: the outward act alone, the inward assent held back.
-- Result: falls into the torment of doubt and discord.
-- Departure: arrives crooked, unprepared, at the place of recompense.
+Contrast pair. How people sort themselves by how they answer the imam's charge.
 
-Shared row: the difference is not in the outward act, which may look identical in both men. It is in whether the submission reached the inside.
+Column A: The one who submits inwardly
+- The submission: to the imam's rule over both spirit and body.
+- The result: saturated with knowledge and wisdom, lifted above his fellows.
+- The departure: leaves this world in an upright form, ready to receive his reward.
 
-Annotated structure. The older charge al-Naysaburi's imam stands under, mercy as the first duty of office.
+Column B: The one who submits only outwardly
+- The submission: outward compliance with the inward assent held back.
+- The result: falls into the torment of doubt and discord.
+- The departure: arrives crooked and unprepared at the place of recompense.
 
-Whole: the duty of care as the tradition has always described just rule.
-Citation:
+Shared row: the outward act may look identical in both men. The difference is only in whether the submission reached the inside.
 
-> Let your heart be filled with mercy for the subjects, and love for them, and kindness toward them; do not be a ravening beast over them, seizing what they have. (the Father of Imams, peace be upon him)
+Annotated structure. The measure that closes the doctrine and circles back to where it opened.
 
-Annotation: the Father of Imams, instructing a governor sent to Egypt, made mercy toward the governed the first charge of the office. The one set above the flock is precisely the one bound to tend it, and to turn predator over it is to betray the office rather than exercise it. The higher the dominion, the heavier the duty of care bound to it.
-
-Process flow. The conclusion drawn in a single stroke, closing the circle to where the argument opened.
-
-Start: God gathered in the imams all these faculties, merits, and spirits, over and above what humanity already has.
-  Step: therefore He subjected all of humanity to them, just as He subjected animals to man by one added spirit, plants to animals by one, earth to plants by one.
-  Step: the dominion is not a title conferred from outside, it is the natural weight of a being who carries that many more spirits than those beneath him.
-  Step, the explicit measure: the number of spirits residing in the imams determines the extent of their control and dominion over humanity. Rank is not a symbol of authority, rank is authority, the two are the same quantity read twice.
-End: it is no more for a human to remove himself from the imam's domain than for an animal to remove itself from the rule of man. The person who sets himself outside the imam's authority has torn himself out of the order the added spirits established, and there is no rung below the human rung for him to stand on except the beast's.
+Whole: because God gathered all these faculties and spirits in the imams, He subjected all of humanity to them, as He subjected animals to man by one spirit, plants to animals by one, and earth to plants by one.
+Parts:
+- The nature of the dominion.
+- The explicit measure.
+- The final line.
+Annotations:
+- The dominion is not a title conferred by decree from outside. It is the natural weight of a being carrying that many more spirits than those beneath him.
+- The number of spirits residing in the imams determines the extent of their control and dominion over humanity. Rank is not a symbol of authority. Rank is authority, the two the same quantity read twice.
+- It is no more for a person to remove himself from the imam's rule than for an animal to remove itself from the rule of man. Stepping outside the imam's authority, he tears himself out of the order the added spirits established, and there is no rung below the human rung for him except the beast's.
 
 ## The absolute wisdom of the imam
 
-Contrast pair. The word the second doctrine turns on, and what earns it.
+Visual metaphor. The farmer, which earns the word taslim before any command is given.
 
-Column A: Taslim as it first sounds
-- Word: unquestioning submission.
-- First impression: a demand that makes a modern reader flinch.
-- Danger: heard as the surrender of the mind.
+Abstract relation: why obscurity in the imam's teaching is not withholding.
+Metaphor: a man of insight cultivating difficult ground.
+Element assignments:
+- Good fertile soil: souls ready, or nearly ready, to receive the seed of wisdom, even when still far from taking it in.
+- Water in distant valleys and underground: the wisdom that must be brought to them.
+- Digging canals and sinking wells: preparatory religious exercises, disciplines whose purpose the people cannot yet perceive, patiently channelling the water toward the soul.
+- Embedding wisdom in dense symbols, in words and actions: what a wise cultivator does with ground that cannot take the wisdom plainly, so people take the symbol now and are raised to the meaning later.
+Reading: the obscurity is not withholding. It is irrigation, wisdom routed through a channel the ground can actually absorb.
 
-Column B: Taslim as al-Naysaburi builds it
-- Word: the same, submission that does not stop to argue.
-- Earned by: an argument begun not with a command but with a farmer.
-- End: what the mind concludes once it has granted that the Wise One is wise.
+Annotated structure. What follows necessarily from that image.
 
-Shared row: al-Naysaburi knows the word needs earning, so he does not begin by commanding it. He begins with an image.
-
-Process flow. The farmer of insight, and the imams read onto him.
-
-Start: a man of real insight walks over the land.
-  Step: he finds good, fertile soil and knows at once it will take seed and give growth.
-  Step: he finds water where others never look, in distant valleys or hidden underground, and rather than shrug he digs canals, sinks wells, and directs the buried water to the waiting ground.
-  Step, the reason: a man of insight sees no wisdom in leaving good land idle and good water sealed away.
-  Transpose to the imams:
-    They look at people and see fertile ground, souls ready or nearly ready to receive the seed of wisdom, even when still far from taking it in.
-    They dig their canals, labouring through preparatory religious exercises whose purpose the people cannot yet perceive.
-    Where people cannot receive wisdom plainly, they embed it in dense symbols, in words and actions, so people take the symbol now and are raised to the meaning later.
-End: the obscurity is not withholding, it is irrigation, wisdom routed through a channel the ground can actually absorb.
-
-Annotated structure. What the image obliges the believer to hold.
-
-Whole: the belief the farmer-image grounds.
+Whole: what the believer is bound to hold about the imam of the time.
 Parts:
-- To believe in the supreme leadership of the imam of the time, the head of the world, the vicegerent of God over His creation, the khalifa through whom God's governance reaches what He made.
-- Never to object to any of his commands, prohibitions, actions, or teachings.
-- To hold, in general and in advance, that all of it embodies wisdom and is for the welfare of creation, even when the particular point stays hidden a long while.
-Annotation: al-Naysaburi grants the difficulty openly, the true meaning of some command may be genuinely hard to grasp, and the believer may feel real resistance. But the resistance is a fact about the believer's sight, not about the command's wisdom.
+- The belief in his leadership.
+- The refusal to object.
+- The concession openly granted.
+Annotations:
+- To know he is the head of the world and the vicegerent of God over His creation, the khalifa through whom God's governance reaches what He made.
+- Never to object to any command, prohibition, action, or teaching, holding in advance that all of it embodies wisdom and is for the welfare of creation, even when the point stays hidden for a long while.
+- The true meaning of some command may be genuinely hard to grasp, and the believer may feel real resistance. But the resistance is a fact about his sight, not about the command's wisdom.
 
 Contrast pair. The parallel from inside the religion the believer already accepts.
 
 Column A: The sacred law the believer already obeys
-- Situation: the faithful frequently do not understand, at first, what the Lawgiver was after in a ruling.
-- Response: they may bristle at it.
-- Later: those to whom God grants recognition come to see the wisdom folded inside it the whole time.
+- The experience: the faithful frequently do not understand, at first, what the Lawgiver was after in some ruling.
+- The reaction: they may bristle at it.
+- The resolution: those to whom God grants recognition come, later, to see the wisdom folded inside it the whole time.
 
-Column B: The living guide of the law
-- Situation: the imam's command whose point is hidden.
-- Response: the believer feels the same resistance.
-- Asked of him: only that he extend to the guide the same patience he already extends to the law.
+Column B: The living guide of that law
+- The request: extend the same patience already granted to the law.
+- The wider pattern: countless things in creation are taken to be simply harmful, dangers and pests and disasters, until their wisdom later becomes visible and the objection quietly falls away.
+- The reading: the wisdom is not absent. It is often on a delay, arriving after the complaint.
 
-Shared row: if that is how a believer already relates to the law he obeys, al-Naysaburi asks only that the same patience reach the living guide of the law.
+Shared row: the believer who suspends his objection is asked to do, in the one case that matters most, what life has taught him to do a hundred times in smaller matters.
 
-Process flow. The pattern widened past the law to the world at large.
-
-Start: countless things in creation people take to be simply harmful, dangers, pests, disasters.
-  Step: they see no wisdom and no benefit in them, and conclude no good was ever there.
-  Step: later the wisdom of the thing becomes visible.
-  Step: they grow calm, the objection quietly falls away, and once seen it cannot honestly be denied.
-End: the wisdom is not absent, it is often on a delay, arriving after the complaint. The believer who suspends his objection is asked only to do, in the one case that matters most, what life has already taught him a hundred times in smaller matters.
-
-Process flow. The story of a prophet failing the very test, Moses and al-Khidr.
-
-Start: Moses sets out to learn from the servant of God the tradition calls al-Khidr.
-  Warning at the outset:
+Citation. Scripture gives the situation a story, a prophet failing the very test.
 
 > And how can you have patience for that which you do not encompass in knowledge? (chapter 18, verse 68)
 
-  The three acts and Moses objecting at each:
-    The guide scuttles a sound boat, to save it from a seizing tyrant.
-    The guide kills a young man, taken before he could ruin his believing parents.
-    The guide rebuilds a wall in a town that refused them hospitality, to guard an orphan's buried treasure until he came of age.
-End: the wisdom had been there the whole time; what Moses lacked was not the wisdom but the patience to wait for it. Taslim shown from the inside, an act that looks like sheer damage from below may be rescue seen from above, and the whole distance is only the length of one's own sight.
+Process flow. Moses and the servant of God, taslim shown from the inside.
 
-Process flow. From a plea for patience into something closer to a proof, turning on the name al-Hakim, the Wise One.
+Start: the guide warns Moses he will not be able to bear what he is about to see.
+  Act one: the guide scuttles a sound boat. Moses objects.
+  Act two: the guide kills a young man. Moses objects.
+  Act three: the guide rebuilds a wall in a town that refused them hospitality. Moses objects.
+  Parting: unable to hold his peace, Moses is left, and only then is the wisdom disclosed.
+  Disclosure: the boat scuttled to save it from a seizing tyrant, the young man taken before he could ruin his believing parents, the wall raised to guard an orphan's buried treasure until he came of age.
+End: the wisdom had been there the whole time. What Moses lacked was not the wisdom but the patience to wait for it. An act that looks like sheer damage from below may be rescue seen from above.
 
-Start: whoever truly recognizes the Wise One, whoever grants that God is wise, has already granted a great deal more.
-  Step: to call someone wise without qualification is to say everything he does is full of wisdom, that he would never do a thing empty of it, that he neither commands nor forbids nor says anything except out of wisdom.
-  Step: a futile act is one whose doing and not-doing come to exactly the same thing, an act you could just as well have skipped with nothing lost.
-  Step: such an act is impossible for the Wise One, because it would be wisdom sitting idle, and a wisdom that idles is not the wisdom the name asserts.
-  The hinge, from God to the imam: if it is not permissible for the Wise One to perform even one act whose presence and absence are equivalent, how could the imam perform an act when the wisdom lay elsewhere, or in the very opposite of what he did?
-End: he cannot. The imam is absolutely wise; his wisdom is not his own achievement but a bestowal, and whatever he bestows on a servant makes that servant wise in turn. To act at random, without wisdom or goodness, is to act corruptly and in vain, the very thing the office forbids.
+Process flow. The proof that turns a plea for patience into a near-demonstration, turning on the name al-Hakim, the Wise One.
 
-Process flow. Why the last step of the doctrine is so severe.
+Start: whoever grants that God is wise without qualification.
+  Step: has granted that everything He does is full of wisdom, that He would never do a single thing empty of it, and would neither command nor forbid nor say anything except out of wisdom.
+  Definition: a futile act is one whose doing and not-doing come to exactly the same thing, an act you could skip with nothing lost either way. Such an act is impossible for the Wise One, because it would be wisdom sitting idle.
+  Hinge: if the Wise One cannot perform even one act whose presence and absence are equivalent, how could the imam perform an act when the wisdom lay elsewhere, or in the very opposite of what he did?
+End: he cannot. The imam is absolutely wise. His wisdom is not his own achievement but a bestowal, and whatever he bestows on a servant makes that servant wise in turn. To act at random, without wisdom or goodness, is to act corruptly and in vain, and that is the thing the office forbids.
+
+Contrast pair. The two images al-Naysaburi presses the charge through.
+
+Column A: The teacher
+- The act: drives students through lessons they resent.
+- The knowledge behind it: that they will thank him once they mature and see the benefit.
+- The appearance from below: needless severity.
+
+Column B: The physician
+- The act: forces bitter medicine, even lancing and cauterization, on a patient who cannot yet see that the pain is the cure.
+- The knowledge behind it: that the severity is a difficult mercy, cutting only to heal.
+- The appearance from below: cruelty.
+
+Shared row: it is not merely that the imam means well when harsh. A wise agent cannot act pointlessly, so there is no such thing as an imam's act that is really empty, however empty it looks from below.
+
+Process flow. Why the last step is severe, framed as a danger to be prayed against.
 
 Start: to believe of the imam of the time that he has acted without wisdom.
-  Step: this is not a small error about one decision, it is to say the individual has departed from wisdom.
-  Step: whoever has departed from wisdom has by that fact departed from the domain of his imamate, because the imamate simply is the seat of wisdom in the world, and a wisdomless imam is a contradiction in terms.
+  Step: is to say that this individual has departed from wisdom.
+  Step: whoever has departed from wisdom has by that fact departed from the domain of his imamate, since the imamate simply is the seat of wisdom in the world, and a wisdomless imam is a contradiction in terms.
   Step: to depart from the domain of the imamate is to depart from the faith itself, since the faith is built on that seat.
-End: the objection that looked like ordinary criticism, this command makes no sense, turns out, followed to its root, to be a denial of the whole structure the believer claims to stand inside.
-
-Annotated structure. The logic beneath the earlier pictures of the hard teacher and the physician of souls.
-
-Whole: the severity of the imam re-read as difficult mercy.
-Parts:
-- The earlier images: the hard teacher, the physician of souls, the guide whose severity cuts only to cure.
-- The logic supplied here: a wise agent cannot act pointlessly, so there is no such thing as an imam's act that is really empty, however empty it looks from below.
-Annotation: it is not merely that the imam means well when he is harsh; it is that a wise agent cannot act in vain. The submission called taslim is not a surrender of the mind, it is what the mind concludes once it has actually granted that the Wise One is wise.
+End: the objection that looked like ordinary criticism, this command of his makes no sense, turns out to be a denial of the whole structure the believer claims to stand inside. Taslim is not a surrender of the mind. It is what the mind concludes once it has granted that the Wise One is wise.
 
 ## The necessity of the best
 
-Annotated structure. The third doctrine's claim, leaning on nothing but reason.
+Comparison matrix. The three pictures, each aimed at a different way of shrugging the claim off.
 
-Whole: an argument meant to persuade even someone who accepts no revelation at all.
-Two joined halves:
-- That the world must have a single supreme leader.
-- That this leader must be the most excellent of everyone alive.
-Method: the first half proved with three pictures, the second with a point about the meaning of words.
+Rows: The shepherd, The body, The ranks of nature
+Columns: The picture | The objection it answers | The verdict it forces
 
-Process flow. The first picture, the shepherd, aimed at the person who thinks a capable society could look after itself.
+- The shepherd: a flock of real worth perishes when left to itself, unable to choose pasture, find water, or fend off the thief and the beast of prey | the person who thinks a capable society could look after itself | competence is not the issue, the flock is not defective, it is simply unshepherded, and unshepherded it dies.
+- The body: a body without a head is not injured but a decaying corpse, and a world with no head would not limp along but rot, people turning into beasts devouring one another, not enduring even a single day | the person who imagines leadership is a slow-acting good the world could survive without for a while | remove the head and what remains is not a wounded order but a carcass, within a day.
+- The ranks of nature: the stallion guards the mares, the rooster watches the hens, the crane obeys its leader in flight, the bee obeys its queen, every species defending its own and guiding its weak | the person who suspects leadership is a merely human convention we could uninvent | the stallion, rooster, crane, and bee never signed a contract, so headship is a feature of nature, not a custom humans dreamt up.
 
-Start: a flock of livestock grazing free on open ground.
-  Step: the animals have real worth, nothing deficient about them as animals.
-  Step: left to themselves they perish, they cannot choose pasture wisely, find their own water, or fend off the thief and the beast of prey.
-  Step: what they lack is not strength or value but a shepherd, someone to select grazing, guard the watering places, and stand between them and what would kill them.
-  Step: people are exactly like this, without a shepherd for their worldly and religious life they come apart, devoured, scattered.
-  The edge: everyone else who claims the shepherd's role over the flock is not a rival shepherd but a wolf, a predator dressed as a protector, thinning the flock it pretends to guard.
-End: people everywhere are called subjects, ra'iya, which means precisely a flock under a shepherd's care. The very language a society uses for itself confesses it expects to be shepherded. The only question is who the shepherd is, and who the wolves are.
+Reading: taken singly, each picture could be dodged. Taken together they close every exit at once.
 
-Annotated structure. The saying the word ra'iya carries with it, from both Sahih collections.
+Annotated structure. The edge al-Naysaburi turns the shepherd picture into.
 
-Whole: shepherding as the shape of every responsibility there is.
-Citation:
+Whole: the ordinary word a society uses for itself, ra'iya.
+Parts:
+- The meaning of the word.
+- The claimant who is not a shepherd.
+- What the word leaves open.
+Annotations:
+- Ra'iya means precisely a flock under a shepherd's care, so the very language a society uses confesses it expects to be shepherded.
+- Everyone else who claims the shepherd's role over the flock is not a rival shepherd but a wolf, a predator dressed as a protector, thinning the flock it pretends to guard.
+- The only question the word leaves open is who the shepherd is, and who the wolves are.
+
+Citation. The word carries a saying, preserved in both great Sahih collections.
 
 > Each of you is a shepherd, and each of you is responsible for his flock. (the Prophet)
 
-Annotation: the saying runs the image all the way down, the ruler over his people, the man over his household, the woman over her home. If even the head of a single household stands as a shepherd answerable for those in his care, then the head of the whole community stands as the shepherd of shepherds, the one on whom every lesser flock finally depends.
+Annotated structure. How the saying runs the image all the way down.
 
-Process flow. The second picture, the body, aimed at the person who imagines leadership is a slow-acting good the world could survive without for a while.
+Whole: shepherding as the shape of every responsibility there is.
+Parts:
+- The ruler.
+- The household.
+- The consequence for the whole community.
+Annotations:
+- The ruler is a shepherd over his people.
+- The man is a shepherd over his household, the woman over her home.
+- If even the head of a single household is a shepherd answerable for those in his care, then the head of the whole community is the shepherd of shepherds, the one on whom every lesser flock finally depends.
 
-Start: a body without a head is not an injured body, it is a decaying corpse, of no use to anyone.
-  Step: apply that to the world, a world with no head, no leader, no master, no sa'is to steer its affairs.
-  Step: it would not limp along in disorder, it would rot, people turning into beasts devouring one another.
-End: the world would not endure even a single day. Not a decline over generations, a day. The claim is deliberately extreme to rule out the middle position, that a society could stumble on without leadership at a pinch. Remove the head and what remains is not a wounded order but a carcass.
+Contrast pair. The tradition meeting the question in its sharpest political form.
 
-Process flow. The third picture, the ranks of nature, aimed at the person who suspects leadership is a merely human convention.
+Column A: The slogan
+- The words: there is no rule but God's, no judgment but God's.
+- The claim pressed from it: that no human government is needed at all.
+- The verdict on the words: true.
 
-Start: look at nature and you find headship built into it everywhere, long before any human agreed to anything.
-  Step: the stallion guards and disciplines the mares.
-  Step: the rooster watches over the hens.
-  Step: every species defends its females and young as far as its strength allows and guides the weak among its own kind.
-  Step: the crane obeys its leader in flight, the bee obeys its queen.
-  Step: God arranged the whole of creation on this pattern of gradation and rank, so that within every species and genus there is a peak, a summit, a chief in nobility and worth.
-End, the inference: by that same reasoning, all of mankind must likewise have a peak and summit in nobility and worth, to serve as leader and guide. Headship is a feature of nature and creation, of instinct and intuition, so deep that even those who deny revelation cannot deny, by reason or plain observation, that the world requires leadership.
+Column B: The Father of Imams' answer
+- The correction: they mean by it that there is no government, and the people cannot do without a leader, righteous or wicked.
+- The reason: leadership is not an optional good a community might forgo in favour of pious anarchy.
+- The verdict on the conclusion: false, because the absence of leadership is not disorder but dissolution.
 
-Comparison matrix. Why al-Naysaburi stacks three pictures, each aimed at a different way of shrugging the claim off.
+Shared row: even the imperfect form of leadership is preferable to its absence. Where al-Naysaburi presses further is only the next step, that the leader ought not merely to be present but the best of them.
 
-Rows: The shepherd | The body | The ranks of nature
-Columns: The doubter it answers | The reply it gives
-
-- The shepherd: the person who thinks a capable society could look after itself | competence is not the issue, the flock is not defective, it is simply unshepherded, and unshepherded it dies
-- The body: the person who imagines leadership is a slow-acting good the world could survive without for a while | remove the head and what you have is not a struggling body but a corpse within a day
-- The ranks of nature: the person who suspects the whole thing is a human invention we could uninvent | the stallion, the rooster, the crane, and the bee never signed a contract, and headship runs through them all
-
-Annotation: taken singly, each picture could be dodged. Taken together they close every exit at once. By the end the claim is no longer a doctrine one might accept or decline, it has the feel of a thing one cannot honestly go on denying, whatever one's religion or lack of it.
-
-Contrast pair. The tradition's answer to pious anarchy, the slogan and its false conclusion.
-
-Column A: The slogan and its true half
-- Claim raised by a faction: judgment belongs to God alone.
-- Truth in it: yes, there is no judgment but God's.
-
-Column B: The false conclusion drawn from it
-- Claim: therefore no human government is needed at all.
-- Answer of the Father of Imams: the words are true but the conclusion false.
-
-Shared row: the citation that settles it:
+Citation. The Father of Imams answers the slogan of pious anarchy.
 
 > These people say there is no rule but God's, and yes, there is no judgment but God's; but they mean by it that there is no government, and the people cannot do without a leader, righteous or wicked. (the Father of Imams)
 
-Reading: leadership is not an optional good a community might forgo in favour of pious anarchy. Even the imperfect form of it is preferable to its absence, because its absence is not disorder but dissolution. Al-Naysaburi presses one step further, the leader a people cannot do without ought not merely to be present but the best of them.
-
-Contrast pair. The second half settled almost as a matter of definition, the title against its contrary.
+Contrast pair. The second half of the claim, settled almost as a point of grammar.
 
 Column A: The title
-- Al-imam, the supreme leader.
-- Al-fadil, the excellent.
-- Al-sabiq, the one who precedes.
+- al-imam, the supreme leader.
+- al-fadil, the excellent.
+- al-sabiq, the one who precedes.
 
-Column B: The contrary the title cannot name
-- Al-ma'mum, the one who is led.
-- Al-mafdul, the one surpassed by another.
-- Al-masbuq, the one who is preceded.
+Column B: Its contrary, which the title cannot name
+- al-ma'mum, the one who is led. The title of leader cannot be laid on him.
+- al-mafdul, the one surpassed by another. The title of the excellent cannot be laid on him.
+- al-masbuq, the one preceded. The title of the one who precedes cannot be laid on him.
 
-Shared row: to call the led man the leader, or the surpassed man the excellent, is not a moral mistake, it is a misuse of language, a word applied to its own contrary.
-Reading: the supremacy is not an extra honour attached after the fact, it is contained in the very idea of the leader, the way being surpassed is contained in the idea of the surpassed.
-Widest agreement: people of every community and religion, philosophers, deniers of God, those who strip Him of every attribute, all concede the leader of the world ought to be the best, most perfect, most knowledgeable. On the principle, everyone agrees, and no one fits the description except the imams.
+Shared row: to call the led man the leader is not a moral mistake but a misuse of language, a word applied to its own contrary. Supremacy is contained in the very idea of the leader, the way being surpassed is contained in the idea of the surpassed. People of every community and religion, philosophers, deniers of God, those who strip Him of every attribute, all concede the leader of the world ought to be the best, most perfect, and most knowledgeable, and no one fits that description except the imams.
 
-Annotated structure. Scripture turning the point into a question that answers itself.
-
-Whole: the grammatical recognition pressed as a rebuke.
-Citation:
+Citation. Scripture turns the same point into a question that answers itself.
 
 > Is He who guides to the truth more worthy to be followed, or he who cannot guide unless he himself is guided? So what is wrong with you; how do you judge? (chapter 10, verse 35)
 
-Annotation: the verse does not argue the case so much as expose it as already settled in the meaning of the words. The one who must be led cannot coherently be called the leader. To follow the guided in place of the guide is not a debatable preference, it is a failure of judgment about the plain sense of what a guide is.
+Hierarchy. The philosophers' three governances, and where the pretenders fall out.
 
-Process flow. Where the pretenders fall out of the running, by their own qualifications.
+- Level 1: Governance of the public
+  - Level 2: requires first the governance of one's household
+    - Level 3: which requires first the governance of one's own soul
 
-Start: the philosophers' three governances, and the strict chain that binds them.
-  Step: no one who cannot rule his own soul has any business ruling a family.
-  Step: no one who cannot rule a family has any claim on ruling a people.
-  Step: the men who have seized the imams' place and titles cannot govern themselves, their families, or the people, plainly given over to amusement, depravity, and corruption.
-End: the disqualification does not even reach the hard question of who is best, it stops at the first gate, a man who cannot command his own appetites has failed the entrance requirement for every rule above him. The field is not crowded with strong candidates; by the standard everyone already accepts, it is empty of everyone but the imam.
+Reading: the chain is strict. No one who cannot rule his own soul has any business ruling a family, and no one who cannot rule a family has any claim on ruling a people. The men who seized the imams' place and titles cannot govern themselves, their families, or the people, being given over to amusement, depravity, and corruption. The disqualification does not even reach the hard question of who is best. It stops at the first gate. By the standard everyone already accepts, the field is empty of everyone but the imam.
 
 ## What this chapter establishes
 
-Comparison matrix. The three doctrines, how each grounds the imam's authority and from what direction.
+Comparison matrix. The three doctrines, and how they interlock.
 
-Rows: Dominion | Wisdom | Necessity
-Columns: What it establishes | Its ground | The direction it argues from
+Rows: Dominion, Wisdom, Necessity
+Columns: What it established | The image at its center | What it yields
 
-- Dominion: the world was made for the imams, its benefit returns to them like a shadow to the thing that cast it, to take without leave is usurpation | the added spirits that lift the imam above the human rung give him the same natural mastery over people that the single added spirit of reason gives a human over the beasts | ownership
-- Wisdom: this mastery is not to be feared but trusted, because the imam is absolutely wise and a wise agent cannot act in vain, so the believer's submission is not the surrender of judgment but its conclusion | that the Wise One is wise, once granted, carries the rest | trust
-- Necessity: none of this rests on taking anyone's word for it, reason alone forces the admission that the world must have one supreme head, and that head must be the best of all | the shepherdless flock, the headless body, the ordered ranks of nature, and the plain meaning of the word leader | inevitability
+- Dominion: the whole world was made for the imams and its benefit returns to them, so taking from it without leave is usurpation | the added spirits that lift the imam above the human rung, giving him the mastery over people that the one spirit of reason gives a human over the beasts | ownership.
+- Wisdom: this mastery is to be trusted, not feared, because the imam is absolutely wise and a wise agent cannot act in vain | the taslim that is not the surrender of judgment but its conclusion, once the Wise One is granted to be wise | trust.
+- Necessity: reason alone, reading the shepherdless flock, the headless body, and the ordered ranks of nature, forces the admission that the world must have one supreme head who is the best of all | the plain meaning of the word leader, which cannot name the led | inevitability.
 
-Annotation: ownership, trust, and inevitability, the imam's authority established from three directions that do not need each other to stand.
+Reading: ownership, trust, and inevitability. The imam's authority established from three directions that do not need each other to stand.
 
-Contrast pair. What has been shown against what has not.
+Contrast pair. What has, and has not, been shown.
 
-Column A: What the chapter proved
-- That the office must exist.
-- That it must be filled by the best.
-- That everything belongs to the one who fills it.
+Column A: What is shown
 - The authority in the abstract, its ground, its extent, its logic.
+- That the office must exist, must be filled by the best, and that everything belongs to the one who fills it.
 
-Column B: What the chapter has not yet done
-- Show that authority actually doing anything.
-- Touch the things a believer actually does, the prayer, the fast, the alms, the pilgrimage.
-- Reach the daily and yearly fabric of worship and law.
-- Answer whether the imam's supremacy is not floating free of ordinary religious life.
+Column B: What is not yet shown
+- The authority actually doing anything.
+- Whether the imam's supremacy touches the things a believer actually does, the prayer, the fast, the alms, the pilgrimage, the whole daily and yearly fabric of worship and law.
 
-Shared row: everything here has been about authority in the abstract. The objection a careful listener should now be feeling is exactly this, that it is all very grand but seems to hover above the things worship is actually made of.
+Shared row: the objection a careful listener should now feel is that all this is grand but seems to float free of ordinary religious life.
 
-Process flow. The answer that turns the objection back, and the door the chapter opens onto.
+Process flow. The answer that carries into the next chapter.
 
-Start: the objection, is this authority not floating free of ordinary religious life?
-  Step: the answer al-Naysaburi presses hardest, the authority mapped here is anything but abstract.
-  Step: it is enacted, concretely, in every pillar of the religion, not one of them stands or even means what it means without the imam at its centre.
-  Step: the sacred law is not a self-running machine the imam merely presides over from a height, it is a body whose every limb draws its life from that head.
-End: the dominion, the wisdom, and the necessity established here are not doctrines to be granted and set aside, they are the living hinge on which each act of worship actually turns.
+Start: the objection, that the authority mapped here is abstract.
+  Turn: it is anything but abstract. It is enacted, concretely, in every pillar of the religion.
+  Claim: not one pillar stands, or even means what it means, without the imam at its centre.
+  Image: the sacred law is not a self-running machine the imam presides over from a height. It is a body whose every limb draws its life from that head.
+End: dominion, wisdom, and necessity are not doctrines to be granted and then set aside. They are the living hinge on which each act of worship actually turns.

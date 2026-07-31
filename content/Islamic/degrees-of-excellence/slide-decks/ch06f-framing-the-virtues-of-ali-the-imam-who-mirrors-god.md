@@ -1,25 +1,27 @@
 # Slide Deck Framing, EP06-the-virtues-of-ali-the-imam-who-mirrors-god
 
 ## Audience
-Asif's children, thoughtful young adults who have heard the audio but never opened the treatise.
+Asif's children and thoughtful adults who have heard the audio but never read al-Naysaburi, and read no Arabic.
 
 ## Core Principle
-The audio carries the argument. Each slide exists only to make visible a relationship words in sequence cannot hold at once, above all the mirror between how God acts toward creation and how the imam acts.
+The audio carries the argument. The slides carry only what the ear cannot hold, the parallel of the imam mirroring God type by type, and the ascent that gathers all creation into one summit.
 
 ## Visual Priorities
-- The mirror itself, God's distribution of worldly fortune against the imam's, as a matrix showing why each direction would corrupt faith.
-- The summit ascent, nature to humanity to the imams to Ali b. Abi Talib, as one climbing hierarchy.
-- The two errors flanking the truth, short sight against the ghulat, the shadow-vicegerent between them, as a quadrant map.
-- The vicegerency, concealing in worldly matters, disclosing in religious ones, as side-by-side columns.
+- The scandal at the hinge, an ordinary ruler set against the conduct the scholar calls the summit, attribute by attribute.
+- The three-step ascent, nature to the human being, humanity to the imams, the imams to the summit of summits, as a nested hierarchy.
+- The mirror made concrete, each human type God gives to, beside what the imam does in turn, as a matrix.
+- The two errors flanking the figure, short sight and exaggeration, with the shadow between.
 
 ## Prohibited Patterns
-- No slides that restate the audio narration.
-- No literal illustrations of the source quotes or of scripture.
-- No stock-photo imagery of mosques, shadows, or manuscripts.
-- No bullet lists dressed up as diagrams; every slide commits to a named structure.
+- No slides that restate the audio.
+- No literal illustrations of shadows, hearts, ladders, or thrones.
+- No stock-photo-style imagery.
+- No bullet lists dressed up as diagrams.
 
 ## Steering Phrases
 - "Each slide must add visual information not present in the audio."
 - "When two positions are contrasted, show them side by side as columns, attribute by attribute."
 - "When three or more positions are compared, use a matrix with rows for entities and columns for attributes."
 - "Avoid stock-photo-style imagery. Every slide is a diagram or it does not exist."
+
+Do not read this prompt aloud.
