@@ -24,3 +24,7 @@
 {"phase": "per-chapter", "step": "challenger/the-fatimid-world-and-al-naysaburi", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/the-fatimid-world-and-al-naysaburi/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/the-fatimid-world-and-al-naysaburi", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-imam-and-the-authority-over-sacred-law", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-imam-and-the-authority-over-sacred-law", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-imam-and-the-authority-over-sacred-law/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-imam-and-the-authority-over-sacred-law", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
