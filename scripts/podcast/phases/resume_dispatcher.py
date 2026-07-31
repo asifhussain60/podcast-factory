@@ -11,7 +11,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT
-from _progress import PHASES, STALE_RUNNING_SEC, is_phase_stale, read_state, update_phase, write_state
+from _progress import (
+    PHASES,
+    STALE_RUNNING_SEC,
+    UNATTENDED_KEY,
+    is_phase_stale,
+    read_state,
+    unattended_run,
+    update_phase,
+    write_state,
+)
 from _subprocess import err as _err
 from _subprocess import info as _info
 from cost_guard import cost_ceiling_check
@@ -92,6 +101,15 @@ def run_resume(args: argparse.Namespace) -> int:
         _err("state file missing despite pre-flight pass — abort")
         return 2
 
+    # A book already in flight can opt in mid-run: --resume --unattended latches
+    # it into state. One-way on purpose — omitting the flag on a later resume is
+    # far more likely to be the watchdog's own invocation than a decision to go
+    # back to attended, and silently re-arming the gates would strand the book.
+    if getattr(args, "unattended", False) and not state.get(UNATTENDED_KEY):
+        state[UNATTENDED_KEY] = True
+        write_state(book_dir, state)
+        _info("  --unattended: human-approval gates will be auto-cleared for this book from here on.")
+
     stop_after = getattr(args, "stop_after", None)
     retry_phase = getattr(args, "retry_phase", None)
     if retry_phase:
@@ -144,6 +162,9 @@ def run_resume(args: argparse.Namespace) -> int:
                 approved = bool(gate.get("approved"))
             except Exception:
                 pass
+        if not approved and unattended_run(book_dir):
+            approved = True
+            _info(f"Phase {current_phase!r} review gate auto-cleared — this book was launched --unattended.")
         if not approved:
             _info(
                 f"Phase {current_phase!r} is awaiting human review. "

@@ -79,9 +79,10 @@ def test_book_knobs_bundle(tmp_path: Path) -> None:
     assert knobs == {
         "augmentation": BOOK_AUGMENTATION_NONE,
         "voice": BOOK_VOICE_FAITHFUL,
-        # A translation edition keeps the historical pipeline-visual behaviour;
-        # only the companion path defaults to human-curated figures.
-        "visuals": "pipeline",
+        # EVERY book defaults to human-curated figures (2026-07-31): no image
+        # reaches the PDF except by hand in the Book Composer. A translation
+        # edition used to fall through to "pipeline" and auto-inject.
+        "visuals": "manual_only",
         # The narrative frame is a SOURCE property, resolved independently of
         # every knob above — choosing a translation edition does not choose a
         # narrator. With no content_profile declared, the conservative default.

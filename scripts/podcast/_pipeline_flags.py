@@ -133,10 +133,13 @@ def book_visuals(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     a page. ``pipeline`` is the historical behaviour, where the illustrate and
     slide-import phases run and produce candidate assets.
 
-    The default follows the augmentation knob: a companion edition
-    (``source_only``) is a text deliverable whose visuals are curated by hand, so
-    it defaults to ``manual_only``; every other book keeps ``pipeline`` so this
-    change cannot silently alter an existing lane. An explicit key wins either way.
+    ``manual_only`` is the DEFAULT for every book (2026-07-31, Asif): no image
+    reaches the PDF except by his hand in the Book Composer. Slide-deck PROMPTS
+    are still authored — those are a NotebookLM deliverable and never touch the
+    reading edition. The default used to follow the augmentation knob, which left
+    translation editions on ``pipeline``, auto-injecting diagrams and imported
+    NotebookLM decks into the PDF and halting the book lane until those decks were
+    dropped. An explicit ``pipeline`` still opts a book back in.
     """
     if cfg is None:
         cfg = _read_series_config(book_dir)
@@ -149,9 +152,7 @@ def book_visuals(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
         _reject_unknown(VISUALS_KEY, explicit, _VALID_VISUALS)
     if explicit:
         return explicit
-    if book_augmentation(book_dir, cfg) == BOOK_AUGMENTATION_SOURCE_ONLY:
-        return BOOK_VISUALS_MANUAL_ONLY
-    return BOOK_VISUALS_PIPELINE
+    return BOOK_VISUALS_MANUAL_ONLY
 
 
 def narrative_frame(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:

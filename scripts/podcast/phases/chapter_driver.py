@@ -568,6 +568,17 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         return 2
     update_phase(book_dir, phase="finalize", status="halted", extras={"verdict": "SHIP-READY"})
 
+    # The reading edition, built HERE rather than only after publish. Its input is
+    # _system/source/text/refined-english.md, which has existed since 0b — it never
+    # depended on the audio, only sat after it in the phase order. Building it now
+    # means the articulated book.md and its PDF are in the Composer at the same
+    # stopping point as the chapters and the slide-deck prompts, which is what a
+    # human actually reviews. Self-skips unless the book lane can complete without
+    # a human artifact; the publish-time call remains the path for the rest.
+    from _book_preview import maybe_build_reading_edition_early
+
+    maybe_build_reading_edition_early(book_dir, log=_info)
+
     # Non-blocking advisories. Emitters live in `_halt_advisories` so this file
     # (grandfathered by the line-count gate) stays their caller, not their home.
     from _halt_advisories import emit_decision_ledger, emit_transcription_advisories

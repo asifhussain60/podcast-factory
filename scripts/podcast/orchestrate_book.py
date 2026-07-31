@@ -398,6 +398,17 @@ def build_parser() -> argparse.ArgumentParser:
         help=("Phase 0d episode segmentation (initial run only; persisted in state). Default: auto."),
     )
     p.add_argument(
+        "--unattended",
+        action="store_true",
+        help=(
+            "clear the human-approval gates that only pace an attended run (the "
+            "06a source review), so the book runs through to the reading edition "
+            "without a person at the keyboard. Persisted in state, so the "
+            "watchdog's own --resume honours it. Halts that wait on a FILE only a "
+            "human can supply (dropped audio, curated visuals) are unaffected."
+        ),
+    )
+    p.add_argument(
         "--doctor",
         action="store_true",
         help=(
