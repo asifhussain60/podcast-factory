@@ -515,6 +515,20 @@ def main() -> int:
         return 1
 
     if args.resume:
+        # BEFORE the watchdog handoff, not inside run_resume: the relaunch replaces
+        # this process with one the watchdog invokes WITHOUT --unattended, so a flag
+        # latched further down would never be written at all. It was not — the book
+        # sat at the same gate it had just been authorized past.
+        if getattr(args, "unattended", False):
+            _bd = _paths_find_content(args.resume)
+            if _bd:
+                from _progress import UNATTENDED_KEY, write_state
+
+                _st = read_state(_bd[2]) or {}
+                if not _st.get(UNATTENDED_KEY):
+                    _st[UNATTENDED_KEY] = True
+                    write_state(_bd[2], _st)
+                    _info("  --unattended: human-approval gates auto-cleared for this book from here on.")
         _maybe_relaunch_under_watchdog(slug_for_lock)
 
     lock_result = _acquire_book_lock(slug_for_lock)
