@@ -4,15 +4,11 @@
   "category": "books",
   "branch": "Islamic/degrees-of-excellence",
   "status": "draft",
-  "phase": "per-chapter",
-  "phase_status": "running",
+  "phase": "0g",
+  "phase_status": "completed",
   "last_completed_phase": "0g",
-  "next_phase": "0literary",
-  "last_error": {
-    "phase": "per-chapter",
-    "message": "1 chapter(s) failed: the-imamate-pole-and-foundation-of-religion. 7 chapter(s) completed. Triage failures or raise per_chapter_cost_cap_usd and --resume.",
-    "ts": "2026-07-31T18:40:55Z"
-  },
+  "next_phase": "per-chapter",
+  "last_error": null,
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -75,10 +71,86 @@
       "series_plan_path": "content/Islamic/degrees-of-excellence/_system/series-plan.md"
     },
     "0g": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-07-31T19:19:40Z",
+      "ts_completed": "2026-07-31T19:19:45Z",
+      "audit_outcomes": {
+        "degrees-of-excellence-the-peak-of-every-kind": {
+          "status": "audited",
+          "ep_label": "EP04-degrees-of-excellence-the-peak-of-every-kind",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "prophets-as-symbols-and-the-first-caliphs": {
+          "status": "audited",
+          "ep_label": "EP07-prophets-as-symbols-and-the-first-caliphs",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-fatimid-world-and-al-naysaburi": {
+          "status": "audited",
+          "ep_label": "EP01-the-fatimid-world-and-al-naysaburi",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-imam-and-the-authority-over-sacred-law": {
+          "status": "audited",
+          "ep_label": "EP05-the-imam-and-the-authority-over-sacred-law",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-imamate-pole-and-foundation-of-religion": {
+          "status": "audited",
+          "ep_label": "EP03-the-imamate-pole-and-foundation-of-religion",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-theory-of-degrees-of-excellence-explained": {
+          "status": "audited",
+          "ep_label": "EP02-the-theory-of-degrees-of-excellence-explained",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-virtues-of-ali-the-imam-who-mirrors-god": {
+          "status": "audited",
+          "ep_label": "EP08-the-virtues-of-ali-the-imam-who-mirrors-god",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "worship-alms-and-war-void-without-the-imam": {
+          "status": "audited",
+          "ep_label": "EP06-worship-alms-and-war-void-without-the-imam",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        }
+      }
     },
     "per-chapter": {
-      "status": "running",
+      "status": "completed",
       "ts_started": "2026-07-31T15:47:03Z",
       "current_chapter": "the-imamate-pole-and-foundation-of-religion",
       "last_beat": "2026-07-31T19:15:34Z",
@@ -87,6 +159,7 @@
         "prophets-as-symbols-and-the-first-caliphs",
         "the-fatimid-world-and-al-naysaburi",
         "the-imam-and-the-authority-over-sacred-law",
+        "the-imamate-pole-and-foundation-of-religion",
         "the-theory-of-degrees-of-excellence-explained",
         "the-virtues-of-ali-the-imam-who-mirrors-god",
         "worship-alms-and-war-void-without-the-imam"
@@ -144,16 +217,20 @@
         },
         "the-imamate-pole-and-foundation-of-religion": {
           "started_ts": "2026-07-31T18:48:38Z",
-          "completed_ts": null,
-          "duration_sec": null,
-          "verdict": null,
-          "cost_usd": null
+          "completed_ts": "2026-07-31T19:19:39Z",
+          "duration_sec": 1861.3,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
         }
       },
-      "convergence_iter": 3
+      "convergence_iter": 3,
+      "ts_completed": "2026-07-31T19:19:40Z"
     },
     "per-chapter-optimize": {
-      "status": "pending"
+      "status": "skipped",
+      "ts_started": "2026-07-31T19:19:40Z",
+      "ts_completed": "2026-07-31T19:19:40Z",
+      "reason": "optimize_enabled=false in meta.yml"
     },
     "per-chapter-slides": {
       "status": "pending"
@@ -205,7 +282,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-07-31T19:15:34Z",
+  "ts_updated": "2026-07-31T19:19:45Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
