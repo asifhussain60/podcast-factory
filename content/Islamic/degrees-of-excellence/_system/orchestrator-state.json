@@ -80,13 +80,14 @@
     "per-chapter": {
       "status": "running",
       "ts_started": "2026-07-31T15:47:03Z",
-      "current_chapter": "the-theory-of-degrees-of-excellence-explained",
-      "last_beat": "2026-07-31T17:28:37Z",
+      "current_chapter": "the-virtues-of-ali-the-imam-who-mirrors-god",
+      "last_beat": "2026-07-31T17:50:46Z",
       "completed_slugs": [
         "degrees-of-excellence-the-peak-of-every-kind",
         "prophets-as-symbols-and-the-first-caliphs",
         "the-fatimid-world-and-al-naysaburi",
-        "the-imam-and-the-authority-over-sacred-law"
+        "the-imam-and-the-authority-over-sacred-law",
+        "the-theory-of-degrees-of-excellence-explained"
       ],
       "failed_slugs": [
         "the-imamate-pole-and-foundation-of-religion"
@@ -130,6 +131,13 @@
         },
         "the-theory-of-degrees-of-excellence-explained": {
           "started_ts": "2026-07-31T17:15:54Z",
+          "completed_ts": "2026-07-31T17:34:44Z",
+          "duration_sec": 1130.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-virtues-of-ali-the-imam-who-mirrors-god": {
+          "started_ts": "2026-07-31T17:34:45Z",
           "completed_ts": null,
           "duration_sec": null,
           "verdict": null,
@@ -191,7 +199,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-07-31T17:28:37Z",
+  "ts_updated": "2026-07-31T17:50:46Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {

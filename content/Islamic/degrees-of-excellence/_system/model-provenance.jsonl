@@ -32,3 +32,7 @@
 {"phase": "per-chapter", "step": "challenger/the-theory-of-degrees-of-excellence-explained", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "fixer/the-theory-of-degrees-of-excellence-explained/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "per-chapter", "step": "challenger/the-theory-of-degrees-of-excellence-explained", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "framing/the-virtues-of-ali-the-imam-who-mirrors-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-virtues-of-ali-the-imam-who-mirrors-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "fixer/the-virtues-of-ali-the-imam-who-mirrors-god/P1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "per-chapter", "step": "challenger/the-virtues-of-ali-the-imam-who-mirrors-god", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
