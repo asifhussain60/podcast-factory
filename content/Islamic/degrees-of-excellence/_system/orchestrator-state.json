@@ -5,7 +5,7 @@
   "branch": "Islamic/degrees-of-excellence",
   "status": "draft",
   "phase": "0b",
-  "phase_status": "pending",
+  "phase_status": "running",
   "last_completed_phase": "0a",
   "next_phase": "0b",
   "last_error": null,
@@ -30,7 +30,8 @@
       "note": "Azure OCR + Translation SUCCEEDED at 11:40Z: _system/source/text/raw-extract.md (464589 bytes) and _system/source/ocr/raw-extract.md (504320 bytes) were both written and are the artifacts every later phase reads. What failed afterwards was the OPTIONAL vowel_arabic_source pass, which hung on the model with no wall-clock bound and was killed at 12:27Z; that left phase_status stuck even though 0a's own deliverable was already correct on disk. Re-running was impossible without discarding good work — ingest_source.py refuses to overwrite an existing raw-extract. Status corrected BY HAND on 2026-07-31 with Asif's explicit approval, not written by the orchestrator. The hang itself is fixed in d63a7bee (20-minute deadline on the vowelling pass); the Arabic source stays bare for this book, which vowel_book re-marks at compose time as designed."
     },
     "0b": {
-      "status": "pending"
+      "status": "running",
+      "ts_started": "2026-07-31T12:47:57Z"
     },
     "0c": {
       "status": "pending"
@@ -112,7 +113,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-07-31T12:33:09Z",
+  "ts_updated": "2026-07-31T12:47:57Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
