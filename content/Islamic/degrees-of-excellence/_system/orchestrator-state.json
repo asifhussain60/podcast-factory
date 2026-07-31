@@ -4,8 +4,8 @@
   "category": "books",
   "branch": "Islamic/degrees-of-excellence",
   "status": "draft",
-  "phase": "scaffold",
-  "phase_status": "completed",
+  "phase": "0a",
+  "phase_status": "running",
   "last_completed_phase": "scaffold",
   "next_phase": "0a",
   "last_error": null,
@@ -24,7 +24,8 @@
       "book_dir": "content/Islamic/degrees-of-excellence"
     },
     "0a": {
-      "status": "pending"
+      "status": "running",
+      "ts_started": "2026-07-31T11:39:48Z"
     },
     "0b": {
       "status": "pending"

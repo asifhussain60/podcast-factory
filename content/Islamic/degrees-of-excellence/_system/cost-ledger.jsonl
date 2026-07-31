@@ -1,0 +1,2 @@
+{"ts": "2026-07-31T11:40:07Z", "phase": "0a", "step": "ingest/docintel", "model": "azure-docintel-prebuilt-read", "input_tokens": 273, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.4095, "engine": "api"}
+{"ts": "2026-07-31T11:40:32Z", "phase": "0a", "step": "ingest/translator", "model": "azure-translator-text", "input_tokens": 402207, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 4.02207, "engine": "api"}
