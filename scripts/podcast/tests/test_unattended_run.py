@@ -71,6 +71,21 @@ class TheFlagIsWiredToTheCLIAndPersistedTests(unittest.TestCase):
         text = (SCRIPTS_PODCAST / "phases" / "resume_dispatcher.py").read_text(encoding="utf-8")
         self.assertIn("unattended_run(book_dir)", text)
 
+    def test_resume_latches_it_BEFORE_the_watchdog_handoff(self) -> None:
+        """Order matters, and getting it wrong makes the flag a no-op.
+
+        `--resume` relaunches under the watchdog, replacing this process with one
+        invoked WITHOUT --unattended. A flag latched inside run_resume is therefore
+        never written at all: the first attempt observed exactly that, the book
+        sitting at the same gate it had just been authorized past.
+        """
+        text = (SCRIPTS_PODCAST / "orchestrate_book.py").read_text(encoding="utf-8")
+        latch = text.find("UNATTENDED_KEY")
+        handoff = text.find("_maybe_relaunch_under_watchdog(slug_for_lock)")
+        self.assertGreater(latch, 0, "the resume path never persists the flag")
+        self.assertGreater(handoff, 0)
+        self.assertLess(latch, handoff, "the flag is latched after the watchdog handoff — it can never be written")
+
     def test_artifact_halts_do_NOT_consult_it(self) -> None:
         # audio-ingest waits for dropped .m4a; the book lane waits for curated
         # visuals. Neither may be auto-cleared — authorization cannot supply a file.
