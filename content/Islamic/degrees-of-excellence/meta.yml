@@ -1,0 +1,64 @@
+slug: degrees-of-excellence
+title: Degrees of Excellence
+short_name: degrees
+archetype: scholarly-deep-dive
+original_title: Kitab ithbat al-imama
+source_pdf: _system/source/Degrees_of_Excellence.pdf
+
+# Every field below is taken from the source volume's own front matter and
+# from its Description of the Arabic Manuscripts (source chapter 3). Nothing
+# here is supplied from outside the book. Recorded 2026-07-31 to answer the
+# 06a source-review gate, which halted with two P0 findings reporting that no
+# primary source, manuscript reference, or translator attribution had been
+# recorded anywhere the gate could read.
+
+doctrinal_context:
+  author: Ahmad b. Ibrahim al-Naysaburi
+  school: Ismaili (Fatimid-era daawa tradition)
+  period: Fatimid, c. late 10th - early 11th century CE
+  genre: Demonstrative treatise affirming the imamate
+  cross_contamination_risk: >-
+    low - the tradition is stated on the title page itself ("A Fatimid Treatise
+    on Leadership in Islam", Institute of Ismaili Studies, Ismaili Texts and
+    Translations Series). The doctrine is distinctly Ismaili, not Twelver: the
+    ever-present imam, the natiq/samit pairing across the prophetic cycles, and
+    the ranks of the daawa crowned by the imam as the seventh.
+
+publication:
+  status: draft
+  english_title: "Degrees of Excellence: A Fatimid Treatise on Leadership in Islam"
+  edition: A new Arabic edition and English translation of Kitab ithbat al-imama
+  editor_translator: Arzina R. Lalani
+  publisher: I.B. Tauris & Co Ltd, London and New York
+  co_publisher: The Institute of Ismaili Studies, London
+  year: 2010
+  series: Ismaili Texts and Translations Series, 8
+  shipped_via: scripts/podcast/publish_to_library.py
+  publication_model: status-flag-in-place
+
+source_provenance:
+  manuscript_basis: >-
+    Ten Arabic manuscripts of Kitab ithbat al-imama held by the Institute of
+    Ismaili Studies, of which five were collated for this edition, designated
+    alif, ba, ta, tha and jim. The source volume gives each one's shelf mark,
+    dated colophon, copyist, and physical condition in its Description of the
+    Arabic Manuscripts.
+  editorial_method: >-
+    Declared by the translator in Notes on the Translation: benedictions and
+    polemical passages dropped, punctuation and paragraphing supplied, hamzas
+    and shaddas and Quranic vowel-marks supplied, the fusul turned into numbered
+    sections for cross-referencing. ithbat is rendered "affirming"/"affirmation"
+    and tafadul "degrees of excellence" throughout.
+  editorial_apparatus_excluded: >-
+    Source chapters 1, 3 and 5 (front matter, the manuscript description, and
+    the bibliography, indexes and second translation) produce no episodes: they
+    are translator's apparatus and a redundant re-rendering, not source doctrine.
+    See _system/source/text/chapters-rationale.md.
+  narrative_note: >-
+    The treatise proper opens and sustains a first-person authorial voice -
+    al-Naysaburi addressing the reader about his own argument ("We have said
+    that the imamate is the pole and foundation of religion", "We shall now
+    examine some of the claims made by each pretender"). The two introduction
+    episodes are the translator's third-person scholarly framing, not the
+    author's voice. This split is why narrative_frame is not yet declared in
+    _system/series-config.yaml.
