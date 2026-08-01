@@ -93,6 +93,54 @@ if command -v claude &>/dev/null; then
   fi
 fi
 
+# ── 4c. CI health — a workflow that has been red for a WHILE ──────────
+#      The `lint` workflow failed on 60 consecutive runs on develop between
+#      2026-07-27 and 2026-08-01 — zero successes, dozens of pushes, no signal
+#      anyone acted on. Six gates were not running that whole time, including
+#      the runtime smoke job. It surfaced only because an unrelated post-merge
+#      audit happened to look at CI. Nothing was watching. (RCA-009, AI-2.)
+#
+#      Reported HERE rather than as a scheduled workflow because this is the
+#      moment a human is about to start work — which is where it would have
+#      been caught on day one.
+#
+#      Threshold is 3 consecutive completed failures, so a single flaky run
+#      stays quiet: the signal has to mean "this is broken", not "CI hiccuped".
+#      In-progress runs are skipped rather than breaking the streak, so a red
+#      workflow currently re-running is still reported.
+CI_RED_STREAK=3
+if command -v gh &>/dev/null && command -v jq &>/dev/null; then
+  CI_RUNS=$(gh run list --branch develop --limit 40 \
+              --json workflowName,conclusion,status,createdAt 2>/dev/null || true)
+  if [[ -n "${CI_RUNS:-}" && "$CI_RUNS" != "[]" ]]; then
+    CI_RED=$(printf '%s' "$CI_RUNS" | jq -r --argjson min "$CI_RED_STREAK" '
+      [ .[] | select(.status == "completed") ]
+      | group_by(.workflowName)
+      | map(
+          (sort_by(.createdAt) | reverse) as $runs
+          | ([ $runs[] | .conclusion == "failure" ] | index(false)) as $firstOk
+          | { workflow: $runs[0].workflowName,
+              streak:   ($firstOk // ($runs | length)),
+              since:    ( $runs[ (($firstOk // ($runs|length)) - 1) ].createdAt // "" ) }
+        )
+      | map(select(.streak >= $min))
+      | .[] | "\(.workflow)|\(.streak)|\(.since)"
+    ' 2>/dev/null || true)
+    if [[ -n "${CI_RED:-}" ]]; then
+      echo
+      echo "⚠ CI has been RED on develop — not a one-off:" >&2
+      while IFS='|' read -r wf streak since; do
+        [[ -n "$wf" ]] || continue
+        # `since` is the oldest failure INSIDE the 40-run window, so the streak
+        # may reach further back than this — say "at least", never overstate.
+        echo "    $wf — $streak consecutive failures, at least since ${since%T*}" >&2
+      done <<< "$CI_RED"
+      echo "  Inspect: gh run list --branch develop --workflow <name>" >&2
+      echo "           gh run view <id> --log-failed"
+    fi
+  fi
+fi
+
 # ── 5. Surface state ──────────────────────────────────────────────────
 echo
 echo "▸ ready on develop"
