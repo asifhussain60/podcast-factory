@@ -33,8 +33,14 @@ jobs:
       # green on both 0.15.x and 0.16.x; the pin is what keeps the NEXT such change
       # a deliberate bump rather than a surprise. Bump both deliberately, and run
       # the same versions locally. See RCA-009.
-      - name: Install ruff + mypy
-        run: python3 -m pip install "ruff==0.16.1" "mypy==2.3.0"
+      # PyYAML is not a linter — it is here because `repo_surgeon_probe.py` reads
+      # the tracked contract at .repo-audit/profile.yaml and exits 2 ("the probe
+      # could not run") without it. It was never installed, so that step has NEVER
+      # executed in CI since it was wired: a gate that cannot run is indistinguishable
+      # from a gate that passes, right up until you read the log. Found 2026-08-01
+      # while fixing the install step two jobs over (RCA-009).
+      - name: Install ruff + mypy + probe deps
+        run: python3 -m pip install "ruff==0.16.1" "mypy==2.3.0" "pyyaml>=6"
       - name: Ruff lint
         run: ruff check
       - name: Ruff format check

@@ -44,6 +44,14 @@ const ONE_ROUTE = (() => {
 })();
 const PORT = Number(process.env.SITE_HEALTH_PORT || 4322);
 
+// Rolling capture of the ephemeral dev server's stdout+stderr. Printed only when
+// a route fails — a 5xx is the server's exception, and without this the report
+// can name the URL but never the cause.
+const serverLog = [];
+const SERVER_LOG_MAX = 400;
+const serverLogTail = (lines = 60) =>
+  serverLog.join("").split("\n").slice(-lines).join("\n").trim();
+
 // Console-error / failed-request patterns that are known-benign in dev and must
 // NOT fail the gate. Keep this list SHORT and justified — every entry is a
 // blind spot. Anything not matched here is a real finding.
@@ -239,15 +247,36 @@ async function ensureServer() {
     return { baseUrl: provided.replace(/\/$/, ""), proc: null };
   }
   const baseUrl = `http://localhost:${PORT}`;
-  // Reuse an already-running dev server if present.
+  // Reuse an already-running dev server if present. Nothing is captured in that
+  // case — the output belongs to whoever started it, and it is on their terminal.
   if (await waitForServer(baseUrl, 2000)) return { baseUrl, proc: null };
 
   // Boot an ephemeral one.
+  //
+  // stdio was "ignore", which threw away the ONE thing that explains a 5xx: the
+  // server's own stack trace. On 2026-08-01 five Studio routes 500'd on the CI
+  // runner and nowhere else, and the log could say only "500" — not reproducible
+  // on the author's machine from a fresh clone, so there was no other way to see
+  // the exception. Captured into a bounded buffer and printed only when a route
+  // actually fails, so a green run stays quiet.
   const proc = spawn("npm", ["run", "dev", "--", "--port", String(PORT)], {
     cwd: SITE_DIR,
-    stdio: "ignore",
+    stdio: ["ignore", "pipe", "pipe"],
     detached: false,
   });
+  const collect = (stream) => {
+    if (!stream) return;
+    stream.setEncoding("utf8");
+    stream.on("data", (chunk) => {
+      serverLog.push(chunk);
+      // Keep the tail, not the whole build: a dev server is chatty at boot and
+      // the interesting lines are always the most recent ones.
+      while (serverLog.length > SERVER_LOG_MAX) serverLog.shift();
+    });
+  };
+  collect(proc.stdout);
+  collect(proc.stderr);
+
   const ok = await waitForServer(baseUrl, 60000);
   if (!ok) {
     try {
@@ -255,7 +284,9 @@ async function ensureServer() {
     } catch {
       /* noop */
     }
-    throw new Error(`dev server never came up on ${baseUrl}`);
+    throw new Error(
+      `dev server never came up on ${baseUrl}\n${serverLogTail() || "(no server output captured)"}`,
+    );
   }
   return { baseUrl, proc };
 }
@@ -621,6 +652,16 @@ async function main() {
       for (const f of r.findings) console.log(`      ${f.kind}: ${f.detail}`);
     }
     console.log("");
+    // The server's own words. Only on failure, and only when this run booted the
+    // server — a reused one logs to its owner's terminal, not here.
+    const tail = serverLogTail();
+    if (failed.length && tail) {
+      console.log(
+        "  ── dev server output (tail) ─────────────────────────────",
+      );
+      for (const line of tail.split("\n")) console.log(`  ${line}`);
+      console.log("");
+    }
   }
 
   process.exit(failed.length ? 1 : 0);
