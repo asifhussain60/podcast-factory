@@ -9,3 +9,22 @@ Format: pipe table; mangled forms comma-separated.
 
 | Canonical | Mangled forms (comma-separated) |
 |---|---|
+| al-Kirmani | Al-Kirmani |
+| Maghrib | Maghreb |
+| arkan | Arkan |
+| raiya | Raya |
+| ya'sub | Yasub |
+| nass | Nas |
+| falta | falta |
+| mafdul | Mafdul |
+| mutimm | mutim |
+| fay | Fay |
+| hudud | Hudud |
+| qibla | Qibla |
+| ghulat | gulat |
+| walaya | walaya |
+| Ghadir Khumm | Ghadir Khum |
+| asas al-din | Asas Aldin |
+| da'irat al-din | Dayarat al-Din |
+| tiryaq | teriac |
+| tawhid | Toheed |

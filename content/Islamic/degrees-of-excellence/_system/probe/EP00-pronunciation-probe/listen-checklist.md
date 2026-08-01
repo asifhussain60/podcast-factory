@@ -22,41 +22,23 @@ and stop asking the hosts to say the Arabic at all.
 |---|------|----------|-----|-----|
 | 1 | al-Naysaburi | al-Naysaburi |  |  |
 | 2 | al-Kirmani | al-Kirmani |  |  |
-| 3 | Maghrib | Maghrib |  |  |
-| 4 | Taha | Taha |  |  |
-| 5 | Yasin | Yasin |  |  |
-| 6 | Ghadir Khumm | Ghadir Khumm |  |  |
-| 7 | Rahat al-Aql | Rahat al-Aql |  |  |
-| 8 | bayt al-mal | bayt al-mal |  |  |
-| 9 | ithbat | ithbat |  |  |
-| 10 | zakat | za-KAAT |  |  |
-| 11 | qibla | qibla |  |  |
-| 12 | hudud | hudud |  |  |
-| 13 | vicegerent | vicegerent |  |  |
-| 14 | fay | fay |  |  |
-| 15 | nass | nass |  |  |
-| 16 | tawhid | tow-HEED |  |  |
-| 17 | ahl al-zahir | ahl al-zahir |  |  |
-| 18 | walaya | walaya |  |  |
-| 19 | khums | khums |  |  |
-| 20 | qutb | qutb |  |  |
-| 21 | taslim | taslim |  |  |
-| 22 | sais | sais |  |  |
-| 23 | tashbih | tash-BEEH |  |  |
-| 24 | khutba | khutba |  |  |
-| 25 | arkan | arkan |  |  |
-| 26 | asas al-din | asas al-din |  |  |
-| 27 | ghulat | ghulat |  |  |
-| 28 | mafdul | mafdul |  |  |
-| 29 | raiya | raiya |  |  |
-| 30 | ya'sub | ya'sub |  |  |
-| 31 | ahl al-haqq | ahl al-haqq |  |  |
-| 32 | masbuq | masbuq |  |  |
-| 33 | nutq | nutq |  |  |
-| 34 | tiryaq | tiryaq |  |  |
-| 35 | da'irat al-din | da'irat al-din |  |  |
-| 36 | ahl al-batil | ahl al-batil |  |  |
-| 37 | falta | falta |  |  |
-| 38 | mutimm | mutimm |  |  |
-| 39 | nur al-imama | nur al-imama |  |  |
+| 3 | Rahat al-Aql | Rahat al-Aql |  |  |
+| 4 | bayt al-mal | bayt al-mal |  |  |
+| 5 | ithbat | ithbat |  |  |
+| 6 | zakat | za-KAAT |  |  |
+| 7 | qibla | qibla |  |  |
+| 8 | hudud | hudud |  |  |
+| 9 | vicegerent | vicegerent |  |  |
+| 10 | ahl al-zahir | ahl al-zahir |  |  |
+| 11 | khums | khums |  |  |
+| 12 | qutb | qutb |  |  |
+| 13 | taslim | taslim |  |  |
+| 14 | sais | sais |  |  |
+| 15 | tashbih | tash-BEEH |  |  |
+| 16 | khutba | khutba |  |  |
+| 17 | ahl al-haqq | ahl al-haqq |  |  |
+| 18 | masbuq | masbuq |  |  |
+| 19 | nutq | nutq |  |  |
+| 20 | ahl al-batil | ahl al-batil |  |  |
+| 21 | nur al-imama | nur al-imama |  |  |
 
