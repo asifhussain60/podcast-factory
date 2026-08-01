@@ -39,11 +39,7 @@ import {
 } from "./compose-lane";
 // NB: the module also exports `composeLane`, deliberately NOT imported here —
 // this file already binds that name to its ComposeLane controller instance.
-import {
-  composeChapter,
-  composeMode,
-  registerComposeChapters,
-} from "./compose-view-state";
+import { composeChapter, registerComposeChapters } from "./compose-view-state";
 import {
   safeChapterKey,
   sectionKeyFromHeading,
@@ -574,9 +570,9 @@ function boot(): void {
           } // stay on this chapter
         } else if (contentChangedThisSession) {
           // Prose was saved → reload so the target chapter renders from fresh book.md,
-          // landing back in Edit (the user was editing) on the new chapter.
+          // landing back in Edit on the new chapter (every load does, since
+          // 2026-08-01 — this used to have to ask for it).
           selectChapter(chapterSelect.value);
-          composeMode.write("edit", slug);
           reloadPreservingChapter();
           return;
         }
@@ -590,6 +586,32 @@ function boot(): void {
       if (wasEditing) setMode("edit"); // stay in Edit on the newly selected chapter
     });
   }
+
+  // Prev/next at the foot of the chapter. Delegated from the root because every
+  // chapter renders its own pair and only the visible one can be clicked, so one
+  // listener beats N.
+  //
+  // This deliberately does NOT call selectChapter(): that function moves the key
+  // and nothing else, while the picker's `change` handler above owns the autosave
+  // flush, the discard confirmation, the editor teardown and the stay-in-Edit
+  // restore. Driving the picker and dispatching its event reuses all of it — the
+  // alternative is a second way to leave a chapter, which is a second way to lose
+  // an unsaved one. `chapterMenu.sync()` is required alongside: the native
+  // <select> is only the state holder, and select-menu.ts draws the visible list.
+  root.addEventListener("click", (ev) => {
+    const btn = (ev.target as HTMLElement | null)?.closest<HTMLButtonElement>(
+      ".cx-chapter-nav-btn",
+    );
+    if (!btn || btn.disabled || !chapterSelect) return;
+    const key = btn.dataset.gotoChapter;
+    // Absent at the two ends, where the button is also disabled. Checked anyway:
+    // `disabled` is a DOM state a stray script could clear, the key is the thing
+    // that has to exist, and a missing one would otherwise blank the picker.
+    if (!key || key === selectedChapter) return;
+    chapterSelect.value = key;
+    chapterMenu?.sync();
+    chapterSelect.dispatchEvent(new Event("change"));
+  });
 
   // The GOTO_CHAPTER_EVENT listener that used to sit here went with the Arabic
   // drawer surface on 2026-07-29 — the vowelling panel's per-passage chapter
@@ -632,15 +654,17 @@ function boot(): void {
   let aiToolsRoot: Root | null = null;
   let detailsRoot: Root | null = null;
 
-  /** The chapter key a Companion note is filed under — the LIVE Session's TOC id,
-   *  derived from the chapter's raw heading by the one shared rule.
+  /** The chapter key a Companion note is filed under — the rendered TOC id,
+   *  derived from the chapter's raw heading by the one shared rule. This is a
+   *  data contract: it is the key the notes already on disk are stored under, so
+   *  the rule cannot change without migrating them.
    *
    *  NOT `safeChapterKey(selectedChapter)`, which is what this used to be: the
    *  Composer's own chapter key comes from `anchorKey`, which strips the leading
    *  "N." — so an etymology note for chapter 2 was filed as
    *  `a-stranger-in-the-city` while the reader looked under
    *  `2-a-stranger-in-the-city` and showed nothing. */
-  function liveChapterKey(): string {
+  function companionChapterKey(): string {
     const anchor =
       data.chapters.find((c) => c.key === selectedChapter)?.anchor ?? "";
     return sectionKeyFromHeading(anchor) || safeChapterKey(selectedChapter);
@@ -693,7 +717,7 @@ function boot(): void {
         bookTitle,
         proseSelector: ".cx-chapter",
         docked: true,
-        chapter: liveChapterKey(),
+        chapter: companionChapterKey(),
         focusNote,
         anchoredIds,
         inViewIds,
@@ -1523,7 +1547,6 @@ function boot(): void {
               }
               return false;
             }
-            composeMode.write("edit", slug);
             reloadPreservingChapter();
             return true;
           },
@@ -3021,7 +3044,7 @@ function boot(): void {
           method: "POST",
           body: {
             slug,
-            chapter: liveChapterKey(),
+            chapter: companionChapterKey(),
             note: {
               kind: "etymology",
               body,
@@ -3422,22 +3445,24 @@ function boot(): void {
   // schema can round-trip. Without this control the print-faithful view has no
   // way of being reached: the editor opens on boot and nothing else leaves it.
   //
-  // `userMode` remembers the choice the human actually made, so returning from
-  // the Podcast lane restores it. It is NOT read off setModeVisual: the flip's
-  // own leave() drops the view to Read on its way out, which would make every
-  // return land in Read regardless of where the user came from.
-  // Seeded from what this book was last left in, so a reload — the editor's own
-  // autosave re-sync, a plain F5, or a fresh visit tomorrow — reopens the way it
-  // was closed. Edit remains the default for a book never opened before.
-  let userMode: "read" | "edit" = composeMode.read(slug) ?? "edit";
+  // `userMode` remembers the choice the human actually made WITHIN this visit, so
+  // returning from the Podcast lane restores it. It is NOT read off setModeVisual:
+  // the flip's own leave() drops the view to Read on its way out, which would make
+  // every return land in Read regardless of where the user came from.
+  //
+  // Every load starts in Edit (Asif, 2026-08-01). This used to seed from
+  // `composeMode.read(slug)` — what the book was last left in — which meant a book
+  // closed in Read reopened in Read days later, and the markup's Edit default only
+  // ever applied to a book never opened before. Edit is the working mode; Read is
+  // one click away. `composeMode` went with the seed: once nothing reads the
+  // stored mode, the writes that fed it are a localStorage key nobody consults.
+  let userMode: "read" | "edit" = "edit";
   modeReadBtn?.addEventListener("click", () => {
     userMode = "read";
-    composeMode.write("read", slug);
     setMode("read");
   });
   modeEditBtn?.addEventListener("click", () => {
     userMode = "edit";
-    composeMode.write("edit", slug);
     setMode("edit");
   });
 

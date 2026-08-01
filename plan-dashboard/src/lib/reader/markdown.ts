@@ -564,8 +564,8 @@ export function renderMarkdown(
       //
       // A PIPELINE FENCE is not that kind of comment. It delimits a span the
       // Python phases own, and rendering it as a visible chip put 16 grey
-      // `editorial:begin` / `edition-intro:begin` labels into the reader on
-      // /studio/<slug>/live. Skipped by default; the EDIT seed opts back in via
+      // `editorial:begin` / `edition-intro:begin` labels into the rendered
+      // reading view. Skipped by default; the EDIT seed opts back in via
       // `keepMachineFences`, because there the marker text is load-bearing —
       // `preserveFences` reads it back to restore the comment form after a save,
       // and dropping it from the seed would strip the fence on the first save.

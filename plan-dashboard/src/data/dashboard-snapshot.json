@@ -1779,8 +1779,8 @@
   "metrics": {
     "burn_30d_usd": 14.39
   },
-  "generated_at": "2026-08-01T14:18:34-04:00",
-  "source_commit": "9673765",
+  "generated_at": "2026-08-01T17:57:15-04:00",
+  "source_commit": "c6feb6a",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1842,53 +1842,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "9673765",
-      "subject": "merge(develop): Islamic/degrees-of-excellence — the pronunciation lane, settled by ear",
+      "sha": "c6feb6a",
+      "subject": "fix(degrees-of-excellence): restore al-Hakim identity, clean OCR artifacts",
       "date": "2026-08-01"
     },
     {
-      "sha": "f189909",
-      "subject": "compose(the-master-and-the-disciple): a Companion note and two commas",
+      "sha": "f9b995c",
+      "subject": "docs(rca): close RCA-009 — all three jobs green, all eight actions done",
       "date": "2026-08-01"
     },
     {
-      "sha": "7027027",
-      "subject": "pronunciation(degrees-of-excellence): walaya becomes \"Spiritual Guardianship\"",
+      "sha": "bfbddee",
+      "subject": "fix(site): three controls unreachable at phone width, and the gate that missed them",
       "date": "2026-08-01"
     },
     {
-      "sha": "63e9dd8",
-      "subject": "ledger(pronunciation): settle the six collisions and the ta'wil gloss",
+      "sha": "67812d7",
+      "subject": "feat(session): say so when CI has been red for a while, not just once",
       "date": "2026-08-01"
     },
     {
-      "sha": "7247646",
-      "subject": "ledger(pronunciation): the library was two-thirds unreachable — 66 rows live, now 102",
+      "sha": "660a56c",
+      "subject": "fix(studio): the Studio opens on a machine that has never run the pipeline",
       "date": "2026-08-01"
     },
     {
-      "sha": "d97d9e3",
-      "subject": "pronunciation(degrees-of-excellence): the 8 unsayable terms become English",
+      "sha": "7f76f37",
+      "subject": "docs(rca): record the final state — 2 of 3 jobs green, one cause left",
       "date": "2026-08-01"
     },
     {
-      "sha": "dde1de4",
-      "subject": "probe(degrees-of-excellence): run 2 settles 21 terms; 8 cannot be said at all",
+      "sha": "e4e762f",
+      "subject": "fix(ci): install pdftoppm, the system binary the Composer preview shells out to",
       "date": "2026-08-01"
     },
     {
-      "sha": "5a1632a",
-      "subject": "pronunciation(degrees-of-excellence): withdraw the 38 unproven respellings",
+      "sha": "a056583",
+      "subject": "fix(ci): install the probe's own dependency, and let smoke report the cause",
       "date": "2026-08-01"
     },
     {
-      "sha": "2b621f9",
-      "subject": "probe(degrees-of-excellence): run 1 came back — the terms lose, and so did the probe",
+      "sha": "25f20e0",
+      "subject": "fix(ci): restore the gates, then fix the two defects they had been hiding",
       "date": "2026-08-01"
     },
     {
-      "sha": "500fd2e",
-      "subject": "probe(degrees-of-excellence): make the bundle honest before anyone listens to it",
+      "sha": "3fd16c4",
+      "subject": "fix(ci): the site's six gates were dead for five days behind `npm ci`",
       "date": "2026-08-01"
     }
   ],

@@ -379,9 +379,16 @@ body:has(.composer-grid:not([data-panel="closed"])) {
    The lane switch (Reading edition / Podcast source) is a DIFFERENT axis — which
    TEXT, not which rendering — but the same kind of control, so it shares this
    form rather than carrying a second copy of it. Selector lists, not duplicated
-   declarations: a change to the segmented look lands on both. */
+   declarations: a change to the segmented look lands on all three.
+
+   The Arabic source switch (English / العربية) is the third. It was MISSING from
+   these lists until 2026-08-01 — `.cx-arabic-toggle` matched no rule anywhere in
+   the repo, so its buttons picked up `.cx-mode-btn` while the group around them
+   got no border, radius, overflow or shadow. It read as two loose buttons beside
+   two framed pairs. */
 .cx-mode-toggle,
-.cx-lane-toggle {
+.cx-lane-toggle,
+.cx-arabic-toggle {
   display: inline-flex;
   align-items: center;
   gap: 0;
@@ -416,6 +423,23 @@ body:has(.composer-grid:not([data-panel="closed"])) {
 .cx-mode-btn + .cx-mode-btn,
 .cx-lane-btn + .cx-lane-btn {
   border-left: 1px solid var(--c-rule, #d9d3c4);
+}
+/* The one control in this row whose LABEL is Arabic. `font: inherit` above puts
+   it in the UI face, which carries no Arabic glyphs, so the OS substituted
+   whatever Arabic font it had and العربية rendered in a different hand from
+   every Arabic run on the page beneath it. Matched by the `lang="ar"` already on
+   the button — the markup states the fact, the stylesheet reads it, and nothing
+   has to be kept in sync.
+
+   Sized independently of the 0.85rem Latin labels: Scheherazade's letterforms
+   are small for their point size (the same reason --q-ar-size exists), so at
+   0.85rem the word would sit visibly smaller than "English" beside it.
+   `line-height: 1` keeps the 2.75rem button height off the face's tall
+   intrinsic ascent. */
+.cx-mode-btn[lang="ar"] {
+  font-family: var(--q-ar-face);
+  font-size: 1.15rem;
+  line-height: 1;
 }
 .cx-mode-btn:hover,
 .cx-lane-btn:hover {
@@ -1223,8 +1247,8 @@ body:has(.composer-grid) .to-top {
    print pair verbatim (book-print.css .ar-block) — Read is where the page is
    verified, so it has to be the page. */
 .cx-body .ar-block {
-  font-size: 1.05rem;
-  line-height: 1.9;
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
   direction: rtl;
   text-align: center;
   unicode-bidi: isolate;
@@ -1233,8 +1257,8 @@ body:has(.composer-grid) .to-top {
 
 .cx-prose p.ar {
   font-family: var(--q-ar-face);
-  font-size: 1.05rem;
-  line-height: 1.9;
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
   color: var(--q-maroon);
   direction: rtl;
   unicode-bidi: isolate;
@@ -1769,6 +1793,109 @@ body:has(.composer-grid) .to-top {
   outline-offset: 4px;
   background: color-mix(in oklab, var(--c-accent, #8b4513) 4%, transparent);
 }
+
+/* ── Prev / next chapter ──────────────────────────────────────────────────────
+   Ported from the LIVE Session's `.lsv-chapter-nav` when that view was retired
+   (2026-08-01) rather than reinvented — the pill form, the space-between anchor
+   and the disabled treatment were already the right answers there.
+
+   Last child of .cx-chapter, and the edit shell is inserted `afterend` of
+   .cx-body, so this row sits below the prose in Read and below the editor in
+   Edit from a single element.
+
+   BOTH buttons always render. `space-between` pins them to the two edges, so
+   the row does not jump width between the book's first/last chapter and the
+   ones between — a disabled button holding its place is what keeps "Next" in
+   the same spot on every chapter. */
+.cx-chapter-nav {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--c-rule-soft, #e8e2d5);
+}
+.cx-chapter-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 46%;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--c-ink-muted, #66625a);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.14s,
+    color 0.14s,
+    border-color 0.14s;
+}
+.cx-chapter-nav-btn--next {
+  text-align: right;
+}
+.cx-chapter-nav-btn:hover:not(:disabled) {
+  border-color: var(--c-accent, #8b4513);
+  color: var(--c-accent, #8b4513);
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 6%,
+    var(--c-bg-card, #fffdf8)
+  );
+}
+.cx-chapter-nav-btn:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+.cx-chapter-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+/* Two lines: the direction, then the chapter it leads to. The title is what
+   makes the control worth having over the picker — you can see where you are
+   about to land without opening the list. */
+.cx-chapter-nav-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.cx-chapter-nav-dir {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted, #66625a);
+}
+/* One line, clipped. A long chapter title must not wrap the pill into a block
+   two or three lines tall — the row would then change height chapter to chapter,
+   which is the same instability `space-between` guards against horizontally. */
+.cx-chapter-nav-title {
+  overflow: hidden;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-chapter-nav-btn:disabled .cx-chapter-nav-title {
+  font-weight: 500;
+  font-style: italic;
+}
+/* At phone width the two pills cannot both hold a title. The direction word is
+   the part that must survive — it is what the control MEANS — so the titles drop
+   and the pills shrink to arrow + word rather than overflowing the column. */
+@media (max-width: 560px) {
+  .cx-chapter-nav-btn {
+    max-width: 48%;
+  }
+  .cx-chapter-nav-title {
+    display: none;
+  }
+}
 /* Reads like a printed page, not large-print web text: normal book size, tight
    leading, a real reading measure — this is what actually reclaims the space. */
 .cx-body {
@@ -1849,8 +1976,8 @@ body:has(.composer-grid) .to-top {
 }
 .cx-body blockquote.quran p.ar {
   font-family: var(--q-ar-face);
-  font-size: 1.05rem;
-  line-height: 1.9;
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
   color: var(--c-ink, #1f1d18);
   direction: rtl;
   text-align: center;

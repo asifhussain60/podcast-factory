@@ -99,8 +99,8 @@
      surfaces equal was that they were adjusted IDENTICALLY, and that still holds
      now that neither is. */
   font-family: var(--q-ar-face);
-  font-size: 1.05rem;
-  line-height: 1.9;
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
   text-align: center;
 }
 .cx-print blockquote.quran .quran-divider {

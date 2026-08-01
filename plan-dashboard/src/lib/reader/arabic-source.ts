@@ -207,31 +207,21 @@ export function loadAlignment(
   return out;
 }
 
-/**
- * Which runs in this book are canonical scripture.
+/* `quranicSkeletons()` stood here until 2026-08-01. It read the same file for
+ * the same purpose as `readQuranicRuns()` in scripts/lib/book-html.mjs — which
+ * lens of the mushaf audit marks a run as scripture — and it read it WRONGLY:
+ * `doc?.runs ?? doc?.findings`, where the v1 schema nests runs under
+ * `chapters[].runs`. It therefore returned an empty set for every book.
  *
- * The same provenance the PDF and the live reader use — `book-arabic-audit.json`
- * rows resolved to the mushaf — so a verse in the reveal is set in the Uthmanic
- * face by the same rule that sets it on the printed page.
- */
-export function quranicSkeletons(bookDir: string): Set<string> {
-  const path = join(bookDir, "_system", "book-arabic-audit.json");
-  if (!existsSync(path)) return new Set();
-  try {
-    const doc = JSON.parse(readFileSync(path, "utf8"));
-    const rows = doc?.runs ?? doc?.findings ?? [];
-    return new Set(
-      rows
-        .filter(
-          (r: { resolution?: string }) => r?.resolution === "canonical-mushaf",
-        )
-        .map(
-          (r: { skeleton?: string; text?: string }) =>
-            r.skeleton ?? r.text ?? "",
-        )
-        .filter(Boolean),
-    );
-  } catch {
-    return new Set();
-  }
-}
+ * Deleted rather than repaired. It had no caller, so nothing regressed when it
+ * broke and nothing is fixed by correcting it; and a second reader of one file
+ * is the drift the fixture-pinned mirrors elsewhere in this repo exist to stop.
+ * `readQuranicRuns` is the one implementation — `composer.ts` and `book.ts`
+ * already use it to feed `quranicRuns` into the renderer, which is what stamps
+ * `is-quranic` and switches the face to the Uthmanic script.
+ *
+ * NOTE for whoever wants the Arabic REVEAL panel to mark scripture too: that is
+ * not this function's job restored. The reveal shows paragraphs of the Arabic
+ * SOURCE scan, a different text stream from the Arabic runs in book.md, so the
+ * audit's run list will not match it. Marking it needs mushaf resolution over
+ * the source paragraphs, produced server-side like the audit itself. */

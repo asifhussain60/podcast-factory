@@ -510,8 +510,8 @@ p {
    verses on the same pages sat centered: one book, two conventions. `direction`
    stays rtl — that is bidi ordering, and only the alignment changed. */
 .ar-block {
-  font-size: 1.05rem;
-  line-height: 1.9;
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
   direction: rtl;
   text-align: center;
   unicode-bidi: isolate;
@@ -572,8 +572,8 @@ blockquote.quran p.ar {
   /* Face by provenance — see quote-typography.css. `is-quranic` (stamped by
      renderMd from the Arabic audit) swaps this token to the Uthmanic script. */
   font-family: var(--q-ar-face);
-  font-size: 1.05rem;
-  line-height: 1.9;
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
   color: var(--c-ink, #1f1d18);
   margin: 0 0 0.2rem;
   text-align: center;

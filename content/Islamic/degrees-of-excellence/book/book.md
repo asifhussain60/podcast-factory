@@ -28,6 +28,8 @@ And God called the messenger an imam when He addressed Abraham:
 
 This came after Abraham had completed his messengership, for God, the Exalted, said:
 
+> وَإِذِ ٱبْتَلَىٰٓ إِبْرَهِۦمَ رَبُّهُۥ بِكَلِمَتٍۢ فَأَتَمَّهُنَّ ۖ قَالَ إِنِّى جَاعِلُكَ لِلنَّاسِ إِمَامًۭا
+
 > "And remember when His Lord tried Abraham with His commands and he fulfilled them, He said: I am appointing you an imam for all humanity."
 
 It is related from Jafar al-Sadiq (عليه السلام) that he said:
@@ -72,6 +74,8 @@ Now to the matter itself.
 The imamate is the pole (qutb) and the foundation of religion (asas al-din) around which every religious and worldly affair turns, and it is a benefit to this present life and to the life to come. Through it the affairs of God's servants are governed, the land prospers, and reward is accepted in the abode of return. Through the imamate one attains, by proof, demonstration, and evidence, the knowledge of God's absolute oneness (tawhid) and of the revealed Message, together with knowledge of the religious law — its foundations, its interpretation (tawil), and its clarification.
 
 I have called the imamate the pole and foundation of religion, and I have not placed the messengership ahead of it, because to affirm (ithbat) the imamate is already to affirm the messengership. Whoever acknowledges the imam acknowledges the messenger, yet not everyone who acknowledges the messenger acknowledges the true reality of the imam. Proof of the messengership is needed for those who stand outside the domain of Islam, while affirming the imamate is what Muslims require — and Muslims stand nearer to the true believers. To contend with them by debate and argument therefore takes priority over contending with those who deny the messenger and the messengership; for the call to Islam and to the messengership has already reached the polytheists and the proof has been established against them, so that meeting them with the sword is the more fitting course. Moreover, the world can never be without an imam at any moment, whereas the messenger is present at some times and absent at others. And so, to affirm the imamate is at the same time to affirm the messengership.
+
+> وَإِذِ ٱبْتَلَىٰٓ إِبْرَهِۦمَ رَبُّهُۥ بِكَلِمَتٍۢ فَأَتَمَّهُنَّ ۖ قَالَ إِنِّى جَاعِلُكَ لِلنَّاسِ إِمَامًۭا
 
 God, the Exalted, called the imam a messenger when He said: "And remember in the Scripture, Ismail was indeed faithful in fulfilling his promise while he was a messenger, a prophet." He likewise called the messenger an imam when He addressed Abraham: "Indeed, I am appointing you an imam for all humanity." This came after Abraham had completed his messengership, for God, the Exalted, said: "And when His Lord tried Abraham with His commands and he fulfilled them, He said: I am appointing you an imam for all humanity."
 
@@ -125,9 +129,13 @@ We also say that everything God, the Exalted, has created in this order, and hum
 
 God, the Exalted, established these elements, means, and natural causes so firmly that no one can deny them, argue them away, alter them, or change them in any way. This stands in sharp contrast to what certain people did with the religious law and with the testimony the Prophet had called them to bear: the affirmation of the imamate and the imams, the obligation to follow them, devotion to them, obedience to them, the condemnation of those who disobey them, and the promise of reward for those who obey. They distorted all of this, just as they altered and distorted the Quran. God, the Exalted, has told us of this in His words:
 
+> يُحَرِّفُونَ ٱلْكَلِمَ عَن مَّوَاضِعِهِۦ ۙ وَنَسُوا۟ حَظًّۭا مِّمَّا ذُكِّرُوا۟ بِهِۦ
+
 "…changing words from their context while they forgot a portion of what We have reminded them of." (5:13)
 
 And God, Whose mention is exalted, has also said:
+
+> إِنَّمَا ٱلنَّسِىٓءُ زِيَادَةٌۭ فِى ٱلْكُفْرِ
 
 "Indeed, forgetfulness is only an excess of disbelief…" (9:37)
 
@@ -135,9 +143,13 @@ Yet what they committed was not forgetfulness at all. They abandoned the testimo
 
 Just as the testimony of the outer horizons and the inner selves is compulsory rather than chosen, and therefore impossible for anyone to alter, to replace, or to suppress, so too did the Messenger, may God bless him, make testimony compulsory, leaving the witnesses no choice to change it, alter it, or conceal it. He threatened whoever would change or conceal it with a painful punishment. God, the Exalted, commanded that judgment be rendered upon the testimony of two witnesses, saying:
 
+> تَضِلَّ إِحْدَىٰهُمَا فَتُذَكِّرَ إِحْدَىٰهُمَا ٱلْأُخْرَىٰ ۚ وَلَا يَأْبَ ٱلشُّهَدَآءُ إِذَا مَا دُعُوا۟
+
 "If one of them falls into error, the other will remind. And the witnesses must not refuse when they are summoned." (2:282)
 
 By this He meant that true judgment in religion, and in affirming the imamate and the hierarchies, rests upon two witnesses: one established by law and the other compelled by nature. When people deny the legally established testimony, the one bound by nature — namely the horizons and our own inner selves — steps in to remind, to enforce, and to verify the conventional witnesses, just as God, the Exalted, says:
+
+> سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ
 
 "We shall show them Our signs on the horizons and within themselves until it becomes manifest to them that it is the Truth." (41:53)
 
@@ -150,16 +162,9 @@ By this he was pointing to the testimony of the horizons and the souls. When the
 We shall now discuss the differences and the degrees of excellence within each principle and realm of nature, and show that the ultimate limit and highest summit in every genus and species points to the imam in every age and time. And if these genera and species demonstrate the imamate and the imams through a different framework — such as the seven planets serving as testimony for the seven imams, and other groups of seven besides — that does not rule out drawing a proof, through the peak and perfection of every genus and species, for the imam in the manner we have just described.
 
 <!-- editorial:begin -->
-> **Editorial note (tradition-grounded).** 
-> The chapter's parallel between the natural spheres with their stars and the "religious spheres"
-> of prophets with their imams draws on a cosmology a modern reader may not know. A related
-> teaching preserved in this tradition describes a First Intellect that "journeyed through the
-> spiritual realm and the station of unity without external guidance, becoming a plateau of
-> knowledge" — the origin from which knowledge descends through the spiritual world. Read against
-> that background, the image here becomes clearer: as the stars transmit the influence of the
-> higher spheres to the body below, the imams transmit the light of prophecy to souls, their
-> nourishment being knowledge itself. The hierarchy is one of guidance, not of divinity — which is
-> why the chapter is at pains to deny divinity to every created thing.
+
+> **Editorial note (tradition-grounded).** The chapter's parallel between the natural spheres with their stars and the "religious spheres" of prophets with their imams draws on a cosmology a modern reader may not know. A related teaching preserved in this tradition describes a First Intellect that "journeyed through the spiritual realm and the station of unity without external guidance, becoming a plateau of knowledge" — the origin from which knowledge descends through the spiritual world. Read against that background, the image here becomes clearer: as the stars transmit the influence of the higher spheres to the body below, the imams transmit the light of prophecy to souls, their nourishment being knowledge itself. The hierarchy is one of guidance, not of divinity — which is why the chapter is at pains to deny divinity to every created thing.
+
 <!-- editorial:end -->
 
 ## 3. Degrees of Excellence
@@ -173,6 +178,8 @@ Among the celestial spheres, the most exalted and supreme is the outermost spher
 **Section Four**
 
 I say further that among the four elements (al-arkan), the highest and noblest is fire, which stands at the summit and peak, a level no other element or nature can reach. In the same way, the imam in his age and time is the highest religious pillar, through whom souls are illumined. It was on this basis that Abraham (ع) commanded the glorification of fire — if what has been reported from him is accurate — and forbade extinguishing it or putting it out. His true intent, however, pointed toward glorifying the imamate, which no one must extinguish through the injustice of those who falsely claim its position. The fire worshippers fell into confusion, failing to grasp the reality behind the symbol. God, the Exalted, described the adversaries and usurpers of the imamate in His words:
+
+> يُرِيدُونَ أَن يُطْفِـُٔوا۟ نُورَ ٱللَّهِ بِأَفْوَهِهِمْ وَيَأْبَى ٱللَّهُ إِلَّآ أَن يُتِمَّ نُورَهُۥ وَلَوْ كَرِهَ ٱلْكَفِرُونَ
 
 > They would like to extinguish God's light with their mouths, but God will not allow that to happen until He perfects His light, even if the unbelievers may detest it. (9:32)
 
@@ -204,15 +211,21 @@ I say, too, that among plants certain gentle medicines have reached so fine a de
 
 The imam and his word become an antidote for souls, a means of healing and of relief from death, sickness, doubt, and discord. The opponents who seize the station of the imams (عَلَيْهِمُ السَّلَامُ) by force are like the fatal poisons and harmful substances found among medicines. They are deadly poisons that destroy anyone who listens to them, keeps their company, or leans toward them, unless the imam reaches such people with the great antidote that rescues their souls from ruin. These opponents are also like useless, worthless stones. It is for this reason that God, the Exalted, said:
 
+> حَصَبُ جَهَنَّمَ أَنتُمْ لَهَا وَرِدُونَ
+
 "... pebble-covered hell where you will return." (Quran 21:98)
 
 And His words:
+
+> فَٱتَّقُوا۟ ٱلنَّارَ ٱلَّتِى وَقُودُهَا ٱلنَّاسُ وَٱلْحِجَارَةُ ۖ أُعِدَّتْ لِلْكَفِرِينَ
 
 "... and guard yourself against the Fire that has been ignited for the people and the stones that have been prepared for the non-believers." (Quran 2:24)
 
 I say, too, that among animals the horse is the finest, among birds the eagle, and among beasts of prey the lion holds the first place. The differences among these various kinds — in strength, usefulness, capacity to be trained, and the height each reaches within its own species — point to the fact that there is a summit within the genus of animals, just as within the human species that summit is the imam (ع).
 
 I say further that some plants are sweet, delicious, and pleasing, and people benefit from them. Others are bitter, giving neither nourishment nor pleasure. Still others bear no fruit and are covered with thorns, wounding those who come near them. The sweet and pleasant plants are like the imams, a symbol of their speech and knowledge, which win the soul and delight the eye. The bitter, foul, and thorny ones stand for the leaders of the literalists (ahl al-zahir). For this reason God, the Exalted, said:
+
+> أَلَمْ تَرَ كَيْفَ ضَرَبَ ٱللَّهُ مَثَلًۭا كَلِمَةًۭ طَيِّبَةًۭ كَشَجَرَةٍۢ طَيِّبَةٍ أَصْلُهَا ثَابِتٌۭ وَفَرْعُهَا فِى ٱلسَّمَآءِ تُؤْتِىٓ أُكُلَهَا كُلَّ حِينٍۭ بِإِذْنِ رَبِّهَا ۗ وَيَضْرِبُ ٱللَّهُ ٱلْأَمْثَالَ لِلنَّاسِ لَعَلَّهُمْ يَتَذَكَّرُونَ وَمَثَلُ كَلِمَةٍ خَبِيثَةٍۢ كَشَجَرَةٍ خَبِيثَةٍ ٱجْتُثَّتْ مِن فَوْقِ ٱلْأَرْضِ مَا لَهَا مِن قَرَارٍۢ
 
 "The example of a good word is like a good tree whose roots are firmly established and whose branches reach the heavens, giving its fruit perpetually in every season by the permission of its Lord. So God sets forth similitudes for mankind in order that they may reflect. And the similitude of a bad word is like that of a bad tree uprooted from the top of the earth, having no stability." (Quran 14:24-26)
 
@@ -224,6 +237,8 @@ I say that the gazelle that yields musk and the bee that yields honey — indeed
 
 And God, the Exalted, said:
 
+> وَأَوْحَىٰ رَبُّكَ إِلَى ٱلنَّحْلِ أَنِ ٱتَّخِذِى مِنَ ٱلْجِبَالِ بُيُوتًۭا وَمِنَ ٱلشَّجَرِ وَمِمَّا يَعْرِشُونَ ثُمَّ كُلِى مِن كُلِّ ٱلثَّمَرَتِ فَٱسْلُكِى سُبُلَ رَبِّكِ ذُلُلًۭا ۚ يَخْرُجُ مِنۢ بُطُونِهَا شَرَابٌۭ مُّخْتَلِفٌ أَلْوَنُهُۥ فِيهِ شِفَآءٌۭ لِّلنَّاسِ
+
 "And your Lord inspired the bee to choose its homes in the mountains and on the trees and on that which they thatch; then eat from all the fruits and follow the path of your Lord skillfully, that He has made smooth for you. From within its bellies a drink of varying colors comes forth in which there is healing for mankind ..." (Quran 16:68-69)
 
 In the same way, I say that humankind is the highest among the animals and within all the realms of nature. Whatever advantage lies in everything created before mankind — principles, derivatives, and the realms of nature alike — returns in the end to humankind. The merits of the world, of animals, of plants, and of all other things are held within the human being; their benefit, their glory, their value, and their goodness all become plain through mankind. Were it not for mankind, the merit of all things would never appear, nor would the order of the world hold together. Nothing would be complete, no benefit would come, and nothing would be preserved, whether from plants or from animals. It is the human being who masters water and irrigates the land, bringing it under rational control and drawing it out of valleys, rivers, and wells. It is man who tills the earth, cultivates it, raises dwellings upon it, and waters plants and fields, bringing the land under his rational governance.
@@ -232,15 +247,21 @@ Beyond this, it is the human being who has put wind and air to use; it is man wh
 
 Just as the benefit of all animals and of everything before them returns to mankind, so that man became their leader, so too the benefit of all human beings returns to the imams, who became their leaders, their commanders, and their restrainers. Were it not for the imams — for the direction and guidance they give humanity, for their protection of human welfare in this life and the next, and for their urging people to gain virtues and to shun vices and the habits of animals — there would be no difference between beasts and human beings; indeed, the animals would be the better of the two. If man did not accept the training he needs in order to gain virtues for his soul, and did not learn to rouse his intellect through the imams, he would be worse off than the animals, since animals are not as inclined to evil as human beings are, and animals hold many benefits. Without intellect and religion, man would be given over wholly to evil and corruption. It is on this account that God, the Exalted and Glorious, said:
 
+> إِنَّ شَرَّ ٱلدَّوَآبِّ عِندَ ٱللَّهِ ٱلصُّمُّ ٱلْبُكْمُ ٱلَّذِينَ لَا يَعْقِلُونَ
+
 "For the worst of beasts in the sight of God are the deaf and dumb, those who understand not." (Quran 8:22)
 
 The Exalted also said:
+
+> أُو۟لَٓئِكَ كَٱلْأَنْعَمِ بَلْ هُمْ أَضَلُّ ۚ أُو۟لَٓئِكَ هُمُ ٱلْغَفِلُونَ
 
 "They are like cattle, nay, more misguided, for they are heedless of warning." (Quran 7:179)
 
 Were there no humanity, there would be no wisdom in the creation of animals and plants, for there would be no one to benefit from them. In the same way, were it not for the imams (عَلَيْهِمُ السَّلَامُ), there would be no wisdom in the creation of humanity, and their superiority would never become plain. Human beings have been created for religion and for the gaining of virtues and knowledge. So learn knowledge and religion from the imams (عَلَيْهِمُ السَّلَامُ), for through them religion is established and made complete. If the excellence of man were not made plain through religion, then the value of plants and animals would not become known either, and there would be no wisdom in the creation of humanity, plants, and animals. And if there were no wisdom in their creation, there would be no wisdom in the creation of all the worlds.
 
 It is therefore true to say that all the worlds, the whole of natural creation, have been created for humanity, and that humanity has been created for the imams (عَلَيْهِمُ السَّلَامُ): to receive religion from them, to be perfected through them, and to make plain their virtues, their order, and their foundation. Since all the worlds and all creatures were created for the imams (عَلَيْهِمُ السَّلَامُ), and all the benefits of the worlds belong to them, and the rest of creation depends on them and stands to them as children stand to a parent, whatever they bestow upon creation is given by their favor, their generosity, and their mercy. If they withhold anything, they are under no obligation to give it, nor do they owe any gratitude for it. Whoever takes anything from this world and what it holds without the permission and approval of the imam has taken what is haram, forbidden, and has committed an act of usurpation. Thus God said:
+
+> أَفَآءَ ٱللَّهُ عَلَىٰ رَسُولِهِۦ مِنْ أَهْلِ ٱلْقُرَىٰ فَلِلَّهِ وَلِلرَّسُولِ
 
 "And that which God bestows on the Messenger from the people of the villages, it is for God and His Messenger." (Quran 59:7)
 
@@ -289,6 +310,8 @@ A person of sound mind will accept all of this, persuaded that the physician kno
 In the same way, spiritual diseases multiply. They arise from disputes among people; from their arbitrary desires and their leaning toward leisure, comfort, and self-display; from innovation, worldly ambitions, clashing doctrines, contradictory statements, and conflicting opinions; and from the lower self that goads a man toward evil, while the night is dark and the path obscure, and people know nothing of the medicine of the soul, nothing of its cure, of how to preserve its health, or of how to guard against the conditions and things that harm it, and nothing of the ways and paths of religion. Then humanity needs a guide and a physician to treat their illnesses, show them right action, and save their spirits. This must be done with gentleness, compassion, counsel, affection, forbearance, and encouragement, calling for many times more patience and compassion than the physicians of the body show. There must be no greed in their treatment, no seeking of personal gain, no warding off of harm for selfish ends. These guides must be the most reliable and trustworthy keepers of souls and of religion, surpassing even the most dependable physicians of the body in skill, experience, and knowledge.
 
 For the risk and the danger in treating the soul are greater than those in treating the body, and errors in it can be far more severe. The need for such a guide is as inescapable to the intellect as the need for a physician is inescapable in practice. This knowing and compassionate physician of souls is the imam (ع) in every age and time. Were it not for the mercy, compassion, and kindness of the imams (عَلَيْهِمُ السَّلَامُ) toward all of creation, people would perish in both their worldly and their religious affairs, in this life and the next. The imams (عَلَيْهِمُ السَّلَامُ) treat created beings with delicate kindness, forbearance, and gentleness. They do not dwell on people's failure to obey, their bad manners, or their evil deeds; they look upon them instead with an eye of mercy, working to preserve their spiritual health and cure their illnesses, sometimes through a balanced and delicate diet, guarding their spiritual well-being through subtle sciences that strengthen the soul, at other times by withholding nourishment so that it neither sickens nor burdens. At still other times they compel people to drink a bitter, foul-smelling medicine so as to drive out the corrupting humors (al-kaymusat). At yet other times they impose a strict regimen until a person is brought to the utmost humility, all the while offering encouragement and warning, just as the Commander of the Faithful [al-Hakim] does with these people. Even as they go on desiring corruption and he sees no good in them, he remains patient with the pain they cause. We pray that He allows us to be among those who benefit from the treatment of the imam of the age (ع), and that He does not place us among those who require burning or the amputation of limbs through his turning away from us. Were it not for the mercy of the imams, not a single person would remain on the face of the earth, just as God has said:
+
+> وَلَوْ يُؤَاخِذُ ٱللَّهُ ٱلنَّاسَ بِمَا كَسَبُوا۟ مَا تَرَكَ عَلَىٰ ظَهْرِهَا مِن دَآبَّةٍۢ
 
 > If God took humanity to task for what they deserve, He would not leave a [single] living creature on the surface of the earth ...
 > (Quran, 35: 45)
@@ -385,9 +408,13 @@ Legal punishments cannot simply be abolished, for were they abolished, the peopl
 
 Such people then claim that everything they did was in keeping with a legal rule laid upon them. But God, the Exalted, has spoken to this directly:
 
+> أَتَأْمُرُونَ ٱلنَّاسَ بِٱلْبِرِّ وَتَنسَوْنَ أَنفُسَكُمْ
+
 > "Do you command people to do good and forget it yourselves?"
 
 God, the Exalted, made plain that whoever himself needs to be commanded to do good and restrained from evil is in no position to command others to good or forbid them evil. And God explained in another verse that the enjoining of good and the forbidding of evil (al-amr bil-maruf wa nahy an al-munkar) is a duty of the imams (عَلَيْهِمُ السَّلَامُ), when He said:
+
+> كُنتُمْ خَيْرَ أُمَّةٍ أُخْرِجَتْ لِلنَّاسِ تَأْمُرُونَ بِٱلْمَعْرُوفِ وَتَنْهَوْنَ عَنِ ٱلْمُنكَرِ
 
 > "You are the best community (umma) that has been raised for the people. You enjoin good conduct and forbid evil."
 
@@ -411,9 +438,13 @@ Section Seven
 
 I say this: if it were acceptable for there to be creatures on earth without an imam or caliph, it would have been acceptable in the days of Adam (ع), when only the angels existed. Yet even then God, the Exalted, said:
 
+> إِنِّى جَاعِلٌۭ فِى ٱلْأَرْضِ خَلِيفَةًۭ ۖ قَالُوٓا۟ أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ ۖ قَالَ إِنِّىٓ أَعْلَمُ مَا لَا تَعْلَمُونَ
+
 > "Indeed, I am placing a vicegerent on earth. They said: Are You going to create one that will corrupt and shed blood on it while we glorify Your praises and regard You holy? He said: Surely, I know what you know not." (Quran 2:30)
 
 In that passage God, may He be glorified, made plain that there would never be a time when the earth stood without an imam — not even if every one of its inhabitants were sinless and saintly. They too must recognize how indispensable the imam is, given their own ignorance, while most people, in truth, are corrupt. God, the Exalted, made something else plain in the same passage: that if it were acceptable for the imam to be chosen (ikhtiyar), the angels above all would have been granted that choice. God would not have overruled them, for they were immune from base inclinations, from false desires, and from any craving for worldly power and mastery. Since the choice was not granted to the angels, it cannot belong to those beneath them. This same meaning lies within the words of God, the Exalted, concerning the rights of parents:
+
+> فَلَا تَقُل لَّهُمَآ أُفٍّۢ وَلَا تَنْهَرْهُمَا
 
 > "Do not even say fie to them or tell them off." (Quran 17:23)
 
@@ -423,9 +454,13 @@ God, the Exalted, has told the stories of past communities and their prophets so
 
 In the story of Adam there is a sign that the imamate and the caliphate cannot be established by choice or by consultation. Had they been permissible by such means, the choice and consultation of the angels would have been the most fitting of all, for the angels were free of jealousy and rebellion. In that story there is also a sign that it is not for people to declare whether a given man is or is not fit for the imamate, or to set one candidate above another. God, the Exalted, showed those who objected to Adam how mistaken their position was; He reproached them, rebuked them, and exposed the falsehood of their words. He kept this account in the Quran so that people would take it to heart and would not dispute the imamate or contest the one whom God and His Messenger had chosen for it, as those angels had done. And in the appointment of Adam's son to the imamate there is a further sign that the world can never be without an imam. People accept the imams of Adam's age yet deny them in the age of Muhammad, may God bless him, even though God, the Almighty and Glorious, has declared:
 
+> سُنَّةَ مَن قَدْ أَرْسَلْنَا قَبْلَكَ مِن رُّسُلِنَا ۖ وَلَا تَجِدُ لِسُنَّتِنَا تَحْوِيلًا
+
 > "Such was Our way (sunna) with the messengers We sent before you, and you will find no change in Our way." (Quran 17:77)
 
 He also said:
+
+> وَلَن تَجِدَ لِسُنَّةِ ٱللَّهِ تَبْدِيلًۭا
 
 > "You will find no change whatsoever in Our way (sunna)." (Quran 33:62)
 
@@ -441,23 +476,33 @@ When Moses (ع) arose, he directed the people to face toward Jerusalem in prayer
 
 When the Prophet Muhammad, the seal of the prophets, may God bless him and his family, arose, he directed the people to turn away from Jerusalem toward the Kaba as the qibla of the Muslims. The Kaba had been built by Abraham and Ismail (عَلَيْهِمُ السَّلَامُ). In giving this command, the Prophet showed that the direction had returned to the house of Abraham — that is, to the family of Ismail — and that the imamate had therefore returned to the children of Ismail, who are the children of the Prophet Muhammad, may God bless him. He commanded the people to venerate the House and to make the pilgrimage to it, a thing no prophet before him had commanded, so as to impress upon them the supreme excellence of the imams of Muhammad's family above every other imam of the cycles that had passed. Is there anyone in this world more iniquitous than this community? It accepted the imams of every prophetic age, affirmed that the world cannot be without an imam, and affirmed that no imam in any earlier cycle ever came to power by choice (ikhtiyar) — yet now it denies the imamate of Muhammad's family, rejects designation (nass), and calls instead for choice. God, the Exalted, has said:
 
+> وَرَبُّكَ يَخْلُقُ مَا يَشَآءُ وَيَخْتَارُ ۗ مَا كَانَ لَهُمُ ٱلْخِيَرَةُ
+
 > "Your Lord creates what He wills and chooses what is good for them." (Quran 28:68)
 
 If the imamate were settled by choice, every people would simply choose whomever they pleased. The elders have treated the dispute between designation and choice at length. I have said that I mean to present what the elders left unaddressed in the books on affirming the imamate, and what I have said here is enough. I shall now establish that the imam must be the most excellent, the most knowledgeable, and the noblest of mankind.
 
 I say that the virtues God, the Exalted, has named, and by which He has raised some people above others, are of three kinds (ashya): knowledge, jihad, and piety. God, the Exalted, said:
 
+> فَضَّلَ ٱللَّهُ ٱلْمُجَهِدِينَ بِأَمْوَلِهِمْ وَأَنفُسِهِمْ عَلَى ٱلْقَعِدِينَ
+
 > "God has preferred those who strive and struggle over those who sit back by a great reward in degrees of rank." (Quran 4:95-96)
 
 He also said:
+
+> ٱلَّذِينَ يَعْلَمُونَ وَٱلَّذِينَ لَا يَعْلَمُونَ
 
 > "Are those who know and those who do not, equal?" (Quran 39:9)
 
 And:
 
+> أُوتُوا۟ ٱلْعِلْمَ دَرَجَتٍۢ
+
 > "Those who have been given knowledge have degrees of rank." (Quran 58:11)
 
 And:
+
+> أَكْرَمَكُمْ عِندَ ٱللَّهِ أَتْقَىٰكُمْ
 
 > "The most noble among you in the presence of God is the most pious among you." (Quran 49:13)
 
@@ -538,6 +583,8 @@ Whoever looks with clear sight at the actions of the Commander of the Faithful i
 > "On the day when the summoner calls them to a painful end ... their eyes will be lowered in humiliation,"
 
 and He said:
+
+> وَقَدْ كَانُوا۟ يُدْعَوْنَ إِلَى ٱلسُّجُودِ وَهُمْ سَلِمُونَ
 
 > "They were called to prostrate while safe and secure."
 

@@ -24,15 +24,15 @@
   /* A card never gives way to make a list fit — the LIST scrolls instead.
      `overflow: hidden` above (it rounds the corners) also sets this element's
      automatic minimum size to 0 under flexbox, so in a height-capped flex column
-     the card is the child that collapses. Measured in the LIVE panel at 1440x900:
-     the open card held 1,355px of explanation inside 484px and silently clipped
-     871px of it, and because the card had shrunk to fit, the scroll container
-     (.lsv-explain-body, max-height + overflow-y:auto) measured no overflow at all
-     and offered no scrollbar — the text was unreachable by any means. The two
+     the card is the child that collapses. Measured at 1440x900 in the LIVE
+     Session's panel (since retired, 2026-08-01): the open card held 1,355px of
+     explanation inside 484px and silently clipped 871px of it, and because the
+     card had shrunk to fit, the scroll container measured no overflow at all and
+     offered no scrollbar — the text was unreachable by any means. The two
      collapsed cards beneath it were sliced through their titles for the same
      reason. Same failure the .gcp-input `flex: none` guards against one panel
-     over; this is the shared component, so it belongs here rather than in either
-     view's layer. Ignored wherever a card is not a flex item. */
+     over; this is the shared component, so it belongs here rather than in a
+     single view's layer. Ignored wherever a card is not a flex item. */
   flex-shrink: 0;
   /* The lit state below fades in and out rather than snapping — scrolling a
      chapter crosses passages continuously, and a hard switch reads as flicker. */

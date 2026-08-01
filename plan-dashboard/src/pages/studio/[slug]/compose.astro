@@ -205,10 +205,6 @@ const ARABIC_FONTS = [
               <i class="fa-solid fa-download" aria-hidden="true" /> Download PDF
               {existingPdf ? ` (${existingPdf.kb} KB)` : ""}
             </a>
-            <a class="cx-hdr-btn" href={`/studio/${slug}/live`}>
-              <i class="fa-solid fa-book-open-reader" aria-hidden="true" /> LIVE
-              Session
-            </a>
           </div>
           <div class="lib-hero-main">
             <div class="lib-breadcrumb">
@@ -289,6 +285,12 @@ const ARABIC_FONTS = [
                   العربية
                 </button>
               </div>
+              {/* Edit LEADS the pair (Asif, 2026-08-01). It is the working mode
+                  and the one the page opens in, so it reads first; Read is the
+                  check you step over to. Order is load-bearing beyond taste —
+                  the `+` sibling divider and the pressed-state styling both
+                  follow DOM order, so the frame stays correct either way, but
+                  the leading control is the one the eye takes as primary. */}
               <div
                 class="cx-mode-toggle"
                 role="group"
@@ -297,19 +299,19 @@ const ARABIC_FONTS = [
                 <button
                   type="button"
                   class="cx-mode-btn"
-                  id="cx-mode-read"
-                  aria-pressed="false"
-                >
-                  <i class="fa-solid fa-book-open" aria-hidden="true" /> Read
-                </button>
-                <button
-                  type="button"
-                  class="cx-mode-btn"
                   id="cx-mode-edit"
                   aria-pressed="true"
                 >
                   <i class="fa-solid fa-pen-to-square" aria-hidden="true" />{" "}
                   Edit
+                </button>
+                <button
+                  type="button"
+                  class="cx-mode-btn"
+                  id="cx-mode-read"
+                  aria-pressed="false"
+                >
+                  <i class="fa-solid fa-book-open" aria-hidden="true" /> Read
                 </button>
               </div>
               {/* WHICH TEXT — not which rendering. The two lanes are separate
@@ -355,7 +357,7 @@ const ARABIC_FONTS = [
               )}
               <div class="cx-layout-save" id="cx-layout-status" />
             </div>
-            {view.chapters.map((ch) => (
+            {view.chapters.map((ch, i) => (
               <div
                 class="cx-chapter"
                 data-anchor={ch.anchor}
@@ -374,6 +376,47 @@ const ARABIC_FONTS = [
                   ]}
                   set:html={ch.html}
                 />
+                {/* Prev/next, at the foot of BOTH modes from one element. The
+                    edit shell is inserted `afterend` of .cx-body (see enterEdit),
+                    so it lands between the body and this nav — which therefore
+                    sits below the prose in Read and below the editor in Edit
+                    without a second copy to keep in step.
+
+                    The buttons do not switch chapters themselves. They drive the
+                    picker and fire its `change`, because that listener owns the
+                    autosave flush, the discard confirmation, the editor teardown
+                    and the stay-in-Edit restore. A second path to the same move
+                    is a second path to losing an unsaved chapter. */}
+                <nav class="cx-chapter-nav" aria-label="Chapter navigation">
+                  <button
+                    type="button"
+                    class="cx-chapter-nav-btn"
+                    data-goto-chapter={view.chapters[i - 1]?.key}
+                    disabled={i === 0}
+                  >
+                    <i class="fa-solid fa-arrow-left" aria-hidden="true" />
+                    <span class="cx-chapter-nav-text">
+                      <span class="cx-chapter-nav-dir">Previous</span>
+                      <span class="cx-chapter-nav-title">
+                        {view.chapters[i - 1]?.title ?? "Start of book"}
+                      </span>
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    class="cx-chapter-nav-btn cx-chapter-nav-btn--next"
+                    data-goto-chapter={view.chapters[i + 1]?.key}
+                    disabled={i === view.chapters.length - 1}
+                  >
+                    <span class="cx-chapter-nav-text">
+                      <span class="cx-chapter-nav-dir">Next</span>
+                      <span class="cx-chapter-nav-title">
+                        {view.chapters[i + 1]?.title ?? "End of book"}
+                      </span>
+                    </span>
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true" />
+                  </button>
+                </nav>
               </div>
             ))}
 

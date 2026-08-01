@@ -1,9 +1,61 @@
 # Current work - status
 
-**Last updated:** 2026-07-30 (the Arabic reveal was showing the WRONG paragraph for
-37 paragraphs, and 94 bare runs are down to 7; all gates PASS)
+**Last updated:** 2026-08-01 (cited scripture now carries its Arabic; the LIVE
+Session is retired; all gates PASS)
 
-**Newest — the English paragraphing is the Arabic's now.**
+**Newest — the book quoted 23 verses and printed the Arabic of two.**
+
+`degrees-of-excellence` shipped 21 of its 23 cited verses as English with a bare
+`(5:13)` after them, and the Arabic audit reported `unverified: 0` the whole time.
+Every rule in the audit asks whether the script that IS on the page is right; none
+asked whether scripture the book QUOTES reached the page at all.
+
+- **`_book_quran.py`, compose step `5a-quran`.** Zero model spend and zero model
+  judgment: the EXTENT of a verse comes from the source scan — what the author
+  actually printed — and the LETTERS come from the canonical mushaf in
+  `content/knowledge-base/mirror.db`. No model is ever asked to recall scripture.
+- **22 of 23 cited verses now carry their Arabic**, plus 5 uncited passages where
+  two independent signals agreed the scan is quoting a verse. The one left out is
+  `6:149`, whose Arabic the scan does not print: filling it from a whole ayah is
+  refused rather than guessed, because it would put Arabic on the page saying more
+  than the English beside it. It is reported as `uncovered` for Asif's judgment,
+  never substituted.
+- **Five citations were written wordlessly** — `(5:13)`, not `(Quran 5:13)` — and
+  matched no pattern, so those verses were never anchored into the compose prompt
+  in the first place. `_book_compose._QURAN_CITE_RE` reads the bare form now,
+  gated on the enclosing parentheses AND a colon so a fiscal quarter cannot reach
+  it.
+- Position in the pipeline is forced from four directions (after every LLM pass
+  and the Composer replay, before the glossary overlay, before the audit, before
+  the alignment) — the reasoning is written out at the call site.
+- New rule `R-QURAN-ARABIC-PRESENT`; `book-challenger` gains **BK-N8** (P1),
+  seeded from `quran_coverage` in `_system/book-arabic-audit.json`. It is a P1 for
+  human judgment, never an automatic substitution.
+
+**The LIVE Session is retired.**
+
+It was a second surface doing Read mode's job — a reading column over `book.md`
+with the companion explanations beside it. Once Read mode gained the same
+read-only cards, the same passage tint and the same follow-the-chapter sync
+(2026-07-30), the two were one feature maintained twice; the cross-book picker it
+also carried is `/studio` itself.
+
+- `live.astro` + `live-session.ts` + `live-session.css` + `live-index.ts` deleted
+  (1,750 lines), replaced by a 302 in `live.ts`. A redirect rather than a plain
+  deletion for the reason `arabic-review` records: the path otherwise falls
+  through to `[step].astro`, which bounces every unknown step to `/edit` — the
+  NotebookLM chapter lane, a different text for a different deliverable. 302 and
+  not 301, because a permanent redirect is cached indefinitely and this decision
+  is one session old.
+- **The runtime gate caught the retirement one line short.** `/live` was kept in
+  the route manifest with a comment explaining why, and never added to
+  `EXPECTED_REDIRECTS` — so smoke failed it as an undeclared redirect, which is
+  exactly what that check exists to say. Declared; 36 routes clean.
+
+Gates: pytest 2,114 · site tests 363 · smoke 36 clean · lint:views 0 ·
+astro check 0 errors · agent-wrapper parity in sync · repo probe 1 pre-existing P3.
+
+**Previous — the English paragraphing is the Arabic's now.**
 
 Asif (2026-07-30): "I want the English paragraphs to mirror the Arabic." A
 translation edition's paragraphing belongs to its source, and articulation had been

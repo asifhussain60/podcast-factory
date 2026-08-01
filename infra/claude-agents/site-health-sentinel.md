@@ -129,10 +129,11 @@ deliberately (these are where bugs hide):
     floating `.cx-fig-card`. In the merged-Edit design: text edit + figure place/resize
     in one canvas, inspector present ONLY in Edit; in Preview mode the whole book
     paginates into page boxes with margins and the inspector is hidden.
-  - **LIVE Session** (`/studio/<slug>/live`): the book picker (bucket filter + a
-    multi-volume series nested under its container), the reading column, and the
-    read-only explanation panel updating as the page scrolls (drive scroll via
-    `--eval`), light/dark.
+    In Read mode: the reading column, the prev/next chapter pair at its foot, and
+    the read-only explanation panel updating as the page scrolls (drive scroll via
+    `--eval`), light/dark. Arabic runs carry their own face and size — check a
+    verse block reads at the same optical weight as the English around it.
+    (The separate LIVE Session at `/studio/<slug>/live` was retired 2026-08-01.)
   - **Library / studio grid** (`/library`, `/studio`): the multi-volume series
     "deck" card (`.studio-series-deck`, a book with N volumes — e.g. "The Subtle
     Lights", "Foundation of Esoteric Interpretation") — confirm the stacked sheets

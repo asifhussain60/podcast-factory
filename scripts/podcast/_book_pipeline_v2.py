@@ -224,6 +224,29 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # never worth a finished translation
         _record_skip(book_dir, "translit", e, log)
 
+    # 5a-quran. Put the Arabic of every cited Qur'anic verse onto the page. Zero
+    #     model spend and zero model judgment: the EXTENT comes from the source
+    #     scan (what the author actually quoted) and the LETTERS come from the
+    #     canonical mushaf in content/knowledge-base/mirror.db, so no model is ever
+    #     asked to recall scripture.
+    #
+    #     POSITION IS FORCED, from four directions. After every LLM pass and after
+    #     the Composer replay, for the same reason 5a-arabic is (nothing may
+    #     romanize the script away afterwards). BEFORE 5a-arabic, so the glossary
+    #     overlay sees the verse already on the page and its "script is already
+    #     here" suppression fires — otherwise a chapter prints `Adam (آدم)` two
+    #     lines under a verse containing آدم. Before step 6, so the audit resolves
+    #     these runs as canonical-mushaf and the reading edition sets them in the
+    #     Uthmanic face. And before steps 10-11, because align_book fingerprints
+    #     paragraphs and inserting blocks after it would describe a document that
+    #     no longer exists.
+    try:
+        from _book_quran import inject_book as _inject_quran
+
+        _inject_quran(book_dir, log=lambda m: log(f"    {m}"))
+    except Exception as e:  # a missing verse must never fail a finished translation
+        _record_skip(book_dir, "quran-arabic", e, log)
+
     # 5a-policy. Classify the glossary's annotation policy — ONCE per book. Which
     #     terms deserve an inline annotation is a judgment call, so a model makes
     #     it, and it is durable: proposals land in glossary.yml where a human can

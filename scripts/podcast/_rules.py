@@ -252,6 +252,19 @@ R_ARABIC_SCRIPT_RETAINED: str = "R-ARABIC-SCRIPT-RETAINED"
 # The ONE licensed exception is a Qur'anic run set from the canonical mushaf,
 # which is Uthmani and changes letters deliberately.
 R_VOWELLING_MARKS_ONLY: str = "R-VOWELLING-MARKS-ONLY"
+# A verse the book CITES carries its Arabic (added 2026-08-01). Every other rule
+# here is about preserving or not fabricating Arabic already present, so nothing
+# asked whether scripture the book quotes reached the page at all — and
+# `degrees-of-excellence` shipped 21 of its 23 cited verses as English with a bare
+# `(5:13)` after them while the Arabic audit reported `unverified: 0`.
+#
+# Satisfied by `_book_quran` (compose step 5a-quran, backfill
+# `_book_quran.py --slug`), whose extent comes from the source scan and whose
+# letters come from the canonical mushaf. Measured as `quran_coverage` in
+# `_system/book-arabic-audit.json`; a verse the scan does not quote is reported
+# uncovered rather than filled with a whole ayah, so this rule is a P1 finding for
+# human judgment, never an automatic substitution.
+R_QURAN_ARABIC_PRESENT: str = "R-QURAN-ARABIC-PRESENT"
 R_ENUMERATION_PRESERVED: str = "R-ENUMERATION-PRESERVED"
 
 NARRATIVE_FRAMES: dict[str, dict[str, object]] = {

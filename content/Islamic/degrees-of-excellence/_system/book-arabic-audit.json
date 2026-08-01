@@ -9,13 +9,23 @@
     },
     {
       "chapter": "The Question of Leadership",
-      "arabic_runs": 4,
+      "arabic_runs": 6,
       "unverified": 0,
       "runs": [
         {
           "text": "الْإِمَامَة",
           "resolution": "ocr",
           "skeleton": "الامامه"
+        },
+        {
+          "text": "وَإِذِ ٱبْتَلَىٰٓ إِبْرَهِۦمَ رَبُّهُۥ بِكَلِمَتٍۢ فَأَتَمَّهُنَّ ۖ قَالَ إِنِّى جَاعِلُكَ لِلنَّاسِ إِمَامًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذابتليابرهمربهبكلمتفاتمهنقالانيجاعلكلل"
+        },
+        {
+          "text": "عليه السلام",
+          "resolution": "ocr",
+          "skeleton": "عليهالسلام"
         },
         {
           "text": "عَلَيْهِمُ السَّلَامُ",
@@ -36,9 +46,14 @@
     },
     {
       "chapter": "1. The Pole and Foundation of Religion",
-      "arabic_runs": 2,
+      "arabic_runs": 3,
       "unverified": 0,
       "runs": [
+        {
+          "text": "وَإِذِ ٱبْتَلَىٰٓ إِبْرَهِۦمَ رَبُّهُۥ بِكَلِمَتٍۢ فَأَتَمَّهُنَّ ۖ قَالَ إِنِّى جَاعِلُكَ لِلنَّاسِ إِمَامًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "واذابتليابرهمربهبكلمتفاتمهنقالانيجاعلكلل"
+        },
         {
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "ocr",
@@ -53,7 +68,7 @@
     },
     {
       "chapter": "2. By Nature and by Reason",
-      "arabic_runs": 3,
+      "arabic_runs": 7,
       "unverified": 0,
       "runs": [
         {
@@ -70,18 +85,44 @@
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "ocr",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "يُحَرِّفُونَ ٱلْكَلِمَ عَن مَّوَاضِعِهِۦ ۙ وَنَسُوا۟ حَظًّۭا مِّمَّا ذُكِّرُوا۟ بِهِۦ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يحرفونالكلمعنمواضعهونسواحظامماذكروابه"
+        },
+        {
+          "text": "إِنَّمَا ٱلنَّسِىٓءُ زِيَادَةٌۭ فِى ٱلْكُفْرِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انماالنسيءزيادهفيالكفر"
+        },
+        {
+          "text": "تَضِلَّ إِحْدَىٰهُمَا فَتُذَكِّرَ إِحْدَىٰهُمَا ٱلْأُخْرَىٰ ۚ وَلَا يَأْبَ ٱلشُّهَدَآءُ إِذَا مَا دُعُوا۟",
+          "resolution": "canonical-mushaf",
+          "skeleton": "تضلاحداهمافتذكراحداهماالاخريولايابالشهدا"
+        },
+        {
+          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنافيالافاقوفيانفسهمحتييتبينلهما"
         }
       ]
     },
     {
       "chapter": "3. Degrees of Excellence",
-      "arabic_runs": 0,
+      "arabic_runs": 1,
       "unverified": 0,
-      "runs": []
+      "runs": [
+        {
+          "text": "يُرِيدُونَ أَن يُطْفِـُٔوا۟ نُورَ ٱللَّهِ بِأَفْوَهِهِمْ وَيَأْبَى ٱللَّهُ إِلَّآ أَن يُتِمَّ نُورَهُۥ وَلَوْ كَرِهَ ٱلْكَفِرُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "يريدونانيطفوانوراللهبافوههمويابياللهالاا"
+        }
+      ]
     },
     {
       "chapter": "4. The Ladder of Creation",
-      "arabic_runs": 8,
+      "arabic_runs": 15,
       "unverified": 0,
       "runs": [
         {
@@ -90,9 +131,39 @@
           "skeleton": "عليهمالسلام"
         },
         {
+          "text": "حَصَبُ جَهَنَّمَ أَنتُمْ لَهَا وَرِدُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "حصبجهنمانتملهاوردون"
+        },
+        {
+          "text": "فَٱتَّقُوا۟ ٱلنَّارَ ٱلَّتِى وَقُودُهَا ٱلنَّاسُ وَٱلْحِجَارَةُ ۖ أُعِدَّتْ لِلْكَفِرِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فاتقواالنارالتيوقودهاالناسوالحجارهاعدتلل"
+        },
+        {
+          "text": "أَلَمْ تَرَ كَيْفَ ضَرَبَ ٱللَّهُ مَثَلًۭا كَلِمَةًۭ طَيِّبَةًۭ كَشَجَرَةٍۢ طَيِّبَةٍ أَصْلُهَا ثَابِتٌۭ وَفَرْعُهَا فِى ٱلسَّمَآءِ تُؤْتِىٓ أُكُلَهَا كُلَّ حِينٍۭ بِإِذْنِ رَبِّهَا ۗ وَيَضْرِبُ ٱللَّهُ ٱلْأَمْثَالَ لِلنَّاسِ لَعَلَّهُمْ يَتَذَكَّرُونَ وَمَثَلُ كَلِمَةٍ خَبِيثَةٍۢ كَشَجَرَةٍ خَبِيثَةٍ ٱجْتُثَّتْ مِن فَوْقِ ٱلْأَرْضِ مَا لَهَا مِن قَرَارٍۢ",
+          "resolution": "ocr",
+          "skeleton": "المتركيفضرباللهمثلاكلمهطيبهكشجرهطيبهاصله"
+        },
+        {
+          "text": "وَأَوْحَىٰ رَبُّكَ إِلَى ٱلنَّحْلِ أَنِ ٱتَّخِذِى مِنَ ٱلْجِبَالِ بُيُوتًۭا وَمِنَ ٱلشَّجَرِ وَمِمَّا يَعْرِشُونَ ثُمَّ كُلِى مِن كُلِّ ٱلثَّمَرَتِ فَٱسْلُكِى سُبُلَ رَبِّكِ ذُلُلًۭا ۚ يَخْرُجُ مِنۢ بُطُونِهَا شَرَابٌۭ مُّخْتَلِفٌ أَلْوَنُهُۥ فِيهِ شِفَآءٌۭ لِّلنَّاسِ",
+          "resolution": "ocr",
+          "skeleton": "واوحيربكاليالنحلاناتخذيمنالجبالبيوتاومنا"
+        },
+        {
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "ocr",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "إِنَّ شَرَّ ٱلدَّوَآبِّ عِندَ ٱللَّهِ ٱلصُّمُّ ٱلْبُكْمُ ٱلَّذِينَ لَا يَعْقِلُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انشرالدوابعنداللهالصمالبكمالذينلايعقلون"
+        },
+        {
+          "text": "أُو۟لَٓئِكَ كَٱلْأَنْعَمِ بَلْ هُمْ أَضَلُّ ۚ أُو۟لَٓئِكَ هُمُ ٱلْغَفِلُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اوليككالانعمبلهماضلاوليكهمالغفلون"
         },
         {
           "text": "عَلَيْهِمُ السَّلَامُ",
@@ -113,6 +184,11 @@
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "ocr",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "أَفَآءَ ٱللَّهُ عَلَىٰ رَسُولِهِۦ مِنْ أَهْلِ ٱلْقُرَىٰ فَلِلَّهِ وَلِلرَّسُولِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "افاءاللهعليرسولهمناهلالقريفللهوللرسول"
         },
         {
           "text": "عَلَيْهِمُ السَّلَامُ",
@@ -128,7 +204,7 @@
     },
     {
       "chapter": "5. The Physician of Souls",
-      "arabic_runs": 5,
+      "arabic_runs": 6,
       "unverified": 0,
       "runs": [
         {
@@ -145,6 +221,11 @@
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "ocr",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "وَلَوْ يُؤَاخِذُ ٱللَّهُ ٱلنَّاسَ بِمَا كَسَبُوا۟ مَا تَرَكَ عَلَىٰ ظَهْرِهَا مِن دَآبَّةٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولويواخذاللهالناسبماكسبواماتركعليظهرهامن"
         },
         {
           "text": "عَلَيْهِمُ السَّلَامُ",
@@ -187,7 +268,7 @@
     },
     {
       "chapter": "7. The Imam in the Pillars of Faith",
-      "arabic_runs": 4,
+      "arabic_runs": 6,
       "unverified": 0,
       "runs": [
         {
@@ -206,17 +287,47 @@
           "skeleton": "الخمس"
         },
         {
+          "text": "أَتَأْمُرُونَ ٱلنَّاسَ بِٱلْبِرِّ وَتَنسَوْنَ أَنفُسَكُمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اتامرونالناسبالبروتنسونانفسكم"
+        },
+        {
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "ocr",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "كُنتُمْ خَيْرَ أُمَّةٍ أُخْرِجَتْ لِلنَّاسِ تَأْمُرُونَ بِٱلْمَعْرُوفِ وَتَنْهَوْنَ عَنِ ٱلْمُنكَرِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "كنتمخيرامهاخرجتللناستامرونبالمعروفوتنهون"
         }
       ]
     },
     {
       "chapter": "8. From Adam to Ali",
-      "arabic_runs": 2,
+      "arabic_runs": 11,
       "unverified": 0,
       "runs": [
+        {
+          "text": "إِنِّى جَاعِلٌۭ فِى ٱلْأَرْضِ خَلِيفَةًۭ ۖ قَالُوٓا۟ أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ ۖ قَالَ إِنِّىٓ أَعْلَمُ مَا لَا تَعْلَمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "انيجاعلفيالارضخليفهقالوااتجعلفيهامنيفسدف"
+        },
+        {
+          "text": "فَلَا تَقُل لَّهُمَآ أُفٍّۢ وَلَا تَنْهَرْهُمَا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فلاتقللهماافولاتنهرهما"
+        },
+        {
+          "text": "سُنَّةَ مَن قَدْ أَرْسَلْنَا قَبْلَكَ مِن رُّسُلِنَا ۖ وَلَا تَجِدُ لِسُنَّتِنَا تَحْوِيلًا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنهمنقدارسلناقبلكمنرسلناولاتجدلسنتناتحوي"
+        },
+        {
+          "text": "وَلَن تَجِدَ لِسُنَّةِ ٱللَّهِ تَبْدِيلًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ولنتجدلسنهاللهتبديلا"
+        },
         {
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "ocr",
@@ -226,12 +337,37 @@
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "ocr",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "وَرَبُّكَ يَخْلُقُ مَا يَشَآءُ وَيَخْتَارُ ۗ مَا كَانَ لَهُمُ ٱلْخِيَرَةُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وربكيخلقمايشاءويختارماكانلهمالخيره"
+        },
+        {
+          "text": "فَضَّلَ ٱللَّهُ ٱلْمُجَهِدِينَ بِأَمْوَلِهِمْ وَأَنفُسِهِمْ عَلَى ٱلْقَعِدِينَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "فضلاللهالمجهدينبامولهموانفسهمعليالقعدين"
+        },
+        {
+          "text": "ٱلَّذِينَ يَعْلَمُونَ وَٱلَّذِينَ لَا يَعْلَمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الذينيعلمونوالذينلايعلمون"
+        },
+        {
+          "text": "أُوتُوا۟ ٱلْعِلْمَ دَرَجَتٍۢ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اوتواالعلمدرجت"
+        },
+        {
+          "text": "أَكْرَمَكُمْ عِندَ ٱللَّهِ أَتْقَىٰكُمْ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "اكرمكمعنداللهاتقاكم"
         }
       ]
     },
     {
       "chapter": "9. God's Vicegerent in His Time",
-      "arabic_runs": 3,
+      "arabic_runs": 4,
       "unverified": 0,
       "runs": [
         {
@@ -248,71 +384,36 @@
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "ocr",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "وَقَدْ كَانُوا۟ يُدْعَوْنَ إِلَى ٱلسُّجُودِ وَهُمْ سَلِمُونَ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "وقدكانوايدعوناليالسجودوهمسلمون"
         }
       ]
     }
   ],
   "totals": {
-    "canonical-mushaf": 2,
-    "ocr": 33,
+    "canonical-mushaf": 27,
+    "ocr": 36,
     "knowledge-base": 0,
     "honorific-formula": 0,
     "unverified": 0,
-    "arabic_runs": 35
+    "arabic_runs": 63
   },
-  "stages": {
-    "base": {
-      "(front matter)": 0,
-      "The Question of Leadership": 3,
-      "1. The Pole and Foundation of Religion": 2,
-      "2. By Nature and by Reason": 3,
-      "3. Degrees of Excellence": 0,
-      "4. The Ladder of Creation": 8,
-      "5. The Physician of Souls": 5,
-      "6. Governance and the First Principle": 3,
-      "7. The Imam in the Pillars of Faith": 2,
-      "8. From Adam to Ali": 2,
-      "9. God's Vicegerent in His Time": 3
-    },
-    "fluency": {
-      "(front matter)": 0,
-      "The Question of Leadership": 3,
-      "1. The Pole and Foundation of Religion": 2,
-      "2. By Nature and by Reason": 3,
-      "3. Degrees of Excellence": 0,
-      "4. The Ladder of Creation": 8,
-      "5. The Physician of Souls": 5,
-      "6. Governance and the First Principle": 3,
-      "7. The Imam in the Pillars of Faith": 2,
-      "8. From Adam to Ali": 2,
-      "9. God's Vicegerent in His Time": 3
-    },
-    "augment": {
-      "(front matter)": 0,
-      "The Question of Leadership": 3,
-      "1. The Pole and Foundation of Religion": 2,
-      "2. By Nature and by Reason": 3,
-      "3. Degrees of Excellence": 0,
-      "4. The Ladder of Creation": 8,
-      "5. The Physician of Souls": 5,
-      "6. Governance and the First Principle": 3,
-      "7. The Imam in the Pillars of Faith": 2,
-      "8. From Adam to Ali": 2,
-      "9. God's Vicegerent in His Time": 3
-    },
-    "final": {
-      "(front matter)": 0,
-      "The Question of Leadership": 4,
-      "1. The Pole and Foundation of Religion": 2,
-      "2. By Nature and by Reason": 3,
-      "3. Degrees of Excellence": 0,
-      "4. The Ladder of Creation": 8,
-      "5. The Physician of Souls": 5,
-      "6. Governance and the First Principle": 4,
-      "7. The Imam in the Pillars of Faith": 4,
-      "8. From Adam to Ali": 2,
-      "9. God's Vicegerent in His Time": 3
-    }
-  },
-  "stage_losses": []
+  "quran_coverage": {
+    "measured": true,
+    "cited": 23,
+    "with_arabic": 22,
+    "coverage": 0.957,
+    "uncovered": [
+      {
+        "ref": "6:149",
+        "line": 334,
+        "reason": "no-span-in-scan",
+        "ayah_words": 9
+      }
+    ],
+    "uncited_inserted": 5
+  }
 }

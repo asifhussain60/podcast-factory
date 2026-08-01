@@ -282,7 +282,7 @@ const LIST_FIXTURES = [
 for (const fx of LIST_FIXTURES) {
   test(`print and reader agree on ${fx.name}`, () => {
     // renderMd builds book.pdf; renderMarkdown's default profile builds the
-    // reader at /studio/<slug>/live. Both read book.md. Before renderMd had an
+    // Composer's Read view. Both read book.md. Before renderMd had an
     // ordered-list parser it emitted a run-together paragraph with the numbering
     // as literal text while the reader emitted a real <ol> — the two deliverables
     // disagreeing about the same source.

@@ -198,8 +198,8 @@
    The reader's own renderer gained the class on 2026-07-31; until then a
    quotation standing between two English paragraphs was a bare <p> here. */
 .bookv-body .ar-block {
-  font-size: 1.05rem;
-  line-height: 1.9;
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
   direction: rtl;
   text-align: center;
   unicode-bidi: isolate;
@@ -208,8 +208,8 @@
 
 .bookv-body blockquote.quran p.ar {
   font-family: var(--q-ar-face);
-  font-size: 1.05rem;
-  line-height: 1.9;
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
   color: var(--c-ink);
   direction: rtl;
   text-align: center;

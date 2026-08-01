@@ -39,19 +39,3 @@ export const editorChapter = defineViewState<string>({
   field: "chapter",
   validate: (raw) => (raw.length > 0 ? raw : null),
 });
-
-/**
- * LIVE Session — which chapter was open, by its stable heading id.
- *
- * The reader shows one chapter at a time (not a continuous scroll of the whole
- * book), so "where I was" means which chapter, not a pixel offset. The caller
- * does the real existence check (does a chapter with this id still exist in
- * THIS book's current TOC) since that requires runtime data this module
- * doesn't have; a stale or unknown id just means the reader opens at the
- * first chapter instead.
- */
-export const liveChapter = defineViewState<string>({
-  surface: "live",
-  field: "chapter",
-  validate: (raw) => (raw.length > 0 ? raw : null),
-});

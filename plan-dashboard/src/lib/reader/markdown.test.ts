@@ -182,7 +182,7 @@ test("the source profile's other behaviours are unchanged", () => {
 test("display renders skip every fence marker instead of showing a chip", () => {
   // These lines delimit spans the Python phases own. Rendered as `.md-comment`
   // chips they put 16 grey `editorial:begin` / `edition-intro:begin` labels into
-  // the reader at /studio/<slug>/live, reading as if they were the author's text.
+  // the rendered reading view, reading as if they were the author's text.
   for (const kind of FENCE_KINDS) {
     const html = renderMarkdown(
       [

@@ -167,6 +167,8 @@ export function buildRoutes(slug) {
     [`/library/${slug}`]: `/studio/${slug}`,
     // Retired 2026-07-21; the Composer's Arabic drawer holds both its panels.
     [`/studio/${slug}/arabic-review`]: `/studio/${slug}/compose`,
+    // Retired 2026-08-01; the Composer's Read mode carries the reading view.
+    [`/studio/${slug}/live`]: `/studio/${slug}/compose`,
     [`/studio/${slug}/book`]: `/studio/${slug}/compose`,
     [`/studio/${slug}/view`]: `/studio/${slug}`,
     [`/pre-upload/${slug}`]: "/pre-upload",
@@ -189,7 +191,13 @@ export function buildRoutes(slug) {
         `/studio/${slug}/publish`,
         `/studio/${slug}/compose`,
         `/studio/${slug}/book`,
-        `/studio/${slug}/live`, // LIVE Session reading view (own CSS + scroll-synced explanations)
+        // `/studio/<slug>/live` (the LIVE Session) was retired 2026-08-01 and now
+        // 302s to the Composer, whose Read mode carries the reading view. STAYS in
+        // this list for the same reason arabic-review below does: the browser
+        // follows the redirect, so a pass proves it still lands somewhere that
+        // renders. Without the redirect the path would fall through to
+        // `[step].astro` and bounce to `/edit` — a different deliverable's editor.
+        `/studio/${slug}/live`,
         `/studio/${slug}/preview`, // whole-book page-image preview (renders fresh from book.md on demand)
         // `/studio/<slug>/arabic-review` was retired 2026-07-21 and now 302s to
         // the Composer, whose new Arabic drawer surface holds both of its panels.
@@ -445,53 +453,13 @@ async function checkLayoutInvariants(page) {
       }
     }
 
-    // INV-4: the SAME failure as INV-2, one surface over. The LIVE Session's
-    // companion (.lsv-explain) is sticky against the viewport's bottom-right
-    // corner and the site-wide back-to-top control (.to-top, 44px at var(--sp-5))
-    // is FIXED to that same corner, so the two are pinned together and the panel's
-    // last lines sit under the button — unreachable, because that is the end of
-    // the panel's scroll. It shipped that way when the reader's redesign moved the
-    // panel 68px down the page and widened its height budget, which is exactly the
-    // kind of change a screenshot of the TOP of the page cannot catch. Measured
-    // against the panel BOX, not its scroll tail: the panel is capped so it stops
-    // clear of the control (--lsv-fab-clear, live-session.css), and the geometry
-    // is what has to hold.
-    //
-    // The BUDGET is asserted, not the panel's current height: the smoke fixture is
-    // whichever book the runner discovers, and a book with no companion notes
-    // renders a 118px panel that clears the control however wrong the budget is.
-    // A check that only fires on a well-annotated fixture is a check that is
-    // dormant on most checkouts. Worst case = the sticky offset plus the declared
-    // max-height, which is where the panel lands the moment a chapter has enough
-    // notes to fill it.
-    const lsvPanel = document.querySelector(".lsv-explain");
-    const toTop = document.querySelector(".to-top");
-    if (lsvPanel && toTop && getComputedStyle(toTop).display !== "none") {
-      const cs = getComputedStyle(lsvPanel);
-      const p = lsvPanel.getBoundingClientRect();
-      const t = toTop.getBoundingClientRect();
-      const stickyTop = parseFloat(cs.top);
-      const panelMax = parseFloat(cs.maxHeight);
-      // The cap has to be on the PANEL. Capping only its inner scroller does not
-      // bound the panel — the header above it wraps to two or three lines on a
-      // long chapter title, so the bottom edge moves by however tall the header
-      // happens to be, and that is precisely how this shipped. An uncapped panel
-      // is therefore the same finding as a cap that is too generous.
-      const worstBottom = Number.isFinite(panelMax)
-        ? stickyTop + panelMax
-        : Infinity;
-      const overlapX = Math.round(
-        Math.min(p.right, t.right) - Math.max(p.left, t.left),
-      );
-      if (worstBottom > t.top && overlapX > 0) {
-        const how = Number.isFinite(worstBottom)
-          ? `${Math.round(worstBottom - t.top)}px into`
-          : "uncapped, so it grows into";
-        out.push(
-          `live-companion-under-fab: the explanation panel's height budget puts its bottom ${how} the back-to-top control (${overlapX}px of horizontal overlap) — a full chapter's notes cannot be scrolled clear`,
-        );
-      }
-    }
+    // INV-4 asserted the same overlap as INV-2 one surface over: the LIVE
+    // Session's sticky companion panel against the site-wide back-to-top
+    // control. It went with that route on 2026-08-01. Not re-pointed at the
+    // Composer's Scholar panel, which is a DOCKED drawer rather than a sticky
+    // corner element and so cannot reproduce the failure — a check rewritten to
+    // pass by construction is worse than no check. INV-2 still guards the
+    // corner-overlap class of defect on the surfaces that can exhibit it.
 
     return out;
   });
