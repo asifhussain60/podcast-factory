@@ -1,8 +1,10 @@
 """Tests for the deterministic pronunciation generalizer (knowledge/term_render.py).
 
-The contract: render_for_audio NEVER returns a hyphen-CAPS respelling — only an
-English substitute or a plain transliteration — and the four-tier classifier
-(loanword > exonym > gloss > transliteration) resolves in priority order.
+The contract: below the override rung render_for_audio NEVER returns a
+hyphen-CAPS respelling — only an English substitute or a plain transliteration —
+and the classifier (book-override > loanword > exonym > gloss > transliteration)
+resolves in priority order. Rung 0 is the deliberate exception: a value a human
+typed into BOOK_DIR/_system/pronunciation.md is passed through verbatim.
 """
 
 import sys
@@ -78,13 +80,125 @@ def test_diacritics_stripped():
     assert render("al-Ṭabarī").text == "al-Tabari"
 
 
-def test_never_returns_phonetic_respelling():
-    # Even with a phonetic on the ledger entry, the render is the plain term.
-    entry = {"phonetic": "is-raa-FEEL", "gloss": ""}
+def test_never_returns_an_unheard_respelling():
+    # An "unfixable" phonetic is a record of what FAILED, never a candidate.
+    entry = {"phonetic": "is-raa-FEEL", "gloss": "the archangel", "status": "unfixable"}
     r = render("Israfil", ledger_entry=entry)
-    assert r.text == "Israfil"
-    assert "-" not in r.text or r.text.islower() is False  # no hyphen-CAPS pattern
+    assert r.text == "the archangel" and r.tier == tr.TIER_GLOSS_LEDGER
     assert r.text != "is-raa-FEEL"
+
+
+def test_unfixable_without_a_gloss_falls_back_to_the_plain_term():
+    entry = {"phonetic": "is-raa-FEEL", "gloss": "", "status": "unfixable"}
+    assert render("Israfil", ledger_entry=entry).text == "Israfil"
+
+
+# ------------------------------------------------------- tier 3: ledger-confirmed
+def test_confirmed_ledger_phonetic_is_used():
+    # This is what closes the probe -> listen -> correct loop: a form somebody
+    # heard come out right must reach the next book's framing.
+    entry = {"phonetic": "gha-zaa-lee", "gloss": "", "status": "confirmed"}
+    r = render("al-Ghazali", ledger_entry=entry)
+    assert r.text == "gha-zaa-lee" and r.tier == tr.TIER_LEDGER_CONFIRMED and not r.is_english
+
+
+def test_confirmed_phonetic_equal_to_the_term_is_not_an_entry():
+    # "arkan confirmed as arkan" carries no instruction — it must fall through
+    # to the plain transliteration rather than emit a no-op respelling.
+    entry = {"phonetic": "Arkan", "gloss": "", "status": "confirmed"}
+    assert render("arkan", ledger_entry=entry).tier == tr.TIER_TRANSLIT
+
+
+def test_a_statusless_entry_resolves_exactly_as_before_the_rung_existed():
+    # Every row the ledger writes stamps a status; a hand-built dict without one
+    # must keep its pre-2026-08-01 behaviour, which is gloss-over-phonetic.
+    entry = {"phonetic": "DAA-ee", "gloss": "the elite missionaries"}
+    assert render("da'i", ledger_entry=entry).tier == tr.TIER_GLOSS_LEDGER
+
+
+def test_loanword_outranks_a_confirmed_phonetic():
+    # Forcing a respelling onto a loanword is how "Imam" became "e-Maam" live.
+    entry = {"phonetic": "i-MAAM", "gloss": "", "status": "confirmed"}
+    assert render("imam", ledger_entry=entry).tier == tr.TIER_LOANWORD
+
+
+def test_book_override_outranks_a_confirmed_phonetic(tmp_path):
+    bd = _override_book(tmp_path, "| al-Ghazali | al-gha-ZAA-lee | |\n")
+    entry = {"phonetic": "gha-zaa-lee", "gloss": "", "status": "confirmed"}
+    r = render("al-Ghazali", ledger_entry=entry, book_overrides=tr.load_book_overrides(bd))
+    assert r.text == "al-gha-ZAA-lee" and r.tier == tr.TIER_BOOK_OVERRIDE
+
+
+# ------------------------------------------------------- tier 0: book override
+def _override_book(tmp_path, table_body):
+    sysdir = tmp_path / "_system"
+    sysdir.mkdir(parents=True)
+    (sysdir / "pronunciation.md").write_text(
+        "# Pronunciation — Test\n\nProse above the table is ignored.\n\n"
+        "| Term | Phonetic | Notes |\n|---|---|---|\n" + table_body,
+        encoding="utf-8",
+    )
+    return tmp_path
+
+
+def test_override_beats_every_lower_tier(tmp_path):
+    # "Allah" is a loanword and "Qabil" an exonym — the human still wins.
+    bd = _override_book(tmp_path, "| Allah | ahl-LAAH | |\n| Qabil | Kayin | |\n")
+    ov = tr.load_book_overrides(bd)
+    assert render("Allah", book_overrides=ov).tier == tr.TIER_BOOK_OVERRIDE
+    assert render("Allah", book_overrides=ov).text == "ahl-LAAH"
+    assert render("Qabil", book_overrides=ov).text == "Kayin"
+
+
+def test_override_passes_a_respelling_through_verbatim(tmp_path):
+    # The one place a hyphen-CAPS form is allowed to reach the audio.
+    bd = _override_book(tmp_path, "| arkan | ar-KAAN | the pillars |\n")
+    r = render("arkan", book_overrides=tr.load_book_overrides(bd))
+    assert r.text == "ar-KAAN" and not r.is_english
+
+
+def test_override_substitute_prefix_marks_english(tmp_path):
+    bd = _override_book(tmp_path, "| nafs | substitute *the lower self* | |\n")
+    r = render("nafs", book_overrides=tr.load_book_overrides(bd))
+    assert r.text == "the lower self" and r.is_english
+
+
+def test_override_notes_column_is_never_spoken(tmp_path):
+    bd = _override_book(tmp_path, "| qutb | KOOTB | The pole. One syllable. |\n")
+    assert render("qutb", book_overrides=tr.load_book_overrides(bd)).text == "KOOTB"
+
+
+def test_override_article_fallback(tmp_path):
+    bd = _override_book(tmp_path, "| zahir | ZAH-hir | |\n")
+    r = render("al-zahir", book_overrides=tr.load_book_overrides(bd))
+    assert r.text == "ZAH-hir"
+
+
+def test_missing_or_empty_table_yields_no_overrides(tmp_path):
+    assert tr.load_book_overrides(None) == {}
+    assert tr.load_book_overrides(tmp_path) == {}  # no _system/pronunciation.md
+    bd = _override_book(tmp_path, "")  # header + separator only
+    assert tr.load_book_overrides(bd) == {}
+
+
+def test_malformed_rows_are_skipped_not_fatal(tmp_path):
+    bd = _override_book(tmp_path, "| lonely-cell |\n|  | KOOTB | |\n| qutb | KOOTB | ok |\n")
+    ov = tr.load_book_overrides(bd)
+    assert list(ov) == [tr.normalize_key("qutb")]
+
+
+def test_real_book_table_parses_every_data_row():
+    # The live table degrees-of-excellence carries — a regression here means a
+    # row a human wrote is being silently dropped before it reaches the audio.
+    bd = Path(__file__).resolve().parents[3] / "content" / "Islamic" / "degrees-of-excellence"
+    if not (bd / "_system" / "pronunciation.md").exists():
+        pytest.skip("book not present in this checkout")
+    rows = [
+        ln
+        for ln in (bd / "_system" / "pronunciation.md").read_text(encoding="utf-8").splitlines()
+        if ln.startswith("| ") and not ln.startswith("| Term") and not ln.startswith("|--")
+    ]
+    assert len(tr.load_book_overrides(bd)) == len(rows)
 
 
 # ---------------------------------------------------------------- mine_glosses

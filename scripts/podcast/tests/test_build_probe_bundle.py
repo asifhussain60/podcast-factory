@@ -204,3 +204,79 @@ def test_build_bundle_uses_ledger_gloss_for_unfixable_terms(tmp_path, monkeypatc
     out_dir = bpb.build_bundle(book)
     framing = (out_dir / "00-framing.md").read_text(encoding="utf-8")
     assert 'say "the hidden lamp"' in framing  # gloss substitutes the Arabic
+
+
+# ------------------------------------------- carrier mining from the real chapters
+def _chaptered_book(tmp_path, chapters: dict[str, str]):
+    book = tmp_path / "carrier-book"
+    (book / "chapters").mkdir(parents=True)
+    for name, text in chapters.items():
+        (book / "chapters" / name).write_text(text, encoding="utf-8")
+    return book
+
+
+def test_carriers_come_from_the_chapters_verbatim(tmp_path):
+    sentence = "The bitter ones stand for the leaders of the literalists, the ahl al-zahir, who hold to the husk."
+    book = _chaptered_book(tmp_path, {"ch01-a.txt": sentence + "\n"})
+    got = bpb.mine_carriers(book, [{"term": "اهل الظاهر", "transliteration": "ahl al-zahir"}])
+    assert got[bpb.normalize_key("ahl al-zahir")][0] == sentence
+
+
+def test_carriers_are_sampled_across_every_chapter(tmp_path):
+    # The probe's claim is that settling these terms settles them for the whole
+    # book, so its sentences must come from the whole book.
+    book = _chaptered_book(
+        tmp_path,
+        {
+            "ch01-a.txt": "He alone guards the treasury of the Muslims, the bayt al-mal, under his guarantee.\n",
+            "ch02-b.txt": "The antidote he offers, the tiryaq, is the imam's own teaching handed down.\n",
+        },
+    )
+    got = bpb.mine_carriers(
+        book,
+        [{"term": "x", "transliteration": "bayt al-mal"}, {"term": "y", "transliteration": "tiryaq"}],
+    )
+    assert {chapter for _s, chapter in got.values()} == {"ch01-a", "ch02-b"}
+
+
+def test_a_hyphenated_compound_still_finds_its_term(tmp_path):
+    # "ruh al-nutq" contains "nutq"; treating the hyphen as a blocker made the
+    # term unfindable in the only sentence that carries it.
+    book = _chaptered_book(
+        tmp_path,
+        {"ch01-a.txt": "A human surpasses the animal by one further spirit: the spirit of reason, the ruh al-nutq.\n"},
+    )
+    got = bpb.mine_carriers(book, [{"term": "نطق", "transliteration": "nutq"}])
+    assert bpb.normalize_key("nutq") in got
+
+
+def test_a_term_is_not_mined_from_inside_a_longer_word(tmp_path):
+    book = _chaptered_book(tmp_path, {"ch01-a.txt": "The nassab genealogists disagreed about the lineage entirely.\n"})
+    assert bpb.mine_carriers(book, [{"term": "نص", "transliteration": "nass"}]) == {}
+
+
+def test_headings_and_quotations_are_not_used_as_carriers(tmp_path):
+    book = _chaptered_book(
+        tmp_path,
+        {
+            "ch01-a.txt": "# A heading naming the tiryaq at some length here\n> A quoted line naming the tiryaq as well\n"
+        },
+    )
+    assert bpb.mine_carriers(book, [{"term": "ترياق", "transliteration": "tiryaq"}]) == {}
+
+
+def test_mining_is_deterministic_and_takes_the_first_match(tmp_path):
+    book = _chaptered_book(
+        tmp_path,
+        {
+            "ch01-a.txt": "The first sentence naming the tiryaq is the one that should win here.\n"
+            "A second sentence naming the tiryaq should be ignored completely.\n",
+        },
+    )
+    first = bpb.mine_carriers(book, [{"term": "ترياق", "transliteration": "tiryaq"}])
+    assert "should win here" in first[bpb.normalize_key("tiryaq")][0]
+    assert first == bpb.mine_carriers(book, [{"term": "ترياق", "transliteration": "tiryaq"}])
+
+
+def test_a_book_with_no_chapters_mines_nothing_rather_than_failing(tmp_path):
+    assert bpb.mine_carriers(tmp_path / "nope", [{"term": "x", "transliteration": "tiryaq"}]) == {}

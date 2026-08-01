@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -80,6 +81,56 @@ SEGMENT_TITLES = {
 SEGMENT_ORDER = ("names", "places", "terms")
 
 
+# A sentence worth putting in a host's mouth: long enough to carry the term
+# naturally, short enough to read aloud without becoming a lecture.
+_CARRIER_MIN_CHARS = 40
+# The real constraint is "one sentence", which the split already guarantees; the
+# ceiling only keeps a runaway paragraph out. It is generous because this corpus
+# writes long, and a term whose only sentence is rejected gets NO carrier at all
+# — at 260 that silently cost al-Kirmani (286), tawhid (349) and tashbih (351).
+_CARRIER_MAX_CHARS = 400
+_SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+")
+
+
+def mine_carriers(book_dir: Path, terms: list[dict]) -> dict[str, tuple[str, str]]:
+    """``{term_key: (sentence, chapter_stem)}`` mined from the real chapters.
+
+    The probe's whole claim is that settling these terms once settles them for
+    every chapter, so its sentences are drawn FROM those chapters rather than
+    from a template — the hosts meet each term in the prose they will actually
+    be given, and the bundle samples the whole book instead of standing beside
+    it. Chapters are walked in order and the first clean sentence wins, so the
+    same book always produces the same bundle.
+
+    Falls back to nothing for a term no chapter mentions; ``build_source`` then
+    uses the glossary's first-occurrence snippet as before.
+    """
+    chapters_dir = Path(book_dir) / "chapters"
+    if not chapters_dir.is_dir():
+        return {}
+    wanted = {normalize_key(t.get("transliteration") or t["term"]): t for t in terms}
+    out: dict[str, tuple[str, str]] = {}
+    for chapter in sorted(chapters_dir.glob("*.txt")):
+        text = chapter.read_text(encoding="utf-8")
+        for raw in _SENTENCE_SPLIT.split(re.sub(r"\s+", " ", text)):
+            sentence = raw.strip()
+            if not (_CARRIER_MIN_CHARS <= len(sentence) <= _CARRIER_MAX_CHARS):
+                continue
+            if sentence.startswith(("#", ">", "-", "*", "|")):
+                continue  # a heading, quotation or list row, not running prose
+            norm = normalize_key(sentence)
+            for key, _term in wanted.items():
+                if key in out or not key:
+                    continue
+                # A hyphen is a BOUNDARY, not a blocker: the prose writes
+                # "ruh al-nutq", and excluding a preceding hyphen made the term
+                # unfindable in the only sentence that contains it. Letters and
+                # digits still block, so `nass` does not match inside `nassab`.
+                if re.search(r"(?<![a-z0-9])" + re.escape(key) + r"(?![a-z0-9])", norm):
+                    out[key] = (sentence, chapter.stem)
+    return out
+
+
 def _carrier(term: str, snippet: str) -> str:
     """A neutral sentence that puts the term in the hosts' mouths.
 
@@ -95,21 +146,30 @@ def _carrier(term: str, snippet: str) -> str:
     return base
 
 
-def build_source(data: dict) -> str:
+def build_source(data: dict, carriers: dict[str, tuple[str, str]] | None = None) -> str:
     slug = data["book_slug"]
+    carriers = carriers or {}
     by_seg: dict[str, list[dict]] = {s: [] for s in SEGMENT_ORDER}
     for t in data["terms"]:
         by_seg.setdefault(t["segment"], []).append(t)
 
+    sampled = sorted({chapter for _s, chapter in carriers.values()})
     lines: list[str] = [
         f"# Pronunciation walkthrough — {slug}",
         "",
         "This is a short spoken walkthrough whose ONLY purpose is to say a set of",
         "Arabic-derived terms aloud, in order, so their pronunciation can be checked.",
         "Walk through every numbered item in sequence. For each item, say the term",
-        "clearly, give the one-line context, and move on. Do not skip any item.",
+        "clearly, read the sentence it appears in, and move on. Do not skip any item.",
         "",
     ]
+    if sampled:
+        lines += [
+            f"Every sentence below is taken verbatim from the book, across {len(sampled)} "
+            f"chapter{'s' if len(sampled) != 1 else ''}, so the terms are heard in the same",
+            "prose the full episodes will be built from.",
+            "",
+        ]
     for seg in SEGMENT_ORDER:
         items = by_seg.get(seg) or []
         if not items:
@@ -118,7 +178,11 @@ def build_source(data: dict) -> str:
         lines.append("")
         for t in items:
             sp = _spoken(t)
-            lines.append(f"{t['n']}. Next, say {_carrier(sp['text'], t.get('snippet', ''))}.")
+            mined = carriers.get(normalize_key(t.get("transliteration") or t["term"]))
+            if mined:
+                lines.append(f"{t['n']}. Next, say **{sp['text']}** — as in: “{mined[0]}”")
+            else:
+                lines.append(f"{t['n']}. Next, say {_carrier(sp['text'], t.get('snippet', ''))}.")
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
 
@@ -244,10 +308,13 @@ def build_bundle(book_dir: Path) -> Path:
         if key in lib:
             t["_library"] = lib[key]
 
-    # Compute the NotebookLM-safe spoken render for every term: corpus tables +
-    # the cross-book ledger gloss + this book's OWN inline glosses, never a
-    # respelling. Keyed off the transliteration (the `term` field is raw script).
+    # Compute the spoken render for every term through the SAME ladder the
+    # framing compiler uses, so what the probe puts in the hosts' mouths is what
+    # the episodes will. That includes the book's override table: an override is
+    # an untested belief about how a term sounds, and hearing it is the point.
+    # Keyed off the transliteration (the `term` field is raw script).
     tables = term_render.load_tables()
+    overrides = term_render.load_book_overrides(book_dir)
     refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
     book_glosses = term_render.mine_glosses(refined.read_text(encoding="utf-8")) if refined.exists() else {}
     for t in data["terms"]:
@@ -258,6 +325,7 @@ def build_bundle(book_dir: Path) -> Path:
             segment=t.get("segment"),
             ledger_entry=ledger_entry,
             book_glosses=book_glosses,
+            book_overrides=overrides,
             tables=tables,
         )
         t["_render"] = {"text": res.text, "is_english": res.is_english, "tier": res.tier}
@@ -287,9 +355,11 @@ def build_bundle(book_dir: Path) -> Path:
         t["n"] = i
     data = {**data, "terms": ordered}
 
+    carriers = mine_carriers(book_dir, data["terms"])
+
     out_dir = book_dir / "_system" / "probe" / "EP00-pronunciation-probe"
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "pronunciation-probe.md").write_text(build_source(data), encoding="utf-8")
+    (out_dir / "pronunciation-probe.md").write_text(build_source(data, carriers), encoding="utf-8")
     (out_dir / "00-framing.md").write_text(build_framing(data), encoding="utf-8")
     (out_dir / "listen-checklist.md").write_text(build_checklist(data), encoding="utf-8")
     (out_dir / "README.md").write_text(build_readme(data), encoding="utf-8")

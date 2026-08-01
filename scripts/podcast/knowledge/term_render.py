@@ -11,11 +11,29 @@ word or a plain transliteration came out flawless ("Cain", "Abel", "Satan").
 So instead of hunting for a respelling the TTS can say, we render every term into
 what the TTS ALREADY says perfectly, chosen by an ordered, deterministic classifier:
 
+    0. book override         -> whatever the human wrote      (_system/pronunciation.md)
     1. loanword allowlist   -> keep the canonical spelling   (Allah, Quran, Kaaba)
     2. name-exonym table     -> the English exonym             (Qabil -> Cain)
-    3. gloss (ledger / book) -> the English translation        (al-batin -> the inner)
-    4. otherwise             -> plain transliteration           (al-Tabari) — diacritics
-                                stripped, NO hyphens, NO CAPS, NEVER the `phonetic` field
+    3. confirmed ledger form -> a form a human HEARD come out right
+    4. gloss (ledger / book) -> the English translation        (al-batin -> the inner)
+    5. otherwise             -> plain transliteration           (al-Tabari) — diacritics
+                                stripped, NO hyphens, NO CAPS, never an unheard respelling
+
+Rung 0 is the one place a respelling may still win, and it exists because the
+ladder below it is a heuristic while a human listening to the audio is not. The
+per-book table at ``BOOK_DIR/_system/pronunciation.md`` has been the documented
+override authority since the books began; until 2026-08-01 nothing read it, so
+its rows only ever reached the audio when someone also pasted them into a
+framing by hand. Now it governs. A row whose value begins with ``substitute``
+means "say this English instead of the Arabic"; any other value is the spoken
+form verbatim, respelling or not — the human's ear outranks the classifier.
+
+Rung 3 is the same principle applied corpus-wide. The premise this module
+rejects is trusting an UNHEARD respelling; a ledger entry marked ``confirmed``
+is by definition one somebody listened to and accepted, so refusing it would
+strand the probe -> listen -> correct loop that writes those entries. Rungs 1
+and 2 still outrank it: a loanword forced into a respelling is exactly how
+"Imam" became "e-Maam" in the live 2026-06-12 render.
 
 Corpus-wide and LLM-free: the two tables live in ``content/knowledge-base/``
 (``exonyms.json`` + ``loanwords.json``); the gloss comes from the cross-book
@@ -40,8 +58,10 @@ from pronunciation_ledger import normalize_key  # same package (knowledge/)
 _NAME_SEGMENTS = {"names", "places"}
 
 # Tiers, in priority order — exposed for logging / provenance.
+TIER_BOOK_OVERRIDE = "book-override"
 TIER_LOANWORD = "loanword"
 TIER_EXONYM = "exonym"
+TIER_LEDGER_CONFIRMED = "ledger-confirmed"
 TIER_GLOSS_LEDGER = "gloss-ledger"
 TIER_GLOSS_BOOK = "gloss-book"
 TIER_TRANSLIT = "translit"
@@ -87,6 +107,55 @@ def load_tables(kb_dir: Path | None = None) -> tuple[dict[str, str], dict[str, s
         return {normalize_key(k): v for k, v in raw.items() if not k.startswith("_") and isinstance(v, str)}
 
     return _load("exonyms.json"), _load("loanwords.json")
+
+
+# A row of the per-book override table: ``| Term | Phonetic | Notes |``. The
+# Notes column is documentation for the next human and is never rendered.
+_OVERRIDE_SEPARATOR = re.compile(r"^[\s|:-]+$")
+# "substitute the pillars" / "substitute *the lower self*" -> say the English.
+_SUBSTITUTE_PREFIX = re.compile(r"^substitute\b[:\s]*", re.IGNORECASE)
+
+
+def parse_book_override_table(book_dir: Path | None) -> list[tuple[str, str]]:
+    """Parse ``BOOK_DIR/_system/pronunciation.md`` -> ``[(display_term, value)]``.
+
+    Table order is preserved and the term keeps the human's own spelling — a
+    caller printing entries back into a framing must show ``al-Naysaburi``, not
+    the lookup key ``al-naysaburi``. Values are VERBATIM (including a
+    ``substitute`` prefix, which ``render_for_audio`` interprets).
+
+    A missing file, an empty table, or a malformed row yields no entry rather
+    than an error: an override table is an optional refinement, and a book that
+    has never needed one must still render.
+    """
+    if book_dir is None:
+        return []
+    path = Path(book_dir) / "_system" / "pronunciation.md"
+    if not path.exists():
+        return []
+    rows: list[tuple[str, str]] = []
+    seen: set[str] = set()
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line.startswith("|") or _OVERRIDE_SEPARATOR.fullmatch(line):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < 2:
+            continue
+        term, value = cells[0], cells[1]
+        if not term or not value or term.lower() == "term":  # blank or header row
+            continue
+        key = normalize_key(term)
+        if key in seen:
+            continue
+        seen.add(key)
+        rows.append((term, value))
+    return rows
+
+
+def load_book_overrides(book_dir: Path | None) -> dict[str, str]:
+    """``{normalize_key(term): value}`` for ``render_for_audio``'s rung 0."""
+    return {normalize_key(term): value for term, value in parse_book_override_table(book_dir)}
 
 
 # A book's own inline gloss: ``translit (English phrase)`` — e.g.
@@ -157,20 +226,31 @@ def render_for_audio(
     segment: str | None = None,
     ledger_entry: dict | None = None,
     book_glosses: dict[str, str] | None = None,
+    book_overrides: dict[str, str] | None = None,
     tables: tuple[dict[str, str], dict[str, str]] | None = None,
 ) -> RenderResult:
     """Resolve the NotebookLM-safe spoken form of one Arabic term.
 
     ``translit`` is the plain display transliteration (``Israfil``, ``al-batin``,
-    ``al-Tabari``) — NOT the Arabic script and NOT a respelling. The result is
-    always either an English substitute or a plain transliteration; it is NEVER a
-    hyphen-CAPS phonetic respelling.
+    ``al-Tabari``) — NOT the Arabic script and NOT a respelling. Below the
+    override rung the result is always either an English substitute or a plain
+    transliteration, never a hyphen-CAPS respelling; a respelling reaches the
+    audio only when a human put it in ``book_overrides`` (see module docstring).
     """
     exonyms, loanwords = tables if tables is not None else load_tables()
     key = normalize_key(translit)
     # The definite article is not part of a name's identity for table lookup, so
     # ``al-Shaytan`` can still reach the ``shaytan`` exonym. Try the bare key too.
     bare = key[3:] if key.startswith("al-") else key
+
+    # 0. Per-book human override — outranks every heuristic below it.
+    if book_overrides:
+        raw = book_overrides.get(key) or book_overrides.get(bare)
+        if raw:
+            stripped = _SUBSTITUTE_PREFIX.sub("", raw).strip().strip("*").strip()
+            is_sub = stripped != raw.strip()
+            if stripped:
+                return RenderResult(stripped, TIER_BOOK_OVERRIDE, is_english=is_sub)
 
     # 1. Loanword — keep the canonical English spelling.
     if key in loanwords:
@@ -184,17 +264,29 @@ def render_for_audio(
     if bare in exonyms:
         return RenderResult(exonyms[bare], TIER_EXONYM, is_english=True)
 
-    # 3a. Ledger gloss — a human-confirmed / unfixable English substitute.
+    # 3. Confirmed ledger form — heard in real audio and accepted. An "unfixable"
+    # entry deliberately falls through to its gloss below: that status means no
+    # spoken form works, so the phonetic on it is a record, not a candidate.
+    # The status must be EXPLICIT. Every row the ledger writes carries one
+    # (PronEntry serialises the field unconditionally), so demanding it costs
+    # nothing real and leaves a hand-built dict without a status resolving
+    # exactly as it did before this rung existed.
+    if ledger_entry and ledger_entry.get("status") == "confirmed":
+        p = (ledger_entry.get("phonetic") or "").strip()
+        if p and normalize_key(p) != key:
+            return RenderResult(p, TIER_LEDGER_CONFIRMED, is_english=False)
+
+    # 4a. Ledger gloss — a human-confirmed / unfixable English substitute.
     if ledger_entry:
         g = (ledger_entry.get("gloss") or "").strip()
         if g:
             return RenderResult(g, TIER_GLOSS_LEDGER, is_english=True)
 
-    # 3b. Book-mined gloss — the translator's own English, for concept terms only.
+    # 4b. Book-mined gloss — the translator's own English, for concept terms only.
     if book_glosses and (segment not in _NAME_SEGMENTS):
         g = book_glosses.get(key)
         if g:
             return RenderResult(g, TIER_GLOSS_BOOK, is_english=True)
 
-    # 4. Plain natural transliteration — the safe default.
+    # 5. Plain natural transliteration — the safe default.
     return RenderResult(_strip_to_plain(translit), TIER_TRANSLIT, is_english=False)

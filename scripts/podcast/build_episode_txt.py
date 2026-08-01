@@ -111,6 +111,7 @@ from _validators import (
     assert_framing_honorific_bounded_both_sides,
     assert_framing_no_modern_artifacts,
     assert_framing_pronunciation_imperative,
+    assert_framing_pronunciation_render,
     assert_framing_recurring_thesis_present,
     assert_honorifics_once_only,
     assert_no_abbreviations,
@@ -192,6 +193,7 @@ def build_framing_episode_txt(
     book_dir: Path | None = None,
     write: bool = True,
     pacing_block: str | None = None,
+    chapter_text: str | None = None,
 ) -> int:
     """Read the framing, strip upload-checklist + HTML comments, validate, write to
     out_path as the customize-prompt-only episode txt. Returns word count of the
@@ -229,12 +231,48 @@ def build_framing_episode_txt(
     _bdir = book_dir or framing_path.parent.parent.parent  # ep-draft-dir → _system → book
     _islamic = is_islamic_scholarly(_bdir)
 
+    # R-PRONUNCIATION-RENDER (2026-08-01): the `## Pronunciation` values are
+    # COMPILED from the shared term ladder, never taken from the authored text.
+    # Injected here, before every gate, for the same reason the pacing block is:
+    # what the character ceiling and the validators see must be what NotebookLM
+    # gets. A book with no override table and no glossary compiles nothing and
+    # is left exactly as authored.
+    if _islamic and chapter_text:
+        try:
+            from _pronunciation_block import apply_to_framing
+
+            cleaned, _unresolved = apply_to_framing(cleaned, _bdir, chapter_text, char_max=FRAMING_CHAR_MAX)
+
+            from _pronunciation_block import shadowed_loanwords
+
+            for _shadow in shadowed_loanwords(_bdir):
+                print(
+                    f"  WARN: pronunciation override respells a word the hosts already say "
+                    f"correctly unaided: {_shadow}. Forcing a respelling onto a loanword is "
+                    f"how 'Imam' became 'e-Maam' in the 2026-06-12 render — settle it with "
+                    f"the probe before trusting it.",
+                    file=sys.stderr,
+                )
+            if _unresolved:
+                print(
+                    f"  NOTE: {len(_unresolved)} term(s) in this chapter have no settled spoken form "
+                    f"and were left without an entry: {', '.join(_unresolved[:12])}"
+                    + (" …" if len(_unresolved) > 12 else "")
+                    + "\n        Settle them by ear: python3 scripts/podcast/run_pronunciation_probe.py <slug>",
+                )
+        except Exception as exc:  # compiling is an improvement, never a gate
+            print(f"WARN: pronunciation block not compiled for {framing_path.name}: {exc}", file=sys.stderr)
+
     # Re-validate cleaned framing for meta-prose tells (cross-episode refs, etc.).
     # skip_do_not_section=True: the Do-not list legitimately names forbidden phrases
     # (including "next episode") — exclude that section from the substring scan.
     assert_no_meta_prose(cleaned, framing_path, "framing (CUSTOMIZE PROMPT)", extra_tells, skip_do_not_section=True)
     # R-PRONUNCIATION-IMPERATIVE (2026-05-17)
     assert_framing_pronunciation_imperative(cleaned, framing_path)
+    # R-PRONUNCIATION-RENDER (2026-08-01) — refuses a translation in the value
+    # slot the compiler above could not replace. No-op without a chapter to
+    # resolve against, which is also when there is nothing to check.
+    assert_framing_pronunciation_render(cleaned, framing_path, _bdir if _islamic else None, chapter_text)
     # R-NOMODERNIZE + R-NOSURPRISE + R-NO-READ-PROMPT (2026-05-17)
     assert_framing_deny_block(cleaned, framing_path)
     # R-NAMEDISCIPLINE / R-DRAMATIC-ARC / R-CHALLENGER-FRICTION /
@@ -350,12 +388,21 @@ def build(book_dir: Path, episode_id: str, check_only: bool = False) -> None:
         pacing_block = None  # planner availability must never break a build
 
     out_path = book_dir / "episodes" / f"{episode_id}.txt"
+    # The chapter text feeds the pronunciation compiler + R-PRONUNCIATION-RENDER.
+    # Both treat it as optional: an unreadable chapter is validate_chapter's
+    # error to raise, and must not surface here as a compile failure.
+    try:
+        chapter_text = chapter_file.read_text(encoding="utf-8")
+    except OSError:
+        chapter_text = None
     framing_words = build_framing_episode_txt(
         framing_file,
         out_path,
         extra_tells,
+        book_dir=book_dir,
         write=not check_only,
         pacing_block=pacing_block,
+        chapter_text=chapter_text,
     )
 
     # 3. F25 (2026-05-23): apparatus-table check on 99-show-notes.md when present.
