@@ -1,0 +1,256 @@
+{
+  "vowelled": 99,
+  "marks_added": 423,
+  "already": 0,
+  "refused": 62,
+  "refusals": [
+    {
+      "term": "مجموعة رسائل",
+      "reason": "letters changed, not just marks (first difference at character 7: source \" رسائل\" vs proposal \"\")"
+    },
+    {
+      "term": "أعوذ بالله من علم لا ينفع",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"أعوذ بالله م\" vs proposal \"علم\")"
+    },
+    {
+      "term": "كيمياء السعادة",
+      "reason": "letters changed, not just marks (first difference at character 7: source \" السعادة\" vs proposal \"\")"
+    },
+    {
+      "term": "جواهر القرآن",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" القرآن\" vs proposal \"\")"
+    },
+    {
+      "term": "منهاج العابدين إلى جنة رب العالمين",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" العابدين إل\" vs proposal \"\")"
+    },
+    {
+      "term": "رحمة الله عليه",
+      "reason": "letters changed, not just marks (first difference at character 5: source \" الله عليه\" vs proposal \"\")"
+    },
+    {
+      "term": "علامة إعراض الله عن العبد",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" إعراض الله \" vs proposal \"\")"
+    },
+    {
+      "term": "من جاوز الأربعين سنة",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"من جاوز الأر\" vs proposal \"الأربعين\")"
+    },
+    {
+      "term": "إن أشد الناس عذاباً",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"إن أشد الناس\" vs proposal \"ينفعه\")"
+    },
+    {
+      "term": "وأن ليس للإنسان إلا ما سعى",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"وأن ليس للإن\" vs proposal \"سعى\")"
+    },
+    {
+      "term": "فمن يعمل مثقال ذرة خيراً يره",
+      "reason": "empty"
+    },
+    {
+      "term": "فمن كان يرجو لقاء ربه",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"فمن كان يرجو\" vs proposal \"لقاء\")"
+    },
+    {
+      "term": "إن الذين آمنوا وعملوا الصالحات",
+      "reason": "empty"
+    },
+    {
+      "term": "إلا من تاب وآمن وعمل صالحاً",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"إلا من تاب و\" vs proposal \"صالحا\")"
+    },
+    {
+      "term": "بني الإسلام على خمس",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" الإسلام على\" vs proposal \"\")"
+    },
+    {
+      "term": "الإيمان إقرار باللسان",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"الإيمان إقرا\" vs proposal \"إقرار\")"
+    },
+    {
+      "term": "إن رحمة الله قريب من المحسنين",
+      "reason": "empty"
+    },
+    {
+      "term": "اشهدوا يا ملائكتي",
+      "reason": "empty"
+    },
+    {
+      "term": "حاسبوا قبل أن تحاسبوا",
+      "reason": "empty"
+    },
+    {
+      "term": "من ظن أنه بدون الجهد يصل",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"من ظن أنه بد\" vs proposal \"الجهد\")"
+    },
+    {
+      "term": "طلب الجنة بلا عمل",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" الجنة بلا ع\" vs proposal \"\")"
+    },
+    {
+      "term": "الكيس من دان نفسه",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" من دان نفسه\" vs proposal \"\")"
+    },
+    {
+      "term": "فويل لك ثم ويل لك",
+      "reason": "letters changed, not just marks (first difference at character 5: source \" لك ثم ويل ل\" vs proposal \"\")"
+    },
+    {
+      "term": "فطوبى لك ثم طوبى لك",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"فطوبى لك ثم \" vs proposal \"طوبى\")"
+    },
+    {
+      "term": "عش ما شئت فإنك ميت",
+      "reason": "empty"
+    },
+    {
+      "term": "عبدي قد طهرت منظر الخلق",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"عبدي قد طهرت\" vs proposal \"منظر\")"
+    },
+    {
+      "term": "عبدي ما تصنع بغيري",
+      "reason": "letters changed, not just marks (first difference at character 5: source \" ما تصنع بغي\" vs proposal \"\")"
+    },
+    {
+      "term": "فارجعنا نعمل صالحاً",
+      "reason": "empty"
+    },
+    {
+      "term": "هذه الأجساد",
+      "reason": "empty"
+    },
+    {
+      "term": "ارجعي إلى ربك",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"ارجعي إلى رب\" vs proposal \"إرجعي\")"
+    },
+    {
+      "term": "اهتز عرش الرحمن",
+      "reason": "letters changed, not just marks (first difference at character 5: source \" عرش الرحمن\" vs proposal \"\")"
+    },
+    {
+      "term": "أولئك كالأنعام",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"ولئك كالأنعا\" vs proposal \"لأنعام\")"
+    },
+    {
+      "term": "ذكرت أمنية أهل النار",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"ذكرت أمنية أ\" vs proposal \"أمنية\")"
+    },
+    {
+      "term": "هل من تائب",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"هل من تائب\" vs proposal \"تائب\")"
+    },
+    {
+      "term": "كانوا قليلاً من الليل",
+      "reason": "empty"
+    },
+    {
+      "term": "نعم الرجل هو",
+      "reason": "empty"
+    },
+    {
+      "term": "لا تكثرن النوم بالليل",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"لا تكثرن الن\" vs proposal \"النوم\")"
+    },
+    {
+      "term": "ومن الليل فتهجد به",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"ومن الليل فت\" vs proposal \"تهجد\")"
+    },
+    {
+      "term": "وبالأسحار يستغفرون",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"وبالأسحار يس\" vs proposal \"يستغفرون\")"
+    },
+    {
+      "term": "والمستغفرين بالأسحار",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"والمستغفرين \" vs proposal \"المستغفرين\")"
+    },
+    {
+      "term": "إن الله تعالى خلق ريحاً",
+      "reason": "empty"
+    },
+    {
+      "term": "يا بني لا تكونن الديك أكيس منك",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"يا بني لا تك\" vs proposal \"الديك\")"
+    },
+    {
+      "term": "إنا لله وإنا إليه راجعون",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"إنا لله وإنا\" vs proposal \"راجعون\")"
+    },
+    {
+      "term": "عمل للدنيا بقدر مقامك فيها",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" للدنيا بقدر\" vs proposal \"\")"
+    },
+    {
+      "term": "وأما من خاف مقام ربه",
+      "reason": "empty"
+    },
+    {
+      "term": "ما عندكم ينفد",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"ما عندكم ينف\" vs proposal \"ينفد\")"
+    },
+    {
+      "term": "إن أكرمكم عند الله أتقاكم",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"إن أكرمكم عن\" vs proposal \"أتقاكم\")"
+    },
+    {
+      "term": "نحن قسمنا بينهم معيشتهم",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"نحن قسمنا بي\" vs proposal \"قسمنا\")"
+    },
+    {
+      "term": "إن الشيطان لكم عدو",
+      "reason": "empty"
+    },
+    {
+      "term": "ألم أعهد إليكم يا بني آدم",
+      "reason": "letters changed, not just marks (first difference at character 2: source \"لم أعهد إليك\" vs proposal \"عهد\")"
+    },
+    {
+      "term": "الأمر بالمعروف والنهي عن المنكر",
+      "reason": "empty"
+    },
+    {
+      "term": "الأحكم الحاكمين",
+      "reason": "empty"
+    },
+    {
+      "term": "يا عزيز",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"يا عزيز\" vs proposal \"عزيز\")"
+    },
+    {
+      "term": "يا غفار",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"يا غفار\" vs proposal \"غفار\")"
+    },
+    {
+      "term": "يا حليم",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"يا حليم\" vs proposal \"حليم\")"
+    },
+    {
+      "term": "يا جبار",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"يا جبار\" vs proposal \"جبار\")"
+    },
+    {
+      "term": "يا عظيم",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"يا عظيم\" vs proposal \"عظيم\")"
+    },
+    {
+      "term": "يا قهار",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"يا قهار\" vs proposal \"قهار\")"
+    },
+    {
+      "term": "يا رحمن",
+      "reason": "empty"
+    },
+    {
+      "term": "يا رحيم",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"يا رحيم\" vs proposal \"رحيم\")"
+    },
+    {
+      "term": "يا أرحم الراحمين",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"يا أرحم الرا\" vs proposal \"الراحمين\")"
+    },
+    {
+      "term": "زن نون مصري",
+      "reason": "empty"
+    }
+  ]
+}

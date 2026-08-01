@@ -1,0 +1,149 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "first_person_author",
+  "adapted": 9,
+  "reverted": 1,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "A Letter Across the Centuries",
+      "base_words": 353,
+      "output_words": 347,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "editorial_queries": [
+        "The binding narrative frame specifies first person throughout, but this passage is a third-person preface framing the letter; forcing first person would misattribute the narration, so the source's grammatical person was preserved."
+      ],
+      "comprehension_flags": [],
+      "terminology_notes": [
+        "(\u0631\u0636) and (may Allah bless him and grant him peace) \u2014 honorific forms should be kept consistent book-wide in the compact shape the surrounding text already uses."
+      ]
+    },
+    {
+      "title": "Knowledge That Will Not Save You",
+      "base_words": 1335,
+      "output_words": 1316,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The Striving That Mercy Meets",
+      "base_words": 750,
+      "output_words": 750,
+      "windows": 1,
+      "windows_kept": 0,
+      "status": "reverted",
+      "gates": [
+        "fluency-03: narrative-announcement opening: 'My dear son, hold firmly to this: you will not find the reward until you have made the effort.\\n\\nLet me tell you of a man'"
+      ],
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The Hours Before Dawn",
+      "base_words": 1369,
+      "output_words": 1365,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-04: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Worship Is Obedience, Nothing Less",
+      "base_words": 1377,
+      "output_words": 1374,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Eight Lessons from Thirty-Three Years",
+      "base_words": 1877,
+      "output_words": 1892,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": [
+        "Nafs \u2014 rendered consistently with its inline gloss \"the lower self that urges toward evil\"; standardize this gloss on first occurrence book-wide and keep \"Nafs\" thereafter."
+      ]
+    },
+    {
+      "title": "Finding a True Guide",
+      "base_words": 1213,
+      "output_words": 1211,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Sufism, Servitude, Trust, Sincerity",
+      "base_words": 870,
+      "output_words": 869,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Four to Avoid, Four to Embrace",
+      "base_words": 2607,
+      "output_words": 2607,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "A Prayer for the Road",
+      "base_words": 818,
+      "output_words": 799,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [],
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    }
+  ]
+}

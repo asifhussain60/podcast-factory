@@ -2,700 +2,669 @@
 
 ## A Letter Across the Centuries
 
-Centuries stand between us, and yet here you are, holding these words in your hands. That alone is a small wonder worth pausing over. A young man once sat in my circles for years. He learned what I had to teach — the disciplines, the proofs, the careful divisions of the sciences — and he gave of himself generously to acquire it all. Then one night a question settled on him that he could not shake loose, and he wrote it down and sent it to me. Of everything I labored to learn, he asked, which of it will actually help me? Which knowledge will light my grave when I am laid in it? Which will speak for me on the Day when speaking matters? And which of it — for all the years I spent — will turn out to have been weight without worth, so that I might lay it down now and walk lighter? He had not forgotten the Messenger of God, may God's peace and blessings be upon him, who said:
+<!-- edition-intro:begin -->
+This is a letter of spiritual counsel, written by a teacher to a former student who had spent years mastering the religious sciences and then asked what, of everything he had learned, would actually serve him. Its title, *Ayyuha al-Walad*, is the phrase with which the author addresses him — "O son," an affectionate form for a disciple, not a biological child. Everything that follows is the reply.
 
-> أَعُوذُ بِاللَّهِ مِنْ عِلْمٍ لَا يَنْفَعُ
->
-> "I seek refuge in God from knowledge that does not benefit."
+Read it as a first-person document. The "I" is the author himself, writing directly, and the "you" is the single student he answers; there is no narrator standing between them and no frame story. When the book says "know, my son" or "I have seen," you are hearing the writer's own voice, not a later hand reporting it. Keeping that straight matters, because the letter also speaks of a guide the seeker must go out and find — the sixth chapter is given over to finding a true one — and that guide is a different figure from the author writing here. The man who wrote this was the student's teacher, yet part of what he tells him is to seek a living guide of his own.
 
-He turned that prayer over in his chest for days before he wrote to me. He knew I had already written, at length, on these very questions. He had read the *Ihya Ulum al-Din* — the Revival of the Religious Sciences — and the *Kimiya al-Sa'ada*, the Alchemy of Happiness, and the *Jawahir al-Qur'an*, those gems of the Book; he knew the *Arba'in*, the Forty Principles, and the *Minhaj al-Abidin*, the Worshippers Road to the Paradise of the Lord of the Worlds. He had read more than enough. What he wanted now was something smaller, something he could keep on his person and live by — a few pages he could return to in the morning and act upon by night. He asked, too, for counsel he could carry, and a prayer he could say at any hour. So I wrote him this letter. I did not write a treatise. I wrote what I would say to him if he were sitting across from me, and I wrote it knowing that whoever else needed it would also, in time, find their way to it.
+The chapters trace a single argument. It opens by warning that knowledge which does not change how one lives will not save its owner, then turns to what does: the striving that God's mercy meets, the prayer of the hours before dawn, worship understood as plain obedience. From there it becomes practical — eight lessons gathered over thirty-three years, how to recognize a true guide, the meaning of the Sufi path alongside servitude, trust, and sincerity, and a closing set of four things to avoid and four to embrace — before ending in a prayer for the road ahead.
 
-That is how this letter reaches you. You are the walad now — the son, the student, the one I am addressing. Read it slowly. Read it as if it were written this morning, because in everything that matters, it was.
+The vocabulary rewards a little patience. Alongside ordinary terms — the five pillars (the testimony of faith, prayer, alms, the Ramadan fast, the pilgrimage), *Shari'ah* and *fiqh*, *iman* and the *nafs* — the book quotes scripture and prophetic sayings heavily, giving the Arabic of a verse or a hadith and then unfolding it. Several of the recurring terms are whole quoted lines rather than single words; where you meet one, the sentences around it are the author's explanation of what it says. The author also points beyond this short letter to his own larger works, naming them for a reader who wants the fuller treatment.
+
+### The book's own opening
+<!-- edition-intro:end -->
+
+Know that one of Imam Ghazali's (رضي الله عنه) foremost students had remained in his service for a number of years, studying under him and drawing deeply from his knowledge and his spiritual guidance. In that time he mastered the finer points of the sciences and refined the virtues of his soul. Then one day he began to reflect on his own state. A question pressed upon his heart, and he said within himself: I have studied many branches of knowledge. I have given the prime of my life to learning them and gathering them, and I have sacrificed a great deal to do so. Now I ought to know which of these sciences will benefit me tomorrow and keep me company in my grave and come to my aid on the Day of Judgment, and which of them will not benefit me on that Day, so that I may set it aside. For the Messenger of Allah (may Allah bless him and grant him peace) said:
+
+اَللَّهُمَّ أَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ
+
+"O Allah, I seek refuge in You from knowledge that does not benefit."
+
+This thought stayed with him for several days. At last he wrote a letter to Imam Ghazali (رض), asking for an answer to what troubled him, together with replies to certain other questions. He asked as well for personal counsel, and for a supplication he might recite at all times.
+
+In his letter he acknowledged that Imam Ghazali (رض) had already written many books on these very subjects, among them Ihya al-Ulum ad-Din (إِحْيَاءُ عُلُومِ الدِّيْن) (Revival of the Knowledge of the Path to God), Kimiya as-Saada (كِيمِيَاءُ السَّعَادَةِ) (Alchemy of Ultimate Success and Happiness), Jawahir ul-Quran (جَوَاهِرُ الْقُرْآنِ) (Priceless Gems of the Holy Quran), Arbaeen (أَرْبَعُون) (Forty Steps), and Minhaj ul-Abideen ila Jannatu Rabbul Alamin (مِنْهَاجُ الْعَابِدِينَ إِلَى جَنَّةِ رَبِّ الْعَالَمِينَ) (The Best Way for the Worshippers of God Leading Them to the Paradise of the Lord of All Universes), and others besides. Yet this humble one, he wrote, needed something he could study without pause and act upon without fail.
+
+In answer to his letter, Imam Ghazali (رض) sent him the counsel that follows.
 
 ## 1. Knowledge That Will Not Save You
 
-My dear son, my true friend — may God lengthen your life in His worship, and set your feet on the road His beloveds walked. Before I say anything else, hear this: the wellspring of every counsel worth giving is the living presence of the Messenger of God, peace and blessings be upon him. Every honest word of guidance rests on his sayings and his way — his outward conduct and his inward state both. Counsel that runs against his teaching benefits no one. Whole libraries of advice have already been drawn from the light of his hadith and his sunnah. If those have reached you, you need nothing from me. But if they have not — if after all this you remain untouched by them — then tell me honestly: in all the years you sat with me, what is it you actually learned?
+In the Name of Allah, the Most Compassionate, the Most Merciful. All praise belongs to Allah alone, the Lord of all the worlds, and may the blessings and peace of Allah be upon His Messenger Muhammad and upon all of his descendants and his followers.
 
-Among the counsels of the Prophet, peace and blessings be upon him, is this:
+My dear beloved son and true friend, may Allah the Exalted grant you a long life spent in His worship and obedience, and may He set you upon the path of His beloved ones. Know that the wellspring of all good counsel is the holy person of the Prophet Muhammad (عليه السلام), for every counsel is founded upon his sayings and his way, upon his outward conduct and his inward states alike. Any counsel that runs against his sayings and his way carries no benefit at all. Countless words of advice have already been written and passed down in the light of his sayings and his way. If they have guided you, then you have no need of any counsel from me. But if you have drawn no benefit from the counsels of the Prophet (ع), then tell me: in all the years now gone, what knowledge have you truly gained from me?
 
-> عَلَامَةُ إِعْرَاضِ اللَّهِ عَنِ الْعَبْدِ اشْتِغَالُهُ بِمَا لَا يَعْنِيهِ، وَإِنَّ امْرَأً ذَهَبَتْ سَاعَةٌ مِنْ عُمْرِهِ فِي غَيْرِ مَا خُلِقَ لَهُ لَحَرِيٌّ أَنْ تَطُولَ عَلَيْهِ حَسْرَتُهُ
->
-> "A servant's preoccupation with what does not concern him is a sign that God has turned His special favor away from him. And if even a single hour of a man's life passes in pursuit of something other than that for which he was created, he is fit to grieve long over it."
+My dear beloved son, among the counsels the Prophet (ع) gave to his community is this saying of his:
 
-And he said, peace and blessings be upon him:
+(عَلَامَةُ إِعْرَاضِ اللَّهِ تَعَالَىٰ عَنِ الْعَبْدِ اشْتِغَالُهُ بِمَا لَا يَعْنِيهِ، وَ إِنَّ امْرَأً ذَهَبَتْ سَاعَةٌ مِنْ عُمْرِهِ فِي غَيْرِ مَا خُلِقَ لَهُ مِنَ الْعِبَادَةِ، جدير ان تطول عليه حسرته)
 
-> مَنْ جَاوَزَ الْأَرْبَعِينَ سَنَةً وَلَمْ يَغْلِبْ خَيْرُهُ عَلَى شَرِّهِ فَلْيَتَجَهَّزْ إِلَى النَّارِ
->
-> "Whoever passes forty years and the good in him has not overcome the evil — let him prepare himself for the Fire."
+"A servant's busying himself with matters that do not concern him is a sign that Allah has turned His special favor away from him. And if a single hour of a servant's life passes in the pursuit of anything other than that for which Allah created him, then it is fitting that his sorrow over it should be long."
 
-It is easy, my son, to recite such counsel to the whole world. It is brutally hard to act on it oneself. Anyone whose heart is occupied by the pleasures of this world and the cravings of the lower self finds this kind of speech bitter on the tongue. Their hearts are tangled in appetite. And of all such people, the one I most want you to recognize is this: the man who has acquired philosophy and the sciences and the polished learning of the age, and then quietly persuades himself that this knowledge alone will be his rescue in the Hereafter — and his fame and standing in this world along the way. He concludes, without ever admitting it openly, that the labor of *acting* on what he knows does not apply to him. He is exempt. This delusion is the particular sickness of those who study philosophy and nothing else. Glory be to God, the Great — such a man does not even suspect that the very knowledge he refused to live by will rise against him on the Day of Judgment as the instrument of his punishment. Has he never heard the words of the Messenger, peace and blessings be upon him?
+The Prophet (ع) has also said:
 
-> إِنَّ أَشَدَّ النَّاسِ عَذَابًا يَوْمَ الْقِيَامَةِ عَالِمٌ لَمْ يَنْفَعْهُ اللَّهُ بِعِلْمِهِ
->
-> "The most severely punished of people on the Day of Judgment will be a scholar whom God did not benefit through his knowledge."
+(مَنْ جَاوَزَ الْأَرْبَعِينَ وَلَمْ يَغْلِبْ خَيْرُهُ عَلَىٰ شَرِّهِ فَلْيَتَجَهَّزْ إِلَىٰ النَّارِ)
 
-That is, one who did not act upon what he learned.
+"Whoever passes forty years of age and the good within him still does not prevail over the evil, let him prepare himself for the Fire."
 
-In the accounts of God's intimate friends, it is told that a certain saint saw Shaykh Junayd of Baghdad, may God have mercy on him, in a dream after his death, and asked him: "Abu al-Qasim — tell me, what was it like, after?"
+In this counsel there is enough for the people of knowledge.
 
-And Junayd answered him: "All the discourses, all the subtle spiritual indications — every one of them came to nothing. The only thing that helped me was a few cycles of prayer I used to perform in the depth of the night."
+My dear beloved son, giving such advice is easy, but accepting it is hard, for to the taste of those who follow their desires it is bitter, since forbidden things are dear to their hearts. This is all the more true of the one who seeks formal learning, busy with the advancement of his own self and with the distinctions of this world. Such a man supposes that bare knowledge alone will be his salvation and his deliverance, and that he has no need of action. This is the belief of the philosophers. Glory be to Allah the Mighty. This deluded one does not even see that once he has gained knowledge, if he does not act upon it, the proof against him only stands the firmer. Does he not know that the Prophet (ع) said:
 
-So, my son: do not strip yourself of righteous deeds. Do not abandon the knowledge of the outward law. And do not let yourself live without the inner excellences, the noble qualities of the heart. Settle this in your bones — knowledge without deeds will not save you on the Day of Judgment.
+(أَشَدُّ النَّاسِ عَذَابًا يَوْمَ الْقِيَامَةِ عَالِمٌ لَا يَنْفَعُهُ اللَّهُ بِعِلْمِهِ)
 
-Picture a man walking through a wilderness, armed to the teeth — ten sharpened swords at his belt, a fine bow on his back, every other weapon you can name, and a complete mastery of the science of war and how each weapon is to be used. A lion appears in his path. Tell me: can he survive without ever drawing a single blade? You know he cannot. It is exactly the same with you. A man can master a hundred thousand questions of jurisprudence; if he does not act on a single one of them, the knowledge will not save him.
+"The most severely punished of people on the Day of Resurrection is a scholar whom Allah did not benefit through his knowledge."
 
-Or take a sick man who knows precisely which medicines would cure him — knows their names, their preparations, their properties down to the smallest detail — and never swallows a drop. Will the knowledge of the cure cure him? You can see the answer with your own eyes. The mere knowing of a remedy does nothing to heal the diseases of the soul. A poet put it this way: you may buy two thousand pounds of wine, but you will not be drunk until you actually drink.
+It is related that Shaykh Junaid al-Baghdadi (رض) was seen in a dream after his death, and he was asked, "O Abu al-Qasim, what news do you bring of your state?" He replied:
 
-Hoarding knowledge, leafing endlessly through book after book, and never acting on any of it will gain you nothing — until you make yourself worthy of God's mercy through righteous works. Until then, His grace stays at a distance from you. Hear what the Qur'an itself says:
+(طَاحَتْ تِلْكَ الْعِبَارَاتُ، وَ فَنِيَتْ تِلْكَ الْإِشَارَاتُ، وَ مَا نَفَعَنَا إِلَّا رُكَيْعَاتٌ رَكَعْنَاهَا فِي جَوْفِ اللَّيْلِ)
 
-> وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَىٰ
->
-> "And that man shall have nothing but that for which he strives." (Qur'an 53:39)
+"Those fine expressions came to nothing, and those subtle allusions perished, and nothing profited us except a few humble cycles of prayer that we prayed in the depth of the night."
 
-This settles it: a human being attains success only through real, sustained striving. Now, my son, I know what you have read — that some have said this verse was abrogated. Let us grant it for the sake of argument. What then will you say about these:
+My dear beloved son, do not be bankrupt of good deeds, and do not be empty of inner states, and be certain that bare knowledge will not take you by the hand. Consider its likeness. Suppose a man in the wilderness held ten Indian swords along with other weapons, and suppose he were brave and a man of war, and then a great and terrifying lion charged at him. What do you think? Would the weapons turn its harm away without his drawing them and striking? It is plain that they turn nothing away except by being wielded and by striking. In just this way, were a man to read and learn a hundred thousand points of knowledge and yet not act upon them, they would profit him nothing except through action.
 
-> فَمَنْ يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًا يَرَهُ ۝ وَمَنْ يَعْمَلْ مِثْقَالَ ذَرَّةٍ شَرًّا يَرَهُ
->
-> "So whoever does an atom's weight of good shall see it, and whoever does an atom's weight of evil shall see it." (Qur'an 99:7–8)
+Its likeness again is a man who has a fever and a bilious illness whose cure lies in certain medicines, yet the cure is not gained except by taking them. As the poet has said:
 
-> فَمَنْ كَانَ يَرْجُو لِقَاءَ رَبِّهِ فَلْيَعْمَلْ عَمَلًا صَالِحًا وَلَا يُشْرِكْ بِعِبَادَةِ رَبِّهِ أَحَدًا
->
-> "So whoever hopes for the meeting with his Lord — let him do righteous work and not associate anyone in the worship of his Lord." (Qur'an 18:110)
+كَرَمِي دُو هَزَارْ رَطْلْ هَمِي بِيْمَائِي * تا مي نخوري نباشدت شيدائي
 
-> إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلًا ۝ خَالِدِينَ فِيهَا
->
-> "Truly those who have believed and done righteous deeds — the Gardens of Paradise will be their lodging. They will abide therein forever." (Qur'an 18:107–108)
+"Even if you were to buy two thousand pounds of wine, it would not make you drunk until you drink it."
 
-And in another place He, Exalted is He, has said:
+And if you were to study knowledge for a hundred years and gather a thousand books, you would not be made ready for the mercy of Allah the Exalted except through action. Hear what the Quran says in this matter:
 
-> إِلَّا مَنْ تَابَ وَآمَنَ وَعَمِلَ عَمَلًا صَالِحًا
->
-> "Except for the one who repents, believes, and does righteous work." (Qur'an 25:70)
+(وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَى)
 
-And what will you say about the noble hadith of the Messenger of God, peace and blessings be upon him?
+"And that man shall have nothing but that for which he strives." (Quran, an-Najm: 38)
 
-> بُنِيَ الْإِسْلَامُ عَلَىٰ خَمْسٍ: شَهَادَةِ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَأَنَّ مُحَمَّدًا رَسُولُ اللَّهِ، وَإِقَامِ الصَّلَاةِ، وَإِيتَاءِ الزَّكَاةِ، وَصَوْمِ شَهْرِ رَمَضَانَ، وَحَجِّ الْبَيْتِ مَنِ اسْتَطَاعَ إِلَيْهِ سَبِيلًا
->
-> "Islam is built upon five: to testify that there is no god but God and that Muhammad is the Messenger of God, to establish the prayer, to give the zakat, to fast in the month of Ramadan, and to perform the pilgrimage to the House for whoever is able to find a way to it."
+This establishes that a human being attains success only through genuine effort and striving. My dear beloved son, I know you may have read that this verse was abrogated. Let us grant that it was. But then what do you say about these words of Allah:
 
-> الْإِيمَانُ إِقْرَارٌ بِاللِّسَانِ وَتَصْدِيقٌ بِالْجَنَانِ وَعَمَلٌ بِالْأَرْكَانِ
->
-> "Faith is affirmation with the tongue, acknowledgment in the heart, and action with the limbs."
+"So whoever does an atom's weight of good will see it, and whoever does an atom's weight of evil will see it." (Quran, 99:7 to 8)
 
-Now — and this is delicate, so listen — if after all this a quiet thought begins to form in your heart that I am telling you a servant enters Paradise by his own deeds and not by God's grace, then you have misread me entirely. I am saying the opposite. A servant enters Paradise by the favor, the generosity, the kindness of God. But until that servant makes himself worthy of mercy through worship and obedience, he is in no condition to receive it. This is not my private opinion. It is God Himself, Exalted is He, who says:
+(فَمَنْ كَانَ يَرْجُو لِقَاءَ رَبِّهِ فَلْيَعْمَلْ عَمَلاً صَالِحًا)
 
-> إِنَّ رَحْمَتَ اللَّهِ قَرِيبٌ مِنَ الْمُحْسِنِينَ
->
-> "Truly the mercy of God is near to those who do good." (Qur'an 7:56)
+"So whoever hopes for the meeting with his Lord, let him do righteous work." (Quran, al-Kahf: 110)
 
-So how, then, will a servant enter Paradise without the mercy of God? I will say it again, because everything turns on it: how will a servant enter Paradise without the mercy of God?
+(إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ كَانَتْ لَهُمْ جَنَّاتُ الْفِرْدَوْسِ نُزُلاً خَالِدِينَ فِيهَا لاَ يَبْغُونَ عَنْهَا حِوَلاً)
 
-And if someone wants to argue back at me that faith alone, all by itself, will be enough to carry him in — let him remember that between him and that gate lie many fearful valleys, many steep passes. And the first of them, and the most terrifying of all, is this: to carry your faith, intact, all the way to the end.
+"Indeed, those who believe and do righteous deeds, for them the Gardens of Firdaws shall be a welcome abode, in which they will dwell forever, never desiring any removal from it."
+
+And in another place the Exalted has said:
+
+(إِلَّا مَنْ تَابَ وَ آمَنَ وَعَمِلَ صَالِحًا)
+
+"Except for those who repented, and believed, and did righteous work."
+
+And what do you say about these noble sayings of the Prophet (ع)? He said:
+
+"Islam is built upon five things: to testify that there is none worthy of worship but Allah and that Muhammad is the Messenger of Allah; to establish the prayer; to give the alms; to fast the month of Ramadan; and to perform the pilgrimage to the House for whoever is able to find a way to it."
+
+And he said:
+
+"Faith is affirmation with the tongue, assent with the heart, and action with the limbs."
+
+After all of this, should a thought arise in your heart that I am claiming a servant enters Paradise not by the grace of Allah but by his own deeds alone, then know that you have not grasped my meaning. On the contrary, what I am saying is that a servant enters Paradise through the favor, generosity, and blessings of Allah. Yet unless that servant makes himself deserving of Allah's mercy through worship and obedience, he will not stand in a position to receive that mercy and favor. And I do not assert this on my own authority. Rather, Allah the Exalted Himself says:
+
+"Indeed, the mercy of Allah is near to those who do good." (Quran, 7:56)
+
+How, then, will a servant enter Paradise without the mercy of Allah the Exalted? I say this weighty point again: how will a servant enter Paradise without the mercy of Allah? And should someone argue that one enters Paradise on account of faith alone, then know that many formidable valleys lie ahead, that is, obstacles. The first and most daunting of them is to carry one's faith safely to the very end.
 
 ## 2. The Striving That Mercy Meets
 
-And so the question stands before us like a mountain we cannot walk around: if even faith requires mercy to carry it across, then what of works? My dear son, settle this in your heart once and for all — without striving, there is no reward to receive. The two are not separable. Mercy is not a substitute for effort; it is what answers effort when effort has done all it can.
+My dear son, be firmly convinced of this: without effort you will not find its reward.
 
-Let me tell you a story that has stayed with me, because it cuts to the bone of what I am trying to say.
+Let me tell you of a man among the Children of Israel who worshipped Allah the Exalted with great devotion for seventy years. Allah willed to display him before the angels, and so, as a test, He sent an angel down to him. The angel said:
 
-Among the Children of Israel there was a man who worshipped God with a devotion that would shame most of us into silence. God, in His wisdom, sent an angel to test him. The angel came to him and delivered a message that would have broken almost anyone: "God, the Holy, says that you have been tormenting yourself to no purpose. Your worship is not accepted. You will go to Hell."
+"Allah, the Holy, says that you have tormented yourself to no purpose, for with all this worship you are not fit to enter Paradise."
 
-Imagine receiving such a sentence after a lifetime on your knees. Imagine the cold that would enter the chest. And yet listen to what this man said in reply: "God, the Exalted, created us for His worship and His service. Our duty is to serve Him — no matter what comes. He is the Owner of all things and all people, myself among them, and He is the All-Powerful."
+When this message reached him, the worshipper replied:
 
-He did not bargain. He did not protest. He did not stop. He simply returned to the only posture a servant has ever truly owned: I am His, whether He keeps me or casts me away.
+"We were created for His worship and servitude, and it is fitting that we should serve Him, no matter what. He is the Owner of all things and of all people, myself among them, and He is the All-Powerful."
 
-The angel returned to the Presence and said, "O my Lord, You are the Knower of every secret in this universe, and You know what Your worshipping servant has answered." And God, the Exalted, said: "Since this servant of Ours does not turn his face away from Our worship and Our service, We too will not turn Our Face away from him."
+The angel then returned to the Presence of Allah the Exalted and said:
 
-> أُشْهِدُكُمْ يَا مَلَائِكَتِي أَنِّي قَدْ غَفَرْتُ لَهُ
->
-> "O My angels, bear witness — all of you — that I have forgiven him."
+"O my Lord, You know best what Your servant has said."
 
-Do you see what passed there? The man did not earn forgiveness by his works alone; he earned it by refusing to abandon the posture of a servant even when the worst news a servant can hear was placed in his hands. The works were the ground; the unbroken facing was the offering; mercy was the answer. Remove any of the three and the whole collapses.
+Upon this Allah the Exalted said: since this servant of Ours does not turn his face away from Our worship and Our service, We too, in Our generosity, will not turn Our Face away from him.
 
-So now, while you still have breath in your body and your accounts are still open, hear what the Messenger of God, peace and blessings be upon him, says:
+> اشهدوا يا ملائكتي أنّي قد غفرت له
 
-> حَاسِبُوا قَبْلَ أَنْ تُحَاسَبُوا، وَزِنُوا قَبْلَ أَنْ تُوزَنُوا
->
-> "Take account of yourselves before you are taken to account, and weigh your deeds before your deeds are weighed."
+"O My angels, bear witness, all of you, that I have forgiven him."
 
-That is, examine your works critically while there is still time to correct what is crooked in them — before the Day when the weighing is no longer in your hands, when the scale is set up and the verdict is decreed and there is no going back to fix the small thing you knew you ought to fix.
+My dear son, so long as you do not act, you will not find the reward. Hear now what the Messenger of Allah (may Allah bless him and grant him peace) says:
 
-And lest you misunderstand and slide into the opposite ditch, hear what Ali, may God honor his countenance, said:
+> حَاسِبُوا أَنْفُسَكُمْ قَبْلَ أَنْ تُحَاسَبُوا، وَ زِنُوا أَعْمَالَكُمْ قَبْلَ أَنْ تُوزَنُوا
 
-> مَنْ ظَنَّ أَنَّهُ بِدُونِ الْجُهْدِ يَصِلُ فَهُوَ مُتَمَنٍّ، وَمَنْ ظَنَّ أَنَّهُ بِبَذْلِ الْجُهْدِ يَصِلُ فَهُوَ مُتْعِبٌ
->
-> "Whoever supposes he will arrive without striving is merely wishing; and whoever supposes he will arrive by his striving alone is merely exhausting himself."
+"Take account of yourselves before you are taken to account, and weigh your deeds, that is, examine and correct their shortcomings, before your deeds are weighed and judged."
 
-Read that twice and let it settle. There are two ditches on either side of this road, and most travelers fall into one or the other. On one side is the man who thinks Paradise will be handed to him because he loves God in his heart and means well — the wisher, the daydreamer. On the other side is the man who thinks his prayers and his fasts and his vigils have built him a ladder he can climb on his own strength — the self-exhauster, who is so impressed by his own climbing that he forgets Whose hand alone can pull him up at the top. Both are mistaken. The road runs between them. Strive as if everything depends on you; rely as if nothing does.
+Ali (رض) said:
 
-Shaykh Hasan al-Basri, may God shower His mercy upon him, put it with the bluntness only he could manage:
+> مَنْ ظَنَّ أَنَّهُ بِدُونِ الْجَهْدِ يَصِلُ فَهُوَ مُتَمَنٍّ. وَمَنْ ظَنَّ أَنَّهُ بِبَذْلِ الْجُهْدِ يَصِلُ فَهُوَ مُسْتَغْنٍ
 
-> طَلَبُ الْجَنَّةِ بِلَا عَمَلٍ ذَنْبٌ مِنَ الذُّنُوبِ
->
-> "To desire Paradise without works is itself a sin among the sins."
+"Whoever supposes that he will arrive without striving is a wishful dreamer, and whoever supposes that he will arrive by the mere expending of his effort is presuming himself in no need."
 
-Sit with that. Wanting Paradise while doing nothing for it is not innocent — it is a kind of impudence. It is to think that the King's house will open its doors for a guest who could not be bothered to walk to the threshold.
+Hasan al-Basri said:
 
-And another of God's intimates said something so subtle that you must read it slowly:
+> طَلَبُ الْجَنَّةِ بِلَا عَمَلٍ ذَنْبٌ مِنَ الذُّنُوبِ
 
-> الْحَقِيقَةُ تَرْكُ مُلَاحَظَةِ الْعَمَلِ لَا تَرْكُ الْعَمَلِ
->
-> "The reality is to leave off admiring your works — not to leave off the works themselves."
+"To seek Paradise without deeds is a sin among the sins."
 
-Do you hear the precision? The danger of self-admiration is real; the answer is not to stop acting. The answer is to keep acting and to stop watching yourself act. Stop holding up a mirror to your own piety. Pray, give, fast, study, serve — and then forget that you did, the way the hand forgets the bread it just gave away.
+And another intimate of Allah said:
 
-And our master in both worlds, the Prophet Muhammad, may God's peace and blessings be upon him, said it more clearly, more cleanly, more beautifully than any tongue before or after:
+> عَلَامَةُ الْحَقِيقَةِ تَرْكُ مُلَاحَظَةِ الْعَمَلِ لَا تَرْكُ الْعَمَلِ
 
-> الْكَيِّسُ مَنْ دَانَ نَفْسَهُ وَعَمِلَ لِمَا بَعْدَ الْمَوْتِ، وَالْأَحْمَقُ مَنِ اتَّبَعَ نَفْسَهُ هَوَاهَا وَتَمَنَّى عَلَى اللَّهِ
->
-> "Intelligent is the one who subdues his lower self and works for what comes after death. Foolish is the one who follows his lower self's appetites and yet presumes upon God."
+"The mark of realized truth is to leave off admiring one's own action, not to leave off the action itself." One should act without regarding one's own act with pride, yet one must never abandon the doing of good deeds, even where the risk of self-admiration is present.
 
-In another narration the closing phrase is *وَتَمَنَّى عَلَى اللَّهِ الْمَغْفِرَةَ* — "and presumes upon God for forgiveness." That is the whole syllabus of the religion in a single sentence. Intelligence is not what you thought it was when you were a student showing off in a circle. Intelligence is to bring your own self to heel and to invest your days in what survives the grave. And foolishness — real, dangerous foolishness — is to let your appetites lead you anywhere they please, and then to say, in the soft voice we all use when we are deceiving ourselves, "God is merciful. He will forgive me."
+Our master of both worlds, the Prophet Muhammad, expresses this truth more eloquently, more clearly, and more beautifully than any of the sayings above:
 
-He is merciful. That is precisely why you cannot insult His mercy by treating it as a license.
+> الكيّس من دان نفسه و عمل لما بعد الموت، و الأحمق من اتّبع هواه وتمنّى على الله تعالى الأمانيّ
 
-Now I want to ask you something directly, because I have known you, and I know how you have spent your nights. You have stayed awake when others were sleeping. You have rehearsed your books and memorized your texts and pushed the hours into the small ones. The lamp has burned for you when it has gone out for your neighbors. Good. But for whose face have you done it?
+"The intelligent one is he who calls his own soul to account and works for what lies after death; and the fool is he who follows the desires of his soul and yet indulges vain hopes upon Allah the Exalted." In some narrations the wording adds: and hopes for Allah's forgiveness.
 
-If your intention in all of this — in the wakefulness, in the memorizing, in the sacrifice of sleep — was to gain a place in the world, a reputation, a salary, the deference of students, the satisfaction of being the one who knew the answer when others did not — then:
+My dear son, how many nights have you kept awake, rehearsing your knowledge and poring over books, denying sleep to yourself? I do not know what the motive in this was. If it was to seize some portion of this world, to draw in its worthless goods, to secure its offices, and to boast over your peers and equals, then:
 
-> فَوَيْلٌ لَكَ ثُمَّ وَيْلٌ لَكَ
->
-> "Woe unto you, and again woe unto you."
+> فَوَيْلٌ لَكَ ثُمَّ وَيْلٌ لَكَ
 
-I do not say this to wound you. I say it because the wound, taken now, is a kindness compared to the wound delayed.
+"Woe unto you, and again woe unto you."
 
-But if your intention in all of this was to plant the way of God in yourself first, and then in others — the way brought by the Prophet, may peace and blessings be upon him — if it was to lift your character and your community, to drive out from your soul the evil that lives in every soul until it is driven out — then:
+But if your aim in it was to revive the way of the Prophet (may Allah bless him and grant him peace), to refine your character, and to break the soul that commands to evil, then:
 
-> فَطُوبَى لَكَ ثُمَّ طُوبَى لَكَ
->
-> "Blessed are you, and again blessed are you."
+> فَطُوبَى لَكَ ثُمَّ طُوبَى لَكَ
 
-The same hours of study; the same loss of sleep; the same texts memorized — and yet two utterly different destinies, separated only by the small invisible thing that lives behind your eyes when you sit down to read. Intention. Always intention.
+"Blessedness be yours, and again blessedness be yours."
 
-And here, because there are nights on this road where the heart is heavier than language can carry, I want to leave you with a couplet that has often risen to my lips in the dark:
+Truly he spoke well who said in verse:
 
-> سَهَرُ الْعُيُونِ بِغَيْرِ وَجْهِكَ ضَائِعٌ
->
-> وَبُكَاؤُهُنَّ بِغَيْرِ فَقْدِكَ بَاطِلُ
->
-> "The wakefulness of the eyes, except for the sight of Your Face, is wasted.
-> And the weeping of the eyes, except in grief for losing You, is in vain."
+> سَهَرُ الْعُيُونِ لِغَيْرِ وَجْهِكَ ضَائِعٌ * وَ بُكَاؤُهُنَّ لِغَيْرِ فَقْدِكَ بَاطِلٌ
 
-Let those two lines settle in you. Stay awake — but stay awake for Him. Weep — but weep for Him. Any other vigil is a lamp burning over an empty page; any other grief is a river running into sand.
+"The wakefulness of the eyes for anything but Your Countenance is wasted, and the weeping of the eyes for the loss of anything but You is in vain."
 
-And finally, hear the tradition that gathers all of this into a single closing breath:
+My dear son, hear this prophetic tradition:
 
-> عِشْ مَا شِئْتَ فَإِنَّكَ مَيِّتٌ، وَأَحْبِبْ مَا شِئْتَ فَإِنَّكَ مُفَارِقُهُ، وَاعْمَلْ مَا شِئْتَ فَإِنَّكَ مَجْزِيٌّ بِهِ
->
-> "Live as you wish — but know you will die. Love whomever you wish — but know you will be parted from them. Do whatever you wish — but know you will be repaid for it."
+> عِشْ مَا شِئْتَ فَإِنَّكَ مَيِّتٌ، وَ أَحْبِبْ مَا شِئْتَ فَإِنَّكَ مُفَارِقُهُ؛ وَ اِعْمَلْ مَا شِئْتَ فَإِنَّكَ مَجْزِيٌّ بِهِ
 
-Three sentences. Three doors closing softly behind a life. Live — and die. Love — and lose. Act — and be answered. There is no fourth door. There is no exit at the side of the building. Every life that has ever been lived has passed through these three, and yours will pass through them too, on a date already written.
+"Live as you wish, for you shall surely die. Love what you wish, for you shall surely be parted from it. And do what you wish, for you shall surely be recompensed for it."
 
-So strive, my son. Strive as one who knows that striving alone will not carry him, and that the absence of striving will leave him stranded. Work as though the work were everything; lean as though the leaning were everything; and let the mercy of God meet you somewhere on the road between the two. That is where His mercy has always met His servants. That is where, if God wills, it will meet you.
+<!-- editorial:begin -->
+> **Editorial note (tradition-grounded).** 
+> A related teaching preserved in this same tradition warns the reader plainly: do not neglect
+> good deeds, and be firmly convinced that knowledge alone, without righteous action, will not
+> benefit you on the Day of Judgment — which is exactly the conviction the story of the
+> seventy-year worshipper dramatizes here. The wider tradition also records the assurance that
+> whoever says there is no god but Allah will enter Paradise, but with a qualification worth
+> holding beside this chapter's counsel: that it be said *with sincerity*. Read together, the two
+> cautions frame the same narrow path the chapter walks — deeds are indispensable and reward comes
+> only through striving, yet the striving must not curdle into self-regard. One acts fully, and
+> leaves off admiring the act.
+<!-- editorial:end -->
 
 ## 3. The Hours Before Dawn
 
-My beloved son, listen now to a different kind of question — one I want you to ask yourself before the sun rises tomorrow. What, in truth, have you gained for your own soul from all that you have studied? You have sat with theology and turned its arguments over in your mind. You have read ethics, and learned to name the virtues and the vices. You have looked into medicine, into the courses of the stars, into the niceties of language, into the meters of poetry, into the strategies of war. You have spent your nights bent over these books and your days speaking of them in gatherings. Tell me honestly: beyond a life that has slipped through your fingers and a name that flickers for a moment in the mouths of men, what have you truly carried away?
+My dear son, after all these years of study, what have you truly gained for yourself? Look at the sciences you have chased after: theology (*ilm al-kalam*), the science of juristic disagreement (*al-khilaf*), medicine (*al-tibb*), the registers and chronicles (*al-dawawin*), poetry (*al-ashar*), astronomy (*al-nujum*), prosody (*al-arud*), grammar (*al-nahw*), and morphology (*al-tasrif*). What has any of it given you, beyond the waste of your own life and a small measure of fame among people? I have read in the Gospel (*Injil*) of the Prophet Isa (ع) that from the moment a body is laid on the bier and carried out, until it is set down at the edge of the grave, Allah in His majesty puts forty questions to it. The first is this:
 
-I once read in the Gospel of Isa, upon whom be the peace of God, that in the interval between the placing of a corpse in its bier and the lowering of that bier into the grave, God by His own power addresses the dead body with forty questions. The very first of them is this:
+> عَبْدِي طَهَّرْتَ مَنْظَرَ الْخَلْقِ سِنِينَ وَ مَا طَهَّرْتَ مَنْظَرِي سَاعَةً
 
-> عَبْدِي، قَدْ تَطَهَّرْتَ مِنْ نَظَرِ الْخَلْقِ سِنِينَ، فَهَلْ تَطَهَّرْتَ مِنْ نَظَرِي سَاعَةً
->
-> "My slave — for years on end you beautified yourself with outward knowledge so that the eyes of My creation would look favorably upon you. But for My sake alone, did you ever purify your heart from heedlessness and from evil, even for a single hour?"
+"My servant, for years you cleansed and adorned your outward self for the eyes of My creation, yet you did not cleanse the place upon which I gaze, your heart, for even a single hour."
 
-And remember what the Messenger of God, peace and blessings be upon him, said in a sound tradition:
+My dear son, every day He looks into your heart and says:
 
-> إِنَّ اللَّهَ لَا يَنْظُرُ إِلَىٰ صُوَرِكُمْ وَأَجْسَامِكُمْ، وَلَٰكِنْ يَنْظُرُ إِلَىٰ قُلُوبِكُمْ
->
-> "God does not look at your faces or at your bodies; He looks at your hearts."
+> كُلُّ يَوْمٍ يَنْظُرُ فِي قَلْبِكَ يَقُولُ: مَا تَصْنَعُ لِغَيْرِي وَأَنْتَ مَحْفُوفٌ بِخَيْرِي
 
-So nothing matters more than the purification of the heart, because the heart is the one thing held perpetually under the gaze of God.
+"What are you doing for the sake of another, when My bounty surrounds you on every side? Yet you are deaf, and you do not hear."
 
-My dear beloved son, every single day a voice from your Lord resounds in the chamber of your heart, and the voice says:
+My dear son, knowledge without action is madness, and action without knowledge cannot stand. Know this well: the knowledge that does not keep you far from disobedience today, and does not carry you toward obedience, will not keep you far from the Fire of Hell tomorrow. If you do not act on your knowledge today, and do not make good the days that have already slipped away from you, then on the Day of Resurrection you will cry out:
 
-> عَبْدِي، مَا تَصْنَعُ بِغَيْرِي وَأَنْتَ مَحْفُوفٌ بِخَيْرِي
->
-> "My slave — why do you perform your worship for show and reputation, when both your ease and your hardship rest in My hand alone? Worship Me with a pure intention, and not to impress any of My mortal creatures, who can neither benefit you nor harm you in the smallest measure except by My will."
+> فَٱرْجِعْنَا نَعْمَلْ صَلِحًا
 
-Hear me clearly. Knowledge without action is a madness, and action without knowledge is a thing of no value. A knowledge that does not pull you back from sin today, and does not set alight within you the longing to obey your Lord, will not stand between you and the Fire tomorrow. If you do not put your hand to a righteous deed today, and do not begin to repair the years you have spent, then on the Day of Judgment you will cry out with the cry of those who have understood too late:
+"Send us back, that we may do righteous deeds!" And you will be answered:
 
-> فَارْجِعْنَا نَعْمَلْ صَالِحًا
->
-> "Send us back, our Lord, that we may do righteous deeds!"
+> يَا أَحْمَقُ أَنْتَ مِنْ هُنَاكَ تَجِيءُ
 
-And the answer will come to you:
+"O fool, it is from there that you have just come."
 
-"Heedless one — that is precisely the place you have just come from."
+My dear son, fix your resolve upon the spirit, defeat upon the lower self, and death before the body, for your dwelling place is the grave, and the people of the graves await you at every moment, watching for the hour you will reach them. Beware, and beware again, of coming to them empty-handed, with no provision. Abu Bakr al-Siddiq (رض) said:
 
-So summon some courage from within yourself. Stir this body of yours and put it onto the road of God. Spend your strength on the deeds that please Him, for you are walking, step by step, toward the grave. Those who went before you into the earth are waiting at every moment, watching the horizon to see when you will appear among them. Beware of arriving among them empty-handed, with no fruit of obedience in your arms. Abu Bakr al-Siddiq, may God be pleased with him, said:
+> هَٰذِهِ الْأَجْسَادُ قَفَصُ الطُّيُورِ أَوْ إِصْطَبْلُ الدَّوَابِّ
 
-> هَٰذِهِ الْأَجْسَادُ أَقْفَاصُ الطُّيُورِ أَوْ إِسْطَبْلَاتُ الدَّوَابِّ
->
-> "These bodies of ours are either the cages of birds or the stables of beasts."
+"These bodies are either cages for birds or stables for beasts."
 
-So consider, soberly, which of the two your body is. If you are among the birds, then when the call comes —
+Reflect, then, upon yourself: which of the two are you? If you are among the birds of the higher world, then when you hear the call sounded, «ٱرْجِعِىٓ إِلَىٰ رَبِّكِ», "Return to your Lord," you will take flight upward until you settle in the highest towers of the Gardens. So the Messenger of Allah (ع) said:
 
-> ارْجِعِي إِلَىٰ رَبِّكِ
->
-> "Return to your Lord!" —
+> اهتزّ عرش الرّحمن من موت سعد بن معاذ
 
-the cage door will open, and you will fly straight upward into the highest reaches. It was of such a soul that the Prophet, peace and blessings be upon him, said:
+"The Throne of the Most Merciful trembled at the death of Sa'd ibn Muadh."
 
-> اهْتَزَّ عَرْشُ الرَّحْمَٰنِ لِمَوْتِ سَعْدِ بْنِ مُعَاذٍ
->
-> "The Throne of the Most Merciful trembled at the death of Sa'd ibn Mu'adh."
+But Allah preserve you from being among the beasts, of whom Allah the Exalted has said:
 
-But God forbid that you should be among the beasts — those of whom the verse has been spoken:
+> أُولَئِكَ كَالْأَنْعَامِ بَلْ هُمْ أَضَلُّ
 
-> أُولَٰئِكَ كَالْأَنْعَامِ بَلْ هُمْ أَضَلُّ
->
-> "They are like cattle — nay, they are further astray than that."
+"Those are like cattle; rather, they are further astray." (al-Araf: 179)
 
-For if so, then know with certainty that you will be dragged, weighed down with your burdens, from the place of the zawiya, where you sat in the posture of a worshipper, straight into the hawiya, the deep pit of the Fire — from this world directly into the burning.
+If that is your state, then do not feel safe from being carried from the *zawiya* (زَاوِيَة), the corner of your dwelling, to the *hawiya*, the pit of the Fire, passing straight from this world into the flames. It is related that Hasan al-Basri (may Allah have mercy on him) was once handed a drink of cold water. He took the cup in his hand, and a faintness came over him so that it fell from his grasp. When he came to himself, he was asked, "What is the matter with you, O Abu Said?" He said:
 
-Shaykh Hasan al-Basri, may God envelop him in mercy, was once handed a cold, sweet drink. The moment his fingers closed around the cup he sighed from the depth of his chest and fell senseless to the ground. When he came back to himself, the people around him asked what had overtaken him. He answered:
+> ذُكِرَتْ أُمْنِيَّةُ أَهْلِ النَّارِ حِينَ يَقُولُونَ لِأَهْلِ الْجَنَّةِ: أَنْ أَفِيضُوا عَلَيْنَا مِنَ الْمَاءِ أَوْ مِمَّا رَزَقَكُمُ اللهُ
 
-> ذَكَرْتُ أُمْنِيَّةَ أَهْلِ النَّارِ حِينَ يَقُولُونَ لِأَهْلِ الْجَنَّةِ أَنْ أَفِيضُوا عَلَيْنَا مِنَ الْمَاءِ
->
-> "I remembered the cry of the people of the Fire, when they will plead with the people of the Garden to pour upon them even a little water."
+"I remembered the longing of the people of the Fire, when they will call out to the people of the Garden: Pour down upon us some water, or some of that which Allah has provided you." (al-Araf: 50)
 
-A cold drink in his hand became, in an instant, the memory of a thirst no creature should ever know.
+My dear son, if bare knowledge were enough for you, and you needed no deed beside it, then the call, «هَلْ مِنْ سَائِلٍ؟ هَلْ مِنْ مُسْتَغْفِرٍ؟ هَلْ مِنْ تَائِبٍ؟», "Is there any who asks? Is there any who seeks forgiveness? Is there any who repents?", would be a thing sent out in vain, with no purpose. But it is not so.
 
-My beloved, if knowledge alone had been enough for you, if deeds were a thing the soul could quietly do without, then why would God Himself, in the last hours before dawn, call out night after night:
+Once a group of Companions were praising Abdullah ibn Umar (رض) in the presence of the Messenger of Allah (ع), and he said:
 
-> هَلْ مِنْ تَائِبٍ، هَلْ مِنْ سَائِلٍ، هَلْ مِنْ مُسْتَغْفِرٍ
->
-> "Is there any who repents? Is there any who asks of Me? Is there any who seeks My forgiveness?"
+> نِعْمَ الرَّجُلُ هُوَ لَوْ كَانَ يُصَلِّي بِاللَّيْلِ
 
-If mere knowledge had been sufficient, this call from the Most High would be a call into emptiness. But the call is real, and it is going out to a particular kind of servant — the kind of whom He says:
+"He is an excellent man, if only he would pray in the night." And on another occasion he said to one of his Companions:
 
-> كَانُوا قَلِيلًا مِنَ اللَّيْلِ مَا يَهْجَعُونَ
->
-> "They used to sleep but little of the night" — those few servants of God who give up sleep in that last sweet portion of the night, the hour of nearness.
+> لَا تُكْثِرِ النَّوْمَ بِاللَّيْلِ فَإِنَّ كَثْرَةَ النَّوْمِ بِاللَّيْلِ يَدَعُ صَاحِبَهُ فَقِيرًا يَوْمَ الْقِيَامَةِ
 
-Once a group of the Companions was praising Abdullah ibn Umar, may God be pleased with them both, in the presence of the Messenger of God, peace and blessings be upon him. The Prophet listened and then said:
+"Do not sleep much in the night, for much sleep in the night leaves its owner destitute on the Day of Resurrection."
 
-> نِعْمَ الرَّجُلُ هُوَ لَوْ كَانَ يُصَلِّي بِاللَّيْلِ
->
-> "He is a fine man — if only he would pray at night," meaning those voluntary prayers in the final hours before the dawn, the prayers without which there is no real progress on the road to God.
+My dear son, weigh these three verses and what is placed within each of them.
 
-And on another occasion he said to one of his Companions:
-
-> لَا تُكْثِرِ النَّوْمَ بِاللَّيْلِ، فَإِنَّ كَثْرَةَ النَّوْمِ بِاللَّيْلِ تَدَعُ صَاحِبَهَا فَقِيرًا يَوْمَ الْقِيَامَةِ
->
-> "Do not sleep too much at night, for too much sleep at night leaves the one who keeps it a pauper on the Day of Resurrection" — having let the season of closeness pass him by, having missed the remembrance and the prayer and the devotion of those final, blessed hours.
-
-And God Himself addressed His Prophet directly, peace and blessings be upon him:
+The first:
 
 > وَمِنَ اللَّيْلِ فَتَهَجَّدْ بِهِ نَافِلَةً لَكَ
->
-> "And in part of the night, rise from sleep and pray it as an addition for you" — Tahajjud, the night vigil, and a benefit beyond measure to your soul.
 
-This is no suggestion. This is a command from the Lord of the worlds to His own beloved.
+"And in part of the night, keep vigil in prayer with it, as a voluntary act for you." (al-Isra: 79) In this there is a command.
 
-And of those who answer, He says with the tone of a Lord whose heart is moved by His servants:
+The second:
 
 > وَبِالْأَسْحَارِ هُمْ يَسْتَغْفِرُونَ
->
-> "And in the hours before dawn, they would seek forgiveness."
 
-This is gratitude from God toward such servants. And in another place:
+"And in the hours before dawn they would seek forgiveness." (al-Dhariyat: 18) In this there is the giving of thanks.
+
+The third:
 
 > وَالْمُسْتَغْفِرِينَ بِالْأَسْحَارِ
->
-> "And those who seek forgiveness in the hours before dawn."
 
-This is honor from God for such servants — that He should mention them by their hour.
+"And those who seek forgiveness in the hours before dawn." (Al Imran: 17) In this there is honorable mention.
 
-The Messenger of God, peace and blessings be upon him, master of this world and the next, said that there are three sounds in which the Most High takes a particular delight: the crowing of the rooster, because the rooster rouses the sleepers to the night prayer; the recitation of the Holy Qur'an; and the voices of those who in the last portion of the night beg their Lord to forgive them and turn back to Him in repentance.
+The Messenger of Allah (ع) said:
 
-Shaykh Sufyan al-Thawri, may God envelop him in mercy, one of the close friends of God, said:
+> ثَلَاثَةُ أَصْوَاتٍ يُحِبُّهَا اللَّهُ تَعَالَى: صَوْتُ الدِّيكِ، وَصَوْتُ الَّذِي يَقْرَأُ الْقُرْآنَ، وَصَوْتُ الْمُسْتَغْفِرِينَ بِالْأَسْحَارِ
 
-> إِنَّ اللَّهَ تَعَالَىٰ خَلَقَ رِيحًا تَهُبُّ وَقْتَ الْأَسْحَارِ، تَحْمِلُ الْأَذْكَارَ وَالِاسْتِغْفَارَ إِلَى الْمَلِكِ الْجَبَّارِ
->
-> "God the Exalted has created a wind that blows in the last part of the night. At that hour, the voices of those servants who are remembering Him and asking His forgiveness are gathered up by this wind and carried into the Court of the Sovereign, the Compeller."
+"There are three sounds Allah the Exalted loves: the voice of the rooster, the voice of the one who recites the Quran, and the voice of those who seek forgiveness in the hours before dawn."
 
-And Sufyan, may God be merciful to him, also said this. When the night first begins, an angel beneath the Throne of God calls out for the worshippers to rise — and those whom God has favored with tawfiq, with the gift of being enabled to obey, rise and pray. In the middle of the night a second angel calls out for the obedient and devoted servants to rise — and they rise and stand in prayer through to the time of sahr, the last sweet portion. When sahr arrives, a third angel calls out for those who seek forgiveness to rise — and they rise, and the air of the room is filled with whispered pleas for pardon. Then, just before the breaking of the day, a fourth angel cries out, and his cry is not gentle: "Heedless ones — get up! The day has broken upon you!" And those who hear him only at the last rise from their beds in the manner of the dead rising from the graves on the Day of Resurrection — startled, late, with the night already spent.
+Sufyan al-Thawri (may Allah have mercy on him) said:
 
-My beloved son, it is recorded in the last counsels of Luqman, peace be upon him, that he turned to his own son and said:
+> إِنَّ اللَّهَ تَبَارَكَ وَتَعَالَىٰ خَلَقَ رِيحًا تَهُبُّ بِالْأَسْحَارِ تَحْمِلُ الْأَذْكَارَ وَالِاسْتِغْفَارَ إِلَىٰ الْمَلِكِ الْجَبَّارِ
 
-> يَا بُنَيَّ، لَا يَكُونَنَّ الدِّيكُ أَكْيَسَ مِنْكَ، فَإِنَّهُ يُنَادِي بِالْأَسْحَارِ وَأَنْتَ نَائِمٌ
->
-> "My son — do not let the rooster turn out to be more sensible than you. He stands up in the last hours of the night and announces the time of remembrance and glorifies his Lord, while you lie buried in the deep sleep of forgetfulness and carelessness and neglect."
+"Allah, blessed and exalted, created a wind that blows in the hours before dawn, carrying the words of remembrance and the seeking of forgiveness up to the Sovereign, the Compeller."
 
-And the same truth has been put into verse by one who saw himself clearly:
+And he also said:
 
-> لَقَدْ هَتَفَتْ فِي جُنْحِ لَيْلٍ حَمَامَةٌ
-> عَلَىٰ فَنَنٍ وَهْنًا وَإِنِّي لَنَائِمُ
->
-> كَذَبْتُ وَبَيْتِ اللَّهِ لَوْ كُنْتُ عَاشِقًا
-> لَمَا سَبَقَتْنِي بِالْبُكَاءِ الْحَمَائِمُ
->
-> وَأَزْعُمُ أَنِّي هَائِمٌ ذُو صَبَابَةٍ
-> لَهُ بِي وَلَا أَبْكِي وَتَبْكِي الْبَهَائِمُ
->
-> In the deep of the night a dove on her branch called out to her Lord,
-> while I lay there, asleep.
->
-> By the House of God, I am a liar. Had I been a true lover,
-> the doves would not have outstripped me in weeping for the One I have been parted from.
->
-> Yet here I am, claiming to be a wanderer wasted by longing for Him —
-> and my eyes stay dry, while even the dumb beasts are weeping for their Maker.
+> إِذَا كَانَ أَوَّلُ اللَّيْلِ نَادَىٰ مُنَادٍ مِنْ تَحْتِ الْعَرْشِ: أَلَا لِيَقُمِ الْعَابِدُونَ. فَيَقُومُونَ وَيُصَلُّونَ مَا شَاءَ اللَّهُ. ثُمَّ يُنَادِي مُنَادٍ فِي شَطْرِ اللَّيْلِ: أَلَا لِيَقُمِ الْقَانِتُونَ. فَيَقُومُونَ وَيُصَلُّونَ إِلَى السَّحَرِ. فَإِذَا كَانَ السَّحَرُ نَادَى مُنَادٍ: أَلَا لِيَقُمِ الْمُسْتَغْفِرُونَ. فَيَقُومُونَ وَيَسْتَغْفِرُونَ. فَإِذَا طَلَعَ الْفَجْرُ نَادَى مُنَادٍ: أَلَا لِيَقُمِ الْغَافِلُونَ. فَيَقُومُونَ مِنْ فُرُشِهِمْ كَالْمَوْتَى نُشِرُوا مِنْ قُبُورِهِمْ
 
-Read those lines, my son, and then look honestly at your own pillow. Tonight, when the wind of the last hours blows, let it find something of yours to carry — a word of remembrance, a plea for pardon, a breath turned toward Him — so that the rooster does not, in the end, prove the wiser of the two of you, and the doves do not have to keep the vigil alone.
+"When the first part of the night comes, a caller cries out from beneath the Throne: Let the worshippers arise. So they arise and pray as long as Allah wills. Then, at the middle of the night, a caller cries out: Let the devout arise. So they arise and pray until the hour before dawn. When that hour arrives, a caller cries out: Let those who seek forgiveness arise. So they arise and seek forgiveness. And when dawn breaks, a caller cries out: Let the heedless arise. So they rise from their beds like the dead raised up from their graves."
+
+My dear son, it is related in the counsels of Luqman the Wise (ع) to his son that he said:
+
+> يَا بُنَيَّ، لَا يَكُونَنَّ الدِّيكُ أَكْيَسَ مِنْكَ! يُنَادِي بِالْأَسْحَارِ وَأَنْتَ نَائِمٌ
+
+"My son, do not let the rooster prove shrewder than you, calling out in the hours before dawn while you lie asleep."
+
+How well the poet spoke who said:
+
+> لَقَدْ هَتَفَتْ فِي جُنْحِ لَيْلٍ حَمَامَةٌ * على فننٍ وهناً، وإنّي لنائم
+> كذبتُ، وبيتِ الله، لو كنتُ عاشقاً * لَمَّا سَبَقَتْنِي بِالْبُكَاءِ الْحَمَائِمُ
+> وأزعم أنّي هائمٌ ذو صبابةٍ * لِرَبِّي، فَلَا أَبْكِي وَتَبْكِي الْبَهَائِمُ
+
+"In the dark of night a dove cried out upon a swaying branch, while I lay fast asleep. I have lied, by the House of Allah! Had I truly been a lover, the doves would never have outstripped me in weeping. I claim to be one distracted, consumed with yearning for my Lord, yet I do not weep, while the very beasts weep on."
 
 ## 4. Worship Is Obedience, Nothing Less
 
-My dear son, after a night like that, you may wake wondering what, exactly, all this striving is *for*. So let me speak plainly about a thing people pretend to understand but rarely do: what worship actually is, and what obedience actually is. They are one word with two faces. Worship is obedience. Obedience is worship. There is no third thing hiding between them.
+My dear beloved son! What I want here is for you to understand truly what obedience and worship are. Obedience and worship mean following the *Shariah*, the Divine Law of the Prophet Muhammad (ع) — whether its commandments call for doing righteous deeds or for holding back from evil, and whether they concern his words or his example. In short, whatever you do or do not do, whatever you say or leave unsaid, all of it must accord fully with his teaching. If you speak, speak according to his teaching. If you keep silent, keep silent according to his guidance. If you act or refrain from acting, do so in keeping with his example.
 
-Hear me carefully. Obedience and worship mean one thing: that you live in accordance with the *Shari'ah* of the Messenger of God, peace and blessings be upon him — his Law, his road, his pattern. Whatever the commandments ask of you — that you do a thing, or that you refrain from a thing; whether the guidance comes from his words or from the silent eloquence of his example — your life must conform to it. Whatever you do, whatever you leave undone, whatever you speak, whatever you keep behind your teeth: all of it lined up with him. If you speak, speak as he taught. If you fall silent, let your silence be the silence he kept. If you act, act in his manner. If you abstain, abstain as he abstained.
+Understand this well: if you do something believing it to be worship, yet you do not do it in obedience to his command, it will not count as worship at all. It will count as a sin, even when it wears the outward form of prayer or fasting. Do you not know that a person who fasts on either of the two days of Eid, or on the days of Hajj, commits a sin? It has the outward shape of fasting, but it is not done in accordance with the command, and so the one who does it is a wrongdoer. In the same way, whoever prays at a forbidden time — such as after the Asr (عَصْر) prayer before sunset, or after the Fajr (فَجْر) prayer before the sun has risen far enough — or prays upon unlawfully occupied ground, is called *athim* (أَثِيْم), a sinner, and *fasiq* (فَاسِقْ), a transgressor. Though the act resembles worship, it is not sound, because it was not done according to the guidance of the Prophet (ع). Yet when a husband and wife come together in lawful intimacy, this is no sin, however it may look to the uninformed, for it falls within his guidance and is therefore *halal*, permissible. So it is established that worship is only another name for obedience. Worship means obedience.
 
-Now hear the sharp edge of this, because most people sleep through it. If you do some act believing it to be worship, and yet you do not do it under the command of the Messenger, peace and blessings be upon him — then it is not worship at all. It is a sin wearing the costume of prayer, a transgression dressed as a fast. Don't you know that the man who fasts on the day of Eid, or on the days of Hajj, has sinned in his fasting? The shape of the act is fasting — the empty stomach, the dry mouth, the restraint from food and drink — but because it stands outside the Prophet's command, peace and blessings be upon him, the one who performs it is a wrongdoer. The form is worship; the reality is rebellion.
+In the very same way, prayer and fasting count as worship only when they are offered according to the Divine guidelines. Therefore, my dear beloved son, let all your words and all your deeds conform to the commandments of the Prophet (ع). Whatever you do and whatever you say must accord with the *Shariah*, for any knowledge or action of God's creation that falls outside the *Shariah* is plain misguidance, and it draws a human being away from the truth. This is why the Prophet (ع) abrogated all the religious dispensations that came before him.
 
-So too with prayer. If a man prays after `Asr until the sun has set, or after Fajr before the sun has climbed to its permitted height — or if he stands to pray on ground he has wrongfully seized — he is called *athim*, a sinner, and *fasiq*, a transgressor. His back bends in *ruku*, his forehead touches the earth in *sujud*, his lips shape the recitation — and still it is not correct, because it was not done as the Messenger, peace and blessings be upon him, drew the line.
+So do nothing without his guidance, and be certain of this: you cannot advance upon the Path of Allah the Exalted through accumulated knowledge alone. This Path is traveled by earnest effort and *mujahadah* (مُجَاهَدَة), the intense inner struggle and disciplined exercise of the soul. The pleasures and demands of the lower self must be cut away with the sword of *mujahadah*. These desires cannot be uprooted through immorality, nor through the deceptions of false Sufis — those who claim the station of Sufism and imitate its outward language and appearance while remaining hollow and devious within. The true Sufis are those who have attained an intimate nearness to God through the emergence of purified souls, having driven evil out of the deepest recesses of their being by genuine *mujahadah*. Allah the Exalted takes no delight in subtleties of philosophy spun amid a life engulfed in sin and darkness. A tongue that utters words of profound wisdom and beauty while the heart stays enslaved to heedlessness and the appetites of the lower self is a mark of the gravest misfortune.
 
-And turn the matter over and look at the other side. A husband and wife come together in the lawful intimacy of their marriage bed. To the ignorant gaze, what they do may look like the very stuff of appetite, the very thing the pious are supposed to flee. But because it sits inside the guidance of the Messenger, peace and blessings be upon him, it is *halal*, and it is no sin at all — and it may even be, depending on the intention, a path to reward.
+Unless you cut away the desires and inclinations of the lower self with the sword of truth and *mujahadah*, the light of *marifah* — that deep and intimate knowledge and conscious relationship with Allah — will never dawn within your heart.
 
-So it is established, settled, and beyond clever objection: worship is another name for obedience. Worship *is* obedience. Take that sentence with you.
+My dear beloved son! You have asked me about certain spiritual matters, and some of them cannot be fully set down in writing or in speech. When you reach that high station of enlightenment, you will come to know them of yourself. The lesson of love is not taught; it is born and learned from within. If you reach that state, knowing these things will be like passing from one spiritual station into another. For *Ishq* (عِشْق), intense love, is another name for love and for the fervent longing to seek the Beloved, which is *Zauq* (ذَوْق). Love and *Zauq* can be conveyed neither in speech nor in writing, and their true essence cannot be laid before another. Just as sweetness and sourness and bitterness cannot be adequately described by anyone who tries to put them into words, so it is here. Know, then, that if you arrive at this destination of high station, you will come to know all of this by yourself; but if you cannot reach it, the truth can be described to you only so far as writing and speech allow.
 
-In the same way, prayer and fasting count as worship only when they are performed along the lines the Divine guidance has drawn. Therefore, my dear son, let everything you say and everything you do conform to the commands of the Messenger of God, peace and blessings be upon him. Every action you perform, every conversation you enter, every transaction you make — measure them against the *Shari'ah*. Because any knowledge, any practice of God's creation that falls outside the *Shari'ah* is, plain and simple, misguidance. It does not lead human beings toward the truth; it leads them away from it. This is precisely why the Messenger of God, peace and blessings be upon him, was sent to abrogate every religious dispensation that came before him. He is the final pattern. There is no road around him.
+My dear beloved son! Some of your questions are of this first kind. As for those that can be answered in writing and speech, I have already addressed them in detail in my book *Ahya al-Uloom ad-Deen*, the Revival of the Knowledge of the Path to God, and in other works, which you may read. Even so, I will explain them here in a concise manner, God willing.
 
-So do nothing without his guidance — nothing at all — and be utterly certain of this: you cannot advance one step on the Path of God, Exalted is He, by the mere accumulation of knowledge. You cannot read your way to Him. You cannot collect your way to Him. This Path is walked through earnest effort and *mujahadah* — that inner war, that disciplined exercise of the soul, that ceaseless friction against the lower self. The pleasures of the *nafs* and its endless demands must be cut through with the sword of *mujahadah*. They will not yield to anything softer.
+Secondly, you have asked what is required of those who walk upon the Path of Allah the Exalted, the sincere seekers of Him. Four things are obligatory upon such a seeker.
 
-And hear me on this, because in every age there are men who try to slip past it. These desires of the lower self cannot be uprooted through licentiousness dressed up as freedom, nor through the deceptions of false Sufis — men who claim the station of Sufism, who have learned its vocabulary, who wear its patched cloak and use its phrases like passwords, while inside they are hollow, devious, and untouched. The true Sufis are something else entirely. They are those who have come into an intimate relationship with God by way of souls genuinely purified, who have rooted out evil from the deepest folds of their being through *mujahadah* that was real and not a performance. Know the difference. Your soul depends on knowing the difference.
+The first condition is that you hold a conviction and fear of Allah so firm that you never fall into innovation, *bida* (بِدْعَة), which is any matter contrary to the established principles of the Quran and the Sunnah. The Sunnah encompasses the teachings, actions, outward conduct, and inner states of the Prophet Muhammad (ع) — such as contentment, patience, gratitude, certitude in God, intimacy with Him, *marifah*, the deep and intimate knowledge and recognition of God, intense love of God, and the like.
 
-God, Exalted is He, is not charmed by the subtleties of philosophy spun out by a tongue whose owner lives drowning in sin. A tongue that says beautiful things while the heart squats in heedlessness, enslaved to its appetites — this is one of the gravest misfortunes that can befall a human being. Eloquence with a dead heart is not a gift. It is a warning.
+The second condition is that you make a true and complete repentance, *Taubatun Nasuh* (تَوْبَةٌ نَصُوح), of such a kind that you will never return to the humiliation of sins.
 
-Unless you sever the desires and inclinations of your lower self with the sword of truth and *mujahadah*, the light of *ma'rifah* — that deep, intimate, conscious knowledge of God, that direct awareness, that lived relationship with Him — will not dawn within your heart. It will not. No matter how many books are on your shelf. No matter how many teachers have signed your *ijazah*.
+The third condition is that you keep even your enemies satisfied, so that none of God's creation holds any unfulfilled claim against you.
 
-My dear son, you have asked me about several spiritual matters, and some of them are of a kind that cannot fully be set down in writing or speech. When you reach that high station of spiritual unveiling, you will come to know them yourself — directly, without intermediary. The lesson of love is not taught from outside. It is born inside you and learned from within. If you arrive there, knowing these things will be like passing from one spiritual station into the next — *mustahilat*, things that cannot be transferred by description, only entered. For *`ishq* — that intense, burning love — is itself another name for love and for the fervent thirst to seek the Beloved, what we call *dhawq*, the taste. Love and *dhawq* cannot be conveyed by speech or by writing. Their essence cannot be handed over. Just as no one who tries can really describe to you the taste of sweetness, or sourness, or bitterness — words circle the thing and never land on it — so it is here. Know, then, that if you reach that destination, you will come to know all this by yourself. And if you cannot reach it, then truth can at least be sketched, in writing and speech, to some partial degree.
+The fourth condition is that you acquire enough knowledge of the *Shariah* to be able to obey the commandments of Allah the Exalted that are obligatory upon you. You are not required to learn more of the *Shariah* than that, and of the other branches of knowledge you should learn only so much as is obligatory.
 
-My dear son, some of what you asked is of a kind that can in fact be addressed in writing and speech, and most of that I have already answered, at length, in my book *Ihya `Ulum al-Din* — the Revival of the Knowledge of the Path to God — and in other books, in detail. You may read them there. But I will also explain those matters here, in a concise form, *insha'Allah*.
+Know that it has been narrated in the traditions of the intimate friends of Allah, the saints, that Shibli (رض) said:
 
-Now, the second thing you asked: what is essential for those who walk on the Path of God, Exalted is He — the sincere seekers of Him. Let me lay it out for you, plainly.
+"I served four hundred spiritual masters and guides, and out of the four thousand traditions of the Prophet Muhammad (ع) that they narrated to me, I adopted and acted upon only one, and I left the rest aside. For when I reflected upon this single hadith, I found my salvation within it. I found in this one hadith the knowledge of all who came first and all who came last:
 
-The first condition is that you must hold the conviction of the fear of God to such a depth that you do not slip into *bid`ah* — innovation in the religion — meaning any matter that runs against the established principles of the Qur'an and the Sunnah. And by the Sunnah I mean the whole of what the Messenger of God, peace and blessings be upon him, brought us: his teachings, his actions, his outward conduct, and his inward states — his contentment, his patience, his gratitude, his certitude in God, his intimacy with Him, his *ma`rifah*, his deep recognition of Him, his intense love for Him, and the rest.
+> إِعْمَلْ لِدُنْيَاكَ بِقَدْرِ مَقَامِكَ فِيهَا، وَاعْمَلْ لِآخِرَتِكَ بِقَدْرِ بَقَائِكَ فِيهَا، وَاعْمَلْ لِلَّهِ بِقَدْرِ حَاجَتِكَ إِلَيْهِ، وَاعْمَلْ لِلنَّارِ بِقَدْرِ صَبْرِكَ عَلَيْهَا
 
-The second condition is that you make a true and complete repentance — *tawbah nasuh* — in such a way that you do not crawl back to the humiliation of sin. Not a polite repentance. Not a seasonal repentance. A repentance that closes the door behind you.
+Work for this world as much as you will live in it, and work for the life hereafter as much as you wish to live there, and work for Allah the Exalted as much as you are in need of Him, and work toward avoiding the Fire as much as you can bear its pain. "
 
-The third condition is that you keep even your enemies satisfied, so far as it is in your power — to the extent that no one among God's creation has any unfulfilled claim hanging over you. No wronged person waiting for you on the Day. No debt of speech or coin or honor left lying.
+The Prophet (ع) spoke these words to one of his companions.
 
-The fourth condition is that you acquire enough knowledge of the *Shari`ah* to follow and obey the commandments that are obligatory upon you, personally. It is not an obligation upon you to learn more of the *Shari`ah* than that. From the other branches of knowledge, learn only what is obligatory. No more. The seeking and hoarding of knowledge beyond what your own obligation demands is *fard kifayah* — a communal obligation, discharged when enough of the Muslim community attends to it; but if no one attends to it, the whole community carries the sin of that neglect. Your share, then, is what your own neck requires.
+My dear beloved son! It is plain from this hadith that you do not need a vast store of knowledge, for studying and acquiring knowledge beyond one's personal obligation is *Fard Kifayah* (فَرْضُ كِفَايَة), a communal obligation discharged once enough members of the Muslim community fulfill it; but if no one discharges it, the whole community bears the sin of that neglect. Give your closest attention to what follows, so that you may attain a high degree of certitude.
 
-You should know what has been narrated about the intimate friends of God, His saints. Shibli, may God shower His mercy upon him, said:
-
-> خَدَمْتُ أَرْبَعَ مِائَةِ شَيْخٍ وَقَرَأْتُ أَرْبَعَةَ آلَافِ حَدِيثٍ، ثُمَّ اخْتَرْتُ مِنْهَا حَدِيثًا وَاحِدًا فَعَمِلْتُ بِهِ وَخَلَّيْتُ مَا سِوَاهُ، فَإِنِّي تَأَمَّلْتُهُ فَوَجَدْتُ فِيهِ نَجَاتِي وَخَلَاصِي، وَوَجَدْتُ فِيهِ عِلْمَ الْأَوَّلِينَ وَالْآخِرِينَ، فَاكْتَفَيْتُ بِهِ.
->
-> "I served four hundred spiritual masters, and I read four thousand sayings of the Messenger of God, peace and blessings be upon him. Then I chose, out of them all, a single hadith. I acted upon that one and set the rest aside — for when I pondered it, I found within it my salvation and my deliverance, and I found within it the knowledge of the first generations and the last. So it was enough for me."
-
-And the hadith was this:
-
-> اِعْمَلْ لِدُنْيَاكَ بِقَدْرِ مُقَامِكَ فِيهَا، وَاعْمَلْ لِآخِرَتِكَ بِقَدْرِ بَقَائِكَ فِيهَا، وَاعْمَلْ لِلَّهِ بِقَدْرِ حَاجَتِكَ إِلَيْهِ، وَاعْمَلْ لِلنَّارِ بِقَدْرِ صَبْرِكَ عَلَيْهَا.
->
-> "Work for this world in proportion to how long you will stay in it. Work for the next world in proportion to how long you will remain there. Work for God in proportion to your need of Him. And work toward the Fire in proportion to how much of its pain you can bear."
-
-My dear son, look at what is laid bare in that hadith and you will see that you do not need a great heaping mountain of knowledge. Because, as I told you, the pursuit and acquisition of knowledge beyond your personal obligation is *fard kifayah* — a duty discharged on behalf of the community when enough of its people undertake it; but if no one undertakes it, then the whole community bears the sin of that neglect. So the question for *you* is not how much can be learned, but how much you must learn to obey. Beyond that, what your soul needs is not more pages — it is *`amal*, action upon what is already in your hand.
-
-Pay close attention, then, to the tradition that follows, so that your certitude may rise to a station where doubt no longer finds a perch.
+<!-- editorial:begin -->
+> **Editorial note (tradition-grounded).** 
+> A related teaching preserved in this tradition clarifies the three terms this chapter turns on.
+> *Mujahadah*, which the chapter calls the sword against the lower self, comes from a root meaning
+> to strain and exert oneself to the very limit; its inner form is precisely this disciplined
+> struggle against one's own appetites and laziness. *Sunnah*, the Prophet's established way,
+> derives from a root meaning to lay down and smooth a well-trodden course — the path he set that
+> others now follow, which is why conforming to it is presented here as the whole substance of
+> obedience. And *halal*, invoked when the chapter defends lawful intimacy, comes from a root
+> meaning to untie or loosen a knot: it is what has been loosed from prohibition, an act
+> "unknotted" and therefore permitted. Reading these roots together shows why worship, for this
+> author, is finally another name for keeping to the loosened, well-trodden way.
+<!-- editorial:end -->
 
 ## 5. Eight Lessons from Thirty-Three Years
 
-Listen, then, to a tradition that has stayed with me for years, and let it lodge in your heart as it has lodged in mine. It concerns a student and his teacher, and though it is short in its telling, it contains an entire curriculum of the soul.
+Consider now, my dear son, a story told of the seekers and disciples — those who strive to rise toward God and toward the light by cleansing the soul of every evil desire and inclination, under a master who has himself reached that purity and that high station before Allah through the training, guidance, and nearness of his own teacher. Among the disciples of Shaykh Shafeeq al-Balkhi was one such seeker, Hatim bin Ism, who through Shaykh Shafeeq's training and guidance later became a great master in his own right. One day Shaykh Shafeeq said to him:
 
-Among the disciples of Shaykh Shafiq al-Balkhi, upon whom be the mercy of God, was a young man named Hatim ibn Isam, who later himself became a master of the inward path through the long, patient training of that same Shaykh. You should understand what a disciple is among such people: he is one who seeks elevation and enlightenment through the purification of the soul from every base desire and tendency, and who undertakes that purification under the guidance of a master who has himself already arrived at that station through the training, the nearness, and the discipline of yet another guide before him. This is a chain, my son — a chain of living transmission, not of books.
+"O Hatim! How long have you kept my company, close at my side, listening to what I have taught?"
 
-One day Shaykh Shafiq turned to Hatim and asked him, "Hatim, how long have you been in my company — how long have you been close to me, listening to what I teach?"
+Hatim replied: "Thirty-three years."
 
-Hatim answered, "Thirty-three years."
+Shaykh Shafeeq asked: "In all that long time, what benefit have you drawn from me?"
 
-The Shaykh said, "And in all that time, what benefit have you taken from me?"
+Hatim answered: "I have gained eight benefits from you."
 
-Hatim replied, "I have taken eight benefits from you."
+At this Shaykh Shafeeq said: "To Allah we belong, and to Him we shall return." Then he said: "O Hatim! I have spent my whole life teaching and training, and you have gained only eight benefits from me?"
 
-When the Shaykh heard this, he said softly:
+Hatim replied: "O my teacher! If you ask me for the truth, then the truth is exactly as I have said. I need nothing more, for these eight benefits of knowledge are enough for me, and I am certain that through them I will attain salvation and success in this life and in the next."
 
-> إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ
->
-> "To God we belong, and to Him is our return."
+Shaykh Shafeeq said: "Very well. Tell me, then — what are those eight benefits?"
 
-— the verse the believer recites in the hour of loss and grief. Then he said, "Hatim, I have spent my whole life in teaching and training, and you have taken only eight benefits from me?"
+These, then, are the benefits as Hatim bin Ism (رض) related them.
 
-Hatim answered him, "My teacher, if you ask me for the truth, then the truth is exactly what I have said. I need nothing more. These eight benefits of knowledge are entirely sufficient for me, for I am certain that through them I shall attain salvation and success in this life and in the life to come."
+"O my teacher! The first benefit is this. I looked at the people of this world and saw that every one of them has a beloved. Yet the beloveds of worldly people are such that some go with their lovers only until the illness that brings on death, some until death itself, and some only as far as the edge of the grave. Once the burial is done, they all turn back and leave; not one of them goes down into the grave to keep the dead company in its darkness, its loneliness, its narrowness, and its terror. I thought about this and said to myself: the only true beloved is one that goes down with a person into the grave, that stays there beside him, that keeps him company, that lights up the grave, and that remains his companion on the Day of Judgment and through every station he passes after burial until that Day. And I saw that the only beloved with these qualities is a person's own righteous deeds. Once I understood this and resolved upon it, I took my righteous deeds for my beloved, so that they will go down with me into my grave when I die, will keep me company there, will become a shining lamp within my grave, will be my companion through every stage of the life to come, and will never part from me."
 
-The Shaykh said, "Very well. Tell me, then — what are these eight?"
+Shaykh Shafeeq said: "Well done, O Hatim! You have said a most excellent thing. Now tell me the second benefit."
 
-And Hatim began.
+"O my teacher! The second benefit is this. I glanced at the people of the world and saw that everyone chases the pleasures and cravings of the Nafs, the lower self that urges toward evil, and that everyone is a slave to its desires. Seeing this, I reflected on this holy verse:
 
-"My teacher, the first benefit is this. I looked at the people of this world and I saw that every one of them has a beloved. But these beloveds are of a particular kind: some accompany their lover only until the illness that brings death; some go with him as far as the moment of death itself; and some walk with him only as far as the lip of the grave. After the burial, all of them turn around and return. Not one of them descends into the grave to dwell with the dead, to keep him company in that darkness, to share with him that solitude, that narrowness, that terror. I sat with this for a long time, and I said to myself: the only true beloved is the one who goes down into the grave with you — who dwells with you there, who offers you his company, who lights the grave like a candle, who walks with you as a partner on the Day of Judgment and through every station you must cross after burial until that Day. And when I looked for such a beloved, I found that he is only one: a person's own righteous deeds. So I made my righteous deeds my beloved, so that they would go down with me into my grave when I die, so that they would keep me company there, so that they would burn for me as a lit candle within that earth, so that they would be my partner through every stage of the world to come, and so that they would never, ever leave my side."
+> وَأَمَّا مَنْ خَافَ مَقَامَ رَبِّهِ وَنَهَى النَّفْسَ عَنِ الْهَوَى * فَإِنَّ الْجَنَّةَ هِيَ الْمَأْوَى
 
-Shaykh Shafiq said, "Bravo, Hatim. You have spoken excellently. Now the second."
+"But as for the one who has stood in awe of his Sustainer's Presence and restrained his inner self from base and evil desires, Paradise will be the place of rest." (Quran, Chapter 79, Verses 40 to 41)
 
-"My teacher, the second benefit is this. I looked again at the people of the world and I saw that every one of them was running after the pleasures and the desires of the *nafs* — that lower self which incites a man to evil — and that every one of them was utterly subservient to whatever it demanded. And as I watched this, I called to mind the noble verse of the Qur'an:
+"I became certain that the Wise Quran is true and that the Book of Allah is the truth. So I set myself firmly against my Nafs and resolved to oppose it. I disciplined it so thoroughly that I refused to satisfy any of its cravings, until at last it found its peace and its contentment in the worship of Allah, the Exalted."
 
-> وَأَمَّا مَنْ خَافَ مَقَامَ رَبِّهِ وَنَهَى النَّفْسَ عَنِ الْهَوَىٰ ۝ فَإِنَّ الْجَنَّةَ هِيَ الْمَأْوَىٰ
->
-> "But as for the one who has stood in awe of his Lord's presence and restrained his self from base desire — surely Paradise is the place of rest." (Qur'an 79:40–41)
+Shaykh Shafeeq said: "May Allah, the Exalted, bless you in your good deeds. Now tell me the third benefit."
 
-And in that moment certitude descended on me: the Wise Qur'an is correct, and the Book of God is truth. So I took my stand against my *nafs*. I resolved to oppose it. I disciplined it so completely, refusing it any desire it asked for, that at last it gave up its rebellion and began to find its peace and its satisfaction in the worship of God, the Exalted."
+"O my teacher! The third benefit is this. When I looked at the people, I saw that every one of them, through great pain and hard labor, was busy heaping up the goods of this passing world — its money, wealth, and possessions — and rejoiced greatly at having gathered so much of it. But then I reflected on this holy verse of the generous Quran:
 
-The Shaykh said, "May God, the Exalted, place His blessing in your good deeds. Now the third."
+> مَا عِنْدَكُمْ يَنْفَدُ وَمَا عِنْدَ اللهِ بَاقٍ
 
-"My teacher, the third benefit is this. When I looked at the people, I saw that every one of them was busy — through great pain and hard labor — accumulating the possessions of this perishing world: money, property, goods. And the more they amassed, the more pleased they became with themselves. But I contemplated this generous verse:
+"All that is with you is bound to come to an end, whereas all that is with Allah is everlasting." (Quran, Chapter 16, Verse 96)
 
-> مَا عِنْدَكُمْ يَنْفَدُ ۖ وَمَا عِنْدَ اللَّهِ بَاقٍ
->
-> "All that is with you is bound to come to an end, but all that is with God endures forever." (Qur'an 16:96)
+"So whatever material goods I had gathered in this world, I spent entirely in the Way of Allah, distributing them among the pious poor and the needy, so that they would be laid up with Allah, the Exalted, as my trust, and would become a source of immense good and of ransom — that is, of salvation — in the life to come."
 
-So whatever I had accumulated of the things of this world, I spent it all in the way of God by distributing it among the pious poor and the needy — so that those possessions would be set down as a deposit with God, the Exalted, held in trust for me, and so that they would become an immense good and a ransom — that is, a deliverance — for me in the life to come."
+Shaykh Shafeeq said: "O Hatim! May Allah reward you for your spending in His Way. You have said an excellent thing and done an excellent thing. Now tell me the fourth benefit."
 
-The Shaykh said, "Hatim, may God reward you for what you have spent in His way. You have spoken well and you have acted well. Now the fourth."
+"O my teacher! The fourth benefit is this. I looked at the people of the world and saw that some of them imagine greatness and honor to lie in belonging to a large and powerful nation or tribe, and so they take pride in their tribe. Others imagine that greatness comes from an abundance of wealth, possessions, family, and kin, and so they boast of their riches and their children. Others reckon their greatness and honor to lie in violence — in beating, killing, murder, and plunder — and take pride in that. And others hold that their greatness lies in lavish spending, counting such extravagance a badge of honor and boasting of it. But I reflected on this verse, in which Allah, the Exalted, says:
 
-"My teacher, the fourth benefit is this. I looked at the people of the world and I saw that they differ wildly in where they locate honor and greatness. Some believe that grandeur belongs to the nation or tribe that is large and powerful, and so they take pride in their tribe. Some believe it belongs to the man of abundant wealth, possessions, family, and dependents, and so they boast of their riches and their children. Some believe it is found in the display of rage — in striking, killing, slaughter, and plunder — and they boast of that. And some believe it lies in extravagant spending, and they hold up such waste as a source of distinction and pride. But I reflected on the verse in which God, the Exalted, says:
+> إِنَّ أَكْرَمَكُمْ عِنْدَ اللهِ أَتْقَاكُمْ
 
-> إِنَّ أَكْرَمَكُمْ عِنْدَ اللَّهِ أَتْقَاكُمْ
->
-> "Truly, the most noble of you in the sight of God is the most God-conscious among you." (Qur'an 49:13)
+"Verily, the noblest of you in the sight of Allah is the one most deeply conscious of Him, most in awe and fear of Him." (Quran, Chapter 49, Verse 13)
 
-This alone is correct. This alone is the truth. Everything else that the people of the world believe is a hollow conjecture and nothing more. So I adopted *taqwa* — that reverent consciousness, awe, and fear of God — that I might be counted among those of the highest rank in His sight."
+"This alone is correct; this alone is the truth. The notions of the people of the world are false guesses and nothing more. So I chose Taqwa (تَقْوَى) — that reverent consciousness, awe, and fear of Allah — so that I might be counted among those of the highest rank in the sight of Allah, the Exalted."
 
-The Shaykh said, "Hatim, may God be pleased with you. You have spoken excellently. Now the fifth."
+Shaykh Shafeeq said: "O Hatim! May Allah be pleased with you. You have said a most excellent thing. Now tell me the fifth benefit."
 
-"My teacher, the fifth benefit is this. I looked at the people and I saw them locked in complaint against one another. And when I traced the cause of these complaints, I found that the root was envy, jealousy, and enmity — and that all of those, in turn, sprang from competition: competition over greatness, over rank, over possessions, over wealth, even over knowledge. Then I contemplated this verse from the Holy Qur'an:
+"O my teacher! The fifth benefit is this. I looked at people finding fault with one another and speaking ill of one another. I found that they did so out of envy, jealousy, and enmity, and that the root of it all was rivalry over greatness, grandeur, possessions, wealth, and knowledge. So I reflected on this verse of the Holy Quran:
 
 > نَحْنُ قَسَمْنَا بَيْنَهُمْ مَعِيشَتَهُمْ فِي الْحَيَاةِ الدُّنْيَا
->
-> "It is We who have distributed their means of livelihood among them in the life of this world." (Qur'an 43:32)
 
-And I reflected: God, the Blessed and Exalted, has already apportioned every possession and every rank from the very beginning of creation — and no creature has any voice or control in the matter. So I ceased to compete with anyone. I ceased to harbor jealousy toward anyone. I rested content with God's distribution of the bounties of this world and with what He has appointed for me, and I made my peace with the whole of creation by laying down every envy and every enmity I had ever held against any creature of God."
+"It is We who apportion among them their means of livelihood, their sustenance, in the life of this world." (Quran, Chapter 43, Verse 32)
 
-The Shaykh said, "Hatim, you have spoken the truth and you are doing what is right. Now the sixth."
+"I saw then that Allah, the Blessed and Exalted, has fixed all possessions and all ranks from the very beginning of creation, and that no one has any hand or say in the matter. So I stopped competing with anyone or envying anyone, and I rested content with Allah's apportioning of worldly bounty and with His decree, living at peace with all of creation by giving up every jealousy and enmity toward His creatures."
 
-"My teacher, the sixth benefit is this. When I looked at the people, I saw that every one of them carried enmity in his heart toward someone else for one reason or another. Then I reflected on this verse:
+Shaykh Shafeeq said: "O Hatim! You speak the truth and you do what is right. Now tell me the sixth benefit."
+
+"O my teacher! The sixth benefit is this. When I looked at people, I saw that every one of them holds enmity toward some other for one reason or another. Then I reflected on this verse:
 
 > إِنَّ الشَّيْطَانَ لَكُمْ عَدُوٌّ فَاتَّخِذُوهُ عَدُوًّا
->
-> "Truly, Satan is your enemy — so treat him as your enemy." (Qur'an 35:6)
 
-And certitude entered me: God's words are the truth, and I am to hold no enmity toward any human being. From that day forward, I took Satan alone as my enemy. I refused to obey any prompting of his. Instead I cultivated obedience to God, I followed His commandments, and I gave myself entirely to His worship and His service. This is the right way — the *sirat al-mustaqim*, the straight road in which there is no crookedness — just as God Himself, the Exalted, has declared:
+"Verily, Shaytan is your enemy, so treat him as your enemy." (Quran, Chapter 35, Verse 6)
 
-> أَلَمْ أَعْهَدْ إِلَيْكُمْ يَا بَنِي آدَمَ أَنْ لَا تَعْبُدُوا الشَّيْطَانَ ۖ إِنَّهُ لَكُمْ عَدُوٌّ مُبِينٌ ۝ وَأَنِ اعْبُدُونِي ۚ هَٰذَا صِرَاطٌ مُسْتَقِيمٌ
->
-> "Did I not make this covenant with you, O Children of Adam — that you should not worship Satan, for he is your open and avowed enemy — and that you should worship Me alone? This is the straight road." (Qur'an 36:60–61)"
+"After that I became certain that the words of Allah are the truth, and that I should hold no enmity toward any person. From that time on I took Shaytan alone for my enemy and refused to obey any of his promptings. Instead I cultivated obedience to Allah, followed the commandments of Allah, the Exalted, and gave myself wholly to His worship and service."
 
-The Shaykh said, "Hatim, you have done well and you have spoken well. Now the seventh."
+Shaykh Shafeeq said: "O Hatim! You have done an excellent thing and said an excellent thing. Now tell me the seventh benefit."
 
-"My teacher, the seventh benefit is this. I looked at the people and I saw every one of them consumed by his livelihood and the search for his daily bread, pouring all his strength into that pursuit. And in the race, many of them no longer trouble themselves to distinguish between what is *halal* — permitted — and what is *haram* — forbidden; they debase themselves by seeking out earnings that are doubtful or outright unlawful. Then I reflected on this verse:
+"O my teacher! The seventh benefit is this. I looked at people and saw that every one of them is consumed by the search for livelihood and sustenance, wearing himself out in that pursuit. In this race many no longer tell apart the Halal, what is permitted, from the Haram, what is forbidden, and they debase themselves by chasing after doubtful and forbidden earnings. Then I reflected on this verse:
 
-> وَمَا مِنْ دَابَّةٍ فِي الْأَرْضِ إِلَّا عَلَى اللَّهِ رِزْقُهَا
->
-> "There is no creature that walks the earth whose sustenance is not the responsibility of God." (Qur'an 11:6)
+> وَمَا مِنْ دَابَّةٍ فِي الْأَرْضِ إِلَّا عَلَى اللهِ رِزْقُهَا
 
-And certitude descended on me: the Wise Qur'an is true and correct — and I, too, am one of those creatures of God walking upon the earth. So I gave myself to the worship of God and held firm to the certainty that He would bring my sustenance to me, since He Himself has promised to provide it."
+"And there is no creature that moves upon the earth whose sustenance is not the responsibility of Allah." (Quran, Chapter 11, Verse 6)
 
-The Shaykh said, "You have done well and you have spoken well. Now the eighth."
+"I became certain that the Wise Quran is true and correct, and that I too am one of those moving creatures of God upon the earth. So I gave myself to the worship of Allah and held firmly to the certainty that He would bring my sustenance to me, for He has promised to provide it."
 
-"My teacher, the eighth benefit is this. When I looked at the people, I found that every one of them rests his reliance and his trust on something or someone — some place their trust in their possessions, some lean on other people. Then I pondered this holy verse in which God, the Blessed and Exalted, says:
+Shaykh Shafeeq said: "You have done an excellent thing and said an excellent thing. Now tell me the eighth benefit."
 
-> وَمَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ
->
-> "And whoever places his trust in God — He is enough for him." (Qur'an 65:3)
+"O my teacher! The eighth benefit is this. When I looked at people, I found that everyone's reliance and trust rests upon something or someone: some place their trust in their possessions, and some lean upon other people. Then I pondered this holy verse, in which Allah, the Blessed and Exalted, says:
 
-And I remembered too the words:
+> وَمَنْ يَتَوَكَّلْ عَلَى اللهِ فَهُوَ حَسْبُهُ إِنَّ اللهَ بَالِغُ أَمْرِهِ قَدْ جَعَلَ اللهُ لِكُلِّ شَيْءٍ قَدْرًا
 
-> وَهُوَ حَسْبِي وَنِعْمَ الْوَكِيلُ
->
-> "He is enough for me, and what an excellent Guardian He is."
+"And whoever places his trust in Allah, He alone is sufficient for him. Verily, Allah brings His command to pass; indeed, Allah has set a measure for all things." (Quran, Chapter 65, Verse 3)
 
-So I adopted complete reliance upon God in every matter, large and small."
+"So I placed my trust in Allah, and He is sufficient for me, فَهُوَ حَسْبِي وَنِعْمَ الْوَكِيلُ, He is sufficient for me and the best of trustees. From then on I gave myself over to complete reliance upon Allah in every matter."
 
-When Shaykh Shafiq al-Balkhi, upon whom be the mercy of God, had heard these eight, he said: "Hatim — may God grant you His *tawfiq*, that is, may He enable you to perform righteous deeds and to walk firmly upon His path. You have spoken most excellent things. I have seen in the Torah, in the Gospel of Jesus, in the Psalms of David, and in that praiseworthy criterion between right and wrong — the Holy Qur'an — that all four of these Books of God speak of these very same eight benefits. Whoever acts upon these eight principles is as one who has acted upon all four of God's Books."
-
-Now hold this story still in your mind for a moment, my son, and look at it honestly. A man sat at the feet of his master for thirty-three years and walked away with eight sentences. But those eight sentences had become his life — they had passed from his ear into his heart, and from his heart into his limbs. This is what knowledge looks like when it has been lived. A thousand pages read and unobserved are lighter on the Day of Judgment than one verse made flesh in a single action. So choose, from these eight, the one that strikes nearest your own condition — and begin there, today, before the night closes around you.
+When Shaykh Shafeeq heard these eight benefits, he said: "O Hatim! May Allah grant you His Tawfeeq (اَلتَّوْفِيق) — that is, may He enable you to do righteous deeds and to walk firmly upon His Path. You have conveyed most excellent things. I have looked into the Tawrat, the Injil, the Zabur, and the praiseworthy Criterion between right and wrong, the Holy Quran, and I have found that all four of these Books of God turn upon these very eight benefits. Whoever acts upon these eight principles is as one who has acted upon all four holy Books."
 
 ## 6. Finding a True Guide
 
-You now know, from the traditions I have placed before you, that you do not need a great quantity of knowledge. A few sayings, lived, will carry you further than libraries skimmed. So let me return to where I was leading you, and describe the inward conditions required of anyone who sets out, in earnest, on the Path of God.
+My dear beloved son, you now know from these traditions that you have no need of a great store of knowledge. Let me return, then, to my explanation and set out for you the inward conditions required of the student who seeks the Path of God.
 
-The fifth condition, binding upon every seeker of the Path of Allah the Exalted, is that you must have a *Shaykh al-Kamil* — a perfected spiritual guide — who walks ahead of you, reaches into the soil of your soul, pulls out what is choking it, and plants in its place what is noble. Think of a farmer with his crop. When he sees weeds rising among the grain he does not leave them to flourish; he stoops, takes them out by the root, throws them aside, and then waters what remains so that it grows clean and strong. The training of a soul is no different. At every stage of the journey, the traveler on the Path of Allah has no other remedy, no other cure, no other way through — except by the hand of a *Murshid al-Kamil*, a true and perfected guide. For Allah the Exalted sent Prophet Muhammad, peace and blessings be upon him, to His servants precisely so that he might be an illuminated guide upon the Way of Allah and lead people onto it. And when the Messenger of Allah, peace and blessings be upon him, departed this world, he left behind his deputies and successors in his place, so that they would stand as living proofs of the Way of Allah the Exalted, until the Day of Judgment.
+The fifth condition binding upon the seeker on the Path of Allah, the Exalted, is that he must have a Shaykh al-Kamil (شَيْخُ الْكَامِل), a perfected spiritual guide, who leads him, draws the evil qualities and habits out of him, and sets noble ones in their place. This spiritual training is like the work of a farmer tending his crop. When he sees useless weeds that have sprung up among the grain, he pulls them out and throws them away, and then he waters the crop and feeds it so that it grows well and ripens to good quality. In the same way, at every stage of the journey the traveler on the Path of Allah has no remedy and no solution except through a Murshid al-Kamil (مُرْشِد اَلْكَامِل), a true and perfected spiritual guide. For Allah, the Exalted, sent the Prophet Muhammad (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) to His servants so that he might be an illumined guide upon the Way of Allah and bring the people to that Way. When the Messenger of Allah (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) departed from this world, he appointed his deputies and successors in his place, so that they might stand as proofs of the Way of Allah, the Exalted, until the Day of Judgment.
 
-So you must have a perfected guide — a *Shaykh al-Kamil* — who, for the sake of this very walking, stands as an illuminated proof and deputy of Prophet Muhammad, peace and blessings be upon him.
+The seeker of God, therefore, must have a perfected spiritual guide, a Shaykh al-Kamil, who, for the sake of walking the Path of Allah, stands as an illumined proof and deputy of the Prophet Muhammad (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ).
 
-Now hear me carefully on *what* such a guide must be, for here many are deceived, and the deceit costs souls.
+The heir of the Messenger of Allah (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ) whom one takes as his Shaykh must be a scholar, yet not every scholar is fit to be a Shaykh al-Kamil. For this work of guiding people spiritually, purifying their souls, and helping them advance upon the Way of Allah, only a person who possesses certain particular qualities is truly qualified. I set down some of these qualities briefly here, so that no foolish or misguided person may falsely claim to be a Shaykh. Such impostors are many, and their only aim is to deceive people for material gain, doing great harm to this vital dimension of Islam and leading many astray.
 
-The one who is heir to the Messenger of Allah, peace and blessings be upon him, and whom you take as your Shaykh, must be a scholar — but understand at once that not every scholar is a *Shaykh al-Kamil*. The work itself — guiding people inwardly, purifying their souls, drawing them forward on the Way of Allah — can only be carried by a person who possesses certain definite qualities. I will name some of these qualities briefly, so that no foolish or misguided man may put on the cloak and claim what is not his. Such impostors are many, my son. Their purpose is to harvest people for worldly gain, and the damage they do to this most delicate dimension of Islam is immense; many souls have been led astray by their hands.
+I say that a man is fit to be a Shaykh only when, having turned away from love of the world, love of honor, and love of worldly rank, he has taken Baya (اَلْبَيْعَة), a solemn covenant with Allah made upon the hand of a Shaykh, pledging to turn away from evil inwardly and outwardly, to excel upon the Path of God by obeying His commandments and keeping away from His prohibitions, and to strive to purify the soul in pursuit of God's nearness and approval, with a perfected spiritual guide, who in his turn has taken Baya with his own perfected spiritual guide, and so on, so that this spiritual chain reaches all the way back to the Messenger of Allah (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ). Such a man must have passed through every manner of Riazat (اَلرِّيَاضَة) and Mujahada (الْمُجَاهَدَة), spiritual struggles and disciplines, and must have obeyed every commandment of the Prophet Muhammad (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ). He must eat little, sleep little, and pray abundantly, performing the five obligatory daily prayers as well as the supererogatory prayers; he must fast often and give generously in charity and in the Way of God. Within his character, inward and outward alike, there must dwell every praiseworthy quality: patience, gratitude, certitude in Allah, generosity, contentment, trustworthiness, tolerance, seriousness of purpose, humility, obedience to Allah, truthfulness, modesty and reserve, dignity, tranquility, and all virtues of their kind. He must have received a light from among the lights of the Messenger of Allah (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ), so that every evil quality, miserliness, jealousy, enmity, worldly expectation, anger, and rebellion, has been purged from within him; and he must rely upon no one for knowledge except for the knowledge we receive from the Messenger of Allah (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ).
 
-Hear, then, who alone is fit to be a Shaykh. He is one who has turned his face away from love of the world, love of honor, and love of worldly rank, and who has taken *Bay'a* — a solemn covenant with Allah, sworn upon the hand of his Shaykh, pledging to turn away from evil inwardly and outwardly, to excel on the Path of God by obeying His commandments, by keeping clear of His prohibitions, and by striving to purify his soul in pursuit of God's nearness and approval — with a perfected guide, who in turn has taken *Bay'a* with his own perfected guide, and so on, link by link, until the chain reaches back unbroken to the Messenger of Allah, peace and blessings be upon him. Such a man must himself have passed through every kind of *Riyada* and *Mujahada* — the spiritual exertions and disciplines that scour the soul — and must have obeyed every commandment of the Prophet Muhammad, peace and blessings be upon him. He must eat little. He must sleep little. He must pray abundantly — the five obligatory prayers and the supererogatory prayers besides. He must fast often. He must give generously, in charity and in the Way of God. Within him, both in what is hidden and in what is visible, every praiseworthy character should have taken up residence: patience, gratitude, certitude in Allah, generosity, contentment, trustworthiness, tolerance, seriousness of purpose, humility, obedience to Allah, truthfulness, modesty and reserve, dignity, tranquility, and every virtue of that family. He should have received a light from among the lights of the Messenger of Allah, peace and blessings be upon him, so that every evil quality — miserliness, jealousy, enmity, worldly expectation, anger, rebellion — has been burned out of him. And he must rely on no source of knowledge except what we have received from the Messenger of Allah, peace and blessings be upon him.
+These qualities, which are among the marks that distinguish the perfected spiritual guides who lead others upon the Path of God, are what make a man worthy to be a deputy and heir of the Messenger of Allah (صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ). To follow such guides is the correct way.
 
-These qualities, my son — the marks by which perfected guides are known — are what make a man fit to be a deputy and heir of the Messenger of Allah, peace and blessings be upon him. To follow such a one is the correct way.
+Such spiritual guides are exceedingly hard to find. But if a man has been granted this wealth and blessing, so that he has found such a guide and the guide has admitted him among his disciples, his Mureeds, then that disciple must keep both outward and inward respect, honor, and proper etiquette toward his spiritual guide.
 
-I will tell you the truth: such guides are exceedingly hard to find. But if you have been granted this wealth, this blessing — that you have found such a guide, and that he has accepted you among his disciples, his *Murids* — then it becomes binding upon you to maintain, in everything outward and everything inward, respect, honor, and proper etiquette toward him.
+The outward etiquettes toward one's spiritual guide are these. The disciple should not argue with the guide, and if a dispute arises and the disciple imagines that the guide has overlooked something, he should not raise an objection. He should not remain at the place of prayer at all times; rather, when the time for prayer arrives, he should go to the place of prayer, perform the prayer, then roll up his prayer mat and leave. He should not perform lengthy supererogatory prayers before the Shaykh after each obligatory prayer. Whatever the perfected guide commands, the disciple should obey to the best of his ability. And it is of the greatest importance to understand that a true spiritual guide can never and will never command his disciple to do anything forbidden by the Shariah, the law of Allah. The false impostors, who lack the qualities I have named, may by contrast command their disciples to do things that are Haram.
 
-Hear first the outward etiquettes. Do not argue with your guide. If a dispute begins to rise in you, and you think he has overlooked something, do not raise an objection. Do not station yourself at the place of prayer at all hours; rather, when the time of prayer comes, go to the place, pray, roll up your mat, and leave. Do not perform long supererogatory prayers in front of the Shaykh after each obligatory one. Whatever the perfected guide commands you, obey to the best of your strength. And know this — fix it firmly in your understanding — a true spiritual guide cannot and will not command a disciple to do anything that the *Shari'a*, the law of Allah, has forbidden. It is only the false impostor, the one who lacks the qualities I have described, who will command his disciples to what is *haram*.
+The inward etiquettes toward one's spiritual guide are these. Whatever the disciple hears outwardly from the Murshid, he should not entertain even the least doubt in his heart concerning the Shaykh's words or deeds, lest he be counted among the hypocrites. And if he cannot maintain this inner sincerity, then he should withdraw from the company of his spiritual guide until his inward state comes into harmony with his outward.
 
-Hear now the inward etiquettes. Whatever you hear outwardly from your *Murshid*, do not entertain even the faintest doubt in your heart about his words or his deeds — for if you do, you will be counted among the hypocrites. And if you find that you cannot sustain this inward sincerity, then withdraw from his company until the inside of you comes back into agreement with the outside of you. Better an honest distance than a deceitful nearness.
+The sixth condition is that the disciple, the seeker of truth, guards himself against the deceptions of the Nafs, the lower self, an inward and subtle presence invisible to the outward eye yet plainly perceived by one who possesses inner sight, which commands a man to evil by whispering into his heart. This is possible only if the seeker abandons the gatherings of the ill-charactered and the ignorant. In this way the dominion of Shaytan over the heart is brought to an end, and every Satanic influence is uprooted entirely. This Satanic company may come from among mankind or from among the Jinn, an unseen creation of God made of fire, to whose kind Shaytan belongs and from among whom he recruits his followers.
 
-The sixth condition is that you, the seeker of truth, guard yourself against the deceptions of the *Nafs* — the lower self. It is an inward presence, subtle, hidden from the outward eye, yet plainly seen by one who has been given inner sight. It whispers into the heart and commands you to evil. You can only do this — guard against it — if you abandon the gatherings of those who are ill in character and those who are ignorant. Cut yourself loose from their company. Only then will Shaytan's grip on your heart weaken, and every satanic influence be torn out by the root. And know that this satanic company may come to you from among human beings or from among the *Jinn* — that invisible creation of God formed from fire, the kind from which Shaytan himself comes and from which he gathers his followers.
+The seventh condition is that in every circumstance the seeker should prefer humility and freedom from greed over wealth, and should embrace contentment and satisfaction with the Will of Allah. These seven conditions are essential for every traveler upon the Path of Allah, the Exalted, and for every seeker of truth.
 
-The seventh condition is that, in every condition and at every turn, you prefer humility and freedom from greed over wealth, and that you wrap yourself in contentment, accepting the will of Allah as it comes.
-
-These seven conditions, my son, are essential — for every traveler on the Path of Allah the Exalted, and for every seeker of truth.
+<!-- editorial:begin -->
+> **Editorial note (tradition-grounded).** 
+> The word Shaykh, as the wider tradition traces its root, begins simply as "old man" — one who
+> has grown old and become an elder — and ripens into "master," the one whose years have matured
+> into authority worth following. This chapter's insistence that not every scholar is fit to be a
+> Shaykh al-Kamil turns on exactly that ripening: age or learning alone does not make the master,
+> but a life purified until it carries authority a seeker can safely follow. The same tradition
+> marks the boundary the true guide never crosses. The term Haram joins two ideas under one limit
+> — to forbid, and to make sacred — so that what is Haram lies across a line drawn around
+> something sacred. This clarifies the chapter's test: a perfected guide will never command what
+> is Haram, because he never asks the disciple to step over a boundary God has set as holy.
+<!-- editorial:end -->
 
 ## 7. Sufism, Servitude, Trust, Sincerity
 
-You have asked me, my son, what Tasawwuf truly is — and I will tell you plainly, for the word has been used and misused until its meaning is almost lost. Tasawwuf rests on two qualities, and a person who lacks either of them has no right to the name, no matter what robe he wears or what circle he sits in. The first quality is that the servant be obedient to Allah — and by this I mean acting in accordance with the Shari'ah, the outward law of Islam, in all that it commands, all that it obliges, and all that it forbids. The second is that the seeker be compassionate toward every creature Allah has made, a doer of good to all of them — and this is impossible until you have first purified your soul of every evil quality clinging to it, and then adorned it with every noble one in their place. The one who perseveres in living the Shari'ah, and who sincerely desires the betterment and the true success of every human being, is rightly called a Sufi. That is the correct application of the word — and I say this against the distorted usages that have spread in our time, where the name is claimed by those who have abandoned both halves of what it means.
+You have asked me what Tasawwuf (تَصَوُّف) is. Know that Tasawwuf rests upon two qualities. The first is that the servant obeys Allah, living by the Shariah — the outward law of Islam, with its obligations, its commands, and its prohibitions. The second is that the seeker is compassionate toward all of Allah's creation and does them good, and this is not possible until he has first cleansed his soul of every base quality and then adorned it with every noble one. Whoever holds fast to the Shariah and truly wants the good and the welfare of all people is rightly called a Sufi — and this is what the word really means, unlike the corrupted senses in which it is so often used today. To be loyal and obedient to Allah is to give up your own share of happiness for the sake of His command. To be sincere toward all people is this: that you do not drag others toward what you want, but bring yourself toward what they want, so long as they do not transgress the Shariah. So the seeker keeps no bond for a private end of his own, but serves selflessly, giving himself to the good of all — on the condition that this good stays within the Divine law.
 
-Loyalty and obedience to Allah, understand well, mean that the seeker sacrifices his own happiness for the sake of his Lord. Sincerity toward people means that the seeker does not keep relationships alive for personal motives, but is selfless in them, performing selfless service, untouched by self-interest. He dedicates himself instead to the welfare of all people — with the condition, always, that this welfare must remain inside the boundaries of the Shari'ah, the Divine law. There is no welfare worth giving outside of it.
+You have asked me what servitude is. Servitude consists of three things.
 
-You have asked me, next, what servitude is. Servitude consists of three things, and I will name them in order. The first is obedience to the commandments of the Shari'ah. The second is contentment with the decree and destiny that Allah, the Exalted, has appointed for you. The third — and this is the hardest of the three — is the abandonment of your own desires and your own claims, and the acceptance of, and indeed the happiness with, the Will and Power of Allah, the Exalted. A servant who walks on those three legs is a servant in truth.
+The first is to keep the command of the Shariah.
 
-You have also asked me what reliance on God is — what Tawakkul means. Know this: Tawakkul is to hold a firm belief, a settled certitude, in what Allah, the Exalted, has promised. To say it more plainly: you believe, with conviction so deep that nothing can disturb it, that whatever Allah has decreed for you, you will surely receive — and if every soul in the entire world were to conspire together to keep it from you, they could not keep it from you. And what He has not written in your destiny — no effort of yours, and no combined effort of the whole world together, will ever bring it to your hand. Live inside that certainty, and the trembling of the heart over provision and outcome will leave you.
+The second is to be content with the decree and the destiny that Allah, the Exalted, appoints, and with the portion He allots.
 
-You have also asked me what sincerity to God is — what Ikhlas means. Know this: Ikhlas means that all your deeds are exclusively for the sake of Allah and for His pleasure. Whatever you do must not be for display, not for the eyes of others — not Riya. When you perform a good deed, your heart must not tilt, even slightly, toward impressing people or earning their praise. Your heart should not be gladdened by their admiration, nor grieved by their criticism. And understand the root of this disease: Riya is born from the praises and honors of people. So the cure for Riya is to see the whole universe as wholly subject to the Power and Control of Allah, the Exalted — and to regard every created thing as equivalent to pebbles and stones, knowing that stones possess no power to bring you grief and no power to bring you comfort. If you can truly look upon all creation in that light, you will be freed from Riya. But so long as you believe that mortal, created beings have the power to cause you pain or to gift you ease, Riya will not leave your heart. It cannot.
+The third is to give up your own pleasure in seeking the pleasure of Allah, the Exalted, resting content and glad in His Will and His Power.
 
-My dear beloved son — your remaining questions, the ones I have not addressed here, fall into two kinds. Some of them I have already answered in books I have written, and you may consult those books at your leisure. Others are of such a nature that writing their answers down is not permissible — they belong to a different mode of transmission. So take what is written here, and put it steadily into practice. Through the practice itself, those matters which you do not yet understand will become clear to you, one by one, in their own time.
+You have asked me what reliance upon Allah is — what Tawakkul (تَوَكُّل) is. Know that Tawakkul is to make your faith firm in what Allah, the Exalted, has promised: to believe with certainty that whatever He has decreed for you will reach you without fail, though everyone in the world should strive to turn it away, and that whatever He has not written for you will never reach you, though the whole world should come to help you get it.
 
-My dear beloved son — after this, whatever question you find difficult, whatever matter you cannot comprehend, do not seek its answer except through the tongue of your own heart. Allah has said:
+You have asked me what sincerity is — what Ikhlas (إِخْلَاص) is. Know that Ikhlas is that all your deeds are for Allah, the Exalted, alone, that your heart takes no comfort in people's praise and pays no heed to their blame. Nothing you do should be done for show, for Riya (اَلرِّيَاء). Your heart should be neither gladdened by people's admiration nor grieved by their criticism. Know that Riya is born of magnifying the creation. Its cure is to see all people as subject to the Power of Allah, and to reckon them like lifeless stones that have no power to bring you either ease or hardship, so that you may be freed from displaying yourself to them. As long as you reckon them to hold power and will, Riya will not leave you.
 
-> وَلَوْ أَنَّهُمْ صَبَرُوا حَتَّىٰ تَخْرُجَ إِلَيْهِمْ لَكَانَ خَيْرًا لَهُمْ
->
-> "Had they been patient until you came out to them, it would have been better for them." (Qur'an 49:5)
+My dear son, the rest of your questions are of two kinds. Some of them I have already set down in books I have written, so look for their answers there; and some are such that to write their answers is not permitted. Act upon what you know, and through that acting there will be unveiled to you what you do not yet know.
 
-Had those people exercised patience — instead of clamoring outside the house of the Prophet, peace and blessings be upon him — until he himself came out to them, it would have been better for them. Learn the lesson in that verse, and apply it to your own questions. Do not pound on the door. Wait, and what is meant for you will come out to meet you.
+My dear son, from this day on, do not ask me about what is difficult for you except through the tongue of the heart, for Allah, the Exalted, has said:
 
-Accept, too, the counsel of Khidr, peace be upon him, when he spoke to Moses:
+> (وَلَوْ اَلُهُمْ صَبَرُوا حَتَّى تَخْرُجَ اِلَيْهِمْ لَكَانَ خَيْرًا لَهُمْ * الحجرات: ٥)
 
-> فَلَا تَسْأَلْنِي عَنْ شَيْءٍ حَتَّىٰ أُحْدِثَ لَكَ مِنْهُ ذِكْرًا
->
-> "Then do not ask me about anything until I myself mention it to you." (Qur'an 18:70)
+"Had those people been patient until you yourself came out to them, it would have been better for them." (Quran, Chapter 49, Verse 5)
 
-If you wish to walk with the guide, do not press him with questions before their season. When the moment is ripe, he himself will raise the matter and explain it. Do not be hasty. When the time comes, you will be told and you will be shown.
+And accept the counsel of Khidr (اَلْخِضْر) (ع) when he said:
 
-> سَأُرِيكُمْ آيَاتِي فَلَا تَسْتَعْجِلُونِ
->
-> "I will show you My signs, so do not ask Me to hasten them."
+> (فَلاَ تَسْئَلْنِي عَنْ شَيْءٍ حَتَّى أُحْدِثَ لَكَ مِنْهُ ذِكْرًا * الكهف: ٧٠)
 
-That is Allah, the Exalted, speaking — I will soon show you My signs, so do not seek to hurry the matter. Do not ask before the right time arrives. When you reach that spiritually elevated stage, you will see it for yourself. Hold to this certainty, then: unless you set out toward the destination, you will neither arrive at it nor be able to see what awaits there.
+"Do not question me about anything until I myself bring it up to you and explain it." (Quran, Chapter 18, Verse 70)
 
-> أَوَلَمْ يَسِيرُوا فِي الْأَرْضِ فَيَنظُرُوا
->
-> "Have they not traveled the earth, that they might see?"
+Do not be hasty until a thing's time arrives; then it will be unveiled to you and you will see it, for Allah, the Exalted, has said:
 
-The seeing is on the road. There is no seeing without the traveling.
+> (سَأُرِيكُّمْ آيَاتٍ فَلاَ تَسْتَعْجِلوُنِ * الْأَنْبِيَاءُ: ٣٧)
 
-My dear beloved son — by Allah! If you illuminate your heart by driving out the darkness of evil that has settled in it, you will behold wondrous things. I do not exaggerate. But strive with your utmost at every step along the way. Without that striving, the purpose will not be achieved. There is no shortcut around the soul's exertion; the road is the road.
+"I will show you My signs, so do not seek to hasten them." (Quran, Chapter 21, Verse 37)
 
-Shaykh Dhu al-Nun al-Misri, may Allah shower His mercy upon him, once said something to one of his students that I want you to hear as if he were saying it to you now:
+So do not ask me before the time. And be certain that you will not arrive except by traveling the road, for Allah, the Exalted, has said:
 
-> إِنْ قَدَرْتَ عَلَىٰ بَذْلِ الرُّوحِ فَتَعَالَ، وَإِلَّا فَلَا تَشْتَغِلْ بِنَزَاهَةِ الصُّوفِيَّةِ وَالْقَالِ
->
-> "If you can offer up your soul, then come; and if not, do not occupy yourself with the elegant talk of the Sufis."
+> (آَوَ لَمْ يَسِيرُوا فِيِ اْلاَرْضِ فَيَنْظُرُوا * فاطر: ٤٤)
 
-If you have the courage to exert your utmost with your very soul in this way — to spend it, to pour it out — then come and step onto this path. And if you do not, then do not merely busy yourself with the beautiful sayings of the Sufis, repeating their words while their meaning passes you by. The sayings are not the path. The spending of the soul is the path. Choose, my son, which of the two you will be.
+"Have they not traveled through the earth and seen?" (Quran, Chapter 35, Verse 44)
+
+My dear son, by Allah, if you travel you will see wonders at every stage — so give of your very soul, for the head of this whole matter is the giving of the soul. As Zun Noon al-Misri (may Allah have mercy on him) said to one of his students:
+
+> «إن قدرت على بذل الرّوح فتعال، و إلاّ فلا تشتغل بترّهات الصّوفّيّة.»
+
+"If you are able to give of your soul, then come; and if not, do not busy yourself with the idle talk of the Sufis."
 
 ## 8. Four to Avoid, Four to Embrace
 
-My dear beloved son — having spoken of the spending of the soul, let me now bring my counsel to a close with eight admonitions. Four of them you must take up, and four you must lay down, so that the knowledge you have gathered does not one day rise against you on the Day when nothing rises with us except what we truly were. I will begin with the four you must lay down.
+My dear son, I will bring my teaching to a close now with eight counsels. Take them from me, so that on the Day of Judgment your knowledge does not stand against you. Four of these eight are things you must do, and four are things you must not do. Let me begin with the four you are to leave.
 
-The first is this: as far as you possibly can, do not enter into religious disputes with anyone, and do not argue — not over matters of faith, not over anything else. There are hidden harms in such quarrels, and on the scale, the harms outweigh whatever small good might come of them. Debate is the wellspring from which a whole landscape of evils flows: ostentation, the inner showmanship called Riya; jealousy; arrogance; resentment; enmity; pride; and the swelling of the ego. Now, if a discussion arises between you and another person, and what you truly want is that the truth come to light, then your intention may be sound. But the soundness of that intention has two signs, and they are unsparing. The first sign is that you are equally pleased whether the truth comes out through your own tongue or through the tongue of the one across from you — for what matters to you is the truth, not the mouth it travels through. The second sign is that you would rather have the matter discussed in private than in front of an audience. If, on the other hand, you find yourself in an exchange in which you are certain you are right and the other is arguing only for the sake of arguing, then be on guard at once. Stop. End the conversation there. Otherwise grudges take root, resentments grow tall, and no good at all is harvested from that field.
+The first is this: as far as you are able, do not dispute with anyone over any question, for such disputes carry many hidden harms, and their sin outweighs their benefit. Debate is the fountainhead of every blameworthy trait — ostentation, envy, arrogance, resentment, enmity, self-display, and the like. Yes, if a question arises between you and another person or group, and your one wish in it is that the truth should come to light and not be lost, then inquiry is permitted. But that intention has two marks. The first is that it makes no difference to you whether the truth appears upon your own tongue or upon the tongue of another. The second is that you would rather examine the matter in private than before an audience.
 
-Let me explain something here that I want you to grasp deeply. Asking a question about religion or the spiritual life is like a sick man describing his ailment and its causes before a physician of the heart. The scholar's effort to answer is the physician's effort to cure. The ignorant, then, are the patients; scholars are the physicians; and not every physician is qualified for every disease. An incomplete scholar cannot cure these diseases of the heart. Only the Shaykh al-Kamil, the perfected scholar, can — for only he can recognize the root causes of the affliction. And if the disease has so deepened that even those root causes cannot be located, then a more expert physician must be sought, one who can tell which ailments are still curable and which lie beyond the reach of medicine. To pour effort into curing the incurable is nothing but a squandering of the lamp's oil.
+Now hear a benefit I set down for you here. To ask about difficult matters is to bring the disease of the heart before the physician, and the answer he gives is his effort to cure that disease. The ignorant are the sick, whose hearts are diseased, and the scholars are the physicians. The deficient scholar cannot heal well, and even the accomplished scholar does not treat every patient. He treats only the one in whom he hopes the cure will be accepted and reform will follow. When the malady is chronic or beyond remedy and will not accept treatment, the physician's skill lies in saying, "This one will not accept a cure, so do not trouble yourself with treating him" — for to do so is to waste one's life.
 
-Now know this: the ignorant — the patients in our metaphor — fall into four kinds. Only one of these four can be cured. The other three are beyond healing.
+Then know that the disease of ignorance is of four kinds. One accepts the cure; the other three do not.
 
-The first kind asks his question out of jealousy, raises his objection out of envy. Jealousy is a fatal disease, and it has no remedy. No matter how sound your answer, no matter how patient your explanation, such a person will see you as an enemy, and the fire inside him will only burn higher when you reply. The better course is silence. The poet captured it exactly:
+As for the three that do not accept the cure: the first is the person whose question and objection spring from his envy and his hatred. However finely, however clearly, however eloquently you answer him, it adds nothing to him but more hatred, enmity, and envy. The way, then, is not to trouble yourself with answering him. As it has been said:
 
-> كُلُّ الْعَدَاوَاتِ قَدْ تُرْجَى إِزَالَتُهَا
-> إِلَّا عَدَاوَةَ مَنْ عَادَاكَ مِنْ حَسَدِ
->
-> "Every enmity may be hoped to be removed — except the enmity of one who hates you out of jealousy."
+> كُلُّ الْعَدَاوَةِ قَدْ تُرْجَى إِزَالَتُهَا * إِلَّا عَدَاوَةَ مَنْ عَادَاكَ عَنْ حَسَدٍ
 
-The cure, then, is to leave the jealous man to his sickness. As Allah Himself has said:
+"Every enmity may be hoped to be removed, save the enmity of one who bears you enmity out of envy."
 
-> فَأَعْرِضْ عَن مَّن تَوَلَّىٰ عَن ذِكْرِنَا وَلَمْ يُرِدْ إِلَّا الْحَيَاةَ الدُّنْيَا
->
-> "So turn away from him who turns away from Our remembrance and desires nothing but the life of this world." *(Qur'an, al-Najm 53:29)*
+You should turn away from him and leave him to his disease. Allah, the Exalted, said:
 
-The second kind is sick from foolishness — from a stunted intelligence. This too is incurable. The Prophet Isa, peace be upon him, said that he was able, by God's leave, to raise the dead, but he was unable to cure the fool. The foolish man is the one who has spent only a brief while sniffing around the edges of knowledge, has not even begun to digest the intellectual and the transmitted sciences, and yet stands up to raise objections against scholars who have given their entire lives to those very disciplines. He does not even notice that his objection wounds — himself, those who resemble him, and the scholars he is so eager to correct. He does not notice that the objection benefits him not at all. The depths of insight a true scholar carries are beyond his reach, and beyond the reach of those like him; that he cannot see this is precisely his foolishness. Step away from such a man. Do not engage him.
+> فَاَعْرِضْ عَنْ مَنْ تَوَلَّى عَنْ ذِكْرِنَا وَلَمْ يُرِدْ اِلاَّ الْحَيَوَةَ الدُّنَا (النَّجْم: ٢٩)
 
-The third kind cannot sit still long enough to receive the teachings of those who have actually walked the path. Restless, impatient, he leans on his own thin understanding and interprets every saying through the lens of his own small interest. His mind cannot lay hold of the truth. Do not answer him either, for the Messenger of God, peace and blessings be upon him, said:
+"So turn away from him who turns his back on Our remembrance and desires nothing but the life of this world."
 
-> نَحْنُ مَعَاشِرَ الْأَنْبِيَاءِ أُمِرْنَا أَنْ نُكَلِّمَ النَّاسَ عَلَىٰ قَدْرِ عُقُولِهِمْ
->
-> "We, the company of prophets, have been commanded to speak to people according to the measure of their understanding."
+With everything he says and does, the envier kindles a fire in the standing crop of his own deeds, for the Prophet (ع) said:
 
-And then there is the fourth — the one who can be cured. This is the sincere seeker of the straight path, the Sirat al-Mustaqim; obedient, sharp, intelligent, free of anger, free of bondage to the lower self's appetites, free of jealousy, free of the craving for wealth and renown. Whatever he asks, whatever objection he raises, comes not from envy, not from fault-finding, not from a wish to test you — it comes from a real hunger for truth and right guidance. This is the patient who can be healed. To answer him is not merely permissible. It is obligatory, *wajib*, upon you.
+> الْحَسَدُ يَأْكُلُ الْحَسَنَاتِ كَمَا تَأْكُلُ النَّارُ الْحَطَبَ
 
-The second thing you must lay down is preaching — the giving of sermons. There are great calamities folded inside that pulpit. If you genuinely believe that whatever you preach you have first lived, then remember what Allah, the Real, said to the Prophet Isa, peace be upon him:
+"Envy devours good deeds as fire devours firewood."
 
-> يَا ابْنَ مَرْيَمَ عِظْ نَفْسَكَ، فَإِنِ اتَّعَظَتْ فَعِظِ النَّاسَ، وَإِلَّا فَاسْتَحْيِ مِنِّي
->
-> "O son of Mary, admonish your own self first; then, if it accepts the admonition, admonish the people. Otherwise, feel shame before Me."
+The second is the one whose malady is foolishness, and this too does not accept the cure. As Isa (ع) said:
 
-And if circumstances put you on the pulpit anyway, then guard against two things. The first: keep out of your sermon all colorful narrations, all theatrical gestures, all hinting and secretive language, all flowery ornament, all sweet poetry meant to charm, anything that overruns the bounds of the Shari'ah, and the inventions of those who claim Sufism without living it. Allah, the Exalted, does not love the showy and the pretentious. When a preacher's speech crosses out of substance and into mere display — when his only aim is to dazzle the listeners with eloquent turns of phrase — be certain that his inner life is in ruin and his heart is cut off from the remembrance of God. The purpose of a sermon is not to put your talents on parade. Its purpose is to speak of the punishment of the Hereafter. To name your own shortcomings in the service of Allah and to grieve openly over the hours you have wasted. To describe the difficult stages that lie ahead on the road to come. To speak of how a person might pass through this world with his faith still intact; of the terrifying appearance of the Angel of Death, Malak al-Mawt, at the moment of dying; of the questioning in the grave by Munkar and Nakir, the two angels who arrive after the burial; of the stations of the Day of Resurrection. To speak of the awesome reckoning on the plain of Hashr, where the whole of humankind will be gathered; of the weighing of deeds in the Mizan, the mighty scale Allah has prepared for that day; of the crossing of the Sirat — the bridge strung over Hell on the way to Paradise, finer than a hair, sharper than a sword, over which every human being must pass; and of all the other terrors of that Day. Set these realities in front of the people. And beyond that, hold up before them their own faults, the outward and the inward, so that the fear of the Hereafter is ignited in their chests, so that they grieve as deeply as their bones will allow over the time they have squandered, so that they strive to redeem what little may yet be redeemed, so that they weep over every hour spent without the worship and remembrance of God. This is what a sermon is for. Picture a man whose house has been struck by a flood — the water already at his door, seconds away from rushing in and drowning every soul inside. In that moment, he will cry out: *al-hadhar! al-hadhar!* — "Beware! Beware! The water is here!" He will not stop to polish his sentences, to pick out elegant turns of phrase, to garnish his warning with decorated verse. A sermon is exactly this — a cry born of real fear over one's own reckoning, carrying to other souls the same urgency that an imminent catastrophe demands.
+> إِنِّي مَا عَجَزْتُ عَنْ إِحْيَاءِ الْمَوْتَى وَقَدْ عَجَزْتُ عَنْ مُعَالَجَةِ الْأَحْمَقِ
 
-The second thing to guard against on the pulpit is this: never let the thought slip into your heart that after your sermon the crowd will roar in praise, fall into ecstasy, tear their clothes, raise a clamor in the gathering, and declare what a marvelous sermon So-and-So gave. That thought, plainly, is Riya — ostentation — and to be pleased by it is proof that wisdom has not yet taken root in you. Your intention should be to summon God's creation from this world toward the next; from sin toward true servitude; from greed toward a heart unhooked from the world, content with little; from miserliness toward generosity; from showy religion toward sincerity, Ikhlas, where every act is performed for the Face of Allah alone; from arrogance toward humility; from heedlessness toward God-consciousness; from pride toward piety. Kindle in their hearts love for the Hereafter, so that their faces turn toward it. Loosen the grip the world has on them, so that they begin to see that attachment for what it is — an enemy standing between them and their true destination. Do not, on the other hand, lull them into a false ease about Allah's generosity and mercy by twisting the truth to be comfortable. Cultivate in them a wakeful fear of Allah. Observe what sits in their hearts that contradicts Allah's pleasure, what they incline toward that contradicts the Shari'ah of the Prophet Muhammad, peace and blessings be upon him. Watch their character and their conduct, so that the wrongs in them begin to fall away and be replaced by noble qualities and righteous deeds. For those already crushed under the weight of fear, plant hope, so that when they stand up from the gathering, certain noble virtues have been awakened in them and even their outward bearing has shifted. Those who were lazy in worship should leave inclined toward it, with a settled, deep desire for the service of God; those who were brazen in sin should leave with the fear of Allah glowing in their hearts. A sermon that does none of this — where the speaker addresses none of these matters — is a ruin for the speaker and a ruin for those who listen. Such a man is a Shaytan who, having become a slave to his own degraded self, treats the pulpit as a stage on which to display his cleverness and harvest the fame and grandeur of the world. This Shaytan leads God's creatures off the road of true guidance, sheds their blood, and pitches them headlong into eternal loss. God's creatures should keep far from him. Men like this spread a corruption — *fasad* — in the religion that even Satan himself does not spread. And whoever has the authority to remove such a man from the pulpit, the Minbar, it is obligatory upon him, *wajib*, to do so deliberately and firmly — to keep such men from preaching at all, so that they cannot go on twisting the meaning of commanding the right and forbidding the wrong, *al-amr bi'l-ma'ruf wa'n-nahy an al-munkar*.
+"I was not powerless to bring the dead to life, yet I was powerless to treat the fool."
 
-The third thing to lay down: do not so much as greet a king, a wealthy man, or a ruler. Stay out of their company; stay out of their gatherings; and beyond even that, do not lift your eyes to look at them. In the looking, and in the keeping of their company, lie many hidden calamities. And if by some chance you find yourself in their presence anyway, do not praise them. As a hadith tells us:
+This is a man who applies himself to seeking knowledge for a short while, learns some small portion of the rational and religious sciences, and then, out of his foolishness, questions and objects against the great scholar who has spent his life in those sciences. This fool does not realize his own ignorance; he imagines that what is obscure to him is obscure to the great scholar as well. Since he cannot grasp even this much, his question springs from foolishness, and you should not trouble yourself with answering him.
 
-> إِنَّ اللَّهَ يَغْضَبُ إِذَا مُدِحَ الْفَاسِقُ وَالظَّالِمُ، وَمَنْ دَعَا لِظَالِمٍ بِطُولِ الْبَقَاءِ فَقَدْ أَحَبَّ أَنْ يُعْصَى اللَّهُ فِي الْأَرْضِ
->
-> "Truly Allah is angered when the transgressor and the oppressor are praised; and whoever prays for an oppressor's long life has, in effect, loved that Allah be disobeyed upon the earth."
+The third is one who is seeking guidance, who traces whatever he does not understand of the words of the great back to the shortcoming of his own understanding, and who asks in order to benefit; yet he is dull and does not perceive realities. It is not fitting to trouble yourself with answering him either, for the Messenger of Allah (ع) said:
 
-The fourth thing to lay down: do not accept gifts from rulers — not even when you are certain the source is lawful, *halal*. The reason is that to harbor any desire at all for their possessions does terrible damage to the *Din*, the path to God. The favors and rewards that flow from rulers are watered by oppression, transgression, and sin — and all of that erodes the *Din*. The smallest corruption that follows from accepting their gifts is that you begin to love the oppressors. And when a man loves another, he prays for that man's long life. If the oppressor lives long, the oppression lives long, and the world is more deeply troubled and more deeply corrupted — and what disaster could be greater than that? Beware! Beware! Shaytan will come at you whispering this thought: *"Take the money from the rulers, then distribute it among the poor — relieve their suffering, meet their needs."* Beware — never accept this counsel from any Shaytan, whether from the Jinn — the unseen creation of God who, when they bend toward evil, become Satan's instruments for inciting harm among human beings — or from among human beings themselves. Do not be caught in their snares, do not be charmed by their schemes; Shaytan has shed many lives by this very strategy and goes on shedding them today. The calamities buried inside this single matter are many, and I have laid them out at length in my *Ihya Ulum al-Din*, the Revival of the Knowledge of the Path to God. Look for them there.
+> نحن معاشر الْأَنْبِيَاءُ أمرنا أن نكلّم النّاس على قدر عقولهم
 
-So much for the four things to lay down. My dear beloved son — there are also four things to take up, and these you must attend to with care.
+"We, the company of the prophets, have been commanded to speak to people according to the measure of their minds."
 
-The first is this: every matter between you and Allah should be conducted in such a way that, if your own servant did the same for you, you would not be saddened by it — rather, you would approve of it, commend it, feel no anger at all. And likewise, whatever you would not want your servant doing to you, understand that when you yourself fall short in your servitude to your Lord, He, your Creator, is no less displeased. The truth to take to heart is this: your servant was not created by you — you only hired him. But you yourself were created, nurtured, sustained, and owned by your real Creator and Lord. You are His slave in the fullest meaning of the word. Therefore your obligation never to displease Him — by thought, by word, by deed — is greater beyond measure.
+As for the disease that does accept the cure: it is the one who is seeking guidance, intelligent and understanding, who is not overpowered by envy, anger, or love of appetite, rank, or wealth, and who is a seeker of the straight path — whose question and objection do not spring from envy, obstinacy, or a wish to test you. This one accepts the cure, so you may trouble yourself with answering his question. Indeed, it is your duty to answer him.
 
-The second is this: every matter between you and the other slaves of Allah should be conducted in such a way that, if they did the same to you, you would be pleased by it and not aggrieved. As it has been said in a sacred hadith — a tradition in which Allah Himself speaks through His Prophet, peace be upon him:
+The second thing you must leave is to guard against becoming a preacher and an admonisher, for there is much affliction in it — unless you first act upon what you say and then admonish others by it. Reflect on what was said to Isa (ع):
 
-> لَا يَكْمُلُ إِيمَانُ عَبْدِي حَتَّىٰ يُحِبَّ لِسَائِرِ النَّاسِ مَا يُحِبُّ لِنَفْسِهِ
->
-> "My slave's faith is not complete until he loves for all people what he loves for himself."
+> يَا ابْنَ مَرْيَمَ عِظْ نَفْسَكَ فَإِنِ اتَّعَظْتَ فَعِظِ النَّاسَ وَإِلَّا فَاسْتَحِ مِنْ رَبِّكَ
 
-The third thing to take up — and I press this on you firmly — concerns your studies. If you mean to keep increasing your knowledge and to keep working through scholarly books, then place this thought in front of you: *suppose my whole remaining life were no more than a week.* Now ask yourself, in that light, which kind of knowledge would actually serve you, and devote yourself only to that. If you knew with certainty that you had only a week left, you would not spend those last days on books of dialectical theology and disputation, on lexicography, on the niceties of grammar, on poetry and the collected diwans of poets, on the art of fine composition. You would see in an instant that none of that could help you now. You would give the whole week instead to the inward work — to the contemplation of your heart, to the recognition of the faults sitting inside your *nafs* — so that you might still make amends in the little time left. You would turn your face away from the world and its preoccupations. You would scrub your heart clean of its bad qualities. You would furnish it with the love of Allah and with noble inner virtues, and you would hand yourself over entirely to worship and servitude before Him. It is even possible that across that final week you would not visit a single person, even though you knew death might not arrive on this day, or on that night.
+"O son of Maryam, admonish your own soul; then, if it takes the admonition, admonish the people, and if not, be ashamed before your Lord."
 
-My dear beloved son — listen to one more thing. Remember it, hold its reality in your hands, turn it over and over in your mind, and act on it; do this, and your salvation is as good as won. If you were told that the king was coming to your house next week, you would pass the whole week consumed with one anxiety: that the king's eye should not fall on anything ugly. You would scrub everything — your body, your clothes, the walls and the floors of your house. You would leave nothing untended. Now reflect, and see for yourself. What more do I need to spell out for you in this hint? You are intelligent — a hint should be enough. This is why the Messenger of Allah, peace and blessings be upon him, said:
+And if you are tried with this work, then beware of two traits. The first is affectation in speech — ornate phrases, allusions, extravagant claims, verses, and poetry — for Allah, the Exalted, detests the affected, and affectation that oversteps the bound points to the ruin of the inward and the heedlessness of the heart. The meaning of admonition is that the servant should recall the fire of the Hereafter and his own failing in the service of his Creator; that he should reflect upon his past life, wasted in what did not concern him; and that he should reflect upon the obstacles before him — the possibility that his faith may not be sound at the end, his state under the seizing hand of the Angel of Death, whether he will be able to answer Munkar and Nakir (مُنْكَر وَنَكِير), his condition at the Resurrection and its stations, and whether he will cross the Bridge in safety or fall into the abyss. Let the remembrance of these things stay in his heart until it drives him from his rest. This boiling of these fires and this wailing over these calamities is what is called admonition. Its aim is to make the people know these things, to alert them to their negligence and their excess, and to open their eyes to the defects of their own souls, so that the heat of these fires may touch those present in the gathering and these calamities may grieve them, that they may make up their past life as far as they can and grieve over the days that passed without the obedience of Allah, the Exalted. This whole matter, upon this path, is what is called preaching.
 
-> إِنَّ اللَّهَ لَا يَنْظُرُ إِلَىٰ صُوَرِكُمْ وَلَا إِلَىٰ أَعْمَالِكُمْ، وَلَٰكِنْ يَنْظُرُ إِلَىٰ قُلُوبِكُمْ وَنِيَّاتِكُمْ
->
-> "Truly Allah does not look at your faces or at your outward deeds, but He looks at your hearts and your intentions."
+It is as if you saw that a flood had rushed upon a man's house while he and his household were inside it, so you cry out, "Beware, beware! Flee from the flood!"
 
-When the gaze of the Supreme Sovereign, *Ahkam al-Hakimin*, is resting upon your heart, why would you not purify that heart? If you wish to take up the knowledge of the matters of the heart, study my *Ihya Ulum al-Din* — "Revival of the Knowledge of the Path to God," which some have rendered as "Revival of the Religious Sciences" — along with my other works. This knowledge is personally obligatory upon every Muslim, *fard al-ayn*. The other branches of knowledge carry the lesser obligation of *fard kifaya* — a duty laid on the community as a whole, and discharged once at least one group within it has taken it up. Even that knowledge should be acquired only to the extent that you actually need it to carry out the commands of Allah, the Exalted. If Allah grants you *tawfiq* — the alignment of inward capability with inward motivation — then this knowledge of the heart is a road you must walk.
+> الْحَذَرَ الْحَذَرَ، فِرُّوا مِنَ السَّيْلِ
 
-The fourth thing to take up: do not store up more than a single year's provision for your family from the goods of this world. The Prophet Muhammad, peace and blessings be upon him, did set aside one year's worth of provisions for some of his wives, and said:
+In such a state, would your heart wish to inform the master of the house of his danger with labored phrases, subtleties, and allusions? Not in the least. Such is the condition of the preacher, and he ought to shun all of that.
 
-> اللَّهُمَّ اجْعَلْ قُوتَ آلِ مُحَمَّدٍ كَفَافًا
->
-> "O Allah, make the provision of the family of Muhammad just enough."
+The second trait is that your concern in your preaching should not be that the people cry out in your gathering, or display ecstasy, or tear their garments, so that it may be said, "What an excellent gathering this was!" — for all of that is inclination toward this world, and it is born of heedlessness. Rather, your resolve and your concern should be to call the people from this world to the Hereafter, from disobedience to obedience, from greed to abstinence, from miserliness to generosity, from doubt to certainty, from heedlessness to wakefulness, and from delusion to God-fearing. You should make the Hereafter beloved to them and this world hateful, and teach them the knowledge of worship and abstinence. Do not deceive them with the generosity of Allah, the Exalted, and His mercy, for the prevailing tendency in their natures is to swerve from the way of the Law, to strive after what does not please Allah, and to be content with base traits of character. So cast dread into their hearts, alarm them, and warn them of the terrors that face them, that perhaps the qualities of their inward may change and the dealings of their outward be transformed, and that they may show eagerness and desire for obedience and a turning away from disobedience.
 
-Yet he did not set aside that year's portion for all of his wives, the *Azwaj al-Mutahharat*. He reserved it only for those among them whose *tawakkul*, whose reliance upon Allah, was less. For those of the Mothers of the Believers, the *Ummahat al-Mu'minin*, whose certainty in Allah was complete and whose reliance upon Him was unshakable, the Prophet, peace and blessings be upon him, did not set aside even a single day's provisions. Among them was A'isha al-Siddiqa, may Allah be pleased with her, and others like her among the Mothers of the Believers.
+This is the path of preaching and sincere counsel. Every sermon that is not thus is a bane upon the one who speaks and the one who hears. Indeed, it has been said that such a speaker is a ghoul and a devil who leads the creation away from the path and destroys them, so that they are forced to flee from him — for the corruption that this speaker works in their religion, not even the devil can work its like. And whoever has the hand and the power is obliged to bring him down from the pulpits of admonition and to restrain him from what he has undertaken, for this is part of enjoining the right and forbidding the wrong.
+
+The third thing you must leave is to keep from mixing with commanders and rulers, and even from looking upon them, for to see them, to sit with them, and to mingle with them is a great affliction. And if you are tried with that, then keep clear of praising them and lauding them, for Allah, the Exalted, is angered when the corrupt and the oppressor are praised. It has been said:
+
+> إِنَّ اللَّهَ تَعَالَىٰ يَغْضَبُ إِذَا مُدِحَ الْفَاسِقُ وَالظَّالِمُ، وَمَنْ دَعَا لِطُولِ بَقَائِهِمْ فَقَدْ أَحَبَّ أَنْ يُعْصَىٰ اللَّهُ فِي أَرْضِهِ
+
+"Allah, the Exalted, is angered when the corrupt and the oppressor are praised; and whoever prays for the length of their stay has loved that Allah be disobeyed in His earth."
+
+The fourth thing you must leave is that you accept nothing of the gifts and presents of the rulers, even if you know them to be from what is lawful, for coveting from them corrupts the religion — since from it are born flattery, the guarding of their side, and agreement with them in their injustice, and all of this is corruption in the religion. The least of its harm is that, when you accept their gifts and profit from their world, you come to love them; and whoever loves someone necessarily loves the length of his life and his continuance; and in loving the continuance of the oppressor there is a desire for oppression upon the servants of Allah, the Exalted, and a desire for the ruin of the world. What thing, then, could be more harmful than this to the religion and the final end?
+
+Beware, beware, that the seduction of the devils deceive you, or the saying of some people to you that it is better and more fitting for you to take the dinar and the dirham from them and distribute them among the poor and the destitute — since they would only spend it in corruption and disobedience, and your spending upon the weak among the people is better than their spending. For that accursed one has cut the throats of many people with this very whispering. We have treated this at length in the Revival of the Sciences of Religion (Ihya Ulum ad-Din), so seek it there.
+
+Now for the four things it is fitting that you should do.
+
+The first is that you make your dealing with Allah, the Exalted, such that, were your own servant to deal with you by it, you would be content with it from him, would not be vexed with him, and would not be angered. And whatever you would not accept for yourself from your hired servant, do not accept it either for Allah, the Exalted, who is your true Master.
+
+The second is that whatever you do with people, make it such as you would be pleased to receive from them, for the faith of a servant is not complete until he loves for all people what he loves for himself. As it has been said:
+
+> لَا يَكْمُلُ إِيمَانُ عَبْدٍ حَتَّى يُحِبَّ لِسَائِرِ النَّاسِ مَا يُحِبُّ لِنَفْسِهِ
+
+"A servant's faith is not complete until he loves for all people what he loves for himself."
+
+The third is that when you read knowledge or study it, your knowledge should be such as reforms your heart and purifies your soul. Consider it as though you knew that your life would last no longer than a week; then of necessity you would not busy yourself in it with the science of jurisprudence, ethics, principles, theology, and the like, for you would know that these sciences would not avail you. Rather, you would busy yourself with watching over the heart, with knowing the qualities of the soul, with turning away from the attachments of this world, with purifying your soul of blameworthy traits, and with the love of Allah, the Exalted, His worship, and the adorning of yourself with beautiful qualities. And let no day and night pass over a servant but that it is possible his death may fall within it.
+
+My dear son, hear from me another word and reflect upon it, that you may find deliverance. If you were told that the sultan would come to visit you after a week, I know that in that span you would busy yourself with nothing but putting right whatever you knew the sultan's gaze would fall upon — the garments, the body, the house, the furnishings, and the rest. Now consider what I am pointing you toward, for you are a man of understanding, and a single word suffices the discerning. The Messenger of Allah (ع) said:
+
+> إِنَّ اللَّهَ لَا يَنْظُرُ إِلَى صُوَرِكُمْ وَلَا إِلَى أَعْمَالِكُمْ وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَنِيَّاتِكُمْ
+
+"Allah does not look at your forms nor at your deeds, but He looks at your hearts and your intentions."
+
+If you desire the knowledge of the states of the heart, then look into the Ihya and the others of my writings, for this knowledge is an individual obligation, while other knowledge is a communal obligation, save for the measure by which the ordinances of Allah, the Exalted, are discharged. And He it is who gives you the ability to attain it.
+
+The fourth is that you should not gather of this world more than a year's sufficiency, as the Messenger of Allah (ع) would set that aside for some of his chambers, and said:
+
+> أَللَّهُمَّ اجْعَلْ قُوتَ آلِ مُحَمَّدٍ كَفَافًا
+
+"O Allah, make the provision of the family of Muhammad just enough."
+
+He did not set it aside for all his chambers; rather he set it aside for the one in whose heart he knew there was a weakness. As for her who was a possessor of certainty, he would set aside for her no more than the provision of a day, or half of it.
 
 ## 9. A Prayer for the Road
 
-My dear beloved son — I have answered, in this book, every question you brought to me. Every door you knocked on, I have tried to open. Every knot you carried, I have tried to loosen. What remains now is not more words from me, but resolve from you. Gather it. Act upon what is here. And when you stand in the quiet places of the night, when you raise your hands and the world falls away, do not forget me in your supplications, in your *du'a*.
+My dear son, I have now answered in this book every question you put to me. Gather your resolve, act upon all that it contains, and do not forget me in your supplications, your Dua (دُعَاء).
 
-You asked me for one thing more. You asked me to write you a supplication you could recite always — words to keep on your tongue when the road is long and your own words fail you. Before I give you what you asked for, hear my counsel about where to look first. Go to the books of *ahadith*, the traditions of the Prophet Muhammad, peace and blessings of Allah be upon him. Go especially to the *Sahah Sitta*, the six most authenticated collections of his traditions, and search those pages as a thirsty man searches for water. What you find there, commit to memory — not to display, but to carry. And then turn to what has reached us through the *Ahl al-Bayt*, the family of the Prophet, peace and blessings of Allah be upon him, for through them too a great river of supplication flows. Drink from both. Make their words your words.
+You also asked me to write out a prayer that you might keep upon your tongue at all times. For that, turn to the supplications preserved in the books of hadith, the traditions of the Prophet Muhammad (ع), and above all in the Sahah Sitta (اَلصِّحَاحُ اَلسِّتَّة), the six most trustworthy of his collections, and commit them to memory. Many supplications have likewise come down to us through the Ahl al-Bayt (أَهْلُ الْبَيْت), the family of the Prophet (ع); seek them there as well. And recite this supplication in particular at all times, and especially in the moments that follow each of your prayers:
 
-And then, my son, recite this one after every *salah*, every prayer — let it settle into the rhythm of your days like a second heartbeat:
-
-> اللَّهُمَّ إِنِّي أَسْأَلُكَ تَمَامَ النِّعْمَةِ، وَدَوَامَ الْعَافِيَةِ، وَشُمُولَ الْعَافِيَةِ، وَالصِّحَّةَ فِي الْبَدَنِ، وَالزِّيَادَةَ فِي الرِّزْقِ، وَالسَّعَادَةَ فِي الْعَيْشِ، وَالْفَوْزَ بِالنَّجَاحِ، وَتَمَامَ مَكَارِمِ الْأَخْلَاقِ. اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الثَّوَابِ أَجْزَلَهُ، وَمِنَ الْعَطَاءِ أَهْنَأَهُ، وَمِنَ الْمِنَنِ أَوْفَرَهَا، وَمِنَ الْأَعْمَالِ أَحْسَنَهَا، وَمِنَ الْعِلْمِ أَنْفَعَهُ، وَمِنَ الرِّزْقِ أَطْيَبَهُ.
+> «أَلَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ النِّعْمَةِ تَمَامَهَا، وَ مِنَ الْعِصْمَةِ دَوَامُهَا، وَ مِنَ الرَّحْمَةِ شُمُولُهَا، وَ مِنَ الْعَافِيَةِ حُصُولُهَا، و من العيش ارغده، وَ مِنَ الْعُمْرِ أَسْعَدُهُ، وَ مِنَ الْإِحْسَانِ أَتَمَّهُ، وَمِنَ الْإِنْعَامِ أَعَمُّهُ، وَ مِنَ الْفَضْلِ أَعْذَبُهُ، وَ مِنَ اللُّطْفِ أَنْفَعُهُ
 >
-> "O my Allah! I ask from You the fullness and perfection of Your blessings; the permanence of inward and outward well-being; the all-encompassing breadth of Your mercy and safety; soundness of body; increase in my sustenance; happiness in my life; true and lasting success; and the completion of every noble quality of character. O my Allah! I ask from Your rewards the most abundant; from Your gifts the sweetest; from Your favors the most plentiful; from all deeds the most excellent; from all knowledge the most beneficial; and from all sustenance the most wholesome."
-
+> ألّهمّ كن لنا و لا تكن علينا
 >
-> اللَّهُمَّ كُنْ لَنَا وَلَا تَكُنْ عَلَيْنَا. اللَّهُمَّ اخْتِمْ بِالسَّعَادَةِ آجَالَنَا، وَأَصْلِحْ أَعْمَالَنَا، وَسَلِّمْنَا فِي أَيَّامِكَ وَلَيَالِيكَ، وَارْحَمْنَا فِي دُورِنَا وَأَمْوَالِنَا، وَاسْتُرْ بِعَفْوِكَ ذُنُوبَنَا وَعُيُوبَنَا، وَتَفَضَّلْ بِإِصْلَاحِ ظَوَاهِرِنَا وَبَوَاطِنِنَا، وَارْزُقْنَا الثِّقَةَ بِكَ وَالتَّوَكُّلَ عَلَيْكَ.
->
-> "O my Allah! Be on our side and not against us — bring us benefit and let no harm pass through You to us. O my Allah! Seal our appointed lives with felicity; set our deeds in order; keep us safe through Your days and Your nights; pour Your mercy upon us in our homes and in all that we possess; veil our sins and our faults with Your forgiveness; show us the kindness of mending what is broken in us, outwardly and inwardly; and grant us confidence in You and reliance upon You."
+> ألّهمّ اختم بالسعادة آجالنا. وَ حَقِّقْ بِالزِّيَادَةِ آمَالَنَا، و اقرن بالعافية غدوّنا و آصالنا، وَ اجْعَلْ إِلَىٰ رَحْمَتِكَ مَصِيرَنَا وَ مَآلَنَا، و اصبب سجال عفوك على ذنوبنا، وَ مَنَّ عَلَيْنَا بِإِصْلَاحِ عُيُوبِنَا، وَ اجْعَلِ التَّقْوَى زَادَنَا، وَ فِي دِينِكَ إِجْتِهَادُنَا، وعليك توكّلنا و اعتمادنا. اللَّهُمَّ ثَبِّتْنَا عَلَى نَهْجِ الْإِسْتِقَامَةِ، وَأَعِذْنَا فِي الدُّنْيَا مِنْ مُوجِبَاتِ النَّدَامَةِ يَوْمَ الْقِيَامَةِ، و خفّف عنّا ثقل الأوزار، و ارزقنا عيشة الأبرار، واكفنا ما اهمّنا في هذه الدّار و في تلك الدّار واصرف عنّا شرّ الأشرار و كيد الفجّار و اعتق رقابنا و رقاب آبائنا و أمّهاتنا و إخواننا وأخواتنا من النّار، بِرَحْمَتِكَ يَا عَزِيزُ يَا غَفَّارُ، يَا كَرِيمُ يَا سَتَّارُ يَا خَالِقَ اللَّيْلِ وَ النَّهَارِ خَلِّصْنَا مِنْ هَمِّ الدُّنْيَا وَ عَذَابِ الْقَبْرِ وَ النَّارِ يَا عَلِيمُ يَا جَبَّارُ، يا الله، يا ألله، يا ألله، بِرَحْمَتِكَ يَا أَرْحَمَ الرَّاحِمِينَ، و يا أول الأوّلین، و يا آخر الآخرین، وَ يَا ذَا الْقُوَّةِ الْمَتِينُ، وَيَا رَاحِمَ الْمَسَاكِينِ، وَ يَا أَرْحَمَ الرَّاحِمِينَ، لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ. و صلّى الله على سيّدنا محمّد و آله وصحبه أجمعين، و الحمد لله ربّ العالمين.»
 
->
-> اللَّهُمَّ ارْزُقْنَا الثَّبَاتَ فِي الدِّينِ، وَنَجِّنَا مِنْ أَعْمَالٍ تُخْزِينَا يَوْمَ الْقِيَامَةِ، وَخَفِّفْ عَنَّا أَوْزَارَنَا، وَارْزُقْنَا عَيْشَ السُّعَدَاءِ، وَاكْفِنَا مَا أَهَمَّنَا، وَاكْفِنَا شَرَّ الْأَشْرَارِ، وَأَعْتِقْنَا وَآبَاءَنَا مِنَ النَّارِ وَمِنَ الدَّيْنِ وَالظُّلْمِ، يَا عَزِيزُ، يَا غَفَّارُ، يَا كَرِيمُ، يَا سَتَّارُ، يَا حَلِيمُ، يَا جَبَّارُ، يَا عَظِيمُ، يَا قَهَّارُ. اللَّهُ، اللَّهُ، اللَّهُ، يَا رَحْمَٰنُ الدُّنْيَا، يَا رَحِيمَ الْآخِرَةِ، يَا أَرْحَمَ الرَّاحِمِينَ، أَنْتَ صَاحِبُ الرَّحْمَةِ الْوَاسِعَةِ. وَصَلَّى اللَّهُ عَلَى مُحَمَّدٍ خَيْرِ خَلْقِهِ أَجْمَعِينَ مِنَ الْأَزَلِ إِلَى الْأَبَدِ، وَعَلَى آلِهِ وَأَصْحَابِهِ، وَالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ.
->
-> "O my Allah! Grant us steadfastness and perseverance in our *din*, our religion and our road to You. Save us from deeds in this world that would become a source of shame and humiliation for us on the Day of Judgment. Lighten the burden of our sins. Grant us the life of the pious. Be sufficient for us in all our affairs, and protect us from the evil of the evildoers. Liberate us and our forebears from the Fire of Hell, from debt, and from oppression. O You the Victorious One, *Ya Aziz*! O You the Forgiving One, *Ya Ghaffar*! O You the Generous One, *Ya Karim*! O You the Coverer of Faults, *Ya Sattar*! O You the Forbearing One, *Ya Halim*! O You the Compeller, *Ya Jabbar*! O You the Magnificent One, *Ya Azim*! O You Who Subdues all things, *Ya Qahhar*! O Allah! O Allah! O Allah! O You the Compassionate One in this world, *Ya Rahman*! O You the Merciful One in the life hereafter, *Ya Rahim*! O You the Greatest of the Merciful, *Ya Arhama ar-Rahimin* — You are the Granter of boundless mercy. And may the mercy and blessings of Allah descend always upon Muhammad, peace and blessings of Allah be upon him, the finest of all creation from eternity to eternity, and upon his descendants, and upon his companions. All praise belongs solely to Allah, the Lord of all the Universes, *Rabb ul-Alamin*."
+O my Allah! I ask of You the fullness and perfection of Your blessings; the permanence of inward and outward purity; the all-encompassing breadth of Your mercy; the attainment of health; increase in my sustenance; happiness in my life; true and lasting success in this life; the completion of noble qualities; from Your rewards, the most abundant reward; from Your plenitude, the sweetest plenitude; from Your favors, the most plentiful favor; from all deeds, the deed that is best; from all knowledge, the knowledge that is most beneficial; and from all sustenance, the sustenance that is most wholesome.
 
-Carry this with you, my son. Say it slowly. Let each phrase land before you reach for the next. A supplication recited in haste is a letter dropped at the door without ever being read; a supplication recited with presence is a conversation with the One who is nearer to you than your own jugular vein.
+O my Allah! Be on our side and grant us benefit; do not burden us, but keep us from harm. O my Allah! Grant us salvation at our death; set our deeds right; keep us safe through Your days and Your nights; extend Your mercy to us in our homes and in our possessions; veil our sins and faults with Your forgiveness; do us the favor of correcting all our shortcomings, inward and outward; and grant us confidence and reliance upon You.
 
-And here, at this last threshold, I lay down my pen. Everything I had to give you, I have given. Everything I withheld, I withheld because it is for you to find on your own road. What remains is between you and your Lord. Walk well. Walk in the company of those whose hearts He has already turned. And when the road grows long and the night grows cold, remember that the One who set you on this path has never once abandoned a traveler who kept calling His name.
+O my Allah! Grant us steadfastness and perseverance in our Deen (دِيْن), our religion and path to God. Save us from any deed in this world that would become a source of shame and humiliation on the Day of Judgment. Lighten the burden of our sins; grant us the life of the pious; be sufficient for us in all our affairs; and protect us from the evil of the evildoers. Set us free, and set our forebears free, from the Fire of Hell, from debt, and from oppression. O You the Victorious One, Ya Aziz! O You the Forgiving One, Ya Ghaffar! O You the Generous One, Ya Kareem! O You the Coverer of Faults, Ya Sattar! O You the Forbearing One, Ya Haleem! O You the Compeller, Ya Jabbar! O You the Magnificent One, Ya Azeem! O You Who subdue all things, Ya Qahhar! O Allah! O Allah! O Allah! O You the Compassionate One in this world, Ya Rahman! O You the Merciful One in the life to come, Ya Raheem! O You the Greatest of the Merciful, Ya Arhamu ar-Rahimeen! You are the Granter of boundless mercy. And may the mercy and blessings of Allah descend always upon Muhammad (ع), the finest of all creation from eternity to eternity, and upon his descendants, and upon his companions. All praise belongs to Allah alone, the Lord of all the Universes, Rabb ul-Alameen.
 
-This book comes to an end with the help of *al-Malik*, the Absolute Sovereign, and *al-Wahhab*, the Giver of all.
+Here this book comes to an end, with the help of Al-Malik, the Absolute Sovereign, and Al-Wahhab, the Giver of all.
+
+<!-- editorial:begin -->
+> **Editorial note (tradition-grounded).** 
+> When this closing prayer petitions Allah for "the knowledge that is most beneficial," it draws
+> on a concern the wider tradition voices directly: a related supplication preserved in this
+> tradition asks Allah's refuge from knowledge that brings no benefit. The same tradition sharpens
+> why the petition matters, warning that on the Day of Judgment the most severe torment falls upon
+> the scholar whom Allah did not benefit through his knowledge — that is, one who did not act upon
+> what he learned. Read alongside the author's parting charge to gather one's resolve and act upon
+> all the book contains, the prayer for beneficial knowledge is thus a plea not merely to know,
+> but to be preserved from learning that stands idle and, on that Day, turns against the one who
+> holds it.
+<!-- editorial:end -->
