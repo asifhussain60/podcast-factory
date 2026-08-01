@@ -4,8 +4,8 @@ Do not read this prompt aloud.
 
 ## Goal
 
-Read the glossary aloud. It has exactly 21 numbered entries and every
-single one must be spoken — entry 1 through entry 21, in that order.
+Read the glossary aloud. It has exactly 17 numbered entries and every
+single one must be spoken — entry 1 through entry 17, in that order.
 
 For each entry, do exactly this and nothing else:
   1. Say the term, using the 'Said aloud' form given for it.
@@ -32,7 +32,6 @@ spell a word out letter by letter. Never say the original spelling and
 another form back-to-back.
 
 Say these names and terms just as written:
-- al-Naysaburi
 - al-Kirmani
 - Rahat al-Aql
 - bayt al-mal
@@ -40,19 +39,19 @@ Say these names and terms just as written:
 - za-KAAT
 - qibla
 - hudud
-- vicegerent
 - ahl al-zahir
-- khums
-- qutb
 - taslim
 - sais
 - tash-BEEH
 - khutba
-- ahl al-haqq
 - masbuq
-- nutq
 - ahl al-batil
-- nur al-imama
+
+Where an English phrase is given, say the English — do NOT say the
+Arabic word it replaces:
+- say "the author"
+- say "the fifth"
+- say "the pole"
 
 Arabic citations: speak ONCE at first occurrence, then the English meaning.
 

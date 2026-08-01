@@ -1,6 +1,6 @@
 # Pronunciation probe — degrees-of-excellence
 
-A one-time pronunciation check covering the 21 highest-risk Arabic terms in
+A one-time pronunciation check covering the 17 highest-risk Arabic terms in
 this book, BEFORE any episode is generated. Catch and fix mispronunciations
 here, and every chapter (and future book, via the shared library) inherits the
 corrections.

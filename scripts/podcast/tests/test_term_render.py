@@ -283,13 +283,29 @@ def test_a_headerless_table_still_parses(tmp_path):
     assert tr.load_book_overrides(tmp_path) == {tr.normalize_key("arkan"): "ar-KAAN"}
 
 
-def test_the_live_book_reads_only_its_two_proven_values():
+def test_no_unproven_respelling_is_active_in_the_live_book():
+    """Every ACTIVE value in this book's table has evidence behind it.
+
+    Not a count — counts move as the probe settles terms. The invariant is that
+    a value only governs the audio once a human has heard it: either a
+    respelling a probe confirmed, or an explicit `substitute` standing in for a
+    term no written form could carry. A bare respelling appearing here again
+    means 41 unheard guesses have crept back in, which is where this began.
+    """
     bd = Path(__file__).resolve().parents[3] / "content" / "Islamic" / "degrees-of-excellence"
     if not (bd / "_system" / "pronunciation.md").exists():
         pytest.skip("book not present in this checkout")
-    # 40 terms still on the book's list; only the values a probe HEARD work.
+    proven = {tr.normalize_key("tawhid"), tr.normalize_key("tashbih")}
+    unproven = [
+        f"{term} -> {value}"
+        for term, value in tr.parse_book_override_table(bd)
+        if not tr.is_withdrawn(value)
+        and not value.lower().startswith("substitute")
+        and tr.normalize_key(term) not in proven
+    ]
+    assert unproven == []
+    # And the terms themselves stay on the list, so the probe still knows them.
     assert len(tr.parse_book_override_table(bd)) == 40
-    assert set(tr.load_book_overrides(bd)) == {tr.normalize_key("tawhid"), tr.normalize_key("tashbih")}
 
 
 # ------------------------------------- gloss direction (found by probe 2, 2026-08-01)

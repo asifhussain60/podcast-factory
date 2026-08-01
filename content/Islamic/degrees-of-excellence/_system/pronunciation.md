@@ -44,11 +44,11 @@ list, and any of these can be reinstated the moment a probe hears it work.
 
 | tawhid | tow-HEED | Divine unity. |
 | tashbih | tash-BEEH | Anthropomorphism. |
-| imamate | plain | withdrawn 2026-08-01 (not heard); was `IM-uh-mayt` |
+| imamate | substitute *the office of the imam* | unfixable — run 2: "the MFA", "the Imamat", "the Yamavat", "the Yamam", "the image" — 0 of 5 correct |
 | imam | plain | withdrawn 2026-08-01 (not heard); was `i-MAAM` |
-| vicegerent | plain | withdrawn 2026-08-01 (heard wrong); was `vice-JEER-uhnt` |
-| al-Naysaburi | plain | withdrawn 2026-08-01 (heard wrong); was `an-nay-saa-BOO-ree` |
-| qutb | plain | withdrawn 2026-08-01 (not heard); was `KOOTB` |
+| vicegerent | substitute *God's deputy* | unfixable — run 2: "the vice spirit of God"; run 1: "vice jeer hunt" |
+| al-Naysaburi | substitute *the author* | unfixable — 13 renderings in run 2 (Al-Nisaburi, Ale Saburi, Alanesaburi, almaburi, …) |
+| qutb | substitute *the pole* | unfixable — run 2: "the quad" |
 | asas al-din | plain | withdrawn 2026-08-01 (not heard); was `ah-SAAS ad-DEEN` |
 | ta'wil | plain | withdrawn 2026-08-01 (not heard); was `taa-WEEL` |
 | arkan | plain | withdrawn 2026-08-01 (not heard); was `ar-KAAN` |
@@ -57,7 +57,7 @@ list, and any of these can be reinstated the moment a probe hears it work.
 | ahl al-zahir | plain | withdrawn 2026-08-01 (not heard); was `AHL az-ZAH-hir` |
 | Maghrib | plain | withdrawn 2026-08-01 (not heard); was `MAGH-rib` |
 | fay | plain | withdrawn 2026-08-01 (not heard); was `FIE` |
-| nutq | plain | withdrawn 2026-08-01 (not heard); was `NOOTQ` |
+| nutq | substitute *articulate reason* | unfixable — run 2: "the Nutka", "the Nutkue" |
 | taslim | plain | withdrawn 2026-08-01 (not heard); was `tas-LEEM` |
 | raiya | plain | withdrawn 2026-08-01 (not heard); was `ra-EE-ya` |
 | sais | plain | withdrawn 2026-08-01 (heard wrong); was `SAA-is` |
@@ -66,7 +66,7 @@ list, and any of these can be reinstated the moment a probe hears it work.
 | qibla | plain | withdrawn 2026-08-01 (not heard); was `QIB-lah` |
 | khutba | plain | withdrawn 2026-08-01 (heard wrong); was `KHUT-bah` |
 | zakat | plain | withdrawn 2026-08-01 (not heard); was `za-KAAH` |
-| khums | plain | withdrawn 2026-08-01 (not heard); was `KHOOMS` |
+| khums | substitute *the fifth* | unfixable — run 2: "the comes" |
 | hudud | plain | withdrawn 2026-08-01 (not heard); was `hu-DOOD` |
 | walaya | plain | withdrawn 2026-08-01 (heard wrong); was `wa-LAA-ya` |
 | bayt al-mal | plain | withdrawn 2026-08-01 (not heard); was `BAYT al-MAAL` |
@@ -75,12 +75,12 @@ list, and any of these can be reinstated the moment a probe hears it work.
 | Yasin | plain | withdrawn 2026-08-01 (not heard); was `YAA-seen` |
 | nass | plain | withdrawn 2026-08-01 (not heard); was `NAHSS` |
 | sunna | plain | withdrawn 2026-08-01 (not heard); was `SOON-nah` |
-| nur al-imama | plain | withdrawn 2026-08-01 (heard wrong); was `NOOR al-i-MAA-ma` |
+| nur al-imama | substitute *the light of the imam* | unfixable — run 2: "the Nur Ali Mama"; run 1: "NO or Ali Masma" |
 | falta | plain | withdrawn 2026-08-01 (not heard); was `FAL-tah` |
 | Ghadir Khumm | plain | withdrawn 2026-08-01 (not heard); was `gha-DEER KHOOM` |
 | mutimm | plain | withdrawn 2026-08-01 (not heard); was `moo-TIMM` |
 | ghulat | plain | withdrawn 2026-08-01 (not heard); was `goo-LAAT` |
-| ahl al-haqq | plain | withdrawn 2026-08-01 (not heard); was `AHL al-HAQQ` |
+| ahl al-haqq | substitute *the people of truth* | unfixable — run 2: "the Allah Haq" — puts the divine name into a phrase without it |
 | ahl al-batil | plain | withdrawn 2026-08-01 (not heard); was `AHL al-BAH-til` |
 
 ## Withdrawn values, for the record

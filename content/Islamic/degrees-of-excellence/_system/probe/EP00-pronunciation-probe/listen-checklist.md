@@ -20,7 +20,7 @@ and stop asking the hosts to say the Arabic at all.
 
 | n | term | rendered | OK? | Fix |
 |---|------|----------|-----|-----|
-| 1 | al-Naysaburi | al-Naysaburi |  |  |
+| 1 | al-Naysaburi | the author |  |  |
 | 2 | al-Kirmani | al-Kirmani |  |  |
 | 3 | Rahat al-Aql | Rahat al-Aql |  |  |
 | 4 | bayt al-mal | bayt al-mal |  |  |
@@ -28,17 +28,13 @@ and stop asking the hosts to say the Arabic at all.
 | 6 | zakat | za-KAAT |  |  |
 | 7 | qibla | qibla |  |  |
 | 8 | hudud | hudud |  |  |
-| 9 | vicegerent | vicegerent |  |  |
-| 10 | ahl al-zahir | ahl al-zahir |  |  |
-| 11 | khums | khums |  |  |
-| 12 | qutb | qutb |  |  |
-| 13 | taslim | taslim |  |  |
-| 14 | sais | sais |  |  |
-| 15 | tashbih | tash-BEEH |  |  |
-| 16 | khutba | khutba |  |  |
-| 17 | ahl al-haqq | ahl al-haqq |  |  |
-| 18 | masbuq | masbuq |  |  |
-| 19 | nutq | nutq |  |  |
-| 20 | ahl al-batil | ahl al-batil |  |  |
-| 21 | nur al-imama | nur al-imama |  |  |
+| 9 | ahl al-zahir | ahl al-zahir |  |  |
+| 10 | khums | the fifth |  |  |
+| 11 | qutb | the pole |  |  |
+| 12 | taslim | taslim |  |  |
+| 13 | sais | sais |  |  |
+| 14 | tashbih | tash-BEEH |  |  |
+| 15 | khutba | khutba |  |  |
+| 16 | masbuq | masbuq |  |  |
+| 17 | ahl al-batil | ahl al-batil |  |  |
 

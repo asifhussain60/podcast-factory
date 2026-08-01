@@ -1,16 +1,16 @@
 # Term glossary — degrees-of-excellence
 
-A glossary of 21 terms used in this book. Each entry gives the term, the
+A glossary of 17 terms used in this book. Each entry gives the term, the
 way it is said aloud, and the sentence it appears in.
 
-Every quoted sentence is taken verbatim from the book, across 6 chapters, so each term appears in the
+Every quoted sentence is taken verbatim from the book, across 5 chapters, so each term appears in the
 prose it belongs to.
 
 ## Part 1 — People and scholar names
 
 ### 1. al-Naysaburi
 
-Said aloud: al-Naysaburi
+Said aloud: the author
 
 In the book: “That is a bold way to begin a book, and it is exactly where al-Naysaburi (النيسابوري) chooses to plant his flag.”
 
@@ -58,80 +58,56 @@ Said aloud: hudud
 
 In the book: “Finally the prescribed penalties, the hudud (الحدود) — the amputations, the floggings, the stonings that the sacred law lays down for grave crimes.”
 
-### 9. vicegerent
-
-Said aloud: vicegerent
-
-In the book: “It is therefore necessary, al-Naysaburi says, to believe in the supreme leadership of the imam of the time — to know that he is the head of the world and the vicegerent of God over His creation, the khalifa through whom God's governance reaches what He made.”
-
-### 10. ahl al-zahir
+### 9. ahl al-zahir
 
 Said aloud: ahl al-zahir
 
 In the book: “The bitter, foul, thorned ones stand for the leaders of the literalists, the ahl al-zahir, the people of the surface who hold to the outer husk of religion and never reach its inner sense.”
 
-### 11. khums
+### 10. khums
 
-Said aloud: khums
+Said aloud: the fifth
 
 In the book: “And to compensate the family for what was forbidden them, God assigned them instead the fifth, the khums (الخمس), a designated share of the spoils.”
 
-### 12. qutb
+### 11. qutb
 
-Said aloud: qutb
+Said aloud: the pole
 
 In the book: “The first is qutb (قطب), the pole — the fixed pivot around which a wheel or a millstone turns, the still point that lets everything else revolve without flying apart.”
 
-### 13. taslim
+### 12. taslim
 
 Said aloud: taslim
 
 In the book: “That is taslim shown from the inside — the recognition that an act which looks like sheer damage from below may be rescue seen from above, and that the whole distance between the two is only the length of one's own sight.”
 
-### 14. sais
+### 13. sais
 
 Said aloud: sais
 
 In the book: “A world with no head, no leader, no master, no sa'is to steer its worldly and religious affairs, would not limp along in disorder; it would rot.”
 
-### 15. tashbih
+### 14. tashbih
 
 Said aloud: tash-BEEH
 
 In the book: “Others went the opposite way and described Him with attributes that amounted to likening Him to His creation, the error the tradition calls tashbih, anthropomorphism, dressing God in human features until He borders on being just another creature; or else they stripped Him of every attribute at all, emptying Him out until nothing was left to worship.”
 
-### 16. khutba
+### 15. khutba
 
 Said aloud: khutba
 
 In the book: “The Friday prayer, he notes, is not valid without the sermon, the khutba (الخطبة), delivered from the pulpit — and that sermon is invalid without the imam or someone he has appointed to deliver it.”
 
-### 17. ahl al-haqq
-
-Said aloud: ahl al-haqq
-
-In the book: “And he withholds them from the undeserving, drawing the line that must be drawn — distinguishing the people of truth, the ahl al-haqq, from the people of falsehood, the ahl al-batil.”
-
-### 18. masbuq
+### 16. masbuq
 
 Said aloud: masbuq
 
 In the book: “The title "the one who precedes," al-sabiq, cannot be laid on the one who is preceded, the masbuq.”
 
-### 19. nutq
-
-Said aloud: nutq
-
-In the book: “A human being surpasses the animal by one further spirit still: the spirit of articulate reason, the ruh al-nutq, the power of speech and thought.”
-
-### 20. ahl al-batil
+### 17. ahl al-batil
 
 Said aloud: ahl al-batil
 
 In the book: “And he withholds them from the undeserving, drawing the line that must be drawn — distinguishing the people of truth, the ahl al-haqq, from the people of falsehood, the ahl al-batil.”
-
-### 21. nur al-imama
-
-Said aloud: nur al-imama
-
-In the book: “When he arose, al-Naysaburi says, he commanded that fire be glorified — and if the reports about this are sound, it was a symbolic indication of the glorification of the light of the imamate, the nur al-imama, the radiance that the imam carries and transmits.”

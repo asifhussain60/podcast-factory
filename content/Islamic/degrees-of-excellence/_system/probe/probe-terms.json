@@ -1,10 +1,10 @@
 {
   "book_slug": "degrees-of-excellence",
   "total_terms": 43,
-  "scored_terms": 21,
+  "scored_terms": 17,
   "skipped_confirmed": 20,
-  "skipped_unfixable": 2,
-  "top_n": 21,
+  "skipped_unfixable": 6,
+  "top_n": 17,
   "terms": [
     {
       "term": "النيسابوري",
@@ -126,25 +126,6 @@
       "n": 6
     },
     {
-      "term": "vicegerent",
-      "transliteration": "vicegerent",
-      "phonetic": "",
-      "house_style_ok": false,
-      "suggested_baseline": "vi-ce-ge-rent",
-      "signature": [],
-      "segment": "terms",
-      "snippet": "",
-      "freq": 13,
-      "score": 4,
-      "reasons": [
-        "x13 in text",
-        "non-house-style respelling"
-      ],
-      "arabic_script": "vicegerent",
-      "meaning": "",
-      "n": 7
-    },
-    {
       "term": "ahl al-zahir",
       "transliteration": "ahl al-zahir",
       "phonetic": "",
@@ -163,7 +144,7 @@
       ],
       "arabic_script": "ahl al-zahir",
       "meaning": "",
-      "n": 8
+      "n": 7
     },
     {
       "term": "اَلْخُمْس",
@@ -181,7 +162,7 @@
       ],
       "arabic_script": "اَلْخُمْس",
       "meaning": "",
-      "n": 9
+      "n": 8
     },
     {
       "term": "قُطْب",
@@ -199,7 +180,7 @@
       ],
       "arabic_script": "قُطْب",
       "meaning": "",
-      "n": 10
+      "n": 9
     },
     {
       "term": "taslim",
@@ -218,7 +199,7 @@
       ],
       "arabic_script": "taslim",
       "meaning": "",
-      "n": 11
+      "n": 10
     },
     {
       "term": "sais",
@@ -237,7 +218,7 @@
       ],
       "arabic_script": "sais",
       "meaning": "",
-      "n": 12
+      "n": 11
     },
     {
       "term": "tashbih",
@@ -255,7 +236,7 @@
       ],
       "arabic_script": "tashbih",
       "meaning": "",
-      "n": 13
+      "n": 12
     },
     {
       "term": "اَلْخُطْبَة",
@@ -275,7 +256,7 @@
       ],
       "arabic_script": "اَلْخُطْبَة",
       "meaning": "",
-      "n": 14
+      "n": 13
     },
     {
       "term": "bayt al-mal",
@@ -296,29 +277,7 @@
       ],
       "arabic_script": "bayt al-mal",
       "meaning": "",
-      "n": 15
-    },
-    {
-      "term": "ahl al-haqq",
-      "transliteration": "ahl al-haqq",
-      "phonetic": "",
-      "house_style_ok": false,
-      "suggested_baseline": "ahl al-hakk",
-      "signature": [
-        "qaf",
-        "article-al"
-      ],
-      "segment": "terms",
-      "snippet": "",
-      "freq": 1,
-      "score": 3,
-      "reasons": [
-        "qaf",
-        "non-house-style respelling"
-      ],
-      "arabic_script": "ahl al-haqq",
-      "meaning": "",
-      "n": 16
+      "n": 14
     },
     {
       "term": "masbuq",
@@ -339,28 +298,7 @@
       ],
       "arabic_script": "masbuq",
       "meaning": "",
-      "n": 17
-    },
-    {
-      "term": "nutq",
-      "transliteration": "nutq",
-      "phonetic": "",
-      "house_style_ok": false,
-      "suggested_baseline": "nutk",
-      "signature": [
-        "qaf"
-      ],
-      "segment": "terms",
-      "snippet": "",
-      "freq": 1,
-      "score": 3,
-      "reasons": [
-        "qaf",
-        "non-house-style respelling"
-      ],
-      "arabic_script": "nutq",
-      "meaning": "",
-      "n": 18
+      "n": 15
     },
     {
       "term": "ahl al-batil",
@@ -380,28 +318,7 @@
       ],
       "arabic_script": "ahl al-batil",
       "meaning": "",
-      "n": 19
-    },
-    {
-      "term": "nur al-imama",
-      "transliteration": "nur al-imama",
-      "phonetic": "",
-      "house_style_ok": false,
-      "suggested_baseline": "nur al-i-ma-ma",
-      "signature": [
-        "article-al",
-        "ending-a"
-      ],
-      "segment": "terms",
-      "snippet": "",
-      "freq": 1,
-      "score": 1,
-      "reasons": [
-        "non-house-style respelling"
-      ],
-      "arabic_script": "nur al-imama",
-      "meaning": "",
-      "n": 20
+      "n": 16
     },
     {
       "term": "Rahat al-Aql",
@@ -424,7 +341,7 @@
       ],
       "arabic_script": "Rahat al-Aql",
       "meaning": "",
-      "n": 21
+      "n": 17
     }
   ]
 }

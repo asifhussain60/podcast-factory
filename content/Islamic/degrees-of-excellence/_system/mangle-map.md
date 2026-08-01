@@ -28,3 +28,11 @@ Format: pipe table; mangled forms comma-separated.
 | da'irat al-din | Dayarat al-Din |
 | tiryaq | teriac |
 | tawhid | Toheed |
+| al-Naysaburi | Aizab Uri, Al Nasabiri, Al-Nasaburi, Al-Nasibiri, Al-Nay Sabari, Al-Nisaburi, Alanesaburi, Ale Saburi, Ali Saburi, Alnais Saburi, Ani Saburi, al-Naisaburi, almaburi |
+| imamate | the Imamat, the MFA, the Yamam, the Yamavat, the image |
+| vicegerent | the vice version, vice jeer hunt, vice labyrinth, vice spirit of God |
+| ahl al-haqq | the Allah Haq |
+| qutb | the quad |
+| nutq | the Nutka, the Nutkue |
+| khums | the comes |
+| nur al-imama | NO or Ali Masma, the Nur Ali Mama |
