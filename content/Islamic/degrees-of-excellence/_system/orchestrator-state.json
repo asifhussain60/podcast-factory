@@ -4,10 +4,10 @@
   "category": "books",
   "branch": "Islamic/degrees-of-excellence",
   "status": "draft",
-  "phase": "0book-compose",
+  "phase": "0book-render",
   "phase_status": "completed",
-  "last_completed_phase": "0book-compose",
-  "next_phase": "0book-illustrate",
+  "last_completed_phase": "0book-render",
+  "next_phase": "publish",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -247,13 +247,62 @@
       "ts_completed": "2026-08-01T11:47:31Z"
     },
     "0book-illustrate": {
-      "status": "pending"
+      "status": "skipped",
+      "ts_completed": "2026-08-01T11:47:32Z",
+      "reason": "book_visuals=manual_only"
     },
     "0book-slide-import": {
-      "status": "pending"
+      "status": "skipped",
+      "ts_completed": "2026-08-01T11:47:32Z",
+      "reason": "book_visuals=manual_only"
     },
     "0book-render": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-08-01T11:47:32Z",
+      "ts_completed": "2026-08-01T12:24:10Z",
+      "book_validation": {
+        "slug": "degrees-of-excellence",
+        "verdict": "BOOK-SOUND",
+        "summary": "reading edition sound (6 gates checked)",
+        "gates": [
+          {
+            "gate": "B1",
+            "name": "book-md-complete",
+            "passed": true,
+            "note": "book.md: 140 KB, 10 sections ≥ 9 TOC chapters"
+          },
+          {
+            "gate": "B2",
+            "name": "book-pdf-renderable",
+            "passed": true,
+            "note": "book.pdf: 1560 KB, 87 pages ≥ 9 chapters"
+          },
+          {
+            "gate": "B3",
+            "name": "book-arabic-coverage",
+            "passed": true,
+            "note": "Arabic script present in all 6 chapters from 10 glossary terms · translation-edition Arabic preservation signal: 152 rendered Arabic runs from 24407 source runs"
+          },
+          {
+            "gate": "B4",
+            "name": "book-prose-integrity",
+            "passed": true,
+            "note": "book.md: no model commentary or generated headings detected"
+          },
+          {
+            "gate": "B5",
+            "name": "book-chapter-body-coverage",
+            "passed": true,
+            "note": "book.md: 9 numbered chapters have body text"
+          },
+          {
+            "gate": "B6",
+            "name": "book-source-crosswalk",
+            "passed": true,
+            "note": "source-crosswalk.json: 9 chapters aligned"
+          }
+        ]
+      }
     },
     "publish": {
       "status": "pending"
@@ -275,7 +324,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-07-31T11:39:48Z",
-  "ts_updated": "2026-08-01T11:47:31Z",
+  "ts_updated": "2026-08-01T12:24:10Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {

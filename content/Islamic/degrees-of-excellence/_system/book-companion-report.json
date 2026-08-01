@@ -1,0 +1,188 @@
+{
+  "schema": "book.companion-report/v1",
+  "generated_at": "2026-08-01T12:24:10Z",
+  "target": {
+    "min": 10,
+    "max": 15,
+    "kind_ceiling_fraction": 0.3333333333333333
+  },
+  "chapters": [
+    {
+      "total": 15,
+      "kinds": {
+        "etymology": 5,
+        "note": 3,
+        "explanation": 4,
+        "analogy": 1,
+        "question": 2
+      },
+      "dominant_share": 0.33,
+      "within_target": true,
+      "within_ceiling": true,
+      "chapter": "the-question-of-leadership",
+      "title": "The Question of Leadership",
+      "candidates": 15,
+      "dropped": 0,
+      "episodes": []
+    },
+    {
+      "total": 10,
+      "kinds": {
+        "note": 3,
+        "analogy": 2,
+        "explanation": 4,
+        "question": 1
+      },
+      "dominant_share": 0.4,
+      "within_target": true,
+      "within_ceiling": true,
+      "chapter": "1-the-pole-and-foundation-of-religion",
+      "title": "1. The Pole and Foundation of Religion",
+      "candidates": 10,
+      "dropped": 5,
+      "episodes": []
+    },
+    {
+      "total": 13,
+      "kinds": {
+        "analogy": 3,
+        "explanation": 5,
+        "note": 3,
+        "question": 2
+      },
+      "dominant_share": 0.38,
+      "within_target": true,
+      "within_ceiling": true,
+      "chapter": "2-by-nature-and-by-reason",
+      "title": "2. By Nature and by Reason",
+      "candidates": 15,
+      "dropped": 2,
+      "episodes": []
+    },
+    {
+      "total": 14,
+      "kinds": {
+        "explanation": 5,
+        "analogy": 2,
+        "note": 4,
+        "etymology": 1,
+        "question": 2
+      },
+      "dominant_share": 0.36,
+      "within_target": true,
+      "within_ceiling": true,
+      "chapter": "3-degrees-of-excellence",
+      "title": "3. Degrees of Excellence",
+      "candidates": 14,
+      "dropped": 3,
+      "episodes": []
+    },
+    {
+      "total": 13,
+      "kinds": {
+        "etymology": 1,
+        "explanation": 5,
+        "analogy": 2,
+        "question": 3,
+        "note": 2
+      },
+      "dominant_share": 0.38,
+      "within_target": true,
+      "within_ceiling": true,
+      "chapter": "4-the-ladder-of-creation",
+      "title": "4. The Ladder of Creation",
+      "candidates": 14,
+      "dropped": 2,
+      "episodes": []
+    },
+    {
+      "total": 12,
+      "kinds": {
+        "etymology": 1,
+        "explanation": 5,
+        "note": 2,
+        "analogy": 2,
+        "question": 2
+      },
+      "dominant_share": 0.42,
+      "within_target": true,
+      "within_ceiling": true,
+      "chapter": "5-the-physician-of-souls",
+      "title": "5. The Physician of Souls",
+      "candidates": 13,
+      "dropped": 1,
+      "episodes": []
+    },
+    {
+      "total": 14,
+      "kinds": {
+        "analogy": 3,
+        "explanation": 5,
+        "note": 2,
+        "etymology": 2,
+        "question": 2
+      },
+      "dominant_share": 0.36,
+      "within_target": true,
+      "within_ceiling": true,
+      "chapter": "6-governance-and-the-first-principle",
+      "title": "6. Governance and the First Principle",
+      "candidates": 14,
+      "dropped": 0,
+      "episodes": []
+    },
+    {
+      "total": 13,
+      "kinds": {
+        "analogy": 2,
+        "note": 4,
+        "explanation": 3,
+        "etymology": 3,
+        "question": 1
+      },
+      "dominant_share": 0.31,
+      "within_target": true,
+      "within_ceiling": true,
+      "chapter": "7-the-imam-in-the-pillars-of-faith",
+      "title": "7. The Imam in the Pillars of Faith",
+      "candidates": 13,
+      "dropped": 3,
+      "episodes": []
+    },
+    {
+      "total": 13,
+      "kinds": {
+        "explanation": 4,
+        "analogy": 2,
+        "note": 2,
+        "question": 2,
+        "etymology": 3
+      },
+      "dominant_share": 0.31,
+      "within_target": true,
+      "within_ceiling": true,
+      "chapter": "8-from-adam-to-ali",
+      "title": "8. From Adam to Ali",
+      "candidates": 13,
+      "dropped": 2,
+      "episodes": []
+    },
+    {
+      "total": 14,
+      "kinds": {
+        "analogy": 4,
+        "explanation": 5,
+        "note": 3,
+        "question": 2
+      },
+      "dominant_share": 0.36,
+      "within_target": true,
+      "within_ceiling": true,
+      "chapter": "9-god-s-vicegerent-in-his-time",
+      "title": "9. God's Vicegerent in His Time",
+      "candidates": 15,
+      "dropped": 2,
+      "episodes": []
+    }
+  ]
+}

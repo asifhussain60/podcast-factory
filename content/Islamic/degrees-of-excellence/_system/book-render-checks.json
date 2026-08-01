@@ -1,0 +1,49 @@
+{
+  "schema": "podcast.book-render-checks/v1",
+  "verdict": "RENDER-CAUTION",
+  "pages": 87,
+  "findings": [
+    {
+      "check": "BR-PAGE-FILL",
+      "severity": "P1",
+      "page": 2,
+      "detail": "half-empty interior page (183 vs median 1855 chars)"
+    },
+    {
+      "check": "BR-PAGE-FILL",
+      "severity": "P1",
+      "page": 3,
+      "detail": "half-empty interior page (316 vs median 1855 chars)"
+    },
+    {
+      "check": "BR-CAPTION-DUP",
+      "severity": "P1",
+      "page": 9,
+      "detail": "caption printed twice: '\\u202b\u0650\u0647\\u202c'"
+    },
+    {
+      "check": "BR-CAPTION-DUP",
+      "severity": "P1",
+      "page": 14,
+      "detail": "caption printed twice: '\\u202b\u0650\u0647\\u202c'"
+    },
+    {
+      "check": "BR-PAGE-FILL",
+      "severity": "P1",
+      "page": 28,
+      "detail": "half-empty interior page (626 vs median 1855 chars)"
+    },
+    {
+      "check": "BR-PAGE-FILL",
+      "severity": "P1",
+      "page": 47,
+      "detail": "half-empty interior page (433 vs median 1855 chars)"
+    },
+    {
+      "check": "BR-PAGE-FILL",
+      "severity": "P1",
+      "page": 73,
+      "detail": "half-empty interior page (182 vs median 1855 chars)"
+    }
+  ]
+}
