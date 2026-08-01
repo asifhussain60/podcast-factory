@@ -895,6 +895,15 @@ body:has(.composer-grid:not([data-panel="closed"])) {
      reads as something that failed to fit; centred, it reads as a deliberate
      second tier. */
   margin-inline: auto;
+  /* Wraps, exactly as the formatting bar above it already does. The cluster is
+     610px of controls; at a 390px viewport the composer column gives it 340px,
+     and nowrap put the size stepper, the whole Paper picker and "Show changes"
+     past the right edge of a container that clips rather than scrolls — three
+     controls with no way to reach them. Centred when it wraps so a short second
+     line reads as the same deliberate tier, not as a leftover. */
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 0.4rem;
 }
 
 /* Paper picker — Kindle-style Light / Sepia / Dark. A single SEGMENTED control

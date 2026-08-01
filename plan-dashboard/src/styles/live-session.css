@@ -200,6 +200,13 @@
   align-items: center;
   gap: var(--sp-2);
   width: 18rem;
+  /* 18rem is the MATCHED width the pair wants whenever there is room for it; it
+     is not a floor. Without this cap the button kept all 18rem on a 390px
+     screen and pushed its own chevron past the picker card's border and off the
+     right edge of the viewport, which clips rather than scrolls. Capping lets
+     .lsv-dropdown-trigger-text do the truncation the comment above already
+     promises, instead of the screen edge doing it. */
+  max-width: 100%;
   padding: var(--sp-2) var(--sp-3);
   border: 1px solid var(--c-rule);
   border-radius: var(--r-md);

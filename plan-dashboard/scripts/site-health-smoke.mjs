@@ -298,7 +298,10 @@ async function ensureServer() {
 // Add new invariants here as the site-health-sentinel agent finds recurring,
 // measurable defects.
 async function checkLayoutInvariants(page) {
-  return page.evaluate(() => {
+  // INV-1..4 measure the 1440px layout this gate navigates at; INV-5 below
+  // re-measures at phone width, so the desktop findings are collected first and
+  // the two sets are returned together.
+  const out = await page.evaluate(() => {
     const out = [];
 
     // INV-1: multi-volume "series deck" stacked-card. The ::before/::after
@@ -492,6 +495,75 @@ async function checkLayoutInvariants(page) {
 
     return out;
   });
+
+  // INV-5: a control that no scroll can reach at PHONE width. Every other
+  // invariant here runs at the 1440px viewport this gate uses, which is exactly
+  // why this class kept shipping: a fixed-width control inside a container that
+  // CLIPS rather than scrolls looks perfect at desktop and simply has no right
+  // half on a phone. Two shipped that way during the 2026-07-27..08-01 CI outage
+  // — the Composer's view-preference cluster (nowrap, 610px of controls in a
+  // 340px column, so the Paper picker and "Show changes" were gone) and the LIVE
+  // Session's book/chapter pickers (a flat `width: 18rem` pushing their own
+  // chevrons past the card border and off the screen).
+  //
+  // The discriminator is REACHABILITY, not overflow. This site uses horizontal
+  // scrollers deliberately and often — the top nav's sections, the architecture
+  // subnav rail, the studio step-stepper, the library tab strip — and every one
+  // of those legitimately extends past 390px. So an off-screen control is only a
+  // finding when NO ancestor can scroll it back into view. Measured that way it
+  // reported zero across all 33 page routes with the two fixes in, and exactly
+  // those two with them reverted.
+  const restore = page.viewportSize();
+  await page.setViewportSize({ width: 390, height: 844 });
+  // Reflow + any width-driven island re-render before measuring.
+  await page.waitForTimeout(400);
+  const narrow = await page.evaluate(() => {
+    const W = document.documentElement.clientWidth;
+    const out = [];
+    for (const el of document.querySelectorAll(
+      "button, select, input, textarea, a[href]",
+    )) {
+      const cs = getComputedStyle(el);
+      if (cs.visibility === "hidden" || cs.display === "none") continue;
+      // offsetParent is null for a fixed element as well as a hidden one.
+      if (el.offsetParent === null && cs.position !== "fixed") continue;
+      const rc = el.getBoundingClientRect();
+      if (rc.width < 1 || rc.height < 1) continue;
+      if (rc.right <= W + 1 && rc.left >= -1) continue;
+      let reachable = false;
+      for (let a = el.parentElement; a; a = a.parentElement) {
+        const acs = getComputedStyle(a);
+        if (
+          /(auto|scroll)/.test(acs.overflowX) &&
+          a.scrollWidth > a.clientWidth + 1
+        ) {
+          reachable = true;
+          break;
+        }
+      }
+      if (reachable) continue;
+      const label = (
+        el.textContent ||
+        el.getAttribute("aria-label") ||
+        el.getAttribute("placeholder") ||
+        ""
+      )
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 28);
+      const cls = (el.className || "").toString().split(" ")[0] || el.tagName;
+      out.push(
+        `${cls} "${label}" spans [${Math.round(rc.left)},${Math.round(rc.right)}] of a ${W}px viewport`,
+      );
+    }
+    return out;
+  });
+  if (restore) await page.setViewportSize(restore);
+  for (const n of narrow) {
+    out.push(`control-unreachable-at-390px: ${n} — no scrollable ancestor`);
+  }
+
+  return out;
 }
 
 // ---- per-route probe ------------------------------------------------------
