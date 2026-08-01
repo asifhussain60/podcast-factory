@@ -51,6 +51,15 @@ also carried is `/studio` itself.
   the route manifest with a comment explaining why, and never added to
   `EXPECTED_REDIRECTS` — so smoke failed it as an undeclared redirect, which is
   exactly what that check exists to say. Declared; 36 routes clean.
+- **The prev/next chapter row came across in the retired view's vocabulary** and
+  had to be redrawn (Asif: "make these buttons look like buttons similar to the
+  buttons on top"). It was a transparent 999px capsule; an inch above it the
+  toolbar gives every control a card surface, a 6px corner and a raised hairline.
+  Same surface, border token, radius, shadow and press now — hover is surface +
+  border only, exactly as `.rte-tool:hover` does it. `--cx-control-border` moved
+  from the toolbar block to the view ROOT, because the nav is the toolbar's
+  sibling and could not inherit it; that hoist is what stops the two drifting
+  apart again.
 
 Gates: pytest 2,114 · site tests 363 · smoke 36 clean · lint:views 0 ·
 astro check 0 errors · agent-wrapper parity in sync · repo probe 1 pre-existing P3.
