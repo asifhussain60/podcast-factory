@@ -8,6 +8,28 @@
  * (imported by both compose.astro and the Studio [step].astro), so the same
  * self-hosted faces back the font picker on both editor surfaces. */
 
+/* The control outline every button on this page draws itself with: a DARK shade
+   of the page's own warm card rather than a neutral hairline. --c-rule-soft was
+   so close to the tinted toolbar that the buttons read as floating glyphs;
+   mixing the accent brown into the card keeps the outline in the same family as
+   the surface it sits on while making each control an unmistakable object.
+
+   Declared on the view ROOT, not on the toolbar, since 2026-08-01: the chapter
+   nav at the foot of a chapter is a sibling of the toolbar, not a descendant,
+   and the two were drawing themselves from two different vocabularies. One
+   definition is what keeps them from drifting apart again. */
+.composer {
+  --cx-control-border: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 42%,
+    var(--c-bg-card, #fffdf8)
+  );
+  /* The raised-hairline both the toolbar controls and the chapter nav wear —
+     the package's own --rte-shadow value, named here so the host side of the
+     pair does not restate a magic number. */
+  --cx-control-shadow: 0 1px 0 rgb(0 0 0 / 4%);
+}
+
 /* One-line help text that sits under the title inside the shared .lib-hero
    identity block. The header structure itself is the shared Studio hero. */
 .composer-sub {
@@ -862,16 +884,6 @@ body:has(.composer-grid:not([data-panel="closed"])) {
    defaults cannot leak onto anything else on the page. */
 .cx-edit-toolbar,
 .rte-bubble {
-  /* The control outline: a DARK shade of the bar's own warm background rather
-     than a neutral hairline. --c-rule-soft was so close to the tinted bar that
-     the buttons read as floating glyphs; mixing the accent brown into the card
-     keeps the outline in the same family as the surface it sits on while making
-     each control an unmistakable object. */
-  --cx-control-border: color-mix(
-    in oklab,
-    var(--c-accent, #8b4513) 42%,
-    var(--c-bg-card, #fffdf8)
-  );
   --rte-surface: var(--c-bg-card, #fffdf8);
   --rte-surface-sunken: var(--c-bg-sunken, #efeae0);
   --rte-surface-hover: var(--c-bg-elev, #f6f2e9);
@@ -1816,35 +1828,49 @@ body:has(.composer-grid) .to-top {
   padding-top: 1.1rem;
   border-top: 1px solid var(--c-rule-soft, #e8e2d5);
 }
+/* Drawn as a TOOLBAR CONTROL, not as a pill (Asif, 2026-08-01). The ported form
+   was a transparent 999px capsule, which on this page read as a link in a border
+   rather than as a button — the toolbar an inch above it gives every control its
+   own card surface, a 6px corner and a raised hairline, and these two are the
+   same kind of thing. Same surface, same border token, same radius, same shadow,
+   same press: what differs is only that these are wide and carry two lines. */
 .cx-chapter-nav-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
   max-width: 46%;
-  padding: 0.6rem 1rem;
-  border: 1px solid var(--c-rule, #d9d3c4);
-  border-radius: 999px;
-  background: transparent;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--cx-control-border, #d9d3c4);
+  border-radius: 6px;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: var(--cx-control-shadow, 0 1px 0 rgb(0 0 0 / 4%));
   color: var(--c-ink-muted, #66625a);
   font: inherit;
   text-align: left;
   cursor: pointer;
   transition:
-    background 0.14s,
-    color 0.14s,
-    border-color 0.14s;
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    transform 120ms ease;
 }
 .cx-chapter-nav-btn--next {
   text-align: right;
 }
+/* Surface and border only, exactly as `.rte-tool:hover` does it. An earlier
+   version also turned the text accent, which on this control changed the arrow
+   and left the two labels behind — they carry colours of their own — so the
+   button half-responded. The toolbar never recolours its glyph on hover, and
+   matching that is both simpler and the thing that was asked for. */
 .cx-chapter-nav-btn:hover:not(:disabled) {
   border-color: var(--c-accent, #8b4513);
-  color: var(--c-accent, #8b4513);
-  background: color-mix(
-    in oklab,
-    var(--c-accent, #8b4513) 6%,
-    var(--c-bg-card, #fffdf8)
-  );
+  background: var(--c-bg-elev, #f6f2e9);
+}
+/* The toolbar's press: the control moves under the finger and drops its
+   hairline, so a wide button and a 1.9rem one respond identically. */
+.cx-chapter-nav-btn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: none;
 }
 .cx-chapter-nav-btn:focus-visible {
   outline: 2px solid var(--c-accent, #8b4513);
@@ -1852,6 +1878,7 @@ body:has(.composer-grid) .to-top {
 }
 .cx-chapter-nav-btn:disabled {
   opacity: 0.35;
+  box-shadow: none;
   cursor: not-allowed;
 }
 /* Two lines: the direction, then the chapter it leads to. The title is what
