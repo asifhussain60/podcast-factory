@@ -68,7 +68,7 @@ list, and any of these can be reinstated the moment a probe hears it work.
 | zakat | plain | withdrawn 2026-08-01 (not heard); was `za-KAAH` |
 | khums | substitute *the fifth* | unfixable — run 2: "the comes" |
 | hudud | plain | withdrawn 2026-08-01 (not heard); was `hu-DOOD` |
-| walaya | plain | withdrawn 2026-08-01 (heard wrong); was `wa-LAA-ya` |
+| walaya | substitute *Spiritual Guardianship* | Asif's choice 2026-08-01 — NOT a pronunciation failure: `wa-LAA-ya` came out "wa la ya" in run 1, but plain `walaya` was heard correct in run 2. English preferred anyway. |
 | bayt al-mal | plain | withdrawn 2026-08-01 (not heard); was `BAYT al-MAAL` |
 | da'irat al-din | plain | withdrawn 2026-08-01 (not heard); was `DAA-i-rat ad-DEEN` |
 | Taha | plain | withdrawn 2026-08-01 (not heard); was `TAH-haa` |
