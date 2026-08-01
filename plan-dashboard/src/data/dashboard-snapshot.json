@@ -1777,10 +1777,10 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 12.94
+    "burn_30d_usd": 14.39
   },
-  "generated_at": "2026-07-31T17:32:00-04:00",
-  "source_commit": "1503103",
+  "generated_at": "2026-08-01T14:18:34-04:00",
+  "source_commit": "9673765",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1842,54 +1842,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "1503103",
-      "subject": "fix(orchestrator): five real bugs from a full control-flow + gate review",
-      "date": "2026-07-31"
+      "sha": "9673765",
+      "subject": "merge(develop): Islamic/degrees-of-excellence — the pronunciation lane, settled by ear",
+      "date": "2026-08-01"
     },
     {
-      "sha": "27921e3",
-      "subject": "feat(degrees-of-excellence): drop the Introduction episodes, series is al-Naysaburi's treatise only",
-      "date": "2026-07-31"
+      "sha": "f189909",
+      "subject": "compose(the-master-and-the-disciple): a Companion note and two commas",
+      "date": "2026-08-01"
     },
     {
-      "sha": "d62264b",
-      "subject": "fix(slides): build_slide_deck.py validator crashed on every single call",
-      "date": "2026-07-31"
+      "sha": "7027027",
+      "subject": "pronunciation(degrees-of-excellence): walaya becomes \"Spiritual Guardianship\"",
+      "date": "2026-08-01"
     },
     {
-      "sha": "4d892f1",
-      "subject": "fix(degrees-of-excellence): build the glossary G13 needed, correctly this time",
-      "date": "2026-07-31"
+      "sha": "63e9dd8",
+      "subject": "ledger(pronunciation): settle the six collisions and the ta'wil gloss",
+      "date": "2026-08-01"
     },
     {
-      "sha": "6aba2d9",
-      "subject": "podcast(degrees-of-excellence): phase 11b slide-deck cohort",
-      "date": "2026-07-31"
+      "sha": "7247646",
+      "subject": "ledger(pronunciation): the library was two-thirds unreachable — 66 rows live, now 102",
+      "date": "2026-08-01"
     },
     {
-      "sha": "4697431",
-      "subject": "docs(degrees-of-excellence): declare the narrative frame, decided not guessed",
-      "date": "2026-07-31"
+      "sha": "d97d9e3",
+      "subject": "pronunciation(degrees-of-excellence): the 8 unsayable terms become English",
+      "date": "2026-08-01"
     },
     {
-      "sha": "df0424b",
-      "subject": "podcast(degrees-of-excellence): phase 0g register series + dual-auditor bundle sweep",
-      "date": "2026-07-31"
+      "sha": "dde1de4",
+      "subject": "probe(degrees-of-excellence): run 2 settles 21 terms; 8 cannot be said at all",
+      "date": "2026-08-01"
     },
     {
-      "sha": "6d76cb6",
-      "subject": "podcast(degrees-of-excellence)[the-imamate-pole-and-foundation-of-religion]: SHIP-WITH-CAUTION (iter=3 · P0=0 P1=0)",
-      "date": "2026-07-31"
+      "sha": "5a1632a",
+      "subject": "pronunciation(degrees-of-excellence): withdraw the 38 unproven respellings",
+      "date": "2026-08-01"
     },
     {
-      "sha": "d4d96c6",
-      "subject": "podcast(degrees-of-excellence)[worship-alms-and-war-void-without-the-imam]: SHIP-WITH-CAUTION (iter=2 · P0=0 P1=0)",
-      "date": "2026-07-31"
+      "sha": "2b621f9",
+      "subject": "probe(degrees-of-excellence): run 1 came back — the terms lose, and so did the probe",
+      "date": "2026-08-01"
     },
     {
-      "sha": "f0923e1",
-      "subject": "docs(degrees-of-excellence): record the attribution the source had all along",
-      "date": "2026-07-31"
+      "sha": "500fd2e",
+      "subject": "probe(degrees-of-excellence): make the bundle honest before anyone listens to it",
+      "date": "2026-08-01"
     }
   ],
   "wave_execution_events": [],
