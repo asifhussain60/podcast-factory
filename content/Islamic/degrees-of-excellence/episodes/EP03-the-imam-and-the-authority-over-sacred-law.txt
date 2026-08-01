@@ -11,14 +11,17 @@ Fixed English label per figure, every time — never speak Arabic names or book 
 - Reigning imam → "the imam," unnamed. Moses → Moses; his guide → "the guide." The Wise One → an epithet of God, never a person.
 
 ## Pronunciation
-Say each term ONCE. Never say the original spelling and the English form back-to-back.
-- fay: return
-- nutq: reason
-- taslim: trusting submission
-- raiya: the flock
-- sais: the steersman
-- mafdul: the one surpassed
-- masbuq: the one preceded
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
+- imamate: IM-uh-mayt — the office; three syllables
+- imam: i-MAAM
+- al-Naysaburi: an-nay-saa-BOO-ree — the author
+- fay: FIE — rhymes with "eye"; the return
+- nutq: NOOTQ — reason
+- taslim: tas-LEEM — trusting submission
+- raiya: ra-EE-ya — the flock
+- sais: SAA-is — the steersman
+- mafdul: maf-DOOL — the one surpassed
+- masbuq: mas-BOOQ — the one preceded
 
 ## Three-part focus
 Arc: crisis / pivot / stakes. Get into the doctrine, not the dates.

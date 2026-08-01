@@ -11,11 +11,15 @@ Fixed English label per figure, every time — never speak Arabic names or the b
 - Reigning imam → "the imam of the age," unnamed. Cited philosopher → "an earlier philosopher of the same tradition." Prophets by English name.
 
 ## Pronunciation
-Say each term ONCE. Never say the original spelling and the English form back-to-back.
-- mutimm: the perfector
-- ghulat: the exaggerators
-- ahl al-haqq: the people of truth
-- ahl al-batil: the people of falsehood
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
+- imamate: IM-uh-mayt — the office; three syllables
+- imam: i-MAAM
+- vicegerent: vice-JEER-uhnt
+- al-Naysaburi: an-nay-saa-BOO-ree — the author
+- mutimm: moo-TIMM — the perfector
+- ghulat: goo-LAAT — the exaggerators
+- ahl al-haqq: AHL al-HAQQ — the people of truth
+- ahl al-batil: AHL al-BAH-til — the people of falsehood
 
 ## Three-part focus
 Arc: crisis / failed answer / pivot / stakes, following the author's order. Cite the Quran in plain English as (chapter N, verse M) — invent none.

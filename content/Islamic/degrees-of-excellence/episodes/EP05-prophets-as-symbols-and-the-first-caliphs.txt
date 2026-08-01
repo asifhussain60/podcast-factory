@@ -11,11 +11,16 @@ Fixed English label per figure, every time — never speak Arabic names or the b
 - Reigning imam → "the imam," unnamed. Caliphs may be named: Abu Bakr, Umar. Noah's son → "Shem." Speak all prophets by English name.
 
 ## Pronunciation
-Say each term ONCE. Never say the original spelling and the English form back-to-back.
-- nass: the naming
-- sunna: God's established way
-- nur al-imama: the light of the imamate
-- falta: a hasty slip
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
+- imamate: IM-uh-mayt — the office; three syllables
+- imam: i-MAAM
+- vicegerent: vice-JEER-uhnt
+- al-Naysaburi: an-nay-saa-BOO-ree — the author
+- nass: NAHSS — the naming
+- sunna: SOON-nah — God's established way
+- nur al-imama: NOOR al-i-MAA-ma — the light of the imamate
+- falta: FAL-tah — a hasty slip
+- Ghadir Khumm: gha-DEER KHOOM — the designation event
 
 ## Three-part focus
 Arc: crisis / failed answer / pivot / stakes. Cite the Quran in plain English as (chapter N, verse M) — invent none.

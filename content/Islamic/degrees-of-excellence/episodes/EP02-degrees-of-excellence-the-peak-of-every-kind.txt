@@ -11,12 +11,15 @@ Fixed English label per figure, every time — never speak Arabic names or book 
 - Reigning imam → "the imam," unnamed. Hadith compiler → "the early compiler"; poet → "a Fatimid poet."
 
 ## Pronunciation
-Say each term ONCE. Never say the original spelling and the English form back-to-back.
-- arkan: the pillars
-- tiryaq: the antidote
-- ya'sub: the chief
-- ahl al-zahir: the literalists
-- Maghrib: the west
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
+- imamate: IM-uh-mayt — the office; three syllables
+- imam: i-MAAM
+- al-Naysaburi: an-nay-saa-BOO-ree — the author
+- arkan: ar-KAAN — the pillars
+- tiryaq: tir-YAHQ — the antidote
+- ya'sub: yaa-SOOB — the chief
+- ahl al-zahir: AHL az-ZAH-hir — the literalists
+- Maghrib: MAGH-rib — the west
 
 ## Three-part focus
 Arc: crisis / failed answer / pivot / stakes.

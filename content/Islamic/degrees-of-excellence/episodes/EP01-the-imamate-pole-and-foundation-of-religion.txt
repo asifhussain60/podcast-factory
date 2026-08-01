@@ -12,6 +12,9 @@ Fixed English label per figure, every time — never speak Arabic names or book 
 
 ## Pronunciation
 Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
+- imamate: IM-uh-mayt — the office; three syllables
+- imam: i-MAAM
+- al-Naysaburi: an-nay-saa-BOO-ree — the author
 - qutb: KOOTB — the pole
 - asas al-din: ah-SAAS ad-DEEN — the foundation of religion
 - tawhid: tow-HEED

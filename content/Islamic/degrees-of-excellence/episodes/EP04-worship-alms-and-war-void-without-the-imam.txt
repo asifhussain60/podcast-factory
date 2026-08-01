@@ -12,17 +12,19 @@ Fixed English label per figure, every time — never speak Arabic names or book 
 - The rival jurists → "the four Sunni school-founders."
 
 ## Pronunciation
-Say each term ONCE. Never say the original spelling and the English form back-to-back.
-- qibla: prayer-direction
-- khutba: the sermon
-- zakat: the alms
-- khums: the fifth
-- hudud: the prescribed penalties
-- walaya: bond of allegiance
-- bayt al-mal: the public treasury
-- da'irat al-din: circle of religion
-- Taha: Taha
-- Yasin: Yasin
+Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
+- imamate: IM-uh-mayt — the office; three syllables
+- imam: i-MAAM
+- qibla: QIB-lah — prayer-direction
+- khutba: KHUT-bah — the sermon
+- zakat: za-KAAH — the alms
+- khums: KHOOMS — the fifth
+- hudud: hu-DOOD — the prescribed penalties
+- walaya: wa-LAA-ya — bond of allegiance
+- bayt al-mal: BAYT al-MAAL — the public treasury
+- da'irat al-din: DAA-i-rat ad-DEEN — circle of religion
+- Taha: TAH-haa
+- Yasin: YAA-seen
 
 ## Three-part focus
 Arc: crisis / pivot / stakes. Get into the doctrine, not the dates.
