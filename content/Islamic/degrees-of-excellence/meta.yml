@@ -5,6 +5,15 @@ archetype: scholarly-deep-dive
 original_title: Kitab ithbat al-imama
 source_pdf: _system/source/Degrees_of_Excellence.pdf
 
+series:
+  # Build the reading edition. Without this the whole book lane self-skips:
+  # `_book_branch_enabled` returns false, all five 0book-* phases are stamped
+  # skipped, and the run halts having produced no book.md at all (which is what
+  # happened on 2026-07-31). The prose style is NOT set here — this book already
+  # resolves to book_voice=faithful, the articulated faithful-translation route,
+  # by the islamic_scholarly default.
+  enable_book_branch: true
+
 # Every field below is taken from the source volume's own front matter and
 # from its Description of the Arabic Manuscripts (source chapter 3). Nothing
 # here is supplied from outside the book. Recorded 2026-07-31 to answer the

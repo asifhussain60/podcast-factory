@@ -14,19 +14,32 @@ length_tier: extended
 # ch02b) are Lalani's third-person scholarly framing of that treatise, not
 # the author speaking.
 #
-# Declared external_narrator, not the profile default (transmitted_report),
-# and not first_person_author: transmitted_report is the shape of a hadith
-# chain (an anonymous transmitter reporting what passed between other
-# people) and nothing in this book transmits a report between named
-# parties; first_person_author would be accurate for the treatise chapters
-# alone but puts the two introduction chapters in permanent violation of a
-# gate that checks grammatical person per chapter, since Lalani's framing
-# cannot be rewritten into the author's "I" without inventing narration the
-# source does not contain. external_narrator keeps every chapter in the same
-# third person without asserting a transmission chain the source never
-# makes, so the whole book reads as one consistent voice. Decided with Asif
-# 2026-07-31: "I want the narrative to be consistent."
-narrative_frame: external_narrator
+# Was external_narrator until 2026-08-01. That was a COMPROMISE, and the thing
+# it was compromising between no longer exists.
+#
+# The reasoning at the time: the series carried two introduction episodes
+# (ch01a, ch02b) written by Lalani in her own third-person scholarly voice
+# alongside four treatise chapters in al-Naysaburi's first person. Declaring
+# first_person_author would have put those two in permanent violation of the
+# per-chapter grammatical-person gate, since Lalani's framing cannot be
+# rewritten into the author's "I" without inventing narration the source does
+# not contain. external_narrator put every chapter in the same third person,
+# which is what "I want the narrative to be consistent" asked for.
+#
+# Those two episodes were dropped later the SAME DAY (the treatise begins on
+# printed page 31; everything before it is the translator's writing, not the
+# author's). Six chapters remain and every one of them is the treatise. The
+# source body carries 23 first-person authorial constructions — "We shall" 11
+# times, "We say" 7, "We have said"/"we have shown" 5 — so third person now
+# narrates the author ABOUT rather than letting him speak, in an edition whose
+# whole contract is faithfulness.
+#
+# Still not transmitted_report (the profile default): that is the shape of a
+# hadith chain, an anonymous transmitter reporting what passed between named
+# parties, and this book transmits nothing of the kind. Consistency is better
+# served now than before — there is ONE voice in the book rather than two being
+# reconciled. Decided with Asif 2026-08-01, before the first book compose.
+narrative_frame: first_person_author
 
 enable_video: false
 video_style: none
