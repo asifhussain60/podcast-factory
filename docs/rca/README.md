@@ -39,6 +39,12 @@ Analysis discipline, always:
 - **Every action item lands somewhere** — a fix in this session, a spawned
   task chip, or an explicit "accepted risk" line. No orphan recommendations.
 - **Timeline in EST**, reconstructed from git/ledgers, not memory.
+- **"Verified locally" is not evidence for a failure that only happens
+  elsewhere.** If a defect manifests only on another platform, another runtime
+  version, or only in CI, a local pass distinguishes nothing — state plainly that
+  the fix is unverified until it runs where the failure lives. Added after
+  RCA-009, where a fix verified with `npm ci` on macOS held for one day because
+  the failure was reachable only on Linux.
 
 ## Naming
 
@@ -54,3 +60,6 @@ Analysis discipline, always:
 | RCA-004 | 2026-07-30 | [A full paid vowelling run was refused at the last gate and discarded](2026-07-30-source-vowelling-refused-after-a-full-paid-run.md) | Resolved — both causes fixture-pinned; AI-3 open |
 | RCA-005 | 2026-07-31 | [An editorial aside printed twice, once in the narrator's own voice](2026-07-31-an-editorial-aside-printed-twice-in-the-reading-edition.md) | Resolved — fence matching now form-tolerant; AI-2/3/4 open |
 | RCA-006 | 2026-07-31 | [A typographic premise no one could check spread through four stylesheets](2026-07-31-an-unverified-typographic-premise-propagated-by-citation.md) | Resolved — descriptor removed, measurement recorded; AI-2/3 open |
+| RCA-007 | 2026-08-01 | [The hosts were handed translations instead of phonetics](2026-08-01-the-hosts-were-handed-translations-instead-of-phonetics.md) | Resolved — block compiled from the ladder, library re-keyed; AI-3/4 open |
+| RCA-008 | 2026-08-01 | [A faithful opening was reverted as if the model invented it](2026-08-01-a-faithful-opening-was-reverted-as-if-invented.md) | Resolved — gate made differential, chapter re-articulated; AI-6 open |
+| RCA-009 | 2026-08-01 | [The site's CI gates were dead for five days](2026-08-01-the-site-gates-were-dead-for-five-days.md) | Resolved — install no longer depends on cross-platform lock completeness; AI-2/3 open |
