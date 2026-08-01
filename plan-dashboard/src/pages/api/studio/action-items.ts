@@ -20,6 +20,7 @@ import {
   getActionItems,
   upsertActionItem,
   deleteActionItem,
+  KnowledgeDbUnavailableError,
 } from "../../../lib/db/knowledge";
 
 const json = (body: unknown, status = 200) =>
@@ -27,6 +28,15 @@ const json = (body: unknown, status = 200) =>
     status,
     headers: { "Content-Type": "application/json" },
   });
+
+// A machine without knowledge.db is not a broken server — the database is built by
+// the pipeline and is absent on a fresh clone by design. Reads already degrade to
+// empty; a WRITE must say so distinguishably, so the UI can disable the control
+// instead of showing the user a 500 it can do nothing about.
+const failed = (e: unknown) =>
+  e instanceof KnowledgeDbUnavailableError
+    ? json({ ok: false, error: e.message, code: e.code }, 503)
+    : json({ ok: false, error: String(e) }, 500);
 
 const ALLOWED_KINDS = new Set([
   "etymology",
@@ -53,7 +63,7 @@ export const GET: APIRoute = ({ request }) => {
       );
     return json({ ok: true, items: getActionItems(book, chapter) });
   } catch (e) {
-    return json({ ok: false, error: String(e) }, 500);
+    return failed(e);
   }
 };
 
@@ -100,7 +110,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
     return json({ ok: true, item });
   } catch (e) {
-    return json({ ok: false, error: String(e) }, 500);
+    return failed(e);
   }
 };
 
@@ -121,6 +131,6 @@ export const DELETE: APIRoute = async ({ request }) => {
       return json({ ok: false, error: "id (number) required" }, 400);
     return json({ ok: true, removed: deleteActionItem(book, chapter, id) });
   } catch (e) {
-    return json({ ok: false, error: String(e) }, 500);
+    return failed(e);
   }
 };
