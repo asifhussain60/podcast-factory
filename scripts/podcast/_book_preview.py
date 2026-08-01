@@ -91,4 +91,12 @@ def maybe_build_reading_edition_early(book_dir: Path, *, log: Callable[[str], No
         # Should be unreachable under manual_only; if the lane grows a new halt,
         # say so rather than letting the halt card claim a PDF that is not there.
         log("  reading edition: the lane halted — see the book phases in state")
+    # The lane can return 0 having built NOTHING — `_book_branch_enabled` false
+    # skips all five phases and returns success. Announcing "building now" and
+    # then saying nothing let an empty book/ pass for a finished one. Check the
+    # artifact, not the return code, and say so plainly when it is absent.
+    if not reading_edition_is_built(book_dir):
+        log("  reading edition: NOT BUILT — the book lane produced no book.md")
+        log("  reading edition: see the `reason` on the 0book-* phases in state for why")
+        return False
     return True

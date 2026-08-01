@@ -79,6 +79,7 @@ from _authoring import (
 # grep finds `cost_ledger` here.
 from _progress import (
     read_state,
+    state_transaction,
     write_state,
 )
 
@@ -471,20 +472,22 @@ def _update_registry_status(book_dir: Path, slug: str, *, slide_deck_status: str
 def _record_state(book_dir: Path, slug: str, *, phase_status: str, iterations: int, verdict: str) -> None:
     """Stamp the slide-deck convergence outcome into orchestrator-state.json.
 
-    Idempotent and resume-safe. Writes a per-chapter dict under
-    `state['slide_decks'][slug]` with:
-        slide_deck_phase: "running" | "done" | "stalled" | "skipped"
-        slide_challenger_iter: int
-        slide_challenger_verdict: str
+    Idempotent and resume-safe. Writes `state['slide_decks'][slug]`
+    (slide_deck_phase / slide_challenger_iter / slide_challenger_verdict).
+
+    Holds the shared state lock across the read-modify-write: the cohort runs one
+    chapter per worker thread, and unguarded, two finishing close together each
+    write from a snapshot predating the other — one verdict vanishes, silently.
     """
-    state = read_state(book_dir) or {}
-    sd = state.setdefault("slide_decks", {})
-    sd[slug] = {
-        "slide_deck_phase": phase_status,
-        "slide_challenger_iter": iterations,
-        "slide_challenger_verdict": verdict,
-    }
-    write_state(book_dir, state)
+    with state_transaction():
+        state = read_state(book_dir) or {}
+        sd = state.setdefault("slide_decks", {})
+        sd[slug] = {
+            "slide_deck_phase": phase_status,
+            "slide_challenger_iter": iterations,
+            "slide_challenger_verdict": verdict,
+        }
+        write_state(book_dir, state)
 
 
 # ─── Public convergence loop ─────────────────────────────────────────────────

@@ -58,6 +58,7 @@ from _authoring import (
     AuthoringError,
     _run_claude_p,
 )
+from _runlog import log_event
 from _slide_checks import (
     _BOOK_FRAMING_REQUIRED_H2 as _BOOK_FRAMING_REQUIRED_H2,
 )
@@ -123,6 +124,7 @@ from _slide_prompts import (
 from _slide_prompts import (
     _build_pair_prompt_technical as _build_pair_prompt_technical,
 )
+from _subprocess import err as _err
 
 # Cost-ledger wiring (AU-S3-001 fix): every `claude -p` invocation in this
 # module flows through `_authoring._run_claude_p(book_dir=...)`, which
@@ -349,6 +351,20 @@ def author_deck_pair(
 
         last_findings = findings
         if retry_on_validation_fail and attempts <= MAX_AUTHORING_RETRIES:
+            # Record WHY. Findings used to be consumed into the retry prompt and
+            # dropped, so a retry firing on 100% of authorings (16/16 on
+            # 2026-07-31, a wasted model call each) left no evidence anywhere.
+            _err(f"slide-deck[{slug}]: attempt {attempts} failed validation, retrying — " + "; ".join(findings[:3]))
+            log_event(
+                "slide.authoring.validation_retry",
+                book_dir=book_dir,
+                level="warn",
+                phase="11b-slide-authoring",
+                slug=slug,
+                msg=findings[0] if findings else "",
+                attempt=attempts,
+                findings=findings,
+            )
             extra_constraints = "\n".join(f"- {f}" for f in findings)
             continue
         # Exhausted retry budget; return validation-failure result.
