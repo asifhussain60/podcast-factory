@@ -155,5 +155,14 @@ jobs:
       # runtime failure is legible at a glance.
       - name: Install chromium
         run: npx playwright install --with-deps chromium
+      # `pdftoppm` (poppler-utils) is a SYSTEM binary the Composer preview shells
+      # out to via scripts/lib/preview-pages.mjs. It is present on the author's Mac
+      # through homebrew, absent on a bare runner, and its absence took
+      # /studio/<slug>/preview down with `spawnSync pdftoppm ENOENT` (2026-08-01).
+      # Installing it is the right fix rather than stubbing the page: the preview
+      # genuinely needs a PDF rasteriser, and a smoke gate that skips the render
+      # path is not exercising the surface it claims to cover.
+      - name: Install poppler-utils (pdftoppm — Composer preview rasteriser)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
       - name: Runtime smoke — every route, console errors, 5xx, failed requests
         run: npm run smoke
