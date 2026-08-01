@@ -45,6 +45,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "node --test \"test/**/*.test.ts\"",
     "prepack": "npm run build",
+    "_comment_prepare": "npm runs `prepare` after installing a workspace/link dependency, which `prepack` (pack/publish only) does not cover. Without it a FRESH CLONE has no dist/ — it is gitignored — so every import of this package fails: two site test files and five SSR Studio routes 500'd in CI on 2026-08-01 for exactly this reason, invisible until the install step was fixed and the gates ran for the first time in five days. See RCA-009.",
+    "prepare": "npm run build",
     "build:esm": "tsc -p tsconfig.build.json",
     "build:standalone": "vite build -c vite.standalone.config.mts"
   },

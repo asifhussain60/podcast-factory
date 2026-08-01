@@ -103,6 +103,36 @@ instruction not to revert it without reading this RCA — because the obvious
 "cleanup" a future reader will reach for is restoring `npm ci`, which is what
 this incident is.
 
+### What the restored gates immediately found
+
+Fixing the install did not turn the workflow green — it turned it *informative*.
+The first run that got past `npm ci` failed on three real defects that the dead
+gate had been hiding. Both are fixed in the same commit as the install change.
+
+**A fresh clone could not build the site's own editor package.**
+`@asifhussain/prose-editor` is a local workspace package whose `dist/` is
+gitignored, and its `package.json` declared `prepack` but not `prepare`. npm runs
+`prepack` only on pack/publish; `prepare` is what runs after installing a
+workspace dependency. So on any machine without a previously-built `dist/`, every
+import of the package failed — **two site test files and five SSR Studio routes
+(`edit`, `compose`, `book`, `preview`, `arabic-review`) returning 500**. It works
+on Asif's machine solely because `dist/` is already on disk there. Adding
+`prepare` makes a fresh clone self-sufficient; verified by deleting both
+`node_modules` and `dist/` and reinstalling from nothing.
+
+This defect is older than the blind window. It has been latent since the package
+was scaffolded on 2026-07-26 and could only ever have been caught by a gate
+running on a clean checkout — which is precisely the gate that was down.
+
+**An unpinned linter upgraded itself into a failure.** CI installed `ruff`
+unpinned. Ruff 0.16 began formatting Python fenced blocks inside Markdown, taking
+`ruff format --check` from 584 files to 789 and failing five plan/spec/standard
+DOCUMENTS that nobody had touched. Confirmed by A/B: 0.15.0 reports "584 files
+already formatted", 0.16.1 reports "5 files would be reformatted, 789 already
+formatted". Markdown is prose here, not source — its snippets are illustrative and
+sometimes deliberately abbreviated — so `*.md` is now excluded in `pyproject.toml`,
+and `ruff`/`mypy` are pinned so the next such change is a deliberate bump.
+
 ### Detection
 
 An unrelated post-merge audit. After pushing 68 commits on 2026-08-01, a routine
@@ -117,6 +147,8 @@ pushes produced no signal that anyone acted on.
 | # | Action | Type | Owner | Status |
 |---|---|---|---|---|
 | AI-1 | Replace `npm ci` with `npm install` in both site jobs; document why at the call site | fix | Claude | DONE |
+| AI-5 | Add `prepare` to `@asifhussain/prose-editor` so a fresh clone builds it | fix | Claude | DONE — verified from a deleted `node_modules` + `dist/` |
+| AI-6 | Exclude `*.md` from ruff formatting and pin `ruff`/`mypy` in CI | fix | Claude | DONE |
 | AI-2 | Alert on sustained CI failure — N consecutive red runs on `develop` should surface, not wait for an audit | prevent | Asif + Claude | OPEN — spawned as a task |
 | AI-3 | Sweep the site for runtime regressions that shipped while the smoke gate was blind (2026-07-27 → 2026-08-01) | mitigate | `site-health-sentinel` | OPEN — spawned as a task |
 | AI-4 | Record in the RCA README that "verified locally" is not evidence for a CI-only failure mode | prevent | Claude | DONE — see Lessons |

@@ -16,6 +16,13 @@ extend-exclude = [
     ".venv",
     "content",
     "plan-dashboard",
+    # Markdown is PROSE here, not source. Ruff 0.16 began formatting Python
+    # fenced blocks inside .md, which took the CI format gate from 584 files to
+    # 789 and turned five plan/spec/standard documents red overnight (2026-08-01,
+    # RCA-009) -- documents whose snippets are deliberately illustrative and
+    # sometimes deliberately abbreviated. Reformatting them is churn against
+    # historical records, and would keep recurring on every new document.
+    "*.md",
 ]
 
 [tool.ruff.lint]

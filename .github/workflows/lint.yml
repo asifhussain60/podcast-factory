@@ -24,8 +24,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+      # PINNED (2026-08-01). These were unpinned, so CI silently adopted every new
+      # release — and ruff 0.16 began formatting Python fenced blocks inside .md,
+      # taking `ruff format --check` from 584 files to 789 and failing five plan
+      # and standard DOCUMENTS that had not changed. A lint gate that upgrades
+      # itself fails on days nobody touched the code, which is how it stops being
+      # believed. `*.md` is now excluded in pyproject.toml as well, so the gate is
+      # green on both 0.15.x and 0.16.x; the pin is what keeps the NEXT such change
+      # a deliberate bump rather than a surprise. Bump both deliberately, and run
+      # the same versions locally. See RCA-009.
       - name: Install ruff + mypy
-        run: python3 -m pip install ruff mypy
+        run: python3 -m pip install "ruff==0.16.1" "mypy==2.3.0"
       - name: Ruff lint
         run: ruff check
       - name: Ruff format check
