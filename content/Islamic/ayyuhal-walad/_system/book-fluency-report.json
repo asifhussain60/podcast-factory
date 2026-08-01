@@ -1,8 +1,8 @@
 {
   "schema": "podcast.book-fluency/v5",
   "narrative_frame": "first_person_author",
-  "adapted": 9,
-  "reverted": 1,
+  "adapted": 10,
+  "reverted": 0,
   "overwritten_by_replay": 0,
   "chapters": [
     {
@@ -38,13 +38,11 @@
     {
       "title": "The Striving That Mercy Meets",
       "base_words": 750,
-      "output_words": 750,
+      "output_words": 752,
       "windows": 1,
-      "windows_kept": 0,
-      "status": "reverted",
-      "gates": [
-        "fluency-03: narrative-announcement opening: 'My dear son, hold firmly to this: you will not find the reward until you have made the effort.\\n\\nLet me tell you of a man'"
-      ],
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
       "warnings": [],
       "editorial_queries": [],
       "comprehension_flags": [],

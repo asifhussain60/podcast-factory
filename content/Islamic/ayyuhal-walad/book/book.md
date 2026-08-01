@@ -106,21 +106,21 @@ How, then, will a servant enter Paradise without the mercy of Allah the Exalted?
 
 ## 2. The Striving That Mercy Meets
 
-My dear son, be firmly convinced of this: without effort you will not find its reward.
+My dear son, hold firmly to this conviction: you will not find the reward without the effort that earns it.
 
-Let me tell you of a man among the Children of Israel who worshipped Allah the Exalted with great devotion for seventy years. Allah willed to display him before the angels, and so, as a test, He sent an angel down to him. The angel said:
+Let me tell you of a man among the Children of Israel who worshipped Allah the Exalted with great devotion for seventy years. Allah willed to show him to the angels, and so, to test him, He sent an angel down to him. The angel said:
 
-"Allah, the Holy, says that you have tormented yourself to no purpose, for with all this worship you are not fit to enter Paradise."
+"Allah, the Holy, says that you have worn yourself out for nothing, for with all this worship you are still not fit to enter Paradise."
 
-When this message reached him, the worshipper replied:
+When this message reached him, the worshipper answered:
 
-"We were created for His worship and servitude, and it is fitting that we should serve Him, no matter what. He is the Owner of all things and of all people, myself among them, and He is the All-Powerful."
+"We were created for His worship and His service, and it is only right that we should serve Him, whatever comes of it. He is the Owner of all things and of all people, myself among them, and He is the All-Powerful."
 
 The angel then returned to the Presence of Allah the Exalted and said:
 
 "O my Lord, You know best what Your servant has said."
 
-Upon this Allah the Exalted said: since this servant of Ours does not turn his face away from Our worship and Our service, We too, in Our generosity, will not turn Our Face away from him.
+At this Allah the Exalted said: since this servant of Ours does not turn his face away from Our worship and Our service, We too, in Our generosity, will not turn Our Face away from him.
 
 > اشهدوا يا ملائكتي أنّي قد غفرت له
 
@@ -130,17 +130,17 @@ My dear son, so long as you do not act, you will not find the reward. Hear now w
 
 > حَاسِبُوا أَنْفُسَكُمْ قَبْلَ أَنْ تُحَاسَبُوا، وَ زِنُوا أَعْمَالَكُمْ قَبْلَ أَنْ تُوزَنُوا
 
-"Take account of yourselves before you are taken to account, and weigh your deeds, that is, examine and correct their shortcomings, before your deeds are weighed and judged."
+"Take account of yourselves before you are taken to account, and weigh your deeds — that is, examine them and correct their shortcomings — before your deeds are weighed and judged."
 
 Ali (رض) said:
 
-> مَنْ ظَنَّ أَنَّهُ بِدُونِ الْجَهْدِ يَصِلُ فَهُوَ مُتَمَنٍّ. وَمَنْ ظَنَّ أَنَّهُ بِبَذْلِ الْجُهْدِ يَصِلُ فَهُوَ مُسْتَغْنٍ
+> مَنْ ظَنَّ أَنَّهُ بِدُونِ الْجَهْدِ يَصِلُ فَهُوَ مُتَمَنٍّ. وَمَنْ ظَنَّ أَنَّهُ بِبَذْلِ الْجُهْدِ يَصِلُ فَهُوَ مُسْتَغْنٍ
 
-"Whoever supposes that he will arrive without striving is a wishful dreamer, and whoever supposes that he will arrive by the mere expending of his effort is presuming himself in no need."
+"Whoever supposes that he will arrive without striving is a wishful dreamer, and whoever supposes that he will arrive by his own effort alone presumes himself in no need."
 
 Hasan al-Basri said:
 
-> طَلَبُ الْجَنَّةِ بِلَا عَمَلٍ ذَنْبٌ مِنَ الذُّنُوبِ
+> طَلَبُ الْجَنَّةِ بِلَا عَمَلٍ ذَنْبٌ مِنَ الذُّنُوبِ
 
 "To seek Paradise without deeds is a sin among the sins."
 
@@ -148,35 +148,35 @@ And another intimate of Allah said:
 
 > عَلَامَةُ الْحَقِيقَةِ تَرْكُ مُلَاحَظَةِ الْعَمَلِ لَا تَرْكُ الْعَمَلِ
 
-"The mark of realized truth is to leave off admiring one's own action, not to leave off the action itself." One should act without regarding one's own act with pride, yet one must never abandon the doing of good deeds, even where the risk of self-admiration is present.
+"The mark of realized truth is to leave off admiring one's own action, not to leave off the action itself." One should act without regarding one's own act with pride, yet one must never abandon the doing of good deeds, even where the danger of self-admiration is present.
 
 Our master of both worlds, the Prophet Muhammad, expresses this truth more eloquently, more clearly, and more beautifully than any of the sayings above:
 
 > الكيّس من دان نفسه و عمل لما بعد الموت، و الأحمق من اتّبع هواه وتمنّى على الله تعالى الأمانيّ
 
-"The intelligent one is he who calls his own soul to account and works for what lies after death; and the fool is he who follows the desires of his soul and yet indulges vain hopes upon Allah the Exalted." In some narrations the wording adds: and hopes for Allah's forgiveness.
+"The intelligent one is he who calls his own soul to account and works for what lies after death; and the fool is he who follows the desires of his soul and yet indulges vain hopes upon Allah the Exalted." Some narrations add the words: and hopes for Allah's forgiveness.
 
-My dear son, how many nights have you kept awake, rehearsing your knowledge and poring over books, denying sleep to yourself? I do not know what the motive in this was. If it was to seize some portion of this world, to draw in its worthless goods, to secure its offices, and to boast over your peers and equals, then:
+My dear son, how many nights have you kept awake, going over your knowledge and poring over books, denying yourself sleep? I do not know what your motive was. If it was to grasp some share of this world, to draw in its worthless goods, to secure its offices, and to boast over your peers and equals, then:
 
-> فَوَيْلٌ لَكَ ثُمَّ وَيْلٌ لَكَ
+> فَوَيْلٌ لَكَ ثُمَّ وَيْلٌ لَكَ
 
 "Woe unto you, and again woe unto you."
 
 But if your aim in it was to revive the way of the Prophet (may Allah bless him and grant him peace), to refine your character, and to break the soul that commands to evil, then:
 
-> فَطُوبَى لَكَ ثُمَّ طُوبَى لَكَ
+> فَطُوبَى لَكَ ثُمَّ طُوبَى لَكَ
 
 "Blessedness be yours, and again blessedness be yours."
 
-Truly he spoke well who said in verse:
+How well he spoke who said in verse:
 
-> سَهَرُ الْعُيُونِ لِغَيْرِ وَجْهِكَ ضَائِعٌ * وَ بُكَاؤُهُنَّ لِغَيْرِ فَقْدِكَ بَاطِلٌ
+> سَهَرُ الْعُيُونِ لِغَيْرِ وَجْهِكَ ضَائِعٌ * وَ بُكَاؤُهُنَّ لِغَيْرِ فَقْدِكَ بَاطِلٌ
 
-"The wakefulness of the eyes for anything but Your Countenance is wasted, and the weeping of the eyes for the loss of anything but You is in vain."
+"The wakefulness of the eyes for anything but Your Countenance is wasted, and their weeping for the loss of anything but You is in vain."
 
 My dear son, hear this prophetic tradition:
 
-> عِشْ مَا شِئْتَ فَإِنَّكَ مَيِّتٌ، وَ أَحْبِبْ مَا شِئْتَ فَإِنَّكَ مُفَارِقُهُ؛ وَ اِعْمَلْ مَا شِئْتَ فَإِنَّكَ مَجْزِيٌّ بِهِ
+> عِشْ مَا شِئْتَ فَإِنَّكَ مَيِّتٌ، وَ أَحْبِبْ مَا شِئْتَ فَإِنَّكَ مُفَارِقُهُ؛ وَ اِعْمَلْ مَا شِئْتَ فَإِنَّكَ مَجْزِيٌّ بِهِ
 
 "Live as you wish, for you shall surely die. Love what you wish, for you shall surely be parted from it. And do what you wish, for you shall surely be recompensed for it."
 

@@ -88,6 +88,49 @@ def test_revoice_gates_keeps_a_clean_re_voice() -> None:
     assert revoice_gates(base, revoiced) == []
 
 
+# ─── the gate is differential: only an ADDED announcement is a finding ───────
+def test_an_announcement_the_author_wrote_is_not_the_re_voices_fault() -> None:
+    """Found live 2026-08-01 on Islamic/ayyuhal-walad, chapter 2.
+
+    The source itself opens "Let me tell you of a man among the Children of
+    Israel". Preserving that is fidelity — reverting it left the chapter
+    un-articulated and made the articulation report permanently red.
+    """
+    base = (
+        "My dear son, be firmly convinced of this: without effort you will not "
+        "find its reward.\n\nLet me tell you of a man among the Children of "
+        "Israel who worshipped Allah the Exalted with great devotion."
+    )
+    revoiced = (
+        "My dear son, hold firmly to this: you will not find the reward until "
+        "you have made the effort.\n\nLet me tell you of a man among the "
+        "Children of Israel who worshipped Allah the Exalted with great devotion."
+    )
+    assert narrative_opening_findings(revoiced, base) == []
+    assert not any("narrative-announcement" in f for f in revoice_gates(base, revoiced))
+
+
+def test_an_announcement_the_re_voice_invented_is_still_caught() -> None:
+    """The differential must not become a blanket amnesty — a base that opens
+    plainly and a re-voice that announces the telling is the original bug."""
+    base = "The teacher began his lesson at dawn, as he always did."
+    revoiced = "Let me tell you how the teacher began his lesson at dawn, as he always did."
+    assert narrative_opening_findings(revoiced, base)
+
+
+def test_a_different_announcement_over_an_announcing_base_is_still_permitted() -> None:
+    """The author already frames the telling; which words the re-voice uses to
+    keep that frame is a craft choice, not a fidelity breach."""
+    base = "Let me set down what happened that morning, for it is the root of everything after."
+    revoiced = "Let me recount what happened that morning, for it is the root of everything after."
+    assert narrative_opening_findings(revoiced, base) == []
+
+
+def test_the_single_argument_contract_still_flags_a_bare_announcement() -> None:
+    """Callers that pass no base keep the older, stricter reading."""
+    assert narrative_opening_findings("Let me tell you how it began, and why it matters.")
+
+
 def test_revoice_gates_reverts_a_leaked_articulation_notes_marker() -> None:
     """REQ-BA-160 belt-and-suspenders: a marker that survives extraction (e.g. a
     malformed block missing its END-NOTES terminator) must never ship."""

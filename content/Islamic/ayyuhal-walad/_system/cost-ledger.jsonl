@@ -143,3 +143,4 @@
 {"ts": "2026-07-31T23:52:29Z", "phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 24457, "cache_read": 20129, "cache_create": 64121, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-01T00:03:28Z", "phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "input_tokens": 3892, "output_tokens": 6242, "cache_read": 0, "cache_create": 0, "cost_usd": 0.016821, "engine": "api"}
 {"ts": "2026-08-01T00:04:31Z", "phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 4006, "cache_read": 20129, "cache_create": 49669, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-01T18:34:15Z", "phase": "0book-fluency", "step": "fluency-03", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 2017, "cache_read": 0, "cache_create": 71325, "cost_usd": 0.0, "engine": "max"}

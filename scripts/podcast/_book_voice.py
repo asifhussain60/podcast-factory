@@ -171,13 +171,32 @@ _NARRATIVE_OPENING_RE = re.compile(
 )
 
 
-def narrative_opening_findings(text: str) -> list[str]:
+def narrative_opening_findings(text: str, base_text: str | None = None) -> list[str]:
     """Flag a chapter that opens by announcing the act of narration instead of
-    starting as a chapter does. Checked only against the chapter's own opening."""
+    starting as a chapter does. Checked only against the chapter's own opening.
+
+    DIFFERENTIAL when ``base_text`` is given: the finding is reported only if the
+    re-voice INTRODUCED the announcement. Every other gate in ``revoice_gates``
+    already reads this way — abridgement measures against the base's word count,
+    teaching-loss and the frame guards take both texts, dropped Arabic runs
+    compares run counts, and new doctrinal P0s subtract the base's own. This one
+    did not, and the asymmetry cost real work: *Ayyuhal Walad* chapter 2 opens
+    "Let me tell you of a man among the Children of Israel" in al-Ghazali's own
+    letter, so the model preserving that opening — exactly what faithfulness
+    demands — was reverted as though it had invented it, and the chapter shipped
+    un-articulated. A source that announces its own telling can otherwise never
+    pass articulation at all.
+
+    ``base_text=None`` keeps the older single-argument contract for unit tests
+    that exercise the phrase-matching in isolation.
+    """
     opening = text.strip()[:200]
-    if _NARRATIVE_OPENING_RE.search(opening):
-        return [f"narrative-announcement opening: {opening[:120]!r}"]
-    return []
+    if not _NARRATIVE_OPENING_RE.search(opening):
+        return []
+    # The author already opened this way — preserving it is fidelity, not drift.
+    if base_text is not None and _NARRATIVE_OPENING_RE.search(base_text.strip()[:200]):
+        return []
+    return [f"narrative-announcement opening: {opening[:120]!r}"]
 
 
 def revoice_gates(
@@ -208,7 +227,7 @@ def revoice_gates(
         findings.append(f"abridged re-voice ({len(revoiced.split())}<{round(0.6 * base_words)} words)")
     findings.extend(teaching_loss_findings(base_text, revoiced))
     if check_opening:
-        findings.extend(narrative_opening_findings(revoiced))
+        findings.extend(narrative_opening_findings(revoiced, base_text))
     if _arabic_run_count(revoiced) < _arabic_run_count(base_text):
         findings.append(f"Arabic runs dropped ({_arabic_run_count(revoiced)}<{_arabic_run_count(base_text)})")
     base_p0 = {f.signature for f in run_doctrinal_checks(base_text) if f.severity == "P0"}
