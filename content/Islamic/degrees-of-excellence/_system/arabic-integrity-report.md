@@ -1,8 +1,8 @@
 # Arabic Integrity Report — degrees-of-excellence
 
 - Rule: R-ARABIC-INTEGRITY (fingerprint v1.0)
-- Phase verified: `0e`
-- Generated: 2026-07-31T15:05:37Z
+- Phase verified: `all`
+- Generated: 2026-07-31T23:15:42Z
 - Verdict: PASS
 
 Forbidden = an Arabic span mutated/dropped/invented by an LLM pass with no
