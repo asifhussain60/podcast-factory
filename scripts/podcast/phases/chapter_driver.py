@@ -33,20 +33,11 @@ from phases.series_plan import (
     _series_numeric,
     phase_0g_register,
 )
+from phases.slide_cohort import is_bad_slide_outcome, run_slide_cohort
 
-
-def _is_bad_slide_outcome(v: str) -> bool:
-    """A slide-deck verdict that means the deck did NOT succeed.
-
-    Feeds the fail-loud net that decides whether the per-chapter-slides phase
-    reports `completed` or `failed`. STALLED (challenger never reached SHIP-READY
-    after max iterations; registry marked challenger-status=fail-iterating) is a
-    genuine non-success and MUST count here — otherwise an all-STALLED cohort
-    would masquerade as `completed`. BLOCKED/ERROR and any FAILED:* are bad too.
-    SHIP-READY / SHIP-WITH-CAUTION / SKIPPED / AUTHORED are good (SKIPPED is a
-    legitimate content-grounded outcome).
-    """
-    return v in {"BLOCKED", "ERROR", "STALLED"} or v.startswith("FAILED")
+# Moved to phases/slide_cohort.py with the rest of Phase 11b (2026-07-31).
+# Re-exported here because importers still reach for it at this path.
+_is_bad_slide_outcome = is_bad_slide_outcome
 
 
 def _phase_boundary_gate(book_dir: Path, boundary_name: str, projected_cost_usd: float | None = None) -> None:
@@ -442,68 +433,8 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     if _slides_already_done:
         _info("phase: per-chapter-slides · already completed/skipped, advancing to finalize")
     elif enable_slide_decks:
-        _info("phase: per-chapter-slides · slide-deck cohort authoring + slide-deck-challenger")
-        update_phase(book_dir, phase="per-chapter-slides", status="running")
-        try:
-            from _slide_convergence import run_slide_convergence  # optional module
-        except ImportError as e:
-            _err(f"slide-deck integration missing: {e}; skipping phase")
-            update_phase(
-                book_dir, phase="per-chapter-slides", status="skipped", extras={"reason": "module-not-available"}
-            )
-        else:
-            slide_outcomes: dict[str, str] = {}
-            from _content_profile import slide_deck_mode
-
-            if slide_deck_mode(book_dir) == "book":
-                # Book mode (2026-06-10): ONE deck pair for the whole book —
-                # one NotebookLM generation instead of one per chapter. The
-                # pair is deterministically validated by author_book_deck_pair;
-                # the slide-deck-challenger can be invoked at book scope for a
-                # semantic pass, and the human reviews the exported deck at the
-                # 0book-slide-import drop gate.
-                _info("phase: per-chapter-slides · slide_deck_mode=book → single book-level pair")
-                try:
-                    from _slide_authoring import author_book_deck_pair
-
-                    result = author_book_deck_pair(book_dir)
-                    slide_outcomes["book"] = (
-                        "AUTHORED" if result.success else f"FAILED: {'; '.join(result.validation_findings[:3])}"
-                    )
-                except Exception as e:
-                    _err(f"book-level slide-deck authoring failed (non-fatal): {e}")
-                    slide_outcomes["book"] = "ERROR"
-            else:
-                for slug in completed_chapter_slugs:
-                    _info(f"phase: per-chapter-slides[{slug}] · density gauge → author → challenge")
-                    try:
-                        result = run_slide_convergence(book_dir, slug)
-                        slide_outcomes[slug] = result.verdict
-                    except Exception as e:
-                        _err(f"slide-deck convergence failed for {slug} (non-fatal): {e}")
-                        slide_outcomes[slug] = "ERROR"
-            # Honest phase status (fail-loud safety net): if every — or a
-            # majority of — deck outcomes are BLOCKED/ERROR/FAILED, the phase
-            # did NOT succeed. Report `failed` so a real slide failure can
-            # never masquerade as `completed`. A clean or mostly-good cohort
-            # (SHIP-READY / SHIP-WITH-CAUTION / SKIPPED / AUTHORED) stays
-            # `completed`. SKIPPED is a legitimate content-grounded outcome.
-            _n_total = len(slide_outcomes)
-            _n_bad = sum(1 for v in slide_outcomes.values() if _is_bad_slide_outcome(v))
-            _slide_status = "failed" if _n_total and _n_bad * 2 >= _n_total else "completed"
-            update_phase(
-                book_dir,
-                phase="per-chapter-slides",
-                status=_slide_status,
-                extras={"outcomes": slide_outcomes, "bad_outcomes": _n_bad, "total_outcomes": _n_total},
-            )
-            if _slide_status == "failed":
-                _err(
-                    f"per-chapter-slides: {_n_bad}/{_n_total} deck outcomes "
-                    f"BLOCKED/ERROR/FAILED — phase marked failed (was silently "
-                    f"'completed' before)"
-                )
-            phase_git_commit(book_dir, f"podcast({book_slug}): phase 11b slide-deck cohort")
+        run_slide_cohort(book_dir, completed_chapter_slugs)
+        phase_git_commit(book_dir, f"podcast({book_slug}): phase 11b slide-deck cohort")
     else:
         update_phase(
             book_dir, phase="per-chapter-slides", status="skipped", extras={"reason": "enable_slide_decks=false"}

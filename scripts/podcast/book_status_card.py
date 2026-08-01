@@ -157,12 +157,30 @@ def _fraction_done(phase: str, block: dict[str, Any]) -> float:
     return 0.5
 
 
+# Phases that do not wait on a machine — they wait on a person. `audio-ingest`
+# sits until the human uploads to NotebookLM, generates the audio, and drops the
+# .m4a files back. Extrapolating a machine rate across one of these produced the
+# 2026-07-31 "eleven hours left" reading on a book that had ~two hours of compute
+# and then an indefinite human pause; a rate measured from compute says nothing
+# about how long someone takes to come back to their desk.
+_HUMAN_GATED_PHASES = frozenset({"audio-ingest"})
+
+
 def compute_progress(state: dict[str, Any]) -> dict[str, Any]:
     """Per-phase status plus the weighted percentage. The single source of the number."""
     blocks = state.get("phases") or {}
     rows: list[dict[str, Any]] = []
     earned = 0.0
     total = 0
+    # Machine-only counterpart of earned/total: human-gated phases excluded, so
+    # the ETA can be computed against work a rate actually predicts.
+    machine_earned = 0.0
+    machine_total = 0
+    # Phases skipped because the book is MISCONFIGURED, not because the lane does
+    # not apply. Both leave the denominator (a book that will never render slides
+    # must still reach 100%), but only one of them means a deliverable is missing,
+    # and conflating them let an empty book/ read as 95% complete on 2026-07-31.
+    skipped_by_config: list[dict[str, str]] = []
     # The completed frontier: the furthest phase this book has actually finished.
     # Anything BEHIND it that is not itself finished was bypassed — an older
     # pipeline shape, a lane that does not apply (a NotebookLM book records no
@@ -187,9 +205,14 @@ def compute_progress(state: dict[str, Any]) -> dict[str, Any]:
         # A skipped phase leaves the denominator entirely — a book that will never
         # render slides should still be able to reach 100%.
         if status == "skipped":
+            if str(block.get("skipped_by") or "") == "config":
+                skipped_by_config.append({"phase": phase, "reason": str(block.get("reason") or "")})
             continue
         total += weight
         earned += weight * fraction
+        if phase not in _HUMAN_GATED_PHASES:
+            machine_total += weight
+            machine_earned += weight * fraction
         rows.append(
             {
                 "phase": phase,
@@ -200,13 +223,17 @@ def compute_progress(state: dict[str, Any]) -> dict[str, Any]:
             }
         )
     pct = round(100 * earned / total, 1) if total else 0.0
+    machine_pct = round(100 * machine_earned / machine_total, 1) if machine_total else pct
     done = [r for r in rows if r["status"] in _DONE_STATUSES]
     remaining = [r for r in rows if r["status"] not in _DONE_STATUSES]
     return {
         "percent_complete": pct,
+        "machine_percent_complete": machine_pct,
         "phases": rows,
         "done": [r["phase"] for r in done],
         "remaining": [r["phase"] for r in remaining],
+        "human_gated_remaining": [r["phase"] for r in remaining if r["phase"] in _HUMAN_GATED_PHASES],
+        "skipped_by_config": skipped_by_config,
         "bypassed_unresolved": bypassed,
         "current": state.get("phase"),
         "current_status": state.get("phase_status"),
@@ -252,7 +279,16 @@ def estimate_eta(book_dir: Path, percent_complete: float, *, now: datetime | Non
     """
     now = now or datetime.now(timezone.utc)
     checkpoints = _read_velocity(book_dir)
-    if not checkpoints or checkpoints[-1]["pct"] < percent_complete:
+    # Checkpoint on ANY change, not only an increase. Percent moves BACKWARDS
+    # whenever a phase is retried (2026-07-31: 63.6% -> 56% on a slide re-run),
+    # and recording only rises left a peak in the window the book had already
+    # fallen back from — so the rate was computed against progress that no longer
+    # existed and the projection stretched by hours. A regression also invalidates
+    # everything before it as a velocity sample: drop the stale prefix and measure
+    # forward from where the run actually is.
+    if not checkpoints or checkpoints[-1]["pct"] != percent_complete:
+        if checkpoints and checkpoints[-1]["pct"] > percent_complete:
+            checkpoints = []  # regression — earlier samples describe a run that rewound
         checkpoints.append({"ts": now.isoformat(), "pct": percent_complete})
         checkpoints = checkpoints[-_VELOCITY_WINDOW:]
         try:
@@ -315,15 +351,40 @@ def _title(book_dir: Path, slug: str) -> str:
     return slug.replace("-", " ").title()
 
 
-def _format_est(dt: datetime) -> str:
-    """Any timezone-aware instant, in US Eastern 12-hour — the only format this repo reports."""
+def _to_est(dt: datetime) -> datetime:
+    """Any timezone-aware instant, moved to US Eastern — the only zone this repo reports."""
     try:
         from zoneinfo import ZoneInfo
 
-        dt = dt.astimezone(ZoneInfo("America/New_York"))
+        return dt.astimezone(ZoneInfo("America/New_York"))
     except Exception:
-        pass
-    return dt.strftime("%-I:%M %p EST")
+        return dt
+
+
+def _format_est(dt: datetime) -> str:
+    """Bare wall clock in US Eastern 12-hour. Correct only for an instant that is TODAY."""
+    return _to_est(dt).strftime("%-I:%M %p EST")
+
+
+def _format_est_dated(dt: datetime, *, relative_to: datetime | None = None) -> str:
+    """Wall clock, qualified by day when it does not fall on the same date as now.
+
+    The bare form carries no date, so a completion estimate past midnight printed
+    as e.g. "6:14 AM EST" beside a "Checked 6:49 PM EST" stamp and read as twelve
+    hours in the PAST (2026-07-31). Any field that can land on another day — the
+    ETA is the only one today — must go through this instead.
+    """
+    dt_est = _to_est(dt)
+    now_est = _to_est(relative_to or datetime.now(timezone.utc))
+    base = dt_est.strftime("%-I:%M %p EST")
+    days = (dt_est.date() - now_est.date()).days
+    if days == 0:
+        return base
+    if days == 1:
+        return f"{base} tomorrow"
+    if 2 <= days <= 6:
+        return f"{base} {dt_est.strftime('%a')}"
+    return f"{base} {dt_est.strftime('%b %-d')}"
 
 
 def _est_now() -> str:
@@ -336,12 +397,14 @@ def build_card(book_dir: Path) -> dict[str, Any]:
     book_dir = Path(book_dir).resolve()
     state = read_state(book_dir) or {}
     progress = compute_progress(state)
-    eta = estimate_eta(book_dir, progress["percent_complete"])
+    # Estimate against MACHINE work only. Projecting a compute rate across a phase
+    # that is waiting on a person answers a question the rate cannot answer.
+    eta = estimate_eta(book_dir, progress["machine_percent_complete"])
     return {
         "slug": state.get("book_slug") or book_dir.name,
         "title": _title(book_dir, state.get("book_slug") or book_dir.name),
         "generated_at": _est_now(),
-        "eta": _format_est(eta) if eta else None,
+        "eta": _format_est_dated(eta) if eta else None,
         "spend_usd": _spend_usd(book_dir),
         "status": state.get("status"),
         "pending": open_items(state.get("book_slug") or book_dir.name),
@@ -393,6 +456,17 @@ def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
         _row("Checked", card["generated_at"]),
         _row("ETA", card["eta"] if card.get("eta") else "estimating (need 2 checks)"),
     ]
+    # A phase waiting on a person is not a phase the ETA describes. Say so, or the
+    # number reads as a finish time when it is only a "machine stops here" time.
+    if card.get("human_gated_remaining"):
+        gated = ", ".join(step_name(p) for p in card["human_gated_remaining"])
+        lines.append(_row("", f"to next halt · then you: {gated}"))
+    # A deliverable that never got built because the book is misconfigured. This
+    # rides ABOVE the error row because it is the thing most likely to be missed:
+    # the run reports success, the percentage climbs, and nothing was produced.
+    if card.get("skipped_by_config"):
+        missing = ", ".join(step_name(s["phase"]) for s in card["skipped_by_config"])
+        lines.append(_row("Not run", f"{missing} — config"))
     if card.get("last_error"):
         lines.append(_row("Error", str(card["last_error"])))
     if card.get("bypassed_unresolved"):

@@ -46,6 +46,7 @@ import json
 import os
 import sys
 import tempfile
+import threading
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -146,6 +147,37 @@ def is_phase_stale(state: dict[str, Any], max_age_sec: int = STALE_RUNNING_SEC) 
 
 def state_path(book_dir: Path) -> Path:
     return book_dir / "_system" / "orchestrator-state.json"
+
+
+# In-process guard for the read-modify-write cycle on orchestrator-state.json.
+#
+# `write_state` is already atomic at the filesystem level (temp file + rename),
+# which is enough while one thread owns the state. It is NOT enough once a phase
+# fans out: every writer does read_state() -> mutate -> write_state(), and two
+# workers interleaving on that sequence means the later write is computed from a
+# snapshot taken before the earlier one landed, so the earlier worker's result is
+# silently dropped. The file is never corrupt — it is just missing a verdict,
+# which is worse, because nothing reports an error.
+#
+# Re-entrant: update_phase() may be called from inside a caller that already
+# holds the lock. Guards THIS process only; cross-process exclusion is the job of
+# the fcntl book lock in orchestrate_book.py.
+_STATE_LOCK = threading.RLock()
+
+
+def state_transaction() -> threading.RLock:
+    """Hold this around any read_state -> mutate -> write_state sequence.
+
+    Used as a context manager::
+
+        with state_transaction():
+            state = read_state(book_dir) or {}
+            state["..."] = ...
+            write_state(book_dir, state)
+
+    Mandatory for any code path that can run in a worker thread.
+    """
+    return _STATE_LOCK
 
 
 def read_state(book_dir: Path) -> dict[str, Any] | None:
@@ -279,6 +311,19 @@ def update_phase(
     if status not in ("running", "completed", "failed", "halted", "skipped"):
         raise ValueError(f"unknown status: {status!r}")
 
+    with _STATE_LOCK:
+        return _update_phase_locked(book_dir, phase=phase, status=status, error=error, extras=extras)
+
+
+def _update_phase_locked(
+    book_dir: Path,
+    *,
+    phase: str,
+    status: str,
+    error: str | None = None,
+    extras: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """update_phase's body, with the state lock already held by the caller."""
     state = read_state(book_dir)
     if state is None:
         raise RuntimeError(
