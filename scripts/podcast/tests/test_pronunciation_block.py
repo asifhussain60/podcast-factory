@@ -212,3 +212,18 @@ def test_the_live_book_compiles_a_block_for_every_episode():
         out, _unresolved = pb.apply_to_framing(framing, bd, chapter.read_text(encoding="utf-8"))
         block = re.search(r"^##\s+Pronunciation\b.*?$([\s\S]*?)(?=^##\s+|\Z)", out, re.M).group(1)
         assert re.findall(r"^\s*-\s+\S", block, re.M), f"{drafts[0].name} compiled an empty block"
+
+
+def test_a_book_mined_gloss_never_decides_what_the_hosts_say(tmp_path):
+    # `English (translit)` and `translit (English)` are the same shape, so with
+    # no macron or apostrophe on the Arabic the miner guesses direction — and
+    # the live text "the vicegerent (khalifa) of the Commander" made it guess
+    # backwards, telling the hosts to answer an English word with an Arabic one.
+    bd = _book(tmp_path)
+    chapter = "the elements, the arkan (the pillars), from which every body is assembled\n"
+    (
+        out,
+        unresolved,
+    ) = pb.apply_to_framing(FRAMING, bd, chapter)
+    assert "the pillars" not in out.replace("- arkan: the pillars", "")  # not compiled from the gloss
+    assert "arkan" in [t.lower() for t in unresolved]

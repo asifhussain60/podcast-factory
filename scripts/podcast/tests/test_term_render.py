@@ -190,15 +190,15 @@ def test_malformed_rows_are_skipped_not_fatal(tmp_path):
 def test_real_book_table_parses_every_data_row():
     # The live table degrees-of-excellence carries — a regression here means a
     # row a human wrote is being silently dropped before it reaches the audio.
+    # Counted from the canonical header down, because the file also carries a
+    # prose table of probe evidence that is deliberately NOT override rows.
     bd = Path(__file__).resolve().parents[3] / "content" / "Islamic" / "degrees-of-excellence"
     if not (bd / "_system" / "pronunciation.md").exists():
         pytest.skip("book not present in this checkout")
-    rows = [
-        ln
-        for ln in (bd / "_system" / "pronunciation.md").read_text(encoding="utf-8").splitlines()
-        if ln.startswith("| ") and not ln.startswith("| Term") and not ln.startswith("|--")
-    ]
-    assert len(tr.load_book_overrides(bd)) == len(rows)
+    lines = (bd / "_system" / "pronunciation.md").read_text(encoding="utf-8").splitlines()
+    start = next(i for i, ln in enumerate(lines) if ln.startswith("| Term | Phonetic")) + 1
+    rows = [ln for ln in lines[start:] if ln.startswith("| ") and not ln.startswith("|--")]
+    assert len(tr.parse_book_override_table(bd)) == len(rows)
 
 
 # ---------------------------------------------------------------- mine_glosses
@@ -230,3 +230,100 @@ def test_mine_keeps_short_clean_gloss():
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-q"]))
+
+
+# ------------------------------------------------ withdrawn rows (2026-08-01)
+def test_a_withdrawn_row_keeps_its_term_but_asserts_nothing(tmp_path):
+    # `plain` means "this term matters in this book, but nothing is claimed
+    # about how it sounds". The row must survive for the probe's inventory and
+    # must NOT fire rung 0.
+    bd = _override_book(tmp_path, "| arkan | plain | withdrawn; was ar-KAAN |\n| tawhid | tow-HEED | |\n")
+    assert [t for t, _v in tr.parse_book_override_table(bd)] == ["arkan", "tawhid"]
+    assert list(tr.load_book_overrides(bd)) == [tr.normalize_key("tawhid")]
+    assert render("arkan", book_overrides=tr.load_book_overrides(bd)).tier == tr.TIER_TRANSLIT
+
+
+def test_every_withdrawal_spelling_is_recognised(tmp_path):
+    for marker in ("plain", "PLAIN", "-", "—", "(plain)", "n/a"):
+        assert tr.is_withdrawn(marker), marker
+    for real in ("ar-KAAN", "Cain", "substitute *the pillars*"):
+        assert not tr.is_withdrawn(real), real
+
+
+# ------------------------------------------- only the override table is read
+def test_a_table_in_the_prose_is_not_read_as_overrides(tmp_path):
+    # These files carry prose about pronunciation, and such prose carries
+    # tables. An evidence table of "Told to say / Came out as" put rows like
+    # `told to say -> Came out as` into rung 0 and outranked every real
+    # override with them.
+    sysdir = tmp_path / "_system"
+    sysdir.mkdir(parents=True)
+    (sysdir / "pronunciation.md").write_text(
+        "# Pronunciation\n\n"
+        "What the probe found:\n\n"
+        "| Told to say | Came out as | |\n|---|---|---|\n"
+        '| `wa-LAA-ya` | "wa la ya" | wrong |\n\n'
+        "| Term | Phonetic | Notes |\n|---|---|---|\n"
+        "| tawhid | tow-HEED | |\n",
+        encoding="utf-8",
+    )
+    assert tr.load_book_overrides(tmp_path) == {tr.normalize_key("tawhid"): "tow-HEED"}
+
+
+def test_a_list_after_the_table_does_not_leak_in(tmp_path):
+    bd = _override_book(tmp_path, "| tawhid | tow-HEED | |\n\n- **arkan** was `ar-KAAN` (not heard)\n")
+    assert list(tr.load_book_overrides(bd)) == [tr.normalize_key("tawhid")]
+
+
+def test_a_headerless_table_still_parses(tmp_path):
+    # A book whose table predates the canonical header must keep working.
+    sysdir = tmp_path / "_system"
+    sysdir.mkdir(parents=True)
+    (sysdir / "pronunciation.md").write_text("| arkan | ar-KAAN |\n", encoding="utf-8")
+    assert tr.load_book_overrides(tmp_path) == {tr.normalize_key("arkan"): "ar-KAAN"}
+
+
+def test_the_live_book_reads_only_its_two_proven_values():
+    bd = Path(__file__).resolve().parents[3] / "content" / "Islamic" / "degrees-of-excellence"
+    if not (bd / "_system" / "pronunciation.md").exists():
+        pytest.skip("book not present in this checkout")
+    # 40 terms still on the book's list; only the values a probe HEARD work.
+    assert len(tr.parse_book_override_table(bd)) == 40
+    assert set(tr.load_book_overrides(bd)) == {tr.normalize_key("tawhid"), tr.normalize_key("tashbih")}
+
+
+# ------------------------------------- gloss direction (found by probe 2, 2026-08-01)
+def test_an_english_word_is_never_glossed_with_the_arabic():
+    # "God called Adam a vicegerent (khalīfa)" matches BOTH parenthetical
+    # patterns, and the left one mined it as vicegerent -> khalīfa. That reached
+    # the probe bundle as `Said aloud: khalifa` for the term "vicegerent" —
+    # answering an English word with an Arabic one, the opposite of a gloss.
+    assert tr.mine_glosses("God called Adam a vicegerent (khalīfa), and the title") == {}
+
+
+def test_an_apostrophe_marks_the_arabic_side_too():
+    # Same reversal without a macron to signal it.
+    assert tr.mine_glosses("the honey-producing bee — indeed their chief (ya'sub) — are") == {}
+    assert tr.mine_glosses("The word 'bestowal' (fay') means 'return'") == {}
+
+
+def test_direction_is_undecidable_without_a_transliteration_signal():
+    """KNOWN LIMITATION, pinned so it is not mistaken for a fix.
+
+    `English (translit)` and `translit (English)` are the same shape, so the
+    only way to tell them apart here is a mark the Arabic side carries — a
+    macron, an under-dot, an ayn/hamza apostrophe. Strip those and the guess
+    goes the wrong way: "their chief (yasub)" mines chief -> yasub.
+
+    Every instance that actually reached the probe bundle carried such a mark
+    (khalīfa, ya'sub, fay'), so the live defect is closed. Deciding the rest
+    needs an English lexicon or the book's own term list, which belongs with
+    the caller that has one — not in this heuristic.
+    """
+    assert tr.mine_glosses("indeed their chief (yasub) stands apart") == {"chief": "yasub"}
+
+
+def test_the_legitimate_glosses_still_survive_all_of_that():
+    assert tr.mine_glosses("the first is qutb (the pole), the pivot") == {"qutb": "the pole"}
+    assert tr.mine_glosses("the batin (inner meaning) of the verse") == {"batin": "inner meaning"}
+    assert tr.mine_glosses("differs from tafsir (exegesis) here")["tafsir"] == "exegesis"

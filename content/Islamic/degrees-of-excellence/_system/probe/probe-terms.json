@@ -128,8 +128,8 @@
     {
       "term": "vicegerent",
       "transliteration": "vicegerent",
-      "phonetic": "vice-JEER-uhnt",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "vi-ce-ge-rent",
       "signature": [],
       "segment": "terms",
@@ -137,8 +137,8 @@
       "freq": 13,
       "score": 4,
       "reasons": [
-        "3 syllables",
-        "x13 in text"
+        "x13 in text",
+        "non-house-style respelling"
       ],
       "arabic_script": "vicegerent",
       "meaning": "",
@@ -147,16 +147,17 @@
     {
       "term": "fay",
       "transliteration": "fay",
-      "phonetic": "FIE",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "fay",
       "signature": [],
       "segment": "terms",
       "snippet": "",
       "freq": 8,
-      "score": 2,
+      "score": 3,
       "reasons": [
-        "x8 in text"
+        "x8 in text",
+        "non-house-style respelling"
       ],
       "arabic_script": "fay",
       "meaning": "",
@@ -165,16 +166,17 @@
     {
       "term": "nass",
       "transliteration": "nass",
-      "phonetic": "NAHSS",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "nass",
       "signature": [],
       "segment": "terms",
       "snippet": "",
       "freq": 7,
-      "score": 2,
+      "score": 3,
       "reasons": [
-        "x7 in text"
+        "x7 in text",
+        "non-house-style respelling"
       ],
       "arabic_script": "nass",
       "meaning": "",
@@ -201,8 +203,8 @@
     {
       "term": "ahl al-zahir",
       "transliteration": "ahl al-zahir",
-      "phonetic": "AHL az-ZAH-hir",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "ahl al-za-hir",
       "signature": [
         "article-al"
@@ -210,20 +212,60 @@
       "segment": "terms",
       "snippet": "",
       "freq": 5,
-      "score": 4,
+      "score": 3,
       "reasons": [
-        "4 syllables",
-        "x5 in text"
+        "x5 in text",
+        "non-house-style respelling"
       ],
       "arabic_script": "ahl al-zahir",
       "meaning": "",
       "n": 11
     },
     {
+      "term": "Maghrib",
+      "transliteration": "Maghrib",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "ma-ghrib",
+      "signature": [],
+      "segment": "names",
+      "snippet": "",
+      "freq": 5,
+      "score": 3,
+      "reasons": [
+        "x5 in text",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "Maghrib",
+      "meaning": "Maghrib",
+      "n": 12
+    },
+    {
+      "term": "Taha",
+      "transliteration": "Taha",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "ta-ha",
+      "signature": [
+        "ending-a"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 5,
+      "score": 3,
+      "reasons": [
+        "x5 in text",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "Taha",
+      "meaning": "Taha",
+      "n": 13
+    },
+    {
       "term": "walaya",
       "transliteration": "walaya",
-      "phonetic": "wa-LAA-ya",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "wa-lay-a",
       "signature": [
         "ending-a"
@@ -233,64 +275,27 @@
       "freq": 5,
       "score": 3,
       "reasons": [
-        "3 syllables",
-        "x5 in text"
+        "x5 in text",
+        "non-house-style respelling"
       ],
       "arabic_script": "walaya",
       "meaning": "",
-      "n": 12
-    },
-    {
-      "term": "Maghrib",
-      "transliteration": "Maghrib",
-      "phonetic": "MAGH-rib",
-      "house_style_ok": true,
-      "suggested_baseline": "ma-ghrib",
-      "signature": [],
-      "segment": "names",
-      "snippet": "",
-      "freq": 5,
-      "score": 2,
-      "reasons": [
-        "x5 in text"
-      ],
-      "arabic_script": "Maghrib",
-      "meaning": "Maghrib",
-      "n": 13
-    },
-    {
-      "term": "Taha",
-      "transliteration": "Taha",
-      "phonetic": "TAH-haa",
-      "house_style_ok": true,
-      "suggested_baseline": "ta-ha",
-      "signature": [
-        "ending-a"
-      ],
-      "segment": "names",
-      "snippet": "",
-      "freq": 5,
-      "score": 2,
-      "reasons": [
-        "x5 in text"
-      ],
-      "arabic_script": "Taha",
-      "meaning": "Taha",
       "n": 14
     },
     {
       "term": "Yasin",
       "transliteration": "Yasin",
-      "phonetic": "YAA-seen",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "ya-sin",
       "signature": [],
       "segment": "names",
       "snippet": "",
       "freq": 5,
-      "score": 2,
+      "score": 3,
       "reasons": [
-        "x5 in text"
+        "x5 in text",
+        "non-house-style respelling"
       ],
       "arabic_script": "Yasin",
       "meaning": "Yasin",
@@ -335,16 +340,17 @@
     {
       "term": "taslim",
       "transliteration": "taslim",
-      "phonetic": "tas-LEEM",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "ta-slim",
       "signature": [],
       "segment": "terms",
       "snippet": "",
       "freq": 4,
-      "score": 2,
+      "score": 3,
       "reasons": [
-        "x4 in text"
+        "x4 in text",
+        "non-house-style respelling"
       ],
       "arabic_script": "taslim",
       "meaning": "",
@@ -353,16 +359,17 @@
     {
       "term": "sais",
       "transliteration": "sais",
-      "phonetic": "SAA-is",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "sais",
       "signature": [],
       "segment": "terms",
       "snippet": "",
       "freq": 3,
-      "score": 1,
+      "score": 2,
       "reasons": [
-        "x3 in text"
+        "x3 in text",
+        "non-house-style respelling"
       ],
       "arabic_script": "sais",
       "meaning": "",
@@ -407,10 +414,29 @@
       "n": 21
     },
     {
+      "term": "arkan",
+      "transliteration": "arkan",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "a-rkan",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 2,
+      "score": 2,
+      "reasons": [
+        "x2 in text",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "arkan",
+      "meaning": "",
+      "n": 22
+    },
+    {
       "term": "asas al-din",
       "transliteration": "asas al-din",
-      "phonetic": "ah-SAAS ad-DEEN",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "a-sas al-din",
       "signature": [
         "article-al"
@@ -418,20 +444,20 @@
       "segment": "terms",
       "snippet": "",
       "freq": 2,
-      "score": 3,
+      "score": 2,
       "reasons": [
-        "4 syllables",
-        "x2 in text"
+        "x2 in text",
+        "non-house-style respelling"
       ],
       "arabic_script": "asas al-din",
       "meaning": "",
-      "n": 22
+      "n": 23
     },
     {
       "term": "bayt al-mal",
       "transliteration": "bayt al-mal",
-      "phonetic": "BAYT al-MAAL",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "bayt al-mal",
       "signature": [
         "article-al"
@@ -441,18 +467,56 @@
       "freq": 2,
       "score": 2,
       "reasons": [
-        "3 syllables",
-        "x2 in text"
+        "x2 in text",
+        "non-house-style respelling"
       ],
       "arabic_script": "bayt al-mal",
       "meaning": "",
-      "n": 23
+      "n": 24
+    },
+    {
+      "term": "ghulat",
+      "transliteration": "ghulat",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "ghu-lat",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 2,
+      "score": 2,
+      "reasons": [
+        "x2 in text",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "ghulat",
+      "meaning": "",
+      "n": 25
+    },
+    {
+      "term": "mafdul",
+      "transliteration": "mafdul",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "ma-fdul",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 2,
+      "score": 2,
+      "reasons": [
+        "x2 in text",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "mafdul",
+      "meaning": "",
+      "n": 26
     },
     {
       "term": "raiya",
       "transliteration": "raiya",
-      "phonetic": "ra-EE-ya",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "rai-ya",
       "signature": [
         "ending-a"
@@ -462,72 +526,18 @@
       "freq": 2,
       "score": 2,
       "reasons": [
-        "3 syllables",
-        "x2 in text"
+        "x2 in text",
+        "non-house-style respelling"
       ],
       "arabic_script": "raiya",
-      "meaning": "",
-      "n": 24
-    },
-    {
-      "term": "arkan",
-      "transliteration": "arkan",
-      "phonetic": "ar-KAAN",
-      "house_style_ok": true,
-      "suggested_baseline": "a-rkan",
-      "signature": [],
-      "segment": "terms",
-      "snippet": "",
-      "freq": 2,
-      "score": 1,
-      "reasons": [
-        "x2 in text"
-      ],
-      "arabic_script": "arkan",
-      "meaning": "",
-      "n": 25
-    },
-    {
-      "term": "ghulat",
-      "transliteration": "ghulat",
-      "phonetic": "goo-LAAT",
-      "house_style_ok": true,
-      "suggested_baseline": "ghu-lat",
-      "signature": [],
-      "segment": "terms",
-      "snippet": "",
-      "freq": 2,
-      "score": 1,
-      "reasons": [
-        "x2 in text"
-      ],
-      "arabic_script": "ghulat",
-      "meaning": "",
-      "n": 26
-    },
-    {
-      "term": "mafdul",
-      "transliteration": "mafdul",
-      "phonetic": "maf-DOOL",
-      "house_style_ok": true,
-      "suggested_baseline": "ma-fdul",
-      "signature": [],
-      "segment": "terms",
-      "snippet": "",
-      "freq": 2,
-      "score": 1,
-      "reasons": [
-        "x2 in text"
-      ],
-      "arabic_script": "mafdul",
       "meaning": "",
       "n": 27
     },
     {
       "term": "ya'sub",
       "transliteration": "ya'sub",
-      "phonetic": "yaa-SOOB",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "ya-sub",
       "signature": [
         "ayn-hamza"
@@ -535,9 +545,10 @@
       "segment": "terms",
       "snippet": "",
       "freq": 2,
-      "score": 1,
+      "score": 2,
       "reasons": [
-        "x2 in text"
+        "x2 in text",
+        "non-house-style respelling"
       ],
       "arabic_script": "ya'sub",
       "meaning": "",
@@ -546,8 +557,8 @@
     {
       "term": "ahl al-haqq",
       "transliteration": "ahl al-haqq",
-      "phonetic": "AHL al-HAQQ",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "ahl al-hakk",
       "signature": [
         "qaf",
@@ -559,17 +570,99 @@
       "score": 3,
       "reasons": [
         "qaf",
-        "3 syllables"
+        "non-house-style respelling"
       ],
       "arabic_script": "ahl al-haqq",
       "meaning": "",
       "n": 29
     },
     {
+      "term": "Ghadir Khumm",
+      "transliteration": "Ghadir Khumm",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "gha-dir khumm",
+      "signature": [],
+      "segment": "names",
+      "snippet": "",
+      "freq": 1,
+      "score": 3,
+      "reasons": [
+        "proper name",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "Ghadir Khumm",
+      "meaning": "Ghadir Khumm",
+      "n": 30
+    },
+    {
+      "term": "masbuq",
+      "transliteration": "masbuq",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "ma-sbuk",
+      "signature": [
+        "qaf"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 1,
+      "score": 3,
+      "reasons": [
+        "qaf",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "masbuq",
+      "meaning": "",
+      "n": 31
+    },
+    {
+      "term": "nutq",
+      "transliteration": "nutq",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "nutk",
+      "signature": [
+        "qaf"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 1,
+      "score": 3,
+      "reasons": [
+        "qaf",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "nutq",
+      "meaning": "",
+      "n": 32
+    },
+    {
+      "term": "tiryaq",
+      "transliteration": "tiryaq",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "ti-ryak",
+      "signature": [
+        "qaf"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 1,
+      "score": 3,
+      "reasons": [
+        "qaf",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "tiryaq",
+      "meaning": "",
+      "n": 33
+    },
+    {
       "term": "da'irat al-din",
       "transliteration": "da'irat al-din",
-      "phonetic": "DAA-i-rat ad-DEEN",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "dai-rat al-din",
       "signature": [
         "ayn-hamza",
@@ -578,39 +671,20 @@
       "segment": "terms",
       "snippet": "",
       "freq": 1,
-      "score": 3,
+      "score": 2,
       "reasons": [
-        "5 syllables",
-        "long"
+        "long",
+        "non-house-style respelling"
       ],
       "arabic_script": "da'irat al-din",
       "meaning": "",
-      "n": 30
-    },
-    {
-      "term": "Ghadir Khumm",
-      "transliteration": "Ghadir Khumm",
-      "phonetic": "gha-DEER KHOOM",
-      "house_style_ok": true,
-      "suggested_baseline": "gha-dir khumm",
-      "signature": [],
-      "segment": "names",
-      "snippet": "",
-      "freq": 1,
-      "score": 3,
-      "reasons": [
-        "3 syllables",
-        "proper name"
-      ],
-      "arabic_script": "Ghadir Khumm",
-      "meaning": "Ghadir Khumm",
-      "n": 31
+      "n": 34
     },
     {
       "term": "ahl al-batil",
       "transliteration": "ahl al-batil",
-      "phonetic": "AHL al-BAH-til",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "ahl al-ba-til",
       "signature": [
         "article-al"
@@ -618,39 +692,57 @@
       "segment": "terms",
       "snippet": "",
       "freq": 1,
-      "score": 2,
+      "score": 1,
       "reasons": [
-        "4 syllables"
+        "non-house-style respelling"
       ],
       "arabic_script": "ahl al-batil",
       "meaning": "",
-      "n": 32
+      "n": 35
     },
     {
-      "term": "masbuq",
-      "transliteration": "masbuq",
-      "phonetic": "mas-BOOQ",
-      "house_style_ok": true,
-      "suggested_baseline": "ma-sbuk",
+      "term": "falta",
+      "transliteration": "falta",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "fa-lta",
       "signature": [
-        "qaf"
+        "ending-a"
       ],
       "segment": "terms",
       "snippet": "",
       "freq": 1,
-      "score": 2,
+      "score": 1,
       "reasons": [
-        "qaf"
+        "non-house-style respelling"
       ],
-      "arabic_script": "masbuq",
+      "arabic_script": "falta",
       "meaning": "",
-      "n": 33
+      "n": 36
+    },
+    {
+      "term": "mutimm",
+      "transliteration": "mutimm",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "mu-timm",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "mutimm",
+      "meaning": "",
+      "n": 37
     },
     {
       "term": "nur al-imama",
       "transliteration": "nur al-imama",
-      "phonetic": "NOOR al-i-MAA-ma",
-      "house_style_ok": true,
+      "phonetic": "",
+      "house_style_ok": false,
       "suggested_baseline": "nur al-i-ma-ma",
       "signature": [
         "article-al",
@@ -659,85 +751,11 @@
       "segment": "terms",
       "snippet": "",
       "freq": 1,
-      "score": 2,
+      "score": 1,
       "reasons": [
-        "5 syllables"
+        "non-house-style respelling"
       ],
       "arabic_script": "nur al-imama",
-      "meaning": "",
-      "n": 34
-    },
-    {
-      "term": "nutq",
-      "transliteration": "nutq",
-      "phonetic": "NOOTQ",
-      "house_style_ok": true,
-      "suggested_baseline": "nutk",
-      "signature": [
-        "qaf"
-      ],
-      "segment": "terms",
-      "snippet": "",
-      "freq": 1,
-      "score": 2,
-      "reasons": [
-        "qaf"
-      ],
-      "arabic_script": "nutq",
-      "meaning": "",
-      "n": 35
-    },
-    {
-      "term": "tiryaq",
-      "transliteration": "tiryaq",
-      "phonetic": "tir-YAHQ",
-      "house_style_ok": true,
-      "suggested_baseline": "ti-ryak",
-      "signature": [
-        "qaf"
-      ],
-      "segment": "terms",
-      "snippet": "",
-      "freq": 1,
-      "score": 2,
-      "reasons": [
-        "qaf"
-      ],
-      "arabic_script": "tiryaq",
-      "meaning": "",
-      "n": 36
-    },
-    {
-      "term": "falta",
-      "transliteration": "falta",
-      "phonetic": "FAL-tah",
-      "house_style_ok": true,
-      "suggested_baseline": "fa-lta",
-      "signature": [
-        "ending-a"
-      ],
-      "segment": "terms",
-      "snippet": "",
-      "freq": 1,
-      "score": 0,
-      "reasons": [],
-      "arabic_script": "falta",
-      "meaning": "",
-      "n": 37
-    },
-    {
-      "term": "mutimm",
-      "transliteration": "mutimm",
-      "phonetic": "moo-TIMM",
-      "house_style_ok": true,
-      "suggested_baseline": "mu-timm",
-      "signature": [],
-      "segment": "terms",
-      "snippet": "",
-      "freq": 1,
-      "score": 0,
-      "reasons": [],
-      "arabic_script": "mutimm",
       "meaning": "",
       "n": 38
     },

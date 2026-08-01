@@ -367,3 +367,24 @@ def test_the_checklist_lets_the_listener_record_the_answer_it_is_asking_for():
     assert "| 1 | arkan | ar-KAAN |" in checklist
     assert "never a respelling" not in checklist
     assert "do not write a" not in checklist.lower()
+
+
+def test_the_probe_never_substitutes_a_book_mined_gloss(tmp_path, monkeypatch):
+    # A term replaced by an English gloss is never SPOKEN, so a probe entry for
+    # it tests nothing — and the miner's reversals landed in this very bundle.
+    called = []
+    monkeypatch.setattr(bpb.term_render, "mine_glosses", lambda *a, **k: called.append(1) or {})
+    data = {
+        "book_slug": "b",
+        "terms": [
+            {
+                "n": 1,
+                "term": "قطب",
+                "transliteration": "qutb",
+                "segment": "terms",
+                "_render": {"text": "qutb", "is_english": False, "tier": "translit"},
+            }
+        ],
+    }
+    src = bpb.build_source(data)
+    assert "Said aloud: qutb" in src

@@ -403,10 +403,13 @@ def build_bundle(book_dir: Path) -> Path:
     # the episodes will. That includes the book's override table: an override is
     # an untested belief about how a term sounds, and hearing it is the point.
     # Keyed off the transliteration (the `term` field is raw script).
+    # Book-mined glosses are deliberately NOT consulted — see the same note in
+    # _pronunciation_block.compile_entries. Two extra reasons apply here: a term
+    # replaced by an English gloss is never SPOKEN, so a probe entry for it
+    # tests nothing; and the miner's reversals landed in this very bundle
+    # ("vicegerent -> khalifa", "ya'sub -> You are the chief").
     tables = term_render.load_tables()
     overrides = term_render.load_book_overrides(book_dir)
-    refined = book_dir / "_system" / "source" / "text" / "refined-english.md"
-    book_glosses = term_render.mine_glosses(refined.read_text(encoding="utf-8")) if refined.exists() else {}
     for t in data["terms"]:
         translit = t.get("transliteration") or t.get("meaning") or t["term"]
         ledger_entry = lib.get(normalize_key(translit)) or t.get("_library")
@@ -414,7 +417,6 @@ def build_bundle(book_dir: Path) -> Path:
             translit,
             segment=t.get("segment"),
             ledger_entry=ledger_entry,
-            book_glosses=book_glosses,
             book_overrides=overrides,
             tables=tables,
         )

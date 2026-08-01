@@ -20,43 +20,43 @@ and stop asking the hosts to say the Arabic at all.
 
 | n | term | rendered | OK? | Fix |
 |---|------|----------|-----|-----|
-| 1 | al-Naysaburi | an-nay-saa-BOO-ree |  |  |
+| 1 | al-Naysaburi | al-Naysaburi |  |  |
 | 2 | al-Kirmani | al-Kirmani |  |  |
-| 3 | Maghrib | MAGH-rib |  |  |
-| 4 | Taha | TAH-haa |  |  |
-| 5 | Yasin | YAA-seen |  |  |
-| 6 | Ghadir Khumm | gha-DEER KHOOM |  |  |
+| 3 | Maghrib | Maghrib |  |  |
+| 4 | Taha | Taha |  |  |
+| 5 | Yasin | Yasin |  |  |
+| 6 | Ghadir Khumm | Ghadir Khumm |  |  |
 | 7 | Rahat al-Aql | Rahat al-Aql |  |  |
-| 8 | bayt al-mal | BAYT al-MAAL |  |  |
+| 8 | bayt al-mal | bayt al-mal |  |  |
 | 9 | ithbat | ithbat |  |  |
-| 10 | zakat | za-KAAH |  |  |
-| 11 | qibla | QIB-lah |  |  |
-| 12 | hudud | hu-DOOD |  |  |
-| 13 | vicegerent | vice-JEER-uhnt |  |  |
-| 14 | fay | FIE |  |  |
-| 15 | nass | NAHSS |  |  |
+| 10 | zakat | za-KAAT |  |  |
+| 11 | qibla | qibla |  |  |
+| 12 | hudud | hudud |  |  |
+| 13 | vicegerent | vicegerent |  |  |
+| 14 | fay | fay |  |  |
+| 15 | nass | nass |  |  |
 | 16 | tawhid | tow-HEED |  |  |
-| 17 | ahl al-zahir | AHL az-ZAH-hir |  |  |
-| 18 | walaya | wa-LAA-ya |  |  |
-| 19 | khums | KHOOMS |  |  |
-| 20 | qutb | KOOTB |  |  |
-| 21 | taslim | tas-LEEM |  |  |
-| 22 | sais | SAA-is |  |  |
+| 17 | ahl al-zahir | ahl al-zahir |  |  |
+| 18 | walaya | walaya |  |  |
+| 19 | khums | khums |  |  |
+| 20 | qutb | qutb |  |  |
+| 21 | taslim | taslim |  |  |
+| 22 | sais | sais |  |  |
 | 23 | tashbih | tash-BEEH |  |  |
-| 24 | khutba | KHUT-bah |  |  |
-| 25 | asas al-din | ah-SAAS ad-DEEN |  |  |
-| 26 | raiya | ra-EE-ya |  |  |
-| 27 | arkan | ar-KAAN |  |  |
-| 28 | ghulat | goo-LAAT |  |  |
-| 29 | mafdul | maf-DOOL |  |  |
-| 30 | ya'sub | yaa-SOOB |  |  |
-| 31 | ahl al-haqq | AHL al-HAQQ |  |  |
-| 32 | da'irat al-din | DAA-i-rat ad-DEEN |  |  |
-| 33 | ahl al-batil | AHL al-BAH-til |  |  |
-| 34 | masbuq | mas-BOOQ |  |  |
-| 35 | nur al-imama | NOOR al-i-MAA-ma |  |  |
-| 36 | nutq | NOOTQ |  |  |
-| 37 | tiryaq | tir-YAHQ |  |  |
-| 38 | falta | FAL-tah |  |  |
-| 39 | mutimm | moo-TIMM |  |  |
+| 24 | khutba | khutba |  |  |
+| 25 | arkan | arkan |  |  |
+| 26 | asas al-din | asas al-din |  |  |
+| 27 | ghulat | ghulat |  |  |
+| 28 | mafdul | mafdul |  |  |
+| 29 | raiya | raiya |  |  |
+| 30 | ya'sub | ya'sub |  |  |
+| 31 | ahl al-haqq | ahl al-haqq |  |  |
+| 32 | masbuq | masbuq |  |  |
+| 33 | nutq | nutq |  |  |
+| 34 | tiryaq | tiryaq |  |  |
+| 35 | da'irat al-din | da'irat al-din |  |  |
+| 36 | ahl al-batil | ahl al-batil |  |  |
+| 37 | falta | falta |  |  |
+| 38 | mutimm | mutimm |  |  |
+| 39 | nur al-imama | nur al-imama |  |  |
 

@@ -137,6 +137,8 @@ def shadowed_loanwords(book_dir: Path) -> list[str]:
     _exonyms, loanwords = term_render.load_tables()
     out: list[str] = []
     for term, value in term_render.parse_book_override_table(book_dir):
+        if term_render.is_withdrawn(value):
+            continue  # names a term, asserts no spoken form — nothing to shadow
         key = normalize_key(term)
         bare = key[3:] if key.startswith("al-") else key
         if (key in loanwords or bare in loanwords) and normalize_key(value) != key:
@@ -153,7 +155,15 @@ def compile_entries(book_dir: Path, chapter_text: str, authored_block: str) -> t
     """
     overrides = term_render.load_book_overrides(book_dir)
     tables = term_render.load_tables()
-    glosses = term_render.mine_glosses(chapter_text)
+    # Book-mined glosses are deliberately NOT consulted. `English (translit)`
+    # and `translit (English)` are the same shape, so when the Arabic carries no
+    # macron or apostrophe to mark it, the miner guesses direction and can guess
+    # backwards: the live text "the vicegerent (khalifa) of the Commander" mines
+    # vicegerent -> khalifa, which would tell the hosts to answer an English
+    # word with an Arabic one. Every other rung is a lookup in a table somebody
+    # curated; this is the one built on a heuristic that can invert meaning, and
+    # the cost of dropping it is small — a term the book already glosses inline
+    # is one the listener meets glossed anyway.
     try:
         from pronunciation_ledger import load as load_library
 
@@ -174,7 +184,6 @@ def compile_entries(book_dir: Path, chapter_text: str, authored_block: str) -> t
         result = term_render.render_for_audio(
             term,
             ledger_entry=ledger_entry,
-            book_glosses=glosses,
             book_overrides=overrides,
             tables=tables,
         )

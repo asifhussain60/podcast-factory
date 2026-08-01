@@ -265,8 +265,16 @@ def _rows_from_overrides(book_dir: Path) -> list[dict]:
         import term_render
     except ImportError:
         return []
+    # A withdrawn row keeps its term in the inventory — that is the point of the
+    # marker — but carries no phonetic, so it is scored as a term with nothing
+    # settled rather than one whose respelling merely fails house style.
     return [
-        {"term": term, "transliteration": term, "phonetic": value, "snippet": ""}
+        {
+            "term": term,
+            "transliteration": term,
+            "phonetic": "" if term_render.is_withdrawn(value) else value,
+            "snippet": "",
+        }
         for term, value in term_render.parse_book_override_table(book_dir)
     ]
 

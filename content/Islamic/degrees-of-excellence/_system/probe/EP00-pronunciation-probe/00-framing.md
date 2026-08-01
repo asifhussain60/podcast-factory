@@ -32,45 +32,45 @@ spell a word out letter by letter. Never say the original spelling and
 another form back-to-back.
 
 Say these names and terms just as written:
-- an-nay-saa-BOO-ree
+- al-Naysaburi
 - al-Kirmani
-- MAGH-rib
-- TAH-haa
-- YAA-seen
-- gha-DEER KHOOM
+- Maghrib
+- Taha
+- Yasin
+- Ghadir Khumm
 - Rahat al-Aql
-- BAYT al-MAAL
+- bayt al-mal
 - ithbat
-- za-KAAH
-- QIB-lah
-- hu-DOOD
-- vice-JEER-uhnt
-- FIE
-- NAHSS
+- za-KAAT
+- qibla
+- hudud
+- vicegerent
+- fay
+- nass
 - tow-HEED
-- AHL az-ZAH-hir
-- wa-LAA-ya
-- KHOOMS
-- KOOTB
-- tas-LEEM
-- SAA-is
+- ahl al-zahir
+- walaya
+- khums
+- qutb
+- taslim
+- sais
 - tash-BEEH
-- KHUT-bah
-- ah-SAAS ad-DEEN
-- ra-EE-ya
-- ar-KAAN
-- goo-LAAT
-- maf-DOOL
-- yaa-SOOB
-- AHL al-HAQQ
-- DAA-i-rat ad-DEEN
-- AHL al-BAH-til
-- mas-BOOQ
-- NOOR al-i-MAA-ma
-- NOOTQ
-- tir-YAHQ
-- FAL-tah
-- moo-TIMM
+- khutba
+- arkan
+- asas al-din
+- ghulat
+- mafdul
+- raiya
+- ya'sub
+- ahl al-haqq
+- masbuq
+- nutq
+- tiryaq
+- da'irat al-din
+- ahl al-batil
+- falta
+- mutimm
+- nur al-imama
 
 Arabic citations: speak ONCE at first occurrence, then the English meaning.
 
