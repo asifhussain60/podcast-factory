@@ -62,4 +62,4 @@ Analysis discipline, always:
 | RCA-006 | 2026-07-31 | [A typographic premise no one could check spread through four stylesheets](2026-07-31-an-unverified-typographic-premise-propagated-by-citation.md) | Resolved — descriptor removed, measurement recorded; AI-2/3 open |
 | RCA-007 | 2026-08-01 | [The hosts were handed translations instead of phonetics](2026-08-01-the-hosts-were-handed-translations-instead-of-phonetics.md) | Resolved — block compiled from the ladder, library re-keyed; AI-3/4 open |
 | RCA-008 | 2026-08-01 | [A faithful opening was reverted as if the model invented it](2026-08-01-a-faithful-opening-was-reverted-as-if-invented.md) | Resolved — gate made differential, chapter re-articulated; AI-6 open |
-| RCA-009 | 2026-08-01 | [The site's CI gates were dead for five days](2026-08-01-the-site-gates-were-dead-for-five-days.md) | Resolved — install no longer depends on cross-platform lock completeness; AI-2/3 open |
+| RCA-009 | 2026-08-01 | [The site's CI gates were dead for five days](2026-08-01-the-site-gates-were-dead-for-five-days.md) | Partly resolved — 2 of 3 jobs green; 4 routes still red on an absent knowledge.db; AI-2/3/8 open |

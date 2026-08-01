@@ -133,6 +133,28 @@ formatted". Markdown is prose here, not source — its snippets are illustrative
 sometimes deliberately abbreviated — so `*.md` is now excluded in `pyproject.toml`,
 and `ruff`/`mypy` are pinned so the next such change is a deliberate bump.
 
+**Two more, found only once the smoke gate could speak.** The smoke runner
+spawned the dev server with `stdio: "ignore"`, so a 5xx could be reported by URL
+but never by cause — and the failures were not reproducible on macOS from a fresh
+clone. Capturing that output (printed only on failure) named both immediately:
+
+- **`pdftoppm` is a system binary the Composer preview shells out to.** Present
+  on the author's Mac via homebrew, absent on a bare runner, taking
+  `/studio/<slug>/preview` down with `spawnSync pdftoppm ENOENT`. CI now installs
+  poppler-utils — the right fix over stubbing the page, because a smoke gate that
+  skips the render path is not exercising the surface it claims to cover.
+- **`knowledge.db` does not exist on a fresh clone.** `/api/studio/action-items`
+  and `/api/studio/section-depth` both 500 in 0–1 ms — a throw at open, not a
+  query — because `content/knowledge-base/knowledge.db` is gitignored and
+  pipeline-built. Four routes (`edit`, `compose`, `book`, `arabic-review`) fail on
+  it. **Open** as AI-7: what those endpoints should do without a database is a
+  behaviour decision across 14 call sites, not a CI fix.
+
+A local test appeared to rule `knowledge.db` out and was a false negative: the
+file was moved aside while a dev server was already running, and sqlite does not
+notice a file unlinked underneath an open connection. The same lesson as this
+RCA's own, one layer down — a test that cannot fail proves nothing.
+
 ### Detection
 
 An unrelated post-merge audit. After pushing 68 commits on 2026-08-01, a routine
@@ -149,6 +171,8 @@ pushes produced no signal that anyone acted on.
 | AI-1 | Replace `npm ci` with `npm install` in both site jobs; document why at the call site | fix | Claude | DONE |
 | AI-5 | Add `prepare` to `@asifhussain/prose-editor` so a fresh clone builds it | fix | Claude | DONE — verified from a deleted `node_modules` + `dist/` |
 | AI-6 | Exclude `*.md` from ruff formatting and pin `ruff`/`mypy` in CI | fix | Claude | DONE |
+| AI-7 | Install PyYAML so the repo-surgeon probe can run at all; capture dev-server output in the smoke gate; install poppler-utils | fix | Claude | DONE |
+| AI-8 | Decide what the knowledge-database endpoints do when the database is absent | prevent | Asif + Claude | OPEN — spawned as a task; 4 routes still red |
 | AI-2 | Alert on sustained CI failure — N consecutive red runs on `develop` should surface, not wait for an audit | prevent | Asif + Claude | OPEN — spawned as a task |
 | AI-3 | Sweep the site for runtime regressions that shipped while the smoke gate was blind (2026-07-27 → 2026-08-01) | mitigate | `site-health-sentinel` | OPEN — spawned as a task |
 | AI-4 | Record in the RCA README that "verified locally" is not evidence for a CI-only failure mode | prevent | Claude | DONE — see Lessons |
