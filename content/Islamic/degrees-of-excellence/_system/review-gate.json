@@ -1,0 +1,38 @@
+{
+  "phase": "06a",
+  "approved": false,
+  "warnings": [
+    {
+      "severity": "P0",
+      "message": "Critical attribution gap: No primary source document identified. Source files contain only extraction notes, chapter maps, and refined English translations, but no original manuscript reference, manuscript ID, author attribution, or publication provenance.",
+      "chapter": "all"
+    },
+    {
+      "severity": "P0",
+      "message": "Missing companion source material: 'degrees-of-excellence' appears to be a treatise (ch03a indicates 'where the treatise begins'), but no source manuscript, edition, or scholarly edition is cited. Cannot verify if chapters reference external works.",
+      "chapter": "all"
+    },
+    {
+      "severity": "P1",
+      "message": "Authenticity signals unclear: Presence of 'refined-english.md' and 'raw-extract.md' suggests translation/adaptation work, but no translator attribution, editorial methodology, or date of translation provided. Distinction between original text and editorial intervention not transparent.",
+      "chapter": "all"
+    },
+    {
+      "severity": "P1",
+      "message": "Doctrinal source unclear: Chapter titles reference 'Imamate' and 'Imam authority over sacred law' (ch03a, ch05c), which are Ismaili-specific doctrines, but no indication whether this is an Ismaili source, Twelver Shia source, or other tradition. Risk of misattribution in podcast presentation.",
+      "chapter": "ch03a, ch05c"
+    },
+    {
+      "severity": "P1",
+      "message": "Al-Naysaburi attribution unverified: Chapter 01a references 'al-Naysaburi' in filename but no biographical details, dates, or scholarly consensus on identity provided in source files.",
+      "chapter": "ch01a"
+    },
+    {
+      "severity": "P2",
+      "message": "Incomplete chapter metadata: Chapter list shows '… and 3 more' for final chapters without titles, making full source assessment impossible.",
+      "chapter": "ch06-ch08"
+    }
+  ],
+  "reviewed_at": "2026-07-31T15:05:38Z",
+  "approved_at": null
+}

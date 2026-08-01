@@ -1,0 +1,79 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 11,
+  "skipped": 0,
+  "by_class": {
+    "teach": 5,
+    "familiar": 2,
+    "name": 3,
+    "silent": 1
+  },
+  "proposals": [
+    {
+      "phonetic": "qibla",
+      "class": "familiar",
+      "english_equivalent": "qibla",
+      "reason": "A widely recognized term for the direction of prayer that educated readers already know."
+    },
+    {
+      "phonetic": "zakat",
+      "class": "familiar",
+      "english_equivalent": "zakat",
+      "reason": "The established, widely recognized term for the alms obligation, on par with Quran/hadith."
+    },
+    {
+      "phonetic": "al-Kirmani",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "An obscure medieval scholar without an established English form."
+    },
+    {
+      "phonetic": "al-Naysaburi",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "The book's obscure author, with no familiar English form, so the romanisation and script stay."
+    },
+    {
+      "phonetic": "Rahat al-Aql",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A named scholarly work with no familiar English form."
+    },
+    {
+      "phonetic": "ithbat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare fragment of an Arabic book title that is already translated in running prose."
+    },
+    {
+      "phonetic": "hudud",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical legal term for the prescribed penalties that the book introduces and a reader may search."
+    },
+    {
+      "phonetic": "imamate",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's central doctrinal concept (74 uses) that a reader should be able to name and look up."
+    },
+    {
+      "phonetic": "khums",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "An unfamiliar doctrinal term for the designated fifth-share that the book introduces and defines."
+    },
+    {
+      "phonetic": "khutba",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A specific term for the pulpit sermon the book treats technically and a reader may want to cite."
+    },
+    {
+      "phonetic": "qutb",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical term ('the pole') the book defines and builds its argument on, worth naming and citing."
+    }
+  ]
+}

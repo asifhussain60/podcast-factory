@@ -55,8 +55,11 @@ def _clear_downstream_phases(state: dict, retry_phase: str, log=_info) -> None:
 
     A retried phase invalidates all later artifacts; a stale "completed"
     block (e.g. per-chapter on a finished book) would make the re-run skip
-    re-authoring downstream and silently no-op. per-chapter additionally
-    gets its completion ledgers emptied.
+    re-authoring downstream and silently no-op. Downstream per-chapter blocks
+    get their completion ledgers emptied entirely. Self-retrying per-chapter
+    (retry_phase == "per-chapter") is different and more surgical: only
+    failed_slugs is cleared so those chapters re-attempt; completed_slugs is
+    preserved so already-shipped chapters are not redone.
     """
     block = state["phases"][retry_phase]
     block["status"] = "pending"
@@ -64,6 +67,21 @@ def _clear_downstream_phases(state: dict, retry_phase: str, log=_info) -> None:
     block.pop("manual_fallback", None)
     state["phase"] = retry_phase
     state["phase_status"] = "pending"
+    if retry_phase == "per-chapter":
+        # Self-retry (--retry-phase per-chapter after a chapter failed): the
+        # downstream loop below never revisits per-chapter's OWN block (it
+        # only starts at idx+1), so without this, failed_slugs and its stale
+        # chapter_timings survive untouched — chapter_driver's own skip logic
+        # then refuses to re-attempt the very chapter the operator is trying
+        # to retry, and the loop re-reports the identical failure. Unlike the
+        # downstream-wipe case below, completed_slugs must be PRESERVED here
+        # (already-shipped chapters must not be redone) — only clear the
+        # failed ones so they get a fresh attempt.
+        for slug in block.get("failed_slugs", []):
+            block.get("chapter_timings", {}).pop(slug, None)
+        if block.get("failed_slugs"):
+            log(f"  --retry-phase per-chapter: clearing {len(block['failed_slugs'])} failed slug(s) for retry")
+        block["failed_slugs"] = []
     if retry_phase in PHASES:
         idx = PHASES.index(retry_phase)
         for later in PHASES[idx + 1 :]:

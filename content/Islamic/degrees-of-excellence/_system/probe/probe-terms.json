@@ -1,0 +1,347 @@
+{
+  "book_slug": "degrees-of-excellence",
+  "total_terms": 43,
+  "scored_terms": 17,
+  "skipped_confirmed": 20,
+  "skipped_unfixable": 6,
+  "top_n": 17,
+  "terms": [
+    {
+      "term": "النيسابوري",
+      "transliteration": "al-Naysaburi",
+      "phonetic": "an-nay-saa-boo-ree",
+      "house_style_ok": true,
+      "suggested_baseline": "al-na-ysa-bu-ri",
+      "signature": [
+        "article-al",
+        "ending-i"
+      ],
+      "segment": "names",
+      "snippet": "uces the man himself — Ahmad b. Ibrahim al-Naysaburi, a scholar so quietly influential that",
+      "freq": 99,
+      "score": 5,
+      "reasons": [
+        "5 syllables",
+        "x99 in text"
+      ],
+      "arabic_script": "النيسابوري",
+      "meaning": "",
+      "n": 1
+    },
+    {
+      "term": "إِثْبَات",
+      "transliteration": "ithbat",
+      "phonetic": "ith-baat",
+      "house_style_ok": true,
+      "suggested_baseline": "i-thbat",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "irming the Imamate, in Arabic the Kitab ithbat al-imama, by Ahmad b. Ibrahim al-Naysab",
+      "freq": 39,
+      "score": 3,
+      "reasons": [
+        "x39 in text"
+      ],
+      "arabic_script": "إِثْبَات",
+      "meaning": "",
+      "n": 2
+    },
+    {
+      "term": "الزكاة",
+      "transliteration": "zakat",
+      "phonetic": "za-kaah",
+      "house_style_ok": true,
+      "suggested_baseline": "za-kat",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "case against him. Begin with alms, the zakat, which he calls among the most emphatic",
+      "freq": 30,
+      "score": 3,
+      "reasons": [
+        "x30 in text"
+      ],
+      "arabic_script": "الزكاة",
+      "meaning": "",
+      "n": 3
+    },
+    {
+      "term": "اَلْكِرْمَانِيّ",
+      "transliteration": "al-Kirmani",
+      "phonetic": "al-kir-maa-nee",
+      "house_style_ok": true,
+      "suggested_baseline": "al-ki-rma-ni",
+      "signature": [
+        "article-al",
+        "ending-i"
+      ],
+      "segment": "names",
+      "snippet": "entire cosmologies on it. Hamid al-Din al-Kirmani, in his Rahat al-Aql, mapped the ranks",
+      "freq": 28,
+      "score": 6,
+      "reasons": [
+        "4 syllables",
+        "long",
+        "x28 in text"
+      ],
+      "arabic_script": "اَلْكِرْمَانِيّ",
+      "meaning": "",
+      "n": 4
+    },
+    {
+      "term": "الْقِبْلَة",
+      "transliteration": "qibla",
+      "phonetic": "qib-lah",
+      "house_style_ok": true,
+      "suggested_baseline": "ki-bla",
+      "signature": [
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "its standing, its direction toward the qibla, the position of the prayer-leader at t",
+      "freq": 16,
+      "score": 3,
+      "reasons": [
+        "x16 in text"
+      ],
+      "arabic_script": "الْقِبْلَة",
+      "meaning": "",
+      "n": 5
+    },
+    {
+      "term": "الْحُدُود",
+      "transliteration": "hudud",
+      "phonetic": "hu-dood",
+      "house_style_ok": true,
+      "suggested_baseline": "hu-dud",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "Finally the prescribed penalties, the hudud — the amputations, the floggings, the s",
+      "freq": 14,
+      "score": 3,
+      "reasons": [
+        "x14 in text"
+      ],
+      "arabic_script": "الْحُدُود",
+      "meaning": "",
+      "n": 6
+    },
+    {
+      "term": "ahl al-zahir",
+      "transliteration": "ahl al-zahir",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "ahl al-za-hir",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 5,
+      "score": 3,
+      "reasons": [
+        "x5 in text",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "ahl al-zahir",
+      "meaning": "",
+      "n": 7
+    },
+    {
+      "term": "اَلْخُمْس",
+      "transliteration": "khums",
+      "phonetic": "khoms",
+      "house_style_ok": true,
+      "suggested_baseline": "khums",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "od assigned them instead the fifth, the khums, a designated share of the spoils. Now",
+      "freq": 5,
+      "score": 2,
+      "reasons": [
+        "x5 in text"
+      ],
+      "arabic_script": "اَلْخُمْس",
+      "meaning": "",
+      "n": 8
+    },
+    {
+      "term": "قُطْب",
+      "transliteration": "qutb",
+      "phonetic": "qutb",
+      "house_style_ok": true,
+      "suggested_baseline": "kutb",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "y the weight of the claim. The first is qutb, the pole — the fixed pivot around whic",
+      "freq": 5,
+      "score": 2,
+      "reasons": [
+        "x5 in text"
+      ],
+      "arabic_script": "قُطْب",
+      "meaning": "",
+      "n": 9
+    },
+    {
+      "term": "taslim",
+      "transliteration": "taslim",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "ta-slim",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 4,
+      "score": 3,
+      "reasons": [
+        "x4 in text",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "taslim",
+      "meaning": "",
+      "n": 10
+    },
+    {
+      "term": "sais",
+      "transliteration": "sais",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "sais",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 3,
+      "score": 2,
+      "reasons": [
+        "x3 in text",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "sais",
+      "meaning": "",
+      "n": 11
+    },
+    {
+      "term": "tashbih",
+      "transliteration": "tashbih",
+      "phonetic": "tash-BEEH",
+      "house_style_ok": true,
+      "suggested_baseline": "ta-shbih",
+      "signature": [],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 3,
+      "score": 1,
+      "reasons": [
+        "x3 in text"
+      ],
+      "arabic_script": "tashbih",
+      "meaning": "",
+      "n": 12
+    },
+    {
+      "term": "اَلْخُطْبَة",
+      "transliteration": "khutba",
+      "phonetic": "khut-bah",
+      "house_style_ok": true,
+      "suggested_baseline": "khu-tba",
+      "signature": [
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "s, is not valid without the sermon, the khutba, delivered from the pulpit — and that s",
+      "freq": 3,
+      "score": 1,
+      "reasons": [
+        "x3 in text"
+      ],
+      "arabic_script": "اَلْخُطْبَة",
+      "meaning": "",
+      "n": 13
+    },
+    {
+      "term": "bayt al-mal",
+      "transliteration": "bayt al-mal",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "bayt al-mal",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "places",
+      "snippet": "",
+      "freq": 2,
+      "score": 2,
+      "reasons": [
+        "x2 in text",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "bayt al-mal",
+      "meaning": "",
+      "n": 14
+    },
+    {
+      "term": "masbuq",
+      "transliteration": "masbuq",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "ma-sbuk",
+      "signature": [
+        "qaf"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 1,
+      "score": 3,
+      "reasons": [
+        "qaf",
+        "non-house-style respelling"
+      ],
+      "arabic_script": "masbuq",
+      "meaning": "",
+      "n": 15
+    },
+    {
+      "term": "ahl al-batil",
+      "transliteration": "ahl al-batil",
+      "phonetic": "",
+      "house_style_ok": false,
+      "suggested_baseline": "ahl al-ba-til",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 1,
+      "score": 1,
+      "reasons": [
+        "non-house-style respelling"
+      ],
+      "arabic_script": "ahl al-batil",
+      "meaning": "",
+      "n": 16
+    },
+    {
+      "term": "Rahat al-Aql",
+      "transliteration": "Rahat al-Aql",
+      "phonetic": "raa-hat al-aql",
+      "house_style_ok": true,
+      "suggested_baseline": "ra-hat al-akl",
+      "signature": [
+        "qaf",
+        "article-al"
+      ],
+      "segment": "names",
+      "snippet": "",
+      "freq": 0,
+      "score": 6,
+      "reasons": [
+        "qaf",
+        "4 syllables",
+        "proper name"
+      ],
+      "arabic_script": "Rahat al-Aql",
+      "meaning": "",
+      "n": 17
+    }
+  ]
+}

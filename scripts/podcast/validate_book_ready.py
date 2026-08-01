@@ -203,6 +203,31 @@ def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
         from _translation_edition import is_faithful_translation_deliverable
 
         if is_islamic_scholarly(book_dir):
+            # The two checks below answer DIFFERENT questions about DIFFERENT
+            # artifacts, so they run independently — each gated on whether it
+            # applies, never on the other being absent.
+            #
+            # They used to be an if/else on the faithful voice, which was safe only
+            # while "faithful" meant "a `deliverable_mode: translation_edition`
+            # book" — those have no podcast lane at all (no `chapters/*.txt`, no
+            # glossary), so the chapter check could only ever have reported "no
+            # chapters found". Once a book could be faithful WITHOUT being a
+            # translation edition — `the-master-and-the-disciple` from 2026-07-20,
+            # then every Islamic book by default from 2026-07-31 — the else branch
+            # stopped being reachable for books that DO have a podcast lane, and
+            # the chapter-Arabic gate silently stopped running on them. A gate that
+            # disappears because an unrelated knob moved is the failure mode this
+            # repo keeps paying for; applicability is now asked directly.
+            chapters_present = any((book_dir / "chapters").glob("ch*.txt"))
+            glossary_present = (book_dir / "_system" / "glossary.yml").exists()
+            notes: list[str] = []
+            if chapters_present and glossary_present:
+                from inject_chapter_arabic import chapter_arabic_status
+
+                status = chapter_arabic_status(book_dir)
+                if not status.get("ok"):
+                    return False, str(status.get("note") or "Arabic chapter coverage failed")
+                notes.append(str(status.get("note") or "chapter Arabic ok"))
             if is_faithful_translation_deliverable(book_dir):
                 md = _pick_book_md(book_dir)
                 rendered = md.read_text(encoding="utf-8", errors="replace") if md.exists() else ""
@@ -223,15 +248,16 @@ def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
                 source_runs = len(_ARABIC_RE.findall(source_text))
                 if source_runs >= 50 and rendered_runs == 0:
                     return False, ("translation-edition source has Arabic script but the rendered book has none")
-                return True, (
+                notes.append(
                     f"translation-edition Arabic preservation signal: "
                     f"{rendered_runs} rendered Arabic runs from {source_runs} source runs"
                 )
-            from inject_chapter_arabic import chapter_arabic_status
-
-            status = chapter_arabic_status(book_dir)
-            if not status.get("ok"):
-                return False, str(status.get("note") or "Arabic chapter coverage failed")
+            # A book with a podcast lane AND a faithful reading edition has now
+            # passed both; report both rather than the last one to run. Falls
+            # through to the generic render-coverage signal below when neither
+            # applied, which is the pre-2026-07-31 behaviour for such a book.
+            if notes:
+                return True, " · ".join(notes)
     except Exception as e:
         return False, f"Arabic chapter coverage check failed: {e}"
 

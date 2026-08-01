@@ -64,7 +64,7 @@ def test_knob_matrix_stage_sequence(tmp_path, monkeypatch, augmentation, voice, 
 
 
 def test_config_default_map_reproduces_current_routing(tmp_path, monkeypatch) -> None:
-    """deliverable_mode: translation_edition -> {none, faithful}; legacy -> {source_only, author_companion}."""
+    """deliverable_mode: translation_edition -> {none, faithful}, whatever the profile."""
     import _book_pipeline_v2
 
     # translation edition default -> base + fluency (faithful, no augment)
@@ -74,10 +74,25 @@ def test_config_default_map_reproduces_current_routing(tmp_path, monkeypatch) ->
     assert calls1 == ["base", "fluency"]
 
 
-def test_legacy_companion_default_full_pipeline(tmp_path, monkeypatch) -> None:
+def test_islamic_default_runs_the_articulation_route(tmp_path, monkeypatch) -> None:
+    """An Islamic book with nothing declared articulates; it does NOT re-voice.
+
+    The stage order is the assertion that matters: `fluency` (the REQ-BA de-calque
+    pass) is present and `voice` (the author-companion re-voice) is absent. Before
+    2026-07-31 this same config produced ["base", "augment", "voice"].
+    """
     import _book_pipeline_v2
 
-    bd = _book(tmp_path, "book_pipeline_v2: true\nseries:\n  enable_book_branch: true\n")
+    bd = _book(tmp_path, "book_pipeline_v2: true\ncontent_profile: islamic_scholarly\n")
+    calls = _trace_stages(monkeypatch)
+    _book_pipeline_v2.compose_book_v2(bd, log=lambda *a: None)
+    assert calls == ["base", "fluency", "augment"]  # {source_only, faithful}
+
+
+def test_non_islamic_default_still_runs_the_companion_revoice(tmp_path, monkeypatch) -> None:
+    import _book_pipeline_v2
+
+    bd = _book(tmp_path, "book_pipeline_v2: true\ncontent_profile: fiction\n")
     calls = _trace_stages(monkeypatch)
     _book_pipeline_v2.compose_book_v2(bd, log=lambda *a: None)
     assert calls == ["base", "augment", "voice"]  # {source_only, author_companion}

@@ -1,0 +1,239 @@
+{
+  "schema": "podcast.book-augment/v3",
+  "accepted": 5,
+  "dropped": 0,
+  "chapters_seen": 10,
+  "chapters_no_relevant_atom": 0,
+  "chapters_composer_authored": 0,
+  "atoms_per_chapter": 8,
+  "relevance_threshold": 0.08,
+  "per_chapter": [
+    {
+      "chapter": "The Question of Leadership",
+      "selected": [
+        {
+          "id": "etymology:mm",
+          "score": 0.3054
+        },
+        {
+          "id": "etymology:wfq",
+          "score": 0.1839
+        },
+        {
+          "id": "etymology:hll",
+          "score": 0.1388
+        },
+        {
+          "id": "doctrine:wisdom:1:78:3",
+          "score": 0.1328
+        },
+        {
+          "id": "doctrine:wisdom:1:78:6",
+          "score": 0.1323
+        },
+        {
+          "id": "quran:41:53",
+          "score": 0.1318
+        },
+        {
+          "id": "quran:5:19",
+          "score": 0.1307
+        },
+        {
+          "id": "doctrine:wisdom:1:78:4",
+          "score": 0.1255
+        }
+      ],
+      "used": [
+        "etymology:mm",
+        "etymology:wfq",
+        "doctrine:wisdom:1:78:3",
+        "doctrine:wisdom:1:78:6",
+        "doctrine:wisdom:1:78:4"
+      ]
+    },
+    {
+      "chapter": "The Pole and Foundation of Religion",
+      "selected": [
+        {
+          "id": "doctrine:wisdom:1:78:2",
+          "score": 0.1344
+        },
+        {
+          "id": "etymology:hll",
+          "score": 0.1288
+        },
+        {
+          "id": "quran:41:53",
+          "score": 0.128
+        },
+        {
+          "id": "quote:the-author-of-the-book-the-correction:3203a62fe0",
+          "score": 0.1208
+        },
+        {
+          "id": "doctrine:wisdom:1:20:5",
+          "score": 0.1202
+        },
+        {
+          "id": "doctrine:wisdom:1:75:4",
+          "score": 0.1161
+        },
+        {
+          "id": "doctrine:wisdom:1:80:9",
+          "score": 0.1108
+        },
+        {
+          "id": "doctrine:wisdom:1:81:1",
+          "score": 0.11
+        }
+      ],
+      "used": [
+        "doctrine:wisdom:1:78:2",
+        "quote:the-author-of-the-book-the-correction:3203a62fe0",
+        "doctrine:wisdom:1:20:5",
+        "doctrine:wisdom:1:75:4",
+        "doctrine:wisdom:1:80:9",
+        "doctrine:wisdom:1:81:1"
+      ]
+    },
+    {
+      "chapter": "By Nature and by Reason",
+      "selected": [
+        {
+          "id": "doctrine:wisdom:1:73:3",
+          "score": 0.162
+        },
+        {
+          "id": "doctrine:wisdom:1:74:8",
+          "score": 0.1544
+        },
+        {
+          "id": "doctrine:wisdom:1:81:5",
+          "score": 0.1538
+        },
+        {
+          "id": "doctrine:wisdom:1:74:10",
+          "score": 0.1473
+        },
+        {
+          "id": "doctrine:wisdom:1:80:3",
+          "score": 0.1419
+        },
+        {
+          "id": "doctrine:wisdom:1:84:3",
+          "score": 0.1347
+        },
+        {
+          "id": "etymology:hll",
+          "score": 0.1344
+        },
+        {
+          "id": "doctrine:wisdom:1:73:1",
+          "score": 0.1337
+        }
+      ],
+      "used": [
+        "doctrine:wisdom:1:73:3",
+        "doctrine:wisdom:1:74:8",
+        "doctrine:wisdom:1:81:5",
+        "doctrine:wisdom:1:74:10",
+        "doctrine:wisdom:1:80:3",
+        "doctrine:wisdom:1:84:3",
+        "doctrine:wisdom:1:73:1"
+      ]
+    },
+    {
+      "chapter": "The Ladder of Creation",
+      "selected": [
+        {
+          "id": "etymology:hrm",
+          "score": 0.2021
+        },
+        {
+          "id": "doctrine:wisdom:1:84:1",
+          "score": 0.1785
+        },
+        {
+          "id": "doctrine:wisdom:1:84:7",
+          "score": 0.1491
+        },
+        {
+          "id": "doctrine:wisdom:1:20:8",
+          "score": 0.1408
+        },
+        {
+          "id": "doctrine:wisdom:1:73:4",
+          "score": 0.1369
+        },
+        {
+          "id": "doctrine:wisdom:1:81:4",
+          "score": 0.1364
+        },
+        {
+          "id": "doctrine:wisdom:1:20:7",
+          "score": 0.1303
+        },
+        {
+          "id": "doctrine:wisdom:1:81:6",
+          "score": 0.1299
+        }
+      ],
+      "used": [
+        "doctrine:wisdom:1:84:1",
+        "doctrine:wisdom:1:84:7",
+        "doctrine:wisdom:1:20:8",
+        "doctrine:wisdom:1:73:4",
+        "doctrine:wisdom:1:81:4",
+        "doctrine:wisdom:1:20:7",
+        "doctrine:wisdom:1:81:6"
+      ]
+    },
+    {
+      "chapter": "God's Vicegerent in His Time",
+      "selected": [
+        {
+          "id": "doctrine:wisdom:1:125:1",
+          "score": 0.1539
+        },
+        {
+          "id": "doctrine:wisdom:1:74:7",
+          "score": 0.1512
+        },
+        {
+          "id": "etymology:hll",
+          "score": 0.1457
+        },
+        {
+          "id": "doctrine:wisdom:1:20:3",
+          "score": 0.1414
+        },
+        {
+          "id": "doctrine:wisdom:1:73:0",
+          "score": 0.1375
+        },
+        {
+          "id": "doctrine:wisdom:1:75:1",
+          "score": 0.1363
+        },
+        {
+          "id": "doctrine:wisdom:1:81:2",
+          "score": 0.134
+        },
+        {
+          "id": "doctrine:wisdom:1:84:5",
+          "score": 0.1334
+        }
+      ],
+      "used": [
+        "doctrine:wisdom:1:125:1",
+        "doctrine:wisdom:1:74:7",
+        "doctrine:wisdom:1:20:3",
+        "doctrine:wisdom:1:73:0",
+        "doctrine:wisdom:1:75:1",
+        "doctrine:wisdom:1:81:2",
+        "doctrine:wisdom:1:84:5"
+      ]
+    }
+  ]
+}

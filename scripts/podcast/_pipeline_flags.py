@@ -6,13 +6,24 @@ and ``book_voice`` — that the unified book path reads from
 
 Knob-default map
 ----------------
-The knob defaults are chosen so that default config reproduces each deliverable's
-established behaviour:
-
   * ``deliverable_mode == translation_edition`` -> ``{none, faithful}``
     (the faithful translation edition — no augmentation, faithful voice)
-  * companion book (anything else)              -> ``{source_only, author_companion}``
+  * content_profile ``islamic_scholarly``       -> ``{source_only, faithful}``
+    (the articulation route: faithful base + the REQ-BA de-calque pass, with
+    source-grounded enrichment)
+  * anything else                               -> ``{source_only, author_companion}``
     (the author-companion revoice with source-grounded enrichment)
+
+The Islamic default was ``author_companion`` until 2026-07-31 (Asif). Two books
+had already been moved off it by hand for the same reason, and the reason
+generalises: with ``narrative_frame`` enforcing who narrates, the
+author-companion prompt has little left to do that the frame does not already
+fix — on ``the-master-and-the-disciple`` six of nine chapters came back 92-100%
+identical to the faithful base and one byte-identical — while the fluency pass is
+the one actually written for de-calque work, and the only route governed by a
+written contract (``docs/standards/book-articulation.md``, REQ-BA-010..160). A
+scholarly Islamic edition wants the articulated faithful translation by default;
+a book that genuinely wants the companion re-voice can still say so explicitly.
 
 An explicit ``book_augmentation`` / ``book_voice`` / ``book_visuals`` key in
 ``series-config.yaml`` overrides the default map. An UNRECOGNISED value RAISES
@@ -76,11 +87,37 @@ def _read_series_config(book_dir: Path) -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
-def _default_knobs(cfg: dict[str, Any]) -> tuple[str, str]:
-    """The default knob map, keyed off the deliverable mode."""
+def _default_knobs(book_dir: Path, cfg: dict[str, Any]) -> tuple[str, str]:
+    """The default knob map, keyed off the deliverable mode and content profile.
+
+    The profile is resolved through ``_content_profile.is_islamic_scholarly`` —
+    the SAME resolver every other profile-gated behaviour in the pipeline uses —
+    rather than read off ``cfg`` here. Reading the key directly would be a second,
+    subtly different implementation of "is this an Islamic book": that resolver
+    also treats an unrecognised profile as Islamic, and it is the shared answer,
+    not this module's opinion, that must decide. It costs one small re-read of a
+    file this module has usually just parsed; correctness is worth the read.
+
+    Imported lazily for the reason in the module docstring — the knob readers are
+    called from drivers, validators and tests, and must not pull anything heavy at
+    import time. (``_content_profile`` is light, but the convention is what keeps
+    it that way, and ``narrative_frame`` / ``autonomy`` below already follow it.)
+
+    KNOWN DIVERGENCE, left deliberately: ``narrative_frame`` below reads
+    ``content_profile`` straight off ``cfg``, so an ABSENT profile resolves there
+    to ``external_narrator`` (no profile key -> no entry in the profile-default
+    map) while it resolves HERE to Islamic. Not unified, because the frame is a
+    SOURCE property and widening its default is a much larger behavioural change
+    than a knob default — and no live book is affected: every book in the repo now
+    declares its profile. Unify only with the frame rule's owner, not in passing.
+    """
     mode = str(cfg.get("deliverable_mode") or "").strip()
     if mode == _TRANSLATION_EDITION_MODE:
         return BOOK_AUGMENTATION_NONE, BOOK_VOICE_FAITHFUL
+    from _content_profile import is_islamic_scholarly
+
+    if is_islamic_scholarly(Path(book_dir)):
+        return BOOK_AUGMENTATION_SOURCE_ONLY, BOOK_VOICE_FAITHFUL
     return BOOK_AUGMENTATION_SOURCE_ONLY, BOOK_VOICE_AUTHOR_COMPANION
 
 
@@ -109,7 +146,7 @@ def book_augmentation(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
         _reject_unknown(AUGMENTATION_KEY, explicit, _VALID_AUGMENTATION)
     if explicit:
         return explicit
-    return _default_knobs(cfg)[0]
+    return _default_knobs(book_dir, cfg)[0]
 
 
 def book_voice(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
@@ -121,7 +158,7 @@ def book_voice(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
         _reject_unknown(VOICE_KEY, explicit, _VALID_VOICE)
     if explicit:
         return explicit
-    return _default_knobs(cfg)[1]
+    return _default_knobs(book_dir, cfg)[1]
 
 
 def book_visuals(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:

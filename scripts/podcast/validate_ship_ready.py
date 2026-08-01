@@ -284,11 +284,14 @@ def _emit(args, gate_results: list[dict], verdict: str, summary: str) -> int:
             )
         )
     else:
-        # Echo advisory gate notes (e.g. G12 augmenter, G13 Arabic-script
-        # coverage). These never block ship, but they were previously written to
-        # the gate result and never printed in non-json mode — so the coverage
+        # Echo advisory gate notes (e.g. G13 Arabic-script coverage). These
+        # never block ship (a blocking gate returns via _emit before this
+        # point is ever reached), but they were previously written to the
+        # gate result and never printed in non-json mode — so the coverage
         # signal was invisible at the finalize halt. Surface them now.
-        _advisories = [g for g in gate_results if g.get("advisory") and g.get("note")]
+        # Filter on "note" alone: no gate has ever set an "advisory" key
+        # (verified 2026-07-31 — the original filter was permanently dead).
+        _advisories = [g for g in gate_results if g.get("note")]
         if _advisories:
             print()
             print("--- Advisories (non-blocking) ---")

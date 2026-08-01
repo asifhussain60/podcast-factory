@@ -1,0 +1,13 @@
+{
+  "ts": "2026-07-31T19:19Z",
+  "book": "degrees-of-excellence",
+  "chapters_in_scope": 1,
+  "p0": 0,
+  "p1": 6,
+  "p2": 2,
+  "auto_fixes": 0,
+  "score": 0.0,
+  "badge": "Unstable",
+  "verdict": "SHIP-WITH-CAUTION",
+  "challenger_version": "2.6"
+}

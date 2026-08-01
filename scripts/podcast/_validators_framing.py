@@ -141,6 +141,82 @@ def assert_framing_pronunciation_imperative(content: str, file_path: Path) -> No
         )
 
 
+_PRONUNCIATION_ENTRY_RE = re.compile(r"^\s*-\s+([^:\n]{1,60}?)\s*:\s*(.+?)\s*$", re.MULTILINE)
+# An English translation, not a spoken form. Every instance that shipped in the
+# 2026-08-01 run led with a determiner — "the pillars", "the one surpassed",
+# "the one preceded" — and no Arabic transliteration or respelling ever does.
+_GLOSS_SHAPED_VALUE = re.compile(r"^(?:the|an?)\s+\S", re.IGNORECASE)
+# A row the human deliberately marked as a substitution is not a defect.
+_EXPLICIT_SUBSTITUTE = re.compile(r"^substitute\b", re.IGNORECASE)
+
+
+def assert_framing_pronunciation_render(
+    content: str,
+    file_path: Path,
+    book_dir: Path | None = None,
+    chapter_text: str | None = None,
+) -> None:
+    """R-PRONUNCIATION-RENDER: no English translation in the value slot.
+
+    Companion to ``_pronunciation_block.apply_to_framing``. On the normal path
+    the compiler has already replaced every value, so this passes by
+    construction; it earns its place on the degrade path, where a book with
+    nothing settled keeps its authored block and this is the only thing standing
+    between `- arkan: the pillars` and the audio.
+
+    An English substitute is allowed when the LADDER produces it — a ledger
+    gloss, an exonym, an explicit ``substitute`` row. So a gloss-shaped value is
+    only an error when it DISAGREES with what the ladder independently resolves
+    for that term. Skipped entirely without a book dir or chapter text, since
+    there is then nothing to resolve against.
+    """
+    if book_dir is None or chapter_text is None:
+        return
+    m = re.search(r"^##\s+Pronunciation\b.*?$([\s\S]*?)(?=^##\s+|\Z)", content, re.MULTILINE)
+    if not m:
+        return  # absence is the imperative gate's error to report, not this one
+    try:
+        import sys as _sys
+
+        _sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from _pronunciation_block import compile_entries
+    except ImportError:
+        return  # the compiler is the authority; without it there is nothing to check
+
+    resolved = {t.strip().lower(): v for t, v in compile_entries(book_dir, chapter_text, m.group(1))[0]}
+
+    offenders: list[str] = []
+    for em in _PRONUNCIATION_ENTRY_RE.finditer(m.group(1)):
+        term, value = em.group(1).strip(), em.group(2).strip()
+        if _EXPLICIT_SUBSTITUTE.match(value):
+            continue
+        if not _GLOSS_SHAPED_VALUE.match(value):
+            continue
+        if resolved.get(term.lower(), "").strip().lower() == value.lower():
+            continue  # the ladder chose this English itself
+        offenders.append(f"- {term}: {value}")
+
+    if offenders:
+        sample = "\n".join(f"    {o}" for o in offenders[:6])
+        sys.exit(
+            f"ERROR: framing's `## Pronunciation` block puts an English translation in the\n"
+            f"  value slot — the slot the block's own instruction calls a phonetic.\n"
+            f"  File: {file_path}\n"
+            f"  Offending entries (first 6):\n{sample}\n\n"
+            f"  R-PRONUNCIATION-RENDER: the hosts are told to say each term ONCE using the\n"
+            f"  form given here. Hand them a translation and they try to pronounce it —\n"
+            f"  this is how *arkan* was spoken as 'Archon' and *masbuq* as 'Mazbuck'.\n\n"
+            f"  Fix by giving the term a settled spoken form, in order of preference:\n"
+            f"    1. Add a row to {book_dir}/_system/pronunciation.md — the build then\n"
+            f"       compiles the value and the authored text stops mattering.\n"
+            f"    2. Settle it by ear:\n"
+            f"       python3 scripts/podcast/run_pronunciation_probe.py <book-slug>\n"
+            f"    3. If the term genuinely should be spoken in English, mark it as a\n"
+            f"       substitution so the intent is explicit:\n"
+            f"         - {offenders[0].split(':')[0].lstrip('- ')}: substitute *{offenders[0].split(':', 1)[1].strip()}*"
+        )
+
+
 def assert_framing_analogy_cap_strict(content: str, file_path: Path) -> None:
     """F27 #3: detect forbidden analogies in framing.md."""
     scan_text = content.lower()

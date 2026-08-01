@@ -1,0 +1,195 @@
+{
+  "schema": "podcast.book-augment/v3",
+  "accepted": 4,
+  "dropped": 1,
+  "chapters_seen": 10,
+  "chapters_no_relevant_atom": 0,
+  "chapters_composer_authored": 0,
+  "atoms_per_chapter": 8,
+  "relevance_threshold": 0.08,
+  "per_chapter": [
+    {
+      "chapter": "The Striving That Mercy Meets",
+      "selected": [
+        {
+          "id": "etymology:hll",
+          "score": 0.1333
+        },
+        {
+          "id": "quote:the-prophet-muhammad:81bb121181",
+          "score": 0.1262
+        },
+        {
+          "id": "doctrine:wisdom:1:20:7",
+          "score": 0.1227
+        },
+        {
+          "id": "doctrine:wisdom:1:78:6",
+          "score": 0.1167
+        },
+        {
+          "id": "doctrine:wisdom:1:74:10",
+          "score": 0.1116
+        },
+        {
+          "id": "quote:the-prophet-muhammad:b12ec9b949",
+          "score": 0.1106
+        },
+        {
+          "id": "quote:imam-al-ghazali:6d3f859b5c",
+          "score": 0.1094
+        },
+        {
+          "id": "quote:young-man:806c5aca6e",
+          "score": 0.1052
+        }
+      ],
+      "used": [
+        "quote:the-prophet-muhammad:81bb121181",
+        "doctrine:wisdom:1:20:7",
+        "doctrine:wisdom:1:78:6",
+        "doctrine:wisdom:1:74:10",
+        "quote:the-prophet-muhammad:b12ec9b949",
+        "quote:imam-al-ghazali:6d3f859b5c"
+      ]
+    },
+    {
+      "chapter": "Worship Is Obedience, Nothing Less",
+      "selected": [
+        {
+          "id": "etymology:jhd",
+          "score": 0.2401
+        },
+        {
+          "id": "etymology:snn",
+          "score": 0.2043
+        },
+        {
+          "id": "etymology:hll",
+          "score": 0.166
+        },
+        {
+          "id": "doctrine:wisdom:1:20:5",
+          "score": 0.1334
+        },
+        {
+          "id": "doctrine:wisdom:1:74:8",
+          "score": 0.1238
+        },
+        {
+          "id": "doctrine:wisdom:1:74:1",
+          "score": 0.1201
+        },
+        {
+          "id": "quote:hatim-ibn-ism:5e4c780739",
+          "score": 0.1191
+        },
+        {
+          "id": "quote:the-author:6ccf410027",
+          "score": 0.1186
+        }
+      ],
+      "used": [
+        "etymology:jhd",
+        "etymology:snn",
+        "etymology:hll",
+        "doctrine:wisdom:1:20:5",
+        "doctrine:wisdom:1:74:8",
+        "doctrine:wisdom:1:74:1",
+        "quote:hatim-ibn-ism:5e4c780739",
+        "quote:the-author:6ccf410027"
+      ]
+    },
+    {
+      "chapter": "Finding a True Guide",
+      "selected": [
+        {
+          "id": "etymology:nfs",
+          "score": 0.2096
+        },
+        {
+          "id": "etymology:hrm",
+          "score": 0.1828
+        },
+        {
+          "id": "etymology:shykh",
+          "score": 0.164
+        },
+        {
+          "id": "doctrine:wisdom:1:81:5",
+          "score": 0.1253
+        },
+        {
+          "id": "doctrine:wisdom:1:73:3",
+          "score": 0.1158
+        },
+        {
+          "id": "doctrine:wisdom:1:20:3",
+          "score": 0.1094
+        },
+        {
+          "id": "doctrine:wisdom:1:81:4",
+          "score": 0.1092
+        },
+        {
+          "id": "quote:mawla-amir-al-muminin:f477508c26",
+          "score": 0.1092
+        }
+      ],
+      "used": [
+        "etymology:nfs",
+        "etymology:hrm",
+        "etymology:shykh",
+        "doctrine:wisdom:1:81:5",
+        "doctrine:wisdom:1:73:3",
+        "doctrine:wisdom:1:20:3",
+        "doctrine:wisdom:1:81:4",
+        "quote:mawla-amir-al-muminin:f477508c26"
+      ]
+    },
+    {
+      "chapter": "A Prayer for the Road",
+      "selected": [
+        {
+          "id": "doctrine:wisdom:1:80:4",
+          "score": 0.1156
+        },
+        {
+          "id": "doctrine:wisdom:1:74:7",
+          "score": 0.1096
+        },
+        {
+          "id": "quote:imam-al-ghazali:2ac04a23e7",
+          "score": 0.1039
+        },
+        {
+          "id": "quote:the-prophet-muhammad:9b2a10e5b0",
+          "score": 0.1012
+        },
+        {
+          "id": "quote:ahmad:4861f9347a",
+          "score": 0.0904
+        },
+        {
+          "id": "quote:the-prophet-muhammad:8f5a29e509",
+          "score": 0.0893
+        },
+        {
+          "id": "quote:hatim-ibn-ism:dd07acb424",
+          "score": 0.0869
+        },
+        {
+          "id": "quran:1:2",
+          "score": 0.0865
+        }
+      ],
+      "used": [
+        "doctrine:wisdom:1:80:4",
+        "doctrine:wisdom:1:74:7",
+        "quote:imam-al-ghazali:2ac04a23e7",
+        "quote:the-prophet-muhammad:9b2a10e5b0",
+        "quote:the-prophet-muhammad:8f5a29e509"
+      ]
+    }
+  ]
+}

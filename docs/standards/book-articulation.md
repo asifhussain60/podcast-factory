@@ -2,16 +2,33 @@
 
 Canonical rule text for **articulation** — taking a stiff, word-for-word,
 Arabic-calqued English chapter and rewriting it so it reads like a professionally
-published book, without changing what it says. This is the contract behind
-**both** rewrite routes for the translation edition: `0book-fluency`
+published book, without changing what it says.
+
+**This is the DEFAULT acceptable standard for the reading edition of an Islamic
+scholarly book (Asif, 2026-07-31), not an opt-in.** It used to apply only to
+books declaring `deliverable_mode: translation_edition`; anything else defaulted
+to `book_voice: author_companion`, a re-voice with far more latitude and no
+written contract at all. `_pipeline_flags._default_knobs` now returns
+`{source_only, faithful}` for `content_profile: islamic_scholarly`, so
+`0book-fluency` — the pass this standard governs — runs by default. The reference
+edition is `the-master-and-the-disciple`. A book that genuinely wants the
+companion re-voice must now say so explicitly.
+
+It is the contract behind **both** rewrite routes: `0book-fluency`
 (`scripts/podcast/_book_voice.py` / `_book_voice_prompts.py`), which runs
-automatically over every translation-edition book at compose time, and the Book
+automatically at compose time over every book on the faithful voice, and the Book
 Composer's **Rearticulate** action (`scripts/podcast/rearticulate_chapter.py`),
 which reruns one chapter on demand. Both call the same prompt builder
 (`_book_voice_prompts.py::_articulation_prompt`) so the automatic pass and the
 on-demand tool cannot drift apart. Also referenced by the `book-articulation`
-skill and the `book-rearticulator` agent. Cite findings by `REQ-BA-NNN`; never
-re-copy rule text elsewhere.
+skill and the `book-rearticulator` agent.
+
+**Verified, not merely instructed.** `book-challenger` check **BK-P8**
+(articulation conformance) judges a composed book against the rules below that no
+other `BK-*` check covers — REQ-BA-010, -020, -050, -080, -100, -140 — on every
+book whose `book_voice` resolves to `faithful`. The remaining rules are already
+gated elsewhere and are NOT re-checked by BK-P8; see the check's own scope note.
+Cite findings by `REQ-BA-NNN`; never re-copy rule text elsewhere.
 
 Grounding: the [Library of Arabic Literature *Handbook for Editor–Translators*](https://dhjhkxawhe8q4.cloudfront.net/library-of-arabic-literature-wp/assets/20240716170340/Handbook-v5-2024-02-28.pdf)
 (NYU Press, 2022 — "LAL" below), the house style of the standard scholarly series

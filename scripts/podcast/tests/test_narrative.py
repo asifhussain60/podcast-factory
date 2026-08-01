@@ -11,6 +11,8 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from _narrative import (  # noqa: E402
@@ -112,6 +114,66 @@ def test_rewording_a_tag_is_allowed() -> None:
     base = "The scholar said: As for this world, no one reproaches it."
     candidate = "The scholar replied: As for this world, no one truly reproaches it."
     assert speech_tag_findings(base, candidate) == []
+
+
+# ─── Trailing tag vs interrupting tag (2026-07-31) ──────────────────────────
+# The check could not tell them apart, because the pattern stopped at the verb.
+# A source in the head-tag style has a base count of zero, so the first natural
+# de-calque of a line of dialogue tripped a P0 and reverted the window: on
+# `ayyuhal-walad` that killed chapter 1, then killed chapter 3 twice and aborted
+# a 27-minute compose. The rule was always the INTERRUPTING shape — the pattern
+# now requires the quotation to re-open after the tag, which is what "interior"
+# has meant in this module's own comments since it was written.
+def test_a_trailing_tag_is_not_an_inserted_tag() -> None:
+    """`"Y," X replied.` is ordinary English — and is what REQ-BA-020 asks for.
+
+    Turning `X replied: "Y"` into `"Y," X replied.` moves no attribution: the
+    speaker is named, the tag is terminated, nothing follows it to re-point.
+    """
+    base = 'Shaykh Hatim replied: "Thirty-three years!"'
+    for candidate in (
+        '"Thirty-three years," Hatim replied.',
+        '"Thirty-three years," he replied.',
+        '"Thirty-three years," he replied. Then he fell silent.',
+    ):
+        assert speech_tag_findings(base, candidate) == [], candidate
+
+
+def test_a_trailing_tag_before_another_speaker_is_not_flagged() -> None:
+    """A whole exchange de-calqued at once must not read as an insertion."""
+    base = 'Shaykh Shafeeq asked: "How long have you been with me?"\n\nHatim replied: "Thirty-three years."'
+    candidate = '"How long have you been with me?" Shafeeq asked.\n\n"Thirty-three years," Hatim replied. Shafeeq said: "Bravo."'
+    assert speech_tag_findings(base, candidate) == []
+
+
+def test_a_full_stop_ends_the_attribution() -> None:
+    """`X said. "..."` is two sentences with a terminated tag, not an interruption.
+
+    Deliberately narrower than `X said, "..."`: the comma form cuts a tag INTO one
+    utterance, which is the shape that re-points speech. This one names its speaker
+    and closes. The semantic BK-N2 pass still reads it against the source — this
+    check is only the cheap seed.
+    """
+    base = '"I have gained eight benefits from you."'
+    candidate = '"I have gained eight benefits," he replied. "That is enough for me."'
+    assert speech_tag_findings(base, candidate) == []
+
+
+@pytest.mark.parametrize(
+    "candidate",
+    [
+        '"This is the nation of the Magi," he said, "clinging to its rebellion."',
+        '"This is the nation of the Magi," he said: "clinging to its rebellion."',
+        '"This is the nation of the Magi," he said "clinging to its rebellion."',
+        '"This is the nation of the Magi," Salih said, "clinging to its rebellion."',
+        "“This is the nation of the Magi,” he said, “clinging to its rebellion.”",
+    ],
+)
+def test_the_interrupting_shape_is_still_caught(candidate: str) -> None:
+    """Narrowing must not blind the gate to the defect it exists for."""
+    base = '"This is the nation of the Magi, clinging to its rebellion."'
+    findings = speech_tag_findings(base, candidate)
+    assert findings and "cut into a quotation" in findings[0], candidate
 
 
 # ─── Arabic retention ───────────────────────────────────────────────────────

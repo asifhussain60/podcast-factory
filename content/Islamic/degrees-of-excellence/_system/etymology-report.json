@@ -1,0 +1,54 @@
+{
+  "schema": "podcast.etymology/v1",
+  "book": "degrees-of-excellence",
+  "candidates": 8,
+  "generated": 7,
+  "kept": 7,
+  "written": 7,
+  "dropped": 0,
+  "drop_reasons": [],
+  "entries": [
+    {
+      "term": "qibla",
+      "root": "q-b-l",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "zakat",
+      "root": "z-k-w",
+      "confirmed_by_reference": false,
+      "corpus_grounded": false
+    },
+    {
+      "term": "hudud",
+      "root": "ḥ-d-d",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "khutba",
+      "root": "kh-ṭ-b",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "qutb",
+      "root": "q-ṭ-b",
+      "confirmed_by_reference": false,
+      "corpus_grounded": false
+    },
+    {
+      "term": "ithbat",
+      "root": "th-b-t",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "khums",
+      "root": "kh-m-s",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    }
+  ]
+}

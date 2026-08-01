@@ -1,0 +1,32 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-07-31T11:40:32.622002+00:00",
+  "source": {
+    "path": "/Users/ahmac/Documents/BOOKS/Degrees_of_Excellence.pdf",
+    "byte_size": 2999575
+  },
+  "book_slug": "degrees-of-excellence",
+  "book_dir": "content/Islamic/degrees-of-excellence",
+  "doc_intelligence": {
+    "endpoint": "https://journal-docintel.cognitiveservices.azure.com",
+    "api_version": "2023-07-31",
+    "model": "prebuilt-read",
+    "page_count": 273,
+    "ocr_char_count": 402207,
+    "elapsed_seconds": 16.81,
+    "operation_id": "succeeded"
+  },
+  "translator": {
+    "api_version": "3.0",
+    "src_lang": "ar",
+    "tgt_lang": "en",
+    "region": "eastus",
+    "output_char_count": 461621,
+    "elapsed_seconds": 23.44
+  },
+  "outputs": {
+    "raw_extract": "content/Islamic/degrees-of-excellence/_system/source/text/raw-extract.md",
+    "ocr_raw_extract": "content/Islamic/degrees-of-excellence/_system/source/ocr/raw-extract.md",
+    "extraction_notes": "content/Islamic/degrees-of-excellence/_system/source/text/_extraction-notes.md"
+  }
+}

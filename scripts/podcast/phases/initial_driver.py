@@ -191,7 +191,12 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
     # (the human-editable surface, e.g. density-standard re-runs) > "extended".
     length_tier = config.get("length_tier") or _series_config_length_tier(book_dir) or "extended"
     unit_mode = config.get("unit_mode", "auto")
-    category = config.get("category", "books")
+    # `category` is a TOP-LEVEL state field (written by initial_state()), never
+    # nested under `config` — `config` only ever holds length_tier/unit_mode
+    # (see run_initial below). Reading it from `config` silently defaulted to
+    # "books" for every run, so resolve_phase_profile's sites/explainers ->
+    # consumer_explainer shim never fired for books driven through this path.
+    category = state.get("category", "books")
     # Phase-skip decisions are driven by the book's content_profile via the single
     # capability table (phase_capabilities), NOT the legacy `category` tag — a
     # `books`-category item can be Islamic OR technical, and only the profile knows.

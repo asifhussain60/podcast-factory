@@ -201,3 +201,89 @@ def test_build_probe_terms_missing_phonetics_raises(tmp_path, monkeypatch):
     book.mkdir()
     with pytest.raises(FileNotFoundError, match="phase 0c"):
         spr.build_probe_terms(book)
+
+
+# ------------------------------------------------- inventory sources (2026-08-01)
+GLOSSARY_YML = """\
+schema_version: 1
+entries:
+- phonetic: batin
+  transliteration: batin
+  arabic_script: باطن
+  audio_phonetic: BAA-tin
+  first_seen_snippet: the batin (inner meaning) of the verse
+- phonetic: al-Kirmani
+  transliteration: al-Kirmani
+  arabic_script: الكرماني
+  audio_phonetic: al-kir-maa-nee
+  first_seen_snippet: al-Kirmani mapped the ranks
+"""
+
+
+def _glossary_book(tmp_path, glossary=GLOSSARY_YML, overrides=None, refined=REFINED_MD):
+    """A book with a glossary and NO legacy _phonetics.md — the modern shape."""
+    book = tmp_path / "modern-book"
+    text_dir = book / "_system" / "source" / "text"
+    text_dir.mkdir(parents=True)
+    (text_dir / "refined-english.md").write_text(refined, encoding="utf-8")
+    (book / "_system" / "glossary.yml").write_text(glossary, encoding="utf-8")
+    if overrides is not None:
+        (book / "_system" / "pronunciation.md").write_text(
+            "| Term | Phonetic | Notes |\n|---|---|---|\n" + overrides, encoding="utf-8"
+        )
+    return book
+
+
+def test_a_book_with_only_a_glossary_can_be_probed(tmp_path, monkeypatch):
+    # The regression: this module read ONLY _phonetics.md, so the newest book —
+    # degrees-of-excellence, the one whose audio exposed the defects — could not
+    # be probed at all.
+    _patch_ledger(monkeypatch, tmp_path)
+    result = spr.build_probe_terms(_glossary_book(tmp_path))
+    assert {t["transliteration"] for t in result["terms"]} == {"batin", "al-Kirmani"}
+
+
+def test_the_glossarys_audio_phonetic_is_the_respelling_not_its_display_form(tmp_path, monkeypatch):
+    # Reading the wrong field would score every term as having no respelling.
+    _patch_ledger(monkeypatch, tmp_path)
+    result = spr.build_probe_terms(_glossary_book(tmp_path))
+    batin = next(t for t in result["terms"] if t["transliteration"] == "batin")
+    assert batin["phonetic"] == "BAA-tin"
+
+
+def test_override_rows_join_the_inventory(tmp_path, monkeypatch):
+    # An override is an untested belief about how a term sounds — exactly what a
+    # probe is for. The 41 rows written on 2026-08-01 were never heard by anyone.
+    _patch_ledger(monkeypatch, tmp_path)
+    result = spr.build_probe_terms(_glossary_book(tmp_path, overrides="| tiryaq | tir-YAHQ | |\n"))
+    assert "tiryaq" in {t["transliteration"] for t in result["terms"]}
+
+
+def test_the_glossary_wins_over_an_override_for_the_same_term(tmp_path, monkeypatch):
+    _patch_ledger(monkeypatch, tmp_path)
+    result = spr.build_probe_terms(_glossary_book(tmp_path, overrides="| batin | ba-TEEN | |\n"))
+    batin = [t for t in result["terms"] if t["transliteration"] == "batin"]
+    assert len(batin) == 1 and batin[0]["phonetic"] == "BAA-tin"
+
+
+def test_the_legacy_table_still_works_when_there_is_no_glossary(tmp_path, monkeypatch):
+    _patch_ledger(monkeypatch, tmp_path)
+    result = spr.build_probe_terms(_book(tmp_path))
+    assert result["total_terms"] == 3
+
+
+def test_no_inventory_at_all_is_a_clear_error(tmp_path, monkeypatch):
+    _patch_ledger(monkeypatch, tmp_path)
+    bare = tmp_path / "bare-book"
+    (bare / "_system").mkdir(parents=True)
+    with pytest.raises(FileNotFoundError, match="no term inventory"):
+        spr.build_probe_terms(bare)
+
+
+def test_a_name_is_segmented_from_its_romanisation_not_the_arabic_cell(tmp_path, monkeypatch):
+    # In every real book the `term` cell holds Arabic script, which has no
+    # capitals — so every name used to classify as a common term.
+    _patch_ledger(monkeypatch, tmp_path)
+    result = spr.build_probe_terms(_glossary_book(tmp_path))
+    kirmani = next(t for t in result["terms"] if t["transliteration"] == "al-Kirmani")
+    assert kirmani["segment"] == "names"

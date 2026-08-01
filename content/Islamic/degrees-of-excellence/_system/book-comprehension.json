@@ -1,0 +1,138 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 87,
+  "terms_tracked": 10,
+  "prerequisite_gaps": [
+    {
+      "term": "al-Naysaburi",
+      "first_use_page": 5,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    }
+  ],
+  "naming_drift": [],
+  "referent_collisions": [],
+  "dense_pages": [
+    {
+      "page": 6,
+      "term_count": 7,
+      "terms": [
+        "hudud",
+        "imamate",
+        "khums",
+        "khutba",
+        "qibla",
+        "qutb",
+        "zakat"
+      ]
+    }
+  ],
+  "long_sentences": [
+    {
+      "page": 7,
+      "words": 148,
+      "text": "God, the Exalted, called the imam a messenger when He said: \"And remember in the Scripture, Ismail was indeed faithful in fulfilling his promise while he was a "
+    },
+    {
+      "page": 75,
+      "words": 135,
+      "text": "Just as the wisdom of the world, and of the animals and plants within it, came to full expression in the emergence of human beings — the wellbeing of all creati"
+    },
+    {
+      "page": 76,
+      "words": 128,
+      "text": "They believe in God and the Last Day ...\" Just as the whole of humanity stands as the final realm of nature (mawalid) in the world, having absorbed all that exi"
+    },
+    {
+      "page": 55,
+      "words": 116,
+      "text": "The Prophet pointed to the imam's place as going before everyone, and he commanded them not to vie with the imam in reciting the Quran, saying: \"When he prostra"
+    },
+    {
+      "page": 22,
+      "words": 107,
+      "text": "When people deny the legally established testimony, the one bound by nature — namely the horizons and our own inner selves — steps in to remind, to enforce, and"
+    },
+    {
+      "page": 80,
+      "words": 107,
+      "text": "So the Commander of the Faithful bestowed blessings on the believers for a season as no one else had ever bestowed, and he also withheld from them for a season,"
+    },
+    {
+      "page": 13,
+      "words": 106,
+      "text": "The Pole and Foundation of Religion appointing you an imam for all humanity.\" This came after Abraham had completed his messengership, for God, the Exalted, sai"
+    },
+    {
+      "page": 74,
+      "words": 93,
+      "text": "100-112 W e shall now set down some of the merits of the lord of the age and time (wali al-asr wa zaman), the Commander of the Faithful — though a man of my sta"
+    },
+    {
+      "page": 41,
+      "words": 91,
+      "text": "They arise from disputes among people; from their arbitrary desires and their leaning toward leisure, comfort, and self-display; from innovation, worldly ambiti"
+    },
+    {
+      "page": 63,
+      "words": 89,
+      "text": "[65] We also say: it is agreed by all that legal judgment among the people in matters of bloodshed, sexual offenses, and property may be exercised only by one w"
+    },
+    {
+      "page": 68,
+      "words": 88,
+      "text": "The ark was none other than the imam himself, and Noah's call to the people was a call to the imam — just as the Prophet said: \"The likeness of my family (ahl a"
+    },
+    {
+      "page": 86,
+      "words": 88,
+      "text": "This servant begs and longs for the blessings of the Commander of the Faithful (‫)ع‬, and seeks the supreme command (al-amr al-ali) to examine what the servant "
+    },
+    {
+      "page": 58,
+      "words": 86,
+      "text": "God, the Exalted, had made plain, through His rulings on alms (zakat) and the manner of collecting them, the standing of the imamate and the imams: He forbade s"
+    },
+    {
+      "page": 18,
+      "words": 85,
+      "text": "Just as the body appears and reaches its perfection only through the celestial spheres together with the stars (kawakib) — for it cannot be perfected through th"
+    },
+    {
+      "page": 14,
+      "words": 82,
+      "text": "I wish, therefore, to write a treatise that affirms the imamate by way of evidence (istishhad) and deduction (istidlal) drawn from the outer horizons (al-afaq) "
+    },
+    {
+      "page": 14,
+      "words": 79,
+      "text": "In this I follow the way of God, the Exalted, who said: ‫َس ُن ي ْم آَيِتَنا ى ٱلٓأَفا َو ٓى َأنُف ِس ْم َحَّت ٰى َيَتَبَّيَن َلُهْم َأَّنُه ٱْلَحُّق ۗ َأَو َلْ"
+    },
+    {
+      "page": 9,
+      "words": 78,
+      "text": "In this I draw upon the word of God, the Exalted: ‫َس ُن ي ْم آَيِتَنا ى ٱلٓأَفا َو ٓى َأنُف ِس ْم َحَّت ٰى َيَتَبَّيَن َلُهْم َأَّنُه ٱْلَحُّق ۗ َأَو َلْم َيْك"
+    },
+    {
+      "page": 33,
+      "words": 78,
+      "text": "It is on this account that God, the Exalted and Glorious, said: \"For the worst of beasts in the sight of God are the deaf and dumb, those who understand not.\" ("
+    },
+    {
+      "page": 51,
+      "words": 75,
+      "text": "Governance and the First Principle found no one to guide us from falsehood to the truth.\" It is through the imam, then, that God's proof is established over the"
+    },
+    {
+      "page": 67,
+      "words": 75,
+      "text": "The Prophet said: \"My community will experience exactly what happened among the Banu Israil.\" He also said: \"You will follow the footsteps of those before you, "
+    }
+  ],
+  "summary": {
+    "never_explained": 1,
+    "explained_late": 0,
+    "referent_collisions": 0
+  }
+}

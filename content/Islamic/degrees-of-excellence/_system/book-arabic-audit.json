@@ -1,0 +1,318 @@
+{
+  "schema": "book.arabic-audit/v1",
+  "chapters": [
+    {
+      "chapter": "(front matter)",
+      "arabic_runs": 0,
+      "unverified": 0,
+      "runs": []
+    },
+    {
+      "chapter": "The Question of Leadership",
+      "arabic_runs": 4,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "الْإِمَامَة",
+          "resolution": "ocr",
+          "skeleton": "الامامه"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ ۗ أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ شَهِيدٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنافيالافاقوفيانفسهمحتييتبينلهما"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        }
+      ]
+    },
+    {
+      "chapter": "1. The Pole and Foundation of Religion",
+      "arabic_runs": 2,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ ۗ أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ شَهِيدٌ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سنريهمايتنافيالافاقوفيانفسهمحتييتبينلهما"
+        }
+      ]
+    },
+    {
+      "chapter": "2. By Nature and by Reason",
+      "arabic_runs": 3,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        }
+      ]
+    },
+    {
+      "chapter": "3. Degrees of Excellence",
+      "arabic_runs": 0,
+      "unverified": 0,
+      "runs": []
+    },
+    {
+      "chapter": "4. The Ladder of Creation",
+      "arabic_runs": 8,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        }
+      ]
+    },
+    {
+      "chapter": "5. The Physician of Souls",
+      "arabic_runs": 5,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        }
+      ]
+    },
+    {
+      "chapter": "6. Governance and the First Principle",
+      "arabic_runs": 4,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "الْحُدُود",
+          "resolution": "ocr",
+          "skeleton": "الحدود"
+        }
+      ]
+    },
+    {
+      "chapter": "7. The Imam in the Pillars of Faith",
+      "arabic_runs": 4,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "اَلْخُطْبَة",
+          "resolution": "ocr",
+          "skeleton": "الخطبه"
+        },
+        {
+          "text": "اَلْخُمْس",
+          "resolution": "ocr",
+          "skeleton": "الخمس"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        }
+      ]
+    },
+    {
+      "chapter": "8. From Adam to Ali",
+      "arabic_runs": 2,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        }
+      ]
+    },
+    {
+      "chapter": "9. God's Vicegerent in His Time",
+      "arabic_runs": 3,
+      "unverified": 0,
+      "runs": [
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهمالسلام"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "canonical-mushaf": 2,
+    "ocr": 33,
+    "knowledge-base": 0,
+    "honorific-formula": 0,
+    "unverified": 0,
+    "arabic_runs": 35
+  },
+  "stages": {
+    "base": {
+      "(front matter)": 0,
+      "The Question of Leadership": 3,
+      "1. The Pole and Foundation of Religion": 2,
+      "2. By Nature and by Reason": 3,
+      "3. Degrees of Excellence": 0,
+      "4. The Ladder of Creation": 8,
+      "5. The Physician of Souls": 5,
+      "6. Governance and the First Principle": 3,
+      "7. The Imam in the Pillars of Faith": 2,
+      "8. From Adam to Ali": 2,
+      "9. God's Vicegerent in His Time": 3
+    },
+    "fluency": {
+      "(front matter)": 0,
+      "The Question of Leadership": 3,
+      "1. The Pole and Foundation of Religion": 2,
+      "2. By Nature and by Reason": 3,
+      "3. Degrees of Excellence": 0,
+      "4. The Ladder of Creation": 8,
+      "5. The Physician of Souls": 5,
+      "6. Governance and the First Principle": 3,
+      "7. The Imam in the Pillars of Faith": 2,
+      "8. From Adam to Ali": 2,
+      "9. God's Vicegerent in His Time": 3
+    },
+    "augment": {
+      "(front matter)": 0,
+      "The Question of Leadership": 3,
+      "1. The Pole and Foundation of Religion": 2,
+      "2. By Nature and by Reason": 3,
+      "3. Degrees of Excellence": 0,
+      "4. The Ladder of Creation": 8,
+      "5. The Physician of Souls": 5,
+      "6. Governance and the First Principle": 3,
+      "7. The Imam in the Pillars of Faith": 2,
+      "8. From Adam to Ali": 2,
+      "9. God's Vicegerent in His Time": 3
+    },
+    "final": {
+      "(front matter)": 0,
+      "The Question of Leadership": 4,
+      "1. The Pole and Foundation of Religion": 2,
+      "2. By Nature and by Reason": 3,
+      "3. Degrees of Excellence": 0,
+      "4. The Ladder of Creation": 8,
+      "5. The Physician of Souls": 5,
+      "6. Governance and the First Principle": 4,
+      "7. The Imam in the Pillars of Faith": 4,
+      "8. From Adam to Ali": 2,
+      "9. God's Vicegerent in His Time": 3
+    }
+  },
+  "stage_losses": []
+}

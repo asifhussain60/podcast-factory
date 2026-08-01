@@ -91,6 +91,26 @@ R_SERMON_VERBATIM: str = "R-SERMON-VERBATIM"
 R_ARABIC_IN_CHAPTERS: str = "R-ARABIC-IN-CHAPTERS"
 R_PRESERVE_ARABIC_SOURCE: str = "R-PRESERVE-ARABIC-SOURCE"
 
+# ─── R-PRONUNCIATION-RENDER (2026-08-01) ─────────────────────────────────────
+# A framing's `## Pronunciation` values are COMPILED from the shared term ladder
+# (_pronunciation_block.compile_entries -> knowledge/term_render), never taken
+# from the authored text. The model still chooses WHICH terms need help; it does
+# not choose what the hosts say.
+#
+# The defect: the framing prompt asked for `- TermA: English-name-or-plain-translit`
+# and the gate checked only punctuation, so `- arkan: the pillars` — a translation
+# in the slot the block's own instruction calls a phonetic — shipped in five of
+# six episodes. Told to use a phonetic and handed a translation, the hosts said
+# "Archon", "Mathdul", "Mazbuck".
+#
+# The gate below is the companion to the compiler, not a duplicate of it: when a
+# book has nothing settled to say, the compiler declines and the authored block
+# stands, and this is what refuses a translation nobody replaced. An English
+# substitute is legitimate when the LADDER chose it (a ledger gloss, an exonym,
+# a `substitute` row) — so the test is not "does this look English" but "does
+# this disagree with what the ladder independently resolves".
+R_PRONUNCIATION_RENDER: str = "R-PRONUNCIATION-RENDER"
+
 # ─── Upstream precheck sources (Wave N — adversarial validation, Phase A–C) ──
 # These are the `source` values written into _learning/findings.jsonl by the
 # shift-left deterministic + LLM discriminator pre-checks in
