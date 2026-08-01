@@ -12,8 +12,14 @@ Claude (investigation + fix), reviewed by Asif
 
 ### Status
 
-RESOLVED 2026-08-01. The install step no longer depends on a property the lock
-file cannot have. Open corrective actions: AI-2, AI-3.
+RESOLVED 2026-08-01. All eight corrective actions closed the same day. The
+`lint` workflow is GREEN on all three jobs for the first time since at least
+2026-07-27, breaking a streak of 60+ consecutive failures.
+
+The install step no longer depends on a property the lock file cannot have; the
+four defects the restored gates exposed are fixed; the blind window has been
+swept; and a sustained-red-CI signal now fires at session start, which is where
+this would have been caught on day one.
 
 ### Summary
 
@@ -172,10 +178,25 @@ pushes produced no signal that anyone acted on.
 | AI-5 | Add `prepare` to `@asifhussain/prose-editor` so a fresh clone builds it | fix | Claude | DONE — verified from a deleted `node_modules` + `dist/` |
 | AI-6 | Exclude `*.md` from ruff formatting and pin `ruff`/`mypy` in CI | fix | Claude | DONE |
 | AI-7 | Install PyYAML so the repo-surgeon probe can run at all; capture dev-server output in the smoke gate; install poppler-utils | fix | Claude | DONE |
-| AI-8 | Decide what the knowledge-database endpoints do when the database is absent | prevent | Asif + Claude | OPEN — spawned as a task; 4 routes still red |
-| AI-2 | Alert on sustained CI failure — N consecutive red runs on `develop` should surface, not wait for an audit | prevent | Asif + Claude | OPEN — spawned as a task |
-| AI-3 | Sweep the site for runtime regressions that shipped while the smoke gate was blind (2026-07-27 → 2026-08-01) | mitigate | `site-health-sentinel` | OPEN — spawned as a task |
+| AI-8 | Decide what the knowledge-database endpoints do when the database is absent | prevent | Claude | DONE — reads degrade per TABLE, writes refuse with a typed error; 4 tests pin absent / partial / built / no-create |
+| AI-2 | Alert on sustained CI failure — N consecutive red runs on `develop` should surface, not wait for an audit | prevent | Claude | DONE — `start-session.sh` reports a workflow at 3+ consecutive failures; verified red AND green against live data |
+| AI-3 | Sweep the site for runtime regressions that shipped while the smoke gate was blind (2026-07-27 → 2026-08-01) | mitigate | `site-health-sentinel` | DONE — desktop clean; 3 mobile-only defects found and fixed, class closed by INV-5 |
 | AI-4 | Record in the RCA README that "verified locally" is not evidence for a CI-only failure mode | prevent | Claude | DONE — see Lessons |
+
+### What the blind window actually cost
+
+Desktop came through clean. Mobile did not: three groups of controls had no
+reachable right half at 390px — the Composer's Paper picker and "Show changes",
+the Companion's placeholder third line, and both LIVE Session pickers with their
+chevrons 13px off screen.
+
+The reason they shipped is worth more than the fix. They were **structurally
+invisible** to the gate that was down, because the smoke run only ever measured
+at 1440px. Even a fully working CI would not have caught them. So the honest
+reading is not "five days of blindness let three defects through" — it is that
+one of the gates had a blind spot of its own, and looking for regressions is
+what found it. `INV-5` now re-measures at phone width and flags any control that
+lands off-screen with no scrollable ancestor, verified in both directions.
 
 ### Lessons Learned
 
