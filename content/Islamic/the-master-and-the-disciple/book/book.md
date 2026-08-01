@@ -187,7 +187,7 @@ The boy said: “I will keep all these conditions. They are easy beside the grea
 
 The Master replied: “If you leave him, you will draw attention to yourself. Stay with him instead. Treat him dutifully and outwardly accommodate him where you can. Keep your secret from him and hide what you are doing. God will protect us from any harm he or anyone else might do.”
 
-The narrator continued: The Master and the boy met from time to time, but long stretches often passed between their meetings. The boy remained unsure of his situation. He knew only the limits laid upon him. He did not know where the Master lived, and because of the Master’s condition, he was forbidden to go looking for him. Time passed in this way. The Master was testing the boy’s patience while showing his own patience in carrying out the charge entrusted to him. At last, on a quiet night, when the world had fallen silent and the informers had grown careless, the two were brought together again. The boy felt the full weight of his need and was finally granted privacy with his teacher.
+The narrator continued: The Master and the boy met from time to time, but long stretches often passed between their meetings. The boy remained unsure of his situation. He knew only the limits laid upon him. He did not know where the Master lived, and because of the Master’s condition, he was forbidden to go looking for him. Time passed in this way. The Master was testing the boy’s patience while showing his own patience in carrying out the charge entrusted to him. At last, on a quiet night, when the world had fallen silent, and the informers had grown careless, the two were brought together again. The boy felt the full weight of his need and was finally granted privacy with his teacher.
 
 He fell prostrate before the Master. When he raised his head, the Master said: “I saw you prostrating in gratitude. Gratitude offered before a deed is complete may arouse suspicion, while gratitude that ends too soon after its completion may render one’s efforts meaningless.”
 
@@ -199,7 +199,7 @@ The Master said: “Religion has a key by which the lawful is set apart from the
 
 The boy replied: “This key must be of tremendous weight in the sight of God, since it parts the lawful from the unlawful and truth from falsehood. What is it?”
 
-The Master said: “It is the covenant of God. Through it, His rights are affirmed and His obligations gathered together. It is a shield for His friends, God’s rope stretched across the earth, and His secure pledge among His servants. I will recite this covenant to you and receive your commitment to it.”
+The Master said: “It is the covenant of God. Through it, His rights are affirmed, and His obligations gathered together. It is a shield for His friends, God’s rope stretched across the earth, and His secure pledge among His servants. I will recite this covenant to you and receive your commitment to it.”
 
 The boy replied: “Yes. Take from me whatever commitment you require. I will neither reject your judgment nor turn from your path.”
 
@@ -210,6 +210,7 @@ The narrator continued: The Master then recited the covenant to the boy slowly, 
 > **Editorial note (tradition-grounded).** A related teaching preserved in this tradition illuminates the Master's principle here that "knowledge cannot be borne unless a lesser knowledge is brought in before it": the human being, unlike the animal that has sound but no rational speech, learns gradually from his parents through metaphorical speech until he reaches adulthood. That is the same graded ascent the Master describes to the boy — smallness as the prelude to greatness, a simpler knowing "quicker to reach the hearts and smoother to the understanding" laid down first so the mind can steady itself before bearing the harder end of knowledge. The faculty of rational utterance the boy praises in the Master, and now seeks for himself, is precisely the instrument by which this gradual instruction becomes possible at all.
 
 <!-- editorial:end -->
+
 ## 4. How the World Was Made
 
 <!-- bridge:begin -->
