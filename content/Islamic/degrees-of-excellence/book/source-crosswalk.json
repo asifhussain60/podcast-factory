@@ -1,0 +1,359 @@
+{
+  "schema": "podcast.translation-edition.source-crosswalk/v1",
+  "book": "degrees-of-excellence",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "The Pole and Foundation of Religion",
+      "source_line_ranges": [
+        [
+          572,
+          623
+        ]
+      ],
+      "source_pages": [
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "source_page_range": "pp. 48-52",
+      "arabic_source_pages": [
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "arabic_source_page_range": "pp. 48-52",
+      "source_headings": [
+        "In the Name of God, the All-Compassionate, the All-Merciful,",
+        "From Whom we seek help in all matters",
+        "Section One",
+        "DEGREES OF EXCELLENCE",
+        "And now"
+      ],
+      "source_excerpt": "In the Name of God, the All-Compassionate, the All-Merciful, From Whom we seek help in all matters Section One [ ] Praise be to God, who sent messengers and prophets and appointed imams and caliphs as a blessing for His friends (awliyā'), a punishment to enemies, a benefit for religion and the world, and as an edifice ('imāra) for this present world and the world to come. I praise Him with the eulogy of one who is…",
+      "drift_findings": []
+    },
+    {
+      "index": 2,
+      "title": "By Nature and by Reason",
+      "source_line_ranges": [
+        [
+          624,
+          672
+        ]
+      ],
+      "source_pages": [
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "source_page_range": "pp. 52-58",
+      "arabic_source_pages": [
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "arabic_source_page_range": "pp. 52-58",
+      "source_headings": [
+        "Section Two",
+        "Section Three"
+      ],
+      "source_excerpt": "Section Two [6] We say, then: the necessity (wujūb) of the imamate and of the imams, peace be upon them, is grounded in natural disposition (jibla), innate constitution (fiṭra), nature (ṭabīʿa), intellect (ʿaql), governance (siyāsa), prescription (waḍʿa), and established norms (rusūm).13 It is obligatory in all revealed law (sharīʿa), religion, and religious communities, just as the existence of the Creator is…",
+      "drift_findings": []
+    },
+    {
+      "index": 3,
+      "title": "Degrees of Excellence",
+      "source_line_ranges": [
+        [
+          673,
+          711
+        ]
+      ],
+      "source_pages": [
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "source_page_range": "pp. 58-63",
+      "arabic_source_pages": [
+        58,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "arabic_source_page_range": "pp. 58-63",
+      "source_headings": [
+        "Section Four",
+        "Section Five"
+      ],
+      "source_excerpt": "[15] The wisest among the philosophers speak of ten categories and hold that nothing can be mentioned or discussed except in relation to these ten: substance (jawhar), quantity (kammiyya), quality (kayfiyya), relation (idāfa), place (makān), time (zamān), possession (jidda), posture (nusba), action (fā'il), and affection (maf'ūl). The highest of the ten is substance, upon which all others rest and over which all…",
+      "drift_findings": []
+    },
+    {
+      "index": 4,
+      "title": "The Ladder of Creation",
+      "source_line_ranges": [
+        [
+          712,
+          780
+        ]
+      ],
+      "source_pages": [
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70
+      ],
+      "source_page_range": "pp. 63-70",
+      "arabic_source_pages": [
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70
+      ],
+      "arabic_source_page_range": "pp. 63-70",
+      "source_headings": [
+        "Section Six"
+      ],
+      "source_excerpt": "**Section Six** [23] As for fruit-bearing trees, the peak and summit among them is the date palm. It resembles human beings in having male and female, and it requires fertilisation just as animals require mating. Furthermore, every part of the date palm is beneficial and nothing goes to waste; its fruit is eaten at all times, whether raw or cooked. When someone dreams while asleep that he is plucking dates from a…",
+      "drift_findings": []
+    },
+    {
+      "index": 5,
+      "title": "The Physician of Souls",
+      "source_line_ranges": [
+        [
+          781,
+          841
+        ]
+      ],
+      "source_pages": [
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77
+      ],
+      "source_page_range": "pp. 70-77",
+      "arabic_source_pages": [
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77
+      ],
+      "arabic_source_page_range": "pp. 70-77",
+      "source_headings": [],
+      "source_excerpt": "[34] We further say that human beings, at all times and in every moment, look after the welfare of animals — protecting them from whatever harms them and leading them toward what benefits them. Man guards their watering places and grazing grounds, their seasons of reproduction and the bearing of offspring, shielding them from destruction and from environments that would harm their eating and drinking. Often cattle…",
+      "drift_findings": []
+    },
+    {
+      "index": 6,
+      "title": "Governance and the First Principle",
+      "source_line_ranges": [
+        [
+          842,
+          875
+        ]
+      ],
+      "source_pages": [
+        77,
+        78,
+        79,
+        80,
+        81
+      ],
+      "source_page_range": "pp. 77-81",
+      "arabic_source_pages": [
+        77,
+        78,
+        79,
+        80,
+        81
+      ],
+      "arabic_source_page_range": "pp. 77-81",
+      "source_headings": [],
+      "source_excerpt": "[48] We also say that philosophers divided politics or governance (siyāsa) into three categories: governance of the individual (siyāsat al-khāṣṣa), governance of the family (siyāsat al-'āmma), and governance of the general public (siyāsat al-'āmma). Governance of the individual concerns a person's rule over himself; governance of the family concerns a man's management of his household and dependents; and governance…",
+      "drift_findings": []
+    },
+    {
+      "index": 7,
+      "title": "The Imam in the Pillars of Faith",
+      "source_line_ranges": [
+        [
+          876,
+          1010
+        ]
+      ],
+      "source_pages": [
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93
+      ],
+      "source_page_range": "pp. 81-93",
+      "arabic_source_pages": [
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93
+      ],
+      "arabic_source_page_range": "pp. 81-93",
+      "source_headings": [
+        "AFFIRMING THE IMAMATE",
+        "DEGREES OF EXCELLENCE",
+        "AFFIRMING THE IMAMATE",
+        "DEGREES OF EXCELLENCE",
+        "AFFIRMING THE IMAMATE",
+        "DEGREES OF EXCELLENCE",
+        "AFFIRMING THE IMAMATE",
+        "DEGREES OF EXCELLENCE"
+      ],
+      "source_excerpt": "[56] We also say that the ritual prayer — its arrangement, its prescribed standing, its direction toward the qibla, and the standing of the prayer leader (imam) at the head of the rows — constitutes a powerful indication of the imamate. The Prophet, may God bless him, first commanded the Muslims to face the qibla. The word qibla is derived from qabala, meaning \"face to face\": whoever faces the qibla turns his face…",
+      "drift_findings": []
+    },
+    {
+      "index": 8,
+      "title": "From Adam to Ali",
+      "source_line_ranges": [
+        [
+          1011,
+          1091
+        ]
+      ],
+      "source_pages": [
+        93,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100
+      ],
+      "source_page_range": "pp. 93-100",
+      "arabic_source_pages": [
+        93,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100
+      ],
+      "arabic_source_page_range": "pp. 93-100",
+      "source_headings": [
+        "Section Seven",
+        "DEGREES OF EXCELLENCE",
+        "AFFIRMING THE IMAMATE",
+        "Muhammad, even though the sunna has not been replaced or altered and people cannot do without an imam.",
+        "DEGREES OF EXCELLENCE"
+      ],
+      "source_excerpt": "Section Seven [68] We say that if it were acceptable for there to be creatures on earth without an imam or caliph, this should have been acceptable in the time of Adam, peace be upon him, when only angels existed. Yet at that time God, the Exalted, said: \"Indeed, I am placing a vicegerent on earth. They said: 'Are You going to create one that will corrupt and shed blood on it while we glorify Your praises and regard…",
+      "drift_findings": []
+    },
+    {
+      "index": 9,
+      "title": "God's Vicegerent in His Time",
+      "source_line_ranges": [
+        [
+          1092,
+          1451
+        ]
+      ],
+      "source_pages": [
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112
+      ],
+      "source_page_range": "pp. 100-112",
+      "arabic_source_pages": [
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112
+      ],
+      "arabic_source_page_range": "pp. 100-112",
+      "source_headings": [
+        "AFFIRMING THE IMAMATE",
+        "Indeed, Adam — like all other vicegerents — was called 'vicegerent'",
+        "Those who came after him fulfilled some of its conditions and so",
+        "Commander of the Faithful, peace be upon him — for a shadow",
+        "Faithful, peace be upon him. The Prophet, may God bless him, also",
+        "DEGREES OF EXCELLENCE",
+        "Faithful, peace be upon him, is the one through whom God",
+        "God's own conduct toward humanity, in obedience to God's"
+      ],
+      "source_excerpt": "[79] We shall now mention some of the merits of the lord of the age and time (walī al-'asr wa zaman), the Commander of the Faithful (al-Hākim) — though someone of my standing could never attain the degree that would permit a true account of his merits, just as God the Exalted has said: 'They have not valued God according to His true value.'88 Yet I will speak according to my limited knowledge and capacity, and the…",
+      "drift_findings": []
+    }
+  ]
+}

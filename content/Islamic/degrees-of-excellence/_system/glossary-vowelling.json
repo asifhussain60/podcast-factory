@@ -1,0 +1,16 @@
+{
+  "vowelled": 8,
+  "marks_added": 32,
+  "already": 0,
+  "refused": 2,
+  "refusals": [
+    {
+      "term": "النيسابوري",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"النيسابوري\" vs proposal \"ألنيسابوري\")"
+    },
+    {
+      "term": "الزكاة",
+      "reason": "empty"
+    }
+  ]
+}
