@@ -5,21 +5,29 @@ Consumes ``_system/probe/probe-terms.json`` (from score_pronunciation_risk.py)
 and emits, under ``_system/probe/EP00-pronunciation-probe/``:
 
   - 00-framing.md          the Customize Prompt to paste into NotebookLM
-  - pronunciation-probe.md the SOURCE to upload (a conversational walkthrough
-                           that names each target term in context, segmented so
-                           the audio maps to the checklist)
+  - pronunciation-probe.md the SOURCE to upload (a GLOSSARY: one numbered entry
+                           per term, each with the spoken form and the sentence
+                           it appears in, so the audio maps to the checklist)
   - listen-checklist.md    the listen-once + corrections intake form
   - README.md              upload instructions incl. the NotebookLM settings table
 
-Deterministic (no LLM): the source is a templated conversational walkthrough.
-NotebookLM conversationalises it into two-host dialogue; our only goal is to
-force every target term to be spoken so its rendering can be judged.
+Deterministic (no LLM). The source is a glossary rather than a script, and that
+distinction was learned the hard way: run 1 (2026-08-01) phrased every item as a
+stage direction — "1. Next, say **wa-LAA-ya** — as in: ..." — and NotebookLM did
+what it does with any source, conversationalising it into a themed discussion
+ABOUT a glossary that named 9 of 39 terms. Instructions addressed to the hosts
+belong in the framing; the source has to be something a host can plausibly read.
 
-Every term is rendered through ``term_render.render_for_audio`` — an English word
-or a plain transliteration, NEVER a hyphen-CAPS respelling. (The asaas-vol-1 probe
-audio proved NotebookLM reads ``JAA-far`` as "J.A. Far" and ``is-raa-FEEL`` as
-"Israel, feel"; plain "Ja'far" / "Israfil" / "Cain" come out correct.) The probe is
-therefore a confirmation that the rendered forms sound right, not a respelling test.
+Every term is rendered through ``term_render.render_for_audio``. That is usually
+an English word or a plain transliteration, because the ladder's lower rungs
+never produce a respelling — but rung 0, the book's own override table, passes a
+human's respelling through, and whether those survive is precisely what the
+probe is for. Run 1's evidence: of seven respellings heard, the two that were
+two syllables with no internal article survived (``tow-HEED``, ``tash-BEEH``) and
+the other five were read literally as separate words ("wa la ya" for
+``wa-LAA-ya``, "KHU Tiba" for ``KHUT-bah``), while the plain transliteration
+tested came out perfect. Consistent with the asaas-vol-1 finding that this TTS
+reads ``JAA-far`` as "J.A. Far" and ``is-raa-FEEL`` as "Israel, feel".
 """
 
 from __future__ import annotations
@@ -186,20 +194,26 @@ def build_source(data: dict, carriers: dict[str, tuple[str, str]] | None = None)
         by_seg.setdefault(t["segment"], []).append(t)
 
     sampled = sorted({chapter for _s, chapter in carriers.values()})
+    total = len(data["terms"])
+    # A GLOSSARY, not a script. Run 1 (2026-08-01) phrased every item as a stage
+    # direction — "1. Next, say **wa-LAA-ya** — as in: ..." — and NotebookLM did
+    # what it does with any source: it conversationalised it, producing a themed
+    # discussion ABOUT a glossary and naming 9 of 39 terms. Instructions
+    # addressed to the hosts belong in the framing; the source has to be
+    # something a host can plausibly READ. Entries carry no imperative now, and
+    # each is a heading the model can walk.
     lines: list[str] = [
-        f"# Pronunciation walkthrough — {slug}",
+        f"# Term glossary — {slug}",
         "",
-        "This is a short spoken walkthrough whose ONLY purpose is to say a set of",
-        "Arabic-derived terms aloud, in order, so their pronunciation can be checked.",
-        "Walk through every numbered item in sequence. For each item, say the term",
-        "clearly, read the sentence it appears in, and move on. Do not skip any item.",
+        f"A glossary of {total} terms used in this book. Each entry gives the term, the",
+        "way it is said aloud, and the sentence it appears in.",
         "",
     ]
     if sampled:
         lines += [
-            f"Every sentence below is taken verbatim from the book, across {len(sampled)} "
-            f"chapter{'s' if len(sampled) != 1 else ''}, so the terms are heard in the same",
-            "prose the full episodes will be built from.",
+            f"Every quoted sentence is taken verbatim from the book, across "
+            f"{len(sampled)} chapter{'s' if len(sampled) != 1 else ''}, so each term appears in the",
+            "prose it belongs to.",
             "",
         ]
     for seg in SEGMENT_ORDER:
@@ -210,12 +224,18 @@ def build_source(data: dict, carriers: dict[str, tuple[str, str]] | None = None)
         lines.append("")
         for t in items:
             sp = _spoken(t)
-            mined = carriers.get(normalize_key(t.get("transliteration") or t["term"]))
+            translit = t.get("transliteration") or t["term"]
+            mined = carriers.get(normalize_key(translit))
+            lines.append(f"### {t['n']}. {translit}")
+            lines.append("")
+            lines.append(f"Said aloud: {sp['text']}")
             if mined:
-                lines.append(f"{t['n']}. Next, say **{sp['text']}** — as in: “{mined[0]}”")
-            else:
-                lines.append(f"{t['n']}. Next, say {_carrier(sp['text'], t.get('snippet', ''))}.")
-        lines.append("")
+                lines.append("")
+                lines.append(f"In the book: “{mined[0]}”")
+            elif t.get("snippet") and _is_readable_context(t["snippet"]):
+                lines.append("")
+                lines.append(f"In the book: “{t['snippet'].strip().rstrip('.')}”")
+            lines.append("")
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -228,10 +248,27 @@ def build_framing(data: dict) -> str:
         "",
         "## Goal",
         "",
-        "Produce a SHORT (3-5 minute) focused two-host segment that walks through",
-        "the numbered terms in the source IN ORDER. The hosts must SAY each term",
-        "aloud clearly. This is a pronunciation check, not a discussion — keep",
-        "commentary minimal and make sure no numbered term is skipped.",
+        # Run 1 asked for "a short focused segment that walks through the terms"
+        # and got a themed essay covering 9 of 39. The count, the ban on theming,
+        # and the explicit per-entry shape are all responses to that.
+        f"Read the glossary aloud. It has exactly {len(data['terms'])} numbered entries and every",
+        f"single one must be spoken — entry 1 through entry {len(data['terms'])}, in that order.",
+        "",
+        "For each entry, do exactly this and nothing else:",
+        "  1. Say the term, using the 'Said aloud' form given for it.",
+        "  2. Read its 'In the book' sentence.",
+        "  3. Move straight to the next entry.",
+        "",
+        "This is a pronunciation check, not an episode. Do NOT organise the",
+        "entries into themes. Do NOT group them, skip them, summarise them, or",
+        "discuss what they mean. Do NOT open with a hook or close with a",
+        "reflection. If time is short, speak faster — never drop an entry.",
+        "",
+        "## Do not (forbidden vocabulary and framings)",
+        "",
+        "Never say: wow, right?, that's so interesting, it's fascinating, it's",
+        "profound, deep dive, today we'll discuss. No reactions, no filler, no",
+        "commentary between entries.",
         "",
         "## Pronunciation",
         "",
@@ -329,12 +366,15 @@ def build_readme(data: dict) -> str:
         "| Chapters | Episodes | Deep dive or debate | Length |\n"
         "|---|---|---|---|\n"
         "| [(pronunciation probe)](pronunciation-probe.md) | "
-        "[EP00 — Pronunciation probe](00-framing.md) | Deep Dive | Shorter |\n\n"
-        "(This diagnostic uses **Shorter** on purpose — it is a 3-5 min check, not a\n"
-        "chapter/episode upload, which default to Long.)\n\n"
+        "[EP00 — Pronunciation probe](00-framing.md) | Deep Dive | Default |\n\n"
+        "(Length is a real variable here, not a formality. Run 1 on 2026-08-01 used\n"
+        "**Shorter** for 39 terms — five minutes, seven seconds a term — and the model\n"
+        "spent its budget on theme instead, naming 9. Use **Default**, or probe fewer\n"
+        "terms: `run_pronunciation_probe.py <slug> --top-n 15 --rebuild`. Settled terms\n"
+        "drop out of the next run, so a short list is a batch, not a compromise.)\n\n"
         "1. New notebook -> upload `pronunciation-probe.md` as the source.\n"
         "2. Customize -> paste `00-framing.md` into the prompt box.\n"
-        "3. Generate the Audio Overview (use the **Shorter** length).\n"
+        "3. Generate the Audio Overview (**Default** length; see the note above).\n"
         "4. Listen once with `listen-checklist.md` open; mark OK? / Fix per term.\n"
         "5. Save the filled checklist; resume the orchestrator to apply corrections.\n\n"
         "Note: NotebookLM is non-deterministic. The probe shifts the odds toward\n"

@@ -123,8 +123,28 @@ def test_build_source_segments_in_order_and_numbers_every_term():
     assert "Part 3 — Technical and doctrinal terms" in src
     assert "Part 2" not in src  # empty segment skipped
     assert src.index("Part 1") < src.index("Part 3")
-    assert "1. Next, say **Qarwazil**" in src
-    assert "2. Next, say **the hidden lamp**" in src
+    # A glossary entry, not a stage direction: run 1 phrased these as "Next, say
+    # X" and NotebookLM discussed the instructions instead of reading the terms.
+    assert "### 1. Qarwazil" in src
+    assert "Said aloud: Qarwazil" in src
+    assert "### 2. zamrukh" in src
+    assert "Said aloud: the hidden lamp" in src
+    assert "Next, say" not in src
+
+
+def test_the_source_states_its_own_term_count():
+    # The framing tells the hosts to read all N; the source has to agree, or the
+    # count is a claim about a document that does not support it.
+    assert "A glossary of 2 terms" in bpb.build_source(_DATA)
+
+
+def test_the_framing_demands_every_entry_and_forbids_theming():
+    framing = bpb.build_framing(_DATA)
+    assert "exactly 2 numbered entries" in framing
+    assert "Do NOT organise the" in framing
+    # Run 1 opened "Oh, wow. Right." and called itself a "Dip Dive" — the probe
+    # framing carried no deny-list at all.
+    assert "wow" in framing and "deep dive" in framing.lower()
 
 
 def test_build_framing_separates_english_substitutes():
