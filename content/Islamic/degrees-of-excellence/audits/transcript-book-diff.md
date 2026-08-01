@@ -98,10 +98,25 @@ lets everything else turn. The edition already carries a tradition-grounded etym
 
 ---
 
-## Class C — Rejected: outside material the hosts introduced
+## Class C — Rejected: material present in the podcast lane but not the print lane
 
-None of the following is in the book. All are the hosts' own additions and must not enter the
-edition. Recorded for auditability.
+**CORRECTED 2026-08-01, after the post-production audio review.** This section originally
+attributed the material below to the hosts. That was wrong, and the error mattered: it blamed
+NotebookLM for content the pipeline itself supplied.
+
+Checked against `chapters/*.txt` — the files uploaded to NotebookLM — **22 of the 23 items below
+are present there**, most as attributed blockquotes authored by the phase-0e enrichment pass. The
+hosts read what they were given. Only the couplet "a traveler without a guide turns a two day
+journey into a hundred year wandering" (EP01) appears in neither lane and is genuinely the hosts'
+own import.
+
+**The rejection verdict is unchanged, and is strengthened rather than weakened.** The two lanes
+carry deliberately different contracts: the podcast source is enriched, the reading edition is
+`book_augmentation=source_only`. Material crossing from the podcast lane into the print lane would
+breach the print lane's contract regardless of how well-attributed it is. What follows is
+therefore a list of what must NOT be carried across — not a list of anyone's mistakes.
+
+Recorded for auditability.
 
 **Hadith and reports (7):** the tradition of the two weighty things (EP01); "the earth is never
 left without a proof," attributed to Ali (EP01, EP04); the date-palm riddle attributed to an early
@@ -123,15 +138,21 @@ Ali's reply (EP03); **Ghadir Khumm** (EP05).
 
 ### On Ghadir Khumm specifically
 
-Episode 5 presents Ghadir Khumm as "the climax of sacred history" and quotes the declaration
-verbatim. The book does not contain it anywhere. This is not an oversight by al-Naysaburi — it is
-his stated programme. At L80 he writes that predecessors relying on "the well-known Quranic verses
-revealed concerning the imamate… and the traditions reported from the Prophet" have "left nothing
-in this matter for those who come after," and that he intends instead to argue "from the outer
-horizons and from our own selves… in a manner the elders of the dawa never attempted."
+Episode 5 presents Ghadir Khumm as "the climax of sacred history." So does its source: it is
+written into `chapters/ch05e-…txt` at line 69. The book does not contain it anywhere.
 
-The hosts inserted precisely the class of argument the treatise was written to avoid. Admitting it
-would not augment the book; it would contradict its thesis about its own method.
+That difference is not an oversight by al-Naysaburi — it is his stated programme. At L80 he writes
+that predecessors relying on "the well-known Quranic verses revealed concerning the imamate… and
+the traditions reported from the Prophet" have "left nothing in this matter for those who come
+after," and that he intends instead to argue "from the outer horizons and from our own selves… in
+a manner the elders of the dawa never attempted."
+
+So the enrichment pass supplied to the podcast lane precisely the class of argument the treatise
+was written to avoid — alongside the hadith of the two weighty things (both ch01a and ch05e) and
+the axle-to-the-millstone saying (ch05e). Whether that is acceptable in the podcast lane is a
+separate question from this audit and is not decided here. What is decided: none of it crosses
+into `book.md`. Admitting it would not augment the edition; it would contradict the treatise's
+account of its own method.
 
 ---
 
