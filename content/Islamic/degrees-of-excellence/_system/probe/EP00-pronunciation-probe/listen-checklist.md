@@ -2,54 +2,59 @@
 
 Generate the probe in NotebookLM, listen ONCE, and mark each term.
 
-- The **rendered** column is what the hosts were told to say (an English
-  word or a plain transliteration — never a respelling).
+- The **rendered** column is what the hosts were told to say. It may be a
+  respelling (from this book's override table), an English word, or the
+  plain transliteration — whichever the term ladder resolved.
 - In the **OK?** column put `y` if it was pronounced correctly, `n` if wrong.
-- For a wrong term, put a **plain-English substitute** in **Fix** (e.g.
-  `the theologian al-Ghazali`) or a simpler natural spelling. Do NOT write a
-  hyphen-CAPS respelling — NotebookLM reads those literally.
+- For a wrong term, put in **Fix** either a different spoken form to try
+  next round, or — if you think nothing written will ever work — a plain
+  English substitute the hosts should say instead (e.g. `the pillars`).
+- Worth noting beside an `n`: what you actually HEARD. It seeds the
+  mangle-map, so the next audit catches the same misreading by itself.
 - Leave **Fix** blank when OK = y.
 
 The applier reads this table: `y` -> confirm the rendered form in the
-library; an English substitute -> store it as the term's gloss.
+cross-book library, so no later book re-derives it; a different spoken
+form -> retry it; an English substitute -> store it as the term's gloss
+and stop asking the hosts to say the Arabic at all.
 
 | n | term | rendered | OK? | Fix |
 |---|------|----------|-----|-----|
 | 1 | al-Naysaburi | an-nay-saa-BOO-ree |  |  |
 | 2 | al-Kirmani | al-Kirmani |  |  |
-| 3 | ahl al-zahir | AHL az-ZAH-hir |  |  |
-| 4 | Maghrib | MAGH-rib |  |  |
-| 5 | Taha | TAH-haa |  |  |
-| 6 | Yasin | YAA-seen |  |  |
-| 7 | asas al-din | ah-SAAS ad-DEEN |  |  |
-| 8 | ahl al-haqq | AHL al-HAQQ |  |  |
-| 9 | da'irat al-din | DAA-i-rat ad-DEEN |  |  |
-| 10 | ahl al-batil | AHL al-BAH-til |  |  |
-| 11 | nur al-imama | NOOR al-i-MAA-ma |  |  |
-| 12 | Ghadir Khumm | gha-DEER KHOOM |  |  |
-| 13 | Rahat al-Aql | Rahat al-Aql |  |  |
-| 14 | bayt al-mal | BAYT al-MAAL |  |  |
-| 15 | ithbat | ithbat |  |  |
-| 16 | zakat | za-KAAH |  |  |
-| 17 | qibla | QIB-lah |  |  |
-| 18 | hudud | hu-DOOD |  |  |
-| 19 | vicegerent | vice-JEER-uhnt |  |  |
-| 20 | fay | FIE |  |  |
-| 21 | nass | NAHSS |  |  |
-| 22 | tawhid | tow-HEED |  |  |
-| 23 | walaya | wa-LAA-ya |  |  |
-| 24 | khums | KHOOMS |  |  |
-| 25 | qutb | KOOTB |  |  |
-| 26 | taslim | tas-LEEM |  |  |
-| 27 | sais | SAA-is |  |  |
-| 28 | tashbih | tash-BEEH |  |  |
-| 29 | khutba | KHUT-bah |  |  |
-| 30 | raiya | ra-EE-ya |  |  |
-| 31 | arkan | ar-KAAN |  |  |
-| 32 | ghulat | goo-LAAT |  |  |
-| 33 | mafdul | maf-DOOL |  |  |
-| 34 | ya'sub | yaa-SOOB |  |  |
-| 35 | masbuq | mas-BOOQ |  |  |
+| 3 | Maghrib | MAGH-rib |  |  |
+| 4 | Taha | TAH-haa |  |  |
+| 5 | Yasin | YAA-seen |  |  |
+| 6 | Ghadir Khumm | gha-DEER KHOOM |  |  |
+| 7 | Rahat al-Aql | Rahat al-Aql |  |  |
+| 8 | bayt al-mal | BAYT al-MAAL |  |  |
+| 9 | ithbat | ithbat |  |  |
+| 10 | zakat | za-KAAH |  |  |
+| 11 | qibla | QIB-lah |  |  |
+| 12 | hudud | hu-DOOD |  |  |
+| 13 | vicegerent | vice-JEER-uhnt |  |  |
+| 14 | fay | FIE |  |  |
+| 15 | nass | NAHSS |  |  |
+| 16 | tawhid | tow-HEED |  |  |
+| 17 | ahl al-zahir | AHL az-ZAH-hir |  |  |
+| 18 | walaya | wa-LAA-ya |  |  |
+| 19 | khums | KHOOMS |  |  |
+| 20 | qutb | KOOTB |  |  |
+| 21 | taslim | tas-LEEM |  |  |
+| 22 | sais | SAA-is |  |  |
+| 23 | tashbih | tash-BEEH |  |  |
+| 24 | khutba | KHUT-bah |  |  |
+| 25 | asas al-din | ah-SAAS ad-DEEN |  |  |
+| 26 | raiya | ra-EE-ya |  |  |
+| 27 | arkan | ar-KAAN |  |  |
+| 28 | ghulat | goo-LAAT |  |  |
+| 29 | mafdul | maf-DOOL |  |  |
+| 30 | ya'sub | yaa-SOOB |  |  |
+| 31 | ahl al-haqq | AHL al-HAQQ |  |  |
+| 32 | da'irat al-din | DAA-i-rat ad-DEEN |  |  |
+| 33 | ahl al-batil | AHL al-BAH-til |  |  |
+| 34 | masbuq | mas-BOOQ |  |  |
+| 35 | nur al-imama | NOOR al-i-MAA-ma |  |  |
 | 36 | nutq | NOOTQ |  |  |
 | 37 | tiryaq | tir-YAHQ |  |  |
 | 38 | falta | FAL-tah |  |  |

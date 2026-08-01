@@ -11,23 +11,18 @@ commentary minimal and make sure no numbered term is skipped.
 
 ## Pronunciation
 
-Say each term ONCE, exactly as written below — these are already in the
-form we want spoken. Never spell a word out letter by letter, and never
-say a hyphenated or capitalised respelling. Never say the original spelling
-and another form back-to-back.
+Say each term ONCE, exactly as written below. Some entries are written
+as respellings — hyphens mark syllable breaks and CAPITALS mark the
+stressed syllable, so read the syllables as one fluent word and never
+spell a word out letter by letter. Never say the original spelling and
+another form back-to-back.
 
 Say these names and terms just as written:
 - an-nay-saa-BOO-ree
 - al-Kirmani
-- AHL az-ZAH-hir
 - MAGH-rib
 - TAH-haa
 - YAA-seen
-- ah-SAAS ad-DEEN
-- AHL al-HAQQ
-- DAA-i-rat ad-DEEN
-- AHL al-BAH-til
-- NOOR al-i-MAA-ma
 - gha-DEER KHOOM
 - Rahat al-Aql
 - BAYT al-MAAL
@@ -39,6 +34,7 @@ Say these names and terms just as written:
 - FIE
 - NAHSS
 - tow-HEED
+- AHL az-ZAH-hir
 - wa-LAA-ya
 - KHOOMS
 - KOOTB
@@ -46,12 +42,17 @@ Say these names and terms just as written:
 - SAA-is
 - tash-BEEH
 - KHUT-bah
+- ah-SAAS ad-DEEN
 - ra-EE-ya
 - ar-KAAN
 - goo-LAAT
 - maf-DOOL
 - yaa-SOOB
+- AHL al-HAQQ
+- DAA-i-rat ad-DEEN
+- AHL al-BAH-til
 - mas-BOOQ
+- NOOR al-i-MAA-ma
 - NOOTQ
 - tir-YAHQ
 - FAL-tah

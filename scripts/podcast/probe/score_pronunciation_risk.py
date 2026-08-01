@@ -58,7 +58,12 @@ _PROPER_NOUN_RE = re.compile(r"^[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*$")
 _AYN = re.compile(r"[ʿʾ’’’]")  # hamza / ayn
 _EMPHATIC = re.compile(r"[ḥḍṣṭẓḏṯġḫ]")  # emphatics + uncommon fricatives
 _QAF = re.compile(r"q", re.IGNORECASE)
-_LINEAGE = re.compile(r"\b(ibn|bin|bint|abu|abi|umm|al-| al )", re.IGNORECASE)
+# Lineage markers that genuinely signal a PERSON. The definite article is not
+# one: `al-` opens most Arabic common nouns, so including it filed every concept
+# in the book — asas al-din, ahl al-haqq, nur al-imama, da'irat al-din — under
+# "People and scholar names" in the probe's listen checklist, and skipped the
+# book-gloss rung that exists to protect real names from being glossed away.
+_LINEAGE = re.compile(r"\b(ibn|bin|bint|abu|abi|umm)\b", re.IGNORECASE)
 _PLACE_HINT = re.compile(r"\b(mount|island|river|valley|city|mosque|masjid|bayt|dwell)", re.IGNORECASE)
 _APOST_RE = re.compile(r"[ʿʾ’’ʻ`]")  # ayn / hamza variants
 
@@ -296,10 +301,13 @@ def _segment_of(row: dict) -> str:
     snippet = row.get("snippet", "")
     if _PLACE_HINT.search(snippet) or _PLACE_HINT.search(term):
         return "places"
+    # The article is not part of the name for the capitalisation test: it is
+    # "al-Kirmani" that names a person, and the capital sits after the `al-`.
+    stem = re.sub(r"^al[- ]", "", term, flags=re.IGNORECASE)
     # Multi-word capitalised or lineage markers -> proper name.
-    if _LINEAGE.search(term) or (term[:1].isupper() and " " in term):
+    if _LINEAGE.search(term) or (stem[:1].isupper() and " " in term):
         return "names"
-    if term[:1].isupper():
+    if stem[:1].isupper():
         return "names"
     return "terms"
 

@@ -280,3 +280,70 @@ def test_mining_is_deterministic_and_takes_the_first_match(tmp_path):
 
 def test_a_book_with_no_chapters_mines_nothing_rather_than_failing(tmp_path):
     assert bpb.mine_carriers(tmp_path / "nope", [{"term": "x", "transliteration": "tiryaq"}]) == {}
+
+
+# ---------------------------------------------- carrier quality (2026-08-01)
+def test_a_mid_word_glossary_window_is_not_read_aloud():
+    # The glossary's first_seen_snippet is a fixed-width window, so it starts
+    # mid-word: a host reading "irming the Imamate, in Arabic the Kitab ithbat"
+    # is testing the fragment, not the term.
+    assert bpb._carrier("ithbat", "irming the Imamate, in Arabic the Kitab ithbat al-imama, by Ahmad") == "**ithbat**"
+
+
+def test_a_lowercase_function_word_still_opens_a_readable_snippet():
+    assert bpb._carrier("Zamrukh", "the Zamrukh spoke plainly").startswith("**Zamrukh** — as in:")
+
+
+def test_a_blockquote_marker_never_survives_into_a_carrier(tmp_path):
+    book = _chaptered_book(
+        tmp_path,
+        {
+            "ch01-a.txt": "He raised it before the people at Ghadir Khumm: > Whoever's master I am, this is his master.\n"
+        },
+    )
+    got = bpb.mine_carriers(book, [{"term": "غدير خم", "transliteration": "Ghadir Khumm"}])
+    assert ">" not in got[bpb.normalize_key("Ghadir Khumm")][0]
+
+
+def test_the_framing_does_not_forbid_the_forms_it_then_prints():
+    # The instruction used to end "never say a hyphenated or capitalised
+    # respelling" while the list beneath it was full of them — the same
+    # self-contradiction, in the same slot, as the defect this all began with.
+    data = {
+        "book_slug": "b",
+        "terms": [
+            {
+                "n": 1,
+                "term": "أركان",
+                "transliteration": "arkan",
+                "segment": "terms",
+                "_render": {"text": "ar-KAAN", "is_english": False, "tier": "book-override"},
+            }
+        ],
+    }
+    framing = bpb.build_framing(data)
+    assert "- ar-KAAN" in framing
+    assert "never say a hyphenated" not in framing.lower()
+    assert "capitals mark the" in framing.lower()
+
+
+def test_the_checklist_lets_the_listener_record_the_answer_it_is_asking_for():
+    # It used to say the rendered column is "never a respelling" and forbid
+    # writing one as a fix — while the column was full of them, and whether they
+    # work is the open question. The answer has to be recordable.
+    data = {
+        "book_slug": "b",
+        "terms": [
+            {
+                "n": 1,
+                "term": "أركان",
+                "transliteration": "arkan",
+                "segment": "terms",
+                "_render": {"text": "ar-KAAN", "is_english": False, "tier": "book-override"},
+            }
+        ],
+    }
+    checklist = bpb.build_checklist(data)
+    assert "| 1 | arkan | ar-KAAN |" in checklist
+    assert "never a respelling" not in checklist
+    assert "do not write a" not in checklist.lower()

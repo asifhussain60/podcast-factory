@@ -113,7 +113,10 @@ def mine_carriers(book_dir: Path, terms: list[dict]) -> dict[str, tuple[str, str
     for chapter in sorted(chapters_dir.glob("*.txt")):
         text = chapter.read_text(encoding="utf-8")
         for raw in _SENTENCE_SPLIT.split(re.sub(r"\s+", " ", text)):
-            sentence = raw.strip()
+            # A quotation that opens mid-sentence leaves its blockquote marker
+            # inside the flattened line ("raised it before the people: > Whoever's
+            # master I am"), and a stray ">" read aloud is noise.
+            sentence = re.sub(r"\s*>\s*", " ", raw).strip()
             if not (_CARRIER_MIN_CHARS <= len(sentence) <= _CARRIER_MAX_CHARS):
                 continue
             if sentence.startswith(("#", ">", "-", "*", "|")):
@@ -131,17 +134,46 @@ def mine_carriers(book_dir: Path, terms: list[dict]) -> dict[str, tuple[str, str
     return out
 
 
+# Function words a readable lowercase-leading snippet may open on. Anything else
+# lowercase at the start is a truncated word, not a sentence beginning.
+_OPENERS = frozenset(
+    "the a an and but or so in on of for to at by from with as when where while "
+    "he she it they we his her their its this that these those is are was were "
+    "has have had not no if then than after before over under through".split()
+)
+
+
+def _is_readable_context(snippet: str) -> bool:
+    """False when the snippet is a mid-word slice rather than readable prose.
+
+    The glossary's ``first_seen_snippet`` is a fixed-width window around the
+    term's first occurrence, so it routinely begins mid-word — "irming the
+    Imamate, in Arabic the Kitab ithbat al-imama, by Ahmad b. Ibrahim
+    al-Naysab". A host reading that aloud is testing the fragment, not the term,
+    so the term is better off named on its own.
+
+    A capital opens a sentence; a lowercase word opens a legitimate mid-sentence
+    excerpt only when it is a function word. "the Zamrukh spoke" passes and
+    "irming the Imamate" does not, without either needing a dictionary.
+    """
+    s = snippet.strip().lstrip("\"“'([")
+    if not s:
+        return False
+    first = re.split(r"[^A-Za-z'-]", s, maxsplit=1)[0]
+    return bool(first) and (first[0].isupper() or first.lower() in _OPENERS)
+
+
 def _carrier(term: str, snippet: str) -> str:
     """A neutral sentence that puts the term in the hosts' mouths.
 
     Ontology-neutral on purpose: the segment bucket is a best-effort guess, so
     the source never asserts a term IS a person/place (which mislabels common
-    nouns like "Sharia"). It just names the term and, if a real first-occurrence
-    snippet exists, gives that as context.
+    nouns like "Sharia"). It just names the term and, if a readable
+    first-occurrence snippet exists, gives that as context.
     """
     ctx = snippet.strip().rstrip(".")
     base = f"**{term}**"
-    if ctx:
+    if ctx and _is_readable_context(ctx):
         return f"{base} — as in: “{ctx}”"
     return base
 
@@ -203,10 +235,17 @@ def build_framing(data: dict) -> str:
         "",
         "## Pronunciation",
         "",
-        "Say each term ONCE, exactly as written below — these are already in the",
-        "form we want spoken. Never spell a word out letter by letter, and never",
-        "say a hyphenated or capitalised respelling. Never say the original spelling",
-        "and another form back-to-back.",
+        # The instruction here used to end "and never say a hyphenated or
+        # capitalised respelling" — written when the ladder could not produce
+        # one. Rung 0 now passes a human's respelling through, so that sentence
+        # forbade the very list printed beneath it. A probe whose framing
+        # contradicts its own list tests nothing: it is the same defect, in the
+        # same slot, as the block this whole change set exists to fix.
+        "Say each term ONCE, exactly as written below. Some entries are written",
+        "as respellings — hyphens mark syllable breaks and CAPITALS mark the",
+        "stressed syllable, so read the syllables as one fluent word and never",
+        "spell a word out letter by letter. Never say the original spelling and",
+        "another form back-to-back.",
         "",
         "Say these names and terms just as written:",
     ]
@@ -242,16 +281,27 @@ def build_checklist(data: dict) -> str:
         "",
         "Generate the probe in NotebookLM, listen ONCE, and mark each term.",
         "",
-        "- The **rendered** column is what the hosts were told to say (an English",
-        "  word or a plain transliteration — never a respelling).",
+        # These instructions used to say the rendered column is "never a
+        # respelling" and forbid writing one as a fix. Rung 0 of the ladder now
+        # passes a human's respelling through, so the column is full of them —
+        # and whether they work is the open question this probe exists to
+        # settle. Telling the listener not to record one would make the answer
+        # unrecordable.
+        "- The **rendered** column is what the hosts were told to say. It may be a",
+        "  respelling (from this book's override table), an English word, or the",
+        "  plain transliteration — whichever the term ladder resolved.",
         "- In the **OK?** column put `y` if it was pronounced correctly, `n` if wrong.",
-        "- For a wrong term, put a **plain-English substitute** in **Fix** (e.g.",
-        "  `the theologian al-Ghazali`) or a simpler natural spelling. Do NOT write a",
-        "  hyphen-CAPS respelling — NotebookLM reads those literally.",
+        "- For a wrong term, put in **Fix** either a different spoken form to try",
+        "  next round, or — if you think nothing written will ever work — a plain",
+        "  English substitute the hosts should say instead (e.g. `the pillars`).",
+        "- Worth noting beside an `n`: what you actually HEARD. It seeds the",
+        "  mangle-map, so the next audit catches the same misreading by itself.",
         "- Leave **Fix** blank when OK = y.",
         "",
         "The applier reads this table: `y` -> confirm the rendered form in the",
-        "library; an English substitute -> store it as the term's gloss.",
+        "cross-book library, so no later book re-derives it; a different spoken",
+        "form -> retry it; an English substitute -> store it as the term's gloss",
+        "and stop asking the hosts to say the Arabic at all.",
         "",
         "| n | term | rendered | OK? | Fix |",
         "|---|------|----------|-----|-----|",

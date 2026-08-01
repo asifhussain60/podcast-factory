@@ -207,13 +207,12 @@
       "signature": [
         "article-al"
       ],
-      "segment": "names",
+      "segment": "terms",
       "snippet": "",
       "freq": 5,
-      "score": 6,
+      "score": 4,
       "reasons": [
         "4 syllables",
-        "proper name",
         "x5 in text"
       ],
       "arabic_script": "ahl al-zahir",
@@ -416,13 +415,12 @@
       "signature": [
         "article-al"
       ],
-      "segment": "names",
+      "segment": "terms",
       "snippet": "",
       "freq": 2,
-      "score": 5,
+      "score": 3,
       "reasons": [
         "4 syllables",
-        "proper name",
         "x2 in text"
       ],
       "arabic_script": "asas al-din",
@@ -441,10 +439,9 @@
       "segment": "places",
       "snippet": "",
       "freq": 2,
-      "score": 4,
+      "score": 2,
       "reasons": [
         "3 syllables",
-        "proper name",
         "x2 in text"
       ],
       "arabic_script": "bayt al-mal",
@@ -556,14 +553,13 @@
         "qaf",
         "article-al"
       ],
-      "segment": "names",
+      "segment": "terms",
       "snippet": "",
       "freq": 1,
-      "score": 5,
+      "score": 3,
       "reasons": [
         "qaf",
-        "3 syllables",
-        "proper name"
+        "3 syllables"
       ],
       "arabic_script": "ahl al-haqq",
       "meaning": "",
@@ -579,61 +575,17 @@
         "ayn-hamza",
         "article-al"
       ],
-      "segment": "names",
+      "segment": "terms",
       "snippet": "",
       "freq": 1,
-      "score": 5,
+      "score": 3,
       "reasons": [
         "5 syllables",
-        "proper name",
         "long"
       ],
       "arabic_script": "da'irat al-din",
       "meaning": "",
       "n": 30
-    },
-    {
-      "term": "ahl al-batil",
-      "transliteration": "ahl al-batil",
-      "phonetic": "AHL al-BAH-til",
-      "house_style_ok": true,
-      "suggested_baseline": "ahl al-ba-til",
-      "signature": [
-        "article-al"
-      ],
-      "segment": "names",
-      "snippet": "",
-      "freq": 1,
-      "score": 4,
-      "reasons": [
-        "4 syllables",
-        "proper name"
-      ],
-      "arabic_script": "ahl al-batil",
-      "meaning": "",
-      "n": 31
-    },
-    {
-      "term": "nur al-imama",
-      "transliteration": "nur al-imama",
-      "phonetic": "NOOR al-i-MAA-ma",
-      "house_style_ok": true,
-      "suggested_baseline": "nur al-i-ma-ma",
-      "signature": [
-        "article-al",
-        "ending-a"
-      ],
-      "segment": "names",
-      "snippet": "",
-      "freq": 1,
-      "score": 4,
-      "reasons": [
-        "5 syllables",
-        "proper name"
-      ],
-      "arabic_script": "nur al-imama",
-      "meaning": "",
-      "n": 32
     },
     {
       "term": "Ghadir Khumm",
@@ -652,7 +604,27 @@
       ],
       "arabic_script": "Ghadir Khumm",
       "meaning": "Ghadir Khumm",
-      "n": 33
+      "n": 31
+    },
+    {
+      "term": "ahl al-batil",
+      "transliteration": "ahl al-batil",
+      "phonetic": "AHL al-BAH-til",
+      "house_style_ok": true,
+      "suggested_baseline": "ahl al-ba-til",
+      "signature": [
+        "article-al"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "4 syllables"
+      ],
+      "arabic_script": "ahl al-batil",
+      "meaning": "",
+      "n": 32
     },
     {
       "term": "masbuq",
@@ -671,6 +643,27 @@
         "qaf"
       ],
       "arabic_script": "masbuq",
+      "meaning": "",
+      "n": 33
+    },
+    {
+      "term": "nur al-imama",
+      "transliteration": "nur al-imama",
+      "phonetic": "NOOR al-i-MAA-ma",
+      "house_style_ok": true,
+      "suggested_baseline": "nur al-i-ma-ma",
+      "signature": [
+        "article-al",
+        "ending-a"
+      ],
+      "segment": "terms",
+      "snippet": "",
+      "freq": 1,
+      "score": 2,
+      "reasons": [
+        "5 syllables"
+      ],
+      "arabic_script": "nur al-imama",
       "meaning": "",
       "n": 34
     },
