@@ -148,3 +148,69 @@ def test_load_defaults_key_and_ignores_unknown_fields(tmp_path):
     assert hit is not None
     assert hit.key == "tawil"
     assert hit.phonetic == "ta-WEEL"
+
+
+# ------------------------------------------- ASCII keying (2026-08-01 migration)
+def test_a_script_term_is_keyed_by_its_romanisation(tmp_path):
+    # normalize_key does not transliterate, so keying on a script `term` made a
+    # script key -- and every consumer looks up by the romanised form. 145 of
+    # the library's 211 rows were written that way and had never been found.
+    lib = pl.load(tmp_path / "l.jsonl")
+    e = lib.record("إبليس", "", status="unfixable", gloss="Satan", transliteration="Iblis")
+    assert e.key == "iblis"
+    assert lib.lookup("Iblis") is e
+
+
+def test_the_script_lookup_still_works_after_the_key_moves(tmp_path):
+    # The probe holds raw script in its `term` field while the framing compiler
+    # holds the romanisation; both must find the same row.
+    lib = pl.load(tmp_path / "l.jsonl")
+    lib.record("إبليس", "", status="unfixable", gloss="Satan", transliteration="Iblis")
+    assert lib.lookup("إبليس") is lib.lookup("Iblis")
+    assert "إبليس" in lib and "Iblis" in lib
+
+
+def test_an_ascii_term_keys_exactly_as_before(tmp_path):
+    lib = pl.load(tmp_path / "l.jsonl")
+    assert lib.record("arkan", "ar-KAAN", transliteration="arkan").key == "arkan"
+
+
+def test_a_script_term_with_no_romanisation_keeps_its_script_key(tmp_path):
+    # Nothing to key from, so nothing is invented.
+    lib = pl.load(tmp_path / "l.jsonl")
+    assert pl.entry_key("إبليس", "") == pl.normalize_key("إبليس")
+    assert lib.record("إبليس", "", status="unfixable", gloss="Satan").key == pl.normalize_key("إبليس")
+
+
+def test_recording_the_same_term_both_ways_upserts_one_row(tmp_path):
+    lib = pl.load(tmp_path / "l.jsonl")
+    lib.record("إبليس", "", status="unfixable", gloss="Satan", transliteration="Iblis")
+    lib.record("Iblis", "", status="unfixable", gloss="the devil", transliteration="Iblis")
+    assert len(lib) == 1
+    assert lib.lookup("Iblis").gloss == "the devil"
+
+
+def test_the_live_library_has_no_unheard_respelling_reachable():
+    """The 92 pattern-generated respellings must stay inert.
+
+    They were bulk-written on 2026-06-08, none carries a heard variant, and they
+    are syllable splits a generator produced -- `i-blis`, `a-sas`, `Adam ->
+    AA-dam`. Promoting them would put 92 unheard respellings into the rung that
+    decides what hosts say, at corpus scale.
+    """
+    import json
+    import re
+
+    path = pl.LIBRARY_PATH
+    if not path.exists():
+        pytest.skip("library not present in this checkout")
+    arabic = re.compile(r"[؀-ۿ]")
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        if not raw.strip():
+            continue
+        r = json.loads(raw)
+        if arabic.search(r["key"]) or r["status"] != "confirmed":
+            continue
+        assert r.get("mangled_variants") or r["confirmed_date"] != "2026-06-08", (
+            f"{r['term']} is a 2026-06-08 bulk row and is now reachable"
+        )
