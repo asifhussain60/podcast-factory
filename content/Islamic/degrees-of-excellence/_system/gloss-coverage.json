@@ -1,14 +1,14 @@
 {
   "schema": "book.gloss-coverage/v1",
-  "candidates": 177,
-  "strong": 131,
-  "covered": 173,
+  "candidates": 5,
+  "strong": 3,
+  "covered": 1,
   "missing_strong": [
     "bayt al-mal",
     "nusba",
     "ruh al-ibda"
   ],
   "glossary_entries": 182,
-  "coverage": 0.977,
-  "strong_coverage": 0.977
+  "coverage": 0.2,
+  "strong_coverage": 0.0
 }

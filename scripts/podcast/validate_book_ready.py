@@ -402,6 +402,10 @@ def gate_b6_book_source_crosswalk(book_dir: Path) -> tuple[bool, str]:
 #: the tail.
 _GLOSS_COVERAGE_FLOOR = 0.60
 
+#: Below this many romanized glossed terms, the ratio is noise rather than a
+#: signal — see the inversion note in the gate.
+_GLOSS_SAMPLE_FLOOR = 20
+
 
 def gate_b7_book_gloss_coverage(book_dir: Path) -> tuple[bool, str]:
     """Do the terms the book GLOSSES actually have Arabic to show?
@@ -440,8 +444,14 @@ def gate_b7_book_gloss_coverage(book_dir: Path) -> tuple[bool, str]:
     (book_dir / "_system" / "gloss-coverage.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
-    if report["strong"] == 0:
-        return True, "no glossed Arabic terms found — n/a"
+    # A ratio needs a denominator worth dividing by. After the conversion pass
+    # runs, almost every gloss carries Arabic and is no longer a ROMANIZED
+    # candidate — so a fully-fixed book leaves three stragglers behind and the
+    # gate read "0 of 3, 0%, starved" on the healthiest possible state. That is
+    # the measure inverting on success. Below the floor the honest answer is that
+    # there is nothing left to measure.
+    if report["strong"] < _GLOSS_SAMPLE_FLOOR:
+        return True, f"only {report['strong']} romanized glossed term(s) left — nothing to measure"
     pct = report["strong_coverage"]
     note = (
         f"{report['strong'] - len(report['missing_strong'])}/{report['strong']} glossed terms carry Arabic "
