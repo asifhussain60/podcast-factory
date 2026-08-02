@@ -31,23 +31,14 @@ from _subprocess import info as _info
 
 
 def _book_branch_enabled(book_dir: Path) -> bool:
-    try:
-        from _translation_edition import is_translation_edition
+    """Delegates — see ``_pipeline_flags.book_branch_enabled`` for the shape rules.
 
-        if is_translation_edition(book_dir):
-            return True
-    except Exception:
-        pass
-    meta = book_dir / "meta.yml"
-    if not meta.exists():
-        return False
-    try:
-        import yaml  # type: ignore[import]
+    This body used to be a verbatim copy of the one in ``validate_book_ready``,
+    and both mis-read a ``series:`` that is a title string rather than a mapping.
+    """
+    from _pipeline_flags import book_branch_enabled
 
-        data = yaml.safe_load(meta.read_text(encoding="utf-8")) or {}
-        return bool(data.get("series", {}).get("enable_book_branch", False))
-    except Exception:
-        return False
+    return book_branch_enabled(book_dir)
 
 
 def _drive_book_branch(book_dir: Path) -> int:

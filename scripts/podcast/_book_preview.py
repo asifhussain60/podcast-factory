@@ -41,11 +41,26 @@ def reading_edition_is_built(book_dir: Path) -> bool:
     Keeps the publish-time call from paying for a whole-book re-compose over a
     book that already has one — the expensive half of this lane is model time, and
     re-running it would also discard nothing but cost hours.
+
+    Resolve the PDF through ``deliver_book._find_pdf``, never a hardcoded name.
+    This used to test for ``book/book.pdf``, which ``build_book_pdf`` RENAMES to
+    ``{Edition Title}.pdf`` as the last act of a successful render — so the file
+    it looked for is precisely the one a healthy book does not have. The check
+    was therefore always false, and it is load-bearing in both directions: the
+    early build announced "NOT BUILT" about a book it had just rendered, and the
+    publish-time skip below it never fired, so every publish re-composed the whole
+    book — the hours of model time this function exists to save. `_find_pdf` is
+    the titled-preferred resolver every other consumer was moved onto by the
+    `collapse-duplicate-pdf` migration; this module was the one left behind.
     """
     state = read_state(book_dir) or {}
     phases = state.get("phases", {})
     render = phases.get("0book-render") or {}
-    return render.get("status") == "completed" and (book_dir / "book" / "book.pdf").exists()
+    if render.get("status") != "completed":
+        return False
+    from deliver_book import _find_pdf
+
+    return _find_pdf(book_dir) is not None
 
 
 def can_build_without_human_artifact(book_dir: Path) -> bool:
@@ -96,7 +111,7 @@ def maybe_build_reading_edition_early(book_dir: Path, *, log: Callable[[str], No
     # then saying nothing let an empty book/ pass for a finished one. Check the
     # artifact, not the return code, and say so plainly when it is absent.
     if not reading_edition_is_built(book_dir):
-        log("  reading edition: NOT BUILT — the book lane produced no book.md")
+        log("  reading edition: NOT BUILT — the book lane reached no rendered PDF")
         log("  reading edition: see the `reason` on the 0book-* phases in state for why")
         return False
     return True

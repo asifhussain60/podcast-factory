@@ -138,3 +138,54 @@ def test_book_knobs_bundle(tmp_path: Path) -> None:
         # waits for --resume, exactly as it did before levels existed.
         "autonomy": "manual",
     }
+
+
+# ─── enable_book_branch: the meta.yml flag, and the shape trap ──────────────
+from _pipeline_flags import book_branch_enabled  # noqa: E402
+
+
+def _meta_book(tmp_path: Path, meta: str) -> Path:
+    bd = tmp_path / "book"
+    (bd / "_system").mkdir(parents=True, exist_ok=True)
+    (bd / "meta.yml").write_text(meta, encoding="utf-8")
+    return bd
+
+
+def test_the_flag_is_read_from_a_series_mapping(tmp_path: Path) -> None:
+    bd = _meta_book(tmp_path, "series:\n  enable_book_branch: true\n")
+    assert book_branch_enabled(bd) is True
+
+
+def test_an_absent_flag_leaves_the_lane_off(tmp_path: Path) -> None:
+    bd = _meta_book(tmp_path, "series:\n  enable_knowledge_augmenter: true\n")
+    assert book_branch_enabled(bd) is False
+
+
+def test_a_series_that_is_a_TITLE_STRING_answers_instead_of_crashing(tmp_path: Path) -> None:
+    # The trap. `series` is a config mapping in most books but the series TITLE
+    # in all six asaas-al-taveel volumes. The old accessor,
+    # `data.get("series", {}).get(...)`, raises AttributeError on a string and
+    # was swallowed by a bare `except` — indistinguishable from "flag absent",
+    # so those volumes could never enable the lane whatever their meta.yml said.
+    bd = _meta_book(tmp_path, "series: Asas al-Taweel\n")
+    assert book_branch_enabled(bd) is False
+
+
+def test_a_missing_meta_leaves_the_lane_off(tmp_path: Path) -> None:
+    bd = tmp_path / "nothing"
+    (bd / "_system").mkdir(parents=True)
+    assert book_branch_enabled(bd) is False
+
+
+def test_unparseable_meta_leaves_the_lane_off(tmp_path: Path) -> None:
+    bd = _meta_book(tmp_path, "series: [unclosed\n")
+    assert book_branch_enabled(bd) is False
+
+
+def test_the_two_callers_delegate_rather_than_re_deriving(tmp_path: Path) -> None:
+    # This check existed twice, copied verbatim, and both copies carried the
+    # string-shape bug. One definition, two thin delegates.
+    for rel in ("phases/book_driver.py", "validate_book_ready.py"):
+        text = (SCRIPT_DIR / rel).read_text(encoding="utf-8")
+        assert "book_branch_enabled" in text, rel
+        assert 'get("series", {})' not in text, f"{rel} re-derives the series lookup"

@@ -76,3 +76,74 @@ def test_every_registered_expansion_round_trips() -> None:
         out, n = expand_first_honorific_use(f"X ({abbrev}) then Y ({abbrev}).")
         assert n == 1, abbrev
         assert out == f"X ({full}) then Y ({abbrev})."
+
+
+# ─── Unwrapping a doubled bracket ───────────────────────────────────────────
+import pytest  # noqa: E402
+from _honorifics import unwrap_nested_honorifics  # noqa: E402
+
+SCRIPT_DIR = Path(__file__).resolve().parent.parent
+
+
+@pytest.mark.parametrize(
+    "src, want",
+    [
+        ("Ali ((ع)) said.", "Ali (ع) said."),
+        ("from them ((رض)) came", "from them (رض) came"),
+        ("the imams ((عليهم السلام)) taught", "the imams (عليهم السلام) taught"),
+        # The model started the English honorific it was told not to spell out,
+        # then bracketed the Arabic beside it. The compact form is the Arabic.
+        ("Ali (may (عليهم السلام)) said", "Ali (عليهم السلام) said"),
+        ("Ali (may the (ع)) said", "Ali (ع) said"),
+    ],
+)
+def test_a_doubled_honorific_collapses_to_one_pair(src, want):
+    out, n = unwrap_nested_honorifics(src)
+    assert out == want
+    assert n == 1
+
+
+@pytest.mark.parametrize(
+    "src",
+    [
+        # A place name beside its script. One bracket pair too many for a
+        # different reason, and not this module's decision to make.
+        "in al-Jazira (al-Jazira (الجزيرة))",
+        # A parenthetical citation inside an aside.
+        "a note (see (Al-Baqarah: 24)) here",
+        # Already correct.
+        "Ali (ع) said.",
+        # An unknown Arabic run must never be mistaken for an honorific.
+        "the term ((الناطق)) here",
+    ],
+)
+def test_a_non_honorific_nesting_is_left_alone(src):
+    out, n = unwrap_nested_honorifics(src)
+    assert out == src
+    assert n == 0
+
+
+def test_unwrapping_is_idempotent():
+    once, n1 = unwrap_nested_honorifics("Ali ((ع)) and them ((رض))")
+    twice, n2 = unwrap_nested_honorifics(once)
+    assert n1 == 2
+    assert twice == once
+    assert n2 == 0
+
+
+def test_unwrap_runs_before_expansion_so_first_use_is_seen():
+    # A book that nested EVERY occurrence must still get its introduction: if the
+    # expansion ran first it would see `((ع))`, match the inner pair, and spell
+    # out a form the reader only ever meets wrapped.
+    text = "Ali ((ع)) said. Later Hasan ((ع)) replied."
+    unwrapped, _ = unwrap_nested_honorifics(text)
+    out, n = expand_first_honorific_use(unwrapped)
+    assert n == 1
+    assert out.startswith("Ali (عليه السلام) said.")
+    assert out.endswith("Hasan (ع) replied.")
+
+
+def test_compose_unwraps_before_it_expands():
+    src = (SCRIPT_DIR / "_book_pipeline_v2.py").read_text(encoding="utf-8")
+    assert "unwrap_nested_honorifics" in src, "the unwrap is not wired into compose"
+    assert src.index("unwrap_nested_honorifics(_before)") < src.index("expand_first_honorific_use(_text)")

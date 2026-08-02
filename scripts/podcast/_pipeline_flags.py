@@ -232,6 +232,51 @@ def autonomy(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     return autonomy_level_for(str(cfg.get(AUTONOMY_KEY) or "").strip().lower() or None)
 
 
+BOOK_BRANCH_KEY = "enable_book_branch"
+
+
+def book_branch_enabled(book_dir: Path) -> bool:
+    """Is the reading-edition lane switched on for this book?
+
+    Unlike every other knob this one lives in ``meta.yml`` under ``series:``, not
+    in ``series-config.yaml`` — kept here anyway so there is ONE definition of how
+    to read it. There used to be two, copied verbatim into ``phases/book_driver``
+    and ``validate_book_ready``, and both were wrong the same way.
+
+    ``series`` is overloaded across the corpus: in most books it is a config
+    MAPPING (``series: {enable_book_branch: true}``), but in all six
+    ``asaas-al-taveel`` volumes it is the series TITLE, a plain string. The old
+    accessor was ``data.get("series", {}).get(...)``, which raises
+    ``AttributeError`` on a string and was swallowed by a bare ``except`` — so
+    those volumes could never enable the lane no matter what anyone wrote in their
+    meta.yml, and the failure was indistinguishable from the flag being absent.
+    Read the mapping shape when it IS a mapping, and answer False for the title
+    shape rather than crashing on it.
+
+    A translation edition is always enabled — the reading edition IS its
+    deliverable, so there is no flag to forget.
+    """
+    book_dir = Path(book_dir)
+    try:
+        from _translation_edition import is_translation_edition
+
+        if is_translation_edition(book_dir):
+            return True
+    except Exception:
+        pass
+    meta = book_dir / "meta.yml"
+    if not meta.exists():
+        return False
+    try:
+        data = yaml.safe_load(meta.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return False
+    series = data.get("series") if isinstance(data, dict) else None
+    if not isinstance(series, dict):
+        return False
+    return bool(series.get(BOOK_BRANCH_KEY, False))
+
+
 def book_knobs(book_dir: Path) -> dict[str, Any]:
     """Convenience bundle: every resolved knob read in one config load."""
     cfg = _read_series_config(book_dir)

@@ -567,3 +567,84 @@ def test_translation_edition_fails_on_source_title_drift(tmp_path):
 )
 def test_is_bad_slide_outcome(verdict, bad):
     assert _is_bad_slide_outcome(verdict) is bad
+
+
+# ─── B8: compose must not silently drop a step that changes the page ────────
+def _book_with_skips(tmp_path: Path, skips: list[dict] | None) -> Path:
+    bd = tmp_path / "bk"
+    (bd / "_system").mkdir(parents=True, exist_ok=True)
+    if skips is not None:
+        (bd / "_system" / "compose-skips.json").write_text(
+            json.dumps({"schema": "book.compose-skips/v1", "skips": skips}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+    return bd
+
+
+def test_b8_passes_when_compose_skipped_nothing(tmp_path):
+    ok, why = V.gate_b8_compose_completed_every_step(_book_with_skips(tmp_path, None))
+    assert ok
+    assert "no skipped steps" in why
+
+
+def test_b8_fails_when_the_humans_composer_edits_were_dropped(tmp_path):
+    # The worst possible skip: the replay is what makes the Composer the singular
+    # path for PDF-bound edits. Losing it discards authored prose in silence.
+    bd = _book_with_skips(tmp_path, [{"step": "composer-edits", "error": "OSError: disk"}])
+    ok, why = V.gate_b8_compose_completed_every_step(bd)
+    assert not ok
+    assert "composer-edits" in why
+    assert "OSError: disk" in why
+
+
+@pytest.mark.parametrize("step", ["inline-arabic", "vowelling", "front-matter", "spelling"])
+def test_b8_fails_on_each_page_altering_step(tmp_path, step):
+    bd = _book_with_skips(tmp_path, [{"step": step, "error": "RuntimeError: x"}])
+    ok, _why = V.gate_b8_compose_completed_every_step(bd)
+    assert not ok, f"{step} changes the printed page and must block"
+
+
+@pytest.mark.parametrize("step", ["arabic-audit", "duplication", "visual-policy", "etymology"])
+def test_b8_reports_but_does_not_block_an_advisory_step(tmp_path, step):
+    bd = _book_with_skips(tmp_path, [{"step": step, "error": "RuntimeError: x"}])
+    ok, why = V.gate_b8_compose_completed_every_step(bd)
+    assert ok, f"{step} only writes a report and must not block a ship"
+    assert step in why
+
+
+def test_b8_treats_an_unclassified_step_as_page_altering(tmp_path):
+    # A step added without being classified is precisely what this gate exists to
+    # catch; defaulting it to "advisory" would reproduce the original silence.
+    bd = _book_with_skips(tmp_path, [{"step": "some-new-step", "error": "ValueError: y"}])
+    ok, why = V.gate_b8_compose_completed_every_step(bd)
+    assert not ok
+    assert "unclassified" in why
+
+
+def test_b8_survives_an_unreadable_record(tmp_path):
+    bd = tmp_path / "bk"
+    (bd / "_system").mkdir(parents=True)
+    (bd / "_system" / "compose-skips.json").write_text("{not json", encoding="utf-8")
+    ok, _why = V.gate_b8_compose_completed_every_step(bd)
+    assert ok, "a broken probe must never block a ship"
+
+
+def test_every_record_skip_label_is_classified_exactly_once():
+    """The drift pin. A step added to compose must be classified in `_compose_skips`.
+
+    Without this, a new step silently lands in the unclassified bucket and B8
+    blocks every ship until someone notices — or, if the default were flipped,
+    lands in advisory and is never seen again. Also catches the reverse: a
+    classification left behind after its step was removed.
+    """
+    import re
+
+    import _compose_skips as P
+
+    src = (SCRIPT_DIR / "_book_pipeline_v2.py").read_text(encoding="utf-8")
+    labels = set(re.findall(r'_record_skip\(book_dir,\s*"([^"]+)"', src))
+    assert labels, "no _record_skip call sites found — did the helper get renamed?"
+    classified = P.PAGE_ALTERING_STEPS | P.ADVISORY_STEPS
+    assert not (labels - classified), f"unclassified compose steps: {sorted(labels - classified)}"
+    assert not (P.PAGE_ALTERING_STEPS & P.ADVISORY_STEPS), "a step cannot be both"
+    assert not (classified - labels), f"classified steps that no longer exist: {sorted(classified - labels)}"

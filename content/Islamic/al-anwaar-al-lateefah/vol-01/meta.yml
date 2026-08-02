@@ -1,0 +1,34 @@
+# This volume had NO meta.yml until 2026-08-02, which cost it two things
+# silently: `_book_branch_enabled` returns false the moment the file is absent,
+# so all five 0book-* phases were stamped `skipped` on any re-run even though the
+# volume has a finished book/book.md and a rendered PDF; and `_series_title`
+# falls back to the directory name, so a Google Drive delivery would have filed
+# it under a folder literally called "vol-01".
+#
+# Every field below is copied from the authoritative parent manifest,
+# ../work.yml (the volumes list, order 1) — nothing here is newly invented.
+slug: al-anwaar-al-lateefah-vol-01
+title: "Al-Anwaar al-Lateefah -- Volume 1: The Oneness (Tawheed)"
+title_arabic: "الأنوار اللطيفة"
+short_name: anwaar-vol-1
+series_title: Al-Anwaar al-Lateefah
+volume: 1
+
+series:
+  enable_book_branch: true
+
+content_profile: islamic_scholarly
+
+publication:
+  status: draft
+  shipped_via: scripts/podcast/publish_to_library.py
+
+provenance:
+  work_slug: al-anwaar-al-lateefah
+  collection: Al-Anwaar Collection
+  manifest: ../work.yml
+  split_note: >-
+    Partitioned from the synthesized 0c book by
+    scripts/podcast/split_synthesis_al_anwaar.py (no re-synthesis). Volumes start
+    at 0c. Boundaries: COLLECTION-PLAN.md section 5 (APPROVED 2026-06-17).
+  h2_sections: [1, 2]

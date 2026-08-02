@@ -29,6 +29,14 @@ reproducible on identical input:
                           body text, not heading-only/blank chapters.
   B6  book-source-crosswalk — translation editions must persist a source
                           crosswalk and pass title/source alignment checks.
+  B7  book-gloss-coverage — the terms the book GLOSSES must actually have Arabic
+                          to show; catches the starved-glossary shape (eleven
+                          entries against a hundred and seventy-seven terms).
+  B8  compose-steps-complete — the compose that produced this book must not have
+                          silently skipped a step that changes the printed page
+                          (the human's Composer edits, the Arabic overlay, the
+                          vowelling, the introduction). Reads
+                          ``_system/compose-skips.json``.
 
 USAGE
 
@@ -74,20 +82,15 @@ _MIN_PDF_BYTES = 10 * 1024  # a one-page error PDF is tiny; floor catches it
 
 
 def _book_branch_enabled(book_dir: Path) -> bool:
-    meta = book_dir / "meta.yml"
-    if not meta.exists():
-        return False
-    try:
-        from _translation_edition import is_translation_edition
+    """Delegates — see ``_pipeline_flags.book_branch_enabled`` for the shape rules.
 
-        if is_translation_edition(book_dir):
-            return True
-        import yaml  # type: ignore[import]
+    The ship gate and the lane driver must agree on whether a book HAS a reading
+    edition. They agreed by being copies of each other, which meant they also
+    shared the bug that made every ``asaas-al-taveel`` volume unbuildable.
+    """
+    from _pipeline_flags import book_branch_enabled
 
-        data = yaml.safe_load(meta.read_text(encoding="utf-8")) or {}
-        return bool(data.get("series", {}).get("enable_book_branch", False))
-    except Exception:
-        return False
+    return book_branch_enabled(book_dir)
 
 
 def _toc_chapter_count(book_dir: Path) -> int:
@@ -463,8 +466,22 @@ def gate_b7_book_gloss_coverage(book_dir: Path) -> tuple[bool, str]:
     return True, note
 
 
+def gate_b8_compose_completed_every_step(book_dir: Path) -> tuple[bool, str]:
+    """Did the compose that produced this book actually run all of its steps?
+
+    Thin delegate: the writer, the page-altering/advisory classification and this
+    verdict all live in ``_compose_skips``, because they are one contract — a step
+    added to compose must be classified there or nothing can judge it.
+    """
+    try:
+        from _compose_skips import verdict
+    except Exception as exc:  # noqa: BLE001 - never block a ship on the probe
+        return True, f"compose-skip record unavailable ({exc})"
+    return verdict(book_dir)
+
+
 def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
-    """Run B1-B7 and return a verdict dict."""
+    """Run B1-B8 and return a verdict dict."""
     book_dir = Path(book_dir).resolve()
     if not _book_branch_enabled(book_dir):
         return {
@@ -511,6 +528,11 @@ def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
     gates.append({"gate": "B7", "name": "book-gloss-coverage", "passed": ok7, "note": why7})
     if not ok7:
         blocking_fail = blocking_fail or f"B7 book-gloss-coverage: {why7}"
+
+    ok8, why8 = gate_b8_compose_completed_every_step(book_dir)
+    gates.append({"gate": "B8", "name": "compose-steps-complete", "passed": ok8, "note": why8})
+    if not ok8:
+        blocking_fail = blocking_fail or f"B8 compose-steps-complete: {why8}"
 
     verdict = "BOOK-SOUND" if blocking_fail is None else "BOOK-BROKEN"
     summary = f"reading edition sound ({len(gates)} gates checked)" if blocking_fail is None else blocking_fail

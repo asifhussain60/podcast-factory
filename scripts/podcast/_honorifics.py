@@ -54,6 +54,56 @@ if _UNKNOWN:  # pragma: no cover — a wiring error, caught at import
 # from being answered by one hard-to-read pattern.
 _PAREN_RE = re.compile(r"\(([^()\n]{1,40})\)")
 
+# A parenthetical wrapped around a parenthetical: `((ع))`, or with an orphaned
+# English lead-in the model started and then abandoned, `(may (عليهم السلام))`.
+# The lead-in is bounded and ASCII-only so this can never eat a real gloss.
+_NESTED_RE = re.compile(r"\(([ A-Za-z]{0,12}?)\s*\(([^()\n]{1,40})\)\s*\)")
+
+
+def _is_known_honorific(inner: str) -> bool:
+    """Is this run one of the honorifics this module owns the rendering of?"""
+    inner = inner.strip()
+    return inner in HONORIFIC_ABBREVIATIONS or normalize_arabic(inner) in _HONORIFIC_FORMULAS
+
+
+def unwrap_nested_honorifics(text: str) -> tuple[str, int]:
+    """Collapse a doubly-bracketed honorific to a single pair. Returns (text, fixed).
+
+    `mukhtasar-ul-asar-2` printed `Ali ((ع)) said` 234 times, plus 40 doubled
+    plural formulas and a handful of `(may (عليهم السلام))`. None of it is in the
+    source — both bracket pairs are generated during compose. The cause was the
+    translation prompt, which listed the permitted forms WITH their parentheses
+    baked in ("use only these compact forms: (ع)"), so the model could not tell
+    whether the brackets belonged to the token or to the sentence and supplied a
+    second pair when the sentence already had one. That prompt now states the
+    Arabic run and the bracket convention separately.
+
+    This pass is the other half: a prompt fix only helps the next compose, and a
+    model that nests again should be corrected rather than printed. It runs before
+    the first-use expansion below so that expansion sees clean single brackets.
+
+    GUARDED ON THE INNER RUN BEING A KNOWN HONORIFIC. Without that guard the same
+    shape would swallow a legitimate gloss — `(al-Jazira (اَلْجَزِيْرَة))` is a
+    place name beside its script, one bracket pair too many for a different reason
+    and not this module's to decide. Deterministic and idempotent: a single pair
+    does not match, so a second run changes nothing.
+    """
+    fixed = 0
+
+    def replace(match: re.Match[str]) -> str:
+        nonlocal fixed
+        lead, inner = match.group(1), match.group(2)
+        if not _is_known_honorific(inner):
+            return match.group(0)
+        # An abandoned "may"/"may the" is the start of the English honorific the
+        # prompt forbids spelling out; the compact form is the Arabic alone.
+        if lead.strip() and lead.strip().lower() not in {"may", "may the"}:
+            return match.group(0)
+        fixed += 1
+        return f"({inner.strip()})"
+
+    return _NESTED_RE.sub(replace, text), fixed
+
 
 def expand_first_honorific_use(text: str) -> tuple[str, int]:
     """Spell out the first use of each honorific. Returns (text, expansions).

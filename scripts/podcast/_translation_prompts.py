@@ -49,7 +49,7 @@ Preserve meaning:
 - If a Quran verse, hadith, poem, or quoted saying appears, keep it visibly quoted and keep the attribution present in the source.
 - Do not invent canonical Arabic from memory. If the source gives Arabic, preserve it; if the source gives only a translation, translate/polish only that.
 - Use the original-language source block only as preservation evidence, not as permission to add new side material.
-- Keep salutations compact. Do not repeatedly spell out long English honorifics. Use only these compact forms in English prose: (عليهم السلام), (ع), and (رض).
+- Keep salutations compact. Do not repeatedly spell out long English honorifics. In English prose the only permitted honorifics are the Arabic runs عليهم السلام, ع, and رض. Write each one inside ONE pair of parentheses — `Ali (ع) said` — and never inside two: `((ع))` is wrong. The parentheses are the sentence's, not part of the honorific, so do not add a pair around a run that already has one, and do not put an English lead-in such as "may" inside the brackets beside the Arabic.
 {quran_anchor}{arabic_ground_truth_block(arabic_src)}
 
 Denoise:

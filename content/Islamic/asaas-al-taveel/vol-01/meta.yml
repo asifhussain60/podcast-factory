@@ -1,7 +1,16 @@
 slug: asaas-al-taveel-vol-01
 title: "Asas al-Taweel -- Volume 1: Adam"
 short_name: asaas-vol-1
-series: Asas al-Taweel
+# `series:` is a CONFIG MAPPING everywhere in this codebase — six readers key
+# feature flags off it (enable_book_branch, enable_knowledge_augmenter,
+# enable_live_quran_lookup, enable_topic_markers, enable_live_style_fetch,
+# enable_modern_science_responses). This file used to put the series TITLE here
+# instead, which nothing reads as a title and which made every one of those
+# readers raise AttributeError into a bare `except` — so this volume could not
+# enable any of them. The title now lives beside the others as documentary data.
+series_title: Asas al-Taweel
+series:
+  enable_book_branch: true
 volume: 1
 source_pdf: /Users/asifhussain/Documents/BOOKS/asaas-al-taveel-vol-1.pdf
 

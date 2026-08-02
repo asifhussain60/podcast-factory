@@ -19,6 +19,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from _compose_skips import record_skip
 from _pipeline_flags import (
     BOOK_AUGMENTATION_SOURCE_ONLY,
     BOOK_VOICE_AUTHOR_COMPANION,
@@ -27,32 +28,19 @@ from _pipeline_flags import (
     book_voice,
 )
 
-
 # Every "non-fatal" step below is genuinely optional — a finished translation is
 # worth more than an overlay — but a skip must never be INVISIBLE. Nine steps
 # used to swallow their exception into a log line that scrolls away: a compose
 # could return "completed" having dropped the transliteration fold, the inline
 # Arabic, the spelling pass, the human's Composer edits and the introduction,
-# with nothing in state and nothing in any report. Each skip is now also written
-# to `_system/compose-skips.json`, which the ship gate and a human can both read.
-def _record_skip(book_dir: Path, step: str, exc: BaseException, log) -> None:
-    log(f"    {step}: skipped (non-fatal): {exc}")
-    try:
-        path = Path(book_dir) / "_system" / "compose-skips.json"
-        existing: list[dict] = []
-        if path.exists():
-            try:
-                existing = json.loads(path.read_text(encoding="utf-8")).get("skips", [])
-            except Exception:
-                existing = []
-        existing.append({"step": step, "error": f"{type(exc).__name__}: {exc}"})
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(
-            json.dumps({"schema": "book.compose-skips/v1", "skips": existing}, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
-    except Exception:  # a recorder must never become the failure it records
-        pass
+# with nothing in state and nothing in any report. Each skip is also written to
+# `_system/compose-skips.json`, which gate B8 in `validate_book_ready` reads.
+#
+# The writer, the page-altering/advisory classification and the reader all live
+# in `_compose_skips` — one contract, one module: a step added here must be
+# classified there, or B8 cannot judge it. `_record_skip` stays as the local
+# name because every one of the nineteen call sites below uses it.
+_record_skip = record_skip
 
 
 def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
@@ -451,15 +439,23 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     #    The Arabic audit above therefore counts the abbreviated form; that is the
     #    same limitation bridges already have, and both are report-only.
     #    Deterministic, book-scoped and idempotent; see _honorifics.py.
-    from _honorifics import expand_first_honorific_use
+    #    Unwrap a doubled bracket FIRST, so the first-use scan below reads the
+    #    honorific rather than the outer pair around it — and so a book that
+    #    nested every occurrence cannot have its introduction "already spelled
+    #    out" by a form the reader never sees as one.
+    from _honorifics import expand_first_honorific_use, unwrap_nested_honorifics
 
     try:
         _md = book_dir / "book" / "book.md"
         if _md.exists():
             _before = _md.read_text(encoding="utf-8")
-            _after, _n = expand_first_honorific_use(_before)
-            if _n:
+            _text, _unwrapped = unwrap_nested_honorifics(_before)
+            _after, _n = expand_first_honorific_use(_text)
+            if _unwrapped or _n:
                 _md.write_text(_after, encoding="utf-8")
+            if _unwrapped:
+                log(f"    honorifics: {_unwrapped} doubly-bracketed honorific(s) collapsed to one pair")
+            if _n:
                 log(f"    honorifics: {_n} first-use honorific(s) spelled out in full")
     except Exception as e:  # a convention is never worth a finished book
         _record_skip(book_dir, "honorifics", e, log)

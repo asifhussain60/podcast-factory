@@ -28,8 +28,26 @@ from _book_preview import (
     reading_edition_is_built,
 )
 
+_EDITION = "An Edition: Its Own Title"
 
-def _book(tmp: Path, *, config: str = "", state: dict | None = None, pdf: bool = False) -> Path:
+
+def _book(
+    tmp: Path,
+    *,
+    config: str = "",
+    state: dict | None = None,
+    pdf: bool = False,
+    titled: bool = False,
+) -> Path:
+    """A book folder. `pdf` writes the FALLBACK name, `titled` the real one.
+
+    Production writes `titled`: `build_book_pdf` renames `book.pdf` to
+    `{Edition Title}.pdf` as the last act of a successful render, and only leaves
+    `book.pdf` behind when that rename fails. Every test here used to pass `pdf`,
+    so the whole suite exercised the rare path and none of it exercised the shape
+    a healthy book actually has — which is how the hardcoded `book.pdf` check
+    stayed green while being false for every real book on disk.
+    """
     bd = tmp / "a-book"
     (bd / "_system").mkdir(parents=True, exist_ok=True)
     (bd / "book").mkdir(parents=True, exist_ok=True)
@@ -37,6 +55,9 @@ def _book(tmp: Path, *, config: str = "", state: dict | None = None, pdf: bool =
     (bd / "_system" / "orchestrator-state.json").write_text(json.dumps(state or {}), encoding="utf-8")
     if pdf:
         (bd / "book" / "book.pdf").write_bytes(b"%PDF-1.4 stub")
+    if titled:
+        (bd / "book" / "book-toc.json").write_text(json.dumps({"book_title": _EDITION}), encoding="utf-8")
+        (bd / "book" / f"{_EDITION}.pdf").write_bytes(b"%PDF-1.4 stub")
     return bd
 
 
@@ -63,6 +84,33 @@ class IdempotenceTests(unittest.TestCase):
     def test_a_rendered_book_is_recognised(self) -> None:
         with TemporaryDirectory() as td:
             self.assertTrue(reading_edition_is_built(_book(Path(td), state=_RENDERED, pdf=True)))
+
+    def test_the_TITLED_pdf_a_real_render_leaves_behind_is_recognised(self) -> None:
+        # The regression that cost hours per publish. A successful render leaves
+        # `{Edition Title}.pdf` and NO `book.pdf`, so a check hardcoded to
+        # `book.pdf` reported "not built" for every healthy book — the early
+        # build then announced NOT BUILT about a book it had just rendered, and
+        # the publish-time skip never fired, re-composing the whole book.
+        with TemporaryDirectory() as td:
+            bd = _book(Path(td), state=_RENDERED, titled=True)
+            self.assertFalse((bd / "book" / "book.pdf").exists(), "fixture must mimic a real render")
+            self.assertTrue(reading_edition_is_built(bd))
+
+    def test_the_early_call_declines_when_the_titled_pdf_is_already_there(self) -> None:
+        with TemporaryDirectory() as td:
+            bd = _book(Path(td), state=_RENDERED, titled=True)
+            self.assertFalse(maybe_build_reading_edition_early(bd, log=lambda _m: None))
+
+    def test_a_titled_pdf_without_a_completed_render_is_NOT_built(self) -> None:
+        with TemporaryDirectory() as td:
+            self.assertFalse(reading_edition_is_built(_book(Path(td), state={}, titled=True)))
+
+    def test_the_resolution_is_not_re_derived_here(self) -> None:
+        # One resolver, one definition. A second copy of "which file is the PDF"
+        # is what produced this defect; keep the module honest about delegating.
+        text = (SCRIPTS_PODCAST / "_book_preview.py").read_text(encoding="utf-8")
+        self.assertIn("_find_pdf", text)
+        self.assertNotIn('"book.pdf"', text)
 
     def test_completed_status_without_a_pdf_is_NOT_built(self) -> None:
         # The status can outlive the artifact — a stale state must not convince
