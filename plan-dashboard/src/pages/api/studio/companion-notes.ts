@@ -14,6 +14,7 @@ import type { APIRoute } from "astro";
 import {
   readChapter,
   upsertNote,
+  reanchorNote,
   deleteNote,
   listChapters,
 } from "../../../lib/reader/companion/store.server";
@@ -78,6 +79,30 @@ export const POST: APIRoute = async ({ request }) => {
     return apiError("etymology must be an array of strings");
   try {
     const { note: saved } = upsertNote(slug, chapter, note);
+    return apiOk(withMorphology(saved));
+  } catch (e) {
+    return apiServerError(String(e));
+  }
+};
+
+/** Re-point a note at the wording its passage now carries. Quote only — the
+ *  Composer's write-back after an explained sentence is edited and saved. */
+export const PATCH: APIRoute = async ({ request }) => {
+  let body: { slug?: string; chapter?: string; id?: string; quote?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return apiError("Invalid JSON");
+  }
+  const { slug, chapter, id, quote } = body;
+  if (!slug || !SLUG_RE.test(slug)) return apiError("Missing or invalid slug");
+  if (!chapter || !CHAPTER_KEY_RE.test(chapter))
+    return apiError("Missing or invalid chapter");
+  if (!id || typeof id !== "string") return apiError("Missing note id");
+  if (typeof quote !== "string") return apiError("Missing quote");
+  try {
+    const saved = reanchorNote(slug, chapter, id, quote);
+    if (!saved) return apiError("Unknown note id");
     return apiOk(withMorphology(saved));
   } catch (e) {
     return apiServerError(String(e));

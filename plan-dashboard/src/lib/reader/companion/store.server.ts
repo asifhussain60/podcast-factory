@@ -113,7 +113,18 @@ export function upsertNote(
       kind: input.kind || existing.kind,
       body,
       anchor: input.anchor?.trim() || undefined,
-      quote: input.quote?.trim() || undefined,
+      // ABSENT means KEEP, unlike `anchor` directly above (Asif, 2026-08-02).
+      // The two are not symmetrical and deliberately so: a card's title is the
+      // author's to write and to clear, so an absent anchor is an instruction.
+      // The quote is not authorable anywhere in the UI — it is where the note
+      // LIVES in the chapter — so an absent quote can only mean the caller had
+      // nothing to say about the anchoring, and honouring that as "clear it"
+      // let a card save from a panel holding a pre-edit copy silently undo a
+      // re-anchor. Clearing a quote is `reanchorNote(..., "")`, said out loud.
+      quote:
+        input.quote === undefined
+          ? existing.quote
+          : input.quote.trim() || undefined,
       etymology:
         input.etymology === undefined
           ? existing.etymology
@@ -139,6 +150,39 @@ export function upsertNote(
   doc.updatedAt = ts;
   writeChapter(doc);
   return { doc, note };
+}
+
+/**
+ * Re-point one note at the wording its passage now carries.
+ *
+ * The narrowest possible write: `quote` and `updatedAt`, nothing else. The
+ * Composer calls this after saving a chapter in which an explained sentence was
+ * edited, so the note keeps pointing at the sentence rather than at the wording
+ * that sentence used to have. Going through `upsertNote` instead would mean
+ * sending a whole note back to say one field changed, and every field not sent
+ * is a field at risk — which is the bug this exists to avoid, not repeat.
+ *
+ * Returns null when the id is unknown: a stale client re-anchoring a note that
+ * was deleted elsewhere must not resurrect it.
+ */
+export function reanchorNote(
+  slug: string,
+  chapter: string,
+  id: string,
+  quote: string,
+): CompanionNote | null {
+  const doc = readChapter(slug, chapter);
+  const existing = doc.notes.find((n) => n.id === id);
+  if (!existing) return null;
+  const next: CompanionNote = {
+    ...existing,
+    quote: quote.trim() || undefined,
+    updatedAt: nowIso(),
+  };
+  doc.notes = doc.notes.map((n) => (n.id === id ? next : n));
+  doc.updatedAt = next.updatedAt;
+  writeChapter(doc);
+  return next;
 }
 
 /** Remove a note by id. Returns the updated doc. */

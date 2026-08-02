@@ -23,6 +23,13 @@ export interface CompanionStore {
     chapter: string,
     note: CompanionNoteInput,
   ): Promise<CompanionNote>;
+  /** Re-point a note at the wording its passage now carries — quote only. */
+  reanchor(
+    slug: string,
+    chapter: string,
+    id: string,
+    quote: string,
+  ): Promise<CompanionNote>;
   remove(slug: string, chapter: string, id: string): Promise<void>;
 }
 
@@ -49,6 +56,13 @@ export function createApiStore(): CompanionStore {
       return apiFetch<CompanionNote>(BASE, {
         method: "POST",
         body: { slug, chapter: key, note },
+      });
+    },
+    async reanchor(slug, chapter, id, quote) {
+      const key = safeChapterKey(chapter);
+      return apiFetch<CompanionNote>(BASE, {
+        method: "PATCH",
+        body: { slug, chapter: key, id, quote },
       });
     },
     async remove(slug, chapter, id) {

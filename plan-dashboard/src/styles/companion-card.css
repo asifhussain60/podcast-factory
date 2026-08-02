@@ -758,6 +758,15 @@ textarea.xpl-ety-text:focus {
   background: var(--reader-mark, #ffd529);
 }
 
+/* Inside the edit canvas the tint is text you type in, so it takes the caret
+   the prose around it takes. The hand cursor above says "this opens something",
+   which is true in Read and actively misleading in Edit — it made a highlighted
+   sentence look like a locked region before you had even clicked it. Clicking
+   still opens the explanation; the tooltip still says so. (Asif, 2026-08-02.) */
+.ProseMirror .cx-note-hl {
+  cursor: text;
+}
+
 @media (prefers-reduced-motion: reduce) {
   /* The etymology caret and its delete button animate on every accordion
      interaction, which is now the most-used control on the card. */

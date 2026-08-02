@@ -53,9 +53,15 @@ import {
 import { createFenceDecos } from "../components/studio/editor/fence-decos";
 import {
   createCompanionDecos,
+  companionRanges,
   type CompanionMark,
 } from "../components/studio/editor/companion-decos";
-import { markPassages } from "../lib/reader/companion/passage-match";
+import {
+  markPassages,
+  normalizeQuote,
+  foldText,
+} from "../lib/reader/companion/passage-match";
+import { defaultStore as defaultCompanionStore } from "../lib/reader/companion/store.client";
 import { alignmentGroups } from "../lib/reader/arabic-groups";
 import GemCompanionPanel from "../components/reader/companion/GemCompanionPanel";
 import {
@@ -1005,6 +1011,52 @@ function boot(): void {
    *  listener — do nothing, so the sync can never fight the reader for the panel. */
   let lastSyncedMarks = "";
 
+  /**
+   * After a chapter saves, re-point every explanation whose sentence was edited
+   * at the wording that sentence now carries (Asif, 2026-08-02).
+   *
+   * A note stores a COPY of the sentence it explains, and the tint is found by
+   * searching the chapter for that copy. Before this, rewording an explained
+   * sentence therefore orphaned its note the instant the first character landed
+   * — the highlight vanished, the card dropped off the panel, and nothing in the
+   * UI could ever point it back, so the only way out was to delete the note and
+   * write it again. The tint now MAPS through edits (companion-decos.ts), which
+   * means the editor still knows where each note sits; this writes that back.
+   *
+   * Runs only after the prose itself is safely on disk, so the wording filed
+   * here is the wording the chapter actually has.
+   *
+   * The guards all fail in the same direction — leave the note ALONE — because a
+   * card confidently pointing at the wrong passage is worse than one that has
+   * plainly come unstuck:
+   *   - no mapped range: the text was deleted outright. Never guess where it went.
+   *   - unchanged wording: the edit was elsewhere; nothing to file.
+   *   - too short to be a passage: below the floor `findPassage` will match on
+   *     (4 folded characters), so filing it would anchor the note to noise.
+   */
+  async function reanchorEditedNotes(): Promise<void> {
+    if (!activeEditor) return;
+    const { doc } = activeEditor.editor.state;
+    const ranges = companionRanges(activeEditor.editor.state);
+    const chapter = companionChapterKey();
+    for (const note of companionNotes.current) {
+      if (!note.quote) continue;
+      const range = ranges.get(note.id);
+      if (!range || range.to <= range.from) continue;
+      const now = normalizeQuote(
+        doc.textBetween(range.from, range.to, " ", " "),
+      );
+      if (!now || now === normalizeQuote(note.quote)) continue;
+      if (foldText(now).length < 4) continue;
+      // Sequential, not in parallel: every one of these rewrites the SAME
+      // chapter file, and the store is a read-modify-write.
+      await defaultCompanionStore.reanchor(slug, chapter, note.id, now);
+      // Keep our own copy in step, so the tint's next rebuild derives from the
+      // wording now on disk rather than from the wording it replaced.
+      note.quote = now;
+    }
+  }
+
   /** Scroll the panel so this note's card sits at the top of the card list. */
   function syncCardToMark(noteId: string): void {
     const surface = root.querySelector<HTMLElement>("#cx-surface-scholar");
@@ -1609,6 +1661,15 @@ function boot(): void {
           },
         });
         contentChangedThisSession = true;
+        // The prose is on disk; now keep the explanations attached to it. Never
+        // allowed to fail the save — the chapter is already safe, and an
+        // explanation that stayed on its old wording is a note to re-point, not
+        // a reason to tell the author their work did not persist.
+        try {
+          await reanchorEditedNotes();
+        } catch {
+          /* best-effort; the tint still shows where the note sits */
+        }
         return { ok: true };
       },
     });

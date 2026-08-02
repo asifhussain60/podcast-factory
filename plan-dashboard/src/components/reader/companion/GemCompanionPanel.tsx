@@ -195,13 +195,19 @@ export default function GemCompanionPanel({
 
   useEffect(() => {
     if (open) {
-      inputRef.current?.focus();
+      // NOT on a docked panel's first run (Asif, 2026-08-02). Docked means open
+      // from mount, so this fired during page load and put the caret in the ask
+      // box — on the Composer, that is the page opening with your typing aimed
+      // at the note field instead of at the book. Focus belongs to whoever OPENS
+      // the panel, and nobody opened this one. A later run still focuses, so the
+      // reader's floating panel is unchanged.
+      if (wasOpen.current || !docked) inputRef.current?.focus();
       wasOpen.current = true;
     } else if (wasOpen.current) {
       // Return focus to the launcher on close (never steal it on first mount).
       launcherRef.current?.focus();
     }
-  }, [open]);
+  }, [open, docked]);
 
   // The host's callback, held in a ref so the load effect below depends on the
   // CHAPTER and nothing else. Depending on the callback identity meant a host
@@ -289,10 +295,12 @@ export default function GemCompanionPanel({
           kind: current.kind,
           body: edit.body,
           anchor: edit.anchor || undefined,
-          // The quote is what ties the card to a sentence in the chapter; it is
-          // not the author's to retype here, and losing it would unanchor the
-          // card from the passage it explains.
-          quote: current.quote,
+          // The quote is DELIBERATELY not sent (Asif, 2026-08-02). It is what
+          // ties the card to a sentence in the chapter, it is not the author's
+          // to retype here, and the copy this panel holds can be older than the
+          // one on disk — the Composer re-points a note the moment its sentence
+          // is edited and saved, and sending our copy back would undo that. An
+          // absent quote means "keep whatever is filed"; see upsertNote.
           etymology: edit.etymology,
           source: current.source,
         });
