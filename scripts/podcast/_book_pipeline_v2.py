@@ -247,6 +247,26 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # a missing verse must never fail a finished translation
         _record_skip(book_dir, "quran-arabic", e, log)
 
+    # 5a-citations. Name the surah in every citation (Asif, 2026-08-01): `(2:24)`
+    #     becomes `(Al-Baqarah: 24)`. A bare number is a lookup key, not a
+    #     reference — it asks a reader who does not read Arabic to already know
+    #     which surah 2 is. Every printed translation names it.
+    #
+    #     IMMEDIATELY AFTER 5a-quran, and that order is load-bearing in one
+    #     direction only. The injection above reads citations to decide which
+    #     verse to set, and `_book_citations.find_citations` reads BOTH the
+    #     numeric and the named form precisely so a re-compose of an
+    #     already-renamed book still finds its 23 cited verses. Running the
+    #     rename first would therefore still work — it is placed second because
+    #     the numeric form is what every upstream pass and report speaks, and the
+    #     house form is the last word before the page.
+    try:
+        from _book_citations import rename_book as _name_surahs
+
+        _name_surahs(book_dir, log=lambda m: log(f"    {m}"))
+    except Exception as e:  # a citation's spelling must never fail a translation
+        _record_skip(book_dir, "citation-names", e, log)
+
     # 5a-policy. Classify the glossary's annotation policy — ONCE per book. Which
     #     terms deserve an inline annotation is a judgment call, so a model makes
     #     it, and it is durable: proposals land in glossary.yml where a human can

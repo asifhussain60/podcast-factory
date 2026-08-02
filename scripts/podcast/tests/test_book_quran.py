@@ -16,9 +16,9 @@ import pytest
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
+from _book_citations import CITE_RE  # noqa: E402
 from _book_quran import _block_start, inject_text  # noqa: E402
 from _book_quran_extent import (  # noqa: E402
-    CITE_RE,
     _align,
     _arabic_ratio,
     ornate_spans,

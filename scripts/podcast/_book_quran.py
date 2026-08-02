@@ -73,8 +73,8 @@ from typing import Callable, Iterable
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
+from _book_citations import find_citations  # noqa: E402
 from _book_quran_extent import (  # noqa: E402
-    CITE_RE,
     _arabic_ratio,
     _english_proposal,
     _key,
@@ -155,7 +155,7 @@ def inject_text(
     inserts: dict[int, str] = {}
 
     for idx, line in enumerate(lines):
-        matches = list(CITE_RE.finditer(line))
+        matches = list(find_citations(line))
         if not matches:
             continue
 
@@ -164,12 +164,11 @@ def inject_text(
         # unambiguous "above" for the second. Counted, not silently dropped.
         primary = None
         for m in matches:
-            surah, ayah = int(m.group(1)), int(m.group(2))
-            last = int(m.group(3)) if m.group(3) else None
+            surah, ayah, last = m.surah, m.ayah, m.last
             if not valid_reference(surah, ayah) or (
                 last is not None and not (valid_reference(surah, last) and last > ayah)
             ):
-                stats["invalid_reference"].append({"line": idx + 1, "ref": m.group(0)})
+                stats["invalid_reference"].append({"line": idx + 1, "ref": m.text})
                 continue
             stats["cited"] += 1
             if primary is None:
@@ -260,10 +259,10 @@ def review_uncited(text: str, spans: list[str]) -> list[dict]:
     # pass per candidate.
     scan_refs = _spans_to_refs(spans)
 
-    cited_here = {(int(m.group(1)), int(m.group(2))) for m in CITE_RE.finditer(text)}
+    cited_here = {(c.surah, c.ayah) for c in find_citations(text)}
 
     for idx, line in enumerate(text.split("\n")):
-        if CITE_RE.search(line):
+        if next(find_citations(line), None):
             continue
         for quoted in re.findall(r'"([^"]{40,400})"', line):
             proposal = _english_proposal(quoted)

@@ -25,6 +25,7 @@ from typing import Iterable
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
+from _book_citations import find_citations  # noqa: E402,F401  (re-exported for callers)
 from _mushaf import normalize_arabic  # noqa: E402
 from source_library_mirror import quran_ayat_lookup  # noqa: E402
 
@@ -38,19 +39,9 @@ ARABIC_RE = re.compile(r"[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]")
 # ORNATE LEFT PARENTHESIS, which in an RTL run OPENS the quotation.
 _ORNATE_OPEN, _ORNATE_CLOSE = "﴿", "﴾"
 
-# Every citation shape this corpus actually uses, and no more. Anchored on the
-# opening parenthesis so a bare `5:13` in running prose — a page range, a ratio, a
-# time — cannot match; that is the same hazard `_book_compose._QURAN_CITE_RE`
-# guards with its narrower dot-form, recorded in its comment as `Q1.20` fiscal
-# quarters. `Quran`/`Qur'an`/`Q`/`Surah` are optional because 5 of this book's 23
-# citations carry no word at all.
-# A RANGE (`(Quran 14:24-26)`) is a third of this book's `(Quran …)` citations and
-# means the book quotes consecutive ayat as one passage, so the Arabic is their
-# concatenation sliced to the quoted extent — not the first verse alone.
-CITE_RE = re.compile(
-    r"\((?:\s*(?:Qur(?:['’ʾ]?)?an|Qur['’]ān|S[uū]rah?|Sura|Q)\.?\s*,?\s*)?"
-    r"(\d{1,3})\s*:\s*(\d{1,3})(?:\s*[-–—]\s*(\d{1,3}))?\s*\)"
-)
+# What a citation looks like — numeric AND in the house `(Al-Baqarah: 24)` form —
+# is owned by `_book_citations`, which also does the renaming. The two belong
+# together: a rename its own pipeline cannot read back is a one-way door.
 
 # Ayah counts per surah — the cheap half of validating a reference. `(2:282)` is a
 # verse; `(3:400)` is not, and neither is `(0:1)`. Without this the parser would
