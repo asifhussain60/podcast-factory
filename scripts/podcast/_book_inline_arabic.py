@@ -18,13 +18,27 @@ House style is ``Transliteration (عربي)``, matching ``_narrative.ARABIC_DIRE
 ("keep the script and add the transliteration beside it") and the skip-guard that
 ``plan-dashboard/src/lib/reader/glossary.ts`` already applies to the same shape.
 
-WHICH terms, HOW OFTEN, and IN WHAT FORM is governed by the annotation policy
+TWO OPERATIONS, not one (Asif, 2026-08-02). They wear the same shape and were
+folded together, which is why one page read ``governance (سِيَاسَة)`` and the next
+``governance (siyasa)``:
+
+    CONVERSION   the author already wrote ``(hudud)``. Replacing what is inside
+                 that bracket with ``(حُدُود)`` adds no apparatus — the page has
+                 exactly as many parentheses afterwards — so it is unconditional
+                 and applies to EVERY occurrence. This is the rule "zero English
+                 transliteration of Arabic terms in book.md".
+    ANNOTATION   the pipeline ADDS a bracket beside a term the prose used
+                 plainly. That IS apparatus, so it stays once per book under the
+                 annotation policy — the "once and intelligently" rule.
+
+WHICH terms and HOW OFTEN the second is done is governed by the annotation policy
 (``_annotation_policy``, per-term ``annotation_class`` in the glossary):
 
     teach      once IN THE BOOK; where the prose glosses the term the gloss
-               becomes ``(bab, باب)`` — name AND script, so a reader without
-               Arabic can still say and search the term; where the prose uses
-               the term itself the script is appended once.
+               becomes ``(باب)`` — script alone, since the script is vowelled by
+               ``vowel_glossary`` and the romanisation keeps its home in the
+               podcast lane; where the prose uses the term itself the script is
+               appended once.
     familiar   never annotated. Mount Sinai, Quran, famous prophets — the
                English form IS the word, and apparatus would talk down.
     name       once in the book, script appended; the romanisation stays
@@ -48,6 +62,7 @@ from typing import Any
 import yaml
 from _arabic_coverage import normalize_arabic
 from _book_arabic_audit import _HONORIFIC_FORMULAS
+from _book_gloss import _convert_glosses, _gloss_span, _is_person, _is_reversed_gloss
 from _translit import simplify_transliteration
 
 # Name connectors and the article. They are grammatical glue inside a name, never
@@ -144,43 +159,6 @@ def _glossary_terms(book_dir: Path) -> list[dict[str, str]]:
         out.append({"phonetic": phonetic, "script": script, "style": style})
     out.sort(key=lambda t: len(t["phonetic"]), reverse=True)
     return out
-
-
-def _gloss_span(line: str, start: int, end: int) -> tuple[int, int] | None:
-    """If the term at [start,end) IS a parenthetical transliteration gloss, return
-    the span of the whole `(*term*)`.
-
-    The author's convention puts the romanisation in brackets after the English:
-    `his gate (*bab*)`. The term therefore sits INSIDE the parentheses, not
-    before them — so the script must REPLACE that bracket, not open a second one
-    inside it.
-    """
-    a = start
-    while a > 0 and line[a - 1] in "*_":
-        a -= 1
-    if a == 0 or line[a - 1] != "(":
-        return None
-    b = end
-    while b < len(line) and line[b] in "*_":
-        b += 1
-    if b >= len(line) or line[b] != ")":
-        return None
-    # Absorb one leading space so "gate (bab)" -> "gate (script)", not "gate  (…)".
-    open_at = a - 1
-    if open_at > 0 and line[open_at - 1] == " ":
-        open_at -= 1
-    return (open_at, b + 1)
-
-
-def _is_person(phonetic: str) -> bool:
-    """True for a personal name, where the transliteration IS the English.
-
-    A reader needs "Jafar ibn Mansur al-Yaman" romanised; they do not need
-    "bab" romanised once the script is beside it. Detected by a standalone name
-    particle, so "al-Imam al-Natiq" (a title, hyphen-prefixed) is NOT a person
-    while "Jafar ibn Mansur al-Yaman" is.
-    """
-    return any(w.lower() in _NAME_PARTICLES for w in phonetic.split())
 
 
 def _script_already_near(line: str, at: int, script: str) -> bool:
@@ -312,9 +290,20 @@ def _annotate_chapter(body: str, terms: list[dict[str, str]], pending: dict[str,
     """
     lines = body.split("\n")
     added = 0
+    converted = 0
 
     for i, line in enumerate(lines):
-        if not pending or not line.strip() or _SKIP_LINE.search(line):
+        if not line.strip() or _SKIP_LINE.search(line):
+            continue
+        # NOTE the `pending` guard is NOT here. It used to be, and it made
+        # conversion impossible past the first mention: once every term had been
+        # consumed the dict was empty and every remaining line was skipped whole,
+        # so a second `(siyasa)` three chapters later was never even looked at.
+        # Conversion is unconditional; only the ANNOTATION half below is rationed.
+        line, n = _convert_glosses(line, terms, pending)
+        lines[i] = line
+        converted += n
+        if not pending:
             continue
         # Reserve the span of EVERY glossary term present on this line, whether
         # or not it is still pending. Reserving only pending terms was not
@@ -406,6 +395,13 @@ def _annotate_chapter(body: str, terms: list[dict[str, str]], pending: dict[str,
             # A personal name never gloss-replaces: its transliteration is the
             # running prose, so the script is appended beside it.
             gloss = None if style == "name" or _is_person(phonetic) else _gloss_span(line, m.start(), m.end())
+            # The reversed shape reaches HERE too, by its own route: `_term_re`
+            # finds `pole` INSIDE `(pole)` and `_gloss_span` correctly reports a
+            # gloss bracket — it just cannot know the bracket holds the English.
+            # `_convert_glosses` guards its own path; this one needs the same
+            # guard or `*Qutb* (pole)` still loses its translation.
+            if gloss and _is_reversed_gloss(line, gloss[0], {x["phonetic"] for x in terms}):
+                continue
             if gloss:
                 inner = f" ({script})"
                 edits.append((gloss[0], gloss[1], inner))
@@ -422,7 +418,7 @@ def _annotate_chapter(body: str, terms: list[dict[str, str]], pending: dict[str,
         for start, end, text in sorted(edits, reverse=True):
             lines[i] = lines[i][:start] + text + lines[i][end:]
 
-    return "\n".join(lines), added
+    return "\n".join(lines), added + converted
 
 
 def apply_inline_arabic(book_dir: Path, *, log=lambda _m: None) -> int:

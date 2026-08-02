@@ -383,3 +383,59 @@ def test_per_chapter_repeats_collapse_when_a_term_becomes_teach(tmp_path: Path) 
     )
     apply_inline_arabic(bd)
     assert read(bd).count("الناطق") == 1  # policy: once in the book
+
+
+def test_every_gloss_of_a_term_converts_not_only_the_first(tmp_path: Path) -> None:
+    """CONVERSION is not ANNOTATION, and only the second is rationed.
+
+    Both wore the same shape and were folded through the same once-per-book
+    `pending`, so the second time the author glossed a term it kept its
+    romanization — one page reading `governance (سِيَاسَة)` and the next
+    `governance (siyasa)`. Changing what is inside a bracket the author already
+    wrote adds no apparatus, so it is unconditional; adding a NEW bracket is
+    apparatus and stays rationed (the test above).
+    """
+    body = (
+        "## 1. A\n\nHe wrote of governance (*siyasa*) at length.\n\n"
+        "## 2. B\n\nAnd returned to governance (*siyasa*) once more.\n"
+    )
+    bd = book(tmp_path, body, [{"phonetic": "siyasa", "arabic_script": "سِيَاسَة", "annotation_class": "teach"}])
+
+    apply_inline_arabic(bd)
+    out = read(bd)
+
+    assert out.count("(سِيَاسَة)") == 2, f"both glosses convert, got: {out!r}"
+    assert "siyasa" not in out, "no Latin-script Arabic survives in a gloss"
+
+
+def test_a_reversed_gloss_keeps_its_english_translation(tmp_path: Path) -> None:
+    """`*Qutb* (pole)` must NOT become `*Qutb* (قُطْب)`.
+
+    The book glosses both ways round: `the ranks (hudud)` puts the
+    transliteration in the bracket, `*Qutb* (pole)` puts the MEANING there.
+    Converting the second destroys the translation and leaves the Arabic term
+    glossed by itself. Caught on the real book, where `pole` had reached the
+    glossary as a term — it sits inside a bracket exactly where a transliteration
+    would, and the OCR has قطب nearby, so the fill gave it script.
+    """
+    entries = [
+        {"phonetic": "qutb", "arabic_script": "قُطْب", "annotation_class": "teach"},
+        {"phonetic": "pole", "arabic_script": "قُطْب", "annotation_class": "teach"},
+    ]
+    bd = book(tmp_path, "## 1. A\n\nthe terms cluster: *Qutb* (pole), and so on.\n", entries)
+
+    apply_inline_arabic(bd)
+    out = read(bd)
+
+    assert "*Qutb* (pole)" in out, f"the English translation was destroyed: {out!r}"
+
+
+def test_the_ordinary_direction_still_converts(tmp_path: Path) -> None:
+    """The guard above must be narrow enough not to block the normal shape."""
+    bd = book(
+        tmp_path,
+        "## 1. A\n\nthe ranks (hudud) of the hierarchy.\n",
+        [{"phonetic": "hudud", "arabic_script": "حُدُود", "annotation_class": "teach"}],
+    )
+    apply_inline_arabic(bd)
+    assert "the ranks (حُدُود) of the hierarchy." in read(bd)

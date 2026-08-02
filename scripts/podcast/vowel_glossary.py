@@ -63,6 +63,10 @@ from vowel_book import CITATION_SYSTEM, _clean, _gemini  # noqa: E402
 # of it is how the two would drift apart on the next refinement.
 SYSTEM = CITATION_SYSTEM
 
+#: Terms between durable writes. Small enough that a kill costs seconds of work,
+#: large enough that a 177-term run does not rewrite the file 177 times.
+_FLUSH_EVERY = 20
+
 _LINE_RE = re.compile(r"^(?P<indent>\s*)arabic_script:\s*(?P<value>.*?)\s*$")
 
 
@@ -135,20 +139,21 @@ def vowel_glossary(
     # killed before it wrote anything. Eight at a time: enough to make the wall
     # clock reasonable, few enough not to trip the API's rate limiting, which
     # would turn a slow run into a refused one.
-    if todo:
-        with ThreadPoolExecutor(max_workers=8) as pool:
-            for term, candidate, refusal in pool.map(one, todo):
-                if refusal:
-                    stats["refused"] += 1
-                    refusals.append({"term": term, "reason": refusal})
-                    continue
-                resolved[term] = candidate or ""
-                stats["vowelled"] += 1
-                stats["marks_added"] += mark_count(candidate or "") - mark_count(term)
+    def flush() -> None:
+        """Write what has been resolved so far, in place, line by line.
 
-    if resolved and not dry_run:
+        Called every `_FLUSH_EVERY` completions rather than once at the end
+        (2026-08-02). The pass used to write only after `pool.map` had drained,
+        so a run killed part-way — the exact failure the parallelism was added to
+        avoid — lost every term it had already paid for. `needs_marks` makes the
+        next run skip whatever landed, so flushing turns a kill from "start
+        again" into "carry on". Rewriting the same lines twice is idempotent.
+        """
+        if not resolved or dry_run:
+            return
+        current = path.read_text(encoding="utf-8").split("\n")
         out: list[str] = []
-        for line in lines:
+        for line in current:
             m = _LINE_RE.match(line)
             if m:
                 value, was_quoted = _unquote(m.group("value"))
@@ -157,6 +162,24 @@ def vowel_glossary(
                     line = f"{m.group('indent')}arabic_script: " + (f'"{new}"' if was_quoted else new)
             out.append(line)
         path.write_text("\n".join(out), encoding="utf-8")
+
+    if todo:
+        done = 0
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            for term, candidate, refusal in pool.map(one, todo):
+                done += 1
+                if refusal:
+                    stats["refused"] += 1
+                    refusals.append({"term": term, "reason": refusal})
+                    continue
+                resolved[term] = candidate or ""
+                stats["vowelled"] += 1
+                stats["marks_added"] += mark_count(candidate or "") - mark_count(term)
+                if done % _FLUSH_EVERY == 0:
+                    flush()
+                    log(f"    glossary vowelling: {done}/{len(todo)} terms")
+
+    flush()
 
     stats["refusals"] = refusals
     report = book_dir / "_system" / "glossary-vowelling.json"
