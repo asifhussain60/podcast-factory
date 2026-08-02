@@ -586,6 +586,13 @@
    ──────────────────────────────────────────────────────────────────────── */
 
 /* Script panel: always rendered — icon alone for non-script cards, icon + text for Arabic/Chinese */
+/* The script panel RESERVES the height of an Arabic line whether or not the book
+   has one (Asif, 2026-08-02). Nothing here had a min-height, so a book with no
+   native title lost roughly 42px of panel and the divider between this panel and
+   the body sat at a different height on every card — the grid equalises the outer
+   box, which made the mismatch read as a ragged void in the middle of the short
+   cards rather than as a shorter card. Set from the Arabic face's own metrics
+   below (1.5rem x 1.75 line-height) plus the padding, so the two cannot drift. */
 .card-script-wrap {
   padding: 1.1rem 1.2rem 0.9rem;
   background: var(--c-bg-sunken);
@@ -593,7 +600,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
+  min-height: calc(1.5rem * 1.75 + 2.4rem + 2rem);
 }
 
 /* Per-book icon inside the script panel */
@@ -662,11 +671,14 @@
 }
 
 /* Identity block: English title + author, centred */
+/* Title + author + badge. The min-height holds two lines of title and one of
+   author, so a one-line title does not raise everything under it. */
 .card-identity {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.2rem;
+  min-height: 3.4rem;
 }
 
 /* English translation — Cinzel: Roman-inscription serif, all-caps by design */
@@ -682,6 +694,19 @@
   overflow-wrap: break-word;
   word-break: break-word;
   text-align: center;
+  /* Two lines, then ellipsis. The card resolves its title from the book's own
+     files now, so an unexpectedly long one is a matter of what someone typed in
+     a meta.yml rather than of what a curated map allowed — and a four-line title
+     pushes everything under it out of alignment with the rest of the row. The
+     full title is on the book's own page. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* Exactly two lines, always: a one-line title reserves the second so the
+     author below it starts at the same height on every card in the shelf. */
+  min-height: calc(0.78rem * 1.55 * 2);
 }
 
 /* Volume badge — between title and author; category accent via the design system */
@@ -706,6 +731,11 @@
     color-mix(in oklab, var(--shelf-accent, var(--c-accent)) 35%, var(--c-rule));
 }
 
+/* Two lines, always — reserved whether the name needs them or not. "Qadi
+   al-Numan ibn Muhammad ibn Hayyun al-Tamimi" wraps; "Anthropic" does not, and
+   letting that decide the height put the slot below it in a different place on
+   every card. Clamped rather than truncated to one line, because the alternative
+   to a reserved second line is hiding half of an author's name. */
 .card-author {
   font-family: var(--font-body);
   font-size: 0.72rem;
@@ -713,6 +743,20 @@
   color: var(--c-ink-muted);
   line-height: 1.3;
   text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: calc(0.72rem * 1.3 * 2);
+}
+
+/* An unknown author still occupies its line. The em dash is rendered rather than
+   the element omitted, so the slot below it starts at the same height on every
+   card in the row. */
+.card-author.is-empty {
+  color: var(--c-ink-faint, var(--c-ink-muted));
+  opacity: 0.5;
 }
 
 /* One-line book description above the pipeline status */

@@ -9,6 +9,7 @@
  * template's long-standing names — template unchanged.
  */
 import Base from "../layouts/Base.astro";
+import BookCard from "../components/studio/BookCard.astro";
 import { buildStudioShelves } from "../lib/reader/studio-shelves";
 import "../styles/studio-pipeline.css";
 
@@ -96,41 +97,24 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
                 {items.map((it) =>
                   it.kind === "deck" ? (
                     <details class="studio-series-deck">
-                      <summary class="studio-picker-card studio-shelf-card studio-series-summary">
-                        {/* Same card design as standalone books — script panel + body */}
-                        <div
-                          class={`card-script-wrap${it.deck.nativeTitle ? " has-script" : ""}`}
-                        >
-                          <span class="card-script-icon" aria-hidden="true">
-                            <i class={`fa-solid ${it.deck.icon}`} />
-                          </span>
-                          {it.deck.nativeTitle && (
-                            <span
-                              class="card-script-text"
-                              lang={it.deck.nativeLang ?? "ar"}
-                              dir={
-                                it.deck.nativeLang === "ar" ? "rtl" : undefined
-                              }
-                            >
-                              {it.deck.nativeTitle}
-                            </span>
-                          )}
-                        </div>
-                        <div class="card-body-wrap">
-                          <div class="card-identity">
-                            <h3 class="card-title-en">{it.deck.title}</h3>
-                            {it.deck.author && (
-                              <span class="card-author">{it.deck.author}</span>
-                            )}
-                          </div>
-                          <span class="studio-series-count">
-                            {it.deck.volumes.length} volumes
-                            <i
-                              class="fa-solid fa-chevron-down studio-series-chevron"
-                              aria-hidden="true"
-                            />
-                          </span>
-                        </div>
+                      {/* The deck's status: decks are never hidden by a status
+                          chip, because a series has no single status of its own
+                          and its volumes each carry their own. Before this the
+                          summary carried no `data-status` at all, so the filter
+                          script read "" — never in the active set — and every
+                          deck was hidden the first time any chip was toggled,
+                          with no way to bring it back. */}
+                      <summary
+                        class="studio-picker-card studio-shelf-card studio-series-summary"
+                        data-status="always"
+                      >
+                        <BookCard
+                          identity={it.deck.identity}
+                          countLabel={`${it.deck.volumes.length} volumes`}
+                          statusLabel={it.deck.statusLabel}
+                          steps={it.deck.steps}
+                          chevron
+                        />
                       </summary>
                       <ul class="studio-series-volumes">
                         {it.deck.volumes.map((v) => (
@@ -174,121 +158,19 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
                       data-status={it.card.statusBucket}
                       hidden={!defaultOn.has(it.card.statusBucket)}
                     >
-                      {/* ── Script/icon panel — always rendered ── */}
-                      <div
-                        class={`card-script-wrap${it.card.nativeTitle ? " has-script" : ""}`}
-                      >
-                        <span class="card-script-icon" aria-hidden="true">
-                          <i class={`fa-solid ${it.card.icon}`} />
-                        </span>
-                        {it.card.nativeTitle && (
-                          <span
-                            class="card-script-text"
-                            lang={it.card.nativeLang ?? "ar"}
-                            dir={
-                              it.card.nativeLang === "ar" ? "rtl" : undefined
-                            }
-                          >
-                            {it.card.nativeTitle}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* ── Card body: English title + author + pipeline status ── */}
-                      <div class="card-body-wrap">
-                        <div class="card-identity">
-                          <h3 class="card-title-en">{it.card.title}</h3>
-                          {it.card.volume && (
-                            <span class="card-volume-badge">
-                              Volume {it.card.volume}
-                            </span>
-                          )}
-                          {it.card.author && (
-                            <span class="card-author">{it.card.author}</span>
-                          )}
-                          {it.card.uncatalogued && (
-                            <span class="card-uncatalogued-pill">
-                              Not yet catalogued
-                            </span>
-                          )}
-                        </div>
-                        {it.card.blurb && (
-                          <p class="card-blurb">{it.card.blurb}</p>
-                        )}
-                        <div class="card-gen-pills">
-                          <span
-                            class={`card-gen-pill${it.card.pdfGenerated ? " is-generated" : ""}`}
-                            title={
-                              it.card.pdfGenerated
-                                ? "PDF generated"
-                                : "PDF not yet generated"
-                            }
-                            aria-label={
-                              it.card.pdfGenerated
-                                ? "PDF generated"
-                                : "PDF not yet generated"
-                            }
-                          >
-                            <i
-                              class="fa-solid fa-file-pdf"
-                              aria-hidden="true"
-                            />
-                          </span>
-                          <span
-                            class={`card-gen-pill${it.card.podcastGenerated ? " is-generated" : ""}`}
-                            title={
-                              it.card.podcastGenerated
-                                ? "Podcast generated"
-                                : "Podcast not yet generated"
-                            }
-                            aria-label={
-                              it.card.podcastGenerated
-                                ? "Podcast generated"
-                                : "Podcast not yet generated"
-                            }
-                          >
-                            <i
-                              class="fa-solid fa-headphones"
-                              aria-hidden="true"
-                            />
-                          </span>
-                          <span
-                            class={`card-gen-pill${it.card.augmented ? " is-generated" : ""}`}
-                            title={
-                              it.card.augmented
-                                ? "Augmented from the corpus"
-                                : "Not yet augmented"
-                            }
-                            aria-label={
-                              it.card.augmented
-                                ? "Augmented from the corpus"
-                                : "Not yet augmented"
-                            }
-                          >
-                            <i
-                              class="fa-solid fa-sparkles"
-                              aria-hidden="true"
-                            />
-                          </span>
-                          {it.card.episodeCount > 0 && (
-                            <span class="card-episode-count">
-                              {it.card.episodeCount} episodes
-                            </span>
-                          )}
-                        </div>
-                        <div class="card-pipeline-status">
-                          <span class="studio-picker-step">
-                            {it.card.entry.label} · {it.card.entry.detail}
-                          </span>
-                          <div class="studio-picker-bar" aria-hidden="true">
-                            {it.card.steps.map((s) => (
-                              <span
-                                class={`studio-picker-seg${s.state === "done" ? " is-done" : s.state === "active" ? " is-active" : s.state === "blocked" ? " is-blocked" : ""}`}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+                      <BookCard
+                        identity={it.card.identity}
+                        pdfGenerated={it.card.pdfGenerated}
+                        podcastGenerated={it.card.podcastGenerated}
+                        augmented={it.card.augmented}
+                        countLabel={
+                          it.card.episodeCount > 0
+                            ? `${it.card.episodeCount} episodes`
+                            : ""
+                        }
+                        statusLabel={`${it.card.entry.label} · ${it.card.entry.detail}`}
+                        steps={it.card.steps}
+                      />
                     </a>
                   ),
                 )}
@@ -321,9 +203,21 @@ const { shelves, STATUS_FILTERS, statusCount, defaultOn, visibleInShelf } =
       shelf
         .querySelectorAll<HTMLElement>(".studio-shelf-card")
         .forEach((card) => {
-          const show = active.has(card.dataset.status ?? "");
+          const status = card.dataset.status ?? "";
+          // A series deck is `always`: it has no status of its own, and its
+          // volumes each carry theirs on the rows inside it. Before this the
+          // deck's summary had no `data-status` at all, so `active.has("")` was
+          // false on every pass and one chip click hid every deck permanently.
+          const show = status === "always" || active.has(status);
           card.hidden = !show;
           if (show) visible += 1;
+        });
+      // Volume rows inside a deck follow their own status, so a chip narrows
+      // what an OPEN deck lists rather than leaving stale rows on screen.
+      shelf
+        .querySelectorAll<HTMLElement>(".studio-series-vol")
+        .forEach((row) => {
+          row.hidden = !active.has(row.dataset.status ?? "");
         });
       shelf.hidden = visible === 0;
       const count = shelf.querySelector<HTMLElement>(".studio-shelf-count");
