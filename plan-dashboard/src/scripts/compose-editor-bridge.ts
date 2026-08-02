@@ -46,7 +46,22 @@ export function createComposeEditorBridge(
     // as long as they are wanted, and the choice persists per browser.
     showEditDiffRef: { current: false },
     prevStageTextsRef: { current: [] },
-    arabicRef: { current: true },
+    // OFF in the Composer (Asif, 2026-08-02). This decoration replaces a
+    // romanized glossary term with an Arabic chip and hides the romanization in
+    // an `.ar-hidden` span — but the rule that hides it, in
+    // studio-editor-core.css, is scoped to `.studio-editor__editor`, the Edit &
+    // Enrich wrapper. The Composer's host is `.cx-edit-host`, so the rule never
+    // applied and BOTH scripts rendered on top of each other
+    // ("theالْإِمَامَةimamate"). Latent since the Composer adopted this plugin,
+    // and invisible only while the glossary was parsing as zero entries.
+    //
+    // Fixing the CSS scope was the obvious repair and is the wrong one. The
+    // Composer is the surface Asif verifies the PRINTED book on, so it must show
+    // what `book.md` actually says: Arabic that exists only as a view-time
+    // decoration would report a book as fixed while the file still carries the
+    // romanization — exactly the question being worked right now. Arabic reaches
+    // the page through the compose pipeline or it does not reach it at all.
+    arabicRef: { current: false },
     depthLevels,
     glossarySorted,
   };
