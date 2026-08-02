@@ -519,7 +519,12 @@ p {
 }
 /* The runs inside it must NOT inherit the body leading that `.ar-inline` pins —
    here the paragraph's own line-height is the correct one. */
-.ar-block .ar-inline {
+/* Also `blockquote.quran p.ar` (2026-08-02): once `.ar-inline` below carried a
+   1.26em term size, a verse marked up with inline runs multiplied its own
+   display size by it. `.ar-block` had this guard from the start; the Qur'anic
+   blockquote is the same shape and needed it too. */
+.ar-block .ar-inline,
+blockquote.quran .ar-inline {
   line-height: inherit;
   font-size: inherit;
 }
@@ -541,6 +546,19 @@ p {
      word carries too little evidence to call scripture), so they always take the
      non-Qur'anic face. */
   font-family: var(--q-ar-face);
+  /* 1.26em — MIRROR of book-composer.css `.cx-body .ar-inline`, chosen by Asif on
+     2026-08-02 from three candidates rendered side by side in the Composer. The
+     two must carry the same number or the printed page stops matching the
+     surface it is verified in, which is the whole contract of that surface.
+
+     NOT a reinstatement of `size-adjust: 135%` (removed 2026-07-31). That scaled
+     the FACE and so inflated display quotations too, where it was measured and
+     correctly found to tower. This is one selector: a term woven into an English
+     sentence, the case that measurement never covered. A vowelled word stacks
+     three marks into the same ink as the letter, so at parity with the Latin it
+     reads as fine print rather than as a word. Display quotations
+     (`blockquote.quran p.ar`, `.ar-block`) keep --q-ar-size and are untouched. */
+  font-size: 1.26em;
 }
 
 /* ── Quotation blocks ────────────────────────────────────────────────────── */

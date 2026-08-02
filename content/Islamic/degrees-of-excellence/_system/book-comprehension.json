@@ -1,13 +1,13 @@
 {
   "schema": "book.comprehension/v1",
-  "pages": 91,
+  "pages": 92,
   "terms_tracked": 139,
   "prerequisite_gaps": [
     {
       "term": "al-Hakim",
       "first_use_page": 12,
-      "explained_page": 81,
-      "pages_carried": 69,
+      "explained_page": 82,
+      "pages_carried": 70,
       "kind": "explained-late"
     },
     {
@@ -78,23 +78,18 @@
     },
     {
       "page": 7,
-      "words": 171,
+      "words": 141,
       "text": "God, the Exalted, called the imam a messenger when He said: \"And remember in the Scripture, Ismail was indeed faithful in fulfilling his promise while he was a "
     },
     {
-      "page": 71,
+      "page": 72,
       "words": 137,
       "text": "People accept the imams of Adam's age yet deny them in the age of Muhammad, may God bless him, even though God, the Almighty and Glorious, has declared: ‫ُّرُس "
     },
     {
-      "page": 79,
+      "page": 80,
       "words": 137,
-      "text": "Just as the wisdom of the world, and of the animals and plants within it, came to full expression in the emergence of human beings — the wellbeing of all creati"
-    },
-    {
-      "page": 24,
-      "words": 134,
-      "text": "When people deny the legally established testimony, the one bound by nature — namely the horizons and our own inner selves — steps in to remind, to enforce, and"
+      "text": "Just as the wisdom of the world, and of the animals and plants within it, came to full expression in the emergence of human beings — the well-being of all creat"
     },
     {
       "page": 33,
@@ -107,14 +102,14 @@
       "text": "It is on this account that God, the Exalted and Glorious, said: ‫َّن َش‬ ‫ُّص ُّم ْلُب ْك ُم َّل َن َل َي ْع ُل َن‬ ‫ٱ ِذي ا ِق و‬ ‫ِإ َّر ٱلَّد َو ٓاِّب ِعنَد "
     },
     {
-      "page": 80,
+      "page": 81,
       "words": 130,
       "text": "They believe in God and the Last Day ...\" Just as the whole of humanity stands as the final realm of nature (‫ )َم َو اِليد‬in the world, having absorbed all th"
     },
     {
       "page": 34,
-      "words": 128,
-      "text": "The Ladder of Creation And God, the Exalted, said: ‫َو َأْوَح ٰى َر ُّبَك ِإَلى ٱلَّنْح ِل َأِن ٱَّتِخ ِذ ى ِم َن ٱ ْلِج َب اِل ُبُيوًۭتا َو ِم َن ٱلَّش َج ِر‬ "
+      "words": 125,
+      "text": "144) And God, the Exalted, said: ‫َو َأْوَح ٰى َر ُّبَك ِإَلى ٱلَّنْح ِل َأِن ٱَّتِخ ِذ ى ِم َن ٱ ْلِج َب اِل ُبُيوًۭتا َو ِم َن ٱلَّش َج ِر‬ ‫ِك‬ ‫ِل ِم‬ ‫ِم‬ "
     },
     {
       "page": 58,
@@ -122,24 +117,29 @@
       "text": "The Prophet pointed to the imam's place as going before everyone, and he commanded them not to vie with the imam in reciting the Quran (‫)َا ْلُف ْر َقان‬, sayi"
     },
     {
-      "page": 74,
-      "words": 113,
-      "text": "God, the Exalted, said: ‫َأ‬ ‫َأ‬ ‫َفَّض َل ٱُهَّلل ٱْلُم َج ِد يَن ْم َو ِل ْم َو نُف ِس ْم َعَلى ٱْلَق ِعِد يَن‬ ‫ِه‬ ‫ِه ِب ِه‬ \"God has preferred those who "
+      "page": 76,
+      "words": 120,
+      "text": "From Adam to Ali He also said: ‫َّل َن َي ْعَلُم َن َو َّل َن َل َي ْعَلُم َن‬ ‫و‬ ‫و ٱ ِذي ا‬ ‫ٱ ِذي‬ \"Are those who know and those who do not, equal?\" (Az-Zum"
     },
     {
       "page": 57,
-      "words": 111,
+      "words": 113,
       "text": "All of this makes plain that if obedience to a partial ( ‫ )َا ْلُج ْز ِئّي‬imam — one who is not an imam in the absolute sense — is made obligatory, and the re"
     },
     {
-      "page": 23,
-      "words": 109,
-      "text": "God, the Exalted, has told us of this in His words: ‫َو َن‬ ‫َح َّم ُذ‬ ‫ُي َح ُف َن ْلَك َم َع‬ ‫َّم‬ ‫ُس‬ ‫َو‬ ‫ُر‬ ‫ِّر و ٱ ِل ن اِض ِعِهۦۙ و۟ا ًّۭظ ا ِّم ا "
+      "page": 24,
+      "words": 111,
+      "text": "When people deny the legally established testimony, the one bound by nature — namely the horizons and our own inner selves — steps in to remind, to enforce, and"
     },
     {
-      "page": 84,
-      "words": 107,
-      "text": "So the Commander of the Faithful bestowed blessings on the believers for a season as no one else had ever bestowed, and he also withheld from them for a season,"
+      "page": 9,
+      "words": 104,
+      "text": "I wish, therefore, to write a treatise that affirms the imamate by means of evidence (‫ )استشهد‬and deduction (‫ )االستدالل‬drawn from the outer horizons (‫ )َا"
+    },
+    {
+      "page": 23,
+      "words": 97,
+      "text": "God, the Exalted, has told us of this in His words: ‫َن‬ ‫ُذ‬ ‫ُي َح ُف َن ْلَك َع‬ ‫ِّر و ٱ ِلَم ن َّم َواِض ِعِهۦۙ َو ُس و۟ا َح ًّۭظ ا ِّمَّم ا ِّكُر و۟ا ِبِه"
     },
     {
       "page": 66,
@@ -147,24 +147,24 @@
       "text": "We also say: it is agreed by all that legal judgment among the people in matters of bloodshed, sexual offenses, and property may be exercised only by one who kn"
     },
     {
-      "page": 78,
+      "page": 79,
       "words": 96,
       "text": "100-112 W e shall now set down some of the merits of the lord of the age and time (‫)ولي العصر والزمان‬, the Commander of the Faithful (‫— )َا ْلَح ِك يم‬ thoug"
     },
     {
-      "page": 72,
+      "page": 73,
       "words": 94,
       "text": "The ark was none other than the imam himself, and Noah's call to the people was a call to the imam — just as the Prophet said: \"The likeness of my family (‫ )َأ"
+    },
+    {
+      "page": 85,
+      "words": 92,
+      "text": "So the Commander of the Faithful bestowed blessings on the believers for a season as no one else had ever bestowed, and he also withheld from them for a season,"
     },
     {
       "page": 44,
       "words": 91,
       "text": "They arise from disputes among people; from their arbitrary desires and their leaning toward leisure, comfort, and self-display; from innovation, worldly ambiti"
-    },
-    {
-      "page": 90,
-      "words": 90,
-      "text": "This servant begs and longs for the blessings of the Commander of the Faithful (‫)ع‬, and seeks the supreme command (‫ )اَأْلْم ُر اْلَع اِلي‬to examine what th"
     },
     {
       "page": 16,
