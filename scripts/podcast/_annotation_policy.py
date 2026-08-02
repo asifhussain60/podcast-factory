@@ -37,9 +37,12 @@ that is what keeps fabricated spellings structurally impossible here.
 
 What each class means downstream (enforced in `_book_inline_arabic`):
 
-    teach      first use IN THE BOOK gets name + script — `his gate (bab, باب)`
-               when the prose glosses the term, `the natiq (الناطق)` when the
-               prose uses the term itself. Never repeated.
+    teach      first use IN THE BOOK gets the SCRIPT — `his gate (باب)` when the
+               prose glosses the term, `the natiq (الناطق)` when the prose uses
+               the term itself. Never repeated. (Until 2026-08-02 a gloss kept
+               the romanisation beside the script, `(bab, باب)`; Asif's rule is
+               now zero Latin-script Arabic inside a gloss, and the script is
+               vowelled by 5a-vowelling so it reads for someone who needs it.)
     familiar   no annotation, ever. The English form IS the word.
     name       first use in the book gets the script appended, once. The
                romanisation stays — it is how an English reader says the name.
@@ -65,6 +68,10 @@ _EQUIV_FIELD = "english_equivalent"
 _REASON_FIELD = "annotation_reason"
 _REPORT_NAME = "annotation-policy-report.json"
 _CLASSIFY_TIMEOUT = 900
+#: Terms per classifier call. Mirrors fill_glossary_arabic.BATCH_SIZE — the same
+#: reasoning (a prompt small enough to finish inside the timeout), and the same
+#: number so the two batching schemes are not gratuitously different.
+_CLASSIFY_BATCH = 40
 
 
 class AnnotationPolicyError(ValueError):
@@ -119,7 +126,7 @@ of this material:
 
   teach     A technical term this book itself TEACHES — its own doctrinal/technical
             vocabulary that an interested reader should be able to NAME and look up.
-            It will be introduced once (name + Arabic script) and then used plainly.
+            It will be introduced once, in Arabic script, and then used plainly.
   familiar  Has an established English form that educated readers already recognize
             (e.g. Quran, hadith, imam as a common noun, Mount Sinai, Kaaba, famous
             prophets and caliphs). Prints as plain English with no apparatus.
@@ -223,41 +230,71 @@ def propose_annotation_policy(
         }
         for e in targets
     ]
-    prompt = _classifier_prompt(meta_title, rows)
 
-    if classifier is not None:
-        raw = classifier(prompt)
-    else:
-        from _authoring._core import _run_claude_p_with_retry
+    def _classify(batch: list[dict]) -> dict[str, dict]:
+        prompt = _classifier_prompt(meta_title, batch)
+        if classifier is not None:
+            raw = classifier(prompt)
+        else:
+            from _authoring._core import _run_claude_p_with_retry
 
-        rc, out, err = _run_claude_p_with_retry(
-            prompt,
-            timeout=_CLASSIFY_TIMEOUT,
-            book_dir=book_dir,
-            phase="0book-annotation-policy",
-            step="classify-glossary",
-            log=log,
-        )
-        if rc != 0:
-            raise AnnotationPolicyError(f"classifier failed rc={rc}: {str(err)[:200]}")
-        raw = out
+            rc, out, err = _run_claude_p_with_retry(
+                prompt,
+                timeout=_CLASSIFY_TIMEOUT,
+                book_dir=book_dir,
+                phase="0book-annotation-policy",
+                step="classify-glossary",
+                log=log,
+            )
+            if rc != 0:
+                raise AnnotationPolicyError(f"classifier failed rc={rc}: {str(err)[:200]}")
+            raw = out
+        return {p["phonetic"]: p for p in _parse_classification(raw) if p["phonetic"]}
 
-    proposed = {p["phonetic"]: p for p in _parse_classification(raw) if p["phonetic"]}
-    missing = [r["phonetic"] for r in rows if r["phonetic"] not in proposed]
-    if missing:
-        # Refuse a partial classification rather than leave a silent mixed state:
-        # an unclassified term keeps legacy per-chapter behaviour, so "half done"
-        # would print two different conventions in one book.
-        raise AnnotationPolicyError(f"classifier omitted {len(missing)} term(s): {', '.join(missing[:5])}")
-
-    for e in entries:
-        p = proposed.get(str(e.get("phonetic") or "").strip())
-        if not p:
-            continue
-        e[_CLASS_FIELD] = p["class"]
-        if p["english_equivalent"]:
-            e[_EQUIV_FIELD] = p["english_equivalent"]
-        e[_REASON_FIELD] = p["reason"]
+    # BATCHED, and written after each batch (2026-08-02).
+    #
+    # This was one call over every unclassified term, and it REFUSED a partial
+    # answer — correctly, because a half-classified book prints two conventions:
+    # an unclassified term falls back to `legacy`, which annotates once per
+    # CHAPTER instead of once per book. But the refusal threw away the batches
+    # that HAD succeeded, and the caller records the raise as a skip, so one
+    # omitted term out of 182 left the entire book unclassified and MORE
+    # annotated than before. The check is right; its scope was wrong.
+    #
+    # Now: 40 at a time (mirroring `fill_glossary_arabic.BATCH_SIZE`), each batch
+    # written before the next is attempted, one retry for a batch's omissions.
+    # A batch that fails twice still raises — but everything before it is durable
+    # and `only_unclassified=True` makes the next run resume for free.
+    by_phonetic = {str(e.get("phonetic") or "").strip(): e for e in entries}
+    all_proposed: dict[str, dict] = {}
+    classified = 0
+    for start in range(0, len(rows), _CLASSIFY_BATCH):
+        batch = rows[start : start + _CLASSIFY_BATCH]
+        proposed = _classify(batch)
+        missing = [r["phonetic"] for r in batch if r["phonetic"] not in proposed]
+        if missing:
+            retry = _classify([r for r in batch if r["phonetic"] in missing])
+            proposed.update(retry)
+            missing = [r["phonetic"] for r in batch if r["phonetic"] not in proposed]
+        if missing:
+            save_glossary(path, entries, {"schema_version": 1})  # keep what worked
+            raise AnnotationPolicyError(
+                f"classifier omitted {len(missing)} term(s) twice: {', '.join(missing[:5])} "
+                f"({classified} already classified and saved)"
+            )
+        all_proposed.update(proposed)
+        for phonetic, p in proposed.items():
+            e = by_phonetic.get(phonetic)
+            if not e:
+                continue
+            e[_CLASS_FIELD] = p["class"]
+            if p["english_equivalent"]:
+                e[_EQUIV_FIELD] = p["english_equivalent"]
+            e[_REASON_FIELD] = p["reason"]
+            classified += 1
+        save_glossary(path, entries, {"schema_version": 1})
+        if len(rows) > _CLASSIFY_BATCH:
+            log(f"    annotation-policy: {min(start + _CLASSIFY_BATCH, len(rows))}/{len(rows)} classified")
 
     # Through the ONE writer (2026-08-02). This used to be `yaml.safe_dump`, which
     # emits `- phonetic: x` at column 0 unquoted — valid YAML that three
@@ -268,10 +305,10 @@ def propose_annotation_policy(
     save_glossary(path, entries, {"schema_version": 1})
     report = {
         "schema": "book.annotation-policy/v1",
-        "classified": len(proposed),
+        "classified": len(all_proposed),
         "skipped": len(entries) - len(targets),
-        "by_class": {c: sum(1 for p in proposed.values() if p["class"] == c) for c in ANNOTATION_CLASSES},
-        "proposals": sorted(proposed.values(), key=lambda p: (p["class"], p["phonetic"].lower())),
+        "by_class": {c: sum(1 for p in all_proposed.values() if p["class"] == c) for c in ANNOTATION_CLASSES},
+        "proposals": sorted(all_proposed.values(), key=lambda p: (p["class"], p["phonetic"].lower())),
     }
     (book_dir / "_system" / _REPORT_NAME).write_text(
         json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
