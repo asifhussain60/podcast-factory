@@ -154,3 +154,7 @@
 {"phase": "0book-companion", "step": "comp-chapter-9-god-s-vicegerent-in-hi", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-companion", "step": "comp-corpus-9-god-s-vicegerent-in-hi", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-companion", "step": "comp-judge-9-god-s-vicegerent-in-hi", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-augment", "step": "aug-degrees-of-excellence", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}

@@ -1,61 +1,35 @@
 {
   "schema": "podcast.book-fluency/v5",
   "narrative_frame": "first_person_author",
-  "adapted": 10,
+  "adapted": 1,
   "reverted": 0,
   "overwritten_by_replay": 0,
   "chapters": [
     {
       "title": "The Question of Leadership",
-      "base_words": 1215,
-      "output_words": 1251,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "editorial_queries": [],
-      "comprehension_flags": [],
-      "terminology_notes": []
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
     },
     {
       "title": "The Pole and Foundation of Religion",
-      "base_words": 1206,
-      "output_words": 1223,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "editorial_queries": [
-        "\"the imams descended from the martyr\" names no martyr, so the reader cannot tell which figure the lineage traces to."
-      ],
-      "comprehension_flags": [
-        "The cyclical scheme \u2014 a messenger becoming \"the seventh imam of that cycle\" \u2014 assumes a doctrine of prophetic cycles that a general reader will not know and this pass cannot introduce."
-      ],
-      "terminology_notes": [
-        "dawa \u2014 fix one spelling book-wide for the missionary enterprise, since it recurs and could drift to \"da'wa\"/\"dawah\"."
-      ]
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
     },
     {
       "title": "By Nature and by Reason",
-      "base_words": 2173,
-      "output_words": 2193,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "editorial_queries": [],
-      "comprehension_flags": [],
-      "terminology_notes": [
-        "parenthetical transliterations (wujub, jibla, fitra, etc.) \u2014 the source carries these beside terms; a book-wide decision on whether to retain or strip them should be standardized, since this pass is not authorized to add or remove them."
-      ]
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
     },
     {
       "title": "Degrees of Excellence",
-      "base_words": 1351,
-      "output_words": 1327,
+      "base_words": 1352,
+      "output_words": 1367,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
@@ -64,98 +38,50 @@
       "editorial_queries": [],
       "comprehension_flags": [],
       "terminology_notes": [
-        "\"gravity\" (in \"purity, radiance, and gravity\") \u2014 rendered here as \"weight\"; standardize whichever of weight/heaviness/specific-weight the book uses elsewhere for this mineral property."
+        "\"imam\" \u2014 the source lowercases this term throughout; standardize on lowercase \"imam\" book-wide unless the book elsewhere capitalizes it."
       ]
     },
     {
       "title": "The Ladder of Creation",
-      "base_words": 2533,
-      "output_words": 2634,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "editorial_queries": [],
-      "comprehension_flags": [],
-      "terminology_notes": [
-        "imam \u2014 the source lowercases \"imam\" throughout while capitalizing pronouns for God is not in play here; confirm whether the book's house style capitalizes \"Imam\" so it is rendered the same way on every occurrence book-wide."
-      ]
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
     },
     {
       "title": "The Physician of Souls",
-      "base_words": 3049,
-      "output_words": 3142,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "editorial_queries": [],
-      "comprehension_flags": [],
-      "terminology_notes": [
-        "al-Hakim \u2014 appears once as \"the Wise One (al-Hakim)\" in [41] and once bracketed as \"[al-Hakim]\" apposed to \"the Commander of the Faithful\" in [39]; the two uses should be reconciled book-wide, since one names God and the other apparently names the imam."
-      ]
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
     },
     {
       "title": "Governance and the First Principle",
-      "base_words": 1520,
-      "output_words": 1582,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "editorial_queries": [],
-      "comprehension_flags": [],
-      "terminology_notes": [
-        "hudud \u2014 the source glosses it as \"the ranks of the hierarchy\"; this rendering should be standardized book-wide wherever the term recurs."
-      ]
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
     },
     {
       "title": "The Imam in the Pillars of Faith",
-      "base_words": 4110,
-      "output_words": 4151,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "editorial_queries": [],
-      "comprehension_flags": [],
-      "terminology_notes": [
-        "id feasts \u2014 should be standardized book-wide against however the book renders the two annual festivals (for example \"Id\" vs \"Eid\"), since it recurs across the zakat and khums passages."
-      ]
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
     },
     {
       "title": "From Adam to Ali",
-      "base_words": 2108,
-      "output_words": 2128,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "editorial_queries": [],
-      "comprehension_flags": [],
-      "terminology_notes": []
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
     },
     {
       "title": "God's Vicegerent in His Time",
-      "base_words": 4006,
-      "output_words": 4044,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "editorial_queries": [],
-      "comprehension_flags": [
-        "The numerical reckonings that call the Commander of the Faithful the sixth, seventh, ninth, and second at once \u2014 keyed to al-Muizz, al-Hakim, the four natures and five senses, and the start of each cycle \u2014 may leave a modern reader unable to follow how the same figure is counted several ways without help this pass is not authorized to add."
-      ],
-      "terminology_notes": [
-        "qaim \u2014 left untransliterated-italic and lowercase here; confirm the book's standard casing/spelling for this term and for \"vicegerent\"/\"vicegerency\" across chapters."
-      ]
+      "status": "composer-edit",
+      "windows": 0,
+      "windows_kept": 0,
+      "superseded_status": "adapted"
     }
   ]
 }

@@ -2,7 +2,7 @@ schema_version: 1
 entries:
 - phonetic: al-Naysaburi
   transliteration: al-Naysaburi
-  arabic_script: النيسابوري
+  arabic_script: اَلنَّيْسَابُورِي
   audio_phonetic: an-nay-saa-boo-ree
   first_seen_snippet: uces the man himself — Ahmad b. Ibrahim al-Naysaburi, a scholar
     so quietly influential that
@@ -47,7 +47,7 @@ entries:
     and a reader may want to cite.
 - phonetic: zakat
   transliteration: zakat
-  arabic_script: الزكاة
+  arabic_script: اَلزَّكَاة
   audio_phonetic: za-kaah
   first_seen_snippet: case against him. Begin with alms, the zakat, which he calls
     among the most emphatic

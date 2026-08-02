@@ -1,7 +1,54 @@
 # Current work - status
 
-**Last updated:** 2026-08-01 (cited scripture now carries its Arabic; the LIVE
-Session is retired; all gates PASS)
+**Last updated:** 2026-08-01 evening (every citation names its surah; the book is
+re-composed and re-rendered; all gates PASS)
+
+**Newest — `(2:24)` reaches the page as `(Al-Baqarah: 24)`.**
+
+Asif: "2:24 should be replaced by (Al-Baqarah: 24). This should be done for all
+pdfs moving forward." A bare number is a lookup key, not a reference — it asks a
+reader who does not read Arabic to already know which surah 2 is.
+
+- **One house form, `(Name: ayah)`**, and every shape collapses onto it. "Quran"
+  goes with the number, because once the surah is named it says nothing the name
+  does not. A range keeps both ends: `(Ibrahim: 24-26)`. All 23 citations in
+  `degrees-of-excellence` renamed; the rendered PDF carries 23 named and zero
+  numeric.
+- **The rename is readable by its own pipeline**, which is the whole risk.
+  `find_citations` reads BOTH forms, so a re-compose still finds the book's 23
+  cited verses instead of reporting a book that cites none and quietly ceasing to
+  maintain their Arabic. The named pattern is not a general "word: number" — the
+  text must BE one of the 114 names, so `(see: 24)` is never scripture.
+- The names are the site's own 114, now **pinned to one shared fixture** and
+  declared in the audit contract.
+
+**Q 6:149 was never missing — the page break hid it.**
+
+The scan opens the ornate run at the foot of page 192 and finishes it at the head
+of 193, with that page's thirteen apparatus notes, the running header and the
+folio number between the halves. A perfect four-word quotation scored 0.02 against
+its own span and was discarded. Fixed in the tracked OCR ledger — **brackets only,
+not one letter moves** — after two attempts in the alignment were measured and
+reverted: a span-gap rule recovered 6:149 but cost Q 17:77 its opening two words,
+and preferring the fuller search would have printed twelve words of Q 68:43 where
+the scan prints seven. **Coverage is 23 of 23.**
+
+**Two things the re-compose surfaced.**
+
+- **The mirror stores some ayat inside a U+200F … U+200E pair**, and each caller
+  was responsible for remembering to strip it. Two did; `_book_compose` did not,
+  and put both marks into a printed verse. Stripped at the mirror's boundary now,
+  so forgetting is no longer possible.
+- **The one chapter without a Composer edit drifted.** Every other chapter is
+  human-authored and passes through untouched, but "3. Degrees of Excellence" was
+  re-articulated: four `I say` became `We say` against the book's own voice, and
+  `Abraham (ع)` lost its honorific — an Arabic-retention miss the revoice gate did
+  not catch. Restored from the prior text and the deterministic passes re-applied.
+  **It will drift again on every compose until it is saved once in the Composer**,
+  which is what pins a chapter.
+
+Gates: pytest 2,138 · site tests 364 · smoke 36 clean · lint:views 0 · astro check
+0 errors · repo probe 1 pre-existing P3. PDF re-rendered at 91 pages.
 
 **Newest — the book quoted 23 verses and printed the Arabic of two.**
 

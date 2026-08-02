@@ -14,7 +14,7 @@ The recurring terms cluster tightly around this one theme. *Qutb* (pole), *hudud
 ### The book's own opening
 <!-- edition-intro:end -->
 
-The imamate (الْإِمَامَة) is the pole (qutb, قُطْب) and the foundation of religion (asas al-din). All religious and worldly affairs turn upon it, and it is a benefit for this present life and for the life to come. Through it the affairs of God's servants are set in order, the land prospers, and reward is accepted in the abode of return. It is through the imamate that one attains, by proof, demonstration, and evidence, the knowledge of God's absolute unity (tawhid) and of the revealed Message, and likewise the knowledge of the religious law, its foundations, its interpretation (tawil), and its clarification.
+The imamate is the pole (qutb, قُطْب) and the foundation of religion (asas al-din). All religious and worldly affairs turn upon it, and it is a benefit for this present life and for the life to come. Through it the affairs of God's servants are set in order, the land prospers, and reward is accepted in the abode of return. It is through the imamate that one attains, by proof, demonstration, and evidence, the knowledge of God's absolute unity (tawhid) and of the revealed Message, and likewise the knowledge of the religious law, its foundations, its interpretation (tawil), and its clarification.
 
 I have called the imamate the pole and foundation of religion, and I have not placed the messengership ahead of it, because to affirm the imamate is already to affirm the messengership. Whoever acknowledges the imam acknowledges the messenger, but not everyone who acknowledges the messenger acknowledges the reality of the imam. Proof of the messengership is needed by those who stand outside the domain of Islam, whereas affirming the imamate is what Muslims require, and they are nearer to the true believers. To strive with them through debate and argument therefore takes priority over striving against those who deny the messenger and the messengership. For the summons to Islam and to the messengership has already reached the polytheists, and the proof has been established against them, so that meeting them with the sword is the more fitting course. Furthermore, the world can never be without an imam at any moment, whereas the messenger is present at some times and absent at others. For all these reasons, to affirm the imamate is also to affirm the messengership.
 
@@ -32,7 +32,7 @@ This came after Abraham had completed his messengership, for God, the Exalted, s
 
 > "And remember when His Lord tried Abraham with His commands and he fulfilled them, He said: I am appointing you an imam for all humanity."
 
-It is related from Jafar al-Sadiq (عليه السلام) that he said:
+It is related from Jafar al-Sadiq (عَلَيْهِ السَّلَامُ) that he said:
 
 > "God chose Abraham first as a prophet (nabi), then as a friend (khalil), then as a messenger (rasul), and finally said: I am appointing you an imam for all humanity."
 
@@ -131,13 +131,13 @@ God, the Exalted, established these elements, means, and natural causes so firml
 
 > يُحَرِّفُونَ ٱلْكَلِمَ عَن مَّوَاضِعِهِۦ ۙ وَنَسُوا۟ حَظًّۭا مِّمَّا ذُكِّرُوا۟ بِهِۦ
 
-"…changing words from their context while they forgot a portion of what We have reminded them of." (5:13)
+"…changing words from their context while they forgot a portion of what We have reminded them of." (Al-Ma'idah: 13)
 
 And God, Whose mention is exalted, has also said:
 
 > إِنَّمَا ٱلنَّسِىٓءُ زِيَادَةٌۭ فِى ٱلْكُفْرِ
 
-"Indeed, forgetfulness is only an excess of disbelief…" (9:37)
+"Indeed, forgetfulness is only an excess of disbelief…" (At-Tawbah: 37)
 
 Yet what they committed was not forgetfulness at all. They abandoned the testimony deliberately, as though they had never seen it and never heard it.
 
@@ -145,13 +145,13 @@ Just as the testimony of the outer horizons and the inner selves is compulsory r
 
 > تَضِلَّ إِحْدَىٰهُمَا فَتُذَكِّرَ إِحْدَىٰهُمَا ٱلْأُخْرَىٰ ۚ وَلَا يَأْبَ ٱلشُّهَدَآءُ إِذَا مَا دُعُوا۟
 
-"If one of them falls into error, the other will remind. And the witnesses must not refuse when they are summoned." (2:282)
+"If one of them falls into error, the other will remind. And the witnesses must not refuse when they are summoned." (Al-Baqarah: 282)
 
 By this He meant that true judgment in religion, and in affirming the imamate and the hierarchies, rests upon two witnesses: one established by law and the other compelled by nature. When people deny the legally established testimony, the one bound by nature — namely the horizons and our own inner selves — steps in to remind, to enforce, and to verify the conventional witnesses, just as God, the Exalted, says:
 
 > سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ
 
-"We shall show them Our signs on the horizons and within themselves until it becomes manifest to them that it is the Truth." (41:53)
+"We shall show them Our signs on the horizons and within themselves until it becomes manifest to them that it is the Truth." (Fussilat: 53)
 
 And in the same way, when the Prophet was asked, "Who is the witness of your prophethood?" he answered:
 
@@ -181,7 +181,7 @@ I say further that among the four elements (al-arkan), the highest and noblest i
 
 > يُرِيدُونَ أَن يُطْفِـُٔوا۟ نُورَ ٱللَّهِ بِأَفْوَهِهِمْ وَيَأْبَى ٱللَّهُ إِلَّآ أَن يُتِمَّ نُورَهُۥ وَلَوْ كَرِهَ ٱلْكَفِرُونَ
 
-> They would like to extinguish God's light with their mouths, but God will not allow that to happen until He perfects His light, even if the unbelievers may detest it. (9:32)
+> They would like to extinguish God's light with their mouths, but God will not allow that to happen until He perfects His light, even if the unbelievers may detest it. (At-Tawbah: 32)
 
 I also hold that among the many planets (kawakib) there are differences and gradations in degrees of excellence. Their peak and summit in nobility and merit is the sun, through which physical eyesight draws its light and through which all plants, animals, and newborns grow and reach their perfection. No plant or newborn grows without the influence of the sun. Likewise, the imam is the sun of the religion, through which insight is enlightened and souls are illumined by the light of guidance and wisdom, radiating through the hearts of God's friends. It is for this reason that some people were moved to glorify the sun. Yet the sun worshippers too fell into confusion, grasping only the symbol without recognizing the reality it signified. For this reason the Prophet, may God bless him, spoke of the rising of the sun from the west as a sign of the imam's own rising (ع) in the Maghrib.
 
@@ -205,6 +205,7 @@ I hold that there are seven grains that give human beings food and nourishment, 
 
 Section Six
 
+
 As for the trees that bear fruit, the highest and most excellent of them is the date palm. It is like human beings in having male and female, and it needs to be fertilized just as animals need to mate. What is more, every part of the date palm is useful and nothing about it is wasted: its fruit can be eaten at any time, whether raw or cooked. If a sleeper dreams that he is picking dates from a date palm, the meaning is that he will receive some benefit from a certain believer. That believer, in truth, is the imam, who is the head of all believers.
 
 I say, too, that among plants certain gentle medicines have reached so fine a degree of excellence that they have become antidotes (tiryaqan) for those on the point of death. Some of these cure long-standing diseases, while others rank lower. The highest and most excellent of them points to the imam.
@@ -213,13 +214,13 @@ The imam and his word become an antidote for souls, a means of healing and of re
 
 > حَصَبُ جَهَنَّمَ أَنتُمْ لَهَا وَرِدُونَ
 
-"... pebble-covered hell where you will return." (Quran 21:98)
+"... pebble-covered hell where you will return." (Al-Anbiya: 98)
 
 And His words:
 
 > فَٱتَّقُوا۟ ٱلنَّارَ ٱلَّتِى وَقُودُهَا ٱلنَّاسُ وَٱلْحِجَارَةُ ۖ أُعِدَّتْ لِلْكَفِرِينَ
 
-"... and guard yourself against the Fire that has been ignited for the people and the stones that have been prepared for the non-believers." (Quran 2:24)
+"... and guard yourself against the Fire that has been ignited for the people and the stones that have been prepared for the non-believers." (Al-Baqarah: 24)
 
 I say, too, that among animals the horse is the finest, among birds the eagle, and among beasts of prey the lion holds the first place. The differences among these various kinds — in strength, usefulness, capacity to be trained, and the height each reaches within its own species — point to the fact that there is a summit within the genus of animals, just as within the human species that summit is the imam (ع).
 
@@ -227,7 +228,7 @@ I say further that some plants are sweet, delicious, and pleasing, and people be
 
 > أَلَمْ تَرَ كَيْفَ ضَرَبَ ٱللَّهُ مَثَلًۭا كَلِمَةًۭ طَيِّبَةًۭ كَشَجَرَةٍۢ طَيِّبَةٍ أَصْلُهَا ثَابِتٌۭ وَفَرْعُهَا فِى ٱلسَّمَآءِ تُؤْتِىٓ أُكُلَهَا كُلَّ حِينٍۭ بِإِذْنِ رَبِّهَا ۗ وَيَضْرِبُ ٱللَّهُ ٱلْأَمْثَالَ لِلنَّاسِ لَعَلَّهُمْ يَتَذَكَّرُونَ وَمَثَلُ كَلِمَةٍ خَبِيثَةٍۢ كَشَجَرَةٍ خَبِيثَةٍ ٱجْتُثَّتْ مِن فَوْقِ ٱلْأَرْضِ مَا لَهَا مِن قَرَارٍۢ
 
-"The example of a good word is like a good tree whose roots are firmly established and whose branches reach the heavens, giving its fruit perpetually in every season by the permission of its Lord. So God sets forth similitudes for mankind in order that they may reflect. And the similitude of a bad word is like that of a bad tree uprooted from the top of the earth, having no stability." (Quran 14:24-26)
+"The example of a good word is like a good tree whose roots are firmly established and whose branches reach the heavens, giving its fruit perpetually in every season by the permission of its Lord. So God sets forth similitudes for mankind in order that they may reflect. And the similitude of a bad word is like that of a bad tree uprooted from the top of the earth, having no stability." (Ibrahim: 24-26)
 
 I say, too, that some plants are sweet-smelling, their fragrance reviving people and healing them of every disease and ailment. The height of their goodness and fragrance is a symbol of the imam and his words, which revive people and bring them ease, while the foul, repellent, and offensive plants point to the imams of error, whose speech harms souls and may even destroy them.
 
@@ -239,7 +240,7 @@ And God, the Exalted, said:
 
 > وَأَوْحَىٰ رَبُّكَ إِلَى ٱلنَّحْلِ أَنِ ٱتَّخِذِى مِنَ ٱلْجِبَالِ بُيُوتًۭا وَمِنَ ٱلشَّجَرِ وَمِمَّا يَعْرِشُونَ ثُمَّ كُلِى مِن كُلِّ ٱلثَّمَرَتِ فَٱسْلُكِى سُبُلَ رَبِّكِ ذُلُلًۭا ۚ يَخْرُجُ مِنۢ بُطُونِهَا شَرَابٌۭ مُّخْتَلِفٌ أَلْوَنُهُۥ فِيهِ شِفَآءٌۭ لِّلنَّاسِ
 
-"And your Lord inspired the bee to choose its homes in the mountains and on the trees and on that which they thatch; then eat from all the fruits and follow the path of your Lord skillfully, that He has made smooth for you. From within its bellies a drink of varying colors comes forth in which there is healing for mankind ..." (Quran 16:68-69)
+"And your Lord inspired the bee to choose its homes in the mountains and on the trees and on that which they thatch; then eat from all the fruits and follow the path of your Lord skillfully, that He has made smooth for you. From within its bellies a drink of varying colors comes forth in which there is healing for mankind ..." (An-Nahl: 68-69)
 
 In the same way, I say that humankind is the highest among the animals and within all the realms of nature. Whatever advantage lies in everything created before mankind — principles, derivatives, and the realms of nature alike — returns in the end to humankind. The merits of the world, of animals, of plants, and of all other things are held within the human being; their benefit, their glory, their value, and their goodness all become plain through mankind. Were it not for mankind, the merit of all things would never appear, nor would the order of the world hold together. Nothing would be complete, no benefit would come, and nothing would be preserved, whether from plants or from animals. It is the human being who masters water and irrigates the land, bringing it under rational control and drawing it out of valleys, rivers, and wells. It is man who tills the earth, cultivates it, raises dwellings upon it, and waters plants and fields, bringing the land under his rational governance.
 
@@ -249,13 +250,13 @@ Just as the benefit of all animals and of everything before them returns to mank
 
 > إِنَّ شَرَّ ٱلدَّوَآبِّ عِندَ ٱللَّهِ ٱلصُّمُّ ٱلْبُكْمُ ٱلَّذِينَ لَا يَعْقِلُونَ
 
-"For the worst of beasts in the sight of God are the deaf and dumb, those who understand not." (Quran 8:22)
+"For the worst of beasts in the sight of God are the deaf and dumb, those who understand not." (Al-Anfal: 22)
 
 The Exalted also said:
 
 > أُو۟لَٓئِكَ كَٱلْأَنْعَمِ بَلْ هُمْ أَضَلُّ ۚ أُو۟لَٓئِكَ هُمُ ٱلْغَفِلُونَ
 
-"They are like cattle, nay, more misguided, for they are heedless of warning." (Quran 7:179)
+"They are like cattle, nay, more misguided, for they are heedless of warning." (Al-A'raf: 179)
 
 Were there no humanity, there would be no wisdom in the creation of animals and plants, for there would be no one to benefit from them. In the same way, were it not for the imams (عَلَيْهِمُ السَّلَامُ), there would be no wisdom in the creation of humanity, and their superiority would never become plain. Human beings have been created for religion and for the gaining of virtues and knowledge. So learn knowledge and religion from the imams (عَلَيْهِمُ السَّلَامُ), for through them religion is established and made complete. If the excellence of man were not made plain through religion, then the value of plants and animals would not become known either, and there would be no wisdom in the creation of humanity, plants, and animals. And if there were no wisdom in their creation, there would be no wisdom in the creation of all the worlds.
 
@@ -263,7 +264,7 @@ It is therefore true to say that all the worlds, the whole of natural creation, 
 
 > أَفَآءَ ٱللَّهُ عَلَىٰ رَسُولِهِۦ مِنْ أَهْلِ ٱلْقُرَىٰ فَلِلَّهِ وَلِلرَّسُولِ
 
-"And that which God bestows on the Messenger from the people of the villages, it is for God and His Messenger." (Quran 59:7)
+"And that which God bestows on the Messenger from the people of the villages, it is for God and His Messenger." (Al-Hashr: 7)
 
 The word "bestowal" (fay) means "return," and it is for this reason that a shadow is called fay, because it returns to the place from which it first came. The whole world comes from the fortune and property of the imams, and whatever returns to their property is, in truth, a fay, a return.
 
@@ -314,7 +315,7 @@ For the risk and the danger in treating the soul are greater than those in treat
 > وَلَوْ يُؤَاخِذُ ٱللَّهُ ٱلنَّاسَ بِمَا كَسَبُوا۟ مَا تَرَكَ عَلَىٰ ظَهْرِهَا مِن دَآبَّةٍۢ
 
 > If God took humanity to task for what they deserve, He would not leave a [single] living creature on the surface of the earth ...
-> (Quran, 35: 45)
+> (Fatir: 45)
 
 We also say that wise men and men of insight, when they cultivate the world, regard their work as an image of God's own acts in creating the world, ordering its surroundings, and preserving human welfare. When they find good, fertile land, they know it will take seed and bring forth growth. When they discover water in distant deep valleys or beneath the ground, they labor to draw it out by digging canals and wells, directing that water to the fertile lands. They see no wisdom in leaving good, fertile land idle and wasted, or in leaving water untapped, for they are moved by compassion for living creatures and by concern for their welfare and the flourishing of the world.
 
@@ -354,9 +355,11 @@ I say also that God, the Exalted, created human beings deficient and ignorant so
 
 Moreover, were it not for the imams, humanity would bear no responsibility, and there would be no guarantor and no proof set over them. The imams, therefore, are God's proofs to His creation at all times, from the very beginning of their moral responsibility and whenever they fall into disagreement. If people fell into sectarian strife, each group citing a verse of the Quran, a hadith, or an analogy, no proof would stand for any of them against the others. If there were no imam in the world to rescue them from disagreement, confusion, and bewilderment and to guide them to the Truth, then God would have no proof against His creatures. Rather, the creatures would have a proof against God, for they would say: "We found no one to guide us from falsehood to the truth." It is through the imam, then, that God's proof is established over the people, just as God, the Exalted, said:
 
-> "Say, to God belongs the most apparent proof." (Quran, 6:149)
+> فَلِلَّهِ ٱلْحُجَّةُ ٱلْبَلِغَةُ
 
-I say also that the rules and principles ascribed to the sages are, in truth, the teachings of the imams (عَلَيْهِمُ السَّلَامُ). From them people drew the foundations of every branch of knowledge and wisdom, arithmetic and geometry among them. Each discipline has a purpose and a final point that leads back to the imam. Among the geometric figures — the squares, the triangles, the arcs, and all the rest — the highest is the circle. The circle is the best and most perfect of all figures, and it is the foundation from which every other figure can be derived: the square, the triangle, and the arc alike. When a circle is divided, a square appears and arcs remain at the edges; and if we extend the horizontal and the vertical lines, four triangles come forth. Every other figure is derived from the circle, and every figure is contained within it. The relation of the figures to one another mirrors the world and creation. Among the figures, the circle serves as a proof and a symbol of the imam, who is the circle of religion (dairat al-din). All the hudud (الْحُدُود), the ranks of the hierarchy, fall within his command and his prohibition and draw their benefit from him. The circle needs no other figure, while every other figure needs it, just as the imam needs no other rank of the hierarchy in his age and his time, while all the ranks need him, and he encompasses them all.
+> "Say, to God belongs the most apparent proof." (Al-An'am: 149)
+
+I say also that the rules and principles ascribed to the sages are, in truth, the teachings of the imams (عَلَيْهِمُ السَّلَامُ). From them people drew the foundations of every branch of knowledge and wisdom, arithmetic and geometry among them. Each discipline has a purpose and a final point that leads back to the imam. Among the geometric figures — the squares, the triangles, the arcs, and all the rest — the highest is the circle. The circle is the best and most perfect of all figures, and it is the foundation from which every other figure can be derived: the square, the triangle, and the arc alike. When a circle is divided, a square appears and arcs remain at the edges; and if we extend the horizontal and the vertical lines, four triangles come forth. Every other figure is derived from the circle, and every figure is contained within it. The relation of the figures to one another mirrors the world and creation. Among the figures, the circle serves as a proof and a symbol of the imam, who is the circle of religion (dairat al-din). All the hudud, the ranks of the hierarchy, fall within his command and his prohibition and draw their benefit from him. The circle needs no other figure, while every other figure needs it, just as the imam needs no other rank of the hierarchy in his age and his time, while all the ranks need him, and he encompasses them all.
 
 I say also that the origin and source of numbers is the number one. It is the most perfect of numbers, standing independent of two and of everything above it up to a thousand, while the thousand and everything below it depends upon the number one. The imam is uniquely one in his age and his time: all the ranks of the hierarchy need him, while he needs none of them. Some may suppose that the number one points to the Creator of all creatures, but this is mistaken, for the number one is the cause of mathematics and the foundation of numbers, since two is one plus one, and three is one plus one plus one, and so on. Rather, the one truly signifies the imam in his rank and his station, unique and without equal. No other creature in his age and his time shares his place.
 
@@ -382,7 +385,7 @@ All of this points to obedience to the imams (عَلَيْهِمُ السَّل�
 
 If the imam were to withhold forgiveness and the acceptance of repentance from this community (umma), they would surely perish, for they stand in the greatest need of forgiveness. What endures, in every age and every time, is this: whoever comes to the imam, the imam seeks forgiveness for him, and God forgives him, just as He forgave those earlier people.
 
-I say also that the Friday prayer is not valid without the sermon (khutba, اَلْخُطْبَة) delivered from the pulpits (manabir). People pray behind the imam so that they may understand that obedience to the imam is lifted from no creature anywhere. Furthermore, the pilgrimage in its entirety is a proof for the imamate. The pilgrimage begins with an intention, and an intention must be directed toward something known, so that when it is made with full knowledge (marifa) it becomes a clear and deliberate act needing no further explanation — which is itself a sign of the intention directed toward the imam. The Kaba, in some of the inner interpretations, is a proof for the imam. It was set in a desert empty of settlement, reachable only with great hardship, in a place without crops or trees and stripped of worldly gain, so arranged that worshippers may understand that what it stands for (mamthul) can likewise be reached only through great effort, hardship, and injury from enemies. They should understand too that turning toward the imam and seeking him must not be for worldly ends — out of greed, pleasure, or worldly standing — but that visiting the imam must arise from pure faith alone. If a person meets hardship, weariness, attacks from enemies, or exhaustion, his heart must not waver; he must bear it with patience. He will then see and know all of this in its symbol (mathal), which is the pilgrimage. Its circling of the Kaba, the touching and receiving of it (istilam), the pointing toward it, the running, the throwing of stones, the wearing of the white garments (ihram), and the giving up of perfume and marital relations — all of this points to the affirmation of the imamate and to obedience to him under every condition, to the seeking of guidance and the guarding of one's soul, and to the casting off of blameworthy doctrines and corrupt beliefs.
+I say also that the Friday prayer is not valid without the sermon (*khutba*) delivered from the pulpits (manabir). People pray behind the imam so that they may understand that obedience to the imam is lifted from no creature anywhere. Furthermore, the pilgrimage in its entirety is a proof for the imamate. The pilgrimage begins with an intention, and an intention must be directed toward something known, so that when it is made with full knowledge (marifa) it becomes a clear and deliberate act needing no further explanation — which is itself a sign of the intention directed toward the imam. The Kaba, in some of the inner interpretations, is a proof for the imam. It was set in a desert empty of settlement, reachable only with great hardship, in a place without crops or trees and stripped of worldly gain, so arranged that worshippers may understand that what it stands for (mamthul) can likewise be reached only through great effort, hardship, and injury from enemies. They should understand too that turning toward the imam and seeking him must not be for worldly ends — out of greed, pleasure, or worldly standing — but that visiting the imam must arise from pure faith alone. If a person meets hardship, weariness, attacks from enemies, or exhaustion, his heart must not waver; he must bear it with patience. He will then see and know all of this in its symbol (mathal), which is the pilgrimage. Its circling of the Kaba, the touching and receiving of it (istilam), the pointing toward it, the running, the throwing of stones, the wearing of the white garments (ihram), and the giving up of perfume and marital relations — all of this points to the affirmation of the imamate and to obedience to him under every condition, to the seeking of guidance and the guarding of one's soul, and to the casting off of blameworthy doctrines and corrupt beliefs.
 
 I say also that among the strongest proofs for the necessity of the imamate is the obligation of alms (zakat) — in its religious duties, its safekeeping, and its distribution. God, the Exalted, commanded the Prophet to take almsgiving (sadaqa) from the believers when He said:
 
@@ -400,7 +403,7 @@ I say also that jihad is one of the pillars of religion, and that it is allowed 
 
 > "If it were not for the Commander of the Faithful, Ali b. Abi Talib (ع), we would not have known how to wage war against rebels, nor would we have been able to distinguish the rebel from the rightful believers."
 
-There is also the fifth (khums, اَلْخُمْس), which God assigned to the Prophet's family and to the imams in place of the alms (sadaqa) that He had forbidden them. All the benefits of alms and zakat, together with all the duties tied to them, are bound to the imam. Beyond this there are the id feasts and the month of Ramadan, in which the imam keeps order and accepts the testimony of witnesses — whether opponents hold that the fasting and the breaking of the fast are set by the sighting of the moon or by the one the imam appoints. And the two feast prayers and the Friday prayer are not valid in congregation without a sermon (khutba) from the imam and his presence, or from someone he has appointed, even if the congregation is reduced from four to two on account of the imam's sermon.
+There is also the fifth (*khums*), which God assigned to the Prophet's family and to the imams in place of the alms (sadaqa) that He had forbidden them. All the benefits of alms and zakat, together with all the duties tied to them, are bound to the imam. Beyond this there are the id feasts and the month of Ramadan, in which the imam keeps order and accepts the testimony of witnesses — whether opponents hold that the fasting and the breaking of the fast are set by the sighting of the moon or by the one the imam appoints. And the two feast prayers and the Friday prayer are not valid in congregation without a sermon (khutba) from the imam and his presence, or from someone he has appointed, even if the congregation is reduced from four to two on account of the imam's sermon.
 
 As for the carrying out of legal punishments (hudud), only the imam, or someone the imam appoints, may carry them out. The cutting off of hands, flogging, stoning, imprisonment, the indemnity for injuries (arsh al-jirahat), and judgment concerning them can all be carried out only on the imam's orders. Were these rules the only proof for the imamate in the Messenger's family, that alone would be enough. For the opponents themselves agree that whoever holds no authority (walaya) may not rule on legal punishments. If a man witnesses another killing someone unjustly, it is not for him to kill that person. If he sees someone stealing, it is not for him to cut off his hand, stone him, or take any other such measure. This principle reaches so far that most people agree that not even a slave's owner may carry out legal punishments or chastise him; only the imam may do so.
 
@@ -436,17 +439,18 @@ We shall now turn to establishing the necessity of the imamate on the basis of t
 
 Section Seven
 
+
 I say this: if it were acceptable for there to be creatures on earth without an imam or caliph, it would have been acceptable in the days of Adam (ع), when only the angels existed. Yet even then God, the Exalted, said:
 
 > إِنِّى جَاعِلٌۭ فِى ٱلْأَرْضِ خَلِيفَةًۭ ۖ قَالُوٓا۟ أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ ٱلدِّمَآءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ وَنُقَدِّسُ لَكَ ۖ قَالَ إِنِّىٓ أَعْلَمُ مَا لَا تَعْلَمُونَ
 
-> "Indeed, I am placing a vicegerent on earth. They said: Are You going to create one that will corrupt and shed blood on it while we glorify Your praises and regard You holy? He said: Surely, I know what you know not." (Quran 2:30)
+> "Indeed, I am placing a vicegerent on earth. They said: Are You going to create one that will corrupt and shed blood on it while we glorify Your praises and regard You holy? He said: Surely, I know what you know not." (Al-Baqarah: 30)
 
 In that passage God, may He be glorified, made plain that there would never be a time when the earth stood without an imam — not even if every one of its inhabitants were sinless and saintly. They too must recognize how indispensable the imam is, given their own ignorance, while most people, in truth, are corrupt. God, the Exalted, made something else plain in the same passage: that if it were acceptable for the imam to be chosen (ikhtiyar), the angels above all would have been granted that choice. God would not have overruled them, for they were immune from base inclinations, from false desires, and from any craving for worldly power and mastery. Since the choice was not granted to the angels, it cannot belong to those beneath them. This same meaning lies within the words of God, the Exalted, concerning the rights of parents:
 
 > فَلَا تَقُل لَّهُمَآ أُفٍّۢ وَلَا تَنْهَرْهُمَا
 
-> "Do not even say fie to them or tell them off." (Quran 17:23)
+> "Do not even say fie to them or tell them off." (Al-Isra: 23)
 
 By forbidding the lesser wrong, God thereby forbade the harsher one of striking or abusing them.
 
@@ -456,13 +460,13 @@ In the story of Adam there is a sign that the imamate and the caliphate cannot b
 
 > سُنَّةَ مَن قَدْ أَرْسَلْنَا قَبْلَكَ مِن رُّسُلِنَا ۖ وَلَا تَجِدُ لِسُنَّتِنَا تَحْوِيلًا
 
-> "Such was Our way (sunna) with the messengers We sent before you, and you will find no change in Our way." (Quran 17:77)
+> "Such was Our way (sunna) with the messengers We sent before you, and you will find no change in Our way." (Al-Isra: 77)
 
 He also said:
 
 > وَلَن تَجِدَ لِسُنَّةِ ٱللَّهِ تَبْدِيلًۭا
 
-> "You will find no change whatsoever in Our way (sunna)." (Quran 33:62)
+> "You will find no change whatsoever in Our way (sunna)." (Al-Ahzab: 62)
 
 What is meant here is the way of the imamate, not the way of ritual practice such as prayer, fasting, and the like. For the Prophet, may God bless him, did indeed change the practice of every prophet before him in the acts of worship (ibadat), yet he did not change the way of the imamate.
 
@@ -478,7 +482,7 @@ When the Prophet Muhammad, the seal of the prophets, may God bless him and his f
 
 > وَرَبُّكَ يَخْلُقُ مَا يَشَآءُ وَيَخْتَارُ ۗ مَا كَانَ لَهُمُ ٱلْخِيَرَةُ
 
-> "Your Lord creates what He wills and chooses what is good for them." (Quran 28:68)
+> "Your Lord creates what He wills and chooses what is good for them." (Al-Qasas: 68)
 
 If the imamate were settled by choice, every people would simply choose whomever they pleased. The elders have treated the dispute between designation and choice at length. I have said that I mean to present what the elders left unaddressed in the books on affirming the imamate, and what I have said here is enough. I shall now establish that the imam must be the most excellent, the most knowledgeable, and the noblest of mankind.
 
@@ -486,25 +490,25 @@ I say that the virtues God, the Exalted, has named, and by which He has raised s
 
 > فَضَّلَ ٱللَّهُ ٱلْمُجَهِدِينَ بِأَمْوَلِهِمْ وَأَنفُسِهِمْ عَلَى ٱلْقَعِدِينَ
 
-> "God has preferred those who strive and struggle over those who sit back by a great reward in degrees of rank." (Quran 4:95-96)
+> "God has preferred those who strive and struggle over those who sit back by a great reward in degrees of rank." (An-Nisa: 95-96)
 
 He also said:
 
 > ٱلَّذِينَ يَعْلَمُونَ وَٱلَّذِينَ لَا يَعْلَمُونَ
 
-> "Are those who know and those who do not, equal?" (Quran 39:9)
+> "Are those who know and those who do not, equal?" (Az-Zumar: 9)
 
 And:
 
 > أُوتُوا۟ ٱلْعِلْمَ دَرَجَتٍۢ
 
-> "Those who have been given knowledge have degrees of rank." (Quran 58:11)
+> "Those who have been given knowledge have degrees of rank." (Al-Mujadila: 11)
 
 And:
 
 > أَكْرَمَكُمْ عِندَ ٱللَّهِ أَتْقَىٰكُمْ
 
-> "The most noble among you in the presence of God is the most pious among you." (Quran 49:13)
+> "The most noble among you in the presence of God is the most pious among you." (Al-Hujurat: 13)
 
 As for jihad, both the elite (khass) and the ordinary Muslims (amm) know well that these men never once fought in a single battle in person. The exploits of the Commander of the Faithful, Ali (ع), in war are famous and celebrated. The only mark these others left upon holy war was their flight at the battle of Hunayn, when Umar disobeyed the Prophet's plain order and counsel to hold the mountain pass and so drew the censure of the Muslims, while the Prophet and Ali (ع) fought on and cut the enemy down until they were routed.
 
