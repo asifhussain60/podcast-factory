@@ -940,7 +940,25 @@ function boot(): void {
 
   /** Tint every annotated passage in the chapter's READ body, and ask the edit
    *  canvas to redraw its own (decoration-based) tint for the same notes. */
+  /** TEMPORARY (2026-08-02) — three candidate Arabic sizes on the page at once.
+   *
+   *  Stamps every inline Arabic run with `data-arsize` cycling a/b/c, which
+   *  book-composer.css sizes at 1.10 / 1.18 / 1.26em. The point is to compare
+   *  IN SITU: a term's size only means anything against the English it sits in,
+   *  and judging it from three separate screenshots is judging from memory.
+   *
+   *  DELETE with the CSS block of the same name once a size is chosen. */
+  function stampArabicSizeProbe(): void {
+    const scope = root.querySelector<HTMLElement>(".composer-preview");
+    if (!scope) return;
+    const runs = scope.querySelectorAll<HTMLElement>(".ar-inline, .ar-raw");
+    runs.forEach((el, i) => {
+      el.dataset.arsize = ["a", "b", "c"][i % 3];
+    });
+  }
+
   function markCompanionPassages(): void {
+    stampArabicSizeProbe();
     const body = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
     if (body) {
       // Ours come out first and go back last: the unwrap, `normalize()` and

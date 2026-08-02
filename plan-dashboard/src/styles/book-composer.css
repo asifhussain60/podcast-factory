@@ -1236,6 +1236,30 @@ body:has(.composer-grid) .to-top {
    .ar-inline span the print pipeline emits, while the TipTap edit canvas strips
    unknown spans from its seed and marks the same runs with the .ar-raw
    decoration from studio-decos instead. */
+/* ── TEMPORARY SIZE PROBE — delete once Asif has picked (2026-08-02) ────────
+   An inline Arabic term inherits the body size exactly. That is deliberate: the
+   135% optical adjustment these faces carried until 2026-07-31 was removed after
+   measurement (theme-tokens.css records it), because at 135% a marked run
+   occupied 43px of ink against an 18.8px Latin line and towered over the prose.
+   But that measurement was taken on DISPLAY quotations. A vowelled TERM sitting
+   inside an English sentence is a different question, and it is a question for
+   the eye rather than the ruler — hence three sizes on the page at once, in
+   document order, so the comparison is made in situ rather than from memory.
+
+   REMOVE this block and `stampArabicSizeProbe()` together with the choice. */
+.cx-body .ar-inline[data-arsize="a"],
+.cx-prose .ar-raw[data-arsize="a"] {
+  font-size: 1.1em;
+}
+.cx-body .ar-inline[data-arsize="b"],
+.cx-prose .ar-raw[data-arsize="b"] {
+  font-size: 1.18em;
+}
+.cx-body .ar-inline[data-arsize="c"],
+.cx-prose .ar-raw[data-arsize="c"] {
+  font-size: 1.26em;
+}
+
 .cx-body .ar-inline,
 .cx-prose .ar-raw {
   font-family: var(--q-ar-face);
