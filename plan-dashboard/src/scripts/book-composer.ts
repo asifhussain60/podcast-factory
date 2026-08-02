@@ -16,10 +16,16 @@ import { attach } from "@asifhussain/prose-editor";
 import type { ProseEditor } from "@asifhussain/prose-editor";
 import { quranQuotationButton } from "./compose-quran-command";
 import { textColourButton } from "./compose-colour-command";
+import { alignButtons } from "./compose-align-command";
+import { DEFAULT_TEXT_ALIGN } from "../lib/reader/text-align";
 import {
   createColourDecos,
   type ColourSpan,
 } from "../components/studio/editor/colour-decos";
+import {
+  createAlignDecos,
+  alignablePositions,
+} from "../components/studio/editor/align-decos";
 import { TOOLBAR_ICONS } from "./toolbar-icons";
 import {
   ARABIC_FACES,
@@ -185,6 +191,9 @@ const DOC_TO_MARKDOWN_COVERS = [
  */
 let colourApply: ((quote: string, ink: string | null) => void) | null = null;
 let colourActive: (() => string | null) | null = null;
+/** The alignment buttons' hooks, assigned by boot for the same reason. */
+let alignApply: ((align: string) => void) | null = null;
+let alignActive: (() => string | null) | null = null;
 
 /**
  * The formatting bar, in order.
@@ -227,7 +236,11 @@ const COMPOSE_TOOLBAR_ITEMS = [
     getActive: () => colourActive?.() ?? null,
   }),
   "|",
-  // What block structure to make
+  // What block structure to make, and how it sits on the page
+  ...alignButtons({
+    onApply: (a) => alignApply?.(a),
+    getActive: () => alignActive?.() ?? null,
+  }),
   "bulletList",
   "orderedList",
   "blockquote",
@@ -706,9 +719,10 @@ function boot(): void {
     arabicRevealed = null;
     // A different chapter has a different alignment; fetched once and cached.
     void syncArabicForChapter();
-    // ...and its own coloured runs. Already in memory from the one load, so this
-    // only points the live box at them.
+    // ...and its own coloured runs and paragraph alignments. Already in memory
+    // from the one load each, so these only point the live boxes at them.
     syncChapterColours();
+    syncChapterAlign();
   }
   if (chapterSelect) {
     chapterSelect.value = selectedChapter;
@@ -854,6 +868,11 @@ function boot(): void {
   const colourSpans: { current: ColourSpan[] } = { current: [] };
   /** Every chapter's spans, by anchorKey — one fetch per page load. */
   let colourByChapter: Record<string, ColourSpan[]> = {};
+  /** The OPEN chapter's paragraph alignments, and its ordered prose-block keys.
+   *  Both live boxes: the decoration plugin reads them on every repaint. */
+  const alignSpans: { current: Record<string, string> } = { current: {} };
+  const alignKeys: { current: string[] } = { current: [] };
+  let alignByChapter: Record<string, Record<string, string>> = {};
   let focusNote: { id: string; nonce: number } | null = null;
   let focusNonce = 0;
   /** Notes whose passage was actually found in the open chapter. The panel lists
@@ -893,6 +912,43 @@ function boot(): void {
   function syncChapterColours(): void {
     colourSpans.current = colourByChapter[selectedChapter] ?? [];
     repaintColours();
+  }
+
+  /** The alignment half of the same idea. `alignKeys` is the chapter's ordered
+   *  prose-block keys, which the decoration matches against by position. */
+  function syncChapterAlign(): void {
+    alignSpans.current = alignByChapter[selectedChapter] ?? {};
+    alignKeys.current = chapterByKey.get(selectedChapter)?.paraKeys ?? [];
+    repaintColours(); // one dispatch repaints every decoration plugin
+    markAlignedParagraphs();
+  }
+  async function loadAlign(): Promise<void> {
+    try {
+      const doc = await apiFetch<{
+        chapters: Record<string, Record<string, string>>;
+      }>("/api/studio/text-align", { query: { slug } });
+      alignByChapter = doc.chapters ?? {};
+    } catch {
+      alignByChapter = {}; // a book renders left-aligned, never not at all
+    }
+    syncChapterAlign();
+  }
+  /** Read mode is rendered HTML, and its top-level `<p>` elements line up with
+   *  `paraKeys` one for one — the same correspondence `applyArabicReveals`
+   *  relies on, with the same length guard: if they disagree, say nothing. */
+  function markAlignedParagraphs(): void {
+    const body = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
+    if (!body) return;
+    body.querySelectorAll(":scope > p").forEach((p) => {
+      p.classList.remove("align-center", "align-right");
+    });
+    const keys = alignKeys.current;
+    const paras = [...body.querySelectorAll<HTMLElement>(":scope > p")];
+    if (!keys.length || keys.length !== paras.length) return;
+    paras.forEach((p, i) => {
+      const want = alignSpans.current[keys[i]];
+      if (want) p.classList.add(`align-${want}`);
+    });
   }
   /** Nudge the editor (its decorations read the box) and re-mark Read mode. */
   function repaintColours(): void {
@@ -1757,12 +1813,13 @@ function boot(): void {
       }
       paintDiffToggle();
     });
-    // Row 1, not row 2. It is a DISPLAY toggle about the chapter's own text —
-    // the same tier as the formatting controls beside it — and putting it there
-    // is what lets the preference cluster below fit on one line instead of
-    // spilling onto a third. The formatting bar has `flex: 1 1 auto`, so it
-    // yields the width rather than being pushed out of the row.
-    toolbar.insertBefore(diffToggle, viewPrefs);
+    // Row 2, with the view preferences — which is what it is. It sat on row 1
+    // between 2026-08-02 morning and afternoon, to buy the preference cluster
+    // the width it needed for one line; the three alignment buttons then took
+    // row 1 past its own width, and this is the 45px that brings it back. The
+    // toggle is a display preference either way, so the row it lives on is a
+    // budget question rather than a semantic one.
+    viewPrefs.append(diffToggle);
     disposeDiffTip = mountIconTooltips(toolbar, {
       trigger: ".cx-diff-toggle",
       content: {
@@ -1796,6 +1853,9 @@ function boot(): void {
       // reason the Companion tint is one: it is visible while you edit and
       // cannot reach book.md on the next autosave.
       createColourDecos({ spansRef: colourSpans }),
+      // Paragraph alignment, from the sidecar. A node decoration for the same
+      // reason the colour is an inline one: it cannot reach book.md.
+      createAlignDecos({ alignRef: alignSpans, keysRef: alignKeys }),
       // A pipeline fence marker arrives here as bare text (TipTap has no
       // HTML-comment node) and must STAY in the document for preserveFences to
       // restore it — so it is decorated, never removed. See fence-decos.ts.
@@ -2419,6 +2479,7 @@ function boot(): void {
 
   void loadSavedFamily();
   void loadColours();
+  void loadAlign();
 
   // ── The text-colour button's hooks ────────────────────────────────────────
   // Colouring is a SIDECAR edit, never a document edit: the selected words are
@@ -2443,6 +2504,51 @@ function boot(): void {
       });
     });
   };
+  // ── The alignment buttons' hooks ──────────────────────────────────────────
+  // Alignment is a SIDECAR edit too: the paragraph the cursor is in is recorded
+  // by its key and the canvas is repainted from that record.
+  alignApply = (align: string): void => {
+    const key = alignKeyAtCursor();
+    if (!key) return;
+    const next = { ...alignSpans.current };
+    // `left` is the default, so choosing it REMOVES the entry rather than
+    // writing one — see text-align.ts for why absence is the representation.
+    if (align === DEFAULT_TEXT_ALIGN) delete next[key];
+    else next[key] = align;
+    alignSpans.current = next;
+    alignByChapter[selectedChapter] = next;
+    repaintColours();
+    markAlignedParagraphs();
+    void apiFetch("/api/studio/text-align", {
+      method: "PUT",
+      body: { slug, chapterKey: selectedChapter, paras: next },
+    }).catch((e) => {
+      void noticeDialog({
+        title: "Alignment not saved",
+        body: `The paragraph is showing aligned but that did not reach the book: ${(e as Error).message}`,
+      });
+    });
+  };
+  alignActive = (): string | null => {
+    const key = alignKeyAtCursor();
+    // null, not "left": the buttons disable on null, which is the honest state
+    // when the paragraph mapping is unavailable. Saying "left" would let a click
+    // write an alignment against a key that does not describe this paragraph.
+    if (!key) return null;
+    return alignSpans.current[key] ?? DEFAULT_TEXT_ALIGN;
+  };
+  /** The key of the prose paragraph the cursor sits in, or null when the
+   *  position mapping does not hold (see alignablePositions). */
+  function alignKeyAtCursor(): string | null {
+    const ed = activeEditor?.editor;
+    if (!ed || ed.isDestroyed) return null;
+    const at = ed.state.selection.from;
+    const hit = alignablePositions(ed.state.doc, alignKeys.current).find(
+      (p) => at >= p.from && at <= p.to,
+    );
+    return hit?.key ?? null;
+  }
+
   colourActive = (): string | null => {
     const ed = activeEditor?.editor;
     if (!ed || ed.isDestroyed) return null;

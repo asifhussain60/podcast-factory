@@ -34,6 +34,8 @@ import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import { readTextColours, applyTextColours } from "./text-colour.mjs";
 import { anchorKey } from "./anchor-key.mjs";
+import { readTextAlign, flattenAlign } from "./text-align.mjs";
+import { paraFingerprint } from "./para-blocks.mjs";
 import { loadLayout, applyLayout } from "../visual-layout.mjs";
 
 const ARABIC_RE = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
@@ -544,6 +546,10 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
   // <!-- editorial:begin -->…<!-- editorial:end -->) into distinctly-styled
   // Contextual-Note / Study-summary asides instead of plain blockquotes.
   const selfStudy = opts.selfStudy === true;
+  // alignByPara (opt-in): fingerprint -> "center" | "right", from
+  // _system/text-align.json. Omitted (the default) leaves every paragraph
+  // exactly as it rendered before this existed.
+  const alignByPara = opts.alignByPara ?? null;
   // quranicRuns (opt-in): the Set from readQuranicRuns(). Runs it contains are
   // marked `is-quranic`, which switches the Arabic FACE to the Uthmanic script;
   // everything else stays in Scheherazade New. Omitted (the default) means no run
@@ -636,6 +642,14 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
     const names = [];
     if (chapterJustOpened) names.push("ch-first");
     if (isArabicOnlyParagraph(text)) names.push("ar-block");
+    // Human-chosen alignment. `text` is the block with its line breaks joined by
+    // spaces, and `paraFingerprint` collapses whitespace before hashing — so this
+    // is the same name the raw block carries in _system/, and the same one the
+    // Composer stored it under.
+    if (alignByPara) {
+      const align = alignByPara[paraFingerprint(text)];
+      if (align) names.push(`align-${align}`);
+    }
     chapterJustOpened = false;
     const cls = names.length ? ` class="${names.join(" ")}"` : "";
     out.push(`<p${cls}>${renderInline(text)}</p>`);
@@ -912,6 +926,9 @@ export function buildBookHtml(mdPath, { v2 = false, selfStudy = false } = {}) {
   let bodyHtml = renderMd(body, crosswalkByIndex, {
     selfStudy,
     wrapChapters: true,
+    // Flat, not per chapter: this render walks the whole book at once, and a
+    // fingerprint is of the paragraph's own text — see flattenAlign.
+    alignByPara: flattenAlign(readTextAlign(assetRoot)),
     // Scripture gets the Uthmanic face, the rest Scheherazade New. Sourced from
     // the Arabic audit's own provenance rather than re-derived here.
     quranicRuns: readQuranicRuns(assetRoot),

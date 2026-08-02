@@ -812,6 +812,11 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   border-left: 1px solid var(--c-rule-soft, #ebe6da);
 }
 
+/* See the note on --rte-gap above: this is the other half of the same budget. */
+.cx-edit-toolbar .rte-toolbar .rte-sep {
+  margin-inline: 0.22rem;
+}
+
 /* ── Naming the two halves of this row ────────────────────────────────────────
    The row carries a font control and a size control TWICE over, and the two
    pairs do different things: "Arabic" is the book's own typography and prints
@@ -984,6 +989,15 @@ body:has(.composer-grid:not([data-panel="closed"])) {
    does not draw a second. */
 .cx-edit-toolbar > .rte-toolbar {
   flex: 1 1 auto;
+  /* Tighter than the package's standalone defaults, and measured rather than
+     nudged. Fifteen controls and five separators come to 832px of content in a
+     786px row, so one button wrapped onto a line of its own — and 86px of that
+     total is separator MARGIN (0.45rem a side, five times), which is generous
+     spacing for a bar with room and the first thing to give when there is none.
+     Halving it and easing the gap brings the row to about 765px, back on one
+     line with something to spare. The package keeps its own values for hosts
+     that are not this tight. */
+  --rte-gap: 0.28rem;
   /* Centred, to sit over the centred reading column below it and to balance
      against the view-preference cluster centred on the row beneath. */
   justify-content: center;

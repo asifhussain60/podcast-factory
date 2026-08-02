@@ -984,3 +984,22 @@ body.book-v2 .chapter-open {
 .ink-brown {
   color: #6b4423;
 }
+
+/* ── Per-paragraph alignment ──────────────────────────────────────────────────
+   Chosen in the Book Composer and recorded in `_system/text-align.json` by the
+   paragraph's own fingerprint, so book.md never carries it and no Python phase
+   that reads that file as text can be disturbed by it.
+
+   `left` has no rule and never will: it is what a paragraph does already, and a
+   class for it would be a second declaration that has to agree with the first.
+   Choosing Left removes the paragraph's entry instead.
+
+   `text-align` only. A centred paragraph keeps its face, size, leading and
+   direction, so centring an Arabic block does not quietly undo the book's Arabic
+   typography. */
+.align-center {
+  text-align: center;
+}
+.align-right {
+  text-align: right;
+}

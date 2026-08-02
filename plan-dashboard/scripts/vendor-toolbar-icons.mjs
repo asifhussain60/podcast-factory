@@ -67,6 +67,10 @@ const ICONS = {
   // Not a toolbar control — the host's "Show changes" toggle, which lost its
   // words to keep the bar at two rows.
   showChanges: "code-compare",
+  // The three alignment buttons.
+  alignLeft: "align-left",
+  alignCenter: "align-center",
+  alignRight: "align-right",
 };
 
 const installed = JSON.parse(
