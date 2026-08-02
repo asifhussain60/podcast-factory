@@ -160,26 +160,32 @@ const TRANSLATION_FONTS = [
     view?.hasBook ? (
       <div class:list={composerClass} data-slug={slug}>
         <header class="cx-composer-header">
-          <div
-            class="cx-header-actions"
-            role="group"
-            aria-label="Studio surfaces"
-          >
-            <a class="cx-hdr-btn" href={`/studio/${slug}/preview`}>
-              <i class="fa-solid fa-file-lines" aria-hidden="true" /> Preview
-            </a>
-            <a class="cx-hdr-btn" href={`/studio/${slug}/edit`}>
-              <i class="fa-solid fa-feather-pointed" aria-hidden="true" /> Edit
-              &amp; Enrich
-            </a>
+          <div class="lib-hero-main">
+            <div class="lib-breadcrumb">
+              <a href="/studio">Studio</a>
+              <span class="lib-sep">›</span>
+              <span>Book Composer</span>
+            </div>
+            <div class="lib-title-row">
+              <h1>{bookTitle}</h1>
+            </div>
+            <p class="composer-sub">
+              Work one chapter at a time. The chapter opens in the editor —
+              reshape prose with the AI actions in Refinement, and set citation
+              styles in Citations.
+            </p>
+          </div>
+          {/* The book's two PDF actions, and nothing else. They sit AFTER the
+              identity block in the DOM and bottom-right in the layout (Asif,
+              2026-08-02) — the row above the title used to carry Preview and
+              Edit & Enrich too, which read as page navigation and pushed the
+              title down; those entries are gone and the pair now sits in the
+              header's own empty right-hand space, beside the description. */}
+          <div class="cx-header-actions" role="group" aria-label="Book PDF">
             {/* A button, not a link: it acts in place (flush edits → confirm →
-                render book/book.pdf via /api/studio/generate-book-pdf). Sits in
-                the right-hand group beside LIVE Session; wired in book-composer.ts. */}
-            <button
-              type="button"
-              class="cx-hdr-btn cx-hdr-btn--end"
-              id="cx-generate-pdf"
-            >
+                render book/book.pdf via /api/studio/generate-book-pdf). Wired in
+                book-composer.ts. */}
+            <button type="button" class="cx-hdr-btn" id="cx-generate-pdf">
               <i class="fa-solid fa-file-pdf" aria-hidden="true" /> Generate PDF
             </button>
             {/* Always present so the header never reflows — but DISABLED
@@ -202,21 +208,6 @@ const TRANSLATION_FONTS = [
               <i class="fa-solid fa-download" aria-hidden="true" /> Download PDF
               {existingPdf ? ` (${existingPdf.kb} KB)` : ""}
             </a>
-          </div>
-          <div class="lib-hero-main">
-            <div class="lib-breadcrumb">
-              <a href="/studio">Studio</a>
-              <span class="lib-sep">›</span>
-              <span>Book Composer</span>
-            </div>
-            <div class="lib-title-row">
-              <h1>{bookTitle}</h1>
-            </div>
-            <p class="composer-sub">
-              Work one chapter at a time. The chapter opens in the editor —
-              reshape prose with the AI actions in Refinement, and set citation
-              styles in Citations.
-            </p>
           </div>
         </header>
 

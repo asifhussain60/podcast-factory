@@ -54,29 +54,37 @@
   margin-bottom: 1.6rem;
 }
 
-/* Studio-surface entry points: one horizontal row pinned above the title
- * (not a vertical stack beside it), small rectangular buttons — deliberately
- * its own compact style, not a reuse of the site-wide pill .lib-studio-link
- * (which other Studio pages still use unchanged). */
+/* Identity block on the left, the PDF actions on the right — one ROW, with the
+ * buttons bottom-aligned so they land in the header's own empty space beside
+ * the description rather than above the title (Asif, 2026-08-02). Small
+ * rectangular buttons — deliberately its own compact style, not a reuse of the
+ * site-wide pill .lib-studio-link (which other Studio pages still use
+ * unchanged). */
 .cx-composer-header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
   gap: 1rem;
 }
-/* .lib-hero-main's shared rule (library.css) sets `flex: 1 1 24rem` for its
- * normal home in a ROW-direction .lib-hero (main+aside side by side), where
- * the 24rem basis sizes its WIDTH. Reused here inside a COLUMN-direction
- * header, that same flex-basis applies to the main axis instead — HEIGHT —
- * forcing a ~460px-tall block padded out with blank space below its actual
- * content. Reset it back to content-sized for this column context. */
+/* .lib-hero-main's shared rule (library.css) sets `flex: 1 1 24rem`, sized for
+ * its normal home in a ROW-direction .lib-hero — which is what this header is
+ * again, so the basis sizes WIDTH as intended and the block takes every column
+ * the buttons do not. (It was pinned to `0 1 auto` while this header ran in
+ * COLUMN direction, where that same basis applied to HEIGHT and padded the
+ * block out to ~460px of blank space.) */
 .cx-composer-header .lib-hero-main {
-  flex: 0 1 auto;
+  flex: 1 1 24rem;
 }
 .cx-header-actions {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 0.5rem;
+  /* Content-sized: the hero block absorbs the slack, so the pair stays flush
+     against the header's right edge instead of stretching across it. */
+  flex: 0 0 auto;
 }
 .cx-hdr-btn {
   display: inline-flex;
@@ -155,17 +163,16 @@ button.cx-hdr-btn:disabled {
     animation: none;
   }
 }
-/* Pushed to the far right of the row, separated from the other entries. */
-.cx-hdr-btn--end {
-  margin-left: auto;
-}
+/* Narrow: the header stacks, and the two PDF actions become full-width rows
+ * under the title rather than a cramped pair squeezed beside it. */
 @media (max-width: 640px) {
-  .cx-header-actions {
+  .cx-composer-header {
     flex-direction: column;
     align-items: stretch;
   }
-  .cx-hdr-btn--end {
-    margin-left: 0;
+  .cx-header-actions {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
 
