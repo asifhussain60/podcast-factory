@@ -3495,39 +3495,6 @@ body:has(.composer-grid) .to-top {
   cursor: default;
 }
 
-/* The book's Arabic-ink swatch on the toolbar. A single filled dot in a control
-   box, sized to sit level with the stepper and the face select beside it — five
-   swatches inline would have needed 180px on a row with 66 to give. It opens the
-   same palette the selection-colour button does. */
-.cx-arabic-ink {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.9rem;
-  height: 1.9rem;
-  padding: 0;
-  border: 1px solid var(--cx-control-border, var(--c-rule, #d9d3c4));
-  border-radius: 6px;
-  background: var(--c-bg-card, #fffdf8);
-  box-shadow: var(--cx-control-shadow, 0 1px 0 rgb(0 0 0 / 4%));
-  cursor: pointer;
-}
-.cx-arabic-ink::before {
-  content: "";
-  width: 0.95rem;
-  height: 0.95rem;
-  border-radius: 50%;
-  background: var(--ink, #7a1f1f);
-  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 18%);
-}
-.cx-arabic-ink:hover {
-  border-color: var(--c-accent, #8b4513);
-}
-.cx-arabic-ink:focus-visible {
-  outline: 2px solid var(--c-accent, #8b4513);
-  outline-offset: 1px;
-}
-
 /* A coloured run in READ mode. The class pair is `cx-ink-mark ink-<id>` — the
    second is the shared colour rule (quote-typography.css, mirrored into
    book-print.css), the first is only a handle for removing the wrapper when the

@@ -16,7 +16,6 @@ import { attach } from "@asifhussain/prose-editor";
 import type { ProseEditor } from "@asifhussain/prose-editor";
 import { quranQuotationButton } from "./compose-quran-command";
 import { textColourButton } from "./compose-colour-command";
-import { openPalette } from "./ink-palette";
 import {
   createColourDecos,
   type ColourSpan,
@@ -28,7 +27,6 @@ import {
   DEFAULT_ARABIC_FACE,
   DEFAULT_ARABIC_SIZE,
 } from "../lib/reader/arabic-typography";
-import { TEXT_INKS, DEFAULT_ARABIC_INK_ID } from "../lib/reader/text-ink";
 import { anchorKey } from "../../scripts/lib/anchor-key.mjs";
 import {
   docToMarkdown,
@@ -318,7 +316,38 @@ const COMPOSE_TOOLBAR_TIPS = {
   },
 };
 
+/** Left by a reload that is really a chapter switch, so the next boot knows to
+ *  open the new chapter at its beginning rather than where the last one ended. */
+const SCROLL_TOP_ON_BOOT = "cx-scroll-top-on-boot";
+
 function boot(): void {
+  // A chapter switch that had to save first reloads the page, and the browser
+  // RESTORES scroll across a reload — so the new chapter opened at the foot of
+  // the one you left. `reloadPreservingChapter` suppresses that restoration for
+  // its one reload; this hands the setting back afterwards.
+  //
+  // On a TIMER, which is not the first thing anyone would reach for, so: three
+  // other shapes were tried against this page and each was measured failing.
+  // Scrolling to the top here is overwritten; handing the setting back here, or
+  // on `load`, re-enables restoration in time to undo it (the page is heavy
+  // enough that `readyState` is already "complete" when this runs, and the
+  // restore still comes later); and pinning the top across animation frames is
+  // outrun by it too. Suppression is the only thing measured to hold — so the
+  // question is only when it is safe to give back, and the honest answer is
+  // "after the restore, whenever that was". Three seconds clears it comfortably.
+  //
+  // The bounded cost, stated plainly: reload the Composer again within those
+  // three seconds and that reload also opens at the top.
+  try {
+    if (sessionStorage.getItem(SCROLL_TOP_ON_BOOT) === "1") {
+      sessionStorage.removeItem(SCROLL_TOP_ON_BOOT);
+      window.setTimeout(() => {
+        if ("scrollRestoration" in history) history.scrollRestoration = "auto";
+      }, 3000);
+    }
+  } catch {
+    /* private mode — the reload simply keeps its scroll position */
+  }
   const rootMaybe = document.querySelector<HTMLElement>(".composer[data-slug]");
   const dataEl = document.getElementById("composer-data");
   if (!rootMaybe || !dataEl?.textContent) return;
@@ -717,6 +746,7 @@ function boot(): void {
       renderScholar(); // explanations follow the chapter — no picker of their own
       render();
       if (wasEditing) setMode("edit"); // stay in Edit on the newly selected chapter
+      scrollToChapterTop();
     });
   }
 
@@ -1354,7 +1384,44 @@ function boot(): void {
   // the very first chapter of a session was never *selected*, only defaulted to.
   function reloadPreservingChapter(): void {
     composeChapter.write(selectedChapter, slug);
+    // Land the new chapter at its beginning. Without this the reload restores the
+    // old scroll position and opens at the foot of the chapter just left — the
+    // same complaint the in-page switch had, arriving by a different route.
+    //
+    // Suppress the browser's scroll restoration for this one reload, so the new
+    // chapter opens at its beginning. The flag is not what scrolls — it tells the
+    // next boot that this page owes the setting back, which is what keeps every
+    // ORDINARY reload of the Composer restoring its position as before.
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    try {
+      sessionStorage.setItem(SCROLL_TOP_ON_BOOT, "1");
+    } catch {
+      /* best-effort; the reload still works, it just keeps its position */
+    }
     window.location.reload();
+  }
+
+  /**
+   * Put the reader at the start of the chapter that just loaded.
+   *
+   * Called at the END of the picker's change handler rather than from the
+   * prev/next buttons, and that placement is the point: the handler has four
+   * ways to bail out early — a failed autosave the human declined to discard, a
+   * save that triggers a full reload, an unchanged key, no picker — and only the
+   * path that actually completed a switch reaches this line. Wired to the
+   * buttons instead, it would have scrolled away from a chapter you had just
+   * chosen to stay on.
+   *
+   * It covers the picker too, harmlessly: that control sits at the top of the
+   * page, so a reader using it is already here.
+   *
+   * INSTANT, not smooth. A chapter switch replaces everything on the page — it
+   * is a navigation, and animating a long scroll back up from the foot of a
+   * chapter would make the reader watch the old text fly past on their way to
+   * new text. Nothing to guard for reduced motion, because there is no motion.
+   */
+  function scrollToChapterTop(): void {
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }
 
   function currentChapterEl(): HTMLElement | null {
@@ -1384,7 +1451,6 @@ function boot(): void {
     // so a later sync repaints nothing rather than a detached element.
     arabicFaceSel = null;
     arabicSizeVal = null;
-    arabicInkBtn = null;
     composerRte?.destroy();
     composerRte = null;
     activeEditor?.destroy();
@@ -1563,7 +1629,7 @@ function boot(): void {
     // the screen preferences: it is the pair that changes the book, so it should
     // not read as a footnote to the pair that changes nothing.
     //
-    // The same two settings are also chips in the Typography panel, and that is
+    // The face and size are also chips in the Typography panel, and that is
     // not a duplicate implementation — both call setArabicStyle(), which is the
     // one place that applies the class, writes the artifact and re-checks the
     // other surface's control. Change the save contract there, not here.
@@ -2244,7 +2310,6 @@ function boot(): void {
    *  chapter switch while this closure lives for the page. */
   let arabicFaceSel: HTMLSelectElement | null = null;
   let arabicSizeVal: HTMLElement | null = null;
-  let arabicInkBtn: HTMLElement | null = null;
 
   /** The book's current face/size, read from the page root — the same classes
    *  the server stamped and `swapOrClear` maintains, so there is no second copy
@@ -2265,15 +2330,6 @@ function boot(): void {
     if (arabicSizeVal) {
       arabicSizeVal.textContent =
         ARABIC_SIZES.find((s) => s.id === size)?.name ?? size;
-    }
-    if (arabicInkBtn) {
-      const ink = currentArabic("ari-", DEFAULT_ARABIC_INK_ID);
-      const def = TEXT_INKS.find((i) => i.id === ink);
-      // The swatch's colour is the only thing set from here; its shape is CSS.
-      arabicInkBtn.style.setProperty("--ink", def?.swatch ?? "#7a1f1f");
-      arabicInkBtn.title = `Arabic ink — ${def?.name ?? ink}. The book's default for display quotations; prints into the PDF.`;
-      const label = arabicInkBtn.querySelector(".cx-vh");
-      if (label) label.textContent = `Arabic ink: ${def?.name ?? ink}`;
     }
   }
 
@@ -2355,38 +2411,9 @@ function boot(): void {
     down.addEventListener("click", () => step(-1));
     up.addEventListener("click", () => step(1));
 
-    // ── The book's Arabic ink ────────────────────────────────────────────────
-    // ONE swatch that opens the shared palette, not five swatches in the row.
-    // Five would have needed 180px and the row has 66, and the menu it opens is
-    // the same one the selection-colour button uses — so the two colour controls
-    // offer identical choices in an identical menu, and differ only in what a
-    // choice MEANS. This one is the book's default for display quotations;
-    // colouring a selection overrides it wherever it is applied.
-    const inkBtn = document.createElement("button");
-    inkBtn.type = "button";
-    inkBtn.className = "cx-arabic-ink";
-    inkBtn.setAttribute("aria-haspopup", "menu");
-    inkBtn.setAttribute("aria-label", "Arabic ink for the printed book");
-    const inkName = document.createElement("span");
-    inkName.className = "cx-vh";
-    inkBtn.append(inkName);
-    inkBtn.addEventListener("click", () => {
-      openPalette({
-        returnFocusTo: inkBtn,
-        anchor: inkBtn,
-        active: currentArabic("ari-", DEFAULT_ARABIC_INK_ID),
-        // The book always has an Arabic ink; there is no "off" to offer.
-        clearLabel: null,
-        choose: (ink) => {
-          if (ink) void setArabicStyle("arabic-ink", ink, typeSave);
-        },
-      });
-    });
-    arabicInkBtn = inkBtn;
-
     wrap.append(down, val, up);
-    group.append(label, sel, wrap, inkBtn);
-    syncArabicToolbar(); // seed all three from the classes already on the root
+    group.append(label, sel, wrap);
+    syncArabicToolbar(); // seed both from the classes already on the root
     return group;
   }
 

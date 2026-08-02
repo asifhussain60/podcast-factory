@@ -18,9 +18,7 @@ import { TEXT_INKS } from "../lib/reader/text-ink";
  * that acts on the wrong chapter. Positioned against the button that opened it
  * via custom properties, the same division of labour icon-tooltip.ts uses — the
  * declarations live in book-composer.css, never inline.
- *
- * `clearLabel` is null for a caller that has no "off" state: the book always has
- * SOME Arabic ink, so offering to remove it would be offering nothing.
+
  */
 export function openPalette(opts: {
   /** Where focus returns on Escape. */
@@ -29,12 +27,9 @@ export function openPalette(opts: {
   anchor: HTMLElement | null;
   active: string | null;
   /** Text for the clearing row, or null to omit it entirely. */
-  clearLabel?: string | null;
   choose: (ink: string | null) => void;
 }): void {
   const { returnFocusTo: editorDom, anchor: btn, active, choose } = opts;
-  const clearLabel =
-    opts.clearLabel === undefined ? "Remove colour" : opts.clearLabel;
   document.querySelector(".cx-ink-menu")?.remove();
   const menu = document.createElement("div");
   menu.className = "cx-ink-menu";
@@ -78,15 +73,12 @@ export function openPalette(opts: {
     menu.append(b);
   }
 
-  // Omitted entirely when the caller has no "off" state — the book always has
-  // SOME Arabic ink, and a permanently disabled row saying "No colour" invites
-  // the question of why it is there.
-  if (clearLabel !== null) {
+  {
     const clear = document.createElement("button");
     clear.type = "button";
     clear.className = "cx-ink-clear";
     clear.setAttribute("role", "menuitem");
-    clear.textContent = active ? clearLabel : "No colour";
+    clear.textContent = active ? "Remove colour" : "No colour";
     clear.disabled = !active;
     clear.addEventListener("click", () => {
       choose(null);

@@ -60,12 +60,6 @@ export const TEXT_INKS: readonly TextInk[] = [
 /** The id every consumer treats as "no colour of its own". */
 export const DEFAULT_TEXT_INK = "ink";
 
-/** The book's DEFAULT Arabic ink — a different question from the one above, and
- *  a different answer: an uncoloured run is body ink, but a display quotation
- *  with no book setting is maroon. Mirrors DEFAULT_ARABIC_INK in book-html.mjs
- *  and the API route. */
-export const DEFAULT_ARABIC_INK_ID = "maroon";
-
 export const TEXT_INK_IDS: readonly string[] = TEXT_INKS.map((i) => i.id);
 
 export const isTextInk = (v: unknown): v is string =>
