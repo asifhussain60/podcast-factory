@@ -1,0 +1,13 @@
+{
+  "schema": "book.gloss-coverage/v1",
+  "candidates": 12,
+  "strong": 6,
+  "covered": 7,
+  "missing_strong": [
+    "natiqs",
+    "usba"
+  ],
+  "glossary_entries": 70,
+  "coverage": 0.583,
+  "strong_coverage": 0.667
+}

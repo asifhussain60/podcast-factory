@@ -396,8 +396,65 @@ def gate_b6_book_source_crosswalk(book_dir: Path) -> tuple[bool, str]:
     return True, f"source-crosswalk.json: {len(entries)} chapters aligned"
 
 
+#: A book may gloss a term the OCR simply does not print, so perfect coverage is
+#: not achievable and demanding it would fail honest books. This is set to catch
+#: the STARVED case — the eleven-entries-against-177-terms shape — not to chase
+#: the tail.
+_GLOSS_COVERAGE_FLOOR = 0.60
+
+
+def gate_b7_book_gloss_coverage(book_dir: Path) -> tuple[bool, str]:
+    """Do the terms the book GLOSSES actually have Arabic to show?
+
+    The number the pipeline never computed. `_book_arabic_audit` enumerates
+    Arabic RUNS first, so a romanized term carrying no script produces no run and
+    is not merely unmeasured — it is invisible to the data structure. That is how
+    `degrees-of-excellence` shipped 177 glossed terms with script on six of them
+    while every Arabic report on it read clean.
+
+    Judged on STRONG candidates only — terms the source itself spells with
+    scholarly diacritics, so their being Arabic is evidence rather than a guess.
+    Report-only for a book with no glossary at all: a translation edition skips
+    phase 0c by design and has nothing to be starved of.
+    """
+    book_md = book_dir / "book" / "book.md"
+    if not book_md.exists():
+        return True, "no composed book — nothing to check"
+    glossary = book_dir / "_system" / "glossary.yml"
+    if not glossary.exists():
+        return True, "no glossary (translation-edition route) — n/a"
+    try:
+        from _gloss_terms import gloss_coverage
+        from _glossary_io import load_glossary
+
+        entries, _top = load_glossary(glossary)
+        source = ""
+        for rel in ("_system/source/text/refined-english.md", "_system/source/ocr/raw-extract.md"):
+            path = book_dir / rel
+            if path.exists():
+                source += path.read_text(encoding="utf-8", errors="ignore")
+        report = gloss_coverage(book_md.read_text(encoding="utf-8"), entries, source)
+    except Exception as exc:  # noqa: BLE001 - a broken probe must not block a ship
+        return True, f"gloss coverage not computed ({exc})"
+
+    (book_dir / "_system" / "gloss-coverage.json").write_text(
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    if report["strong"] == 0:
+        return True, "no glossed Arabic terms found — n/a"
+    pct = report["strong_coverage"]
+    note = (
+        f"{report['strong'] - len(report['missing_strong'])}/{report['strong']} glossed terms carry Arabic "
+        f"({pct:.0%}); glossary has {report['glossary_entries']} entries"
+    )
+    if pct < _GLOSS_COVERAGE_FLOOR:
+        missing = ", ".join(report["missing_strong"][:6])
+        return False, f"{note} — starved glossary; e.g. {missing}"
+    return True, note
+
+
 def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
-    """Run B1-B6 and return a verdict dict. Pure read-only."""
+    """Run B1-B7 and return a verdict dict."""
     book_dir = Path(book_dir).resolve()
     if not _book_branch_enabled(book_dir):
         return {
@@ -439,6 +496,11 @@ def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
     gates.append({"gate": "B6", "name": "book-source-crosswalk", "passed": ok6, "note": why6})
     if not ok6:
         blocking_fail = blocking_fail or f"B6 book-source-crosswalk: {why6}"
+
+    ok7, why7 = gate_b7_book_gloss_coverage(book_dir)
+    gates.append({"gate": "B7", "name": "book-gloss-coverage", "passed": ok7, "note": why7})
+    if not ok7:
+        blocking_fail = blocking_fail or f"B7 book-gloss-coverage: {why7}"
 
     verdict = "BOOK-SOUND" if blocking_fail is None else "BOOK-BROKEN"
     summary = f"reading edition sound ({len(gates)} gates checked)" if blocking_fail is None else blocking_fail

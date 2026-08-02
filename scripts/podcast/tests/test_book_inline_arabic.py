@@ -33,6 +33,14 @@ def read(bd: Path) -> str:
     return (bd / "book" / "book.md").read_text(encoding="utf-8")
 
 
+def write_glossary(bd: Path, entries: list[dict]) -> None:
+    """Replace the glossary of an existing book — for the re-vowelling case."""
+    (bd / "_system" / "glossary.yml").write_text(
+        yaml.safe_dump({"schema_version": 1, "entries": entries}, allow_unicode=True),
+        encoding="utf-8",
+    )
+
+
 ALLAH = {"phonetic": "Allah", "arabic_script": "الله"}
 ABD_ALLAH = {"phonetic": "Abd Allah", "arabic_script": "عبد الله"}
 
@@ -227,17 +235,57 @@ def test_a_teach_term_is_introduced_once_in_the_book_not_per_chapter(tmp_path: P
     assert "The natiq spoke again." in out  # chapter 2 uses the term plainly
 
 
-def test_a_teach_gloss_keeps_the_terms_name_beside_its_script(tmp_path: Path) -> None:
-    """The vocabulary question: script REPLACING the romanization meant a reader
-    without Arabic could never name the book's core terms. A teach-class gloss
-    becomes (bab, باب) — name AND script."""
+def test_a_gloss_carries_the_script_alone_with_no_romanization(tmp_path: Path) -> None:
+    """Zero transliteration inside a gloss (Asif, 2026-08-02).
+
+    A teach-class gloss used to become `(bab, باب)` — name AND script — on the
+    reasoning that a reader without Arabic could otherwise never say the book's
+    core terms. That is retired: the Arabic on this page is always vowelled,
+    which is what makes it readable to the person the edition is printed for, and
+    the romanization keeps its home in the podcast lane where pronunciation is
+    the point.
+    """
     bd = book(
         tmp_path,
         "## 1. A\n\nHe is his gate (*bab*) among them.\n",
         [{"phonetic": "bab", "arabic_script": "باب", "annotation_class": "teach"}],
     )
     assert apply_inline_arabic(bd) == 1
-    assert "his gate (bab, باب) among them." in read(bd)
+    out = read(bd)
+    assert "his gate (باب) among them." in out
+    assert "bab" not in out, "no Latin-script Arabic may survive inside the gloss"
+
+
+def test_re_vowelling_the_glossary_does_not_double_annotate(tmp_path: Path) -> None:
+    """The measured failure: `Tur (اَلطُّور), الطور)`.
+
+    The inverse pass used to match the glossary's `arabic_script` byte for byte,
+    so an annotation written when a term was BARE became unrecognisable the
+    moment `5a-glossary-vowel` added its marks — neither removed nor reseeded,
+    and a second paren written beside it. Keying on the consonantal skeleton
+    fixes it, and is sound because a vowelling may add marks but never alters a
+    letter (`_vowelling.rejection_reason`).
+
+    Script-only glosses make this the difference between untidy and unrecoverable:
+    with the romanization gone, a stale paren cannot be attributed to any term.
+    """
+    bare = "الطور"
+    vowelled = "اَلطُّور"
+    bd = book(
+        tmp_path,
+        "## 1. A\n\nHe climbed the mount (*Tur*) at dawn.\n",
+        [{"phonetic": "Tur", "arabic_script": bare, "annotation_class": "teach"}],
+    )
+    assert apply_inline_arabic(bd) == 1
+    assert f"the mount ({bare}) at dawn." in read(bd)
+
+    # The glossary is re-vowelled AFTER the overlay already exists.
+    write_glossary(bd, [{"phonetic": "Tur", "arabic_script": vowelled, "annotation_class": "teach"}])
+    apply_inline_arabic(bd)
+
+    out = read(bd)
+    assert out.count("(") - out.count("(*") == 1, f"exactly one paren survives, got: {out!r}"
+    assert vowelled in out and bare not in out, "and it carries the NEW script"
 
 
 def test_familiar_and_silent_terms_are_never_annotated(tmp_path: Path) -> None:

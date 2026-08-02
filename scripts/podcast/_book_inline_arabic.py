@@ -227,9 +227,28 @@ def _normalize_annotations(body: str, terms: list[dict[str, str]]) -> str:
     # paren once per term let the second entry re-interpret an annotation the
     # first had already explained — manufacturing a spurious gloss seed beside
     # it on every run.
-    by_script: dict[str, list[dict[str, str]]] = {}
+    # Keyed on the CONSONANTAL SKELETON, not the exact script (2026-08-02).
+    #
+    # This matched `script` byte for byte, which made an annotation
+    # unrecognisable to its own inverse the moment the glossary's `arabic_script`
+    # changed — most commonly when `5a-glossary-vowel` added tashkeel to a term
+    # already annotated bare. The old paren was then neither removed nor
+    # reseeded, and the pass wrote a SECOND one beside it: the measured
+    # `Tur (اَلطُّور), الطور)`.
+    #
+    # Script-only glosses make that failure worse rather than merely untidy.
+    # Under the old `(aql, العقل)` form the romanisation was still in the paren,
+    # so a human could see what the annotation had been. Strip it and a stale
+    # `(العقل)` beside a fresh `(الْعَقْل)` says nothing about which term it
+    # belonged to — an orphan no gate can attribute.
+    #
+    # The skeleton is safe to key on because `_vowelling.rejection_reason`
+    # guarantees a vowelling never alters it: marks may be added, letters may
+    # not. That turns the 5a-glossary-vowel -> 5a-arabic ordering from a
+    # correctness constraint into a mere convention.
+    by_skeleton: dict[str, list[dict[str, str]]] = {}
     for t in terms:
-        by_script.setdefault(t["script"], []).append(t)
+        by_skeleton.setdefault(normalize_arabic(t["script"]), []).append(t)
 
     lines = body.split("\n")
     for i, line in enumerate(lines):
@@ -237,17 +256,22 @@ def _normalize_annotations(body: str, terms: list[dict[str, str]]) -> str:
             continue
         for t in terms:
             # Named-gloss form first — it carries the phonetic, so it can only
-            # ever have been a gloss site.
+            # ever have been a gloss site. Retained for books composed before the
+            # script-only rule, whose prose still holds `(bab, باب)`.
             line = line.replace(f"({t['phonetic']}, {t['script']})", f"(*{t['phonetic']}*)")
-        for script, sharers in by_script.items():
-            for m in reversed(list(re.finditer(rf"\s?\({re.escape(script)}\)", line))):
-                before = line[max(0, m.start() - _ANNOTATED_WINDOW - 40) : m.start()]
-                if any(re.search(rf"(?<![\w-]){re.escape(t['phonetic'])}['\"”’)\]*_\s]*$", before) for t in sharers):
-                    line = line[: m.start()] + line[m.end() :]  # appended — remove
-                else:
-                    # A gloss site. Reseed with the longest sharer's phonetic —
-                    # `terms` is longest-first, so sharers[0] is deterministic.
-                    line = line[: m.start()] + f" (*{sharers[0]['phonetic']}*)" + line[m.end() :]
+        # Any paren holding ONLY an Arabic run is a candidate; which term it
+        # belonged to is decided by its skeleton.
+        for m in reversed(list(re.finditer(r"\s?\(([^()]*[؀-ۿ][^()]*)\)", line))):
+            sharers = by_skeleton.get(normalize_arabic(m.group(1)))
+            if not sharers:
+                continue  # not ours — a source's own Arabic, or another pass's
+            before = line[max(0, m.start() - _ANNOTATED_WINDOW - 40) : m.start()]
+            if any(re.search(rf"(?<![\w-]){re.escape(t['phonetic'])}['\"”’)\]*_\s]*$", before) for t in sharers):
+                line = line[: m.start()] + line[m.end() :]  # appended — remove
+            else:
+                # A gloss site. Reseed with the longest sharer's phonetic —
+                # `terms` is longest-first, so sharers[0] is deterministic.
+                line = line[: m.start()] + f" (*{sharers[0]['phonetic']}*)" + line[m.end() :]
         lines[i] = line
     return "\n".join(lines)
 
@@ -365,16 +389,25 @@ def _annotate_chapter(body: str, terms: list[dict[str, str]], pending: dict[str,
             # (nesting produced `his gate (*bab* (باب))`). What replaces it
             # depends on the class:
             #
-            #   teach   `(bab, باب)` — the term's NAME survives beside its
-            #           script, because this is the book's own vocabulary and a
-            #           reader without Arabic must still be able to say it.
-            #   legacy  `(باب)` — the pre-policy behaviour, script only.
+            #   every class  `(باب)` — SCRIPT ONLY.
+            #
+            # Script only, since 2026-08-02 (Asif): "there should be zero English
+            # transliteration of Arabic terms, words, paragraphs, sentences, etc.
+            # in book.md. All Arabic should be in the Arabic script, not in the
+            # English character set." The `teach` class used to keep the
+            # romanisation beside the script — `(bab, باب)` — on the reasoning
+            # that a reader without Arabic must still be able to say the word.
+            # That reasoning is retired: the Arabic on this page is always
+            # vowelled (`vowel_book.py`, step 5a-vowelling), which is what makes
+            # it readable to the person the edition is printed for, and the
+            # romanization has a home in the podcast lane where pronunciation is
+            # the whole point. `chapters/*.txt` is untouched by this.
             #
             # A personal name never gloss-replaces: its transliteration is the
             # running prose, so the script is appended beside it.
             gloss = None if style == "name" or _is_person(phonetic) else _gloss_span(line, m.start(), m.end())
             if gloss:
-                inner = f" ({phonetic}, {script})" if style == "teach" else f" ({script})"
+                inner = f" ({script})"
                 edits.append((gloss[0], gloss[1], inner))
                 queued.append((gloss[0], script))
                 del pending[phonetic]
