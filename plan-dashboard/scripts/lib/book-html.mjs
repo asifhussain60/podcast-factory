@@ -32,6 +32,8 @@
  */
 import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
+import { readTextColours, applyTextColours } from "./text-colour.mjs";
+import { anchorKey } from "./anchor-key.mjs";
 import { loadLayout, applyLayout } from "../visual-layout.mjs";
 
 const ARABIC_RE = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
@@ -186,7 +188,29 @@ export const TRANSLATION_FONTS = [
  *  Uthmanic script because that is the orthography the text is written in, which
  *  is a correctness rule, not a preference. This choice covers everything else —
  *  hadith, sayings, poetry, the book's own Arabic phrases. */
-export const ARABIC_FONTS = ["scheherazade-new", "amiri"];
+export const ARABIC_FONTS = [
+  "scheherazade-new",
+  "amiri",
+  // Three modern faces added 2026-08-02. Declaring one here is only a third of
+  // the job: it must also carry an @font-face in BOTH book-print.css and
+  // theme-tokens.css, and a `.ar-<id>` stack in quote-typography.css.
+  "cairo",
+  "tajawal",
+  "ibm-plex-sans-arabic",
+];
+
+/** How large the book sets its Arabic — display quotations AND terms woven into
+ *  prose, which move together (quote-typography.css `.ars-*`). `standard` is the
+ *  default and stamps no class: it IS the :root value, so an unset book and one
+ *  explicitly set to standard render through the same declaration. */
+export const ARABIC_SIZES = ["compact", "standard", "large", "generous"];
+export const DEFAULT_ARABIC_SIZE = "standard";
+
+/** The colour Arabic is set in (quote-typography.css `.ari-*`). `maroon` is the
+ *  default and stamps no class, for the same reason `standard` does not. Every
+ *  option is measured to clear WCAG AA on all three papers — see that file. */
+export const ARABIC_INKS = ["maroon", "ink", "indigo", "forest", "brown"];
+export const DEFAULT_ARABIC_INK = "maroon";
 
 /**
  * The pipeline's machine fence kinds — comment markers that delimit spans the
@@ -266,6 +290,39 @@ export function readArabicFont(bookDir) {
   try {
     const font = JSON.parse(readFileSync(p, "utf-8"))?.arabic_font;
     return ARABIC_FONTS.includes(font) ? font : "";
+  } catch {
+    return "";
+  }
+}
+/** The book's Arabic size and ink, from the same file.
+ *
+ *  Both return '' for the DEFAULT as well as for absent/unknown, and that is
+ *  deliberate rather than lossy: the default is the `:root` declaration in
+ *  quote-typography.css, so stamping `.ars-standard` would mean maintaining a
+ *  second declaration that has to agree with it forever. '' means "the class is
+ *  not needed", which is the truth. */
+export function readArabicSize(bookDir) {
+  return readOptionalChoice(
+    bookDir,
+    "arabic_size",
+    ARABIC_SIZES,
+    DEFAULT_ARABIC_SIZE,
+  );
+}
+export function readArabicInk(bookDir) {
+  return readOptionalChoice(
+    bookDir,
+    "arabic_ink",
+    ARABIC_INKS,
+    DEFAULT_ARABIC_INK,
+  );
+}
+function readOptionalChoice(bookDir, key, allowed, fallback) {
+  const p = path.join(bookDir, "citation-style.json");
+  if (!existsSync(p)) return "";
+  try {
+    const v = JSON.parse(readFileSync(p, "utf-8"))?.[key];
+    return allowed.includes(v) && v !== fallback ? v : "";
   } catch {
     return "";
   }
@@ -859,6 +916,14 @@ export function buildBookHtml(mdPath, { v2 = false, selfStudy = false } = {}) {
     // the Arabic audit's own provenance rather than re-derived here.
     quranicRuns: readQuranicRuns(assetRoot),
   });
+  // Per-selection text colours (_system/text-colour.json). Applied per CHAPTER
+  // rather than to the whole body: a stored quote is matched by its text, and
+  // `findPassage` takes the first occurrence, so a short phrase recorded in
+  // chapter 2 would otherwise be free to colour an identical phrase in chapter 9.
+  // The wrapper `wrapChapters` already emits carries the chapter's own number, so
+  // splitting on it is enough to keep each chapter's colours inside it.
+  bodyHtml = applyColoursPerChapter(bodyHtml, assetRoot, tocItems);
+
   const bodyClasses = [];
   if (selfStudy) bodyClasses.push("book-self-study");
   if (v2) {
@@ -886,6 +951,13 @@ export function buildBookHtml(mdPath, { v2 = false, selfStudy = false } = {}) {
   // declaration on the element beats one inherited from <body>.
   const arFont = readArabicFont(bookDir);
   if (arFont) bodyClasses.push(`ar-${arFont}`);
+  // ...and body.ars-<size> / body.ari-<ink>, which move --q-ar-size,
+  // --q-ar-inline-size and --q-maroon. Absent for the default value on purpose:
+  // see readArabicSize.
+  const arSize = readArabicSize(bookDir);
+  if (arSize) bodyClasses.push(`ars-${arSize}`);
+  const arInk = readArabicInk(bookDir);
+  if (arInk) bodyClasses.push(`ari-${arInk}`);
   const bodyClass = bodyClasses.join(" ");
 
   return {
@@ -903,4 +975,53 @@ export function buildBookHtml(mdPath, { v2 = false, selfStudy = false } = {}) {
     bodyHtml,
     bodyClass,
   };
+}
+
+/**
+ * Apply each chapter's recorded text colours to its own slice of the body.
+ *
+ * The sidecar is keyed by `anchorKey` (the same key the Composer stores edits and
+ * placements under); the rendered body is divided by `ch-page-N` wrappers. The
+ * bridge between them is the Contents, which this renderer has already built from
+ * the same headings — so the mapping is derived from one source rather than
+ * recomputed from the HTML.
+ *
+ * Anything unmatched is left alone. A chapter with no colours, a colour whose
+ * words have since been edited, a book with no sidecar at all: each renders
+ * exactly as it did before this existed.
+ */
+function applyColoursPerChapter(bodyHtml, bookDir, tocItems) {
+  const colours = readTextColours(bookDir);
+  if (!Object.keys(colours).length) return bodyHtml;
+  const keyByNumber = new Map();
+  for (const item of tocItems || []) {
+    const n = /^\d+$/.test(String(item.label || "")) ? Number(item.label) : 0;
+    if (n) keyByNumber.set(n, anchorKey(`${n}. ${item.title || ""}`));
+  }
+
+  // Split on the OPENING wrapper only. A chapter contains a nested
+  // `<section class="chapter-open">`, so pairing each opening tag with a
+  // `</section>` closes on the wrong one: lazily at the chapter-open's own close
+  // (which truncated every chapter to its title block and matched nothing),
+  // greedily at the last close in the book. A chapter's text is simply
+  // everything up to the next chapter's opening tag.
+  const OPEN = /<section class="chapter ch-page-(\d+)">/g;
+  const marks = [];
+  let m;
+  while ((m = OPEN.exec(bodyHtml))) {
+    marks.push({ at: m.index, after: m.index + m[0].length, n: Number(m[1]) });
+  }
+  if (!marks.length) return bodyHtml;
+
+  let out = "";
+  let cursor = 0;
+  marks.forEach((mark, i) => {
+    const endAt = i + 1 < marks.length ? marks[i + 1].at : bodyHtml.length;
+    out += bodyHtml.slice(cursor, mark.after);
+    const inner = bodyHtml.slice(mark.after, endAt);
+    const spans = colours[keyByNumber.get(mark.n) ?? ""];
+    out += spans?.length ? applyTextColours(inner, spans) : inner;
+    cursor = endAt;
+  });
+  return out + bodyHtml.slice(cursor);
 }

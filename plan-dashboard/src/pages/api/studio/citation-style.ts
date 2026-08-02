@@ -2,9 +2,11 @@
  * citation-style.ts — the Citation & Quote style-family endpoint (Book Pipeline v2).
  *
  *   GET  /api/studio/citation-style?slug=
- *        → { slug, schema, family, translation_font, arabic_font }
+ *        → { slug, schema, family, translation_font, arabic_font,
+ *            arabic_size, arabic_ink }
  *   PUT  /api/studio/citation-style
- *        body { slug, family?, translation_font?, arabic_font? }
+ *        body { slug, family?, translation_font?, arabic_font?,
+ *               arabic_size?, arabic_ink? }
  *        Validates each field it is given against its fixed set, carries the other
  *        over from what is on disk, and writes book/citation-style.json. The prior
  *        file is backed up as .bak before the first overwrite.
@@ -61,18 +63,41 @@ const DEFAULT_FONT: (typeof FONTS)[number] = "eb-garamond";
  *  the canonical mushaf is set in the KFGQPC Uthmanic script because that is the
  *  orthography it is written in, and that is a correctness rule rather than a
  *  choice the book gets to make. Optional in the artifact, like translation_font. */
-const ARABIC_FONTS = ["scheherazade-new", "amiri"] as const;
+const ARABIC_FONTS = [
+  "scheherazade-new",
+  "amiri",
+  "cairo",
+  "tajawal",
+  "ibm-plex-sans-arabic",
+] as const;
 const DEFAULT_ARABIC: (typeof ARABIC_FONTS)[number] = "scheherazade-new";
+
+/** How large the book sets its Arabic, and in what colour. Steps and a fixed
+ *  palette rather than free numbers, because both values have to reach the PDF
+ *  and a book set to an arbitrary size or an unreadable ink is a book nobody
+ *  chose to print that way. Mirrors ARABIC_SIZES / ARABIC_INKS in book-html.mjs;
+ *  the VALUES behind each name live in quote-typography.css. Optional in the
+ *  artifact, like the two faces — an older book reads as the defaults. */
+const ARABIC_SIZES = ["compact", "standard", "large", "generous"] as const;
+const DEFAULT_ARABIC_SIZE: (typeof ARABIC_SIZES)[number] = "standard";
+const ARABIC_INKS = ["maroon", "ink", "indigo", "forest", "brown"] as const;
+const DEFAULT_ARABIC_INK: (typeof ARABIC_INKS)[number] = "maroon";
 
 type Family = (typeof FAMILIES)[number];
 type Font = (typeof FONTS)[number];
 type ArabicFont = (typeof ARABIC_FONTS)[number];
+type ArabicSize = (typeof ARABIC_SIZES)[number];
+type ArabicInk = (typeof ARABIC_INKS)[number];
 const isFamily = (v: unknown): v is Family =>
   typeof v === "string" && (FAMILIES as readonly string[]).includes(v);
 const isFont = (v: unknown): v is Font =>
   typeof v === "string" && (FONTS as readonly string[]).includes(v);
 const isArabicFont = (v: unknown): v is ArabicFont =>
   typeof v === "string" && (ARABIC_FONTS as readonly string[]).includes(v);
+const isArabicSize = (v: unknown): v is ArabicSize =>
+  typeof v === "string" && (ARABIC_SIZES as readonly string[]).includes(v);
+const isArabicInk = (v: unknown): v is ArabicInk =>
+  typeof v === "string" && (ARABIC_INKS as readonly string[]).includes(v);
 
 export const GET: APIRoute = async ({ url }) => {
   const slug = String(url.searchParams.get("slug") ?? "").trim();
@@ -87,6 +112,8 @@ export const GET: APIRoute = async ({ url }) => {
       family: DEFAULT_FAMILY,
       translation_font: DEFAULT_FONT,
       arabic_font: DEFAULT_ARABIC,
+      arabic_size: DEFAULT_ARABIC_SIZE,
+      arabic_ink: DEFAULT_ARABIC_INK,
     });
   try {
     const raw = JSON.parse(readFileSync(target, "utf8"));
@@ -103,6 +130,12 @@ export const GET: APIRoute = async ({ url }) => {
       family,
       translation_font: font,
       arabic_font: arabic,
+      arabic_size: isArabicSize(raw?.arabic_size)
+        ? raw.arabic_size
+        : DEFAULT_ARABIC_SIZE,
+      arabic_ink: isArabicInk(raw?.arabic_ink)
+        ? raw.arabic_ink
+        : DEFAULT_ARABIC_INK,
     });
   } catch (e) {
     return apiServerError(`Failed to read citation-style.json: ${String(e)}`);
@@ -126,9 +159,12 @@ export const PUT: APIRoute = async ({ request }) => {
   const hasFamily = body.family !== undefined;
   const hasFont = body.translation_font !== undefined;
   const hasArabic = body.arabic_font !== undefined;
-  if (!hasFamily && !hasFont && !hasArabic)
+  const hasArabicSize = body.arabic_size !== undefined;
+  const hasArabicInk = body.arabic_ink !== undefined;
+  if (!hasFamily && !hasFont && !hasArabic && !hasArabicSize && !hasArabicInk)
     return apiError(
-      "Nothing to save (expected family, translation_font and/or arabic_font)",
+      "Nothing to save (expected family, translation_font, arabic_font, " +
+        "arabic_size and/or arabic_ink)",
     );
   if (hasFamily && !isFamily(body.family))
     return apiError(`Invalid family (expected one of: ${FAMILIES.join(", ")})`);
@@ -139,6 +175,14 @@ export const PUT: APIRoute = async ({ request }) => {
   if (hasArabic && !isArabicFont(body.arabic_font))
     return apiError(
       `Invalid arabic_font (expected one of: ${ARABIC_FONTS.join(", ")})`,
+    );
+  if (hasArabicSize && !isArabicSize(body.arabic_size))
+    return apiError(
+      `Invalid arabic_size (expected one of: ${ARABIC_SIZES.join(", ")})`,
+    );
+  if (hasArabicInk && !isArabicInk(body.arabic_ink))
+    return apiError(
+      `Invalid arabic_ink (expected one of: ${ARABIC_INKS.join(", ")})`,
     );
 
   const bookDir = findContentDirSync(slug);
@@ -175,6 +219,16 @@ export const PUT: APIRoute = async ({ request }) => {
       : isArabicFont(current.arabic_font)
         ? current.arabic_font
         : DEFAULT_ARABIC;
+    const arabicSize = hasArabicSize
+      ? (body.arabic_size as ArabicSize)
+      : isArabicSize(current.arabic_size)
+        ? current.arabic_size
+        : DEFAULT_ARABIC_SIZE;
+    const arabicInk = hasArabicInk
+      ? (body.arabic_ink as ArabicInk)
+      : isArabicInk(current.arabic_ink)
+        ? current.arabic_ink
+        : DEFAULT_ARABIC_INK;
 
     writeFileSync(
       target,
@@ -184,6 +238,8 @@ export const PUT: APIRoute = async ({ request }) => {
           family,
           translation_font: translationFont,
           arabic_font: arabicFont,
+          arabic_size: arabicSize,
+          arabic_ink: arabicInk,
         },
         null,
         2,
@@ -195,6 +251,8 @@ export const PUT: APIRoute = async ({ request }) => {
       family,
       translation_font: translationFont,
       arabic_font: arabicFont,
+      arabic_size: arabicSize,
+      arabic_ink: arabicInk,
     });
   } catch (e) {
     return apiServerError(`Failed to write citation-style.json: ${String(e)}`);

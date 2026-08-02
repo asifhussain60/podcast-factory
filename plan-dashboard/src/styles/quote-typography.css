@@ -68,6 +68,78 @@
      defeats the surface. The PDF does get longer. */
   --q-ar-size: 1.4rem;
   --q-ar-leading: 1.9;
+
+  /* The size of a TERM woven into an English sentence — a different question
+     from the display size above, and previously a bare `1.26em` written into
+     book-print.css and book-composer.css as a pinned mirror pair. Tokenised so
+     the book's Arabic size setting can move BOTH: a reader asking for larger
+     Arabic means all of it, not only the quotations. Default unchanged, so a
+     book that never touches the setting prints exactly as it did.
+
+     `em`, not `rem`, and deliberately: a term scales against the sentence it
+     sits in, while a display quotation is sized against the page. */
+  --q-ar-inline-size: 1.26em;
+}
+
+/* ── Per-book Arabic SIZE ─────────────────────────────────────────────────────
+   Stamped as a class on <body> (print) or the page root (screen) from
+   citation-style.json's `arabic_size`, exactly like the faces below.
+
+   Steps rather than a free number, for three reasons that all point the same
+   way: the value has to reach the PDF, where it can only arrive as generated
+   CSS; a fixed set is checkable by the API against a list, the way `family` and
+   the two faces already are; and a book set to an arbitrary size is a book whose
+   pagination nobody chose. `standard` is the default and declares nothing — it
+   IS the :root value above, so an unset book and a book explicitly set to
+   standard render through the same declaration rather than two that must agree.
+
+   Both tokens move together on every step. Their RATIO is held roughly constant
+   (display ≈ 1.11× the inline term at every step), which is the proportion the
+   two were tuned to on 2026-08-01/02. */
+.ars-compact {
+  --q-ar-size: 1.2rem;
+  --q-ar-inline-size: 1.14em;
+}
+.ars-large {
+  --q-ar-size: 1.6rem;
+  --q-ar-inline-size: 1.38em;
+}
+.ars-generous {
+  --q-ar-size: 1.8rem;
+  --q-ar-inline-size: 1.5em;
+}
+
+/* ── Per-book Arabic INK ──────────────────────────────────────────────────────
+   The colour Arabic is set in, from citation-style.json's `arabic_ink`.
+   `maroon` is the default and declares nothing, for the same reason `standard`
+   above does not.
+
+   Every option here was measured against all three papers rather than picked by
+   eye — this edition is printed to be READ, and the standard the site holds
+   itself to is WCAG AA (4.5:1). On the cream page the five run 8.3:1 to 16.6:1;
+   on sepia, 7.2:1 to 14.3:1. That measurement is also why this is a fixed set
+   and not a free colour picker: a picker's most likely first use is a light
+   colour that looks pleasant on screen and is unreadable in print.
+
+   Each class sets the DARK-paper variant too. The existing paper guard at the
+   foot of this file swaps one token for the other, so an ink that forgot its
+   lifted twin would silently fall back to the maroon one on dark paper. Lifted
+   values clear AA on #201e1b at 7.9:1 to 13.1:1. */
+.ari-ink {
+  --q-maroon: #1f1d18;
+  --q-maroon-dark: #e8e4dc;
+}
+.ari-indigo {
+  --q-maroon: #23356b;
+  --q-maroon-dark: #a8b6e8;
+}
+.ari-forest {
+  --q-maroon: #1d4d33;
+  --q-maroon-dark: #93d7b0;
+}
+.ari-brown {
+  --q-maroon: #6b4423;
+  --q-maroon-dark: #dbb08a;
 }
 
 /* Per-book NON-Qur'anic Arabic face. Stamped as a class on <body> (print) or on
@@ -89,6 +161,31 @@
 .ar-amiri {
   --q-ar-face:
     "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
+}
+
+/* Three MODERN faces (2026-08-02), beside the two naskh ones above. Chosen for a
+   reader who does not read Arabic unaided: all three are low-contrast, open-
+   countered and hold their vowel marks legibly at text size, which the always-
+   vowel rule makes the deciding property. Vendored from @fontsource, all three
+   OFL-1.1, and declared in BOTH theme-tokens.css (screen) and book-print.css
+   (print) — the PDF does not load the screen's @font-face block, so a face
+   added to only one renders in the fallback on the other.
+
+   Every stack falls back to Scheherazade rather than to `serif`: a missing file
+   should degrade to the book's own default face, not to whatever the renderer
+   happens to have. */
+.ar-cairo {
+  --q-ar-face:
+    "Cairo", "ScheherazadeSized", "Scheherazade New", "Amiri", sans-serif;
+}
+.ar-tajawal {
+  --q-ar-face:
+    "Tajawal", "ScheherazadeSized", "Scheherazade New", "Amiri", sans-serif;
+}
+.ar-ibm-plex-sans-arabic {
+  --q-ar-face:
+    "IBM Plex Sans Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
+    sans-serif;
 }
 
 /* Scripture. Set on the run itself by renderMd/renderMarkdown from the audit's
@@ -127,4 +224,31 @@
 .cx-edit-host[data-paper="dark"],
 .studio-editor__editor[data-paper="dark"] {
   --q-maroon: var(--q-maroon-dark);
+}
+
+/* ── Per-selection text colour ────────────────────────────────────────────────
+   Applied to any run a human coloured in the Book Composer. The record lives in
+   `_system/text-colour.json` and is re-found and wrapped at RENDER time
+   (scripts/lib/text-colour.mjs) — book.md never carries it, so no Python phase
+   that reads that file as text can be disturbed by a colour.
+
+   `!important` on nothing, and `color` only: a coloured run keeps its face, its
+   size and its direction, so colouring an Arabic term does not quietly undo the
+   book's Arabic typography. The five values are the palette in
+   src/lib/reader/text-ink.ts, each measured to clear WCAG AA on the cream, sepia
+   and dark papers. */
+.ink-maroon {
+  color: #7a1f1f;
+}
+.ink-ink {
+  color: #1f1d18;
+}
+.ink-indigo {
+  color: #23356b;
+}
+.ink-forest {
+  color: #1d4d33;
+}
+.ink-brown {
+  color: #6b4423;
 }

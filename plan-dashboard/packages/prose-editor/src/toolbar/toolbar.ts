@@ -16,7 +16,11 @@
  *    was never built.
  */
 import type { EditorApi, SelectionState } from "../types.ts";
-import type { RegisteredButton, RegisteredDropdown } from "../extend/define.ts";
+import type {
+  IconSpec,
+  RegisteredButton,
+  RegisteredDropdown,
+} from "../extend/define.ts";
 import { builtinButtons, TOOLBAR_FULL } from "./builtins.ts";
 import type { BuiltinOptions } from "./builtins.ts";
 import { ICONS } from "./icons.ts";
@@ -40,6 +44,18 @@ export interface ToolbarOptions {
   overflow?: "menu" | "wrap" | "none";
   /** Options for the built-in set — notably which heading levels are offered. */
   builtins?: BuiltinOptions;
+  /**
+   * Per-control icon overrides, keyed by item id and merged over whatever that
+   * control declares for itself.
+   *
+   * The package ships its own dependency-free glyph set (icons.ts) so it renders
+   * standing alone. A host that already loads an icon library should be able to
+   * dress the WHOLE bar in it — a bar wearing two icon sets at once reads worse
+   * than either — without this package acquiring a dependency on, or even a name
+   * for, that library. An id with no entry keeps its default, so a partial map
+   * is a partial re-skin rather than a bar with holes in it.
+   */
+  icons?: Readonly<Record<string, IconSpec>>;
   /** Width measurement. Injected because a headless DOM has no layout, so tests
    *  drive deterministic widths instead of fighting the shim. */
   measure?: MeasurePort;
@@ -103,8 +119,10 @@ export function createToolbar(
     b.setAttribute("aria-label", def.label);
     b.title = def.tooltip ?? labelWithShortcut(def.label, def.shortcut);
     if (def.ariaHasPopup) b.setAttribute("aria-haspopup", def.ariaHasPopup);
-    if (def.icon && "svg" in def.icon) b.innerHTML = def.icon.svg;
-    else if (def.icon && "text" in def.icon) b.textContent = def.icon.text;
+    // A host override wins over the control's own glyph — see ToolbarOptions.icons.
+    const icon: IconSpec | undefined = options.icons?.[def.id] ?? def.icon;
+    if (icon && "svg" in icon) b.innerHTML = icon.svg;
+    else if (icon && "text" in icon) b.textContent = icon.text;
     else b.textContent = def.label;
     if (def.isActive) b.setAttribute("aria-pressed", "false");
 
@@ -181,7 +199,13 @@ export function createToolbar(
     );
     overflowBtn.setAttribute("aria-haspopup", "menu");
     overflowBtn.setAttribute("aria-expanded", "false");
-    overflowBtn.innerHTML = ICONS.more ?? "";
+    // The overflow button answers to `icons.more` like any other control does.
+    // It is the one glyph a host could not reach before, so a re-skinned bar
+    // grew a single foreign icon at its end the first time it overflowed —
+    // visible only at narrow widths, which is where nobody looks.
+    const moreIcon = options.icons?.more;
+    if (moreIcon && "svg" in moreIcon) overflowBtn.innerHTML = moreIcon.svg;
+    else overflowBtn.innerHTML = ICONS.more ?? "";
     overflowBtn.hidden = true;
     guardSelection(overflowBtn);
 

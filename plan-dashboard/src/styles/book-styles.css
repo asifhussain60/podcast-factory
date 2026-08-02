@@ -186,6 +186,147 @@
   --q-ar-face:
     "AmiriSized", "Amiri", "ScheherazadeSized", "Scheherazade New", serif;
 }
+/* The three modern faces (2026-08-02). Each chip renders its own name in its own
+   face, and selecting one re-declares --q-ar-face on the form so the specimen
+   below changes live — the same :has() mechanism the two naskh faces use, with
+   no JavaScript for the preview itself. The stacks MIRROR the `.ar-*` classes in
+   quote-typography.css: this form previews what the book will print, so a
+   difference between the two would make the preview a lie. */
+.bs-archip[data-font="cairo"] .bs-chip-name {
+  font-family: "Cairo", "Scheherazade New", sans-serif;
+}
+.bs-archip[data-font="tajawal"] .bs-chip-name {
+  font-family: "Tajawal", "Scheherazade New", sans-serif;
+}
+.bs-archip[data-font="ibm-plex-sans-arabic"] .bs-chip-name {
+  font-family: "IBM Plex Sans Arabic", "Scheherazade New", sans-serif;
+}
+.bs-styleform:has(.bs-arradio[value="cairo"]:checked) {
+  --q-ar-face:
+    "Cairo", "ScheherazadeSized", "Scheherazade New", "Amiri", sans-serif;
+}
+.bs-styleform:has(.bs-arradio[value="tajawal"]:checked) {
+  --q-ar-face:
+    "Tajawal", "ScheherazadeSized", "Scheherazade New", "Amiri", sans-serif;
+}
+.bs-styleform:has(.bs-arradio[value="ibm-plex-sans-arabic"]:checked) {
+  --q-ar-face:
+    "IBM Plex Sans Arabic", "ScheherazadeSized", "Scheherazade New", "Amiri",
+    sans-serif;
+}
+
+/* ── Arabic SIZE chips ────────────────────────────────────────────────────────
+   Each chip shows its own name at the size it sets, so the choice is visible
+   before it is made — the same principle as the face chips above, applied to the
+   one property a name alone ("Generous") cannot convey.
+
+   Selecting one re-declares BOTH Arabic size tokens on the form, so the specimen
+   at the foot of the panel resizes live. Values MIRROR `.ars-*` in
+   quote-typography.css. */
+.bs-arsizechips,
+.bs-arinkchips {
+  margin-top: var(--sp-4, 16px);
+}
+.bs-arsizechip {
+  min-width: 7.5rem;
+  flex: 1 1 7.5rem;
+}
+.bs-arsizechip .bs-chip-name {
+  font-family: var(--q-ar-face);
+  font-weight: 400;
+}
+.bs-arsizechip[data-arsize="compact"] .bs-chip-name {
+  font-size: 1rem;
+}
+.bs-arsizechip[data-arsize="standard"] .bs-chip-name {
+  font-size: 1.15rem;
+}
+.bs-arsizechip[data-arsize="large"] .bs-chip-name {
+  font-size: 1.32rem;
+}
+.bs-arsizechip[data-arsize="generous"] .bs-chip-name {
+  font-size: 1.5rem;
+}
+.bs-styleform:has(input[name="arabic-size"][value="compact"]:checked) {
+  --q-ar-size: 1.2rem;
+  --q-ar-inline-size: 1.14em;
+}
+.bs-styleform:has(input[name="arabic-size"][value="large"]:checked) {
+  --q-ar-size: 1.6rem;
+  --q-ar-inline-size: 1.38em;
+}
+.bs-styleform:has(input[name="arabic-size"][value="generous"]:checked) {
+  --q-ar-size: 1.8rem;
+  --q-ar-inline-size: 1.5em;
+}
+
+/* The Typography specimen shows what the PAGE will look like, so it has to read
+   the same three tokens the page does — face, size and ink together.
+
+   `.bs-ar` hard-codes 1.05rem and body ink, and the Plain family's override that
+   would have replaced both is scoped to the CITATIONS form, so it never reached
+   here: this specimen previewed the FACE and nothing else. Harmless while the
+   face was the only thing this panel chose. The moment it also chose a size and
+   an ink, a sample that ignored two of the three settings was worse than no
+   sample — you would pick Forest, see no change, and reasonably conclude the
+   control was broken. */
+.cx-type-form .bs-ar {
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
+  color: var(--q-maroon);
+}
+
+/* ── Arabic INK chips ─────────────────────────────────────────────────────────
+   A filled dot beside each name, in the ink it sets. A dot rather than colouring
+   the name itself: at chip size a coloured word is a poor sample of an ink, and
+   the four dots side by side are directly comparable in a way four words are not.
+   Colour is never the only carrier here — every chip is also named.
+
+   Values MIRROR `.ari-*` in quote-typography.css, and selecting one re-declares
+   --q-maroon on the form so the specimen recolours live. */
+.bs-arinkchip {
+  min-width: 7rem;
+  flex: 1 1 7rem;
+}
+.bs-chip-swatch {
+  display: inline-block;
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-inline-end: 0.4rem;
+  border-radius: 50%;
+  vertical-align: -0.08em;
+  background: var(--bs-swatch, #7a1f1f);
+  /* A hairline so a dark ink still reads as a disc against the chip, and a light
+     one would not vanish into it. */
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 18%);
+}
+.bs-arinkchip[data-arink="maroon"] {
+  --bs-swatch: #7a1f1f;
+}
+.bs-arinkchip[data-arink="ink"] {
+  --bs-swatch: #1f1d18;
+}
+.bs-arinkchip[data-arink="indigo"] {
+  --bs-swatch: #23356b;
+}
+.bs-arinkchip[data-arink="forest"] {
+  --bs-swatch: #1d4d33;
+}
+.bs-arinkchip[data-arink="brown"] {
+  --bs-swatch: #6b4423;
+}
+.bs-styleform:has(input[name="arabic-ink"][value="ink"]:checked) {
+  --q-maroon: #1f1d18;
+}
+.bs-styleform:has(input[name="arabic-ink"][value="indigo"]:checked) {
+  --q-maroon: #23356b;
+}
+.bs-styleform:has(input[name="arabic-ink"][value="forest"]:checked) {
+  --q-maroon: #1d4d33;
+}
+.bs-styleform:has(input[name="arabic-ink"][value="brown"]:checked) {
+  --q-maroon: #6b4423;
+}
 
 /* The Typography specimen carries no family chips, so the family rules further
    down this file never match it. It is a FACE specimen — the family specimen is

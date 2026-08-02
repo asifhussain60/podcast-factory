@@ -796,10 +796,86 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
+  /* The CLUSTER wraps (see .cx-view-prefs) but each group did not, so a group
+     wider than the column pushed its own tail past the right edge of a container
+     that clips rather than scrolls. Harmless while a group was one select and
+     one stepper; the Arabic pair added a long face name beside a stepper whose
+     readout is a word, and at 390px that put the "+" button out of reach —
+     exactly the failure the cluster's own wrap exists to prevent, one level
+     down. */
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 0.3rem;
 }
 .cx-edit-toolbar .cx-tb-group + .cx-tb-group {
   padding-left: 0.55rem;
   border-left: 1px solid var(--c-rule-soft, #ebe6da);
+}
+
+/* ── Naming the two halves of this row ────────────────────────────────────────
+   The row carries a font control and a size control TWICE over, and the two
+   pairs do different things: "Arabic" is the book's own typography and prints
+   into the PDF, "Screen" is how this editing view looks and reaches nothing.
+   Identical-looking controls that differ in consequence is the one arrangement
+   worth spending a word on, so each pair says which it is instead of leaving a
+   hover to answer it.
+
+   Styled as the quiet part of its group — same muted ink and small size as the
+   Paper picker's label, which is the label this row already had. */
+.cx-tb-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  /* No tracking. On two six-letter words it bought a little elegance and cost
+     the row about 13px, and the row is 3px from fitting on one line. */
+  text-transform: uppercase;
+  color: var(--c-ink-muted, #66625a);
+  white-space: nowrap;
+}
+/* The book's pair leads the row, so its label carries the accent the rest of the
+   composer uses for "this changes the edition". Colour is not the only carrier —
+   the word itself is the label. */
+.cx-arabic-group .cx-tb-label {
+  color: var(--c-accent, #8b4513);
+}
+/* The size stepper's readout is a step NAME here ("Standard"), not the two-digit
+   number the screen stepper shows, so it needs room to be a word. */
+.cx-arabic-size .cx-size-val {
+  /* Wide enough for "Generous", the longest of the four, and no wider. */
+  min-width: 3.9rem;
+  font-variant-numeric: normal;
+}
+/* A face name can be as long as "IBM Plex Sans Arabic". Left to size itself the
+   select set the group's width from its widest option and refused to give any of
+   it back, so the group could not shrink into a narrow column no matter that it
+   was allowed to wrap. */
+.cx-arabic-face {
+  min-width: 0;
+  /* 9.5rem truncates "IBM Plex Sans Arabic" with the select's own ellipsis and
+     keeps every other name whole. Worth the truncation: this cap plus the
+     compact paper swatches is what fits the whole preference cluster on ONE row
+     beneath the formatting bar, and a third row cost more than a clipped word in
+     one option of five. */
+  max-width: 9rem;
+}
+
+/* Narrow screens: the same controls, all of them reachable. The two long parts
+   are the face name and the step name, so both give ground rather than the row
+   losing a control off its edge — a stepper you cannot press is worse than one
+   whose label is abbreviated by the select's own ellipsis. */
+@media (max-width: 30rem) {
+  .cx-arabic-face {
+    max-width: 8.5rem;
+  }
+  .cx-arabic-size .cx-size-val {
+    min-width: 4.3rem;
+    font-size: 0.72rem;
+  }
+  /* The labels have done their work by now — the two pairs have been told apart
+     once, and at this width the row needs the 60px more than it needs the
+     reminder. The accessible names on every control are unaffected. */
+  .cx-tb-label {
+    display: none;
+  }
 }
 
 /* Font-family selector — a native <select> (keeps the OS dropdown + a11y),
@@ -924,7 +1000,7 @@ body:has(.composer-grid:not([data-panel="closed"])) {
 .cx-view-prefs {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   /* CENTRED, and measured rather than guessed: the formatting bar alone needs
      ~946px of the composer column's ~977px, so this cluster is on its own row
      at every realistic width. A right-aligned orphan row under a full-width bar
@@ -941,6 +1017,8 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   justify-content: center;
   row-gap: 0.4rem;
 }
+/* Every one of these came out of the same budget: the cluster was three pixels
+   wider than its column, which is the difference between two rows and three. */
 
 /* Paper picker — Kindle-style Light / Sepia / Dark. A single SEGMENTED control
    rather than three separate pills: these are three states of one choice, and
@@ -963,14 +1041,29 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   border-inline-end: 1px solid var(--cx-control-border, var(--c-rule, #d9d3c4));
   line-height: 1.9rem;
 }
+/* Off-screen, not absent: the button's text is still its accessible NAME and is
+   still what a screen reader announces — only the pixels are reclaimed. Same
+   contract .cx-tab-label uses for the inspector tabs, named generically because
+   this is now the second place that needs it. */
+.cx-vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 .cx-paper-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  /* No gap: the label inside is off-screen now, so a gap would pad the swatch
+     against nothing and put the three dots further apart than they read as one
+     control. */
+  gap: 0;
   font: inherit;
   font-size: 0.75rem;
   height: 100%;
-  padding: 0 0.55rem;
+  padding: 0 0.5rem;
   border: 0;
   border-inline-start: 1px solid
     var(--cx-control-border, var(--c-rule, #d9d3c4));
@@ -991,6 +1084,15 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   border-radius: 50%;
   border: 1px solid color-mix(in oklab, var(--c-ink, #1f1d18) 28%, transparent);
   background: var(--swatch, #fff);
+}
+/* The selected swatch wears a ring. The 14% background tint was carrying the
+   pressed state on its own, which read clearly while each button also had its
+   name in accent ink beside the dot — with the names off-screen it was the only
+   difference between "chosen" and "not", and too quiet to be that. */
+.cx-paper-btn[aria-pressed="true"]::before {
+  box-shadow:
+    0 0 0 1px var(--c-bg-card, #fffdf8),
+    0 0 0 2.5px var(--c-accent, #8b4513);
 }
 /* The site-wide back-to-top is suppressed HERE only. The Composer carries its
    own arrow in the floating row (#cx-rail-top), which is always present instead
@@ -1020,10 +1122,14 @@ body:has(.composer-grid) .to-top {
 .cx-diff-toggle {
   display: inline-flex;
   align-items: center;
+  /* Icon-only since 2026-08-02 — the caption moved off-screen (see .cx-vh) and
+     into the tooltip, which is what keeps the bar at two rows now that the
+     colour button shares the first one. */
+  justify-content: center;
   font: inherit;
   font-size: 0.75rem;
   height: 100%;
-  padding: 0 0.65rem;
+  padding: 0 0.55rem;
   border: 0;
   border-inline-start: 1px solid
     var(--cx-control-border, var(--c-rule, #d9d3c4));
@@ -1035,6 +1141,13 @@ body:has(.composer-grid) .to-top {
     color 120ms ease;
 }
 
+/* The glyph, on the package's own 16px box so it sits level with the formatting
+   bar's icons beside it. */
+.cx-diff-toggle svg {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+}
 .cx-diff-toggle:hover {
   background: color-mix(in oklab, var(--c-ink, #1f1d18) 6%, transparent);
   color: var(--c-ink, #1f1d18);
@@ -1239,7 +1352,8 @@ body:has(.composer-grid) .to-top {
 .cx-body .ar-inline,
 .cx-prose .ar-raw {
   font-family: var(--q-ar-face);
-  /* 1.26em, chosen by Asif on 2026-08-02 from three candidates rendered side by
+  /* --q-ar-inline-size, default 1.26em, chosen by Asif on 2026-08-02 from three
+     candidates rendered side by
      side in this very paragraph (1.10 / 1.18 / 1.26); he picked the honorific
      `عَلَيْهِمُ السَّلَامُ` at the largest.
 
@@ -1253,10 +1367,13 @@ body:has(.composer-grid) .to-top {
 
      The reason a term needs it and a quotation does not: a vowelled word has
      three stacked marks competing for the same ink as the letter, and at parity
-     with the Latin it reads as fine print rather than as a word. MIRROR:
-     book-print.css .ar-inline carries the same value — the two must move
-     together or the printed page stops matching the Composer it is verified in. */
-  font-size: 1.26em;
+     with the Latin it reads as fine print rather than as a word.
+
+     Both surfaces now READ the token (quote-typography.css) rather than each
+     carrying a copy of the number, which is what the old MIRROR note here was
+     asking a human to remember. It is also what lets the book's Arabic-size
+     setting move terms and display quotations together. */
+  font-size: var(--q-ar-inline-size);
 }
 
 /* …but NEVER inside a display quotation, where it would COMPOUND. A verse in
@@ -2469,6 +2586,47 @@ body:has(.composer-grid) .to-top {
 .cx-tip[hidden] {
   display: none;
 }
+
+/* ── The RICH form of the same tooltip ────────────────────────────────────────
+   The chip above is sized for one uppercase word standing in for an icon. A
+   formatting control needs a sentence — what it produces, and what it wants
+   selected first — so this variant undoes exactly the three declarations that
+   make a sentence unreadable (nowrap, uppercase, letter-spacing) and nothing
+   else. It stays the same colour, the same corner and the same shadow, so the
+   two read as one component in two sizes rather than as two components. */
+.cx-tip.is-rich {
+  max-width: 20rem;
+  padding: 0.5rem 0.65rem;
+  white-space: normal;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.45;
+  text-align: left;
+}
+.cx-tip-title {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  /* The one word the eye should land on first. */
+  letter-spacing: 0.01em;
+}
+.cx-tip-detail {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 12px;
+  font-weight: 400;
+  /* Dimmed against the title so the two lines rank, without introducing a
+     second colour: the tooltip's own ink at reduced opacity. */
+  opacity: 0.82;
+}
+
+/* The formatting bar's icons need NO rule here, and that is the point of
+   vendoring them as inline SVG on the package's own 16px box (toolbar-icons.ts):
+   they size, colour and align exactly as the glyphs they replaced, so the
+   override lives entirely in the TypeScript and can be removed without leaving
+   CSS behind to unwind. Reached by CSS class from a webfont instead, they would
+   have needed their size and line-height pinned back — and would have rendered
+   as nothing at all until the stylesheet arrived. */
 /* Fills whatever the surface leaves below the tab strip and scrolls there.
    `min-height: 0` is load-bearing: without it a flex child refuses to shrink below
    its content, so the panel would push past the surface instead of scrolling
@@ -2583,6 +2741,27 @@ body:has(.composer-grid) .to-top {
    same guard the file already gives .cx-surface[hidden] / .cx-tabpanel[hidden]. */
 .cx-settings-scrim[hidden] {
   display: none;
+}
+
+/* ── Letting the settings modal actually cover the page ───────────────────────
+   The scrim asks for z-index 960 and did not get it. It is markup INSIDE
+   `.composer-panel`, and that panel is `position: sticky` — which creates a
+   stacking context whatever its own z-index is. So 960 only ever meant 960
+   among the panel's own children; against the rest of the page the modal
+   inherited the panel's place in the order, and the editor's sticky toolbar
+   (z 5) and the floating panel buttons (z 899) both painted over the open
+   dialog. A trapped z-index cannot be raised from the inside.
+
+   The fix raises the TRAP, and only while a modal is open — so the floating
+   buttons keep sitting above the panel the other 99% of the time, which is what
+   they are for. Moving the dialog out of the panel would be the other answer and
+   is a worse trade: the markup is deliberately beside the forms it shows, and
+   the scripts that bind them read from one subtree.
+
+   Latent until 2026-08-02, when the Typography panel gained the Arabic size and
+   ink chips and the dialog first grew tall enough to reach the toolbar. */
+.composer:has(.cx-settings-scrim:not([hidden])) .composer-panel {
+  z-index: 961;
 }
 .cx-settings-box {
   width: min(46rem, 100%);
@@ -3235,4 +3414,125 @@ body:has(.composer-grid) .to-top {
   100% {
     box-shadow: 0 0 0 0 transparent;
   }
+}
+
+/* ── The text-colour palette ──────────────────────────────────────────────────
+   Opened by the toolbar's colour button, positioned against it with two custom
+   properties written by the script — the same division of labour icon-tooltip.ts
+   and panel-text-size.ts use, so no declaration is ever inline.
+
+   Above the formatting bar (z 5) and the floating panel buttons (z 899), under
+   the settings modal (960): a menu is not a blocking question. */
+.cx-ink-menu {
+  position: fixed;
+  left: var(--ink-x, 0);
+  top: var(--ink-y, 0);
+  z-index: 940;
+  display: flex;
+  flex-direction: column;
+  min-width: 11rem;
+  padding: 0.3rem;
+  gap: 0.1rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 8px;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: var(--shadow-hover, 0 6px 20px rgba(31, 29, 24, 0.18));
+}
+.cx-ink-swatch,
+.cx-ink-clear {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  font: inherit;
+  font-size: 0.8rem;
+  text-align: start;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--c-ink, #1f1d18);
+  cursor: pointer;
+}
+.cx-ink-swatch:hover,
+.cx-ink-clear:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 10%, transparent);
+}
+.cx-ink-swatch:focus-visible,
+.cx-ink-clear:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: -2px;
+}
+/* The dot, in the ink it applies. `--ink` is the only thing the script sets;
+   everything about the dot's shape is here. */
+.cx-ink-swatch::before {
+  content: "";
+  flex: none;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  background: var(--ink, #1f1d18);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 18%);
+}
+/* The ink already on the selection. A tick as well as the tint, so which one is
+   set is never carried by colour alone. */
+.cx-ink-swatch[aria-checked="true"] {
+  font-weight: 700;
+}
+.cx-ink-swatch[aria-checked="true"]::after {
+  content: "\2713";
+  margin-inline-start: auto;
+  color: var(--c-accent, #8b4513);
+}
+.cx-ink-clear {
+  margin-top: 0.15rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--c-rule-soft, #ebe6da);
+  border-radius: 0 0 5px 5px;
+  color: var(--c-ink-muted, #66625a);
+}
+.cx-ink-clear:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* The book's Arabic-ink swatch on the toolbar. A single filled dot in a control
+   box, sized to sit level with the stepper and the face select beside it — five
+   swatches inline would have needed 180px on a row with 66 to give. It opens the
+   same palette the selection-colour button does. */
+.cx-arabic-ink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border: 1px solid var(--cx-control-border, var(--c-rule, #d9d3c4));
+  border-radius: 6px;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: var(--cx-control-shadow, 0 1px 0 rgb(0 0 0 / 4%));
+  cursor: pointer;
+}
+.cx-arabic-ink::before {
+  content: "";
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 50%;
+  background: var(--ink, #7a1f1f);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 18%);
+}
+.cx-arabic-ink:hover {
+  border-color: var(--c-accent, #8b4513);
+}
+.cx-arabic-ink:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 1px;
+}
+
+/* A coloured run in READ mode. The class pair is `cx-ink-mark ink-<id>` — the
+   second is the shared colour rule (quote-typography.css, mirrored into
+   book-print.css), the first is only a handle for removing the wrapper when the
+   colours are repainted. It must therefore declare NOTHING, or Read would stop
+   matching the printed page. */
+.cx-ink-mark {
+  /* deliberately empty — see above */
 }

@@ -160,3 +160,52 @@ test("destroy removes the bar and is safe to call twice", () => {
   assert.doesNotThrow(() => rte.destroy());
   editor.destroy();
 });
+
+/**
+ * A host with its own icon set must be able to re-skin the whole bar, and must
+ * not have to fork the package to do it. `icons` is that seam.
+ */
+test("a host icon override replaces the built-in glyph", () => {
+  const host = domDoc.createElement("div");
+  domDoc.body.appendChild(host);
+  const editor = new Editor({
+    element: host,
+    extensions: baseExtensions(),
+    content: "<p>hello</p>",
+  });
+  const rte = attach(editor, {
+    serializer: { kind: "markdown" },
+    toolbar: {
+      document: domDoc,
+      items: ["bold", "italic"],
+      icons: {
+        bold: {
+          svg: '<svg viewBox="0 0 16 16" class="host-bold"><path d="M1 1"/></svg>',
+        },
+      },
+    },
+  });
+  const bar = rte.toolbarEl as HTMLElement;
+
+  const bold = bar.querySelector<HTMLElement>('[data-rte-id="bold"]');
+  assert.ok(
+    bold?.querySelector("svg.host-bold"),
+    "the overridden control wears the host's glyph",
+  );
+  assert.equal(
+    bold?.getAttribute("aria-label"),
+    "Bold",
+    "re-skinning must not disturb the accessible name",
+  );
+
+  // An id with no entry is left alone rather than emptied — a partial map is a
+  // partial re-skin, never a bar with holes in it.
+  const italic = bar.querySelector<HTMLElement>('[data-rte-id="italic"]');
+  assert.ok(
+    italic?.querySelector("svg"),
+    "an unmapped control keeps the package's own icon",
+  );
+
+  rte.destroy();
+  editor.destroy();
+});

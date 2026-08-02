@@ -577,7 +577,6 @@ export function createStudioDecos(bag: StudioDecosBag) {
                 }
 
                 const pairedRomanRanges: [number, number][] = [];
-                const pairedArabicRanges: [number, number][] = [];
                 const textContent = node.textContent;
                 ARABIC_PAIR_RE.lastIndex = 0;
                 let pairMatch: RegExpExecArray | null;
@@ -591,7 +590,6 @@ export function createStudioDecos(bag: StudioDecosBag) {
                   const pairEnd =
                     offset + 1 + pairMatch.index + pairMatch[0].length;
                   pairedRomanRanges.push([romanStart, romanEnd]);
-                  pairedArabicRanges.push([arabicStart, arabicEnd]);
 
                   if (arabicRef.current) {
                     decos.push(
@@ -614,8 +612,6 @@ export function createStudioDecos(bag: StudioDecosBag) {
                 }
                 const inPairedRoman = (p: number) =>
                   pairedRomanRanges.some(([a, b]) => p >= a && p < b);
-                const inPairedArabic = (p: number) =>
-                  pairedArabicRanges.some(([a, b]) => p >= a && p < b);
 
                 // FC-4 Arabic overlay (non-destructive): hide the English run, inject Arabic.
                 if (arabicRef.current && glossarySorted.length) {
@@ -673,6 +669,21 @@ export function createStudioDecos(bag: StudioDecosBag) {
                 // font stack), same colour. Honorific / presentation-form glyphs
                 // (e.g. ﷺ, U+FDFA) fall outside these ranges, so they stay ink and
                 // read as prose rather than as terms.
+                //
+                // EVERY Arabic run is marked, including the one inside a
+                // `term (عربي)` pair. It used to be skipped whenever the Arabic
+                // overlay was off — harmless in Edit & Enrich, where that run sits
+                // under `.ar-pair-hidden { display: none }` and is not on screen to
+                // dress, but wrong in the Book Composer, which has no such rule and
+                // holds `arabicRef` permanently false. There the skip meant a
+                // glossed term rendered at plain body size in the UI's Latin
+                // fallback face while an UNPAIRED run beside it took `.ar-raw`'s
+                // Arabic face at 1.26em — two sizes and two faces in one sentence,
+                // and neither matching the printed page. The PDF has no such split:
+                // `renderInline` (book-html.mjs) wraps every Arabic run in
+                // `.ar-inline` whether or not it follows a roman term. Marking them
+                // all is what puts the Composer back in agreement with the page it
+                // is the verification surface for.
                 node.descendants((child, childPos) => {
                   if (!child.isText || !child.text) return;
                   const base = offset + 1 + childPos;
@@ -681,7 +692,6 @@ export function createStudioDecos(bag: StudioDecosBag) {
                   while ((am = arabicRunRe.exec(child.text!))) {
                     const from = base + am.index;
                     const to = from + am[0].length;
-                    if (!arabicRef.current && inPairedArabic(from)) continue;
                     decos.push(
                       Decoration.inline(from, to, { class: "ar-raw" }),
                     );

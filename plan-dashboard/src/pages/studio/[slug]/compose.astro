@@ -14,6 +14,14 @@ import { join } from "node:path";
 import Base from "../../../layouts/Base.astro";
 import { loadComposer } from "../../../lib/reader/composer";
 import { findContentDirSync, slugToTitle } from "../../../lib/content-paths";
+// The book's Arabic face / size / ink options. Shared with the editor toolbar
+// (book-composer.ts), which offers the face and the size a second time — see
+// that module's header for why the list is not restated in either place.
+import {
+  ARABIC_FACES,
+  ARABIC_SIZES,
+  ARABIC_INKS,
+} from "../../../lib/reader/arabic-typography";
 import "../../../styles/library.css";
 import "../../../styles/book-reader.css";
 import "../../../styles/book-styles.css";
@@ -121,6 +129,10 @@ const composerClass = [
   "composer",
   view?.translationFont ? `tr-${view.translationFont}` : "",
   view?.arabicFont ? `ar-${view.arabicFont}` : "",
+  // Size and ink. Absent when the book is on the default, because the default IS
+  // the :root declaration in quote-typography.css — see the loader's own note.
+  view?.arabicSize ? `ars-${view.arabicSize}` : "",
+  view?.arabicInk ? `ari-${view.arabicInk}` : "",
 ].filter(Boolean);
 
 // The English rendering face under an Arabic quotation. Mirrors FONTS in
@@ -136,21 +148,6 @@ const TRANSLATION_FONTS = [
   },
   { id: "crimson-pro", name: "Crimson Pro", tagline: "Quiet book face" },
   { id: "lora", name: "Lora", tagline: "Contemporary, brushed" },
-];
-
-// The NON-Qur'anic Arabic face — hadith, sayings, poetry, the book's own Arabic.
-// Mirrors ARABIC_FONTS in api/studio/citation-style.ts and book-html.mjs. There
-// is deliberately no chip for the Qur'anic face: a run the Arabic audit resolved
-// against the canonical mushaf is set in the KFGQPC Uthmanic script because that
-// is the orthography it is written in. The panel says so rather than leaving its
-// absence to be noticed.
-const ARABIC_FONTS = [
-  {
-    id: "scheherazade-new",
-    name: "Scheherazade New",
-    tagline: "Open naskh — default",
-  },
-  { id: "amiri", name: "Amiri", tagline: "Classical naskh, tighter" },
 ];
 ---
 
@@ -760,7 +757,7 @@ const ARABIC_FONTS = [
                       JavaScript for the preview itself. */}
                       <fieldset class="bs-chips bs-archips">
                         <legend>Arabic face</legend>
-                        {ARABIC_FONTS.map((f, i) => (
+                        {ARABIC_FACES.map((f, i) => (
                           <label class="bs-chip bs-archip" data-font={f.id}>
                             <input
                               type="radio"
@@ -787,6 +784,71 @@ const ARABIC_FONTS = [
                         those are, by resolving each against the canonical
                         mushaf — the face follows the orthography the verse is
                         written in, so it is not a choice this panel offers.
+                      </p>
+
+                      {/* Size and ink. Both apply to ALL Arabic — the verses set
+                      as display quotations and the terms woven into English
+                      sentences — because a reader asking for larger or darker
+                      Arabic means all of it. Each chip previews itself: the size
+                      chips render their name at the size they set, the ink chips
+                      carry a dot in the colour they set. */}
+                      <fieldset class="bs-chips bs-arsizechips">
+                        <legend>Arabic size</legend>
+                        {ARABIC_SIZES.map((s) => (
+                          <label
+                            class="bs-chip bs-arsizechip"
+                            data-arsize={s.id}
+                          >
+                            <input
+                              type="radio"
+                              name="arabic-size"
+                              value={s.id}
+                              class="bs-radio"
+                              checked={s.id === "standard"}
+                            />
+                            <span class="bs-chip-head">
+                              <span class="bs-chip-name">{s.name}</span>
+                              <span class="bs-chip-check" aria-hidden="true">
+                                <i class="fa-solid fa-circle-check" />
+                              </span>
+                            </span>
+                            <span class="bs-chip-tag">{s.tagline}</span>
+                          </label>
+                        ))}
+                      </fieldset>
+
+                      <fieldset class="bs-chips bs-arinkchips">
+                        <legend>Arabic ink</legend>
+                        {ARABIC_INKS.map((k) => (
+                          <label class="bs-chip bs-arinkchip" data-arink={k.id}>
+                            <input
+                              type="radio"
+                              name="arabic-ink"
+                              value={k.id}
+                              class="bs-radio"
+                              checked={k.id === "maroon"}
+                            />
+                            <span class="bs-chip-head">
+                              <span class="bs-chip-swatch" aria-hidden="true" />
+                              <span class="bs-chip-name">{k.name}</span>
+                              <span class="bs-chip-check" aria-hidden="true">
+                                <i class="fa-solid fa-circle-check" />
+                              </span>
+                            </span>
+                            <span class="bs-chip-tag">{k.tagline}</span>
+                          </label>
+                        ))}
+                      </fieldset>
+
+                      <p class="cx-type-locked">
+                        <i
+                          class="fa-solid fa-universal-access"
+                          aria-hidden="true"
+                        />
+                        Every ink here was measured against the cream, sepia and
+                        dark papers and clears the AA readability standard, so
+                        none of them can make the book harder to read than it is
+                        now.
                       </p>
 
                       <fieldset class="bs-chips bs-trchips">

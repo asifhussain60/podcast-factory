@@ -35,17 +35,55 @@ const OFFSET_Y = 6;
 /** Minimum distance from the viewport edge when the tooltip is clamped. */
 const EDGE_PAD = 8;
 
+/** A control's name, and the part you cannot read off its glyph. */
+export interface TooltipContent {
+  title: string;
+  /** What it produces and what it expects selected first. One or two sentences. */
+  detail: string;
+}
+
 export interface IconTooltipOptions {
   /** Selector for the trigger elements to look up inside `scope`. */
   trigger: string;
-  /** Selector, WITHIN a trigger, for the element holding its label text. */
-  label: string;
+  /** Selector, WITHIN a trigger, for the element holding its label text. Used
+   *  when `content` has nothing for this trigger. */
+  label?: string;
+  /**
+   * Rich text by trigger key. Wins over `label` where both could answer.
+   *
+   * The tab strip this module was built for only ever needed to reveal a name
+   * the icon was standing in for. A formatting toolbar needs more than that: the
+   * useful thing about a verse button is not that it is called "Qur'anic
+   * quotation" but that you select the Arabic BEFORE clicking it.
+   */
+  content?: Readonly<Record<string, TooltipContent>>;
+  /** How a trigger keys into `content`. Default: its `data-rte-id`. */
+  keyOf?: (el: HTMLElement) => string;
+  /**
+   * Hover/focus delay in ms. Default 400.
+   *
+   * A bar of twelve adjacent icons wants this SHORTER than a strip of four: you
+   * sweep across a toolbar to find something, and a delay long enough to prevent
+   * flicker on four tabs is long enough to feel broken on twelve.
+   */
+  delayIn?: number;
+  /**
+   * Remove each trigger's `title` attribute on mount. Default false.
+   *
+   * The browser's native tooltip is the thing this module replaces, and it is
+   * not suppressible any other way. Leave it and both appear — ours promptly,
+   * the OS's a second later, on top, saying less. Safe because `aria-label`
+   * carries the accessible name on these controls; `title` was only ever the
+   * sighted-pointer affordance.
+   */
+  dropNativeTitle?: boolean;
 }
 
 /**
- * Give every `opts.trigger` inside `scope` a hover/focus tooltip carrying the
- * text of its `opts.label` child. Returns a dispose function that removes the
- * listeners and the shared tooltip node.
+ * Give every `opts.trigger` inside `scope` a hover/focus tooltip — the rich text
+ * `opts.content` holds for it, or failing that the text of its `opts.label`
+ * child. Returns a dispose function that removes the listeners and the shared
+ * tooltip node.
  */
 export function mountIconTooltips(
   scope: HTMLElement,
@@ -55,6 +93,19 @@ export function mountIconTooltips(
     scope.querySelectorAll<HTMLElement>(opts.trigger),
   );
   if (!triggers.length) return () => {};
+
+  const keyOf = opts.keyOf ?? ((el: HTMLElement) => el.dataset.rteId ?? "");
+  const delayIn = opts.delayIn ?? DELAY_IN;
+  // Kept so dispose can put back exactly what it took, rather than assuming the
+  // attribute was absent.
+  const nativeTitles = new Map<HTMLElement, string>();
+  if (opts.dropNativeTitle) {
+    for (const t of triggers) {
+      if (!t.hasAttribute("title")) continue;
+      nativeTitles.set(t, t.getAttribute("title") ?? "");
+      t.removeAttribute("title");
+    }
+  }
 
   // ONE tooltip node for the whole strip, reused. Four nodes would be four
   // things to keep in sync and four ways to leave one on screen.
@@ -73,9 +124,31 @@ export function mountIconTooltips(
   }
 
   function show(trigger: HTMLElement): void {
-    const text = trigger.querySelector(opts.label)?.textContent?.trim() ?? "";
-    if (!text) return;
-    tip.textContent = text;
+    const rich = opts.content?.[keyOf(trigger)];
+    const plain = opts.label
+      ? (trigger.querySelector(opts.label)?.textContent?.trim() ?? "")
+      : "";
+    if (!rich && !plain) return;
+
+    // Rebuilt rather than mutated: a stale detail line left over from the
+    // previous trigger under a new title is the one failure mode worth spending
+    // two element creations to make impossible.
+    tip.replaceChildren();
+    // `.is-rich` carries the wider, wrapping, sentence-case treatment; without
+    // it the tip keeps the original single-line uppercase chip look the tab
+    // strip is built around.
+    tip.classList.toggle("is-rich", Boolean(rich));
+    if (rich) {
+      const t = document.createElement("strong");
+      t.className = "cx-tip-title";
+      t.textContent = rich.title;
+      const d = document.createElement("span");
+      d.className = "cx-tip-detail";
+      d.textContent = rich.detail;
+      tip.append(t, d);
+    } else {
+      tip.textContent = plain;
+    }
     tip.hidden = false; // unhide first: a hidden element measures as 0 wide
 
     const r = trigger.getBoundingClientRect();
@@ -91,7 +164,7 @@ export function mountIconTooltips(
 
   function schedule(trigger: HTMLElement): void {
     window.clearTimeout(timer);
-    timer = window.setTimeout(() => show(trigger), DELAY_IN);
+    timer = window.setTimeout(() => show(trigger), delayIn);
   }
 
   const cleanups: (() => void)[] = [];
@@ -129,6 +202,7 @@ export function mountIconTooltips(
 
   return () => {
     hide();
+    for (const [el, title] of nativeTitles) el.setAttribute("title", title);
     cleanups.forEach((fn) => fn());
     document.removeEventListener("keydown", onKey);
     window.removeEventListener("scroll", hide, { capture: true });

@@ -182,6 +182,49 @@
   font-style: normal;
 }
 
+/* The three MODERN Arabic faces a book may choose (2026-08-02). Self-hosted from
+   @fontsource, all three SIL OFL 1.1, served to the print renderer over its own
+   /fonts/** route like every other face here.
+   MIRROR: theme-tokens.css declares the same three for the screen. */
+@font-face {
+  font-family: "Cairo";
+  src: url("/fonts/cairo/cairo-arabic-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Cairo";
+  src: url("/fonts/cairo/cairo-arabic-600-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/tajawal/tajawal-arabic-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Tajawal";
+  src: url("/fonts/tajawal/tajawal-arabic-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("/fonts/ibm-plex-sans-arabic/ibm-plex-sans-arabic-arabic-400-normal.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "IBM Plex Sans Arabic";
+  src: url("/fonts/ibm-plex-sans-arabic/ibm-plex-sans-arabic-arabic-700-normal.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
 /* Running head. A reader landing on page 60 of a 123-page book had no cue what
    they were holding — the single largest gap between this and a commercial
    reading edition, per the render challenger.
@@ -546,10 +589,12 @@ blockquote.quran .ar-inline {
      word carries too little evidence to call scripture), so they always take the
      non-Qur'anic face. */
   font-family: var(--q-ar-face);
-  /* 1.26em — MIRROR of book-composer.css `.cx-body .ar-inline`, chosen by Asif on
-     2026-08-02 from three candidates rendered side by side in the Composer. The
-     two must carry the same number or the printed page stops matching the
-     surface it is verified in, which is the whole contract of that surface.
+  /* --q-ar-inline-size, default 1.26em — chosen by Asif on 2026-08-02 from three
+     candidates rendered side by side in the Composer, and moved onto a token the
+     same day so the book's Arabic-size setting could carry it. It was a bare
+     1.26em here and in book-composer.css, hand-mirrored; a token both files read
+     is what a "MIRROR" comment was standing in for, so the note stays but the
+     number no longer needs copying.
 
      NOT a reinstatement of `size-adjust: 135%` (removed 2026-07-31). That scaled
      the FACE and so inflated display quotations too, where it was measured and
@@ -558,7 +603,7 @@ blockquote.quran .ar-inline {
      three marks into the same ink as the letter, so at parity with the Latin it
      reads as fine print rather than as a word. Display quotations
      (`blockquote.quran p.ar`, `.ar-block`) keep --q-ar-size and are untouched. */
-  font-size: 1.26em;
+  font-size: var(--q-ar-inline-size);
 }
 
 /* ── Quotation blocks ────────────────────────────────────────────────────── */
@@ -911,4 +956,31 @@ body.book-v2 .chapter-open {
 .book-self-study .study-list li {
   margin: 0.25rem 0;
   line-height: 1.5;
+}
+
+/* ── Per-selection text colour ────────────────────────────────────────────────
+   The PRINT half. Applied to any run a human coloured in the Book Composer. The record lives in
+   `_system/text-colour.json` and is re-found and wrapped at RENDER time
+   (scripts/lib/text-colour.mjs) — book.md never carries it, so no Python phase
+   that reads that file as text can be disturbed by a colour.
+
+   `!important` on nothing, and `color` only: a coloured run keeps its face, its
+   size and its direction, so colouring an Arabic term does not quietly undo the
+   book's Arabic typography. The five values are the palette in
+   src/lib/reader/text-ink.ts, each measured to clear WCAG AA on the cream, sepia
+   and dark papers. */
+.ink-maroon {
+  color: #7a1f1f;
+}
+.ink-ink {
+  color: #1f1d18;
+}
+.ink-indigo {
+  color: #23356b;
+}
+.ink-forest {
+  color: #1d4d33;
+}
+.ink-brown {
+  color: #6b4423;
 }

@@ -32,6 +32,8 @@ import {
   readCitationFamily,
   readTranslationFont,
   readArabicFont,
+  readArabicSize,
+  readArabicInk,
   readQuranicRuns,
 } from "../../../scripts/lib/book-html.mjs";
 
@@ -209,6 +211,13 @@ export interface ComposerView {
   translationFont: string;
   /** The NON-Qur'anic Arabic face; '' falls back to Scheherazade New. */
   arabicFont: string;
+  /** How large the book sets its Arabic, and in what ink (`arabic_size` /
+   *  `arabic_ink`). Stamped as `ars-<size>` / `ari-<ink>`, which move
+   *  --q-ar-size, --q-ar-inline-size and --q-maroon (quote-typography.css).
+   *  '' for the DEFAULT as well as for unset — the default is the `:root`
+   *  declaration, so there is no class to add. */
+  arabicSize: string;
+  arabicInk: string;
   // Arabic-script glossary — needed by the Refinement tab's term curation and
   // by the chapter editor's Arabic overlay decorations. Same source Edit &
   // Enrich reads (_system/glossary.yml); glossary = arabic_script-confirmed
@@ -257,6 +266,8 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
       citationFamily: "",
       translationFont: "",
       arabicFont: "",
+      arabicSize: "",
+      arabicInk: "",
       glossary: [],
       glossaryAll: [],
       articulationWarnings: {},
@@ -281,6 +292,8 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     readTranslationFont(join(ref.dir, "book")) ?? "",
   );
   const arabicFont = String(readArabicFont(join(ref.dir, "book")) ?? "");
+  const arabicSize = String(readArabicSize(join(ref.dir, "book")) ?? "");
+  const arabicInk = String(readArabicInk(join(ref.dir, "book")) ?? "");
   // Which Arabic runs the audit resolved against the canonical mushaf — read ONCE
   // per page load and shared by every chapter's render.
   const quranicRuns = readQuranicRuns(ref.dir) as Set<string>;
@@ -421,6 +434,8 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
     citationFamily,
     translationFont,
     arabicFont,
+    arabicSize,
+    arabicInk,
     glossary,
     glossaryAll,
     articulationWarnings,

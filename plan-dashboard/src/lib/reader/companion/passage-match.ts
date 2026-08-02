@@ -1,62 +1,23 @@
 /**
- * passage-match.ts — find a note's VERBATIM passage inside rendered prose.
+ * passage-match.ts — the DOM half of the passage matcher, over the shared core.
  *
- * One matcher, three callers: the LIVE Session reader, the Composer's read view,
- * and the Composer's TipTap edit canvas. They disagree about coordinates — the
- * first two want a DOM text node and an offset, the third wants a ProseMirror
- * document position — so the core works in a caller-supplied coordinate space and
- * each side maps back into its own.
- *
- * Two properties matter, both learned from the bugs this replaced:
- *
- *   1. Matching is done on a whitespace-NORMALIZED projection of the text, so a
- *      quote captured from a selection still matches prose that wraps differently
- *      or carries a line break where the quote has a space.
- *   2. A passage may cross inline markup. A sentence containing an italicized
- *      term lives in three text nodes; matching one node at a time silently found
- *      nothing, which excluded exactly the sentences most worth annotating. The
- *      match therefore spans chunks and comes back as one run per chunk.
+ * The matching itself moved to scripts/lib/passage-match.mjs on 2026-08-02 so the
+ * PDF renderer (plain node, no DOM, cannot import TypeScript) could use the same
+ * implementation the three browser surfaces already did. This module re-exports
+ * every core symbol under its original name, so every existing import kept
+ * working unchanged, and adds the two helpers that genuinely need a document.
  */
-
-/** Collapse every run of whitespace to one space and trim. */
-export function normalizeQuote(s: string): string {
-  return String(s ?? "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-/**
- * Fold one character to what BOTH renderers agree on, or to nothing.
- *
- * The same source sentence reaches the two surfaces spelled differently. The
- * Composer shows the PDF's rendering, which keeps scholarly transliteration
- * (ẓāhir, bāṭin); the LIVE reader folds it to plain English (zahir, batin) — see
- * `simplifyTransliteration` in lib/translit.ts. A quote captured in one therefore
- * could not be found in the other, and a card that appeared beside the prose in
- * the Composer vanished in the reader. Vowelled Arabic has the same problem: the
- * diacritics are combining marks, so the same word matched only if it carried the
- * same vowelling.
- *
- * So matching happens on a folded skeleton: combining marks and the modifier
- * letters (ʾ ʿ and their curly-quote spellings) fold to NOTHING, everything else
- * to its base character, lowercased. Positions survive because the flattener maps
- * every EMITTED character back to the source index it came from — a character
- * that folds away simply contributes no entry.
- */
-export function foldChar(ch: string): string {
-  if (/[\u02BE\u02BF\u2018\u2019\u02B9\u02BC']/.test(ch)) return "";
-  const base = ch
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f\u064B-\u0652\u0670]/g, "");
-  return base.slice(0, 1).toLowerCase();
-}
-
-/** The whole string, folded — used for the needle. */
-export function foldText(s: string): string {
-  let out = "";
-  for (const ch of String(s ?? "")) out += foldChar(ch);
-  return out;
-}
+export {
+  normalizeQuote,
+  foldChar,
+  foldText,
+  flatten,
+  findPassage,
+} from "../../../../scripts/lib/passage-match.mjs";
+import {
+  flatten,
+  findPassage,
+} from "../../../../scripts/lib/passage-match.mjs";
 
 /** One piece of source text, in the caller's own coordinate space. */
 export interface PassageChunk {
@@ -69,7 +30,6 @@ export interface PassageChunk {
   blockStart?: boolean;
 }
 
-/** The normalized projection, with every character mapped back to its source. */
 export interface FlatText {
   /** Lowercased, single-spaced. */
   text: string;
@@ -86,68 +46,10 @@ export interface PassageRange {
   to: number;
 }
 
-export function flatten(chunks: PassageChunk[]): FlatText {
-  const chars: string[] = [];
-  const pos: number[] = [];
-  const chunkOf: number[] = [];
-  chunks.forEach((c, idx) => {
-    if (c.blockStart && chars.length && chars[chars.length - 1] !== " ") {
-      chars.push(" ");
-      pos.push(c.at);
-      chunkOf.push(idx);
-    }
-    for (let i = 0; i < c.text.length; i++) {
-      const ch = c.text[i];
-      if (/\s/.test(ch)) {
-        if (chars[chars.length - 1] === " ") continue; // collapse runs
-        chars.push(" ");
-      } else {
-        const folded = foldChar(ch);
-        if (!folded) continue; // a mark the other surface does not print
-        chars.push(folded);
-      }
-      pos.push(c.at + i);
-      chunkOf.push(idx);
-    }
-  });
-  return { text: chars.join(""), pos, chunk: chunkOf };
-}
-
-/**
- * Locate `quote` in a flattened projection.
- *
- * Returns one range per chunk the passage crosses (empty when it isn't there).
- * A range covers everything between its first and last matched character, so
- * whitespace collapsed inside the match is included rather than left behind.
- */
-export function findPassage(flat: FlatText, quote: string): PassageRange[] {
-  const needle = foldText(normalizeQuote(quote));
-  if (needle.length < 4) return []; // too short to be a passage; never guess
-  const start = flat.text.indexOf(needle);
-  if (start < 0) return [];
-  const end = start + needle.length - 1; // inclusive
-
-  const ranges: PassageRange[] = [];
-  let i = start;
-  while (i <= end) {
-    const chunk = flat.chunk[i];
-    const from = flat.pos[i];
-    let last = from;
-    while (i <= end && flat.chunk[i] === chunk) {
-      last = flat.pos[i];
-      i++;
-    }
-    ranges.push({ chunk, from, to: last + 1 });
-  }
-  return ranges;
-}
-
-// ── DOM binding ────────────────────────────────────────────────────────────
-// Each text node gets its own coordinate block, so a match always breaks at node
-// boundaries and every range can be wrapped with a single-node Range.
-
+/** The elements that count as a block boundary when walking a rendered chapter.
+ *  A DOM selector, so it stays on this side of the split rather than in the
+ *  document-free core. */
 const BLOCK_SEL = "p, li, blockquote, h1, h2, h3, h4, td, dd, dt, figcaption";
-
 interface DomChunks {
   nodes: Text[];
   chunks: PassageChunk[];
