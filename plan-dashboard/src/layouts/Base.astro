@@ -26,6 +26,12 @@ const showShellSubnav = hasCustomSubnav || subnavLinks.length > 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} — Podcast Factory Astro Site</title>
     {description && <meta name="description" content={description} />}
+    {
+      /* Declared, so the browser stops asking for /favicon.ico and 404ing on
+      every page. SVG only: every browser this site is used in supports it, and
+      an .ico would be a second binary to keep in step with the first. */
+    }
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"

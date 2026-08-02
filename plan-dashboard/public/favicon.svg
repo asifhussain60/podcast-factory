@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Podcast Factory">
+  <title>Podcast Factory</title>
+  <!--
+    The browser tab mark. Drawn for 16px first and checked there: at that size a
+    favicon is four or five shapes, so this is a filled tile (which keeps its
+    edges against both light and dark browser chrome) carrying one open book,
+    with a spine and two leaves.
+
+    Colours are the site's own, copied deliberately rather than referenced. An
+    SVG loaded as a favicon is a standalone document and inherits no stylesheet,
+    so a CSS custom property here would resolve to nothing and render black. If
+    the palette in theme-tokens.css moves, these move with it by hand:
+      #8b4513  the accent, saddle brown
+      #fffdf8  the card background, the page it prints on
+      #d2b48c  the soft accent, for the spine
+
+    NOTE the wording of this comment. XML forbids a double hyphen inside a
+    comment, so the token names cannot be written here in their CSS spelling —
+    an earlier draft did exactly that, and the file silently stopped parsing:
+    it still served 200 as image/svg+xml and still rendered as a broken image.
+  -->
+  <rect width="64" height="64" rx="14" fill="#8b4513"/>
+  <!-- Left leaf, right leaf: one path each, meeting at the spine. The gap down
+       the middle is what makes it read as a BOOK and not a card at 16px. -->
+  <path d="M31 20.5c-3.6-2.7-8-4.1-13.2-4.1-2.3 0-4.3.3-5.8.7v27c1.5-.4 3.5-.7 5.8-.7 5.2 0 9.6 1.4 13.2 4.1z"
+        fill="#fffdf8"/>
+  <path d="M33 20.5c3.6-2.7 8-4.1 13.2-4.1 2.3 0 4.3.3 5.8.7v27c-1.5-.4-3.5-.7-5.8-.7-5.2 0-9.6 1.4-13.2 4.1z"
+        fill="#fffdf8"/>
+  <!-- The spine. Tan rather than white so the two leaves stay separate shapes
+       when the whole thing is 16 pixels wide. -->
+  <rect x="30.6" y="19.5" width="2.8" height="29" rx="1.4" fill="#d2b48c"/>
+</svg>

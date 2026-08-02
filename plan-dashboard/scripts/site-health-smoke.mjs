@@ -56,7 +56,11 @@ const serverLogTail = (lines = 60) =>
 // NOT fail the gate. Keep this list SHORT and justified — every entry is a
 // blind spot. Anything not matched here is a real finding.
 const BENIGN = [
-  /favicon\.ico/i, // no favicon wired; harmless 404
+  // `favicon.ico` was suppressed here until 2026-08-02, when a favicon was
+  // actually wired (public/favicon.svg, declared in both layouts). The entry is
+  // GONE rather than kept harmlessly: an undeclared icon is now a real
+  // regression — every page would resume 404ing on it — and this gate should be
+  // the thing that says so.
   /\[vite\] (connecting|connected)/i, // HMR socket chatter
   /Download the (React|Vue) DevTools/i, // framework devtools nag
   /\.map\b/i, // sourcemap fetch misses in dev
