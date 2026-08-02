@@ -144,6 +144,6 @@ def test_unwrap_runs_before_expansion_so_first_use_is_seen():
 
 
 def test_compose_unwraps_before_it_expands():
-    src = (SCRIPT_DIR / "_book_pipeline_v2.py").read_text(encoding="utf-8")
-    assert "unwrap_nested_honorifics" in src, "the unwrap is not wired into compose"
+    src = (SCRIPT_DIR / "_book_apparatus.py").read_text(encoding="utf-8")
+    assert "unwrap_nested_honorifics" in src, "the unwrap is not wired into the apparatus"
     assert src.index("unwrap_nested_honorifics(_before)") < src.index("expand_first_honorific_use(_text)")

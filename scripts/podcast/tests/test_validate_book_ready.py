@@ -641,7 +641,7 @@ def test_every_record_skip_label_is_classified_exactly_once():
 
     import _compose_skips as P
 
-    src = (SCRIPT_DIR / "_book_pipeline_v2.py").read_text(encoding="utf-8")
+    src = (SCRIPT_DIR / "_book_apparatus.py").read_text(encoding="utf-8")
     labels = set(re.findall(r'_record_skip\(book_dir,\s*"([^"]+)"', src))
     assert labels, "no _record_skip call sites found — did the helper get renamed?"
     classified = P.PAGE_ALTERING_STEPS | P.ADVISORY_STEPS

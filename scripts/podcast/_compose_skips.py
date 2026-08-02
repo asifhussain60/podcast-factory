@@ -42,6 +42,7 @@ PAGE_ALTERING_STEPS = frozenset(
         "translit",
         "quran-arabic",
         "citation-names",
+        "glossary-harvest",  # without it the overlay has nothing to annotate WITH
         "annotation-policy",  # decides what the overlay may annotate
         "glossary-vowelling",  # must precede the overlay or it double-annotates
         "inline-arabic",  # the Arabic-script overlay itself

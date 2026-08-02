@@ -16,10 +16,8 @@ author_companion}`` (base + additive enrichment + author voice).
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
-from _compose_skips import record_skip
 from _pipeline_flags import (
     BOOK_AUGMENTATION_SOURCE_ONLY,
     BOOK_VOICE_AUTHOR_COMPANION,
@@ -27,20 +25,6 @@ from _pipeline_flags import (
     book_augmentation,
     book_voice,
 )
-
-# Every "non-fatal" step below is genuinely optional — a finished translation is
-# worth more than an overlay — but a skip must never be INVISIBLE. Nine steps
-# used to swallow their exception into a log line that scrolls away: a compose
-# could return "completed" having dropped the transliteration fold, the inline
-# Arabic, the spelling pass, the human's Composer edits and the introduction,
-# with nothing in state and nothing in any report. Each skip is also written to
-# `_system/compose-skips.json`, which gate B8 in `validate_book_ready` reads.
-#
-# The writer, the page-altering/advisory classification and the reader all live
-# in `_compose_skips` — one contract, one module: a step added here must be
-# classified there, or B8 cannot judge it. `_record_skip` stays as the local
-# name because every one of the nineteen call sites below uses it.
-_record_skip = record_skip
 
 
 def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
@@ -82,7 +66,7 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     #    deliverable_mode contract), so there is exactly one faithful composer.
     from _translation_edition import author_translation_edition_compose
 
-    book_md = author_translation_edition_compose(book_dir, log=log, force=force, enforce_contract=False)
+    author_translation_edition_compose(book_dir, log=log, force=force, enforce_contract=False)
     # Arabic quotations surviving each stage. The upstream gates each compare against
     # their own immediate input, so a quotation lost between stages is invisible to
     # all of them — the reader only sees the total at the end and cannot tell WHERE
@@ -98,7 +82,7 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     if voice == BOOK_VOICE_FAITHFUL:
         from _book_voice import apply_fluency_adapt
 
-        book_md = apply_fluency_adapt(book_dir, log=log, force=force)
+        apply_fluency_adapt(book_dir, log=log, force=force)
         # Stamped like every other stage. It was the one omission, and the worst
         # one to omit: for a faithful-voice book the fluency pass is the ONLY model
         # pass over the prose, so Arabic lost here showed up in the ledger as lost
@@ -109,14 +93,14 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     if augmentation == BOOK_AUGMENTATION_SOURCE_ONLY:
         from _book_augment import author_phase_book_augment
 
-        book_md = author_phase_book_augment(book_dir, log=log, force=force)
+        author_phase_book_augment(book_dir, log=log, force=force)
         stages["augment"] = stage_counts(book_dir)
 
     # 4. Author-companion re-voice (optional, gated, reverts on drift).
     if voice == BOOK_VOICE_AUTHOR_COMPANION:
         from _book_voice import apply_author_companion_voice
 
-        book_md = apply_author_companion_voice(book_dir, log=log, force=force)
+        apply_author_companion_voice(book_dir, log=log, force=force)
         stages["voice"] = stage_counts(book_dir)
 
     # 5. Final seam de-dup over the fully-transformed book. The de-calque / re-voice
@@ -132,372 +116,13 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         final_md.write_text(
             dedupe_seam_paragraphs(final_md.read_text(encoding="utf-8"), removed=_removed), encoding="utf-8"
         )
-        book_md = final_md
         record_seam_removals(book_dir, "final", _removed, log)
 
-    # 5a-replay. Replay durable Book Composer edits, and stamp the per-chapter
-    #     fingerprints the Composer quotes back on its next save.
-    #
-    #     Since 2026-07-21 the model stages above SKIP any chapter carrying a
-    #     Composer edit, so this is normally a confirming pass rather than a rescue.
-    #     It stays because it is what makes the guarantee unconditional: under
-    #     `--force`, and for any stage that grows a new path to book.md, the
-    #     author's chapter is restored here and the overwrite is reported.
-    #
-    #     It runs BEFORE the deterministic house-style passes below, not after.
-    #     After was wrong and cost the authored chapters their inline Arabic: the
-    #     script pass ran, annotated the human's terms, and then the replay wrote
-    #     the raw saved body back over the annotations, so exactly the chapters
-    #     someone cared enough to author printed with no Arabic beside their terms
-    #     — and gate B3 counts Arabic runs book-wide, so nothing noticed. Replaying
-    #     first means transliteration, script, spelling and honorifics all see the
-    #     final text, the author's chapters included, instead of a version of it.
-    #     Idempotent and anchored by heading — see _book_edits.py.
-    #
-    #     The replay must also keep the pass reports honest (RCA-001): fluency
-    #     and voice wrote "adapted" BEFORE this step, so a replayed edit landing
-    #     on an adapted chapter — under `--force`, or from a save that arrived
-    #     mid-run — makes that claim stale in the same compose that wrote it,
-    #     and in July 2026 exactly that report waved 8 discarded chapters
-    #     through every gate. The reconcile re-stamps those chapters
-    #     'adapted-then-overwritten', and the discard is announced here, loudly,
-    #     because it means model spend bought prose the book does not carry.
-    from _book_edits import apply_composer_edits
-    from _book_pass_reports import reconcile_reports_after_replay
+    # The deterministic tail — replay, house style, Arabic apparatus, audits,
+    # bridges, honorifics, alignment. Lives in `_book_apparatus` so it can also be
+    # run STANDALONE over a book already on disk, without the model passes above:
+    # bringing an existing book's Arabic up to the current rules must not cost a
+    # re-composition of its prose. One definition, two callers.
+    from _book_apparatus import apply_book_apparatus
 
-    _replay_report = None
-    try:
-        _replay_report = apply_composer_edits(book_dir, log=log, force=force)
-        book_md = book_dir / "book" / "book.md"
-    except Exception as e:  # a bad sidecar must never destroy a good compose
-        _record_skip(book_dir, "composer-edits", e, log)
-
-    # The reconcile gets its OWN guard, deliberately not shared with the replay's.
-    # Sharing one try block meant a reconcile failure was recorded as a
-    # "composer-edits" skip — telling the operator their edits were dropped when
-    # the replay had in fact applied them — while ALSO suppressing the discard
-    # warning and leaving the stale "adapted" in place: the one failure mode this
-    # step exists to end, hidden behind a false skip record.
-    if _replay_report is not None:
-        try:
-            _discarded = reconcile_reports_after_replay(book_dir, _replay_report, log=log)
-            if _discarded:
-                log(
-                    f"    WARNING: composer-edit replay DISCARDED adapted prose in {_discarded} chapter(s) — "
-                    "the pass reports now read 'adapted-then-overwritten'; that model spend bought text "
-                    "the book does not carry"
-                )
-        except Exception as e:  # a truth-teller must never fail the compose it describes
-            _record_skip(book_dir, "report-reconcile", e, log)
-
-    # 5a-translit. Fold scholarly transliteration to the plain house form, AFTER
-    #     the model passes. The base composer already does this at the end of its
-    #     own run (_translation_edition), but the fluency and augment passes come
-    #     later and write whatever spelling they please — a rebuild on 2026-07-21
-    #     came out of them carrying Shu'ayb, Ka'b, ta'wil, du'at and Ma'mur again,
-    #     apostrophes and all. That is not only the wrong house style: the
-    #     inline-Arabic pass below matches glossary terms against this text, so an
-    #     un-folded "Bayt al-Ma'mur" silently matches nothing and the term loses
-    #     its script. Folding here is what makes the two steps below reliable.
-    from _translit import simplify_transliteration
-
-    try:
-        _md = book_dir / "book" / "book.md"
-        if _md.exists():
-            _before = _md.read_text(encoding="utf-8")
-            _after = simplify_transliteration(_before)
-            if _after != _before:
-                _md.write_text(_after, encoding="utf-8")
-                log("    translit: folded to plain transliteration")
-    except Exception as e:  # never worth a finished translation
-        _record_skip(book_dir, "translit", e, log)
-
-    # 5a-quran. Put the Arabic of every cited Qur'anic verse onto the page. Zero
-    #     model spend and zero model judgment: the EXTENT comes from the source
-    #     scan (what the author actually quoted) and the LETTERS come from the
-    #     canonical mushaf in content/knowledge-base/mirror.db, so no model is ever
-    #     asked to recall scripture.
-    #
-    #     POSITION IS FORCED, from four directions. After every LLM pass and after
-    #     the Composer replay, for the same reason 5a-arabic is (nothing may
-    #     romanize the script away afterwards). BEFORE 5a-arabic, so the glossary
-    #     overlay sees the verse already on the page and its "script is already
-    #     here" suppression fires — otherwise a chapter prints `Adam (آدم)` two
-    #     lines under a verse containing آدم. Before step 6, so the audit resolves
-    #     these runs as canonical-mushaf and the reading edition sets them in the
-    #     Uthmanic face. And before steps 10-11, because align_book fingerprints
-    #     paragraphs and inserting blocks after it would describe a document that
-    #     no longer exists.
-    try:
-        from _book_quran import inject_book as _inject_quran
-
-        _inject_quran(book_dir, log=lambda m: log(f"    {m}"))
-    except Exception as e:  # a missing verse must never fail a finished translation
-        _record_skip(book_dir, "quran-arabic", e, log)
-
-    # 5a-citations. Name the surah in every citation (Asif, 2026-08-01): `(2:24)`
-    #     becomes `(Al-Baqarah: 24)`. A bare number is a lookup key, not a
-    #     reference — it asks a reader who does not read Arabic to already know
-    #     which surah 2 is. Every printed translation names it.
-    #
-    #     IMMEDIATELY AFTER 5a-quran, and that order is load-bearing in one
-    #     direction only. The injection above reads citations to decide which
-    #     verse to set, and `_book_citations.find_citations` reads BOTH the
-    #     numeric and the named form precisely so a re-compose of an
-    #     already-renamed book still finds its 23 cited verses. Running the
-    #     rename first would therefore still work — it is placed second because
-    #     the numeric form is what every upstream pass and report speaks, and the
-    #     house form is the last word before the page.
-    try:
-        from _book_citations import rename_book as _name_surahs
-
-        _name_surahs(book_dir, log=lambda m: log(f"    {m}"))
-    except Exception as e:  # a citation's spelling must never fail a translation
-        _record_skip(book_dir, "citation-names", e, log)
-
-    # 5a-policy. Classify the glossary's annotation policy — ONCE per book. Which
-    #     terms deserve an inline annotation is a judgment call, so a model makes
-    #     it, and it is durable: proposals land in glossary.yml where a human can
-    #     override any line, and entries already carrying a class are never
-    #     touched again, so this is a no-op (and zero cost) on every compose
-    #     after the first. Per the learning-loop rule, suggestions are pre-applied
-    #     and visible (_system/annotation-policy-report.json), never silent.
-    from _annotation_policy import propose_annotation_policy
-
-    try:
-        propose_annotation_policy(book_dir, log=log)
-    except Exception as e:  # a policy miss must never cost a finished book
-        _record_skip(book_dir, "annotation-policy", e, log)
-
-    # 5a-etymology. Root-level etymology atoms for the book's key Arabic terms —
-    #     grounded in the Quranic morphology corpus (real roots + derived
-    #     families, see _etymology.load_morphology_reference) and gated by the
-    #     deterministic veto + adversarial verify before anything persists.
-    #     ONCE per book: the report is the idempotency marker (delete
-    #     _system/etymology-report.json to re-run), so recomposes never re-spend
-    #     the two claude -p calls. Glossary-gated — only 0c books (Islamic
-    #     scholarly) carry one, so fiction/technical routes skip at zero cost.
-    from _etymology import build_etymology_atoms
-
-    try:
-        _ety_report = book_dir / "_system" / "etymology-report.json"
-        if not (book_dir / "_system" / "glossary.yml").exists():
-            log("    etymology: no glossary — skipped")
-        elif _ety_report.exists():
-            log("    etymology: report already present — skipped (delete _system/etymology-report.json to re-run)")
-        else:
-            build_etymology_atoms(book_dir, log=log)
-    except Exception as e:  # an apparatus miss must never cost a finished book
-        _record_skip(book_dir, "etymology", e, log)
-
-    # 5a-glossary-vowel. Mark the GLOSSARY's Arabic, and do it BEFORE the overlay
-    #     below — the overlay inserts whatever the glossary holds, so a bare
-    #     glossary prints bare terms however well the quotations are vowelled.
-    #     Order matters in one direction only, and it is not negotiable: changing
-    #     the glossary AFTER an overlay exists leaves `_normalize_annotations`
-    #     unable to recognise the annotation it already wrote (it keys on the old
-    #     script), so it annotates on top of it — measured on 2026-07-29 as
-    #     `Tur (اَلطُّور), الطور)`, a doubled parenthetical in live prose.
-    #     See vowel_glossary.py.
-    from vowel_glossary import vowel_glossary
-
-    try:
-        vowel_glossary(book_dir, log=lambda m: log(f"    {m}"))
-    except Exception as e:  # marks are never worth a finished book
-        _record_skip(book_dir, "glossary-vowelling", e, log)
-
-    # 5a-arabic. Put the Arabic script back beside inline terms. AFTER every
-    #     LLM text pass, so no model can romanize the script away again, and AFTER
-    #     the Composer replay, so it annotates the author's chapters too — before
-    #     the replay it annotated them and the replay wrote the raw saved body back
-    #     over its work. BEFORE the audits, so the Arabic audit judges exactly what
-    #     prints. Deterministic and glossary-driven — no model, no cost, nothing
-    #     recalled. See _book_inline_arabic.py.
-    from _book_inline_arabic import apply_inline_arabic
-
-    try:
-        apply_inline_arabic(book_dir, log=lambda m: log(f"    {m}"))
-        book_md = book_dir / "book" / "book.md"
-    except Exception as e:  # an overlay is never worth a finished translation
-        _record_skip(book_dir, "inline-arabic", e, log)
-
-    # 5a-vowelling. Put the vowel marks on the Arabic (Asif, 2026-07-29 — this
-    #     reverses the rule that a model may never supply tashkeel). AFTER the
-    #     inline-Arabic overlay, so glossary script inserted there is marked too,
-    #     and after every prose pass, so nothing rewrites a run once it is
-    #     vowelled. BEFORE the audits, so what they judge is what prints.
-    #     Qur'anic runs are skipped — the canonical mushaf already vowels them —
-    #     and every answer must come back with a byte-identical consonantal
-    #     skeleton or it is refused and recorded. See vowel_book.py.
-    from vowel_book import vowel_book
-
-    try:
-        vowel_book(book_dir, log=lambda m: log(f"    {m}"))
-        book_md = book_dir / "book" / "book.md"
-    except Exception as e:  # marks are never worth a finished book
-        _record_skip(book_dir, "vowelling", e, log)
-
-    # 5a-spelling. One spelling standard for the whole edition. The drafting and
-    #     re-voicing models have no consistent preference, so without this a
-    #     single book ships "honour" in one chapter and "honor" in the next.
-    #     Deterministic, whole-word, and skips fenced blocks; source records under
-    #     _system/source/ are never in scope here — this only touches book.md,
-    #     which is prose the pipeline itself authored. See _american_spelling.py.
-    from _american_spelling import to_american
-
-    try:
-        _md = book_dir / "book" / "book.md"
-        if _md.exists():
-            _before = _md.read_text(encoding="utf-8")
-            _after = to_american(_before)
-            if _after != _before:
-                _md.write_text(_after, encoding="utf-8")
-                log("    spelling: normalized to American forms")
-    except Exception as e:  # a spelling pass is never worth a finished book
-        _record_skip(book_dir, "spelling", e, log)
-
-    # 5c. The edition's introduction. AFTER the Composer replay, so a human who
-    #     rewrote the preface keeps their words and the introduction sits above
-    #     them; BEFORE the audits, so what they judge is what will print. The
-    #     source's own opening is untouched — it stays where the source put it,
-    #     under a subheading, with the orientation in front of it.
-    from _book_frontmatter import apply_introduction
-
-    try:
-        apply_introduction(book_dir, log=log, force=force)
-    except Exception as e:  # apparatus is never worth a finished translation
-        _record_skip(book_dir, "front-matter", e, log)
-
-    # 6. Arabic provenance audit over the FINAL edition. The gates upstream count
-    #    Arabic runs; this one asks whether each surviving run is the source's own
-    #    words. Report-only and last, so it judges exactly what will be printed.
-    from _book_arabic_audit import run_arabic_audit
-
-    stages["final"] = stage_counts(book_dir)
-    try:
-        run_arabic_audit(book_dir, log=log, stages=stages)
-    except Exception as e:  # never fail a good compose over its own audit
-        _record_skip(book_dir, "arabic-audit", e, log)
-
-    # 6b. Duplicated-passage sweep. The seam de-dup at step 5 drops a twin that
-    #     sits NEXT to its original; this finds the one that does not — a window
-    #     that ran past its own passage, so the whole scene prints twice several
-    #     paragraphs apart, in different words. Report-only by design: on
-    #     2026-07-20 each copy of such a pair turned out faithful where the other
-    #     was wrong, with two source sentences missing from both, so deleting
-    #     either automatically would have destroyed source text.
-    from _translation_edition import duplicate_passage_findings
-
-    try:
-        dup_path = book_dir / "_system" / "book-duplication-check.json"
-        dups = duplicate_passage_findings((book_dir / "book" / "book.md").read_text(encoding="utf-8"))
-        dup_path.parent.mkdir(parents=True, exist_ok=True)
-        dup_path.write_text(
-            json.dumps(
-                {"schema": "book.duplication-check/v1", "findings": dups},
-                indent=2,
-                ensure_ascii=False,
-            )
-            + "\n",
-            encoding="utf-8",
-        )
-        if dups:
-            log(f"    duplication: {len(dups)} passage(s) narrated twice — compare BOTH copies against the source")
-            for d in dups[:3]:
-                log(
-                    f"      {d['chapter'][:48]}: paragraphs {d['first_copy_paragraphs']} vs {d['second_copy_paragraphs']}"
-                )
-    except Exception as e:  # never fail a good compose over its own audit
-        _record_skip(book_dir, "duplication", e, log)
-
-    # 7. Visual policy. Skipping the generating phases states the intent; this
-    #    measures the artifact, because image markup can also reach book.md from a
-    #    model mid-prose, which no phase toggle would catch.
-    from _book_visual_policy import check_text_only
-
-    try:
-        check_text_only(book_dir, log=log)
-    except Exception as e:
-        _record_skip(book_dir, "visual-policy", e, log)
-
-    # 8. Comprehension bridges — LAST, so a fix from a prior review round survives
-    #    this compose. Idempotent (strips its own previous output first), so a
-    #    convergence loop that re-enters compose many times never accumulates
-    #    duplicate bridges. Read-only over the sidecar: only the reviewer writes it.
-    from _book_bridges import apply_bridges
-
-    try:
-        apply_bridges(book_dir, log=log)
-    except Exception as e:
-        _record_skip(book_dir, "bridges", e, log)
-
-    # 9. Honorifics — introduce each in full, then abbreviate. Genuinely LAST,
-    #    after the introduction and the bridges, because "first use" is a property
-    #    of the whole book AS THE READER MEETS IT and both of those are prose a
-    #    reader reads. Run before them, an abbreviation in the introduction sat
-    #    ahead of its own expansion — the exact confusion this pass exists to end.
-    #    The Arabic audit above therefore counts the abbreviated form; that is the
-    #    same limitation bridges already have, and both are report-only.
-    #    Deterministic, book-scoped and idempotent; see _honorifics.py.
-    #    Unwrap a doubled bracket FIRST, so the first-use scan below reads the
-    #    honorific rather than the outer pair around it — and so a book that
-    #    nested every occurrence cannot have its introduction "already spelled
-    #    out" by a form the reader never sees as one.
-    from _honorifics import expand_first_honorific_use, unwrap_nested_honorifics
-
-    try:
-        _md = book_dir / "book" / "book.md"
-        if _md.exists():
-            _before = _md.read_text(encoding="utf-8")
-            _text, _unwrapped = unwrap_nested_honorifics(_before)
-            _after, _n = expand_first_honorific_use(_text)
-            if _unwrapped or _n:
-                _md.write_text(_after, encoding="utf-8")
-            if _unwrapped:
-                log(f"    honorifics: {_unwrapped} doubly-bracketed honorific(s) collapsed to one pair")
-            if _n:
-                log(f"    honorifics: {_n} first-use honorific(s) spelled out in full")
-    except Exception as e:  # a convention is never worth a finished book
-        _record_skip(book_dir, "honorifics", e, log)
-
-    # 10. Which SOURCE paragraph each English paragraph came from, so the Composer
-    #     can show the Arabic behind a passage on demand. GENUINELY last, and the
-    #     position is forced rather than chosen: bridges (8) and honorifics (9) both
-    #     rewrite book.md after the audits, and this step fingerprints the
-    #     paragraphs it aligns. Run any earlier and it would name paragraphs the
-    #     shipped book no longer contains, and every pairing would silently miss.
-    #
-    #     Incremental: a chapter whose block fingerprints are unchanged is skipped
-    #     outright, so a re-compose costs nothing. Only a chapter whose prose
-    #     actually moved is re-aligned, and only the residue the deterministic pass
-    #     cannot settle goes to a model. Skips silently for a book with no Arabic
-    #     source or no translation-edition crosswalk.
-    from align_arabic_paragraphs import align_book
-
-    try:
-        align_book(book_dir, log=lambda m: log(f"    {m}"), apply=True)
-    except Exception as e:  # an alignment is never worth a finished book
-        _record_skip(book_dir, "arabic-alignment", e, log)
-
-    # 11. MIRROR THE PARAGRAPHING onto the Arabic's (Asif, 2026-07-30).
-    #
-    #     A translation edition's paragraphing belongs to its source. Articulation
-    #     splits a long Arabic paragraph into several readable English ones and
-    #     splits a speech tag off from the speech, so `قال الغلام: …` — one
-    #     paragraph in the source — printed as "The boy said:" on a line of its own
-    #     with the quotation beneath. Consecutive English paragraphs from one Arabic
-    #     paragraph are merged back into one.
-    #
-    #     AFTER the alignment, necessarily: the merge is driven by the pairing, and
-    #     it rewrites that pairing itself rather than leaving fingerprints naming
-    #     paragraphs the merge has just replaced. No model is called — the grouping
-    #     is already known exactly. A chapter the human authored in the Composer is
-    #     skipped: its paragraphing is a choice, not an artefact.
-    from mirror_paragraphs import mirror_book
-
-    try:
-        mirror_book(book_dir, log=lambda m: log(f"    {m}"), apply=True)
-    except Exception as e:  # paragraphing is never worth a finished book either
-        _record_skip(book_dir, "paragraph-mirror", e, log)
-
-    return book_md
+    return apply_book_apparatus(book_dir, log=log, force=force, stages=stages)
