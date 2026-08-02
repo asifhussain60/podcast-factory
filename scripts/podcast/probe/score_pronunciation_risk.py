@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
 """Rank a book's Arabic terms by mispronunciation risk for the 0probe phase.
 
-Reads the book's ``_phonetics.md`` (term + diacritic transliteration + spoken
-phonetic), counts each term's frequency in ``refined-english.md``, and scores
-risk as ``difficulty + frequency``. Terms the cross-book pronunciation library
-already settled (``confirmed`` -> safe; ``unfixable`` -> already glossed) are
-DROPPED from the probe — you only re-listen to what is still unproven.
+Reads the book's term inventory, counts each term's frequency in
+``refined-english.md``, and scores risk as ``difficulty + frequency``. Terms the
+cross-book pronunciation library already settled (``confirmed`` -> safe;
+``unfixable`` -> already glossed) are DROPPED from the probe — you only
+re-listen to what is still unproven.
+
+The inventory comes from ``_system/glossary.yml``, with the legacy
+``_system/source/text/_phonetics.md`` as a fallback for books minted before the
+glossary replaced it. That order matters: this module read ONLY the legacy file
+until 2026-08-01, and ``degrees-of-excellence`` — the newest book, and the one
+whose audio exposed the pronunciation defects — has no ``_phonetics.md`` at all,
+so the probe could not run on the book that needed it most. Rows a human wrote
+into ``_system/pronunciation.md`` join the inventory too: an override is a
+belief about how a term sounds, and a belief is exactly what a probe tests.
 
 Output: ``_system/probe/probe-terms.json`` — the top-N risk-ranked terms,
 bucketed into listen segments (names / places / terms) so the audio maps
@@ -33,6 +42,11 @@ if str(_SCRIPTS_PODCAST) not in sys.path:
 from knowledge import pronunciation_ledger as ledger
 from knowledge import pronunciation_patterns as patterns
 
+# term_render imports its siblings flat, so the package dir has to be importable
+# as well as the package itself — the same two-step build_probe_bundle.py uses.
+if str(_SCRIPTS_PODCAST / "knowledge") not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_PODCAST / "knowledge"))
+
 DEFAULT_TOP_N = 40
 
 # Matches capitalised proper nouns that are already in English (e.g. "Jesus",
@@ -44,7 +58,12 @@ _PROPER_NOUN_RE = re.compile(r"^[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*$")
 _AYN = re.compile(r"[ʿʾ’’’]")  # hamza / ayn
 _EMPHATIC = re.compile(r"[ḥḍṣṭẓḏṯġḫ]")  # emphatics + uncommon fricatives
 _QAF = re.compile(r"q", re.IGNORECASE)
-_LINEAGE = re.compile(r"\b(ibn|bin|bint|abu|abi|umm|al-| al )", re.IGNORECASE)
+# Lineage markers that genuinely signal a PERSON. The definite article is not
+# one: `al-` opens most Arabic common nouns, so including it filed every concept
+# in the book — asas al-din, ahl al-haqq, nur al-imama, da'irat al-din — under
+# "People and scholar names" in the probe's listen checklist, and skipped the
+# book-gloss rung that exists to protect real names from being glossed away.
+_LINEAGE = re.compile(r"\b(ibn|bin|bint|abu|abi|umm)\b", re.IGNORECASE)
 _PLACE_HINT = re.compile(r"\b(mount|island|river|valley|city|mosque|masjid|bayt|dwell)", re.IGNORECASE)
 _APOST_RE = re.compile(r"[ʿʾ’’ʻ`]")  # ayn / hamza variants
 
@@ -206,6 +225,74 @@ def _parse_phonetics_md(path: Path) -> list[dict]:
     return rows
 
 
+def _rows_from_glossary(book_dir: Path) -> list[dict]:
+    """Parse ``_system/glossary.yml`` into the same row shape ``_phonetics.md`` yields.
+
+    Field mapping is exact, not approximate: the glossary's ``phonetic`` is the
+    romanised DISPLAY form (``al-Naysaburi``) and its ``audio_phonetic`` is the
+    spoken respelling (``an-nay-saa-boo-ree``) — reading the wrong one would
+    score every term as having no respelling at all.
+    """
+    try:
+        from pronunciation_compiler import load_glossary_entries
+    except ImportError:
+        return []
+    rows: list[dict] = []
+    for e in load_glossary_entries(book_dir):
+        translit = str(e.get("transliteration") or e.get("phonetic") or "").strip()
+        if not translit:
+            continue
+        rows.append(
+            {
+                "term": str(e.get("arabic_script") or translit).strip(),
+                "transliteration": translit,
+                "phonetic": str(e.get("audio_phonetic") or "").strip(),
+                "snippet": str(e.get("first_seen_snippet") or "").strip(),
+            }
+        )
+    return rows
+
+
+def _rows_from_overrides(book_dir: Path) -> list[dict]:
+    """Rows a human typed into ``_system/pronunciation.md``.
+
+    Included because an override is an untested BELIEF about how a term sounds.
+    The 41 rows added to this book on 2026-08-01 were hyphen-CAPS respellings,
+    written straight into six framings and shipped without anyone hearing one —
+    exactly the class of claim the probe exists to settle.
+    """
+    try:
+        import term_render
+    except ImportError:
+        return []
+    # A withdrawn row keeps its term in the inventory — that is the point of the
+    # marker — but carries no phonetic, so it is scored as a term with nothing
+    # settled rather than one whose respelling merely fails house style.
+    return [
+        {
+            "term": term,
+            "transliteration": term,
+            "phonetic": "" if term_render.is_withdrawn(value) else value,
+            "snippet": "",
+        }
+        for term, value in term_render.parse_book_override_table(book_dir)
+    ]
+
+
+def _merge_rows(*sources: list[dict]) -> list[dict]:
+    """First source wins per term; later sources only ADD terms."""
+    out: list[dict] = []
+    seen: set[str] = set()
+    for rows in sources:
+        for row in rows:
+            key = ledger.normalize_key(row.get("transliteration") or row.get("term", ""))
+            if not key or key in seen:
+                continue
+            seen.add(key)
+            out.append(row)
+    return out
+
+
 def _syllable_count(phonetic: str) -> int:
     if not phonetic:
         return 0
@@ -213,13 +300,22 @@ def _syllable_count(phonetic: str) -> int:
 
 
 def _segment_of(row: dict) -> str:
-    term, snippet = row["term"], row.get("snippet", "")
+    # Judge on the ROMANISATION, not the `term` cell. In every real book that
+    # cell holds Arabic script, which has no capitals and no "ibn", so every
+    # name silently classified as a common term — and tier-3 book-gloss
+    # substitution is skipped for names precisely so a person never gets
+    # replaced by a concept's translation.
+    term = (row.get("transliteration") or "").strip() or row["term"]
+    snippet = row.get("snippet", "")
     if _PLACE_HINT.search(snippet) or _PLACE_HINT.search(term):
         return "places"
+    # The article is not part of the name for the capitalisation test: it is
+    # "al-Kirmani" that names a person, and the capital sits after the `al-`.
+    stem = re.sub(r"^al[- ]", "", term, flags=re.IGNORECASE)
     # Multi-word capitalised or lineage markers -> proper name.
-    if _LINEAGE.search(term) or (term[:1].isupper() and " " in term):
+    if _LINEAGE.search(term) or (stem[:1].isupper() and " " in term):
         return "names"
-    if term[:1].isupper():
+    if stem[:1].isupper():
         return "names"
     return "terms"
 
@@ -292,10 +388,17 @@ def _slice_to_body(raw_text: str, start_page: int) -> str:
 def build_probe_terms(book_dir: Path, top_n: int = DEFAULT_TOP_N) -> dict:
     phon_path = book_dir / "_system" / "source" / "text" / "_phonetics.md"
     refined_path = book_dir / "_system" / "source" / "text" / "refined-english.md"
-    if not phon_path.exists():
-        raise FileNotFoundError(f"phonetics table missing: {phon_path} (run phase 0c first)")
 
-    rows = _parse_phonetics_md(phon_path)
+    rows = _merge_rows(
+        _rows_from_glossary(book_dir),
+        _parse_phonetics_md(phon_path) if phon_path.exists() else [],
+        _rows_from_overrides(book_dir),
+    )
+    if not rows:
+        raise FileNotFoundError(
+            f"no term inventory for {book_dir.name}: expected {book_dir / '_system' / 'glossary.yml'} "
+            f"(or the legacy {phon_path}). Run phase 0c first."
+        )
     raw_text = refined_path.read_text(encoding="utf-8") if refined_path.exists() else ""
     body_page = _body_start_page(book_dir)
     if body_page is not None:

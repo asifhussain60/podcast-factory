@@ -83,5 +83,44 @@ class TestRoutingResolution:
         assert profile == "general_nonfiction"  # shim only fires for the islamic default
 
 
+class TestCategoryStatePlumbing:
+    """Regression pin (2026-07-31): `category` is a TOP-LEVEL state field
+    (written by _progress.initial_state), never nested under `config` — the
+    latter only ever holds length_tier/unit_mode. `_drive_authoring_through_0f`
+    used to read `state.get("config", {}).get("category", "books")`, which
+    silently defaulted to "books" on every run (the key never existed there),
+    so resolve_phase_profile's sites/explainers -> consumer_explainer shim
+    above never fired for books driven through run_initial. The tests above
+    only exercise resolve_phase_profile directly with a passed-in category —
+    they never would have caught this, since the bug was entirely in how the
+    live caller sourced that argument from state.
+    """
+
+    def test_initial_state_writes_category_top_level_not_nested(self, tmp_path):
+        sys.path.insert(0, str(SCRIPTS_PODCAST))
+        from _progress import initial_state
+
+        state = initial_state("test-slug", "sites")
+        assert state.get("category") == "sites"
+        assert "category" not in (state.get("config") or {})
+
+    def test_reading_category_from_config_would_be_wrong(self, tmp_path):
+        """Pins the fixed line's shape: state.get("category", ...), not
+        state.get("config", {}).get("category", ...). If this test starts
+        failing because config now legitimately carries category, the fix
+        in initial_driver.py needs to be revisited alongside it."""
+        sys.path.insert(0, str(SCRIPTS_PODCAST))
+        from _progress import initial_state
+
+        state = initial_state("test-slug", "sites")
+        state["config"] = {"length_tier": "extended", "unit_mode": "auto"}
+
+        correct = state.get("category", "books")
+        buggy = (state.get("config") or {}).get("category", "books")
+
+        assert correct == "sites"
+        assert buggy == "books"  # the bug: silently wrong, every time
+
+
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-v"]))

@@ -153,6 +153,29 @@ if [ -n "$site_staged" ] && command -v node >/dev/null 2>&1 \
     fi
 fi
 
+# Prettier over staged site files (2026-07-30 audit). The repo has declared a
+# `format:check` script since the site existed and NOTHING ever ran it, so drift
+# accumulated silently to 21 files — every one of them a file some recent commit had
+# touched, which is exactly the population a staged-file gate catches. Styles are in
+# scope as well as code: two of the drifted files were CSS, which the eslint gate
+# above cannot see at all.
+#
+# Blocking, unlike eslint's warnings: prettier is not a matter of opinion here, it is
+# a single command away, and a formatter that only warns is a formatter nobody runs.
+fmt_staged=$(printf '%s\n' "$staged_files" \
+    | grep -E '^plan-dashboard/(src|scripts|packages)/.*\.(ts|tsx|astro|mjs|js|css|json)$' || true)
+if [ -n "$fmt_staged" ] && command -v node >/dev/null 2>&1 \
+        && [ -d "$repo_root/plan-dashboard/node_modules/prettier" ]; then
+    files_rel=$(printf '%s\n' "$fmt_staged" | sed 's|^plan-dashboard/||' | tr '\n' ' ')
+    if ! (cd "$repo_root/plan-dashboard" \
+            && npx prettier --check --ignore-unknown $files_rel) >&2; then
+        echo "pre-commit: prettier drift on staged site files." >&2
+        echo "pre-commit: run: cd plan-dashboard && npm run format" >&2
+        echo "pre-commit: bypass requires explicit operator authorization (--no-verify)." >&2
+        exit 1
+    fi
+fi
+
 # Check 3 — HTML View Quality gate (WC7c).
 # Run the deterministic Cortex linter over staged Astro-site view/layout/style files.
 # Blocking-tier checks (inline style= on view pages, external SVG, <svg> w/h attrs,

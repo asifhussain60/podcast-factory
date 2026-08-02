@@ -47,6 +47,27 @@
   --q-ar-face-quran:
     "UthmanicHafsSized", "UthmanicHafs", "KFGQPC HAFS Uthmanic Script",
     "ScheherazadeSized", "Scheherazade New", serif;
+
+  /* ── Arabic display size ───────────────────────────────────────────────────
+     The face and the ink were tokenised here so six stylesheets could not
+     disagree about them. The SIZE was not, and 1.05rem was hand-written into
+     every one of them — book-print.css (the PDF), compose-print.css, the two
+     Composer surfaces, book-reader.css, and the Arabic reveal panel at 0.95rem.
+
+     Set to 1.4rem with Asif on 2026-08-01. The old value was nominally 5% above
+     the 16px Latin body and read as clearly SMALLER than it: Scheherazade New
+     and Amiri draw small letterforms for their point size, and `size-adjust`
+     was removed from their @font-face blocks on 2026-07-31, so every Arabic
+     size in the repo is now literal. It matters more than it did — since the
+     always-vowel rule (2026-07-29) every non-Qur'anic run carries tashkeel, and
+     marks that small are not legible to a reader who does not read Arabic
+     unaided, which is the reader this edition is printed for.
+
+     Screen and print move together, deliberately: the Composer is where a page
+     is verified, so a verse that looks one way there and another in the PDF
+     defeats the surface. The PDF does get longer. */
+  --q-ar-size: 1.4rem;
+  --q-ar-leading: 1.9;
 }
 
 /* Per-book NON-Qur'anic Arabic face. Stamped as a class on <body> (print) or on
@@ -96,14 +117,14 @@
 
 /* ── Dark-paper contrast guard ────────────────────────────────────────────────
    The site itself is light-only; "dark" exists solely as the Kindle-style paper
-   setting on three reading/editing surfaces — the Book Composer editor
-   (.cx-edit-host), the Studio editor (.studio-editor__editor) and the LIVE
-   reader (.lsv). On those, #7a1f1f over #201e1b is about 1.6:1, which is not
-   readable. Lifting the TOKEN rather than re-stating the rules keeps every
-   surface's Plain-family block written once. Sepia (#f4ecd8) clears AA with the
-   base maroon and is deliberately left alone. */
+   setting on two reading/editing surfaces — the Book Composer editor
+   (.cx-edit-host) and the Studio editor (.studio-editor__editor). On those,
+   #7a1f1f over #201e1b is about 1.6:1, which is not readable. Lifting the TOKEN
+   rather than re-stating the rules keeps every surface's Plain-family block
+   written once. Sepia (#f4ecd8) clears AA with the base maroon and is
+   deliberately left alone. (A third selector, .lsv, went with the LIVE Session
+   on 2026-08-01 — the Composer's Read mode is the reading surface now.) */
 .cx-edit-host[data-paper="dark"],
-.studio-editor__editor[data-paper="dark"],
-.lsv[data-paper="dark"] {
+.studio-editor__editor[data-paper="dark"] {
   --q-maroon: var(--q-maroon-dark);
 }

@@ -1,0 +1,79 @@
+{
+  "schema": "podcast.book-render-checks/v1",
+  "verdict": "RENDER-BROKEN",
+  "pages": 92,
+  "findings": [
+    {
+      "check": "BR-BLANK-PAGE",
+      "severity": "P0",
+      "page": 21,
+      "detail": "blank/near-blank interior page (112 chars)"
+    },
+    {
+      "check": "BR-PAGE-FILL",
+      "severity": "P1",
+      "page": 2,
+      "detail": "half-empty interior page (138 vs median 1810 chars)"
+    },
+    {
+      "check": "BR-PAGE-FILL",
+      "severity": "P1",
+      "page": 3,
+      "detail": "half-empty interior page (189 vs median 1810 chars)"
+    },
+    {
+      "check": "BR-CAPTION-DUP",
+      "severity": "P1",
+      "page": 6,
+      "detail": "caption printed twice: '\\u202b\u0652\u0623\\u202c'"
+    },
+    {
+      "check": "BR-CAPTION-DUP",
+      "severity": "P1",
+      "page": 41,
+      "detail": "caption printed twice: '\\u202b\u0650\u0645\\u202c'"
+    },
+    {
+      "check": "BR-CAPTION-DUP",
+      "severity": "P1",
+      "page": 47,
+      "detail": "caption printed twice: '\\u202b\u0650\u0641\\u202c'"
+    },
+    {
+      "check": "BR-CAPTION-DUP",
+      "severity": "P1",
+      "page": 50,
+      "detail": "caption printed twice: '\\u202b\u0650\u0645\\u202c'"
+    },
+    {
+      "check": "BR-CAPTION-DUP",
+      "severity": "P1",
+      "page": 51,
+      "detail": "caption printed twice: '\\u202b\u0650\u0647\\u202c'"
+    },
+    {
+      "check": "BR-CAPTION-DUP",
+      "severity": "P1",
+      "page": 76,
+      "detail": "caption printed twice: '\\u202b\u064e\u0643\\u202c'"
+    },
+    {
+      "check": "BR-CAPTION-DUP",
+      "severity": "P1",
+      "page": 79,
+      "detail": "caption printed twice: '\\u202b\u0650\u0647\\u202c'"
+    },
+    {
+      "check": "BR-CAPTION-DUP",
+      "severity": "P1",
+      "page": 83,
+      "detail": "caption printed twice: '\\u202b\u0670\u064e\u0630\\u202c'"
+    },
+    {
+      "check": "BR-CAPTION-DUP",
+      "severity": "P1",
+      "page": 88,
+      "detail": "caption printed twice: '\\u202b\u0650\u0645\\u202c'"
+    }
+  ]
+}

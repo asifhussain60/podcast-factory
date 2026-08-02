@@ -48,7 +48,13 @@ const SCHEMA = "book.vowelling-proposals/v1";
 /** Combining marks: tashkeel, superscript alif, Quranic annotation signs. Also
  *  tatweel, which is a stretching character rather than a letter and must not make
  *  two otherwise-identical skeletons differ. */
-const MARKS_RE = /[ً-ْٓ-ٰٟۖ-ۭـ]/g;
+const MARKS_RE = /[\u064b-\u065f\u0670\u06d6-\u06ed\u0640]/g;
+
+/** Non-global twin of MARKS_RE. `RegExp.test` on a /g regex advances lastIndex
+ *  and so alternates true/false across calls on single characters — which is
+ *  exactly how markDensity used it. Kept separate rather than dropping the /g,
+ *  which `replace` and `match` above rely on. */
+const MARK_RE_ONE = /[\u064b-\u065f\u0670\u06d6-\u06ed\u0640]/;
 
 /** Arabic letters, for detecting whether a string contains Arabic at all. */
 const ARABIC_RE = /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/;
@@ -70,7 +76,7 @@ export function markCount(text) {
  *  an order of magnitude higher. Used only to pick candidates, never to judge. */
 export function markDensity(text) {
   const letters = ((text ?? "").match(/[؀-ۿ]/g) || []).filter(
-    (c) => !MARKS_RE.test(c),
+    (c) => !MARK_RE_ONE.test(c),
   ).length;
   return letters ? markCount(text) / letters : 0;
 }
@@ -125,6 +131,93 @@ export function rejectionReason(source, candidate) {
   return null;
 }
 
+/**
+ * `candidate`'s letters and marks, carrying `source`'s exact whitespace.
+ *
+ * A model asked to vowel one passage hands back one line however many lines the
+ * passage occupied. `skeleton` normalises whitespace before comparing,
+ * deliberately, so that collapse is INVISIBLE to the gate and a vowelling which
+ * silently joined the lines of an OCR page would be admitted as "marks only".
+ * Line structure is not cosmetic: `produce_bilingual` slices the Arabic source by
+ * line range.
+ *
+ * The repair is exact rather than heuristic. Once the skeletons agree the
+ * non-whitespace characters correspond one for one, so walking both — whitespace
+ * from the source, letters-with-their-marks from the candidate — restores the
+ * original shape without moving a mark. Returns `candidate` untouched when the
+ * two do not align, leaving `rejectionReason` to refuse it and say why.
+ *
+ * The Python mirror is `_vowelling.reflow_to_source_whitespace`.
+ */
+export function reflowToSourceWhitespace(source, candidate) {
+  if (skeleton(source) !== skeleton(candidate)) return candidate;
+  const out = [];
+  let i = 0;
+  for (const ch of source ?? "") {
+    if (MARK_RE_ONE.test(ch)) continue;
+    if (/\s/.test(ch)) {
+      out.push(ch);
+      continue;
+    }
+    // Advance to the candidate's next LETTER, keeping any orphan marks. A scan
+    // can leave a combining mark with no letter under it; consuming one AS a
+    // letter puts every later letter off by one, the walk runs off the end, and
+    // the repair silently gives up — handing back the model's collapsed line,
+    // which `rejectionReason` cannot catch because `skeleton` has already
+    // normalised the whitespace away.
+    while (
+      i < candidate.length &&
+      (/\s/.test(candidate[i]) || MARK_RE_ONE.test(candidate[i]))
+    ) {
+      if (!/\s/.test(candidate[i])) out.push(candidate[i]);
+      i++;
+    }
+    if (i >= candidate.length) return candidate;
+    out.push(candidate[i]);
+    i++;
+    while (i < candidate.length && MARK_RE_ONE.test(candidate[i])) {
+      out.push(candidate[i]);
+      i++;
+    }
+  }
+  while (i < candidate.length) {
+    if (/\s/.test(candidate[i])) i++;
+    else if (MARK_RE_ONE.test(candidate[i])) {
+      out.push(candidate[i]);
+      i++;
+    } else return candidate; // real letters left over — the two do not align
+  }
+  return out.join("");
+}
+
+/**
+ * `candidate`'s words laid back onto `source`'s whitespace, word for word.
+ *
+ * The companion to `reflowToSourceWhitespace`, for the one case it cannot serve:
+ * a Qur'anic run replaced by the canonical mushaf text. That substitution changes
+ * LETTERS — the mushaf is Uthmani — so the skeletons legitimately differ and the
+ * character walk correctly refuses to align them. But the canonical lookup joins
+ * a verse's words with single spaces, so a verse printed across two lines comes
+ * back as one and the file loses a line. Aligning by WORD is safe precisely
+ * because the mushaf lookup is itself word-aligned.
+ *
+ * The Python mirror is `_vowelling.reflow_words_to_source_whitespace`.
+ */
+export function reflowWordsToSourceWhitespace(source, candidate) {
+  const srcWords = (source ?? "").split(/\s+/).filter(Boolean);
+  const candWords = (candidate ?? "").split(/\s+/).filter(Boolean);
+  if (!srcWords.length || srcWords.length !== candWords.length)
+    return candidate;
+  const out = [];
+  let idx = 0;
+  for (const piece of (source ?? "").split(/(\s+)/)) {
+    if (!piece) continue;
+    if (/^\s+$/.test(piece)) out.push(piece);
+    else out.push(candWords[idx++]);
+  }
+  return out.join("");
+}
+
 /** A run worth proposing for: it has Arabic, it is long enough to be a real
  *  passage rather than a stray word, and it is not already vowelled. The density
  *  floor is deliberately generous — a run with a couple of disambiguating marks
@@ -134,4 +227,24 @@ export function isVowellingCandidate(text) {
   if (!ARABIC_RE.test(t)) return false;
   if (skeleton(t).replace(/\s/g, "").length < 8) return false;
   return markDensity(t) < 0.15;
+}
+
+/**
+ * Predominantly Arabic, not merely containing some.
+ *
+ * An English paragraph that quotes three Arabic words is not a passage to vowel:
+ * sending it would ask the model to hand back English it must not touch, and the
+ * skeleton check would then refuse whatever came back — a refusal that reads as a
+ * model failure when it was really a bad selection. One or two Latin characters
+ * are tolerated because a stray reference marker inside an Arabic line is common.
+ *
+ * Lives here rather than inline in its callers so the button, the route's own
+ * candidate collector and the compose-time pass all draw the line in one place;
+ * the Python mirror is `_vowelling.is_arabic_passage`.
+ */
+export function isArabicPassage(text) {
+  const s = text ?? "";
+  const latin = (s.match(/[A-Za-z]/g) || []).length;
+  const arabic = (s.match(/[؀-ۿ]/g) || []).length;
+  return !(latin > 2 || arabic < latin * 4);
 }

@@ -134,3 +134,5 @@
 {"phase": "0book-illustrate", "step": "The Case and the Evidence", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-illustrate", "step": "The Etiquette of Judges", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "11b-slide-authoring", "step": "book-pair/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}

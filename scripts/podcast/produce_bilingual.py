@@ -68,9 +68,15 @@ def extract_arabic_chapter(book: Path, reconcile: dict) -> tuple[str, str]:
     Reads _system/source/multi/ocr/arabic.md and slices it using the line range
     stored in reconcile-report.json under the 'spine' field.
     """
+    from _vowelled_source import resolve_arabic_source
+
     arabic_ocr = book / "_system" / "source" / "multi" / "ocr" / "arabic.md"
     if not arabic_ocr.exists():
         return "", ""
+    # The vowelled copy when current. Safe for the line slice below precisely
+    # because `vowel_source` refuses to write a sibling whose line count differs
+    # from its source — the bilingual build addresses this file by line number.
+    arabic_ocr = resolve_arabic_source(arabic_ocr)
 
     spine_note = reconcile.get("spine", "")
     line_range = _parse_line_range(spine_note)

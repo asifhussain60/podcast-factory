@@ -310,6 +310,16 @@
   }
   /* .gcp-launcher keeps its base (icon-only, bottom-right) position and size
      here — no override needed now that it's a compact circle. */
+  .gcp-input {
+    /* The two rows the base rule keeps hold the placeholder down to about
+       520px of panel; below that it needs a third, and the box clipped it
+       mid-glyph — a placeholder cannot be scrolled into view, so the last line
+       was simply gone. Three lines' worth of leading plus the padding, stated
+       in the same units the base rule uses so the two move together — plus the
+       1px border on each edge, which counts against the height here because the
+       base rule sets box-sizing: border-box. */
+    min-height: calc(3 * 1.45em + 1.1rem + 2px);
+  }
 }
 
 /* ── Never print the panel into the PDF/reading export ─────── */

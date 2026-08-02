@@ -17,29 +17,26 @@ Every check here answers a failure that actually shipped on
     untagged handed the Master's own indictment to his opponent.
   * ``arabic_retention_findings`` — replacing Arabic script with a Latin
     transliteration deletes the very text an argument about letters depends on.
-  * ``supplied_diacritics_findings`` — vowel marks written from model memory onto
-    an unvowelled source are fabricated scripture, the worst defect available.
   * ``enumeration_findings`` — dissolving the source's lettered items into
     running prose loses no words and destroys the argument's skeleton, which is
     why every word-level fidelity check passes it.
 
-THE VOWELLING GAP, and how it was closed (2026-07-20). ``supplied_diacritics_findings``
-compares a rewrite against its own base, so it cannot see vowelling fabricated at
-TRANSLATION time and baked into the base itself — which is how one live run reached
-the printed edition fully vowelled while the scan carried it bare. Three attempts at
-a scan-grounded guard were tried and REMOVED: the scan is itself inconsistently
-vowelled, so a bare-portion comparison misses the real case, and an equality or
-containment comparison returns a list dominated by canonical Quran that is
-legitimately vowelled.
+VOWELLING IS NO LONGER A DEFECT (Asif, 2026-07-29). Two checks lived here that
+judged supplied tashkeel — ``supplied_diacritics_findings``, which compared a
+rewrite against its own base, and ``ocr_vowelling_findings``, which held a
+non-Quranic run to the scan's own marking using ``_mushaf.is_quranic`` to excuse
+canonical verses. Both are deleted, because the rule they enforced is reversed:
+Arabic in these editions ALWAYS carries its vowel marks now. Asif does not read
+Arabic, so a bare run is not "unverified" to him, it is unreadable, and a guard
+whose whole effect was to keep marks off the page made every edition worse for
+the person it is printed for. ``vowel_book.py`` supplies the marks at compose
+time and ``_vowelling.rejection_reason`` bounds each one to marks only.
 
-What unblocked it was a discriminator for canonical scripture, which turned out to
-need no new corpus at all — ``content/knowledge-base/mirror.db`` already carried all
-6,236 ayat, tracked in git and never wired to verification. ``ocr_vowelling_findings``
-below uses ``_mushaf.is_quranic`` to exclude canonical verses, which are legitimately
-vowelled whatever the scan does, and reports only the rest. It ships ADVISORY, as
-``vowelling_review`` in ``_system/book-arabic-audit.json``, and never enters
-``frame_findings``: a wrong revert costs real authored text, so this one surfaces for
-a human instead of acting. The challenger's BK-N5 remains the judgment-based backstop.
+WHAT STILL GUARDS THE ARABIC here is ``arabic_retention_findings``, and it is the
+one that mattered all along: it compares consonantal SKELETONS, so a rewrite may
+mark a run however it likes and still may not change a letter, drop a run, or
+replace script with a transliteration. A wrong vowel is a reading choice; a
+changed letter is a different word.
 
 Detection philosophy: HIGH PRECISION over recall. Each check fires only on
 evidence it can point at, because a false revert costs a chapter while a missed
@@ -53,8 +50,6 @@ from __future__ import annotations
 import re
 import unicodedata
 
-from _arabic_coverage import arabic_run_spans, normalize_arabic
-from _mushaf import is_quranic, mushaf_available
 from _rules import (
     DEFAULT_NARRATIVE_FRAME,
     NARRATIVE_FRAMES,
@@ -70,11 +65,6 @@ _ATTRIBUTION_WINDOW = 140
 
 _ARABIC_RUN_RE = re.compile(r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]{2,}")
 _TASHKEEL_CHARS = frozenset(chr(cp) for lo, hi in R_ARABIC_TASHKEEL for cp in range(lo, hi + 1))
-
-# Shortest Arabic run the vowelling review will judge at all. Matches the word
-# floor `_mushaf.is_quranic` needs to beat coincidence — below it, neither
-# "this is scripture" nor "this is fabricated" can be supported by evidence.
-_MIN_JUDGED_WORDS = 3
 
 # First-person narration in an ATTRIBUTION position — the narrator reporting that
 # someone spoke to him, or naming a character as his own. These are frame markers,
@@ -124,9 +114,37 @@ _THIRD_PERSON_SELF_REPORT = r"\b{name}\b\s+(?:said|replied|answered|asked|went|s
 # swamped, and any pass that legitimately ADDED quotation marks tripped the gate
 # purely by closing quotes it had opened. An interior tag interrupts a quotation
 # on its own line; a newline between them means the quotation already ended.
+#
+# THE QUOTATION MUST RE-OPEN AFTER THE TAG (2026-07-31). Everything above states
+# that the defect is a tag INTERRUPTING one utterance, and every example given is
+# `," he said, "` — but the pattern only ever matched up to the verb, so it could
+# not tell an interruption from a TRAILING tag. `"Thirty-three years," Hatim
+# replied.` is ordinary English with the attribution exactly where the source put
+# it, and it scored the same as `"I have gained," he said, "eight benefits."`,
+# where the words after the tag really can change owner.
+#
+# That is not a theoretical difference. A source in the head-tag style — `Hatim
+# replied: "Thirty-three years!"`, which is how this repo's Urdu-derived English
+# translations are written — has a base count of ZERO, so the first natural
+# de-calque of a line of dialogue trips a P0 and reverts the window. On
+# `ayyuhal-walad`, a book of nothing but reported dialogue, that killed chapter 1,
+# then killed chapter 3 twice and aborted the whole compose 27 minutes in
+# (2026-07-31). The articulation route makes this the COMMON case rather than a
+# corner: turning `X replied: "Y"` into `"Y," X replied.` is exactly what REQ-BA-020
+# asks for.
+#
+# The separator may be a comma, colon, semicolon or dash — never a full stop. `X
+# said. "..."` is two complete sentences with a terminated, unambiguous
+# attribution; `X said, "..."` is one utterance with a tag cut into it, which is
+# the shape that re-points speech. Narrowing here is deliberate and safe: this is
+# a SEED for the challenger's BK-N2, whose spec already says an empty determin-
+# istic result means "nothing cheap to find", not a pass — and the module's stated
+# philosophy is high precision over recall, because a false revert costs a chapter
+# while a missed finding is still caught by the semantic pass reading the source.
 _INTERIOR_TAG_RE = re.compile(
     r"[\"”][^\S\n]*,?[^\S\n]*(?:[A-Z][\w'\-]*(?:[^\S\n]+[A-Z][\w'\-]*)?|he|she|they)[^\S\n]+"
     r"(?:said|replied|answered|asked|told)\b"
+    r"[^\S\n]*[,:;—–-]?[^\S\n]*[\"“]"
 )
 
 # Source-style enumeration markers at the head of a paragraph: "(a)", "(1)", "1.".
@@ -220,142 +238,6 @@ def arabic_retention_findings(base_text: str, candidate: str) -> list[str]:
         return []
     sample = "; ".join(sorted(missing)[:3])
     return [f"Arabic script dropped ({len(missing)} run(s)) — replaced or removed: {sample}"]
-
-
-def supplied_diacritics_findings(base_text: str, candidate: str) -> list[str]:
-    """Flag vowel marks the rewrite added to an unvowelled source run.
-
-    Tashkeel written from model memory onto an unvowelled scan is fabricated
-    scripture. Matching is by consonantal skeleton, so a run that merely moved
-    within the chapter is still compared against its own source form.
-    """
-    # ALL source forms per skeleton, not just the last one. A word like `الله`
-    # occurs many times in one chapter, vowelled in a scripture block and bare in
-    # running prose; keeping only the last occurrence made a chapter compared
-    # against ITSELF report supplied diacritics.
-    base_vowelled: dict[str, bool] = {}
-    for run in _arabic_runs(base_text):
-        skeleton = _strip_tashkeel(run)
-        base_vowelled[skeleton] = base_vowelled.get(skeleton, False) or bool(set(run) & _TASHKEEL_CHARS)
-    findings: list[str] = []
-    for run in _arabic_runs(candidate):
-        skeleton = _strip_tashkeel(run)
-        if skeleton not in base_vowelled:
-            continue
-        if (set(run) & _TASHKEEL_CHARS) and not base_vowelled[skeleton]:
-            findings.append(f"diacritics supplied onto unvowelled source run: {run[:40]}")
-    return findings[:3]
-
-
-_VOWELLING_EXCESS = 0.12
-"""How much more marked than its scan a run must be before it is called fabricated.
-
-Compared as DENSITY, not presence, because the earlier rule only ever built its
-haystack from scan spans carrying NO marks at all — so a span the scanner had
-lightly marked exempted everything inside it. That is not a corner case: the
-chapter 2 sermon close of `the-master-and-the-disciple` carries three marks in
-twenty-three words, the book printed it fully vowelled from model memory, and the
-check stayed silent because those three marks disqualified the whole span from
-being a witness. A challenger found it by reading the Arabic against the scan.
-
-0.12 marks per letter sits well above the noise of a scanner marking a shadda
-here and a tanween there (the live case: 0.03) and well below anything a genuine
-re-vowelling produces (that same run in the book: 0.48).
-"""
-
-
-def _mark_density(span: str) -> float:
-    """Tashkeel marks per Arabic letter. 0.0 for an empty or unmarked run."""
-    letters = sum(1 for ch in span if ch.isalpha() and ch not in _TASHKEEL_CHARS)
-    if not letters:
-        return 0.0
-    return sum(1 for ch in span if ch in _TASHKEEL_CHARS) / letters
-
-
-def ocr_vowelling_findings(text: str, ocr_text: str, *, limit: int = 8) -> list[str]:
-    """Flag NON-Quranic runs vowelled beyond what the scan carries.
-
-    Closes the gap ``supplied_diacritics_findings`` cannot see: that one compares
-    a rewrite against its own base, so vowelling fabricated at TRANSLATION time
-    and baked into the base is invisible to it — which is how one live run reached
-    the printed edition fully vowelled while the scan carried it bare.
-
-    The discriminator this needs is ``_mushaf.is_quranic``. Canonical Quran is
-    LEGITIMATELY vowelled whatever the scan does, and without a way to recognise
-    it every earlier attempt returned a review list that was mostly verses. With
-    the mushaf wired in, only the runs that are the source's OWN words are held to
-    the scan's vowelling.
-
-    Runs shorter than ``_MIN_JUDGED_WORDS`` are SKIPPED rather than judged. A one-
-    or two-word Arabic run carries too little evidence in either direction: it is
-    too short to confirm as canonical scripture (``is_quranic`` needs three words
-    to beat coincidence — 17% of two-word spans of this book's own prose align
-    somewhere in 6,236 verses) and therefore too short to accuse of fabrication on
-    the strength of that same failure. Declining to judge is the honest outcome;
-    the alternative is an accusation resting on an absence of evidence, and it was
-    live — `فَيَكُونُ`, from Q 2:117, sat on this list as a suspected fabrication.
-
-    The comparison is by mark DENSITY against the matching scan span, not by the
-    scan span being bare. Requiring bareness meant one stray shadda disqualified a
-    whole span from being a witness and exempted everything inside it — see
-    ``_VOWELLING_EXCESS`` for the live case that reached print.
-
-    Returns [] when the mushaf is unavailable rather than flagging everything —
-    a checkout without the mirror gets no signal, not a false one.
-
-    KNOWN RESIDUE. A verse the discriminator cannot recognise still lands here.
-    Q 41:35 does, because the mushaf writes `يُلَقَّىٰهَآ` with alif maqsura where a
-    modern edition writes `يُلَقَّاهَا` with alif, and the skeleton fold handles
-    alif-hazf and the waw/alif words but not that pair. The fix would be to fold
-    the weak letters together, and it is deliberately NOT taken: a false positive
-    in `is_quranic` EXCUSES a run from this check, so loosening the discriminator
-    trades a visible advisory entry for an invisible exemption. One line a
-    reviewer dismisses beats one fabrication that ships.
-    """
-    if not ocr_text or not mushaf_available():
-        return []
-
-    # Scan vowelling, WORD by word: bare skeleton -> the most marked the scanner
-    # ever set that word. Word-level because a run in the book rarely shares its
-    # boundaries with a run in the scan, and a whole-run comparison inherits every
-    # boundary mismatch as a false verdict.
-    scan_marks: dict[str, float] = {}
-    for span in arabic_run_spans(ocr_text):
-        for word in span.split():
-            key = normalize_arabic(word)
-            if key:
-                scan_marks[key] = max(scan_marks.get(key, 0.0), _mark_density(word))
-
-    findings: list[str] = []
-    for span in arabic_run_spans(text):
-        if not (set(span) & _TASHKEEL_CHARS) or is_quranic(span):
-            continue
-        words = span.split()
-        if len(words) < _MIN_JUDGED_WORDS:
-            continue
-
-        # A run may be part scripture and part the author's own words — the live
-        # case is a sermon closing around Q 25:62. Judging the whole run flags the
-        # verse's canonical vowelling as fabricated, so the Quranic stretches are
-        # exempted first, by sliding the discriminator's own minimum window.
-        quranic: set[int] = set()
-        for i in range(len(words) - _MIN_JUDGED_WORDS + 1):
-            window = words[i : i + _MIN_JUDGED_WORDS]
-            if is_quranic(" ".join(window)):
-                quranic.update(range(i, i + _MIN_JUDGED_WORDS))
-
-        excess = 0
-        for i, word in enumerate(words):
-            if i in quranic:
-                continue
-            source = scan_marks.get(normalize_arabic(word))
-            if source is None:  # the scan does not carry this word at all
-                continue
-            if _mark_density(word) - source >= _VOWELLING_EXCESS:
-                excess += 1
-        if excess >= _MIN_JUDGED_WORDS:
-            findings.append(f"non-Quranic run vowelled beyond the scan: {span[:44]}")
-    return findings[:limit]
 
 
 def enumeration_findings(base_text: str, candidate: str, *, minimum: int = 3) -> list[str]:
@@ -465,8 +347,9 @@ Reproduce every Arabic-script run EXACTLY as given, character for character.
 Never replace Arabic script with a Latin transliteration. Where the passage
 discusses the Arabic AS LETTERS, keep the script and add the transliteration
 beside it in parentheses.
-Never add vowel marks (tashkeel) that the source does not have. Diacritics are
-carried from the source or they are absent — never written from memory.
+Keep whatever vowel marks (tashkeel) a run already carries, and do not strip them.
+Adding marks is not your job here — a later pass vowels the Arabic under a gate
+that checks the letters are unchanged — so reproduce each run as given.
 
 STRUCTURE (binding)
 If the source enumerates — lettered or numbered items — keep the enumeration as
@@ -486,6 +369,5 @@ def frame_findings(
     findings.extend(narrative_person_findings(candidate, frame, narrator_subject=narrator_subject))
     findings.extend(speech_tag_findings(base_text, candidate))
     findings.extend(arabic_retention_findings(base_text, candidate))
-    findings.extend(supplied_diacritics_findings(base_text, candidate))
     findings.extend(enumeration_findings(base_text, candidate))
     return findings

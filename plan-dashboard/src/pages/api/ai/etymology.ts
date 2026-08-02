@@ -91,9 +91,8 @@ export const POST: APIRoute = async ({ request }) => {
     //    When the word resolves to exactly one root, the model receives the
     //    verified root + real derived family + Lane's meaning as authoritative.
     try {
-      const { resolveTermAnyScript } = await import(
-        "../../../lib/db/morphology.server"
-      );
+      const { resolveTermAnyScript } =
+        await import("../../../lib/db/morphology.server");
       const rec = resolveTermAnyScript(word.trim());
       if (rec) {
         const fam = rec.family

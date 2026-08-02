@@ -460,6 +460,38 @@ def test_fluency_reverts_calqued_drift(tmp_path: Path) -> None:
     assert report["adapted"] == 1 and report["reverted"] == 1
 
 
+def test_fluency_strips_articulation_notes_block_and_records_it(tmp_path: Path) -> None:
+    """REQ-BA-160: a trailing ===ARTICULATION-NOTES=== block must never reach
+    book.md, and its lines must surface in the pass record instead."""
+    from _book_voice import apply_fluency_adapt
+
+    bd = _book(tmp_path, _BASE)
+
+    def fake_adapter(title, base_text, book_dir, label, log, **kw):
+        if "Knowledge" not in title:
+            return base_text  # near-identical -> kept, no notes
+        return (
+            base_text.replace("Seek", "You should seek") + "\n\n===ARTICULATION-NOTES===\n"
+            "AMBIGUITY: unclear whether 'seeker' means the student or the seeking itself\n"
+            "TERMINOLOGY: knowledge — standardize to 'knowledge' everywhere\n"
+            "===END-NOTES===\n"
+        )
+
+    apply_fluency_adapt(bd, log=lambda *a: None, adapter=fake_adapter)
+    out = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    assert "ARTICULATION-NOTES" not in out
+    assert "AMBIGUITY:" not in out
+
+    report = json.loads((bd / "_system" / "book-fluency-report.json").read_text())
+    chapters = {c["title"]: c for c in report["chapters"]}
+    assert chapters["On Knowledge"]["editorial_queries"] == [
+        "unclear whether 'seeker' means the student or the seeking itself"
+    ]
+    assert chapters["On Knowledge"]["terminology_notes"] == ["knowledge — standardize to 'knowledge' everywhere"]
+    assert chapters["On Knowledge"]["comprehension_flags"] == []
+    assert chapters["On Patience"]["editorial_queries"] == []
+
+
 def test_targeted_rerun_keeps_the_prior_runs_records(tmp_path: Path) -> None:
     """A pass run with only= must not erase the full run's per-chapter records.
 
@@ -509,7 +541,7 @@ def test_replay_overwrite_restamps_adapted_as_overwritten(tmp_path: Path) -> Non
     # Top-level counts only ever count SURVIVING work.
     assert report["adapted"] == 1
     assert report["overwritten_by_replay"] == 1
-    assert report["schema"] == "podcast.book-fluency/v4"
+    assert report["schema"] == "podcast.book-fluency/v5"
 
 
 def test_reconcile_is_a_noop_without_applied_edits(tmp_path: Path) -> None:

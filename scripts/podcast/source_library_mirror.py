@@ -575,7 +575,7 @@ def fts_topics_search(keyword: str, limit: int = 10, conn: sqlite3.Connection | 
 
 
 def quran_ayat_lookup(surah: int, ayat: int, conn: sqlite3.Connection | None = None) -> dict | None:
-    """Direct lookup of a single Quran verse by surah + ayat. Returns None if not found."""
+    """One Quran verse by surah + ayat, or None. `arabic` comes back stripped of the mirror's invisible bidi wrapper (U+200F/U+200E on some rows) so that no caller printing a verse has to remember to — two did and `_book_compose` did not, which put both marks into a printed verse on 2026-08-01."""
     own = conn is None
     conn = conn or open_mirror()
     if conn is None:
@@ -586,7 +586,7 @@ def quran_ayat_lookup(surah: int, ayat: int, conn: sqlite3.Connection | None = N
             "FROM fts_quran WHERE surah = ? AND ayat = ? LIMIT 1",
             (int(surah), int(ayat)),
         ).fetchone()
-        return dict(row) if row else None
+        return dict(row) | {"arabic": str(row["arabic"] or "").strip("‎‏").strip()} if row else None
     except sqlite3.OperationalError:
         return None
     finally:

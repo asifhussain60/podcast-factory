@@ -1,0 +1,126 @@
+{
+  "schema": "podcast.translation-edition/v1",
+  "mode": "translation_edition",
+  "augmentation": "forbidden",
+  "visual_style": "black_white",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "The Pole and Foundation of Religion",
+      "chapter_file": "book/_chapters/ch01-the-pole-and-foundation-of-religion.txt",
+      "source_line_ranges": [
+        [
+          572,
+          623
+        ]
+      ],
+      "source_words": 1650,
+      "output_words": 1430
+    },
+    {
+      "index": 2,
+      "title": "By Nature and by Reason",
+      "chapter_file": "book/_chapters/ch02-by-nature-and-by-reason.txt",
+      "source_line_ranges": [
+        [
+          624,
+          672
+        ]
+      ],
+      "source_words": 2369,
+      "output_words": 2368
+    },
+    {
+      "index": 3,
+      "title": "Degrees of Excellence",
+      "chapter_file": "book/_chapters/ch03-degrees-of-excellence.txt",
+      "source_line_ranges": [
+        [
+          673,
+          711
+        ]
+      ],
+      "source_words": 1364,
+      "output_words": 1352
+    },
+    {
+      "index": 4,
+      "title": "The Ladder of Creation",
+      "chapter_file": "book/_chapters/ch04-the-ladder-of-creation.txt",
+      "source_line_ranges": [
+        [
+          712,
+          780
+        ]
+      ],
+      "source_words": 2642,
+      "output_words": 2785
+    },
+    {
+      "index": 5,
+      "title": "The Physician of Souls",
+      "chapter_file": "book/_chapters/ch05-the-physician-of-souls.txt",
+      "source_line_ranges": [
+        [
+          781,
+          841
+        ]
+      ],
+      "source_words": 3122,
+      "output_words": 3129
+    },
+    {
+      "index": 6,
+      "title": "Governance and the First Principle",
+      "chapter_file": "book/_chapters/ch06-governance-and-the-first-principle.txt",
+      "source_line_ranges": [
+        [
+          842,
+          875
+        ]
+      ],
+      "source_words": 1518,
+      "output_words": 1576
+    },
+    {
+      "index": 7,
+      "title": "The Imam in the Pillars of Faith",
+      "chapter_file": "book/_chapters/ch07-the-imam-in-the-pillars-of-faith.txt",
+      "source_line_ranges": [
+        [
+          876,
+          1010
+        ]
+      ],
+      "source_words": 4526,
+      "output_words": 4149
+    },
+    {
+      "index": 8,
+      "title": "From Adam to Ali",
+      "chapter_file": "book/_chapters/ch08-from-adam-to-ali.txt",
+      "source_line_ranges": [
+        [
+          1011,
+          1091
+        ]
+      ],
+      "source_words": 2332,
+      "output_words": 2130
+    },
+    {
+      "index": 9,
+      "title": "God's Vicegerent in His Time",
+      "chapter_file": "book/_chapters/ch09-god-s-vicegerent-in-his-time.txt",
+      "source_line_ranges": [
+        [
+          1092,
+          1451
+        ]
+      ],
+      "source_words": 4310,
+      "output_words": 4218
+    }
+  ],
+  "source_crosswalk": "book/source-crosswalk.json"
+}

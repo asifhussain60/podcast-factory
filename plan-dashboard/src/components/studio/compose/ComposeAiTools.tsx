@@ -202,14 +202,23 @@ export default function ComposeAiTools({
   // the effect's cleanup closes it the moment the flag drops.
   const busyState = aiBusy
     ? aiKind === "research"
-      ? { title: "Researching the section…", icon: "fa-solid fa-magnifying-glass" }
+      ? {
+          title: "Researching the section…",
+          icon: "fa-solid fa-magnifying-glass",
+        }
       : { title: "Auto-tagging the section…", icon: "fa-solid fa-tags" }
     : arabicBusy
       ? { title: "Proposing the Arabic term…", icon: "fa-solid fa-language" }
       : englishBusy
-        ? { title: "Proposing the English term…", icon: "fa-solid fa-spell-check" }
+        ? {
+            title: "Proposing the English term…",
+            icon: "fa-solid fa-spell-check",
+          }
         : explainBusy
-          ? { title: "Explaining the selection…", icon: "fa-solid fa-lightbulb" }
+          ? {
+              title: "Explaining the selection…",
+              icon: "fa-solid fa-lightbulb",
+            }
           : null;
   const busyTitle = busyState?.title ?? null;
   const busyIcon = busyState?.icon ?? null;

@@ -46,9 +46,14 @@ import re
 from pathlib import Path
 from typing import Any
 
+from _book_fences import span_re
+
 INTRO_OPEN = "<!-- edition-intro:begin -->"
 INTRO_CLOSE = "<!-- edition-intro:end -->"
-_INTRO_SPAN_RE = re.compile(r"\n*" + re.escape(INTRO_OPEN) + r".*?" + re.escape(INTRO_CLOSE) + r"\n*", re.S)
+# Matches the bare-marker form as well — see `_book_fences`. An introduction whose
+# fence a Composer save flattened must still be found by `strip_introduction`, or
+# the next compose stacks a second introduction beside the first.
+_INTRO_SPAN_RE = span_re("edition-intro", leading=r"\n*", trailing=r"\n*")
 _HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 
 # An introduction is front matter, not an essay. Past this it competes with the

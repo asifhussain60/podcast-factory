@@ -26,8 +26,19 @@ import { simplifyTransliteration } from "../translit";
  *  and a fourth hand-kept list is a fourth chance to miss a kind (which is
  *  exactly how `edition-intro` came to render as visible text). */
 const MACHINE_FENCE_LINE_RE = new RegExp(
-  `^<!--\\s*(?:${FENCE_KINDS.join("|")}):(?:begin|end)\\s*-->$`,
+  `^<!--\\s*(${FENCE_KINDS.join("|")}):(begin|end)\\s*-->$`,
 );
+
+/** Fence kinds whose span is an EDITORIAL ASIDE — the pipeline talking to the
+ *  reader about the text — as opposed to the text itself. They render as
+ *  blockquotes, exactly like a scripture citation does, and until 2026-07-28
+ *  nothing in the markup told them apart: `blockquote p:first-child` in
+ *  book-reader.css sizes the first line of a verse block at 1.45rem/1.9 for the
+ *  Arabic, and it was hitting these instead, so a 220-word editorial note
+ *  rendered as 28px centred display type against 20px justified body. Tagging
+ *  the aside lets that rule stay exactly as it is for verses and skip these.
+ *  `edition-intro` is deliberately absent — it is plain prose, never a quote. */
+const ASIDE_FENCE_KINDS = new Set(["editorial", "study-summary", "bridge"]);
 
 /** A list item, by marker. Declared once: the parse below and the blank-line
  *  lookahead in renderMarkdown must agree on what counts as an item, and two
@@ -184,6 +195,21 @@ function renderInline(text: string, opts: RenderOptions): string {
 const ARABIC_INLINE_RE = /[﴿«]?[\s؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]+[﴾»]?/g;
 
 /**
+ * Is this paragraph an Arabic QUOTATION, rather than English containing Arabic?
+ *
+ * Deliberately duplicated rather than imported: the canonical copy lives in
+ * scripts/lib/book-html.mjs, which reads the filesystem and so cannot be pulled
+ * into this client-bundled module. The two, plus `_book_mirror.is_arabic_block`
+ * on the Python side, are pinned against each other by `arabic-block.fixtures.json`
+ * — see the canonical copy's own note for what drift costs.
+ */
+export function isArabicOnlyParagraph(s: string): boolean {
+  const arabic = (s.match(/[ؠ-يٱ-ۓ]/g) || []).length;
+  const latin = (s.match(/[A-Za-z]/g) || []).length;
+  return arabic > 20 && arabic > 2 * latin;
+}
+
+/**
  * Wrap each inline Arabic run in the same `.ar-inline` span the PRINT renderer
  * emits (book-html.mjs `renderInline`).
  *
@@ -271,6 +297,9 @@ export function renderMarkdown(
   const out: string[] = [];
   let paraBuffer: string[] = [];
   let quoteBuffer: string[] = [];
+  /** The pipeline fence currently open, so a blockquote inside an aside span can
+   *  be told apart from a scripture citation. See ASIDE_FENCE_KINDS. */
+  let openFence: string | null = null;
   let listKind: ListKind = null;
   /** Open list items. `value` carries the SOURCE ordinal for an ordered item —
    *  see flushList on why the `<ol>` counter is not trusted. */
@@ -279,13 +308,27 @@ export function renderMarkdown(
   const flushPara = () => {
     if (paraBuffer.length === 0) return;
     const text = paraBuffer.join(" ").trim();
-    if (text) out.push(`<p>${renderInline(text, opts)}</p>`);
+    if (text) {
+      // A standalone Arabic quotation is a DISPLAY block, not a sentence with a
+      // term in it. The reader used to emit a bare <p> for one while the PDF and
+      // the Composer's Read view (both renderMd) emitted `.ar-block` — so the same
+      // paragraph was a centered display quotation in two surfaces and left-aligned
+      // running prose at body leading in the third.
+      const cls = isArabicOnlyParagraph(text) ? ' class="ar-block"' : "";
+      out.push(`<p${cls}>${renderInline(text, opts)}</p>`);
+    }
     paraBuffer = [];
   };
 
   const flushQuote = () => {
     if (quoteBuffer.length === 0) return;
     const paras = quoteParagraphs(quoteBuffer);
+    // An aside keeps its fence kind as a second class, so a stylesheet can reach
+    // `.aside` for all of them or `.editorial` / `.bridge` for one.
+    const asideCls =
+      openFence && ASIDE_FENCE_KINDS.has(openFence)
+        ? ` aside ${openFence}`
+        : "";
     if (opts.arabicBlockquotes) {
       // Tag Arabic-script lines as `.ar` and their translations as `.tr` (only
       // when the block actually contains Arabic) so the reader can style verses
@@ -304,8 +347,9 @@ export function renderMarkdown(
                   : `<p class="tr">${renderInline(p, opts)}</p>`;
               })
               .join("");
+      const cls = `${hasArabic ? "quran" : ""}${asideCls}`.trim();
       out.push(
-        `<blockquote${hasArabic ? ' class="quran"' : ""}>${inner}</blockquote>`,
+        `<blockquote${cls ? ` class="${cls}"` : ""}>${inner}</blockquote>`,
       );
     } else {
       const inner = paras
@@ -314,7 +358,10 @@ export function renderMarkdown(
           return t ? `<p>${renderInline(t, opts)}</p>` : "";
         })
         .join("");
-      out.push(`<blockquote>${inner}</blockquote>`);
+      const cls = asideCls.trim();
+      out.push(
+        `<blockquote${cls ? ` class="${cls}"` : ""}>${inner}</blockquote>`,
+      );
     }
     quoteBuffer = [];
   };
@@ -517,13 +564,20 @@ export function renderMarkdown(
       //
       // A PIPELINE FENCE is not that kind of comment. It delimits a span the
       // Python phases own, and rendering it as a visible chip put 16 grey
-      // `editorial:begin` / `edition-intro:begin` labels into the reader on
-      // /studio/<slug>/live. Skipped by default; the EDIT seed opts back in via
+      // `editorial:begin` / `edition-intro:begin` labels into the rendered
+      // reading view. Skipped by default; the EDIT seed opts back in via
       // `keepMachineFences`, because there the marker text is load-bearing —
       // `preserveFences` reads it back to restore the comment form after a save,
       // and dropping it from the seed would strip the fence on the first save.
-      if (!opts.keepMachineFences && MACHINE_FENCE_LINE_RE.test(trimmed)) {
-        flushAll();
+      const fence = trimmed.match(MACHINE_FENCE_LINE_RE);
+      if (fence) {
+        // Flush FIRST, then move the marker: on `begin` that closes whatever
+        // preceded the span, and on `end` it emits the aside's own blockquote
+        // while the kind is still open — which is what carries the class.
+        if (!opts.keepMachineFences) flushAll();
+        openFence = fence[2] === "begin" ? fence[1] : null;
+      }
+      if (!opts.keepMachineFences && fence) {
         i++;
         continue;
       }

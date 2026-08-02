@@ -224,6 +224,49 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # never worth a finished translation
         _record_skip(book_dir, "translit", e, log)
 
+    # 5a-quran. Put the Arabic of every cited Qur'anic verse onto the page. Zero
+    #     model spend and zero model judgment: the EXTENT comes from the source
+    #     scan (what the author actually quoted) and the LETTERS come from the
+    #     canonical mushaf in content/knowledge-base/mirror.db, so no model is ever
+    #     asked to recall scripture.
+    #
+    #     POSITION IS FORCED, from four directions. After every LLM pass and after
+    #     the Composer replay, for the same reason 5a-arabic is (nothing may
+    #     romanize the script away afterwards). BEFORE 5a-arabic, so the glossary
+    #     overlay sees the verse already on the page and its "script is already
+    #     here" suppression fires — otherwise a chapter prints `Adam (آدم)` two
+    #     lines under a verse containing آدم. Before step 6, so the audit resolves
+    #     these runs as canonical-mushaf and the reading edition sets them in the
+    #     Uthmanic face. And before steps 10-11, because align_book fingerprints
+    #     paragraphs and inserting blocks after it would describe a document that
+    #     no longer exists.
+    try:
+        from _book_quran import inject_book as _inject_quran
+
+        _inject_quran(book_dir, log=lambda m: log(f"    {m}"))
+    except Exception as e:  # a missing verse must never fail a finished translation
+        _record_skip(book_dir, "quran-arabic", e, log)
+
+    # 5a-citations. Name the surah in every citation (Asif, 2026-08-01): `(2:24)`
+    #     becomes `(Al-Baqarah: 24)`. A bare number is a lookup key, not a
+    #     reference — it asks a reader who does not read Arabic to already know
+    #     which surah 2 is. Every printed translation names it.
+    #
+    #     IMMEDIATELY AFTER 5a-quran, and that order is load-bearing in one
+    #     direction only. The injection above reads citations to decide which
+    #     verse to set, and `_book_citations.find_citations` reads BOTH the
+    #     numeric and the named form precisely so a re-compose of an
+    #     already-renamed book still finds its 23 cited verses. Running the
+    #     rename first would therefore still work — it is placed second because
+    #     the numeric form is what every upstream pass and report speaks, and the
+    #     house form is the last word before the page.
+    try:
+        from _book_citations import rename_book as _name_surahs
+
+        _name_surahs(book_dir, log=lambda m: log(f"    {m}"))
+    except Exception as e:  # a citation's spelling must never fail a translation
+        _record_skip(book_dir, "citation-names", e, log)
+
     # 5a-policy. Classify the glossary's annotation policy — ONCE per book. Which
     #     terms deserve an inline annotation is a judgment call, so a model makes
     #     it, and it is durable: proposals land in glossary.yml where a human can
@@ -259,6 +302,22 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     except Exception as e:  # an apparatus miss must never cost a finished book
         _record_skip(book_dir, "etymology", e, log)
 
+    # 5a-glossary-vowel. Mark the GLOSSARY's Arabic, and do it BEFORE the overlay
+    #     below — the overlay inserts whatever the glossary holds, so a bare
+    #     glossary prints bare terms however well the quotations are vowelled.
+    #     Order matters in one direction only, and it is not negotiable: changing
+    #     the glossary AFTER an overlay exists leaves `_normalize_annotations`
+    #     unable to recognise the annotation it already wrote (it keys on the old
+    #     script), so it annotates on top of it — measured on 2026-07-29 as
+    #     `Tur (اَلطُّور), الطور)`, a doubled parenthetical in live prose.
+    #     See vowel_glossary.py.
+    from vowel_glossary import vowel_glossary
+
+    try:
+        vowel_glossary(book_dir, log=lambda m: log(f"    {m}"))
+    except Exception as e:  # marks are never worth a finished book
+        _record_skip(book_dir, "glossary-vowelling", e, log)
+
     # 5a-arabic. Put the Arabic script back beside inline terms. AFTER every
     #     LLM text pass, so no model can romanize the script away again, and AFTER
     #     the Composer replay, so it annotates the author's chapters too — before
@@ -273,6 +332,22 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
         book_md = book_dir / "book" / "book.md"
     except Exception as e:  # an overlay is never worth a finished translation
         _record_skip(book_dir, "inline-arabic", e, log)
+
+    # 5a-vowelling. Put the vowel marks on the Arabic (Asif, 2026-07-29 — this
+    #     reverses the rule that a model may never supply tashkeel). AFTER the
+    #     inline-Arabic overlay, so glossary script inserted there is marked too,
+    #     and after every prose pass, so nothing rewrites a run once it is
+    #     vowelled. BEFORE the audits, so what they judge is what prints.
+    #     Qur'anic runs are skipped — the canonical mushaf already vowels them —
+    #     and every answer must come back with a byte-identical consonantal
+    #     skeleton or it is refused and recorded. See vowel_book.py.
+    from vowel_book import vowel_book
+
+    try:
+        vowel_book(book_dir, log=lambda m: log(f"    {m}"))
+        book_md = book_dir / "book" / "book.md"
+    except Exception as e:  # marks are never worth a finished book
+        _record_skip(book_dir, "vowelling", e, log)
 
     # 5a-spelling. One spelling standard for the whole edition. The drafting and
     #     re-voicing models have no consistent preference, so without this a
@@ -388,5 +463,45 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
                 log(f"    honorifics: {_n} first-use honorific(s) spelled out in full")
     except Exception as e:  # a convention is never worth a finished book
         _record_skip(book_dir, "honorifics", e, log)
+
+    # 10. Which SOURCE paragraph each English paragraph came from, so the Composer
+    #     can show the Arabic behind a passage on demand. GENUINELY last, and the
+    #     position is forced rather than chosen: bridges (8) and honorifics (9) both
+    #     rewrite book.md after the audits, and this step fingerprints the
+    #     paragraphs it aligns. Run any earlier and it would name paragraphs the
+    #     shipped book no longer contains, and every pairing would silently miss.
+    #
+    #     Incremental: a chapter whose block fingerprints are unchanged is skipped
+    #     outright, so a re-compose costs nothing. Only a chapter whose prose
+    #     actually moved is re-aligned, and only the residue the deterministic pass
+    #     cannot settle goes to a model. Skips silently for a book with no Arabic
+    #     source or no translation-edition crosswalk.
+    from align_arabic_paragraphs import align_book
+
+    try:
+        align_book(book_dir, log=lambda m: log(f"    {m}"), apply=True)
+    except Exception as e:  # an alignment is never worth a finished book
+        _record_skip(book_dir, "arabic-alignment", e, log)
+
+    # 11. MIRROR THE PARAGRAPHING onto the Arabic's (Asif, 2026-07-30).
+    #
+    #     A translation edition's paragraphing belongs to its source. Articulation
+    #     splits a long Arabic paragraph into several readable English ones and
+    #     splits a speech tag off from the speech, so `قال الغلام: …` — one
+    #     paragraph in the source — printed as "The boy said:" on a line of its own
+    #     with the quotation beneath. Consecutive English paragraphs from one Arabic
+    #     paragraph are merged back into one.
+    #
+    #     AFTER the alignment, necessarily: the merge is driven by the pairing, and
+    #     it rewrites that pairing itself rather than leaving fingerprints naming
+    #     paragraphs the merge has just replaced. No model is called — the grouping
+    #     is already known exactly. A chapter the human authored in the Composer is
+    #     skipped: its paragraphing is a choice, not an artefact.
+    from mirror_paragraphs import mirror_book
+
+    try:
+        mirror_book(book_dir, log=lambda m: log(f"    {m}"), apply=True)
+    except Exception as e:  # paragraphing is never worth a finished book either
+        _record_skip(book_dir, "paragraph-mirror", e, log)
 
     return book_md

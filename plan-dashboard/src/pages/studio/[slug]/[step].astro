@@ -322,9 +322,6 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
             <nav class="studio-editview-toggle" aria-label="Edit surface">
               <a href={`/studio/${slug}/edit`}>← Rich editor</a>
               <span class="is-current">Pipeline workbench</span>
-              <a href={`/studio/${slug}/arabic-review#${initialChapterId}`}>
-                Arabic review
-              </a>
             </nav>
             <OperatorWorkbench
               client:only="react"
@@ -340,11 +337,13 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
           <>
             <nav class="studio-editview-toggle" aria-label="Edit surface">
               <span class="is-current">Rich editor</span>
+              {/* The third link here was "Arabic review →", to
+                  /studio/<slug>/arabic-review. That page was retired in 2026-07
+                  and redirects to the Composer, whose Arabic drawer surface was
+                  removed on 2026-07-29 — so the link led to a panel that is no
+                  longer anywhere. Removed with it. */}
               <a href={`/studio/${slug}/edit?view=workbench`}>
                 Pipeline workbench
-              </a>
-              <a href={`/studio/${slug}/arabic-review#${initialChapterId}`}>
-                Arabic review →
               </a>
             </nav>
             <StudioEditor
@@ -354,6 +353,7 @@ const pageTitle = `${stepMeta.label} — ${bookTitle}`;
               glossary={workspace.glossary}
               glossaryAll={workspace.glossaryAll}
               initialChapIdx={initialChapIdx}
+              hasChapterDeepLink={!!chParam}
               contentProfile={contentProfile}
               archivedLineages={progressionArchives}
               pipelineSteps={steps}

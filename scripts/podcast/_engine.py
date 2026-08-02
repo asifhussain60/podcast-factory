@@ -63,6 +63,7 @@ TASK_IMAGE_GEN = "image_gen"  # actual image rendering (DALL-E 3 via Azure OpenA
 TASK_AUGMENT = "augment"  # augmentation (any profile)
 TASK_REVOICE = "revoice"  # literary re-voice (_literary.py)
 TASK_DENOISE = "denoise"  # WC8 denoise/normalize (gemini_refine)
+TASK_VOWEL = "vowel"  # Arabic vocalisation (vowel_book / vowel_source / vowel_glossary)
 TASK_AUDIT = "audit"  # bundle audit (second-model gate)
 TASK_RECONCILE = "reconcile"  # split-source reconcile
 TASK_REVIEW_HELPER = "review_helper"  # review-studio helper features
@@ -98,6 +99,7 @@ _POLICY: dict[str, str] = {
     # Tier 3 — Gemini (kept where genuinely better today)
     TASK_REVOICE: ENGINE_GEMINI,  # kept (Gemini-tuned today)
     TASK_DENOISE: ENGINE_GEMINI,
+    TASK_VOWEL: ENGINE_GEMINI,
     TASK_AUDIT: ENGINE_GEMINI,  # second-model gate vs Claude
     TASK_RECONCILE: ENGINE_GEMINI,
     TASK_REVIEW_HELPER: ENGINE_GEMINI,
@@ -122,6 +124,7 @@ _RATIONALE: dict[str, str] = {
     TASK_NER: "tier-2 Azure Language TextAnalytics (journal-language-market, F0 free)",
     TASK_KEY_PHRASES: "tier-2 Azure Language TextAnalytics (journal-language-market, F0 free)",
     TASK_SENTIMENT: "tier-2 Azure Language TextAnalytics (journal-language-market, F0 free)",
+    TASK_VOWEL: "tier-3 Gemini 2.5 Pro — vocalising an ambiguous verb is a reasoning task, and the marks-only gate bounds it",
     TASK_REVOICE: "tier-3 Gemini — kept where currently better",
     TASK_DENOISE: "tier-3 Gemini — kept where currently better",
     TASK_AUDIT: "tier-3 Gemini — independent second-model gate",

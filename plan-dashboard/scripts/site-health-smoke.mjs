@@ -44,6 +44,14 @@ const ONE_ROUTE = (() => {
 })();
 const PORT = Number(process.env.SITE_HEALTH_PORT || 4322);
 
+// Rolling capture of the ephemeral dev server's stdout+stderr. Printed only when
+// a route fails — a 5xx is the server's exception, and without this the report
+// can name the URL but never the cause.
+const serverLog = [];
+const SERVER_LOG_MAX = 400;
+const serverLogTail = (lines = 60) =>
+  serverLog.join("").split("\n").slice(-lines).join("\n").trim();
+
 // Console-error / failed-request patterns that are known-benign in dev and must
 // NOT fail the gate. Keep this list SHORT and justified — every entry is a
 // blind spot. Anything not matched here is a real finding.
@@ -159,6 +167,8 @@ export function buildRoutes(slug) {
     [`/library/${slug}`]: `/studio/${slug}`,
     // Retired 2026-07-21; the Composer's Arabic drawer holds both its panels.
     [`/studio/${slug}/arabic-review`]: `/studio/${slug}/compose`,
+    // Retired 2026-08-01; the Composer's Read mode carries the reading view.
+    [`/studio/${slug}/live`]: `/studio/${slug}/compose`,
     [`/studio/${slug}/book`]: `/studio/${slug}/compose`,
     [`/studio/${slug}/view`]: `/studio/${slug}`,
     [`/pre-upload/${slug}`]: "/pre-upload",
@@ -181,7 +191,13 @@ export function buildRoutes(slug) {
         `/studio/${slug}/publish`,
         `/studio/${slug}/compose`,
         `/studio/${slug}/book`,
-        `/studio/${slug}/live`, // LIVE Session reading view (own CSS + scroll-synced explanations)
+        // `/studio/<slug>/live` (the LIVE Session) was retired 2026-08-01 and now
+        // 302s to the Composer, whose Read mode carries the reading view. STAYS in
+        // this list for the same reason arabic-review below does: the browser
+        // follows the redirect, so a pass proves it still lands somewhere that
+        // renders. Without the redirect the path would fall through to
+        // `[step].astro` and bounce to `/edit` — a different deliverable's editor.
+        `/studio/${slug}/live`,
         `/studio/${slug}/preview`, // whole-book page-image preview (renders fresh from book.md on demand)
         // `/studio/<slug>/arabic-review` was retired 2026-07-21 and now 302s to
         // the Composer, whose new Arabic drawer surface holds both of its panels.
@@ -239,15 +255,36 @@ async function ensureServer() {
     return { baseUrl: provided.replace(/\/$/, ""), proc: null };
   }
   const baseUrl = `http://localhost:${PORT}`;
-  // Reuse an already-running dev server if present.
+  // Reuse an already-running dev server if present. Nothing is captured in that
+  // case — the output belongs to whoever started it, and it is on their terminal.
   if (await waitForServer(baseUrl, 2000)) return { baseUrl, proc: null };
 
   // Boot an ephemeral one.
+  //
+  // stdio was "ignore", which threw away the ONE thing that explains a 5xx: the
+  // server's own stack trace. On 2026-08-01 five Studio routes 500'd on the CI
+  // runner and nowhere else, and the log could say only "500" — not reproducible
+  // on the author's machine from a fresh clone, so there was no other way to see
+  // the exception. Captured into a bounded buffer and printed only when a route
+  // actually fails, so a green run stays quiet.
   const proc = spawn("npm", ["run", "dev", "--", "--port", String(PORT)], {
     cwd: SITE_DIR,
-    stdio: "ignore",
+    stdio: ["ignore", "pipe", "pipe"],
     detached: false,
   });
+  const collect = (stream) => {
+    if (!stream) return;
+    stream.setEncoding("utf8");
+    stream.on("data", (chunk) => {
+      serverLog.push(chunk);
+      // Keep the tail, not the whole build: a dev server is chatty at boot and
+      // the interesting lines are always the most recent ones.
+      while (serverLog.length > SERVER_LOG_MAX) serverLog.shift();
+    });
+  };
+  collect(proc.stdout);
+  collect(proc.stderr);
+
   const ok = await waitForServer(baseUrl, 60000);
   if (!ok) {
     try {
@@ -255,7 +292,9 @@ async function ensureServer() {
     } catch {
       /* noop */
     }
-    throw new Error(`dev server never came up on ${baseUrl}`);
+    throw new Error(
+      `dev server never came up on ${baseUrl}\n${serverLogTail() || "(no server output captured)"}`,
+    );
   }
   return { baseUrl, proc };
 }
@@ -267,7 +306,10 @@ async function ensureServer() {
 // Add new invariants here as the site-health-sentinel agent finds recurring,
 // measurable defects.
 async function checkLayoutInvariants(page) {
-  return page.evaluate(() => {
+  // INV-1..4 measure the 1440px layout this gate navigates at; INV-5 below
+  // re-measures at phone width, so the desktop findings are collected first and
+  // the two sets are returned together.
+  const out = await page.evaluate(() => {
     const out = [];
 
     // INV-1: multi-volume "series deck" stacked-card. The ::before/::after
@@ -411,8 +453,85 @@ async function checkLayoutInvariants(page) {
       }
     }
 
+    // INV-4 asserted the same overlap as INV-2 one surface over: the LIVE
+    // Session's sticky companion panel against the site-wide back-to-top
+    // control. It went with that route on 2026-08-01. Not re-pointed at the
+    // Composer's Scholar panel, which is a DOCKED drawer rather than a sticky
+    // corner element and so cannot reproduce the failure — a check rewritten to
+    // pass by construction is worse than no check. INV-2 still guards the
+    // corner-overlap class of defect on the surfaces that can exhibit it.
+
     return out;
   });
+
+  // INV-5: a control that no scroll can reach at PHONE width. Every other
+  // invariant here runs at the 1440px viewport this gate uses, which is exactly
+  // why this class kept shipping: a fixed-width control inside a container that
+  // CLIPS rather than scrolls looks perfect at desktop and simply has no right
+  // half on a phone. Two shipped that way during the 2026-07-27..08-01 CI outage
+  // — the Composer's view-preference cluster (nowrap, 610px of controls in a
+  // 340px column, so the Paper picker and "Show changes" were gone) and the LIVE
+  // Session's book/chapter pickers (a flat `width: 18rem` pushing their own
+  // chevrons past the card border and off the screen).
+  //
+  // The discriminator is REACHABILITY, not overflow. This site uses horizontal
+  // scrollers deliberately and often — the top nav's sections, the architecture
+  // subnav rail, the studio step-stepper, the library tab strip — and every one
+  // of those legitimately extends past 390px. So an off-screen control is only a
+  // finding when NO ancestor can scroll it back into view. Measured that way it
+  // reported zero across all 33 page routes with the two fixes in, and exactly
+  // those two with them reverted.
+  const restore = page.viewportSize();
+  await page.setViewportSize({ width: 390, height: 844 });
+  // Reflow + any width-driven island re-render before measuring.
+  await page.waitForTimeout(400);
+  const narrow = await page.evaluate(() => {
+    const W = document.documentElement.clientWidth;
+    const out = [];
+    for (const el of document.querySelectorAll(
+      "button, select, input, textarea, a[href]",
+    )) {
+      const cs = getComputedStyle(el);
+      if (cs.visibility === "hidden" || cs.display === "none") continue;
+      // offsetParent is null for a fixed element as well as a hidden one.
+      if (el.offsetParent === null && cs.position !== "fixed") continue;
+      const rc = el.getBoundingClientRect();
+      if (rc.width < 1 || rc.height < 1) continue;
+      if (rc.right <= W + 1 && rc.left >= -1) continue;
+      let reachable = false;
+      for (let a = el.parentElement; a; a = a.parentElement) {
+        const acs = getComputedStyle(a);
+        if (
+          /(auto|scroll)/.test(acs.overflowX) &&
+          a.scrollWidth > a.clientWidth + 1
+        ) {
+          reachable = true;
+          break;
+        }
+      }
+      if (reachable) continue;
+      const label = (
+        el.textContent ||
+        el.getAttribute("aria-label") ||
+        el.getAttribute("placeholder") ||
+        ""
+      )
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 28);
+      const cls = (el.className || "").toString().split(" ")[0] || el.tagName;
+      out.push(
+        `${cls} "${label}" spans [${Math.round(rc.left)},${Math.round(rc.right)}] of a ${W}px viewport`,
+      );
+    }
+    return out;
+  });
+  if (restore) await page.setViewportSize(restore);
+  for (const n of narrow) {
+    out.push(`control-unreachable-at-390px: ${n} — no scrollable ancestor`);
+  }
+
+  return out;
 }
 
 // ---- per-route probe ------------------------------------------------------
@@ -573,6 +692,16 @@ async function main() {
       for (const f of r.findings) console.log(`      ${f.kind}: ${f.detail}`);
     }
     console.log("");
+    // The server's own words. Only on failure, and only when this run booted the
+    // server — a reused one logs to its owner's terminal, not here.
+    const tail = serverLogTail();
+    if (failed.length && tail) {
+      console.log(
+        "  ── dev server output (tail) ─────────────────────────────",
+      );
+      for (const line of tail.split("\n")) console.log(`  ${line}`);
+      console.log("");
+    }
   }
 
   process.exit(failed.length ? 1 : 0);
@@ -582,7 +711,8 @@ async function main() {
 // imported by site-health-routes.test.mjs, which asserts it still covers every
 // page in src/pages/ — without this guard that import would boot a browser.
 const isDirectRun =
-  process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+  process.argv[1] &&
+  resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 
 if (isDirectRun) {
   main().catch((err) => {

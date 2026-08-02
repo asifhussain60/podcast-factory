@@ -73,12 +73,12 @@ TRANSLIT_FORMULA_PAIR_RE = re.compile(r"\*(?=[^*\n]*[āīūēōḍḥṣṭẓġ
 def episode_overcrammed(words: int, episode_count: int, ceiling: int) -> int:
     """Density-brake check (pure). Given a source chapter's word count, how many
     episodes it currently maps to, and the per-episode density ceiling, return:
-      0  — not over-crammed (per-episode words ≤ ceiling), OR
+      0  — not over-crammed (per-episode words ≤ ceiling) or zero episodes, OR
       N  — the minimum episode_count this chapter SHOULD use (≥2) so each episode
            lands at/under the ceiling.
     """
-    eps = max(1, int(episode_count))
-    per_episode = int(words) // eps
+    eps = int(episode_count)
+    per_episode = int(words) // eps if eps >= 1 else 0  # 0 eps ships nothing to cram
     if per_episode <= ceiling:
         return 0
     return max(2, -(-int(words) // ceiling))  # ceil division

@@ -91,6 +91,26 @@ R_SERMON_VERBATIM: str = "R-SERMON-VERBATIM"
 R_ARABIC_IN_CHAPTERS: str = "R-ARABIC-IN-CHAPTERS"
 R_PRESERVE_ARABIC_SOURCE: str = "R-PRESERVE-ARABIC-SOURCE"
 
+# ─── R-PRONUNCIATION-RENDER (2026-08-01) ─────────────────────────────────────
+# A framing's `## Pronunciation` values are COMPILED from the shared term ladder
+# (_pronunciation_block.compile_entries -> knowledge/term_render), never taken
+# from the authored text. The model still chooses WHICH terms need help; it does
+# not choose what the hosts say.
+#
+# The defect: the framing prompt asked for `- TermA: English-name-or-plain-translit`
+# and the gate checked only punctuation, so `- arkan: the pillars` — a translation
+# in the slot the block's own instruction calls a phonetic — shipped in five of
+# six episodes. Told to use a phonetic and handed a translation, the hosts said
+# "Archon", "Mathdul", "Mazbuck".
+#
+# The gate below is the companion to the compiler, not a duplicate of it: when a
+# book has nothing settled to say, the compiler declines and the authored block
+# stands, and this is what refuses a translation nobody replaced. An English
+# substitute is legitimate when the LADDER chose it (a ledger gloss, an exonym,
+# a `substitute` row) — so the test is not "does this look English" but "does
+# this disagree with what the ladder independently resolves".
+R_PRONUNCIATION_RENDER: str = "R-PRONUNCIATION-RENDER"
+
 # ─── Upstream precheck sources (Wave N — adversarial validation, Phase A–C) ──
 # These are the `source` values written into _learning/findings.jsonl by the
 # shift-left deterministic + LLM discriminator pre-checks in
@@ -216,7 +236,35 @@ R_ARABIC_TASHKEEL: tuple[tuple[int, int], ...] = (
 R_NARRATIVE_FRAME: str = "R-NARRATIVE-FRAME"
 R_SPEECH_TAG_INTEGRITY: str = "R-SPEECH-TAG-INTEGRITY"
 R_ARABIC_SCRIPT_RETAINED: str = "R-ARABIC-SCRIPT-RETAINED"
-R_NO_SUPPLIED_DIACRITICS: str = "R-NO-SUPPLIED-DIACRITICS"
+# Renamed 2026-07-29 with the reversal: the rule is no longer "no supplied
+# diacritics" — Arabic in these editions is always vowelled — but "a vowelling may
+# differ from its source in MARKS ONLY". The gate lives in `_vowelling.py`; the
+# marks are supplied by `vowel_source.py` on the Arabic SOURCE stream (once, so
+# the glossary and every later compose inherit them) and by `vowel_book.py` at
+# compose time as the net behind it.
+#
+# WHAT "MARKS ONLY" COVERS, tightened 2026-07-29 after the gate was found not to
+# hold: the consonantal skeleton, AND the Arabic-Indic digits and dotless letters
+# that an over-wide mark range had been stripping (so a vowelling that deleted
+# every footnote and verse number read as marks-only), AND the line structure,
+# which `skeleton()` normalises away and which `produce_bilingual` addresses by
+# line number — restored by `reflow_to_source_whitespace` before the gate looks.
+# The ONE licensed exception is a Qur'anic run set from the canonical mushaf,
+# which is Uthmani and changes letters deliberately.
+R_VOWELLING_MARKS_ONLY: str = "R-VOWELLING-MARKS-ONLY"
+# A verse the book CITES carries its Arabic (added 2026-08-01). Every other rule
+# here is about preserving or not fabricating Arabic already present, so nothing
+# asked whether scripture the book quotes reached the page at all — and
+# `degrees-of-excellence` shipped 21 of its 23 cited verses as English with a bare
+# `(5:13)` after them while the Arabic audit reported `unverified: 0`.
+#
+# Satisfied by `_book_quran` (compose step 5a-quran, backfill
+# `_book_quran.py --slug`), whose extent comes from the source scan and whose
+# letters come from the canonical mushaf. Measured as `quran_coverage` in
+# `_system/book-arabic-audit.json`; a verse the scan does not quote is reported
+# uncovered rather than filled with a whole ayah, so this rule is a P1 finding for
+# human judgment, never an automatic substitution.
+R_QURAN_ARABIC_PRESENT: str = "R-QURAN-ARABIC-PRESENT"
 R_ENUMERATION_PRESERVED: str = "R-ENUMERATION-PRESERVED"
 
 NARRATIVE_FRAMES: dict[str, dict[str, object]] = {

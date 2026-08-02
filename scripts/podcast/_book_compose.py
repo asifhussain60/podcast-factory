@@ -68,9 +68,17 @@ def _load_arabic_pages(book_dir: Path) -> dict[int, str] | None:
 
     Returns None for books without an Arabic OCR extract (fiction, technical, English
     sources) — composition then behaves exactly as before."""
+    from _vowelled_source import resolve_arabic_source
+
     src = book_dir / "_system" / "source" / "ocr" / "raw-extract.md"
     if not src.exists():
         return None
+    # Prefer the vowelled copy of this exact OCR when `vowel_source` has made one:
+    # the ground truth handed to the compose prompt then carries its marks, so a
+    # quoted verse arrives vowelled instead of being re-derived at the end. Falls
+    # back to the raw extract whenever no sibling exists or the OCR has since been
+    # re-run — see `_vowelled_source` for why staleness is fingerprinted.
+    src = resolve_arabic_source(src)
     text = src.read_text(encoding="utf-8")
     if _arabic_run_count(text) < 50:
         return None
@@ -100,16 +108,24 @@ def _arabic_run_count(text: str) -> int:
 
 
 # Quran citation in the source/transliteration, e.g. "(Qur'an 2:255)", "Quran 7:56",
-# "Sura 18:110", "Q 53:39". Surah 1-114, ayah up to 286 (longest sura).
-# Two forms, captured consistently:
+# "Sura 18:110", "Q 53:39", "(5:13)". Surah 1-114, ayah up to 286 (longest sura).
+# Three forms, captured consistently:
 #   - spelled prefix (Qur'an/Quran/Sura/Surah) accepts colon OR dot separator
 #     (groups 1,2). Word-boundary anchored so it won't match mid-word.
 #   - bare "Q" prefix requires a COLON separator (groups 3,4) — this excludes
 #     financial-quarter notation like "Q1.20" / "Q3.2025" that the dot form would
 #     otherwise misread as a verse and pollute the anchor-coverage metric.
+#   - a WORDLESS reference in parentheses (groups 5,6), added 2026-08-01. Five of
+#     `degrees-of-excellence`'s 23 citations are written this way, and because
+#     none of them matched, the verses they name were never anchored into the
+#     compose prompt and reached the page with no Arabic at all. Safe for the same
+#     reason the `Q` form is: the enclosing parentheses AND a colon are both
+#     required, so neither a fiscal quarter nor a bare ratio in running prose can
+#     reach it.
 _QURAN_CITE_RE = re.compile(
     r"\b(?:Qur(?:['’ʾ]?)?an|Qur['’]ān|S[uū]rah?|Sura)\.?\s*(\d{1,3})\s*[:.]\s*(\d{1,3})"
-    r"|\bQ\.?\s*(\d{1,3})\s*:\s*(\d{1,3})",
+    r"|\bQ\.?\s*(\d{1,3})\s*:\s*(\d{1,3})"
+    r"|\(\s*(\d{1,3})\s*:\s*(\d{1,3})\s*\)",
     re.IGNORECASE,
 )
 
@@ -119,8 +135,8 @@ def _detect_quran_refs(text: str) -> list[tuple[int, int]]:
     refs: list[tuple[int, int]] = []
     seen: set[tuple[int, int]] = set()
     for m in _QURAN_CITE_RE.finditer(text or ""):
-        s = int(m.group(1) or m.group(3))
-        a = int(m.group(2) or m.group(4))
+        s = int(m.group(1) or m.group(3) or m.group(5))
+        a = int(m.group(2) or m.group(4) or m.group(6))
         if 1 <= s <= 114 and 1 <= a <= 286 and (s, a) not in seen:
             seen.add((s, a))
             refs.append((s, a))

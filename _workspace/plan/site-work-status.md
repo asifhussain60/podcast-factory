@@ -1,8 +1,353 @@
 # Current work - status
 
-**Last updated:** 2026-07-28 evening (Scholar Companion panel rework; both gates PASS; one RCA filed)
+**Last updated:** 2026-08-01 evening (every citation names its surah; the book is
+re-composed and re-rendered; all gates PASS)
 
-**Newest — the Scholar Companion is a synced, one-button, title-only card rail.**
+**Newest — `(2:24)` reaches the page as `(Al-Baqarah: 24)`.**
+
+Asif: "2:24 should be replaced by (Al-Baqarah: 24). This should be done for all
+pdfs moving forward." A bare number is a lookup key, not a reference — it asks a
+reader who does not read Arabic to already know which surah 2 is.
+
+- **One house form, `(Name: ayah)`**, and every shape collapses onto it. "Quran"
+  goes with the number, because once the surah is named it says nothing the name
+  does not. A range keeps both ends: `(Ibrahim: 24-26)`. All 23 citations in
+  `degrees-of-excellence` renamed; the rendered PDF carries 23 named and zero
+  numeric.
+- **The rename is readable by its own pipeline**, which is the whole risk.
+  `find_citations` reads BOTH forms, so a re-compose still finds the book's 23
+  cited verses instead of reporting a book that cites none and quietly ceasing to
+  maintain their Arabic. The named pattern is not a general "word: number" — the
+  text must BE one of the 114 names, so `(see: 24)` is never scripture.
+- The names are the site's own 114, now **pinned to one shared fixture** and
+  declared in the audit contract.
+
+**Q 6:149 was never missing — the page break hid it.**
+
+The scan opens the ornate run at the foot of page 192 and finishes it at the head
+of 193, with that page's thirteen apparatus notes, the running header and the
+folio number between the halves. A perfect four-word quotation scored 0.02 against
+its own span and was discarded. Fixed in the tracked OCR ledger — **brackets only,
+not one letter moves** — after two attempts in the alignment were measured and
+reverted: a span-gap rule recovered 6:149 but cost Q 17:77 its opening two words,
+and preferring the fuller search would have printed twelve words of Q 68:43 where
+the scan prints seven. **Coverage is 23 of 23.**
+
+**Two things the re-compose surfaced.**
+
+- **The mirror stores some ayat inside a U+200F … U+200E pair**, and each caller
+  was responsible for remembering to strip it. Two did; `_book_compose` did not,
+  and put both marks into a printed verse. Stripped at the mirror's boundary now,
+  so forgetting is no longer possible.
+- **The one chapter without a Composer edit drifted.** Every other chapter is
+  human-authored and passes through untouched, but "3. Degrees of Excellence" was
+  re-articulated: four `I say` became `We say` against the book's own voice, and
+  `Abraham (ع)` lost its honorific — an Arabic-retention miss the revoice gate did
+  not catch. Restored from the prior text and the deterministic passes re-applied.
+  **It will drift again on every compose until it is saved once in the Composer**,
+  which is what pins a chapter.
+
+Gates: pytest 2,138 · site tests 364 · smoke 36 clean · lint:views 0 · astro check
+0 errors · repo probe 1 pre-existing P3. PDF re-rendered at 91 pages.
+
+**Newest — the book quoted 23 verses and printed the Arabic of two.**
+
+`degrees-of-excellence` shipped 21 of its 23 cited verses as English with a bare
+`(5:13)` after them, and the Arabic audit reported `unverified: 0` the whole time.
+Every rule in the audit asks whether the script that IS on the page is right; none
+asked whether scripture the book QUOTES reached the page at all.
+
+- **`_book_quran.py`, compose step `5a-quran`.** Zero model spend and zero model
+  judgment: the EXTENT of a verse comes from the source scan — what the author
+  actually printed — and the LETTERS come from the canonical mushaf in
+  `content/knowledge-base/mirror.db`. No model is ever asked to recall scripture.
+- **22 of 23 cited verses now carry their Arabic**, plus 5 uncited passages where
+  two independent signals agreed the scan is quoting a verse. The one left out is
+  `6:149`, whose Arabic the scan does not print: filling it from a whole ayah is
+  refused rather than guessed, because it would put Arabic on the page saying more
+  than the English beside it. It is reported as `uncovered` for Asif's judgment,
+  never substituted.
+- **Five citations were written wordlessly** — `(5:13)`, not `(Quran 5:13)` — and
+  matched no pattern, so those verses were never anchored into the compose prompt
+  in the first place. `_book_compose._QURAN_CITE_RE` reads the bare form now,
+  gated on the enclosing parentheses AND a colon so a fiscal quarter cannot reach
+  it.
+- Position in the pipeline is forced from four directions (after every LLM pass
+  and the Composer replay, before the glossary overlay, before the audit, before
+  the alignment) — the reasoning is written out at the call site.
+- New rule `R-QURAN-ARABIC-PRESENT`; `book-challenger` gains **BK-N8** (P1),
+  seeded from `quran_coverage` in `_system/book-arabic-audit.json`. It is a P1 for
+  human judgment, never an automatic substitution.
+
+**The LIVE Session is retired.**
+
+It was a second surface doing Read mode's job — a reading column over `book.md`
+with the companion explanations beside it. Once Read mode gained the same
+read-only cards, the same passage tint and the same follow-the-chapter sync
+(2026-07-30), the two were one feature maintained twice; the cross-book picker it
+also carried is `/studio` itself.
+
+- `live.astro` + `live-session.ts` + `live-session.css` + `live-index.ts` deleted
+  (1,750 lines), replaced by a 302 in `live.ts`. A redirect rather than a plain
+  deletion for the reason `arabic-review` records: the path otherwise falls
+  through to `[step].astro`, which bounces every unknown step to `/edit` — the
+  NotebookLM chapter lane, a different text for a different deliverable. 302 and
+  not 301, because a permanent redirect is cached indefinitely and this decision
+  is one session old.
+- **The runtime gate caught the retirement one line short.** `/live` was kept in
+  the route manifest with a comment explaining why, and never added to
+  `EXPECTED_REDIRECTS` — so smoke failed it as an undeclared redirect, which is
+  exactly what that check exists to say. Declared; 36 routes clean.
+- **The prev/next chapter row came across in the retired view's vocabulary** and
+  had to be redrawn (Asif: "make these buttons look like buttons similar to the
+  buttons on top"). It was a transparent 999px capsule; an inch above it the
+  toolbar gives every control a card surface, a 6px corner and a raised hairline.
+  Same surface, border token, radius, shadow and press now — hover is surface +
+  border only, exactly as `.rte-tool:hover` does it. `--cx-control-border` moved
+  from the toolbar block to the view ROOT, because the nav is the toolbar's
+  sibling and could not inherit it; that hoist is what stops the two drifting
+  apart again.
+
+Gates: pytest 2,114 · site tests 363 · smoke 36 clean · lint:views 0 ·
+astro check 0 errors · agent-wrapper parity in sync · repo probe 1 pre-existing P3.
+
+**Previous — the English paragraphing is the Arabic's now.**
+
+Asif (2026-07-30): "I want the English paragraphs to mirror the Arabic." A
+translation edition's paragraphing belongs to its source, and articulation had been
+choosing its own — splitting long Arabic paragraphs for readability and splitting
+speech tags off from the speech, so `قال الغلام: …` (one paragraph in the source)
+printed as "The boy said:" on a line of its own.
+
+- **696 English paragraphs became 560**, merging 136 back into the Arabic paragraphs
+  they came from — 43 of them speech tags. Verified word-for-word: 37,550 words
+  before, 37,550 after, identical sequence. The only things that moved are paragraph
+  breaks and the 21 continuation quotation marks that became orphans once the
+  paragraphs either side of them joined.
+- **514 of 534 groups are now exactly 1:1.** The remaining 20 are runs a verse sits
+  inside — merging across a blockquote would carry prose over scripture, so the pass
+  refuses and the panel honestly says "the 2 paragraphs below".
+- `mirror_paragraphs.py`, wired as step 11 of the compose pipeline AFTER the
+  alignment (it is driven by the pairing and rewrites that pairing itself, so no
+  fingerprint is left naming a paragraph the merge replaced). No model is called —
+  the grouping is already known. Idempotent: a second pass merges nothing.
+- Refuses rather than guesses: a chapter whose alignment no longer describes its
+  prose is left alone, and so is any chapter the human authored in the Composer.
+
+**The Arabic beside the English is the right Arabic now.**
+
+Asif opened the reveal on "The narrator continued:" and got a nine-paragraph block
+that plainly did not translate it, half of it unvowelled. Two independent defects,
+and the first one was worse than it looked.
+
+- **A repeated speech tag pointed at the wrong Arabic.** The Composer keyed the
+  alignment into a `Map` by paragraph fingerprint, and a Map keeps one entry per
+  key. This book repeats its speech tags — one fingerprint occurs THIRTEEN times
+  against thirteen different source paragraphs — so all thirteen rendered the last
+  one's Arabic. 37 paragraphs book-wide were showing text they did not come from,
+  with nothing on screen to say so. The alignment file was right the whole time:
+  it is written one entry per composed paragraph, verified monotone across all 696.
+  Position is the key now, and the fingerprint went back to being the edit guard
+  its own comment always claimed it was.
+- **One Arabic paragraph, one English block.** Articulation makes several English
+  paragraphs from one Arabic one — up to nine — and the source used to be printed
+  in full above each of them. They group now: the Arabic appears once, labelled
+  "the N paragraphs below", with a rule bracketing the English it produced. The
+  paragraphs are not reparented — their DOM order is persisted to
+  `visual-layout.json` and moves figures in the printed book.
+- **94 bare runs became 7.** The marks-only gate is all-or-nothing per run, so one
+  disputed letter cost the vowelling of everything around it — `ويرثله` in the
+  scan against the model's `ويرتله`, almost certainly the right word, took ~120
+  characters of good marking down with it. `_vowel_recovery` re-asks a refused run
+  sentence by sentence and clause by clause under the SAME gate, so only the
+  fragment holding the dispute stays bare. The gate did not move by one character:
+  every piece is checked, and the reassembly is checked again.
+- Both fixes are pinned by tests that fail when the defect is put back — the
+  fingerprint collapse returns `9, 2, 9, 6, 9` where the truth is `1, 2, 5, 6, 9`.
+
+- **The last two came from correcting the SCAN** (Asif approved, 2026-07-30). Both
+  were single-dot scanner errors the vowelling gate had surfaced by refusing to mark
+  the passages around them: `دعوثكم` for `دعوتكم`, and `الجأهم` for `ألجأهم`. They are
+  declared in a tracked ledger beside the scan with their evidence, applied by
+  `correct_ocr.py`, which keeps the vowelled sibling in step and re-stamps the
+  staleness hash — editing the scan alone would have marked a good vowelling stale
+  and sent every reader back to bare text. **Zero bare non-Qur'anic runs remain.**
+  The one bare run left is a verse the mushaf declines to align word for word, which
+  is the documented behaviour: a verse is left exactly as the book prints it.
+
+Still to do: `book.md` was composed from the pre-salvage source, so the PRINTED
+edition does not yet carry the recovered marks. A re-compose picks them up.
+
+**Full-system audit: the dashboard was reporting four confident zeros.**
+
+**Newest — the dashboard stopped lying about the project.**
+
+A full audit of the pipeline and the site. Everything deterministic already passed
+— 2,360 Python tests, 349 site tests, 180 route renders across five book fixtures
+with no console error, ruff, the repo probe, doc links, agent-wrapper parity. What
+it found instead was a whole class of defect the gates cannot see: **snapshot fields
+that render a zero nobody computed.**
+
+- **"0 books in flight" — for two months.** Both snapshot generators read
+  `content/drafts`, a directory the 2026-06-04 restructure deleted. `readdir` threw,
+  the catch returned `[]`, and the dashboard reported the empty list as a fact while
+  six books sat mid-pipeline, one failed since June. They walk the buckets now, with
+  the legacy trees kept as fallbacks in the same order `_paths.py` uses.
+- **"56 / 140 steps done" when 117 were.** plan.yaml says "finished" eight different
+  ways; the generator passed each through verbatim and every consumer tests
+  `=== "complete"`, so 61 finished steps read as unfinished. One closed vocabulary is
+  now imposed in the generator — `complete | in_progress | pending | deferred` — not
+  in the four pages that were each getting it wrong separately.
+- **"Next Step —" always.** The card looked for status `"ready"`, a value no
+  generator has emitted and plan.yaml has never contained.
+- **"$0 spend" and "0 books published, 0 episodes".** `metrics` and `books_shipped`
+  were never written by anything, while the per-book cost ledgers and the published
+  shelf sat on disk. Both are computed now; the 30-day window ends at HEAD's commit
+  time, not wall clock, so regenerating at an unchanged commit stays a no-op.
+- **Both generators still emit byte-identical files**, verified by running them back
+  to back and diffing, and five new tests assert the snapshot AGREES WITH THE
+  FILESYSTEM rather than merely parsing — each one fails when its defect is put back.
+- **Also:** a dead Google-Fonts `@import` (misplaced after `@font-face`, so the
+  browser had always dropped it — a network trace confirms nothing leaves for
+  fonts.googleapis.com) removed with its build warning; one dead variable; 21 files
+  of accumulated prettier drift reformatted, and prettier added to the pre-commit
+  hook, since the repo has declared `format:check` since day one and nothing ever ran
+  it.
+
+Still open, needing Asif: `claude-code-training` has been `failed` since
+2026-06-02; and Lexend + Cinzel are named in three stylesheets but are not
+self-hosted, so they have been silently resolving to Inter and Georgia.
+
+**Book Composer Read mode: reads as a page, Arabic set at the English's size,
+source numbers dropped, Companion read-only.**
+
+**Newest — Read mode is a reading surface on both sides of the page.**
+
+- **Read mode is a page now**, not a column of text on the site background: the
+  chapter body wears the frame the edit shell already wore — card background, 1px
+  rule, 10px radius, the shared card shadow — and the 60ch measure is preserved by
+  adding the horizontal padding back into `max-width` rather than letting the
+  border box eat it. Narrow screens drop the page margins to 1.1rem.
+- **The Arabic source reveal is set at the English's size.** 1.05rem/1.9 — the same
+  pair `compose-print.css` sets on a Qur'anic quotation, and for the same reason
+  (`--q-ar-face` leads with the size-adjusted aliases). It was 1.45rem/2.15, which
+  made the source tower over the translation it exists to support. The ع gutter
+  control came down with it, and the provenance label — which was set LARGER than
+  the prose it annotates — is now apparatus-sized.
+- **The paragraph marker is stripped from the served Arabic.** `(٢٩)` opened each
+  block only so the parser could find the boundary; the number survives on the
+  record and the panel already states it in words, so printing the Arabic-Indic
+  original into the middle of the quotation was scan furniture, like the page
+  comments dropped beside it.
+- **The Companion panel is read-only in Read mode** (Asif, 2026-07-30) — same
+  cards, same tint, same follow-the-chapter sync, no rich-text editor mounted in a
+  card and no delete button. Expressed as withholding the write callbacks, because
+  `renderExplanationCard` already derives editability from `onSave` and its
+  read-only render is the one the public reader ships, with CSS written as paired
+  selector lists — so the two cannot look different. A Read/Edit flip rebuilds the
+  cards, since editability is decided when a card is built.
+
+**Diacritics, and a reversed rule.**
+
+- **A Diacritics button** sits at the end of the Reshape now row, dark until the
+  selection is a predominantly-Arabic run that still lacks its marks. One click
+  vowels it in place through `POST /api/studio/vowelling` `action: "run"`.
+  Verified end to end on a real run: 34 marks added, consonantal skeleton
+  byte-identical.
+- **The rule that a model may never supply diacritics is reversed** (Asif,
+  2026-07-29). He does not read Arabic; an unvowelled run is unreadable to him, so
+  the propose-review-accept gate was making the book worse for its reader. Marks
+  are applied on the spot now. The skeleton gate STAYS — it refuses letters
+  changing under cover of marking, which was never the thing being relaxed — and
+  Qur'anic runs are still skipped because the mushaf already vowels them.
+- **Flipped, and done (2026-07-30).** The pipeline-side BK-N5 gate was already
+  reversed — `_narrative.supplied_diacritics_findings` is deleted and the
+  challenger's BK-N5 now seeds from `_vowelling.rejection_reason` — so what this
+  entry listed as pending had in fact landed; corrected on sight. What was still
+  missing was the vowelling pass itself, which now exists on BOTH sides:
+  `vowel_source.py` marks the Arabic SOURCE stream once (so the glossary and every
+  later compose inherit it) and `vowel_book.py` remains the net at compose time.
+  Backfilled across the library: 62 bare Arabic runs in finished books went to 1,
+  and that one is the gate refusing a candidate that moved letters.
+
+**Newest — the Composer's Companion panel now follows the chapter you are reading,
+and the page no longer depends on an unrelated panel to boot.**
+
+- **Companion cards are tied to the tinted passages.** A passage scrolling into
+  view opens its card and lights it with an accent ring; the passage leaving view
+  shuts the card and takes the ring off. Several on screen means several open, in
+  reading order. The previous sync scrolled the list without opening anything, so
+  arriving at the right card still showed only its title. The sync skips itself
+  entirely while the caret is inside the card list — an open card holds a live
+  editor and saves on focusout.
+- **The floating buttons sit over the bottom of the right panel**, ordered Ismaili
+  Scholar, Tools, back-to-top, and the Companion is the surface the page opens on.
+  Each surface scroller already reserved `--cx-fab-clear`, so nothing the buttons
+  cover is unreachable.
+- **The Arabic drawer surface is gone** (term curation + vowelling review). Its
+  components and `/api/studio/arabic-review` still exist; nothing mounts them, and
+  the three links still pointing at `/studio/<slug>/arabic-review` now land on the
+  Composer with no Arabic panel — see the open item below.
+- **A page with no Astro island cannot use React in dev.** Removing those two
+  `client:only="react"` panels removed the React Fast Refresh preamble Astro only
+  emits for pages that hydrate an island, and `book-composer.ts` — which mounts
+  every React surface imperatively — died on its first React import, leaving the
+  whole page as inert server HTML. `src/scripts/react-refresh-preamble.ts` declares
+  that dependency instead of inheriting it. It must stay SYNCHRONOUS: an awaited
+  runtime import only suspends its parent, so the sibling module still evaluated
+  first and lost the race exactly as before.
+- **Open item:** the "Arabic review" / "Phonetic Map" links in `StudioEditor.tsx`,
+  `[step].astro` (x2) and `library-view.ts` now lead nowhere useful. Either remove
+  them or give those two panels a new home.
+
+**Previous — a full visual-QA pass over all 36 routes, and the gate can no longer
+miss a page.**
+
+- **Route coverage was short by four live surfaces.** `/corpus/morphology` (shipped
+  that morning) and three of the four `[step].astro` steps — `intake`, `review`,
+  `publish` — were never visited by `npm run smoke`; the miss was invisible because
+  `[step].astro` redirects an unknown step to `/edit`. Manifest is 36 routes now, and
+  `scripts/site-health-routes.test.mjs` fails in BOTH directions: a page with no
+  manifest entry, and a manifest entry with no page (which is how the sentinel spec
+  went on naming `/studio/<slug>/style` for nine days after the page was deleted).
+  The wisdom leaf is gated only where `content/_shared/wisdom-corpus/` exists.
+- **`site-health-shots.mjs --full false`** captures the viewport instead of the page.
+  The LIVE reader's full-page PNG is ~105,000px tall; scaled to fit, nothing in it
+  can be judged.
+- **Five defects fixed**, each measured, fixed at the smallest in-pattern point, and
+  re-shot before being called done:
+  - Companion cards clipped 871px of an open explanation and the list never scrolled
+    — `.xpl` has `overflow: hidden`, which zeroes its flex minimum size, so the CARD
+    shrank and the scroller measured no overflow (`flex-shrink: 0`, companion-card.css).
+  - Composer FAB row covered four panel controls when the drawer was open
+    (`--cx-drawer-w` hoisted to body and added to the offset, book-composer.css).
+  - "Tell the AI" clipped its own placeholder by 23px (`min-height` 5rem → 6.5rem).
+  - Wisdom empty-state icon sat flush left under centred text — the Icon is a
+    `display: block` svg (`margin-inline: auto`, wisdom.css).
+  - Editorial asides rendered as scripture display type — 27.8px/52.9px centred
+    against 20px/31px body. `markdown.ts` now emits `blockquote.aside`, and the two
+    screen rules take `:not(.aside)`; verses keep the exact treatment they had.
+    Screen only — `book-print.css` scopes Arabic to `blockquote.quran p.ar` and
+    never had the bug.
+- **`> >` in composed books**: `_book_augment.format_editorial_block` strips
+  model-written blockquote markers before adding its own, and BOTH markdown
+  renderers flatten a nested marker, so the five notes already in
+  `the-master-and-the-disciple` read correctly without a re-compose.
+- **Judged NOT defects** (checked, not assumed): the mobile nav is a deliberate
+  scrolling tab strip (`overflow-x: auto`, 32px hidden, not a clip); dark theme is
+  not a supported state (`theme.css` declares no dark palette); sr-only labels,
+  `text-overflow: ellipsis` truncation, and volume titles inside a collapsed
+  `<details>` all read as "clipped" to a naive probe and are not.
+- Gates: smoke 36 clean · site tests 331 · pytest 2,303 · lint:views + astro check
+  0 errors. A DOM probe across all 36 routes at 1440px and 390px found zero
+  horizontal page overflow and zero broken images.
+- **Open for Asif:** nothing blocking. The `.mjs` print renderer deliberately does
+  NOT emit the aside class (the print CSS has no rule keyed on it); revisit only if
+  a print rule ever needs to tell asides apart.
+
+---
+
+**Prior — the Scholar Companion is a synced, one-button, title-only card rail.**
 
 - ONE Explain button: probes the live prose selection first (explains + files a
   Companion note, tints the passage), falls back to the typed concept. The

@@ -103,5 +103,63 @@ class ConceptInventoryTest(unittest.TestCase):
             self.assertIsNone(_concept_inventory(Path(td) / "nope"))
 
 
+class SkippedChaptersOweNothingTest(unittest.TestCase):
+    """A source chapter planned as zero episodes is not held to the floor.
+
+    Degrees of Excellence planned its front matter, its manuscript notes and its
+    back matter as `essential: skip`, `episode_count: 0` — correctly, and with no
+    `topics`, because a unit that ships no episode has no episode to enumerate
+    topics for. The floor demanded the enumeration anyway and killed phase 0d
+    three times over. It also counted each of those three phantom units as ONE
+    episode toward the whole-book total, via `episode_count or 1`, which inflates
+    coverage a thin plan should have failed on.
+    """
+
+    def test_a_skipped_chapter_is_not_asked_for_topics(self):
+        v = _topic_floor_violations(
+            [_sc(1, 0, title="Front Matter")],
+            None,
+            max_concepts=3,
+            enforce=True,
+            consolidate=False,
+        )
+        self.assertEqual(v, [])
+
+    def test_a_shipping_chapter_still_owes_topics(self):
+        v = _topic_floor_violations(
+            [_sc(4, 6, title="The Treatise")],
+            None,
+            max_concepts=3,
+            enforce=True,
+            consolidate=False,
+        )
+        self.assertEqual(len(v), 1)
+        self.assertIn("missing the `topics` enumeration", v[0])
+
+    def test_skips_do_not_pad_the_whole_book_episode_total(self):
+        # 12 concepts / 3 = 4 episodes needed. The plan ships 3 and skips 3 —
+        # the skips must not make up the shortfall.
+        chapters = [
+            _sc(1, 0, title="Front Matter"),
+            _sc(2, 0, title="Manuscript Notes"),
+            _sc(3, 0, title="Back Matter"),
+            _sc(4, 3, topics=["a", "b", "c"], title="The Treatise"),
+        ]
+        inventory = [{"topics": [f"t{i}" for i in range(12)]}]
+        v = _topic_floor_violations(chapters, inventory, max_concepts=3, enforce=True, consolidate=False)
+        self.assertTrue(any("whole-book" in x for x in v), f"phantom episodes padded the total: {v}")
+
+    def test_the_degrees_of_excellence_plan_passes(self):
+        chapters = [
+            _sc(1, 0, title="Front Matter"),
+            _sc(2, 2, topics=["fatimid world", "author", "contents", "themes", "tafadul"]),
+            _sc(3, 0, title="Manuscript Notes"),
+            _sc(4, 6, topics=[f"teaching {i}" for i in range(12)], title="The Treatise"),
+            _sc(5, 0, title="Back Matter"),
+        ]
+        v = _topic_floor_violations(chapters, None, max_concepts=3, enforce=True, consolidate=False)
+        self.assertEqual(v, [])
+
+
 if __name__ == "__main__":
     unittest.main()

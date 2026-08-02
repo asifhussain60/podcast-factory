@@ -11,6 +11,8 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from _narrative import (  # noqa: E402
@@ -19,7 +21,6 @@ from _narrative import (  # noqa: E402
     frame_findings,
     narrative_person_findings,
     speech_tag_findings,
-    supplied_diacritics_findings,
 )
 from _rules import narrative_frame_for, narrative_person_for  # noqa: E402
 
@@ -115,6 +116,66 @@ def test_rewording_a_tag_is_allowed() -> None:
     assert speech_tag_findings(base, candidate) == []
 
 
+# ─── Trailing tag vs interrupting tag (2026-07-31) ──────────────────────────
+# The check could not tell them apart, because the pattern stopped at the verb.
+# A source in the head-tag style has a base count of zero, so the first natural
+# de-calque of a line of dialogue tripped a P0 and reverted the window: on
+# `ayyuhal-walad` that killed chapter 1, then killed chapter 3 twice and aborted
+# a 27-minute compose. The rule was always the INTERRUPTING shape — the pattern
+# now requires the quotation to re-open after the tag, which is what "interior"
+# has meant in this module's own comments since it was written.
+def test_a_trailing_tag_is_not_an_inserted_tag() -> None:
+    """`"Y," X replied.` is ordinary English — and is what REQ-BA-020 asks for.
+
+    Turning `X replied: "Y"` into `"Y," X replied.` moves no attribution: the
+    speaker is named, the tag is terminated, nothing follows it to re-point.
+    """
+    base = 'Shaykh Hatim replied: "Thirty-three years!"'
+    for candidate in (
+        '"Thirty-three years," Hatim replied.',
+        '"Thirty-three years," he replied.',
+        '"Thirty-three years," he replied. Then he fell silent.',
+    ):
+        assert speech_tag_findings(base, candidate) == [], candidate
+
+
+def test_a_trailing_tag_before_another_speaker_is_not_flagged() -> None:
+    """A whole exchange de-calqued at once must not read as an insertion."""
+    base = 'Shaykh Shafeeq asked: "How long have you been with me?"\n\nHatim replied: "Thirty-three years."'
+    candidate = '"How long have you been with me?" Shafeeq asked.\n\n"Thirty-three years," Hatim replied. Shafeeq said: "Bravo."'
+    assert speech_tag_findings(base, candidate) == []
+
+
+def test_a_full_stop_ends_the_attribution() -> None:
+    """`X said. "..."` is two sentences with a terminated tag, not an interruption.
+
+    Deliberately narrower than `X said, "..."`: the comma form cuts a tag INTO one
+    utterance, which is the shape that re-points speech. This one names its speaker
+    and closes. The semantic BK-N2 pass still reads it against the source — this
+    check is only the cheap seed.
+    """
+    base = '"I have gained eight benefits from you."'
+    candidate = '"I have gained eight benefits," he replied. "That is enough for me."'
+    assert speech_tag_findings(base, candidate) == []
+
+
+@pytest.mark.parametrize(
+    "candidate",
+    [
+        '"This is the nation of the Magi," he said, "clinging to its rebellion."',
+        '"This is the nation of the Magi," he said: "clinging to its rebellion."',
+        '"This is the nation of the Magi," he said "clinging to its rebellion."',
+        '"This is the nation of the Magi," Salih said, "clinging to its rebellion."',
+        "“This is the nation of the Magi,” he said, “clinging to its rebellion.”",
+    ],
+)
+def test_the_interrupting_shape_is_still_caught(candidate: str) -> None:
+    """Narrowing must not blind the gate to the defect it exists for."""
+    base = '"This is the nation of the Magi, clinging to its rebellion."'
+    findings = speech_tag_findings(base, candidate)
+    assert findings and "cut into a quotation" in findings[0], candidate
+
+
 # ─── Arabic retention ───────────────────────────────────────────────────────
 def test_transliterating_arabic_away_is_flagged() -> None:
     base = "From them is derived كُنْ, which is two letters, and فَيَكُونُ, which is five."
@@ -136,16 +197,18 @@ def test_swapping_one_quotation_for_another_is_caught_though_the_count_holds() -
 
 
 # ─── Supplied diacritics ────────────────────────────────────────────────────
-def test_vowelling_an_unvowelled_source_run_is_flagged() -> None:
-    base = "من حيث يشاء الله"
-    candidate = "مِنْ حَيْثُ يَشَاءُ اللهُ"
-    findings = supplied_diacritics_findings(base, candidate)
-    assert findings and "diacritics supplied" in findings[0]
-
-
-def test_carrying_source_vowelling_through_is_allowed() -> None:
-    base = "كُنْ فَيَكُونُ"
-    assert supplied_diacritics_findings(base, base) == []
+# The two tests that lived here pinned `supplied_diacritics_findings`, deleted on
+# 2026-07-29 with the rule it enforced: Arabic in these editions always carries
+# its vowel marks now, so "the rewrite added marks the source lacked" describes
+# the intended outcome. What replaces the guard is the marks-only gate in
+# `_vowelling.rejection_reason` (pinned by tests/test_vowelling.py against shared
+# fixtures) plus `arabic_retention_findings` below, which still refuses a rewrite
+# that moves a LETTER.
+def test_vowelling_a_run_is_not_a_retention_failure() -> None:
+    """Marking a run must stay invisible to the guard that survived."""
+    base = "من حيث يشاء الله وما شاء الله كان"
+    vowelled = "مِنْ حَيْثُ يَشَاءُ اللهُ وَمَا شَاءَ اللهُ كَانَ"
+    assert arabic_retention_findings(base, vowelled) == []
 
 
 # ─── Enumeration ────────────────────────────────────────────────────────────
@@ -265,14 +328,6 @@ def test_relationship_in_subject_position_is_still_narration() -> None:
         "My Master opened the matter at the root of it all.",
     ):
         assert narrative_person_findings(subject, "transmitted_report"), subject
-
-
-def test_repeated_run_vowelled_elsewhere_is_not_a_supplied_diacritic() -> None:
-    # `الله` appears bare in prose and vowelled in a scripture block in the same
-    # chapter. Keeping only the last source form made a chapter compared against
-    # ITSELF report fabricated vowelling.
-    base = "He said الله in the prose.\n\n> وَبَانَ اللهُ في الآية\n\nand الله again."
-    assert supplied_diacritics_findings(base, base) == []
 
 
 def test_real_base_chapters_are_self_consistent() -> None:

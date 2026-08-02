@@ -2,7 +2,7 @@ schema_version: 1
 entries:
 - phonetic: Sayyidina
   transliteration: Sayyidinā
-  arabic_script: سيدنا
+  arabic_script: سَيِّدِنَا
   audio_phonetic: sai-yi-DEE-nah
   first_seen_snippet: 'Author: Sayyidina Ja''far ibn Mansur al-Yaman'
   annotation_class: silent
@@ -10,7 +10,7 @@ entries:
     prose; formally introducing it helps no one.
 - phonetic: Ja'far ibn Mansur al-Yaman
   transliteration: Ja'far ibn Manṣūr al-Yaman
-  arabic_script: جعفر بن منصور اليمن
+  arabic_script: جَعْفَر بْن مَنْصُور اَلْيَمَن
   audio_phonetic: JAH-far ibn man-SOOR al-YA-man
   first_seen_snippet: 'Author: Sayyidina Ja''far ibn Mansur al-Yaman'
   annotation_class: name
@@ -18,7 +18,7 @@ entries:
     so the romanisation and script stay.
 - phonetic: Allah
   transliteration: Allāh
-  arabic_script: الله
+  arabic_script: اَللّٰه
   audio_phonetic: al-LAH
   first_seen_snippet: May Allah be with His servants
   annotation_class: familiar
@@ -27,7 +27,7 @@ entries:
     no apparatus.
 - phonetic: Tur
   transliteration: Ṭūr
-  arabic_script: الطور
+  arabic_script: اَلطُّور
   audio_phonetic: TOOR
   first_seen_snippet: one of the scholars of [Mount] Tur
   annotation_class: teach
@@ -37,7 +37,7 @@ entries:
     once. Human decision, Asif 2026-07-22.
 - phonetic: Bayt al-Ma'mur
   transliteration: Bayt al-Ma'mūr
-  arabic_script: البيت المعمور
+  arabic_script: اَلْبَيْتُ الْمَعْمُور
   audio_phonetic: bait al-ma'a-moor
   first_seen_snippet: one of the dwellers of the Bayt al-Ma'mur
   annotation_class: teach
@@ -47,7 +47,7 @@ entries:
     with name and script introduced once. Human decision, Asif 2026-07-22.
 - phonetic: al-Jazira
   transliteration: al-Jazīra
-  arabic_script: الجزيرة
+  arabic_script: اَلْجَزِيْرَة
   audio_phonetic: al-ja-zee-rah
   first_seen_snippet: the far reaches of the island [al-Jazira]
   annotation_class: name
@@ -75,7 +75,7 @@ entries:
     glossed in prose.
 - phonetic: sheikh
   transliteration: shaykh
-  arabic_script: شيخ
+  arabic_script: شَيْخ
   audio_phonetic: shay-k
   first_seen_snippet: a great sheikh of the Arabs
   annotation_class: familiar
@@ -83,7 +83,7 @@ entries:
   annotation_reason: A common English loanword for an elder/leader.
 - phonetic: batin
   transliteration: bāṭin
-  arabic_script: الباطن
+  arabic_script: الْبَاطِن
   audio_phonetic: BAA-tin
   first_seen_snippet: the inward [batin] has been integrated as a teacher
   annotation_class: teach
@@ -91,7 +91,7 @@ entries:
     and repeatedly builds on.
 - phonetic: zahir
   transliteration: ẓāhir
-  arabic_script: الظاهر
+  arabic_script: اَلظَّاهِر
   audio_phonetic: ZAA-hir
   first_seen_snippet: the outward [zahir] has expanded his dream
   annotation_class: teach
@@ -99,7 +99,7 @@ entries:
     the book teaches.
 - phonetic: Hizb Allah
   transliteration: Ḥizb Allāh
-  arabic_script: حزب الله
+  arabic_script: حِزْبُ اللَّه
   audio_phonetic: HIZB ahl-LAH
   first_seen_snippet: he had become part of the Party of God (Hizb Allah)
   annotation_class: silent
@@ -107,7 +107,7 @@ entries:
     of God'); a formal entry adds nothing.
 - phonetic: Kun
   transliteration: Kun
-  arabic_script: كن
+  arabic_script: كُن
   audio_phonetic: KOON
   first_seen_snippet: from which "Kun" — two letters — is derived
   annotation_class: teach
@@ -115,7 +115,7 @@ entries:
     — a concept the reader should be able to name.
 - phonetic: fa-yakun
   transliteration: fa-yakūn
-  arabic_script: فيكون
+  arabic_script: فَيَكُون
   audio_phonetic: fa-ya-KOON
   first_seen_snippet: and "fa-yakun" — five letters
   annotation_class: silent
@@ -123,7 +123,7 @@ entries:
     not a citable term on its own.
 - phonetic: minhāj
   transliteration: minhāj
-  arabic_script: منهاج
+  arabic_script: مِنْهَاج
   audio_phonetic: min-HAAJ
   first_seen_snippet: its sign a way (minhāj) of darkness
   annotation_class: silent
@@ -131,7 +131,7 @@ entries:
     to introduce formally.
 - phonetic: sunna
   transliteration: sunna
-  arabic_script: السنة
+  arabic_script: اَلسُّنَّة
   audio_phonetic: SOON-na
   first_seen_snippet: Then the sunna (custom) of creation in pairs went forth
   annotation_class: familiar
@@ -140,7 +140,7 @@ entries:
     where it first appears.
 - phonetic: nāṭiq
   transliteration: nāṭiq
-  arabic_script: الناطق
+  arabic_script: اَلنَّاطِق
   audio_phonetic: NAA-tiq
   first_seen_snippet: some are imams and speakers (nāṭiqs)
   annotation_class: teach
@@ -148,7 +148,7 @@ entries:
     Prophet) the reader should be able to cite.
 - phonetic: ḥujaj
   transliteration: ḥujaj
-  arabic_script: الحجج
+  arabic_script: اَلْحُجَج
   audio_phonetic: Hu-jaj
   first_seen_snippet: some are arguments (ḥujaj) and chiefs (nuqabā')
   annotation_class: teach
@@ -156,7 +156,7 @@ entries:
     worth introducing.
 - phonetic: nuqabā'
   transliteration: nuqabā'
-  arabic_script: النقباء
+  arabic_script: اَلنُّقَبَاء
   audio_phonetic: nu-ka-BAA
   first_seen_snippet: some are arguments (ḥujaj) and chiefs (nuqabā')
   annotation_class: teach
@@ -164,14 +164,14 @@ entries:
     and enumerates.
 - phonetic: du'āt
   transliteration: du'āt
-  arabic_script: الدعاة
+  arabic_script: الدُّعَاة
   audio_phonetic: dua'at
   first_seen_snippet: among them are the summoners (du'āt) to the good
   annotation_class: teach
   annotation_reason: A named rank ('summoners') central to the book's mission structure.
 - phonetic: zawāhir
   transliteration: zawāhir
-  arabic_script: الزواهر
+  arabic_script: اَلزَّوَاهِر
   audio_phonetic: za-WAA-hir
   first_seen_snippet: Their summoners are like the manifest stars (zawāhir)
   annotation_class: silent
@@ -179,7 +179,7 @@ entries:
     incidental to introduce.
 - phonetic: jazā'ir
   transliteration: jazā'ir
-  arabic_script: الجزائر
+  arabic_script: اَلْجَزَائِر
   audio_phonetic: ja-ZAA-ir
   first_seen_snippet: the twelve islands (jazā'ir), the dwellings of the chiefs
   annotation_class: silent
@@ -187,7 +187,7 @@ entries:
     no apparatus needed.
 - phonetic: asbāb
   transliteration: asbāb
-  arabic_script: الأسباب
+  arabic_script: اَلْأَسْبَاب
   audio_phonetic: as-BAAB
   first_seen_snippet: the causes (asbāb) of God I have described to you
   annotation_class: silent
@@ -195,7 +195,7 @@ entries:
     not a term a reader would search.
 - phonetic: al-Kabīr
   transliteration: al-Kabīr
-  arabic_script: الكبير
+  arabic_script: اَلْكَبِير
   audio_phonetic: al-ka-BEER
   first_seen_snippet: Monday is for the bladder, in the great meaning, al-Kabīr
   annotation_class: silent
@@ -203,7 +203,7 @@ entries:
     term.
 - phonetic: al-Imām al-Nāṭiq
   transliteration: al-Imām al-Nāṭiq
-  arabic_script: الإمام الناطق
+  arabic_script: الْإِمَامُ النَّاطِق
   audio_phonetic: al-imaam an-Naa-tiq
   first_seen_snippet: '"It is like the speaking Imam (al-Imām al-Nāṭiq), who is exalted
     above all creation"'
@@ -212,7 +212,7 @@ entries:
     and returns to.
 - phonetic: Imam
   transliteration: imām
-  arabic_script: الإمام
+  arabic_script: اَلْإِمَام
   audio_phonetic: e-Maam
   first_seen_snippet: '"It is like the speaking Imam, who is exalted above all creation"'
   annotation_class: familiar
@@ -220,7 +220,7 @@ entries:
   annotation_reason: A common English noun readers already recognize; recurs throughout.
 - phonetic: nuqabāʾ
   transliteration: nuqabāʾ
-  arabic_script: نقباء
+  arabic_script: نُقَبَاء
   audio_phonetic: nu-ka-BAA
   first_seen_snippet: '"They are like the twelve chiefs (nuqabā'') — the chiefs of
     the speaking Imam"'
@@ -229,7 +229,7 @@ entries:
     vocabulary to introduce.
 - phonetic: duʿāt
   transliteration: duʿāt
-  arabic_script: دعاتها
+  arabic_script: دُعَاتُهَا
   audio_phonetic: dua'at
   first_seen_snippet: '"Its stars are his summoners (du''āt), who call to good with
     the permission of their Lord"'
@@ -237,7 +237,7 @@ entries:
   annotation_reason: The 'summoners' rank the book teaches as part of its hierarchy.
 - phonetic: bāb
   transliteration: bāb
-  arabic_script: باب
+  arabic_script: بَاب
   audio_phonetic: /baːb/
   first_seen_snippet: '"It is like the gate (bāb) of the speaking Imam during his
     lifetime"'
@@ -246,7 +246,7 @@ entries:
     worth citing.
 - phonetic: waṣī
   transliteration: waṣī
-  arabic_script: الوصي
+  arabic_script: اَلْوَصِي
   audio_phonetic: /waˈsˤiː/
   first_seen_snippet: '"and his successor (waṣī) after his death"'
   annotation_class: teach
@@ -254,7 +254,7 @@ entries:
     doctrinal vocabulary.
 - phonetic: taʾwīl
   transliteration: taʾwīl
-  arabic_script: التأويل
+  arabic_script: اَلتَّأْوِيل
   audio_phonetic: tah-WEEL
   first_seen_snippet: '"knowers of the parables and the esoteric interpretation (ta''wīl)"'
   annotation_class: teach
@@ -262,7 +262,7 @@ entries:
     built around.
 - phonetic: al-falak
   transliteration: al-falak
-  arabic_script: الفلكان
+  arabic_script: اَلْفَلَكَان
   audio_phonetic: /al ˈfalak/
   first_seen_snippet: '"These are the seven and the orbits (al-falak) — for these
     are the causes of the great God"'
@@ -271,7 +271,7 @@ entries:
     a term to formalize.
 - phonetic: daʿwa
   transliteration: daʿwa
-  arabic_script: دعوة
+  arabic_script: دَعْوَة
   audio_phonetic: DAH-wa
   first_seen_snippet: '"the knowledge of the apparent in which there is no da''wa
     and no summoners"'
@@ -289,7 +289,7 @@ entries:
     say 'al-Khidr'.
 - phonetic: ḥujja
   transliteration: ḥujja
-  arabic_script: الحجة
+  arabic_script: الْحُجَّة
   audio_phonetic: /ˈħudʒːa/
   first_seen_snippet: '"''This is like the hujja (argument),'' or ''This is like the
     dā''ī (caller)''"'
@@ -298,7 +298,7 @@ entries:
     by example.
 - phonetic: dāʿī
   transliteration: dāʿī
-  arabic_script: الداعي
+  arabic_script: اَلدَّاعِي
   audio_phonetic: daa-ee
   first_seen_snippet: '"''This is like the hujja (argument),'' or ''This is like the
     dā''ī (caller)''"'
@@ -307,7 +307,7 @@ entries:
     hujja.
 - phonetic: al-Ghulām
   transliteration: al-Ghulām
-  arabic_script: الغلام
+  arabic_script: اَلْغُلَام
   audio_phonetic: /al ɣuˈlaːm/
   first_seen_snippet: '"(152) Al-Ghulam said: I am convinced."'
   annotation_class: silent
@@ -315,7 +315,7 @@ entries:
     his actual name is Salih.
 - phonetic: ḥawl
   transliteration: ḥawl
-  arabic_script: الحول
+  arabic_script: اَلْحَوْل
   audio_phonetic: hawl
   first_seen_snippet: '"the ḥawl (year) is the same ḥawl as in Allah''s words"'
   annotation_class: teach
@@ -323,7 +323,7 @@ entries:
     ('year/turning'); a reader may want to trace it.
 - phonetic: quwwa
   transliteration: quwwa
-  arabic_script: القوة
+  arabic_script: اَلْقُوَّة
   audio_phonetic: QOO-wa
   first_seen_snippet: '"the public has shown, that ''quwwa'' (power) means mules"'
   annotation_class: silent
@@ -331,7 +331,7 @@ entries:
     is explained inline.
 - phonetic: al-ʿuṣba
   transliteration: al-ʿuṣba
-  arabic_script: العصبة
+  arabic_script: الْعُصْبَة
   audio_phonetic: al-uth-ba
   first_seen_snippet: '"the keys to them would have been carried by a band of strong
     men (al-ʿuṣba)"'
@@ -349,7 +349,7 @@ entries:
     fragment, not a term.
 - phonetic: Yūsuf
   transliteration: Yūsuf
-  arabic_script: يوسف
+  arabic_script: يُوسُف
   audio_phonetic: /ˈjuːsuf/
   first_seen_snippet: '"Yet the command of God was fulfilled in Yusuf"'
   annotation_class: familiar
@@ -357,7 +357,7 @@ entries:
   annotation_reason: A famous prophet of scripture with a standard English name.
 - phonetic: awliyāʾ
   transliteration: awliyāʾ
-  arabic_script: أولياء
+  arabic_script: أَوْلِيَاء
   audio_phonetic: aww-li-yaa
   first_seen_snippet: '"a cause between God and the guardians [awliyāʾ]"'
   annotation_class: teach
@@ -365,7 +365,7 @@ entries:
     (wilaya) the reader should be able to name.
 - phonetic: khalīfa
   transliteration: khalīfa
-  arabic_script: خليفة
+  arabic_script: خَلِيفَة
   audio_phonetic: /xaˈliːfa/
   first_seen_snippet: '"he is the Imam of Allah and His truthful Caliph"'
   annotation_class: familiar
@@ -373,7 +373,7 @@ entries:
   annotation_reason: Has a long-established English form readers recognize.
 - phonetic: Ādam
   transliteration: Ādam
-  arabic_script: آدم
+  arabic_script: آدَم
   audio_phonetic: /ˈʔaːdam/
   first_seen_snippet: '"all of them are from Adam, and Adam is from dust"'
   annotation_class: familiar
@@ -381,7 +381,7 @@ entries:
   annotation_reason: A famous figure of scripture with a standard English name.
 - phonetic: zakāt
   transliteration: zakāt
-  arabic_script: زكاة
+  arabic_script: زَكَاة
   audio_phonetic: za-KAAT
   first_seen_snippet: '"As for the rightful claim upon it, that is its zakat"'
   annotation_class: familiar
@@ -389,7 +389,7 @@ entries:
   annotation_reason: The obligatory alms — an established term educated readers recognize.
 - phonetic: zakat
   transliteration: zakāt
-  arabic_script: زكاة
+  arabic_script: زَكَاة
   audio_phonetic: za-KAAT
   first_seen_snippet: '"made his bounty and his zakat his work"'
   annotation_class: familiar
@@ -397,7 +397,7 @@ entries:
   annotation_reason: The recognized English form of the obligatory alms.
 - phonetic: Islam
   transliteration: Islām
-  arabic_script: الإسلام
+  arabic_script: الْإِسْلَام
   audio_phonetic: iss-LAAM
   first_seen_snippet: '"the breast He has opened to Islam"'
   annotation_class: familiar
@@ -405,7 +405,7 @@ entries:
   annotation_reason: A universally recognized English word.
 - phonetic: Sinai
   transliteration: Sīnāʾ
-  arabic_script: الطور
+  arabic_script: اَلطُّور
   audio_phonetic: SEE-nigh
   first_seen_snippet: '"opened with the light of Sinai"'
   annotation_class: familiar
@@ -414,7 +414,7 @@ entries:
     form.
 - phonetic: Shaykh
   transliteration: Shaykh
-  arabic_script: الشيخ
+  arabic_script: اَلشَّيْخ
   audio_phonetic: shay-k
   first_seen_snippet: '"asked permission to enter upon the Shaykh"'
   annotation_class: familiar
@@ -423,14 +423,14 @@ entries:
     dialogue's teacher.
 - phonetic: Ubayd Allah
   transliteration: ʿUbayd Allāh
-  arabic_script: عُبيد الله
+  arabic_script: عُبَيْدُ اللّٰه
   audio_phonetic: ubaid ul-LAH
   first_seen_snippet: '"Ubayd Allah, son of Abd Allah"'
   annotation_class: name
   annotation_reason: A minor personal name with no familiar English form.
 - phonetic: Abd Allah
   transliteration: ʿAbd Allāh
-  arabic_script: عبد الله
+  arabic_script: عَبْدُ اللَّٰه
   audio_phonetic: ab-dul-LAH
   first_seen_snippet: '"Ubayd Allah, son of Abd Allah"'
   annotation_class: name
@@ -438,14 +438,14 @@ entries:
     carries the pronunciation.
 - phonetic: Sa'd
   transliteration: Saʿd
-  arabic_script: سعد
+  arabic_script: سَعْد
   audio_phonetic: Sa'ad
   first_seen_snippet: '"The day of Sa''d, and the guardian of Sa''d"'
   annotation_class: name
   annotation_reason: A proper name with no familiar English form.
 - phonetic: ihram
   transliteration: iḥrām
-  arabic_script: إحرام
+  arabic_script: إِحْرَام
   audio_phonetic: ih-RAAM
   first_seen_snippet: '"he removed his ihram by glorifying the sanctities of Allah"'
   annotation_class: familiar
@@ -462,7 +462,7 @@ entries:
   annotation_reason: The pilgrimage — a widely recognized English term.
 - phonetic: da'wa
   transliteration: daʿwa
-  arabic_script: الدعوة
+  arabic_script: اَلدَّعْوَة
   audio_phonetic: DAH-wa
   first_seen_snippet: '"the method of the call (daʿwa)"'
   annotation_class: teach
@@ -470,14 +470,14 @@ entries:
     the book teaches.
 - phonetic: Salih
   transliteration: Ṣāliḥ
-  arabic_script: صالح
+  arabic_script: صَالِح
   audio_phonetic: Saa-leh
   first_seen_snippet: '"The boy''s name was Salih"'
   annotation_class: name
   annotation_reason: The disciple's given name; no English form, romanisation stays.
 - phonetic: al-Bakhtari
   transliteration: al-Bakhtarī
-  arabic_script: البختري
+  arabic_script: اَلْبَخْتَرِي
   audio_phonetic: al-bakh-ta-REE
   first_seen_snippet: '"his father''s name was al-Bakhtari"'
   annotation_class: name
@@ -485,7 +485,7 @@ entries:
     form.
 - phonetic: Abu Malik
   transliteration: Abū Mālik
-  arabic_script: أبو مالك
+  arabic_script: أَبُو مَالِك
   audio_phonetic: abu mAA-lik
   first_seen_snippet: '"a scholar they called Abu Malik"'
   annotation_class: name
@@ -493,7 +493,7 @@ entries:
     a speaker.
 - phonetic: ibn
   transliteration: ibn
-  arabic_script: بن
+  arabic_script: بْن
   audio_phonetic: IB-n
   first_seen_snippet: '"Salih ibn al-Bakhtari"'
   annotation_class: silent
@@ -501,7 +501,7 @@ entries:
     fragment, not a term.
 - phonetic: hadiths
   transliteration: ḥadīths
-  arabic_script: الأحاديث
+  arabic_script: الْأَحَادِيث
   audio_phonetic: ha-DEETHS
   first_seen_snippet: '"an increase in literature, hadiths, poetry"'
   annotation_class: familiar
@@ -509,14 +509,14 @@ entries:
   annotation_reason: An established English term for prophetic reports.
 - phonetic: Abu Salih
   transliteration: Abū Ṣāliḥ
-  arabic_script: أبا صالح
+  arabic_script: أَبَا صَالِح
   audio_phonetic: abu Saa-leh
   first_seen_snippet: '"O Abu Salih, how is the good son?"'
   annotation_class: name
   annotation_reason: A kunya (personal name) with no familiar English form.
 - phonetic: Abu al-Khair
   transliteration: Abū al-Khayr
-  arabic_script: أبا الخير
+  arabic_script: أَبَا الْخَيْر
   audio_phonetic: a-BOO al-KHAYR
   first_seen_snippet: '"When did you not do what is virtuous, O Abu al-Khair?"'
   annotation_class: name
@@ -524,7 +524,7 @@ entries:
     stays.
 - phonetic: Ka'b al-Ahbar
   transliteration: Kaʿb al-Aḥbār
-  arabic_script: كعب الأحبار
+  arabic_script: كَعْب اَلْأَحْبَار
   audio_phonetic: KAB al-AH-bar
   first_seen_snippet: '"Their nation has come to me, O Ka''b al-Ahbar"'
   annotation_class: name
@@ -541,7 +541,7 @@ entries:
     a name with script.
 - phonetic: Sharia
   transliteration: sharīʿa
-  arabic_script: الشريعة
+  arabic_script: اَلشَّرِيعَة
   audio_phonetic: sha-ree-ah
   first_seen_snippet: '"The Sharia of my age has been lost"'
   annotation_class: familiar
@@ -550,7 +550,7 @@ entries:
     readers.
 - phonetic: Sunnah
   transliteration: sunnah
-  arabic_script: السنة
+  arabic_script: اَلسُّنَّة
   audio_phonetic: SOON-nah
   first_seen_snippet: '"the Sunnah and the obligations"'
   annotation_class: familiar
@@ -567,7 +567,7 @@ entries:
   annotation_reason: The revealed Book — universally recognized in English.
 - phonetic: alif
   transliteration: alif
-  arabic_script: الألف
+  arabic_script: الْأَلِف
   audio_phonetic: AH-lif
   first_seen_snippet: '"is the alif alone ''O God''"'
   annotation_class: teach
@@ -575,7 +575,7 @@ entries:
     the argument will want to name it.
 - phonetic: Shu'ayb
   transliteration: Shuʿayb
-  arabic_script: شعيب
+  arabic_script: شُعَيْب
   audio_phonetic: shoo-ayb
   first_seen_snippet: '"Joseph, Jonah, and Shu''ayb, leading up to Moses"'
   annotation_class: familiar
@@ -584,7 +584,7 @@ entries:
     as written.
 - phonetic: Talut
   transliteration: Ṭālūt
-  arabic_script: طالوت
+  arabic_script: طَالُوت
   audio_phonetic: taa-LOOT
   first_seen_snippet: '"Elias, Talut, David, Solomon, Zechariah, and John"'
   annotation_class: familiar
@@ -602,7 +602,7 @@ entries:
     reader should be able to name and look up.
 - phonetic: ta'zir
   transliteration: taʿzīr
-  arabic_script: تعزير
+  arabic_script: تَعْزِير
   audio_phonetic: tah-ZEER
   first_seen_snippet: '"do not let it move you to inflict ta''zir upon them"'
   annotation_class: teach

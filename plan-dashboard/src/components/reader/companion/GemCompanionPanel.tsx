@@ -73,6 +73,12 @@ interface Props {
   /** Expand and scroll to this note (a passage was clicked in the chapter). The
    *  nonce makes a repeat click on the SAME note re-fire; the id alone wouldn't. */
   focusNote?: { id: string; nonce: number } | null;
+  /** The notes whose passage is ON SCREEN in the chapter right now, in reading
+   *  order — the Composer's scroll sweep computes it, because only the host can
+   *  see the prose. Each of these cards lights up and expands; every other card
+   *  goes dark and collapses, so the list always says where you are standing.
+   *  `null` disables the behaviour entirely (the LIVE Session drives its own). */
+  inViewIds?: string[] | null;
   /** Show ONLY these notes — the ones whose passage was found in the chapter now
    *  on screen. The host computes it, because only the host has the prose.
    *
@@ -83,6 +89,17 @@ interface Props {
    *  Composer, where every card is meant to point at a tinted sentence, a card
    *  with nothing to point at is noise. `null` disables the filter entirely. */
   anchoredIds?: string[] | null;
+  /** List the cards, but do not let this pass EDIT them (Asif, 2026-07-30).
+   *
+   *  The Composer's Read mode is a reading surface: the prose is a rendered page,
+   *  not a canvas, and the panel beside it must agree — same cards, same tint,
+   *  same follow-the-chapter sync, but no rich-text editor mounted in the card and
+   *  no delete button. Expressed as "withhold the write callbacks" rather than as
+   *  a second card style, because `renderExplanationCard` already derives
+   *  editability from `onSave` and already has a read-only render (it is the one
+   *  the public reader ships) whose CSS selectors are written as lists paired with
+   *  the editable ones — so the two look identical by construction. */
+  readOnly?: boolean;
   /** The chapter's notes changed — the host re-tints the prose. */
   onNotesChanged?: (notes: CompanionNote[]) => void;
   /** A card wants its passage shown in the prose. */
@@ -141,6 +158,8 @@ export default function GemCompanionPanel({
   chapter = "",
   focusNote = null,
   anchoredIds = null,
+  inViewIds = null,
+  readOnly = false,
   onNotesChanged,
   onReveal,
 }: Props) {
@@ -165,6 +184,9 @@ export default function GemCompanionPanel({
   const wasOpen = useRef(false);
   /** Live cards by note id. The list is reconciled against this, never rebuilt. */
   const cardsRef = useRef(new Map<string, ExplanationCard>());
+  /** The setting the live cards were BUILT at, so a Read/Edit flip can be told
+   *  apart from every other reason the list re-runs. */
+  const builtReadOnly = useRef(readOnly);
   // Read by card callbacks, which outlive the render that created them.
   const openIdsRef = useRef<string[]>([]);
   const onRevealRef = useRef(onReveal);
@@ -319,6 +341,20 @@ export default function GemCompanionPanel({
     if (!host) return;
     const live = cardsRef.current;
 
+    // Editability is decided when a card is BUILT — renderExplanationCard reads it
+    // off the callbacks it was handed — so a Read/Edit flip is the one change the
+    // reuse above cannot absorb. Drop every card and let the loop below rebuild
+    // them at the new setting; the editors going away is the point, and nothing is
+    // lost because leaving Edit has already flushed its saves.
+    if (builtReadOnly.current !== readOnly) {
+      builtReadOnly.current = readOnly;
+      for (const [id, card] of live) {
+        card.destroy();
+        card.el.remove();
+        live.delete(id);
+      }
+    }
+
     const wanted: HTMLElement[] = [];
     if (ephemeral) {
       // Rebuilt every time on purpose: it is one transient answer, never stored,
@@ -356,8 +392,14 @@ export default function GemCompanionPanel({
           // one within itself).
           onToggle: (id, isOpen) => setOpenIds(isOpen ? [id] : []),
           onReveal: (id) => onRevealRef.current?.(id),
-          onSave: (id, edit) => saveRef.current(id, edit),
-          onRemove: (id) => void removeRef.current(id),
+          // Withheld in a reading pass: no editor mounted, no delete button.
+          ...(readOnly
+            ? {}
+            : {
+                onSave: (id: string, edit: CardEdit) =>
+                  saveRef.current(id, edit),
+                onRemove: (id: string) => void removeRef.current(id),
+              }),
         });
         live.set(note.id, card);
       }
@@ -374,7 +416,7 @@ export default function GemCompanionPanel({
     // Appending an element already in the DOM MOVES it — the editor inside is
     // untouched, which is the whole point of reusing rather than rebuilding.
     host.append(...wanted);
-  }, [visible, ephemeral]);
+  }, [visible, ephemeral, readOnly]);
 
   // Open state is not a reason to rebuild a card; it is a reason to tell it.
   useEffect(() => {
@@ -383,6 +425,37 @@ export default function GemCompanionPanel({
       card.setOpen(openIds.includes(id));
     }
   }, [openIds, visible]);
+
+  // ── The list follows the chapter (Asif, 2026-07-29) ───────────────────────
+  // The host reports which annotated passages are on screen; those cards expand
+  // and light up, and every other card shuts — so the panel and the prose beside
+  // it are never describing different sentences. This is what the earlier
+  // scroll-only sync was missing: moving a card to the top of the list said
+  // "here", but with every card shut there was nothing to read when you got
+  // there, and with one card manually open the open one was usually the wrong one.
+  //
+  // Two effects rather than one. WHICH cards are open is React state, so a manual
+  // toggle and the scroll share one source of truth and the last to speak wins.
+  // The lit ring is a class on a card element that may not have existed when the
+  // ids arrived (a chapter change rebuilds the list), so it is re-applied on the
+  // card list too — and it runs AFTER the mount effect above, which is what
+  // guarantees the cards it reaches for are there.
+  const inViewKey = inViewIds ? inViewIds.join("|") : null;
+  useEffect(() => {
+    if (inViewKey === null) return;
+    // Never yank a card out from under an author typing in it. An open card holds
+    // a live rich-text editor and saves on focusout; collapsing it mid-edit hides
+    // the caret and the toolbar. A scroll while the caret is in a card is not a
+    // request to close it.
+    if (listRef.current?.contains(document.activeElement)) return;
+    setOpenIds(inViewKey ? inViewKey.split("|") : []);
+  }, [inViewKey]);
+
+  useEffect(() => {
+    if (inViewKey === null) return;
+    const lit = new Set(inViewKey ? inViewKey.split("|") : []);
+    for (const [id, card] of cardsRef.current) card.setInView(lit.has(id));
+  }, [inViewKey, visible]);
 
   // Tear every editor down when the panel goes away.
   useEffect(() => {
@@ -613,60 +686,72 @@ export default function GemCompanionPanel({
         )}
       </div>
 
-      <label className="gcp-label" htmlFor="gcp-input">
-        Concept to explain
-      </label>
-      <textarea
-        id="gcp-input"
-        ref={inputRef}
-        className="gcp-input"
-        rows={2}
-        placeholder="e.g. wilayah — or highlight a sentence in the chapter and press Explain."
-        value={input}
-        onChange={(e) => setInput(e.currentTarget.value)}
-        onKeyDown={onKeyDown}
-      />
+      {/* The composing half of the panel — ask for an explanation, watch it arrive.
+          Withheld in a reading pass (Asif, 2026-07-30): read-only cards beside a
+          live "Explain" box was half a contradiction, offering to WRITE a new note
+          into a chapter whose prose is currently a rendered page. Everything below
+          this block is the reading half and stays. */}
+      {!readOnly && (
+        <>
+          <label className="gcp-label" htmlFor="gcp-input">
+            Concept to explain
+          </label>
+          <textarea
+            id="gcp-input"
+            ref={inputRef}
+            className="gcp-input"
+            rows={2}
+            placeholder="e.g. wilayah — or highlight a sentence in the chapter and press Explain."
+            value={input}
+            onChange={(e) => setInput(e.currentTarget.value)}
+            onKeyDown={onKeyDown}
+          />
 
-      <div className="gcp-actions">
-        <button
-          type="button"
-          className="gcp-btn gcp-btn--primary"
-          onClick={submit}
-          disabled={loading}
-          title="Explain the highlighted passage (and keep it with the chapter) — or the typed concept"
-        >
-          {loading ? stage : "Explain"}
-        </button>
-      </div>
+          <div className="gcp-actions">
+            <button
+              type="button"
+              className="gcp-btn gcp-btn--primary"
+              onClick={submit}
+              disabled={loading}
+              title="Explain the highlighted passage (and keep it with the chapter) — or the typed concept"
+            >
+              {loading ? stage : "Explain"}
+            </button>
+          </div>
 
-      {context && (
-        <p className="gcp-context" title={context}>
-          <i className="fa-solid fa-quote-left" aria-hidden="true" /> Grounding
-          in the selected passage.
-        </p>
-      )}
-      {hint && <p className="gcp-hint">{hint}</p>}
-      {error && (
-        <p className="gcp-error" role="alert">
-          {error}
-        </p>
-      )}
+          {context && (
+            <p className="gcp-context" title={context}>
+              <i className="fa-solid fa-quote-left" aria-hidden="true" />{" "}
+              Grounding in the selected passage.
+            </p>
+          )}
+          {hint && <p className="gcp-hint">{hint}</p>}
+          {error && (
+            <p className="gcp-error" role="alert">
+              {error}
+            </p>
+          )}
 
-      {loading && (
-        <div className="gcp-result gcp-result--loading" aria-busy="true">
-          <span className="gcp-skel" />
-          <span className="gcp-skel" />
-          <span className="gcp-skel gcp-skel--short" />
-        </div>
+          {loading && (
+            <div className="gcp-result gcp-result--loading" aria-busy="true">
+              <span className="gcp-skel" />
+              <span className="gcp-skel" />
+              <span className="gcp-skel gcp-skel--short" />
+            </div>
+          )}
+        </>
       )}
 
       <div className="gcp-list" ref={listRef} />
 
       {!loading && !visible.length && !ephemeral && (
         <p className="gcp-hint">
-          {chapter
-            ? "No explanations for this chapter yet. Highlight a sentence and press Explain."
-            : "Open a chapter to see its explanations."}
+          {!chapter
+            ? "Open a chapter to see its explanations."
+            : readOnly
+              ? // Don't send a reader after a button that is not on screen.
+                "No explanations for this chapter yet. Switch to Edit to write one."
+              : "No explanations for this chapter yet. Highlight a sentence and press Explain."}
         </p>
       )}
 

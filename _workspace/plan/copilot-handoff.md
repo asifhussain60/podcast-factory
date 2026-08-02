@@ -878,3 +878,56 @@ OPEN (spend-gated, need Asif):
 - Gates: astro check 0, lint:views clean, site tests green, smoke 32 clean,
   html-view-challenger PASS x2 (advisory REQ-050: unconditional smooth scroll,
   3 in-pattern call sites), sentinel re-run post-RCA.
+
+## 2026-08-01 — The framing's pronunciation block is compiled, not authored (Claude Code)
+
+Asif, after the first `degrees-of-excellence` audio run: fix pronunciation for
+every future Arabic book, then give me a POC I can process instead of a whole
+chapter, and an agent that keeps improving it. All five approved items landed.
+
+- **Root cause was the prompt, not the output.** `_authoring/_framing.py` asked
+  the model for `- TermA: English-name-or-plain-translit`, and the compression
+  re-author (which fires on nearly every framing) added "without diacritics or
+  hyphen-CAPS" — so the system was *designed* to emit `arkan: the pillars`. The
+  2026-08-01 commits hand-fixed six output files and left both prompts intact.
+- **`_system/pronunciation.md` was read by nothing.** Documented as the override
+  authority since the books began; only `scaffold_book.py` (writes the stub) and
+  SKILL.md prose referenced it. Its 41 new rows reached the audio only because
+  they were also pasted into six framings by hand.
+- **Now:** `_pronunciation_block.py` compiles the block at build time from
+  `knowledge/term_render.py`, whose ladder gained rung 0 (the per-book override
+  table — a human's ear beats every heuristic) and rung 3 (a `confirmed` ledger
+  phonetic; without it the probe's own verdicts were written and never read).
+  Values are filtered to the terms present in THAT chapter, in reading order. A
+  term the ladder can only spell back gets NO entry and is reported — "say arkan
+  as arkan" is not guidance. `R-PRONUNCIATION-RENDER` refuses a translation left
+  in the value slot on the degrade path.
+- **Coverage is never traded for length.** The first version trimmed entries to
+  fit the Customize ceiling; on the first real framing it dropped 10 of 11 and
+  still did not fit. A missing entry is how *imamate* reached the audio with no
+  guidance and came back garbled in 33 of 34 utterances. It compiles in full and
+  lets the character gate refuse an over-long framing.
+- **Phase 0probe was orphaned, not missing.** Built 2026-07-18, never wired, and
+  anchored to `_phonetics.md` — which `degrees-of-excellence`, the book that
+  needed it, does not have. Repointed to `glossary.yml` (+ override rows), given
+  `run_pronunciation_probe.py`, and its sentences are now mined from the real
+  `chapters/*.txt` so the bundle samples the whole book.
+- **`pronunciation-probe-analyst`** agent closes the loop: transcribe, diff
+  against intent, verdict, apply through `apply_pronunciation_corrections.py`
+  (which now also writes the override table — rung 0, or the verdict is
+  outranked by the belief it just overturned), rebuild, halt for the next listen.
+
+**Open for Asif** — two findings, neither introduced here:
+1. The six `episodes/*.txt` were hand-edited downstream of their generator. The
+   `_system/episode-drafts/*/00-framing.md` sources still held the pre-fix
+   template, so ANY rebuild silently reverted yesterday's fixes (named hosts,
+   "spine verbatim (2 of 3)", the 50-60 minute cue). Drafts reconciled from the
+   shipped episodes; the trap is now a loud refusal instead of silent loss.
+2. Five of six framings sit 21-273 chars over the 4,500-char build gate (under
+   the true ~5,000 NotebookLM limit, so nothing was truncated in the shipped
+   run). Until they are compressed the compiled block cannot reach the episode
+   files. Compiling already gives back 62-123 chars each.
+
+- Gates: pytest 2,059 passed (1 pre-existing failure,
+  `test_compose_lanes_distinct[Islamic/ayyuhal-walad]`, fails on a clean tree),
+  ruff clean, agent wrappers in sync.

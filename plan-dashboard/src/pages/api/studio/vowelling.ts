@@ -3,6 +3,9 @@
  *
  *   GET  /api/studio/vowelling?slug=X         → { proposals, candidates }
  *   POST /api/studio/vowelling {slug, action} where action is:
+ *          "run"     — vowel ONE passage handed in as {text} and return it; the
+ *                      Composer's Diacritics button. No sidecar, no review queue
+ *                      (see vowelOneRun for why the review step is gone)
  *          "propose" — ask Gemini to vowel every bare non-Qur'anic run, keep only
  *                      what passes the skeleton gate, write the proposals sidecar
  *          "decide"  — {id, status, resolved?, note?} accept / reject one proposal
@@ -11,15 +14,17 @@
  *
  * WHY THIS SHAPE. Vowelling this book's Arabic cannot be a recovery job: the
  * printed source is a bare critical edition (verified against the page images), so
- * the marks are not there to be found. They can only be supplied — and BK-N5 makes
- * model-supplied diacritics a P0 under the book-challenger's closing gate, because
- * a wrong vowel on an Arabic verb flips active to passive in a book that is largely
- * reported speech.
+ * the marks are not there to be found. They can only be supplied.
  *
- * So the model never authors. It proposes; a human accepts; and an accepted mark is
- * the human's. That is the same contract the Arabic-curation route already states
- * for glossary terms ("The model never authors Arabic — the human curates the
- * verified overlay"), applied to running prose.
+ * THE POLICY REVERSED ON 2026-07-29 (Asif). This route was built around
+ * propose → human accepts → apply, on the argument that a wrong vowel flips an
+ * Arabic verb from active to passive in a book that is largely reported speech.
+ * Asif's direction is that diacritics are ALWAYS applied: he does not read Arabic,
+ * and an unvowelled run is not "unverified" to him, it is unreadable. A gate whose
+ * effect is to keep marks off the page is a gate that makes the book worse for the
+ * person it is for. The batch propose/decide/apply flow below is kept — it is still
+ * the way to vowel a whole book in reviewable steps — but acceptance is no longer
+ * the price of a vowel mark, and the Composer's Diacritics button applies on click.
  *
  * TWO INVARIANTS, both enforced here rather than trusted:
  *   1. A proposal may differ from its source in MARKS ONLY. `rejectionReason` in
@@ -121,6 +126,9 @@ ABSOLUTE CONSTRAINTS — a response that breaks any of these is discarded:
   answer must be byte-identical to the input. This is checked mechanically.
 - Do not "correct" spelling, do not substitute Uthmani Qur'anic orthography, do not
   normalise hamza forms, do not change punctuation or word order.
+- Write the definite article with a PLAIN alif (\u0627). Never use alif wasla
+  (\u0671) - it is a different character, so "\u0671\u0644\u0625\u0631\u0627\u062f\u0629" for "\u0627\u0644\u0625\u0631\u0627\u062f\u0629" is a letter change and the whole
+  answer is discarded, however correct the vowelling around it.
 - Do not translate, explain, or add commentary. Return only the vowelled Arabic.
 - Where the vocalisation is genuinely ambiguous, choose the reading that the
   surrounding sense supports and still return only the passage.
@@ -165,6 +173,7 @@ export const POST: APIRoute = async ({ request }) => {
   if (!bookDir) return apiError(`Book not found: ${slug}`, 404);
 
   try {
+    if (action === "run") return await vowelOneRun(body);
     if (action === "propose") return await propose(slug, bookDir, body);
     if (action === "decide") return decide(slug, bookDir, body);
     if (action === "apply") return apply(slug, bookDir);
@@ -173,6 +182,85 @@ export const POST: APIRoute = async ({ request }) => {
     return apiServerError(`Vowelling ${action} failed: ${String(e)}`);
   }
 };
+
+/**
+ * Vowel ONE run, handed in by the Composer's Diacritics button — no sidecar, no
+ * proposal record, no review queue.
+ *
+ * WHY THIS EXISTS ALONGSIDE `propose` (Asif, 2026-07-29). The batch path above was
+ * built around a rule that has since been reversed: it treated a supplied vowel as
+ * something a human must ratify one passage at a time. Asif does not read Arabic
+ * unvowelled — for him a bare run is unreadable, so withholding marks pending
+ * review is not caution, it is the panel refusing to do its job. Diacritics are
+ * applied on the spot now.
+ *
+ * What did NOT change is `rejectionReason`, and the distinction matters: that gate
+ * is not about WHETHER to vowel, it is about the model quietly rewriting the Arabic
+ * while claiming to only mark it — dropping a clause, swapping in Uthmani
+ * orthography, "correcting" a word. The skeleton must still come back
+ * byte-identical or the answer is refused with its reason. Relaxing the policy on
+ * marks is Asif's call; letting letters move under cover of it never was.
+ *
+ * The reply is text only. The caller replaces the selection in the open editor, so
+ * the write travels the Composer's own edit path (composer-edits.json) like any
+ * other human edit and survives a re-compose.
+ */
+async function vowelOneRun(body: Record<string, unknown>): Promise<Response> {
+  const source = String(body.text ?? "").trim();
+  if (!source) return apiError("No text to vowel");
+  if (!ARABIC_LINE_RE.test(source))
+    return apiError("That selection has no Arabic script in it");
+  // The same ratio `collectCandidates` applies above: predominantly Arabic, not
+  // merely containing some. An English paragraph quoting three Arabic words would
+  // ask the model to return English it is forbidden to touch, and the skeleton
+  // check would then refuse whatever came back — better to say why up front.
+  const latin = (source.match(/[A-Za-z]/g) || []).length;
+  const arabic = (source.match(/[؀-ۿ]/g) || []).length;
+  if (latin > 2 || arabic < latin * 4)
+    return apiError(
+      "Select the Arabic passage on its own, not the English around it",
+    );
+  // Already vowelled — including every Qur'anic run, which carries the canonical
+  // mushaf's own marks. Re-vowelling those could only make them worse, so the
+  // route says so rather than spending a model call to arrive back where it was.
+  if (!isVowellingCandidate(source))
+    return apiError("That Arabic already carries its vowel marks");
+
+  const gate = rateLimitCheck();
+  if (!gate.ok)
+    return apiError(
+      `Rate limited — retry in ${Math.ceil((gate.retryMs ?? 0) / 1000)}s`,
+      429,
+    );
+
+  const raw = (
+    await generate({
+      model: MODEL,
+      systemInstruction: SYSTEM,
+      contents: [{ role: "user", parts: [{ text: source }] }],
+      // Same budget and temperature as the batch path, and for the same reasons
+      // documented there: 2.5 Pro spends this allowance on thinking before it
+      // writes, and vocalising a fixed text should be reproducible.
+      maxOutputTokens: 4000,
+      temperature: 0.1,
+    })
+  ).trim();
+  const cleaned = raw
+    .replace(/^```[a-z]*\s*/i, "")
+    .replace(/```$/, "")
+    .replace(/^["'«»]+|["'«»]+$/g, "")
+    .split("\n")
+    .find((l) => ARABIC_LINE_RE.test(l))
+    ?.trim();
+  const reason = rejectionReason(source, cleaned ?? "");
+  if (reason) return apiError(`Refused: ${reason}`);
+
+  return apiOk({
+    source,
+    vowelled: cleaned,
+    marksAdded: markCount(cleaned ?? "") - markCount(source),
+  });
+}
 
 async function propose(
   slug: string,

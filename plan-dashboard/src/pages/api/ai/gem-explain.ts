@@ -87,7 +87,11 @@ export const POST: APIRoute = async ({ request }) => {
     const morphBlock = morphologyGroundingBlock(`${concept} ${context ?? ""}`);
     const grounded =
       atoms.length || morphBlock
-        ? [context ?? "", morphBlock, ...(atoms.length ? [groundingBlock(atoms)] : [])]
+        ? [
+            context ?? "",
+            morphBlock,
+            ...(atoms.length ? [groundingBlock(atoms)] : []),
+          ]
             .filter(Boolean)
             .join("\n\n")
         : context;

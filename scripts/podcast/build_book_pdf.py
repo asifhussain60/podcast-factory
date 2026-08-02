@@ -5,9 +5,15 @@ the reading edition to a print PDF via the site's Playwright chromium (the same
 browser the diagram renderer uses). The in-site reader view is the always-available
 review surface; this produces the shippable PDF.
 
-After rendering, two copies are written:
-  book/book.pdf               — canonical pipeline name (unchanged, for tooling)
-  book/{Edition Title}.pdf    — human-readable copy, name from book-toc.json
+The render writes `book/book.pdf` and then RENAMES it — the book folder keeps ONE
+PDF, under the edition's own title:
+  book/{Edition Title}.pdf    — name from book-toc.json ``book_title``
+
+(This said "two copies" until 2026-07-30, describing a `book.pdf` that has not
+survived a render since the rename went in. Anything needing the file finds it
+through `deliver_book._find_pdf`, which prefers the titled name and falls back to
+`book.pdf` for the rare run where the rename itself failed — never a hardcoded
+path, which is why the drift went unnoticed.)
 
 The edition-titled copy is also synced to Google Drive:
   My Drive/Podcast Library/{Series Title}/{Edition Title}.pdf

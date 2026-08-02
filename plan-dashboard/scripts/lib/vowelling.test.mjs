@@ -9,6 +9,9 @@
  * cases are the substitutions a model actually tends to make: Uthmani spelling for
  * imla'i, hamza-form drift, a dropped clause, a "corrected" word.
  */
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -16,7 +19,10 @@ import {
   markCount,
   markDensity,
   rejectionReason,
+  reflowToSourceWhitespace,
+  reflowWordsToSourceWhitespace,
   isVowellingCandidate,
+  isArabicPassage,
 } from "./vowelling.mjs";
 
 // Real runs from the book (book/book.md).
@@ -87,6 +93,40 @@ test("whitespace differences alone never make a proposal inadmissible", () => {
   assert.equal(rejectionReason(BARE_HADITH, spaced), null);
 });
 
+test("a digit is not a mark", () => {
+  // Arabic-Indic digits sit inside the U+0653-U+0670 span the mark class used to
+  // cover, so skeleton() deleted them from both sides and a vowelling that
+  // dropped every footnote number was admitted as marks-only. Real OCR line.
+  const line = "تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣";
+  assert.equal(markCount(line), 0);
+  assert.equal(skeleton(line), line);
+  assert.match(
+    rejectionReason(line, "تَأْلِيف سَيِّدنَا جَعْفَر بْن مَنْصُور اليَمَن"),
+    /letters changed/,
+  );
+});
+
+test("markDensity is not corrupted by the /g regex lastIndex", () => {
+  // markDensity filtered letters with MARKS_RE.test(c) on a /g regex, whose
+  // lastIndex advances on a match — so the same character alternated true/false
+  // across calls and the letter count depended on position. A bare run must read
+  // as bare however many characters precede it.
+  assert.equal(markDensity(BARE_HADITH), 0);
+  assert.ok(markDensity(VOWELLED_AYAH) > 0.4);
+});
+
+test("reflow restores the source's line structure without moving a mark", () => {
+  const source = "قال العالم\nودموعه تنحدر\nعلى لحيته";
+  const collapsed = "قَالَ الْعَالِمُ وَدُمُوعُهُ تَنْحَدِرُ عَلَى لِحْيَتِهِ";
+  const out = reflowToSourceWhitespace(source, collapsed);
+  assert.equal(out.split("\n").length, source.split("\n").length);
+  assert.equal(skeleton(out), skeleton(source));
+  assert.equal(markCount(out), markCount(collapsed));
+  assert.equal(rejectionReason(source, out), null);
+  assert.equal(reflowToSourceWhitespace(source, out), out);
+  assert.equal(reflowToSourceWhitespace(source, "كلام آخر"), "كلام آخر");
+});
+
 test("candidate selection skips already-vowelled runs and stray words", () => {
   assert.ok(isVowellingCandidate(BARE_HADITH));
   assert.ok(isVowellingCandidate(BARE_SAYING));
@@ -96,4 +136,89 @@ test("candidate selection skips already-vowelled runs and stray words", () => {
   // vowel responsibly (the same reasoning _mushaf.py uses for its word floor).
   assert.ok(!isVowellingCandidate("حزب الله"));
   assert.ok(!isVowellingCandidate("no arabic here"));
+});
+
+// ── The mirror pair ────────────────────────────────────────────────────────
+// Everything above is this half's own coverage. What follows runs the SHARED
+// fixtures that scripts/podcast/tests/test_vowelling.py runs too, so the
+// Composer's Diacritics button and the compose-time vowelling pass cannot drift
+// into admitting different things — a divergence there would put text into
+// book.md that one side considers inadmissible.
+const FX = JSON.parse(
+  readFileSync(
+    join(dirname(fileURLToPath(import.meta.url)), "vowelling.fixtures.json"),
+    "utf8",
+  ),
+);
+
+test("mirror: skeleton matches the shared fixtures", () => {
+  for (const c of FX.skeleton) assert.equal(skeleton(c.in), c.out, c.in);
+});
+
+test("mirror: markCount matches the shared fixtures", () => {
+  for (const c of FX.markCount) assert.equal(markCount(c.in), c.out, c.in);
+});
+
+test("mirror: isVowellingCandidate matches the shared fixtures", () => {
+  for (const c of FX.isCandidate)
+    assert.equal(isVowellingCandidate(c.in), c.out, c._why ?? c.in);
+});
+
+test("mirror: isArabicPassage matches the shared fixtures", () => {
+  for (const c of FX.isArabicPassage)
+    assert.equal(isArabicPassage(c.in), c.out, c._why ?? c.in);
+});
+
+test("mirror: reflowToSourceWhitespace matches the shared fixtures", () => {
+  for (const c of FX.reflow)
+    assert.equal(
+      reflowToSourceWhitespace(c.source, c.candidate),
+      c.out,
+      c._why ?? c.source,
+    );
+});
+
+test("an orphan mark does not derail the reflow", () => {
+  // The defect that cost a 45-minute paid run: a scan can leave a combining mark
+  // with no letter under it, and consuming it AS a letter put every later letter
+  // off by one until the walk ran off the end and gave up — returning the
+  // collapsed line, which rejectionReason cannot catch.
+  const source = "ْ توكل على الله\nإذا عزمت";
+  const collapsed = "ْ تَوَكَّلْ عَلَى اللهِ إِذَا عَزَمْتَ";
+  const out = reflowToSourceWhitespace(source, collapsed);
+  assert.equal(out.split("\n").length, source.split("\n").length);
+  assert.equal(skeleton(out), skeleton(source));
+  assert.equal(markCount(out), markCount(collapsed));
+});
+
+test("a mushaf verse keeps the line break the book printed", () => {
+  const source = "ليس كمثله\nشيء";
+  const canonical = "لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ";
+  // Uthmani letters differ, so the character walk must decline.
+  assert.equal(reflowToSourceWhitespace(source, canonical), canonical);
+  const out = reflowWordsToSourceWhitespace(source, canonical);
+  assert.equal(out.split("\n").length, source.split("\n").length);
+  assert.deepEqual(out.split(/\s+/), canonical.split(/\s+/));
+  assert.equal(reflowWordsToSourceWhitespace(source, "لَيْسَ"), "لَيْسَ");
+});
+
+test("mirror: reflowWordsToSourceWhitespace matches the shared fixtures", () => {
+  for (const c of FX.reflowWords)
+    assert.equal(
+      reflowWordsToSourceWhitespace(c.source, c.candidate),
+      c.out,
+      c._why ?? c.source,
+    );
+});
+
+test("mirror: rejectionReason matches the shared fixtures", () => {
+  for (const c of FX.rejection) {
+    const got = rejectionReason(c.source, c.candidate);
+    if (c.outStartsWith !== undefined)
+      assert.ok(
+        String(got ?? "").startsWith(c.outStartsWith),
+        `${c._why ?? c.source}: got ${got}`,
+      );
+    else assert.equal(got, c.out, c._why ?? c.source);
+  }
 });

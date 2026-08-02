@@ -122,13 +122,22 @@ def _parse_stdout_counts(stdout: str) -> tuple[int, int]:
     return deck, framing
 
 
-def _run_validator(book_dir: Path, deck_path: Path, framing_path: Path) -> tuple[bool, list[str]]:
+def _run_validator(book_dir: Path, slug: str) -> tuple[bool, list[str]]:
     """Subprocess-call build_slide_deck.py to validate the pair.
 
     Returns (ok, findings). `ok` is True iff the validator exits 0 OR the
     validator script is missing (treated as "no validator wired up yet — pass
     through"). `findings` is the validator's parsed stderr/stdout lines on
     failure.
+
+    build_slide_deck.py's own CLI takes exactly two positionals — `book_dir`
+    and `slug` — and derives the deck/framing paths itself via auto-discovery
+    (see its own docstring). It does NOT accept explicit file paths; passing
+    them here made every call fail with "unrecognized arguments" (100% of
+    calls, verified 2026-07-31 via cost-ledger attempt counts on
+    degrees-of-excellence), which cascaded into every chapter's slide-deck
+    convergence being marked BLOCKED since `author_deck_pair` treats a failed
+    validation as `success=False` unconditionally.
     """
     if not BUILD_SLIDE_DECK_SCRIPT.exists():
         # Validator not yet implemented — treat as pass-through. The on-disk
@@ -141,8 +150,7 @@ def _run_validator(book_dir: Path, deck_path: Path, framing_path: Path) -> tuple
                 sys.executable,
                 str(BUILD_SLIDE_DECK_SCRIPT),
                 str(book_dir),
-                str(deck_path),
-                str(framing_path),
+                slug,
             ],
             capture_output=True,
             text=True,

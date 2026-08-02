@@ -51,5 +51,56 @@ class EpisodeDensityTests(unittest.TestCase):
         self.assertLess(EPISODE_DENSITY_CEILING_DENSE, EPISODE_DENSITY_CEILING_NARRATIVE)
 
 
+class SkippedUnitsAreNotMeasuredTests(unittest.TestCase):
+    """A source chapter that yields no episodes has no episode to over-cram.
+
+    Degrees of Excellence marked its back matter — bibliography, both indexes,
+    and a complete duplicate translation of the treatise, 30,662 words — as
+    `essential: skip` with `episode_count: 0`. Correct. The density brake still
+    measured it, because the gate's caller passed 0 straight into a function
+    whose `max(1, ...)` reads "no episodes" as "one episode", and phase 0d died
+    demanding the bibliography be split into six episodes.
+    """
+
+    def _gate(self, source_chapters, ceiling=EPISODE_DENSITY_CEILING_DENSE):
+        """What phase 0d does with each source chapter — no extra predicate.
+
+        The exemption lives in `episode_overcrammed` itself, not in the caller,
+        so every caller inherits it and none can forget it.
+        """
+        return [
+            sc.get("sc_index")
+            for sc in source_chapters
+            if episode_overcrammed(sc["word_count"], int(sc.get("episode_count", 1)), ceiling)
+        ]
+
+    def test_zero_episodes_is_exempt_at_the_function_itself(self):
+        self.assertEqual(episode_overcrammed(30662, 0, EPISODE_DENSITY_CEILING_DENSE), 0)
+
+    def test_the_degrees_of_excellence_back_matter_is_not_flagged(self):
+        back_matter = {
+            "sc_index": 5,
+            "word_count": 30662,
+            "episode_count": 0,
+            "essential": "skip",
+        }
+        self.assertEqual(self._gate([back_matter]), [])
+
+    def test_zero_episodes_alone_is_enough_to_exempt(self):
+        # Not every skipped unit carries the `essential` key.
+        self.assertEqual(self._gate([{"sc_index": 1, "word_count": 30662, "episode_count": 0}]), [])
+
+    def test_a_real_episode_is_still_flagged(self):
+        # The brake must not have been defanged for units that DO ship.
+        self.assertEqual(self._gate([{"sc_index": 4, "word_count": 24102, "episode_count": 1}]), [4])
+
+    def test_a_skip_unit_beside_a_crammed_one_does_not_mask_it(self):
+        chapters = [
+            {"sc_index": 5, "word_count": 30662, "episode_count": 0, "essential": "skip"},
+            {"sc_index": 4, "word_count": 24102, "episode_count": 2},
+        ]
+        self.assertEqual(self._gate(chapters), [4])
+
+
 if __name__ == "__main__":
     unittest.main()

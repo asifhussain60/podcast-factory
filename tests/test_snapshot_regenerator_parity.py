@@ -119,5 +119,120 @@ class TestCommittedSnapshotsAreParseable(unittest.TestCase):
                 self.assertRegex(snap.get("generated_at", ""), pattern)
 
 
+class TestSnapshotsDescribeRealContent(unittest.TestCase):
+    """The class of bug where a snapshot field is structurally empty.
+
+    Found on 2026-07-30, four instances at once. Both generators read
+    ``content/drafts`` — deleted by the 2026-06-04 restructure — so the directory
+    walk threw ENOENT, the catch returned ``[]``, and the dashboard reported "0
+    books in flight" for two months while six books sat mid-pipeline. Two more
+    fields (``metrics``, ``books_shipped``) were never computed at all, so the
+    Roadmap showed $0 spent and the Overview opened with "0 books published, 0
+    episodes" over two finished books.
+
+    Every one of them rendered as a confident zero. That is the failure mode these
+    tests exist for: a dead path that degrades to an empty collection is worse than
+    one that raises, because the empty collection looks like an answer. So rather
+    than assert on source text, each test below asserts the snapshot AGREES WITH THE
+    FILESYSTEM — the only check that would have caught the original.
+    """
+
+    def setUp(self):
+        self.snap = json.loads((REPO / "plan-dashboard" / "src" / "data" / "dashboard-snapshot.json").read_text())
+        self.content = REPO / "content"
+
+    def _book_dirs(self):
+        """Every book folder on disk, by the bucket layout the resolver defines."""
+        out = []
+        for bucket in ("Islamic", "Technical", "Fiction", "Guides"):
+            root = self.content / bucket
+            if not root.is_dir():
+                continue
+            out += [d for d in root.iterdir() if d.is_dir() and not d.name.startswith("_") and d.name == d.name.lower()]
+        return out
+
+    def test_neither_generator_still_points_at_the_retired_drafts_tree(self):
+        """`content/drafts` may appear only as a legacy FALLBACK, never as the sole root."""
+        for path in (PY, MJS):
+            with self.subTest(generator=path.name):
+                text = path.read_text()
+                self.assertIn(
+                    "Islamic",
+                    text,
+                    f"{path.name} does not know about the bucket layout — it can only "
+                    "be reading a tree that no longer exists",
+                )
+
+    def test_books_in_flight_matches_the_books_actually_in_flight(self):
+        on_disk = set()
+        for d in self._book_dirs():
+            state_path = d / "_system" / "orchestrator-state.json"
+            if not state_path.is_file():
+                continue
+            try:
+                state = json.loads(state_path.read_text())
+            except Exception:
+                continue
+            if state.get("phase") == "done" or state.get("phase_status") in (
+                "shipped",
+                "merged",
+            ):
+                continue
+            on_disk.add(d.name)
+        in_snapshot = {b["slug"] for b in self.snap.get("books_in_flight", [])}
+        self.assertEqual(
+            in_snapshot,
+            on_disk,
+            "books_in_flight disagrees with the pipeline state on disk — run `cd plan-dashboard && npm run snapshot`",
+        )
+
+    def test_published_books_reach_the_snapshot_with_their_episode_counts(self):
+        on_disk = {}
+        for d in self._book_dirs():
+            state_path = d / "_system" / "orchestrator-state.json"
+            if not state_path.is_file():
+                continue
+            try:
+                state = json.loads(state_path.read_text())
+            except Exception:
+                continue
+            if state.get("status") != "published":
+                continue
+            eps = d / "episodes"
+            on_disk[d.name] = (
+                sum(1 for e in eps.iterdir() if e.is_file() and re.match(r"^EP\d+.*\.txt$", e.name))
+                if eps.is_dir()
+                else 0
+            )
+        in_snapshot = {b["slug"]: b["episodes"] for b in self.snap.get("books_shipped", [])}
+        self.assertEqual(in_snapshot, on_disk)
+
+    def test_roadmap_uses_one_closed_status_vocabulary(self):
+        """plan.yaml says "finished" eight ways; exactly one may reach the site.
+
+        The snapshot carried both `complete` and `completed`, and every consumer
+        tests `=== "complete"` — so 61 finished steps read as unfinished and the
+        Roadmap said 56 of 140 done when the real number was 117.
+        """
+        allowed = {"complete", "in_progress", "pending", "deferred"}
+        seen = {s.get("status") for s in self.snap.get("roadmap", [])}
+        self.assertTrue(
+            seen <= allowed,
+            f"un-normalized status(es) reached the snapshot: {sorted(seen - allowed)}. "
+            "Map them in normalize_step_status / normalizeStepStatus, not in the pages.",
+        )
+
+    def test_spend_is_a_number_the_generator_actually_computed(self):
+        """`metrics` was never written, so the Spend card summed an absent key."""
+        metrics = self.snap.get("metrics")
+        self.assertIsInstance(metrics, dict)
+        self.assertIn(
+            "burn_30d_usd",
+            metrics,
+            "the Roadmap's Spend / 30 Days card reads this key; an absent one renders $0",
+        )
+        self.assertIsInstance(metrics["burn_30d_usd"], (int, float))
+
+
 if __name__ == "__main__":
     unittest.main()

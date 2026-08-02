@@ -1,11 +1,19 @@
-# Studio Composer / Preview / LIVE Session Standard
+# Studio Composer / Preview Standard
 
-Normative requirements for the three Studio authoring surfaces on the **Podcast
+Normative requirements for the two Studio authoring surfaces on the **Podcast
 Factory Astro Site** (directory `plan-dashboard/`):
 
-1. the **merged Edit canvas** of the Book Composer (`/studio/<slug>/compose`),
-2. the whole-book **Preview** (the renamed "Read" mode), and
-3. the **LIVE Session** reading view (`/studio/<slug>/live`).
+1. the **merged Edit canvas** of the Book Composer (`/studio/<slug>/compose`), and
+2. the whole-book **Preview** (the "Read" mode).
+
+> **The LIVE Session was retired on 2026-08-01.** It was a third surface —
+> `/studio/<slug>/live` — maintaining the same job as the Composer's Read mode.
+> Its requirements (REQ-SC-002 and REQ-SC-010..015) are retired below rather than
+> re-pointed, because the behaviour they protected already exists elsewhere:
+> read-only companion cards, passage tint and follow-the-chapter scroll sync are
+> in the Composer's Read mode (locked 2026-07-30 — `GemCompanionPanel` takes
+> `readOnly` / `inViewIds` / `anchoredIds` so both surfaces rendered identical
+> cards), and the bucket-grouped, volume-nested book picker is `/studio` itself.
 
 This is the on-screen counterpart to the print-side `book-print-quality.md` (which
 governs the rendered PDF) and a peer of the cross-cutting `html-view-quality`
@@ -24,9 +32,8 @@ phase that implements it lands, then the marker is removed.
 ## Scope
 
 Applies to `src/pages/studio/[slug]/compose.astro` + `src/scripts/book-composer.ts`,
-the new `src/pages/studio/[slug]/live.astro` + `src/styles/live-session.css`, the
-shared print-HTML module extracted from `render-book-pdf.mjs`, and the entry-point
-markup in `src/pages/studio/[slug]/index.astro`. It does NOT re-judge Cortex styling
+the shared print-HTML module extracted from `render-book-pdf.mjs`, and the
+entry-point markup in `src/pages/studio/[slug]/index.astro`. It does NOT re-judge Cortex styling
 rules (that is `html-view-quality`), the rendered PDF (that is `book-print-quality`),
 or `book.md` meaning (that is `book-challenger`). A finding here is about surface
 behaviour, never Cortex conformance and never meaning.
@@ -39,34 +46,29 @@ behaviour, never Cortex conformance and never meaning.
   and "PDF Generator" entries in the overview tab row are accent-outlined pills
   (`.lib-tab-cta`), visually distinct from the flat `.lib-tab` panel tabs, because
   both leave the page to an authoring surface.
-- **REQ-SC-002 (MUST · P1) — LIVE Session doorway present.** A "LIVE Session" pill
-  links to `/studio/<slug>/live` from the overview tab row and is mirrored in the
-  composer header's `.lib-title-actions`.
+- **REQ-SC-002 — RETIRED 2026-08-01.** Was: "LIVE Session doorway present." The
+  route it required no longer exists; the Composer's Read mode is the reading
+  surface. Retained as a numbered stub so the identifiers below keep their
+  meaning in older reports.
 - **REQ-SC-003 (MUST · —) — Routing unchanged.** Restyling "Chapters" as a pill does
   not change where it navigates (`/studio/<slug>/edit`).
 
-### LIVE Session (Phase 2)
+### LIVE Session (Phase 2) — RETIRED 2026-08-01
 
-- **REQ-SC-010 (MUST · —) — Read-only.** LIVE Session never mutates book state — no
-  `book-md` / `visual-layout` writes. Companion notes and citations are surfaced
-  read-only; the inspector, if shown, is the read-only projection of the composer's.
-- **REQ-SC-011 (MUST · P1) — Scroll-synced explanations.** The explanation panel
-  updates to the section currently in view (scroll-synced to the chapter/section
-  anchors — an `IntersectionObserver` or an rAF-throttled scroll handler; the
-  requirement is the behaviour, not the mechanism), so the reader never hand-syncs
-  the panel to the page.
-- **REQ-SC-012 (MUST · P1) — Book picker, bucket-filterable.** A picker lists books
-  grouped by content bucket (Islamic / Technical / Fiction / Guides) and filterable
-  by bucket, sourced by scanning content buckets via `content-paths.ts` — never a
-  hardcoded book list.
-- **REQ-SC-013 (MUST · P1) — Multi-volume aware.** A volume series
-  (`<container>-vol-NN`) is nested under its container in the picker, not listed as N
-  unrelated flat entries.
-- **REQ-SC-014 (SHOULD · —) — Own elegant CSS.** LIVE Session has its own stylesheet
-  (`live-session.css`) using only existing `--c-*` tokens; it does not overload the
-  composer or reader stylesheets.
-- **REQ-SC-015 (MUST · —) — Composed reading column.** The reading column shows the
-  composed book (prose + placed figures where present), not a bare chapter dump.
+The whole phase is retired with the route. Each clause is listed with where its
+behaviour lives now, so a reader of an older report can follow the identifier.
+**None of these are re-pointed at the Composer** — a requirement rewritten to
+describe what a surface already does is not a gate, and the Composer's Read mode
+has its own clauses under Phase 3.
+
+| Was | Required | Where it lives now |
+|---|---|---|
+| REQ-SC-010 | Read-only reading view | Composer Read mode — `GemCompanionPanel` withholds the write callbacks (`readOnly`) |
+| REQ-SC-011 | Scroll-synced explanations | Composer Read mode — the host's scroll sweep feeds `inViewIds` (locked 2026-07-30) |
+| REQ-SC-012 | Bucket-filterable book picker | `/studio` (`studio.astro`), which shelves books by bucket |
+| REQ-SC-013 | Multi-volume nesting | `/studio` — volumes nest under their container |
+| REQ-SC-014 | Own stylesheet | n/a — `live-session.css` deleted |
+| REQ-SC-015 | Composed reading column | Composer Read mode renders the composed `book.md`, figures placed |
 
 ### Preview (Phase 3)
 
@@ -103,7 +105,7 @@ behaviour, never Cortex conformance and never meaning.
   placement/resize happen in the same canvas; there is no separate "Read" mode a user
   must switch to in order to place a figure.
 - **REQ-SC-031 (MUST · —) — Inspector Edit-only.** The inspector is present only in
-  Edit mode; it is absent in Preview and read-only in LIVE Session.
+  Edit mode; it is absent in Preview and in the Composer's Read mode.
 - **REQ-SC-032 (MUST · P1) — Figures are atomic in the editor.** Placed figures are
   non-editable atomic nodes within the editable document; prose editing never corrupts
   or deletes a figure, and figure drag/resize never corrupts prose.

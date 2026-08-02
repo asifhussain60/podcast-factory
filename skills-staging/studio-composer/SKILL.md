@@ -1,24 +1,24 @@
 ---
 name: studio-composer
 description: >
-  Execution contract for the three Studio authoring surfaces on the Podcast Factory
+  Execution contract for the two Studio authoring surfaces on the Podcast Factory
   Astro Site (directory plan-dashboard/): the merged Edit canvas of the Book Composer
-  (/studio/<slug>/compose), the whole-book Preview (the renamed "Read" mode), and the
-  LIVE Session reading view (/studio/<slug>/live). MUST be applied to ANY work on
-  those surfaces — building the merged editor, the paginated Preview, the LIVE Session
-  view, or their entry points. Encodes the behavioural invariants (Preview↔PDF parity,
-  single authoring canvas, read-only LIVE Session, scroll-synced explanations,
-  bucket-filterable multi-volume book picker) and defers to the html-view-quality
-  skill for all Cortex styling/theme/DoD rules. TRIGGER: "book composer", "compose
-  view", "preview mode", "live session", "figure placement", or work under
-  compose.astro / book-composer.ts / live.astro. Canonical rule text:
+  (/studio/<slug>/compose) and the whole-book Preview (the "Read" mode). MUST be
+  applied to ANY work on those surfaces — building the merged editor, the paginated
+  Preview, or their entry points. Encodes the behavioural invariants (Preview↔PDF
+  parity, single authoring canvas, read-only Read mode, scroll-synced explanations)
+  and defers to the html-view-quality skill for all Cortex styling/theme/DoD rules.
+  TRIGGER: "book composer", "compose view", "preview mode", "figure placement", or
+  work under compose.astro / book-composer.ts. Canonical rule text:
   docs/standards/studio-composer-quality.md.
 ---
 
-# Studio Composer / Preview / LIVE Session
+# Studio Composer / Preview
 
-This skill is the operational contract for building and editing the three Studio
+This skill is the operational contract for building and editing the two Studio
 authoring surfaces on the **Podcast Factory Astro Site** (directory `plan-dashboard/`).
+(A third, the LIVE Session at `/studio/<slug>/live`, was retired 2026-08-01 — the
+Composer's Read mode is the reading surface now.)
 The full requirement text lives in
 [docs/standards/studio-composer-quality.md](../../docs/standards/studio-composer-quality.md)
 (cite findings by `REQ-SC-NNN`, never by section).
@@ -54,7 +54,7 @@ The current split these surfaces are being redesigned out of:
   `book/visual-layout.json`. "Generate PDF" → `POST /api/studio/generate-book-pdf`.
 - **Reader** (`src/pages/studio/[slug]/book.astro` + `loadBook` in `src/lib/reader/book.ts`):
   whole-book continuous scroll + sticky TOC + `CompanionPanel` floating side panel
-  (private notes, API-backed, never in the PDF). LIVE Session builds on this.
+  (private notes, API-backed, never in the PDF).
 - **Print pipeline** (single source of truth for print): `render-book-pdf.mjs`
   (Playwright chromium, A4) + `src/styles/book-print.css` (`@page` 2.2cm×2cm, Source
   Serif 4 + Amiri, drop caps, `body.book-v2` figure system). The markdown→HTML for the
@@ -76,9 +76,9 @@ The four that are most load-bearing and most easily broken:
 - **One authoring canvas (REQ-SC-030).** No mode a user must switch to just to place a
   figure. Text edit + figure place/resize live together; the inspector is Edit-only
   (REQ-SC-031).
-- **LIVE Session is read-only (REQ-SC-010).** It reads book state; it never writes it.
-- **Never hardcode the book list (REQ-SC-012/013).** The picker is sourced from a
-  bucket scan via `content-paths.ts`, grouped by bucket, with volume series nested.
+- **Read mode is read-only.** It reads book state; it never writes it.
+  `GemCompanionPanel` enforces this by withholding the write callbacks
+  (`readOnly`), not by rendering a second card style.
 
 ## 3. Conformance workflow
 
@@ -95,8 +95,8 @@ The four that are most load-bearing and most easily broken:
 
 - **One surface at a time.** Per Asif (2026-05-29), per-view redesigns are agreed page
   by page; this skill governs HOW, not WHAT each surface shows.
-- **Risk order.** Ship the additive surfaces (entry points, LIVE Session, Preview)
-  before the highest-risk full-merge of the Edit canvas.
+- **Risk order.** Ship the additive surfaces (entry points, Preview) before the
+  highest-risk full-merge of the Edit canvas.
 - **Never change `theme.css` colour values.** Add aliases only (html-view-quality §2).
 - **Keep the directory `plan-dashboard/`** in all paths; name the app "the Podcast
   Factory Astro Site" in prose.

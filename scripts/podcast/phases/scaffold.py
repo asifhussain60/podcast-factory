@@ -6,6 +6,7 @@ Extracted from orchestrate_book.py (A4 split). Authority: plan.md §A4.
 from __future__ import annotations
 
 import sys
+import threading
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -16,6 +17,11 @@ from phases.preflight import _in_preflight_artifacts_mode
 
 SCAFFOLD_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "scaffold_book.py"
 INGEST_SCRIPT = REPO_ROOT / "scripts" / "podcast" / "ingest_source.py"
+
+# Wall-clock ceiling for the whole vowelling pass. Generous — a large source is
+# hundreds of runs and each is a model call — but bounded, because the pass is
+# optional and the book behind it is not.
+VOWEL_SOURCE_DEADLINE_S = 20 * 60
 
 
 from _subprocess import err as _err
@@ -82,6 +88,54 @@ def phase_0a_ingest(book_dir: Path, pdf_path: Path, category: str, book_slug: st
     raw = book_dir / "_system" / "source" / "text" / "raw-extract.md"
     if not raw.exists() or raw.stat().st_size == 0:
         raise RuntimeError(f"Phase 0a did not produce a non-empty {raw}")
+    vowel_arabic_source(book_dir)
+
+
+def vowel_arabic_source(book_dir: Path) -> None:
+    """Put the vowel marks on the Arabic OCR, once, right after it is written.
+
+    A SEPARATE step from the ingest above rather than a tail inside
+    `ingest_source.py`, deliberately: 0a is the deterministic Azure phase, and
+    `resume_dispatcher` re-runs it on retry. Folding a metered Gemini pass into
+    that script would re-spend on every retry. Here it is idempotent instead — a
+    sibling recorded against this exact OCR is a no-op — so a retry costs nothing.
+
+    Never fatal, and never able to WEDGE the book either — the two are different
+    failures and only the first was handled. On 2026-07-31 Degrees of Excellence
+    sat here for 43 minutes at 0% CPU with eight ESTABLISHED sockets to the model
+    and nothing written: the per-call socket timeout does not bound a pool whose
+    workers stop making progress, so `except` never fired and the driver simply
+    never returned. A hang is silent in a way an exception is not. The deadline
+    below is what makes "never fatal" true for both.
+
+    An unvowelled source still composes; `vowel_book` remains the net at compose
+    time, and a book halting on a vocalisation failure would be worse than one
+    whose Arabic is bare for another pass.
+    """
+    result: list[BaseException | None] = [None]
+
+    def _run() -> None:
+        try:
+            from vowel_source import vowel_source
+
+            vowel_source(book_dir, apply=True, log=_info)
+        except BaseException as e:  # pragma: no cover - never cost a book its ingest
+            result[0] = e
+
+    # Daemon so a wedged worker cannot outlive the driver: the pass owns its own
+    # threads and we cannot interrupt them, but we can decline to wait forever.
+    worker = threading.Thread(target=_run, name="vowel-source", daemon=True)
+    worker.start()
+    worker.join(VOWEL_SOURCE_DEADLINE_S)
+    if worker.is_alive():
+        _info(
+            f"  vowelling the Arabic source did not finish within "
+            f"{VOWEL_SOURCE_DEADLINE_S // 60}m — continuing with the source bare "
+            f"(vowel_book still marks it at compose time)"
+        )
+        return
+    if result[0] is not None:
+        _info(f"  vowelling the Arabic source failed (continuing): {result[0]}")
 
 
 def phase_git_commit(book_dir: Path, subject: str) -> None:

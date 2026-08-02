@@ -116,8 +116,13 @@
 .ar-en {
   color: inherit;
 }
+/* Reads the shared token rather than naming families. It hardcoded
+   `"Amiri","Scheherazade New","Noto Naskh Arabic"` until 2026-08-01, which is
+   precisely the drift --q-ar-face exists to prevent: the book's own Arabic face
+   is chosen per book from citation-style.json, and a stack written here ignored
+   that choice and put this surface in a different hand from the page. */
 .ar-script {
-  font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
+  font-family: var(--q-ar-face);
   margin-inline-start: 0.35em;
   color: var(--c-accent);
   font-size: 1.05em;

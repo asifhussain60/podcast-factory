@@ -30,7 +30,6 @@ from typing import Any
 
 from _arabic_coverage import arabic_run_spans, arabic_span_is_grounded, normalize_arabic
 from _mushaf import is_quranic
-from _narrative import ocr_vowelling_findings
 
 # Resolution ladder, strongest provenance first. ``ocr`` means the run is the
 # source's own words. ``knowledge-base`` means it is not in THIS book's pages but
@@ -216,13 +215,39 @@ def run_arabic_audit(book_dir: Path, *, log=print, stages: dict[str, dict[str, i
     report = audit_book_arabic(book_md.read_text(encoding="utf-8"), arabic_src, _kb_arabic_corpus(kb_root))
     if not arabic_src:
         report["note"] = "no OCR ground truth for this book — every run falls back to the knowledge base"
-    # Advisory review list, never a gate: NON-Quranic runs carrying vowels the scan
-    # does not. Canonical verses are excluded via the mushaf, which is the whole
-    # reason this list is short enough to read. A human decides each one; nothing
-    # here may revert a chapter, because a wrong revert costs real authored text.
-    vowelling = ocr_vowelling_findings(book_md.read_text(encoding="utf-8"), arabic_src)
-    if vowelling:
-        report["vowelling_review"] = vowelling
+    # The `vowelling_review` list that used to be assembled here is gone
+    # (2026-07-29). It flagged non-Quranic runs vowelled beyond the scan, which
+    # after the reversal describes every non-Quranic run in the book by design —
+    # `vowel_book.py` marks them all. What replaces it as the human-facing record
+    # is that pass's own `_system/book-vowelling.json`, which lists the runs the
+    # marks-only gate REFUSED and why.
+    # Qur'anic COVERAGE — a different question from provenance, and one this audit
+    # could not previously ask. Its totals grade the Arabic that IS on the page;
+    # they say nothing about scripture the book cites and does not print. That gap
+    # is why `degrees-of-excellence` read as a clean `unverified: 0` while 21 of
+    # its 23 cited verses carried no Arabic at all.
+    #
+    # Copied from the sidecar rather than recomputed: `_book_quran` owns the
+    # citation parser and the has-it-already test, and a second implementation
+    # here is a second thing to drift. Absent sidecar (a book that never ran the
+    # pass) reports null, which reads as "not measured" rather than as a pass.
+    coverage_file = book_dir / "_system" / "book-quran-arabic.json"
+    quran: dict[str, Any] = {"measured": False}
+    if coverage_file.exists():
+        try:
+            doc = json.loads(coverage_file.read_text(encoding="utf-8"))
+            quran = {
+                "measured": True,
+                "cited": doc.get("cited", 0),
+                "with_arabic": doc.get("cited_inserted", 0) + doc.get("already", 0),
+                "coverage": doc.get("coverage"),
+                "uncovered": doc.get("uncovered", []),
+                "uncited_inserted": doc.get("uncited_inserted", 0),
+            }
+        except Exception:  # a malformed sidecar must not fail the audit
+            quran = {"measured": False}
+    report["quran_coverage"] = quran
+
     if stages:
         report["stages"] = stages
         report["stage_losses"] = stage_losses(stages)
@@ -235,6 +260,10 @@ def run_arabic_audit(book_dir: Path, *, log=print, stages: dict[str, dict[str, i
         f"{t[RESOLUTION_OCR]} from source · {t[RESOLUTION_KB]} from knowledge base · "
         f"{t[RESOLUTION_HONORIFIC]} honorific formulas · {t[RESOLUTION_UNVERIFIED]} unverified"
     )
+    if quran.get("measured"):
+        log(f"      quran coverage: {quran['with_arabic']}/{quran['cited']} cited verse(s) carry their Arabic")
+        for u in quran.get("uncovered", []):
+            log(f"      ! {u.get('ref')} cited with no Arabic — {u.get('reason')}")
     for ch in report["chapters"]:
         if ch["unverified"]:
             log(f"      ! {ch['chapter']}: {ch['unverified']} unverified of {ch['arabic_runs']}")

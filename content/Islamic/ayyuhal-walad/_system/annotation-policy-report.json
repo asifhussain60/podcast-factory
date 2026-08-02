@@ -1,0 +1,907 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 149,
+  "skipped": 0,
+  "by_class": {
+    "teach": 50,
+    "familiar": 19,
+    "name": 10,
+    "silent": 70
+  },
+  "proposals": [
+    {
+      "phonetic": "'Aisha Siddiqa",
+      "class": "familiar",
+      "english_equivalent": "Aisha",
+      "reason": "A famous figure of early Islam with a familiar English form."
+    },
+    {
+      "phonetic": "Ahadith",
+      "class": "familiar",
+      "english_equivalent": "hadith",
+      "reason": "The plural of hadith, an established English word."
+    },
+    {
+      "phonetic": "Hajj",
+      "class": "familiar",
+      "english_equivalent": "Hajj",
+      "reason": "An established English word for the pilgrimage."
+    },
+    {
+      "phonetic": "halal",
+      "class": "familiar",
+      "english_equivalent": "halal",
+      "reason": "A word now naturalised in English."
+    },
+    {
+      "phonetic": "Halal",
+      "class": "familiar",
+      "english_equivalent": "halal",
+      "reason": "A word now naturalised in English."
+    },
+    {
+      "phonetic": "Haram",
+      "class": "familiar",
+      "english_equivalent": "haram",
+      "reason": "A word now widely recognised in English."
+    },
+    {
+      "phonetic": "Injil",
+      "class": "familiar",
+      "english_equivalent": "Gospel",
+      "reason": "The Gospel, with a familiar English form."
+    },
+    {
+      "phonetic": "Jinn",
+      "class": "familiar",
+      "english_equivalent": "Jinn",
+      "reason": "A word already established in English."
+    },
+    {
+      "phonetic": "Ramadan",
+      "class": "familiar",
+      "english_equivalent": "Ramadan",
+      "reason": "A fully naturalised English word."
+    },
+    {
+      "phonetic": "Salaat",
+      "class": "familiar",
+      "english_equivalent": "Salat",
+      "reason": "The ritual prayer, a widely recognised English term."
+    },
+    {
+      "phonetic": "Salat",
+      "class": "familiar",
+      "english_equivalent": "Salat",
+      "reason": "The ritual prayer, a widely recognised English term."
+    },
+    {
+      "phonetic": "Shari'ah",
+      "class": "familiar",
+      "english_equivalent": "Sharia",
+      "reason": "Has an established English form."
+    },
+    {
+      "phonetic": "Shaykh",
+      "class": "familiar",
+      "english_equivalent": "Sheikh",
+      "reason": "Has the familiar English form sheikh."
+    },
+    {
+      "phonetic": "Shaytan",
+      "class": "familiar",
+      "english_equivalent": "Satan",
+      "reason": "Has the familiar English form Satan."
+    },
+    {
+      "phonetic": "Sufi",
+      "class": "familiar",
+      "english_equivalent": "Sufi",
+      "reason": "A word already established in English."
+    },
+    {
+      "phonetic": "Sunnah",
+      "class": "familiar",
+      "english_equivalent": "Sunnah",
+      "reason": "A term educated readers already recognise in English."
+    },
+    {
+      "phonetic": "Tawrat",
+      "class": "familiar",
+      "english_equivalent": "Torah",
+      "reason": "The Torah, with a familiar English form."
+    },
+    {
+      "phonetic": "Zabur",
+      "class": "familiar",
+      "english_equivalent": "Psalms",
+      "reason": "The Psalms, with a familiar English form."
+    },
+    {
+      "phonetic": "Zakat",
+      "class": "familiar",
+      "english_equivalent": "Zakat",
+      "reason": "An established English word for the obligatory almsgiving."
+    },
+    {
+      "phonetic": "Arba'een",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A cited work-title kept in romanisation, glossed once."
+    },
+    {
+      "phonetic": "Ayyuhal Walad",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "The book's own Arabic title, which has no fixed English form."
+    },
+    {
+      "phonetic": "Ihya al-Ulum ad-Din",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A famous work-title carried in romanisation with its sense glossed in place."
+    },
+    {
+      "phonetic": "Jawahir ul-Quran",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A cited work-title kept in romanisation, glossed once."
+    },
+    {
+      "phonetic": "Khidr",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A scriptural figure with no anglicised form; the romanisation stays."
+    },
+    {
+      "phonetic": "Kimiya as-Sa'ada",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A cited work-title kept in romanisation, glossed once."
+    },
+    {
+      "phonetic": "Majmu'a Rasail",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A cited work-title kept in romanisation with no standard English name."
+    },
+    {
+      "phonetic": "Minhaj ul-'Abideen ila Jannatu Rabbul 'Alamin",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A cited work-title kept in romanisation with no English form."
+    },
+    {
+      "phonetic": "Munkar and Nakir",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Proper names of the two questioning angels, kept in romanisation."
+    },
+    {
+      "phonetic": "Zun Noon Misri",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "An early Sufi figure without a familiar English form."
+    },
+    {
+      "phonetic": "'Abdi Ma Tasna'u Bighairi Wa Anta Majfufum Bikhairi",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic divine saying translated in the prose."
+    },
+    {
+      "phonetic": "'Abdi Qad Tahherta Munzaral Khalqi Sineena Fahul Tahherta Munzari Sa'atun",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic divine saying translated in the prose."
+    },
+    {
+      "phonetic": "'Alamatu I'radil Allahi 'Anil 'Abdi Ishtighaluhu Bima La Ya'nehe",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic maxim translated in running prose."
+    },
+    {
+      "phonetic": "'Aymal Lid Dunya Be Qadre Maqamika Feeha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic saying translated in the prose."
+    },
+    {
+      "phonetic": "'Ishu Ma Shay'ta Fa Innaka Mayyeytu",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic saying translated in the prose."
+    },
+    {
+      "phonetic": "A'auzu Billahi Min 'Ilm-il La Yanfa'au",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic invocation rendered in the surrounding prose."
+    },
+    {
+      "phonetic": "Ahkamul Hakimeen",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine epithet already rendered in the surrounding prose."
+    },
+    {
+      "phonetic": "Al Haqiqatu Terkul Mulahazatil 'Amali La Terkul 'Amal",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic saying translated in the prose."
+    },
+    {
+      "phonetic": "Al Imanu Iqraarun Bil Lisani Wa Tasdiqun Bil Janani Wa 'Amalun Bil Arkani",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic definition translated in the prose."
+    },
+    {
+      "phonetic": "Al Kayyisu Man Dana Nafsahu Wa 'Amila Lima Ba'dal Mawt",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic hadith translated in the prose."
+    },
+    {
+      "phonetic": "Al-Hazr",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An exclamation of warning rendered in the surrounding prose."
+    },
+    {
+      "phonetic": "Al-Malik",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine name already rendered in the surrounding prose."
+    },
+    {
+      "phonetic": "Al-Wahhab",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine name already rendered in the surrounding prose."
+    },
+    {
+      "phonetic": "Alam A'had Ilaeykum Ya Bani Aadama Al La Ta'budush Shaytana",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Buniyal Islamu 'Ala Khams",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A hadith opening rendered in the surrounding prose."
+    },
+    {
+      "phonetic": "Faman Kana Yarjul Liqa'a Rabbihi Fal Ya'mal 'Amalan Salihan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Faman Ya'mal Mithqala Zarratin Khayran Yarahu",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Fasad",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An ordinary word (corruption) fully translated in place."
+    },
+    {
+      "phonetic": "Fatuba Laka Thumma Tuba Laka",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic exclamation translated in the prose."
+    },
+    {
+      "phonetic": "Fawaylun Laka Thumma Waylun Lak",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic exclamation translated in the prose."
+    },
+    {
+      "phonetic": "Ferje'yna Na'mal Saaliha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic fragment translated in the prose."
+    },
+    {
+      "phonetic": "Hasibu Qabla An Tuhasabu Wa Zinu Qabla An Tuzanu",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic maxim translated in the prose."
+    },
+    {
+      "phonetic": "hawiya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A rare hell-name used for wordplay and translated in place."
+    },
+    {
+      "phonetic": "Hazihil Ajsaadu Qafasut Tuyouri",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic saying translated in the prose."
+    },
+    {
+      "phonetic": "Hul Min Ta ibin Hul Min Sa ilin Hul Min Mustaghfirin",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic divine call translated in the prose."
+    },
+    {
+      "phonetic": "Ihtuzza 'Arshur Rahmaani Limauti Sa'adibne Muadh",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic hadith translated in the prose."
+    },
+    {
+      "phonetic": "Illa Man Taba Wa Amana Wa 'Amila 'Amalan Salihan",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Ilmut Tib",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Ordinary word for medicine, fully translated in place."
+    },
+    {
+      "phonetic": "Inna Akramakum 'IndAllahi Atqakum",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Inna Allaha Ta'ala Khalaqa Reehun Tahabbu Waqtal Ashaari",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic saying translated in the prose."
+    },
+    {
+      "phonetic": "Inna Ashaddan Nasi 'Azaban Yawmal Qiyamati 'Alimun Lam Yanfa'hul Allahu Bi 'Ilmihi",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic hadith translated in the prose."
+    },
+    {
+      "phonetic": "Inna Lillahi Wa Inna Ilaeyhe Raji'oon",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A well-known Quranic phrase translated in the prose."
+    },
+    {
+      "phonetic": "Inna Rahmata Allahi Qaribun Minal Muhsinin",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Innal Ladhina Amanu Wa 'Amilus Salihati Kanat Lahum Jannatul Firdawsi",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Innash Shaytana Lakum 'Aduwwun Fettakhizuhu 'Aduwwa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Irji'I ila Rabbika",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic phrase translated in place ('Return to your Lord')."
+    },
+    {
+      "phonetic": "Isharaat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A minor term already translated as 'spiritual signs' in place."
+    },
+    {
+      "phonetic": "Ishhadu Ya Mala'ikati Anni Qad Ghafartu Lahu",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic divine saying translated in the prose."
+    },
+    {
+      "phonetic": "Kanu Qaleelum Minal Laili Ma Yahja'oon",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "La Takthirin Nauma Bil Laili",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic saying translated in the prose."
+    },
+    {
+      "phonetic": "Ma 'Indakum Yanfadu Wa Ma 'IndAllahi Baaqin",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Man Zanna Annahu Bidunl Juhdi Yasilu Fahuwa Mutmanniun",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic saying translated in the prose."
+    },
+    {
+      "phonetic": "Minbar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A minor architectural word (pulpit) fully translated in place."
+    },
+    {
+      "phonetic": "Mun Jaawazal Arba'eena Sinatu Wa Lam Yughlab Khayruhu 'Ala Sharrihi Fal Yatajahhaza Ilan Nar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic saying rendered in the prose."
+    },
+    {
+      "phonetic": "Nahnu Qasumna Baeynahum Ma'eeshatahum Fil Hayatid Dunya",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Nay'mur Rajula Huwa Lau Kana Yusalli Bil Laili",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic hadith translated in the prose."
+    },
+    {
+      "phonetic": "Nujoom",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Ordinary word for astrology, fully translated in place."
+    },
+    {
+      "phonetic": "Rabb ul-'Alameen",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine epithet already rendered in the surrounding prose."
+    },
+    {
+      "phonetic": "Rahmatullahi Alayhe",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A pious honorific formula, not a term to look up."
+    },
+    {
+      "phonetic": "sahr",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A minor pre-dawn time-word translated in place."
+    },
+    {
+      "phonetic": "Talabul Jannati Bila 'Amalin Zambun Minaz Zunub",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic saying translated in the prose."
+    },
+    {
+      "phonetic": "Uulaaika Kal An'aami Bal Hum Adallu",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Wa Amma Mun Khafa Maqama Rabbihi Wa Nahun Nafsa 'Anil Hawa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Wa Anna Laysa Lil Insani Illa Ma Sa'a",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Wa Bil Ashaarihum Yustaghfiroon",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic fragment translated in the prose."
+    },
+    {
+      "phonetic": "Waminal Laili Fatahajjad Bihi Nafilatal Laka",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic verse translated in the prose."
+    },
+    {
+      "phonetic": "Wul Mustaghfireena Bil Ashaari",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic fragment translated in the prose."
+    },
+    {
+      "phonetic": "Ya Arhamu ar-Rahimeen",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine-name invocation translated inline in the litany."
+    },
+    {
+      "phonetic": "Ya Azeem",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine-name invocation translated inline in the litany."
+    },
+    {
+      "phonetic": "Ya Aziz",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine-name invocation translated inline in the litany."
+    },
+    {
+      "phonetic": "Ya Buneyya La Takununnad Deeka Akyas Minka",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic admonition translated in the prose."
+    },
+    {
+      "phonetic": "Ya Ghaffar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine-name invocation translated inline in the litany."
+    },
+    {
+      "phonetic": "Ya Haleem",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine-name invocation translated inline in the litany."
+    },
+    {
+      "phonetic": "Ya Jabbar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine-name invocation translated inline in the litany."
+    },
+    {
+      "phonetic": "Ya Kareem",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine-name invocation translated inline in the litany."
+    },
+    {
+      "phonetic": "Ya Qahhar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine-name invocation translated inline in the litany."
+    },
+    {
+      "phonetic": "Ya Raheem",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine-name invocation translated inline in the litany."
+    },
+    {
+      "phonetic": "Ya Rahman",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine-name invocation translated inline in the litany."
+    },
+    {
+      "phonetic": "Ya Sattar",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine-name invocation translated inline in the litany."
+    },
+    {
+      "phonetic": "Zakartu Umniyyata Ahlin Naari Heena Yaquluna",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A full Arabic saying translated in the prose."
+    },
+    {
+      "phonetic": "'Amr bil Ma'roof Wa Nahi 'Anil Munkar",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal principle (commanding right, forbidding wrong) worth citing."
+    },
+    {
+      "phonetic": "Ahl al-Bayt",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named collective (the Prophet's household) worth citing by name."
+    },
+    {
+      "phonetic": "Asr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named daily prayer-time a reader may want to cite."
+    },
+    {
+      "phonetic": "athim",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A moral-legal category (sinner) the book distinguishes and names."
+    },
+    {
+      "phonetic": "Azwaj al-Mutahharat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A titular collective term for the Prophet's wives worth citing."
+    },
+    {
+      "phonetic": "Bay'a",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The term for the covenant/pledge of allegiance, worth naming."
+    },
+    {
+      "phonetic": "bid'a",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A doctrinal term (innovation) a reader should be able to cite."
+    },
+    {
+      "phonetic": "Deen",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's central term for the path to God, worth naming once."
+    },
+    {
+      "phonetic": "Du'a",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The term for supplication, worth naming and looking up."
+    },
+    {
+      "phonetic": "Fajr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named daily prayer-time a reader may want to cite."
+    },
+    {
+      "phonetic": "Fard al-'ayn",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A juristic category (personal obligation) worth naming and looking up."
+    },
+    {
+      "phonetic": "Fard Kifayah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A juristic category (communal obligation) worth naming and looking up."
+    },
+    {
+      "phonetic": "fasiq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A moral-legal category (transgressor) the book distinguishes and names."
+    },
+    {
+      "phonetic": "Fasiq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A moral-legal category (transgressor) the book names."
+    },
+    {
+      "phonetic": "Fiqh",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for jurisprudence, worth naming once."
+    },
+    {
+      "phonetic": "Hashr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named eschatological reality (the Gathering) worth citing by name."
+    },
+    {
+      "phonetic": "Ikhlas",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named virtue (sincerity) the book defines, worth citing."
+    },
+    {
+      "phonetic": "Ilmul Ikhlaq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named discipline (ethics) worth citing by name."
+    },
+    {
+      "phonetic": "Ilmul Kalaam",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named branch of religious learning (theology) worth citing."
+    },
+    {
+      "phonetic": "Iman",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's doctrinal term for faith, worth naming."
+    },
+    {
+      "phonetic": "Ishq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A term of art for intense love, worth naming once."
+    },
+    {
+      "phonetic": "Ma'arifah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A core Sufi term for intimate knowledge of God, worth naming."
+    },
+    {
+      "phonetic": "Malik ul-Maut",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The named Angel of Death, a doctrinal figure worth citing by name."
+    },
+    {
+      "phonetic": "Mizan",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named eschatological reality (the Scale) worth citing by name."
+    },
+    {
+      "phonetic": "Mujahada",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The term for spiritual struggle, worth naming once."
+    },
+    {
+      "phonetic": "mujahadah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A core term for inner spiritual struggle, recurring and worth naming."
+    },
+    {
+      "phonetic": "mureed",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Sufi term for a disciple, worth naming once."
+    },
+    {
+      "phonetic": "Mureed",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Sufi term for a disciple, worth naming once."
+    },
+    {
+      "phonetic": "Murshid al-Kamil",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The named ideal of the perfect spiritual director, worth citing."
+    },
+    {
+      "phonetic": "Nafs",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The recurring core concept of the lower self, worth naming."
+    },
+    {
+      "phonetic": "Rak'at",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical unit of the ritual prayer a reader may want to name and look up."
+    },
+    {
+      "phonetic": "Riazat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The term for spiritual disciplines, worth naming once."
+    },
+    {
+      "phonetic": "Riya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named spiritual vice (ostentation) the book warns against, worth citing."
+    },
+    {
+      "phonetic": "Sahah Sitta",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named reference — the six canonical hadith collections — worth citing."
+    },
+    {
+      "phonetic": "Shahadatu",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The declaration of faith, a core doctrinal term worth naming."
+    },
+    {
+      "phonetic": "Shaykh al-Kamil",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The named ideal of the perfected guide, a term worth citing."
+    },
+    {
+      "phonetic": "Sirat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named eschatological reality (the Bridge) worth citing by name."
+    },
+    {
+      "phonetic": "Sirat al-Mustaqeem",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The named concept of the straight path, worth citing by name."
+    },
+    {
+      "phonetic": "Tahajjud",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named devotional practice worth citing by name."
+    },
+    {
+      "phonetic": "Taqwa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A central spiritual term the book defines and expects the reader to name."
+    },
+    {
+      "phonetic": "Tasawwuf",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical term for the Sufi path, worth naming."
+    },
+    {
+      "phonetic": "Taubatun Nasuh",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named category of sincere repentance worth citing."
+    },
+    {
+      "phonetic": "Tawakkul",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named virtue (reliance on God) the book defines, worth citing."
+    },
+    {
+      "phonetic": "Tawfeeq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The concept of divine enablement, worth naming and looking up."
+    },
+    {
+      "phonetic": "tawfiq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A doctrinal concept — divine enablement — worth naming and looking up."
+    },
+    {
+      "phonetic": "Ummahatil Mu'mineen",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A titular term (Mothers of the Believers) worth naming and looking up."
+    },
+    {
+      "phonetic": "Wajib",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A juristic category (obligatory) worth naming and looking up."
+    },
+    {
+      "phonetic": "Zalim",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A moral category (oppressor) the book distinguishes and names."
+    },
+    {
+      "phonetic": "Zauq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A Sufi term for spiritual taste/longing, worth naming."
+    },
+    {
+      "phonetic": "zawiya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A distinctive term for the spiritual retreat a reader may want to name."
+    }
+  ]
+}

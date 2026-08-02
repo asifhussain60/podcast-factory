@@ -4,13 +4,6 @@
   "terms_tracked": 127,
   "prerequisite_gaps": [
     {
-      "term": "Iblis",
-      "first_use_page": 3,
-      "explained_page": 56,
-      "pages_carried": 53,
-      "kind": "explained-late"
-    },
-    {
       "term": "Imamate",
       "first_use_page": 13,
       "explained_page": 59,
@@ -39,13 +32,6 @@
       "kind": "explained-late"
     },
     {
-      "term": "salam",
-      "first_use_page": 10,
-      "explained_page": 46,
-      "pages_carried": 36,
-      "kind": "explained-late"
-    },
-    {
       "term": "al-Qa'im",
       "first_use_page": 11,
       "explained_page": 43,
@@ -54,30 +40,9 @@
     },
     {
       "term": "Mahdi",
-      "first_use_page": 14,
+      "first_use_page": 13,
       "explained_page": 44,
-      "pages_carried": 30,
-      "kind": "explained-late"
-    },
-    {
-      "term": "Noah",
-      "first_use_page": 3,
-      "explained_page": 33,
-      "pages_carried": 30,
-      "kind": "explained-late"
-    },
-    {
-      "term": "Adam",
-      "first_use_page": 1,
-      "explained_page": 20,
-      "pages_carried": 19,
-      "kind": "explained-late"
-    },
-    {
-      "term": "hadith",
-      "first_use_page": 27,
-      "explained_page": 41,
-      "pages_carried": 14,
+      "pages_carried": 31,
       "kind": "explained-late"
     },
     {
@@ -102,13 +67,6 @@
       "kind": "explained-late"
     },
     {
-      "term": "asas",
-      "first_use_page": 1,
-      "explained_page": 4,
-      "pages_carried": 3,
-      "kind": "explained-late"
-    },
-    {
       "term": "hujja",
       "first_use_page": 44,
       "explained_page": 47,
@@ -124,6 +82,7 @@
     }
   ],
   "naming_drift": [],
+  "referent_collisions": [],
   "dense_pages": [
     {
       "page": 5,
@@ -143,9 +102,10 @@
     },
     {
       "page": 8,
-      "term_count": 6,
+      "term_count": 7,
       "terms": [
         "Gospel",
+        "Ismaili",
         "Torah",
         "al-Asas",
         "asas",
@@ -169,13 +129,16 @@
     },
     {
       "page": 10,
-      "term_count": 6,
+      "term_count": 9,
       "terms": [
         "Abbasids",
         "Fatimid",
         "Ismaili",
+        "Muhammad",
         "Qaramita",
         "Salamiyya",
+        "Ubaydallah",
+        "al-Ma'arri",
         "salam"
       ]
     },
@@ -183,60 +146,35 @@
       "page": 11,
       "term_count": 8,
       "terms": [
-        "Fatimid",
-        "Ismaili",
-        "Muhammad",
-        "Salamiyya",
-        "Ubaydallah",
-        "al-Ma'arri",
-        "al-Qa'im",
-        "imam"
-      ]
-    },
-    {
-      "page": 12,
-      "term_count": 7,
-      "terms": [
         "Buyids",
         "Fatimid",
         "Hamdanids",
-        "Ka'ba",
+        "Ismaili",
+        "Salamiyya",
         "Umayyads",
-        "da'i",
+        "al-Qa'im",
         "imam"
       ]
     },
     {
       "page": 13,
-      "term_count": 8,
+      "term_count": 13,
       "terms": [
         "Fatimid",
         "Imamate",
         "Ismaili",
-        "Muhammad",
-        "al-Maqrizi",
-        "al-Ta'wil",
-        "asas",
-        "ta'wil"
-      ]
-    },
-    {
-      "page": 14,
-      "term_count": 8,
-      "terms": [
-        "Fatimid",
-        "Imams",
         "Mahdi",
         "Muhammad",
         "al-Mahdi",
         "al-Mansuriyya",
+        "al-Maqrizi",
         "al-Qa'im",
-        "imam"
+        "al-Ta'wil"
       ]
     },
     {
       "page": 19,
-      "term_count": 10,
+      "term_count": 11,
       "terms": [
         "Ali",
         "Fatimid",
@@ -247,35 +185,22 @@
         "Muhammad",
         "al-Ta'wil",
         "asas",
-        "ta'wil"
+        "natiq"
       ]
     },
     {
       "page": 20,
-      "term_count": 12,
+      "term_count": 9,
       "terms": [
         "Adam",
         "Ali",
-        "Ismailiyya",
+        "Ismaili",
         "Jesus",
         "Maryam",
         "Masyaf",
         "Muhammad",
-        "al-Ta'wil",
         "asas",
         "imam"
-      ]
-    },
-    {
-      "page": 27,
-      "term_count": 6,
-      "terms": [
-        "al-Sadiq",
-        "al-Ta'wil",
-        "asas",
-        "du'at",
-        "hadith",
-        "ta'wil"
       ]
     },
     {
@@ -352,94 +277,134 @@
       ]
     },
     {
-      "page": 83,
-      "term_count": 19,
+      "page": 57,
+      "term_count": 6,
       "terms": [
         "Adam",
-        "Hawwa",
         "Iblis",
-        "Imams",
-        "Israfil",
-        "Mika'il",
-        "al-Ajniha",
-        "al-Asas",
-        "al-Du'at",
-        "al-Lawh"
+        "hujja",
+        "imam",
+        "natiq",
+        "samit"
       ]
     },
     {
-      "page": 86,
+      "page": 58,
       "term_count": 7,
       "terms": [
-        "Abel",
         "Adam",
+        "Iblis",
         "Imamate",
+        "imam",
+        "natiq",
+        "ra'is",
+        "shari'a"
+      ]
+    },
+    {
+      "page": 81,
+      "term_count": 7,
+      "terms": [
+        "Adam",
+        "Gospel",
+        "Hawwa",
+        "Iblis",
+        "Noah",
+        "Torah",
+        "salam"
+      ]
+    },
+    {
+      "page": 82,
+      "term_count": 7,
+      "terms": [
+        "Adam",
+        "Gospel",
+        "Hawwa",
+        "Imamate",
+        "Imams",
+        "Noah",
+        "Torah"
+      ]
+    },
+    {
+      "page": 83,
+      "term_count": 18,
+      "terms": [
+        "Adam",
+        "Imams",
+        "Israfil",
+        "Mika'il",
+        "Noah",
+        "al-Ajniha",
+        "al-Asas",
+        "al-Du'at",
+        "al-Lawh",
+        "al-Nuqaba"
+      ]
+    },
+    {
+      "page": 87,
+      "term_count": 8,
+      "terms": [
+        "Adam",
+        "Idris",
+        "Imamate",
+        "Noah",
         "Seth",
-        "awsa",
+        "imam",
         "sunna",
         "wasiyya"
       ]
     },
     {
-      "page": 87,
+      "page": 88,
       "term_count": 7,
       "terms": [
         "Adam",
-        "Idris",
         "Jesus",
         "Moses",
         "Noah",
-        "awliya",
-        "imam"
-      ]
-    },
-    {
-      "page": 88,
-      "term_count": 9,
-      "terms": [
-        "Adam",
-        "Ibrahim",
-        "Imams",
-        "Muhammad",
-        "Noah",
         "Wali",
-        "al-Khalil",
-        "itra",
+        "awliya",
         "wali"
       ]
     },
     {
       "page": 89,
-      "term_count": 15,
+      "term_count": 12,
       "terms": [
         "Adam",
-        "Akhnūkh",
-        "Fārān",
-        "Iblis",
-        "Idris",
+        "Ibrahim",
         "Imams",
         "Jesus",
-        "Lāmak",
         "Moses",
-        "Muhammad"
+        "Muhammad",
+        "Noah",
+        "al-Khalil",
+        "asas",
+        "imam"
       ]
     },
     {
       "page": 90,
-      "term_count": 7,
+      "term_count": 13,
       "terms": [
         "Adam",
+        "Akhnūkh",
         "Ali",
+        "Fārān",
+        "Iblis",
+        "Idris",
         "Imams",
+        "Lāmak",
         "Muhammad",
-        "Noah",
-        "bashar",
-        "wasi"
+        "Noah"
       ]
     },
     {
-      "page": 91,
-      "term_count": 10,
+      "page": 92,
+      "term_count": 9,
       "terms": [
         "Nasr",
         "Noah",
@@ -447,7 +412,6 @@
         "Wadd",
         "Yaghūth",
         "Yaʿūq",
-        "bashar",
         "māl",
         "natiq",
         "walad"
@@ -457,107 +421,108 @@
   "long_sentences": [
     {
       "page": 75,
-      "words": 177,
-      "text": "Listen to how He names them: ‫َأ َلْم َتَر ِإ َلى اَّلِذيَن َتَوَّلْوا َقْوًما َغِض َب الَّل ُه َعَلْيِهم َّم ا ُهم ِّمنُكْم َوَلا ِمْنُهْم‬ ‫َوَي ْحِلُفوَن َعَ"
-    },
-    {
-      "page": 65,
-      "words": 149,
-      "text": "Then God Almighty commanded the angels to prostrate to Adam — that is, He commanded them to obey him, to call upon him, and to accept him — as the Almighty said"
-    },
-    {
-      "page": 35,
-      "words": 148,
-      "text": "When one of them does so, his words will be thrown back at him, and it will be said to him: You have lied; you are not among the truthful.\" Al-Sadiq, peace be u"
-    },
-    {
-      "page": 47,
-      "words": 148,
-      "text": "And He said: ‫ِإ ْذ َقاَلِت‬ ‫ٱْلَمَل ِئ َكُة َيٰـَمْرَيُم ِإ َّن ٱلَّل َه ُيَبِّشُرِك ِبَكِلَمٍة ِّمْنُه ٱْس ُمُه ٱْلَمِسيُح ِعيَسى‬ ‫ٰٓـ‬ ‫ٱْبُن َمْر َيَم‬ \"W"
+      "words": 273,
+      "text": "Listen to how He names them: ‫َأ َلْم َتَر ِإَلى اَّلِذ يَن َتَوَّلْو ا َقْو ًم ا َغ ِض َب الَّلُه َع َلْي ِه م َّم ا ُه م ِّم نُك ْم َو اَل ِم ْن ُه ْم‬ ‫َو َي"
     },
     {
       "page": 76,
-      "words": 147,
-      "text": "Then, in the same breath, He turned and described His own party — those who are His by claim and by love: ‫َّل ا َتِجُد َقْوًما ُيْؤِمُنوَن ِبالَّل ِه َواْلَيْو"
+      "words": 193,
+      "text": "Two Parties and the Line to Noah who are His by claim and by love: ‫اَّل َتِج ُد َقْو ًم ا ُيْؤ ِم ُنوَن ِبالَّلِه َو اْلَي ْو ِم اآْلِخ ِر ُيَو اُّد وَن َم ْن "
     },
     {
-      "page": 88,
-      "words": 125,
-      "text": "The Almighty said: ‫َلا َتْيَأ ُسوا ِمن َّر ْوِح الَّل ِهۖ ِإ َّن ُه َلا َيْيَأ ُس ِمن َّر ْوِح الَّل ِه ِإ َّل ا اْلَقْوُم اْلَكاِفُروَن‬ \"Do not despair of th"
+      "page": 70,
+      "words": 188,
+      "text": "Adam, the Tree, and the Iblis Pact As for the parables God Almighty strikes for His servants — when He says: ‫َو ِتْل َك اَأْلْم َثاُل َنْض ِر ُبَه ا ِللَّناِس "
     },
     {
-      "page": 29,
-      "words": 122,
-      "text": "Then He mentioned in His book, saying: ‫ُهَو اَّلِذي َأ نَزَل َعَلْيَك اْلِكَتاَب ِمْنُه آَياٌت ُّم ْحَك َماٌت ُهَّن ُأ ُّم اْلِكَتاِب َوُأ َخُر‬ ‫ُمَتَشاِبَهاٌ"
+      "page": 65,
+      "words": 182,
+      "text": "Then God Almighty commanded the angels to prostrate to Adam — that is, He commanded them to obey him, to call upon him, and to accept him — as the Almighty said"
     },
     {
-      "page": 49,
-      "words": 116,
-      "text": "‫َوَلَقْد َخَلْق َنا ٱْلِإ نَسٰـَن ِمن ُس َلٰـَلٍة ِّمن ِطيٍن ۝ ُثَّم َجَعْلَنٰـُه ُنْطَفًة ِفى َقَراٍر‬ ‫َّم ِكيٍن ۝ ُثَّم َخَلْق َنا ٱلُّن ْطَفَة َعَلَقًة َفَ"
-    },
-    {
-      "page": 71,
-      "words": 113,
-      "text": "The Almighty said: ‫َيا آَدُم اْس ُكْن َأ نَت َوَزْوُجَك اْلَجَّنَة َوُكَلا ِمْنَها َرَغًدا َحْيُث ِشْئُتَما َوَلا َتْقَرَبا‬ ‫َٰهِذِه الَّش َج َرَة َفَتُكوَنا "
-    },
-    {
-      "page": 50,
-      "words": 109,
-      "text": "So rejoice in your transaction which you have contracted, and that is indeed the great success.\" Then He described, by their attributes, the believers to whom t"
-    },
-    {
-      "page": 63,
-      "words": 108,
-      "text": "Indeed, You are the All-Knowing, the All-Wise.\" He said: ‫َيا آَدُم َأ نِبْئُهم ِبَأ ْس َماِئ ِهْم‬ \"O Adam, inform them of their names.\" And when Adam had info"
-    },
-    {
-      "page": 82,
-      "words": 104,
-      "text": "He said: ‫اْهِبُطوا ِمْنَها َجِميًعا‬ \"Go down from it together\" — from the light which was, on earth, the good for you — \"and you will have therein dwelling an"
-    },
-    {
-      "page": 7,
-      "words": 97,
-      "text": "‫ُهَو ٱَّلِذي َأ نَزَل َعَلْيَك ٱْلِكَتاَب ِمْنُه آَياٌت ُّم ْحَك َماٌت ُهَّن ُأ ُّم ٱْلِكَتاِب َوُأ َخُر‬ ‫ُمَتَشاِبَهاٌت ۖ َفَأ َّم ا ٱَّلِذيَن ِفي ُقُلوِبِهْ"
-    },
-    {
-      "page": 24,
-      "words": 96,
-      "text": "‫َوَما َأ ْك َثُر الَّناِس َوَلْو َحَرْص َت ِبُمْؤِمِنيَن‬ \"How many of mankind — even if you were eager — will not believe.\" And: ‫ِمْنُهُم اْلُمْؤِمُنوَن َوَأ"
+      "page": 47,
+      "words": 181,
+      "text": "The Four Limits of the Testimony And He said: ‫ِإْذ َقاَلِت ٱ ْلَم َلٰٓـِئَكُة َيٰـَم ْر َيُم ِإَّن ٱلَّلَه ُيَب ِّش ُرِك ِبَك ِلَم ٍة ِّم ْن ُه ٱْس ُم ُه ٱ ْلَ"
     },
     {
       "page": 6,
-      "words": 95,
-      "text": "He said: ‫َوَكَٰذِلَك َيْجَتِبيَك َرُّب َك َو ُيَعِّلُمَك ِمن َتْأ ِو يِل ٱْلَأ َحاِديِث‬ \"Thus your Lord shall choose you and teach you the interpretation of e"
+      "words": 176,
+      "text": "He said: ‫َو َك َٰذ ِلَك َيْج َتِبيَك َر ُّبَك َو ُيَع ِّلُم َك ِم ن َتْأِو يِل ٱَأْلَح اِد يِث‬ \"Thus your Lord shall choose you and teach you the interpretati"
     },
     {
-      "page": 77,
-      "words": 95,
-      "text": "God Himself has reported what he whispered: ‫َما َنَهاُك َما َرُّب ُك َما َعْن َٰهِذِه الَّش َج َرِة ِإ َّل ا َأ ن َتُكوَنا َمَلَكْيِن َأ ْو َتُكوَنا ِمَن‬ ‫اْل"
+      "page": 49,
+      "words": 166,
+      "text": "The Almighty has said: ‫َو َلَق ْد َخ َلْق َنا ٱِإْل نَس ٰـَن ِم ن ُس َلٰـَلٍة ِّم ن ِط يٍن ۝ ُثَّم َج َع ْل َنٰـُه ُنْط َف ًة ِفى َقَر اٍر‬ ‫َّم ِك يٍن ۝ ُثَّم"
     },
     {
-      "page": 80,
-      "words": 94,
-      "text": "Most of those who held this interpretation took it from the Jewish converts among their ancestors — Ka'b al-Ahbar, Abdullah ibn Salam, and others — because they"
+      "page": 86,
+      "words": 161,
+      "text": "The one who turns back from what he has done, and the obedient born of Adam, are Adam's party, which is the party of God: ‫َو اَّلِذ يَن ِإَذ ا َفَع ُلوا َفاِح "
     },
     {
-      "page": 26,
-      "words": 93,
-      "text": "Whoever hears any of it that seems to contradict the proper limits as we have set them out, and does not act on it accordingly — referring it on his own to some"
+      "page": 35,
+      "words": 156,
+      "text": "When one of them does so, his words will be thrown back at him, and it will be said to him: You have lied; you are not among the truthful.\" Al-Sadiq, peace be u"
     },
     {
-      "page": 32,
-      "words": 93,
-      "text": "They give every member of the family his proper share, and they withhold from the one who must be withheld from, and they entrust the matter to those who are wo"
+      "page": 29,
+      "words": 141,
+      "text": "Then He mentioned in His book, saying: ‫ُه َو اَّلِذ ي َأنَزَل َع َلْي َك اْلِك َتاَب ِم ْن ُه آَياٌت ُّم ْح َك َم اٌت ُه َّن ُأُّم اْلِك َتاِب‬ ‫َو ُأَخ ُر ُم "
     },
     {
-      "page": 11,
-      "words": 92,
-      "text": "In any case, I must refer to the story related by Ja'far al-Hajib in his biography, published by the orientalist Ivanow, concerning Muhammad alMahdi — Ubaydalla"
+      "page": 50,
+      "words": 140,
+      "text": "So rejoice in your transaction which you have contracted, and that is indeed the great success.\" Then He described, by their attributes, the believers to whom t"
+    },
+    {
+      "page": 72,
+      "words": 136,
+      "text": "Adam, the Tree, and the Iblis Pact \"Indeed, this is an enemy to you and to your wife, so let him not drive you both out of the Garden, lest you become miserable"
+    },
+    {
+      "page": 50,
+      "words": 132,
+      "text": "He has said: ‫ِم‬ ‫ِم‬ ۚ ‫ِإَّن ٱلَّلَه ٱْش َتَرٰى َن ٱ ْلُم ْؤ ِنيَن َأنُف َس ُه ْم َو َأْم َٰوَلُه م ِبَأَّن َلُه ُم ٱ ْلَج َّنَة‬ ‫ُيَق ٰـِتُلوَن ِفى ِبيِل ٱ"
+    },
+    {
+      "page": 52,
+      "words": 129,
+      "text": "As the Almighty has said: ‫ٱ ْلَح ْم ُد ِلَّلِه َفاِط ِر ٱل ٰـَٰوِت ٱَأْلْرِض َج اِع ِل ٱ ْل َلٰٓـِئَك ِة اًل ُأ۟و ِل‬ ‫َم‬ ‫َّس َم‬ ‫َو‬ ‫ُرُس‬ ‫ٓى‬ ‫ِف‬ ‫ِن ٍ"
+    },
+    {
+      "page": 89,
+      "words": 128,
+      "text": "The Almighty said: ‫اَل َتْي َأُس وا ِم ن َّر ْوِح الَّلِه ۖ ِإَّنُه اَل َيْي َأُس ِم ن َّر ْوِح الَّلِه ِإاَّل اْلَق ْو ُم اْلَك اِفُر وَن‬ \"Do not despair of "
+    },
+    {
+      "page": 63,
+      "words": 119,
+      "text": "Indeed, You are the All-Knowing, the All-Wise.\" He said: ‫َيا آَد ُم َأنِبْئ ُه م ِبَأْس َم اِئِه ْم‬ \"O Adam, inform them of their names.\" And when Adam had in"
+    },
+    {
+      "page": 68,
+      "words": 119,
+      "text": "The Almighty said: ‫َو ِلَم ْن َخ اَف َم َق اَم َر ِّبِه َج َّنَتاِن‬ \"And for him who fears the standing before his Lord, there are two gardens.\" Then He said:"
+    },
+    {
+      "page": 83,
+      "words": 119,
+      "text": "Two Parties and the Line to Noah ‫ِفيَه ا َتْح َي ْو َن َو ِفيَه ا َتُم وُتوَن َو ِم ْن َه ا ُتْخ َرُج وَن‬ \"Therein you will live, and therein you will die, an"
+    },
+    {
+      "page": 71,
+      "words": 118,
+      "text": "The Almighty said: ‫َيا آَد ُم اْس ُك ْن َأنَت َو َز ْوُج َك اْلَج َّنَة َو ُك اَل ِم ْن َه ا َرَغ ًد ا َح ْي ُث ِش ْئُتَم ا َو اَل‬ ‫ِم‬ ‫َتْق َبا َٰه ِذ ِه‬ ‫"
+    },
+    {
+      "page": 23,
+      "words": 117,
+      "text": "Some — though they were few — were truly nourished by it, according to the Almighty's word: ‫ِإاَّل اَّلِذ يَن آَم ُنوا َوَع ِم ُلوا الَّص اِلَح اِت َو َقِليٌل "
     }
   ],
   "summary": {
     "never_explained": 0,
-    "explained_late": 17
+    "explained_late": 11,
+    "referent_collisions": 0
   }
 }

@@ -14,7 +14,27 @@ import type { APIRoute } from "astro";
 import {
   getSectionDepths,
   upsertSectionDepth,
+  KnowledgeDbUnavailableError,
 } from "../../../lib/db/knowledge";
+
+// A machine without knowledge.db is not a broken server — the database is built by
+// the pipeline and is absent on a fresh clone by design. Reads already degrade to
+// empty; a WRITE must say so distinguishably, so the UI can disable the control
+// instead of showing the user a 500 it can do nothing about.
+const failed = (e: unknown) => {
+  const unavailable = e instanceof KnowledgeDbUnavailableError;
+  return new Response(
+    JSON.stringify({
+      ok: false,
+      error: unavailable ? e.message : String(e),
+      ...(unavailable ? { code: e.code } : {}),
+    }),
+    {
+      status: unavailable ? 503 : 500,
+      headers: { "Content-Type": "application/json" },
+    },
+  );
+};
 
 export const GET: APIRoute = ({ request }) => {
   try {
@@ -39,10 +59,7 @@ export const GET: APIRoute = ({ request }) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, error: String(e) }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return failed(e);
   }
 };
 
@@ -103,9 +120,6 @@ export const PATCH: APIRoute = async ({ request }) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {
-    return new Response(JSON.stringify({ ok: false, error: String(e) }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return failed(e);
   }
 };

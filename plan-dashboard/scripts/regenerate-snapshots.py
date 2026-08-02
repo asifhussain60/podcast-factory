@@ -11,7 +11,7 @@ import json
 import os
 import re
 import subprocess
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import yaml
@@ -20,7 +20,16 @@ HERE = Path(__file__).parent
 APP = HERE.parent
 REPO = APP.parent
 DATA = APP / "src" / "data"
-DRAFTS = REPO / "content" / "drafts"
+CONTENT = REPO / "content"
+# Buckets first, then the legacy trees. See the long note on BOOK_ROOTS in
+# regenerate-snapshots.mjs — this is its exact mirror. Short version: the single
+# `content/drafts` constant that used to live here named a directory deleted on
+# 2026-06-04, so "books in flight" had been a structural zero ever since.
+BUCKETS = ("Islamic", "Technical", "Fiction", "Guides")
+BOOK_ROOTS = tuple(CONTENT / b for b in BUCKETS) + (
+    CONTENT / "drafts",
+    CONTENT / "published" / "books",
+)
 PLAN_YAML = REPO / "_workspace" / "plan" / "refactor" / "plan.yaml"
 WAVE_ACCEPTANCE = REPO / "_workspace" / "plan" / "operations" / "wave-acceptance-checklist.md"
 WAVE_EVENTS = REPO / "_workspace" / "plan" / "refactor" / "wave-execution-events.jsonl"
@@ -71,6 +80,99 @@ def current_commit():
         ).strip()
     except Exception:
         return "unknown"
+
+
+def books_shipped():
+    """The published shelf, with episode counts.
+
+    Exact mirror of ``booksShipped`` in regenerate-snapshots.mjs — see the note there.
+    Short version: this field was carried forward and computed by nothing, so the
+    Overview hero opened with "0 books published, 0 episodes" over two finished books
+    and twenty-eight episodes on disk.
+    """
+    out = []
+    for slug in list_books():
+        d = book_dir(slug)
+        if d is None:
+            continue
+        state = read_json(d / "_system" / "orchestrator-state.json")
+        if not state or state.get("status") != "published":
+            continue
+        # The title is meta.yml's, never the state file's — the state file has no
+        # title field at all, so reading one from it would print the slug forever.
+        title = slug
+        try:
+            meta = yaml.safe_load((d / "meta.yml").read_text()) or {}
+            if isinstance(meta.get("title"), str) and meta["title"].strip():
+                title = meta["title"].strip()
+        except Exception:
+            pass  # no meta.yml: the slug is a worse name than the title, but it is a name
+        # One episode is one `EP##-*.txt` framing file. NOT the sibling directories:
+        # some books carry a per-episode folder as well and some do not, so counting
+        # directories reported 0 for a 20-episode book and double for a 4-episode one.
+        episodes = 0
+        try:
+            episodes = sum(1 for e in (d / "episodes").iterdir() if e.is_file() and re.match(r"^EP\d+.*\.txt$", e.name))
+        except Exception:
+            pass  # a published book with no episode folder counts zero, not undefined
+        out.append(
+            {
+                "slug": slug,
+                "title": title,
+                "shipped": state.get("published_at"),
+                "episodes": episodes,
+            }
+        )
+    return out
+
+
+def burn_30d_usd():
+    """Real money spent in the 30 days before HEAD, in dollars.
+
+    Exact mirror of ``burn30dUsd`` in regenerate-snapshots.mjs — see the long note
+    there. Short version: the Roadmap's "Spend / 30 Days" card summed a key the
+    generator never wrote and rendered the resulting zero as a measurement, while the
+    per-book ``cost-ledger.jsonl`` files held the priced rows all along. The window
+    ends at HEAD's COMMIT time, not wall clock, so an unchanged commit regenerates to
+    a byte-identical file. Cents accumulate as integers so the two generators cannot
+    drift apart on float addition.
+    """
+    try:
+        end = datetime.fromisoformat(head_commit_iso().replace("Z", "+00:00"))
+    except Exception:
+        return 0.0
+    start = end - timedelta(days=30)
+    cents = 0
+    for slug in list_books():
+        d = book_dir(slug)
+        if d is None:
+            continue
+        ledger = d / "_system" / "cost-ledger.jsonl"
+        try:
+            raw = ledger.read_text()
+        except Exception:
+            continue  # a book that has cost nothing yet has no ledger
+        for line in raw.split("\n"):
+            if not line.strip():
+                continue
+            try:
+                row = json.loads(line)
+            except Exception:
+                continue  # a torn last line mid-write is not a reason to report nothing
+            try:
+                usd = float(row.get("cost_usd") or 0)
+            except Exception:
+                continue
+            if not usd:
+                continue
+            try:
+                t = datetime.fromisoformat(str(row.get("ts") or "").replace("Z", "+00:00"))
+            except Exception:
+                continue
+            if t < start or t > end:
+                continue
+            cents += round(usd * 100)
+    return cents / 100
 
 
 def recent_commits():
@@ -135,9 +237,41 @@ def parse_checklist_done_waves(md):
     return done
 
 
+# One vocabulary out, whatever went in. See the long note on `normalizeStepStatus`
+# in regenerate-snapshots.mjs — this is its exact mirror, and the two are
+# byte-parity-tested by tests/test_snapshot_regenerator_parity.py. Short version:
+# plan.yaml says "finished" eight different ways, the site asks for exactly one of
+# them, and on 2026-07-30 that made the Roadmap read 56/140 done when 117 were.
+STATUS_DONE = frozenset(
+    {
+        "complete",
+        "completed",
+        "done",
+        "shipped",
+        "built_committed",
+        "pilot_complete",
+        "resolved",
+    }
+)
+
+
+def normalize_step_status(raw):
+    s = str(raw or "").strip().lower()
+    if not s:
+        return "pending"
+    # `completed_2026_05_28` and friends: a done marker with the date welded on.
+    if s in STATUS_DONE or s.startswith("completed_"):
+        return "complete"
+    if s in ("in_progress", "in-progress"):
+        return "in_progress"
+    if s == "deferred":
+        return "deferred"
+    return "pending"
+
+
 def derive_step_status(step, wave):
     if isinstance(step.get("status"), str) and step["status"].strip():
-        return step["status"].strip()
+        return normalize_step_status(step["status"])
     wave_status = str(wave.get("execution_status") or "").lower()
     if wave_status.startswith("completed"):
         return "complete"
@@ -145,18 +279,41 @@ def derive_step_status(step, wave):
 
 
 def list_books():
-    try:
-        return [
-            e.name
-            for e in sorted(DRAFTS.iterdir())
-            if e.is_dir() and not e.name.startswith("_") and e.name == e.name.lower()
-        ]
-    except Exception:
-        return []
+    """Every book slug, across every bucket. Sorted, so the two generators agree."""
+    slugs = set()
+    for root in BOOK_ROOTS:
+        try:
+            entries = list(root.iterdir())
+        except Exception:
+            continue  # a bucket with no books yet, or a legacy tree already gone
+        for e in entries:
+            if not e.is_dir():
+                continue
+            if e.name.startswith("_"):
+                continue
+            if e.name != e.name.lower():
+                continue
+            slugs.add(e.name)
+    return sorted(slugs)
+
+
+def book_dir(slug):
+    """The book's folder, wherever it lives. None when no root holds it."""
+    for root in BOOK_ROOTS:
+        p = root / slug
+        try:
+            if p.is_dir():
+                return p
+        except Exception:
+            pass
+    return None
 
 
 def book_state(slug):
-    p = DRAFTS / slug / "_system" / "orchestrator-state.json"
+    d = book_dir(slug)
+    if d is None:
+        return None
+    p = d / "_system" / "orchestrator-state.json"
     try:
         if not p.is_file():
             return None
@@ -300,7 +457,8 @@ def merge_dashboard():
         "roadmap": roadmap,
         "waves": waves_meta,
         "books_in_flight": in_flight,
-        "books_shipped": existing.get("books_shipped", []),
+        "metrics": {**(existing.get("metrics") or {}), "burn_30d_usd": burn_30d_usd()},
+        "books_shipped": books_shipped(),
         "recent_commits": recent_commits(),
         "wave_execution_events": recent_wave_events(),
     }

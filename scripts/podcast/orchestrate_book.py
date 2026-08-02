@@ -398,6 +398,17 @@ def build_parser() -> argparse.ArgumentParser:
         help=("Phase 0d episode segmentation (initial run only; persisted in state). Default: auto."),
     )
     p.add_argument(
+        "--unattended",
+        action="store_true",
+        help=(
+            "clear the human-approval gates that only pace an attended run (the "
+            "06a source review), so the book runs through to the reading edition "
+            "without a person at the keyboard. Persisted in state, so the "
+            "watchdog's own --resume honours it. Halts that wait on a FILE only a "
+            "human can supply (dropped audio, curated visuals) are unaffected."
+        ),
+    )
+    p.add_argument(
         "--doctor",
         action="store_true",
         help=(
@@ -417,10 +428,49 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
-def _maybe_relaunch_under_watchdog(slug: str) -> None:
-    """Auto-spawn watch_orchestrator.sh when --resume is called without it."""
+def _maybe_relaunch_under_watchdog(slug: str, *, retry_phase: str | None = None) -> None:
+    """Auto-spawn watch_orchestrator.sh when --resume is called without it.
+
+    ``retry_phase`` — this process is about to exit and hand the run to the
+    watchdog, whose own subsequent ``--resume`` invocations never see the
+    original ``--retry-phase`` the operator typed (verified 2026-07-31: the
+    watchdog's stale-running recovery loop derives its OWN --retry-phase from
+    state.phase when phase_status=="running" — an unrelated crash-recovery
+    heuristic, not a pass-through of what was typed here). Without this, an
+    operator's explicit ``--resume <slug> --retry-phase per-chapter`` after
+    fixing a failed chapter silently did nothing: this process exited before
+    ever calling into resume_dispatcher.run_resume, so the reset that flag
+    was supposed to trigger never happened, and the relaunched watchdog saw
+    the still-failed state and skipped the chapter again. Applying the same
+    reset here — BEFORE the relaunch, mirroring how --unattended is already
+    latched into state above this call — makes the flag take effect
+    regardless of which process ends up running the phase loop.
+    """
     if os.environ.get("PODCAST_WATCHDOG"):
+        # Already running under the watchdog (or PODCAST_WATCHDOG=1 was set
+        # deliberately to stay in-process) — this process continues on to
+        # resume_dispatcher.run_resume itself, which applies --retry-phase
+        # normally. Applying it again here would be redundant, not harmful,
+        # but the point of this block is specifically to cover the case
+        # where that normal path is never reached (below).
         return
+
+    if retry_phase:
+        _bd = _paths_find_content(slug)
+        if _bd:
+            from _progress import read_state as _read_state
+            from _progress import write_state as _write_state
+            from phases.resume_dispatcher import _clear_downstream_phases
+
+            _st = _read_state(_bd[2]) or {}
+            if retry_phase in _st.get("phases", {}):
+                _clear_downstream_phases(_st, retry_phase, log=_info)
+                _write_state(_bd[2], _st)
+                _info(f"  --retry-phase {retry_phase}: applied before watchdog handoff")
+            else:
+                _err(
+                    f"  --retry-phase {retry_phase}: unknown phase, not applied — {sorted(_st.get('phases', {}).keys())}"
+                )
 
     watchdog = Path(__file__).resolve().parent / "watch_orchestrator.sh"
     if not watchdog.exists():
@@ -504,7 +554,21 @@ def main() -> int:
         return 1
 
     if args.resume:
-        _maybe_relaunch_under_watchdog(slug_for_lock)
+        # BEFORE the watchdog handoff, not inside run_resume: the relaunch replaces
+        # this process with one the watchdog invokes WITHOUT --unattended, so a flag
+        # latched further down would never be written at all. It was not — the book
+        # sat at the same gate it had just been authorized past.
+        if getattr(args, "unattended", False):
+            _bd = _paths_find_content(args.resume)
+            if _bd:
+                from _progress import UNATTENDED_KEY, write_state
+
+                _st = read_state(_bd[2]) or {}
+                if not _st.get(UNATTENDED_KEY):
+                    _st[UNATTENDED_KEY] = True
+                    write_state(_bd[2], _st)
+                    _info("  --unattended: human-approval gates auto-cleared for this book from here on.")
+        _maybe_relaunch_under_watchdog(slug_for_lock, retry_phase=getattr(args, "retry_phase", None))
 
     lock_result = _acquire_book_lock(slug_for_lock)
     if lock_result is None:

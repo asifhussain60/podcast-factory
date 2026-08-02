@@ -103,8 +103,8 @@ def load_prior_records(report_path: Path) -> list[dict]:
 
 # Report file -> (schema stamped on rewrite, top-level kept-count key).
 _RECONCILED_REPORTS = (
-    ("book-fluency-report.json", "podcast.book-fluency/v4", "adapted"),
-    ("book-voice-report.json", "podcast.book-voice/v4", "revoiced"),
+    ("book-fluency-report.json", "podcast.book-fluency/v5", "adapted"),
+    ("book-voice-report.json", "podcast.book-voice/v5", "revoiced"),
 )
 
 

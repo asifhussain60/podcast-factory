@@ -30,6 +30,18 @@ the tail of the previous window for continuity and gated against its OWN base, s
 one stumbling passage costs that passage rather than the whole chapter. This
 mirrors the translation composer, which has windowed long chapters on the same
 4,500-word threshold since it shipped (``_translation_edition._LONG_CHAPTER_WORDS``).
+
+This module also drives ``0book-fluency`` (``apply_fluency_adapt``), the automatic
+articulation pass for every translation-edition book. It shares ``_run_pass`` /
+``_adapt_chapter_body`` with this re-voice pass and with the on-demand Rearticulate
+action (``rearticulate_chapter.py``); all three now build their LLM prompt from the
+SAME ``_book_voice_prompts._articulation_prompt`` (fluency and rearticulate) or
+``_voice_prompt`` (this pass), under the Book Articulation Standard
+(``docs/standards/book-articulation.md``, REQ-BA-*). A pass built on
+``_articulation_prompt`` may return a trailing ``===ARTICULATION-NOTES===`` block
+instead of writing a note into the prose (REQ-BA-160);
+``_extract_articulation_notes`` strips it before gating, so it never reaches
+book.md, and files its lines into that chapter's pass record for human review.
 """
 
 from __future__ import annotations
@@ -41,10 +53,12 @@ from pathlib import Path
 from typing import Callable, Sequence
 
 from _authoring._core import AuthoringError, _run_claude_p_with_retry
+from _book_articulation_notes import EMPTY_NOTES, extract_articulation_notes, leaked_marker_findings
 from _book_compose import _arabic_run_count
 from _book_edits import anchor_key, edited_chapter_keys
+from _book_fences import span_re
 from _book_pass_reports import KEPT_STATUSES, STATUS_OVERWRITTEN, load_prior_records, merge_records
-from _book_voice_prompts import _fluency_prompt, _voice_prompt
+from _book_voice_prompts import _articulation_prompt, _voice_prompt
 from _doctrinal import run_doctrinal_checks
 from _literary import teaching_loss_findings
 from _narrative import frame_findings
@@ -54,7 +68,9 @@ from _translation_text import _split_paragraphs, _trim_seam_overlap
 _VOICE_TIMEOUT = 900
 _CHAPTER_HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 # Editorial asides (from 0book-augment) are NOT re-voiced — skip these spans.
-_EDITORIAL_SPAN_RE = re.compile(r"<!-- editorial:begin -->.*?<!-- editorial:end -->\n?", re.DOTALL)
+# Tolerant of the bare-marker form a Composer round-trip leaves behind: a span
+# this pass cannot see is a span the model rewrites into the narrator's voice.
+_EDITORIAL_SPAN_RE = span_re("editorial", trailing=r"\n?")
 
 # Windowing thresholds. `_LONG_CHAPTER_WORDS` matches the translation composer's
 # own long-chapter threshold; `_WINDOW_WORDS` sits under it so a split chapter
@@ -155,13 +171,32 @@ _NARRATIVE_OPENING_RE = re.compile(
 )
 
 
-def narrative_opening_findings(text: str) -> list[str]:
+def narrative_opening_findings(text: str, base_text: str | None = None) -> list[str]:
     """Flag a chapter that opens by announcing the act of narration instead of
-    starting as a chapter does. Checked only against the chapter's own opening."""
+    starting as a chapter does. Checked only against the chapter's own opening.
+
+    DIFFERENTIAL when ``base_text`` is given: the finding is reported only if the
+    re-voice INTRODUCED the announcement. Every other gate in ``revoice_gates``
+    already reads this way — abridgement measures against the base's word count,
+    teaching-loss and the frame guards take both texts, dropped Arabic runs
+    compares run counts, and new doctrinal P0s subtract the base's own. This one
+    did not, and the asymmetry cost real work: *Ayyuhal Walad* chapter 2 opens
+    "Let me tell you of a man among the Children of Israel" in al-Ghazali's own
+    letter, so the model preserving that opening — exactly what faithfulness
+    demands — was reverted as though it had invented it, and the chapter shipped
+    un-articulated. A source that announces its own telling can otherwise never
+    pass articulation at all.
+
+    ``base_text=None`` keeps the older single-argument contract for unit tests
+    that exercise the phrase-matching in isolation.
+    """
     opening = text.strip()[:200]
-    if _NARRATIVE_OPENING_RE.search(opening):
-        return [f"narrative-announcement opening: {opening[:120]!r}"]
-    return []
+    if not _NARRATIVE_OPENING_RE.search(opening):
+        return []
+    # The author already opened this way — preserving it is fidelity, not drift.
+    if base_text is not None and _NARRATIVE_OPENING_RE.search(base_text.strip()[:200]):
+        return []
+    return [f"narrative-announcement opening: {opening[:120]!r}"]
 
 
 def revoice_gates(
@@ -192,7 +227,7 @@ def revoice_gates(
         findings.append(f"abridged re-voice ({len(revoiced.split())}<{round(0.6 * base_words)} words)")
     findings.extend(teaching_loss_findings(base_text, revoiced))
     if check_opening:
-        findings.extend(narrative_opening_findings(revoiced))
+        findings.extend(narrative_opening_findings(revoiced, base_text))
     if _arabic_run_count(revoiced) < _arabic_run_count(base_text):
         findings.append(f"Arabic runs dropped ({_arabic_run_count(revoiced)}<{_arabic_run_count(base_text)})")
     base_p0 = {f.signature for f in run_doctrinal_checks(base_text) if f.severity == "P0"}
@@ -201,6 +236,7 @@ def revoice_gates(
         findings.append("new doctrinal P0: " + "; ".join(f"{f.check_id}:{f.signature}" for f in new_p0[:3]))
     if frame:
         findings.extend(frame_findings(base_text, revoiced, frame=frame, narrator_subject=narrator_subject))
+    findings.extend(leaked_marker_findings(revoiced))
     return findings
 
 
@@ -230,6 +266,7 @@ def _adapt_chapter_body(
     warnings: list[str] = []
     kept = 0
     tail = ""
+    notes = {k: [] for k in EMPTY_NOTES}
     for idx, window in enumerate(windows, start=1):
         part_label = label if len(windows) == 1 else f"{label}-part-{idx:02d}"
         try:
@@ -248,6 +285,11 @@ def _adapt_chapter_body(
         except Exception as e:  # non-fatal: this window falls back to its base
             log(f"      {noun}: {title!r} {part_label} skipped (non-fatal): {e}")
             candidate = ""
+        # REQ-BA-160: strip any trailing ===ARTICULATION-NOTES=== block BEFORE
+        # gating, so length/fidelity checks never see it and it can never reach
+        # book.md. A no-op for prompts (e.g. author-companion voice) that never
+        # emit one.
+        candidate, window_notes = extract_articulation_notes(candidate)
         gate = (
             revoice_gates(
                 window,
@@ -265,6 +307,8 @@ def _adapt_chapter_body(
         else:
             kept += 1
             part = candidate
+            for key, values in window_notes.items():
+                notes[key].extend(values)
             if _similarity(window, candidate) >= _NEAR_IDENTICAL_RATIO:
                 warnings.append(f"{part_label}: output near-identical to base — copied, not re-voiced")
         if kept_parts:
@@ -282,6 +326,7 @@ def _adapt_chapter_body(
         "status": status,
         "gates": gates,
         "warnings": warnings,
+        **notes,
     }
     if status == "reverted":
         log(f"      {noun}: {title!r} reverted to base ({'; '.join(gates[:2])})")
@@ -305,7 +350,7 @@ def _fluency_chapter(
 ) -> str:
     """Isolated LLM call (monkeypatched in tests). Returns polished prose or ''."""
     rc, out, err = _run_claude_p_with_retry(
-        _fluency_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator),
+        _articulation_prompt(title, base_text, previous_tail, frame=frame, narrator=narrator),
         timeout=_VOICE_TIMEOUT,
         book_dir=book_dir,
         phase="0book-fluency",
@@ -439,7 +484,7 @@ def apply_fluency_adapt(
     report_path.write_text(
         json.dumps(
             {
-                "schema": "podcast.book-fluency/v4",
+                "schema": "podcast.book-fluency/v5",
                 "narrative_frame": frame,
                 "adapted": adapted,
                 "reverted": reverted,
@@ -505,7 +550,7 @@ def apply_author_companion_voice(
     report_path.write_text(
         json.dumps(
             {
-                "schema": "podcast.book-voice/v4",
+                "schema": "podcast.book-voice/v5",
                 "narrative_frame": frame,
                 "revoiced": revoiced,
                 "reverted": reverted,

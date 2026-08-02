@@ -8,6 +8,7 @@
  */
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { cardMarkdownToHtml } from "./card-markdown";
 import { cardPreview } from "./explanation-card";
 import { capWords, articulationGuardsPass } from "./articulate-rules";
@@ -108,6 +109,24 @@ test("every surah has a name, and 18 is Al-Kahf", () => {
   assert.equal(surahName(114), "An-Nas");
   assert.equal(surahName(115), "");
   assert.equal(surahName(0), "");
+});
+
+// The pin. These names label companion cards here and, since 2026-08-01, are also
+// what `scripts/podcast/_book_citations.py` prints into every citation in a
+// composed book — so a book saying "(Al-Baqarah: 24)" while a card beside it says
+// something else is the failure this prevents. Both sides assert against the same
+// fixture; a one-sided edit fails here rather than drifting silently.
+test("the surah names match the shared fixture the pipeline also reads", () => {
+  const fixture = JSON.parse(
+    readFileSync(
+      new URL(
+        "../../../../scripts/lib/surah-names.fixtures.json",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  ) as { names: string[] };
+  assert.deepEqual([...SURAH_NAMES], fixture.names);
 });
 
 test("a citation is named, and the verse above it gets its canonical English", () => {

@@ -10,9 +10,13 @@ import infra from "../data/infrastructure-snapshot.json";
 import { sumAllVendorCosts } from "../lib/billing";
 
 const inFlight = dashboard.books_in_flight?.length ?? 0;
+// Everything not finished and not deliberately shelved. `"ready"` used to be half
+// this test and no generator has ever emitted it, so the count was really just
+// "in progress" — which meant zero whenever nothing was mid-flight, on a card whose
+// label promises open work.
 const openSteps =
   dashboard.roadmap?.filter(
-    (s: any) => s.status === "in_progress" || s.status === "ready",
+    (s: any) => s.status === "in_progress" || s.status === "pending",
   ).length ?? 0;
 const monthSpend = sumAllVendorCosts(infra.vendors ?? []);
 

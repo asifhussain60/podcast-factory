@@ -182,7 +182,7 @@ test("the source profile's other behaviours are unchanged", () => {
 test("display renders skip every fence marker instead of showing a chip", () => {
   // These lines delimit spans the Python phases own. Rendered as `.md-comment`
   // chips they put 16 grey `editorial:begin` / `edition-intro:begin` labels into
-  // the reader at /studio/<slug>/live, reading as if they were the author's text.
+  // the rendered reading view, reading as if they were the author's text.
   for (const kind of FENCE_KINDS) {
     const html = renderMarkdown(
       [
@@ -236,4 +236,36 @@ test("a nested blockquote marker is flattened, never printed as text", () => {
     !/&gt;\s*<strong>A clarified term/.test(html) && !/>\s*&gt;\s*/.test(html),
     `nested marker leaked into output: ${html}`,
   );
+});
+
+test("a pipeline aside is classed apart from a scripture citation", () => {
+  // `blockquote p:first-child` in book-reader.css sizes the Arabic line of a
+  // verse block at 1.45rem/1.9. Editorial and bridge spans render as
+  // blockquotes too, so that rule was making a 220-word note display type. The
+  // fence already knows which is which; this is what carries it to the CSS.
+  const aside = renderMarkdown(
+    "<!-- editorial:begin -->\n> **Editorial note.** Body prose.\n<!-- editorial:end -->\n",
+  );
+  assert.match(aside, /<blockquote class="aside editorial">/);
+
+  const bridge = renderMarkdown(
+    "<!-- bridge:begin -->\n> **A note for the reader.** Orientation.\n<!-- bridge:end -->\n",
+  );
+  assert.match(bridge, /<blockquote class="aside bridge">/);
+
+  // A verse keeps `quran` and gains nothing — the display rule must still reach it.
+  const verse = renderMarkdown(
+    "> ٱلْحَمْدُ لِلَّٰهِ\n> Praise belongs to God.\n",
+  );
+  assert.match(verse, /<blockquote class="quran">/);
+
+  // An unfenced citation stays bare, exactly as before.
+  const plain = renderMarkdown("> An ordinary citation.\n");
+  assert.match(plain, /<blockquote>/);
+
+  // edition-intro is prose, not an aside — it must NOT be classed.
+  const intro = renderMarkdown(
+    "<!-- edition-intro:begin -->\n> A quoted line inside the intro.\n<!-- edition-intro:end -->\n",
+  );
+  assert.match(intro, /<blockquote>/);
 });

@@ -1,0 +1,161 @@
+{
+  "_comment": "Shared fixtures for the vowelling gate mirror pair. Read by BOTH plan-dashboard/scripts/lib/vowelling.test.mjs and scripts/podcast/tests/test_vowelling.py, so a change to either implementation that is not matched in the other fails a test rather than letting the Composer's Diacritics button and the compose-time vowelling pass disagree about what may reach book.md. The gate is not about WHETHER to vowel (settled 2026-07-29: always) — it is the marks-only rule that keeps a model from moving letters under cover of marking them.",
+  "skeleton": [
+    {
+      "in": "فَإِنَّهُ مَنْ عَمِلَ لِلَّهِ",
+      "out": "فإنه من عمل لله"
+    },
+    { "in": "فإنه من عمل لله", "out": "فإنه من عمل لله" },
+    { "in": "  ragged   spacing  ", "out": "ragged spacing" },
+    { "in": "الرحـــمن", "out": "الرحمن" },
+    {
+      "_why": "Arabic-Indic digits must SURVIVE the skeleton. They sit inside the U+0653-U+0670 span an earlier literal character class used, so they were being stripped as if they were marks — which let a vowelling that deleted every footnote and verse number pass as marks-only.",
+      "in": "تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣",
+      "out": "تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣"
+    },
+    { "in": "", "out": "" }
+  ],
+  "markCount": [
+    {
+      "_why": "fatha, kasra, shadda, fatha, damma — the shadda counts",
+      "in": "فَإِنَّهُ",
+      "out": 5
+    },
+    { "in": "فإنه", "out": 0 },
+    {
+      "_why": "digits are not marks — a bare line of them counts zero, or mark_density reads it as already vowelled and skips it",
+      "in": "٥٩",
+      "out": 0
+    },
+    {
+      "_why": "dotless beh and qaf are LETTERS that sit in the same span as the digits",
+      "in": "ٮٯ",
+      "out": 0
+    },
+    {
+      "_why": "Qur'anic annotation signs DO count — this range was in the JS half only until the two were unified",
+      "in": "ۖۗ",
+      "out": 2
+    },
+    { "in": "", "out": 0 }
+  ],
+  "isCandidate": [
+    {
+      "_why": "a bare passage of real length — the case the pass exists for",
+      "in": "فإنه من عمل لله بما يعلم، هداه الله إلى ما لا يعلم",
+      "out": true
+    },
+    {
+      "_why": "already vowelled (a Qur'anic run carries the mushaf's own marks)",
+      "in": "لَهُمْ قُلُوبٌ لَا يَفْقَهُونَ بِهَا",
+      "out": false
+    },
+    { "_why": "no Arabic at all", "in": "The Master said", "out": false },
+    { "_why": "too short to be a passage", "in": "الله", "out": false }
+  ],
+  "isArabicPassage": [
+    { "in": "فإنه من عمل لله بما يعلم", "out": true },
+    {
+      "_why": "English prose quoting Arabic is not a passage to vowel",
+      "in": "The Master said, quoting فإنه من عمل لله, that knowledge is given",
+      "out": false
+    },
+    {
+      "_why": "one stray reference marker is tolerated",
+      "in": "فإنه من عمل لله بما يعلم a",
+      "out": true
+    }
+  ],
+  "rejection": [
+    {
+      "_why": "marks only — admissible",
+      "source": "فإنه من عمل لله",
+      "candidate": "فَإِنَّهُ مَنْ عَمِلَ لِلَّهِ",
+      "out": null
+    },
+    {
+      "_why": "nothing came back",
+      "source": "فإنه من عمل لله",
+      "candidate": "",
+      "out": "empty"
+    },
+    {
+      "_why": "the model answered in English",
+      "source": "فإنه من عمل لله",
+      "candidate": "Whoever acts for God",
+      "out": "no Arabic script in the candidate"
+    },
+    {
+      "_why": "returned unchanged — no marks to show for the call",
+      "source": "فإنه من عمل لله",
+      "candidate": "فإنه من عمل لله",
+      "out": "adds no vowel marks"
+    },
+    {
+      "_why": "a word was dropped — letters moved, which the gate exists to catch",
+      "source": "فإنه من عمل لله بما يعلم",
+      "candidate": "فَإِنَّهُ مَنْ عَمِلَ لِلَّهِ",
+      "outStartsWith": "letters changed, not just marks"
+    },
+    {
+      "_why": "the footnote digits were deleted while the words were vowelled. On a real OCR line this was ADMITTED before the mark-range fix, because skeleton() stripped the digits from both sides.",
+      "source": "تأليف ١ سيدنا جعفر بن منصور ٢ اليمن٣",
+      "candidate": "تَأْلِيف سَيِّدنَا جَعْفَر بْن مَنْصُور اليَمَن",
+      "outStartsWith": "letters changed, not just marks"
+    }
+  ],
+  "_reflowComment": "reflow_to_source_whitespace / reflowToSourceWhitespace. skeleton() collapses whitespace before comparing, so a model that returns a multi-line passage as one line passes the gate unnoticed. Line structure is load-bearing — produce_bilingual slices the Arabic source by line range — so the vowelling pass reflows a candidate onto the source's own whitespace BEFORE the gate sees it, rather than adding a clause that would refuse the 886-of-1395 runs that span lines.",
+  "reflow": [
+    {
+      "_why": "the model collapsed three lines into one; the source's line breaks come back, and not one mark moves",
+      "source": "قال العالم\nودموعه تنحدر\nعلى لحيته",
+      "candidate": "قَالَ الْعَالِمُ وَدُمُوعُهُ تَنْحَدِرُ عَلَى لِحْيَتِهِ",
+      "out": "قَالَ الْعَالِمُ\nوَدُمُوعُهُ تَنْحَدِرُ\nعَلَى لِحْيَتِهِ"
+    },
+    {
+      "_why": "single-line in, single-line out — nothing to repair",
+      "source": "فإنه من عمل لله",
+      "candidate": "فَإِنَّهُ مَنْ عَمِلَ لِلَّهِ",
+      "out": "فَإِنَّهُ مَنْ عَمِلَ لِلَّهِ"
+    },
+    {
+      "_why": "digits survive a reflow in their original positions",
+      "source": "تأليف ١ سيدنا\nجعفر بن منصور ٢",
+      "candidate": "تَأْلِيف ١ سَيِّدنَا جَعْفَر بْن مَنْصُور ٢",
+      "out": "تَأْلِيف ١ سَيِّدنَا\nجَعْفَر بْن مَنْصُور ٢"
+    },
+    {
+      "_why": "skeletons disagree — hand the candidate back untouched so the gate reports the real reason",
+      "source": "قال العالم ودموعه تنحدر",
+      "candidate": "كلام آخر تماما",
+      "out": "كلام آخر تماما"
+    },
+    {
+      "_why": "ORPHAN MARK. A scan can leave a combining mark with no letter under it — a real run in the Master-and-Disciple OCR begins with a bare sukun. Consuming that orphan AS a letter puts every later letter off by one, the walk runs off the end, and the repair gives up and returns the collapsed line. The gate cannot catch it: skeleton() has already normalised the whitespace away. This cost a 45-minute paid run. NOTE the orphan lands AFTER the space rather than before it: the source's own marks are skipped (the candidate re-supplies them) and the candidate's orphan is emitted when the walk next looks for a letter. The three invariants that matter all hold — line count, skeleton, and mark count — and shifting a letterless mark across adjacent whitespace changes nothing a reader or a downstream reader-of-lines can see.",
+      "source": "ْ توكل على الله\nإذا عزمت",
+      "candidate": "ْ تَوَكَّلْ عَلَى اللهِ إِذَا عَزَمْتَ",
+      "out": " ْتَوَكَّلْ عَلَى اللهِ\nإِذَا عَزَمْتَ"
+    }
+  ],
+  "_reflowWordsComment": "reflow_words_to_source_whitespace / reflowWordsToSourceWhitespace. The mushaf joins a verse's words with single spaces, so a verse the book prints across two lines comes back as one and the file loses a line. The character-level reflow cannot repair it — Uthmani letters legitimately differ, so the skeletons do not match and it correctly declines. Word alignment is safe here precisely because the mushaf lookup is itself word-aligned.",
+  "reflowWords": [
+    {
+      "_why": "a two-line verse restored from the mushaf keeps its line break",
+      "source": "ليس كمثله\nشيء",
+      "candidate": "لَيْسَ كَمِثْلِهِۦ شَىْءٌۭ",
+      "out": "لَيْسَ كَمِثْلِهِۦ\nشَىْءٌۭ"
+    },
+    {
+      "_why": "already single-line — unchanged",
+      "source": "بسم الله الرحمن الرحيم",
+      "candidate": "بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ",
+      "out": "بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ"
+    },
+    {
+      "_why": "word counts disagree — hand it back rather than reshape text to fit",
+      "source": "ليس كمثله\nشيء",
+      "candidate": "لَيْسَ كَمِثْلِهِۦ",
+      "out": "لَيْسَ كَمِثْلِهِۦ"
+    }
+  ]
+}

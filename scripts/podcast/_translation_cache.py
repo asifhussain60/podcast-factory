@@ -33,10 +33,25 @@ _GOVERNING_MODULES = (
 
 
 def governing_inputs(book_dir: Path, refined_path: Path) -> list[Path]:
-    """Every file whose mtime should invalidate a cached chunk."""
+    """Every file whose mtime should invalidate a cached chunk.
+
+    The Arabic OCR belongs here even though the English refined text is what the
+    chapter is composed FROM: `_load_arabic_pages` hands the matching Arabic pages
+    to the same prompt as ground truth, so the Arabic is an input to the prose. It
+    was missing, which mattered the moment `vowel_source` began writing a vowelled
+    sibling — the ground truth would change while every cached chunk still looked
+    fresh, and the next compose would reuse prose written against the bare Arabic.
+    Both the raw extract and the sibling are listed so that ADDING a vowelling and
+    REMOVING one each invalidate; `cache_floor` ignores whichever is absent.
+    """
+    ocr = Path(book_dir) / "_system" / "source" / "ocr" / "raw-extract.md"
+    from _vowelled_source import sibling_for
+
     return [
         refined_path,
         Path(book_dir) / "_system" / "series-config.yaml",
+        ocr,
+        sibling_for(ocr),
         *(_HERE / name for name in _GOVERNING_MODULES),
     ]
 

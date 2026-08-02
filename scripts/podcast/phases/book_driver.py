@@ -105,9 +105,19 @@ def _drive_book_branch_body(book_dir: Path) -> int:
         translation_edition = False
 
     if not _book_branch_enabled(book_dir):
+        # Record WHY, on every phase. A bare `skipped` is indistinguishable from
+        # a phase skipped by design, and nothing downstream could tell the two
+        # apart: on 2026-07-31 all five book phases were stamped skipped because
+        # meta.yml simply had no `series` block, the run halted reporting 95%
+        # complete, and an empty book/ looked like a successful pipeline.
+        reason = "series.enable_book_branch is not set in meta.yml and the book is not a translation edition"
         for ph in _BOOK_PHASES:
-            update_phase(book_dir, phase=ph, status="skipped")
-        _info("book branch: series.enable_book_branch is false — skipped")
+            update_phase(book_dir, phase=ph, status="skipped", extras={"reason": reason, "skipped_by": "config"})
+        _err(f"book branch: NO READING EDITION WILL BE BUILT — {reason}")
+        _err(
+            "  to enable: set `series.enable_book_branch: true` in meta.yml, or declare "
+            "`deliverable_mode: translation_edition` in _system/series-config.yaml"
+        )
         return 0
 
     # 0book-design

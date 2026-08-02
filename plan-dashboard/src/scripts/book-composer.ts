@@ -39,11 +39,7 @@ import {
 } from "./compose-lane";
 // NB: the module also exports `composeLane`, deliberately NOT imported here —
 // this file already binds that name to its ComposeLane controller instance.
-import {
-  composeChapter,
-  composeMode,
-  registerComposeChapters,
-} from "./compose-view-state";
+import { composeChapter, registerComposeChapters } from "./compose-view-state";
 import {
   safeChapterKey,
   sectionKeyFromHeading,
@@ -60,17 +56,18 @@ import {
   type CompanionMark,
 } from "../components/studio/editor/companion-decos";
 import { markPassages } from "../lib/reader/companion/passage-match";
+import { alignmentGroups } from "../lib/reader/arabic-groups";
 import GemCompanionPanel from "../components/reader/companion/GemCompanionPanel";
 import {
   DEFAULT_DEPTH_PROFILE,
   DEPTH_LEVELS_BY_PROFILE,
+  EDITOR_FONTS,
   type GlossaryEntry,
 } from "../components/studio/editor/studio-editor-constants";
 import ComposeAiTools from "../components/studio/compose/ComposeAiTools";
 import { mountPanelTextSize } from "./panel-text-size";
 import { mountIconTooltips } from "./icon-tooltip";
 import { enhanceSelect } from "./select-menu";
-import { GOTO_CHAPTER_EVENT } from "../components/reader/VowellingReviewPanel";
 import ComposeDetailsTab from "../components/studio/compose/ComposeDetailsTab";
 
 type Align = "left" | "center" | "right";
@@ -97,6 +94,10 @@ interface Chapter {
   key: string;
   title: string;
   paras: number;
+  /** A stable name per prose paragraph, in order — the key the Arabic-source
+   *  alignment is stored under. Mirrors ComposerChapter.paraKeys in
+   *  lib/reader/composer.ts, computed there by the shared block splitter. */
+  paraKeys: string[];
   citations: Citation[];
   /** TipTap-safe seed for edit mode. Mirrors ComposerChapter.editHtml in
    *  lib/reader/composer.ts — see the bodyByKey note in boot(). */
@@ -396,15 +397,16 @@ function boot(): void {
     }
   }
 
-  // ── drawer surfaces (Tools · Arabic · Scholar) ────────────────────────────
-  // ONE drawer, three surfaces, one floating button each. Clicking the lit button
+  // ── drawer surfaces (Scholar · Tools) ─────────────────────────────────────
+  // ONE drawer, two surfaces, one floating button each. Clicking the lit button
   // closes the drawer and the chapter takes the full page width back. The Scholar
   // used to run a SECOND, independent slide-in that could overlap this one; it is
   // a surface here now, so only one panel can ever be open. The state is a
   // per-browser preference, not book content, so it lives in localStorage — and a
-  // preference saved as the retired "companion" surface simply fails the
-  // membership test below and falls back to Tools.
-  const SURFACES = ["tools", "arabic", "scholar"] as const;
+  // preference saved as a retired surface ("companion", and since 2026-07-29
+  // "arabic") simply fails the membership test below and falls back to the
+  // default.
+  const SURFACES = ["scholar", "tools"] as const;
   type Surface = (typeof SURFACES)[number];
   type PanelState = Surface | "closed";
   const PANEL_KEY = "cx-composer-panel";
@@ -423,7 +425,10 @@ function boot(): void {
     } catch {
       /* preference is best-effort */
     }
-    return "tools"; // first visit matches the pre-drawer layout exactly
+    // The Companion is the surface the Composer opens on (Asif, 2026-07-29):
+    // the panel is bound to the chapter beside it and lights up as you read, so
+    // it is the one that has something to say before you touch anything.
+    return "scholar";
   })();
 
   function setPanel(next: PanelState, persist = true): void {
@@ -535,6 +540,13 @@ function boot(): void {
   function selectChapter(key: string): void {
     selectedChapter = key;
     composeChapter.write(key, slug);
+    // A reveal belongs to the chapter it was opened in. Carrying the key across
+    // would not merely be untidy: paragraph fingerprints REPEAT — a book of
+    // dialogue reuses "The boy said:" in every chapter — so a stale key can match
+    // a paragraph here and spring a panel open that nobody asked for.
+    arabicRevealed = null;
+    // A different chapter has a different alignment; fetched once and cached.
+    void syncArabicForChapter();
   }
   if (chapterSelect) {
     chapterSelect.value = selectedChapter;
@@ -558,9 +570,9 @@ function boot(): void {
           } // stay on this chapter
         } else if (contentChangedThisSession) {
           // Prose was saved → reload so the target chapter renders from fresh book.md,
-          // landing back in Edit (the user was editing) on the new chapter.
+          // landing back in Edit on the new chapter (every load does, since
+          // 2026-08-01 — this used to have to ask for it).
           selectChapter(chapterSelect.value);
-          composeMode.write("edit", slug);
           reloadPreservingChapter();
           return;
         }
@@ -575,20 +587,36 @@ function boot(): void {
     });
   }
 
-  // A drawer surface asking for a chapter — the Arabic panel's per-passage
-  // chapter labels. Driven through the SELECT rather than by setting
-  // selectedChapter directly, so the request goes down the one path that already
-  // handles the hard parts: flushing a pending edit, warning about unsaved
-  // prose, re-rendering the citations and the Companion notes. A second way to
-  // change chapter would be a second place for that logic to be missing.
-  window.addEventListener(GOTO_CHAPTER_EVENT, (ev) => {
-    const key = (ev as CustomEvent<{ key?: string }>).detail?.key;
-    if (!chapterSelect || !key || key === selectedChapter) return;
-    if (!data.chapters.some((c) => c.key === key)) return; // stale request
+  // Prev/next at the foot of the chapter. Delegated from the root because every
+  // chapter renders its own pair and only the visible one can be clicked, so one
+  // listener beats N.
+  //
+  // This deliberately does NOT call selectChapter(): that function moves the key
+  // and nothing else, while the picker's `change` handler above owns the autosave
+  // flush, the discard confirmation, the editor teardown and the stay-in-Edit
+  // restore. Driving the picker and dispatching its event reuses all of it — the
+  // alternative is a second way to leave a chapter, which is a second way to lose
+  // an unsaved one. `chapterMenu.sync()` is required alongside: the native
+  // <select> is only the state holder, and select-menu.ts draws the visible list.
+  root.addEventListener("click", (ev) => {
+    const btn = (ev.target as HTMLElement | null)?.closest<HTMLButtonElement>(
+      ".cx-chapter-nav-btn",
+    );
+    if (!btn || btn.disabled || !chapterSelect) return;
+    const key = btn.dataset.gotoChapter;
+    // Absent at the two ends, where the button is also disabled. Checked anyway:
+    // `disabled` is a DOM state a stray script could clear, the key is the thing
+    // that has to exist, and a missing one would otherwise blank the picker.
+    if (!key || key === selectedChapter) return;
     chapterSelect.value = key;
     chapterMenu?.sync();
     chapterSelect.dispatchEvent(new Event("change"));
   });
+
+  // The GOTO_CHAPTER_EVENT listener that used to sit here went with the Arabic
+  // drawer surface on 2026-07-29 — the vowelling panel's per-passage chapter
+  // links were its only emitter. The event itself still exists on the component,
+  // so a future host can wire it again; nothing on this page listens now.
 
   // ── Edit mode — the chapter opens straight into the TipTap editor ─────────
   // Layout mode (figure placement/resize) was removed from the UI 2026-07-16;
@@ -626,15 +654,17 @@ function boot(): void {
   let aiToolsRoot: Root | null = null;
   let detailsRoot: Root | null = null;
 
-  /** The chapter key a Companion note is filed under — the LIVE Session's TOC id,
-   *  derived from the chapter's raw heading by the one shared rule.
+  /** The chapter key a Companion note is filed under — the rendered TOC id,
+   *  derived from the chapter's raw heading by the one shared rule. This is a
+   *  data contract: it is the key the notes already on disk are stored under, so
+   *  the rule cannot change without migrating them.
    *
    *  NOT `safeChapterKey(selectedChapter)`, which is what this used to be: the
    *  Composer's own chapter key comes from `anchorKey`, which strips the leading
    *  "N." — so an etymology note for chapter 2 was filed as
    *  `a-stranger-in-the-city` while the reader looked under
    *  `2-a-stranger-in-the-city` and showed nothing. */
-  function liveChapterKey(): string {
+  function companionChapterKey(): string {
     const anchor =
       data.chapters.find((c) => c.key === selectedChapter)?.anchor ?? "";
     return sectionKeyFromHeading(anchor) || safeChapterKey(selectedChapter);
@@ -657,6 +687,16 @@ function boot(): void {
    *  sentences the text no longer contains — cards that can never point at
    *  anything. They stay on disk and stay in the LIVE Session. */
   let anchoredIds: string[] = [];
+  /** Read mode gets the SAME panel — same cards, same tint, same follow-the-
+   *  chapter sync — with the writing withheld (Asif, 2026-07-30). Read is a
+   *  reading surface on both sides of the page: a card that mounts a rich-text
+   *  editor beside a rendered chapter offers an edit the prose next to it will
+   *  not accept. Kept as one boolean set from `setModeVisual`, so the panel can
+   *  never disagree with which mode the toggle says it is in. */
+  let scholarReadOnly = false;
+  /** Of those, the ones whose passage is ON SCREEN right now, in reading order.
+   *  The panel expands and lights exactly these — see the scroll sweep below. */
+  let inViewIds: string[] = [];
 
   /** Stable identities, declared ONCE. A fresh arrow function per render would
    *  change the panel's props on every re-render, and the panel keys its chapter
@@ -677,13 +717,219 @@ function boot(): void {
         bookTitle,
         proseSelector: ".cx-chapter",
         docked: true,
-        chapter: liveChapterKey(),
+        chapter: companionChapterKey(),
         focusNote,
         anchoredIds,
+        inViewIds,
+        readOnly: scholarReadOnly,
         onNotesChanged,
         onReveal: revealPassage,
       }),
     );
+  }
+
+  // ── The Arabic source, above the English, on demand ──────────────────────
+  // The alignment is computed offline (scripts/podcast/align_arabic_paragraphs.py)
+  // and addressed by paragraph FINGERPRINT, so a paragraph the Composer has since
+  // rewritten simply has no entry and offers no control — it never points at the
+  // wrong Arabic. Read mode only: the whole surface is display, and nothing here
+  // may reach book.md.
+  type ArabicPair = {
+    fp: string;
+    source_paras: number[];
+    confidence: "verified" | "bracketed";
+  };
+  type ArabicChapter = {
+    available: boolean;
+    vowelled?: boolean;
+    pairs: ArabicPair[];
+    paragraphs: { number: number; text: string }[];
+  };
+  const arabicByChapter = new Map<string, ArabicChapter | null>();
+  /** The ONE open reveal, by group key (Asif, 2026-07-30).
+   *
+   *  A single value rather than a set: opening a second panel pushed the first one's
+   *  English further from the Arabic above it, and with a few open the column was
+   *  more source than translation. One at a time keeps the pairing readable and
+   *  makes the control behave like every other accordion on the page — the same
+   *  one-card-at-a-time rule the Companion panel already follows.
+   *
+   *  Not consulted in العربية mode, where every panel is open by definition. */
+  let arabicRevealed: string | null = null;
+  let arabicMode: "english" | "only" = "english";
+  const arabicToggle = root.querySelector<HTMLElement>("#cx-arabic-toggle");
+  const arabicEnglishBtn =
+    root.querySelector<HTMLButtonElement>("#cx-arabic-english");
+  const arabicOnlyBtn =
+    root.querySelector<HTMLButtonElement>("#cx-arabic-only");
+
+  async function ensureArabicData(key: string): Promise<ArabicChapter | null> {
+    if (arabicByChapter.has(key)) return arabicByChapter.get(key) ?? null;
+    let data: ArabicChapter | null;
+    try {
+      const res = await fetch(
+        `/api/studio/arabic-source?slug=${encodeURIComponent(slug)}&chapter=${encodeURIComponent(key)}`,
+      );
+      const json = await res.json();
+      const payload = (json?.data ?? json) as ArabicChapter;
+      data = payload?.available ? payload : null;
+    } catch {
+      data = null; // the reveal is an affordance, never a reason to break the page
+    }
+    arabicByChapter.set(key, data);
+    return data;
+  }
+
+  /** Take our asides out. Called before the Companion re-marks, so its text-node
+   *  walk and `normalize()` never see the Arabic we injected. */
+  function stripArabicReveals(body: HTMLElement): void {
+    body.querySelectorAll(".cx-ar-reveal").forEach((el) => el.remove());
+    // The group bracket lives on the PARAGRAPHS, which are not ours to remove — so
+    // it has to be cleared here too, or a chapter change leaves the previous
+    // chapter's grouping drawn around this one's prose.
+    body.querySelectorAll<HTMLElement>("[data-ar-part]").forEach((el) => {
+      delete el.dataset.arPart;
+      delete el.dataset.arOpen;
+    });
+  }
+
+  function arabicParagraphHtml(
+    data: ArabicChapter,
+    pair: ArabicPair,
+    span = 1,
+  ): string {
+    const byNumber = new Map(data.paragraphs.map((p) => [p.number, p.text]));
+    const blocks = pair.source_paras
+      .map((n) => byNumber.get(n))
+      .filter(Boolean)
+      .map(
+        (t) => `<p class="ar" lang="ar" dir="rtl">${escapeHtml(String(t))}</p>`,
+      )
+      .join("");
+    const source =
+      pair.confidence === "verified"
+        ? `Source ${pair.source_paras.length > 1 ? "paragraphs" : "paragraph"} ${pair.source_paras.join(", ")}`
+        : `Somewhere in source paragraphs ${pair.source_paras[0]}–${pair.source_paras[pair.source_paras.length - 1]}`;
+    // Say how much English this Arabic became, so a long block of script above two
+    // short paragraphs reads as deliberate rather than as a mismatch.
+    const label =
+      span > 1 ? `${source} — the ${span} paragraphs below` : source;
+    return (
+      `<div class="cx-ar-body">` +
+      `<p class="cx-ar-note" data-confidence="${pair.confidence}">${escapeHtml(label)}</p>` +
+      blocks +
+      `</div>`
+    );
+  }
+
+  /** Put an aside before every paragraph the alignment knows about.
+   *
+   *  An `<aside>`, never a `<p>`: `paraIndexAt` counts `:scope > p` to decide where
+   *  a dragged figure anchors, and that number is PERSISTED to visual-layout.json
+   *  and drives the printed page. An injected paragraph would move figures in the
+   *  book. The control also sits in the aside rather than inside the paragraph, so
+   *  the paragraph's own text nodes — which the Companion's matcher walks by
+   *  offset — are left exactly as they were. */
+  function applyArabicReveals(): void {
+    const chapterEl = currentChapterEl();
+    const body = chapterEl?.querySelector<HTMLElement>(".cx-body");
+    if (!body) return;
+    const data = arabicByChapter.get(selectedChapter);
+    const keys = chapterByKey.get(selectedChapter)?.paraKeys ?? [];
+    if (!data) {
+      body.removeAttribute("data-arabic");
+      return;
+    }
+    const paras = [...body.querySelectorAll<HTMLElement>(":scope > p")];
+    if (keys.length !== paras.length) {
+      // Two different computations that are only ASSUMED to agree — the shared
+      // block splitter over the markdown, and what the renderer emitted. If they
+      // ever disagree the mapping is meaningless, so say nothing rather than
+      // point at the wrong paragraph.
+      body.removeAttribute("data-arabic");
+      return;
+    }
+    // The grouping and the positional lookup both live in `alignmentGroups`
+    // (lib/reader/arabic-source.ts), where they are unit-tested — including the
+    // repeated-speech-tag case that used to collapse thirteen paragraphs onto one
+    // source. Read that function's header for why position is the key and the
+    // fingerprint is only the edit guard.
+    const groups = alignmentGroups(data.pairs, keys);
+    if (!groups.length && data.pairs.length !== keys.length) {
+      body.removeAttribute("data-arabic");
+      return;
+    }
+
+    for (const group of groups) {
+      const pair = group.pair;
+      const span = group.end - group.start + 1;
+      const fp = keys[group.start];
+      const open = arabicMode === "only" || arabicRevealed === fp;
+      const aside = document.createElement("aside");
+      aside.className = "cx-ar-reveal";
+      aside.dataset.fp = fp;
+      if (span > 1) aside.dataset.span = String(span);
+      if (open) aside.dataset.open = "1";
+      const label =
+        span > 1
+          ? `Show the Arabic these ${span} paragraphs were translated from`
+          : "Show the Arabic this paragraph was translated from";
+      aside.innerHTML =
+        `<button type="button" class="cx-ar-tab" aria-expanded="${open}" ` +
+        `title="${label}" aria-label="${label}">ع</button>` +
+        (open ? arabicParagraphHtml(data, pair, span) : "");
+      paras[group.start].before(aside);
+      // Bracket the English this Arabic produced. Only worth drawing when the
+      // group is more than one paragraph — a 1:1 pair needs no bracket to be read
+      // as a pair.
+      for (let i = group.start; i <= group.end; i++) {
+        delete paras[i].dataset.arPart;
+        if (span < 2) continue;
+        paras[i].dataset.arPart =
+          i === group.start ? "first" : i === group.end ? "last" : "mid";
+        if (open) paras[i].dataset.arOpen = "1";
+        else delete paras[i].dataset.arOpen;
+      }
+    }
+    body.dataset.arabic = arabicMode;
+  }
+
+  function escapeHtml(s: string): string {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function setArabicMode(next: "english" | "only"): void {
+    arabicMode = next;
+    arabicEnglishBtn?.setAttribute("aria-pressed", String(next === "english"));
+    arabicOnlyBtn?.setAttribute("aria-pressed", String(next === "only"));
+    const body = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
+    if (body) {
+      stripArabicReveals(body);
+      applyArabicReveals();
+    }
+  }
+
+  arabicEnglishBtn?.addEventListener("click", () => setArabicMode("english"));
+  arabicOnlyBtn?.addEventListener("click", () => setArabicMode("only"));
+
+  /** Load this chapter's alignment, then draw. The control stays hidden until the
+   *  answer comes back available, so a book without a numbered Arabic edition
+   *  never shows a toggle that would do nothing. */
+  async function syncArabicForChapter(): Promise<void> {
+    const key = selectedChapter;
+    const data = await ensureArabicData(key);
+    if (key !== selectedChapter) return; // the reader moved on while we fetched
+    // Whole-chapter Arabic replaces the text on screen, which is a reading mode,
+    // not an editing one — and swapping the content under a surface that autosaves
+    // is the RCA-002 shape. Read mode only.
+    const usable = Boolean(data) && !activeEditor;
+    if (arabicToggle) arabicToggle.hidden = !usable;
+    if (!usable && arabicMode === "only") setArabicMode("english");
+    const body = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
+    if (body) {
+      stripArabicReveals(body);
+      applyArabicReveals();
+    }
   }
 
   /** Tint every annotated passage in the chapter's READ body, and ask the edit
@@ -691,6 +937,10 @@ function boot(): void {
   function markCompanionPassages(): void {
     const body = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
     if (body) {
+      // Ours come out first and go back last: the unwrap, `normalize()` and
+      // `markPassages` below all walk this subtree, and none of them should ever
+      // see the Arabic we injected.
+      stripArabicReveals(body);
       body
         .querySelectorAll<HTMLElement>(".cx-note-hl")
         .forEach((el) => el.replaceWith(...el.childNodes));
@@ -712,30 +962,48 @@ function boot(): void {
         anchoredIds = found;
         renderScholar(); // the panel lists only what is anchored
       }
+      // …and ours go back, after every walk above has finished. `render()` wipes
+      // this body on any figure placement or outside click and then lands here, so
+      // this is the one place the reveals need restoring from.
+      applyArabicReveals();
     }
     // Same idiom as syncEditorFigures: an empty transaction asks the decoration
     // plugins to recompute against the notes they now see.
     if (activeEditor)
       activeEditor.editor.view.dispatch(activeEditor.editor.state.tr);
+    // The tint just moved — which passages are on screen is now a different
+    // question, and nobody has scrolled to ask it. Loading a chapter, switching
+    // chapters and flipping Read/Edit all land here, so this is the one place the
+    // sync needs re-running from besides the scroll itself. Next frame, after the
+    // marks have been laid out.
+    scheduleSweep();
   }
 
-  // ── Scroll sync, the prose→card direction (Asif, 2026-07-28) ──────────────
-  // As the reader scrolls the chapter and a tinted passage comes into view, the
-  // Scholar panel scrolls its card for that passage to the top of the list — the
-  // panel tracks the chapter. Scroll only, never expand: auto-opening cards
-  // mid-scroll would collapse the one the author is reading or editing
-  // (one-card-at-a-time), so a passage entering view moves the list and nothing
-  // else. A scroll SWEEP rather than an IntersectionObserver, deliberately: the
-  // tint exists twice — spans in the read body, decorations in the edit canvas,
+  // ── Scroll sync, the prose→card direction (Asif, 2026-07-29) ──────────────
+  // The Scholar panel TRACKS the chapter. As a tinted passage scrolls into view
+  // its card lights up (an accent ring) and expands itself; when that passage
+  // leaves the viewport the card goes dark and shuts again. The panel scrolls so
+  // the topmost lit card sits at the top of the list.
+  //
+  // This supersedes the scroll-only sync of 2026-07-28, which moved the list but
+  // never opened anything: with every card shut, arriving at the right card still
+  // showed only its title, and the one-card-at-a-time rule meant the single open
+  // card was almost never the one whose sentence was on screen. Expanding is the
+  // whole point of pairing the two columns; the one thing it must not do is close
+  // a card someone is typing in, and the panel guards that by skipping the sync
+  // while the caret is inside the list.
+  //
+  // A scroll SWEEP rather than an IntersectionObserver, deliberately: the tint
+  // exists twice — spans in the read body, decorations in the edit canvas,
   // whichever is visible — and both are torn down and rebuilt on every re-mark
   // and every decoration redraw, so registered observations go stale in both
   // modes. Sweeping whatever `.cx-note-hl` is visible AT scroll time needs no
   // registration and is mode-blind.
   let syncFrame = 0;
-  /** The last mark synced for, so re-sweeps (and the panel's own scroll events,
-   *  which the capture listener also hears) cannot re-issue the same scroll and
-   *  fight the reader for the panel. */
-  let lastSyncedMark = "";
+  /** The last in-view set synced for, joined. Re-sweeps that compute the same set
+   *  — including the ones the panel's OWN scrolling triggers through the capture
+   *  listener — do nothing, so the sync can never fight the reader for the panel. */
+  let lastSyncedMarks = "";
 
   /** Scroll the panel so this note's card sits at the top of the card list. */
   function syncCardToMark(noteId: string): void {
@@ -768,35 +1036,59 @@ function boot(): void {
     });
   }
 
-  /** The topmost tint mark visible in the viewport drives the panel. */
+  /** Every tint mark visible in the viewport, in reading order, drives the panel.
+   *
+   *  All of them, not just the topmost: a passage that is on screen has a card
+   *  that should be open, and picking one winner would leave the reader looking
+   *  at two lit sentences and one open card. Reading order comes free — the marks
+   *  are read in DOM order and a passage cannot be tinted twice — and it is the
+   *  order the panel already lists cards in, so the open ones stay in place
+   *  instead of the list reshuffling under them. */
   function sweepVisibleMarks(): void {
     const scope = root.querySelector<HTMLElement>(".composer-preview");
     if (!scope) return;
     const vh = window.innerHeight;
-    let best: { id: string; top: number } | null = null;
+    const seen = new Set<string>();
+    const found: string[] = [];
     for (const el of scope.querySelectorAll<HTMLElement>(".cx-note-hl")) {
       if (el.offsetParent === null) continue; // the hidden twin of the tint
       const r = el.getBoundingClientRect();
       if (r.bottom <= 0 || r.top >= vh) continue;
       const id = el.dataset.note;
-      if (!id) continue;
-      if (!best || r.top < best.top) best = { id, top: r.top };
+      if (!id || seen.has(id)) continue;
+      seen.add(id);
+      found.push(id);
     }
-    if (!best || best.id === lastSyncedMark) return;
-    lastSyncedMark = best.id;
-    syncCardToMark(best.id);
+    const key = found.join("|");
+    if (key === lastSyncedMarks) return;
+    lastSyncedMarks = key;
+    inViewIds = found;
+    renderScholar(); // expands + lights exactly these cards
+    // Two frames, not one. React commits the re-render on its own scheduler, and
+    // a card that is still shut when it is measured is a fraction of its open
+    // height — scrolling to it then lands somewhere else entirely once it opens.
+    // The first frame lets the commit land, the second measures the result.
+    if (found.length)
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => syncCardToMark(found[0])),
+      );
+  }
+
+  /** One sweep per frame, whatever asked for it. */
+  function scheduleSweep(): void {
+    cancelAnimationFrame(syncFrame);
+    syncFrame = requestAnimationFrame(sweepVisibleMarks);
   }
 
   // Capture phase, so the sweep hears every scroller — the page, the preview
   // column, whichever the layout uses. Coalesced to one sweep per frame.
-  document.addEventListener(
-    "scroll",
-    () => {
-      cancelAnimationFrame(syncFrame);
-      syncFrame = requestAnimationFrame(sweepVisibleMarks);
-    },
-    { capture: true, passive: true },
-  );
+  document.addEventListener("scroll", scheduleSweep, {
+    capture: true,
+    passive: true,
+  });
+  // A resize reflows the prose, so different passages are on screen afterwards
+  // even though nothing scrolled.
+  window.addEventListener("resize", scheduleSweep, { passive: true });
 
   /** Bring a note's passage into view and flash it — the card→prose direction. */
   function revealPassage(noteId: string): void {
@@ -907,14 +1199,12 @@ function boot(): void {
     // These are EDITING-VIEW rendering preferences only: book.md carries no font
     // or size, so they change how the chapter looks while you edit (persisted per
     // user, like the paper theme) — they never restyle the printed book.
-    const FONTS = [
-      { id: "sans", name: "Sans" },
-      { id: "serif", name: "Serif" },
-      { id: "lato", name: "Lato" },
-      { id: "inter", name: "Inter" },
-      { id: "mono", name: "Mono" },
-      { id: "dyslexic", name: "Dyslexic" },
-    ] as const;
+    // The SAME list the Studio editor offers, imported rather than restated. The two
+    // editors already share one localStorage key by design, so a face listed in only
+    // one of them is a value the other rejects on load — a private copy here was a
+    // drift waiting to happen, and adding Lexend and Cinzel is exactly the change
+    // that would have caused it.
+    const FONTS = EDITOR_FONTS;
     const savedFont = (() => {
       try {
         return localStorage.getItem("cx-editor-font") ?? "sans";
@@ -1257,7 +1547,6 @@ function boot(): void {
               }
               return false;
             }
-            composeMode.write("edit", slug);
             reloadPreservingChapter();
             return true;
           },
@@ -1336,6 +1625,9 @@ function boot(): void {
     root.classList.toggle("is-editing", mode === "edit");
     modeReadBtn?.setAttribute("aria-pressed", String(mode === "read"));
     modeEditBtn?.setAttribute("aria-pressed", String(mode === "edit"));
+    // The Arabic toggle is a Read-mode control; entering Edit withdraws it and
+    // drops back to English so the editor is never showing a swapped chapter.
+    void syncArabicForChapter();
     // In Read mode the Tools surface has nothing to act on — Refinement and
     // Details drive the editor, which is torn down — so it is disabled and the
     // drawer falls closed if it was showing them. Companion stays available on
@@ -1343,6 +1635,14 @@ function boot(): void {
     // page. The state is NOT persisted here, so returning to Edit restores
     // whatever the reader had chosen rather than "closed".
     const reading = mode === "read";
+    // The Companion follows the mode: read-only cards in Read, editable in Edit.
+    // Re-rendered here rather than left to the next sweep, because the mode can
+    // change without a scroll and a stale editable card would still take a
+    // keystroke.
+    if (scholarReadOnly !== reading) {
+      scholarReadOnly = reading;
+      renderScholar();
+    }
     if (railTools) railTools.disabled = reading;
     if (reading && panelState === "tools") setPanel("closed", false);
     else if (!reading) {
@@ -2096,16 +2396,62 @@ function boot(): void {
     mode?: string;
     explain?: boolean;
     etymology?: boolean;
+    /** Vowel the selected Arabic and replace it. Its own branch in runAiAction:
+     *  it neither rewrites English nor offers alternatives to choose between. */
+    diacritics?: boolean;
+    /** Enabled only when the selection is BARE ARABIC, not on any selection. */
+    arabicOnly?: boolean;
     /** FA classes shown at the centre of the busy modal's ring spinner. */
     icon?: string;
   }
   const AI_ACTIONS: AiAction[] = [
-    { kind: "rewrite", label: "Rewrite", mode: "clarify", icon: "fa-solid fa-pen-nib" },
-    { kind: "expand", label: "Expand", mode: "expand", icon: "fa-solid fa-up-right-and-down-left-from-center" },
-    { kind: "condense", label: "Condense", mode: "tighten", icon: "fa-solid fa-down-left-and-up-right-to-center" },
-    { kind: "simplify", label: "Simplify", mode: "simplify", icon: "fa-solid fa-wand-magic-sparkles" },
-    { kind: "explain", label: "Explain", explain: true, icon: "fa-solid fa-lightbulb" },
-    { kind: "etymology", label: "Etymology", etymology: true, icon: "fa-solid fa-book-open" },
+    {
+      kind: "rewrite",
+      label: "Rewrite",
+      mode: "clarify",
+      icon: "fa-solid fa-pen-nib",
+    },
+    {
+      kind: "expand",
+      label: "Expand",
+      mode: "expand",
+      icon: "fa-solid fa-up-right-and-down-left-from-center",
+    },
+    {
+      kind: "condense",
+      label: "Condense",
+      mode: "tighten",
+      icon: "fa-solid fa-down-left-and-up-right-to-center",
+    },
+    {
+      kind: "simplify",
+      label: "Simplify",
+      mode: "simplify",
+      icon: "fa-solid fa-wand-magic-sparkles",
+    },
+    {
+      kind: "explain",
+      label: "Explain",
+      explain: true,
+      icon: "fa-solid fa-lightbulb",
+    },
+    {
+      kind: "etymology",
+      label: "Etymology",
+      etymology: true,
+      icon: "fa-solid fa-book-open",
+    },
+    // Vowel the selected Arabic in place (Asif, 2026-07-29). Last in the row
+    // because it is the only one that acts on Arabic rather than on English —
+    // and it is the only one that stays dark until the selection is Arabic, so
+    // its own disabled state tells you when it applies.
+    {
+      kind: "diacritics",
+      label: "Diacritics",
+      diacritics: true,
+      arabicOnly: true,
+      icon: "fa-solid fa-marker",
+    },
   ];
   let aiStatusEl: HTMLElement | null = null;
   let aiPopupEl: HTMLElement | null = null;
@@ -2125,13 +2471,46 @@ function boot(): void {
     return text ? { text, from, to } : null;
   }
 
+  /** Arabic script, excluding the combining marks themselves. */
+  const ARABIC_LETTER_RE = /[ؠ-ي٠-ٯٱ-ۓ]/;
+  /** The combining marks a vowelled run carries. Mirrors MARKS_RE in
+   *  scripts/lib/vowelling.mjs — the server re-checks with the real thing, so a
+   *  drift here can only mis-enable a button, never admit a bad edit. */
+  const TASHKEEL_RE = /[\u064b-\u065f\u0670\u06d6-\u06ed\u0640]/g;
+
+  /** Is this selection Arabic that still needs its vowel marks?
+   *
+   *  Deliberately generous on the "still needs" half: a run the scan left with a
+   *  couple of disambiguating marks is bare for this purpose. The authority is
+   *  `isVowellingCandidate` on the server, which refuses an already-vowelled run
+   *  (every Qur'anic one included — those carry the canonical mushaf's marks) with
+   *  a message. This only decides whether the button looks available. */
+  function isBareArabic(text: string): boolean {
+    if (!ARABIC_LETTER_RE.test(text)) return false;
+    // Predominantly Arabic, not merely containing some. Mirrors the ratio the
+    // route's own candidate collector uses: a paragraph of English that quotes
+    // three Arabic words is not a passage to vowel, and sending it would ask the
+    // model to hand back English it must not touch.
+    const latin = (text.match(/[A-Za-z]/g) || []).length;
+    const arabicAll = (text.match(/[؀-ۿ]/g) || []).length;
+    if (latin > 2 || arabicAll < latin * 4) return false;
+    const letters = (text.match(/[؀-ۿ]/g) || []).filter(
+      (c) => !c.match(TASHKEEL_RE),
+    ).length;
+    if (letters < 8) return false;
+    const marks = (text.match(TASHKEEL_RE) || []).length;
+    return marks / letters < 0.15;
+  }
+
   function updateAiEnabled(): void {
-    const ok = !!selectionText();
+    const sel = selectionText();
+    const ok = !!sel;
+    const arabic = ok && isBareArabic(sel.text);
     // Rearticulate acts on the whole chapter, not the selection — it opts out.
     root
       .querySelectorAll<HTMLButtonElement>(".cx-ai-btn:not(.cx-rearticulate)")
       .forEach((b) => {
-        b.disabled = !ok;
+        b.disabled = b.classList.contains("cx-ai-arabic") ? !arabic : !ok;
       });
   }
 
@@ -2148,8 +2527,11 @@ function boot(): void {
     for (const a of AI_ACTIONS) {
       const b = document.createElement("button");
       b.type = "button";
-      b.className = "cx-ai-btn";
+      b.className = a.arabicOnly ? "cx-ai-btn cx-ai-arabic" : "cx-ai-btn";
       b.textContent = a.label;
+      if (a.arabicOnly)
+        b.title =
+          "Add Arabic vowel marks to the selected passage — select Arabic script to enable";
       b.disabled = true;
       b.addEventListener("click", () => runAiAction(a));
       row.appendChild(b);
@@ -2215,7 +2597,10 @@ function boot(): void {
     if (!go) return;
     const flushed = await (activeSaveFlush?.() ?? Promise.resolve(true));
     if (!flushed) {
-      setAiStatus("Autosave is failing — resolve that before rearticulating.", true);
+      setAiStatus(
+        "Autosave is failing — resolve that before rearticulating.",
+        true,
+      );
       return;
     }
     rearticulating = true;
@@ -2258,7 +2643,10 @@ function boot(): void {
     const DEADLINE = Date.now() + 120 * 60 * 1000;
     const poll = async (): Promise<void> => {
       if (Date.now() > DEADLINE) {
-        unlock("Rearticulate timed out — check the book before retrying.", true);
+        unlock(
+          "Rearticulate timed out — check the book before retrying.",
+          true,
+        );
         return;
       }
       let status: Record<string, unknown>;
@@ -2271,13 +2659,20 @@ function boot(): void {
         return;
       }
       if (status.state === "running" || status.state === "none") {
-        const secs = Math.round((Date.now() - (DEADLINE - 120 * 60 * 1000)) / 1000);
-        busy.update(`“${title}” — ${Math.floor(secs / 60)}m ${secs % 60}s elapsed`);
+        const secs = Math.round(
+          (Date.now() - (DEADLINE - 120 * 60 * 1000)) / 1000,
+        );
+        busy.update(
+          `“${title}” — ${Math.floor(secs / 60)}m ${secs % 60}s elapsed`,
+        );
         window.setTimeout(poll, 4000);
         return;
       }
       if (status.state === "error") {
-        unlock(`Rearticulate failed: ${String(status.error ?? "unknown error")}`, true);
+        unlock(
+          `Rearticulate failed: ${String(status.error ?? "unknown error")}`,
+          true,
+        );
         return;
       }
       const record = (status.record ?? {}) as Record<string, unknown>;
@@ -2349,6 +2744,14 @@ function boot(): void {
     if (a.etymology) {
       try {
         await runEtymology(sel);
+      } finally {
+        busy.close();
+      }
+      return;
+    }
+    if (a.diacritics) {
+      try {
+        await runDiacritics(sel);
       } finally {
         busy.close();
       }
@@ -2459,6 +2862,51 @@ function boot(): void {
   // teaching note for the Companion Panel. Both are shown for review; accepting
   // replaces the highlighted word inline (autosaved into book.md → the PDF) AND
   // files the companion note.
+  /**
+   * Vowel the selected Arabic and put it back, in place.
+   *
+   * No options popup and no accept step, unlike every other action in this row
+   * (Asif, 2026-07-29): the others offer a REWRITE, where choosing between
+   * phrasings is the point, and this one adds marks to letters that do not
+   * change. There is nothing to choose between, and nothing to weigh — Asif does
+   * not read Arabic, so a bare run is unreadable to him and withholding the marks
+   * pending a decision helps nobody. The server refuses any answer whose
+   * consonantal skeleton differs from the source, so what lands can only be the
+   * same letters, marked.
+   *
+   * It replaces the selection in the OPEN EDITOR rather than writing book.md
+   * directly, which is what puts it on the Composer's own edit path: the prose
+   * autosave records it in composer-edits.json, the replay restores it after a
+   * re-compose, "Show changes" displays it as a human edit, and Cmd+Z undoes it
+   * like any other.
+   */
+  async function runDiacritics(sel: {
+    text: string;
+    from: number;
+    to: number;
+  }): Promise<void> {
+    if (!activeEditor) return;
+    setAiStatus("Adding diacritics…");
+    try {
+      const j = await apiFetch<{ vowelled: string; marksAdded: number }>(
+        "/api/studio/vowelling",
+        { method: "POST", body: { slug, action: "run", text: sel.text } },
+      );
+      const vowelled = String(j.vowelled ?? "").trim();
+      if (!vowelled) throw new Error("nothing came back");
+      activeEditor.editor
+        .chain()
+        .focus()
+        .insertContentAt({ from: sel.from, to: sel.to }, vowelled)
+        .run();
+      setAiStatus(
+        `Added ${j.marksAdded} vowel mark${j.marksAdded === 1 ? "" : "s"}. Remember to Save prose.`,
+      );
+    } catch (e) {
+      setAiStatus(`Diacritics failed: ${(e as Error).message}`, true);
+    }
+  }
+
   async function runEtymology(sel: {
     text: string;
     from: number;
@@ -2596,7 +3044,7 @@ function boot(): void {
           method: "POST",
           body: {
             slug,
-            chapter: liveChapterKey(),
+            chapter: companionChapterKey(),
             note: {
               kind: "etymology",
               body,
@@ -2839,7 +3287,8 @@ function boot(): void {
   // are flushed first: what you see is what prints. Same themed confirm and
   // endpoint as /studio/<slug>/preview; the page is fully usable while the
   // render runs (only the button itself locks).
-  const genPdfBtn = document.querySelector<HTMLButtonElement>("#cx-generate-pdf");
+  const genPdfBtn =
+    document.querySelector<HTMLButtonElement>("#cx-generate-pdf");
   genPdfBtn?.addEventListener("click", async () => {
     if (genPdfBtn.disabled) return;
     const flushed = await (activeSaveFlush?.() ?? Promise.resolve(true));
@@ -2932,6 +3381,41 @@ function boot(): void {
   // read body wraps a span and the edit canvas paints a decoration, and one
   // delegated listener over the preview column covers each of them.
   root.querySelector(".composer-preview")?.addEventListener("click", (e) => {
+    // The Arabic control first, and it RETURNS: a tinted passage can sit inside a
+    // paragraph whose reveal is open, and without this both handlers would fire —
+    // opening the Scholar panel every time the reader asked for the Arabic.
+    const tab = (e.target as HTMLElement)?.closest<HTMLElement>(".cx-ar-tab");
+    if (tab) {
+      const aside = tab.closest<HTMLElement>(".cx-ar-reveal");
+      const fp = aside?.dataset.fp;
+      if (!fp) return;
+      const opening = arabicRevealed !== fp;
+      // Inserting ABOVE pushes the paragraph down by the panel's height. Hold the
+      // clicked paragraph still, or the reader loses their line — and the
+      // Companion's visibility sweep fires and yanks its panel to another card.
+      const para = aside?.nextElementSibling as HTMLElement | null;
+      const before = para?.getBoundingClientRect().top ?? 0;
+      // Opening one closes whichever was open — the assignment IS the close.
+      arabicRevealed = opening ? fp : null;
+      const body = currentChapterEl()?.querySelector<HTMLElement>(".cx-body");
+      if (body) {
+        stripArabicReveals(body);
+        applyArabicReveals();
+      }
+      const reopened = body?.querySelector<HTMLElement>(
+        `.cx-ar-reveal[data-fp="${CSS.escape(fp)}"]`,
+      );
+      const after =
+        (
+          reopened?.nextElementSibling as HTMLElement | null
+        )?.getBoundingClientRect().top ?? before;
+      window.scrollBy({
+        top: after - before,
+        behavior: "instant" as ScrollBehavior,
+      });
+      reopened?.querySelector<HTMLButtonElement>(".cx-ar-tab")?.focus();
+      return;
+    }
     const mark = (e.target as HTMLElement)?.closest<HTMLElement>(".cx-note-hl");
     const id = mark?.dataset.note;
     if (!id) return;
@@ -2961,22 +3445,24 @@ function boot(): void {
   // schema can round-trip. Without this control the print-faithful view has no
   // way of being reached: the editor opens on boot and nothing else leaves it.
   //
-  // `userMode` remembers the choice the human actually made, so returning from
-  // the Podcast lane restores it. It is NOT read off setModeVisual: the flip's
-  // own leave() drops the view to Read on its way out, which would make every
-  // return land in Read regardless of where the user came from.
-  // Seeded from what this book was last left in, so a reload — the editor's own
-  // autosave re-sync, a plain F5, or a fresh visit tomorrow — reopens the way it
-  // was closed. Edit remains the default for a book never opened before.
-  let userMode: "read" | "edit" = composeMode.read(slug) ?? "edit";
+  // `userMode` remembers the choice the human actually made WITHIN this visit, so
+  // returning from the Podcast lane restores it. It is NOT read off setModeVisual:
+  // the flip's own leave() drops the view to Read on its way out, which would make
+  // every return land in Read regardless of where the user came from.
+  //
+  // Every load starts in Edit (Asif, 2026-08-01). This used to seed from
+  // `composeMode.read(slug)` — what the book was last left in — which meant a book
+  // closed in Read reopened in Read days later, and the markup's Edit default only
+  // ever applied to a book never opened before. Edit is the working mode; Read is
+  // one click away. `composeMode` went with the seed: once nothing reads the
+  // stored mode, the writes that fed it are a localStorage key nobody consults.
+  let userMode: "read" | "edit" = "edit";
   modeReadBtn?.addEventListener("click", () => {
     userMode = "read";
-    composeMode.write("read", slug);
     setMode("read");
   });
   modeEditBtn?.addEventListener("click", () => {
     userMode = "edit";
-    composeMode.write("edit", slug);
     setMode("edit");
   });
 

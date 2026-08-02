@@ -164,9 +164,9 @@ It is the same with the one who fails to repair the outward of his religion and 
 
 And:
 
-> بَلْ أَكْثَرُهُمْ فَاسِقُونَ فَهُمْ لَا يَسْمَعُونَ
+> فَأَعْرَضَ أَكْثَرُهُمْ فَهُمْ لَا يَسْمَعُونَ
 >
-> "But most of them are insolently disobedient, and they do not hear."
+> "But most of them turned away, and they do not hear."
 
 And of most of them He said:
 
@@ -200,9 +200,9 @@ These were the ones who said: this is the outward — we know it already, and wh
 
 And those who disbelieved said: this is only the man whom others have helped along with injustice and falsehood. They said:
 
-> إِنْ هَٰذَا إِلَّا أَسَاطِيرُ الْأَوَّلِينَ اكْتَتَبَهَا فَهِيَ تُمْلَىٰ عَلَيْهِ بُكْرَةً وَأَصِيلًا
+> وَقَالُوٓا۟ أَسَطِيرُ ٱلْأَوَّلِينَ ٱكْتَتَبَهَا فَهِىَ تُمْلَىٰ عَلَيْهِ بُكْرَةًۭ وَأَصِيلًۭا
 >
-> "These are nothing but fables of the ancients which he has written down; they are dictated to him morning and evening."
+> "They said: fables of the ancients which he has written down; they are dictated to him morning and evening."
 
 This is one of the ways men deny the limits of religion. They twisted what was meant for those who came before and for others besides — the evil things the worst of preachers thought of those who turned the people away from God's friends — and they departed from what the friends had thought concerning them. They disobeyed the command. They altered the order that had been laid out for them. They overstepped the limits. They blocked others from doing what was their duty.
 
@@ -362,9 +362,9 @@ It has its conditions. He said: "The saying *there is no god but God* will conti
 
 Al-Sadiq, peace be upon him — and we have already drawn from him in *Da'a'im al-Islam* — said:
 
-> الْإِيمَانُ قَوْلٌ بِاللِّسَانِ وَاعْتِقَادٌ بِالْجَنَانِ وَعَمَلٌ بِالْأَرْكَانِ
+> الْإِيمَانُ قَوْلٌ بِاللِّسَانِ وَتَصْدِيقٌ بِالْجَنَانِ وَعَمَلٌ بِالْأَرْكَانِ
 >
-> "Faith is a saying with the tongue, a conviction in the heart, and an action with the limbs."
+> "Faith is a saying with the tongue, an affirmation in the heart, and an action with the limbs."
 
 And he said: "Faith is wholly action, and speech is one part of that action." He went on to describe how faith is parcelled out among the parts of a man — each part of him entrusted with an action that counts as faith, distinct from what is entrusted to the others — and he spoke of all this in a long discourse which is set down in full in *Da'a'im al-Islam*. All of it makes one thing necessary: that the testimony embrace the whole of what the sacred law requires. It is established about the Messenger of God, peace and blessings upon him, that when he stood up against the polytheists, he invited them to it. If they answered him and bore witness, he brought them under the rule of Islam and ceased fighting them, and their wealth was made safe except for what Islam claims from it. If they refused, he called them to pay the *jizya* from their own hand while in submission. If they refused even that, he fought them. He held the outward sacred law to be inseparable from the rule of Islam, the rule by which a man becomes inviolate in his life and his property — except for what is its right. The *jizya* takes the place of the testimony of *there is no god but God* and of the acknowledgment of the Prophet; likewise the believer received under a covenant must acknowledge it. This is what God the Mighty and Sublime said in the story of Ibrahim, peace be upon him, when his Lord said to him:
 

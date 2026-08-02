@@ -114,6 +114,24 @@ mirrors:
     b: scripts/podcast/_book_edits.py
     pinned_by: plan-dashboard/scripts/lib/anchor-key.fixtures.json
     note: A divergence here silently orphans every saved Composer edit.
+  - a: plan-dashboard/scripts/lib/vowelling.mjs
+    b: scripts/podcast/_vowelling.py
+    pinned_by: plan-dashboard/scripts/lib/vowelling.fixtures.json
+    note: >-
+      The marks-only gate (`rejection_reason`). Both legs load the SAME fixture and both
+      pass today — this entry exists because the probe's MI-UNPINNED / MI-PIN-GONE checks
+      only audit pairs the contract names, so deleting the fixture raised nothing. A
+      divergence lets the Composer's Diacritics button and the compose-time vowelling pass
+      admit different Arabic into book.md. Declared 2026-08-01; the pin itself has existed
+      since 2026-07-29.
+  - a: plan-dashboard/src/lib/reader/companion/surah-names.ts
+    b: scripts/podcast/_book_citations.py
+    pinned_by: plan-dashboard/scripts/lib/surah-names.fixtures.json
+    note: >-
+      The 114 surah names. They labelled companion cards until 2026-08-01 and now also
+      print into every citation of a composed book — `(2:24)` reaches the page as
+      `(Al-Baqarah: 24)` — so a divergence has a book and the card beside it naming the
+      same surah differently. Plain ASCII romanization on both legs, per the house rule.
   - a: plan-dashboard/src/lib/reader/book-fences.ts
     b: plan-dashboard/scripts/lib/book-html.mjs
     pinned_by: plan-dashboard/scripts/lib/book-html.test.mjs

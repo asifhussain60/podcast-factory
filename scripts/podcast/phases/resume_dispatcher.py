@@ -11,7 +11,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT
-from _progress import PHASES, STALE_RUNNING_SEC, is_phase_stale, read_state, update_phase, write_state
+from _progress import (
+    PHASES,
+    STALE_RUNNING_SEC,
+    UNATTENDED_KEY,
+    is_phase_stale,
+    read_state,
+    unattended_run,
+    update_phase,
+    write_state,
+)
 from _subprocess import err as _err
 from _subprocess import info as _info
 from cost_guard import cost_ceiling_check
@@ -46,8 +55,11 @@ def _clear_downstream_phases(state: dict, retry_phase: str, log=_info) -> None:
 
     A retried phase invalidates all later artifacts; a stale "completed"
     block (e.g. per-chapter on a finished book) would make the re-run skip
-    re-authoring downstream and silently no-op. per-chapter additionally
-    gets its completion ledgers emptied.
+    re-authoring downstream and silently no-op. Downstream per-chapter blocks
+    get their completion ledgers emptied entirely. Self-retrying per-chapter
+    (retry_phase == "per-chapter") is different and more surgical: only
+    failed_slugs is cleared so those chapters re-attempt; completed_slugs is
+    preserved so already-shipped chapters are not redone.
     """
     block = state["phases"][retry_phase]
     block["status"] = "pending"
@@ -55,6 +67,21 @@ def _clear_downstream_phases(state: dict, retry_phase: str, log=_info) -> None:
     block.pop("manual_fallback", None)
     state["phase"] = retry_phase
     state["phase_status"] = "pending"
+    if retry_phase == "per-chapter":
+        # Self-retry (--retry-phase per-chapter after a chapter failed): the
+        # downstream loop below never revisits per-chapter's OWN block (it
+        # only starts at idx+1), so without this, failed_slugs and its stale
+        # chapter_timings survive untouched — chapter_driver's own skip logic
+        # then refuses to re-attempt the very chapter the operator is trying
+        # to retry, and the loop re-reports the identical failure. Unlike the
+        # downstream-wipe case below, completed_slugs must be PRESERVED here
+        # (already-shipped chapters must not be redone) — only clear the
+        # failed ones so they get a fresh attempt.
+        for slug in block.get("failed_slugs", []):
+            block.get("chapter_timings", {}).pop(slug, None)
+        if block.get("failed_slugs"):
+            log(f"  --retry-phase per-chapter: clearing {len(block['failed_slugs'])} failed slug(s) for retry")
+        block["failed_slugs"] = []
     if retry_phase in PHASES:
         idx = PHASES.index(retry_phase)
         for later in PHASES[idx + 1 :]:
@@ -91,6 +118,15 @@ def run_resume(args: argparse.Namespace) -> int:
     if state is None:
         _err("state file missing despite pre-flight pass — abort")
         return 2
+
+    # A book already in flight can opt in mid-run: --resume --unattended latches
+    # it into state. One-way on purpose — omitting the flag on a later resume is
+    # far more likely to be the watchdog's own invocation than a decision to go
+    # back to attended, and silently re-arming the gates would strand the book.
+    if getattr(args, "unattended", False) and not state.get(UNATTENDED_KEY):
+        state[UNATTENDED_KEY] = True
+        write_state(book_dir, state)
+        _info("  --unattended: human-approval gates will be auto-cleared for this book from here on.")
 
     stop_after = getattr(args, "stop_after", None)
     retry_phase = getattr(args, "retry_phase", None)
@@ -144,6 +180,9 @@ def run_resume(args: argparse.Namespace) -> int:
                 approved = bool(gate.get("approved"))
             except Exception:
                 pass
+        if not approved and unattended_run(book_dir):
+            approved = True
+            _info(f"Phase {current_phase!r} review gate auto-cleared — this book was launched --unattended.")
         if not approved:
             _info(
                 f"Phase {current_phase!r} is awaiting human review. "

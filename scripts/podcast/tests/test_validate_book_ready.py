@@ -124,6 +124,39 @@ def _add_translation_crosswalk_fixture(bd: Path, *, chapters: int = 3) -> None:
     )
 
 
+def _add_faithful_route_fixture(bd: Path, *, chapters: int = 3) -> None:
+    """Make a book satisfy the gates that apply to a FAITHFUL-voice deliverable.
+
+    Needed on Islamic fixtures since 2026-07-31: `content_profile:
+    islamic_scholarly` now defaults to `book_voice: faithful`, so
+    `is_faithful_translation_deliverable` is true for them and gates B4/B5/B6 —
+    crosswalk presence, numbered chapter-body coverage, title/source drift —
+    apply where they previously did not. Without this, a test aimed at B3 fails on
+    B5 instead ("no numbered chapter headings found") and stops testing B3 at all.
+
+    That widening is the intent of the change, not a side effect: these gates were
+    written for exactly the artifact the faithful route produces, and the default
+    simply moved more books onto that route.
+    """
+    (bd / "book" / "book.md").write_text(
+        "# Title\n"
+        + "".join(
+            f"## {i}. Marriage and the Household {i}\nBody text " + ("x " * 220) + "\n" for i in range(1, chapters + 1)
+        ),
+        encoding="utf-8",
+    )
+    (bd / "book" / "book-toc.json").write_text(
+        json.dumps(
+            {
+                "book_title": "T",
+                "chapters": [{"title": f"Marriage and the Household {i}"} for i in range(1, chapters + 1)],
+            }
+        ),
+        encoding="utf-8",
+    )
+    _add_translation_crosswalk_fixture(bd, chapters=chapters)
+
+
 def test_na_when_book_branch_disabled(tmp_path):
     bd = _make_book(tmp_path, enable=False)
     assert V.validate_book(bd)["verdict"] == "N/A"
@@ -210,6 +243,9 @@ def test_pdf_page_count_extraction():
 
 def test_b3_fails_islamic_book_without_chapter_arabic(tmp_path):
     bd = _make_book(tmp_path, content_profile="islamic_scholarly")
+    # Everything B4/B5/B6 want, so B3 is the only gate that CAN fail here and the
+    # assertion below is really about B3. See _add_faithful_route_fixture.
+    _add_faithful_route_fixture(bd)
     (bd / "_system" / "glossary.yml").write_text(
         "schema_version: 2\nentries:\n"
         '  - phonetic: "tawhid"\n'
@@ -226,16 +262,79 @@ def test_b3_fails_islamic_book_without_chapter_arabic(tmp_path):
     res = V.validate_book(bd)
 
     assert res["verdict"] == "BOOK-BROKEN"
-    assert "B3" in res["summary"]
+    assert "B3" in res["summary"], res["summary"]
 
 
 def test_b3_passes_islamic_book_with_chapter_arabic(tmp_path):
     bd = _make_book(tmp_path, content_profile="islamic_scholarly")
+    _add_faithful_route_fixture(bd)
     _add_islamic_arabic_fixture(bd)
 
     res = V.validate_book(bd)
 
     assert res["verdict"] == "BOOK-SOUND", res["summary"]
+
+
+def test_b3_chapter_gate_still_runs_on_a_faithful_voice_book(tmp_path):
+    """The chapter-Arabic gate must not vanish because the VOICE knob moved.
+
+    B3's two halves were an if/else on the faithful voice. That was safe only while
+    "faithful" implied `deliverable_mode: translation_edition`, which has no podcast
+    lane for the chapter half to check. Once a book could be faithful without being
+    a translation edition — `the-master-and-the-disciple` 2026-07-20, then every
+    Islamic book by default 2026-07-31 — the else branch became unreachable for
+    books that DO have chapters, and the gate silently stopped running. Both halves
+    are now independent and gated on their own applicability.
+    """
+    bd = _make_book(tmp_path, content_profile="islamic_scholarly")
+    _add_faithful_route_fixture(bd)
+    _add_islamic_arabic_fixture(bd)
+
+    ok, note = V.gate_b3_book_arabic_coverage(bd)
+    assert ok, note
+    # BOTH signals reported, not just whichever branch ran last.
+    assert "Arabic script present in all 3 chapters" in note, note
+    assert "Arabic preservation signal" in note, note
+
+    # Strip the Arabic from one podcast chapter: the chapter half must still bite.
+    (bd / "chapters" / "ch02.txt").write_text("Chapter with tawhid but no script.", encoding="utf-8")
+    ok, note = V.gate_b3_book_arabic_coverage(bd)
+    assert not ok
+    assert "ch02.txt" in note, note
+
+
+def test_b3_skips_the_chapter_half_for_a_true_translation_edition(tmp_path):
+    """A translation edition has no podcast lane, so the chapter half must not fire.
+
+    This is why the if/else existed; applicability now says it directly, so the
+    behaviour survives without suppressing the gate for books that do have one.
+    """
+    bd = _make_book(tmp_path, content_profile="islamic_scholarly")
+    _add_faithful_route_fixture(bd)
+    (bd / "_system" / "series-config.yaml").write_text(
+        "content_profile: islamic_scholarly\ndeliverable_mode: translation_edition\n", encoding="utf-8"
+    )
+
+    ok, note = V.gate_b3_book_arabic_coverage(bd)
+    assert ok, note
+    assert "chapters have no Arabic" not in note, note
+
+
+def test_islamic_default_now_carries_the_faithful_route_ship_gates(tmp_path):
+    """The default change widens which gates apply — pin that, don't discover it.
+
+    An Islamic book declaring no `deliverable_mode` and no `book_voice` resolves to
+    `book_voice: faithful`, which makes `is_faithful_translation_deliverable` true
+    and switches on B4/B5/B6. Before 2026-07-31 the same fixture skipped them. The
+    direction is stricter, never laxer, and it is the whole point of the change.
+    """
+    bd = _make_book(tmp_path, content_profile="islamic_scholarly")
+    _add_islamic_arabic_fixture(bd)  # NO faithful-route scaffolding
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] == "BOOK-BROKEN"
+    assert "B5" in res["summary"], res["summary"]
 
 
 def test_translation_edition_enabled_without_legacy_book_flag(tmp_path):

@@ -14,16 +14,20 @@ import { join } from "node:path";
 import Base from "../../../layouts/Base.astro";
 import { loadComposer } from "../../../lib/reader/composer";
 import { findContentDirSync, slugToTitle } from "../../../lib/content-paths";
-import ArabicReviewPanel from "../../../components/reader/ArabicReviewPanel";
-import VowellingReviewPanel from "../../../components/reader/VowellingReviewPanel";
 import "../../../styles/library.css";
 import "../../../styles/book-reader.css";
 import "../../../styles/book-styles.css";
 import "../../../styles/quote-typography.css";
 import "../../../styles/editor-fonts.css";
 import "../../../styles/panel-text-size.css";
+// Still loaded after the Arabic drawer surface was retired (2026-07-29): the
+// glossary overlay spans in the chapter's own prose (.ar-overlay / .ar-en /
+// .ar-script, emitted by lib/reader/glossary.ts) are dressed here too.
 import "../../../styles/arabic-review.css";
 import "../../../styles/select-menu.css";
+// The Arabic source shown above an English paragraph on demand. Loaded after
+// quote-typography.css so it can read --q-ar-face rather than name a font.
+import "../../../styles/arabic-reveal.css";
 // The editor package's own stylesheet, imported BEFORE book-composer.css so the
 // theme adapter in that file (which aliases --rte-* onto --c-*) wins over the
 // package's neutral defaults.
@@ -70,6 +74,10 @@ const dataJson = view
         key: c.key,
         title: c.title,
         paras: c.paras,
+        // One stable name per prose paragraph, in order — how the client looks a
+        // paragraph up in the Arabic-source alignment. Ordinal position would
+        // break the moment a Composer edit split a paragraph.
+        paraKeys: c.paraKeys,
         citations: c.citations,
         // The TipTap-safe seed. The rich read-mode HTML is server-rendered into
         // .cx-body for reading; the editor must be seeded from THIS instead, or
@@ -194,13 +202,8 @@ const ARABIC_FONTS = [
               }
               download={existingPdf?.name}
             >
-              <i class="fa-solid fa-download" aria-hidden="true" /> Download PDF{
-                existingPdf ? ` (${existingPdf.kb} KB)` : ""
-              }
-            </a>
-            <a class="cx-hdr-btn" href={`/studio/${slug}/live`}>
-              <i class="fa-solid fa-book-open-reader" aria-hidden="true" /> LIVE
-              Session
+              <i class="fa-solid fa-download" aria-hidden="true" /> Download PDF
+              {existingPdf ? ` (${existingPdf.kb} KB)` : ""}
             </a>
           </div>
           <div class="lib-hero-main">
@@ -221,9 +224,11 @@ const ARABIC_FONTS = [
         </header>
 
         {/* data-panel drives the layout: "closed" gives the chapter the full
-            width; "tools", "arabic" and "scholar" each open the SAME drawer on
-            a different surface. book-composer.ts restores the last state. */}
-        <div class="composer-grid" data-panel="tools">
+            width; "scholar" and "tools" each open the SAME drawer on a different
+            surface. book-composer.ts restores the last state — and defaults to
+            the Companion, which is what this server-rendered value must agree
+            with or the first paint would show the wrong panel. */}
+        <div class="composer-grid" data-panel="scholar">
           <section class="composer-preview" aria-label="Book preview">
             <div class="cx-chapter-bar">
               <div class="cx-field cx-chapter-picker">
@@ -250,6 +255,42 @@ const ARABIC_FONTS = [
                   ))}
                 </select>
               </div>
+              {/* The Arabic source. Hidden until the alignment sidecar says this
+                  book has one, so a book without a numbered Arabic edition never
+                  shows a control that would do nothing. Read mode only: swapping
+                  the text under an editor that autosaves is exactly the surface
+                  RCA-002 came from. */}
+              <div
+                class="cx-arabic-toggle"
+                role="group"
+                aria-label="Arabic source"
+                id="cx-arabic-toggle"
+                hidden
+              >
+                <button
+                  type="button"
+                  class="cx-mode-btn"
+                  id="cx-arabic-english"
+                  aria-pressed="true"
+                >
+                  English
+                </button>
+                <button
+                  type="button"
+                  class="cx-mode-btn"
+                  id="cx-arabic-only"
+                  aria-pressed="false"
+                  lang="ar"
+                >
+                  العربية
+                </button>
+              </div>
+              {/* Edit LEADS the pair (Asif, 2026-08-01). It is the working mode
+                  and the one the page opens in, so it reads first; Read is the
+                  check you step over to. Order is load-bearing beyond taste —
+                  the `+` sibling divider and the pressed-state styling both
+                  follow DOM order, so the frame stays correct either way, but
+                  the leading control is the one the eye takes as primary. */}
               <div
                 class="cx-mode-toggle"
                 role="group"
@@ -258,19 +299,19 @@ const ARABIC_FONTS = [
                 <button
                   type="button"
                   class="cx-mode-btn"
-                  id="cx-mode-read"
-                  aria-pressed="false"
-                >
-                  <i class="fa-solid fa-book-open" aria-hidden="true" /> Read
-                </button>
-                <button
-                  type="button"
-                  class="cx-mode-btn"
                   id="cx-mode-edit"
                   aria-pressed="true"
                 >
                   <i class="fa-solid fa-pen-to-square" aria-hidden="true" />{" "}
                   Edit
+                </button>
+                <button
+                  type="button"
+                  class="cx-mode-btn"
+                  id="cx-mode-read"
+                  aria-pressed="false"
+                >
+                  <i class="fa-solid fa-book-open" aria-hidden="true" /> Read
                 </button>
               </div>
               {/* WHICH TEXT — not which rendering. The two lanes are separate
@@ -316,7 +357,7 @@ const ARABIC_FONTS = [
               )}
               <div class="cx-layout-save" id="cx-layout-status" />
             </div>
-            {view.chapters.map((ch) => (
+            {view.chapters.map((ch, i) => (
               <div
                 class="cx-chapter"
                 data-anchor={ch.anchor}
@@ -335,6 +376,47 @@ const ARABIC_FONTS = [
                   ]}
                   set:html={ch.html}
                 />
+                {/* Prev/next, at the foot of BOTH modes from one element. The
+                    edit shell is inserted `afterend` of .cx-body (see enterEdit),
+                    so it lands between the body and this nav — which therefore
+                    sits below the prose in Read and below the editor in Edit
+                    without a second copy to keep in step.
+
+                    The buttons do not switch chapters themselves. They drive the
+                    picker and fire its `change`, because that listener owns the
+                    autosave flush, the discard confirmation, the editor teardown
+                    and the stay-in-Edit restore. A second path to the same move
+                    is a second path to losing an unsaved chapter. */}
+                <nav class="cx-chapter-nav" aria-label="Chapter navigation">
+                  <button
+                    type="button"
+                    class="cx-chapter-nav-btn"
+                    data-goto-chapter={view.chapters[i - 1]?.key}
+                    disabled={i === 0}
+                  >
+                    <i class="fa-solid fa-arrow-left" aria-hidden="true" />
+                    <span class="cx-chapter-nav-text">
+                      <span class="cx-chapter-nav-dir">Previous</span>
+                      <span class="cx-chapter-nav-title">
+                        {view.chapters[i - 1]?.title ?? "Start of book"}
+                      </span>
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    class="cx-chapter-nav-btn cx-chapter-nav-btn--next"
+                    data-goto-chapter={view.chapters[i + 1]?.key}
+                    disabled={i === view.chapters.length - 1}
+                  >
+                    <span class="cx-chapter-nav-text">
+                      <span class="cx-chapter-nav-dir">Next</span>
+                      <span class="cx-chapter-nav-title">
+                        {view.chapters[i + 1]?.title ?? "End of book"}
+                      </span>
+                    </span>
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true" />
+                  </button>
+                </nav>
               </div>
             ))}
 
@@ -394,7 +476,7 @@ const ARABIC_FONTS = [
             {/* Surface 1 — the tools. Icon-only tabs; each label stays in the DOM
                 (visually hidden until hover/focus) so the accessible name and the
                 screen-reader text are unchanged by the icons. */}
-            <div class="cx-surface" id="cx-surface-tools">
+            <div class="cx-surface" id="cx-surface-tools" hidden>
               {/* One visual bar, two semantic parts: the tablist and, at its
                   right edge, the settings gear (not a tab — see below). */}
               <div class="cx-tabrow">
@@ -804,69 +886,46 @@ const ARABIC_FONTS = [
                 hand-authored notes surface that used to sit here (and its floating
                 button) was retired on 2026-07-26 — one panel writes those notes
                 now, and the reader that consumes them is the LIVE Session. */}
-            <div class="cx-surface" id="cx-surface-scholar" hidden>
+            <div class="cx-surface" id="cx-surface-scholar">
               <div id="cx-scholar-mount" />
             </div>
 
-            {/* Surface 3 — the book's ARABIC. Both halves of the retired
-                /studio/<slug>/arabic-review page, which was the last surface
-                outside this one that could change what the printed edition
-                contains: the term decisions persist to _system/glossary.yml
-                (read by _book_frontmatter during composition) and an accepted
-                vowelling is written to book.md through the Composer's own
-                chapter writer. The write path was already the Composer's; only
-                the UI was somewhere else, on a page nothing in the app linked
-                to. Both panels are book-wide, not chapter-scoped, so they need
-                no chapter prop — the term list covers every run in the book
-                whichever chapter is open beside it. */}
-            <div
-              class="cx-surface cx-surface--arabic"
-              id="cx-surface-arabic"
-              hidden
-            >
-              <ArabicReviewPanel client:only="react" slug={slug} docked />
-              <VowellingReviewPanel client:only="react" slug={slug} docked />
-            </div>
+            {/* The Arabic surface (the docked term-curation table and the
+                vowelling review, both inherited from the retired
+                /studio/<slug>/arabic-review page) was removed on 2026-07-29 at
+                Asif's direction. The components and their API route still exist;
+                nothing on this page mounts them. */}
           </aside>
         </div>
 
-        {/* One floating row, bottom-right, ordered so the site-wide back-to-top
-            control stays rightmost. This replaces the in-layout rail: a permanent
-            4rem column of buttons was charging the chapter width for chrome that
-            is only occasionally used. */}
+        {/* One floating row over the BOTTOM OF THE DRAWER, in the order Asif set
+            on 2026-07-29: Companion, Tools, back-to-top. The Companion leads
+            because it is the surface the page opens on; back-to-top stays
+            rightmost because it is the one button that is not a panel. This
+            replaces the in-layout rail: a permanent 4rem column of buttons was
+            charging the chapter width for chrome that is only occasionally used. */}
         <div class="cx-fabs" role="group" aria-label="Composer panels">
           <button
             type="button"
             class="cx-fab is-active"
-            id="cx-rail-tools"
+            id="cx-rail-scholar"
             aria-pressed="true"
+            aria-controls="cx-drawer"
+            title="Ismaili Scholar"
+          >
+            <i class="fa-solid fa-book-open-reader" aria-hidden="true" />
+            <span class="cx-fab-label">Ismaili Scholar</span>
+          </button>
+          <button
+            type="button"
+            class="cx-fab"
+            id="cx-rail-tools"
+            aria-pressed="false"
             aria-controls="cx-drawer"
             title="Tools"
           >
             <i class="fa-solid fa-toolbox" aria-hidden="true" />
             <span class="cx-fab-label">Tools</span>
-          </button>
-          <button
-            type="button"
-            class="cx-fab"
-            id="cx-rail-arabic"
-            aria-pressed="false"
-            aria-controls="cx-drawer"
-            title="Arabic"
-          >
-            <i class="fa-solid fa-language" aria-hidden="true" />
-            <span class="cx-fab-label">Arabic</span>
-          </button>
-          <button
-            type="button"
-            class="cx-fab"
-            id="cx-rail-scholar"
-            aria-pressed="false"
-            aria-controls="cx-drawer"
-            title="Ask the Scholar"
-          >
-            <i class="fa-solid fa-book-open-reader" aria-hidden="true" />
-            <span class="cx-fab-label">Ask the Scholar</span>
           </button>
           {/* Scrolling back up is now a BUTTON, not a side effect. Opening a
               panel used to ride the page up with it, which moved the chapter out
@@ -906,6 +965,11 @@ const ARABIC_FONTS = [
     )
   }
   <script>
+    // FIRST, and not optional: this page mounts every React surface it has
+    // imperatively (no Astro island), so nothing else installs the dev Fast
+    // Refresh globals that book-composer.ts's React imports call on load.
+    // Module imports evaluate in order — see the module's own header.
+    import "../../../scripts/react-refresh-preamble.ts";
     import "../../../scripts/book-composer.ts";
   </script>
 </Base>

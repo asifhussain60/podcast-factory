@@ -63,31 +63,51 @@
   font-display: swap;
 }
 
-/* Arabic — Amiri. size-adjust enlarges the Arabic glyphs so the source column
-   reads at the same visual weight as the Latin English column; Arabic faces
-   render smaller than Latin at equal point size. Amiri is Arabic-script only
-   in this stylesheet, so this never affects the English column. Matches the
-   135% already used by the reading edition (book-print.css) so the two
-   deliverables set Arabic at the same optical size. */
+/* Arabic — Amiri. This carried `size-adjust: 135%`, copied from the reading
+   edition so "the two deliverables set Arabic at the same optical size". The
+   reading edition's copy was measured on 2026-07-31 and removed: the premise
+   behind it — that Arabic faces render smaller than Latin at equal point size —
+   is false of every Arabic face this repo ships. theme-tokens.css records the
+   full measurement.
+
+   It was WORSE here than in the book, because this lane's columns pull in
+   opposite directions: the English reads at 0.95rem and the Arabic at 1.02rem.
+   Against Lato at that size (x-height 9.24px, cap 13.07px), Amiri's base letter
+   measured 17.23px adjusted — 1.86x the English x-height and 1.32x its CAPITAL
+   height — in a layout whose entire promise is that the two columns match line
+   for line. Unadjusted it is 12.77px: 1.38x the x-height, 0.98x the cap, which
+   is the proportion two facing columns want.
+
+   Amiri is Arabic-script only in this stylesheet, so nothing here touches the
+   English column either way. */
 @font-face {
   font-family: "Amiri";
   src: url("/fonts/amiri/Amiri-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
-  size-adjust: 135%;
 }
 @font-face {
   font-family: "Amiri";
   src: url("/fonts/amiri/Amiri-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
-  size-adjust: 135%;
 }
 
 /* Urdu — Nastaliq is a sloped, deeply-cascading script: glyphs descend far
    below the baseline and ascend far above it. It needs its own size-adjust AND
    a much larger line-height than Naskh (see .sup-src[lang="ur"] below), hence a
-   separate family/class pair rather than one shared Arabic-script rule. */
+   separate family/class pair rather than one shared Arabic-script rule.
+
+   DELIBERATELY KEPT at 108% when the Arabic 135% was removed on 2026-07-31. The
+   measurement that condemned the Arabic is single-letter ink against the Latin
+   body, and that metric does not transfer to a cascading script: most of a
+   Nastaliq word's height is vertical TRAVEL between letters rather than letter
+   body, so its tall extremes overstate the size it actually reads at. Measured
+   anyway, for the next person: unadjusted, this face's base letter is 1.11x the
+   Lato cap height and 108% takes it to 1.20x — a small intervention on weak
+   evidence, either way. No Urdu supplication exists yet to look at, and
+   changing a number blind is how the 135% got here. Revisit with real content
+   on the page. */
 @font-face {
   font-family: "Noto Nastaliq Urdu";
   src: url("/fonts/noto-nastaliq-urdu/NotoNastaliqUrdu-Regular.woff2")
@@ -256,10 +276,18 @@ body {
 .sup-src[lang="ar"] {
   font-family: "Amiri", serif;
   font-size: 1.02rem;
-  /* Generous leading: `size-adjust: 135%` scales the GLYPHS but not the line
-     box, so a line-height tuned for an unadjusted face leaves multi-line Amiri
-     cramped — ascending tashkeel on one line crowds the descenders above it. */
-  line-height: 2.45;
+  /* The 2.45 that stood here existed to clear glyphs inflated 35% by a
+     `size-adjust` that has since been removed as unfounded (see the @font-face
+     note above). Measured: a fully-marked Amiri line at this size needs 1.65x
+     the font-size in ink unadjusted, against 2.23x adjusted — so 2.45 kept about
+     10% headroom over the old glyphs and would keep nearly 50% over these,
+     opening gaps a facing-column layout can least afford.
+
+     1.9 is the reading edition's own display-Arabic leading, doing the same job
+     on the same script: ~15% clear of the marked ink, which is what keeps
+     ascending tashkeel off the descenders of the line above. One number across
+     both deliverables rather than two that drift. */
+  line-height: 1.9;
 }
 
 /* Urdu (Nastaliq) — the cascading nastaliq line needs far more vertical room

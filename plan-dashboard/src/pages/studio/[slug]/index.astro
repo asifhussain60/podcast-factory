@@ -36,8 +36,6 @@ const bookScore = await scoreBook(summary.ref.dir, archetype);
 // All derived view state lives in lib/reader/library-view.ts (R2 extraction);
 // destructured under the template's long-standing names — template unchanged.
 const {
-  hasArabic,
-  arabicReviewHref,
   fileViewHref,
   episodeGroups,
   hasSessions,
@@ -111,25 +109,12 @@ const {
       </div>
     </div>
     <div class="lib-hero-aside">
-      <div class="lib-title-actions">
-        {
-          hasArabic && (
-            <a
-              class="lib-studio-link lib-studio-link-arabic"
-              href={arabicReviewHref}
-            >
-              <span aria-hidden="true" class="lib-arabic-glyph">
-                ع
-              </span>{" "}
-              Review Arabic
-              <i
-                class="fa-solid fa-arrow-right lib-studio-link-go"
-                aria-hidden="true"
-              />
-            </a>
-          )
-        }
-      </div>
+      {
+        /* The "Review Arabic" button that filled .lib-title-actions was removed
+          on 2026-07-29 with the Composer's Arabic drawer surface: it linked to
+          /studio/<slug>/arabic-review, a page retired in 2026-07 that redirects
+          to the Composer, and the panel it pointed at is no longer anywhere. */
+      }
       <span class="lib-hero-slug">{summary.ref.slug}</span>
     </div>
   </header>
@@ -160,12 +145,6 @@ const {
             >
               {t.label}
               {t.count !== null && <span class="lib-tab-count">{t.count}</span>}
-            </a>
-          )}
-          {t.id === "media" && (
-            <a class="lib-tab-cta" href={`/studio/${slugStr}/live`}>
-              <i class="fa-solid fa-book-open-reader" aria-hidden="true" /> LIVE
-              Session
             </a>
           )}
         </Fragment>

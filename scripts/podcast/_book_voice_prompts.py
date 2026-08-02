@@ -109,7 +109,29 @@ CHAPTER "{title}"
 {base_text}"""
 
 
-def _fluency_prompt(
+# The trailing block a pass may emit instead of writing a note into the prose
+# itself (REQ-BA-160). `_book_voice._extract_articulation_notes` strips it before
+# anything reaches book.md; a copy that survives extraction is a defect, not a
+# feature, and reverts the window via `revoice_gates`.
+_NOTES_BLOCK_INSTRUCTION = """
+NOTES (REQ-BA-160 — report, never inline)
+If something is genuinely ambiguous, if a modern reader may stumble on a passage
+without help this pass is not authorized to add, or if a term deserves standardizing
+book-wide, do NOT write a bracketed note, a parenthetical aside, or explanatory
+context into the chapter. Instead append ONE block AFTER the chapter prose, in
+exactly this form, and nothing else:
+
+===ARTICULATION-NOTES===
+AMBIGUITY: <what is unclear, in one sentence>
+COMPREHENSION: <what a modern reader may stumble on, in one sentence>
+TERMINOLOGY: <term> — <what rendering should be standardized>
+===END-NOTES===
+
+Omit the block entirely when there is nothing to report. Never put any of this
+inside the chapter prose itself."""
+
+
+def _articulation_prompt(
     title: str,
     base_text: str,
     previous_tail: str = "",
@@ -117,45 +139,71 @@ def _fluency_prompt(
     frame: str = "",
     narrator: str = "",
 ) -> str:
+    """The REQ-BA prompt (docs/standards/book-articulation.md) — the single
+    builder shared by the automatic 0book-fluency pass and the on-demand
+    Rearticulate action, so the two routes cannot silently drift apart."""
     directives = frame_prompt_directive(frame, narrator) + ARABIC_DIRECTIVE if frame else ""
-    # The register clause follows the frame, exactly as it does in `_voice_prompt`.
-    # Hardcoding "third-person" here contradicted the directives block twenty lines
-    # above it: a book declaring `first_person_author` was told to narrate in the
-    # first person throughout and then, in the same prompt, forbidden from doing
-    # it. The frame is a SOURCE property and independent of the route, so any
-    # route that hardcodes a person will eventually meet a book that disagrees.
-    third_person = not frame or narrative_person_for(frame) == "third"
-    register_clause = "the SAME third-person scholarly register" if third_person else "the SAME first-person register"
-    person_clause = (
-        "Do not switch to first person"
-        if third_person
-        else "Do not switch out of first person into third-person report"
-    )
     continuity = (
-        "\nCONTINUITY\nThis passage continues a chapter already in progress. The preceding passage "
-        "ended with the words below. Carry straight on from it — do not re-introduce the chapter, do "
-        "not summarize what came before, and do not repeat these words:\n"
+        "\nCONTINUITY\nThis passage continues a chapter already in progress. The preceding "
+        "passage ended with the words below. Carry straight on — do not re-introduce the "
+        "chapter, do not summarize what came before, and do not repeat these words:\n"
         f"{previous_tail}\n"
         if previous_tail
         else ""
     )
-    return f"""You are polishing one chapter of a faithful Islamic reading edition into fluent,
-idiomatic modern English. This is a de-calque pass: fix stiff, word-for-word-from-Arabic
-phrasing so it reads like a book, NOT like a literal gloss.
+    return f"""You are articulating one chapter of a scholarly Islamic book so it reads like a
+professionally published edition: modern, lucid, simple English that a general reader
+understands on first read. The source below is a stiff, literal, Arabic-calqued draft.
+Fix that completely. (Contract: the Book Articulation Standard, REQ-BA-010..160.)
 {directives}{continuity}
 
-ABSOLUTE FAITHFULNESS (a de-calque is not a rewrite)
-Keep the SAME meaning, {register_clause}, and every teaching, argument,
-named person, citation, Quran verse, hadith, quote, and Arabic script exactly as given. Keep every
-Arabic-script quotation verbatim. You may only smooth connective prose and Arabic word-order that
-reads awkwardly in English. {person_clause}, do not add, remove, summarize, or
-reinterpret anything. Output must be about the same length — never shorter.
+YOU MAY (REQ-BA-020, -130)
+Rebuild sentence and paragraph grammar freely: split long sentences, merge fragments,
+reorder clauses, replace calqued constructions ("the most X of them in Y and the most
+Z of them in W") with natural English. Re-draw paragraph breaks to serve the reading,
+keeping one paragraph per speech turn in dialogue. Distinguish meaningful repetition
+(rhythm, emphasis, deliberate parallelism) from mechanical repetition carried over
+literally: preserve the former in refined form, and only condense the latter where
+doing so drops no idea and weakens no emphasis the source intends. A repetitive
+dialogue tag's WORDING may vary ("he replied", "he asked" for "the boy said") as long
+as the speaker stays unambiguous — this does not permit adding, removing, or
+re-pointing a tag.
+
+YOU MAY NOT (REQ-BA-030..060)
+- Change meaning. Every teaching, argument, example, named person, citation, and
+  enumerated list survives with its content intact. Add nothing: no outside facts, no
+  analogies, no explanations not in the source. Drop nothing, summarize nothing.
+- Touch the artifacts. Direct speech, Quran verses, hadith, poetry, prayers, and quoted
+  sayings keep their boundaries, their speakers, and their content. Never add, remove,
+  or re-point a speech tag. Inside a quote, de-calque the wording only — never
+  paraphrase away a point, an image, or a claim.
+- Flatten imagery. Metaphors, similes, and parables keep their concrete images: a
+  wellspring stays a wellspring, "struck the mark" stays an image of striking, branches
+  bearing fruit stay branches. Recast grammar AROUND an image, never replace the image
+  with an abstraction ("preached effectively" for "struck the mark" is the canonical
+  violation).
+- Alter Arabic. Arabic-script runs are copied verbatim — never romanized away, never
+  re-vowelled, never dropped. Transliteration stays beside script, never replaces it.
+
+REGISTER (REQ-BA-010, -070..110, -140)
+Dignified and bookish, but plain: prefer the simple word when it carries the meaning.
+No contractions, no marketing tone. Render each technical term the SAME way on every
+occurrence, matching the spelling this book already uses — never introduce a variant
+spelling. Do not add parenthetical transliterations. Keep honorifics in the compact
+form the surrounding text uses. If the passage already capitalizes pronouns referring
+to God ("He", "His", "Him"), keep doing so consistently; if it uses lowercase, keep
+that instead — never introduce a new convention mid-passage. American spelling. The
+output must be about the same length as the source — this is a rewording, never an
+abridgement.
 
 SCOPE (stop where the passage stops)
 {SCOPE_RULE}
+{_NOTES_BLOCK_INSTRUCTION}
 
 OUTPUT
-Return ONLY the polished chapter prose. No title line, no preamble, no code fences.
+Return ONLY the articulated chapter prose, optionally followed by one
+===ARTICULATION-NOTES=== block as described above. No title line, no preamble, no
+code fences.
 
 CHAPTER "{title}"
 {base_text}"""

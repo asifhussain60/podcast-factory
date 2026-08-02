@@ -4,3 +4,8 @@
 {"phase": "audio-script", "step": "term-default-language", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "audio-script", "step": "term-default-language", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "audio-script", "step": "term-default-language", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-01-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-01-integrity-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-compose", "step": "translation-bk-01-part-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

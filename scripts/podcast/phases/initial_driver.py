@@ -22,7 +22,7 @@ from _authoring import (
 from _content_profile import resolve_content_profile
 from _contract_validation import validate_book_contracts  # FIX 14: 0d post-write gate
 from _paths import REPO_ROOT
-from _progress import initial_state, read_state, update_phase, write_state
+from _progress import UNATTENDED_KEY, initial_state, read_state, update_phase, write_state
 from _rules import CONSUMER_CATEGORIES, ISLAMIC_SCHOLARLY_PROFILE, phase_capabilities
 from _subprocess import err as _err
 from _subprocess import info as _info
@@ -191,7 +191,12 @@ def _drive_authoring_through_0f(book_dir: Path, title: str, stop_after: str | No
     # (the human-editable surface, e.g. density-standard re-runs) > "extended".
     length_tier = config.get("length_tier") or _series_config_length_tier(book_dir) or "extended"
     unit_mode = config.get("unit_mode", "auto")
-    category = config.get("category", "books")
+    # `category` is a TOP-LEVEL state field (written by initial_state()), never
+    # nested under `config` — `config` only ever holds length_tier/unit_mode
+    # (see run_initial below). Reading it from `config` silently defaulted to
+    # "books" for every run, so resolve_phase_profile's sites/explainers ->
+    # consumer_explainer shim never fired for books driven through this path.
+    category = state.get("category", "books")
     # Phase-skip decisions are driven by the book's content_profile via the single
     # capability table (phase_capabilities), NOT the legacy `category` tag — a
     # `books`-category item can be Islamic OR technical, and only the profile knows.
@@ -535,6 +540,10 @@ def run_initial(args: argparse.Namespace) -> int:
         "length_tier": args.length_tier,
         "unit_mode": args.unit_mode,
     }
+    # Persisted, not held in argv: the watchdog re-invokes --resume in a fresh
+    # process that never saw the flag, so an in-memory choice would silently
+    # revert to attended on the first retry.
+    state[UNATTENDED_KEY] = bool(getattr(args, "unattended", False))
     write_state(book_dir, state)
     update_phase(book_dir, phase="pre-flight", status="completed")
     update_phase(book_dir, phase="branch", status="completed")

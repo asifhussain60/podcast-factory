@@ -144,14 +144,14 @@ def _topic_floor_violations(
     total_eps = 0
     for sc in source_chapters:
         try:
-            ep_count = int(sc.get("episode_count", 1) or 1)
+            ep_count = int(sc.get("episode_count", 1))  # 0 stays 0: a skip ships nothing
         except (TypeError, ValueError):
             ep_count = 1
         total_eps += ep_count
         label = f"sc {sc.get('sc_index', '?')} ({str(sc.get('source_title', '?'))[:40]})"
         topics = sc.get("topics") or []
         if not topics:
-            if enforce and not consolidate:
+            if enforce and not consolidate and ep_count >= 1:  # a skip owes no topics
                 violations.append(
                     f"{label}: plan is missing the `topics` enumeration (required under the chapter-density standard)"
                 )
@@ -432,13 +432,6 @@ def _volume_allocation(book_dir: Path):
             "(listed in source order, for coverage reference only). EVERY concept must be covered "
             "across this volume's episodes (none dropped); NO concept outside this list belongs "
             "here; concepts already aired in earlier volumes must NOT be re-taught.\n"
-            "CRITICAL — EACH EPISODE STANDS ALONE. Every chapter and contract you author is "
-            "uploaded to NotebookLM and read LITERALLY by the hosts. NEVER write cross-episode or "
-            "continuity references anywhere in a chapter or contract — forbidden phrases include "
-            "'the previous episode', 'the next episode', 'earlier we', 'as we saw', 'as we will "
-            "see', 'this volume', 'handing off to', 'in the last lesson'. Describe ONLY this "
-            "episode's own content; put no authoring/meta commentary about ordering or other "
-            "episodes into any field.\n\n"
             f"ALLOCATED CONCEPTS:\n{listing}\n"
         )
         return block, prior
@@ -541,6 +534,10 @@ def author_phase_0d(
             f"episode framing only — do not factor into boundary decisions.\n\n"
             f"```\n{_gap_excerpt}\n```\n"
         )
+    # EVERY book, not just multi-volume ones — see _extract_contract.stands_alone_rule.
+    from _extract_contract import stands_alone_rule
+
+    _gap_context_block = _gap_context_block + "\n\n" + stands_alone_rule()
     # Work-level teaching allocation (multi-volume works only; "" for single books).
     _alloc_block, _prior_vol_concepts = _volume_allocation(book_dir)
     if _alloc_block:

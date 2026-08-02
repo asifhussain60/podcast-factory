@@ -431,7 +431,6 @@ export function enhanceSelect(
     destroy: () => {
       // Close first: if focus is inside the list when root.remove() runs it
       // falls to <body> and the user loses their place.
-      const hadFocus = root.contains(document.activeElement);
       close(false);
       document.removeEventListener("pointerdown", onDocPointer);
       window.removeEventListener("resize", onReflow);

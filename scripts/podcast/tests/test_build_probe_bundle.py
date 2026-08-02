@@ -123,8 +123,28 @@ def test_build_source_segments_in_order_and_numbers_every_term():
     assert "Part 3 — Technical and doctrinal terms" in src
     assert "Part 2" not in src  # empty segment skipped
     assert src.index("Part 1") < src.index("Part 3")
-    assert "1. Next, say **Qarwazil**" in src
-    assert "2. Next, say **the hidden lamp**" in src
+    # A glossary entry, not a stage direction: run 1 phrased these as "Next, say
+    # X" and NotebookLM discussed the instructions instead of reading the terms.
+    assert "### 1. Qarwazil" in src
+    assert "Said aloud: Qarwazil" in src
+    assert "### 2. zamrukh" in src
+    assert "Said aloud: the hidden lamp" in src
+    assert "Next, say" not in src
+
+
+def test_the_source_states_its_own_term_count():
+    # The framing tells the hosts to read all N; the source has to agree, or the
+    # count is a claim about a document that does not support it.
+    assert "A glossary of 2 terms" in bpb.build_source(_DATA)
+
+
+def test_the_framing_demands_every_entry_and_forbids_theming():
+    framing = bpb.build_framing(_DATA)
+    assert "exactly 2 numbered entries" in framing
+    assert "Do NOT organise the" in framing
+    # Run 1 opened "Oh, wow. Right." and called itself a "Dip Dive" — the probe
+    # framing carried no deny-list at all.
+    assert "wow" in framing and "deep dive" in framing.lower()
 
 
 def test_build_framing_separates_english_substitutes():
@@ -204,3 +224,167 @@ def test_build_bundle_uses_ledger_gloss_for_unfixable_terms(tmp_path, monkeypatc
     out_dir = bpb.build_bundle(book)
     framing = (out_dir / "00-framing.md").read_text(encoding="utf-8")
     assert 'say "the hidden lamp"' in framing  # gloss substitutes the Arabic
+
+
+# ------------------------------------------- carrier mining from the real chapters
+def _chaptered_book(tmp_path, chapters: dict[str, str]):
+    book = tmp_path / "carrier-book"
+    (book / "chapters").mkdir(parents=True)
+    for name, text in chapters.items():
+        (book / "chapters" / name).write_text(text, encoding="utf-8")
+    return book
+
+
+def test_carriers_come_from_the_chapters_verbatim(tmp_path):
+    sentence = "The bitter ones stand for the leaders of the literalists, the ahl al-zahir, who hold to the husk."
+    book = _chaptered_book(tmp_path, {"ch01-a.txt": sentence + "\n"})
+    got = bpb.mine_carriers(book, [{"term": "اهل الظاهر", "transliteration": "ahl al-zahir"}])
+    assert got[bpb.normalize_key("ahl al-zahir")][0] == sentence
+
+
+def test_carriers_are_sampled_across_every_chapter(tmp_path):
+    # The probe's claim is that settling these terms settles them for the whole
+    # book, so its sentences must come from the whole book.
+    book = _chaptered_book(
+        tmp_path,
+        {
+            "ch01-a.txt": "He alone guards the treasury of the Muslims, the bayt al-mal, under his guarantee.\n",
+            "ch02-b.txt": "The antidote he offers, the tiryaq, is the imam's own teaching handed down.\n",
+        },
+    )
+    got = bpb.mine_carriers(
+        book,
+        [{"term": "x", "transliteration": "bayt al-mal"}, {"term": "y", "transliteration": "tiryaq"}],
+    )
+    assert {chapter for _s, chapter in got.values()} == {"ch01-a", "ch02-b"}
+
+
+def test_a_hyphenated_compound_still_finds_its_term(tmp_path):
+    # "ruh al-nutq" contains "nutq"; treating the hyphen as a blocker made the
+    # term unfindable in the only sentence that carries it.
+    book = _chaptered_book(
+        tmp_path,
+        {"ch01-a.txt": "A human surpasses the animal by one further spirit: the spirit of reason, the ruh al-nutq.\n"},
+    )
+    got = bpb.mine_carriers(book, [{"term": "نطق", "transliteration": "nutq"}])
+    assert bpb.normalize_key("nutq") in got
+
+
+def test_a_term_is_not_mined_from_inside_a_longer_word(tmp_path):
+    book = _chaptered_book(tmp_path, {"ch01-a.txt": "The nassab genealogists disagreed about the lineage entirely.\n"})
+    assert bpb.mine_carriers(book, [{"term": "نص", "transliteration": "nass"}]) == {}
+
+
+def test_headings_and_quotations_are_not_used_as_carriers(tmp_path):
+    book = _chaptered_book(
+        tmp_path,
+        {
+            "ch01-a.txt": "# A heading naming the tiryaq at some length here\n> A quoted line naming the tiryaq as well\n"
+        },
+    )
+    assert bpb.mine_carriers(book, [{"term": "ترياق", "transliteration": "tiryaq"}]) == {}
+
+
+def test_mining_is_deterministic_and_takes_the_first_match(tmp_path):
+    book = _chaptered_book(
+        tmp_path,
+        {
+            "ch01-a.txt": "The first sentence naming the tiryaq is the one that should win here.\n"
+            "A second sentence naming the tiryaq should be ignored completely.\n",
+        },
+    )
+    first = bpb.mine_carriers(book, [{"term": "ترياق", "transliteration": "tiryaq"}])
+    assert "should win here" in first[bpb.normalize_key("tiryaq")][0]
+    assert first == bpb.mine_carriers(book, [{"term": "ترياق", "transliteration": "tiryaq"}])
+
+
+def test_a_book_with_no_chapters_mines_nothing_rather_than_failing(tmp_path):
+    assert bpb.mine_carriers(tmp_path / "nope", [{"term": "x", "transliteration": "tiryaq"}]) == {}
+
+
+# ---------------------------------------------- carrier quality (2026-08-01)
+def test_a_mid_word_glossary_window_is_not_read_aloud():
+    # The glossary's first_seen_snippet is a fixed-width window, so it starts
+    # mid-word: a host reading "irming the Imamate, in Arabic the Kitab ithbat"
+    # is testing the fragment, not the term.
+    assert bpb._carrier("ithbat", "irming the Imamate, in Arabic the Kitab ithbat al-imama, by Ahmad") == "**ithbat**"
+
+
+def test_a_lowercase_function_word_still_opens_a_readable_snippet():
+    assert bpb._carrier("Zamrukh", "the Zamrukh spoke plainly").startswith("**Zamrukh** — as in:")
+
+
+def test_a_blockquote_marker_never_survives_into_a_carrier(tmp_path):
+    book = _chaptered_book(
+        tmp_path,
+        {
+            "ch01-a.txt": "He raised it before the people at Ghadir Khumm: > Whoever's master I am, this is his master.\n"
+        },
+    )
+    got = bpb.mine_carriers(book, [{"term": "غدير خم", "transliteration": "Ghadir Khumm"}])
+    assert ">" not in got[bpb.normalize_key("Ghadir Khumm")][0]
+
+
+def test_the_framing_does_not_forbid_the_forms_it_then_prints():
+    # The instruction used to end "never say a hyphenated or capitalised
+    # respelling" while the list beneath it was full of them — the same
+    # self-contradiction, in the same slot, as the defect this all began with.
+    data = {
+        "book_slug": "b",
+        "terms": [
+            {
+                "n": 1,
+                "term": "أركان",
+                "transliteration": "arkan",
+                "segment": "terms",
+                "_render": {"text": "ar-KAAN", "is_english": False, "tier": "book-override"},
+            }
+        ],
+    }
+    framing = bpb.build_framing(data)
+    assert "- ar-KAAN" in framing
+    assert "never say a hyphenated" not in framing.lower()
+    assert "capitals mark the" in framing.lower()
+
+
+def test_the_checklist_lets_the_listener_record_the_answer_it_is_asking_for():
+    # It used to say the rendered column is "never a respelling" and forbid
+    # writing one as a fix — while the column was full of them, and whether they
+    # work is the open question. The answer has to be recordable.
+    data = {
+        "book_slug": "b",
+        "terms": [
+            {
+                "n": 1,
+                "term": "أركان",
+                "transliteration": "arkan",
+                "segment": "terms",
+                "_render": {"text": "ar-KAAN", "is_english": False, "tier": "book-override"},
+            }
+        ],
+    }
+    checklist = bpb.build_checklist(data)
+    assert "| 1 | arkan | ar-KAAN |" in checklist
+    assert "never a respelling" not in checklist
+    assert "do not write a" not in checklist.lower()
+
+
+def test_the_probe_never_substitutes_a_book_mined_gloss(tmp_path, monkeypatch):
+    # A term replaced by an English gloss is never SPOKEN, so a probe entry for
+    # it tests nothing — and the miner's reversals landed in this very bundle.
+    called = []
+    monkeypatch.setattr(bpb.term_render, "mine_glosses", lambda *a, **k: called.append(1) or {})
+    data = {
+        "book_slug": "b",
+        "terms": [
+            {
+                "n": 1,
+                "term": "قطب",
+                "transliteration": "qutb",
+                "segment": "terms",
+                "_render": {"text": "qutb", "is_english": False, "tier": "translit"},
+            }
+        ],
+    }
+    src = bpb.build_source(data)
+    assert "Said aloud: qutb" in src

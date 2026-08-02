@@ -24,8 +24,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Install ruff + mypy
-        run: python3 -m pip install ruff mypy
+      # PINNED (2026-08-01). These were unpinned, so CI silently adopted every new
+      # release — and ruff 0.16 began formatting Python fenced blocks inside .md,
+      # taking `ruff format --check` from 584 files to 789 and failing five plan
+      # and standard DOCUMENTS that had not changed. A lint gate that upgrades
+      # itself fails on days nobody touched the code, which is how it stops being
+      # believed. `*.md` is now excluded in pyproject.toml as well, so the gate is
+      # green on both 0.15.x and 0.16.x; the pin is what keeps the NEXT such change
+      # a deliberate bump rather than a surprise. Bump both deliberately, and run
+      # the same versions locally. See RCA-009.
+      # PyYAML is not a linter — it is here because `repo_surgeon_probe.py` reads
+      # the tracked contract at .repo-audit/profile.yaml and exits 2 ("the probe
+      # could not run") without it. It was never installed, so that step has NEVER
+      # executed in CI since it was wired: a gate that cannot run is indistinguishable
+      # from a gate that passes, right up until you read the log. Found 2026-08-01
+      # while fixing the install step two jobs over (RCA-009).
+      - name: Install ruff + mypy + probe deps
+        run: python3 -m pip install "ruff==0.16.1" "mypy==2.3.0" "pyyaml>=6"
       - name: Ruff lint
         run: ruff check
       - name: Ruff format check
@@ -68,8 +83,11 @@ jobs:
           node-version: "22"
           cache: npm
           cache-dependency-path: plan-dashboard/package-lock.json
+      # NOT `npm ci` — see the note above `site-runtime`'s install step. The
+      # lock cannot describe the runner's ideal tree, and `npm ci` treats that
+      # as fatal before running a single gate.
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
       - name: ESLint (errors block, warnings advisory)
         run: npx eslint src scripts --quiet
       - name: Prettier check
@@ -98,13 +116,53 @@ jobs:
           node-version: "22"
           cache: npm
           cache-dependency-path: plan-dashboard/package-lock.json
+      # WHY NOT `npm ci` (changed 2026-08-01 after 60 consecutive red runs).
+      #
+      # `npm ci` refuses to install unless the lock describes the COMPLETE ideal
+      # tree for the runner's platform. package-lock.json cannot satisfy that on
+      # every platform at once, and the gap is not fixable by regenerating it:
+      #
+      #   - `@tailwindcss/oxide-wasm32-wasi` and `@img/sharp-wasm32` are the wasm
+      #     FALLBACK bindings. They declare `@emnapi/core`, `@emnapi/runtime` and
+      #     `@emnapi/wasi-threads` at caret ranges.
+      #   - Resolving on darwin-arm64 never reaches that subtree, so npm neither
+      #     writes those entries NOR keeps them: a lock generated (or merely
+      #     touched by `npm install`) on macOS has them PRUNED. Verified
+      #     2026-08-01 — grafting the entries back by hand and running
+      #     `npm install --package-lock-only` strips all four again, and
+      #     `--os=linux --cpu=x64` does not change the outcome.
+      #   - ubuntu-x64 DOES reach that subtree. Once @emnapi published past the
+      #     ranges, npm resolved them fresh from the registry, found no lock
+      #     entry, and failed with "Missing: @emnapi/runtime@1.11.3 from lock
+      #     file" before any gate ran.
+      #
+      # The lock was complete at ef325f2 (2026-07-21, generated on a Linux host);
+      # regenerations on macOS in ca21cb8 and 5133957 took it from 10 @emnapi
+      # entries to 6, and CI went red on 2026-07-27 and stayed red for five days.
+      # Restoring a Linux-generated lock is NOT durable — the next local
+      # `npm install` prunes it straight back.
+      #
+      # `npm install` has no whole-tree sync requirement, so it cannot fail this
+      # way. Every version the lock DOES pin is still honoured; only the handful
+      # of entries the lock structurally cannot carry are resolved fresh. For a
+      # lint + smoke gate that is the right trade: these jobs publish nothing.
+      # Do not "fix" this back to `npm ci` without reading docs/rca/2026-08-01-the-site-gates-were-dead-for-five-days.md.
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
       # Playwright is already a devDependency; only the browser binary is missing
       # on a fresh runner. Its own job because it boots a dev server and drives a
       # real browser — slower than the static gates and worth isolating so a
       # runtime failure is legible at a glance.
       - name: Install chromium
         run: npx playwright install --with-deps chromium
+      # `pdftoppm` (poppler-utils) is a SYSTEM binary the Composer preview shells
+      # out to via scripts/lib/preview-pages.mjs. It is present on the author's Mac
+      # through homebrew, absent on a bare runner, and its absence took
+      # /studio/<slug>/preview down with `spawnSync pdftoppm ENOENT` (2026-08-01).
+      # Installing it is the right fix rather than stubbing the page: the preview
+      # genuinely needs a PDF rasteriser, and a smoke gate that skips the render
+      # path is not exercising the surface it claims to cover.
+      - name: Install poppler-utils (pdftoppm — Composer preview rasteriser)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
       - name: Runtime smoke — every route, console errors, 5xx, failed requests
         run: npm run smoke

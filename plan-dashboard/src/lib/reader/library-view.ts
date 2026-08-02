@@ -23,7 +23,6 @@ import {
   type HaltReviews,
 } from "../studio/halts";
 import { discoverSessions } from "./chapters";
-import { loadGlossary } from "./glossary";
 
 type LibFile = DetailView["chapters"][number];
 
@@ -85,8 +84,6 @@ function fileEpisodeNumber(name: string): number | null {
 }
 
 export interface StudioIndexView {
-  hasArabic: boolean;
-  arabicReviewHref: string;
   fileViewHref: (relPath: string) => string;
   episodeGroups: RenderGroup[];
   hasSessions: boolean;
@@ -120,11 +117,11 @@ export async function buildStudioIndexView(
     state,
   } = detail;
 
-  // Arabic-review entry points appear ONLY for books that carry an
-  // Arabic-script glossary (Islamic scholarly content); loadGlossary returns []
-  // for everything else, so Fiction/Technical books never show these links.
-  const hasArabic = (await loadGlossary(slugStr)).length > 0;
-  const arabicReviewHref = `/studio/${encodeURIComponent(slugStr)}/arabic-review`;
+  // The "Review Arabic" entry point that used to be computed here (gated on the
+  // book carrying an Arabic-script glossary) was removed on 2026-07-29 with the
+  // Composer's Arabic drawer surface: it linked to /studio/<slug>/arabic-review,
+  // a page retired in 2026-07 that redirects to the Composer, and the panel it
+  // was pointing at no longer exists anywhere.
 
   function fileViewHref(relPath: string): string {
     // Text artifacts (episodes, source, audits) render in the in-site styled
@@ -306,8 +303,6 @@ export async function buildStudioIndexView(
     : `/studio/${slugStr}/edit`;
 
   return {
-    hasArabic,
-    arabicReviewHref,
     fileViewHref,
     episodeGroups,
     hasSessions,

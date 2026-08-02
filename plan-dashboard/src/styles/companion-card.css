@@ -24,16 +24,21 @@
   /* A card never gives way to make a list fit — the LIST scrolls instead.
      `overflow: hidden` above (it rounds the corners) also sets this element's
      automatic minimum size to 0 under flexbox, so in a height-capped flex column
-     the card is the child that collapses. Measured in the LIVE panel at 1440x900:
-     the open card held 1,355px of explanation inside 484px and silently clipped
-     871px of it, and because the card had shrunk to fit, the scroll container
-     (.lsv-explain-body, max-height + overflow-y:auto) measured no overflow at all
-     and offered no scrollbar — the text was unreachable by any means. The two
+     the card is the child that collapses. Measured at 1440x900 in the LIVE
+     Session's panel (since retired, 2026-08-01): the open card held 1,355px of
+     explanation inside 484px and silently clipped 871px of it, and because the
+     card had shrunk to fit, the scroll container measured no overflow at all and
+     offered no scrollbar — the text was unreachable by any means. The two
      collapsed cards beneath it were sliced through their titles for the same
      reason. Same failure the .gcp-input `flex: none` guards against one panel
-     over; this is the shared component, so it belongs here rather than in either
-     view's layer. Ignored wherever a card is not a flex item. */
+     over; this is the shared component, so it belongs here rather than in a
+     single view's layer. Ignored wherever a card is not a flex item. */
   flex-shrink: 0;
+  /* The lit state below fades in and out rather than snapping — scrolling a
+     chapter crosses passages continuously, and a hard switch reads as flicker. */
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .xpl + .xpl {
@@ -42,6 +47,24 @@
 
 .xpl[data-open="true"] {
   border-left-color: var(--c-accent);
+}
+
+/* ── "Its passage is on screen" ─────────────────────────────────────────────
+   The Composer keeps this list tied to the chapter beside it: as a tinted
+   passage scrolls into view its card opens itself and lights up, and it goes
+   dark and shut again when the passage leaves. The lit state is what makes the
+   pairing legible — without it an open card in a column of open cards says
+   nothing about WHICH sentence you are standing on.
+
+   A border glow, not a background change: the card's background is the reading
+   surface for its explanation, and tinting it would fight the prose inside.
+   Both the ring and the accent border come from --c-accent, the same token the
+   passage tint's own active state answers to, so the sentence and its card
+   read as one object in one colour. */
+.xpl.is-inview {
+  border-color: var(--c-accent);
+  border-left-color: var(--c-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--c-accent) 26%, transparent);
 }
 
 /* Shut, the WHOLE card is the expand target (the card's own click listener),
@@ -163,9 +186,9 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   font-family: var(--font-ui, Inter, system-ui, sans-serif);
-  font-size: var(--panel-fs, 15px);
-  line-height: 1.4;
-  font-weight: 600;
+  font-size: calc(var(--panel-fs, 15px) * 1.1);
+  line-height: 1.35;
+  font-weight: 700;
   color: var(--c-ink);
 }
 
@@ -244,9 +267,16 @@
   font-weight: 600;
 }
 
+/* A visible break from the title block above, not just the 0.1rem gap this used
+   to be — the title and the body were reading as one continuous paragraph
+   (same colour family, only a weight difference), so the divider plus real
+   breathing room is what actually makes "title" and "explanation" read as two
+   distinct things at a glance. */
 .xpl-full > :first-child,
 .xpl-prose > :first-child {
-  padding-top: 0.1rem;
+  padding-top: 0.65rem;
+  margin-top: 0.3rem;
+  border-top: 1px solid var(--c-rule-soft);
 }
 
 .xpl-full ul,
@@ -332,9 +362,10 @@
   color: var(--c-ink-dim);
 }
 
-/* Arabic inside an explanation. The Sized face carries the site's 135%
-   size-adjust — Arabic renders visually smaller than Latin at equal point size —
-   and the extra line-height keeps a vowelled run from clipping its neighbours. */
+/* Arabic inside an explanation. The 1.08em nudge is this card's own — the Sized
+   face carried a site-wide 135% optical adjustment until 2026-07-31, when
+   measurement showed the faces need none (theme-tokens.css). The extra
+   line-height keeps a vowelled run from clipping its neighbours. */
 .xpl-ar {
   font-family:
     "ScheherazadeSized", "Scheherazade New", "Noto Naskh Arabic", serif;
@@ -730,6 +761,7 @@ textarea.xpl-ety-text:focus {
 @media (prefers-reduced-motion: reduce) {
   /* The etymology caret and its delete button animate on every accordion
      interaction, which is now the most-used control on the card. */
+  .xpl,
   .xpl-caret,
   .xpl-ety-caret,
   .xpl-ety-del,

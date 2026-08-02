@@ -20,7 +20,6 @@
 import { defineViewState, oneOf, existing } from "../lib/view-state";
 
 export type ComposeLaneName = "book" | "podcast";
-export type ComposeMode = "read" | "edit";
 
 /**
  * The chapter keys the currently-loaded book actually has. Populated by the
@@ -60,16 +59,4 @@ export const composeLane = defineViewState<ComposeLaneName>({
   surface: "compose",
   field: "lane",
   validate: oneOf(["book", "podcast"] as const),
-});
-
-/**
- * Read vs Edit. Restoring straight into the editor is only safe because
- * autosave now refuses to write a document identical to the one it loaded
- * (RCA-002 AI-1) — before that guard, landing in an armed editor on every
- * visit turned a stray keystroke into a write to book.md.
- */
-export const composeMode = defineViewState<ComposeMode>({
-  surface: "compose",
-  field: "mode",
-  validate: oneOf(["read", "edit"] as const),
 });

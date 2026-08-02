@@ -8,6 +8,28 @@
  * (imported by both compose.astro and the Studio [step].astro), so the same
  * self-hosted faces back the font picker on both editor surfaces. */
 
+/* The control outline every button on this page draws itself with: a DARK shade
+   of the page's own warm card rather than a neutral hairline. --c-rule-soft was
+   so close to the tinted toolbar that the buttons read as floating glyphs;
+   mixing the accent brown into the card keeps the outline in the same family as
+   the surface it sits on while making each control an unmistakable object.
+
+   Declared on the view ROOT, not on the toolbar, since 2026-08-01: the chapter
+   nav at the foot of a chapter is a sibling of the toolbar, not a descendant,
+   and the two were drawing themselves from two different vocabularies. One
+   definition is what keeps them from drifting apart again. */
+.composer {
+  --cx-control-border: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 42%,
+    var(--c-bg-card, #fffdf8)
+  );
+  /* The raised-hairline both the toolbar controls and the chapter nav wear —
+     the package's own --rte-shadow value, named here so the host side of the
+     pair does not restate a magic number. */
+  --cx-control-shadow: 0 1px 0 rgb(0 0 0 / 4%);
+}
+
 /* One-line help text that sits under the title inside the shared .lib-hero
    identity block. The header structure itself is the shared Studio hero. */
 .composer-sub {
@@ -197,25 +219,24 @@ body:has(.composer-grid:not([data-panel="closed"])) {
   visibility: hidden;
 }
 
-/* Floating panel buttons — one horizontal row, bottom right, sitting to the LEFT
-   of the site-wide back-to-top control so that control stays rightmost. The
-   offset is computed from .to-top's own geometry in theme-components.css (44px at
-   right/bottom var(--sp-5), z-index 900) rather than guessed, and the z-index sits
-   just under it — the same reasoning the old .gcp-launcher used when it stacked
-   above that corner. */
+/* Floating panel buttons — one horizontal row pinned to the BOTTOM OF THE RIGHT
+   PANEL (Asif, 2026-07-29). The drawer is the chrome column; its own switches
+   belong over it, not out in the chapter's margin where they read as controls
+   for the prose.
+
+   Flush to the same page gutter the drawer's right edge sits on, so the row ends
+   where the panel ends. The site-wide back-to-top normally occupies this exact
+   corner — but it is suppressed on this page (see `body:has(.composer-grid)
+   .to-top` below), because the Composer carries its own arrow in this row. The
+   z-index stays just under that control's 900 for the same reason the old
+   .gcp-launcher did: nothing else on the page may come between them.
+
+   Covering the drawer's last line is not a hazard here, it is budgeted: every
+   surface scroller reserves --cx-fab-clear (declared on .composer-panel) after
+   its content, derived from this row's own height and offset. */
 .cx-fabs {
   position: fixed;
-  /* …and clear of the DRAWER, which occupies that same corner whenever it is
-     open. Without the drawer term the row sat on top of the panel's own
-     controls: measured at 1440x900 with the Tools surface open it covered
-     "Arabic term", "English term", "Explain" and the "Tell the AI" heading, and
-     won the paint because it carries z-index 899 against the panel's auto. The
-     term reads the ONE drawer width from body (see --cx-drawer-w above) and
-     collapses to 0rem when the drawer is closed, which is the old position. */
-  right: calc(
-    var(--sp-5, 1.5rem) + 44px + var(--sp-3, 0.75rem) +
-      var(--cx-drawer-w, 0rem)
-  );
+  right: var(--sp-5, 1.5rem);
   bottom: var(--sp-5, 1.5rem);
   z-index: 899;
   display: flex;
@@ -380,9 +401,16 @@ body:has(.composer-grid:not([data-panel="closed"])) {
    The lane switch (Reading edition / Podcast source) is a DIFFERENT axis — which
    TEXT, not which rendering — but the same kind of control, so it shares this
    form rather than carrying a second copy of it. Selector lists, not duplicated
-   declarations: a change to the segmented look lands on both. */
+   declarations: a change to the segmented look lands on all three.
+
+   The Arabic source switch (English / العربية) is the third. It was MISSING from
+   these lists until 2026-08-01 — `.cx-arabic-toggle` matched no rule anywhere in
+   the repo, so its buttons picked up `.cx-mode-btn` while the group around them
+   got no border, radius, overflow or shadow. It read as two loose buttons beside
+   two framed pairs. */
 .cx-mode-toggle,
-.cx-lane-toggle {
+.cx-lane-toggle,
+.cx-arabic-toggle {
   display: inline-flex;
   align-items: center;
   gap: 0;
@@ -417,6 +445,23 @@ body:has(.composer-grid:not([data-panel="closed"])) {
 .cx-mode-btn + .cx-mode-btn,
 .cx-lane-btn + .cx-lane-btn {
   border-left: 1px solid var(--c-rule, #d9d3c4);
+}
+/* The one control in this row whose LABEL is Arabic. `font: inherit` above puts
+   it in the UI face, which carries no Arabic glyphs, so the OS substituted
+   whatever Arabic font it had and العربية rendered in a different hand from
+   every Arabic run on the page beneath it. Matched by the `lang="ar"` already on
+   the button — the markup states the fact, the stylesheet reads it, and nothing
+   has to be kept in sync.
+
+   Sized independently of the 0.85rem Latin labels: Scheherazade's letterforms
+   are small for their point size (the same reason --q-ar-size exists), so at
+   0.85rem the word would sit visibly smaller than "English" beside it.
+   `line-height: 1` keeps the 2.75rem button height off the face's tall
+   intrinsic ascent. */
+.cx-mode-btn[lang="ar"] {
+  font-family: var(--q-ar-face);
+  font-size: 1.15rem;
+  line-height: 1;
 }
 .cx-mode-btn:hover,
 .cx-lane-btn:hover {
@@ -839,16 +884,6 @@ body:has(.composer-grid:not([data-panel="closed"])) {
    defaults cannot leak onto anything else on the page. */
 .cx-edit-toolbar,
 .rte-bubble {
-  /* The control outline: a DARK shade of the bar's own warm background rather
-     than a neutral hairline. --c-rule-soft was so close to the tinted bar that
-     the buttons read as floating glyphs; mixing the accent brown into the card
-     keeps the outline in the same family as the surface it sits on while making
-     each control an unmistakable object. */
-  --cx-control-border: color-mix(
-    in oklab,
-    var(--c-accent, #8b4513) 42%,
-    var(--c-bg-card, #fffdf8)
-  );
   --rte-surface: var(--c-bg-card, #fffdf8);
   --rte-surface-sunken: var(--c-bg-sunken, #efeae0);
   --rte-surface-hover: var(--c-bg-elev, #f6f2e9);
@@ -896,6 +931,15 @@ body:has(.composer-grid:not([data-panel="closed"])) {
      reads as something that failed to fit; centred, it reads as a deliberate
      second tier. */
   margin-inline: auto;
+  /* Wraps, exactly as the formatting bar above it already does. The cluster is
+     610px of controls; at a 390px viewport the composer column gives it 340px,
+     and nowrap put the size stepper, the whole Paper picker and "Show changes"
+     past the right edge of a container that clips rather than scrolls — three
+     controls with no way to reach them. Centred when it wraps so a short second
+     line reads as the same deliberate tier, not as a leftover. */
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 0.4rem;
 }
 
 /* Paper picker — Kindle-style Light / Sepia / Dark. A single SEGMENTED control
@@ -1067,10 +1111,11 @@ body:has(.composer-grid) .to-top {
 /* Editor-view font family + size, driven by the toolbar. View-only: book.md
    carries no font/size, so these never restyle the printed book. --prose-size is
    set at runtime by book-composer.ts (in-pattern with --cx-w). */
-/* Each stack keeps its chosen Latin face, then routes Arabic to the size-adjusted
-   Amiri (AmiriSized — declared once in theme.css) BEFORE the generic fallback, so
-   the system Arabic face never wins and the Arabic reads at the same visual size
-   as the English. */
+/* Each stack keeps its chosen Latin face, then names AmiriSized (declared once in
+   theme-tokens.css) BEFORE the generic fallback, so the system Arabic face never
+   wins. The alias carried a 135% optical adjustment until 2026-07-31; it does not
+   any more, because the face is already proportioned to a Latin body — see
+   theme-tokens.css for the measurement. */
 .cx-edit-host[data-font="sans"] {
   --prose-font: "Lato", "AmiriSized", "Amiri", system-ui, sans-serif;
 }
@@ -1084,6 +1129,15 @@ body:has(.composer-grid) .to-top {
 }
 .cx-edit-host[data-font="inter"] {
   --prose-font: "Inter", "AmiriSized", "Amiri", system-ui, sans-serif;
+}
+.cx-edit-host[data-font="lexend"] {
+  --prose-font: "Lexend", "AmiriSized", "Amiri", system-ui, sans-serif;
+}
+/* Cinzel has no lowercase of its own — it is a Roman inscription face, and its
+   "lowercase" is small caps. Georgia sits behind it rather than a sans, so the
+   fallback while it loads is at least a serif. */
+.cx-edit-host[data-font="cinzel"] {
+  --prose-font: "Cinzel", "AmiriSized", "Amiri", Georgia, serif;
 }
 .cx-edit-host[data-font="mono"] {
   --prose-font: ui-monospace, "SF Mono", "AmiriSized", "Amiri", monospace;
@@ -1198,10 +1252,25 @@ body:has(.composer-grid) .to-top {
   direction: rtl;
   unicode-bidi: isolate;
 }
+/* A standalone Arabic quotation — a DISPLAY block, not a sentence with a term in
+   it. renderMd has always emitted `.ar-block` for these and Read had no rule for
+   it, so the same paragraph printed as a centered display quotation in the PDF
+   and as left-aligned running prose at body leading here. The values are the
+   print pair verbatim (book-print.css .ar-block) — Read is where the page is
+   verified, so it has to be the page. */
+.cx-body .ar-block {
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
+  direction: rtl;
+  text-align: center;
+  unicode-bidi: isolate;
+  margin: 0.9rem 0;
+}
+
 .cx-prose p.ar {
   font-family: var(--q-ar-face);
-  font-size: 1.05rem;
-  line-height: 1.9;
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
   color: var(--q-maroon);
   direction: rtl;
   unicode-bidi: isolate;
@@ -1736,17 +1805,167 @@ body:has(.composer-grid) .to-top {
   outline-offset: 4px;
   background: color-mix(in oklab, var(--c-accent, #8b4513) 4%, transparent);
 }
+
+/* ── Prev / next chapter ──────────────────────────────────────────────────────
+   Ported from the LIVE Session's `.lsv-chapter-nav` when that view was retired
+   (2026-08-01) rather than reinvented — the pill form, the space-between anchor
+   and the disabled treatment were already the right answers there.
+
+   Last child of .cx-chapter, and the edit shell is inserted `afterend` of
+   .cx-body, so this row sits below the prose in Read and below the editor in
+   Edit from a single element.
+
+   BOTH buttons always render. `space-between` pins them to the two edges, so
+   the row does not jump width between the book's first/last chapter and the
+   ones between — a disabled button holding its place is what keeps "Next" in
+   the same spot on every chapter. */
+.cx-chapter-nav {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--c-rule-soft, #e8e2d5);
+}
+/* Drawn as a TOOLBAR CONTROL, not as a pill (Asif, 2026-08-01). The ported form
+   was a transparent 999px capsule, which on this page read as a link in a border
+   rather than as a button — the toolbar an inch above it gives every control its
+   own card surface, a 6px corner and a raised hairline, and these two are the
+   same kind of thing. Same surface, same border token, same radius, same shadow,
+   same press: what differs is only that these are wide and carry two lines. */
+.cx-chapter-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 46%;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--cx-control-border, #d9d3c4);
+  border-radius: 6px;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: var(--cx-control-shadow, 0 1px 0 rgb(0 0 0 / 4%));
+  color: var(--c-ink-muted, #66625a);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    transform 120ms ease;
+}
+.cx-chapter-nav-btn--next {
+  text-align: right;
+}
+/* Surface and border only, exactly as `.rte-tool:hover` does it. An earlier
+   version also turned the text accent, which on this control changed the arrow
+   and left the two labels behind — they carry colours of their own — so the
+   button half-responded. The toolbar never recolours its glyph on hover, and
+   matching that is both simpler and the thing that was asked for. */
+.cx-chapter-nav-btn:hover:not(:disabled) {
+  border-color: var(--c-accent, #8b4513);
+  background: var(--c-bg-elev, #f6f2e9);
+}
+/* The toolbar's press: the control moves under the finger and drops its
+   hairline, so a wide button and a 1.9rem one respond identically. */
+.cx-chapter-nav-btn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+.cx-chapter-nav-btn:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+.cx-chapter-nav-btn:disabled {
+  opacity: 0.35;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+/* Two lines: the direction, then the chapter it leads to. The title is what
+   makes the control worth having over the picker — you can see where you are
+   about to land without opening the list. */
+.cx-chapter-nav-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.cx-chapter-nav-dir {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted, #66625a);
+}
+/* One line, clipped. A long chapter title must not wrap the pill into a block
+   two or three lines tall — the row would then change height chapter to chapter,
+   which is the same instability `space-between` guards against horizontally. */
+.cx-chapter-nav-title {
+  overflow: hidden;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--c-ink, #1f1d18);
+}
+.cx-chapter-nav-btn:disabled .cx-chapter-nav-title {
+  font-weight: 500;
+  font-style: italic;
+}
+/* At phone width the two pills cannot both hold a title. The direction word is
+   the part that must survive — it is what the control MEANS — so the titles drop
+   and the pills shrink to arrow + word rather than overflowing the column. */
+@media (max-width: 560px) {
+  .cx-chapter-nav-btn {
+    max-width: 48%;
+  }
+  .cx-chapter-nav-title {
+    display: none;
+  }
+}
 /* Reads like a printed page, not large-print web text: normal book size, tight
    leading, a real reading measure — this is what actually reclaims the space. */
 .cx-body {
   font-size: 1.02rem;
   line-height: 1.6;
   color: var(--c-ink, #1f1d18);
-  max-width: 60ch;
+  /* A sheet of paper, not a bare column of text (Asif, 2026-07-30). Same frame
+     the editing surface already wears — .cx-edit-shell's border, radius, card
+     background and shadow — so the book looks like the same document whether you
+     are reading it or editing it, and the reading measure now sits ON a page
+     instead of floating on the site background.
+
+     Read mode only by construction: the editor hides .cx-body and mounts
+     .cx-edit-shell beside it, so the two frames can never nest. */
+  --cx-page-pad-x: 3rem;
+  /* The 60ch measure is preserved, not eaten: the reset is border-box, so the
+     horizontal padding is added back here or the page silently narrows the line
+     length the whole print pipeline is set to. */
+  max-width: calc(60ch + 2 * var(--cx-page-pad-x));
+  padding: 3rem var(--cx-page-pad-x) 3.4rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 10px;
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: var(
+    --shadow-card,
+    0 1px 2px rgba(31, 29, 24, 0.04),
+    0 4px 12px rgba(31, 29, 24, 0.06)
+  );
   /* Centre the reading measure in its column — a 60ch page pinned to the left
      edge of a 979px column reads lopsided, not page-like. */
   margin-inline: auto;
   display: flow-root; /* contain floated (wrap) figures within the chapter */
+}
+/* Narrow screens get the page, not the margins: 3rem of padding either side of a
+   390px viewport leaves the text less room than the frame. The gutter the Arabic
+   control sits in is already returned to the flow at this width (arabic-reveal.css),
+   so nothing needs the wide margin here. */
+@media (max-width: 640px) {
+  .cx-body {
+    --cx-page-pad-x: 1.1rem;
+    padding: 1.5rem var(--cx-page-pad-x) 1.8rem;
+    border-radius: 8px;
+  }
 }
 .cx-body :is(p, blockquote) {
   margin: 0 0 0.8rem;
@@ -1784,8 +2003,8 @@ body:has(.composer-grid) .to-top {
 }
 .cx-body blockquote.quran p.ar {
   font-family: var(--q-ar-face);
-  font-size: 1.05rem;
-  line-height: 1.9;
+  font-size: var(--q-ar-size);
+  line-height: var(--q-ar-leading);
   color: var(--c-ink, #1f1d18);
   direction: rtl;
   text-align: center;
@@ -2077,7 +2296,6 @@ body:has(.composer-grid) .to-top {
 /* The inset, for the two surfaces with no tab strip of their own. Tools is padded
    on .cx-tabpanel instead, because its strip sits flush to the surface edge. */
 #cx-surface-companion,
-#cx-surface-arabic,
 #cx-surface-scholar {
   padding: 0.9rem 1rem calc(1.1rem + var(--cx-fab-clear, 0px));
   overflow-y: auto;
@@ -2582,8 +2800,13 @@ body:has(.composer-grid) .to-top {
   width: 2.3rem;
   height: 2.3rem;
   border-radius: 50%;
-  background: color-mix(in oklab, var(--c-accent, #8b4513) 12%, var(--c-bg-card, #fffdf8));
-  border: 1px solid color-mix(in oklab, var(--c-accent, #8b4513) 35%, var(--c-bg-card, #fffdf8));
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 12%,
+    var(--c-bg-card, #fffdf8)
+  );
+  border: 1px solid
+    color-mix(in oklab, var(--c-accent, #8b4513) 35%, var(--c-bg-card, #fffdf8));
   color: var(--c-accent, #8b4513);
   font-size: 1rem;
 }
@@ -2595,7 +2818,11 @@ body:has(.composer-grid) .to-top {
   gap: 0.55rem;
   border: 1px solid var(--c-rule-soft, #ebe6da);
   border-radius: 8px;
-  background: color-mix(in oklab, var(--c-accent, #8b4513) 4%, var(--c-bg-card, #fffdf8));
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 4%,
+    var(--c-bg-card, #fffdf8)
+  );
 }
 .cx-confirm-points li {
   display: flex;
@@ -2655,7 +2882,11 @@ body:has(.composer-grid) .to-top {
   width: 3.4rem;
   height: 3.4rem;
   border-radius: 50%;
-  background: color-mix(in oklab, var(--c-accent, #8b4513) 10%, var(--c-bg-card, #fffdf8));
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 10%,
+    var(--c-bg-card, #fffdf8)
+  );
   color: var(--c-accent, #8b4513);
   font-size: 1.25rem;
 }
@@ -2664,7 +2895,8 @@ body:has(.composer-grid) .to-top {
   position: absolute;
   inset: -5px;
   border-radius: 50%;
-  border: 3px solid color-mix(in oklab, var(--c-accent, #8b4513) 22%, transparent);
+  border: 3px solid
+    color-mix(in oklab, var(--c-accent, #8b4513) 22%, transparent);
   border-top-color: var(--c-accent, #8b4513);
   animation: cx-busy-ring 0.9s linear infinite;
 }
