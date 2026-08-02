@@ -109,7 +109,7 @@ We say, then, that the necessity (wujub) of the imamate and of the imams (عَل
 
 Section Three
 
-The followers of the various religions have called the imams of their past "prophets" and "sages" in every cycle, while certain followers of Islam have given the title "imam" to usurping, oppressive false claimants, and have likewise given the name "imam" to their scholars and jurists. Yet if you weigh all these cases carefully, you find that every one of them confirms the existence of the imam as a necessity (darura) and cannot deny it. Whoever seeks salvation and guidance must set aside his inclinations and desires and come to see the deficiency in every false claimant to this office: his want of knowledge, gnosis, and cognition, his lack of piety, and his failure to meet the other conditions of the imamate. Once such a person has recognized the pretender's ignorance, the shallowness of his piety and modesty, and his inability to fulfill even one of the conditions of the imamate, he will reject that pretender's claim until the day he attains recognition of the true imam (marifat imam al-haqq).
+The followers of the various religions have called the imams of their past "prophets" and "sages" in every cycle, while certain followers of Islam have given the title "imam" to usurping, oppressive false claimants, and have likewise given the name "imam" to their scholars and jurists. Yet if you weigh all these cases carefully, you find that every one of them confirms the existence of the imam as a necessity (darura) and cannot deny it. Whoever seeks salvation and guidance must set aside his inclinations and desires and see the deficiency in every false claimant to this office: his lack of knowledge, gnosis, and cognition, his lack of piety, and his failure to meet the other conditions of the imamate. Once such a person has recognized the pretender's ignorance, the shallowness of his piety and modesty, and his inability to fulfill even one of the conditions of the imamate, he will reject that pretender's claim until the day he attains recognition of the true imam (marifat imam al-haqq).
 
 We shall now examine some of the claims each pretender makes, together with his weaknesses and his limits. We shall turn his own principles against him and strip the imamate from those who are unfit for it. We shall then establish the imamate of the true imams (عَلَيْهِمُ السَّلَامُ) with proofs and demonstrations, and establish the obligation of obeying them, of entrusting our affairs to their command, and of receiving revelation, interpretation, and the confession of Divine Unity from them, just as we set out in Kitab al-tawhid, the Book on Divine Unity. All those who truly know created beings come to see their incapacity and deficiency and reject any claim of divinity for them, until at last they deny divinity to every created thing. In this way Divine Unity remains pure, free of ascribing human qualities to God (tashbih) and free of denying His attributes altogether (tatil).
 
@@ -204,7 +204,6 @@ I hold that there are seven grains that give human beings food and nourishment, 
 ## 4. The Ladder of Creation
 
 Section Six
-
 
 As for the trees that bear fruit, the highest and most excellent of them is the date palm. It is like human beings in having male and female, and it needs to be fertilized just as animals need to mate. What is more, every part of the date palm is useful and nothing about it is wasted: its fruit can be eaten at any time, whether raw or cooked. If a sleeper dreams that he is picking dates from a date palm, the meaning is that he will receive some benefit from a certain believer. That believer, in truth, is the imam, who is the head of all believers.
 
@@ -438,7 +437,6 @@ We shall now turn to establishing the necessity of the imamate on the basis of t
 ## 8. From Adam to Ali
 
 Section Seven
-
 
 I say this: if it were acceptable for there to be creatures on earth without an imam or caliph, it would have been acceptable in the days of Adam (ع), when only the angels existed. Yet even then God, the Exalted, said:
 

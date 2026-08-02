@@ -1,4 +1,4 @@
-"""_book_companion.py — generate the reader's per-chapter Companion cards.
+"""_book_companion.py — PROPOSE the reader's per-chapter Companion cards.
 
 The Companion is the PRIVATE reading layer: per-chapter cards a reader surfaces
 while reading aloud to someone — an analogy that makes a passage click, a plain
@@ -7,28 +7,39 @@ never enter ``book/book.md`` and never enter the PDF; they live in
 ``_system/companion-notes/<chapter-key>.json``, the same on-disk shape the Studio
 UI writes (mirror of ``plan-dashboard/src/lib/reader/companion/types.ts``).
 
-MIRROR NOTE (2026-07-26): that type gained an optional ``etymology: string[]`` —
-the Studio's Scholar cards keep etymology as discrete, individually deletable
-items rather than as prose inside ``body``. This module does not write the field;
-a card without it is valid, and the reader treats absence as "no items". If cards
-authored here ever carry etymology of their own, write it as that array rather
-than appending an "Etymology" paragraph to ``body``.
+WHAT THIS MODULE DOES NOT DO, since 2026-08-02: write. It used to run
+automatically at the end of every ``0book-render`` and author ten to fifteen
+cards for every chapter of the book, so an edition came off the pipeline carrying
+a hundred-odd explanations no human had read — and the chapter lane stamped them
+``provider: "manual"``, which the site renders as "You", so the machine's cards
+wore the reader's name. Asif asked for the opposite arrangement: propose on
+demand, per chapter, after the prose is final, and file only what he keeps.
 
-Until now nothing produced them — every card was hand-authored one at a time, and
-the result drifted: four cards a chapter, more than half of them analogies,
-etymology present only on the preface. This module is the generator, and its
-contract is the thing that was missing rather than the prose:
+So what survives here is the candidate half, and nothing in it opens a file for
+writing. The Composer drives it through ``propose_companion.py``; the kept cards
+are filed by the web apply step through the same append-only ``upsertNote`` a
+human's own note goes through. See ``propose_chapter_cards`` for why that is a
+structural property rather than a flag.
+
+The contract on a candidate is unchanged, and it is the part worth keeping:
 
   * THREE candidate lanes, so a chapter is seen from three directions — its own
     composed prose, the podcast episodes that cover the same passage, and the
     knowledge base's grounded atoms. One lane alone produces one flavour of card.
-  * DETERMINISTIC guardrails between generation and disk. A card's ``quote`` must
+  * DETERMINISTIC guardrails before a card is ever shown. A card's ``quote`` must
     be a real substring of the chapter, its Arabic must be copied from a source,
     an etymology card must name a root the corpus actually carries. A card that
     cannot prove itself is dropped — never softened, never filled in.
-  * A HOLISTIC pick. Every lane over-produces; a final judgment pass ranks the
-    pooled candidates per chapter, and the deterministic balance rule then has the
-    last word, so a model that likes analogies cannot hand back ten of them.
+  * A RANKED pool. Every lane over-produces; a judgment pass ranks the pooled
+    candidates, and the balance rule marks what it would have picked. It advises
+    now rather than deciding, because the human doing the choosing is in the room.
+
+MIRROR NOTE (2026-07-26): the note type carries an optional ``etymology:
+string[]`` — the Studio's Scholar cards keep etymology as discrete, individually
+deletable items rather than as prose inside ``body``. This module does not
+produce the field; a card without it is valid, and the reader treats absence as
+"no items". If cards proposed here ever carry etymology of their own, write it as
+that array rather than appending an "Etymology" paragraph to ``body``.
 
 Engine: ``claude -p`` on the flat-rate subscription, as with the rest of the book
 lane. The gates and the selection are pure Python — no model is trusted to
@@ -39,8 +50,6 @@ from __future__ import annotations
 
 import json
 import re
-import uuid
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
@@ -55,6 +64,7 @@ from _book_companion_prompts import (
     podcast_lane_prompt,
     rank_order,
 )
+from _book_edits import anchor_key
 from _book_fences import span_re
 from _buckwalter import arabic_fold
 from _corpus_retrieval import RetrievalIndex, atom_searchable_text
@@ -102,18 +112,21 @@ _META_RE = re.compile(r"\b(as an ai|i cannot|here is the|the chapter says|this c
 _EP_STEM_RE = re.compile(r"^ch(\d+)")
 
 
-def safe_chapter_key(raw: str) -> str:
-    """Mirror of ``companion/keys.ts::safeChapterKey`` — the ONLY on-disk key shape.
+"""``safe_chapter_key`` lived here and is DELETED (Asif, 2026-08-02).
 
-    Derived from the rendered heading rather than from a title field, so the keys
-    this writes are byte-identical to the ones the reader asks for.
-    """
-    k = re.sub(r"[^a-z0-9]+", "-", str(raw).lower()).strip("-")[:120].rstrip("-")
-    return k or "general"
+It claimed to mirror ``companion/keys.ts::safeChapterKey`` and did not. On
+``## 9. God's Vicegerent in His Time`` this side produced
+``9-god-s-vicegerent-in-his-time`` (apostrophe → separator) and the TypeScript
+produced ``9-gods-vicegerent-in-his-time`` (apostrophe deleted). Because Python
+named the file and TypeScript asked for it, chapter 9's fourteen cards were
+invisible in the reader for as long as they existed — an unpinned mirror, of the
+class CLAUDE.md now fixture-pins four of.
 
-
-def _now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+Nothing here computes an on-disk note key any more. This module PROPOSES; the
+key under which a kept card is filed is supplied by the surface that is already
+reading that chapter's notes, so the two can no longer disagree. Chapters are
+addressed by ``_book_edits.anchor_key`` — the Composer's own chapter key, which
+IS fixture-pinned to its JavaScript twin."""
 
 
 # ─── Chapters ────────────────────────────────────────────────────────────────
@@ -130,7 +143,7 @@ def book_chapters(book_md: str) -> list[dict[str, str]]:
         end = matches[i + 1].start() if i + 1 < len(matches) else len(book_md)
         title = m.group(1).strip()
         prose = _EDITORIAL_SPAN_RE.sub("", book_md[m.end() : end]).strip()
-        out.append({"key": safe_chapter_key(title), "title": title, "prose": prose})
+        out.append({"key": anchor_key(title), "title": title, "prose": prose})
     return out
 
 
@@ -364,26 +377,44 @@ def _default_generator(prompt: str, book_dir: Path, label: str, log) -> str:
     return out or ""
 
 
-# ─── Phase entry point ───────────────────────────────────────────────────────
-def author_phase_book_companion(
-    book_dir: Path,
-    *,
-    log=print,
-    generator: Callable[[str, Path, str, Any], str] | None = None,
-) -> dict[str, Any]:
-    """Regenerate every chapter's Companion cards from scratch. Returns the report."""
+# ─── Proposal: the read-only half ────────────────────────────────────────────
+# There is no writer in this module, and that is deliberate rather than tidy
+# (Asif, 2026-08-02). The predecessor, `author_phase_book_companion`, regenerated
+# every chapter and wrote every file unconditionally — and `_merge_notes` dropped
+# each chapter's prior GENERATED notes on the way past. A `propose_only=True`
+# flag on that function would have made one boolean the only thing standing
+# between a proposal and the destruction of a curated set, which is the shape
+# behind docs/rca/2026-07-28-automation-deleted-companion-notes.md.
+#
+# So the read-only half is EXTRACTED instead. `propose_chapter_cards` returns
+# candidates; neither it nor anything it calls opens a file for writing. Propose-
+# only is a structural property of the call graph, not a promise in a docstring.
+# Filing a kept card is the web Composer's job, through the same append-only
+# `upsertNote` a human's own note goes through.
+
+#: Most candidates a single chapter's review list may carry. Not a quality bar —
+#: the reviewer's attention is the scarce thing, and a list past this stops being
+#: read. `select_balanced` still marks its own picks; see `recommended` below.
+PROPOSAL_CAP = 24
+
+
+def build_proposal_context(book_dir: Path) -> dict[str, Any]:
+    """Everything the lanes need that does not vary by chapter.
+
+    Built once and handed to each `propose_chapter_cards` call: the knowledge-base
+    atoms and the morphology reference are hundreds of milliseconds to load and are
+    identical for every chapter of a book.
+    """
     book_dir = Path(book_dir).resolve()
     book_md = book_dir / "book" / "book.md"
     if not book_md.exists():
         raise AuthoringError(
             phase="0book-companion",
             message=f"book.md not found at {book_md}",
-            manual_fallback="Run the book compose before generating Companion cards.",
+            manual_fallback="Compose the book before proposing Companion cards.",
         )
-    gen = generator or _default_generator
     chapters = book_chapters(book_md.read_text(encoding="utf-8"))
     transcripts = load_transcripts(book_dir)
-    assignment = map_transcripts_to_chapters(chapters, transcripts)
 
     ocr = book_dir / "_system" / "source" / "ocr" / "raw-extract.md"
     arabic_src = ocr.read_text(encoding="utf-8") if ocr.exists() else ""
@@ -396,121 +427,135 @@ def author_phase_book_companion(
         morphology_ref = load_morphology_reference()
     except Exception:
         morphology_ref = {}
-    etymology_terms = frozenset(
-        str(a["body"].get("term", "")).lower()
-        for a in atoms
-        if a.get("type") == "etymology" and isinstance(a.get("body"), dict) and a["body"].get("term")
-    )
-    index = RetrievalIndex(atoms) if atoms else None
-    arabic_allowed = (
-        arabic_src
+
+    return {
+        "book_dir": book_dir,
+        "chapters": chapters,
+        "transcripts": transcripts,
+        "assignment": map_transcripts_to_chapters(chapters, transcripts),
+        "atoms_index": RetrievalIndex(atoms) if atoms else None,
+        "morphology_ref": morphology_ref,
+        "etymology_terms": frozenset(
+            str(a["body"].get("term", "")).lower()
+            for a in atoms
+            if a.get("type") == "etymology" and isinstance(a.get("body"), dict) and a["body"].get("term")
+        ),
+        "arabic_allowed": arabic_src
         + "\n"
         + "\n".join(
             str(a["body"].get(k, "")) for a in atoms if isinstance(a.get("body"), dict) for k in ("arabic", "root")
-        )
-    )
-
-    out_dir = book_dir / "_system" / "companion-notes"
-    out_dir.mkdir(parents=True, exist_ok=True)
-    per_chapter: list[dict[str, Any]] = []
-
-    for ch in chapters:
-        key, title, prose = ch["key"], ch["title"], ch["prose"]
-        candidates: list[dict[str, Any]] = []
-        dropped: list[str] = []
-
-        def harvest(raw: str, source: dict[str, str] | None) -> None:
-            for card in parse_cards(raw):
-                card["kind"] = str(card.get("kind") or "").strip().lower()
-                ok, reasons = gate_card(
-                    card,
-                    prose=prose,
-                    arabic_src=arabic_allowed,
-                    etymology_terms=etymology_terms,
-                    morphology_ref=morphology_ref,
-                )
-                if not ok:
-                    dropped.append(f"{card.get('kind')}: {reasons[0]}")
-                    continue
-                if source:
-                    card["source"] = source
-                candidates.append(card)
-
-        harvest(
-            gen(chapter_lane_prompt(title, prose), book_dir, f"comp-chapter-{key[:24]}", log), {"provider": "manual"}
-        )
-
-        for stem, _score in assignment.get(key, []):
-            ref = episode_ref(stem)
-            harvest(
-                gen(
-                    podcast_lane_prompt(title, prose, transcripts[stem], ref),
-                    book_dir,
-                    f"comp-podcast-{ref}-{key[:18]}",
-                    log,
-                ),
-                {"provider": "notebooklm", "ref": ref},
-            )
-
-        if index is not None:
-            selected = index.select(prose, k=_ATOMS_PER_CHAPTER, threshold=_RELEVANCE_THRESHOLD)
-            corpus = "\n".join(f"- {corpus_line(s.atom, atom_searchable_text(s.atom)[:260])}" for s in selected)
-            if corpus:
-                harvest(
-                    gen(corpus_lane_prompt(title, prose, corpus), book_dir, f"comp-corpus-{key[:24]}", log),
-                    {"provider": "corpus"},
-                )
-
-        candidates = dedupe_cards(candidates)
-        if candidates:
-            order = rank_order(
-                gen(
-                    judge_prompt(title, candidates, target_max=TARGET_MAX, ceiling=_kind_ceiling()),
-                    book_dir,
-                    f"comp-judge-{key[:24]}",
-                    log,
-                ),
-                len(candidates),
-            )
-            candidates = [candidates[i] for i in order]
-        chosen = select_balanced(candidates)
-
-        out_path = out_dir / f"{key}.json"
-        doc = {
-            "slug": book_dir.name,
-            "chapter": key,
-            "notes": _merge_notes(out_path, [_as_note(c) for c in chosen]),
-            "updatedAt": _now(),
-        }
-        out_path.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
-        report = mix_report(chosen)
-        report.update(
-            {
-                "chapter": key,
-                "title": title,
-                "candidates": len(candidates),
-                "dropped": len(dropped),
-                "episodes": [episode_ref(s) for s, _ in assignment.get(key, [])],
-            }
-        )
-        per_chapter.append(report)
-        flag = "" if (report["within_target"] and report["within_ceiling"]) else "  <- review"
-        log(
-            f"      companion: {title[:44]:46s} {report['total']:2d} cards from {report['candidates']:3d} "
-            f"candidates · {report['kinds']}{flag}"
-        )
-
-    out = {
-        "schema": "book.companion-report/v1",
-        "generated_at": _now(),
-        "target": {"min": TARGET_MIN, "max": TARGET_MAX, "kind_ceiling_fraction": KIND_CEILING_FRACTION},
-        "chapters": per_chapter,
+        ),
     }
-    (book_dir / "_system" / "book-companion-report.json").write_text(
-        json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+
+
+def propose_chapter_cards(
+    ctx: dict[str, Any],
+    chapter_key: str,
+    *,
+    generator: Callable[[str, Path, str, Any], str] | None = None,
+    log=print,
+) -> dict[str, Any]:
+    """Candidate cards for ONE chapter, ranked, gated, and written nowhere.
+
+    `chapter_key` is a `_book_edits.anchor_key` — the Composer's own chapter key.
+    An unknown key raises rather than silently proposing for the first chapter,
+    because a reviewer cannot tell a mis-anchored list from a bad one.
+    """
+    book_dir: Path = ctx["book_dir"]
+    gen = generator or _default_generator
+    ch = next((c for c in ctx["chapters"] if c["key"] == chapter_key), None)
+    if ch is None:
+        raise AuthoringError(
+            phase="0book-companion",
+            message=f"no chapter keyed {chapter_key!r} in book.md (have: {[c['key'] for c in ctx['chapters']]})",
+            manual_fallback="Re-open the chapter in the Composer; the heading may have been edited.",
+        )
+    key, title, prose = ch["key"], ch["title"], ch["prose"]
+    candidates: list[dict[str, Any]] = []
+    dropped: list[str] = []
+
+    def harvest(raw: str, source: dict[str, str] | None) -> None:
+        for card in parse_cards(raw):
+            card["kind"] = str(card.get("kind") or "").strip().lower()
+            ok, reasons = gate_card(
+                card,
+                prose=prose,
+                arabic_src=ctx["arabic_allowed"],
+                etymology_terms=ctx["etymology_terms"],
+                morphology_ref=ctx["morphology_ref"],
+            )
+            if not ok:
+                dropped.append(f"{card.get('kind')}: {reasons[0]}")
+                continue
+            if source:
+                card["source"] = source
+            candidates.append(card)
+
+    # `chapter`, not `manual`. The lane authors from the chapter's own prose; it was
+    # stamped `manual` and the site renders that as "You", so every machine card in
+    # the reader wore the human's name (90 of them, on one book).
+    harvest(gen(chapter_lane_prompt(title, prose), book_dir, f"comp-chapter-{key[:24]}", log), {"provider": "chapter"})
+
+    for stem, _score in ctx["assignment"].get(key, []):
+        ref = episode_ref(stem)
+        harvest(
+            gen(
+                podcast_lane_prompt(title, prose, ctx["transcripts"][stem], ref),
+                book_dir,
+                f"comp-podcast-{ref}-{key[:18]}",
+                log,
+            ),
+            {"provider": "notebooklm", "ref": ref},
+        )
+
+    index = ctx["atoms_index"]
+    if index is not None:
+        selected = index.select(prose, k=_ATOMS_PER_CHAPTER, threshold=_RELEVANCE_THRESHOLD)
+        corpus = "\n".join(f"- {corpus_line(s.atom, atom_searchable_text(s.atom)[:260])}" for s in selected)
+        if corpus:
+            harvest(
+                gen(corpus_lane_prompt(title, prose, corpus), book_dir, f"comp-corpus-{key[:24]}", log),
+                {"provider": "corpus"},
+            )
+
+    candidates = dedupe_cards(candidates)
+    if candidates:
+        order = rank_order(
+            gen(
+                judge_prompt(title, candidates, target_max=TARGET_MAX, ceiling=_kind_ceiling()),
+                book_dir,
+                f"comp-judge-{key[:24]}",
+                log,
+            ),
+            len(candidates),
+        )
+        candidates = [candidates[i] for i in order]
+
+    # The balance rule ADVISES now; it does not decide. It exists because a model
+    # left to itself hands back ten analogies, and its back-stop even breaches its
+    # own kind ceiling to reach the minimum — correct when a model has the last
+    # word, wrong when a human does. So mark what it would have chosen and show the
+    # mix; never withhold a candidate from the person doing the choosing.
+    chosen = select_balanced(candidates)
+    picked = {id(c) for c in chosen}
+    for card in candidates:
+        card["recommended"] = id(card) in picked
+
+    candidates = candidates[:PROPOSAL_CAP]
+    mix = mix_report(chosen)
+    log(
+        f"      companion: {title[:44]:46s} {len(candidates):2d} candidates "
+        f"({len(chosen)} recommended, {len(dropped)} dropped) · {mix['kinds']}"
     )
-    return out
+    return {
+        "chapter": key,
+        "title": title,
+        "candidates": candidates,
+        "dropped": dropped,
+        "episodes": [episode_ref(s) for s, _ in ctx["assignment"].get(key, [])],
+        "mix": mix,
+        "target": {"min": TARGET_MIN, "max": TARGET_MAX, "kind_ceiling_fraction": KIND_CEILING_FRACTION},
+    }
 
 
 def _load_kb_atoms(kb_root: Path) -> list[dict[str, Any]]:
@@ -532,62 +577,17 @@ def _load_kb_atoms(kb_root: Path) -> list[dict[str, Any]]:
     return atoms
 
 
-def _merge_notes(out_path: Path, generated: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Generated notes, with any HUMAN-authored note in the existing file kept.
-
-    This file has two writers: this generator (automatically, at the end of every
-    0book-render) and the Studio Companion panel via /api/studio/companion-notes.
-    It used to be replaced wholesale here, so rendering a PDF silently destroyed
-    hand-written notes.
-
-    Discriminator: every note this generator emits carries `generated: true`. Any
-    note WITHOUT that flag is treated as the human's and preserved, ahead of the
-    fresh generated set.
-
-    One-time caveat: notes written by a generator run BEFORE this flag existed are
-    unmarked, so the first run after this change preserves them alongside the new
-    set. That is deliberate — a visible duplicate the human can delete is a far
-    cheaper failure than a note that vanishes without trace.
-    """
-    if not out_path.exists():
-        return generated
-    try:
-        prior = json.loads(out_path.read_text(encoding="utf-8")) or {}
-        kept = [n for n in (prior.get("notes") or []) if isinstance(n, dict) and not n.get("generated")]
-    except (json.JSONDecodeError, OSError):
-        # An unreadable file is not a licence to delete: keep the generated set
-        # only, and leave the unparseable original to surface as a render warning.
-        return generated
-    return kept + generated
-
-
-def _as_note(card: dict[str, Any]) -> dict[str, Any]:
-    """A gated candidate in the on-disk CompanionNote shape."""
-    stamp = _now()
-    note: dict[str, Any] = {
-        "id": str(uuid.uuid4()),
-        "kind": card["kind"],
-        "body": " ".join(str(card.get("body", "")).split()),
-        "createdAt": stamp,
-        "updatedAt": stamp,
-        # Ownership marker — see _merge_notes. Without this the generator cannot
-        # tell its own prior output from a note the human wrote.
-        "generated": True,
-    }
-    for key in ("anchor", "quote"):
-        value = " ".join(str(card.get(key) or "").split())
-        if value:
-            note[key] = value
-    if isinstance(card.get("source"), dict):
-        note["source"] = card["source"]
-    return note
-
-
-if __name__ == "__main__":  # pragma: no cover - thin CLI
-    import sys
-
-    if len(sys.argv) != 2:
-        print("usage: _book_companion.py <BOOK_DIR>", file=sys.stderr)
-        raise SystemExit(2)
-    author_phase_book_companion(Path(sys.argv[1]))
-    raise SystemExit(0)
+# `_merge_notes` and `_as_note` lived here and are DELETED (Asif, 2026-08-02).
+#
+# They were the write path: `_as_note` minted a note id and stamped
+# `generated: true`, and `_merge_notes` kept the human's notes while replacing
+# every prior generated one. That ownership dance existed only because two
+# writers shared one file. There is now ONE writer — the Composer's apply step,
+# through the same append-only `upsertNote` a human's own note goes through — so
+# the flag has nothing left to discriminate and the replace has nothing to
+# replace. Notes already on disk keep their `generated: true`; nothing reads it
+# to decide what to destroy any more.
+#
+# The whole-book CLI went with them. Keeping it "so the module has a caller"
+# would have preserved exactly the second unattended producer this change exists
+# to remove; `propose_companion.py` is the caller now.

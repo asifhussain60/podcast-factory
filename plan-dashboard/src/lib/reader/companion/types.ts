@@ -72,8 +72,10 @@ export interface CompanionNote {
   /** Etymology as DISCRETE ITEMS, one per term (2026-07-26). It used to be prose
    *  appended to `body`, which made it uncurateable: the reader adds and deletes
    *  entries one at a time, and the body's word cap could eat the last of them.
-   *  Optional — a note without etymology simply omits it, and the Python writer
-   *  (scripts/podcast/_book_companion.py) does not write the field at all. */
+   *  Optional — a note without etymology simply omits it, and the Python side
+   *  (scripts/podcast/_book_companion.py) does not propose the field at all.
+   *  That module stopped WRITING these files on 2026-08-02; it proposes
+   *  candidates and the Composer's apply step files the ones a human kept. */
   etymology?: string[];
   /** Verified morphology per etymology row, index-aligned (null = the corpus
    *  declined). COMPUTED at read time from the Quranic morphology DB — never

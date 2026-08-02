@@ -380,22 +380,17 @@ def _drive_book_branch_body(book_dir: Path) -> int:
         phase_git_commit(book_dir, f"book({slug}): 0book-render — book.pdf (validation failed)")
         return 0
 
-    # Companion cards for the READER — a private per-chapter layer, never part of
-    # book.md and never in the PDF. It runs here, after the edition is final,
-    # because a card's `quote` must be a verbatim passage of the prose the reader
-    # will actually see: regenerating earlier would anchor cards to text the
-    # augment and re-voice passes then rewrite, and the highlight would silently
-    # stop matching. Non-blocking, like every other post-render step.
-    try:
-        from _book_companion import author_phase_book_companion
-
-        _cr = author_phase_book_companion(book_dir, log=_info)
-        _off = [c for c in _cr.get("chapters", []) if not (c["within_target"] and c["within_ceiling"])]
-        if _off:
-            _info(f"0book-companion: {len(_off)} chapter(s) outside the count/balance contract — see report")
-    except Exception as e:
-        _err(f"0book-companion: skipped (non-fatal): {e}")
-
+    # Companion cards are NOT authored here any more (Asif, 2026-08-02). They used
+    # to be generated for every chapter at this point, which is how a book came out
+    # of the pipeline carrying ~10-15 explanations per chapter that no human had
+    # read — and the chapter lane stamped them `provider: "manual"`, which the site
+    # renders as "You", so a machine's card wore the reader's name.
+    #
+    # The ordering reason this once cited (a card's `quote` must be verbatim against
+    # the prose the reader actually sees) was never an argument for AUTOMATION, only
+    # for running after the edition is final. The Composer's on-demand action reads
+    # the same finished `book.md`, so it satisfies that constraint identically while
+    # putting a human between the proposal and the page. See propose_companion.py.
     update_phase(book_dir, phase="0book-render", status="completed", extras={"book_validation": _bv})
     phase_git_commit(book_dir, f"book({slug}): 0book-render — book.pdf")
     return 0

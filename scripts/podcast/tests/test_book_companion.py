@@ -1,7 +1,8 @@
-"""Companion-card generation: the guardrails and the balance rule.
+"""Companion-card proposal: the guardrails, the balance rule, and the non-write.
 
-The generator's value is not its prose — it is that a card cannot reach disk
-without proving itself, and that no single kind can take over a chapter.
+The value here is not the prose — it is that a card cannot reach a reviewer
+without proving itself, that no single kind can take over a chapter, and (since
+2026-08-02) that producing a proposal touches no file at all.
 """
 
 from __future__ import annotations
@@ -21,18 +22,18 @@ from _book_companion import (  # noqa: E402
     KIND_QUESTION,
     TARGET_MAX,
     TARGET_MIN,
-    _as_note,
-    author_phase_book_companion,
     book_chapters,
+    build_proposal_context,
     dedupe_cards,
     episode_ref,
     gate_card,
     map_transcripts_to_chapters,
     mix_report,
     parse_cards,
-    safe_chapter_key,
+    propose_chapter_cards,
     select_balanced,
 )
+from _book_edits import anchor_key  # noqa: E402
 
 PROSE = (
     "The Master answered the boy plainly. He said that gratitude is not a feeling but a debt, "
@@ -50,11 +51,17 @@ def card(kind: str, body: str = "", **kw) -> dict:
 
 
 # ─── keys and chapter splitting ──────────────────────────────────────────────
-def test_chapter_key_matches_the_readers_shape() -> None:
-    assert safe_chapter_key("3. The Boy at the Door — Limits and Conditions") == (
-        "3-the-boy-at-the-door-limits-and-conditions"
-    )
-    assert safe_chapter_key("!!!") == "general"
+def test_chapters_are_keyed_by_the_composers_own_anchor_key() -> None:
+    """The key this module used to mint was an UNPINNED mirror, and it drifted.
+
+    `safe_chapter_key` claimed to mirror `companion/keys.ts::safeChapterKey` and
+    disagreed with it on an apostrophe, which made one chapter's fourteen cards
+    invisible in the reader. Chapters are addressed by `_book_edits.anchor_key`
+    now — the Composer's key, fixture-pinned to its JavaScript twin — and this
+    module mints no on-disk note key at all.
+    """
+    md = "# Book\n\n## 9. God's Vicegerent in His Time\n\nprose\n"
+    assert [c["key"] for c in book_chapters(md)] == [anchor_key("9. God's Vicegerent in His Time")]
 
 
 def test_book_chapters_strips_editorial_asides_from_quotable_prose() -> None:
@@ -210,95 +217,79 @@ def test_no_transcripts_means_every_chapter_simply_loses_that_lane() -> None:
     assert map_transcripts_to_chapters(chapters, {}) == {"one": []}
 
 
-# ─── end to end, with the model stubbed ──────────────────────────────────────
-def test_phase_writes_the_readers_on_disk_shape(tmp_path: Path) -> None:
+# ─── Propose: end to end, with the model stubbed ─────────────────────────────
+# The point of these three is the WRITE that does not happen. Before 2026-08-02
+# this module regenerated every chapter and wrote every file on the way past,
+# dropping each chapter's prior generated notes — so the contract worth pinning
+# is not what a proposal contains but that producing one touches no disk.
+def _stub_generator(prompt: str, book_dir: Path, label: str, log) -> str:
+    if label.startswith("comp-judge"):
+        return "[0,1,2]"
+    return json.dumps(
+        [
+            {
+                "kind": KIND_EXPLANATION,
+                "anchor": "debt",
+                "body": "A debt " + ("word " * 30),
+                "quote": "gratitude is not a feeling but a debt",
+            },
+            {"kind": KIND_ANALOGY, "anchor": "road", "body": "Like a road " + ("word " * 30)},
+            {"kind": KIND_QUESTION, "anchor": "ask", "body": "What debt " + ("word " * 30)},
+        ]
+    )
+
+
+def _composed_book(tmp_path: Path) -> Path:
     bd = tmp_path / "slug"
     (bd / "book").mkdir(parents=True)
     (bd / "book" / "book.md").write_text(f"# Book\n\n## 1. One\n\n{PROSE}\n", encoding="utf-8")
-
-    def fake_gen(prompt: str, book_dir: Path, label: str, log) -> str:
-        if label.startswith("comp-judge"):
-            return "[0,1,2]"
-        return json.dumps(
-            [
-                {
-                    "kind": KIND_EXPLANATION,
-                    "anchor": "debt",
-                    "body": "A debt " + ("word " * 30),
-                    "quote": "gratitude is not a feeling but a debt",
-                },
-                {"kind": KIND_ANALOGY, "anchor": "road", "body": "Like a road " + ("word " * 30)},
-                {"kind": KIND_QUESTION, "anchor": "ask", "body": "What debt " + ("word " * 30)},
-            ]
-        )
-
-    report = author_phase_book_companion(bd, log=lambda *a: None, generator=fake_gen)
-
-    doc = json.loads((bd / "_system" / "companion-notes" / "1-one.json").read_text(encoding="utf-8"))
-    assert doc["chapter"] == "1-one"
-    assert doc["slug"] == "slug"
-    assert {n["kind"] for n in doc["notes"]} == {KIND_EXPLANATION, KIND_ANALOGY, KIND_QUESTION}
-    assert all(n["id"] and n["createdAt"] and n["updatedAt"] for n in doc["notes"])
-    assert report["chapters"][0]["chapter"] == "1-one"
+    return bd
 
 
-def test_phase_without_a_composed_book_fails_loudly(tmp_path: Path) -> None:
+def test_proposing_writes_nothing_at_all(tmp_path: Path) -> None:
+    bd = _composed_book(tmp_path)
+    ctx = build_proposal_context(bd)
+    before = {p: p.stat().st_mtime_ns for p in tmp_path.rglob("*") if p.is_file()}
+
+    result = propose_chapter_cards(ctx, "one", generator=_stub_generator, log=lambda *a: None)
+
+    after = {p: p.stat().st_mtime_ns for p in tmp_path.rglob("*") if p.is_file()}
+    assert after == before, "a proposal must not create, delete, or touch a single file"
+    assert result["chapter"] == "one"
+    assert {c["kind"] for c in result["candidates"]} == {KIND_EXPLANATION, KIND_ANALOGY, KIND_QUESTION}
+
+
+def test_every_candidate_is_returned_and_the_balance_rule_only_advises(tmp_path: Path) -> None:
+    ctx = build_proposal_context(_composed_book(tmp_path))
+    result = propose_chapter_cards(ctx, "one", generator=_stub_generator, log=lambda *a: None)
+
+    assert all("recommended" in c for c in result["candidates"]), "the reviewer is told what was picked…"
+    assert any(c["recommended"] for c in result["candidates"]), "…and something is picked"
+    assert len(result["candidates"]) >= sum(1 for c in result["candidates"] if c["recommended"]), (
+        "a candidate the balance rule did not pick is still shown — it advises, it does not withhold"
+    )
+
+
+def test_the_chapter_lane_no_longer_claims_to_be_the_human(tmp_path: Path) -> None:
+    ctx = build_proposal_context(_composed_book(tmp_path))
+    result = propose_chapter_cards(ctx, "one", generator=_stub_generator, log=lambda *a: None)
+    providers = {c.get("source", {}).get("provider") for c in result["candidates"]}
+    assert "manual" not in providers, "'manual' renders as 'You' — a machine card must never wear it"
+    assert providers == {"chapter"}
+
+
+def test_an_unknown_chapter_key_raises_rather_than_proposing_for_chapter_one(tmp_path: Path) -> None:
+    import pytest
+    from _authoring._core import AuthoringError
+
+    ctx = build_proposal_context(_composed_book(tmp_path))
+    with pytest.raises(AuthoringError):
+        propose_chapter_cards(ctx, "9-a-chapter-that-is-not-there", generator=_stub_generator, log=lambda *a: None)
+
+
+def test_context_without_a_composed_book_fails_loudly(tmp_path: Path) -> None:
     import pytest
     from _authoring._core import AuthoringError
 
     with pytest.raises(AuthoringError):
-        author_phase_book_companion(tmp_path, log=lambda *a: None, generator=lambda *a: "[]")
-
-
-# ── Human-authored notes survive a re-render (durability contract) ──────────
-# The Companion panel and this generator write the SAME per-chapter file, and
-# the generator runs automatically at the end of every 0book-render. Before the
-# merge below it replaced the file wholesale, so generating a PDF destroyed
-# hand-written notes.
-
-from _book_companion import _merge_notes  # noqa: E402
-
-
-def _note(nid: str, *, generated: bool) -> dict:
-    n = {"id": nid, "kind": KIND_NOTE, "body": f"body {nid}"}
-    if generated:
-        n["generated"] = True
-    return n
-
-
-def test_merge_notes_keeps_human_notes_and_replaces_generated(tmp_path: Path) -> None:
-    out = tmp_path / "ch01.json"
-    out.write_text(
-        json.dumps(
-            {
-                "slug": "s",
-                "chapter": "ch01",
-                "notes": [_note("human-1", generated=False), _note("gen-old", generated=True)],
-            }
-        ),
-        encoding="utf-8",
-    )
-
-    merged = _merge_notes(out, [_note("gen-new", generated=True)])
-    ids = [n["id"] for n in merged]
-
-    assert "human-1" in ids, "a hand-written note must survive a re-render"
-    assert "gen-old" not in ids, "the generator's own prior output is replaced"
-    assert "gen-new" in ids, "the fresh generated set is written"
-    assert ids.index("human-1") < ids.index("gen-new"), "human notes stay first"
-
-
-def test_merge_notes_with_no_existing_file_returns_generated(tmp_path: Path) -> None:
-    assert _merge_notes(tmp_path / "absent.json", [_note("g", generated=True)]) == [_note("g", generated=True)]
-
-
-def test_merge_notes_never_deletes_on_unreadable_file(tmp_path: Path) -> None:
-    out = tmp_path / "ch01.json"
-    out.write_text("{ not json", encoding="utf-8")
-    merged = _merge_notes(out, [_note("g", generated=True)])
-    assert [n["id"] for n in merged] == ["g"], "corrupt file falls back to the generated set"
-
-
-def test_generated_notes_carry_the_ownership_marker() -> None:
-    note = _as_note({"kind": KIND_NOTE, "body": "some body"})
-    assert note.get("generated") is True, "without this the generator cannot identify its own output"
+        build_proposal_context(tmp_path)
