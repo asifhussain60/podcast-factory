@@ -112,8 +112,29 @@ def test_a_new_term_is_unaffected_by_prior_curation(tmp_path: Path) -> None:
         }
     ]
     merged, preserved = merge_curation(fresh, prior)
-    assert preserved == 0
+    assert preserved == 0, "'preserved' counts fresh rows that INHERITED curation, and none did"
     assert not merged[0].get("decided_by"), "no curation leaks onto an unrelated term"
+
+
+def test_a_rebuild_never_annihilates_a_term_the_fresh_parse_does_not_know(tmp_path: Path) -> None:
+    """`--force` used to delete most of a glossary, and this is why.
+
+    Fresh rows come from `_phonetics.md` — which nothing has written since
+    2026-06-08 — or from the 30-item `CANONICAL_FALLBACK_TERMS` list. Everything
+    else was dropped, so a book whose glossary was built any other way lost it:
+    `degrees-of-excellence`'s eleven hand-authored entries share not one term
+    with the fallback.
+    """
+    prior = read_existing_curation(_write(tmp_path, CURATED_ROWS))
+    fresh = [{"term": "barakah", "transliteration": "barakah", "phonetic": "BA-ra-kah", "first_seen_snippet": ""}]
+
+    merged, _ = merge_curation(fresh, prior)
+    anchors = {(r.get("transliteration") or r.get("term") or "") for r in merged}
+
+    assert "barakah" in anchors, "the fresh row is still there"
+    assert set(prior) <= anchors, "and every prior term survives the rebuild"
+    resurrected = next(r for r in merged if r.get("transliteration") == next(iter(prior)))
+    assert resurrected.get("arabic_script"), "a resurrected entry keeps the curation that made it worth keeping"
 
 
 def test_every_curated_field_is_covered_by_the_reader() -> None:

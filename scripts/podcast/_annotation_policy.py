@@ -57,6 +57,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 import yaml
+from _glossary_io import load_glossary, save_glossary
 
 ANNOTATION_CLASSES = ("teach", "familiar", "name", "silent")
 _CLASS_FIELD = "annotation_class"
@@ -97,14 +98,11 @@ def load_policy(book_dir: Path) -> dict[str, dict[str, str]]:
 
 def _load_glossary_entries(book_dir: Path) -> list[dict[str, Any]]:
     path = Path(book_dir) / "_system" / "glossary.yml"
-    if not path.exists():
-        return []
     try:
-        data: Any = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        entries, _top = load_glossary(path)
     except Exception:
         return []
-    entries = data.get("entries") if isinstance(data, dict) else data
-    return [e for e in entries if isinstance(e, dict)] if isinstance(entries, list) else []
+    return entries
 
 
 def _usage_count(book_md_text: str, phonetic: str) -> int:
@@ -261,15 +259,13 @@ def propose_annotation_policy(
             e[_EQUIV_FIELD] = p["english_equivalent"]
         e[_REASON_FIELD] = p["reason"]
 
-    path.write_text(
-        yaml.safe_dump(
-            {"schema_version": 1, "entries": entries},
-            allow_unicode=True,
-            sort_keys=False,
-            default_flow_style=False,
-        ),
-        encoding="utf-8",
-    )
+    # Through the ONE writer (2026-08-02). This used to be `yaml.safe_dump`, which
+    # emits `- phonetic: x` at column 0 unquoted — valid YAML that three
+    # hand-rolled Python parsers and the site's reader all failed to match, so the
+    # three books this function had touched read back as ZERO entries. One of
+    # those readers then wrote its result, which is how a full glossary could be
+    # replaced by an empty one behind a "non-blocking" log line.
+    save_glossary(path, entries, {"schema_version": 1})
     report = {
         "schema": "book.annotation-policy/v1",
         "classified": len(proposed),
