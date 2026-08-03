@@ -4,7 +4,7 @@
     {
       "chapter_key": "the persian who was dead and revived",
       "title": "The Persian Who Was Dead and Revived",
-      "blocks_fingerprint": "b7c6c08695b3026f",
+      "blocks_fingerprint": "c5f160ffdd034a82",
       "source_para_range": [
         1,
         5
@@ -2471,7 +2471,7 @@
     {
       "chapter_key": "homecoming, the father, and the debate with abu malik",
       "title": "Homecoming, the Father, and the Debate with Abu Malik",
-      "blocks_fingerprint": "7f6c4238f89d21cf",
+      "blocks_fingerprint": "5508fb4bedc78e53",
       "source_para_range": [
         312,
         558
@@ -2527,7 +2527,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "f0542fff411afd30",
+          "fp": "2d725f50d79fe8ed",
           "source_paras": [
             320
           ],

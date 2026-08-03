@@ -1,5 +1,15 @@
 # My Dear Beloved Son or Daughter (Ayyuhal Walad)
 
+<!-- edition-intro:begin -->
+## Introduction to the Book
+
+This is a letter of spiritual counsel. A former student, having spent years mastering the religious sciences under his teacher, asked what, of all he had learned, would truly serve him in the grave and on the Day of Judgment. Everything that follows is the teacher's written reply. The title, *Ayyuha al-Walad* — "O son" — is the affectionate way he addresses the young man throughout; it names a beloved disciple, not a child of his body.
+
+It is written in the first person. The "I" is the author himself, speaking directly to the one student he answers, with no narrator standing between them. The author is Imam Ghazali, who names several of his own larger works — the *Ihya al-Ulum ad-Din* (إِحْيَاءُ عُلُومِ الدِّيْن), the *Kimiya as-Saada* (كِيمِيَاءُ السَّعَادَةِ), the *Jawahir ul-Quran* (جَوَاهِرُ الْقُرْآنِ) — for a reader who wants fuller treatment. One point rewards attention: the letter urges the seeker to go out and find a living guide of his own, and the sixth chapter is given over to recognizing a true one. That guide is a figure distinct from the author writing here, who was already the student's own teacher.
+
+The chapters trace a single argument: knowledge that does not change how one lives will not save its owner, and what does is striving, the prayer of the hours before dawn, and worship understood as plain obedience. Verses of scripture and sayings of the Prophet are quoted in Arabic and then unfolded. It closes in a prayer for the road ahead.
+<!-- edition-intro:end -->
+
 ## 1. Knowledge That Will Not Save You
 
 Know that one of Imam Ghazali's (رَضِيَ اللّٰهُ عَنْه) foremost students had remained in his service for a number of years, studying under him and drawing deeply from his knowledge and his spiritual guidance. In that time he mastered the finer points of the sciences and refined the virtues of his soul. Then one day he began to reflect on his own state. A question pressed upon his heart, and he said within himself: I have studied many branches of knowledge. I have given the prime of my life to learning them and gathering them, and I have sacrificed a great deal to do so. Now I ought to know which of these sciences will benefit me tomorrow and keep me company in my grave and come to my aid on the Day of Judgment, and which of them will not benefit me on that Day, so that I may set it aside. For the Messenger of Allah (may Allah bless him and grant him peace) said:
@@ -10,7 +20,7 @@ Know that one of Imam Ghazali's (رَضِيَ اللّٰهُ عَنْه) foremos
 
 This thought stayed with him for several days. At last he wrote a letter to Imam Ghazali (رض), asking for an answer to what troubled him, together with replies to certain other questions. He asked as well for personal counsel, and for a supplication he might recite at all times.
 
-In his letter he acknowledged that Imam Ghazali (رض) had already written many books on these very subjects, among them Ihya al-Ulum ad-Din (إِحْيَاءُ عُلُومِ الدِّيْن) (Revival of the Knowledge of the Path to God), Kimiya as-Saada (كِيمِيَاءُ السَّعَادَةِ) (Alchemy of Ultimate Success and Happiness), Jawahir ul-Quran (جَوَاهِرُ الْقُرْآنِ) (Priceless Gems of the Holy Quran), Arbaeen (أَرْبَعُون) (Forty Steps), and Minhaj ul-Abideen ila Jannatu Rabbul Alamin (*Minhaj ul-Abideen ila Jannatu Rabbul 'Alamin* (مِنْهَاجُ الْعَابِدِينَ إِلَى جَنَّةِ رَبِّ الْعَالَمِينَ)) (The Best Way for the Worshippers of God Leading Them to the Paradise of the Lord of All Universes), and others besides. Yet this humble one, he wrote, needed something he could study without pause and act upon without fail.
+In his letter he acknowledged that Imam Ghazali (رض) had already written many books on these very subjects, among them Ihya al-Ulum ad-Din (Revival of the Knowledge of the Path to God), Kimiya as-Saada (Alchemy of Ultimate Success and Happiness), Jawahir ul-Quran (Priceless Gems of the Holy Quran), Arbaeen (أَرْبَعُون) (Forty Steps), and Minhaj ul-Abideen ila Jannatu Rabbul Alamin (*Minhaj ul-Abideen ila Jannatu Rabbul 'Alamin* (مِنْهَاجُ الْعَابِدِينَ إِلَى جَنَّةِ رَبِّ الْعَالَمِينَ)) (The Best Way for the Worshippers of God Leading Them to the Paradise of the Lord of All Universes), and others besides. Yet this humble one, he wrote, needed something he could study without pause and act upon without fail.
 
 In answer to his letter, Imam Ghazali (رض) sent him the counsel that follows.
 

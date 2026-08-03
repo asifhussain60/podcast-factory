@@ -4773,3 +4773,80 @@ waves_refactor:
 # ===========================================================================
 # EOF — no version stamp by design (DR-009)
 # ===========================================================================
+
+# ─────────────────────────────────────────────────────────────────────────────
+waves_frontmatter:
+  - id: FM
+    name: "Front matter — editions begin with the book, then a short introduction in its own voice"
+    execution_status: in_progress_2026_08_03
+    branch: develop
+    note: >
+      Asif, 2026-08-03, in two parts on the same day. FIRST: no book needs a
+      machine-written preface — every Islamic edition opened on 328-460 words a
+      model wrote ABOUT the book, under an invented literary title, with the
+      SOURCE's own opening demoted beneath it under a machine-written subheading.
+      A reader met the pipeline's voice before the book's. The generated preface
+      is deleted and no longer generated; the source's own opening is folded into
+      chapter 1 under that chapter's own heading. SECOND: a short introduction
+      comes back, but honestly titled `## Introduction to the Book`, unnumbered,
+      capped at 250 words, and written in the SAME articulation register as the
+      chapters so it does not read as a different hand. APPLIES TO EVERY PDF
+      ROUTE from here on, which is why it lives in the shared apparatus tail
+      rather than on one composer.
+    steps:
+      - id: FM-1
+        title: "Stop generating the machine preface; keep the cleanup"
+        plain: "The pipeline no longer writes a preface about the book, and clears any it wrote before."
+        tools: ["scripts/podcast/_book_frontmatter.py", "scripts/podcast/_book_apparatus.py"]
+        status: shipped_2026_08_03
+      - id: FM-2
+        title: "Fold the source's own opening into chapter 1"
+        plain: "The author's own first words move into chapter 1 instead of sitting above the book under an invented title."
+        tools: ["scripts/podcast/_translation_edition.py", "scripts/podcast/_book_opening.py"]
+        status: shipped_2026_08_03
+        note: >
+          TWO paths, deliberately. The assembly folds a book being COMPOSED;
+          `_book_opening` folds a book already on disk, from the apparatus. The
+          second exists because reaching a finished book through a compose is a
+          RE-TRANSLATION: doing that to ayyuhal-walad cost 615 words of teaching
+          and 38 quotation-length Arabic runs, including Qur'an 53:39, 18:107,
+          25:70, 17:79, 7:50, 7:179 and the whole closing supplication of chapter
+          9, with no gate failing. Never reach front matter through a compose.
+      - id: FM-3
+        title: "The fold gives chapter 1 the source lines it now carries"
+        plain: "After the fold, chapter 1 declares the source lines the opening came from, so everything downstream can still tell which Arabic each passage came from."
+        tools: ["scripts/podcast/_book_opening.py", "scripts/podcast/_book_mirror.py"]
+        status: shipped_2026_08_03
+        note: >
+          Without it the aligner does not fail, it places the folded prose WRONG:
+          on the-master-and-the-disciple it pinned seven paragraphs to one source
+          paragraph, all marked `verified`, and the paragraph mirror fused them
+          into a 623-word block. Also: an unaligned paragraph's empty signature
+          no longer groups, so absence of evidence stops reading as evidence of a
+          shared source.
+      - id: FM-4
+        title: "A short introduction, in the book's own articulation register"
+        plain: "Each book gets an honest, unnumbered `Introduction to the Book` of at most 250 words that reads like the rest of the book."
+        tools: ["scripts/podcast/_book_frontmatter.py", "scripts/podcast/_book_voice_prompts.py"]
+        status: shipped_2026_08_03
+        note: >
+          The register clause is IMPORTED from
+          `_book_voice_prompts.ARTICULATION_REGISTER` — the same text every
+          chapter is articulated under, not a second copy — and the brief shows
+          the model a real passage of the book's own prose to match. A register
+          defined twice is how the introduction drifts into a different voice
+          later. Injected BEFORE the house-style steps so transliteration, Arabic
+          script, vowelling and American spelling all reach it; one model call
+          per book, ever, with one retry that names the actual finding.
+      - id: FM-5
+        title: "Every PDF route, every book"
+        plain: "Apply the same front matter to the remaining editions and to every book made from here on."
+        tools: ["scripts/podcast/_book_apparatus.py"]
+        status: in_progress
+        note: >
+          Done: degrees-of-excellence, ayyuhal-walad, the-master-and-the-disciple.
+          Pending: asaas-al-taveel/vol-01 (its chapter 1 also needs the editor's
+          publication story cut) and al-anwaar-al-lateefah/vol-01 (whose preface
+          is deleted rather than folded, and which needs its narrative frame
+          declared). New books inherit it automatically — the step lives in
+          `apply_book_apparatus`, the one tail every route shares.

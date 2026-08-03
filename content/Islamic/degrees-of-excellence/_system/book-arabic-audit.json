@@ -8,6 +8,28 @@
       "runs": []
     },
     {
+      "chapter": "Introduction to the Book",
+      "arabic_runs": 3,
+      "unverified": 1,
+      "runs": [
+        {
+          "text": "الْإِمَامَة",
+          "resolution": "ocr",
+          "skeleton": "الامامه"
+        },
+        {
+          "text": "اَلنَّيْسَابُورِي",
+          "resolution": "ocr",
+          "skeleton": "النيسابوري"
+        },
+        {
+          "text": "اَلْكِرْمَانِيّ",
+          "resolution": "unverified",
+          "skeleton": "الكرماني"
+        }
+      ]
+    },
+    {
       "chapter": "1. The Pole and Foundation of Religion",
       "arabic_runs": 29,
       "unverified": 1,
@@ -718,7 +740,7 @@
           "skeleton": "الدعاء"
         },
         {
-          "text": "نُكَتًا عَلَى الِاخْتِصَارِ",
+          "text": "نُكَتًا عَلَى الْاِخْتِصَارِ",
           "resolution": "ocr",
           "skeleton": "نكتاعليالاختصار"
         },
@@ -967,7 +989,7 @@
           "skeleton": "فلاتقللهماافولاتنهرهما"
         },
         {
-          "text": "الْقُذَّةِ بِالْقُذَّةِ",
+          "text": "الْقُذَّةَ بِالْقُذَّةِ",
           "resolution": "ocr",
           "skeleton": "القذهبالقذه"
         },
@@ -1208,11 +1230,11 @@
   ],
   "totals": {
     "canonical-mushaf": 26,
-    "ocr": 199,
+    "ocr": 201,
     "knowledge-base": 0,
     "honorific-formula": 0,
-    "unverified": 2,
-    "arabic_runs": 227
+    "unverified": 3,
+    "arabic_runs": 230
   },
   "quran_coverage": {
     "measured": true,
@@ -1223,44 +1245,9 @@
     "uncited_inserted": 3
   },
   "stages": {
-    "base": {
-      "(front matter)": 0,
-      "1. The Pole and Foundation of Religion": 28,
-      "2. By Nature and by Reason": 28,
-      "3. Degrees of Excellence": 1,
-      "4. The Ladder of Creation": 8,
-      "5. The Physician of Souls": 5,
-      "6. Governance and the First Principle": 4,
-      "7. The Imam in the Pillars of Faith": 4,
-      "8. From Adam to Ali": 2,
-      "9. God's Vicegerent in His Time": 3
-    },
-    "fluency": {
-      "(front matter)": 0,
-      "1. The Pole and Foundation of Religion": 28,
-      "2. By Nature and by Reason": 28,
-      "3. Degrees of Excellence": 1,
-      "4. The Ladder of Creation": 8,
-      "5. The Physician of Souls": 5,
-      "6. Governance and the First Principle": 4,
-      "7. The Imam in the Pillars of Faith": 4,
-      "8. From Adam to Ali": 2,
-      "9. God's Vicegerent in His Time": 3
-    },
-    "augment": {
-      "(front matter)": 0,
-      "1. The Pole and Foundation of Religion": 28,
-      "2. By Nature and by Reason": 28,
-      "3. Degrees of Excellence": 1,
-      "4. The Ladder of Creation": 8,
-      "5. The Physician of Souls": 5,
-      "6. Governance and the First Principle": 4,
-      "7. The Imam in the Pillars of Faith": 4,
-      "8. From Adam to Ali": 2,
-      "9. God's Vicegerent in His Time": 3
-    },
     "final": {
       "(front matter)": 0,
+      "Introduction to the Book": 3,
       "1. The Pole and Foundation of Religion": 29,
       "2. By Nature and by Reason": 27,
       "3. Degrees of Excellence": 24,
@@ -1272,12 +1259,5 @@
       "9. God's Vicegerent in His Time": 22
     }
   },
-  "stage_losses": [
-    {
-      "chapter": "2. By Nature and by Reason",
-      "stage": "final",
-      "before": 28,
-      "after": 27
-    }
-  ]
+  "stage_losses": []
 }

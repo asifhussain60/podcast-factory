@@ -8,6 +8,7 @@ one carries it inside a Composer edit that is replayed on every compose.
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from _book_frontmatter import (
@@ -120,15 +121,206 @@ def test_clear_without_a_book_never_raises(tmp_path: Path) -> None:
     assert clear_introduction(_book(tmp_path), log=lambda _m: None) == {"removed": False, "reason": "no book.md"}
 
 
-def test_the_authoring_path_is_really_gone() -> None:
-    """Named so a future reader sees the retirement was deliberate, not a slip.
-
-    The `edition-intro` fence KIND stays registered (see
-    `test_fence_kinds_cross_language.py`) — de-registering it while books still
-    carry fences would make those markers print as literal text.
-    """
+def test_the_fence_kind_stays_registered() -> None:
+    """De-registering it while books carry fences would print the markers as text —
+    the 2026-07-21 regression run backwards. See test_fence_kinds_cross_language."""
     import _book_frontmatter as fm
 
-    for gone in ("author_introduction", "apply_introduction", "inject_introduction", "introduction_prompt"):
-        assert not hasattr(fm, gone), f"{gone} was retired on 2026-08-03"
     assert fm.INTRO_OPEN == "<!-- edition-intro:begin -->"
+
+
+# --- the short, honestly-titled introduction (Asif, 2026-08-03) ---------------
+
+
+_SHORT = " ".join(["The book is a dialogue between a teacher and a seeker."] * 18)
+
+
+def test_the_introduction_is_its_own_unnumbered_section_above_chapter_one() -> None:
+    """Unnumbered is structural, not typographic: every entry in the toc's chapter
+    list carries the source lines it was translated from, and an introduction has
+    none. Numbering it would also renumber every chapter in the book."""
+    from _book_frontmatter import INTRO_HEADING, inject_introduction
+
+    book = "# Title\n\n## 1. The Call and the Covenant\n\nThe chapter's own first sentence.\n"
+
+    out = inject_introduction(book, _SHORT)
+
+    assert out.index(INTRO_HEADING) < out.index("## 1. The Call and the Covenant")
+    assert "## 1. The Call and the Covenant\n\nThe chapter's own first sentence." in out
+    assert not re.search(r"(?m)^##\s+\d+\.\s+Introduction", out)
+
+
+def test_the_cap_is_250_words_and_an_essay_is_refused() -> None:
+    from _book_frontmatter import MAX_INTRO_WORDS, gate_introduction
+
+    assert MAX_INTRO_WORDS == 250
+    assert gate_introduction(" ".join(["word"] * 400))[0] is False
+    assert any("essay" in r for r in gate_introduction(" ".join(["word"] * 400))[1])
+    assert gate_introduction(_SHORT)[0] is True
+
+
+def test_the_gate_refuses_a_stub_an_asserted_absence_and_bullets() -> None:
+    from _book_frontmatter import gate_introduction
+
+    assert not gate_introduction("Too short.")[0]
+    assert any("absence" in r for r in gate_introduction(_SHORT + " What it never says is why.")[1])
+    assert any("bullets" in r for r in gate_introduction("- a bullet\n" + _SHORT)[1])
+
+
+def test_injection_is_idempotent_and_the_heading_leaves_with_the_fence() -> None:
+    from _book_frontmatter import INTRO_HEADING, INTRO_OPEN, inject_introduction, strip_introduction
+
+    book = "# Title\n\n## 1. The Call\n\nThe chapter.\n"
+
+    once = inject_introduction(book, _SHORT)
+    twice = inject_introduction(once, _SHORT)
+
+    assert once == twice and twice.count(INTRO_OPEN) == 1
+    # Stripped, no orphan heading is left for the next run to fill back in.
+    assert INTRO_HEADING not in strip_introduction(once)
+
+
+def test_no_numbered_chapter_means_no_introduction(tmp_path: Path) -> None:
+    """Refusing beats guessing a position in a book whose shape we do not know."""
+    from _book_frontmatter import INTRO_HEADING, inject_introduction
+
+    assert INTRO_HEADING not in inject_introduction("# T\n\n## Appendix\n\nText.\n", _SHORT)
+
+
+def test_the_register_comes_from_the_articulation_standard_not_a_second_copy() -> None:
+    """Asif's rule: the introduction must not stand out as a different prose. A
+    register defined twice is how it drifts into a different voice later."""
+    from _book_frontmatter import introduction_prompt
+    from _book_voice_prompts import ARTICULATION_REGISTER
+
+    prompt = introduction_prompt({"title": "A Book"})
+
+    assert ARTICULATION_REGISTER in prompt
+    assert "REQ-BA-010" in prompt
+
+
+def test_the_brief_shows_the_book_its_own_prose_to_match(tmp_path: Path) -> None:
+    from _book_frontmatter import introduction_prompt, style_exemplar
+
+    bd = _book(tmp_path)
+    (bd / "book" / "book.md").write_text(
+        "# T\n\n## 1. The Call\n\n> a quotation, skipped\n\nThe chapter's own articulated prose.\n",
+        encoding="utf-8",
+    )
+
+    exemplar = style_exemplar(bd)
+
+    assert exemplar == "The chapter's own articulated prose."
+    assert exemplar in introduction_prompt({}, exemplar=exemplar)
+
+
+def test_an_author_the_files_do_not_record_is_never_invented() -> None:
+    """Three of the five Islamic editions record no author, and for al-anwaar that
+    is the truth rather than a gap — it was compiled from many sources."""
+    from _book_frontmatter import introduction_prompt
+
+    prompt = introduction_prompt({"title": "A Book"})
+
+    assert "If no author is recorded" in prompt
+    assert "no single author" in prompt
+
+
+def test_a_failed_author_never_takes_down_a_compose(tmp_path: Path) -> None:
+    from _book_frontmatter import apply_introduction, author_introduction
+
+    bd = _book(tmp_path)
+    (bd / "book" / "book.md").write_text("# T\n\n## 1. The Call\n\nThe chapter.\n", encoding="utf-8")
+
+    def explode(_prompt: str) -> str:
+        raise RuntimeError("model unavailable")
+
+    assert author_introduction(bd, log=lambda _m: None, author=explode) == ""
+    assert apply_introduction(bd, log=lambda _m: None, author=explode)["applied"] is False
+    assert (bd / "book" / "book.md").read_text(encoding="utf-8").endswith("The chapter.\n")
+
+
+def test_a_rejected_answer_falls_back_to_the_cached_one(tmp_path: Path) -> None:
+    """A book that HAS a good introduction must not lose it to one bad re-run."""
+    from _book_frontmatter import CACHE_NAME, author_introduction
+
+    bd = _book(tmp_path)
+    (bd / "_system" / CACHE_NAME).write_text(_SHORT + "\n", encoding="utf-8")
+
+    assert author_introduction(bd, log=lambda _m: None, force=True, author=lambda _p: "Too short.") == _SHORT
+
+
+def test_the_model_is_asked_once_per_book(tmp_path: Path) -> None:
+    from _book_frontmatter import author_introduction
+
+    bd = _book(tmp_path)
+    calls: list[str] = []
+
+    def author(prompt: str) -> str:
+        calls.append(prompt)
+        return _SHORT
+
+    author_introduction(bd, log=lambda _m: None, author=author)
+    author_introduction(bd, log=lambda _m: None, author=author)
+
+    assert len(calls) == 1
+
+
+def test_the_earlier_longer_introduction_is_reused_as_raw_material(tmp_path: Path) -> None:
+    from _book_frontmatter import CACHE_NAME, author_introduction
+
+    bd = _book(tmp_path)
+    (bd / "_system" / CACHE_NAME).write_text(" ".join(["essay"] * 400) + "\n", encoding="utf-8")
+    seen: list[str] = []
+
+    author_introduction(bd, log=lambda _m: None, author=lambda p: (seen.append(p), _SHORT)[1])
+
+    assert "RAW MATERIAL" in seen[0]
+    assert "essay essay" in seen[0]
+
+
+def test_apply_writes_the_introduction_into_the_book(tmp_path: Path) -> None:
+    from _book_frontmatter import INTRO_HEADING, apply_introduction
+
+    bd = _book(tmp_path)
+    (bd / "book" / "book.md").write_text("# T\n\n## 1. The Call\n\nThe chapter.\n", encoding="utf-8")
+
+    report = apply_introduction(bd, log=lambda _m: None, author=lambda _p: _SHORT)
+    body = (bd / "book" / "book.md").read_text(encoding="utf-8")
+
+    assert report["applied"] is True and report["words"] == len(_SHORT.split())
+    assert body.index(INTRO_HEADING) < body.index("## 1. The Call")
+
+
+def test_an_over_length_answer_is_retried_once_with_the_finding_named(tmp_path: Path) -> None:
+    """The first three books came back at 256, 262 and 270 against a 250 limit.
+
+    That is a trim, not a rewrite, and refusing outright threw away a good
+    introduction over two percent. The retry names the actual finding, because a
+    retry that repeats the original brief re-runs the model against instructions
+    it already followed.
+    """
+    from _book_frontmatter import author_introduction
+
+    bd = _book(tmp_path)
+    prompts: list[str] = []
+
+    def author(prompt: str) -> str:
+        prompts.append(prompt)
+        return " ".join(["word"] * 400) if len(prompts) == 1 else _SHORT
+
+    assert author_introduction(bd, log=lambda _m: None, author=author) == _SHORT
+    assert len(prompts) == 2
+    assert "failed these checks" in prompts[1] and "essay" in prompts[1]
+
+
+def test_the_retry_happens_at_most_once(tmp_path: Path) -> None:
+    from _book_frontmatter import author_introduction
+
+    bd = _book(tmp_path)
+    calls: list[str] = []
+
+    assert (
+        author_introduction(bd, log=lambda _m: None, author=lambda p: (calls.append(p), " ".join(["word"] * 400))[1])
+        == ""
+    )
+    assert len(calls) == 2

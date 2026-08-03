@@ -5,7 +5,7 @@
   "uncovered": [
     {
       "ref": "12:105",
-      "line": 241,
+      "line": 244,
       "reason": "no-span-in-scan",
       "ayah_words": 11
     }
@@ -16,7 +16,7 @@
   "scan_arabic_words": 18480,
   "uncited_review": [
     {
-      "line": 23,
+      "line": 25,
       "passage": "The best of good deeds is the reviving of the dead.",
       "proposed_ref": "84:23",
       "english_similarity": 0.6,
@@ -24,7 +24,7 @@
       "agreed": false
     },
     {
-      "line": 36,
+      "line": 39,
       "passage": "The thing I needed has slipped past me, and my occupation is the search for it.",
       "proposed_ref": "43:56",
       "english_similarity": 0.333,
@@ -32,7 +32,7 @@
       "agreed": false
     },
     {
-      "line": 40,
+      "line": 43,
       "passage": "But wonder is of two kinds, the praiseworthy and the blameworthy.",
       "proposed_ref": "11:73",
       "english_similarity": 0.5,
@@ -40,7 +40,7 @@
       "agreed": false
     },
     {
-      "line": 48,
+      "line": 51,
       "passage": "The speech whose origin is from Allah and which calls to Allah.",
       "proposed_ref": "2:204",
       "english_similarity": 0.75,
@@ -48,7 +48,7 @@
       "agreed": false
     },
     {
-      "line": 52,
+      "line": 55,
       "passage": "The speech whose origin is caprice and which calls to something other than guidance.",
       "proposed_ref": "2:204",
       "english_similarity": 0.375,
@@ -56,7 +56,7 @@
       "agreed": false
     },
     {
-      "line": 54,
+      "line": 57,
       "passage": "You have spoken truly. Have you no words of your own for us to hear?",
       "proposed_ref": "4:46",
       "english_similarity": 0.5,
@@ -64,7 +64,7 @@
       "agreed": false
     },
     {
-      "line": 56,
+      "line": 59,
       "passage": "I have nothing to say. I am only a follower of the right word.",
       "proposed_ref": "2:113",
       "english_similarity": 0.75,
@@ -72,7 +72,7 @@
       "agreed": false
     },
     {
-      "line": 66,
+      "line": 69,
       "passage": "Blessed is He who made the night and the day a succession for whoever would be reminded or would give thanks. And may Allah bless the one He chose from among Hi",
       "proposed_ref": "40:61",
       "english_similarity": 0.357,
@@ -80,7 +80,7 @@
       "agreed": false
     },
     {
-      "line": 197,
+      "line": 200,
       "passage": "knowledge cannot be borne unless a lesser knowledge is brought in before it",
       "proposed_ref": "11:47",
       "english_similarity": 0.5,
@@ -88,7 +88,7 @@
       "agreed": false
     },
     {
-      "line": 197,
+      "line": 200,
       "passage": "quicker to reach the hearts and smoother to the understanding",
       "proposed_ref": "47:24",
       "english_similarity": 0.4,
@@ -96,7 +96,7 @@
       "agreed": false
     },
     {
-      "line": 227,
+      "line": 230,
       "passage": "In the name of Allah, the Most Gracious, the Most Merciful.",
       "proposed_ref": "1:1",
       "english_similarity": 0.75,
@@ -104,7 +104,7 @@
       "agreed": false
     },
     {
-      "line": 391,
+      "line": 394,
       "passage": "O children of Adam, We have sent down upon you a garment that hides your nakedness, and feathers for adornment; and the garment of piety — that is better.",
       "proposed_ref": "7:26",
       "english_similarity": 0.364,
@@ -112,7 +112,7 @@
       "agreed": false
     },
     {
-      "line": 395,
+      "line": 398,
       "passage": " and then the meaning is made clear and the speech is sound. In the same way, if you say ",
       "proposed_ref": "38:20",
       "english_similarity": 0.429,
@@ -120,7 +120,7 @@
       "agreed": false
     },
     {
-      "line": 399,
+      "line": 402,
       "passage": "And forsake the outward of sin and its inward.",
       "proposed_ref": "57:3",
       "english_similarity": 0.5,
@@ -128,7 +128,7 @@
       "agreed": false
     },
     {
-      "line": 406,
+      "line": 409,
       "passage": "the origin from which one seeks help and to whom one calls.",
       "proposed_ref": "93:10",
       "english_similarity": 0.5,
@@ -136,7 +136,7 @@
       "agreed": false
     },
     {
-      "line": 417,
+      "line": 420,
       "passage": "Are not this world and the hereafter a pair, the soul and the body a pair, the knowledge of the outward and the knowledge of the inward a pair — and are there n",
       "proposed_ref": "31:20",
       "english_similarity": 0.364,
@@ -144,7 +144,7 @@
       "agreed": false
     },
     {
-      "line": 419,
+      "line": 422,
       "passage": "I grant it. But are they pairs of a single kind?",
       "proposed_ref": "55:52",
       "english_similarity": 0.5,
@@ -152,7 +152,7 @@
       "agreed": false
     },
     {
-      "line": 421,
+      "line": 424,
       "passage": "The pairs point toward the religion of God.",
       "proposed_ref": "4:125",
       "english_similarity": 0.5,
@@ -160,7 +160,7 @@
       "agreed": false
     },
     {
-      "line": 427,
+      "line": 430,
       "passage": "And who can hope to reach the like of this station by which God has raised His friends?",
       "proposed_ref": "19:57",
       "english_similarity": 0.333,
@@ -168,7 +168,7 @@
       "agreed": false
     },
     {
-      "line": 431,
+      "line": 434,
       "passage": "Can you help me to that, as the first favor came from you?",
       "proposed_ref": "17:5",
       "english_similarity": 0.5,
@@ -176,7 +176,7 @@
       "agreed": false
     },
     {
-      "line": 433,
+      "line": 436,
       "passage": "This is a station in which nothing avails but the work of its own people.",
       "proposed_ref": "38:7",
       "english_similarity": 0.4,
@@ -184,7 +184,7 @@
       "agreed": false
     },
     {
-      "line": 445,
+      "line": 448,
       "passage": "That is the end of your guidance and the utmost of the worlds.",
       "proposed_ref": "3:96",
       "english_similarity": 0.5,
@@ -192,7 +192,7 @@
       "agreed": false
     },
     {
-      "line": 453,
+      "line": 456,
       "passage": "And what are the might and the power you have mentioned, which cannot be except by God?",
       "proposed_ref": "11:88",
       "english_similarity": 0.75,
@@ -200,7 +200,7 @@
       "agreed": false
     },
     {
-      "line": 455,
+      "line": 458,
       "passage": "We mean: I have no stratagem to draw a benefit to myself, and no power to ward off from myself a harm I dislike, except by God.",
       "proposed_ref": "7:188",
       "english_similarity": 0.5,
@@ -208,7 +208,7 @@
       "agreed": false
     },
     {
-      "line": 475,
+      "line": 478,
       "passage": "I am convinced. So what is the meaning of the two words and their like?",
       "proposed_ref": "5:13",
       "english_similarity": 0.5,
@@ -216,7 +216,7 @@
       "agreed": false
     },
     {
-      "line": 511,
+      "line": 514,
       "passage": "What of one who knows the inward knowledge but does not know the outward and does not act upon it? What is his standing among the people of religion?",
       "proposed_ref": "57:3",
       "english_similarity": 0.333,
@@ -224,7 +224,7 @@
       "agreed": false
     },
     {
-      "line": 515,
+      "line": 518,
       "passage": "And one who knows the outward knowledge and acts upon it but does not know the inward? What is his standing among the people of religion?",
       "proposed_ref": "57:3",
       "english_similarity": 0.333,
@@ -232,7 +232,7 @@
       "agreed": false
     },
     {
-      "line": 523,
+      "line": 526,
       "passage": "Then is not one who knows the outward together with the inward and establishes them both a believer?",
       "proposed_ref": "31:20",
       "english_similarity": 0.429,
@@ -240,7 +240,7 @@
       "agreed": false
     },
     {
-      "line": 527,
+      "line": 530,
       "passage": "And is not one who has knowledge and then works for the Hereafter granted a good world, its good things made lawful for him and the turning about in its gains?",
       "proposed_ref": "16:97",
       "english_similarity": 0.5,
@@ -248,7 +248,7 @@
       "agreed": false
     },
     {
-      "line": 529,
+      "line": 532,
       "passage": "Yes. The world is not made good except for them, and they are the most deserving of the world and the worthiest of it.",
       "proposed_ref": "28:42",
       "english_similarity": 0.375,
@@ -256,7 +256,7 @@
       "agreed": false
     },
     {
-      "line": 769,
+      "line": 772,
       "passage": "There is no increase greater than your knowing what is within me. So grant of your kindness what you see fit.",
       "proposed_ref": "35:44",
       "english_similarity": 0.375,
@@ -264,7 +264,7 @@
       "agreed": false
     },
     {
-      "line": 773,
+      "line": 776,
       "passage": "O my son, take care of yourself, for I have a work other than you, and this is the parting between me and you.",
       "proposed_ref": "42:6",
       "english_similarity": 0.375,
@@ -272,7 +272,7 @@
       "agreed": false
     },
     {
-      "line": 795,
+      "line": 798,
       "passage": "Abu Malik, do you not see what the boy has gone over to?",
       "proposed_ref": "60:11",
       "english_similarity": 0.333,
@@ -280,7 +280,7 @@
       "agreed": false
     },
     {
-      "line": 827,
+      "line": 830,
       "passage": "Then we hold firm to our truth and give the lie to whatever differs from it, whatever it may be.",
       "proposed_ref": "84:22",
       "english_similarity": 0.429,
@@ -288,7 +288,7 @@
       "agreed": false
     },
     {
-      "line": 829,
+      "line": 832,
       "passage": "That is not how the meaning is sought, nor is guidance found by giving the lie.",
       "proposed_ref": "10:39",
       "english_similarity": 0.429,
@@ -296,7 +296,7 @@
       "agreed": false
     },
     {
-      "line": 831,
+      "line": 834,
       "passage": "How, then, is the demand to be made, if we neither give the lie to falsehood nor affirm the truth?",
       "proposed_ref": "6:57",
       "english_similarity": 0.444,
@@ -304,7 +304,7 @@
       "agreed": false
     },
     {
-      "line": 839,
+      "line": 842,
       "passage": "How has that come about in us, and what merit have they over us?",
       "proposed_ref": "17:21",
       "english_similarity": 0.75,
@@ -312,7 +312,7 @@
       "agreed": false
     },
     {
-      "line": 861,
+      "line": 864,
       "passage": "Only before it speaks, so that by your reverence you may draw its answer out of it.",
       "proposed_ref": "27:28",
       "english_similarity": 0.5,
@@ -320,7 +320,7 @@
       "agreed": false
     },
     {
-      "line": 871,
+      "line": 874,
       "passage": "It is as though you had been waiting for this very affair before this day came.",
       "proposed_ref": "27:42",
       "english_similarity": 0.5,
@@ -328,7 +328,7 @@
       "agreed": false
     },
     {
-      "line": 873,
+      "line": 876,
       "passage": "That a man might gain increase from the words of one in the right, we grant you. But how do you hope for increase from the words of one in the wrong?",
       "proposed_ref": "71:28",
       "english_similarity": 0.333,
@@ -336,7 +336,7 @@
       "agreed": false
     },
     {
-      "line": 877,
+      "line": 880,
       "passage": "Yes. We will do what you have commanded — within three days.",
       "proposed_ref": "11:65",
       "english_similarity": 0.4,
@@ -344,7 +344,7 @@
       "agreed": false
     },
     {
-      "line": 883,
+      "line": 886,
       "passage": "No — only within this one day of ours. If you do it, well and good; and if not, then I am going on.",
       "proposed_ref": "5:52",
       "english_similarity": 0.5,
@@ -352,7 +352,7 @@
       "agreed": false
     },
     {
-      "line": 885,
+      "line": 888,
       "passage": "Then we repent to God from every sin, and we render every debt, and we do what you have commanded. There is no strength save in God.",
       "proposed_ref": "9:5",
       "english_similarity": 0.375,
@@ -360,7 +360,7 @@
       "agreed": false
     },
     {
-      "line": 889,
+      "line": 892,
       "passage": "Salih today is my father, and I am the son of Salih; and Salih is with his Lord.",
       "proposed_ref": "12:81",
       "english_similarity": 0.5,
@@ -368,7 +368,7 @@
       "agreed": false
     },
     {
-      "line": 893,
+      "line": 896,
       "passage": "To God we belong, and to Him we return. Has Salih died?",
       "proposed_ref": "2:156",
       "english_similarity": 0.6,
@@ -376,7 +376,7 @@
       "agreed": false
     },
     {
-      "line": 895,
+      "line": 898,
       "passage": "Salih has not died and never will. He endures as long as time itself endures.",
       "proposed_ref": "12:110",
       "english_similarity": 0.429,
@@ -384,7 +384,7 @@
       "agreed": false
     },
     {
-      "line": 899,
+      "line": 902,
       "passage": "Abu Malik, come to your need, and be steady in your asking, for you are only at the beginning of the trial.",
       "proposed_ref": "33:53",
       "english_similarity": 0.375,
@@ -392,7 +392,7 @@
       "agreed": false
     },
     {
-      "line": 927,
+      "line": 930,
       "passage": "Then when you came to know the excellence of the request, did you also come to know its due?",
       "proposed_ref": "15:24",
       "english_similarity": 0.429,
@@ -400,7 +400,7 @@
       "agreed": false
     },
     {
-      "line": 931,
+      "line": 934,
       "passage": "To know its several faces, and then to seek out from among them the one in which the truth becomes binding upon you.",
       "proposed_ref": "16:38",
       "english_similarity": 0.429,
@@ -408,7 +408,7 @@
       "agreed": false
     },
     {
-      "line": 953,
+      "line": 956,
       "passage": "This too is among the things a man has need to know.",
       "proposed_ref": "72:4",
       "english_similarity": 0.4,
@@ -416,7 +416,7 @@
       "agreed": false
     },
     {
-      "line": 959,
+      "line": 962,
       "passage": "I see you rushing to ask before you have made certain.",
       "proposed_ref": "4:160",
       "english_similarity": 0.4,
@@ -424,7 +424,7 @@
       "agreed": false
     },
     {
-      "line": 993,
+      "line": 996,
       "passage": "Command and prohibition; the lawful and the forbidden; the sunnahs and the obligations.",
       "proposed_ref": "66:1",
       "english_similarity": 0.333,
@@ -432,7 +432,7 @@
       "agreed": false
     },
     {
-      "line": 997,
+      "line": 1000,
       "passage": "I know of nothing beyond what I have just described to you.",
       "proposed_ref": "13:33",
       "english_similarity": 0.6,
@@ -440,7 +440,7 @@
       "agreed": false
     },
     {
-      "line": 999,
+      "line": 1002,
       "passage": "Then you have set religion and the sacred law together on a single ground?",
       "proposed_ref": "9:36",
       "english_similarity": 0.429,
@@ -448,7 +448,7 @@
       "agreed": false
     },
     {
-      "line": 1005,
+      "line": 1008,
       "passage": "I do not see that anything is left to me. So what is religion in your view?",
       "proposed_ref": "17:76",
       "english_similarity": 0.6,
@@ -456,7 +456,7 @@
       "agreed": false
     },
     {
-      "line": 1033,
+      "line": 1036,
       "passage": "I can find no way out of this except to say that they are signs pointing to God.",
       "proposed_ref": "30:21",
       "english_similarity": 0.4,
@@ -464,7 +464,7 @@
       "agreed": false
     },
     {
-      "line": 1037,
+      "line": 1040,
       "passage": "I do not know what to tell you about this. Lead us on to another door.",
       "proposed_ref": "12:25",
       "english_similarity": 0.4,
@@ -472,7 +472,7 @@
       "agreed": false
     },
     {
-      "line": 1043,
+      "line": 1046,
       "passage": "Then let me ask you about your knowledge of God. Where does it come from, and from whom did you receive it? Was it from an attribute that pointed you to One who",
       "proposed_ref": "5:109",
       "english_similarity": 0.375,
@@ -480,7 +480,7 @@
       "agreed": false
     },
     {
-      "line": 1063,
+      "line": 1066,
       "passage": "Then what is the difference between the name and the named? And which of the two do you worship — one of them, or both?",
       "proposed_ref": "19:65",
       "english_similarity": 0.5,
@@ -488,7 +488,7 @@
       "agreed": false
     },
     {
-      "line": 1071,
+      "line": 1074,
       "passage": "O Abu Malik, raise your head and say what has come to you of speech.",
       "proposed_ref": "49:2",
       "english_similarity": 0.333,
@@ -496,7 +496,7 @@
       "agreed": false
     },
     {
-      "line": 1075,
+      "line": 1078,
       "passage": "O Abu Malik, One of such greatness — do the eyes grasp Him?",
       "proposed_ref": "7:195",
       "english_similarity": 0.333,
@@ -504,7 +504,7 @@
       "agreed": false
     },
     {
-      "line": 1089,
+      "line": 1092,
       "passage": "Ignorance is an outright denial of thanksgiving and a persisting in disbelief, and God loves none of the disbelievers.",
       "proposed_ref": "6:122",
       "english_similarity": 0.333,
@@ -512,7 +512,7 @@
       "agreed": false
     },
     {
-      "line": 1091,
+      "line": 1094,
       "passage": "Were they, then, created already knowing, aware of what is wanted of them?",
       "proposed_ref": "49:13",
       "english_similarity": 0.6,
@@ -520,7 +520,7 @@
       "agreed": false
     },
     {
-      "line": 1093,
+      "line": 1096,
       "passage": "No, He created them ignorant, knowing nothing.",
       "proposed_ref": "16:70",
       "english_similarity": 0.75,
@@ -528,7 +528,7 @@
       "agreed": false
     },
     {
-      "line": 1103,
+      "line": 1106,
       "passage": "Is it permissible to rule with justice in any way other than this?",
       "proposed_ref": "38:22",
       "english_similarity": 0.6,
@@ -536,7 +536,7 @@
       "agreed": false
     },
     {
-      "line": 1105,
+      "line": 1108,
       "passage": "It is permissible for none but God, and God is the wisest of judges.",
       "proposed_ref": "13:41",
       "english_similarity": 0.5,
@@ -544,7 +544,7 @@
       "agreed": false
     },
     {
-      "line": 1121,
+      "line": 1124,
       "passage": "And are the one who obeys the virtuous one among them and the virtuous one himself equal in reward?",
       "proposed_ref": "29:27",
       "english_similarity": 0.4,
@@ -552,7 +552,7 @@
       "agreed": false
     },
     {
-      "line": 1129,
+      "line": 1132,
       "passage": "Then can anyone imitate the lesser one among them, since no Book is sent down to him in which knowledge of the unseen is revealed?",
       "proposed_ref": "6:114",
       "english_similarity": 0.364,
@@ -560,7 +560,7 @@
       "agreed": false
     },
     {
-      "line": 1133,
+      "line": 1136,
       "passage": "And how is that, when they did not set forth the seven creations of the unseen as the virtuous one himself set them forth?",
       "proposed_ref": "36:13",
       "english_similarity": 0.375,
@@ -568,7 +568,7 @@
       "agreed": false
     },
     {
-      "line": 1139,
+      "line": 1142,
       "passage": "Yes, and for that very reason obedience to him became obedience to God.",
       "proposed_ref": "16:52",
       "english_similarity": 0.333,
@@ -576,7 +576,7 @@
       "agreed": false
     },
     {
-      "line": 1143,
+      "line": 1146,
       "passage": "Because of his obedience to the virtuous one and his need of him.",
       "proposed_ref": "12:68",
       "english_similarity": 0.6,
@@ -584,7 +584,7 @@
       "agreed": false
     },
     {
-      "line": 1145,
+      "line": 1148,
       "passage": "And what need has he of the creature, when the inspiration reaches him from the Creator?",
       "proposed_ref": "35:45",
       "english_similarity": 0.333,
@@ -592,7 +592,7 @@
       "agreed": false
     },
     {
-      "line": 1151,
+      "line": 1154,
       "passage": "He comes in his interpretation with knowledge from heaven and a declaration from the highest assembly, and the Book bears witness to it.",
       "proposed_ref": "41:47",
       "english_similarity": 0.4,
@@ -600,7 +600,7 @@
       "agreed": false
     },
     {
-      "line": 1171,
+      "line": 1174,
       "passage": "This community has folded itself into a far-reaching misguidance.",
       "proposed_ref": "54:5",
       "english_similarity": 0.333,
@@ -608,7 +608,7 @@
       "agreed": false
     },
     {
-      "line": 1177,
+      "line": 1180,
       "passage": "Then, once it is established that the company of the prophets of God are the just ones, is not each single one of them called just?",
       "proposed_ref": "4:69",
       "english_similarity": 0.333,
@@ -616,7 +616,7 @@
       "agreed": false
     },
     {
-      "line": 1187,
+      "line": 1190,
       "passage": "And whoever does not reach the one who is described—does the description profit him?",
       "proposed_ref": "4:6",
       "english_similarity": 0.5,
@@ -624,7 +624,7 @@
       "agreed": false
     },
     {
-      "line": 1189,
+      "line": 1192,
       "passage": "The description does not profit him except by reaching the one who is described.",
       "proposed_ref": "10:49",
       "english_similarity": 0.333,
@@ -632,7 +632,7 @@
       "agreed": false
     },
     {
-      "line": 1191,
+      "line": 1194,
       "passage": "Then whoever does not know the just one of Allah and His guardian—will his speech be just?",
       "proposed_ref": "45:15",
       "english_similarity": 0.4,
@@ -640,7 +640,7 @@
       "agreed": false
     },
     {
-      "line": 1205,
+      "line": 1208,
       "passage": "Allah forbid that it be anything but justice from Him.",
       "proposed_ref": "16:76",
       "english_similarity": 0.75,
@@ -648,7 +648,7 @@
       "agreed": false
     },
     {
-      "line": 1219,
+      "line": 1222,
       "passage": "Yes. A great many of them have been killed.",
       "proposed_ref": "18:74",
       "english_similarity": 0.5,
@@ -656,7 +656,7 @@
       "agreed": false
     },
     {
-      "line": 1223,
+      "line": 1226,
       "passage": "Then what do you say of the one who kills the just of Allah and His proof? Where does he end, and where does the one who helped him end?",
       "proposed_ref": "5:95",
       "english_similarity": 0.5,
@@ -664,7 +664,7 @@
       "agreed": false
     },
     {
-      "line": 1225,
+      "line": 1228,
       "passage": "In the Fire — and with him, whoever blackened an ink for them or dipped a pen in their cause.",
       "proposed_ref": "4:30",
       "english_similarity": 0.375,
@@ -672,7 +672,7 @@
       "agreed": false
     },
     {
-      "line": 1229,
+      "line": 1232,
       "passage": "They call down mercy upon the slain, yet they find no sin in the killer.",
       "proposed_ref": "18:58",
       "english_similarity": 0.375,
@@ -680,7 +680,7 @@
       "agreed": false
     },
     {
-      "line": 1231,
+      "line": 1234,
       "passage": "And the man who obeys the killer of his own free will — is he not a partner with him in the blood of the slain?",
       "proposed_ref": "2:178",
       "english_similarity": 0.375,
@@ -688,7 +688,7 @@
       "agreed": false
     },
     {
-      "line": 1235,
+      "line": 1238,
       "passage": "His partnership is plain, since he aids him. But how has he become worse than he?",
       "proposed_ref": "3:118",
       "english_similarity": 0.375,

@@ -50,6 +50,7 @@ PAGE_ALTERING_STEPS = frozenset(
         "spelling",
         "front-matter",  # a whole missing section
         "opening-fold",  # the edition would begin on front matter instead of the book
+        "introduction",  # a whole missing section, and the reader's first page
         "bridges",  # human-authored orientation
         "honorifics",
         "arabic-alignment",

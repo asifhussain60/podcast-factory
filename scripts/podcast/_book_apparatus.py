@@ -153,6 +153,30 @@ def apply_book_apparatus(
     except Exception as e:  # apparatus is never worth a finished translation
         _record_skip(book_dir, "opening-fold", e, log)
 
+    # 5e. The edition's introduction (Asif, 2026-08-03): short, honestly titled
+    #     `## Introduction to the Book`, unnumbered, and written in the SAME
+    #     articulation register as the chapters so it does not read as a different
+    #     hand. Applies to EVERY PDF route, which is why it lives here rather than
+    #     on one composer — the apparatus is the one tail all routes share.
+    #
+    #     AFTER the fold, necessarily. The fold moves the front-matter section into
+    #     chapter 1, and an introduction injected first would be inside the section
+    #     being moved — carried into chapter 1 with the author's own words, which
+    #     is the exact confusion the retired preface created.
+    #
+    #     BEFORE every house-style step below, which is the 2026-08-02 lesson kept:
+    #     run after them and the introduction goes to press as the one part of the
+    #     book no house rule has touched — no transliteration fold, no surah-named
+    #     citations, no glossary overlay, no vowelling, no American spelling.
+    #     Costs one model call per book, ever: the text is cached and the cache is
+    #     the idempotency marker.
+    from _book_frontmatter import apply_introduction
+
+    try:
+        apply_introduction(book_dir, log=log, force=force)
+    except Exception as e:  # apparatus is never worth a finished translation
+        _record_skip(book_dir, "introduction", e, log)
+
     # 5a-translit. Fold scholarly transliteration to the plain house form, AFTER
     #     the model passes. The base composer already does this at the end of its
     #     own run (_translation_edition), but the fluency and augment passes come

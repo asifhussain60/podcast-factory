@@ -8,20 +8,10 @@
       "runs": []
     },
     {
-      "chapter": "1. Knowledge That Will Not Save You",
-      "arabic_runs": 18,
-      "unverified": 5,
+      "chapter": "Introduction to the Book",
+      "arabic_runs": 3,
+      "unverified": 3,
       "runs": [
-        {
-          "text": "رَضِيَ اللّٰهُ عَنْه",
-          "resolution": "canonical-mushaf",
-          "skeleton": "رضياللهعنه"
-        },
-        {
-          "text": "اَللَّهُمَّ أَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ",
-          "resolution": "ocr",
-          "skeleton": "اللهماعوذبكمنعلملاينفع"
-        },
         {
           "text": "إِحْيَاءُ عُلُومِ الدِّيْن",
           "resolution": "unverified",
@@ -36,6 +26,23 @@
           "text": "جَوَاهِرُ الْقُرْآنِ",
           "resolution": "unverified",
           "skeleton": "جواهرالقران"
+        }
+      ]
+    },
+    {
+      "chapter": "1. Knowledge That Will Not Save You",
+      "arabic_runs": 15,
+      "unverified": 2,
+      "runs": [
+        {
+          "text": "رَضِيَ اللّٰهُ عَنْه",
+          "resolution": "canonical-mushaf",
+          "skeleton": "رضياللهعنه"
+        },
+        {
+          "text": "اَللَّهُمَّ أَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ",
+          "resolution": "ocr",
+          "skeleton": "اللهماعوذبكمنعلملاينفع"
         },
         {
           "text": "أَرْبَعُون",
@@ -787,7 +794,7 @@
     "uncovered": [
       {
         "ref": "7:56",
-        "line": 89,
+        "line": 99,
         "reason": "no-span-in-scan",
         "ayah_words": 16
       }
@@ -797,7 +804,8 @@
   "stages": {
     "final": {
       "(front matter)": 0,
-      "1. Knowledge That Will Not Save You": 18,
+      "Introduction to the Book": 3,
+      "1. Knowledge That Will Not Save You": 15,
       "2. The Striving That Mercy Meets": 12,
       "3. The Hours Before Dawn": 48,
       "4. Worship Is Obedience, Nothing Less": 4,

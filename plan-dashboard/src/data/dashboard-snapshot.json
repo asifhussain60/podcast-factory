@@ -1631,6 +1631,70 @@
       "depends_on": [],
       "plain": "",
       "tools": []
+    },
+    {
+      "id": "FM-1",
+      "wave": "FM",
+      "title": "Stop generating the machine preface; keep the cleanup",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "The pipeline no longer writes a preface about the book, and clears any it wrote before.",
+      "tools": [
+        "scripts/podcast/_book_frontmatter.py",
+        "scripts/podcast/_book_apparatus.py"
+      ]
+    },
+    {
+      "id": "FM-2",
+      "wave": "FM",
+      "title": "Fold the source's own opening into chapter 1",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "The author's own first words move into chapter 1 instead of sitting above the book under an invented title.",
+      "tools": [
+        "scripts/podcast/_translation_edition.py",
+        "scripts/podcast/_book_opening.py"
+      ]
+    },
+    {
+      "id": "FM-3",
+      "wave": "FM",
+      "title": "The fold gives chapter 1 the source lines it now carries",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "After the fold, chapter 1 declares the source lines the opening came from, so everything downstream can still tell which Arabic each passage came from.",
+      "tools": [
+        "scripts/podcast/_book_opening.py",
+        "scripts/podcast/_book_mirror.py"
+      ]
+    },
+    {
+      "id": "FM-4",
+      "wave": "FM",
+      "title": "A short introduction, in the book's own articulation register",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Each book gets an honest, unnumbered `Introduction to the Book` of at most 250 words that reads like the rest of the book.",
+      "tools": [
+        "scripts/podcast/_book_frontmatter.py",
+        "scripts/podcast/_book_voice_prompts.py"
+      ]
+    },
+    {
+      "id": "FM-5",
+      "wave": "FM",
+      "title": "Every PDF route, every book",
+      "status": "in_progress",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Apply the same front matter to the remaining editions and to every book made from here on.",
+      "tools": [
+        "scripts/podcast/_book_apparatus.py"
+      ]
     }
   ],
   "waves": [
@@ -1773,14 +1837,19 @@
       "id": "R3",
       "name": "Pipeline — clean-code hardening (no packaging)",
       "plain": ""
+    },
+    {
+      "id": "FM",
+      "name": "Front matter — editions begin with the book, then a short introduction in its own voice",
+      "plain": ""
     }
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 14.39
+    "burn_30d_usd": 14.42
   },
-  "generated_at": "2026-08-01T17:57:15-04:00",
-  "source_commit": "c6feb6a",
+  "generated_at": "2026-08-03T09:11:54-04:00",
+  "source_commit": "a6fb116",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1842,54 +1911,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "c6feb6a",
-      "subject": "fix(degrees-of-excellence): restore al-Hakim identity, clean OCR artifacts",
-      "date": "2026-08-01"
+      "sha": "a6fb116",
+      "subject": "fix(book): the fold gives chapter 1 the source lines it now carries",
+      "date": "2026-08-03"
     },
     {
-      "sha": "f9b995c",
-      "subject": "docs(rca): close RCA-009 — all three jobs green, all eight actions done",
-      "date": "2026-08-01"
+      "sha": "78d7bc0",
+      "subject": "fix(book): fold the opening WITHOUT re-translating the book",
+      "date": "2026-08-03"
     },
     {
-      "sha": "bfbddee",
-      "subject": "fix(site): three controls unreachable at phone width, and the gate that missed them",
-      "date": "2026-08-01"
+      "sha": "2dd730e",
+      "subject": "content(degrees-of-excellence): the edition opens on chapter 1",
+      "date": "2026-08-03"
     },
     {
-      "sha": "67812d7",
-      "subject": "feat(session): say so when CI has been red for a while, not just once",
-      "date": "2026-08-01"
+      "sha": "6b147f2",
+      "subject": "feat(book): editions begin with the book, not with a preface about it",
+      "date": "2026-08-03"
     },
     {
-      "sha": "660a56c",
-      "subject": "fix(studio): the Studio opens on a machine that has never run the pipeline",
-      "date": "2026-08-01"
+      "sha": "d899050",
+      "subject": "docs(status): record the apparatus split, the seven-book Arabic pass, and what it exposed",
+      "date": "2026-08-02"
     },
     {
-      "sha": "7f76f37",
-      "subject": "docs(rca): record the final state — 2 of 3 jobs green, one cause left",
-      "date": "2026-08-01"
+      "sha": "6558eaf",
+      "subject": "feat(book): every Islamic edition's Arabic brought to the current rules, without a re-compose",
+      "date": "2026-08-02"
     },
     {
-      "sha": "e4e762f",
-      "subject": "fix(ci): install pdftoppm, the system binary the Composer preview shells out to",
-      "date": "2026-08-01"
+      "sha": "32f0e05",
+      "subject": "feat(book): the Arabic apparatus becomes runnable without re-composing the prose",
+      "date": "2026-08-02"
     },
     {
-      "sha": "a056583",
-      "subject": "fix(ci): install the probe's own dependency, and let smoke report the cause",
-      "date": "2026-08-01"
+      "sha": "64152f3",
+      "subject": "fix(book-lane): four defects that let the lane report success while dropping work",
+      "date": "2026-08-02"
     },
     {
-      "sha": "25f20e0",
-      "subject": "fix(ci): restore the gates, then fix the two defects they had been hiding",
-      "date": "2026-08-01"
+      "sha": "22ff89c",
+      "subject": "content(degrees-of-excellence): a centred paragraph in the ladder chapter",
+      "date": "2026-08-02"
     },
     {
-      "sha": "3fd16c4",
-      "subject": "fix(ci): the site's six gates were dead for five days behind `npm ci`",
-      "date": "2026-08-01"
+      "sha": "39a343c",
+      "subject": "fix(composer): the header carries the two PDF actions and nothing else",
+      "date": "2026-08-02"
     }
   ],
   "wave_execution_events": [],

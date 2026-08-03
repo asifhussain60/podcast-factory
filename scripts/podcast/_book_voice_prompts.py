@@ -109,6 +109,25 @@ CHAPTER "{title}"
 {base_text}"""
 
 
+# The REGISTER clause of the Book Articulation Standard, in ONE place because two
+# prompts now depend on it. The chapters are articulated with it, and since
+# 2026-08-03 so is the edition's introduction — Asif's rule: the introduction
+# "should follow the same articulation style ... and not stand out as a different
+# prose". An introduction written to its own register is exactly the seam a reader
+# notices on page one, and two copies of a register clause is how that seam gets
+# reintroduced six months from now.
+#
+# Everything AROUND it differs and should: the chapter prompt adds the fidelity
+# rules (REQ-BA-030..060), which an introduction has no source to be faithful to.
+ARTICULATION_REGISTER = """Dignified and bookish, but plain: prefer the simple word when it carries the meaning.
+No contractions, no marketing tone. Render each technical term the SAME way on every
+occurrence, matching the spelling this book already uses — never introduce a variant
+spelling. Do not add parenthetical transliterations. Keep honorifics in the compact
+form the surrounding text uses. If the passage already capitalizes pronouns referring
+to God ("He", "His", "Him"), keep doing so consistently; if it uses lowercase, keep
+that instead — never introduce a new convention mid-passage. American spelling."""
+
+
 # The trailing block a pass may emit instead of writing a note into the prose
 # itself (REQ-BA-160). `_book_voice._extract_articulation_notes` strips it before
 # anything reaches book.md; a copy that survives extraction is a defect, not a
@@ -186,13 +205,7 @@ YOU MAY NOT (REQ-BA-030..060)
   re-vowelled, never dropped. Transliteration stays beside script, never replaces it.
 
 REGISTER (REQ-BA-010, -070..110, -140)
-Dignified and bookish, but plain: prefer the simple word when it carries the meaning.
-No contractions, no marketing tone. Render each technical term the SAME way on every
-occurrence, matching the spelling this book already uses — never introduce a variant
-spelling. Do not add parenthetical transliterations. Keep honorifics in the compact
-form the surrounding text uses. If the passage already capitalizes pronouns referring
-to God ("He", "His", "Him"), keep doing so consistently; if it uses lowercase, keep
-that instead — never introduce a new convention mid-passage. American spelling. The
+{ARTICULATION_REGISTER} The
 output must be about the same length as the source — this is a rewording, never an
 abridgement.
 

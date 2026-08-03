@@ -1150,3 +1150,35 @@ Asif asked for a direct recommendation rather than choosing blind between archiv
 > The site gained a root explorer at Corpus → Morphology — all 1,642 roots searchable in either script, each opening to its real derived family with verse peeks and Lane's meaning, with the 313 meaning gaps listed openly. The Composer's etymology cards now open with a verified block (root, family, Lane) computed live from the corpus and never stored, the scholar-persona generation is grounded and vetoed against the same data, and the pipeline's card gate enforces the identical root truth.
 >
 > *Value gained:* one committed source of morphological fact now feeds the study page, the editing surface, the reader, and the pipeline — and an invented root has nowhere left to appear.
+
+## Front matter — editions begin with the book, then a short introduction in its own voice (2026-08-03)
+
+### 1. The machine-written preface is gone, and stays gone
+
+> Every Islamic edition used to open on three to five hundred words a model had written *about* the book, under an invented literary title like *A Threshold to the Subtle Lights*, with the author's own opening demoted beneath it under a machine-written subheading. A reader met the pipeline's voice before the book's. The code that authored it is retired and a cleanup step took its place, so the five books already carrying one are cleared on their next pass and no book is given another.
+>
+> *Value gained:* the reader's first page is the book's, not the pipeline's.
+
+### 2. The author's own opening moves into chapter 1
+
+> What the source itself opens with — the letter's occasion in *Ayyuhal Walad*, the scene the whole dialogue rests on in *The Master and the Disciple* — is no longer a section of its own under a title nobody wrote. It is folded into chapter 1 under that chapter's own heading, and the chapter is given the source lines it now carries so everything downstream can still say which Arabic each passage came from.
+>
+> *Value gained:* no source text is lost and no invented heading survives, and the book starts where the book starts.
+
+### 3. Front matter is never reached through a re-composition
+
+> Composing a finished book to change its front matter re-translates the whole thing. Doing that to *Ayyuhal Walad* cost 615 words of teaching and 38 Arabic quotations — six Qur'anic verses, several hadith, and the entire closing supplication of chapter 9 — and not one gate failed. The fold is therefore available as a deterministic step over a book already on disk, with no model involved.
+>
+> *Value gained:* an apparatus change costs apparatus work, and an approved edition is never rewritten to make one.
+
+### 4. A short introduction, written in the book's own voice
+
+> Each book now opens on an honestly titled `Introduction to the Book`, unnumbered and capped at 250 words, saying what the text is, what it is about, and who wrote it — and refusing to name an author the files do not record, which for one of these books is the truth rather than a gap. It is written under the same articulation register the chapters are written under, imported from one definition rather than copied, and the model is shown a real passage of the book's own prose to match. It is injected before the house-style steps, so the Arabic, the transliteration, the vowelling and the spelling all reach it.
+>
+> *Value gained:* the reader gets orientation that does not read as a different hand, and the register cannot drift apart from the chapters later.
+
+### 5. It applies to every PDF route
+
+> The step lives in the shared apparatus tail rather than on one composer, so every route that produces a PDF — translation edition, augmented companion, fiction, supplication — gets the same front matter, and a new book inherits it without anyone remembering to ask.
+>
+> *Value gained:* one rule, one place, no route left behind.
