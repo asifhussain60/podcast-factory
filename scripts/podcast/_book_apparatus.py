@@ -131,6 +131,28 @@ def apply_book_apparatus(
     except Exception as e:  # apparatus is never worth a finished translation
         _record_skip(book_dir, "front-matter", e, log)
 
+    # 5d. Fold what remains of the front matter — the SOURCE's own opening — into
+    #     chapter 1, so the edition begins on the book.
+    #
+    #     The assembly in `_translation_edition` folds too, and this is not a
+    #     duplicate of it: that path only runs when a book is COMPOSED, and for a
+    #     book already written a compose is a re-translation. On 2026-08-03 taking
+    #     that route on `ayyuhal-walad` — whose front matter was the only thing
+    #     meant to change — cost 615 words of teaching and 38 quotation-length
+    #     Arabic runs, the closing supplication of chapter 9 among them, with no
+    #     gate failing. Both paths are idempotent and neither can double, because
+    #     each looks for a front-matter section the other has already removed.
+    #
+    #     STRICTLY AFTER the clear above: the retired machine preface sits INSIDE
+    #     that section, so folding first would carry into chapter 1 the one text
+    #     this change exists to delete.
+    from _book_opening import apply_opening_fold
+
+    try:
+        apply_opening_fold(book_dir, log=log)
+    except Exception as e:  # apparatus is never worth a finished translation
+        _record_skip(book_dir, "opening-fold", e, log)
+
     # 5a-translit. Fold scholarly transliteration to the plain house form, AFTER
     #     the model passes. The base composer already does this at the end of its
     #     own run (_translation_edition), but the fluency and augment passes come

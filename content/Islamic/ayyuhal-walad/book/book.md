@@ -1,18 +1,6 @@
 # My Dear Beloved Son or Daughter (Ayyuhal Walad)
 
-## A Letter Across the Centuries
-
-<!-- edition-intro:begin -->
-This is a letter of spiritual counsel, written by a teacher to a former student who had spent years mastering the religious sciences and then asked what, of everything he had learned, would actually serve him. Its title, *Ayyuha al-Walad*, is the phrase with which the author addresses him — "O son," an affectionate form for a disciple, not a biological child. Everything that follows is the reply.
-
-Read it as a first-person document. The "I" is the author himself, writing directly, and the "you" is the single student he answers; there is no narrator standing between them and no frame story. When the book says "know, my son" or "I have seen," you are hearing the writer's own voice, not a later hand reporting it. Keeping that straight matters, because the letter also speaks of a guide the seeker must go out and find — the sixth chapter is given over to finding a true one — and that guide is a different figure from the author writing here. The man who wrote this was the student's teacher, yet part of what he tells him is to seek a living guide of his own.
-
-The chapters trace a single argument. It opens by warning that knowledge which does not change how one lives will not save its owner, then turns to what does: the striving that God's mercy meets, the prayer of the hours before dawn, worship understood as plain obedience. From there it becomes practical — eight lessons gathered over thirty-three years, how to recognize a true guide, the meaning of the Sufi path alongside servitude, trust, and sincerity, and a closing set of four things to avoid and four to embrace — before ending in a prayer for the road ahead.
-
-The vocabulary rewards a little patience. Alongside ordinary terms — the five pillars (the testimony of faith, prayer, alms, the Ramadan fast, the pilgrimage), *Shariah* and *fiqh*, *iman* and the *nafs* — the book quotes scripture and prophetic sayings heavily, giving the Arabic of a verse or a hadith and then unfolding it. Several of the recurring terms are whole quoted lines rather than single words; where you meet one, the sentences around it are the author's explanation of what it says. The author also points beyond this short letter to his own larger works, naming them for a reader who wants the fuller treatment.
-
-### The book's own opening
-<!-- edition-intro:end -->
+## 1. Knowledge That Will Not Save You
 
 Know that one of Imam Ghazali's (رضي الله عنه) foremost students had remained in his service for a number of years, studying under him and drawing deeply from his knowledge and his spiritual guidance. In that time he mastered the finer points of the sciences and refined the virtues of his soul. Then one day he began to reflect on his own state. A question pressed upon his heart, and he said within himself: I have studied many branches of knowledge. I have given the prime of my life to learning them and gathering them, and I have sacrificed a great deal to do so. Now I ought to know which of these sciences will benefit me tomorrow and keep me company in my grave and come to my aid on the Day of Judgment, and which of them will not benefit me on that Day, so that I may set it aside. For the Messenger of Allah (may Allah bless him and grant him peace) said:
 
@@ -22,11 +10,9 @@ Know that one of Imam Ghazali's (رضي الله عنه) foremost students had r
 
 This thought stayed with him for several days. At last he wrote a letter to Imam Ghazali (رض), asking for an answer to what troubled him, together with replies to certain other questions. He asked as well for personal counsel, and for a supplication he might recite at all times.
 
-In his letter he acknowledged that Imam Ghazali (رض) had already written many books on these very subjects, among them Ihya al-Ulum ad-Din (إِحْيَاءُ عُلُومِ الدِّيْن) (Revival of the Knowledge of the Path to God), Kimiya as-Saada (كِيمِيَاءُ السَّعَادَةِ) (Alchemy of Ultimate Success and Happiness), Jawahir ul-Quran (جَوَاهِرُ الْقُرْآنِ) (Priceless Gems of the Holy Quran), Arbaeen (أَرْبَعُون) (Forty Steps), and Minhaj ul-Abideen ila Jannatu Rabbul Alamin (*Minhaj ul-Abideen ila Jannatu Rabbul 'Alamin* (مِنْهَاجُ الْعَابِدِينَ إِلَى جَنَّةِ رَبِّ الْعَالَمِينَ)) (The Best Way for the Worshippers of God Leading Them to the Paradise of the Lord of All Universes), and others besides. Yet this humble one, he wrote, needed something he could study without pause and act upon without fail.
+In his letter he acknowledged that Imam Ghazali (رض) had already written many books on these very subjects, among them Ihya al-Ulum ad-Din (إِحْيَاءُ عُلُومِ الدِّيْن) (Revival of the Knowledge of the Path to God), Kimiya as-Saada (كِيمِيَاءُ السَّعَادَةِ) (Alchemy of Ultimate Success and Happiness), Jawahir ul-Quran (جَوَاهِرُ الْقُرْآنِ) (Priceless Gems of the Holy Quran), Arbaeen (أَرْبَعُون) (Forty Steps), and Minhaj ul-Abideen ila Jannatu Rabbul Alamin (*Minhaj ul-Abideen ila Jannatu Rabbul 'Alamin* (مِنْهَاجُ الْعَابِدِينَ إِلَىٰ جَنَّةِ رَبِّ الْعَالَمِينَ)) (The Best Way for the Worshippers of God Leading Them to the Paradise of the Lord of All Universes), and others besides. Yet this humble one, he wrote, needed something he could study without pause and act upon without fail.
 
 In answer to his letter, Imam Ghazali (رض) sent him the counsel that follows.
-
-## 1. Knowledge That Will Not Save You
 
 In the Name of Allah, the Most Compassionate, the Most Merciful. All praise belongs to Allah alone, the Lord of all the worlds, and may the blessings and peace of Allah be upon His Messenger Muhammad and upon all of his descendants and his followers.
 
@@ -100,10 +86,9 @@ And he said:
 
 After all of this, should a thought arise in your heart that I am claiming a servant enters Paradise not by the grace of Allah but by his own deeds alone, then know that you have not grasped my meaning. On the contrary, what I am saying is that a servant enters Paradise through the favor, generosity, and blessings of Allah. Yet unless that servant makes himself deserving of Allah's mercy through worship and obedience, he will not stand in a position to receive that mercy and favor. And I do not assert this on my own authority. Rather, Allah the Exalted Himself says:
 
-"Indeed, the mercy of Allah is near to those who do good." (Al-A'raf: 56)
+"Indeed, the mercy of Allah is near to those who do good." (Al-Araf: 56)
 
 How, then, will a servant enter Paradise without the mercy of Allah the Exalted? I say this weighty point again: how will a servant enter Paradise without the mercy of Allah? And should someone argue that one enters Paradise on account of faith alone, then know that many formidable valleys lie ahead, that is, obstacles. The first and most daunting of them is to carry one's faith safely to the very end.
-
 ## 2. The Striving That Mercy Meets
 
 My dear son, hold firmly to this conviction: you will not find the reward without the effort that earns it.
@@ -195,7 +180,7 @@ My dear son, hear this prophetic tradition:
 
 ## 3. The Hours Before Dawn
 
-My dear son, after all these years of study, what have you truly gained for yourself? Look at the sciences you have chased after: theology (عِلْمُ الْكَلَام), the science of juristic disagreement (الْخِلَاف), medicine (الطبّ), the registers and chronicles (اَلدَّوَاوِين), poetry (الْأَشْعَار), astronomy (نَجْم), prosody (اَلْعَرُوض), grammar (النّحو), and morphology (التَّصْرِيف). What has any of it given you, beyond the waste of your own life and a small measure of fame among people? I have read in the Gospel (إِنْجِيلْ) of the Prophet Isa (ع) that from the moment a body is laid on the bier and carried out, until it is set down at the edge of the grave, Allah in His majesty puts forty questions to it. The first is this:
+My dear son, after all these years of study, what have you truly gained for yourself? Look at the sciences you have chased after: theology (عِلْمُ الْكَلاَم), the science of juristic disagreement (الْخِلَاف), medicine (الطبّ), the registers and chronicles (اَلدَّوَاوِين), poetry (الْأَشْعَار), astronomy (نَجْم), prosody (اَلْعَرُوض), grammar (النّحو), and morphology (التَّصْرِيف). What has any of it given you, beyond the waste of your own life and a small measure of fame among people? I have read in the Gospel (إِنْجِيلْ) of the Prophet Isa (ع) that from the moment a body is laid on the bier and carried out, until it is set down at the edge of the grave, Allah in His majesty puts forty questions to it. The first is this:
 
 > عَبْدِي طَهَّرْتَ مَنْظَرَ الْخَلْقِ سِنِينَ وَ مَا طَهَّرْتَ مَنْظَرِي سَاعَةً
 
@@ -225,7 +210,7 @@ My dear son, fix your resolve upon the spirit, defeat upon the lower self, and d
 
 Reflect, then, upon yourself: which of the two are you? If you are among the birds of the higher world, then when you hear the call sounded, «ٱرْجِعِىٓ إِلَىٰ رَبِّكِ», "Return to your Lord," you will take flight upward until you settle in the highest towers of the Gardens. So the Messenger of Allah (ع) said:
 
-> اهتزّ عرش الرّحمن من موت سعد بن معاذ
+> اِهْتَزَّ عَرْشُ الرَّحْمَنِ مِنْ مَوْتِ سَعْدٍ بْنِ مُعَاذٍ
 
 "The Throne of the Most Merciful trembled at the death of Sa'd ibn Muadh."
 

@@ -1,43 +1,30 @@
 {
-  "vowelled": 8,
-  "marks_added": 234,
-  "already": 117,
+  "vowelled": 4,
+  "marks_added": 65,
+  "already": 124,
   "quranic": 1,
-  "from_mushaf": 2,
-  "refused": 5,
+  "from_mushaf": 0,
+  "refused": 4,
   "recovered": 0,
-  "in_chars": 451,
-  "out_chars": 730,
-  "mushaf_pairs": [
-    [
-      "وأن ليس للإنسان إلا ما سعى",
-      "وَأَن لَّيْسَ لِلْإِنسَنِ إِلَّا مَا سَعَىٰ"
-    ],
-    [
-      "إلا من تاب وآمن وعمل صالحاً",
-      "إِلَّا مَن تَابَ وَآمَنَ وَعَمِلَ صَلِحًۭا"
-    ]
-  ],
+  "in_chars": 184,
+  "out_chars": 304,
+  "mushaf_pairs": [],
   "refusals": [
+    {
+      "run": "ألّهمّ كن لنا و لا تكن علينا",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"هم كن لنا و \" vs proposal \"لهم كن لنا و\")"
+    },
     {
       "run": "اشهدوا يا ملائكتي أنّي قد غفرت له",
       "reason": "letters changed, not just marks (first difference at character 1: source \"اشهدوا يا مل\" vs proposal \"إشهدوا يا مل\")"
-    },
-    {
-      "run": "اهتزّ عرش الرّحمن من موت سعد بن معاذ",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"اهتز عرش الر\" vs proposal \"إهتز عرش الر\")"
     },
     {
       "run": "ألّهمّ اختم بالسعادة آجالنا",
       "reason": "letters changed, not just marks (first difference at character 3: source \"هم اختم بالس\" vs proposal \"لهم اختم بال\")"
     },
     {
-      "run": "ألّهمّ كن لنا و لا تكن علينا",
-      "reason": "letters changed, not just marks (first difference at character 3: source \"هم كن لنا و \" vs proposal \"لهم كن لنا و\")"
-    },
-    {
       "run": "رضي الله عنه",
-      "reason": "letters changed, not just marks (first difference at character 4: source \" الله عنه\" vs proposal \"\")"
+      "reason": "empty"
     }
   ],
   "lexical": 0

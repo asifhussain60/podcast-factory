@@ -69,6 +69,7 @@ def test_every_apparatus_step_lives_in_the_apparatus():
         "vowelling",
         "spelling",
         "front-matter",
+        "opening-fold",
         "arabic-audit",
         "duplication",
         "visual-policy",
