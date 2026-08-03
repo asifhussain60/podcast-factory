@@ -25,9 +25,18 @@ export function createAuth(env: Env) {
       google: {
         clientId: env.GOOGLE_CLIENT_ID,
         clientSecret: env.GOOGLE_CLIENT_SECRET,
-        // openid/email/profile only. Nothing here needs Drive, Calendar or
-        // anything else, and a wider scope is a wider consent screen.
-        scope: ["openid", "email", "profile"],
+        // No `scope` here on purpose. Better Auth's Google provider already
+        // requests openid/email/profile, and naming them again APPENDS rather
+        // than replaces — the authorization URL went out carrying
+        // "email profile openid openid email profile". Harmless to Google, but
+        // it made the request look like it had been configured twice by two
+        // people who disagreed.
+        //
+        // The rule this leaves implicit: nothing here needs Drive, Calendar or
+        // anything else, and a wider scope is a wider consent screen. If a scope
+        // ever IS added, it also has to be declared on the project's Data access
+        // page — and since that page is shared by every Safina app, a sensitive
+        // scope added here would drag all of them into verification.
       },
     },
 

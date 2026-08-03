@@ -31,12 +31,26 @@ export async function action({ request, context }: Route.ActionArgs) {
   const next = safeNext(String(form.get("next") ?? "/"));
 
   const auth = createAuth(env);
-  const { url } = await auth.api.signInSocial({
+
+  // `returnHeaders` is load-bearing, not a nicety.
+  //
+  // Starting an OAuth flow is not just "get a URL". Better Auth also mints a
+  // one-time `state` and persists it in a cookie, then compares it against what
+  // Google sends back — that comparison is the CSRF defence for the whole flow.
+  // Taking only `url` and issuing our own redirect silently discards that
+  // Set-Cookie, so the state has nowhere to live and every callback fails with
+  // `state_mismatch`, which reads like a Google misconfiguration rather than a
+  // dropped header.
+  const { headers, response } = await auth.api.signInSocial({
     body: { provider: "google", callbackURL: next, errorCallbackURL: "/no-access" },
+    returnHeaders: true,
   });
 
-  if (!url) throw new Error("Google sign-in did not return an authorization URL");
-  throw redirect(url);
+  if (!response.url) throw new Error("Google sign-in did not return an authorization URL");
+
+  // Carry every header through, not just the cookie we happen to know about —
+  // a future Better Auth version setting a second one must not need a change here.
+  return redirect(response.url, { headers });
 }
 
 export default function SignIn() {

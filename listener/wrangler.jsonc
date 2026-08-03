@@ -43,7 +43,10 @@
 
     // Better Auth's absolute base URL. Overridden in .dev.vars locally.
     "BETTER_AUTH_URL": "https://podcast-factory.safinaverse.com",
-    "GOOGLE_CLIENT_ID": ""
+    // A client id is PUBLIC — it travels in the browser address bar during
+    // sign-in — so it belongs here where it is visible and reviewable, not in
+    // the secrets file. The SECRET never appears in this file.
+    "GOOGLE_CLIENT_ID": "640673737613-k0dld0ihk5iqm2uh22dutvrr30lo45aa.apps.googleusercontent.com"
     // Secrets (BETTER_AUTH_SECRET, GOOGLE_CLIENT_SECRET, PUBLISH_TOKEN,
     // MEDIA_TOKEN_SECRET) are NEVER declared here — use `wrangler secret put`,
     // and .dev.vars locally.
@@ -71,7 +74,7 @@
         "PUBLIC_SITE_NAME": "Podcast Factory (staging)",
         "ADMIN_EMAIL": "asifhussain60@gmail.com",
         "BETTER_AUTH_URL": "https://podcast-listener-staging.asifhussain60-19c.workers.dev",
-        "GOOGLE_CLIENT_ID": ""
+        "GOOGLE_CLIENT_ID": "640673737613-k0dld0ihk5iqm2uh22dutvrr30lo45aa.apps.googleusercontent.com"
       },
       "d1_databases": [
         {

@@ -15,7 +15,8 @@
     "fonts": "node scripts/sync-fonts.mjs",
     "test": "vitest run",
     "security": "node scripts/security-smoke.mjs",
-    "db:migrate": "wrangler d1 migrations apply podcast-listener --local"
+    "db:migrate": "wrangler d1 migrations apply podcast-listener --local",
+    "dev-vars": "node scripts/dev-vars.mjs"
   },
   "dependencies": {
     "better-auth": "^1.6.25",
