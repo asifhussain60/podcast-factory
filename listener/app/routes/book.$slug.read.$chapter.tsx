@@ -4,6 +4,7 @@ import { Link } from "react-router";
 
 import type { Route } from "./+types/book.$slug.read.$chapter";
 import { ReaderSettings } from "~/components/ReaderSettings";
+import { ReadingControls } from "~/components/ReadingControls";
 import { Icon } from "~/components/Icon";
 import { Logo } from "~/components/brand/Logo";
 import { cloudflare } from "~/context";
@@ -141,8 +142,23 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       </header>
 
       <main id="main" className="pf-reader-page">
+        {/* ---- Above the page ----
+            The work this chapter belongs to, and the two controls that change
+            how it is set. Both sit OUTSIDE the sheet deliberately: the sheet is
+            the book, and a control printed on it would be a control printed in
+            the book.
+
+            This is the page's <h1> and the chapter heading below is an <h2>,
+            which is also the true nesting — a chapter is part of a work, and
+            until now every chapter page claimed to be a top-level document
+            called "2. A Stranger in the City". */}
+        <div className="pf-reader-head">
+          <h1 className="pf-reader-head__book">{bookTitle}</h1>
+          <ReadingControls />
+        </div>
+
         <article ref={body} className="pf-page">
-          <h1 className="pf-chapter-title">{chapter.title}</h1>
+          <h2 className="pf-chapter-title">{chapter.title}</h2>
 
           {/* Position in the edition, NOT a chapter number: the introduction is
               the first entry, so this and the book's own "3." in the heading

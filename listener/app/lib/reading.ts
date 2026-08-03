@@ -105,3 +105,45 @@ export function step<T extends number>(scale: readonly T[], current: T, directio
   const next = Math.min(scale.length - 1, Math.max(0, (i === -1 ? 0 : i) + direction));
   return scale[next];
 }
+
+/* ---------------------------------------------------------------------------
+ * One copy of the current setting, for however many controls are on screen.
+ *
+ * There are now two: the bar above the page, and the fuller panel behind "Aa"
+ * in the header (which also carries theme, line spacing and line width). Each
+ * holding its own `useState` seeded from localStorage would mean raising the
+ * size in one and watching the other still read 19 — both would be writing the
+ * same key and disagreeing about what it said.
+ *
+ * Deliberately NOT seeded from storage at module load. The first render has to
+ * match what the server produced or React logs a hydration mismatch, so the
+ * snapshot starts at the defaults and `hydrateReading` swaps in the stored
+ * value from an effect. The text itself is never wrong in the meantime —
+ * READING_INIT_SCRIPT applied the real values to the custom properties before
+ * first paint; it is only the NUMBER in the control that catches up.
+ * ------------------------------------------------------------------------- */
+
+let snapshot: ReadingPrefs = DEFAULT_PREFS;
+const listeners = new Set<() => void>();
+
+export function readingSnapshot(): ReadingPrefs {
+  return snapshot;
+}
+
+export function subscribeReading(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+/** Apply, persist, and tell every control on screen. */
+export function setReading(prefs: ReadingPrefs) {
+  snapshot = prefs;
+  applyReading(prefs);
+  for (const listener of listeners) listener();
+}
+
+/** Called once after mount, to pick up what the last visit chose. */
+export function hydrateReading() {
+  snapshot = storedReading();
+  for (const listener of listeners) listener();
+}

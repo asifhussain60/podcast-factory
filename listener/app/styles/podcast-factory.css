@@ -794,6 +794,98 @@
     padding-bottom: var(--pf-space-9);
   }
 
+  /* ---- Above the page ----------------------------------------------------
+     The work's name and the reading controls, on the page colour rather than
+     on the sheet. Centred, because the sheet's own opening is. */
+
+  .pf-reader-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--pf-space-4);
+    padding-top: var(--pf-space-7);
+  }
+
+  /* Quieter than the chapter title it stands over — this names where you are,
+     and the sheet names what you are reading. Same display face and same
+     `--l-display` ink as every other page title on the site. */
+  .pf-reader-head__book {
+    font-family: var(--l-font-display);
+    font-size: var(--pf-text-xl);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-align: center;
+    text-wrap: balance;
+    color: var(--l-display);
+  }
+
+  .pf-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--pf-space-3);
+  }
+
+  /* ---- Stepper -----------------------------------------------------------
+     Minus, value, plus as one object rather than three — the dividers are what
+     say the number belongs to the buttons either side of it. Built from the
+     same border, radius and surface as `.pf-select` beside it so the two read
+     as one control row. */
+
+  .pf-stepper {
+    display: inline-flex;
+    align-items: stretch;
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius);
+    /* The children square their own corners off against this. */
+    overflow: hidden;
+  }
+
+  .pf-stepper__step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    padding: var(--pf-space-2) var(--pf-space-3);
+    border: 0;
+    background: transparent;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-md);
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  .pf-stepper__step:hover:not(:disabled) {
+    background: var(--l-sunken);
+    color: var(--l-ink);
+  }
+
+  /* At the end of the scale, and saying so. The alternative — a button that
+     stays lit and does nothing — reads as a broken control. */
+  .pf-stepper__step:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .pf-stepper__value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    padding-inline: var(--pf-space-2);
+    border-inline: 1px solid var(--l-rule);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    font-variant-numeric: tabular-nums;
+    color: var(--l-ink);
+  }
+
   /* ---- The page ----------------------------------------------------------
      A chapter is a SHEET laid on the page colour, not type printed straight
      onto it. Before this the prose sat directly on `--l-bg` with the column
@@ -829,6 +921,13 @@
   @media (max-width: 639px) {
     .pf-reader-page {
       padding-inline: 0;
+    }
+
+    /* The container's padding went so the SHEET could go full-bleed; the block
+       above the sheet is not the sheet and still needs a margin, or the book's
+       title sets hard against both screen edges. */
+    .pf-reader-head {
+      padding-inline: var(--pf-space-5);
     }
 
     .pf-page {
@@ -2038,6 +2137,17 @@
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-base);
     transition: border-color var(--pf-motion);
+  }
+
+  /* Sizes to its longest option instead of to its container, so the controls
+     above a chapter centre as a pair rather than stacking a full-width box over
+     a small one. It lives HERE, immediately after the rule it overrides, and
+     not beside the reader rules that use it: both selectors are one class, so
+     the later declaration wins, and `.pf-select { width: 100% }` is a long way
+     down the file from §6's reader block. */
+  .pf-select--auto {
+    width: auto;
+    padding-block: var(--pf-space-2);
   }
 
   .pf-input::placeholder {

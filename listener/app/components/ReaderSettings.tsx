@@ -2,16 +2,15 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { ThemePicker } from "~/components/ThemePicker";
+import { useReading } from "~/components/ReadingControls";
 import {
-  applyReading,
-  DEFAULT_PREFS,
   FAMILIES,
   FAMILY_LABELS,
   LEADINGS,
   MEASURES,
+  setReading,
   SIZES,
   step,
-  storedReading,
   type ReadingPrefs,
 } from "~/lib/reading";
 
@@ -30,11 +29,11 @@ import {
  */
 export function ReaderSettings() {
   const [open, setOpen] = useState(false);
-  const [prefs, setPrefs] = useState<ReadingPrefs>(DEFAULT_PREFS);
 
-  // Read after mount. The server cannot know what is in localStorage, and
-  // guessing produces a hydration mismatch.
-  useEffect(() => setPrefs(storedReading()), []);
+  // The SHARED setting, not a copy. The bar above the page carries typeface and
+  // size too, and two independent `useState`s seeded from the same localStorage
+  // key would drift apart the moment either was touched.
+  const prefs = useReading();
 
   useEffect(() => {
     if (!open) return;
@@ -46,8 +45,7 @@ export function ReaderSettings() {
   }, [open]);
 
   function update(next: ReadingPrefs) {
-    setPrefs(next);
-    applyReading(next);
+    setReading(next);
   }
 
   /**
