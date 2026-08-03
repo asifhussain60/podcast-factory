@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { ThemePicker } from "~/components/ThemePicker";
 import {
@@ -49,8 +50,109 @@ export function ReaderSettings() {
     applyReading(next);
   }
 
+  /**
+   * The panel is PORTALLED to <body>, and that is not a nicety.
+   *
+   * This control sits inside the reading header, which carries `backdrop-blur`.
+   * A `backdrop-filter` makes an element the containing block for `position:
+   * fixed` descendants (CSS Filter Effects §Painting), so `fixed bottom-0`
+   * anchored the bottom sheet to the bottom of the HEADER — 44px tall — and 380
+   * of its 445 pixels rendered above the top of the screen. Theme and size were
+   * simply unreachable on a phone. Rendering outside that subtree is the fix;
+   * removing the blur would have been the other one, and costs the design.
+   *
+   * Safe against SSR without a mounted flag: `open` starts false and only a
+   * click sets it, so this branch never runs on the server.
+   */
+  const panel = open ? (
+    <>
+      {/* Click-away. Not focusable and hidden from assistive tech — Escape
+          is the keyboard route out. */}
+      <button
+        type="button"
+        aria-hidden="true"
+        tabIndex={-1}
+        onClick={() => setOpen(false)}
+        className="fixed inset-0 z-40 cursor-default bg-transparent"
+      />
+
+      <div
+        role="dialog"
+        aria-label="Reading settings"
+        className="fixed inset-x-0 bottom-0 z-50 max-h-[85dvh] overflow-y-auto rounded-t-2xl border-t border-pf-rule bg-pf-elev p-6 sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-16 sm:w-80 sm:rounded-xl sm:border"
+        style={{ boxShadow: "var(--l-shadow)" }}
+      >
+        <Row label="Theme">
+          <ThemePicker />
+        </Row>
+
+        <Row label="Typeface">
+          <div className="flex flex-wrap gap-1">
+            {FAMILIES.map((family) => (
+              <Chip
+                key={family}
+                active={prefs.family === family}
+                onClick={() => update({ ...prefs, family })}
+              >
+                {FAMILY_LABELS[family]}
+              </Chip>
+            ))}
+          </div>
+        </Row>
+
+        <Row label="Size">
+          <div className="flex items-center gap-2">
+            <Chip
+              active={false}
+              onClick={() => update({ ...prefs, size: step(SIZES, prefs.size as never, -1) })}
+              ariaLabel="Smaller text"
+            >
+              <span className="text-xs">A</span>
+            </Chip>
+            <span className="font-ui text-xs tabular-nums text-pf-muted">{prefs.size}px</span>
+            <Chip
+              active={false}
+              onClick={() => update({ ...prefs, size: step(SIZES, prefs.size as never, 1) })}
+              ariaLabel="Larger text"
+            >
+              <span className="text-lg leading-none">A</span>
+            </Chip>
+          </div>
+        </Row>
+
+        <Row label="Line spacing">
+          <div className="flex gap-1">
+            {LEADINGS.map((leading, i) => (
+              <Chip
+                key={leading}
+                active={prefs.leading === leading}
+                onClick={() => update({ ...prefs, leading })}
+              >
+                {["Tight", "Normal", "Loose"][i]}
+              </Chip>
+            ))}
+          </div>
+        </Row>
+
+        <Row label="Line width">
+          <div className="flex gap-1">
+            {MEASURES.map((measure, i) => (
+              <Chip
+                key={measure}
+                active={prefs.measure === measure}
+                onClick={() => update({ ...prefs, measure })}
+              >
+                {["Narrow", "Normal", "Wide"][i]}
+              </Chip>
+            ))}
+          </div>
+        </Row>
+      </div>
+    </>
+  ) : null;
+
   return (
-    <div className="relative">
+    <>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -60,93 +162,8 @@ export function ReaderSettings() {
         Aa
       </button>
 
-      {open ? (
-        <>
-          {/* Click-away. Not focusable and hidden from assistive tech — Escape
-              is the keyboard route out. */}
-          <button
-            type="button"
-            aria-hidden="true"
-            tabIndex={-1}
-            onClick={() => setOpen(false)}
-            className="fixed inset-0 z-40 cursor-default bg-transparent"
-          />
-
-          <div
-            role="dialog"
-            aria-label="Reading settings"
-            className="fixed inset-x-0 bottom-0 z-50 rounded-t-2xl border-t border-pf-rule bg-pf-elev p-6 shadow-lg sm:absolute sm:inset-x-auto sm:bottom-auto sm:right-0 sm:top-11 sm:w-80 sm:rounded-xl sm:border"
-            style={{ boxShadow: "var(--l-shadow)" }}
-          >
-            <Row label="Theme">
-              <ThemePicker />
-            </Row>
-
-            <Row label="Typeface">
-              <div className="flex flex-wrap gap-1">
-                {FAMILIES.map((family) => (
-                  <Chip
-                    key={family}
-                    active={prefs.family === family}
-                    onClick={() => update({ ...prefs, family })}
-                  >
-                    {FAMILY_LABELS[family]}
-                  </Chip>
-                ))}
-              </div>
-            </Row>
-
-            <Row label="Size">
-              <div className="flex items-center gap-2">
-                <Chip
-                  active={false}
-                  onClick={() => update({ ...prefs, size: step(SIZES, prefs.size as never, -1) })}
-                  ariaLabel="Smaller text"
-                >
-                  <span className="text-xs">A</span>
-                </Chip>
-                <span className="font-ui text-xs tabular-nums text-pf-muted">{prefs.size}px</span>
-                <Chip
-                  active={false}
-                  onClick={() => update({ ...prefs, size: step(SIZES, prefs.size as never, 1) })}
-                  ariaLabel="Larger text"
-                >
-                  <span className="text-lg leading-none">A</span>
-                </Chip>
-              </div>
-            </Row>
-
-            <Row label="Line spacing">
-              <div className="flex gap-1">
-                {LEADINGS.map((leading, i) => (
-                  <Chip
-                    key={leading}
-                    active={prefs.leading === leading}
-                    onClick={() => update({ ...prefs, leading })}
-                  >
-                    {["Tight", "Normal", "Loose"][i]}
-                  </Chip>
-                ))}
-              </div>
-            </Row>
-
-            <Row label="Line width">
-              <div className="flex gap-1">
-                {MEASURES.map((measure, i) => (
-                  <Chip
-                    key={measure}
-                    active={prefs.measure === measure}
-                    onClick={() => update({ ...prefs, measure })}
-                  >
-                    {["Narrow", "Normal", "Wide"][i]}
-                  </Chip>
-                ))}
-              </div>
-            </Row>
-          </div>
-        </>
-      ) : null}
-    </div>
+      {panel === null ? null : createPortal(panel, document.body)}
+    </>
   );
 }
 
