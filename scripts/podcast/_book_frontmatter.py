@@ -413,12 +413,22 @@ def inject_introduction(book_md: str, text: str, *, gated: bool = True) -> str:
     if match is None:
         return stripped
     head, tail = stripped[: match.start()].rstrip(), stripped[match.start() :]
-    # The heading sits OUTSIDE the fence. Inside it, the Composer hides the whole
-    # section — it skips any heading within an `edition-intro` span — so the
-    # introduction never appeared in the chapter list and could not be read or
-    # corrected there. `strip_introduction` removes the section by its heading, so
-    # nothing is orphaned by moving the marker.
-    block = f"{INTRO_HEADING}\n\n{INTRO_OPEN}\n{text.strip()}\n{INTRO_CLOSE}"
+    # NO FENCE. The introduction is written as an ordinary section, because the
+    # fence had exactly one job — telling `strip_introduction` what to remove —
+    # and `_INTRO_SECTION_RE` does that from the heading instead.
+    #
+    # Keeping it cost the reader the thing the fence was supposed to protect. The
+    # Composer's editor renders a machine marker as a visible label, and the
+    # introduction had never been listed as a chapter before today, so nobody had
+    # ever seen its own fence. The moment it became visible, the first line of the
+    # book read `edition-intro:begin`.
+    #
+    # No prose pass can reach this text regardless of markers: the assembly
+    # rebuilds book.md without an introduction and every model pass runs before
+    # this step, which is the apparatus tail. `INTRO_OPEN`/`INTRO_CLOSE` stay
+    # defined, and `strip_introduction` still removes a legacy fence, because five
+    # books carried one this morning.
+    block = f"{INTRO_HEADING}\n\n{text.strip()}"
     return (head + "\n\n" if head else "") + block + "\n\n" + tail
 
 

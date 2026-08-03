@@ -167,17 +167,18 @@ def test_the_gate_refuses_a_stub_an_asserted_absence_and_bullets() -> None:
     assert any("bullets" in r for r in gate_introduction("- a bullet\n" + _SHORT)[1])
 
 
-def test_injection_is_idempotent_and_the_heading_leaves_with_the_fence() -> None:
-    from _book_frontmatter import INTRO_HEADING, INTRO_OPEN, inject_introduction, strip_introduction
+def test_injection_is_idempotent_and_the_strip_leaves_no_orphan() -> None:
+    from _book_frontmatter import INTRO_HEADING, inject_introduction, strip_introduction
 
     book = "# Title\n\n## 1. The Call\n\nThe chapter.\n"
 
     once = inject_introduction(book, _SHORT)
     twice = inject_introduction(once, _SHORT)
 
-    assert once == twice and twice.count(INTRO_OPEN) == 1
-    # Stripped, no orphan heading is left for the next run to fill back in.
-    assert INTRO_HEADING not in strip_introduction(once)
+    assert once == twice and twice.count(INTRO_HEADING) == 1
+    # Stripped, no orphan heading is left for the next run to fill back in, and
+    # the chapters are untouched.
+    assert strip_introduction(once) == book
 
 
 def test_no_numbered_chapter_means_no_introduction(tmp_path: Path) -> None:
@@ -329,15 +330,23 @@ def test_the_retry_happens_at_most_once(tmp_path: Path) -> None:
 # --- the reader must be able to SEE it, and their edit must win ---------------
 
 
-def test_the_heading_sits_outside_the_fence_so_the_composer_lists_it() -> None:
-    """The Composer skips any heading INSIDE an `edition-intro` span, so an
-    introduction fenced heading-and-all never appeared in its chapter list at
-    all — Asif looked for it and it was not there."""
-    from _book_frontmatter import INTRO_HEADING, INTRO_OPEN, inject_introduction
+def test_the_introduction_carries_no_machine_marker_at_all() -> None:
+    """Two defects, one root: the fence.
+
+    The Composer skips any heading INSIDE an `edition-intro` span, so an
+    introduction fenced heading-and-all never appeared in the chapter list — Asif
+    looked for it and it was not there. Moved outside, it appeared, and the
+    editor then rendered the marker as a visible label: the book's first line read
+    `edition-intro:begin`. The fence's only job was telling the strip what to
+    remove, and the section regex does that from the heading.
+    """
+    from _book_frontmatter import INTRO_HEADING, inject_introduction
 
     out = inject_introduction("# T\n\n## 1. The Call\n\nThe chapter.\n", _SHORT)
 
-    assert out.index(INTRO_HEADING) < out.index(INTRO_OPEN)
+    assert "edition-intro" not in out
+    assert out.index(INTRO_HEADING) < out.index("## 1. The Call")
+    assert _SHORT in out
 
 
 def test_the_section_is_stripped_even_when_the_fence_is_gone() -> None:
@@ -434,7 +443,6 @@ def test_a_book_carrying_the_earlier_shape_re_injects_cleanly() -> None:
 
     out = inject_introduction(earlier, _SHORT)
 
-    assert out.count(INTRO_OPEN) == 1 and out.count(INTRO_CLOSE) == 1
+    assert "edition-intro" not in out  # the legacy fence leaves and none replaces it
     assert out.count(INTRO_HEADING) == 1
-    assert out.index(INTRO_HEADING) < out.index(INTRO_OPEN)  # the new shape
-    assert "Old text." not in out
+    assert "Old text." not in out and _SHORT in out

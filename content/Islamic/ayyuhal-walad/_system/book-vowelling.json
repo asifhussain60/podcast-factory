@@ -1,19 +1,14 @@
 {
   "vowelled": 3,
   "marks_added": 41,
-  "already": 128,
+  "already": 129,
   "quranic": 0,
   "from_mushaf": 0,
-  "refused": 1,
+  "refused": 0,
   "recovered": 0,
-  "in_chars": 87,
-  "out_chars": 145,
+  "in_chars": 60,
+  "out_chars": 101,
   "mushaf_pairs": [],
-  "refusals": [
-    {
-      "run": "ألّهمّ اختم بالسعادة آجالنا",
-      "reason": "letters changed, not just marks (first difference at character 3: source \"هم اختم بالس\" vs proposal \"لهم اختم بال\")"
-    }
-  ],
+  "refusals": [],
   "lexical": 0
 }

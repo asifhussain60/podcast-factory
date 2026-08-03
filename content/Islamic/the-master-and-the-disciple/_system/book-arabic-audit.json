@@ -527,7 +527,7 @@
     "uncovered": [
       {
         "ref": "12:105",
-        "line": 244,
+        "line": 242,
         "reason": "no-span-in-scan",
         "ayah_words": 11
       }

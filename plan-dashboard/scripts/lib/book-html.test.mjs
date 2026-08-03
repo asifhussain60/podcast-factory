@@ -160,22 +160,34 @@ test("per-chapter render with seeded sawH2 equals the whole-book render", () => 
   );
 });
 
-test("seeded sawH2 keeps a later unnumbered heading out of the preface treatment", () => {
+test("seeded sawH2 keeps a later unnumbered heading out of the front-matter treatment", () => {
   const later = "## An Unnumbered Later Heading\n\nSome prose.";
   const asFirst = renderMd(later);
   const asLater = renderMd(later, new Map(), { sawH2: true });
 
   assert.ok(
-    asFirst.includes("Preface"),
-    "an unnumbered FIRST heading is still the preface",
+    asFirst.includes("chapter-open"),
+    "an unnumbered FIRST heading still opens the book",
   );
   assert.ok(
-    !asLater.includes("Preface"),
-    "an unnumbered LATER heading is never the preface",
+    !asFirst.includes("ch-eyebrow"),
+    "and carries NO eyebrow — the section names itself",
   );
   assert.ok(
     asLater.includes('<h3 class="section-heading">'),
-    "it renders as an in-flow section heading instead",
+    "an unnumbered LATER heading renders as an in-flow section heading instead",
+  );
+});
+
+test("an unnumbered front-matter heading never prints a label above its own title", () => {
+  // `Preface` used to be hardcoded here, and since the section became
+  // "Introduction to the Book" it printed one line above the other.
+  const out = renderMd("## Introduction to the Book\n\nProse.");
+
+  assert.ok(!out.includes("Preface"), "no stale label");
+  assert.ok(
+    out.includes("<h2>Introduction to the Book</h2>"),
+    "title stands alone",
   );
 });
 
@@ -186,7 +198,7 @@ test("sawH2 defaults to false — whole-book callers are unaffected", () => {
     renderMd(md, new Map(), {}),
     "omitting the option matches passing an empty options object",
   );
-  assert.ok(renderMd(md).includes("Preface"), "default behaviour preserved");
+  assert.ok(renderMd(md).includes("A Preface"), "default behaviour preserved");
 });
 
 // ── machine fences never render as visible text ─────────────────────────────

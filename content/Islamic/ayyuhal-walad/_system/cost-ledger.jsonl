@@ -157,3 +157,5 @@
 {"ts": "2026-08-03T13:50:01Z", "phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "input_tokens": 115, "output_tokens": 191, "cache_read": 0, "cache_create": 0, "cost_usd": 0.000513, "engine": "api"}
 {"ts": "2026-08-03T14:16:44Z", "phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "input_tokens": 115, "output_tokens": 189, "cache_read": 0, "cache_create": 0, "cost_usd": 0.000508, "engine": "api"}
 {"ts": "2026-08-03T14:24:56Z", "phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "input_tokens": 87, "output_tokens": 145, "cache_read": 0, "cache_create": 0, "cost_usd": 0.00039, "engine": "api"}
+{"ts": "2026-08-03T14:38:12Z", "phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "input_tokens": 87, "output_tokens": 143, "cache_read": 0, "cache_create": 0, "cost_usd": 0.000385, "engine": "api"}
+{"ts": "2026-08-03T14:46:33Z", "phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "input_tokens": 60, "output_tokens": 101, "cache_read": 0, "cache_create": 0, "cost_usd": 0.000271, "engine": "api"}

@@ -132,7 +132,10 @@ export function extractToc(md) {
       sawNumbered = true;
       items.push({ label: numbered[1], title: numbered[2].trim() });
     } else if (!sawNumbered && items.length === 0) {
-      items.push({ label: items.length === 0 ? "Preface" : "", title: raw });
+      // Label-less, for the same reason the eyebrow is: the section's own title
+      // is the label, and "Preface — Introduction to the Book" reads as two names
+      // for one thing.
+      items.push({ label: "", title: raw });
     }
   }
   return items;
@@ -772,7 +775,15 @@ export function renderMd(md, crosswalkByIndex = new Map(), opts = {}) {
           eyebrow = `Chapter ${NUMBER_WORDS[n] || numbered[1]}`;
           title = numbered[2];
         } else {
-          eyebrow = sawH2 ? "" : "Preface";
+          // No eyebrow. A numbered chapter needs one because "The Pole and
+          // Foundation of Religion" does not say it is chapter one; an unnumbered
+          // front-matter section names itself. Since 2026-08-03 that section is
+          // titled "Introduction to the Book", so the hardcoded label printed
+          //     Preface
+          //     Introduction to the Book
+          // one line above the other — a stale word arguing with the heading
+          // under it, on the reader's first page.
+          eyebrow = "";
           title = text;
         }
         if (numbered || isFirstH2) {
