@@ -256,3 +256,51 @@ def test_english_in_the_glossary_is_never_substituted(tmp_path: Path) -> None:
     apply_arabic_substitution(bd)
     out = (bd / "book" / "book.md").read_text(encoding="utf-8")
     assert "*blind*" in out and "مَوَدَّة" in out
+
+
+# ─── The Composer button's path: a pure transform ───────────────────────────
+def test_substitute_text_writes_nothing_and_reports_what_it_cannot_do(tmp_path: Path) -> None:
+    """Why the button looked broken.
+
+    It wrote book.md server-side and reloaded the page. On a book whose glossary
+    cannot reach the words on screen, the page bounced and nothing changed, with
+    nothing to say why. `unavailable` is the answer — and the transform touches
+    no file, so the Composer can apply it to the live editor instead.
+    """
+    from _book_substitution import substitute_text
+
+    entries = [{"phonetic": "hudud", "arabic_script": "حُدُود", "annotation_class": "teach"}]
+    bd = _book(tmp_path, "## 1. A\n\nunchanged on disk\n", entries)
+    before = (bd / "book" / "book.md").read_text(encoding="utf-8")
+
+    out = substitute_text(bd, "the *hudud* and the *mawaddah* together.")
+    assert out["replaced"] == 1
+    assert "حُدُود" in out["text"] and "*mawaddah*" in out["text"]
+    assert out["unavailable"] == ["mawaddah"]
+    assert (bd / "book" / "book.md").read_text(encoding="utf-8") == before
+    assert not (bd / "_system" / "book-substitutions.json").exists()
+
+
+def test_substitute_text_on_a_passage_with_nothing_to_do(tmp_path: Path) -> None:
+    from _book_substitution import substitute_text
+
+    bd = _book(tmp_path, "## 1. A\n\nbody\n", [{"phonetic": "hudud", "arabic_script": "حُدُود"}])
+    out = substitute_text(bd, "An ordinary English sentence.")
+    assert out["replaced"] == 0 and out["unavailable"] == []
+
+
+def test_a_possessive_keeps_its_emphasis_markers_balanced() -> None:
+    """`*Natiq*'s age` became `اَلنَّاطِق*'s age` — the apostrophe blocked the
+    closing marker, the engine backtracked to consume none, and the opening `*`
+    was stranded. The markers must balance or the term is left alone."""
+    natiq = [{"phonetic": "natiq", "script": "اَلنَّاطِق", "style": "teach"}]
+    line = "until that *Natiq*'s age is finished"
+    assert substitute_body(line, natiq) == (line, 0)
+
+
+def test_matching_is_case_blind_because_script_has_no_case() -> None:
+    """`simplify_transliteration` lowercases the glossary's phonetic, so sixteen
+    asaas terms carried script and still printed romanized as `*Natiq*`."""
+    natiq = [{"phonetic": "natiq", "script": "اَلنَّاطِق", "style": "teach"}]
+    out, n = substitute_body("these are the *Natiq*, the Speaker", natiq)
+    assert out == "these are the اَلنَّاطِق, the Speaker" and n == 1

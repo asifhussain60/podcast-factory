@@ -1861,8 +1861,8 @@
   "metrics": {
     "burn_30d_usd": 14.42
   },
-  "generated_at": "2026-08-03T15:43:31-04:00",
-  "source_commit": "604440f",
+  "generated_at": "2026-08-03T16:13:22-04:00",
+  "source_commit": "f061086",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1924,6 +1924,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "f061086",
+      "subject": "style(listener): every declaration is in a stylesheet, and a session title stops wrapping under its own label",
+      "date": "2026-08-03"
+    },
+    {
+      "sha": "4ba720b",
+      "subject": "feat(book): romanization out, Arabic script in — the third inline-Arabic operation",
+      "date": "2026-08-03"
+    },
+    {
       "sha": "604440f",
       "subject": "feat(listener): twenty episodes in five sessions, and one command to ship them",
       "date": "2026-08-03"
@@ -1961,16 +1971,6 @@
     {
       "sha": "9599a4a",
       "subject": "chore(infra): move the last Salty Lamps record out, and name the leftover honestly",
-      "date": "2026-08-03"
-    },
-    {
-      "sha": "999c66f",
-      "subject": "docs(infra): make infra/cloudflare the real Cloudflare record, on the gmail account",
-      "date": "2026-08-03"
-    },
-    {
-      "sha": "ace48b1",
-      "subject": "fix(listener): dev sessions coexist with real ones; smoke test cleans up",
       "date": "2026-08-03"
     }
   ],

@@ -1,0 +1,14 @@
+{
+  "schema": "book.glossary-cross-fill/v1",
+  "filled": [
+    {
+      "phonetic": "Qur'an",
+      "arabic_script": "قُرْآن",
+      "from": "asaas-al-taveel/vol-01"
+    }
+  ],
+  "still_empty": [
+    "al-Khidr",
+    "Muhajirun"
+  ]
+}

@@ -1,12 +1,120 @@
 {
-  "schema": "book.gloss-harvest/v1",
-  "candidates": 216,
-  "added": 210,
-  "terms": [
-    "ibda",
+  "schema": "book.glossary-cross-fill/v1",
+  "filled": [
+    {
+      "phonetic": "ibda",
+      "arabic_script": "إبداع",
+      "from": "kitab-al-riyad"
+    },
+    {
+      "phonetic": "istighfar",
+      "arabic_script": "اِسْتِغْفَار",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "rakat",
+      "arabic_script": "رَكْعَات",
+      "from": "ayyuhal-walad"
+    },
+    {
+      "phonetic": "Mubdi",
+      "arabic_script": "المُبدِع",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "adam",
+      "arabic_script": "آدَم",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "alam al-ibda",
+      "arabic_script": "عالم الإبداع",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "ikhtiyar",
+      "arabic_script": "اَلْاِخْتِيَار",
+      "from": "degrees-of-excellence"
+    },
+    {
+      "phonetic": "ishara",
+      "arabic_script": "إِشَارَة",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "jawhar",
+      "arabic_script": "الْجَوْهَر",
+      "from": "degrees-of-excellence"
+    },
+    {
+      "phonetic": "ahl al-haqq",
+      "arabic_script": "أَهْلُ الْحَقّ",
+      "from": "degrees-of-excellence"
+    },
+    {
+      "phonetic": "aimma",
+      "arabic_script": "أَئِمَّة",
+      "from": "degrees-of-excellence"
+    },
+    {
+      "phonetic": "asma al-husna",
+      "arabic_script": "الْأَسْمَاءُ الْحُسْنَى",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "awham",
+      "arabic_script": "أوهام",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "Bab al-Abwab",
+      "arabic_script": "بَابُ الْأَبْوَاب",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "makan",
+      "arabic_script": "اَلْمَكَان",
+      "from": "degrees-of-excellence"
+    },
+    {
+      "phonetic": "marifah",
+      "arabic_script": "الْمَعْرِفَة",
+      "from": "ayyuhal-walad"
+    },
+    {
+      "phonetic": "ramz",
+      "arabic_script": "رَمْز",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "shariah",
+      "arabic_script": "شَرِيعَة",
+      "from": "ayyuhal-walad"
+    },
+    {
+      "phonetic": "shirk",
+      "arabic_script": "الشِّرْك",
+      "from": "degrees-of-excellence"
+    },
+    {
+      "phonetic": "tasbih",
+      "arabic_script": "تَسْبِيح",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "wali",
+      "arabic_script": "وَلِيّ",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "zahir",
+      "arabic_script": "الظَّاهِر",
+      "from": "asaas-al-taveel/vol-01"
+    }
+  ],
+  "still_empty": [
+    "stripping every attribute away",
     "had",
-    "istighfar",
-    "rakat",
     "shafa",
     "witr",
     "idtirar",
@@ -15,20 +123,14 @@
     "julus",
     "khalq",
     "mashfu",
-    "Mubdi",
     "quwwah",
-    "adam",
-    "alam al-ibda",
     "aql al-awwal",
     "dafatan wahidatan",
     "fil",
     "hayat",
     "Ijz",
     "ikhtilaf",
-    "ikhtiyar",
-    "ishara",
     "Jaddiyyat",
-    "jawhar",
     "kamal al-thani",
     "maad",
     "mabda",
@@ -42,9 +144,7 @@
     "qudrah",
     "taweel",
     "adl",
-    "ahl al-haqq",
     "ahl al-maarif",
-    "aimma",
     "ajall al-ilm",
     "al-ilahiyyah",
     "al-qamat al-insaniyya al-bashariyya",
@@ -56,9 +156,6 @@
     "ashbah suriyyah nuraniyya",
     "ashiq",
     "asl",
-    "asma al-husna",
-    "awham",
-    "Bab al-Abwab",
     "bab al-iftial",
     "because",
     "bi-hukmi al-idtirar",
@@ -130,10 +227,8 @@
     "like",
     "Mabda wa Maad",
     "mahdah",
-    "makan",
     "manfiyyah",
     "mansubin",
-    "marifah",
     "marifah batinah",
     "marifah zahirah",
     "marifat",
@@ -169,7 +264,6 @@
     "Qawd",
     "qawlun mujmalun",
     "Rahat al-Aql",
-    "ramz",
     "rubq",
     "Rutbat al-Ilahiyyah",
     "sadir al-awwal",
@@ -177,9 +271,7 @@
     "samaha",
     "sawa",
     "shafaa",
-    "shariah",
     "shimah",
-    "shirk",
     "some",
     "something",
     "summary",
@@ -192,7 +284,6 @@
     "talib",
     "tamjid",
     "tartib",
-    "tasbih",
     "tawahhum",
     "tawassul",
     "ubudiyyah",
@@ -200,7 +291,6 @@
     "Wa judan",
     "Wa tatawwulan minhu",
     "walah",
-    "wali",
     "wasala",
     "watan-e-asli",
     "wujud",
@@ -208,7 +298,6 @@
     "yatajasaru",
     "yatasawa",
     "yekta",
-    "zahir",
     "zamair",
     "zanbun mashfuun bil-istighfar",
     "zawat",

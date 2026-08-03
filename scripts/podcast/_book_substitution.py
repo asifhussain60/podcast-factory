@@ -90,7 +90,10 @@ _ABSORBED = absorbed_english()
 #: alone is the `amal (عَمَل)` -> `عَمَل` case, and it must run BEFORE the bare
 #: pass or that pass would substitute the romanization and strand the bracket.
 def _appended_re(phonetic: str) -> re.Pattern[str]:
-    return re.compile(rf"(?<![\w-])[*_]*({re.escape(phonetic)})[*_]*(?![\w'’-])[ \t]*\(([^)\n]*[{_ARABIC}][^)\n]*)\)")
+    return re.compile(
+        rf"(?<![\w*_-])([*_]?)({re.escape(phonetic)})\1(?![\w'’-])[ \t]*\(([^)\n]*[{_ARABIC}][^)\n]*)\)",
+        re.IGNORECASE,
+    )
 
 
 def record_path(book_dir: Path) -> Path:
@@ -241,7 +244,7 @@ def substitute_body(body: str, terms: list[dict[str, str]]) -> tuple[str, int]:
                 # cost the book's own title: `*Asas al-Tawil* (أُسَاسُ التَّأْوِيلِ)` has
                 # a glossary entry for `al-Tawil` alone, so the collapse ate
                 # `al-Tawil* (…)` and left `*Asas ` hanging open.
-                if _inside_longer_romanization(line, m.start(1), m.end(1)):
+                if _inside_longer_romanization(line, m.start(2), m.end(2)):
                     return m.group(0)
                 replaced += 1
                 return _s
@@ -260,23 +263,66 @@ def substitute_body(body: str, terms: list[dict[str, str]]) -> tuple[str, int]:
                 nonlocal replaced
                 if _letters_as_letters(line, m.start(), _s):
                     return m.group(0)
-                # Group 1 is the bare phonetic; the match itself includes the
+                # Group 2 is the bare phonetic; the match itself includes the
                 # emphasis markers, and using its span put the start OUTSIDE the
                 # run it was being tested against — so the guard never fired on
                 # a term sitting at the head of a phrase, which is exactly where
                 # `La ilaha illa Allah` shreds.
-                if _inside_longer_romanization(line, m.start(1), m.end(1)):
+                if _inside_longer_romanization(line, m.start(2), m.end(2)):
                     return m.group(0)
                 replaced += 1
                 return _s
 
+            # CASE-INSENSITIVE, and safely so: the replacement is Arabic script,
+            # which has no case, and the term list is already filtered of English
+            # words and absorbed loanwords. `simplify_transliteration` lowercases
+            # the glossary's phonetic, so this had to be case-blind or it could
+            # never see the page's own `*Natiq*` — which is why sixteen asaas
+            # terms carried script in the glossary and still printed romanized.
             line = re.sub(
-                rf"(?<![\w-])[*_]*({re.escape(phonetic)})[*_]*(?![\w'’-])",
+                # The emphasis markers must BALANCE (`\1`), and a bare match may
+                # not sit directly after one. Consuming them asymmetrically turned
+                # `*Natiq*'s age` into `اَلنَّاطِق*'s age`: the possessive apostrophe
+                # blocked the closing marker, the engine backtracked to consume
+                # none, and the opening `*` was stranded mid-sentence.
+                rf"(?<![\w*_-])([*_]?)({re.escape(phonetic)})\1(?![\w'’-])",
                 _swap,
                 line,
+                flags=re.IGNORECASE,
             )
         lines[i] = line + nl
     return "".join(lines), replaced
+
+
+def substitute_text(book_dir: Path, text: str) -> dict[str, Any]:
+    """Substitute one passage and report what could not be done. Writes nothing.
+
+    THE COMPOSER BUTTON'S PATH, and deliberately a pure transform rather than a
+    file write: the button applies the result to the live editor and lets the
+    Composer's own autosave persist it, exactly as the Diacritics action does.
+    Writing `book.md` underneath a live editor and then reloading the page is the
+    RCA-002 shape, and it is also what made the button feel broken — the page
+    bounced and, on a book whose glossary cannot reach the words on screen,
+    nothing changed.
+
+    ``unavailable`` is why. It lists the terms the passage sets as foreign that
+    this book has NO Arabic for, so "nothing happened" can say so instead of
+    looking like a failure. On `al-anwaar-al-lateefah` that is most of the page:
+    the glossary holds 27 usable terms and the book italicises about 250, because
+    it has no Arabic scan to fill them from.
+    """
+    from _gloss_terms import bare_term_findings
+
+    terms = substitutable_terms(book_dir)
+    new_text, replaced = substitute_body(text, terms)
+    entries = []
+    glossary = Path(book_dir) / "_system" / "glossary.yml"
+    if glossary.exists():
+        from _glossary_io import load_glossary
+
+        entries = load_glossary(glossary)[0]
+    unavailable = [r["term"] for r in bare_term_findings(new_text, "", entries)]
+    return {"text": new_text, "replaced": replaced, "unavailable": unavailable[:12]}
 
 
 def _chapters(book_md: str) -> list[tuple[str, str]]:
@@ -373,6 +419,11 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("slug")
     ap.add_argument("--chapter-key", default="", help="one chapter; omit for the whole book")
+    ap.add_argument(
+        "--stdin",
+        action="store_true",
+        help="transform the passage on stdin and print it back; writes no files (the Composer button)",
+    )
     args = ap.parse_args()
 
     found = find_content(args.slug)
@@ -380,6 +431,9 @@ def main() -> int:
         print(json.dumps({"ok": False, "error": f"book not found: {args.slug}"}))
         return 1
     book_dir = found[2]
+    if args.stdin:
+        print(json.dumps({"ok": True, **substitute_text(book_dir, sys.stdin.read())}, ensure_ascii=False))
+        return 0
     notes: list[str] = []
     replaced = apply_arabic_substitution(
         book_dir,

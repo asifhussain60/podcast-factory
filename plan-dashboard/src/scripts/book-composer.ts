@@ -3309,73 +3309,68 @@ function boot(): void {
   let rearticulating = false;
 
   // ── Replace with Arabic: the deterministic glossary substitution ────────────
-  // Same page-reload shape as Rearticulate and for the same RCA-002 reason — the
-  // engine writes book.md, so the editor must not be live over it — but with no
-  // polling: the pass is deterministic and returns in the request. It is also
-  // reversible, which is what makes it safe to offer as a button: every
-  // substitution is recorded in _system/book-substitutions.json and the next run
-  // restores before it re-derives, so a term later reclassified `familiar` gets
-  // its English back instead of being fossilised in script.
+  // A PURE TRANSFORM applied to the live editor, exactly like Diacritics: send
+  // the passage, get it back with its romanized glossary terms in Arabic script,
+  // insert it, let the Composer's own autosave persist it.
+  //
+  // It used to confirm through a modal, write book.md server-side and reload the
+  // page. All three were wrong. The modal asks about a deterministic, reversible,
+  // free edit the author can undo with Cmd-Z. The server write under a live
+  // editor is the RCA-002 shape. And the reload is why it read as broken: on a
+  // book whose glossary cannot reach the words on screen the page bounced and
+  // nothing changed, with nothing to say why.
+  //
+  // `unavailable` is what says why — the terms in the passage this book has no
+  // Arabic for. That is the honest answer on `al-anwaar-al-lateefah`, whose
+  // glossary holds 27 usable terms against roughly 250 italicised on the page.
   let substituting = false;
 
   async function runReplaceArabic(btn: HTMLButtonElement): Promise<void> {
-    if (!activeEditor || substituting || rearticulating) return;
-    const title = chapterByKey.get(selectedChapter)?.title ?? selectedChapter;
-    const go = await confirmDialog({
-      title: "Replace romanized terms with Arabic?",
-      titleIcon: "fa-solid fa-language",
-      body: `Every glossary term “${title}” spells in English letters is replaced with its Arabic script.`,
-      points: [
-        {
-          icon: "fa-solid fa-right-left",
-          text: "“the mawaddah” becomes “the مَوَدَّة”; “amal (عَمَل)” collapses to “عَمَل”.",
-        },
-        {
-          icon: "fa-solid fa-book-open",
-          text: "Script comes from the book's glossary — nothing is recalled or invented.",
-        },
-        {
-          icon: "fa-solid fa-user",
-          text: "Names, familiar words and quotations are left exactly as they are.",
-        },
-        {
-          icon: "fa-solid fa-rotate-left",
-          text: "Recorded and reversible — a term reclassified later gets its English back.",
-        },
-      ],
-      footnote: "Deterministic and free. Compose runs this on every chapter.",
-      confirmLabel: "Replace",
-    });
-    if (!go) return;
-    const flushed = await (activeSaveFlush?.() ?? Promise.resolve(true));
-    if (!flushed) {
-      setAiStatus("Autosave is failing — resolve that before replacing.", true);
+    if (!activeEditor || substituting) return;
+    // The selection when there is one, the whole chapter when there is not.
+    const sel = selectionText();
+    const doc = activeEditor.editor.state.doc;
+    const range = sel
+      ? { from: sel.from, to: sel.to }
+      : { from: 0, to: doc.content.size };
+    const text = sel ? sel.text : doc.textBetween(0, doc.content.size, "\n\n");
+    if (!text.trim()) {
+      setAiStatus("Nothing to replace.", true);
       return;
     }
     substituting = true;
     btn.disabled = true;
-    activeEditor.editor.setEditable(false);
-    setAiStatus("Replacing romanized terms with Arabic script…");
+    setAiStatus("Replacing romanized terms with Arabic…");
     try {
-      const res = (await apiFetch("/api/studio/replace-arabic", {
+      const j = await apiFetch<{
+        text: string;
+        replaced: number;
+        unavailable: string[];
+      }>("/api/studio/replace-arabic", {
         method: "POST",
-        body: { slug, chapterKey: selectedChapter },
-      })) as { replaced?: number };
-      const n = Number(res?.replaced ?? 0);
-      if (!n) {
-        substituting = false;
-        btn.disabled = false;
-        activeEditor?.editor.setEditable(true);
-        setAiStatus("No romanized glossary terms left in this chapter.");
-        return;
+        body: { slug, text },
+      });
+      const n = Number(j.replaced ?? 0);
+      const missing = Array.isArray(j.unavailable) ? j.unavailable : [];
+      if (n > 0) {
+        activeEditor.editor
+          .chain()
+          .focus()
+          .insertContentAt(range, String(j.text))
+          .run();
       }
-      setAiStatus(`Replaced ${n} term(s). Reloading the chapter…`);
-      reloadPreservingChapter();
+      const done = n
+        ? `Replaced ${n} term${n === 1 ? "" : "s"} with Arabic.`
+        : "No term here has Arabic in this book's glossary.";
+      const note = missing.length
+        ? ` No script for: ${missing.slice(0, 6).join(", ")}${missing.length > 6 ? "…" : ""}.`
+        : "";
+      setAiStatus(done + note, n === 0);
     } catch (e) {
+      setAiStatus(`Replace with Arabic failed: ${(e as Error).message}`, true);
+    } finally {
       substituting = false;
       btn.disabled = false;
-      activeEditor?.editor.setEditable(true);
-      setAiStatus(`Replace with Arabic failed: ${String(e)}`, true);
     }
   }
 

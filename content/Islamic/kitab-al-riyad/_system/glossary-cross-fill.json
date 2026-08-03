@@ -1,0 +1,544 @@
+{
+  "schema": "book.glossary-cross-fill/v1",
+  "filled": [
+    {
+      "phonetic": "Ismaili",
+      "arabic_script": "إِسْمَاعِيلِيّ",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Da'i",
+      "arabic_script": "دَاعِي",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "al-Kirmani",
+      "arabic_script": "اَلْكِرْمَانِيّ",
+      "from": "degrees-of-excellence"
+    },
+    {
+      "phonetic": "da'wa",
+      "arabic_script": "دَعْوَة",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Fatimid",
+      "arabic_script": "فَاطِمِيّ",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Ubayd Allah",
+      "arabic_script": "عُبَيْدُ اللّٰه",
+      "from": "the-master-and-the-disciple"
+    },
+    {
+      "phonetic": "Khams Rasa'il Isma'iliyya",
+      "arabic_script": "خَمْس رَسَائِل إِسْمَاعِيلِيَّة",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Tawhid",
+      "arabic_script": "التَّوْحِيد",
+      "from": "degrees-of-excellence"
+    },
+    {
+      "phonetic": "hadd",
+      "arabic_script": "حَدّ",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "al-Qalam",
+      "arabic_script": "اَلْقَلَم",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Nafs",
+      "arabic_script": "نَفْس",
+      "from": "ayyuhal-walad"
+    },
+    {
+      "phonetic": "al-Lawh",
+      "arabic_script": "اَللَّوْح",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "al-Malik",
+      "arabic_script": "اَلْمَلِك",
+      "from": "ayyuhal-walad"
+    },
+    {
+      "phonetic": "Hujjah",
+      "arabic_script": "حُجَّة",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "Shari'a",
+      "arabic_script": "شَرِيعَة",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Imamate",
+      "arabic_script": "الْاِمَامَة",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Imām",
+      "arabic_script": "إِمَام",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "fuṣūl",
+      "arabic_script": "فُصُول",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "al-Ẓāhir",
+      "arabic_script": "ظَاهِر",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "nāṭiq",
+      "arabic_script": "اَلنَّاطِق",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "asās",
+      "arabic_script": "أَسَاس",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "nuṭaqāʾ",
+      "arabic_script": "النُّطَقَاءُ",
+      "from": "the-master-and-the-disciple"
+    },
+    {
+      "phonetic": "Qāʾim",
+      "arabic_script": "الْقَائِم",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "al-Muʿizz li-Dīn Allāh",
+      "arabic_script": "المعز لدين الله",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Qāḍī al-Nuʿmān",
+      "arabic_script": "قَاضِي النُّعْمَان",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "Allāh",
+      "arabic_script": "اللّٰه",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "lāḥiq",
+      "arabic_script": "أَلْحَق",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "shirk",
+      "arabic_script": "الشِّرْك",
+      "from": "degrees-of-excellence"
+    },
+    {
+      "phonetic": "Shaykh",
+      "arabic_script": "اَلشَّيْخ",
+      "from": "ayyuhal-walad"
+    },
+    {
+      "phonetic": "Bab",
+      "arabic_script": "الْبَاب",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Muhammad",
+      "arabic_script": "مُحَمَّد",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Ali ibn Abi Talib",
+      "arabic_script": "عَلِيُّ بْنُ أَبِي طَالِبٍ",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "Yasin",
+      "arabic_script": "يس",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "Shaykh",
+      "arabic_script": "اَلشَّيْخ",
+      "from": "ayyuhal-walad"
+    },
+    {
+      "phonetic": "Adam",
+      "arabic_script": "آدَم",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Sayyidina",
+      "arabic_script": "سَيِّدِنَا",
+      "from": "the-master-and-the-disciple"
+    },
+    {
+      "phonetic": "Quran",
+      "arabic_script": "قُرْآن",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "tawil",
+      "arabic_script": "تَأْوِيل",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Umma",
+      "arabic_script": "أُمَّة",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "al-Bari",
+      "arabic_script": "اَلْبَارِئ",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "wali",
+      "arabic_script": "وَلِيّ",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "hujjah",
+      "arabic_script": "حُجَّة",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "awliya",
+      "arabic_script": "أَوْلِيَاء",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "ibn",
+      "arabic_script": "بْن",
+      "from": "the-master-and-the-disciple"
+    },
+    {
+      "phonetic": "Isma'il",
+      "arabic_script": "إِسْمَاعِيل",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "kun",
+      "arabic_script": "كُن",
+      "from": "the-master-and-the-disciple"
+    },
+    {
+      "phonetic": "Sharia",
+      "arabic_script": "شَرِيعَة",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Natiq",
+      "arabic_script": "اَلنَّاطِق",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Shu'ayb",
+      "arabic_script": "شُعَيْب",
+      "from": "the-master-and-the-disciple"
+    },
+    {
+      "phonetic": "jihad",
+      "arabic_script": "جِهَاد",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Wilayah",
+      "arabic_script": "وِلَايَة",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "Abu Bakr",
+      "arabic_script": "أَبُو بَكْر",
+      "from": "kunooz-al-hikmah"
+    },
+    {
+      "phonetic": "Wadd",
+      "arabic_script": "وَدَاً",
+      "from": "asaas-al-taveel/vol-01"
+    },
+    {
+      "phonetic": "Nasr",
+      "arabic_script": "نَسْراً",
+      "from": "asaas-al-taveel/vol-01"
+    }
+  ],
+  "still_empty": [
+    "Kitab al-Riyad",
+    "al-Ajall",
+    "Hamid al-Din Ahmad ibn Abdullah al-Kirmani",
+    "Hujjat al-Iraqayn",
+    "al-Sadayn",
+    "al-Islah",
+    "al-Nusra",
+    "Arif Tamir",
+    "Dar al-Thaqafa",
+    "Hijra",
+    "al-Mahsul",
+    "AH (Anno Hegirae)",
+    "Muhammad ibn Ahmad al-Nasafi",
+    "al-Nasafi",
+    "Samanid",
+    "Khurasan",
+    "al-Farq bayn al-Firaq",
+    "Abd al-Qahir al-Baghdadi",
+    "Abu Hatim al-Razi",
+    "Abu Ya'qub al-Sijistani",
+    "Abu Ya'qub Ishaq al-Sijistani",
+    "al-Sijistani",
+    "al-Sijzi",
+    "al-Razi",
+    "al-Riyad",
+    "Abu Hatim Ahmad ibn Hamdan al-Laythi al-Warsanani al-Razi",
+    "Abu Hatim",
+    "al-Rayy",
+    "Baghdad",
+    "Muhammad al-Mahdi Billah",
+    "Maghrib",
+    "al-Marwazi",
+    "Tabaristan",
+    "Daylam",
+    "da'wah",
+    "Nasir-i Khusraw",
+    "Zad al-Musafirin",
+    "Asas al-Da'wah",
+    "Ta'wil al-Shara'i'",
+    "Yanabi' al-Barakat",
+    "Yanabi' al-Najat",
+    "al-Risalah al-Bahirah",
+    "al-Mawazin",
+    "Sullam al-Najat",
+    "al-Maqalid",
+    "Salwat al-Ahzan",
+    "Asrar al-Ma'ad",
+    "Mawa'iz fi al-Akhlaq",
+    "al-Gharib fi Ma'na al-Iksir",
+    "Anis al-Qulub",
+    "Tarkib al-Arwah",
+    "Aman al-Ihtidar",
+    "Khaza'in al-Adillah",
+    "al-Burhan",
+    "Thalath Rasa'il Isma'iliyya",
+    "al-'Arsh",
+    "al-Hukm",
+    "al-Hayuli",
+    "al-Shams",
+    "al-Nafs",
+    "tatanaffas",
+    "al-Tali",
+    "al-Qadar",
+    "al-Sura",
+    "al-Aslan",
+    "Rahat al-'Aql",
+    "Idris 'Imad al-Din",
+    "Nur al-Din Ahmad",
+    "al-Fusul wa al-Akhbar",
+    "al-Hakim bi-Amr Allah",
+    "Dar al-Hikmah",
+    "al-Sadiq al-Ma'mun",
+    "Risalat al-Wa'iza",
+    "al-Hasan al-Farghani",
+    "al-Mabasim",
+    "al-Masabih",
+    "Ibn Sina",
+    "al-Farabi",
+    "'Uyun al-Masa'il",
+    "al-Isharat",
+    "al-Risala al-Mudi'a",
+    "al-Masabih fi Ithbat al-Imama",
+    "Tanbih al-Hadi wa al-Mustahdi",
+    "al-Issayah",
+    "al-Lysiyah",
+    "ibda'",
+    "inbi'ath",
+    "al-jirmani",
+    "Mu'tazila",
+    "Ibn Rushd",
+    "al-Kindi",
+    "al-Baqillani",
+    "al-Baghdadi",
+    "al-Ghazali",
+    "mashari'",
+    "al-Risala al-Wadi'a",
+    "Risalat al-Nazm",
+    "al-Risala al-Nuriyya",
+    "al-Risala al-Lazima",
+    "al-Risala al-Hadiyya",
+    "Risalat al-Mubashshir",
+    "al-Risala al-Kafiya",
+    "Ma'asim al-Huda",
+    "Mufasalat al-Khitab wa Tamthil al-Haqq al-Mutajalli min al-Shubha",
+    "Risalat al-Awwabi",
+    "Risalat al-Fihrist",
+    "al-Aqdar wa al-Haqa'iq",
+    "Risalat al-Tawhid fi al-Ma'ad",
+    "Taj al-'Uqul",
+    "Mizan al-'Aql",
+    "Kitab al-Naqd wa al-Iltizam",
+    "al-Kifaya al-Nafsiyya",
+    "Kitab al-Mawazin",
+    "al-Majalis al-Baghdadiyya wa al-Basriyya",
+    "Risalat al-Sha'rani fi al-Khawass",
+    "Risalat Usbu' al-Dawr al-Mastur",
+    "Fāṭimids",
+    "abwāb",
+    "al-hayūlā",
+    "Ḥanafī",
+    "ʿAlawī",
+    "ʿazm",
+    "Rāḥat al-ʿAql",
+    "al-Wāʿiẓ",
+    "al-Rawḍa",
+    "Tafsīr al-Sharīʿa",
+    "al-Muʿizz",
+    "ibn Ḥayyūn",
+    "al-Maghribī",
+    "al-Tamīmī",
+    "al-qaḍāʾ",
+    "Tāmm",
+    "Ḥāmid al-Dīn Aḥmad al-Kirmānī",
+    "Kitāb al-Maḥṣūl",
+    "Rabīʿ al-Thānī",
+    "Shawwāl",
+    "al-Sūrātī",
+    "ʿĀrif Tāmir",
+    "Rahmaan",
+    "al-Tahirin",
+    "al-Wakil",
+    "tawakkuli",
+    "Jalal",
+    "Nadhid",
+    "al-Karim",
+    "'Abduh",
+    "al-Mukhtar",
+    "al-Zaki",
+    "Hanifi",
+    "Maqam",
+    "Taha",
+    "Hatim al-Razi",
+    "Abu Ya'qub al-Sijzi",
+    "Druze",
+    "Qadr",
+    "al-Qudra",
+    "tamm",
+    "kamal",
+    "al-wahm",
+    "Hamid al-Din al-Kirmani",
+    "Mustafa Helmy",
+    "Mohamed Kamel Hussain",
+    "Abu Zakariyya al-Razi",
+    "al-hayyuli",
+    "al-hayyuliyyat",
+    "dar al-Ibda",
+    "Itrah",
+    "al-Ikhtisar",
+    "kamma",
+    "Diʿaah",
+    "yudrak",
+    "al-shahid",
+    "bi-faydihi",
+    "wa-in",
+    "li-tahakkum",
+    "fa-qala",
+    "al-Idah",
+    "Riyad",
+    "ka-anna",
+    "arada",
+    "yutasawwar",
+    "jaa",
+    "al-fawaid",
+    "al-shukuk",
+    "fawad",
+    "rakʿah",
+    "al-Qunut",
+    "yatbaʿu",
+    "ʿId al-Fitr",
+    "al-Quds",
+    "majalis",
+    "Basran",
+    "Baghdadi",
+    "ma'lul",
+    "malaisa",
+    "Ma'ad",
+    "Dahriyya",
+    "Maulana",
+    "al-Mu'izz li Din Allah",
+    "Ta'wil al-Shari'a",
+    "al-Munira",
+    "Amir",
+    "Ma'add",
+    "al-Tamamiyyah",
+    "hayula",
+    "al-Nusrah",
+    "hayulanis",
+    "hayulas",
+    "kaf",
+    "nun",
+    "ibda",
+    "Bandhaqlis",
+    "shaykhs",
+    "qada",
+    "qadar",
+    "Laylat al-Qadr",
+    "qada'",
+    "al-Nasira",
+    "al-Jadd",
+    "al-sabq",
+    "al-tarkib",
+    "al-wasi",
+    "al-akwan",
+    "al-muqarrarun",
+    "qurban",
+    "mansak",
+    "rahib",
+    "yataqarrabun",
+    "Musa",
+    "'Isa",
+    "Nuh",
+    "sallallahu alayhi wa sallam",
+    "Sharee'ah",
+    "al-nutq",
+    "zakaat",
+    "qiblah",
+    "sajdah",
+    "ruku'",
+    "Ummah",
+    "tawheed",
+    "Muhammad (sallallahu alayhi wa sallam)",
+    "Muhammad ibn Abi Bakr",
+    "ulul-'azm",
+    "al-Suwaa'",
+    "al-Jawooth",
+    "uns",
+    "al-Masaabeeh fi al-Imaamah",
+    "Riyaad",
+    "sallallahu alayhi wa sallam",
+    "alayhi salaam",
+    "da'wah",
+    "Muhammad al-Mustafaa",
+    "al-Nusrah",
+    "Sharee'ah",
+    "Jadd",
+    "Fath",
+    "Khayaal",
+    "ʿarḍ",
+    "aʿrāḍ",
+    "Imaam / Imaams",
+    "Alee",
+    "ta'weel",
+    "Suwaaʿ",
+    "Yaghooth",
+    "Yaʿooq",
+    "Qur-aanic",
+    "Faaris"
+  ]
+}

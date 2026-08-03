@@ -13,12 +13,19 @@ import { getRepoRoot, getPythonBin } from "./content-paths";
 export function runPythonJson(
   module: string,
   args: string[],
+  /** Written to the child's stdin and closed. For passages too large or too
+   *  punctuation-heavy to hand over as an argv string. */
+  stdin?: string,
 ): Promise<unknown> {
   const script = join(getRepoRoot(), "scripts", "podcast", module);
   return new Promise((resolve, reject) => {
     const proc = spawn(getPythonBin(), [script, ...args], {
       cwd: getRepoRoot(),
     });
+    if (stdin !== undefined) {
+      proc.stdin.on("error", reject);
+      proc.stdin.end(stdin, "utf-8");
+    }
     let stdout = "";
     let stderr = "";
     proc.stdout.on("data", (d) => (stdout += d));
