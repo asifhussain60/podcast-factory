@@ -187,7 +187,7 @@ Each is an independent copy. Edits here do NOT cross-propagate to the sibling jo
 ## Retired 2026-05-22
 
 - **Anthropic API proxy** (`server/`) — Node/Express proxy bound to 127.0.0.1:3001. The journal app no longer needs the Anthropic API; this surface is gone from both repos. Not migrated to journal.
-- **Cloudflare deploy scaffold** — `wrangler.toml`, `site-worker.js`, `infra/cloudflare/`, `docs/cloudflare/`. Same reason: no Workers-served journal site any more.
+- **Cloudflare deploy scaffold** — `wrangler.toml`, `site-worker.js`, `docs/cloudflare/`. Same reason: no Workers-served journal site any more.
 - **Docs related to the retired stack** — `docs/anthropic-api-setup.md`, `docs/proxy-setup.md`.
 - **External orphan** — the `journal` and `journal-dev` Cloudflare Workers on Cloudflare itself remain orphaned external state; Asif may delete via the Cloudflare dashboard when convenient.
 

@@ -12,7 +12,7 @@ This directory contains all provisioning scripts, credential management tooling,
 | [`llm-apis/`](llm-apis/) | Claude + Gemini API account docs, keys, bootstrap | New Mac setup, key verification |
 | [`claude-agents/`](claude-agents/) | Canonical agent spec files (18 agents) | Agent authoring; `.github/agents/` stubs point here |
 | [`setup-wisdom-db.sh`](supabase/setup-wisdom-db.sh) | Local SQL Server (Docker) for Quran/sessions/topics corpus | Post-clone, once per Mac |
-| [`cloudflare/`](cloudflare/) | Salty Lamps proposal site record (not podcast-factory pipeline) | Reference only |
+| [`cloudflare/`](cloudflare/) | Cloudflare account, secrets, and how to deploy to it | Canonical |
 | [`supabase/`](supabase/) | Salty Lamps notes database record (not podcast-factory pipeline) | Reference only |
 
 ## Quick-reference: new Mac setup order
