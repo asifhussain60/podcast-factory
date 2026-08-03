@@ -43,6 +43,7 @@ Content is pushed in from the repo root, not from here:
 
 ```bash
 python3 scripts/podcast/publish_to_listener.py <slug> [--remote] [--dry-run]
+python3 scripts/podcast/upload_listener_media.py [<slug>] [--remote] [--dry-run]
 ```
 
 `npm run fonts -- --check` verifies the committed faces are current without
@@ -94,6 +95,15 @@ it.
 some have no PDF. Every list is allowed to be empty and every media reference is
 nullable; a `media_asset` row with `uploaded_at` NULL means the file is on Asif's
 disk but not in R2, and the site says so rather than offering a link that 404s.
+
+`upload_listener_media.py` is what turns those rows into objects, and it is a
+separate script because it is the slow part (one recording is 70 MB) and the
+retryable part. It stamps each row the moment that file lands rather than all of
+them at the end, so an interrupted run leaves the site telling the truth about
+exactly what is there. `media_asset` is also the one table the publish step does
+NOT clear and rewrite: `uploaded_at` survives a re-publish when the file's sha256
+is unchanged and is cleared when it is not — otherwise fixing a typo in one
+chapter would report every recording as vanished and re-upload all of them.
 
 **Episodes are not chapters.** *The Master and the Disciple* is nine chapters and
 twenty episodes, drawn along different lines from the same source. The book page
@@ -197,10 +207,16 @@ again — see the comment on `workers_dev` in `wrangler.jsonc`.
 - **R2 is not enabled on the account**, so no media has been uploaded: the
   bucket create fails with "Please enable R2 through the Cloudflare Dashboard"
   (code 10042), and wrangler refuses to deploy a binding whose bucket does not
-  exist, which is why `r2_buckets` is still commented out in `wrangler.jsonc`.
-  Everything textual works without it. Once R2 is on: create the bucket,
-  uncomment the binding, upload, and stamp `uploaded_at` on the `media_asset`
-  rows — the UI turns each piece on by itself.
+  exist, which is why `r2_buckets` is commented out in `wrangler.jsonc`. The path
+  behind it is built and proven — exercised locally against Miniflare's R2 with
+  17 real objects, including a range request and a denial. Turning it on:
+
+  ```bash
+  cd listener && npx wrangler r2 bucket create podcast-listener-media
+  # uncomment r2_buckets in wrangler.jsonc, then
+  npm run deploy
+  python3 ../scripts/podcast/upload_listener_media.py --remote
+  ```
 - **Notes and highlights are not built.** The design brief's "notes without a
   home" problem — a note anchored to a sentence a re-compose deleted — needs its
   own data model and is deliberately a separate phase.

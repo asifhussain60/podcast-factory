@@ -124,16 +124,32 @@ def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
             f"({sql_str(book.slug)}, {number}, {sql_str(anchor)});"
         )
 
-    # Media rows are rewritten but `uploaded_at` is preserved for keys that are
-    # already in R2 and whose content has not changed — re-publishing prose must
-    # not make the site claim a 50 MB recording has vanished.
-    add(f"DELETE FROM media_asset WHERE slug = {sql_str(book.slug)};")
+    # Media is the ONE table not cleared and rewritten, because `uploaded_at` is
+    # knowledge this run does not have: it says the object is in R2, and only the
+    # uploader can know that. A delete-and-reinsert would reset it on every
+    # re-publish, so correcting a typo in one chapter would make the site report
+    # that fifty megabytes of recordings had vanished — and the uploader would
+    # then push all of them again.
+    #
+    # So: drop only the keys that no longer exist on disk, and upsert the rest.
+    # `uploaded_at` survives when the CONTENT is unchanged and is cleared when it
+    # is not, which is exactly right — a re-cut recording under the same key is a
+    # different object and has to be uploaded again. The CASE reads the OLD row;
+    # SQLite evaluates every right-hand side against the existing values.
+    keys = ", ".join(sql_str(a.key) for a in book.assets)
+    add(f"DELETE FROM media_asset WHERE slug = {sql_str(book.slug)}" + (f" AND key NOT IN ({keys});" if keys else ";"))
     for asset in book.assets:
         add(
             "INSERT INTO media_asset (key, slug, kind, content_type, bytes, sha256, source_path) VALUES "
             f"({sql_str(asset.key)}, {sql_str(asset.slug)}, {sql_str(asset.kind)}, "
             f"{sql_str(asset.content_type)}, {asset.bytes}, {sql_str(asset.sha256)}, "
-            f"{sql_str(str(asset.path.relative_to(REPO_ROOT)))});"
+            f"{sql_str(str(asset.path.relative_to(REPO_ROOT)))}) "
+            "ON CONFLICT(key) DO UPDATE SET "
+            "slug = excluded.slug, kind = excluded.kind, content_type = excluded.content_type, "
+            "bytes = excluded.bytes, source_path = excluded.source_path, "
+            "uploaded_at = CASE WHEN media_asset.sha256 = excluded.sha256 "
+            "THEN media_asset.uploaded_at ELSE NULL END, "
+            "sha256 = excluded.sha256;"
         )
 
     return "\n".join(out) + "\n"

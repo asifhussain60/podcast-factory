@@ -28,13 +28,25 @@
     }
   ],
 
-  // Media — audio, book PDFs and deck page images. Commented out until R2 is
-  // enabled on the account (Cloudflare rejects the bucket create with
-  // "Please enable R2 through the Cloudflare Dashboard", code 10042, and
-  // Wrangler refuses to deploy a binding whose bucket does not exist).
-  // Everything textual works without it: `media_asset` rows simply have no
-  // object behind them and the UI reports the book as not having that piece.
-  //   wrangler r2 bucket create podcast-listener-media
+  // Media — audio, book PDFs and deck page images.
+  //
+  // Commented out ONLY because R2 is not enabled on the Cloudflare account yet:
+  // the bucket create is refused with "Please enable R2 through the Cloudflare
+  // Dashboard" (code 10042), and wrangler will not deploy a binding whose bucket
+  // does not exist, so leaving it live would break every deploy on a maybe.
+  //
+  // The path behind it is BUILT and PROVEN, not planned — uncommented locally on
+  // 2026-08-03, 17 objects uploaded to Miniflare's R2, and /media/:key served a
+  // whole 1.9 MB PDF, a 206 for `Range: bytes=100-199`, and a 404 to an invited
+  // reader without a grant. Turning it on is these three steps:
+  //
+  //   npx wrangler r2 bucket create podcast-listener-media   # once R2 is enabled
+  //   # uncomment the binding below, then:
+  //   npm run deploy
+  //   python3 scripts/podcast/upload_listener_media.py --remote
+  //
+  // Until then everything textual works and each absent piece is reported as
+  // "not uploaded yet" rather than linked.
   // "r2_buckets": [
   //   { "binding": "MEDIA", "bucket_name": "podcast-listener-media" }
   // ],

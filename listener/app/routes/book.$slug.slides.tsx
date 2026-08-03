@@ -99,16 +99,26 @@ export default function Slides({ loaderData }: Route.ComponentProps) {
         <ol className="mt-8 flex gap-2 overflow-x-auto pb-2">
           {pages.map((key, i) => (
             <li key={key}>
+              {/* The aspect ratio is on the BUTTON, not the image. Lazy-loaded
+                  images have no intrinsic size until they arrive, so a rail of
+                  fifteen of them rendered as fifteen hairlines that then jumped
+                  to full height one by one. Reserving the box keeps the rail
+                  still. */}
               <button
                 type="button"
                 onClick={() => setIndex(i)}
                 aria-current={i === index ? "true" : undefined}
                 className={[
-                  "block w-24 shrink-0 overflow-hidden rounded border transition-colors",
+                  "block aspect-[4/3] w-24 shrink-0 overflow-hidden rounded border bg-pf-sunken transition-colors",
                   i === index ? "border-pf-accent" : "border-pf-rule hover:border-pf-accent",
                 ].join(" ")}
               >
-                <img src={`/media/${key}`} alt={`Go to slide ${i + 1}`} loading="lazy" />
+                <img
+                  src={`/media/${key}`}
+                  alt={`Go to slide ${i + 1}`}
+                  loading="lazy"
+                  className="size-full object-cover"
+                />
               </button>
             </li>
           ))}
