@@ -45,7 +45,8 @@ root:
     - content # THE DATA — see protected
     - docs
     - infra
-    - plan-dashboard # the Astro site. Directory name is load-bearing; never rename.
+    - listener # the Podcast Factory Listener — the audience-facing Cloudflare Workers app (2026-08-03)
+    - plan-dashboard # the Astro site (ADMIN). Directory name is load-bearing; never rename.
     - scripts
     - skills-staging
     - tests

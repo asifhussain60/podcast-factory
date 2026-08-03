@@ -1,0 +1,167 @@
+/* Verdigris — the Listener's palette.
+ *
+ * Warm-neutral stone with an aged-copper accent. Deliberately NOT the admin
+ * site's parchment-and-saddle-brown, and deliberately in its own `--l-*`
+ * namespace so a `--c-*` token pasted in from plan-dashboard is inert rather
+ * than subtly wrong.
+ *
+ * Three real themes, not two and a tint: light and sepia are siblings built on
+ * different stone, and dark is a true dark surface rather than an inversion.
+ *
+ * `@theme inline` maps Tailwind's utility namespace onto these runtime vars, so
+ * `bg-pf-surface` emits `var(--l-surface)` and follows the active theme instead
+ * of baking a colour in at build time.
+ *
+ * The Tailwind-facing names are "pf-", NOT "l-", and that is load-bearing:
+ * Tailwind's directional utilities own the single letters t/r/b/l/s/e/x/y. A
+ * token named "--color-l-rule" therefore yields a utility Tailwind reads as
+ * border-LEFT-colour, and "--radius-l-md" one it reads as rounded-LEFT. Both
+ * were silently wrong until a computed border-radius came back as
+ * "6px 8px 8px 6px" instead of a single value. The raw custom properties keep
+ * their "--l-" prefix; only the utility namespace moved.
+ *
+ * Radii are deliberately absent: they are not themed, so Tailwind's built-in
+ * `rounded-md` / `rounded-lg` scale is used directly rather than shadowed.
+ */
+
+@theme inline {
+  --color-pf-bg: var(--l-bg);
+  --color-pf-surface: var(--l-surface);
+  --color-pf-elev: var(--l-elev);
+  --color-pf-sunken: var(--l-sunken);
+
+  --color-pf-ink: var(--l-ink);
+  --color-pf-muted: var(--l-muted);
+  --color-pf-faint: var(--l-faint);
+
+  --color-pf-rule: var(--l-rule);
+  --color-pf-rule-soft: var(--l-rule-soft);
+
+  --color-pf-accent: var(--l-accent);
+  --color-pf-accent-hover: var(--l-accent-hover);
+  --color-pf-accent-soft: var(--l-accent-soft);
+  --color-pf-on-accent: var(--l-on-accent);
+
+  --color-pf-mark: var(--l-mark);
+  --color-pf-ok: var(--l-ok);
+  --color-pf-warn: var(--l-warn);
+  --color-pf-danger: var(--l-danger);
+
+  --font-prose: var(--l-font-prose);
+  --font-ui: var(--l-font-ui);
+  --font-arabic: var(--l-font-arabic);
+}
+
+/* ---- Palettes --------------------------------------------------------
+ * Each palette is declared EXACTLY ONCE. There is no `prefers-color-scheme`
+ * block: the inline script in <head> always stamps `data-theme` before first
+ * paint, resolving the stored choice or falling back to the system preference.
+ * That is deliberate — an earlier version declared light in both `:root` and
+ * `[data-theme="light"]`, and dark in both a media query and its attribute
+ * selector, so every token existed in two places and a one-line colour fix
+ * silently applied to only half of them.
+ * -------------------------------------------------------------------- */
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --l-bg: #f4f4f1;
+  --l-surface: #fcfcfa;
+  --l-elev: #ffffff;
+  --l-sunken: #e9e9e4;
+
+  --l-ink: #1a1c1a;
+  --l-muted: #5c625c;
+  /* 4.83:1 on --l-bg. Was #838a83 at 3.21:1, which fails WCAG AA for the
+     14px helper text this token is actually used on. */
+  --l-faint: #666d66;
+
+  --l-rule: #d6d7d0;
+  --l-rule-soft: #e6e7e1;
+
+  --l-accent: #0f6e62;
+  --l-accent-hover: #0b564c;
+  --l-accent-soft: #9ccfc7;
+  --l-on-accent: #ffffff;
+
+  --l-mark: #efcf87;
+  --l-ok: #2f7a4f;
+  --l-warn: #a86a17;
+  --l-danger: #a33232;
+
+  --l-shadow: 0 1px 2px rgb(26 28 26 / 0.05), 0 4px 14px rgb(26 28 26 / 0.06);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --l-bg: #0b0f0e;
+  --l-surface: #131a18;
+  --l-elev: #1a2422;
+  --l-sunken: #070a09;
+
+  --l-ink: #e6ecea;
+  --l-muted: #90a09c;
+  --l-faint: #74837f; /* 4.86:1 on --l-bg */
+
+  --l-rule: #26312e;
+  --l-rule-soft: #1c2523;
+
+  --l-accent: #3fbfae;
+  --l-accent-hover: #5fd3c3;
+  --l-accent-soft: #164a43;
+  --l-on-accent: #05201c;
+
+  --l-mark: #7c6224;
+  --l-ok: #4fae76;
+  --l-warn: #d09a3e;
+  --l-danger: #d96a6a;
+
+  --l-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 6px 20px rgb(0 0 0 / 0.35);
+}
+
+/* A reading theme in its own right, on warm stone rather than a filter laid
+   over the light theme. Chosen explicitly; never a system default. */
+[data-theme="sepia"] {
+  color-scheme: light;
+
+  --l-bg: #efe7d8;
+  --l-surface: #f5efe3;
+  --l-elev: #fbf6ec;
+  --l-sunken: #e4dac7;
+
+  --l-ink: #33291c;
+  --l-muted: #6b5f4c;
+  --l-faint: #6f624c; /* 4.85:1 on --l-bg */
+
+  --l-rule: #d8cdb8;
+  --l-rule-soft: #e6ddcb;
+
+  --l-accent: #14655a;
+  --l-accent-hover: #0d4d44;
+  --l-accent-soft: #a8c9c1;
+  --l-on-accent: #fbf6ec;
+
+  --l-mark: #e0bc6e;
+  --l-ok: #3f7a52;
+  --l-warn: #9a6415;
+  --l-danger: #9c3b2f;
+
+  --l-shadow: 0 1px 2px rgb(51 41 28 / 0.06), 0 4px 14px rgb(51 41 28 / 0.08);
+}
+
+/* ---- Type and measure ------------------------------------------------ */
+/* Theme-independent. The reader overrides --l-reading-* per user; these are
+   the defaults it starts from. */
+:root {
+  --l-font-prose: "Literata Variable", Georgia, "Times New Roman", serif;
+  --l-font-ui: "IBM Plex Sans Variable", system-ui, -apple-system, sans-serif;
+  --l-font-arabic: "Scheherazade New", "Amiri", serif;
+  --l-font-dyslexic: "OpenDyslexic", sans-serif;
+
+  --l-reading-family: var(--l-font-prose);
+  --l-reading-size: 19px;
+  --l-reading-leading: 1.7;
+  --l-reading-measure: 68ch;
+}

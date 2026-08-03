@@ -275,6 +275,17 @@ trips/*/snapshots/
 .wrangler/
 _workspace/orchestrator-logs/
 _workspace/scratch/
+
+# Podcast Factory Listener (listener/) — build output and local secrets.
+# public/fonts/ IS tracked: those faces are copied in by `npm run fonts` and
+# committed so a clone renders correctly without running the sync.
+listener/node_modules/
+listener/build/
+listener/.react-router/
+listener/.wrangler/
+listener/.dev.vars
+listener/worker-configuration.d.ts
+listener/*.tsbuildinfo
 _workspace/tmp/
 # Local-only audio/voice experiment sandbox (ElevenLabs auditions, prototype
 # scripts). Never a branch deliverable — keep on disk, out of git.

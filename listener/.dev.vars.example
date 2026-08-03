@@ -1,0 +1,13 @@
+# Copy to .dev.vars (gitignored) for local development.
+# In production these are Worker secrets: `wrangler secret put <NAME>`.
+# Never put any of these in wrangler.jsonc.
+
+# Phase 2 — auth
+# BETTER_AUTH_SECRET=<openssl rand -base64 32>
+# GOOGLE_CLIENT_SECRET=<from Google Cloud Console>
+
+# Phase 3 — publish endpoint, called by scripts/podcast/publish_to_listener.py
+# PUBLISH_TOKEN=<openssl rand -base64 32>
+
+# Phase 4 — signs short-lived media URLs so range requests skip the session lookup
+# MEDIA_TOKEN_SECRET=<openssl rand -base64 32>

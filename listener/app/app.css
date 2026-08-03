@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+/* @font-face and custom-property definitions are layer-neutral, so these two
+   stay unlayered. */
+@import "./styles/fonts.css";
+@import "./styles/theme.css";
+
+/* base.css MUST land in the `base` layer. Unlayered CSS beats every layered
+   rule regardless of specificity, so an unlayered `button { color: inherit }`
+   silently overrides every Tailwind text utility — which is exactly what it
+   did: the active theme chip rendered ink-on-teal at 2.8:1 instead of the
+   white the token specifies. Layering it puts element defaults back underneath
+   the utilities, where they belong. */
+@import "./styles/base.css" layer(base);
