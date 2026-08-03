@@ -116,7 +116,18 @@ check(
 console.log("\nrevocation takes effect on the next request");
 d1(`UPDATE invite SET revoked_at = 'now' WHERE email = '${OUTSIDER}'`);
 check("revoked person is sent to no-access", (await get("/", outsider)).status, 302);
-d1(`UPDATE invite SET revoked_at = NULL WHERE email = '${OUTSIDER}'`);
+
+// Teardown. A test that leaves its fixtures behind shows two invented people in
+// the admin People list and a forged session for each, which then has to be
+// explained every time someone opens that screen. It removes only rows it made:
+// the two @example.com identities and the dev session minted for the admin.
+d1(`
+  DELETE FROM user    WHERE email IN ('${OUTSIDER}', '${STRANGER}');
+  DELETE FROM invite  WHERE email IN ('${OUTSIDER}', '${STRANGER}');
+  DELETE FROM session WHERE id = 'sess-dev-${Buffer.from(ADMIN).toString("hex").slice(0, 16)}';
+  DELETE FROM user    WHERE id = 'dev-${Buffer.from(ADMIN).toString("hex").slice(0, 16)}'
+                        AND NOT EXISTS (SELECT 1 FROM account a WHERE a.userId = user.id);
+`);
 
 console.log(failures === 0 ? "\nall checks passed\n" : `\n${failures} check(s) failed\n`);
 process.exit(failures === 0 ? 0 : 1);

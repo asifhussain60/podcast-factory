@@ -31,12 +31,26 @@ describe("Better Auth configuration", () => {
     expect(AUTH).toMatch(/changeEmail:\s*\{\s*enabled:\s*false\s*\}/);
   });
 
-  it("requests only the three identity scopes from Google", () => {
-    const scopes = /scope:\s*\[([^\]]*)\]/.exec(AUTH)?.[1] ?? "";
-    expect(scopes).toContain("openid");
-    expect(scopes).toContain("email");
-    expect(scopes).toContain("profile");
-    expect(scopes).not.toMatch(/drive|calendar|contacts|gmail/i);
+  it("declares no Google scopes, so the defaults are what go out", () => {
+    // Naming scopes here APPENDS to Better Auth's defaults rather than
+    // replacing them — the authorization URL went out as
+    // "email profile openid openid email profile" until this was removed.
+    // Better Auth already requests exactly openid/email/profile, which is all
+    // sign-in needs, so the correct configuration is none at all.
+    expect(AUTH).not.toMatch(/^\s*scope:/m);
+  });
+
+  it("never widens beyond identity", () => {
+    // Scopes are project-wide on the Google consent screen, which every future
+    // Safina app shares. A sensitive scope added here would drag all of them
+    // into a verification review.
+    //
+    // Comments are stripped first: the prose above names Drive and Calendar in
+    // order to warn about them, and a check that cannot tell an example from an
+    // instruction fires on its own documentation.
+    const code = AUTH.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
+    expect(code).not.toMatch(/drive|calendar|contacts|gmail|cloud-platform|devstorage/i);
+    expect(code).not.toMatch(/googleapis\.com\/auth\//);
   });
 });
 

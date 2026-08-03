@@ -30,31 +30,6 @@ if (!secret) {
   process.exit(2);
 }
 
-// REFUSE to touch an address that has really signed in with Google.
-//
-// The user id here is derived from the email, so it collides with the row a real
-// sign-in uses — Better Auth links a Google account to an existing row by
-// verified email rather than creating a second one. This script then deletes
-// that row's sessions before inserting its own, which silently signs the real
-// person out. It happened once; this is why it cannot happen again.
-const linked = execFileSync(
-  "npx",
-  [
-    "wrangler", "d1", "execute", "podcast-listener", "--local", "--json", "--command",
-    `SELECT count(*) AS n FROM account a JOIN user u ON u.id = a.userId WHERE u.email = '${email}'`,
-  ],
-  { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
-);
-
-if (!/"n":\s*0/.test(linked)) {
-  console.error(
-    `Refusing: ${email} has a real Google account linked.\n` +
-      `Minting a development session would delete that person's live session and\n` +
-      `sign them out. Use a different address for testing, or sign in normally.`,
-  );
-  process.exit(2);
-}
-
 const userId = `dev-${Buffer.from(email).toString("hex").slice(0, 16)}`;
 const token = `devtok-${userId}`;
 const now = new Date().toISOString();
@@ -66,7 +41,16 @@ const sql = `
   INSERT INTO user (id, name, email, emailVerified, createdAt, updatedAt)
   VALUES ('${userId}', '${name}', '${email}', 1, '${now}', '${now}')
   ON CONFLICT(id) DO UPDATE SET email = excluded.email, emailVerified = 1;
-  DELETE FROM session WHERE userId = '${userId}';
+
+  -- Delete ONLY this script's own deterministic row, never "all sessions for
+  -- this user". The user id is derived from the email, so it collides with the
+  -- row a real sign-in uses: Better Auth links a Google account to an existing
+  -- row by verified email rather than creating a second one. A blanket delete
+  -- therefore signed the real person out — observed, not theorised. A forged
+  -- session sitting ALONGSIDE a real one is harmless; destroying the real one
+  -- is not.
+  DELETE FROM session WHERE id = 'sess-${userId}';
+
   INSERT INTO session (id, expiresAt, token, createdAt, updatedAt, userId)
   VALUES ('sess-${userId}', '${expires}', '${token}', '${now}', '${now}', '${userId}');
 `;
