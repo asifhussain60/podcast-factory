@@ -1,9 +1,37 @@
 # Current work - status
 
-**Last updated:** 2026-08-01 evening (every citation names its surah; the book is
-re-composed and re-rendered; all gates PASS)
+**Last updated:** 2026-08-02 evening (the book lane's four silent-failure defects
+are closed; every Islamic edition's Arabic is at the current rules; NO PDF has been
+re-rendered yet)
 
-**Newest — `(2:24)` reaches the page as `(Al-Baqarah: 24)`.**
+**Newest — the Arabic rule reached the other six books, and four defects came out
+with it.**
+
+The 2026-08-02 rule (Arabic terms print in Arabic) had only ever been applied to
+`degrees-of-excellence`, because the machinery that applies it lived inside a
+compose whose earlier stages re-run models over the prose. It is now
+`_book_apparatus.apply_book_apparatus`, called both by `compose_book_v2` as its own
+tail and standalone by `apply_book_apparatus.py`. Across seven books: 296 doubly
+bracketed honorifics gone, 13 retired `(translit, script)` brackets gone, 24
+scholarly diacritics gone, Arabic runs 10,685 → 12,332. No model rewrote a line.
+
+Four defects surfaced by diffing every book sentence by sentence. Three share one
+root cause — a byte comparison where only a consonantal skeleton is safe, because
+the prose's vowelling and the glossary's were written by different passes. The
+worst DELETED an author's own English: `(عُبَيْدُ اللَّهِ, 'little servant of Allah')`
+became `(عُبَيْدُ اللّٰه)` in a sentence about what the names mean. A fourth, outside
+that family: `simplify_transliteration` destroyed single-quoted speech, because a
+closing quote and a word-final ayn look identical. All four fixed with tests; every
+book restored to its pre-run text and re-derived clean after each fix.
+
+**Open, and deliberately so.** No PDF has been re-rendered — rendering copies each
+file to Google Drive, so it waits on Asif. Two hazards are recorded in
+`pending-work.yaml`: al-anwaar and asaas declare no `narrative_frame` and any future
+model pass will rewrite them into the wrong grammatical person; and the
+zero-transliteration rule and the once-per-book annotation policy disagree about a
+term's second mention, which is why ayyuhal-walad still prints *mujahadah* bare.
+
+**Earlier — `(2:24)` reaches the page as `(Al-Baqarah: 24)`.**
 
 Asif: "2:24 should be replaced by (Al-Baqarah: 24). This should be done for all
 pdfs moving forward." A bare number is a lookup key, not a reference — it asks a
