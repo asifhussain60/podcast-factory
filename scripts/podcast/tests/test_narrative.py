@@ -19,6 +19,9 @@ from _narrative import (  # noqa: E402
     arabic_retention_findings,
     enumeration_findings,
     frame_findings,
+    frame_prompt_directive,
+    lecture_voice_counts,
+    lecture_voice_findings,
     narrative_person_findings,
     speech_tag_findings,
 )
@@ -348,3 +351,68 @@ def test_real_base_chapters_are_self_consistent() -> None:
     for chunk in chunks:
         text = chunk.read_text(encoding="utf-8")
         assert frame_findings(text, text, frame="transmitted_report") == [], chunk.stem
+
+
+# ─── Lecture voice (R-NO-LECTURE-VOICE, 2026-08-03) ─────────────────────────
+# `al-anwaar-al-lateefah` is transcribed from spoken lectures. Converting it to a
+# transmitted report removed every "I" and left the lecturer intact, because the
+# tells are not first person and no person check can see them.
+LECTURE = (
+    "Hold the word in mind for a moment, because the image inside it matters. "
+    "Do not pass over that phrase lightly, and you should expect nothing else "
+    "from these pages. Consider the grammar, because it sharpens the claim."
+)
+BOOK = (
+    "The word carries an image worth holding. The phrase is not to be passed over "
+    "lightly, and the book does no more than it promises. The grammar sharpens the claim."
+)
+
+
+def test_lecture_voice_counts_separate_address_from_stage_directions() -> None:
+    address, stage = lecture_voice_counts(LECTURE)
+    assert address == 1  # "you"
+    assert stage == 3  # Hold / Do not pass / Consider
+    assert lecture_voice_counts(BOOK) == (0, 0)
+
+
+def test_articulating_a_lecture_into_a_book_is_never_flagged() -> None:
+    """The direction this check exists to permit."""
+    assert lecture_voice_findings(LECTURE, BOOK, frame="transmitted_report") == []
+
+
+def test_adding_lecture_voice_to_a_third_person_book_is_flagged() -> None:
+    findings = lecture_voice_findings(BOOK, LECTURE, frame="transmitted_report")
+    assert len(findings) == 2
+    assert any("addresses the reader" in f for f in findings)
+    assert any("stage directions" in f for f in findings)
+
+
+def test_first_person_frames_are_silent() -> None:
+    """*Ayyuhal Walad* is a letter to a disciple — the address IS the form."""
+    for frame in ("first_person_author", "participant_narrator"):
+        assert lecture_voice_findings(BOOK, LECTURE, frame=frame) == [], frame
+
+
+def test_quoted_speech_and_block_quotations_are_not_narration() -> None:
+    """A character saying "consider what you have said" is dialogue, not a lecture."""
+    dialogue = (
+        'The Master replied: "Consider what you have said, and hold your judgment. '
+        'Do not accept a thing by mere imitation, or your certainty will fail you."'
+    )
+    assert lecture_voice_counts(dialogue) == (0, 0)
+    quoted_verse = "> “And remember your Lord when you forget.”\n\nThe verse closes the section."
+    assert lecture_voice_counts(quoted_verse) == (0, 0)
+
+
+def test_the_directive_states_the_rule_the_gate_enforces() -> None:
+    """A gate whose prompt never asks for the behaviour just reverts every window."""
+    directive = frame_prompt_directive("transmitted_report")
+    assert "NO LECTURE VOICE" in directive
+    for forbidden in ("consider", "notice", "imagine"):
+        assert forbidden in directive
+    # And it must not leak into the frames where addressing the reader is correct.
+    assert "NO LECTURE VOICE" not in frame_prompt_directive("first_person_author")
+
+
+def test_lecture_voice_joins_the_frame_findings_wiring() -> None:
+    assert any("lecture voice" in f for f in frame_findings(BOOK, LECTURE, frame="transmitted_report"))

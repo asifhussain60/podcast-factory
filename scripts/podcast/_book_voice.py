@@ -61,7 +61,7 @@ from _book_pass_reports import KEPT_STATUSES, STATUS_OVERWRITTEN, load_prior_rec
 from _book_voice_prompts import _articulation_prompt, _voice_prompt
 from _doctrinal import run_doctrinal_checks
 from _literary import teaching_loss_findings
-from _narrative import frame_findings
+from _narrative import frame_findings, lecture_voice_counts
 from _pipeline_flags import narrative_frame, narrator_subject
 from _translation_text import _split_paragraphs, _trim_seam_overlap
 
@@ -317,6 +317,13 @@ def _adapt_chapter_body(
         tail = " ".join(part.split()[-80:])
     new_body = "\n\n".join(kept_parts).strip()
     status = "adapted" if kept == len(windows) else ("reverted" if kept == 0 else "partial")
+    # R-NO-LECTURE-VOICE is removed by the PROMPT and only guarded differentially,
+    # so the pass reports how much of it survived. Without the number, "the frame
+    # converted" and "the book stopped sounding like a lecture" are indistinguishable
+    # from the record — which is exactly how a converted `al-anwaar` chapter 1 was
+    # reported as adapted while still saying "Hold that frame, and step now inside it".
+    before_address, before_stage = lecture_voice_counts(base_prose)
+    after_address, after_stage = lecture_voice_counts(new_body)
     record = {
         "title": title,
         "base_words": base_words,
@@ -326,6 +333,8 @@ def _adapt_chapter_body(
         "status": status,
         "gates": gates,
         "warnings": warnings,
+        "lecture_voice_before": {"reader_address": before_address, "stage_directions": before_stage},
+        "lecture_voice_after": {"reader_address": after_address, "stage_directions": after_stage},
         **notes,
     }
     if status == "reverted":

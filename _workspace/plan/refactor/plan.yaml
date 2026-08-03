@@ -4842,11 +4842,30 @@ waves_frontmatter:
         title: "Every PDF route, every book"
         plain: "Apply the same front matter to the remaining editions and to every book made from here on."
         tools: ["scripts/podcast/_book_apparatus.py"]
-        status: in_progress
+        status: done
         note: >
-          Done: degrees-of-excellence, ayyuhal-walad, the-master-and-the-disciple.
-          Pending: asaas-al-taveel/vol-01 (its chapter 1 also needs the editor's
-          publication story cut) and al-anwaar-al-lateefah/vol-01 (whose preface
-          is deleted rather than folded, and which needs its narrative frame
-          declared). New books inherit it automatically — the step lives in
-          `apply_book_apparatus`, the one tail every route shares.
+          All five editions carry it: degrees-of-excellence, ayyuhal-walad,
+          the-master-and-the-disciple, asaas-al-taveel/vol-01 (its chapter 1 was
+          the editor's 1960 publication story, cut) and al-anwaar-al-lateefah/vol-01
+          (whose opening was ABOUT the book, so deleted rather than folded, and whose
+          narrative frame is now declared `transmitted_report`). New books inherit it
+          automatically — the step lives in `apply_book_apparatus`, the one tail every
+          route shares.
+      - id: FM-6
+        title: "A book addresses nobody"
+        plain: "Stop a lecture-derived book from reading like a lecture after its voice is converted."
+        tools: ["scripts/podcast/_narrative.py", "scripts/podcast/_book_voice.py"]
+        status: done
+        note: >
+          Converting `al-anwaar-al-lateefah/vol-01` to a transmitted report changed every
+          "I" and left every "Hold that frame", "Do not pass over that phrase lightly" and
+          "you should expect" exactly where the lecturer put them. The page passed every
+          guard and read nothing like the edition beside it, because the tells are not
+          first person and no person check can see them. `R-NO-LECTURE-VOICE` / REQ-BA-125
+          is the second half of a frame conversion: `frame_prompt_directive` instructs the
+          RECAST into exposition (never a deletion — the move carries a thought) and
+          `lecture_voice_findings` guards it DIFFERENTIALLY, so a saturated source can be
+          improved rather than reverted wholesale. Silent under a first-person frame, where
+          addressing the reader is the form. Counts are recorded per chapter in the fluency
+          report, so "the frame converted" and "it stopped sounding like a lecture" are no
+          longer the same line in the record.

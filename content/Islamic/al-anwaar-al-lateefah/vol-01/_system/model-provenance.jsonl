@@ -112,3 +112,12 @@
 {"phase": "0book-frontmatter", "step": "edition-introduction-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-fluency", "step": "fluency-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-03", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-04", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-05", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-06", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-07-part-01", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-07-part-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-08", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-09", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

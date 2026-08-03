@@ -194,12 +194,15 @@ def test_voice_reverts_bad_chapter_keeps_good(tmp_path: Path) -> None:
 
     def fake_revoicer(title, base_text, book_dir, label, log, **kw):
         if "Knowledge" in title:
-            return base_text + " I say this to you plainly."  # faithful expansion -> kept
+            # A faithful expansion -> kept. Deliberately free of reader address:
+            # "I say this to you plainly" would now trip R-NO-LECTURE-VOICE, since
+            # this fixture book resolves to a third-person frame (2026-08-03).
+            return base_text + " The matter stands plainly."
         return "short"  # teaching loss -> reverted
 
     apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer)
     out = (bd / "book" / "book.md").read_text(encoding="utf-8")
-    assert "I say this to you plainly." in out  # chapter 1 kept
+    assert "The matter stands plainly." in out  # chapter 1 kept
     assert "The patient are rewarded without measure." in out  # chapter 2 base preserved
     report = json.loads((bd / "_system" / "book-voice-report.json").read_text())
     assert report["revoiced"] == 1 and report["reverted"] == 1
@@ -224,7 +227,7 @@ def test_voice_leaves_a_composer_authored_chapter_alone(tmp_path: Path) -> None:
 
     def fake_revoicer(title, base_text, book_dir, label, log, **kw):
         seen.append(title)
-        return base_text + " I say this to you plainly."
+        return base_text + " The matter stands plainly."
 
     apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer)
     assert seen == ["On Patience"]  # the model never saw the authored chapter
@@ -239,7 +242,7 @@ def test_force_really_does_re_voice_a_composer_authored_chapter(tmp_path: Path) 
 
     def fake_revoicer(title, base_text, book_dir, label, log, **kw):
         seen.append(title)
-        return base_text + " I say this to you plainly."
+        return base_text + " The matter stands plainly."
 
     apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer, force=True)
     assert seen == ["On Knowledge", "On Patience"]
@@ -309,7 +312,7 @@ def test_long_chapter_is_split_into_windows(tmp_path: Path) -> None:
     def fake_revoicer(title, base_text, book_dir, label, log, **kw):
         labels.append(label)
         assert len(base_text.split()) < _LONG_CHAPTER_WORDS  # no window is oversized
-        return base_text + " I say this plainly to you."
+        return base_text + " The matter stands plainly."
 
     apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer)
     assert len(labels) > 1 and labels[0].endswith("-part-01")
@@ -324,7 +327,7 @@ def test_short_chapter_is_not_split(tmp_path: Path) -> None:
 
     def fake_revoicer(title, base_text, book_dir, label, log, **kw):
         labels.append(label)
-        return base_text + " I say this plainly to you."
+        return base_text + " The matter stands plainly."
 
     apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer)
     assert labels == ["voice-01", "voice-02"]  # no -part- suffix on short chapters
@@ -338,7 +341,7 @@ def test_one_bad_window_does_not_revert_the_whole_chapter(tmp_path: Path) -> Non
         seen.append(label)
         if len(seen) == 1:
             return "short"  # first window fails its gate
-        return base_text + " I say this plainly to you."
+        return base_text + " The matter stands plainly."
 
     apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer)
     report = json.loads((bd / "_system" / "book-voice-report.json").read_text())
@@ -346,7 +349,7 @@ def test_one_bad_window_does_not_revert_the_whole_chapter(tmp_path: Path) -> Non
     assert chapter["status"] == "partial"
     assert 0 < chapter["windows_kept"] < chapter["windows"]
     out = (bd / "book" / "book.md").read_text(encoding="utf-8")
-    assert "I say this plainly to you." in out  # the good windows survived
+    assert "The matter stands plainly." in out  # the good windows survived
 
 
 def test_near_identical_output_is_recorded_as_a_warning(tmp_path: Path) -> None:
@@ -368,7 +371,7 @@ def test_only_filter_leaves_other_chapters_byte_identical(tmp_path: Path) -> Non
 
     def fake_revoicer(title, base_text, book_dir, label, log, **kw):
         titles.append(title)
-        return base_text + " I say this plainly to you."
+        return base_text + " The matter stands plainly."
 
     apply_author_companion_voice(bd, log=lambda *a: None, revoicer=fake_revoicer, only=[2])
     after = (bd / "book" / "book.md").read_text(encoding="utf-8")
@@ -449,12 +452,15 @@ def test_fluency_reverts_calqued_drift(tmp_path: Path) -> None:
 
     def fake_adapter(title, base_text, book_dir, label, log, **kw):
         if "Knowledge" in title:
-            return base_text.replace("Seek", "You should seek")  # faithful polish -> kept
+            # A faithful polish -> kept. NOT "You should seek": under this fixture
+            # book's third-person frame that would add reader address and revert
+            # on R-NO-LECTURE-VOICE, testing the wrong gate (2026-08-03).
+            return base_text.replace("Seek", "Pursue")
         return "x"  # teaching loss -> reverted
 
     apply_fluency_adapt(bd, log=lambda *a: None, adapter=fake_adapter)
     out = (bd / "book" / "book.md").read_text(encoding="utf-8")
-    assert "You should seek knowledge" in out  # chapter 1 kept
+    assert "Pursue knowledge" in out  # chapter 1 kept
     assert "The patient are rewarded without measure." in out  # chapter 2 reverted to base
     report = json.loads((bd / "_system" / "book-fluency-report.json").read_text())
     assert report["adapted"] == 1 and report["reverted"] == 1
@@ -471,7 +477,7 @@ def test_fluency_strips_articulation_notes_block_and_records_it(tmp_path: Path) 
         if "Knowledge" not in title:
             return base_text  # near-identical -> kept, no notes
         return (
-            base_text.replace("Seek", "You should seek") + "\n\n===ARTICULATION-NOTES===\n"
+            base_text.replace("Seek", "Pursue") + "\n\n===ARTICULATION-NOTES===\n"
             "AMBIGUITY: unclear whether 'seeker' means the student or the seeking itself\n"
             "TERMINOLOGY: knowledge — standardize to 'knowledge' everywhere\n"
             "===END-NOTES===\n"
@@ -501,7 +507,7 @@ def test_targeted_rerun_keeps_the_prior_runs_records(tmp_path: Path) -> None:
     that conclusion on 2026-07-20.
     """
     bd = _book(tmp_path, _BASE)
-    good = lambda title, base, *a, **k: base + " I say this plainly to you."  # noqa: E731
+    good = lambda title, base, *a, **k: base + " The matter stands plainly."  # noqa: E731
     apply_author_companion_voice(bd, log=lambda *a: None, revoicer=good)
     full = json.loads((bd / "_system" / "book-voice-report.json").read_text())
     assert full["revoiced"] == 2
@@ -518,7 +524,10 @@ def test_targeted_rerun_keeps_the_prior_runs_records(tmp_path: Path) -> None:
 # claim about a moment the replay can invalidate in the same compose. On
 # 2026-07-21 exactly that report — `adapted: 9` with 8 chapters discarded
 # minutes later — shipped un-articulated prose through every downstream gate.
-_GOOD = lambda title, base, *a, **k: base + " I say this plainly to you."  # noqa: E731
+# A faithful expansion the gates keep. Free of reader address on purpose:
+# "I say this plainly to you" would now trip R-NO-LECTURE-VOICE, since this
+# fixture book resolves to a third-person frame (2026-08-03).
+_GOOD = lambda title, base, *a, **k: base + " The matter stands plainly."  # noqa: E731
 
 
 def test_replay_overwrite_restamps_adapted_as_overwritten(tmp_path: Path) -> None:

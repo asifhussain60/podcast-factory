@@ -1688,12 +1688,25 @@
       "id": "FM-5",
       "wave": "FM",
       "title": "Every PDF route, every book",
-      "status": "in_progress",
+      "status": "complete",
       "tier": "T1",
       "depends_on": [],
       "plain": "Apply the same front matter to the remaining editions and to every book made from here on.",
       "tools": [
         "scripts/podcast/_book_apparatus.py"
+      ]
+    },
+    {
+      "id": "FM-6",
+      "wave": "FM",
+      "title": "A book addresses nobody",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Stop a lecture-derived book from reading like a lecture after its voice is converted.",
+      "tools": [
+        "scripts/podcast/_narrative.py",
+        "scripts/podcast/_book_voice.py"
       ]
     }
   ],
@@ -1848,8 +1861,8 @@
   "metrics": {
     "burn_30d_usd": 14.42
   },
-  "generated_at": "2026-08-03T09:11:54-04:00",
-  "source_commit": "a6fb116",
+  "generated_at": "2026-08-03T12:47:51-04:00",
+  "source_commit": "2df89e8",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1911,54 +1924,54 @@
   ],
   "recent_commits": [
     {
-      "sha": "a6fb116",
-      "subject": "fix(book): the fold gives chapter 1 the source lines it now carries",
+      "sha": "2df89e8",
+      "subject": "docs(listener): scope the Google project to Safina, not to this one app",
       "date": "2026-08-03"
     },
     {
-      "sha": "78d7bc0",
-      "subject": "fix(book): fold the opening WITHOUT re-translating the book",
+      "sha": "1ce313c",
+      "subject": "docs(listener): the Google sign-in setup, and the two Cloudflare blockers",
       "date": "2026-08-03"
     },
     {
-      "sha": "2dd730e",
-      "subject": "content(degrees-of-excellence): the edition opens on chapter 1",
+      "sha": "1df213b",
+      "subject": "feat(listener): per-user content access, and an admin surface to provision it",
       "date": "2026-08-03"
     },
     {
-      "sha": "6b147f2",
-      "subject": "feat(book): editions begin with the book, not with a preface about it",
+      "sha": "4e28163",
+      "subject": "content(al-anwaar-al-lateefah/vol-01): chapter 1 converted to a transmitted report",
       "date": "2026-08-03"
     },
     {
-      "sha": "d899050",
-      "subject": "docs(status): record the apparatus split, the seven-book Arabic pass, and what it exposed",
-      "date": "2026-08-02"
+      "sha": "372678f",
+      "subject": "content(al-anwaar-al-lateefah/vol-01): front matter done; the voice conversion stops for a decision",
+      "date": "2026-08-03"
     },
     {
-      "sha": "6558eaf",
-      "subject": "feat(book): every Islamic edition's Arabic brought to the current rules, without a re-compose",
-      "date": "2026-08-02"
+      "sha": "f43f634",
+      "subject": "chore: allow _placeholder-site at the root, and track it",
+      "date": "2026-08-03"
     },
     {
-      "sha": "32f0e05",
-      "subject": "feat(book): the Arabic apparatus becomes runnable without re-composing the prose",
-      "date": "2026-08-02"
+      "sha": "58f6205",
+      "subject": "chore(plan): track the listener design briefs",
+      "date": "2026-08-03"
     },
     {
-      "sha": "64152f3",
-      "subject": "fix(book-lane): four defects that let the lane report success while dropping work",
-      "date": "2026-08-02"
+      "sha": "569c93f",
+      "subject": "content(asaas-al-taveel/vol-01): the edition begins with al-Nu'man, not his editor",
+      "date": "2026-08-03"
     },
     {
-      "sha": "22ff89c",
-      "subject": "content(degrees-of-excellence): a centred paragraph in the ladder chapter",
-      "date": "2026-08-02"
+      "sha": "8654149",
+      "subject": "fix(site): the introduction is apparatus, so stop warning that it was not articulated",
+      "date": "2026-08-03"
     },
     {
-      "sha": "39a343c",
-      "subject": "fix(composer): the header carries the two PDF actions and nothing else",
-      "date": "2026-08-02"
+      "sha": "5275e40",
+      "subject": "fix(book): no machine marker, and no stale label, on the reader's first page",
+      "date": "2026-08-03"
     }
   ],
   "wave_execution_events": [],

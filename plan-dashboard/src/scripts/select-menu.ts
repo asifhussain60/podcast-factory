@@ -12,10 +12,13 @@
  * (the Book Composer has ten such usages) need no change at all, and if this
  * script never runs the page degrades to a working native picker.
  *
- * Placement is decided per-open from the space actually available above and
- * below the control, and the list's height is capped to that space, so a long
- * chapter list neither sprawls off-screen nor opens into a direction it does not
- * fit. See `place()`.
+ * THE LIST ALWAYS OPENS DOWNWARD (Asif, 2026-08-03). It used to flip upward when
+ * the control sat low in the viewport, and on the Book Composer's chapter picker
+ * that was the worse half of the trade: an upward list is bounded by the sticky
+ * nav, so an eight-chapter book opened into a window that showed six rows with
+ * the last two out of reach behind the top of the screen. Downward the list is
+ * bounded only by the viewport, and `open()` scrolls the control up first when
+ * the room below is short — so the promise costs nothing. See `place()`.
  *
  * SCOPE: flat, always-enabled options only. `<option disabled>` renders as an
  * ordinary selectable row and `<optgroup>` is ignored — neither occurs in the
@@ -26,17 +29,18 @@
  * jump, Enter to choose, Escape to dismiss, Tab to leave.
  */
 
-/** Space a list needs before it is worth opening on a side at all. */
+/** The shortest the list may be capped to. Below this it stops being a list. */
 const MIN_SIDE_SPACE = 140;
 /** Breathing room left between the list and the viewport edge. */
 const VIEWPORT_MARGIN = 12;
 /** How long a type-ahead buffer survives between keystrokes. */
 const TYPEAHEAD_MS = 700;
-/** The list's tallest permitted height, mirroring the 22rem ceiling in
- *  select-menu.css. Kept here too so `place()` can decide which side to open on
- *  by the height the list will ACTUALLY reach rather than its raw content
- *  height. Change both together. */
-const CEILING_PX = 352;
+/** Fallback for the CSS ceiling when it cannot be read — 22rem at a 16px root,
+ *  matching select-menu.css. The live value is READ from the stylesheet rather
+ *  than assumed: the Book Composer has a reader text-size control that changes
+ *  the root font-size, so 22rem there is ~422px, and a hard-coded 352 let the
+ *  list run 65px past the bottom of the viewport it had just been fitted to. */
+const CEILING_FALLBACK_PX = 352;
 
 export interface SelectMenu {
   /** Re-read the native select — call after its options or value change. */
@@ -171,49 +175,67 @@ export function enhanceSelect(
     return nav ? Math.max(nav.getBoundingClientRect().bottom, 0) : 0;
   }
 
-  /**
-   * Decide which side to open on, and how tall the list may be.
-   *
-   * Preference is downward, because that is what a reader expects. It flips up
-   * when the control sits low enough that a downward list would be clipped AND
-   * there is more room above. Either way the height is capped to the space on
-   * the chosen side, so the list scrolls internally instead of running off the
-   * screen — a book with forty chapters behaves the same as one with four.
-   */
-  function place(): void {
-    const rect = button.getBoundingClientRect();
-    // Some embedding contexts report an innerHeight of 0. Trusting it would put
-    // the list in the wrong place and cap it at nothing, so fall back to the
-    // documentElement's height and, failing that, leave the CSS ceiling alone.
+  /** Space below the control, and the height the list wants — both in px.
+   *  Reading them together keeps `place()` and `makeRoomBelow()` measuring the
+   *  same thing; a list capped by one number and scrolled for another is how the
+   *  rows at the far end become unreachable. */
+  function metrics(): { below: number; wanted: number; viewportH: number } {
+    // Some embedding contexts report an innerHeight of 0. Trusting it would cap
+    // the list at nothing, so fall back to the documentElement's height.
     const viewportH =
       window.innerHeight || document.documentElement.clientHeight || 0;
-    if (!viewportH) {
-      root.dataset.placement = "down";
-      return;
-    }
-    const below = viewportH - rect.bottom - VIEWPORT_MARGIN;
-    // The site nav is sticky at the top and paints under this list's z-index, so
-    // the space "above" ends at the nav's bottom edge, not the viewport's.
-    const above = rect.top - navBottom() - VIEWPORT_MARGIN;
-
-    // Measure the natural height with the cap lifted, then hand the measured
-    // ceiling to CSS as a custom property. The `max-height` DECLARATION stays in
-    // select-menu.css — only the number, which cannot be known until layout,
-    // comes from here.
+    const below =
+      viewportH - button.getBoundingClientRect().bottom - VIEWPORT_MARGIN;
+    // Measure the natural height with the cap lifted. Compare against the height
+    // the list can actually REACH, not its raw content height: with forty
+    // chapters `natural` is far past the ceiling. The ceiling comes from the
+    // stylesheet, resolved in px at the CURRENT root font-size — see
+    // CEILING_FALLBACK_PX for why assuming it is wrong.
     list.style.removeProperty("--sm-max-h");
-    const natural = list.scrollHeight;
+    const declared = parseFloat(getComputedStyle(list).maxHeight);
+    const ceiling = Number.isFinite(declared) ? declared : CEILING_FALLBACK_PX;
+    return { below, wanted: Math.min(list.scrollHeight, ceiling), viewportH };
+  }
 
-    // Compare against the height the list can actually reach, not its raw
-    // content height: with forty chapters `natural` is far past the ceiling, so
-    // comparing it raw flipped the menu upward on almost every viewport even
-    // when there was ample room below for a scrolled list.
-    const wanted = Math.min(natural, CEILING_PX);
-    const fitsBelow = wanted <= below;
-    const openUp = !fitsBelow && above > below && above >= MIN_SIDE_SPACE;
+  /**
+   * Cap the list to the room below the control. Placement is always downward.
+   *
+   * The height is capped to that room, never past it, so the list scrolls
+   * internally instead of running off the screen — a book with forty chapters
+   * behaves the same as one with four. `MIN_SIDE_SPACE` is the floor: below it
+   * the list would be too short to be a list at all, and `makeRoomBelow()` has
+   * already scrolled to avoid that wherever the page allows.
+   */
+  function place(): void {
+    root.dataset.placement = "down";
+    const { below, wanted, viewportH } = metrics();
+    if (!viewportH) return;
+    const room = Math.max(MIN_SIDE_SPACE, below);
+    // Always write the cap, never only when it bites. Leaving it unset falls
+    // back to the CSS ceiling, which is what put the list past the bottom edge
+    // whenever the two disagreed about how tall 22rem is.
+    list.style.setProperty("--sm-max-h", `${Math.min(wanted, room)}px`);
+  }
 
-    root.dataset.placement = openUp ? "up" : "down";
-    const room = Math.max(MIN_SIDE_SPACE, openUp ? above : below);
-    if (wanted > room) list.style.setProperty("--sm-max-h", `${room}px`);
+  /**
+   * Scroll the page so a downward list fits, before it is placed.
+   *
+   * This is what makes "always downward" free rather than a trade. The control
+   * near the bottom of a long page had the room; the viewport was just looking
+   * at the wrong part of it. Scrolls by the deficit only — never past what the
+   * document has left, and never at all when the page cannot scroll.
+   */
+  function makeRoomBelow(): void {
+    const { below, wanted, viewportH } = metrics();
+    if (!viewportH || wanted <= below) return;
+    const doc = document.documentElement;
+    const remaining = doc.scrollHeight - window.scrollY - viewportH;
+    const by = Math.min(wanted - below, Math.max(0, remaining));
+    // Leave the control clear of the sticky nav it would otherwise slide under.
+    const headroom =
+      button.getBoundingClientRect().top - navBottom() - VIEWPORT_MARGIN;
+    const shift = Math.min(by, Math.max(0, headroom));
+    if (shift > 0) window.scrollBy({ top: shift, behavior: "instant" });
   }
 
   function setActive(i: number): void {
@@ -240,6 +262,9 @@ export function enhanceSelect(
     sync();
     list.hidden = false;
     button.setAttribute("aria-expanded", "true");
+    // Room first, then placement: makeRoomBelow moves the control, so placing
+    // before it would cap the list against a measurement already stale.
+    makeRoomBelow();
     place();
     setActive(Math.max(0, el.selectedIndex));
   }
@@ -394,7 +419,13 @@ export function enhanceSelect(
     if (!root.contains(e.target as Node)) close(false);
   };
   let reflowPending = false;
-  const onReflow = (): void => {
+  const onReflow = (e?: Event): void => {
+    // The list is its OWN scroll container, and this listener is on the capture
+    // phase so it sees that scroll too. Re-placing on it lifts the height cap to
+    // re-measure and puts it straight back — mid-gesture, every frame — which is
+    // how scrolling an eight-chapter list toward its last rows fought back and
+    // never arrived. A scroll INSIDE the list moves no control; ignore it.
+    if (e && e.target instanceof Node && list.contains(e.target)) return;
     // place() writes then reads, so running it per scroll event thrashes layout
     // on a page with a long chapter body. One call per frame is enough.
     if (!isOpen() || reflowPending) return;

@@ -102,6 +102,26 @@ retention, narrative frame), the repo convention wins and is cited, not restated
   front of you. Grammatical person, one narrator per book, and enumeration
   survival are enforced by `_narrative.py` and gated by `book-challenger`
   Pass 3 (BK-N1–N7). Rearticulation runs inside those gates, never around them.
+- **REQ-BA-125 — A book addresses nobody (R-NO-LECTURE-VOICE).** Under a
+  third-person frame the narration never turns to the reader and never directs
+  an audience. Out: "you"/"your" in narration, stage-direction imperatives
+  (consider, notice, note, observe, recall, remember, imagine, picture, hold,
+  look, mark, listen), and commentary about the discourse itself ("this is the
+  heart of it", "before we go on", "as we shall see"). Every such move is
+  RECAST into exposition — "Hold that frame, and step now inside it" becomes
+  "Within that frame stands…" — never deleted, because it carries a thought.
+  UNTOUCHED inside quoted speech, verses, hadith, prayers and block
+  quotations: there one person addresses another, which every frame keeps.
+  Silent under a first-person frame — *Ayyuhal Walad* is a letter to a
+  disciple, where the address IS the form. Instructed by
+  `_narrative.frame_prompt_directive` and guarded DIFFERENTIALLY by
+  `_narrative.lecture_voice_findings` (a pass may not ADD lecture voice), so a
+  lecture-derived source can be improved rather than reverted wholesale.
+  Added 2026-08-03: `al-anwaar-al-lateefah` is transcribed from spoken
+  lectures, and converting it to a transmitted report changed every "I" while
+  leaving every "Do not pass over that phrase lightly" exactly where the
+  speaker put it. It passed REQ-BA-120 on every paragraph and read nothing
+  like the edition printed beside it.
 
 ## Rhetorical judgment and out-of-band notes
 

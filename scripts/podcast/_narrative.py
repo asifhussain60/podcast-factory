@@ -21,6 +21,13 @@ Every check here answers a failure that actually shipped on
     running prose loses no words and destroys the argument's skeleton, which is
     why every word-level fidelity check passes it.
 
+``lecture_voice_findings`` answers a later one, on `al-anwaar-al-lateefah`
+(2026-08-03): a frame conversion that changes only the PERSON leaves a lecture
+still a lecture. Every "I" became "the book" and every "Hold that frame", "Do not
+pass over that phrase lightly" and "you should expect" stayed exactly where the
+speaker put them — so the page passed every guard here and read nothing like the
+edition printed beside it.
+
 VOWELLING IS NO LONGER A DEFECT (Asif, 2026-07-29). Two checks lived here that
 judged supplied tashkeel — ``supplied_diacritics_findings``, which compared a
 rewrite against its own base, and ``ocr_vowelling_findings``, which held a
@@ -149,6 +156,86 @@ _INTERIOR_TAG_RE = re.compile(
 
 # Source-style enumeration markers at the head of a paragraph: "(a)", "(1)", "1.".
 _ENUM_MARKER_RE = re.compile(r"(?m)^\s*(?:\(([a-z]|[0-9]{1,2})\)|([0-9]{1,2})\.)\s+\S")
+
+# ─── LECTURE VOICE ───────────────────────────────────────────────────────────
+# A speaker addresses an audience; a book addresses nobody. Under a third-person
+# frame the narration must not turn and instruct the reader.
+#
+# This is the SECOND half of a frame conversion, and until 2026-08-03 only the
+# first half existed. `al-anwaar-al-lateefah` is transcribed from lectures, so
+# converting it to a transmitted report removed every "I" and left the lecturer
+# entirely intact: "Hold that frame, and step now inside it", "Do not pass over
+# that phrase lightly", "so consider the grammar", "you should expect nothing
+# else from these pages". Grammatical person passed on every paragraph, and Asif
+# read chapter 1 and said it did "not at all read like" the edition beside it.
+# The tells are not first person, so no person check can ever see them.
+#
+# Two families, both scoped to NARRATION — a character telling another character
+# "consider what you have said" is dialogue, and dialogue is untouched:
+#   1. second-person address of the reader
+#   2. a closed list of stage-direction imperatives that only a speaker uses
+_READER_ADDRESS_RE = re.compile(r"\b(?:you|your|yours|yourself|yourselves)\b", re.I)
+_STAGE_DIRECTION_RE = re.compile(
+    r"(?:(?m:^)|(?<=[.!?;:—]\s)|(?<=[.!?;:—]\s\s))\s*(?:And |But |Now |So |Then |Again )?"
+    r"(?:Consider|Notice|Note|Observe|Recall|Remember|Imagine|Picture|Hold|Look|Watch|"
+    r"Mark|Listen|Pay attention|Do not pass|Do not miss|Do not overlook|Step now|"
+    r"Turn now|Set (?:that|this) beside|Think of|See how|Keep (?:that|this) in mind)\b"
+)
+# Blockquote lines, quoted spans and Arabic runs are not narration. The span match
+# is deliberately forgiving — a quotation running over several paragraphs opens on
+# each and closes once, so some quoted text survives into the "narration" slice.
+# That costs nothing here: this check is DIFFERENTIAL, and both sides are measured
+# by the same imperfect rule, so what it compares stays honest.
+_BLOCKQUOTE_LINE_RE = re.compile(r"(?m)^[ \t]*>.*$")
+_QUOTED_SPAN_RE = re.compile(r'[“"][^”"]{0,4000}[”"]')
+
+
+def _narration_only(text: str) -> str:
+    """The prose the BOOK speaks — quotations and Arabic removed."""
+    stripped = _BLOCKQUOTE_LINE_RE.sub(" ", text or "")
+    stripped = _QUOTED_SPAN_RE.sub(" ", stripped)
+    return _ARABIC_RUN_RE.sub(" ", stripped)
+
+
+def lecture_voice_counts(text: str) -> tuple[int, int]:
+    """``(reader-address, stage-direction)`` counts in ``text``'s narration."""
+    narration = _narration_only(text)
+    return (
+        len(_READER_ADDRESS_RE.findall(narration)),
+        len(_STAGE_DIRECTION_RE.findall(narration)),
+    )
+
+
+def lecture_voice_findings(base_text: str, candidate: str, *, frame: str) -> list[str]:
+    """Flag a rewrite that ADDS lecture voice to a third-person book.
+
+    DIFFERENTIAL, like ``narrative_opening_findings`` and for the same reason: a
+    lecture-derived source is saturated with these, so an absolute check would
+    revert every window of `al-anwaar` before the pass could improve one. What
+    the pass must never do is put MORE of it on the page than it found. Removal
+    is driven by ``frame_prompt_directive``, which states this same rule to the
+    model — the module's standing contract that a gate and its prompt are worded
+    once, together.
+
+    Silent under a first-person frame: *Ayyuhal Walad* is a letter to a disciple,
+    where addressing the reader is not a defect but the form itself.
+    """
+    if narrative_person_for(frame) != "third":
+        return []
+    base_address, base_stage = lecture_voice_counts(base_text)
+    cand_address, cand_stage = lecture_voice_counts(candidate)
+    findings: list[str] = []
+    if cand_address > base_address:
+        findings.append(
+            f"lecture voice added — narration addresses the reader "
+            f"({cand_address} vs {base_address} in source) under {frame} frame"
+        )
+    if cand_stage > base_stage:
+        findings.append(
+            f"lecture voice added — stage directions to an audience "
+            f"({cand_stage} vs {base_stage} in source) under {frame} frame"
+        )
+    return findings
 
 
 def _paragraphs(text: str) -> list[str]:
@@ -329,6 +416,23 @@ character's own quoted speech, where it belongs.
 Do NOT add, remove, or re-point a speech tag. If the source attributes a passage
 to a speaker, keep that attribution; if the source leaves a paragraph untagged,
 leave it untagged. An invented tag hands one person's words to another.
+
+NO LECTURE VOICE (binding — a book addresses nobody)
+This source may be transcribed from a spoken lecture. The narration must not turn
+and address the reader, or direct an audience. RECAST every such move into
+exposition — never delete the thought it carries:
+  "Hold that frame, and step now inside it"     -> "Within that frame stands..."
+  "Do not pass over that phrase lightly"        -> "The phrase carries weight."
+  "so consider the grammar, because it sharpens" -> "The grammar sharpens..."
+  "you should expect nothing else from these pages" -> "The book does no more."
+  "Think of an enclosing canopy"                -> "The image is of a canopy."
+Forbidden in narration: "you", "your", and imperatives aimed at the reader
+(consider, notice, note, observe, recall, remember, imagine, picture, hold, look,
+mark, listen). Also drop commentary about the discourse itself — "this is the
+heart of it", "before we go on", "as we shall see" — and state the matter instead.
+Second person and imperatives are UNTOUCHED inside a character's quoted speech,
+inside a Quran verse, hadith, or prayer, and inside any block quotation: there
+they are one person speaking to another, which every frame keeps.
 """
     named = f" You are {narrator_subject}." if narrator_subject else ""
     return f"""
@@ -370,4 +474,5 @@ def frame_findings(
     findings.extend(speech_tag_findings(base_text, candidate))
     findings.extend(arabic_retention_findings(base_text, candidate))
     findings.extend(enumeration_findings(base_text, candidate))
+    findings.extend(lecture_voice_findings(base_text, candidate, frame=frame))
     return findings

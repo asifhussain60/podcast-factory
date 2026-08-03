@@ -96,8 +96,8 @@
   white-space: nowrap;
 }
 
-/* Chevron. Rotates to point at the direction the list will open, so the control
-   tells you where to look before you click. */
+/* Chevron. Points down when closed and flips when open, so the control shows
+   its state. The list always opens downward, so it never points up while shut. */
 .sm-caret {
   flex: none;
   width: 0.6rem;
@@ -110,10 +110,6 @@
 
 .sm-button[aria-expanded="true"] .sm-caret {
   transform: rotate(-135deg) translate(-2px, -2px);
-}
-
-.sm-root[data-placement="up"] .sm-button[aria-expanded="true"] .sm-caret {
-  transform: rotate(45deg) translate(-2px, -2px);
 }
 
 /* ── the open list ───────────────────────────────────────────────────────── */
@@ -141,23 +137,14 @@
   display: none;
 }
 
-/* Which side it opens is decided per-open from the space available — see
-   scripts/select-menu.ts. Below is the default; above is used when the control
-   sits low in the viewport and the list would otherwise be cut off. */
+/* ALWAYS BELOW (2026-08-03). The list used to flip above the control when the
+   control sat low in the viewport, and upward it is bounded by the sticky site
+   nav (z-index 50 against this list's 60), so a long chapter list opened into a
+   window too short to reach its last rows. Downward it is bounded only by the
+   viewport, and select-menu.ts scrolls the control up first when the room below
+   is short. `data-placement` is kept as the hook and is always "down". */
 .sm-root[data-placement="down"] .sm-list {
   top: calc(100% + 0.35rem);
-}
-
-.sm-root[data-placement="up"] .sm-list {
-  bottom: calc(100% + 0.35rem);
-}
-
-/* The site nav is sticky at the top with z-index 50; this list is 60, so an
-   upward list would paint OVER it. The script subtracts the nav height when it
-   measures the space above, and this is the matching floor for the rare case
-   where layout changes under an open list. */
-.sm-root[data-placement="up"] .sm-list {
-  max-height: min(var(--sm-max-h, 22rem), 22rem);
 }
 
 .sm-option {

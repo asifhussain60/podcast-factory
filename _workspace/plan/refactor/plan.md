@@ -1182,3 +1182,9 @@ Asif asked for a direct recommendation rather than choosing blind between archiv
 > The step lives in the shared apparatus tail rather than on one composer, so every route that produces a PDF — translation edition, augmented companion, fiction, supplication — gets the same front matter, and a new book inherits it without anyone remembering to ask.
 >
 > *Value gained:* one rule, one place, no route left behind.
+
+### 6. A book addresses nobody, not just in the first person
+
+> Declaring who narrates a book changed every "I" in *Al-Anwaar al-Lateefah* and left the lecturer completely intact — "Hold that frame, and step now inside it", "Do not pass over that phrase lightly", "you should expect nothing else from these pages". The page passed every check and read nothing like the edition printed beside it, because none of those tells is first person. The rule now covers ADDRESS as well as person: under a third-person frame the narration never turns to the reader and never directs an audience, and every such move is recast into exposition rather than deleted, since it carries a thought. Quoted speech, verses, hadith, prayers and block quotations are untouched — there one person really is addressing another — and a book that is a letter to a disciple, like *Ayyuhal Walad*, is exempt entirely.
+>
+> *Value gained:* a book transcribed from spoken lectures can be turned into a book, and the record now says which of the two it is instead of only reporting that the voice pass ran.

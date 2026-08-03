@@ -266,6 +266,7 @@ R_VOWELLING_MARKS_ONLY: str = "R-VOWELLING-MARKS-ONLY"
 # human judgment, never an automatic substitution.
 R_QURAN_ARABIC_PRESENT: str = "R-QURAN-ARABIC-PRESENT"
 R_ENUMERATION_PRESERVED: str = "R-ENUMERATION-PRESERVED"
+R_NO_LECTURE_VOICE: str = "R-NO-LECTURE-VOICE"  # REQ-BA-125; rule text in _narrative.py
 
 NARRATIVE_FRAMES: dict[str, dict[str, object]] = {
     "transmitted_report": {
