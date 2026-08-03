@@ -3,19 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Podcast Factory Listener — the audience-facing site. Independent of the admin site in plan-dashboard/.",
+  "description": "Podcast Factory Listener \u2014 the audience-facing site. Independent of the admin site in plan-dashboard/.",
   "scripts": {
     "dev": "react-router dev",
     "build": "react-router build",
     "preview": "npm run build && vite preview",
     "deploy": "npm run build && wrangler deploy",
     "typecheck": "react-router typegen && tsc -b",
-    "check": "npm run typecheck && npm run build",
+    "check": "npm run typecheck && npm run test && npm run build",
     "cf-typegen": "wrangler types",
-    "fonts": "node scripts/sync-fonts.mjs"
+    "fonts": "node scripts/sync-fonts.mjs",
+    "test": "vitest run",
+    "security": "node scripts/security-smoke.mjs",
+    "db:migrate": "wrangler d1 migrations apply podcast-listener --local"
   },
   "dependencies": {
+    "better-auth": "^1.6.25",
     "isbot": "^5",
+    "kysely": "^0.29.4",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-router": "8.3.0"
@@ -33,6 +38,7 @@
     "tailwindcss": "4.3.3",
     "typescript": "^5.9.3",
     "vite": "^8.2.0",
+    "vitest": "^4.1.10",
     "wrangler": "^4.118.0"
   }
 }

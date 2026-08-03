@@ -3,11 +3,26 @@
 # Never put any of these in wrangler.jsonc.
 
 # Phase 2 — auth
-# BETTER_AUTH_SECRET=<openssl rand -base64 32>
-# GOOGLE_CLIENT_SECRET=<from Google Cloud Console>
+BETTER_AUTH_URL=http://localhost:5273
+BETTER_AUTH_SECRET=<openssl rand -base64 32>
 
-# Phase 3 — publish endpoint, called by scripts/podcast/publish_to_listener.py
+# From Google Cloud Console. The app runs without real values — sign-in is the
+# only thing that cannot complete, and `npm run security` proves every gate
+# using development sessions instead.
+#   Authorized origin:  http://localhost:5273
+#   Redirect URI:       http://localhost:5273/api/auth/callback/google
+#   Scopes:             openid, email, profile
+GOOGLE_CLIENT_ID=<client id>.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=<client secret>
+
+# Phase 3 — publish endpoint, called by scripts/podcast/publish_to_listener.py.
+# NOTE: whatever this authenticates must never be able to write content_unit's
+# open_to_all or status columns. Those are privilege bits and belong to an admin
+# session only; test/config.test.ts asserts it.
 # PUBLISH_TOKEN=<openssl rand -base64 32>
 
-# Phase 4 — signs short-lived media URLs so range requests skip the session lookup
+# Phase 4 — signs short-lived media URLs so range requests skip the session
+# lookup. Keep the TTL near 5 minutes with a client refresh on 401: an hour
+# breaks playback partway through a long episode, and the TTL is also how long a
+# revoked grant keeps streaming.
 # MEDIA_TOKEN_SECRET=<openssl rand -base64 32>

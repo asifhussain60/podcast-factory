@@ -1,22 +1,51 @@
 import { Link } from "react-router";
+
 import type { Route } from "./+types/home";
-import { cloudflare } from "~/context";
 import { Logo } from "~/components/brand/Logo";
 import { ThemePicker } from "~/components/ThemePicker";
+import { cloudflare } from "~/context";
+import { session } from "~/middleware/session";
+import { visibleUnits } from "~/server/access.server";
 
-export function loader({ context }: Route.LoaderArgs) {
-  // Proves the Worker env reaches the loader — the wiring every later phase
-  // depends on for D1 and R2 bindings.
+/**
+ * The library.
+ *
+ * Behind the invited gate, so `viewer` is always present. The list comes from
+ * `visibleUnits`, the ONLY place the entitlement rule is written — this loader
+ * does no filtering of its own, and adding any would be the start of the rule
+ * existing in two places that can disagree.
+ */
+export async function loader({ context }: Route.LoaderArgs) {
   const { env } = context.get(cloudflare);
-  return { siteName: env.PUBLIC_SITE_NAME ?? "Podcast Factory" };
+  const viewer = context.get(session).viewer!;
+
+  const units = await visibleUnits(env.DB, viewer.email);
+
+  return {
+    siteName: env.PUBLIC_SITE_NAME ?? "Podcast Factory",
+    viewer: { name: viewer.name, isAdmin: viewer.isAdmin },
+    units,
+  };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
+  const { units, viewer } = loaderData;
+
   return (
     <div className="min-h-dvh bg-pf-bg">
       <header className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-6">
         <Logo size={44} />
-        <ThemePicker />
+        <div className="flex items-center gap-5">
+          {viewer.isAdmin ? (
+            <Link
+              to="/admin"
+              className="font-ui text-sm text-pf-muted transition-colors hover:text-pf-ink"
+            >
+              Access
+            </Link>
+          ) : null}
+          <ThemePicker />
+        </div>
       </header>
 
       <main id="main" className="mx-auto max-w-5xl px-6 pb-24">
@@ -25,55 +54,35 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             {loaderData.siteName}
           </p>
           <h1 className="mt-4 max-w-3xl text-balance font-prose text-5xl leading-[1.08] text-pf-ink sm:text-6xl">
-            Scholarly books, read and heard.
+            Your library
           </h1>
-          <p className="mt-6 max-w-xl font-prose text-lg leading-relaxed text-pf-muted">
-            A private library of translated editions and the conversations built
-            from them. Access is by invitation.
-          </p>
-
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <span
-              aria-disabled="true"
-              className="rounded-md bg-pf-accent px-5 py-2.5 font-ui text-sm text-pf-on-accent opacity-60"
-            >
-              Sign in with Google
-            </span>
-            <span className="font-ui text-sm text-pf-faint">Available in the next phase</span>
-          </div>
         </section>
 
-        <section className="mt-20 grid gap-6 sm:grid-cols-3">
-          {[
-            { t: "Listen", d: "Episodes that keep playing while you move around the site." },
-            { t: "Read", d: "The full edition, reflowable, in your own type and theme." },
-            { t: "Annotate", d: "Highlights and notes that survive the book being revised." },
-          ].map((c) => (
-            <article
-              key={c.t}
-              className="rounded-xl border border-pf-rule bg-pf-surface p-6"
-              style={{ boxShadow: "var(--l-shadow)" }}
-            >
-              <h2 className="font-prose text-xl text-pf-ink">{c.t}</h2>
-              <p className="mt-2 font-ui text-sm leading-relaxed text-pf-muted">{c.d}</p>
-            </article>
-          ))}
-        </section>
-
-        <section className="mt-16 rounded-xl border border-pf-rule-soft bg-pf-sunken p-6">
-          <h2 className="font-prose text-lg text-pf-ink">Arabic sets correctly</h2>
-          <p
-            lang="ar"
-            dir="rtl"
-            className="mt-3 text-2xl text-pf-ink"
-          >
-            بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+        {units.length === 0 ? (
+          <p className="mt-12 max-w-xl font-prose text-lg leading-relaxed text-pf-muted">
+            Nothing has been shared with you yet. When something is, it appears
+            here.
           </p>
-          <p className="mt-3 font-ui text-sm text-pf-muted">
-            Fully vowelled, in Scheherazade New, with the line spacing the marks
-            need. <Link className="underline" to="/brand">Compare the three logo marks</Link>.
-          </p>
-        </section>
+        ) : (
+          <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {units.map((unit) => (
+              <li key={unit.slug}>
+                <Link
+                  to={`/book/${unit.slug}`}
+                  className="block h-full rounded-xl border border-pf-rule bg-pf-surface p-6 transition-colors hover:border-pf-accent"
+                  style={{ boxShadow: "var(--l-shadow)" }}
+                >
+                  <p className="font-ui text-xs uppercase tracking-widest text-pf-faint">
+                    {unit.bucket}
+                  </p>
+                  <h2 className="mt-2 font-prose text-xl leading-snug text-pf-ink">
+                    {unit.title}
+                  </h2>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </main>
     </div>
   );

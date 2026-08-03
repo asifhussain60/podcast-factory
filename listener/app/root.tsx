@@ -1,8 +1,14 @@
 import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
 import type { Route } from "./+types/root";
+import { withSession } from "~/middleware/session";
 import { THEME_INIT_SCRIPT } from "~/lib/theme";
 import "./app.css";
+
+// Layer 1. Resolves the session into context for every matched request and
+// gates nothing — the sign-in page needs it too. See middleware/session.ts for
+// why it must always set a value.
+export const middleware: Route.MiddlewareFunction[] = [withSession];
 
 export const meta: Route.MetaFunction = () => [
   { title: "Podcast Factory" },
@@ -63,6 +69,21 @@ export default function App() {
   return <Outlet />;
 }
 
+/**
+ * The ONLY error boundary in the application.
+ *
+ * No route under a gate may export its own, and the reason is precise: a denied
+ * request throws a 404 from middleware, at which point `matches` is the full
+ * chain and React Router renders `findNearestBoundary(matches, routeId)` — a
+ * child boundary if one exists. A genuinely unmatched path short-circuits with
+ * only the root match and empty loaderData (router.js:1472-1486). Two boundaries
+ * means two visibly different 404s, and the difference tells an attacker which
+ * slugs are real.
+ *
+ * For the same reason nothing here may read loader data or session context:
+ * neither exists on the hard-404 path, and touching them would turn that 404
+ * into a 500 — the same tell by another route.
+ */
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let heading = "Something went wrong";
   let detail = "An unexpected error occurred.";

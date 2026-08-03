@@ -13,45 +13,74 @@
     "run_worker_first": ["/api/*", "/media/*"]
   },
 
-  // Uncomment each binding as its phase lands. Wrangler fails the build on a
-  // binding whose resource does not exist yet, so they are staged deliberately.
-  //
-  // Phase 2 (auth) — create with: wrangler d1 create podcast-listener
-  // "d1_databases": [
-  //   {
-  //     "binding": "DB",
-  //     "database_name": "podcast-listener",
-  //     "database_id": "<uuid from `wrangler d1 create`>",
-  //     "migrations_dir": "./migrations"
-  //   }
-  // ],
-  //
+  // `database_id` is a PLACEHOLDER. Local dev uses Miniflare's own D1 and never
+  // reads it; the real id is filled in at deploy time by `wrangler d1 create
+  // podcast-listener`, which must run against the gmail account
+  // (19cb05067ea7e704f94481df1685ec51) — wrangler is currently logged in as
+  // hotmail, so creating it now would provision the database on the wrong
+  // account. See README "Open".
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "podcast-listener",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "./migrations"
+    }
+  ],
+
   // Phase 3 (catalog) — create with: wrangler r2 bucket create podcast-listener-media
   // "r2_buckets": [
   //   { "binding": "MEDIA", "bucket_name": "podcast-listener-media" }
   // ],
 
   "vars": {
-    "PUBLIC_SITE_NAME": "Podcast Factory"
-    // Phase 2 adds: BETTER_AUTH_URL, GOOGLE_CLIENT_ID, ADMIN_EMAIL.
+    "PUBLIC_SITE_NAME": "Podcast Factory",
+
+    // The ONLY thing that confers admin. There is deliberately no `role` column
+    // — see app/server/admin.server.ts. Compared through normalizeEmail() on
+    // both sides, never with a raw ===.
+    "ADMIN_EMAIL": "asifhussain60@gmail.com",
+
+    // Better Auth's absolute base URL. Overridden in .dev.vars locally.
+    "BETTER_AUTH_URL": "https://podcast-factory.safinaverse.com",
+    "GOOGLE_CLIENT_ID": ""
     // Secrets (BETTER_AUTH_SECRET, GOOGLE_CLIENT_SECRET, PUBLISH_TOKEN,
     // MEDIA_TOKEN_SECRET) are NEVER declared here — use `wrangler secret put`,
     // and .dev.vars locally.
   },
 
-  // Phase 1 deploys to the free workers.dev address. Once Asif supplies the
-  // Cloudflare zone, replace with:
-  //   "routes": [{ "pattern": "listen.<domain>", "custom_domain": true }]
-  // and set "workers_dev": false.
-  "workers_dev": true,
+  // Deploying is deliberately blocked until the account question is settled:
+  // this route only resolves on the gmail account that holds the safinaverse.com
+  // zone, so `wrangler deploy` while logged in as hotmail fails loudly rather
+  // than silently publishing to the wrong place.
+  "routes": [{ "pattern": "podcast-factory.safinaverse.com", "custom_domain": true }],
+  "workers_dev": false,
 
   "observability": { "enabled": true },
   "upload_source_maps": true,
 
+  // Named environments do NOT inherit top-level `vars` or bindings — Wrangler
+  // replaces them wholesale. Every security-relevant value is therefore
+  // repeated here in full; omitting ADMIN_EMAIL would leave the admin check
+  // comparing against undefined. (app/server/admin.server.ts fails closed if it
+  // ever is, but the config should not rely on that.)
   "env": {
     "staging": {
       "name": "podcast-listener-staging",
-      "vars": { "PUBLIC_SITE_NAME": "Podcast Factory (staging)" },
+      "vars": {
+        "PUBLIC_SITE_NAME": "Podcast Factory (staging)",
+        "ADMIN_EMAIL": "asifhussain60@gmail.com",
+        "BETTER_AUTH_URL": "https://podcast-listener-staging.asifhussain60-19c.workers.dev",
+        "GOOGLE_CLIENT_ID": ""
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "podcast-listener-staging",
+          "database_id": "00000000-0000-0000-0000-000000000000",
+          "migrations_dir": "./migrations"
+        }
+      ],
       "workers_dev": true
     }
   }

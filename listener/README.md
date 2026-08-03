@@ -32,10 +32,10 @@ Worker as the UI. It is **not** here for SEO — the site is invite-only and
 ```bash
 npm install
 npm run fonts      # copies the self-hosted faces into public/fonts/
-npm run dev        # real workerd via @cloudflare/vite-plugin
-npm run typecheck
-npm run build
-npm run deploy
+npm run db:migrate # applies migrations to the local D1
+npm run dev        # real workerd via @cloudflare/vite-plugin, on :5273
+npm run check      # typecheck + unit tests + build
+npm run security   # runtime gate checks; needs `npm run dev` in another shell
 ```
 
 `npm run fonts -- --check` verifies the committed faces are current without
@@ -51,7 +51,55 @@ writing; it is the gate that catches a stale copy.
 | `app/components/brand/` | The three candidate marks and the wordmark lockups |
 | `workers/app.ts` | Worker entry — hands every request to React Router |
 | `wrangler.jsonc` | Bindings, staged per phase |
-| `migrations/` | D1 migrations, added from phase 2 |
+| `app/server/*.server.ts` | Server-only. The suffix is enforced by the build |
+| `app/middleware/` | The four gates. See "Access" below |
+| `migrations/` | D1 migrations |
+| `scripts/session-cookie.mjs` | Mints a local dev session — no Google needed |
+| `scripts/security-smoke.mjs` | The runtime gate checks |
+
+## Access
+
+The site is invite-only AND per-book. Being invited lets you sign in; it does
+not, by itself, let you see anything.
+
+**The route tree is the policy.** `app/routes.ts` gates by POSITION — a route is
+protected because of where it sits, never because code compared a pathname.
+`compilePath` matches case-insensitively, so `/Admin/people` defeats any
+`startsWith("/admin")` check. `test/routes.test.ts` fails if a route is added
+outside the gate.
+
+Four layers:
+
+| Layer | Where | What it decides |
+|---|---|---|
+| 0 | `workers/app.ts` | `/api/auth/*` bypasses the router entirely, so sign-in needs no carve-out anywhere else |
+| 1 | `root.tsx` | Resolves the session into context. Gates nothing |
+| 2 | `routes/_authed.tsx` | Signed in, invited, not revoked. Signed out redirects; signed-in-but-not-invited does not |
+| 3 | `routes/_authed._admin.tsx` | `ADMIN_EMAIL` only. 404, never 403 |
+| 4 | `routes/book.$slug.tsx` | May read this unit |
+
+**Gates are `middleware`, never loaders.** A loader gate is defeated by one
+query parameter: `_routes` feeds `filterMatchesToLoad`, so
+`/book/x.data?_routes=routes/book.$slug` runs the child loader and skips the
+parent. Middleware wraps the whole dispatch, where that filter cannot reach.
+`npm run security` fires exactly that request, plus a control proving the filter
+really was applied.
+
+**Grants key on email, not user id**, so access can be given to someone who has
+never signed in. That makes the address a privilege bit, so every comparison —
+the admin check and the grant lookup — goes through `normalizeEmail` in
+`app/server/email.server.ts`. Dots and `+tags` fold on Gmail only; folding them
+elsewhere would merge two different people.
+
+**There is no admin bypass in the resolver.** Admin governs `/admin` and nothing
+else; reading follows one rule for everyone, so there is one path to audit. The
+administrator gets an ordinary seeded `library:*` grant, visible and revocable
+in the UI like any other.
+
+**Denial is 404, never 403**, and only `app/root.tsx` may export an
+`ErrorBoundary` — a second boundary would make a denied 404 look different from
+a real one and reveal which slugs exist.
+
 
 ## Theme
 
@@ -71,9 +119,17 @@ colour in at build time.
   `app/components/brand/Logo.tsx` is the one line that changes. `/brand` renders
   them side by side in every theme, at full size and at favicon size. Delete
   that route once the choice is made.
-- **The domain is not set.** `wrangler.jsonc` ships on `workers_dev` until Asif
-  supplies the Cloudflare zone; then swap in a `custom_domain` route and add the
-  Google OAuth redirect URI.
-- **D1 and R2 bindings are commented out** in `wrangler.jsonc` — Wrangler fails
-  the build on a binding whose resource does not exist, so each is uncommented
-  in the phase that creates it.
+- **No Google OAuth client yet.** Everything runs without one; only real
+  sign-in cannot complete. `scripts/session-cookie.mjs` mints a valid local
+  session so the gates are all provable meanwhile.
+- **Wrangler is logged in to the wrong Cloudflare account.** It holds
+  `asifhussain60@hotmail.com`; the `safinaverse.com` zone lives on the gmail
+  account (`19cb05067ea7e704f94481df1685ec51`). `wrangler.jsonc` names the real
+  custom domain, so `npm run deploy` fails loudly rather than publishing
+  somewhere wrong. Note also that `cf-deploy.sh` CANNOT deploy this app — it is
+  Pages-only, and this is a Worker.
+- **`database_id` is a placeholder.** Local dev uses Miniflare's D1 and never
+  reads it. The real one comes from `wrangler d1 create podcast-listener` run
+  against the gmail account at deploy time.
+- **The R2 binding is still commented out** — Wrangler fails the build on a
+  binding whose resource does not exist, so it is uncommented in phase 3.
