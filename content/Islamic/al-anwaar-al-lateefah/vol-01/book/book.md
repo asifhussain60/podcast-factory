@@ -16,13 +16,13 @@ No author is named within the volume itself. It speaks throughout not in one man
 
 > "I seek refuge in Allah from the accursed Satan. In the name of Allah, the Most Gracious, the Most Merciful. And may Allah's blessings be upon His Messenger and his pure and purified family, and may peace be upon them all."
 
-So I begin. This book is built on a design so deliberate that even the names of its parts tell you something. Each great division is called a *Suradiq*, and we open now with the first of them:
+So the book begins. It is built on a design so deliberate that even the names of its parts tell you something. Each great division is called a *Suradiq*, and the first of them opens here:
 
 > السُّرَادِقُ الأَوَّلُ
 >
 > "The First Suradiq" — from كِتَابُ الأَنْوَارِ, the Book of Lights.
 
-Hold the word *Suradiq* — sometimes rendered *Sardaq* — in your mind for a moment, because the image inside it matters. It means a curtain; and beyond the curtain, a palace, a grand encampment, a great tent — a *shamiyana*, a *khaima*. Think of an enclosing canopy, a royal pavilion, and the affairs of the book unfolding within its shelter. And the whole structure rests on the number five, the way a building's load-bearing walls quietly decide the shape of every room. The book is five Suradiqs. Each Suradiq, the text says, has
+Hold the word *Suradiq* — sometimes rendered *Sardaq* — in mind for a moment, because the image inside it matters. It means a curtain; and beyond the curtain, a palace, a grand encampment, a great tent — a *shamiyana*, a *khaima*. Think of an enclosing canopy, a royal pavilion, and the affairs of the book unfolding within its shelter. And the whole structure rests on the number five, the way a building's load-bearing walls quietly decide the shape of every room. The book is five Suradiqs. Each Suradiq, the text says, has
 
 > خَمْسَةُ أَبْوَابٍ
 >
@@ -34,7 +34,7 @@ And each *bab*, in turn,
 >
 > "gathers five sections" — five *fasls*.
 
-Five Suradiqs, each of five chapters, each chapter of five sections — by that symmetry the whole work comes to one hundred and twenty-five sections in all. Hold that frame, and now we step inside it, to the very first room:
+Five Suradiqs, each of five chapters, each chapter of five sections — by that symmetry the whole work comes to one hundred and twenty-five sections in all. Hold that frame, and step now inside it, to the very first room:
 
 > الفَصْلُ الأَوَّلُ مِنْهَا
 >
@@ -50,9 +50,9 @@ This opening section announces what the entire enterprise is for. It begins:
 >
 > "in which there is no interpretation and no symbol."
 
-The aim is declared at the door. It is to treat of the noble affections — the *mawaddah* — that carry the soul toward the noble obligations, and to treat of them as a pure reality, *haqiqatan mahdatan*. Do not pass over that phrase lightly. The book does not set out to explain the *zahir*, the outer exoteric sense, nor does it climb into *taweel*, the esoteric interpretation. It sets out to lay the pure, unmixed reality of these matters directly before you.
+The aim is declared at the door. It is to treat of the noble affections — the *mawaddah* — that carry the soul toward the noble obligations, and to treat of them as a pure reality, *haqiqatan mahdatan*. Do not pass over that phrase lightly. The book does not set out to explain the *zahir*, the outer exoteric sense, nor does it climb into *taweel*, the esoteric interpretation. It sets out to lay the pure, unmixed reality of these matters directly before the reader.
 
-And the way the denial is phrased is itself emphatic, so let me show you the grammar, because it sharpens the claim. The words لَا تَأْوِيلَ are read with what the grammarians call *nafi al-jins* — the negation of the genus, an absolute and categorical denial. Had the text said merely لَا تَأْوِيلٌ فِيهِ, it would mean only that *some particular* interpretation is absent. But لَا تَأْوِيلَ means there is no interpretation whatsoever — none of the kind, not a trace of the genus. And the same holds for what follows: وَلَا رَمْزَ مِنْهَا — and no symbol, no *ramz*, from it; and no *ishara*, no allusion either. The intention, then, is pure reality, stripped of veiling interpretation, of symbol, and of allusion alike. That is the declared method, and you should expect nothing else from these pages.
+And the way the denial is phrased is itself emphatic, so consider the grammar, because it sharpens the claim. The words لَا تَأْوِيلَ are read with what the grammarians call *nafi al-jins* — the negation of the genus, an absolute and categorical denial. Had the text said merely لَا تَأْوِيلٌ فِيهِ, it would mean only that *some particular* interpretation is absent. But لَا تَأْوِيلَ means there is no interpretation whatsoever — none of the kind, not a trace of the genus. And the same holds for what follows: وَلَا رَمْزَ مِنْهَا — and no symbol, no *ramz*, from it; and no *ishara*, no allusion either. The intention, then, is pure reality, stripped of veiling interpretation, of symbol, and of allusion alike. That is the declared method, and you should expect nothing else from these pages.
 
 From there the discourse opens outward to take in everything that exists. The text goes on:
 
@@ -66,9 +66,9 @@ The book proposes to take as its subject all the existents that appeared before 
 >
 > "For by the gnosis of that, and the acquaintance with it, and obedience to the Friends of Allah and love for them, and drawing near to Allah through them, and adhering to their appointed Hudud from the direction of the Qaim — with the knowledge and the action that have come through the religious laws — one is guided to the Oneness of Allah, the Exalted and the Supreme."
 
-This is the heart of it, and you must take it in its full articulation rather than its gist. It is through the *marifah* — the gnosis — of all those existing things that came into being before us, through truly knowing them and gaining acquaintance with them, that the soul is first set on the road. It is through obedience to the *Awliya Allah*, the Friends of Allah, and through love of them, and through drawing near to Allah by their means, that the road is actually traveled. And bound up with this is adherence to their *hudud* (حُدُود) — the ranks and bounds appointed for the believer — for these *hudud* are *mansubin*, appointed and assigned, from the direction of the Qaim himself, the way a sealed letter is handed down through ordained bearers, each in his place, before it can reach the one for whom it was written. And it is through the action, the *amal* (عَمَل), laid down in the *shariah*, the religious law, that the road is at last completed. By the whole of this together — gnosis, obedience, love, nearness, adherence to the appointed *hudud*, and lawful action — one is guided toward the *tawhid* of Allah, the Most High. This is the only road by which the *tawhid* of Allah is reached.
+This is the heart of it, and it must be taken in its full articulation rather than its gist. It is through the *marifah* — the gnosis — of all those existing things that came into being before us, through truly knowing them and gaining acquaintance with them, that the soul is first set on the road. It is through obedience to the *Awliya Allah*, the Friends of Allah, and through love of them, and through drawing near to Allah by their means, that the road is actually traveled. And bound up with this is adherence to their *hudud* (حُدُود) — the ranks and bounds appointed for the believer — for these *hudud* are *mansubin*, appointed and assigned, from the direction of the Qaim himself, the way a sealed letter is handed down through ordained bearers, each in his place, before it can reach the one for whom it was written. And it is through the action, the *amal* (عَمَل), laid down in the *shariah*, the religious law, that the road is at last completed. By the whole of this together — gnosis, obedience, love, nearness, adherence to the appointed *hudud*, and lawful action — one is guided toward the *tawhid* of Allah, the Most High. This is the only road by which the *tawhid* of Allah is reached.
 
-Let me distill the two pillars on which the whole access stands, because they will return again and again. Access to the *tawhid* of Allah is attained through two things, and through two things only: *wilayah* (وِلَايَة) and *amal* — allegiance and action. *Wilayah* is named here also as *muwalat*, loyal allegiance, and as *muhabbah*, love; it is the bond of devotion to the Friends of Allah. And *amal* is the deed, the action the law lays down. By these two together — by loving allegiance and by righteous action — access is gained. There is no third way through. And the fruit of that attainment is itself twofold, as the text declares:
+Consider the two pillars on which the whole access stands, for they return again and again. Access to the *tawhid* of Allah is attained through two things, and through two things only: *wilayah* (وِلَايَة) and *amal* — allegiance and action. *Wilayah* is named here also as *muwalat*, loyal allegiance, and as *muhabbah*, love; it is the bond of devotion to the Friends of Allah. And *amal* is the deed, the action the law lays down. By these two together — by loving allegiance and by righteous action — access is gained. There is no third way through. And the fruit of that attainment is itself twofold, as the text declares:
 
 > وَبِذَٰلِكَ تَعْلُو دَرَجَةُ المَعَادِ
 >
@@ -90,13 +90,13 @@ And that salvation, understood at its deepest, is a homecoming. The text continu
 >
 > "and to dwell with them in the Abode of Sanctity."
 
-Here the doctrine of return is laid open. *Qawd* is the leading-back, the return, toward the *mabda*, the origin — back to that source from which the noble beginnings, the *ibtidaat*, first issued, the way a river finds its channel before it can ever reach the field it was meant to water. The soul does not belong to this lower world; this is not its native country. Our original homeland — our *watan-e-asli* — is the world of spirits, the *alam al-ruh* (عَالَمُ اَلرُّوح). That is the land we came from, and the whole movement of the religious life is nothing but a turning back toward it. The goal is to make our way home to that origin, and there — وَالكَوْنُ مَعَهُمْ فِي دَارِ القُدْسِ — to dwell together with the Friends of Allah in *dar al-quds*, the Abode of Sanctity. As the text prays:
+Here the doctrine of return is laid open. *Qawd* is the leading-back, the return, toward the *mabda*, the origin — back to that source from which the noble beginnings, the *ibtidaat*, first issued, the way a river finds its channel before it can ever reach the field it was meant to water. The soul does not belong to this lower world; this is not its native country. Our original homeland — our *watan-e-asli* — is the world of spirits, the *alam al-ruh* (عَالَمُ اَلرُّوح). That is the land we came from, and the whole movement of the religious life is nothing but a turning back toward it. The goal is to make our way home to that origin, and there — وَالكَوْنُ مَعَهُمْ فِي دَارِ القُدْسِ — to dwell together with the Friends of Allah in *dar al-quds*, the Abode of Sanctity. As the text prays:
 
 > بَلَّغَنَا اللَّهُ إِلَيْهِمْ، وَأَعَانَنَا عَلَى الِارْتِقَاءِ وَالوُصُولِ إِلَيْهِمْ، بِحَقِّ مُحَمَّدٍ وَآلِهِ الطَّاهِرِينَ، صَلَوَاتُ اللَّهِ عَلَيْهِمْ أَجْمَعِينَ
 >
 > "May Allah cause us to reach them, and aid us in the ascent and the arrival to them — by the right of Muhammad and his pure progeny, the blessings of Allah be upon them all."
 
-Then the text names this knowledge of the origin with an image I want you to see clearly:
+Then the text names this knowledge of the origin with an image worth seeing clearly:
 
 > وَهَٰذَا هُوَ العِلْمُ الَّذِي يَدُورُونَ عَلَيْهِ وَيَجُورُونَ لَدَيْهِ
 >
@@ -120,7 +120,7 @@ There is, however, one exception, and it decides everything:
 >
 > "from among those who held fast to the Imams from the progeny of Muhammad, the peace of Allah be upon them all, and bound themselves to their blessed Hudud."
 
-The few who reach the knowledge of the origin are precisely those who held fast to the *aimma*, the Imams from the household of Muhammad, and who bound themselves to the true and blessed *hudud* of those Imams. Only these reach the far side. Only these break out of the circle. The rest go on revolving, lifetime after lifetime, around a goal they cannot attain. And so the matter stands plainly before us: the knowledge of the origin is not yielded to bare seeking, however fierce the seeking grows. It is granted only to the hand that holds fast to the Imams and submits to their appointed ranks — which is exactly the hold I am asking you, now, to take, before we go a single step further in.
+The few who reach the knowledge of the origin are precisely those who held fast to the *aimma*, the Imams from the household of Muhammad, and who bound themselves to the true and blessed *hudud* of those Imams. Only these reach the far side. Only these break out of the circle. The rest go on revolving, lifetime after lifetime, around a goal they cannot attain. And so the matter stands plainly before us: the knowledge of the origin is not yielded to bare seeking, however fierce the seeking grows. It is granted only to the hand that holds fast to the Imams and submits to their appointed ranks — which is exactly the hold you are now asked to take, before going a single step further in.
 
 ## 2. The God No Pointing Can Reach
 

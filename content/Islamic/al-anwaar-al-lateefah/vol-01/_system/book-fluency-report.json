@@ -1,0 +1,72 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "transmitted_report",
+  "adapted": 1,
+  "reverted": 0,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "The Sealed Lamp and the Road Home",
+      "base_words": 1793,
+      "output_words": 1779,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-02: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "editorial_queries": [
+        "The source is a first-person expository commentary (\"So I begin,\" \"I want you to see\"); the third-person frame was honored by rendering the narrator's exposition impersonally while keeping the collective \"we/our\" that denotes humankind, but whether that collective voice should likewise be neutralized is unclear."
+      ],
+      "comprehension_flags": [
+        "A general reader may stumble on the doctrinal terms *Qaim*, *hudud*, *Awliya Allah*, and *Imams*, which the passage invokes without definition."
+      ],
+      "terminology_notes": [
+        "*Suradiq* \u2014 should be fixed book-wide against the variant *Sardaq* that the source itself flags."
+      ]
+    },
+    {
+      "title": "The God No Pointing Can Reach",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "The Sin of Naming the Unnameable",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "What Oneness Actually Means",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "The Nearest Rank: Breaking the Self to Climb",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "Every Teacher a Threshold, Not a God",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "Out of Nothing, and Equal in Justice",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    },
+    {
+      "title": "The First to Say There Is No God But He",
+      "status": "skipped",
+      "windows": 0,
+      "windows_kept": 0
+    }
+  ]
+}

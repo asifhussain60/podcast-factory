@@ -111,3 +111,4 @@
 {"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-frontmatter", "step": "edition-introduction-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-fluency", "step": "fluency-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

@@ -218,3 +218,41 @@ def test_merge_records_takeover_before_any_adaptation_stays_composer_edit() -> N
     # No adaptation in the history: the chain resolves to composer-edit, which
     # the articulation guard treats as "frozen before articulation succeeded".
     assert run2[0]["superseded_status"] == "composer-edit"
+
+
+def test_the_introduction_is_never_touched_by_a_prose_pass(tmp_path: Path) -> None:
+    """It is APPARATUS: authored under the articulation register already, with no
+    source to be faithful to, so the fidelity gates judge it on evidence that does
+    not apply.
+
+    During a compose it is not there yet. Standalone on a finished book it IS
+    there and is the FIRST `## ` section — so `only=[1]` would mean the
+    introduction rather than chapter one, which is the accident this prevents.
+    """
+    from _book_edits import anchor_key
+    from _book_frontmatter import INTRO_HEADING
+    from _book_voice import _INTRODUCTION_KEY, apply_fluency_adapt
+
+    assert _INTRODUCTION_KEY == anchor_key(INTRO_HEADING)
+
+    bd = tmp_path / "b"
+    (bd / "book").mkdir(parents=True)
+    (bd / "_system").mkdir(parents=True)
+    (bd / "book" / "book.md").write_text(
+        f"# T\n\n{INTRO_HEADING}\n\nThe edition's own introduction.\n\n"
+        "## 1. The Sealed Lamp\n\nThe chapter's first-person lecture.\n",
+        encoding="utf-8",
+    )
+
+    seen: list[str] = []
+
+    def adapter(title, body, *a, **k):
+        seen.append(title)
+        return "REWRITTEN " + body
+
+    apply_fluency_adapt(bd, log=lambda _m: None, adapter=adapter)
+    out = (bd / "book" / "book.md").read_text(encoding="utf-8")
+
+    assert "The edition's own introduction." in out
+    assert "REWRITTEN The edition's own introduction." not in out
+    assert "Introduction to the Book" not in seen
