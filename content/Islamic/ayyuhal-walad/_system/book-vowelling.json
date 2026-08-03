@@ -1,13 +1,13 @@
 {
-  "vowelled": 4,
-  "marks_added": 65,
-  "already": 124,
+  "vowelled": 3,
+  "marks_added": 48,
+  "already": 126,
   "quranic": 1,
   "from_mushaf": 0,
-  "refused": 4,
+  "refused": 2,
   "recovered": 0,
-  "in_chars": 184,
-  "out_chars": 304,
+  "in_chars": 115,
+  "out_chars": 191,
   "mushaf_pairs": [],
   "refusals": [
     {
@@ -15,17 +15,9 @@
       "reason": "letters changed, not just marks (first difference at character 3: source \"هم كن لنا و \" vs proposal \"لهم كن لنا و\")"
     },
     {
-      "run": "اشهدوا يا ملائكتي أنّي قد غفرت له",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"اشهدوا يا مل\" vs proposal \"إشهدوا يا مل\")"
-    },
-    {
       "run": "ألّهمّ اختم بالسعادة آجالنا",
       "reason": "letters changed, not just marks (first difference at character 3: source \"هم اختم بالس\" vs proposal \"لهم اختم بال\")"
-    },
-    {
-      "run": "رضي الله عنه",
-      "reason": "empty"
     }
   ],
-  "lexical": 0
+  "lexical": 1
 }

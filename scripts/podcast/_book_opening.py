@@ -97,8 +97,68 @@ def fold_opening(book_md: str, title: str) -> tuple[str, int]:
     return re.sub(r"\n{3,}", "\n\n", "".join(out)).strip() + "\n", len(opening.split())
 
 
+def _coalesce(ranges: list[list[int]]) -> list[list[int]]:
+    """Sort and merge overlapping/adjacent line ranges."""
+    clean = sorted([int(a), int(b)] for a, b in (r for r in ranges if r and len(r) == 2))
+    out: list[list[int]] = []
+    for lo, hi in clean:
+        if out and lo <= out[-1][1] + 1:
+            out[-1][1] = max(out[-1][1], hi)
+        else:
+            out.append([lo, hi])
+    return out
+
+
+def absorb_preface_range(book_dir: Path, *, log=print) -> dict[str, Any]:
+    """Give chapter 1 the source lines the folded opening came from.
+
+    THE FOLD IS NOT COMPLETE WITHOUT THIS, and the reason is not bookkeeping. Every
+    downstream step that asks "which Arabic is this English?" reads a chapter's
+    ``source_line_ranges`` from ``book-toc.json``: the crosswalk, and
+    ``align_arabic_paragraphs``, which is what the paragraph mirror then acts on.
+    Fold 436 words into chapter 1 and leave its range naming only the chapter's own
+    lines, and the aligner is asked to place prose whose Arabic is not in the range
+    it was given — so it does not fail, it places it WRONG.
+
+    Measured on `the-master-and-the-disciple` (2026-08-03): the six folded
+    paragraphs and the chapter's own first were all pinned to source paragraph 3,
+    every one marked ``confidence: verified``, and the mirror — whose whole job is
+    to merge English paragraphs that share an Arabic one — dutifully fused all
+    seven into a single 623-word block.
+
+    Idempotent: once ``preface.include`` is false there is nothing left to absorb.
+    Also flips that flag, so a later compose neither re-emits the opening as its
+    own section nor folds it a second time.
+    """
+    book_dir = Path(book_dir)
+    toc_path = book_dir / "book" / "book-toc.json"
+    if not toc_path.exists():
+        return {"absorbed": False}
+    toc = json.loads(toc_path.read_text(encoding="utf-8"))
+    preface = toc.get("preface")
+    chapters = toc.get("chapters") or []
+    if not isinstance(preface, dict) or not preface.get("include") or not chapters:
+        return {"absorbed": False}
+    pf_ranges = preface.get("source_line_ranges") or []
+    if not pf_ranges:
+        return {"absorbed": False}
+
+    first = chapters[0]
+    merged = _coalesce(list(pf_ranges) + list(first.get("source_line_ranges") or []))
+    first["source_line_ranges"] = merged
+    preface["include"] = False
+    toc_path.write_text(json.dumps(toc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    log(f"    opening: chapter 1 now covers source lines {merged} — the opening's Arabic included")
+    return {"absorbed": True, "source_line_ranges": merged}
+
+
 def apply_opening_fold(book_dir: Path, *, log=print) -> dict[str, Any]:
-    """Fold the opening into chapter 1 in ``book/book.md``. Report-shaped."""
+    """Fold the opening into chapter 1 in ``book/book.md``. Report-shaped.
+
+    The range absorption runs whether or not this call moved any prose, because
+    the ASSEMBLY may have done the folding on a compose — in which case book.md
+    arrives here already folded and only the toc is left to correct.
+    """
     book_dir = Path(book_dir)
     book_md = book_dir / "book" / "book.md"
     if not book_md.exists():
@@ -108,8 +168,25 @@ def apply_opening_fold(book_dir: Path, *, log=print) -> dict[str, Any]:
         return {"folded": False, "reason": "no preface title in book-toc.json"}
     before = book_md.read_text(encoding="utf-8")
     after, words = fold_opening(before, title)
-    if not words or after == before:
-        return {"folded": False}
-    book_md.write_text(after, encoding="utf-8")
-    log(f"    opening: {title!r} folded into chapter 1 ({words} words), its heading dropped")
-    return {"folded": True, "words": words, "title": title}
+    if words and after != before:
+        book_md.write_text(after, encoding="utf-8")
+        log(f"    opening: {title!r} folded into chapter 1 ({words} words), its heading dropped")
+    # The pass reports still name this section as a chapter of the book. It is not
+    # one any more — its prose moved into chapter 1 — and a report describing a
+    # document nobody has is what every gate downstream reads.
+    #
+    # Keyed on whether the section is ACTUALLY GONE from book.md rather than on
+    # whether this call is what removed it, so it also corrects a book the assembly
+    # folded, or one folded by an earlier run before this step existed. The one
+    # case it must not fire on is a fold that was REFUSED — a front matter still on
+    # the page is still a section, and `fold_opening` leaves it there when there is
+    # no numbered chapter to fold into.
+    section_gone = fold_opening(book_md.read_text(encoding="utf-8"), title)[1] == 0
+    if section_gone:
+        from _book_pass_reports import drop_section_from_reports
+
+        drop_section_from_reports(book_dir, title, log=log)
+    absorbed = absorb_preface_range(book_dir, log=log)
+    if not words:
+        return {"folded": False, "absorbed": absorbed.get("absorbed", False)}
+    return {"folded": True, "words": words, "title": title, "absorbed": absorbed.get("absorbed", False)}

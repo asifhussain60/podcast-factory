@@ -8,53 +8,6 @@
       "runs": []
     },
     {
-      "chapter": "How to Read a Conversation Made of Doors",
-      "arabic_runs": 8,
-      "unverified": 0,
-      "runs": [
-        {
-          "text": "جَعْفَر بْن مَنْصُور اَلْيَمَن",
-          "resolution": "ocr",
-          "skeleton": "جعفربنمنصوراليمن"
-        },
-        {
-          "text": "أَبُو مَالِك",
-          "resolution": "ocr",
-          "skeleton": "ابومالك"
-        },
-        {
-          "text": "اَلظَّاهِر",
-          "resolution": "ocr",
-          "skeleton": "الظاهر"
-        },
-        {
-          "text": "الْبَاطِن",
-          "resolution": "ocr",
-          "skeleton": "الباطن"
-        },
-        {
-          "text": "اَلتَّأْوِيل",
-          "resolution": "ocr",
-          "skeleton": "التاويل"
-        },
-        {
-          "text": "اَلنَّاطِق",
-          "resolution": "ocr",
-          "skeleton": "الناطق"
-        },
-        {
-          "text": "الْحُجَّة",
-          "resolution": "ocr",
-          "skeleton": "الحجه"
-        },
-        {
-          "text": "اَلدَّاعِي",
-          "resolution": "ocr",
-          "skeleton": "الداعي"
-        }
-      ]
-    },
-    {
       "chapter": "1. The Persian Who Was Dead and Revived",
       "arabic_runs": 4,
       "unverified": 0,
@@ -311,9 +264,14 @@
     },
     {
       "chapter": "6. Three Layers of Knowledge",
-      "arabic_runs": 13,
+      "arabic_runs": 14,
       "unverified": 0,
       "runs": [
+        {
+          "text": "الْحُجَّة",
+          "resolution": "ocr",
+          "skeleton": "الحجه"
+        },
         {
           "text": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
           "resolution": "ocr",
@@ -425,13 +383,18 @@
     },
     {
       "chapter": "8. Homecoming, the Father, and the Debate with Abu Malik",
-      "arabic_runs": 21,
+      "arabic_runs": 22,
       "unverified": 0,
       "runs": [
         {
           "text": "اَلْبَخْتَرِي",
           "resolution": "ocr",
           "skeleton": "البختري"
+        },
+        {
+          "text": "أَبُو مَالِك",
+          "resolution": "ocr",
+          "skeleton": "ابومالك"
         },
         {
           "text": "كَعْب اَلْأَحْبَار",
@@ -538,11 +501,11 @@
   ],
   "totals": {
     "canonical-mushaf": 23,
-    "ocr": 70,
+    "ocr": 64,
     "knowledge-base": 0,
     "honorific-formula": 0,
     "unverified": 0,
-    "arabic_runs": 93
+    "arabic_runs": 87
   },
   "quran_coverage": {
     "measured": true,
@@ -552,7 +515,7 @@
     "uncovered": [
       {
         "ref": "12:105",
-        "line": 258,
+        "line": 241,
         "reason": "no-span-in-scan",
         "ayah_words": 11
       }
@@ -562,15 +525,14 @@
   "stages": {
     "final": {
       "(front matter)": 0,
-      "How to Read a Conversation Made of Doors": 8,
       "1. The Persian Who Was Dead and Revived": 4,
       "2. A Stranger in the City": 1,
       "3. The Boy at the Door — Limits and Conditions": 1,
       "4. How the World Was Made": 11,
       "5. The World, the Hereafter, and the Speech of Parables": 27,
-      "6. Three Layers of Knowledge": 13,
+      "6. Three Layers of Knowledge": 14,
       "7. The Five Shares and the Long Road to the Shaykh": 7,
-      "8. Homecoming, the Father, and the Debate with Abu Malik": 21
+      "8. Homecoming, the Father, and the Debate with Abu Malik": 22
     }
   },
   "stage_losses": []

@@ -1,21 +1,9 @@
 {
   "schema": "podcast.book-voice/v5",
   "narrative_frame": "transmitted_report",
-  "revoiced": 8,
+  "revoiced": 7,
   "reverted": 0,
   "chapters": [
-    {
-      "title": "How to Read a Conversation Made of Doors",
-      "base_words": 734,
-      "output_words": 723,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [
-        "voice-01: output near-identical to base \u2014 copied, not re-voiced"
-      ]
-    },
     {
       "title": "The Persian Who Was Dead and Revived",
       "base_words": 752,

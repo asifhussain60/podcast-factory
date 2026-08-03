@@ -1,27 +1,10 @@
 {
   "schema": "podcast.book-fluency/v5",
   "narrative_frame": "transmitted_report",
-  "adapted": 8,
+  "adapted": 7,
   "reverted": 0,
   "overwritten_by_replay": 1,
   "chapters": [
-    {
-      "title": "How to Read a Conversation Made of Doors",
-      "base_words": 801,
-      "output_words": 801,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "editorial_queries": [],
-      "comprehension_flags": [
-        "The phrase \"set his course toward guidance by the marks of the request\" is cryptic on first read and a modern reader may not grasp that \"the marks of the request\" means the signs or indications contained in the very question the believers posed."
-      ],
-      "terminology_notes": [
-        "preachers \u2014 the body calls the da\u02bfwa figures \"preachers\" while the edition introduction names the same office \"d\u0101\u02bf\u012b\"/\"callers\"; one rendering should be chosen and used book-wide."
-      ]
-    },
     {
       "title": "The Persian Who Was Dead and Revived",
       "base_words": 726,

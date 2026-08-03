@@ -146,16 +146,32 @@ def adopt_tag_sources(blocks: list[str], pairs: list[dict]) -> list[dict]:
 
 
 def _groups(pairs: list[dict]) -> list[list[int]]:
-    """Indices of the prose blocks that share a source paragraph, consecutively."""
+    """Indices of the prose blocks that share a source paragraph, consecutively.
+
+    A paragraph with NO source paragraph never groups — not with the next one, not
+    with the one before, not with another unaligned paragraph. An empty
+    ``source_paras`` means the aligner could not say where this text came from, and
+    that is the absence of evidence, not evidence that two paragraphs share a
+    source. Grouped on the empty signature they all match each other, and the merge
+    then fuses every consecutive unaligned paragraph into a single block.
+
+    Measured on 2026-08-03, on `the-master-and-the-disciple`: folding the source's
+    own opening into chapter 1 gave that chapter six paragraphs the alignment had
+    no pairing for, because the opening's Arabic lies outside chapter 1's source
+    range. All six, plus the chapter's own first paragraph, came out as ONE
+    paragraph of 623 words. Nothing failed — the fingerprints matched, the pass
+    reported "6 merged" as if it had done its job, and the reference edition would
+    have gone to print opening on a wall of text.
+    """
     out: list[list[int]] = []
     prev: str | None = None
     for i, p in enumerate(pairs):
         sig = ",".join(str(n) for n in p.get("source_paras") or [])
-        if prev is not None and sig == prev and out:
+        if sig and prev == sig and out:
             out[-1].append(i)
         else:
             out.append([i])
-        prev = sig
+        prev = sig if sig else None
     return out
 
 

@@ -1,8 +1,8 @@
 {
-  "vowelled": 1,
-  "marks_added": 14,
-  "already": 116,
-  "refused": 54,
+  "vowelled": 2,
+  "marks_added": 27,
+  "already": 117,
+  "refused": 52,
   "refusals": [
     {
       "term": "مجموعة رسائل",
@@ -25,10 +25,6 @@
       "reason": "letters changed, not just marks (first difference at character 6: source \" العابدين إل\" vs proposal \"\")"
     },
     {
-      "term": "رحمة الله عليه",
-      "reason": "letters changed, not just marks (first difference at character 5: source \" الله عليه\" vs proposal \"\")"
-    },
-    {
       "term": "علامة إعراض الله عن العبد",
       "reason": "letters changed, not just marks (first difference at character 1: source \"علامة إعراض \" vs proposal \"إعراض\")"
     },
@@ -42,7 +38,7 @@
     },
     {
       "term": "وأن ليس للإنسان إلا ما سعى",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"وأن ليس للإن\" vs proposal \"سعى\")"
+      "reason": "empty"
     },
     {
       "term": "فمن يعمل مثقال ذرة خيراً يره",
@@ -54,7 +50,7 @@
     },
     {
       "term": "إن الذين آمنوا وعملوا الصالحات",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"إن الذين آمن\" vs proposal \"الصالحات\")"
     },
     {
       "term": "إلا من تاب وآمن وعمل صالحاً",
@@ -74,11 +70,11 @@
     },
     {
       "term": "اشهدوا يا ملائكتي",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"اشهدوا يا مل\" vs proposal \"إشهدوا\")"
+      "reason": "empty"
     },
     {
       "term": "حاسبوا قبل أن تحاسبوا",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 7: source \" قبل أن تحاس\" vs proposal \"\")"
     },
     {
       "term": "من ظن أنه بدون الجهد يصل",
@@ -110,15 +106,15 @@
     },
     {
       "term": "فارجعنا نعمل صالحاً",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 8: source \" نعمل صالحا\" vs proposal \"\")"
     },
     {
       "term": "ارجعي إلى ربك",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 6: source \" إلى ربك\" vs proposal \"\")"
     },
     {
       "term": "اهتز عرش الرحمن",
-      "reason": "letters changed, not just marks (first difference at character 5: source \" عرش الرحمن\" vs proposal \"\")"
+      "reason": "empty"
     },
     {
       "term": "أولئك كالأنعام",
@@ -134,15 +130,15 @@
     },
     {
       "term": "كانوا قليلاً من الليل",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"كانوا قليلا \" vs proposal \"يهجعون\")"
+      "reason": "letters changed, not just marks (first difference at character 6: source \" قليلا من ال\" vs proposal \"\")"
     },
     {
       "term": "لا تكثرن النوم بالليل",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"لا تكثرن الن\" vs proposal \"الليل\")"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"لا تكثرن الن\" vs proposal \"النوم\")"
     },
     {
       "term": "ومن الليل فتهجد به",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ومن الليل فت\" vs proposal \"تهجد\")"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"ومن الليل فت\" vs proposal \"نافلة\")"
     },
     {
       "term": "وبالأسحار يستغفرون",
@@ -154,7 +150,7 @@
     },
     {
       "term": "إن الله تعالى خلق ريحاً",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"إن الله تعال\" vs proposal \"ريحا\")"
     },
     {
       "term": "يا بني لا تكونن الديك أكيس منك",
@@ -162,7 +158,7 @@
     },
     {
       "term": "عمل للدنيا بقدر مقامك فيها",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 4: source \" للدنيا بقدر\" vs proposal \"\")"
     },
     {
       "term": "وأما من خاف مقام ربه",
@@ -174,7 +170,7 @@
     },
     {
       "term": "إن أكرمكم عند الله أتقاكم",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"إن أكرمكم عن\" vs proposal \"أتقاكم\")"
     },
     {
       "term": "نحن قسمنا بينهم معيشتهم",
@@ -187,10 +183,6 @@
     {
       "term": "ألم أعهد إليكم يا بني آدم",
       "reason": "letters changed, not just marks (first difference at character 2: source \"لم أعهد إليك\" vs proposal \"عهد\")"
-    },
-    {
-      "term": "الأمر بالمعروف والنهي عن المنكر",
-      "reason": "empty"
     },
     {
       "term": "يا عزيز",

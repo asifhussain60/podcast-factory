@@ -2,7 +2,7 @@
   "book_title": "The Master and the Disciple",
   "voice": "transmitted report, third person",
   "preface": {
-    "include": true,
+    "include": false,
     "title": "How to Read a Conversation Made of Doors",
     "source_line_ranges": [
       [
@@ -17,7 +17,7 @@
       "title": "The Persian Who Was Dead and Revived",
       "source_line_ranges": [
         [
-          14,
+          8,
           22
         ]
       ],

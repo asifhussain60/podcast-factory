@@ -114,7 +114,7 @@ def test_apply_is_silent_and_writes_nothing_on_a_folded_book(tmp_path: Path) -> 
     apply_opening_fold(bd, log=lambda _m: None)
     mtime = (bd / "book" / "book.md").stat().st_mtime_ns
 
-    assert apply_opening_fold(bd, log=lambda _m: None) == {"folded": False}
+    assert apply_opening_fold(bd, log=lambda _m: None)["folded"] is False
     assert (bd / "book" / "book.md").stat().st_mtime_ns == mtime
 
 
@@ -131,3 +131,87 @@ def test_the_step_is_classified_as_page_altering() -> None:
 
     assert "opening-fold" in PAGE_ALTERING_STEPS
     assert "opening-fold" not in ADVISORY_STEPS
+
+
+# --- the fold is not complete until chapter 1 owns the opening's source lines --
+
+
+def _toc(bd: Path) -> dict:
+    return json.loads((bd / "book" / "book-toc.json").read_text(encoding="utf-8"))
+
+
+def _ranged(tmp_path: Path) -> Path:
+    bd = _book(tmp_path)
+    (bd / "book" / "book-toc.json").write_text(
+        json.dumps(
+            {
+                "preface": {"include": True, "title": "A Letter Across the Centuries", "source_line_ranges": [[8, 13]]},
+                "chapters": [
+                    {"bk_index": 1, "title": "Knowledge That Will Not Save You", "source_line_ranges": [[14, 22]]},
+                    {"bk_index": 2, "title": "The Striving That Mercy Meets", "source_line_ranges": [[23, 69]]},
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    return bd
+
+
+def test_chapter_one_absorbs_the_openings_source_lines(tmp_path: Path) -> None:
+    """Without this the aligner places the folded prose WRONG rather than failing.
+
+    It reads `source_line_ranges` to decide which Arabic a chapter's English came
+    from. On `the-master-and-the-disciple` the six folded paragraphs were all
+    pinned to source paragraph 3 as `verified`, and the paragraph mirror then
+    fused them and the chapter's own first paragraph into one 623-word block.
+    """
+    bd = _ranged(tmp_path)
+
+    apply_opening_fold(bd, log=lambda _m: None)
+    toc = _toc(bd)
+
+    assert toc["chapters"][0]["source_line_ranges"] == [[8, 22]]
+    assert toc["chapters"][1]["source_line_ranges"] == [[23, 69]]  # untouched
+    assert toc["preface"]["include"] is False
+
+
+def test_absorbing_is_idempotent(tmp_path: Path) -> None:
+    bd = _ranged(tmp_path)
+
+    apply_opening_fold(bd, log=lambda _m: None)
+    once = _toc(bd)
+    apply_opening_fold(bd, log=lambda _m: None)
+
+    assert _toc(bd) == once
+
+
+def test_the_range_is_absorbed_even_when_the_assembly_already_folded(tmp_path: Path) -> None:
+    """On a compose the assembly folds, so book.md arrives here already done and
+    only the toc is left to correct. Skipping it there would leave exactly the
+    mis-alignment this exists to prevent, on the compose route instead."""
+    bd = _ranged(tmp_path)
+    (bd / "book" / "book.md").write_text(
+        "# T\n\n## 1. Knowledge That Will Not Save You\n\nThe opening, then the chapter.\n", encoding="utf-8"
+    )
+
+    report = apply_opening_fold(bd, log=lambda _m: None)
+
+    assert report["folded"] is False
+    assert report["absorbed"] is True
+    assert _toc(bd)["chapters"][0]["source_line_ranges"] == [[8, 22]]
+
+
+def test_a_book_with_no_preface_range_is_left_alone(tmp_path: Path) -> None:
+    from _book_opening import absorb_preface_range
+
+    bd = _book(tmp_path)  # toc has a preface title but no ranges
+
+    assert absorb_preface_range(bd, log=lambda _m: None)["absorbed"] is False
+
+
+def test_overlapping_ranges_coalesce_rather_than_duplicate() -> None:
+    from _book_opening import _coalesce
+
+    assert _coalesce([[591, 622], [572, 623]]) == [[572, 623]]
+    assert _coalesce([[8, 13], [14, 22]]) == [[8, 22]]
+    assert _coalesce([[8, 13], [20, 22]]) == [[8, 13], [20, 22]]

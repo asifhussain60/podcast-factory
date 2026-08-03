@@ -4,12 +4,26 @@
     {
       "chapter_key": "the persian who was dead and revived",
       "title": "The Persian Who Was Dead and Revived",
-      "blocks_fingerprint": "56ab610d0d7a898c",
+      "blocks_fingerprint": "b7c6c08695b3026f",
       "source_para_range": [
-        3,
+        1,
         5
       ],
       "pairs": [
+        {
+          "fp": "577fff4e793a8714",
+          "source_paras": [
+            1
+          ],
+          "confidence": "verified"
+        },
+        {
+          "fp": "b60349912534ca54",
+          "source_paras": [
+            2
+          ],
+          "confidence": "verified"
+        },
         {
           "fp": "b576d548532bf494",
           "source_paras": [
@@ -1270,7 +1284,7 @@
     {
       "chapter_key": "three layers of knowledge",
       "title": "Three Layers of Knowledge",
-      "blocks_fingerprint": "8709d6ccd0415628",
+      "blocks_fingerprint": "32fecd709ae33f13",
       "source_para_range": [
         154,
         200
@@ -1363,7 +1377,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "71e5b6d239a89030",
+          "fp": "f275875e1f49bfd8",
           "source_paras": [
             167
           ],
@@ -2457,7 +2471,7 @@
     {
       "chapter_key": "homecoming, the father, and the debate with abu malik",
       "title": "Homecoming, the Father, and the Debate with Abu Malik",
-      "blocks_fingerprint": "5508fb4bedc78e53",
+      "blocks_fingerprint": "7f6c4238f89d21cf",
       "source_para_range": [
         312,
         558
@@ -2513,7 +2527,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "2d725f50d79fe8ed",
+          "fp": "f0542fff411afd30",
           "source_paras": [
             320
           ],

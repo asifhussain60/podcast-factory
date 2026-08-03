@@ -2,7 +2,7 @@
 
 ## 1. Knowledge That Will Not Save You
 
-Know that one of Imam Ghazali's (رضي الله عنه) foremost students had remained in his service for a number of years, studying under him and drawing deeply from his knowledge and his spiritual guidance. In that time he mastered the finer points of the sciences and refined the virtues of his soul. Then one day he began to reflect on his own state. A question pressed upon his heart, and he said within himself: I have studied many branches of knowledge. I have given the prime of my life to learning them and gathering them, and I have sacrificed a great deal to do so. Now I ought to know which of these sciences will benefit me tomorrow and keep me company in my grave and come to my aid on the Day of Judgment, and which of them will not benefit me on that Day, so that I may set it aside. For the Messenger of Allah (may Allah bless him and grant him peace) said:
+Know that one of Imam Ghazali's (رَضِيَ اللّٰهُ عَنْه) foremost students had remained in his service for a number of years, studying under him and drawing deeply from his knowledge and his spiritual guidance. In that time he mastered the finer points of the sciences and refined the virtues of his soul. Then one day he began to reflect on his own state. A question pressed upon his heart, and he said within himself: I have studied many branches of knowledge. I have given the prime of my life to learning them and gathering them, and I have sacrificed a great deal to do so. Now I ought to know which of these sciences will benefit me tomorrow and keep me company in my grave and come to my aid on the Day of Judgment, and which of them will not benefit me on that Day, so that I may set it aside. For the Messenger of Allah (may Allah bless him and grant him peace) said:
 
 اَللَّهُمَّ أَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ
 
@@ -10,7 +10,7 @@ Know that one of Imam Ghazali's (رضي الله عنه) foremost students had r
 
 This thought stayed with him for several days. At last he wrote a letter to Imam Ghazali (رض), asking for an answer to what troubled him, together with replies to certain other questions. He asked as well for personal counsel, and for a supplication he might recite at all times.
 
-In his letter he acknowledged that Imam Ghazali (رض) had already written many books on these very subjects, among them Ihya al-Ulum ad-Din (إِحْيَاءُ عُلُومِ الدِّيْن) (Revival of the Knowledge of the Path to God), Kimiya as-Saada (كِيمِيَاءُ السَّعَادَةِ) (Alchemy of Ultimate Success and Happiness), Jawahir ul-Quran (جَوَاهِرُ الْقُرْآنِ) (Priceless Gems of the Holy Quran), Arbaeen (أَرْبَعُون) (Forty Steps), and Minhaj ul-Abideen ila Jannatu Rabbul Alamin (*Minhaj ul-Abideen ila Jannatu Rabbul 'Alamin* (مِنْهَاجُ الْعَابِدِينَ إِلَىٰ جَنَّةِ رَبِّ الْعَالَمِينَ)) (The Best Way for the Worshippers of God Leading Them to the Paradise of the Lord of All Universes), and others besides. Yet this humble one, he wrote, needed something he could study without pause and act upon without fail.
+In his letter he acknowledged that Imam Ghazali (رض) had already written many books on these very subjects, among them Ihya al-Ulum ad-Din (إِحْيَاءُ عُلُومِ الدِّيْن) (Revival of the Knowledge of the Path to God), Kimiya as-Saada (كِيمِيَاءُ السَّعَادَةِ) (Alchemy of Ultimate Success and Happiness), Jawahir ul-Quran (جَوَاهِرُ الْقُرْآنِ) (Priceless Gems of the Holy Quran), Arbaeen (أَرْبَعُون) (Forty Steps), and Minhaj ul-Abideen ila Jannatu Rabbul Alamin (*Minhaj ul-Abideen ila Jannatu Rabbul 'Alamin* (مِنْهَاجُ الْعَابِدِينَ إِلَى جَنَّةِ رَبِّ الْعَالَمِينَ)) (The Best Way for the Worshippers of God Leading Them to the Paradise of the Lord of All Universes), and others besides. Yet this humble one, he wrote, needed something he could study without pause and act upon without fail.
 
 In answer to his letter, Imam Ghazali (رض) sent him the counsel that follows.
 
@@ -89,6 +89,7 @@ After all of this, should a thought arise in your heart that I am claiming a ser
 "Indeed, the mercy of Allah is near to those who do good." (Al-Araf: 56)
 
 How, then, will a servant enter Paradise without the mercy of Allah the Exalted? I say this weighty point again: how will a servant enter Paradise without the mercy of Allah? And should someone argue that one enters Paradise on account of faith alone, then know that many formidable valleys lie ahead, that is, obstacles. The first and most daunting of them is to carry one's faith safely to the very end.
+
 ## 2. The Striving That Mercy Meets
 
 My dear son, hold firmly to this conviction: you will not find the reward without the effort that earns it.
@@ -107,7 +108,7 @@ The angel then returned to the Presence of Allah the Exalted and said:
 
 At this Allah the Exalted said: since this servant of Ours does not turn his face away from Our worship and Our service, We too, in Our generosity, will not turn Our Face away from him.
 
-> اشهدوا يا ملائكتي أنّي قد غفرت له
+> اِشْهَدُوا يَا مَلَائِكَتِي أَنِّي قَدْ غَفَرْتُ لَهُ
 
 "O My angels, bear witness, all of you, that I have forgiven him."
 
@@ -166,16 +167,9 @@ My dear son, hear this prophetic tradition:
 "Live as you wish, for you shall surely die. Love what you wish, for you shall surely be parted from it. And do what you wish, for you shall surely be recompensed for it."
 
 <!-- editorial:begin -->
-> **Editorial note (tradition-grounded).** 
-> A related teaching preserved in this same tradition warns the reader plainly: do not neglect
-> good deeds, and be firmly convinced that knowledge alone, without righteous action, will not
-> benefit you on the Day of Judgment — which is exactly the conviction the story of the
-> seventy-year worshipper dramatizes here. The wider tradition also records the assurance that
-> whoever says there is no god but Allah will enter Paradise, but with a qualification worth
-> holding beside this chapter's counsel: that it be said *with sincerity*. Read together, the two
-> cautions frame the same narrow path the chapter walks — deeds are indispensable and reward comes
-> only through striving, yet the striving must not curdle into self-regard. One acts fully, and
-> leaves off admiring the act.
+
+> **Editorial note (tradition-grounded).** A related teaching preserved in this same tradition warns the reader plainly: do not neglect good deeds, and be firmly convinced that knowledge alone, without righteous action, will not benefit you on the Day of Judgment — which is exactly the conviction the story of the seventy-year worshipper dramatizes here. The wider tradition also records the assurance that whoever says there is no god but Allah will enter Paradise, but with a qualification worth holding beside this chapter's counsel: that it be said *with sincerity*. Read together, the two cautions frame the same narrow path the chapter walks — deeds are indispensable and reward comes only through striving, yet the striving must not curdle into self-regard. One acts fully, and leaves off admiring the act.
+
 <!-- editorial:end -->
 
 ## 3. The Hours Before Dawn

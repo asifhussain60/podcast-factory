@@ -164,3 +164,52 @@ def reconcile_reports_after_replay(book_dir: Path, replay_report: dict | None, *
         log(f"    {name[: -len('.json')]}: {changed} chapter(s) re-stamped '{STATUS_OVERWRITTEN}'")
         total += changed
     return total
+
+
+def drop_section_from_reports(book_dir: Path, title: str, *, log=print) -> int:
+    """Forget a section the pass reports still describe as a chapter.
+
+    Folding the source's own opening into chapter 1 removes a `## ` section from
+    the edition. The pass reports were written while that section existed and go on
+    naming it, so a nine-chapter book ships with a fluency report claiming ten
+    adapted chapters — which is not a rounding error but a report describing a
+    document nobody has. `test_articulation_state_is_intact` catches exactly this,
+    and caught it on `ayyuhal-walad` (2026-08-03).
+
+    The prose is NOT lost, it moved, so this is bookkeeping rather than a retreat:
+    what the pass did to those words still stands, it is simply no longer a
+    chapter's worth of work. Counts are recomputed the same way
+    ``reconcile_reports_after_replay`` recomputes them, so both paths agree.
+
+    Idempotent and conservative: a report that does not name the section, or that
+    cannot be parsed, is left exactly as it is.
+    """
+    key = anchor_key(title or "")
+    if not key:
+        return 0
+    book_dir = Path(book_dir)
+    total = 0
+    for name, schema, count_key in _RECONCILED_REPORTS:
+        path = book_dir / "_system" / name
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        records = data.get("chapters")
+        if not isinstance(records, list):
+            continue
+        kept = [r for r in records if not (isinstance(r, dict) and anchor_key(str(r.get("title") or "")) == key)]
+        if len(kept) == len(records):
+            continue
+        data["schema"] = schema
+        data["chapters"] = kept
+        data[count_key] = sum(1 for r in kept if isinstance(r, dict) and r.get("status") in KEPT_STATUSES)
+        data["overwritten_by_replay"] = sum(
+            1 for r in kept if isinstance(r, dict) and r.get("status") == STATUS_OVERWRITTEN
+        )
+        path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+        log(f"    {name[: -len('.json')]}: dropped {title!r} — it is no longer a section of the edition")
+        total += len(records) - len(kept)
+    return total

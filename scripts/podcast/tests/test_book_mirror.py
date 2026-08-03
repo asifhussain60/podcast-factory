@@ -212,3 +212,67 @@ def test_is_arabic_block_matches_the_shared_fixtures() -> None:
     assert any(c["out"] for c in cases) and any(not c["out"] for c in cases)
     for case in cases:
         assert is_arabic_block(case["in"]) is case["out"], case["why"]
+
+
+# --- unaligned paragraphs are not evidence of a shared source ----------------
+
+
+def _pair(text: str, source_paras: list[int]) -> dict:
+    from _para_blocks import para_fingerprint
+
+    return {"fp": para_fingerprint(text), "source_paras": source_paras, "confidence": "verified"}
+
+
+def test_paragraphs_with_no_source_are_never_merged_together() -> None:
+    """The 2026-08-03 defect, in gate form.
+
+    Folding the source's own opening into chapter 1 of
+    `the-master-and-the-disciple` gave that chapter six paragraphs whose Arabic
+    lies outside the chapter's source range, so the aligner paired none of them.
+    On the empty signature they all matched each other and the merge fused them —
+    with the chapter's own first paragraph — into one block of 623 words. Nothing
+    failed: fingerprints matched and the pass reported "6 merged" as success.
+    """
+    from _book_mirror import mirror_chapter
+
+    paras = [
+        "It has been transmitted that a number of believers came before one of their Masters.",
+        "The Master gave them his answer, and prayed that Allah be with His servants.",
+        "As for gratitude toward the Master, it is to obey him.",
+    ]
+    body = "\n\n".join(paras) + "\n"
+    pairs = [_pair(p, []) for p in paras]
+
+    merged_body, new_pairs = mirror_chapter(body, pairs)
+
+    assert len([b for b in merged_body.split("\n\n") if b.strip()]) == 3
+    assert len(new_pairs) == 3
+    for p in paras:
+        assert p in merged_body
+
+
+def test_an_unaligned_paragraph_does_not_absorb_an_aligned_neighbour() -> None:
+    from _book_mirror import mirror_chapter
+
+    paras = [
+        "The folded opening, which the aligner could not place.",
+        "The chapter's own first paragraph, pinned to source paragraph seven.",
+    ]
+    body = "\n\n".join(paras) + "\n"
+
+    merged_body, _ = mirror_chapter(body, [_pair(paras[0], []), _pair(paras[1], [7])])
+
+    assert len([b for b in merged_body.split("\n\n") if b.strip()]) == 2
+
+
+def test_paragraphs_that_DO_share_a_source_still_merge() -> None:
+    """The guard must not cost the pass its whole purpose."""
+    from _book_mirror import mirror_chapter
+
+    paras = ["The boy said:", "Tell me of the twelve islands that stand in the sea of knowledge."]
+    body = "\n\n".join(paras) + "\n"
+
+    merged_body, new_pairs = mirror_chapter(body, [_pair(paras[0], [34]), _pair(paras[1], [34])])
+
+    assert len([b for b in merged_body.split("\n\n") if b.strip()]) == 1
+    assert len(new_pairs) == 1

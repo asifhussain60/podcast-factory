@@ -1,27 +1,10 @@
 {
   "schema": "podcast.book-fluency/v5",
   "narrative_frame": "first_person_author",
-  "adapted": 10,
+  "adapted": 8,
   "reverted": 0,
-  "overwritten_by_replay": 0,
+  "overwritten_by_replay": 1,
   "chapters": [
-    {
-      "title": "A Letter Across the Centuries",
-      "base_words": 353,
-      "output_words": 347,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "editorial_queries": [
-        "The binding narrative frame specifies first person throughout, but this passage is a third-person preface framing the letter; forcing first person would misattribute the narration, so the source's grammatical person was preserved."
-      ],
-      "comprehension_flags": [],
-      "terminology_notes": [
-        "(\u0631\u0636) and (may Allah bless him and grant him peace) \u2014 honorific forms should be kept consistent book-wide in the compact shape the surrounding text already uses."
-      ]
-    },
     {
       "title": "Knowledge That Will Not Save You",
       "base_words": 1335,
@@ -41,12 +24,13 @@
       "output_words": 752,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted",
+      "status": "adapted-then-overwritten",
       "gates": [],
       "warnings": [],
       "editorial_queries": [],
       "comprehension_flags": [],
-      "terminology_notes": []
+      "terminology_notes": [],
+      "pre_replay_status": "adapted"
     },
     {
       "title": "The Hours Before Dawn",
