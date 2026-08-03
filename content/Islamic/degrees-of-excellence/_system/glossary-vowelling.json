@@ -1,28 +1,12 @@
 {
-  "vowelled": 136,
-  "marks_added": 620,
-  "already": 19,
-  "refused": 17,
+  "vowelled": 0,
+  "marks_added": 0,
+  "already": 163,
+  "refused": 8,
   "refusals": [
     {
       "term": "ولي العصر والزمان",
       "reason": "letters changed, not just marks (first difference at character 4: source \" العصر والزم\" vs proposal \"\")"
-    },
-    {
-      "term": "الاتفاق",
-      "reason": "empty"
-    },
-    {
-      "term": "الاستدلال",
-      "reason": "empty"
-    },
-    {
-      "term": "استشهد",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"استشهد\" vs proposal \"إستشهد\")"
-    },
-    {
-      "term": "دائرة الدين",
-      "reason": "letters changed, not just marks (first difference at character 6: source \" الدين\" vs proposal \"\")"
     },
     {
       "term": "قلم",
@@ -34,43 +18,23 @@
     },
     {
       "term": "نكتاً على الاختصار",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 5: source \" على الاختصا\" vs proposal \"\")"
     },
     {
       "term": "سياسة الحامّة",
-      "reason": "empty"
-    },
-    {
-      "term": "الزمان",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"الزمان\" vs proposal \"ألزمان\")"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"سياسة الحامة\" vs proposal \"الحامة\")"
     },
     {
       "term": "أهل كل ملة",
       "reason": "letters changed, not just marks (first difference at character 4: source \" كل ملة\" vs proposal \"\")"
     },
     {
-      "term": "الأمر",
-      "reason": "empty"
-    },
-    {
-      "term": "المأموم",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"المأموم\" vs proposal \"ألمأموم\")"
-    },
-    {
       "term": "التشبه بالبارئ",
       "reason": "letters changed, not just marks (first difference at character 7: source \" بالبارئ\" vs proposal \"\")"
     },
     {
-      "term": "الجوهر",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"الجوهر\" vs proposal \"ألجوهر\")"
-    },
-    {
       "term": "القذة بالقذة",
       "reason": "letters changed, not just marks (first difference at character 6: source \" بالقذة\" vs proposal \"\")"
-    },
-    {
-      "term": "الأمة",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"الأمة\" vs proposal \"ألأمة\")"
     }
   ]
 }

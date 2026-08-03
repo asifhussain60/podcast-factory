@@ -1,9 +1,9 @@
 {
   "schema": "podcast.book-fluency/v5",
   "narrative_frame": "transmitted_report",
-  "adapted": 9,
+  "adapted": 8,
   "reverted": 0,
-  "overwritten_by_replay": 0,
+  "overwritten_by_replay": 1,
   "chapters": [
     {
       "title": "How to Read a Conversation Made of Doors",
@@ -56,14 +56,15 @@
       "output_words": 3344,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted",
+      "status": "adapted-then-overwritten",
       "gates": [],
       "warnings": [],
       "editorial_queries": [],
       "comprehension_flags": [],
       "terminology_notes": [
         "\"Party of God\" \u2014 the rendering of \u062d\u0632\u0628 \u0627\u0644\u0644\u0647 should be standardized book-wide, as it recurs as a fixed term for the community of the Friends of God."
-      ]
+      ],
+      "pre_replay_status": "adapted"
     },
     {
       "title": "How the World Was Made",

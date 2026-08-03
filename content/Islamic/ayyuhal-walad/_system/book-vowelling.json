@@ -1,114 +1,44 @@
 {
-  "vowelled": 64,
-  "marks_added": 1902,
-  "already": 46,
-  "quranic": 0,
+  "vowelled": 8,
+  "marks_added": 234,
+  "already": 117,
+  "quranic": 1,
   "from_mushaf": 2,
-  "refused": 20,
-  "recovered": 4,
-  "in_chars": 3892,
-  "out_chars": 6242,
+  "refused": 5,
+  "recovered": 0,
+  "in_chars": 451,
+  "out_chars": 730,
   "mushaf_pairs": [
     [
-      "فارجعنا نعمل صالحا",
-      "فَٱرْجِعْنَا نَعْمَلْ صَلِحًا"
+      "وأن ليس للإنسان إلا ما سعى",
+      "وَأَن لَّيْسَ لِلْإِنسَنِ إِلَّا مَا سَعَىٰ"
     ],
     [
-      "ارجعي إلى ربّك",
-      "ٱرْجِعِىٓ إِلَىٰ رَبِّكِ"
+      "إلا من تاب وآمن وعمل صالحاً",
+      "إِلَّا مَن تَابَ وَآمَنَ وَعَمِلَ صَلِحًۭا"
     ]
   ],
   "refusals": [
     {
-      "run": "جدير ان تطول عليه حسرته",
-      "reason": "letters changed, not just marks (first difference at character 117: source \"ان تطول عليه\" vs proposal \"أن تطول عليه\")",
-      "partial": true
-    },
-    {
-      "run": "تا مي نخوري نباشدت شيدائي",
-      "reason": "letters changed, not just marks (first difference at character 5: source \"ي نخوري نباش\" vs proposal \"ی نخوری نباش\")"
-    },
-    {
       "run": "اشهدوا يا ملائكتي أنّي قد غفرت له",
       "reason": "letters changed, not just marks (first difference at character 1: source \"اشهدوا يا مل\" vs proposal \"إشهدوا يا مل\")"
-    },
-    {
-      "run": "الكيّس من دان نفسه و عمل لما بعد الموت، و الأحمق من اتّبع هو",
-      "reason": "letters changed, not just marks (first difference at character 20: source \" عمل لما بعد\" vs proposal \"عمل لما بعد \")"
     },
     {
       "run": "اهتزّ عرش الرّحمن من موت سعد بن معاذ",
       "reason": "letters changed, not just marks (first difference at character 1: source \"اهتز عرش الر\" vs proposal \"إهتز عرش الر\")"
     },
     {
-      "run": "نحن معاشر الأنبياء أمرنا أن نكلّم النّاس على قدر عقولهم",
-      "reason": "letters changed, not just marks (first difference at character 54: source \"\" vs proposal \".\")"
-    },
-    {
-      "run": "إن قدرت على بذل الرّوح فتعال، و إلاّ فلا تشتغل بترّهات الصّو",
-      "reason": "letters changed, not just marks (first difference at character 31: source \" إلا فلا تشت\" vs proposal \"إلا فلا تشتغ\")"
+      "run": "ألّهمّ اختم بالسعادة آجالنا",
+      "reason": "letters changed, not just marks (first difference at character 3: source \"هم اختم بالس\" vs proposal \"لهم اختم بال\")"
     },
     {
       "run": "ألّهمّ كن لنا و لا تكن علينا",
       "reason": "letters changed, not just marks (first difference at character 3: source \"هم كن لنا و \" vs proposal \"لهم كن لنا و\")"
     },
     {
-      "run": "ألّهمّ اختم بالسعادة آجالنا",
-      "reason": "letters changed, not just marks (first difference at character 3: source \"هم اختم بالس\" vs proposal \"لهم اختم بال\")"
-    },
-    {
-      "run": "و صلّى الله على سيّدنا محمّد و آله وصحبه أجمعين، و الحمد لله",
-      "reason": "letters changed, not just marks (first difference at character 34: source \"صحبه أجمعين،\" vs proposal \" صحبه أجمعين\")"
-    },
-    {
-      "run": "و من العيش ارغده،",
-      "reason": "letters changed, not just marks (first difference at character 3: source \"هم إني أسألك\" vs proposal \"لهم إني أسأل\")",
-      "partial": true
-    },
-    {
-      "run": "و خفّف عنّا ثقل الأوزار،",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"اللهم ثبتنا \" vs proposal \"أللهم ثبتنا \")",
-      "partial": true
-    },
-    {
-      "run": "و ارزقنا عيشة الأبرار،",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"اللهم ثبتنا \" vs proposal \"أللهم ثبتنا \")",
-      "partial": true
-    },
-    {
-      "run": "واكفنا ما اهمّنا في هذه الدّار و في تلك الدّار واصرف عنّا شر",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"اللهم ثبتنا \" vs proposal \"أللهم ثبتنا \")",
-      "partial": true
-    },
-    {
-      "run": "و يا أول الأوّلین،",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"اللهم ثبتنا \" vs proposal \"أللهم ثبتنا \")",
-      "partial": true
-    },
-    {
-      "run": "و يا آخر الآخرین،",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"اللهم ثبتنا \" vs proposal \"أللهم ثبتنا \")",
-      "partial": true
-    },
-    {
-      "run": "و اقرن بالعافية غدوّنا و آصالنا،",
-      "reason": "letters changed, not just marks (first difference at character 25: source \" اقرن بالعاف\" vs proposal \"اقرن بالعافي\")",
-      "partial": true
-    },
-    {
-      "run": "و اصبب سجال عفوك على ذنوبنا،",
-      "reason": "letters changed, not just marks (first difference at character 25: source \" اقرن بالعاف\" vs proposal \"اقرن بالعافي\")",
-      "partial": true
-    },
-    {
-      "run": "وعليك توكّلنا و اعتمادنا",
-      "reason": "letters changed, not just marks (first difference at character 25: source \" اقرن بالعاف\" vs proposal \"اقرن بالعافي\")",
-      "partial": true
-    },
-    {
-      "run": "إن قدرت على بذل الرّوح فتعال، و إلاّ فلا تشتغل بترّهات الصّوفّيّة",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"إن قدرت على \" vs proposal \"الروح\")"
+      "run": "رضي الله عنه",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" الله عنه\" vs proposal \"\")"
     }
   ],
-  "lexical": 1
+  "lexical": 0
 }

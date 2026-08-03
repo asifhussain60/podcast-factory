@@ -1,0 +1,3185 @@
+{
+  "cited": 8,
+  "inserted": 60,
+  "already": 7,
+  "uncovered": [
+    {
+      "ref": "89:3",
+      "line": 513,
+      "reason": "no-span-in-scan",
+      "ayah_words": 2
+    }
+  ],
+  "inserted_detail": [
+    {
+      "ref": "23:76",
+      "line": 361,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 8,
+      "quoted_words": 5,
+      "aligned_words": 5,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "19:96",
+      "line": 369,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 9,
+      "quoted_words": 9,
+      "aligned_words": 9,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "2:60",
+      "line": 509,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 31,
+      "quoted_words": 6,
+      "aligned_words": 6,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "17:79",
+      "line": 535,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 12,
+      "quoted_words": 12,
+      "aligned_words": 12,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "73:20",
+      "line": 537,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 90,
+      "quoted_words": 7,
+      "aligned_words": 6,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "59:7",
+      "line": 539,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 40,
+      "quoted_words": 12,
+      "aligned_words": 12,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "9:103",
+      "line": 35,
+      "via": "uncited-agreed",
+      "english_similarity": 0.75,
+      "reason": "ocr-span",
+      "ayah_words": 18,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "25:48",
+      "line": 41,
+      "via": "uncited-agreed",
+      "english_similarity": 0.8,
+      "reason": "ocr-span",
+      "ayah_words": 14,
+      "quoted_words": 5,
+      "aligned_words": 5,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "5:96",
+      "line": 43,
+      "via": "uncited-agreed",
+      "english_similarity": 0.667,
+      "reason": "ocr-span",
+      "ayah_words": 22,
+      "quoted_words": 8,
+      "aligned_words": 8,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "4:43",
+      "line": 47,
+      "via": "uncited-agreed",
+      "english_similarity": 0.571,
+      "reason": "ocr-span",
+      "ayah_words": 50,
+      "quoted_words": 24,
+      "aligned_words": 24,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "4:43",
+      "line": 53,
+      "via": "uncited-agreed",
+      "english_similarity": 0.4,
+      "reason": "ocr-span",
+      "ayah_words": 50,
+      "quoted_words": 24,
+      "aligned_words": 24,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "5:6",
+      "line": 69,
+      "via": "uncited-agreed",
+      "english_similarity": 0.429,
+      "reason": "ocr-span",
+      "ayah_words": 64,
+      "quoted_words": 48,
+      "aligned_words": 46,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "5:6",
+      "line": 73,
+      "via": "uncited-agreed",
+      "english_similarity": 0.75,
+      "reason": "ocr-span",
+      "ayah_words": 64,
+      "quoted_words": 48,
+      "aligned_words": 46,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "4:43",
+      "line": 81,
+      "via": "uncited-agreed",
+      "english_similarity": 0.6,
+      "reason": "ocr-span",
+      "ayah_words": 50,
+      "quoted_words": 24,
+      "aligned_words": 24,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "5:6",
+      "line": 97,
+      "via": "uncited-agreed",
+      "english_similarity": 0.6,
+      "reason": "ocr-span",
+      "ayah_words": 64,
+      "quoted_words": 48,
+      "aligned_words": 46,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "20:132",
+      "line": 127,
+      "via": "uncited-agreed",
+      "english_similarity": 0.6,
+      "reason": "ocr-span",
+      "ayah_words": 15,
+      "quoted_words": 3,
+      "aligned_words": 3,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "11:114",
+      "line": 131,
+      "via": "uncited-agreed",
+      "english_similarity": 0.833,
+      "reason": "ocr-span",
+      "ayah_words": 16,
+      "quoted_words": 3,
+      "aligned_words": 3,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "30:18",
+      "line": 145,
+      "via": "uncited-agreed",
+      "english_similarity": 0.5,
+      "reason": "ocr-span",
+      "ayah_words": 8,
+      "quoted_words": 5,
+      "aligned_words": 4,
+      "precision": 0.667,
+      "whole_ayah": false
+    },
+    {
+      "ref": "32:12",
+      "line": 183,
+      "via": "uncited-agreed",
+      "english_similarity": 0.75,
+      "reason": "ocr-span",
+      "ayah_words": 16,
+      "quoted_words": 8,
+      "aligned_words": 8,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:286",
+      "line": 297,
+      "via": "uncited-agreed",
+      "english_similarity": 0.333,
+      "reason": "ocr-span",
+      "ayah_words": 55,
+      "quoted_words": 6,
+      "aligned_words": 6,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "40:60",
+      "line": 305,
+      "via": "uncited-agreed",
+      "english_similarity": 0.571,
+      "reason": "ocr-span",
+      "ayah_words": 13,
+      "quoted_words": 13,
+      "aligned_words": 13,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "62:10",
+      "line": 425,
+      "via": "uncited-agreed",
+      "english_similarity": 0.857,
+      "reason": "ocr-span",
+      "ayah_words": 15,
+      "quoted_words": 10,
+      "aligned_words": 10,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "9:3",
+      "line": 431,
+      "via": "uncited-agreed",
+      "english_similarity": 0.5,
+      "reason": "ocr-span",
+      "ayah_words": 36,
+      "quoted_words": 9,
+      "aligned_words": 9,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:286",
+      "line": 441,
+      "via": "uncited-agreed",
+      "english_similarity": 0.4,
+      "reason": "ocr-span",
+      "ayah_words": 55,
+      "quoted_words": 6,
+      "aligned_words": 6,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "9:2",
+      "line": 469,
+      "via": "uncited-agreed",
+      "english_similarity": 0.333,
+      "reason": "ocr-span",
+      "ayah_words": 15,
+      "quoted_words": 5,
+      "aligned_words": 5,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "9:103",
+      "line": 649,
+      "via": "uncited-agreed",
+      "english_similarity": 0.6,
+      "reason": "ocr-span",
+      "ayah_words": 18,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "9:60",
+      "line": 725,
+      "via": "uncited-agreed",
+      "english_similarity": 0.5,
+      "reason": "ocr-span",
+      "ayah_words": 24,
+      "quoted_words": 24,
+      "aligned_words": 22,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "2:187",
+      "line": 731,
+      "via": "uncited-agreed",
+      "english_similarity": 0.875,
+      "reason": "ocr-span",
+      "ayah_words": 74,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:187",
+      "line": 737,
+      "via": "uncited-agreed",
+      "english_similarity": 1.0,
+      "reason": "ocr-span",
+      "ayah_words": 74,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "97:1",
+      "line": 787,
+      "via": "uncited-agreed",
+      "english_similarity": 0.75,
+      "reason": "ocr-span",
+      "ayah_words": 5,
+      "quoted_words": 5,
+      "aligned_words": 5,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "2:187",
+      "line": 823,
+      "via": "uncited-agreed",
+      "english_similarity": 0.6,
+      "reason": "ocr-span",
+      "ayah_words": 74,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "22:27",
+      "line": 831,
+      "via": "uncited-agreed",
+      "english_similarity": 0.818,
+      "reason": "ocr-span",
+      "ayah_words": 14,
+      "quoted_words": 14,
+      "aligned_words": 14,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "3:97",
+      "line": 845,
+      "via": "uncited-agreed",
+      "english_similarity": 0.538,
+      "reason": "ocr-span",
+      "ayah_words": 28,
+      "quoted_words": 14,
+      "aligned_words": 13,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:196",
+      "line": 853,
+      "via": "uncited-agreed",
+      "english_similarity": 0.375,
+      "reason": "ocr-span",
+      "ayah_words": 82,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "5:96",
+      "line": 881,
+      "via": "uncited-agreed",
+      "english_similarity": 0.5,
+      "reason": "ocr-span",
+      "ayah_words": 22,
+      "quoted_words": 8,
+      "aligned_words": 8,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:196",
+      "line": 885,
+      "via": "uncited-agreed",
+      "english_similarity": 0.875,
+      "reason": "ocr-span",
+      "ayah_words": 82,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "5:95",
+      "line": 891,
+      "via": "uncited-agreed",
+      "english_similarity": 1.0,
+      "reason": "ocr-span",
+      "ayah_words": 54,
+      "quoted_words": 19,
+      "aligned_words": 18,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "29:67",
+      "line": 945,
+      "via": "uncited-agreed",
+      "english_similarity": 0.75,
+      "reason": "ocr-span",
+      "ayah_words": 16,
+      "quoted_words": 6,
+      "aligned_words": 6,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "22:29",
+      "line": 955,
+      "via": "uncited-agreed",
+      "english_similarity": 1.0,
+      "reason": "ocr-span",
+      "ayah_words": 8,
+      "quoted_words": 8,
+      "aligned_words": 8,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "16:44",
+      "line": 997,
+      "via": "uncited-agreed",
+      "english_similarity": 0.571,
+      "reason": "ocr-span",
+      "ayah_words": 13,
+      "quoted_words": 8,
+      "aligned_words": 8,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:196",
+      "line": 1003,
+      "via": "uncited-agreed",
+      "english_similarity": 1.0,
+      "reason": "ocr-span",
+      "ayah_words": 82,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:196",
+      "line": 1005,
+      "via": "uncited-agreed",
+      "english_similarity": 0.385,
+      "reason": "ocr-span",
+      "ayah_words": 82,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:196",
+      "line": 1017,
+      "via": "uncited-agreed",
+      "english_similarity": 0.5,
+      "reason": "ocr-span",
+      "ayah_words": 82,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:196",
+      "line": 1065,
+      "via": "uncited-agreed",
+      "english_similarity": 0.875,
+      "reason": "ocr-span",
+      "ayah_words": 82,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "22:29",
+      "line": 1087,
+      "via": "uncited-agreed",
+      "english_similarity": 0.75,
+      "reason": "ocr-span",
+      "ayah_words": 8,
+      "quoted_words": 8,
+      "aligned_words": 8,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "2:196",
+      "line": 1107,
+      "via": "uncited-agreed",
+      "english_similarity": 0.5,
+      "reason": "ocr-span",
+      "ayah_words": 82,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:196",
+      "line": 1111,
+      "via": "uncited-agreed",
+      "english_similarity": 0.5,
+      "reason": "ocr-span",
+      "ayah_words": 82,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "22:39",
+      "line": 1147,
+      "via": "uncited-agreed",
+      "english_similarity": 0.455,
+      "reason": "ocr-span",
+      "ayah_words": 11,
+      "quoted_words": 11,
+      "aligned_words": 10,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "9:41",
+      "line": 1155,
+      "via": "uncited-agreed",
+      "english_similarity": 0.714,
+      "reason": "ocr-span",
+      "ayah_words": 16,
+      "quoted_words": 9,
+      "aligned_words": 9,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:250",
+      "line": 1173,
+      "via": "uncited-agreed",
+      "english_similarity": 0.571,
+      "reason": "ocr-span",
+      "ayah_words": 15,
+      "quoted_words": 15,
+      "aligned_words": 15,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "3:83",
+      "line": 1189,
+      "via": "uncited-agreed",
+      "english_similarity": 0.5,
+      "reason": "ocr-span",
+      "ayah_words": 14,
+      "quoted_words": 10,
+      "aligned_words": 10,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "4:59",
+      "line": 1197,
+      "via": "uncited-agreed",
+      "english_similarity": 1.0,
+      "reason": "ocr-span",
+      "ayah_words": 30,
+      "quoted_words": 4,
+      "aligned_words": 4,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "4:59",
+      "line": 1203,
+      "via": "uncited-agreed",
+      "english_similarity": 1.0,
+      "reason": "ocr-span",
+      "ayah_words": 30,
+      "quoted_words": 4,
+      "aligned_words": 4,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "4:58",
+      "line": 1211,
+      "via": "uncited-agreed",
+      "english_similarity": 0.556,
+      "reason": "ocr-span",
+      "ayah_words": 27,
+      "quoted_words": 15,
+      "aligned_words": 15,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "16:125",
+      "line": 1213,
+      "via": "uncited-agreed",
+      "english_similarity": 0.6,
+      "reason": "ocr-span",
+      "ayah_words": 25,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "61:4",
+      "line": 1225,
+      "via": "uncited-agreed",
+      "english_similarity": 0.857,
+      "reason": "ocr-span",
+      "ayah_words": 11,
+      "quoted_words": 11,
+      "aligned_words": 11,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "5:95",
+      "line": 1237,
+      "via": "uncited-agreed",
+      "english_similarity": 0.4,
+      "reason": "ocr-span",
+      "ayah_words": 54,
+      "quoted_words": 19,
+      "aligned_words": 18,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "9:2",
+      "line": 1255,
+      "via": "uncited-agreed",
+      "english_similarity": 1.0,
+      "reason": "ocr-span",
+      "ayah_words": 15,
+      "quoted_words": 5,
+      "aligned_words": 5,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "8:41",
+      "line": 1261,
+      "via": "uncited-agreed",
+      "english_similarity": 0.727,
+      "reason": "ocr-span",
+      "ayah_words": 34,
+      "quoted_words": 13,
+      "aligned_words": 13,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "59:6",
+      "line": 1277,
+      "via": "uncited-agreed",
+      "english_similarity": 0.462,
+      "reason": "ocr-span",
+      "ayah_words": 26,
+      "quoted_words": 26,
+      "aligned_words": 25,
+      "precision": 1.0,
+      "whole_ayah": true
+    }
+  ],
+  "invalid_reference": [],
+  "uncited_inserted": 54,
+  "spans_in_scan": 174,
+  "scan_arabic_words": 58136,
+  "uncited_review": [
+    {
+      "line": 19,
+      "passage": "Allah will raise those of you who believe and those who have been given knowledge by degrees",
+      "proposed_ref": "12:76",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 19,
+      "passage": "Are those who know equal to those who do not know? Only those possessed of understanding take heed",
+      "proposed_ref": "14:52",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 19,
+      "passage": "Rather, it is clear signs preserved in the breasts of those who have been given knowledge",
+      "proposed_ref": "29:49",
+      "english_similarity": 0.857,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 21,
+      "passage": "Whomever God intends good for, He grants understanding of religion.",
+      "proposed_ref": "2:269",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 21,
+      "passage": "There is no rest in life save for one who speaks with knowledge or one who listens with understanding.",
+      "proposed_ref": "3:7",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 25,
+      "passage": "Were a young man of our Shia brought to me who had not gained understanding in religion, I would discipline him well.",
+      "proposed_ref": "57:25",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 33,
+      "passage": "Indeed, God loves those who constantly repent and loves those who purify themselves",
+      "proposed_ref": "9:108",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 33,
+      "passage": "Within it are men who love to purify themselves, and God loves those who purify themselves",
+      "proposed_ref": "9:108",
+      "english_similarity": 0.833,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 33,
+      "passage": "And He sent down upon you rain from the sky to purify you thereby, and to remove the harm of Satan from you, and to fortify your hearts and make your feet firm ",
+      "proposed_ref": "8:11",
+      "english_similarity": 0.643,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 35,
+      "passage": "God does not accept prayer except with purity.",
+      "proposed_ref": "9:103",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 35,
+      "passage": "God will gather my community on the Day of Resurrection among the nations, radiant and distinguished by the traces of ablution.",
+      "proposed_ref": "27:83",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 41,
+      "passage": "And We sent down from the sky pure water",
+      "proposed_ref": "25:48",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 41,
+      "passage": "And He sent down upon you from the sky water to purify you thereby",
+      "proposed_ref": "8:11",
+      "english_similarity": 0.833,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 41,
+      "passage": "Have you not seen that God sent down water from the sky, then caused it to flow as springs in the earth?",
+      "proposed_ref": "39:21",
+      "english_similarity": 0.556,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 43,
+      "passage": "Water is a purifier; nothing renders it impure.",
+      "proposed_ref": "9:28",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 43,
+      "passage": "Its water is a purifier and its dead are lawful.",
+      "proposed_ref": "43:11",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 43,
+      "passage": "Lawful to you is the game of the sea and its food, as provision for you and for travelers",
+      "proposed_ref": "5:96",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 47,
+      "passage": "If you do not find water, perform ablution with date wine, then perform tayammum.",
+      "proposed_ref": "4:43",
+      "english_similarity": 0.571,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 47,
+      "passage": "And if you find no water, then betake yourselves to clean earth",
+      "proposed_ref": "4:43",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 53,
+      "passage": "Perform ablution from it, for the water is defiled by nothing.",
+      "proposed_ref": "4:43",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 53,
+      "passage": "If something troubles your heart concerning it, do this,",
+      "proposed_ref": "42:43",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 53,
+      "passage": "then drink and perform ablution, for the religion is not a narrow thing.",
+      "proposed_ref": "9:11",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 53,
+      "passage": "If the water is dominant and no smell is found in it, then perform ablution from it.",
+      "proposed_ref": "28:23",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 61,
+      "passage": "or one of you has come from the place of relieving himself",
+      "proposed_ref": "40:16",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 69,
+      "passage": "Whoever names God over his ablution, his whole body is purified,",
+      "proposed_ref": "5:6",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 73,
+      "passage": "Wash your faces and your hands to the elbows, and wipe your heads and your feet to the heels.",
+      "proposed_ref": "5:6",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 81,
+      "passage": "nor while in janabah, except those passing through.",
+      "proposed_ref": "4:43",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 93,
+      "passage": "Were it not that I would burden my community, I would have made the tooth-stick obligatory with every ablution.",
+      "proposed_ref": "17:15",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 97,
+      "passage": "O you who believe, when you rise to pray, wash your faces,",
+      "proposed_ref": "5:6",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 97,
+      "passage": "and if you do not find water, then betake yourselves to clean earth and wipe your faces and your hands with it.",
+      "proposed_ref": "5:6",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 97,
+      "passage": "As for the male thief and the female thief, cut off their hands as a recompense for what they have earned.",
+      "proposed_ref": "5:38",
+      "english_similarity": 0.714,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 109,
+      "passage": "And they ask you about menstruation; say, It is harm, so keep away from women during menstruation, and do not approach them until they are purified. And when th",
+      "proposed_ref": "2:222",
+      "english_similarity": 0.765,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 125,
+      "passage": "Prayer was for the believers a decree of specified times.",
+      "proposed_ref": "4:103",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 125,
+      "passage": "Guard strictly the prayers and the middle prayer, and stand up devoutly before Allah.",
+      "proposed_ref": "2:238",
+      "english_similarity": 0.857,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 125,
+      "passage": "Indeed, prayer prohibits immorality and wrongdoing, and the remembrance of Allah is greater.",
+      "proposed_ref": "29:45",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 125,
+      "passage": "And seek help through patience and prayer, and indeed it is difficult except for the humbly submissive.",
+      "proposed_ref": "2:45",
+      "english_similarity": 0.556,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 127,
+      "passage": "Guard yourselves, and know that the best of your deeds is prayer.",
+      "proposed_ref": "2:238",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 127,
+      "passage": "Prayer is the offering of every pious person.",
+      "proposed_ref": "20:132",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 127,
+      "passage": "Everything has a face, and the face of your religion is prayer.",
+      "proposed_ref": "2:144",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 127,
+      "passage": "Prayer is the pillar of religion and the mainstay of Islam.",
+      "proposed_ref": "110:2",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 131,
+      "passage": "Indeed, good deeds remove evil deeds; that is a reminder for those who remember.",
+      "proposed_ref": "11:114",
+      "english_similarity": 0.833,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 139,
+      "passage": "O worshipper, if you knew Whom you address and Who watches you in this prayer, you would not turn away.",
+      "proposed_ref": "11:57",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 143,
+      "passage": "Woe to me! This one obeyed while I disobeyed; this one prostrated while I refused.",
+      "proposed_ref": "18:50",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 145,
+      "passage": "So exalt Allah when you reach the evening and when you reach the morning, and to Him is all praise in the heavens and the earth, and in the late afternoon and w",
+      "proposed_ref": "30:18",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 145,
+      "passage": "Establish prayer at the decline of the sun until the darkness of the night, and the Quran of Fajr; indeed, the Quran of Fajr is ever witnessed.",
+      "proposed_ref": "17:78",
+      "english_similarity": 0.545,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 149,
+      "passage": " so I did. He came to me again on the second day after the light had spread, when the people could see one another, and said to me, ",
+      "proposed_ref": "25:45",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 149,
+      "passage": "The time is what lies between your prayer yesterday and your prayer today.",
+      "proposed_ref": "17:110",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 181,
+      "passage": "O Messenger of Allah, do you not fear that your nation will contend over this after you, even with swords, when they hear it?",
+      "proposed_ref": "61:9",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 181,
+      "passage": "Only the weak among them will stoop to contend over it.",
+      "proposed_ref": "40:47",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 183,
+      "passage": "The muezzins will be raised on the Day of Resurrection as the longest-necked of people, calling out the testimony that there is no god but Allah.",
+      "proposed_ref": "40:32",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 183,
+      "passage": "And if you could see the criminals bowing their heads before their Lord",
+      "proposed_ref": "32:12",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 191,
+      "passage": " he turns his face to the right; and when he reaches ",
+      "proposed_ref": "17:83",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 197,
+      "passage": "Whoever gives the adhan and the iqamah and then prays has two rows of angels praying behind him; and whoever gives the iqamah without the adhan and prays has on",
+      "proposed_ref": "3:39",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 207,
+      "passage": "Whoever does this for his child, the child is guarded from the accursed devil and his licking.",
+      "proposed_ref": "15:17",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 207,
+      "passage": "If the desert demons beset you, give the call to prayer.",
+      "proposed_ref": "5:58",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 211,
+      "passage": "The mosques of Allah are maintained only by those who believe in Allah and the Last Day, and establish prayer, and give the zakat, and fear none but Allah; it m",
+      "proposed_ref": "9:18",
+      "english_similarity": 0.692,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 211,
+      "passage": "And the places of worship are for Allah alone, so call not upon anyone alongside Allah",
+      "proposed_ref": "72:18",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 211,
+      "passage": "The polytheists are but impurity, so let them not approach the Sacred Mosque after this year of theirs",
+      "proposed_ref": "9:28",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 217,
+      "passage": "There is no prayer for a neighbor of the mosque except in the mosque.",
+      "proposed_ref": "7:204",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 221,
+      "passage": "And enjoin the prayer upon your household, and be steadfast in it",
+      "proposed_ref": "19:55",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 223,
+      "passage": "Waiting for the prayer after the prayer is a kind of frontier-guarding.",
+      "proposed_ref": "29:45",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 223,
+      "passage": "When the afflictions descend, the people of the mosques are kept safe.",
+      "proposed_ref": "26:221",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 225,
+      "passage": "Keep your mosques clear of your buying and selling, your disputes, your quarrels, your weapons, and your madmen",
+      "proposed_ref": "2:275",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 231,
+      "passage": "Do not make the mosques a place for idle talk.",
+      "proposed_ref": "70:42",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 231,
+      "passage": "Whoever eats this plant, let him not draw near the mosque.",
+      "proposed_ref": "96:19",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 231,
+      "passage": "It is among the rights of the mosque that when you enter it, you pray two rakahs therein,",
+      "proposed_ref": "9:108",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 235,
+      "passage": "When one of you prays, let him draw near to the barrier and not leave a gap between himself and the qibla, lest the devil take it as a passage.",
+      "proposed_ref": "6:70",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 237,
+      "passage": "Set forward the best among you in your prayer, for the imam stands as the delegate of the people.",
+      "proposed_ref": "7:155",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 239,
+      "passage": "O people, Umar has led you while he was in a state of major impurity.",
+      "proposed_ref": "6:135",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 239,
+      "passage": "Rather, the repetition is upon you and upon them, for the people bow and prostrate by their imam.",
+      "proposed_ref": "27:55",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 249,
+      "passage": "O Ali, the earth cries out to Allah from the sleeper upon it at the rising of the sun.",
+      "proposed_ref": "18:90",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 249,
+      "passage": "That I should pray the Isha and the Fajr in congregation is dearer to me than that I should spend all that lies between them in worship.",
+      "proposed_ref": "3:17",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 251,
+      "passage": "The best of the rows in prayer is the first, and the best of the rows in funeral prayer is the last, and the best of the rows for women is the rearmost.",
+      "proposed_ref": "5:114",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 253,
+      "passage": "Deeds are only by intentions, and to each man belongs only what he intended.",
+      "proposed_ref": "7:29",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 259,
+      "passage": "Do not be one who drives people away; pray a prayer suited to the weakest of your companions.",
+      "proposed_ref": "4:102",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 261,
+      "passage": "O Messenger of Allah, you are bringing hardship upon yourself, though Allah has forgiven you your past and future sins.",
+      "proposed_ref": "48:2",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 281,
+      "passage": "And it has already been revealed to you and to those before you: if you associate others with Allah, your work will surely come to nothing, and you will surely ",
+      "proposed_ref": "39:65",
+      "english_similarity": 0.444,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 281,
+      "passage": "So be patient; indeed the promise of Allah is true, and let not those who have no certainty of faith unsettle you.",
+      "proposed_ref": "30:60",
+      "english_similarity": 0.857,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 297,
+      "passage": "O Allah, forgive me, have mercy upon me, restore me, raise me, guide me, pardon me, grant me well-being, and provide for me, for I stand in need of whatever goo",
+      "proposed_ref": "2:286",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 305,
+      "passage": "And your Lord said: Call upon Me; I will answer you. Indeed, those who disdain My worship will enter Hell, humbled",
+      "proposed_ref": "40:60",
+      "english_similarity": 0.571,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 305,
+      "passage": "And when My servants ask you concerning Me, indeed I am near. I answer the call of the caller when he calls upon Me. So let them respond to Me and believe in Me",
+      "proposed_ref": "2:186",
+      "english_similarity": 0.615,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 309,
+      "passage": "You call upon your Lord by night and by day, for the weapon of the believer is supplication.",
+      "proposed_ref": "35:13",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 311,
+      "passage": "The most beloved glorification to Allah is the tasbih of talk, سُبْحَة الحديث.",
+      "proposed_ref": "18:46",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 313,
+      "passage": " This is borne witness to by the Book of Allah, whose mention is exalted. Allah, blessed be His name, says: ﴿ادْعُونِي أَسْتَجِبْ لَكُمْ﴾, ",
+      "proposed_ref": "22:28",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 315,
+      "passage": "Supplication turns back the decree though it has been firmly ordained,",
+      "proposed_ref": "42:13",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 317,
+      "passage": "Place me at the beginning of the supplication, and in its middle, and at its end.",
+      "proposed_ref": "79:44",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 319,
+      "passage": "He supplicates but sees no trace of his supplication, and so he says, I called upon Allah, and Allah has not answered me.",
+      "proposed_ref": "28:46",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 321,
+      "passage": "You called upon Allah on such a day in such a matter, and He answered you and deferred that until this day, for it was better for you.",
+      "proposed_ref": "28:23",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 325,
+      "passage": "Yes, the Messenger of Allah (ص) said of it, In it is a cure for every disease save death. But shall I direct you to that for which the Messenger of Allah (ص) ga",
+      "proposed_ref": "75:27",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 325,
+      "passage": "Supplication, for it turns back the decree though it has been firmly ordained,",
+      "proposed_ref": "42:13",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 327,
+      "passage": "Supplication after the obligatory prayer is more excellent than the voluntary prayer.",
+      "proposed_ref": "2:238",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 331,
+      "passage": "Glory be to the Lord of the morning, the Cleaver of the dawn, who made the night and the day a repose, and the sun and the moon a reckoning.",
+      "proposed_ref": "6:96",
+      "english_similarity": 0.455,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 331,
+      "passage": "Glory be to my Lord the Magnificent, and by His praise. I seek the forgiveness of Allah and turn to Him in repentance.",
+      "proposed_ref": "110:3",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 333,
+      "passage": " And he said that one whose parents are Muslim says this, and adds: ",
+      "proposed_ref": "9:125",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 339,
+      "passage": "I heard the Messenger of Allah (ص) say: Whoever recites after every prescribed prayer, ",
+      "proposed_ref": "4:102",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 343,
+      "passage": "Glory be to Allah, and praise be to Allah, and I seek the forgiveness of Allah, and there is no god but Allah, and Allah is the Greatest, and as Allah wills, an",
+      "proposed_ref": "110:3",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 347,
+      "passage": " Abu Abd Allah Jafar ibn Muhammad (ع) said: ",
+      "proposed_ref": "9:40",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 359,
+      "passage": "O Messenger of God, you have taught us how to greet you; how, then, are we to bless you?",
+      "proposed_ref": "33:56",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 359,
+      "passage": "Say: O God, bless Muhammad and the family of Muhammad, as You blessed Ibrahim and the family of Ibrahim; You are Praiseworthy, Glorious.",
+      "proposed_ref": "11:73",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 413,
+      "passage": "Let every one of you fear God in his garment during his prayers.",
+      "proposed_ref": "7:29",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 417,
+      "passage": "Pray abundantly upon me on Friday, for it is a day on which deeds are multiplied.",
+      "proposed_ref": "85:3",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 419,
+      "passage": "Guard strictly the prayers and the middle prayer",
+      "proposed_ref": "2:238",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 419,
+      "passage": "Deeds are multiplied on Friday, so I love to increase my prayers and charity on that day.",
+      "proposed_ref": "2:276",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 425,
+      "passage": "O you who believe, when the call to prayer is made on Friday, hasten to the remembrance of God",
+      "proposed_ref": "62:9",
+      "english_similarity": 0.714,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 425,
+      "passage": "And when the prayer is concluded, disperse through the land and seek the bounty of God",
+      "proposed_ref": "62:10",
+      "english_similarity": 0.857,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 431,
+      "passage": "The month of Ramadan in which the Quran was sent down",
+      "proposed_ref": "44:3",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 431,
+      "passage": "that you may complete the number and magnify God for having guided you, and that you may give thanks",
+      "proposed_ref": "2:185",
+      "english_similarity": 0.714,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 431,
+      "passage": "And a proclamation from God and His Messenger to the people on the day of the Greater Pilgrimage",
+      "proposed_ref": "9:3",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 441,
+      "passage": "O Allah, forgive me, have mercy upon me, grant me well-being, and pardon me in this world and the hereafter; You are powerful over all things.",
+      "proposed_ref": "2:286",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 453,
+      "passage": "Has the prayer been shortened, or have you forgotten, O Messenger of Allah?",
+      "proposed_ref": "5:55",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 467,
+      "passage": " the weight of it would have fallen heavy on those who heard. But when a man is told, ",
+      "proposed_ref": "51:2",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 469,
+      "passage": "Allah, blessed and exalted, has bestowed on my nation a gift He has bestowed on no other nation before it,",
+      "proposed_ref": "21:72",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 469,
+      "passage": "I am innocent of anyone who prays four rakahs in travel.",
+      "proposed_ref": "9:2",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 487,
+      "passage": "There is no blame upon you if you shorten the prayer, if you fear that those who disbelieve may harm you. Indeed, the disbelievers are to you a clear enemy. And",
+      "proposed_ref": "4:102",
+      "english_similarity": 0.538,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 517,
+      "passage": "Glorify the name of your Lord, the Most High, who created",
+      "proposed_ref": "87:1",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 543,
+      "passage": "Were your own people, the Ansar, not the first to invent it?",
+      "proposed_ref": "50:15",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 611,
+      "passage": "O Allah, this is Your servant and the son of Your servant. He has departed from this world and come to You, and we know of him only good, and I have come as an ",
+      "proposed_ref": "11:39",
+      "english_similarity": 0.444,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 611,
+      "passage": "O Allah, You know best his secret and his intention. If he was a doer of good, then increase him in his good and have mercy upon him; and if he was a sinner, th",
+      "proposed_ref": "2:235",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 611,
+      "passage": "Our Lord, You have encompassed all things in mercy and knowledge, so forgive those who repent and follow Your way,",
+      "proposed_ref": "40:7",
+      "english_similarity": 0.875,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 611,
+      "passage": "O Allah, You know this servant of ours better than we do, so gather him with those he loved, and give his charge to the one who had authority over him,",
+      "proposed_ref": "4:172",
+      "english_similarity": 0.364,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 615,
+      "passage": "Bury your dead by day, for the angels of the day are more merciful than the angels of the night.",
+      "proposed_ref": "21:20",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 627,
+      "passage": "There has come upon them that which occupies them and turns them away from seeing to this for themselves.",
+      "proposed_ref": "31:7",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 631,
+      "passage": "Successful indeed is he who purifies himself, and remembers the name of his Lord, and prays",
+      "proposed_ref": "87:15",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 631,
+      "passage": "Blessed be the believers who are humble in their prayers, and who turn away from ill speech, and who are active in giving zakat",
+      "proposed_ref": "33:35",
+      "english_similarity": 0.455,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 631,
+      "passage": "When the sacred months have passed, kill the polytheists wherever you find them, and take them, and confine them, and wait for them at every lookout. But if the",
+      "proposed_ref": "9:5",
+      "english_similarity": 0.526,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 631,
+      "passage": "Woe to the polytheists who do not pay zakat",
+      "proposed_ref": "23:4",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 633,
+      "passage": "Woe to the polytheists who do not pay zakat,",
+      "proposed_ref": "23:4",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 633,
+      "passage": "Woe to those who pray, who are heedless of their prayers, who make a show of themselves and withhold the maun",
+      "proposed_ref": "9:108",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 643,
+      "passage": "They will be encircled by what they were stingy with on the Day of Resurrection",
+      "proposed_ref": "30:56",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 643,
+      "passage": "And those who hoard gold and silver and do not spend it in the way of Allah, give them tidings of a painful punishment, on the day when it will be heated in the",
+      "proposed_ref": "9:35",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 649,
+      "passage": "Take from their wealth a charity that will purify them and cleanse them by it",
+      "proposed_ref": "9:103",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 649,
+      "passage": "Charity is only for the poor and the destitute, and those who administer it, and those whose hearts are to be reconciled, and for freeing captives, and for thos",
+      "proposed_ref": "9:60",
+      "english_similarity": 0.533,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 653,
+      "passage": "Charity is only for the poor and the destitute, and those who administer it,",
+      "proposed_ref": "2:83",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 693,
+      "passage": " that it means he who gives the zakat of the breaking of the fast; and of ",
+      "proposed_ref": "7:163",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 713,
+      "passage": "O you who believe, fasting has been prescribed for you as it was prescribed for those before you, so that you may become God-fearing, for an appointed number of",
+      "proposed_ref": "2:183",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 713,
+      "passage": "so that you may complete the number and glorify Allah for having guided you, that perhaps you will be grateful.",
+      "proposed_ref": "2:185",
+      "english_similarity": 0.714,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 717,
+      "passage": "O Allah, the blessed month of Ramadan has come. If You bring us to it, help us through it and accept it from us.",
+      "proposed_ref": "44:3",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 717,
+      "passage": "O Allah, this is the month of Ramadan in which the Quran was sent down as guidance for the people, and as clear signs of guidance and the Criterion. O Allah, bl",
+      "proposed_ref": "2:185",
+      "english_similarity": 0.438,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 719,
+      "passage": "Do not say Ramadan alone, but say as Allah Almighty said, the month of Ramadan.",
+      "proposed_ref": "2:185",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 719,
+      "passage": "Shaban is my month, and Ramadan is the month of Allah, and it is the springtime of the poor.",
+      "proposed_ref": "44:3",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 721,
+      "passage": " And he (ص) preached to the people on the last day of Shaban and said: ",
+      "proposed_ref": "29:36",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 723,
+      "passage": "O Messenger of Allah, not all of us find what to give a fasting person to break his fast with.",
+      "proposed_ref": "2:184",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 725,
+      "passage": "For everything there is a zakat, and the zakat of bodies is fasting.",
+      "proposed_ref": "9:60",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 725,
+      "passage": "And seek help through patience and prayer,",
+      "proposed_ref": "2:153",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 725,
+      "passage": " and Allah gives the patient their reward without reckoning. He (ص) said to Ali (ع): ",
+      "proposed_ref": "39:10",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 727,
+      "passage": "The sleep of the fasting person is worship, and his breath is glorification.",
+      "proposed_ref": "2:184",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 727,
+      "passage": "May the fasting break their fast with you, may the righteous eat your food, and may the angels send blessings upon you.",
+      "proposed_ref": "33:56",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 731,
+      "passage": "Eat and drink until the white thread becomes distinct to you from the black thread,",
+      "proposed_ref": "2:187",
+      "english_similarity": 0.875,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 737,
+      "passage": "It has been made lawful for you, on the night of the fast, to go in unto your wives,",
+      "proposed_ref": "2:187",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 749,
+      "passage": "O you who believe, fasting has been prescribed for you as it was prescribed for those before you, that you may become God-fearing, for an appointed number of da",
+      "proposed_ref": "2:184",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 759,
+      "passage": "O you who believe, fasting has been prescribed for you as it was prescribed for those before you, that you may become God-fearing, for an appointed number of da",
+      "proposed_ref": "2:184",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 765,
+      "passage": "Fasting is prescribed for you as it was prescribed for those before you, that you may fear God, for a fixed number of days… and whoever among you is sick or on ",
+      "proposed_ref": "2:184",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 787,
+      "passage": "Indeed, We sent it down on the Night of Power,",
+      "proposed_ref": "97:1",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 787,
+      "passage": "Ha Mim. By the clear Book. Indeed, We sent it down on a blessed night. Indeed, We were warning. In it every wise matter is distinguished, a command from Us. Ind",
+      "proposed_ref": "44:3",
+      "english_similarity": 0.357,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 789,
+      "passage": "The angels and the Spirit descend in it by the permission of their Lord,",
+      "proposed_ref": "97:4",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 789,
+      "passage": "in it every wise matter is distinguished,",
+      "proposed_ref": "44:4",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 791,
+      "passage": "Seek it in the last ten nights of Ramadan.",
+      "proposed_ref": "89:2",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 805,
+      "passage": "Eat and drink and be comforted; and if you see any human being, say: I have vowed to the Most Merciful a fast, so I will not speak this day to any human.",
+      "proposed_ref": "19:26",
+      "english_similarity": 0.818,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 821,
+      "passage": "Whoever fasts on Friday, it is as if he fasted for the period between the two Fridays,",
+      "proposed_ref": "2:185",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 823,
+      "passage": "And do not engage in relations with them while you are in retreat in the mosques",
+      "proposed_ref": "2:187",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 831,
+      "passage": "And proclaim the Hajj among the people; they will come to you on foot and on every lean camel; they will come from every distant mountain pass",
+      "proposed_ref": "22:27",
+      "english_similarity": 0.818,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 835,
+      "passage": "Alternate between Hajj and Umrah, for they negate poverty and sins and bring sustenance.",
+      "proposed_ref": "6:151",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 835,
+      "passage": "There are sins that cannot be forgiven except at Arafat.",
+      "proposed_ref": "36:27",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 835,
+      "passage": "Whoever desires this world and the next, let him come to this House, for whatever a servant has asked of his Lord, Allah will grant him some of it or store it f",
+      "proposed_ref": "4:134",
+      "english_similarity": 0.357,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 839,
+      "passage": "Purify My House for those who circumambulate it, those who remain in devotion, and those who bow and prostrate",
+      "proposed_ref": "22:26",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 841,
+      "passage": "Even if you were to give in charity its weight in gold and silver, you would not attain the reward of Hajj.",
+      "proposed_ref": "76:21",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 845,
+      "passage": "And Hajj to the House is a duty owed to Allah by the people, for whoever is able to find a way to it; and whoever disbelieves, then indeed Allah is free of need",
+      "proposed_ref": "3:97",
+      "english_similarity": 0.538,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 845,
+      "passage": " He remained silent. They asked him twice more, and he said: ",
+      "proposed_ref": "18:19",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 845,
+      "passage": "O you who believe, do not ask about things that, if disclosed to you, would distress you",
+      "proposed_ref": "5:101",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 845,
+      "passage": "And whoever disbelieves, then indeed Allah is free of need of the worlds",
+      "proposed_ref": "29:6",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 845,
+      "passage": "This is said of the one who abandons Hajj while he is able to perform it.",
+      "proposed_ref": "63:10",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 849,
+      "passage": "And whoever abandons it while able, until he dies?",
+      "proposed_ref": "17:15",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 849,
+      "passage": "He is among those of whom Allah Almighty said, And We will gather him on the Day of Resurrection blind.",
+      "proposed_ref": "17:97",
+      "english_similarity": 0.833,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 849,
+      "passage": "Yes, blind to the path of truth and good.",
+      "proposed_ref": "17:72",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 851,
+      "passage": "That does not suffice for him; the Hajj is upon him when he reaches maturity.",
+      "proposed_ref": "46:15",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 851,
+      "passage": "It suffices for him so long as he is owned; and if he is freed, the Hajj is upon him when he is able, for there is no obligation of Hajj upon him while he is ow",
+      "proposed_ref": "22:30",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 851,
+      "passage": "The divorced woman may perform Hajj during her waiting period if she wishes.",
+      "proposed_ref": "2:228",
+      "english_similarity": 0.444,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 853,
+      "passage": " And whoever has no offering with him and joins them is performing tamattu: when he comes to Mecca he performs tawaf and say and leaves ihram, and that is the U",
+      "proposed_ref": "2:196",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 855,
+      "passage": "Hajj is during well-known months, so whoever has made Hajj obligatory upon himself therein, let there be no lewdness nor wickedness nor quarreling in Hajj",
+      "proposed_ref": "2:197",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 881,
+      "passage": "O Allah, I intend to enjoy Umrah unto Hajj.",
+      "proposed_ref": "5:96",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 881,
+      "passage": "O Allah, I intend to join Hajj to Umrah,",
+      "proposed_ref": "2:196",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 881,
+      "passage": " whichever he wishes, and he mentions it upon Your Book and the Sunnah of Your Prophet: ",
+      "proposed_ref": "3:164",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 885,
+      "passage": "And do not shave your heads until the sacrificial animal reaches its place of slaughter",
+      "proposed_ref": "2:196",
+      "english_similarity": 0.875,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 891,
+      "passage": "Hajj is in well-known months, and whoever has made the Hajj obligatory upon himself therein, there is no rafath and no transgression and no quarreling during th",
+      "proposed_ref": "2:197",
+      "english_similarity": 0.462,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 891,
+      "passage": "And do not kill game while you are in ihram",
+      "proposed_ref": "5:95",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 891,
+      "passage": "And forbidden to you is the game of the land as long as you are in ihram",
+      "proposed_ref": "5:96",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 939,
+      "passage": "O you who believe, Allah will test you with something of the game that your hands and your spears reach",
+      "proposed_ref": "5:94",
+      "english_similarity": 0.857,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 945,
+      "passage": "Have they not seen that We have made a safe sanctuary?",
+      "proposed_ref": "29:67",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 945,
+      "passage": "We say good, and we think well: a noble brother and the son of a noble brother, and you have power.",
+      "proposed_ref": "28:35",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 945,
+      "passage": "O Messenger of Allah, save for idhkhir, for it serves the graves and the houses.",
+      "proposed_ref": "39:45",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 955,
+      "passage": "And let them circumambulate the Ancient House",
+      "proposed_ref": "22:29",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 955,
+      "passage": "Purify My House for those who circumambulate, those who abide there, and those who bow and prostrate",
+      "proposed_ref": "2:125",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 955,
+      "passage": "Will You place therein one who will spread corruption in it and shed blood?",
+      "proposed_ref": "2:30",
+      "english_similarity": 0.833,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 955,
+      "passage": "Did I not tell you that I know the unseen of the heavens and the earth, and I know what you reveal,",
+      "proposed_ref": "2:33",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 963,
+      "passage": "; and when you come opposite the Black Stone, you say, ",
+      "proposed_ref": "18:20",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 983,
+      "passage": "And take from the Maqam of Ibrahim a place of prayer",
+      "proposed_ref": "2:125",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 993,
+      "passage": "In the name of Allah; Allah is the greatest; and may Allah send blessings upon Muhammad and his family. O Allah, forgive, have mercy, and overlook what You know",
+      "proposed_ref": "33:56",
+      "english_similarity": 0.385,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 997,
+      "passage": "And We have revealed to you the Reminder, that you may make clear to the people what has been sent down to them",
+      "proposed_ref": "16:44",
+      "english_similarity": 0.571,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 999,
+      "passage": "Indeed al-Safa and al-Marwah are among the rites of Allah, so whoever makes Hajj to the house or performs Umrah, there is no blame upon him for walking between ",
+      "proposed_ref": "2:158",
+      "english_similarity": 0.538,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 999,
+      "passage": "there is no blame upon him if he does not walk between them.",
+      "proposed_ref": "48:17",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 999,
+      "passage": "there is no blame upon him for walking between them",
+      "proposed_ref": "48:17",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1003,
+      "passage": "And do not shave your heads until the offering reaches its place of sacrifice",
+      "proposed_ref": "2:196",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1005,
+      "passage": "I said: O Allah, I enter ihram for that which Your Messenger has entered ihram.",
+      "proposed_ref": "48:27",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1005,
+      "passage": "Then do not release yourself until you have sacrificed the offering; perform the tawaf and the sai for your Umrah, and remain as you are in your ihram until you",
+      "proposed_ref": "2:196",
+      "english_similarity": 0.385,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1015,
+      "passage": "That is for one whose family is not present at the Sacred Mosque.",
+      "proposed_ref": "48:25",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1017,
+      "passage": "then whatever offering can be readily obtained.",
+      "proposed_ref": "2:196",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1027,
+      "passage": "O Messenger of Allah, the journey has grown long upon us and the walking has become hard for us.",
+      "proposed_ref": "34:19",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1039,
+      "passage": "O Allah, I ask You for the deliverance of my neck from the Fire.",
+      "proposed_ref": "22:9",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1041,
+      "passage": "Woe to you. Do you ask of any but Allah on this day, when even those in the wombs are hoped for on this day?",
+      "proposed_ref": "53:32",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1045,
+      "passage": "We are more entitled to the House than the rest of the people.",
+      "proposed_ref": "59:13",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1051,
+      "passage": "All of Arafah is a standing-place, and all of Mina is a place of sacrifice.",
+      "proposed_ref": "3:39",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1065,
+      "passage": "They are the ones who disbelieved and turned you away from the Sacred Mosque, and the sacrificial offerings from reaching their place of slaughter",
+      "proposed_ref": "48:25",
+      "english_similarity": 0.636,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1065,
+      "passage": "Do not shave your heads until the sacrificial offering reaches its place of slaughter",
+      "proposed_ref": "2:196",
+      "english_similarity": 0.875,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1079,
+      "passage": "So eat of it and feed the poor and the wretched,",
+      "proposed_ref": "22:28",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1079,
+      "passage": "eat of it and feed the contented and the beggar who importunes.",
+      "proposed_ref": "22:36",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1081,
+      "passage": "Whoever hastens within two days, there is no sin upon him,",
+      "proposed_ref": "2:203",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1085,
+      "passage": "O Allah, grant me for every hair a light on the Day of Resurrection.",
+      "proposed_ref": "11:3",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1087,
+      "passage": "Then let them complete their rites and fulfill their vows and circumambulate the Ancient House",
+      "proposed_ref": "22:29",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1091,
+      "passage": "Allahu Akbar, Allahu Akbar, la ilaha ill-Allah, wa Allahu Akbar, Allahu Akbar wa lillahi al-hamd. Allahu Akbar for what He has guided us to, and Allahu Akbar fo",
+      "proposed_ref": "2:185",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1093,
+      "passage": "And remember Allah during the appointed days. Whoever hastens in two days, there is no sin upon him, and whoever delays, there is no sin upon him, for the one w",
+      "proposed_ref": "2:203",
+      "english_similarity": 0.7,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1101,
+      "passage": "O Allah, do not make this the last of my covenant with Your House.",
+      "proposed_ref": "2:124",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1107,
+      "passage": "It is they who disbelieved and barred you from the Sacred Mosque, and the offering, prevented from reaching its place",
+      "proposed_ref": "48:25",
+      "english_similarity": 0.625,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1107,
+      "passage": "If you are prevented, then whatever offering is feasible",
+      "proposed_ref": "2:196",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1111,
+      "passage": "If you are prevented, then whatever offering is feasible",
+      "proposed_ref": "2:196",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1147,
+      "passage": "Fighting is ordained for you, though it is hateful to you. It may be that you dislike something that is good for you, and it may be that you love something that",
+      "proposed_ref": "2:216",
+      "english_similarity": 0.778,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1147,
+      "passage": "When the sacred months have passed, slay the polytheists wherever you find them.",
+      "proposed_ref": "9:5",
+      "english_similarity": 0.714,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1147,
+      "passage": "Permission is granted to those who are fought against because they have been wronged, and Allah is indeed able to grant them victory; those who were driven from",
+      "proposed_ref": "22:39",
+      "english_similarity": 0.455,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1149,
+      "passage": " [Al-Hashr: 7], meaning returned to him. And this is the meaning of His words, ",
+      "proposed_ref": "5:13",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1151,
+      "passage": "Fight those who do not believe in Allah or the Last Day, who do not forbid what Allah and His Messenger have forbidden, and who do not follow the religion of tr",
+      "proposed_ref": "9:29",
+      "english_similarity": 0.722,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1151,
+      "passage": "When the sacred months have passed, slay the polytheists wherever you find them, and capture them, besiege them, and sit in wait for them at every place of ambu",
+      "proposed_ref": "9:5",
+      "english_similarity": 0.571,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1155,
+      "passage": "Go forth, light and heavy, and strive with your wealth and your selves in the way of Allah.",
+      "proposed_ref": "9:41",
+      "english_similarity": 0.714,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1157,
+      "passage": "Indeed, Allah has purchased from the believers their lives and their wealth in exchange for Paradise. They fight in the way of Allah, so they slay and are slain",
+      "proposed_ref": "9:111",
+      "english_similarity": 0.625,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1159,
+      "passage": "Is everyone who strives in the way of Allah among the people of this verse?",
+      "proposed_ref": "81:28",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1159,
+      "passage": "Allah will surely support this religion through a people who have no share in it.",
+      "proposed_ref": "8:49",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1161,
+      "passage": "The strivers in the way of Allah are the leaders of the people of Paradise.",
+      "proposed_ref": "7:60",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1161,
+      "passage": "Above every act of righteousness is another act of righteousness, until a man is slain in the way of Allah,",
+      "proposed_ref": "2:44",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1163,
+      "passage": "Strive in the way of Allah with your hands; if you are unable, then strive with your tongues; and if you are unable, then strive with your hearts.",
+      "proposed_ref": "60:2",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1163,
+      "passage": "Jihad in the way of Allah is a gate among the gates of Paradise.",
+      "proposed_ref": "15:44",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1173,
+      "passage": "And when they went forth against Goliath and his soldiers, they said: Our Lord, pour upon us patience, make firm our feet, and grant us victory over the disbeli",
+      "proposed_ref": "2:250",
+      "english_similarity": 0.571,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1173,
+      "passage": "The Messenger has believed in what was revealed to him from his Lord, and so have the believers",
+      "proposed_ref": "5:69",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1173,
+      "passage": "You are our Protector, so grant us victory over the disbelieving people.",
+      "proposed_ref": "2:286",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1175,
+      "passage": "O Allah, I entrust to You myself, my family, my wealth, my religion, my worldly life, my Hereafter, my trust, and the conclusion of my deeds.",
+      "proposed_ref": "36:45",
+      "english_similarity": 0.364,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1177,
+      "passage": "O Allah, protect me and protect what is with me, and bring me and what is with me to my destination in Your fair conveyance.",
+      "proposed_ref": "4:123",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1189,
+      "passage": "By Him who sent Muhammad with the truth and ennobled his household through him, there is nothing by which you are afflicted but that it is in the Quran. Whoever",
+      "proposed_ref": "34:43",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1189,
+      "passage": "Recite into its right ear: And to Him has submitted whoever is in the heavens and the earth, willingly and unwillingly, and to Him they will be returned. [Al Im",
+      "proposed_ref": "3:83",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1193,
+      "passage": "In the name of Allah, the Most Merciful, the Most Compassionate,",
+      "proposed_ref": "1:1",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1193,
+      "passage": "They have not appraised Allah with the appraisal due to Him, while the whole earth will be within His grip on the Day of Resurrection, and the heavens folded in",
+      "proposed_ref": "39:67",
+      "english_similarity": 0.579,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1193,
+      "passage": "In the name of Allah is its course and its anchorage; indeed my Lord is Forgiving, Merciful.",
+      "proposed_ref": "11:41",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1193,
+      "passage": "O Allah, bless us in our vessel, make our passage good, and keep us safe from the evil of our sea.",
+      "proposed_ref": "4:128",
+      "english_similarity": 0.444,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1197,
+      "passage": "O you who believe, obey Allah, obey the Messenger, and those in authority among you.",
+      "proposed_ref": "4:59",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1199,
+      "passage": " They did so. Then he ordered them to add to it until they had gathered much, and then he ordered them to kindle a fire in it. When it blazed up, he said: ",
+      "proposed_ref": "47:4",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1199,
+      "passage": " Some of them were about to do so out of obedience, but others among them held them back and said: ",
+      "proposed_ref": "9:46",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1201,
+      "passage": "In the name of Allah is its course and its anchorage; indeed, my Lord is Forgiving and Merciful.",
+      "proposed_ref": "11:41",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1201,
+      "passage": "O Allah, bless us in our vessel, make our journey excellent, and preserve us from the evil of our sea.",
+      "proposed_ref": "30:41",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1203,
+      "passage": "O you who believe, obey Allah and obey the Messenger and those in authority among you",
+      "proposed_ref": "4:59",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1209,
+      "passage": "The oppressor, the one who assists him, and the one content with him are partners in the sin.",
+      "proposed_ref": "4:116",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1211,
+      "passage": "Indeed, Allah commands you to restore trusts to their rightful owners, and when you judge between people, to judge with justice",
+      "proposed_ref": "4:58",
+      "english_similarity": 0.556,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1211,
+      "passage": "None may enjoin the good or forbid the evil except one in whom there are three qualities: gentleness in what he enjoins and gentleness in what he forbids, justi",
+      "proposed_ref": "2:83",
+      "english_similarity": 0.462,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1213,
+      "passage": "Invite to the way of your Lord with wisdom and good counsel",
+      "proposed_ref": "16:125",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1215,
+      "passage": "There is no harm in fighting before the call, for the people today already know what they are being summoned to.",
+      "proposed_ref": "34:42",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1217,
+      "passage": "O Allah, You are my protection, my helper, and my defender. O Allah, by You I attack, by You I prevail, and by You I fight.",
+      "proposed_ref": "19:95",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1217,
+      "passage": "O Allah, to You is all praise, to You is the complaint, and You are the One whose help is sought.",
+      "proposed_ref": "21:112",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1217,
+      "passage": "O Muhammad, you have called upon Allah by His greatest name.",
+      "proposed_ref": "19:7",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1225,
+      "passage": "O you who believe, when you meet a company, stand firm and remember Allah much, that you may succeed",
+      "proposed_ref": "8:45",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1225,
+      "passage": "Indeed, Allah loves those who fight in His cause in ranks, as though they were a solid structure",
+      "proposed_ref": "61:4",
+      "english_similarity": 0.857,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1227,
+      "passage": "So do not turn your backs to them. Whoever turns his back to them on that day, unless maneuvering for battle or falling back to a company, has drawn upon himsel",
+      "proposed_ref": "8:16",
+      "english_similarity": 0.556,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1227,
+      "passage": "Fleeing from the battlefield is among the gravest of sins.",
+      "proposed_ref": "3:155",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1227,
+      "passage": "If there are twenty of you who are steadfast, they will overcome two hundred; and if there are a hundred of you, they will overcome a thousand",
+      "proposed_ref": "8:65",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1227,
+      "passage": "Now Allah has lightened your burden, knowing that there is weakness in you. So if there are a hundred of you who are steadfast, they will overcome two hundred; ",
+      "proposed_ref": "8:66",
+      "english_similarity": 0.778,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1231,
+      "passage": "So slay the polytheists wherever you find them, and seize them, and besiege them, and lie in wait for them",
+      "proposed_ref": "9:5",
+      "english_similarity": 0.625,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1231,
+      "passage": "And slay them wherever you overtake them, and drive them out from where they drove you out",
+      "proposed_ref": "2:191",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1235,
+      "passage": "Kill the polytheists wherever you find them, and capture them, and besiege them, and sit in wait for them.",
+      "proposed_ref": "9:5",
+      "english_similarity": 0.625,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1235,
+      "passage": "And kill them wherever you encounter them and drive them out from where they drove you out.",
+      "proposed_ref": "2:191",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1237,
+      "passage": "Whoever you are able to capture from the Bani Abd al-Muttalib, do not kill him, for they were brought out against you unwillingly.",
+      "proposed_ref": "5:95",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1239,
+      "passage": "I am free of every Muslim who takes up residence among polytheists.",
+      "proposed_ref": "25:31",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1241,
+      "passage": "When you meet those who disbelieve, strike the necks until, when you have subdued them, bind the bonds firmly. Then either show favor afterward or take ransom, ",
+      "proposed_ref": "47:4",
+      "english_similarity": 0.632,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1243,
+      "passage": "O Prophet of Allah, I had already accepted Islam.",
+      "proposed_ref": "3:85",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1243,
+      "passage": "O my brother, why is this turning away from me while you see me?",
+      "proposed_ref": "18:17",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1243,
+      "passage": "O Messenger of Allah, do not let the transgressor Abu Jahl escape you. If you have not killed him, then seek him out while the rout still lasts.",
+      "proposed_ref": "5:3",
+      "english_similarity": 0.385,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1243,
+      "passage": "That is spoil which Allah has bestowed upon the Muslims. But send for what you had left behind for yourself at Makkah.",
+      "proposed_ref": "3:170",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1243,
+      "passage": "I bear witness that you are truly the Messenger of Allah. By Allah, none knew of this but she and I, and none could have disclosed it to you save your Lord.",
+      "proposed_ref": "13:43",
+      "english_similarity": 0.444,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1247,
+      "passage": "You have judged among them by the judgment of Allah from above the seven heavens.",
+      "proposed_ref": "78:12",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1249,
+      "passage": "And they feed, out of love for Him, the poor, the orphan, and the captive.",
+      "proposed_ref": "76:8",
+      "english_similarity": 0.833,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1255,
+      "passage": "Except those of the polytheists with whom you made a covenant, and who then failed you in nothing and supported no one against you: fulfill their covenant to th",
+      "proposed_ref": "9:4",
+      "english_similarity": 0.538,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1255,
+      "passage": "A declaration of immunity from Allah and His Messenger to those polytheists with whom you had made a covenant,",
+      "proposed_ref": "9:7",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1255,
+      "passage": "so travel freely in the land for four months.",
+      "proposed_ref": "9:2",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1259,
+      "passage": "Allah burdens no soul beyond its capacity.",
+      "proposed_ref": "35:18",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1261,
+      "passage": "So eat of what you have taken as spoils, lawful and good.",
+      "proposed_ref": "5:4",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1261,
+      "passage": "And know that whatever you take as spoils, a fifth of it belongs to Allah, and to the Messenger, and to the near kin, and the orphans, and the needy.",
+      "proposed_ref": "8:41",
+      "english_similarity": 0.727,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1261,
+      "passage": "And whoever defrauds will come with what he defrauded on the Day of Resurrection; then every soul will be paid in full for what it earned, and they will not be ",
+      "proposed_ref": "3:161",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1263,
+      "passage": "I know that you have been in the fighting; have you brought us any spoil?",
+      "proposed_ref": "30:51",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1263,
+      "passage": "No, by Allah, except for this needle that I came upon and took,",
+      "proposed_ref": "17:94",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1263,
+      "passage": "O people, hand back the needle and the thread; let no one make off with so much as a needle or what is beyond it.",
+      "proposed_ref": "11:91",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1263,
+      "passage": "I do not think your needle is anything but lost to you,",
+      "proposed_ref": "67:9",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1269,
+      "passage": "Do not find fault with what Ali chose. Ali is from me and I am from him, and he is your guardian after me",
+      "proposed_ref": "17:68",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1273,
+      "passage": "O Messenger of Allah, I vowed on my journey that if Allah delivered me I would slaughter this camel.",
+      "proposed_ref": "91:13",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1273,
+      "passage": "Evil is the return you would make of her. There is no binding vow upon a person concerning what he does not own",
+      "proposed_ref": "30:41",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1275,
+      "passage": "Whoever kills a man shall have such and such, and whoever takes a captive shall have such and such.",
+      "proposed_ref": "4:93",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1275,
+      "passage": "They ask you concerning the spoils. Say: the spoils belong to Allah and the Messenger, so fear Allah and set things right among yourselves, and obey Allah and H",
+      "proposed_ref": "8:1",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1277,
+      "passage": "And what Allah restored to His Messenger from them, you spurred neither horse nor camel for it; but Allah gives His messengers authority over whom He wills, and",
+      "proposed_ref": "59:6",
+      "english_similarity": 0.462,
+      "corroborated_by_scan": true,
+      "agreed": true
+    },
+    {
+      "line": 1283,
+      "passage": "And if two parties of the believers fall to fighting, make peace between them; but if one of them transgresses against the other, then fight the one that transg",
+      "proposed_ref": "49:9",
+      "english_similarity": 0.769,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1293,
+      "passage": "A one-eyed man seeks a station for his folk; he has grappled with life until he has wearied of it; there is no help for it but that he rout or be routed.",
+      "proposed_ref": "19:75",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1295,
+      "passage": " Then Abd Allah ibn Amr ibn al-As, who was present with his father, said, ",
+      "proposed_ref": "31:33",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1313,
+      "passage": "Whoever is killed defending his wealth is a martyr",
+      "proposed_ref": "2:269",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1323,
+      "passage": "If you kill us, you will bring us back to life.",
+      "proposed_ref": "26:81",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1323,
+      "passage": "Today I shall glut you with flesh and fat.",
+      "proposed_ref": "5:3",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    }
+  ],
+  "coverage": 1.0,
+  "cited_inserted": 6
+}

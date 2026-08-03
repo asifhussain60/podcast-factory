@@ -62,7 +62,13 @@ from typing import Any
 import yaml
 from _arabic_coverage import normalize_arabic
 from _book_arabic_audit import _HONORIFIC_FORMULAS
-from _book_gloss import _convert_glosses, _gloss_span, _is_person, _is_reversed_gloss
+from _book_gloss import (
+    _convert_glosses,
+    _gloss_span,
+    _is_person,
+    _is_reversed_gloss,
+    _script_already_precedes,
+)
 from _translit import simplify_transliteration
 
 # Name connectors and the article. They are grammatical glue inside a name, never
@@ -168,11 +174,25 @@ def _script_already_near(line: str, at: int, script: str) -> bool:
     bare "Imam" (\u0627\u0644\u0625\u0645\u0627\u0645) sits inside "al-Imam al-Natiq"
     (\u0627\u0644\u0625\u0645\u0627\u0645 \u0627\u0644\u0646\u0627\u0637\u0642), and annotating both
     printed the same idea twice in one breath.
+
+    Compared by CONSONANTAL SKELETON, like `_script_in_adjacent_block` beside it.
+    Byte containment was the same check with a hole in it: the book's own
+    vowelling of a run is rarely the glossary's, so `\u0639\u064f\u0628\u064e\u064a\u0652\u062f\u064f \u0627\u0644\u0644\u064e\u0651\u0647\u0650` standing in
+    the prose did not contain and was not contained by `\u0639\u064f\u0628\u064e\u064a\u0652\u062f\u064f \u0627\u0644\u0644\u0651\u0670\u0647` from
+    `glossary.yml`, and the pass annotated a term whose script was already three
+    characters away \u2014 printing `Ubayd Allah (\u0639\u064f\u0628\u064e\u064a\u0652\u062f\u064f \u0627\u0644\u0644\u0651\u0670\u0647) (\u0639\u064f\u0628\u064e\u064a\u0652\u062f\u064f \u0627\u0644\u0644\u064e\u0651\u0647\u0650,
+    'little servant of Allah')`, the same name in Arabic twice in one breath, with
+    the author's own translation stranded after the duplicate. The skeleton is the
+    right key for the same reason it is in `_normalize_annotations`: vowelling may
+    add marks, never change letters.
     """
     window = line[at : at + len(script) + _ANNOTATED_WINDOW + 24]
+    needle = normalize_arabic(script)
+    if not needle:
+        return False
     for run in re.findall(rf"[{_ARABIC}][^()]*", window):
-        run = run.strip()
-        if run and (run in script or script in run):
+        run = normalize_arabic(run.strip())
+        if run and (run in needle or needle in run):
             return True
     return False
 
@@ -236,11 +256,44 @@ def _normalize_annotations(body: str, terms: list[dict[str, str]]) -> str:
             # Named-gloss form first — it carries the phonetic, so it can only
             # ever have been a gloss site. Retained for books composed before the
             # script-only rule, whose prose still holds `(bab, باب)`.
-            line = line.replace(f"({t['phonetic']}, {t['script']})", f"(*{t['phonetic']}*)")
+            #
+            # Matched by SKELETON, not by an exact string. This was
+            # `line.replace(f"({phonetic}, {script})", …)`, which requires the
+            # prose's vowelling of the run to equal the glossary's byte for byte —
+            # and it usually does not, because the two were marked by different
+            # passes at different times. So the fold hit 7 of the 13 retired
+            # brackets in `the-master-and-the-disciple` and left `(Tur, اَلطُّور)`,
+            # `(duat, الدُّعَاة)`, `(natiq, اَلنَّاطِق)` and three more printing the
+            # romanisation the 2026-08-02 rule retired. Third instance of the same
+            # root cause in this module, with `_script_already_near` and
+            # `_normalize_annotations` below — vowelling may add marks, never
+            # change letters, so the skeleton is the only safe key.
+            needle = normalize_arabic(t["script"])
+            if needle:
+                pat = re.compile(rf"\(\s*{re.escape(t['phonetic'])}\s*,\s*([^()\n]*[{_ARABIC}][^()\n]*?)\s*\)")
+
+                def _fold(m: re.Match[str], _t: dict[str, str] = t, _n: str = needle) -> str:
+                    return f"(*{_t['phonetic']}*)" if normalize_arabic(m.group(1)) == _n else m.group(0)
+
+                line = pat.sub(_fold, line)
         # Any paren holding ONLY an Arabic run is a candidate; which term it
         # belonged to is decided by its skeleton.
         for m in reversed(list(re.finditer(r"\s?\(([^()]*[؀-ۿ][^()]*)\)", line))):
-            sharers = by_skeleton.get(normalize_arabic(m.group(1)))
+            inner = m.group(1)
+            # ONLY-an-Arabic-run has to be enforced, not just intended.
+            # `normalize_arabic` DISCARDS every non-Arabic character, so a bracket
+            # the author wrote as script-plus-translation —
+            # `Ubayd Allah (عُبَيْدُ اللَّهِ, 'little servant of Allah')` — reduced to
+            # the same skeleton as the bare script and was claimed as this pass's
+            # own output. Rewriting it then deleted the English, in a sentence
+            # whose entire subject is what the two names MEAN. The machine only
+            # ever writes `(script)`, so a bracket carrying Latin words is by
+            # construction not the machine's, and the one machine shape that does
+            # carry Latin — the retired `(bab, باب)` — is handled by the exact
+            # string replace above, before this loop ever sees the line.
+            if re.search(r"[A-Za-z]", inner):
+                continue
+            sharers = by_skeleton.get(normalize_arabic(inner))
             if not sharers:
                 continue  # not ours — a source's own Arabic, or another pass's
             before = line[max(0, m.start() - _ANNOTATED_WINDOW - 40) : m.start()]
@@ -401,6 +454,12 @@ def _annotate_chapter(body: str, terms: list[dict[str, str]], pending: dict[str,
             # `_convert_glosses` guards its own path; this one needs the same
             # guard or `*Qutb* (pole)` still loses its translation.
             if gloss and _is_reversed_gloss(line, gloss[0], {x["phonetic"] for x in terms}):
+                continue
+            # And the letters-as-letters shape reaches here by the same route, for
+            # the same reason: `كُن (Kun)` is a gloss bracket by structure, and
+            # only the script already standing in front of it says the bracket is
+            # a pronunciation rather than a romanisation to be replaced.
+            if gloss and _script_already_precedes(line, gloss[0], script):
                 continue
             if gloss:
                 inner = f" ({script})"

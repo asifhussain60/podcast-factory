@@ -1,0 +1,1039 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 171,
+  "skipped": 0,
+  "by_class": {
+    "teach": 57,
+    "familiar": 62,
+    "name": 42,
+    "silent": 10
+  },
+  "proposals": [
+    {
+      "phonetic": "'Isa ibn Maryam",
+      "class": "familiar",
+      "english_equivalent": "Jesus, son of Mary",
+      "reason": "Famous prophet with an established English form."
+    },
+    {
+      "phonetic": "Aaron",
+      "class": "familiar",
+      "english_equivalent": "Aaron",
+      "reason": "Biblical/Quranic prophet with a standard English name."
+    },
+    {
+      "phonetic": "Abbasids",
+      "class": "familiar",
+      "english_equivalent": "Abbasids",
+      "reason": "Well-known dynasty with an established English form."
+    },
+    {
+      "phonetic": "Abel",
+      "class": "familiar",
+      "english_equivalent": "Abel",
+      "reason": "A famous figure of scripture with a standard English name."
+    },
+    {
+      "phonetic": "Abi Talib",
+      "class": "familiar",
+      "english_equivalent": "Abu Talib",
+      "reason": "Famous early-Islamic figure named in the standard genealogy."
+    },
+    {
+      "phonetic": "Adam",
+      "class": "familiar",
+      "english_equivalent": "Adam",
+      "reason": "Famous prophet of scripture with a standard English form."
+    },
+    {
+      "phonetic": "Akhnūkh",
+      "class": "familiar",
+      "english_equivalent": "Enoch",
+      "reason": "The prophet Enoch, glossed as such in the text and familiar to educated readers."
+    },
+    {
+      "phonetic": "al-Husayn",
+      "class": "familiar",
+      "english_equivalent": "Husayn",
+      "reason": "Famous grandson of the Prophet, well known in early-Islamic history."
+    },
+    {
+      "phonetic": "al-Imam",
+      "class": "familiar",
+      "english_equivalent": "imam",
+      "reason": "Imam as a common noun is already familiar to educated readers; the doctrine (Imamate) carries the teaching load."
+    },
+    {
+      "phonetic": "al-Shaytan",
+      "class": "familiar",
+      "english_equivalent": "Satan",
+      "reason": "The proper name has a standard English form."
+    },
+    {
+      "phonetic": "Ali",
+      "class": "familiar",
+      "english_equivalent": "Ali",
+      "reason": "Famous figure of early Islam recognised by this form."
+    },
+    {
+      "phonetic": "Allah",
+      "class": "familiar",
+      "english_equivalent": "Allah",
+      "reason": "Universally recognized English rendering."
+    },
+    {
+      "phonetic": "Buyids",
+      "class": "familiar",
+      "english_equivalent": "Buyids",
+      "reason": "Dynasty with a settled English scholarly form."
+    },
+    {
+      "phonetic": "Cain",
+      "class": "familiar",
+      "english_equivalent": "Cain",
+      "reason": "A famous figure of scripture with a standard English name."
+    },
+    {
+      "phonetic": "Commander of the Believers",
+      "class": "familiar",
+      "english_equivalent": "Commander of the Believers",
+      "reason": "A recognized English epithet of Ali that already prints as plain English."
+    },
+    {
+      "phonetic": "Fatima al-Zahra",
+      "class": "familiar",
+      "english_equivalent": "Fatima al-Zahra",
+      "reason": "Famous figure of early Islam, widely recognized."
+    },
+    {
+      "phonetic": "Fatimid",
+      "class": "familiar",
+      "english_equivalent": "Fatimid",
+      "reason": "Standard English adjective for the dynasty, widely recognized."
+    },
+    {
+      "phonetic": "Fatimiyya",
+      "class": "familiar",
+      "english_equivalent": "Fatimids",
+      "reason": "The dynasty has a recognized English form."
+    },
+    {
+      "phonetic": "Gospel",
+      "class": "familiar",
+      "english_equivalent": "Gospel",
+      "reason": "Standard English name of the scripture."
+    },
+    {
+      "phonetic": "hadith",
+      "class": "familiar",
+      "english_equivalent": "hadith",
+      "reason": "Established English form educated readers already recognize."
+    },
+    {
+      "phonetic": "Hajj",
+      "class": "familiar",
+      "english_equivalent": "Hajj",
+      "reason": "Widely recognized English term for the pilgrimage."
+    },
+    {
+      "phonetic": "Hamdanids",
+      "class": "familiar",
+      "english_equivalent": "Hamdanids",
+      "reason": "Dynasty with a settled English scholarly form."
+    },
+    {
+      "phonetic": "Hawwa",
+      "class": "familiar",
+      "english_equivalent": "Eve",
+      "reason": "Eve is a famous scriptural figure with a standard English form, already used in the prose."
+    },
+    {
+      "phonetic": "Hūd",
+      "class": "familiar",
+      "english_equivalent": "Hud",
+      "reason": "A famous Quranic prophet educated readers already recognize."
+    },
+    {
+      "phonetic": "Iblis",
+      "class": "familiar",
+      "english_equivalent": "Iblis",
+      "reason": "Recognised name in English writing on Islam for the fallen figure."
+    },
+    {
+      "phonetic": "Ibrahim",
+      "class": "familiar",
+      "english_equivalent": "Abraham",
+      "reason": "Famous prophet with an established English name."
+    },
+    {
+      "phonetic": "Idris",
+      "class": "familiar",
+      "english_equivalent": "",
+      "reason": "A named Quranic prophet listed beside Adam; familiar within this material."
+    },
+    {
+      "phonetic": "Ikhwan al-Safa",
+      "class": "familiar",
+      "english_equivalent": "Brethren of Purity",
+      "reason": "Named philosophical group with an established English form in scholarship."
+    },
+    {
+      "phonetic": "imam",
+      "class": "familiar",
+      "english_equivalent": "imam",
+      "reason": "Common English noun educated readers already recognize."
+    },
+    {
+      "phonetic": "Imams",
+      "class": "familiar",
+      "english_equivalent": "Imams",
+      "reason": "Imam is a familiar English common noun."
+    },
+    {
+      "phonetic": "Isa ibn Maryam",
+      "class": "familiar",
+      "english_equivalent": "Jesus",
+      "reason": "Jesus son of Mary is a famous scriptural figure with a standard English form."
+    },
+    {
+      "phonetic": "Ismaili",
+      "class": "familiar",
+      "english_equivalent": "Ismaili",
+      "reason": "Established English form already recognized by educated readers."
+    },
+    {
+      "phonetic": "Ismailiyya",
+      "class": "familiar",
+      "english_equivalent": "Ismailis",
+      "reason": "The movement has a recognized English form."
+    },
+    {
+      "phonetic": "Israfil",
+      "class": "familiar",
+      "english_equivalent": "Israfil",
+      "reason": "One of the well-known archangels of Islam, recognised by this romanisation."
+    },
+    {
+      "phonetic": "Jesus",
+      "class": "familiar",
+      "english_equivalent": "Jesus",
+      "reason": "Famous prophet already in English form."
+    },
+    {
+      "phonetic": "Jibra'il",
+      "class": "familiar",
+      "english_equivalent": "Gabriel",
+      "reason": "The archangel Gabriel has a standard English form."
+    },
+    {
+      "phonetic": "jihad",
+      "class": "familiar",
+      "english_equivalent": "jihad",
+      "reason": "Loanword already established in English."
+    },
+    {
+      "phonetic": "Ka'ba",
+      "class": "familiar",
+      "english_equivalent": "Kaaba",
+      "reason": "Famous site with an established English spelling."
+    },
+    {
+      "phonetic": "Lāmak",
+      "class": "familiar",
+      "english_equivalent": "Lamech",
+      "reason": "The biblical Lamech, glossed as such in the text and recognizable in English."
+    },
+    {
+      "phonetic": "Mahdi",
+      "class": "familiar",
+      "english_equivalent": "Mahdi",
+      "reason": "Widely recognised term in English writing on Islam."
+    },
+    {
+      "phonetic": "Makkah al-Mukarramah",
+      "class": "familiar",
+      "english_equivalent": "Mecca",
+      "reason": "The honorific form of Mecca, which has a universally recognized English name."
+    },
+    {
+      "phonetic": "Maryam",
+      "class": "familiar",
+      "english_equivalent": "Mary",
+      "reason": "Mary, mother of Jesus, has a standard English form."
+    },
+    {
+      "phonetic": "Mika'il",
+      "class": "familiar",
+      "english_equivalent": "Michael",
+      "reason": "The archangel Michael has a standard English form."
+    },
+    {
+      "phonetic": "Moses",
+      "class": "familiar",
+      "english_equivalent": "Moses",
+      "reason": "Famous prophet already in English form."
+    },
+    {
+      "phonetic": "Muhammad",
+      "class": "familiar",
+      "english_equivalent": "Muhammad",
+      "reason": "Universally recognized name of the Prophet."
+    },
+    {
+      "phonetic": "Muhammad ibn Jarir al-Tabari",
+      "class": "familiar",
+      "english_equivalent": "al-Tabari",
+      "reason": "Famous historian recognized by educated readers as al-Tabari."
+    },
+    {
+      "phonetic": "Noah",
+      "class": "familiar",
+      "english_equivalent": "Noah",
+      "reason": "Famous prophet already in English form."
+    },
+    {
+      "phonetic": "Preserved Tablet",
+      "class": "familiar",
+      "english_equivalent": "Preserved Tablet",
+      "reason": "Already an established English phrase for al-Lawh al-Mahfuz; reads as plain English."
+    },
+    {
+      "phonetic": "Qaramita",
+      "class": "familiar",
+      "english_equivalent": "Qarmatians",
+      "reason": "Has an established English form recognized in historical writing."
+    },
+    {
+      "phonetic": "Qur'an",
+      "class": "familiar",
+      "english_equivalent": "Quran",
+      "reason": "Established English form every reader recognizes."
+    },
+    {
+      "phonetic": "Seth",
+      "class": "familiar",
+      "english_equivalent": "Seth",
+      "reason": "Biblical son of Adam with a standard English name."
+    },
+    {
+      "phonetic": "shahada",
+      "class": "familiar",
+      "english_equivalent": "shahada",
+      "reason": "The Islamic testimony of faith is an established English form educated readers recognise."
+    },
+    {
+      "phonetic": "shari'a",
+      "class": "familiar",
+      "english_equivalent": "sharia",
+      "reason": "Has an established English form recognized by educated readers."
+    },
+    {
+      "phonetic": "Shem",
+      "class": "familiar",
+      "english_equivalent": "Shem",
+      "reason": "Biblical son of Noah with a standard English name."
+    },
+    {
+      "phonetic": "sunna",
+      "class": "familiar",
+      "english_equivalent": "Sunna",
+      "reason": "Standard recognized English term for prophetic practice."
+    },
+    {
+      "phonetic": "Torah",
+      "class": "familiar",
+      "english_equivalent": "Torah",
+      "reason": "Standard English name of the scripture."
+    },
+    {
+      "phonetic": "Umayyads",
+      "class": "familiar",
+      "english_equivalent": "Umayyads",
+      "reason": "Well-known dynasty with an established English form."
+    },
+    {
+      "phonetic": "umma",
+      "class": "familiar",
+      "english_equivalent": "umma",
+      "reason": "Widely recognized English term for the Muslim community."
+    },
+    {
+      "phonetic": "Yaqub",
+      "class": "familiar",
+      "english_equivalent": "Jacob",
+      "reason": "Famous prophet with an established English name."
+    },
+    {
+      "phonetic": "Yusuf",
+      "class": "familiar",
+      "english_equivalent": "Joseph",
+      "reason": "Famous prophet with an established English name."
+    },
+    {
+      "phonetic": "ʿAlī ibn Abī Ṭālib",
+      "class": "familiar",
+      "english_equivalent": "Ali ibn Abi Talib",
+      "reason": "A famous figure of early Islam with an established English rendering."
+    },
+    {
+      "phonetic": "Ṣāliḥ",
+      "class": "familiar",
+      "english_equivalent": "Salih",
+      "reason": "A famous Quranic prophet with a settled English rendering."
+    },
+    {
+      "phonetic": "Abd al-Salam ibn Raghban",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A specific poet without a familiar English form."
+    },
+    {
+      "phonetic": "Abdullah ibn Salam",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A minor companion/transmitter without an established English rendering."
+    },
+    {
+      "phonetic": "Abū Qubays",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A specific Meccan mountain without a familiar English form; keep the romanisation and script."
+    },
+    {
+      "phonetic": "al-Khalil",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "An epithet of Abraham ('the intimate friend') with no standard standalone English form; the romanisation stays."
+    },
+    {
+      "phonetic": "al-Ma'arri",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A classical poet without a familiar English form."
+    },
+    {
+      "phonetic": "al-Mahdi",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Here the person Ubayd Allah al-Mahdi, founder of the Fatimid state, with no anglicized form."
+    },
+    {
+      "phonetic": "al-Mansur",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "The Fatimid caliph al-Mansur, without a familiar English form; romanisation stays."
+    },
+    {
+      "phonetic": "al-Mansuriyya",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A place (the Fatimid capital) with no familiar English form; romanisation retained."
+    },
+    {
+      "phonetic": "al-Maqrizi",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A historian obscure to the general reader, with no familiar English form."
+    },
+    {
+      "phonetic": "al-Mu'ayyad fi al-Din",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A da'i without a familiar English form; romanisation stays."
+    },
+    {
+      "phonetic": "al-Mu'izz li-Din Allah",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A Fatimid caliph-imam without a household English form; romanisation retained."
+    },
+    {
+      "phonetic": "al-Mutanabbi",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A classical poet with no familiar English form for a general reader."
+    },
+    {
+      "phonetic": "al-Qa'im",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A Fatimid caliph without a household English form; romanisation retained."
+    },
+    {
+      "phonetic": "al-Sadiq",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Honorific of an early Imam with no familiar English form; keep the romanisation and show the script once."
+    },
+    {
+      "phonetic": "al-Wafayat",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A work title kept in romanisation with script once."
+    },
+    {
+      "phonetic": "Banu Tamim",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "An Arab tribe without a familiar English form."
+    },
+    {
+      "phonetic": "Da'a'im al-Islam",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A work title with no familiar English form; romanisation and script are retained."
+    },
+    {
+      "phonetic": "Dhikr al-Muqaddimat",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Title of a referenced work with no familiar English form; keep romanisation and script once."
+    },
+    {
+      "phonetic": "Dik al-Jinn",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "An obscure poet's sobriquet with no English equivalent."
+    },
+    {
+      "phonetic": "Fārān",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "The old place-name of the Meccan region; the text uses Faran, which has no familiar English form here, so the romanisation stays."
+    },
+    {
+      "phonetic": "Hibat Allah",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Adam's son's given name ('Gift of God'), glossed in prose but with no standard English form; keep the romanisation."
+    },
+    {
+      "phonetic": "Hudud al-Ma'arifa",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A work title with no familiar English form; romanisation and script retained."
+    },
+    {
+      "phonetic": "Ibn Khallikan",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A biographer specialist readers know but with no anglicized form; romanisation stays."
+    },
+    {
+      "phonetic": "Idris Imad al-Din",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "An obscure author/transmitter without a familiar English form."
+    },
+    {
+      "phonetic": "Ja'far al-Hajib",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "An obscure biographer without a familiar English form."
+    },
+    {
+      "phonetic": "Ja'far al-Sadiq",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A revered early Imam but with no anglicized form; romanisation and script are kept."
+    },
+    {
+      "phonetic": "Ja'far ibn Muhammad",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Full genealogical name of the Imam with no familiar English form; keep romanisation and script once."
+    },
+    {
+      "phonetic": "Ka'b al-Ahbar",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "An early transmitter without a familiar English form; keep the romanisation and script."
+    },
+    {
+      "phonetic": "Khams Rasa'il Ismailiyya",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A work title kept in romanisation; the parenthetical gloss stands in prose."
+    },
+    {
+      "phonetic": "Kitab al-Himma",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A specific book title with no familiar English form; romanisation and script stay."
+    },
+    {
+      "phonetic": "Kumayl ibn Ziyad",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "An obscure companion cited for a hadith; no familiar English form, so the romanisation stays."
+    },
+    {
+      "phonetic": "Masyaf",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A Syrian town with no familiar English form."
+    },
+    {
+      "phonetic": "Nasr",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A proper name of an idol here, not a common word, and without a familiar English form."
+    },
+    {
+      "phonetic": "Raf' al-Isr",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A work title with no familiar English form; romanisation retained."
+    },
+    {
+      "phonetic": "Rasa'il Ikhwan al-Safa",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A work title kept in romanisation with script; no single familiar English form used here."
+    },
+    {
+      "phonetic": "Salamiyya",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A place in Syria without a familiar English form; romanisation stays."
+    },
+    {
+      "phonetic": "Suwāʿ",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "One of the five named idols; a proper name lacking a familiar English form."
+    },
+    {
+      "phonetic": "Ubaydallah",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "The personal name of the Fatimid founder, kept in romanisation with script."
+    },
+    {
+      "phonetic": "Uyun al-Akhbar",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A work title with no familiar English form; romanisation retained."
+    },
+    {
+      "phonetic": "Wadd",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A named idol of Noah's people with no established English form beyond its romanisation."
+    },
+    {
+      "phonetic": "Yaghūth",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A named idol with no recognized English form, so the romanisation and script stay."
+    },
+    {
+      "phonetic": "Yaʿūq",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A named idol without a familiar English form; reader needs the romanisation to say it."
+    },
+    {
+      "phonetic": "al-Bari",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine name glossed inline as 'the Maker' in an incidental aside; too minor to introduce formally."
+    },
+    {
+      "phonetic": "al-Wahhab",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A divine epithet glossed in the running prose; a formal annotation would not help."
+    },
+    {
+      "phonetic": "asas",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Means 'foundation' and is glossed in the running title text; too minor to introduce formally."
+    },
+    {
+      "phonetic": "awsa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A bare verb ('entrusted') fully translated in the running prose; no apparatus helps."
+    },
+    {
+      "phonetic": "ishara",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'sign'; minor and glossed in prose."
+    },
+    {
+      "phonetic": "jaza'ir",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Rendered as 'islands' in the same sentence; a geographic gloss, not a term to introduce formally."
+    },
+    {
+      "phonetic": "la ilaha illa Allah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "The testimony is translated verbatim in the running prose."
+    },
+    {
+      "phonetic": "ra'is",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed as 'the leader' in the same clause; a translated word, not a formal term."
+    },
+    {
+      "phonetic": "ramz",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Translated inline as 'symbol'; a minor gloss not needing formal introduction."
+    },
+    {
+      "phonetic": "salam",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Glossed as 'reconciliation' in running prose; a one-off etymological aside, not a term to cite."
+    },
+    {
+      "phonetic": "al-Abdal",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A titled class ('those who have changed') the book defines; worth introducing formally."
+    },
+    {
+      "phonetic": "al-Ajniha",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Wings — a specific rank in the hierarchy the book enumerates and defines."
+    },
+    {
+      "phonetic": "al-Asas",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's own rank in the esoteric hierarchy — the Foundation that succeeds the Speaker; a reader should be able to name it."
+    },
+    {
+      "phonetic": "al-batin",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Central esoteric concept (the inner/hidden) paired with al-zahir; a nameable doctrinal term."
+    },
+    {
+      "phonetic": "al-Batin",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The inner — the paired technical term the whole doctrine of ta'wil turns on."
+    },
+    {
+      "phonetic": "al-Du'at",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The summoners/preachers — a named degree in the missionary hierarchy the book sets out."
+    },
+    {
+      "phonetic": "al-Hujaj",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Plural of hujja — a named degree in the hierarchy of proofs that the book teaches."
+    },
+    {
+      "phonetic": "al-Imamate",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Same core doctrine as Imamate — the institution the book teaches and the reader should be able to cite."
+    },
+    {
+      "phonetic": "al-imām al-muqīm",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Resident/permanent Imam — a defined technical rank in the book's hierarchy."
+    },
+    {
+      "phonetic": "al-Lawh",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The (Preserved) Tablet — a cosmological term the book uses doctrinally and a reader may cite."
+    },
+    {
+      "phonetic": "al-Natiq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's technical office of 'the Speaker' in the prophetic cycle, a nameable doctrinal role."
+    },
+    {
+      "phonetic": "al-Nuqaba",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical rank (the twelve chiefs) in the doctrinal hierarchy the book expounds."
+    },
+    {
+      "phonetic": "al-Qalam",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Pen — the cosmological principle paired with the Tablet in the book's account."
+    },
+    {
+      "phonetic": "al-Ta'wil",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's central concept — esoteric interpretation — named in its very title."
+    },
+    {
+      "phonetic": "al-Ta'yid",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical term for divine support/confirmation within the book's doctrine."
+    },
+    {
+      "phonetic": "al-Tanzil",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The revelation/descent set against ta'wil — a term the reader should be able to look up."
+    },
+    {
+      "phonetic": "al-zahir",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Central concept of the outer/apparent sense, the doctrinal pair of al-batin."
+    },
+    {
+      "phonetic": "al-Zahir",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The outward — half of the book's foundational outward/inner (zahir/batin) polarity."
+    },
+    {
+      "phonetic": "asbab",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical role in the cosmology ('instruments' of each Speaker); worth naming despite one occurrence."
+    },
+    {
+      "phonetic": "Ashab al-Jaza'ir",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Lords of the Islands — a technical office of the missionary structure the book teaches."
+    },
+    {
+      "phonetic": "awliya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Friends of Allah — core wilayah doctrine the book teaches, not incidental vocabulary."
+    },
+    {
+      "phonetic": "Bab",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A titled office in the hierarchy (the Gate); the book teaches it as a rank to name."
+    },
+    {
+      "phonetic": "bashar",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book gives this an inner-sense doctrinal meaning it wants the reader to name and look up."
+    },
+    {
+      "phonetic": "da'i",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's own technical term for the Ismaili summoner/missionary, worth naming and searching."
+    },
+    {
+      "phonetic": "da'wa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's own core doctrinal term for the Ismaili mission — a reader should be able to name and look it up."
+    },
+    {
+      "phonetic": "du'at",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical rank-term for the mission's preachers, part of the book's own vocabulary."
+    },
+    {
+      "phonetic": "furu'",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical term for the lower degree ('branches') paired with usul; reader should name it."
+    },
+    {
+      "phonetic": "hadd / hudud",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Key technical term for the ranked limits of the hierarchy; the reader must be able to name it."
+    },
+    {
+      "phonetic": "Hizb Allah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Party of Allah — a doctrinal designation for the community that the reader may want to cite."
+    },
+    {
+      "phonetic": "hujja",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core doctrinal term (the proof/foundation succeeding the Speaker), used fifteen times and worth citing."
+    },
+    {
+      "phonetic": "Imamate",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's core doctrine and institution; technical vocabulary to introduce and cite."
+    },
+    {
+      "phonetic": "iman",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical term whose distinction from islam the book expounds; worth naming."
+    },
+    {
+      "phonetic": "islam",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Used here in the technical sense contrasted with iman, a distinction the book teaches."
+    },
+    {
+      "phonetic": "itra",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Family/progeny of the Imams — a doctrinal term the reader should be able to name and look up."
+    },
+    {
+      "phonetic": "jizya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical legal term a reader would want to cite and look up."
+    },
+    {
+      "phonetic": "Lahiq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rank in the doctrinal hierarchy (the Follower); technical vocabulary to introduce."
+    },
+    {
+      "phonetic": "mudabbirat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical cosmological term for the governing planetary powers; reader may want to cite it."
+    },
+    {
+      "phonetic": "mustajib",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical name for a rank in the initiatic hierarchy the book teaches."
+    },
+    {
+      "phonetic": "māl",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical term the book redefines in its inner-sense exposition, worth citing."
+    },
+    {
+      "phonetic": "natiq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Speaker — a primary rank in the hierarchy, used five times as fixed vocabulary."
+    },
+    {
+      "phonetic": "pen (qalam)",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Foundational cosmological term the book builds on; reader should be able to name qalam and look it up."
+    },
+    {
+      "phonetic": "Qasim al-Nar",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A doctrinal title ('Distributor of the Fire') the book teaches and a reader would want to cite."
+    },
+    {
+      "phonetic": "Sahib al-Qiyama",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A specific doctrinal title (Lord of the Resurrection) the book introduces and names."
+    },
+    {
+      "phonetic": "samit",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The Silent One — the technical counterpart to the Speaker in the book's scheme."
+    },
+    {
+      "phonetic": "shaytan",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book gives it a technical redefinition (the cut-off man with no proof) distinct from the name Satan; reader should name that sense."
+    },
+    {
+      "phonetic": "ta'wil",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's foundational technical term for inner/esoteric interpretation, which a reader should be able to name and cite."
+    },
+    {
+      "phonetic": "tafsir",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Exoteric exegesis, the term the book explicitly contrasts with ta'wil; readers should be able to cite the distinction."
+    },
+    {
+      "phonetic": "tanzil",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical term for the sent-down revelation, paired doctrinally against ta'wil."
+    },
+    {
+      "phonetic": "taqiyya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical doctrine (precautionary concealment) the reader would want to name and look up."
+    },
+    {
+      "phonetic": "usul",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical term for the highest degree ('roots/principles'); doctrinal vocabulary to cite."
+    },
+    {
+      "phonetic": "walad",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Used as a defined term in the allegorical reading, introduced with its Arabic once."
+    },
+    {
+      "phonetic": "walaya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core doctrine of allegiance to the Imams that the book teaches and the reader should be able to cite."
+    },
+    {
+      "phonetic": "Wali",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Central doctrinal term (Friend of Allah / wilayah) the book teaches; reader should name and search it."
+    },
+    {
+      "phonetic": "wali",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The guardian/friend of the age — a technical doctrinal role the reader should be able to name."
+    },
+    {
+      "phonetic": "wasi",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical term for the appointed executor/successor, a role the book teaches."
+    },
+    {
+      "phonetic": "wasiyya",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The doctrine of the testamentary succession — a citable technical term of the book."
+    },
+    {
+      "phonetic": "ḥujaj",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The proofs (plural of hujja) — the same technical degree the book enumerates as twelve."
+    }
+  ]
+}

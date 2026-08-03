@@ -1,14 +1,14 @@
 {
-  "vowelled": 1,
-  "marks_added": 8,
-  "already": 35,
+  "vowelled": 8,
+  "marks_added": 86,
+  "already": 162,
   "quranic": 0,
   "from_mushaf": 0,
   "refused": 0,
   "recovered": 0,
-  "in_chars": 11,
-  "out_chars": 19,
+  "in_chars": 110,
+  "out_chars": 194,
   "mushaf_pairs": [],
   "refusals": [],
-  "lexical": 0
+  "lexical": 1
 }

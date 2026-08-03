@@ -1,0 +1,193 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 30,
+  "skipped": 0,
+  "by_class": {
+    "teach": 27,
+    "familiar": 0,
+    "name": 0,
+    "silent": 3
+  },
+  "proposals": [
+    {
+      "phonetic": "basirah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Occurs once and is immediately glossed as 'insight' in the running sentence, so an entry adds nothing."
+    },
+    {
+      "phonetic": "stripping every attribute away",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An English parenthetical gloss of tajrid, not a term to annotate."
+    },
+    {
+      "phonetic": "surat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Just the construct 'chapter of' inside a Quran citation, already rendered by the chapter number in prose."
+    },
+    {
+      "phonetic": "Ahadiyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named upper rank of the ladder tied to divine oneness — a substantive doctrinal term."
+    },
+    {
+      "phonetic": "alam al-ruh",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Names a specific realm in the book's cosmology (the world of spirits, our origin) — a concept a reader would want to cite."
+    },
+    {
+      "phonetic": "amal",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Named as one of the two doctrinal means of access to tawhid, forming a formulaic pair with wilayah."
+    },
+    {
+      "phonetic": "Anza'iyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rung on the book's ascending ladder of ranks."
+    },
+    {
+      "phonetic": "da'i",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rank in the da'wa hierarchy (Da'i Mutlaq, Da'i Mahsur) that is technical vocabulary here."
+    },
+    {
+      "phonetic": "Du'at",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The summoners who establish the tradition's technical terms — plural of the taught rank da'i, worth naming."
+    },
+    {
+      "phonetic": "Fathiyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rung on the book's ascending ladder of ranks."
+    },
+    {
+      "phonetic": "haykal",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical term for the spiritual form on which the hierarchy is set — book-specific vocabulary."
+    },
+    {
+      "phonetic": "Hijabiyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rung on the book's ascending ladder of ranks."
+    },
+    {
+      "phonetic": "hudud",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A recurring technical term (eighteen uses) for the appointed ranks and bounds — key doctrinal vocabulary."
+    },
+    {
+      "phonetic": "hujjah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named station/rank in the doctrinal hierarchy that the book teaches."
+    },
+    {
+      "phonetic": "Hujjiyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rung on the book's ten-rank spiritual ladder — technical vocabulary."
+    },
+    {
+      "phonetic": "Huwiyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The summit rank of the ladder (the bare 'He') — a key doctrinal term the reader should be able to name."
+    },
+    {
+      "phonetic": "Ilahiyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rank on the book's ascending doctrinal ladder that a reader may want to cite."
+    },
+    {
+      "phonetic": "Imam al-Zaman",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A doctrinal title/rank central to this tradition with no established English form; the book uses it technically."
+    },
+    {
+      "phonetic": "Jiddiyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rung on the book's ascending ladder of ranks."
+    },
+    {
+      "phonetic": "Jussiyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rung on the book's ascending ladder of ranks."
+    },
+    {
+      "phonetic": "Khayaliyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rung on the book's ascending ladder of ranks."
+    },
+    {
+      "phonetic": "ma'dhun",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rank in the book's da'wa hierarchy the reader should be able to identify."
+    },
+    {
+      "phonetic": "Mukathir",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A core technical term the book teaches — it titles a chapter and recurs sixty-one times."
+    },
+    {
+      "phonetic": "Qa'imiyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named rung on the book's ascending ladder of ranks."
+    },
+    {
+      "phonetic": "Samadiyyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named upper rank of the ladder tied to divine self-subsistence — a substantive doctrinal term."
+    },
+    {
+      "phonetic": "ta'wil",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named mode of scriptural interpretation the book defines and works with technically."
+    },
+    {
+      "phonetic": "tajrid",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "One of the treatise's three governing technical terms defining its doctrinal method."
+    },
+    {
+      "phonetic": "tanzih",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "One of the treatise's three governing technical terms the reader should be able to name and look up."
+    },
+    {
+      "phonetic": "tawhid",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The book's central doctrine (the volume's own subject) and its own technical vocabulary, not yet common in general English."
+    },
+    {
+      "phonetic": "wilayah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The doctrine of allegiance to the Imams — core taught vocabulary and one of the two named means to tawhid."
+    }
+  ]
+}

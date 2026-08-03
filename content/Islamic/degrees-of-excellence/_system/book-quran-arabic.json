@@ -1,10 +1,258 @@
 {
   "cited": 23,
-  "inserted": 0,
-  "already": 28,
+  "inserted": 22,
+  "already": 6,
   "uncovered": [],
-  "inserted_detail": [],
+  "inserted_detail": [
+    {
+      "ref": "21:98",
+      "line": 203,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 11,
+      "quoted_words": 5,
+      "aligned_words": 5,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:24",
+      "line": 207,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 14,
+      "quoted_words": 9,
+      "aligned_words": 8,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "14:24-26",
+      "line": 213,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 41,
+      "quoted_words": 41,
+      "aligned_words": 40,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "16:68-69",
+      "line": 223,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 39,
+      "quoted_words": 32,
+      "aligned_words": 31,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "8:22",
+      "line": 231,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 10,
+      "quoted_words": 10,
+      "aligned_words": 10,
+      "precision": 1.0,
+      "whole_ayah": true
+    },
+    {
+      "ref": "7:179",
+      "line": 235,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 33,
+      "quoted_words": 9,
+      "aligned_words": 8,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "59:7",
+      "line": 241,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 40,
+      "quoted_words": 9,
+      "aligned_words": 9,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "35:45",
+      "line": 289,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 25,
+      "quoted_words": 12,
+      "aligned_words": 12,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "6:149",
+      "line": 330,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 9,
+      "quoted_words": 3,
+      "aligned_words": 3,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:30",
+      "line": 411,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 30,
+      "quoted_words": 26,
+      "aligned_words": 24,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "17:23",
+      "line": 415,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 26,
+      "quoted_words": 6,
+      "aligned_words": 6,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "17:77",
+      "line": 423,
+      "via": "cited",
+      "reason": "ocr-stream",
+      "ayah_words": 12,
+      "quoted_words": 12,
+      "aligned_words": 10,
+      "precision": 0.667,
+      "whole_ayah": true
+    },
+    {
+      "ref": "33:62",
+      "line": 427,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 12,
+      "quoted_words": 5,
+      "aligned_words": 5,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "28:68",
+      "line": 441,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 16,
+      "quoted_words": 10,
+      "aligned_words": 9,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "4:95-96",
+      "line": 447,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 45,
+      "quoted_words": 7,
+      "aligned_words": 5,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "39:9",
+      "line": 451,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 26,
+      "quoted_words": 5,
+      "aligned_words": 3,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "58:11",
+      "line": 455,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 32,
+      "quoted_words": 3,
+      "aligned_words": 3,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "49:13",
+      "line": 459,
+      "via": "cited",
+      "reason": "ocr-span",
+      "ayah_words": 22,
+      "quoted_words": 4,
+      "aligned_words": 4,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:124",
+      "line": 31,
+      "via": "uncited-agreed",
+      "english_similarity": 0.5,
+      "reason": "ocr-span",
+      "ayah_words": 22,
+      "quoted_words": 12,
+      "aligned_words": 10,
+      "precision": 0.909,
+      "whole_ayah": false
+    },
+    {
+      "ref": "2:44",
+      "line": 384,
+      "via": "uncited-agreed",
+      "english_similarity": 0.6,
+      "reason": "ocr-span",
+      "ayah_words": 11,
+      "quoted_words": 5,
+      "aligned_words": 5,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "3:110",
+      "line": 388,
+      "via": "uncited-agreed",
+      "english_similarity": 0.5,
+      "reason": "ocr-span",
+      "ayah_words": 25,
+      "quoted_words": 10,
+      "aligned_words": 10,
+      "precision": 1.0,
+      "whole_ayah": false
+    },
+    {
+      "ref": "68:43",
+      "line": 539,
+      "via": "uncited-agreed",
+      "english_similarity": 0.6,
+      "reason": "ocr-span",
+      "ayah_words": 12,
+      "quoted_words": 7,
+      "aligned_words": 7,
+      "precision": 1.0,
+      "whole_ayah": false
+    }
+  ],
   "invalid_reference": [],
+  "uncited_inserted": 4,
   "spans_in_scan": 44,
   "scan_arabic_words": 21340,
   "uncited_review": [
@@ -17,7 +265,7 @@
       "agreed": false
     },
     {
-      "line": 33,
+      "line": 31,
       "passage": "And remember when His Lord tried Abraham with His commands and he fulfilled them, He said: I am appointing you an imam for all humanity.",
       "proposed_ref": "2:124",
       "english_similarity": 0.5,
@@ -25,7 +273,7 @@
       "agreed": true
     },
     {
-      "line": 80,
+      "line": 78,
       "passage": "And remember in the Scripture, Ismail was indeed faithful in fulfilling his promise while he was a messenger, a prophet.",
       "proposed_ref": "19:54",
       "english_similarity": 0.333,
@@ -33,7 +281,7 @@
       "agreed": false
     },
     {
-      "line": 80,
+      "line": 78,
       "passage": "And when His Lord tried Abraham with His commands and he fulfilled them, He said: I am appointing you an imam for all humanity.",
       "proposed_ref": "2:124",
       "english_similarity": 0.571,
@@ -41,7 +289,7 @@
       "agreed": true
     },
     {
-      "line": 82,
+      "line": 80,
       "passage": " He called Muhammad and the other messengers ",
       "proposed_ref": "35:4",
       "english_similarity": 0.5,
@@ -49,7 +297,7 @@
       "agreed": false
     },
     {
-      "line": 112,
+      "line": 100,
       "passage": " in every cycle, while certain followers of Islam have given the title ",
       "proposed_ref": "22:44",
       "english_similarity": 0.375,
@@ -57,7 +305,7 @@
       "agreed": false
     },
     {
-      "line": 120,
+      "line": 108,
       "passage": "My companions are like the stars; whomsoever you emulate, you will be guided.",
       "proposed_ref": "6:71",
       "english_similarity": 0.5,
@@ -65,7 +313,7 @@
       "agreed": false
     },
     {
-      "line": 158,
+      "line": 146,
       "passage": "My witness is every stone and every piece of clay.",
       "proposed_ref": "50:21",
       "english_similarity": 0.4,
@@ -73,7 +321,7 @@
       "agreed": false
     },
     {
-      "line": 356,
+      "line": 328,
       "passage": "We found no one to guide us from falsehood to the truth.",
       "proposed_ref": "86:13",
       "english_similarity": 0.5,
@@ -81,7 +329,7 @@
       "agreed": false
     },
     {
-      "line": 376,
+      "line": 346,
       "passage": "The imam is the guarantor for those who follow him.",
       "proposed_ref": "16:100",
       "english_similarity": 0.5,
@@ -89,7 +337,7 @@
       "agreed": false
     },
     {
-      "line": 384,
+      "line": 354,
       "passage": "If only when they wronged themselves, they had come to you seeking forgiveness of God and the Prophet, they would have surely found God Most Forgiving and Merci",
       "proposed_ref": "4:64",
       "english_similarity": 0.545,
@@ -97,7 +345,7 @@
       "agreed": false
     },
     {
-      "line": 392,
+      "line": 362,
       "passage": "Take alms (sadaqa) from their wealth, purify them and cleanse them through it and pray for them. Your prayers will indeed bring them tranquillity.",
       "proposed_ref": "9:103",
       "english_similarity": 0.364,
@@ -105,7 +353,7 @@
       "agreed": false
     },
     {
-      "line": 398,
+      "line": 368,
       "passage": "...purify them and pray for them; your prayers will indeed bring them tranquillity.",
       "proposed_ref": "2:125",
       "english_similarity": 0.4,
@@ -113,7 +361,7 @@
       "agreed": false
     },
     {
-      "line": 416,
+      "line": 384,
       "passage": "Do you command people to do good and forget it yourselves?",
       "proposed_ref": "2:44",
       "english_similarity": 0.6,
@@ -121,7 +369,7 @@
       "agreed": true
     },
     {
-      "line": 422,
+      "line": 388,
       "passage": "You are the best community (umma) that has been raised for the people. You enjoin good conduct and forbid evil.",
       "proposed_ref": "3:110",
       "english_similarity": 0.5,
@@ -129,7 +377,7 @@
       "agreed": true
     },
     {
-      "line": 428,
+      "line": 394,
       "passage": "According to Abu Hanifa, this man should be executed,",
       "proposed_ref": "65:7",
       "english_similarity": 0.4,
@@ -137,7 +385,7 @@
       "agreed": false
     },
     {
-      "line": 428,
+      "line": 394,
       "passage": "According to Malik, this woman should be divorced,",
       "proposed_ref": "65:6",
       "english_similarity": 0.75,
@@ -145,7 +393,7 @@
       "agreed": false
     },
     {
-      "line": 428,
+      "line": 394,
       "passage": "According to Ahmad b. Hanbal, the woman is not forbidden to him.",
       "proposed_ref": "6:138",
       "english_similarity": 0.5,
@@ -153,7 +401,7 @@
       "agreed": false
     },
     {
-      "line": 430,
+      "line": 396,
       "passage": "A sinner has no legal guardianship; if he had a daughter, he would have no right to give her in marriage. That right would pass to the judge, not to him.",
       "proposed_ref": "33:37",
       "english_similarity": 0.4,
@@ -161,7 +409,7 @@
       "agreed": false
     },
     {
-      "line": 457,
+      "line": 419,
       "passage": "My community will experience exactly what happened among the Banu Israil.",
       "proposed_ref": "16:36",
       "english_similarity": 0.333,
@@ -169,7 +417,7 @@
       "agreed": false
     },
     {
-      "line": 515,
+      "line": 463,
       "passage": "Whoever has not mastered the law of buying and selling, how can he eat only what is lawful? And whoever does not eat only what is lawful has no asceticism.",
       "proposed_ref": "2:275",
       "english_similarity": 0.444,
@@ -177,7 +425,7 @@
       "agreed": false
     },
     {
-      "line": 517,
+      "line": 465,
       "passage": "I am the most eloquent of the Arabs, without boasting.",
       "proposed_ref": "19:88",
       "english_similarity": 0.4,
@@ -185,7 +433,7 @@
       "agreed": false
     },
     {
-      "line": 519,
+      "line": 467,
       "passage": "If a cushion were folded for me to sit upon, I would judge the followers of the Torah by the Torah, the followers of the Bible by the Bible, and the followers o",
       "proposed_ref": "5:68",
       "english_similarity": 0.333,
@@ -193,7 +441,7 @@
       "agreed": false
     },
     {
-      "line": 519,
+      "line": 467,
       "passage": "I have been put in charge of you although I am not the best among you,",
       "proposed_ref": "20:40",
       "english_similarity": 0.5,
@@ -201,7 +449,7 @@
       "agreed": false
     },
     {
-      "line": 521,
+      "line": 469,
       "passage": "Follow the two who come after me, Abu Bakr and Umar.",
       "proposed_ref": "2:145",
       "english_similarity": 0.4,
@@ -209,7 +457,7 @@
       "agreed": false
     },
     {
-      "line": 541,
+      "line": 489,
       "passage": "... And you will be paid only that which you have earned fairly on the Day of Resurrection. Whoever is removed from the Fire and allowed to enter Paradise will ",
       "proposed_ref": "3:185",
       "english_similarity": 0.583,
@@ -217,7 +465,7 @@
       "agreed": false
     },
     {
-      "line": 551,
+      "line": 499,
       "passage": "Indeed, the abode of the hereafter, that is life, if only they knew.",
       "proposed_ref": "29:64",
       "english_similarity": 0.75,
@@ -225,7 +473,7 @@
       "agreed": false
     },
     {
-      "line": 561,
+      "line": 509,
       "passage": "Indeed God, the Exalted, establishes (nazaa) proof through the ruler beyond what He establishes through the Quran,",
       "proposed_ref": "11:17",
       "english_similarity": 0.375,
@@ -233,7 +481,7 @@
       "agreed": false
     },
     {
-      "line": 571,
+      "line": 519,
       "passage": "Nay, indeed man certainly becomes rebellious, considering himself self-sufficient.",
       "proposed_ref": "96:7",
       "english_similarity": 0.333,
@@ -241,7 +489,7 @@
       "agreed": false
     },
     {
-      "line": 587,
+      "line": 535,
       "passage": "On the day when the summoner calls them to a painful end ... their eyes will be lowered in humiliation,",
       "proposed_ref": "70:44",
       "english_similarity": 0.375,
@@ -249,7 +497,7 @@
       "agreed": false
     },
     {
-      "line": 593,
+      "line": 539,
       "passage": "They were called to prostrate while safe and secure.",
       "proposed_ref": "68:43",
       "english_similarity": 0.6,
@@ -257,7 +505,7 @@
       "agreed": true
     },
     {
-      "line": 599,
+      "line": 545,
       "passage": "We do not desire either reward or gratitude from them.",
       "proposed_ref": "39:34",
       "english_similarity": 0.5,
@@ -266,5 +514,5 @@
     }
   ],
   "coverage": 1.0,
-  "cited_inserted": 0
+  "cited_inserted": 18
 }

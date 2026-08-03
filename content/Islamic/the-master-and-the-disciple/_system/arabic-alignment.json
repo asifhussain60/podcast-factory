@@ -4,14 +4,14 @@
     {
       "chapter_key": "the persian who was dead and revived",
       "title": "The Persian Who Was Dead and Revived",
-      "blocks_fingerprint": "595dec1af440c9c7",
+      "blocks_fingerprint": "56ab610d0d7a898c",
       "source_para_range": [
         3,
         5
       ],
       "pairs": [
         {
-          "fp": "4efe74f50c5c4967",
+          "fp": "b576d548532bf494",
           "source_paras": [
             3
           ],
@@ -50,7 +50,7 @@
     {
       "chapter_key": "a stranger in the city",
       "title": "A Stranger in the City",
-      "blocks_fingerprint": "a6ab0471510902ca",
+      "blocks_fingerprint": "30d55393aa6b9b4c",
       "source_para_range": [
         6,
         26
@@ -201,416 +201,471 @@
     {
       "chapter_key": "the boy at the door — limits and conditions",
       "title": "The Boy at the Door — Limits and Conditions",
-      "blocks_fingerprint": "564563b3c45b9ede",
+      "blocks_fingerprint": "75c13949067a37f7",
       "source_para_range": [
         27,
         83
       ],
       "pairs": [
         {
-          "fp": "264e563fe26cace3",
+          "fp": "06fe7cc4cff3d071",
           "source_paras": [
             27
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
-          "fp": "fccd48a1829599cb",
+          "fp": "f4a7c31482e43382",
           "source_paras": [
             28
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
-          "fp": "80c1d82bed16b9fc",
+          "fp": "18d3c81ff07b9690",
           "source_paras": [
             29
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "6d42684d7dc0252c",
           "source_paras": [
             30
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
-          "fp": "b7ccb431a80870cd",
+          "fp": "d1c845cac70a75ae",
           "source_paras": [
             31
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
-          "fp": "36115002213c11a3",
+          "fp": "42216a7e6d8c0348",
           "source_paras": [
-            31,
-            32
+            31
           ],
-          "confidence": "bracketed"
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
         },
         {
           "fp": "a90a502c63d007b4",
           "source_paras": [
             32
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "e3d3f579cb85747b",
           "source_paras": [
             33
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "cd81b0470dd2eb0d",
           "source_paras": [
             34
           ],
-          "confidence": "bracketed"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "1f19b78eab897ea7",
           "source_paras": [
             35
           ],
-          "confidence": "bracketed"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "c667d71b84694ae3",
           "source_paras": [
             36
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "8b4b551903319d35",
           "source_paras": [
             37
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "c27e01aa98c252d7",
           "source_paras": [
             38
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "64b7fa61e0962c47",
           "source_paras": [
             39
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "80fd5311c295d50a",
           "source_paras": [
             40
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "42be4dd6b2536ae4",
           "source_paras": [
             41
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "f2418f49875d73e7",
           "source_paras": [
             42
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "44a8c0e63965ed18",
           "source_paras": [
             43
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "449b3ff22abda667",
           "source_paras": [
             44
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "434d90f6e509ab08",
           "source_paras": [
             46
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "759a08b74d2bde94",
           "source_paras": [
             48
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "af12b3edef2e3682",
           "source_paras": [
             49
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
         },
         {
           "fp": "517b4178bf809a0a",
           "source_paras": [
             50
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
         },
         {
           "fp": "a9b21492e002a0d0",
           "source_paras": [
             51
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "165edbafc36f491f",
           "source_paras": [
             52
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
         },
         {
           "fp": "d8a682566f16e0fb",
           "source_paras": [
             53
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "baf584f040410d8b",
           "source_paras": [
             54
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "a14d6c6183f024fe",
           "source_paras": [
             55
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "42c0da379cd01af1",
           "source_paras": [
             56
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
         },
         {
           "fp": "0530f4f607c9c496",
           "source_paras": [
             59
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "513a1ae2770859d1",
           "source_paras": [
             60
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "2bdf0fe05de6f181",
           "source_paras": [
             61
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "5a2829a538132996",
           "source_paras": [
             62
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "c3734a4546f023dc",
           "source_paras": [
             63
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "24c6a8ae6ae8d25a",
           "source_paras": [
             63
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": true
         },
         {
-          "fp": "1e3d1d1400904316",
+          "fp": "f2199f42b736bd9d",
           "source_paras": [
             63
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "01a19a674a872264",
           "source_paras": [
             64
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "821547dbc962043a",
           "source_paras": [
             65
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
         },
         {
           "fp": "665b9ac7e79ecede",
           "source_paras": [
             66
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
         },
         {
-          "fp": "e0eefe2f6bee0767",
+          "fp": "cb4028a02a08b9c8",
           "source_paras": [
             67
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "46c64342a858fa15",
           "source_paras": [
             68
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false,
+          "repaired": true
         },
         {
           "fp": "b7c21cf1db1ee60a",
           "source_paras": [
             69
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "538942dc10d1ea21",
           "source_paras": [
             70
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "3162ac1e01aa3b19",
           "source_paras": [
             71
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "3ab85ff1a26c012a",
           "source_paras": [
             72
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "984be63d0851e537",
           "source_paras": [
             73
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
-          "fp": "42746fe697648609",
+          "fp": "7384d6c047fbd604",
           "source_paras": [
             74
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
-          "fp": "8705f8d97fb302a8",
+          "fp": "f6a87b1173337d13",
           "source_paras": [
             75
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "3c8003567f75447b",
           "source_paras": [
             76
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "3b5ed9add2cd25c7",
           "source_paras": [
             77
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "5b9a9b181b0c50f3",
           "source_paras": [
             79
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "37150697af1b6e6d",
           "source_paras": [
             80
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
-          "fp": "aa3532f21bbf48b3",
+          "fp": "263ca88a5227a01e",
           "source_paras": [
             81
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
           "fp": "3f85eff17952b679",
           "source_paras": [
             82
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         },
         {
-          "fp": "0782417680fd5bf6",
+          "fp": "3e2a85045d870a3b",
           "source_paras": [
             83
           ],
-          "confidence": "verified"
+          "confidence": "verified",
+          "anchored": false
         }
       ]
     },
     {
       "chapter_key": "how the world was made",
       "title": "How the World Was Made",
-      "blocks_fingerprint": "8c2343ddc82385f4",
+      "blocks_fingerprint": "1a1eedc7e19317e0",
       "source_para_range": [
         84,
         93
       ],
       "pairs": [
-        {
-          "fp": "bf0aeda98ccfb74e",
-          "source_paras": [
-            84
-          ],
-          "confidence": "verified"
-        },
         {
           "fp": "0aa40bfa14fff2bc",
           "source_paras": [
@@ -682,7 +737,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "67c72afae1d1b072",
+          "fp": "88f95f81cf52503b",
           "source_paras": [
             90
           ],
@@ -724,7 +779,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "70f970175eb0e751",
+          "fp": "457a839158664208",
           "source_paras": [
             93
           ],
@@ -735,7 +790,7 @@
     {
       "chapter_key": "the world, the hereafter, and the speech of parables",
       "title": "The World, the Hereafter, and the Speech of Parables",
-      "blocks_fingerprint": "43e01282d6ae793c",
+      "blocks_fingerprint": "40dcf1cb6aee0635",
       "source_para_range": [
         94,
         153
@@ -861,7 +916,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "1f51f2602d7e44bf",
+          "fp": "c3fc59102f51f5f3",
           "source_paras": [
             109
           ],
@@ -875,7 +930,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "d047fd8f88d2e6ff",
+          "fp": "a88246be25fa46aa",
           "source_paras": [
             111
           ],
@@ -889,14 +944,14 @@
           "confidence": "verified"
         },
         {
-          "fp": "6a979081cf74e216",
+          "fp": "becbf1a46ab38445",
           "source_paras": [
             113
           ],
           "confidence": "verified"
         },
         {
-          "fp": "88457ff0da4f9481",
+          "fp": "1cfde7b37b872955",
           "source_paras": [
             114
           ],
@@ -910,7 +965,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "86570f61e50991bc",
+          "fp": "44588e6daf2f2238",
           "source_paras": [
             117
           ],
@@ -924,7 +979,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "c8c643f8e2d8a613",
+          "fp": "c55fb156c7ca07f9",
           "source_paras": [
             119
           ],
@@ -952,7 +1007,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "7abc643b952b483b",
+          "fp": "c528c7cb1806ae8c",
           "source_paras": [
             123
           ],
@@ -1215,7 +1270,7 @@
     {
       "chapter_key": "three layers of knowledge",
       "title": "Three Layers of Knowledge",
-      "blocks_fingerprint": "2c3c97ad91b73016",
+      "blocks_fingerprint": "8709d6ccd0415628",
       "source_para_range": [
         154,
         200
@@ -1308,7 +1363,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "47efeafad3ca0ab6",
+          "fp": "71e5b6d239a89030",
           "source_paras": [
             167
           ],
@@ -1357,7 +1412,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "b6d9ef2967550f05",
+          "fp": "fe3741e67fe27fa2",
           "source_paras": [
             173
           ],
@@ -1378,7 +1433,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "dff9159661075f58",
+          "fp": "e73e40a1ea48f138",
           "source_paras": [
             174
           ],
@@ -1413,7 +1468,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "d5fa25a5893f9d9b",
+          "fp": "78ad5402b064d15b",
           "source_paras": [
             179
           ],
@@ -1427,7 +1482,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "bd7fce1da61b81af",
+          "fp": "7d1675c99c6b2f3a",
           "source_paras": [
             179
           ],
@@ -1448,7 +1503,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "374426914753a245",
+          "fp": "dd0af288ca6bfeaf",
           "source_paras": [
             181
           ],
@@ -1606,7 +1661,7 @@
     {
       "chapter_key": "the five shares and the long road to the shaykh",
       "title": "The Five Shares and the Long Road to the Shaykh",
-      "blocks_fingerprint": "9086c2bd70a8e43d",
+      "blocks_fingerprint": "3d357e43083faa50",
       "source_para_range": [
         201,
         311
@@ -2402,7 +2457,7 @@
     {
       "chapter_key": "homecoming, the father, and the debate with abu malik",
       "title": "Homecoming, the Father, and the Debate with Abu Malik",
-      "blocks_fingerprint": "48a5c7c458c56c3f",
+      "blocks_fingerprint": "5508fb4bedc78e53",
       "source_para_range": [
         312,
         558
@@ -2458,7 +2513,7 @@
           "confidence": "verified"
         },
         {
-          "fp": "da7dd022456bd814",
+          "fp": "2d725f50d79fe8ed",
           "source_paras": [
             320
           ],
@@ -3806,7 +3861,7 @@
         {
           "fp": "290eb81135030e35",
           "source_paras": [
-            516
+            515
           ],
           "confidence": "verified"
         },

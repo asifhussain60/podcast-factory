@@ -1,0 +1,73 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 10,
+  "skipped": 0,
+  "by_class": {
+    "teach": 5,
+    "familiar": 0,
+    "name": 3,
+    "silent": 2
+  },
+  "proposals": [
+    {
+      "phonetic": "Al-Ala",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A Quran chapter title with no standard English form — kept in romanisation with script shown once, its meaning already given in the quoted opening line."
+    },
+    {
+      "phonetic": "Al-Ikhlas",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A surah title without an established English form; retained as a transliterated proper name with the verse itself carrying the sense."
+    },
+    {
+      "phonetic": "Al-Kafirun",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A surah title with no recognised English form, kept as a romanised proper name identifying the quoted chapter."
+    },
+    {
+      "phonetic": "bashara",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A one-off etymological gloss ('one skin') fully translated in the running prose; too minor to introduce formally."
+    },
+    {
+      "phonetic": "zanadiqa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Appears once and is fully rendered as 'heretics' in the running prose, too minor to introduce formally."
+    },
+    {
+      "phonetic": "approach",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "mubasharah is a technical legal term the book defines and reuses nine times, so a reader should be able to name and look it up."
+    },
+    {
+      "phonetic": "hadi",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A specific ritual term for the sacrificial offering of the pilgrimage that a reader may want to cite."
+    },
+    {
+      "phonetic": "khums",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A core doctrinal-legal term (the obligatory fifth) central to this tradition and highly searchable, worth naming even at one occurrence."
+    },
+    {
+      "phonetic": "mahram",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical term for kin within the forbidden degrees, used repeatedly and something a reader would want to cite."
+    },
+    {
+      "phonetic": "muruwwa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "An ethical concept ('manly virtue') the book explicitly discusses and returns to five times, meriting formal introduction."
+    }
+  ]
+}

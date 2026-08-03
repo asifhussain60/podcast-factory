@@ -1,7 +1,7 @@
 {
-  "schema": "podcast.book-voice/v2",
+  "schema": "podcast.book-voice/v5",
   "narrative_frame": "transmitted_report",
-  "revoiced": 9,
+  "revoiced": 8,
   "reverted": 0,
   "chapters": [
     {
@@ -44,11 +44,12 @@
       "output_words": 3406,
       "windows": 1,
       "windows_kept": 1,
-      "status": "adapted",
+      "status": "adapted-then-overwritten",
       "gates": [],
       "warnings": [
         "voice-04: output near-identical to base \u2014 copied, not re-voiced"
-      ]
+      ],
+      "pre_replay_status": "adapted"
     },
     {
       "title": "How the World Was Made",
@@ -111,5 +112,6 @@
         "voice-09-part-06: output near-identical to base \u2014 copied, not re-voiced"
       ]
     }
-  ]
+  ],
+  "overwritten_by_replay": 1
 }

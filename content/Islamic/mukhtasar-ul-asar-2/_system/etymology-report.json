@@ -1,0 +1,53 @@
+{
+  "schema": "podcast.etymology/v1",
+  "book": "mukhtasar-ul-asar-2",
+  "candidates": 30,
+  "generated": 7,
+  "kept": 6,
+  "written": 6,
+  "dropped": 1,
+  "drop_reasons": [
+    {
+      "term": "ibriz",
+      "reason": "verifier did not confirm the root"
+    }
+  ],
+  "entries": [
+    {
+      "term": "khiyar",
+      "root": "kh-y-r",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "alaqah",
+      "root": "a-l-q",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "hawala",
+      "root": "h-w-l",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "hijab",
+      "root": "h-j-b",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "mudghah",
+      "root": "m-d-gh",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "nafaqah",
+      "root": "n-f-q",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    }
+  ]
+}

@@ -106,3 +106,21 @@ items:
     status: done
     title: "RESOLVED: _book_arabic_audit.py gained a fourth resolution tier, 'honorific-formula', for standard liturgical phrases ('alayhi/alayha/alayhim al-salam', 'radiya Allahu anhu', etc.) matched by normalized skeleton against a small canonical allowlist. These are the author's own religious practice, not a quoted source -- flagging them alongside a genuine mis-sourced verse buried the real finding in boilerplate. Found live checking the-master-and-the-disciple's 4 unverified passages: 1 of the 4 was exactly this. 3 new tests, including one confirming the allowlist cannot become a loophole for a real ungrounded quotation."
     noticed: 2026-07-19
+
+  - id: articulation-backfill
+    scope: pipeline
+    status: open
+    title: "Four Islamic books do not yet read like the reference editions (the-master-and-the-disciple, degrees-of-excellence). TWO PROBLEMS, two remedies. (a) mukhtasar-ul-asar-1 (99k words) and -2 (107k) are genuinely CALQUED -- Arabic masdar chains and isnad grammar carried straight into English -- which is exactly what the REQ-BA articulation pass is built to fix; run 0book-fluency or loop rearticulate_chapter.py over their chapter keys. (b) al-anwaar-al-lateefah/vol-01 and asaas-al-taveel/vol-01 are FLUENT but in the wrong voice (a lecturer addressing a congregation, a modern editor's preface 'I'). The articulation pass CANNOT fix those: REQ-BA-030 binds it to preserve meaning, so it would keep the added framing and only polish it. They need a re-compose from source, not articulation. Deferred by Asif 2026-08-02 in favour of pipeline + Arabic work."
+    noticed: 2026-08-02
+
+  - id: narrative-frame-undeclared
+    scope: pipeline
+    status: open
+    title: "HAZARD, carried forward. al-anwaar-al-lateefah/vol-01 and asaas-al-taveel/vol-01 declare no narrative_frame, so both resolve to a conservative default (external_narrator / transmitted_report) while their prose narrates in the first person. No model pass has run on them -- the 2026-08-02 apparatus work is deterministic and deliberately avoided the model route for exactly this reason -- but ANY future compose will run 0book-fluency under the wrong frame and rewrite both books into the wrong grammatical person. Read how each SOURCE opens and declare narrative_frame in _system/series-config.yaml BEFORE any model pass touches either book."
+    noticed: 2026-08-02
+
+  - id: annotation-policy-vs-zero-translit
+    scope: pipeline
+    status: open
+    title: "Two locked rules meet and the outcome is worth a decision. 'Zero English transliteration of Arabic terms in book.md' (2026-08-02) and 'annotate once and intelligently, never mechanically' (the four-class teach/familiar/name/silent policy) disagree about a term's SECOND mention. Today the annotation policy wins: a `teach` term gets its script once per book and every later mention prints bare romanization; a `familiar` term (halal, iman, nafs -- words the classifier judged naturalised) never gets script at all. That is why ayyuhal-walad still prints *mujahadah*, *marifah* and *zauq* with no Arabic beside them after the apparatus ran. Not a defect -- it is the policy behaving as written -- but Asif should decide whether a teach term's later mentions should also carry script."
+    noticed: 2026-08-02

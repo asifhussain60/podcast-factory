@@ -9,9 +9,14 @@
     },
     {
       "chapter": "A Letter Across the Centuries",
-      "arabic_runs": 6,
+      "arabic_runs": 7,
       "unverified": 5,
       "runs": [
+        {
+          "text": "رضي الله عنه",
+          "resolution": "canonical-mushaf",
+          "skeleton": "رضياللهعنه"
+        },
         {
           "text": "اَللَّهُمَّ أَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ",
           "resolution": "ocr",
@@ -46,9 +51,14 @@
     },
     {
       "chapter": "1. Knowledge That Will Not Save You",
-      "arabic_runs": 10,
-      "unverified": 1,
+      "arabic_runs": 11,
+      "unverified": 0,
       "runs": [
+        {
+          "text": "عَلَيْهِ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهالسلام"
+        },
         {
           "text": "عَلَامَةُ إِعْرَاضِ اللَّهِ تَعَالَىٰ عَنِ الْعَبْدِ اشْتِغَالُهُ بِمَا لَا يَعْنِيهِ، وَ إِنَّ امْرَأً ذَهَبَتْ سَاعَةٌ مِنْ عُمْرِهِ فِي غَيْرِ مَا خُلِقَ لَهُ مِنَ الْعِبَادَةِ، جدير ان تطول عليه حسرته",
           "resolution": "ocr",
@@ -75,14 +85,14 @@
           "skeleton": "كرميدوهزاررطلهميبيمايي"
         },
         {
-          "text": "تا مي نخوري نباشدت شيدائي",
+          "text": "تَا مَيْ نَخُورِي نَبَاشَدَتْ شَيْدَائِي",
           "resolution": "ocr",
           "skeleton": "تامينخورينباشدتشيدايي"
         },
         {
-          "text": "وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَى",
+          "text": "وَأَن لَّيْسَ لِلْإِنسَنِ إِلَّا مَا سَعَىٰ",
           "resolution": "canonical-mushaf",
-          "skeleton": "وانليسللانسانالاماسعي"
+          "skeleton": "وانليسللانسنالاماسعي"
         },
         {
           "text": "فَمَنْ كَانَ يَرْجُو لِقَاءَ رَبِّهِ فَلْيَعْمَلْ عَمَلاً صَالِحًا",
@@ -95,9 +105,9 @@
           "skeleton": "انالذينامنواوعملواالصالحاتكانتلهمجناتالف"
         },
         {
-          "text": "إِلَّا مَنْ تَابَ وَ آمَنَ وَعَمِلَ صَالِحًا",
-          "resolution": "unverified",
-          "skeleton": "الامنتابوامنوعملصالحا"
+          "text": "إِلَّا مَن تَابَ وَآمَنَ وَعَمِلَ صَلِحًۭا",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الامنتابوامنوعملصلحا"
         }
       ]
     },
@@ -117,17 +127,17 @@
           "skeleton": "حاسبواانفسكمقبلانتحاسبواوزنوااعمالكمقبلا"
         },
         {
-          "text": "مَنْ ظَنَّ أَنَّهُ بِدُونِ الْجَهْدِ يَصِلُ فَهُوَ مُتَمَنٍّ",
+          "text": "مَنْ ظَنَّ أَنَّهُ بِدُونِ الْجَهْدِ يَصِلُ فَهُوَ مُتَمَنٍّ",
           "resolution": "ocr",
           "skeleton": "منظنانهبدونالجهديصلفهومتمن"
         },
         {
-          "text": "وَمَنْ ظَنَّ أَنَّهُ بِبَذْلِ الْجُهْدِ يَصِلُ فَهُوَ مُسْتَغْنٍ",
+          "text": "وَمَنْ ظَنَّ أَنَّهُ بِبَذْلِ الْجُهْدِ يَصِلُ فَهُوَ مُسْتَغْنٍ",
           "resolution": "ocr",
           "skeleton": "ومنظنانهببذلالجهديصلفهومستغن"
         },
         {
-          "text": "طَلَبُ الْجَنَّةِ بِلَا عَمَلٍ ذَنْبٌ مِنَ الذُّنُوبِ",
+          "text": "طَلَبُ الْجَنَّةِ بِلَا عَمَلٍ ذَنْبٌ مِنَ الذُّنُوبِ",
           "resolution": "ocr",
           "skeleton": "طلبالجنهبلاعملذنبمنالذنوب"
         },
@@ -137,17 +147,17 @@
           "skeleton": "علامهالحقيقهتركملاحظهالعمللاتركالعمل"
         },
         {
-          "text": "الكيّس من دان نفسه و عمل لما بعد الموت، و الأحمق من اتّبع هواه وتمنّى على الله تعالى الأمانيّ",
+          "text": "الْكَيِّسُ مَنْ دَانَ نَفْسَهُ وَ عَمِلَ لِمَا بَعْدَ الْمَوْتِ، وَ الْأَحْمَقُ مَنِ اتَّبَعَ هَوَاهُ وَتَمَنَّى عَلَى اللَّهِ تَعَالَى الْأَمَانِيَّ",
           "resolution": "ocr",
           "skeleton": "الكيسمنداننفسهوعمللمابعدالموتوالاحمقمنات"
         },
         {
-          "text": "فَوَيْلٌ لَكَ ثُمَّ وَيْلٌ لَكَ",
+          "text": "فَوَيْلٌ لَكَ ثُمَّ وَيْلٌ لَكَ",
           "resolution": "ocr",
           "skeleton": "فويللكثمويللك"
         },
         {
-          "text": "فَطُوبَى لَكَ ثُمَّ طُوبَى لَكَ",
+          "text": "فَطُوبَى لَكَ ثُمَّ طُوبَى لَكَ",
           "resolution": "ocr",
           "skeleton": "فطوبيلكثمطوبيلك"
         },
@@ -157,12 +167,12 @@
           "skeleton": "سهرالعيونلغيروجهكضايع"
         },
         {
-          "text": "وَ بُكَاؤُهُنَّ لِغَيْرِ فَقْدِكَ بَاطِلٌ",
+          "text": "وَ بُكَاؤُهُنَّ لِغَيْرِ فَقْدِكَ بَاطِلٌ",
           "resolution": "ocr",
           "skeleton": "وبكاوهنلغيرفقدكباطل"
         },
         {
-          "text": "عِشْ مَا شِئْتَ فَإِنَّكَ مَيِّتٌ، وَ أَحْبِبْ مَا شِئْتَ فَإِنَّكَ مُفَارِقُهُ؛ وَ اِعْمَلْ مَا شِئْتَ فَإِنَّكَ مَجْزِيٌّ بِهِ",
+          "text": "عِشْ مَا شِئْتَ فَإِنَّكَ مَيِّتٌ، وَ أَحْبِبْ مَا شِئْتَ فَإِنَّكَ مُفَارِقُهُ؛ وَ اِعْمَلْ مَا شِئْتَ فَإِنَّكَ مَجْزِيٌّ بِهِ",
           "resolution": "ocr",
           "skeleton": "عشماشيتفانكميتواحببماشيتفانكمفارقهواعملم"
         }
@@ -170,9 +180,44 @@
     },
     {
       "chapter": "3. The Hours Before Dawn",
-      "arabic_runs": 41,
+      "arabic_runs": 48,
       "unverified": 3,
       "runs": [
+        {
+          "text": "عِلْمُ الْكَلَام",
+          "resolution": "ocr",
+          "skeleton": "علمالكلام"
+        },
+        {
+          "text": "الْخِلَاف",
+          "resolution": "ocr",
+          "skeleton": "الخلاف"
+        },
+        {
+          "text": "اَلدَّوَاوِين",
+          "resolution": "ocr",
+          "skeleton": "الدواوين"
+        },
+        {
+          "text": "الْأَشْعَار",
+          "resolution": "ocr",
+          "skeleton": "الاشعار"
+        },
+        {
+          "text": "اَلْعَرُوض",
+          "resolution": "ocr",
+          "skeleton": "العروض"
+        },
+        {
+          "text": "التَّصْرِيف",
+          "resolution": "ocr",
+          "skeleton": "التصريف"
+        },
+        {
+          "text": "إِنْجِيلْ",
+          "resolution": "ocr",
+          "skeleton": "انجيل"
+        },
         {
           "text": "عَبْدِي طَهَّرْتَ مَنْظَرَ الْخَلْقِ سِنِينَ وَ مَا طَهَّرْتَ مَنْظَرِي سَاعَةً",
           "resolution": "ocr",
@@ -597,7 +642,7 @@
           "skeleton": "اولميسيروافيالارضفينظروا"
         },
         {
-          "text": "إن قدرت على بذل الرّوح فتعال، و إلاّ فلا تشتغل بترّهات الصّوفّيّة",
+          "text": "إِنْ قَدَرْتَ عَلَىٰ بَذْلِ الرُّوحِ فَتَعَالَ، وَ إِلَّا فَلَا تَشْتَغِلْ بِتُرَّهَاتِ الصُّوفِيَّةِ",
           "resolution": "ocr",
           "skeleton": "انقدرتعليبذلالروحفتعالوالافلاتشتغلبترهات"
         }
@@ -605,7 +650,7 @@
     },
     {
       "chapter": "8. Four to Avoid, Four to Embrace",
-      "arabic_runs": 14,
+      "arabic_runs": 15,
       "unverified": 0,
       "runs": [
         {
@@ -662,6 +707,11 @@
           "text": "إِنَّ اللَّهَ تَعَالَىٰ يَغْضَبُ إِذَا مُدِحَ الْفَاسِقُ وَالظَّالِمُ، وَمَنْ دَعَا لِطُولِ بَقَائِهِمْ فَقَدْ أَحَبَّ أَنْ يُعْصَىٰ اللَّهُ فِي أَرْضِهِ",
           "resolution": "ocr",
           "skeleton": "اناللهتعالييغضباذامدحالفاسقوالظالمومندعا"
+        },
+        {
+          "text": "إِحْيَاءُ الْعُلُوم",
+          "resolution": "ocr",
+          "skeleton": "احياءالعلوم"
         },
         {
           "text": "لَا يَكْمُلُ إِيمَانُ عَبْدٍ حَتَّى يُحِبَّ لِسَائِرِ النَّاسِ مَا يُحِبُّ لِنَفْسِهِ",
@@ -721,7 +771,7 @@
           "skeleton": "اللهمثبتناعلينهجالاستقامهواعذنافيالدنيام"
         },
         {
-          "text": "و صلّى الله على سيّدنا محمّد و آله وصحبه أجمعين، و الحمد لله ربّ العالمين",
+          "text": "وَ صَلَّى اللَّهُ عَلَى سَيِّدِنَا مُحَمَّدٍ وَ آلِهِ وَصَحْبِهِ أَجْمَعِينَ، وَ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
           "resolution": "ocr",
           "skeleton": "وصلياللهعليسيدنامحمدوالهوصحبهاجمعينوالحم"
         }
@@ -729,64 +779,40 @@
     }
   ],
   "totals": {
-    "canonical-mushaf": 18,
-    "ocr": 97,
+    "canonical-mushaf": 20,
+    "ocr": 106,
     "knowledge-base": 1,
     "honorific-formula": 0,
-    "unverified": 14,
-    "arabic_runs": 130
+    "unverified": 13,
+    "arabic_runs": 140
+  },
+  "quran_coverage": {
+    "measured": true,
+    "cited": 4,
+    "with_arabic": 3,
+    "coverage": 0.75,
+    "uncovered": [
+      {
+        "ref": "7:56",
+        "line": 103,
+        "reason": "no-span-in-scan",
+        "ayah_words": 16
+      }
+    ],
+    "uncited_inserted": 0
   },
   "stages": {
-    "base": {
-      "(front matter)": 0,
-      "A Letter Across the Centuries": 1,
-      "1. Knowledge That Will Not Save You": 10,
-      "2. The Striving That Mercy Meets": 12,
-      "3. The Hours Before Dawn": 40,
-      "4. Worship Is Obedience, Nothing Less": 1,
-      "5. Eight Lessons from Thirty-Three Years": 9,
-      "6. Finding a True Guide": 9,
-      "7. Sufism, Servitude, Trust, Sincerity": 6,
-      "8. Four to Avoid, Four to Embrace": 12,
-      "9. A Prayer for the Road": 6
-    },
-    "fluency": {
-      "(front matter)": 0,
-      "A Letter Across the Centuries": 1,
-      "1. Knowledge That Will Not Save You": 10,
-      "2. The Striving That Mercy Meets": 12,
-      "3. The Hours Before Dawn": 40,
-      "4. Worship Is Obedience, Nothing Less": 1,
-      "5. Eight Lessons from Thirty-Three Years": 9,
-      "6. Finding a True Guide": 9,
-      "7. Sufism, Servitude, Trust, Sincerity": 6,
-      "8. Four to Avoid, Four to Embrace": 12,
-      "9. A Prayer for the Road": 6
-    },
-    "augment": {
-      "(front matter)": 0,
-      "A Letter Across the Centuries": 1,
-      "1. Knowledge That Will Not Save You": 10,
-      "2. The Striving That Mercy Meets": 12,
-      "3. The Hours Before Dawn": 40,
-      "4. Worship Is Obedience, Nothing Less": 1,
-      "5. Eight Lessons from Thirty-Three Years": 9,
-      "6. Finding a True Guide": 9,
-      "7. Sufism, Servitude, Trust, Sincerity": 6,
-      "8. Four to Avoid, Four to Embrace": 12,
-      "9. A Prayer for the Road": 6
-    },
     "final": {
       "(front matter)": 0,
-      "A Letter Across the Centuries": 6,
-      "1. Knowledge That Will Not Save You": 10,
+      "A Letter Across the Centuries": 7,
+      "1. Knowledge That Will Not Save You": 11,
       "2. The Striving That Mercy Meets": 12,
-      "3. The Hours Before Dawn": 41,
+      "3. The Hours Before Dawn": 48,
       "4. Worship Is Obedience, Nothing Less": 4,
       "5. Eight Lessons from Thirty-Three Years": 10,
       "6. Finding a True Guide": 14,
       "7. Sufism, Servitude, Trust, Sincerity": 11,
-      "8. Four to Avoid, Four to Embrace": 14,
+      "8. Four to Avoid, Four to Embrace": 15,
       "9. A Prayer for the Road": 8
     }
   },

@@ -1,0 +1,18 @@
+{
+  "schema": "podcast.etymology/v1",
+  "book": "mukhtasar-ul-asar-1",
+  "candidates": 8,
+  "generated": 1,
+  "kept": 1,
+  "written": 1,
+  "dropped": 0,
+  "drop_reasons": [],
+  "entries": [
+    {
+      "term": "muruwwa",
+      "root": "m-r-'",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    }
+  ]
+}

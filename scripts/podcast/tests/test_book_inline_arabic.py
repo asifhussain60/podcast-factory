@@ -439,3 +439,105 @@ def test_the_ordinary_direction_still_converts(tmp_path: Path) -> None:
     )
     apply_inline_arabic(bd)
     assert "the ranks (حُدُود) of the hierarchy." in read(bd)
+
+
+# ─── Two shapes the conversion must NOT touch (2026-08-02) ──────────────────
+# Both were found by running the apparatus over the seven Islamic books and
+# diffing the result sentence by sentence. Neither had a test, and neither was
+# visible in any count: the page kept the same number of brackets.
+from _book_gloss import _convert_glosses, _script_already_precedes  # noqa: E402
+from _book_inline_arabic import _normalize_annotations  # noqa: E402
+
+_LETTERS = [{"phonetic": "Kun", "script": "كُن", "style": "teach"}]
+
+
+def test_a_word_discussed_as_letters_keeps_its_pronunciation():
+    """`كُن (Kun)` is the correct printed form, not a gloss awaiting conversion.
+
+    Converting it produced `كُن (كُن)` — the script said twice, the pronunciation
+    gone, in a sentence whose subject is which two letters the word is made of.
+    It is also BK-N4, a P0 in the challenger spec, and the carve-out Asif kept
+    when he scoped the zero-transliteration rule to Arabic vocabulary.
+    """
+    line = "from them is derived كُن (Kun), which is two letters"
+    out, n = _convert_glosses(line, _LETTERS, {"Kun": _LETTERS[0]})
+    assert n == 0
+    assert out == line
+
+
+def test_an_ordinary_gloss_still_converts():
+    terms = [{"phonetic": "bab", "script": "بَاب", "style": "teach"}]
+    out, n = _convert_glosses("his gate (bab) opened", terms, {"bab": terms[0]})
+    assert n == 1
+    assert out == "his gate (بَاب) opened"
+
+
+def test_the_guard_compares_by_skeleton_not_bytes():
+    # The script in the prose carries the book's vowelling; the glossary's copy
+    # carries `vowel_glossary`'s. Byte comparison would miss the match and
+    # convert anyway.
+    assert _script_already_precedes("derived كُنْ ", len("derived كُنْ "), "كُن")
+    assert not _script_already_precedes("derived nothing ", len("derived nothing "), "كُن")
+
+
+def test_a_bracket_holding_the_authors_english_is_not_the_machines_output():
+    """`(script, 'what it means')` must survive normalisation intact.
+
+    `normalize_arabic` DISCARDS non-Arabic characters, so this bracket reduced to
+    the same skeleton as a bare `(script)` and was claimed as this pass's own
+    annotation — then rewritten, deleting the translation. The sentence it
+    happened in exists to say what the two names MEAN.
+    """
+    terms = [{"phonetic": "Ubayd Allah", "script": "عُبَيْدُ اللَّهِ", "style": "teach"}]
+    body = "He said: Ubayd Allah (عُبَيْدُ اللَّهِ, 'little servant of Allah'), son of Abd Allah."
+    assert _normalize_annotations(body, terms) == body
+
+
+def test_a_pure_machine_annotation_still_folds():
+    # The guard must not cost normalisation its actual job.
+    terms = [{"phonetic": "Ubayd Allah", "script": "عُبَيْدُ اللَّهِ", "style": "teach"}]
+    body = "He said: Ubayd Allah (عُبَيْدُ اللَّهِ), son of Abd Allah."
+    assert _normalize_annotations(body, terms) == "He said: Ubayd Allah, son of Abd Allah."
+
+
+def test_a_term_is_not_annotated_when_its_script_is_already_beside_it():
+    """The book's vowelling of a run is rarely the glossary's.
+
+    `_script_already_near` compared bytes, so `عُبَيْدُ اللَّهِ` standing in the
+    prose neither contained nor was contained by `عُبَيْدُ اللّٰه` from the
+    glossary, and the pass annotated a name whose script sat three characters
+    away — printing it twice in one breath and stranding the author's own
+    translation after the duplicate.
+    """
+    from _book_inline_arabic import _script_already_near
+
+    prose = "Ubayd Allah (عُبَيْدُ اللَّهِ, 'little servant of Allah'), son of"
+    at = prose.index(" (")
+    assert _script_already_near(prose, at, "عُبَيْدُ اللّٰه") is True
+    assert _script_already_near(prose, at, "اَلْحُجَج") is False
+
+
+def test_the_retired_gloss_form_folds_across_a_vowelling_difference():
+    """`(bab, باب)` must fold even when the two vowellings differ.
+
+    The fold was an exact string replace, so it required the prose's marks on a
+    run to equal the glossary's byte for byte — and they usually do not, because
+    different passes marked them at different times. It therefore caught 7 of the
+    13 retired brackets in `the-master-and-the-disciple` and left six printing the
+    romanisation the 2026-08-02 rule retired.
+    """
+    from _book_inline_arabic import _normalize_annotations
+
+    terms = [{"phonetic": "Tur", "script": "الطور", "style": "teach"}]
+    out = _normalize_annotations("he reached the Mount (Tur, اَلطُّور) at dawn", terms)
+    assert out == "he reached the Mount (*Tur*) at dawn"
+
+
+def test_a_phonetic_beside_an_UNRELATED_script_is_not_folded():
+    # The skeleton match is what makes the fold safe: same phonetic, different
+    # word, and the bracket is somebody else's.
+    from _book_inline_arabic import _normalize_annotations
+
+    terms = [{"phonetic": "Tur", "script": "الطور", "style": "teach"}]
+    line = "he reached the Mount (Tur, الشمس) at dawn"
+    assert _normalize_annotations(line, terms) == line

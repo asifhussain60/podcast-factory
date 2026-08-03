@@ -1,18 +1,14 @@
 {
   "vowelled": 0,
-  "marks_added": 10,
-  "already": 130,
+  "marks_added": 0,
+  "already": 152,
   "quranic": 0,
-  "from_mushaf": 1,
+  "from_mushaf": 0,
   "refused": 0,
+  "recovered": 0,
   "in_chars": 0,
   "out_chars": 0,
-  "mushaf_pairs": [
-    [
-      "لا إله إلا الله",
-      "لَآ إِلَهَ إِلَّا ٱللَّهُ"
-    ]
-  ],
+  "mushaf_pairs": [],
   "refusals": [],
   "lexical": 0
 }

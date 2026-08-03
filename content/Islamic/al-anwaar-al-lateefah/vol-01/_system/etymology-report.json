@@ -1,0 +1,54 @@
+{
+  "schema": "podcast.etymology/v1",
+  "book": "vol-01",
+  "candidates": 23,
+  "generated": 7,
+  "kept": 7,
+  "written": 7,
+  "dropped": 0,
+  "drop_reasons": [],
+  "entries": [
+    {
+      "term": "tawhid",
+      "root": "w-h-d",
+      "confirmed_by_reference": false,
+      "corpus_grounded": false
+    },
+    {
+      "term": "hudud",
+      "root": "h-d-d",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "tanzih",
+      "root": "n-z-h",
+      "confirmed_by_reference": false,
+      "corpus_grounded": false
+    },
+    {
+      "term": "tajrid",
+      "root": "j-r-d",
+      "confirmed_by_reference": false,
+      "corpus_grounded": false
+    },
+    {
+      "term": "amal",
+      "root": "`-m-l",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "Samadiyyah",
+      "root": "s-m-d",
+      "confirmed_by_reference": false,
+      "corpus_grounded": false
+    },
+    {
+      "term": "wilayah",
+      "root": "w-l-y",
+      "confirmed_by_reference": false,
+      "corpus_grounded": false
+    }
+  ]
+}

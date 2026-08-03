@@ -1,0 +1,433 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 70,
+  "skipped": 0,
+  "by_class": {
+    "teach": 39,
+    "familiar": 2,
+    "name": 1,
+    "silent": 28
+  },
+  "proposals": [
+    {
+      "phonetic": "al-Sham",
+      "class": "familiar",
+      "english_equivalent": "the Levant",
+      "reason": "A region with an established English name that educated readers recognize."
+    },
+    {
+      "phonetic": "hijab",
+      "class": "familiar",
+      "english_equivalent": "hijab",
+      "reason": "Now an established English word educated readers recognize."
+    },
+    {
+      "phonetic": "Ifriqiya",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "A historical region with no exact familiar English form; the romanisation stays as the reader's name for it."
+    },
+    {
+      "phonetic": "al-anfaha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Simply the word for rennet, glossed inline with no need for apparatus."
+    },
+    {
+      "phonetic": "al-bakhs",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Shortchanging is defined in the running sentence and needs no separate entry."
+    },
+    {
+      "phonetic": "al-dabb",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Just the name of the lizard, translated in place."
+    },
+    {
+      "phonetic": "al-habba al-sawda",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "The black seed is glossed in the sentence itself; a minor item."
+    },
+    {
+      "phonetic": "al-hajjam",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "The cupper, translated inline with no doctrinal weight to name."
+    },
+    {
+      "phonetic": "al-inma",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted phrase fragment translated in the running hadith text."
+    },
+    {
+      "phonetic": "al-isma",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A quoted phrase fragment glossed within the hadith prose."
+    },
+    {
+      "phonetic": "al-kala",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "The word for pasture, translated inline and too minor to name."
+    },
+    {
+      "phonetic": "al-kubad",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A disease of the liver, glossed in the quoted sentence."
+    },
+    {
+      "phonetic": "al-qistas",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic word for the straight balance, translated in prose."
+    },
+    {
+      "phonetic": "al-wafa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A Quranic word for fulfillment, translated within the sentence."
+    },
+    {
+      "phonetic": "fulus",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "The word for copper coin, translated in the quoted sentence."
+    },
+    {
+      "phonetic": "ghaib",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An adjective (merely absent) translated in running prose, not a formal term."
+    },
+    {
+      "phonetic": "hazirat al-quds",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A poetic theological phrase fully rendered in the running translation."
+    },
+    {
+      "phonetic": "ibriz",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "The word for refined gold, glossed inline and too minor to name."
+    },
+    {
+      "phonetic": "kara",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Simply means the rent and is fully translated in running prose."
+    },
+    {
+      "phonetic": "makari",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A hired carrier, fully translated in running prose and too minor to introduce formally."
+    },
+    {
+      "phonetic": "mawali",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Plural variant of mawla, glossed as patrons in prose and redundant to introduce separately."
+    },
+    {
+      "phonetic": "Nikah al-Ima",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A chapter heading already rendered as its English title in the text."
+    },
+    {
+      "phonetic": "raba al-mal yarbu",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "An Arabic idiom quoted only to explain a word's sense, not a term to introduce."
+    },
+    {
+      "phonetic": "saut",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A minor term for administering into the nose, glossed in prose."
+    },
+    {
+      "phonetic": "shuniz",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Just names black seed and is translated in place; too minor to introduce formally."
+    },
+    {
+      "phonetic": "sultan jair",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A descriptive phrase for an unjust ruler, fully translated in prose."
+    },
+    {
+      "phonetic": "tadib",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A one-off term glossed as a command of discipline in running prose."
+    },
+    {
+      "phonetic": "urwa",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Simply means the handle of a vessel and is translated in place."
+    },
+    {
+      "phonetic": "wajur",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A minor term for administering into the throat, glossed in prose."
+    },
+    {
+      "phonetic": "yurbi",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A verb quoted only to explain a word's meaning, not a term to introduce."
+    },
+    {
+      "phonetic": "zir",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "A minor term for a foster-nurse, translated in running prose."
+    },
+    {
+      "phonetic": "ahl al-dhimmah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named legal-status category (protected covenant people) an interested reader would want to cite."
+    },
+    {
+      "phonetic": "al-hajr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A defined legal concept (interdiction) the chapter formally introduces and explains."
+    },
+    {
+      "phonetic": "al-hawala",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named contract type (transfer of debt) formally defined and worth citing."
+    },
+    {
+      "phonetic": "al-idda",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Central technical term for the post-divorce waiting period that structures its own chapter."
+    },
+    {
+      "phonetic": "al-kafala",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named contract of suretyship, formally defined in the text."
+    },
+    {
+      "phonetic": "al-mafqud",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A defined juristic category (the missing man) with its own legal rulings to cite."
+    },
+    {
+      "phonetic": "al-mudihah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named wound classification in compensation law that a reader may want to look up."
+    },
+    {
+      "phonetic": "al-Rida",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical term for the foster-suckling relationship, naming its own chapter topic."
+    },
+    {
+      "phonetic": "al-shirka",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named partnership contract formally defined by the book."
+    },
+    {
+      "phonetic": "al-talaq",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The core juristic term for divorce that governs its own chapter of rulings."
+    },
+    {
+      "phonetic": "al-tasir",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrinal concept (official price-fixing) the text defines and rules on."
+    },
+    {
+      "phonetic": "al-tatfif",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named Quranic-legal concept (skimping in measure) defined and worth citing."
+    },
+    {
+      "phonetic": "al-uhda",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named sale-warranty concept the text formally defines."
+    },
+    {
+      "phonetic": "al-wala",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical term of manumission law (right of patronage) that the book relies on as its own vocabulary."
+    },
+    {
+      "phonetic": "alaqah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named embryological stage (the clot) drawn from scripture that a reader would want to cite."
+    },
+    {
+      "phonetic": "baraa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named sale-with-disclaimer term the book defines as a distinct transaction type."
+    },
+    {
+      "phonetic": "bay ma laysa indak",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named prohibited-transaction maxim (selling what one does not possess) worth citing."
+    },
+    {
+      "phonetic": "bay wa salaf",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named prohibited transaction (a sale joined to a loan) the book identifies formally."
+    },
+    {
+      "phonetic": "ghishsh",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named moral-legal category (deceit in trade) defined and prohibited in the text."
+    },
+    {
+      "phonetic": "hadd",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core recurring legal term for a fixed scriptural punishment that a reader should be able to name and look up."
+    },
+    {
+      "phonetic": "hudud",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The plural of the core legal term for fixed scriptural punishments, worth naming and citing."
+    },
+    {
+      "phonetic": "ihtikar",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A technical fiqh term for prohibited hoarding that a reader may want to name and cite."
+    },
+    {
+      "phonetic": "khiyar",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical contract-law term for a stipulated option, worth naming and looking up."
+    },
+    {
+      "phonetic": "kira al-musha",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named fiqh topic — the hire of undivided (jointly owned) property — a reader could cite."
+    },
+    {
+      "phonetic": "kitabah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A doctrinal term for the written manumission contract, core technical vocabulary."
+    },
+    {
+      "phonetic": "mawla",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical term for a freed client/patron, a concept the book relies on."
+    },
+    {
+      "phonetic": "milk al-yamin",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named Quranic-legal category (ownership by the right hand) a reader may want to cite."
+    },
+    {
+      "phonetic": "mubarat",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical term for divorce by mutual release, distinct doctrinal vocabulary."
+    },
+    {
+      "phonetic": "mudghah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A Quranic embryological term (the morsel of flesh) worth naming and looking up."
+    },
+    {
+      "phonetic": "mukatabah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical term for the emancipation contract, core legal vocabulary of the chapter."
+    },
+    {
+      "phonetic": "murtahin",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical pledge-law term for the pledgee, paired with rahin/rahn."
+    },
+    {
+      "phonetic": "mutah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named doctrine (temporary marriage of pleasure) a reader would want to cite."
+    },
+    {
+      "phonetic": "nafaqah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical fiqh term for maintenance/support, citable vocabulary."
+    },
+    {
+      "phonetic": "qisas",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A central Islamic penal-law term for retaliation the book teaches and a reader may cite."
+    },
+    {
+      "phonetic": "rahin",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical pledge-law term for the pledgor, paired with murtahin/rahn."
+    },
+    {
+      "phonetic": "rahn",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical fiqh term for a pledge/security, core vocabulary of the chapter."
+    },
+    {
+      "phonetic": "ribh ma lam yudman",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "A named legal maxim (profit on what one does not guarantee) a reader may want to cite."
+    },
+    {
+      "phonetic": "sarf",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical fiqh term for currency exchange, citable doctrinal vocabulary."
+    },
+    {
+      "phonetic": "tawliyah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "The technical fiqh term for resale at cost, distinct sale-law vocabulary."
+    }
+  ]
+}

@@ -94,10 +94,29 @@ def main() -> int:
 
     from _book_apparatus import apply_book_apparatus
 
+    # A HALF-RUN APPARATUS IS WORSE THAN NO RUN. The sequence is idempotent by
+    # strip-and-re-derive: the replay restores the raw Composer bodies, the
+    # front-matter re-injects the raw cached introduction, and the overlay folds
+    # every annotation back to its seed — each then re-derived by a later step.
+    # Interrupted in between, the book on disk is left stripped and not re-derived.
+    # Observed for real: `degrees-of-excellence` was killed mid-run on 2026-08-02
+    # and went from 341 Arabic parentheticals to 172, because all nine of its
+    # Composer-authored chapters had been restored raw and the overlay had not yet
+    # run. Re-running fixes it — but only if someone notices.
+    #
+    # So hold the original and put it back on any failure, including Ctrl-C. This
+    # cannot help against SIGKILL or a power cut; `book.md` is git-tracked, and
+    # `git checkout` plus a re-run remains the recovery for those.
     try:
         apply_book_apparatus(book_dir, log=print, force=args.force)
+    except KeyboardInterrupt:
+        book_md.write_text(before, encoding="utf-8")
+        print("\nINTERRUPTED: book.md restored to its pre-run state (the apparatus is all-or-nothing)", file=sys.stderr)
+        return 1
     except Exception as exc:  # noqa: BLE001 - report it, never a traceback at the CLI
+        book_md.write_text(before, encoding="utf-8")
         print(f"ERROR: apparatus raised: {type(exc).__name__}: {exc}", file=sys.stderr)
+        print("       book.md restored to its pre-run state", file=sys.stderr)
         return 1
 
     after = book_md.read_text(encoding="utf-8")

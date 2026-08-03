@@ -104,3 +104,7 @@
 {"phase": "0book-illustrate", "step": "6. Every Teacher a Threshold, Not a God", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-illustrate", "step": "7. Out of Nothing, and Equal in Justice", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-illustrate", "step": "8. The First to Say There Is No God But ", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-etymology", "step": "generate", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-etymology", "step": "verify", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

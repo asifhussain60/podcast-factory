@@ -1,13 +1,23 @@
 {
-  "vowelled": 0,
-  "marks_added": 0,
-  "already": 139,
+  "vowelled": 3,
+  "marks_added": 32,
+  "already": 195,
   "quranic": 0,
   "from_mushaf": 0,
-  "refused": 0,
-  "in_chars": 0,
-  "out_chars": 0,
+  "refused": 2,
+  "recovered": 0,
+  "in_chars": 58,
+  "out_chars": 102,
   "mushaf_pairs": [],
-  "refusals": [],
+  "refusals": [
+    {
+      "run": "عبدالله بن سلام",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"الله بن سلام\" vs proposal \" الله بن سلا\")"
+    },
+    {
+      "run": "عبدالله بن سلام",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"الله بن سلام\" vs proposal \" الله بن سلا\")"
+    }
+  ],
   "lexical": 0
 }

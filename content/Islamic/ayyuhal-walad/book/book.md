@@ -9,7 +9,7 @@ Read it as a first-person document. The "I" is the author himself, writing direc
 
 The chapters trace a single argument. It opens by warning that knowledge which does not change how one lives will not save its owner, then turns to what does: the striving that God's mercy meets, the prayer of the hours before dawn, worship understood as plain obedience. From there it becomes practical — eight lessons gathered over thirty-three years, how to recognize a true guide, the meaning of the Sufi path alongside servitude, trust, and sincerity, and a closing set of four things to avoid and four to embrace — before ending in a prayer for the road ahead.
 
-The vocabulary rewards a little patience. Alongside ordinary terms — the five pillars (the testimony of faith, prayer, alms, the Ramadan fast, the pilgrimage), *Shari'ah* and *fiqh*, *iman* and the *nafs* — the book quotes scripture and prophetic sayings heavily, giving the Arabic of a verse or a hadith and then unfolding it. Several of the recurring terms are whole quoted lines rather than single words; where you meet one, the sentences around it are the author's explanation of what it says. The author also points beyond this short letter to his own larger works, naming them for a reader who wants the fuller treatment.
+The vocabulary rewards a little patience. Alongside ordinary terms — the five pillars (the testimony of faith, prayer, alms, the Ramadan fast, the pilgrimage), *Shariah* and *fiqh*, *iman* and the *nafs* — the book quotes scripture and prophetic sayings heavily, giving the Arabic of a verse or a hadith and then unfolding it. Several of the recurring terms are whole quoted lines rather than single words; where you meet one, the sentences around it are the author's explanation of what it says. The author also points beyond this short letter to his own larger works, naming them for a reader who wants the fuller treatment.
 
 ### The book's own opening
 <!-- edition-intro:end -->
@@ -22,7 +22,7 @@ Know that one of Imam Ghazali's (رضي الله عنه) foremost students had r
 
 This thought stayed with him for several days. At last he wrote a letter to Imam Ghazali (رض), asking for an answer to what troubled him, together with replies to certain other questions. He asked as well for personal counsel, and for a supplication he might recite at all times.
 
-In his letter he acknowledged that Imam Ghazali (رض) had already written many books on these very subjects, among them Ihya al-Ulum ad-Din (إِحْيَاءُ عُلُومِ الدِّيْن) (Revival of the Knowledge of the Path to God), Kimiya as-Saada (كِيمِيَاءُ السَّعَادَةِ) (Alchemy of Ultimate Success and Happiness), Jawahir ul-Quran (جَوَاهِرُ الْقُرْآنِ) (Priceless Gems of the Holy Quran), Arbaeen (أَرْبَعُون) (Forty Steps), and Minhaj ul-Abideen ila Jannatu Rabbul Alamin (مِنْهَاجُ الْعَابِدِينَ إِلَى جَنَّةِ رَبِّ الْعَالَمِينَ) (The Best Way for the Worshippers of God Leading Them to the Paradise of the Lord of All Universes), and others besides. Yet this humble one, he wrote, needed something he could study without pause and act upon without fail.
+In his letter he acknowledged that Imam Ghazali (رض) had already written many books on these very subjects, among them Ihya al-Ulum ad-Din (إِحْيَاءُ عُلُومِ الدِّيْن) (Revival of the Knowledge of the Path to God), Kimiya as-Saada (كِيمِيَاءُ السَّعَادَةِ) (Alchemy of Ultimate Success and Happiness), Jawahir ul-Quran (جَوَاهِرُ الْقُرْآنِ) (Priceless Gems of the Holy Quran), Arbaeen (أَرْبَعُون) (Forty Steps), and Minhaj ul-Abideen ila Jannatu Rabbul Alamin (*Minhaj ul-Abideen ila Jannatu Rabbul 'Alamin* (مِنْهَاجُ الْعَابِدِينَ إِلَى جَنَّةِ رَبِّ الْعَالَمِينَ)) (The Best Way for the Worshippers of God Leading Them to the Paradise of the Lord of All Universes), and others besides. Yet this humble one, he wrote, needed something he could study without pause and act upon without fail.
 
 In answer to his letter, Imam Ghazali (رض) sent him the counsel that follows.
 
@@ -30,7 +30,7 @@ In answer to his letter, Imam Ghazali (رض) sent him the counsel that follows.
 
 In the Name of Allah, the Most Compassionate, the Most Merciful. All praise belongs to Allah alone, the Lord of all the worlds, and may the blessings and peace of Allah be upon His Messenger Muhammad and upon all of his descendants and his followers.
 
-My dear beloved son and true friend, may Allah the Exalted grant you a long life spent in His worship and obedience, and may He set you upon the path of His beloved ones. Know that the wellspring of all good counsel is the holy person of the Prophet Muhammad (عليه السلام), for every counsel is founded upon his sayings and his way, upon his outward conduct and his inward states alike. Any counsel that runs against his sayings and his way carries no benefit at all. Countless words of advice have already been written and passed down in the light of his sayings and his way. If they have guided you, then you have no need of any counsel from me. But if you have drawn no benefit from the counsels of the Prophet (ع), then tell me: in all the years now gone, what knowledge have you truly gained from me?
+My dear beloved son and true friend, may Allah the Exalted grant you a long life spent in His worship and obedience, and may He set you upon the path of His beloved ones. Know that the wellspring of all good counsel is the holy person of the Prophet Muhammad (عَلَيْهِ السَّلَامُ), for every counsel is founded upon his sayings and his way, upon his outward conduct and his inward states alike. Any counsel that runs against his sayings and his way carries no benefit at all. Countless words of advice have already been written and passed down in the light of his sayings and his way. If they have guided you, then you have no need of any counsel from me. But if you have drawn no benefit from the counsels of the Prophet (ع), then tell me: in all the years now gone, what knowledge have you truly gained from me?
 
 My dear beloved son, among the counsels the Prophet (ع) gave to his community is this saying of his:
 
@@ -62,13 +62,13 @@ My dear beloved son, do not be bankrupt of good deeds, and do not be empty of in
 
 Its likeness again is a man who has a fever and a bilious illness whose cure lies in certain medicines, yet the cure is not gained except by taking them. As the poet has said:
 
-كَرَمِي دُو هَزَارْ رَطْلْ هَمِي بِيْمَائِي * تا مي نخوري نباشدت شيدائي
+كَرَمِي دُو هَزَارْ رَطْلْ هَمِي بِيْمَائِي * تَا مَيْ نَخُورِي نَبَاشَدَتْ شَيْدَائِي
 
 "Even if you were to buy two thousand pounds of wine, it would not make you drunk until you drink it."
 
 And if you were to study knowledge for a hundred years and gather a thousand books, you would not be made ready for the mercy of Allah the Exalted except through action. Hear what the Quran says in this matter:
 
-(وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَى)
+ (وَأَن لَّيْسَ لِلْإِنسَنِ إِلَّا مَا سَعَىٰ)
 
 "And that man shall have nothing but that for which he strives." (Quran, an-Najm: 38)
 
@@ -86,7 +86,7 @@ This establishes that a human being attains success only through genuine effort 
 
 And in another place the Exalted has said:
 
-(إِلَّا مَنْ تَابَ وَ آمَنَ وَعَمِلَ صَالِحًا)
+ (إِلَّا مَن تَابَ وَآمَنَ وَعَمِلَ صَلِحًۭا)
 
 "Except for those who repented, and believed, and did righteous work."
 
@@ -100,7 +100,7 @@ And he said:
 
 After all of this, should a thought arise in your heart that I am claiming a servant enters Paradise not by the grace of Allah but by his own deeds alone, then know that you have not grasped my meaning. On the contrary, what I am saying is that a servant enters Paradise through the favor, generosity, and blessings of Allah. Yet unless that servant makes himself deserving of Allah's mercy through worship and obedience, he will not stand in a position to receive that mercy and favor. And I do not assert this on my own authority. Rather, Allah the Exalted Himself says:
 
-"Indeed, the mercy of Allah is near to those who do good." (Quran, 7:56)
+"Indeed, the mercy of Allah is near to those who do good." (Al-A'raf: 56)
 
 How, then, will a servant enter Paradise without the mercy of Allah the Exalted? I say this weighty point again: how will a servant enter Paradise without the mercy of Allah? And should someone argue that one enters Paradise on account of faith alone, then know that many formidable valleys lie ahead, that is, obstacles. The first and most daunting of them is to carry one's faith safely to the very end.
 
@@ -152,7 +152,7 @@ And another intimate of Allah said:
 
 Our master of both worlds, the Prophet Muhammad, expresses this truth more eloquently, more clearly, and more beautifully than any of the sayings above:
 
-> الكيّس من دان نفسه و عمل لما بعد الموت، و الأحمق من اتّبع هواه وتمنّى على الله تعالى الأمانيّ
+> الْكَيِّسُ مَنْ دَانَ نَفْسَهُ وَ عَمِلَ لِمَا بَعْدَ الْمَوْتِ، وَ الْأَحْمَقُ مَنِ اتَّبَعَ هَوَاهُ وَتَمَنَّى عَلَى اللَّهِ تَعَالَى الْأَمَانِيَّ
 
 "The intelligent one is he who calls his own soul to account and works for what lies after death; and the fool is he who follows the desires of his soul and yet indulges vain hopes upon Allah the Exalted." Some narrations add the words: and hopes for Allah's forgiveness.
 
@@ -195,7 +195,7 @@ My dear son, hear this prophetic tradition:
 
 ## 3. The Hours Before Dawn
 
-My dear son, after all these years of study, what have you truly gained for yourself? Look at the sciences you have chased after: theology (*ilm al-kalam*), the science of juristic disagreement (*al-khilaf*), medicine (*al-tibb*), the registers and chronicles (*al-dawawin*), poetry (*al-ashar*), astronomy (*al-nujum*), prosody (*al-arud*), grammar (*al-nahw*), and morphology (*al-tasrif*). What has any of it given you, beyond the waste of your own life and a small measure of fame among people? I have read in the Gospel (*Injil*) of the Prophet Isa (ع) that from the moment a body is laid on the bier and carried out, until it is set down at the edge of the grave, Allah in His majesty puts forty questions to it. The first is this:
+My dear son, after all these years of study, what have you truly gained for yourself? Look at the sciences you have chased after: theology (عِلْمُ الْكَلَام), the science of juristic disagreement (الْخِلَاف), medicine (الطبّ), the registers and chronicles (اَلدَّوَاوِين), poetry (الْأَشْعَار), astronomy (نَجْم), prosody (اَلْعَرُوض), grammar (النّحو), and morphology (التَّصْرِيف). What has any of it given you, beyond the waste of your own life and a small measure of fame among people? I have read in the Gospel (إِنْجِيلْ) of the Prophet Isa (ع) that from the moment a body is laid on the bier and carried out, until it is set down at the edge of the grave, Allah in His majesty puts forty questions to it. The first is this:
 
 > عَبْدِي طَهَّرْتَ مَنْظَرَ الْخَلْقِ سِنِينَ وَ مَا طَهَّرْتَ مَنْظَرِي سَاعَةً
 
@@ -532,7 +532,7 @@ So do not ask me before the time. And be certain that you will not arrive except
 
 My dear son, by Allah, if you travel you will see wonders at every stage — so give of your very soul, for the head of this whole matter is the giving of the soul. As Zun Noon al-Misri (may Allah have mercy on him) said to one of his students:
 
-> «إن قدرت على بذل الرّوح فتعال، و إلاّ فلا تشتغل بترّهات الصّوفّيّة.»
+> «إِنْ قَدَرْتَ عَلَىٰ بَذْلِ الرُّوحِ فَتَعَالَ، وَ إِلَّا فَلَا تَشْتَغِلْ بِتُرَّهَاتِ الصُّوفِيَّةِ.»
 
 "If you are able to give of your soul, then come; and if not, do not busy yourself with the idle talk of the Sufis."
 
@@ -606,7 +606,7 @@ The third thing you must leave is to keep from mixing with commanders and rulers
 
 The fourth thing you must leave is that you accept nothing of the gifts and presents of the rulers, even if you know them to be from what is lawful, for coveting from them corrupts the religion — since from it are born flattery, the guarding of their side, and agreement with them in their injustice, and all of this is corruption in the religion. The least of its harm is that, when you accept their gifts and profit from their world, you come to love them; and whoever loves someone necessarily loves the length of his life and his continuance; and in loving the continuance of the oppressor there is a desire for oppression upon the servants of Allah, the Exalted, and a desire for the ruin of the world. What thing, then, could be more harmful than this to the religion and the final end?
 
-Beware, beware, that the seduction of the devils deceive you, or the saying of some people to you that it is better and more fitting for you to take the dinar and the dirham from them and distribute them among the poor and the destitute — since they would only spend it in corruption and disobedience, and your spending upon the weak among the people is better than their spending. For that accursed one has cut the throats of many people with this very whispering. We have treated this at length in the Revival of the Sciences of Religion (Ihya Ulum ad-Din), so seek it there.
+Beware, beware, that the seduction of the devils deceive you, or the saying of some people to you that it is better and more fitting for you to take the dinar and the dirham from them and distribute them among the poor and the destitute — since they would only spend it in corruption and disobedience, and your spending upon the weak among the people is better than their spending. For that accursed one has cut the throats of many people with this very whispering. We have treated this at length in the Revival of the Sciences of Religion (إِحْيَاءُ الْعُلُوم), so seek it there.
 
 Now for the four things it is fitting that you should do.
 
@@ -646,7 +646,7 @@ You also asked me to write out a prayer that you might keep upon your tongue at 
 >
 > ألّهمّ كن لنا و لا تكن علينا
 >
-> ألّهمّ اختم بالسعادة آجالنا. وَ حَقِّقْ بِالزِّيَادَةِ آمَالَنَا، و اقرن بالعافية غدوّنا و آصالنا، وَ اجْعَلْ إِلَىٰ رَحْمَتِكَ مَصِيرَنَا وَ مَآلَنَا، و اصبب سجال عفوك على ذنوبنا، وَ مَنَّ عَلَيْنَا بِإِصْلَاحِ عُيُوبِنَا، وَ اجْعَلِ التَّقْوَى زَادَنَا، وَ فِي دِينِكَ إِجْتِهَادُنَا، وعليك توكّلنا و اعتمادنا. اللَّهُمَّ ثَبِّتْنَا عَلَى نَهْجِ الْإِسْتِقَامَةِ، وَأَعِذْنَا فِي الدُّنْيَا مِنْ مُوجِبَاتِ النَّدَامَةِ يَوْمَ الْقِيَامَةِ، و خفّف عنّا ثقل الأوزار، و ارزقنا عيشة الأبرار، واكفنا ما اهمّنا في هذه الدّار و في تلك الدّار واصرف عنّا شرّ الأشرار و كيد الفجّار و اعتق رقابنا و رقاب آبائنا و أمّهاتنا و إخواننا وأخواتنا من النّار، بِرَحْمَتِكَ يَا عَزِيزُ يَا غَفَّارُ، يَا كَرِيمُ يَا سَتَّارُ يَا خَالِقَ اللَّيْلِ وَ النَّهَارِ خَلِّصْنَا مِنْ هَمِّ الدُّنْيَا وَ عَذَابِ الْقَبْرِ وَ النَّارِ يَا عَلِيمُ يَا جَبَّارُ، يا الله، يا ألله، يا ألله، بِرَحْمَتِكَ يَا أَرْحَمَ الرَّاحِمِينَ، و يا أول الأوّلین، و يا آخر الآخرین، وَ يَا ذَا الْقُوَّةِ الْمَتِينُ، وَيَا رَاحِمَ الْمَسَاكِينِ، وَ يَا أَرْحَمَ الرَّاحِمِينَ، لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ. و صلّى الله على سيّدنا محمّد و آله وصحبه أجمعين، و الحمد لله ربّ العالمين.»
+> ألّهمّ اختم بالسعادة آجالنا. وَ حَقِّقْ بِالزِّيَادَةِ آمَالَنَا، و اقرن بالعافية غدوّنا و آصالنا، وَ اجْعَلْ إِلَىٰ رَحْمَتِكَ مَصِيرَنَا وَ مَآلَنَا، و اصبب سجال عفوك على ذنوبنا، وَ مَنَّ عَلَيْنَا بِإِصْلَاحِ عُيُوبِنَا، وَ اجْعَلِ التَّقْوَى زَادَنَا، وَ فِي دِينِكَ إِجْتِهَادُنَا، وعليك توكّلنا و اعتمادنا. اللَّهُمَّ ثَبِّتْنَا عَلَى نَهْجِ الْإِسْتِقَامَةِ، وَأَعِذْنَا فِي الدُّنْيَا مِنْ مُوجِبَاتِ النَّدَامَةِ يَوْمَ الْقِيَامَةِ، و خفّف عنّا ثقل الأوزار، و ارزقنا عيشة الأبرار، واكفنا ما اهمّنا في هذه الدّار و في تلك الدّار واصرف عنّا شرّ الأشرار و كيد الفجّار و اعتق رقابنا و رقاب آبائنا و أمّهاتنا و إخواننا وأخواتنا من النّار، بِرَحْمَتِكَ يَا عَزِيزُ يَا غَفَّارُ، يَا كَرِيمُ يَا سَتَّارُ يَا خَالِقَ اللَّيْلِ وَ النَّهَارِ خَلِّصْنَا مِنْ هَمِّ الدُّنْيَا وَ عَذَابِ الْقَبْرِ وَ النَّارِ يَا عَلِيمُ يَا جَبَّارُ، يا الله، يا ألله، يا ألله، بِرَحْمَتِكَ يَا أَرْحَمَ الرَّاحِمِينَ، و يا أول الأوّلین، و يا آخر الآخرین، وَ يَا ذَا الْقُوَّةِ الْمَتِينُ، وَيَا رَاحِمَ الْمَسَاكِينِ، وَ يَا أَرْحَمَ الرَّاحِمِينَ، لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ. وَ صَلَّى اللَّهُ عَلَى سَيِّدِنَا مُحَمَّدٍ وَ آلِهِ وَصَحْبِهِ أَجْمَعِينَ، وَ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ.»
 
 O my Allah! I ask of You the fullness and perfection of Your blessings; the permanence of inward and outward purity; the all-encompassing breadth of Your mercy; the attainment of health; increase in my sustenance; happiness in my life; true and lasting success in this life; the completion of noble qualities; from Your rewards, the most abundant reward; from Your plenitude, the sweetest plenitude; from Your favors, the most plentiful favor; from all deeds, the deed that is best; from all knowledge, the knowledge that is most beneficial; and from all sustenance, the sustenance that is most wholesome.
 

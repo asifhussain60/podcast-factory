@@ -1,0 +1,13 @@
+{
+  "schema": "podcast.composer-edits-replay/v1",
+  "applied": 1,
+  "conflicts": 0,
+  "orphaned": 0,
+  "chapters": [
+    {
+      "chapter_key": "the call to inner meaning",
+      "title": "## 2. The Call to Inner Meaning",
+      "conflict": false
+    }
+  ]
+}

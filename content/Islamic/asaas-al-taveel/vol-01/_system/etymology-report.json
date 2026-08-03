@@ -1,0 +1,72 @@
+{
+  "schema": "podcast.etymology/v1",
+  "book": "vol-01",
+  "candidates": 30,
+  "generated": 10,
+  "kept": 10,
+  "written": 10,
+  "dropped": 0,
+  "drop_reasons": [],
+  "entries": [
+    {
+      "term": "islam",
+      "root": "s-l-m",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "hujja",
+      "root": "h-j-j",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "asas",
+      "root": "'-s-s",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "Natiq",
+      "root": "n-t-q",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "tafsir",
+      "root": "f-s-r",
+      "confirmed_by_reference": false,
+      "corpus_grounded": false
+    },
+    {
+      "term": "Shaytan",
+      "root": "sh-t-n",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "batin",
+      "root": "b-t-n",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "iman",
+      "root": "'-m-n",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "samit",
+      "root": "s-m-t",
+      "confirmed_by_reference": true,
+      "corpus_grounded": false
+    },
+    {
+      "term": "bashar",
+      "root": "b-sh-r",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    }
+  ]
+}

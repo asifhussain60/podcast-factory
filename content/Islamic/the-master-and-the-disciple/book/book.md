@@ -3,13 +3,13 @@
 ## How to Read a Conversation Made of Doors
 
 <!-- edition-intro:begin -->
-This is a work of religious instruction cast as a story: a chain of encounters between a learned man and a young seeker, built almost entirely from their talk. Its Arabic title, *Kitāb al-ʿĀlim wa-l-Ghulām* — the book of the ʿĀlim and the Ghulām, the Master and the Disciple — names its two roles directly, and the dialogue between them is the engine of the whole thing. Doctrine is not laid out as a treatise; it is drawn out question by question, one figure pressing and the other answering, in the manner of a Socratic exchange.
+This is a work of religious instruction cast as a story: a chain of encounters between a learned man and a young seeker, built almost entirely from their talk. Its Arabic title, *Kitab al-Alim wa-l-Ghulam* — the book of the 'Alim and the Ghulam, the Master and the Disciple — names its two roles directly, and the dialogue between them is the engine of the whole thing. Doctrine is not laid out as a treatise; it is drawn out question by question, one figure pressing and the other answering, in the manner of a Socratic exchange.
 
-The text is attributed to Jaʿfar ibn Manṣūr al-Yaman and belongs to the Ismaili tradition of the early Fatimid period, the missionary teaching (the *daʿwa*) of roughly the tenth century. Read it as a transmitted report: the account comes to you through a narrator who relates what passed between the speakers. When an "I" appears inside the conversation, it is one of the characters speaking, not the author addressing you — the frame is a story being told about others, not a memoir.
+The text is attributed to Jafar ibn Mansur al-Yaman (جَعْفَر بْن مَنْصُور اَلْيَمَن) and belongs to the Ismaili tradition of the early Fatimid period, the missionary teaching (the *dawa* (دَعْوَة)) of roughly the tenth century. Read it as a transmitted report: the account comes to you through a narrator who relates what passed between the speakers. When an "I" appears inside the conversation, it is one of the characters speaking, not the author addressing you — the frame is a story being told about others, not a memoir.
 
-Watch the roles rather than the names. The Master here is a teacher figure, but the boy who arrives as a disciple travels a long road to a further, higher teacher — a shaykh — and then returns home to instruct his own father and to debate a man named Abu Malik. So "master" and "disciple" are positions that can shift: the one who is taught goes on to teach, and more than one figure in these pages carries the authority of a master. Keep track of who is teaching whom in a given scene.
+Watch the roles rather than the names. The Master here is a teacher figure, but the boy who arrives as a disciple travels a long road to a further, higher teacher — a shaykh — and then returns home to instruct his own father and to debate a man named Abu Malik (أَبُو مَالِك). So "master" and "disciple" are positions that can shift: the one who is taught goes on to teach, and more than one figure in these pages carries the authority of a master. Keep track of who is teaching whom in a given scene.
 
-The recurring vocabulary is worth attention because much of it names a structure. Alongside the paired opposites *ẓāhir* and *bāṭin* — the outward sense of things and their inner meaning, unlocked by *taʾwīl*, interpretation — the book returns often to a ladder of ranks: the *Imām*, the *nāṭiq*, the *ḥujja*, the *dāʿī*, the *bāb*, and others. These are not loose honorifics but the ordered offices of the *daʿwa*, and following the argument means following where each figure sits within it.
+The recurring vocabulary is worth attention because much of it names a structure. Alongside the paired opposites *zahir* (اَلظَّاهِر) and *batin* (الْبَاطِن) — the outward sense of things and their inner meaning, unlocked by *tawil* (اَلتَّأْوِيل), interpretation — the book returns often to a ladder of ranks: the *Imam*, the *natiq* (اَلنَّاطِق), the *hujja* (الْحُجَّة), the *dai* (اَلدَّاعِي), the *bab* (بَاب), and others. These are not loose honorifics but the ordered offices of the *dawa*, and following the argument means following where each figure sits within it.
 
 ### The book's own opening
 <!-- edition-intro:end -->
@@ -28,7 +28,7 @@ As for gratitude toward the work, it is to be patient in it and to call others t
 
 ## 1. The Persian Who Was Dead and Revived
 
-As for the doctrines of the righteous and the manners of those who seek the truth: word has reached us that a man among the people of Persia was stricken with the affliction of ignorance. His heart was keen and retentive, his mind was sound, and he had cultivated learning within himself; yet ignorance ruled over him in the very knowledge already described, for it had seized him early and he had grown up surrounded by it. And so, in the heat of his thirst, he stumbled: he took the shimmer of the mirage for the whiteness of water, until he came to it and found nothing of it there. What he found instead was Allah, waiting for him, and there his account was settled. Then Allah honored his resting-place and lifted from him the veil that had covered him. He had found him astray and guided him; He had found him destitute and made him rich with knowledge. By that grace bestowed upon him, he became one of the scholars of the Mount (Tur, اَلطُّور) and one of those who dwell at the Frequented House (Bayt al-Mamur, اَلْبَيْتُ الْمَعْمُور).
+As for the doctrines of the righteous and the manners of those who seek the truth: word has reached us that a man among the people of Persia was stricken with the affliction of ignorance. His heart was keen and retentive, his mind was sound, and he had cultivated learning within himself; yet ignorance ruled over him in the very knowledge already described, for it had seized him early and he had grown up surrounded by it. And so, in the heat of his thirst, he stumbled: he took the shimmer of the mirage for the whiteness of water, until he came to it and found nothing of it there. What he found instead was Allah, waiting for him, and there his account was settled. Then Allah honored his resting-place and lifted from him the veil that had covered him. He had found him astray and guided him; He had found him destitute and made him rich with knowledge. By that grace bestowed upon him, he became one of the scholars of the Mount (اَلطُّور) and one of those who dwell at the Frequented House (اَلْبَيْتُ الْمَعْمُور).
 
 When his guidance was complete and he had reached the utmost of his hope, it became his duty to give thanks to his Maker and to labor his way toward his Lord. From his father he had heard a saying that was to him as the soul is to the body:
 
@@ -95,17 +95,17 @@ Then he said, "Fear Allah with the fear of one who dreads Him, and fear Him with
 <!-- editorial:end -->
 ## 3. The Boy at the Door — Limits and Conditions
 
-The boy’s father was one of the most prominent Arab shaykhs—a man of noble lineage, yet also one of the fiercest enemies of religion. With the Master’s permission, the boy walked with him until they reached the place where the Master was staying. The Master invited him in and called for food. When they had eaten and settled into conversation, the boy spoke.
+The boy's father was one of the most prominent Arab shaykhs—a man of noble lineage, yet also one of the fiercest enemies of religion. With the Master's permission, the boy walked with him until they reached the place where the Master was staying. The Master invited him in and called for food. When they had eaten and settled into conversation, the boy spoke.
 
-“Wise teacher,” he said, “your words have struck their mark. You have set religion before me with such beauty and conviction that you have stirred in me a longing to understand it. Wisdom like yours could come only from a man whose knowledge runs deep and whose patience is vast—a wellspring of wisdom rooted firmly in truth, whose branches bear fruit for everyone who seeks it. I believe you may be one of those blessed branches, for I see in you sound judgment, integrity, and a seasoned mind. You said that awareness of one’s own ignorance drives the mind to seek knowledge. No mind is more aware of its need than mine. Is there, then, a path by which I may reach true life?”
+“Wise teacher,” he said, “your words have struck their mark. You have set religion before me with such beauty and conviction that you have stirred in me a longing to understand it. Wisdom like yours could come only from a man whose knowledge runs deep and whose patience is vast—a wellspring of wisdom rooted firmly in truth, whose branches bear fruit for everyone who seeks it. I believe you may be one of those blessed branches, for I see in you sound judgment, integrity, and a seasoned mind. You said that awareness of one's own ignorance drives the mind to seek knowledge. No mind is more aware of its need than mine. Is there, then, a path by which I may reach true life?”
 
-The Master replied: “The One who created all beings by His power did not create them without purpose. He did not bring them into being already possessing knowledge, nor did He abandon them to wander helplessly in ignorance. He did not mean foolishness to become their way of life, or ignorance their lasting state. Instead, He gave them the means to rise out of ignorance through the very faculties with which He completed their making. He granted them hearing, sight, and hearts able to receive light. These were at once a gift to them and a proof by which they would be held to account. God then placed the treasures of His wisdom and the signs of His will within the teachings He entrusted to His chosen servants. He charged them to guard religion and to call others to it, and He required humankind to answer through the faculties He had given them. In this way God sets the corrupt apart from the good. Those who seek sincerely are granted sight, while those who hang back through carelessness lay bare their own neglect. After the coming of God’s messengers, no one has an argument against Him; and after the evidence has been made plain, no one has an excuse for remaining astray.”
+The Master replied: “The One who created all beings by His power did not create them without purpose. He did not bring them into being already possessing knowledge, nor did He abandon them to wander helplessly in ignorance. He did not mean foolishness to become their way of life, or ignorance their lasting state. Instead, He gave them the means to rise out of ignorance through the very faculties with which He completed their making. He granted them hearing, sight, and hearts able to receive light. These were at once a gift to them and a proof by which they would be held to account. God then placed the treasures of His wisdom and the signs of His will within the teachings He entrusted to His chosen servants. He charged them to guard religion and to call others to it, and He required humankind to answer through the faculties He had given them. In this way God sets the corrupt apart from the good. Those who seek sincerely are granted sight, while those who hang back through carelessness lay bare their own neglect. After the coming of God's messengers, no one has an argument against Him; and after the evidence has been made plain, no one has an excuse for remaining astray.”
 
 The boy said: “The thought that I may have no excuse frightens me, yet the presence of clear evidence fills me with hope. Show me the proof, and I will serve you in humility.”
 
-The Master replied: “God did not create people as grown men or learned scholars. He created them as children who at first knew nothing. No one becomes great without first being small, and no one becomes learned without first passing through ignorance. Childhood is the beginning of maturity, just as ignorance can become the beginning of knowledge. In the same way, deeper knowledge cannot be received until simpler knowledge has come before it—knowledge that reaches the heart more quickly and is easier for the mind to grasp. Its foundations must first grow steady in the intellect. A person’s conduct must then bend to its demands, the heart must answer to its inner meaning, and only then can the mind carry its farthest conclusions.
+The Master replied: “God did not create people as grown men or learned scholars. He created them as children who at first knew nothing. No one becomes great without first being small, and no one becomes learned without first passing through ignorance. Childhood is the beginning of maturity, just as ignorance can become the beginning of knowledge. In the same way, deeper knowledge cannot be received until simpler knowledge has come before it—knowledge that reaches the heart more quickly and is easier for the mind to grasp. Its foundations must first grow steady in the intellect. A person's conduct must then bend to its demands, the heart must answer to its inner meaning, and only then can the mind carry its farthest conclusions.
 
-“This is God’s settled way with His servants. We must not, then, invent religion according to our own opinions, or leave the recognized path under the pretense of seeking guidance.”
+“This is God's settled way with His servants. We must not, then, invent religion according to our own opinions, or leave the recognized path under the pretense of seeking guidance.”
 
 The boy said: “Then I am too young for what I long for—so help me grow. I am ignorant of what I seek—so teach me. I stand in need of your generosity—so have mercy on me. You were once in this very condition, and God brought His blessing to you through someone who bore great hardship for your sake and earned your lasting gratitude. I know what it is to suffer within the confinement of ignorance, to need a path and not know where to find it, and to have too few means to help oneself.”
 
@@ -165,7 +165,7 @@ The Master said: “The first limit is that you uphold the outward teachings and
 
 فَإِنَّهُ مَنْ عَمِلَ لِلَّهِ بِمَا يَعْلَمُ، هَدَاهُ اللَّهُ إِلَى مَا لَا يَعْلَمُ
 
-‘Whoever acts for God according to what he knows, God will guide him to what he does not know.’”
+'Whoever acts for God according to what he knows, God will guide him to what he does not know.'”
 
 The boy replied: “But the revealed Books are many. All of them come from God, and each has scholars who hold fast to it. All of them claim to preserve their Book and the religion it contains.”
 
@@ -173,7 +173,7 @@ The Master said: “We have come back to the beginning of our discussion, and fi
 
 “How so?” asked the boy.
 
-“You say the Books are many, that all come from God, and that each has its own scholars. Do you imagine that God’s words and His Books contradict or cancel one another—that the earlier Books call the later ones false, or that the later Books call the earlier ones false?”
+“You say the Books are many, that all come from God, and that each has its own scholars. Do you imagine that God's words and His Books contradict or cancel one another—that the earlier Books call the later ones false, or that the later Books call the earlier ones false?”
 
 “I do not believe that,” the boy said. “But what proves otherwise?”
 
@@ -187,9 +187,9 @@ The boy said: “I will keep all these conditions. They are easy beside the grea
 
 The Master replied: “If you leave him, you will draw attention to yourself. Stay with him instead. Treat him dutifully and outwardly accommodate him where you can. Keep your secret from him and hide what you are doing. God will protect us from any harm he or anyone else might do.”
 
-The narrator continued: The Master and the boy met from time to time, but long stretches often passed between their meetings. The boy remained unsure of his situation. He knew only the limits laid upon him. He did not know where the Master lived, and because of the Master’s condition, he was forbidden to go looking for him. Time passed in this way. The Master was testing the boy’s patience while showing his own patience in carrying out the charge entrusted to him. At last, on a quiet night, when the world had fallen silent, and the informers had grown careless, the two were brought together again. The boy felt the full weight of his need and was finally granted privacy with his teacher.
+The narrator continued: The Master and the boy met from time to time, but long stretches often passed between their meetings. The boy remained unsure of his situation. He knew only the limits laid upon him. He did not know where the Master lived, and because of the Master's condition, he was forbidden to go looking for him. Time passed in this way. The Master was testing the boy's patience while showing his own patience in carrying out the charge entrusted to him. At last, on a quiet night, when the world had fallen silent, and the informers had grown careless, the two were brought together again. The boy felt the full weight of his need and was finally granted privacy with his teacher.
 
-He fell prostrate before the Master. When he raised his head, the Master said: “I saw you prostrating in gratitude. Gratitude offered before a deed is complete may arouse suspicion, while gratitude that ends too soon after its completion may render one’s efforts meaningless.”
+He fell prostrate before the Master. When he raised his head, the Master said: “I saw you prostrating in gratitude. Gratitude offered before a deed is complete may arouse suspicion, while gratitude that ends too soon after its completion may render one's efforts meaningless.”
 
 The boy replied: “Everything you say is true, and everything you do is wise. I gave thanks for the kindness you have already shown me, and through this prostration of gratitude I hoped you might grant me still more.”
 
@@ -199,7 +199,7 @@ The Master said: “Religion has a key by which the lawful is set apart from the
 
 The boy replied: “This key must be of tremendous weight in the sight of God, since it parts the lawful from the unlawful and truth from falsehood. What is it?”
 
-The Master said: “It is the covenant of God. Through it, His rights are affirmed, and His obligations gathered together. It is a shield for His friends, God’s rope stretched across the earth, and His secure pledge among His servants. I will recite this covenant to you and receive your commitment to it.”
+The Master said: “It is the covenant of God. Through it, His rights are affirmed, and His obligations gathered together. It is a shield for His friends, God's rope stretched across the earth, and His secure pledge among His servants. I will recite this covenant to you and receive your commitment to it.”
 
 The boy replied: “Yes. Take from me whatever commitment you require. I will neither reject your judgment nor turn from your path.”
 
@@ -214,9 +214,7 @@ The narrator continued: The Master then recited the covenant to the boy slowly, 
 ## 4. How the World Was Made
 
 <!-- bridge:begin -->
-
-A note for the reader. Everything that follows to the end of this chapter is the Master's own discourse to the boy, so the "I" and "we" in it are his and not the edition's.
-
+> **A note for the reader.** *Everything that follows to the end of this chapter is the Master's own discourse to the boy, so the "I" and "we" in it are his and not the edition's.*
 <!-- bridge:end -->
 
 God is the Creator of all things and the One who composes them: He made them and brought them into being. He is not merely the first of each created thing, cited as evidence for what came after Him; He is the First of all firsts and the Inheritor of every existing thing. He began the creation of all He made out of a light, and from that light three words branched. The first is the will; from the will branched the command; and from the command branched the saying — that He says "Be" to whatever He wills, and it is. So the first of creation was a will, then a command, then a saying.
@@ -239,7 +237,7 @@ Then the heavens and the earth were sealed together in darkness, out of the blac
 
 When the creation of things had been completed upon these principles, He made them in pairs, male and female — not male and female in the bodily sense, but in the sense of the superior and the subordinate. Then the practice went forth of creating in pairs, and out of their substances He created every living thing: humankind, beasts, birds, and crawling creatures. This practice then extended into speech, so that speech too became paired: attributes and things described, names and meanings. Glory be to Him who created all the pairs and made them the outward showings of His command, the likenesses of His religion, and the proofs of His power — pointing, through things, to their Originator, and through the creation, to its Maker.
 
-Then He rent it apart with His light, opened it with His command, created it by His knowledge, and sealed it, out of His names, with the letters of "In the name of Allah, the Most Gracious, the Most Merciful." بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ In the name of Allah, the Most Gracious, the Most Merciful. When He had perfected them all by His making and joined them into pairs by His measure, He chose for Himself — out of the purest of His will and the depths of His unseen — an abundant knowledge and a manifest light, and made the two of them a religion by which God is served and through which nearness to Him is sought. He then honored it with the sacred laws and the books, and made it known through likenesses and customs. Out of the choicest of His creation He raised up for it banners, proofs, and rulers, making them the houses of His prophethood, the treasuries of His knowledge and wisdom, and the interpreters of His revelation. He set them as His successors in His earth, guides to the path of deliverance in both the outward and the inward. Among them are the imams and the speakers (nutaqa); among them are the proofs (hujaj, اَلْحُجَج) and the chiefs (nuqaba, اَلنُّقَبَاء); and among them are the summoners to the good and the learned. In their stations they are like the stars of heaven, by whom works are set aright and in whom the likenesses reach their end. Their imam is like the great sun among the lights, veiled by its own coverings from the sight of eyes, and he is its outward showing and its likeness. The proof and gate of their imam is like the shining moon, and he too is its outward showing and its likeness. Their summoners are like the radiant stars (zawahir), and they are its outward showings and its likenesses.
+Then He rent it apart with His light, opened it with His command, created it by His knowledge, and sealed it, out of His names, with the letters of "In the name of Allah, the Most Gracious, the Most Merciful." بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ In the name of Allah, the Most Gracious, the Most Merciful. When He had perfected them all by His making and joined them into pairs by His measure, He chose for Himself — out of the purest of His will and the depths of His unseen — an abundant knowledge and a manifest light, and made the two of them a religion by which God is served and through which nearness to Him is sought. He then honored it with the sacred laws and the books, and made it known through likenesses and customs. Out of the choicest of His creation He raised up for it banners, proofs, and rulers, making them the houses of His prophethood, the treasuries of His knowledge and wisdom, and the interpreters of His revelation. He set them as His successors in His earth, guides to the path of deliverance in both the outward and the inward. Among them are the imams and the speakers (النُّطَقَاءُ); among them are the proofs (اَلْحُجَج) and the chiefs (اَلنُّقَبَاء); and among them are the summoners to the good and the learned. In their stations they are like the stars of heaven, by whom works are set aright and in whom the likenesses reach their end. Their imam is like the great sun among the lights, veiled by its own coverings from the sight of eyes, and he is its outward showing and its likeness. The proof and gate of their imam is like the shining moon, and he too is its outward showing and its likeness. Their summoners are like the radiant stars (اَلزَّوَاهِر), and they are its outward showings and its likenesses.
 
 All the pairs the Master had described are outward and inward, likeness and thing likened. The outward of the seven heavens are likenesses, and their inward are the seven speakers, the messengers of firm resolve. The seven earths are outwardly likenesses, and their inward are the imams of guidance. To each speaker among them belong twelve chiefs, whose likeness from the seven heavens are the twelve constellations. Likewise, to each imam among the imams of guidance belong twelve proofs, by whom God's argument is established upon his people, and whose likeness in the earth are the twelve islands.
 
@@ -253,7 +251,7 @@ The discourse upon this is long, and it grows ever greater; and the more its ans
 
 <!-- editorial:begin -->
 
-Editorial note (tradition-grounded). Where this chapter closes by naming "the signs of the heavens and the earth, which people pass by while turning away from them," it is echoing a specific verse the reader may not recognize: And how many a sign in the heavens and the earth they pass by, while they are averse therefrom (Quran 12:105). The chapter's whole architecture — the twelve constellations and twelve islands, their heavenly and earthly witnesses — is offered as a catalog of exactly these overlooked signs. It is worth pairing this with the chapter's earlier note on the air as "the proof of the One of whom there is nothing like Him": for the Master, the sign that points to God is precisely the one unlike every other sign.
+Editorial note (tradition-grounded). Where this chapter closes by naming "the signs of the heavens and the earth, which people pass by while turning away from them," it is echoing a specific verse the reader may not recognize: And how many a sign in the heavens and the earth they pass by, while they are averse therefrom (Yusuf: 105). The chapter's whole architecture — the twelve constellations and twelve islands, their heavenly and earthly witnesses — is offered as a catalog of exactly these overlooked signs. It is worth pairing this with the chapter's earlier note on the air as "the proof of the One of whom there is nothing like Him": for the Master, the sign that points to God is precisely the one unlike every other sign.
 
 <!-- editorial:end -->
 ## 5. The World, the Hereafter, and the Speech of Parables
@@ -296,25 +294,25 @@ nothing at all, great or small, except that it is a parable struck. Do you not s
 
 The boy said: What is the likeness of the heaven, in its height above things and the breadth of its regions, such that it has gathered in all things?
 
-The Master said: Its likeness is the likeness of the Speaking Imam (al-Imam al-Natiq, الْإِمَامُ النَّاطِقُ), who is raised above all creation by his excellence and the loftiness of his ranks, and who has gathered in all the rulings — the rulings of the Sharia — by the breadth of his knowledge.
+The Master said: Its likeness is the likeness of the Speaking Imam (الْإِمَامُ النَّاطِق), who is raised above all creation by his excellence and the loftiness of his ranks, and who has gathered in all the rulings — the rulings of the Sharia — by the breadth of his knowledge.
 
 The boy said: What is the likeness of the zodiac and the rest of its stars?
 
-The Master said: They are the likeness of the twelve chiefs (nuqaba), the chiefs of the Speaking Imam; and their stars are his summoners (duat, الدُّعَاة), who call to the good by the leave of their Lord.
+The Master said: They are the likeness of the twelve chiefs (اَلنُّقَبَاء), the chiefs of the Speaking Imam; and their stars are his summoners (الدُّعَاة), who call to the good by the leave of their Lord.
 
 The boy said: What is the likeness of the earth and its breadth, since it was made a resting-place and a bed for this creation?
 
-The Master said: It is the likeness of the gate (bab, بَاب) of the Speaking Imam in his lifetime, and of his executor (wasi, اَلْوَصِي) after his death. He is a place of return for the people and a resting-place for whoever seeks guidance, being a knower of the parables and of the inner interpretation (tawil, اَلتَّأْوِيل).
+The Master said: It is the likeness of the gate (بَاب) of the Speaking Imam in his lifetime, and of his executor (اَلْوَصِي) after his death. He is a place of return for the people and a resting-place for whoever seeks guidance, being a knower of the parables and of the inner interpretation (اَلتَّأْوِيل).
 
-The boy said: What is the likeness of the twelve islands in the earth? The Master said: The likenesses of the twelve proofs (hujaj), the proofs of the executors.
+The boy said: What is the likeness of the twelve islands in the earth? The Master said: The likenesses of the twelve proofs (اَلْحُجَج), the proofs of the executors.
 
 The boy said: What is the likeness of its rivers and its springs?
 
-The Master said: The likenesses of the summoners to the good (duat).
+The Master said: The likenesses of the summoners to the good (الدُّعَاة).
 
 The boy said: What is the likeness of the seven kingdoms of the heavens and their orbits?
 
-The Master said: Those are causes between God and the Speakers (natiq, اَلنَّاطِق), and they belong to Him. These are the seven and the two orbits, and these are the greatest causes of God.
+The Master said: Those are causes between God and the Speakers (اَلنَّاطِق), and they belong to Him. These are the seven and the two orbits, and these are the greatest causes of God.
 
 The boy said: What is the likeness of the seven seas?
 
@@ -322,7 +320,7 @@ The Master said: These are causes between God and the imams of the Speaker, belo
 
 The boy said: What is the likeness of the salt water and the fresh water, and the difference between them, upon the earth?
 
-The Master said: The salt water is the likeness of the knowledge of the outward, in which there is no summons (dawa, دَعْوَة) and no summoners, just as the salt water yields no sowing and nothing else. The fresh water is the likeness of the knowledge of the inward — whether the springs within the earth or the water that runs upon its surface. So too is knowledge: the knowledge of the inward is of two kinds, an outward that the summoners carry along, and an inward that is kept concealed.
+The Master said: The salt water is the likeness of the knowledge of the outward, in which there is no summons (دَعْوَة) and no summoners, just as the salt water yields no sowing and nothing else. The fresh water is the likeness of the knowledge of the inward — whether the springs within the earth or the water that runs upon its surface. So too is knowledge: the knowledge of the inward is of two kinds, an outward that the summoners carry along, and an inward that is kept concealed.
 
 The boy said: How did water come to be a likeness of knowledge?
 
@@ -451,7 +449,7 @@ The Master said: "The sower can make the earth good, and sow, and water it, but 
 
 The boy said: "Is the rope of God not the Imam to whom you have called me?"
 
-The Master said: "He is its outward sign. He is your rope and the most trustworthy handhold, your hujja (الْحُجَّة), your proof, and the door of your Imam."
+The Master said: "He is its outward sign. He is your rope and the most trustworthy handhold, your hujja, your proof, and the door of your Imam."
 
 The boy said: "Then what is the rope of God, and what is the rope that comes from God?"
 
@@ -467,7 +465,7 @@ The Master said: "And what are the might and the power you have mentioned, which
 
 The boy said: "We mean: I have no stratagem to draw a benefit to myself, and no power to ward off from myself a harm I dislike, except by God."
 
-The Master said: "Then why do you say there is no might (hawl, اَلْحَوْل), and not there is no stratagem (hila)?"
+The Master said: "Then why do you say there is no might (اَلْحَوْل), and not there is no stratagem (حِيلَة)?"
 
 The boy said: "It is narrated to us in our sciences that hawl is the year, by the words of God,
 
@@ -477,7 +475,7 @@ two complete years, meaning two years. And we have it narrated, as the common pe
 
 > وَآتَيْنَاهُ مِنَ الكُنُوْزِ مَا إِنَّ مَفَاتِحَهُ لَتَنُوْءُ بِالْعُصْبَةِ أُولِي القُوَّةِ
 
-And We gave him of the treasures such that the keys of them would weigh down a band (usba) of men possessed of power. They said: the usba is forty men, and the quwwa is the mules; and the keys of his treasures were the load of forty mules."
+And We gave him of the treasures such that the keys of them would weigh down a band (عُصْبَة) of men possessed of power. They said: the usba is forty men, and the quwwa is the mules; and the keys of his treasures were the load of forty mules."
 
 The Master said: "So it is as if, by your words there is no might and no power except by God, you meant there is no year and no mules except by God? Is this the interpretation of your saying and its meaning?"
 
@@ -487,7 +485,7 @@ The Master said: "Creation has uttered no word of truth but that it has a root i
 
 The boy said: "I am convinced. So what is the meaning of the two words and their like?"
 
-The Master said: "As for al-hawl, he is the speaking Imam of God and His truthful Caliph, the lord of the twelve captains, just as the hawl, which is the year, is completed only in twelve months. The Imam is named hawl because he turns (yuhawwil) the speech of the Creator, in the subtlety of its essence, into the speech of the children of Adam, until it is understood and becomes outward speech; and so the words of wisdom take on a body and a frame, while the speech of the Creator holds within them the spirit of life and the light of salvation. The excellence of the words of wisdom over all other speech is by the excellence of the speech of the Creator that is their inward. So the Imam is named the hawl for this turning of speech, and he does not turn it except by the permission of God. And quwwa, power, is his hujja and his door, whom God has strengthened to bear the heavy burden of utterance. He takes the speech from the Imam in summary and distributes it among the callers (duat) in detail, each according to his station. So the hujja is named quwwa, for it is strengthened only by God. Therefore whoever says there is no might and no power except by God means: there is no Imam and no hujja except by God, and from God come their light and their sustenance. And the usba, those possessed of power, are the twelve hujjas. Likewise Joseph (عَلَيْهِ السَّلَامُ) said to his father:
+The Master said: "As for al-hawl, he is the speaking Imam of God and His truthful Caliph, the lord of the twelve captains, just as the hawl, which is the year, is completed only in twelve months. The Imam is named hawl because he turns (يحوّل) the speech of the Creator, in the subtlety of its essence, into the speech of the children of Adam, until it is understood and becomes outward speech; and so the words of wisdom take on a body and a frame, while the speech of the Creator holds within them the spirit of life and the light of salvation. The excellence of the words of wisdom over all other speech is by the excellence of the speech of the Creator that is their inward. So the Imam is named the hawl for this turning of speech, and he does not turn it except by the permission of God. And quwwa, power, is his hujja and his door, whom God has strengthened to bear the heavy burden of utterance. He takes the speech from the Imam in summary and distributes it among the callers (الدُّعَاة) in detail, each according to his station. So the hujja is named quwwa, for it is strengthened only by God. Therefore whoever says there is no might and no power except by God means: there is no Imam and no hujja except by God, and from God come their light and their sustenance. And the usba, those possessed of power, are the twelve hujjas. Likewise Joseph (عَلَيْهِ السَّلَامُ) said to his father:
 
 > يَا أَبَتِ إني رأيْتُ أَحَدَ عَشَرَ كَوْكَباً وَالشَّمْسَ وَالقَمَرَ رَأَيْتُهُمْ لِي سَاجِدِيْنَ
 
@@ -495,7 +493,7 @@ O my father, I saw eleven planets, and the sun and the moon; I saw them prostrat
 
 > لَيُوسُفُ وأَخُوْهُ أَحَبُّ إلى أبينَا مِنَّا وَنَحْنُ عُصْبَة
 
-Truly Joseph and his brother are dearer to our father than we are, though we are a band (usba) — meaning the twelve captains: let him choose out a man from among us. So there entered upon them in this a failure of right judgment concerning Joseph (ع), and the risings of envy toward him appeared in them when God favored him. Yet the command of God was fulfilled in Joseph, and the outcome of their affair was remorse and repentance before him."
+Truly Joseph and his brother are dearer to our father than we are, though we are a band (عُصْبَة) — meaning the twelve captains: let him choose out a man from among us. So there entered upon them in this a failure of right judgment concerning Joseph (ع), and the risings of envy toward him appeared in them when God favored him. Yet the command of God was fulfilled in Joseph, and the outcome of their affair was remorse and repentance before him."
 
 The boy said: "Praise be to God, who cleansed them of impurity and returned them to the return of repentance and the ways of turning back. What, then, is the meaning of the king's saying,
 
@@ -503,7 +501,7 @@ The boy said: "Praise be to God, who cleansed them of impurity and returned them
 
 I see seven fat cows being eaten by seven lean ones, and seven green ears of grain and others dry? What are they, and what is the dream-vision in sleep?"
 
-The Master said: "As for the dream-vision, it is like the outward when a work is done — like the mirage that, when one comes upon it, one finds to be nothing. So too is the work of the outward without the inward: nothing of it is accepted, however much there may be. And likewise the vision in sleep: nothing is realized from what is seen, however often it is seen. So the king said I see, in the account of the common people, seven things turning upon seven. As for the seven fat cows, they are the causes of God that stand between Him and His creation. As for the seven lean ones, they are the seven appointed speakers (natiqs) who are driven by need to what comes from God at the hands of His seven causes. And the seven green ears are causes between God and the guardians (awliya, أَوْلِيَاء). And the seven dry ones are the guardians, driven by need to what comes from God at the hands of these seven causes. So blessed be God, Lord of the worlds."
+The Master said: "As for the dream-vision, it is like the outward when a work is done — like the mirage that, when one comes upon it, one finds to be nothing. So too is the work of the outward without the inward: nothing of it is accepted, however much there may be. And likewise the vision in sleep: nothing is realized from what is seen, however often it is seen. So the king said I see, in the account of the common people, seven things turning upon seven. As for the seven fat cows, they are the causes of God that stand between Him and His creation. As for the seven lean ones, they are the seven appointed speakers (النُّطَقَاءُ) who are driven by need to what comes from God at the hands of His seven causes. And the seven green ears are causes between God and the guardians (أَوْلِيَاء). And the seven dry ones are the guardians, driven by need to what comes from God at the hands of these seven causes. So blessed be God, Lord of the worlds."
 
 The boy said: "And what is the like of this among us?"
 
@@ -801,7 +799,7 @@ The boy said: "In these forty years I have stood beside you, have you ever found
 
 The boy's words tore at his father's heart. He saw that there was no escaping any of these arguments, and his eyes brimmed with tears. He said: "My son, the argument raised against me is yours to make. You would have met the same fate as I, had you kept your affairs hidden from me. Set this to my account: if it is true, I will accept honor from you for my own sake; and even if it is false, I have laid it aside for your sake, out of compassion for you."
 
-So they debated across many sittings, and they opened their hearts to one another at length, until they were guided to the straight path — living by the religion of Allah, upholding it, holding fast to it, calling others to it, and aiding one another in it. Through them Allah revived many of His creatures. The boy sent word to the Master, bringing him the glad tidings of his father's rightness and asking him to come; so he came to them and was a cause of good for them. Allah blessed the people of that country through them and at their hands. Allah's command was carried out, and slander came to nothing. The boy's name was Salih (صَالِح, 'the righteous'), and his father's name was al-Bakhtari (اَلْبَخْتَرِي). The two were honored, raised above others, and given high standing for the excellence of the manners they had acquired. Word of them spread through the land, and word of their religion along with it, until it reached a party of people who clung to the old creed. Al-Bakhtari had long held influence among them, and they feared that his leaving their religion would cut it off from them. So they set out and gathered before one of their scholars, called Abd al-Jabbar Abu Malik (أَبُو مَالِك), whom they had named — for his scrupulousness, the depth of his forbearance, and his defense of his religion — "Kab al-Ahbar (كَعْبُ الْأَحْبَارِ)." Among them he stood eminent for his knowledge, his grasp of speech, and his discernment of opinions. When they came in to him,
+So they debated across many sittings, and they opened their hearts to one another at length, until they were guided to the straight path — living by the religion of Allah, upholding it, holding fast to it, calling others to it, and aiding one another in it. Through them Allah revived many of His creatures. The boy sent word to the Master, bringing him the glad tidings of his father's rightness and asking him to come; so he came to them and was a cause of good for them. Allah blessed the people of that country through them and at their hands. Allah's command was carried out, and slander came to nothing. The boy's name was Salih (صَالِح, 'the righteous'), and his father's name was al-Bakhtari (اَلْبَخْتَرِي). The two were honored, raised above others, and given high standing for the excellence of the manners they had acquired. Word of them spread through the land, and word of their religion along with it, until it reached a party of people who clung to the old creed. Al-Bakhtari had long held influence among them, and they feared that his leaving their religion would cut it off from them. So they set out and gathered before one of their scholars, called Abd al-Jabbar Abu Malik, whom they had named — for his scrupulousness, the depth of his forbearance, and his defense of his religion — "Kab al-Ahbar (كَعْب اَلْأَحْبَار)." Among them he stood eminent for his knowledge, his grasp of speech, and his discernment of opinions. When they came in to him,
 
 they said: "Abu Malik, do you not see what the boy has gone over to?"
 

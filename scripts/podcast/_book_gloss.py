@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import re
 
+from _arabic_coverage import normalize_arabic
 from _translit import simplify_transliteration
 
 # Name connectors and the article. Grammatical glue inside a name, never a term a
@@ -82,6 +83,9 @@ def _convert_glosses(line: str, terms: list[dict[str, str]], pending: dict[str, 
 
     A personal name is skipped — its romanisation is how an English reader says
     it, and the script is appended beside rather than swapped in.
+
+    So is a bracket whose script is ALREADY the word in front of it — see
+    ``_glosses_script_already_there``.
     """
     n = 0
     by_phonetic = {t["phonetic"] for t in terms}
@@ -93,6 +97,7 @@ def _convert_glosses(line: str, terms: list[dict[str, str]], pending: dict[str, 
             m
             for m in re.finditer(_gloss_paren_re(phonetic), line)
             if not _is_reversed_gloss(line, m.start(), by_phonetic)
+            and not _script_already_precedes(line, m.start(), script)
         ]
         if not matches:
             continue
@@ -101,6 +106,31 @@ def _convert_glosses(line: str, terms: list[dict[str, str]], pending: dict[str, 
             n += 1
         pending.pop(phonetic, None)
     return line, n
+
+
+def _script_already_precedes(line: str, start: int, script: str) -> bool:
+    """Is the Arabic in front of this bracket already the script we would insert?
+
+    The letters-as-letters case, and the ONE place a romanisation beside script is
+    the correct printed form rather than a defect. When the book discusses a word
+    AS A WORD it prints the script and glosses it for a reader who cannot sound it
+    out — `from them is derived كُن (Kun), which is two letters`. Converting that
+    bracket produces `كُن (كُن)`: the script said twice, the pronunciation gone,
+    and a sentence about two letters that no longer shows the reader which two.
+
+    It is also a P0 in the challenger spec (BK-N4: keep the script and set the
+    transliteration beside it, `كُنْ (kun)`), and it is the carve-out Asif kept on
+    2026-08-02 when he scoped the zero-transliteration rule to Arabic VOCABULARY.
+
+    Compared by consonantal skeleton, so the vowelling on either side — the book's
+    own on one, `vowel_book`'s on the other — cannot hide the match.
+    """
+    head = line[:start].rstrip()
+    if not head:
+        return False
+    tail = normalize_arabic(head[-len(script) - 12 :])
+    needle = normalize_arabic(script)
+    return bool(needle) and tail.endswith(needle)
 
 
 def _is_reversed_gloss(line: str, start: int, phonetics: set[str]) -> bool:

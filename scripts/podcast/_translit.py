@@ -85,10 +85,40 @@ def simplify_transliteration(text: str) -> str:
     #
     #    Deliberately a rule and not a term list: a new Arabic name must not
     #    need a code edit to be spelled correctly.
+    #      d) a QUOTATION MARK, decided by pairing rather than locally.
+    #
+    #    (d) exists because the local rules cannot tell `Allah'` closing a quoted
+    #    phrase from `sama'` ending in an ayn — the shapes are identical, a letter
+    #    before and a non-letter after. Judged alone, both folded, and the fold
+    #    silently destroyed quoted speech: `He said, 'Go now.'` printed as
+    #    `He said, Go now.`, and 7 quoted spans vanished from
+    #    `the-master-and-the-disciple` and 18 from `asaas-al-taveel` the first time
+    #    the apparatus ran over them.
+    #
+    #    An OPENING quote is unambiguous — no transliteration begins with an ayn
+    #    preceded by whitespace — so it is recognised locally, and only while one
+    #    is open is a closer allowed. State resets at every newline: an unbalanced
+    #    quote then costs at most one stray apostrophe on one line, whereas the
+    #    error in the other direction costs the reader a quotation.
     res: list[str] = []
+    in_quote = False
     for i, c in enumerate(folded):
+        if c == "\n":
+            in_quote = False
         if c == _SENTINEL:
             prev = folded[i - 1] if i > 0 else ""
+            nxt = folded[i + 1] if i + 1 < len(folded) else ""
+            # `prev != "-"`, not `prev not in "-"`: the empty string IS a
+            # substring of "-", so the membership form silently refused to open a
+            # quote at the very start of a line.
+            if not in_quote and not prev.isalpha() and prev != "-" and nxt.isalpha():
+                in_quote = True
+                res.append("'")
+                continue
+            if in_quote and (prev.isalpha() or prev in ".,!?;:") and not nxt.isalpha():
+                in_quote = False
+                res.append("'")
+                continue
             j = i + 1
             while j < len(folded) and folded[j].isalpha():
                 j += 1
