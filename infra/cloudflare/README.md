@@ -33,7 +33,7 @@ Read from the API on 2026-08-03, after the Listener went live:
 | Pages | `asif-academy` | `asif-academy.pages.dev` | No custom domain attached |
 | Workers | `podcast-listener` | `podcast-factory.safinaverse.com` | The account's first Worker |
 | D1 | `podcast-listener` | `ed6e00d2-ec8f-47bf-af5d-66ffc43e79c0` | region ENAM |
-| R2 | *(none)* | — | **Not enabled on the account** — see §3 |
+| R2 | `podcast-listener-media` | bound as `env.MEDIA` | Standard class, ENAM, 139 MB |
 
 The Worker's workers.dev address is deliberately **off**: the custom domain is
 the only way in. Turn it on temporarily only to run a scripted check (§6).
@@ -87,7 +87,7 @@ anywhere else:
 | Attach a Workers route, **zone** endpoint | ❌ denied — `/zones/{id}/workers/routes` |
 | Read zone settings (`security_level`, bot management) | ❌ denied (`9109` / `10000`) |
 | **Read zone DNS records** | ❌ **denied** (`10000 Authentication error`) |
-| Create an R2 bucket | ❌ **R2 is not enabled on the account** (`10042`) |
+| Create an R2 bucket, put and get objects | ✅ allowed (since R2 was enabled 2026-08-03) |
 | `GET /user/tokens/verify` | ❌ denied — **expected, not a fault** |
 
 The two Workers rows are the ones that matter and they are easy to misread. The
@@ -99,12 +99,7 @@ exits non-zero **after the Worker has already uploaded successfully**. Read the
 **Workers Routes: Edit** on the zone to the token would remove the noise; nothing
 is broken without it.
 
-**R2 is the one real blocker.** Bucket creation is refused with *"Please enable
-R2 through the Cloudflare Dashboard"*, which is a one-time account-level opt-in
-Asif has to click. Until then the Listener has no audio, no PDFs and no deck
-images — it stores their inventory and reports each as not uploaded yet.
-
-That last row confuses people. This is an **account-owned** token, so it cannot
+The last row confuses people. This is an **account-owned** token, so it cannot
 describe itself through the user endpoint. `cf-deploy.sh` printing
 `Token can't read /user … skipping email check` is the same thing and is
 correct behaviour.
@@ -112,10 +107,28 @@ correct behaviour.
 The token deliberately excludes Billing, Members and API-Tokens, and is
 Registrar read-only.
 
-**Known gap:** it cannot read DNS, and whether it can *attach a Workers custom
-domain* is untested — that needs a write call nobody has made yet. If a Workers
-domain attach fails on permissions, add **Workers Routes: Edit** on the zone
-(and **DNS: Edit** if a standalone record is ever needed).
+**Known gap:** it cannot read zone DNS records or zone settings. Neither has
+blocked anything — Pages and Workers custom domains both create their own DNS —
+but if a standalone record is ever needed, add **DNS: Edit** on the zone.
+
+### R2
+
+R2 needs a one-time account opt-in in the dashboard before any bucket can exist;
+without it every create is refused with `10042`. Asif enabled it on 2026-08-03
+and the Listener's media went up the same day. The free tier is 10 GB of storage,
+1M Class A and 10M Class B operations a month, and — the part that matters for
+audio — **no egress charge at all**. At 139 MB the library uses about 1.4% of the
+storage allowance.
+
+Beware `wrangler r2 bucket info`: it reported `object_count: 0` and
+`bucket_size: 0 B` immediately after 21 objects were uploaded successfully,
+because those figures come from usage metrics that lag by hours rather than from
+the bucket. To know whether an object is really there, fetch it back and compare:
+
+```bash
+npx wrangler r2 object get podcast-listener-media/<key> --remote --file=/tmp/x
+shasum -a 256 /tmp/x
+```
 
 ---
 

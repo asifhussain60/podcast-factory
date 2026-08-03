@@ -30,26 +30,15 @@
 
   // Media — audio, book PDFs and deck page images.
   //
-  // Commented out ONLY because R2 is not enabled on the Cloudflare account yet:
-  // the bucket create is refused with "Please enable R2 through the Cloudflare
-  // Dashboard" (code 10042), and wrangler will not deploy a binding whose bucket
-  // does not exist, so leaving it live would break every deploy on a maybe.
+  // The bucket was created 2026-08-03 on the gmail account, Standard storage
+  // class, region ENAM (the same region as D1). Local dev needs no bucket at
+  // all: Miniflare conjures one on demand, so the name is the only thing that
+  // has to match.
   //
-  // The path behind it is BUILT and PROVEN, not planned — uncommented locally on
-  // 2026-08-03, 17 objects uploaded to Miniflare's R2, and /media/:key served a
-  // whole 1.9 MB PDF, a 206 for `Range: bytes=100-199`, and a 404 to an invited
-  // reader without a grant. Turning it on is these three steps:
-  //
-  //   npx wrangler r2 bucket create podcast-listener-media   # once R2 is enabled
-  //   # uncomment the binding below, then:
-  //   npm run deploy
-  //   python3 scripts/podcast/upload_listener_media.py --remote
-  //
-  // Until then everything textual works and each absent piece is reported as
-  // "not uploaded yet" rather than linked.
-  // "r2_buckets": [
-  //   { "binding": "MEDIA", "bucket_name": "podcast-listener-media" }
-  // ],
+  // `run_worker_first` above is what makes this reachable — /media/* has to
+  // reach the Worker rather than the static-asset server, because every byte
+  // goes through the same grant check the book page ran.
+  "r2_buckets": [{ "binding": "MEDIA", "bucket_name": "podcast-listener-media" }],
 
   "vars": {
     "PUBLIC_SITE_NAME": "Podcast Factory",

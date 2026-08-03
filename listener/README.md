@@ -204,19 +204,10 @@ again — see the comment on `workers_dev` in `wrangler.jsonc`.
   `app/components/brand/Logo.tsx` is the one line that changes. `/brand` renders
   them side by side in every theme, at full size and at favicon size. Delete
   that route once the choice is made.
-- **R2 is not enabled on the account**, so no media has been uploaded: the
-  bucket create fails with "Please enable R2 through the Cloudflare Dashboard"
-  (code 10042), and wrangler refuses to deploy a binding whose bucket does not
-  exist, which is why `r2_buckets` is commented out in `wrangler.jsonc`. The path
-  behind it is built and proven — exercised locally against Miniflare's R2 with
-  17 real objects, including a range request and a denial. Turning it on:
-
-  ```bash
-  cd listener && npx wrangler r2 bucket create podcast-listener-media
-  # uncomment r2_buckets in wrangler.jsonc, then
-  npm run deploy
-  python3 ../scripts/podcast/upload_listener_media.py --remote
-  ```
+- **`wrangler r2 bucket info` reports 0 objects and 0 B even when the bucket is
+  full.** Those figures come from Cloudflare's usage metrics, which lag by hours.
+  To check whether an object is really there, fetch it back and compare:
+  `npx wrangler r2 object get podcast-listener-media/<key> --remote --file=…`.
 - **Notes and highlights are not built.** The design brief's "notes without a
   home" problem — a note anchored to a sentence a re-compose deleted — needs its
   own data model and is deliberately a separate phase.
