@@ -64,6 +64,13 @@ from _rules import (
     narrative_person_for,
 )
 
+#: Rule ids for the two frame rules this module owns. Declared HERE rather than
+#: in `_rules.py`: that file sits at its DR-005 ceiling and may never grow, and
+#: the repo's standing convention is that a rule is worded in exactly one place —
+#: which for these is the prompt directive and the guard directly below.
+R_NO_LECTURE_VOICE: str = "R-NO-LECTURE-VOICE"  # REQ-BA-125
+R_NO_NAVIGATION_APPARATUS: str = "R-NO-NAVIGATION-APPARATUS"  # REQ-BA-126
+
 # Speech tags live at the head of a paragraph. Every real defect found on the
 # live book landed inside this window, and confining the scan to it is what keeps
 # the check from reverting legitimate first-person prose INSIDE quoted speech —
@@ -188,6 +195,66 @@ _STAGE_DIRECTION_RE = re.compile(
 # by the same imperfect rule, so what it compares stays honest.
 _BLOCKQUOTE_LINE_RE = re.compile(r"(?m)^[ \t]*>.*$")
 _QUOTED_SPAN_RE = re.compile(r'[“"][^”"]{0,4000}[”"]')
+
+
+# ─── NAVIGATION APPARATUS ────────────────────────────────────────────────────
+# A lecture walks through a text and says where it is: "we now turn to the second
+# section of the first chapter of the first canopy". A book has a heading.
+#
+# This is the same defect family as the lecture voice and was found the same way
+# — Asif read the page (2026-08-03) and asked why chapter 1 opened on "useless
+# information about Suradiq". It is not useless because it is wrong; it is
+# useless because the EDITION does not use the source's division scheme. The
+# reader is given five canopies of five gates of five chapters, 125 sections, and
+# then a book with eight numbered chapters and no canopies in it. The scheme
+# names nothing they can navigate by, and `al-anwaar-al-lateefah` explains what a
+# suradiq is TWICE, four chapters apart, because the lecture did.
+#
+# Deliberately NOT a strip. Several of these sentences carry teaching alongside
+# the locator — "The ascent was named in the last gate; now a second gate opens,
+# and behind it lies something quieter" — so deleting the sentence deletes the
+# thought. The rule is a RECAST, driven by the prompt, guarded differentially.
+_DIVISION_WORD = (
+    r"(?:suradiq|suradiqs|sardaq|bab|babs|abwab|fasl|fasls|fusul|"
+    r"canopy|canopies|gate|gates|pavilion)"
+)
+#: Two shapes, and both are apparatus: LOCATING the prose in the scheme ("the
+#: fourth chapter of the first gate"), and RECITING the scheme ("five canopies in
+#: all"). The second is what opens chapter 1, so a locator-only pattern misses
+#: precisely the passage that prompted the rule.
+_NAVIGATION_RE = re.compile(
+    r"[^.!?\n]*\b(?:"
+    r"first|second|third|fourth|fifth|last|next|this"
+    # `one` is excluded deliberately: it is an English PRONOUN far more often than
+    # a count, and as a count no division scheme is ever "one canopy". Including
+    # it matched "the perfection ... the one that the gate of the First Intellect
+    # alone opens onto" — a metaphorical gate, in a chapter with no apparatus in
+    # it at all.
+    r"|two|three|four|five|six|seven|eight|nine|ten|[0-9]{1,3}"
+    rf")\s+(?:\w+\s+){{0,2}}{_DIVISION_WORD}\b[^.!?\n]*[.!?]",
+    re.I,
+)
+
+
+def navigation_findings(base_text: str, candidate: str, *, frame: str) -> list[str]:
+    """Flag a rewrite that ADDS navigation apparatus to a third-person book.
+
+    Differential for the same reason ``lecture_voice_findings`` is: a lecture
+    transcript is full of these, and an absolute check would revert every window
+    before the pass could remove one.
+    """
+    if narrative_person_for(frame) != "third":
+        return []
+    base_n = len(_NAVIGATION_RE.findall(_narration_only(base_text)))
+    cand_n = len(_NAVIGATION_RE.findall(_narration_only(candidate)))
+    if cand_n > base_n:
+        return [f"navigation apparatus added — the source's division scheme ({cand_n} vs {base_n} in source)"]
+    return []
+
+
+def navigation_count(text: str) -> int:
+    """How many sentences locate the prose inside the source's division scheme."""
+    return len(_NAVIGATION_RE.findall(_narration_only(text)))
 
 
 def _narration_only(text: str) -> str:
@@ -433,6 +500,23 @@ heart of it", "before we go on", "as we shall see" — and state the matter inst
 Second person and imperatives are UNTOUCHED inside a character's quoted speech,
 inside a Quran verse, hadith, or prayer, and inside any block quotation: there
 they are one person speaking to another, which every frame keeps.
+
+NO NAVIGATION APPARATUS (binding — this edition has its own chapters)
+Do not locate the prose inside the SOURCE's division scheme. This edition prints
+numbered chapters; it has no canopies, gates, babs or fasls a reader can turn to,
+so a sentence announcing "we now come to the fourth chapter of the first gate of
+the first canopy" points at nothing they can find. Drop the locator and keep
+whatever the sentence teaches:
+  "And so the next hanging in the tent opens onto the fourth chapter of the
+   first gate of the first canopy — the fourth *fasl*."   -> drop entirely
+  "The ascent was named in the last gate; now a second gate opens, and behind
+   it lies something quieter."  -> "What follows is quieter."
+Also drop the scheme itself when it is being recited rather than used — "five
+canopies, each of five gates", "one hundred and twenty-five sections in all" —
+and any second explanation of what a suradiq, bab or fasl IS. Naming the source's
+own term once, where the source's argument turns on it, is fine.
+KEEP the division word wherever the TEXT QUOTED beside it uses it: a heading the
+source prints, or an Arabic line naming itself, stays exactly as it is.
 """
     named = f" You are {narrator_subject}." if narrator_subject else ""
     return f"""
@@ -475,4 +559,5 @@ def frame_findings(
     findings.extend(arabic_retention_findings(base_text, candidate))
     findings.extend(enumeration_findings(base_text, candidate))
     findings.extend(lecture_voice_findings(base_text, candidate, frame=frame))
+    findings.extend(navigation_findings(base_text, candidate, frame=frame))
     return findings

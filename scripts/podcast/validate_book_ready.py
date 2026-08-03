@@ -453,12 +453,25 @@ def gate_b7_book_gloss_coverage(book_dir: Path) -> tuple[bool, str]:
     # gate read "0 of 3, 0%, starved" on the healthiest possible state. That is
     # the measure inverting on success. Below the floor the honest answer is that
     # there is nothing left to measure.
+    # Reported on EVERY path below, including the "nothing to measure" one. The
+    # ratio above is judged on STRONG candidates — terms the source spells with
+    # scholarly diacritics — and an articulated book's source has none, so all
+    # five live editions measured `strong: 0`, took the early return, and passed
+    # while `al-anwaar` printed 219 terms as bare romanization. This is the count
+    # that does not depend on that evidence: terms italicised as foreign that the
+    # book never once gives in Arabic script.
+    bare = (
+        f" · {report['bare_terms']} term(s) never given in Arabic script "
+        f"({report['bare_uses']} uses): {', '.join(r['term'] for r in report['bare'][:6])}"
+        if report.get("bare_terms")
+        else ""
+    )
     if report["strong"] < _GLOSS_SAMPLE_FLOOR:
-        return True, f"only {report['strong']} romanized glossed term(s) left — nothing to measure"
+        return True, f"only {report['strong']} romanized glossed term(s) left — nothing to measure{bare}"
     pct = report["strong_coverage"]
     note = (
         f"{report['strong'] - len(report['missing_strong'])}/{report['strong']} glossed terms carry Arabic "
-        f"({pct:.0%}); glossary has {report['glossary_entries']} entries"
+        f"({pct:.0%}); glossary has {report['glossary_entries']} entries{bare}"
     )
     if pct < _GLOSS_COVERAGE_FLOOR:
         missing = ", ".join(report["missing_strong"][:6])

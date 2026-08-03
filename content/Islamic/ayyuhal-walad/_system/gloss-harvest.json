@@ -1,18 +1,10 @@
 {
   "schema": "book.gloss-harvest/v1",
-  "candidates": 12,
-  "added": 11,
+  "candidates": 19,
+  "added": 3,
   "terms": [
-    "al-arud",
-    "al-ashar",
-    "al-dawawin",
-    "al-khilaf",
-    "al-nahw",
-    "al-nujum",
-    "al-tasrif",
-    "al-tibb",
-    "Forty Steps",
-    "Ihya Ulum ad-Din",
-    "ilm al-kalam"
+    "marifah",
+    "Ahya al-Uloom ad-Deen",
+    "Ayyuha al-Walad"
   ]
 }

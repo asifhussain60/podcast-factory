@@ -1861,8 +1861,8 @@
   "metrics": {
     "burn_30d_usd": 14.42
   },
-  "generated_at": "2026-08-03T12:47:51-04:00",
-  "source_commit": "2df89e8",
+  "generated_at": "2026-08-03T14:55:23-04:00",
+  "source_commit": "a96a833",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1924,53 +1924,53 @@
   ],
   "recent_commits": [
     {
-      "sha": "2df89e8",
-      "subject": "docs(listener): scope the Google project to Safina, not to this one app",
+      "sha": "a96a833",
+      "subject": "feat(listener): the media path, built and proven against a real bucket",
       "date": "2026-08-03"
     },
     {
-      "sha": "1ce313c",
-      "subject": "docs(listener): the Google sign-in setup, and the two Cloudflare blockers",
+      "sha": "cff9f8e",
+      "subject": "fix(listener): the reader settings sheet was off the top of the screen on a phone",
       "date": "2026-08-03"
     },
     {
-      "sha": "1df213b",
-      "subject": "feat(listener): per-user content access, and an admin surface to provision it",
+      "sha": "8ad4bd9",
+      "subject": "feat(listener): the books are actually in it now, and it is online",
       "date": "2026-08-03"
     },
     {
-      "sha": "4e28163",
-      "subject": "content(al-anwaar-al-lateefah/vol-01): chapter 1 converted to a transmitted report",
+      "sha": "9599a4a",
+      "subject": "chore(infra): move the last Salty Lamps record out, and name the leftover honestly",
       "date": "2026-08-03"
     },
     {
-      "sha": "372678f",
-      "subject": "content(al-anwaar-al-lateefah/vol-01): front matter done; the voice conversion stops for a decision",
+      "sha": "999c66f",
+      "subject": "docs(infra): make infra/cloudflare the real Cloudflare record, on the gmail account",
       "date": "2026-08-03"
     },
     {
-      "sha": "f43f634",
-      "subject": "chore: allow _placeholder-site at the root, and track it",
+      "sha": "ace48b1",
+      "subject": "fix(listener): dev sessions coexist with real ones; smoke test cleans up",
       "date": "2026-08-03"
     },
     {
-      "sha": "58f6205",
-      "subject": "chore(plan): track the listener design briefs",
+      "sha": "70099e1",
+      "subject": "fix(listener): one masthead, and stop dev sessions clobbering a real one",
       "date": "2026-08-03"
     },
     {
-      "sha": "569c93f",
-      "subject": "content(asaas-al-taveel/vol-01): the edition begins with al-Nu'man, not his editor",
+      "sha": "1a0b4c7",
+      "subject": "feat(book): a book addresses nobody, and the chapter list opens where it can be read",
       "date": "2026-08-03"
     },
     {
-      "sha": "8654149",
-      "subject": "fix(site): the introduction is apparatus, so stop warning that it was not articulated",
+      "sha": "e8e2a71",
+      "subject": "fix(listener): validate secret shape, and resync .dev.vars on every dev boot",
       "date": "2026-08-03"
     },
     {
-      "sha": "5275e40",
-      "subject": "fix(book): no machine marker, and no stale label, on the reader's first page",
+      "sha": "8d6989d",
+      "subject": "fix(listener): forward Better Auth's headers when starting Google sign-in",
       "date": "2026-08-03"
     }
   ],

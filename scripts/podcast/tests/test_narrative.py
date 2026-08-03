@@ -23,6 +23,8 @@ from _narrative import (  # noqa: E402
     lecture_voice_counts,
     lecture_voice_findings,
     narrative_person_findings,
+    navigation_count,
+    navigation_findings,
     speech_tag_findings,
 )
 from _rules import narrative_frame_for, narrative_person_for  # noqa: E402
@@ -416,3 +418,62 @@ def test_the_directive_states_the_rule_the_gate_enforces() -> None:
 
 def test_lecture_voice_joins_the_frame_findings_wiring() -> None:
     assert any("lecture voice" in f for f in frame_findings(BOOK, LECTURE, frame="transmitted_report"))
+
+
+# ─── Navigation apparatus (2026-08-03) ──────────────────────────────────────
+# Asif read chapter 1 of `al-anwaar-al-lateefah` and asked why it opened on
+# "useless information about Suradiq". Not useless because it is wrong — the
+# lecture really says it — useless because the EDITION has eight numbered
+# chapters and no canopies, so the scheme names nothing a reader can turn to.
+NAVIGATION = (
+    "And so the next hanging in the tent opens onto the fourth chapter of the "
+    "first gate of the first canopy. There are five canopies in all."
+)
+
+
+def test_navigation_apparatus_is_counted() -> None:
+    assert navigation_count(NAVIGATION) == 2
+    assert navigation_count("The soul returns to the world of spirits.") == 0
+
+
+def test_recasting_navigation_away_is_never_flagged() -> None:
+    assert navigation_findings(NAVIGATION, "What follows is quieter.", frame="transmitted_report") == []
+
+
+def test_adding_navigation_is_flagged() -> None:
+    findings = navigation_findings("What follows is quieter.", NAVIGATION, frame="transmitted_report")
+    assert findings and "division scheme" in findings[0]
+
+
+def test_navigation_is_silent_under_a_first_person_frame() -> None:
+    assert navigation_findings("A book.", NAVIGATION, frame="first_person_author") == []
+
+
+def test_a_quoted_heading_is_not_navigation() -> None:
+    """The source printing its own heading is the source, not the lecturer."""
+    assert navigation_count('> السُّرَادِقُ الأَوَّلُ\n>\n> "The First Suradiq" — from the Book of Lights.') == 0
+
+
+def test_the_directive_states_the_navigation_rule_too() -> None:
+    directive = frame_prompt_directive("transmitted_report")
+    assert "NO NAVIGATION APPARATUS" in directive
+    assert "NO NAVIGATION APPARATUS" not in frame_prompt_directive("first_person_author")
+
+
+def test_only_the_lecture_derived_book_carries_navigation() -> None:
+    """A corpus guard: the other four editions must stay at zero."""
+    import re as _re
+
+    root = Path(__file__).resolve().parents[3] / "content" / "Islamic"
+    for slug, ceiling in (
+        ("the-master-and-the-disciple", 0),
+        ("degrees-of-excellence", 0),
+        ("ayyuhal-walad", 0),
+        ("asaas-al-taveel/vol-01", 0),
+    ):
+        book_md = root / slug / "book" / "book.md"
+        if not book_md.exists():
+            continue
+        parts = _re.split(r"(?m)^(## .+)$", book_md.read_text(encoding="utf-8"))
+        total = sum(navigation_count(parts[i + 1]) for i in range(1, len(parts), 2))
+        assert total <= ceiling, f"{slug}: {total} navigation sentence(s)"

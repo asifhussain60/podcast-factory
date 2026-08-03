@@ -7,8 +7,8 @@
   "chapters": [
     {
       "title": "The Sealed Lamp and the Road Home",
-      "base_words": 1779,
-      "output_words": 1700,
+      "base_words": 1690,
+      "output_words": 1687,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
@@ -17,8 +17,8 @@
         "fluency-02: output near-identical to base \u2014 copied, not re-voiced"
       ],
       "lecture_voice_before": {
-        "reader_address": 4,
-        "stage_directions": 5
+        "reader_address": 0,
+        "stage_directions": 0
       },
       "lecture_voice_after": {
         "reader_address": 0,
@@ -30,16 +30,18 @@
     },
     {
       "title": "The God No Pointing Can Reach",
-      "base_words": 3163,
-      "output_words": 3054,
+      "base_words": 3054,
+      "output_words": 3020,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
-      "warnings": [],
+      "warnings": [
+        "fluency-03: output near-identical to base \u2014 copied, not re-voiced"
+      ],
       "lecture_voice_before": {
-        "reader_address": 18,
-        "stage_directions": 5
+        "reader_address": 0,
+        "stage_directions": 0
       },
       "lecture_voice_after": {
         "reader_address": 0,
@@ -47,160 +49,173 @@
       },
       "editorial_queries": [],
       "comprehension_flags": [
-        "*Suradiq* is used as the name of a structural division (\"the first canopy of light\") without explanation, and a modern reader may not grasp that it labels a section of the book."
+        "The argument hinges on the technical claim that \"names and attributes fall only upon their like,\" which a modern reader may find hard to follow without an example the source already supplies but which remains abstract."
       ],
       "terminology_notes": [
-        "Arabic technical terms \u2014 the source alternates between backtick styling (`yustaftahu`) and italic styling (*fataha*) for transliterations; one convention should be chosen book-wide."
+        "huwiyyah / *huwa* \u2014 the rendering \"Ipseity\" (with \"the bare He\") should be fixed book-wide, since the same term also surfaces as \"He\" and \"Huwa\" and could read as three different notions."
       ]
     },
     {
       "title": "The Sin of Naming the Unnameable",
-      "base_words": 2519,
-      "output_words": 2467,
+      "base_words": 2467,
+      "output_words": 2446,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
       "warnings": [],
       "lecture_voice_before": {
-        "reader_address": 11,
-        "stage_directions": 3
+        "reader_address": 1,
+        "stage_directions": 0
       },
       "lecture_voice_after": {
         "reader_address": 1,
         "stage_directions": 0
       },
-      "editorial_queries": [
-        "\"Sayyidna Muayyad\" is used both for the author quoted (identified as Hibatullah ibn Musa al-Shirazi) and, within the same clause, for Mawlana Sayyidna Muayyad al-Din his spiritual father, leaving unclear which figure each earlier attribution names."
-      ],
+      "editorial_queries": [],
       "comprehension_flags": [
-        "The passage states \"Ten ranks in all\" yet the ascending ladder as listed names more than ten stations, which a reader may struggle to reconcile."
+        "\"Arya Samaji\" appears with no gloss identifying it as a member of a Hindu reformist movement, which a general reader may not recognize."
       ],
       "terminology_notes": [
-        "\"Sayyidna Muayyad\" \u2014 the two distinct bearers (al-Shirazi and al-Din) should be disambiguated consistently across the book."
+        "'ijz' / 'diq' \u2014 the romanization of technical terms (ayn and long vowels) should be standardized to one consistent scheme book-wide."
       ]
     },
     {
       "title": "What Oneness Actually Means",
-      "base_words": 3109,
-      "output_words": 3009,
+      "base_words": 3009,
+      "output_words": 2819,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
       "warnings": [],
       "lecture_voice_before": {
-        "reader_address": 32,
-        "stage_directions": 2
+        "reader_address": 3,
+        "stage_directions": 0
       },
       "lecture_voice_after": {
         "reader_address": 3,
         "stage_directions": 0
       },
-      "editorial_queries": [],
-      "comprehension_flags": [],
+      "editorial_queries": [
+        "In the ten stations of *Jaddiyyat*, the clause \"the seventh standing lower and the higher being something other than it\" is obscure \u2014 the intended distinction between the seventh degree and the higher ones is not clear."
+      ],
+      "comprehension_flags": [
+        "The dense run of station-names (*Hijabiyyat*, *Hujjiyyat*, *Jaddiyyat*) and rank-degrees (*Mumin*, *Mukathir*, *Madhun*) arrives without definition, and a general reader may lose the thread of the hierarchy without a glossary this pass is not authorized to add."
+      ],
       "terminology_notes": [
-        "marifat / marifah \u2014 the same word appears in two transliterated forms (*marifat al-hudud* versus *marifah zahirah* / *marifah batinah*); a book-wide decision on whether to unify the spelling would keep the technical term uniform on every occurrence."
+        "ibda al-zawat / ibda-e zawat \u2014 the same concept (origination of beings) appears in two spellings within a few lines; one form should be standardized book-wide."
       ]
     },
     {
       "title": "The Nearest Rank: Breaking the Self to Climb",
-      "base_words": 4296,
-      "output_words": 4182,
+      "base_words": 4182,
+      "output_words": 4145,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
-      "warnings": [],
+      "warnings": [
+        "fluency-06: output near-identical to base \u2014 copied, not re-voiced"
+      ],
       "lecture_voice_before": {
-        "reader_address": 32,
-        "stage_directions": 3
-      },
-      "lecture_voice_after": {
         "reader_address": 0,
         "stage_directions": 0
-      },
-      "editorial_queries": [],
-      "comprehension_flags": [
-        "\"the knowledge of the Tenth\" and \"the commands of the Tenth\" name a specific figure the passage never identifies, and a general reader will not know whom \"the Tenth\" refers to."
-      ],
-      "terminology_notes": [
-        "\u0648\u064e\u0644\u0650\u064a\u0651 \u2014 rendered \"friend\" in the narration but \"Wali\" inside the quoted gloss; a book-wide decision should fix one English form for this term."
-      ]
-    },
-    {
-      "title": "Every Teacher a Threshold, Not a God",
-      "base_words": 4949,
-      "output_words": 4870,
-      "windows": 2,
-      "windows_kept": 2,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "lecture_voice_before": {
-        "reader_address": 24,
-        "stage_directions": 6
-      },
-      "lecture_voice_after": {
-        "reader_address": 3,
-        "stage_directions": 0
-      },
-      "editorial_queries": [],
-      "comprehension_flags": [
-        "The closing cascade of ranks (ashir, Adam the summoner, Qaims, Dais, Hujjats, Imams, the circle of ain, the circle of mim) arrives with no gloss, and a general reader will not know what these named ranks are or how they order."
-      ],
-      "terminology_notes": [
-        "the Originator \u2014 rendered once as \"mubdi-e taala\" (a Persian/Urdu construct) but elsewhere as \"the mubdi\" and \"the Originator\"; one transliteration should be standardized book-wide.",
-        "Kitab al-Alim wa al-Ghulam, \"the Book of the Master and the Disciple\" \u2014 this English rendering collides with the standard scholarly translation of that title and should be standardized book-wide, likely with a distinguishing subtitle."
-      ]
-    },
-    {
-      "title": "Out of Nothing, and Equal in Justice",
-      "base_words": 4118,
-      "output_words": 4004,
-      "windows": 1,
-      "windows_kept": 1,
-      "status": "adapted",
-      "gates": [],
-      "warnings": [],
-      "lecture_voice_before": {
-        "reader_address": 24,
-        "stage_directions": 3
       },
       "lecture_voice_after": {
         "reader_address": 0,
         "stage_directions": 0
       },
       "editorial_queries": [
-        "In the going-astray pair, the base verb is written \u0632\u064e\u0644\u064e\u0651 (\"he went astray\") against the causative \u0623\u064e\u0636\u064e\u0644\u064e\u0651, but \u0623\u064e\u0636\u064e\u0644\u064e\u0651 is the causative of \u0636\u064e\u0644\u064e\u0651 \u2014 the source may carry a \u0632/\u0636 script error, and it has been reproduced verbatim rather than corrected."
+        "\"the Tenth\" (as in \"cleanse oneself of the filth of Iblis through the knowledge of the Tenth\" and \"act upon the commands of the Tenth\") is used with no antecedent, and its referent will be unclear to a reader who does not already know the system."
       ],
-      "comprehension_flags": [],
+      "comprehension_flags": [
+        "The chapter carries a heavy load of untranslated technical terms (hudud, Mukathir, Madhun, Dai Mutlaq, Dai Mahsur, malakut, aqtar, barzakh al-khawf, surat al-alfiyya, taweel) that a general reader cannot follow without a glossary this pass is not authorized to add."
+      ],
       "terminology_notes": [
-        "\"first perfection\" / \"second perfection\" (kamal al-awwal / kamal al-thani) should be standardized to these exact renderings book-wide, as the whole justice argument turns on the pair."
+        "the rank names (Mukathir, Madhun, Dai Mutlaq, Dai Mahsur) and \"dawah\" \u2014 fix one spelling for each and apply it consistently book-wide."
       ]
     },
     {
-      "title": "The First to Say There Is No God But He",
-      "base_words": 4204,
-      "output_words": 4129,
+      "title": "Every Teacher a Threshold, Not a God",
+      "base_words": 4870,
+      "output_words": 4777,
+      "windows": 2,
+      "windows_kept": 1,
+      "status": "partial",
+      "gates": [
+        "fluency-07-part-02: lecture voice added \u2014 narration addresses the reader (2 vs 0 in source) under transmitted_report frame"
+      ],
+      "warnings": [
+        "fluency-07-part-01: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The hierarchy of \"circles\" is named with two overlapping but non-identical sets of rank-terms (first person / Imam / Bab / Hujjat in one list; ashir / Adam / Qaims / Dais / Hujjats / Imams / ain / mim in another), which a general reader may find hard to reconcile without a note this pass cannot add."
+      ],
+      "terminology_notes": [
+        "mubdi \u2014 the Originator is rendered both as \"the mubdi\" and as \"mubdi-e taala\"; one romanized form should be standardized book-wide."
+      ]
+    },
+    {
+      "title": "Out of Nothing, and Equal in Justice",
+      "base_words": 4004,
+      "output_words": 3950,
       "windows": 1,
       "windows_kept": 1,
       "status": "adapted",
       "gates": [],
-      "warnings": [],
+      "warnings": [
+        "fluency-08: output near-identical to base \u2014 copied, not re-voiced"
+      ],
       "lecture_voice_before": {
-        "reader_address": 32,
-        "stage_directions": 4
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The First to Say There Is No God But He",
+      "base_words": 4116,
+      "output_words": 4095,
+      "windows": 1,
+      "windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "warnings": [
+        "fluency-09: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 4,
+        "stage_directions": 0
       },
       "lecture_voice_after": {
         "reader_address": 4,
         "stage_directions": 0
       },
-      "editorial_queries": [],
-      "comprehension_flags": [
-        "The sentence \"The First Intellect came to be, the Originator made seven, and the tenth is the ashir \u2014 but the luminous world stopped at seven\" introduces a \"tenth\" (ashir) with no prior referent, so a modern reader cannot reconcile the count of seven with the mention of a tenth."
+      "editorial_queries": [
+        "It is unclear whether \"Amir al-Din al-Sadiq\" (in the fear-of-God passage) and \"Sayyidna Sadiq\" (in the circle-of-oneness passage) name the same figure or two different ones."
       ],
-      "terminology_notes": []
+      "comprehension_flags": [
+        "The numerology passage (two/three/five/four/seven/twelve/nineteen and its mapping onto Bismillah, the Imams, and their naqibs) is dense and may need an orienting bridge for a general reader, which this pass is not authorized to add."
+      ],
+      "terminology_notes": [
+        "transliterated technical terms (ruh-i-saidah, tarkib-i-idafi/tawsifi, munbaith al-thani, wahm-e masawat, dairat al-wahdat, ism al-azam) mix Persian/Arabic izafa styles and should be standardized to one book-wide romanization scheme."
+      ]
     }
   ]
 }
