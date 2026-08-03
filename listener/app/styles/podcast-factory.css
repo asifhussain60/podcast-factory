@@ -254,6 +254,12 @@
   /* ---- Layout --------------------------------------------------------- */
   --pf-measure-page: 64rem;
   --pf-measure-narrow: 34rem;
+  /* The chapter page — the SHEET, not the column of type on it. Wide enough
+     that the reader's widest measure (78ch) still fits inside the page's
+     margins; the column itself is set by `--l-reading-measure` and centres in
+     whatever is left. The reader bar and the contents list take the same value
+     so the header's edges line up with the page's. */
+  --pf-measure-reader: 56rem;
 }
 
 /* ==========================================================================
@@ -712,7 +718,7 @@
     align-items: center;
     gap: var(--pf-space-4);
     width: 100%;
-    max-width: 48rem;
+    max-width: var(--pf-measure-reader);
     margin-inline: auto;
     padding-inline: var(--pf-space-5);
   }
@@ -770,7 +776,7 @@
 
   .pf-toc__list {
     width: 100%;
-    max-width: 48rem;
+    max-width: var(--pf-measure-reader);
     margin-inline: auto;
     padding: var(--pf-space-2) var(--pf-space-5);
     list-style: none;
@@ -782,30 +788,107 @@
 
   .pf-reader-page {
     width: 100%;
-    max-width: 48rem;
+    max-width: var(--pf-measure-reader);
     margin-inline: auto;
     padding-inline: var(--pf-space-5);
     padding-bottom: var(--pf-space-9);
   }
 
-  .pf-chapter-title {
-    margin-top: var(--pf-space-8);
+  /* ---- The page ----------------------------------------------------------
+     A chapter is a SHEET laid on the page colour, not type printed straight
+     onto it. Before this the prose sat directly on `--l-bg` with the column
+     hard against the left of a 48rem box and a hand's width of nothing to its
+     right — which read as a layout that had failed rather than as a margin.
+
+     The sheet takes the whitest surface the palette has, the same one the
+     book page's description panel uses, so "this is the text itself" is one
+     colour across the site. Its padding IS the book's margin: the column
+     inside is still governed by `--l-reading-measure` and centres in what the
+     padding leaves, so the reader's own measure control keeps working and the
+     margins stay even at every setting. */
+  .pf-page {
+    margin-top: var(--pf-space-6);
+    padding: var(--pf-space-8);
+    background: var(--l-elev);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    box-shadow: var(--pf-elev-2);
+  }
+
+  /* Title, meta and prose share one column and one centre. Without this the
+     heading measured itself against the sheet and the body against the reading
+     measure, so the two started at different places. */
+  .pf-page > * {
     max-width: var(--l-reading-measure);
-    font-family: var(--l-font-prose);
+    margin-inline: auto;
+  }
+
+  /* A phone has no room for a 4rem margin AND a readable line, and a sheet
+     inset from a screen that narrow reads as a card rather than as a page —
+     so it goes full-bleed and drops its corners. */
+  @media (max-width: 639px) {
+    .pf-reader-page {
+      padding-inline: 0;
+    }
+
+    .pf-page {
+      margin-top: var(--pf-space-4);
+      padding: var(--pf-space-6) var(--pf-space-5);
+      border-inline: 0;
+      border-radius: 0;
+    }
+  }
+
+  /* Centred, in the display face, over a short rule — a chapter opening as a
+     book sets one, and as the Book Composer's read view already sets it. */
+  .pf-chapter-title {
+    text-align: center;
+    font-family: var(--l-font-display);
     font-size: var(--pf-display-sm);
+    font-weight: 600;
     line-height: 1.15;
     color: var(--l-ink);
   }
 
   .pf-chapter-meta {
     margin-top: var(--pf-space-3);
+    text-align: center;
     font-family: var(--l-font-ui);
-    font-size: var(--pf-text-base);
+    font-size: var(--pf-text-sm);
     color: var(--l-faint);
+  }
+
+  /* The ornament under the opening. A pseudo-element rather than an <hr>: it is
+     decoration, and a screen reader should not announce a separator between a
+     chapter's title and its first sentence. */
+  .pf-chapter-meta::after {
+    content: "";
+    display: block;
+    width: 3.5rem;
+    height: 2px;
+    margin: var(--pf-space-6) auto 0;
+    background: var(--l-rule);
   }
 
   .pf-chapter-body {
     margin-top: var(--pf-space-6);
+  }
+
+  /* The drop cap.
+     `:first-child`, not `:first-of-type` — one chapter in this library opens
+     with an editorial bridge rather than prose, and a versal on the paragraph
+     after it would be a chapter opening printed in the middle of the page.
+     Every other chapter here begins on a capital letter with no leading
+     quotation mark, so there is nothing for `::first-letter` to swallow. */
+  .pf-chapter-body > p:first-child::first-letter {
+    float: left;
+    margin-inline-end: 0.07em;
+    padding-top: 0.06em;
+    font-family: var(--l-font-display);
+    font-size: 3.4em;
+    font-weight: 600;
+    line-height: 0.8;
+    color: var(--l-display);
   }
 
   /* Previous and next, at the foot of the chapter. */
@@ -2926,8 +3009,21 @@
     margin-top: 1.15em;
   }
 
+  /* Ragged right, and NO automatic hyphenation — the Book Composer's read view
+     is the reference and this is how it sets.
+
+     The column was hyphenating against a ragged edge, which is the one
+     combination no book uses: nine broken words in a single chapter
+     ("him-self", "af-ter", "water-ing"), each one a cost paid for an even
+     right margin that was never going to arrive. Hyphens are what buy
+     justification; with the edge left ragged they buy nothing.
+
+     `overflow-wrap` replaces what auto-hyphenation was incidentally doing at
+     the narrow end — breaking a word that genuinely cannot fit — without
+     breaking the twenty that can. */
   .reader p {
-    hyphens: auto;
+    hyphens: manual;
+    overflow-wrap: break-word;
   }
 
   .reader h2,
@@ -2988,8 +3084,15 @@
 
   /* Inside running prose only. A parenthetical term must never break across a
      line — the shaping is destroyed — but a whole verse in a display block MUST
-     be allowed to wrap, or it runs off the side of a phone. */
-  .reader p:not(.ar-block) > .ar-inline {
+     be allowed to wrap.
+
+     `:not(.ar)` is the fix for a real bleed. The renderer emits a display verse
+     as `blockquote.quran > p.ar > span.ar-inline`, and `p.ar` is not
+     `.ar-block` — so all 108 quotations in this library were taking the
+     no-wrap meant for a two-word gloss and running off BOTH edges of the
+     screen (measured at −122px in a 1440 viewport). A paragraph that is itself
+     Arabic is a display line, whatever it is called. */
+  .reader p:not(.ar-block):not(.ar) > .ar-inline {
     white-space: nowrap;
   }
 
@@ -3009,14 +3112,26 @@
     display: inline-block;
   }
 
-  /* A blockquote carrying scripture: Arabic centred and larger, translation
-     beneath it in the reading face. */
+  /* A quotation is TYPE, not a widget.
+     Both kinds used to sit in a filled, rounded, left-ruled box. On a printed
+     page a quoted verse is set apart by size, centring and air — never by a
+     panel — and on a white sheet the fill was a second, slightly different
+     white laid over the first. So the box is gone from the base rule and the
+     one kind that still earns a rule asks for it below. */
   .reader blockquote {
     margin-inline: 0;
-    padding: 1.1em 1.3em;
-    border-left: 2px solid var(--l-accent-soft);
-    background: var(--l-surface);
-    border-radius: 0 var(--pf-radius) var(--pf-radius) 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  /* Scripture: centred, larger, breathing.
+     `:not(.aside)` is not defensive — one blockquote in this library carries
+     BOTH classes, and an editorial note that happens to quote must read as a
+     note. Naming it here means the aside rules below cannot be out-ranked by
+     source order. */
+  .reader blockquote.quran:not(.aside) {
+    margin-block: 1.8em;
   }
 
   .reader blockquote .ar {
@@ -3024,6 +3139,10 @@
     font-size: 1.4em;
     line-height: 2.05;
     text-align: center;
+    /* The one place a long Arabic run may break. Every other Arabic rule in
+       this file exists to stop shaping being destroyed mid-word; here the run
+       IS the paragraph, so it wraps like one. */
+    text-wrap: balance;
   }
 
   /* The renderer nests an `.ar-inline` span INSIDE `p.ar`, so without this the two
@@ -3049,9 +3168,16 @@
 
   /* An editorial aside is the pipeline speaking, not the text, and must NOT pick
      up the display sizing above — a 220-word note set as centred display type is
-     how this went wrong on the print side. */
+     how this went wrong on the print side.
+
+     It declares the whole border, not just its colour. It used to inherit the
+     width and style from the base blockquote and recolour them; the base is now
+     unboxed, so a rule that only names a colour paints nothing — which is
+     exactly what happened to all thirteen notes in this library the moment the
+     box came off scripture. */
   .reader blockquote.aside {
-    border-left-color: var(--l-rule);
+    border-left: 2px solid var(--l-rule);
+    padding-inline-start: 1.3em;
     background: transparent;
     font-size: 0.94em;
     color: var(--l-muted);

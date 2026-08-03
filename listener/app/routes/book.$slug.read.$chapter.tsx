@@ -141,7 +141,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       </header>
 
       <main id="main" className="pf-reader-page">
-        <article ref={body}>
+        <article ref={body} className="pf-page">
           <h1 className="pf-chapter-title">{chapter.title}</h1>
 
           {/* Position in the edition, NOT a chapter number: the introduction is
