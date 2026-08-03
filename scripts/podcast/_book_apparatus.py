@@ -568,4 +568,23 @@ def apply_book_apparatus(
     except Exception as e:  # paragraphing is never worth a finished book either
         _record_skip(book_dir, "paragraph-mirror", e, log)
 
+    # 12. Re-stamp the substitution sidecar from the FINISHED page, exactly as
+    #     5a-replay stamps `composer-base.json`. A fingerprint is only useful if
+    #     it names the text the NEXT run will find, and 5a-substitute stamps its
+    #     own output with four page-altering steps still to come — spelling at
+    #     5a-spelling, the bridges at 8, the honorifics at 9, the paragraph mirror
+    #     at 11. So the stored number described a chapter that never reached disk,
+    #     every later compose read a mismatch, and the pre-substitution English —
+    #     the only copy of it anywhere, since substitution deletes the anchor
+    #     `_normalize_annotations` would need — was dropped from the sidecar.
+    #
+    #     LAST, necessarily and by definition: anything that rewrites book.md
+    #     after this point stales the stamp again.
+    from _substitution_record import restamp_from_final_book
+
+    try:
+        restamp_from_final_book(book_dir, log=lambda m: log(f"    {m}"))
+    except Exception as e:  # a stamp is never worth a finished book
+        _record_skip(book_dir, "substitution-restamp", e, log)
+
     return book_md

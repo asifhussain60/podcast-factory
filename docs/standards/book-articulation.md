@@ -160,19 +160,47 @@ retention, narrative frame), the repo convention wins and is cited, not restated
   script is always vowelled (`vowel_book.py`), which is what makes the page
   readable rather than hostile; the romanization keeps its home in the podcast
   lane, and `chapters/*.txt` is untouched. Deterministic and glossary-driven —
-  nothing recalled, nothing invented. NEVER substituted: words English has
-  absorbed (`_gloss_terms.absorbed_english` — Allah, imam, shaykh, Quran; this
-  is what keeps REQ-BA-070's Merriam-Webster rule intact), `familiar`/`silent`
-  terms, personal names and the `name` class, work titles, English set in
-  italics, quotations and headings, `كُنْ (kun)` where a passage discusses
-  Arabic AS LETTERS (BK-N4 requires both forms), and any term that is only PART
-  of a longer romanized phrase — `*La ilaha illa Allah*` is left whole rather
-  than half-converted. Reversible by sidecar (`_system/book-substitutions.json`),
-  because substitution removes the anchor `_normalize_annotations` inverts by:
-  each run restores before it re-derives, so a term later reclassified
-  `familiar` gets its English back. Compose step `5a-substitute`
-  (`_book_substitution.py`), with the Book Composer's "Replace with Arabic"
-  button as the same code path for a chapter edited by hand.
+  nothing recalled, nothing invented.
+
+  **TWO POSITIVE CONDITIONS decide eligibility, and both are required** (hardened
+  2026-08-03 after a post-merge sweep; the pass shipped with a denylist instead
+  and no denylist is ever finished). First, the romanization must be a POSSIBLE
+  TRANSLITERATION of the script standing beside it in the glossary —
+  `_translit_skeleton.romanizes`, a structural consonant-skeleton match needing no
+  corpus, which matters because the books this protects are the ones with no
+  Arabic scan to consult. `mukhtasar-ul-asar-1` holds an entry whose phonetic is
+  the English word `approach`, and every exclusion below passed it: the page was
+  one compose from "and do not الْمُبَاشَرَة them during that time". Second, the
+  term's `annotation_class` must be `teach` — a human has classified it. Structure
+  cannot catch a wrong word SPELLED like the right one, and only a reviewer can:
+  `kunooz-al-hikmah` pairs `surah` with `صُورَة`, which is *picture*, and
+  `al-anwaar-al-lateefah` printed `آدَم` — *Adam the prophet* — in a passage
+  meaning `عَدَم`, non-existence.
+
+  NEVER substituted, on top of those: words English has absorbed
+  (`_gloss_terms.absorbed_english` — Allah, imam, shaykh, Quran; this is what
+  keeps REQ-BA-070's Merriam-Webster rule intact), `familiar`/`silent` terms,
+  personal names and the `name` class, work titles, English set in italics,
+  quotations and headings, `كُنْ (kun)` where a passage discusses Arabic AS
+  LETTERS (BK-N4 requires both forms), and any term that is only PART of a longer
+  romanized phrase — `*La ilaha illa Allah*` is left whole rather than
+  half-converted.
+
+  **Reversible by sidecar** (`_system/book-substitutions.json`, owned by
+  `_substitution_record.py` — the record layer is a module of its own because it
+  is what makes an irreversible transform safe to run automatically), because
+  substitution removes the anchor `_normalize_annotations` inverts by. Each run
+  restores before it re-derives, so a term later reclassified `familiar` gets its
+  English back. Three properties make that hold rather than merely intend it:
+  the record's fingerprint is stamped from the FINISHED page by apparatus step 12
+  (`restamp_from_final_book`) and not by this pass, since four steps rewrite
+  book.md after it; a record whose fingerprint no longer verifies is KEPT, never
+  dropped, because `before_md` is the only surviving copy of the English; and
+  where a wholesale restore is impossible, `revert_ineligible` still takes back
+  exactly the terms the gate no longer allows, leaving every later step's work
+  intact. Compose step `5a-substitute` (`_book_substitution.py`), with the Book
+  Composer's "Replace with Arabic" button as the same code path for a chapter
+  edited by hand.
 
 ## Rhetorical judgment and out-of-band notes
 

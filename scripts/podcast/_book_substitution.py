@@ -39,8 +39,27 @@ each run RESTORES before it re-derives. The stored body is trusted only when the
 current text still fingerprints as this pass's own output; anything else means a
 human or a later pass has been through, and the current text is left alone.
 
-WHAT IS NEVER SUBSTITUTED
--------------------------
+That fingerprint is stamped from the FINISHED page by `restamp_from_final_book`,
+the last thing `apply_book_apparatus` does, and not by this pass at the moment it
+runs — four apparatus steps rewrite book.md afterwards, so a number stamped here
+names a chapter that never reaches disk. And an unverified record is now KEPT
+rather than dropped: `before_md` is the only copy of the English anywhere, and
+losing it is the one failure this whole mechanism exists to prevent.
+
+WHAT IS SUBSTITUTED, AND WHAT IS NEVER
+--------------------------------------
+Two POSITIVE conditions, both required, because everything else on this list is
+a denylist and no denylist is ever finished (`_book_substitution` shipped with
+one and it passed the English word `approach`):
+
+  the skeleton fits  the romanization must be a possible transliteration of the
+                     script beside it — `hudud` of `حدود`. `_translit_skeleton`.
+  class `teach`      a human has classified the term as one this book teaches.
+                     `legacy` is an unreviewed harvest, and destructive
+                     replacement across a whole book is not a thing to do on one.
+
+And then, still:
+
   familiar/silent   `_glossary_terms` already gives these style "none". The
                     English form IS the word (Quran, Mount Sinai) or the term is
                     curated silent.
@@ -76,11 +95,27 @@ from _book_edits import anchor_key, fingerprint
 from _book_gloss import _is_person, _script_already_precedes
 from _book_inline_arabic import _ARABIC, _SKIP_LINE, _glossary_terms
 from _gloss_terms import _TITLE_HEADS, _looks_english, absorbed_english
+from _substitution_record import (
+    _HEADING_RE,
+    _chapters,
+    _save_record,
+    load_record,
+    record_path,
+    restamp_from_final_book,
+    revert_ineligible,
+)
+from _translit_skeleton import romanizes
 
-RECORD_NAME = "book-substitutions.json"
-SCHEMA = "book.substitutions/v1"
-
-_HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
+__all__ = [
+    "apply_arabic_substitution",
+    "load_record",
+    "record_path",
+    "restamp_from_final_book",
+    "revert_ineligible",
+    "substitutable_terms",
+    "substitute_body",
+    "substitute_text",
+]
 
 #: Read once — the file behind it never changes inside a run.
 _ABSORBED = absorbed_english()
@@ -96,46 +131,35 @@ def _appended_re(phonetic: str) -> re.Pattern[str]:
     )
 
 
-def record_path(book_dir: Path) -> Path:
-    return Path(book_dir) / "_system" / RECORD_NAME
-
-
-def load_record(book_dir: Path) -> dict[str, Any]:
-    path = record_path(book_dir)
-    if not path.exists():
-        return {"schema": SCHEMA, "chapters": []}
-    try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:  # noqa: BLE001 - an unreadable sidecar is not a broken book
-        return {"schema": SCHEMA, "chapters": []}
-    if not isinstance(data, dict) or not isinstance(data.get("chapters"), list):
-        return {"schema": SCHEMA, "chapters": []}
-    return data
-
-
-def _save_record(book_dir: Path, chapters: list[dict[str, Any]]) -> None:
-    path = record_path(book_dir)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_name(path.name + ".tmp")
-    tmp.write_text(
-        json.dumps({"schema": SCHEMA, "chapters": chapters}, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
-    tmp.replace(path)
-
-
 def substitutable_terms(book_dir: Path) -> list[dict[str, str]]:
     """Glossary terms this pass may put on the page, longest phonetic first.
 
     Built on `_glossary_terms`, so the honorific-formula, name-particle and
-    empty-script exclusions are inherited rather than restated. Dropped on top:
-    style "none" (familiar/silent — never annotated, so never substituted), style
-    "name", and anything `_is_person` recognises.
+    empty-script exclusions are inherited rather than restated.
+
+    TWO GATES, and the order of them is the point. Everything below the first is
+    a denylist — a list of things this pass must not do — and no denylist is ever
+    finished. The first gate is the opposite shape: POSITIVE evidence that the
+    Latin string on the page is a romanization of the script standing beside it
+    in the glossary. `mukhtasar-ul-asar-1` holds an entry whose phonetic is the
+    English word `approach`, and every denylist here passed it: it is not in the
+    ninety-word seed, not a loanword, not a title, not a person. The skeleton
+    does not fit `المباشرة` and cannot fit any Arabic word, so it never gets that
+    far now. See `_translit_skeleton`.
+
+    The second gate is the annotation policy. Only `teach` — a term a human has
+    classified as one this book teaches — is substitutable. `legacy` means the
+    glossary was harvested and nobody has looked at it yet, and full-book
+    destructive replacement is not a thing to do on an unreviewed list:
+    `kunooz-al-hikmah` has 266 such entries, among them `surah` paired with
+    `صُورَة`, which is *picture*. Structure cannot catch a wrong word spelled like
+    the right one. A reviewer can.
     """
     return [
         t
         for t in _glossary_terms(book_dir)
-        if t["style"] not in ("none", "name")
+        if t["style"] == "teach"
+        and romanizes(t["phonetic"], t["script"])
         and not _is_person(t["phonetic"])
         # Words English has ADOPTED — Allah, imam, shaykh, Quran, Islam, hadith,
         # the prophet exonyms. `absorbed_english` exists for precisely this
@@ -325,12 +349,6 @@ def substitute_text(book_dir: Path, text: str) -> dict[str, Any]:
     return {"text": new_text, "replaced": replaced, "unavailable": unavailable[:12]}
 
 
-def _chapters(book_md: str) -> list[tuple[str, str]]:
-    """[(heading, body)] for every ``## `` section, in document order."""
-    parts = _HEADING_RE.split(book_md)
-    return [(parts[i], parts[i + 1] if i + 1 < len(parts) else "") for i in range(1, len(parts), 2)]
-
-
 def apply_arabic_substitution(
     book_dir: Path,
     *,
@@ -375,8 +393,21 @@ def apply_arabic_substitution(
         # this pass's own output. A different fingerprint means a human or a
         # later pass has been through it, and their words outrank the fold.
         source = body
+        restored = False
+        took_back = 0
         if prior and fingerprint(body.strip()) == str(prior.get("after_fingerprint") or ""):
             source = str(prior.get("before_md") or body)
+            restored = True
+        elif prior:
+            # No wholesale restore — a later apparatus step has been through, so
+            # the stored body is not this page. The narrow move still works: take
+            # back the terms the gate no longer allows, leaving everything those
+            # later steps did intact.
+            source, took_back = revert_ineligible(
+                body, str(prior.get("before_md") or ""), terms, _glossary_terms(book_dir)
+            )
+            if took_back:
+                log(f"arabic-substitution: {took_back} no-longer-eligible term(s) given their English back")
 
         new_body, n = substitute_body(source, terms)
         if n:
@@ -388,10 +419,23 @@ def apply_arabic_substitution(
                 "after_fingerprint": fingerprint(new_body.strip()),
                 "replacements": n,
             }
-        elif source != body:
+        elif restored:
             # The fold restored English and nothing replaced it — the term was
             # reclassified. Keep the restored text and drop the stale record.
             new_body = source
+        elif prior:
+            # UNVERIFIED, AND SO KEPT. The text is not this pass's own output, so
+            # nothing was restored and nothing was replaced — and dropping the
+            # record here deleted `before_md`, the only surviving copy of this
+            # chapter's English, permanently. That was the normal path, not an
+            # edge case: `after_fingerprint` was stamped at 5a-substitute, and
+            # four apparatus steps rewrite the page after it (spelling, bridges,
+            # honorifics, the paragraph mirror), so the very next compose read a
+            # mismatch and threw the record away. `restamp_from_final_book` below
+            # ends the staleness; this keeps the English safe whatever else
+            # stales it. A kept record can never restore wrongly — restoration
+            # still requires the fingerprint to match.
+            kept[key] = prior
         out.append(head + new_body)
 
     if not total and not any(k in stored for k in kept):

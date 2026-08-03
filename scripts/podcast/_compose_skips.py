@@ -68,6 +68,12 @@ ADVISORY_STEPS = frozenset(
         "arabic-audit",
         "duplication",
         "visual-policy",
+        # Re-stamps the substitution sidecar from the finished page. Advisory and
+        # not page-altering because the page it stamps is already correct — and
+        # because the English it protects is safe without it: an unverified record
+        # is KEPT now, not dropped, so a failed stamp defers a restore rather than
+        # losing the only copy of the text. The next successful compose stamps it.
+        "substitution-restamp",
     }
 )
 

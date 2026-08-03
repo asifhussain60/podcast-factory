@@ -79,6 +79,7 @@ def test_every_apparatus_step_lives_in_the_apparatus():
         "honorifics",
         "arabic-alignment",
         "paragraph-mirror",
+        "substitution-restamp",
     }, sorted(labels)
 
 

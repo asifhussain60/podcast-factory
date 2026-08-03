@@ -1861,8 +1861,8 @@
   "metrics": {
     "burn_30d_usd": 14.42
   },
-  "generated_at": "2026-08-03T16:47:46-04:00",
-  "source_commit": "c1d02f5",
+  "generated_at": "2026-08-03T16:59:40-04:00",
+  "source_commit": "46ab27f",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1924,6 +1924,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "46ab27f",
+      "subject": "style(listener): one stylesheet, and brand assets derived from the logo",
+      "date": "2026-08-03"
+    },
+    {
+      "sha": "011bbb4",
+      "subject": "feat(book): source medium is a declared property, and speech is not a missing scan",
+      "date": "2026-08-03"
+    },
+    {
       "sha": "c1d02f5",
       "subject": "fix(glossary): a book may only lend Arabic its own scan proves",
       "date": "2026-08-03"
@@ -1961,16 +1971,6 @@
     {
       "sha": "9746526",
       "subject": "fix(book): the page shows its Arabic, and the edition stops reciting the source's shelf-marks",
-      "date": "2026-08-03"
-    },
-    {
-      "sha": "a96a833",
-      "subject": "feat(listener): the media path, built and proven against a real bucket",
-      "date": "2026-08-03"
-    },
-    {
-      "sha": "cff9f8e",
-      "subject": "fix(listener): the reader settings sheet was off the top of the screen on a phone",
       "date": "2026-08-03"
     }
   ],
