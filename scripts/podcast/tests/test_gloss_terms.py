@@ -111,7 +111,7 @@ def test_no_shipped_edition_regresses_past_its_recorded_bare_count() -> None:
         "the-master-and-the-disciple": 0,
         "degrees-of-excellence": 1,
         "ayyuhal-walad": 0,
-        "asaas-al-taveel/vol-01": 7,
+        "asaas-al-taveel/vol-01": 6,
         # No Arabic OCR exists for this book at all, so its terms CANNOT be given
         # script with provenance — see the note in the report. The ceiling holds
         # the line until a scan exists; it does not bless the number.

@@ -216,6 +216,7 @@ _ENGLISH_GLOSS_WORDS = frozenset(
     step steps stage stages ladder chain circle rooms room
     speaking silent standing rising ascent descent
     tradition traditions grounded rooted
+    outwardists inwardists literalists
     """.split()
 )
 

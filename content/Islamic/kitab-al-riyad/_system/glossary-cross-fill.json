@@ -67,11 +67,6 @@
       "from": "ayyuhal-walad"
     },
     {
-      "phonetic": "Hujjah",
-      "arabic_script": "حُجَّة",
-      "from": "kunooz-al-hikmah"
-    },
-    {
       "phonetic": "Shari'a",
       "arabic_script": "شَرِيعَة",
       "from": "asaas-al-taveel/vol-01"
@@ -85,11 +80,6 @@
       "phonetic": "Imām",
       "arabic_script": "إِمَام",
       "from": "asaas-al-taveel/vol-01"
-    },
-    {
-      "phonetic": "fuṣūl",
-      "arabic_script": "فُصُول",
-      "from": "kunooz-al-hikmah"
     },
     {
       "phonetic": "al-Ẓāhir",
@@ -122,11 +112,6 @@
       "from": "asaas-al-taveel/vol-01"
     },
     {
-      "phonetic": "Qāḍī al-Nuʿmān",
-      "arabic_script": "قَاضِي النُّعْمَان",
-      "from": "kunooz-al-hikmah"
-    },
-    {
       "phonetic": "Allāh",
       "arabic_script": "اللّٰه",
       "from": "asaas-al-taveel/vol-01"
@@ -155,16 +140,6 @@
       "phonetic": "Muhammad",
       "arabic_script": "مُحَمَّد",
       "from": "asaas-al-taveel/vol-01"
-    },
-    {
-      "phonetic": "Ali ibn Abi Talib",
-      "arabic_script": "عَلِيُّ بْنُ أَبِي طَالِبٍ",
-      "from": "kunooz-al-hikmah"
-    },
-    {
-      "phonetic": "Yasin",
-      "arabic_script": "يس",
-      "from": "kunooz-al-hikmah"
     },
     {
       "phonetic": "Shaykh",
@@ -207,11 +182,6 @@
       "from": "asaas-al-taveel/vol-01"
     },
     {
-      "phonetic": "hujjah",
-      "arabic_script": "حُجَّة",
-      "from": "kunooz-al-hikmah"
-    },
-    {
       "phonetic": "awliya",
       "arabic_script": "أَوْلِيَاء",
       "from": "asaas-al-taveel/vol-01"
@@ -220,11 +190,6 @@
       "phonetic": "ibn",
       "arabic_script": "بْن",
       "from": "the-master-and-the-disciple"
-    },
-    {
-      "phonetic": "Isma'il",
-      "arabic_script": "إِسْمَاعِيل",
-      "from": "kunooz-al-hikmah"
     },
     {
       "phonetic": "kun",
@@ -250,16 +215,6 @@
       "phonetic": "jihad",
       "arabic_script": "جِهَاد",
       "from": "asaas-al-taveel/vol-01"
-    },
-    {
-      "phonetic": "Wilayah",
-      "arabic_script": "وِلَايَة",
-      "from": "kunooz-al-hikmah"
-    },
-    {
-      "phonetic": "Abu Bakr",
-      "arabic_script": "أَبُو بَكْر",
-      "from": "kunooz-al-hikmah"
     },
     {
       "phonetic": "Wadd",
@@ -343,6 +298,7 @@
     "Nur al-Din Ahmad",
     "al-Fusul wa al-Akhbar",
     "al-Hakim bi-Amr Allah",
+    "Hujjah",
     "Dar al-Hikmah",
     "al-Sadiq al-Ma'mun",
     "Risalat al-Wa'iza",
@@ -391,6 +347,7 @@
     "Risalat Usbu' al-Dawr al-Mastur",
     "Fāṭimids",
     "abwāb",
+    "fuṣūl",
     "al-hayūlā",
     "Ḥanafī",
     "ʿAlawī",
@@ -400,6 +357,7 @@
     "al-Rawḍa",
     "Tafsīr al-Sharīʿa",
     "al-Muʿizz",
+    "Qāḍī al-Nuʿmān",
     "ibn Ḥayyūn",
     "al-Maghribī",
     "al-Tamīmī",
@@ -423,7 +381,9 @@
     "al-Zaki",
     "Hanifi",
     "Maqam",
+    "Ali ibn Abi Talib",
     "Taha",
+    "Yasin",
     "Hatim al-Razi",
     "Abu Ya'qub al-Sijzi",
     "Druze",
@@ -463,6 +423,7 @@
     "yatbaʿu",
     "ʿId al-Fitr",
     "al-Quds",
+    "hujjah",
     "majalis",
     "Basran",
     "Baghdadi",
@@ -476,6 +437,7 @@
     "al-Munira",
     "Amir",
     "Ma'add",
+    "Isma'il",
     "al-Tamamiyyah",
     "hayula",
     "al-Nusrah",
@@ -504,6 +466,7 @@
     "Musa",
     "'Isa",
     "Nuh",
+    "Wilayah",
     "sallallahu alayhi wa sallam",
     "Sharee'ah",
     "al-nutq",
@@ -514,6 +477,7 @@
     "Ummah",
     "tawheed",
     "Muhammad (sallallahu alayhi wa sallam)",
+    "Abu Bakr",
     "Muhammad ibn Abi Bakr",
     "ulul-'azm",
     "al-Suwaa'",

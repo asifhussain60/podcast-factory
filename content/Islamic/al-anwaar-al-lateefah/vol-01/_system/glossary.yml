@@ -267,11 +267,10 @@ entries:
   annotation_reason: An English parenthetical gloss of tajrid, not a term to annotate.
 - phonetic: ibda
   transliteration: ibda
-  arabic_script: إبداع
+  arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: t all. They come to rest instead on His *ibda*, His orig
   harvested_confidence: weak
-  script_source: cross-book:kitab-al-riyad
 - phonetic: had
   transliteration: had
   arabic_script: ''
@@ -280,11 +279,10 @@ entries:
   harvested_confidence: weak
 - phonetic: istighfar
   transliteration: istighfar
-  arabic_script: اِسْتِغْفَار
+  arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: hat is *mashfu* — paired, joined — with *istighfar*, the aski
   harvested_confidence: weak
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: rakat
   transliteration: rakat
   arabic_script: رَكْعَات
@@ -342,11 +340,10 @@ entries:
   harvested_confidence: weak
 - phonetic: Mubdi
   transliteration: Mubdi
-  arabic_script: المُبدِع
+  arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: m — when He is called *Allah Taala*, or *Mubdi*, the Orig
   harvested_confidence: weak
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: quwwah
   transliteration: quwwah
   arabic_script: ''
@@ -362,11 +359,10 @@ entries:
   script_source: cross-book:asaas-al-taveel/vol-01
 - phonetic: alam al-ibda
   transliteration: alam al-ibda
-  arabic_script: عالم الإبداع
+  arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: riginated the world of origination, the *alam al-ibda*.
   harvested_confidence: weak
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: aql al-awwal
   transliteration: aql al-awwal
   arabic_script: ''
@@ -607,26 +603,23 @@ entries:
   harvested_confidence: weak
 - phonetic: asma al-husna
   transliteration: asma al-husna
-  arabic_script: الْأَسْمَاءُ الْحُسْنَى
+  arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: sna` — by His most beautiful names, the *asma al-husna* — `yutawa
   harvested_confidence: weak
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: awham
   transliteration: awham
-  arabic_script: أوهام
+  arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ot even turn. And the imaginations, the *awham*, together
   harvested_confidence: weak
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: Bab al-Abwab
   transliteration: Bab al-Abwab
-  arabic_script: بَابُ الْأَبْوَاب
+  arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: a Mustansir Billah and held the rank of *Bab al-Abwab*, the
     Gate
   harvested_confidence: weak
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: bab al-iftial
   transliteration: bab al-iftial
   arabic_script: ''
@@ -1461,11 +1454,10 @@ entries:
   harvested_confidence: weak
 - phonetic: tasbih
   transliteration: tasbih
-  arabic_script: تَسْبِيح
+  arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: r. Human beings are the glorifiers; the *tasbih* is theirs
   harvested_confidence: weak
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: tawahhum
   transliteration: tawahhum
   arabic_script: ''

@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -52,11 +53,30 @@ def _glossary_path(book_dir: Path) -> Path:
     return Path(book_dir) / "_system" / "glossary.yml"
 
 
+#: Below this many Arabic runs a "scan" is not a scan. `text/raw-extract.md` is
+#: the ENGLISH extract and carries zero; `kunooz-al-hikmah` carries seven, which
+#: is stray characters rather than ground truth. The books that really have one
+#: carry six to sixty-eight THOUSAND, so no threshold in between is delicate.
+_SCAN_FLOOR = 200
+
+_ARABIC_RUN = re.compile(r"[؀-ۿ]{2,}")
+
+
 def _has_own_scan(book_dir: Path) -> bool:
-    return any(
-        (Path(book_dir) / rel).exists()
-        for rel in ("_system/source/ocr/raw-extract.md", "_system/source/text/raw-extract.md")
-    )
+    """Does this book have ARABIC ground truth of its own?
+
+    Checking that a `raw-extract.md` EXISTS is not the same question, and getting
+    it wrong is a provenance hole rather than a cosmetic bug: `text/raw-extract.md`
+    is the English extract, so `kitab-al-riyad` — which has no Arabic anywhere —
+    was admitted to the pool and lent spellings to `al-anwaar` as though they had
+    been read off a page. A book may only contribute what its own scan proves.
+    """
+    runs = 0
+    for rel in ("_system/source/ocr/raw-extract.md", "_system/source/text/raw-extract.md"):
+        path = Path(book_dir) / rel
+        if path.exists():
+            runs += len(_ARABIC_RUN.findall(path.read_text(encoding="utf-8", errors="ignore")))
+    return runs >= _SCAN_FLOOR
 
 
 def build_pool(book_dirs: list[Path]) -> dict[str, tuple[str, str]]:

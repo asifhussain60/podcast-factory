@@ -2,34 +2,14 @@
   "schema": "book.glossary-cross-fill/v1",
   "filled": [
     {
-      "phonetic": "ibda",
-      "arabic_script": "إبداع",
-      "from": "kitab-al-riyad"
-    },
-    {
-      "phonetic": "istighfar",
-      "arabic_script": "اِسْتِغْفَار",
-      "from": "kunooz-al-hikmah"
-    },
-    {
       "phonetic": "rakat",
       "arabic_script": "رَكْعَات",
       "from": "ayyuhal-walad"
     },
     {
-      "phonetic": "Mubdi",
-      "arabic_script": "المُبدِع",
-      "from": "kunooz-al-hikmah"
-    },
-    {
       "phonetic": "adam",
       "arabic_script": "آدَم",
       "from": "asaas-al-taveel/vol-01"
-    },
-    {
-      "phonetic": "alam al-ibda",
-      "arabic_script": "عالم الإبداع",
-      "from": "kunooz-al-hikmah"
     },
     {
       "phonetic": "ikhtiyar",
@@ -57,21 +37,6 @@
       "from": "degrees-of-excellence"
     },
     {
-      "phonetic": "asma al-husna",
-      "arabic_script": "الْأَسْمَاءُ الْحُسْنَى",
-      "from": "kunooz-al-hikmah"
-    },
-    {
-      "phonetic": "awham",
-      "arabic_script": "أوهام",
-      "from": "kunooz-al-hikmah"
-    },
-    {
-      "phonetic": "Bab al-Abwab",
-      "arabic_script": "بَابُ الْأَبْوَاب",
-      "from": "kunooz-al-hikmah"
-    },
-    {
       "phonetic": "makan",
       "arabic_script": "اَلْمَكَان",
       "from": "degrees-of-excellence"
@@ -97,11 +62,6 @@
       "from": "degrees-of-excellence"
     },
     {
-      "phonetic": "tasbih",
-      "arabic_script": "تَسْبِيح",
-      "from": "kunooz-al-hikmah"
-    },
-    {
       "phonetic": "wali",
       "arabic_script": "وَلِيّ",
       "from": "asaas-al-taveel/vol-01"
@@ -114,7 +74,9 @@
   ],
   "still_empty": [
     "stripping every attribute away",
+    "ibda",
     "had",
+    "istighfar",
     "shafa",
     "witr",
     "idtirar",
@@ -123,7 +85,9 @@
     "julus",
     "khalq",
     "mashfu",
+    "Mubdi",
     "quwwah",
+    "alam al-ibda",
     "aql al-awwal",
     "dafatan wahidatan",
     "fil",
@@ -156,6 +120,9 @@
     "ashbah suriyyah nuraniyya",
     "ashiq",
     "asl",
+    "asma al-husna",
+    "awham",
+    "Bab al-Abwab",
     "bab al-iftial",
     "because",
     "bi-hukmi al-idtirar",
@@ -284,6 +251,7 @@
     "talib",
     "tamjid",
     "tartib",
+    "tasbih",
     "tawahhum",
     "tawassul",
     "ubudiyyah",

@@ -632,10 +632,9 @@ entries:
   first_seen_snippet: '"the Fatimid Caliph al-Hakim bi-Amr Allah"'
 - phonetic: Hujjah
   transliteration: Hujjah
-  arabic_script: حُجَّة
+  arabic_script: ''
   audio_phonetic: huj-jah
   first_seen_snippet: '"his rank was that of a *Hujjah*"'
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: Dar al-Hikmah
   transliteration: Dar al-Hikmah
   arabic_script: ''
@@ -906,10 +905,9 @@ entries:
   first_seen_snippet: '"*al-Riyad* into ten books (abwab)"'
 - phonetic: fuṣūl
   transliteration: fuṣūl
-  arabic_script: فُصُول
+  arabic_script: ''
   audio_phonetic: fu-sool
   first_seen_snippet: '"each book into several sections (fusul)"'
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: al-hayūlā
   transliteration: al-hayūlā
   arabic_script: ''
@@ -993,10 +991,9 @@ entries:
   first_seen_snippet: '"Imam al-Mu''izz is the source of his information"'
 - phonetic: Qāḍī al-Nuʿmān
   transliteration: Qāḍī al-Nuʿmān
-  arabic_script: قَاضِي النُّعْمَان
+  arabic_script: ''
   audio_phonetic: qaa-dee an-nu-maan
   first_seen_snippet: '"the writings of Qadi al-Nu''man ibn Hayyun al-Maghribi al-Tamimi"'
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: ibn Ḥayyūn
   transliteration: ibn Ḥayyūn
   arabic_script: ''
@@ -1150,10 +1147,9 @@ entries:
   first_seen_snippet: '"turning toward the Corner and the Maqam"'
 - phonetic: Ali ibn Abi Talib
   transliteration: Ali ibn Abi Talib
-  arabic_script: عَلِيُّ بْنُ أَبِي طَالِبٍ
+  arabic_script: ''
   audio_phonetic: a-lee ibn a-bee taa-lib
   first_seen_snippet: '"the Commander of the Believers, Ali ibn Abi Talib"'
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: Taha
   transliteration: Taha
   arabic_script: ''
@@ -1161,10 +1157,9 @@ entries:
   first_seen_snippet: '"the family of Taha and Yasin"'
 - phonetic: Yasin
   transliteration: Yasin
-  arabic_script: يس
+  arabic_script: ''
   audio_phonetic: yaa-seen
   first_seen_snippet: '"Taha and Yasin, peace be upon them all"'
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: Shaykh
   transliteration: Shaykh
   arabic_script: اَلشَّيْخ
@@ -1418,10 +1413,9 @@ entries:
   script_source: cross-book:asaas-al-taveel/vol-01
 - phonetic: hujjah
   transliteration: hujjah
-  arabic_script: حُجَّة
+  arabic_script: ''
   audio_phonetic: huj-jah
   first_seen_snippet: nor to the *hujja* (proof), nor to the *hudud*
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: majalis
   transliteration: majalis
   arabic_script: ''
@@ -1504,10 +1498,9 @@ entries:
   script_source: cross-book:the-master-and-the-disciple
 - phonetic: Isma'il
   transliteration: Isma'il
-  arabic_script: إِسْمَاعِيل
+  arabic_script: ''
   audio_phonetic: is-maa-eel
   first_seen_snippet: Ma'add ibn Isma'il
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: al-Tamamiyyah
   transliteration: al-Tamamiyyah
   arabic_script: ''
@@ -1684,10 +1677,9 @@ entries:
   script_source: cross-book:asaas-al-taveel/vol-01
 - phonetic: Wilayah
   transliteration: Wilayah
-  arabic_script: وِلَايَة
+  arabic_script: ''
   audio_phonetic: wi-laa-yah
   first_seen_snippet: '"grasp the wilayah of the Imams away from doubts"'
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: sallallahu alayhi wa sallam
   transliteration: sallallahu alayhi wa sallam
   arabic_script: ''
@@ -1745,11 +1737,10 @@ entries:
     Muhammad ﷺ"'
 - phonetic: Abu Bakr
   transliteration: Abu Bakr
-  arabic_script: أَبُو بَكْر
+  arabic_script: ''
   audio_phonetic: a-boo bakr
   first_seen_snippet: '"like the Prophet (peace and blessings of Allah be upon him)
     saying to Abu Bakr"'
-  script_source: cross-book:kunooz-al-hikmah
 - phonetic: Muhammad ibn Abi Bakr
   transliteration: Muhammad ibn Abi Bakr
   arabic_script: ''
