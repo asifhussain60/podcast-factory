@@ -215,3 +215,61 @@ def test_overlapping_ranges_coalesce_rather_than_duplicate() -> None:
     assert _coalesce([[591, 622], [572, 623]]) == [[572, 623]]
     assert _coalesce([[8, 13], [14, 22]]) == [[8, 22]]
     assert _coalesce([[8, 13], [20, 22]]) == [[8, 13], [20, 22]]
+
+
+# --- an EXCLUDED preface is deleted, not folded ------------------------------
+
+
+def test_an_excluded_preface_is_deleted_rather_than_folded(tmp_path: Path) -> None:
+    """The per-book distinction the plan drew: an opening that is the source's own
+    first words is folded into chapter 1; an opening ABOUT the book is dropped.
+
+    `al-anwaar-al-lateefah` is the second kind, and folding it proved the point
+    rather than settling it — its 272 words are 158 about "what kind of book you
+    are holding", wrapped in an invocation chapter 1 ALREADY opens with, so the
+    fold printed the ta'awwudh and basmala twice, four paragraphs apart.
+    """
+    bd = _book(tmp_path)
+    (bd / "book" / "book-toc.json").write_text(
+        json.dumps(
+            {
+                "preface": {"include": False, "title": "A Letter Across the Centuries"},
+                "chapters": [{"bk_index": 1, "title": "Knowledge That Will Not Save You"}],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    report = apply_opening_fold(bd, log=lambda _m: None)
+    body = (bd / "book" / "book.md").read_text(encoding="utf-8")
+
+    assert report["dropped"] is True
+    assert "## A Letter Across the Centuries" not in body
+    assert "Know that one of the master's" not in body
+    # every chapter untouched
+    assert "## 1. Knowledge That Will Not Save You\n\nIn the Name of God, the Most Compassionate." in body
+    assert "## 2. The Striving That Mercy Meets" in body
+
+
+def test_the_delete_is_idempotent(tmp_path: Path) -> None:
+    bd = _book(tmp_path)
+    (bd / "book" / "book-toc.json").write_text(
+        json.dumps({"preface": {"include": False, "title": "A Letter Across the Centuries"}, "chapters": []}),
+        encoding="utf-8",
+    )
+
+    apply_opening_fold(bd, log=lambda _m: None)
+    once = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    assert apply_opening_fold(bd, log=lambda _m: None)["dropped"] is False
+    assert (bd / "book" / "book.md").read_text(encoding="utf-8") == once
+
+
+def test_an_excluded_preface_with_no_section_left_is_a_no_op(tmp_path: Path) -> None:
+    """degrees and asaas are already in this state — nothing to delete."""
+    bd = _book(tmp_path, body="# T\n\n## 1. Knowledge\n\nThe chapter.\n")
+    (bd / "book" / "book-toc.json").write_text(
+        json.dumps({"preface": {"include": False, "title": "A Letter Across the Centuries"}, "chapters": []}),
+        encoding="utf-8",
+    )
+
+    assert apply_opening_fold(bd, log=lambda _m: None)["dropped"] is False

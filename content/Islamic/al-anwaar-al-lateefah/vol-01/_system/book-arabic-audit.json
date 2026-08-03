@@ -8,59 +8,14 @@
       "runs": []
     },
     {
-      "chapter": "A Threshold to the Subtle Lights",
-      "arabic_runs": 10,
-      "unverified": 9,
+      "chapter": "Introduction to the Book",
+      "arabic_runs": 1,
+      "unverified": 1,
       "runs": [
         {
           "text": "تَوْحِيد",
           "resolution": "unverified",
           "skeleton": "توحيد"
-        },
-        {
-          "text": "إِمَام الزَّمَان",
-          "resolution": "unverified",
-          "skeleton": "امامالزمان"
-        },
-        {
-          "text": "مَأْذُون",
-          "resolution": "unverified",
-          "skeleton": "ماذون"
-        },
-        {
-          "text": "تَجْرِيد",
-          "resolution": "unverified",
-          "skeleton": "تجريد"
-        },
-        {
-          "text": "تَأْوِيل",
-          "resolution": "knowledge-base",
-          "skeleton": "تاويل"
-        },
-        {
-          "text": "أَحَدِيَّة",
-          "resolution": "unverified",
-          "skeleton": "احديه"
-        },
-        {
-          "text": "صَمَدِيَّة",
-          "resolution": "unverified",
-          "skeleton": "صمديه"
-        },
-        {
-          "text": "هُوِيَّة",
-          "resolution": "unverified",
-          "skeleton": "هويه"
-        },
-        {
-          "text": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ، بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ، وَصَلَّى اللَّهُ عَلَىٰ رَسُولِهِ وَآلِهِ الطَّيِّبِينَ الطَّاهِرِينَ وَسَلَّمَ عَلَيْهِمْ أَجْمَعِينَ",
-          "resolution": "unverified",
-          "skeleton": "اعوذباللهمنالشيطانالرجيمبسماللهالرحمنالر"
-        },
-        {
-          "text": "بِحَقِّ سَيِّدِنَا مَوْلَانَا مُحَمَّدٍ وَعَلَىٰ آلِ سَيِّدِنَا مَوْلَانَا مُحَمَّدٍ وَبَارِكْ وَسَلِّمْ",
-          "resolution": "unverified",
-          "skeleton": "بحقسيدنامولانامحمدوعليالسيدنامولانامحمدو"
         }
       ]
     },
@@ -315,8 +270,8 @@
     },
     {
       "chapter": "3. The Sin of Naming the Unnameable",
-      "arabic_runs": 16,
-      "unverified": 14,
+      "arabic_runs": 19,
+      "unverified": 17,
       "runs": [
         {
           "text": "فَوَقَعَ لِنُوقِعَ عَلَى الْهُوِيَّةِ الْمُتَعَالِيَةِ لِعَجْزِنَا وَضِيقِ جَوْهَرِنَا وَحَصْرِنَا وَقُصُورِنَا",
@@ -389,9 +344,24 @@
           "skeleton": "جسيه"
         },
         {
+          "text": "أَحَدِيَّة",
+          "resolution": "unverified",
+          "skeleton": "احديه"
+        },
+        {
+          "text": "صَمَدِيَّة",
+          "resolution": "unverified",
+          "skeleton": "صمديه"
+        },
+        {
           "text": "إِلَهِيَّة",
           "resolution": "unverified",
           "skeleton": "الهيه"
+        },
+        {
+          "text": "هُوِيَّة",
+          "resolution": "unverified",
+          "skeleton": "هويه"
         },
         {
           "text": "وَتِلْكَ آيَةٌ وَاحِدَةٌ",
@@ -402,8 +372,8 @@
     },
     {
       "chapter": "4. What Oneness Actually Means",
-      "arabic_runs": 7,
-      "unverified": 7,
+      "arabic_runs": 9,
+      "unverified": 9,
       "runs": [
         {
           "text": "إِنَّ التَّوْحِيدَ هُوَ مَعْرِفَةُ الْحُدُودِ، وَالتَّنْزِيهَ نَفْيُ الْإِلَهِيَّةِ عَنْهُمْ، وَالتَّجْرِيدَ سَلْبُ الْأَسْمَاءِ وَالصِّفَاتِ عَنِ اللَّهِ تَعَالَى",
@@ -421,6 +391,11 @@
           "skeleton": "تنزيه"
         },
         {
+          "text": "تَجْرِيد",
+          "resolution": "unverified",
+          "skeleton": "تجريد"
+        },
+        {
           "text": "ذَنْبٌ مَشْفُوعٌ بِالِاسْتِغْفَارِ",
           "resolution": "unverified",
           "skeleton": "ذنبمشفوعبالاستغفار"
@@ -434,6 +409,11 @@
           "text": "مَعْرِفَةٌ ظَاهِرَةٌ يُعْرَفُ بِهَا شَخْصُ الْحَدِّ وَمَقَامُهُ، وَهَذِهِ الْمَعْرِفَةُ يَتَسَاوَى فِيهَا الْوَلِيُّ وَغَيْرُهُ مِنَ الْأَضْدَادِ وَالطُّغَاةِ؛ وَمَعْرِفَةٌ بَاطِنَةٌ يَخْتَصُّ بِهَا أَهْلُ الْمَعَارِفِ مِنْ أَهْلِ الْحَقِّ، وَهُوَ ابْتِدَاءُ وُجُودِ الْحَدِّ",
           "resolution": "unverified",
           "skeleton": "معرفهظاهرهيعرفبهاشخصالحدومقامهوهذهالمعرف"
+        },
+        {
+          "text": "إِمَام الزَّمَان",
+          "resolution": "unverified",
+          "skeleton": "امامالزمان"
         },
         {
           "text": "مُكَثِّر",
@@ -859,10 +839,10 @@
   "totals": {
     "canonical-mushaf": 17,
     "ocr": 0,
-    "knowledge-base": 2,
+    "knowledge-base": 1,
     "honorific-formula": 0,
-    "unverified": 138,
-    "arabic_runs": 157
+    "unverified": 135,
+    "arabic_runs": 153
   },
   "note": "no OCR ground truth for this book — every run falls back to the knowledge base",
   "quran_coverage": {
@@ -876,11 +856,11 @@
   "stages": {
     "final": {
       "(front matter)": 0,
-      "A Threshold to the Subtle Lights": 10,
+      "Introduction to the Book": 1,
       "1. The Sealed Lamp and the Road Home": 26,
       "2. The God No Pointing Can Reach": 21,
-      "3. The Sin of Naming the Unnameable": 16,
-      "4. What Oneness Actually Means": 7,
+      "3. The Sin of Naming the Unnameable": 19,
+      "4. What Oneness Actually Means": 9,
       "5. The Nearest Rank: Breaking the Self to Climb": 19,
       "6. Every Teacher a Threshold, Not a God": 28,
       "7. Out of Nothing, and Equal in Justice": 17,

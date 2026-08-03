@@ -108,3 +108,6 @@
 {"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-etymology", "step": "generate", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-etymology", "step": "verify", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-frontmatter", "step": "edition-introduction-retry", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

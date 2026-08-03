@@ -9,15 +9,7 @@
   "scan_arabic_words": 0,
   "uncited_review": [
     {
-      "line": 27,
-      "passage": "By the right of our master, Maulana Muhammad, and upon the family of our master, Maulana Muhammad, and grant blessings and peace.",
-      "proposed_ref": "11:48",
-      "english_similarity": 0.375,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 95,
+      "line": 79,
       "passage": "and salvation comes from this world of being and corruption.",
       "proposed_ref": "5:33",
       "english_similarity": 0.5,
@@ -25,7 +17,7 @@
       "agreed": false
     },
     {
-      "line": 119,
+      "line": 103,
       "passage": "And this is the knowledge around which they revolve, and toward which they incline.",
       "proposed_ref": "11:113",
       "english_similarity": 0.4,
@@ -33,7 +25,7 @@
       "agreed": false
     },
     {
-      "line": 171,
+      "line": 155,
       "passage": "Woe to you — could I worship a God I had not seen? How could I worship a God without having seen Him?",
       "proposed_ref": "21:25",
       "english_similarity": 0.571,
@@ -41,7 +33,7 @@
       "agreed": false
     },
     {
-      "line": 177,
+      "line": 161,
       "passage": "The eyes did not see Him by the witnessing of sight; rather the hearts saw Him by the realities of faith.",
       "proposed_ref": "32:9",
       "english_similarity": 0.4,
@@ -49,7 +41,7 @@
       "agreed": false
     },
     {
-      "line": 185,
+      "line": 169,
       "passage": "And the expression about Him by Allah, the Exalted, and by the Originator, with the exalted Ipseity — these two names and the attribute do not fall upon Him.",
       "proposed_ref": "6:100",
       "english_similarity": 0.375,
@@ -57,7 +49,7 @@
       "agreed": false
     },
     {
-      "line": 191,
+      "line": 175,
       "passage": "For names and attributes do not fall except upon their like.",
       "proposed_ref": "17:107",
       "english_similarity": 0.4,
@@ -65,7 +57,7 @@
       "agreed": false
     },
     {
-      "line": 197,
+      "line": 181,
       "passage": "Names and attributes are an indication pointing to the named one.",
       "proposed_ref": "53:23",
       "english_similarity": 0.4,
@@ -73,7 +65,7 @@
       "agreed": false
     },
     {
-      "line": 205,
+      "line": 189,
       "passage": "And the originated thing does not fall upon its originator as its like.",
       "proposed_ref": "2:117",
       "english_similarity": 0.4,
@@ -81,7 +73,7 @@
       "agreed": false
     },
     {
-      "line": 243,
+      "line": 227,
       "passage": "In that, they are equal — the powerful and the overpowered, the sensed and the intelligible, from both worlds together.",
       "proposed_ref": "4:176",
       "english_similarity": 0.375,
@@ -89,7 +81,7 @@
       "agreed": false
     },
     {
-      "line": 281,
+      "line": 265,
       "passage": "So he expressed about Him by what belonged to the attributes of His origination and His act.",
       "proposed_ref": "7:180",
       "english_similarity": 0.333,
@@ -97,7 +89,7 @@
       "agreed": false
     },
     {
-      "line": 301,
+      "line": 285,
       "passage": "Can you eat everything? You have the power to eat — so eat this filth set before you.",
       "proposed_ref": "6:58",
       "english_similarity": 0.4,
@@ -105,7 +97,7 @@
       "agreed": false
     },
     {
-      "line": 307,
+      "line": 291,
       "passage": "O Allah, O You to whom our confession is rendered, attesting the truth of what He said in His wise remembrance, when He says — and His word is the truth — And t",
       "proposed_ref": "6:73",
       "english_similarity": 0.4,
@@ -113,7 +105,7 @@
       "agreed": false
     },
     {
-      "line": 371,
+      "line": 355,
       "passage": "None has known me except God, and I myself.",
       "proposed_ref": "5:25",
       "english_similarity": 0.5,
@@ -121,7 +113,7 @@
       "agreed": false
     },
     {
-      "line": 391,
+      "line": 375,
       "passage": "A sin coupled with a plea for forgiveness.",
       "proposed_ref": "12:29",
       "english_similarity": 0.5,
@@ -129,7 +121,7 @@
       "agreed": false
     },
     {
-      "line": 427,
+      "line": 411,
       "passage": "Profession with the tongue, affirmation with the heart, and action with the limbs.",
       "proposed_ref": "44:58",
       "english_similarity": 0.333,
@@ -137,7 +129,7 @@
       "agreed": false
     },
     {
-      "line": 461,
+      "line": 445,
       "passage": "And he is a place of descent for the revelation of God, and a house from His houses.",
       "proposed_ref": "29:41",
       "english_similarity": 0.4,
@@ -145,7 +137,7 @@
       "agreed": false
     },
     {
-      "line": 467,
+      "line": 451,
       "passage": "In houses which God has permitted to be exalted and His name to be remembered therein; in them He is glorified in the mornings and the evenings.",
       "proposed_ref": "24:36",
       "english_similarity": 0.556,
@@ -153,7 +145,7 @@
       "agreed": false
     },
     {
-      "line": 477,
+      "line": 461,
       "passage": "Men whom neither commerce nor sale diverts from the remembrance of God and the establishing of prayer and the giving of zakat.",
       "proposed_ref": "24:37",
       "english_similarity": 0.7,
@@ -161,7 +153,7 @@
       "agreed": false
     },
     {
-      "line": 483,
+      "line": 467,
       "passage": "men whom neither commerce nor sale diverts from the remembrance of God, the establishing of prayer, and the giving of zakat",
       "proposed_ref": "24:37",
       "english_similarity": 0.7,
@@ -169,7 +161,7 @@
       "agreed": false
     },
     {
-      "line": 487,
+      "line": 471,
       "passage": "O you who believe, when the call is proclaimed for the prayer on the day of Jumuah, hasten to the remembrance of God and leave off trade. That is better for you",
       "proposed_ref": "62:9",
       "english_similarity": 0.4,
@@ -177,7 +169,7 @@
       "agreed": false
     },
     {
-      "line": 601,
+      "line": 585,
       "passage": "Then he verifies its bewilderment at its Originator, and at the Originator of its kinds, and its perplexity in Him.",
       "proposed_ref": "6:101",
       "english_similarity": 0.333,
@@ -185,7 +177,7 @@
       "agreed": false
     },
     {
-      "line": 637,
+      "line": 621,
       "passage": "So there is no god besides Him. It is not a compulsion upon them; he finds no escape from it.",
       "proposed_ref": "46:32",
       "english_similarity": 0.6,
@@ -193,7 +185,7 @@
       "agreed": false
     },
     {
-      "line": 665,
+      "line": 649,
       "passage": "O tranquil soul, return to your Lord, well-pleased and well-pleasing.",
       "proposed_ref": "89:28",
       "english_similarity": 0.667,
@@ -201,7 +193,7 @@
       "agreed": false
     },
     {
-      "line": 667,
+      "line": 651,
       "passage": " means return to your mufid, the one who bestowed upon you. And ",
       "proposed_ref": "6:165",
       "english_similarity": 0.5,
@@ -209,7 +201,7 @@
       "agreed": false
     },
     {
-      "line": 675,
+      "line": 659,
       "passage": "And praise be to Allah who guided us to this; we would not have been guided had Allah not guided us. Indeed the messengers of our Lord came with the truth.",
       "proposed_ref": "7:43",
       "english_similarity": 0.6,
@@ -217,7 +209,7 @@
       "agreed": false
     },
     {
-      "line": 691,
+      "line": 675,
       "passage": "Guide us upon the straight path, the path of those upon whom You have bestowed favor.",
       "proposed_ref": "48:2",
       "english_similarity": 0.6,
@@ -225,7 +217,7 @@
       "agreed": false
     },
     {
-      "line": 821,
+      "line": 805,
       "passage": "May Allah protect us from slipping or being made to slip, by the right of Muhammad and his pure progeny, the blessings of Allah upon them all.",
       "proposed_ref": "33:50",
       "english_similarity": 0.333,
@@ -233,7 +225,7 @@
       "agreed": false
     },
     {
-      "line": 823,
+      "line": 807,
       "passage": " The same pattern governs going astray as well: زَلَّ, ",
       "proposed_ref": "20:92",
       "english_similarity": 0.333,
@@ -241,7 +233,7 @@
       "agreed": false
     },
     {
-      "line": 879,
+      "line": 863,
       "passage": "And through it he encompassed all things in knowledge, and knew what was and what will be.",
       "proposed_ref": "102:5",
       "english_similarity": 0.6,
@@ -249,7 +241,7 @@
       "agreed": false
     },
     {
-      "line": 901,
+      "line": 885,
       "passage": "In the name of Allah, the Most Gracious, the Most Merciful.",
       "proposed_ref": "1:1",
       "english_similarity": 0.75,

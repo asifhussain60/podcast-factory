@@ -94,6 +94,11 @@ _INTRO_SECTION_RE = re.compile(
 # book for the reader's first attention, which is the one thing it must not do.
 MAX_INTRO_WORDS = 250
 MIN_INTRO_WORDS = 90
+# What the brief ASKS for, below the hard cap. Told only the limit, the model
+# writes to it and lands just over: 256, 262, 270, then 251 on the retry —
+# `al-anwaar` lost its introduction entirely by ONE word. Aiming lower costs
+# nothing and leaves the cap as a backstop rather than a target.
+_INTRO_TARGET_WORDS = 215
 
 CACHE_NAME = "edition-introduction.md"
 _INTRO_TIMEOUT = 900
@@ -311,7 +316,8 @@ matter, not a translation of anything. It is printed under the heading
 "Introduction to the Book", before chapter 1.
 
 Your reader is intelligent and knows nothing about this text. In UNDER {MAX_INTRO_WORDS} WORDS they
-should learn what it is, what it is about, and who wrote it.
+should learn what it is, what it is about, and who wrote it. AIM FOR ABOUT {_INTRO_TARGET_WORDS};
+{MAX_INTRO_WORDS} is a hard limit and an answer over it is thrown away.
 
 FACTS YOU MAY USE — this list is exhaustive. Every one was read from a file in this book.
 {json.dumps(facts, ensure_ascii=False, indent=2)}

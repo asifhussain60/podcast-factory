@@ -48,16 +48,21 @@ _HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 _NUMBERED_RE = re.compile(r"^##\s+[0-9٠-٩۰-۹]+\.\s")
 
 
-def preface_title(book_dir: Path) -> str:
-    """The heading the front-matter section was emitted under, or ""."""
+def preface_entry(book_dir: Path) -> dict[str, Any]:
+    """The toc's ``preface`` entry, or {}."""
     toc = Path(book_dir) / "book" / "book-toc.json"
     if not toc.exists():
-        return ""
+        return {}
     try:
         preface = json.loads(toc.read_text(encoding="utf-8")).get("preface") or {}
     except Exception:
-        return ""
-    return str(preface.get("title") or "") if isinstance(preface, dict) else ""
+        return {}
+    return preface if isinstance(preface, dict) else {}
+
+
+def preface_title(book_dir: Path) -> str:
+    """The heading the front-matter section was emitted under, or ""."""
+    return str(preface_entry(book_dir).get("title") or "")
 
 
 def fold_opening(book_md: str, title: str) -> tuple[str, int]:
@@ -95,6 +100,34 @@ def fold_opening(book_md: str, title: str) -> tuple[str, int]:
             continue  # the section and its body leave together
         out.append(parts[i] + parts[i + 1] if i + 1 < len(parts) else parts[i])
     return re.sub(r"\n{3,}", "\n\n", "".join(out)).strip() + "\n", len(opening.split())
+
+
+def drop_opening(book_md: str, title: str) -> tuple[str, int]:
+    """Remove the front-matter section outright. Returns the markdown and words."""
+    if not title.strip():
+        return book_md, 0
+    key = anchor_key(title)
+    parts = _HEADING_RE.split(book_md)
+    if len(parts) < 3:
+        return book_md, 0
+    out = [parts[0]]
+    dropped = 0
+    for i in range(1, len(parts), 2):
+        body = parts[i + 1] if i + 1 < len(parts) else ""
+        if anchor_key(parts[i]) == key:
+            dropped = len(body.split())
+            continue
+        out.append(parts[i] + body)
+    if not dropped:
+        return book_md, 0
+    return re.sub(r"\n{3,}", "\n\n", "".join(out)).strip() + "\n", dropped
+
+
+def _forget_section(book_dir: Path, title: str, log) -> None:
+    """The pass reports must stop naming a section the edition no longer has."""
+    from _book_pass_reports import drop_section_from_reports
+
+    drop_section_from_reports(book_dir, title, log=log)
 
 
 def _coalesce(ranges: list[list[int]]) -> list[list[int]]:
@@ -163,9 +196,31 @@ def apply_opening_fold(book_dir: Path, *, log=print) -> dict[str, Any]:
     book_md = book_dir / "book" / "book.md"
     if not book_md.exists():
         return {"folded": False, "reason": "no book.md"}
-    title = preface_title(book_dir)
+    preface = preface_entry(book_dir)
+    title = str(preface.get("title") or "")
     if not title:
         return {"folded": False, "reason": "no preface title in book-toc.json"}
+
+    # EXCLUDED means the book has no front matter, so book.md must not carry a
+    # front-matter section either — the opening is DELETED rather than folded.
+    #
+    # The distinction is the one the plan drew per book: an opening that is the
+    # source's own first words is folded into chapter 1, and an opening that is
+    # ABOUT the book is dropped. `al-anwaar-al-lateefah` is the second kind, and
+    # folding it proved the point rather than settling it: its 272 words are 158
+    # about "what kind of book you are holding", wrapped in an invocation that
+    # chapter 1 ALREADY opens with, so the fold printed the ta'awwudh and basmala
+    # twice, four paragraphs apart.
+    if not preface.get("include"):
+        before = book_md.read_text(encoding="utf-8")
+        after, words = drop_opening(before, title)
+        if not words:
+            return {"folded": False, "dropped": False}
+        book_md.write_text(after, encoding="utf-8")
+        log(f"    opening: {title!r} DELETED ({words} words) — book-toc.json excludes it")
+        _forget_section(book_dir, title, log)
+        return {"folded": False, "dropped": True, "words": words, "title": title}
+
     before = book_md.read_text(encoding="utf-8")
     after, words = fold_opening(before, title)
     if words and after != before:

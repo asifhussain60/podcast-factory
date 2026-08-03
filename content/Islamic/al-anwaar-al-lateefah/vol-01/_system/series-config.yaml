@@ -1,0 +1,19 @@
+# Created 2026-08-03. This book had NO series-config at all, so every knob was
+# resolving from a bare default — including the one that decides who narrates.
+content_profile: islamic_scholarly
+
+# WHO NARRATES (Asif, 2026-08-03). Declared rather than left to default, and the
+# declaration is protective as much as prescriptive.
+#
+# With no config, `narrative_frame` fell back to `external_narrator` — third
+# person — while the prose on the page is a first-person lecture ("Believing
+# brothers and sisters, I want you to understand..."). The book was therefore
+# ALREADY in the state where the next model pass over its prose would rewrite it,
+# with nobody having decided that. Declaring the frame does not create that
+# exposure; it names it, and names the RIGHT target.
+#
+# `transmitted_report` is the target because this volume was compiled from many
+# sources and has no single author. Its first-person voice claims one it never
+# had. Same frame as `the-master-and-the-disciple`, which is the tone it is being
+# matched to.
+narrative_frame: transmitted_report
