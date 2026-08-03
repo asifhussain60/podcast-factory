@@ -261,23 +261,19 @@ def test_trim_seam_noops_on_empty_inputs() -> None:
     assert _trim_seam_overlap("Prior tail.", "") == ""
 
 
-# --- preface emission (P0: planned preface silently dropped at assembly) -----
+# --- the source's own opening: composed, then FOLDED into chapter 1 ----------
+#
+# Two defects are pinned here at once. The older one: a planned preface was
+# silently dropped at assembly, so its teaching never reached the deliverable.
+# The newer one (2026-08-03): it reached the deliverable as a SECTION OF ITS OWN
+# under a machine-invented title, so every edition opened on front matter instead
+# of on the book. The opening must survive, and it must survive inside chapter 1.
 
 
-def test_preface_is_composed_and_emitted_before_chapter_one(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    import _translation_edition as te
-
-    # Stub the LLM compose to echo the source faithfully (deterministic).
-    monkeypatch.setattr(
-        te,
-        "_compose_one",
-        lambda title, body, previous_tail, book_dir, label, log, **kw: body.strip(),
-    )
-
+def _fold_fixture(tmp_path: Path, *, preface: bool = True) -> Path:
     bd = tmp_path / "the-book"
     (bd / "book").mkdir(parents=True)
     (bd / "_system" / "source" / "text").mkdir(parents=True)
-
     refined = "\n".join(
         [
             "The opening teaching that frames the whole work as thanksgiving.",  # 1
@@ -288,31 +284,116 @@ def test_preface_is_composed_and_emitted_before_chapter_one(tmp_path: Path, monk
         ]
     )
     (bd / "_system" / "source" / "text" / "refined-english.md").write_text(refined, encoding="utf-8")
-
-    toc = {
+    toc: dict = {
         "book_title": "The Book of the Road",
         "voice": "faithful",
-        "preface": {
+        "chapters": [{"bk_index": 1, "title": "The Traveller Guided", "source_line_ranges": [[4, 5]]}],
+    }
+    toc["preface"] = (
+        {
             "include": True,
             "title": "How to Read a Conversation Made of Doors",
             "source_line_ranges": [[1, 2]],
-        },
-        "chapters": [
-            {"bk_index": 1, "title": "The Traveller Guided", "source_line_ranges": [[4, 5]]},
-        ],
-    }
+        }
+        if preface
+        else {"include": False}
+    )
     (bd / "book" / "book-toc.json").write_text(json.dumps(toc), encoding="utf-8")
+    return bd
 
-    book_md = te.author_translation_edition_compose(bd, log=lambda *a, **k: None, enforce_contract=False)
-    text = book_md.read_text(encoding="utf-8")
 
-    preface_at = text.find("## How to Read a Conversation Made of Doors")
-    chapter_at = text.find("## 1. The Traveller Guided")
-    assert preface_at != -1, "preface heading missing from book.md"
-    assert chapter_at != -1, "chapter heading missing from book.md"
-    assert preface_at < chapter_at, "preface must render before chapter one"
-    assert "thanksgiving" in text  # the preface teaching survived into the deliverable
+def test_the_sources_own_opening_is_folded_into_chapter_one(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import _translation_edition as te
+
+    # Stub the LLM compose to echo the source faithfully (deterministic).
+    monkeypatch.setattr(
+        te,
+        "_compose_one",
+        lambda title, body, previous_tail, book_dir, label, log, **kw: body.strip(),
+    )
+    bd = _fold_fixture(tmp_path)
+
+    text = te.author_translation_edition_compose(bd, log=lambda *a, **k: None, enforce_contract=False).read_text(
+        encoding="utf-8"
+    )
+
+    # The machine-invented front-matter title is gone with its heading.
+    assert "How to Read a Conversation Made of Doors" not in text
+    # Every word the SOURCE wrote is still there, and the opening now sits inside
+    # the chapter rather than above it.
+    chapter_at = text.index("## 1. The Traveller Guided")
+    assert "thanksgiving" in text
+    assert text.index("thanksgiving") > chapter_at
+    assert text.index("thanksgiving") < text.index("The traveller who was lost")
     assert (bd / "book" / "_chunks" / "translation" / "preface.md").exists()
+
+
+def test_the_fold_is_recorded_in_the_manifest(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A fold moves prose between sections, so it says so where the counts live."""
+    import _translation_edition as te
+
+    monkeypatch.setattr(te, "_compose_one", lambda title, body, previous_tail, book_dir, label, log, **kw: body.strip())
+    bd = _fold_fixture(tmp_path)
+
+    te.author_translation_edition_compose(bd, log=lambda *a, **k: None, enforce_contract=False)
+    entry = json.loads((bd / "_system" / "translation-edition-manifest.json").read_text(encoding="utf-8"))
+    first = entry["chapters"][0]
+
+    assert first["folded_opening_words"] > 0
+    assert first["output_words"] > first["folded_opening_words"]
+
+
+def test_the_fold_is_idempotent_across_recomposes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """The assembly rebuilds from parts, so a second run must not fold twice."""
+    import _translation_edition as te
+
+    monkeypatch.setattr(te, "_compose_one", lambda title, body, previous_tail, book_dir, label, log, **kw: body.strip())
+    bd = _fold_fixture(tmp_path)
+
+    once = te.author_translation_edition_compose(bd, log=lambda *a, **k: None, enforce_contract=False).read_text(
+        encoding="utf-8"
+    )
+    twice = te.author_translation_edition_compose(bd, log=lambda *a, **k: None, enforce_contract=False).read_text(
+        encoding="utf-8"
+    )
+
+    assert once == twice
+    assert twice.count("thanksgiving") == 1
+
+
+def test_a_composer_edit_on_the_front_matter_heading_refuses_the_fold(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The guard. Folding here would let the replay delete the author's opening.
+
+    `apply_composer_edits` rewrites every edited chapter from the sidecar AFTER
+    this assembly. Fold a human-authored opening into a human-authored chapter 1
+    and the replay restores chapter 1 alone — taking the folded opening with it,
+    and reporting nothing, because it only reports an edit whose HEADING is gone.
+    So the fold is refused and the section kept until `fold_preface_edit.py` has
+    migrated the sidecar.
+    """
+    import _translation_edition as te
+    from _book_edits import record_edit
+
+    monkeypatch.setattr(te, "_compose_one", lambda title, body, previous_tail, book_dir, label, log, **kw: body.strip())
+    bd = _fold_fixture(tmp_path)
+    record_edit(
+        bd,
+        chapter_key="how to read a conversation made of doors",
+        body_md="The author's own front matter, saved in the Composer.",
+    )
+
+    messages: list[str] = []
+    text = te.author_translation_edition_compose(
+        bd, log=lambda m, *a, **k: messages.append(str(m)), enforce_contract=False
+    ).read_text(encoding="utf-8")
+
+    assert "## How to Read a Conversation Made of Doors" in text
+    assert text.index("## How to Read a Conversation Made of Doors") < text.index("## 1. The Traveller Guided")
+    assert any("NOT folded" in m for m in messages)
+    # And the author's words are the ones on the page, not a re-translation.
+    assert "The author's own front matter" in text
 
 
 def test_per_chapter_sidecars_never_land_in_the_podcast_lanes_shared_folder(

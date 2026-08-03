@@ -110,30 +110,24 @@ def apply_book_apparatus(
         except Exception as e:  # a truth-teller must never fail the compose it describes
             _record_skip(book_dir, "report-reconcile", e, log)
 
-    # 5c. The edition's introduction. AFTER the Composer replay, so a human who
-    #     rewrote the preface keeps their words and the introduction sits above
-    #     them — and BEFORE every apparatus step below, which is the 2026-08-02
-    #     correction.
+    # 5c. Take the machine preface OUT (Asif, 2026-08-03 — no book needs one; they
+    #     begin with the actual content chapters). This slot used to AUTHOR that
+    #     preface; the authoring path is retired in `_book_frontmatter` and only
+    #     the cleanup remains.
     #
-    #     It used to run after them, and the front matter therefore went to press
-    #     as the ONE part of the book no house rule had touched: no transliteration
-    #     fold, no surah-named citations, no glossary overlay, no vowelling, no
-    #     American spelling. That is measurable rather than theoretical — NINE of
-    #     the fourteen romanized runs left in `degrees-of-excellence`, the book
-    #     whose Arabic had been fully converted, were inside this block, printing
-    #     *Qutb*, *hudud*, *qibla*, *khutba*, *zakat* and *khums* in Latin letters
-    #     on the page that introduces the edition.
+    #     The position is unchanged and still forced, for a reason that survives
+    #     the reversal: AFTER the Composer replay. A fence written while the old
+    #     path was live can sit inside a saved Composer edit — it does in
+    #     `degrees-of-excellence` — so the replay puts it back into book.md on
+    #     every run, and a cleanup placed before the replay would report a preface
+    #     removed from a file that ends the compose still carrying one.
     #
-    #     Safe to move because both halves are idempotent: the text is cached
-    #     (`author_introduction` re-authors only under --force, so this costs no
-    #     model call on a re-run) and `inject_introduction` strips its own previous
-    #     output before re-injecting. Each run therefore replaces the processed
-    #     intro with the raw cached one and lets the steps below re-derive it,
-    #     which is what makes the coverage self-correcting rather than one-shot.
-    from _book_frontmatter import apply_introduction
+    #     Costs nothing and claims nothing: a book that never had a preface, or has
+    #     already been cleaned, is left byte-identical.
+    from _book_frontmatter import clear_introduction
 
     try:
-        apply_introduction(book_dir, log=log, force=force)
+        clear_introduction(book_dir, log=log)
     except Exception as e:  # apparatus is never worth a finished translation
         _record_skip(book_dir, "front-matter", e, log)
 

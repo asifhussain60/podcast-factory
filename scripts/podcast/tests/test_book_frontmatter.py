@@ -1,4 +1,10 @@
-"""Tests for the edition introduction — apparatus, authored, not translated."""
+"""Tests for the retired machine preface and the cleanup that survives it.
+
+The authoring half of this module was removed on 2026-08-03 — no book gets a
+machine-written preface any more. What is left is the removal, and it has to keep
+working for a long time: five editions carry a fence the retired path wrote, and
+one carries it inside a Composer edit that is replayed on every compose.
+"""
 
 from __future__ import annotations
 
@@ -7,13 +13,11 @@ from pathlib import Path
 from _book_frontmatter import (
     INTRO_CLOSE,
     INTRO_OPEN,
-    facts_for_introduction,
-    gate_introduction,
-    inject_introduction,
+    clear_introduction,
     strip_introduction,
 )
 
-_GOOD = " ".join(["This edition translates a tenth-century teaching dialogue."] * 25)
+_INTRO = " ".join(["This edition translates a tenth-century teaching dialogue."] * 20)
 
 
 def _book(tmp_path: Path) -> Path:
@@ -23,191 +27,108 @@ def _book(tmp_path: Path) -> Path:
     return bd
 
 
-def test_facts_come_from_files_and_absences_are_omitted(tmp_path: Path) -> None:
-    bd = _book(tmp_path)
-    (bd / "meta.yml").write_text(
-        "title: The Master and the Disciple\ndoctrinal_context:\n  author: Ja'far\n  school: Ismaili\n",
-        encoding="utf-8",
-    )
-    (bd / "_system" / "source" / "text" / "refined-english.md").write_text(
-        "The Book\n\nAuthor: Sayyidina Ja'far ibn Mansur al-Yaman\n\n(1) We have been informed…\n",
-        encoding="utf-8",
+def _with_preface(source_opening: str = "The source's first words.") -> str:
+    """A book.md in the shape the retired injector produced."""
+    return (
+        "# Title\n\n## How to Read This\n\n"
+        f"{INTRO_OPEN}\n{_INTRO}\n\n### The book's own opening\n{INTRO_CLOSE}\n\n"
+        f"{source_opening}\n\n## 1. The Call and the Covenant\n\nThe chapter's own first sentence.\n"
     )
 
-    facts = facts_for_introduction(bd)
 
-    assert facts["title"] == "The Master and the Disciple"
-    assert facts["doctrinal_context"]["school"] == "Ismaili"
-    # The source's OWN attribution — stronger evidence than a note about it.
-    assert "Sayyidina Ja'far" in facts["source_attribution_line"]
-    # Nothing invented for what the files do not carry.
-    assert "chapters" not in facts
-    assert "glossary_terms" not in facts
+def test_the_machine_preface_goes_and_the_source_opening_stays() -> None:
+    out = strip_introduction(_with_preface())
 
-
-def test_a_book_with_no_files_invents_nothing_about_its_content(tmp_path: Path) -> None:
-    facts = facts_for_introduction(_book(tmp_path))
-
-    # The route knobs always resolve — they have defaults and describe the RUN,
-    # not the book — so they are present. Nothing about the work itself is.
-    assert facts["slug"] == "book"
-    assert set(facts) - {"slug"} == {"narrative_frame", "book_voice", "book_augmentation"}
+    assert INTRO_OPEN not in out and INTRO_CLOSE not in out
+    assert "This edition translates" not in out
+    # Everything the SOURCE said is untouched — that is the whole distinction.
+    assert "The source's first words." in out
+    assert "The chapter's own first sentence." in out
 
 
-def test_the_gate_refuses_an_asserted_absence() -> None:
-    # Both false claims an audit caught in a hand-written introduction were of
-    # this shape: telling the reader what the book never says, which is an
-    # absence the author cannot have verified.
-    ok, reasons = gate_introduction(_GOOD + " What it never says outright is that they belong together.")
+def test_the_invented_subheading_goes_too() -> None:
+    """`### The book's own opening` names a distinction the edition no longer draws.
 
-    assert not ok
-    assert any("absence" in r for r in reasons)
-
-
-def test_the_gate_refuses_an_essay_and_a_stub() -> None:
-    assert not gate_introduction("Too short.")[0]
-    assert not gate_introduction(" ".join(["word"] * 900))[0]
-    assert gate_introduction(_GOOD)[0]
-
-
-def test_injection_places_it_above_the_sources_own_opening() -> None:
-    book = "# Title\n\n## How to Read This\n\nWe have been informed that some believers came…\n"
-
-    out = inject_introduction(book, _GOOD)
-
-    assert out.index(INTRO_OPEN) < out.index("We have been informed")
-    assert "### The book's own opening" in out
-    assert out.index("### The book's own opening") < out.index("We have been informed")
-
-
-def test_it_never_gets_injected_into_a_numbered_chapter() -> None:
-    """With `toc.preface.include` false, the first `## ` section IS Chapter 1.
-
-    The introduction used to be dropped into that chapter's body regardless, which
-    manufactured a "the book's own opening" subheading in the middle of Chapter 1
-    and told the reader the chapter's first page was front matter.
+    It normally sits inside the fence and leaves with it. It is asserted
+    separately because `the-master-and-the-disciple` was split by hand before the
+    fence existed, so the label can also stand alone.
     """
-    book = "# Title\n\n## 1. The Call and the Covenant\n\nThe chapter's own first sentence.\n"
+    hand_split = "# Title\n\n## How to Read This\n\nA human's note.\n\n### The book's own opening\n\nSource words.\n"
 
-    out = inject_introduction(book, _GOOD)
+    out = strip_introduction(hand_split)
 
-    assert out.index(INTRO_OPEN) < out.index("## 1. The Call and the Covenant")
-    assert "### The book's own opening" not in out
-    # The chapter is intact and still opens on its own words.
-    assert "## 1. The Call and the Covenant\n\nThe chapter's own first sentence." in out
+    assert "The book's own opening" not in out
+    assert "Source words." in out
 
 
-def test_injection_above_a_numbered_chapter_is_idempotent() -> None:
-    book = "# Title\n\n## 1. The Call and the Covenant\n\nThe chapter's own first sentence.\n"
+def test_stripping_is_idempotent() -> None:
+    once = strip_introduction(_with_preface())
 
-    once = inject_introduction(book, _GOOD)
-    twice = inject_introduction(once, _GOOD)
-
-    assert once == twice
-    assert twice.count(INTRO_OPEN) == 1
+    assert strip_introduction(once) == once
 
 
-def test_injection_is_idempotent() -> None:
-    book = "# Title\n\n## How to Read This\n\nThe source's first words.\n"
+def test_a_book_that_never_had_one_is_left_byte_identical() -> None:
+    clean = "# Title\n\n## 1. The Call and the Covenant\n\nThe chapter's own first sentence.\n"
 
-    once = inject_introduction(book, _GOOD)
-    twice = inject_introduction(once, _GOOD)
-
-    assert once == twice
-    assert twice.count(INTRO_OPEN) == 1
+    assert strip_introduction(clean) == clean
 
 
-def test_a_rejected_introduction_leaves_the_book_alone() -> None:
-    book = "# Title\n\n## How to Read This\n\nThe source's first words.\n"
+def test_a_flattened_fence_is_still_found() -> None:
+    """A Composer save serializes the HTML comment back as a bare text line.
 
-    out = inject_introduction(book, "Too short to orient anyone.")
+    A pass that cannot see the fence does not fail loudly — it leaves the machine
+    preface on the page and reports success.
+    """
+    flattened = (
+        "# Title\n\n## How to Read This\n\nedition-intro:begin\n"
+        f"{_INTRO}\nedition-intro:end\n\nThe source's first words.\n"
+    )
 
-    assert INTRO_OPEN not in out
+    out = strip_introduction(flattened)
+
+    assert "This edition translates" not in out
     assert "The source's first words." in out
 
 
-def test_strip_removes_a_previous_injection_cleanly() -> None:
-    book = "# Title\n\n## How to Read This\n\nThe source's first words.\n"
-
-    assert strip_introduction(inject_introduction(book, _GOOD)).count(INTRO_CLOSE) == 0
-
-
-def test_the_brief_carries_only_facts_read_from_files() -> None:
-    from _book_frontmatter import introduction_prompt
-
-    prompt = introduction_prompt({"title": "A Book", "doctrinal_context": {"author": "Someone"}})
-
-    assert "this list is exhaustive" in prompt
-    assert '"author": "Someone"' in prompt
-    # The two prohibitions earned by real false claims.
-    assert "never says" in prompt
-    assert "unvowelled" in prompt
-
-
-def test_a_failed_author_never_takes_down_a_compose(tmp_path: Path) -> None:
-    # A book without an introduction is missing apparatus — the state every book
-    # was in before this existed. Losing a finished translation over it would be
-    # the worse trade by far.
-    from _book_frontmatter import apply_introduction, author_introduction
-
+def test_clear_writes_the_file_and_reports_the_words(tmp_path: Path) -> None:
     bd = _book(tmp_path)
-    (bd / "book" / "book.md").write_text("# T\n\n## Preface\n\nSource words.\n", encoding="utf-8")
+    (bd / "book" / "book.md").write_text(_with_preface(), encoding="utf-8")
 
-    def explode(_prompt: str) -> str:
-        raise RuntimeError("model unavailable")
-
-    assert author_introduction(bd, log=lambda _m: None, author=explode) == ""
-    assert apply_introduction(bd, log=lambda _m: None, author=explode) == {
-        "applied": False,
-        "reason": "no introduction",
-    }
-    assert (bd / "book" / "book.md").read_text(encoding="utf-8").endswith("Source words.\n")
-
-
-def test_a_good_introduction_is_cached_and_reused(tmp_path: Path) -> None:
-    from _book_frontmatter import CACHE_NAME, author_introduction
-
-    bd = _book(tmp_path)
-    calls = []
-
-    def author(prompt: str) -> str:
-        calls.append(prompt)
-        return _GOOD
-
-    assert author_introduction(bd, log=lambda _m: None, author=author) == _GOOD
-    assert (bd / "_system" / CACHE_NAME).exists()
-    assert author_introduction(bd, log=lambda _m: None, author=author) == _GOOD
-    assert len(calls) == 1  # second run reused the cache
-
-
-def test_apply_writes_the_introduction_into_the_book(tmp_path: Path) -> None:
-    from _book_frontmatter import apply_introduction
-
-    bd = _book(tmp_path)
-    (bd / "book" / "book.md").write_text("# T\n\n## Preface\n\nSource words.\n", encoding="utf-8")
-
-    report = apply_introduction(bd, log=lambda _m: None, author=lambda _p: _GOOD)
+    report = clear_introduction(bd, log=lambda _m: None)
     body = (bd / "book" / "book.md").read_text(encoding="utf-8")
 
-    assert report["applied"] is True
-    assert INTRO_OPEN in body
-    assert body.index(INTRO_OPEN) < body.index("Source words.")
+    assert report["removed"] is True
+    assert report["words"] > 0
+    assert INTRO_OPEN not in body
+    assert "The source's first words." in body
 
 
-def test_a_hand_split_front_matter_is_left_alone(tmp_path: Path) -> None:
-    # One book was given its introduction by hand before this step existed,
-    # stored as a Composer edit and replayed on every compose. Authoring another
-    # would print two introductions, one of them a stranger's.
-    from _book_frontmatter import apply_introduction
-
+def test_clear_on_an_already_clean_book_writes_nothing(tmp_path: Path) -> None:
     bd = _book(tmp_path)
-    (bd / "book" / "book.md").write_text(
-        "# T\n\n## Preface\n\nA human's introduction.\n\n### The book's own opening\n\nSource words.\n",
-        encoding="utf-8",
-    )
+    clean = "# Title\n\n## 1. The Call and the Covenant\n\nThe chapter's own first sentence.\n"
+    (bd / "book" / "book.md").write_text(clean, encoding="utf-8")
+    before = (bd / "book" / "book.md").stat().st_mtime_ns
 
-    report = apply_introduction(bd, log=lambda _m: None, author=lambda _p: _GOOD)
+    report = clear_introduction(bd, log=lambda _m: None)
 
-    assert report == {"applied": False, "reason": "front matter already split by hand"}
-    assert "A human's introduction." in (bd / "book" / "book.md").read_text(encoding="utf-8")
-    assert INTRO_OPEN not in (bd / "book" / "book.md").read_text(encoding="utf-8")
+    assert report == {"removed": False}
+    assert (bd / "book" / "book.md").stat().st_mtime_ns == before
+    assert (bd / "book" / "book.md").read_text(encoding="utf-8") == clean
+
+
+def test_clear_without_a_book_never_raises(tmp_path: Path) -> None:
+    assert clear_introduction(_book(tmp_path), log=lambda _m: None) == {"removed": False, "reason": "no book.md"}
+
+
+def test_the_authoring_path_is_really_gone() -> None:
+    """Named so a future reader sees the retirement was deliberate, not a slip.
+
+    The `edition-intro` fence KIND stays registered (see
+    `test_fence_kinds_cross_language.py`) — de-registering it while books still
+    carry fences would make those markers print as literal text.
+    """
+    import _book_frontmatter as fm
+
+    for gone in ("author_introduction", "apply_introduction", "inject_introduction", "introduction_prompt"):
+        assert not hasattr(fm, gone), f"{gone} was retired on 2026-08-03"
+    assert fm.INTRO_OPEN == "<!-- edition-intro:begin -->"

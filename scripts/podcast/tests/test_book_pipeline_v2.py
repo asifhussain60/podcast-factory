@@ -589,7 +589,7 @@ def test_compose_v2_warns_loudly_when_replay_discards_adapted(tmp_path: Path, mo
         lambda bd_, **k: Path(bd_) / "book" / "book.md",  # book.md already on disk
     )
     monkeypatch.setattr(voice, "_fluency_chapter", _GOOD)
-    monkeypatch.setattr(_book_frontmatter, "apply_introduction", lambda bd_, **k: {"applied": False})
+    monkeypatch.setattr(_book_frontmatter, "clear_introduction", lambda bd_, **k: {"removed": False})
     record_edit(bd, chapter_key="on knowledge", body_md="The author's own paragraph.")
 
     logs: list[str] = []
@@ -624,7 +624,7 @@ def test_reconcile_failure_does_not_relabel_the_replay(tmp_path: Path, monkeypat
         lambda bd_, **k: Path(bd_) / "book" / "book.md",
     )
     monkeypatch.setattr(voice, "_fluency_chapter", _GOOD)
-    monkeypatch.setattr(_book_frontmatter, "apply_introduction", lambda bd_, **k: {"applied": False})
+    monkeypatch.setattr(_book_frontmatter, "clear_introduction", lambda bd_, **k: {"removed": False})
     record_edit(bd, chapter_key="on knowledge", body_md="The author's own paragraph.")
 
     def boom(*a, **k):

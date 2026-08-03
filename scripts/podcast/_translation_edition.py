@@ -9,11 +9,15 @@ R3 DR-005 split (2026-07-18): the config/contract predicates moved verbatim to
 trim/dedup, prose normalization, output findings, monochrome SVG, crosswalk
 builder) to ``_translation_text.py``. Every moved name is re-exported here
 (`X as X`, the `_azure.py` pattern) so importers and test patch-targets keep
-working unchanged. What REMAINS is the one thing that could not move without
-smell: the `claude -p` retry/caching orchestration. The compose PROMPT moved to
-``_translation_prompts.py`` on 2026-07-20 (DR-005 gate) and is re-exported here —
-see that module for why the Spec-2 "prompt stays with its orchestration" precedent
-does not apply to it.
+working unchanged. The compose PROMPT moved to ``_translation_prompts.py`` on
+2026-07-20 (DR-005 gate) and is re-exported here — see that module for why the
+Spec-2 "prompt stays with its orchestration" precedent does not apply to it. The
+per-chunk `claude -p` orchestration and its three retries moved to
+``_translation_chunk.py`` on 2026-08-03, under the same gate.
+
+What REMAINS is the ASSEMBLY, and it is now the whole of this module: which
+chunks exist, which are served from cache, which are the author's own from the
+Composer, where the source's own opening goes, and how the parts become book.md.
 """
 
 from __future__ import annotations
@@ -22,11 +26,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from _arabic_coverage import (
-    arabic_coverage_shortfall,
-    arabic_run_spans,
-)
-from _authoring._core import AuthoringError, _run_claude_p_with_retry
+from _authoring._core import AuthoringError
 from _book_compose import (
     _line_pages,
     _load_arabic_pages,
@@ -37,6 +37,7 @@ from _book_compose import (
 from _book_edits import anchor_key, edited_body, edited_chapter_keys
 from _pipeline_flags import narrative_frame, narrator_subject
 from _translation_cache import make_is_fresh
+from _translation_chunk import _compose_one as _compose_one
 
 # R3 DR-005 re-exports — moved names, kept importable from this module. One line
 # each: the parenthesised three-line form cost 60 lines of the module's 600-line
@@ -74,145 +75,7 @@ from _translation_text import source_title_drift_findings as source_title_drift_
 from _translation_text import translation_output_findings as translation_output_findings
 from _translit import simplify_transliteration
 
-_COMPOSE_TIMEOUT = 900
-_RETRY_TIMEOUT = 1350
 _LONG_CHAPTER_WORDS = 4500
-
-
-def _compose_one(
-    title: str,
-    body: str,
-    previous_tail: str,
-    book_dir: Path,
-    label: str,
-    log,
-    *,
-    arabic_src: str = "",
-    quran_anchor: str = "",
-    frame: str = "",
-    narrator: str = "",
-) -> str:
-    prompt = _compose_prompt(
-        title,
-        body,
-        previous_tail,
-        arabic_src=arabic_src,
-        quran_anchor=quran_anchor,
-        frame=frame,
-        narrator=narrator,
-    )
-    rc, out, err = _run_claude_p_with_retry(
-        prompt,
-        timeout=_COMPOSE_TIMEOUT,
-        book_dir=book_dir,
-        phase="0book-compose",
-        step=f"translation-{label}",
-        log=log,
-    )
-    out = (out or "").strip()
-    if rc != 0:
-        raise AuthoringError(
-            phase="0book-compose",
-            message=f"{label}: translation edition compose failed rc={rc}: {err[:300]}",
-            manual_fallback="Re-run the translation edition path; completed chunks are skipped.",
-        )
-    source_words = len(body.split())
-    if source_words >= 200 and len(out.split()) < 0.55 * source_words:
-        log(f"      {label}: short ({len(out.split())}/{source_words}w) - retry")
-        rc2, out2, _ = _run_claude_p_with_retry(
-            prompt + "\n\nYour previous attempt was too compressed. Rewrite faithfully, preserving the full teaching.",
-            timeout=_RETRY_TIMEOUT,
-            book_dir=book_dir,
-            phase="0book-compose",
-            step=f"translation-{label}-retry",
-            log=log,
-        )
-        if rc2 == 0 and len((out2 or "").split()) > len(out.split()):
-            out = (out2 or "").strip()
-    findings = translation_output_findings(
-        out, expected_title=title, frame=frame, narrator_subject=narrator, source=body
-    )
-    if findings:
-        log(f"      {label}: invalid translation output ({'; '.join(findings[:3])}) - retry")
-        # Name the ACTUAL failures. This retry used to assert "process commentary
-        # or model-owned headings" no matter what the gate found, so a retry for
-        # a lost enumeration (or any non-commentary finding) re-ran the model
-        # with instructions about a defect it did not have — and failed again.
-        retry_prompt = (
-            prompt
-            + "\n\nYour previous answer failed these integrity checks: "
-            + "; ".join(findings[:5])
-            + ". Rewrite now as clean chapter prose only, correcting exactly those failures. "
-            "Do not mention instructions, options, source mismatch, inability, the title "
-            "selection, or the prompt. Do not emit Markdown headings."
-        )
-        rc2, out2, err2 = _run_claude_p_with_retry(
-            retry_prompt,
-            timeout=_RETRY_TIMEOUT,
-            book_dir=book_dir,
-            phase="0book-compose",
-            step=f"translation-{label}-integrity-retry",
-            log=log,
-        )
-        if rc2 == 0:
-            candidate = (out2 or "").strip()
-            if not translation_output_findings(
-                candidate, expected_title=title, frame=frame, narrator_subject=narrator, source=body
-            ):
-                out = candidate
-            else:
-                out = candidate or out
-        else:
-            log(f"      {label}: integrity retry failed rc={rc2}: {err2[:160]}")
-        findings = translation_output_findings(
-            out, expected_title=title, frame=frame, narrator_subject=narrator, source=body
-        )
-    if findings:
-        raise AuthoringError(
-            phase="0book-compose",
-            message=f"{label}: translation edition output failed integrity gate: " + "; ".join(findings),
-            manual_fallback=(
-                "Re-run 0book-design/0book-compose after inspecting the source range; "
-                "the pipeline refused to persist model commentary or generated headings."
-            ),
-        )
-    # Arabic-coverage safety net (see _arabic_coverage): when the output drops too
-    # much of the ground truth's quoted Arabic, retry ONCE with the specific spans
-    # named. Non-fatal and keep-best — a residual shortfall never blocks the book,
-    # and an empty suffix (no Arabic source, or coverage already adequate) skips it.
-    arabic_retry = arabic_coverage_shortfall(out, arabic_src)
-    if arabic_retry:
-        log(f"      {label}: Arabic coverage low - retrying with the dropped spans named")
-        rc3, out3, _err3 = _run_claude_p_with_retry(
-            prompt + arabic_retry,
-            timeout=_RETRY_TIMEOUT,
-            book_dir=book_dir,
-            phase="0book-compose",
-            step=f"translation-{label}-arabic-retry",
-            log=log,
-        )
-        cand = (out3 or "").strip()
-        if (
-            rc3 == 0
-            and cand
-            and not translation_output_findings(
-                cand, expected_title=title, frame=frame, narrator_subject=narrator, source=body
-            )
-            and len(arabic_run_spans(cand)) > len(arabic_run_spans(out))
-            and _translation_long_enough(cand, source_words)
-        ):
-            out = cand
-        else:
-            log(f"      {label}: Arabic-coverage retry did not improve - keeping best attempt")
-    if not _translation_long_enough(out, source_words):
-        raise AuthoringError(
-            phase="0book-compose",
-            message=(
-                f"{label}: translation edition output is too compressed ({len(out.split())}/{source_words} words)"
-            ),
-            manual_fallback="Re-run after reducing chapter/window size or inspect the source range.",
-        )
-    return normalize_translation_prose(out, title=title)
 
 
 def author_translation_edition_compose(
@@ -343,11 +206,23 @@ def author_translation_edition_compose(
     # covers the prompts and the config, not just the source text.
     _cache_fresh = make_is_fresh(book_dir, refined_path)
 
-    # Preface / front-matter. book-toc.json may declare a preface with its own
-    # source range (e.g. the work's opening teaching). The chapter loop below
-    # only iterates ``chapters``, so without this the planned preface is silently
+    # The source's own opening. book-toc.json may declare a preface with its own
+    # source range (e.g. the work's opening teaching). The chapter loop below only
+    # iterates ``chapters``, so without this the planned opening is silently
     # dropped at assembly and its teaching is lost from the deliverable.
+    #
+    # It is no longer emitted as a section of its own (Asif, 2026-08-03). A book
+    # begins with its content chapters, so the opening is FOLDED into the body of
+    # the first numbered chapter and the machine-invented `preface.title` — "The
+    # Question of Leadership", "A Threshold to the Subtle Lights" — is dropped with
+    # the heading it named. Nothing authored is lost: the prose itself is carried
+    # over verbatim, under the chapter's own heading.
+    #
+    # A book whose opening is ABOUT the book rather than part of it takes the
+    # no-preface path that already exists — `preface.include: false` — rather than
+    # a second knob. See `al-anwaar-al-lateefah` and `asaas-al-taveel`.
     prev_emitted_prose = ""
+    folded_opening = ""
     preface = toc.get("preface") or {}
     pf_ranges = preface.get("source_line_ranges") or []
     if preface.get("include") and pf_ranges:
@@ -385,7 +260,28 @@ def author_translation_edition_compose(
                     narrator=_narrator,
                 )
                 pf_path.write_text(pf_prose.rstrip() + "\n", encoding="utf-8")
-            parts.append(f"## {pf_title}\n\n{pf_prose}\n")
+            # THE GUARD. A Composer edit keyed to the front-matter heading is a
+            # chapter the human authored, and the replay rewrites chapters from
+            # the sidecar AFTER this assembly. Fold it into chapter 1 and the
+            # replay would restore chapter 1 from the sidecar a step later and
+            # delete the folded opening with it — silently, because
+            # `apply_composer_edits` reports an edit whose heading is gone as
+            # orphaned and never notices prose that went missing from a chapter it
+            # did find. So: refuse to fold, keep the section, and say why.
+            # `fold_preface_edit.py` migrates the sidecar; after that this book
+            # takes `preface.include: false` and there is nothing left to fold.
+            if anchor_key(pf_title) in authored:
+                log(
+                    f"      preface: NOT folded — a Composer edit is keyed to {pf_title!r}. "
+                    "Run fold_preface_edit.py to merge it into chapter 1 first; "
+                    "folding now would let the replay delete the author's opening."
+                )
+                parts.append(f"## {pf_title}\n\n{pf_prose}\n")
+            else:
+                folded_opening = pf_prose
+            # Unchanged either way: this prose is still what immediately precedes
+            # chapter 1, so it is still the continuity tail the first chapter's
+            # compose is given and still the text its seam trim compares against.
             previous_tail = " ".join(pf_prose.split()[-80:])
             prev_emitted_prose = pf_prose
 
@@ -537,19 +433,44 @@ def author_translation_edition_compose(
         chapter_slug = f"ch{idx:02d}-{_slugify(title, label)}"
         chapter_path = chapters_dir / f"{chapter_slug}.txt"
         chapter_path.write_text(f"# {title}\n\n{prose.rstrip()}\n", encoding="utf-8")
-        parts.append(f"## {idx}. {title}\n\n{prose}\n")
+
+        # The fold. The source's own opening becomes the first paragraphs of the
+        # first numbered chapter, under that chapter's own heading. `manifest` is
+        # appended at the bottom of this loop, so an empty one IS "this is the
+        # first chapter" — no separate counter to fall out of step with it.
+        #
+        # Only book.md is folded, deliberately. `chapter_path` above is the
+        # NotebookLM lane's upload source, which has never carried the opening;
+        # putting it there would change an audio deliverable this work is not
+        # about.
+        body = prose
+        folded_words = 0
+        if folded_opening and not manifest:
+            folded_words = len(folded_opening.split())
+            body = folded_opening.rstrip() + "\n\n" + prose.lstrip()
+            folded_opening = ""
+            log(f"      {label}: source's own opening folded in ({folded_words} words)")
+        parts.append(f"## {idx}. {title}\n\n{body}\n")
         previous_tail = " ".join(prose.split()[-80:])
         prev_emitted_prose = prose
-        manifest.append(
-            {
-                "index": idx,
-                "title": title,
-                "chapter_file": str(chapter_path.relative_to(book_dir)),
-                "source_line_ranges": ch.get("source_line_ranges", []),
-                "source_words": len(source.split()),
-                "output_words": len(prose.split()),
-            }
-        )
+        entry = {
+            "index": idx,
+            "title": title,
+            "chapter_file": str(chapter_path.relative_to(book_dir)),
+            "source_line_ranges": ch.get("source_line_ranges", []),
+            "source_words": len(source.split()),
+            "output_words": len(body.split()),
+        }
+        if folded_words:
+            entry["folded_opening_words"] = folded_words
+        manifest.append(entry)
+
+    # A toc that declares an opening and no chapters has nothing to fold it into.
+    # Emit it rather than drop it: losing the source's words to an empty chapter
+    # list would be the one outcome the fold exists to prevent.
+    if folded_opening:
+        log("      preface: no numbered chapter to fold into — emitted as its own section")
+        parts.append(f"## {str(preface.get('title') or 'Preface')}\n\n{folded_opening}\n")
 
     book_md = book_dir / "book" / "book.md"
     # It deletes prose on a similarity judgment, so it reports what it deleted.
