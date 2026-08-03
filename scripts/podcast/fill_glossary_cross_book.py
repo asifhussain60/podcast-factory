@@ -39,6 +39,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from _arabic_coverage import ARABIC_BODY
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _gloss_terms import normalize_term  # noqa: E402
@@ -59,7 +61,7 @@ def _glossary_path(book_dir: Path) -> Path:
 #: carry six to sixty-eight THOUSAND, so no threshold in between is delicate.
 _SCAN_FLOOR = 200
 
-_ARABIC_RUN = re.compile(r"[؀-ۿ]{2,}")
+_ARABIC_RUN = re.compile(f"[{ARABIC_BODY}]{{2,}}")  # this was the base block only
 
 
 def _has_own_scan(book_dir: Path) -> bool:

@@ -22,6 +22,8 @@ import sys
 from pathlib import Path
 from typing import Iterable
 
+from _arabic_coverage import ARABIC_RE as _ARABIC_RE
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
@@ -31,7 +33,7 @@ from source_library_mirror import quran_ayat_lookup  # noqa: E402
 
 # Arabic, Arabic-Supplement, Extended-A, presentation forms. Same class the rest
 # of the pipeline uses (`restore_arabic._ARABIC_RE`, `book-html.mjs ARABIC_RE`).
-ARABIC_RE = re.compile(r"[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]")
+ARABIC_RE = _ARABIC_RE  # the one definition — see _arabic_coverage
 
 # The ornate brackets a scholarly Arabic text puts around scripture and nothing
 # else. That is what makes them usable as the second signal: they are the source

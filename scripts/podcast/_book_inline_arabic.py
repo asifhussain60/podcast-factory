@@ -60,7 +60,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from _arabic_coverage import normalize_arabic
+from _arabic_coverage import ARABIC_BODY, normalize_arabic
 from _book_arabic_audit import _HONORIFIC_FORMULAS
 from _book_gloss import (
     _convert_glosses,
@@ -78,7 +78,7 @@ _NAME_PARTICLES = frozenset({"ibn", "bin", "ibn.", "bint", "abu", "abi", "umm", 
 
 # Arabic letter ranges (presentation forms included) — the same span the audit
 # and the site's overlay treat as "this is script, not transliteration".
-_ARABIC = r"؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿"
+_ARABIC = ARABIC_BODY  # the one definition — see _arabic_coverage
 
 # A line we must not touch: a blockquote (the Arabic quotations already carry
 # their own script), a heading, a fenced/HTML block, or a machine fence.
@@ -194,6 +194,28 @@ def _script_already_near(line: str, at: int, script: str) -> bool:
         run = normalize_arabic(run.strip())
         if run and (run in needle or needle in run):
             return True
+    # AN ARABIC-ONLY BRACKET ALREADY SITTING HERE, whatever it holds. The
+    # skeleton comparison above cannot recognise an annotation written under a
+    # DIFFERENT script for the same term, and it should not: `آدَم` and `عَدَم`
+    # are different words, not two vowellings of one. But a glossary row does get
+    # CORRECTED — `al-anwaar-al-lateefah` paired `adam`, non-existence, with
+    # `آدَم`, Adam the prophet — and when it is, the old bracket is unrecognisable
+    # to the fold and the pass wrote a second beside it: `*adam* (عَدَم) (آدَم)`.
+    #
+    # Two annotations of one term is never the right answer, so this refuses to
+    # write the second. It cannot delete anything: the stale bracket stays for a
+    # human to see, which is what makes the correction reviewable instead of
+    # silent.
+    #
+    # An HONORIFIC FORMULA is not an annotation and must not suppress one. The
+    # first version of this check counted `(ع)` — and `Khidr (ع)`, which says
+    # "peace be upon him", would have kept the name off the page in script for
+    # ever. Same two exclusions `_glossary_terms` applies when deciding what
+    # counts as a term's script, so the two agree.
+    for bracket in re.findall(rf"\(\s*([{_ARABIC}][^()\n]*?)\s*\)", window):
+        if len(bracket.strip()) <= 2 or normalize_arabic(bracket) in _HONORIFIC_FORMULAS:
+            continue
+        return True
     return False
 
 

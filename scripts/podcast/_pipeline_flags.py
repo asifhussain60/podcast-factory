@@ -218,6 +218,24 @@ def narrative_frame(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     return narrative_frame_for(profile, declared or None)
 
 
+def _work_declared(book_dir: Path, key: str) -> str:
+    """A work-level default from the parent ``work.yml``, or "" if there is none.
+
+    Imported lazily: `_work_manifest` reaches `_paths`, and `_pipeline_flags` is
+    imported early enough that a module-level edge here would be a cycle.
+    """
+    try:
+        from _work_manifest import has_manifest, read_manifest
+
+        parent = Path(book_dir).resolve().parent
+        if not has_manifest(parent):
+            return ""
+        manifest = read_manifest(parent) or {}
+        return str(manifest.get(key) or "").strip().lower()
+    except Exception:  # an unreadable manifest is not a broken book
+        return ""
+
+
 def source_medium(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     """What this book was made FROM — a printed text, or recorded speech.
 
@@ -240,12 +258,23 @@ def source_medium(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     first fourteen wrong. Under ``audio_lecture`` the romanization IS the honest
     rendering, and REQ-BA-127 scopes itself out.
 
+    DECLARED ON THE WORK, inherited by its volumes. What a book was made from is
+    a fact about the MATERIAL, and a six-volume work is one body of material —
+    `al-anwaar-al-lateefah` is 65 recordings, not 65 recordings for volume 1 and
+    a printed page for volumes 2 to 6. So `work.yml` is read when the volume's own
+    `series-config.yaml` says nothing, and a volume may still override it. Without
+    this the key sat in that manifest reading as coverage and providing none:
+    volume 1 declared it in its own config and volumes 2-6 silently resolved to
+    `printed_text`, which is the answer this field exists to correct.
+
     Defaults to ``printed_text``, so every existing book behaves exactly as before
     and opting in is an act.
     """
     if cfg is None:
         cfg = _read_series_config(book_dir)
     declared = str(cfg.get(SOURCE_MEDIUM_KEY) or "").strip().lower()
+    if not declared:
+        declared = _work_declared(book_dir, SOURCE_MEDIUM_KEY)
     if declared and declared not in _VALID_SOURCE_MEDIUM:
         _reject_unknown(SOURCE_MEDIUM_KEY, declared, _VALID_SOURCE_MEDIUM)
     return declared or SOURCE_PRINTED_TEXT

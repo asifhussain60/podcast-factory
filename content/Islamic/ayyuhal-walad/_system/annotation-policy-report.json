@@ -1,79 +1,31 @@
 {
   "schema": "book.annotation-policy/v1",
-  "classified": 11,
-  "skipped": 161,
+  "classified": 3,
+  "skipped": 171,
   "by_class": {
-    "teach": 3,
+    "teach": 1,
     "familiar": 0,
-    "name": 0,
-    "silent": 8
+    "name": 1,
+    "silent": 1
   },
   "proposals": [
     {
-      "phonetic": "al-arud",
-      "class": "silent",
+      "phonetic": "Ahya al-Uloom ad-Deen",
+      "class": "name",
       "english_equivalent": "",
-      "reason": "A generic discipline (prosody) already translated in running prose; occurs once in an enumeration and needs no formal introduction."
+      "reason": "A cited work by its own title with no casually-recognized English form; the romanisation is how the reader refers to it."
     },
     {
-      "phonetic": "al-ashar",
+      "phonetic": "Ayyuha al-Walad",
       "class": "silent",
       "english_equivalent": "",
-      "reason": "Means poetry, glossed inline in the same sentence; a minor list item a reader would not search for."
+      "reason": "The book's own title, already translated in running prose as \"O son\", so a formal annotation adds nothing."
     },
     {
-      "phonetic": "al-dawawin",
-      "class": "silent",
-      "english_equivalent": "",
-      "reason": "Rendered as 'registers and chronicles' right beside it; a one-off enumeration item, not the book's own vocabulary."
-    },
-    {
-      "phonetic": "al-nahw",
-      "class": "silent",
-      "english_equivalent": "",
-      "reason": "Simply grammar, translated in the prose; a universal discipline needing no annotation."
-    },
-    {
-      "phonetic": "al-nujum",
-      "class": "silent",
-      "english_equivalent": "",
-      "reason": "Means astronomy, glossed inline; a generic field in a one-off list."
-    },
-    {
-      "phonetic": "al-tasrif",
-      "class": "silent",
-      "english_equivalent": "",
-      "reason": "Means morphology, translated beside it; a minor enumeration item, not doctrinal vocabulary to cite."
-    },
-    {
-      "phonetic": "al-tibb",
-      "class": "silent",
-      "english_equivalent": "",
-      "reason": "Means medicine, glossed in prose; a universal discipline a reader would not search under its Arabic name."
-    },
-    {
-      "phonetic": "Forty Steps",
-      "class": "silent",
-      "english_equivalent": "",
-      "reason": "Already an English gloss of a title given in running prose; annotating an English phrase would not help the reader."
-    },
-    {
-      "phonetic": "al-khilaf",
+      "phonetic": "marifah",
       "class": "teach",
       "english_equivalent": "",
-      "reason": "The science of juristic disagreement is a distinctively Islamic scholarly discipline an interested reader would want to name and look up."
-    },
-    {
-      "phonetic": "Ihya Ulum ad-Din",
-      "class": "teach",
-      "english_equivalent": "",
-      "reason": "Al-Ghazali's own major work, referenced by name; a reader should be able to name and look it up, and it has no plain-English form."
-    },
-    {
-      "phonetic": "ilm al-kalam",
-      "class": "teach",
-      "english_equivalent": "",
-      "reason": "Islamic scholastic theology (kalam) is a distinctive technical term an interested reader would want to cite and search."
+      "reason": "The book's own doctrinal vocabulary for experiential knowledge of God — a reader would want to name and look it up."
     }
   ]
 }

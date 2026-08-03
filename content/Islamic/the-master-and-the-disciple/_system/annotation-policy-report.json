@@ -1,43 +1,19 @@
 {
   "schema": "book.annotation-policy/v1",
-  "classified": 5,
-  "skipped": 74,
+  "classified": 1,
+  "skipped": 78,
   "by_class": {
     "teach": 1,
     "familiar": 0,
     "name": 0,
-    "silent": 4
+    "silent": 0
   },
   "proposals": [
     {
-      "phonetic": "hila",
-      "class": "silent",
-      "english_equivalent": "",
-      "reason": "A minor term glossed inline as 'stratagem'; formal annotation would not help the reader."
-    },
-    {
-      "phonetic": "nutaqa",
-      "class": "silent",
-      "english_equivalent": "",
-      "reason": "The plural of natiq, already rendered as 'speakers' in prose and covered by teaching the singular term."
-    },
-    {
-      "phonetic": "tradition-grounded",
-      "class": "silent",
-      "english_equivalent": "",
-      "reason": "An English editorial label with no Arabic behind it; it is not a term to annotate."
-    },
-    {
-      "phonetic": "usba",
-      "class": "silent",
-      "english_equivalent": "",
-      "reason": "An ordinary Arabic word already translated in the running prose as 'a band of men' — nothing doctrinal to cite or look up."
-    },
-    {
-      "phonetic": "natiqs",
+      "phonetic": "Kitab al-Alim wa-l-Ghulam",
       "class": "teach",
       "english_equivalent": "",
-      "reason": "The 'speaker-prophet' is core technical vocabulary this book teaches and a reader should be able to name and search it."
+      "reason": "The work's own Arabic title, which a reader would want to cite or search, so it is named once in Arabic script and then referred to plainly."
     }
   ]
 }

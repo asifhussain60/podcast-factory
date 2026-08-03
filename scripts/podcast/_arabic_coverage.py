@@ -20,10 +20,20 @@ from __future__ import annotations
 import re
 
 # Arabic-script Unicode coverage: main block + supplement + extended-A + the two
-# presentation-forms ranges. Defined once so the ground-truth prompt, the source
-# quote counter, and the output run counter all agree on what "Arabic" means.
-_ARABIC_CLASS = r"[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]"
-_ARABIC_SCRIPT_RE = re.compile(_ARABIC_CLASS)
+# presentation-forms ranges.
+#
+# THE ONE DEFINITION IN THE REPO (2026-08-03). It said "defined once" and meant
+# once in this file: nine other modules spelled it out again, and two of them —
+# `_gloss_terms` and `_narrative` — omitted extended-A, so the same character was
+# Arabic to the vowelling gate and not Arabic to the bare-term report. Others
+# used the base block alone. Import `ARABIC_BODY` (for interpolation into a
+# larger pattern) or `ARABIC_RE` (to match a single character) rather than
+# retyping it; this module pulls in nothing but `re`, so it is free to import
+# from anywhere.
+ARABIC_BODY = r"؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿"
+_ARABIC_CLASS = f"[{ARABIC_BODY}]"
+ARABIC_RE = re.compile(_ARABIC_CLASS)
+_ARABIC_SCRIPT_RE = ARABIC_RE
 # A verse/hadith/saying fenced by the printed edition's quotation delimiters. OCR
 # mangles individual marks, so openers and closers are matched loosely and the span
 # length filter (below) is what removes short apparatus like variant-reading notes.

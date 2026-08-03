@@ -516,3 +516,4 @@
 {"ts": "2026-08-03T13:41:08Z", "phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 539, "cache_read": 20129, "cache_create": 51175, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-03T13:41:22Z", "phase": "0book-frontmatter", "step": "edition-introduction-retry", "model": "claude-opus-4-8", "input_tokens": 2, "output_tokens": 554, "cache_read": 20129, "cache_create": 51258, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-03T13:50:29Z", "phase": "0book-compose", "step": "arabic-alignment", "model": "gemini-2.5-pro", "input_tokens": 11678, "output_tokens": 64, "cache_read": 0, "cache_create": 0, "cost_usd": 0.003809, "engine": "api"}
+{"ts": "2026-08-03T22:07:08Z", "phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "input_tokens": 4, "output_tokens": 713, "cache_read": 93201, "cache_create": 53502, "cost_usd": 0.0, "engine": "max"}

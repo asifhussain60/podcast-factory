@@ -64,6 +64,7 @@ import sys
 from pathlib import Path
 
 import _glossary_io
+from _arabic_coverage import ARABIC_RE
 from _glossary_io import load_glossary
 
 CANONICAL_FALLBACK_TERMS: list[dict[str, str]] = [
@@ -217,7 +218,7 @@ def emit_glossary_yaml(rows: list[dict[str, str]]) -> str:
         # column IS Arabic script, seed arabic_script from it for free.
         term = r.get("term", "")
         translit = r.get("transliteration", "")
-        term_is_arabic = bool(re.search(r"[؀-ۿ]", term))
+        term_is_arabic = bool(ARABIC_RE.search(term))  # this was the base block only
         entry = {k: v for k, v in r.items() if k != "term"}
         entry.update(
             {

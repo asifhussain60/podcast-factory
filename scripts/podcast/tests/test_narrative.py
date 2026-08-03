@@ -477,3 +477,30 @@ def test_only_the_lecture_derived_book_carries_navigation() -> None:
         parts = _re.split(r"(?m)^(## .+)$", book_md.read_text(encoding="utf-8"))
         total = sum(navigation_count(parts[i + 1]) for i in range(1, len(parts), 2))
         assert total <= ceiling, f"{slug}: {total} navigation sentence(s)"
+
+
+def test_rule_ids_are_not_declared_outside_the_rules_module() -> None:
+    """One home for a rule id, or it drifts — which is what happened.
+
+    Three bare id constants were added on 2026-08-03 under two further
+    conventions (`_narrative.R_NO_LECTURE_VOICE`,
+    `_narrative.R_NO_NAVIGATION_APPARATUS`,
+    `_gloss_terms.R_ARABIC_SCRIPT_SHOWN_ONCE`), each justified by `_rules.py`
+    sitting at its DR-005 ceiling — and nothing cited any of them, while a fourth
+    id (REQ-BA-128) was never written in Python at all. So the convention was
+    inconsistent AND the constants were decoration.
+
+    `_rules.py` is the one home. When it cannot grow, the id belongs in
+    `docs/standards/book-articulation.md`, which is what `book-challenger` cites
+    findings by, and NOT in a second Python module.
+    """
+    import re
+
+    root = Path(__file__).resolve().parents[1]
+    stray = [
+        f"{path.relative_to(root)}:{name}"
+        for path in sorted(root.rglob("*.py"))
+        if path.name != "_rules.py" and "/tests/" not in str(path)
+        for name in re.findall(r"^(R_[A-Z0-9_]+)\s*[:=]", path.read_text(encoding="utf-8"), re.M)
+    ]
+    assert not stray, f"rule ids declared outside _rules.py — put them in the standard instead: {stray}"

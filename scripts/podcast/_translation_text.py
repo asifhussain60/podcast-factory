@@ -15,6 +15,7 @@ import re
 from pathlib import Path
 from typing import Any
 
+from _arabic_coverage import ARABIC_BODY
 from _book_compose import (
     _PAGE_MARK,
     _load_arabic_pages,
@@ -43,7 +44,7 @@ _META_COMMENTARY_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = (
 )
 _MARKDOWN_HEADING_RE = re.compile(r"(?m)^#{1,6}\s+\S")
 _OPENING_HEADING_RE = re.compile(r"(?m)^#\s+\S")
-_ARABIC_RE = re.compile(r"[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]+")
+_ARABIC_RE = re.compile(f"[{ARABIC_BODY}]+")  # the one definition
 _SOURCE_HEADING_RE = re.compile(r"(?m)^\s*(?:#{1,4}\s+|\*\*)?([A-Z][^\n:]{2,120}:?)\*?\*?\s*$")
 
 _SALUTATION_REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (

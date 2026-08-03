@@ -1861,8 +1861,8 @@
   "metrics": {
     "burn_30d_usd": 14.42
   },
-  "generated_at": "2026-08-03T16:59:40-04:00",
-  "source_commit": "46ab27f",
+  "generated_at": "2026-08-03T18:17:37-04:00",
+  "source_commit": "9893073",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1924,6 +1924,21 @@
   ],
   "recent_commits": [
     {
+      "sha": "9893073",
+      "subject": "feat(listener): the library gets a heading, a search box and an order",
+      "date": "2026-08-03"
+    },
+    {
+      "sha": "02c2d6e",
+      "subject": "style(listener): a hero, a way out, and Arabic that carries a title",
+      "date": "2026-08-03"
+    },
+    {
+      "sha": "f11f454",
+      "subject": "fix(book): Arabic replaces a romanization only when it is one, and only when a reviewer has said so",
+      "date": "2026-08-03"
+    },
+    {
       "sha": "46ab27f",
       "subject": "style(listener): one stylesheet, and brand assets derived from the logo",
       "date": "2026-08-03"
@@ -1956,21 +1971,6 @@
     {
       "sha": "604440f",
       "subject": "feat(listener): twenty episodes in five sessions, and one command to ship them",
-      "date": "2026-08-03"
-    },
-    {
-      "sha": "2bd490a",
-      "subject": "content(al-anwaar-al-lateefah/vol-01): the edition opens on the teaching, not on the shelf-marks",
-      "date": "2026-08-03"
-    },
-    {
-      "sha": "87b55bf",
-      "subject": "feat(listener): R2 is on, and 139 MB of media is live behind the grants",
-      "date": "2026-08-03"
-    },
-    {
-      "sha": "9746526",
-      "subject": "fix(book): the page shows its Arabic, and the edition stops reciting the source's shelf-marks",
       "date": "2026-08-03"
     }
   ],

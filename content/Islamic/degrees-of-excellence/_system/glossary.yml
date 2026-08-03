@@ -1474,3 +1474,5 @@ entries:
     audio_phonetic: ""
     first_seen_snippet: "original title names that task exactly. *Kitab ithbat al-imama* means the"
     harvested_confidence: "strong"
+    annotation_class: "silent"
+    annotation_reason: "A one-off book title whose meaning is translated inline in running prose, so a formal annotation adds nothing."

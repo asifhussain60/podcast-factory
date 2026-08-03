@@ -520,6 +520,86 @@ def test_the_three_sentences_the_sweep_reproduced() -> None:
         assert replaced == 0, f"{slug}: {out.strip()!r}"
 
 
+# ─── A book with no printed source substitutes nothing ─────────────────────
+def test_an_audio_sourced_book_substitutes_nothing(tmp_path: Path) -> None:
+    """The sentence `source_medium` already committed to, read honestly: such a
+    book "still substitutes the terms its glossary CAN PROVE".
+
+    `al-anwaar-al-lateefah` is 65 Urdu recordings with no Arabic page anywhere
+    behind them, so all 36 of its otherwise-eligible scripts had zero
+    corroboration in any scan — every one from model recall. That is how it
+    printed `آدَم`, Adam the prophet, for `عَدَم`, non-existence, past a reviewer
+    who read the term right and never saw the pairing.
+    """
+    import yaml
+
+    entries = [{"phonetic": "mawaddah", "arabic_script": "مَوَدَّة", "annotation_class": "teach"}]
+    bd = _book(tmp_path, "## 1. A\n\nThe *mawaddah* here.\n", entries)
+    (bd / "_system" / "series-config.yaml").write_text(
+        yaml.safe_dump({"content_profile": "islamic_scholarly", "source_medium": "audio_lecture"}),
+        encoding="utf-8",
+    )
+    assert substitutable_terms(bd) == []
+    apply_arabic_substitution(bd)
+    assert "*mawaddah*" in (bd / "book" / "book.md").read_text(encoding="utf-8")
+
+
+def test_a_printed_source_book_is_unaffected(tmp_path: Path) -> None:
+    entries = [{"phonetic": "mawaddah", "arabic_script": "مَوَدَّة", "annotation_class": "teach"}]
+    bd = _book(tmp_path, "## 1. A\n\nThe *mawaddah* here.\n", entries)
+    assert len(substitutable_terms(bd)) == 1  # printed_text is the default
+
+
+def test_switching_to_audio_gives_the_english_back(tmp_path: Path) -> None:
+    """The reversibility contract holds across this gate too."""
+    import yaml
+
+    entries = [{"phonetic": "mawaddah", "arabic_script": "مَوَدَّة", "annotation_class": "teach"}]
+    bd = _book(tmp_path, "## 1. A\n\nThe *mawaddah* here.\n", entries)
+    apply_arabic_substitution(bd)
+    assert "مَوَدَّة" in (bd / "book" / "book.md").read_text(encoding="utf-8")
+    (bd / "_system" / "series-config.yaml").write_text(
+        yaml.safe_dump({"source_medium": "audio_lecture"}), encoding="utf-8"
+    )
+    apply_arabic_substitution(bd)
+    assert "*mawaddah*" in (bd / "book" / "book.md").read_text(encoding="utf-8")
+
+
+# ─── A citation names a sura; it does not use the word ──────────────────────
+def test_a_sura_name_inside_a_citation_survives(tmp_path: Path) -> None:
+    """Compose step `5a-citations` writes those names 190 lines earlier in the
+    apparatus, so a reader can look a verse up. `asaas-al-taveel` classifies
+    `al-Qalam` as a term it teaches — legitimately, the Pen is one of its
+    cosmological principles — and the citation came out `(اَلْقَلَم: 1)`.
+    """
+    entries = [{"phonetic": "al-Qalam", "arabic_script": "اَلْقَلَم", "annotation_class": "teach"}]
+    bd = _book(tmp_path, "## 1. A\n\nA verse (al-Qalam: 1) opens it, and (al-Qalam: 1-3) closes it.\n", entries)
+    apply_arabic_substitution(bd)
+    out = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    assert "(al-Qalam: 1)" in out and "(al-Qalam: 1-3)" in out
+    assert "اَلْقَلَم" not in out
+
+
+def test_the_same_name_used_as_a_term_in_prose_still_converts(tmp_path: Path) -> None:
+    """Contextual, not a ban on the 114 sura names — the Pen IS a term here."""
+    entries = [{"phonetic": "al-Qalam", "arabic_script": "اَلْقَلَم", "annotation_class": "teach"}]
+    bd = _book(tmp_path, "## 1. A\n\nThe *al-Qalam* is the first created thing.\n", entries)
+    apply_arabic_substitution(bd)
+    assert "اَلْقَلَم" in (bd / "book" / "book.md").read_text(encoding="utf-8")
+
+
+def test_the_citation_guard_uses_the_citation_step_s_own_pattern() -> None:
+    """One definition of what a citation looks like, so the two cannot disagree."""
+    from _book_citations import _NAMED_CITE_RE
+    from _book_substitution import _inside_citation
+
+    line = "A verse (al-Qalam: 1) and a word al-Qalam outside."
+    m = list(_NAMED_CITE_RE.finditer(line))
+    assert len(m) == 1
+    assert _inside_citation(line, m[0].start() + 1, m[0].start() + 9)
+    assert not _inside_citation(line, line.rindex("al-Qalam"), len(line) - 9)
+
+
 # ─── The Composer button's path: a pure transform ───────────────────────────
 def test_substitute_text_writes_nothing_and_reports_what_it_cannot_do(tmp_path: Path) -> None:
     """Why the button looked broken.

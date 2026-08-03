@@ -35,11 +35,12 @@ import re
 from pathlib import Path
 from typing import Any, Iterable
 
+from _arabic_coverage import ARABIC_RE as _ARABIC_RE
 from _translit import simplify_transliteration
 
-#: See `_narrative.R_NO_LECTURE_VOICE` for why a rule id lives beside its check
-#: rather than in `_rules.py`.
-R_ARABIC_SCRIPT_SHOWN_ONCE: str = "R-ARABIC-SCRIPT-SHOWN-ONCE"  # REQ-BA-127
+# REQ-BA-127 (R-ARABIC-SCRIPT-SHOWN-ONCE) is implemented below; its id lives in
+# `docs/standards/book-articulation.md`, not as a constant here. See the note in
+# `_narrative.py`.
 
 #: Lines that are not running prose: headings, quotes, fences, HTML, tables.
 #: Shared shape with `_book_inline_arabic._SKIP_LINE` — a gloss inside a fenced
@@ -70,7 +71,7 @@ _PAREN = re.compile(r"\((\*?)([^()\n]{2,45}?)\1\)")
 #: emphasis, italic is the foreign-word convention.
 _EMPHASIS = re.compile(r"(?<!\*)\*([^*\n]{2,45})\*(?!\*)")
 
-_ARABIC = re.compile(r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]")
+_ARABIC = _ARABIC_RE  # the one definition — this omitted extended-A
 
 #: A romanized Arabic term is letters, spaces, hyphens and apostrophes. A digit,
 #: a colon or a slash means a citation (`Al-Baqarah: 24`), a date (`d. 381/991`)

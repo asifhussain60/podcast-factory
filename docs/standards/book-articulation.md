@@ -177,6 +177,18 @@ retention, narrative frame), the repo convention wins and is cited, not restated
   `al-anwaar-al-lateefah` printed `آدَم` — *Adam the prophet* — in a passage
   meaning `عَدَم`, non-existence.
 
+  **And nothing at all when the book has no printed source.** `source_medium:
+  audio_lecture` turns this pass off: there is no Arabic page behind such a
+  book's vocabulary, so its glossary scripts are model recall — `al-anwaar`'s 36
+  eligible terms had zero corroboration in any scan. The annotation still shows
+  the script beside the romanization, which offers it as a gloss rather than
+  asserting it as the text.
+
+  A **citation** is also never touched — `(al-Qalam: 1)` names a sura, it does
+  not use the word — using the same pattern `5a-citations` writes those names
+  with, so the two cannot disagree. The same term used AS a term in prose still
+  converts.
+
   NEVER substituted, on top of those: words English has absorbed
   (`_gloss_terms.absorbed_english` — Allah, imam, shaykh, Quran; this is what
   keeps REQ-BA-070's Merriam-Webster rule intact), `familiar`/`silent` terms,

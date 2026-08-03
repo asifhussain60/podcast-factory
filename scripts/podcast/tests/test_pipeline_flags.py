@@ -189,3 +189,67 @@ def test_the_two_callers_delegate_rather_than_re_deriving(tmp_path: Path) -> Non
         text = (SCRIPT_DIR / rel).read_text(encoding="utf-8")
         assert "book_branch_enabled" in text, rel
         assert 'get("series", {})' not in text, f"{rel} re-derives the series lookup"
+
+
+# ─── Source medium: declared on the WORK, inherited by its volumes ──────────
+def _work(tmp_path: Path, manifest: str, volume_config: str = "") -> Path:
+    """A multi-volume work parent with one volume inside it."""
+    work = tmp_path / "al-anwaar-al-lateefah"
+    vol = work / "vol-02"
+    (vol / "_system").mkdir(parents=True)
+    (work / "work.yml").write_text(manifest, encoding="utf-8")
+    if volume_config:
+        (vol / "_system" / "series-config.yaml").write_text(volume_config, encoding="utf-8")
+    return vol
+
+
+def test_a_volume_inherits_the_work_s_source_medium(tmp_path: Path) -> None:
+    """What a book was made FROM is a fact about the material, and a six-volume
+    work is ONE body of material — 65 recordings, not 65 recordings for volume 1
+    and a printed page for volumes 2 to 6.
+
+    The key sat in `work.yml` reading as coverage and providing none: only
+    volume 1 declared it in its own config, and 2-6 resolved to `printed_text`,
+    which is the answer this field exists to correct.
+    """
+    from _pipeline_flags import SOURCE_AUDIO_LECTURE, has_printed_source, source_medium
+
+    vol = _work(tmp_path, "title: A Work\nsource_medium: audio_lecture\n")
+    assert source_medium(vol) == SOURCE_AUDIO_LECTURE
+    assert has_printed_source(vol) is False
+
+
+def test_a_volume_may_still_override_the_work(tmp_path: Path) -> None:
+    from _pipeline_flags import SOURCE_PRINTED_TEXT, source_medium
+
+    vol = _work(tmp_path, "title: A Work\nsource_medium: audio_lecture\n", "source_medium: printed_text\n")
+    assert source_medium(vol) == SOURCE_PRINTED_TEXT
+
+
+def test_a_work_that_declares_nothing_leaves_the_default(tmp_path: Path) -> None:
+    from _pipeline_flags import SOURCE_PRINTED_TEXT, source_medium
+
+    assert source_medium(_work(tmp_path, "title: A Work\n")) == SOURCE_PRINTED_TEXT
+
+
+def test_an_unreadable_manifest_is_not_a_broken_book(tmp_path: Path) -> None:
+    from _pipeline_flags import SOURCE_PRINTED_TEXT, source_medium
+
+    assert source_medium(_work(tmp_path, "title: [unclosed\n")) == SOURCE_PRINTED_TEXT
+
+
+def test_a_flat_book_has_no_work_to_inherit_from(tmp_path: Path) -> None:
+    from _pipeline_flags import SOURCE_PRINTED_TEXT, source_medium
+
+    assert source_medium(_book(tmp_path, "content_profile: islamic_scholarly\n")) == SOURCE_PRINTED_TEXT
+
+
+def test_the_live_work_declaration_reaches_every_volume() -> None:
+    """The declaration that had no reader, read against the real work."""
+    from _pipeline_flags import SOURCE_AUDIO_LECTURE, source_medium
+
+    work = SCRIPT_DIR.parents[1] / "content" / "Islamic" / "al-anwaar-al-lateefah"
+    volumes = sorted(work.glob("vol-0*"))
+    if not volumes:
+        return
+    assert all(source_medium(v) == SOURCE_AUDIO_LECTURE for v in volumes), [(v.name, source_medium(v)) for v in volumes]

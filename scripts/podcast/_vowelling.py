@@ -30,6 +30,8 @@ from __future__ import annotations
 
 import re
 
+from _arabic_coverage import ARABIC_RE as _ARABIC_RE
+
 # Combining marks: tashkeel, superscript alif, Quranic annotation signs. Tatweel
 # is included because it stretches a letter rather than being one, and two
 # otherwise-identical skeletons must not differ over it.
@@ -49,7 +51,7 @@ import re
 MARKS_RE = re.compile("[\u064b-\u065f\u0670\u06d6-\u06ed\u0640]")
 
 # Arabic script, for asking whether a string contains Arabic at all.
-ARABIC_RE = re.compile("[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]")
+ARABIC_RE = _ARABIC_RE  # the one definition — see _arabic_coverage
 
 # Marks per Arabic letter above which a run counts as already vowelled. The bare
 # source averages ~0.02; a fully vowelled text runs an order of magnitude higher.

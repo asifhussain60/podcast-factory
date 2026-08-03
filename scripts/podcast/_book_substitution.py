@@ -91,10 +91,12 @@ from pathlib import Path
 from typing import Any
 
 from _arabic_coverage import normalize_arabic
+from _book_citations import _NAMED_CITE_RE
 from _book_edits import anchor_key, fingerprint
 from _book_gloss import _is_person, _script_already_precedes
 from _book_inline_arabic import _ARABIC, _SKIP_LINE, _glossary_terms
 from _gloss_terms import _TITLE_HEADS, _looks_english, absorbed_english
+from _pipeline_flags import has_printed_source
 from _substitution_record import (
     _HEADING_RE,
     _chapters,
@@ -154,7 +156,23 @@ def substitutable_terms(book_dir: Path) -> list[dict[str, str]]:
     `kunooz-al-hikmah` has 266 such entries, among them `surah` paired with
     `صُورَة`, which is *picture*. Structure cannot catch a wrong word spelled like
     the right one. A reviewer can.
+
+    AND NOTHING AT ALL when the book has no printed source. This is the sentence
+    `source_medium` already committed to — an `audio_lecture` book "still
+    substitutes the terms its glossary CAN PROVE" — read honestly:
+    `al-anwaar-al-lateefah` is 65 Urdu recordings with no Arabic page anywhere
+    behind them, so all 36 of its otherwise-eligible scripts have zero corroboration
+    in any scan and every one came from model recall. That is how it printed `آدَم`
+    — *Adam the prophet* — for `عَدَم`, non-existence, past a reviewer who read the
+    term right and never saw the pairing. Replacing a word the lecturer actually
+    said aloud with unverifiable Arabic asserts a page that never existed; the
+    ANNOTATION still shows the script beside the romanization, which offers it as a
+    gloss rather than as the text. Costs the other four live editions nothing:
+    their substitutable scripts are corroborated by their own scans 25/25, 73/73,
+    58/58 and 58/61.
     """
+    if not has_printed_source(book_dir):
+        return []
     return [
         t
         for t in _glossary_terms(book_dir)
@@ -211,6 +229,25 @@ def _letters_as_letters(line: str, start: int, script: str) -> bool:
     if _LATIN.search(head[last.end() :]):
         return False
     return normalize_arabic(last.group(0)) == normalize_arabic(script)
+
+
+def _inside_citation(line: str, start: int, end: int) -> bool:
+    """Is this match inside a Qur'anic citation — `(al-Qalam: 1)`?
+
+    A citation NAMES a sura; it is a reference, not a word the prose is using.
+    Compose step `5a-citations` writes those names 190 lines earlier in the
+    apparatus (Asif, 2026-08-01: `(2:24)` alone tells a reader nothing), and this
+    pass was ready to eat them: `asaas-al-taveel` classifies `al-Qalam` as a term
+    it teaches — legitimately, since the Pen is one of its cosmological
+    principles — so `(al-Qalam: 1)` came out `(اَلْقَلَم: 1)`, a reference a reader
+    can no longer look up.
+
+    Contextual on purpose rather than banning the 114 sura names outright: the
+    same book's prose uses `al-Qalam` as a term, and there the substitution is
+    exactly right. The SAME pattern the citation step matches with, so the two
+    cannot disagree about what a citation looks like.
+    """
+    return any(m.start() <= start and end <= m.end() for m in _NAMED_CITE_RE.finditer(line))
 
 
 #: A whole emphasis run: `*...*`, not `**bold**`.
@@ -270,6 +307,8 @@ def substitute_body(body: str, terms: list[dict[str, str]]) -> tuple[str, int]:
                 # `al-Tawil* (…)` and left `*Asas ` hanging open.
                 if _inside_longer_romanization(line, m.start(2), m.end(2)):
                     return m.group(0)
+                if _inside_citation(line, m.start(), m.end()):
+                    return m.group(0)  # `(al-Qalam: 1)` names a sura, it does not use the word
                 replaced += 1
                 return _s
 
@@ -294,6 +333,8 @@ def substitute_body(body: str, terms: list[dict[str, str]]) -> tuple[str, int]:
                 # `La ilaha illa Allah` shreds.
                 if _inside_longer_romanization(line, m.start(2), m.end(2)):
                     return m.group(0)
+                if _inside_citation(line, m.start(), m.end()):
+                    return m.group(0)  # `(al-Qalam: 1)` names a sura, it does not use the word
                 replaced += 1
                 return _s
 

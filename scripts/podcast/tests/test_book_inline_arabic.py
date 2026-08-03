@@ -541,3 +541,48 @@ def test_a_phonetic_beside_an_UNRELATED_script_is_not_folded():
     terms = [{"phonetic": "Tur", "script": "الطور", "style": "teach"}]
     line = "he reached the Mount (Tur, الشمس) at dawn"
     assert _normalize_annotations(line, terms) == line
+
+
+# ─── A corrected glossary script must not strand its old annotation ─────────
+def test_a_second_annotation_is_never_written_beside_a_first(tmp_path: Path) -> None:
+    """A glossary row gets CORRECTED, not just vowelled.
+
+    `al-anwaar-al-lateefah` paired `adam` — non-existence — with `آدَم`, Adam the
+    prophet. `عَدَم` and `آدَم` are different words with different skeletons, so
+    the fold cannot recognise the old bracket as its own (and should not: the
+    skeleton key is what makes vowelling safe). The pass wrote a second beside
+    it: `*adam* (عَدَم) (آدَم)`. Two annotations of one term is never right.
+    """
+    import sys
+    from pathlib import Path as _P
+
+    sys.path.insert(0, str(_P(__file__).resolve().parent.parent))
+    from _book_inline_arabic import _script_already_near
+
+    line = "pulling them out of an *adam* (آدَم), a nothingness"
+    at = line.index("*adam*")
+    assert _script_already_near(line, at, "عَدَم") is True
+
+
+def test_an_honorific_formula_is_not_an_annotation() -> None:
+    """`Khidr (ع)` says *peace be upon him*. Counting it would keep the name off
+    the page in script for ever."""
+    import sys
+    from pathlib import Path as _P
+
+    sys.path.insert(0, str(_P(__file__).resolve().parent.parent))
+    from _book_inline_arabic import _script_already_near
+
+    line = "And accept the counsel of Khidr (ع) when he said:"
+    assert _script_already_near(line, line.index("Khidr"), "اَلْخِضْر") is False
+
+
+def test_the_term_s_own_script_still_suppresses_a_repeat() -> None:
+    import sys
+    from pathlib import Path as _P
+
+    sys.path.insert(0, str(_P(__file__).resolve().parent.parent))
+    from _book_inline_arabic import _script_already_near
+
+    line = "the counsel of Khidr (اَلْخِضْر) when he said:"
+    assert _script_already_near(line, line.index("Khidr"), "الخضر") is True

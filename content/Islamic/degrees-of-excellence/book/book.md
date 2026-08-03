@@ -2,7 +2,7 @@
 
 ## Introduction to the Book
 
-In the Name of God, this book undertakes a single task, and its original title names that task exactly. *Kitab ithbat al-imama* (كتاب إثبات الإمامة) means the demonstration of the imamate (الْإِمَامَة) — *ithbat* being the establishing of a claim by proof, and the imamate the necessity of a divinely appointed guide standing at the center of religion in every age. What follows is a treatise, not a story: it reasons its case out step by step, moving from first principles toward one conclusion, without characters or dialogue.
+In the Name of God, this book undertakes a single task, and its original title names that task exactly. *Kitab ithbat al-imama* means the demonstration of the imamate (الْإِمَامَة) — *ithbat* being the establishing of a claim by proof, and the imamate the necessity of a divinely appointed guide standing at the center of religion in every age. What follows is a treatise, not a story: it reasons its case out step by step, moving from first principles toward one conclusion, without characters or dialogue.
 
 The work is ascribed to Ahmad b. Ibrahim al-Naysaburi (اَلنَّيْسَابُورِي), a scholar of the Ismaili tradition as it flourished under the Fatimids in the late tenth and early eleventh centuries — the same intellectual world that produced al-Kirmani (اَلْكِرْمَانِيّ) and his *Rahat al-Aql*, a name the reader will meet among these pages. When the text says "I," that voice is the author himself, building his argument; read it as the man making the case.
 

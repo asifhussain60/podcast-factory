@@ -57,6 +57,7 @@ from __future__ import annotations
 import re
 import unicodedata
 
+from _arabic_coverage import ARABIC_BODY
 from _rules import (
     DEFAULT_NARRATIVE_FRAME,
     NARRATIVE_FRAMES,
@@ -64,12 +65,12 @@ from _rules import (
     narrative_person_for,
 )
 
-#: Rule ids for the two frame rules this module owns. Declared HERE rather than
-#: in `_rules.py`: that file sits at its DR-005 ceiling and may never grow, and
-#: the repo's standing convention is that a rule is worded in exactly one place —
-#: which for these is the prompt directive and the guard directly below.
-R_NO_LECTURE_VOICE: str = "R-NO-LECTURE-VOICE"  # REQ-BA-125
-R_NO_NAVIGATION_APPARATUS: str = "R-NO-NAVIGATION-APPARATUS"  # REQ-BA-126
+# REQ-BA-125 (R-NO-LECTURE-VOICE) and REQ-BA-126 (R-NO-NAVIGATION-APPARATUS) are
+# implemented below. Their IDS are not declared here: every `R_*` constant in
+# this repo carries rule DATA that code imports — a pattern list, a threshold, a
+# category set — and a bare id string that nothing cites is decoration. The ids
+# themselves live once, in `docs/standards/book-articulation.md`, which is what
+# `book-challenger` cites findings by.
 
 # Speech tags live at the head of a paragraph. Every real defect found on the
 # live book landed inside this window, and confining the scan to it is what keeps
@@ -77,7 +78,7 @@ R_NO_NAVIGATION_APPARATUS: str = "R-NO-NAVIGATION-APPARATUS"  # REQ-BA-126
 # which is where first person belongs even under a third-person frame.
 _ATTRIBUTION_WINDOW = 140
 
-_ARABIC_RUN_RE = re.compile(r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]{2,}")
+_ARABIC_RUN_RE = re.compile(f"[{ARABIC_BODY}]{{2,}}")  # this omitted extended-A
 _TASHKEEL_CHARS = frozenset(chr(cp) for lo, hi in R_ARABIC_TASHKEEL for cp in range(lo, hi + 1))
 
 # First-person narration in an ATTRIBUTION position — the narrator reporting that

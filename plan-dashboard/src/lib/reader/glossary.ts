@@ -265,9 +265,7 @@ export async function writeGlossaryDecision(
 /** Wrap raw Arabic-LETTER runs (Arabic typed straight into the prose, not a
  *  glossary token) in an `.ar-raw` span so the reader can colour them like the
  *  glossary overlays — same accent, same naskh. Operates only on text segments,
- *  never inside tags/attributes, and must run BEFORE wrapPhoneticTokens (while
- *  the only Arabic in the HTML is raw — the overlay's own Arabic is injected
- *  later and already styled). Honorific / presentation-form glyphs (e.g. ﷺ,
+ *  never inside tags/attributes. Honorific / presentation-form glyphs (e.g. ﷺ,
  *  U+FDFA) fall outside these letter ranges, so they stay prose. */
 export function wrapRawArabic(html: string): string {
   const AR = "\\u0600-\\u06FF\\u0750-\\u077F\\u08A0-\\u08FF";
@@ -281,59 +279,4 @@ export function wrapRawArabic(html: string): string {
     );
   }
   return parts.join("");
-}
-
-export function wrapPhoneticTokens(
-  html: string,
-  entries: GlossaryEntry[],
-): string {
-  if (!entries.length) return html;
-  // Apply human curation: replace-with-English entries are NOT wrapped (the term
-  // stays English on the page and is not recited); correct/fix use the resolved
-  // values so the overlay matches the spoken audio.
-  const resolved = entries
-    .map((e) => ({ e, c: resolveCuration(e) }))
-    .filter(({ c }) => !c.dropArabic && c.phonetic && c.arabic);
-  const sorted = resolved.sort(
-    (a, b) => b.c.phonetic.length - a.c.phonetic.length,
-  );
-
-  let current = html;
-  for (const { e, c } of sorted) {
-    const esc = c.phonetic.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const re = new RegExp(`\\b(${esc})\\b`, "g");
-    const scriptAttr = escapeAttr(c.arabic);
-    const audioAttr = escapeAttr(e.audio_phonetic || "");
-    const trAttr = escapeAttr(e.transliteration || c.phonetic);
-    const scriptInner = escapeHtml(c.arabic);
-
-    // Re-split BEFORE each entry — newly-inserted ar-overlay spans from
-    // the previous entry's pass become tag-only parts that we skip.
-    const parts = current.split(/(<[^>]+>)/g);
-    let touched = false;
-    for (let i = 0; i < parts.length; i++) {
-      if (parts[i].startsWith("<")) continue;
-      const replaced = parts[i].replace(
-        re,
-        (_m, p1, offset: number, whole: string) => {
-          const after = whole.slice(offset + String(p1).length);
-          if (
-            /^\s*\([\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF][^)]*\)/.test(
-              after,
-            )
-          ) {
-            return String(p1);
-          }
-          const phoneticAttr = escapeAttr(p1);
-          return `<span class="ar-overlay" data-script="${scriptAttr}" data-audio="${audioAttr}" data-transliteration="${trAttr}" data-phonetic="${phoneticAttr}"><span class="ar-en">${escapeHtml(p1)}</span><span class="ar-script" aria-hidden="true" lang="ar" dir="rtl">${scriptInner}</span></span>`;
-        },
-      );
-      if (replaced !== parts[i]) {
-        parts[i] = replaced;
-        touched = true;
-      }
-    }
-    if (touched) current = parts.join("");
-  }
-  return current;
 }

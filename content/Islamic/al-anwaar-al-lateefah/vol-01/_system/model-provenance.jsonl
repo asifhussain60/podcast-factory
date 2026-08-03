@@ -132,3 +132,9 @@
 {"phase": "0book-fluency", "step": "fluency-09", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-fluency", "step": "fluency-02", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
 {"phase": "0book-fluency", "step": "fluency-09", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-4-8", "fallback": false, "divergence": false}

@@ -271,18 +271,27 @@ entries:
   audio_phonetic: ''
   first_seen_snippet: t all. They come to rest instead on His *ibda*, His orig
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's own doctrinal term for divine origination, explicitly
+    contrasted with khalq and worth citing.
 - phonetic: had
   transliteration: had
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: m the divine unity is to recognize each *had*, each ran
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: Core concept (the singular of hudud) central to the book's definition
+    of Tawhid as marifat al-hudud; occurs constantly.
 - phonetic: istighfar
   transliteration: istighfar
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: hat is *mashfu* — paired, joined — with *istighfar*, the aski
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A technical Islamic term the book discusses and a reader may
+    want to look up.
 - phonetic: rakat
   transliteration: rakat
   arabic_script: رَكْعَات
@@ -290,79 +299,117 @@ entries:
   first_seen_snippet: shafa* prayer is the paired one, of two *rakat*. The *wit
   harvested_confidence: weak
   script_source: cross-book:ayyuhal-walad
+  annotation_class: teach
+  annotation_reason: The prayer-unit term is introduced and discussed technically
+    within the shafa/witr scheme.
 - phonetic: shafa
   transliteration: shafa
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: he "paired" or "coupled" sin. That word *shafa*, which me
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: Explicitly defined and analysed term ('paired/coupled') at the
+    heart of the passage's argument.
 - phonetic: witr
   transliteration: witr
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: referent, and so do its two companions, *witr* and *julu
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The 'odd' counterpart to shafa, named and taught as part of the
+    triad.
 - phonetic: idtirar
   transliteration: idtirar
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: of necessity. We are compelled. Out of *idtirar* we have n
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Rendered fully in running prose as 'necessity/compelled'; too
+    minor to introduce formally.
 - phonetic: ilah
   transliteration: ilah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: y, means here matters, because the word *ilah* carries m
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book examines this word's meaning directly, so a reader should
+    be able to name and search it.
 - phonetic: ilm
   transliteration: ilm
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: sets them out plainly — *hayat*, life; *ilm*, knowledg
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: One of the divine attributes the book sets out and teaches (life,
+    knowledge, power, choice).
 - phonetic: julus
   transliteration: julus
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: nd so do its two companions, *witr* and *julus*. All thre
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: Named companion term of witr in the taught triad of prayer structures.
 - phonetic: khalq
   transliteration: khalq
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ', origination, which is not the same as *khalq*, creation'
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: Key contrast term ('creation') the book distinguishes from ibda;
+    a reader would want to cite the distinction.
 - phonetic: mashfu
   transliteration: mashfu
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: 'th precision: a *dhanb*, a sin, that is *mashfu* — paired,'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Passive participle of shafa, translated inline as 'paired, joined';
+    a grammatical form, not a term to introduce.
 - phonetic: Mubdi
   transliteration: Mubdi
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: m — when He is called *Allah Taala*, or *Mubdi*, the Orig
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A divine name ('the Originator') the book teaches and a reader
+    should be able to name and look up.
 - phonetic: quwwah
   transliteration: quwwah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: inly — *hayat*, life; *ilm*, knowledge; *quwwah*, power; *
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: One of the taught divine attributes ('power') in the enumerated
+    list.
 - phonetic: adam
   transliteration: adam
-  arabic_script: آدَم
+  arabic_script: عَدَم
   audio_phonetic: ''
   first_seen_snippet: ld of existence, pulling them out of an *adam*, a nothin
   harvested_confidence: weak
-  script_source: cross-book:asaas-al-taveel/vol-01
+  script_source: corrected:2026-08-03-wrong-word
+  annotation_class: teach
+  annotation_reason: The metaphysical term for nonexistence, from which existence
+    is drawn; a citable concept the book relies on.
 - phonetic: alam al-ibda
   transliteration: alam al-ibda
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: riginated the world of origination, the *alam al-ibda*.
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's technical phrase for 'the world of origination', a
+    named cosmological level.
 - phonetic: aql al-awwal
   transliteration: aql al-awwal
   arabic_script: ''
@@ -370,6 +417,9 @@ entries:
   first_seen_snippet: rigination. And that origination is the *aql al-awwal*, the
     Firs
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The doctrinal term for the First Intellect, a named tier of the
+    book's cosmology.
 - phonetic: dafatan wahidatan
   transliteration: dafatan wahidatan
   arabic_script: ''
@@ -377,30 +427,45 @@ entries:
   first_seen_snippet: ion brought forth in a single instant — *dafatan wahidatan*
     — out of
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: An adverbial phrase fully translated in prose ('in a single instant');
+    nothing to formally introduce.
 - phonetic: fil
   transliteration: fil
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: no matter at all to halt the forms from *fil*, from act
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Rendered inline as 'act'; a minor common word, not a term a reader
+    would search.
 - phonetic: hayat
   transliteration: hayat
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: life itself. He sets them out plainly — *hayat*, life; *i
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: One of the taught divine attributes ('life') in the enumerated
+    list.
 - phonetic: Ijz
   transliteration: Ijz
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: '*Ijz* — inadequ'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Appears once, glossed inline as inadequacy/incapacity; too minor
+    to introduce formally.
 - phonetic: ikhtilaf
   transliteration: ikhtilaf
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: other than Allah, much contradiction — *ikhtilaf* — would b
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline as 'contradiction'; the argument carries in
+    English without a formal term.
 - phonetic: ikhtiyar
   transliteration: ikhtiyar
   arabic_script: اَلْاِخْتِيَار
@@ -408,6 +473,9 @@ entries:
   first_seen_snippet: ife; *ilm*, knowledge; *quwwah*, power; *ikhtiyar*, choice —
   harvested_confidence: weak
   script_source: cross-book:degrees-of-excellence
+  annotation_class: teach
+  annotation_reason: One of the taught divine attributes ('choice') in the enumerated
+    list.
 - phonetic: ishara
   transliteration: ishara
   arabic_script: إِشَارَة
@@ -415,12 +483,18 @@ entries:
   first_seen_snippet: d no symbol, no *ramz*, from it, and no *ishara*, no allus
   harvested_confidence: weak
   script_source: cross-book:asaas-al-taveel/vol-01
+  annotation_class: silent
+  annotation_reason: Translated inline as 'allusion' alongside ramz; a minor supporting
+    word, not a term to introduce.
 - phonetic: Jaddiyyat
   transliteration: Jaddiyyat
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: . The final point of Abd al-Muttalib is *Jaddiyyat*, the stat
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A named spiritual station the book identifies as a doctrinal
+    rank a reader may cite.
 - phonetic: jawhar
   transliteration: jawhar
   arabic_script: الْجَوْهَر
@@ -428,6 +502,8 @@ entries:
   first_seen_snippet: re is the *diq*, the narrowness, of our *jawhar* — and *ja
   harvested_confidence: weak
   script_source: cross-book:degrees-of-excellence
+  annotation_class: teach
+  annotation_reason: The philosophical term for substance/essence the book uses technically.
 - phonetic: kamal al-thani
   transliteration: kamal al-thani
   arabic_script: ''
@@ -435,78 +511,117 @@ entries:
   first_seen_snippet: al-awwal*, from the second perfection, *kamal al-thani*. No
     span
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's technical phrase for 'the second perfection', a named
+    stage in its scheme.
 - phonetic: maad
   transliteration: maad
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: By treading this path the ranks of the *maad*, the afte
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: Core doctrinal term (the Return/afterlife), paired with mabda;
+    central and citable.
 - phonetic: mabda
   transliteration: mabda
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: he leading-back, the return, toward the *mabda*, the orig
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: Core doctrinal term (the Origin), paired with maad; central to
+    the book's framework.
 - phonetic: maratib
   transliteration: maratib
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: The ladder itself now stands out — the *maratib*, the asce
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The named ladder of ascending ranks central to the book's hierarchy
+    of stations.
 - phonetic: marifat al-hudud
   transliteration: marifat al-hudud
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: What, then, is Tawhid? It is *marifat al-hudud* — the gno
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's own definition of Tawhid; the most citable technical
+    phrase in the passage.
 - phonetic: martaba
   transliteration: martaba
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: As a person's own station — his *martaba* — rises,
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The term for a person's spiritual station/rank, a taught unit
+    of the maratib ladder.
 - phonetic: muhdath
   transliteration: muhdath
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: 'n: *muhdith* is the one who originates; *muhdath* is the th'
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The taught term for 'the originated thing', explicitly contrasted
+    with muhdith.
 - phonetic: muhdathah
   transliteration: muhdathah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ves way. These names and attributes are *muhdathah* — origina
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The doctrinal predicate that names and attributes are 'originated',
+    a citable claim of the book.
 - phonetic: Mumin
   transliteration: Mumin
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: orld. Was he in the ninth degree of the *Mumin*, or the e
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: Used here as a technical ranked degree ('the ninth degree of
+    the Mumin'), not the ordinary word for believer.
 - phonetic: musabbah
   transliteration: musabbah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: He is *musabbah* — the One
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A passive participle glossed inline ('the One [glorified]');
+    a grammatical form, not a term to introduce.
 - phonetic: qudrah
   transliteration: qudrah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: knowledge and power together, *ilm* and *qudrah*. In that
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A taught divine attribute ('power'), paired with ilm in the book's
+    exposition.
 - phonetic: taweel
   transliteration: taweel
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: exoteric sense, nor does it climb into *taweel*, the esot
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's central term for esoteric interpretation; a reader
+    should be able to name and search it.
 - phonetic: adl
   transliteration: adl
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ccident of the making. It was an act of *adl*, of justi
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Appears once, glossed inline as 'justice'; carried by the prose
+    without a formal term.
 - phonetic: ahl al-haqq
   transliteration: ahl al-haqq
   arabic_script: أَهْلُ الْحَقّ
@@ -515,6 +630,9 @@ entries:
     is
   harvested_confidence: weak
   script_source: cross-book:degrees-of-excellence
+  annotation_class: silent
+  annotation_reason: A descriptive phrase fully translated in prose ('the people of
+    truth'); nothing gained by formal introduction.
 - phonetic: ahl al-maarif
   transliteration: ahl al-maarif
   arabic_script: ''
@@ -522,6 +640,9 @@ entries:
   first_seen_snippet: s reserved to the people of gnosis, the *ahl al-maarif*, from
     amo
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's own term for the people of gnosis — doctrinal vocabulary
+    a reader should be able to name and look up.
 - phonetic: aimma
   transliteration: aimma
   arabic_script: أَئِمَّة
@@ -529,6 +650,9 @@ entries:
   first_seen_snippet: re precisely those who held fast to the *aimma*, the Imam
   harvested_confidence: weak
   script_source: cross-book:degrees-of-excellence
+  annotation_class: teach
+  annotation_reason: The Imams as a doctrinal institution central to this book's teaching,
+    not the generic common-noun sense of imam.
 - phonetic: ajall al-ilm
   transliteration: ajall al-ilm
   arabic_script: ''
@@ -536,12 +660,18 @@ entries:
   first_seen_snippet: every other. The knowledge of Tawhid is *ajall al-ilm* — the
     hig
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A descriptive phrase ('the highest knowledge') that is translated
+    in the running prose.
 - phonetic: al-ilahiyyah
   transliteration: al-ilahiyyah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ', have any power to create. It stripped *al-ilahiyyah*, divinity'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Simply the Arabic for 'divinity', fully carried by its inline
+    gloss.
 - phonetic: al-qamat al-insaniyya al-bashariyya
   transliteration: al-qamat al-insaniyya al-bashariyya
   arabic_script: ''
@@ -549,12 +679,18 @@ entries:
   first_seen_snippet: '*, likened to the human bodily stature, *al-qamat al-insaniyya
     al-bashariyya*. The dire'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A long descriptive phrase glossed in place; too incidental to
+    introduce formally.
 - phonetic: alam al-aql
   transliteration: alam al-aql
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ve. It covers everything, taking in the *alam al-aql*, the worl
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A core cosmological term ('world of intellect') the book builds
+    its metaphysics on.
 - phonetic: alam al-hiss
   transliteration: alam al-hiss
   arabic_script: ''
@@ -562,6 +698,9 @@ entries:
   first_seen_snippet: l-aql*, the world of intellect, and the *alam al-hiss*, the
     worl
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The paired cosmological term ('world of sense') the reader should
+    be able to cite.
 - phonetic: Amma yasifun
   transliteration: Amma yasifun
   arabic_script: ''
@@ -569,6 +708,9 @@ entries:
   first_seen_snippet: ': the reality of God cannot be reached. *Amma yasifun* — above
     w'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A scriptural quotation fragment rendered in prose, not a term
+    to catalogue.
 - phonetic: anfus hayulaniyya
   transliteration: anfus hayulaniyya
   arabic_script: ''
@@ -576,12 +718,18 @@ entries:
   first_seen_snippet: bayinah* — from the material souls, the *anfus hayulaniyya*,
     that cam
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A minor technical phrase ('material souls') translated inline
+    at its single appearance.
 - phonetic: ashbah
   transliteration: ashbah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: He brought them into existence as *ashbah* — forms —
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A recurring technical term for the originated imaginal forms
+    in the book's cosmology.
 - phonetic: ashbah suriyyah nuraniyya
   transliteration: ashbah suriyyah nuraniyya
   arabic_script: ''
@@ -589,30 +737,45 @@ entries:
   first_seen_snippet: riginated were luminous imaginal forms, *ashbah suriyyah nuraniyya*.
     When sou
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A long descriptive phrase ('luminous imaginal forms') translated
+    in place.
 - phonetic: ashiq
   transliteration: ashiq
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: m is equal in it; the ardent lover, the *ashiq*, is equal
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: '''The ardent lover'' is translated inline and used illustratively,
+    not as doctrine.'
 - phonetic: asl
   transliteration: asl
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: hold of it; it is the knowledge of the *asl*, the root
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A common word ('the root') glossed in the running prose.
 - phonetic: asma al-husna
   transliteration: asma al-husna
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: sna` — by His most beautiful names, the *asma al-husna* — `yutawa
   harvested_confidence: weak
+  annotation_class: familiar
+  english_equivalent: the Most Beautiful Names of God
+  annotation_reason: The well-known concept of God's most beautiful names, recognizable
+    to educated readers.
 - phonetic: awham
   transliteration: awham
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ot even turn. And the imaginations, the *awham*, together
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: '''The imaginations'' is translated inline and needs no formal
+    apparatus.'
 - phonetic: Bab al-Abwab
   transliteration: Bab al-Abwab
   arabic_script: ''
@@ -620,6 +783,9 @@ entries:
   first_seen_snippet: a Mustansir Billah and held the rank of *Bab al-Abwab*, the
     Gate
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A specific doctrinal rank ('Gate of Gates') in the hierarchy
+    the reader may wish to cite.
 - phonetic: bab al-iftial
   transliteration: bab al-iftial
   arabic_script: ''
@@ -627,12 +793,17 @@ entries:
   first_seen_snippet: t *khalf* and arrives in the pattern of *bab al-iftial*; its
     plai
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A grammatical/morphological pattern label useful only inside
+    its own aside.
 - phonetic: because
   transliteration: because
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: s ascribe to Him — bewildered precisely *because* they cann
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: An ordinary English word captured spuriously, not an Arabic term.
 - phonetic: bi-hukmi al-idtirar
   transliteration: bi-hukmi al-idtirar
   arabic_script: ''
@@ -640,30 +811,41 @@ entries:
   first_seen_snippet: rance with our inadequate words is done *bi-hukmi al-idtirar*
     — by the
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A phrase ('by necessity') translated in place at its lone occurrence.
 - phonetic: bi-l-fil
   transliteration: bi-l-fil
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: e intellects subsisting *in actuality*, *bi-l-fil*, did not
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: '''In actuality'' is fully carried by its inline English gloss.'
 - phonetic: bi-l-quwwah
   transliteration: bi-l-quwwah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ntellects subsisting *in potentiality*, *bi-l-quwwah*. And what
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: '''In potentiality'' is fully carried by its inline English gloss.'
 - phonetic: both
   transliteration: both
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ue God, the nourisher of all, is beyond *both* hierarchi
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: An ordinary English word captured spuriously, not an Arabic term.
 - phonetic: dar al-ibda
   transliteration: dar al-ibda
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: In the abode of origination, *dar al-ibda*, and the
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A named cosmological realm ('abode of origination') in the book's
+    metaphysical scheme.
 - phonetic: dar al-inbiath
   transliteration: dar al-inbiath
   arabic_script: ''
@@ -671,18 +853,26 @@ entries:
   first_seen_snippet: r al-ibda*, and the abode of emanation, *dar al-inbiath*, there
     is
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The paired cosmological realm ('abode of emanation') the reader
+    should be able to look up.
 - phonetic: dar al-quds
   transliteration: dar al-quds
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: l together with the Friends of Allah in *dar al-quds*, the Abod
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A doctrinal realm ('Abode of Holiness') the reader may want to
+    name and cite.
 - phonetic: dhanb
   transliteration: dhanb
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: 'he دُعَاة established with precision: a *dhanb*, a sin, t'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A common word ('a sin') translated inline.
 - phonetic: dhanbun mashfuun bi-al-istighfar
   transliteration: dhanbun mashfuun bi-al-istighfar
   arabic_script: ''
@@ -690,72 +880,99 @@ entries:
   first_seen_snippet: y one we have. And therefore the act is *dhanbun mashfuun bi-al-istighfar*
     — a sin c
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A full clause translated in place, not a term to catalogue.
 - phonetic: diq
   transliteration: diq
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ld its Creator in thought. There is the *diq*, the narr
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: '''The narrowness'' is glossed inline and too minor to introduce.'
 - phonetic: distinct
   transliteration: distinct
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: And these luminous forms are *distinct* — *mubayi
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: An ordinary English word captured spuriously, not an Arabic term.
 - phonetic: do
   transliteration: do
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: es do not fall on Allah, then upon what *do* they fall
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: An ordinary English word captured spuriously, not an Arabic term.
 - phonetic: equal
   transliteration: equal
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ought the luminous forms into existence *equal* — *mutasa
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: An ordinary English word captured spuriously, not an Arabic term.
 - phonetic: fataha
   transliteration: fataha
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: rd *opened* — `yustaftahu` — comes from *fataha*, to open,
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A verb cited only to explain an etymology in the prose.
 - phonetic: fatahun
   transliteration: fatahun
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ُدُود were brought into being where the *fatahun* were — th
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A grammatical form appearing only within an etymological aside.
 - phonetic: fazl
   transliteration: fazl
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ort there also descends the grace — the *fazl* — of thos
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: '''The grace'' is translated inline and needs no apparatus.'
 - phonetic: free
   transliteration: free
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: . And why none? Because both abodes are *free* of the ob
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: An ordinary English word captured spuriously, not an Arabic term.
 - phonetic: ghayatuhu
   transliteration: ghayatuhu
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: top at the beginning. It comprises also *ghayatuhu*, the rank
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A grammatical fragment ('its end') translated in the running
+    prose.
 - phonetic: ghayb
   transliteration: ghayb
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: which to know Him. He dwells in such a *ghayb*, such an
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The technical concept of the unseen/hidden that a reader may
+    want to name and search.
 - phonetic: ghayr masum
   transliteration: ghayr masum
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: recisely because in that state they are *ghayr masum*, not pres
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A negated phrase ('not preserved') translated inline; the concept
+    surfaces in prose.
 - phonetic: ghayru masumin
   transliteration: ghayru masumin
   arabic_script: ''
@@ -763,6 +980,9 @@ entries:
   first_seen_snippet: n and deed, they are *not infallible* — *ghayru masumin* — from
     er
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A grammatical variant of the same negated phrase, translated
+    in place.
 - phonetic: haqiqatan mahdatan
   transliteration: haqiqatan mahdatan
   arabic_script: ''
@@ -770,54 +990,76 @@ entries:
   first_seen_snippet: and to treat of them as a pure reality, *haqiqatan mahdatan*.
     That phr
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A phrase ('a pure reality') translated in the running prose.
 - phonetic: hayula
   transliteration: hayula
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: r substance lying ready to serve as its *hayula* — its pri
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's technical term for prime matter; a reader should be
+    able to name and look it up.
 - phonetic: Hijabiyyat
   transliteration: Hijabiyyat
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: scent, peace and blessings upon him, is *Hijabiyyat*, the stat
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A named doctrinal station the book defines and teaches.
 - phonetic: hisar
   transliteration: hisar
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: by the narrow straits of confinement — *hisar* — with li
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Ordinary word for confinement, translated inline in the running
+    prose.
 - phonetic: hiss
   transliteration: hiss
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ith is too small for the measuring. Our *hiss*, our facu
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Sense-faculty, glossed inline and too minor to introduce formally.
 - phonetic: how
   transliteration: how
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: What remains is *how* the origi
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: An ordinary English word, not an Arabic term to annotate.
 - phonetic: Hu
   transliteration: Hu
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: not lie about Him by hemming Him in is *Hu* — He.
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's doctrinal divine name 'He' used repeatedly; worth
+    naming and citing.
 - phonetic: Hujjiyyat
   transliteration: Hujjiyyat
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ng a veil. The limit of Lady Fatimah is *Hujjiyyat*, the stat
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A named doctrinal station the book defines, parallel to Hijabiyyat.
 - phonetic: huwa
   transliteration: huwa
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ', the Ipseity, the bare "He," the naked *huwa* — none of'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: The bare grammatical pronoun, glossed inline and subordinate
+    to the taught term Hu.
 - phonetic: ibda al-zawat
   transliteration: ibda al-zawat
   arabic_script: ''
@@ -825,12 +1067,18 @@ entries:
   first_seen_snippet: ense. What is intended in this place is *ibda al-zawat*, the
     orig
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Zero occurrences; a spelling variant of ibda-e zawat, not actually
+    used.
 - phonetic: ibda-e zawat
   transliteration: ibda-e zawat
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: saying insists, possesses the power of *ibda-e zawat*, the orig
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's technical term for origination of essences; a citable
+    doctrinal concept.
 - phonetic: ibtida wujud al-had
   transliteration: ibtida wujud al-had
   arabic_script: ''
@@ -838,42 +1086,59 @@ entries:
   first_seen_snippet: ahl al-haqq*. What is its object? It is *ibtida wujud al-had*
     — the ver
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A long descriptive phrase fully translated in running prose.
 - phonetic: ibtidaat
   transliteration: ibtidaat
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ce from which the noble beginnings, the *ibtidaat*, first is
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Plural 'beginnings', translated inline and too minor to formalize.
 - phonetic: iftitah
   transliteration: iftitah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ape of seeking. *Istiftah*, also called *iftitah*, does not
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A variant of Istiftah, glossed inline; not a distinct term to
+    introduce.
 - phonetic: ikhtaraa
   transliteration: ikhtaraa
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: He originated the existents — *ikhtaraa* — and dre
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A verb ('He originated') translated inline in the prose.
 - phonetic: ilahiyyat
   transliteration: ilahiyyat
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: is not theirs. But exactness about what *ilahiyyat*, divinity
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's technical term for divinity, defined with care and
+    worth looking up.
 - phonetic: ilhan
   transliteration: ilhan
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: or Him through this name — rises out of *ilhan*, bewilder
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: '''Bewilderment'', glossed inline and too minor to introduce
+    formally.'
 - phonetic: illa Huwa
   transliteration: illa Huwa
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: and indicates Him by nothing more than *illa Huwa*, by the b
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A scriptural phrase fragment translated in place.
 - phonetic: ilm al-hayat
   transliteration: ilm al-hayat
   arabic_script: ''
@@ -881,6 +1146,9 @@ entries:
   first_seen_snippet: It means, as Sayyidna Muayyad explains, *ilm al-hayat*, the
     know
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A named doctrinal concept, the knowledge of life, that a reader
+    may cite.
 - phonetic: ilm al-kulli
   transliteration: ilm al-kulli
   arabic_script: ''
@@ -888,42 +1156,60 @@ entries:
   first_seen_snippet: which everything descends — were given *ilm al-kulli*, total
     kn
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A named doctrinal concept, total knowledge, worth naming and
+    searching.
 - phonetic: irjii
   transliteration: irjii
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: The crucial word is *irjii* — *return
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A single Quranic imperative word, translated inline as 'return'.
 - phonetic: istifal
   transliteration: istifal
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: '*fataha*, to open, yet it has taken the *istifal* shape, th'
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A specific morphological form the author uses doctrinally; a
+    reader may want to look it up.
 - phonetic: Istiftah
   transliteration: Istiftah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: '*istifal* shape, the shape of seeking. *Istiftah*, also cal'
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A named technical term for the act of seeking-opening that the
+    book defines.
 - phonetic: Jadd
   transliteration: Jadd
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: alib is *Jaddiyyat*, the station of the *Jadd* — and *Ja
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A named doctrinal station the book defines alongside Jaddiyyat.
 - phonetic: jisr
   transliteration: jisr
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ither. The verb *yatajasaru* comes from *jisr*, a bridge
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Ordinary word 'a bridge', translated inline in an etymological
+    aside.
 - phonetic: juhd
   transliteration: juhd
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ther. The effort a person expends — his *juhd* — genuine
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Ordinary word 'effort', glossed inline in the prose.
 - phonetic: kamal al-awwal
   transliteration: kamal al-awwal
   arabic_script: ''
@@ -931,6 +1217,9 @@ entries:
   first_seen_snippet: of time dividing the first perfection, *kamal al-awwal*, from
     the
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's technical term for the first perfection; a citable
+    doctrinal concept.
 - phonetic: kamal al-awwali
   transliteration: kamal al-awwali
   arabic_script: ''
@@ -938,6 +1227,9 @@ entries:
   first_seen_snippet: sawiyah* — in the first perfection, the *kamal al-awwali*. And
     what
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A grammatical variant of kamal al-awwal, already taught; no separate
+    annotation helps.
 - phonetic: kamal-e insani
   transliteration: kamal-e insani
   arabic_script: ''
@@ -945,6 +1237,9 @@ entries:
   first_seen_snippet: sed through its stages until it reached *kamal-e insani*, human
     pe
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A named doctrinal concept, human perfection, worth naming and
+    searching.
 - phonetic: kathaif zulmaniyya
   transliteration: kathaif zulmaniyya
   arabic_script: ''
@@ -952,30 +1247,43 @@ entries:
   first_seen_snippet: niyya*. The bodies are dark densities — *kathaif zulmaniyya*.
     The soul
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's technical term 'dark densities' for bodies; a citable
+    concept.
 - phonetic: khalaiq
   transliteration: khalaiq
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: s our beginning. All the creatures, the *khalaiq*, are whee
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Ordinary word 'creatures', translated inline in the prose.
 - phonetic: khalf
   transliteration: khalf
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: worth weighing. It comes from the root *khalf* and arriv
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A root cited in an etymological aside, not a term the reader
+    would formally cite.
 - phonetic: khamira
   transliteration: khamira
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: 'know the entire arc of its essence, its *khamira*: at what'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: '''Essence/leaven'', glossed inline and too minor to introduce
+    formally.'
 - phonetic: khata
   transliteration: khata
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: '* — *ghayru masumin* — from error, from *khata*. The poin'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Ordinary word 'error', translated inline in the prose.
 - phonetic: khatima bil-khair
   transliteration: khatima bil-khair
   arabic_script: ''
@@ -983,30 +1291,43 @@ entries:
   first_seen_snippet: in the end, is salvation itself? It is *khatima bil-khair*,
     a good e
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A named doctrinal concept, a good end / salvation, a reader may
+    cite.
 - phonetic: khatir
   transliteration: khatir
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: asaru* comes from *jisr*, a bridge. The *khatir*, the pass
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The book's technical term for the passing thought; a citable
+    concept.
 - phonetic: khawatir
   transliteration: khawatir
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: toward whom the passing thoughts — the *khawatir*, the flee
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: The plural of khatir, already taught; no separate annotation
+    helps.
 - phonetic: know
   transliteration: know
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ts itminan, lies in what it has come to *know* — its ser
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: An ordinary English word, not an Arabic term to annotate.
 - phonetic: la aiqa
   transliteration: la aiqa
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: dar al-inbiath*, there is no obstacle — *la aiqa*. And why
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A phrase 'no obstacle' translated inline in the prose.
 - phonetic: la bi-zaman
   transliteration: la bi-zaman
   arabic_script: ''
@@ -1014,30 +1335,43 @@ entries:
   first_seen_snippet: f these abodes came to be not in time — *la bi-zaman* — but
     in
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A phrase 'not in time' translated inline in the prose.
 - phonetic: la tabayun
   transliteration: la tabayun
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: another, *la tafadul*. No distinction, *la tabayun*. No leani
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A phrase 'no distinction' translated inline in the prose.
 - phonetic: la tafadul
   transliteration: la tafadul
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: uf*. No preference of one over another, *la tafadul*. No disti
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A negation fragment already rendered in prose ('no preference
+    of one over another').
 - phonetic: la takhaluf
   transliteration: la takhaluf
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: f any kind. No disagreement among them, *la takhaluf*. No prefe
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A negation fragment translated inline ('no disagreement among
+    them').
 - phonetic: la tamayul
   transliteration: la tamayul
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: yun*. No leaning of one above the rest, *la tamayul* — not in
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A negation fragment translated inline ('no leaning of one above
+    the rest').
 - phonetic: lataif nuraniyya
   transliteration: lataif nuraniyya
   arabic_script: ''
@@ -1045,12 +1379,18 @@ entries:
   first_seen_snippet: l. The forms were luminous subtleties — *lataif nuraniyya*.
     The bodi
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Descriptive phrase glossed in running prose ('luminous subtleties'),
+    too minor to introduce formally.
 - phonetic: like
   transliteration: like
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ckward. The originated forms are called *like* the human
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: This is the ordinary English word 'like', not an Arabic term
+    to annotate.
 - phonetic: Mabda wa Maad
   transliteration: Mabda wa Maad
   arabic_script: ''
@@ -1058,12 +1398,17 @@ entries:
   first_seen_snippet: yidna Muayyad al-Din, the author of the *Mabda wa Maad* — says
     in
   harvested_confidence: weak
+  annotation_class: name
+  annotation_reason: Title of a specific doctrinal work with no familiar English form;
+    the romanisation and script stand.
 - phonetic: mahdah
   transliteration: mahdah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: were purely imaginal, *suriyyah*; pure, *mahdah*; and lumi
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: One adjective in a translated triad ('pure'), glossed in place.
 - phonetic: makan
   transliteration: makan
   arabic_script: اَلْمَكَان
@@ -1071,18 +1416,26 @@ entries:
   first_seen_snippet: nderlying floor, no substrate to be its *makan*, its firs
   harvested_confidence: weak
   script_source: cross-book:degrees-of-excellence
+  annotation_class: silent
+  annotation_reason: Glossed inline as its own substrate/locus; used descriptively,
+    not taught.
 - phonetic: manfiyyah
   transliteration: manfiyyah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: one of these names, every attribute, is *manfiyyah* — negated
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Grammatical/theological predicate translated inline ('negated').
 - phonetic: mansubin
   transliteration: mansubin
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: for the believer, for these حُدُود are *mansubin*, appointe
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('appointed'); a minor participle, not book
+    vocabulary.
 - phonetic: marifah
   transliteration: marifah
   arabic_script: الْمَعْرِفَة
@@ -1090,6 +1443,9 @@ entries:
   first_seen_snippet: It is through the *marifah* — the gno
   harvested_confidence: weak
   script_source: cross-book:ayyuhal-walad
+  annotation_class: teach
+  annotation_reason: Core doctrinal term (gnosis/knowledge of God) the book builds
+    on; a reader should be able to name and search it.
 - phonetic: marifah batinah
   transliteration: marifah batinah
   arabic_script: ''
@@ -1097,6 +1453,9 @@ entries:
   first_seen_snippet: ', far higher, is the inner gnosis — the *marifah batinah* —
     and thi'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Compositional variant of marifah glossed inline ('inner gnosis');
+    the base term already carries it.
 - phonetic: marifah zahirah
   transliteration: marifah zahirah
   arabic_script: ''
@@ -1104,42 +1463,60 @@ entries:
   first_seen_snippet: nds. The first is the outer gnosis, the *marifah zahirah*, by
     which
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Compositional variant of marifah glossed inline ('outer gnosis');
+    covered by the taught base term.
 - phonetic: marifat
   transliteration: marifat
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: l-e insani*, human perfection. The real *marifat*, the true
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Romanisation variant of the taught term marifah; would double-teach
+    the same concept.
 - phonetic: markaz
   transliteration: markaz
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: reaches for is the circle. Allah is the *markaz*, the cent
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Used as a geometric metaphor and glossed inline ('the centre').
 - phonetic: mashra
   transliteration: mashra
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ify his soul — in the seventh path, the *mashra*, of the f
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Glossed inline ('the seventh path'); too minor to introduce formally.
 - phonetic: maslub
   transliteration: maslub
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: 'tly onto Him. Every such predication is *maslub*: stripped'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Apophatic predicate translated inline ('stripped'); descriptive,
+    not a citeable heading.
 - phonetic: matlub
   transliteration: matlub
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: in` — in every object of seeking, every *matlub*, the thin
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('object of seeking'); a passing gloss.
 - phonetic: mawaddah
   transliteration: mawaddah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: to treat of the noble affections — the *mawaddah* — that ca
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('noble affections'); a minor term in the wilayah
+    cluster.
 - phonetic: mawjud al-awwal
   transliteration: mawjud al-awwal
   arabic_script: ''
@@ -1147,12 +1524,17 @@ entries:
   first_seen_snippet: 'ect, which carries other names too: the *mawjud al-awwal*,
     the firs'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: One of several inline names for the First Intellect ('the first
+    existent'), glossed in place.
 - phonetic: mubayinah
   transliteration: mubayinah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: d these luminous forms are *distinct* — *mubayinah* — from th
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('distinct'); a passing adjective.
 - phonetic: Mubda al-Awwal
   transliteration: Mubda al-Awwal
   arabic_script: ''
@@ -1160,66 +1542,92 @@ entries:
   first_seen_snippet: d of all — and the First Intellect, the *Mubda al-Awwal* itself,
     i
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Glossed inline and carried by the English 'First Intellect';
+    appears once as an apposition.
 - phonetic: muhabbah
   transliteration: muhabbah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: as *muwalat*, loyal allegiance, and as *muhabbah*, love; it
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('love') as a synonym in the allegiance cluster.
 - phonetic: muhdith
   transliteration: muhdith
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: 's. Everything turns on the distinction: *muhdith* is the on'
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: The pivotal originator/originated (muhdith vs muhdath) distinction
+    the text turns on; a reader should be able to name it.
 - phonetic: muhiqqin
   transliteration: muhiqqin
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: urtazin*, the disciplined ones, and the *muhiqqin*, the veri
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('the verifiers'); a minor descriptive group.
 - phonetic: murtazin
   transliteration: murtazin
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ned. It cannot be reached except by the *murtazin*, the disc
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('the disciplined ones'); a passing gloss.
 - phonetic: musabbih
   transliteration: musabbih
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: performed — in the form *musabbah*, not *musabbih*, the glor
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A grammatical contrast (musabbah vs musabbih) resolved inline
+    ('the glorifier').
 - phonetic: musamahah
   transliteration: musamahah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: We are asking for *musamahah* — forbear
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('forbearance'); a one-off gloss.
 - phonetic: mustarr
   transliteration: mustarr
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ', and when he heard it he said: "She is *mustarr* — compell'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline inside a quotation ('compelled').
 - phonetic: mutaali
   transliteration: mutaali
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: s to offer, never His to perform. He is *mutaali*, the One
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A divine attribute glossed inline ('the transcendent One'); minor
+    here, translated in prose.
 - phonetic: mutasawiyah
   transliteration: mutasawiyah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: luminous forms into existence *equal* — *mutasawiyah* — in the
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('equal'); a passing adjective.
 - phonetic: muwalat
   transliteration: muwalat
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: action. *Wilayah* is named here also as *muwalat*, loyal al
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('loyal allegiance') as a synonym of wilayah.
 - phonetic: nafi al-jins
   transliteration: nafi al-jins
   arabic_script: ''
@@ -1227,6 +1635,9 @@ entries:
   first_seen_snippet: are read with what the grammarians call *nafi al-jins*, the
     nega
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A grammarians' term glossed inline ('negation of the genus');
+    linguistic apparatus, not book doctrine.
 - phonetic: nafyi al-ilahiyyat anhum
   transliteration: nafyi al-ilahiyyat anhum
   arabic_script: ''
@@ -1234,48 +1645,66 @@ entries:
   first_seen_snippet: h is تَنْزِيه. The saying defines it as *nafyi al-ilahiyyat
     anhum* — the neg
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A defining phrase translated inline ('the negation of divinity
+    from them').
 - phonetic: najaha
   transliteration: najaha
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: '`yustanjahu`, success is granted, from *najaha*. Through'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A verb root cited for etymology only; not a term to look up.
 - phonetic: najat
   transliteration: najat
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: yone walking this road. For salvation — *najat* — the que
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('salvation'); appears once as a gloss.
 - phonetic: nuqta-e irtifa
   transliteration: nuqta-e irtifa
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: limit — the final point of ascent, the *nuqta-e irtifa* to which
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('the final point of ascent'); a one-off phrase.
 - phonetic: nuraniyya
   transliteration: nuraniyya
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: uriyyah*; pure, *mahdah*; and luminous, *nuraniyya*. They sto
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: An adjective in a translated triad ('luminous'), glossed in place.
 - phonetic: nutq
   transliteration: nutq
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ch our speech and our articulation, our *nutq*, are made
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline ('our speech and articulation').
 - phonetic: Nuzilla
   transliteration: Nuzilla
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: 'erb. *An nazilla*: that we should slip. *Nuzilla*: that we'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A cited verb form in a grammatical aside, translated inline.
 - phonetic: opened
   transliteration: opened
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ut His mention, nothing opens. The word *opened* — `yustaf
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: English word discussed inline as the rendering of a verb; no
+    apparatus helps.
 - phonetic: paida kiye hue
   transliteration: paida kiye hue
   arabic_script: ''
@@ -1283,24 +1712,35 @@ entries:
   first_seen_snippet: a single exception, is itself created — *paida kiye hue* — and
     the
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Urdu phrase translated in the running prose as 'created'.
 - phonetic: qamat alfiyya
   transliteration: qamat alfiyya
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: at statures of a thousand-fold measure, *qamat alfiyya*, likened
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Imagery translated in place as 'statures of a thousand-fold measure';
+    too minor to introduce.
 - phonetic: Qawd
   transliteration: Qawd
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: re the doctrine of return is laid open. *Qawd* is the le
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A technical term tied to the doctrine of return that the book
+    defines and a reader may want to cite.
 - phonetic: qawlun mujmalun
   transliteration: qawlun mujmalun
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: This whole three-branched saying is *qawlun mujmalun* — a summa
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Rhetorical descriptor glossed as 'a summary saying' in the prose
+    itself.
 - phonetic: Rahat al-Aql
   transliteration: Rahat al-Aql
   arabic_script: ''
@@ -1308,6 +1748,9 @@ entries:
   first_seen_snippet: of the fourth form, the *suwar*, of his *Rahat al-Aql*. His
     word
   harvested_confidence: weak
+  annotation_class: name
+  annotation_reason: Title of a cited work with no established English form; romanisation
+    and script stay.
 - phonetic: ramz
   transliteration: ramz
   arabic_script: رَمْز
@@ -1315,12 +1758,17 @@ entries:
   first_seen_snippet: َلَا رَمْزَ مِنْهَا — and no symbol, no *ramz*, from it,
   harvested_confidence: weak
   script_source: cross-book:asaas-al-taveel/vol-01
+  annotation_class: silent
+  annotation_reason: Translated in place as 'symbol' within the sentence.
 - phonetic: rubq
   transliteration: rubq
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: is it asked? For the one caught in the *rubq*, the snar
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Glossed inline as 'the snare'; a passing image, not a term to
+    introduce.
 - phonetic: Rutbat al-Ilahiyyah
   transliteration: Rutbat al-Ilahiyyah
   arabic_script: ''
@@ -1328,6 +1776,9 @@ entries:
   first_seen_snippet: he Imamate of spirituality, the rank of *Rutbat al-Ilahiyyah*
     in its ri
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A named doctrinal rank the book sets out; a reader should be
+    able to name and look it up.
 - phonetic: sadir al-awwal
   transliteration: sadir al-awwal
   arabic_script: ''
@@ -1335,30 +1786,42 @@ entries:
   first_seen_snippet: al-awwal*, the first existent, and the *sadir al-awwal*, the
     firs
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: Technical emanation-cosmology term ('the first emanated') the
+    book uses as its own vocabulary.
 - phonetic: sajiyyah
   transliteration: sajiyyah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: to bestow favor; it belongs to the very *sajiyyah*, the inbo
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated in place as 'the inborn nature'.
 - phonetic: samaha
   transliteration: samaha
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: orbearance, pardon; the word comes from *samaha*, to forgi
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Etymological root explained inline ('to forgive'); not a standalone
+    term.
 - phonetic: sawa
   transliteration: sawa
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: The verb is *yatasawa*, from *sawa*, equal, i
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Root given inline as 'equal' to explain a verb; grammatical gloss.
 - phonetic: shafaa
   transliteration: shafaa
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ng of pardon. The word *mashfu* is from *shafaa*, to make
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Root cited inline to explain another word; translated in prose.
 - phonetic: shariah
   transliteration: shariah
   arabic_script: شَرِيعَة
@@ -1366,12 +1829,17 @@ entries:
   first_seen_snippet: the action, the عَمَل, laid down in the *shariah*, the reli
   harvested_confidence: weak
   script_source: cross-book:ayyuhal-walad
+  annotation_class: familiar
+  english_equivalent: sharia
+  annotation_reason: Established English form educated readers already recognize.
 - phonetic: shimah
   transliteration: shimah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: It belongs to the very *shimah*, the ingr
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Glossed inline as 'the ingrained' nature; minor synonym.
 - phonetic: shirk
   transliteration: shirk
   arabic_script: الشِّرْك
@@ -1379,42 +1847,59 @@ entries:
   first_seen_snippet: that sense is not Tawhid at all. It is *shirk*, the grav
   harvested_confidence: weak
   script_source: cross-book:degrees-of-excellence
+  annotation_class: teach
+  annotation_reason: Core doctrinal term (the grave sin opposed to Tawhid) the book
+    defines and a reader will cite.
 - phonetic: some
   transliteration: some
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ded honestly. Human understanding needs *some* stretch o
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Ordinary English word swept up by the extractor; no apparatus
+    applies.
 - phonetic: something
   transliteration: something
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: to affirm Him one is forced to call Him *something*; and the
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Ordinary English word; not a term.
 - phonetic: summary
   transliteration: summary
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: وَاحِدَةٍ, from a single soul. But the *summary* of everyt
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Ordinary English word; not a term.
 - phonetic: suriyyah
   transliteration: suriyyah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: — and these forms were purely imaginal, *suriyyah*; pure, *m
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated in place as 'imaginal'; a passing gloss.
 - phonetic: suwar
   transliteration: suwar
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ', the *mashra*, of the fourth form, the *suwar*, of his *'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Plural of 'form', translated inline as 'forms'; carried by the
+    prose.
 - phonetic: suwar mahdah
   transliteration: suwar mahdah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: m all such matter. They are pure forms, *suwar mahdah*, clinging
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Glossed inline as 'pure forms'.
 - phonetic: Tafaddulan minhu
   transliteration: Tafaddulan minhu
   arabic_script: ''
@@ -1422,54 +1907,74 @@ entries:
   first_seen_snippet: need and not compulsion but pure favor. *Tafaddulan minhu* —
     a favor
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Arabic phrase translated immediately as 'a favor from Him'.
 - phonetic: tafkir
   transliteration: tafkir
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: by *tawahhum*, imagination, and not by *tafkir*, reasonin
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated in place as 'reasoning', contrasted with imagination.
 - phonetic: tajarrud
   transliteration: tajarrud
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ly not there. The forms are abstracted, *tajarrud*, from all
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Glossed inline as 'abstracted from all matter'; carried by the
+    sentence.
 - phonetic: talib
   transliteration: talib
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: tlub*, the thing sought, as against the *talib*, the one
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline as 'the one seeking', paired against matlub.
 - phonetic: tamjid
   transliteration: tamjid
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: re itself holds and knows. But the true *tamjid*, the real
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Glossed inline as 'the real glorification'.
 - phonetic: tartib
   transliteration: tartib
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: that share, the whole arrangement, the *tartib* of the hi
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated in place as 'the arrangement'.
 - phonetic: tasbih
   transliteration: tasbih
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: r. Human beings are the glorifiers; the *tasbih* is theirs
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline as 'glorification'; carried by the prose.
 - phonetic: tawahhum
   transliteration: tawahhum
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: m and cannot complete the span — not by *tawahhum*, imaginat
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated in place as 'imagination'.
 - phonetic: tawassul
   transliteration: tawassul
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: 'oot: *wasala*, to connect, to arrive. A *tawassul* is the co'
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: A recurring doctrinal concept (the means of approach/connection)
+    the book develops and names.
 - phonetic: ubudiyyah
   transliteration: ubudiyyah
   arabic_script: ''
@@ -1477,18 +1982,25 @@ entries:
   first_seen_snippet: the *rubq*, the snare, of servitude, of *ubudiyyah*. We are
     b
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated in place as 'servitude'; the prose carries the sense.
 - phonetic: uluww
   transliteration: uluww
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: ', the One lifted on high, from the root *uluww*, height.'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Root supplied inline as 'height' to explain a name; etymological
+    gloss.
 - phonetic: Wa judan
   transliteration: Wa judan
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: '*Tafaddulan minhu* — a favor from Him. *Wa judan* — and gen'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Arabic phrase translated immediately as 'and generosity'.
 - phonetic: Wa tatawwulan minhu
   transliteration: Wa tatawwulan minhu
   arabic_script: ''
@@ -1496,12 +2008,16 @@ entries:
   first_seen_snippet: a judan* — and generosity, a free gift. *Wa tatawwulan minhu*
     — and a b
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Arabic phrase translated immediately in the prose.
 - phonetic: walah
   transliteration: walah
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: e — rises out of *ilhan*, bewilderment, *walah*, the stun
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Glossed inline as 'the stunning' bewilderment.
 - phonetic: wali
   transliteration: wali
   arabic_script: وَلِيّ
@@ -1509,12 +2025,18 @@ entries:
   first_seen_snippet: 'is: in the outer gnosis the friend, the *wali*, and the'
   harvested_confidence: weak
   script_source: cross-book:asaas-al-taveel/vol-01
+  annotation_class: teach
+  annotation_reason: Core doctrinal term (the friend/wali of Allah) the book teaches;
+    a reader should be able to name it.
 - phonetic: wasala
   transliteration: wasala
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: 'taken to Him. That word too has a root: *wasala*, to conne'
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Root cited inline as 'to connect' to explain tawassul; grammatical
+    gloss.
 - phonetic: watan-e-asli
   transliteration: watan-e-asli
   arabic_script: ''
@@ -1522,12 +2044,17 @@ entries:
   first_seen_snippet: ve country. Our original homeland — our *watan-e-asli* — is
     the
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Urdu phrase translated in place as 'our original homeland'.
 - phonetic: wujud
   transliteration: wujud
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: 'd it is made of four things: existence, *wujud*; life, *h'
   harvested_confidence: weak
+  annotation_class: teach
+  annotation_reason: Core Tawheed vocabulary the book itself defines (existence) and
+    a reader would want to name and search.
 - phonetic: wujud al-kull maan
   transliteration: wujud al-kull maan
   arabic_script: ''
@@ -1535,24 +2062,35 @@ entries:
   first_seen_snippet: her, the existence of all was together, *wujud al-kull maan*,
     at one a
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A full phrase already translated in running prose, too specific
+    to introduce formally.
 - phonetic: yatajasaru
   transliteration: yatajasaru
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: can cross over to Him either. The verb *yatajasaru* comes fro
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A verb cited only to explain its etymology in the surrounding
+    sentence.
 - phonetic: yatasawa
   transliteration: yatasawa
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: The verb is *yatasawa*, from *sa
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A grammatical fragment glossed inline, not a term to cite.
 - phonetic: yekta
   transliteration: yekta
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: piritual hierarchy, as utterly unique — *yekta* — in its
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A single-use word for 'unique' already translated in the same
+    clause.
 - phonetic: zahir
   transliteration: zahir
   arabic_script: الظَّاهِر
@@ -1560,12 +2098,18 @@ entries:
   first_seen_snippet: he book does not set out to explain the *zahir*, the oute
   harvested_confidence: weak
   script_source: cross-book:asaas-al-taveel/vol-01
+  annotation_class: teach
+  annotation_reason: Doctrinal outer/manifest term (paired with batin) a reader should
+    be able to name and look up.
 - phonetic: zamair
   transliteration: zamair
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: nations, the *awham*, together with the *zamair*, the inmo
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Translated inline as 'the inmost', a minor term not worth formal
+    introduction.
 - phonetic: zanbun mashfuun bil-istighfar
   transliteration: zanbun mashfuun bil-istighfar
   arabic_script: ''
@@ -1573,15 +2117,23 @@ entries:
   first_seen_snippet: rcle around Him. The naming itself is a *zanbun mashfuun bil-istighfar*,
     a sin co
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: A phrase rendered in the running prose, too incidental to annotate.
 - phonetic: zawat
   transliteration: zawat
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: e true Tawhid asks. Every being — every *zawat* — that Go
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Glossed inline as 'being', translated where it appears rather
+    than taught.
 - phonetic: zulm
   transliteration: zulm
   arabic_script: ''
   audio_phonetic: ''
   first_seen_snippet: he Muslims said, "Yes." "Then can He do *zulm*, injustic
   harvested_confidence: weak
+  annotation_class: silent
+  annotation_reason: Immediately translated as 'injustice' in the sentence, used once
+    in passing.
