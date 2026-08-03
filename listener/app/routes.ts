@@ -23,6 +23,10 @@ import { type RouteConfig, index, layout, route } from "@react-router/dev/routes
 export default [
   // Public — the entire list.
   route("sign-in", "routes/sign-in.tsx"),
+  // Public because /no-access is: someone signed in with the wrong Google
+  // account is outside the invited gate, and that is exactly the person who
+  // needs to sign out. It ends the caller's own session and nobody else's.
+  route("sign-out", "routes/sign-out.tsx"),
   route("no-access", "routes/no-access.tsx"),
   route("favicon.ico", "routes/favicon.ico.ts"),
 

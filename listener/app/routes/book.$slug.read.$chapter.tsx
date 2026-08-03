@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
 import type { Route } from "./+types/book.$slug.read.$chapter";
 import { ReaderSettings } from "~/components/ReaderSettings";
+import { Icon } from "~/components/Icon";
 import { Logo } from "~/components/brand/Logo";
 import { cloudflare } from "~/context";
 import { notFound } from "~/middleware/deny";
@@ -88,29 +90,29 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   const left = Math.max(0, Math.round(total * (1 - progress)));
 
   return (
-    <div className="min-h-dvh bg-pf-bg">
+    <div className="pf-shell">
       <div className="reading-progress" aria-hidden="true">
         <span ref={bar} />
       </div>
 
-      <header className="sticky top-0 z-30 border-b border-pf-rule-soft bg-pf-bg/92 backdrop-blur">
-        <div className="mx-auto flex max-w-3xl items-center gap-4 px-6 py-3">
-          <Link to="/" aria-label="Back to your library" className="shrink-0">
-            <Logo size={28} />
+      <header className="pf-header--sticky">
+        <div className="pf-reader-bar">
+          <Link to="/" aria-label="Back to your library" className="pf-logo-link">
+            <Logo size={28} wordmark={false} />
           </Link>
 
           <button
             type="button"
             onClick={() => setContentsOpen((v) => !v)}
             aria-expanded={contentsOpen}
-            className="min-w-0 flex-1 truncate text-left font-ui text-sm text-pf-muted transition-colors hover:text-pf-ink"
+            className="pf-reader-bar__where"
           >
-            <span className="text-pf-faint">{bookTitle}</span>
-            <span className="text-pf-faint"> · </span>
+            <span className="pf-reader-bar__book">{bookTitle}</span>
+            <span className="pf-reader-bar__sep"> · </span>
             {chapter.title}
           </button>
 
-          <span className="hidden shrink-0 font-ui text-xs text-pf-faint sm:block">
+          <span className="pf-reader-bar__left">
             {left === 0 ? "finished" : `about ${left} min left`}
           </span>
 
@@ -118,47 +120,34 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
         </div>
 
         {contentsOpen ? (
-          <nav
-            aria-label="Table of contents"
-            className="max-h-[60dvh] overflow-y-auto border-t border-pf-rule-soft bg-pf-surface"
-          >
-            <ol className="mx-auto max-w-3xl px-6 py-2">
-              {contents.map((entry) => {
-                const current = entry.anchorKey === chapter.anchorKey;
-                return (
-                  <li key={entry.anchorKey}>
-                    <Link
-                      to={`/book/${slug}/read/${encodeURIComponent(entry.anchorKey)}`}
-                      onClick={() => setContentsOpen(false)}
-                      aria-current={current ? "page" : undefined}
-                      className={[
-                        "flex items-baseline gap-3 py-2 no-underline",
-                        current ? "text-pf-accent" : "text-pf-muted hover:text-pf-ink",
-                      ].join(" ")}
-                    >
-                      <span className="flex-1 font-prose">{entry.title}</span>
-                      <span className="shrink-0 font-ui text-xs text-pf-faint">
-                        {readingMinutes(entry.wordCount)} min
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
+          <nav aria-label="Table of contents" className="pf-toc">
+            <ol className="pf-toc__list">
+              {contents.map((entry) => (
+                <li key={entry.anchorKey}>
+                  <Link
+                    to={`/book/${slug}/read/${encodeURIComponent(entry.anchorKey)}`}
+                    onClick={() => setContentsOpen(false)}
+                    aria-current={entry.anchorKey === chapter.anchorKey ? "page" : undefined}
+                    className="pf-row pf-toc__row"
+                  >
+                    <span className="pf-row__main">{entry.title}</span>
+                    <span className="pf-row__meta">{readingMinutes(entry.wordCount)} min</span>
+                  </Link>
+                </li>
+              ))}
             </ol>
           </nav>
         ) : null}
       </header>
 
-      <main id="main" className="mx-auto max-w-3xl px-6 pb-32">
+      <main id="main" className="pf-reader-page">
         <article ref={body}>
-          <h1 className="mt-14 max-w-[var(--l-reading-measure)] text-balance font-prose text-3xl leading-[1.15] text-pf-ink sm:text-4xl">
-            {chapter.title}
-          </h1>
+          <h1 className="pf-chapter-title">{chapter.title}</h1>
 
           {/* Position in the edition, NOT a chapter number: the introduction is
               the first entry, so this and the book's own "3." in the heading
               differ by one. Saying "chapter" here would contradict the page. */}
-          <p className="mt-3 font-ui text-sm text-pf-faint">
+          <p className="pf-chapter-meta">
             {chapter.idx} of {contents.length} in this edition · about {total} minutes
           </p>
 
@@ -166,43 +155,48 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
               produces the printed book, so this is not "trusting user input" —
               it is the book. See app/server/catalog.server.ts. */}
           <div
-            className="reader mt-10"
+            className="reader pf-chapter-body"
             dangerouslySetInnerHTML={{ __html: chapter.html }}
           />
         </article>
 
-        <nav className="mt-20 flex gap-4 border-t border-pf-rule pt-8">
+        <nav className="pf-turn">
           {previous ? (
             <Link
               to={`/book/${slug}/read/${encodeURIComponent(previous.anchorKey)}`}
-              className="flex-1 rounded-lg border border-pf-rule bg-pf-surface p-4 no-underline transition-colors hover:border-pf-accent"
+              className="pf-card pf-card--link pf-card--padded pf-turn__link"
             >
-              <span className="font-ui text-xs uppercase tracking-widest text-pf-faint">
+              <span className="pf-eyebrow">
+                <Icon icon={faChevronLeft} />
                 Previous
               </span>
-              <span className="mt-1 block font-prose text-pf-ink">{previous.title}</span>
+              <span className="pf-turn__title">{previous.title}</span>
             </Link>
           ) : (
-            <span className="flex-1" />
+            <span className="pf-turn__gap" />
           )}
 
           {next ? (
             <Link
               to={`/book/${slug}/read/${encodeURIComponent(next.anchorKey)}`}
-              className="flex-1 rounded-lg border border-pf-rule bg-pf-surface p-4 text-right no-underline transition-colors hover:border-pf-accent"
+              className="pf-card pf-card--link pf-card--padded pf-turn__link pf-turn__link--end"
             >
-              <span className="font-ui text-xs uppercase tracking-widest text-pf-faint">Next</span>
-              <span className="mt-1 block font-prose text-pf-ink">{next.title}</span>
+              <span className="pf-eyebrow">
+                Next
+                <Icon icon={faChevronRight} />
+              </span>
+              <span className="pf-turn__title">{next.title}</span>
             </Link>
           ) : (
             <Link
               to={`/book/${slug}`}
-              className="flex-1 rounded-lg border border-pf-rule bg-pf-surface p-4 text-right no-underline transition-colors hover:border-pf-accent"
+              className="pf-card pf-card--link pf-card--padded pf-turn__link pf-turn__link--end"
             >
-              <span className="font-ui text-xs uppercase tracking-widest text-pf-faint">
+              <span className="pf-eyebrow">
                 The end
+                <Icon icon={faChevronRight} />
               </span>
-              <span className="mt-1 block font-prose text-pf-ink">Back to {bookTitle}</span>
+              <span className="pf-turn__title">Back to {bookTitle}</span>
             </Link>
           )}
         </nav>

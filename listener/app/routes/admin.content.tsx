@@ -44,40 +44,33 @@ export async function action({ request, context }: Route.ActionArgs) {
 
 export default function AdminContent({ loaderData }: Route.ComponentProps) {
   return (
-    <div className="space-y-3">
+    <div className="pf-stack-sm">
       {loaderData.units.map((unit) => (
-        <article
-          key={unit.slug}
-          className="rounded-xl border border-pf-rule bg-pf-surface p-5"
-        >
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="min-w-0">
-              <h2 className="font-prose text-lg leading-snug text-pf-ink">{unit.title}</h2>
-              <p className="mt-1 font-ui text-xs text-pf-faint">
+        <article key={unit.slug} className="pf-card pf-card--padded">
+          <div className="pf-split">
+            <div className="pf-split__main">
+              <h2 className="pf-row__main">{unit.title}</h2>
+              <p className="pf-note pf-note--quiet">
                 {unit.bucket}
                 {unit.workSlug ? ` · part of ${unit.workSlug}` : ""}
                 {unit.status === "published" ? "" : ` · ${unit.status}`}
               </p>
             </div>
 
-            <Form method="post" className="shrink-0">
+            <Form method="post">
               <input type="hidden" name="slug" value={unit.slug} />
               <input type="hidden" name="open" value={unit.openToAll ? "0" : "1"} />
               <button
                 type="submit"
-                className={[
-                  "rounded-md px-3 py-1.5 font-ui text-xs transition-colors",
-                  unit.openToAll
-                    ? "bg-pf-accent text-pf-on-accent hover:bg-pf-accent-hover"
-                    : "border border-pf-rule text-pf-muted hover:text-pf-ink",
-                ].join(" ")}
+                aria-pressed={unit.openToAll}
+                className={`pf-button pf-button--sm${unit.openToAll ? " pf-button--primary" : ""}`}
               >
                 {unit.openToAll ? "Open to everyone · make private" : "Open to everyone"}
               </button>
             </Form>
           </div>
 
-          <p className="mt-4 font-ui text-xs text-pf-muted">
+          <p className="pf-note pf-note--quiet pf-card__foot">
             {unit.status !== "published"
               ? "Not published, so nobody can open it yet — grants made now take effect when it publishes."
               : unit.openToAll

@@ -21,6 +21,7 @@ const SOURCE = readFileSync(new URL("../app/routes.ts", import.meta.url), "utf8"
  */
 const PUBLIC_ROUTE_FILES = [
   "routes/sign-in.tsx",
+  "routes/sign-out.tsx",
   "routes/no-access.tsx",
   "routes/favicon.ico.ts",
 ];

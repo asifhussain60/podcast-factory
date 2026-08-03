@@ -27,10 +27,10 @@ export default function AdminOverview({ loaderData }: Route.ComponentProps) {
   const d = loaderData;
 
   return (
-    <div className="space-y-10">
+    <div className="pf-stack-lg">
       <section>
-        <h2 className="font-prose text-xl text-pf-ink">People</h2>
-        <dl className="mt-4 grid gap-4 sm:grid-cols-3">
+        <h2 className="pf-section__title">People</h2>
+        <dl className="pf-stats">
           <Stat label="Invited" value={d.invited} />
           <Stat label="Revoked" value={d.revoked} />
           <Stat
@@ -39,25 +39,19 @@ export default function AdminOverview({ loaderData }: Route.ComponentProps) {
             hint={d.withoutAccess > 0 ? "They sign in to an empty library." : undefined}
           />
         </dl>
-        <Link
-          to="/admin/people"
-          className="mt-4 inline-block font-ui text-sm text-pf-accent hover:underline"
-        >
+        <Link to="/admin/people" className="pf-link">
           Manage people
         </Link>
       </section>
 
       <section>
-        <h2 className="font-prose text-xl text-pf-ink">Content</h2>
-        <dl className="mt-4 grid gap-4 sm:grid-cols-3">
+        <h2 className="pf-section__title">Content</h2>
+        <dl className="pf-stats">
           <Stat label="Readable now" value={d.published} hint={`of ${d.total} known`} />
           <Stat label="Open to everyone" value={d.openToAll} />
           <Stat label="Not yet published" value={d.total - d.published} />
         </dl>
-        <Link
-          to="/admin/content"
-          className="mt-4 inline-block font-ui text-sm text-pf-accent hover:underline"
-        >
+        <Link to="/admin/content" className="pf-link">
           Manage content
         </Link>
       </section>
@@ -67,10 +61,10 @@ export default function AdminOverview({ loaderData }: Route.ComponentProps) {
 
 function Stat({ label, value, hint }: { label: string; value: number; hint?: string }) {
   return (
-    <div className="rounded-xl border border-pf-rule bg-pf-surface p-5">
-      <dt className="font-ui text-xs uppercase tracking-widest text-pf-faint">{label}</dt>
-      <dd className="mt-2 font-prose text-3xl text-pf-ink">{value}</dd>
-      {hint ? <p className="mt-1 font-ui text-xs text-pf-muted">{hint}</p> : null}
+    <div className="pf-stat">
+      <dt className="pf-stat__label">{label}</dt>
+      <dd className="pf-stat__value">{value}</dd>
+      {hint ? <p className="pf-note pf-note--quiet">{hint}</p> : null}
     </div>
   );
 }

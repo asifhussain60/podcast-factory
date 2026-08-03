@@ -126,6 +126,36 @@ describe("the theme's palettes", () => {
   });
 });
 
+describe("the two Arabic faces", () => {
+  /** Everything inside §7, where the reading column is styled. */
+  const readingColumn = (() => {
+    const start = CSS.indexOf("* 7. READER");
+    expect(start, "the stylesheet must still have a §7 reading column").toBeGreaterThan(-1);
+    return CSS.slice(start);
+  })();
+
+  it("keeps the display face out of the reading column", () => {
+    // Amiri is for titles. The reading column carries fully-vowelled prose and
+    // Scheherazade New is engineered for it; a face with Amiri's stroke contrast
+    // collides its harakat. This is the assertion that stops someone "tidying"
+    // the two tokens into one.
+    expect(
+      readingColumn,
+      "§7 must not reference --l-font-arabic-display; the reader uses --l-font-arabic",
+    ).not.toContain("--l-font-arabic-display");
+  });
+
+  it("still binds the reading column to a face at all", () => {
+    expect(readingColumn).toContain("--l-font-arabic");
+  });
+
+  it("never binds the display face to :lang(ar)", () => {
+    // That selector drives every Arabic run on the site, prose included.
+    const langRule = CSS.slice(CSS.indexOf(":lang(ar)"), CSS.indexOf(":lang(ar)") + 260);
+    expect(langRule).not.toContain("--l-font-arabic-display");
+  });
+});
+
 describe.each(FOUND)("$name", ({ name, colors }) => {
   for (const [fg, bg, min] of PAIRS) {
     it(`${fg} on ${bg} clears ${min}:1`, () => {

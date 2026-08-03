@@ -17,10 +17,21 @@ export const meta: Route.MetaFunction = () => [
   { name: "color-scheme", content: "light dark" },
   // The site is invite-only, so there is nothing here for a crawler.
   { name: "robots", content: "noindex, nofollow" },
+  // Not for search — for the person who pastes an invitation link into a chat
+  // and would otherwise send a bare URL with no indication of what it is.
+  { property: "og:title", content: "Podcast Factory" },
+  { property: "og:description", content: "Scholarly books, read and heard." },
+  { property: "og:image", content: "/brand/og.png" },
 ];
 
 export const links: Route.LinksFunction = () => [
+  // The SVG is the real icon — it follows the OS between light and dark. The
+  // PNG is the fallback for the places that will not take an SVG at all, and
+  // the apple-touch one is what iOS puts on a home screen. Both come out of
+  // `npm run brand`.
   { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+  { rel: "icon", href: "/brand/icon-32.png", type: "image/png", sizes: "32x32" },
+  { rel: "apple-touch-icon", href: "/brand/icon-180.png" },
   // The two faces above the fold. Arabic and OpenDyslexic load on demand.
   {
     rel: "preload",
@@ -106,11 +117,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main id="main" className="mx-auto max-w-2xl px-6 py-24">
-      <h1 className="text-3xl">{heading}</h1>
-      <p className="mt-3 text-pf-muted">{detail}</p>
+    <main id="main" className="pf-container pf-container--narrow pf-error">
+      <h1 className="pf-title">{heading}</h1>
+      <p className="pf-lede">{detail}</p>
       {stack ? (
-        <pre className="mt-8 overflow-x-auto rounded-md bg-pf-sunken p-4 text-xs">
+        <pre className="pf-stack">
           <code>{stack}</code>
         </pre>
       ) : null}

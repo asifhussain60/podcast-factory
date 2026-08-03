@@ -18,30 +18,18 @@ export function ThemePicker() {
   }
 
   return (
-    <div
-      role="group"
-      aria-label="Colour theme"
-      className="inline-flex items-center gap-1 rounded-xl border border-pf-rule bg-pf-surface p-1"
-    >
-      {THEMES.map((t) => {
-        const active = theme === t;
-        return (
-          <button
-            key={t}
-            type="button"
-            onClick={() => choose(t)}
-            aria-pressed={active}
-            className={[
-              "rounded-md px-3 py-1.5 text-sm transition-colors",
-              active
-                ? "bg-pf-accent text-pf-on-accent"
-                : "text-pf-muted hover:bg-pf-sunken hover:text-pf-ink",
-            ].join(" ")}
-          >
-            {THEME_LABELS[t]}
-          </button>
-        );
-      })}
+    <div role="group" aria-label="Colour theme" className="pf-swatches">
+      {THEMES.map((t) => (
+        <button
+          key={t}
+          type="button"
+          onClick={() => choose(t)}
+          aria-pressed={theme === t}
+          className="pf-swatch"
+        >
+          {THEME_LABELS[t]}
+        </button>
+      ))}
     </div>
   );
 }

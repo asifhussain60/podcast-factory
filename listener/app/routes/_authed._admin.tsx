@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from "react-router";
 
 import type { Route } from "./+types/_authed._admin";
+import { SiteFooter } from "~/components/SiteFooter";
 import { SiteHeader } from "~/components/SiteHeader";
 import { requireAdmin } from "~/middleware/admin";
 
@@ -22,39 +23,29 @@ const TABS = [
 
 export default function AdminLayout() {
   return (
-    <div className="min-h-dvh bg-pf-bg">
+    <div className="pf-shell">
       {/* Admin is a section of this site, not a separate application, so it
           carries the same masthead — and the way back out that it lacked. */}
       <SiteHeader here="admin" isAdmin />
 
-      <main id="main" className="mx-auto w-full max-w-5xl px-6 pb-16">
-        <div className="mb-8 border-t border-pf-rule pt-10">
-        <h1 className="font-prose text-3xl text-pf-ink">Access</h1>
-        <p className="mt-2 font-ui text-sm text-pf-muted">
-          Who may sign in, and which books each person can open.
-        </p>
-        <nav className="mt-6 flex gap-1 border-b border-pf-rule">
-          {TABS.map((tab) => (
-            <NavLink
-              key={tab.to}
-              to={tab.to}
-              end={tab.end}
-              className={({ isActive }) =>
-                [
-                  "-mb-px border-b-2 px-3 py-2 text-sm transition-colors",
-                  isActive
-                    ? "border-pf-accent text-pf-ink"
-                    : "border-transparent text-pf-muted hover:text-pf-ink",
-                ].join(" ")
-              }
-            >
-              {tab.label}
-            </NavLink>
+      <main id="main" className="pf-container">
+        <div className="pf-masthead pf-masthead--tight">
+          <h1 className="pf-title pf-title--sm">Access</h1>
+          <p className="pf-note">Who may sign in, and which books each person can open.</p>
+
+          <nav className="pf-tabs">
+            {TABS.map((tab) => (
+              <NavLink key={tab.to} to={tab.to} end={tab.end} className="pf-tab">
+                {tab.label}
+              </NavLink>
             ))}
           </nav>
         </div>
+
         <Outlet />
       </main>
+
+      <SiteFooter />
     </div>
   );
 }

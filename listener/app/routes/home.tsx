@@ -40,7 +40,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       <main id="main" className="pf-container">
         <section className="pf-masthead">
           <p className="pf-eyebrow">{siteName}</p>
-          <h1 className="pf-title">Your library</h1>
+          <h1 className="pf-title">Podcast Library</h1>
           <p className="pf-lede">
             {units.length === 0
               ? "Nothing has been shared with you yet. When something is, it appears here."

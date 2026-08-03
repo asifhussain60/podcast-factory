@@ -1,5 +1,7 @@
-import { Link } from "react-router";
+import { faRightFromBracket, faUserShield } from "@fortawesome/free-solid-svg-icons";
+import { Form, Link } from "react-router";
 
+import { Icon } from "~/components/Icon";
 import { Logo } from "~/components/brand/Logo";
 import { ThemePicker } from "~/components/ThemePicker";
 
@@ -40,9 +42,20 @@ export function SiteHeader({
 
         {isAdmin && here !== "admin" ? (
           <Link to="/admin" className="pf-navlink">
+            <Icon icon={faUserShield} />
             Access
           </Link>
         ) : null}
+
+        {/* A POST, not a link — see routes/sign-out.tsx. The button is styled
+            as a nav item so the header does not grow a second visual weight
+            for what is just another way out. */}
+        <Form method="post" action="/sign-out">
+          <button type="submit" className="pf-navlink pf-navlink--button">
+            <Icon icon={faRightFromBracket} />
+            Sign out
+          </button>
+        </Form>
 
         <ThemePicker />
       </div>

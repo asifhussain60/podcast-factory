@@ -1,6 +1,19 @@
+import {
+  faBookOpen,
+  faClock,
+  faDownload,
+  faFileLines,
+  faHeadphones,
+  faImages,
+  faPause,
+  faPlay,
+  type IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
 import type { Route } from "./+types/book.$slug";
+import { Icon } from "~/components/Icon";
+import { SiteFooter } from "~/components/SiteFooter";
 import { SiteHeader } from "~/components/SiteHeader";
 import { clock, usePlayer } from "~/components/player/Player";
 import { cloudflare } from "~/context";
@@ -74,84 +87,79 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
   const bothHalves = canRead && canListen;
 
   return (
-    <div className="min-h-dvh bg-pf-bg">
+    <div className="pf-shell">
       <SiteHeader here="book" isAdmin={isAdmin} />
 
-      <main id="main" className="mx-auto max-w-5xl px-6 pb-32">
-        {/* ---- Identity ---- */}
-        <header className="border-t border-pf-rule pt-12">
-          <p className="font-ui text-xs uppercase tracking-[0.18em] text-pf-faint">
+      <main id="main" className="pf-container">
+        {/* ---- Identity ----
+            The same two-part identity the library card carries, opened out: the
+            Arabic title set large as the book's own name, the English beneath
+            it. */}
+        <header className="pf-masthead pf-masthead--tight">
+          <p className="pf-eyebrow">
             {unit.bucket}
             {detail?.editionNote ? ` · ${detail.editionNote.replace(/_/g, " ")}` : null}
           </p>
 
-          <h1 className="mt-3 max-w-3xl text-balance font-prose text-4xl leading-[1.1] text-pf-ink sm:text-5xl">
-            {unit.title}
-          </h1>
-
           {detail?.titleArabic ? (
-            <p
-              lang="ar"
-              dir="rtl"
-              className="mt-3 text-left font-arabic text-3xl text-pf-muted"
-            >
+            <p lang="ar" dir="rtl" className="pf-book-title-ar">
               {detail.titleArabic}
             </p>
           ) : null}
+
+          <h1 className="pf-title pf-title--sm">{unit.title}</h1>
 
           {/* Rendered at publish time, not here — italics, inline Arabic and the
               folded transliteration all come from the same renderer as the
               chapters, so the blurb reads exactly as the book does. */}
           {detail?.blurbHtml ? (
             <div
-              className="reader mt-6 max-w-2xl text-pf-muted"
+              className="reader pf-blurb"
               dangerouslySetInnerHTML={{ __html: detail.blurbHtml }}
             />
           ) : null}
+
+          {/* ---- What this book actually has ----
+              One pill per fact, and only for facts that are true. Most books in
+              this library are missing most things, and a greyed-out icon reads
+              as a fault where a named pill reads as a fact. */}
+          <ul className="pf-pills">
+            {describeContents({
+              chapters: chapters.length,
+              words: totalWords,
+              episodes: episodes.length,
+              withAudio,
+              pdf: Boolean(detail?.pdfKey),
+              pdfAvailable: Boolean(detail?.pdfAvailable),
+              deckPages,
+              deckAvailable,
+            }).map((fact) => (
+              <li key={fact.label} className="pf-pill pf-pill--outline">
+                <Icon icon={fact.icon} />
+                {fact.label}
+              </li>
+            ))}
+          </ul>
+
+          {/* A link is offered ONLY when the file is actually in R2. The row
+              exists as soon as the PDF is on the author's disk, and linking to
+              that would promise a download that 404s. */}
+          {detail?.pdfKey && detail.pdfAvailable ? (
+            <p className="pf-masthead__action">
+              <a href={`/media/${detail.pdfKey}`} className="pf-button">
+                <Icon icon={faDownload} />
+                Download the print edition
+                <span className="pf-button__meta">{megabytes(detail.pdfBytes)}</span>
+              </a>
+            </p>
+          ) : null}
         </header>
-
-        {/* ---- What this book actually has ----
-            Named honestly rather than shown as a row of icons: most books in
-            this library are missing most things, and a greyed-out icon reads as
-            a fault where a sentence reads as a fact. */}
-        <p className="mt-8 font-ui text-sm text-pf-muted">
-          {describeContents({
-            chapters: chapters.length,
-            words: totalWords,
-            episodes: episodes.length,
-            withAudio,
-            pdf: Boolean(detail?.pdfKey),
-            pdfAvailable: Boolean(detail?.pdfAvailable),
-            deckPages,
-            deckAvailable,
-          })}
-        </p>
-
-        {/* A link is offered ONLY when the file is actually in R2. The row exists
-            as soon as the PDF is on the author's disk, and linking to that would
-            promise a download that 404s. */}
-        {detail?.pdfKey && detail.pdfAvailable ? (
-          <p className="mt-4">
-            <a
-              href={`/media/${detail.pdfKey}`}
-              className="inline-flex items-center gap-2 rounded-lg border border-pf-rule bg-pf-surface px-4 py-2 font-ui text-sm text-pf-ink no-underline transition-colors hover:border-pf-accent"
-            >
-              Download the print edition
-              <span className="text-pf-muted">{megabytes(detail.pdfBytes)}</span>
-            </a>
-          </p>
-        ) : null}
 
         {/* ---- What there is of this book ----
             Two columns only when there are two things. One half alone gets the
             full width and reads as a complete page rather than a page with a
             hole in it. */}
-        <div
-          className={[
-            "mt-16",
-            bothHalves ? "grid gap-14 lg:grid-cols-2 lg:gap-12" : "max-w-2xl",
-          ].join(" ")}
-        >
+        <div className={bothHalves ? "pf-grid pf-grid--pair" : "pf-single"}>
           {canRead ? <ReadingEdition slug={unit.slug} chapters={chapters} /> : null}
           {canListen ? (
             <Podcast
@@ -163,31 +171,37 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
             />
           ) : null}
           {!canRead && !canListen ? (
-            <p className="font-ui text-sm text-pf-muted">
-              Nothing of this book is readable or listenable yet.
-            </p>
+            <p className="pf-note">Nothing of this book is readable or listenable yet.</p>
           ) : null}
         </div>
 
         {deckPages > 0 ? (
-          <section className="mt-16 border-t border-pf-rule pt-8">
-            <h2 className="font-prose text-2xl text-pf-ink">Slides</h2>
-            <p className="mt-2 font-ui text-sm text-pf-muted">
+          <section className="pf-section pf-section--ruled">
+            <div className="pf-section__head">
+              <h2 className="pf-section__title">
+                <Icon icon={faImages} />
+                Slides
+              </h2>
+              <span className="pf-section__count">{deckPages} pages</span>
+            </div>
+            <p className="pf-note pf-section__intro">
               {deckAvailable
-                ? `A ${deckPages}-page deck for the whole book.`
-                : `A ${deckPages}-page deck exists for this book but has not been uploaded yet.`}
+                ? "A deck for the whole book."
+                : "A deck exists for this book but has not been uploaded yet."}
             </p>
             {deckAvailable ? (
-              <Link
-                to={`/book/${unit.slug}/slides`}
-                className="mt-4 inline-block rounded-lg border border-pf-rule bg-pf-surface px-4 py-2 font-ui text-sm text-pf-ink no-underline transition-colors hover:border-pf-accent"
-              >
-                Open the deck
-              </Link>
+              <p className="pf-masthead__action">
+                <Link to={`/book/${unit.slug}/slides`} className="pf-button">
+                  <Icon icon={faImages} />
+                  Open the deck
+                </Link>
+              </p>
             ) : null}
           </section>
         ) : null}
       </main>
+
+      <SiteFooter />
     </div>
   );
 }
@@ -210,9 +224,9 @@ function ReadingEdition({
 }) {
   if (chapters.length === 0) {
     return (
-      <section>
-        <SectionHeading title="Read" count="no reading edition yet" />
-        <p className="mt-4 font-ui text-sm text-pf-muted">
+      <section className="pf-section">
+        <SectionHeading icon={faBookOpen} title="Read" count="no reading edition yet" />
+        <p className="pf-note pf-section__intro">
           The translated edition of this book has not been published here yet.
         </p>
       </section>
@@ -220,24 +234,22 @@ function ReadingEdition({
   }
 
   return (
-    <section>
-      <SectionHeading title="Read" count={`${chapters.length} chapters`} />
+    <section className="pf-section">
+      <SectionHeading icon={faBookOpen} title="Read" count={`${chapters.length} chapters`} />
 
-      <ol className="mt-5 border-t border-pf-rule-soft">
+      <ol className="pf-rows pf-section__intro">
         {chapters.map((chapter) => (
-          <li key={chapter.anchorKey} className="border-b border-pf-rule-soft">
+          <li key={chapter.anchorKey}>
             {/* No ordinal column. The heading already carries the book's OWN
                 number where it has one ("3. The Hours Before Dawn"), and our
                 position counts the introduction as the first entry — so the two
                 disagreed by one on every line. The book's numbering wins. */}
             <Link
               to={`/book/${slug}/read/${encodeURIComponent(chapter.anchorKey)}`}
-              className="flex items-baseline gap-4 py-3.5 no-underline transition-colors hover:bg-pf-surface"
+              className="pf-row"
             >
-              <span className="flex-1 font-prose text-pf-ink">{chapter.title}</span>
-              <span className="shrink-0 font-ui text-xs text-pf-faint">
-                {readingMinutes(chapter.wordCount)} min
-              </span>
+              <span className="pf-row__main">{chapter.title}</span>
+              <span className="pf-row__meta">{readingMinutes(chapter.wordCount)} min</span>
             </Link>
           </li>
         ))}
@@ -273,8 +285,9 @@ function Podcast({
   const grouped = sessions.some((s) => s.title !== "");
 
   return (
-    <section>
+    <section className="pf-section">
       <SectionHeading
+        icon={faHeadphones}
         title="Listen"
         count={[
           grouped ? `${sessions.length} sessions` : null,
@@ -289,41 +302,36 @@ function Podcast({
       {/* Only worth saying when both lists are on screen. On a page with no
           reading edition there is nothing for the reader to be confused with. */}
       {alongsideAnEdition ? (
-        <p className="mt-3 font-ui text-sm text-pf-faint">
+        <p className="pf-note pf-note--quiet pf-section__intro">
           The episodes are drawn along different lines from the chapters — they
           are two readings of the same book, not two halves of one.
         </p>
       ) : null}
 
       {sessions.map((session) => (
-        <div key={session.number} className="mt-8 first:mt-5">
+        <div key={session.number} className="pf-session">
           {/* Label and title are separate flex items, not one wrapping line of
               inline spans. A long title used to wrap back to the left margin and
               set its second line under "SESSION 3", so the two read as unrelated
               fragments — three of this book's five headings did it on a phone. */}
           {session.title ? (
-            <h3 className="flex flex-wrap gap-x-2 font-ui text-xs text-pf-muted">
-              <span className="shrink-0 uppercase tracking-[0.16em]">
-                Session {session.number}
-                <span className="text-pf-faint"> ·</span>
-              </span>
-              <span className="min-w-0 flex-1 text-pf-ink">{session.title}</span>
+            <h3 className="pf-session__head">
+              <span className="pf-session__label">Session {session.number}</span>
+              <span className="pf-session__title">{session.title}</span>
             </h3>
           ) : null}
 
-          <ol className="mt-3 border-t border-pf-rule-soft">
+          <ol className="pf-rows pf-session__list">
             {session.episodes.map((episode) => (
-              <li key={episode.number} className="border-b border-pf-rule-soft py-3.5">
-                <div className="flex items-baseline gap-4">
-                  <span className="w-6 shrink-0 text-right font-ui text-xs tabular-nums text-pf-faint">
-                    {episode.number}
-                  </span>
+              <li key={episode.number}>
+                <div className="pf-row">
+                  <span className="pf-row__index">{episode.number}</span>
 
-                  <div className="min-w-0 flex-1">
-                    <p className="font-prose text-pf-ink">{episode.title}</p>
+                  <div className="pf-row__main">
+                    <p>{episode.title}</p>
 
                     {episode.chapters.length > 0 ? (
-                      <p className="mt-1 font-ui text-xs text-pf-faint">
+                      <p className="pf-note pf-note--quiet">
                         Read along:{" "}
                         {episode.chapters.map((key) => titleOf.get(key) ?? key).join(", ")}
                       </p>
@@ -343,7 +351,7 @@ function Podcast({
                       })}
                     />
                   ) : (
-                    <span className="shrink-0 font-ui text-xs text-pf-faint">not recorded</span>
+                    <span className="pf-row__meta">not recorded</span>
                   )}
                 </div>
               </li>
@@ -370,35 +378,54 @@ function PlayButton({
     <button
       type="button"
       onClick={() => (isCurrent ? player.toggle() : onPlay(player))}
-      className={[
-        "shrink-0 rounded-full border px-3 py-1 font-ui text-xs transition-colors",
-        isCurrent
-          ? "border-pf-accent text-pf-accent"
-          : "border-pf-rule text-pf-ink hover:border-pf-accent",
-      ].join(" ")}
+      aria-pressed={isCurrent}
+      className="pf-button pf-button--sm pf-row__action"
     >
+      <Icon icon={isCurrent && player.playing ? faPause : faPlay} />
       {isCurrent && player.playing ? "Pause" : "Play"}{" "}
       {episode.durationS ? clock(episode.durationS) : ""}
     </button>
   );
 }
 
-function SectionHeading({ title, count }: { title: string; count: string }) {
+function SectionHeading({
+  icon,
+  title,
+  count,
+}: {
+  icon: IconDefinition;
+  title: string;
+  count: string;
+}) {
   return (
-    <div className="flex items-baseline justify-between gap-4">
-      <h2 className="font-prose text-2xl text-pf-ink">{title}</h2>
-      <span className="font-ui text-xs uppercase tracking-widest text-pf-faint">{count}</span>
+    <div className="pf-section__head">
+      <h2 className="pf-section__title">
+        <Icon icon={icon} />
+        {title}
+      </h2>
+      <span className="pf-section__count">{count}</span>
     </div>
   );
 }
 
+/** One fact about a book: an icon that speeds recognition, and the word that carries it. */
+interface Fact {
+  icon: IconDefinition;
+  label: string;
+}
+
 /**
- * One honest sentence about what this book contains.
+ * What this book contains, one honest fact at a time.
  *
- * "Exists" and "can be opened" are different facts and are said differently.
- * Most of this library is half-produced, and a reader who is told a print
- * edition is here and then cannot open it concludes the site is broken — where a
- * reader told it is not uploaded yet simply knows where things stand.
+ * Returns the facts rather than a sentence, because they are rendered as pills
+ * now — but the rule they were written under has not changed: "exists" and "can
+ * be opened" are different facts and are said differently. Most of this library
+ * is half-produced, and a reader who is told a print edition is here and then
+ * cannot open it concludes the site is broken, where a reader told it is not
+ * uploaded yet simply knows where things stand.
+ *
+ * An empty array means nothing is published, and the caller renders no pills at
+ * all rather than one that says so — the page already says it elsewhere.
  */
 function describeContents(x: {
   chapters: number;
@@ -409,29 +436,40 @@ function describeContents(x: {
   pdfAvailable: boolean;
   deckPages: number;
   deckAvailable: boolean;
-}): string {
-  const parts: string[] = [];
+}): Fact[] {
+  const facts: Fact[] = [];
 
   if (x.chapters > 0) {
-    parts.push(`${x.chapters} chapters, about ${readingMinutes(x.words)} minutes of reading`);
+    facts.push({ icon: faBookOpen, label: `${x.chapters} chapters` });
+    facts.push({ icon: faClock, label: `${readingMinutes(x.words)} min read` });
   }
   if (x.episodes > 0) {
-    parts.push(
-      x.withAudio === 0
-        ? `${x.episodes} episodes planned, none recorded yet`
-        : `${x.withAudio} of ${x.episodes} episodes recorded`,
-    );
+    facts.push({
+      icon: faHeadphones,
+      label:
+        x.withAudio === 0
+          ? `${x.episodes} episodes planned`
+          : x.withAudio === x.episodes
+            ? `${x.episodes} episodes`
+            : `${x.withAudio} of ${x.episodes} episodes`,
+    });
   }
-  if (x.pdf) parts.push(x.pdfAvailable ? "a print edition" : "a print edition, not uploaded yet");
+  if (x.pdf) {
+    facts.push({
+      icon: faFileLines,
+      label: x.pdfAvailable ? "print edition" : "print edition, not uploaded yet",
+    });
+  }
   if (x.deckPages > 0) {
-    parts.push(
-      x.deckAvailable
-        ? `a ${x.deckPages}-page slide deck`
-        : `a ${x.deckPages}-page slide deck, not uploaded yet`,
-    );
+    facts.push({
+      icon: faImages,
+      label: x.deckAvailable
+        ? `${x.deckPages}-page deck`
+        : `${x.deckPages}-page deck, not uploaded yet`,
+    });
   }
 
-  return parts.length === 0 ? "Nothing has been published for this book yet." : parts.join(" · ");
+  return facts;
 }
 
 function megabytes(bytes: number | null | undefined): string {

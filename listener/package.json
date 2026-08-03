@@ -20,6 +20,7 @@
     "dev-vars": "node scripts/dev-vars.mjs"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^7.3.1",
     "better-auth": "^1.6.25",
     "isbot": "^5",
     "kysely": "^0.29.4",
@@ -32,12 +33,13 @@
     "@cloudflare/workers-types": "^5.20260801.1",
     "@fontsource-variable/ibm-plex-sans": "5.3.0",
     "@fontsource-variable/literata": "5.3.0",
+    "@fontsource/amiri": "^5.3.0",
     "@react-router/dev": "8.3.0",
     "@tailwindcss/vite": "4.3.3",
     "@types/node": "^25.9.1",
-    "sharp": "^0.35.2",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "sharp": "^0.35.2",
     "tailwindcss": "4.3.3",
     "typescript": "^5.9.3",
     "vite": "^8.2.0",

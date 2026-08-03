@@ -58,6 +58,27 @@ const MANIFEST = [
     to: "scheherazade-new-LICENSE.txt",
     note: "SIL OFL 1.1",
   },
+  // Arabic DISPLAY — Amiri, and only ever for display.
+  //
+  // It is a revival of the Bulaq/Amiri naskh types: more stroke contrast and
+  // far more presence than Scheherazade at the same size, which is what a book
+  // title set at 2rem on a coloured band wants. It is NOT a replacement for
+  // Scheherazade. The reading column carries fully-vowelled prose, Scheherazade
+  // is engineered for exactly that, and swapping the running text for a face
+  // with this much contrast is how vowel marks start colliding.
+  //
+  // 400 only. Nothing sets a bold Arabic title, and an unused face still
+  // ships in the build — add the 700 here the day a rule asks for it.
+  {
+    from: "node_modules/@fontsource/amiri/files/amiri-arabic-400-normal.woff2",
+    to: "amiri-arabic-400-normal.woff2",
+    note: "Amiri 400 (display only)",
+  },
+  {
+    from: "node_modules/@fontsource/amiri/LICENSE",
+    to: "amiri-LICENSE.txt",
+    note: "SIL OFL 1.1",
+  },
   // Accessibility option in the reader's font picker.
   {
     from: "../plan-dashboard/public/fonts/opendyslexic/opendyslexic-latin-400-normal.woff2",

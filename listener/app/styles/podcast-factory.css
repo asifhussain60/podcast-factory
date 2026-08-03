@@ -92,6 +92,21 @@
   src: url("/fonts/scheherazade-new-arabic-600-normal.woff2") format("woff2");
 }
 
+/* Amiri — Arabic DISPLAY only, and the distinction is load-bearing.
+   A revival of the Bulaq naskh types: more stroke contrast and far more
+   presence than Scheherazade, which is what a title set at 2rem on a coloured
+   band wants. It is deliberately NOT bound to :lang(ar) — that selector drives
+   the reading column, which carries fully-vowelled prose that Scheherazade is
+   engineered for and this face is not. Only `--l-font-arabic-display` reaches
+   it, and only two rules use that token. */
+@font-face {
+  font-family: "Amiri";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/amiri-arabic-400-normal.woff2") format("woff2");
+}
+
 /* Offered in the reader's font picker. Costs nothing and is a real accessibility
    win for the people who need it. */
 @font-face {
@@ -116,6 +131,9 @@
   --l-font-prose: "Literata Variable", Georgia, "Times New Roman", serif;
   --l-font-ui: "IBM Plex Sans Variable", system-ui, -apple-system, sans-serif;
   --l-font-arabic: "Scheherazade New", "Amiri", serif;
+  /* Titles and other display Arabic ONLY. Never the reading column — see the
+     @font-face note in §1. */
+  --l-font-arabic-display: "Amiri", "Scheherazade New", serif;
   --l-font-dyslexic: "OpenDyslexic", sans-serif;
 
   /* ---- Reading column ------------------------------------------------
@@ -225,104 +243,112 @@
 [data-theme="light"] {
   color-scheme: light;
 
-  --l-bg: #f2f5fa;
-  --l-surface: #ffffff;
+  /* Warm paper rather than the cool blue-white it started as. The page reads
+     as a printed thing the cards sit on, instead of a screen they float over. */
+  --l-bg: #f6f4ef;
+  --l-surface: #fffdf9;
   --l-elev: #ffffff;
-  --l-sunken: #e4eaf4;
+  --l-sunken: #eae5db;
 
-  --l-ink: #0c1b39;    /* the logo's navy, used as the text colour  15.60:1 on bg */
-  --l-muted: #4a5670;  /*                                            6.73:1 on bg */
-  --l-faint: #5d6883;  /*                                            5.09:1 on bg */
+  --l-ink: #1c2433;    /* 14.16:1 on bg */
+  --l-muted: #575d6b;  /*  6.00:1 on bg */
+  --l-faint: #6a707d;  /*  4.52:1 on bg */
 
-  --l-rule: #d7dfec;
-  --l-rule-soft: #e6ecf5;
+  --l-rule: #ded8cd;
+  --l-rule-soft: #ebe6dc;
 
-  --l-accent: #0b53d4;       /* 6.00:1 on bg — the logo's blue, darkened to AA */
-  --l-accent-hover: #093fa8;
-  --l-accent-soft: #dbe6fd;  /* accent reads 5.23:1 on this — soft pills        */
+  --l-accent: #0d51c9;       /* 6.29:1 on bg — the logo's blue, held to AA */
+  --l-accent-hover: #0a3e9c;
+  --l-accent-soft: #dde7fb;  /* accent reads 5.56:1 on this — soft pills */
   --l-on-accent: #ffffff;
 
-  --l-band: #0c1b39;
-  --l-on-band: #f2f5fa;      /* 15.60:1 */
-  --l-band-muted: #93a8cc;   /*  7.08:1 */
-  --l-band-ornament: #4d8bff;/*  5.24:1 */
+  /* A real mid-navy, not the logo's near-black #0c1b39. At the size a card
+     band occupies, that value read as a black slab rather than as the brand
+     colour — the hue was right and the quantity was wrong. */
+  --l-band: #2b456f;
+  --l-on-band: #f6f4ef;       /* 8.75:1 */
+  --l-band-muted: #b3c3de;    /* 5.39:1 */
+  --l-band-ornament: #8fb4f7; /* 4.60:1 */
 
-  --l-ok: #1d7a4c;
-  --l-warn: #8a5a10;
-  --l-danger: #a32a2a;
+  --l-ok: #1f7a4d;
+  --l-warn: #8a5712;
+  --l-danger: #a52d2d;
 
-  --l-shadow-near: rgb(12 27 57 / 0.06);
-  --l-shadow-far: rgb(12 27 57 / 0.08);
+  /* Warm-tinted, so a shadow on warm paper does not go grey. */
+  --l-shadow-near: rgb(46 38 24 / 0.07);
+  --l-shadow-far: rgb(46 38 24 / 0.10);
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --l-bg: #080d18;
-  --l-surface: #101828;
-  --l-elev: #16203a;
-  --l-sunken: #05080f;
+  /* Lifted off near-black. #080d18 was a hole in the screen rather than a
+     surface, and every card sitting on it lost its edges. */
+  --l-bg: #12151c;
+  --l-surface: #1b1f28;
+  --l-elev: #232833;
+  --l-sunken: #0d1015;
 
-  --l-ink: #e7edf8;    /* 16.53:1 on bg */
-  --l-muted: #a0adc6;  /*  8.59:1 on bg */
-  --l-faint: #8593ad;  /*  6.27:1 on bg */
+  --l-ink: #eceef3;    /* 15.73:1 on bg */
+  --l-muted: #a8b0bf;  /*  8.37:1 on bg */
+  --l-faint: #8d95a4;  /*  6.06:1 on bg */
 
-  --l-rule: #23304a;
-  --l-rule-soft: #1a2438;
+  --l-rule: #2f353f;
+  --l-rule-soft: #242932;
 
-  --l-accent: #6ba5ff;       /* 7.82:1 on bg */
-  --l-accent-hover: #8fbcff;
-  --l-accent-soft: #152546;  /* accent reads 6.10:1 on this */
-  --l-on-accent: #04122e;
+  --l-accent: #7aadff;       /* 8.04:1 on bg */
+  --l-accent-hover: #9cc3ff;
+  --l-accent-soft: #1c2a44;  /* accent reads 6.32:1 on this */
+  --l-on-accent: #06152e;
 
-  /* Lifted well off the page: the light theme's #0c1b39 band would disappear
-     into this background entirely. */
-  --l-band: #16233d;
-  --l-on-band: #e7edf8;      /* 13.31:1 */
-  --l-band-muted: #93a3c2;   /*  6.15:1 */
-  --l-band-ornament: #6ba5ff;/*  6.30:1 */
+  /* Above the surface, not below it: on a dark page the band has to be the
+     lighter of the two or the card reads inside-out. */
+  --l-band: #2c3855;
+  --l-on-band: #eceef3;       /* 10.03:1 */
+  --l-band-muted: #a9b6cd;    /*  5.69:1 */
+  --l-band-ornament: #7aadff; /*  5.13:1 */
 
-  --l-ok: #4cb37c;
-  --l-warn: #d3a044;
-  --l-danger: #e2726f;
+  --l-ok: #54b782;
+  --l-warn: #d6a44b;
+  --l-danger: #e57b74;
 
-  --l-shadow-near: rgb(0 0 0 / 0.5);
-  --l-shadow-far: rgb(0 0 0 / 0.4);
+  --l-shadow-near: rgb(0 0 0 / 0.55);
+  --l-shadow-far: rgb(0 0 0 / 0.45);
 }
 
 [data-theme="sepia"] {
   color-scheme: light;
 
-  --l-bg: #efe7d8;
-  --l-surface: #f7f1e4;
-  --l-elev: #fbf7ee;
-  --l-sunken: #e2d8c4;
+  --l-bg: #f0e8d9;
+  --l-surface: #f8f2e6;
+  --l-elev: #fcf8ef;
+  --l-sunken: #e3d9c5;
 
-  --l-ink: #2a2418;    /* 12.53:1 on bg */
-  --l-muted: #5f5540;  /*  5.98:1 on bg */
-  --l-faint: #6b6049;  /*  5.04:1 on bg */
+  --l-ink: #2c2519;    /* 12.45:1 on bg */
+  --l-muted: #615642;  /*  5.91:1 on bg */
+  --l-faint: #6d614a;  /*  4.99:1 on bg */
 
-  --l-rule: #d8cdb8;
-  --l-rule-soft: #e6ddcb;
+  --l-rule: #d9ceb9;
+  --l-rule-soft: #e7decc;
 
-  --l-accent: #1d5399;       /* 6.22:1 on bg — the brand blue, muted for paper */
-  --l-accent-hover: #153f78;
-  --l-accent-soft: #cfdcef;  /* accent reads 5.51:1 on this */
-  --l-on-accent: #f7f1e4;
+  --l-accent: #1c5296;       /* 6.40:1 on bg — the brand blue, muted for paper */
+  --l-accent-hover: #143e74;
+  --l-accent-soft: #d2dcee;  /* accent reads 5.64:1 on this */
+  --l-on-accent: #f8f2e6;
 
-  /* A slate-navy rather than the true navy: on warm paper the cold #0c1b39
-     reads as a hole punched in the page. */
-  --l-band: #2b3a52;
-  --l-on-band: #f2ece0;      /* 9.76:1 */
-  --l-band-muted: #a9b6c9;   /* 5.59:1 */
-  --l-band-ornament: #7ea3d8;/* 4.44:1 */
+  /* A slate-navy: on warm paper a cold true navy reads as a hole punched in
+     the page. */
+  --l-band: #3b4a63;
+  --l-on-band: #f3ede1;       /* 7.68:1 */
+  --l-band-muted: #b4bfcf;    /* 4.81:1 */
+  --l-band-ornament: #8fb0dc; /* 4.01:1 */
 
-  --l-ok: #3c7a52;
-  --l-warn: #8a5c13;
-  --l-danger: #9a3630;
+  --l-ok: #3d7b53;
+  --l-warn: #8b5d14;
+  --l-danger: #9b3731;
 
-  --l-shadow-near: rgb(51 41 28 / 0.07);
-  --l-shadow-far: rgb(51 41 28 / 0.09);
+  --l-shadow-near: rgb(51 41 28 / 0.09);
+  --l-shadow-far: rgb(51 41 28 / 0.12);
 }
 
 /* ==========================================================================
@@ -594,6 +620,9 @@
   }
 
   .pf-navlink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-base);
     color: var(--l-muted);
@@ -605,6 +634,17 @@
     color: var(--l-ink);
   }
 
+  /* Sign-out has to be a submit button rather than a link, because ending a
+     session is a POST. It should not look like one — a button among links is
+     the header growing a second visual weight for what is just another way
+     out. */
+  .pf-navlink--button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
   /* The reader's header stays with you and sits over the prose. */
   .pf-header--sticky {
     position: sticky;
@@ -614,6 +654,136 @@
     background: color-mix(in srgb, var(--l-bg) 92%, transparent);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--l-rule-soft);
+  }
+
+  /* ---- Reader ----------------------------------------------------------
+     The chapter page is its own shell: a bar that stays with you, a column
+     measured by `--l-reading-measure`, and nothing else competing for the eye. */
+
+  .pf-reader-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-4);
+    width: 100%;
+    max-width: 48rem;
+    margin-inline: auto;
+    padding-inline: var(--pf-space-5);
+  }
+
+  /* The title doubles as the contents toggle: on a page this bare, a separate
+     button for it would be the second thing in the bar competing with the
+     chapter's own name. */
+  .pf-reader-bar__where {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    text-align: start;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    color: var(--l-muted);
+    cursor: pointer;
+    transition: color var(--pf-motion);
+  }
+
+  .pf-reader-bar__where:hover {
+    color: var(--l-ink);
+  }
+
+  .pf-reader-bar__book,
+  .pf-reader-bar__sep {
+    color: var(--l-faint);
+  }
+
+  .pf-reader-bar__left {
+    flex: none;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-faint);
+  }
+
+  /* On a phone the bar has room for the logo, the title and the settings, and
+     nothing else. The estimate is the first thing to go. */
+  @media (max-width: 639px) {
+    .pf-reader-bar__left {
+      display: none;
+    }
+  }
+
+  .pf-toc {
+    max-height: 60dvh;
+    overflow-y: auto;
+    border-top: 1px solid var(--l-rule-soft);
+    background: var(--l-surface);
+  }
+
+  .pf-toc__list {
+    width: 100%;
+    max-width: 48rem;
+    margin-inline: auto;
+    padding: var(--pf-space-2) var(--pf-space-5);
+    list-style: none;
+  }
+
+  .pf-toc__row[aria-current="page"] .pf-row__main {
+    color: var(--l-accent);
+  }
+
+  .pf-reader-page {
+    width: 100%;
+    max-width: 48rem;
+    margin-inline: auto;
+    padding-inline: var(--pf-space-5);
+    padding-bottom: var(--pf-space-9);
+  }
+
+  .pf-chapter-title {
+    margin-top: var(--pf-space-8);
+    max-width: var(--l-reading-measure);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-display-sm);
+    line-height: 1.15;
+    color: var(--l-ink);
+  }
+
+  .pf-chapter-meta {
+    margin-top: var(--pf-space-3);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    color: var(--l-faint);
+  }
+
+  .pf-chapter-body {
+    margin-top: var(--pf-space-6);
+  }
+
+  /* Previous and next, at the foot of the chapter. */
+  .pf-turn {
+    display: flex;
+    gap: var(--pf-space-4);
+    margin-top: var(--pf-space-9);
+    border-top: 1px solid var(--l-rule);
+    padding-top: var(--pf-space-6);
+  }
+
+  .pf-turn__link,
+  .pf-turn__gap {
+    flex: 1;
+  }
+
+  .pf-turn__link--end {
+    text-align: end;
+  }
+
+  .pf-turn__title {
+    display: block;
+    margin-top: var(--pf-space-1);
+    font-family: var(--l-font-prose);
+    color: var(--l-ink);
   }
 
   /* ---- Footer ---------------------------------------------------------
@@ -640,7 +810,17 @@
     padding-top: var(--pf-space-7);
   }
 
+  /* The working surfaces — admin, a book page — open with a shorter runway
+     than the library, which is the only page that gets to be a poster. */
+  .pf-masthead--tight {
+    padding-top: var(--pf-space-6);
+    padding-bottom: var(--pf-space-6);
+  }
+
   .pf-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
     font-weight: 500;
@@ -658,16 +838,113 @@
     max-width: 22ch;
   }
 
+  .pf-title--sm {
+    font-size: var(--pf-display-sm);
+    margin-top: var(--pf-space-2);
+  }
+
+  /* Runs the full width of the page. It is one short sentence, so the usual
+     measure argument does not apply — held at 46ch it broke across two lines
+     and read as a paragraph that had been cut off. */
   .pf-lede {
     margin-top: var(--pf-space-4);
-    max-width: 46ch;
     font-family: var(--l-font-prose);
     font-size: var(--pf-text-md);
     line-height: 1.6;
     color: var(--l-muted);
+    text-wrap: pretty;
+  }
+
+  /* The book's own name, on its own page. Bigger than the card's band title —
+     this is the one place there is room to set it properly. */
+  .pf-book-title-ar {
+    margin-top: var(--pf-space-4);
+    color: var(--l-ink);
+    font-family: var(--l-font-arabic-display);
+    font-size: clamp(2.3rem, 1.7rem + 2.6vw, 3.4rem);
+    line-height: 1.5;
+    /* `dir="rtl"` is required for shaping and ordering, and it also flips the
+       default alignment to the right — which on a wide page throws the title to
+       the far edge, a whole column away from the English name it belongs to.
+       The alignment is deliberately left; only the text direction is right. */
+    text-align: left;
+  }
+
+  .pf-blurb {
+    margin-top: var(--pf-space-5);
+    color: var(--l-muted);
+    font-size: var(--pf-text-md);
+  }
+
+  /* A row of facts under the identity block, and under a library card. */
+  .pf-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-2);
+    margin: var(--pf-space-5) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pf-masthead__action {
+    margin-top: var(--pf-space-5);
+  }
+
+  .pf-button__meta {
+    color: var(--l-muted);
+    font-weight: 400;
   }
 
   /* ---- Section -------------------------------------------------------- */
+
+  /* A section carries no margin of its own. Two of them side by side in a grid
+     would each push their own column down and open a band of dead space above
+     both — the gap between blocks belongs to whatever is arranging them. */
+  .pf-section--ruled {
+    margin-top: var(--pf-space-8);
+    border-top: 1px solid var(--l-rule);
+    padding-top: var(--pf-space-6);
+  }
+
+  .pf-section__intro {
+    margin-top: var(--pf-space-4);
+  }
+
+  /* One half of the book page when the other half does not exist. A single
+     column stretched across the full width reads as a page with a hole in it. */
+  .pf-single {
+    max-width: 42rem;
+    margin-top: var(--pf-space-8);
+  }
+
+  .pf-session {
+    margin-top: var(--pf-space-6);
+  }
+
+  .pf-session__head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-2);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+  }
+
+  .pf-session__label {
+    flex: none;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--l-muted);
+  }
+
+  .pf-session__title {
+    flex: 1;
+    min-width: 0;
+    color: var(--l-ink);
+  }
+
+  .pf-session__list {
+    margin-top: var(--pf-space-3);
+  }
 
   .pf-section__head {
     display: flex;
@@ -695,12 +972,16 @@
      border on hover reads as a state change — as though something had gone
      wrong — where a few pixels of travel reads as depth. */
 
+  /* Cards sit ABOVE the page, not flush with it. The border is now the
+     hairline that keeps the edge crisp; the shadow is what does the lifting,
+     and on the warm background it is warm-tinted so the depth does not read as
+     a grey smudge under the corner. */
   .pf-card {
     position: relative;
     background: var(--l-surface);
     border: 1px solid var(--l-rule);
     border-radius: var(--pf-radius-lg);
-    box-shadow: var(--pf-elev-1);
+    box-shadow: var(--pf-elev-2);
   }
 
   .pf-card--padded {
@@ -721,7 +1002,7 @@
 
   .pf-card--link:hover {
     transform: translateY(var(--pf-lift));
-    box-shadow: var(--pf-elev-3);
+    box-shadow: var(--pf-elev-4);
     border-color: var(--l-rule-soft);
   }
 
@@ -750,6 +1031,7 @@
 
   .pf-grid--pair {
     grid-template-columns: 1fr;
+    margin-top: var(--pf-space-8);
   }
 
   @media (min-width: 640px) {
@@ -799,9 +1081,13 @@
 
   .pf-book__band-title {
     color: var(--l-on-band);
-    font-family: var(--l-font-arabic);
-    font-size: 1.95rem;
-    line-height: 1.75;
+    /* Amiri — display only. Its higher stroke contrast is what gives a title
+       presence at this size; it is deliberately never applied to the reading
+       column. Amiri also sets smaller than Scheherazade at a given size, hence
+       the bump from 1.95rem. */
+    font-family: var(--l-font-arabic-display);
+    font-size: 2.35rem;
+    line-height: 1.55;
     overflow-wrap: break-word;
     /* Two lines is what a band this tall holds. A third would be cut through
        the middle of the letterforms, and for vowelled Arabic — where the marks
@@ -874,10 +1160,14 @@
     border-radius: 0.62rem 0 0 0;
   }
 
+  /* Centred, because the band above it is. A centred title over a left-ragged
+     pill row reads as two halves of different cards. */
   .pf-book__body {
     display: flex;
     flex: 1;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     padding: var(--pf-space-5);
   }
 
@@ -887,11 +1177,13 @@
     font-size: var(--pf-text-lg);
     line-height: 1.3;
     color: var(--l-ink);
+    text-wrap: balance;
   }
 
   .pf-book__pills {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--pf-space-2);
     margin-top: auto;
     padding-top: var(--pf-space-5);
@@ -972,6 +1264,36 @@
     font-size: var(--pf-pill-sm-size);
   }
 
+  /* ---- Icons -------------------------------------------------------------
+     Sized in em so a glyph always matches whatever text it sits beside, and
+     nudged down a hair: Font Awesome's glyphs are drawn on a box whose optical
+     centre sits above the Latin x-height, so at baseline alignment they float. */
+  .pf-icon {
+    /* Explicit, because Tailwind's reset sets every `svg` to `display: block`.
+       Inside the pills and buttons the parent is a flex container so that never
+       showed; in a heading it put the glyph on its own line above the word. */
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    flex: none;
+    vertical-align: -0.125em;
+    opacity: 0.7;
+  }
+
+  /* Against a solid fill the glyph is already low-contrast enough. */
+  .pf-button--primary .pf-icon,
+  .pf-pill--solid .pf-icon,
+  .pf-player__play .pf-icon {
+    opacity: 1;
+  }
+
+  .pf-section__title .pf-icon {
+    opacity: 1;
+    color: var(--l-accent);
+    margin-inline-end: 0.4em;
+    font-size: 0.8em;
+  }
+
   /* ---- Buttons ---------------------------------------------------------- */
 
   .pf-button {
@@ -1029,7 +1351,12 @@
     font-size: var(--pf-text-xs);
   }
 
-  .pf-button[aria-pressed="true"] {
+  /* An on/off button that is NOT already solid shows its state by turning the
+     accent colour. It must exclude `--primary`, which is solid accent: the two
+     rules have equal specificity, this one is later in the file, and it won —
+     painting accent text on an accent fill and erasing the word "Granted" from
+     every grant that was switched on. */
+  .pf-button:not(.pf-button--primary)[aria-pressed="true"] {
     border-color: var(--l-accent);
     color: var(--l-accent);
   }
@@ -1093,6 +1420,88 @@
     color: var(--l-faint);
   }
 
+  .pf-row__action {
+    flex: none;
+    align-self: center;
+  }
+
+  /* A row carrying two lines of its own — an episode title with its chapters
+     underneath — needs the gap those two lines want, not the baseline gap of a
+     single-line row. */
+  .pf-row__main > p + p {
+    margin-top: var(--pf-space-1);
+  }
+
+  /* ---- Deck viewer ------------------------------------------------------- */
+
+  .pf-deck__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--pf-space-3);
+  }
+
+  .pf-deck {
+    margin: 0;
+  }
+
+  .pf-deck__page {
+    width: 100%;
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+  }
+
+  .pf-deck__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-4);
+    margin-top: var(--pf-space-4);
+  }
+
+  .pf-deck__count {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    font-variant-numeric: tabular-nums;
+    color: var(--l-muted);
+  }
+
+  .pf-rail {
+    display: flex;
+    gap: var(--pf-space-2);
+    margin: var(--pf-space-6) 0 0;
+    padding: 0 0 var(--pf-space-2);
+    list-style: none;
+    overflow-x: auto;
+  }
+
+  .pf-rail__thumb {
+    display: block;
+    flex: none;
+    width: 6rem;
+    aspect-ratio: 4 / 3;
+    padding: 0;
+    overflow: hidden;
+    background: var(--l-sunken);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-sm);
+    cursor: pointer;
+    transition: border-color var(--pf-motion);
+  }
+
+  .pf-rail__thumb:hover,
+  .pf-rail__thumb[aria-current="true"] {
+    border-color: var(--l-accent);
+  }
+
+  .pf-rail__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   /* ---- Forms ------------------------------------------------------------ */
 
   .pf-field {
@@ -1132,6 +1541,129 @@
     border-color: var(--l-accent-soft);
   }
 
+  .pf-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    margin-top: var(--pf-space-4);
+  }
+
+  .pf-message {
+    margin-top: var(--pf-space-3);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    line-height: 1.5;
+  }
+
+  .pf-message--danger {
+    color: var(--l-danger);
+  }
+
+  .pf-message--warn {
+    color: var(--l-warn);
+  }
+
+  /* ---- Access administration ---------------------------------------------
+     A list of people on the left, and what the selected one may open on the
+     right. Below the breakpoint it is one column, people first. */
+
+  .pf-admin-split {
+    display: grid;
+    gap: var(--pf-space-7);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 1024px) {
+    .pf-admin-split {
+      grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+      gap: var(--pf-space-8);
+    }
+  }
+
+  .pf-people__heading {
+    margin-top: var(--pf-space-7);
+  }
+
+  .pf-people {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+    margin: var(--pf-space-4) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pf-person {
+    display: block;
+    padding: var(--pf-space-3) var(--pf-space-4);
+    text-decoration: none;
+    transition: border-color var(--pf-motion);
+  }
+
+  .pf-person:hover,
+  .pf-person[aria-current="true"] {
+    border-color: var(--l-accent);
+  }
+
+  .pf-person__who {
+    display: block;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    color: var(--l-ink);
+    overflow-wrap: anywhere;
+  }
+
+  .pf-person__what {
+    display: block;
+    margin-top: 2px;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-faint);
+  }
+
+  .pf-grants__work {
+    margin-top: var(--pf-space-6);
+  }
+
+  /* Volumes sit under the work they belong to, indented so the hierarchy is
+     visible without a second heading level. */
+  .pf-grants__volumes {
+    margin-top: var(--pf-space-2);
+    padding-inline-start: var(--pf-space-5);
+  }
+
+  .pf-grant {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-4);
+    margin-top: var(--pf-space-2);
+    padding: var(--pf-space-3) var(--pf-space-4);
+    border-radius: var(--pf-radius);
+  }
+
+  .pf-grant__what {
+    min-width: 0;
+  }
+
+  .pf-grant__label {
+    display: block;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    color: var(--l-ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pf-grant__hint {
+    display: block;
+    margin-top: 2px;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-faint);
+  }
+
   /* ---- Table ------------------------------------------------------------ */
 
   .pf-table {
@@ -1158,8 +1690,62 @@
     color: var(--l-ink);
   }
 
+  /* ---- Stacks and splits -------------------------------------------------
+     The two arrangements the admin screens need, named rather than repeated
+     as a utility string on every block. */
+
+  .pf-stack-sm > * + * {
+    margin-top: var(--pf-space-3);
+  }
+
+  .pf-stack-lg > * + * {
+    margin-top: var(--pf-space-7);
+  }
+
+  .pf-split {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--pf-space-4);
+  }
+
+  .pf-split__main {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .pf-card__foot {
+    margin-top: var(--pf-space-4);
+  }
+
+  .pf-link {
+    display: inline-block;
+    margin-top: var(--pf-space-4);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    color: var(--l-accent);
+  }
+
+  .pf-link:hover {
+    text-decoration: underline;
+  }
+
   /* ---- Stat -------------------------------------------------------------
      The admin overview's counts. */
+
+  .pf-stats {
+    display: grid;
+    gap: var(--pf-space-4);
+    grid-template-columns: 1fr;
+    margin: var(--pf-space-4) 0 0;
+  }
+
+  @media (min-width: 640px) {
+    .pf-stats {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
 
   .pf-stat {
     display: flex;
@@ -1204,11 +1790,312 @@
     font-size: var(--pf-text-sm);
   }
 
+  /* ---- Reading settings ---------------------------------------------------
+     A popover on desktop, a bottom sheet on a phone — one component placed by
+     these rules, because two components would be two chances for the controls
+     to disagree. The panel is portalled to <body>; the sticky reader header
+     carries `backdrop-filter`, which makes it the containing block for fixed
+     descendants and once anchored this sheet to a 44px-tall header. */
+
+  .pf-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: transparent;
+    border: 0;
+    cursor: default;
+  }
+
+  .pf-sheet {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 50;
+    max-height: 85dvh;
+    overflow-y: auto;
+    padding: var(--pf-space-5);
+    background: var(--l-elev);
+    border-top: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-xl) var(--pf-radius-xl) 0 0;
+    box-shadow: var(--pf-elev-4);
+  }
+
+  @media (min-width: 640px) {
+    .pf-sheet {
+      inset-inline: auto;
+      inset-inline-end: var(--pf-space-4);
+      top: 4rem;
+      bottom: auto;
+      width: 20rem;
+      border: 1px solid var(--l-rule);
+      border-radius: var(--pf-radius-lg);
+    }
+  }
+
+  .pf-sheet__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+    padding-block: var(--pf-space-3);
+    border-bottom: 1px solid var(--l-rule-soft);
+  }
+
+  .pf-sheet__row:first-child {
+    padding-top: 0;
+  }
+
+  .pf-sheet__row:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .pf-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-1);
+  }
+
+  .pf-chips--baseline {
+    align-items: center;
+    gap: var(--pf-space-2);
+  }
+
+  .pf-chips__value {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+    color: var(--l-muted);
+  }
+
+  .pf-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    padding: var(--pf-space-1) var(--pf-space-3);
+    background: transparent;
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius);
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  .pf-chip:hover {
+    background: var(--l-sunken);
+    color: var(--l-ink);
+  }
+
+  .pf-chip--on {
+    background: var(--l-accent);
+    border-color: var(--l-accent);
+    color: var(--l-on-accent);
+  }
+
+  /* The two ends of the size stepper, drawn as the letter at each extreme. */
+  .pf-chip__a-sm {
+    font-size: var(--pf-text-xs);
+  }
+
+  .pf-chip__a-lg {
+    font-size: var(--pf-text-lg);
+    line-height: 1;
+  }
+
+  /* ---- Player -------------------------------------------------------------
+     Fixed to the foot of every page once something is playing, so navigating
+     away from a book does not stop it. */
+
+  .pf-player {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--l-elev) 95%, transparent);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--l-rule);
+  }
+
+  .pf-player__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+    width: 100%;
+    max-width: var(--pf-measure-page);
+    margin-inline: auto;
+    padding: var(--pf-space-3) var(--pf-space-5);
+  }
+
+  .pf-player__top {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-3);
+  }
+
+  .pf-player__play {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+    cursor: pointer;
+    transition: background var(--pf-motion);
+  }
+
+  .pf-player__play:hover {
+    background: var(--l-accent-hover);
+  }
+
+  .pf-player__nudge,
+  .pf-player__close {
+    border: 0;
+    background: transparent;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    cursor: pointer;
+    transition: color var(--pf-motion);
+  }
+
+  .pf-player__nudge:hover,
+  .pf-player__close:hover {
+    color: var(--l-ink);
+  }
+
+  .pf-player__what {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pf-player__title,
+  .pf-player__book {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pf-player__title {
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-base);
+    color: var(--l-ink);
+  }
+
+  .pf-player__book {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
+    text-decoration: none;
+  }
+
+  .pf-player__book:hover {
+    color: var(--l-ink);
+  }
+
+  .pf-player__rate {
+    display: none;
+    align-items: center;
+    gap: var(--pf-space-1);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
+  }
+
+  .pf-player__scrub {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-3);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+    color: var(--l-muted);
+  }
+
+  .pf-player__seek {
+    flex: 1;
+    height: 4px;
+    accent-color: var(--l-accent);
+  }
+
+  .pf-select--sm {
+    width: auto;
+    padding: var(--pf-space-1) var(--pf-space-2);
+    border-radius: var(--pf-radius-sm);
+    font-size: var(--pf-text-xs);
+  }
+
+  /* A phone's player bar has room for play, what is playing, and close. The
+     skip buttons and the speed control are the parts that go. */
+  @media (min-width: 640px) {
+    .pf-player__nudge {
+      display: block;
+    }
+
+    .pf-player__rate {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .pf-player__nudge {
+      display: none;
+    }
+  }
+
+  /* ---- Theme swatches ---------------------------------------------------
+     A segmented control rather than a dropdown: three options that the reader
+     settings sheet reuses instead of growing a second control of its own. */
+
+  .pf-swatches {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-pill);
+  }
+
+  .pf-swatch {
+    padding: var(--pf-space-1) var(--pf-space-3);
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    background: transparent;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    line-height: 1.6;
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  .pf-swatch:hover {
+    background: var(--l-sunken);
+    color: var(--l-ink);
+  }
+
+  .pf-swatch[aria-pressed="true"] {
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+  }
+
   /* ---- Tabs -------------------------------------------------------------- */
 
   .pf-tabs {
     display: flex;
     gap: var(--pf-space-5);
+    margin-top: var(--pf-space-5);
     border-bottom: 1px solid var(--l-rule);
   }
 
@@ -1232,6 +2119,171 @@
   .pf-tab[aria-current="page"] {
     color: var(--l-ink);
     border-bottom-color: var(--l-accent);
+  }
+
+  /* ---- The two public pages ---------------------------------------------
+     Sign-in and no-access. A short column, vertically centred, so the page
+     does not read as a form that fell to the top of an empty screen. */
+
+  .pf-gate {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--pf-space-4);
+    padding-block: var(--pf-space-8);
+  }
+
+  .pf-gate__action {
+    margin-top: var(--pf-space-4);
+  }
+
+  .pf-button--block {
+    width: 100%;
+  }
+
+  /* ---- The front door ----------------------------------------------------
+     Sign-in with the hero above it. A centred column, wider than the plain
+     gate, because a 1672px image in a 34rem column is a postage stamp. */
+
+  .pf-gate--hero {
+    max-width: 48rem;
+    align-items: center;
+    text-align: center;
+    gap: var(--pf-space-5);
+    padding-block: var(--pf-space-6) var(--pf-space-8);
+  }
+
+  .pf-hero {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--pf-radius-lg);
+  }
+
+  /* The image is a bright composite on near-white. On the dark theme that is a
+     panel of glare in the middle of an otherwise dim page, at the exact moment
+     someone opens the site at night — so it is dimmed to sit in the page rather
+     than on top of it, and lifts back to full on hover. Sepia gets the same
+     treatment in the other direction: a touch of warmth so the cool white of
+     the artwork does not fight the paper around it. */
+  [data-theme="dark"] .pf-hero {
+    filter: brightness(0.82) saturate(0.95);
+    transition: filter var(--pf-motion);
+  }
+
+  [data-theme="dark"] .pf-hero:hover {
+    filter: none;
+  }
+
+  [data-theme="sepia"] .pf-hero {
+    filter: sepia(0.18) saturate(0.96);
+  }
+
+  .pf-hero__titling {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--pf-space-3);
+  }
+
+  .pf-hero__tagline {
+    max-width: 22ch;
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-display-sm);
+    line-height: 1.15;
+    color: var(--l-ink);
+  }
+
+  /* The byline. Prominent by POSITION — it sits directly under the largest
+     type on the page, where a title page puts an author — and quiet by
+     TREATMENT: the label recedes to the eyebrow's small caps, and only the
+     name is set in ink. Nothing here is bold, coloured or enlarged; it earns
+     attention from where it stands rather than from how loudly it is drawn. */
+  .pf-byline {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.6em;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+  }
+
+  .pf-byline__label {
+    text-transform: uppercase;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    color: var(--l-faint);
+  }
+
+  .pf-byline__name {
+    color: var(--l-ink);
+    font-size: var(--pf-text-sm);
+    letter-spacing: 0.03em;
+  }
+
+  .pf-hero__lede {
+    max-width: 54ch;
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-md);
+    line-height: 1.65;
+    color: var(--l-muted);
+  }
+
+  .pf-hero__action {
+    margin-top: var(--pf-space-2);
+  }
+
+  /* The small print under the button. Left to the column's full 48rem it sets
+     at about 110 characters a line, which is roughly twice a comfortable
+     measure and reads as a legal footer rather than a helpful sentence. */
+  .pf-gate--hero .pf-note {
+    max-width: 58ch;
+  }
+
+  /* On a phone the same paragraph that set as three centred lines on a desktop
+     sets as six, and centred body copy that deep gives the eye a new starting
+     position on every line. The heading stays centred — two or three words a
+     line is what centring is for. */
+  @media (max-width: 639px) {
+    .pf-hero__lede,
+    .pf-gate--hero .pf-note {
+      text-align: start;
+    }
+  }
+
+  .pf-button--lg {
+    padding: var(--pf-space-4) var(--pf-space-7);
+    font-size: var(--pf-text-md);
+  }
+
+  /* The hero carries the wordmark at full size, so the masthead above it is
+     the theme control alone. */
+  .pf-header--bare {
+    justify-content: flex-end;
+  }
+
+  .pf-strong {
+    font-weight: 500;
+    color: var(--l-ink);
+  }
+
+  /* ---- Error page --------------------------------------------------------
+     Also the denied-404. It must look exactly like a genuine 404, which is why
+     there is one boundary and one set of rules for it. */
+
+  .pf-error {
+    padding-block: var(--pf-space-9);
+  }
+
+  .pf-stack {
+    margin-top: var(--pf-space-6);
+    padding: var(--pf-space-4);
+    overflow-x: auto;
+    background: var(--l-sunken);
+    border-radius: var(--pf-radius);
+    font-size: var(--pf-text-xs);
+    line-height: 1.5;
   }
 }
 

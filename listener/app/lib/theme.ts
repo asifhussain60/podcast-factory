@@ -1,3 +1,13 @@
+/**
+ * Every theme this build ships, in the order the picker offers them.
+ *
+ * This array is the ONLY list. The init script below serialises it rather than
+ * repeating the names, and `isTheme` is what every other check calls — because
+ * the names used to be written out again in two more places, which meant adding
+ * a fourth theme silently produced one the picker offered and the pre-paint
+ * script refused to restore. Adding a theme is now this line plus a palette
+ * block in §3 of app/styles/podcast-factory.css.
+ */
 export const THEMES = ["light", "sepia", "dark"] as const;
 export type Theme = (typeof THEMES)[number];
 
@@ -24,7 +34,14 @@ export const THEME_LABELS: Record<Theme, string> = {
  */
 export const THEME_INIT_SCRIPT = `(function(){try{var k=${JSON.stringify(
   THEME_STORAGE_KEY,
-)};var t=localStorage.getItem(k);if(t!=="light"&&t!=="dark"&&t!=="sepia"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","light")}})();`;
+)};var a=${JSON.stringify(
+  THEMES,
+)};var t=localStorage.getItem(k);if(a.indexOf(t)<0){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","light")}})();`;
+
+/** Whether a stored or stamped value is one of the themes this build ships. */
+export function isTheme(value: string | null): value is Theme {
+  return value !== null && (THEMES as readonly string[]).includes(value);
+}
 
 export function applyTheme(theme: Theme) {
   document.documentElement.setAttribute("data-theme", theme);
@@ -39,7 +56,7 @@ export function applyTheme(theme: Theme) {
 /** What the document is showing right now. */
 export function currentTheme(): Theme {
   const attr = document.documentElement.getAttribute("data-theme");
-  if (attr === "light" || attr === "dark" || attr === "sepia") return attr;
+  if (isTheme(attr)) return attr;
   // Only reachable if the init script was blocked; mirror its fallback.
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }

@@ -73,20 +73,16 @@ export function ReaderSettings() {
         aria-hidden="true"
         tabIndex={-1}
         onClick={() => setOpen(false)}
-        className="fixed inset-0 z-40 cursor-default bg-transparent"
+        className="pf-scrim"
       />
 
-      <div
-        role="dialog"
-        aria-label="Reading settings"
-        className="fixed inset-x-0 bottom-0 z-50 max-h-[85dvh] overflow-y-auto rounded-t-2xl border-t border-pf-rule bg-pf-elev p-6 shadow-pf sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-16 sm:w-80 sm:rounded-xl sm:border"
-      >
+      <div role="dialog" aria-label="Reading settings" className="pf-sheet">
         <Row label="Theme">
           <ThemePicker />
         </Row>
 
         <Row label="Typeface">
-          <div className="flex flex-wrap gap-1">
+          <div className="pf-chips">
             {FAMILIES.map((family) => (
               <Chip
                 key={family}
@@ -100,27 +96,27 @@ export function ReaderSettings() {
         </Row>
 
         <Row label="Size">
-          <div className="flex items-center gap-2">
+          <div className="pf-chips pf-chips--baseline">
             <Chip
               active={false}
               onClick={() => update({ ...prefs, size: step(SIZES, prefs.size as never, -1) })}
               ariaLabel="Smaller text"
             >
-              <span className="text-xs">A</span>
+              <span className="pf-chip__a-sm">A</span>
             </Chip>
-            <span className="font-ui text-xs tabular-nums text-pf-muted">{prefs.size}px</span>
+            <span className="pf-chips__value">{prefs.size}px</span>
             <Chip
               active={false}
               onClick={() => update({ ...prefs, size: step(SIZES, prefs.size as never, 1) })}
               ariaLabel="Larger text"
             >
-              <span className="text-lg leading-none">A</span>
+              <span className="pf-chip__a-lg">A</span>
             </Chip>
           </div>
         </Row>
 
         <Row label="Line spacing">
-          <div className="flex gap-1">
+          <div className="pf-chips">
             {LEADINGS.map((leading, i) => (
               <Chip
                 key={leading}
@@ -134,7 +130,7 @@ export function ReaderSettings() {
         </Row>
 
         <Row label="Line width">
-          <div className="flex gap-1">
+          <div className="pf-chips">
             {MEASURES.map((measure, i) => (
               <Chip
                 key={measure}
@@ -156,7 +152,7 @@ export function ReaderSettings() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="rounded-lg border border-pf-rule bg-pf-surface px-3 py-1.5 font-ui text-sm text-pf-ink transition-colors hover:border-pf-accent"
+        className="pf-button pf-button--sm pf-settings-toggle"
       >
         Aa
       </button>
@@ -168,8 +164,8 @@ export function ReaderSettings() {
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-2 border-b border-pf-rule-soft py-3 first:pt-0 last:border-0 last:pb-0">
-      <span className="font-ui text-xs uppercase tracking-widest text-pf-faint">{label}</span>
+    <div className="pf-sheet__row">
+      <span className="pf-label">{label}</span>
       {children}
     </div>
   );
@@ -192,12 +188,7 @@ function Chip({
       onClick={onClick}
       aria-label={ariaLabel}
       aria-pressed={ariaLabel ? undefined : active}
-      className={[
-        "flex min-w-9 items-center justify-center rounded-md px-3 py-1.5 font-ui text-sm transition-colors",
-        active
-          ? "bg-pf-accent text-pf-on-accent"
-          : "border border-pf-rule text-pf-muted hover:bg-pf-sunken hover:text-pf-ink",
-      ].join(" ")}
+      className={`pf-chip${active ? " pf-chip--on" : ""}`}
     >
       {children}
     </button>

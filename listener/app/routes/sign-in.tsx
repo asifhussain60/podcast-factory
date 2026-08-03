@@ -1,8 +1,7 @@
 import { redirect, useSearchParams } from "react-router";
 
 import type { Route } from "./+types/sign-in";
-import { Logo } from "~/components/brand/Logo";
-import { ThemePicker } from "~/components/ThemePicker";
+import { PublicShell } from "~/components/PublicShell";
 import { cloudflare } from "~/context";
 import { safeNext } from "~/lib/nav";
 import { viewerOf } from "~/middleware/session";
@@ -58,33 +57,56 @@ export default function SignIn() {
   const next = safeNext(params.get("next"));
 
   return (
-    <div className="flex min-h-dvh flex-col bg-pf-bg">
-      <header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-6 py-6">
-        <Logo size={40} />
-        <ThemePicker />
-      </header>
+    <PublicShell hero>
+      {/* Two widths through srcset: a phone loading the 1600 would spend most
+          of its bytes on pixels it cannot draw. `fetchPriority` because this is
+          the largest paint on the page and there is nothing above it to wait
+          for. The dimensions are on the element so the heading below it does
+          not jump when the image arrives. */}
+      <img
+        className="pf-hero"
+        src="/brand/home-1600.webp"
+        srcSet="/brand/home-800.webp 800w, /brand/home-1600.webp 1600w"
+        sizes="(max-width: 48rem) 100vw, 48rem"
+        width={1672}
+        height={941}
+        fetchPriority="high"
+        alt="Podcast Factory — an open book beside headphones, a microphone and a phone playing an episode"
+      />
 
-      <main id="main" className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-6 pb-24">
-        <h1 className="font-prose text-4xl leading-tight text-pf-ink">Sign in</h1>
-        <p className="mt-4 font-prose text-pf-muted">
-          This library is private. Sign in with the Google account your
-          invitation was sent to.
+      {/* Title then byline, the order a title page uses — which is what makes
+          the credit read as authorship rather than as a badge stuck on the
+          page. Grouped with the heading so the column's gap falls around the
+          pair; a byline floating midway between two blocks belongs to neither. */}
+      <div className="pf-hero__titling">
+        <h1 className="pf-hero__tagline">Classical books, made to be read and heard.</h1>
+        {/* The space between the spans is deliberate. The gap that separates
+            them on screen is flex, which leaves no character behind — so read
+            aloud, or copied, the line came out as "Created byAsif Hussain". */}
+        <p className="pf-byline">
+          <span className="pf-byline__label">Created by</span>{" "}
+          <span className="pf-byline__name">Asif Hussain</span>
         </p>
+      </div>
 
-        <form method="post" className="mt-8">
-          <input type="hidden" name="next" value={next} />
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-pf-accent px-5 py-3 font-ui text-sm text-pf-on-accent transition-colors hover:bg-pf-accent-hover"
-          >
-            Continue with Google
-          </button>
-        </form>
+      <p className="pf-hero__lede">
+        Every work in this library is published twice: as a modern English
+        reading edition, and as a series of long-form audio episodes drawn from
+        the same source. Read it, listen to it, or follow both together.
+      </p>
 
-        <p className="mt-6 font-ui text-xs leading-relaxed text-pf-faint">
-          We ask Google only for your name, email address and profile picture.
-        </p>
-      </main>
-    </div>
+      <form method="post" className="pf-hero__action">
+        <input type="hidden" name="next" value={next} />
+        <button type="submit" className="pf-button pf-button--primary pf-button--lg">
+          Continue with Google
+        </button>
+      </form>
+
+      <p className="pf-note pf-note--quiet">
+        This library is private — sign in with the Google account your invitation
+        was sent to. We ask Google only for your name, email address and profile
+        picture.
+      </p>
+    </PublicShell>
   );
 }

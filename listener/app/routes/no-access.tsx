@@ -1,5 +1,7 @@
+import { Form } from "react-router";
+
 import type { Route } from "./+types/no-access";
-import { Logo } from "~/components/brand/Logo";
+import { PublicShell } from "~/components/PublicShell";
 import { viewerOf } from "~/middleware/session";
 
 export function loader({ context }: Route.LoaderArgs) {
@@ -16,27 +18,29 @@ export function loader({ context }: Route.LoaderArgs) {
  */
 export default function NoAccess({ loaderData }: Route.ComponentProps) {
   return (
-    <div className="flex min-h-dvh flex-col bg-pf-bg">
-      <header className="mx-auto flex w-full max-w-5xl items-center px-6 py-6">
-        <Logo size={40} />
-      </header>
-
-      <main id="main" className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-6 pb-24">
-        <h1 className="font-prose text-4xl leading-tight text-pf-ink">
-          No access yet
-        </h1>
-        <p className="mt-4 font-prose text-pf-muted">
-          {loaderData.email
-            ? "This library is by invitation, and there is no invitation for the account you used."
-            : "This library is by invitation."}
+    <PublicShell themePicker={false}>
+      <p className="pf-eyebrow">Podcast Factory</p>
+      <h1 className="pf-title">No access yet</h1>
+      <p className="pf-lede">
+        {loaderData.email
+          ? "This library is by invitation, and there is no invitation for the account you used."
+          : "This library is by invitation."}
+      </p>
+      {loaderData.email ? (
+        <p className="pf-note pf-note--quiet pf-gate__action">
+          You signed in as <strong className="pf-strong">{loaderData.email}</strong>. If you
+          have more than one Google account, it may be the other one.
         </p>
-        {loaderData.email ? (
-          <p className="mt-4 font-ui text-sm text-pf-faint">
-            You signed in as <span className="text-pf-muted">{loaderData.email}</span>. If
-            you have more than one Google account, it may be the other one.
-          </p>
-        ) : null}
-      </main>
-    </div>
+      ) : null}
+
+      {/* The whole reason sign-out is a public route. Telling someone they used
+          the wrong account and then offering no way to change it is a dead end,
+          and this page was one. */}
+      <Form method="post" action="/sign-out" className="pf-gate__action">
+        <button type="submit" className="pf-button">
+          {loaderData.email ? "Sign in with a different account" : "Back to sign in"}
+        </button>
+      </Form>
+    </PublicShell>
   );
 }

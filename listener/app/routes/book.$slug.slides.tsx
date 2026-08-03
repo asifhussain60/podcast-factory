@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
 import type { Route } from "./+types/book.$slug.slides";
+import { Icon } from "~/components/Icon";
+import { SiteFooter } from "~/components/SiteFooter";
 import { SiteHeader } from "~/components/SiteHeader";
 import { cloudflare } from "~/context";
 import { notFound } from "~/middleware/deny";
@@ -56,47 +59,49 @@ export default function Slides({ loaderData }: Route.ComponentProps) {
   }, [pages.length]);
 
   return (
-    <div className="min-h-dvh bg-pf-bg">
+    <div className="pf-shell">
       <SiteHeader here="book" isAdmin={isAdmin} />
 
-      <main id="main" className="mx-auto max-w-5xl px-6 pb-32">
-        <div className="flex flex-wrap items-baseline justify-between gap-3 border-t border-pf-rule pt-10">
-          <h1 className="font-prose text-3xl text-pf-ink">{title}</h1>
-          <Link to={`/book/${slug}`} className="font-ui text-sm text-pf-muted hover:text-pf-ink">
+      <main id="main" className="pf-container">
+        <div className="pf-masthead pf-masthead--tight pf-deck__head">
+          <h1 className="pf-title pf-title--sm">{title}</h1>
+          <Link to={`/book/${slug}`} className="pf-navlink">
             Back to the book
           </Link>
         </div>
 
-        <figure className="mt-8">
+        <figure className="pf-deck">
           <img
             src={`/media/${pages[index]}`}
             alt={`Slide ${index + 1} of ${pages.length}`}
-            className="w-full rounded-lg border border-pf-rule bg-pf-surface"
+            className="pf-deck__page"
           />
-          <figcaption className="mt-4 flex items-center justify-between font-ui text-sm text-pf-muted">
+          <figcaption className="pf-deck__controls">
             <button
               type="button"
               onClick={() => setIndex((i) => Math.max(0, i - 1))}
               disabled={index === 0}
-              className="rounded-lg border border-pf-rule px-3 py-1.5 transition-colors hover:border-pf-accent disabled:opacity-40"
+              className="pf-button pf-button--sm"
             >
+              <Icon icon={faChevronLeft} />
               Previous
             </button>
-            <span className="tabular-nums">
+            <span className="pf-deck__count">
               {index + 1} / {pages.length}
             </span>
             <button
               type="button"
               onClick={() => setIndex((i) => Math.min(pages.length - 1, i + 1))}
               disabled={index === pages.length - 1}
-              className="rounded-lg border border-pf-rule px-3 py-1.5 transition-colors hover:border-pf-accent disabled:opacity-40"
+              className="pf-button pf-button--sm"
             >
               Next
+              <Icon icon={faChevronRight} />
             </button>
           </figcaption>
         </figure>
 
-        <ol className="mt-8 flex gap-2 overflow-x-auto pb-2">
+        <ol className="pf-rail">
           {pages.map((key, i) => (
             <li key={key}>
               {/* The aspect ratio is on the BUTTON, not the image. Lazy-loaded
@@ -108,22 +113,16 @@ export default function Slides({ loaderData }: Route.ComponentProps) {
                 type="button"
                 onClick={() => setIndex(i)}
                 aria-current={i === index ? "true" : undefined}
-                className={[
-                  "block aspect-[4/3] w-24 shrink-0 overflow-hidden rounded border bg-pf-sunken transition-colors",
-                  i === index ? "border-pf-accent" : "border-pf-rule hover:border-pf-accent",
-                ].join(" ")}
+                className="pf-rail__thumb"
               >
-                <img
-                  src={`/media/${key}`}
-                  alt={`Go to slide ${i + 1}`}
-                  loading="lazy"
-                  className="size-full object-cover"
-                />
+                <img src={`/media/${key}`} alt={`Go to slide ${i + 1}`} loading="lazy" />
               </button>
             </li>
           ))}
         </ol>
       </main>
+
+      <SiteFooter />
     </div>
   );
 }

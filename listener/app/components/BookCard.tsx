@@ -1,5 +1,14 @@
+import {
+  faBookOpen,
+  faClock,
+  faFileLines,
+  faHeadphones,
+  faImages,
+  type IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
+import { Icon } from "~/components/Icon";
 import type { LibraryCard } from "~/server/catalog.server";
 
 /**
@@ -73,23 +82,33 @@ function Contents({ card }: { card: LibraryCard | null }) {
     );
   }
 
-  const pills: string[] = [];
+  // The icon rides ALONGSIDE the word, never instead of it. The rule this list
+  // has always followed is that a pill names something the book HAS; an icon
+  // row where the absent things are greyed out is the fault report that rule
+  // exists to avoid, and swapping words for glyphs would rebuild it.
+  const pills: { icon: IconDefinition; label: string }[] = [];
 
-  if (card.chapters > 0) pills.push(`${card.chapters} chapters`);
-  if (card.minutes > 0) pills.push(`${card.minutes} min read`);
-
-  if (card.recorded > 0) {
-    pills.push(
-      card.recorded === card.episodes
-        ? `${card.episodes} episodes`
-        : `${card.recorded} of ${card.episodes} episodes`,
-    );
-  } else if (card.episodes > 0) {
-    pills.push(`${card.episodes} episodes planned`);
+  if (card.chapters > 0) {
+    pills.push({ icon: faBookOpen, label: `${card.chapters} chapters` });
+  }
+  if (card.minutes > 0) {
+    pills.push({ icon: faClock, label: `${card.minutes} min read` });
   }
 
-  if (card.hasPdf) pills.push("PDF");
-  if (card.deckPages > 0) pills.push("slides");
+  if (card.recorded > 0) {
+    pills.push({
+      icon: faHeadphones,
+      label:
+        card.recorded === card.episodes
+          ? `${card.episodes} episodes`
+          : `${card.recorded} of ${card.episodes} episodes`,
+    });
+  } else if (card.episodes > 0) {
+    pills.push({ icon: faHeadphones, label: `${card.episodes} episodes planned` });
+  }
+
+  if (card.hasPdf) pills.push({ icon: faFileLines, label: "PDF" });
+  if (card.deckPages > 0) pills.push({ icon: faImages, label: "slides" });
 
   if (pills.length === 0) {
     return (
@@ -102,8 +121,9 @@ function Contents({ card }: { card: LibraryCard | null }) {
   return (
     <ul className="pf-book__pills">
       {pills.map((pill) => (
-        <li key={pill} className="pf-pill pf-pill--outline">
-          {pill}
+        <li key={pill.label} className="pf-pill pf-pill--outline">
+          <Icon icon={pill.icon} />
+          {pill.label}
         </li>
       ))}
     </ul>

@@ -1,8 +1,31 @@
 # Current work - status
 
-**Last updated:** 2026-08-02 evening (the book lane's four silent-failure defects
-are closed; every Islamic edition's Arabic is at the current rules; NO PDF has been
-re-rendered yet)
+**Last updated:** 2026-08-03 evening (the Listener is redesigned on a single
+theme stylesheet and deployed; the book-lane note below is unchanged and still
+open)
+
+**Newest — the Listener now has a theme, where before it had class strings.**
+
+Every design decision on `podcast-factory.safinaverse.com` used to live in
+Tailwind utilities inside eighteen TSX files, which meant a new theme was an
+eighteen-file refactor. It is now one authored stylesheet,
+`listener/app/styles/podcast-factory.css`, in seven numbered sections; §3 is the
+only place a palette lives, and adding a theme is one block there plus one entry
+in `THEMES`. Proved by adding a throwaway fourth palette, screenshotting the
+library under it, and deleting it. `listener/test/theme.test.ts` re-derives every
+contrast ratio on every run, so a palette added later meets the same AA floor.
+
+Also shipped: the real logo (trimmed — the source PNG was 62% padding — with the
+mark redrawn as SVG so it survives 28px), a sign-in hero, a sign-out route,
+Amiri as an Arabic DISPLAY face, and Font Awesome icons.
+
+**One rule not to relax:** Amiri is display only. The reading column keeps
+Scheherazade New, which is engineered for the fully-vowelled prose this corpus
+carries. Three tests in `theme.test.ts` pin it — §7 may not reference
+`--l-font-arabic-display`, and `:lang(ar)` may not bind it.
+
+**Scope note:** this was the Listener (`listener/`). The Astro site
+(`plan-dashboard/`) was deliberately untouched and still wears its own look.
 
 **Newest — the Arabic rule reached the other six books, and four defects came out
 with it.**

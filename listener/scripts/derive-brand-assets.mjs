@@ -28,6 +28,7 @@ import sharp from "sharp";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, "..");
 const SOURCE = join(ROOT, "brand", "podcast-factory-logo.png");
+const HERO = join(ROOT, "brand", "podcast-home.png");
 const OUT = join(ROOT, "public", "brand");
 
 /** The source these constants were measured against. Any other file is a bug. */
@@ -122,6 +123,27 @@ async function socialCard() {
   return "og.png  1200x630";
 }
 
+/**
+ * The sign-in hero, at the two widths the page actually asks for.
+ *
+ * WebP, not PNG: the source is a 1.5 MB photographic composite and it is the
+ * first thing anyone sees, on a page they have not signed in to yet. At the
+ * quality below the pair together come to a fraction of that, and every browser
+ * this site supports reads WebP.
+ *
+ * Two widths rather than one, served through `srcset`: a phone loading the
+ * 1600 would spend most of its bytes on pixels it cannot draw.
+ *
+ * @param {number} width
+ */
+async function hero(width) {
+  await sharp(HERO)
+    .resize({ width, fit: "inside", withoutEnlargement: true })
+    .webp({ quality: 82 })
+    .toFile(join(OUT, `home-${width}.webp`));
+  return `home-${width}.webp  ${width}w`;
+}
+
 const meta = await sharp(SOURCE).metadata();
 if (meta.width !== SOURCE_SIZE || meta.height !== SOURCE_SIZE) {
   throw new Error(
@@ -141,6 +163,8 @@ const written = [
   await icon("icon-180", 180, 0.08),
   await icon("icon-512", 512, 0.16),
   await socialCard(),
+  await hero(1600),
+  await hero(800),
 ];
 
 await writeFile(

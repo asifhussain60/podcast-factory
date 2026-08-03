@@ -11,6 +11,8 @@ replace the source and re-run the script.
 - `icon-180.png` — 180x180
 - `icon-512.png` — 512x512
 - `og.png` — 1200x630
+- `home-1600.webp` — 1600w
+- `home-800.webp` — 800w
 
 The in-app mark is NOT here: it is `app/components/brand/mark.tsx`, drawn as
 SVG so it inherits the theme's colours and stays sharp at 28px.

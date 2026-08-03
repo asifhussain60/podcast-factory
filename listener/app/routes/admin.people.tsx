@@ -97,83 +97,73 @@ export default function AdminPeople({ loaderData, actionData }: Route.ComponentP
   const standalone = catalog.filter((u) => u.kind === "book" && u.workSlug === null);
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
+    <div className="pf-admin-split">
       <section>
-        <h2 className="font-prose text-xl text-pf-ink">Invite someone</h2>
-        <Form method="post" className="mt-4 space-y-3">
+        <h2 className="pf-section__title">Invite someone</h2>
+        <Form method="post" className="pf-form">
           <input type="hidden" name="intent" value="invite" />
           <input
             type="email"
             name="email"
             required
             placeholder="name@example.com"
-            className="w-full rounded-lg border border-pf-rule bg-pf-surface px-3 py-2 font-ui text-sm text-pf-ink"
+            className="pf-input"
           />
           <input
             type="text"
             name="note"
             placeholder="Note (optional)"
-            className="w-full rounded-lg border border-pf-rule bg-pf-surface px-3 py-2 font-ui text-sm text-pf-ink"
+            className="pf-input"
           />
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-pf-accent px-4 py-2 font-ui text-sm text-pf-on-accent hover:bg-pf-accent-hover"
-          >
+          <button type="submit" className="pf-button pf-button--primary pf-button--block">
             Send invitation
           </button>
         </Form>
 
         {actionData && "error" in actionData && actionData.error ? (
-          <p className="mt-3 font-ui text-sm text-pf-danger">{actionData.error}</p>
+          <p className="pf-message pf-message--danger">{actionData.error}</p>
         ) : null}
         {actionData && "warnPlusTag" in actionData && actionData.warnPlusTag ? (
-          <p className="mt-3 font-ui text-sm text-pf-warn">
+          <p className="pf-message pf-message--warn">
             That address has a <code>+tag</code>. On this domain the tag is part of the
             identity, so it must match the account they sign in with exactly.
           </p>
         ) : null}
 
-        <h2 className="mt-10 font-prose text-xl text-pf-ink">People</h2>
-        <ul className="mt-4 space-y-2">
-          {people.map((p) => {
-            const active = person?.email === p.email;
-            return (
-              <li key={p.email}>
-                <a
-                  href={`/admin/people?email=${encodeURIComponent(p.email)}`}
-                  className={[
-                    "block rounded-lg border px-4 py-3 transition-colors",
-                    active
-                      ? "border-pf-accent bg-pf-surface"
-                      : "border-pf-rule bg-pf-surface hover:border-pf-accent",
-                  ].join(" ")}
-                >
-                  <span className="block font-ui text-sm text-pf-ink">{p.emailRaw}</span>
-                  <span className="mt-0.5 block font-ui text-xs text-pf-faint">
-                    {p.revokedAt !== null
-                      ? "Revoked"
-                      : p.grantCount === 0
-                        ? "No content yet"
-                        : `${p.grantCount} grant${p.grantCount === 1 ? "" : "s"}`}
-                  </span>
-                </a>
-              </li>
-            );
-          })}
+        <h2 className="pf-section__title pf-people__heading">People</h2>
+        <ul className="pf-people">
+          {people.map((p) => (
+            <li key={p.email}>
+              <a
+                href={`/admin/people?email=${encodeURIComponent(p.email)}`}
+                aria-current={person?.email === p.email ? "true" : undefined}
+                className="pf-card pf-person"
+              >
+                <span className="pf-person__who">{p.emailRaw}</span>
+                <span className="pf-person__what">
+                  {p.revokedAt !== null
+                    ? "Revoked"
+                    : p.grantCount === 0
+                      ? "No content yet"
+                      : `${p.grantCount} grant${p.grantCount === 1 ? "" : "s"}`}
+                </span>
+              </a>
+            </li>
+          ))}
         </ul>
       </section>
 
       <section>
         {person === null ? (
-          <p className="font-prose text-pf-muted">
+          <p className="pf-note">
             {params.get("email")
               ? "No such person."
               : "Choose someone to see and change what they can open."}
           </p>
         ) : (
           <>
-            <div className="flex flex-wrap items-baseline justify-between gap-3">
-              <h2 className="font-prose text-xl text-pf-ink">{person.emailRaw}</h2>
+            <div className="pf-split">
+              <h2 className="pf-section__title pf-split__main">{person.emailRaw}</h2>
               <Form method="post">
                 <input
                   type="hidden"
@@ -181,17 +171,14 @@ export default function AdminPeople({ loaderData, actionData }: Route.ComponentP
                   value={person.revokedAt === null ? "revoke-invite" : "re-invite"}
                 />
                 <input type="hidden" name="email" value={person.email} />
-                <button
-                  type="submit"
-                  className="font-ui text-sm text-pf-muted underline hover:text-pf-ink"
-                >
+                <button type="submit" className="pf-button pf-button--ghost pf-button--sm">
                   {person.revokedAt === null ? "Revoke sign-in" : "Re-invite"}
                 </button>
               </Form>
             </div>
 
             {person.revokedAt !== null ? (
-              <p className="mt-3 font-ui text-sm text-pf-warn">
+              <p className="pf-message pf-message--warn">
                 Sign-in is revoked and their sessions were ended. What they had is kept
                 below, so re-inviting restores it exactly.
               </p>
@@ -206,7 +193,7 @@ export default function AdminPeople({ loaderData, actionData }: Route.ComponentP
             />
 
             {works.map((work) => (
-              <div key={work.slug} className="mt-8">
+              <div key={work.slug} className="pf-grants__work">
                 <GrantRow
                   email={person.email}
                   label={work.title}
@@ -215,7 +202,7 @@ export default function AdminPeople({ loaderData, actionData }: Route.ComponentP
                   scopeId={work.slug}
                   on={granted.has(`work:${work.slug}`)}
                 />
-                <div className="mt-2 space-y-2 pl-6">
+                <div className="pf-grants__volumes">
                   {catalog
                     .filter((u) => u.workSlug === work.slug)
                     .map((vol) => (
@@ -234,7 +221,7 @@ export default function AdminPeople({ loaderData, actionData }: Route.ComponentP
               </div>
             ))}
 
-            <div className="mt-8 space-y-2">
+            <div className="pf-grants__work">
               {standalone.map((unit) => (
                 <GrantRow
                   key={unit.slug}
@@ -279,32 +266,23 @@ function GrantRow({
   covered?: boolean;
 }) {
   return (
-    <Form
-      method="post"
-      className="mt-2 flex items-center justify-between gap-4 rounded-lg border border-pf-rule bg-pf-surface px-4 py-3"
-    >
+    <Form method="post" className="pf-card pf-grant">
       <input type="hidden" name="intent" value={on ? "revoke-grant" : "grant"} />
       <input type="hidden" name="email" value={email} />
       <input type="hidden" name="scopeType" value={scopeType} />
       <input type="hidden" name="scopeId" value={scopeId} />
-      <span className="min-w-0">
-        <span className="block truncate font-ui text-sm text-pf-ink">{label}</span>
+      <span className="pf-grant__what">
+        <span className="pf-grant__label">{label}</span>
         {covered && !on ? (
-          <span className="mt-0.5 block font-ui text-xs text-pf-faint">
-            Already covered by a wider grant
-          </span>
+          <span className="pf-grant__hint">Already covered by a wider grant</span>
         ) : hint ? (
-          <span className="mt-0.5 block font-ui text-xs text-pf-faint">{hint}</span>
+          <span className="pf-grant__hint">{hint}</span>
         ) : null}
       </span>
       <button
         type="submit"
-        className={[
-          "shrink-0 rounded-md px-3 py-1.5 font-ui text-xs transition-colors",
-          on
-            ? "bg-pf-accent text-pf-on-accent hover:bg-pf-accent-hover"
-            : "border border-pf-rule text-pf-muted hover:text-pf-ink",
-        ].join(" ")}
+        aria-pressed={on}
+        className={`pf-button pf-button--sm${on ? " pf-button--primary" : ""}`}
       >
         {on ? "Granted" : "Give access"}
       </button>

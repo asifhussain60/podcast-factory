@@ -190,15 +190,15 @@ function PlayerBar() {
     <div
       role="region"
       aria-label="Now playing"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-pf-rule bg-pf-elev/95 backdrop-blur"
+      className="pf-player"
     >
-      <div className="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-3 sm:px-6">
-        <div className="flex items-center gap-3">
+      <div className="pf-player__inner">
+        <div className="pf-player__top">
           <button
             type="button"
             onClick={toggle}
             aria-label={playing ? "Pause" : "Play"}
-            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-pf-accent text-pf-on-accent transition-colors hover:bg-pf-accent-hover"
+            className="pf-player__play"
           >
             {playing ? <PauseIcon /> : <PlayIcon />}
           </button>
@@ -207,7 +207,7 @@ function PlayerBar() {
             type="button"
             onClick={() => nudge(-15)}
             aria-label="Back 15 seconds"
-            className="hidden font-ui text-sm text-pf-muted hover:text-pf-ink sm:block"
+            className="pf-player__nudge"
           >
             &minus;15s
           </button>
@@ -215,29 +215,29 @@ function PlayerBar() {
             type="button"
             onClick={() => nudge(15)}
             aria-label="Forward 15 seconds"
-            className="hidden font-ui text-sm text-pf-muted hover:text-pf-ink sm:block"
+            className="pf-player__nudge"
           >
             +15s
           </button>
 
-          <div className="min-w-0 flex-1">
-            <p className="truncate font-prose text-sm text-pf-ink">
+          <div className="pf-player__what">
+            <p className="pf-player__title">
               {current.number}. {current.title}
             </p>
             <Link
               to={`/book/${current.slug}`}
-              className="truncate font-ui text-xs text-pf-muted hover:text-pf-ink"
+              className="pf-player__book"
             >
               {current.bookTitle}
             </Link>
           </div>
 
-          <label className="hidden items-center gap-1 font-ui text-xs text-pf-muted sm:flex">
+          <label className="pf-player__rate">
             <span className="sr-only">Playback speed</span>
             <select
               value={rate}
               onChange={(e) => setRate(Number(e.target.value))}
-              className="rounded-md border border-pf-rule bg-pf-surface px-2 py-1"
+              className="pf-select pf-select--sm"
             >
               {RATES.map((r) => (
                 <option key={r} value={r}>
@@ -251,13 +251,13 @@ function PlayerBar() {
             type="button"
             onClick={close}
             aria-label="Close the player"
-            className="font-ui text-sm text-pf-muted hover:text-pf-ink"
+            className="pf-player__close"
           >
             &times;
           </button>
         </div>
 
-        <div className="flex items-center gap-3 font-ui text-xs tabular-nums text-pf-muted">
+        <div className="pf-player__scrub">
           <span>{clock(position)}</span>
           <input
             type="range"
@@ -267,7 +267,7 @@ function PlayerBar() {
             value={Math.min(position, total || 1)}
             onChange={(e) => seek(Number(e.target.value))}
             aria-label="Seek"
-            className="h-1 flex-1 accent-[var(--l-accent)]"
+            className="pf-player__seek"
           />
           <span>{clock(total || null)}</span>
         </div>
