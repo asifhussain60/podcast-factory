@@ -446,3 +446,41 @@ def test_a_book_carrying_the_earlier_shape_re_injects_cleanly() -> None:
     assert "edition-intro" not in out  # the legacy fence leaves and none replaces it
     assert out.count(INTRO_HEADING) == 1
     assert "Old text." not in out and _SHORT in out
+
+
+def test_a_title_page_attribution_is_found_however_it_is_phrased(tmp_path: Path) -> None:
+    """`^Author:` alone missed `asaas-al-taveel`, whose title page reads "Authored
+    by the Ismaili Da'i al-Nu'man ...". With no attribution in the facts the model
+    correctly wrote around the absence — and printed "No single author is named
+    here" in the finished edition of a book whose first page names him."""
+    from _book_frontmatter import facts_for_introduction
+
+    bd = _book(tmp_path)
+    (bd / "_system" / "source" / "text" / "refined-english.md").write_text(
+        "<!-- page 1 -->\n\n**Asas al-Ta'wil**\n\n"
+        "Authored by the Ismaili Da'i al-Nu'man ibn Hayyun al-Tamimi\n"
+        "Judge of the Fatimid Dynasty\n"
+        "Died 363 AH\n",
+        encoding="utf-8",
+    )
+
+    line = facts_for_introduction(bd)["source_attribution_line"]
+
+    assert "al-Nu'man" in line
+    assert "Judge of the Fatimid Dynasty" in line and "Died 363 AH" in line
+
+
+def test_the_books_own_first_sentence_is_not_mistaken_for_attribution(tmp_path: Path) -> None:
+    """A full sentence under the attribution is the book STARTING."""
+    from _book_frontmatter import facts_for_introduction
+
+    bd = _book(tmp_path)
+    (bd / "_system" / "source" / "text" / "refined-english.md").write_text(
+        "The Book\n\nAuthor: Sayyidina Ja'far ibn Mansur al-Yaman\n"
+        "In the name of God, the Most Gracious, the Most Merciful.\n",
+        encoding="utf-8",
+    )
+
+    line = facts_for_introduction(bd)["source_attribution_line"]
+
+    assert line == "Author: Sayyidina Ja'far ibn Mansur al-Yaman"

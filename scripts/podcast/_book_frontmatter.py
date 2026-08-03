@@ -171,11 +171,37 @@ def facts_for_introduction(book_dir: Path) -> dict[str, Any]:
 
     # The source's OWN attribution, if it prints one. Stronger evidence than
     # meta.yml, because it is the artifact rather than a note about it.
+    # The source's OWN attribution, if it prints one, plus the two lines under it
+    # — a title page carries the date and office on their own lines.
+    #
+    # The pattern used to be `^Author:` alone, and the cost was not hypothetical:
+    # `asaas-al-taveel` prints "Authored by the Ismaili Da'i al-Nu'man ibn Hayyun
+    # al-Tamimi al-Maghribi / Judge of the Fatimid Dynasty / Died 363 AH" on its
+    # title page, which that pattern does not match. With no attribution in the
+    # facts the model correctly wrote around the absence — and printed "No single
+    # author is named here" in the finished edition of a book whose first page
+    # names him. A false claim, to a reader who cannot check it, produced by the
+    # gatherer rather than by the model.
     source = book_dir / "_system" / "source" / "text" / "refined-english.md"
     if source.exists():
-        for line in source.read_text(encoding="utf-8").splitlines()[:12]:
-            if re.match(r"^\s*Author\s*:", line, re.I):
-                facts["source_attribution_line"] = line.strip()
+        head = source.read_text(encoding="utf-8").splitlines()[:20]
+        for i, line in enumerate(head):
+            if re.match(r"^\s*(?:author\s*:|authored\s+by\b|written\s+by\b|by\s+the\s+\w+\s+\w+)", line, re.I):
+                # A title page sets the office and the date on their own short,
+                # unpunctuated lines ("Judge of the Fatimid Dynasty", "Died 363
+                # AH"). A full sentence under the attribution is the book
+                # STARTING — the-master-and-the-disciple's next line is its
+                # basmala — and pulling that in would feed the brief prose it
+                # would then be tempted to quote back.
+                trailing = [
+                    x.strip()
+                    for x in head[i + 1 : i + 3]
+                    if x.strip()
+                    and not x.lstrip().startswith("<!--")
+                    and len(x.strip()) < 60
+                    and not x.strip().endswith(".")
+                ]
+                facts["source_attribution_line"] = " · ".join([line.strip(), *trailing])
                 break
 
     try:

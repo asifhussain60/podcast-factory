@@ -1,241 +1,148 @@
 {
   "cited": 26,
-  "inserted": 4,
-  "already": 0,
+  "inserted": 0,
+  "already": 4,
   "uncovered": [
     {
       "ref": "58:14-19",
-      "line": 937,
+      "line": 785,
       "reason": "no-span-in-scan",
       "ayah_words": 93
     },
     {
       "ref": "58:22",
-      "line": 943,
+      "line": 791,
       "reason": "no-span-in-scan",
       "ayah_words": 56
     },
     {
       "ref": "7:20-21",
-      "line": 959,
+      "line": 809,
       "reason": "no-span-in-scan",
       "ayah_words": 30
     },
     {
       "ref": "7:26",
-      "line": 963,
+      "line": 813,
       "reason": "no-span-in-scan",
       "ayah_words": 21
     },
     {
       "ref": "7:22",
-      "line": 967,
+      "line": 817,
       "reason": "no-span-in-scan",
       "ayah_words": 30
     },
     {
       "ref": "7:22-23",
-      "line": 975,
+      "line": 825,
       "reason": "no-span-in-scan",
       "ayah_words": 42
     },
     {
       "ref": "2:37",
-      "line": 981,
+      "line": 831,
       "reason": "no-span-in-scan",
       "ayah_words": 12
     },
     {
       "ref": "4:64",
-      "line": 987,
+      "line": 837,
       "reason": "no-span-in-scan",
       "ayah_words": 24
     },
     {
       "ref": "5:68",
-      "line": 1001,
+      "line": 851,
       "reason": "no-span-in-scan",
       "ayah_words": 32
     },
     {
       "ref": "7:24",
-      "line": 1011,
+      "line": 861,
       "reason": "no-span-in-scan",
       "ayah_words": 13
     },
     {
       "ref": "7:26",
-      "line": 1023,
+      "line": 875,
       "reason": "no-span-in-scan",
       "ayah_words": 21
     },
     {
       "ref": "5:51",
-      "line": 1035,
+      "line": 887,
       "reason": "no-span-in-scan",
       "ayah_words": 25
     },
     {
       "ref": "15:42-44",
-      "line": 1059,
+      "line": 911,
       "reason": "no-span-in-scan",
       "ayah_words": 23
     },
     {
       "ref": "6:112",
-      "line": 1067,
+      "line": 919,
       "reason": "no-span-in-scan",
       "ayah_words": 25
     },
     {
       "ref": "3:135-136",
-      "line": 1073,
+      "line": 925,
       "reason": "no-span-in-scan",
       "ayah_words": 39
     },
     {
       "ref": "5:48",
-      "line": 1085,
+      "line": 937,
       "reason": "no-span-in-scan",
       "ayah_words": 57
     },
     {
       "ref": "33:7",
-      "line": 1091,
+      "line": 943,
       "reason": "no-span-in-scan",
       "ayah_words": 18
     },
     {
       "ref": "12:87",
-      "line": 1101,
+      "line": 953,
       "reason": "no-span-in-scan",
       "ayah_words": 21
     },
     {
       "ref": "15:56",
-      "line": 1107,
+      "line": 959,
       "reason": "no-span-in-scan",
       "ayah_words": 8
     },
     {
       "ref": "7:59",
-      "line": 1121,
+      "line": 973,
       "reason": "no-span-in-scan",
       "ayah_words": 20
     },
     {
       "ref": "11:27",
-      "line": 1133,
+      "line": 985,
       "reason": "no-span-in-scan",
       "ayah_words": 29
     },
     {
       "ref": "71:21",
-      "line": 1139,
+      "line": 991,
       "reason": "no-span-in-scan",
       "ayah_words": 13
     }
   ],
-  "inserted_detail": [
-    {
-      "ref": "4:110",
-      "line": 949,
-      "via": "cited",
-      "reason": "ocr-stream",
-      "ayah_words": 13,
-      "quoted_words": 12,
-      "aligned_words": 11,
-      "precision": 0.917,
-      "whole_ayah": false
-    },
-    {
-      "ref": "7:25",
-      "line": 1015,
-      "via": "cited",
-      "reason": "ocr-stream",
-      "ayah_words": 7,
-      "quoted_words": 6,
-      "aligned_words": 6,
-      "precision": 1.0,
-      "whole_ayah": false
-    },
-    {
-      "ref": "71:22-23",
-      "line": 1143,
-      "via": "cited",
-      "reason": "ocr-stream",
-      "ayah_words": 16,
-      "quoted_words": 16,
-      "aligned_words": 16,
-      "precision": 0.889,
-      "whole_ayah": true
-    },
-    {
-      "ref": "11:36",
-      "line": 1149,
-      "via": "cited",
-      "reason": "ocr-stream",
-      "ayah_words": 17,
-      "quoted_words": 11,
-      "aligned_words": 9,
-      "precision": 1.0,
-      "whole_ayah": false
-    }
-  ],
+  "inserted_detail": [],
   "invalid_reference": [],
   "spans_in_scan": 0,
   "scan_arabic_words": 14650,
   "uncited_review": [
     {
-      "line": 33,
-      "passage": "Thus your Lord shall choose you and teach you the interpretation of events.",
-      "proposed_ref": "12:6",
-      "english_similarity": 0.8,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 39,
-      "passage": "And thus We established Joseph in the land, that We might teach him the interpretation of events.",
-      "proposed_ref": "12:21",
-      "english_similarity": 0.875,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 45,
-      "passage": "I shall inform you of the interpretation of that which you could not bear patiently.",
-      "proposed_ref": "22:35",
-      "english_similarity": 0.5,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 57,
-      "passage": "We shall show them Our signs on the horizons and within themselves.",
-      "proposed_ref": "41:53",
-      "english_similarity": 1.0,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 63,
-      "passage": "And in the earth are signs for those certain in faith — and in your own selves: do you not see?",
-      "proposed_ref": "51:20",
-      "english_similarity": 0.5,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 69,
-      "passage": "Allah has made parables and likenesses: the human body is a likeness, and the soul is a likeness; this world is a likeness, and the Hereafter is a likeness.",
-      "proposed_ref": "57:20",
-      "english_similarity": 0.333,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 175,
+      "line": 23,
       "passage": "Except those who believed and did righteous deeds — and how few they are.",
       "proposed_ref": "38:24",
       "english_similarity": 0.667,
@@ -243,7 +150,7 @@
       "agreed": false
     },
     {
-      "line": 181,
+      "line": 29,
       "passage": "But most of them turned away, and they do not hear.",
       "proposed_ref": "8:23",
       "english_similarity": 0.75,
@@ -251,7 +158,7 @@
       "agreed": false
     },
     {
-      "line": 193,
+      "line": 41,
       "passage": "How many of mankind — even if you were eager — will not believe.",
       "proposed_ref": "29:10",
       "english_similarity": 0.5,
@@ -259,7 +166,7 @@
       "agreed": false
     },
     {
-      "line": 205,
+      "line": 53,
       "passage": "Among them are those who lie in wait, ignorant of the light.",
       "proposed_ref": "57:13",
       "english_similarity": 0.5,
@@ -267,7 +174,7 @@
       "agreed": false
     },
     {
-      "line": 217,
+      "line": 65,
       "passage": "They said: fables of the ancients which he has written down; they are dictated to him morning and evening.",
       "proposed_ref": "25:5",
       "english_similarity": 0.625,
@@ -275,7 +182,7 @@
       "agreed": false
     },
     {
-      "line": 223,
+      "line": 71,
       "passage": "They went astray before, and led many astray, and strayed from the right way.",
       "proposed_ref": "5:77",
       "english_similarity": 0.571,
@@ -283,7 +190,7 @@
       "agreed": false
     },
     {
-      "line": 233,
+      "line": 81,
       "passage": "And mothers shall suckle their children two full years, for those who wish to complete the suckling.",
       "proposed_ref": "2:233",
       "english_similarity": 0.625,
@@ -291,7 +198,7 @@
       "agreed": false
     },
     {
-      "line": 241,
+      "line": 89,
       "passage": "That God may test those who believe and destroy the disbelievers.",
       "proposed_ref": "3:141",
       "english_similarity": 0.5,
@@ -299,7 +206,7 @@
       "agreed": false
     },
     {
-      "line": 247,
+      "line": 95,
       "passage": "I speak a single word, and it has seven faces.",
       "proposed_ref": "27:85",
       "english_similarity": 0.4,
@@ -307,7 +214,7 @@
       "agreed": false
     },
     {
-      "line": 261,
+      "line": 109,
       "passage": "And He has lavished upon you His blessings, outward and inward.",
       "proposed_ref": "31:20",
       "english_similarity": 1.0,
@@ -315,7 +222,7 @@
       "agreed": false
     },
     {
-      "line": 273,
+      "line": 121,
       "passage": "And forsake the outward and the inward of sin.",
       "proposed_ref": "57:3",
       "english_similarity": 0.5,
@@ -323,7 +230,7 @@
       "agreed": false
     },
     {
-      "line": 279,
+      "line": 127,
       "passage": "It is He who has sent down upon you the Book; in it are verses precise in meaning — they are the foundation of the Book — and others ambiguous.",
       "proposed_ref": "3:7",
       "english_similarity": 0.556,
@@ -331,7 +238,7 @@
       "agreed": false
     },
     {
-      "line": 285,
+      "line": 133,
       "passage": "And none knows its interpretation except God and those firmly rooted in knowledge.",
       "proposed_ref": "3:7",
       "english_similarity": 0.714,
@@ -339,7 +246,7 @@
       "agreed": false
     },
     {
-      "line": 291,
+      "line": 139,
       "passage": "Do they wait for anything but its interpretation? On the Day when its interpretation comes, those who had forgotten it before will say: indeed, the messengers o",
       "proposed_ref": "4:141",
       "english_similarity": 0.444,
@@ -347,7 +254,7 @@
       "agreed": false
     },
     {
-      "line": 297,
+      "line": 145,
       "passage": "Not a single verse of the Quran has come down to me without an outer and an inner.",
       "proposed_ref": "4:174",
       "english_similarity": 0.375,
@@ -355,7 +262,7 @@
       "agreed": false
     },
     {
-      "line": 303,
+      "line": 151,
       "passage": "Such are the parables We set forth for mankind, but none understand them except those endowed with knowledge.",
       "proposed_ref": "29:43",
       "english_similarity": 0.556,
@@ -363,7 +270,7 @@
       "agreed": false
     },
     {
-      "line": 309,
+      "line": 157,
       "passage": "Indeed, God is not ashamed to set forth the parable of a mosquito or anything above it. As for those who believe, they know it is the truth from their Lord; but",
       "proposed_ref": "2:26",
       "english_similarity": 0.824,
@@ -371,7 +278,7 @@
       "agreed": false
     },
     {
-      "line": 315,
+      "line": 163,
       "passage": "And for each We set forth parables, and each We utterly destroyed.",
       "proposed_ref": "47:3",
       "english_similarity": 0.5,
@@ -379,7 +286,7 @@
       "agreed": false
     },
     {
-      "line": 321,
+      "line": 169,
       "passage": "And We have certainly set forth for mankind in this Quran every kind of parable.",
       "proposed_ref": "30:58",
       "english_similarity": 0.875,
@@ -387,7 +294,7 @@
       "agreed": false
     },
     {
-      "line": 327,
+      "line": 175,
       "passage": "And thus your Lord will choose you and teach you the interpretation of narratives.",
       "proposed_ref": "12:6",
       "english_similarity": 0.8,
@@ -395,7 +302,7 @@
       "agreed": false
     },
     {
-      "line": 333,
+      "line": 181,
       "passage": "And thus We established Yusuf in the land, that We might teach him the interpretation of narratives.",
       "proposed_ref": "12:21",
       "english_similarity": 0.75,
@@ -403,7 +310,7 @@
       "agreed": false
     },
     {
-      "line": 341,
+      "line": 189,
       "passage": "This is Our gift; so bestow or withhold without reckoning.",
       "proposed_ref": "38:39",
       "english_similarity": 0.8,
@@ -411,7 +318,7 @@
       "agreed": false
     },
     {
-      "line": 349,
+      "line": 197,
       "passage": "And We did not send any Messenger except in the tongue of his people, so that he might make matters clear to them.",
       "proposed_ref": "14:4",
       "english_similarity": 0.625,
@@ -419,7 +326,7 @@
       "agreed": false
     },
     {
-      "line": 359,
+      "line": 207,
       "passage": "Whoever wishes to follow me, let him take up a cross with him.",
       "proposed_ref": "78:39",
       "english_similarity": 0.571,
@@ -427,7 +334,7 @@
       "agreed": false
     },
     {
-      "line": 381,
+      "line": 229,
       "passage": "Faith is wholly action, and speech is one part of that action.",
       "proposed_ref": "16:103",
       "english_similarity": 0.4,
@@ -435,7 +342,7 @@
       "agreed": false
     },
     {
-      "line": 391,
+      "line": 239,
       "passage": "O my sons, God has chosen for you the religion, so do not die except as Muslims — and I am a Muslim.",
       "proposed_ref": "2:132",
       "english_similarity": 0.857,
@@ -443,7 +350,7 @@
       "agreed": false
     },
     {
-      "line": 393,
+      "line": 241,
       "passage": "His testimony has not lost him anything with God — if God does not save him by it, He still rewards him for it.",
       "proposed_ref": "3:145",
       "english_similarity": 0.429,
@@ -451,7 +358,7 @@
       "agreed": false
     },
     {
-      "line": 399,
+      "line": 247,
       "passage": "When God first created the letters, He made the names known by the letters, and by the names He made the people known.",
       "proposed_ref": "7:167",
       "english_similarity": 0.429,
@@ -459,7 +366,7 @@
       "agreed": false
     },
     {
-      "line": 437,
+      "line": 285,
       "passage": "Whoever transgresses the limits of Allah has wronged his own soul.",
       "proposed_ref": "65:1",
       "english_similarity": 0.6,
@@ -467,7 +374,7 @@
       "agreed": false
     },
     {
-      "line": 445,
+      "line": 293,
       "passage": "And if they had remained on the right way, We would have given them water in abundance.",
       "proposed_ref": "72:16",
       "english_similarity": 0.667,
@@ -475,7 +382,7 @@
       "agreed": false
     },
     {
-      "line": 451,
+      "line": 299,
       "passage": "And We have created above you seven ways, and We are not heedless of creation.",
       "proposed_ref": "23:17",
       "english_similarity": 0.6,
@@ -483,7 +390,7 @@
       "agreed": false
     },
     {
-      "line": 459,
+      "line": 307,
       "passage": "And whoever turns away from the remembrance of his Lord, He will lead him into an ever-increasing torment.",
       "proposed_ref": "72:17",
       "english_similarity": 0.444,
@@ -491,7 +398,7 @@
       "agreed": false
     },
     {
-      "line": 465,
+      "line": 313,
       "passage": "Indeed, Allah has sent down to you a Reminder — a Messenger.",
       "proposed_ref": "65:10",
       "english_similarity": 0.75,
@@ -499,7 +406,7 @@
       "agreed": false
     },
     {
-      "line": 485,
+      "line": 333,
       "passage": "And We had already taken a promise from Adam before, but he forgot, and We found in him no firm determination.",
       "proposed_ref": "20:115",
       "english_similarity": 0.444,
@@ -507,7 +414,7 @@
       "agreed": false
     },
     {
-      "line": 499,
+      "line": 347,
       "passage": "And We made the son of Mary and his mother a sign.",
       "proposed_ref": "23:50",
       "english_similarity": 1.0,
@@ -515,7 +422,7 @@
       "agreed": false
     },
     {
-      "line": 505,
+      "line": 353,
       "passage": "Indeed, the Messiah, son of Mary, is the Messenger of Allah and His Word, which He bestowed upon Mary.",
       "proposed_ref": "4:171",
       "english_similarity": 0.833,
@@ -523,7 +430,7 @@
       "agreed": false
     },
     {
-      "line": 511,
+      "line": 359,
       "passage": "When the angels said, O Mary, indeed Allah gives you good tidings of a Word from Him whose name will be the Messiah, Isa, son of Maryam.",
       "proposed_ref": "3:45",
       "english_similarity": 0.769,
@@ -531,7 +438,7 @@
       "agreed": false
     },
     {
-      "line": 517,
+      "line": 365,
       "passage": "We will show them Our signs in the horizons and within themselves until it becomes clear to them that it is the truth.",
       "proposed_ref": "41:53",
       "english_similarity": 1.0,
@@ -539,7 +446,7 @@
       "agreed": false
     },
     {
-      "line": 523,
+      "line": 371,
       "passage": "And in the earth are signs for the certain in faith, and in your own selves — do you not then see?",
       "proposed_ref": "51:21",
       "english_similarity": 0.5,
@@ -547,7 +454,7 @@
       "agreed": false
     },
     {
-      "line": 531,
+      "line": 379,
       "passage": "It will rise from its west at the head of the three hundred.",
       "proposed_ref": "70:40",
       "english_similarity": 0.6,
@@ -555,7 +462,7 @@
       "agreed": false
     },
     {
-      "line": 545,
+      "line": 393,
       "passage": "And certainly We created the human being from an extract of clay; then We placed him as a sperm-drop in a firm lodging; then We made the sperm-drop into a cling",
       "proposed_ref": "23:14",
       "english_similarity": 0.52,
@@ -563,7 +470,7 @@
       "agreed": false
     },
     {
-      "line": 553,
+      "line": 401,
       "passage": "Indeed, Allah has purchased from the believers their souls and their wealth, in exchange for Paradise being theirs. They fight in the way of Allah, so they slay",
       "proposed_ref": "9:111",
       "english_similarity": 0.52,
@@ -571,7 +478,7 @@
       "agreed": false
     },
     {
-      "line": 559,
+      "line": 407,
       "passage": "Those who repent, who worship, who praise, who fast — or who travel — who bow down, who prostrate themselves, who enjoin the good and forbid the wrong, and who ",
       "proposed_ref": "9:112",
       "english_similarity": 0.789,
@@ -579,7 +486,7 @@
       "agreed": false
     },
     {
-      "line": 565,
+      "line": 413,
       "passage": "He said: Then take four birds and incline them toward yourself.",
       "proposed_ref": "2:260",
       "english_similarity": 0.667,
@@ -587,7 +494,7 @@
       "agreed": false
     },
     {
-      "line": 571,
+      "line": 419,
       "passage": "The number of months with Allah is twelve months in the Book of Allah from the day He created the heavens and the earth, of which four are sacred. So do not wro",
       "proposed_ref": "9:36",
       "english_similarity": 0.917,
@@ -595,7 +502,7 @@
       "agreed": false
     },
     {
-      "line": 577,
+      "line": 425,
       "passage": "Praise be to Allah, who made the angels messengers having wings — two, three, and four. He increases in creation what He wills. Indeed, Allah is able to do all ",
       "proposed_ref": "35:1",
       "english_similarity": 0.458,
@@ -603,7 +510,7 @@
       "agreed": false
     },
     {
-      "line": 603,
+      "line": 451,
       "passage": "Faith is all action, and speech is only a part of it.",
       "proposed_ref": "24:62",
       "english_similarity": 0.5,
@@ -611,7 +518,7 @@
       "agreed": false
     },
     {
-      "line": 621,
+      "line": 469,
       "passage": "And for him who fears the standing before his Lord, there are two gardens.",
       "proposed_ref": "55:46",
       "english_similarity": 1.0,
@@ -619,7 +526,7 @@
       "agreed": false
     },
     {
-      "line": 639,
+      "line": 487,
       "passage": " in a certain saying, what that second was. He answered, ",
       "proposed_ref": "51:25",
       "english_similarity": 0.5,
@@ -627,7 +534,7 @@
       "agreed": false
     },
     {
-      "line": 645,
+      "line": 493,
       "passage": "Were there in them gods other than God, both [the heavens and the earth] would have been corrupted.",
       "proposed_ref": "21:22",
       "english_similarity": 0.667,
@@ -635,7 +542,7 @@
       "agreed": false
     },
     {
-      "line": 651,
+      "line": 499,
       "passage": "And We sent forth from among them twelve chiefs.",
       "proposed_ref": "7:160",
       "english_similarity": 0.75,
@@ -643,7 +550,7 @@
       "agreed": false
     },
     {
-      "line": 657,
+      "line": 505,
       "passage": "And We made the night and the day two signs.",
       "proposed_ref": "27:86",
       "english_similarity": 1.0,
@@ -651,7 +558,7 @@
       "agreed": false
     },
     {
-      "line": 665,
+      "line": 513,
       "passage": "And when his Lord tested Abraham with certain words and he fulfilled them, He said, I will make you an Imam for the people. He said, And from my descendants? He",
       "proposed_ref": "2:124",
       "english_similarity": 0.583,
@@ -659,7 +566,7 @@
       "agreed": false
     },
     {
-      "line": 671,
+      "line": 519,
       "passage": "And We made them leaders inviting to the Fire.",
       "proposed_ref": "28:41",
       "english_similarity": 1.0,
@@ -667,7 +574,7 @@
       "agreed": false
     },
     {
-      "line": 681,
+      "line": 529,
       "passage": "And when your Lord said to the angels, I am placing upon the earth a successor, they said, Will You place upon it one who will corrupt it and shed blood, while ",
       "proposed_ref": "2:30",
       "english_similarity": 0.692,
@@ -675,7 +582,7 @@
       "agreed": false
     },
     {
-      "line": 687,
+      "line": 535,
       "passage": "I am creating a human being from clay. So when I have shaped him and breathed into him of My spirit, fall down before him in prostration.",
       "proposed_ref": "38:72",
       "english_similarity": 0.6,
@@ -683,7 +590,7 @@
       "agreed": false
     },
     {
-      "line": 689,
+      "line": 537,
       "passage": "the world has preached to its people and addressed them with its sermons,",
       "proposed_ref": "9:70",
       "english_similarity": 0.4,
@@ -691,7 +598,7 @@
       "agreed": false
     },
     {
-      "line": 697,
+      "line": 545,
       "passage": "Then We brought him forth as another creation,",
       "proposed_ref": "23:14",
       "english_similarity": 0.8,
@@ -699,7 +606,7 @@
       "agreed": false
     },
     {
-      "line": 697,
+      "line": 545,
       "passage": "And He will form you in the wombs of your mothers, creation after creation",
       "proposed_ref": "39:6",
       "english_similarity": 0.75,
@@ -707,7 +614,7 @@
       "agreed": false
     },
     {
-      "line": 703,
+      "line": 551,
       "passage": "The outward is a knowledge that is apparent, and the inward is a knowledge that is hidden.",
       "proposed_ref": "31:20",
       "english_similarity": 0.6,
@@ -715,7 +622,7 @@
       "agreed": false
     },
     {
-      "line": 709,
+      "line": 557,
       "passage": "Will You place upon it one who will corrupt it and shed blood, while we glorify You with praise and sanctify You?",
       "proposed_ref": "2:30",
       "english_similarity": 0.75,
@@ -723,7 +630,7 @@
       "agreed": false
     },
     {
-      "line": 721,
+      "line": 569,
       "passage": "When I have shaped him and breathed into him of My spirit, fall down before him in prostration.",
       "proposed_ref": "38:72",
       "english_similarity": 0.857,
@@ -731,7 +638,7 @@
       "agreed": false
     },
     {
-      "line": 735,
+      "line": 583,
       "passage": "Glory be to You! We have no knowledge except what You have taught us. Indeed, You are the All-Knowing, the All-Wise.",
       "proposed_ref": "2:32",
       "english_similarity": 0.833,
@@ -739,7 +646,7 @@
       "agreed": false
     },
     {
-      "line": 747,
+      "line": 595,
       "passage": "Did I not tell you that I know the unseen of the heavens and the earth, and I know what you reveal and what you have been concealing?",
       "proposed_ref": "2:33",
       "english_similarity": 1.0,
@@ -747,7 +654,7 @@
       "agreed": false
     },
     {
-      "line": 759,
+      "line": 607,
       "passage": "Will You place upon it one who will corrupt it and shed blood, while we glorify You with praise and sanctify You?",
       "proposed_ref": "2:30",
       "english_similarity": 0.75,
@@ -755,7 +662,7 @@
       "agreed": false
     },
     {
-      "line": 767,
+      "line": 615,
       "passage": "Do you not see that to God prostrates whoever is in the heavens and whoever is on the earth — and the sun, the moon, the stars, the mountains, the trees, the an",
       "proposed_ref": "22:18",
       "english_similarity": 0.8,
@@ -763,7 +670,7 @@
       "agreed": false
     },
     {
-      "line": 773,
+      "line": 621,
       "passage": "Except Iblis: he was arrogant and became one of the disbelievers.",
       "proposed_ref": "2:34",
       "english_similarity": 0.8,
@@ -771,7 +678,7 @@
       "agreed": false
     },
     {
-      "line": 779,
+      "line": 627,
       "passage": "But the Hour is their appointed time, and the Hour shall be more calamitous and more bitter.",
       "proposed_ref": "54:46",
       "english_similarity": 0.833,
@@ -779,7 +686,7 @@
       "agreed": false
     },
     {
-      "line": 785,
+      "line": 633,
       "passage": "I am better than him. You created me from fire, and You created him from clay.",
       "proposed_ref": "38:76",
       "english_similarity": 1.0,
@@ -787,7 +694,7 @@
       "agreed": false
     },
     {
-      "line": 791,
+      "line": 639,
       "passage": "Get out of it — you are accursed, and indeed upon you is My curse until the Day of Recompense.",
       "proposed_ref": "15:35",
       "english_similarity": 0.5,
@@ -795,7 +702,7 @@
       "agreed": false
     },
     {
-      "line": 807,
+      "line": 655,
       "passage": "And of every thing We created pairs, that perhaps you may remember.",
       "proposed_ref": "51:49",
       "english_similarity": 0.5,
@@ -803,7 +710,7 @@
       "agreed": false
     },
     {
-      "line": 813,
+      "line": 661,
       "passage": "On the Day God will not disgrace the Prophet and those who believed with him: their light will proceed before them and on their right hands…",
       "proposed_ref": "66:8",
       "english_similarity": 0.778,
@@ -811,7 +718,7 @@
       "agreed": false
     },
     {
-      "line": 819,
+      "line": 667,
       "passage": "And for him who fears the standing before his Lord, there are two gardens.",
       "proposed_ref": "55:46",
       "english_similarity": 1.0,
@@ -819,7 +726,7 @@
       "agreed": false
     },
     {
-      "line": 825,
+      "line": 673,
       "passage": "And give glad tidings to those who believe and do righteous deeds, that for them are gardens beneath which rivers flow. Whenever they are provided with fruit fr",
       "proposed_ref": "2:25",
       "english_similarity": 0.875,
@@ -827,7 +734,7 @@
       "agreed": false
     },
     {
-      "line": 831,
+      "line": 679,
       "passage": "Their reward is with their Lord — gardens of eternity beneath which rivers flow.",
       "proposed_ref": "98:8",
       "english_similarity": 0.833,
@@ -835,7 +742,7 @@
       "agreed": false
     },
     {
-      "line": 845,
+      "line": 693,
       "passage": "And He has lavished upon you His bounties, outward and inward.",
       "proposed_ref": "31:20",
       "english_similarity": 0.75,
@@ -843,7 +750,7 @@
       "agreed": false
     },
     {
-      "line": 853,
+      "line": 701,
       "passage": "And these parables We strike for the people, but none understand them except those who know",
       "proposed_ref": "29:43",
       "english_similarity": 0.429,
@@ -851,7 +758,7 @@
       "agreed": false
     },
     {
-      "line": 859,
+      "line": 707,
       "passage": "God is not ashamed to strike a parable, even of a mosquito or what is above it. As for those who believe, they know it is the truth from their Lord; and as for ",
       "proposed_ref": "2:26",
       "english_similarity": 0.667,
@@ -859,7 +766,7 @@
       "agreed": false
     },
     {
-      "line": 865,
+      "line": 713,
       "passage": "And We have struck for the people in this Quran from every parable.",
       "proposed_ref": "30:58",
       "english_similarity": 0.6,
@@ -867,7 +774,7 @@
       "agreed": false
     },
     {
-      "line": 871,
+      "line": 719,
       "passage": "Guide us to the straight path — the path of those upon whom You have bestowed favor, not of those who incurred wrath, nor of those who are astray.",
       "proposed_ref": "5:60",
       "english_similarity": 0.5,
@@ -875,7 +782,7 @@
       "agreed": false
     },
     {
-      "line": 881,
+      "line": 729,
       "passage": "O Adam, dwell — you and your wife — in the Garden, and eat freely from it wherever you wish; but do not approach this tree, or you will be among the wrongdoers.",
       "proposed_ref": "2:35",
       "english_similarity": 0.909,
@@ -883,7 +790,7 @@
       "agreed": false
     },
     {
-      "line": 887,
+      "line": 735,
       "passage": "Indeed, this is an enemy to you and to your wife, so let him not drive you both out of the Garden, lest you become miserable.",
       "proposed_ref": "20:117",
       "english_similarity": 0.5,
@@ -891,7 +798,7 @@
       "agreed": false
     },
     {
-      "line": 893,
+      "line": 741,
       "passage": "And We had already taken a covenant with Adam before, but he forgot, and We found no firm resolve in him.",
       "proposed_ref": "20:115",
       "english_similarity": 0.556,
@@ -899,7 +806,7 @@
       "agreed": false
     },
     {
-      "line": 899,
+      "line": 747,
       "passage": "No soul will be benefited by its faith if it had not believed before, or earned good through its faith. Say, Wait — indeed, we too are waiting.",
       "proposed_ref": "6:158",
       "english_similarity": 0.8,
@@ -907,7 +814,7 @@
       "agreed": false
     },
     {
-      "line": 905,
+      "line": 753,
       "passage": "Grant me respite until the Day they are resurrected",
       "proposed_ref": "15:36",
       "english_similarity": 0.6,
@@ -915,7 +822,7 @@
       "agreed": false
     },
     {
-      "line": 917,
+      "line": 765,
       "passage": "It is the religion of your father Ibrahim. It is He who named you Muslims.",
       "proposed_ref": "22:78",
       "english_similarity": 1.0,
@@ -924,5 +831,5 @@
     }
   ],
   "coverage": 0.154,
-  "cited_inserted": 4
+  "cited_inserted": 0
 }

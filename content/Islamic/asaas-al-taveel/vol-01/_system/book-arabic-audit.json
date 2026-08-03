@@ -8,7 +8,7 @@
       "runs": []
     },
     {
-      "chapter": "Introduction",
+      "chapter": "Introduction to the Book",
       "arabic_runs": 4,
       "unverified": 0,
       "runs": [
@@ -35,172 +35,15 @@
       ]
     },
     {
-      "chapter": "1. What Ismaili Interpretation Is",
-      "arabic_runs": 31,
-      "unverified": 9,
+      "chapter": "1. The Call to Inner Meaning",
+      "arabic_runs": 41,
+      "unverified": 4,
       "runs": [
-        {
-          "text": "تَقِيَّة",
-          "resolution": "ocr",
-          "skeleton": "تقيه"
-        },
-        {
-          "text": "اَلتَّأْوِيل",
-          "resolution": "ocr",
-          "skeleton": "التاويل"
-        },
-        {
-          "text": "تَفْسِير",
-          "resolution": "ocr",
-          "skeleton": "تفسير"
-        },
-        {
-          "text": "تَنْزِيل",
-          "resolution": "ocr",
-          "skeleton": "تنزيل"
-        },
-        {
-          "text": "وَكَذَٰلِكَ يَجْتَبِيكَ رَبُّكَ وَيُعَلِّمُكَ مِن تَأْوِيلِ ٱلْأَحَادِيثِ",
-          "resolution": "canonical-mushaf",
-          "skeleton": "وكذلكيجتبيكربكويعلمكمنتاويلالاحاديث"
-        },
-        {
-          "text": "وَكَذَٰلِكَ مَكَّنَّا لِيُوسُفَ فِي ٱلْأَرْضِ وَلِنُعَلِّمَهُ مِن تَأْوِيلِ ٱلْأَحَادِيثِ",
-          "resolution": "canonical-mushaf",
-          "skeleton": "وكذلكمكناليوسففيالارضولنعلمهمنتاويلالاحا"
-        },
-        {
-          "text": "سَأُنَبِّئُكَ بِتَأْوِيلِ مَا لَمْ تَسْتَطِع عَّلَيْهِ صَبْرًا",
-          "resolution": "canonical-mushaf",
-          "skeleton": "سانبيكبتاويلمالمتستطععليهصبرا"
-        },
-        {
-          "text": "هُوَ ٱلَّذِي أَنزَلَ عَلَيْكَ ٱلْكِتَابَ مِنْهُ آيَاتٌ مُّحْكَمَاتٌ هُنَّ أُمُّ ٱلْكِتَابِ وَأُخَرُ مُتَشَابِهَاتٌ ۖ فَأَمَّا ٱلَّذِينَ فِي قُلُوبِهِمْ زَيْغٌ فَيَتَّبِعُونَ مَا تَشَابَهَ مِنْهُ ٱبْتِغَاءَ ٱلْفِتْنَةِ وَٱبْتِغَاءَ تَأْوِيلِهِ ۗ وَمَا يَعْلَمُ تَأْوِيلَهُ إِلَّا ٱللَّهُ ۗ وَٱلرَّاسِخُونَ فِي ٱلْعِلْمِ يَقُولُونَ آمَنَّا بِهِ كُلٌّ مِّنْ عِندِ رَبِّنَا ۗ وَمَا يَذَّكَّرُ إِلَّا أُولُو ٱلْأَلْبَابِ",
-          "resolution": "canonical-mushaf",
-          "skeleton": "هوالذيانزلعليكالكتابمنهاياتمحكماتهنامالك"
-        },
-        {
-          "text": "سَنُرِيهِمْ آيَاتِنَا فِي ٱلْآفَاقِ وَفِي أَنفُسِهِمْ",
-          "resolution": "canonical-mushaf",
-          "skeleton": "سنريهماياتنافيالافاقوفيانفسهم"
-        },
-        {
-          "text": "وَفِي ٱلْأَرْضِ آيَاتٌ لِّلْمُوقِنِينَ ۝ وَفِي أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ",
-          "resolution": "unverified",
-          "skeleton": "وفيالارضاياتللموقنينوفيانفسكمافلاتبصرون"
-        },
-        {
-          "text": "اَلْمُعَيَّدُ فِي الدِّينِ",
-          "resolution": "unverified",
-          "skeleton": "المعيدفيالدين"
-        },
-        {
-          "text": "ضَرَبَ ٱللَّهُ ٱلْأَمْثَالَ وَٱلْأَشْبَاهَ",
-          "resolution": "unverified",
-          "skeleton": "ضرباللهالامثالوالاشباه"
-        },
-        {
-          "text": "فَٱلْجَسَدُ مَثَلٌ، وَٱلنَّفْسُ مَثَلٌ، وَٱلدُّنْيَا مَثَلٌ، وَٱلْآخِرَةُ مَثَلٌ",
-          "resolution": "unverified",
-          "skeleton": "فالجسدمثلوالنفسمثلوالدنيامثلوالاخرهمثل"
-        },
-        {
-          "text": "أَعْنِي بِٱلْمَثَلِ مَثَلًا مَضْرُوبًا",
-          "resolution": "unverified",
-          "skeleton": "اعنيبالمثلمثلامضروبا"
-        },
-        {
-          "text": "كَإِبَرِ ٱلنَّحْلِ وَمَا يَخْرُجُ مِنْهَا كَٱلْعَسَلِ",
-          "resolution": "unverified",
-          "skeleton": "كابرالنحلومايخرجمنهاكالعسل"
-        },
         {
           "text": "دَعَائِمُ الْإِسْلَام",
           "resolution": "ocr",
           "skeleton": "دعايمالاسلام"
         },
-        {
-          "text": "جَعْفَرُ بْنُ مُحَمَّدٍ",
-          "resolution": "ocr",
-          "skeleton": "جعفربنمحمد"
-        },
-        {
-          "text": "اَلصَّادِق",
-          "resolution": "ocr",
-          "skeleton": "الصادق"
-        },
-        {
-          "text": "رَسَائِل إِخْوَان اَلصَّفَا",
-          "resolution": "ocr",
-          "skeleton": "رسايلاخوانالصفا"
-        },
-        {
-          "text": "سَلَمِيَّة",
-          "resolution": "ocr",
-          "skeleton": "سلميه"
-        },
-        {
-          "text": "عَبْدُ السَّلَامِ ابْنُ رَغْبَان",
-          "resolution": "unverified",
-          "skeleton": "عبدالسلامابنرغبان"
-        },
-        {
-          "text": "دِيكُ الْجِنّ",
-          "resolution": "ocr",
-          "skeleton": "ديكالجن"
-        },
-        {
-          "text": "الْمُتَنَبِّي",
-          "resolution": "ocr",
-          "skeleton": "المتنبي"
-        },
-        {
-          "text": "اَلْمَعَرِّي",
-          "resolution": "ocr",
-          "skeleton": "المعري"
-        },
-        {
-          "text": "جَعْفَر الْحَاجِب",
-          "resolution": "ocr",
-          "skeleton": "جعفرالحاجب"
-        },
-        {
-          "text": "عُبَيْدَ اللَّه",
-          "resolution": "ocr",
-          "skeleton": "عبيدالله"
-        },
-        {
-          "text": "الْمُعِزُّ لِدِينِ اللَّهِ",
-          "resolution": "ocr",
-          "skeleton": "المعزلدينالله"
-        },
-        {
-          "text": "بَنُو تَمِيم",
-          "resolution": "unverified",
-          "skeleton": "بنوتميم"
-        },
-        {
-          "text": "اَلْمَنْصُورِيَّة",
-          "resolution": "unverified",
-          "skeleton": "المنصوريه"
-        },
-        {
-          "text": "اَلنَّاطِق",
-          "resolution": "ocr",
-          "skeleton": "الناطق"
-        },
-        {
-          "text": "مَصْيَاف",
-          "resolution": "ocr",
-          "skeleton": "مصياف"
-        }
-      ]
-    },
-    {
-      "chapter": "2. The Call to Inner Meaning",
-      "arabic_runs": 38,
-      "unverified": 4,
-      "runs": [
         {
           "text": "إِسْلَام",
           "resolution": "ocr",
@@ -285,6 +128,11 @@
           "text": "إِنِّي لَأَتَكَلَّمُ بِالْكَلِمَةِ الْوَاحِدَةِ لَهَا سَبْعَةُ وُجُوهٍ",
           "resolution": "unverified",
           "skeleton": "انيلاتكلمبالكلمهالواحدهلهاسبعهوجوه"
+        },
+        {
+          "text": "اَلتَّأْوِيل",
+          "resolution": "ocr",
+          "skeleton": "التاويل"
         },
         {
           "text": "وَأَسْبَغَ عَلَيْكُمْ نِعَمَهُ ظَاهِرَةً وَبَاطِنَةً",
@@ -382,6 +230,11 @@
           "skeleton": "يابنياناللهاصطفيلكمالدينفلاتموتنالاوانتم"
         },
         {
+          "text": "اَلصَّادِق",
+          "resolution": "ocr",
+          "skeleton": "الصادق"
+        },
+        {
           "text": "إِنَّ اللَّهَ تَعَالَىٰ لَمَّا خَلَقَ الْحُرُوفَ أَوَّلًا، عَرَّفَ بِالْحُرُوفِ الْأَسْمَاءَ، وَبِالْأَسْمَاءِ عَرَّفَ الْعِبَادَ",
           "resolution": "unverified",
           "skeleton": "اناللهتعاليلماخلقالحروفاولاعرفبالحروفالا"
@@ -394,7 +247,7 @@
       ]
     },
     {
-      "chapter": "3. The Four Limits of the Testimony",
+      "chapter": "2. The Four Limits of the Testimony",
       "arabic_runs": 34,
       "unverified": 9,
       "runs": [
@@ -571,7 +424,7 @@
       ]
     },
     {
-      "chapter": "4. Adam, the Tree, and the Iblis Pact",
+      "chapter": "3. Adam, the Tree, and the Iblis Pact",
       "arabic_runs": 50,
       "unverified": 7,
       "runs": [
@@ -828,7 +681,7 @@
       ]
     },
     {
-      "chapter": "5. Two Parties and the Line to Noah",
+      "chapter": "4. Two Parties and the Line to Noah",
       "arabic_runs": 54,
       "unverified": 10,
       "runs": [
@@ -1106,12 +959,12 @@
     }
   ],
   "totals": {
-    "canonical-mushaf": 106,
-    "ocr": 66,
+    "canonical-mushaf": 101,
+    "ocr": 52,
     "knowledge-base": 0,
     "honorific-formula": 0,
-    "unverified": 39,
-    "arabic_runs": 211
+    "unverified": 30,
+    "arabic_runs": 183
   },
   "quran_coverage": {
     "measured": true,
@@ -1121,133 +974,133 @@
     "uncovered": [
       {
         "ref": "58:14-19",
-        "line": 937,
+        "line": 785,
         "reason": "no-span-in-scan",
         "ayah_words": 93
       },
       {
         "ref": "58:22",
-        "line": 943,
+        "line": 791,
         "reason": "no-span-in-scan",
         "ayah_words": 56
       },
       {
         "ref": "7:20-21",
-        "line": 959,
+        "line": 809,
         "reason": "no-span-in-scan",
         "ayah_words": 30
       },
       {
         "ref": "7:26",
-        "line": 963,
+        "line": 813,
         "reason": "no-span-in-scan",
         "ayah_words": 21
       },
       {
         "ref": "7:22",
-        "line": 967,
+        "line": 817,
         "reason": "no-span-in-scan",
         "ayah_words": 30
       },
       {
         "ref": "7:22-23",
-        "line": 975,
+        "line": 825,
         "reason": "no-span-in-scan",
         "ayah_words": 42
       },
       {
         "ref": "2:37",
-        "line": 981,
+        "line": 831,
         "reason": "no-span-in-scan",
         "ayah_words": 12
       },
       {
         "ref": "4:64",
-        "line": 987,
+        "line": 837,
         "reason": "no-span-in-scan",
         "ayah_words": 24
       },
       {
         "ref": "5:68",
-        "line": 1001,
+        "line": 851,
         "reason": "no-span-in-scan",
         "ayah_words": 32
       },
       {
         "ref": "7:24",
-        "line": 1011,
+        "line": 861,
         "reason": "no-span-in-scan",
         "ayah_words": 13
       },
       {
         "ref": "7:26",
-        "line": 1023,
+        "line": 875,
         "reason": "no-span-in-scan",
         "ayah_words": 21
       },
       {
         "ref": "5:51",
-        "line": 1035,
+        "line": 887,
         "reason": "no-span-in-scan",
         "ayah_words": 25
       },
       {
         "ref": "15:42-44",
-        "line": 1059,
+        "line": 911,
         "reason": "no-span-in-scan",
         "ayah_words": 23
       },
       {
         "ref": "6:112",
-        "line": 1067,
+        "line": 919,
         "reason": "no-span-in-scan",
         "ayah_words": 25
       },
       {
         "ref": "3:135-136",
-        "line": 1073,
+        "line": 925,
         "reason": "no-span-in-scan",
         "ayah_words": 39
       },
       {
         "ref": "5:48",
-        "line": 1085,
+        "line": 937,
         "reason": "no-span-in-scan",
         "ayah_words": 57
       },
       {
         "ref": "33:7",
-        "line": 1091,
+        "line": 943,
         "reason": "no-span-in-scan",
         "ayah_words": 18
       },
       {
         "ref": "12:87",
-        "line": 1101,
+        "line": 953,
         "reason": "no-span-in-scan",
         "ayah_words": 21
       },
       {
         "ref": "15:56",
-        "line": 1107,
+        "line": 959,
         "reason": "no-span-in-scan",
         "ayah_words": 8
       },
       {
         "ref": "7:59",
-        "line": 1121,
+        "line": 973,
         "reason": "no-span-in-scan",
         "ayah_words": 20
       },
       {
         "ref": "11:27",
-        "line": 1133,
+        "line": 985,
         "reason": "no-span-in-scan",
         "ayah_words": 29
       },
       {
         "ref": "71:21",
-        "line": 1139,
+        "line": 991,
         "reason": "no-span-in-scan",
         "ayah_words": 13
       }
@@ -1257,12 +1110,11 @@
   "stages": {
     "final": {
       "(front matter)": 0,
-      "Introduction": 4,
-      "1. What Ismaili Interpretation Is": 31,
-      "2. The Call to Inner Meaning": 38,
-      "3. The Four Limits of the Testimony": 34,
-      "4. Adam, the Tree, and the Iblis Pact": 50,
-      "5. Two Parties and the Line to Noah": 54
+      "Introduction to the Book": 4,
+      "1. The Call to Inner Meaning": 41,
+      "2. The Four Limits of the Testimony": 34,
+      "3. Adam, the Tree, and the Iblis Pact": 50,
+      "4. Two Parties and the Line to Noah": 54
     }
   },
   "stage_losses": []

@@ -1,170 +1,18 @@
 # Asas al-Taweel — Volume 1: The Cycle of Adam
 
-<!-- edition-intro:begin -->
-## Introduction
+## Introduction to the Book
 
-This is a work of Ismaili esoteric interpretation — tawil (تَأْوِيل), the drawing-out of a scripture's inner sense — and its shape is that of a doctrinal treatise rather than a story or a running verse-by-verse commentary. It opens by defining what that interpretation is and why it matters, sets out the framework of testimony and its "limits," and only then turns that framework onto the opening of sacred history: Adam, the tree, the pact with Iblis, the splitting of humankind into two parties, and the line of transmission that runs down to Noah. The argument moves from method to demonstration.
+This is a work of Ismaili *tawil* (تَأْوِيل) — the drawing-out of a scripture's inner sense — and it takes the shape of a doctrinal treatise, not a story and not a running verse-by-verse commentary. It first sets down what such interpretation is and why it matters, then lays out the framework of the testimony and its four limits, and only afterward turns that framework onto the opening of sacred history: Adam, the tree, the pact with Iblis, the splitting of humankind into two parties, and the line of transmission that runs down to Noah. The argument moves from method to demonstration.
 
-Read it as a transmitted report. Where a first person appears, it belongs to the voice carrying the teaching forward, not to a single named author speaking about himself; the text presents the doctrine as received and passed on, and its authority rests on that chain rather than on a personal signature. No author is named here, so take the attribution as what it is — a tradition, the Ismaili and Fatimid interpretive current, rather than one identified hand.
+The figures divide along an axis the book builds early. Certain prophets — Adam, Noah — are speakers, bringers of an outward revealed law; beside each stands a foundation, an *asas*, who holds the hidden meaning beneath that law. Keep this pairing of the outer and the inner in view, for it is the engine of all that follows.
 
-The figures divide along a persistent axis the book builds early. Some prophets — Adam, Noah — are speakers, bringers of an outward revealed law; beside each stands a foundation or legatee who holds the hidden meaning underneath that law. Keep this pairing of the outer and the inner in view, because it is the engine of everything that follows.
+The book comes down under the name of the Ismaili *dai* (دَاعِي) al-Numan ibn Hayyun al-Tamimi al-Maghribi, judge of the Fatimid dynasty, who died in 363 of the Hijra. One caution about names: several words here are titles and proper names at once. "al-Mahdi (اَلْمَهْدِيّ)," "al-Qaim (الْقَائِم)," and "al-Mansur (الْمَنْصُور)" name an awaited or functional role in one place and a particular historical Fatimid ruler in another. Let the context, not the word alone, tell you which is meant.
 
-One caution about names. Several words in this book are titles and proper names at once. "al-Mahdi (اَلْمَهْدِيّ)," "al-Qaim (الْقَائِم)," "al-Mansur (الْمَنْصُور)" name eschatological or functional roles in one place and specific historical Fatimid rulers in another — the same word can point to an awaited figure or to a caliph who reigned. Let context, not the word alone, tell you which is meant. The clustered vocabulary — the outer and inner, the speaker and the foundation, the summoner, the guardianship owed to the line of imams — is the doctrine's working machinery, defined as you go.
-<!-- edition-intro:end -->
-
-## 1. What Ismaili Interpretation Is
-
-I held this book back from the press for a long time. The first reason was caution. I wished to keep it longer in the cave of *taqiyya* (تَقِيَّة), the protective silence under which our Ismaili manuscripts have lived for centuries, alongside other works that have not yet been let out into the air. The second reason was scholarly: I felt my own information about it was still incomplete, and that other Ismaili manuscripts — lesser in rank than this one, but indispensable as preliminaries, gateways one must pass through before approaching it — needed to appear in print first. So I waited.
-
-And then I stopped waiting. Whenever the words *inner interpretation* come into my mind — and that is the very subject we are about to enter — only one book rises to meet them: *Asas al-Tawil* (اَلتَّأْوِيل). In the whole Ismaili manuscript corpus, it is the single work that takes interpretation itself as its declared theme. It lays out the basic idea of this science in a measured, balanced way, with precision and detail, casting light on its sections and materials, bringing them near to the mind, lowering them within reach of thought. We call this science *inner interpretation* because the word *tawil* itself means a return — *awl*, a returning of a thing to its outcome and to its origin. You interpret first what is and what is not, then you bring the matter back and resolve it, so that the fate of words is their meaning, and their substance.
-
-In the earliest days of the Ismaili mission, and in its flowering, *inner interpretation* was the primary theme of every esoteric philosophical idea we carried. It was the tree that grew and branched, or — more accurately — the foundation upon which the pillars of this intellectual movement rested. It was the nourishment by which esoteric philosophy fed its judgment, its logic, and its exposition. For all of this, *Asas al-Tawil* is counted among us as one of the precious books — a treasury whose doctrinal teachings demand the preservation of secrecy and the concealment of its lessons, whose materials must be guarded from leaking to anyone who is not Ismaili. All of it is reckoned the secret of the creed and the key to the door of the mission.
-
-Add to this that the book contains an interpretation of the stories of the prophets as they appear in the three heavenly books: the Torah, the Gospel, and the Quran. This too is a subject whose secrecy our doctrine demands be preserved, lest it pass beyond the circle of the general community, who are held to have grasped only the husks of culture and only the outward face of science.
-
-I want to be clear at the outset about what *inner interpretation* is and is not. *Inner interpretation*, in its realistic Ismaili sense, is not the same as *tafsir* (تَفْسِير) — exegesis in the conventional sense used by the other Islamic sects. *Tafsir* clarifies the meaning of an obscure word whose sense the reader does not understand. Suppose someone asks, *What is the* tafsir *of the word* tree? You answer: it is a plant that begins small, then grows; from it limbs branch out upon which green leaves grow; in spring it bears flowers that do not linger long before turning into good fruit; and so on. But now suppose someone asks instead, *What is the* inner interpretation *of the word* tree? The answer follows the view of the one giving the inner interpretation. He may say it is a chamber, or a cow, or a rock, or something else entirely — provided that what he says accords with truth, with reality, and with reason, that it is not foreign to belief, nor distant from sound thought. *Inner interpretation* is the essence of the meaning, its symbol, its inner reality — a truth hidden behind a word that does not openly signify it. This is why the Ismaili intellectual order assigns the authority of *tanzil* (تَنْزِيل), of revelation, to the one we call *al-Natiq* (نَاطِق), the Speaker, and the authority of *inner interpretation* to the Imam. The first stands for the sacred law — its rulings, its jurisprudence, the legal apparent. The second stands for the truth, the interpretation, the philosophy, the inward.
-
-*Inner interpretation* is one of the sciences we singled out for our community, and which we named *esoteric* for that very reason. We have always held that Muhammad was the bearer of the revelation of the Quran — as I have said — and that Ali was the bearer of its interpretation. The Quran was sent down to Muhammad in its words and its outward sense for the people at large; its mystical secrets were entrusted to Ali.
-
-We have taken certain verses of the Noble Quran as proof that interpretation is obligatory. He said:
-
-> وَكَذَٰلِكَ يَجْتَبِيكَ رَبُّكَ وَيُعَلِّمُكَ مِن تَأْوِيلِ ٱلْأَحَادِيثِ
->
-> "Thus your Lord shall choose you and teach you the interpretation of events."
-
-And He said:
-
-> وَكَذَٰلِكَ مَكَّنَّا لِيُوسُفَ فِي ٱلْأَرْضِ وَلِنُعَلِّمَهُ مِن تَأْوِيلِ ٱلْأَحَادِيثِ
->
-> "And thus We established Joseph in the land, that We might teach him the interpretation of events."
-
-And He said:
-
-> سَأُنَبِّئُكَ بِتَأْوِيلِ مَا لَمْ تَسْتَطِع عَّلَيْهِ صَبْرًا
->
-> "I shall inform you of the interpretation of that which you could not bear patiently."
-
-And He said:
-
-> هُوَ ٱلَّذِي أَنزَلَ عَلَيْكَ ٱلْكِتَابَ مِنْهُ آيَاتٌ مُّحْكَمَاتٌ هُنَّ أُمُّ ٱلْكِتَابِ وَأُخَرُ مُتَشَابِهَاتٌ ۖ فَأَمَّا ٱلَّذِينَ فِي قُلُوبِهِمْ زَيْغٌ فَيَتَّبِعُونَ مَا تَشَابَهَ مِنْهُ ٱبْتِغَاءَ ٱلْفِتْنَةِ وَٱبْتِغَاءَ تَأْوِيلِهِ ۗ وَمَا يَعْلَمُ تَأْوِيلَهُ إِلَّا ٱللَّهُ ۗ وَٱلرَّاسِخُونَ فِي ٱلْعِلْمِ يَقُولُونَ آمَنَّا بِهِ كُلٌّ مِّنْ عِندِ رَبِّنَا ۗ وَمَا يَذَّكَّرُ إِلَّا أُولُو ٱلْأَلْبَابِ
->
-> "He it is who has sent down to you the Book, in which are verses precisely defined — they are the foundation of the Book — and others ambiguous. As for those in whose hearts is deviation, they pursue what is ambiguous of it, seeking discord and seeking its interpretation, though none knows its interpretation save Allah and those firmly grounded in knowledge. They say: We believe in it; the whole of it is from our Lord. But none take heed except those of understanding."
-
-There are also rational proofs for the necessity of interpretation drawn from the Holy Quran. The Almighty said:
-
-> سَنُرِيهِمْ آيَاتِنَا فِي ٱلْآفَاقِ وَفِي أَنفُسِهِمْ
->
-> "We shall show them Our signs on the horizons and within themselves."
-
-And He said:
-
-> وَفِي ٱلْأَرْضِ آيَاتٌ لِّلْمُوقِنِينَ ۝ وَفِي أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ
->
-> "And in the earth are signs for those certain in faith — and in your own selves: do you not see?"
-
-All of this makes one thing plain: the apparent was created in order to point to the subtle. We have taken the apparent as a parable. Our great supporter of the religion, the foremost of our preachers and philosophers, al-Muayyad fi al-Din (اَلْمُعَيَّدُ فِي الدِّينِ), said on this subject:
-
-> ضَرَبَ ٱللَّهُ ٱلْأَمْثَالَ وَٱلْأَشْبَاهَ: فَٱلْجَسَدُ مَثَلٌ، وَٱلنَّفْسُ مَثَلٌ، وَٱلدُّنْيَا مَثَلٌ، وَٱلْآخِرَةُ مَثَلٌ
->
-> "Allah has made parables and likenesses: the human body is a likeness, and the soul is a likeness; this world is a likeness, and the Hereafter is a likeness."
-
-And he said:
-
-> أَعْنِي بِٱلْمَثَلِ مَثَلًا مَضْرُوبًا — كَإِبَرِ ٱلنَّحْلِ وَمَا يَخْرُجُ مِنْهَا كَٱلْعَسَلِ
->
-> "By the parable I mean a parable struck — like the bee's needles, and what comes from it like honey."
-
-All of this carries us, if we trace its lineage, back to the city of Alexandria and to its philosophical school — to what Philo and his disciples said when they tried to interpret the Torah esoterically and did not succeed. Augustine and his disciples then attempted to follow Philo's school in interpreting the Gospel esoterically, but they too could not bring the idea to completion, for reasons too long to set out here. Then came the Ismailis, who spread their system of thought; and this was the first curriculum we put forward and to which we called others — a system of interpretation. We refined it with our own ideas, plainly, and added to it a rational interpretation that pruned bare transmission and produced conclusive proof for the Islamic world. We are the most ancient in our understanding of Islamic principles. We affirmed the inward and its necessity, just as we affirmed the outward alongside it. The apparent is not accepted without the inward, and the inward is of no use without the apparent. They are like body and soul; benefits arise only from their meeting, and through their meeting the ends are known.
-
-I should say it once more, because it is easy to mistake. *Tanzil* was specialized in by the Prophet during his lifetime: it is the knowledge of the apparent and of the rulings of the sacred law, the knowledge to which the public is permitted access, which they may learn, adopt, and embrace as their station. The *imam* — the foundational figure, *al-asas*, a designation given to every Imam contemporary with the Speaker — is responsible for the inward, for the interpretation, for the truth, and for its secret symbols and teachings. These are not to be disclosed except to the loyal soldiers of the mission who have risen in its ranks and been elevated in its stations. These are what we call the specially favored classes.
-
-This is why we see the two books *Asas al-Tawil* and *Daaim al-Islam* (دَعَائِمُ الْإِسْلَام) — both authored by al-Numan ibn Hayyun — as two related, fully interconnected directions of a single project. By them I mean the inward and the outward: the first is the foundation of esoteric philosophy; the second is the foundation of jurisprudence and the sacred law, narrated by Imam Jafar ibn Muhammad (جَعْفَرُ بْنُ مُحَمَّدٍ) al-Sadiq (اَلصَّادِق) from his grandfather, the Prophet Muhammad — for the Prophet is the bearer of the sacred law, of the rulings of the outward and the revealed. This furnishes a conclusive proof of the book's importance, and shows that Ismaili esoteric studies proceeded by degrees, ranks divided into ranks, through which the respondent must pass and whose circles he must complete.
-
-We Ismailis were alone in this. We interpreted the verses of the Quran that require interpretation, where other sects contented themselves with mere *tafsir*. You can see it plainly in the books of the earliest Quranic commentators before Muhammad ibn Jarir al-Tabari — whose *tafsir* is the great scientific tribunal for weighing among Islamic sects and for testing the soundness of theories and ideas.
-
-I return to the heart of the matter, and I repeat: it is very difficult to understand and to reach the end of Ismaili philosophical texts, to grasp their expressions, their symbols, and their aims, unless the reader has first passed through the foundational interpretive texts. There is no doubt that *Asas al-Tawil* is one of the texts that must be studied carefully and whose content must be understood.
-
-A note for researchers and for interested readers. Al-Numan ibn Hayyun wrote many books — in jurisprudence, law, rulings, history, and in the science of interpretation, which is considered an introduction to philosophy. But we have not observed that he wrote any books on philosophy itself, and we do not know whether he was forbidden to do so. What we do know is that Jafar ibn Mansur al-Yaman was directly responsible for that field in that period, and was the only one with permission to present it, to write about it, to discuss its topics. None of this prevents us from saying that al-Numan is counted among the great thinking minds who laid the pillars of thought in the Fatimid state.
-
-Yes — and there is no exaggeration in declaring it — we Ismailis had our share, indeed the most advanced share, in this field. We won the first prize in the arena of thought. We enriched the Islamic library with a massive scientific production before the Fatimid state even existed. Unfortunately, that precious heritage has been lost; nothing remains in our hands today except the *Rasail Ikhwan al-Safa* (رَسَائِل إِخْوَان اَلصَّفَا), the Epistles of the Brethren of Purity, alone.
-
-There is another point that occupies a long stretch of my thought: the Ismaili literature that existed before the Fatimid state. There is no doubt that systems of interpretation and philosophical-ideological laws prevailed in our society in that period. And I think we have a right to wonder where those intellectual fruits went, and what the names are of those who produced them.
-
-The answer is hard. In reality we do not possess, from those earlier eras laden with events, any trace of the Ismailis except the *Rasail Ikhwan al-Safa*. It is likely that those antiquities were destroyed at the mission center at Salamiyya (سَلَمِيَّة), in Syria, during the raids of the Abbasids, the Qaramita, and other groups. This is why the information about the poet Abd al-Salam ibn Raghban (عَبْدُ السَّلَامِ ابْنُ رَغْبَان) — known as *Dik al-Jinn* (دِيكُ الْجِنّ), the Rooster of the Jinn — and about al-Mutanabbi (الْمُتَنَبِّي), al-Maarri (اَلْمَعَرِّي), and others, has remained scant and has not lit the way before researchers or informed the interested reader.
-
-In any case, I must refer to the story related by Jafar al-Hajib (جَعْفَر الْحَاجِب) in his biography, published by the orientalist Ivanow, concerning Muhammad al-Mahdi — Ubaydallah (عُبَيْدَ اللَّه) — the founder of the Fatimid state in the Maghrib: how some thieves attacked him on his way from Salamiyya to the Maghrib and stripped him of the collection of precious books he had carried with him from the Levant, and how the Fatimid Imam *al-Qaim* later returned to that very place, once the Fatimids had settled their affairs in the Maghrib, and recovered the books. This indicates that the collection — which he had himself selected, carried, valued, and preferred above gold and precious stones — was of great worth. There is no doubt it contained a system of esoteric beliefs, the rules of philosophy, of interpretation, and other philosophical topics.
-
-I used to say yesterday, and I return and repeat today, that the third and fourth centuries of the Hijra are among the most splendid of ages for the Arab and Islamic worlds. During these centuries the Ismaili mission flowered into a comprehensive intellectual flourishing. Our preachers stepped into the arena of knowledge free of every external influence, restriction, or consequence, and worked to transmit much of the sciences of the Persians, of India, and of Greece — after expounding them, adapting them, refining them — placing scattered theories in order and applying them in a manner suited to Islamic principles and to reason, with transmission as their tool. All of this took place during the early Ismaili mission, when we were saturated with the science, the disputation, and the debates that were spreading very swiftly throughout the world. To this must be added our firm grip on the apparent of the sacred law — its obligations, its duties, its rulings — a realistic adherence we would not tolerate being abandoned or neglected, joined to the urgent religious desire to hold also to the esoteric scientific worship alongside it.
-
-There is no group within Islam that has so long a record in events as the Ismailis. The Buyids and the Hamdanids raised the banner of culture and literature high in the Levant; the Umayyads made an effective contribution to building the literary renaissance in Andalusia. But all of that does not equal a small part of what the Fatimids contributed in this field, especially during the era of Imam *al-Muizz li-Din Allah* (الْمُعِزُّ لِدِينِ اللَّهِ), an era history counts as among the most prosperous Islam has ever known.
-
-Al-Muizz al-Fatimi possessed great understanding and farsightedness. He was deeply committed to reviving the scientific renaissance throughout his vast realm and to strengthening the intellectual system he considered the foundation of his mission. It is not surprising, then, that we find him personally contributing — collaborating with the dai (دَاعِي) al-Numan on two books that together form the basis of every science, of jurisprudence, and of philosophy. The first was meant as the foundation of the apparent law — what they call *practical worship* — namely *Daaim al-Islam*, The Pillars of Islam. The second was meant as the foundation of esoteric philosophy, or *scientific worship* — namely the basis of inner interpretation. As the first laid down the law, the rulings, and the body, the second laid down the truth, the philosophy, and the spirit.
-
-Yes — Imam al-Muizz li-Din Allah contributed to the revival of the Fatimid state in the intellectual sphere. He raised it scientifically and literarily to a height no Fatimid Imam before or after him had reached. In his time culture reached its peak; the literary market flourished; Cairo became a Kaba toward which scholars, writers, philosophers, students, and seekers turned, drawing from its flowing springs the various sciences and arts. In this field the Fatimid state surpassed its competitors in learning and literature just as it surpassed them politically and militarily.
-
-When we remember that al-Muizz himself was a highly cultivated intellectual who had absorbed a vast measure of knowledge, we understand why. Beyond his command of the dominant languages of his age — Latin, Italian, and Spanish, which it is said he learned because he intended to conquer those countries and annex them — he also studied Sicilian, Berber, and Sudanese, given the considerable numbers of slaves and soldiers from those regions in his armies. And on top of all this, he was a man devoted to poetry and literature, as the historians who recorded his life relate. Al-Maqrizi and others say his library overflowed with books. He delighted in convening scholarly councils, in listening to the debates of the learned, in encouraging them and providing them with funds, and he personally supervised authors and their works, ordering changes and refinements.
-
-It is worth noting that al-Numan ibn Muhammad ibn Mansur ibn Ahmad ibn Hayyun — the author of our book, *Asas al-Tawil* — was born in Morocco, into a family belonging to the Arab tribe of Banu Tamim (بَنُو تَمِيم). We have found no mention of the date of his birth in his biography, but it is known that he died in Cairo in the year 363 AH, during the imamate of al-Muizz li-Din Allah al-Fatimi. Al-Numan is truly the father of a family that served learning with distinguished service to the Ismaili mission, performing every possible scholarly service for it; the prolific output of this family shaped the course of public thought and mental life not only in Egypt but throughout the lands of Islam.
-
-It is fair to say he is the most famous jurist Ismailism has produced since the dawn of Islam, and among its most productive — the most prolific in substance, the most fertile, the most generative of books on jurisprudence and on legal and religious research. He entered the service of Imam Muhammad al-Mahdi, Ubayd Allah, founder of the Fatimid state in Morocco, in the late years of that Imam's life. Under the Fatimid *al-Qaim*, he took charge of the judiciary in Tripoli in the west. In the era of Imam *al-Mansur* he was appointed judge of *al-Mansuriyya* (اَلْمَنْصُورِيَّة), where his scholarly assemblies, his mosques, and his literary councils and lectures captivated the hearts of those who sought knowledge and elevation. When Imam al-Muizz li-Din Allah came to Egypt, he brought al-Numan and his family with him, intending the state to benefit from him in Egypt as it had benefited from him in Morocco. But while we speak of al-Numan, we must ask: what of his literary production in Morocco? Did the same fate that befell so many works at the hands of the angles of the ages befall his too?
-
-Now, at last, I must turn to the central theme — inner interpretation itself — and say what it is.
-
-This science was propagated by the Ismailis among the various classes of Muslims with great care. It is, in truth, the natural outcome of our foundational learning and our intellectual system. In our view, religion required that a person ascend through continuous discipline, rising from one degree to the next, until at last he attained knowledge of the houses of the universe — the inhabited worlds that were cut off after they were separated from the transcendent Creator: that is, from Absolute Non-Anthropomorphic Thought, the First Intellect, the Higher Light, the Originating Power — the Pen that writes, the First that precedes existence, the one who emits lights from itself toward the Second Place, toward the Second Universal Intellect, the Universal Soul. These two principles are the two origins from which everything proceeds, after their transformation in the minds of human beings — the minds of the prophets, the imams, and the elect. The common classes do not possess such distinct minds; they are destitute of them so long as they have not acquired knowledge or moved to the second station. That movement comes through enlightenment and guidance. This education has many degrees. If a person walks them, he may reach the ultimate degree of mental and literary perfection that is the highest purpose of human life. To achieve this end, one must work on the development of the mental faculties and then on the cultivation of a good biography and a literary life that accords with the demands of sound reason and the theory of intellectual development that leads a man to belief — the perfect believer, the wise one, the one stripped clean.
-
-This system of inner interpretation grew in just this way, and it led to just such a theory, because we gave the religious laws and the Quranic verses an esoteric interpretation that differed from their outward sense and yet conformed to common sense. At the same time, we did not reject the revealed laws, and we did not deny what the Quran and the other heavenly books brought. We affirmed them. We acknowledged that their obligations could not be set aside; we understood what God meant by them, for we were among those whose insight had been opened by knowledge. We separated ourselves into the ranks of the mission of the religious world, which is the type of the world of creators and created beings.
-
-From this you may conclude that we do not operate by apparent interpretation alone. We interpret the laws, the rulings, and the Quran esoterically as well, drawing from a trusted source we consider to be the representative of the Universal Intellect. You may therefore call us rationalists who anchor our beliefs only on these foundations. Beyond that, the Ismaili movement is a universal one — or, more plainly, an *intellectual system* — whose mission was to overthrow the dominant political order that controlled the Islamic world and to achieve a major upheaval in ideas, systems, and beliefs.
-
-Yes — this system of thought required of its adherent that he affirm both the apparent and the subtle principles, for the two together constitute the spirit of religion. They are joined to each other in full conjunction, and both are obligatory upon every respondent and adherent. The apparent is the general framework of recommendations bound up with the rules of religious scholarship; the subtle is the spirit of religion hidden from view, reserved for the dedicated. For this reason our preachers proclaimed our principles in two modes and summoned others to our intellectual system through two ideas.
-
-The first concerned the prophecies and the necessity of accepting what they brought — laws, texts, ordinances — in an apparent way, calling people to follow them in the manner of *obligation and imitation*.
-
-The second was a call to what the heavenly books had brought through esoteric interpretation, in the manner of *choice, covenant, and pledge*.
-
-From this it may be said that the Ismaili system of thought was founded on lofty fundamental philosophical teachings, which stipulate following the idea of pure, absolute faith, thirsting after knowledge, and never relying on what others repeat — thoughts that echo onward without understanding.
-
-Religion was, and still is, a fortified citadel that cannot be breached. One cannot reach what lies behind it except through a real, abiding spiritual meaning — an essence subsisting in itself — and never through gleaming external appearances and superficial teachings that, with the passage of time, become mere habit. Whatever the mind does not register, or what lies outside the mind's compass, is in origin nonexistent and does not endure.
-
-The verses of the Quran were revealed openly, and yet they were not devoid of esoteric meaning, of soul, of essence — present in every being. It is worth noting that the texts of the Quran, or its *tafsir*, often lead to differences of opinion, while *inner interpretation* — the disclosure of the esoteric meaning — is a fixed system that does not shift; it leads to mental reality and to the consensus of society.
-
-I have said that inner interpretation — which is *knowledge* — was the specialty of the Imam and his disciples. This is why we see the Prophet Muhammad keen to commend to his companions the search for it wherever it may be found.
-
-The proof is plain. The knowledge of the apparent is very easy to reach. *Inner interpretation*, by contrast, cannot be reached except after struggle, weariness, and the surmounting of obstacles — after passing through trials and entering the ranks of an intellectual system from which one does not emerge without being marked by what we have called *the covenant, the compact, and the oath*.
-
-To sum it up: God revealed His religion to humanity and gave it the optional portion by way of following the clearest paths, demonstrating its justice and leaving freedom before man to act in the light of the intellect of his constitution — making that intellect the finest gift bestowed upon him.
-
-Islam, in fact, was nothing other than the forbidding of evil and the permitting of the good. Its inner reality is absolute faith — the inward spirit that runs in the blood of every human being and aims at abstraction, at living in the shadow of idealism and virtue.
-
-Beyond all I have said, let me put inner interpretation as a thesis. It is a philosophical and religious theory which may be summarized this way. God Almighty has set all the meanings of religion in the creatures that surround man. One must therefore substitute what is in nature and on the face of the earth, according to one's understanding of the truth of religion, which has divided creation into two categories: an apparent part that is visible and an inward part that is hidden, with the apparent pointing to the inward — like the human body, which is apparent, and the soul, which is inward. What is disclosed from the matters of religion is *practical worship*, and what is set down in the apparent verses of the Quran consists of meanings known and articulated by the scholars of the people of the apparent and by the common public alike. Yet each of the religious duties also has an esoteric interpretation, which can only be taught by the imams, by their senior preachers, and by the elect.
-
-In any case, the Holy Quran stands before us, and it makes clear that the creed Islam has brought is not contrary to reason, nor should it conflict with reason — nor is it complete if it does not square with reason — particularly since the Islamic religion was born a rational religion capable of development.
-
-If you survey the Quranic verses and analyze what is mentioned in them in the light of reason, logic, and reality, they teach you that man must think, reflect, look, meditate, consider, and deduce. Islam is a comprehensive worldly order that directs man in life and helps him attain — for himself and for the human collective — the highest degree of human perfection in spirit, character, matter, and essence.
-
-Knowledge in Islam has been made a condition of faith: whoever believes without understanding and knowing has not believed well. True belief is the truth that emerges from guidance, from understanding, from choice. Islam is a revolution against mental rigidity and a war upon reaction, fanaticism, and constriction. It granted freedom to step out, to loosen and unfetter; it released freedom of opinion and thought, raised it to a high station, fenced it about with care and attention. The Islamic creed rests upon argument and evidence, not upon compulsion. It honored the intellect, wanted it alert, and demanded that it be attentive. It was not acceptable that a person be a deaf machine accepting whatever he was told without ruling on it by his own mind.
-
-Islam also freed human minds from the constraints of imitation, opening before them a space to walk in the direction of guidance, in a wide atmosphere of freedom — settling a sound mind in them and setting it apart from its opponents, especially in matters of research, instruction, and discussion. It meant to awaken the mind and rouse it to perform its mission, to develop its mental and intellectual powers, that it might walk in the field of self-esteem and independence of opinion and move toward freedom of thought.
-
-This has been a brief presentation of the subject of *inner interpretation* as set forth in *Asas al-Tawil* by al-Numan ibn Hayyun al-Tamimi. I have dealt with it in all its aspects, drawing upon our Ismaili materials enough to suffice, while keeping in mind that the legal code of the Ismaili mission is the only source that guides researchers to distinguish the intruders from the genuine envelopers of the tradition.
-
-Before I close, I owe a word to those who call themselves specialists in the study of Ismaili literature, history, and philosophy — those who have not yet reached the point of distinguishing between the two terms *Ismailiyya* and *Fatimiyya*. To these I say: we are not convinced, because we have found no mention of the name *Fatimiyya* in our studies. We are sure the name should be confined to the family that ruled the Ismailis — namely the Imams — and has nothing to do with the philosophy itself. From this it follows that the use of the word *Fatimid* should not extend beyond the Fatimid dynasty during its reign in Morocco and Egypt. The reason is well known: their wish to draw near to the Islamic world, which honors the name of Fatima al-Zahra, daughter of Muhammad, and, on the other hand, to distinguish themselves from the descendants of Ali by women other than Fatima. So every name applied to literature, philosophy, doctrine, or anything else pertaining to this mission must not stray beyond the scope of the word *Ismailiyya*.
-
-A word, finally, about the book itself, so you know what is ahead of you. Al-Numan divided *Asas al-Tawil* into six chapters, devoting one chapter to each Speaker-Prophet, the *natiq* (اَلنَّاطِق), the chief of his cycle, his preachers, and his followers. Each chapter is filled with Quranic verses concerning their stories, their era, and the events of their time. He begins with the era of Adam and ends with the era of Muhammad. He did not write the chapter concerning the Awaited Imam — the seventh — because his time has not yet come.
-
-In my judgment, it would be very difficult to explain the chapters of the book one by one. Nevertheless, there is one chapter that deserves particular attention: the chapter dealing with Isa ibn Maryam, Jesus, son of Mary, and the story of his birth without a father, followed by the story of Adam and the meaning of his creation from clay. All of this is worth reading and reflecting upon, for it is innovative in its philosophy of doctrine, rich in ideas, and marked by sound rational maturity.
-
-As for the copies on which I worked: I obtained two manuscripts of *Asas al-Tawil*. The first came from the town of Masyaf (مَصْيَاف) in Syria, and it was the principal manuscript adopted in the present edition; it is designated by the letter (S), and was copied in 1183 AH. The second came from manuscripts of Yemen, presented to me by my honored brother Hakim Luqman of the town of Kampala in Uganda, East Africa, during my visit to that country in 1956. It is written in the hand of Amin ibn Ali al-Kamenhab Dari Watana al-Shakadhakar, and was copied in 1033 AH; it is designated by the letter (e).
-
-I should mention that I have made grammatical and orthographic corrections, restored some sentences that had dropped out, and revised Quranic verses that had been corrupted in transmission. I have not noted these emendations in the margins, and they do not depart from the substance of the original. All of this was done in order to produce a sound text upon which no dust settles.
-
-In this work I have, I believe, rendered a service to scholarship and discharged my duty toward our history, our literature, and Arabic philosophy. What follows now is the author's own introduction, and after it the six chapters of the book itself — beginning, as he begins, with Adam.
-
-## 2. The Call to Inner Meaning
+## 1. The Call to Inner Meaning
 
 In the name of God, the Most Gracious, the Most Merciful. Praise belongs to Him who bestows every grace, and may His blessing rest on Muhammad, Prophet of mercy, and on the *wasi* (وَصِي) appointed as executor for the community, and on the pure Imams of his goodly line.
 
-Now to the matter at hand. With God's support, and in gratitude for His help, His bounty, and His kindness, we have already put into the world one book for those who answer the call of truth — those who take hold of the rope of the Creator, who grip the trustworthy handhold, who keep to the straightest road. That book set out the outward knowledge of the sacred law, and we named it *Daaim al-Islam*, the Pillars of Islam. In it we drew the limits of belief and showed the distinction between *iman* (إِيمَان) and *islam* (إِسْلَام) — between faith as an inward conviction and submission as an outward act. We laid out the obligation of *walaya* (وَلَايَة), the loyalty owed to the rightful guides; we set down the proofs by which the Imams are known; we gathered the requirements of duty, the chapters of what is lawful and what is forbidden, and the questions and rulings that arise — so that those who answered the call would know the outward shape of their religion, believe in it, act by it, and neither contradict it nor abandon it. That is the first frontier of education, the lowest rung in the ladder of knowledge and understanding.
+Now to the matter at hand. With God's support, and in gratitude for His help, His bounty, and His kindness, we have already put into the world one book for those who answer the call of truth — those who take hold of the rope of the Creator, who grip the trustworthy handhold, who keep to the straightest road. That book set out the outward knowledge of the sacred law, and we named it *Daaim al-Islam* (دَعَائِمُ الْإِسْلَام), the Pillars of Islam. In it we drew the limits of belief and showed the distinction between *iman* (إِيمَان) and *islam* (إِسْلَام) — between faith as an inward conviction and submission as an outward act. We laid out the obligation of *walaya* (وَلَايَة), the loyalty owed to the rightful guides; we set down the proofs by which the Imams are known; we gathered the requirements of duty, the chapters of what is lawful and what is forbidden, and the questions and rulings that arise — so that those who answered the call would know the outward shape of their religion, believe in it, act by it, and neither contradict it nor abandon it. That is the first frontier of education, the lowest rung in the ladder of knowledge and understanding.
 
 The one in whom the spirit of faith and wisdom is to be written must begin from precisely this point. He must pass from the realm of darkness into the realm of light. This is the first stage for the one newly born into faith: the stage of nurture at birth, the moment when the spirit of life is breathed into him. Consider what happens when an infant comes out of the womb into the light of the world. The outward form is repaired at once. The cord that was once the link between what was and what was not yet of him is cut. His limbs are adjusted, his skin anointed, his body swaddled with what tightens and strengthens it — so that his frame does not slacken, his joints do not weaken, his constitution does not warp, and no other ruin overtakes him while he is still soft.
 
@@ -248,7 +96,7 @@ So the Almighty said, and He is the most truthful of those who speak. If only th
 
 The man, astonished, said: "Seven, O son of the Messenger of God?" He said: "Yes — and seventy. And if we wished to add more, we would add."
 
-This knowledge has been put on display in proportion to the limits set for it, so that the one who has heard it and benefited from it may come to know it page by page, in its degrees. The present book, which we now set forth in its foundational form — being the first of its limits — we have called *Asas al-Tawil*, the Basis of Interpretation. By it we mean to explain what we had established in *Daaim al-Islam*, so that this book may serve as the foundation of the inner, just as the earlier book served as the foundation of the outward. From God we seek help. There is no power and no strength except in God the Almighty.
+This knowledge has been put on display in proportion to the limits set for it, so that the one who has heard it and benefited from it may come to know it page by page, in its degrees. The present book, which we now set forth in its foundational form — being the first of its limits — we have called *Asas al-Tawil* (اَلتَّأْوِيل), the Basis of Interpretation. By it we mean to explain what we had established in *Daaim al-Islam*, so that this book may serve as the foundation of the inner, just as the earlier book served as the foundation of the outward. From God we seek help. There is no power and no strength except in God the Almighty.
 
 What follows is the discourse on the interpretation of interpretation, and on the inner meaning of what is reported in hadith and revealed in scripture.
 
@@ -392,7 +240,7 @@ And he said: "Faith is wholly action, and speech is one part of that action." He
 
 Islam is the testimony to God by oneness, and to the Messenger by the message. Whoever bears witness to it is bound to do so in truth and sincerity. If he does not, his account is with God. As the Messenger of God, peace be upon him, said: "His testimony has not lost him anything with God — if God does not save him by it, He still rewards him for it." For it is established in the law that the man who testifies to something he is not fit to testify to, who does not stand on its truths, who does not know the one for whom or against whom he gives evidence — his testimony is not accepted and is overturned in its time. How then could a testimony be accepted in the greatest of all matters when the man has put off the work of becoming fit to give it? In this great testimony, whose weight the one who carries it himself attests to, and whose danger is great, knowing its reality and bearing witness to it both outwardly and inwardly, believing in it and discharging its conditions and obligations, is binding on the one who testifies. Only then is the testimony accepted from him, and only then is his reward not turned away. When he is ignorant of any part of it, or denies any part of it, his testimony is incomplete and will not be accepted.
 
-The man who stands in the secret of the wisdom God has entrusted to His friends — having made it a miracle for them — sees that the testimony *there is no god but God* contained, all at once, the affirmation of God's oneness, the acknowledgment of His Messenger, the recognition of the Imam of His religion and his limits, the duty of obedience to them, the *walaya* owed to them, and the acceptance of their command. It contained everything by which God is worshipped. That is why it became the foundation of the sacred law, and that is why the Prophet, peace and blessings upon him, called the people to it and made the Garden binding upon whoever testifies to it sincerely. He showed that its sincerity is belief in it, knowledge of its limits, and the performance of its rights — and that the letters of the testimony are what give it utterance, while what is signified by it is what is contained within it, since it is the expression of what is spoken aloud. That is why al-Sadiq, peace be upon him, said:
+The man who stands in the secret of the wisdom God has entrusted to His friends — having made it a miracle for them — sees that the testimony *there is no god but God* contained, all at once, the affirmation of God's oneness, the acknowledgment of His Messenger, the recognition of the Imam of His religion and his limits, the duty of obedience to them, the *walaya* owed to them, and the acceptance of their command. It contained everything by which God is worshipped. That is why it became the foundation of the sacred law, and that is why the Prophet, peace and blessings upon him, called the people to it and made the Garden binding upon whoever testifies to it sincerely. He showed that its sincerity is belief in it, knowledge of its limits, and the performance of its rights — and that the letters of the testimony are what give it utterance, while what is signified by it is what is contained within it, since it is the expression of what is spoken aloud. That is why al-Sadiq (اَلصَّادِق), peace be upon him, said:
 
 > إِنَّ اللَّهَ تَعَالَىٰ لَمَّا خَلَقَ الْحُرُوفَ أَوَّلًا، عَرَّفَ بِالْحُرُوفِ الْأَسْمَاءَ، وَبِالْأَسْمَاءِ عَرَّفَ الْعِبَادَ
 >
@@ -412,7 +260,7 @@ The Almighty said: *but of it there is one whose interpretation will yet come* �
 
 All of this has an explanation whose recollection will come, God willing, in its proper place. Were we to take it up here in full, our exposition of the *shahada* would be cut short before it has fairly begun. So we turn now to it.
 
-## 3. The Four Limits of the Testimony
+## 2. The Four Limits of the Testimony
 
 Turn with me, then, to the testimony itself, and look closely at how it is built. It divides into two halves — one that denies, and one that affirms. *La ilaha* — "there is no god" — is the negation. *Illa Allah* — "but Allah" — is the affirmation. Each half is made of two words, and the words do not lie side by side as equals. The first leans on the second; the second lifts above the first. Even the small grammatical break that separates them does work: it marks the affirmation as standing higher than the negation that precedes it.
 
@@ -626,7 +474,7 @@ What I have placed in this chapter — the chapter on faith — should suffice a
 
 Take notice, then, that you have been appointed to be encompassed by the *hudud* set out for you, and by the proofs shown to you, upon the right path by which you have been saved. May Allah aid you in that, and guide you to it. May the blessings of Allah be upon the Prophet Muhammad, and upon the righteous of his descendants who succeed one another until the Day of Judgment. And praise be to Allah, Lord of the Worlds.
 
-## 4. Adam, the Tree, and the Iblis Pact
+## 3. Adam, the Tree, and the Iblis Pact
 
 I have already opened, in the book whose pillars I undertook to simplify, the chapters on faith and Islam, and I named there what faith and Islam mean. Now I want to open a different door — the door of *wilaya*, the door of authority and friendship with God — and to recite it for the Messengers and for the first of those whom God placed in command after them, those whose obedience He bound to His own obedience. He said:
 
@@ -928,7 +776,7 @@ So Iblis's wish was to say: *share with them in their sons who believe in your f
 >
 > "Indeed, over My servants you will have no authority."
 
-## 5. Two Parties and the Line to Noah
+## 4. Two Parties and the Line to Noah
 
 He made for Himself a party out of His own creation, and He described the other party — the party of Satan — so that no one could mistake which side he stood on. Listen to how He names them:
 
@@ -958,15 +806,15 @@ Look at the first abasement and you will understand every one that came after it
 
 > مَا نَهَاكُمَا رَبُّكُمَا عَنْ هَٰذِهِ الشَّجَرَةِ إِلَّا أَن تَكُونَا مَلَكَيْنِ أَوْ تَكُونَا مِنَ الْخَالِدِينَ ۝ وَقَاسَمَهُمَا إِنِّي لَكُمَا لَمِنَ النَّاصِحِينَ
 >
-> "Your Lord did not forbid you this tree except that you might become kings, or that you might become among the immortals," and he swore to them: "Indeed I am to you among the sincere advisors." (Al-A'raf: 20-21)
+> "Your Lord did not forbid you this tree except that you might become kings, or that you might become among the immortals," and he swore to them: "Indeed I am to you among the sincere advisors." (Al-Araf: 20-21)
 
 Satan made plain to them what was permitted and what was forbidden, and where the limit lay. The limit of obligation, he said, was the limit of effort and aspiration: if only they would push past the boundary God had set, they would slough off the dense material world and rise among the gentle spiritual angels, two sovereigns living forever in whatever they wished. But the limit he was urging them across was not theirs to cross. The Almighty said: "But if they had not been beguiled, they would not have tasted of the tree, and it appeared evil to them." They transgressed the limits of speech that had been permitted to them, into the limit that belongs to the Lord of the Resurrection — the very thing God had warned them about — and they extended their hands to what was not theirs.
 
-So they ate. They ate from the tree and they fell into sin, and at the moment of the fall, the support that had been holding them up was cut. That support is what God names in His Book: the garment of piety. He said: "And that is from the signs of God." (Al-A'raf: 26) They were stripped bare of it, and what was reprehensible became visible to them — the intensity of the natural image, all the rough density of the lower world — because the garment of piety, which is the word, had fallen away. By the light of that garment Hawwa had seen, until then, all the darkness in which she was compounded. Support does not accompany sin; reaching for what is not yours is a hand that must, by ruling, be cut off. When the support ceased, as the Almighty said:
+So they ate. They ate from the tree and they fell into sin, and at the moment of the fall, the support that had been holding them up was cut. That support is what God names in His Book: the garment of piety. He said: "And that is from the signs of God." (Al-Araf: 26) They were stripped bare of it, and what was reprehensible became visible to them — the intensity of the natural image, all the rough density of the lower world — because the garment of piety, which is the word, had fallen away. By the light of that garment Hawwa had seen, until then, all the darkness in which she was compounded. Support does not accompany sin; reaching for what is not yours is a hand that must, by ruling, be cut off. When the support ceased, as the Almighty said:
 
 > وَطَفِقَا يَخْصِفَانِ عَلَيْهِمَا مِن وَرَقِ الْجَنَّةِ
 >
-> "They began to stitch upon themselves leaves from Paradise." (Al-A'raf: 22)
+> "They began to stitch upon themselves leaves from Paradise." (Al-Araf: 22)
 
 They gathered what light of wisdom was still left to them and tried to cover the shame that had been laid bare. What was revealed in their condition was the loss of support; and through ignorance of this matter many who hold to it have perished, and the shame has been made into a permission.
 
@@ -974,7 +822,7 @@ Then they cried out to their Lord. The Almighty said:
 
 > أَلَمْ أَنْهَكُمَا عَن تِلْكُمَا الشَّجَرَةِ وَأَقُل لَّكُمَا إِنَّ الشَّيْطَانَ لَكُمَا عَدُوٌّ مُّبِينٌ ۝ قَالَا رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ
 >
-> "Did I not forbid you that tree and tell you that Satan is to you a clear enemy? They said: Our Lord, we have wronged ourselves; if You do not forgive us and have mercy on us, we will surely be among the losers." (Al-A'raf: 22-23)
+> "Did I not forbid you that tree and tell you that Satan is to you a clear enemy? They said: Our Lord, we have wronged ourselves; if You do not forgive us and have mercy on us, we will surely be among the losers." (Al-Araf: 22-23)
 
 Adam did not turn away as Iblis had turned away. He turned back. He repented, and asked for mercy, and asked for forgiveness.
 
@@ -1000,7 +848,7 @@ Whether God should interpret this so literally — that the lands hold such a th
 
 > قُلْ يَا أَهْلَ الْكِتَابِ لَسْتُمْ عَلَىٰ شَيْءٍ حَتَّىٰ تُقِيمُوا التَّوْرَاةَ وَالْإِنجِيلَ وَمَا أُنزِلَ إِلَيْكُم مِّن رَّبِّكُمْ
 >
-> "Say: O People of the Book, you stand upon nothing until you uphold the Torah and the Gospel and what has been revealed to you from your Lord." (Al-Ma'idah: 68)
+> "Say: O People of the Book, you stand upon nothing until you uphold the Torah and the Gospel and what has been revealed to you from your Lord." (Al-Maidah: 68)
 
 From which it is known that they do not establish these scriptures except by interpretation. And so it has been said in interpretation that the Torah is like the outward and the Gospel is like the inward — and God has commanded, and the Almighty will establish them all, as we have said, by means of the knowledge He has sent down: the knowledge Adam deposited and transmitted in the word, carried forward by the foundations, the imams, and their successors among their descendants, upon them all be the prayers and peace of God.
 
@@ -1010,7 +858,7 @@ When God turned to Adam in repentance, He did not remove him from the rank of ca
 
 > اهْبِطُوا مِنْهَا جَمِيعًا
 >
-> "Go down from it together" — from the light which was, on earth, the good for you — "and you will have therein dwelling and enjoyment for a time." (Al-A'raf: 24)
+> "Go down from it together" — from the light which was, on earth, the good for you — "and you will have therein dwelling and enjoyment for a time." (Al-Araf: 24)
 
 And:
 
@@ -1018,13 +866,13 @@ And:
 
 > فِيهَا تَحْيَوْنَ وَفِيهَا تَمُوتُونَ وَمِنْهَا تُخْرَجُونَ
 >
-> "Therein you will live, and therein you will die, and from it you will be brought forth." (Al-A'raf: 25)
+> "Therein you will live, and therein you will die, and from it you will be brought forth." (Al-Araf: 25)
 
 And:
 
 > يَا بَنِي آدَمَ قَدْ أَنزَلْنَا عَلَيْكُمْ لِبَاسًا يُوَارِي سَوْآتِكُمْ وَرِيشًا ۖ وَلِبَاسُ التَّقْوَىٰ ذَٰلِكَ خَيْرٌ ۚ ذَٰلِكَ مِنْ آيَاتِ اللَّهِ لَعَلَّهُمْ يَذَّكَّرُونَ
 >
-> "O children of Adam, We have bestowed upon you clothing to conceal your private parts, and as adornment. But the clothing of righteousness — that is best. That is from the signs of God, that perhaps they will remember." (Al-A'raf: 26)
+> "O children of Adam, We have bestowed upon you clothing to conceal your private parts, and as adornment. But the clothing of righteousness — that is best. That is from the signs of God, that perhaps they will remember." (Al-Araf: 26)
 
 So God brought Adam down from the limit of interpretation without a veil; yet He did not strip him of his substance. What was connected to him by way of material descended with him from the upper celestial limits, and remained connected to the signs of God He has just named. And the same arrangement has been put in place in the word of his son.
 
@@ -1036,7 +884,7 @@ What happened to Adam and Hawwa happened, in turn, in their descendants. The des
 
 > وَمَن يَتَوَلَّهُم مِّنكُمْ فَإِنَّهُ مِنْهُمْ
 >
-> "And whoever takes them as allies among you, then indeed he is of them." (Al-Ma'idah: 51)
+> "And whoever takes them as allies among you, then indeed he is of them." (Al-Maidah: 51)
 
 Whoever takes Iblis as an ally is from him: they become his sons by calling, his family by calling, other than Adam. God Almighty said of the son of Noah when he disobeyed:
 
@@ -1068,7 +916,7 @@ Iblis's opposition to Adam and his enmity toward him is exactly the opposition o
 
 > وَكَذَٰلِكَ جَعَلْنَا لِكُلِّ نَبِيٍّ عَدُوًّا شَيَاطِينَ الْإِنسِ وَالْجِنِّ
 >
-> "And thus We have made for every prophet an enemy — devils from among humankind and the jinn." (Al-An'am: 112)
+> "And thus We have made for every prophet an enemy — devils from among humankind and the jinn." (Al-Anam: 112)
 
 The sinner is the son of Adam who persists in his sin, who neither repents of it nor casts it off. He is Satan in his persistence; he has walked out of Adam's party and into Satan's. He has taken Satan's entrance and arrived where Iblis is arriving, at the punishment of God. The one who turns back from what he has done, and the obedient born of Adam, are Adam's party, which is the party of God:
 
@@ -1086,7 +934,7 @@ God sent Noah as a messenger speaking a sacred law different from the law of Ada
 
 > لِكُلٍّ جَعَلْنَا مِنكُمْ شِرْعَةً وَمِنْهَاجًا
 >
-> "For each of you We have appointed a law and a way." (Al-Ma'idah: 48)
+> "For each of you We have appointed a law and a way." (Al-Maidah: 48)
 
 Adam's cycle ended when Noah's era came upon them. None of these messengers rose to messengership until he had first held fast to the law of those before him; the predecessor's covenant was taken up, and he bound himself to it. The Almighty says:
 
@@ -1122,7 +970,7 @@ God Almighty sent Noah, God's blessings upon him, as a prophet bearing a new sac
 
 > لَقَدْ أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِ فَقَالَ يَا قَوْمِ اعْبُدُوا اللَّهَ مَا لَكُم مِّنْ إِلَٰهٍ غَيْرُهُ أَفَلَا تَتَّقُونَ
 >
-> "We sent Noah to his people, saying: O my people, worship God; you have no god other than Him. Will you not be conscious of Him?" (Al-A'raf: 59)
+> "We sent Noah to his people, saying: O my people, worship God; you have no god other than Him. Will you not be conscious of Him?" (Al-Araf: 59)
 
 The weak among them responded; the arrogant turned him down. Those who were content with the law of Adam answered him with a line so familiar I want you to hear it carefully:
 
