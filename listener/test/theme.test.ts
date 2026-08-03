@@ -78,6 +78,11 @@ function contrast(a: string, b: string): number {
 const PAIRS: [string, string, number][] = [
   ["l-ink", "l-bg", 4.5],
   ["l-ink", "l-surface", 4.5],
+  // Page titles are large, so AA-large would technically allow 3:1 — held to
+  // the body floor anyway, because a heading is the one thing on a page that
+  // everybody reads.
+  ["l-display", "l-bg", 4.5],
+  ["l-display", "l-surface", 4.5],
   ["l-ink", "l-sunken", 4.5],
   ["l-muted", "l-bg", 4.5],
   ["l-muted", "l-surface", 4.5],

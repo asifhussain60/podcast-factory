@@ -35,6 +35,22 @@ const MANIFEST = [
     to: "literata-latin-opsz-italic.woff2",
     note: "Literata Variable (italic)",
   },
+  // Display — Fraunces, for headings only.
+  //
+  // The `opsz` cut rather than the plain weight one, and for the same reason
+  // Literata carries it above: Fraunces' optical-size axis is dramatic, gaining
+  // real stroke contrast as the size grows, which is exactly what makes it read
+  // as a heading face rather than as body copy set large.
+  {
+    from: "node_modules/@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2",
+    to: "fraunces-latin-opsz-normal.woff2",
+    note: "Fraunces Variable (display)",
+  },
+  {
+    from: "node_modules/@fontsource-variable/fraunces/LICENSE",
+    to: "fraunces-LICENSE.txt",
+    note: "SIL OFL 1.1",
+  },
   // UI — designed as a pair with IBM Plex Sans Arabic.
   {
     from: "node_modules/@fontsource-variable/ibm-plex-sans/files/ibm-plex-sans-latin-wght-normal.woff2",
