@@ -109,7 +109,7 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     detail?.pdfKey && detail.pdfAvailable ? (
       <a href={`/media/${detail.pdfKey}`} className="pf-button pf-button--soft">
         <Icon icon={faDownload} />
-        Download the print edition
+        Download PDF
         <span className="pf-button__meta">{megabytes(detail.pdfBytes)}</span>
       </a>
     ) : null;
