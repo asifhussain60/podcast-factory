@@ -1,7 +1,7 @@
 // Copies the Listener's self-hosted faces into public/fonts/.
 //
 // Two sources, both one-time copies rather than runtime dependencies:
-//   - node_modules/@fontsource-variable/*  (Literata, IBM Plex Sans — new here)
+//   - node_modules/@fontsource-variable/*  (Literata, Fraunces, Inter)
 //   - ../plan-dashboard/public/fonts/      (Scheherazade New, OpenDyslexic —
 //     already licensed and subset in this repo; copied, never imported, so the
 //     Listener has no runtime coupling to the admin site)
@@ -51,11 +51,28 @@ const MANIFEST = [
     to: "fraunces-LICENSE.txt",
     note: "SIL OFL 1.1",
   },
-  // UI — designed as a pair with IBM Plex Sans Arabic.
+  // UI — Inter, per Asif 2026-08-03.
+  //
+  // It replaces IBM Plex Sans as `--l-font-ui`, which is every label, pill,
+  // button, count and list row on the site. Inter is drawn for exactly that: a
+  // tall x-height and open apertures that hold up at the 11–13px the pills and
+  // eyebrows are set at, where Plex's narrower forms were starting to close up.
+  // The italic ships too — the reading column's `<em>` is Literata's, but a
+  // `.pf-note` in the UI face has no italic of its own without it.
   {
-    from: "node_modules/@fontsource-variable/ibm-plex-sans/files/ibm-plex-sans-latin-wght-normal.woff2",
-    to: "ibm-plex-sans-latin-wght-normal.woff2",
-    note: "IBM Plex Sans Variable",
+    from: "node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
+    to: "inter-latin-wght-normal.woff2",
+    note: "Inter Variable (roman)",
+  },
+  {
+    from: "node_modules/@fontsource-variable/inter/files/inter-latin-wght-italic.woff2",
+    to: "inter-latin-wght-italic.woff2",
+    note: "Inter Variable (italic)",
+  },
+  {
+    from: "node_modules/@fontsource-variable/inter/LICENSE",
+    to: "inter-LICENSE.txt",
+    note: "SIL OFL 1.1",
   },
   // Arabic — Scheherazade New is engineered for fully-vowelled text, which is
   // what this corpus carries.

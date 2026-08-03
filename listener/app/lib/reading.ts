@@ -30,7 +30,7 @@ export type Family = (typeof FAMILIES)[number];
 
 export const FAMILY_LABELS: Record<Family, string> = {
   prose: "Literata",
-  ui: "IBM Plex Sans",
+  ui: "Inter",
   dyslexic: "OpenDyslexic",
 };
 

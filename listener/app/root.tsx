@@ -35,7 +35,7 @@ export const links: Route.LinksFunction = () => [
   // The two faces above the fold. Arabic and OpenDyslexic load on demand.
   {
     rel: "preload",
-    href: "/fonts/ibm-plex-sans-latin-wght-normal.woff2",
+    href: "/fonts/inter-latin-wght-normal.woff2",
     as: "font",
     type: "font/woff2",
     crossOrigin: "anonymous",

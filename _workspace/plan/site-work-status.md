@@ -1,8 +1,38 @@
 # Current work - status
 
-**Last updated:** 2026-08-03 evening (the Listener is redesigned on a single
-theme stylesheet and deployed; the book-lane note below is unchanged and still
-open)
+**Last updated:** 2026-08-03 late evening (the Listener's book page is rebuilt
+as tabs on the theme from earlier the same day; the book-lane note below is
+unchanged and still open)
+
+**Newest — a book page is three tabs and a panel, not two columns and a list.**
+
+`/book/:slug` used to set the chapters and the episodes side by side with the
+deck as a third block below. Nine chapters beside twenty episodes meant whichever
+list you were reading, the other was moving in the corner of your eye — so Read,
+Listen and Slides are now one ARIA tablist with one panel visible, Read first.
+The Slides tab shows the DECK, not a link to it: the viewer moved to
+`app/components/DeckViewer.tsx` and `/book/:slug/slides` is now that component
+plus a masthead, so the two cannot drift.
+
+Around it: the description moved into a full-width white panel under a centred
+masthead; the print-edition button moved out of the masthead to the head of the
+Read panel, beside the chapters it is another format of; rows are striped;
+`--l-font-ui` is **Inter**, replacing IBM Plex Sans everywhere.
+
+New in the theme, all Bootstrap-derived and all reusable: `.pf-panel`
+(their `.card` + `.card-header`), `.pf-tabset` (their `.nav-pills`, drawn on the
+same track as `.pf-swatches`), `.pf-rows--striped` (`.table-striped`) and
+`.pf-button--soft` (`.btn-*-subtle`). No new palette tokens — every tint is
+`color-mix` off `--l-accent` or `--l-sunken`, so a fourth palette still costs one
+block in §3 and `theme.test.ts` still holds it to AA.
+
+**A trap worth knowing before the next visual pass:** the Chrome instances the
+browser extension offers cannot reach this machine's loopback (they load
+example.com and refuse `127.0.0.1:5273`), and `npm run dev` binds `[::1]` only.
+The book page is behind Google sign-in, so neither the in-app browser nor a
+headless one can see it. What worked was rendering the real component tree with
+`renderToStaticMarkup` against the local D1 and the dev server's own compiled CSS
+(`/app/app.css?direct`), served out of `public/`, then screenshotting that.
 
 **Newest — the Listener now has a theme, where before it had class strings.**
 

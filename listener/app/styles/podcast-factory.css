@@ -73,12 +73,28 @@
     U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Inter — the interface face, and the one that carries the most words on this
+   site after the reading column: every label, pill, button, count, tab and list
+   row. It replaced IBM Plex Sans on 2026-08-03. Its tall x-height and open
+   apertures are what hold up at the 11–13px the eyebrows and pills are set at,
+   where Plex's narrower forms had started to close. */
 @font-face {
-  font-family: "IBM Plex Sans Variable";
+  font-family: "Inter Variable";
   font-style: normal;
   font-display: swap;
-  font-weight: 100 700;
-  src: url("/fonts/ibm-plex-sans-latin-wght-normal.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter Variable";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/inter-latin-wght-italic.woff2") format("woff2-variations");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
     U+2212, U+2215, U+FEFF, U+FFFD;
@@ -146,7 +162,7 @@
   /* Page titles only. Everything that is read rather than scanned stays on
      `--l-font-prose`. */
   --l-font-display: "Fraunces Variable", "Literata Variable", Georgia, serif;
-  --l-font-ui: "IBM Plex Sans Variable", system-ui, -apple-system, sans-serif;
+  --l-font-ui: "Inter Variable", system-ui, -apple-system, sans-serif;
   --l-font-arabic: "Scheherazade New", "Amiri", serif;
   /* Titles and other display Arabic ONLY. Never the reading column — see the
      @font-face note in §1. */
@@ -851,6 +867,39 @@
     padding-bottom: var(--pf-space-6);
   }
 
+  /* ---- A centred masthead ------------------------------------------------
+     The book page, per Asif 2026-08-03: the category, the Arabic name and the
+     English name centre as one block, the way a title page sets them and the
+     way the library card already does.
+
+     The pills come with it. A centred title over a left-ragged row of pills
+     reads as two halves of different pages — the same reason `.pf-book__body`
+     centres its pills under the card's centred band.
+
+     What does NOT come with it is the description panel: it is a block of
+     running prose, and centred body copy gives the eye a new starting position
+     on every line. `text-align` inherits, so it has to be turned back off
+     explicitly rather than merely not turned on. */
+  .pf-masthead--centred {
+    text-align: center;
+  }
+
+  .pf-masthead--centred .pf-title {
+    margin-inline: auto;
+  }
+
+  .pf-masthead--centred .pf-book-title-ar {
+    text-align: center;
+  }
+
+  .pf-masthead--centred .pf-pills {
+    justify-content: center;
+  }
+
+  .pf-masthead--centred .pf-panel {
+    text-align: start;
+  }
+
   .pf-eyebrow {
     display: inline-flex;
     align-items: center;
@@ -911,6 +960,21 @@
     font-size: var(--pf-text-md);
   }
 
+  /* In a panel the description takes the panel's full width, and the panel
+     takes the page's.
+
+     `.reader` holds prose to `--l-reading-measure` (68ch) because a chapter is
+     read line after line for an hour and the eye has to find the next line
+     unaided. A three-sentence description is scanned once — and held to 68ch in
+     a 64rem panel it left a third of the panel empty, which read as a layout
+     that had failed rather than a measure that had been chosen. The panel's
+     padding is what keeps the line from running to the very edge. */
+  .pf-panel .pf-blurb {
+    margin-top: 0;
+    max-width: none;
+    color: var(--l-ink);
+  }
+
   /* A row of facts under the identity block, and under a library card. */
   .pf-pills {
     display: flex;
@@ -925,9 +989,20 @@
     margin-top: var(--pf-space-5);
   }
 
+  /* "1.9 MB" is one token. On a phone the button wraps to two lines and this
+     was breaking again between the number and the unit, stacking "1.9" over
+     "MB" in the corner. */
   .pf-button__meta {
     color: var(--l-muted);
     font-weight: 400;
+    white-space: nowrap;
+  }
+
+  /* `--l-muted` is chosen against the page, not against a saturated fill — on
+     the primary button the file size all but vanished. Mixed from the button's
+     own ink instead, so it recedes by the same amount on every palette. */
+  .pf-button--primary .pf-button__meta {
+    color: color-mix(in srgb, var(--l-on-accent) 78%, transparent);
   }
 
   /* ---- Library search -----------------------------------------------------
@@ -1045,21 +1120,37 @@
   .pf-session__head {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--pf-space-2);
+    align-items: center;
+    gap: var(--pf-space-3);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
   }
 
+  /* Drawn as a soft badge rather than plain tracked capitals. Five of these run
+     down the podcast list and they are the only thing separating one group of
+     episodes from the next; as grey small-caps they read as a caption on the
+     row beneath rather than as a divider above it. */
   .pf-session__label {
+    display: inline-flex;
+    align-items: center;
+    /* The label is tracked at 0.16em, which also pushes a trailing sliver of
+       space onto the last letter. Sitting inside a filled shape that shows, so
+       the gap the icon gets is a hair under what the tracking gives back. */
+    gap: 0.35em;
     flex: none;
+    padding: var(--pf-pill-sm-y) var(--pf-pill-x);
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-accent-soft);
+    color: var(--l-accent);
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.16em;
-    color: var(--l-muted);
   }
 
   .pf-session__title {
     flex: 1;
     min-width: 0;
+    font-size: var(--pf-text-base);
     color: var(--l-ink);
   }
 
@@ -1072,6 +1163,31 @@
     align-items: baseline;
     justify-content: space-between;
     gap: var(--pf-space-4);
+  }
+
+  /* The head as a two-part row: what this section is on the left, one action on
+     the right. `--wrap` because the action is a real button and a phone has no
+     room for both on one line; `center` because a button is a box and lining its
+     BASELINE up with a line of small caps hangs it half a step low. */
+  .pf-section__head--wrap {
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: var(--pf-space-3);
+    /* The space belongs to the head, not to what follows it: `.pf-section__intro`
+       is a no-op on `.pf-rows`, which sets `margin: 0` later in this file at the
+       same specificity and wins. That was invisible while the head was one line
+       of small caps; with a 44px button in it, the button's bottom edge sat
+       exactly on the first chapter. */
+    margin-bottom: var(--pf-space-4);
+  }
+
+  /* Title and count stay together as one item when the row wraps, so the count
+     never breaks away and sets itself under the button. */
+  .pf-section__naming {
+    display: flex;
+    align-items: baseline;
+    gap: var(--pf-space-4);
+    min-width: 0;
   }
 
   .pf-section__title {
@@ -1131,6 +1247,70 @@
     /* The whole card is the target, so the ring follows its corner. */
     outline-offset: 3px;
     border-radius: var(--pf-radius-lg);
+  }
+
+  /* ---- Panel -------------------------------------------------------------
+     A block of prose raised off the page: the book's description, and anything
+     else that is text and nothing else.
+
+     The shape is Bootstrap's `.card` / `.card-header` — a flat fill, a hairline,
+     a radius, and a header that is a TINTED STRIP rather than a heavier rule.
+     It is a separate class from `.pf-card` above because that one has become a
+     specific thing: a link to a book, with a coloured band and a fixed-height
+     title. Overloading it to also mean "a container for a paragraph" is how a
+     card class ends up with six modifiers that each turn most of it off.
+
+     The fill is `--l-elev`, deliberately, not `--l-surface`. The whole point of
+     the panel is that the description reads as white paper laid on the warm
+     page, and `--l-surface` is a couple of steps off `--l-bg` — enough for a
+     card in a grid of cards, not enough for a single block that has to hold the
+     page's width on its own. On the dark palette `--l-elev` is the lightest of
+     the three surfaces, so the same rule reads the same way from either end. */
+
+  .pf-panel {
+    margin-top: var(--pf-space-6);
+    background: var(--l-elev);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    box-shadow: var(--pf-elev-2);
+    /* The header's tint is a full-bleed fill; without this it squares off the
+       two top corners the panel just rounded. */
+    overflow: hidden;
+  }
+
+  /* Derived with color-mix rather than named as a token, so a palette added to
+     §3 gets a matching header for free instead of having to declare one. */
+  .pf-panel__head {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-3) var(--pf-space-5);
+    background: color-mix(in srgb, var(--l-accent) 8%, var(--l-elev));
+    border-bottom: 1px solid var(--l-rule-soft);
+  }
+
+  .pf-panel__title {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    color: var(--l-muted);
+  }
+
+  .pf-panel__head .pf-icon {
+    opacity: 1;
+    color: var(--l-accent);
+  }
+
+  .pf-panel__body {
+    padding: var(--pf-space-5) var(--pf-space-6);
+  }
+
+  @media (max-width: 639px) {
+    .pf-panel__body {
+      padding: var(--pf-space-5) var(--pf-space-5);
+    }
   }
 
   /* ---- Grid ------------------------------------------------------------ */
@@ -1415,6 +1595,31 @@
     font-size: 0.8em;
   }
 
+  /* The book page's row of facts. Colouring the glyph and leaving the label in
+     the muted ink is what makes a row of five pills scannable — the eye finds
+     the headphones without reading the word beside it. Scoped to `.pf-pills`,
+     which is the book page's own row; the library card's pills
+     (`.pf-book__pills`) stay monochrome, because forty coloured glyphs across a
+     grid of cards is noise rather than signal. */
+  .pf-pills > .pf-pill > .pf-icon {
+    opacity: 1;
+    color: var(--l-accent);
+  }
+
+  /* The eyebrow's tag, and the quiet glyphs in a note. Neither is a fact worth
+     colouring; they exist to mark what KIND of line this is. */
+  .pf-eyebrow .pf-icon,
+  .pf-note .pf-icon {
+    opacity: 0.55;
+  }
+
+  /* These two are plain text, not flex rows, so the glyph has to space itself
+     off the words rather than inherit a gap. */
+  .pf-note .pf-icon,
+  .pf-row__meta .pf-icon {
+    margin-inline-end: 0.4em;
+  }
+
   /* ---- Buttons ---------------------------------------------------------- */
 
   .pf-button {
@@ -1453,6 +1658,32 @@
   .pf-button--primary:hover {
     background: var(--l-accent-hover);
     border-color: var(--l-accent-hover);
+  }
+
+  /* Bootstrap 5.3's `.btn-*-subtle`: the accent's own hue at low saturation,
+     lettered in the accent. Twenty of these down an episode list carry the
+     colour of a primary button without twenty primary buttons shouting at each
+     other. The pair is already held to 4.5:1 by test/theme.test.ts. */
+  .pf-button--soft {
+    background: var(--l-accent-soft);
+    border-color: transparent;
+    color: var(--l-accent);
+  }
+
+  .pf-button--soft:hover {
+    border-color: var(--l-accent);
+  }
+
+  .pf-button--soft .pf-icon {
+    opacity: 1;
+  }
+
+  /* Same idea as the primary rule above, the other way round: `--l-muted` is a
+     grey chosen against the page, and beside accent-coloured lettering on an
+     accent-tinted fill it reads as a piece of another button. Mixed from the
+     button's own ink so it recedes without changing hue. */
+  .pf-button--soft .pf-button__meta {
+    color: color-mix(in srgb, currentColor 70%, transparent);
   }
 
   .pf-button--ghost {
@@ -1517,6 +1748,48 @@
     background: var(--l-sunken);
   }
 
+  /* ---- Striped rows ------------------------------------------------------
+     Bootstrap's `.table-striped`, and for its reason: a long list of rows whose
+     only separator is a hairline makes the eye work to keep a title and the
+     number at the far right of the page on the same line. Twenty episodes with
+     a play button three hundred pixels away is exactly that list.
+
+     The stripe REPLACES the hairline rather than joining it. Both together is
+     two separators doing one job, and it reads as a table someone has over-ruled.
+
+     Mixed from `--l-sunken` rather than named, so the stripe is a tint of the
+     palette's own recessed surface on every theme — including dark, where a
+     literal light grey would be a flash of white every other row. */
+  .pf-rows--striped {
+    border-top: 0;
+  }
+
+  .pf-rows--striped > li {
+    border-bottom: 0;
+    border-radius: var(--pf-radius-sm);
+  }
+
+  .pf-rows--striped > li:nth-of-type(even) {
+    background: color-mix(in srgb, var(--l-sunken) 50%, transparent);
+  }
+
+  /* Pulled out by exactly the row's own inline padding.
+     Without this the stripe starts where the panel's text column starts and the
+     row's TEXT starts 8px further in, so the list sat a step to the right of the
+     count above it — measured, not guessed: the label was at x=265 and every
+     chapter title at x=273. Outdenting the list aligns the text with the label
+     and lets the stripe bleed the 8px into the panel's padding, which is what a
+     striped table is supposed to do anyway. */
+  .pf-panel__body .pf-rows--striped {
+    margin-inline: calc(var(--pf-space-2) * -1);
+  }
+
+  /* The row's own hover fill has to beat the stripe under it, or every other
+     row appears not to respond to the pointer. */
+  .pf-rows--striped a.pf-row:hover {
+    background: var(--l-accent-soft);
+  }
+
   .pf-row__main {
     flex: 1;
     min-width: 0;
@@ -1546,6 +1819,28 @@
     align-self: center;
   }
 
+  /* The chevron closing a row that is a link. A chapter row has no button on
+     it, so before this the only thing saying "this whole line opens something"
+     was the cursor — which a touch screen does not have. It leans on hover
+     rather than announcing itself, and it is `aria-hidden` in the markup: the
+     link's own text already says where it goes. */
+  /* Deliberately NOT `align-self: center`. The row is a baseline row, so on a
+     title that wraps to two lines the "5 min" beside it stays on the first line
+     — and a centred chevron then sat half a line lower than the number it
+     belongs with, which reads as one of them having slipped. */
+  .pf-row__go {
+    flex: none;
+    color: var(--l-faint);
+    transition:
+      color var(--pf-motion),
+      translate var(--pf-motion);
+  }
+
+  a.pf-row:hover .pf-row__go {
+    color: var(--l-accent);
+    translate: 3px 0;
+  }
+
   /* A row carrying two lines of its own — an episode title with its chapters
      underneath — needs the gap those two lines want, not the baseline gap of a
      single-line row. */
@@ -1565,6 +1860,15 @@
 
   .pf-deck {
     margin: 0;
+  }
+
+  /* In the Slides tab the deck follows a sentence, and a figure with no margin
+     of its own sat flush against it — the note read as a caption belonging to
+     the slide rather than as the panel's own introduction. The standalone
+     slides page is left alone: there the deck follows the masthead's own
+     padding and needs nothing more. */
+  .pf-tabpanel .pf-deck {
+    margin-top: var(--pf-space-5);
   }
 
   .pf-deck__page {
@@ -1850,6 +2154,15 @@
 
   .pf-link:hover {
     text-decoration: underline;
+  }
+
+  /* `.pf-link` is a block that follows something; this one sits inside a
+     sentence, where the top margin and the block box would both break the line
+     it belongs to. */
+  .pf-link--inline {
+    display: inline;
+    margin-top: 0;
+    font-size: inherit;
   }
 
   /* ---- Stat -------------------------------------------------------------
@@ -2240,6 +2553,175 @@
   .pf-tab[aria-current="page"] {
     color: var(--l-ink);
     border-bottom-color: var(--l-accent);
+  }
+
+  /* ---- Tabset ------------------------------------------------------------
+     A real tab control — `role="tablist"`, arrow keys, one panel visible — as
+     opposed to `.pf-tabs` above, which is a row of LINKS to other pages that
+     happens to be drawn like tabs.
+
+     Bootstrap offers both shapes and the choice between them is the design:
+     `.nav-tabs` draws a folder tab sitting on a rule, which says "you are here,
+     in a list of places"; `.nav-pills` fills the active item, which says "one of
+     these, and you picked it". The book page's two halves are PEERS — the
+     reading edition and the podcast are two readings of the same book, neither
+     one a sub-page of the other — so the pills are right and the folder tabs
+     would be a small lie about the structure.
+
+     It is the same track-and-thumb the theme picker (`.pf-swatches`) already
+     uses, and that is deliberate: the site should have ONE way of drawing a
+     two-or-three-way choice. It is not the same CLASS, because that control is
+     three words in a header and this one is a primary navigation with icons and
+     counts — sharing the rules would mean a modifier that turns most of them
+     back off. */
+
+  /* Centred on the page, per Asif 2026-08-03. `width: fit-content` with auto
+     margins rather than `inline-flex` + `text-align: center` on a wrapper: the
+     strip is its own block and centres itself, so nothing above or below it has
+     to know it is there. */
+  .pf-tabset {
+    display: flex;
+    width: fit-content;
+    margin-inline: auto;
+    gap: 3px;
+    max-width: 100%;
+    /* The masthead already ends on 2rem of its own padding. A 4rem margin on
+       top of that marooned the strip in 96px of nothing — the page's primary
+       control, floating between two things it belonged to neither of. */
+    margin-top: var(--pf-space-5);
+    padding: 4px;
+    background: var(--l-sunken);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-pill);
+  }
+
+  .pf-tabset__tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    min-width: 0;
+    padding: var(--pf-space-2) var(--pf-space-5);
+    border: 0;
+    border-radius: var(--pf-radius-pill);
+    background: transparent;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-md);
+    font-weight: 500;
+    line-height: 1.4;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  .pf-tabset__tab:hover {
+    color: var(--l-ink);
+  }
+
+  /* Hover on the UNSELECTED tab only. Tinting the selected one repaints the
+     accent fill every time the pointer crosses it, which reads as the control
+     having been clicked again. */
+  .pf-tabset__tab[aria-selected="false"]:hover {
+    background: color-mix(in srgb, var(--l-accent) 10%, transparent);
+  }
+
+  .pf-tabset__tab[aria-selected="true"] {
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-tabset__tab[aria-selected="true"] .pf-icon {
+    opacity: 1;
+  }
+
+  /* The count, drawn as Bootstrap draws a `.badge` inside a nav item: a filled
+     lozenge, sized off the tab's own text so it cannot drift. Its fill is mixed
+     from whatever colour the tab is lettered in, so it works on the accent fill
+     and on the bare track without either being named twice. */
+  .pf-tabset__count {
+    padding: 0.05em 0.6em;
+    border-radius: var(--pf-radius-pill);
+    background: color-mix(in srgb, currentColor 16%, transparent);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* On a phone the tabs are the page's main control and get its full width —
+     three 44px targets rather than a small huddle at the left margin.
+
+     The COUNT GOES. Three tabs each carrying an icon, a word and a badge do not
+     fit in a 320px column: measured at that width the badge was overlapping the
+     next tab's icon and "9" was half under the pill's edge. Nothing is lost by
+     dropping it — every count is already on the pills above ("9 chapters",
+     "20 episodes", "15-page deck") and again at the top of the panel the tab
+     opens. The icon and the word are what identify a tab; the number never was. */
+  @media (max-width: 639px) {
+    .pf-tabset {
+      display: flex;
+      width: 100%;
+    }
+
+    .pf-tabset__tab {
+      flex: 1;
+      padding-inline: var(--pf-space-2);
+      font-size: var(--pf-text-base);
+    }
+
+    .pf-tabset__count {
+      display: none;
+    }
+  }
+
+  /* The panel a tab reveals. `hidden` does the hiding; this only spaces the
+     visible one off the control above it.
+
+     It carries `.pf-panel` too, so the three tab contents are one shape and one
+     surface — the deck, the chapter list and the episode list all sit on the
+     same card rather than three differently-edged blocks. One step back from the
+     description panel above: that one is the whitest surface the palette has,
+     these are the next one down, so the block that tells you what the book IS
+     stays the brightest thing under the title. */
+  .pf-tabpanel {
+    margin-top: var(--pf-space-5);
+  }
+
+  .pf-tabpanel.pf-panel {
+    background: var(--l-surface);
+  }
+
+  /* Inside a tab panel the rows are the INTERFACE — a directory of chapters and
+     episodes you scan for a title and a number — not prose you read. They take
+     the UI face for the same reason the pills and counts beside them do. The
+     reading column itself is untouched: `--l-font-prose` still carries every
+     word of the book. */
+  .pf-tabpanel .pf-row__main {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-md);
+    letter-spacing: var(--pf-tracking-tight);
+  }
+
+  /* The tab strip's own corner sits on the panel below it, so the panel does not
+     also need to be pushed away from it. */
+  .pf-tabpanel > .pf-panel__body {
+    padding: var(--pf-space-6);
+  }
+
+  @media (max-width: 639px) {
+    .pf-tabpanel > .pf-panel__body {
+      padding: var(--pf-space-5) var(--pf-space-4);
+    }
+  }
+
+  /* The panel is focusable so a keyboard user can page into the content the tab
+     just revealed. It is not an interactive control, so it takes a quiet ring
+     rather than the accent one. */
+  .pf-tabpanel:focus-visible {
+    outline-color: var(--l-rule);
+    outline-offset: var(--pf-space-3);
   }
 
   /* ---- The two public pages ---------------------------------------------
