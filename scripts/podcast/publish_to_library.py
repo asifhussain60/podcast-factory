@@ -470,17 +470,11 @@ def publish(slug: str, args: argparse.Namespace) -> int:
     _info("")
     _info(f"==> DONE. Marked {slug} published ({len(episodes)} episode(s)) in place.")
 
-    # Distribution export — copy PDF + audio + video to Google Drive (non-fatal).
-    if not getattr(args, "skip_export", False):
-        _info("")
-        _info("=== Distribution export ===")
-        try:
-            from export_distribution import export as _dist_export
+    # Google Drive and the Listener. Both leave this machine, so both are
+    # non-fatal — see _publish_downstream.py.
+    from _publish_downstream import deliver
 
-            out = Path(args.export_dir).expanduser() if getattr(args, "export_dir", None) else None
-            _dist_export(slug, output_root=out, dry_run=False)
-        except Exception as _exc:
-            _warn(f"distribution export failed (publish succeeded): {_exc}")
+    deliver(slug, args, info=_info, warn=_warn)
 
     return 0
 
@@ -567,6 +561,15 @@ def main() -> int:
     )
     parser.add_argument(
         "--export-dir", metavar="DIR", help="Override the export output root (default: Google Drive My Drive)."
+    )
+    parser.add_argument(
+        "--skip-listener",
+        action="store_true",
+        help=(
+            "Skip pushing this book to the Podcast Factory Listener. The push "
+            "never makes a book visible — it lands as a draft either way — so "
+            "this is for working offline, not for holding something back."
+        ),
     )
     args = parser.parse_args()
 

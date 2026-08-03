@@ -39,7 +39,16 @@ npm run security   # runtime gate checks; needs `npm run dev` in another shell
 npm run deploy     # build + wrangler deploy — see "Deploying" below
 ```
 
-Content is pushed in from the repo root, not from here:
+Going live is one command, run from the repo root:
+
+```bash
+scripts/podcast/deploy_listener.sh <slug> [<slug> …] [--dry-run]
+```
+
+It verifies the Cloudflare account, deploys the Worker, publishes each book and
+uploads its media — and it never writes `status` or `open_to_all`, so nothing it
+does can make a book visible. `publish_to_library.py` calls it at the end of a
+normal publish; `--skip-listener` opts out. The two halves can also be run alone:
 
 ```bash
 python3 scripts/podcast/publish_to_listener.py <slug> [--remote] [--dry-run]
@@ -112,6 +121,23 @@ shows both lists side by side under one title and says as much. The
 `_system/listener-episode-chapters.json`; nothing infers it, because a chapter
 contract's `source_chapter_ref` points into a third segmentation again and a
 wrong answer on a religious text is worse than none.
+
+**Episodes group into SESSIONS, and the folder names are the source.** Recordings
+live at `m4a/Episodes/`: `Audio/` holds the untouched masters, and one folder per
+session named `Session 2 — Spiritual Symbols: The Architecture of Creation` holds
+the mp3s that actually ship. Number and title are read off that folder name;
+nothing is inferred from episode counts or runtimes. The SQL table is
+`book_session`, not `session` — Better Auth owns that name.
+
+**Arranging recordings into session folders is what marks a podcast finished.**
+Files loose in `m4a/` are working files and are never uploaded: that folder is
+where raw NotebookLM output lands under whatever name it was given, for a podcast
+that may be half-made. The publish step reports them and moves on.
+
+**The page adapts to what a book has.** Two columns only when there is both a
+reading edition and a podcast you can actually play; one half alone gets the full
+width. A book with episodes but no recordings gets no Listen column at all — the
+summary line says how many are planned instead.
 
 ## Access
 

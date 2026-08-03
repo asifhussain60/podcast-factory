@@ -33,6 +33,15 @@ export interface Episode {
   hasAudio: boolean;
   /** Chapters this episode covers — empty unless a human recorded the mapping. */
   chapters: string[];
+  /** null when this book's episodes were never grouped, which is most books. */
+  sessionNumber: number | null;
+}
+
+/** A named run of episodes. Called `book_session` in SQL — Better Auth owns `session`. */
+export interface Session {
+  number: number;
+  title: string;
+  episodes: Episode[];
 }
 
 export interface UnitDetail {
@@ -139,7 +148,7 @@ export async function chapterOf(
 export async function episodesOf(db: D1Database, slug: string): Promise<Episode[]> {
   const { results } = await db
     .prepare(
-      `SELECT e.number, e.title, e.blurb, e.style, e.audio_key, e.duration_s,
+      `SELECT e.number, e.title, e.blurb, e.style, e.audio_key, e.duration_s, e.session_number,
               (SELECT m.uploaded_at FROM media_asset m WHERE m.key = e.audio_key) AS uploaded_at
        FROM episode e WHERE e.slug = ? ORDER BY e.number`,
     )
@@ -151,6 +160,7 @@ export async function episodesOf(db: D1Database, slug: string): Promise<Episode[
       style: string | null;
       audio_key: string | null;
       duration_s: number | null;
+      session_number: number | null;
       uploaded_at: string | null;
     }>();
 
@@ -173,7 +183,41 @@ export async function episodesOf(db: D1Database, slug: string): Promise<Episode[
     durationS: r.duration_s,
     hasAudio: r.audio_key !== null && r.uploaded_at !== null,
     chapters: covered.get(r.number) ?? [],
+    sessionNumber: r.session_number,
   }));
+}
+
+/**
+ * Episodes arranged into their sessions.
+ *
+ * Every episode comes back exactly once. Ones outside any session — or all of
+ * them, for a book that was never grouped — land in a trailing session numbered
+ * 0 with an empty title, which the page renders as a plain list with no heading.
+ * That keeps "grouped" and "ungrouped" a rendering difference rather than two
+ * code paths, and makes it impossible for an episode to be silently dropped by
+ * having no session to belong to.
+ */
+export async function sessionsOf(db: D1Database, slug: string): Promise<Session[]> {
+  const [{ results: named }, episodes] = await Promise.all([
+    db
+      .prepare(`SELECT number, title FROM book_session WHERE slug = ? ORDER BY number`)
+      .bind(slug)
+      .all<{ number: number; title: string }>(),
+    episodesOf(db, slug),
+  ]);
+
+  const sessions: Session[] = named.map((s) => ({
+    number: s.number,
+    title: s.title,
+    episodes: episodes.filter((e) => e.sessionNumber === s.number),
+  }));
+
+  const loose = episodes.filter(
+    (e) => e.sessionNumber === null || !named.some((s) => s.number === e.sessionNumber),
+  );
+  if (loose.length > 0) sessions.push({ number: 0, title: "", episodes: loose });
+
+  return sessions.filter((s) => s.episodes.length > 0);
 }
 
 export async function deckPagesOf(db: D1Database, slug: string): Promise<DeckPage[]> {

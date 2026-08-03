@@ -35,11 +35,16 @@ USAGE
         [--dry-run]    print the plan and the SQL path; execute nothing
         [--json]       machine-readable summary on stdout
 
-Media (audio, PDFs, covers, deck pages) is INVENTORIED here and uploaded
-separately, because R2 is not enabled on the Cloudflare account yet. Every
-`media_asset` row is written with `uploaded_at` NULL, which is what the site
-reads as "this exists but is not available yet" — it shows the episode and says
-there is no audio, rather than offering a link that would 404.
+Media (audio, PDFs, covers, deck pages) is INVENTORIED here and uploaded by
+`upload_listener_media.py`, which is the slow, retryable half. A row written here
+starts with `uploaded_at` NULL — "this exists on disk but is not available yet" —
+and the site reports it that way rather than offering a link that would 404.
+
+This step DOES delete objects, in one narrow case: when a re-publish drops a
+`media_asset` row because the file is gone from disk, the object behind it goes
+too. Nothing can list an R2 bucket from here, so the moment the row disappears
+is the only moment that key is knowable — and a recording pulled from a book must
+not stay downloadable by anyone who noted the URL.
 """
 
 from __future__ import annotations
@@ -54,6 +59,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _listener_book import LISTENER, Book, load_book, render  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
+
+# The bucket belongs to the uploader; the publish step borrows two of its
+# functions rather than growing a second way to talk to R2.
+from upload_listener_media import d1, delete_object  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Writing
@@ -107,14 +116,23 @@ def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
             f"{sql_str(chapter.title)}, {sql_str(chapter.html)}, {chapter.word_count});"
         )
 
+    # Sessions first, since an episode points at one.
+    add(f"DELETE FROM book_session WHERE slug = {sql_str(book.slug)};")
+    for session in book.sessions:
+        add(
+            "INSERT INTO book_session (slug, number, title) VALUES "
+            f"({sql_str(book.slug)}, {session.number}, {sql_str(session.title)});"
+        )
+
     add(f"DELETE FROM episode WHERE slug = {sql_str(book.slug)};")
     for episode in book.episodes:
         add(
-            "INSERT INTO episode (slug, number, title, blurb, style, audio_key, duration_s) VALUES "
+            "INSERT INTO episode "
+            "(slug, number, title, blurb, style, audio_key, duration_s, session_number) VALUES "
             f"({sql_str(book.slug)}, {episode.number}, {sql_str(episode.title)}, "
             f"{sql_str(episode.blurb)}, {sql_str(episode.style)}, "
             f"{sql_str(episode.audio.key if episode.audio else None)}, "
-            f"{sql_str(episode.duration_s)});"
+            f"{sql_str(episode.duration_s)}, {sql_str(episode.session)});"
         )
 
     add(f"DELETE FROM episode_chapter WHERE slug = {sql_str(book.slug)};")
@@ -155,6 +173,15 @@ def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
     return "\n".join(out) + "\n"
 
 
+def keys_in_bucket(slug: str, *, remote: bool) -> set[str]:
+    """The media keys this book currently claims to have uploaded."""
+    rows = d1(
+        f"SELECT key FROM media_asset WHERE uploaded_at IS NOT NULL AND slug = {sql_str(slug)}",
+        remote=remote,
+    )
+    return {r["key"] for r in rows}
+
+
 def execute(sql_path: Path, *, remote: bool) -> None:
     subprocess.run(
         [
@@ -184,6 +211,7 @@ def describe(book: Book) -> dict:
         "chapters": len(book.chapters),
         "episodes": len(book.episodes),
         "episodes_with_audio": with_audio,
+        "sessions": len(book.sessions),
         "pdf": bool(book.pdf),
         "cover": bool(book.cover),
         "deck_pages": sum(1 for a in book.assets if a.kind == "deck-page"),
@@ -217,44 +245,74 @@ def main(argv: list[str] | None = None) -> int:
         ["date", "-u", "+%Y-%m-%dT%H:%M:%SZ"], capture_output=True, text=True, check=True
     ).stdout.strip()
 
-    summaries = []
-    statements: list[str] = []
+    out_dir = LISTENER / ".publish"
+    out_dir.mkdir(exist_ok=True)
 
+    summaries = []
+    failed: list[str] = []
+
+    # ONE FILE PER BOOK, executed as we go. Concatenating three books came to
+    # 566 KB and D1 refused it with `statement too long` even though its largest
+    # single statement was 86 KB — the limit that bit is on what the executor
+    # will swallow at once, not on any one statement. Per-book files stay well
+    # under it and cost nothing; they also mean a book that fails does not
+    # strand the ones after it.
     for slug in args.slugs:
         book = load_book(slug)
         render(book)
-        statements.append(build_sql(book, published_at=published_at, commit=commit))
         summary = describe(book)
         summaries.append(summary)
+
+        sql_path = out_dir / f"{slug}.sql"
+        sql_path.write_text(build_sql(book, published_at=published_at, commit=commit), encoding="utf-8")
 
         if not args.json:
             print(f"\n{book.title}  ({book.bucket}/{book.slug})")
             print(f"  chapters           {summary['chapters']}")
             print(f"  episodes           {summary['episodes']}  ({summary['episodes_with_audio']} with audio)")
+            if summary["sessions"]:
+                print(f"  sessions           {summary['sessions']}")
             print(f"  print edition      {'yes' if summary['pdf'] else 'no'}")
             print(f"  slide deck         {summary['deck_pages'] or 'none'}")
             print(f"  episode<->chapter  {summary['bridge_links'] or 'not recorded'}")
             for name in summary["unmatched_audio"]:
-                print(f"  ! audio matched no episode, skipped: {name}")
+                print(f"  ! audio not shipped, left where it is: {name}")
 
-    out_dir = LISTENER / ".publish"
-    out_dir.mkdir(exist_ok=True)
-    sql_path = out_dir / ("-".join(args.slugs)[:60] + ".sql")
-    sql_path.write_text("".join(statements), encoding="utf-8")
+        if args.dry_run:
+            continue
 
-    if args.dry_run:
-        if not args.json:
-            print(f"\ndry run — SQL written to {sql_path.relative_to(REPO_ROOT)}, nothing executed")
-    else:
-        execute(sql_path, remote=args.remote)
-        if not args.json:
+        # What this book has in the bucket right now, read BEFORE the write. The
+        # write drops rows for files that no longer exist on disk, and the object
+        # behind each one has to go with it — a recording pulled from a book must
+        # not stay downloadable by anyone who noted the URL. Nothing can list an
+        # R2 bucket from here, so the only moment these keys are knowable is this
+        # one, while the row still exists.
+        before = set() if args.dry_run else keys_in_bucket(slug, remote=args.remote)
+
+        try:
+            execute(sql_path, remote=args.remote)
+        except subprocess.SubprocessError:
+            failed.append(slug)
+            print(f"  ! FAILED to write {slug} — the books before it are already in")
+            continue
+
+        orphans = before - {a.key for a in book.assets}
+        for key in sorted(orphans):
+            gone = delete_object(key, remote=args.remote)
+            print(f"  {'removed from the bucket' if gone else '! could not remove'}: {key}")
+
+    if not args.json:
+        if args.dry_run:
+            print(f"\ndry run — SQL written to {out_dir.relative_to(REPO_ROOT)}/, nothing executed")
+        else:
             target = "the deployed database" if args.remote else "the local database"
-            print(f"\nwritten to {target}")
+            done = len(args.slugs) - len(failed)
+            print(f"\n{done} of {len(args.slugs)} written to {target}")
 
     if args.json:
-        print(json.dumps({"books": summaries, "sql": str(sql_path)}, indent=2))
+        print(json.dumps({"books": summaries, "failed": failed}, indent=2))
 
-    return 0
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":

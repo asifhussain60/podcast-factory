@@ -9,7 +9,13 @@ import { requireUnitAccess } from "~/middleware/entitled";
 import { session } from "~/middleware/session";
 import { unitBySlug } from "~/server/access.server";
 import { readingMinutes } from "~/lib/reading";
-import { chaptersOf, deckPagesOf, detailOf, episodesOf } from "~/server/catalog.server";
+import {
+  chaptersOf,
+  deckPagesOf,
+  detailOf,
+  sessionsOf,
+  type Session,
+} from "~/server/catalog.server";
 
 /**
  * Layer 4. The gate is here rather than on a shared parent so it can read
@@ -33,10 +39,10 @@ export async function loader({ params, context }: Route.LoaderArgs) {
   // into a null dereference here.
   if (unit === null) notFound();
 
-  const [detail, chapters, episodes, deck] = await Promise.all([
+  const [detail, chapters, sessions, deck] = await Promise.all([
     detailOf(env.DB, slug),
     chaptersOf(env.DB, slug),
-    episodesOf(env.DB, slug),
+    sessionsOf(env.DB, slug),
     deckPagesOf(env.DB, slug),
   ]);
 
@@ -44,7 +50,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
     unit,
     detail,
     chapters,
-    episodes,
+    sessions,
     deckPages: deck.length,
     deckAvailable: deck.some((p) => p.available),
     isAdmin: context.get(session).viewer!.isAdmin,
@@ -52,10 +58,20 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 }
 
 export default function BookDetail({ loaderData }: Route.ComponentProps) {
-  const { unit, detail, chapters, episodes, deckPages, deckAvailable, isAdmin } = loaderData;
+  const { unit, detail, chapters, sessions, deckPages, deckAvailable, isAdmin } = loaderData;
 
   const totalWords = chapters.reduce((n, c) => n + c.wordCount, 0);
+  const episodes = sessions.flatMap((s) => s.episodes);
   const withAudio = episodes.filter((e) => e.hasAudio).length;
+
+  // What this book HAS decides the shape of the page. A book with no podcast
+  // gets no Listen column at all rather than an empty one — a column reading
+  // "no episodes" is a fault report where its absence is simply a fact. The
+  // two-column split therefore needs BOTH halves to be real, and "real" for the
+  // podcast means at least one episode you can actually play.
+  const canRead = chapters.length > 0;
+  const canListen = withAudio > 0;
+  const bothHalves = canRead && canListen;
 
   return (
     <div className="min-h-dvh bg-pf-bg">
@@ -126,15 +142,31 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
           </p>
         ) : null}
 
-        {/* ---- The two groupings ---- */}
-        <div className="mt-16 grid gap-14 lg:grid-cols-2 lg:gap-12">
-          <ReadingEdition slug={unit.slug} chapters={chapters} />
-          <Podcast
-            slug={unit.slug}
-            bookTitle={unit.title}
-            episodes={episodes}
-            chapters={chapters}
-          />
+        {/* ---- What there is of this book ----
+            Two columns only when there are two things. One half alone gets the
+            full width and reads as a complete page rather than a page with a
+            hole in it. */}
+        <div
+          className={[
+            "mt-16",
+            bothHalves ? "grid gap-14 lg:grid-cols-2 lg:gap-12" : "max-w-2xl",
+          ].join(" ")}
+        >
+          {canRead ? <ReadingEdition slug={unit.slug} chapters={chapters} /> : null}
+          {canListen ? (
+            <Podcast
+              slug={unit.slug}
+              bookTitle={unit.title}
+              sessions={sessions}
+              chapters={chapters}
+              alongsideAnEdition={bothHalves}
+            />
+          ) : null}
+          {!canRead && !canListen ? (
+            <p className="font-ui text-sm text-pf-muted">
+              Nothing of this book is readable or listenable yet.
+            </p>
+          ) : null}
         </div>
 
         {deckPages > 0 ? (
@@ -214,95 +246,134 @@ function ReadingEdition({
   );
 }
 
+/**
+ * The podcast, grouped into the sessions the author declared.
+ *
+ * A session heading is rendered only when the session HAS a title — the
+ * catalog puts ungrouped episodes in a titleless session numbered 0, so a book
+ * that was never grouped renders as one plain list without any special case
+ * here. That is why there is no `if (grouped)` branch in this component.
+ */
 function Podcast({
   slug,
   bookTitle,
-  episodes,
+  sessions,
   chapters,
+  alongsideAnEdition,
 }: {
   slug: string;
   bookTitle: string;
-  episodes: Route.ComponentProps["loaderData"]["episodes"];
+  sessions: Session[];
   chapters: Route.ComponentProps["loaderData"]["chapters"];
+  alongsideAnEdition: boolean;
 }) {
-  const player = usePlayer();
   const titleOf = new Map(chapters.map((c) => [c.anchorKey, c.title]));
-
-  if (episodes.length === 0) {
-    return (
-      <section>
-        <SectionHeading title="Listen" count="no episodes" />
-        <p className="mt-4 font-ui text-sm text-pf-muted">
-          No podcast has been made for this book.
-        </p>
-      </section>
-    );
-  }
-
+  const episodes = sessions.flatMap((s) => s.episodes);
   const withAudio = episodes.filter((e) => e.hasAudio).length;
+  const grouped = sessions.some((s) => s.title !== "");
 
   return (
     <section>
       <SectionHeading
         title="Listen"
-        count={
+        count={[
+          grouped ? `${sessions.length} sessions` : null,
           withAudio === episodes.length
             ? `${episodes.length} episodes`
-            : `${episodes.length} episodes, ${withAudio} recorded`
-        }
+            : `${withAudio} of ${episodes.length} episodes`,
+        ]
+          .filter(Boolean)
+          .join(" · ")}
       />
 
-      <p className="mt-3 font-ui text-sm text-pf-faint">
-        The episodes are drawn along different lines from the chapters — they are
-        two readings of the same book, not two halves of one.
-      </p>
+      {/* Only worth saying when both lists are on screen. On a page with no
+          reading edition there is nothing for the reader to be confused with. */}
+      {alongsideAnEdition ? (
+        <p className="mt-3 font-ui text-sm text-pf-faint">
+          The episodes are drawn along different lines from the chapters — they
+          are two readings of the same book, not two halves of one.
+        </p>
+      ) : null}
 
-      <ol className="mt-5 border-t border-pf-rule-soft">
-        {episodes.map((episode) => (
-          <li key={episode.number} className="border-b border-pf-rule-soft py-3.5">
-            <div className="flex items-baseline gap-4">
-              <span className="w-6 shrink-0 text-right font-ui text-xs tabular-nums text-pf-faint">
-                {episode.number}
-              </span>
+      {sessions.map((session) => (
+        <div key={session.number} className="mt-8 first:mt-5">
+          {session.title ? (
+            <h3 className="font-ui text-xs uppercase tracking-[0.16em] text-pf-muted">
+              Session {session.number}
+              <span className="text-pf-faint"> · </span>
+              <span className="normal-case tracking-normal text-pf-ink">{session.title}</span>
+            </h3>
+          ) : null}
 
-              <div className="min-w-0 flex-1">
-                <p className="font-prose text-pf-ink">{episode.title}</p>
+          <ol className="mt-3 border-t border-pf-rule-soft">
+            {session.episodes.map((episode) => (
+              <li key={episode.number} className="border-b border-pf-rule-soft py-3.5">
+                <div className="flex items-baseline gap-4">
+                  <span className="w-6 shrink-0 text-right font-ui text-xs tabular-nums text-pf-faint">
+                    {episode.number}
+                  </span>
 
-                {episode.chapters.length > 0 ? (
-                  <p className="mt-1 font-ui text-xs text-pf-faint">
-                    Read along:{" "}
-                    {episode.chapters
-                      .map((key) => titleOf.get(key) ?? key)
-                      .join(", ")}
-                  </p>
-                ) : null}
-              </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-prose text-pf-ink">{episode.title}</p>
 
-              {episode.hasAudio && episode.audioKey !== null ? (
-                <button
-                  type="button"
-                  onClick={() =>
-                    player.play({
-                      slug,
-                      bookTitle,
-                      number: episode.number,
-                      title: episode.title,
-                      src: `/media/${episode.audioKey}`,
-                      durationS: episode.durationS,
-                    })
-                  }
-                  className="shrink-0 rounded-full border border-pf-rule px-3 py-1 font-ui text-xs text-pf-ink transition-colors hover:border-pf-accent"
-                >
-                  Play {episode.durationS ? clock(episode.durationS) : ""}
-                </button>
-              ) : (
-                <span className="shrink-0 font-ui text-xs text-pf-faint">not recorded</span>
-              )}
-            </div>
-          </li>
-        ))}
-      </ol>
+                    {episode.chapters.length > 0 ? (
+                      <p className="mt-1 font-ui text-xs text-pf-faint">
+                        Read along:{" "}
+                        {episode.chapters.map((key) => titleOf.get(key) ?? key).join(", ")}
+                      </p>
+                    ) : null}
+                  </div>
+
+                  {episode.hasAudio && episode.audioKey !== null ? (
+                    <PlayButton
+                      episode={episode}
+                      onPlay={(p) => p.play({
+                        slug,
+                        bookTitle,
+                        number: episode.number,
+                        title: episode.title,
+                        src: `/media/${episode.audioKey}`,
+                        durationS: episode.durationS,
+                      })}
+                    />
+                  ) : (
+                    <span className="shrink-0 font-ui text-xs text-pf-faint">not recorded</span>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
     </section>
+  );
+}
+
+/** Shows a pause glyph when this is the episode currently playing. */
+function PlayButton({
+  episode,
+  onPlay,
+}: {
+  episode: Session["episodes"][number];
+  onPlay: (player: ReturnType<typeof usePlayer>) => void;
+}) {
+  const player = usePlayer();
+  const isCurrent = player.current?.src === `/media/${episode.audioKey}`;
+
+  return (
+    <button
+      type="button"
+      onClick={() => (isCurrent ? player.toggle() : onPlay(player))}
+      className={[
+        "shrink-0 rounded-full border px-3 py-1 font-ui text-xs transition-colors",
+        isCurrent
+          ? "border-pf-accent text-pf-accent"
+          : "border-pf-rule text-pf-ink hover:border-pf-accent",
+      ].join(" ")}
+    >
+      {isCurrent && player.playing ? "Pause" : "Play"}{" "}
+      {episode.durationS ? clock(episode.durationS) : ""}
+    </button>
   );
 }
 

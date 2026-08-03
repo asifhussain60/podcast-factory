@@ -19,8 +19,9 @@ second and reports the first as not uploaded yet, so a half-uploaded library is
 honest at every moment — including in the middle of this script's own run, which
 stamps each row as that file lands rather than all of them at the end.
 
-R2 must be enabled on the Cloudflare account first; until it is, bucket creation
-fails with `10042` and this script says so and stops.
+R2 has to be enabled on the account before a bucket can exist at all; it was, on
+2026-08-03. If the bucket is ever missing this script says so and stops rather
+than reporting a successful upload of nothing.
 """
 
 from __future__ import annotations
@@ -120,6 +121,32 @@ def upload(row: dict, *, remote: bool) -> None:
         text=True,
         check=True,
     )
+
+
+def delete_object(key: str, *, remote: bool) -> bool:
+    """Remove one object from the bucket. False if wrangler refused.
+
+    Exists because nothing can LIST an R2 bucket from here — wrangler has
+    `r2 object get/put/delete` and no list — so orphans cannot be found by
+    sweeping. They have to be deleted by whoever knew the key, at the moment it
+    stopped being wanted. That is the publish step, which is the only thing that
+    ever removes a `media_asset` row.
+    """
+    result = subprocess.run(
+        [
+            "npx",
+            "wrangler",
+            "r2",
+            "object",
+            "delete",
+            f"{BUCKET}/{key}",
+            "--remote" if remote else "--local",
+        ],
+        cwd=LISTENER,
+        capture_output=True,
+        text=True,
+    )
+    return result.returncode == 0
 
 
 def stamp(key: str, when: str, *, remote: bool) -> None:

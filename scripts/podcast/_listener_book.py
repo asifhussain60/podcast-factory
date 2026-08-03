@@ -34,8 +34,20 @@ LISTENER = Path(__file__).resolve().parents[2] / "listener"
 CHAPTER_HEADING_RE = re.compile(r"^##\s+(?!#)(.+?)\s*$")
 
 # The leading episode/chapter number in an audio filename, whatever the file was
-# called when it came out of NotebookLM: CH01.m4a, ep03-something.m4a, 2.m4a.
+# called when it came out of NotebookLM: CH01.m4a, ep03-something.m4a, 2.m4a,
+# EP-07-Air And The Instance Beyond Air.mp3.
 AUDIO_NUMBER_RE = re.compile(r"^(?:ep|ch)?[\s_-]*0*(\d{1,3})\b", re.IGNORECASE)
+
+# A session folder: `Session 2 — Spiritual Symbols: The Architecture of Creation`.
+# Any of the three dashes, because which one a folder name carries depends on
+# what typed it, and an em dash in a filename is not a thing to rely on.
+SESSION_DIR_RE = re.compile(r"^Session\s+(\d{1,2})\s*[—–-]\s*(.+)$")
+
+# Where a book's episode recordings live when they have been grouped. `Audio/`
+# holds the untouched masters and is deliberately NOT uploaded — the mp3s in the
+# session folders are what ship.
+EPISODES_DIR = "Episodes"
+MASTERS_DIR = "Audio"
 
 CONTENT_TYPES = {
     ".m4a": "audio/mp4",
@@ -67,6 +79,14 @@ class Chapter:
 
 
 @dataclass
+class Session:
+    """A named run of episodes, exactly as the author's folder names declare it."""
+
+    number: int
+    title: str
+
+
+@dataclass
 class Episode:
     number: int
     title: str
@@ -74,6 +94,8 @@ class Episode:
     style: str | None
     audio: "Asset | None" = None
     duration_s: int | None = None
+    # None when this book's episodes were never grouped, which is most books.
+    session: int | None = None
 
 
 @dataclass
@@ -108,6 +130,7 @@ class Book:
     edition_note: str | None
     chapters: list[Chapter] = field(default_factory=list)
     episodes: list[Episode] = field(default_factory=list)
+    sessions: list[Session] = field(default_factory=list)
     assets: list[Asset] = field(default_factory=list)
     bridge: list[tuple[int, str]] = field(default_factory=list)
     unmatched_audio: list[str] = field(default_factory=list)
@@ -215,43 +238,112 @@ def audio_duration(path: Path) -> int | None:
         return None
 
 
-def collect_media(book: Book) -> None:
-    """Inventory everything on disk, and match audio to episodes by NUMBER only.
+def _attach_audio(book: Book, path: Path, *, session: int | None) -> bool:
+    """Point one file at the episode its NUMBER names. False if there isn't one.
 
-    Audio filenames in this repo are ragged — `CH01.m4a` next to
-    `The_Imam_as_a_Law_of_Physics.m4a` — because they arrive named by whoever
-    produced them. Matching on a leading number is the one signal that is either
-    present and unambiguous or absent; anything cleverer would attach the wrong
-    audio to an episode, and a wrong recording on a religious text is worse than
-    a missing one. Files that match nothing are REPORTED, never guessed at.
+    Matching on the leading number is the one signal that is either present and
+    unambiguous or absent. Anything cleverer — fuzzy title matching, ordering by
+    modification time — would eventually attach the wrong recording to an
+    episode, and a wrong recording on a religious text is worse than a missing
+    one.
     """
-    directory = book.directory
+    match = AUDIO_NUMBER_RE.match(path.stem)
+    if match is None:
+        return False
+
+    number = int(match.group(1))
+    episode = next((e for e in book.episodes if e.number == number), None)
+    if episode is None:
+        return False
+
+    asset = Asset(
+        key=f"{book.slug}/audio/ep{episode.number:02d}{path.suffix.lower()}",
+        slug=book.slug,
+        kind="audio",
+        content_type=CONTENT_TYPES.get(path.suffix.lower(), "audio/mp4"),
+        path=path,
+    )
+    episode.audio = asset
+    episode.duration_s = audio_duration(path)
+    episode.session = session
+    book.assets.append(asset)
+    return True
+
+
+def collect_audio(book: Book) -> None:
+    """Find the recordings, in whichever of the two layouts this book uses.
+
+    GROUPED — `m4a/Episodes/`, holding `Audio/` with the untouched masters and
+    one folder per session named `Session 2 — Spiritual Symbols: …`. Where this
+    exists it is authoritative for both the audio and the grouping: the session
+    number and title are read off the folder name, never inferred from episode
+    counts or runtimes. The masters in `Audio/` are deliberately skipped — the
+    mp3s are what the author prepared to ship, and re-encoding or shipping both
+    would either lose quality or double the bucket.
+
+    LOOSE — files sitting directly in `m4a/`. These are WORKING FILES and are
+    deliberately not shipped. That folder is where raw NotebookLM output lands,
+    under whatever name it was given (`CH01.m4a` beside
+    `The_Imam_as_a_Law_of_Physics.m4a`), for a podcast that may be half-made —
+    which is exactly the state Degrees of Excellence is in. Arranging recordings
+    into session folders is the author's act of saying they are finished, so that
+    is what publishing keys on. Loose files are reported, never guessed at, and
+    never uploaded.
+    """
+    root = book.directory / "m4a" / EPISODES_DIR
+    sessions = (
+        sorted(
+            (
+                (int(m.group(1)), m.group(2).strip(), p)
+                for p in root.iterdir()
+                if p.is_dir()
+                for m in [SESSION_DIR_RE.match(p.name)]
+                if m
+            ),
+            key=lambda t: t[0],
+        )
+        if root.is_dir()
+        else []
+    )
+
+    if sessions:
+        for number, title, folder in sessions:
+            book.sessions.append(Session(number=number, title=title))
+
+            # One file per episode. An episode present as both mp3 and m4a takes
+            # the mp3, because that is the encode the author made for the site.
+            best: dict[int, Path] = {}
+            for path in sorted(folder.iterdir()):
+                if path.name.startswith(".") or path.suffix.lower() not in (".mp3", ".m4a"):
+                    continue
+                match = AUDIO_NUMBER_RE.match(path.stem)
+                if match is None:
+                    book.unmatched_audio.append(f"{folder.name}/{path.name}")
+                    continue
+                n = int(match.group(1))
+                if n not in best or path.suffix.lower() == ".mp3":
+                    best[n] = path
+
+            for n in sorted(best):
+                if not _attach_audio(book, best[n], session=number):
+                    book.unmatched_audio.append(f"{folder.name}/{best[n].name}")
+        return
 
     for name in ("m4a", "audio"):
-        for path in sorted((directory / name).glob("*")):
+        folder = book.directory / name
+        if not folder.is_dir():
+            continue
+        for path in sorted(folder.glob("*")):
             if path.suffix.lower() not in (".m4a", ".mp3") or path.name.startswith("."):
                 continue
+            book.unmatched_audio.append(path.name)
 
-            match = AUDIO_NUMBER_RE.match(path.stem)
-            episode = None
-            if match:
-                number = int(match.group(1))
-                episode = next((e for e in book.episodes if e.number == number), None)
 
-            if episode is None:
-                book.unmatched_audio.append(path.name)
-                continue
+def collect_media(book: Book) -> None:
+    """Inventory everything on disk: recordings, print edition, cover, deck."""
+    directory = book.directory
 
-            asset = Asset(
-                key=f"{book.slug}/audio/ep{episode.number:02d}{path.suffix.lower()}",
-                slug=book.slug,
-                kind="audio",
-                content_type=CONTENT_TYPES.get(path.suffix.lower(), "audio/mp4"),
-                path=path,
-            )
-            episode.audio = asset
-            episode.duration_s = audio_duration(path)
-            book.assets.append(asset)
+    collect_audio(book)
 
     # The print edition. Named for the book rather than fixed, so glob it.
     pdfs = sorted((directory / "book").glob("*.pdf"))

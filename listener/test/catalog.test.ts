@@ -8,6 +8,7 @@ import {
   episodesOf,
   libraryCards,
   mediaByKey,
+  sessionsOf,
 } from "../app/server/catalog.server";
 import { readingMinutes } from "../app/lib/reading";
 import { createTestDb } from "./d1";
@@ -21,7 +22,7 @@ import { createTestDb } from "./d1";
  * is treated as absent rather than linked.
  */
 
-const MIGRATIONS = ["0001_auth", "0002_access", "0004_catalog"];
+const MIGRATIONS = ["0001_auth", "0002_access", "0004_catalog", "0005_sessions"];
 
 function seed() {
   const test = createTestDb(MIGRATIONS);
@@ -101,6 +102,69 @@ describe("episodes", () => {
     const episodes = await episodesOf(test.db, "book-a");
     expect(episodes[0].chapters.sort()).toEqual(["one", "two"]);
     expect(episodes[1].chapters).toEqual([]);
+
+    test.close();
+  });
+});
+
+describe("sessions", () => {
+  it("keeps ungrouped episodes visible in a titleless trailing group", async () => {
+    // The invariant that matters: an episode belongs to exactly one group and no
+    // episode can fall out of the list by having no session to belong to. A book
+    // that was never grouped is one titleless group, which the page renders as a
+    // plain list — one code path, not two.
+    const { db, close } = seed();
+
+    const sessions = await sessionsOf(db, "book-a");
+    expect(sessions).toHaveLength(1);
+    expect(sessions[0]).toMatchObject({ number: 0, title: "" });
+    expect(sessions[0].episodes.map((e) => e.number)).toEqual([1, 2, 3]);
+
+    close();
+  });
+
+  it("groups by the sessions that were declared", async () => {
+    const test = seed();
+    test.exec(`
+      INSERT INTO book_session (slug, number, title) VALUES
+        ('book-a', 1, 'The First Run'), ('book-a', 2, 'The Second');
+      UPDATE episode SET session_number = 1 WHERE slug = 'book-a' AND number IN (1, 2);
+      UPDATE episode SET session_number = 2 WHERE slug = 'book-a' AND number = 3;
+    `);
+
+    const sessions = await sessionsOf(test.db, "book-a");
+    expect(sessions.map((s) => [s.number, s.title, s.episodes.length])).toEqual([
+      [1, "The First Run", 2],
+      [2, "The Second", 1],
+    ]);
+
+    test.close();
+  });
+
+  it("rescues an episode pointing at a session that does not exist", async () => {
+    // Otherwise a mistyped or deleted session would silently swallow episodes —
+    // the reader would simply never see them, with nothing anywhere saying so.
+    const test = seed();
+    test.exec(`
+      INSERT INTO book_session (slug, number, title) VALUES ('book-a', 1, 'Only One');
+      UPDATE episode SET session_number = 1 WHERE slug = 'book-a' AND number = 1;
+      UPDATE episode SET session_number = 9 WHERE slug = 'book-a' AND number = 2;
+    `);
+
+    const sessions = await sessionsOf(test.db, "book-a");
+    const seen = sessions.flatMap((s) => s.episodes.map((e) => e.number)).sort();
+    expect(seen, "every episode appears exactly once").toEqual([1, 2, 3]);
+    expect(sessions.at(-1)?.title, "the strays land in the titleless group").toBe("");
+
+    test.close();
+  });
+
+  it("drops a declared session that ended up with no episodes", async () => {
+    const test = seed();
+    test.exec(`INSERT INTO book_session (slug, number, title) VALUES ('book-a', 4, 'Empty')`);
+
+    const sessions = await sessionsOf(test.db, "book-a");
+    expect(sessions.some((s) => s.title === "Empty")).toBe(false);
 
     test.close();
   });
