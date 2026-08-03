@@ -79,8 +79,7 @@ export function ReaderSettings() {
       <div
         role="dialog"
         aria-label="Reading settings"
-        className="fixed inset-x-0 bottom-0 z-50 max-h-[85dvh] overflow-y-auto rounded-t-2xl border-t border-pf-rule bg-pf-elev p-6 sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-16 sm:w-80 sm:rounded-xl sm:border"
-        style={{ boxShadow: "var(--l-shadow)" }}
+        className="fixed inset-x-0 bottom-0 z-50 max-h-[85dvh] overflow-y-auto rounded-t-2xl border-t border-pf-rule bg-pf-elev p-6 shadow-pf sm:inset-x-auto sm:bottom-auto sm:right-4 sm:top-16 sm:w-80 sm:rounded-xl sm:border"
       >
         <Row label="Theme">
           <ThemePicker />

@@ -58,8 +58,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               <li key={unit.slug}>
                 <Link
                   to={`/book/${unit.slug}`}
-                  className="flex h-full flex-col rounded-xl border border-pf-rule bg-pf-surface p-6 no-underline transition-colors hover:border-pf-accent"
-                  style={{ boxShadow: "var(--l-shadow)" }}
+                  className="flex h-full flex-col rounded-xl border border-pf-rule bg-pf-surface p-6 no-underline shadow-pf transition-colors hover:border-pf-accent"
                 >
                   <p className="font-ui text-xs uppercase tracking-widest text-pf-faint">
                     {unit.bucket}

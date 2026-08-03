@@ -13,6 +13,9 @@
    the utilities, where they belong. */
 @import "./styles/base.css" layer(base);
 
+/* The brand mark's own rules. Layered with the components, same reason. */
+@import "./styles/brand.css" layer(components);
+
 /* The reading column. Also layered, and AFTER base: it styles renderer-authored
    HTML by class, and unlayered rules would outrank every Tailwind utility used
    on the same elements. */

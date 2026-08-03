@@ -1,0 +1,44 @@
+/* The Colophon mark's level meter, when something is playing.
+ *
+ * The stagger used to be an inline `animationDelay` computed per bar in JSX —
+ * a styling decision in a component file, and a delay on an animation that was
+ * never declared anywhere, so the `playing` prop and the `is-playing` class it
+ * sets did nothing at all. Both halves belong here.
+ *
+ * Five bars, indexed by position rather than by a value passed down, so the
+ * component hands the stylesheet a state and nothing more. The compact mark
+ * draws three bars; the extra selectors simply never match.
+ */
+
+@keyframes pf-meter {
+  from {
+    transform: scaleY(0.55);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.is-playing rect {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: pf-meter 620ms ease-in-out infinite alternate;
+}
+
+.is-playing rect:nth-of-type(2) {
+  animation-delay: 110ms;
+}
+.is-playing rect:nth-of-type(3) {
+  animation-delay: 220ms;
+}
+.is-playing rect:nth-of-type(4) {
+  animation-delay: 330ms;
+}
+.is-playing rect:nth-of-type(5) {
+  animation-delay: 440ms;
+}
+
+/* The three rules to the right are text, not sound. They must not pulse. */
+.is-playing rect:nth-of-type(n + 6) {
+  animation: none;
+}

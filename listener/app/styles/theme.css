@@ -50,6 +50,11 @@
   --font-prose: var(--l-font-prose);
   --font-ui: var(--l-font-ui);
   --font-arabic: var(--l-font-arabic);
+
+  /* The one themed shadow, as a utility. Three components lifted the raw
+     `--l-shadow` through an inline `style` prop before this existed, which put
+     a styling decision in three JSX files instead of one stylesheet. */
+  --shadow-pf: var(--l-shadow);
 }
 
 /* ---- Palettes --------------------------------------------------------

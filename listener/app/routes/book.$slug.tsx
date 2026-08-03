@@ -297,11 +297,17 @@ function Podcast({
 
       {sessions.map((session) => (
         <div key={session.number} className="mt-8 first:mt-5">
+          {/* Label and title are separate flex items, not one wrapping line of
+              inline spans. A long title used to wrap back to the left margin and
+              set its second line under "SESSION 3", so the two read as unrelated
+              fragments — three of this book's five headings did it on a phone. */}
           {session.title ? (
-            <h3 className="font-ui text-xs uppercase tracking-[0.16em] text-pf-muted">
-              Session {session.number}
-              <span className="text-pf-faint"> · </span>
-              <span className="normal-case tracking-normal text-pf-ink">{session.title}</span>
+            <h3 className="flex flex-wrap gap-x-2 font-ui text-xs text-pf-muted">
+              <span className="shrink-0 uppercase tracking-[0.16em]">
+                Session {session.number}
+                <span className="text-pf-faint"> ·</span>
+              </span>
+              <span className="min-w-0 flex-1 text-pf-ink">{session.title}</span>
             </h3>
           ) : null}
 

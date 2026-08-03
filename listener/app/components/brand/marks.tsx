@@ -137,7 +137,10 @@ export function Colophon({
       aria-hidden="true"
       focusable="false"
     >
-      {bars.map((b, i) => (
+      {/* The per-bar stagger is a nth-of-type rule in styles/brand.css, keyed
+          off `is-playing`. This component says WHETHER it is playing and
+          nothing about how that looks. */}
+      {bars.map((b) => (
         <rect
           key={b.x}
           x={b.x}
@@ -146,7 +149,6 @@ export function Colophon({
           height={b.h}
           rx={barW / 2}
           fill="currentColor"
-          style={playing ? { animationDelay: `${i * 110}ms` } : undefined}
         />
       ))}
       {rules.map((r) => (

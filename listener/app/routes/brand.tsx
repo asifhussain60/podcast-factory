@@ -52,8 +52,7 @@ export default function Brand() {
           {CANDIDATES.map((c) => (
             <section
               key={c.name}
-              className="rounded-xl border border-pf-rule bg-pf-surface p-8"
-              style={{ boxShadow: "var(--l-shadow)" }}
+              className="rounded-xl border border-pf-rule bg-pf-surface p-8 shadow-pf"
             >
               <div className="flex flex-wrap items-start justify-between gap-8">
                 <div className="flex items-center gap-8 text-pf-ink">

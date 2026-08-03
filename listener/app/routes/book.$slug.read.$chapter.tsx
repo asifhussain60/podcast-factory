@@ -53,10 +53,16 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   const [progress, setProgress] = useState(0);
   const [contentsOpen, setContentsOpen] = useState(false);
   const body = useRef<HTMLDivElement>(null);
+  const bar = useRef<HTMLSpanElement>(null);
 
   // Progress is measured from the ARTICLE, not the window: the masthead and the
   // footer navigation are not part of the chapter, and counting them makes the
   // bar reach 100% while there is still a page of text left.
+  //
+  // The bar is driven by a custom property rather than an inline `transform`,
+  // the same way `lib/reading.ts` drives the reading controls: JS supplies one
+  // scalar, and what that scalar MEANS is a rule in reader.css. No declaration
+  // lives in this file.
   useEffect(() => {
     function measure() {
       const element = body.current;
@@ -64,7 +70,9 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       const start = element.offsetTop;
       const height = element.offsetHeight - window.innerHeight;
       const scrolled = window.scrollY - start;
-      setProgress(height <= 0 ? 1 : Math.min(1, Math.max(0, scrolled / height)));
+      const fraction = height <= 0 ? 1 : Math.min(1, Math.max(0, scrolled / height));
+      setProgress(fraction);
+      bar.current?.style.setProperty("--l-progress", String(fraction));
     }
 
     measure();
@@ -82,7 +90,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   return (
     <div className="min-h-dvh bg-pf-bg">
       <div className="reading-progress" aria-hidden="true">
-        <span style={{ transform: `scaleX(${progress})` }} />
+        <span ref={bar} />
       </div>
 
       <header className="sticky top-0 z-30 border-b border-pf-rule-soft bg-pf-bg/92 backdrop-blur">

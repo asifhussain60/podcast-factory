@@ -207,10 +207,13 @@
   background: transparent;
 }
 
+/* `--l-progress` is a 0–1 scalar the reading route writes on every scroll. The
+   declaration that turns it into a bar lives here, not in the component. */
 .reading-progress > span {
   display: block;
   height: 100%;
   background: var(--l-accent);
+  transform: scaleX(var(--l-progress, 0));
   transform-origin: left;
   transition: transform 120ms linear;
 }
