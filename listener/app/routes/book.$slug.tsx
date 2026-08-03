@@ -1,9 +1,9 @@
-import { Link } from "react-router";
-
 import type { Route } from "./+types/book.$slug";
+import { SiteHeader } from "~/components/SiteHeader";
 import { cloudflare } from "~/context";
 import { notFound } from "~/middleware/deny";
 import { requireUnitAccess } from "~/middleware/entitled";
+import { session } from "~/middleware/session";
 import { unitBySlug } from "~/server/access.server";
 
 /**
@@ -26,21 +26,17 @@ export async function loader({ params, context }: Route.LoaderArgs) {
   // into a null dereference here.
   if (unit === null) notFound();
 
-  return { unit };
+  return { unit, isAdmin: context.get(session).viewer!.isAdmin };
 }
 
 export default function BookDetail({ loaderData }: Route.ComponentProps) {
-  const { unit } = loaderData;
+  const { unit, isAdmin } = loaderData;
 
   return (
     <div className="min-h-dvh bg-pf-bg">
-      <main id="main" className="mx-auto max-w-3xl px-6 py-16">
-        <Link
-          to="/"
-          className="font-ui text-sm text-pf-muted transition-colors hover:text-pf-ink"
-        >
-          Library
-        </Link>
+      <SiteHeader here="book" isAdmin={isAdmin} />
+
+      <main id="main" className="mx-auto max-w-3xl px-6 pb-16">
         <p className="mt-10 font-ui text-xs uppercase tracking-widest text-pf-faint">
           {unit.bucket}
         </p>

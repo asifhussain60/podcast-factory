@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from "react-router";
 
 import type { Route } from "./+types/_authed._admin";
+import { SiteHeader } from "~/components/SiteHeader";
 import { requireAdmin } from "~/middleware/admin";
 
 /**
@@ -21,10 +22,17 @@ const TABS = [
 
 export default function AdminLayout() {
   return (
-    <div className="mx-auto w-full max-w-5xl px-6 py-10">
-      <header className="mb-8">
-        <p className="text-xs uppercase tracking-widest text-pf-faint">Podcast Factory</p>
-        <h1 className="mt-1 font-prose text-3xl text-pf-ink">Access</h1>
+    <div className="min-h-dvh bg-pf-bg">
+      {/* Admin is a section of this site, not a separate application, so it
+          carries the same masthead — and the way back out that it lacked. */}
+      <SiteHeader here="admin" isAdmin />
+
+      <main id="main" className="mx-auto w-full max-w-5xl px-6 pb-16">
+        <div className="mb-8 border-t border-pf-rule pt-10">
+        <h1 className="font-prose text-3xl text-pf-ink">Access</h1>
+        <p className="mt-2 font-ui text-sm text-pf-muted">
+          Who may sign in, and which books each person can open.
+        </p>
         <nav className="mt-6 flex gap-1 border-b border-pf-rule">
           {TABS.map((tab) => (
             <NavLink
@@ -42,10 +50,11 @@ export default function AdminLayout() {
             >
               {tab.label}
             </NavLink>
-          ))}
-        </nav>
-      </header>
-      <Outlet />
+            ))}
+          </nav>
+        </div>
+        <Outlet />
+      </main>
     </div>
   );
 }

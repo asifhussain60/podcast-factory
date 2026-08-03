@@ -1,8 +1,7 @@
 import { Link } from "react-router";
 
 import type { Route } from "./+types/home";
-import { Logo } from "~/components/brand/Logo";
-import { ThemePicker } from "~/components/ThemePicker";
+import { SiteHeader } from "~/components/SiteHeader";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { visibleUnits } from "~/server/access.server";
@@ -33,20 +32,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="min-h-dvh bg-pf-bg">
-      <header className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-6">
-        <Logo size={44} />
-        <div className="flex items-center gap-5">
-          {viewer.isAdmin ? (
-            <Link
-              to="/admin"
-              className="font-ui text-sm text-pf-muted transition-colors hover:text-pf-ink"
-            >
-              Access
-            </Link>
-          ) : null}
-          <ThemePicker />
-        </div>
-      </header>
+      <SiteHeader here="library" isAdmin={viewer.isAdmin} />
 
       <main id="main" className="mx-auto max-w-5xl px-6 pb-24">
         <section className="border-t border-pf-rule pt-14">
