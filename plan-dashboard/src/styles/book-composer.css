@@ -1533,7 +1533,8 @@ body:has(.composer-grid) .to-top {
 /* Rearticulate: whole-chapter action — never selection-gated, so it keeps the
    accent affordance while its siblings sit disabled. While the detached worker
    runs, the chapter body shimmers (locked read-only by book-composer.ts). */
-.cx-rearticulate {
+.cx-rearticulate,
+.cx-replace-arabic {
   font-weight: 600;
 }
 .cx-rearticulating {

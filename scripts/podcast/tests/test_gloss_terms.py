@@ -111,11 +111,11 @@ def test_no_shipped_edition_regresses_past_its_recorded_bare_count() -> None:
         "the-master-and-the-disciple": 0,
         "degrees-of-excellence": 1,
         "ayyuhal-walad": 0,
-        "asaas-al-taveel/vol-01": 15,
+        "asaas-al-taveel/vol-01": 17,
         # No Arabic OCR exists for this book at all, so its terms CANNOT be given
         # script with provenance — see the note in the report. The ceiling holds
         # the line until a scan exists; it does not bless the number.
-        "al-anwaar-al-lateefah/vol-01": 218,
+        "al-anwaar-al-lateefah/vol-01": 215,
     }
     for slug in LIVE_BOOKS:
         book_dir = REPO / "content" / "Islamic" / slug

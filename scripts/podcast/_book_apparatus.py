@@ -392,6 +392,31 @@ def apply_book_apparatus(
     except Exception as e:  # marks are never worth a finished book
         _record_skip(book_dir, "vowelling", e, log)
 
+    # 5a-substitute. Romanization OUT, script IN — the third operation, and the
+    #     one that finishes Asif's 2026-08-02 rule: "zero English transliteration
+    #     of Arabic terms in book.md". `_book_inline_arabic` CONVERTS a bracket the
+    #     author wrote and ANNOTATES a term he did not, but neither reaches a term
+    #     the prose simply uses in romanization (`the *mawaddah*`), nor collapses
+    #     the appended shape it produced itself (`amal (عَمَل)` -> `عَمَل`).
+    #
+    #     AFTER 5a-vowelling on purpose: the script this puts into running prose
+    #     is the glossary's, and the glossary is marked by 5a-glossary-vowel, so
+    #     what lands is already vowelled — which is the whole reason the rule is
+    #     readable rather than hostile to a reader without Arabic.
+    #
+    #     Reversible by sidecar rather than by inference: substitution removes the
+    #     romanization that `_normalize_annotations` uses as its anchor, so the
+    #     pre-substitution body is stored per chapter and restored before each
+    #     re-derivation. Deterministic, glossary-driven, no model, no cost.
+    #     See _book_substitution.py.
+    from _book_substitution import apply_arabic_substitution
+
+    try:
+        apply_arabic_substitution(book_dir, log=lambda m: log(f"    {m}"))
+        book_md = book_dir / "book" / "book.md"
+    except Exception as e:  # a script swap is never worth a finished book
+        _record_skip(book_dir, "arabic-substitution", e, log)
+
     # 5a-spelling. One spelling standard for the whole edition. The drafting and
     #     re-voicing models have no consistent preference, so without this a
     #     single book ships "honour" in one chapter and "honor" in the next.

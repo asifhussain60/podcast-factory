@@ -46,6 +46,7 @@ PAGE_ALTERING_STEPS = frozenset(
         "annotation-policy",  # decides what the overlay may annotate
         "glossary-vowelling",  # must precede the overlay or it double-annotates
         "inline-arabic",  # the Arabic-script overlay itself
+        "arabic-substitution",  # romanization would stay on the page
         "vowelling",
         "spelling",
         "front-matter",  # a whole missing section

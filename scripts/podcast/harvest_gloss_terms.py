@@ -35,7 +35,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from _gloss_terms import gloss_candidates, normalize_term
+from _gloss_terms import _looks_english, gloss_candidates, normalize_term
 from _glossary_io import load_glossary, save_glossary
 
 #: Written beside the glossary so a re-compose does not re-harvest. Same idiom as
@@ -68,7 +68,15 @@ def harvest(book_dir: Path) -> dict:
     known.discard("")
 
     candidates = gloss_candidates(book_md.read_text(encoding="utf-8"), read_source(book_dir))
-    new = [c for c in candidates if normalize_term(c["term"]) not in known]
+    # ENGLISH IN ITALICS IS NOT A TERM. `gloss_candidates` is deliberately
+    # generous — the module's own note says a wrong candidate costs one lookup
+    # that finds nothing. That stopped being true on 2026-08-03, when
+    # `_book_substitution` began putting glossary script ON THE PAGE: a harvested
+    # `*blind*` was filled with Arabic and then substituted into the prose, so an
+    # English word italicised for emphasis silently became Arabic. The generous
+    # filter is right for the candidate list; what is WRITTEN to the glossary
+    # must be stricter.
+    new = [c for c in candidates if normalize_term(c["term"]) not in known and not _looks_english(c["term"])]
     return {
         "candidates": len(candidates),
         "known": len(known),

@@ -59,6 +59,7 @@ def test_every_apparatus_step_lives_in_the_apparatus():
         "composer-edits",
         "report-reconcile",
         "translit",
+        "arabic-substitution",
         "quran-arabic",
         "citation-names",
         "glossary-harvest",

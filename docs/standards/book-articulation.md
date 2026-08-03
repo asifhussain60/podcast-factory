@@ -147,6 +147,27 @@ retention, narrative frame), the repo convention wins and is cited, not restated
   `tests/test_gloss_terms.py`. Work titles and English set in italics are out of
   scope.
 
+- **REQ-BA-128 — Romanization out, script in (R-ARABIC-SCRIPT-SUBSTITUTED).**
+  Asif, 2026-08-02: "there should be zero English transliteration of Arabic
+  terms … in book.md." A glossary term the prose sets in romanization is
+  replaced by its Arabic script, and an `amal (عَمَل)` collapses to `عَمَل`. The
+  script is always vowelled (`vowel_book.py`), which is what makes the page
+  readable rather than hostile; the romanization keeps its home in the podcast
+  lane, and `chapters/*.txt` is untouched. Deterministic and glossary-driven —
+  nothing recalled, nothing invented. NEVER substituted: words English has
+  absorbed (`_gloss_terms.absorbed_english` — Allah, imam, shaykh, Quran; this
+  is what keeps REQ-BA-070's Merriam-Webster rule intact), `familiar`/`silent`
+  terms, personal names and the `name` class, work titles, English set in
+  italics, quotations and headings, `كُنْ (kun)` where a passage discusses
+  Arabic AS LETTERS (BK-N4 requires both forms), and any term that is only PART
+  of a longer romanized phrase — `*La ilaha illa Allah*` is left whole rather
+  than half-converted. Reversible by sidecar (`_system/book-substitutions.json`),
+  because substitution removes the anchor `_normalize_annotations` inverts by:
+  each run restores before it re-derives, so a term later reclassified
+  `familiar` gets its English back. Compose step `5a-substitute`
+  (`_book_substitution.py`), with the Book Composer's "Replace with Arabic"
+  button as the same code path for a chapter edited by hand.
+
 ## Rhetorical judgment and out-of-band notes
 
 - **REQ-BA-130 — Meaningful repetition survives; mechanical repetition may be

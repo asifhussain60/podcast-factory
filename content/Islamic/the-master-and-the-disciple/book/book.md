@@ -4,7 +4,7 @@
 
 This is a work of religious instruction cast as a story: a chain of encounters between a learned man and a young seeker, built almost entirely from their talk. Its Arabic title, *Kitab al-Alim wa-l-Ghulam* (كِتَابُ الْعَالِمِ وَالْغُلَام) — the book of the 'Alim and the Ghulam, the Master and the Disciple — names its two roles directly, and the dialogue between them drives the whole. Doctrine is not laid out as a treatise; it is drawn out question by question, one figure pressing and the other answering, in the manner of a Socratic exchange.
 
-The text is attributed to Jafar ibn Mansur al-Yaman (جَعْفَر بْن مَنْصُور اَلْيَمَن) and belongs to the Ismaili tradition of the early Fatimid period, the missionary teaching, the dawa (دَعْوَة), of roughly the tenth century. Read it as a transmitted report: the account reaches you through a narrator who relates what passed between the speakers. When an "I" appears inside the conversation, it is one of the characters speaking, not the author addressing you.
+The text is attributed to Jafar ibn Mansur al-Yaman (جَعْفَر بْن مَنْصُور اَلْيَمَن) and belongs to the Ismaili tradition of the early Fatimid period, the missionary teaching, the دَعْوَة, of roughly the tenth century. Read it as a transmitted report: the account reaches you through a narrator who relates what passed between the speakers. When an "I" appears inside the conversation, it is one of the characters speaking, not the author addressing you.
 
 Watch the roles rather than the names. The Master here is a teacher, but the boy who arrives as a disciple travels a long road to a further, higher teacher, a shaykh, then returns home to instruct his own father and to debate a man named Abu Malik (أَبُو مَالِك). So "master" and "disciple" are positions that shift: the one who is taught goes on to teach, and more than one figure in these pages carries a master's authority. Keep track of who is teaching whom in a given scene.
 
@@ -435,7 +435,7 @@ The Master said: "The sower can make the earth good, and sow, and water it, but 
 
 The boy said: "Is the rope of God not the Imam to whom you have called me?"
 
-The Master said: "He is its outward sign. He is your rope and the most trustworthy handhold, your hujja (الْحُجَّة), your proof, and the door of your Imam."
+The Master said: "He is its outward sign. He is your rope and the most trustworthy handhold, your الْحُجَّة, your proof, and the door of your Imam."
 
 The boy said: "Then what is the rope of God, and what is the rope that comes from God?"
 
@@ -453,7 +453,7 @@ The boy said: "We mean: I have no stratagem to draw a benefit to myself, and no 
 
 The Master said: "Then why do you say there is no might (اَلْحَوْل), and not there is no stratagem (حِيلَة)?"
 
-The boy said: "It is narrated to us in our sciences that hawl is the year, by the words of God,
+The boy said: "It is narrated to us in our sciences that اَلْحَوْل is the year, by the words of God,
 
 > حَوْلَيْنِ كَامِلَيْنِ
 
@@ -471,11 +471,11 @@ The Master said: "Creation has uttered no word of truth but that it has a root i
 
 The boy said: "I am convinced. So what is the meaning of the two words and their like?"
 
-The Master said: "As for al-hawl, he is the speaking Imam of God and His truthful Caliph, the lord of the twelve captains, just as the hawl, which is the year, is completed only in twelve months. The Imam is named hawl because he turns (يحوّل) the speech of the Creator, in the subtlety of its essence, into the speech of the children of Adam, until it is understood and becomes outward speech; and so the words of wisdom take on a body and a frame, while the speech of the Creator holds within them the spirit of life and the light of salvation. The excellence of the words of wisdom over all other speech is by the excellence of the speech of the Creator that is their inward. So the Imam is named the hawl for this turning of speech, and he does not turn it except by the permission of God. And quwwa, power, is his hujja and his door, whom God has strengthened to bear the heavy burden of utterance. He takes the speech from the Imam in summary and distributes it among the callers (الدُّعَاة) in detail, each according to his station. So the hujja is named quwwa, for it is strengthened only by God. Therefore whoever says there is no might and no power except by God means: there is no Imam and no hujja except by God, and from God come their light and their sustenance. And the usba, those possessed of power, are the twelve hujjas. Likewise Joseph (عَلَيْهِ السَّلَامُ) said to his father:
+The Master said: "As for al-hawl, he is the speaking Imam of God and His truthful Caliph, the lord of the twelve captains, just as the اَلْحَوْل, which is the year, is completed only in twelve months. The Imam is named اَلْحَوْل because he turns (يحوّل) the speech of the Creator, in the subtlety of its essence, into the speech of the children of Adam, until it is understood and becomes outward speech; and so the words of wisdom take on a body and a frame, while the speech of the Creator holds within them the spirit of life and the light of salvation. The excellence of the words of wisdom over all other speech is by the excellence of the speech of the Creator that is their inward. So the Imam is named the اَلْحَوْل for this turning of speech, and he does not turn it except by the permission of God. And quwwa, power, is his الْحُجَّة and his door, whom God has strengthened to bear the heavy burden of utterance. He takes the speech from the Imam in summary and distributes it among the callers (الدُّعَاة) in detail, each according to his station. So the الْحُجَّة is named quwwa, for it is strengthened only by God. Therefore whoever says there is no might and no power except by God means: there is no Imam and no الْحُجَّة except by God, and from God come their light and their sustenance. And the usba, those possessed of power, are the twelve hujjas. Likewise Joseph (عَلَيْهِ السَّلَامُ) said to his father:
 
 > يَا أَبَتِ إني رأيْتُ أَحَدَ عَشَرَ كَوْكَباً وَالشَّمْسَ وَالقَمَرَ رَأَيْتُهُمْ لِي سَاجِدِيْنَ
 
-O my father, I saw eleven planets, and the sun and the moon; I saw them prostrating to me — meaning by the sun the Imam, by the moon his hujja and his door, and by the planets the completion of the twelve captains. And likewise the brothers of Joseph said:
+O my father, I saw eleven planets, and the sun and the moon; I saw them prostrating to me — meaning by the sun the Imam, by the moon his الْحُجَّة and his door, and by the planets the completion of the twelve captains. And likewise the brothers of Joseph said:
 
 > لَيُوسُفُ وأَخُوْهُ أَحَبُّ إلى أبينَا مِنَّا وَنَحْنُ عُصْبَة
 
@@ -1027,7 +1027,7 @@ Salih said to him: "Take your saying that God is one. The word one (وَاحِد
 
 Abu Malik lowered his head for a while, then said: "I can find no way out of this except to say that they are signs pointing to God."
 
-Salih said to him: "Which of them points to God? And how do they point to Him — by standing apart or by being joined? Or do some stand alone while others are joined, as in your saying Allah, where the alif (الْأَلِف) stands alone and the three letters are connected? Which of them points to God: the one standing alone, or these joined together?"
+Salih said to him: "Which of them points to God? And how do they point to Him — by standing apart or by being joined? Or do some stand alone while others are joined, as in your saying Allah, where the الْأَلِف stands alone and the three letters are connected? Which of them points to God: the one standing alone, or these joined together?"
 
 Abu Malik said: "I do not know what to tell you about this. Lead us on to another door."
 
@@ -1251,7 +1251,7 @@ Salih said: "Then Allah and His Messenger have the greater right that you be enr
 
 Abu Malik said: "It weighs heavily upon us that the guardian of Allah should be killed among us or driven from his land. But they have deliberately kept themselves hidden from us, and the tyrants have gained the upper hand over us."
 
-Salih said: "Had you supported the guardians of Allah, they would have appeared; had you forsaken His enemies, those enemies would never have prevailed. But the judgment binds you toward the guardians of Allah at three stations. There is the striker set in power, who never tires of the chase and is never satisfied even in triumph. There is the gloating one, well pleased with himself, who bites his fingertips in rage, never slackening in his incitement against their enemy, never heedless of them even when they are heedless of him. And there is the one who hates the deed and holds fast to his love for the guardians of Allah, yet forsakes them all the same — having no clear sight in his faith and no trustworthiness to be relied on in keeping a secret. For this the guardians of Allah have kept themselves hidden from you, by Taqiyya (تقيّة), out of caution before you and before this great mass of people who have taken their own desires for their god, flung themselves upon the goods of this world, and helped one another in killing the prophets. They were blind to the fault in their own conduct, so they never called themselves to account for the injustice they did, nor humbled themselves to repent of what they had done. Instead they laid the injustice of their deeds upon Allah and ascribed it to Him, and they said, 'Allah will raise up, after their messenger, neither a messenger nor a warner.' So they made lawful the killing of the guardians of Allah without right. They wronged in the deed, they swerved in the word, and they overstepped in their denial."
+Salih said: "Had you supported the guardians of Allah, they would have appeared; had you forsaken His enemies, those enemies would never have prevailed. But the judgment binds you toward the guardians of Allah at three stations. There is the striker set in power, who never tires of the chase and is never satisfied even in triumph. There is the gloating one, well pleased with himself, who bites his fingertips in rage, never slackening in his incitement against their enemy, never heedless of them even when they are heedless of him. And there is the one who hates the deed and holds fast to his love for the guardians of Allah, yet forsakes them all the same — having no clear sight in his faith and no trustworthiness to be relied on in keeping a secret. For this the guardians of Allah have kept themselves hidden from you, by تقيّة, out of caution before you and before this great mass of people who have taken their own desires for their god, flung themselves upon the goods of this world, and helped one another in killing the prophets. They were blind to the fault in their own conduct, so they never called themselves to account for the injustice they did, nor humbled themselves to repent of what they had done. Instead they laid the injustice of their deeds upon Allah and ascribed it to Him, and they said, 'Allah will raise up, after their messenger, neither a messenger nor a warner.' So they made lawful the killing of the guardians of Allah without right. They wronged in the deed, they swerved in the word, and they overstepped in their denial."
 
 Abu Malik said: "Yes. This is the very likeness of this nation of ours, and this is what they say. Where, then, is the deliverance from it, and where is the escape from the punishment of Allah?"
 
@@ -1263,7 +1263,7 @@ Salih said: "If you do this, you will find Allah nearer to pardoning you than yo
 
 Then Salih's eyes brimmed with tears at the mention of repentance, and the fullness of his feeling broke off his speech. He gave them heart and bade them go to his father's house. He went in to his father, the Master who had first sent him out, and took counsel with him over the affair of Abu Malik and his companions.
 
-The Master said: "You know your companions best. If you find good in them, guide them with your guidance; and when you warn them, let no eagerness move you to impose tazir (تَعْزِير) upon them. Test them by leaving them to themselves, without harshness, and bid your father be kind to them and deal righteously with them in due season. The man who inclines toward good is not hidden, and Allah will not abandon you behind your back. From the light of His enabling grace He will open for you that by which the affairs of His creation are set in order, and from the gates of guidance that by which He shows you the deeds of the rightly guided."
+The Master said: "You know your companions best. If you find good in them, guide them with your guidance; and when you warn them, let no eagerness move you to impose تَعْزِير upon them. Test them by leaving them to themselves, without harshness, and bid your father be kind to them and deal righteously with them in due season. The man who inclines toward good is not hidden, and Allah will not abandon you behind your back. From the light of His enabling grace He will open for you that by which the affairs of His creation are set in order, and from the gates of guidance that by which He shows you the deeds of the rightly guided."
 
 He said: So Abu Malik and his companions went back and forth under this testing until their affair was fulfilled and they came to know their own guidance, and the guardian of Allah among them inclined kindly toward guiding them. They gave thanks to Allah for that, and returned to their people as warners, and through them Allah guided a great many of His servants to His religion.
 

@@ -3233,9 +3233,12 @@ function boot(): void {
     const sel = selectionText();
     const ok = !!sel;
     const arabic = ok && isBareArabic(sel.text);
-    // Rearticulate acts on the whole chapter, not the selection — it opts out.
+    // Two actions work on the WHOLE chapter rather than the selection, so both
+    // opt out of the selection gate: Rearticulate and Replace with Arabic.
     root
-      .querySelectorAll<HTMLButtonElement>(".cx-ai-btn:not(.cx-rearticulate)")
+      .querySelectorAll<HTMLButtonElement>(
+        ".cx-ai-btn:not(.cx-rearticulate):not(.cx-replace-arabic)",
+      )
       .forEach((b) => {
         b.disabled = b.classList.contains("cx-ai-arabic") ? !arabic : !ok;
       });
@@ -3273,6 +3276,19 @@ function boot(): void {
     rearticulate.textContent = "Rearticulate chapter";
     rearticulate.addEventListener("click", () => runRearticulate(rearticulate));
     row.appendChild(rearticulate);
+    // Replace with Arabic — whole-chapter, selection-independent, and NOT an AI
+    // action: it is the pipeline's deterministic glossary substitution, so it
+    // costs nothing, cannot fabricate a spelling, and returns in milliseconds.
+    // Compose already runs it over every chapter (step 5a-substitute); this is
+    // the fallback for a chapter edited by hand afterwards.
+    const replaceArabic = document.createElement("button");
+    replaceArabic.type = "button";
+    replaceArabic.className = "cx-ai-btn cx-replace-arabic";
+    replaceArabic.textContent = "Replace with Arabic";
+    replaceArabic.addEventListener("click", () =>
+      runReplaceArabic(replaceArabic),
+    );
+    row.appendChild(replaceArabic);
     controlsEl.appendChild(row);
 
     aiStatusEl = document.createElement("p");
@@ -3291,6 +3307,77 @@ function boot(): void {
   // RCA-002 lesson is that live-editor writes racing book.md are how corruption
   // happens, so the editor is read-only for the whole run.
   let rearticulating = false;
+
+  // ── Replace with Arabic: the deterministic glossary substitution ────────────
+  // Same page-reload shape as Rearticulate and for the same RCA-002 reason — the
+  // engine writes book.md, so the editor must not be live over it — but with no
+  // polling: the pass is deterministic and returns in the request. It is also
+  // reversible, which is what makes it safe to offer as a button: every
+  // substitution is recorded in _system/book-substitutions.json and the next run
+  // restores before it re-derives, so a term later reclassified `familiar` gets
+  // its English back instead of being fossilised in script.
+  let substituting = false;
+
+  async function runReplaceArabic(btn: HTMLButtonElement): Promise<void> {
+    if (!activeEditor || substituting || rearticulating) return;
+    const title = chapterByKey.get(selectedChapter)?.title ?? selectedChapter;
+    const go = await confirmDialog({
+      title: "Replace romanized terms with Arabic?",
+      titleIcon: "fa-solid fa-language",
+      body: `Every glossary term “${title}” spells in English letters is replaced with its Arabic script.`,
+      points: [
+        {
+          icon: "fa-solid fa-right-left",
+          text: "“the mawaddah” becomes “the مَوَدَّة”; “amal (عَمَل)” collapses to “عَمَل”.",
+        },
+        {
+          icon: "fa-solid fa-book-open",
+          text: "Script comes from the book's glossary — nothing is recalled or invented.",
+        },
+        {
+          icon: "fa-solid fa-user",
+          text: "Names, familiar words and quotations are left exactly as they are.",
+        },
+        {
+          icon: "fa-solid fa-rotate-left",
+          text: "Recorded and reversible — a term reclassified later gets its English back.",
+        },
+      ],
+      footnote: "Deterministic and free. Compose runs this on every chapter.",
+      confirmLabel: "Replace",
+    });
+    if (!go) return;
+    const flushed = await (activeSaveFlush?.() ?? Promise.resolve(true));
+    if (!flushed) {
+      setAiStatus("Autosave is failing — resolve that before replacing.", true);
+      return;
+    }
+    substituting = true;
+    btn.disabled = true;
+    activeEditor.editor.setEditable(false);
+    setAiStatus("Replacing romanized terms with Arabic script…");
+    try {
+      const res = (await apiFetch("/api/studio/replace-arabic", {
+        method: "POST",
+        body: { slug, chapterKey: selectedChapter },
+      })) as { replaced?: number };
+      const n = Number(res?.replaced ?? 0);
+      if (!n) {
+        substituting = false;
+        btn.disabled = false;
+        activeEditor?.editor.setEditable(true);
+        setAiStatus("No romanized glossary terms left in this chapter.");
+        return;
+      }
+      setAiStatus(`Replaced ${n} term(s). Reloading the chapter…`);
+      reloadPreservingChapter();
+    } catch (e) {
+      substituting = false;
+      btn.disabled = false;
+      activeEditor?.editor.setEditable(true);
+      setAiStatus(`Replace with Arabic failed: ${String(e)}`, true);
+    }
+  }
 
   async function runRearticulate(btn: HTMLButtonElement): Promise<void> {
     if (!activeEditor || rearticulating) return;

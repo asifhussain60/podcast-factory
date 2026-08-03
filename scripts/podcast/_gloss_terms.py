@@ -209,7 +209,8 @@ _ENGLISH_GLOSS_WORDS = frozenset(
     curse blessing mercy justice truth falsehood faith disbelief belief
     inner outer hidden manifest apparent open closed sealed
     guardian guide guides teacher master disciple boy child children
-    rank ranks limit limits bound bounds degree degrees station stations
+    rank ranks limit limits bound bounds degree degrees station stations pole poles
+    imamate caliphate prophethood
     first second third fourth fifth last next final
     forty thirty twenty ten seven five four three two one hundred
     step steps stage stages ladder chain circle rooms room
