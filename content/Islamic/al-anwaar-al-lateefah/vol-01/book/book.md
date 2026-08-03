@@ -16,31 +16,7 @@ No author is named within the volume itself. It speaks throughout not in one man
 
 > "I seek refuge in Allah from the accursed Satan. In the name of Allah, the Most Gracious, the Most Merciful. And may Allah's blessings be upon His Messenger and his pure and purified family, and may peace be upon them all."
 
-So the book begins. Its design is deliberate to the point that even the names of its parts carry meaning. Each of its great divisions is called a *Suradiq*, and the first of these opens here:
-
-> السُّرَادِقُ الأَوَّلُ
->
-> "The First Suradiq" — from كِتَابُ الأَنْوَارِ, the Book of Lights.
-
-The word *Suradiq* — sometimes rendered *Sardaq* — carries an image that matters. It means a curtain, and beyond the curtain a palace, a grand encampment, a great tent: a *shamiyana*, a *khaima*. The image is of an enclosing canopy, a royal pavilion, with the affairs of the book unfolding within its shelter. The whole structure rests on the number five, the way a building's load-bearing walls quietly decide the shape of every room. The book is five Suradiqs. Each Suradiq, the text says, has
-
-> خَمْسَةُ أَبْوَابٍ
->
-> "five chapters" — five *babs*.
-
-And each *bab*, in turn,
-
-> يَجْمَعُ خَمْسَةَ فُصُولٍ
->
-> "gathers five sections" — five *fasls*.
-
-Five Suradiqs, each of five chapters, each chapter of five sections: by that symmetry the whole work comes to one hundred and twenty-five sections in all. Within that frame stands the very first room:
-
-> الفَصْلُ الأَوَّلُ مِنْهَا
->
-> "The first section of it."
-
-This opening section announces what the entire enterprise is for. It begins:
+So the book begins. Its opening section announces what the entire enterprise is for. It begins:
 
 > نَقُولُ: وَلَمَّا كَانَ مَا هُوَ المَقْصُودُ، وَالكَلَامُ عَلَى المَوَدَّةِ الشَّرِيفَةِ المُؤَدِّيَةِ إِلَى الوَاجِبَاتِ الشَّرِيفَةِ حَقِيقَةً مَحْضَةً
 >
