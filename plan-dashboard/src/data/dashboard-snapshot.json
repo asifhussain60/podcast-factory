@@ -1861,8 +1861,8 @@
   "metrics": {
     "burn_30d_usd": 14.42
   },
-  "generated_at": "2026-08-03T16:13:22-04:00",
-  "source_commit": "f061086",
+  "generated_at": "2026-08-03T16:47:46-04:00",
+  "source_commit": "c1d02f5",
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
@@ -1924,6 +1924,16 @@
   ],
   "recent_commits": [
     {
+      "sha": "c1d02f5",
+      "subject": "fix(glossary): a book may only lend Arabic its own scan proves",
+      "date": "2026-08-03"
+    },
+    {
+      "sha": "a36993c",
+      "subject": "fix(book): the Replace-with-Arabic button works inline, and every book's glossary is harvested",
+      "date": "2026-08-03"
+    },
+    {
       "sha": "f061086",
       "subject": "style(listener): every declaration is in a stylesheet, and a session title stops wrapping under its own label",
       "date": "2026-08-03"
@@ -1961,16 +1971,6 @@
     {
       "sha": "cff9f8e",
       "subject": "fix(listener): the reader settings sheet was off the top of the screen on a phone",
-      "date": "2026-08-03"
-    },
-    {
-      "sha": "8ad4bd9",
-      "subject": "feat(listener): the books are actually in it now, and it is online",
-      "date": "2026-08-03"
-    },
-    {
-      "sha": "9599a4a",
-      "subject": "chore(infra): move the last Salty Lamps record out, and name the leftover honestly",
       "date": "2026-08-03"
     }
   ],

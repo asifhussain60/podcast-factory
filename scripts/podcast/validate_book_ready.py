@@ -440,7 +440,7 @@ def gate_b7_book_gloss_coverage(book_dir: Path) -> tuple[bool, str]:
             path = book_dir / rel
             if path.exists():
                 source += path.read_text(encoding="utf-8", errors="ignore")
-        report = gloss_coverage(book_md.read_text(encoding="utf-8"), entries, source)
+        report = gloss_coverage(book_md.read_text(encoding="utf-8"), entries, source, book_dir)
     except Exception as exc:  # noqa: BLE001 - a broken probe must not block a ship
         return True, f"gloss coverage not computed ({exc})"
 

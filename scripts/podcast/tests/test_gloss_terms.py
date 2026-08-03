@@ -112,13 +112,19 @@ def test_no_shipped_edition_regresses_past_its_recorded_bare_count() -> None:
         "degrees-of-excellence": 1,
         "ayyuhal-walad": 0,
         "asaas-al-taveel/vol-01": 6,
-        # No Arabic OCR exists for this book at all, so its terms CANNOT be given
-        # script with provenance — see the note in the report. The ceiling holds
-        # the line until a scan exists; it does not bless the number.
-        "al-anwaar-al-lateefah/vol-01": 186,
+        # `al-anwaar-al-lateefah/vol-01` is absent ON PURPOSE. It is not a book
+        # with a missing scan; it is 65 Urdu lectures transcribed from mp3, and
+        # there is no Arabic page behind its vocabulary to be faithful to. It
+        # declares `source_medium: audio_lecture` and REQ-BA-127 scopes itself
+        # out — see `_pipeline_flags.source_medium`.
     }
     for slug in LIVE_BOOKS:
         book_dir = REPO / "content" / "Islamic" / slug
+        # `al-anwaar` declares `source_medium: audio_lecture` — 65 Urdu lectures
+        # transcribed from mp3, no printed Arabic anywhere — so REQ-BA-127 scopes
+        # itself out and there is nothing here to ratchet.
+        if slug not in ceilings:
+            continue
         book_md = book_dir / "book" / "book.md"
         if not book_md.exists():  # the sample books are not in every checkout
             continue
@@ -182,3 +188,39 @@ def test_scripted_terms_is_linear_on_prose_without_brackets() -> None:
     start = time.monotonic()
     scripted_terms(text)
     assert time.monotonic() - start < 1.0
+
+
+def test_req_ba_127_scopes_itself_out_of_an_audio_sourced_book(tmp_path: Path) -> None:
+    """A romanization is not a debt when no printed page stands behind it.
+
+    `al-anwaar-al-lateefah` is 65 mp3 lectures recorded in Urdu, transcribed and
+    translated — the pipeline never had the book. Its whole spine carries FORTY
+    Arabic runs across 65 transcripts. With no `deliverable_mode` pinned it fell
+    to the translation-edition default and was judged by rules written for a book
+    rendered from a page: 189 romanized terms reported as a gap to close.
+    """
+    import yaml
+
+    bd = tmp_path / "book_dir"
+    (bd / "_system").mkdir(parents=True)
+    text = "the *mawaddah* and the *zahir* and the *taweel*."
+
+    (bd / "_system" / "series-config.yaml").write_text(
+        yaml.safe_dump({"content_profile": "islamic_scholarly"}), encoding="utf-8"
+    )
+    assert len(bare_term_findings(text, "", [], bd)) == 3  # printed_text is the default
+
+    (bd / "_system" / "series-config.yaml").write_text(
+        yaml.safe_dump({"content_profile": "islamic_scholarly", "source_medium": "audio_lecture"}),
+        encoding="utf-8",
+    )
+    assert bare_term_findings(text, "", [], bd) == []
+
+
+def test_a_book_that_declares_nothing_is_still_judged() -> None:
+    """Default IN scope: opting out has to be an act, and an unreadable config
+    must never quietly disable a check."""
+    from _gloss_terms import scoped_out_by_source
+
+    assert scoped_out_by_source(None) is False
+    assert scoped_out_by_source("/no/such/book") is False

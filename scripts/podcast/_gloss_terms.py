@@ -291,10 +291,32 @@ def scripted_terms(book_md: str) -> set[str]:
 _DELIBERATELY_BARE = frozenset({"familiar", "silent"})
 
 
+def scoped_out_by_source(book_dir: Path | str | None) -> bool:
+    """Is REQ-BA-127 out of scope for this book because its source is SPEECH?
+
+    `al-anwaar-al-lateefah` is 65 Urdu lectures transcribed from mp3. There is no
+    Arabic page behind `mawaddah` — a man said it aloud — so a check that counts
+    romanizations as a debt is measuring the source, not a defect. See
+    `_pipeline_flags.source_medium`.
+
+    Never raises and defaults to IN scope: a book that cannot be read, or that
+    declares nothing, is judged exactly as before.
+    """
+    if book_dir is None:
+        return False
+    try:
+        from _pipeline_flags import has_printed_source
+
+        return not has_printed_source(Path(book_dir))
+    except Exception:  # noqa: BLE001 - a config read must never break a report
+        return False
+
+
 def bare_term_findings(
     book_md: str,
     source_text: str = "",
     entries: Iterable[dict[str, Any]] | None = None,
+    book_dir: Path | str | None = None,
 ) -> list[dict[str, Any]]:
     """Terms the book sets as foreign but never once gives in Arabic script.
 
@@ -317,6 +339,8 @@ def bare_term_findings(
     annotation policy deciding, and a check that argues with a curated decision is
     noise.
     """
+    if scoped_out_by_source(book_dir):
+        return []
     have = scripted_terms(book_md)
     deliberate = {
         normalize_term(e.get("phonetic") or e.get("transliteration") or "")
@@ -340,7 +364,12 @@ def bare_term_findings(
     return sorted(out, key=lambda r: (r["confidence"] != "strong", -r["uses"], r["term"].lower()))
 
 
-def gloss_coverage(book_md: str, entries: Iterable[dict[str, Any]], source_text: str = "") -> dict[str, Any]:
+def gloss_coverage(
+    book_md: str,
+    entries: Iterable[dict[str, Any]],
+    source_text: str = "",
+    book_dir: Path | str | None = None,
+) -> dict[str, Any]:
     """How much of what the book glosses the glossary can actually annotate.
 
     THE number the pipeline never computed. `_book_arabic_audit` enumerates
@@ -371,7 +400,7 @@ def gloss_coverage(book_md: str, entries: Iterable[dict[str, Any]], source_text:
     # measured `strong: 0`, so the ratio below reported "nothing to measure" and
     # passed while 219 terms printed as bare romanization. This asks the reader's
     # question instead: is the Arabic on the page at all?
-    bare = bare_term_findings(book_md, source_text, known.values())
+    bare = bare_term_findings(book_md, source_text, known.values(), book_dir)
     return {
         "schema": "book.gloss-coverage/v2",
         "candidates": len(candidates),

@@ -145,7 +145,13 @@ retention, narrative frame), the repo convention wins and is cited, not restated
   `arabic_runs_lost: 0`. Checked by `_gloss_terms.bare_term_findings`, reported
   in `_system/gloss-coverage.json` and by ship gate B7, and ratcheted per book in
   `tests/test_gloss_terms.py`. Work titles and English set in italics are out of
-  scope.
+  scope — **and so is an entire book whose source is SPEECH.** A book declaring
+  `source_medium: audio_lecture` is exempt: there is no Arabic page behind its
+  vocabulary to be faithful to, so a romanization is the honest rendering rather
+  than a debt. `al-anwaar-al-lateefah` is 65 mp3 lectures recorded in Urdu and
+  transcribed, whose whole spine carries forty Arabic runs across 65 transcripts;
+  filling its 189 terms from the Quranic corpus got six of the first fourteen
+  wrong. See `_pipeline_flags.source_medium`.
 
 - **REQ-BA-128 — Romanization out, script in (R-ARABIC-SCRIPT-SUBSTITUTED).**
   Asif, 2026-08-02: "there should be zero English transliteration of Arabic

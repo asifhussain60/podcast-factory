@@ -65,6 +65,13 @@ _VALID_VISUALS = frozenset({BOOK_VISUALS_MANUAL_ONLY, BOOK_VISUALS_PIPELINE})
 # beside the knobs because it is read from the same file, but deliberately NOT
 # part of the knob-default map: no product choice may change who narrates.
 NARRATIVE_FRAME_KEY = "narrative_frame"
+
+SOURCE_MEDIUM_KEY = "source_medium"
+#: What the book was MADE FROM. A source property, like `narrative_frame`, and
+#: not a product decision.
+SOURCE_PRINTED_TEXT = "printed_text"
+SOURCE_AUDIO_LECTURE = "audio_lecture"
+_VALID_SOURCE_MEDIUM = frozenset({SOURCE_PRINTED_TEXT, SOURCE_AUDIO_LECTURE})
 NARRATOR_SUBJECT_KEY = "narrator_subject"
 AUTONOMY_KEY = "autonomy"
 
@@ -209,6 +216,44 @@ def narrative_frame(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     declared = str(cfg.get(NARRATIVE_FRAME_KEY) or "").strip().lower()
     profile = str(cfg.get("content_profile") or "").strip().lower()
     return narrative_frame_for(profile, declared or None)
+
+
+def source_medium(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
+    """What this book was made FROM — a printed text, or recorded speech.
+
+    A SOURCE property, exactly like ``narrative_frame``, and for the same reason:
+    it is a fact about the material, not a choice about the product. It is
+    deliberately independent of ``deliverable_mode`` and ``book_voice``.
+
+    WHY IT EXISTS (Asif, 2026-08-03). `al-anwaar-al-lateefah` is 65 mp3 lectures
+    recorded in URDU, transcribed and translated by Gemini — the pipeline never
+    had the book, only recordings of a man teaching from it. Its whole spine
+    carries FORTY Arabic runs, in 15 of 65 transcripts. Yet with no
+    ``deliverable_mode`` pinned it fell to the `islamic_scholarly` default
+    ``{source_only, faithful}``, the TRANSLATION-EDITION route, and was then
+    judged by rules written for a book rendered from a printed page:
+    REQ-BA-127 reported 189 romanized terms as a debt to be paid.
+
+    They are not a debt. The lecturer said "mawaddah" aloud in an Urdu sentence;
+    there is no Arabic page behind it to be faithful to, and manufacturing one is
+    measurably worse than leaving it — a corpus fill on those terms got six of the
+    first fourteen wrong. Under ``audio_lecture`` the romanization IS the honest
+    rendering, and REQ-BA-127 scopes itself out.
+
+    Defaults to ``printed_text``, so every existing book behaves exactly as before
+    and opting in is an act.
+    """
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    declared = str(cfg.get(SOURCE_MEDIUM_KEY) or "").strip().lower()
+    if declared and declared not in _VALID_SOURCE_MEDIUM:
+        _reject_unknown(SOURCE_MEDIUM_KEY, declared, _VALID_SOURCE_MEDIUM)
+    return declared or SOURCE_PRINTED_TEXT
+
+
+def has_printed_source(book_dir: Path, cfg: dict[str, Any] | None = None) -> bool:
+    """True when an Arabic PAGE exists behind this book's vocabulary."""
+    return source_medium(book_dir, cfg) == SOURCE_PRINTED_TEXT
 
 
 def narrator_subject(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
