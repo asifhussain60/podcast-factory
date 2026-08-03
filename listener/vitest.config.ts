@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
 
 // Deliberately standalone rather than extending vite.config.ts: that config
@@ -7,6 +8,12 @@ import { defineConfig } from "vitest/config";
 // so they need Node and nothing else. Anything that genuinely needs workerd
 // belongs in the smoke script, not here.
 export default defineConfig({
+  // The `~/` alias tsconfig declares. Without it a server module that imports a
+  // shared helper resolves in the app and in the build, and only fails under
+  // Vitest — which reads as "the test is broken" rather than "the config is".
+  resolve: {
+    alias: { "~": fileURLToPath(new URL("./app", import.meta.url)) },
+  },
   test: {
     environment: "node",
     include: ["test/**/*.test.ts"],

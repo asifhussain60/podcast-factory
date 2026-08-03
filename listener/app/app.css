@@ -12,3 +12,8 @@
    white the token specifies. Layering it puts element defaults back underneath
    the utilities, where they belong. */
 @import "./styles/base.css" layer(base);
+
+/* The reading column. Also layered, and AFTER base: it styles renderer-authored
+   HTML by class, and unlayered rules would outrank every Tailwind utility used
+   on the same elements. */
+@import "./styles/reader.css" layer(components);

@@ -33,6 +33,14 @@ export default [
   layout("routes/_authed.tsx", [
     index("routes/home.tsx"),
     route("book/:slug", "routes/book.$slug.tsx"),
+    route("book/:slug/read/:chapter", "routes/book.$slug.read.$chapter.tsx"),
+    route("book/:slug/slides", "routes/book.$slug.slides.tsx"),
+
+    // Media sits INSIDE the gate like every page, and its `:slug` segment is
+    // what `requireUnitAccess` reads — so a file URL runs the same check the
+    // page ran. `run_worker_first` in wrangler.jsonc keeps /media/* away from
+    // the static-asset server so this route is reached at all.
+    route("media/:slug/*", "routes/media.$slug.$.tsx"),
 
     layout("routes/_authed._admin.tsx", [
       route("admin", "routes/admin._index.tsx"),

@@ -126,7 +126,10 @@ hr {
   padding: 0.75rem 1rem;
   background: var(--l-accent);
   color: var(--l-on-accent);
-  border-radius: 0 0 var(--radius-l-md) 0;
+  /* A literal value: radii are deliberately not themed (see theme.css), so
+     there is no --radius-l-* token — the one named here never existed, which
+     made the declaration invalid and the corner square. */
+  border-radius: 0 0 6px 0;
 }
 
 .skip-link:focus {

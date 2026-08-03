@@ -87,6 +87,23 @@ check("admin is 404, not 403", (await get("/admin", outsider)).status, 404);
 check("admin sub-page is 404", (await get("/admin/people", outsider)).status, 404);
 check("case-variant admin is 404", (await get("/Admin/people", outsider)).status, 404);
 
+console.log("\nevery surface of a book, not just its front page");
+// Each of these is its own route with its own middleware line. A gate added to
+// the book page and forgotten on the reading route would leave the prose
+// readable by URL while the book itself looked protected — and the chapter keys
+// are guessable, because they are the chapter titles.
+const CHAPTER = encodeURIComponent("knowledge that will not save you");
+check("a chapter is 404", (await get(`/book/ayyuhal-walad/read/${CHAPTER}`, outsider)).status, 404);
+check("the slide deck is 404", (await get("/book/ayyuhal-walad/slides", outsider)).status, 404);
+check("a media file is 404", (await get("/media/ayyuhal-walad/book.pdf", outsider)).status, 404);
+// A key from ANOTHER book must not resolve through this book's slug either: the
+// row carries its own slug and the route compares them.
+check(
+  "a media key from another book is 404",
+  (await get("/media/ayyuhal-walad/../degrees-of-excellence/book.pdf", admin)).status,
+  404,
+);
+
 console.log("\nTHE BYPASS — _routes filter on the single-fetch endpoint");
 const filtered = "/book/ayyuhal-walad.data?_routes=routes%2Fbook.%24slug";
 check("denied for someone without the grant", (await get(filtered, outsider)).status, 404);
@@ -100,6 +117,12 @@ check(
   body.includes("routes/book.$slug") && !body.includes("routes/_authed"),
   true,
 );
+
+// The same attack against the READING route, which is where the prose is.
+const readFiltered =
+  `/book/ayyuhal-walad/read/${CHAPTER}.data?_routes=routes%2Fbook.%24slug.read.%24chapter`;
+check("denied on the chapter route too", (await get(readFiltered, outsider)).status, 404);
+check("control: granted user gets the chapter", (await get(readFiltered, admin)).status, 200);
 
 console.log("\nthe two 404s are indistinguishable");
 const denied = await get("/book/ayyuhal-walad", outsider);

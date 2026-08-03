@@ -26,15 +26,17 @@ is recognisable — see §7, where it is an active hazard right now.
 
 ## 2. What is actually deployed today
 
-Read from the API on 2026-08-03:
+Read from the API on 2026-08-03, after the Listener went live:
 
 | Kind | Name | Address | Notes |
 |---|---|---|---|
 | Pages | `asif-academy` | `asif-academy.pages.dev` | No custom domain attached |
-| Workers | *(none)* | — | The Listener would be the account's first Worker |
+| Workers | `podcast-listener` | `podcast-factory.safinaverse.com` | The account's first Worker |
+| D1 | `podcast-listener` | `ed6e00d2-ec8f-47bf-af5d-66ffc43e79c0` | region ENAM |
+| R2 | *(none)* | — | **Not enabled on the account** — see §3 |
 
-`podcast-factory.safinaverse.com` currently resolves to nothing. It is
-unclaimed, and no Pages project is squatting on it.
+The Worker's workers.dev address is deliberately **off**: the custom domain is
+the only way in. Turn it on temporarily only to run a scripted check (§6).
 
 ---
 
@@ -77,10 +79,30 @@ anywhere else:
 |---|---|
 | List zones | ✅ allowed |
 | List Pages projects | ✅ allowed |
-| List Workers scripts | ✅ allowed |
-| Create/deploy Pages project | ✅ allowed (this is its main job) |
+| List / upload Workers scripts | ✅ allowed |
+| Create/deploy Pages project | ✅ allowed |
+| Create a D1 database, run migrations | ✅ allowed |
+| `wrangler secret put` | ✅ allowed |
+| Attach a Workers custom domain, **account** endpoint | ✅ allowed — `PUT /accounts/{acc}/workers/domains` |
+| Attach a Workers route, **zone** endpoint | ❌ denied — `/zones/{id}/workers/routes` |
+| Read zone settings (`security_level`, bot management) | ❌ denied (`9109` / `10000`) |
 | **Read zone DNS records** | ❌ **denied** (`10000 Authentication error`) |
+| Create an R2 bucket | ❌ **R2 is not enabled on the account** (`10042`) |
 | `GET /user/tokens/verify` | ❌ denied — **expected, not a fault** |
+
+The two Workers rows are the ones that matter and they are easy to misread. The
+token CAN attach a custom domain — that is how `podcast-factory.safinaverse.com`
+was attached — but only through the ACCOUNT-level endpoint. `wrangler deploy`
+reaches for the ZONE-level one to reconcile its `routes` config, is denied, and
+exits non-zero **after the Worker has already uploaded successfully**. Read the
+`Uploaded podcast-listener` line rather than the exit code. Adding
+**Workers Routes: Edit** on the zone to the token would remove the noise; nothing
+is broken without it.
+
+**R2 is the one real blocker.** Bucket creation is refused with *"Please enable
+R2 through the Cloudflare Dashboard"*, which is a one-time account-level opt-in
+Asif has to click. Until then the Listener has no audio, no PDFs and no deck
+images — it stores their inventory and reports each as not uploaded yet.
 
 That last row confuses people. This is an **account-owned** token, so it cannot
 describe itself through the user endpoint. `cf-deploy.sh` printing
@@ -130,11 +152,16 @@ the token needs no DNS write permission for the Pages path.
 Workers are different products with different APIs, and a Worker with static
 assets is not a Pages project.
 
-The **Podcast Factory Listener** (`listener/`) is a Worker. It deploys with:
+The **Podcast Factory Listener** (`listener/`) is a Worker, and it is deployed —
+live since 2026-08-03. It deploys with:
 
 ```bash
+export CLOUDFLARE_API_TOKEN="$(security find-generic-password -s cloudflare_api_token -w | tr -d '[:space:]')"
+export CLOUDFLARE_ACCOUNT_ID=19cb05067ea7e704f94481df1685ec51
 cd listener && npm run deploy      # npm run build && wrangler deploy
 ```
+
+The token exports are not optional — see §7.
 
 Its custom domain is declared in `listener/wrangler.jsonc` rather than attached
 by a script:
@@ -148,25 +175,43 @@ That route only resolves on the account holding the zone, so a deploy from the
 wrong account **fails loudly instead of silently publishing somewhere wrong.**
 That is deliberate.
 
-### Before the first Worker deploy
+### What the first deploy actually did — 2026-08-03
 
-1. Fix the wrangler login (§7) — nothing else matters until then.
-2. Create the D1 database and put the real id in `wrangler.jsonc`; the committed
-   `database_id` is a placeholder that local Miniflare never reads:
+All of it with `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` exported (§7),
+which makes wrangler ignore its hotmail login for that command.
+
+1. `wrangler d1 create podcast-listener` → `ed6e00d2-ec8f-47bf-af5d-66ffc43e79c0`,
+   written into `wrangler.jsonc`. Local Miniflare never reads that id.
+2. `wrangler d1 migrations apply podcast-listener --remote` — four migrations.
+3. Secrets, generated or read and piped so no value was ever printed:
    ```bash
-   cd listener && npx wrangler d1 create podcast-listener
-   npx wrangler d1 migrations apply podcast-listener --remote
+   openssl rand -base64 32 | npx wrangler secret put BETTER_AUTH_SECRET
+   security find-generic-password -s safina_google_client_secret -w \
+     | tr -d '\n' | npx wrangler secret put GOOGLE_CLIENT_SECRET
    ```
-3. Upload the production secrets — never the local development values:
+   The production `BETTER_AUTH_SECRET` is a FRESH value, not the development one,
+   and is kept nowhere but Cloudflare — losing it costs one re-generate, which
+   signs everyone out and nothing worse. `GOOGLE_CLIENT_ID` is **not** a secret
+   and sits in `wrangler.jsonc` under `vars`; it travels in the browser's address
+   bar during sign-in.
+4. `npm run deploy` — Worker uploaded, then the routes reconcile failed on
+   permissions (§3). Not fatal.
+5. The custom domain, attached by hand through the endpoint the token CAN reach:
    ```bash
-   npx wrangler secret put BETTER_AUTH_SECRET      # openssl rand -base64 32, a FRESH one
-   npx wrangler secret put GOOGLE_CLIENT_SECRET    # the same Google client secret
+   curl -X PUT -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+     -H "Content-Type: application/json" \
+     "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/workers/domains" \
+     --data '{"environment":"production","hostname":"podcast-factory.safinaverse.com",
+              "service":"podcast-listener","zone_id":"2f20d3aca658682d767a232696362a50"}'
    ```
-   `GOOGLE_CLIENT_ID` is **not** a secret and already sits in `wrangler.jsonc`
-   under `vars`; it travels in the browser's address bar during sign-in.
-4. Confirm the Google OAuth client lists the production redirect URI —
-   `https://podcast-factory.safinaverse.com/api/auth/callback/google`. See
-   `_workspace/plan/listener-google-oauth.md`.
+   DNS and the certificate follow automatically. This is a one-time step;
+   later deploys keep the domain.
+6. Content: `python3 scripts/podcast/publish_to_listener.py <slug> --remote`.
+
+**Still outstanding:** confirm the Google OAuth client lists the production
+redirect URI `https://podcast-factory.safinaverse.com/api/auth/callback/google`,
+or sign-in on the live site cannot complete. See
+`_workspace/plan/listener-google-oauth.md`.
 
 ---
 
@@ -190,20 +235,54 @@ for s in cloudflare_api_token listener_better_auth_secret safina_google_client_s
     && echo "ok      $s" || echo "MISSING $s"
 done
 
-# Has the subdomain been claimed yet?
+# The Listener's address resolves to Cloudflare.
 dig +short podcast-factory.safinaverse.com
+```
+
+### Why `curl https://podcast-factory.safinaverse.com` returns 403
+
+Something on the zone — Bot Fight Mode, most likely — answers non-browser
+traffic with a managed challenge: `cf-mitigated: challenge`, an interstitial
+body, no Worker involved. A real browser passes it and never sees it. The token
+cannot read zone settings, so this was identified from the response headers
+rather than from configuration.
+
+It only matters for scripted checks. To run one, turn the workers.dev address on
+for the duration and off again — workers.dev is a different zone, so the
+challenge does not apply:
+
+```bash
+ACC=19cb05067ea7e704f94481df1685ec51
+curl -s -X POST -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  "https://api.cloudflare.com/client/v4/accounts/$ACC/workers/scripts/podcast-listener/subdomain" \
+  --data '{"enabled":true,"previews_enabled":false}'
+
+# ... probe https://podcast-listener.asifhussain60-19c.workers.dev ...
+# Allow ~30s: the address 404s until it propagates.
+
+# And OFF again. The site is invite-only; a second public address is a second
+# thing to remember about.
+curl -s -X POST ... --data '{"enabled":false,"previews_enabled":false}'
 ```
 
 ---
 
-## 7. Open hazard — wrangler is logged into the wrong account
+## 7. Standing hazard — wrangler is logged into the wrong account
 
-As of 2026-08-03, `wrangler whoami` reports **`asifhussain60@hotmail.com`**
-(account `844bc687926c910d5ad9d79c40ad1f2f`). Its stored OAuth credentials live
-at `~/Library/Preferences/.wrangler/config/default.toml`.
+`wrangler whoami` reports **`asifhussain60@hotmail.com`** (account
+`844bc687926c910d5ad9d79c40ad1f2f`). Its stored OAuth credentials live at
+`~/Library/Preferences/.wrangler/config/default.toml`.
 
-This matters because `wrangler` prefers its own stored login over the keychain
-token, so `npm run deploy` today would target the wrong account.
+Every remote command in this document therefore exports the token first.
+**Verified 2026-08-03:** with `CLOUDFLARE_API_TOKEN` set, `wrangler whoami`
+reports the gmail account and says *"The API Token is read from the
+CLOUDFLARE_API_TOKEN environment variable"* — the environment beats the stored
+login, so the token route is sufficient and nothing global has to change.
+
+The hazard is only that forgetting the export is silent: the command runs, it
+just runs somewhere else. `wrangler.jsonc` names the real custom domain, which is
+what turns a wrong-account deploy into a loud failure rather than a quiet one.
 
 Two ways to fix it, in order of preference:
 

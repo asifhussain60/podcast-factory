@@ -286,6 +286,10 @@ listener/.wrangler/
 listener/.dev.vars
 listener/worker-configuration.d.ts
 listener/*.tsbuildinfo
+# SQL emitted by publish_to_listener.py. It carries whole chapters of rendered
+# prose — the same text already tracked in content/**/book/book.md — so it is a
+# large regenerable duplicate, not a source.
+listener/.publish/
 _workspace/tmp/
 # Local-only audio/voice experiment sandbox (ElevenLabs auditions, prototype
 # scripts). Never a branch deliverable — keep on disk, out of git.

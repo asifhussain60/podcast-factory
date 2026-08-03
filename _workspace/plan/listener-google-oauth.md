@@ -86,23 +86,33 @@ with `wrangler secret put GOOGLE_CLIENT_SECRET`. `BETTER_AUTH_SECRET` needs the
 same treatment — generate a fresh one for production with
 `openssl rand -base64 32`, never reuse the local one.
 
-## The two Cloudflare problems, which are separate from the above
+## The two Cloudflare problems — both resolved 2026-08-03
 
-Neither blocks anything until you actually want the site online.
+The site is live at <https://podcast-factory.safinaverse.com>. Both are recorded
+in full in `infra/cloudflare/README.md`; in short:
 
-1. **Wrangler is logged in to the wrong account.** It currently holds
-   `asifhussain60@hotmail.com`, which your own deploy playbook forbids. The
-   `safinaverse.com` zone lives on the gmail account. Deploying would otherwise
-   publish the Worker to the wrong account, where the domain could never attach.
-   `wrangler.jsonc` names the real custom domain precisely so a wrong-account
-   deploy fails loudly instead of half-working.
+1. **Wrangler is still logged in to `asifhussain60@hotmail.com`**, and that was
+   left alone rather than changed globally. Exporting `CLOUDFLARE_API_TOKEN`
+   makes wrangler use the gmail account for that command only — verified, it
+   prints "The API Token is read from the CLOUDFLARE_API_TOKEN environment
+   variable". Nothing on the machine had to be re-authenticated.
 
-2. **`cf-deploy.sh` cannot deploy this app.** That script is Cloudflare Pages
-   from end to end; the Listener is a Worker with static assets, which is a
-   different product and a different API. It needs `wrangler deploy`. Also worth
-   knowing: the gmail token in your keychain cannot read zone DNS records, and
-   whether it can attach a *Workers* custom domain is untested — it may need a
-   scope only you can add.
+2. **`cf-deploy.sh` still cannot deploy this app** — it is Pages, this is a
+   Worker. `npm run deploy` does it. The token turned out to be able to attach a
+   Workers custom domain after all, but only through the ACCOUNT-level
+   `workers/domains` endpoint; wrangler reaches for the zone-level
+   `workers/routes` and is denied, so the deploy exits non-zero after a
+   successful upload. The domain is attached and later deploys keep it.
+
+**What is NOT resolved: R2 is not enabled on the account.** Creating the media
+bucket is refused with "Please enable R2 through the Cloudflare Dashboard"
+(code 10042) — a one-time opt-in only Asif can click. Until then the site has no
+audio, no PDFs and no deck images; it knows they exist and says they are not
+uploaded yet.
+
+**And confirm the production redirect URI is registered on the OAuth client** —
+`https://podcast-factory.safinaverse.com/api/auth/callback/google`. Sign-in on
+the live site cannot complete without it.
 
 ## Adding the next Safina app later
 

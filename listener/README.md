@@ -36,6 +36,13 @@ npm run db:migrate # applies migrations to the local D1
 npm run dev        # real workerd via @cloudflare/vite-plugin, on :5273
 npm run check      # typecheck + unit tests + build
 npm run security   # runtime gate checks; needs `npm run dev` in another shell
+npm run deploy     # build + wrangler deploy — see "Deploying" below
+```
+
+Content is pushed in from the repo root, not from here:
+
+```bash
+python3 scripts/podcast/publish_to_listener.py <slug> [--remote] [--dry-run]
 ```
 
 `npm run fonts -- --check` verifies the committed faces are current without
@@ -54,8 +61,47 @@ writing; it is the gate that catches a stale copy.
 | `app/server/*.server.ts` | Server-only. The suffix is enforced by the build |
 | `app/middleware/` | The four gates. See "Access" below |
 | `migrations/` | D1 migrations |
+| `app/server/catalog.server.ts` | What a unit CONTAINS. Decides nothing about access |
+| `app/styles/reader.css` | The reading column, styled by the renderer's own class names |
 | `scripts/session-cookie.mjs` | Mints a local dev session — no Google needed |
 | `scripts/security-smoke.mjs` | The runtime gate checks |
+| `scripts/render-chapters.mjs` | Bridge to plain-dashboard's `renderMarkdown` |
+
+## Content
+
+`scripts/podcast/publish_to_listener.py` reads one book out of
+`content/<Bucket>/<slug>/` and writes its chapters, episodes and media inventory
+into D1. It is the only writer of those tables.
+
+**It never names `content_unit.status` or `open_to_all`.** Those two columns
+decide whether a unit is readable and whether it is open to everyone; they belong
+to the admin screens. When the publish step has to create a `content_unit` row it
+omits both and lets the schema defaults apply, so a newly published book is a
+draft nobody can see until a human says otherwise. `test/catalog.test.ts` greps
+for exactly that.
+
+**Chapter prose is rendered at publish time** by `renderMarkdown` from
+`plan-dashboard/src/lib/reader/markdown.ts` — the same function behind the
+printed PDF, so the page and the print edition cannot disagree about a paragraph.
+That coupling is pinned by a golden fixture in `test/fixtures/`, which also
+asserts that every class the renderer emits has a rule in `reader.css`.
+
+**Chapters are keyed by `anchor_key`**, the Book Composer's own heading
+normalisation, so a chapter keeps its identity across a re-compose that renumbers
+it.
+
+**Absence is the normal state.** Most books have no audio, most have no deck,
+some have no PDF. Every list is allowed to be empty and every media reference is
+nullable; a `media_asset` row with `uploaded_at` NULL means the file is on Asif's
+disk but not in R2, and the site says so rather than offering a link that 404s.
+
+**Episodes are not chapters.** *The Master and the Disciple* is nine chapters and
+twenty episodes, drawn along different lines from the same source. The book page
+shows both lists side by side under one title and says as much. The
+`episode_chapter` bridge is populated ONLY from a hand-written
+`_system/listener-episode-chapters.json`; nothing infers it, because a chapter
+contract's `source_chapter_ref` points into a third segmentation again and a
+wrong answer on a religious text is worse than none.
 
 ## Access
 
@@ -113,23 +159,52 @@ Tailwind utilities come from `@theme inline` mapping onto those runtime
 variables, so `bg-l-surface` follows the active theme rather than baking a
 colour in at build time.
 
+## Deploying
+
+Live at **<https://podcast-factory.safinaverse.com>** since 2026-08-03, on the
+`asifhussain60@gmail.com` Cloudflare account. `cf-deploy.sh` CANNOT deploy this
+app — that script is Cloudflare Pages end to end and this is a Worker.
+
+**Every remote command needs the account token in the environment**, because
+`wrangler` on this machine is logged in as `asifhussain60@hotmail.com` and would
+otherwise target the wrong account:
+
+```bash
+export CLOUDFLARE_API_TOKEN="$(security find-generic-password -s cloudflare_api_token -w | tr -d '[:space:]')"
+export CLOUDFLARE_ACCOUNT_ID=19cb05067ea7e704f94481df1685ec51
+npm run deploy
+```
+
+**`npm run deploy` exits non-zero even when it worked.** The Worker uploads
+first and succeeds; wrangler then reads `/zones/{id}/workers/routes` to reconcile
+the custom domain, and the account token is denied on that one endpoint. The
+domain is already attached — it was attached through the ACCOUNT-level
+`workers/domains` endpoint, which the same token is allowed to call. Check the
+`Uploaded podcast-listener` line, not the exit code. See
+`infra/cloudflare/README.md` §7.
+
+**Probing production from a script does not work.** Bot Fight Mode on the zone
+answers non-browser requests with a managed challenge, so `curl` gets a 403. To
+run a scripted check, turn the workers.dev address on for the duration and off
+again — see the comment on `workers_dev` in `wrangler.jsonc`.
+
 ## Open
 
 - **The mark is not chosen.** All three are built; `DEFAULT_MARK` in
   `app/components/brand/Logo.tsx` is the one line that changes. `/brand` renders
   them side by side in every theme, at full size and at favicon size. Delete
   that route once the choice is made.
-- **No Google OAuth client yet.** Everything runs without one; only real
-  sign-in cannot complete. `scripts/session-cookie.mjs` mints a valid local
-  session so the gates are all provable meanwhile.
-- **Wrangler is logged in to the wrong Cloudflare account.** It holds
-  `asifhussain60@hotmail.com`; the `safinaverse.com` zone lives on the gmail
-  account (`19cb05067ea7e704f94481df1685ec51`). `wrangler.jsonc` names the real
-  custom domain, so `npm run deploy` fails loudly rather than publishing
-  somewhere wrong. Note also that `cf-deploy.sh` CANNOT deploy this app — it is
-  Pages-only, and this is a Worker.
-- **`database_id` is a placeholder.** Local dev uses Miniflare's D1 and never
-  reads it. The real one comes from `wrangler d1 create podcast-listener` run
-  against the gmail account at deploy time.
-- **The R2 binding is still commented out** — Wrangler fails the build on a
-  binding whose resource does not exist, so it is uncommented in phase 3.
+- **R2 is not enabled on the account**, so no media has been uploaded: the
+  bucket create fails with "Please enable R2 through the Cloudflare Dashboard"
+  (code 10042), and wrangler refuses to deploy a binding whose bucket does not
+  exist, which is why `r2_buckets` is still commented out in `wrangler.jsonc`.
+  Everything textual works without it. Once R2 is on: create the bucket,
+  uncomment the binding, upload, and stamp `uploaded_at` on the `media_asset`
+  rows — the UI turns each piece on by itself.
+- **Notes and highlights are not built.** The design brief's "notes without a
+  home" problem — a note anchored to a sentence a re-compose deleted — needs its
+  own data model and is deliberately a separate phase.
+- **Confirm the production redirect URI** is registered on the Google OAuth
+  client: `https://podcast-factory.safinaverse.com/api/auth/callback/google`.
+  Sign-in on the live site fails without it. See
+  `_workspace/plan/listener-google-oauth.md`.

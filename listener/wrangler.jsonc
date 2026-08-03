@@ -13,22 +13,28 @@
     "run_worker_first": ["/api/*", "/media/*"]
   },
 
-  // `database_id` is a PLACEHOLDER. Local dev uses Miniflare's own D1 and never
-  // reads it; the real id is filled in at deploy time by `wrangler d1 create
-  // podcast-listener`, which must run against the gmail account
-  // (19cb05067ea7e704f94481df1685ec51) — wrangler is currently logged in as
-  // hotmail, so creating it now would provision the database on the wrong
-  // account. See README "Open".
+  // The real database, created 2026-08-03 on the gmail account
+  // (19cb05067ea7e704f94481df1685ec51). Local dev ignores this id entirely and
+  // uses Miniflare's own D1, so a wrong value here fails at deploy rather than
+  // quietly diverging in development. `wrangler` on this machine is logged in as
+  // hotmail, so every remote command must run with CLOUDFLARE_API_TOKEN set from
+  // the keychain — see infra/cloudflare/README.md §7.
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "podcast-listener",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "ed6e00d2-ec8f-47bf-af5d-66ffc43e79c0",
       "migrations_dir": "./migrations"
     }
   ],
 
-  // Phase 3 (catalog) — create with: wrangler r2 bucket create podcast-listener-media
+  // Media — audio, book PDFs and deck page images. Commented out until R2 is
+  // enabled on the account (Cloudflare rejects the bucket create with
+  // "Please enable R2 through the Cloudflare Dashboard", code 10042, and
+  // Wrangler refuses to deploy a binding whose bucket does not exist).
+  // Everything textual works without it: `media_asset` rows simply have no
+  // object behind them and the UI reports the book as not having that piece.
+  //   wrangler r2 bucket create podcast-listener-media
   // "r2_buckets": [
   //   { "binding": "MEDIA", "bucket_name": "podcast-listener-media" }
   // ],
@@ -52,11 +58,21 @@
     // and .dev.vars locally.
   },
 
-  // Deploying is deliberately blocked until the account question is settled:
-  // this route only resolves on the gmail account that holds the safinaverse.com
-  // zone, so `wrangler deploy` while logged in as hotmail fails loudly rather
-  // than silently publishing to the wrong place.
+  // This route only resolves on the gmail account that holds the safinaverse.com
+  // zone, so a deploy from the wrong account fails loudly rather than silently
+  // publishing somewhere wrong. The domain is already attached (2026-08-03);
+  // wrangler still cannot reconcile it, because it reads `/zones/{id}/workers/
+  // routes` and the account token is denied there — the ACCOUNT-level
+  // `workers/domains` endpoint, which is what actually attached it, is allowed.
+  // So `wrangler deploy` uploads the Worker and then exits non-zero on that one
+  // read. See infra/cloudflare/README.md §7.
   "routes": [{ "pattern": "podcast-factory.safinaverse.com", "custom_domain": true }],
+  // No second public address. The site is invite-only and the custom domain is
+  // the only way in. Bot Fight Mode on the zone challenges non-browser traffic,
+  // so probing production from a script needs workers.dev turned on for the
+  // duration — do that through the API, not by flipping this flag:
+  //   POST /accounts/{acc}/workers/scripts/podcast-listener/subdomain
+  //   {"enabled":true}   ... and {"enabled":false} again afterwards.
   "workers_dev": false,
 
   "observability": { "enabled": true },

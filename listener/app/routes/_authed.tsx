@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 
 import type { Route } from "./+types/_authed";
+import { PlayerProvider } from "~/components/player/Player";
 import { requireInvited } from "~/middleware/authed";
 
 /**
@@ -13,6 +14,18 @@ import { requireInvited } from "~/middleware/authed";
  */
 export const middleware: Route.MiddlewareFunction[] = [requireInvited];
 
+/**
+ * The player lives HERE and nowhere else.
+ *
+ * React Router keeps a layout mounted across client navigations, so the single
+ * <audio> element inside PlayerProvider survives moving from an episode to a
+ * chapter to the library. Put it in a page instead and the sound stops the
+ * moment the listener follows a link — which is most of what a listener does.
+ */
 export default function AuthedLayout() {
-  return <Outlet />;
+  return (
+    <PlayerProvider>
+      <Outlet />
+    </PlayerProvider>
+  );
 }

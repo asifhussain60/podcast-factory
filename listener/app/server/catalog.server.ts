@@ -1,0 +1,307 @@
+/**
+ * What a unit CONTAINS: chapters, episodes, media.
+ *
+ * Deliberately separate from access.server.ts, which decides who may see what.
+ * Nothing in this file asks that question or is capable of answering it — every
+ * caller has already been through `requireUnitAccess`, and the one place a media
+ * key is turned back into a permission check goes through `canRead` over there.
+ * Keeping the entitlement rule in exactly one module is what makes it auditable.
+ */
+
+import { readingMinutes } from "~/lib/reading";
+
+export interface ChapterSummary {
+  anchorKey: string;
+  idx: number;
+  title: string;
+  wordCount: number;
+}
+
+export interface Chapter extends ChapterSummary {
+  html: string;
+}
+
+export interface Episode {
+  number: number;
+  title: string;
+  blurb: string | null;
+  style: string | null;
+  /** NULL until the recording exists AND has been uploaded. See `hasAudio`. */
+  audioKey: string | null;
+  durationS: number | null;
+  /** False while the file exists on disk but is not in R2 yet. */
+  hasAudio: boolean;
+  /** Chapters this episode covers — empty unless a human recorded the mapping. */
+  chapters: string[];
+}
+
+export interface UnitDetail {
+  titleArabic: string | null;
+  /** Rendered at publish time by the same function as the chapters. */
+  blurbHtml: string | null;
+  editionNote: string | null;
+  coverKey: string | null;
+  pdfKey: string | null;
+  pdfBytes: number | null;
+  /** False while the file exists on disk but is not in R2. Never link to it. */
+  pdfAvailable: boolean;
+  publishedAt: string;
+}
+
+export interface DeckPage {
+  key: string;
+  available: boolean;
+}
+
+export async function detailOf(db: D1Database, slug: string): Promise<UnitDetail | null> {
+  const row = await db
+    .prepare(
+      `SELECT d.title_arabic, d.blurb_html, d.edition_note, d.cover_key, d.pdf_key, d.published_at,
+              (SELECT m.bytes       FROM media_asset m WHERE m.key = d.pdf_key) AS pdf_bytes,
+              (SELECT m.uploaded_at FROM media_asset m WHERE m.key = d.pdf_key) AS pdf_uploaded_at
+       FROM unit_detail d WHERE d.slug = ? LIMIT 1`,
+    )
+    .bind(slug)
+    .first<{
+      title_arabic: string | null;
+      blurb_html: string | null;
+      edition_note: string | null;
+      cover_key: string | null;
+      pdf_key: string | null;
+      published_at: string;
+      pdf_bytes: number | null;
+      pdf_uploaded_at: string | null;
+    }>();
+
+  if (row === null) return null;
+
+  return {
+    titleArabic: row.title_arabic,
+    blurbHtml: row.blurb_html,
+    editionNote: row.edition_note,
+    coverKey: row.cover_key,
+    pdfKey: row.pdf_key,
+    pdfBytes: row.pdf_bytes,
+    pdfAvailable: row.pdf_uploaded_at !== null,
+    publishedAt: row.published_at,
+  };
+}
+
+/** The table of contents. Never carries `html` — a book's prose is megabytes. */
+export async function chaptersOf(db: D1Database, slug: string): Promise<ChapterSummary[]> {
+  const { results } = await db
+    .prepare(
+      `SELECT anchor_key, idx, title, word_count FROM chapter
+       WHERE slug = ? ORDER BY idx`,
+    )
+    .bind(slug)
+    .all<{ anchor_key: string; idx: number; title: string; word_count: number }>();
+
+  return results.map((r) => ({
+    anchorKey: r.anchor_key,
+    idx: r.idx,
+    title: r.title,
+    wordCount: r.word_count,
+  }));
+}
+
+export async function chapterOf(
+  db: D1Database,
+  slug: string,
+  anchorKey: string,
+): Promise<Chapter | null> {
+  const row = await db
+    .prepare(
+      `SELECT anchor_key, idx, title, html, word_count FROM chapter
+       WHERE slug = ?1 AND anchor_key = ?2 LIMIT 1`,
+    )
+    .bind(slug, anchorKey)
+    .first<{ anchor_key: string; idx: number; title: string; html: string; word_count: number }>();
+
+  if (row === null) return null;
+
+  return {
+    anchorKey: row.anchor_key,
+    idx: row.idx,
+    title: row.title,
+    html: row.html,
+    wordCount: row.word_count,
+  };
+}
+
+/**
+ * Every episode, including the ones with no recording.
+ *
+ * An episode without audio is SHOWN, not hidden. Most of this library is in that
+ * state, and hiding them would misreport the shape of the book — a six-episode
+ * work would look like a two-episode one.
+ */
+export async function episodesOf(db: D1Database, slug: string): Promise<Episode[]> {
+  const { results } = await db
+    .prepare(
+      `SELECT e.number, e.title, e.blurb, e.style, e.audio_key, e.duration_s,
+              (SELECT m.uploaded_at FROM media_asset m WHERE m.key = e.audio_key) AS uploaded_at
+       FROM episode e WHERE e.slug = ? ORDER BY e.number`,
+    )
+    .bind(slug)
+    .all<{
+      number: number;
+      title: string;
+      blurb: string | null;
+      style: string | null;
+      audio_key: string | null;
+      duration_s: number | null;
+      uploaded_at: string | null;
+    }>();
+
+  const bridge = await db
+    .prepare(`SELECT number, anchor_key FROM episode_chapter WHERE slug = ?`)
+    .bind(slug)
+    .all<{ number: number; anchor_key: string }>();
+
+  const covered = new Map<number, string[]>();
+  for (const row of bridge.results) {
+    covered.set(row.number, [...(covered.get(row.number) ?? []), row.anchor_key]);
+  }
+
+  return results.map((r) => ({
+    number: r.number,
+    title: r.title,
+    blurb: r.blurb,
+    style: r.style,
+    audioKey: r.audio_key,
+    durationS: r.duration_s,
+    hasAudio: r.audio_key !== null && r.uploaded_at !== null,
+    chapters: covered.get(r.number) ?? [],
+  }));
+}
+
+export async function deckPagesOf(db: D1Database, slug: string): Promise<DeckPage[]> {
+  const { results } = await db
+    .prepare(
+      `SELECT key, uploaded_at FROM media_asset
+       WHERE slug = ? AND kind = 'deck-page' ORDER BY key`,
+    )
+    .bind(slug)
+    .all<{ key: string; uploaded_at: string | null }>();
+
+  return results.map((r) => ({ key: r.key, available: r.uploaded_at !== null }));
+}
+
+export interface LibraryCard {
+  chapters: number;
+  minutes: number;
+  episodes: number;
+  recorded: number;
+  hasPdf: boolean;
+  deckPages: number;
+  titleArabic: string | null;
+}
+
+/**
+ * Counts for the library grid, for a list of slugs the caller has ALREADY
+ * resolved through `visibleUnits`.
+ *
+ * The slugs are bound, not interpolated, and the query is scoped to exactly the
+ * ones passed. Counting every unit and filtering in JavaScript would be simpler
+ * and would leak the shape of books the viewer cannot see — how many chapters,
+ * how many recordings — to anyone who reads a network response.
+ */
+export async function libraryCards(
+  db: D1Database,
+  slugs: string[],
+): Promise<Map<string, LibraryCard>> {
+  const cards = new Map<string, LibraryCard>();
+  if (slugs.length === 0) return cards;
+
+  const placeholders = slugs.map((_, i) => `?${i + 1}`).join(", ");
+
+  const { results } = await db
+    .prepare(
+      `SELECT u.slug,
+              d.title_arabic,
+              -- Only a PDF that is actually IN R2 counts as a PDF. The row
+              -- exists as soon as the file is on the author's disk, and a badge
+              -- promising a download that 404s is worse than no badge.
+              (SELECT count(*) FROM media_asset m
+                WHERE m.key = d.pdf_key AND m.uploaded_at IS NOT NULL) AS pdf_ready,
+              (SELECT count(*)          FROM chapter c WHERE c.slug = u.slug) AS chapters,
+              (SELECT coalesce(sum(c.word_count), 0) FROM chapter c WHERE c.slug = u.slug) AS words,
+              (SELECT count(*)          FROM episode e WHERE e.slug = u.slug) AS episodes,
+              (SELECT count(*)          FROM episode e
+                 JOIN media_asset m ON m.key = e.audio_key
+                WHERE e.slug = u.slug AND m.uploaded_at IS NOT NULL) AS recorded,
+              (SELECT count(*)          FROM media_asset m
+                WHERE m.slug = u.slug AND m.kind = 'deck-page') AS deck_pages
+       FROM content_unit u
+       LEFT JOIN unit_detail d ON d.slug = u.slug
+       WHERE u.slug IN (${placeholders})`,
+    )
+    .bind(...slugs)
+    .all<{
+      slug: string;
+      title_arabic: string | null;
+      pdf_ready: number;
+      chapters: number;
+      words: number;
+      episodes: number;
+      recorded: number;
+      deck_pages: number;
+    }>();
+
+  for (const r of results) {
+    cards.set(r.slug, {
+      chapters: r.chapters,
+      minutes: r.words > 0 ? readingMinutes(r.words) : 0,
+      episodes: r.episodes,
+      recorded: r.recorded,
+      hasPdf: r.pdf_ready > 0,
+      deckPages: r.deck_pages,
+      titleArabic: r.title_arabic,
+    });
+  }
+
+  return cards;
+}
+
+export interface MediaRow {
+  key: string;
+  slug: string;
+  contentType: string;
+  bytes: number;
+  uploadedAt: string | null;
+}
+
+/**
+ * Look a media key up by its key alone.
+ *
+ * The row carries its own `slug`, and the caller checks THAT against the
+ * viewer's grants rather than trusting the slug in the URL. The two are the same
+ * today because the key begins with the slug, but a key format that ever stopped
+ * being self-describing would silently turn a URL segment into an authorisation
+ * claim, which is the shape of every path-traversal bug.
+ */
+export async function mediaByKey(db: D1Database, key: string): Promise<MediaRow | null> {
+  const row = await db
+    .prepare(
+      `SELECT key, slug, content_type, bytes, uploaded_at FROM media_asset WHERE key = ? LIMIT 1`,
+    )
+    .bind(key)
+    .first<{
+      key: string;
+      slug: string;
+      content_type: string;
+      bytes: number;
+      uploaded_at: string | null;
+    }>();
+
+  if (row === null) return null;
+
+  return {
+    key: row.key,
+    slug: row.slug,
+    contentType: row.content_type,
+    bytes: row.bytes,
+    uploadedAt: row.uploaded_at,
+  };
+}

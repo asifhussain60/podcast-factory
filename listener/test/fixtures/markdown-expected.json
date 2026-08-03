@@ -1,0 +1,8 @@
+{
+  "inline arabic inside an english sentence": "<p>The title, <em>Ayyuha al-Walad</em> (<span class=\"ar-inline\" dir=\"rtl\" lang=\"ar\">أَيُّهَا الْوَلَد</span>) — &quot;O son&quot; — is how he addresses him.</p>",
+  "a standalone arabic quotation followed by its english": "<p>For the Messenger of Allah said:</p>\n<p class=\"ar-block\"><span class=\"ar-inline\" dir=\"rtl\" lang=\"ar\">اَللَّهُمَّ أَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ</span></p>\n<p>&quot;O Allah, I seek refuge in You from knowledge that does not benefit.&quot;</p>",
+  "a numbered chapter heading, which must not become part of the key": "<h2 id=\"3-the-hours-before-dawn\">3. The Hours Before Dawn</h2>\n<p>A paragraph.</p>",
+  "an ordered and an unordered list": "<ul>\n<li>first</li>\n<li>second</li>\n</ul>\n<ol>\n<li value=\"1\">one</li>\n<li value=\"2\">two</li>\n</ol>",
+  "emphasis, strong and a link": "<p>He wrote the <em>Ihya</em> and the <strong>Kimiya</strong>, see <a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">the note</a>.</p>",
+  "a blockquote carrying arabic and its translation": "<blockquote class=\"quran\"><p class=\"ar\" dir=\"rtl\" lang=\"ar\"><span class=\"ar-inline\" dir=\"rtl\" lang=\"ar\">قَالَ رَسُولُ اللَّهِ</span></p><p class=\"tr\">The Messenger of Allah said.</p></blockquote>"
+}

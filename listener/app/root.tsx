@@ -2,6 +2,7 @@ import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration }
 
 import type { Route } from "./+types/root";
 import { withSession } from "~/middleware/session";
+import { READING_INIT_SCRIPT } from "~/lib/reading";
 import { THEME_INIT_SCRIPT } from "~/lib/theme";
 import "./app.css";
 
@@ -50,8 +51,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <Meta />
         <Links />
-        {/* Must run before first paint — see lib/theme.ts. */}
+        {/* Both must run before first paint. The theme one prevents a light
+            flash; the reading one prevents a stored 23px setting rendering at
+            19px and jumping mid-paragraph on hydration, which loses the
+            reader's place. See lib/theme.ts and lib/reading.ts. */}
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: READING_INIT_SCRIPT }} />
       </head>
       <body>
         <a className="skip-link" href="#main">
