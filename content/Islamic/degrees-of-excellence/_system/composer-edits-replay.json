@@ -1,14 +1,9 @@
 {
   "schema": "podcast.composer-edits-replay/v1",
-  "applied": 9,
+  "applied": 8,
   "conflicts": 0,
   "orphaned": 0,
   "chapters": [
-    {
-      "chapter_key": "the question of leadership",
-      "title": "## The Question of Leadership",
-      "conflict": false
-    },
     {
       "chapter_key": "the pole and foundation of religion",
       "title": "## 1. The Pole and Foundation of Religion",

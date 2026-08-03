@@ -1,12 +1,12 @@
 {
   "cited": 23,
-  "inserted": 22,
+  "inserted": 21,
   "already": 6,
   "uncovered": [],
   "inserted_detail": [
     {
       "ref": "21:98",
-      "line": 203,
+      "line": 142,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 11,
@@ -17,7 +17,7 @@
     },
     {
       "ref": "2:24",
-      "line": 207,
+      "line": 146,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 14,
@@ -28,7 +28,7 @@
     },
     {
       "ref": "14:24-26",
-      "line": 213,
+      "line": 152,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 41,
@@ -39,7 +39,7 @@
     },
     {
       "ref": "16:68-69",
-      "line": 223,
+      "line": 162,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 39,
@@ -50,7 +50,7 @@
     },
     {
       "ref": "8:22",
-      "line": 231,
+      "line": 170,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 10,
@@ -61,7 +61,7 @@
     },
     {
       "ref": "7:179",
-      "line": 235,
+      "line": 174,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 33,
@@ -72,7 +72,7 @@
     },
     {
       "ref": "59:7",
-      "line": 241,
+      "line": 180,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 40,
@@ -83,7 +83,7 @@
     },
     {
       "ref": "35:45",
-      "line": 289,
+      "line": 228,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 25,
@@ -94,7 +94,7 @@
     },
     {
       "ref": "6:149",
-      "line": 330,
+      "line": 269,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 9,
@@ -105,7 +105,7 @@
     },
     {
       "ref": "2:30",
-      "line": 411,
+      "line": 350,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 30,
@@ -116,7 +116,7 @@
     },
     {
       "ref": "17:23",
-      "line": 415,
+      "line": 354,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 26,
@@ -127,7 +127,7 @@
     },
     {
       "ref": "17:77",
-      "line": 423,
+      "line": 362,
       "via": "cited",
       "reason": "ocr-stream",
       "ayah_words": 12,
@@ -138,7 +138,7 @@
     },
     {
       "ref": "33:62",
-      "line": 427,
+      "line": 366,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 12,
@@ -149,7 +149,7 @@
     },
     {
       "ref": "28:68",
-      "line": 441,
+      "line": 380,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 16,
@@ -160,7 +160,7 @@
     },
     {
       "ref": "4:95-96",
-      "line": 447,
+      "line": 386,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 45,
@@ -171,7 +171,7 @@
     },
     {
       "ref": "39:9",
-      "line": 451,
+      "line": 390,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 26,
@@ -182,7 +182,7 @@
     },
     {
       "ref": "58:11",
-      "line": 455,
+      "line": 394,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 32,
@@ -193,7 +193,7 @@
     },
     {
       "ref": "49:13",
-      "line": 459,
+      "line": 398,
       "via": "cited",
       "reason": "ocr-span",
       "ayah_words": 22,
@@ -203,20 +203,8 @@
       "whole_ayah": false
     },
     {
-      "ref": "2:124",
-      "line": 31,
-      "via": "uncited-agreed",
-      "english_similarity": 0.5,
-      "reason": "ocr-span",
-      "ayah_words": 22,
-      "quoted_words": 12,
-      "aligned_words": 10,
-      "precision": 0.909,
-      "whole_ayah": false
-    },
-    {
       "ref": "2:44",
-      "line": 384,
+      "line": 323,
       "via": "uncited-agreed",
       "english_similarity": 0.6,
       "reason": "ocr-span",
@@ -228,7 +216,7 @@
     },
     {
       "ref": "3:110",
-      "line": 388,
+      "line": 327,
       "via": "uncited-agreed",
       "english_similarity": 0.5,
       "reason": "ocr-span",
@@ -240,7 +228,7 @@
     },
     {
       "ref": "68:43",
-      "line": 539,
+      "line": 478,
       "via": "uncited-agreed",
       "english_similarity": 0.6,
       "reason": "ocr-span",
@@ -252,12 +240,12 @@
     }
   ],
   "invalid_reference": [],
-  "uncited_inserted": 4,
+  "uncited_inserted": 3,
   "spans_in_scan": 44,
   "scan_arabic_words": 21340,
   "uncited_review": [
     {
-      "line": 23,
+      "line": 17,
       "passage": "And remember in the Scripture, Ismail was indeed faithful in fulfilling his promise while he was a messenger, a prophet.",
       "proposed_ref": "19:54",
       "english_similarity": 0.333,
@@ -265,23 +253,7 @@
       "agreed": false
     },
     {
-      "line": 31,
-      "passage": "And remember when His Lord tried Abraham with His commands and he fulfilled them, He said: I am appointing you an imam for all humanity.",
-      "proposed_ref": "2:124",
-      "english_similarity": 0.5,
-      "corroborated_by_scan": true,
-      "agreed": true
-    },
-    {
-      "line": 78,
-      "passage": "And remember in the Scripture, Ismail was indeed faithful in fulfilling his promise while he was a messenger, a prophet.",
-      "proposed_ref": "19:54",
-      "english_similarity": 0.333,
-      "corroborated_by_scan": false,
-      "agreed": false
-    },
-    {
-      "line": 78,
+      "line": 17,
       "passage": "And when His Lord tried Abraham with His commands and he fulfilled them, He said: I am appointing you an imam for all humanity.",
       "proposed_ref": "2:124",
       "english_similarity": 0.571,
@@ -289,7 +261,7 @@
       "agreed": true
     },
     {
-      "line": 80,
+      "line": 19,
       "passage": " He called Muhammad and the other messengers ",
       "proposed_ref": "35:4",
       "english_similarity": 0.5,
@@ -297,7 +269,7 @@
       "agreed": false
     },
     {
-      "line": 100,
+      "line": 39,
       "passage": " in every cycle, while certain followers of Islam have given the title ",
       "proposed_ref": "22:44",
       "english_similarity": 0.375,
@@ -305,7 +277,7 @@
       "agreed": false
     },
     {
-      "line": 108,
+      "line": 47,
       "passage": "My companions are like the stars; whomsoever you emulate, you will be guided.",
       "proposed_ref": "6:71",
       "english_similarity": 0.5,
@@ -313,7 +285,7 @@
       "agreed": false
     },
     {
-      "line": 146,
+      "line": 85,
       "passage": "My witness is every stone and every piece of clay.",
       "proposed_ref": "50:21",
       "english_similarity": 0.4,
@@ -321,7 +293,7 @@
       "agreed": false
     },
     {
-      "line": 328,
+      "line": 267,
       "passage": "We found no one to guide us from falsehood to the truth.",
       "proposed_ref": "86:13",
       "english_similarity": 0.5,
@@ -329,7 +301,7 @@
       "agreed": false
     },
     {
-      "line": 346,
+      "line": 285,
       "passage": "The imam is the guarantor for those who follow him.",
       "proposed_ref": "16:100",
       "english_similarity": 0.5,
@@ -337,7 +309,7 @@
       "agreed": false
     },
     {
-      "line": 354,
+      "line": 293,
       "passage": "If only when they wronged themselves, they had come to you seeking forgiveness of God and the Prophet, they would have surely found God Most Forgiving and Merci",
       "proposed_ref": "4:64",
       "english_similarity": 0.545,
@@ -345,7 +317,7 @@
       "agreed": false
     },
     {
-      "line": 362,
+      "line": 301,
       "passage": "Take alms (sadaqa) from their wealth, purify them and cleanse them through it and pray for them. Your prayers will indeed bring them tranquillity.",
       "proposed_ref": "9:103",
       "english_similarity": 0.364,
@@ -353,7 +325,7 @@
       "agreed": false
     },
     {
-      "line": 368,
+      "line": 307,
       "passage": "...purify them and pray for them; your prayers will indeed bring them tranquillity.",
       "proposed_ref": "2:125",
       "english_similarity": 0.4,
@@ -361,7 +333,7 @@
       "agreed": false
     },
     {
-      "line": 384,
+      "line": 323,
       "passage": "Do you command people to do good and forget it yourselves?",
       "proposed_ref": "2:44",
       "english_similarity": 0.6,
@@ -369,7 +341,7 @@
       "agreed": true
     },
     {
-      "line": 388,
+      "line": 327,
       "passage": "You are the best community (umma) that has been raised for the people. You enjoin good conduct and forbid evil.",
       "proposed_ref": "3:110",
       "english_similarity": 0.5,
@@ -377,7 +349,7 @@
       "agreed": true
     },
     {
-      "line": 394,
+      "line": 333,
       "passage": "According to Abu Hanifa, this man should be executed,",
       "proposed_ref": "65:7",
       "english_similarity": 0.4,
@@ -385,7 +357,7 @@
       "agreed": false
     },
     {
-      "line": 394,
+      "line": 333,
       "passage": "According to Malik, this woman should be divorced,",
       "proposed_ref": "65:6",
       "english_similarity": 0.75,
@@ -393,7 +365,7 @@
       "agreed": false
     },
     {
-      "line": 394,
+      "line": 333,
       "passage": "According to Ahmad b. Hanbal, the woman is not forbidden to him.",
       "proposed_ref": "6:138",
       "english_similarity": 0.5,
@@ -401,7 +373,7 @@
       "agreed": false
     },
     {
-      "line": 396,
+      "line": 335,
       "passage": "A sinner has no legal guardianship; if he had a daughter, he would have no right to give her in marriage. That right would pass to the judge, not to him.",
       "proposed_ref": "33:37",
       "english_similarity": 0.4,
@@ -409,7 +381,7 @@
       "agreed": false
     },
     {
-      "line": 419,
+      "line": 358,
       "passage": "My community will experience exactly what happened among the Banu Israil.",
       "proposed_ref": "16:36",
       "english_similarity": 0.333,
@@ -417,7 +389,7 @@
       "agreed": false
     },
     {
-      "line": 463,
+      "line": 402,
       "passage": "Whoever has not mastered the law of buying and selling, how can he eat only what is lawful? And whoever does not eat only what is lawful has no asceticism.",
       "proposed_ref": "2:275",
       "english_similarity": 0.444,
@@ -425,7 +397,7 @@
       "agreed": false
     },
     {
-      "line": 465,
+      "line": 404,
       "passage": "I am the most eloquent of the Arabs, without boasting.",
       "proposed_ref": "19:88",
       "english_similarity": 0.4,
@@ -433,7 +405,7 @@
       "agreed": false
     },
     {
-      "line": 467,
+      "line": 406,
       "passage": "If a cushion were folded for me to sit upon, I would judge the followers of the Torah by the Torah, the followers of the Bible by the Bible, and the followers o",
       "proposed_ref": "5:68",
       "english_similarity": 0.333,
@@ -441,7 +413,7 @@
       "agreed": false
     },
     {
-      "line": 467,
+      "line": 406,
       "passage": "I have been put in charge of you although I am not the best among you,",
       "proposed_ref": "20:40",
       "english_similarity": 0.5,
@@ -449,7 +421,7 @@
       "agreed": false
     },
     {
-      "line": 469,
+      "line": 408,
       "passage": "Follow the two who come after me, Abu Bakr and Umar.",
       "proposed_ref": "2:145",
       "english_similarity": 0.4,
@@ -457,7 +429,7 @@
       "agreed": false
     },
     {
-      "line": 489,
+      "line": 428,
       "passage": "... And you will be paid only that which you have earned fairly on the Day of Resurrection. Whoever is removed from the Fire and allowed to enter Paradise will ",
       "proposed_ref": "3:185",
       "english_similarity": 0.583,
@@ -465,7 +437,7 @@
       "agreed": false
     },
     {
-      "line": 499,
+      "line": 438,
       "passage": "Indeed, the abode of the hereafter, that is life, if only they knew.",
       "proposed_ref": "29:64",
       "english_similarity": 0.75,
@@ -473,7 +445,7 @@
       "agreed": false
     },
     {
-      "line": 509,
+      "line": 448,
       "passage": "Indeed God, the Exalted, establishes (nazaa) proof through the ruler beyond what He establishes through the Quran,",
       "proposed_ref": "11:17",
       "english_similarity": 0.375,
@@ -481,7 +453,7 @@
       "agreed": false
     },
     {
-      "line": 519,
+      "line": 458,
       "passage": "Nay, indeed man certainly becomes rebellious, considering himself self-sufficient.",
       "proposed_ref": "96:7",
       "english_similarity": 0.333,
@@ -489,7 +461,7 @@
       "agreed": false
     },
     {
-      "line": 535,
+      "line": 474,
       "passage": "On the day when the summoner calls them to a painful end ... their eyes will be lowered in humiliation,",
       "proposed_ref": "70:44",
       "english_similarity": 0.375,
@@ -497,7 +469,7 @@
       "agreed": false
     },
     {
-      "line": 539,
+      "line": 478,
       "passage": "They were called to prostrate while safe and secure.",
       "proposed_ref": "68:43",
       "english_similarity": 0.6,
@@ -505,7 +477,7 @@
       "agreed": true
     },
     {
-      "line": 545,
+      "line": 484,
       "passage": "We do not desire either reward or gratitude from them.",
       "proposed_ref": "39:34",
       "english_similarity": 0.5,

@@ -2,7 +2,7 @@
   "book_title": "Degrees of Excellence: A Treatise on Affirming the Imamate",
   "voice": "modern author first-person",
   "preface": {
-    "include": true,
+    "include": false,
     "title": "The Question of Leadership",
     "source_line_ranges": [
       [

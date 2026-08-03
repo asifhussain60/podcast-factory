@@ -2,17 +2,12 @@
   "schema": "podcast.book-augment/v3",
   "accepted": 0,
   "dropped": 0,
-  "chapters_seen": 10,
+  "chapters_seen": 9,
   "chapters_no_relevant_atom": 0,
-  "chapters_composer_authored": 9,
+  "chapters_composer_authored": 8,
   "atoms_per_chapter": 8,
   "relevance_threshold": 0.08,
   "per_chapter": [
-    {
-      "chapter": "The Question of Leadership",
-      "selected": [],
-      "note": "Composer edit — not augmented"
-    },
     {
       "chapter": "The Pole and Foundation of Religion",
       "selected": [],

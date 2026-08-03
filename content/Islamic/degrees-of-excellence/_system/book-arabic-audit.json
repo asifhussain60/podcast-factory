@@ -8,223 +8,6 @@
       "runs": []
     },
     {
-      "chapter": "The Question of Leadership",
-      "arabic_runs": 42,
-      "unverified": 1,
-      "runs": [
-        {
-          "text": "الْإِمَامَة",
-          "resolution": "ocr",
-          "skeleton": "الامامه"
-        },
-        {
-          "text": "اَلنَّيْسَابُورِي",
-          "resolution": "ocr",
-          "skeleton": "النيسابوري"
-        },
-        {
-          "text": "اَلْكِرْمَانِيّ",
-          "resolution": "unverified",
-          "skeleton": "الكرماني"
-        },
-        {
-          "text": "الْحُدُود",
-          "resolution": "ocr",
-          "skeleton": "الحدود"
-        },
-        {
-          "text": "اَلْخُطْبَة",
-          "resolution": "ocr",
-          "skeleton": "الخطبه"
-        },
-        {
-          "text": "اَلْخُمْس",
-          "resolution": "ocr",
-          "skeleton": "الخمس"
-        },
-        {
-          "text": "أَسَاسُه",
-          "resolution": "ocr",
-          "skeleton": "اساسه"
-        },
-        {
-          "text": "التَّوْحِيد",
-          "resolution": "ocr",
-          "skeleton": "التوحيد"
-        },
-        {
-          "text": "التَّأْوِيل",
-          "resolution": "ocr",
-          "skeleton": "التاويل"
-        },
-        {
-          "text": "وَإِذِ ٱبْتَلَىٰٓ إِبْرَهِۦمَ رَبُّهُۥ بِكَلِمَتٍۢ فَأَتَمَّهُنَّ ۖ قَالَ إِنِّى جَاعِلُكَ لِلنَّاسِ إِمَامًۭا",
-          "resolution": "canonical-mushaf",
-          "skeleton": "واذابتليابرهمربهبكلمتفاتمهنقالانيجاعلكلل"
-        },
-        {
-          "text": "عَلَيْهِ السَّلَامُ",
-          "resolution": "ocr",
-          "skeleton": "عليهالسلام"
-        },
-        {
-          "text": "خَلِيفَة",
-          "resolution": "ocr",
-          "skeleton": "خليفه"
-        },
-        {
-          "text": "اَلْحُجَج",
-          "resolution": "ocr",
-          "skeleton": "الحجج"
-        },
-        {
-          "text": "عَلَيْهِمُ السَّلَامُ",
-          "resolution": "ocr",
-          "skeleton": "عليهمالسلام"
-        },
-        {
-          "text": "اِسْتَشْهَد",
-          "resolution": "ocr",
-          "skeleton": "استشهد"
-        },
-        {
-          "text": "اَلْاِسْتِدْلَال",
-          "resolution": "ocr",
-          "skeleton": "الاستدلال"
-        },
-        {
-          "text": "اَلْآفَاق",
-          "resolution": "ocr",
-          "skeleton": "الافاق"
-        },
-        {
-          "text": "اَلسِّيَاسَة",
-          "resolution": "ocr",
-          "skeleton": "السياسه"
-        },
-        {
-          "text": "اَلرُّسُوم",
-          "resolution": "ocr",
-          "skeleton": "الرسوم"
-        },
-        {
-          "text": "اَلْعَقْل",
-          "resolution": "ocr",
-          "skeleton": "العقل"
-        },
-        {
-          "text": "اَلضَّرُورَة",
-          "resolution": "ocr",
-          "skeleton": "الضروره"
-        },
-        {
-          "text": "اَلْفِطْرَة",
-          "resolution": "ocr",
-          "skeleton": "الفطره"
-        },
-        {
-          "text": "الْجِبْلَة",
-          "resolution": "ocr",
-          "skeleton": "الجبله"
-        },
-        {
-          "text": "اَلْاِتِّفَاق",
-          "resolution": "ocr",
-          "skeleton": "الاتفاق"
-        },
-        {
-          "text": "أَهْلُ كُلِّ مِلَّةٍ",
-          "resolution": "ocr",
-          "skeleton": "اهلكلمله"
-        },
-        {
-          "text": "اَلْفَلَاسِفَة",
-          "resolution": "ocr",
-          "skeleton": "الفلاسفه"
-        },
-        {
-          "text": "أَهْلُ الْحِسَاب",
-          "resolution": "ocr",
-          "skeleton": "اهلالحساب"
-        },
-        {
-          "text": "سَنُرِيهِمْ آيَتِنَا فِى ٱلأٓفَاقِ وَفِىٓ أَنفُسِهِمْ حَتَّىٰ يَتَبَيَّنَ لَهُمْ أَنَّهُ ٱلْحَقُّ ۗ أَوَلَمْ يَكْفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ شَهِيدٌ",
-          "resolution": "canonical-mushaf",
-          "skeleton": "سنريهمايتنافيالافاقوفيانفسهمحتييتبينلهما"
-        },
-        {
-          "text": "اَلْفَرَائِض",
-          "resolution": "ocr",
-          "skeleton": "الفرايض"
-        },
-        {
-          "text": "وَلِيُّ الْعَصْرِ وَالزَّمَانِ",
-          "resolution": "ocr",
-          "skeleton": "وليالعصروالزمان"
-        },
-        {
-          "text": "عَلَيْهِمُ السَّلَامُ",
-          "resolution": "ocr",
-          "skeleton": "عليهمالسلام"
-        },
-        {
-          "text": "اَلْفِطْرَة",
-          "resolution": "ocr",
-          "skeleton": "الفطره"
-        },
-        {
-          "text": "اَلطَّبِيعَة",
-          "resolution": "ocr",
-          "skeleton": "الطبيعه"
-        },
-        {
-          "text": "اَلْعَقْل",
-          "resolution": "ocr",
-          "skeleton": "العقل"
-        },
-        {
-          "text": "اَلسِّيَاسَة",
-          "resolution": "ocr",
-          "skeleton": "السياسه"
-        },
-        {
-          "text": "اَلْوَضْع",
-          "resolution": "ocr",
-          "skeleton": "الوضع"
-        },
-        {
-          "text": "اَلرُّسُوم",
-          "resolution": "ocr",
-          "skeleton": "الرسوم"
-        },
-        {
-          "text": "شَرِيْعَة",
-          "resolution": "ocr",
-          "skeleton": "شريعه"
-        },
-        {
-          "text": "أَئِمَّة",
-          "resolution": "ocr",
-          "skeleton": "ايمه"
-        },
-        {
-          "text": "حُكَمَاء",
-          "resolution": "ocr",
-          "skeleton": "حكماء"
-        },
-        {
-          "text": "رَأْسُ الْعُلَمَاء",
-          "resolution": "ocr",
-          "skeleton": "راسالعلماء"
-        },
-        {
-          "text": "مُعَلِّم",
-          "resolution": "ocr",
-          "skeleton": "معلم"
-        }
-      ]
-    },
-    {
       "chapter": "1. The Pole and Foundation of Religion",
       "arabic_runs": 29,
       "unverified": 1,
@@ -604,7 +387,7 @@
           "skeleton": "الاركان"
         },
         {
-          "text": "يُرِيدُونَ أَن يُطْفِـُٔوا۟ نُورَ ٱللَّهِ بِأَفْوَهِهِمْ وَيَأْبَى ٱللَّهُ إِلَّآ أَن يُتِمَّ نُورَهُۥ وَلَوْ كَرِهَ ٱلْكَفِرُونَ",
+          "text": "يُرِيدُونَ أَن يُطْفِـُٔوا۟ نُورَ ٱللَّهِ بِأَفْوَهِهِمْ وَيَأْبَى ٱللَّهُ إِلَّآ أَن يُتِمَّ نُورَهُۥ وَلَوْ كَرِهَ ٱلْكَفِرُونَ",
           "resolution": "canonical-mushaf",
           "skeleton": "يريدونانيطفوانوراللهبافوههمويابياللهالاا"
         },
@@ -876,7 +659,7 @@
     },
     {
       "chapter": "6. Governance and the First Principle",
-      "arabic_runs": 12,
+      "arabic_runs": 13,
       "unverified": 0,
       "runs": [
         {
@@ -885,7 +668,7 @@
           "skeleton": "سياسهالخاصه"
         },
         {
-          "text": "سِيَاسَةِ الْحَامَّةِ",
+          "text": "سِيَاسَةُ الْحَامَّة",
           "resolution": "ocr",
           "skeleton": "سياسهالحامه"
         },
@@ -925,12 +708,17 @@
           "skeleton": "دايرهالدين"
         },
         {
+          "text": "الْحُدُود",
+          "resolution": "ocr",
+          "skeleton": "الحدود"
+        },
+        {
           "text": "الدُّعَاء",
           "resolution": "ocr",
           "skeleton": "الدعاء"
         },
         {
-          "text": "نُكَتًا عَلَى الْاِخْتِصَارِ",
+          "text": "نُكَتًا عَلَى الِاخْتِصَارِ",
           "resolution": "ocr",
           "skeleton": "نكتاعليالاختصار"
         },
@@ -1179,7 +967,7 @@
           "skeleton": "فلاتقللهماافولاتنهرهما"
         },
         {
-          "text": "الْقُذَّةُ بِالْقُذَّةِ",
+          "text": "الْقُذَّةِ بِالْقُذَّةِ",
           "resolution": "ocr",
           "skeleton": "القذهبالقذه"
         },
@@ -1356,7 +1144,7 @@
           "skeleton": "خليفه"
         },
         {
-          "text": "اَلتَّشَبُّهُ بِالْبَارِئِ",
+          "text": "التَّشَبُّهُ بِالْبَارِئِ",
           "resolution": "ocr",
           "skeleton": "التشبهبالباري"
         },
@@ -1419,12 +1207,12 @@
     }
   ],
   "totals": {
-    "canonical-mushaf": 28,
-    "ocr": 237,
+    "canonical-mushaf": 26,
+    "ocr": 199,
     "knowledge-base": 0,
     "honorific-formula": 0,
-    "unverified": 3,
-    "arabic_runs": 268
+    "unverified": 2,
+    "arabic_runs": 227
   },
   "quran_coverage": {
     "measured": true,
@@ -1432,22 +1220,64 @@
     "with_arabic": 24,
     "coverage": 1.0,
     "uncovered": [],
-    "uncited_inserted": 4
+    "uncited_inserted": 3
   },
   "stages": {
+    "base": {
+      "(front matter)": 0,
+      "1. The Pole and Foundation of Religion": 28,
+      "2. By Nature and by Reason": 28,
+      "3. Degrees of Excellence": 1,
+      "4. The Ladder of Creation": 8,
+      "5. The Physician of Souls": 5,
+      "6. Governance and the First Principle": 4,
+      "7. The Imam in the Pillars of Faith": 4,
+      "8. From Adam to Ali": 2,
+      "9. God's Vicegerent in His Time": 3
+    },
+    "fluency": {
+      "(front matter)": 0,
+      "1. The Pole and Foundation of Religion": 28,
+      "2. By Nature and by Reason": 28,
+      "3. Degrees of Excellence": 1,
+      "4. The Ladder of Creation": 8,
+      "5. The Physician of Souls": 5,
+      "6. Governance and the First Principle": 4,
+      "7. The Imam in the Pillars of Faith": 4,
+      "8. From Adam to Ali": 2,
+      "9. God's Vicegerent in His Time": 3
+    },
+    "augment": {
+      "(front matter)": 0,
+      "1. The Pole and Foundation of Religion": 28,
+      "2. By Nature and by Reason": 28,
+      "3. Degrees of Excellence": 1,
+      "4. The Ladder of Creation": 8,
+      "5. The Physician of Souls": 5,
+      "6. Governance and the First Principle": 4,
+      "7. The Imam in the Pillars of Faith": 4,
+      "8. From Adam to Ali": 2,
+      "9. God's Vicegerent in His Time": 3
+    },
     "final": {
       "(front matter)": 0,
-      "The Question of Leadership": 42,
       "1. The Pole and Foundation of Religion": 29,
       "2. By Nature and by Reason": 27,
       "3. Degrees of Excellence": 24,
       "4. The Ladder of Creation": 25,
       "5. The Physician of Souls": 18,
-      "6. Governance and the First Principle": 12,
+      "6. Governance and the First Principle": 13,
       "7. The Imam in the Pillars of Faith": 42,
       "8. From Adam to Ali": 27,
       "9. God's Vicegerent in His Time": 22
     }
   },
-  "stage_losses": []
+  "stage_losses": [
+    {
+      "chapter": "2. By Nature and by Reason",
+      "stage": "final",
+      "before": 28,
+      "after": 27
+    }
+  ]
 }

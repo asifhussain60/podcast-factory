@@ -1,8 +1,8 @@
 {
-  "vowelled": 0,
-  "marks_added": 0,
+  "vowelled": 1,
+  "marks_added": 7,
   "already": 163,
-  "refused": 8,
+  "refused": 7,
   "refusals": [
     {
       "term": "ولي العصر والزمان",
@@ -18,11 +18,7 @@
     },
     {
       "term": "نكتاً على الاختصار",
-      "reason": "letters changed, not just marks (first difference at character 5: source \" على الاختصا\" vs proposal \"\")"
-    },
-    {
-      "term": "سياسة الحامّة",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"سياسة الحامة\" vs proposal \"الحامة\")"
+      "reason": "empty"
     },
     {
       "term": "أهل كل ملة",
