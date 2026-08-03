@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Podcast Factory — Safina</title>
+<meta name="description" content="Scholarly books turned into podcast series and printed reading editions. Part of the Safina platform." />
+<style>
+  :root{
+    --bg:#0d1117;
+    --bg2:#0a0e14;
+    --ink:#e8e4d8;
+    --muted:#9aa0ab;
+    --gold:#c9a24b;
+    --gold-soft:#e4c877;
+    --line:rgba(201,162,75,.22);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(201,162,75,.10), transparent 60%),
+      radial-gradient(900px 500px at 80% 110%, rgba(201,162,75,.06), transparent 55%),
+      linear-gradient(180deg,var(--bg),var(--bg2));
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px;
+    overflow:hidden;
+  }
+  .wrap{
+    max-width:680px;
+    width:100%;
+    text-align:center;
+    position:relative;
+  }
+  .mark{
+    width:66px;height:66px;margin:0 auto 30px;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line);
+    border-radius:50%;
+    background:radial-gradient(circle at 50% 35%, rgba(201,162,75,.16), transparent 70%);
+    animation:glow 5s ease-in-out infinite;
+  }
+  @keyframes glow{
+    0%,100%{box-shadow:0 0 0 0 rgba(201,162,75,.10)}
+    50%{box-shadow:0 0 34px 2px rgba(201,162,75,.18)}
+  }
+  .mark svg{width:34px;height:34px}
+  .kicker{
+    font-size:.72rem;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:20px;
+  }
+  h1{
+    font-family:Georgia,"Times New Roman",serif;
+    font-weight:600;
+    font-size:clamp(2.4rem,7vw,4rem);
+    line-height:1.05;
+    letter-spacing:-.01em;
+    margin-bottom:22px;
+  }
+  h1 .thin{color:var(--gold-soft);font-style:italic;font-weight:400}
+  p.lede{
+    font-size:clamp(1rem,2.4vw,1.18rem);
+    line-height:1.65;
+    color:var(--muted);
+    max-width:520px;
+    margin:0 auto 38px;
+  }
+  .status{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink);
+    border:1px solid var(--line);
+    border-radius:100px;
+    padding:11px 20px;
+  }
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);
+    box-shadow:0 0 0 0 rgba(201,162,75,.6);animation:pulse 2.4s ease-out infinite}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(201,162,75,.5)}
+    70%{box-shadow:0 0 0 10px rgba(201,162,75,0)}
+    100%{box-shadow:0 0 0 0 rgba(201,162,75,0)}
+  }
+  .rule{width:44px;height:1px;background:var(--line);margin:52px auto 22px}
+  footer{font-size:.78rem;color:var(--muted);letter-spacing:.04em}
+  footer a{color:var(--gold-soft);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="mark" aria-hidden="true">
+      <!-- a vessel / boat: the Safina motif -->
+      <svg viewBox="0 0 48 48" fill="none" stroke="#c9a24b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 28 h36 l-4 9 a4 4 0 0 1 -3.6 2.4 H13.6 A4 4 0 0 1 10 37 z"/>
+        <path d="M24 6 v20"/>
+        <path d="M24 10 L36 24 H24 z" fill="rgba(201,162,75,.12)"/>
+        <path d="M24 14 L14 24 H24"/>
+      </svg>
+    </div>
+
+    <div class="kicker">Safina&nbsp;·&nbsp;Podcast Factory</div>
+
+    <h1>Where books become <span class="thin">voices</span>.</h1>
+
+    <p class="lede">
+      Scholarly works — many of them Arabic — turned into finished podcast series
+      and printed reading editions. A vessel that carries knowledge from every field.
+    </p>
+
+    <div class="status"><span class="dot"></span>Launching soon</div>
+
+    <div class="rule"></div>
+    <footer>Part of the Safina platform · <a href="https://safinaverse.com">safinaverse.com</a></footer>
+  </main>
+</body>
+</html>

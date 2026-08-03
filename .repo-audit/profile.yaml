@@ -46,6 +46,7 @@ root:
     - docs
     - infra
     - listener # the Podcast Factory Listener — the audience-facing Cloudflare Workers app (2026-08-03)
+    - _placeholder-site # static holding page for Podcast Factory on Safina, until the listener ships (2026-08-03)
     - plan-dashboard # the Astro site (ADMIN). Directory name is load-bearing; never rename.
     - scripts
     - skills-staging
