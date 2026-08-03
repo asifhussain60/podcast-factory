@@ -23,7 +23,6 @@ const PUBLIC_ROUTE_FILES = [
   "routes/sign-in.tsx",
   "routes/no-access.tsx",
   "routes/favicon.ico.ts",
-  "routes/brand.tsx",
 ];
 
 /** Every `"routes/..."` string, in source order. */

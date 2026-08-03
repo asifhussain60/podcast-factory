@@ -25,9 +25,6 @@ export default [
   route("sign-in", "routes/sign-in.tsx"),
   route("no-access", "routes/no-access.tsx"),
   route("favicon.ico", "routes/favicon.ico.ts"),
-  // Not part of the product: the three candidate marks side by side, in every
-  // theme, so the choice is made from the real thing. Delete once settled.
-  route("brand", "routes/brand.tsx"),
 
   // Everything else. Pathless, so it adds a gate without adding a URL segment.
   layout("routes/_authed.tsx", [

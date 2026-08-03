@@ -22,30 +22,24 @@ export function SiteHeader({
   isAdmin?: boolean;
 }) {
   return (
-    <header className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-6">
+    <header className="pf-container pf-header">
       {here === "library" ? (
         <Logo size={44} />
       ) : (
-        <Link to="/" aria-label="Back to your library">
+        <Link to="/" aria-label="Back to your library" className="pf-logo-link">
           <Logo size={44} />
         </Link>
       )}
 
-      <div className="flex items-center gap-5">
+      <div className="pf-header__nav">
         {here !== "library" ? (
-          <Link
-            to="/"
-            className="font-ui text-sm text-pf-muted transition-colors hover:text-pf-ink"
-          >
+          <Link to="/" className="pf-navlink">
             Library
           </Link>
         ) : null}
 
         {isAdmin && here !== "admin" ? (
-          <Link
-            to="/admin"
-            className="font-ui text-sm text-pf-muted transition-colors hover:text-pf-ink"
-          >
+          <Link to="/admin" className="pf-navlink">
             Access
           </Link>
         ) : null}

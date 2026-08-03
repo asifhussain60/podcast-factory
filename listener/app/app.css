@@ -1,22 +1,15 @@
 @import "tailwindcss";
 
-/* @font-face and custom-property definitions are layer-neutral, so these two
-   stay unlayered. */
-@import "./styles/fonts.css";
-@import "./styles/theme.css";
-
-/* base.css MUST land in the `base` layer. Unlayered CSS beats every layered
-   rule regardless of specificity, so an unlayered `button { color: inherit }`
-   silently overrides every Tailwind text utility — which is exactly what it
-   did: the active theme chip rendered ink-on-teal at 2.8:1 instead of the
-   white the token specifies. Layering it puts element defaults back underneath
-   the utilities, where they belong. */
-@import "./styles/base.css" layer(base);
-
-/* The brand mark's own rules. Layered with the components, same reason. */
-@import "./styles/brand.css" layer(components);
-
-/* The reading column. Also layered, and AFTER base: it styles renderer-authored
-   HTML by class, and unlayered rules would outrank every Tailwind utility used
-   on the same elements. */
-@import "./styles/reader.css" layer(components);
+/* One theme, one file. See the index at the top of it.
+ *
+ * It is imported unlayered because it does its own layering internally: the
+ * faces, tokens, palettes and the `@theme` bridge are layer-neutral, while the
+ * element defaults sit in `@layer base` and the component vocabulary and the
+ * reading column sit in `@layer components`.
+ *
+ * That layering is load-bearing, not tidiness. Unlayered CSS beats every layered
+ * rule regardless of specificity, so an unlayered `button { color: inherit }`
+ * silently overrides every Tailwind text utility — which is exactly what it once
+ * did here: the active theme chip rendered ink-on-accent at 2.8:1 instead of the
+ * white its token specifies. */
+@import "./styles/podcast-factory.css";

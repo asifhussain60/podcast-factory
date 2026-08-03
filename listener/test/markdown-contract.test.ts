@@ -11,13 +11,13 @@ import { describe, expect, it } from "vitest";
  * page and the PDF cannot then disagree about the same paragraph.
  *
  * The risk that creates is silent: someone improves the renderer for the print
- * side, the class names shift, and app/styles/reader.css — which styles by those
- * exact class names — stops matching. Nothing fails; Arabic quotations simply
- * stop being centred, or an editorial aside starts rendering as display
- * scripture. This test turns that into a failing build.
+ * side, the class names shift, and §7 of app/styles/podcast-factory.css — which
+ * styles by those exact class names — stops matching. Nothing fails; Arabic
+ * quotations simply stop being centred, or an editorial aside starts rendering
+ * as display scripture. This test turns that into a failing build.
  *
  * A changed fixture is not automatically a bug. It means the renderer's contract
- * moved, and reader.css has to move with it in the same commit.
+ * moved, and §7 has to move with it in the same commit.
  */
 
 const INPUT = new URL("./fixtures/markdown-input.json", import.meta.url);
@@ -44,8 +44,8 @@ describe("the renderer contract", () => {
   }
 });
 
-describe("the class names reader.css depends on", () => {
-  const CSS = readFileSync(new URL("../app/styles/reader.css", import.meta.url), "utf8");
+describe("the class names the reading column depends on", () => {
+  const CSS = readFileSync(new URL("../app/styles/podcast-factory.css", import.meta.url), "utf8");
 
   // Read off the fixture rather than listed by hand, so a class that appears in
   // real output and has no rule is caught the moment the fixture records it.
@@ -57,9 +57,10 @@ describe("the class names reader.css depends on", () => {
 
   for (const cls of emitted) {
     it(`.${cls} is styled`, () => {
-      expect(CSS, `the renderer emits .${cls} and reader.css has no rule for it`).toContain(
-        `.${cls}`,
-      );
+      expect(
+        CSS,
+        `the renderer emits .${cls} and the theme's reading column has no rule for it`,
+      ).toContain(`.${cls}`);
     });
   }
 });
