@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Podcast Factory Listener \u2014 the audience-facing site. Independent of the admin site in plan-dashboard/.",
   "scripts": {
-    "dev": "react-router dev",
+    "dev": "node scripts/dev-vars.mjs && react-router dev",
     "build": "react-router build",
     "preview": "npm run build && vite preview",
     "deploy": "npm run build && wrangler deploy",

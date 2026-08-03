@@ -21,19 +21,37 @@
 import { execFileSync } from "node:child_process";
 import { chmodSync, writeFileSync } from "node:fs";
 
-/** Local dev is the only consumer; production uses `wrangler secret put`. */
+/**
+ * Local dev is the only consumer; production uses `wrangler secret put`.
+ *
+ * `looksWrong` exists because of a real incident: the Google client ID was
+ * pasted into the client-secret prompt. Everything downstream accepted it
+ * happily and the first sign of trouble was Google answering the token exchange
+ * with `invalid_client` — three redirects later, in a log, long after the
+ * mistake. These checks are shape-only (never the value) and turn that into an
+ * immediate, specific message.
+ */
 const ITEMS = [
   {
     name: "BETTER_AUTH_SECRET",
     service: "listener_better_auth_secret",
     why: "signs the session cookie",
     generate: "openssl rand -base64 32",
+    /** @param {string} v */
+    looksWrong: (v) => (v.length < 32 ? "shorter than 32 characters" : null),
   },
   {
     name: "GOOGLE_CLIENT_SECRET",
     service: "safina_google_client_secret",
     why: "the Safina OAuth client secret, from the Google Cloud console",
     generate: null,
+    /** @param {string} v */
+    looksWrong: (v) =>
+      v.endsWith(".apps.googleusercontent.com")
+        ? "this is the client ID, not the client secret"
+        : !v.startsWith("GOCSPX-")
+          ? "a Google client secret starts with 'GOCSPX-'"
+          : null,
   },
 ];
 
@@ -81,9 +99,29 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
+// Validate SHAPE before anything is written or reported as fine. Values are
+// read but never printed — only the verdict is.
+const values = new Map(ITEMS.map((item) => [item.name, fromKeychain(item.service) ?? ""]));
+const wrong = ITEMS
+  .map((item) => ({ item, why: item.looksWrong(values.get(item.name) ?? "") }))
+  .filter((r) => r.why !== null);
+
+if (wrong.length > 0) {
+  console.error("Keychain items present but wrong:\n");
+  for (const { item, why } of wrong) {
+    const v = values.get(item.name) ?? "";
+    console.error(`  ${item.name} — ${why}`);
+    console.error(`    stored value is ${v.length} characters and begins ${JSON.stringify(v.slice(0, 7))}`);
+    console.error(
+      `    replace: security add-generic-password -U -a "$USER" -s ${item.service} -w\n`,
+    );
+  }
+  process.exit(1);
+}
+
 if (check) {
   for (const item of ITEMS) console.log(`  ok  ${item.name}  (keychain: ${item.service})`);
-  console.log("\nAll keychain items present. Run without --check to rebuild .dev.vars.");
+  console.log("\nAll keychain items present and correctly shaped.");
   process.exit(0);
 }
 
