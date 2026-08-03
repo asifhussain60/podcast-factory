@@ -26,6 +26,25 @@
  */
 import { anchorKey } from "../../../scripts/lib/anchor-key.mjs";
 
+/**
+ * The edition's introduction is APPARATUS, not a translated chapter, and the
+ * articulation contract does not apply to it — the same exemption a book with no
+ * fluency report already gets.
+ *
+ * It is written by `_book_frontmatter` at the tail of the apparatus, directly
+ * under the articulation register (`_book_voice_prompts.ARTICULATION_REGISTER`,
+ * the very text the chapters are articulated with). The fluency pass therefore
+ * has no record of it and never should: there is no calqued base to de-calque,
+ * because nobody translated it.
+ *
+ * Left in, the warning was wrong twice over. It told a reader the introduction
+ * "has not been articulated" on a book whose every chapter had been, which reads
+ * as a failure where there is none; and it warned against saving, when a
+ * Composer save of the introduction is a SUPPORTED path — `apply_introduction`
+ * looks for a human's version first and never writes over it.
+ */
+const INTRODUCTION_KEY = "introduction to the book";
+
 interface FluencyRecordish {
   title?: unknown;
   status?: unknown;
@@ -80,8 +99,10 @@ export function articulationWarningsFrom(
   if (!Array.isArray(records)) {
     if (!opts.translationRoute) return {};
     const out: Record<string, string> = {};
-    for (const key of chapterKeys)
+    for (const key of chapterKeys) {
+      if (key === INTRODUCTION_KEY) continue;
       out[key] = "the articulation pass has not run for this book";
+    }
     return out;
   }
   const statusByKey = new Map<string, string>();
@@ -100,6 +121,7 @@ export function articulationWarningsFrom(
   }
   const out: Record<string, string> = {};
   for (const key of chapterKeys) {
+    if (key === INTRODUCTION_KEY) continue;
     // A chapter the report has never heard of is unknown, not safe: the pass
     // has no evidence its prose was ever articulated.
     const reason = statusByKey.has(key)

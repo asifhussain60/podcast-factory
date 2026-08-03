@@ -127,3 +127,36 @@ test("titles map through anchorKey — numbering and case cannot orphan a record
   );
   assert.match(warnings["on patience"], /reverted/);
 });
+
+test("the edition's introduction is never warned about", () => {
+  // It is APPARATUS, not a translated chapter: written at the tail of the
+  // apparatus directly under the articulation register, with no calqued base to
+  // de-calque because nobody translated it. The fluency pass has no record of it
+  // and never should.
+  //
+  // The warning was wrong twice over. It told a reader the introduction "has not
+  // been articulated" on a book whose every chapter had been — which reads as a
+  // failure where there is none — and it warned against saving, when a Composer
+  // save of the introduction is a supported path the pipeline honours.
+  const report = { chapters: [{ title: "1. The Call", status: "adapted" }] };
+
+  const warnings = articulationWarningsFrom(
+    report,
+    ["introduction to the book", "the call"],
+    { translationRoute: true },
+  );
+
+  assert.equal(warnings["introduction to the book"], undefined);
+  assert.equal(warnings["the call"], undefined);
+});
+
+test("a book with no fluency report still does not warn about the introduction", () => {
+  const warnings = articulationWarningsFrom(
+    null,
+    ["introduction to the book", "the call"],
+    { translationRoute: true },
+  );
+
+  assert.equal(warnings["introduction to the book"], undefined);
+  assert.ok(warnings["the call"], "a real chapter still warns");
+});
