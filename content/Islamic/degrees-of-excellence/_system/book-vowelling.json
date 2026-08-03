@@ -1,14 +1,19 @@
 {
-  "vowelled": 6,
-  "marks_added": 69,
+  "vowelled": 5,
+  "marks_added": 67,
   "already": 163,
   "quranic": 0,
   "from_mushaf": 0,
-  "refused": 0,
+  "refused": 1,
   "recovered": 0,
-  "in_chars": 86,
-  "out_chars": 153,
+  "in_chars": 76,
+  "out_chars": 132,
   "mushaf_pairs": [],
-  "refusals": [],
-  "lexical": 1
+  "refusals": [
+    {
+      "run": "أهل كل ملة",
+      "reason": "model error: HTTP Error 503: Service Unavailable"
+    }
+  ],
+  "lexical": 2
 }

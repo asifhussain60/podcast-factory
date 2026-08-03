@@ -1,11 +1,11 @@
 # My Dear Beloved Son or Daughter (Ayyuhal Walad)
 
-<!-- edition-intro:begin -->
 ## Introduction to the Book
 
+<!-- edition-intro:begin -->
 This is a letter of spiritual counsel. A former student, having spent years mastering the religious sciences under his teacher, asked what, of all he had learned, would truly serve him in the grave and on the Day of Judgment. Everything that follows is the teacher's written reply. The title, *Ayyuha al-Walad* — "O son" — is the affectionate way he addresses the young man throughout; it names a beloved disciple, not a child of his body.
 
-It is written in the first person. The "I" is the author himself, speaking directly to the one student he answers, with no narrator standing between them. The author is Imam Ghazali, who names several of his own larger works — the *Ihya al-Ulum ad-Din* (إِحْيَاءُ عُلُومِ الدِّيْن), the *Kimiya as-Saada* (كِيمِيَاءُ السَّعَادَةِ), the *Jawahir ul-Quran* (جَوَاهِرُ الْقُرْآنِ) — for a reader who wants fuller treatment. One point rewards attention: the letter urges the seeker to go out and find a living guide of his own, and the sixth chapter is given over to recognizing a true one. That guide is a figure distinct from the author writing here, who was already the student's own teacher.
+It is written in the first person. The "I" is the author himself, speaking directly to the one student he answers, with no narrator standing between them. The author is Imam Ghazali, who names several of his own larger works — the *Ihya al-Ulum ad-Din* (إِحْيَاءُ عُلُومِ الدِّيْن), the *Kimiya as-Saada* (كِيْمِيَاءُ السَّعَادَةِ), the *Jawahir ul-Quran* (جَوَاهِرُ الْقُرْآنِ) — for a reader who wants fuller treatment. One point rewards attention: the letter urges the seeker to go out and find a living guide of his own, and the sixth chapter is given over to recognizing a true one. That guide is a figure distinct from the author writing here, who was already the student's own teacher.
 
 The chapters trace a single argument: knowledge that does not change how one lives will not save its owner, and what does is striving, the prayer of the hours before dawn, and worship understood as plain obedience. Verses of scripture and sayings of the Prophet are quoted in Arabic and then unfolded. It closes in a prayer for the road ahead.
 <!-- edition-intro:end -->
@@ -633,7 +633,7 @@ You also asked me to write out a prayer that you might keep upon your tongue at 
 
 > «أَلَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ النِّعْمَةِ تَمَامَهَا، وَ مِنَ الْعِصْمَةِ دَوَامُهَا، وَ مِنَ الرَّحْمَةِ شُمُولُهَا، وَ مِنَ الْعَافِيَةِ حُصُولُهَا، و من العيش ارغده، وَ مِنَ الْعُمْرِ أَسْعَدُهُ، وَ مِنَ الْإِحْسَانِ أَتَمَّهُ، وَمِنَ الْإِنْعَامِ أَعَمُّهُ، وَ مِنَ الْفَضْلِ أَعْذَبُهُ، وَ مِنَ اللُّطْفِ أَنْفَعُهُ
 >
-> ألّهمّ كن لنا و لا تكن علينا
+> أَلَّهُمَّ كُنْ لَنَا وَ لَا تَكُنْ عَلَيْنَا
 >
 > ألّهمّ اختم بالسعادة آجالنا. وَ حَقِّقْ بِالزِّيَادَةِ آمَالَنَا، و اقرن بالعافية غدوّنا و آصالنا، وَ اجْعَلْ إِلَىٰ رَحْمَتِكَ مَصِيرَنَا وَ مَآلَنَا، و اصبب سجال عفوك على ذنوبنا، وَ مَنَّ عَلَيْنَا بِإِصْلَاحِ عُيُوبِنَا، وَ اجْعَلِ التَّقْوَى زَادَنَا، وَ فِي دِينِكَ إِجْتِهَادُنَا، وعليك توكّلنا و اعتمادنا. اللَّهُمَّ ثَبِّتْنَا عَلَى نَهْجِ الْإِسْتِقَامَةِ، وَأَعِذْنَا فِي الدُّنْيَا مِنْ مُوجِبَاتِ النَّدَامَةِ يَوْمَ الْقِيَامَةِ، و خفّف عنّا ثقل الأوزار، و ارزقنا عيشة الأبرار، واكفنا ما اهمّنا في هذه الدّار و في تلك الدّار واصرف عنّا شرّ الأشرار و كيد الفجّار و اعتق رقابنا و رقاب آبائنا و أمّهاتنا و إخواننا وأخواتنا من النّار، بِرَحْمَتِكَ يَا عَزِيزُ يَا غَفَّارُ، يَا كَرِيمُ يَا سَتَّارُ يَا خَالِقَ اللَّيْلِ وَ النَّهَارِ خَلِّصْنَا مِنْ هَمِّ الدُّنْيَا وَ عَذَابِ الْقَبْرِ وَ النَّارِ يَا عَلِيمُ يَا جَبَّارُ، يا الله، يا ألله، يا ألله، بِرَحْمَتِكَ يَا أَرْحَمَ الرَّاحِمِينَ، و يا أول الأوّلین، و يا آخر الآخرین، وَ يَا ذَا الْقُوَّةِ الْمَتِينُ، وَيَا رَاحِمَ الْمَسَاكِينِ، وَ يَا أَرْحَمَ الرَّاحِمِينَ، لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ. وَ صَلَّى اللَّهُ عَلَى سَيِّدِنَا مُحَمَّدٍ وَ آلِهِ وَصَحْبِهِ أَجْمَعِينَ، وَ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ.»
 

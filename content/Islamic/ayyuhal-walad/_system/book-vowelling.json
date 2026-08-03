@@ -1,22 +1,18 @@
 {
   "vowelled": 3,
-  "marks_added": 40,
-  "already": 127,
+  "marks_added": 41,
+  "already": 128,
   "quranic": 0,
   "from_mushaf": 0,
-  "refused": 2,
+  "refused": 1,
   "recovered": 0,
-  "in_chars": 115,
-  "out_chars": 191,
+  "in_chars": 87,
+  "out_chars": 145,
   "mushaf_pairs": [],
   "refusals": [
     {
-      "run": "ألّهمّ كن لنا و لا تكن علينا",
-      "reason": "letters changed, not just marks (first difference at character 3: source \"هم كن لنا و \" vs proposal \"لهم كن لنا و\")"
-    },
-    {
       "run": "ألّهمّ اختم بالسعادة آجالنا",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"ألهم اختم با\" vs proposal \"اللهم اختم ب\")"
+      "reason": "letters changed, not just marks (first difference at character 3: source \"هم اختم بالس\" vs proposal \"لهم اختم بال\")"
     }
   ],
   "lexical": 0

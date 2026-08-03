@@ -1,8 +1,8 @@
 {
   "vowelled": 0,
   "marks_added": 0,
-  "already": 119,
-  "refused": 52,
+  "already": 120,
+  "refused": 51,
   "refusals": [
     {
       "term": "مجموعة رسائل",
@@ -10,7 +10,7 @@
     },
     {
       "term": "أعوذ بالله من علم لا ينفع",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"أعوذ بالله م\" vs proposal \"ينفع\")"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"أعوذ بالله م\" vs proposal \"علم\")"
     },
     {
       "term": "كيمياء السعادة",
@@ -30,19 +30,19 @@
     },
     {
       "term": "من جاوز الأربعين سنة",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"من جاوز الأر\" vs proposal \"الأربعين\")"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"من جاوز الأر\" vs proposal \"ألأربعين\")"
     },
     {
       "term": "إن أشد الناس عذاباً",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"إن أشد الناس\" vs proposal \"عالم\")"
+      "reason": "empty"
     },
     {
       "term": "وأن ليس للإنسان إلا ما سعى",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"وأن ليس للإن\" vs proposal \"سعى\")"
     },
     {
       "term": "فمن يعمل مثقال ذرة خيراً يره",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"فمن يعمل مثق\" vs proposal \"مثقال\")"
     },
     {
       "term": "فمن كان يرجو لقاء ربه",
@@ -66,11 +66,11 @@
     },
     {
       "term": "إن رحمة الله قريب من المحسنين",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"إن رحمة الله\" vs proposal \"قريب\")"
     },
     {
       "term": "اشهدوا يا ملائكتي",
-      "reason": "letters changed, not just marks (first difference at character 7: source \" يا ملائكتي\" vs proposal \"\")"
+      "reason": "empty"
     },
     {
       "term": "حاسبوا قبل أن تحاسبوا",
@@ -106,7 +106,7 @@
     },
     {
       "term": "فارجعنا نعمل صالحاً",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 8: source \" نعمل صالحا\" vs proposal \"\")"
     },
     {
       "term": "ارجعي إلى ربك",
@@ -114,7 +114,7 @@
     },
     {
       "term": "اهتز عرش الرحمن",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 5: source \" عرش الرحمن\" vs proposal \"\")"
     },
     {
       "term": "أولئك كالأنعام",
@@ -129,16 +129,12 @@
       "reason": "letters changed, not just marks (first difference at character 1: source \"هل من تائب\" vs proposal \"تائب\")"
     },
     {
-      "term": "كانوا قليلاً من الليل",
-      "reason": "empty"
-    },
-    {
       "term": "لا تكثرن النوم بالليل",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"لا تكثرن الن\" vs proposal \"النوم\")"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"لا تكثرن الن\" vs proposal \"الليل\")"
     },
     {
       "term": "ومن الليل فتهجد به",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"ومن الليل فت\" vs proposal \"نافلة\")"
     },
     {
       "term": "وبالأسحار يستغفرون",
@@ -150,7 +146,7 @@
     },
     {
       "term": "إن الله تعالى خلق ريحاً",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"إن الله تعال\" vs proposal \"ريحا\")"
     },
     {
       "term": "يا بني لا تكونن الديك أكيس منك",
@@ -158,11 +154,11 @@
     },
     {
       "term": "عمل للدنيا بقدر مقامك فيها",
-      "reason": "letters changed, not just marks (first difference at character 4: source \" للدنيا بقدر\" vs proposal \"\")"
+      "reason": "empty"
     },
     {
       "term": "وأما من خاف مقام ربه",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"وأما من خاف \" vs proposal \"مقام\")"
     },
     {
       "term": "ما عندكم ينفد",
@@ -170,7 +166,7 @@
     },
     {
       "term": "إن أكرمكم عند الله أتقاكم",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"إن أكرمكم عن\" vs proposal \"أتقاكم\")"
     },
     {
       "term": "نحن قسمنا بينهم معيشتهم",
@@ -206,7 +202,7 @@
     },
     {
       "term": "يا رحيم",
-      "reason": "empty"
+      "reason": "letters changed, not just marks (first difference at character 1: source \"يا رحيم\" vs proposal \"رحيم\")"
     },
     {
       "term": "يا أرحم الراحمين",

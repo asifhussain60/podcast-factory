@@ -1,6 +1,7 @@
 {
   "schema": "podcast.composer-base/v1",
   "chapters": {
+    "introduction to the book": "c35076756b139d0e",
     "the persian who was dead and revived": "d21f0a9f7991aaac",
     "a stranger in the city": "5f8427e406e86c98",
     "the boy at the door — limits and conditions": "4c0f67cff956bb66",
@@ -8,6 +9,6 @@
     "the world, the hereafter, and the speech of parables": "68e7a02470fd8c22",
     "three layers of knowledge": "035483eb8c3bccc3",
     "the five shares and the long road to the shaykh": "32435e0f7e14e7fb",
-    "homecoming, the father, and the debate with abu malik": "9c9c72b82ab5233e"
+    "homecoming, the father, and the debate with abu malik": "ed1d3141e0b53a2a"
   }
 }

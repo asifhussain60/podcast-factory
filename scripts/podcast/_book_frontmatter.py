@@ -75,6 +75,21 @@ _OWN_OPENING_HEADING_RE = re.compile(r"(?m)^\s*###\s+The book's own opening\s*$\
 _HEADING_RE = re.compile(r"(?m)^(##\s+.+)$")
 _NUMBERED_HEADING_RE = re.compile(r"^##\s+[0-9٠-٩۰-۹]+\.\s")
 
+# The whole introduction SECTION, heading included, up to the next `## ` or EOF.
+# This is the primary strip, and the fence span below is the fallback for books
+# still carrying the retired preface.
+#
+# Section-based rather than fence-based because the heading now sits OUTSIDE the
+# fence, and it sits outside for a reason a reader felt immediately: the Composer
+# hides any heading inside an `edition-intro` span, so an introduction fenced
+# heading-and-all did not appear in the chapter list at all. Asif looked for it
+# and it was not there. Stripping by section also survives a save that loses the
+# fence markers — without it, the next run would find no fence, strip nothing,
+# and inject a SECOND introduction above the first.
+_INTRO_SECTION_RE = re.compile(
+    r"(?ms)^##[ \t]+Introduction to the Book[ \t]*$.*?(?=^##[ \t]|\Z)",
+)
+
 # An introduction is front matter, not an essay. Past this it competes with the
 # book for the reader's first attention, which is the one thing it must not do.
 MAX_INTRO_WORDS = 250
@@ -85,8 +100,26 @@ _INTRO_TIMEOUT = 900
 
 
 def strip_introduction(book_md: str) -> str:
-    """Remove a previously injected introduction, whitespace normalized."""
-    return _OWN_OPENING_HEADING_RE.sub("", _INTRO_SPAN_RE.sub("\n\n", book_md))
+    """Remove a previously injected introduction, whitespace normalized.
+
+    Three removals, and THE ORDER IS LOAD-BEARING:
+
+      1. the whole `edition-intro` FENCE, markers included;
+      2. then the whole `## Introduction to the Book` SECTION;
+      3. then the invented `### The book's own opening` subheading that titled
+         the source's opening beneath the retired preface.
+
+    Section-before-fence looks equivalent and is not. Books written this morning
+    carry the earlier shape, with the heading INSIDE the fence — so a section
+    strip running first removes the heading down to the next `## `, taking the
+    fence's CLOSING marker with it and leaving the opening marker stranded above,
+    unpairable and therefore permanent. That is what the three finished books
+    came back with. Fence first removes the old shape whole; on the current shape
+    it takes the prose and step 2 takes the heading. Either way nothing is left.
+    """
+    out = _INTRO_SPAN_RE.sub("\n\n", book_md)
+    out = _INTRO_SECTION_RE.sub("", out)
+    return re.sub(r"\n{3,}", "\n\n", _OWN_OPENING_HEADING_RE.sub("", out))
 
 
 def clear_introduction(book_dir: Path, *, log=print) -> dict[str, Any]:
@@ -358,7 +391,7 @@ def author_introduction(book_dir: Path, *, log=print, force: bool = False, autho
     return text
 
 
-def inject_introduction(book_md: str, text: str) -> str:
+def inject_introduction(book_md: str, text: str, *, gated: bool = True) -> str:
     """Place the introduction as its own section above the first numbered chapter.
 
     The heading lives INSIDE the fenced span, so `strip_introduction` takes the
@@ -369,7 +402,9 @@ def inject_introduction(book_md: str, text: str) -> str:
     re-enters compose many times never stacks introductions.
     """
     stripped = strip_introduction(book_md)
-    if not gate_introduction(text)[0]:
+    if gated and not gate_introduction(text)[0]:
+        return stripped
+    if not (text or "").strip():
         return stripped
     match = next(
         (m for m in _HEADING_RE.finditer(stripped) if _NUMBERED_HEADING_RE.match(m.group(1).strip())),
@@ -378,7 +413,12 @@ def inject_introduction(book_md: str, text: str) -> str:
     if match is None:
         return stripped
     head, tail = stripped[: match.start()].rstrip(), stripped[match.start() :]
-    block = f"{INTRO_OPEN}\n{INTRO_HEADING}\n\n{text.strip()}\n{INTRO_CLOSE}"
+    # The heading sits OUTSIDE the fence. Inside it, the Composer hides the whole
+    # section — it skips any heading within an `edition-intro` span — so the
+    # introduction never appeared in the chapter list and could not be read or
+    # corrected there. `strip_introduction` removes the section by its heading, so
+    # nothing is orphaned by moving the marker.
+    block = f"{INTRO_HEADING}\n\n{INTRO_OPEN}\n{text.strip()}\n{INTRO_CLOSE}"
     return (head + "\n\n" if head else "") + block + "\n\n" + tail
 
 
@@ -388,6 +428,28 @@ def apply_introduction(book_dir: Path, *, log=print, force: bool = False, author
     book_md = book_dir / "book" / "book.md"
     if not book_md.exists():
         return {"applied": False, "reason": "no book.md"}
+
+    # THE HUMAN'S INTRODUCTION WINS, and nothing here may overwrite it. The
+    # Composer is the singular path for anything bound for the PDF, and the
+    # introduction is now a section a reader can open there. Without this check
+    # the sequence would discard their work in silence every single run: the
+    # replay restores their text at step 5a, `clear_introduction` strips it at
+    # 5c, and this step writes the cached machine text back at 5e.
+    #
+    # Not gated, deliberately. The word cap and the shape rules exist to hold a
+    # MODEL to a brief; a human who writes three hundred words has decided
+    # something, and refusing it would be this pipeline overruling its author.
+    from _book_edits import anchor_key, edited_body
+
+    authored = edited_body(book_dir, anchor_key(INTRO_HEADING))
+    if authored:
+        before = book_md.read_text(encoding="utf-8")
+        after = inject_introduction(before, authored, gated=False)
+        if after != before:
+            book_md.write_text(after, encoding="utf-8")
+        log(f"    front-matter: introduction is the author's own ({len(authored.split())} words), not re-written")
+        return {"applied": True, "words": len(authored.split()), "authored": True}
+
     text = author_introduction(book_dir, log=log, force=force, author=author)
     if not text:
         return {"applied": False, "reason": "no introduction"}

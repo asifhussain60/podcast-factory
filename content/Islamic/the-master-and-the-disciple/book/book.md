@@ -1,8 +1,8 @@
 # The Master and the Disciple
 
-<!-- edition-intro:begin -->
 ## Introduction to the Book
 
+<!-- edition-intro:begin -->
 This is a work of religious instruction cast as a story: a chain of encounters between a learned man and a young seeker, built almost entirely from their talk. Its Arabic title, *Kitab al-Alim wa-l-Ghulam* — the book of the 'Alim and the Ghulam, the Master and the Disciple — names its two roles directly, and the dialogue between them drives the whole. Doctrine is not laid out as a treatise; it is drawn out question by question, one figure pressing and the other answering, in the manner of a Socratic exchange.
 
 The text is attributed to Jafar ibn Mansur al-Yaman (جَعْفَر بْن مَنْصُور اَلْيَمَن) and belongs to the Ismaili tradition of the early Fatimid period, the missionary teaching, the dawa (دَعْوَة), of roughly the tenth century. Read it as a transmitted report: the account reaches you through a narrator who relates what passed between the speakers. When an "I" appears inside the conversation, it is one of the characters speaking, not the author addressing you.

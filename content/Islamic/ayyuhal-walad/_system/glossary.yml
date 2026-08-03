@@ -436,7 +436,7 @@ entries:
     annotation_reason: "A full Arabic divine call translated in the prose."
   - phonetic: "Kanu Qaleelum Minal Laili Ma Yahja'oon"
     transliteration: "Kanu Qaleelum Minal Laili Ma Yahja'oon"
-    arabic_script: "كانوا قليلاً من الليل"
+    arabic_script: "كَانُوا قَلِيلاً مِنَ اللَّيْل"
     audio_phonetic: "kaa-nu qa-LEE-lum mi-nal LAY-li ma yah-ja-OON"
     first_seen_snippet: "\"Kanu Qaleelum Minal Laili Ma Yahja'oon\""
     annotation_class: "silent"

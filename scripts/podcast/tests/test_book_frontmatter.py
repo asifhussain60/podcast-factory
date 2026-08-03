@@ -324,3 +324,117 @@ def test_the_retry_happens_at_most_once(tmp_path: Path) -> None:
         == ""
     )
     assert len(calls) == 2
+
+
+# --- the reader must be able to SEE it, and their edit must win ---------------
+
+
+def test_the_heading_sits_outside_the_fence_so_the_composer_lists_it() -> None:
+    """The Composer skips any heading INSIDE an `edition-intro` span, so an
+    introduction fenced heading-and-all never appeared in its chapter list at
+    all — Asif looked for it and it was not there."""
+    from _book_frontmatter import INTRO_HEADING, INTRO_OPEN, inject_introduction
+
+    out = inject_introduction("# T\n\n## 1. The Call\n\nThe chapter.\n", _SHORT)
+
+    assert out.index(INTRO_HEADING) < out.index(INTRO_OPEN)
+
+
+def test_the_section_is_stripped_even_when_the_fence_is_gone() -> None:
+    """A save that loses the markers must not produce a SECOND introduction."""
+    from _book_frontmatter import INTRO_HEADING, strip_introduction
+
+    unfenced = f"# T\n\n{INTRO_HEADING}\n\nAn introduction with no markers left.\n\n## 1. The Call\n\nThe chapter.\n"
+
+    out = strip_introduction(unfenced)
+
+    assert INTRO_HEADING not in out
+    assert "An introduction with no markers" not in out
+    assert "## 1. The Call\n\nThe chapter." in out
+
+
+def test_the_authors_own_introduction_is_never_re_written(tmp_path: Path) -> None:
+    """Without this the sequence discards their work in silence EVERY run: the
+    replay restores it at 5a, `clear_introduction` strips it at 5c, and this step
+    writes the cached machine text back at 5e."""
+    from _book_edits import record_edit
+    from _book_frontmatter import CACHE_NAME, apply_introduction
+
+    bd = _book(tmp_path)
+    (bd / "book" / "book.md").write_text("# T\n\n## 1. The Call\n\nThe chapter.\n", encoding="utf-8")
+    (bd / "_system" / CACHE_NAME).write_text(_SHORT + "\n", encoding="utf-8")
+    record_edit(bd, chapter_key="introduction to the book", body_md="The author's own introduction, in their words.")
+
+    calls: list[str] = []
+    report = apply_introduction(bd, log=lambda _m: None, author=lambda p: (calls.append(p), _SHORT)[1])
+    body = (bd / "book" / "book.md").read_text(encoding="utf-8")
+
+    assert report["authored"] is True
+    assert "The author's own introduction, in their words." in body
+    assert _SHORT not in body  # the cached machine text did not come back
+    assert calls == []  # and no model was asked
+
+
+def test_an_authored_introduction_is_not_held_to_the_word_cap(tmp_path: Path) -> None:
+    """The cap holds a MODEL to a brief. A human who writes four hundred words has
+    decided something, and refusing it would be the pipeline overruling its author."""
+    from _book_edits import record_edit
+    from _book_frontmatter import apply_introduction
+
+    bd = _book(tmp_path)
+    (bd / "book" / "book.md").write_text("# T\n\n## 1. The Call\n\nThe chapter.\n", encoding="utf-8")
+    long_intro = " ".join(["deliberate"] * 400)
+    record_edit(bd, chapter_key="introduction to the book", body_md=long_intro)
+
+    apply_introduction(bd, log=lambda _m: None, author=lambda _p: _SHORT)
+
+    assert long_intro in (bd / "book" / "book.md").read_text(encoding="utf-8")
+
+
+def test_replacing_an_authored_introduction_stays_idempotent(tmp_path: Path) -> None:
+    from _book_edits import record_edit
+    from _book_frontmatter import INTRO_HEADING, apply_introduction
+
+    bd = _book(tmp_path)
+    (bd / "book" / "book.md").write_text("# T\n\n## 1. The Call\n\nThe chapter.\n", encoding="utf-8")
+    record_edit(bd, chapter_key="introduction to the book", body_md="The author's own introduction.")
+
+    apply_introduction(bd, log=lambda _m: None)
+    once = (bd / "book" / "book.md").read_text(encoding="utf-8")
+    apply_introduction(bd, log=lambda _m: None)
+
+    assert (bd / "book" / "book.md").read_text(encoding="utf-8") == once
+    assert once.count(INTRO_HEADING) == 1
+
+
+def test_the_earlier_shape_leaves_no_orphan_marker() -> None:
+    """Books written this morning fenced the heading INSIDE the span.
+
+    Strip by section first and the closing marker leaves with the section, which
+    strands the opening marker above it — unpairable, and therefore permanent.
+    All three finished books came back carrying exactly that. Fence first.
+    """
+    from _book_frontmatter import INTRO_CLOSE, INTRO_HEADING, INTRO_OPEN, strip_introduction
+
+    earlier = (
+        f"# T\n\n{INTRO_OPEN}\n{INTRO_HEADING}\n\nThe introduction.\n{INTRO_CLOSE}\n\n## 1. The Call\n\nThe chapter.\n"
+    )
+
+    out = strip_introduction(earlier)
+
+    assert "edition-intro" not in out
+    assert INTRO_HEADING not in out and "The introduction." not in out
+    assert "## 1. The Call\n\nThe chapter." in out
+
+
+def test_a_book_carrying_the_earlier_shape_re_injects_cleanly() -> None:
+    from _book_frontmatter import INTRO_CLOSE, INTRO_HEADING, INTRO_OPEN, inject_introduction
+
+    earlier = f"# T\n\n{INTRO_OPEN}\n{INTRO_HEADING}\n\nOld text.\n{INTRO_CLOSE}\n\n## 1. The Call\n\nThe chapter.\n"
+
+    out = inject_introduction(earlier, _SHORT)
+
+    assert out.count(INTRO_OPEN) == 1 and out.count(INTRO_CLOSE) == 1
+    assert out.count(INTRO_HEADING) == 1
+    assert out.index(INTRO_HEADING) < out.index(INTRO_OPEN)  # the new shape
+    assert "Old text." not in out
