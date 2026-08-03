@@ -241,5 +241,5 @@ git log --oneline --diff-filter=D -- infra/cloudflare/salty-lamps-proposal.md
 git show <sha>^:infra/cloudflare/salty-lamps-proposal.md
 ```
 
-Its Supabase companion, `infra/supabase/salty-lamps-notes.md`, is untouched:
-this change was scoped to Cloudflare.
+Its Supabase companion moved to `SaltyLamps/infra/supabase-proposal-notes.md`
+on the same day, so no Salty Lamps material remains in this repo.

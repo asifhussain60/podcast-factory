@@ -34,7 +34,7 @@ The memoir, the static journal site, and the Anthropic API proxy moved to (or we
 - Memoir engine — moved to journal. `content/babu-memoir/`, `scripts/memoir/`, `scripts/site/`, `skills-staging/journal/`, `.github/agents/journal-*` are NOT here.
 - Journal site — moved to journal.
 - Anthropic API proxy — `server/` retired 2026-05-22.
-- Cloudflare deploy — `wrangler.toml`, `site-worker.js`, `docs/cloudflare/` retired 2026-05-22. (`infra/cloudflare/` + `infra/supabase/` are NOT retired — they are non-pipeline reference docs for the separate Salty Lamps project; leave in place, never wire into pipeline code.)
+- Cloudflare deploy — `wrangler.toml`, `site-worker.js`, `docs/cloudflare/` retired 2026-05-22. (`infra/cloudflare/` is NOT retired — it is this repo's canonical Cloudflare record. The Salty Lamps docs that used to sit beside it moved to the SaltyLamps repo on 2026-08-03.)
 
 ## Machine model
 

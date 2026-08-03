@@ -123,6 +123,30 @@ retention, narrative frame), the repo convention wins and is cited, not restated
   speaker put it. It passed REQ-BA-120 on every paragraph and read nothing
   like the edition printed beside it.
 
+- **REQ-BA-126 — No navigation apparatus (R-NO-NAVIGATION-APPARATUS).** Under a
+  third-person frame the prose does not locate itself inside the SOURCE's
+  division scheme. The edition prints numbered chapters; it has no canopies,
+  gates, babs or fasls a reader can turn to, so "we now come to the fourth
+  chapter of the first gate of the first canopy" points at nothing they can
+  find. Two shapes, both apparatus: LOCATING ("this fourth room stands in the
+  first canopy") and RECITING ("five canopies, each of five gates", "one hundred
+  and twenty-five sections in all"), plus any SECOND explanation of what a
+  suradiq or bab is. Drop the locator, keep what the sentence teaches — several
+  carry both. Naming the source's own term once, where its argument turns on it,
+  is fine, and a heading or Arabic line the source prints is quoted text and
+  stays untouched. Instructed by `_narrative.frame_prompt_directive`, guarded
+  differentially by `_narrative.navigation_findings`.
+- **REQ-BA-127 — Every foreign term is shown in script at least once
+  (R-ARABIC-SCRIPT-SHOWN-ONCE).** A term the book sets in italics as foreign is
+  given in Arabic script somewhere in the book — once is enough, per the
+  annotation policy. REQ-BA-060 and the Arabic audit both enumerate Arabic RUNS,
+  so a term that reached the page as `*marifah*` and nothing else produces no run
+  and is invisible to them: `al-anwaar-al-lateefah` shipped 219 such terms with
+  `arabic_runs_lost: 0`. Checked by `_gloss_terms.bare_term_findings`, reported
+  in `_system/gloss-coverage.json` and by ship gate B7, and ratcheted per book in
+  `tests/test_gloss_terms.py`. Work titles and English set in italics are out of
+  scope.
+
 ## Rhetorical judgment and out-of-band notes
 
 - **REQ-BA-130 — Meaningful repetition survives; mechanical repetition may be

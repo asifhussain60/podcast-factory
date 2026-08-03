@@ -13,7 +13,7 @@ This directory contains all provisioning scripts, credential management tooling,
 | [`claude-agents/`](claude-agents/) | Canonical agent spec files (18 agents) | Agent authoring; `.github/agents/` stubs point here |
 | [`setup-wisdom-db.sh`](supabase/setup-wisdom-db.sh) | Local SQL Server (Docker) for Quran/sessions/topics corpus | Post-clone, once per Mac |
 | [`cloudflare/`](cloudflare/) | Cloudflare account, secrets, and how to deploy to it | Canonical |
-| [`supabase/`](supabase/) | Salty Lamps notes database record (not podcast-factory pipeline) | Reference only |
+| [`wisdom-db/`](wisdom-db/) | Local SQL Server container holding the three source-library dumps | Setup script |
 
 ## Quick-reference: new Mac setup order
 
@@ -27,7 +27,7 @@ Full guide at [docs/setup/bootstrap.md](../docs/setup/bootstrap.md). The infra s
 5. bash scripts/install-claude-skills.sh       # infra/claude-agents/
 6. cd infra/azure && az login && bash pull-secrets.sh   # all credentials from Key Vault
 7. bash infra/llm-apis/verify-llm-apis.sh      # confirm Claude + Gemini
-8. bash infra/supabase/setup-wisdom-db.sh               # SQL Server (optional; needs Docker + dump files)
+8. bash infra/wisdom-db/setup-wisdom-db.sh               # SQL Server (optional; needs Docker + dump files)
 9. bash scripts/start-session.sh               # confirm ready
 ```
 
@@ -82,7 +82,7 @@ One-time Docker SQL Server bootstrap for the source library (Quran lookup, sessi
   - `CONTENT/_shared/source-library/Kashkole.sql` (~724 MB)
 
 ```bash
-bash infra/supabase/setup-wisdom-db.sh   # ~3-5 min first run; idempotent
+bash infra/wisdom-db/setup-wisdom-db.sh   # ~3-5 min first run; idempotent
 
 # After script completes, register the MCP server:
 python3 scripts/podcast/source_library_server.py --register

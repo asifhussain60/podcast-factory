@@ -145,7 +145,7 @@ open -a OrbStack        # complete setup, pick Docker
 #   CONTENT/_shared/source-library/Kashkole.sql   (~724 MB)
 
 cd ~/PROJECTS/podcast-factory
-bash infra/supabase/setup-wisdom-db.sh   # ~3-5 min on first run; idempotent on re-runs
+bash infra/wisdom-db/setup-wisdom-db.sh   # ~3-5 min on first run; idempotent on re-runs
 ```
 
 After the script completes, register the MCP server so Claude Code can call it:
@@ -160,7 +160,7 @@ python3 scripts/podcast/source_library_server.py --register
 |---|---|---|---|
 | `content/knowledge-base/mirror.db` | ✅ committed | ~29 MB | Travels in git. The reference "wisdom-corpus mirror" some scripts/tests guard on. |
 | `content/knowledge-base/knowledge.db` | gitignored | ~0.5 MB | **Rebuilt from JSONL** — `python3 scripts/podcast/intelligence/corpus_sync.py rebuild`. The durable corpus is the committed `content/knowledge-base/*.jsonl` atoms (union-merged across machines via `.gitattributes`). |
-| `content/_shared/source-library/{KQur,KSessions,Kashkole}.sql` | gitignored | ~768 MB | Large dumps — **restore from your external backup** (Google Drive or another Mac); not in git. Feed `infra/supabase/setup-wisdom-db.sh` to populate the SQL Server container. |
+| `content/_shared/source-library/{KQur,KSessions,Kashkole}.sql` | gitignored | ~768 MB | Large dumps — **restore from your external backup** (Google Drive or another Mac); not in git. Feed `infra/wisdom-db/setup-wisdom-db.sh` to populate the SQL Server container. |
 | `content/_shared/source-library/wisdom-corpus.db` | gitignored | ~11 MB | Local-only SQLite extract of the KSessions session/transcript data (the paused Wave-M import). Holds source transcripts (sessions/transcripts/groups), **not corpus atoms** — it is intentionally **kept, not deleted**: it is non-redundant local source data re-buildable only from `KSessions.sql`. |
 
 > Only `mirror.db` and the JSONL atoms travel in git. Everything else is rebuildable on a fresh machine from the SQL dumps (restored from external backup) or from the committed JSONL.
