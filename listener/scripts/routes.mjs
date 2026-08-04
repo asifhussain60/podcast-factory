@@ -57,6 +57,17 @@ export const BOOK_ROUTES = [
   { path: "/book/:slug/read/:chapter", who: "reader", expect: 200, label: "reader" },
   { path: "/book/:slug/marks", who: "reader", expect: 200, label: "marks" },
 
+  // The same chapter, to the one account whose right-hand drawer is the Scholar
+  // Companion rather than its own notes. Shot separately because it is a
+  // DIFFERENT PAGE — a different panel, and tinted sentences in the prose — and
+  // the reader shot above, taken as an ordinary reader, can never show it.
+  {
+    path: "/book/:slug/read/:chapter",
+    who: "admin",
+    expect: 200,
+    label: "reader-companion",
+  },
+
   // The same book, to someone who was never given it.
   { path: "/book/:slug", who: "nobody", expect: 404, label: "book-denied" },
   { path: "/book/:slug/read/:chapter", who: "nobody", expect: 404, label: "reader-denied" },

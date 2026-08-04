@@ -1,9 +1,48 @@
 # Current work - status
 
-**Last updated:** 2026-08-04 (Access becomes one screen: five numbers, a table of
-a hundred people, and an invite form that asks for a name once)
+**Last updated:** 2026-08-04 (The Scholar Companion reaches the Listener's reader,
+for one account, and the sentence it explains lights up as you reach it)
 
-**Newest — the Access screen is People, and the numbers moved above the tabs.**
+**Newest — the Companion is in the reader, and only Asif can see it.**
+
+Asif: reading a chapter on the Listener should open the Ismaili Scholar Companion
+where the Notes drawer is, for `asifhussain60@gmail.com` and nobody else, with
+the Composer's behaviour — the explained sentence tinted, the card following the
+page.
+
+- **The cards travel at publish time.** `companion_note` (migration 0007) is
+  written from `_system/companion-notes/*.json` by `publish_to_listener.py`, body
+  markdown rendered ONCE through the admin site's own `cardMarkdownToHtml`. The
+  notes are filed under `sectionKeyFromHeading`, which keeps the heading's
+  ordinal, while every table here keys a chapter by `anchor_key`, which strips
+  it: the two are reconciled at publish time by ASKING the renderer bridge for
+  the section key, so no fifth TS↔Python mirror was created. Both new functions
+  are pinned by the golden fixture.
+- **One reader, and the query is never made for anybody else.**
+  `companionFor` (its own module — `catalog.server.ts` says of itself that
+  nothing in it asks who may see what) returns `[]` without touching the database
+  unless `viewer.isAdmin`. `npm run security` fires the leak request as a FULLY
+  GRANTED non-admin with the administrator's copy of the same page as the
+  control; a unit test hands the non-admin path a database that throws if
+  anything is asked of it.
+- **One paint pass owns the chapter DOM.** The tint is a second class inside
+  `paintHighlights`, not a second painter: two painters would each strip "what
+  the last run added" and take the other's marks off with it. A reader's own
+  highlight over an explained sentence nests inside the tint and both survive —
+  photographed, not assumed.
+- **A card whose sentence is gone is shown and says so.** Passages resolve
+  through `resolveAnchor` with no offsets and no prefix, so it falls to the
+  whole-chapter search and refuses on ambiguity. Nothing is guessed onto a
+  paragraph.
+- **The drawer is decided by WHO, never by what exists.** From `isAdmin`, not
+  from whether this chapter has cards — otherwise the right-hand panel would be
+  the Companion on two chapters and the notes list on the other seven.
+- **Known, not a defect in the code:** the one card whose `anchor` was saved as a
+  truncated copy of its own quote prints that truncation as its title and the
+  full sentence under it. The Composer shows the same duplication from the same
+  field; the fix is a real label on the note, not a presentation rule here.
+
+**Previously — the Access screen is People, and the numbers moved above the tabs.**
 
 Asif, on the two screenshots: drop the Overview tab, make People the default and
 its metrics a single row keeping only the highest-value numbers across people and

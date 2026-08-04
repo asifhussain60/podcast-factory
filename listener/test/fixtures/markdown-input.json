@@ -2,7 +2,8 @@
   "chapters": [
     {
       "anchor_key": "inline arabic inside an english sentence",
-      "markdown": "The title, *Ayyuha al-Walad* (أَيُّهَا الْوَلَد) — \"O son\" — is how he addresses him."
+      "markdown": "The title, *Ayyuha al-Walad* (أَيُّهَا الْوَلَد) — \"O son\" — is how he addresses him.",
+      "heading": "Introduction to the Book"
     },
     {
       "anchor_key": "a standalone arabic quotation followed by its english",
@@ -10,7 +11,8 @@
     },
     {
       "anchor_key": "a numbered chapter heading, which must not become part of the key",
-      "markdown": "## 3. The Hours Before Dawn\n\nA paragraph."
+      "markdown": "## 3. The Hours Before Dawn\n\nA paragraph.",
+      "heading": "## 3. The Hours Before Dawn"
     },
     {
       "anchor_key": "an ordered and an unordered list",
@@ -23,6 +25,16 @@
     {
       "anchor_key": "a blockquote carrying arabic and its translation",
       "markdown": "> قَالَ رَسُولُ اللَّهِ\n>\n> The Messenger of Allah said."
+    }
+  ],
+  "cards": [
+    {
+      "id": "a scholar note with headings, a list and arabic",
+      "markdown": "### The five conditions\n\nThe root **و-ث-ق** means *to trust*.\n\n- guard what is entrusted\n- conceal nothing\n\n> أَمَانَة\n\n1. patience\n2. humility"
+    },
+    {
+      "id": "a scholar note that is only prose",
+      "markdown": "Milk before meat: the Master gives what can be digested, not what is asked for."
     }
   ]
 }

@@ -25,6 +25,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import yaml  # noqa: E402
 from _book_edits import anchor_key  # noqa: E402
+from _listener_companion import (  # noqa: E402
+    CompanionCard,
+    attach_companion,
+    cards_to_render,
+    read_companion,
+)
 from _paths import find_content  # noqa: E402
 
 LISTENER = Path(__file__).resolve().parents[2] / "listener"
@@ -133,6 +139,11 @@ class Book:
     sessions: list[Session] = field(default_factory=list)
     assets: list[Asset] = field(default_factory=list)
     bridge: list[tuple[int, str]] = field(default_factory=list)
+    # The notes exactly as filed, by section key — the raw read. `render` turns
+    # them into `companion` once the renderer has told us which chapter each
+    # section key belongs to. Same two-phase shape as a chapter's markdown/html.
+    companion_notes: dict[str, list[dict]] = field(default_factory=dict)
+    companion: list[CompanionCard] = field(default_factory=list)
     unmatched_audio: list[str] = field(default_factory=list)
     cover: Asset | None = None
     pdf: Asset | None = None
@@ -455,6 +466,7 @@ def load_book(slug: str) -> Book:
     )
 
     book.bridge = read_bridge(directory, book.chapters)
+    book.companion_notes = read_companion(directory)
     collect_media(book)
     return book
 
@@ -465,16 +477,25 @@ def load_book(slug: str) -> Book:
 
 
 def render(book: Book) -> None:
-    """Fill in every chapter's HTML, and the blurb's, in one call to the renderer.
+    """Fill in every chapter's HTML, the blurb's, and the Companion cards'.
 
-    The blurb goes through it too. It is markdown on disk carrying italics,
-    inline Arabic and scholarly transliteration, so shipping the raw text put
-    `*Kitab al-Alim wa-l-Ghulam*` on the page with its asterisks showing and its
-    diacritics unfolded. One renderer, one result, everywhere.
+    ONE call to the renderer, carrying everything that needs it. The blurb goes
+    through it because it is markdown on disk carrying italics, inline Arabic and
+    scholarly transliteration, so shipping the raw text put `*Kitab al-Alim
+    wa-l-Ghulam*` on the page with its asterisks showing and its diacritics
+    unfolded. The Companion cards go through it for the same reason, through the
+    card's own renderer.
+
+    The same call answers a second question: which chapter each companion file
+    belongs to. Every chapter's HEADING goes over with it and comes back with the
+    `section_key` the notes are filed under, so the ordinal-keeping rule stays in
+    the one module that owns it and this side only ever compares two strings.
     """
-    items = [{"anchor_key": c.anchor, "markdown": c.markdown} for c in book.chapters]
+    items = [{"anchor_key": c.anchor, "heading": c.title, "markdown": c.markdown} for c in book.chapters]
     if book.blurb is not None:
         items.append({"anchor_key": "\x00blurb", "markdown": book.blurb})
+
+    cards = cards_to_render(book.companion_notes)
 
     if not items:
         return
@@ -482,14 +503,17 @@ def render(book: Book) -> None:
     result = subprocess.run(
         ["node", "scripts/render-chapters.mjs"],
         cwd=LISTENER,
-        input=json.dumps({"chapters": items}),
+        input=json.dumps({"chapters": items, "cards": cards}),
         capture_output=True,
         text=True,
         check=True,
     )
 
-    rendered = {c["anchor_key"]: c["html"] for c in json.loads(result.stdout)["chapters"]}
+    payload = json.loads(result.stdout)
+    rendered = {c["anchor_key"]: c["html"] for c in payload["chapters"]}
     for chapter in book.chapters:
         chapter.html = rendered[chapter.anchor]
     if book.blurb is not None:
         book.blurb = rendered["\x00blurb"]
+
+    book.companion = attach_companion(book.companion_notes, payload)

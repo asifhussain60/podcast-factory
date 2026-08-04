@@ -4031,6 +4031,162 @@
     color: var(--l-danger);
   }
 
+  /* ---- The Scholar Companion ----------------------------------------------
+     The cards in the drawer, and the tint on the sentences they explain. Seen
+     by one account; styled from the same tokens as everything else, because a
+     surface only one person sees is exactly the one that quietly stops matching
+     the rest of the site.
+
+     The tint is NOT one of the four highlight colours and must not be mistaken
+     for one: a reader's highlight is something they put there, and this is the
+     book's own apparatus. It reads as the accent, at the weight of a wash. */
+
+  .pf-cp {
+    color: inherit;
+    background: color-mix(in srgb, var(--l-accent) 12%, transparent);
+    /* The signal that survives a colour-blind reader and a printed page. A
+       dotted rule under the words, not the solid one a highlight refuses (see
+       .pf-hl) — solid reads as a link, dotted reads as a footnote, which is
+       what this is. */
+    border-bottom: 1px dotted color-mix(in srgb, var(--l-accent) 60%, transparent);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background var(--pf-motion);
+  }
+
+  .pf-cp:hover {
+    background: color-mix(in srgb, var(--l-accent) 20%, transparent);
+  }
+
+  .pf-companion {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+  }
+
+  .pf-companion-card {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Lit while its sentence is on screen. A left edge rather than a fill: the
+     card is mostly prose, and a tinted background behind prose at this size is
+     the thing that makes a panel hard to read. */
+  .pf-companion-card--lit {
+    border-inline-start: 3px solid var(--l-accent);
+  }
+
+  .pf-companion-card__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-1);
+    width: 100%;
+    padding: var(--pf-space-3) var(--pf-space-4);
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .pf-companion-card__head:hover {
+    background: var(--l-sunken);
+  }
+
+  .pf-companion-card__title {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 600;
+    color: var(--l-display);
+  }
+
+  .pf-companion-card__gist {
+    font-size: var(--pf-text-xs);
+    line-height: 1.5;
+    color: var(--l-faint);
+  }
+
+  .pf-companion-card__body {
+    padding: 0 var(--pf-space-4) var(--pf-space-4);
+    font-size: var(--pf-text-sm);
+    line-height: 1.6;
+    color: var(--l-ink);
+  }
+
+  /* The chapter's own sentence, quoted back. Set apart from the explanation so
+     the two are never read as one voice — the book speaks in the quotation and
+     the Companion speaks under it. */
+  .pf-companion-card__quote {
+    display: flex;
+    gap: var(--pf-space-2);
+    margin-bottom: var(--pf-space-3);
+    padding: var(--pf-space-2) var(--pf-space-3);
+    background: var(--l-sunken);
+    border-radius: var(--pf-radius);
+    font-family: var(--l-font-reading);
+    font-size: var(--pf-text-xs);
+    line-height: 1.55;
+    color: var(--l-muted);
+  }
+
+  .pf-companion-card__quote .pf-icon {
+    flex: none;
+    margin-top: 0.2em;
+    color: var(--l-faint);
+  }
+
+  .pf-companion-card__prose > * + * {
+    margin-top: 0.75em;
+  }
+
+  .pf-companion-card__prose h3,
+  .pf-companion-card__prose h4 {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 600;
+    color: var(--l-display);
+  }
+
+  .pf-companion-card__prose ul,
+  .pf-companion-card__prose ol {
+    padding-inline-start: 1.25em;
+    list-style: revert;
+  }
+
+  .pf-companion-card__prose blockquote {
+    padding-inline-start: var(--pf-space-3);
+    border-inline-start: 2px solid var(--l-rule);
+    color: var(--l-muted);
+  }
+
+  .pf-companion-card__prose code {
+    font-size: 0.9em;
+  }
+
+  /* An Arabic run inside a card, wrapped by the card renderer — the class is
+     `cardMarkdownToHtml`'s, not ours, exactly like §7's names are the prose
+     renderer's. It is the one class this file does not get to rename. */
+  .xpl-ar {
+    font-family: var(--l-font-arabic);
+    font-size: 1.1em;
+    line-height: 2;
+  }
+
+  .pf-companion-card__etymology {
+    margin-top: var(--pf-space-3);
+    padding-top: var(--pf-space-3);
+    border-top: 1px solid var(--l-rule);
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+    font-size: var(--pf-text-xs);
+    line-height: 1.55;
+    color: var(--l-muted);
+  }
+
+  .pf-companion-card__lost {
+    margin-top: var(--pf-space-3);
+    font-size: var(--pf-text-xs);
+    color: var(--l-faint);
+  }
+
   /* ---- Player -------------------------------------------------------------
      Fixed to the foot of every page once something is playing, so navigating
      away from a book does not stop it. */

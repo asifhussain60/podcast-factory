@@ -142,6 +142,20 @@ def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
             f"({sql_str(book.slug)}, {number}, {sql_str(anchor)});"
         )
 
+    # The Scholar Companion cards. Cleared and rewritten like the chapters, so a
+    # note deleted in the Composer disappears here rather than staying readable
+    # forever — and so does one whose chapter was renamed out from under it.
+    add(f"DELETE FROM companion_note WHERE slug = {sql_str(book.slug)};")
+    for card in book.companion:
+        add(
+            "INSERT INTO companion_note "
+            "(slug, anchor_key, note_id, idx, title, quote, body_html, etymology) VALUES "
+            f"({sql_str(book.slug)}, {sql_str(card.anchor)}, {sql_str(card.note_id)}, "
+            f"{card.idx}, {sql_str(card.title)}, {sql_str(card.quote)}, "
+            f"{sql_str(card.body_html)}, "
+            f"{sql_str(json.dumps(card.etymology, ensure_ascii=False) if card.etymology else None)});"
+        )
+
     # Media is the ONE table not cleared and rewritten, because `uploaded_at` is
     # knowledge this run does not have: it says the object is in R2, and only the
     # uploader can know that. A delete-and-reinsert would reset it on every
@@ -216,6 +230,7 @@ def describe(book: Book) -> dict:
         "cover": bool(book.cover),
         "deck_pages": sum(1 for a in book.assets if a.kind == "deck-page"),
         "bridge_links": len(book.bridge),
+        "companion_cards": len(book.companion),
         "unmatched_audio": book.unmatched_audio,
         "media_bytes": sum(a.bytes for a in book.assets),
     }
@@ -275,6 +290,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  print edition      {'yes' if summary['pdf'] else 'no'}")
             print(f"  slide deck         {summary['deck_pages'] or 'none'}")
             print(f"  episode<->chapter  {summary['bridge_links'] or 'not recorded'}")
+            print(f"  scholar cards      {summary['companion_cards'] or 'none'}")
             for name in summary["unmatched_audio"]:
                 print(f"  ! audio not shipped, left where it is: {name}")
 

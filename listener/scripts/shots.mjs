@@ -97,6 +97,34 @@ const STATES = {
       },
     },
   ],
+  // The same chapter, seen by the one account whose right-hand drawer is the
+  // Scholar Companion. Photographed separately because it is a different page:
+  // a different panel, and the sentences the cards explain tinted in the prose.
+  //
+  // What it shows depends on the book the fixture picked. When that book has no
+  // companion notes these are pictures of the EMPTY panel — which is the state
+  // that account is in on most chapters, and therefore worth looking at.
+  "reader-companion": [
+    { name: "plain", act: async () => {} },
+    {
+      name: "companion-open",
+      act: async (page) => {
+        await page.click(".pf-edge-tab--end").catch(() => {});
+        await page.waitForSelector(".pf-drawer--end", { timeout: 2000 }).catch(() => {});
+      },
+    },
+    {
+      // Standing IN an explained passage, which is the whole behaviour: the
+      // sentence is tinted and its card opens on its own.
+      name: "at-a-passage",
+      act: async (page) => {
+        await page.click(".pf-edge-tab--end").catch(() => {});
+        await page.waitForSelector(".pf-drawer--end", { timeout: 2000 }).catch(() => {});
+        await page.locator("mark.pf-cp").first().scrollIntoViewIfNeeded().catch(() => {});
+        await page.waitForTimeout(400);
+      },
+    },
+  ],
   "admin-people": [
     { name: "plain", act: async () => {} },
     {

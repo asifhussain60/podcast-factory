@@ -94,6 +94,10 @@ const DELIBERATE = new Set([
   // Rendered by the Icon component, which builds its class list rather than
   // writing a literal `className`.
   "pf-icon",
+  // The Companion tint. Painted into the chapter by Highlights.tsx, which sets
+  // `className` on an element it created rather than writing one in JSX — the
+  // same reason `pf-hl` is listed as a composed prefix above.
+  "pf-cp",
   // A BEM block whose block-level rule is genuinely empty: `.pf-section__title`,
   // `__head`, `__count` and `__intro` all carry rules, and the wrapper needs
   // none. Naming the block anyway is what makes the element names legible.

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  faBookOpen,
   faChevronLeft,
   faChevronRight,
   faNoteSticky,
@@ -8,6 +9,7 @@ import { Link, useNavigate } from "react-router";
 
 import type { Route } from "./+types/book.$slug.read.$chapter";
 import { Icon } from "~/components/Icon";
+import { CompanionList } from "~/components/reader/CompanionList";
 import { NotesList } from "~/components/reader/NotesList";
 import { ContentsPanel } from "~/components/reader/ContentsPanel";
 import { SidePanel } from "~/components/reader/SidePanel";
@@ -28,9 +30,11 @@ import {
 } from "~/lib/marks";
 import { notFound } from "~/middleware/deny";
 import { requireUnitAccess } from "~/middleware/entitled";
+import { session } from "~/middleware/session";
 import { unitBySlug } from "~/server/access.server";
 import { readingMinutes } from "~/lib/reading";
 import { chapterOf, chaptersOf } from "~/server/catalog.server";
+import { companionFor } from "~/server/companion.server";
 
 /**
  * One chapter of the reading edition.
@@ -53,10 +57,15 @@ export async function loader({ params, context }: Route.LoaderArgs) {
   const slug = params.slug;
   const key = decodeURIComponent(params.chapter);
 
-  const [unit, chapter, all] = await Promise.all([
+  const viewer = context.get(session).viewer;
+
+  const [unit, chapter, all, companion] = await Promise.all([
     unitBySlug(env.DB, slug),
     chapterOf(env.DB, slug, key),
     chaptersOf(env.DB, slug),
+    // Empty, and un-queried, for everyone but the administrator. The gate is
+    // inside that function rather than a condition here — see the module.
+    companionFor(env.DB, viewer, slug, key),
   ]);
 
   // A chapter key that is not in this book is a 404 exactly like a slug that is
@@ -73,11 +82,18 @@ export async function loader({ params, context }: Route.LoaderArgs) {
     position: here,
     previous: here > 0 ? all[here - 1] : null,
     next: here >= 0 && here < all.length - 1 ? all[here + 1] : null,
+    companion,
+    // Which DRAWER this reader gets, decided once for the whole book rather than
+    // per chapter. Derived from `companion.length` it would have been free, but
+    // then the right-hand panel would be the Companion on the two chapters that
+    // have cards and the notes list on the other seven — a drawer that changes
+    // what it is depending on where you are standing.
+    isCompanion: viewer?.isAdmin === true,
   };
 }
 
 export default function ReadChapter({ loaderData }: Route.ComponentProps) {
-  const { bookTitle, slug, chapter, contents, position, previous, next } =
+  const { bookTitle, slug, chapter, contents, position, previous, next, companion, isCompanion } =
     loaderData;
   const navigate = useNavigate();
 
@@ -86,6 +102,13 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   const [notesOpen, setNotesOpen] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [orphaned, setOrphaned] = useState<Set<string>>(() => new Set());
+  const [unplaced, setUnplaced] = useState<Set<string>>(() => new Set());
+  /** Companion cards whose sentence is on screen, in reading order. */
+  const [inView, setInView] = useState<string[]>([]);
+  /** A tinted sentence was tapped; the nonce makes a repeat tap re-fire. */
+  const [focusCard, setFocusCard] = useState<{ id: string; nonce: number } | null>(null);
+  /** Bumped once per paint, so the sweep below re-observes the marks just made. */
+  const [paints, setPaints] = useState(0);
 
   const body = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLSpanElement>(null);
@@ -181,6 +204,13 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       setOrphaned((current) =>
         sameSet(current, painted.orphaned) ? current : painted.orphaned,
       );
+      setUnplaced((current) =>
+        sameSet(current, painted.unplaced) ? current : painted.unplaced,
+      );
+      // Unconditional, and that is the point: it says a paint HAPPENED, which is
+      // what the observer below needs to know. Comparing sets like the two above
+      // would miss the repaint that produced the same marks in a new DOM.
+      setPaints((n) => n + 1);
 
       // A passage that moved gets its corrected offsets written back, so the
       // next device to open this chapter finds it first time instead of
@@ -212,7 +242,92 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     [annotations],
   );
 
-  useHighlights(body, annotations, activeId, onResolved);
+  /* ---- The Companion ----------------------------------------------------
+     The cards' sentences are tinted by the SAME paint pass as the highlights —
+     one function owns this DOM — and the panel then follows the page from the
+     marks that pass produced. `companion` comes from the loader and is stable
+     for the life of the chapter, so the memo is what keeps it from counting as
+     a change and repainting the chapter on every scroll tick.                */
+  const passages = useMemo(
+    () => companion.filter((c) => c.quote !== null).map((c) => ({ id: c.id, quote: c.quote! })),
+    [companion],
+  );
+
+  useHighlights(body, annotations, activeId, onResolved, passages);
+
+  // Which explained sentences are on screen. An observer rather than a scroll
+  // handler: the answer changes only when a passage crosses the viewport edge,
+  // and a scroll listener would recompute it a hundred times on the way there.
+  // Re-created after every paint, because the previous marks no longer exist.
+  useEffect(() => {
+    const root = body.current;
+    if (root === null || passages.length === 0) return;
+
+    const marks = Array.from(root.querySelectorAll<HTMLElement>("mark.pf-cp"));
+    if (marks.length === 0) return;
+
+    const visible = new Set<string>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = (entry.target as HTMLElement).dataset.companionId;
+          if (id === undefined) continue;
+          if (entry.isIntersecting) visible.add(id);
+          else visible.delete(id);
+        }
+        // In READING order, not in the order the observer reported them, so the
+        // card that opens is the passage furthest up the page — the one being
+        // read rather than the one just appearing at the bottom.
+        const ordered = marks
+          .map((m) => m.dataset.companionId)
+          .filter((id): id is string => id !== undefined && visible.has(id));
+        setInView((current) => (sameList(current, ordered) ? current : ordered));
+      },
+      // A band around the middle of the screen. The whole viewport would call a
+      // passage "here" while it is still a screen away at the bottom.
+      { rootMargin: "-25% 0px -35% 0px" },
+    );
+
+    for (const mark of marks) observer.observe(mark);
+    return () => observer.disconnect();
+  }, [passages, paints]);
+
+  // Tapping an explained sentence opens its card. A tap that lands inside the
+  // reader's OWN highlight is theirs — the selection bar answers it — because a
+  // mark they made is the one they meant to press.
+  useEffect(() => {
+    const root = body.current;
+    if (root === null || passages.length === 0) return;
+
+    const open = (target: HTMLElement | null) => {
+      if (target?.closest("mark.pf-hl")) return;
+      const mark = target?.closest("mark.pf-cp") as HTMLElement | null;
+      const id = mark?.dataset.companionId;
+      if (id === undefined) return;
+      setNotesOpen(true);
+      setContentsOpen(false);
+      setFocusCard({ id, nonce: Date.now() });
+    };
+
+    const onClick = (event: MouseEvent) => open(event.target as HTMLElement | null);
+    // The marks are focusable and carry a button role, so they have to answer the
+    // keyboard too — a click listener alone makes them a control only a pointer
+    // can reach. Same shape as SelectionBar's own key handler.
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      const target = event.target as HTMLElement | null;
+      if (target?.closest("mark.pf-cp") === null) return;
+      event.preventDefault();
+      open(target);
+    };
+
+    root.addEventListener("click", onClick);
+    root.addEventListener("keydown", onKey);
+    return () => {
+      root.removeEventListener("click", onClick);
+      root.removeEventListener("keydown", onKey);
+    };
+  }, [passages]);
 
   const highlight = useCallback(
     (anchor: Anchor, colour: Colour) => {
@@ -372,6 +487,13 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
         slug={slug}
       />
 
+      {/* ONE drawer on this edge, and what it holds depends on who is reading.
+          For the account the Scholar Companion belongs to it is the Companion —
+          the cards written against this chapter, following the passage. For
+          everyone else it is unchanged: their own marks, as it has always been.
+          Not two tabs and not two tabs' worth of chrome; the Companion account
+          reaches its own marks from the book page's Notes tab, and the drawer
+          stays one thing per reader rather than a thing with a mode. */}
       <SidePanel
         side="end"
         as="aside"
@@ -381,20 +503,31 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
           setContentsOpen(false);
         }}
         onClose={() => setNotesOpen(false)}
-        label="Your notes"
-        icon={faNoteSticky}
-        count={marks.annotations.length + marks.bookmarks.length}
+        label={isCompanion ? "Companion" : "Your notes"}
+        icon={isCompanion ? faBookOpen : faNoteSticky}
+        count={
+          isCompanion ? companion.length : marks.annotations.length + marks.bookmarks.length
+        }
       >
-        <NotesList
-          annotations={marks.annotations}
-          bookmarks={marks.bookmarks}
-          chapters={contents}
-          orphaned={orphaned}
-          slug={slug}
-          onJump={jump}
-          onRemoveAnnotation={removeAnnotation}
-          onRemoveBookmark={removeBookmark}
-        />
+        {isCompanion ? (
+          <CompanionList
+            cards={companion}
+            unplaced={unplaced}
+            inViewIds={inView}
+            focus={focusCard}
+          />
+        ) : (
+          <NotesList
+            annotations={marks.annotations}
+            bookmarks={marks.bookmarks}
+            chapters={contents}
+            orphaned={orphaned}
+            slug={slug}
+            onJump={jump}
+            onRemoveAnnotation={removeAnnotation}
+            onRemoveBookmark={removeBookmark}
+          />
+        )}
       </SidePanel>
 
       <main id="main" className="pf-reader">
@@ -527,6 +660,11 @@ const toFields = (a: {
   colour: a.colour,
   note: a.note ?? "",
 });
+
+/** Whether two id lists are the same, in the same order. Same purpose as below. */
+function sameList(a: string[], b: string[]): boolean {
+  return a.length === b.length && a.every((v, i) => v === b[i]);
+}
 
 /** Whether two id sets hold the same members — used to avoid a needless render. */
 function sameSet(a: Set<string>, b: Set<string>): boolean {

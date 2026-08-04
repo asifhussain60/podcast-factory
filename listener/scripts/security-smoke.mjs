@@ -138,6 +138,36 @@ check(
   true,
 );
 
+console.log("\nthe Scholar Companion reaches one account");
+// A reader who is fully entitled to the book — the case the entitlement checks
+// above never cover, because they are all about someone who holds nothing. The
+// Companion is not an access question: it is a panel of private teaching notes
+// that a perfectly legitimate reader must still never see.
+const MARKER = "SMOKE-COMPANION-DO-NOT-SHOW";
+d1(`
+  INSERT INTO access_grant (user_email, scope_type, scope_id, granted_by, granted_at)
+    VALUES ('${OUTSIDER}', 'unit', 'ayyuhal-walad', 'smoke', 'now');
+  INSERT INTO companion_note (slug, anchor_key, note_id, idx, title, quote, body_html)
+    VALUES ('ayyuhal-walad', '${decodeURIComponent(CHAPTER).replaceAll("'", "''")}',
+            'smoke-note', 1, 'Smoke', NULL, '<p>${MARKER}</p>')
+    ON CONFLICT(slug, note_id) DO UPDATE SET body_html = excluded.body_html;
+`);
+
+const asReader = await get(`/book/ayyuhal-walad/read/${CHAPTER}`, outsider);
+check("the granted reader can read the chapter", asReader.status, 200);
+check("and the chapter carries no companion note", (await asReader.text()).includes(MARKER), false);
+
+// Control. Without it, the check above passes just as happily when the note was
+// never written, when the chapter key was wrong, or when the page 500s — none of
+// which prove anything was withheld from anybody.
+const asAdmin = await get(`/book/ayyuhal-walad/read/${CHAPTER}`, admin);
+check("control: the administrator's copy of the same page carries it", (await asAdmin.text()).includes(MARKER), true);
+
+d1(`
+  DELETE FROM companion_note WHERE note_id = 'smoke-note';
+  DELETE FROM access_grant WHERE user_email = '${OUTSIDER}';
+`);
+
 console.log("\nrevocation takes effect on the next request");
 d1(`UPDATE invite SET revoked_at = 'now' WHERE email = '${OUTSIDER}'`);
 check("revoked person is sent to no-access", (await get("/", outsider)).status, 302);
