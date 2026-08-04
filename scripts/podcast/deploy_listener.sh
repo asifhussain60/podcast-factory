@@ -91,6 +91,32 @@ safinaverse.com zone, so anything published there is unreachable."
 fi
 echo "  ok — $ACCOUNT_NAME"
 
+# --- The database ------------------------------------------------------------
+#
+# BEFORE the Worker, and that order is the whole point: code that reads a table
+# must never reach production ahead of the table. Migration 0006 added the
+# reader's own state — progress, bookmarks, annotations — and a Worker shipped
+# without it answers 500 on every one of those routes.
+#
+# `wrangler d1 migrations` keeps its own ledger in the database, so this is safe
+# to run on every deploy: it applies what is missing and says so when nothing is.
+# A dry run lists rather than applies.
+
+step "Database"
+
+pending="$(npx wrangler d1 migrations list podcast-listener --remote 2>&1)"
+if grep -qi "no migrations to apply" <<<"$pending"; then
+  echo "  ok — schema is current"
+elif [[ -n "$DRY_RUN" ]]; then
+  grep -E "^│|Migrations to be applied" <<<"$pending" | sed 's/^/  /'
+  echo "  dry run — not applying"
+else
+  grep -E "^│|Migrations to be applied" <<<"$pending" | sed 's/^/  /'
+  npx wrangler d1 migrations apply podcast-listener --remote \
+    || die "the migration failed — the Worker was NOT deployed, so production is
+still running against the schema it was built for."
+fi
+
 # --- The Worker --------------------------------------------------------------
 
 if [[ -n "$DRY_RUN" ]]; then
