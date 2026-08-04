@@ -42,10 +42,16 @@ async function used(): Promise<Set<string>> {
     // BOTH capture groups. Reading only the first meant every template-literal
     // className was silently skipped, and the whole `pf-gate` family was
     // reported as dead CSS while it was rendering on two live pages.
-    for (const [, quoted, templated] of text.matchAll(
-      /className=(?:"([^"]*)"|\{`([^`]*)`\})/g,
+    // A third form, added when the selection bar started choosing between two
+    // literals — `className={noting ? "pf-selbar pf-selbar--paper" : "pf-selbar"}`
+    // — and BOTH classes were reported as dead CSS while the composer was
+    // rendering them. Any braced expression carrying no backtick and no nested
+    // brace, split like the others; the template branch is tried first so a
+    // `${…}` inside a template literal still matches there.
+    for (const [, quoted, templated, braced] of text.matchAll(
+      /className=(?:"([^"]*)"|\{`([^`]*)`\}|\{([^`{}]*)\})/g,
     )) {
-      const value = quoted ?? templated;
+      const value = quoted ?? templated ?? braced;
       // Split on anything a class name cannot contain, so the quotes and
       // ternary punctuation inside a template literal do not glue themselves to
       // the name — `" pf-header--bare"` was reported as unused for exactly that.

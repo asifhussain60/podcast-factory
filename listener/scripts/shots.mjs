@@ -72,9 +72,22 @@ const STATES = {
       },
     },
     {
+      // The composer, open and empty. Its own state because it is the largest
+      // surface the reader ever sees floating over the text, and the only one
+      // whose size is a judgment rather than a measurement.
+      name: "note-writing",
+      act: async (page) => {
+        await applyHighlight(page);
+        await openComposer(page);
+      },
+    },
+    {
       name: "notes-open",
       act: async (page) => {
         await applyHighlight(page);
+        // WITH a note on it. A highlight alone photographs half the entry, and
+        // the half it leaves out is the reader's own words.
+        await writeNote(page, "The debt of gratitude is the hinge of the whole passage.");
         // By its accessible name, not by position in a list of icon buttons —
         // an nth-child selector silently photographs the wrong panel the moment
         // a control is added to the row.
@@ -147,6 +160,28 @@ async function applyHighlight(page) {
   await raiseSelectionBar(page);
   await page.click(".pf-selbar__colour--gold").catch(() => {});
   await page.waitForSelector("mark.pf-hl", { timeout: 2000 }).catch(() => {});
+}
+
+/**
+ * Reopen the bar on the highlight just made and start writing on it.
+ *
+ * Through the mark, not through a fresh selection: that is the path a reader
+ * takes to annotate something they have already coloured, and it is the one that
+ * exercises the composer's edit branch.
+ */
+/** @param {import("playwright").Page} page */
+async function openComposer(page) {
+  await page.click("mark.pf-hl").catch(() => {});
+  await page.click('[title="Add note"]').catch(() => {});
+  await page.waitForSelector("#pf-note-draft", { timeout: 2000 }).catch(() => {});
+}
+
+/** @param {import("playwright").Page} page @param {string} text */
+async function writeNote(page, text) {
+  await openComposer(page);
+  await page.fill("#pf-note-draft", text).catch(() => {});
+  await page.click("text=Save note").catch(() => {});
+  await page.waitForSelector(".pf-selbar", { state: "detached", timeout: 2000 }).catch(() => {});
 }
 
 /* -------------------------------------------------------------------------- */

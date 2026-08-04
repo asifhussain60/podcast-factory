@@ -108,7 +108,11 @@ export function NotesList({
           {notes.map((annotation) => (
             <div
               key={annotation.id}
-              className={`pf-mark pf-mark--${annotation.colour}${
+              // `--paper` is what makes it a Post-it: the whole card takes the
+              // colour of the highlight rather than wearing it as an edge. Only
+              // annotations get it. A bookmark is a place, not a note, and has
+              // no colour of its own to be made of.
+              className={`pf-mark pf-mark--paper pf-mark--${annotation.colour}${
                 orphaned.has(annotation.id) ? " pf-mark--orphaned" : ""
               }`}
             >

@@ -180,7 +180,10 @@ export function SelectionBar({
       ref={bar}
       role="dialog"
       aria-label="Mark this passage"
-      className="pf-selbar"
+      // Writing turns the bar into a sheet of paper. The row of swatches is a
+      // control and looks like one; the note is the reader's own words and looks
+      // like the thing you write them on.
+      className={noting ? "pf-selbar pf-selbar--paper" : "pf-selbar"}
       // The ONLY inline style in the app, and it is a measurement rather than a
       // design decision: where the selection happens to be on the page. Nothing
       // about the bar's appearance is set here — the custom properties feed
@@ -198,7 +201,10 @@ export function SelectionBar({
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
             placeholder="What matters about this passage?"
-            rows={3}
+            // Seven, not three. A note is a paragraph often enough that three
+            // rows had you writing into a slot and scrolling to reread your own
+            // sentence — and the box was smaller than the passage it was about.
+            rows={7}
             className="pf-input pf-selbar__field"
           />
           <div className="pf-selbar__actions">
