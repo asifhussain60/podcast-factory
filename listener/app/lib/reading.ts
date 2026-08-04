@@ -61,24 +61,25 @@ export const MEASURES = [58, 68, 78] as const;
  *
  * `1.7` is what the CSS wants; "Normal" is what a reader wants. The labels live
  * HERE, beside the scale, because they used to be written out as a positional
- * array at the control — `["Tight", "Normal", "Loose"][i]` — which silently
+ * array at the control — `["Compact", "Normal", "Wide"][i]` — which silently
  * mislabels every value the moment a fourth step is inserted anywhere but the
  * end. Keyed by value, so an inserted step is a compile error rather than a page
- * that calls Loose "Normal".
+ * that calls Wide "Normal".
  *
- * `MEASURE_LABELS` says narrow/standard/wide, not tight/normal/loose. Line width
- * and line spacing are different settings that both read "Normal" at their
- * defaults, which is how they came to look like the same dropdown twice — the
- * width control was removed for it on 2026-08-04 and is back the same day as
- * three icon buttons, where neither the shape nor the words can be confused
- * with the select beside them.
+ * Compact/Normal/Wide are Asif's words (2026-08-04), and they are the ones on
+ * the three buttons. `MEASURE_LABELS` below says narrow/standard/wide for a
+ * DIFFERENT setting, so neither control ever states its value in a bare word:
+ * the buttons announce "Wide line spacing" and the select is labelled "Line
+ * width". Two settings that both read "Normal" with nothing to tell them apart
+ * is what forced the width control off the toolbar once already.
  */
 export const LEADING_LABELS: Record<(typeof LEADINGS)[number], string> = {
-  1.5: "Tight",
+  1.5: "Compact",
   1.7: "Normal",
-  1.9: "Loose",
+  1.9: "Wide",
 };
 
+/** How wide the column runs. A different question from how far apart its lines sit. */
 export const MEASURE_LABELS: Record<(typeof MEASURES)[number], string> = {
   58: "Narrow",
   68: "Standard",

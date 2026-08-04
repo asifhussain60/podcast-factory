@@ -1,9 +1,9 @@
 import { useId } from "react";
 import {
   faAlignJustify,
-  faArrowsLeftRight,
-  faArrowsLeftRightToLine,
+  faBars,
   faBookmark,
+  faGripLines,
   faHouse,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
@@ -26,18 +26,22 @@ import {
 } from "~/lib/reading";
 
 /**
- * How wide the column is, drawn rather than named.
+ * How far apart the lines sit, drawn rather than named.
  *
- * Arrows pulling in, a settled column, arrows pushing out — the icon carries
- * the idea and the word confirms it. As a select it read "Normal" beside the
- * line-spacing select also reading "Normal", which is why line width was taken
- * out entirely on 2026-08-04 and why it can come back now: three buttons and a
- * dropdown cannot be mistaken for each other.
+ * Lines packed, lines apart, lines further apart — the SPACE BETWEEN the bars is
+ * the whole message, so the metaphor is vertical and no arrow appears in it.
+ *
+ * These three buttons drove line WIDTH until Asif read them the way they were
+ * drawn (2026-08-04): the icons were arrows pulling in and pushing out, which is
+ * a horizontal idea, so a control for horizontal space is what they looked like
+ * and a control for horizontal space is what they were. The setting a reader
+ * reaches for most is spacing; it now has the three buttons and these icons, and
+ * width has the select. Nothing was removed — the two swapped places.
  */
-const MEASURE_ICONS: Record<(typeof MEASURES)[number], IconDefinition> = {
-  58: faArrowsLeftRightToLine,
-  68: faAlignJustify,
-  78: faArrowsLeftRight,
+const LEADING_ICONS: Record<(typeof LEADINGS)[number], IconDefinition> = {
+  1.5: faAlignJustify,
+  1.7: faBars,
+  1.9: faGripLines,
 };
 
 /**
@@ -61,18 +65,21 @@ const MEASURE_ICONS: Record<(typeof MEASURES)[number], IconDefinition> = {
  *      the thing being removed. A scrolling strip is the same idiom the mobile
  *      nav already uses.
  *
- *   2. **A select for spacing, a stepper for size.** Three chips each would be
- *      six buttons and the row would not fit a phone. A select is one control,
- *      gets the platform's own picker on touch, and reads its current value
- *      without being opened. Size stays a stepper because it is the setting a
- *      reader nudges repeatedly, and nudging through a picker is two taps a go.
+ *   2. **Buttons for spacing, a select for width, a stepper for size.** Six
+ *      chips would not fit a phone, so only one of the two three-step settings
+ *      can have buttons, and it is the one a reader actually reaches for: line
+ *      SPACING. A select is one control, gets the platform's own picker on
+ *      touch, and reads its current value without being opened — right for
+ *      width, which is set once and left alone. Size stays a stepper because it
+ *      is nudged repeatedly, and nudging through a picker is two taps a go.
  *
- *      Line WIDTH was a third such control and is gone (Asif, 2026-08-04). It
- *      and line spacing are different settings, but both read "Normal" at their
- *      defaults, so side by side they were two identical dropdowns — and a
- *      control nobody can tell from its neighbour is worse than no control. The
- *      measure keeps its 68ch default; `MEASURES` stays in lib/reading.ts
- *      because a value stored by an earlier visit must still validate.
+ *      Spacing and width have swapped controls twice now, and both moves came
+ *      from the same failure: a control that does not look like what it does.
+ *      As two selects they both read "Normal" and were indistinguishable, so
+ *      width was pulled (2026-08-04) and came back as buttons — drawn with
+ *      arrows pushing left and right, which is how it was then read as a
+ *      spacing control that moved the wrong axis. Whatever holds the buttons
+ *      must be drawn on the axis it changes.
  *
  *   3. **Nothing overlays the text.** The one thing that still floats is the
  *      selection bar, which has to — it points at the words it acts on.
@@ -161,38 +168,45 @@ export function ReaderToolbar({
           </button>
         </div>
 
-        <label htmlFor={`${id}-leading`} className="sr-only">
-          Line spacing
-        </label>
-        <select
-          id={`${id}-leading`}
-          value={prefs.leading}
-          onChange={(e) => setReading({ ...prefs, leading: Number(e.target.value) })}
-          title="Line spacing"
-          className="pf-select pf-select--sm pf-select--auto"
-        >
+        {/* Spacing gets the buttons because it is the setting a reader changes
+            most, and a button is one press where a select is two. Each one says
+            what it sets in full — "Wide line spacing", never a bare "Wide" —
+            because the width control beside it has a Wide of its own, and two
+            controls stating their value in the same word with nothing to
+            separate them is the confusion that took line width off this toolbar
+            once already. */}
+        <div role="group" aria-label="Line spacing" className="pf-stepper pf-stepper--sm">
           {LEADINGS.map((leading) => (
-            <option key={leading} value={leading}>
-              {LEADING_LABELS[leading]}
-            </option>
-          ))}
-        </select>
-
-        <div role="group" aria-label="Line width" className="pf-stepper pf-stepper--sm">
-          {MEASURES.map((measure) => (
             <button
-              key={measure}
+              key={leading}
               type="button"
-              onClick={() => setReading({ ...prefs, measure })}
-              aria-pressed={prefs.measure === measure}
-              aria-label={MEASURE_LABELS[measure]}
-              title={MEASURE_LABELS[measure]}
+              onClick={() => setReading({ ...prefs, leading })}
+              aria-pressed={prefs.leading === leading}
+              aria-label={`${LEADING_LABELS[leading]} line spacing`}
+              title={`${LEADING_LABELS[leading]} line spacing`}
               className="pf-stepper__step pf-stepper__step--toggle"
             >
-              <Icon icon={MEASURE_ICONS[measure]} title={MEASURE_LABELS[measure]} />
+              <Icon icon={LEADING_ICONS[leading]} title={`${LEADING_LABELS[leading]} line spacing`} />
             </button>
           ))}
         </div>
+
+        <label htmlFor={`${id}-measure`} className="sr-only">
+          Line width
+        </label>
+        <select
+          id={`${id}-measure`}
+          value={prefs.measure}
+          onChange={(e) => setReading({ ...prefs, measure: Number(e.target.value) })}
+          title="Line width"
+          className="pf-select pf-select--sm pf-select--auto"
+        >
+          {MEASURES.map((measure) => (
+            <option key={measure} value={measure}>
+              {MEASURE_LABELS[measure]}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Nothing here is information. "13 min left" sat at the end of the row
