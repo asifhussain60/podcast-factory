@@ -852,6 +852,62 @@
     color: var(--l-display);
   }
 
+  /* The title is a LINK to the book it belongs to, and looks like the heading it
+     also is: no colour change and no underline until you go near it, because a
+     blue underlined line at display size would read as a banner advertisement
+     rather than as the name of what you are reading. */
+  .pf-reader-head__book a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .pf-reader-head__book a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.12em;
+  }
+
+  /* ---- The rest of this book ----------------------------------------------
+     What else the book offers, from inside a chapter — the podcast, the deck,
+     the print edition, your own notes. Each one appears only when it EXISTS, so
+     a reading edition with nothing else shows an empty row and takes no space.
+
+     Quiet by construction. These are ways OUT of the thing you are doing, so
+     they sit below the title as small outlined chips rather than as buttons
+     competing with the chapter. The gap above them is the head's own. */
+
+  .pf-elsewhere {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--pf-space-2);
+    margin-top: calc(var(--pf-space-7) * -1 + var(--pf-space-4));
+  }
+
+  .pf-elsewhere__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    padding: var(--pf-space-2) var(--pf-space-3);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-pill);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
+    text-decoration: none;
+  }
+
+  .pf-elsewhere__chip:hover {
+    border-color: var(--l-accent);
+    color: var(--l-accent);
+  }
+
+  .pf-elsewhere__count {
+    font-variant-numeric: tabular-nums;
+    color: var(--l-faint);
+  }
+
   /* The rail exists so the card can be `width: fit-content` and still centre:
      it is the full-width track `margin-inline: auto` measures against. It does
      NOT scroll — see the note on the card below. */

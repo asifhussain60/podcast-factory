@@ -3,6 +3,9 @@ import {
   faBookOpen,
   faChevronLeft,
   faChevronRight,
+  faDownload,
+  faHeadphones,
+  faImages,
   faNoteSticky,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router";
@@ -33,7 +36,7 @@ import { requireUnitAccess } from "~/middleware/entitled";
 import { session } from "~/middleware/session";
 import { unitBySlug } from "~/server/access.server";
 import { readingMinutes } from "~/lib/reading";
-import { chapterOf, chaptersOf } from "~/server/catalog.server";
+import { chapterOf, chaptersOf, surfacesOf } from "~/server/catalog.server";
 import { companionFor } from "~/server/companion.server";
 
 /**
@@ -59,10 +62,14 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 
   const viewer = context.get(session).viewer;
 
-  const [unit, chapter, all, companion] = await Promise.all([
+  const [unit, chapter, all, surfaces, companion] = await Promise.all([
     unitBySlug(env.DB, slug),
     chapterOf(env.DB, slug, key),
     chaptersOf(env.DB, slug),
+    // What ELSE this book offers, so a chapter can say so and point at it. One
+    // query rather than the three the book page runs, because this needs only
+    // whether each thing exists.
+    surfacesOf(env.DB, slug),
     // Empty, and un-queried, for everyone but the administrator. The gate is
     // inside that function rather than a condition here — see the module.
     companionFor(env.DB, viewer, slug, key),
@@ -83,6 +90,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
     previous: here > 0 ? all[here - 1] : null,
     next: here >= 0 && here < all.length - 1 ? all[here + 1] : null,
     companion,
+    surfaces,
     // Which DRAWER this reader gets, decided once for the whole book rather than
     // per chapter. Derived from `companion.length` it would have been free, but
     // then the right-hand panel would be the Companion on the two chapters that
@@ -93,7 +101,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 }
 
 export default function ReadChapter({ loaderData }: Route.ComponentProps) {
-  const { bookTitle, slug, chapter, contents, position, previous, next, companion, isCompanion } =
+  const { bookTitle, slug, chapter, contents, position, previous, next, companion, isCompanion, surfaces } =
     loaderData;
   const navigate = useNavigate();
 
@@ -119,6 +127,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   const html = useMemo(() => ({ __html: chapter.html }), [chapter.html]);
 
   const marks = useMarks(slug);
+  const markCount = marks.annotations.length + marks.bookmarks.length;
   const annotations = useMemo(
     () => annotationsInChapter(marks, chapter.anchorKey),
     [marks, chapter.anchorKey],
@@ -571,7 +580,17 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
             back. The cost is honest: changing a setting mid-chapter means
             scrolling up. */}
         <div className="pf-reader-head">
-          <h1 className="pf-reader-head__book">{bookTitle}</h1>
+          {/* The title is the way back to the book.
+              It was a plain heading, and the only link to `/book/:slug` in the
+              whole reader sat after the LAST chapter — so from chapter six there
+              was no door to the page holding this book's podcast, deck and PDF,
+              and the home control goes to the library rather than to the book
+              (Asif, 2026-08-04: "I am not seeing the tabs, where are they?"). */}
+          <h1 className="pf-reader-head__book">
+            <Link to={`/book/${slug}`}>{bookTitle}</Link>
+          </h1>
+
+          <Elsewhere slug={slug} surfaces={surfaces} marks={markCount} />
 
           <div className="pf-toolbar-rail">
             <ReaderToolbar
@@ -689,6 +708,65 @@ const toFields = (a: {
   colour: a.colour,
   note: a.note ?? "",
 });
+
+/**
+ * The other ways this book can be taken, from inside one of them.
+ *
+ * Availability decides it, book by book, exactly as the book page's tabs do: a
+ * chip appears only when the thing is IN R2 — episodes with a recording, deck
+ * pages, a print edition — and Notes only once this reader has made one. A book
+ * that is a reading edition and nothing else therefore shows no chips at all,
+ * which is the honest answer rather than four dead controls.
+ *
+ * They are LINKS, not tabs. The panels live on the book page and this is a
+ * different page; each chip lands on the tab it names, which is possible because
+ * that tab now has a URL. The PDF is the exception and goes straight to the
+ * file, because a download is not a view to switch to.
+ *
+ * Access is not consulted here, and does not need to be: every one of these
+ * lands on a route that runs `requireUnitAccess` on the same slug this chapter
+ * already passed. When per-surface permission arrives, this list is where it
+ * will show — a chip for something a reader may not take should not be drawn.
+ */
+function Elsewhere({
+  slug,
+  surfaces,
+  marks,
+}: {
+  slug: string;
+  surfaces: { episodes: number; deckPages: number; pdfKey: string | null };
+  /** This reader's own marks in this book — highlights and bookmarks together. */
+  marks: number;
+}) {
+  const chips = [
+    surfaces.episodes > 0
+      ? { key: "listen", to: `/book/${slug}?tab=listen`, icon: faHeadphones, label: "Podcast", count: surfaces.episodes }
+      : null,
+    surfaces.deckPages > 0
+      ? { key: "slides", to: `/book/${slug}?tab=slides`, icon: faImages, label: "Slides", count: surfaces.deckPages }
+      : null,
+    surfaces.pdfKey === null
+      ? null
+      : { key: "pdf", to: `/media/${surfaces.pdfKey}`, icon: faDownload, label: "PDF", count: 0 },
+    marks > 0
+      ? { key: "notes", to: `/book/${slug}?tab=notes`, icon: faNoteSticky, label: "Notes", count: marks }
+      : null,
+  ].filter((c): c is NonNullable<typeof c> => c !== null);
+
+  if (chips.length === 0) return null;
+
+  return (
+    <nav aria-label="The rest of this book" className="pf-elsewhere">
+      {chips.map((chip) => (
+        <Link key={chip.key} to={chip.to} className="pf-elsewhere__chip">
+          <Icon icon={chip.icon} />
+          {chip.label}
+          {chip.count > 0 ? <span className="pf-elsewhere__count">{chip.count}</span> : null}
+        </Link>
+      ))}
+    </nav>
+  );
+}
 
 /**
  * The width at which the Companion stands beside the text instead of over it.

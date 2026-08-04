@@ -39,8 +39,15 @@ const CHAPTER = {
   wordCount: 9,
 };
 
+/** A book that is a reading edition and nothing else — the common case. */
+const NOTHING_ELSE = { episodes: 0, deckPages: 0, pdfKey: null };
+
 /** The reading route's markup for one viewer. */
-function render(over: { companion: CompanionCard[]; isCompanion: boolean }): string {
+function render(over: {
+  companion: CompanionCard[];
+  isCompanion: boolean;
+  surfaces?: { episodes: number; deckPages: number; pdfKey: string | null };
+}): string {
   const loaderData = {
     bookTitle: "The Master and the Disciple",
     slug: "the-master-and-the-disciple",
@@ -49,6 +56,7 @@ function render(over: { companion: CompanionCard[]; isCompanion: boolean }): str
     position: 0,
     previous: null,
     next: null,
+    surfaces: NOTHING_ELSE,
     ...over,
   };
 
@@ -63,6 +71,62 @@ function render(over: { companion: CompanionCard[]; isCompanion: boolean }): str
     ),
   );
 }
+
+/**
+ * The way back, and the rest of the book.
+ *
+ * Asif could not find the book page's tabs from inside a chapter, twice — and he
+ * was right that something was missing: the title was a plain heading and the
+ * only link to `/book/:slug` sat after the LAST chapter. These pin the door and
+ * the chips that sit beside it, including the case that matters most, which is a
+ * book that has nothing else and must therefore show nothing.
+ */
+describe("finding the rest of the book from inside a chapter", () => {
+  it("makes the book's title the way back to it", () => {
+    const html = render({ companion: [], isCompanion: false });
+    expect(html).toContain('href="/book/the-master-and-the-disciple"');
+  });
+
+  it("shows a chip for each thing the book actually has", () => {
+    const html = render({
+      companion: [],
+      isCompanion: false,
+      surfaces: { episodes: 20, deckPages: 15, pdfKey: "the-master-and-the-disciple/book.pdf" },
+    });
+
+    expect(html).toContain("Podcast");
+    expect(html).toContain("Slides");
+    expect(html).toContain("PDF");
+    // Each lands on the tab it names, which is only possible because those tabs
+    // now have URLs.
+    expect(html).toContain("?tab=listen");
+    expect(html).toContain("?tab=slides");
+    expect(html).toContain('href="/media/the-master-and-the-disciple/book.pdf"');
+  });
+
+  it("shows nothing at all for a book that is only a reading edition", () => {
+    // Degrees of Excellence, in the database as it stands: ten chapters, no
+    // episodes, no deck, no print edition. Four dead chips would be worse than
+    // none, and would be the thing that made it look broken in the first place.
+    const html = render({ companion: [], isCompanion: false });
+
+    expect(html).not.toContain("pf-elsewhere");
+    expect(html).not.toContain("Podcast");
+    expect(html).not.toContain("Slides");
+  });
+
+  it("offers each surface independently", () => {
+    const audioOnly = render({
+      companion: [],
+      isCompanion: false,
+      surfaces: { episodes: 4, deckPages: 0, pdfKey: null },
+    });
+
+    expect(audioOnly).toContain("Podcast");
+    expect(audioOnly).not.toContain("Slides");
+    expect(audioOnly).not.toContain(">PDF<");
+  });
+});
 
 describe("the right-hand drawer", () => {
   // Every assertion below is a `not.toContain`, and an empty string satisfies

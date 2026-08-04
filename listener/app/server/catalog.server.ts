@@ -62,6 +62,52 @@ export interface DeckPage {
   available: boolean;
 }
 
+/** What else a book offers, for a surface that is already inside one of them. */
+export interface Surfaces {
+  /** Episodes with a recording actually in R2. Zero for most of the library. */
+  episodes: number;
+  /** Deck pages actually in R2. */
+  deckPages: number;
+  /** The print edition's key, or null unless the file is in R2. */
+  pdfKey: string | null;
+}
+
+/**
+ * The other ways this book can be taken — ONE query, for the reading page.
+ *
+ * The book page answers the same question with `sessionsOf` + `deckPagesOf` +
+ * `detailOf`, because it needs every episode, every page and the whole detail
+ * row to render them. The reader needs only whether each exists, and it asks on
+ * every chapter, so it gets counts in a single round trip rather than three
+ * result sets it would immediately throw away.
+ *
+ * "Exists" means IN R2, not on disk, in all three cases — a chip offering a
+ * podcast that is not there yet is worse than no chip, and it is the same rule
+ * the book page's tabs already apply.
+ */
+export async function surfacesOf(db: D1Database, slug: string): Promise<Surfaces> {
+  const row = await db
+    .prepare(
+      `SELECT
+         (SELECT count(*) FROM episode e
+             JOIN media_asset m ON m.key = e.audio_key
+            WHERE e.slug = ?1 AND m.uploaded_at IS NOT NULL) AS episodes,
+         (SELECT count(*) FROM media_asset
+            WHERE slug = ?1 AND kind = 'deck-page' AND uploaded_at IS NOT NULL) AS deck_pages,
+         (SELECT d.pdf_key FROM unit_detail d
+             JOIN media_asset m ON m.key = d.pdf_key
+            WHERE d.slug = ?1 AND m.uploaded_at IS NOT NULL) AS pdf_key`,
+    )
+    .bind(slug)
+    .first<{ episodes: number; deck_pages: number; pdf_key: string | null }>();
+
+  return {
+    episodes: row?.episodes ?? 0,
+    deckPages: row?.deck_pages ?? 0,
+    pdfKey: row?.pdf_key ?? null,
+  };
+}
+
 export async function detailOf(db: D1Database, slug: string): Promise<UnitDetail | null> {
   const row = await db
     .prepare(

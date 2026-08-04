@@ -15,8 +15,13 @@ import {
   faTag,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { Link, useFetcher } from "react-router";
+import { useId, useRef, type KeyboardEvent, type ReactNode } from "react";
+import {
+  Link,
+  useFetcher,
+  useSearchParams,
+  type ShouldRevalidateFunctionArgs,
+} from "react-router";
 
 import type { Route } from "./+types/book.$slug";
 import { DeckViewer } from "~/components/DeckViewer";
@@ -88,6 +93,34 @@ export async function loader({ params, context }: Route.LoaderArgs) {
     deckKeys: deck.filter((p) => p.available).map((p) => p.key),
     isAdmin: viewer.isAdmin,
   };
+}
+
+/**
+ * Switching a tab must not re-fetch the book.
+ *
+ * The open tab lives in `?tab=` so it can be linked to, and a search-param
+ * change is a navigation, which by default re-runs every loader on the match —
+ * six queries to answer a question none of them were asked. Nothing this loader
+ * returns depends on `tab`, so that navigation alone is declared uninteresting.
+ *
+ * Deliberately NARROW: only when the pathname is identical and the two searches
+ * agree on everything else. Any other change revalidates as it always did, and
+ * this is a display concern in any case — the gate is middleware and runs on
+ * every request regardless of what this returns.
+ */
+export function shouldRevalidate({
+  currentUrl,
+  nextUrl,
+  defaultShouldRevalidate,
+}: ShouldRevalidateFunctionArgs) {
+  if (currentUrl.pathname !== nextUrl.pathname) return defaultShouldRevalidate;
+
+  const before = new URLSearchParams(currentUrl.search);
+  const after = new URLSearchParams(nextUrl.search);
+  before.delete("tab");
+  after.delete("tab");
+
+  return before.toString() === after.toString() ? false : defaultShouldRevalidate;
 }
 
 export default function BookDetail({ loaderData }: Route.ComponentProps) {
@@ -445,16 +478,36 @@ interface Panel {
 function Tabs({ panels, empty }: { panels: (Panel | null)[]; empty: ReactNode }) {
   const tabs = panels.filter((p): p is Panel => p !== null);
 
-  // The first panel, always — and the caller lists Read first, because this is a
-  // library of books and everything else is something a book here grew later.
-  const [open, setOpen] = useState(0);
+  /* ---- The open tab is in the URL ---------------------------------------
+     It was `useState(0)`, which made every tab unaddressable: a link could only
+     ever land on Read and leave the reader to press again. That is what the
+     reading page needs — its chips point at the podcast and the deck of the book
+     it is inside — and it also makes any tab something you can bookmark or send.
+
+     Keyed by NAME, not index. A book can lose a panel between renders, a deck
+     withdrawn or an episode un-uploaded, and an index would then open whatever
+     had slid into that position; an unknown name simply falls back to the first
+     tab, which is the honest answer to "that view is not here any more".
+
+     `shouldRevalidate` below is what keeps this instant: nothing this loader
+     returns depends on `?tab`, so switching must not re-fetch the book.        */
+  const [params, setParams] = useSearchParams();
   const strip = useRef<HTMLDivElement>(null);
   const id = useId();
 
-  // A book can lose a panel between renders — a deck withdrawn, an episode
-  // un-uploaded — and an index pointing past the end would render no panel at
-  // all. Clamping is cheaper and quieter than an effect that resets it.
-  const at = Math.min(open, tabs.length - 1);
+  const named = tabs.findIndex((t) => t.key === params.get("tab"));
+  const at = named === -1 ? 0 : named;
+
+  const setOpen = (next: number) =>
+    setParams(
+      (current) => {
+        current.set("tab", tabs[next].key);
+        return current;
+      },
+      // `replace`, so a reader who tried three tabs does not have to press Back
+      // three times to leave the page.
+      { replace: true, preventScrollReset: true },
+    );
 
   if (tabs.length === 0) return <div className="pf-single">{empty}</div>;
 
