@@ -1,6 +1,6 @@
 # Current work - status
 
-**Last updated:** 2026-08-04 (The Scholar Companion reaches the Listener's reader,
+**Last updated:** 2026-08-04 (The Scholar Companion stands open beside the text,
 for one account, and the sentence it explains lights up as you reach it)
 
 **Newest — the Companion is in the reader, and only Asif can see it.**
@@ -37,6 +37,17 @@ page.
 - **The drawer is decided by WHO, never by what exists.** From `isAdmin`, not
   from whether this chapter has cards — otherwise the right-hand panel would be
   the Companion on two chapters and the notes list on the other seven.
+- **It stands OPEN, which meant docking it.** Above 64rem the Companion is open
+  when the chapter opens and the page lays out in the width it leaves — no
+  scrim, because nobody reads through one. Below that width it is an ordinary
+  drawer and does not open by itself; opening it there would land a reader on a
+  chapter they must dismiss something to read. Measured at 1024/1280/1440: the
+  panel never overlaps the sheet and nothing scrolls sideways.
+- **Which panel a reader gets is pinned three ways** — the route rendered to
+  static markup (`test/reader-drawer.test.tsx`, verified by inverting the branch
+  and watching three of its five fail), the query handed a database that throws
+  (`test/companion.test.ts`), and the real request as a fully granted non-admin
+  with the administrator's page as the control (`npm run security`).
 - **Known, not a defect in the code:** the one card whose `anchor` was saved as a
   truncated copy of its own quote prints that truncation as its title and the
   full sentence under it. The Composer shows the same duplication from the same
