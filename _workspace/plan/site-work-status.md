@@ -1,8 +1,94 @@
 # Current work - status
 
-**Last updated:** 2026-08-03 late evening (the Listener's book page is rebuilt
-as tabs on the theme from earlier the same day; the book-lane note below is
-unchanged and still open)
+**Last updated:** 2026-08-03 night (the Listener gains per-reader state, one
+toolbar row, an access screen that scales, and the runtime gate it never had)
+
+**Newest — the Listener remembers who is reading, and the reader has one row of
+controls instead of two surfaces.**
+
+Asif's ask: audit the whole site, redesign it on the theme from earlier the same
+day, keep progress across all views, rebuild the access screen for many people
+and many books, and put the reader's controls in a single compact toolbar with
+Kindle-style highlighting. Scope was the Listener only; `plan-dashboard/` was
+deliberately untouched.
+
+**Per-reader state is SERVER-side, with local storage as a cache.** He asked for
+local storage; local storage is per-device, so a highlight made on the iPad would
+not exist on the iPhone and clearing Safari would destroy every note. Migration
+`0006_reader_state.sql` adds `reading_progress`, `bookmark`, `annotation` and
+`listening_progress`, all keyed on the NORMALIZED email like `invite` and
+`access_grant`, and all with `(slug, anchor_key)` as loose columns — **no foreign
+key to `chapter`**, because `publish_to_listener.py` DELETEs and re-inserts that
+table on every re-publish and a cascade would erase the library's highlights each
+time a book was re-composed. A test fires exactly that sequence. Preferences
+(theme, typeface, size) stay in local storage: they are applied by a pre-paint
+script and serving them per-user would cost a flash on every load.
+
+**A highlight is anchored four ways and the QUOTE is the authority.** The
+rendered HTML carries no per-paragraph ids and adding them would mean editing
+`plan-dashboard/src/lib/reader/markdown.ts`, which the printed book also uses.
+So `app/lib/anchor.ts` stores block index, offsets, the exact quote and 48
+characters of preceding context; offsets are tried first, the quote must match,
+and a re-compose that moved the passage re-anchors and saves the correction. Two
+matches with no distinguishing prefix, or none at all, yields **orphaned** — the
+note is kept, listed, and marked "the wording here has changed", never guessed
+onto a neighbouring sentence.
+
+**The reader is one sticky row.** `ReaderSettings` (the floating "Aa" panel) and
+`ReadingControls` (the bar under the title) are both deleted; typeface and size
+had been duplicated across them. The row carries home, book · chapter, bookmark,
+notes, theme, typeface, size, spacing, width and time-left, and scrolls
+horizontally below 900px rather than collapsing into the popover that was the
+thing being removed. Theme folded into the same external store as typography, so
+two pickers on one page cannot disagree.
+
+**The access screen searches in SQL.** First and last name on the invite;
+searchable, filterable, paged people list with counts (`Everyone / Signed in /
+Never signed in / No access yet / Revoked`); grants show what is held first and a
+search to add more instead of the whole catalogue; and `/admin/content` gained
+the mirror direction — one book, search people, give it to several. The overview
+counted by loading every invitation row and taking `.length`; it asks the
+database now.
+
+**Nine defects found and fixed, several pre-existing:**
+- `invite.redeemed_at` had existed since migration 0002 and **nothing had ever
+  written it**, so every person showed as never-having-signed-in. Stamped now in
+  `session.create.before`, with `last_seen_at` beside it.
+- The site header's nav did not wrap, so **every page scrolled sideways by 14px
+  at 390px**.
+- `.pf-note` was used for a new component AND for the site's existing muted
+  paragraph, which put a border and a padded box around prose on every admin
+  screen. Renamed `.pf-mark`.
+- The player keyed listening position on the media URL, which changes when audio
+  is re-uploaded — so a re-upload silently lost everyone's place.
+- "Send invitation" sent nothing; there is no mail transport in this repo. It
+  says what it does now and hands over the link.
+- The administrator could revoke their own sign-in and lock themselves out
+  irrecoverably. Refused in the action, not only in the UI.
+- "about 1 minutes"; an email upper-cased as a panel title; a progress meter that
+  shrink-wrapped to 80px; eight dead CSS classes; a README whose entire styling
+  section named three stylesheets that do not exist.
+
+**New: `npm run smoke` and `npm run shots` — the runtime gate this app never
+had.** `npm run check` was typecheck + tests + build and had never opened a page.
+Smoke visits every route as three identities (admin, a reader with one book, a
+reader with none) at four widths and fails on any console error, uncaught
+exception, failed request, wrong status, undeclared redirect, horizontal overflow
+or under-size touch target — and the denied routes are ACCESS assertions, not
+just visits. Shots does the same as PNGs across three themes plus the reader's own
+states (contents open, selection bar up, highlighted, notes drawer).
+
+**The standing note that signed-in pages are unreachable by a browser is now
+wrong** — `scripts/session-cookie.mjs` mints a valid cookie against the local D1,
+which is what `security-smoke.mjs` had always done over HTTP; Playwright uses the
+same cookie. The `renderToStaticMarkup` workaround is not needed and was never
+committed.
+
+Gates: 229 site tests · typecheck 0 · build clean · security-smoke clean ·
+smoke 18 routes × 4 widths clean. `content/` untouched throughout.
+
+**Previous — the Listener's book page is rebuilt as tabs on the theme from
+earlier the same day; the book-lane note below is unchanged and still open**
 
 **Newest — a book page is three tabs and a panel, not two columns and a list.**
 

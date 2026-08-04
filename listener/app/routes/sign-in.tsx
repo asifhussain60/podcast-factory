@@ -103,9 +103,13 @@ export default function SignIn() {
       </form>
 
       <p className="pf-note pf-note--quiet">
-        This library is private — sign in with the Google account your invitation
-        was sent to. We ask Google only for your name, email address and profile
-        picture.
+        {/* "the account you were invited with", not "the account your invitation
+            was sent to" — nothing is sent. There is no mail transport in this
+            application; an administrator adds an address and passes the link on
+            by hand, so the second phrasing sends anyone who did not receive an
+            email looking for one that never existed. */}
+        This library is private — sign in with the Google account you were invited
+        with. We ask Google only for your name, email address and profile picture.
       </p>
     </PublicShell>
   );

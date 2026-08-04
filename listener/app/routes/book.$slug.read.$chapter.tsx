@@ -1,13 +1,25 @@
-import { useEffect, useRef, useState } from "react";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { faChevronLeft, faChevronRight, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Link, useNavigate } from "react-router";
 
 import type { Route } from "./+types/book.$slug.read.$chapter";
-import { ReaderSettings } from "~/components/ReaderSettings";
-import { ReadingControls } from "~/components/ReadingControls";
 import { Icon } from "~/components/Icon";
-import { Logo } from "~/components/brand/Logo";
+import { NotesList } from "~/components/reader/NotesList";
+import { ReaderToolbar } from "~/components/reader/ReaderToolbar";
+import { SelectionBar } from "~/components/reader/SelectionBar";
+import { useHighlights, type Painted } from "~/components/reader/Highlights";
+import { useMarks } from "~/components/reader/useMarks";
 import { cloudflare } from "~/context";
+import { blocksOf } from "~/lib/anchor";
+import type { Anchor } from "~/lib/anchor";
+import {
+  annotationsInChapter,
+  bookmarksInChapter,
+  newId,
+  recordProgress,
+  submit,
+  type Colour,
+} from "~/lib/marks";
 import { notFound } from "~/middleware/deny";
 import { requireUnitAccess } from "~/middleware/entitled";
 import { unitBySlug } from "~/server/access.server";
@@ -21,6 +33,12 @@ import { chapterOf, chaptersOf } from "~/server/catalog.server";
  * access rule to keep in step. Continuous scroll rather than pagination: this is
  * argued prose that runs for pages at a time, and page breaks in a translation
  * put a seam where the author did not.
+ *
+ * The reader's own marks are NOT loaded here. They are fetched client-side by
+ * `useMarks`, on purpose: the cached copy paints before the network answers, and
+ * putting them in the loader would make every chapter navigation wait on a query
+ * whose result is usually already known. It would also put per-person data into
+ * the SSR HTML, which is a thing to keep out of a cache by accident.
  */
 export const middleware: Route.MiddlewareFunction[] = [requireUnitAccess];
 
@@ -46,26 +64,47 @@ export async function loader({ params, context }: Route.LoaderArgs) {
     slug,
     chapter,
     contents: all,
+    position: here,
     previous: here > 0 ? all[here - 1] : null,
     next: here >= 0 && here < all.length - 1 ? all[here + 1] : null,
   };
 }
 
 export default function ReadChapter({ loaderData }: Route.ComponentProps) {
-  const { bookTitle, slug, chapter, contents, previous, next } = loaderData;
+  const { bookTitle, slug, chapter, contents, position, previous, next } = loaderData;
+  const navigate = useNavigate();
+
   const [progress, setProgress] = useState(0);
   const [contentsOpen, setContentsOpen] = useState(false);
+  const [notesOpen, setNotesOpen] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [orphaned, setOrphaned] = useState<Set<string>>(() => new Set());
+
   const body = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLSpanElement>(null);
 
-  // Progress is measured from the ARTICLE, not the window: the masthead and the
-  // footer navigation are not part of the chapter, and counting them makes the
-  // bar reach 100% while there is still a page of text left.
-  //
-  // The bar is driven by a custom property rather than an inline `transform`,
-  // the same way `lib/reading.ts` drives the reading controls: JS supplies one
-  // scalar, and what that scalar MEANS is a rule in reader.css. No declaration
-  // lives in this file.
+  const marks = useMarks(slug);
+  const annotations = useMemo(
+    () => annotationsInChapter(marks, chapter.anchorKey),
+    [marks, chapter.anchorKey],
+  );
+  const bookmarks = useMemo(
+    () => bookmarksInChapter(marks, chapter.anchorKey),
+    [marks, chapter.anchorKey],
+  );
+
+  /* ---- Progress ---------------------------------------------------------
+     Measured from the ARTICLE, not the window: the masthead and the footer
+     navigation are not part of the chapter, and counting them makes the bar
+     reach 100% while there is still a page of text left.
+
+     The bar is driven by a custom property rather than an inline `transform`,
+     the same way `lib/reading.ts` drives the reading controls: JS supplies one
+     scalar, and what that scalar MEANS is a rule in the stylesheet.
+
+     It now also RECORDS. `recordProgress` coalesces to one write every few
+     seconds and the store forces a final one out on page-hide, so scrolling a
+     chapter is a handful of requests rather than hundreds.                  */
   useEffect(() => {
     function measure() {
       const element = body.current;
@@ -76,6 +115,12 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       const fraction = height <= 0 ? 1 : Math.min(1, Math.max(0, scrolled / height));
       setProgress(fraction);
       bar.current?.style.setProperty("--l-progress", String(fraction));
+
+      recordProgress({
+        anchorKey: chapter.anchorKey,
+        fraction: fraction.toFixed(4),
+        chaptersDone: String(Math.max(0, position)),
+      });
     }
 
     measure();
@@ -85,7 +130,189 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       window.removeEventListener("scroll", measure);
       window.removeEventListener("resize", measure);
     };
-  }, [chapter.anchorKey]);
+  }, [chapter.anchorKey, position]);
+
+  /* ---- Restore where you were ------------------------------------------
+     Runs once per chapter, and only when the reader arrived at the chapter
+     they left off in — jumping to chapter 6 from the contents must not throw
+     them back to where they were in chapter 6 last week, because they chose to
+     open it fresh. Deliberately guarded on `restored` so a later reconcile
+     from the server cannot scroll the page out from under a reader who has
+     already started moving.                                                */
+  const restored = useRef<string | null>(null);
+  useEffect(() => {
+    const saved = marks.progress;
+    if (saved === null) return;
+    if (restored.current === chapter.anchorKey) return;
+    restored.current = chapter.anchorKey;
+
+    if (saved.anchorKey !== chapter.anchorKey) return;
+    if (saved.fraction <= 0.02 || saved.fraction >= 0.98) return;
+    if (window.scrollY > 0) return; // they have already moved; leave them alone
+
+    const element = body.current;
+    if (element === null) return;
+    const height = element.offsetHeight - window.innerHeight;
+    if (height <= 0) return;
+
+    window.scrollTo({ top: element.offsetTop + height * saved.fraction, behavior: "instant" });
+  }, [marks.progress, chapter.anchorKey]);
+
+  /* ---- Highlights -------------------------------------------------------- */
+
+  const onResolved = useCallback(
+    (painted: Painted) => {
+      setOrphaned((current) => (sameSet(current, painted.orphaned) ? current : painted.orphaned));
+
+      // A passage that moved gets its corrected offsets written back, so the
+      // next device to open this chapter finds it first time instead of
+      // repeating the search. Same intent as creating it — the server's UPSERT
+      // makes create and correct one statement.
+      for (const [id, at] of painted.corrected) {
+        const annotation = annotations.find((a) => a.id === id);
+        if (annotation === undefined) continue;
+        if (
+          annotation.blockIndex === at.blockIndex &&
+          annotation.startOffset === at.startOffset &&
+          annotation.endOffset === at.endOffset
+        ) {
+          continue; // already agrees; writing would be a pointless round trip
+        }
+        submit("annotate", {
+          id,
+          anchorKey: annotation.anchorKey,
+          blockIndex: String(at.blockIndex),
+          startOffset: String(at.startOffset),
+          endOffset: String(at.endOffset),
+          quote: annotation.quote,
+          prefix: annotation.prefix,
+          colour: annotation.colour,
+          note: annotation.note ?? "",
+        });
+      }
+    },
+    [annotations],
+  );
+
+  useHighlights(body, annotations, activeId, onResolved);
+
+  const highlight = useCallback(
+    (anchor: Anchor, colour: Colour) => {
+      submit("annotate", {
+        id: newId(),
+        anchorKey: chapter.anchorKey,
+        blockIndex: String(anchor.blockIndex),
+        startOffset: String(anchor.startOffset),
+        endOffset: String(anchor.endOffset),
+        quote: anchor.quote,
+        prefix: anchor.prefix,
+        colour,
+        note: "",
+      });
+    },
+    [chapter.anchorKey],
+  );
+
+  const recolour = useCallback(
+    (id: string, colour: Colour) => {
+      const existing = annotations.find((a) => a.id === id);
+      if (existing === undefined) return;
+      submit("annotate", { ...toFields(existing), colour });
+    },
+    [annotations],
+  );
+
+  const note = useCallback(
+    (id: string | null, anchor: Anchor | null, text: string) => {
+      // Writing a note on an unhighlighted selection creates the highlight too.
+      // A note with no passage would have nothing to point at, and gold is the
+      // default because it is the least emphatic of the four.
+      if (id === null) {
+        if (anchor === null) return;
+        submit("annotate", {
+          id: newId(),
+          anchorKey: chapter.anchorKey,
+          blockIndex: String(anchor.blockIndex),
+          startOffset: String(anchor.startOffset),
+          endOffset: String(anchor.endOffset),
+          quote: anchor.quote,
+          prefix: anchor.prefix,
+          colour: "gold",
+          note: text,
+        });
+        return;
+      }
+
+      const existing = annotations.find((a) => a.id === id);
+      if (existing === undefined) return;
+      submit("annotate", { ...toFields(existing), note: text });
+    },
+    [annotations, chapter.anchorKey],
+  );
+
+  const removeAnnotation = useCallback((id: string) => submit("unannotate", { id }), []);
+  const removeBookmark = useCallback((id: string) => submit("unbookmark", { id }), []);
+
+  /* ---- Bookmarks --------------------------------------------------------
+     A bookmark marks the topmost block currently on screen, which is what
+     "here" means to someone looking at the page. Toggling removes whichever
+     bookmark is in this chapter — there is at most one per chapter by design,
+     because "where I left off in this chapter" has one answer and a list of
+     near-identical bookmarks in one chapter would be noise, not a feature.  */
+  const bookmarked = bookmarks.length > 0;
+
+  const toggleBookmark = useCallback(() => {
+    if (bookmarked) {
+      for (const b of bookmarks) submit("unbookmark", { id: b.id });
+      return;
+    }
+
+    const root = body.current;
+    if (root === null) return;
+    const blocks = blocksOf(root);
+    const index = blocks.findIndex((b) => b.getBoundingClientRect().bottom > 120);
+    const block = blocks[index === -1 ? 0 : index];
+
+    submit("bookmark", {
+      id: newId(),
+      anchorKey: chapter.anchorKey,
+      blockIndex: String(index === -1 ? 0 : index),
+      label: (block?.textContent ?? chapter.title).replace(/\s+/g, " ").trim().slice(0, 160),
+    });
+  }, [bookmarked, bookmarks, chapter.anchorKey, chapter.title]);
+
+  /* ---- Jumping to a mark from the notes drawer -------------------------- */
+  const jump = useCallback(
+    (anchorKey: string, id: string) => {
+      if (anchorKey !== chapter.anchorKey) {
+        void navigate(`/book/${slug}/read/${encodeURIComponent(anchorKey)}#mark-${id}`);
+        return;
+      }
+      setNotesOpen(false);
+      setActiveId(id);
+      // After the repaint that the activeId change triggers, so the element the
+      // ring was added to is the one scrolled to.
+      requestAnimationFrame(() => {
+        const target = body.current?.querySelector(`mark[data-mark-id="${id}"]`);
+        target?.scrollIntoView({ block: "center", behavior: "smooth" });
+      });
+    },
+    [chapter.anchorKey, navigate, slug],
+  );
+
+  // Arriving from the book page's Notes tab with `#mark-<id>` in the URL.
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash.startsWith("#mark-")) return;
+    const id = hash.slice("#mark-".length);
+    if (!annotations.some((a) => a.id === id) && !bookmarks.some((b) => b.id === id)) return;
+    setActiveId(id);
+    requestAnimationFrame(() => {
+      body.current
+        ?.querySelector(`mark[data-mark-id="${id}"]`)
+        ?.scrollIntoView({ block: "center", behavior: "smooth" });
+    });
+  }, [annotations, bookmarks]);
 
   const total = readingMinutes(chapter.wordCount);
   const left = Math.max(0, Math.round(total * (1 - progress)));
@@ -96,29 +323,25 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
         <span ref={bar} />
       </div>
 
-      <header className="pf-header--sticky">
-        <div className="pf-reader-bar">
-          <Link to="/" aria-label="Back to your library" className="pf-logo-link">
-            <Logo size={28} wordmark={false} />
-          </Link>
-
-          <button
-            type="button"
-            onClick={() => setContentsOpen((v) => !v)}
-            aria-expanded={contentsOpen}
-            className="pf-reader-bar__where"
-          >
-            <span className="pf-reader-bar__book">{bookTitle}</span>
-            <span className="pf-reader-bar__sep"> · </span>
-            {chapter.title}
-          </button>
-
-          <span className="pf-reader-bar__left">
-            {left === 0 ? "finished" : `about ${left} min left`}
-          </span>
-
-          <ReaderSettings />
-        </div>
+      <header className="pf-header--sticky pf-header--reader">
+        <ReaderToolbar
+          bookTitle={bookTitle}
+          chapterTitle={chapter.title}
+          contentsOpen={contentsOpen}
+          onToggleContents={() => {
+            setContentsOpen((v) => !v);
+            setNotesOpen(false);
+          }}
+          minutesLeft={left}
+          bookmarked={bookmarked}
+          onToggleBookmark={toggleBookmark}
+          notesCount={marks.annotations.length + marks.bookmarks.length}
+          notesOpen={notesOpen}
+          onToggleNotes={() => {
+            setNotesOpen((v) => !v);
+            setContentsOpen(false);
+          }}
+        />
 
         {contentsOpen ? (
           <nav aria-label="Table of contents" className="pf-toc">
@@ -141,40 +364,79 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
         ) : null}
       </header>
 
+      {notesOpen ? (
+        <>
+          {/* Click-away. Not focusable and hidden from assistive tech — Escape
+              and the close button are the keyboard routes out, and a scrim in
+              the tab order is a stop that announces nothing. */}
+          <button
+            type="button"
+            aria-hidden="true"
+            tabIndex={-1}
+            onClick={() => setNotesOpen(false)}
+            className="pf-drawer__scrim"
+          />
+          <aside aria-label="Your notes and highlights" className="pf-drawer">
+            <div className="pf-drawer__head">
+              <h2 className="pf-drawer__title">Your notes</h2>
+              <button
+                type="button"
+                onClick={() => setNotesOpen(false)}
+                aria-label="Close your notes"
+                className="pf-tool"
+              >
+                <Icon icon={faXmark} title="Close your notes" />
+              </button>
+            </div>
+            <div className="pf-drawer__body">
+              <NotesList
+                annotations={marks.annotations}
+                bookmarks={marks.bookmarks}
+                chapters={contents}
+                orphaned={orphaned}
+                slug={slug}
+                onJump={jump}
+                onRemoveAnnotation={removeAnnotation}
+                onRemoveBookmark={removeBookmark}
+              />
+            </div>
+          </aside>
+        </>
+      ) : null}
+
       <main id="main" className="pf-reader-page">
-        {/* ---- Above the page ----
-            The work this chapter belongs to, and the two controls that change
-            how it is set. Both sit OUTSIDE the sheet deliberately: the sheet is
-            the book, and a control printed on it would be a control printed in
-            the book.
-
-            This is the page's <h1> and the chapter heading below is an <h2>,
-            which is also the true nesting — a chapter is part of a work, and
-            until now every chapter page claimed to be a top-level document
-            called "2. A Stranger in the City". */}
-        <div className="pf-reader-head">
-          <h1 className="pf-reader-head__book">{bookTitle}</h1>
-          <ReadingControls />
-        </div>
-
         <article ref={body} className="pf-page">
-          <h2 className="pf-chapter-title">{chapter.title}</h2>
+          {/* This is the page's <h1>; the work's title is in the toolbar above,
+              which is where it now belongs — a control row that says where you
+              are does not need the book repeated as a heading beneath it. */}
+          <h1 className="pf-chapter-title">{chapter.title}</h1>
 
           {/* Position in the edition, NOT a chapter number: the introduction is
               the first entry, so this and the book's own "3." in the heading
               differ by one. Saying "chapter" here would contradict the page. */}
           <p className="pf-chapter-meta">
-            {chapter.idx} of {contents.length} in this edition · about {total} minutes
+            {chapter.idx} of {contents.length} in this edition · about {total}{" "}
+            {total === 1 ? "minute" : "minutes"}
           </p>
 
           {/* The HTML was rendered at publish time by the same function that
               produces the printed book, so this is not "trusting user input" —
-              it is the book. See app/server/catalog.server.ts. */}
+              it is the book. See app/server/catalog.server.ts. Highlights are
+              added to the live DOM after this renders; React never reconciles
+              inside it. */}
           <div
             className="reader pf-chapter-body"
             dangerouslySetInnerHTML={{ __html: chapter.html }}
           />
         </article>
+
+        <SelectionBar
+          bodyRef={body}
+          onHighlight={highlight}
+          onRecolour={recolour}
+          onNote={note}
+          onRemove={removeAnnotation}
+        />
 
         <nav className="pf-turn">
           {previous ? (
@@ -219,4 +481,34 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       </main>
     </div>
   );
+}
+
+/** An annotation as the form fields the marks route expects. */
+const toFields = (a: {
+  id: string;
+  anchorKey: string;
+  blockIndex: number;
+  startOffset: number;
+  endOffset: number;
+  quote: string;
+  prefix: string;
+  colour: string;
+  note: string | null;
+}) => ({
+  id: a.id,
+  anchorKey: a.anchorKey,
+  blockIndex: String(a.blockIndex),
+  startOffset: String(a.startOffset),
+  endOffset: String(a.endOffset),
+  quote: a.quote,
+  prefix: a.prefix,
+  colour: a.colour,
+  note: a.note ?? "",
+});
+
+/** Whether two id sets hold the same members — used to avoid a needless render. */
+function sameSet(a: Set<string>, b: Set<string>): boolean {
+  if (a.size !== b.size) return false;
+  for (const v of a) if (!b.has(v)) return false;
+  return true;
 }

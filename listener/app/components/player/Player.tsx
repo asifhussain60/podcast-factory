@@ -53,9 +53,27 @@ const PlayerContext = createContext<PlayerState | null>(null);
 
 export const RATES = [0.9, 1, 1.2, 1.5, 1.8] as const;
 
+/**
+ * Where the listener had got to, keyed by the EPISODE rather than by its file.
+ *
+ * This used to key on `episode.src` — the media URL, which contains
+ * `media_asset.key`. That key changes whenever an episode's audio is re-uploaded
+ * under a new name, and when it does the old entry simply never matches again:
+ * everyone silently lost their place, and nothing anywhere reported it, because
+ * "no stored position" and "position stored under a name nothing asks for" look
+ * identical. `slug` and `number` are the episode's own identity and survive a
+ * re-publish exactly as `chapter.anchor_key` does.
+ *
+ * Local storage is now a CACHE, not the record. The record is
+ * `listening_progress` in D1, so closing the iPad and opening the phone resumes
+ * where the iPad stopped; the cache is what lets playback resume instantly
+ * without waiting for a round trip, and what holds the position when the network
+ * is gone.
+ */
 const POSITION_KEY = "pf-positions";
 
-/** Where the reader had got to in each episode, by media key. */
+const positionKey = (slug: string, number: number) => `${slug}#${number}`;
+
 function loadPositions(): Record<string, number> {
   try {
     return JSON.parse(localStorage.getItem(POSITION_KEY) || "{}");
@@ -64,13 +82,59 @@ function loadPositions(): Record<string, number> {
   }
 }
 
-function savePosition(src: string, seconds: number) {
+function savePosition(episode: NowPlaying, seconds: number) {
+  const whole = Math.floor(seconds);
+
   try {
     const all = loadPositions();
-    all[src] = Math.floor(seconds);
+    all[positionKey(episode.slug, episode.number)] = whole;
     localStorage.setItem(POSITION_KEY, JSON.stringify(all));
   } catch {
-    // Storage disabled. Playback still works; only the memory of it is lost.
+    // Storage disabled. Playback still works; only the local memory is lost —
+    // the server copy below is unaffected, which is the point of having both.
+  }
+
+  // Throttled to one write a minute, and deliberately not more. A position is
+  // only useful to within a few seconds, this fires every five, and a listener
+  // going through a two-hour episode would otherwise post 1,400 times.
+  const now = Date.now();
+  if (now - lastServerWrite < 60_000) return;
+  lastServerWrite = now;
+
+  void fetch(`/book/${encodeURIComponent(episode.slug)}/marks`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      intent: "listening",
+      number: String(episode.number),
+      seconds: String(whole),
+    }),
+    // The listener is mid-episode; a failed bookkeeping write must not surface
+    // as an unhandled rejection in their console.
+  }).catch(() => {});
+}
+
+let lastServerWrite = 0;
+
+/**
+ * The server's copy, if it is further along than the cache.
+ *
+ * "Further along" rather than "newer": there is no clock to trust between two
+ * devices, and the failure that actually matters is resuming EARLIER than you
+ * got to — re-listening to ten minutes you have already heard. Taking the
+ * greater of the two can only ever skip ahead by however far the other device
+ * went, which is the direction a listener can correct in one gesture.
+ */
+async function serverPosition(slug: string, number: number): Promise<number | null> {
+  try {
+    const response = await fetch(`/book/${encodeURIComponent(slug)}/marks`, {
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) return null;
+    const marks = (await response.json()) as { listening?: Record<string, number> };
+    return marks.listening?.[String(number)] ?? null;
+  } catch {
+    return null;
   }
 }
 
@@ -93,8 +157,21 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
     setCurrent(episode);
     element.src = episode.src;
-    element.currentTime = loadPositions()[episode.src] ?? 0;
+
+    // Start from the cache immediately — playback must not wait on a request.
+    const cached = loadPositions()[positionKey(episode.slug, episode.number)] ?? 0;
+    element.currentTime = cached;
     void element.play();
+
+    // Then ask the server, and jump forward only if another device got further.
+    // Guarded on the listener not having moved in the meantime: seeking under
+    // someone who has already scrubbed would be the player fighting them.
+    void serverPosition(episode.slug, episode.number).then((remote) => {
+      if (remote === null || remote <= cached + 5) return;
+      if (audio.current === null || audio.current.src !== element.src) return;
+      if (Math.abs(audio.current.currentTime - cached) > 5) return;
+      audio.current.currentTime = remote;
+    });
   }, [current]);
 
   const toggle = useCallback(() => {
@@ -151,7 +228,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         onTimeUpdate={(e) => {
           setPosition(e.currentTarget.currentTime);
           if (current !== null && Math.floor(e.currentTarget.currentTime) % 5 === 0) {
-            savePosition(current.src, e.currentTarget.currentTime);
+            savePosition(current, e.currentTarget.currentTime);
           }
         }}
       />

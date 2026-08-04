@@ -19,7 +19,9 @@ export interface TestDb {
   close(): void;
 }
 
-export function createTestDb(migrations: string[] = ["0001_auth", "0002_access"]): TestDb {
+export function createTestDb(
+  migrations: string[] = ["0001_auth", "0002_access", "0006_reader_state"],
+): TestDb {
   const sqlite = new DatabaseSync(":memory:");
 
   for (const name of migrations) {

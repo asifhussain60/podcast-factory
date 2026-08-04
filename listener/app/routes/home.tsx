@@ -10,6 +10,7 @@ import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { visibleUnits } from "~/server/access.server";
 import { libraryCards } from "~/server/catalog.server";
+import { markCounts, progressForAll } from "~/server/marks.server";
 
 /**
  * The library.
@@ -28,13 +29,27 @@ export async function loader({ context }: Route.LoaderArgs) {
   const viewer = context.get(session).viewer!;
 
   const units = await visibleUnits(env.DB, viewer.email);
-  const cards = await libraryCards(env.DB, units.map((u) => u.slug));
+
+  // Progress and mark counts are for THIS viewer and are keyed by slug, so they
+  // are joined to what `visibleUnits` returned rather than being queried per
+  // book. A slug present in progress but absent from `units` simply never gets
+  // read — access is decided in one place and this is not it.
+  const [cards, progress, counts] = await Promise.all([
+    libraryCards(env.DB, units.map((u) => u.slug)),
+    progressForAll(env.DB, viewer.email),
+    markCounts(env.DB, viewer.email),
+  ]);
 
   return {
     siteName: env.PUBLIC_SITE_NAME ?? "Podcast Factory",
     viewer: { name: viewer.name, isAdmin: viewer.isAdmin },
     units: units
-      .map((u) => ({ ...u, card: cards.get(u.slug) ?? null }))
+      .map((u) => ({
+        ...u,
+        card: cards.get(u.slug) ?? null,
+        progress: progress[u.slug] ?? null,
+        marks: counts[u.slug] ?? null,
+      }))
       // By English title. `localeCompare` rather than `<`, so "Ayyuha" sorts
       // next to "Áyyuha" and case never decides the order.
       .sort((a, b) => a.title.localeCompare(b.title, "en", { sensitivity: "base" })),
@@ -136,6 +151,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                   title={unit.title}
                   bucket={unit.bucket}
                   card={unit.card}
+                  progress={unit.progress}
+                  marks={unit.marks}
                 />
               </li>
             ))}

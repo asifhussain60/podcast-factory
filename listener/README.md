@@ -64,17 +64,20 @@ writing; it is the gate that catches a stale copy.
 |---|---|
 | `app/root.tsx` | Document shell, theme bootstrap, error boundary |
 | `app/routes.ts` | Route table |
-| `app/styles/` | `theme.css` is the Verdigris palette; `fonts.css` the faces |
-| `app/components/brand/` | The three candidate marks and the wordmark lockups |
+| `app/styles/podcast-factory.css` | The WHOLE design system, in seven numbered sections. §3 is the only place a palette lives |
+| `app/components/brand/` | The mark and the wordmark lockups |
 | `workers/app.ts` | Worker entry — hands every request to React Router |
 | `wrangler.jsonc` | Bindings, staged per phase |
 | `app/server/*.server.ts` | Server-only. The suffix is enforced by the build |
 | `app/middleware/` | The four gates. See "Access" below |
 | `migrations/` | D1 migrations |
 | `app/server/catalog.server.ts` | What a unit CONTAINS. Decides nothing about access |
-| `app/styles/reader.css` | The reading column, styled by the renderer's own class names |
+| `app/styles/podcast-factory.css` §7 | The reading column, styled by the renderer's own class names |
 | `scripts/session-cookie.mjs` | Mints a local dev session — no Google needed |
 | `scripts/security-smoke.mjs` | The runtime gate checks |
+| `scripts/smoke.mjs` | `npm run smoke` — every route, three identities, four widths |
+| `scripts/shots.mjs` | `npm run shots` — the same, as PNGs to look at |
+| `scripts/routes.mjs`, `scripts/fixtures.mjs` | What those two share: the route manifest and the test identities |
 | `scripts/render-chapters.mjs` | Bridge to plain-dashboard's `renderMarkdown` |
 
 ## Content
@@ -94,7 +97,7 @@ for exactly that.
 `plan-dashboard/src/lib/reader/markdown.ts` — the same function behind the
 printed PDF, so the page and the print edition cannot disagree about a paragraph.
 That coupling is pinned by a golden fixture in `test/fixtures/`, which also
-asserts that every class the renderer emits has a rule in `reader.css`.
+asserts that every class the renderer emits has a rule in §7.
 
 **Chapters are keyed by `anchor_key`**, the Book Composer's own heading
 normalisation, so a chapter keeps its identity across a re-compose that renumbers
@@ -185,15 +188,27 @@ a real one and reveal which slugs exist.
 
 ## Theme
 
-Verdigris: warm-neutral stone, aged-copper accent, in its own `--l-*` namespace
-so an admin-site `--c-*` token pasted in is inert rather than subtly wrong.
-Three real themes — light, sepia, dark — switched by `data-theme` on `<html>`,
-with an inline script in `<head>` that applies the stored choice before first
-paint.
+One authored stylesheet, `app/styles/podcast-factory.css`, in seven numbered
+sections. Colour lives in its own `--l-*` namespace so an admin-site `--c-*`
+token pasted in is inert rather than subtly wrong; the theme-independent system
+(spacing, radii, elevation, the type ramp) is `--pf-*`.
+
+**§3 is the only place a palette lives.** Three themes — light, sepia, dark —
+switched by `data-theme` on `<html>`, with an inline script in `<head>` that
+applies the stored choice before first paint. There is deliberately no
+`prefers-color-scheme` block: the script resolves the system preference and
+always stamps the attribute, so each palette is declared exactly once. Adding a
+fourth is one block in §3 plus one name in `THEMES`.
+
+`test/theme.test.ts` re-derives every contrast ratio on every run and holds each
+palette to AA, including the four highlight colours — both that ink stays legible
+ON a highlight, and that the highlight is visible AGAINST the page, which is what
+a reader who cannot separate the hues actually sees.
 
 Tailwind utilities come from `@theme inline` mapping onto those runtime
-variables, so `bg-l-surface` follows the active theme rather than baking a
-colour in at build time.
+variables, under a `pf-` prefix. They are barely used — the components are
+`.pf-*` classes — and the prefix is not cosmetic: Tailwind reserves t/r/b/l/s/e/
+x/y for sides, so `--color-l-rule` silently compiles to `border-left-color`.
 
 ## Deploying
 
@@ -226,10 +241,10 @@ again — see the comment on `workers_dev` in `wrangler.jsonc`.
 
 ## Open
 
-- **The mark is not chosen.** All three are built; `DEFAULT_MARK` in
-  `app/components/brand/Logo.tsx` is the one line that changes. `/brand` renders
-  them side by side in every theme, at full size and at favicon size. Delete
-  that route once the choice is made.
+- **No Content Security Policy.** Blocked on the two inline `<head>` scripts,
+  which need a nonce (`workers/app.ts`). They cannot simply be moved to files:
+  they must run before first paint or the theme and the type size visibly snap
+  into place on every load.
 - **`wrangler r2 bucket info` reports 0 objects and 0 B even when the bucket is
   full.** Those figures come from Cloudflare's usage metrics, which lag by hours.
   To check whether an object is really there, fetch it back and compare:

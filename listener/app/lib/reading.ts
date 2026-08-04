@@ -39,6 +39,28 @@ export const SIZES = [16, 17, 18, 19, 21, 23, 26] as const;
 export const LEADINGS = [1.5, 1.7, 1.9] as const;
 export const MEASURES = [58, 68, 78] as const;
 
+/**
+ * The words for the two settings whose values are numbers nobody thinks in.
+ *
+ * `1.7` and `68ch` are what the CSS wants; "Normal" is what a reader wants. The
+ * labels live HERE, beside the scales, because they used to be written out as
+ * positional arrays at each control — `["Tight", "Normal", "Loose"][i]` — which
+ * silently mislabels every value the moment a fourth step is inserted anywhere
+ * but the end. Keyed by value, so an inserted step is a compile error rather than
+ * a page that calls Loose "Normal".
+ */
+export const LEADING_LABELS: Record<(typeof LEADINGS)[number], string> = {
+  1.5: "Tight",
+  1.7: "Normal",
+  1.9: "Loose",
+};
+
+export const MEASURE_LABELS: Record<(typeof MEASURES)[number], string> = {
+  58: "Narrow",
+  68: "Normal",
+  78: "Wide",
+};
+
 export interface ReadingPrefs {
   family: Family;
   size: number;

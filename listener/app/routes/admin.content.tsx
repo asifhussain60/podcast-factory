@@ -1,25 +1,62 @@
-import { Form } from "react-router";
+import { faMagnifyingGlass, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { Form, Link, useSearchParams, useSubmit } from "react-router";
 
 import type { Route } from "./+types/admin.content";
+import { Icon } from "~/components/Icon";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
-import { holdersOf, listCatalogForAdmin, setOpenToAll } from "~/server/access.server";
+import {
+  grant,
+  holdersOf,
+  listCatalogForAdmin,
+  listPeople,
+  revokeGrant,
+  setOpenToAll,
+} from "~/server/access.server";
 
 /**
  * The catalog, from the other direction: for each book, who can open it.
  *
  * "What can this person see" and "who can see this book" are both real questions
  * and neither answers the other, so both screens exist over the same tables.
+ *
+ * This one grew a second half. As the library grows the common act stops being
+ * "give this person their books" — done once, when someone joins — and becomes
+ * "give this new book to the fifteen people who should have it". Doing that on
+ * the people screen is fifteen visits; here it is one.
  */
-export async function loader({ context }: Route.LoaderArgs) {
+export async function loader({ request, context }: Route.LoaderArgs) {
   const { env } = context.get(cloudflare);
-  const catalog = await listCatalogForAdmin(env.DB);
+  const url = new URL(request.url);
+  const selected = url.searchParams.get("slug");
+  const search = url.searchParams.get("q") ?? "";
 
+  const catalog = await listCatalogForAdmin(env.DB);
   const readable = catalog.filter((u) => u.kind !== "work");
   const holders = await Promise.all(readable.map((u) => holdersOf(env.DB, u.slug)));
+  const units = readable.map((u, i) => ({ ...u, holders: holders[i] }));
+
+  // The selected book is taken from the list already loaded rather than fetched
+  // again — it carries its holders, which a fresh `unitBySlug` would not, and a
+  // second query could disagree with the first about `open_to_all`.
+  const unit = selected ? (units.find((u) => u.slug === selected) ?? null) : null;
+
+  // The people list is loaded only when a book is open for provisioning, and it
+  // is searched and capped in SQL — the same discipline as the people screen.
+  const candidates = unit
+    ? await listPeople(env.DB, { search, filter: "all", limit: 25 })
+    : { people: [], total: 0, everyone: 0 };
 
   return {
-    units: readable.map((unit, i) => ({ ...unit, holders: holders[i] })),
+    units,
+    unit,
+    candidates: candidates.people,
+    candidateTotal: candidates.total,
+    // Only DIRECT grants. The toggle writes a `unit` grant, so somebody covered
+    // by a library grant must not show as "Has it" — pressing it would revoke a
+    // row that does not exist and appear to do nothing.
+    holding: unit ? unit.holders.filter((h) => h.via === "unit").map((h) => h.email) : [],
+    search,
   };
 }
 
@@ -27,60 +64,199 @@ export async function action({ request, context }: Route.ActionArgs) {
   const { env } = context.get(cloudflare);
   const actor = context.get(session).viewer!.email;
   const form = await request.formData();
+  const intent = String(form.get("intent") ?? "open-to-all");
+  const now = new Date().toISOString();
 
-  // `open_to_all` is a privilege bit. It is writable ONLY from here, behind an
-  // admin session — never by the phase-3 publish endpoint, which authenticates
-  // with a bearer token and names its columns explicitly.
-  await setOpenToAll(
-    env.DB,
-    String(form.get("slug")),
-    form.get("open") === "1",
-    actor,
-    new Date().toISOString(),
-  );
+  switch (intent) {
+    // `open_to_all` is a privilege bit. It is writable ONLY from here, behind an
+    // admin session — never by the publish endpoint, which names its columns
+    // explicitly and is grepped by a test for exactly that.
+    case "open-to-all":
+      await setOpenToAll(env.DB, String(form.get("slug")), form.get("open") === "1", actor, now);
+      return { ok: true };
 
-  return { ok: true };
+    case "grant":
+      await grant(env.DB, String(form.get("email")), "unit", String(form.get("slug")), actor, now);
+      return { ok: true };
+
+    case "revoke-grant":
+      await revokeGrant(
+        env.DB,
+        String(form.get("email")),
+        "unit",
+        String(form.get("slug")),
+        actor,
+        now,
+      );
+      return { ok: true };
+
+    default:
+      return { error: "Unknown action." };
+  }
 }
 
 export default function AdminContent({ loaderData }: Route.ComponentProps) {
+  const { units, unit, candidates, candidateTotal, search } = loaderData;
+  const holding = new Set(loaderData.holding);
+  const [params] = useSearchParams();
+  const submit = useSubmit();
+
+  const withParam = (key: string, value: string) => {
+    const next = new URLSearchParams(params);
+    if (value === "") next.delete(key);
+    else next.set(key, value);
+    return `?${next.toString()}`;
+  };
+
   return (
-    <div className="pf-stack-sm">
-      {loaderData.units.map((unit) => (
-        <article key={unit.slug} className="pf-card pf-card--padded">
-          <div className="pf-split">
-            <div className="pf-split__main">
-              <h2 className="pf-row__main">{unit.title}</h2>
-              <p className="pf-note pf-note--quiet">
-                {unit.bucket}
-                {unit.workSlug ? ` · part of ${unit.workSlug}` : ""}
-                {unit.status === "published" ? "" : ` · ${unit.status}`}
-              </p>
+    <div className="pf-admin-split">
+      <section className="pf-admin-list pf-stack-sm">
+        {units.map((u) => (
+          <article
+            key={u.slug}
+            aria-current={unit?.slug === u.slug ? "true" : undefined}
+            className="pf-card pf-card--padded pf-unit"
+          >
+            <div className="pf-split">
+              <div className="pf-split__main">
+                <h2 className="pf-row__main">{u.title}</h2>
+                <p className="pf-note pf-note--quiet">
+                  {u.bucket}
+                  {u.workSlug ? ` · part of ${u.workSlug}` : ""}
+                  {u.status === "published" ? "" : ` · ${u.status}`}
+                </p>
+              </div>
+
+              <Form method="post">
+                <input type="hidden" name="intent" value="open-to-all" />
+                <input type="hidden" name="slug" value={u.slug} />
+                <input type="hidden" name="open" value={u.openToAll ? "0" : "1"} />
+                <button
+                  type="submit"
+                  aria-pressed={u.openToAll}
+                  className={`pf-button pf-button--sm${u.openToAll ? " pf-button--primary" : ""}`}
+                >
+                  {u.openToAll ? "Open to everyone · make private" : "Open to everyone"}
+                </button>
+              </Form>
             </div>
 
-            <Form method="post">
-              <input type="hidden" name="slug" value={unit.slug} />
-              <input type="hidden" name="open" value={unit.openToAll ? "0" : "1"} />
-              <button
-                type="submit"
-                aria-pressed={unit.openToAll}
-                className={`pf-button pf-button--sm${unit.openToAll ? " pf-button--primary" : ""}`}
-              >
-                {unit.openToAll ? "Open to everyone · make private" : "Open to everyone"}
-              </button>
-            </Form>
-          </div>
+            <div className="pf-split pf-card__foot">
+              <p className="pf-note pf-note--quiet pf-split__main">
+                {u.status !== "published"
+                  ? "Not published, so nobody can open it yet — grants made now take effect when it publishes."
+                  : u.openToAll
+                    ? "Everyone invited can open this."
+                    : u.holders.length === 0
+                      ? "Nobody has been given this."
+                      : `${u.holders.length} ${u.holders.length === 1 ? "person has" : "people have"} this`}
+              </p>
 
-          <p className="pf-note pf-note--quiet pf-card__foot">
-            {unit.status !== "published"
-              ? "Not published, so nobody can open it yet — grants made now take effect when it publishes."
-              : unit.openToAll
-                ? "Everyone invited can open this."
-                : unit.holders.length === 0
-                  ? "Nobody has been given this."
-                  : `Given to ${unit.holders.join(", ")}`}
-          </p>
-        </article>
-      ))}
+              <Link
+                to={withParam("slug", unit?.slug === u.slug ? "" : u.slug)}
+                className="pf-button pf-button--sm pf-button--soft"
+              >
+                <Icon icon={faUserPlus} />
+                {unit?.slug === u.slug ? "Done" : "Who has this"}
+              </Link>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section className="pf-admin-detail">
+        {unit === null ? (
+          <p className="pf-note">Choose a book to see who has it and give it to more people.</p>
+        ) : (
+          <div className="pf-panel">
+            <div className="pf-panel__head">
+              <h2 className="pf-panel__title">Who can open {unit.title}</h2>
+            </div>
+
+            <div className="pf-panel__body pf-stack-sm">
+              {unit.openToAll ? (
+                <p className="pf-message pf-message--warn">
+                  This book is open to everyone invited, so the grants below make no difference
+                  while that stays on.
+                </p>
+              ) : null}
+
+              <Form
+                method="get"
+                role="search"
+                onChange={(e) => submit(e.currentTarget)}
+                className="pf-search pf-search--sm"
+              >
+                <input type="hidden" name="slug" value={unit.slug} />
+                <Icon icon={faMagnifyingGlass} className="pf-search__icon" />
+                <label htmlFor="holders-q" className="sr-only">
+                  Search people
+                </label>
+                <input
+                  id="holders-q"
+                  type="search"
+                  name="q"
+                  defaultValue={search}
+                  placeholder="Search people by name or address"
+                  className="pf-search__input"
+                />
+              </Form>
+
+              {candidates.length === 0 ? (
+                <p className="pf-empty">
+                  {search === "" ? "Nobody has been invited yet." : `Nobody matches “${search}”.`}
+                </p>
+              ) : (
+                candidates.map((p) => (
+                  <Form key={p.email} method="post" className="pf-grant">
+                    <input
+                      type="hidden"
+                      name="intent"
+                      value={holding.has(p.email) ? "revoke-grant" : "grant"}
+                    />
+                    <input type="hidden" name="email" value={p.email} />
+                    <input type="hidden" name="slug" value={unit.slug} />
+                    <span className="pf-grant__what">
+                      <span className="pf-grant__label">{p.displayName}</span>
+                      <span className="pf-grant__hint">
+                        {p.revokedAt !== null ? "Sign-in revoked · " : ""}
+                        {p.emailRaw}
+                      </span>
+                    </span>
+                    <button
+                      type="submit"
+                      aria-pressed={holding.has(p.email)}
+                      className={`pf-button pf-button--sm${holding.has(p.email) ? " pf-button--primary" : ""}`}
+                    >
+                      {holding.has(p.email) ? "Has it" : "Give access"}
+                    </button>
+                  </Form>
+                ))
+              )}
+
+              {candidateTotal > candidates.length ? (
+                <p className="pf-note--quiet">
+                  Showing {candidates.length} of {candidateTotal}. Search to narrow the list.
+                </p>
+              ) : null}
+
+              {/* The toggle above writes a grant on THIS book only, so it must
+                  not appear able to take away access somebody holds through the
+                  whole library or through a parent work — pressing it would
+                  revoke a grant that is not there and appear to do nothing. */}
+              {unit.holders.some((h) => h.via !== "unit") ? (
+                <p className="pf-note--quiet">
+                  {unit.holders
+                    .filter((h) => h.via !== "unit")
+                    .map((h) => h.displayName)
+                    .join(", ")}{" "}
+                  can also open this, through a wider grant. Change that on their own page.
+                </p>
+              ) : null}
+            </div>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

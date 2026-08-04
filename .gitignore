@@ -12,6 +12,10 @@ content/**/*.bak
 
 # site-health-sentinel throwaway screenshots (created + deleted per QA run)
 plan-dashboard/.visual-qa/
+# Throwaway screenshots from `npm run shots`. Deliberately not committed: a
+# baseline would be a second definition of what the site looks like, and it
+# would fail on every legitimate change to the stylesheet.
+listener/.visual-qa/
 
 # OS files
 .DS_Store

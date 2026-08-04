@@ -36,13 +36,32 @@ export function BookCard({
   title,
   bucket,
   card,
+  progress = null,
+  marks = null,
 }: {
   slug: string;
   title: string;
   bucket: string;
   card: LibraryCard | null;
+  /** Where this reader got to, or null if they have not opened it. */
+  progress?: { fraction: number; chaptersDone: number } | null;
+  marks?: { notes: number; bookmarks: number } | null;
 }) {
   const arabic = card?.titleArabic ?? null;
+
+  // Whole chapters finished, plus how far into the current one — so a reader on
+  // chapter 4 of 9 reads about 40%, not 11% because one chapter is "done".
+  // Absent when the book has no chapters: a percentage of nothing is a lie.
+  const percent =
+    progress === null || card === null || card.chapters === 0
+      ? null
+      : Math.min(
+          99,
+          Math.max(
+            1,
+            Math.round(((progress.chaptersDone + progress.fraction) / card.chapters) * 100),
+          ),
+        );
 
   return (
     <Link to={`/book/${slug}`} className="pf-card pf-card--link pf-book">
@@ -68,6 +87,36 @@ export function BookCard({
       <div className="pf-book__body">
         {arabic === null ? null : <h2 className="pf-book__title">{title}</h2>}
         <Contents card={card} />
+
+        {/* Only for a book actually begun. A 0% bar on every unopened card would
+            turn the library into a list of things not done, which is the
+            opposite of what it is for. */}
+        {percent === null ? null : (
+          <div className="pf-book__progress">
+            <div
+              role="progressbar"
+              aria-valuenow={percent}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={`${percent}% read`}
+              className="pf-meter"
+            >
+              {/* The width is a custom property the stylesheet turns into a
+                  scale, the same contract the reading progress bar uses: JS
+                  supplies one scalar and never a declaration. */}
+              <span
+                className="pf-meter__fill"
+                style={{ "--pf-meter": String(percent / 100) } as React.CSSProperties}
+              />
+            </div>
+            <span className="pf-book__resume">
+              {percent}% read
+              {marks && marks.notes + marks.bookmarks > 0
+                ? ` · ${marks.notes + marks.bookmarks} marked`
+                : ""}
+            </span>
+          </div>
+        )}
       </div>
     </Link>
   );

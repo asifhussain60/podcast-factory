@@ -317,6 +317,20 @@
   --l-warn: #8a5712;
   --l-danger: #a52d2d;
 
+  /* The reader's four highlight colours.
+     Declared per palette rather than color-mixed off the accent like every other
+     tint in this file, and that exception is deliberate: a highlight has to stay
+     legible AND stay distinguishable from its three siblings on paper, on sepia
+     and on near-black, and one mix cannot satisfy all three. Held to two floors
+     by test/theme.test.ts — ink on the tint at 4.5:1 so the marked words stay
+     readable, and the tint against the page at 1.3:1 so the mark is visible as a
+     BAND rather than only as a hue. That second floor is what a reader who
+     cannot separate the colours actually sees. */
+  --l-hl-gold: #f3d873;  /* ink 11.03:1 · page 1.39:1 */
+  --l-hl-sage: #b9e2b0;  /* ink 10.80:1 · page 1.42:1 */
+  --l-hl-sky: #aecdf5;   /* ink  9.52:1 · page 1.61:1 */
+  --l-hl-rose: #f6bccd;  /* ink  9.63:1 · page 1.59:1 */
+
   /* Warm-tinted, so a shadow on warm paper does not go grey. */
   --l-shadow-near: rgb(46 38 24 / 0.07);
   --l-shadow-far: rgb(46 38 24 / 0.10);
@@ -359,6 +373,15 @@
   --l-warn: #d6a44b;
   --l-danger: #e57b74;
 
+  /* The same four hues, inverted rather than dimmed. A pale highlight on a dark
+     page is a lamp, not a mark: it would out-shine the text it sits under and
+     the ink would have to flip to dark, so a marked sentence would read as a
+     different colour of text. These are dark tints under the SAME light ink. */
+  --l-hl-gold: #5c4713;  /* ink  7.65:1 · page 1.86:1 */
+  --l-hl-sage: #2b4f24;  /* ink  8.05:1 · page 1.76:1 */
+  --l-hl-sky: #204066;   /* ink  9.11:1 · page 1.56:1 */
+  --l-hl-rose: #5c2739;  /* ink 10.03:1 · page 1.42:1 */
+
   --l-shadow-near: rgb(0 0 0 / 0.55);
   --l-shadow-far: rgb(0 0 0 / 0.45);
 }
@@ -395,6 +418,13 @@
   --l-ok: #3d7b53;
   --l-warn: #8b5d14;
   --l-danger: #9b3731;
+
+  /* Warmed towards the paper they sit on. The light theme's values on this
+     background read as four stickers laid on parchment. */
+  --l-hl-gold: #e8ce7c;  /* ink 9.78:1 · page 1.39:1 */
+  --l-hl-sage: #bcd8ae;  /* ink 9.79:1 · page 1.39:1 */
+  --l-hl-sky: #b8cbe8;   /* ink 9.20:1 · page 1.48:1 */
+  --l-hl-rose: #eab8bd;  /* ink 8.72:1 · page 1.56:1 */
 
   --l-shadow-near: rgb(51 41 28 / 0.09);
   --l-shadow-far: rgb(51 41 28 / 0.12);
@@ -663,10 +693,19 @@
     padding-block: var(--pf-space-5);
   }
 
+  /* Wraps, and that is a fix rather than a nicety. `.pf-header` wraps, but its
+     NAV did not, so at 390px "Library · Access · Sign out" plus the three theme
+     swatches measured 380px starting 24px in — 14px past the edge, which made
+     every page in the site scroll sideways. The header's own wrap could never
+     help: the nav is one flex item and an item that refuses to wrap internally
+     just overflows its column. */
   .pf-header__nav {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: var(--pf-space-5);
+    justify-content: flex-end;
+    gap: var(--pf-space-3) var(--pf-space-5);
+    min-width: 0;
   }
 
   .pf-navlink {
@@ -709,60 +748,242 @@
     border-bottom: 1px solid var(--l-rule-soft);
   }
 
-  /* ---- Reader ----------------------------------------------------------
-     The chapter page is its own shell: a bar that stays with you, a column
-     measured by `--l-reading-measure`, and nothing else competing for the eye. */
+  /* ---- Reader toolbar --------------------------------------------------
+     ONE row carrying everything that controls the reading view: where you are,
+     what you have marked, and how the page is set.
 
-  .pf-reader-bar {
+     It replaces two surfaces — a typeface/size bar under the book title and a
+     floating "Aa" popover in the top right — which between them showed typeface
+     and size twice and put a panel on top of the paragraph whose setting it
+     existed to change.
+
+     The row is a four-part flex: place (flexible, truncates), marks, settings,
+     estimate. Only the first is allowed to shrink; a control that shrinks stops
+     being tappable, whereas a title that shrinks is still a title. */
+
+  .pf-header--reader {
+    padding-block: var(--pf-space-2);
+  }
+
+  .pf-toolbar {
     display: flex;
     align-items: center;
-    gap: var(--pf-space-4);
+    gap: var(--pf-space-3);
     width: 100%;
-    max-width: var(--pf-measure-reader);
+    /* Wider than the page it sits over, and deliberately so. At
+       `--pf-measure-page` (64rem) the controls and the title together came to
+       slightly more than the bar, so on a 1440px screen the title sat at its
+       11rem floor reading "Ayyu… Introduc…" with visible empty space either side
+       of the bar. This is chrome, not prose: it is allowed the window, while the
+       chapter below it stays at the reading measure. */
+    max-width: 90rem;
     margin-inline: auto;
     padding-inline: var(--pf-space-5);
+  }
+
+  .pf-toolbar__where {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    /* The only part that gives way. `min-width: 0` is what actually permits the
+       ellipsis: a flex item's default `min-width: auto` is its content, so
+       without this the title refuses to shrink and pushes the controls off the
+       end instead of truncating.
+       `overflow: hidden` is the other half, and it is not optional. `min-width:
+       0` lets the BOX shrink; it does nothing to the CONTENT, which then paints
+       straight over the bookmark and notes buttons beside it — a title running
+       under two icons, which reads as a broken layout rather than as a long
+       name. */
+    flex: 1 1 auto;
+    /* A FLOOR, not zero. `flex-shrink: 1` against a settings group that refuses
+       to shrink means the title absorbs the entire deficit — and at 768px the
+       controls alone are wider than the row, so it absorbed all of it and the
+       toolbar showed no book and no chapter at all. With a floor the row
+       overflows instead, which is what `overflow-x: auto` below 900px is for:
+       the title stays put at the start of the strip and the controls scroll.
+       11rem is about three words of a chapter name — at 9rem "Introduction to
+       the Book" truncated to "Introd…", which names nothing. */
+    min-width: 11rem;
+    overflow: hidden;
+  }
+
+  .pf-toolbar__home,
+  .pf-tool {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    /* 2.75rem = 44px. The platform minimum for a touch target, and these are
+       the controls a thumb reaches for while holding a phone one-handed. */
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: var(--pf-radius);
+    background: transparent;
+    color: var(--l-muted);
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  .pf-toolbar__home:hover,
+  .pf-tool:hover {
+    background: var(--l-sunken);
+    color: var(--l-ink);
+  }
+
+  /* Pressed, not merely hovered — a bookmark that is ON has to look different
+     from one the pointer happens to be over. */
+  .pf-tool[aria-pressed="true"],
+  .pf-tool[aria-expanded="true"] {
+    background: var(--l-accent-soft);
+    color: var(--l-accent);
+  }
+
+  .pf-tool__count {
+    position: absolute;
+    top: 0.35rem;
+    inset-inline-end: 0.3rem;
+    min-width: 1.05rem;
+    padding-inline: 0.2rem;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-accent);
+    color: var(--l-on-accent);
+    font-family: var(--l-font-ui);
+    font-size: 0.625rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.7;
+    text-align: center;
   }
 
   /* The title doubles as the contents toggle: on a page this bare, a separate
      button for it would be the second thing in the bar competing with the
      chapter's own name. */
-  .pf-reader-bar__where {
-    flex: 1;
+  .pf-toolbar__place {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
     min-width: 0;
-    padding: 0;
+    min-height: 2.75rem;
+    padding: var(--pf-space-2);
     border: 0;
+    border-radius: var(--pf-radius);
     background: transparent;
     text-align: start;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-base);
-    color: var(--l-muted);
-    cursor: pointer;
-    transition: color var(--pf-motion);
-  }
-
-  .pf-reader-bar__where:hover {
     color: var(--l-ink);
+    cursor: pointer;
+    transition: background var(--pf-motion);
   }
 
-  .pf-reader-bar__book,
-  .pf-reader-bar__sep {
+  .pf-toolbar__place:hover {
+    background: var(--l-sunken);
+  }
+
+  .pf-toolbar__place {
+    overflow: hidden;
+  }
+
+  /* Shrinks and truncates too, rather than being fixed. It is the shorter of the
+     two names and gives way LAST — `flex-shrink: 2` on the chapter beside it is
+     what orders them — but "gives way last" is not "never gives way": on a
+     narrow screen a long book title alone will exceed the row. */
+  .pf-toolbar__book {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     color: var(--l-faint);
   }
 
-  .pf-reader-bar__left {
+  /* The chapter is what truncates, not the book: the book's name is the shorter
+     of the two and is the one that orients you. */
+  .pf-toolbar__chapter {
+    flex: 2 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .pf-toolbar__caret {
+    flex: none;
+    font-size: 0.7em;
+    color: var(--l-faint);
+  }
+
+  .pf-toolbar__group {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    flex: none;
+  }
+
+  /* A hairline between the marks and the typography, so the row reads as two
+     kinds of thing rather than one long strip of buttons. */
+  .pf-toolbar__group--set {
+    padding-inline-start: var(--pf-space-3);
+    border-inline-start: 1px solid var(--l-rule-soft);
+  }
+
+  .pf-toolbar__left {
     flex: none;
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
     color: var(--l-faint);
   }
 
-  /* On a phone the bar has room for the logo, the title and the settings, and
-     nothing else. The estimate is the first thing to go. */
+  /* Below the tablet tier the row cannot hold everything at a legible size, and
+     the answer is NOT a popover — that is the thing being removed. The row
+     scrolls, which is the same idiom the site's own mobile navigation uses.
+
+     Two details make it usable rather than merely possible: the place block
+     stops flexing (a shrinking title inside a scrolling row leaves dead space
+     rather than revealing controls), and the estimate is dropped, because it is
+     the one item here that is information rather than a control. */
+  @media (max-width: 899px) {
+    .pf-toolbar {
+      overflow-x: auto;
+      scrollbar-width: none;
+      /* The controls are the reason to scroll, so the row should come to rest
+         with a whole one in view rather than mid-button. */
+      scroll-snap-type: x proximity;
+      padding-inline: var(--pf-space-4);
+      /* Says it scrolls. A row that simply ends at the screen edge reads as a
+         row that ends — the fade is the only thing telling a reader there is
+         more of it, and it costs nothing on a row that happens to fit, because
+         a fully-scrolled or unscrollable strip shows no gradient. */
+      mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
+    }
+
+    [dir="rtl"] .pf-toolbar {
+      mask-image: linear-gradient(to left, #000 calc(100% - 2rem), transparent);
+    }
+
+    .pf-toolbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pf-toolbar__group {
+      scroll-snap-align: end;
+    }
+
+    .pf-toolbar__left {
+      display: none;
+    }
+  }
+
+  /* At phone width the book's name goes too. "Ayyuhal Walad · The Persian Who
+     Was Dead and Revived" in a 390px row leaves the chapter as three words and
+     an ellipsis; the book is named on the page you came from and on the card
+     you tapped, and the chapter is the thing you are actually in. */
   @media (max-width: 639px) {
-    .pf-reader-bar__left {
+    .pf-toolbar__book {
       display: none;
     }
   }
@@ -792,39 +1013,6 @@
     margin-inline: auto;
     padding-inline: var(--pf-space-5);
     padding-bottom: var(--pf-space-9);
-  }
-
-  /* ---- Above the page ----------------------------------------------------
-     The work's name and the reading controls, on the page colour rather than
-     on the sheet. Centred, because the sheet's own opening is. */
-
-  .pf-reader-head {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--pf-space-4);
-    padding-top: var(--pf-space-7);
-  }
-
-  /* Quieter than the chapter title it stands over — this names where you are,
-     and the sheet names what you are reading. Same display face and same
-     `--l-display` ink as every other page title on the site. */
-  .pf-reader-head__book {
-    font-family: var(--l-font-display);
-    font-size: var(--pf-text-xl);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    text-align: center;
-    text-wrap: balance;
-    color: var(--l-display);
-  }
-
-  .pf-controls {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: var(--pf-space-3);
   }
 
   /* ---- Stepper -----------------------------------------------------------
@@ -886,6 +1074,26 @@
     color: var(--l-ink);
   }
 
+  /* The toolbar's version. Narrower, because it shares one row with four other
+     control groups — but the BUTTONS keep their 44px height, since the whole
+     point of the stepper over a slider was that it works under a thumb. Only
+     the value between them gives up width. */
+  /* 44px both ways. The first attempt kept these 36px wide on the argument that
+     minus and plus sit against each other and form one wide target — true of the
+     PAIR, but a reader aiming at plus and hitting minus has the text jump the
+     wrong way, which is the one outcome the argument does not cover. The row
+     scrolls on a narrow screen, so the width costs nothing that matters. */
+  .pf-stepper--sm .pf-stepper__step {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding-block: 0;
+  }
+
+  .pf-stepper--sm .pf-stepper__value {
+    min-width: 2.1rem;
+    font-size: var(--pf-text-sm);
+  }
+
   /* ---- The page ----------------------------------------------------------
      A chapter is a SHEET laid on the page colour, not type printed straight
      onto it. Before this the prose sat directly on `--l-bg` with the column
@@ -921,13 +1129,6 @@
   @media (max-width: 639px) {
     .pf-reader-page {
       padding-inline: 0;
-    }
-
-    /* The container's padding went so the SHEET could go full-bleed; the block
-       above the sheet is not the sheet and still needs a margin, or the book's
-       title sets hard against both screen edges. */
-    .pf-reader-head {
-      padding-inline: var(--pf-space-5);
     }
 
     .pf-page {
@@ -1275,24 +1476,24 @@
 
   /* ---- Section -------------------------------------------------------- */
 
-  /* A section carries no margin of its own. Two of them side by side in a grid
-     would each push their own column down and open a band of dead space above
-     both — the gap between blocks belongs to whatever is arranging them. */
-  .pf-section--ruled {
-    margin-top: var(--pf-space-8);
-    border-top: 1px solid var(--l-rule);
-    padding-top: var(--pf-space-6);
-  }
-
   .pf-section__intro {
     margin-top: var(--pf-space-4);
   }
 
   /* One half of the book page when the other half does not exist. A single
      column stretched across the full width reads as a page with a hole in it. */
+  /* The panel a book gets when it offers only one way of being taken, and so has
+     no tab strip above it.
+     Centred, because everything above it is: left-aligned at 42rem under a
+     centred masthead it read as a column that had come loose rather than as the
+     page's one section. And a step closer to the pills above it — the 4rem gap
+     plus the masthead's own padding left a hand's width of nothing where a tab
+     strip would otherwise be, which looked like a control that had failed to
+     render. */
   .pf-single {
     max-width: 42rem;
-    margin-top: var(--pf-space-8);
+    margin-top: var(--pf-space-6);
+    margin-inline: auto;
   }
 
   .pf-session {
@@ -1480,6 +1681,22 @@
     color: var(--l-muted);
   }
 
+  /* A panel headed by somebody's NAME rather than by a label.
+     The uppercase small-caps treatment above is right for "WHAT THEY CAN OPEN"
+     and wrong for a person: it rendered the administrator's own row as
+     ASIFHUSSAIN60@GMAIL.COM, which is not their address — the local part of an
+     address is case-sensitive, so upper-casing one is not a style choice, it is
+     printing something untrue. */
+  .pf-panel__title--name {
+    font-family: var(--l-font-display);
+    font-size: var(--pf-text-md);
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--l-display);
+    overflow-wrap: anywhere;
+  }
+
   .pf-panel__head .pf-icon {
     opacity: 1;
     color: var(--l-accent);
@@ -1512,11 +1729,6 @@
     margin-top: var(--pf-space-7);
   }
 
-  .pf-grid--pair {
-    grid-template-columns: 1fr;
-    margin-top: var(--pf-space-8);
-  }
-
   @media (min-width: 640px) {
     .pf-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1526,12 +1738,6 @@
   @media (min-width: 1024px) {
     .pf-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    /* The book page's two readings of the same book, side by side. */
-    .pf-grid--pair {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--pf-space-7);
     }
   }
 
@@ -1696,32 +1902,10 @@
     color: var(--l-muted);
   }
 
-  .pf-pill--sm {
-    padding: var(--pf-pill-sm-y) var(--pf-pill-sm-x);
-    font-size: var(--pf-pill-sm-size);
-    line-height: var(--pf-pill-sm-leading);
-  }
-
-  .pf-pill--lg {
-    padding: var(--pf-pill-lg-y) var(--pf-pill-lg-x);
-    font-size: var(--pf-pill-lg-size);
-    line-height: var(--pf-pill-lg-leading);
-  }
-
-  .pf-pill--soft {
-    background: var(--l-accent-soft);
-    color: var(--l-accent);
-  }
-
   .pf-pill--outline {
     background: transparent;
     border-color: var(--l-rule);
     color: var(--l-muted);
-  }
-
-  .pf-pill--solid {
-    background: var(--l-accent);
-    color: var(--l-on-accent);
   }
 
   .pf-pill--quiet {
@@ -1765,7 +1949,6 @@
 
   /* Against a solid fill the glyph is already low-contrast enough. */
   .pf-button--primary .pf-icon,
-  .pf-pill--solid .pf-icon,
   .pf-player__play .pf-icon {
     opacity: 1;
   }
@@ -2183,7 +2366,13 @@
 
   /* ---- Access administration ---------------------------------------------
      A list of people on the left, and what the selected one may open on the
-     right. Below the breakpoint it is one column, people first. */
+     right. Below the breakpoint it is one column, people first.
+
+     The list column is DELIBERATELY its own scroller at desktop width. A hundred
+     people beside one person's grants meant the page scrolled as one thing, so
+     scrolling to find someone took the panel showing what they have off the
+     screen — the two halves have to move independently or the screen only works
+     while the list is short. */
 
   .pf-admin-split {
     display: grid;
@@ -2191,22 +2380,185 @@
     grid-template-columns: 1fr;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 900px) {
     .pf-admin-split {
-      grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+      gap: var(--pf-space-7);
+      align-items: start;
+    }
+
+    .pf-admin-list {
+      position: sticky;
+      /* Clear of the site header, which is sticky too. */
+      top: var(--pf-space-5);
+      max-height: calc(100dvh - var(--pf-space-8));
+      overflow-y: auto;
+      /* The scrollbar sits inside the column rather than over the rows. */
+      padding-inline-end: var(--pf-space-2);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .pf-admin-split {
+      grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
       gap: var(--pf-space-8);
     }
   }
 
-  .pf-people__heading {
-    margin-top: var(--pf-space-7);
+  .pf-admin-detail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-5);
+    min-width: 0;
+  }
+
+  .pf-invite {
+    margin-bottom: var(--pf-space-5);
+  }
+
+  /* In ONE column, finding somebody comes before adding somebody.
+     The two-column layout puts the invite form at the top of the left rail,
+     where it costs nothing. Stacked, it fills the first screen of a phone or an
+     iPad in portrait and pushes the search box and the whole list below the
+     fold — so the common task (find this person, change what they have) is
+     behind the occasional one. `order` rather than moving it in the markup,
+     because at 900px and up the original order is the right one. */
+  @media (max-width: 899px) {
+    .pf-admin-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pf-invite {
+      order: 1;
+      margin-top: var(--pf-space-6);
+      margin-bottom: 0;
+    }
+  }
+
+  /* Two fields on one line where there is room. First and last name are short
+     and belong together; stacking them makes the invite form five rows tall for
+     what is really three questions. */
+  .pf-form__pair {
+    display: grid;
+    gap: var(--pf-space-3);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 480px) {
+    .pf-form__pair {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .pf-field__hint {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-faint);
+  }
+
+  .pf-message--ok {
+    color: var(--l-ok);
+  }
+
+  .pf-invite__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-1);
+    color: var(--l-accent);
+    overflow-wrap: anywhere;
+  }
+
+  /* ---- Finding someone ---------------------------------------------------- */
+
+  .pf-admin-find {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    margin-bottom: var(--pf-space-3);
+  }
+
+  .pf-search--sm .pf-search__input {
+    padding-block: var(--pf-space-2);
+    font-size: var(--pf-text-sm);
+  }
+
+  /* A wrapping row of filters rather than a select: five options, each with a
+     count, and the counts are half the value — "3 revoked" answers the question
+     without the filter being applied at all. */
+  .pf-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-1);
+  }
+
+  .pf-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    padding: var(--pf-space-1) var(--pf-space-3);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-surface);
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    text-decoration: none;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion),
+      border-color var(--pf-motion);
+  }
+
+  .pf-filter:hover {
+    border-color: var(--l-accent);
+    color: var(--l-ink);
+  }
+
+  .pf-filter[aria-current="true"] {
+    background: var(--l-accent);
+    border-color: var(--l-accent);
+    color: var(--l-on-accent);
+  }
+
+  .pf-filter__count {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.75;
+  }
+
+  .pf-admin-count {
+    margin-bottom: var(--pf-space-2);
+  }
+
+  .pf-pager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-3);
+    margin-top: var(--pf-space-4);
+  }
+
+  .pf-pager__where {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+    color: var(--l-faint);
+  }
+
+  /* A link cannot be `disabled`, so the ends of the range are expressed with
+     `aria-disabled` and made unclickable here. `pointer-events: none` alone
+     would leave it reachable by keyboard, which is why the attribute carries the
+     meaning and this only carries the appearance. */
+  .pf-pager [aria-disabled="true"] {
+    opacity: 0.4;
+    pointer-events: none;
   }
 
   .pf-people {
     display: flex;
     flex-direction: column;
     gap: var(--pf-space-2);
-    margin: var(--pf-space-4) 0 0;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
@@ -2214,13 +2566,24 @@
   .pf-person {
     display: block;
     padding: var(--pf-space-3) var(--pf-space-4);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule-soft);
+    border-radius: var(--pf-radius);
     text-decoration: none;
-    transition: border-color var(--pf-motion);
+    transition:
+      border-color var(--pf-motion),
+      background var(--pf-motion);
   }
 
-  .pf-person:hover,
+  .pf-person:hover {
+    border-color: var(--l-accent);
+  }
+
+  /* Selected, and it has to be louder than hover — on a list this long the
+     hovered row and the open row are frequently different rows. */
   .pf-person[aria-current="true"] {
     border-color: var(--l-accent);
+    background: var(--l-accent-soft);
   }
 
   .pf-person__who {
@@ -2228,6 +2591,15 @@
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-base);
     color: var(--l-ink);
+    overflow-wrap: anywhere;
+  }
+
+  .pf-person__mail {
+    display: block;
+    margin-top: 1px;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
     overflow-wrap: anywhere;
   }
 
@@ -2239,8 +2611,44 @@
     color: var(--l-faint);
   }
 
+  /* ---- One person's facts ------------------------------------------------- */
+
+  .pf-facts {
+    display: grid;
+    gap: var(--pf-space-4);
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    margin-bottom: var(--pf-space-4);
+  }
+
+  /* One fact. A wrapper rather than letting `dt` and `dd` be grid children in
+     their own right: a `<dl>` grid puts every term in one column and every
+     definition in the next, so four facts became two long columns instead of
+     four small blocks. */
+  .pf-facts__row {
+    min-width: 0;
+  }
+
+  .pf-facts__label {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    color: var(--l-faint);
+  }
+
+  .pf-facts__value {
+    margin-top: 2px;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    color: var(--l-ink);
+  }
+
+  .pf-unit[aria-current="true"] {
+    border-color: var(--l-accent);
+  }
+
   .pf-grants__work {
-    margin-top: var(--pf-space-6);
+    margin-top: var(--pf-space-4);
   }
 
   /* Volumes sit under the work they belong to, indented so the hierarchy is
@@ -2250,6 +2658,10 @@
     padding-inline-start: var(--pf-space-5);
   }
 
+  /* Carries its own surface now. It used to be given `.pf-card` at every call
+     site, which meant a row in this list and a book card in the library were the
+     same object with the same lift on hover — and these are not cards, they are
+     rows of a control list. */
   .pf-grant {
     display: flex;
     align-items: center;
@@ -2257,7 +2669,13 @@
     gap: var(--pf-space-4);
     margin-top: var(--pf-space-2);
     padding: var(--pf-space-3) var(--pf-space-4);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule-soft);
     border-radius: var(--pf-radius);
+  }
+
+  .pf-grant:hover {
+    border-color: var(--l-rule);
   }
 
   .pf-grant__what {
@@ -2282,30 +2700,106 @@
     color: var(--l-faint);
   }
 
-  /* ---- Table ------------------------------------------------------------ */
+  /* ---- Progress ----------------------------------------------------------
+     One meter, used on the library card and anywhere else a fraction needs
+     showing. Driven by a `--pf-meter` scalar the component measures, exactly as
+     `.reading-progress` is driven by `--l-progress` — the component supplies a
+     number and this file decides what a number looks like.
 
-  .pf-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-base);
+     `scaleX` rather than `width` so the fill is composited rather than laid out;
+     a library of twenty cards each animating a width is twenty reflows. */
+
+  .pf-meter {
+    height: 4px;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-sunken);
+    overflow: hidden;
   }
 
-  .pf-table th {
-    text-align: start;
-    padding: var(--pf-space-2) var(--pf-space-3);
-    border-bottom: 1px solid var(--l-rule);
+  .pf-meter__fill {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--l-accent);
+    transform: scaleX(var(--pf-meter, 0));
+    transform-origin: left center;
+  }
+
+  /* Mirrored for a right-to-left card, or the bar would fill from the wrong
+     end and read as progress running backwards. */
+  [dir="rtl"] .pf-meter__fill {
+    transform-origin: right center;
+  }
+
+  /* `align-self: stretch`, because the card body centres its children — so
+     without it the bar shrink-wrapped to its own content, which for an empty
+     `<span>` inside a track is nothing, and 24% read rendered as an 80px stub
+     under a 360px card. The LABEL stays centred with everything else. */
+  .pf-book__progress {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    gap: var(--pf-space-2);
+    /* Pushed to the foot of the card, so cards with different numbers of pills
+       still line their progress bars up across a row of the grid. */
+    margin-top: auto;
+    padding-top: var(--pf-space-4);
+  }
+
+  .pf-book__resume {
+    font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: var(--pf-tracking-eyebrow);
+    font-variant-numeric: tabular-nums;
     color: var(--l-faint);
   }
 
-  .pf-table td {
-    padding: var(--pf-space-3);
-    border-bottom: 1px solid var(--l-rule-soft);
+  /* ---- Continue reading --------------------------------------------------
+     The one call to action on a book page that is about THIS reader rather than
+     about the book. In the accent's soft fill so it is findable above a list of
+     nine near-identical chapter rows, without becoming a solid slab — the print
+     edition button beside it already learned that lesson. */
+
+  .pf-resume {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-1);
+    margin-top: var(--pf-space-4);
+    padding: var(--pf-space-4) var(--pf-space-5);
+    background: var(--l-accent-soft);
+    border: 1px solid color-mix(in srgb, var(--l-accent) 30%, transparent);
+    border-radius: var(--pf-radius);
+    text-decoration: none;
+    transition:
+      border-color var(--pf-motion),
+      transform var(--pf-motion);
+  }
+
+  .pf-resume:hover {
+    border-color: var(--l-accent);
+    transform: translateY(var(--pf-lift));
+  }
+
+  .pf-resume__title {
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-md);
     color: var(--l-ink);
+  }
+
+  .pf-resume__meta {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+    color: var(--l-muted);
+  }
+
+  /* How many marks sit in a chapter, in its row. Quieter than the reading time
+     beside it: one is a fact about the book, the other is a fact about you. */
+  .pf-row__marks {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-1);
+    color: var(--l-accent);
   }
 
   /* ---- Stacks and splits -------------------------------------------------
@@ -2417,120 +2911,378 @@
     font-size: var(--pf-text-sm);
   }
 
-  /* ---- Reading settings ---------------------------------------------------
-     A popover on desktop, a bottom sheet on a phone — one component placed by
-     these rules, because two components would be two chances for the controls
-     to disagree. The panel is portalled to <body>; the sticky reader header
-     carries `backdrop-filter`, which makes it the containing block for fixed
-     descendants and once anchored this sheet to a 44px-tall header. */
+  /* ---- Highlights ---------------------------------------------------------
+     A <mark> the reader put there, added to the live DOM after the chapter
+     renders. Painted rather than declared in the HTML because `chapter.html` is
+     injected with dangerouslySetInnerHTML and React will not reconcile inside
+     it — re-injecting the chapter per highlight would lose the scroll position.
 
-  .pf-scrim {
-    position: fixed;
-    inset: 0;
-    z-index: 40;
-    background: transparent;
-    border: 0;
-    cursor: default;
+     The colour is a background, never a change of ink: the marked words stay the
+     same colour as the words around them, which is what keeps the sentence
+     reading as one sentence. The bottom border is the part that matters for
+     anyone who cannot separate the four hues — it says "marked" without relying
+     on colour at all, and it is derived from the tint rather than declared, so a
+     fourth colour costs one token and nothing here. */
+
+  .pf-hl {
+    /* `inherit`, not a value: `<mark>` has a UA colour and a UA background, and
+       leaving either would put black-on-yellow inside a dark theme. */
+    color: inherit;
+    background: var(--pf-hl-tint);
+    border-radius: 2px;
+    box-shadow: 0 1px 0 0 color-mix(in srgb, var(--pf-hl-tint) 55%, var(--l-ink));
+    cursor: pointer;
+    transition: background var(--pf-motion);
   }
 
-  .pf-sheet {
-    position: fixed;
-    inset-inline: 0;
-    bottom: 0;
-    z-index: 50;
-    max-height: 85dvh;
-    overflow-y: auto;
-    padding: var(--pf-space-5);
+  .pf-hl--gold {
+    --pf-hl-tint: var(--l-hl-gold);
+  }
+  .pf-hl--sage {
+    --pf-hl-tint: var(--l-hl-sage);
+  }
+  .pf-hl--sky {
+    --pf-hl-tint: var(--l-hl-sky);
+  }
+  .pf-hl--rose {
+    --pf-hl-tint: var(--l-hl-rose);
+  }
+
+  /* A highlight carrying a note earns a second, heavier underline. A different
+     colour would collide with the four the reader chose; a thicker edge does
+     not, and reads as "there is more here" at any size. */
+  .pf-hl--noted {
+    box-shadow: 0 2px 0 0 color-mix(in srgb, var(--pf-hl-tint) 30%, var(--l-ink));
+  }
+
+  /* Where the notes drawer just sent you. Temporary by nature — it is removed
+     on the next repaint — so it is a ring rather than a colour change. */
+  .pf-hl--active {
+    outline: 2px solid var(--l-accent);
+    outline-offset: 2px;
+  }
+
+  .pf-hl:hover {
+    background: color-mix(in srgb, var(--pf-hl-tint) 80%, var(--l-ink) 6%);
+  }
+
+  /* ---- The selection bar --------------------------------------------------
+     The one thing in the reader that still floats over the text, and it has to:
+     it points at the words it acts on. Positioned from two custom properties the
+     component measures — the ONLY inline style in the application, and it is a
+     coordinate rather than a design decision.
+
+     `translate(-50%, -100%)` puts it centred above the selection; the margin
+     lifts it clear of the text so it does not cover the very passage being
+     marked. Clamped inside the viewport so a selection at the edge of the screen
+     does not push half the bar off it. */
+
+  .pf-selbar {
+    position: absolute;
+    top: var(--sel-top);
+    left: clamp(9rem, var(--sel-left), calc(100vw - 9rem));
+    z-index: 30;
+    transform: translate(-50%, -100%);
+    margin-top: calc(var(--pf-space-2) * -1);
+    padding: var(--pf-space-2);
     background: var(--l-elev);
-    border-top: 1px solid var(--l-rule);
-    border-radius: var(--pf-radius-xl) var(--pf-radius-xl) 0 0;
-    box-shadow: var(--pf-elev-4);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    box-shadow: var(--pf-elev-3);
   }
 
-  @media (min-width: 640px) {
-    .pf-sheet {
-      inset-inline: auto;
-      inset-inline-end: var(--pf-space-4);
-      top: 4rem;
-      bottom: auto;
-      width: 20rem;
-      border: 1px solid var(--l-rule);
-      border-radius: var(--pf-radius-lg);
-    }
-  }
-
-  .pf-sheet__row {
+  .pf-selbar__row {
     display: flex;
-    flex-direction: column;
-    gap: var(--pf-space-2);
-    padding-block: var(--pf-space-3);
-    border-bottom: 1px solid var(--l-rule-soft);
-  }
-
-  .pf-sheet__row:first-child {
-    padding-top: 0;
-  }
-
-  .pf-sheet__row:last-child {
-    padding-bottom: 0;
-    border-bottom: 0;
-  }
-
-  .pf-chips {
-    display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     gap: var(--pf-space-1);
   }
 
-  .pf-chips--baseline {
-    align-items: center;
-    gap: var(--pf-space-2);
-  }
-
-  .pf-chips__value {
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-xs);
-    font-variant-numeric: tabular-nums;
-    color: var(--l-muted);
-  }
-
-  .pf-chip {
+  .pf-selbar__colours {
     display: flex;
+    gap: var(--pf-space-1);
+  }
+
+  .pf-selbar__colour {
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: var(--pf-radius-pill);
+    background: var(--pf-hl-tint);
+    cursor: pointer;
+    transition:
+      transform var(--pf-motion),
+      border-color var(--pf-motion);
+  }
+
+  .pf-selbar__colour--gold {
+    --pf-hl-tint: var(--l-hl-gold);
+  }
+  .pf-selbar__colour--sage {
+    --pf-hl-tint: var(--l-hl-sage);
+  }
+  .pf-selbar__colour--sky {
+    --pf-hl-tint: var(--l-hl-sky);
+  }
+  .pf-selbar__colour--rose {
+    --pf-hl-tint: var(--l-hl-rose);
+  }
+
+  .pf-selbar__colour:hover {
+    transform: translateY(var(--pf-lift));
+  }
+
+  /* Which one this passage already is. A ring rather than a checkmark, because a
+     glyph on a 36px swatch obscures the colour it is describing. */
+  .pf-selbar__colour[aria-pressed="true"] {
+    border-color: var(--l-ink);
+  }
+
+  .pf-selbar__divider {
+    width: 1px;
+    align-self: stretch;
+    margin-inline: var(--pf-space-1);
+    background: var(--l-rule-soft);
+  }
+
+  .pf-selbar__action {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 2.25rem;
-    padding: var(--pf-space-1) var(--pf-space-3);
-    background: transparent;
-    border: 1px solid var(--l-rule);
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    border: 0;
     border-radius: var(--pf-radius);
+    background: transparent;
     color: var(--l-muted);
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-base);
     cursor: pointer;
     transition:
       background var(--pf-motion),
       color var(--pf-motion);
   }
 
-  .pf-chip:hover {
+  .pf-selbar__action:hover {
     background: var(--l-sunken);
     color: var(--l-ink);
   }
 
-  .pf-chip--on {
-    background: var(--l-accent);
-    border-color: var(--l-accent);
-    color: var(--l-on-accent);
+  .pf-selbar__action--danger:hover {
+    color: var(--l-danger);
   }
 
-  /* The two ends of the size stepper, drawn as the letter at each extreme. */
-  .pf-chip__a-sm {
+  .pf-selbar__note {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+    width: min(22rem, calc(100vw - var(--pf-space-6)));
+  }
+
+  .pf-selbar__field {
+    resize: vertical;
+    font-size: var(--pf-text-base);
+  }
+
+  .pf-selbar__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--pf-space-2);
+  }
+
+  /* ---- The notes drawer ---------------------------------------------------
+     Beside the text on a wide screen, over it on a narrow one. It is a panel
+     rather than a route so that opening your notes does not lose your place —
+     which is the whole reason to have them open. */
+
+  /* Behind the drawer, dimming what it covers.
+     Without it the drawer reads as a panel that has broken the page in half:
+     the chapter continues at full contrast right up to its edge, mid-word, and
+     nothing says the text is still there rather than gone. It is also the way
+     out — the drawer opens over the toolbar on a narrow screen, so the button
+     that opened it is not always reachable to close it. */
+  .pf-drawer__scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 24;
+    padding: 0;
+    border: 0;
+    background: color-mix(in srgb, var(--l-ink) 32%, transparent);
+    cursor: default;
+  }
+
+  .pf-drawer {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-end: 0;
+    z-index: 25;
+    display: flex;
+    flex-direction: column;
+    width: min(26rem, 100vw);
+    background: var(--l-surface);
+    border-inline-start: 1px solid var(--l-rule);
+    box-shadow: var(--pf-elev-4);
+  }
+
+  .pf-drawer__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-4) var(--pf-space-5);
+    border-bottom: 1px solid var(--l-rule-soft);
+  }
+
+  .pf-drawer__title {
+    font-family: var(--l-font-display);
+    font-size: var(--pf-text-md);
+    font-weight: 600;
+    color: var(--l-display);
+  }
+
+  .pf-drawer__body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: var(--pf-space-4) var(--pf-space-5);
+  }
+
+  /* ---- Notes and highlights, as a list ------------------------------------
+     One component with two hosts — the drawer above, and the book page's Notes
+     tab — so these rules are written once and cannot describe two different
+     things called the same. */
+
+  .pf-notes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-6);
+  }
+
+  .pf-notes__chapter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+  }
+
+  .pf-notes__heading {
+    font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-faint);
   }
 
-  .pf-chip__a-lg {
-    font-size: var(--pf-text-lg);
-    line-height: 1;
+  /* The colour of the highlight, carried through to its entry — so scanning the
+     list and scanning the page are the same act. It is a left edge rather than a
+     fill: a filled card at these sizes competes with the quotation inside it. */
+  /* `.pf-mark`, NOT `.pf-note`.
+     The first version of this called itself `.pf-note`, which is a class this
+     stylesheet has always had for a muted paragraph of prose — so every "Islamic
+     · 2 people have this" line on the admin screens acquired a border and a
+     padded box and started reading as a disabled text field. A component class
+     and a text utility cannot share a name; this one is the component. */
+  .pf-mark {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--pf-space-2);
+    padding: var(--pf-space-3);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule-soft);
+    border-inline-start: 3px solid var(--pf-hl-tint, var(--l-rule));
+    border-radius: var(--pf-radius);
+  }
+
+  .pf-mark--gold {
+    --pf-hl-tint: var(--l-hl-gold);
+  }
+  .pf-mark--sage {
+    --pf-hl-tint: var(--l-hl-sage);
+  }
+  .pf-mark--sky {
+    --pf-hl-tint: var(--l-hl-sky);
+  }
+  .pf-mark--rose {
+    --pf-hl-tint: var(--l-hl-rose);
+  }
+
+  .pf-mark--bookmark {
+    --pf-hl-tint: var(--l-accent);
+  }
+
+  /* A mark whose passage has changed. Dimmed, and it is deliberately still
+     legible — the quotation IS the record of what the reader marked, so it must
+     stay readable even though it no longer points anywhere. */
+  .pf-mark--orphaned {
+    --pf-hl-tint: var(--l-warn);
+  }
+
+  .pf-mark__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .pf-mark__kind {
+    color: var(--l-accent);
+  }
+
+  .pf-mark__quote {
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-base);
+    line-height: 1.6;
+    color: var(--l-ink);
+    /* Four lines, then an ellipsis. A whole marked paragraph in a 26rem drawer
+       pushes every other entry off the screen, and the point of the list is to
+       see several at once. The full text is one tap away, in the book. */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .pf-mark__text {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    line-height: 1.55;
+    color: var(--l-muted);
+  }
+
+  .pf-mark__warning {
+    display: flex;
+    align-items: baseline;
+    gap: var(--pf-space-2);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    line-height: 1.5;
+    color: var(--l-warn);
+  }
+
+  .pf-mark__remove {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    border: 0;
+    border-radius: var(--pf-radius);
+    background: transparent;
+    color: var(--l-faint);
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  .pf-mark__remove:hover {
+    background: var(--l-sunken);
+    color: var(--l-danger);
   }
 
   /* ---- Player -------------------------------------------------------------
@@ -2693,6 +3445,14 @@
   }
 
   .pf-swatch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* 44px. It was 29px — a sliver that looked right on a desktop and was a
+       coin-flip under a thumb. Held to the AAA target size rather than the 24px
+       AA floor because this is a control on every page of the site, and the row
+       it sits in wraps rather than overflowing now. */
+    min-height: 2.75rem;
     padding: var(--pf-space-1) var(--pf-space-3);
     border: 0;
     border-radius: var(--pf-radius-pill);
@@ -2715,6 +3475,22 @@
   .pf-swatch[aria-pressed="true"] {
     background: var(--l-accent);
     color: var(--l-on-accent);
+  }
+
+  /* The reader toolbar's version: single letters instead of words, because
+     "Light Sepia Dark" spelled out is a third of a phone's width for a setting
+     most readers touch once. The letters are `aria-hidden` and the real name
+     rides on the button, so a screen reader still hears "Sepia".
+
+     Square rather than narrowed — the swatches are the smallest targets in the
+     row and shrinking them in one axis only would make them harder to hit
+     without saving much. */
+  .pf-swatches--compact .pf-swatch {
+    min-width: 2.25rem;
+    padding-inline: 0;
+    text-align: center;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.02em;
   }
 
   /* ---- Tabs -------------------------------------------------------------- */

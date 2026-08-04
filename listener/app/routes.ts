@@ -37,6 +37,13 @@ export default [
     route("book/:slug/read/:chapter", "routes/book.$slug.read.$chapter.tsx"),
     route("book/:slug/slides", "routes/book.$slug.slides.tsx"),
 
+    // A reader's own marks in one book — position, bookmarks, highlights, notes.
+    // A resource route, and it hangs off `book/:slug` rather than living under an
+    // `/api/` prefix so that `requireUnitAccess` reads the SAME `params.slug` the
+    // page did. Reusing the gate is the point: an endpoint addressed any other
+    // way would need an access rule of its own.
+    route("book/:slug/marks", "routes/book.$slug.marks.ts"),
+
     // Media sits INSIDE the gate like every page, and its `:slug` segment is
     // what `requireUnitAccess` reads — so a file URL runs the same check the
     // page ran. `run_worker_first` in wrangler.jsonc keeps /media/* away from

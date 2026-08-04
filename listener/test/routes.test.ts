@@ -74,6 +74,27 @@ describe("route tree", () => {
     // would force a carve-out in the authentication gate.
     expect(SOURCE).not.toMatch(/route\("api\/auth/);
   });
+
+  it("puts requireUnitAccess on every route that names a book", async () => {
+    // Being inside `_authed` proves the caller is INVITED; it says nothing about
+    // whether they were given THIS book. Every `book/:slug` route therefore
+    // needs its own gate, and it must be middleware rather than a loader — the
+    // `_routes` single-fetch filter can skip a loader.
+    //
+    // Written as a check on the route FILES rather than on routes.ts, because
+    // the declaration lives in the file, and the failure this catches is a new
+    // per-book surface (a resource route, a print view) that inherits the
+    // invited gate and quietly serves any book to anyone signed in.
+    const { readFile } = await import("node:fs/promises");
+
+    for (const [, urlPath, file] of SOURCE.matchAll(/route\("(book\/[^"]*)",\s*"([^"]+)"/g)) {
+      const text = await readFile(`app/${file}`, "utf8");
+      expect(
+        /middleware[^=]*=\s*\[[^\]]*requireUnitAccess/.test(text),
+        `${urlPath} (${file}) does not declare requireUnitAccess as middleware`,
+      ).toBe(true);
+    }
+  });
 });
 
 describe("error boundaries", () => {
@@ -85,7 +106,11 @@ describe("error boundaries", () => {
     const { glob } = await import("node:fs/promises");
     const offenders: string[] = [];
 
-    for await (const entry of glob("app/routes/**/*.tsx")) {
+    // `.ts` as well as `.tsx`. Resource routes are plain `.ts` — the marks
+    // endpoint is one — and the original glob could not see them, so a boundary
+    // exported from one would have gone unnoticed by the test written to
+    // prevent exactly that.
+    for await (const entry of glob("app/routes/**/*.{ts,tsx}")) {
       const text = readFileSync(entry, "utf8");
       if (/export\s+(function|const)\s+ErrorBoundary/.test(text)) offenders.push(entry);
     }

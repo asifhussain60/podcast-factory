@@ -32,7 +32,7 @@ beforeEach(async () => {
       ('asaas-vol-01',  'Islamic', 'Volume 1',        'book', 'asaas', 31, 'published'),
       ('asaas-vol-02',  'Islamic', 'Volume 2',        'book', 'asaas', 32, 'published');
   `);
-  await invite(t.db, "reader@example.com", ADMIN, null, NOW);
+  await invite(t.db, "reader@example.com", ADMIN, {}, NOW);
 });
 
 afterEach(() => t.close());
@@ -136,7 +136,7 @@ describe("revocation", () => {
     // The grant survives — this is the deliberate choice.
     expect(await slugs("reader@example.com")).toEqual(["ayyuhal-walad"]);
 
-    await invite(t.db, "reader@example.com", ADMIN, null, NOW);
+    await invite(t.db, "reader@example.com", ADMIN, {}, NOW);
     expect(await hasLiveInvite(t.db, "reader@example.com")).toBe(true);
     expect(await slugs("reader@example.com")).toEqual(["ayyuhal-walad"]);
   });
@@ -161,7 +161,7 @@ describe("email folding runs end to end", () => {
   it("matches a grant made with a Gmail alias against the canonical address", async () => {
     // The realistic mistake: Asif types the alias, Google returns the canonical
     // form. Without folding on the WRITE side the grant silently never matches.
-    await invite(t.db, "Reader.Person+books@GoogleMail.com", ADMIN, null, NOW);
+    await invite(t.db, "Reader.Person+books@GoogleMail.com", ADMIN, {}, NOW);
     await grant(t.db, "Reader.Person+books@GoogleMail.com", "unit", "ayyuhal-walad", ADMIN, NOW);
 
     expect(await canRead(t.db, "readerperson@gmail.com", "ayyuhal-walad")).toBe(true);

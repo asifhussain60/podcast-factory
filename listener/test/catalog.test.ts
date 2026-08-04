@@ -22,7 +22,7 @@ import { createTestDb } from "./d1";
  * is treated as absent rather than linked.
  */
 
-const MIGRATIONS = ["0001_auth", "0002_access", "0004_catalog", "0005_sessions"];
+const MIGRATIONS = ["0001_auth", "0002_access", "0004_catalog", "0005_sessions", "0006_reader_state"];
 
 function seed() {
   const test = createTestDb(MIGRATIONS);

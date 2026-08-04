@@ -9,13 +9,14 @@ import {
   faHeadphones,
   faImages,
   faLayerGroup,
+  faNoteSticky,
   faPause,
   faPlay,
   faTag,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { Link } from "react-router";
+import { Link, useFetcher } from "react-router";
 
 import type { Route } from "./+types/book.$slug";
 import { DeckViewer } from "~/components/DeckViewer";
@@ -27,7 +28,9 @@ import { cloudflare } from "~/context";
 import { notFound } from "~/middleware/deny";
 import { requireUnitAccess } from "~/middleware/entitled";
 import { session } from "~/middleware/session";
+import { NotesList } from "~/components/reader/NotesList";
 import { unitBySlug } from "~/server/access.server";
+import { marksFor } from "~/server/marks.server";
 import { readingMinutes } from "~/lib/reading";
 import {
   chaptersOf,
@@ -59,11 +62,17 @@ export async function loader({ params, context }: Route.LoaderArgs) {
   // into a null dereference here.
   if (unit === null) notFound();
 
-  const [detail, chapters, sessions, deck] = await Promise.all([
+  const viewer = context.get(session).viewer!;
+
+  const [detail, chapters, sessions, deck, marks] = await Promise.all([
     detailOf(env.DB, slug),
     chaptersOf(env.DB, slug),
     sessionsOf(env.DB, slug),
     deckPagesOf(env.DB, slug),
+    // Loaded here, unlike the reader, which fetches its own client-side: this
+    // page has no cached copy to paint from and the Notes tab needs the whole
+    // book's marks before it can render anything at all.
+    marksFor(env.DB, viewer.email, slug),
   ]);
 
   return {
@@ -71,17 +80,19 @@ export async function loader({ params, context }: Route.LoaderArgs) {
     detail,
     chapters,
     sessions,
+    marks,
     deckPages: deck.length,
     // The keys of the pages actually in R2, so the Slides tab can show the deck
     // rather than link to it. A page that exists on disk but has not been
     // uploaded is deliberately absent: it would render as a broken image.
     deckKeys: deck.filter((p) => p.available).map((p) => p.key),
-    isAdmin: context.get(session).viewer!.isAdmin,
+    isAdmin: viewer.isAdmin,
   };
 }
 
 export default function BookDetail({ loaderData }: Route.ComponentProps) {
-  const { unit, detail, chapters, sessions, deckPages, deckKeys, isAdmin } = loaderData;
+  const { unit, detail, chapters, sessions, marks, deckPages, deckKeys, isAdmin } = loaderData;
+  const fetcher = useFetcher();
 
   const totalWords = chapters.reduce((n, c) => n + c.wordCount, 0);
   const episodes = sessions.flatMap((s) => s.episodes);
@@ -95,6 +106,14 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
   const canRead = chapters.length > 0;
   const canListen = withAudio > 0;
   const canWatch = deckKeys.length > 0;
+
+  // How many marks sit in each chapter, so a row can say so. A Map rather than a
+  // filter per row: nine chapters against a few hundred marks is a few hundred
+  // scans, and this list grows on both axes.
+  const markedChapters = new Map<string, number>();
+  for (const m of [...marks.annotations, ...marks.bookmarks]) {
+    markedChapters.set(m.anchorKey, (markedChapters.get(m.anchorKey) ?? 0) + 1);
+  }
 
   // Offered ONLY when the file is actually in R2. The row exists as soon as the
   // PDF is on the author's disk, and linking to that would promise a download
@@ -226,6 +245,8 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                     <ReadingEdition
                       slug={unit.slug}
                       chapters={chapters}
+                      progress={marks.progress}
+                      markedChapters={markedChapters}
                       showHeading={!tabbed}
                       download={printEdition}
                     />
@@ -298,6 +319,52 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                   ),
                 }
               : null,
+
+            // Only once there is something in it. An empty "Notes" tab on every
+            // book would advertise a feature by showing it not working, and the
+            // same list is one tap away inside the reader where marks are made.
+            marks.annotations.length + marks.bookmarks.length > 0
+              ? {
+                  key: "notes",
+                  icon: faNoteSticky,
+                  label: "Notes",
+                  count: marks.annotations.length + marks.bookmarks.length,
+                  render: (tabbed) => (
+                    <section className="pf-section">
+                      {tabbed ? null : (
+                        <SectionHeading
+                          icon={faNoteSticky}
+                          title="Notes"
+                          count={`${marks.annotations.length + marks.bookmarks.length} marked`}
+                        />
+                      )}
+                      <NotesList
+                        annotations={marks.annotations}
+                        bookmarks={marks.bookmarks}
+                        chapters={chapters}
+                        // Nothing is resolved here: this page never renders the
+                        // chapter text, so it cannot know whether a passage
+                        // still exists. The reader is where that is discovered,
+                        // and claiming it here would be a guess.
+                        orphaned={EMPTY_SET}
+                        slug={unit.slug}
+                        onRemoveAnnotation={(id) =>
+                          void fetcher.submit(
+                            { intent: "unannotate", id },
+                            { method: "post", action: `/book/${unit.slug}/marks` },
+                          )
+                        }
+                        onRemoveBookmark={(id) =>
+                          void fetcher.submit(
+                            { intent: "unbookmark", id },
+                            { method: "post", action: `/book/${unit.slug}/marks` },
+                          )
+                        }
+                      />
+                    </section>
+                  ),
+                }
+              : null,
           ]}
           empty={
             <p className="pf-note">Nothing of this book is readable or listenable yet.</p>
@@ -309,6 +376,17 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     </div>
   );
 }
+
+/**
+ * Nothing is orphaned here, and this constant says so once.
+ *
+ * `NotesList` takes the set of marks whose passage could not be found. Only the
+ * READER can know that — it is discovered by resolving each anchor against the
+ * rendered chapter, and this page never renders one. A frozen empty set is the
+ * honest answer, and hoisting it out of the render keeps `NotesList` from
+ * repainting on every unrelated state change.
+ */
+const EMPTY_SET: ReadonlySet<string> = new Set<string>();
 
 /** One way of taking this book: what the tab says, and what it reveals. */
 interface Panel {
@@ -444,15 +522,31 @@ function Tabs({ panels, empty }: { panels: (Panel | null)[]; empty: ReactNode })
 function ReadingEdition({
   slug,
   chapters,
+  progress,
+  markedChapters,
   showHeading,
   download,
 }: {
   slug: string;
   chapters: Route.ComponentProps["loaderData"]["chapters"];
+  progress: Route.ComponentProps["loaderData"]["marks"]["progress"];
+  markedChapters: Map<string, number>;
   showHeading: boolean;
   /** The print-edition button, when there is one. See `PrintEdition`. */
   download: ReactNode;
 }) {
+  // Where to send them back to, if anywhere. Null when they have not started,
+  // when the chapter they were in no longer exists (a re-compose can rename
+  // one), or when they are barely into the very first chapter — in which case
+  // the chapter list already offers exactly that, one row down.
+  const at = progress === null ? null : chapters.find((c) => c.anchorKey === progress.anchorKey);
+  const resume =
+    at === undefined || at === null || progress === null
+      ? null
+      : chapters[0]?.anchorKey === at.anchorKey && progress.fraction < 0.05
+        ? null
+        : { anchorKey: at.anchorKey, title: at.title, fraction: progress.fraction };
+
   if (chapters.length === 0) {
     return (
       <section className="pf-section">
@@ -484,6 +578,26 @@ function ReadingEdition({
         {download}
       </div>
 
+      {/* ---- Where you left off ----
+          Offered only when there IS somewhere to go back to, and only when it
+          is not simply the first chapter — "continue from the beginning" is a
+          second Start button wearing a different word. The chapter it names is
+          the one the reader was actually in, taken from their own progress row
+          rather than from a count of what has been marked. */}
+      {resume === null ? null : (
+        <Link
+          to={`/book/${slug}/read/${encodeURIComponent(resume.anchorKey)}`}
+          className="pf-resume"
+        >
+          <span className="pf-eyebrow">
+            <Icon icon={faBookOpen} />
+            Continue reading
+          </span>
+          <span className="pf-resume__title">{resume.title}</span>
+          <span className="pf-resume__meta">{Math.round(resume.fraction * 100)}% through</span>
+        </Link>
+      )}
+
       <ol className="pf-rows pf-rows--striped pf-section__intro">
         {chapters.map((chapter) => (
           <li key={chapter.anchorKey}>
@@ -493,9 +607,16 @@ function ReadingEdition({
                 disagreed by one on every line. The book's numbering wins. */}
             <Link
               to={`/book/${slug}/read/${encodeURIComponent(chapter.anchorKey)}`}
+              aria-current={progress?.anchorKey === chapter.anchorKey ? "true" : undefined}
               className="pf-row"
             >
               <span className="pf-row__main">{chapter.title}</span>
+              {markedChapters.get(chapter.anchorKey) ? (
+                <span className="pf-row__meta pf-row__marks">
+                  <Icon icon={faNoteSticky} />
+                  {markedChapters.get(chapter.anchorKey)}
+                </span>
+              ) : null}
               <span className="pf-row__meta">{readingMinutes(chapter.wordCount)} min</span>
               <Icon icon={faAngleRight} className="pf-row__go" />
             </Link>

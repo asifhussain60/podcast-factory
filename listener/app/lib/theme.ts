@@ -60,3 +60,44 @@ export function currentTheme(): Theme {
   // Only reachable if the init script was blocked; mirror its fallback.
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
+
+/* ---------------------------------------------------------------------------
+ * One copy of the current theme, for however many controls are on screen.
+ *
+ * This is the same external store `lib/reading.ts` uses, and it is here for the
+ * same reason. Until now the theme picker held its own `useState`, which was
+ * fine while it appeared once — inside the settings panel. The reader toolbar now
+ * carries theme alongside typography, so two pickers can be mounted at once and
+ * two independent `useState`s would let one show Sepia while the document, and
+ * the other picker, said Dark.
+ *
+ * The snapshot starts at `light` on BOTH server and client, exactly as the
+ * reading store starts at its defaults: the first client render has to match the
+ * server's or React logs a hydration mismatch. `hydrateTheme` reads the real
+ * value from an effect. The page is never wrong in the meantime — THEME_INIT_
+ * SCRIPT stamped `data-theme` before first paint, so only the highlighted chip
+ * in the control catches up.
+ * ------------------------------------------------------------------------- */
+
+let snapshot: Theme = "light";
+const listeners = new Set<() => void>();
+
+export const themeSnapshot = (): Theme => snapshot;
+
+export function subscribeTheme(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+/** Apply, persist, and tell every control on screen. */
+export function setTheme(theme: Theme) {
+  snapshot = theme;
+  applyTheme(theme);
+  for (const listener of listeners) listener();
+}
+
+/** Called once after mount, to pick up what the pre-paint script resolved. */
+export function hydrateTheme() {
+  snapshot = currentTheme();
+  for (const listener of listeners) listener();
+}

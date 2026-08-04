@@ -103,6 +103,32 @@ const PAIRS: [string, string, number][] = [
   // on the most difficult surface.
   ["l-band-ornament", "l-band", 3],
   ["l-accent", "l-sunken", 3],
+  // A highlight must not cost the words under it their legibility. The mark is
+  // painted on the page surface, so this is the pair a reader actually sees.
+  ["l-ink", "l-hl-gold", 4.5],
+  ["l-ink", "l-hl-sage", 4.5],
+  ["l-ink", "l-hl-sky", 4.5],
+  ["l-ink", "l-hl-rose", 4.5],
+];
+
+/**
+ * The other floor a highlight has to meet, and it runs the opposite way.
+ *
+ * Every pair above asks "is this legible ON that". A highlight also has to be
+ * VISIBLE AGAINST the page — a tint at 1.05:1 is legible precisely because it is
+ * barely there, which is the failure mode, not the success. 1.3:1 is a mark a
+ * reader sees as a band rather than only as a hue, which is what someone who
+ * cannot separate gold from sage is left with.
+ *
+ * Kept as its own list rather than folded into PAIRS because PAIRS means
+ * "readable text on a background" everywhere else, and reusing it for a
+ * different question would make both harder to reason about.
+ */
+const VISIBLE_AGAINST_PAGE: [string, string, number][] = [
+  ["l-hl-gold", "l-surface", 1.3],
+  ["l-hl-sage", "l-surface", 1.3],
+  ["l-hl-sky", "l-surface", 1.3],
+  ["l-hl-rose", "l-surface", 1.3],
 ];
 
 const FOUND = palettes(CSS);
@@ -171,6 +197,20 @@ describe.each(FOUND)("$name", ({ name, colors }) => {
       expect(
         Number(ratio.toFixed(2)),
         `${colors[fg]} on ${colors[bg]} is ${ratio.toFixed(2)}:1`,
+      ).toBeGreaterThanOrEqual(min);
+    });
+  }
+
+  for (const [tint, page, min] of VISIBLE_AGAINST_PAGE) {
+    it(`${tint} is visible against ${page} at ${min}:1`, () => {
+      expect(colors[tint], `${name} is missing --${tint}`).toBeDefined();
+      expect(colors[page], `${name} is missing --${page}`).toBeDefined();
+
+      const ratio = contrast(colors[tint], colors[page]);
+      expect(
+        Number(ratio.toFixed(2)),
+        `${colors[tint]} against ${colors[page]} is only ${ratio.toFixed(2)}:1 — ` +
+          `a highlight this faint is invisible without colour vision`,
       ).toBeGreaterThanOrEqual(min);
     });
   }

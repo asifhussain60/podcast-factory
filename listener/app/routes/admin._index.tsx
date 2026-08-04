@@ -2,21 +2,29 @@ import { Link } from "react-router";
 
 import type { Route } from "./+types/admin._index";
 import { cloudflare } from "~/context";
-import { listCatalogForAdmin, listPeople } from "~/server/access.server";
+import { listCatalogForAdmin, peopleTallies } from "~/server/access.server";
 
+/**
+ * Counted in SQL, not in JavaScript.
+ *
+ * This used to call `listPeople()` and take `.length` of the result — loading
+ * every invitation row, with a correlated grant count on each, to display five
+ * numbers. It worked at eight people and would have gone on working badly for a
+ * long time before anyone noticed. `peopleTallies` asks the database the five
+ * questions it is built to answer.
+ */
 export async function loader({ context }: Route.LoaderArgs) {
   const { env } = context.get(cloudflare);
-  const [people, catalog] = await Promise.all([
-    listPeople(env.DB),
+  const [tallies, catalog] = await Promise.all([
+    peopleTallies(env.DB),
     listCatalogForAdmin(env.DB),
   ]);
 
-  const live = people.filter((p) => p.revokedAt === null);
-
   return {
-    invited: live.length,
-    revoked: people.length - live.length,
-    withoutAccess: live.filter((p) => p.grantCount === 0).length,
+    invited: tallies.all - tallies.revoked,
+    revoked: tallies.revoked,
+    withoutAccess: tallies.waiting,
+    neverSignedIn: tallies.never,
     published: catalog.filter((u) => u.status === "published" && u.kind !== "work").length,
     openToAll: catalog.filter((u) => u.openToAll).length,
     total: catalog.filter((u) => u.kind !== "work").length,
@@ -32,12 +40,17 @@ export default function AdminOverview({ loaderData }: Route.ComponentProps) {
         <h2 className="pf-section__title">People</h2>
         <dl className="pf-stats">
           <Stat label="Invited" value={d.invited} />
-          <Stat label="Revoked" value={d.revoked} />
+          <Stat
+            label="Never signed in"
+            value={d.neverSignedIn}
+            hint={d.neverSignedIn > 0 ? "They may not have the link." : undefined}
+          />
           <Stat
             label="Invited but given nothing"
             value={d.withoutAccess}
             hint={d.withoutAccess > 0 ? "They sign in to an empty library." : undefined}
           />
+          <Stat label="Revoked" value={d.revoked} />
         </dl>
         <Link to="/admin/people" className="pf-link">
           Manage people

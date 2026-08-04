@@ -44,7 +44,7 @@
     "PUBLIC_SITE_NAME": "Podcast Factory",
 
     // The ONLY thing that confers admin. There is deliberately no `role` column
-    // — see app/server/admin.server.ts. Compared through normalizeEmail() on
+    // — see app/server/auth.server.ts. Compared through normalizeEmail() on
     // both sides, never with a raw ===.
     "ADMIN_EMAIL": "asifhussain60@gmail.com",
 
@@ -82,7 +82,7 @@
   // Named environments do NOT inherit top-level `vars` or bindings — Wrangler
   // replaces them wholesale. Every security-relevant value is therefore
   // repeated here in full; omitting ADMIN_EMAIL would leave the admin check
-  // comparing against undefined. (app/server/admin.server.ts fails closed if it
+  // comparing against undefined. (app/server/auth.server.ts fails closed if it
   // ever is, but the config should not rely on that.)
   "env": {
     "staging": {

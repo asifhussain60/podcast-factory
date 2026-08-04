@@ -91,6 +91,17 @@ export function createAuth(env: Env) {
           before: async (session) => {
             const email = await emailForUserId(env, session.userId);
             if (email === null || !(await hasLiveInvite(env.DB, email))) return false;
+
+            // Record the arrival. This is the ONLY writer of `redeemed_at`,
+            // which existed unwritten from 0002 until 0006 — so the admin screen
+            // showed everyone as never-having-signed-in, including people who
+            // read daily.
+            //
+            // Deliberately after the gate and deliberately swallowing its own
+            // failure: this is bookkeeping, and a sign-in that works must not
+            // start failing because a column could not be updated.
+            await markArrival(env, email).catch(() => {});
+
             return { data: session };
           },
         },
@@ -101,6 +112,27 @@ export function createAuth(env: Env) {
 
 export type Auth = ReturnType<typeof createAuth>;
 export type Session = Awaited<ReturnType<Auth["api"]["getSession"]>>;
+
+/**
+ * Stamp first-ever and most-recent sign-in on the invite.
+ *
+ * `redeemed_at` is set only once — `COALESCE` keeps whatever is already there —
+ * because "when did they first turn up" must not drift forward every time they
+ * come back. `last_seen_at` is overwritten every time, which is its whole job.
+ *
+ * The address is normalized because `invite.email` is the normalized form; a raw
+ * Google address with a dot in it would match no row and stamp nothing, silently
+ * restoring the defect this fixes.
+ */
+async function markArrival(env: Env, rawEmail: string): Promise<void> {
+  const now = new Date().toISOString();
+  await env.DB.prepare(
+    `UPDATE invite SET redeemed_at = COALESCE(redeemed_at, ?2), last_seen_at = ?2
+      WHERE email = ?1`,
+  )
+    .bind(normalizeEmail(rawEmail), now)
+    .run();
+}
 
 async function emailForUserId(env: Env, userId: string): Promise<string | null> {
   const row = await env.DB.prepare(`SELECT email FROM user WHERE id = ? LIMIT 1`)
