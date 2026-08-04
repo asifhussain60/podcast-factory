@@ -349,9 +349,18 @@ export async function addBookmark(
 ): Promise<void> {
   await db
     .prepare(
+      // The WHERE on the upsert is the same rule the deletes below carry, and it
+      // was missing here. `id` is the primary key and it is CLIENT-GENERATED, so
+      // a conflict can land on somebody else's row — and a bare DO UPDATE would
+      // then rewrite their bookmark's label and position, and resurrect one they
+      // had deleted. Nothing leaked (the row keeps its own `user_email`, so it
+      // never appears in the caller's reads) but a reader could reach into
+      // another reader's book, including a book the caller cannot open, because
+      // `requireUnitAccess` proves only which SLUG is in the URL.
       `INSERT INTO bookmark (id, user_email, slug, anchor_key, block_index, label, created_at)
        VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)
-       ON CONFLICT(id) DO UPDATE SET deleted_at = NULL, block_index = ?5, label = ?6`,
+       ON CONFLICT(id) DO UPDATE SET deleted_at = NULL, block_index = ?5, label = ?6
+         WHERE bookmark.user_email = ?2 AND bookmark.slug = ?3`,
     )
     .bind(
       requireId(input.id),
@@ -425,6 +434,11 @@ export async function saveAnnotation(
   // quote is re-found elsewhere, the corrected offsets are written back through
   // this same call, so the next device to open the chapter finds it first time
   // instead of repeating the search.
+  //
+  // The WHERE on that DO UPDATE carries the same guard the bookmark upsert does,
+  // and for the same reason: the id is client-generated, so a conflict can land
+  // on another reader's annotation. Without it, a caller could rewrite the words
+  // of somebody else's note — in a book the caller cannot even open.
   await db
     .prepare(
       `INSERT INTO annotation
@@ -434,7 +448,8 @@ export async function saveAnnotation(
        ON CONFLICT(id) DO UPDATE SET
          deleted_at = NULL, anchor_key = ?4, block_index = ?5, start_offset = ?6,
          end_offset = ?7, quote = ?8, prefix = ?9, colour = ?10, note = ?11,
-         updated_at = ?12`,
+         updated_at = ?12
+         WHERE annotation.user_email = ?2 AND annotation.slug = ?3`,
     )
     .bind(
       requireId(input.id),

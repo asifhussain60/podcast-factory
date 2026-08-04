@@ -222,6 +222,73 @@ d1(`
   DELETE FROM access_event WHERE subject IN ('${OUTSIDER}', '${STRANGER}');
 `);
 
+console.log("\none reader's marks are their own");
+// The most private thing this application stores. The unit tests in
+// test/marks-isolation.test.ts prove the SQL; this proves the ROUTE, as one
+// signed-in person actually reaching for another's rows over HTTP.
+const OWNED = "44444444-4444-4444-8444-444444444444";
+d1(`
+  INSERT INTO access_grant (user_email, scope_type, scope_id, granted_by, granted_at)
+    VALUES ('${OUTSIDER}', 'unit', 'ayyuhal-walad', 'smoke', 'now');
+  DELETE FROM annotation WHERE id = '${OWNED}';
+  INSERT INTO annotation
+    (id, user_email, slug, anchor_key, block_index, start_offset, end_offset,
+     quote, prefix, colour, note, created_at, updated_at)
+    VALUES ('${OWNED}', '${ADMIN}', 'ayyuhal-walad', '${decodeURIComponent(CHAPTER).replaceAll("'", "''")}',
+            1, 0, 5, 'mine', '', 'gold', 'SMOKE-PRIVATE-NOTE', 'now', 'now');
+`);
+
+const theirMarks = await get("/book/ayyuhal-walad/marks", outsider);
+check("a granted reader can load their own marks", theirMarks.status, 200);
+check(
+  "and the other reader's note is not in them",
+  (await theirMarks.text()).includes("SMOKE-PRIVATE-NOTE"),
+  false,
+);
+
+// Now the write. Ids are client-generated, so knowing one is the whole attack:
+// until 2026-08-04 this rewrote the row, in a book the caller need not hold.
+await fetch(`${BASE}/book/ayyuhal-walad/marks`, {
+  method: "POST",
+  headers: { Cookie: outsider, "Content-Type": "application/x-www-form-urlencoded" },
+  body: new URLSearchParams({
+    intent: "annotate",
+    id: OWNED,
+    anchorKey: decodeURIComponent(CHAPTER),
+    blockIndex: "9",
+    startOffset: "0",
+    endOffset: "9",
+    quote: "vandalised",
+    colour: "rose",
+    note: "VANDALISED",
+  }),
+});
+
+const after = JSON.parse(
+  (() => {
+    const out = String(
+      execFileSync(
+        "npx",
+        [
+          "wrangler", "d1", "execute", "podcast-listener", "--local", "--json",
+          "--command", `SELECT note, quote, user_email FROM annotation WHERE id = '${OWNED}'`,
+        ],
+        { encoding: "utf8" },
+      ),
+    );
+    return out.slice(out.indexOf("["));
+  })(),
+)[0].results[0];
+
+check("their note is untouched", after.note, "SMOKE-PRIVATE-NOTE");
+check("their quote is untouched", after.quote, "mine");
+check("and it still belongs to them", after.user_email, ADMIN);
+
+d1(`
+  DELETE FROM annotation WHERE id = '${OWNED}';
+  DELETE FROM access_grant WHERE user_email = '${OUTSIDER}';
+`);
+
 console.log("\nrevocation takes effect on the next request");
 d1(`UPDATE invite SET revoked_at = 'now' WHERE email = '${OUTSIDER}'`);
 check("revoked person is sent to no-access", (await get("/", outsider)).status, 302);
