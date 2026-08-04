@@ -5259,10 +5259,6 @@
     padding-block: var(--pf-space-8);
   }
 
-  .pf-gate__action {
-    margin-top: var(--pf-space-4);
-  }
-
   /* A full-width button sets its own label on one line where it can: the pill's
      space-5 side padding is sized for a button that hugs its words, and inside a
      17rem aside it pushed "Add to the invitation list" onto a second line while
