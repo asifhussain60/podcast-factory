@@ -4,38 +4,47 @@ import { Form } from "react-router";
 import { Icon } from "~/components/Icon";
 
 /**
- * "You are seeing this as somebody else" — on every page, until it is stopped.
+ * "You are in simulation mode" — on every page, until it is left.
  *
- * Unmissable on purpose. A simulation changes what the whole site shows: books
- * disappear, the admin link goes, the Scholar Companion is not there. Every one
- * of those looks exactly like a fault, and the difference between a fault and a
- * simulation is this strip.
+ * A PANEL rather than a strip, and it says the words SIMULATION MODE first. It
+ * used to be one quiet line reading "Seeing the site as …", which describes the
+ * situation accurately and is not what someone scans for: a simulation removes
+ * books, removes the admin link and removes the Scholar Companion, and every one
+ * of those looks exactly like a fault. The difference between a fault and a
+ * simulation has to be the loudest thing on the page, not the softest.
  *
- * Sticky rather than fixed: it stays in view while reading a chapter, without
- * permanently covering a band of the page the way the reader's own controls
- * would have to work around.
+ * Sticky, not fixed: it stays in view down a chapter without permanently
+ * covering a band that every other surface would then lay itself out around.
  *
- * It says writes are discarded because they are — the marks endpoint refuses
- * while simulating, so a highlight made here disappears on reload. Silently
- * dropping someone's action is only acceptable when the page has said it will.
+ * Colour is the measured warn pair from `.pf-pill--warn` — a 12% fill with the
+ * tone inked to 75% — rather than a solid warn band, which would need an
+ * `--l-on-warn` token that does not exist and a contrast pair nobody has
+ * measured. The weight comes from size, structure and a heavy edge instead.
+ *
+ * It says writes are discarded because they are: the marks endpoint refuses
+ * while this is showing, so a highlight made here is gone on reload. Dropping
+ * somebody's action silently is only acceptable when the page has said it will.
  */
 export function SimulationBanner({ as }: { as: string }) {
   return (
-    <div className="pf-simulating" role="status">
-      <p className="pf-simulating__what">
-        <Icon icon={faEye} />
-        <span>
-          Seeing the site as <strong>{as}</strong>. Nothing you change here is saved.
-        </span>
-      </p>
+    <aside className="pf-simulating" role="status" aria-label="Simulation mode">
+      <Icon icon={faEye} className="pf-simulating__icon" />
+
+      <div className="pf-simulating__what">
+        <p className="pf-simulating__title">Simulation mode</p>
+        <p className="pf-simulating__detail">
+          You are seeing the site as <strong>{as}</strong>, with only what they can open.
+          Nothing you change here is saved.
+        </p>
+      </div>
 
       {/* Posts to a PUBLIC route, which is the point: while this is showing, the
           admin screens answer 404 to you. */}
-      <Form method="post" action="/stop-simulating">
+      <Form method="post" action="/stop-simulating" className="pf-simulating__out">
         <button type="submit" className="pf-button pf-button--sm">
-          Stop
+          Exit simulation
         </button>
       </Form>
-    </div>
+    </aside>
   );
 }

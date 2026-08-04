@@ -827,15 +827,26 @@ function PersonDetail({
               undo. Offering the button and refusing the action would be worse
               than not offering it; this says why instead. */}
           <div className="pf-person__acts">
-            {/* Their view of the site, not a description of it. Offered even for
-                a revoked person: what they see is /no-access, and the banner
-                that appears carries the way back out — the stop control is a
-                public route precisely so this cannot become a dead end. */}
+            {/* Called SIMULATE, and that is not a style preference. It read
+                "See as them", which is a better description of what happens and
+                a word nobody searches for — Asif went looking for this control
+                with Cmd+F on 2026-08-04, typed "simulate", and the page said
+                0/0 while the button was on screen. The intent, the banner and
+                the way out all say simulate or simulation now, so finding any
+                one of them finds all of them.
+
+                Offered even for a revoked person: what they see is /no-access,
+                and the banner that appears carries the way back out — the stop
+                control is a public route precisely so this cannot be a dead end. */}
             <Form method="post">
               <input type="hidden" name="intent" value="simulate" />
               <input type="hidden" name="email" value={person.email} />
-              <button type="submit" className="pf-button pf-button--ghost pf-button--sm">
-                <Icon icon={faEye} /> See as them
+              <button
+                type="submit"
+                title={`Simulate ${person.displayName} — open the library as they see it`}
+                className="pf-button pf-button--ghost pf-button--sm"
+              >
+                <Icon icon={faEye} /> Simulate
               </button>
             </Form>
 

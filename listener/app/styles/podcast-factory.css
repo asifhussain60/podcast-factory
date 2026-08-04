@@ -3028,25 +3028,44 @@
     z-index: 60;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--pf-space-4);
-    padding: var(--pf-space-2) var(--pf-space-5);
+    padding: var(--pf-space-4) var(--pf-space-5);
     /* The same measured mix the toned pills use: a 12% fill of the tone, with
        the text inked to 75% of it. The raw token on a tint of itself is at or
        under AA at this size — the reasoning is written out at `.pf-pill--warn`,
-       and repeating the values rather than the argument is the point. */
+       and repeating the values rather than the argument is the point. The weight
+       this panel needs comes from size and the edge below, never from a stronger
+       colour pair than anyone has measured. */
     background: color-mix(in srgb, var(--l-warn) 12%, var(--l-elev));
-    border-bottom: 1px solid color-mix(in srgb, var(--l-warn) 30%, transparent);
+    border-bottom: 3px solid var(--l-warn);
     color: color-mix(in srgb, var(--l-warn) 75%, var(--l-ink));
+    font-family: var(--l-font-ui);
+  }
+
+  .pf-simulating__icon {
+    flex: none;
+    font-size: 1.25rem;
   }
 
   .pf-simulating__what {
-    display: flex;
-    align-items: center;
-    gap: var(--pf-space-2);
+    flex: 1;
     min-width: 0;
-    font-family: var(--l-font-ui);
+  }
+
+  .pf-simulating__title {
+    font-size: var(--pf-text-base);
+    font-weight: 700;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+  }
+
+  .pf-simulating__detail {
+    margin-top: 2px;
     font-size: var(--pf-text-sm);
+  }
+
+  .pf-simulating__out {
+    flex: none;
   }
 
   /* The two acts a person's panel offers: see the site as them, and end or
