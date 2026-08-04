@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router";
 
 import { NotesList } from "~/components/reader/NotesList";
+import { RichNoteEditor } from "~/components/notes/RichNoteEditor";
 import { Transcript, parseVtt, type Cue } from "~/components/player/Transcript";
 import { newId, refresh, type EpisodeNote } from "~/lib/marks";
 
@@ -162,6 +163,12 @@ function markMoment(
   seconds: number,
   id: string,
   quote: string,
+  // Optional and defaulted to "", so the transcript's one-tap "mark this
+  // line" action — which has always sent no text — is unaffected by this
+  // parameter existing. The same call now also serves the Notes panel's
+  // "+ Add note" composer and its edit-in-place save, both of which pass
+  // real content.
+  note: string = "",
 ): Promise<boolean> {
   return fetch(`/book/${encodeURIComponent(episode.slug)}/marks`, {
     method: "POST",
@@ -173,7 +180,7 @@ function markMoment(
       // Floor, not round: the stored value is where the line STARTS, and the
       // site plays back from a little before it anyway.
       seconds: String(Math.floor(seconds)),
-      note: "",
+      note,
       quote,
     }),
   })
@@ -526,6 +533,14 @@ function PlayerBar() {
 function PlayerPanelDrawer() {
   const { current, panel, openPanel, cues, position, seek } = usePlayer();
   const [marks, setMarks] = useState<PlayingMarks | null>(null);
+  // The "+ Add note" composer. `composeSeconds` is frozen at the moment the
+  // button is pressed, not read again at save time — typing takes a while and
+  // playback keeps advancing, so a live read would land the note on whatever
+  // second the listener finished typing at, not the one they meant to mark.
+  const [composing, setComposing] = useState(false);
+  const [composeSeconds, setComposeSeconds] = useState(0);
+  const [composeQuote, setComposeQuote] = useState("");
+  const [composeDraft, setComposeDraft] = useState("");
 
   const slug = current?.slug ?? null;
 
@@ -542,6 +557,7 @@ function PlayerPanelDrawer() {
 
   useEffect(() => {
     if (panel === "notes") reload();
+    else setComposing(false);
   }, [panel, reload]);
 
   if (current === null || panel === null) return null;
@@ -590,42 +606,115 @@ function PlayerPanelDrawer() {
               position={position}
               onSeek={seek}
               onNote={(cue) => {
-                void markMoment(current, cue.startS, newId(), cue.text).then((ok) => {
-                  if (!ok) return;
-                  // Two consumers of a write this panel made, neither of which
-                  // saw it: the marks store feeding any notes list on the page
-                  // behind this one (a no-op unless that page is this book), and
-                  // this panel's own copy, for when the reader switches to Notes.
-                  void refresh(current.slug);
-                  reload();
-                });
+                // Opens the same composer the "+ Add note" button does, on
+                // the Notes panel — rather than saving a bare, textless mark
+                // on tap. A transcript line's "+" is the one place this
+                // composer arrives pre-filled with WHICH line, so the quote
+                // travels with it; the timestamp and blank draft otherwise
+                // work exactly as the generic composer's do.
+                setComposeSeconds(Math.floor(cue.startS));
+                setComposeQuote(cue.text);
+                setComposeDraft("");
+                setComposing(true);
+                openPanel("notes");
               }}
             />
           ) : (
-            <NotesList
-              annotations={[]}
-              bookmarks={[]}
-              chapters={[]}
-              episodes={[{ number: current.number, title: current.title }]}
-              episodeNotes={here}
-              orphaned={NOTHING_ORPHANED}
-              slug={current.slug}
-              onPlay={(_number, seconds) => seek(seconds)}
-              onRemoveAnnotation={NOTHING}
-              onRemoveBookmark={NOTHING}
-              onRemoveEpisodeNote={(id) => {
-                void fetch(`/book/${encodeURIComponent(current.slug)}/marks`, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                  body: new URLSearchParams({ intent: "un-episode-note", id }),
-                })
-                  .then(() => {
+            <>
+              {/* Not inside the Transcript panel, and not gated on one
+                  existing — the Transcript tab button itself is hidden for an
+                  episode with no transcript, so this is the only marking
+                  control those episodes have at all. */}
+              {composing ? (
+                <div className="pf-mark pf-mark--moment">
+                  <div className="pf-mark__body">
+                    <span className="pf-mark__kind">{clock(composeSeconds)}</span>
+                    {/* Only present when opened from a transcript line's "+" —
+                        the generic "+ Add note" button has no line to quote. */}
+                    {composeQuote ? <blockquote className="pf-mark__quote">{composeQuote}</blockquote> : null}
+                    <RichNoteEditor
+                      initialValue={composeDraft}
+                      onChange={setComposeDraft}
+                      placeholder="What are you thinking?"
+                      autoFocus
+                      ariaLabel="Your note at this moment"
+                    />
+                    <div className="pf-mark__edit-actions">
+                      <button
+                        type="button"
+                        onClick={() => setComposing(false)}
+                        className="pf-button pf-button--sm pf-button--ghost"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          void markMoment(current, composeSeconds, newId(), composeQuote, composeDraft).then(
+                            (ok) => {
+                              setComposing(false);
+                              if (!ok) return;
+                              void refresh(current.slug);
+                              reload();
+                            },
+                          );
+                        }}
+                        className="pf-button pf-button--sm pf-button--primary"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setComposeSeconds(Math.floor(position));
+                    setComposeQuote("");
+                    setComposeDraft("");
+                    setComposing(true);
+                  }}
+                  className="pf-button pf-button--sm pf-button--primary pf-notes__add"
+                >
+                  + Add note at {clock(position)}
+                </button>
+              )}
+
+              <NotesList
+                annotations={[]}
+                bookmarks={[]}
+                chapters={[]}
+                episodes={[{ number: current.number, title: current.title }]}
+                episodeNotes={here}
+                orphaned={NOTHING_ORPHANED}
+                slug={current.slug}
+                onPlay={(_number, seconds) => seek(seconds)}
+                onRemoveAnnotation={NOTHING}
+                onRemoveBookmark={NOTHING}
+                onRemoveEpisodeNote={(id) => {
+                  void fetch(`/book/${encodeURIComponent(current.slug)}/marks`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams({ intent: "un-episode-note", id }),
+                  })
+                    .then(() => {
+                      void refresh(current.slug);
+                      reload();
+                    })
+                    .catch(() => {});
+                }}
+                onEditEpisodeNote={(id, note) => {
+                  const existing = here.find((n) => n.id === id);
+                  if (existing === undefined) return;
+                  void markMoment(current, existing.seconds, id, existing.quote ?? "", note).then((ok) => {
+                    if (!ok) return;
                     void refresh(current.slug);
                     reload();
-                  })
-                  .catch(() => {});
-              }}
-            />
+                  });
+                }}
+              />
+            </>
           )}
         </div>
       </aside>

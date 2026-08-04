@@ -26,6 +26,7 @@
  */
 
 import { normalizeEmail } from "./email.server";
+import { sanitizeNote } from "~/lib/richNote";
 
 export const COLOURS = ["gold", "sage", "sky", "rose"] as const;
 export type Colour = (typeof COLOURS)[number];
@@ -471,7 +472,7 @@ export async function saveAnnotation(
   const note =
     input.note === undefined || input.note === null || String(input.note).trim() === ""
       ? null
-      : requireText(input.note, MAX_NOTE, "note");
+      : requireText(sanitizeNote(String(input.note)), MAX_NOTE, "note");
 
   const prefix =
     input.prefix === undefined || input.prefix === null ? "" : String(input.prefix).slice(0, MAX_PREFIX);
@@ -559,7 +560,7 @@ export async function saveEpisodeNote(
   const note =
     input.note === undefined || input.note === null || String(input.note).trim() === ""
       ? null
-      : requireText(input.note, MAX_NOTE, "note");
+      : requireText(sanitizeNote(String(input.note)), MAX_NOTE, "note");
 
   const quote =
     input.quote === undefined || input.quote === null || String(input.quote).trim() === ""

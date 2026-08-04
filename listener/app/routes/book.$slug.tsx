@@ -442,6 +442,40 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                             { method: "post", action: `/book/${unit.slug}/marks` },
                           )
                         }
+                        onEditAnnotation={(id, text) => {
+                          const existing = marks.annotations.find((a) => a.id === id);
+                          if (existing === undefined) return;
+                          void fetcher.submit(
+                            {
+                              intent: "annotate",
+                              id: existing.id,
+                              anchorKey: existing.anchorKey,
+                              blockIndex: String(existing.blockIndex),
+                              startOffset: String(existing.startOffset),
+                              endOffset: String(existing.endOffset),
+                              quote: existing.quote,
+                              prefix: existing.prefix,
+                              colour: existing.colour,
+                              note: text,
+                            },
+                            { method: "post", action: `/book/${unit.slug}/marks` },
+                          );
+                        }}
+                        onEditEpisodeNote={(id, text) => {
+                          const existing = marks.episodeNotes.find((n) => n.id === id);
+                          if (existing === undefined) return;
+                          void fetcher.submit(
+                            {
+                              intent: "episode-note",
+                              id: existing.id,
+                              number: String(existing.number),
+                              seconds: String(existing.seconds),
+                              quote: existing.quote ?? "",
+                              note: text,
+                            },
+                            { method: "post", action: `/book/${unit.slug}/marks` },
+                          );
+                        }}
                       />
                     </section>
                   ),

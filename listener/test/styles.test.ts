@@ -106,6 +106,10 @@ const DELIBERATE = new Set([
   // `__head`, `__count` and `__intro` all carry rules, and the wrapper needs
   // none. Naming the block anyway is what makes the element names legible.
   "pf-section",
+  // TipTap's own contentEditable element, not a literal `className=`: set via
+  // `editorProps.attributes.class` in RichNoteEditorInner.tsx, the same reason
+  // `pf-cp` above is listed.
+  "pf-rte__editable",
 ]);
 
 describe("the stylesheet and the markup", () => {

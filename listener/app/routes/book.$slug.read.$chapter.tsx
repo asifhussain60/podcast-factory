@@ -564,6 +564,9 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
             onJump={jump}
             onRemoveAnnotation={removeAnnotation}
             onRemoveBookmark={removeBookmark}
+            // `note` already has a full "look up by id, resubmit with the new
+            // note" path — the same one a re-highlight or recolour uses.
+            onEditAnnotation={(id, text) => note(id, null, text)}
           />
         )}
       </SidePanel>

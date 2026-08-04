@@ -1,12 +1,16 @@
+import { useState } from "react";
 import {
   faBookmark,
   faHeadphones,
+  faPen,
   faTrash,
   faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
+import { RichNoteEditor } from "~/components/notes/RichNoteEditor";
+import { renderNote } from "~/lib/richNote";
 import {
   COLOUR_LABELS,
   PRE_ROLL_S,
@@ -40,7 +44,10 @@ export interface EpisodeRef {
  * episode page passes no chapters for the same reason. Nothing here branches on
  * who is mounting it — that is the same rule `orphaned` already follows, where
  * only the reader can populate the set and the book page passes a frozen empty
- * one.
+ * one. Editing follows the same rule: a host that cannot resubmit a note (none
+ * today) simply omits `onEditAnnotation`/`onEditEpisodeNote`, and the row's Edit
+ * button does not appear — the same optionality `onRemoveEpisodeNote` already
+ * has.
  *
  * Grouped by chapter, then by episode, and ordered by position within each —
  * that is the order the marks were made in and the order they will be looked for
@@ -60,6 +67,8 @@ export function NotesList({
   onRemoveAnnotation,
   onRemoveBookmark,
   onRemoveEpisodeNote,
+  onEditAnnotation,
+  onEditEpisodeNote,
 }: {
   annotations: Annotation[];
   bookmarks: Bookmark[];
@@ -83,7 +92,34 @@ export function NotesList({
   onRemoveAnnotation: (id: string) => void;
   onRemoveBookmark: (id: string) => void;
   onRemoveEpisodeNote?: (id: string) => void;
+  /** Resubmit a highlight's note with new text. Absent where a host cannot write. */
+  onEditAnnotation?: (id: string, note: string) => void;
+  /** Resubmit a moment's note with new text. Absent where a host cannot write. */
+  onEditEpisodeNote?: (id: string, note: string) => void;
 }) {
+  // One editor open at a time, across annotations AND episode notes — ids are
+  // unique across both, so there is never a collision, and a reader editing one
+  // note while another sits mid-edit unsaved is not a case worth supporting.
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editDraft, setEditDraft] = useState("");
+
+  const startEdit = (id: string, note: string | null) => {
+    setEditingId(id);
+    setEditDraft(note ?? "");
+  };
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditDraft("");
+  };
+  const saveAnnotationEdit = (id: string) => {
+    onEditAnnotation?.(id, editDraft);
+    cancelEdit();
+  };
+  const saveEpisodeNoteEdit = (id: string) => {
+    onEditEpisodeNote?.(id, editDraft);
+    cancelEdit();
+  };
+
   if (annotations.length === 0 && bookmarks.length === 0 && episodeNotes.length === 0) {
     return (
       <p className="pf-empty">
@@ -150,50 +186,96 @@ export function NotesList({
             </div>
           ))}
 
-          {notes.map((annotation) => (
-            <div
-              key={annotation.id}
-              // `--paper` is what makes it a Post-it: the whole card takes the
-              // colour of the highlight rather than wearing it as an edge. Only
-              // annotations get it. A bookmark is a place, not a note, and has
-              // no colour of its own to be made of.
-              className={`pf-mark pf-mark--paper pf-mark--${annotation.colour}${
-                orphaned.has(annotation.id) ? " pf-mark--orphaned" : ""
-              }`}
-            >
-              <Row
-                slug={slug}
-                anchorKey={chapter.anchorKey}
-                id={annotation.id}
-                onJump={orphaned.has(annotation.id) ? undefined : onJump}
-                className="pf-mark__body"
+          {notes.map((annotation) =>
+            editingId === annotation.id ? (
+              <div
+                key={annotation.id}
+                className={`pf-mark pf-mark--paper pf-mark--${annotation.colour}`}
               >
-                <span className="sr-only">{COLOUR_LABELS[annotation.colour]} highlight. </span>
-                <blockquote className="pf-mark__quote">{annotation.quote}</blockquote>
-                {annotation.note ? <p className="pf-mark__text">{annotation.note}</p> : null}
-                {/* Said plainly rather than hidden. A highlight whose passage a
-                    re-compose has changed still records what the reader marked —
-                    the quote is right there — so deleting it would destroy their
-                    work, and silently pointing it at a nearby sentence would be
-                    worse. It stays, and says what happened. */}
-                {orphaned.has(annotation.id) ? (
-                  <p className="pf-mark__warning">
-                    <Icon icon={faTriangleExclamation} />
-                    The wording here has changed since you marked it, so this no longer points at a
-                    passage. Your note is kept.
-                  </p>
-                ) : null}
-              </Row>
-              <button
-                type="button"
-                onClick={() => onRemoveAnnotation(annotation.id)}
-                aria-label="Remove this highlight"
-                className="pf-mark__remove"
+                <div className="pf-mark__body">
+                  <blockquote className="pf-mark__quote">{annotation.quote}</blockquote>
+                  <RichNoteEditor
+                    initialValue={editDraft}
+                    onChange={setEditDraft}
+                    placeholder="What matters about this passage?"
+                    autoFocus
+                    ariaLabel="Your note on this passage"
+                  />
+                  <div className="pf-mark__edit-actions">
+                    <button
+                      type="button"
+                      onClick={cancelEdit}
+                      className="pf-button pf-button--sm pf-button--ghost"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => saveAnnotationEdit(annotation.id)}
+                      className="pf-button pf-button--sm pf-button--primary"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div
+                key={annotation.id}
+                // `--paper` is what makes it a Post-it: the whole card takes the
+                // colour of the highlight rather than wearing it as an edge. Only
+                // annotations get it. A bookmark is a place, not a note, and has
+                // no colour of its own to be made of.
+                className={`pf-mark pf-mark--paper pf-mark--${annotation.colour}${
+                  orphaned.has(annotation.id) ? " pf-mark--orphaned" : ""
+                }`}
               >
-                <Icon icon={faTrash} title="Remove this highlight" />
-              </button>
-            </div>
-          ))}
+                <Row
+                  slug={slug}
+                  anchorKey={chapter.anchorKey}
+                  id={annotation.id}
+                  onJump={orphaned.has(annotation.id) ? undefined : onJump}
+                  className="pf-mark__body"
+                >
+                  <span className="sr-only">{COLOUR_LABELS[annotation.colour]} highlight. </span>
+                  <blockquote className="pf-mark__quote">{annotation.quote}</blockquote>
+                  {annotation.note ? (
+                    <div className="pf-mark__text">{renderNote(annotation.note)}</div>
+                  ) : null}
+                  {/* Said plainly rather than hidden. A highlight whose passage a
+                      re-compose has changed still records what the reader marked —
+                      the quote is right there — so deleting it would destroy their
+                      work, and silently pointing it at a nearby sentence would be
+                      worse. It stays, and says what happened. */}
+                  {orphaned.has(annotation.id) ? (
+                    <p className="pf-mark__warning">
+                      <Icon icon={faTriangleExclamation} />
+                      The wording here has changed since you marked it, so this no longer points at a
+                      passage. Your note is kept.
+                    </p>
+                  ) : null}
+                </Row>
+                {onEditAnnotation === undefined ? null : (
+                  <button
+                    type="button"
+                    onClick={() => startEdit(annotation.id, annotation.note)}
+                    aria-label={annotation.note ? "Edit this note" : "Add a note"}
+                    className="pf-mark__remove pf-mark__edit"
+                  >
+                    <Icon icon={faPen} title={annotation.note ? "Edit this note" : "Add a note"} />
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => onRemoveAnnotation(annotation.id)}
+                  aria-label="Remove this highlight"
+                  className="pf-mark__remove"
+                >
+                  <Icon icon={faTrash} title="Remove this highlight" />
+                </button>
+              </div>
+            ),
+          )}
         </section>
       ))}
 
@@ -203,29 +285,67 @@ export function NotesList({
             <Icon icon={faHeadphones} /> {episode.number}. {episode.title}
           </h3>
 
-          {moments.map((moment) => (
-            // No colour. A listening note has no highlight to be made of — the
-            // Post-it look on an annotation comes from the colour the reader
-            // chose, and inventing one here would say something the mark does
-            // not carry.
-            <div key={moment.id} className="pf-mark pf-mark--moment">
-              <MomentRow
-                moment={moment}
-                onPlay={onPlay}
-                className="pf-mark__body"
-              />
-              {onRemoveEpisodeNote === undefined ? null : (
-                <button
-                  type="button"
-                  onClick={() => onRemoveEpisodeNote(moment.id)}
-                  aria-label="Remove this note"
-                  className="pf-mark__remove"
-                >
-                  <Icon icon={faTrash} title="Remove this note" />
-                </button>
-              )}
-            </div>
-          ))}
+          {moments.map((moment) =>
+            editingId === moment.id ? (
+              <div key={moment.id} className="pf-mark pf-mark--moment">
+                <div className="pf-mark__body">
+                  <span className="pf-mark__kind">{clock(moment.seconds)}</span>
+                  {moment.quote ? <blockquote className="pf-mark__quote">{moment.quote}</blockquote> : null}
+                  <RichNoteEditor
+                    initialValue={editDraft}
+                    onChange={setEditDraft}
+                    placeholder="What are you thinking?"
+                    autoFocus
+                    ariaLabel="Your note at this moment"
+                  />
+                  <div className="pf-mark__edit-actions">
+                    <button
+                      type="button"
+                      onClick={cancelEdit}
+                      className="pf-button pf-button--sm pf-button--ghost"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => saveEpisodeNoteEdit(moment.id)}
+                      className="pf-button pf-button--sm pf-button--primary"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              // No colour. A listening note has no highlight to be made of — the
+              // Post-it look on an annotation comes from the colour the reader
+              // chose, and inventing one here would say something the mark does
+              // not carry.
+              <div key={moment.id} className="pf-mark pf-mark--moment">
+                <MomentRow moment={moment} onPlay={onPlay} className="pf-mark__body" />
+                {onEditEpisodeNote === undefined ? null : (
+                  <button
+                    type="button"
+                    onClick={() => startEdit(moment.id, moment.note)}
+                    aria-label={moment.note ? "Edit this note" : "Add a note"}
+                    className="pf-mark__remove pf-mark__edit"
+                  >
+                    <Icon icon={faPen} title={moment.note ? "Edit this note" : "Add a note"} />
+                  </button>
+                )}
+                {onRemoveEpisodeNote === undefined ? null : (
+                  <button
+                    type="button"
+                    onClick={() => onRemoveEpisodeNote(moment.id)}
+                    aria-label="Remove this note"
+                    className="pf-mark__remove"
+                  >
+                    <Icon icon={faTrash} title="Remove this note" />
+                  </button>
+                )}
+              </div>
+            ),
+          )}
         </section>
       ))}
     </div>
@@ -259,7 +379,7 @@ function MomentRow({
           a highlight, because that is what it is: the words the listener was
           reacting to. */}
       {moment.quote ? <blockquote className="pf-mark__quote">{moment.quote}</blockquote> : null}
-      {moment.note ? <p className="pf-mark__text">{moment.note}</p> : null}
+      {moment.note ? <div className="pf-mark__text">{renderNote(moment.note)}</div> : null}
       {moment.quote || moment.note ? null : (
         <p className="pf-mark__text pf-mark__text--quiet">Marked while listening.</p>
       )}

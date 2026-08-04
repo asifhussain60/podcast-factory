@@ -3827,19 +3827,6 @@
     width: 100%;
   }
 
-  /* A real field on the card, not a transparent area of it (Asif, 2026-08-04).
-     The paper WAS the field, on the reasoning that an input drawn on a Post-it
-     is two surfaces where the reader sees one — but with nothing marking where
-     the writing goes, the sheet read as a coloured panel that happened to accept
-     typing, and the cursor was the only clue. The ordinary `--l-elev` surface
-     every other input on the site uses says it plainly, and puts the typed words
-     on the background they were measured against. */
-  .pf-selbar__field {
-    min-height: 9rem;
-    line-height: 1.55;
-    resize: vertical;
-  }
-
   /* The paper's own edge, so the buttons read as sitting below the writing
      rather than floating in it. */
   .pf-selbar--paper .pf-selbar__actions {
@@ -4297,6 +4284,127 @@
     font-style: italic;
   }
 
+  /* A note's own text can now hold a list — the toolbar allows one. Reset to
+     the density of surrounding prose rather than the browser default, which
+     nests a whole second block of vertical rhythm and indentation inside a
+     card that is already compact. TipTap's list item always wraps its line in
+     a <p>, even with no toolbar for paragraphs, so that nested <p> loses its
+     margin too or every line doubles its own line-height as blank space. */
+  .pf-mark__text ul,
+  .pf-mark__text ol,
+  .pf-rte__content ul,
+  .pf-rte__content ol {
+    margin: 0;
+    padding-inline-start: 1.25em;
+  }
+
+  .pf-mark__text p,
+  .pf-rte__content p {
+    margin: 0;
+  }
+
+  /* The edit affordance sits beside Remove and shares its footprint
+     (`.pf-mark__remove`'s sizing and layout), but a pencil is not a delete —
+     hovering it must not suggest the same danger. */
+  .pf-mark__edit:hover {
+    color: var(--l-accent);
+  }
+
+  .pf-mark--paper .pf-mark__edit:hover {
+    background: color-mix(in srgb, var(--l-ink) 8%, transparent);
+    color: var(--l-ink);
+  }
+
+  /* The Save/Cancel row under an in-place edit — the paper card's own version
+     of `.pf-selbar__actions`, which this is not a sibling of (a mark card and
+     the floating selection bar are different components), so it gets its own
+     name rather than reaching across component boundaries for one. */
+  .pf-mark__edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--pf-space-2);
+  }
+
+  /* The "+ Add note" trigger in the player's Notes panel. Left-aligned and no
+     wider than its label — a full-width button here would read as the panel's
+     main action, and marking a moment is something a listener reaches for, not
+     the point of opening the panel. */
+  .pf-notes__add {
+    align-self: flex-start;
+  }
+
+  /* ---- A rich-text note editor ---------------------------------------------
+     The one editing surface, mounted inside a selection bar, a mark card being
+     edited, or the player's "+ Add note" composer — see
+     app/components/notes/RichNoteEditor.tsx. Framed like `.pf-input` (the field
+     every other input on the site uses) rather than left as a bare contentEditable
+     region — an editable area with nothing marking where the writing goes
+     reads as a coloured panel that happens to accept typing, not a field. */
+  .pf-rte {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius);
+    background: var(--l-surface);
+    overflow: hidden;
+  }
+
+  .pf-rte:focus-within {
+    border-color: var(--l-accent-soft);
+  }
+
+  .pf-rte__toolbar {
+    display: flex;
+    gap: var(--pf-space-1);
+    padding: var(--pf-space-1);
+    border-bottom: 1px solid var(--l-rule-soft);
+    background: var(--l-sunken);
+  }
+
+  /* Smaller than the 44px touch-target `.pf-tool` normally guarantees — four
+     of them sit in a row above a note box rather than spread across a full
+     toolbar, and at full size they would be taller than two lines of the text
+     being formatted. Formatting a note is a lighter, more occasional action
+     than the primary toolbar `.pf-tool` was sized for. */
+  .pf-rte__toolbar-btn {
+    min-width: 2rem;
+    min-height: 2rem;
+  }
+
+  .pf-rte__content-wrap {
+    position: relative;
+  }
+
+  .pf-rte__content,
+  .pf-rte__editable {
+    min-height: 9rem;
+  }
+
+  .pf-rte__editable {
+    padding: var(--pf-space-3) var(--pf-space-4);
+    line-height: 1.55;
+    color: var(--l-ink);
+    outline: none;
+  }
+
+  .pf-rte__placeholder {
+    position: absolute;
+    top: var(--pf-space-3);
+    left: var(--pf-space-4);
+    color: var(--l-faint);
+    pointer-events: none;
+  }
+
+  /* The pre-mount / still-loading skeleton — the note as it already reads (or
+     nothing, with the placeholder showing), never a spinner. No toolbar
+     buttons exist yet, so the bar above it is left empty rather than absent,
+     which is what keeps the swap from the skeleton to the live editor from
+     jumping the content beneath it up or down a toolbar's height. */
+  .pf-rte--loading .pf-rte__content {
+    padding: var(--pf-space-3) var(--pf-space-4);
+    color: var(--l-ink);
+  }
+
   /* ---- The transcript -----------------------------------------------------
      A conversation, set as one. Each line is its own control — pressing it plays
      from there — so the whole thing is a list of buttons, and the styling has to
@@ -4362,8 +4470,13 @@
     color: var(--l-faint);
   }
 
+  /* Inter, not the reading serif — a transcript is a machine's record of
+     speech, not the book's own prose, and reads more legibly at this size in
+     the UI face. Lato was asked for first; this app self-hosts a fixed font
+     set (no CDN, per `Icon.tsx`'s own reasoning for its glyphs) and Lato
+     isn't one of them, where Inter already is. */
   .pf-cue__text {
-    font-family: var(--l-font-prose);
+    font-family: var(--l-font-ui);
     font-size: var(--pf-text-base);
     line-height: 1.6;
     color: var(--l-muted);

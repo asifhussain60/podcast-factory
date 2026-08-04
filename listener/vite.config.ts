@@ -14,6 +14,17 @@ export default defineConfig({
   // on this machine, and plan-dashboard already owns 4322/4323.
   server: { port: 5273, strictPort: true },
   resolve: { tsconfigPaths: true },
+  // Only ever reached through a dynamic `import()` (RichNoteEditor.tsx, kept
+  // out of SSR on purpose). Vite's dev-time dep optimizer discovers a
+  // dynamically-imported dependency graph lazily, on first hit, in its own
+  // pass — and that pass produced a SECOND copy of `react` alongside the one
+  // every statically-imported route already shares, which is exactly what
+  // "Invalid hook call… more than one copy of React" means. Listing these
+  // here puts them in the SAME up-front optimize pass as everything else, so
+  // `@tiptap/react`'s `useEditor` resolves the one shared `react` instance.
+  optimizeDeps: {
+    include: ["@tiptap/core", "@tiptap/react", "@tiptap/starter-kit"],
+  },
   plugins: [
     cloudflare({ viteEnvironment: { name: "ssr" } }),
     tailwindcss(),

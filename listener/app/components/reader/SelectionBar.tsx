@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { faNoteSticky, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { Icon } from "~/components/Icon";
+import { RichNoteEditor } from "~/components/notes/RichNoteEditor";
 import { anchorFromSelection, type Anchor } from "~/lib/anchor";
 import { COLOURS, COLOUR_LABELS, type Colour } from "~/lib/marks";
 
@@ -186,20 +187,13 @@ export function SelectionBar({
     >
       {noting ? (
         <div className="pf-selbar__note">
-          <label htmlFor="pf-note-draft" className="sr-only">
-            Your note on this passage
-          </label>
-          <textarea
-            id="pf-note-draft"
-            autoFocus
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
+          <RichNoteEditor
+            key={target.existingId ?? "new"}
+            initialValue={draft}
+            onChange={setDraft}
             placeholder="What matters about this passage?"
-            // Seven, not three. A note is a paragraph often enough that three
-            // rows had you writing into a slot and scrolling to reread your own
-            // sentence — and the box was smaller than the passage it was about.
-            rows={7}
-            className="pf-input pf-selbar__field"
+            autoFocus
+            ariaLabel="Your note on this passage"
           />
           <div className="pf-selbar__actions">
             <button type="button" onClick={close} className="pf-button pf-button--sm pf-button--ghost">
