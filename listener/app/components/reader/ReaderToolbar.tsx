@@ -1,5 +1,12 @@
 import { useId } from "react";
-import { faBookmark, faHouse, faNoteSticky } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAlignJustify,
+  faArrowsLeftRight,
+  faArrowsLeftRightToLine,
+  faBookmark,
+  faHouse,
+  type IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
@@ -10,11 +17,28 @@ import {
   FAMILY_LABELS,
   LEADINGS,
   LEADING_LABELS,
+  MEASURES,
+  MEASURE_LABELS,
   setReading,
   SIZES,
   step,
   type Family,
 } from "~/lib/reading";
+
+/**
+ * How wide the column is, drawn rather than named.
+ *
+ * Arrows pulling in, a settled column, arrows pushing out — the icon carries
+ * the idea and the word confirms it. As a select it read "Normal" beside the
+ * line-spacing select also reading "Normal", which is why line width was taken
+ * out entirely on 2026-08-04 and why it can come back now: three buttons and a
+ * dropdown cannot be mistaken for each other.
+ */
+const MEASURE_ICONS: Record<(typeof MEASURES)[number], IconDefinition> = {
+  58: faArrowsLeftRightToLine,
+  68: faAlignJustify,
+  78: faArrowsLeftRight,
+};
 
 /**
  * Everything that controls the reading view, in ONE row above it.
@@ -54,19 +78,11 @@ import {
  *      selection bar, which has to — it points at the words it acts on.
  */
 export function ReaderToolbar({
-  minutesLeft,
   bookmarked,
   onToggleBookmark,
-  notesCount,
-  notesOpen,
-  onToggleNotes,
 }: {
-  minutesLeft: number;
   bookmarked: boolean;
   onToggleBookmark: () => void;
-  notesCount: number;
-  notesOpen: boolean;
-  onToggleNotes: () => void;
 }) {
   const prefs = useReading();
   const id = useId();
@@ -96,18 +112,6 @@ export function ReaderToolbar({
           <Icon icon={faBookmark} title={bookmarked ? "Remove bookmark" : "Bookmark this place"} />
         </button>
 
-        <button
-          type="button"
-          onClick={onToggleNotes}
-          aria-expanded={notesOpen}
-          title="Your notes and highlights"
-          className="pf-tool"
-        >
-          <Icon icon={faNoteSticky} title="Your notes and highlights" />
-          {/* Hidden at zero rather than shown as "0": an empty count reads as a
-              thing to clear rather than a thing not yet started. */}
-          {notesCount > 0 ? <span className="pf-tool__count">{notesCount}</span> : null}
-        </button>
       </div>
 
       {/* ---- How the page is set ----------------------------------------- */}
@@ -173,13 +177,28 @@ export function ReaderToolbar({
             </option>
           ))}
         </select>
+
+        <div role="group" aria-label="Line width" className="pf-stepper pf-stepper--sm">
+          {MEASURES.map((measure) => (
+            <button
+              key={measure}
+              type="button"
+              onClick={() => setReading({ ...prefs, measure })}
+              aria-pressed={prefs.measure === measure}
+              aria-label={MEASURE_LABELS[measure]}
+              title={MEASURE_LABELS[measure]}
+              className="pf-stepper__step pf-stepper__step--toggle"
+            >
+              <Icon icon={MEASURE_ICONS[measure]} title={MEASURE_LABELS[measure]} />
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Last, and first to be hidden when the row is tight — it is the one
-          thing here that is information rather than a control. */}
-      <span className="pf-toolbar__left">
-        {minutesLeft === 0 ? "finished" : `${minutesLeft} min left`}
-      </span>
+      {/* Nothing here is information. "13 min left" sat at the end of the row
+          until 2026-08-04 and was the only thing in it that could not be acted
+          on — a number that changed as you read, in a bar you open to change a
+          setting. */}
     </div>
   );
 }

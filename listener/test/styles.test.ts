@@ -77,7 +77,16 @@ async function used(): Promise<Set<string>> {
  * adding a fifth colour needs no edit here — and the palette test already fails
  * if a colour is declared in one theme and not another.
  */
-const COMPOSED_PREFIXES = ["pf-hl", "pf-mark--", "pf-selbar__colour--", "pf-swatch"];
+const COMPOSED_PREFIXES = [
+  "pf-hl",
+  "pf-mark--",
+  "pf-selbar__colour--",
+  "pf-swatch",
+  // The two side panels are one component rendered twice, so the edge each one
+  // is pinned to arrives as `--${side}` rather than as a literal.
+  "pf-drawer--",
+  "pf-edge-tab--",
+];
 
 
 /** Rules that exist for a reason other than being rendered by this app. */

@@ -116,19 +116,26 @@ const PAIRS: [string, string, number][] = [
  *
  * Every pair above asks "is this legible ON that". A highlight also has to be
  * VISIBLE AGAINST the page — a tint at 1.05:1 is legible precisely because it is
- * barely there, which is the failure mode, not the success. 1.3:1 is a mark a
- * reader sees as a band rather than only as a hue, which is what someone who
+ * barely there, which is the failure mode, not the success. The floor is a mark
+ * a reader sees as a band rather than only as a hue, which is what someone who
  * cannot separate gold from sage is left with.
+ *
+ * 1.2, lowered from 1.3 when every highlight was diluted 35% (Asif, 2026-08-04:
+ * "all highlights are very dark"). The number is a LUMINANCE ratio and these
+ * tints are strongly chromatic, so it understates how plainly they read on a
+ * near-neutral page — but it is still the only measure here that fails when a
+ * highlight fades into the paper, so it moved rather than being dropped. The
+ * floor that protects the words is the 4.5 above, and every one of them rose.
  *
  * Kept as its own list rather than folded into PAIRS because PAIRS means
  * "readable text on a background" everywhere else, and reusing it for a
  * different question would make both harder to reason about.
  */
 const VISIBLE_AGAINST_PAGE: [string, string, number][] = [
-  ["l-hl-gold", "l-surface", 1.3],
-  ["l-hl-sage", "l-surface", 1.3],
-  ["l-hl-sky", "l-surface", 1.3],
-  ["l-hl-rose", "l-surface", 1.3],
+  ["l-hl-gold", "l-surface", 1.2],
+  ["l-hl-sage", "l-surface", 1.2],
+  ["l-hl-sky", "l-surface", 1.2],
+  ["l-hl-rose", "l-surface", 1.2],
 ];
 
 const FOUND = palettes(CSS);

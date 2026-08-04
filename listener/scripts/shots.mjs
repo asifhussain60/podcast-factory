@@ -60,8 +60,8 @@ const STATES = {
     {
       name: "contents-open",
       act: async (page) => {
-        await page.click(".pf-contents-tab");
-        await page.waitForSelector(".pf-drawer--left", { timeout: 2000 });
+        await page.click(".pf-edge-tab--start");
+        await page.waitForSelector(".pf-drawer--start", { timeout: 2000 });
       },
     },
     { name: "selection", act: (page) => raiseSelectionBar(page, 60) },
@@ -88,11 +88,12 @@ const STATES = {
         // WITH a note on it. A highlight alone photographs half the entry, and
         // the half it leaves out is the reader's own words.
         await writeNote(page, "The debt of gratitude is the hinge of the whole passage.");
-        // By its accessible name, not by position in a list of icon buttons —
-        // an nth-child selector silently photographs the wrong panel the moment
-        // a control is added to the row.
-        await page.click('[title="Your notes and highlights"]').catch(() => {});
-        await page.waitForSelector(".pf-drawer", { timeout: 2000 }).catch(() => {});
+        // The tab on the right edge, which is where the notes live now. It was
+        // a button in the toolbar addressed by its accessible name; the tab is
+        // addressed by its side, because that is the only thing about it that
+        // distinguishes it from the contents tab facing it.
+        await page.click(".pf-edge-tab--end").catch(() => {});
+        await page.waitForSelector(".pf-drawer--end", { timeout: 2000 }).catch(() => {});
       },
     },
   ],

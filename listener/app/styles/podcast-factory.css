@@ -390,10 +390,10 @@
      readable, and the tint against the page at 1.3:1 so the mark is visible as a
      BAND rather than only as a hue. That second floor is what a reader who
      cannot separate the colours actually sees. */
-  --l-hl-gold: #f3d873;  /* ink 11.03:1 · page 1.39:1 */
-  --l-hl-sage: #b9e2b0;  /* ink 10.80:1 · page 1.42:1 */
-  --l-hl-sky: #aecdf5;   /* ink  9.52:1 · page 1.61:1 */
-  --l-hl-rose: #f6bccd;  /* ink  9.63:1 · page 1.59:1 */
+  --l-hl-gold: #f7e5a2;  /* ink 12.36:1 · page 1.24:1 */
+  --l-hl-sage: #d2ebca;  /* ink 12.21:1 · page 1.25:1 */
+  --l-hl-sky: #cadef6;   /* ink 11.33:1 · page 1.35:1 */
+  --l-hl-rose: #f9d3dc;  /* ink 11.40:1 · page 1.34:1 */
 
   /* Warm-tinted, so a shadow on warm paper does not go grey. */
   --l-shadow-near: rgb(46 38 24 / 0.07);
@@ -441,10 +441,10 @@
      page is a lamp, not a mark: it would out-shine the text it sits under and
      the ink would have to flip to dark, so a marked sentence would read as a
      different colour of text. These are dark tints under the SAME light ink. */
-  --l-hl-gold: #5c4713;  /* ink  7.65:1 · page 1.86:1 */
-  --l-hl-sage: #2b4f24;  /* ink  8.05:1 · page 1.76:1 */
-  --l-hl-sky: #204066;   /* ink  9.11:1 · page 1.56:1 */
-  --l-hl-rose: #5c2739;  /* ink 10.03:1 · page 1.42:1 */
+  --l-hl-gold: #45391a;  /* ink  9.76:1 · page 1.46:1 */
+  --l-hl-sage: #253e25;  /* ink 10.08:1 · page 1.41:1 */
+  --l-hl-sky: #1e3450;   /* ink 10.88:1 · page 1.31:1 */
+  --l-hl-rose: #452433;  /* ink 11.65:1 · page 1.22:1 */
 
   --l-shadow-near: rgb(0 0 0 / 0.55);
   --l-shadow-far: rgb(0 0 0 / 0.45);
@@ -485,10 +485,10 @@
 
   /* Warmed towards the paper they sit on. The light theme's values on this
      background read as four stickers laid on parchment. */
-  --l-hl-gold: #e8ce7c;  /* ink 9.78:1 · page 1.39:1 */
-  --l-hl-sage: #bcd8ae;  /* ink 9.79:1 · page 1.39:1 */
-  --l-hl-sky: #b8cbe8;   /* ink 9.20:1 · page 1.48:1 */
-  --l-hl-rose: #eab8bd;  /* ink 8.72:1 · page 1.56:1 */
+  --l-hl-gold: #eedba1;  /* ink 11.03:1 · page 1.23:1 */
+  --l-hl-sage: #d1e1c2;  /* ink 11.01:1 · page 1.23:1 */
+  --l-hl-sky: #ced9e7;   /* ink 10.61:1 · page 1.28:1 */
+  --l-hl-rose: #efcccb;  /* ink 10.23:1 · page 1.33:1 */
 
   --l-shadow-near: rgb(51 41 28 / 0.09);
   --l-shadow-far: rgb(51 41 28 / 0.12);
@@ -929,21 +929,9 @@
     color: var(--l-accent);
   }
 
-  .pf-tool__count {
-    position: absolute;
-    top: 0.35rem;
-    inset-inline-end: 0.3rem;
-    min-width: 1.05rem;
-    padding-inline: 0.2rem;
-    border-radius: var(--pf-radius-pill);
-    background: var(--l-accent);
-    color: var(--l-on-accent);
-    font-family: var(--l-font-ui);
-    font-size: 0.625rem;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.7;
-    text-align: center;
-  }
+  /* The count that used to ride on the toolbar's notes button went with the
+     button: the notes are a panel on the right edge now, and the number lives on
+     the tab that opens them (`.pf-edge-tab__count`). */
 
   .pf-toolbar__group {
     display: flex;
@@ -957,14 +945,6 @@
   .pf-toolbar__group--set {
     padding-inline-start: var(--pf-space-3);
     border-inline-start: 1px solid var(--l-rule-soft);
-  }
-
-  .pf-toolbar__left {
-    flex: none;
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-xs);
-    font-variant-numeric: tabular-nums;
-    color: var(--l-faint);
   }
 
   /* Below the tablet tier the row cannot hold everything at a legible size, and
@@ -985,18 +965,13 @@
       scroll-snap-align: end;
     }
 
-    /* Dropped first when the row is tight — it is the one item here that is
-       information rather than a control. */
-    .pf-toolbar__left {
-      display: none;
-    }
   }
 
   /* ---- Contents -----------------------------------------------------------
-     A drawer on the LEFT, mirroring the notes drawer on the right. It was an
-     in-flow panel that pushed the chapter down the screen; as a drawer it costs
-     the page nothing and the two panels sit on opposite sides — the book's
-     structure to the left, your own marks on it to the right. */
+     What is IN the left panel. How it opens, how wide it is and what its tab
+     looks like are `.pf-drawer` and `.pf-edge-tab` below, shared with the notes
+     panel facing it — the book's structure to the left, your own marks on it to
+     the right, the same object mirrored. */
 
   .pf-toc__list {
     list-style: none;
@@ -1062,6 +1037,18 @@
   .pf-stepper__step:hover:not(:disabled) {
     background: var(--l-sunken);
     color: var(--l-ink);
+  }
+
+  /* One of a set, and the one in force. The stepper's other use is two buttons
+     either side of a value; this is three buttons where one is the answer, so
+     the state has to be visible rather than implied by what the value says. */
+  .pf-stepper__step--toggle[aria-pressed="true"] {
+    background: var(--l-accent-soft);
+    color: var(--l-accent);
+  }
+
+  .pf-stepper__step--toggle + .pf-stepper__step--toggle {
+    border-inline-start: 1px solid var(--l-rule);
   }
 
   /* At the end of the scale, and saying so. The alternative — a button that
@@ -1161,18 +1148,14 @@
     color: var(--l-ink);
   }
 
-  .pf-chapter-meta {
-    margin-top: var(--pf-space-3);
-    text-align: center;
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-sm);
-    color: var(--l-faint);
-  }
-
   /* The ornament under the opening. A pseudo-element rather than an <hr>: it is
      decoration, and a screen reader should not announce a separator between a
-     chapter's title and its first sentence. */
-  .pf-chapter-meta::after {
+     chapter's title and its first sentence.
+
+     It hung off the standfirst until that line was removed on 2026-08-04, and
+     moved up to the title rather than going with it — the mark between a
+     chapter's name and its first sentence is the book's, not the standfirst's. */
+  .pf-chapter-title::after {
     content: "";
     display: block;
     width: 3.5rem;
@@ -2991,7 +2974,7 @@
      above for the same reason. A different colour would collide with the four
      the reader chose; a border drawn from the tint cannot. */
   .pf-hl--noted {
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--pf-hl-tint) 45%, var(--l-ink));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--pf-hl-tint) 72%, var(--l-ink));
   }
 
   /* Where the notes drawer just sent you. Temporary by nature — it is removed
@@ -3118,12 +3101,14 @@
      colour-name-to-tint mapping — there are three already, and each one is a
      place the four colours could quietly disagree.
 
-     The gold is DILUTED (Asif, 2026-08-04) and the writing area is the ordinary
-     field surface rather than the paper itself. At full strength the sheet was
-     the loudest thing on the screen for a control that is open while you think,
-     and dark text on saturated yellow is tiring to write against for longer
-     than a line. Mixed toward `--l-elev` rather than toward white, so a dark
-     palette gets a dim gold card rather than a bright one. */
+     The gold and the writing area both changed on 2026-08-04. The sheet used to
+     be the tint at full strength with no field drawn on it: the loudest thing
+     on screen for a control you sit and think in front of, and with nothing
+     marking where the writing goes it read as a coloured panel that happened to
+     accept typing. It takes the tint straight now — every highlight colour was
+     diluted 35% later the same day, so the paper is the paler gold without
+     mixing it a second time — and the writing area is the ordinary field
+     surface every other input on the site uses. */
 
   .pf-selbar--paper {
     /* The width lives HERE, on the paper, and the clamp is derived from it —
@@ -3142,7 +3127,7 @@
     );
     width: var(--sel-w);
     padding: var(--pf-space-4);
-    background: color-mix(in srgb, var(--l-hl-gold) 42%, var(--l-elev));
+    background: var(--l-hl-gold);
     border-color: color-mix(in srgb, var(--l-ink) 14%, transparent);
     border-radius: var(--pf-radius-sm);
     color: var(--l-ink);
@@ -3215,36 +3200,45 @@
     cursor: default;
   }
 
+  /* One rule, both sides. `--start` and `--end` differ only in which edge they
+     are pinned to and which side carries the border — everything a reader can
+     measure is written once, so the contents on the left and the notes on the
+     right cannot come out different heights or widths. */
   .pf-drawer {
     position: fixed;
     inset-block: 0;
-    inset-inline-end: 0;
     z-index: 25;
     display: flex;
     flex-direction: column;
     width: min(26rem, 100vw);
     background: var(--l-surface);
-    border-inline-start: 1px solid var(--l-rule);
     box-shadow: var(--pf-elev-4);
   }
 
-  /* ---- The contents panel, collapsed ---------------------------------------
-     A tab against the left edge. This IS the collapsed panel — the affordance
-     belongs to the thing it opens, which is why nothing in the toolbar carries
-     it any more.
-
-     On a wide screen it sits in the empty margin beside the sheet, vertically
-     centred, rounded on its trailing side as though the panel were tucked just
-     off-screen. Below the tablet tier the sheet runs edge to edge and there IS
-     no margin, so an edge tab would sit on top of the first words of every line;
-     there it becomes a round button in the bottom-left corner instead, clear of
-     the text and inside the page's own bottom padding. */
-
-  .pf-contents-tab {
-    position: fixed;
+  .pf-drawer--start {
     inset-inline-start: 0;
+    border-inline-end: 1px solid var(--l-rule);
+  }
+
+  .pf-drawer--end {
+    inset-inline-end: 0;
+    border-inline-start: 1px solid var(--l-rule);
+  }
+
+  /* ---- A panel, collapsed --------------------------------------------------
+     A tab against its own edge, and the SAME rule for both of them: contents on
+     the left, your marks on the right. This IS the collapsed panel — the
+     affordance belongs to the thing it opens, which is why neither is in the
+     toolbar any more.
+
+     Both are fixed and centred on the viewport, so the two line up across the
+     page exactly, at every width and whatever is scrolled. On a wide screen each
+     sits in the empty margin beside the sheet, rounded on the side facing in, as
+     though the panel were tucked just off-screen. */
+
+  .pf-edge-tab {
+    position: fixed;
     top: 50%;
-    transform: translateY(-50%);
     z-index: 22;
     display: flex;
     flex-direction: column;
@@ -3256,21 +3250,49 @@
     padding-inline: 0;
     background: var(--l-surface);
     border: 1px solid var(--l-rule);
-    border-inline-start: 0;
-    border-start-end-radius: var(--pf-radius-lg);
-    border-end-end-radius: var(--pf-radius-lg);
     color: var(--l-muted);
     box-shadow: var(--pf-elev-2);
     cursor: pointer;
     transition:
       color var(--pf-motion),
-      padding-inline-start var(--pf-motion);
+      transform var(--pf-motion);
+  }
+
+  .pf-edge-tab--start {
+    inset-inline-start: 0;
+    transform: translateY(-50%);
+    border-inline-start: 0;
+    border-start-end-radius: var(--pf-radius-lg);
+    border-end-end-radius: var(--pf-radius-lg);
+  }
+
+  .pf-edge-tab--end {
+    inset-inline-end: 0;
+    transform: translateY(-50%);
+    border-inline-end: 0;
+    border-start-start-radius: var(--pf-radius-lg);
+    border-end-start-radius: var(--pf-radius-lg);
+  }
+
+  /* How many marks are in there, on the tab that opens them. It sat in the
+     toolbar until the notes moved out of it. Never rendered as zero: an empty
+     count reads as a thing to clear rather than a thing not yet started. */
+  .pf-edge-tab__count {
+    min-width: 1.25rem;
+    padding: 0 var(--pf-space-1);
+    background: var(--l-accent);
+    border-radius: var(--pf-radius-pill);
+    color: var(--l-on-accent);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.4;
   }
 
   /* Bottom-to-top, the conventional orientation for a tab on the leading edge:
      `vertical-rl` alone reads top-to-bottom, which on the left of a page has the
      word running away from the reader. */
-  .pf-contents-tab__label {
+  .pf-edge-tab__label {
     writing-mode: vertical-rl;
     rotate: 180deg;
     font-family: var(--l-font-ui);
@@ -3279,11 +3301,20 @@
     text-transform: uppercase;
   }
 
-  .pf-contents-tab:hover {
+  /* Leans out rather than growing. A padding change would move the icon and make
+     the target jump under a pointer already on it; a translate moves the whole
+     tab and leaves its own hit area where the pointer found it. The Y half has
+     to be repeated — a `transform` replaces, it does not compose. */
+  .pf-edge-tab:hover {
     color: var(--l-accent);
-    /* Leans out rather than growing — a width change would move the icon and
-       make the target jump under a pointer that is already on it. */
-    padding-inline-start: var(--pf-space-2);
+  }
+
+  .pf-edge-tab--start:hover {
+    transform: translate(var(--pf-space-1), -50%);
+  }
+
+  .pf-edge-tab--end:hover {
+    transform: translate(calc(var(--pf-space-1) * -1), -50%);
   }
 
   /* Narrower, and still on the edge.
@@ -3301,23 +3332,14 @@
      the full-bleed sheet, and that starts at 640px. A tablet in portrait has
      ~89px of margin and gets the full labelled tab. */
   @media (max-width: 639px) {
-    .pf-contents-tab {
+    .pf-edge-tab {
       width: 1.75rem;
       padding-block: var(--pf-space-4);
     }
 
-    .pf-contents-tab__label {
+    .pf-edge-tab__label {
       display: none;
     }
-  }
-
-  /* Mirrored. `inset-inline` rather than left/right so a right-to-left reading
-     still puts the contents on the side the reader starts from. */
-  .pf-drawer--left {
-    inset-inline-start: 0;
-    inset-inline-end: auto;
-    border-inline-start: 0;
-    border-inline-end: 1px solid var(--l-rule);
   }
 
   .pf-drawer__head {

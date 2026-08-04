@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   faChevronLeft,
   faChevronRight,
-  faXmark,
+  faNoteSticky,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router";
 
@@ -10,6 +10,7 @@ import type { Route } from "./+types/book.$slug.read.$chapter";
 import { Icon } from "~/components/Icon";
 import { NotesList } from "~/components/reader/NotesList";
 import { ContentsPanel } from "~/components/reader/ContentsPanel";
+import { SidePanel } from "~/components/reader/SidePanel";
 import { ReaderToolbar } from "~/components/reader/ReaderToolbar";
 import { SelectionBar } from "~/components/reader/SelectionBar";
 import { useHighlights, type Painted } from "~/components/reader/Highlights";
@@ -350,9 +351,6 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     });
   }, [annotations, bookmarks]);
 
-  const total = readingMinutes(chapter.wordCount);
-  const left = Math.max(0, Math.round(total * (1 - progress)));
-
   return (
     <div className="pf-shell">
       <div className="reading-progress" aria-hidden="true">
@@ -374,45 +372,30 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
         slug={slug}
       />
 
-      {notesOpen ? (
-        <>
-          {/* Click-away. Not focusable and hidden from assistive tech — Escape
-              and the close button are the keyboard routes out, and a scrim in
-              the tab order is a stop that announces nothing. */}
-          <button
-            type="button"
-            aria-hidden="true"
-            tabIndex={-1}
-            onClick={() => setNotesOpen(false)}
-            className="pf-drawer__scrim"
-          />
-          <aside aria-label="Your notes and highlights" className="pf-drawer">
-            <div className="pf-drawer__head">
-              <h2 className="pf-drawer__title">Your notes</h2>
-              <button
-                type="button"
-                onClick={() => setNotesOpen(false)}
-                aria-label="Close your notes"
-                className="pf-tool"
-              >
-                <Icon icon={faXmark} title="Close your notes" />
-              </button>
-            </div>
-            <div className="pf-drawer__body">
-              <NotesList
-                annotations={marks.annotations}
-                bookmarks={marks.bookmarks}
-                chapters={contents}
-                orphaned={orphaned}
-                slug={slug}
-                onJump={jump}
-                onRemoveAnnotation={removeAnnotation}
-                onRemoveBookmark={removeBookmark}
-              />
-            </div>
-          </aside>
-        </>
-      ) : null}
+      <SidePanel
+        side="end"
+        as="aside"
+        open={notesOpen}
+        onOpen={() => {
+          setNotesOpen(true);
+          setContentsOpen(false);
+        }}
+        onClose={() => setNotesOpen(false)}
+        label="Your notes"
+        icon={faNoteSticky}
+        count={marks.annotations.length + marks.bookmarks.length}
+      >
+        <NotesList
+          annotations={marks.annotations}
+          bookmarks={marks.bookmarks}
+          chapters={contents}
+          orphaned={orphaned}
+          slug={slug}
+          onJump={jump}
+          onRemoveAnnotation={removeAnnotation}
+          onRemoveBookmark={removeBookmark}
+        />
+      </SidePanel>
 
       <main id="main" className="pf-reader">
         {/* ---- Above the page ----
@@ -430,15 +413,8 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
 
           <div className="pf-toolbar-rail">
             <ReaderToolbar
-              minutesLeft={left}
               bookmarked={bookmarked}
               onToggleBookmark={toggleBookmark}
-              notesCount={marks.annotations.length + marks.bookmarks.length}
-              notesOpen={notesOpen}
-              onToggleNotes={() => {
-                setNotesOpen((v) => !v);
-                setContentsOpen(false);
-              }}
             />
           </div>
         </div>
@@ -449,13 +425,11 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
                 nesting: a chapter is part of a work. */}
             <h2 className="pf-chapter-title">{chapter.title}</h2>
 
-            {/* Position in the edition, NOT a chapter number: the introduction
-                is the first entry, so this and the book's own "3." in the
-                heading differ by one. Saying "chapter" would contradict it. */}
-            <p className="pf-chapter-meta">
-              {chapter.idx} of {contents.length} in this edition · about {total}{" "}
-              {total === 1 ? "minute" : "minutes"}
-            </p>
+            {/* No standfirst under the title. "5 of 10 in this edition · about
+                13 minutes" stood here until 2026-08-04: a position the contents
+                panel already shows and an estimate the reader is about to find
+                out for themselves, printed on the sheet, between the chapter's
+                name and its first line. A book does not put that there. */}
 
             {/* The HTML was rendered at publish time by the same function that
                 produces the printed book, so this is not "trusting user input" —

@@ -66,15 +66,23 @@ export const MEASURES = [58, 68, 78] as const;
  * end. Keyed by value, so an inserted step is a compile error rather than a page
  * that calls Loose "Normal".
  *
- * `MEASURES` has no labels because it no longer has a control: line width and
- * line spacing both read "Normal" at their defaults, so side by side they were
- * two dropdowns nobody could tell apart. It survives so that a measure stored by
- * an earlier visit still validates instead of silently resetting.
+ * `MEASURE_LABELS` says narrow/standard/wide, not tight/normal/loose. Line width
+ * and line spacing are different settings that both read "Normal" at their
+ * defaults, which is how they came to look like the same dropdown twice — the
+ * width control was removed for it on 2026-08-04 and is back the same day as
+ * three icon buttons, where neither the shape nor the words can be confused
+ * with the select beside them.
  */
 export const LEADING_LABELS: Record<(typeof LEADINGS)[number], string> = {
   1.5: "Tight",
   1.7: "Normal",
   1.9: "Loose",
+};
+
+export const MEASURE_LABELS: Record<(typeof MEASURES)[number], string> = {
+  58: "Narrow",
+  68: "Standard",
+  78: "Wide",
 };
 
 export interface ReadingPrefs {
