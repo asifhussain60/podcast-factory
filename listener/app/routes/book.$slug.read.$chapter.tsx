@@ -11,6 +11,7 @@ import {
 import { Link, useNavigate } from "react-router";
 
 import type { Route } from "./+types/book.$slug.read.$chapter";
+import { AppShell } from "~/components/AppShell";
 import { Icon } from "~/components/Icon";
 import { CompanionList } from "~/components/reader/CompanionList";
 import { NotesList } from "~/components/reader/NotesList";
@@ -97,12 +98,28 @@ export async function loader({ params, context }: Route.LoaderArgs) {
     // have cards and the notes list on the other seven — a drawer that changes
     // what it is depending on where you are standing.
     isCompanion: viewer?.isAdmin === true,
+    // The same value, and deliberately a second field: this one decides whether
+    // the MASTHEAD offers the Access link, which is a question about who is
+    // signed in. Folding the two together would make a change to who gets the
+    // Companion silently change who is offered the admin section.
+    isAdmin: viewer?.isAdmin === true,
   };
 }
 
 export default function ReadChapter({ loaderData }: Route.ComponentProps) {
-  const { bookTitle, slug, chapter, contents, position, previous, next, companion, isCompanion, surfaces } =
-    loaderData;
+  const {
+    bookTitle,
+    slug,
+    chapter,
+    contents,
+    position,
+    previous,
+    next,
+    companion,
+    isCompanion,
+    isAdmin,
+    surfaces,
+  } = loaderData;
   const navigate = useNavigate();
 
   const [progress, setProgress] = useState(0);
@@ -498,194 +515,206 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   }, [annotations, bookmarks]);
 
   return (
-    // The page lays out in the width the docked panel leaves it, rather than
-    // underneath it. Only the shell can say so — the drawer is its sibling, not
-    // its parent — and the same media query in the stylesheet decides whether the
-    // class means anything at all. Written inline rather than assigned to a
-    // variable first, because test/styles.test.ts reads class names out of the
-    // markup and a name that only exists in a local is a rule it reports as dead.
-    <div className={`pf-shell${isCompanion && notesOpen ? " pf-shell--docked" : ""}`}>
-      <div className="reading-progress" aria-hidden="true">
-        <span ref={bar} />
+    // The reading page wears the same shell as every other signed-in page, which
+    // it did not until now: there was no footer, no theme control and no way to
+    // sign out from inside a chapter, and the way back to the book was a single
+    // link under the last one. What the shell does NOT touch is the reading
+    // column — its own head, its toolbar, its two panels and the sheet are
+    // unchanged and are still the only things between the masthead and the floor.
+    //
+    // `docked` says the page lays out in the width the Companion leaves it rather
+    // than underneath it. It belongs to the shell rather than to `main` because
+    // the masthead and the footer have to clear the panel too, and because the
+    // drawer is the shell's sibling, not `main`'s child.
+    <AppShell
+      here="book"
+      isAdmin={isAdmin}
+      reader
+      docked={isCompanion && notesOpen}
+      overlays={
+        <>
+          <div className="reading-progress" aria-hidden="true">
+            <span ref={bar} />
+          </div>
+
+          {/* Contents on the LEFT, your own marks on the RIGHT — the same drawer
+              mirrored, so a reader learns one behaviour and the book's structure
+              and their notes on it stay on opposite sides. */}
+          <ContentsPanel
+            open={contentsOpen}
+            onOpen={() => {
+              setContentsOpen(true);
+              setNotesOpen(false);
+            }}
+            onClose={() => setContentsOpen(false)}
+            chapters={contents}
+            currentKey={chapter.anchorKey}
+            slug={slug}
+          />
+
+          {/* ONE drawer on this edge, and what it holds depends on who is
+              reading. For the account the Scholar Companion belongs to it is the
+              Companion — the cards written against this chapter, following the
+              passage. For everyone else it is unchanged: their own marks, as it
+              has always been. Not two tabs and not two tabs' worth of chrome; the
+              Companion account reaches its own marks from the book page's Notes
+              tab, and the drawer stays one thing per reader rather than a thing
+              with a mode. */}
+          <SidePanel
+            side="end"
+            as="aside"
+            open={notesOpen}
+            onOpen={() => {
+              setNotesOpen(true);
+              setContentsOpen(false);
+            }}
+            onClose={() => setNotesOpen(false)}
+            label={isCompanion ? "Companion" : "Your notes"}
+            icon={isCompanion ? faBookOpen : faNoteSticky}
+            docked={isCompanion}
+            count={
+              isCompanion ? companion.length : marks.annotations.length + marks.bookmarks.length
+            }
+          >
+            {isCompanion ? (
+              <CompanionList
+                cards={companion}
+                unplaced={unplaced}
+                inViewIds={inView}
+                focus={focusCard}
+              />
+            ) : (
+              <NotesList
+                annotations={marks.annotations}
+                bookmarks={marks.bookmarks}
+                chapters={contents}
+                orphaned={orphaned}
+                slug={slug}
+                onJump={jump}
+                onRemoveAnnotation={removeAnnotation}
+                onRemoveBookmark={removeBookmark}
+                // `note` already has a full "look up by id, resubmit with the
+                // new note" path — the same one a re-highlight or recolour uses.
+                onEditAnnotation={(id, text) => note(id, null, text)}
+              />
+            )}
+          </SidePanel>
+        </>
+      }
+    >
+      {/* ---- Above the page ----
+          The work's name, then the controls, then the sheet. Both sit OUTSIDE
+          the article deliberately: the sheet is the book, and a control
+          printed on it would be a control printed in the book.
+
+          The toolbar was in a sticky header until now. Out of it, nothing at
+          all covers the prose while reading — and the title, which a sticky
+          bar could only ever show as a truncated fragment, gets its full size
+          back. The cost is honest: changing a setting mid-chapter means
+          scrolling up. */}
+      <div className="pf-reader-head">
+        {/* The title is the way back to the book.
+            It was a plain heading, and the only link to `/book/:slug` in the
+            whole reader sat after the LAST chapter — so from chapter six there
+            was no door to the page holding this book's podcast, deck and PDF,
+            and the home control goes to the library rather than to the book
+            (Asif, 2026-08-04: "I am not seeing the tabs, where are they?"). */}
+        <h1 className="pf-reader-head__book">
+          <Link to={`/book/${slug}`}>{bookTitle}</Link>
+        </h1>
+
+        <Elsewhere slug={slug} surfaces={surfaces} marks={markCount} />
+
+        <div className="pf-toolbar-rail">
+          <ReaderToolbar
+            bookmarked={bookmarked}
+            onToggleBookmark={toggleBookmark}
+          />
+        </div>
       </div>
 
-      {/* Contents on the LEFT, your own marks on the RIGHT — the same drawer
-          mirrored, so a reader learns one behaviour and the book's structure and
-          their notes on it stay on opposite sides. */}
-      <ContentsPanel
-        open={contentsOpen}
-        onOpen={() => {
-          setContentsOpen(true);
-          setNotesOpen(false);
-        }}
-        onClose={() => setContentsOpen(false)}
-        chapters={contents}
-        currentKey={chapter.anchorKey}
-        slug={slug}
+      <div className="pf-reader-page">
+        <article ref={body} className="pf-page">
+          {/* An <h2>, and the book above is the <h1> — which is also the true
+              nesting: a chapter is part of a work. */}
+          <h2 className="pf-chapter-title">{chapter.title}</h2>
+
+          {/* No standfirst under the title. "5 of 10 in this edition · about
+              13 minutes" stood here until 2026-08-04: a position the contents
+              panel already shows and an estimate the reader is about to find
+              out for themselves, printed on the sheet, between the chapter's
+              name and its first line. A book does not put that there. */}
+
+          {/* The HTML was rendered at publish time by the same function that
+              produces the printed book, so this is not "trusting user input" —
+              it is the book. See app/server/catalog.server.ts. Highlights are
+              added to the live DOM after this renders; React never reconciles
+              inside it.
+
+              `html` is MEMOISED, and that is load-bearing rather than an
+              optimisation. React compares props by identity, and
+              `dangerouslySetInnerHTML` written inline is a new object every
+              render — so React re-set `innerHTML` on each one, wiping every
+              painted highlight. Scrolling ticks the progress state, which
+              re-renders, which is why a highlight vanished on the first
+              scroll and did not come back until a reload: the paint effect's
+              own dependencies had not changed, so nothing repainted it. */}
+          <div className="reader pf-chapter-body" dangerouslySetInnerHTML={html} />
+        </article>
+
+        {/* Inside the page container, so the two cards line up with the edges
+            of the sheet above them. As a sibling it inherited the reader's
+            full width and ran to both edges of the window. */}
+        <nav className="pf-turn">
+          {previous ? (
+            <Link
+              to={`/book/${slug}/read/${encodeURIComponent(previous.anchorKey)}`}
+              className="pf-card pf-card--link pf-card--padded pf-turn__link"
+            >
+              <span className="pf-eyebrow">
+                <Icon icon={faChevronLeft} />
+                Previous
+              </span>
+              <span className="pf-turn__title">{previous.title}</span>
+            </Link>
+          ) : (
+            <span className="pf-turn__gap" />
+          )}
+
+          {next ? (
+            <Link
+              to={`/book/${slug}/read/${encodeURIComponent(next.anchorKey)}`}
+              className="pf-card pf-card--link pf-card--padded pf-turn__link pf-turn__link--end"
+            >
+              <span className="pf-eyebrow">
+                Next
+                <Icon icon={faChevronRight} />
+              </span>
+              <span className="pf-turn__title">{next.title}</span>
+            </Link>
+          ) : (
+            <Link
+              to={`/book/${slug}`}
+              className="pf-card pf-card--link pf-card--padded pf-turn__link pf-turn__link--end"
+            >
+              <span className="pf-eyebrow">
+                The end
+                <Icon icon={faChevronRight} />
+              </span>
+              <span className="pf-turn__title">Back to {bookTitle}</span>
+            </Link>
+          )}
+        </nav>
+      </div>
+
+      <SelectionBar
+        bodyRef={body}
+        onHighlight={highlight}
+        onRecolour={recolour}
+        onNote={note}
+        onRemove={removeAnnotation}
       />
-
-      {/* ONE drawer on this edge, and what it holds depends on who is reading.
-          For the account the Scholar Companion belongs to it is the Companion —
-          the cards written against this chapter, following the passage. For
-          everyone else it is unchanged: their own marks, as it has always been.
-          Not two tabs and not two tabs' worth of chrome; the Companion account
-          reaches its own marks from the book page's Notes tab, and the drawer
-          stays one thing per reader rather than a thing with a mode. */}
-      <SidePanel
-        side="end"
-        as="aside"
-        open={notesOpen}
-        onOpen={() => {
-          setNotesOpen(true);
-          setContentsOpen(false);
-        }}
-        onClose={() => setNotesOpen(false)}
-        label={isCompanion ? "Companion" : "Your notes"}
-        icon={isCompanion ? faBookOpen : faNoteSticky}
-        docked={isCompanion}
-        count={
-          isCompanion ? companion.length : marks.annotations.length + marks.bookmarks.length
-        }
-      >
-        {isCompanion ? (
-          <CompanionList
-            cards={companion}
-            unplaced={unplaced}
-            inViewIds={inView}
-            focus={focusCard}
-          />
-        ) : (
-          <NotesList
-            annotations={marks.annotations}
-            bookmarks={marks.bookmarks}
-            chapters={contents}
-            orphaned={orphaned}
-            slug={slug}
-            onJump={jump}
-            onRemoveAnnotation={removeAnnotation}
-            onRemoveBookmark={removeBookmark}
-            // `note` already has a full "look up by id, resubmit with the new
-            // note" path — the same one a re-highlight or recolour uses.
-            onEditAnnotation={(id, text) => note(id, null, text)}
-          />
-        )}
-      </SidePanel>
-
-      <main id="main" className="pf-reader">
-        {/* ---- Above the page ----
-            The work's name, then the controls, then the sheet. Both sit OUTSIDE
-            the article deliberately: the sheet is the book, and a control
-            printed on it would be a control printed in the book.
-
-            The toolbar was in a sticky header until now. Out of it, nothing at
-            all covers the prose while reading — and the title, which a sticky
-            bar could only ever show as a truncated fragment, gets its full size
-            back. The cost is honest: changing a setting mid-chapter means
-            scrolling up. */}
-        <div className="pf-reader-head">
-          {/* The title is the way back to the book.
-              It was a plain heading, and the only link to `/book/:slug` in the
-              whole reader sat after the LAST chapter — so from chapter six there
-              was no door to the page holding this book's podcast, deck and PDF,
-              and the home control goes to the library rather than to the book
-              (Asif, 2026-08-04: "I am not seeing the tabs, where are they?"). */}
-          <h1 className="pf-reader-head__book">
-            <Link to={`/book/${slug}`}>{bookTitle}</Link>
-          </h1>
-
-          <Elsewhere slug={slug} surfaces={surfaces} marks={markCount} />
-
-          <div className="pf-toolbar-rail">
-            <ReaderToolbar
-              bookmarked={bookmarked}
-              onToggleBookmark={toggleBookmark}
-            />
-          </div>
-        </div>
-
-        <div className="pf-reader-page">
-          <article ref={body} className="pf-page">
-            {/* An <h2>, and the book above is the <h1> — which is also the true
-                nesting: a chapter is part of a work. */}
-            <h2 className="pf-chapter-title">{chapter.title}</h2>
-
-            {/* No standfirst under the title. "5 of 10 in this edition · about
-                13 minutes" stood here until 2026-08-04: a position the contents
-                panel already shows and an estimate the reader is about to find
-                out for themselves, printed on the sheet, between the chapter's
-                name and its first line. A book does not put that there. */}
-
-            {/* The HTML was rendered at publish time by the same function that
-                produces the printed book, so this is not "trusting user input" —
-                it is the book. See app/server/catalog.server.ts. Highlights are
-                added to the live DOM after this renders; React never reconciles
-                inside it.
-
-                `html` is MEMOISED, and that is load-bearing rather than an
-                optimisation. React compares props by identity, and
-                `dangerouslySetInnerHTML` written inline is a new object every
-                render — so React re-set `innerHTML` on each one, wiping every
-                painted highlight. Scrolling ticks the progress state, which
-                re-renders, which is why a highlight vanished on the first
-                scroll and did not come back until a reload: the paint effect's
-                own dependencies had not changed, so nothing repainted it. */}
-            <div className="reader pf-chapter-body" dangerouslySetInnerHTML={html} />
-          </article>
-
-          {/* Inside the page container, so the two cards line up with the edges
-              of the sheet above them. As a sibling it inherited the reader's
-              full width and ran to both edges of the window. */}
-          <nav className="pf-turn">
-            {previous ? (
-              <Link
-                to={`/book/${slug}/read/${encodeURIComponent(previous.anchorKey)}`}
-                className="pf-card pf-card--link pf-card--padded pf-turn__link"
-              >
-                <span className="pf-eyebrow">
-                  <Icon icon={faChevronLeft} />
-                  Previous
-                </span>
-                <span className="pf-turn__title">{previous.title}</span>
-              </Link>
-            ) : (
-              <span className="pf-turn__gap" />
-            )}
-
-            {next ? (
-              <Link
-                to={`/book/${slug}/read/${encodeURIComponent(next.anchorKey)}`}
-                className="pf-card pf-card--link pf-card--padded pf-turn__link pf-turn__link--end"
-              >
-                <span className="pf-eyebrow">
-                  Next
-                  <Icon icon={faChevronRight} />
-                </span>
-                <span className="pf-turn__title">{next.title}</span>
-              </Link>
-            ) : (
-              <Link
-                to={`/book/${slug}`}
-                className="pf-card pf-card--link pf-card--padded pf-turn__link pf-turn__link--end"
-              >
-                <span className="pf-eyebrow">
-                  The end
-                  <Icon icon={faChevronRight} />
-                </span>
-                <span className="pf-turn__title">Back to {bookTitle}</span>
-              </Link>
-            )}
-          </nav>
-        </div>
-
-        <SelectionBar
-          bodyRef={body}
-          onHighlight={highlight}
-          onRecolour={recolour}
-          onNote={note}
-          onRemove={removeAnnotation}
-        />
-      </main>
-    </div>
+    </AppShell>
   );
 }
 

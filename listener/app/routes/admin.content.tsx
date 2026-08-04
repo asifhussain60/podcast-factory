@@ -1,8 +1,13 @@
-import { faMagnifyingGlass, faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import { Form, Link, useSearchParams, useSubmit } from "react-router";
+import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { Form, Link, useSearchParams } from "react-router";
 
 import type { Route } from "./+types/admin.content";
+import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
+import { SearchBox } from "~/components/SearchBox";
+import { GrantRow } from "~/components/admin/GrantRow";
+import { ToggleButton } from "~/components/admin/ToggleButton";
+import { count } from "~/lib/plural";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import {
@@ -99,7 +104,6 @@ export default function AdminContent({ loaderData }: Route.ComponentProps) {
   const { units, unit, candidates, candidateTotal, search } = loaderData;
   const holding = new Set(loaderData.holding);
   const [params] = useSearchParams();
-  const submit = useSubmit();
 
   const withParam = (key: string, value: string) => {
     const next = new URLSearchParams(params);
@@ -131,13 +135,9 @@ export default function AdminContent({ loaderData }: Route.ComponentProps) {
                 <input type="hidden" name="intent" value="open-to-all" />
                 <input type="hidden" name="slug" value={u.slug} />
                 <input type="hidden" name="open" value={u.openToAll ? "0" : "1"} />
-                <button
-                  type="submit"
-                  aria-pressed={u.openToAll}
-                  className={`pf-button pf-button--sm${u.openToAll ? " pf-button--primary" : ""}`}
-                >
+                <ToggleButton on={u.openToAll}>
                   {u.openToAll ? "Open to everyone · make private" : "Open to everyone"}
-                </button>
+                </ToggleButton>
               </Form>
             </div>
 
@@ -149,7 +149,7 @@ export default function AdminContent({ loaderData }: Route.ComponentProps) {
                     ? "Everyone invited can open this."
                     : u.holders.length === 0
                       ? "Nobody has been given this."
-                      : `${u.holders.length} ${u.holders.length === 1 ? "person has" : "people have"} this`}
+                      : `${count(u.holders.length, "person has", "people have")} this`}
               </p>
 
               <Link
@@ -166,7 +166,7 @@ export default function AdminContent({ loaderData }: Route.ComponentProps) {
 
       <section className="pf-admin-detail">
         {unit === null ? (
-          <p className="pf-note">Choose a book to see who has it and give it to more people.</p>
+          <EmptyState>Choose a book to see who has it and give it to more people.</EmptyState>
         ) : (
           <div className="pf-panel">
             <div className="pf-panel__head">
@@ -181,56 +181,36 @@ export default function AdminContent({ loaderData }: Route.ComponentProps) {
                 </p>
               ) : null}
 
-              <Form
-                method="get"
-                role="search"
-                onChange={(e) => submit(e.currentTarget)}
-                className="pf-search pf-search--sm"
-              >
-                <input type="hidden" name="slug" value={unit.slug} />
-                <Icon icon={faMagnifyingGlass} className="pf-search__icon" />
-                <label htmlFor="holders-q" className="sr-only">
-                  Search people
-                </label>
-                <input
-                  id="holders-q"
-                  type="search"
-                  name="q"
-                  defaultValue={search}
-                  placeholder="Search people by name or address"
-                  className="pf-search__input"
-                />
-              </Form>
+              <SearchBox
+                id="holders-q"
+                label="Search people"
+                placeholder="Search people by name or address"
+                size="sm"
+                action={{
+                  kind: "navigate",
+                  name: "q",
+                  value: search,
+                  // Or narrowing the list would close the book being provisioned.
+                  hidden: { slug: unit.slug },
+                }}
+              />
 
               {candidates.length === 0 ? (
-                <p className="pf-empty">
+                <EmptyState>
                   {search === "" ? "Nobody has been invited yet." : `Nobody matches “${search}”.`}
-                </p>
+                </EmptyState>
               ) : (
                 candidates.map((p) => (
-                  <Form key={p.email} method="post" className="pf-grant">
-                    <input
-                      type="hidden"
-                      name="intent"
-                      value={holding.has(p.email) ? "revoke-grant" : "grant"}
-                    />
-                    <input type="hidden" name="email" value={p.email} />
-                    <input type="hidden" name="slug" value={unit.slug} />
-                    <span className="pf-grant__what">
-                      <span className="pf-grant__label">{p.displayName}</span>
-                      <span className="pf-grant__hint">
-                        {p.revokedAt !== null ? "Sign-in revoked · " : ""}
-                        {p.emailRaw}
-                      </span>
-                    </span>
-                    <button
-                      type="submit"
-                      aria-pressed={holding.has(p.email)}
-                      className={`pf-button pf-button--sm${holding.has(p.email) ? " pf-button--primary" : ""}`}
-                    >
-                      {holding.has(p.email) ? "Has it" : "Give access"}
-                    </button>
-                  </Form>
+                  <GrantRow
+                    key={p.email}
+                    label={p.displayName}
+                    // The address, and — the half the other screen's copy of this
+                    // row had lost — whether they can still sign in at all.
+                    hint={`${p.revokedAt !== null ? "Sign-in revoked · " : ""}${p.emailRaw}`}
+                    on={holding.has(p.email)}
+                    onLabel="Has it"
+                    fields={{ email: p.email, slug: unit.slug }}
+                  />
                 ))
               )}
 

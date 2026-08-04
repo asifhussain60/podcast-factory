@@ -145,6 +145,66 @@ function scanStyleBlocks(src, maxLines) {
   return out;
 }
 
+// Inline <script> BODIES (D-DoD, 2026-08-04). The DoD has always read "no inline
+// <style>/<script> bodies in .astro/.tsx — all CSS/JS external", and the style half
+// was gated from day one while the script half was not, so the gate reported clean
+// over a 1,067-line script inlined in a page.
+//
+// Cited as D-DoD rather than a REQ-NNN on purpose: the full standard's REQ-007
+// (file:// compatibility) asks for the OPPOSITE — all JS inline, no external .js —
+// because it was written for standalone double-clickable artifacts. On this site the
+// repo DoD wins, which the digest states outright ("On this site: external JS modules
+// via Astro instead — DoD wins over 'inline JS'"). There is no REQ number for
+// external-JS-only; inventing one would cite a rule that does not exist.
+//
+// WARN, never blocking, even on a blocking path. Every page on the blocking path that
+// carries a script would fail on the day this landed, and extracting each one is real
+// work that changes how a page hydrates — it is discussed with Asif a page at a time,
+// not forced by a gate that lands overnight.
+//
+// NOT a finding: an empty <script></script>; a <script src=...>; a self-closing
+// <script ... /> data block (`type="application/json"` set:html — data, not code);
+// any non-JS `type=` including the JSON-LD of REQ-008, which the standard REQUIRES;
+// and a body that is only `import "…"` statements — that IS the external-module
+// pattern the DoD asks for, which is how both layouts point at site-chrome.ts.
+// Astro's own `---` frontmatter fence is not a <script> tag and never matches.
+const JS_TYPE = /^(module|text\/javascript|application\/javascript)$/i;
+
+function scanScriptBlocks(src) {
+  const out = [];
+  const open = /<script\b([^>]*)>/g;
+  let m;
+  while ((m = open.exec(src))) {
+    const attrs = m[1];
+    // Self-closing `<script … />` — no body, and consuming to the next </script>
+    // would swallow the following block whole.
+    if (/\/\s*$/.test(attrs)) continue;
+    const close = src.indexOf("</script>", open.lastIndex);
+    if (close < 0) break;
+    const body = src.slice(open.lastIndex, close);
+    open.lastIndex = close + "</script>".length;
+
+    if (/\bsrc\s*=/.test(attrs)) continue;
+    const type = attrs.match(/\btype\s*=\s*["']([^"']+)["']/);
+    if (type && !JS_TYPE.test(type[1].trim())) continue;
+
+    // Strip block comments, then line comments and blanks.
+    const code = body
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .split("\n")
+      .map((l) => l.trim())
+      .filter((l) => l && !l.startsWith("//"));
+    if (!code.length) continue;
+    if (code.every((l) => /^import\b[^;]*;?$/.test(l))) continue;
+
+    out.push({
+      line: src.slice(0, m.index).split("\n").length,
+      bodyLines: code.length,
+    });
+  }
+  return out;
+}
+
 // CSS height-clamp is selector-aware: REQ-002 forbids clamps ONLY on the page-growth
 // landmarks, never on cards/badges/progress-bars (where overflow:hidden is legitimate).
 // We track the current rule's selector and flag a clamp only when that selector targets
@@ -274,6 +334,23 @@ for (const rel of candidates) {
         REQ: "D-DoD",
         sev: resolveSeverity(false),
         msg: `oversized <style> block (${hit.bodyLines} lines > ${maxLines}) — move to src/styles/*.css`,
+        src: "",
+      });
+    }
+  }
+
+  if (!suppressed(rel, "INLINE-SCRIPT-BLOCK")) {
+    for (const hit of scanScriptBlocks(src)) {
+      findings.push({
+        rel,
+        line: hit.line,
+        id: "INLINE-SCRIPT-BLOCK",
+        REQ: "D-DoD",
+        // Always warn — see the header note above scanScriptBlocks(). Passing
+        // `false` also means --strict promotes it with every other warn, which is
+        // the right day to argue about extracting these.
+        sev: resolveSeverity(false),
+        msg: `inline <script> body (${hit.bodyLines} lines) — move to an external module and import it`,
         src: "",
       });
     }

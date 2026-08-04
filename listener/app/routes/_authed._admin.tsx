@@ -1,8 +1,7 @@
 import { NavLink, Outlet } from "react-router";
 
 import type { Route } from "./+types/_authed._admin";
-import { SiteFooter } from "~/components/SiteFooter";
-import { SiteHeader } from "~/components/SiteHeader";
+import { AppShell } from "~/components/AppShell";
 import { MetricStrip } from "~/components/admin/MetricStrip";
 import { cloudflare } from "~/context";
 import { requireAdmin } from "~/middleware/admin";
@@ -62,31 +61,25 @@ const TABS = [
 
 export default function AdminLayout({ loaderData }: Route.ComponentProps) {
   return (
-    <div className="pf-shell">
-      {/* Admin is a section of this site, not a separate application, so it
-          carries the same masthead — and the way back out that it lacked. */}
-      <SiteHeader here="admin" isAdmin />
+    // Admin is a section of this site, not a separate application, so it carries
+    // the same shell — and the way back out that it lacked.
+    <AppShell here="admin" isAdmin>
+      <div className="pf-masthead pf-masthead--tight">
+        <h1 className="pf-title pf-title--sm">Access</h1>
+        <p className="pf-note">Who may sign in, and which books each person can open.</p>
+      </div>
 
-      <main id="main" className="pf-container">
-        <div className="pf-masthead pf-masthead--tight">
-          <h1 className="pf-title pf-title--sm">Access</h1>
-          <p className="pf-note">Who may sign in, and which books each person can open.</p>
-        </div>
+      <MetricStrip tallies={loaderData.tallies} content={loaderData.content} />
 
-        <MetricStrip tallies={loaderData.tallies} content={loaderData.content} />
+      <nav className="pf-tabs">
+        {TABS.map((tab) => (
+          <NavLink key={tab.to} to={tab.to} end={tab.end} className="pf-tab">
+            {tab.label}
+          </NavLink>
+        ))}
+      </nav>
 
-        <nav className="pf-tabs">
-          {TABS.map((tab) => (
-            <NavLink key={tab.to} to={tab.to} end={tab.end} className="pf-tab">
-              {tab.label}
-            </NavLink>
-          ))}
-        </nav>
-
-        <Outlet />
-      </main>
-
-      <SiteFooter />
-    </div>
+      <Outlet />
+    </AppShell>
   );
 }

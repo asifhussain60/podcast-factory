@@ -106,11 +106,39 @@ const CHAPTER = encodeURIComponent("knowledge that will not save you");
 check("a chapter is 404", (await get(`/book/ayyuhal-walad/read/${CHAPTER}`, outsider)).status, 404);
 check("the slide deck is 404", (await get("/book/ayyuhal-walad/slides", outsider)).status, 404);
 check("a media file is 404", (await get("/media/ayyuhal-walad/book.pdf", outsider)).status, 404);
-// A key from ANOTHER book must not resolve through this book's slug either: the
-// row carries its own slug and the route compares them.
+// A key from ANOTHER book must not resolve through this book's slug: the route
+// builds `${params.slug}/${rest}`, so the URL's slug always prefixes the key, and
+// the row's own slug is compared against it afterwards.
+//
+// THIS CHECK USED TO BE VACUOUS and is rewritten (2026-08-04). It was
+// `/media/ayyuhal-walad/../degrees-of-excellence/book.pdf` — but `fetch` resolves
+// `..` in the URL before the request leaves, so what the server actually received
+// was `/media/degrees-of-excellence/book.pdf`: a real file the administrator is
+// entitled to. It "passed" for as long as it did only because that book had no
+// uploaded PDF, and it started FAILING on a correct 200 the day one was published.
+// A gate that passes because the target is missing is not testing the gate.
+//
+// No `..` here, so nothing normalises it away and the request reaches the route
+// as written. Asserted as the ADMIN, who holds `library:*` — access is deliberately
+// not the variable, so a 404 can only mean the key did not resolve.
 check(
-  "a media key from another book is 404",
-  (await get("/media/ayyuhal-walad/../degrees-of-excellence/book.pdf", admin)).status,
+  "another book's media does not resolve through this book's slug",
+  (await get("/media/ayyuhal-walad/degrees-of-excellence/book.pdf", admin)).status,
+  404,
+);
+// The control the rewrite needs, or the check above passes for the wrong reason:
+// that file IS reachable at its own slug, so the 404 is about the key and not
+// about the file being absent.
+check(
+  "control: the same file at its own slug is served",
+  (await get("/media/degrees-of-excellence/book.pdf", admin)).status,
+  200,
+);
+// And the access half, which is what the vacuous check was standing in for: an
+// invited person with no grant gets nothing, whichever book's media they ask for.
+check(
+  "an ungranted reader gets 404 for a book they were never given",
+  (await get("/media/degrees-of-excellence/book.pdf", outsider)).status,
   404,
 );
 

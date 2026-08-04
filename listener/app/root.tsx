@@ -1,6 +1,7 @@
 import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
 import type { Route } from "./+types/root";
+import { PublicShell } from "~/components/PublicShell";
 import { withSession } from "~/middleware/session";
 import { READING_INIT_SCRIPT } from "~/lib/reading";
 import { THEME_INIT_SCRIPT } from "~/lib/theme";
@@ -98,7 +99,11 @@ export default function App() {
  *
  * For the same reason nothing here may read loader data or session context:
  * neither exists on the hard-404 path, and touching them would turn that 404
- * into a 500 — the same tell by another route.
+ * into a 500 — the same tell by another route. That is also why the shell it
+ * wears is `PublicShell` and not `AppShell`: the signed-in masthead links to
+ * gated routes, and this page is reached as often by someone with no session as
+ * by someone with one. `PublicShell` reads nothing; the site name it would
+ * otherwise be given is left to the footer's own default.
  */
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let heading = "Something went wrong";
@@ -117,7 +122,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main id="main" className="pf-container pf-container--narrow pf-error">
+    <PublicShell error>
       <h1 className="pf-title">{heading}</h1>
       <p className="pf-lede">{detail}</p>
       {stack ? (
@@ -125,6 +130,6 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
           <code>{stack}</code>
         </pre>
       ) : null}
-    </main>
+    </PublicShell>
   );
 }

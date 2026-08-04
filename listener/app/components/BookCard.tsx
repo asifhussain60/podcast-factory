@@ -1,14 +1,7 @@
-import {
-  faBookOpen,
-  faClock,
-  faFileLines,
-  faHeadphones,
-  faImages,
-  type IconDefinition,
-} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
+import { describeContents } from "~/lib/facts";
 import type { LibraryCard } from "~/server/catalog.server";
 
 /**
@@ -135,29 +128,21 @@ function Contents({ card }: { card: LibraryCard | null }) {
   // has always followed is that a pill names something the book HAS; an icon
   // row where the absent things are greyed out is the fault report that rule
   // exists to avoid, and swapping words for glyphs would rebuild it.
-  const pills: { icon: IconDefinition; label: string }[] = [];
-
-  if (card.chapters > 0) {
-    pills.push({ icon: faBookOpen, label: `${card.chapters} chapters` });
-  }
-  if (card.minutes > 0) {
-    pills.push({ icon: faClock, label: `${card.minutes} min read` });
-  }
-
-  if (card.recorded > 0) {
-    pills.push({
-      icon: faHeadphones,
-      label:
-        card.recorded === card.episodes
-          ? `${card.episodes} episodes`
-          : `${card.recorded} of ${card.episodes} episodes`,
-    });
-  } else if (card.episodes > 0) {
-    pills.push({ icon: faHeadphones, label: `${card.episodes} episodes planned` });
-  }
-
-  if (card.hasPdf) pills.push({ icon: faFileLines, label: "PDF" });
-  if (card.deckPages > 0) pills.push({ icon: faImages, label: "slides" });
+  //
+  // The list itself is no longer built here. It is the SAME list the book page
+  // shows, and while it was written out twice the two drifted — different words
+  // for the print edition, and only one of them knowing whether the file could
+  // actually be opened. See `app/lib/facts.ts`.
+  const pills = describeContents({
+    chapters: card.chapters,
+    words: card.words,
+    episodes: card.episodes,
+    withAudio: card.recorded,
+    pdf: card.hasPdf,
+    pdfAvailable: card.pdfAvailable,
+    deckPages: card.deckPages,
+    deckAvailable: card.deckAvailable,
+  });
 
   if (pills.length === 0) {
     return (

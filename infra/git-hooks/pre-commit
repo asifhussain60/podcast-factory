@@ -176,6 +176,33 @@ if [ -n "$fmt_staged" ] && command -v node >/dev/null 2>&1 \
     fi
 fi
 
+# Listener unit tests (2026-08-04). The Podcast Factory Listener had NO automated
+# gate of any kind — not in this hook, not in CI — so its 300-odd vitest cases,
+# typecheck and build ran only when somebody remembered to type them. That app owns
+# the access-control rules (who may sign in, who may see which book, whose bookmarks
+# are whose), which is precisely the surface where a silent regression is worst.
+#
+# `npm run test` ONLY, deliberately. vitest runs the whole suite in ~1.5s; the
+# typecheck is `react-router typegen && tsc -b` at ~6s cold and is wired into CI
+# instead. A pre-commit hook competes with the author's patience, and a hook people
+# learn to --no-verify around protects nothing. The build (~20s) stays in CI too.
+#
+# Scoped to app/, scripts/ and test/ sources: a migration or a config change does not
+# move the suite, and the hook already runs a repo-wide probe on every commit.
+listener_staged=$(printf '%s\n' "$staged_files" \
+    | grep -E '^listener/(app|scripts|test)/.*\.(ts|tsx|mjs)$' || true)
+if [ -n "$listener_staged" ] && command -v node >/dev/null 2>&1 \
+        && [ -d "$repo_root/listener/node_modules/vitest" ]; then
+    if ! (cd "$repo_root/listener" && npm run test --silent) >&2; then
+        echo "" >&2
+        echo "pre-commit: listener unit tests failed." >&2
+        echo "pre-commit: run: cd listener && npm run test" >&2
+        echo "pre-commit: full local gate: cd listener && npm run check" >&2
+        echo "pre-commit: bypass requires explicit operator authorization (--no-verify)." >&2
+        exit 1
+    fi
+fi
+
 # Check 3 — HTML View Quality gate (WC7c).
 # Run the deterministic Cortex linter over staged Astro-site view/layout/style files.
 # Blocking-tier checks (inline style= on view pages, external SVG, <svg> w/h attrs,

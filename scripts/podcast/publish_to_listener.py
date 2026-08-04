@@ -173,13 +173,16 @@ def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
     add(f"DELETE FROM media_asset WHERE slug = {sql_str(book.slug)}" + (f" AND key NOT IN ({keys});" if keys else ";"))
     for asset in book.assets:
         add(
-            "INSERT INTO media_asset (key, slug, kind, content_type, bytes, sha256, source_path) VALUES "
+            "INSERT INTO media_asset "
+            "(key, slug, kind, content_type, bytes, sha256, source_path, deck_id, deck_title) VALUES "
             f"({sql_str(asset.key)}, {sql_str(asset.slug)}, {sql_str(asset.kind)}, "
             f"{sql_str(asset.content_type)}, {asset.bytes}, {sql_str(asset.sha256)}, "
-            f"{sql_str(str(asset.path.relative_to(REPO_ROOT)))}) "
+            f"{sql_str(str(asset.path.relative_to(REPO_ROOT)))}, "
+            f"{sql_str(asset.deck_id)}, {sql_str(asset.deck_title)}) "
             "ON CONFLICT(key) DO UPDATE SET "
             "slug = excluded.slug, kind = excluded.kind, content_type = excluded.content_type, "
             "bytes = excluded.bytes, source_path = excluded.source_path, "
+            "deck_id = excluded.deck_id, deck_title = excluded.deck_title, "
             "uploaded_at = CASE WHEN media_asset.sha256 = excluded.sha256 "
             "THEN media_asset.uploaded_at ELSE NULL END, "
             "sha256 = excluded.sha256;"
@@ -217,6 +220,55 @@ def execute(sql_path: Path, *, remote: bool) -> None:
 # ---------------------------------------------------------------------------
 
 
+def session_concerns(book: Book) -> list[str]:
+    """Where this book's two answers about sessions disagree. Reported, never fatal.
+
+    There are two, and until now they never spoke. The pipeline DERIVES sessions
+    from the book's table-of-contents plan (`_sessions.derive_sessions`); the
+    Listener READS them from the folder names the author typed under
+    `m4a/Episodes/`. The folder names are what reach the database, and they are
+    the untested side — so a disagreement shipped silently and looked like a fact.
+
+    That is exactly how Degrees of Excellence went live under a lone "Session 4":
+    the folder was numbered from the book's source-chapter index instead of its
+    position in the series, and nothing anywhere was in a position to notice.
+
+    Folders stay authoritative — arranging recordings into them is the author's
+    act of declaring a podcast finished, and inferring the grouping instead would
+    start publishing groupings for half-recorded books. This only says when the
+    two disagree, the way `unmatched_audio` says when a recording did not land.
+    """
+    concerns: list[str] = []
+    numbers = sorted(s.number for s in book.sessions)
+
+    # Numbered from 1, contiguously. A reader shown "Session 4" with no Sessions
+    # 1-3 above it has been told the book is missing three parts.
+    if numbers and numbers != list(range(1, len(numbers) + 1)):
+        concerns.append(
+            f"sessions are numbered {numbers} — not 1..{len(numbers)}. "
+            "A session number is its position in the series, not its index in the source."
+        )
+
+    try:
+        from _sessions import load_sessions_for_book
+
+        derived = load_sessions_for_book(book.directory) or []
+    except Exception:  # a book with no plan on disk simply has nothing to compare
+        return concerns
+
+    if derived and not book.sessions:
+        titles = ", ".join(str(s["session_title"]) for s in derived[:3])
+        concerns.append(
+            f"the plan derives {len(derived)} session(s) ({titles}...) but no "
+            "`m4a/Episodes/Session N — ...` folders exist, so this book publishes flat "
+            "and that grouping is lost."
+        )
+    elif derived and len(derived) != len(book.sessions):
+        concerns.append(f"the plan derives {len(derived)} session(s); the folders declare {len(book.sessions)}.")
+
+    return concerns
+
+
 def describe(book: Book) -> dict:
     with_audio = sum(1 for e in book.episodes if e.audio)
     return {
@@ -233,6 +285,7 @@ def describe(book: Book) -> dict:
         "bridge_links": len(book.bridge),
         "companion_cards": len(book.companion),
         "unmatched_audio": book.unmatched_audio,
+        "session_concerns": session_concerns(book),
         "media_bytes": sum(a.bytes for a in book.assets),
     }
 
@@ -294,6 +347,8 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  scholar cards      {summary['companion_cards'] or 'none'}")
             for name in summary["unmatched_audio"]:
                 print(f"  ! audio not shipped, left where it is: {name}")
+            for note in summary["session_concerns"]:
+                print(f"  ! sessions: {note}")
 
         if args.dry_run:
             continue

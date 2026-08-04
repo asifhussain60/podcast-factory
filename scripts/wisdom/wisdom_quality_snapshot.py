@@ -12,10 +12,10 @@ USAGE
     python3 scripts/wisdom/wisdom_quality_snapshot.py --all-canonical
 
 The script reads chapter contracts from:
-    CONTENT/drafts/books/<book>/chapter-contracts/
+    content/<Bucket>/<book>/chapter-contracts/
 and chapter text from:
-    CONTENT/drafts/books/<book>/chapters/
-and writes:
+    content/<Bucket>/<book>/chapters/
+resolved through `_paths.find_content`, and writes:
     _workspace/test-strategy/baselines/<book>-peq-baseline.json
 """
 
@@ -34,8 +34,30 @@ sys.path.insert(0, str(_REPO / "scripts" / "podcast"))
 from _quality import score as peq_score
 
 _CANONICAL_BOOKS = ["kitab-al-riyad", "the-master-and-the-disciple"]
-_DRAFTS = _REPO / "content" / "drafts" / "books"
-_BASELINES = _REPO / "_workspace" / "test-strategy" / "baselines"
+
+
+def _book_dir(slug: str) -> Path | None:
+    """Where this book lives today.
+
+    Resolved rather than composed. `content/drafts/books/` was retired in the
+    2026-06-04 type-first restructure, and both this script and its regression
+    test still pointed at it — so the scorer found no chapters, the baselines
+    were never written, and the gate that reads them has never been able to fail.
+    """
+    from _paths import find_content
+
+    found = find_content(slug)
+    return found[2] if found else None
+
+
+# `_workspace/tests/baselines/`, which is where the tracked baselines actually
+# live. This read `_workspace/test-strategy/baselines` — a folder renamed on
+# 2026-05-30 when `_workspace` was compressed to five directories, and the
+# retired half of the same stale-path bug as `_DRAFTS` above. Correcting only
+# one of the two would have written a fresh, UNTRACKED baseline set beside the
+# tracked one: green here, and zero cases on any other clone, which is verbatim
+# the vacuous gate this was all meant to end.
+_BASELINES = _REPO / "_workspace" / "tests" / "baselines"
 
 
 # ---------------------------------------------------------------------------
@@ -107,9 +129,9 @@ def _score_chapter(chapter_txt: Path, contract_path: Path | None) -> dict:
 
 
 def snapshot_book(book_slug: str) -> dict:
-    book_dir = _DRAFTS / book_slug
-    if not book_dir.exists():
-        print(f"[SKIP] {book_slug} — not found at {book_dir}", file=sys.stderr)
+    book_dir = _book_dir(book_slug)
+    if book_dir is None or not book_dir.exists():
+        print(f"[SKIP] {book_slug} — no content directory for this slug", file=sys.stderr)
         return {}
 
     chapters_dir = book_dir / "chapters"
@@ -123,6 +145,17 @@ def snapshot_book(book_slug: str) -> dict:
     if not chapter_files:
         print(f"[SKIP] {book_slug} — no .txt files in chapters/", file=sys.stderr)
         return {}
+
+    # Why this floor is where it is. Carried in the file rather than a sibling
+    # README so it travels with the numbers it explains; the regression suite
+    # skips underscore-prefixed keys.
+    results["_provenance"] = {
+        "note": (
+            "Regenerated from current output. A baseline is only a regression floor "
+            "if the chapters it names still exist — re-baseline deliberately when a "
+            "book is re-segmented, and never to make a failing gate quiet."
+        ),
+    }
 
     for ch_file in chapter_files:
         slug = ch_file.stem

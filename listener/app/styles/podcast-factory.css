@@ -2331,6 +2331,17 @@
     border-radius: var(--pf-radius-lg);
   }
 
+  /* Which deck, for a book that has several. Drawn above the viewer and only
+     when there is a choice to make — see DeckShelf. Wraps, because a book with
+     four decks carries four chapter titles and they do not fit one line on a
+     phone. */
+  .pf-deck__choose {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-2);
+    margin-top: var(--pf-space-4);
+  }
+
   .pf-deck__controls {
     display: flex;
     align-items: center;
@@ -3255,6 +3266,21 @@
      site, which meant a row in this list and a book card in the library were the
      same object with the same lift on hover — and these are not cards, they are
      rows of a control list. */
+  /* A small label over a group of rows — "Already given", "Add more".
+     It borrowed `.pf-notes__heading` until now, which is the reader drawer's
+     class and carries `grid-column: 1 / -1` for the grid that list lays out in.
+     A component class cannot be shared by two components that are not the same
+     thing: changing how a reader's notes are arranged would have silently
+     restyled this panel, in a file nobody would think to open. */
+  .pf-subhead {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-faint);
+  }
+
   .pf-grant {
     display: flex;
     align-items: center;
@@ -4569,7 +4595,13 @@
      number is repeated in the reading route, which reads THIS query to decide
      whether to open on arrival at all. */
   @media (min-width: 64rem) {
-    .pf-shell--docked > main {
+    /* The SHELL, not `> main`, which is what it used to be. That was right while
+       the reading page had no masthead and no footer of its own; now that it
+       wears the same shell as every other page, indenting only the middle of the
+       three left the sign-out control and the footer underneath the panel. The
+       background is on the shell too, so the padding is inside it and the strip
+       the panel sits over is still paper rather than a gap. */
+    .pf-shell--docked {
       padding-inline-end: min(26rem, 100vw);
     }
 

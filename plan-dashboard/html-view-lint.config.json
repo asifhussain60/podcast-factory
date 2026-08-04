@@ -30,7 +30,8 @@
   "_notes": [
     "2026-07-21 select-menu.css: REQ-010 reading-floor exception for .sm-option / .sm-button. A chapter-picker row is control chrome, not a reading surface (REQ-009) — the same defence as the .cx-body print-parity and right-drawer entries. Both are set to 1.05rem, matching the closed control they replace (the retired #cx-chapter-select), so the list and the button that shows the same string are one size rather than two.",
     "2026-07-26 packages/prose-editor/styles/prose-editor.css: REQ-010 reading-floor exception for .rte-toolbar / .rte-tool at 0.85rem. Same defence as the select-menu entry above — a formatting toolbar is control chrome, not a reading surface (REQ-009); the reading text sits in the editor BELOW the bar and keeps the host's own size. The value is a --rte-font-size custom property, so a host that wants it larger aliases the token rather than overriding the rule.",
-    "2026-07-26 walk_roots added so the linter sees packages/ as well as src/. The prose-editor workspace lints at WARN, matching src/components/ — it is a library, not a shipped view, and blocking_paths stays limited to src/pages/ + src/layouts/."
+    "2026-07-26 walk_roots added so the linter sees packages/ as well as src/. The prose-editor workspace lints at WARN, matching src/components/ — it is a library, not a shipped view, and blocking_paths stays limited to src/pages/ + src/layouts/.",
+    "2026-08-04 INLINE-SCRIPT-BLOCK (D-DoD) added — the DoD's 'no inline <script> bodies' half was never gated while the <style> half was, so the linter reported clean over a 1,067-line script in src/pages/intelligence.astro. It reports at WARN on every path, including the blocking ones: extracting each script changes how that page hydrates and is discussed one page at a time. To silence a single file once its script is deliberate, add an allow entry 'INLINE-SCRIPT-BLOCK — <reason>'."
   ],
   "style_block_max_lines": 50
 }

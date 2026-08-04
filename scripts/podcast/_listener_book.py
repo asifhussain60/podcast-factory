@@ -31,6 +31,12 @@ from _listener_companion import (  # noqa: E402
     cards_to_render,
     read_companion,
 )
+from _listener_decks import (  # noqa: E402
+    BOOK_DECK,
+    deck_dirs,
+    deck_pages,
+    deck_title,
+)
 from _paths import find_content  # noqa: E402
 from _transcript import vtt_path  # noqa: E402
 
@@ -116,6 +122,11 @@ class Asset:
     kind: str
     content_type: str
     path: Path
+    # Deck pages only: which deck this page belongs to, and what to call it.
+    # Both None for every other kind, and `deck_title` is None for a book-wide
+    # deck, which needs no name because it is the only one on the page.
+    deck_id: str | None = None
+    deck_title: str | None = None
 
     @property
     def bytes(self) -> int:
@@ -362,6 +373,48 @@ def collect_audio(book: Book) -> None:
                     book.unmatched_audio.append(f"{folder.name}/{best[n].name}")
         return
 
+    # GROUPED, BUT UNGROUPED — recordings arranged into `Episodes/` with no session
+    # folders at all. This is the right shape for a book below the session
+    # threshold: four episodes do not want a lone "Session 1" heading over them,
+    # and `_sessions.derive_sessions` returns nothing for such a book by design.
+    #
+    # Without this branch those files were seen by NEITHER of the two above: the
+    # session scan collects only directories, and the loose scan below globs
+    # `m4a/*` without recursing. Ayyuha al-Walad, arranged exactly as its size
+    # calls for, attached zero recordings AND reported nothing unmatched — the
+    # worst pair, because the audio disappeared without anything saying so.
+    #
+    # `session=None` is what makes it flat: the catalog puts sessionless episodes
+    # in a titleless group the page renders as a plain list with no heading.
+    if root.is_dir():
+        best = {}
+        seen_audio = False
+        for path in sorted(root.iterdir()):
+            # `Audio/` holds the untouched masters and is skipped here for the
+            # same reason it is skipped above — the masters are not what ships.
+            if path.is_dir() or path.name.startswith("."):
+                continue
+            if path.suffix.lower() not in (".mp3", ".m4a"):
+                continue
+            seen_audio = True
+            match = AUDIO_NUMBER_RE.match(path.stem)
+            if match is None:
+                book.unmatched_audio.append(f"{EPISODES_DIR}/{path.name}")
+                continue
+            n = int(match.group(1))
+            if n not in best or path.suffix.lower() == ".mp3":
+                best[n] = path
+
+        for n in sorted(best):
+            if not _attach_audio(book, best[n], session=None):
+                book.unmatched_audio.append(f"{EPISODES_DIR}/{best[n].name}")
+
+        # Only when this folder actually held recordings. An empty `Episodes/`
+        # (or one holding nothing but `Audio/`) means the author has not arranged
+        # anything yet, and the loose-file report below is the honest answer.
+        if seen_audio:
+            return
+
     for name in ("m4a", "audio"):
         folder = book.directory / name
         if not folder.is_dir():
@@ -402,17 +455,22 @@ def collect_media(book: Book) -> None:
             book.assets.append(book.cover)
             break
 
-    pages = sorted((directory / "slide-decks" / "_pages" / "book").glob("page-*.jpg"))
-    for page in pages:
-        book.assets.append(
-            Asset(
-                key=f"{book.slug}/deck/{page.name}",
-                slug=book.slug,
-                kind="deck-page",
-                content_type="image/jpeg",
-                path=page,
+    # The slide decks — every one of them. The vocabulary and the reasoning live
+    # in `_listener_decks`; this only turns what it finds into assets.
+    for deck_dir in deck_dirs(directory):
+        title = None if deck_dir.name == BOOK_DECK else deck_title(directory, deck_dir.name)
+        for page in deck_pages(deck_dir):
+            book.assets.append(
+                Asset(
+                    key=f"{book.slug}/deck/{deck_dir.name}/{page.name}",
+                    slug=book.slug,
+                    kind="deck-page",
+                    content_type="image/jpeg",
+                    path=page,
+                    deck_id=deck_dir.name,
+                    deck_title=title,
+                )
             )
-        )
 
 
 def read_bridge(book_dir: Path, chapters: list[Chapter]) -> list[tuple[int, str]]:

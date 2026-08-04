@@ -196,18 +196,63 @@ describe("deck pages", () => {
   it("marks the un-uploaded ones unavailable", async () => {
     const { db, close } = seed();
 
-    const pages = await deckPagesOf(db, "book-a");
-    expect(pages.map((p) => p.available)).toEqual([true, false]);
+    const decks = await deckPagesOf(db, "book-a");
+    expect(decks).toHaveLength(1);
+    expect(decks[0].pages.map((p) => p.available)).toEqual([true, false]);
 
     close();
+  });
+
+  it("collects rows written before decks had ids into one untitled deck", async () => {
+    // Migration 0010 leaves `deck_id` NULL on every existing row. Those rows are
+    // not wrong — they are from a world with one deck in it — so the site has to
+    // render correctly the moment the migration lands and before anything is
+    // re-published. The fixture is deliberately pre-0010 shaped.
+    const { db, close } = seed();
+
+    const decks = await deckPagesOf(db, "book-a");
+    expect(decks.map((d) => [d.id, d.title])).toEqual([["", null]]);
+
+    close();
+  });
+
+  it("keeps one book's several decks apart, in order, each with its own name", async () => {
+    // Ayyuha al-Walad's shape: four chapter decks. Before this they collided —
+    // `key` is the primary key and every deck offers a `page-01.jpg`, so three
+    // decks' pages silently overwrote each other.
+    const test = seed();
+    test.exec(`
+      INSERT INTO media_asset (key, slug, kind, content_type, bytes, sha256, source_path, uploaded_at, deck_id, deck_title) VALUES
+        ('book-a/deck/ch02/page-01.jpg','book-a','deck-page','image/jpeg',10,'f1','x','now','ch02','The Second Talk'),
+        ('book-a/deck/ch01/page-02.jpg','book-a','deck-page','image/jpeg',10,'f2','x','now','ch01','The First Talk'),
+        ('book-a/deck/ch01/page-01.jpg','book-a','deck-page','image/jpeg',10,'f3','x','now','ch01','The First Talk');
+    `);
+
+    const decks = await deckPagesOf(test.db, "book-a");
+    const named = decks.filter((d) => d.id !== "");
+
+    expect(named.map((d) => [d.id, d.title])).toEqual([
+      ["ch01", "The First Talk"],
+      ["ch02", "The Second Talk"],
+    ]);
+    // Pages in page order within a deck, not interleaved with the other's.
+    expect(named[0].pages.map((p) => p.key)).toEqual([
+      "book-a/deck/ch01/page-01.jpg",
+      "book-a/deck/ch01/page-02.jpg",
+    ]);
+
+    test.close();
   });
 });
 
 describe("library cards", () => {
-  it("counts only media that is actually available", async () => {
+  it("keeps 'exists' and 'can be opened' apart", async () => {
     // The fixture's PDF row exists but has uploaded_at NULL — the file is on the
-    // author's disk and not in R2 — so the card must NOT advertise a PDF. A
-    // badge promising a download that 404s is worse than no badge.
+    // author's disk and not in R2. Both facts travel, because they are answered
+    // differently on screen: the card used to carry only the second, collapsed
+    // into `hasPdf`, so it could either promise a download that 404s or say
+    // nothing at all. It can now say "not uploaded yet", the way the book page
+    // always could. `describeContents` is the one place that decides the words.
     const { db, close } = seed();
 
     const cards = await libraryCards(db, ["book-a", "book-b"]);
@@ -215,21 +260,37 @@ describe("library cards", () => {
       chapters: 3,
       episodes: 3,
       recorded: 1,
-      hasPdf: false,
+      hasPdf: true,
+      pdfAvailable: false,
       deckPages: 2,
+      deckAvailable: true,
     });
 
     close();
   });
 
-  it("advertises the PDF once it is uploaded", async () => {
+  it("marks the PDF available once it is uploaded", async () => {
     const test = seed();
     test.exec(`UPDATE media_asset SET uploaded_at = 'now' WHERE key = 'book-a/book.pdf'`);
 
     const cards = await libraryCards(test.db, ["book-a"]);
-    expect(cards.get("book-a")?.hasPdf).toBe(true);
+    expect(cards.get("book-a")?.pdfAvailable).toBe(true);
 
     test.close();
+  });
+
+  it("carries raw words, not a precomputed reading time", async () => {
+    // The card used to receive `minutes`, worked out server-side, while the book
+    // page worked the same figure out client-side from words — with a different
+    // zero rule, so one book could show no pill on its card and "1 min read" on
+    // its own page. One computation now, in `app/lib/facts.ts`.
+    const { db, close } = seed();
+
+    const card = (await libraryCards(db, ["book-a"])).get("book-a")!;
+    expect(card).not.toHaveProperty("minutes");
+    expect(typeof card.words).toBe("number");
+
+    close();
   });
 
   it("is scoped to the slugs it was given", async () => {
