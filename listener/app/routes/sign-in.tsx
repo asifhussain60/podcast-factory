@@ -14,7 +14,9 @@ export function loader({ request, context }: Route.LoaderArgs) {
     const next = safeNext(new URL(request.url).searchParams.get("next"));
     throw redirect(next);
   }
-  return null;
+  // For the footer. The signed-in pages read it from the `_authed` layout, which
+  // this page is deliberately outside of.
+  return { siteName: context.get(cloudflare).env.PUBLIC_SITE_NAME };
 }
 
 /**
@@ -52,12 +54,12 @@ export async function action({ request, context }: Route.ActionArgs) {
   return redirect(response.url, { headers });
 }
 
-export default function SignIn() {
+export default function SignIn({ loaderData }: Route.ComponentProps) {
   const [params] = useSearchParams();
   const next = safeNext(params.get("next"));
 
   return (
-    <PublicShell hero>
+    <PublicShell hero siteName={loaderData.siteName}>
       {/* Two widths through srcset: a phone loading the 1600 would spend most
           of its bytes on pixels it cannot draw. `fetchPriority` because this is
           the largest paint on the page and there is nothing above it to wait

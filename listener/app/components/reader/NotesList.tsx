@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
+import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
 import { RichNoteEditor } from "~/components/notes/RichNoteEditor";
 import { renderNote } from "~/lib/richNote";
@@ -122,10 +123,10 @@ export function NotesList({
 
   if (annotations.length === 0 && bookmarks.length === 0 && episodeNotes.length === 0) {
     return (
-      <p className="pf-empty">
+      <EmptyState>
         Nothing marked yet. Select a passage while reading to highlight it, or mark a moment while
         listening to come back to it.
-      </p>
+      </EmptyState>
     );
   }
 

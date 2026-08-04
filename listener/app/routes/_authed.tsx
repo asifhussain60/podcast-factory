@@ -3,6 +3,7 @@ import { Outlet } from "react-router";
 import type { Route } from "./+types/_authed";
 import { PlayerProvider } from "~/components/player/Player";
 import { SimulationBanner } from "~/components/SimulationBanner";
+import { cloudflare } from "~/context";
 import { requireInvited } from "~/middleware/authed";
 import { simulatingOf } from "~/middleware/session";
 
@@ -17,7 +18,7 @@ import { simulatingOf } from "~/middleware/session";
 export const middleware: Route.MiddlewareFunction[] = [requireInvited];
 
 /**
- * Whether a simulation is running, for the banner.
+ * Whether a simulation is running, for the banner — and what this site is called.
  *
  * A loader here and not in `root.tsx`, which would otherwise be the obvious home
  * for something every page needs: root's own note forbids reading session
@@ -29,7 +30,13 @@ export const middleware: Route.MiddlewareFunction[] = [requireInvited];
  * — the gate above is middleware, which that filter cannot reach.
  */
 export function loader({ context }: Route.LoaderArgs) {
-  return { simulating: simulatingOf(context) };
+  return {
+    simulating: simulatingOf(context),
+    // Read ONCE for every signed-in page, and used by `AppShell` for the footer.
+    // It used to be read by the library's own loader and by no other, which is
+    // why a configured name appeared there and on none of the other four.
+    siteName: context.get(cloudflare).env.PUBLIC_SITE_NAME,
+  };
 }
 
 /**

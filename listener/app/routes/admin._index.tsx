@@ -6,7 +6,6 @@ import {
   faChevronRight,
   faEye,
   faLink,
-  faMagnifyingGlass,
   faPen,
   faPlus,
   faTrash,
@@ -19,12 +18,15 @@ import {
   useFetcher,
   useRouteLoaderData,
   useSearchParams,
-  useSubmit,
 } from "react-router";
 
 import type { Route } from "./+types/admin._index";
 import type { loader as adminLoader } from "./_authed._admin";
+import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
+import { SearchBox } from "~/components/SearchBox";
+import { GrantRow } from "~/components/admin/GrantRow";
+import { count } from "~/lib/plural";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { startSimulating } from "~/server/simulate.server";
@@ -270,7 +272,7 @@ export default function AdminPeople({ loaderData, actionData }: Route.ComponentP
         {person === null && params.get("email") !== null ? (
           <div className="pf-panel">
             <div className="pf-panel__body">
-              <p className="pf-note">No such person.</p>
+              <EmptyState>No such person.</EmptyState>
               <Link to={withParam("email", "")} className="pf-link">
                 Back to everyone
               </Link>
@@ -336,39 +338,28 @@ function PeopleTable({
   withParam: (key: string, value: string) => string;
 }) {
   const [params] = useSearchParams();
-  const submit = useSubmit();
   const pages = Math.max(1, Math.ceil(total / pageSize));
 
   return (
     <div className="pf-panel pf-people-panel">
       <div className="pf-panel__head pf-people-head">
-        <Form
-          method="get"
-          role="search"
-          onChange={(e) => submit(e.currentTarget)}
-          className="pf-search pf-search--wide"
-        >
-          {/* The filter rides along as a hidden field, or searching would
-              silently clear it. */}
-          {filter !== "all" ? <input type="hidden" name="filter" value={filter} /> : null}
-
-          <Icon icon={faMagnifyingGlass} className="pf-search__icon" />
-          <label htmlFor="people-q" className="sr-only">
-            Search people by name or address
-          </label>
-          <input
-            id="people-q"
-            type="search"
-            name="q"
-            defaultValue={search}
-            placeholder="Search by name or address"
-            className="pf-search__input"
-          />
-        </Form>
+        <SearchBox
+          id="people-q"
+          label="Search people by name or address"
+          placeholder="Search by name or address"
+          size="wide"
+          action={{
+            kind: "navigate",
+            name: "q",
+            value: search,
+            // The filter rides along, or searching would silently clear it.
+            hidden: filter === "all" ? {} : { filter },
+          }}
+        />
 
         <p className="pf-people-head__count">
           {total === everyone
-            ? `${everyone} ${everyone === 1 ? "person" : "people"}`
+            ? count(everyone, "person", "people")
             : `${total} of ${everyone}`}
         </p>
       </div>
@@ -391,9 +382,9 @@ function PeopleTable({
       </div>
 
       {people.length === 0 ? (
-        <p className="pf-empty">
+        <EmptyState>
           {search === "" ? "Nobody here yet." : `Nobody matches “${search}”.`}
-        </p>
+        </EmptyState>
       ) : (
         <div className="pf-table-scroll">
           <table className="pf-table">
@@ -516,7 +507,7 @@ function PersonRow({
             <span className="pf-confirm__ask">
               Delete <strong>{p.displayName}</strong>
               {p.grantCount > 0
-                ? ` and ${p.grantCount === 1 ? "the 1 book" : `the ${p.grantCount} books`} they hold?`
+                ? ` and the ${count(p.grantCount, "book")} they hold?`
                 : "?"}{" "}
               This cannot be undone — to stop them signing in but keep what they
               have, revoke them instead.
@@ -899,11 +890,10 @@ function PersonDetail({
 
         <div className="pf-panel__body pf-stack-sm">
           <GrantRow
-            email={person.email}
             label="Everything, including anything added later"
-            scopeType="library"
-            scopeId="*"
             on={wholeLibrary}
+            onLabel="Granted"
+            fields={{ email: person.email, scopeType: "library", scopeId: "*" }}
           />
 
           {/* Held first, and always visible — the search below filters what can
@@ -911,40 +901,40 @@ function PersonDetail({
               type three letters and appear to have revoked everything. */}
           {held.length > 0 ? (
             <>
-              <h3 className="pf-notes__heading">Already given</h3>
+              {/* `.pf-subhead`, not `.pf-notes__heading`. That one belongs to the
+                  reader's drawer, where it is a full-width row of a notes grid —
+                  so restyling how a reader's notes are laid out silently
+                  restyled this panel. */}
+              <h3 className="pf-subhead">Already given</h3>
               {held.map((unit) => (
                 <GrantRow
                   key={unit.slug}
-                  email={person.email}
                   label={unit.title}
                   hint={unit.kind === "work" ? "All volumes, including future ones" : statusHint(unit)}
-                  scopeType={unit.kind === "work" ? "work" : "unit"}
-                  scopeId={unit.slug}
                   on
+                  onLabel="Granted"
+                  fields={{
+                    email: person.email,
+                    scopeType: unit.kind === "work" ? "work" : "unit",
+                    scopeId: unit.slug,
+                  }}
                 />
               ))}
             </>
           ) : null}
 
-          <h3 className="pf-notes__heading">Add more</h3>
+          <h3 className="pf-subhead">Add more</h3>
 
           {/* OUTSIDE the form below, deliberately. It filters what is shown and
               submits nothing, and a text input inside a form makes Enter grant
               whatever happens to be ticked. */}
-          <div className="pf-search pf-search--sm">
-            <Icon icon={faMagnifyingGlass} className="pf-search__icon" />
-            <label htmlFor="scope-find" className="sr-only">
-              Search the library
-            </label>
-            <input
-              id="scope-find"
-              type="search"
-              value={find}
-              onChange={(e) => setFind(e.target.value)}
-              placeholder="Search the library"
-              className="pf-search__input"
-            />
-          </div>
+          <SearchBox
+            id="scope-find"
+            label="Search the library"
+            placeholder="Search the library"
+            size="sm"
+            action={{ kind: "filter", value: find, onChange: setFind }}
+          />
 
           {/* ONE form for every book on offer, because provisioning someone new
               was eight page posts. Each ticked box is a `scope` field and the
@@ -1080,7 +1070,7 @@ function WorkScope({
         <ScopeCheck
           scope={`work:${work.slug}`}
           label={work.title}
-          hint={`All ${total} volumes, including future ones`}
+          hint={`All ${count(total, "volume")}, including future ones`}
           covered={covered}
           picked={wholeWork}
           onPick={() => onPick(`work:${work.slug}`)}
@@ -1183,49 +1173,4 @@ function statusHint(unit: ContentUnit): string | undefined {
   if (unit.openToAll) return "Open to everyone";
   if (unit.status !== "published") return "Not published yet — a grant waits for it";
   return undefined;
-}
-
-function GrantRow({
-  email,
-  label,
-  hint,
-  scopeType,
-  scopeId,
-  on,
-  covered = false,
-}: {
-  email: string;
-  label: string;
-  hint?: string;
-  scopeType: "unit" | "work" | "library";
-  scopeId: string;
-  on: boolean;
-  covered?: boolean;
-}) {
-  return (
-    // A form post is a navigation, and React Router resets scroll on navigation
-    // unless told otherwise — so granting the eleventh book threw the page back
-    // to the top and you scrolled down to it again. This is the whole fix.
-    <Form method="post" preventScrollReset className="pf-grant">
-      <input type="hidden" name="intent" value={on ? "revoke-grant" : "grant"} />
-      <input type="hidden" name="email" value={email} />
-      <input type="hidden" name="scopeType" value={scopeType} />
-      <input type="hidden" name="scopeId" value={scopeId} />
-      <span className="pf-grant__what">
-        <span className="pf-grant__label">{label}</span>
-        {covered && !on ? (
-          <span className="pf-grant__hint">Already covered by a wider grant</span>
-        ) : hint ? (
-          <span className="pf-grant__hint">{hint}</span>
-        ) : null}
-      </span>
-      <button
-        type="submit"
-        aria-pressed={on}
-        className={`pf-button pf-button--sm${on ? " pf-button--primary" : ""}`}
-      >
-        {on ? "Granted" : "Give access"}
-      </button>
-    </Form>
-  );
 }

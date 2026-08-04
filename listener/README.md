@@ -132,10 +132,38 @@ the mp3s that actually ship. Number and title are read off that folder name;
 nothing is inferred from episode counts or runtimes. The SQL table is
 `book_session`, not `session` — Better Auth owns that name.
 
-**Arranging recordings into session folders is what marks a podcast finished.**
+A session's number is its POSITION IN THE SERIES, never its index in the source.
+Degrees of Excellence went live under a lone "Session 4" — one folder, numbered
+from the source chapter the treatise happens to occupy — which reads to a reader
+as a book missing three of its parts. `publish_to_listener.session_concerns` now
+reports non-contiguous numbering, and reports a book whose plan derives sessions
+it has no folders for, as a note beside `unmatched_audio`. It never blocks: the
+folders stay authoritative, because inferring the grouping instead would start
+publishing groupings for half-recorded books.
+
+**A book too small for sessions is FLAT, and that is a third layout.** Under the
+eight-episode threshold the recordings sit straight in `m4a/Episodes/` with no
+`Session N` folder at all — Ayyuha al-Walad's four. Until 2026-08-04 this shape
+was read by neither branch (the session scan collects only directories, the loose
+scan does not recurse), so such a book attached zero recordings *and* reported
+nothing unmatched. All three layouts are pinned by
+`scripts/podcast/tests/test_listener_book.py`.
+
+**Arranging recordings into `m4a/Episodes/` is what marks a podcast finished.**
 Files loose in `m4a/` are working files and are never uploaded: that folder is
 where raw NotebookLM output lands under whatever name it was given, for a podcast
 that may be half-made. The publish step reports them and moves on.
+
+**A book may have SEVERAL slide decks, one per chapter.** That is the pipeline's
+default (`_content_profile.slide_deck_mode`; `book` is the override), and the
+Listener was the piece out of step — it looked in one hardcoded folder and keyed
+pages `<slug>/deck/page-NN.jpg`, so four decks all offering `page-01.jpg` collided
+on the primary key and three vanished. Since migration 0010 the key carries the
+deck and `media_asset` holds `deck_id` + `deck_title`. A deck is named from its
+own source's H1, never from the reading chapter of the same ordinal: deck folders
+are numbered against the podcast chapter set, which for several books is a
+different segmentation. The Slides tab draws a chooser only when there is more
+than one deck.
 
 **The page adapts to what a book has.** Two columns only when there is both a
 reading edition and a podcast you can actually play; one half alone gets the full

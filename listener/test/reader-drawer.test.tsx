@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { StaticRouter } from "react-router";
+import { createMemoryRouter, RouterProvider } from "react-router";
 import { describe, expect, it } from "vitest";
 
 import ReadChapter from "../app/routes/book.$slug.read.$chapter";
@@ -57,19 +57,44 @@ function render(over: {
     previous: null,
     next: null,
     surfaces: NOTHING_ELSE,
+    isAdmin: over.isCompanion,
     ...over,
   };
 
-  return renderToStaticMarkup(
-    createElement(
-      StaticRouter,
-      { location: `/book/${loaderData.slug}/read/${CHAPTER.anchorKey}` },
-      // The route component takes more props than this in its generated type;
-      // it reads only `loaderData`, and inventing the rest would be inventing a
-      // router internal this test has no business asserting about.
-      createElement(ReadChapter as never, { loaderData } as never),
-    ),
+  // A DATA router, not `StaticRouter`. The page wears the site's shell now, and
+  // the masthead's sign-out is a `<Form>` — which is a POST rather than a link
+  // on purpose, and `useSubmit` inside it refuses to run without one. Still
+  // `renderToStaticMarkup`, so still no effects: this is the page as the SERVER
+  // hands it over, which is the only version an unauthorised reader could be
+  // given in one piece.
+  const router = createMemoryRouter(
+    [
+      {
+        path: "*",
+        // The route component takes more props than this in its generated type;
+        // it reads only `loaderData`, and inventing the rest would be inventing
+        // a router internal this test has no business asserting about.
+        Component: () => createElement(ReadChapter as never, { loaderData } as never),
+      },
+    ],
+    { initialEntries: [`/book/${loaderData.slug}/read/${CHAPTER.anchorKey}`] },
   );
+
+  return renderToStaticMarkup(createElement(RouterProvider as never, { router } as never));
+}
+
+/**
+ * Just the chip row.
+ *
+ * Every assertion about the chips has to be made against THIS rather than
+ * against the whole page: the masthead's wordmark and the footer both read
+ * "Podcast Factory", so `not.toContain("Podcast")` over the document became a
+ * claim about the shell the moment the reading page acquired one.
+ */
+function elsewhere(html: string): string {
+  const start = html.indexOf('class="pf-elsewhere"');
+  if (start === -1) return "";
+  return html.slice(start, html.indexOf("</nav>", start));
 }
 
 /**
@@ -94,9 +119,9 @@ describe("finding the rest of the book from inside a chapter", () => {
       surfaces: { episodes: 20, deckPages: 15, pdfKey: "the-master-and-the-disciple/book.pdf" },
     });
 
-    expect(html).toContain("Podcast");
-    expect(html).toContain("Slides");
-    expect(html).toContain("PDF");
+    expect(elsewhere(html)).toContain("Podcast");
+    expect(elsewhere(html)).toContain("Slides");
+    expect(elsewhere(html)).toContain("PDF");
     // Each lands on the tab it names, which is only possible because those tabs
     // now have URLs.
     expect(html).toContain("?tab=listen");
@@ -111,16 +136,17 @@ describe("finding the rest of the book from inside a chapter", () => {
     const html = render({ companion: [], isCompanion: false });
 
     expect(html).not.toContain("pf-elsewhere");
-    expect(html).not.toContain("Podcast");
-    expect(html).not.toContain("Slides");
+    expect(elsewhere(html)).toBe("");
   });
 
   it("offers each surface independently", () => {
-    const audioOnly = render({
-      companion: [],
-      isCompanion: false,
-      surfaces: { episodes: 4, deckPages: 0, pdfKey: null },
-    });
+    const audioOnly = elsewhere(
+      render({
+        companion: [],
+        isCompanion: false,
+        surfaces: { episodes: 4, deckPages: 0, pdfKey: null },
+      }),
+    );
 
     expect(audioOnly).toContain("Podcast");
     expect(audioOnly).not.toContain("Slides");

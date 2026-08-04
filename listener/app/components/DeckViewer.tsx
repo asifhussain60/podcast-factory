@@ -21,6 +21,53 @@ import { Icon } from "~/components/Icon";
  * themselves — see the tablist in routes/book.$slug.tsx. Binding both would mean
  * one key press doing two things and the reader unable to predict which.
  */
+/** One deck as the shelf needs it: what to call it, and the pages that can be shown. */
+export interface ShelfDeck {
+  id: string;
+  title: string | null;
+  pages: string[];
+}
+
+/**
+ * A book's decks, with a way to choose between them.
+ *
+ * The chooser is drawn ONLY when there is more than one. A single deck with a
+ * control offering to switch to it is a question with one answer, and every book
+ * on this site had exactly one until Ayyuha al-Walad arrived with four.
+ *
+ * The viewer below is one instance, not one per deck: mounting four and hiding
+ * three would load four decks' images to show one. Swapping `pages` on the single
+ * instance is why `DeckViewer` resets its page index — see the effect there.
+ */
+export function DeckShelf({ decks, arrowKeys = false }: { decks: ShelfDeck[]; arrowKeys?: boolean }) {
+  const [chosen, setChosen] = useState(0);
+  const deck = decks[chosen] ?? decks[0];
+
+  if (deck === undefined) return null;
+
+  return (
+    <>
+      {decks.length > 1 ? (
+        <nav className="pf-deck__choose" aria-label="Slide decks">
+          {decks.map((d, i) => (
+            <button
+              key={d.id}
+              type="button"
+              onClick={() => setChosen(i)}
+              aria-pressed={i === chosen}
+              className={`pf-button pf-button--sm${i === chosen ? " pf-button--primary" : " pf-button--soft"}`}
+            >
+              {d.title ?? d.id}
+            </button>
+          ))}
+        </nav>
+      ) : null}
+
+      <DeckViewer pages={deck.pages} arrowKeys={arrowKeys} />
+    </>
+  );
+}
+
 export function DeckViewer({
   pages,
   arrowKeys = false,
@@ -29,6 +76,17 @@ export function DeckViewer({
   arrowKeys?: boolean;
 }) {
   const [index, setIndex] = useState(0);
+
+  /* Back to page one whenever the DECK changes.
+     Required now that a book can have several and the chooser swaps `pages` on a
+     mounted viewer: standing on page 11 of a twelve-page deck and switching to a
+     ten-page one left the index untouched, so it rendered `pages[10]` —
+     undefined — as `src="/media/undefined"`, a broken image where a slide should
+     be. Keyed on the first page rather than on identity, because the array is
+     rebuilt on every render and would fire this on every one. */
+  useEffect(() => {
+    setIndex(0);
+  }, [pages[0]]);
 
   useEffect(() => {
     if (!arrowKeys) return;
@@ -40,6 +98,12 @@ export function DeckViewer({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [arrowKeys, pages.length]);
+
+  // Nothing to show. Callers currently guarantee a non-empty deck, but this
+  // component is one render away from deciding whether the reader sees a broken
+  // image, and it should not rest on that promise. AFTER every hook, so the hook
+  // order is the same on every render whatever the deck holds.
+  if (pages.length === 0) return null;
 
   return (
     <>

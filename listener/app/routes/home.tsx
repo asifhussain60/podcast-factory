@@ -1,11 +1,11 @@
-import { faMagnifyingGlass, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useMemo, useState } from "react";
 
 import type { Route } from "./+types/home";
+import { AppShell } from "~/components/AppShell";
 import { BookCard } from "~/components/BookCard";
-import { Icon } from "~/components/Icon";
-import { SiteFooter } from "~/components/SiteFooter";
-import { SiteHeader } from "~/components/SiteHeader";
+import { EmptyState } from "~/components/EmptyState";
+import { SearchBox } from "~/components/SearchBox";
+import { count, plural } from "~/lib/plural";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { visibleUnits } from "~/server/access.server";
@@ -41,7 +41,9 @@ export async function loader({ context }: Route.LoaderArgs) {
   ]);
 
   return {
-    siteName: env.PUBLIC_SITE_NAME ?? "Podcast Factory",
+    // The site name is NOT returned here any more. It is one fact about the
+    // site, and every page's footer wants it — so it is read once by the
+    // `_authed` layout and taken from there by `AppShell`.
     viewer: { name: viewer.name, isAdmin: viewer.isAdmin },
     units: units
       .map((u) => ({
@@ -70,7 +72,7 @@ function fold(value: string): string {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { units, viewer, siteName } = loaderData;
+  const { units, viewer } = loaderData;
   const [query, setQuery] = useState("");
 
   const needle = fold(query);
@@ -89,78 +91,53 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   );
 
   return (
-    <div className="pf-shell">
-      <SiteHeader here="library" isAdmin={viewer.isAdmin} />
-
-      <main id="main" className="pf-container">
-        <section className="pf-masthead">
-          <h1 className="pf-title">Podcast Library</h1>
-          <p className="pf-lede">
-            {units.length === 0
-              ? "Nothing has been shared with you yet. When something is, it appears here."
-              : "Every book here can be read, heard, or both — whichever of them has been published."}
-          </p>
-
-          {units.length === 0 ? null : (
-            <search className="pf-search">
-              <Icon icon={faMagnifyingGlass} className="pf-search__icon" />
-              <label htmlFor="library-search" className="sr-only">
-                Search the library
-              </label>
-              <input
-                id="library-search"
-                type="search"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search by title"
-                autoComplete="off"
-                className="pf-search__input"
-              />
-              {query === "" ? null : (
-                <button
-                  type="button"
-                  onClick={() => setQuery("")}
-                  aria-label="Clear the search"
-                  className="pf-search__clear"
-                >
-                  <Icon icon={faXmark} />
-                </button>
-              )}
-            </search>
-          )}
-        </section>
-
-        {/* Announced rather than only drawn: filtering happens with no page
-            change, so a screen reader is otherwise never told the grid moved. */}
-        <p aria-live="polite" className="sr-only">
-          {needle === ""
-            ? `${units.length} books`
-            : `${shown.length} of ${units.length} books match`}
+    <AppShell here="library" isAdmin={viewer.isAdmin}>
+      <section className="pf-masthead">
+        <h1 className="pf-title">Podcast Library</h1>
+        <p className="pf-lede">
+          {units.length === 0
+            ? "Nothing has been shared with you yet. When something is, it appears here."
+            : "Every book here can be read, heard, or both — whichever of them has been published."}
         </p>
 
-        {units.length === 0 ? null : shown.length === 0 ? (
-          <p className="pf-note pf-empty">
-            Nothing matches <strong className="pf-strong">{query.trim()}</strong>.
-          </p>
-        ) : (
-          <ul className="pf-grid pf-grid--spaced">
-            {shown.map((unit) => (
-              <li key={unit.slug}>
-                <BookCard
-                  slug={unit.slug}
-                  title={unit.title}
-                  bucket={unit.bucket}
-                  card={unit.card}
-                  progress={unit.progress}
-                  marks={unit.marks}
-                />
-              </li>
-            ))}
-          </ul>
+        {units.length === 0 ? null : (
+          <SearchBox
+            id="library-search"
+            label="Search the library"
+            placeholder="Search by title"
+            action={{ kind: "filter", value: query, onChange: setQuery }}
+          />
         )}
-      </main>
+      </section>
 
-      <SiteFooter siteName={siteName} />
-    </div>
+      {/* Announced rather than only drawn: filtering happens with no page
+          change, so a screen reader is otherwise never told the grid moved. */}
+      <p aria-live="polite" className="sr-only">
+        {needle === ""
+          ? count(units.length, "book")
+          : `${shown.length} of ${count(units.length, "book")} ${plural(shown.length, "matches", "match")}`}
+      </p>
+
+      {units.length === 0 ? null : shown.length === 0 ? (
+        <EmptyState>
+          Nothing matches <strong className="pf-strong">{query.trim()}</strong>.
+        </EmptyState>
+      ) : (
+        <ul className="pf-grid pf-grid--spaced">
+          {shown.map((unit) => (
+            <li key={unit.slug}>
+              <BookCard
+                slug={unit.slug}
+                title={unit.title}
+                bucket={unit.bucket}
+                card={unit.card}
+                progress={unit.progress}
+                marks={unit.marks}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+    </AppShell>
   );
 }

@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { EmptyState } from "~/components/EmptyState";
+import { count } from "~/lib/plural";
+
 /**
  * What is said in an episode, following the audio.
  *
@@ -156,7 +159,7 @@ export function Transcript({
   }, [cues]);
 
   if (cues === null || cues.length === 0) {
-    return <p className="pf-note">No transcript for this episode.</p>;
+    return <EmptyState>No transcript for this episode.</EmptyState>;
   }
 
   return (
@@ -240,5 +243,5 @@ function spoken(s: number): string {
   const total = Math.max(0, Math.floor(s));
   const m = Math.floor(total / 60);
   const sec = total % 60;
-  return `${m} minute${m === 1 ? "" : "s"} ${sec} second${sec === 1 ? "" : "s"}`;
+  return `${count(m, "minute")} ${count(sec, "second")}`;
 }

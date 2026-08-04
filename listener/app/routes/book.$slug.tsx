@@ -24,10 +24,10 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/book.$slug";
-import { DeckViewer } from "~/components/DeckViewer";
+import { AppShell } from "~/components/AppShell";
+import { DeckShelf } from "~/components/DeckViewer";
+import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
-import { SiteFooter } from "~/components/SiteFooter";
-import { SiteHeader } from "~/components/SiteHeader";
 import { clock, usePlayer } from "~/components/player/Player";
 import { cloudflare } from "~/context";
 import { notFound } from "~/middleware/deny";
@@ -36,6 +36,8 @@ import { session } from "~/middleware/session";
 import { NotesList } from "~/components/reader/NotesList";
 import { unitBySlug } from "~/server/access.server";
 import { marksFor } from "~/server/marks.server";
+import { describeContents } from "~/lib/facts";
+import { count, plural } from "~/lib/plural";
 import { readingMinutes } from "~/lib/reading";
 import {
   chaptersOf,
@@ -86,11 +88,19 @@ export async function loader({ params, context }: Route.LoaderArgs) {
     chapters,
     sessions,
     marks,
-    deckPages: deck.length,
-    // The keys of the pages actually in R2, so the Slides tab can show the deck
-    // rather than link to it. A page that exists on disk but has not been
-    // uploaded is deliberately absent: it would render as a broken image.
-    deckKeys: deck.filter((p) => p.available).map((p) => p.key),
+    // Every page across every deck, so the "exists but not uploaded" panel can
+    // say how big the deck is even when none of it can be shown.
+    deckPages: deck.reduce((n, d) => n + d.pages.length, 0),
+    // The decks whose pages are actually in R2, so the Slides tab can show them
+    // rather than link out. A page on disk but not uploaded is deliberately
+    // absent: it would render as a broken image.
+    decks: deck
+      .map((d) => ({
+        id: d.id,
+        title: d.title,
+        pages: d.pages.filter((p) => p.available).map((p) => p.key),
+      }))
+      .filter((d) => d.pages.length > 0),
     isAdmin: viewer.isAdmin,
   };
 }
@@ -135,7 +145,7 @@ export function shouldRevalidate({
 }
 
 export default function BookDetail({ loaderData }: Route.ComponentProps) {
-  const { unit, detail, chapters, sessions, marks, deckPages, deckKeys, isAdmin } = loaderData;
+  const { unit, detail, chapters, sessions, marks, deckPages, decks, isAdmin } = loaderData;
   const fetcher = useFetcher();
 
   const totalWords = chapters.reduce((n, c) => n + c.wordCount, 0);
@@ -149,7 +159,7 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
   // deck at least one page actually in R2.
   const canRead = chapters.length > 0;
   const canListen = withAudio > 0;
-  const canWatch = deckKeys.length > 0;
+  const canWatch = decks.length > 0;
 
   // How many marks sit in each chapter, so a row can say so. A Map rather than a
   // filter per row: nine chapters against a few hundred marks is a few hundred
@@ -205,291 +215,285 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     ) : null;
 
   return (
-    <div className="pf-shell">
-      <SiteHeader here="book" isAdmin={isAdmin} />
+    <AppShell here="book" isAdmin={isAdmin}>
+      {/* ---- Identity ----
+          The same two-part identity the library card carries, opened out: the
+          Arabic title set large as the book's own name, the English beneath
+          it. */}
+      <header className="pf-masthead pf-masthead--tight pf-masthead--centred">
+        <p className="pf-eyebrow">
+          <Icon icon={faTag} />
+          {unit.bucket}
+          {detail?.editionNote ? ` · ${detail.editionNote.replace(/_/g, " ")}` : null}
+        </p>
 
-      <main id="main" className="pf-container">
-        {/* ---- Identity ----
-            The same two-part identity the library card carries, opened out: the
-            Arabic title set large as the book's own name, the English beneath
-            it. */}
-        <header className="pf-masthead pf-masthead--tight pf-masthead--centred">
-          <p className="pf-eyebrow">
-            <Icon icon={faTag} />
-            {unit.bucket}
-            {detail?.editionNote ? ` · ${detail.editionNote.replace(/_/g, " ")}` : null}
+        {detail?.titleArabic ? (
+          <p lang="ar" dir="rtl" className="pf-book-title-ar">
+            {detail.titleArabic}
           </p>
+        ) : null}
 
-          {detail?.titleArabic ? (
-            <p lang="ar" dir="rtl" className="pf-book-title-ar">
-              {detail.titleArabic}
-            </p>
-          ) : null}
+        <h1 className="pf-title pf-title--sm">{unit.title}</h1>
 
-          <h1 className="pf-title pf-title--sm">{unit.title}</h1>
+        {/* ---- The description ----
+            In a panel of its own, running the page's full width. It used to
+            sit as loose prose directly under the title, in the muted ink and
+            at the reading column's 68ch — which on a wide page put a short,
+            important paragraph in a narrow strip with nothing beside it, so it
+            read as a caption rather than as the thing that tells you what this
+            book IS. On white, with a header naming it, it is the first block
+            the eye lands on after the title.
 
-          {/* ---- The description ----
-              In a panel of its own, running the page's full width. It used to
-              sit as loose prose directly under the title, in the muted ink and
-              at the reading column's 68ch — which on a wide page put a short,
-              important paragraph in a narrow strip with nothing beside it, so it
-              read as a caption rather than as the thing that tells you what this
-              book IS. On white, with a header naming it, it is the first block
-              the eye lands on after the title.
+            The HTML is rendered at publish time, not here — italics, inline
+            Arabic and the folded transliteration all come from the same
+            renderer as the chapters, so the blurb reads exactly as the book
+            does. */}
+        {detail?.blurbHtml ? (
+          <section className="pf-panel" aria-labelledby="about-this-book">
+            <div className="pf-panel__head">
+              <Icon icon={faCircleInfo} />
+              <h2 id="about-this-book" className="pf-panel__title">
+                About this book
+              </h2>
+            </div>
+            <div className="pf-panel__body">
+              <div
+                className="reader pf-blurb"
+                dangerouslySetInnerHTML={{ __html: detail.blurbHtml }}
+              />
+            </div>
+          </section>
+        ) : null}
 
-              The HTML is rendered at publish time, not here — italics, inline
-              Arabic and the folded transliteration all come from the same
-              renderer as the chapters, so the blurb reads exactly as the book
-              does. */}
-          {detail?.blurbHtml ? (
-            <section className="pf-panel" aria-labelledby="about-this-book">
-              <div className="pf-panel__head">
-                <Icon icon={faCircleInfo} />
-                <h2 id="about-this-book" className="pf-panel__title">
-                  About this book
-                </h2>
-              </div>
-              <div className="pf-panel__body">
-                <div
-                  className="reader pf-blurb"
-                  dangerouslySetInnerHTML={{ __html: detail.blurbHtml }}
-                />
-              </div>
-            </section>
-          ) : null}
+        {/* ---- What this book actually has ----
+            One pill per fact, and only for facts that are true. Most books in
+            this library are missing most things, and a greyed-out icon reads
+            as a fault where a named pill reads as a fact. */}
+        <ul className="pf-pills">
+          {describeContents({
+            chapters: chapters.length,
+            words: totalWords,
+            episodes: episodes.length,
+            withAudio,
+            pdf: Boolean(detail?.pdfKey),
+            pdfAvailable: Boolean(detail?.pdfAvailable),
+            deckPages,
+            deckAvailable: canWatch,
+          }).map((fact) => (
+            <li key={fact.label} className="pf-pill pf-pill--outline">
+              <Icon icon={fact.icon} />
+              {fact.label}
+            </li>
+          ))}
+        </ul>
 
-          {/* ---- What this book actually has ----
-              One pill per fact, and only for facts that are true. Most books in
-              this library are missing most things, and a greyed-out icon reads
-              as a fault where a named pill reads as a fact. */}
-          <ul className="pf-pills">
-            {describeContents({
-              chapters: chapters.length,
-              words: totalWords,
-              episodes: episodes.length,
-              withAudio,
-              pdf: Boolean(detail?.pdfKey),
-              pdfAvailable: Boolean(detail?.pdfAvailable),
-              deckPages,
-              deckAvailable: canWatch,
-            }).map((fact) => (
-              <li key={fact.label} className="pf-pill pf-pill--outline">
-                <Icon icon={fact.icon} />
-                {fact.label}
-              </li>
-            ))}
-          </ul>
+        {/* The print edition normally rides at the head of the Read panel,
+            beside the chapters it is another format of. A book with a PDF and
+            no chapters has no such panel, and the button falls back to here
+            rather than disappearing. */}
+        {!canRead && printEdition ? (
+          <p className="pf-masthead__action">{printEdition}</p>
+        ) : null}
+      </header>
 
-          {/* The print edition normally rides at the head of the Read panel,
-              beside the chapters it is another format of. A book with a PDF and
-              no chapters has no such panel, and the button falls back to here
-              rather than disappearing. */}
-          {!canRead && printEdition ? (
-            <p className="pf-masthead__action">{printEdition}</p>
-          ) : null}
-        </header>
+      {/* ---- What there is of this book ----
+          One tab per way of taking it, and Read is the one you land on.
 
-        {/* ---- What there is of this book ----
-            One tab per way of taking it, and Read is the one you land on.
+          Read and Listen used to sit side by side in two columns, with the
+          deck as a third block below them. That put nine chapters next to
+          twenty episodes, and the two lists — different lengths, different row
+          shapes, drawn along different lines from the same book — competed the
+          whole way down the page: whichever one you were reading, the other
+          was moving in the corner of your eye. Tabs say the true thing about
+          them, which is that they are three ways to take one book and you are
+          taking one of them right now.
 
-            Read and Listen used to sit side by side in two columns, with the
-            deck as a third block below them. That put nine chapters next to
-            twenty episodes, and the two lists — different lengths, different row
-            shapes, drawn along different lines from the same book — competed the
-            whole way down the page: whichever one you were reading, the other
-            was moving in the corner of your eye. Tabs say the true thing about
-            them, which is that they are three ways to take one book and you are
-            taking one of them right now.
+          Only the ways this book actually offers get a tab, and a book with
+          just one of them gets no tab strip at all — a tablist with a single
+          tab is a control that cannot be used. */}
+      {resume === null ? null : (
+        <Link
+          to={`/book/${unit.slug}/read/${encodeURIComponent(resume.anchorKey)}`}
+          className="pf-resume"
+        >
+          <span className="pf-resume__label">
+            <Icon icon={faBookOpen} />
+            Continue reading
+          </span>
+          <span className="pf-resume__title">{resume.title}</span>
+          <span className="pf-resume__meta">{Math.round(resume.fraction * 100)}% through</span>
+        </Link>
+      )}
 
-            Only the ways this book actually offers get a tab, and a book with
-            just one of them gets no tab strip at all — a tablist with a single
-            tab is a control that cannot be used. */}
-        {resume === null ? null : (
-          <Link
-            to={`/book/${unit.slug}/read/${encodeURIComponent(resume.anchorKey)}`}
-            className="pf-resume"
-          >
-            <span className="pf-resume__label">
-              <Icon icon={faBookOpen} />
-              Continue reading
-            </span>
-            <span className="pf-resume__title">{resume.title}</span>
-            <span className="pf-resume__meta">{Math.round(resume.fraction * 100)}% through</span>
-          </Link>
-        )}
+      <Tabs
+        panels={[
+          canRead
+            ? {
+                key: "read",
+                icon: faBookOpen,
+                label: "Read",
+                count: chapters.length,
+                render: () => (
+                  <ReadingEdition
+                    slug={unit.slug}
+                    chapters={chapters}
+                    progress={marks.progress}
+                    markedChapters={markedChapters}
+                    download={printEdition}
+                  />
+                ),
+              }
+            : null,
+          canListen
+            ? {
+                key: "listen",
+                icon: faHeadphones,
+                label: "Listen",
+                count: withAudio,
+                render: () => (
+                  <Podcast
+                    slug={unit.slug}
+                    bookTitle={unit.title}
+                    sessions={sessions}
+                    chapters={chapters}
+                    alongsideAnEdition={canRead}
+                  />
+                ),
+              }
+            : null,
+          canWatch
+            ? {
+                key: "slides",
+                icon: faImages,
+                label: "Slides",
+                count: decks.reduce((n, d) => n + d.pages.length, 0),
+                // The deck ITSELF, not a link to it. It used to be a button
+                // reading "Open the deck", which asked the reader to leave the
+                // page to find out whether the deck was worth looking at.
+                render: () => (
+                  <section className="pf-section">
+                    <p className="pf-note pf-note--quiet pf-section__intro">
+                      {decks.length > 1
+                        ? "One deck per chapter — choose below."
+                        : "A deck for the whole book."}{" "}
+                      <Link to={`/book/${unit.slug}/slides`} className="pf-link pf-link--inline">
+                        Open it on its own page
+                      </Link>{" "}
+                      for the full width.
+                    </p>
+                    <DeckShelf decks={decks} />
+                  </section>
+                ),
+              }
+            : null,
+          // A book with a deck on disk that has never been uploaded says so
+          // here rather than offering a tab that opens onto broken images.
+          !canWatch && deckPages > 0
+            ? {
+                key: "slides",
+                icon: faImages,
+                label: "Slides",
+                count: deckPages,
+                render: () => (
+                  <section className="pf-section">
+                    <EmptyState>
+                      A {deckPages}-page deck exists for this book but has not been
+                      uploaded yet.
+                    </EmptyState>
+                  </section>
+                ),
+              }
+            : null,
 
-        <Tabs
-          panels={[
-            canRead
-              ? {
-                  key: "read",
-                  icon: faBookOpen,
-                  label: "Read",
-                  count: chapters.length,
-                  render: () => (
-                    <ReadingEdition
-                      slug={unit.slug}
+          // Only once there is something in it. An empty "Notes" tab on every
+          // book would advertise a feature by showing it not working, and the
+          // same list is one tap away inside the reader where marks are made.
+          marks.annotations.length + marks.bookmarks.length + marks.episodeNotes.length > 0
+            ? {
+                key: "notes",
+                icon: faNoteSticky,
+                label: "Notes",
+                count:
+                  marks.annotations.length + marks.bookmarks.length + marks.episodeNotes.length,
+                render: () => (
+                  <section className="pf-section">
+                    <NotesList
+                      annotations={marks.annotations}
+                      bookmarks={marks.bookmarks}
                       chapters={chapters}
-                      progress={marks.progress}
-                      markedChapters={markedChapters}
-                      download={printEdition}
-                    />
-                  ),
-                }
-              : null,
-            canListen
-              ? {
-                  key: "listen",
-                  icon: faHeadphones,
-                  label: "Listen",
-                  count: withAudio,
-                  render: () => (
-                    <Podcast
+                      // Both lists, because this page is the one place that
+                      // holds everything marked in this book — the reader's
+                      // drawer shows chapters and an episode page shows
+                      // episodes, each showing what it can act on.
+                      episodes={episodes.map((e) => ({ number: e.number, title: e.title }))}
+                      episodeNotes={marks.episodeNotes}
+                      // Nothing is resolved here: this page never renders the
+                      // chapter text, so it cannot know whether a passage
+                      // still exists. The reader is where that is discovered,
+                      // and claiming it here would be a guess.
+                      orphaned={EMPTY_SET}
                       slug={unit.slug}
-                      bookTitle={unit.title}
-                      sessions={sessions}
-                      chapters={chapters}
-                      alongsideAnEdition={canRead}
+                      onRemoveAnnotation={(id) =>
+                        void fetcher.submit(
+                          { intent: "unannotate", id },
+                          { method: "post", action: `/book/${unit.slug}/marks` },
+                        )
+                      }
+                      onRemoveBookmark={(id) =>
+                        void fetcher.submit(
+                          { intent: "unbookmark", id },
+                          { method: "post", action: `/book/${unit.slug}/marks` },
+                        )
+                      }
+                      onRemoveEpisodeNote={(id) =>
+                        void fetcher.submit(
+                          { intent: "un-episode-note", id },
+                          { method: "post", action: `/book/${unit.slug}/marks` },
+                        )
+                      }
+                      onEditAnnotation={(id, text) => {
+                        const existing = marks.annotations.find((a) => a.id === id);
+                        if (existing === undefined) return;
+                        void fetcher.submit(
+                          {
+                            intent: "annotate",
+                            id: existing.id,
+                            anchorKey: existing.anchorKey,
+                            blockIndex: String(existing.blockIndex),
+                            startOffset: String(existing.startOffset),
+                            endOffset: String(existing.endOffset),
+                            quote: existing.quote,
+                            prefix: existing.prefix,
+                            colour: existing.colour,
+                            note: text,
+                          },
+                          { method: "post", action: `/book/${unit.slug}/marks` },
+                        );
+                      }}
+                      onEditEpisodeNote={(id, text) => {
+                        const existing = marks.episodeNotes.find((n) => n.id === id);
+                        if (existing === undefined) return;
+                        void fetcher.submit(
+                          {
+                            intent: "episode-note",
+                            id: existing.id,
+                            number: String(existing.number),
+                            seconds: String(existing.seconds),
+                            quote: existing.quote ?? "",
+                            note: text,
+                          },
+                          { method: "post", action: `/book/${unit.slug}/marks` },
+                        );
+                      }}
                     />
-                  ),
-                }
-              : null,
-            canWatch
-              ? {
-                  key: "slides",
-                  icon: faImages,
-                  label: "Slides",
-                  count: deckKeys.length,
-                  // The deck ITSELF, not a link to it. It used to be a button
-                  // reading "Open the deck", which asked the reader to leave the
-                  // page to find out whether the deck was worth looking at.
-                  render: () => (
-                    <section className="pf-section">
-                      <p className="pf-note pf-note--quiet pf-section__intro">
-                        A deck for the whole book.{" "}
-                        <Link to={`/book/${unit.slug}/slides`} className="pf-link pf-link--inline">
-                          Open it on its own page
-                        </Link>{" "}
-                        for the full width.
-                      </p>
-                      <DeckViewer pages={deckKeys} />
-                    </section>
-                  ),
-                }
-              : null,
-            // A book with a deck on disk that has never been uploaded says so
-            // here rather than offering a tab that opens onto broken images.
-            !canWatch && deckPages > 0
-              ? {
-                  key: "slides",
-                  icon: faImages,
-                  label: "Slides",
-                  count: deckPages,
-                  render: () => (
-                    <section className="pf-section">
-                      <p className="pf-note">
-                        A {deckPages}-page deck exists for this book but has not been
-                        uploaded yet.
-                      </p>
-                    </section>
-                  ),
-                }
-              : null,
-
-            // Only once there is something in it. An empty "Notes" tab on every
-            // book would advertise a feature by showing it not working, and the
-            // same list is one tap away inside the reader where marks are made.
-            marks.annotations.length + marks.bookmarks.length + marks.episodeNotes.length > 0
-              ? {
-                  key: "notes",
-                  icon: faNoteSticky,
-                  label: "Notes",
-                  count:
-                    marks.annotations.length + marks.bookmarks.length + marks.episodeNotes.length,
-                  render: () => (
-                    <section className="pf-section">
-                      <NotesList
-                        annotations={marks.annotations}
-                        bookmarks={marks.bookmarks}
-                        chapters={chapters}
-                        // Both lists, because this page is the one place that
-                        // holds everything marked in this book — the reader's
-                        // drawer shows chapters and an episode page shows
-                        // episodes, each showing what it can act on.
-                        episodes={episodes.map((e) => ({ number: e.number, title: e.title }))}
-                        episodeNotes={marks.episodeNotes}
-                        // Nothing is resolved here: this page never renders the
-                        // chapter text, so it cannot know whether a passage
-                        // still exists. The reader is where that is discovered,
-                        // and claiming it here would be a guess.
-                        orphaned={EMPTY_SET}
-                        slug={unit.slug}
-                        onRemoveAnnotation={(id) =>
-                          void fetcher.submit(
-                            { intent: "unannotate", id },
-                            { method: "post", action: `/book/${unit.slug}/marks` },
-                          )
-                        }
-                        onRemoveBookmark={(id) =>
-                          void fetcher.submit(
-                            { intent: "unbookmark", id },
-                            { method: "post", action: `/book/${unit.slug}/marks` },
-                          )
-                        }
-                        onRemoveEpisodeNote={(id) =>
-                          void fetcher.submit(
-                            { intent: "un-episode-note", id },
-                            { method: "post", action: `/book/${unit.slug}/marks` },
-                          )
-                        }
-                        onEditAnnotation={(id, text) => {
-                          const existing = marks.annotations.find((a) => a.id === id);
-                          if (existing === undefined) return;
-                          void fetcher.submit(
-                            {
-                              intent: "annotate",
-                              id: existing.id,
-                              anchorKey: existing.anchorKey,
-                              blockIndex: String(existing.blockIndex),
-                              startOffset: String(existing.startOffset),
-                              endOffset: String(existing.endOffset),
-                              quote: existing.quote,
-                              prefix: existing.prefix,
-                              colour: existing.colour,
-                              note: text,
-                            },
-                            { method: "post", action: `/book/${unit.slug}/marks` },
-                          );
-                        }}
-                        onEditEpisodeNote={(id, text) => {
-                          const existing = marks.episodeNotes.find((n) => n.id === id);
-                          if (existing === undefined) return;
-                          void fetcher.submit(
-                            {
-                              intent: "episode-note",
-                              id: existing.id,
-                              number: String(existing.number),
-                              seconds: String(existing.seconds),
-                              quote: existing.quote ?? "",
-                              note: text,
-                            },
-                            { method: "post", action: `/book/${unit.slug}/marks` },
-                          );
-                        }}
-                      />
-                    </section>
-                  ),
-                }
-              : null,
-          ]}
-          empty={
-            <p className="pf-note">Nothing of this book is readable or listenable yet.</p>
-          }
-        />
-      </main>
-
-      <SiteFooter />
-    </div>
+                  </section>
+                ),
+              }
+            : null,
+        ]}
+        empty={<EmptyState>Nothing of this book is readable or listenable yet.</EmptyState>}
+      />
+    </AppShell>
   );
 }
 
@@ -679,9 +683,9 @@ function ReadingEdition({
     return (
       <section className="pf-section">
         <SectionHeading icon={faBookOpen} title="Read" count="no reading edition yet" />
-        <p className="pf-note pf-section__intro">
+        <EmptyState>
           The translated edition of this book has not been published here yet.
-        </p>
+        </EmptyState>
       </section>
     );
   }
@@ -695,7 +699,7 @@ function ReadingEdition({
           you do on the page. */}
       <div className="pf-section__head pf-section__head--wrap">
         <div className="pf-section__naming">
-          <span className="pf-section__count">{chapters.length} chapters</span>
+          <span className="pf-section__count">{count(chapters.length, "chapter")}</span>
         </div>
         {download}
       </div>
@@ -755,18 +759,20 @@ function Podcast({
   const withAudio = episodes.filter((e) => e.hasAudio).length;
   const grouped = sessions.some((s) => s.title !== "");
 
-  const count = [
-    grouped ? `${sessions.length} sessions` : null,
+  // Named `summary`, not `count` — `count` is the shared plural helper now, and a
+  // local of that name would shadow it in exactly the place it is needed.
+  const summary = [
+    grouped ? count(sessions.length, "session") : null,
     withAudio === episodes.length
-      ? `${episodes.length} episodes`
-      : `${withAudio} of ${episodes.length} episodes`,
+      ? count(episodes.length, "episode")
+      : `${withAudio} of ${count(episodes.length, "episode")}`,
   ]
     .filter(Boolean)
     .join(" · ");
 
   return (
     <section className="pf-section">
-      <p className="pf-section__count">{count}</p>
+      <p className="pf-section__count">{summary}</p>
 
       {/* Only worth saying when both lists are on screen. On a page with no
           reading edition there is nothing for the reader to be confused with. */}
@@ -906,70 +912,6 @@ function SectionHeading({
       <span className="pf-section__count">{count}</span>
     </div>
   );
-}
-
-/** One fact about a book: an icon that speeds recognition, and the word that carries it. */
-interface Fact {
-  icon: IconDefinition;
-  label: string;
-}
-
-/**
- * What this book contains, one honest fact at a time.
- *
- * Returns the facts rather than a sentence, because they are rendered as pills
- * now — but the rule they were written under has not changed: "exists" and "can
- * be opened" are different facts and are said differently. Most of this library
- * is half-produced, and a reader who is told a print edition is here and then
- * cannot open it concludes the site is broken, where a reader told it is not
- * uploaded yet simply knows where things stand.
- *
- * An empty array means nothing is published, and the caller renders no pills at
- * all rather than one that says so — the page already says it elsewhere.
- */
-function describeContents(x: {
-  chapters: number;
-  words: number;
-  episodes: number;
-  withAudio: number;
-  pdf: boolean;
-  pdfAvailable: boolean;
-  deckPages: number;
-  deckAvailable: boolean;
-}): Fact[] {
-  const facts: Fact[] = [];
-
-  if (x.chapters > 0) {
-    facts.push({ icon: faBookOpen, label: `${x.chapters} chapters` });
-    facts.push({ icon: faClock, label: `${readingMinutes(x.words)} min read` });
-  }
-  if (x.episodes > 0) {
-    facts.push({
-      icon: faHeadphones,
-      label:
-        x.withAudio === 0
-          ? `${x.episodes} episodes planned`
-          : x.withAudio === x.episodes
-            ? `${x.episodes} episodes`
-            : `${x.withAudio} of ${x.episodes} episodes`,
-    });
-  }
-  if (x.pdf) {
-    facts.push({
-      icon: faFileLines,
-      label: x.pdfAvailable ? "print edition" : "print edition, not uploaded yet",
-    });
-  }
-  if (x.deckPages > 0) {
-    facts.push({
-      icon: faImages,
-      label: x.deckAvailable
-        ? `${x.deckPages}-page deck`
-        : `${x.deckPages}-page deck, not uploaded yet`,
-    });
-  }
-
-  return facts;
 }
 
 function megabytes(bytes: number | null | undefined): string {

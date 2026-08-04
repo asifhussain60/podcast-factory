@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { faQuoteLeft } from "@fortawesome/free-solid-svg-icons";
 
+import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
 import type { CompanionCard } from "~/server/companion.server";
 
@@ -66,10 +67,10 @@ export function CompanionList({
 
   if (cards.length === 0) {
     return (
-      <p className="pf-empty">
+      <EmptyState>
         No explanations for this chapter yet. Write them in the Book Composer, beside the
         passage they explain, and they appear here the next time the book is published.
-      </p>
+      </EmptyState>
     );
   }
 

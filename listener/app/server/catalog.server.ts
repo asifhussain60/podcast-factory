@@ -73,6 +73,15 @@ export interface DeckPage {
   available: boolean;
 }
 
+/** One slide deck: the pages, and what the author called it. */
+export interface Deck {
+  /** The folder it came from — 'ch01', or 'book' for a book-wide deck. "" for rows predating migration 0010. */
+  id: string;
+  /** Null for a book-wide deck, which needs no name because it is the only one. */
+  title: string | null;
+  pages: DeckPage[];
+}
+
 /** What else a book offers, for a surface that is already inside one of them. */
 export interface Surfaces {
   /** Episodes with a recording actually in R2. Zero for most of the library. */
@@ -287,25 +296,73 @@ export async function sessionsOf(db: D1Database, slug: string): Promise<Session[
   return sessions.filter((s) => s.episodes.length > 0);
 }
 
-export async function deckPagesOf(db: D1Database, slug: string): Promise<DeckPage[]> {
+/**
+ * Every slide deck this book has, in order, each with its pages.
+ *
+ * A book used to be assumed to have ONE deck, because the only book that had any
+ * had one. The pipeline's default is per-chapter and always was — Ayyuha
+ * al-Walad has four — so this groups.
+ *
+ * `deck_id` is NULL for every row written before migration 0010, and those rows
+ * are not wrong: they are from a world with one deck in it. They collect into a
+ * single untitled deck, which is exactly how they should render, so the site is
+ * correct the moment the migration lands and before anything is re-published.
+ *
+ * Ordered by `deck_id` then `key`, and `key` ends in `page-NN.jpg` zero-padded by
+ * pdftoppm, so lexical order is page order.
+ */
+export async function deckPagesOf(db: D1Database, slug: string): Promise<Deck[]> {
   const { results } = await db
     .prepare(
-      `SELECT key, uploaded_at FROM media_asset
-       WHERE slug = ? AND kind = 'deck-page' ORDER BY key`,
+      `SELECT key, uploaded_at, deck_id, deck_title FROM media_asset
+       WHERE slug = ? AND kind = 'deck-page' ORDER BY deck_id, key`,
     )
     .bind(slug)
-    .all<{ key: string; uploaded_at: string | null }>();
+    .all<{
+      key: string;
+      uploaded_at: string | null;
+      deck_id: string | null;
+      deck_title: string | null;
+    }>();
 
-  return results.map((r) => ({ key: r.key, available: r.uploaded_at !== null }));
+  const decks = new Map<string, Deck>();
+  for (const r of results) {
+    const id = r.deck_id ?? "";
+    let deck = decks.get(id);
+    if (deck === undefined) {
+      deck = { id, title: r.deck_title, pages: [] };
+      decks.set(id, deck);
+    }
+    // The first row that carries a title wins. A deck whose pages disagree is not
+    // a case worth modelling — they are written together, from one source.
+    if (deck.title === null && r.deck_title !== null) deck.title = r.deck_title;
+    deck.pages.push({ key: r.key, available: r.uploaded_at !== null });
+  }
+
+  return [...decks.values()];
 }
 
 export interface LibraryCard {
   chapters: number;
-  minutes: number;
+  /**
+   * Raw words, NOT minutes.
+   *
+   * This used to be a precomputed `minutes`, which made the card the only place
+   * in the app where reading time was worked out server-side — with a different
+   * zero rule from the book page's client-side one, so the same book could show
+   * no pill here and "1 min read" there. `app/lib/facts.ts` now does the sum for
+   * both, once.
+   */
+  words: number;
   episodes: number;
   recorded: number;
+  /** A print edition exists at all. */
   hasPdf: boolean;
+  /** ...and is in R2, so the download works. Kept apart: see `describeContents`. */
+  pdfAvailable: boolean;
   deckPages: number;
+  /** At least one deck page is in R2. */
+  deckAvailable: boolean;
   titleArabic: string | null;
 }
 
@@ -331,9 +388,13 @@ export async function libraryCards(
     .prepare(
       `SELECT u.slug,
               d.title_arabic,
-              -- Only a PDF that is actually IN R2 counts as a PDF. The row
-              -- exists as soon as the file is on the author's disk, and a badge
-              -- promising a download that 404s is worse than no badge.
+              -- TWO facts, deliberately not collapsed: the print edition exists,
+              -- and it is in R2 so the link works. This used to be one column
+              -- (pdf_ready, uploaded only), which meant the card could not say
+              -- "not uploaded yet" the way the book page does — it either
+              -- promised a download or said nothing. Both are now carried and
+              -- describeContents decides the wording for both surfaces.
+              (SELECT count(*) FROM media_asset m WHERE m.key = d.pdf_key) AS pdf_exists,
               (SELECT count(*) FROM media_asset m
                 WHERE m.key = d.pdf_key AND m.uploaded_at IS NOT NULL) AS pdf_ready,
               (SELECT count(*)          FROM chapter c WHERE c.slug = u.slug) AS chapters,
@@ -343,7 +404,10 @@ export async function libraryCards(
                  JOIN media_asset m ON m.key = e.audio_key
                 WHERE e.slug = u.slug AND m.uploaded_at IS NOT NULL) AS recorded,
               (SELECT count(*)          FROM media_asset m
-                WHERE m.slug = u.slug AND m.kind = 'deck-page') AS deck_pages
+                WHERE m.slug = u.slug AND m.kind = 'deck-page') AS deck_pages,
+              (SELECT count(*)          FROM media_asset m
+                WHERE m.slug = u.slug AND m.kind = 'deck-page'
+                  AND m.uploaded_at IS NOT NULL) AS deck_ready
        FROM content_unit u
        LEFT JOIN unit_detail d ON d.slug = u.slug
        WHERE u.slug IN (${placeholders})`,
@@ -352,22 +416,26 @@ export async function libraryCards(
     .all<{
       slug: string;
       title_arabic: string | null;
+      pdf_exists: number;
       pdf_ready: number;
       chapters: number;
       words: number;
       episodes: number;
       recorded: number;
       deck_pages: number;
+      deck_ready: number;
     }>();
 
   for (const r of results) {
     cards.set(r.slug, {
       chapters: r.chapters,
-      minutes: r.words > 0 ? readingMinutes(r.words) : 0,
+      words: r.words,
       episodes: r.episodes,
       recorded: r.recorded,
-      hasPdf: r.pdf_ready > 0,
+      hasPdf: r.pdf_exists > 0,
+      pdfAvailable: r.pdf_ready > 0,
       deckPages: r.deck_pages,
+      deckAvailable: r.deck_ready > 0,
       titleArabic: r.title_arabic,
     });
   }

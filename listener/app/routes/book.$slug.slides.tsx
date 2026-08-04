@@ -2,10 +2,9 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
 import type { Route } from "./+types/book.$slug.slides";
-import { DeckViewer } from "~/components/DeckViewer";
+import { AppShell } from "~/components/AppShell";
+import { DeckShelf } from "~/components/DeckViewer";
 import { Icon } from "~/components/Icon";
-import { SiteFooter } from "~/components/SiteFooter";
-import { SiteHeader } from "~/components/SiteHeader";
 import { cloudflare } from "~/context";
 import { notFound } from "~/middleware/deny";
 import { requireUnitAccess } from "~/middleware/entitled";
@@ -25,46 +24,44 @@ export const middleware: Route.MiddlewareFunction[] = [requireUnitAccess];
 export async function loader({ params, context }: Route.LoaderArgs) {
   const { env } = context.get(cloudflare);
 
-  const [unit, pages] = await Promise.all([
+  const [unit, decks] = await Promise.all([
     unitBySlug(env.DB, params.slug),
     deckPagesOf(env.DB, params.slug),
   ]);
 
-  const available = pages.filter((p) => p.available);
+  // Only decks with at least one uploaded page. A deck whose pages are on disk
+  // but not in R2 is dropped whole rather than shown with gaps in it.
+  const shelf = decks
+    .map((d) => ({ id: d.id, title: d.title, pages: d.pages.filter((p) => p.available).map((p) => p.key) }))
+    .filter((d) => d.pages.length > 0);
 
   // No deck, or one that exists on disk but has not been uploaded — both are a
   // 404 rather than an empty viewer, because the book page never links here in
   // either case and a reachable empty page reads as a fault.
-  if (unit === null || available.length === 0) notFound();
+  if (unit === null || shelf.length === 0) notFound();
 
   return {
     slug: params.slug,
     title: unit.title,
-    pages: available.map((p) => p.key),
+    decks: shelf,
     isAdmin: context.get(session).viewer!.isAdmin,
   };
 }
 
 export default function Slides({ loaderData }: Route.ComponentProps) {
-  const { slug, title, pages, isAdmin } = loaderData;
+  const { slug, title, decks, isAdmin } = loaderData;
 
   return (
-    <div className="pf-shell">
-      <SiteHeader here="book" isAdmin={isAdmin} />
+    <AppShell here="book" isAdmin={isAdmin}>
+      <div className="pf-masthead pf-masthead--tight pf-deck__head">
+        <h1 className="pf-title pf-title--sm">{title}</h1>
+        <Link to={`/book/${slug}`} className="pf-navlink">
+          <Icon icon={faArrowLeft} />
+          Back to the book
+        </Link>
+      </div>
 
-      <main id="main" className="pf-container">
-        <div className="pf-masthead pf-masthead--tight pf-deck__head">
-          <h1 className="pf-title pf-title--sm">{title}</h1>
-          <Link to={`/book/${slug}`} className="pf-navlink">
-            <Icon icon={faArrowLeft} />
-            Back to the book
-          </Link>
-        </div>
-
-        <DeckViewer pages={pages} arrowKeys />
-      </main>
-
-      <SiteFooter />
-    </div>
+      <DeckShelf decks={decks} arrowKeys />
+    </AppShell>
   );
 }

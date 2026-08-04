@@ -3,11 +3,18 @@ import { Form } from "react-router";
 import type { Route } from "./+types/no-access";
 import { PublicShell } from "~/components/PublicShell";
 import { SimulationBanner } from "~/components/SimulationBanner";
+import { cloudflare } from "~/context";
 import { simulatingOf, viewerOf } from "~/middleware/session";
 
 export function loader({ context }: Route.LoaderArgs) {
   const viewer = viewerOf(context);
-  return { email: viewer?.email ?? null, simulating: simulatingOf(context) };
+  return {
+    email: viewer?.email ?? null,
+    simulating: simulatingOf(context),
+    // For the footer, as on sign-in: this page is outside the `_authed` layout
+    // the signed-in pages read it from.
+    siteName: context.get(cloudflare).env.PUBLIC_SITE_NAME,
+  };
 }
 
 /**
@@ -19,7 +26,7 @@ export function loader({ context }: Route.LoaderArgs) {
  */
 export default function NoAccess({ loaderData }: Route.ComponentProps) {
   return (
-    <PublicShell hero themePicker={false}>
+    <PublicShell hero themePicker={false} siteName={loaderData.siteName}>
       {/* The one public page a simulation can land on: simulating a revoked or
           uninvited person bounces every gated route here. Without the banner
           this page is where the administrator would be stranded, since /admin
