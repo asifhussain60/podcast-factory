@@ -50,9 +50,13 @@ export default [
     // the static-asset server so this route is reached at all.
     route("media/:slug/*", "routes/media.$slug.$.tsx"),
 
+    // `/admin` IS the people screen. It used to be an Overview tab holding five
+    // numbers and two links, so the page an administrator actually works on was
+    // never the one that opened; the numbers moved into the section's own header,
+    // where both tabs show them. `/admin/content` remains the nested route the
+    // case-variant probe in scripts/routes.mjs fires at.
     layout("routes/_authed._admin.tsx", [
       route("admin", "routes/admin._index.tsx"),
-      route("admin/people", "routes/admin.people.tsx"),
       route("admin/content", "routes/admin.content.tsx"),
     ]),
   ]),

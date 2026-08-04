@@ -84,8 +84,10 @@ console.log("\ninvited, granted nothing");
 check("library loads", (await get("/", outsider)).status, 200);
 check("a real book is 404", (await get("/book/ayyuhal-walad", outsider)).status, 404);
 check("admin is 404, not 403", (await get("/admin", outsider)).status, 404);
-check("admin sub-page is 404", (await get("/admin/people", outsider)).status, 404);
-check("case-variant admin is 404", (await get("/Admin/people", outsider)).status, 404);
+// A route that EXISTS and is nested, or the 404 would only prove that nothing
+// matched. `/admin/people` served this until the people screen became `/admin`.
+check("admin sub-page is 404", (await get("/admin/content", outsider)).status, 404);
+check("case-variant admin is 404", (await get("/Admin/content", outsider)).status, 404);
 
 console.log("\nevery surface of a book, not just its front page");
 // Each of these is its own route with its own middleware line. A gate added to

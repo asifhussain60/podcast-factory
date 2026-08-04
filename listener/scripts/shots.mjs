@@ -100,6 +100,25 @@ const STATES = {
   "admin-people": [
     { name: "plain", act: async () => {} },
     {
+      // The table and its pager, which no unscrolled shot of this page reaches:
+      // the numbers, the tabs and the invite form fill the first screen, so the
+      // surface the screen exists for was the one surface never photographed.
+      name: "table",
+      act: async (page) => {
+        await page.locator(".pf-pager").scrollIntoViewIfNeeded().catch(() => {});
+      },
+    },
+    {
+      name: "filtered",
+      act: async (page) => {
+        // Through a real chip, so the picture is of the filter working rather
+        // than of a URL typed by the harness.
+        await page.getByRole("link", { name: /No access yet/ }).click().catch(() => {});
+        await page.waitForSelector(".pf-table", { timeout: 3000 }).catch(() => {});
+        await page.locator(".pf-table").scrollIntoViewIfNeeded().catch(() => {});
+      },
+    },
+    {
       name: "person-open",
       act: async (page) => {
         await page.click(".pf-person").catch(() => {});

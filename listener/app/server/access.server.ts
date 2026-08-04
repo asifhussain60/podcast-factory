@@ -183,6 +183,15 @@ export interface Person {
   revokedAt: string | null;
   note: string | null;
   grantCount: number;
+  /**
+   * Whether one of those grants is the whole library.
+   *
+   * Carried as its own fact because the count alone is misleading in exactly the
+   * case that matters most: somebody who holds everything has `grantCount` 1, and
+   * a table printing "1" beside the widest grant this application can give is
+   * not a rounding error, it is the wrong answer.
+   */
+  library: boolean;
 }
 
 /**
@@ -196,6 +205,18 @@ export interface Person {
  * `waiting` is the one worth naming: invited, has signed in, and holds no
  * grants. Those people see an empty library and have no way to know why, so they
  * are the ones most likely to be quietly stuck.
+ *
+ * `library` and `dormant` answer the two questions the first five could not.
+ * A whole-library grant is the widest thing this application can give, and it is
+ * given by one press of one button — being able to ask who holds it is the only
+ * way to audit that. `dormant` is someone who signed in once and stopped, which
+ * reads very differently from someone who never arrived.
+ *
+ * `dormant`'s cutoff is built with `strftime`, not `datetime`. Every timestamp in
+ * this schema is an ISO string with a `T` and a `Z` (`new Date().toISOString()`),
+ * and SQLite compares these as TEXT — `datetime('now','-30 days')` yields
+ * `2026-07-05 12:00:00`, whose space sorts BELOW the `T` of every stored value,
+ * so the comparison would have quietly matched nobody, forever.
  */
 export const PEOPLE_FILTERS = {
   all: "1 = 1",
@@ -203,6 +224,10 @@ export const PEOPLE_FILTERS = {
   never: "i.revoked_at IS NULL AND i.redeemed_at IS NULL",
   waiting:
     "i.revoked_at IS NULL AND (SELECT count(*) FROM access_grant g WHERE g.user_email = i.email AND g.revoked_at IS NULL) = 0",
+  library:
+    "i.revoked_at IS NULL AND EXISTS (SELECT 1 FROM access_grant g WHERE g.user_email = i.email AND g.revoked_at IS NULL AND g.scope_type = 'library')",
+  dormant:
+    "i.revoked_at IS NULL AND i.last_seen_at IS NOT NULL AND i.last_seen_at < strftime('%Y-%m-%dT%H:%M:%fZ', 'now', '-30 days')",
   revoked: "i.revoked_at IS NOT NULL",
 } as const;
 
@@ -243,6 +268,34 @@ export interface PeoplePage {
  * means one shape of query with one set of bindings: `email` is NOT NULL, so
  * `LIKE '%'` is true for every row and the empty search matches everyone.
  */
+/**
+ * The name a row DISPLAYS, as SQL — or NULL when nothing was recorded.
+ *
+ * Written once because three places need it and they must agree: the ordering of
+ * the people table, the "who has this" list on the content screen, and
+ * `toPerson`'s `displayName` in TypeScript. The first two are this expression;
+ * the third is the same rule in the other language, and a divergence would show
+ * up as a table sorted by something other than the column the eye is reading.
+ */
+const DISPLAY_NAME_SQL = `NULLIF(TRIM(COALESCE(i.first_name, '') || ' ' || COALESCE(i.last_name, '')), '')`;
+
+/**
+ * Everything one person's row is made of, written once.
+ *
+ * The list view and the single-person lookup select exactly these columns, and
+ * they must: `toPerson` maps this shape, so a column added to one query and not
+ * the other yields a `Person` with a field that is silently `undefined` on
+ * whichever screen was forgotten.
+ */
+const PERSON_COLUMNS = `
+  i.email, i.email_raw, i.first_name, i.last_name, i.invited_at,
+  i.redeemed_at, i.last_seen_at, i.revoked_at, i.note,
+  (SELECT count(*) FROM access_grant g
+    WHERE g.user_email = i.email AND g.revoked_at IS NULL) AS grant_count,
+  EXISTS (SELECT 1 FROM access_grant g
+    WHERE g.user_email = i.email AND g.revoked_at IS NULL
+      AND g.scope_type = 'library') AS has_library`;
+
 const SEARCH_SQL = `(
      i.email      LIKE ?1 ESCAPE '\\'
   OR i.email_raw  LIKE ?1 ESCAPE '\\'
@@ -267,16 +320,17 @@ export async function listPeople(db: D1Database, query: PeopleQuery = {}): Promi
   const [rows, counted, all] = await Promise.all([
     db
       .prepare(
-        `SELECT i.email, i.email_raw, i.first_name, i.last_name, i.invited_at,
-                i.redeemed_at, i.last_seen_at, i.revoked_at, i.note,
-                (SELECT count(*) FROM access_grant g
-                  WHERE g.user_email = i.email AND g.revoked_at IS NULL) AS grant_count
+        `SELECT ${PERSON_COLUMNS}
            FROM invite i
           WHERE ${where} AND ${SEARCH_SQL}
-          -- Name first when there is one, so the list reads as people rather
-          -- than as a mailing list. NULLs sort last in SQLite ASC, which happens
-          -- to be exactly what is wanted: the unnamed fall to the bottom.
-          ORDER BY i.last_name COLLATE NOCASE, i.first_name COLLATE NOCASE, i.email
+          -- Alphabetical by the name the table PRINTS, address as the fallback.
+          -- It used to order by surname, which is right for a list that reads as
+          -- one line per person and wrong for a table: the Name column would
+          -- have shown Amina, Bilal, Yusuf in an order keyed to words the column
+          -- never displays, and a sorted table that looks unsorted reads as a
+          -- bug. The unnamed no longer fall to the bottom either — they sort by
+          -- their address, in place.
+          ORDER BY COALESCE(${DISPLAY_NAME_SQL}, i.email_raw) COLLATE NOCASE, i.email
           LIMIT ?2 OFFSET ?3`,
       )
       .bind(pattern, limit, offset)
@@ -301,11 +355,7 @@ export async function listPeople(db: D1Database, query: PeopleQuery = {}): Promi
 export async function personByEmail(db: D1Database, rawEmail: string): Promise<Person | null> {
   const row = await db
     .prepare(
-      `SELECT i.email, i.email_raw, i.first_name, i.last_name, i.invited_at,
-              i.redeemed_at, i.last_seen_at, i.revoked_at, i.note,
-              (SELECT count(*) FROM access_grant g
-                WHERE g.user_email = i.email AND g.revoked_at IS NULL) AS grant_count
-         FROM invite i WHERE i.email = ?1`,
+      `SELECT ${PERSON_COLUMNS} FROM invite i WHERE i.email = ?1`,
     )
     .bind(normalizeEmail(rawEmail))
     .first<PersonRow>();
@@ -338,6 +388,7 @@ interface PersonRow {
   revoked_at: string | null;
   note: string | null;
   grant_count: number;
+  has_library: number;
 }
 
 const toPerson = (r: PersonRow): Person => {
@@ -357,6 +408,7 @@ const toPerson = (r: PersonRow): Person => {
     revokedAt: r.revoked_at,
     note: r.note,
     grantCount: r.grant_count,
+    library: r.has_library === 1,
   };
 };
 
@@ -402,8 +454,7 @@ export async function holdersOf(db: D1Database, slug: string): Promise<Holder[]>
   const { results } = await db
     .prepare(
       `SELECT g.user_email,
-              COALESCE(NULLIF(TRIM(COALESCE(i.first_name,'') || ' ' || COALESCE(i.last_name,'')), ''),
-                       i.email_raw, g.user_email) AS display_name,
+              COALESCE(${DISPLAY_NAME_SQL}, i.email_raw, g.user_email) AS display_name,
               MIN(CASE g.scope_type WHEN 'unit' THEN 1 WHEN 'work' THEN 2 ELSE 3 END) AS rank
          FROM access_grant g
          LEFT JOIN invite i ON i.email = g.user_email
@@ -428,6 +479,29 @@ export interface InviteInput {
   firstName?: string | null;
   lastName?: string | null;
   note?: string | null;
+}
+
+/**
+ * One typed name into the two columns the table already sorts and searches on.
+ *
+ * The form asks for a name once, because two boxes for what everybody thinks of
+ * as one thing is a question asked twice — but the schema keeps both columns and
+ * should: `first_name` and `last_name` are what the search matches and what the
+ * "who has this" list joins against, and collapsing them into one column would
+ * be a migration paid for a form change.
+ *
+ * The split is on the LAST space, so the surname is the final word: "Ishrat
+ * Husain" stores Ishrat / Husain, and a single word stores as a first name with
+ * no surname rather than guessing one. It is a heuristic, and the one property
+ * that makes a heuristic safe here is that it is REVERSIBLE — the two halves
+ * rejoin, in order, with one space, so what is displayed is exactly what was
+ * typed. Nothing is dropped and no word changes places.
+ */
+export function splitName(raw: string): { firstName: string | null; lastName: string | null } {
+  const words = raw.trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return { firstName: null, lastName: null };
+  if (words.length === 1) return { firstName: words[0]!, lastName: null };
+  return { firstName: words.slice(0, -1).join(" "), lastName: words.at(-1)! };
 }
 
 export async function invite(

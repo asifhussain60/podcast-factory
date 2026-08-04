@@ -1,9 +1,74 @@
 # Current work - status
 
-**Last updated:** 2026-08-03 night (the Listener gains per-reader state, one
-toolbar row, an access screen that scales, and the runtime gate it never had)
+**Last updated:** 2026-08-04 (Access becomes one screen: five numbers, a table of
+a hundred people, and an invite form that asks for a name once)
 
-**Newest — contents is a panel on the left, and the toolbar is a card.**
+**Newest — the Access screen is People, and the numbers moved above the tabs.**
+
+Asif, on the two screenshots: drop the Overview tab, make People the default and
+its metrics a single row keeping only the highest-value numbers across people and
+content, move the list to the right of the invite form as an alphabetical
+paginated table with the search on top and more filters, seed a hundred dummy
+records to see it at size, combine first/last name into one field, drop the note
+field, and stop the whole thing being so bland.
+
+- **`/admin` IS the people screen now.** `admin._index.tsx` used to be an
+  Overview tab holding five numbers and two links, so the page an administrator
+  works on was never the one that opened. `admin/people` is gone as a URL, which
+  moved the security manifest's case-variant probe to `/Admin/content` — it has
+  to name a route that EXISTS and is nested, or its 404 proves only that React
+  Router matched nothing.
+- **The strip lives in the LAYOUT**, above both tabs, because it describes Access
+  as a whole. Five tiles chosen by whether the number makes somebody act:
+  invited, never signed in, no access yet, readable now, open to everyone. Each
+  links to the view that produced it. Revoked and not-yet-published were dropped
+  — near-always zero and still one click away.
+- **Tone only where it earns it.** The two tiles that can describe somebody
+  quietly stuck take a warning tone ONLY while their count is above zero. Fill at
+  10-12% of the tone with the text inked to 75% of it: the raw token on a tint of
+  itself measures 4.00:1 on sepia, i.e. under AA at pill size.
+- **Two filters added** — whole library (the widest grant, given by one button,
+  previously unauditable) and gone quiet (signed in once, not seen in 30 days).
+  Its cutoff uses `strftime`, not `datetime`: stored timestamps carry a `T` and a
+  `Z`, and `datetime()`'s space sorts below every one of them, so the filter would
+  have matched nobody forever. Test-pinned.
+- **One name field, two columns.** `splitName` puts the last word in the surname;
+  the halves rejoin in order with one space, so what is displayed is what was
+  typed. The note COLUMN stays and an existing note still shows — deleting what
+  the administrator once wrote is not a form change.
+- **A hundred invented readers, LOCAL only** (`npm run seed:people`,
+  `--clear` to undo). Not a migration: a row in `invite` is permission to sign in
+  to the live site, and the deploy applies migrations before it ships code.
+  `@example.invalid` is unroutable by RFC 2606 and is what `--clear` matches.
+
+**Five defects the visual pass found, each fixed and re-shot:**
+- The strip wrapped 4 + 1 at 1440px — `auto-fit` with a 12rem floor fits only
+  four in a 64rem container, so the fifth tile sat alone looking like an
+  afterthought. Explicit five columns above 1000px.
+- Five columns did not fit the working column's 624px. Addresses broke three ways
+  mid-word; giving them room pushed Signed-in and Standing off the right edge
+  behind the scroller. Name and address are ONE column now — they are one fact,
+  who this is — and the table is `table-layout: fixed` so widths are arithmetic
+  rather than a negotiation.
+- Four of the five tile labels wrap at that width, so the numbers sat at five
+  different heights. The label is a grid with a two-line floor.
+- The name link was a 19px tap target and the runtime gate failed it at phone and
+  tablet — correctly, since it is the only way to open somebody.
+- One tile per line made the strip 800px tall on a phone: a glance that has to be
+  scrolled is not one. Two up and smaller below 560px.
+
+**Observed, deliberately NOT changed:** `.pf-panel__head` mixes 8% of the accent
+into the surface, and on the sepia palette that muted navy over cream reads as a
+cool grey rather than as a tint. It is the site's existing answer for every panel
+head — the invite panel beside it agrees — so re-toning it is a whole-site
+decision to take with Asif, not a side effect of this screen.
+
+Gates: 240 tests, `npm run smoke` all clear (17 routes x 4 widths), `npm run
+security` all checks passed, build clean.
+
+---
+
+**Previous — contents is a panel on the left, and the toolbar is a card.**
 
 Asif, on the layout above: move contents to a left collapsible panel and take it
 out of the toolbar entirely; drop the duplicate width dropdown; frame the toolbar

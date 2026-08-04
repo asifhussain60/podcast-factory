@@ -1912,6 +1912,40 @@
     padding-inline: 0;
   }
 
+  /* Toned pills — where somebody stands, as a colour you can scan.
+     One rule, four tones, each declaring only its own `--pf-tone`.
+
+     The text is the tone inked to 75% rather than the tone itself, and that is a
+     measurement rather than a preference: the raw token on a 12% fill of itself
+     measures 4.00:1 on the sepia palette and 4.52:1 for dark red, i.e. at or under
+     AA for text this small. Inked, the worst of the twelve combinations is
+     5.39:1. The border carries the same hue at low strength so the pill still
+     reads as a unit against a striped row. */
+  .pf-pill--ok,
+  .pf-pill--warn,
+  .pf-pill--danger,
+  .pf-pill--accent {
+    background: color-mix(in srgb, var(--pf-tone) 12%, var(--l-elev));
+    border-color: color-mix(in srgb, var(--pf-tone) 30%, transparent);
+    color: color-mix(in srgb, var(--pf-tone) 75%, var(--l-ink));
+  }
+
+  .pf-pill--ok {
+    --pf-tone: var(--l-ok);
+  }
+
+  .pf-pill--warn {
+    --pf-tone: var(--l-warn);
+  }
+
+  .pf-pill--danger {
+    --pf-tone: var(--l-danger);
+  }
+
+  .pf-pill--accent {
+    --pf-tone: var(--l-accent);
+  }
+
   /* A pill sitting on the band. It hugs the card's top-left corner and takes
      that corner's radius on the outside while squaring off on the inside — a
      pill with four round corners pinned to a corner looks stuck on rather than
@@ -2362,19 +2396,25 @@
     color: var(--l-warn);
   }
 
-  /* ---- Access administration ---------------------------------------------
-     A list of people on the left, and what the selected one may open on the
-     right. Below the breakpoint it is one column, people first.
+  /* ---- Access administration ----------------------------------------------
+     TWO layouts, because the two tabs answer different questions and the shapes
+     that answer them are not the same.
 
-     The list column is DELIBERATELY its own scroller at desktop width. A hundred
-     people beside one person's grants meant the page scrolled as one thing, so
-     scrolling to find someone took the panel showing what they have off the
-     screen — the two halves have to move independently or the screen only works
-     while the list is short. */
+     `.pf-admin-split` is the CONTENT tab: a list of books on the left whose left
+     column is deliberately its own scroller at desktop width, because scrolling
+     to find a book would otherwise take the panel showing who holds it off the
+     screen.
 
-  .pf-admin-split {
+     `.pf-access-split` is the PEOPLE tab: a narrow aside holding the invite form
+     and a wide working column holding either the table of everyone or one
+     person's grants. Here the page scrolls ONCE and the aside is sticky — the
+     list moved into the wide column and the aside is two fields tall, so a
+     second scroller would be a mechanism with nothing left to do. */
+
+  .pf-admin-split,
+  .pf-access-split {
     display: grid;
-    gap: var(--pf-space-7);
+    gap: var(--pf-space-6);
     grid-template-columns: 1fr;
   }
 
@@ -2410,42 +2450,44 @@
     min-width: 0;
   }
 
-  .pf-invite {
-    margin-bottom: var(--pf-space-5);
+  @media (min-width: 1000px) {
+    .pf-access-split {
+      grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
+      gap: var(--pf-space-7);
+      align-items: start;
+    }
+
+    .pf-admin-aside {
+      position: sticky;
+      top: var(--pf-space-5);
+    }
+  }
+
+  .pf-admin-main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-5);
+    min-width: 0;
+  }
+
+  /* The columns own the spacing between their panels. `.pf-panel` carries a top
+     margin for the pages that lay panels out in normal flow; inside a flex column
+     that margin is added to the gap, so the first panel of each column sat lower
+     than the other's and the two tops did not line up. */
+  .pf-admin-aside > .pf-panel,
+  .pf-admin-main > .pf-panel {
+    margin-top: 0;
   }
 
   /* In ONE column, finding somebody comes before adding somebody.
-     The two-column layout puts the invite form at the top of the left rail,
-     where it costs nothing. Stacked, it fills the first screen of a phone or an
-     iPad in portrait and pushes the search box and the whole list below the
-     fold — so the common task (find this person, change what they have) is
-     behind the occasional one. `order` rather than moving it in the markup,
-     because at 900px and up the original order is the right one. */
-  @media (max-width: 899px) {
-    .pf-admin-list {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .pf-invite {
+     Stacked, the invite form fills the first screen of a phone and pushes the
+     search box and the whole table below the fold — so the common task (find
+     this person, change what they have) would sit behind the occasional one.
+     `order` rather than markup, because above the breakpoint the source order is
+     the right one. */
+  @media (max-width: 999px) {
+    .pf-admin-aside {
       order: 1;
-      margin-top: var(--pf-space-6);
-      margin-bottom: 0;
-    }
-  }
-
-  /* Two fields on one line where there is room. First and last name are short
-     and belong together; stacking them makes the invite form five rows tall for
-     what is really three questions. */
-  .pf-form__pair {
-    display: grid;
-    gap: var(--pf-space-3);
-    grid-template-columns: 1fr;
-  }
-
-  @media (min-width: 480px) {
-    .pf-form__pair {
-      grid-template-columns: 1fr 1fr;
     }
   }
 
@@ -2467,13 +2509,32 @@
     overflow-wrap: anywhere;
   }
 
-  /* ---- Finding someone ---------------------------------------------------- */
+  /* ---- Finding someone ----------------------------------------------------
+     The search box lives IN the table panel's tinted header, spanning its width,
+     with the filter chips on the rule below it. Everything that narrows the table
+     is therefore attached to the table, which is what makes a hundred rows
+     navigable: the controls and the thing they control are one object. */
 
-  .pf-admin-find {
-    display: flex;
-    flex-direction: column;
-    gap: var(--pf-space-3);
-    margin-bottom: var(--pf-space-3);
+  .pf-people-head {
+    /* The panel head is a row by default; this one has to wrap on a phone, where
+       the count cannot sit beside a full-width search box. */
+    flex-wrap: wrap;
+    gap: var(--pf-space-4);
+    padding: var(--pf-space-4) var(--pf-space-5);
+  }
+
+  .pf-people-head .pf-search {
+    flex: 1 1 14rem;
+  }
+
+  .pf-people-head__count {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-faint);
+    white-space: nowrap;
   }
 
   .pf-search--sm .pf-search__input {
@@ -2481,7 +2542,26 @@
     font-size: var(--pf-text-sm);
   }
 
-  /* A wrapping row of filters rather than a select: five options, each with a
+  .pf-search--wide {
+    width: 100%;
+  }
+
+  /* The chips sit on the header's underside, inset to the panel's own gutter and
+     separated by a rule, so the header reads as one control surface rather than
+     as a box with a strip of pills loose beneath it. */
+  .pf-people-panel > .pf-filters {
+    padding: var(--pf-space-3) var(--pf-space-5);
+    border-bottom: 1px solid var(--l-rule-soft);
+    background: var(--l-surface);
+  }
+
+  .pf-people-panel > .pf-empty {
+    margin: 0;
+    padding: var(--pf-space-7) var(--pf-space-5);
+    text-align: center;
+  }
+
+  /* A wrapping row of filters rather than a select: seven options, each with a
      count, and the counts are half the value — "3 revoked" answers the question
      without the filter being applied at all. */
   .pf-filters {
@@ -2524,16 +2604,57 @@
     opacity: 0.75;
   }
 
-  .pf-admin-count {
-    margin-bottom: var(--pf-space-2);
-  }
+  /* ---- The pager ----------------------------------------------------------
+     Previous, a window of numbers, where you are, Next. The numbers matter at
+     this size: with a hundred people and twenty-five to a page, "page 3" is a
+     place an administrator returns to, and stepping there one Next at a time is
+     the thing a table gets wrong most often. */
 
   .pf-pager {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: var(--pf-space-3);
-    margin-top: var(--pf-space-4);
+    padding: var(--pf-space-4) var(--pf-space-5);
+    border-top: 1px solid var(--l-rule-soft);
+    background: var(--l-surface);
+  }
+
+  .pf-pager__pages {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-1);
+  }
+
+  .pf-pagenum {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    padding: var(--pf-space-1) var(--pf-space-2);
+    border: 1px solid transparent;
+    border-radius: var(--pf-radius-sm);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-variant-numeric: tabular-nums;
+    color: var(--l-muted);
+    text-decoration: none;
+    transition:
+      background var(--pf-motion),
+      color var(--pf-motion),
+      border-color var(--pf-motion);
+  }
+
+  .pf-pagenum:hover {
+    border-color: var(--l-accent);
+    color: var(--l-ink);
+  }
+
+  .pf-pagenum[aria-current="page"] {
+    background: var(--l-accent);
+    border-color: var(--l-accent);
+    color: var(--l-on-accent);
   }
 
   .pf-pager__where {
@@ -2552,44 +2673,182 @@
     pointer-events: none;
   }
 
-  .pf-people {
-    display: flex;
-    flex-direction: column;
-    gap: var(--pf-space-2);
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  /* ---- The people table ---------------------------------------------------
+     A real table, because five facts per person across a hundred people is
+     tabular data and a stack of cards makes the eye re-find the same fact in a
+     new place on every row.
+
+     `overflow-x: auto` on a wrapper rather than on the panel: a scroll container
+     on the panel itself would clip the tinted header's rounded corners, and the
+     table is only ever wide enough to scroll in the band between the stacked
+     layout and a laptop. */
+
+  .pf-table-scroll {
+    overflow-x: auto;
   }
 
-  .pf-person {
-    display: block;
+  /* `fixed`, and the two flexible columns carry a percentage.
+     Auto layout sizes columns from their content, which in a column about 860px wide
+     is a negotiation nobody wins: giving the addresses room to sit on one line
+     pushed Signed-in and Standing off the right edge behind the scroller, and
+     taking it away broke every address into three lines mid-word. Fixed layout
+     makes it arithmetic instead — Name a quarter, Address a little under a third,
+     and the three narrow columns split the rest evenly, which is what an
+     unspecified column gets under this algorithm. */
+  .pf-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    color: var(--l-ink);
+  }
+
+  .pf-table thead th {
     padding: var(--pf-space-3) var(--pf-space-4);
+    border-bottom: 1px solid var(--l-rule);
+    font-size: var(--pf-text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    color: var(--l-faint);
+    text-align: start;
+    white-space: nowrap;
+  }
+
+  /* Five columns in about 860px, so the gutters are space-4 rather than space-5.
+     At the wider value the padding alone claimed 200px and the address column was
+     the one that paid for it. */
+  .pf-table tbody td {
+    padding: var(--pf-space-3) var(--pf-space-4);
+    border-bottom: 1px solid var(--l-rule-soft);
+    vertical-align: middle;
+  }
+
+  /* Zebra, from the surfaces already defined: `--l-surface` is a step off
+     `--l-elev` in every palette, including the dark one where it is a step DOWN
+     rather than up. Striping with a transparent black would have inverted there. */
+  .pf-table tbody tr:nth-child(even) {
     background: var(--l-surface);
-    border: 1px solid var(--l-rule-soft);
-    border-radius: var(--pf-radius);
-    text-decoration: none;
-    transition:
-      border-color var(--pf-motion),
-      background var(--pf-motion);
   }
 
-  .pf-person:hover {
-    border-color: var(--l-accent);
-  }
-
-  /* Selected, and it has to be louder than hover — on a list this long the
-     hovered row and the open row are frequently different rows. */
-  .pf-person[aria-current="true"] {
-    border-color: var(--l-accent);
+  .pf-table tbody tr:hover {
     background: var(--l-accent-soft);
   }
 
-  .pf-person__who {
-    display: block;
+  .pf-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  /* The three narrow columns. All three are start-aligned like the rest: the
+     Books column holds a pill, a word or a numeral depending on the person, and
+     an end-aligned column of mixed content reads as a misalignment rather than
+     as a measure. `nowrap` is the load-bearing part — without it the date and the
+     standing each claimed a line break, which squeezed the Name column until
+     "Adnan Dehlavi" broke across two lines with white space to spare. */
+  .pf-table__tight {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Who this is: the name, and the address under it when it adds anything. Two
+     fifths of the table, leaving the three narrow columns a fifth each — enough
+     for a full date and for the widest pill either of them can hold. */
+  .pf-table__who {
+    width: 40%;
+  }
+
+
+  .pf-quiet {
+    color: var(--l-faint);
+  }
+
+  /* Below this the table stops being a table: five columns of five words each is
+     a horizontal scroll on a phone, and a horizontal scroll hides the column that
+     says whether somebody can sign in. Each row becomes a card whose cells carry
+     their own heading, taken from `data-label` — so the labels cannot drift from
+     the `<th>` they duplicate, because they are written next to the cell. */
+  @media (max-width: 700px) {
+    .pf-table thead {
+      display: none;
+    }
+
+    .pf-table tbody tr {
+      display: block;
+      padding: var(--pf-space-3) var(--pf-space-5);
+      border-bottom: 1px solid var(--l-rule-soft);
+    }
+
+    .pf-table tbody td {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--pf-space-4);
+      /* The column percentages are meaningless once a cell is a flex row rather
+         than a table cell — left in place they would make the name a quarter of
+         the card wide. */
+      width: auto;
+      padding: 2px 0;
+      border-bottom: 0;
+      text-align: start;
+    }
+
+    .pf-table tbody td::before {
+      content: attr(data-label);
+      font-size: var(--pf-text-xs);
+      text-transform: uppercase;
+      letter-spacing: var(--pf-tracking-eyebrow);
+      color: var(--l-faint);
+    }
+
+    /* Who this is heads the card, so it takes the whole line and drops its label
+       — a card headed "PERSON  Ishrat Husain" reads as a form field. */
+    .pf-table tbody td[data-label="Person"] {
+      display: block;
+      padding-bottom: var(--pf-space-2);
+    }
+
+    .pf-table tbody td[data-label="Person"]::before {
+      content: none;
+    }
+  }
+
+  /* The row's link, and the way into one person.
+     `inline-flex` with a floor rather than bare text: a name set at the interface
+     size is a 19px-tall tap target, which the runtime gate fails at phone and
+     tablet widths — correctly, because this is the only way to open somebody and
+     on a touch screen it is the whole point of the row. */
+  .pf-person {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-base);
-    color: var(--l-ink);
-    overflow-wrap: anywhere;
+    color: var(--l-accent);
+    text-decoration: none;
+    /* Same reason as the address column: `anywhere` would let this column's
+       min-content width collapse to one character. */
+    overflow-wrap: break-word;
+  }
+
+  .pf-person:hover {
+    text-decoration: underline;
+  }
+
+  /* The way back from one person to everyone. It is a link and not a button: the
+     table is a different URL, not an action. */
+  .pf-backlink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    color: var(--l-muted);
+    text-decoration: none;
+  }
+
+  .pf-backlink:hover {
+    color: var(--l-accent);
   }
 
   .pf-person__mail {
@@ -2599,14 +2858,6 @@
     font-size: var(--pf-text-xs);
     color: var(--l-muted);
     overflow-wrap: anywhere;
-  }
-
-  .pf-person__what {
-    display: block;
-    margin-top: 2px;
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-xs);
-    color: var(--l-faint);
   }
 
   /* ---- One person's facts ------------------------------------------------- */
@@ -2828,10 +3079,6 @@
     margin-top: var(--pf-space-3);
   }
 
-  .pf-stack-lg > * + * {
-    margin-top: var(--pf-space-7);
-  }
-
   .pf-split {
     display: flex;
     flex-wrap: wrap;
@@ -2870,33 +3117,106 @@
     font-size: inherit;
   }
 
-  /* ---- Stat -------------------------------------------------------------
-     The admin overview's counts. */
+  /* ---- Metrics ----------------------------------------------------------
+     The five numbers above the admin tabs. They replace an Overview tab that
+     held them and nothing else.
 
-  .pf-stats {
+     `auto-fit` with a 12rem floor rather than `repeat(5, 1fr)`: the row is one
+     line on a laptop and folds to three, two and one by itself, and a sixth tile
+     added later needs no new breakpoint. */
+
+  .pf-metrics {
     display: grid;
-    gap: var(--pf-space-4);
-    grid-template-columns: 1fr;
-    margin: var(--pf-space-4) 0 0;
+    gap: var(--pf-space-3);
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    /* @media below is what actually delivers "one row": `auto-fit` with a 12rem
+       floor fits only four in the container at 1440px, which left the fifth tile
+       alone on a second line looking like an afterthought. The floor still
+       governs every width below the query, where wrapping is correct. */
+    /* No top margin: the masthead above it already ends in a space-6 gutter, and
+       adding one here doubled it. */
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  @media (min-width: 640px) {
-    .pf-stats {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+  @media (min-width: 1000px) {
+    .pf-metrics {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--pf-space-4);
     }
   }
 
-  .pf-stat {
+  /* Two up on a phone, and smaller. One tile per line made the five of them
+     eight hundred pixels tall, so the table an administrator came for started
+     below the second screen — the strip is a glance, and a glance that has to be
+     scrolled is not one. */
+  @media (max-width: 560px) {
+    .pf-metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--pf-space-2);
+    }
+
+    .pf-metric {
+      padding: var(--pf-space-3) var(--pf-space-4);
+    }
+
+    .pf-metric__value {
+      font-size: var(--pf-text-xl);
+    }
+  }
+
+  .pf-metric {
     display: flex;
     flex-direction: column;
     gap: var(--pf-space-1);
+    height: 100%;
     padding: var(--pf-space-4) var(--pf-space-5);
-    background: var(--l-surface);
+    background: var(--l-elev);
     border: 1px solid var(--l-rule);
+    /* The accent edge is what turns five bordered boxes into one instrument. It
+       is a border rather than a pseudo-element so it cannot overhang the tile's
+       own rounded corners. */
+    border-inline-start: 3px solid var(--l-accent);
     border-radius: var(--pf-radius);
+    box-shadow: var(--pf-elev-1);
+    text-decoration: none;
+    transition:
+      box-shadow var(--pf-motion),
+      border-color var(--pf-motion),
+      transform var(--pf-motion);
   }
 
-  .pf-stat__value {
+  .pf-metric:hover {
+    box-shadow: var(--pf-elev-2);
+    border-color: var(--l-accent);
+  }
+
+  /* A number that is currently asking for something to be done, and ONLY while
+     it is: the tone is applied from the component, not by class name, so a
+     count that falls to zero goes quiet by itself. Tinting all five would say
+     nothing — the whole value of the tint is that most tiles do not have it.
+     Fill at 12% of the tone with the label inked to 75% of it keeps every
+     palette above 5.3:1, which a flat `color: var(--l-warn)` on a tinted fill
+     does not: the sepia green measured 4.00:1. */
+  .pf-metric--attention {
+    --pf-tone: var(--l-warn);
+    background: color-mix(in srgb, var(--pf-tone) 10%, var(--l-elev));
+    border-color: color-mix(in srgb, var(--pf-tone) 28%, var(--l-rule));
+    border-inline-start-color: var(--pf-tone);
+  }
+
+  .pf-metric--attention .pf-metric__label,
+  .pf-metric--attention .pf-metric__value {
+    color: color-mix(in srgb, var(--pf-tone) 75%, var(--l-ink));
+  }
+
+  .pf-metric--attention .pf-metric__icon {
+    color: var(--pf-tone);
+    opacity: 1;
+  }
+
+  .pf-metric__value {
     font-family: var(--l-font-prose);
     font-size: var(--pf-display-sm);
     line-height: 1;
@@ -2904,11 +3224,33 @@
     font-variant-numeric: tabular-nums;
   }
 
-  .pf-stat__label {
+  /* A grid rather than a flex row, and with a floor two lines deep.
+     At five across, a tile is about 180px wide and four of the five labels wrap —
+     so with the label sized to its own content the numbers sat at five different
+     heights, and a row of numbers that do not share a baseline reads as a
+     misalignment rather than as a set. The icon stays on the first line. */
+  .pf-metric__label {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: var(--pf-space-2);
+    min-height: 2.6em;
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-xs);
+    line-height: 1.3;
     text-transform: uppercase;
     letter-spacing: var(--pf-tracking-eyebrow);
+    color: var(--l-faint);
+  }
+
+  .pf-metric__icon {
+    color: var(--l-accent);
+    opacity: 1;
+  }
+
+  .pf-metric__hint {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
     color: var(--l-faint);
   }
 
@@ -3810,10 +4152,15 @@
 
   /* ---- Tabs -------------------------------------------------------------- */
 
+  /* The section's two tabs. They sit BELOW the row of numbers and directly above
+     the panels they switch, because a tab belongs to the thing it changes — with
+     the strip between them it read as though the numbers changed with the tab,
+     and they do not: they describe Access as a whole. */
   .pf-tabs {
     display: flex;
     gap: var(--pf-space-5);
     margin-top: var(--pf-space-5);
+    margin-bottom: var(--pf-space-6);
     border-bottom: 1px solid var(--l-rule);
   }
 

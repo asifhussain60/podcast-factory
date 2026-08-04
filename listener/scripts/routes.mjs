@@ -29,8 +29,9 @@ export const STATIC_ROUTES = [
   { path: "/", who: "admin", expect: 200, label: "library" },
   { path: "/", who: "reader", expect: 200, label: "library-one-book" },
   { path: "/", who: "nobody", expect: 200, label: "library-empty" },
-  { path: "/admin", who: "admin", expect: 200, label: "admin-overview" },
-  { path: "/admin/people", who: "admin", expect: 200, label: "admin-people" },
+  // `/admin` IS the people screen — the Overview tab it used to open on was
+  // retired, and its numbers now sit above both tabs.
+  { path: "/admin", who: "admin", expect: 200, label: "admin-people" },
   { path: "/admin/content", who: "admin", expect: 200, label: "admin-content" },
 
   // Signed out, everything behind the gate redirects rather than 404s — the
@@ -40,11 +41,14 @@ export const STATIC_ROUTES = [
   { path: "/admin", who: "anon", expect: 302, label: "admin-signed-out" },
 
   // Admin is a 404 for everyone else, never a 403: a 403 confirms the page is
-  // there. `/Admin/people` is the case-variant probe — `compilePath` matches
+  // there. `/Admin/content` is the case-variant probe — `compilePath` matches
   // case-insensitively, so a gate written as a pathname comparison would let it
-  // through, and this is the request that proves the gate is positional.
+  // through, and this is the request that proves the gate is positional. It must
+  // name a route that EXISTS and is nested, or a 404 would prove only that
+  // React Router matched nothing: it was `/Admin/people` until the people screen
+  // moved up to `/admin` and that path stopped existing.
   { path: "/admin", who: "reader", expect: 404, label: "admin-denied" },
-  { path: "/Admin/people", who: "reader", expect: 404, label: "admin-denied-case" },
+  { path: "/Admin/content", who: "reader", expect: 404, label: "admin-denied-case" },
 ];
 
 /** Routes needing a book the signed-in identity can actually open. */

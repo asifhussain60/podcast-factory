@@ -19,7 +19,8 @@
     "shots": "node scripts/shots.mjs",
     "security": "node scripts/security-smoke.mjs",
     "db:migrate": "wrangler d1 migrations apply podcast-listener --local",
-    "dev-vars": "node scripts/dev-vars.mjs"
+    "dev-vars": "node scripts/dev-vars.mjs",
+    "seed:people": "node scripts/seed-people.mjs"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.3.1",

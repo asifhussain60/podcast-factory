@@ -8,6 +8,7 @@ import {
   peopleTallies,
   personByEmail,
   revokeInvite,
+  splitName,
 } from "~/server/access.server";
 import { createTestDb, type TestDb } from "./d1";
 
@@ -115,6 +116,110 @@ describe("the filters answer the questions they are named for", () => {
     expect(tallies.all).toBe(3);
     expect(tallies.revoked).toBe(1);
     expect(tallies.never).toBe(2);
+  });
+
+  it("finds the people holding the whole library", async () => {
+    // The widest grant this application can give, given by one press of one
+    // button. Being able to ask who holds it is the only way to audit it.
+    await grant(t.db, "bilal@example.com", "library", "*", ADMIN, NOW);
+    await grant(t.db, "amina.yusuf@example.com", "unit", "standalone", ADMIN, NOW);
+
+    const { people } = await listPeople(t.db, { filter: "library" });
+    expect(people.map((p) => p.email)).toEqual(["bilal@example.com"]);
+  });
+
+  it("says on the row itself that somebody holds everything", async () => {
+    // `grantCount` is 1 for a library grant, and a table printing "1" beside the
+    // widest grant in the system is not a rounding error — it is the wrong
+    // answer. The flag is what lets the column say "Everything".
+    await grant(t.db, "bilal@example.com", "library", "*", ADMIN, NOW);
+    await grant(t.db, "amina.yusuf@example.com", "unit", "standalone", ADMIN, NOW);
+
+    const rows = (await listPeople(t.db)).people;
+    expect(rows.find((p) => p.email === "bilal@example.com")?.library).toBe(true);
+    expect(rows.find((p) => p.email === "amina.yusuf@example.com")?.library).toBe(false);
+  });
+
+  it("finds the people who signed in once and stopped", async () => {
+    // The cutoff is built with `strftime`, not `datetime`. Every timestamp here
+    // is an ISO string with a T and a Z and SQLite compares them as TEXT, so
+    // `datetime('now','-30 days')` — which has a space where the T is — sorts
+    // below every stored value and would have matched nobody, forever. This test
+    // fails if that regresses.
+    t.exec(`
+      UPDATE invite SET redeemed_at = '${NOW}',
+                        last_seen_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now', '-90 days')
+        WHERE email = 'amina.yusuf@example.com';
+      UPDATE invite SET redeemed_at = '${NOW}',
+                        last_seen_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now', '-2 days')
+        WHERE email = 'bilal@example.com';
+    `);
+
+    const { people } = await listPeople(t.db, { filter: "dormant" });
+    expect(people.map((p) => p.email)).toEqual(["amina.yusuf@example.com"]);
+  });
+
+  it("leaves the revoked out of every filter but their own", async () => {
+    // Each new filter carries `revoked_at IS NULL` for the same reason the old
+    // ones do: somebody who cannot sign in at all is not "gone quiet", and
+    // listing them as such sends an administrator chasing a person they already
+    // removed.
+    await grant(t.db, "bilal@example.com", "library", "*", ADMIN, NOW);
+    await revokeInvite(t.db, "bilal@example.com", ADMIN, LATER);
+
+    expect((await listPeople(t.db, { filter: "library" })).total).toBe(0);
+    expect((await listPeople(t.db, { filter: "revoked" })).total).toBe(1);
+  });
+});
+
+describe("the table reads alphabetically down the column it prints", () => {
+  it("orders by the displayed name, addresses included, in one sequence", async () => {
+    // It used to order by surname, which is right for a list of one line per
+    // person and wrong for a table: the Name column would have read Amina,
+    // Bilal, Yusuf in an order keyed to words the column never shows, and a
+    // sorted table that looks unsorted reads as a bug. The nameless no longer
+    // fall to the bottom either — they sort by their address, in place.
+    await invite(t.db, "zaki@example.com", ADMIN, { firstName: "Zaki" }, NOW);
+    await invite(t.db, "aardvark@example.com", ADMIN, {}, NOW);
+
+    const { people } = await listPeople(t.db);
+    expect(people.map((p) => p.displayName)).toEqual([
+      "aardvark@example.com",
+      "Amina Yusuf",
+      "Bilal Ahmed",
+      "nameless@example.com",
+      "Zaki",
+    ]);
+  });
+});
+
+describe("one name field, two stored columns", () => {
+  it("puts the last word in the surname and the rest in the given name", () => {
+    expect(splitName("Ishrat Husain")).toEqual({ firstName: "Ishrat", lastName: "Husain" });
+    expect(splitName("Abd al-Rahman ibn Awf")).toEqual({
+      firstName: "Abd al-Rahman ibn",
+      lastName: "Awf",
+    });
+  });
+
+  it("does not invent a surname for a single word", () => {
+    expect(splitName("Cher")).toEqual({ firstName: "Cher", lastName: null });
+  });
+
+  it("stores nothing for an empty or blank name", () => {
+    expect(splitName("")).toEqual({ firstName: null, lastName: null });
+    expect(splitName("   ")).toEqual({ firstName: null, lastName: null });
+  });
+
+  it("is reversible — what is displayed is what was typed", async () => {
+    // The one property that makes a heuristic safe here. The two halves rejoin,
+    // in order, with one space; nothing is dropped and no word changes places.
+    for (const typed of ["Ishrat Husain", "Cher", "Abd al-Rahman ibn Awf", "Mary  Jane   Watson"]) {
+      const email = `${typed.replace(/\W+/g, "")}@example.com`;
+      await invite(t.db, email, ADMIN, splitName(typed), NOW);
+      const person = await personByEmail(t.db, email);
+      expect(person?.displayName).toBe(typed.trim().replace(/\s+/g, " "));
+    }
   });
 });
 
