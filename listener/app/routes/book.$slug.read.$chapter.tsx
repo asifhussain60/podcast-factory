@@ -1,10 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { faChevronLeft, faChevronRight, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faChevronRight,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router";
 
 import type { Route } from "./+types/book.$slug.read.$chapter";
 import { Icon } from "~/components/Icon";
 import { NotesList } from "~/components/reader/NotesList";
+import { ContentsPanel } from "~/components/reader/ContentsPanel";
 import { ReaderToolbar } from "~/components/reader/ReaderToolbar";
 import { SelectionBar } from "~/components/reader/SelectionBar";
 import { useHighlights, type Painted } from "~/components/reader/Highlights";
@@ -71,7 +76,8 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 }
 
 export default function ReadChapter({ loaderData }: Route.ComponentProps) {
-  const { bookTitle, slug, chapter, contents, position, previous, next } = loaderData;
+  const { bookTitle, slug, chapter, contents, position, previous, next } =
+    loaderData;
   const navigate = useNavigate();
 
   const [progress, setProgress] = useState(0);
@@ -112,7 +118,8 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       const start = element.offsetTop;
       const height = element.offsetHeight - window.innerHeight;
       const scrolled = window.scrollY - start;
-      const fraction = height <= 0 ? 1 : Math.min(1, Math.max(0, scrolled / height));
+      const fraction =
+        height <= 0 ? 1 : Math.min(1, Math.max(0, scrolled / height));
       setProgress(fraction);
       bar.current?.style.setProperty("--l-progress", String(fraction));
 
@@ -155,14 +162,19 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     const height = element.offsetHeight - window.innerHeight;
     if (height <= 0) return;
 
-    window.scrollTo({ top: element.offsetTop + height * saved.fraction, behavior: "instant" });
+    window.scrollTo({
+      top: element.offsetTop + height * saved.fraction,
+      behavior: "instant",
+    });
   }, [marks.progress, chapter.anchorKey]);
 
   /* ---- Highlights -------------------------------------------------------- */
 
   const onResolved = useCallback(
     (painted: Painted) => {
-      setOrphaned((current) => (sameSet(current, painted.orphaned) ? current : painted.orphaned));
+      setOrphaned((current) =>
+        sameSet(current, painted.orphaned) ? current : painted.orphaned,
+      );
 
       // A passage that moved gets its corrected offsets written back, so the
       // next device to open this chapter finds it first time instead of
@@ -250,8 +262,14 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     [annotations, chapter.anchorKey],
   );
 
-  const removeAnnotation = useCallback((id: string) => submit("unannotate", { id }), []);
-  const removeBookmark = useCallback((id: string) => submit("unbookmark", { id }), []);
+  const removeAnnotation = useCallback(
+    (id: string) => submit("unannotate", { id }),
+    [],
+  );
+  const removeBookmark = useCallback(
+    (id: string) => submit("unbookmark", { id }),
+    [],
+  );
 
   /* ---- Bookmarks --------------------------------------------------------
      A bookmark marks the topmost block currently on screen, which is what
@@ -270,14 +288,19 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     const root = body.current;
     if (root === null) return;
     const blocks = blocksOf(root);
-    const index = blocks.findIndex((b) => b.getBoundingClientRect().bottom > 120);
+    const index = blocks.findIndex(
+      (b) => b.getBoundingClientRect().bottom > 120,
+    );
     const block = blocks[index === -1 ? 0 : index];
 
     submit("bookmark", {
       id: newId(),
       anchorKey: chapter.anchorKey,
       blockIndex: String(index === -1 ? 0 : index),
-      label: (block?.textContent ?? chapter.title).replace(/\s+/g, " ").trim().slice(0, 160),
+      label: (block?.textContent ?? chapter.title)
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 160),
     });
   }, [bookmarked, bookmarks, chapter.anchorKey, chapter.title]);
 
@@ -285,7 +308,9 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   const jump = useCallback(
     (anchorKey: string, id: string) => {
       if (anchorKey !== chapter.anchorKey) {
-        void navigate(`/book/${slug}/read/${encodeURIComponent(anchorKey)}#mark-${id}`);
+        void navigate(
+          `/book/${slug}/read/${encodeURIComponent(anchorKey)}#mark-${id}`,
+        );
         return;
       }
       setNotesOpen(false);
@@ -293,7 +318,9 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       // After the repaint that the activeId change triggers, so the element the
       // ring was added to is the one scrolled to.
       requestAnimationFrame(() => {
-        const target = body.current?.querySelector(`mark[data-mark-id="${id}"]`);
+        const target = body.current?.querySelector(
+          `mark[data-mark-id="${id}"]`,
+        );
         target?.scrollIntoView({ block: "center", behavior: "smooth" });
       });
     },
@@ -305,7 +332,11 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     const hash = window.location.hash;
     if (!hash.startsWith("#mark-")) return;
     const id = hash.slice("#mark-".length);
-    if (!annotations.some((a) => a.id === id) && !bookmarks.some((b) => b.id === id)) return;
+    if (
+      !annotations.some((a) => a.id === id) &&
+      !bookmarks.some((b) => b.id === id)
+    )
+      return;
     setActiveId(id);
     requestAnimationFrame(() => {
       body.current
@@ -322,6 +353,21 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       <div className="reading-progress" aria-hidden="true">
         <span ref={bar} />
       </div>
+
+      {/* Contents on the LEFT, your own marks on the RIGHT — the same drawer
+          mirrored, so a reader learns one behaviour and the book's structure and
+          their notes on it stay on opposite sides. */}
+      <ContentsPanel
+        open={contentsOpen}
+        onOpen={() => {
+          setContentsOpen(true);
+          setNotesOpen(false);
+        }}
+        onClose={() => setContentsOpen(false)}
+        chapters={contents}
+        currentKey={chapter.anchorKey}
+        slug={slug}
+      />
 
       {notesOpen ? (
         <>
@@ -379,11 +425,6 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
 
           <div className="pf-toolbar-rail">
             <ReaderToolbar
-              contentsOpen={contentsOpen}
-              onToggleContents={() => {
-                setContentsOpen((v) => !v);
-                setNotesOpen(false);
-              }}
               minutesLeft={left}
               bookmarked={bookmarked}
               onToggleBookmark={toggleBookmark}
@@ -395,26 +436,6 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
               }}
             />
           </div>
-
-          {contentsOpen ? (
-            <nav aria-label="Table of contents" className="pf-toc">
-              <ol className="pf-toc__list">
-                {contents.map((entry) => (
-                  <li key={entry.anchorKey}>
-                    <Link
-                      to={`/book/${slug}/read/${encodeURIComponent(entry.anchorKey)}`}
-                      onClick={() => setContentsOpen(false)}
-                      aria-current={entry.anchorKey === chapter.anchorKey ? "page" : undefined}
-                      className="pf-row pf-toc__row"
-                    >
-                      <span className="pf-row__main">{entry.title}</span>
-                      <span className="pf-row__meta">{readingMinutes(entry.wordCount)} min</span>
-                    </Link>
-                  </li>
-                ))}
-              </ol>
-            </nav>
-          ) : null}
         </div>
 
         <div className="pf-reader-page">
@@ -441,6 +462,50 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
               dangerouslySetInnerHTML={{ __html: chapter.html }}
             />
           </article>
+
+          {/* Inside the page container, so the two cards line up with the edges
+              of the sheet above them. As a sibling it inherited the reader's
+              full width and ran to both edges of the window. */}
+          <nav className="pf-turn">
+            {previous ? (
+              <Link
+                to={`/book/${slug}/read/${encodeURIComponent(previous.anchorKey)}`}
+                className="pf-card pf-card--link pf-card--padded pf-turn__link"
+              >
+                <span className="pf-eyebrow">
+                  <Icon icon={faChevronLeft} />
+                  Previous
+                </span>
+                <span className="pf-turn__title">{previous.title}</span>
+              </Link>
+            ) : (
+              <span className="pf-turn__gap" />
+            )}
+
+            {next ? (
+              <Link
+                to={`/book/${slug}/read/${encodeURIComponent(next.anchorKey)}`}
+                className="pf-card pf-card--link pf-card--padded pf-turn__link pf-turn__link--end"
+              >
+                <span className="pf-eyebrow">
+                  Next
+                  <Icon icon={faChevronRight} />
+                </span>
+                <span className="pf-turn__title">{next.title}</span>
+              </Link>
+            ) : (
+              <Link
+                to={`/book/${slug}`}
+                className="pf-card pf-card--link pf-card--padded pf-turn__link pf-turn__link--end"
+              >
+                <span className="pf-eyebrow">
+                  The end
+                  <Icon icon={faChevronRight} />
+                </span>
+                <span className="pf-turn__title">Back to {bookTitle}</span>
+              </Link>
+            )}
+          </nav>
         </div>
 
         <SelectionBar
@@ -450,47 +515,6 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
           onNote={note}
           onRemove={removeAnnotation}
         />
-
-        <nav className="pf-turn">
-          {previous ? (
-            <Link
-              to={`/book/${slug}/read/${encodeURIComponent(previous.anchorKey)}`}
-              className="pf-card pf-card--link pf-card--padded pf-turn__link"
-            >
-              <span className="pf-eyebrow">
-                <Icon icon={faChevronLeft} />
-                Previous
-              </span>
-              <span className="pf-turn__title">{previous.title}</span>
-            </Link>
-          ) : (
-            <span className="pf-turn__gap" />
-          )}
-
-          {next ? (
-            <Link
-              to={`/book/${slug}/read/${encodeURIComponent(next.anchorKey)}`}
-              className="pf-card pf-card--link pf-card--padded pf-turn__link pf-turn__link--end"
-            >
-              <span className="pf-eyebrow">
-                Next
-                <Icon icon={faChevronRight} />
-              </span>
-              <span className="pf-turn__title">{next.title}</span>
-            </Link>
-          ) : (
-            <Link
-              to={`/book/${slug}`}
-              className="pf-card pf-card--link pf-card--padded pf-turn__link pf-turn__link--end"
-            >
-              <span className="pf-eyebrow">
-                The end
-                <Icon icon={faChevronRight} />
-              </span>
-              <span className="pf-turn__title">Back to {bookTitle}</span>
-            </Link>
-          )}
-        </nav>
       </main>
     </div>
   );

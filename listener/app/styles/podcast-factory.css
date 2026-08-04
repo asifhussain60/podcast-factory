@@ -788,31 +788,46 @@
     color: var(--l-display);
   }
 
-  /* The rail is what makes the toolbar CENTRED when it fits and SCROLLABLE when
-     it does not, without the two fighting.
-     `justify-content: center` on a scrolling flex row is the wrong tool: when
-     the content overflows, the start of it is pushed off the left edge and
-     cannot be scrolled back to. Here the scroller is the outer element and the
-     row inside it is `width: fit-content` — so `margin-inline: auto` centres it
-     while there is room and collapses to nothing the moment there is not. */
+  /* The rail exists so the card can be `width: fit-content` and still centre:
+     it is the full-width track `margin-inline: auto` measures against. It does
+     NOT scroll — see the note on the card below. */
   .pf-toolbar-rail {
     width: 100%;
     max-width: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
   }
 
-  .pf-toolbar-rail::-webkit-scrollbar {
-    display: none;
-  }
-
+  /* A panel, not a bare row. Floating unframed between a large title and a
+     bordered sheet, the controls read as loose objects on the page background;
+     the card gives them one edge and says they are one thing. Same surface,
+     border and radius as every other card on the site, and the elevation is a
+     step below the sheet's so it reads as sitting on the page rather than in
+     front of it. */
   .pf-toolbar {
     display: flex;
     align-items: center;
     gap: var(--pf-space-3);
     width: fit-content;
+    max-width: 100%;
     margin-inline: auto;
-    padding-inline: var(--pf-space-2);
+    padding: var(--pf-space-2) var(--pf-space-3);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    box-shadow: var(--pf-elev-1);
+    /* The CARD is the scroller, not the rail around it.
+       Scrolling the rail was right while the row was unframed; with a border on
+       it, the frame itself scrolled — so at tablet width you saw a rounded left
+       corner and a right edge that simply ran off the screen, which reads as a
+       broken box rather than as more to see. Scrolling inside the card keeps the
+       frame whole at every width, and a control clipped by a border a reader can
+       see is its own invitation to drag. */
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .pf-toolbar::-webkit-scrollbar {
+    display: none;
   }
 
   .pf-toolbar__home,
@@ -866,42 +881,6 @@
     text-align: center;
   }
 
-  /* Says what it opens. It used to be the book's name and the chapter's, which
-     made the control's label a fact rather than an action, and left nothing to
-     read once the title moved above the row at full size. */
-  .pf-toolbar__contents {
-    display: flex;
-    align-items: center;
-    gap: var(--pf-space-2);
-    flex: none;
-    min-height: 2.75rem;
-    padding-inline: var(--pf-space-3);
-    border: 0;
-    border-radius: var(--pf-radius);
-    background: transparent;
-    white-space: nowrap;
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-base);
-    color: var(--l-ink);
-    cursor: pointer;
-    transition: background var(--pf-motion);
-  }
-
-  .pf-toolbar__contents:hover {
-    background: var(--l-sunken);
-  }
-
-  .pf-toolbar__contents[aria-expanded="true"] {
-    background: var(--l-accent-soft);
-    color: var(--l-accent);
-  }
-
-  .pf-toolbar__caret {
-    flex: none;
-    font-size: 0.7em;
-    color: var(--l-faint);
-  }
-
   .pf-toolbar__group {
     display: flex;
     align-items: center;
@@ -925,20 +904,17 @@
   }
 
   /* Below the tablet tier the row cannot hold everything at a legible size, and
-     the answer is NOT a popover — that is the thing being removed. The RAIL
-     scrolls, which is the same idiom the site's own mobile navigation uses.
+     the answer is NOT a popover — that is the thing being removed. The card
+     takes the full width and its contents scroll inside it, which is the same
+     idiom the site's own mobile navigation uses.
 
-     The fade says it scrolls. A row that simply ends at the screen edge reads as
-     a row that ends, and it costs nothing on a row that happens to fit, because
-     a strip with nothing to scroll shows no gradient. */
+     Full width rather than fit-content, because a card sized to content that is
+     wider than the screen is a card wider than the screen: it would be clipped
+     by the viewport instead of by its own border, and the right edge would be
+     gone rather than merely full. */
   @media (max-width: 899px) {
-    .pf-toolbar-rail {
-      scroll-snap-type: x proximity;
-      mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
-    }
-
-    [dir="rtl"] .pf-toolbar-rail {
-      mask-image: linear-gradient(to left, #000 calc(100% - 2rem), transparent);
+    .pf-toolbar {
+      width: 100%;
     }
 
     .pf-toolbar__group {
@@ -952,33 +928,13 @@
     }
   }
 
-  /* ---- Contents ----------------------------------------------------------
-     A panel under the toolbar rather than a drawer under a sticky header. It is
-     IN THE FLOW now, so opening it pushes the page down instead of covering the
-     first paragraph — which is the honest behaviour for something you open in
-     order to leave the page you are on. Capped and scrollable so a long book
-     does not push the chapter off the bottom of the screen. */
-
-  .pf-toc {
-    width: 100%;
-    /* The SHEET's width, not the reading column's. The page container is the
-       measure and then loses its own inline padding, so a panel set to the bare
-       measure sits a little proud of the card below it — close enough to read as
-       a misalignment rather than as a decision. */
-    max-width: calc(var(--pf-measure-reader) - var(--pf-space-5) * 2);
-    max-height: 60dvh;
-    overflow-y: auto;
-    background: var(--l-surface);
-    border: 1px solid var(--l-rule);
-    border-radius: var(--pf-radius-lg);
-    box-shadow: var(--pf-elev-2);
-  }
+  /* ---- Contents -----------------------------------------------------------
+     A drawer on the LEFT, mirroring the notes drawer on the right. It was an
+     in-flow panel that pushed the chapter down the screen; as a drawer it costs
+     the page nothing and the two panels sit on opposite sides — the book's
+     structure to the left, your own marks on it to the right. */
 
   .pf-toc__list {
-    width: 100%;
-    max-width: var(--pf-measure-reader);
-    margin-inline: auto;
-    padding: var(--pf-space-2) var(--pf-space-5);
     list-style: none;
   }
 
@@ -1121,7 +1077,10 @@
     }
 
     .pf-page {
-      padding: var(--pf-space-6) var(--pf-space-5);
+      /* 1.75rem, not 1.5: the contents tab is exactly that wide at this width
+         and lives in this gutter, so the two numbers have to agree or the tab
+         sits on the text. */
+      padding: var(--pf-space-6) 1.75rem;
       border-inline: 0;
       border-radius: 0;
     }
@@ -1180,10 +1139,14 @@
   }
 
   /* Previous and next, at the foot of the chapter. */
+  /* 3rem above the rule, matching the 3rem between the title, the toolbar and
+     the sheet. It was 6rem, which left a band of nothing between the end of the
+     chapter and the way out of it — far more than any other gap on the page, so
+     it read as a missing block rather than as a margin. */
   .pf-turn {
     display: flex;
     gap: var(--pf-space-4);
-    margin-top: var(--pf-space-9);
+    margin-top: var(--pf-space-7);
     border-top: 1px solid var(--l-rule);
     padding-top: var(--pf-space-6);
   }
@@ -3108,6 +3071,98 @@
     background: var(--l-surface);
     border-inline-start: 1px solid var(--l-rule);
     box-shadow: var(--pf-elev-4);
+  }
+
+  /* ---- The contents panel, collapsed ---------------------------------------
+     A tab against the left edge. This IS the collapsed panel — the affordance
+     belongs to the thing it opens, which is why nothing in the toolbar carries
+     it any more.
+
+     On a wide screen it sits in the empty margin beside the sheet, vertically
+     centred, rounded on its trailing side as though the panel were tucked just
+     off-screen. Below the tablet tier the sheet runs edge to edge and there IS
+     no margin, so an edge tab would sit on top of the first words of every line;
+     there it becomes a round button in the bottom-left corner instead, clear of
+     the text and inside the page's own bottom padding. */
+
+  .pf-contents-tab {
+    position: fixed;
+    inset-inline-start: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 22;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pf-space-2);
+    width: 2.75rem;
+    padding-block: var(--pf-space-4);
+    padding-inline: 0;
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-inline-start: 0;
+    border-start-end-radius: var(--pf-radius-lg);
+    border-end-end-radius: var(--pf-radius-lg);
+    color: var(--l-muted);
+    box-shadow: var(--pf-elev-2);
+    cursor: pointer;
+    transition:
+      color var(--pf-motion),
+      padding-inline-start var(--pf-motion);
+  }
+
+  /* Bottom-to-top, the conventional orientation for a tab on the leading edge:
+     `vertical-rl` alone reads top-to-bottom, which on the left of a page has the
+     word running away from the reader. */
+  .pf-contents-tab__label {
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+  }
+
+  .pf-contents-tab:hover {
+    color: var(--l-accent);
+    /* Leans out rather than growing — a width change would move the icon and
+       make the target jump under a pointer that is already on it. */
+    padding-inline-start: var(--pf-space-2);
+  }
+
+  /* Narrower, and still on the edge.
+     A round floating button in the bottom-left corner was tried first and was
+     wrong: below 640px the sheet runs edge to edge, so a 48px button 16px from
+     the edge sat squarely on the first words of whatever line it happened to be
+     over. Nothing fixed can float over this layout without covering prose.
+
+     The tab stays an edge tab and gets thin enough to live INSIDE the sheet's
+     own inline padding — which is raised by a quarter of a rem below to make
+     exactly that room. It never overlaps a word, and 28px still clears the 24px
+     WCAG 2.2 AA target floor.
+
+     Keyed to 639px, NOT to the 899px the toolbar uses: the constraint here is
+     the full-bleed sheet, and that starts at 640px. A tablet in portrait has
+     ~89px of margin and gets the full labelled tab. */
+  @media (max-width: 639px) {
+    .pf-contents-tab {
+      width: 1.75rem;
+      padding-block: var(--pf-space-4);
+    }
+
+    .pf-contents-tab__label {
+      display: none;
+    }
+  }
+
+  /* Mirrored. `inset-inline` rather than left/right so a right-to-left reading
+     still puts the contents on the side the reader starts from. */
+  .pf-drawer--left {
+    inset-inline-start: 0;
+    inset-inline-end: auto;
+    border-inline-start: 0;
+    border-inline-end: 1px solid var(--l-rule);
   }
 
   .pf-drawer__head {

@@ -3,7 +3,45 @@
 **Last updated:** 2026-08-03 night (the Listener gains per-reader state, one
 toolbar row, an access screen that scales, and the runtime gate it never had)
 
-**Newest — the reader is a title, a toolbar and a page, in that order.**
+**Newest — contents is a panel on the left, and the toolbar is a card.**
+
+Asif, on the layout above: move contents to a left collapsible panel and take it
+out of the toolbar entirely; drop the duplicate width dropdown; frame the toolbar
+with a border, a radius and a shadow; align the prev/next cards with the sheet's
+edges rather than the window's; and close the gap above them.
+
+- **`ContentsPanel.tsx`** — collapsed it is a tab on the left edge carrying its
+  own label; expanded it is the notes drawer mirrored. Nothing in the toolbar
+  refers to it. Two earlier attempts put a way of LEAVING the chapter into the
+  row of controls for how the chapter is SET.
+- **Line width is gone.** It and line spacing were different settings that both
+  read "Normal" at their defaults, so side by side they were two dropdowns
+  nobody could tell apart. `MEASURES` stays in `lib/reading.ts` so a measure
+  stored by an earlier visit still validates.
+- **The prev/next cards were a regression from the previous change** — splitting
+  the head out of the page container left them a sibling of it, so they ran to
+  both edges of the window. Back inside; measured identical to the sheet.
+- Gap above them 6rem → 3rem, matching the page's own rhythm.
+
+**Four defects the visual pass found, each fixed and re-shot:**
+- The new border was cut mid-edge whenever the row scrolled — a rounded left
+  corner and a right edge running off the screen. The CARD is the scroller now,
+  not the rail, so the frame stays whole at every width.
+- The contents control as a bottom-left floating button sat on the text: below
+  640px the sheet is full-bleed and nothing fixed can float without covering
+  prose. It is a 28px edge tab living inside the sheet's own gutter, which was
+  widened by a quarter rem to match. Verified clear at 360 / 390 / 639 / 640 /
+  768 / 1024 / 1440.
+- The tab was an unlabelled icon, replacing a control that had said "Contents"
+  in words. It carries a vertical label now.
+- The slim tab was keyed to 899px when the constraint is the full-bleed sheet at
+  639px, so tablets got the cramped variant with 89px of margin going spare.
+
+Removing two controls also bought the row enough width to fit unscrolled at 768.
+Both harness scripts caught their own drift twice — `shots.mjs` was still
+clicking `.pf-toolbar__place` and waiting on `.pf-toc`.
+
+**Previously — the reader is a title, a toolbar and a page, in that order.**
 
 Asif, on the toolbar shipped earlier the same night: move it above the page and
 centre it, take it out of the header, put the book's name above it in large

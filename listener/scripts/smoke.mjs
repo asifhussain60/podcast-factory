@@ -173,7 +173,14 @@ try {
            * wide, which clears the 24px AA floor with room — and at 44 square it
            * rendered as a circle, reading as a status light rather than as one
            * choice of three. */
-          const THUMB = ".pf-tool, .pf-toolbar__home, .pf-toolbar__contents, .pf-stepper__step, .pf-selbar__action, .pf-selbar__colour, .pf-mark__remove";
+          /* `.pf-contents-tab` is not here either, and for a reason the layout
+           * forces rather than a preference: below 640px the reading sheet runs
+           * edge to edge, so the ONLY place a fixed control can sit without
+           * covering prose is the sheet's own 28px inline gutter. A 44px tab
+           * there would sit on the first word of every line it passed. It is
+           * 28×50 at that width — past the 24px WCAG 2.2 AA floor — and 44×142
+           * everywhere there is a margin to put it in. */
+          const THUMB = ".pf-tool, .pf-toolbar__home, .pf-stepper__step, .pf-selbar__action, .pf-selbar__colour, .pf-mark__remove";
 
           const small = [];
           for (const el of document.querySelectorAll(

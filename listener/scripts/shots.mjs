@@ -60,8 +60,8 @@ const STATES = {
     {
       name: "contents-open",
       act: async (page) => {
-        await page.click(".pf-toolbar__contents");
-        await page.waitForSelector(".pf-toc", { timeout: 2000 });
+        await page.click(".pf-contents-tab");
+        await page.waitForSelector(".pf-drawer--left", { timeout: 2000 });
       },
     },
     { name: "selection", act: (page) => raiseSelectionBar(page, 60) },

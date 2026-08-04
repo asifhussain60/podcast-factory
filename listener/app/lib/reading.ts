@@ -40,25 +40,24 @@ export const LEADINGS = [1.5, 1.7, 1.9] as const;
 export const MEASURES = [58, 68, 78] as const;
 
 /**
- * The words for the two settings whose values are numbers nobody thinks in.
+ * The words for the setting whose values are numbers nobody thinks in.
  *
- * `1.7` and `68ch` are what the CSS wants; "Normal" is what a reader wants. The
- * labels live HERE, beside the scales, because they used to be written out as
- * positional arrays at each control — `["Tight", "Normal", "Loose"][i]` — which
- * silently mislabels every value the moment a fourth step is inserted anywhere
- * but the end. Keyed by value, so an inserted step is a compile error rather than
- * a page that calls Loose "Normal".
+ * `1.7` is what the CSS wants; "Normal" is what a reader wants. The labels live
+ * HERE, beside the scale, because they used to be written out as a positional
+ * array at the control — `["Tight", "Normal", "Loose"][i]` — which silently
+ * mislabels every value the moment a fourth step is inserted anywhere but the
+ * end. Keyed by value, so an inserted step is a compile error rather than a page
+ * that calls Loose "Normal".
+ *
+ * `MEASURES` has no labels because it no longer has a control: line width and
+ * line spacing both read "Normal" at their defaults, so side by side they were
+ * two dropdowns nobody could tell apart. It survives so that a measure stored by
+ * an earlier visit still validates instead of silently resetting.
  */
 export const LEADING_LABELS: Record<(typeof LEADINGS)[number], string> = {
   1.5: "Tight",
   1.7: "Normal",
   1.9: "Loose",
-};
-
-export const MEASURE_LABELS: Record<(typeof MEASURES)[number], string> = {
-  58: "Narrow",
-  68: "Normal",
-  78: "Wide",
 };
 
 export interface ReadingPrefs {
@@ -131,11 +130,10 @@ export function step<T extends number>(scale: readonly T[], current: T, directio
 /* ---------------------------------------------------------------------------
  * One copy of the current setting, for however many controls are on screen.
  *
- * There are now two: the bar above the page, and the fuller panel behind "Aa"
- * in the header (which also carries theme, line spacing and line width). Each
- * holding its own `useState` seeded from localStorage would mean raising the
- * size in one and watching the other still read 19 — both would be writing the
- * same key and disagreeing about what it said.
+ * There is one today — the reader's toolbar — but there were two, and the reason
+ * for a shared store outlives them: each holding its own `useState` seeded from
+ * localStorage would mean raising the size in one and watching the other still
+ * read 19, both writing the same key and disagreeing about what it said.
  *
  * Deliberately NOT seeded from storage at module load. The first render has to
  * match what the server produced or React logs a hydration mismatch, so the

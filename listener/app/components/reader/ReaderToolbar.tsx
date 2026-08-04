@@ -1,11 +1,5 @@
 import { useId } from "react";
-import {
-  faBookmark,
-  faChevronDown,
-  faHouse,
-  faListUl,
-  faNoteSticky,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBookmark, faHouse, faNoteSticky } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
@@ -16,8 +10,6 @@ import {
   FAMILY_LABELS,
   LEADINGS,
   LEADING_LABELS,
-  MEASURES,
-  MEASURE_LABELS,
   setReading,
   SIZES,
   step,
@@ -45,18 +37,23 @@ import {
  *      the thing being removed. A scrolling strip is the same idiom the mobile
  *      nav already uses.
  *
- *   2. **Selects for spacing and width, a stepper for size.** Three chips each
- *      would be six buttons and the row would not fit a phone. A select is one
- *      control, gets the platform's own picker on touch, and reads its current
- *      value without being opened. Size stays a stepper because it is the setting
- *      a reader nudges repeatedly, and nudging through a picker is two taps a go.
+ *   2. **A select for spacing, a stepper for size.** Three chips each would be
+ *      six buttons and the row would not fit a phone. A select is one control,
+ *      gets the platform's own picker on touch, and reads its current value
+ *      without being opened. Size stays a stepper because it is the setting a
+ *      reader nudges repeatedly, and nudging through a picker is two taps a go.
+ *
+ *      Line WIDTH was a third such control and is gone (Asif, 2026-08-04). It
+ *      and line spacing are different settings, but both read "Normal" at their
+ *      defaults, so side by side they were two identical dropdowns — and a
+ *      control nobody can tell from its neighbour is worse than no control. The
+ *      measure keeps its 68ch default; `MEASURES` stays in lib/reading.ts
+ *      because a value stored by an earlier visit must still validate.
  *
  *   3. **Nothing overlays the text.** The one thing that still floats is the
  *      selection bar, which has to — it points at the words it acts on.
  */
 export function ReaderToolbar({
-  contentsOpen,
-  onToggleContents,
   minutesLeft,
   bookmarked,
   onToggleBookmark,
@@ -64,8 +61,6 @@ export function ReaderToolbar({
   notesOpen,
   onToggleNotes,
 }: {
-  contentsOpen: boolean;
-  onToggleContents: () => void;
   minutesLeft: number;
   bookmarked: boolean;
   onToggleBookmark: () => void;
@@ -81,29 +76,16 @@ export function ReaderToolbar({
 
   return (
     <div className="pf-toolbar">
-      {/* ---- Getting about ------------------------------------------------
-          The book's name used to live here, doubling as the contents toggle. It
-          is set above the toolbar now, at full size, so the toggle says what it
-          opens rather than repeating a title printed two lines above it. */}
+      {/* ---- Getting about, and what you have marked ----------------------
+          Contents is NOT here. It was, twice — as the book's title doubling as a
+          toggle, then as a labelled button — and both put a way of LEAVING this
+          chapter into the row of controls for how this chapter is SET. It is a
+          collapsible panel on the left now, carrying its own affordance. */}
       <div className="pf-toolbar__group">
         <Link to="/" aria-label="Back to your library" className="pf-toolbar__home">
           <Icon icon={faHouse} title="Back to your library" />
         </Link>
 
-        <button
-          type="button"
-          onClick={onToggleContents}
-          aria-expanded={contentsOpen}
-          className="pf-toolbar__contents"
-        >
-          <Icon icon={faListUl} />
-          <span>Contents</span>
-          <Icon icon={faChevronDown} className="pf-toolbar__caret" />
-        </button>
-      </div>
-
-      {/* ---- What you have marked ---------------------------------------- */}
-      <div className="pf-toolbar__group">
         <button
           type="button"
           onClick={onToggleBookmark}
@@ -188,23 +170,6 @@ export function ReaderToolbar({
           {LEADINGS.map((leading) => (
             <option key={leading} value={leading}>
               {LEADING_LABELS[leading]}
-            </option>
-          ))}
-        </select>
-
-        <label htmlFor={`${id}-measure`} className="sr-only">
-          Line width
-        </label>
-        <select
-          id={`${id}-measure`}
-          value={prefs.measure}
-          onChange={(e) => setReading({ ...prefs, measure: Number(e.target.value) })}
-          title="Line width"
-          className="pf-select pf-select--sm pf-select--auto"
-        >
-          {MEASURES.map((measure) => (
-            <option key={measure} value={measure}>
-              {MEASURE_LABELS[measure]}
             </option>
           ))}
         </select>
