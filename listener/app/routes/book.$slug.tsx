@@ -111,8 +111,19 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 export function shouldRevalidate({
   currentUrl,
   nextUrl,
+  formMethod,
   defaultShouldRevalidate,
 }: ShouldRevalidateFunctionArgs) {
+  /* A SUBMISSION always revalidates.
+     This is checked first and it is the whole reason the function has a bug
+     history: deleting a bookmark from the Notes tab posts to the marks endpoint
+     with a fetcher, and a fetcher does not change the URL — so the comparison
+     below found "nothing changed" and cancelled the refresh. The row really was
+     deleted; the page simply never asked again, which reads exactly like a
+     delete button that does not work. Only a plain GET navigation is ever
+     eligible to be skipped here. */
+  if (formMethod !== undefined && formMethod !== "GET") return defaultShouldRevalidate;
+
   if (currentUrl.pathname !== nextUrl.pathname) return defaultShouldRevalidate;
 
   const before = new URLSearchParams(currentUrl.search);
