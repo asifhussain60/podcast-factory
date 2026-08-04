@@ -27,12 +27,23 @@ export function useTheme(): Theme {
 /**
  * Three swatches, not a dropdown.
  *
- * `compact` drops the words for single letters. The reader toolbar is one row
- * carrying five control groups, and "Light Sepia Dark" spelled out is a third of
- * a phone's width for a setting most readers touch once. The full labels stay
- * everywhere the row is not the constraint, and the accessible name is the same
- * either way — the letter is `aria-hidden` and the real label rides on the
- * button, so a screen reader always hears "Sepia".
+ * `compact` draws each theme as a DOT in that theme's own paper colour instead
+ * of spelling its name. The reader toolbar is one row carrying five control
+ * groups, and "Light Sepia Dark" written out is a third of a phone's width for a
+ * setting most readers touch once. Letters were tried first and were worse than
+ * either: an isolated "S" names nothing, and only the selected one was drawn as
+ * a filled shape, so the control read as one dot beside two stray letters.
+ *
+ * **Each dot carries its own `data-theme`**, which is what lets it be painted in
+ * a palette that is not the one currently applied. §3 declares every palette
+ * under a `[data-theme="…"]` selector, so putting the attribute on the button
+ * re-scopes `--l-bg` and `--l-rule` inside it to that theme's values. The
+ * alternative was three more colour tokens duplicating what §3 already says,
+ * which is exactly the second home for a palette that the stylesheet exists to
+ * prevent. Adding a fourth theme still costs one block in §3 and nothing here.
+ *
+ * The accessible name is the same either way: the dot is empty and the label
+ * rides on the button, so a screen reader always hears "Sepia".
  */
 export function ThemePicker({ compact = false }: { compact?: boolean }) {
   const theme = useTheme();
@@ -41,7 +52,7 @@ export function ThemePicker({ compact = false }: { compact?: boolean }) {
     <div
       role="group"
       aria-label="Colour theme"
-      className={`pf-swatches${compact ? " pf-swatches--compact" : ""}`}
+      className={`pf-swatches${compact ? " pf-swatches--dots" : ""}`}
     >
       {THEMES.map((t) => (
         <button
@@ -49,13 +60,15 @@ export function ThemePicker({ compact = false }: { compact?: boolean }) {
           type="button"
           onClick={() => setTheme(t)}
           aria-pressed={theme === t}
-          aria-label={compact ? THEME_LABELS[t] : undefined}
-          title={compact ? THEME_LABELS[t] : undefined}
+          aria-label={THEME_LABELS[t]}
+          title={THEME_LABELS[t]}
+          // Only in compact mode. On the full control the words are the swatch,
+          // and re-scoping the palette under them would letter each one in a
+          // different theme's ink.
+          data-theme={compact ? t : undefined}
           className="pf-swatch"
         >
-          <span aria-hidden={compact ? "true" : undefined}>
-            {compact ? THEME_LABELS[t].charAt(0) : THEME_LABELS[t]}
-          </span>
+          {compact ? null : THEME_LABELS[t]}
         </button>
       ))}
     </div>

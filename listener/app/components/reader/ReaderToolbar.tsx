@@ -3,6 +3,7 @@ import {
   faBookmark,
   faChevronDown,
   faHouse,
+  faListUl,
   faNoteSticky,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
@@ -33,9 +34,13 @@ import {
  * relative to each other, but the reader had no way to know that and the panel
  * sat on top of the paragraph whose setting it was there to change.
  *
+ * It is not sticky and not in a header. It sits between the book's title and the
+ * page, in the flow, and scrolls away with them — so the only thing over the
+ * prose while reading is the prose.
+ *
  * Three decisions shape the layout:
  *
- *   1. **One row, on every screen.** At ≤639px the control half scrolls
+ *   1. **One row, on every screen.** Below the tablet tier it scrolls
  *      horizontally rather than collapsing into a popover, because a popover is
  *      the thing being removed. A scrolling strip is the same idiom the mobile
  *      nav already uses.
@@ -46,13 +51,10 @@ import {
  *      value without being opened. Size stays a stepper because it is the setting
  *      a reader nudges repeatedly, and nudging through a picker is two taps a go.
  *
- *   3. **Nothing overlays the text.** The row is sticky; the page scrolls under
- *      it. The one thing that still floats is the selection bar, which has to —
- *      it points at the words it acts on.
+ *   3. **Nothing overlays the text.** The one thing that still floats is the
+ *      selection bar, which has to — it points at the words it acts on.
  */
 export function ReaderToolbar({
-  bookTitle,
-  chapterTitle,
   contentsOpen,
   onToggleContents,
   minutesLeft,
@@ -62,8 +64,6 @@ export function ReaderToolbar({
   notesOpen,
   onToggleNotes,
 }: {
-  bookTitle: string;
-  chapterTitle: string;
   contentsOpen: boolean;
   onToggleContents: () => void;
   minutesLeft: number;
@@ -81,20 +81,23 @@ export function ReaderToolbar({
 
   return (
     <div className="pf-toolbar">
-      {/* ---- Where you are ---------------------------------------------- */}
-      <div className="pf-toolbar__where">
+      {/* ---- Getting about ------------------------------------------------
+          The book's name used to live here, doubling as the contents toggle. It
+          is set above the toolbar now, at full size, so the toggle says what it
+          opens rather than repeating a title printed two lines above it. */}
+      <div className="pf-toolbar__group">
         <Link to="/" aria-label="Back to your library" className="pf-toolbar__home">
-          <Icon icon={faHouse} />
+          <Icon icon={faHouse} title="Back to your library" />
         </Link>
 
         <button
           type="button"
           onClick={onToggleContents}
           aria-expanded={contentsOpen}
-          className="pf-toolbar__place"
+          className="pf-toolbar__contents"
         >
-          <span className="pf-toolbar__book">{bookTitle}</span>
-          <span className="pf-toolbar__chapter">{chapterTitle}</span>
+          <Icon icon={faListUl} />
+          <span>Contents</span>
           <Icon icon={faChevronDown} className="pf-toolbar__caret" />
         </button>
       </div>

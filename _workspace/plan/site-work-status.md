@@ -3,8 +3,47 @@
 **Last updated:** 2026-08-03 night (the Listener gains per-reader state, one
 toolbar row, an access screen that scales, and the runtime gate it never had)
 
-**Newest — the Listener remembers who is reading, and the reader has one row of
-controls instead of two surfaces.**
+**Newest — the reader is a title, a toolbar and a page, in that order.**
+
+Asif, on the toolbar shipped earlier the same night: move it above the page and
+centre it, take it out of the header, put the book's name above it in large
+type, and replace the L/S/D letters with dots.
+
+- **No header at all on the reader.** The toolbar was in a sticky bar; it now
+  sits in the flow between the title and the sheet and scrolls away with them,
+  so nothing whatever covers the prose while reading. The cost is honest and
+  accepted: changing a setting mid-chapter means scrolling up.
+- **The book's name is the `<h1>` again**, at `--pf-display` in the same navy as
+  every other page title on the site, and the chapter heading inside the sheet
+  is the `<h2>` — which is also the true nesting. A sticky bar could only ever
+  show that title as "Ayyu… Introduc…".
+- **Three dots, each painted in the theme it offers.** Letters were worse than
+  either words or dots: an isolated "S" names nothing, and only the selected one
+  was drawn as a filled shape, so the control read as one dot beside two stray
+  letters. Each button carries its own `data-theme`, which re-scopes §3's
+  palette inside it — so a dot shows the paper colour it will give you with **no
+  palette value repeated outside §3**. The selected ring reads `--pf-ring`,
+  captured on the container, or it would take the colour of whichever theme the
+  dot offers rather than the one in force.
+- **The head and the page are SIBLINGS, with two max-widths.** Nested, the rail
+  was capped at the reading column and the row scrolled even on a 1440px screen
+  with half the window empty. Done with max-widths rather than a `100vw`
+  breakout, because `100vw` includes the scrollbar and would put a horizontal
+  scrollbar on every page that has a vertical one — measured 947px of controls
+  against an 848px rail before, 1168px after.
+- **One rhythm, stated once:** 4rem above the title, 3rem between each block. It
+  was 64 / 32 / 24, which put the toolbar nearer the sheet than the title it
+  belongs with. `.pf-page` carries no top margin now, so the gap is one number
+  instead of two that were added up and disagreed at the phone breakpoint.
+- The contents drawer became an in-flow panel aligned to the sheet's own width,
+  and the harness caught its own drift: `shots.mjs` still clicked
+  `.pf-toolbar__place`, which no longer exists.
+
+Gates: 229 tests · typecheck 0 · build clean · smoke 18 routes × 4 widths clean,
+zero page overflow at 390 / 768 / 1024 / 1440.
+
+**Previously that night — the Listener remembers who is reading, and the reader
+has one row of controls instead of two surfaces.**
 
 Asif's ask: audit the whole site, redesign it on the theme from earlier the same
 day, keep progress across all views, rebuild the access screen for many people

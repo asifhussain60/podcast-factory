@@ -173,7 +173,7 @@ try {
            * wide, which clears the 24px AA floor with room — and at 44 square it
            * rendered as a circle, reading as a status light rather than as one
            * choice of three. */
-          const THUMB = ".pf-tool, .pf-toolbar__home, .pf-toolbar__place, .pf-stepper__step, .pf-selbar__action, .pf-selbar__colour, .pf-mark__remove";
+          const THUMB = ".pf-tool, .pf-toolbar__home, .pf-toolbar__contents, .pf-stepper__step, .pf-selbar__action, .pf-selbar__colour, .pf-mark__remove";
 
           const small = [];
           for (const el of document.querySelectorAll(

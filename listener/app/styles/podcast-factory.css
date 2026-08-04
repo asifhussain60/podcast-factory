@@ -737,17 +737,6 @@
     cursor: pointer;
   }
 
-  /* The reader's header stays with you and sits over the prose. */
-  .pf-header--sticky {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    padding-block: var(--pf-space-3);
-    background: color-mix(in srgb, var(--l-bg) 92%, transparent);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--l-rule-soft);
-  }
-
   /* ---- Reader toolbar --------------------------------------------------
      ONE row carrying everything that controls the reading view: where you are,
      what you have marked, and how the page is set.
@@ -761,50 +750,69 @@
      estimate. Only the first is allowed to shrink; a control that shrinks stops
      being tappable, whereas a title that shrinks is still a title. */
 
-  .pf-header--reader {
-    padding-block: var(--pf-space-2);
+  /* ---- Above the page ----------------------------------------------------
+     The work's name, the controls, and then the sheet. */
+
+  /* One rhythm, stated once: 4rem above the title, 3rem between each of the
+     three blocks. It was 64 / 32 / 24, which put the toolbar nearer the sheet
+     than the title it belongs with — so it read as a strip attached to the page
+     rather than as one of three things stacked above it.
+     The gap below is the head's own padding, and `.pf-page` carries no top
+     margin, so the spacing is ONE number rather than two that have to be added
+     up and that disagreed with each other at the phone breakpoint. */
+  .pf-reader-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--pf-space-7);
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding: var(--pf-space-8) var(--pf-space-5) var(--pf-space-7);
+  }
+
+  /* The page's <h1>, and the largest thing on it — the chapter heading inside
+     the sheet is one step down, which is the true hierarchy: a chapter is part
+     of a work. Same display face, same `--l-display` navy and same measure as
+     the title on every other page of the site, so a book announces itself the
+     same way wherever you meet it. */
+  .pf-reader-head__book {
+    max-width: 22ch;
+    font-family: var(--l-font-display);
+    font-size: var(--pf-display);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-align: center;
+    text-wrap: balance;
+    color: var(--l-display);
+  }
+
+  /* The rail is what makes the toolbar CENTRED when it fits and SCROLLABLE when
+     it does not, without the two fighting.
+     `justify-content: center` on a scrolling flex row is the wrong tool: when
+     the content overflows, the start of it is pushed off the left edge and
+     cannot be scrolled back to. Here the scroller is the outer element and the
+     row inside it is `width: fit-content` — so `margin-inline: auto` centres it
+     while there is room and collapses to nothing the moment there is not. */
+  .pf-toolbar-rail {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .pf-toolbar-rail::-webkit-scrollbar {
+    display: none;
   }
 
   .pf-toolbar {
     display: flex;
     align-items: center;
     gap: var(--pf-space-3);
-    width: 100%;
-    /* Wider than the page it sits over, and deliberately so. At
-       `--pf-measure-page` (64rem) the controls and the title together came to
-       slightly more than the bar, so on a 1440px screen the title sat at its
-       11rem floor reading "Ayyu… Introduc…" with visible empty space either side
-       of the bar. This is chrome, not prose: it is allowed the window, while the
-       chapter below it stays at the reading measure. */
-    max-width: 90rem;
+    width: fit-content;
     margin-inline: auto;
-    padding-inline: var(--pf-space-5);
-  }
-
-  .pf-toolbar__where {
-    display: flex;
-    align-items: center;
-    gap: var(--pf-space-2);
-    /* The only part that gives way. `min-width: 0` is what actually permits the
-       ellipsis: a flex item's default `min-width: auto` is its content, so
-       without this the title refuses to shrink and pushes the controls off the
-       end instead of truncating.
-       `overflow: hidden` is the other half, and it is not optional. `min-width:
-       0` lets the BOX shrink; it does nothing to the CONTENT, which then paints
-       straight over the bookmark and notes buttons beside it — a title running
-       under two icons, which reads as a broken layout rather than as a long
-       name. */
-    flex: 1 1 auto;
-    /* A FLOOR, not zero. `flex-shrink: 1` against a settings group that refuses
-       to shrink means the title absorbs the entire deficit — and at 768px the
-       controls alone are wider than the row, so it absorbed all of it and the
-       toolbar showed no book and no chapter at all. With a floor the row
-       overflows instead, which is what `overflow-x: auto` below 900px is for:
-       the title stays put at the start of the strip and the controls scroll.
-       11rem is about three words of a chapter name — at 9rem "Introduction to
-       the Book" truncated to "Introd…", which names nothing. */
-    min-width: 11rem;
-    overflow: hidden;
+    padding-inline: var(--pf-space-2);
   }
 
   .pf-toolbar__home,
@@ -858,20 +866,20 @@
     text-align: center;
   }
 
-  /* The title doubles as the contents toggle: on a page this bare, a separate
-     button for it would be the second thing in the bar competing with the
-     chapter's own name. */
-  .pf-toolbar__place {
+  /* Says what it opens. It used to be the book's name and the chapter's, which
+     made the control's label a fact rather than an action, and left nothing to
+     read once the title moved above the row at full size. */
+  .pf-toolbar__contents {
     display: flex;
     align-items: center;
     gap: var(--pf-space-2);
-    min-width: 0;
+    flex: none;
     min-height: 2.75rem;
-    padding: var(--pf-space-2);
+    padding-inline: var(--pf-space-3);
     border: 0;
     border-radius: var(--pf-radius);
     background: transparent;
-    text-align: start;
+    white-space: nowrap;
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-base);
     color: var(--l-ink);
@@ -879,35 +887,13 @@
     transition: background var(--pf-motion);
   }
 
-  .pf-toolbar__place:hover {
+  .pf-toolbar__contents:hover {
     background: var(--l-sunken);
   }
 
-  .pf-toolbar__place {
-    overflow: hidden;
-  }
-
-  /* Shrinks and truncates too, rather than being fixed. It is the shorter of the
-     two names and gives way LAST — `flex-shrink: 2` on the chapter beside it is
-     what orders them — but "gives way last" is not "never gives way": on a
-     narrow screen a long book title alone will exceed the row. */
-  .pf-toolbar__book {
-    flex: 0 1 auto;
-    min-width: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: var(--l-faint);
-  }
-
-  /* The chapter is what truncates, not the book: the book's name is the shorter
-     of the two and is the one that orients you. */
-  .pf-toolbar__chapter {
-    flex: 2 1 auto;
-    min-width: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  .pf-toolbar__contents[aria-expanded="true"] {
+    background: var(--l-accent-soft);
+    color: var(--l-accent);
   }
 
   .pf-toolbar__caret {
@@ -939,60 +925,53 @@
   }
 
   /* Below the tablet tier the row cannot hold everything at a legible size, and
-     the answer is NOT a popover — that is the thing being removed. The row
+     the answer is NOT a popover — that is the thing being removed. The RAIL
      scrolls, which is the same idiom the site's own mobile navigation uses.
 
-     Two details make it usable rather than merely possible: the place block
-     stops flexing (a shrinking title inside a scrolling row leaves dead space
-     rather than revealing controls), and the estimate is dropped, because it is
-     the one item here that is information rather than a control. */
+     The fade says it scrolls. A row that simply ends at the screen edge reads as
+     a row that ends, and it costs nothing on a row that happens to fit, because
+     a strip with nothing to scroll shows no gradient. */
   @media (max-width: 899px) {
-    .pf-toolbar {
-      overflow-x: auto;
-      scrollbar-width: none;
-      /* The controls are the reason to scroll, so the row should come to rest
-         with a whole one in view rather than mid-button. */
+    .pf-toolbar-rail {
       scroll-snap-type: x proximity;
-      padding-inline: var(--pf-space-4);
-      /* Says it scrolls. A row that simply ends at the screen edge reads as a
-         row that ends — the fade is the only thing telling a reader there is
-         more of it, and it costs nothing on a row that happens to fit, because
-         a fully-scrolled or unscrollable strip shows no gradient. */
       mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
     }
 
-    [dir="rtl"] .pf-toolbar {
+    [dir="rtl"] .pf-toolbar-rail {
       mask-image: linear-gradient(to left, #000 calc(100% - 2rem), transparent);
-    }
-
-    .pf-toolbar::-webkit-scrollbar {
-      display: none;
     }
 
     .pf-toolbar__group {
       scroll-snap-align: end;
     }
 
+    /* Dropped first when the row is tight — it is the one item here that is
+       information rather than a control. */
     .pf-toolbar__left {
       display: none;
     }
   }
 
-  /* At phone width the book's name goes too. "Ayyuhal Walad · The Persian Who
-     Was Dead and Revived" in a 390px row leaves the chapter as three words and
-     an ellipsis; the book is named on the page you came from and on the card
-     you tapped, and the chapter is the thing you are actually in. */
-  @media (max-width: 639px) {
-    .pf-toolbar__book {
-      display: none;
-    }
-  }
+  /* ---- Contents ----------------------------------------------------------
+     A panel under the toolbar rather than a drawer under a sticky header. It is
+     IN THE FLOW now, so opening it pushes the page down instead of covering the
+     first paragraph — which is the honest behaviour for something you open in
+     order to leave the page you are on. Capped and scrollable so a long book
+     does not push the chapter off the bottom of the screen. */
 
   .pf-toc {
+    width: 100%;
+    /* The SHEET's width, not the reading column's. The page container is the
+       measure and then loses its own inline padding, so a panel set to the bare
+       measure sits a little proud of the card below it — close enough to read as
+       a misalignment rather than as a decision. */
+    max-width: calc(var(--pf-measure-reader) - var(--pf-space-5) * 2);
     max-height: 60dvh;
     overflow-y: auto;
-    border-top: 1px solid var(--l-rule-soft);
     background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    box-shadow: var(--pf-elev-2);
   }
 
   .pf-toc__list {
@@ -1007,12 +986,23 @@
     color: var(--l-accent);
   }
 
+  /* Two containers, not one, and the reason is the toolbar.
+     The controls are chrome and come to about 940px laid out in a single row;
+     the reading column is 56rem. Nesting the head inside the page capped the
+     rail at the column's width, so the row scrolled even on a 1440px screen
+     with half the window empty. As SIBLINGS each gets the width it needs — and
+     this is done with two max-widths rather than a `100vw` breakout, because
+     `100vw` includes the scrollbar and would put a horizontal scrollbar on
+     every page that has a vertical one. */
+  .pf-reader {
+    padding-bottom: var(--pf-space-9);
+  }
+
   .pf-reader-page {
     width: 100%;
     max-width: var(--pf-measure-reader);
     margin-inline: auto;
     padding-inline: var(--pf-space-5);
-    padding-bottom: var(--pf-space-9);
   }
 
   /* ---- Stepper -----------------------------------------------------------
@@ -1107,7 +1097,6 @@
      padding leaves, so the reader's own measure control keeps working and the
      margins stay even at every setting. */
   .pf-page {
-    margin-top: var(--pf-space-6);
     padding: var(--pf-space-8);
     background: var(--l-elev);
     border: 1px solid var(--l-rule);
@@ -1132,7 +1121,6 @@
     }
 
     .pf-page {
-      margin-top: var(--pf-space-4);
       padding: var(--pf-space-6) var(--pf-space-5);
       border-inline: 0;
       border-radius: 0;
@@ -3477,20 +3465,48 @@
     color: var(--l-on-accent);
   }
 
-  /* The reader toolbar's version: single letters instead of words, because
-     "Light Sepia Dark" spelled out is a third of a phone's width for a setting
-     most readers touch once. The letters are `aria-hidden` and the real name
-     rides on the button, so a screen reader still hears "Sepia".
+  /* The reader toolbar's version: a DOT per theme, painted in that theme's own
+     paper colour, because "Light Sepia Dark" written out is a third of a phone's
+     width for a setting most readers touch once.
 
-     Square rather than narrowed — the swatches are the smallest targets in the
-     row and shrinking them in one axis only would make them harder to hit
-     without saving much. */
-  .pf-swatches--compact .pf-swatch {
-    min-width: 2.25rem;
-    padding-inline: 0;
-    text-align: center;
-    font-variant-caps: all-small-caps;
-    letter-spacing: 0.02em;
+     `--l-bg` and `--l-rule` here resolve against the button's OWN `data-theme`
+     attribute (see ThemePicker), so each dot shows the colour it will give you
+     without a single palette value being repeated outside §3.
+
+     `--pf-ring` is the exception and has to be: it is captured on the container,
+     which carries no `data-theme`, so it holds the CURRENT page's accent. Read
+     inside a dot, `var(--l-accent)` would give the accent of the theme that dot
+     offers — so the selected ring would change colour with whichever dot it
+     happened to be on. */
+  .pf-swatches--dots {
+    --pf-ring: var(--l-accent);
+    gap: var(--pf-space-2);
+    padding: var(--pf-space-2);
+  }
+
+  .pf-swatches--dots .pf-swatch {
+    width: 1.75rem;
+    height: 1.75rem;
+    min-width: 0;
+    /* Overrides the 44px floor the worded swatch carries. A dot is one segment
+       of a three-segment control with no gap between segments — a miss lands on
+       a neighbouring theme rather than on nothing — and 28px clears the 24px
+       WCAG 2.2 AA target size with room. */
+    min-height: 0;
+    padding: 0;
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-bg);
+  }
+
+  .pf-swatches--dots .pf-swatch:hover {
+    border-color: var(--pf-ring);
+  }
+
+  .pf-swatches--dots .pf-swatch[aria-pressed="true"] {
+    background: var(--l-bg);
+    outline: 2px solid var(--pf-ring);
+    outline-offset: 2px;
   }
 
   /* ---- Tabs -------------------------------------------------------------- */

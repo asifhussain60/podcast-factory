@@ -323,47 +323,6 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
         <span ref={bar} />
       </div>
 
-      <header className="pf-header--sticky pf-header--reader">
-        <ReaderToolbar
-          bookTitle={bookTitle}
-          chapterTitle={chapter.title}
-          contentsOpen={contentsOpen}
-          onToggleContents={() => {
-            setContentsOpen((v) => !v);
-            setNotesOpen(false);
-          }}
-          minutesLeft={left}
-          bookmarked={bookmarked}
-          onToggleBookmark={toggleBookmark}
-          notesCount={marks.annotations.length + marks.bookmarks.length}
-          notesOpen={notesOpen}
-          onToggleNotes={() => {
-            setNotesOpen((v) => !v);
-            setContentsOpen(false);
-          }}
-        />
-
-        {contentsOpen ? (
-          <nav aria-label="Table of contents" className="pf-toc">
-            <ol className="pf-toc__list">
-              {contents.map((entry) => (
-                <li key={entry.anchorKey}>
-                  <Link
-                    to={`/book/${slug}/read/${encodeURIComponent(entry.anchorKey)}`}
-                    onClick={() => setContentsOpen(false)}
-                    aria-current={entry.anchorKey === chapter.anchorKey ? "page" : undefined}
-                    className="pf-row pf-toc__row"
-                  >
-                    <span className="pf-row__main">{entry.title}</span>
-                    <span className="pf-row__meta">{readingMinutes(entry.wordCount)} min</span>
-                  </Link>
-                </li>
-              ))}
-            </ol>
-          </nav>
-        ) : null}
-      </header>
-
       {notesOpen ? (
         <>
           {/* Click-away. Not focusable and hidden from assistive tech — Escape
@@ -404,31 +363,85 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
         </>
       ) : null}
 
-      <main id="main" className="pf-reader-page">
-        <article ref={body} className="pf-page">
-          {/* This is the page's <h1>; the work's title is in the toolbar above,
-              which is where it now belongs — a control row that says where you
-              are does not need the book repeated as a heading beneath it. */}
-          <h1 className="pf-chapter-title">{chapter.title}</h1>
+      <main id="main" className="pf-reader">
+        {/* ---- Above the page ----
+            The work's name, then the controls, then the sheet. Both sit OUTSIDE
+            the article deliberately: the sheet is the book, and a control
+            printed on it would be a control printed in the book.
 
-          {/* Position in the edition, NOT a chapter number: the introduction is
-              the first entry, so this and the book's own "3." in the heading
-              differ by one. Saying "chapter" here would contradict the page. */}
-          <p className="pf-chapter-meta">
-            {chapter.idx} of {contents.length} in this edition · about {total}{" "}
-            {total === 1 ? "minute" : "minutes"}
-          </p>
+            The toolbar was in a sticky header until now. Out of it, nothing at
+            all covers the prose while reading — and the title, which a sticky
+            bar could only ever show as a truncated fragment, gets its full size
+            back. The cost is honest: changing a setting mid-chapter means
+            scrolling up. */}
+        <div className="pf-reader-head">
+          <h1 className="pf-reader-head__book">{bookTitle}</h1>
 
-          {/* The HTML was rendered at publish time by the same function that
-              produces the printed book, so this is not "trusting user input" —
-              it is the book. See app/server/catalog.server.ts. Highlights are
-              added to the live DOM after this renders; React never reconciles
-              inside it. */}
-          <div
-            className="reader pf-chapter-body"
-            dangerouslySetInnerHTML={{ __html: chapter.html }}
-          />
-        </article>
+          <div className="pf-toolbar-rail">
+            <ReaderToolbar
+              contentsOpen={contentsOpen}
+              onToggleContents={() => {
+                setContentsOpen((v) => !v);
+                setNotesOpen(false);
+              }}
+              minutesLeft={left}
+              bookmarked={bookmarked}
+              onToggleBookmark={toggleBookmark}
+              notesCount={marks.annotations.length + marks.bookmarks.length}
+              notesOpen={notesOpen}
+              onToggleNotes={() => {
+                setNotesOpen((v) => !v);
+                setContentsOpen(false);
+              }}
+            />
+          </div>
+
+          {contentsOpen ? (
+            <nav aria-label="Table of contents" className="pf-toc">
+              <ol className="pf-toc__list">
+                {contents.map((entry) => (
+                  <li key={entry.anchorKey}>
+                    <Link
+                      to={`/book/${slug}/read/${encodeURIComponent(entry.anchorKey)}`}
+                      onClick={() => setContentsOpen(false)}
+                      aria-current={entry.anchorKey === chapter.anchorKey ? "page" : undefined}
+                      className="pf-row pf-toc__row"
+                    >
+                      <span className="pf-row__main">{entry.title}</span>
+                      <span className="pf-row__meta">{readingMinutes(entry.wordCount)} min</span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          ) : null}
+        </div>
+
+        <div className="pf-reader-page">
+          <article ref={body} className="pf-page">
+            {/* An <h2>, and the book above is the <h1> — which is also the true
+                nesting: a chapter is part of a work. */}
+            <h2 className="pf-chapter-title">{chapter.title}</h2>
+
+            {/* Position in the edition, NOT a chapter number: the introduction
+                is the first entry, so this and the book's own "3." in the
+                heading differ by one. Saying "chapter" would contradict it. */}
+            <p className="pf-chapter-meta">
+              {chapter.idx} of {contents.length} in this edition · about {total}{" "}
+              {total === 1 ? "minute" : "minutes"}
+            </p>
+
+            {/* The HTML was rendered at publish time by the same function that
+                produces the printed book, so this is not "trusting user input" —
+                it is the book. See app/server/catalog.server.ts. Highlights are
+                added to the live DOM after this renders; React never reconciles
+                inside it. */}
+            <div
+              className="reader pf-chapter-body"
+              dangerouslySetInnerHTML={{ __html: chapter.html }}
+            />
+          </article>
+        </div>
 
         <SelectionBar
           bodyRef={body}

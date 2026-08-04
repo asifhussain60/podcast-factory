@@ -60,7 +60,7 @@ const STATES = {
     {
       name: "contents-open",
       act: async (page) => {
-        await page.click(".pf-toolbar__place");
+        await page.click(".pf-toolbar__contents");
         await page.waitForSelector(".pf-toc", { timeout: 2000 });
       },
     },
