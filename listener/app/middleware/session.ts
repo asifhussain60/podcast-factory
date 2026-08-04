@@ -2,6 +2,7 @@ import { createContext, type MiddlewareFunction } from "react-router";
 
 import { cloudflare } from "~/context";
 import { createAuth, isAdminEmail } from "~/server/auth.server";
+import { simulatedEmail } from "~/server/simulate.server";
 import { tryNormalizeEmail } from "~/server/email.server";
 
 export interface Viewer {
@@ -15,6 +16,16 @@ export interface Viewer {
 
 export interface SessionState {
   viewer: Viewer | null;
+  /**
+   * Set only while the administrator is looking at the site as someone else.
+   *
+   * `viewer` is then the SIMULATED person and carries no trace of who is really
+   * driving — deliberately, so that every gate and every query answers the
+   * question "what can this person see" and nothing has to remember to ask a
+   * second one. This field exists for the two things that DO need to know: the
+   * banner that says so, and the write path that refuses.
+   */
+  simulating: { as: string; by: string } | null;
 }
 
 export const session = createContext<SessionState>();
@@ -64,7 +75,36 @@ export const withSession: MiddlewareFunction<Response> = async ({ request, conte
     viewer = null;
   }
 
-  context.set(session, { viewer });
+  /* ---- Seeing the site as somebody else --------------------------------
+     THE ONE PLACE the viewer is swapped, so there is a single truth for every
+     gate, every loader and every query downstream — none of which knows or
+     needs to know that this happened.
+
+     The condition is the whole security model: the cookie is read ONLY when the
+     real session is the administrator's, so forged in anybody else's browser it
+     is never consulted. And what it produces is always a DOWNGRADE —
+     `isAdmin: false` unconditionally, including when the address simulated is
+     the admin's own — so no value of it can add a capability to anyone. See
+     server/simulate.server.ts.                                              */
+  let simulating: SessionState["simulating"] = null;
+
+  if (viewer !== null && viewer.isAdmin) {
+    const as = simulatedEmail(request);
+    if (as !== null) {
+      simulating = { as, by: viewer.email };
+      viewer = {
+        email: as,
+        rawEmail: as,
+        // No display name to borrow: the person being simulated may never have
+        // signed in, which is exactly the case worth checking.
+        name: as,
+        image: null,
+        isAdmin: false,
+      };
+    }
+  }
+
+  context.set(session, { viewer, simulating });
   return next();
 };
 
@@ -78,6 +118,17 @@ export const withSession: MiddlewareFunction<Response> = async ({ request, conte
 export function viewerOf(context: Readonly<{ get: (c: typeof session) => SessionState }>): Viewer | null {
   try {
     return context.get(session).viewer;
+  } catch {
+    return null;
+  }
+}
+
+/** The same tolerance, for the banner and the write guard. */
+export function simulatingOf(
+  context: Readonly<{ get: (c: typeof session) => SessionState }>,
+): SessionState["simulating"] {
+  try {
+    return context.get(session).simulating;
   } catch {
     return null;
   }

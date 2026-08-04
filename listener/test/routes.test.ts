@@ -23,6 +23,10 @@ const PUBLIC_ROUTE_FILES = [
   "routes/sign-in.tsx",
   "routes/sign-out.tsx",
   "routes/no-access.tsx",
+  // Clears one cookie in the caller's own browser and nothing else. It has to be
+  // reachable from inside a simulation, which is precisely the state where the
+  // gated routes are answering 404 or bouncing to /no-access.
+  "routes/stop-simulating.tsx",
   "routes/favicon.ico.ts",
 ];
 

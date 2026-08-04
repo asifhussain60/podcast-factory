@@ -704,6 +704,25 @@ export async function setOpenToAll(
   ]);
 }
 
+/**
+ * One audit row on its own, for an action with nothing else to write.
+ *
+ * Everything else here writes its event inside the same `batch` as the row it
+ * describes, which is what keeps the two from disagreeing. Simulation has no row
+ * — it is a cookie — so it is the one action whose only trace IS the event, and
+ * it needs a way to leave one. Impersonation with no record is the last feature
+ * that should be quiet.
+ */
+export async function recordEvent(
+  db: D1Database,
+  action: string,
+  subject: string,
+  now: string,
+  actor: string,
+): Promise<void> {
+  await event(db, now, actor, action, subject, null, null, null).run();
+}
+
 function event(
   db: D1Database,
   now: string,

@@ -46,6 +46,14 @@ const cookieFor = (email) => {
 const get = (path, cookie) =>
   fetch(`${BASE}${path}`, { headers: cookie ? { Cookie: cookie } : {}, redirect: "manual" });
 
+/** @param {string} path @param {string} [cookie] */
+const post = (path, cookie) =>
+  fetch(`${BASE}${path}`, {
+    method: "POST",
+    headers: cookie ? { Cookie: cookie } : {},
+    redirect: "manual",
+  });
+
 let failures = 0;
 /** @param {string} name @param {unknown} actual @param {unknown} expected */
 const check = (name, actual, expected) => {
@@ -176,9 +184,42 @@ check("control: the administrator's copy of the same page carries it", adminPage
 check("control: and their drawer is the Companion", adminPage.includes("Open companion"), true);
 check("control: which REPLACES the notes drawer, not joins it", adminPage.includes("Open your notes"), false);
 
+console.log("\nseeing the site as somebody else");
+// The cookie is read ONLY when the real session is the administrator's, so in
+// anyone else's browser it is inert. That is the entire gate, and it is a claim
+// about how a request is dispatched — only firing one can prove it.
+/** @param {string} email */
+const forged = (email) => `pf-simulate=${encodeURIComponent(email)}`;
+
+check(
+  "a forged cookie naming the admin gets a reader nothing",
+  (await get("/admin", `${outsider}; ${forged(ADMIN)}`)).status,
+  404,
+);
+check(
+  "and it does not even reach a book they were never given",
+  (await get("/book/degrees-of-excellence", `${outsider}; ${forged(ADMIN)}`)).status,
+  404,
+);
+
+// The same cookie in the ADMINISTRATOR's browser is the feature, and what it
+// does is take capability AWAY. Both halves are checked: the admin screens close
+// behind them, and the Companion — which is `viewer.isAdmin` and nothing else —
+// stops being served on a page that was serving it a moment ago.
+const asThem = `${admin}; ${forged(OUTSIDER)}`;
+check("the administrator simulating loses the admin screens", (await get("/admin", asThem)).status, 404);
+
+const simulated = await get(`/book/ayyuhal-walad/read/${CHAPTER}`, asThem);
+check("still reads the book the simulated reader holds", simulated.status, 200);
+check("but is no longer shown the companion", (await simulated.text()).includes(MARKER), false);
+
+// The way out cannot be behind the gate the simulation just closed.
+check("stopping is reachable while simulating", (await post("/stop-simulating", asThem)).status, 302);
+
 d1(`
   DELETE FROM companion_note WHERE note_id = 'smoke-note';
   DELETE FROM access_grant WHERE user_email = '${OUTSIDER}';
+  DELETE FROM access_event WHERE subject IN ('${OUTSIDER}', '${STRANGER}');
 `);
 
 console.log("\nrevocation takes effect on the next request");

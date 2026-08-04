@@ -49,8 +49,21 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 
 export async function action({ request, params, context }: Route.ActionArgs) {
   const { env } = context.get(cloudflare);
-  const viewer = context.get(session).viewer;
+  const { viewer, simulating } = context.get(session);
   if (viewer === null) notFound();
+
+  /* ---- Nothing is written while the administrator is looking as somebody ----
+     Every mark in this application is keyed on `viewer.email`, and during a
+     simulation that IS the simulated person — so reading a chapter this way
+     would move their bookmark, repaint their highlights and overwrite where they
+     had got to. Seeing what someone sees must not edit what they have.
+
+     Answered as success rather than refused, deliberately. The client keeps an
+     outbox and retries what fails, so a 403 here would build a queue that
+     flushes the moment the simulation ends — as the ADMINISTRATOR, which is the
+     very write this is preventing. The banner on every page says nothing is
+     saved, so the only party who could be misled has already been told.       */
+  if (simulating !== null) return { ok: true, simulated: true };
 
   const form = await request.formData();
   const intent = String(form.get("intent"));

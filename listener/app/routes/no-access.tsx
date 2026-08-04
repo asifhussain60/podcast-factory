@@ -2,11 +2,12 @@ import { Form } from "react-router";
 
 import type { Route } from "./+types/no-access";
 import { PublicShell } from "~/components/PublicShell";
-import { viewerOf } from "~/middleware/session";
+import { SimulationBanner } from "~/components/SimulationBanner";
+import { simulatingOf, viewerOf } from "~/middleware/session";
 
 export function loader({ context }: Route.LoaderArgs) {
   const viewer = viewerOf(context);
-  return { email: viewer?.email ?? null };
+  return { email: viewer?.email ?? null, simulating: simulatingOf(context) };
 }
 
 /**
@@ -19,6 +20,12 @@ export function loader({ context }: Route.LoaderArgs) {
 export default function NoAccess({ loaderData }: Route.ComponentProps) {
   return (
     <PublicShell themePicker={false}>
+      {/* The one public page a simulation can land on: simulating a revoked or
+          uninvited person bounces every gated route here. Without the banner
+          this page is where the administrator would be stranded, since /admin
+          answers 404 to them while it is running. */}
+      {loaderData.simulating ? <SimulationBanner as={loaderData.simulating.as} /> : null}
+
       <p className="pf-eyebrow">Podcast Factory</p>
       <h1 className="pf-title">No access yet</h1>
       <p className="pf-lede">

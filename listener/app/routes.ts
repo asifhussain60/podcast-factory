@@ -28,6 +28,13 @@ export default [
   // needs to sign out. It ends the caller's own session and nobody else's.
   route("sign-out", "routes/sign-out.tsx"),
   route("no-access", "routes/no-access.tsx"),
+  // Public for the same reason, and it matters more: while the administrator is
+  // simulating somebody, they are not an administrator, so `/admin` answers 404
+  // — and simulating a revoked person redirects every gated page to /no-access.
+  // A stop control behind either gate is one the simulation can lock you out of.
+  // It takes no argument and grants nothing: it clears one cookie in the
+  // caller's own browser.
+  route("stop-simulating", "routes/stop-simulating.tsx"),
   route("favicon.ico", "routes/favicon.ico.ts"),
 
   // Everything else. Pathless, so it adds a gate without adding a URL segment.

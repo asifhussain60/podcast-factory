@@ -3013,6 +3013,51 @@
     border-color: var(--l-accent);
   }
 
+  /* ---- Seeing the site as somebody else -----------------------------------
+     Unmissable on purpose. A simulation removes books, removes the admin link
+     and removes the Scholar Companion — every one of which looks exactly like a
+     fault, and this strip is the only thing that says otherwise.
+
+     Sticky, not fixed: it stays in view down a chapter without permanently
+     covering a band of the page that every other surface would then have to lay
+     itself out around. Warm rather than red — it is a state, not an error. */
+
+  .pf-simulating {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-4);
+    padding: var(--pf-space-2) var(--pf-space-5);
+    /* The same measured mix the toned pills use: a 12% fill of the tone, with
+       the text inked to 75% of it. The raw token on a tint of itself is at or
+       under AA at this size — the reasoning is written out at `.pf-pill--warn`,
+       and repeating the values rather than the argument is the point. */
+    background: color-mix(in srgb, var(--l-warn) 12%, var(--l-elev));
+    border-bottom: 1px solid color-mix(in srgb, var(--l-warn) 30%, transparent);
+    color: color-mix(in srgb, var(--l-warn) 75%, var(--l-ink));
+  }
+
+  .pf-simulating__what {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    min-width: 0;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+  }
+
+  /* The two acts a person's panel offers: see the site as them, and end or
+     restore their sign-in. Side by side, because they are the same kind of
+     thing — something you do TO this person's access rather than to their row. */
+  .pf-person__acts {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+  }
+
   /* ---- Books on offer, as a pickable list ---------------------------------
      `.pf-grant` above is a row that ACTS on its own — one press, one book. These
      are rows that are CHOSEN and then acted on together, which is why they are a

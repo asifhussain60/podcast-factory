@@ -4,6 +4,7 @@ import {
   faCheck,
   faChevronDown,
   faChevronRight,
+  faEye,
   faLink,
   faMagnifyingGlass,
   faPen,
@@ -14,6 +15,7 @@ import {
 import {
   Form,
   Link,
+  redirect,
   useFetcher,
   useRouteLoaderData,
   useSearchParams,
@@ -25,6 +27,7 @@ import type { loader as adminLoader } from "./_authed._admin";
 import { Icon } from "~/components/Icon";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
+import { startSimulating } from "~/server/simulate.server";
 import {
   deletePerson,
   grant,
@@ -34,6 +37,7 @@ import {
   listCatalogForAdmin,
   listPeople,
   personByEmail,
+  recordEvent,
   renamePerson,
   revokeGrant,
   revokeInvite,
@@ -153,6 +157,21 @@ export async function action({ request, context }: Route.ActionArgs) {
       }
       await revokeInvite(env.DB, text("email"), actor, now);
       return { ok: true };
+    }
+
+    // See the site as this person. The cookie downgrades and nothing else — the
+    // rules that make that safe are in server/simulate.server.ts, and the only
+    // one that lives here is that starting a simulation is an ADMIN action, so
+    // it sits behind this route's own gate like everything else in this file.
+    case "simulate": {
+      const target = tryNormalizeEmail(text("email"));
+      if (target === null) return { error: "That is not an email address." };
+
+      await recordEvent(env.DB, "simulate-start", target, now, actor);
+      // To the library, because that is what signing in as them would show.
+      return redirect("/", {
+        headers: { "Set-Cookie": startSimulating(target, new URL(request.url)) },
+      });
     }
 
     // No name and no note: `invite` COALESCEs both, so restoring someone keeps
@@ -807,21 +826,35 @@ function PersonDetail({
               so the lock-out would be immediate and would need a database edit to
               undo. Offering the button and refusing the action would be worse
               than not offering it; this says why instead. */}
-          {isSelf ? (
-            <p className="pf-note--quiet">This is you.</p>
-          ) : (
+          <div className="pf-person__acts">
+            {/* Their view of the site, not a description of it. Offered even for
+                a revoked person: what they see is /no-access, and the banner
+                that appears carries the way back out — the stop control is a
+                public route precisely so this cannot become a dead end. */}
             <Form method="post">
-              <input
-                type="hidden"
-                name="intent"
-                value={person.revokedAt === null ? "revoke-invite" : "re-invite"}
-              />
+              <input type="hidden" name="intent" value="simulate" />
               <input type="hidden" name="email" value={person.email} />
               <button type="submit" className="pf-button pf-button--ghost pf-button--sm">
-                {person.revokedAt === null ? "Revoke sign-in" : "Re-invite"}
+                <Icon icon={faEye} /> See as them
               </button>
             </Form>
-          )}
+
+            {isSelf ? (
+              <p className="pf-note--quiet">This is you.</p>
+            ) : (
+              <Form method="post">
+                <input
+                  type="hidden"
+                  name="intent"
+                  value={person.revokedAt === null ? "revoke-invite" : "re-invite"}
+                />
+                <input type="hidden" name="email" value={person.email} />
+                <button type="submit" className="pf-button pf-button--ghost pf-button--sm">
+                  {person.revokedAt === null ? "Revoke sign-in" : "Re-invite"}
+                </button>
+              </Form>
+            )}
+          </div>
         </div>
 
         <div className="pf-panel__body">
