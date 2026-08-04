@@ -115,6 +115,33 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     markedChapters.set(m.anchorKey, (markedChapters.get(m.anchorKey) ?? 0) + 1);
   }
 
+  /* ---- Where you left off ----
+     Computed HERE rather than inside the reading edition, because it is shown
+     ABOVE the panel now (Asif, 2026-08-04). Inside, sandwiched between the
+     chapter count and the first chapter row, it read as another row of the list
+     — the thing it exists not to be. Out on the page it is the first thing
+     under the title, which is what "continue" should be for a book you are
+     part-way through.
+
+     Offered only when there IS somewhere to go back to, and not when that place
+     is simply the first chapter — "continue from the beginning" is a second
+     Start button wearing a different word. Null too when the chapter no longer
+     exists, which a re-compose can do by renaming one. */
+  const startedIn =
+    marks.progress === null
+      ? undefined
+      : chapters.find((c) => c.anchorKey === marks.progress!.anchorKey);
+  const resume =
+    startedIn === undefined || marks.progress === null
+      ? null
+      : chapters[0]?.anchorKey === startedIn.anchorKey && marks.progress.fraction < 0.05
+        ? null
+        : {
+            anchorKey: startedIn.anchorKey,
+            title: startedIn.title,
+            fraction: marks.progress.fraction,
+          };
+
   // Offered ONLY when the file is actually in R2. The row exists as soon as the
   // PDF is on the author's disk, and linking to that would promise a download
   // that 404s.
@@ -233,6 +260,20 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
             Only the ways this book actually offers get a tab, and a book with
             just one of them gets no tab strip at all — a tablist with a single
             tab is a control that cannot be used. */}
+        {resume === null ? null : (
+          <Link
+            to={`/book/${unit.slug}/read/${encodeURIComponent(resume.anchorKey)}`}
+            className="pf-resume"
+          >
+            <span className="pf-resume__label">
+              <Icon icon={faBookOpen} />
+              Continue reading
+            </span>
+            <span className="pf-resume__title">{resume.title}</span>
+            <span className="pf-resume__meta">{Math.round(resume.fraction * 100)}% through</span>
+          </Link>
+        )}
+
         <Tabs
           panels={[
             canRead
@@ -241,13 +282,12 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                   icon: faBookOpen,
                   label: "Read",
                   count: chapters.length,
-                  render: (tabbed) => (
+                  render: () => (
                     <ReadingEdition
                       slug={unit.slug}
                       chapters={chapters}
                       progress={marks.progress}
                       markedChapters={markedChapters}
-                      showHeading={!tabbed}
                       download={printEdition}
                     />
                   ),
@@ -259,14 +299,13 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                   icon: faHeadphones,
                   label: "Listen",
                   count: withAudio,
-                  render: (tabbed) => (
+                  render: () => (
                     <Podcast
                       slug={unit.slug}
                       bookTitle={unit.title}
                       sessions={sessions}
                       chapters={chapters}
                       alongsideAnEdition={canRead}
-                      showHeading={!tabbed}
                     />
                   ),
                 }
@@ -280,15 +319,8 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                   // The deck ITSELF, not a link to it. It used to be a button
                   // reading "Open the deck", which asked the reader to leave the
                   // page to find out whether the deck was worth looking at.
-                  render: (tabbed) => (
+                  render: () => (
                     <section className="pf-section">
-                      {tabbed ? null : (
-                        <SectionHeading
-                          icon={faImages}
-                          title="Slides"
-                          count={`${deckKeys.length} pages`}
-                        />
-                      )}
                       <p className="pf-note pf-note--quiet pf-section__intro">
                         A deck for the whole book.{" "}
                         <Link to={`/book/${unit.slug}/slides`} className="pf-link pf-link--inline">
@@ -329,15 +361,8 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                   icon: faNoteSticky,
                   label: "Notes",
                   count: marks.annotations.length + marks.bookmarks.length,
-                  render: (tabbed) => (
+                  render: () => (
                     <section className="pf-section">
-                      {tabbed ? null : (
-                        <SectionHeading
-                          icon={faNoteSticky}
-                          title="Notes"
-                          count={`${marks.annotations.length + marks.bookmarks.length} marked`}
-                        />
-                      )}
                       <NotesList
                         annotations={marks.annotations}
                         bookmarks={marks.bookmarks}
@@ -394,8 +419,7 @@ interface Panel {
   icon: IconDefinition;
   label: string;
   count: number;
-  /** `tabbed` is false when this is the only panel and there is no tab strip. */
-  render: (tabbed: boolean) => ReactNode;
+  render: () => ReactNode;
 }
 
 /**
@@ -433,7 +457,6 @@ function Tabs({ panels, empty }: { panels: (Panel | null)[]; empty: ReactNode })
   const at = Math.min(open, tabs.length - 1);
 
   if (tabs.length === 0) return <div className="pf-single">{empty}</div>;
-  if (tabs.length === 1) return <div className="pf-single">{tabs[0].render(false)}</div>;
 
   /**
    * Arrow keys move between tabs and take focus with them, which is what makes
@@ -462,6 +485,13 @@ function Tabs({ panels, empty }: { panels: (Panel | null)[]; empty: ReactNode })
 
   return (
     <>
+      {/* A book with one way in gets the panel and no strip — a tablist holding
+          a single tab is a control that cannot be used. What it does NOT get is
+          a different layout: a book that is only readable used to render its
+          chapters bare, with a heading of their own, so the two books in this
+          library with a podcast looked like a different product from the ones
+          without. One template, and the strip is the only thing conditional. */}
+      {tabs.length === 1 ? null : (
       <div
         ref={strip}
         role="tablist"
@@ -487,6 +517,7 @@ function Tabs({ panels, empty }: { panels: (Panel | null)[]; empty: ReactNode })
           </button>
         ))}
       </div>
+      )}
 
       {tabs.map((tab, i) => (
         <div
@@ -498,7 +529,7 @@ function Tabs({ panels, empty }: { panels: (Panel | null)[]; empty: ReactNode })
           tabIndex={0}
           className="pf-tabpanel pf-panel"
         >
-          <div className="pf-panel__body">{tab.render(true)}</div>
+          <div className="pf-panel__body">{tab.render()}</div>
         </div>
       ))}
     </>
@@ -524,29 +555,15 @@ function ReadingEdition({
   chapters,
   progress,
   markedChapters,
-  showHeading,
   download,
 }: {
   slug: string;
   chapters: Route.ComponentProps["loaderData"]["chapters"];
   progress: Route.ComponentProps["loaderData"]["marks"]["progress"];
   markedChapters: Map<string, number>;
-  showHeading: boolean;
   /** The print-edition button, when there is one. See `PrintEdition`. */
   download: ReactNode;
 }) {
-  // Where to send them back to, if anywhere. Null when they have not started,
-  // when the chapter they were in no longer exists (a re-compose can rename
-  // one), or when they are barely into the very first chapter — in which case
-  // the chapter list already offers exactly that, one row down.
-  const at = progress === null ? null : chapters.find((c) => c.anchorKey === progress.anchorKey);
-  const resume =
-    at === undefined || at === null || progress === null
-      ? null
-      : chapters[0]?.anchorKey === at.anchorKey && progress.fraction < 0.05
-        ? null
-        : { anchorKey: at.anchorKey, title: at.title, fraction: progress.fraction };
-
   if (chapters.length === 0) {
     return (
       <section className="pf-section">
@@ -567,36 +584,10 @@ function ReadingEdition({
           you do on the page. */}
       <div className="pf-section__head pf-section__head--wrap">
         <div className="pf-section__naming">
-          {showHeading ? (
-            <h2 className="pf-section__title">
-              <Icon icon={faBookOpen} />
-              Read
-            </h2>
-          ) : null}
           <span className="pf-section__count">{chapters.length} chapters</span>
         </div>
         {download}
       </div>
-
-      {/* ---- Where you left off ----
-          Offered only when there IS somewhere to go back to, and only when it
-          is not simply the first chapter — "continue from the beginning" is a
-          second Start button wearing a different word. The chapter it names is
-          the one the reader was actually in, taken from their own progress row
-          rather than from a count of what has been marked. */}
-      {resume === null ? null : (
-        <Link
-          to={`/book/${slug}/read/${encodeURIComponent(resume.anchorKey)}`}
-          className="pf-resume"
-        >
-          <span className="pf-eyebrow">
-            <Icon icon={faBookOpen} />
-            Continue reading
-          </span>
-          <span className="pf-resume__title">{resume.title}</span>
-          <span className="pf-resume__meta">{Math.round(resume.fraction * 100)}% through</span>
-        </Link>
-      )}
 
       <ol className="pf-rows pf-rows--striped pf-section__intro">
         {chapters.map((chapter) => (
@@ -641,14 +632,12 @@ function Podcast({
   sessions,
   chapters,
   alongsideAnEdition,
-  showHeading,
 }: {
   slug: string;
   bookTitle: string;
   sessions: Session[];
   chapters: Route.ComponentProps["loaderData"]["chapters"];
   alongsideAnEdition: boolean;
-  showHeading: boolean;
 }) {
   const titleOf = new Map(chapters.map((c) => [c.anchorKey, c.title]));
   const episodes = sessions.flatMap((s) => s.episodes);
@@ -666,11 +655,7 @@ function Podcast({
 
   return (
     <section className="pf-section">
-      {showHeading ? (
-        <SectionHeading icon={faHeadphones} title="Listen" count={count} />
-      ) : (
-        <p className="pf-section__count">{count}</p>
-      )}
+      <p className="pf-section__count">{count}</p>
 
       {/* Only worth saying when both lists are on screen. On a page with no
           reading edition there is nothing for the reader to be confused with. */}

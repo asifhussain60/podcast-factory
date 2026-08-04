@@ -137,8 +137,63 @@
   src: url("/fonts/amiri-arabic-400-normal.woff2") format("woff2");
 }
 
-/* Offered in the reader's font picker. Costs nothing and is a real accessibility
-   win for the people who need it. */
+/* ---- The reader's font picker -------------------------------------------
+   Four faces the reading column can be set in besides Literata and Inter, each
+   drawn for reading rather than for looking different: a second serif, one face
+   for low vision, one for reading proficiency, one for dyslexia. A browser only
+   fetches a face something on the page actually asks for, so a reader who never
+   opens the picker downloads none of them. */
+
+/* Merriweather — the second serif, for when Literata's narrower forms are hard
+   going. Its `opsz` axis reproportions the letterforms as the reader raises the
+   size, the same reason Literata carries one. */
+@font-face {
+  font-family: "Merriweather Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 900;
+  src: url("/fonts/merriweather-latin-opsz-normal.woff2") format("woff2-variations");
+}
+
+@font-face {
+  font-family: "Merriweather Variable";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 300 900;
+  src: url("/fonts/merriweather-latin-opsz-italic.woff2") format("woff2-variations");
+}
+
+/* Atkinson Hyperlegible — drawn by the Braille Institute for low vision, around
+   telling confusable characters apart: I l 1, O 0, b d p q. */
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/atkinson-hyperlegible-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url("/fonts/atkinson-hyperlegible-latin-400-italic.woff2") format("woff2");
+}
+
+/* Lexend — wide spacing and simplified forms, drawn around reading proficiency.
+   The family has no italic, so `<em>` falls through to the next face in the
+   stack rather than being synthesised. */
+@font-face {
+  font-family: "Lexend Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/lexend-latin-wght-normal.woff2") format("woff2-variations");
+}
+
+/* OpenDyslexic — weighted bottoms, so a letter is harder to rotate or flip.
+   Costs nothing and is a real accessibility win for the people who need it. */
 @font-face {
   font-family: "OpenDyslexic";
   font-style: normal;
@@ -167,7 +222,16 @@
   /* Titles and other display Arabic ONLY. Never the reading column — see the
      @font-face note in §1. */
   --l-font-arabic-display: "Amiri", "Scheherazade New", serif;
-  --l-font-dyslexic: "OpenDyslexic", sans-serif;
+
+  /* Reading-column choices. Only `lib/reading.ts` names these — nothing in the
+     stylesheet sets a reading face directly, so adding a fifth is one token
+     here and one entry there. Each falls back to the family it most resembles,
+     so a face that fails to load degrades to something of the same shape rather
+     than to the browser's default. */
+  --l-font-merriweather: "Merriweather Variable", Georgia, serif;
+  --l-font-atkinson: "Atkinson Hyperlegible", "Inter Variable", system-ui, sans-serif;
+  --l-font-lexend: "Lexend Variable", "Inter Variable", system-ui, sans-serif;
+  --l-font-dyslexic: "OpenDyslexic", "Atkinson Hyperlegible", sans-serif;
 
   /* ---- Reading column ------------------------------------------------
      The reader writes these four at runtime from the user's saved prefs. They
@@ -2711,11 +2775,16 @@
      nine near-identical chapter rows, without becoming a solid slab — the print
      edition button beside it already learned that lesson. */
 
+  /* Where you left off, standing on its own ABOVE the panel rather than as the
+     first thing inside it. Between the chapter count and the first chapter row
+     it read as another row of the list; out here it is the first thing under
+     the title. The bottom margin is the separation that makes it read as its
+     own object and not as the panel's lid. */
   .pf-resume {
     display: flex;
     flex-direction: column;
     gap: var(--pf-space-1);
-    margin-top: var(--pf-space-4);
+    margin-block: var(--pf-space-5) var(--pf-space-6);
     padding: var(--pf-space-4) var(--pf-space-5);
     background: var(--l-accent-soft);
     border: 1px solid color-mix(in srgb, var(--l-accent) 30%, transparent);
@@ -2729,6 +2798,21 @@
   .pf-resume:hover {
     border-color: var(--l-accent);
     transform: translateY(var(--pf-lift));
+  }
+
+  /* Its own label rather than the shared `.pf-eyebrow`: this one names an
+     action the reader is being offered, and at the eyebrow's weight it read as
+     a section caption of the kind that labels a fact. */
+  .pf-resume__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 700;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-accent);
   }
 
   .pf-resume__title {
@@ -2870,10 +2954,14 @@
 
      The colour is a background, never a change of ink: the marked words stay the
      same colour as the words around them, which is what keeps the sentence
-     reading as one sentence. The bottom border is the part that matters for
-     anyone who cannot separate the four hues — it says "marked" without relying
-     on colour at all, and it is derived from the tint rather than declared, so a
-     fourth colour costs one token and nothing here. */
+     reading as one sentence.
+
+     NO UNDERLINE (Asif, 2026-08-04). Each highlight used to carry a rule beneath
+     the words, derived from its own tint, as the non-colour signal that
+     something was marked — but a line under a sentence is what a link looks
+     like, and in a book it is what emphasis looks like, so the page read as
+     annotated by its author rather than by its reader. The wash of colour is the
+     signal now. */
 
   .pf-hl {
     /* `inherit`, not a value: `<mark>` has a UA colour and a UA background, and
@@ -2881,7 +2969,6 @@
     color: inherit;
     background: var(--pf-hl-tint);
     border-radius: 2px;
-    box-shadow: 0 1px 0 0 color-mix(in srgb, var(--pf-hl-tint) 55%, var(--l-ink));
     cursor: pointer;
     transition: background var(--pf-motion);
   }
@@ -2899,11 +2986,12 @@
     --pf-hl-tint: var(--l-hl-rose);
   }
 
-  /* A highlight carrying a note earns a second, heavier underline. A different
-     colour would collide with the four the reader chose; a thicker edge does
-     not, and reads as "there is more here" at any size. */
+  /* A highlight carrying a note says so with a thin edge AROUND the words —
+     not the heavier underline it used to carry, which went with the base rule
+     above for the same reason. A different colour would collide with the four
+     the reader chose; a border drawn from the tint cannot. */
   .pf-hl--noted {
-    box-shadow: 0 2px 0 0 color-mix(in srgb, var(--pf-hl-tint) 30%, var(--l-ink));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--pf-hl-tint) 45%, var(--l-ink));
   }
 
   /* Where the notes drawer just sent you. Temporary by nature — it is removed
@@ -3030,8 +3118,12 @@
      colour-name-to-tint mapping — there are three already, and each one is a
      place the four colours could quietly disagree.
 
-     `--l-ink` on `--l-hl-gold` is held to AA by theme.test.ts in all three
-     palettes, so filling the surface costs the text nothing. */
+     The gold is DILUTED (Asif, 2026-08-04) and the writing area is the ordinary
+     field surface rather than the paper itself. At full strength the sheet was
+     the loudest thing on the screen for a control that is open while you think,
+     and dark text on saturated yellow is tiring to write against for longer
+     than a line. Mixed toward `--l-elev` rather than toward white, so a dark
+     palette gets a dim gold card rather than a bright one. */
 
   .pf-selbar--paper {
     /* The width lives HERE, on the paper, and the clamp is derived from it —
@@ -3050,8 +3142,8 @@
     );
     width: var(--sel-w);
     padding: var(--pf-space-4);
-    background: var(--l-hl-gold);
-    border-color: color-mix(in srgb, var(--l-ink) 18%, transparent);
+    background: color-mix(in srgb, var(--l-hl-gold) 42%, var(--l-elev));
+    border-color: color-mix(in srgb, var(--l-ink) 14%, transparent);
     border-radius: var(--pf-radius-sm);
     color: var(--l-ink);
   }
@@ -3064,21 +3156,17 @@
     width: 100%;
   }
 
-  /* No box of its own. The paper IS the field — a bordered input drawn on top of
-     a Post-it is two surfaces where the reader sees one. */
+  /* A real field on the card, not a transparent area of it (Asif, 2026-08-04).
+     The paper WAS the field, on the reasoning that an input drawn on a Post-it
+     is two surfaces where the reader sees one — but with nothing marking where
+     the writing goes, the sheet read as a coloured panel that happened to accept
+     typing, and the cursor was the only clue. The ordinary `--l-elev` surface
+     every other input on the site uses says it plainly, and puts the typed words
+     on the background they were measured against. */
   .pf-selbar__field {
     min-height: 9rem;
-    padding: 0;
-    background: transparent;
-    border: 0;
-    color: inherit;
-    font-size: var(--pf-text-base);
     line-height: 1.55;
     resize: vertical;
-  }
-
-  .pf-selbar__field::placeholder {
-    color: color-mix(in srgb, var(--l-ink) 50%, transparent);
   }
 
   /* The paper's own edge, so the buttons read as sitting below the writing
@@ -3088,18 +3176,9 @@
     border-top: 1px solid color-mix(in srgb, var(--l-ink) 12%, transparent);
   }
 
-  /* The site's focus ring is accent blue, and on gold it drew a bright rounded
-     box around the writing area — which is exactly the second surface the paper
-     exists to avoid, and made the note read as a form field again. Same 2px, same
-     offset, in the paper's own ink: quiet as a pencil line, and still the highest
-     contrast thing on the card. */
-  .pf-selbar--paper :focus-visible {
-    outline-color: color-mix(in srgb, var(--l-ink) 60%, transparent);
-  }
-
-  /* `--l-muted` is a grey chosen against the page, and on a coloured surface it
-     is neither AA nor legible. Everything on paper derives from the ink the
-     paper was measured against. */
+  /* `--l-muted` is a grey chosen against the page. The card is close to it now
+     that the gold is diluted, but not close enough to trust a grey drawn for a
+     different surface — the buttons derive from the ink instead. */
   .pf-selbar--paper .pf-button--ghost {
     color: color-mix(in srgb, var(--l-ink) 78%, transparent);
   }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { faCopy, faNoteSticky, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faNoteSticky, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { Icon } from "~/components/Icon";
 import { anchorFromSelection, type Anchor } from "~/lib/anchor";
@@ -163,12 +163,6 @@ export function SelectionBar({
     close();
   };
 
-  const copy = () => {
-    const text = target.anchor?.quote ?? window.getSelection()?.toString() ?? "";
-    if (text !== "") void navigator.clipboard?.writeText(text).catch(() => {});
-    close();
-  };
-
   const saveNote = () => {
     onNote(target.existingId, target.anchor, draft);
     window.getSelection()?.removeAllRanges();
@@ -243,10 +237,11 @@ export function SelectionBar({
             <Icon icon={faNoteSticky} title={target.existingNote ? "Edit note" : "Add note"} />
           </button>
 
-          <button type="button" onClick={copy} title="Copy" className="pf-selbar__action">
-            <Icon icon={faCopy} title="Copy" />
-          </button>
-
+          {/* Copy was here and is gone (Asif, 2026-08-04). The browser's own
+              selection already copies, on every platform, by the gesture the
+              reader already knows — so the button was a second way to do a
+              thing that was not broken, taking width from the two that only
+              this bar can do. */}
           {target.existingId !== null ? (
             <button
               type="button"

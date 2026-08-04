@@ -1,8 +1,13 @@
+import { readFileSync } from "node:fs";
+
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
   DEFAULT_PREFS,
   FAMILIES,
+  FAMILY_LABELS,
+  FAMILY_VAR,
+  READING_INIT_SCRIPT,
   hydrateReading,
   readingSnapshot,
   setReading,
@@ -103,9 +108,35 @@ describe("the size stepper", () => {
 });
 
 describe("the typeface list", () => {
-  it("offers exactly the families the theme declares a token for", () => {
-    // The dropdown renders straight from FAMILIES; a name here with no
-    // `--l-font-*` behind it would silently fall back to the browser default.
-    expect([...FAMILIES]).toEqual(["prose", "ui", "dyslexic"]);
+  // Was a hardcoded list of three names, which had to be edited every time a
+  // face was added and never checked the thing that actually breaks. This
+  // asserts the invariant instead: every choice in the picker resolves to a
+  // custom property the stylesheet declares, and carries a name a reader can
+  // recognise. A family with no token behind it falls back to the browser's
+  // default, which looks like the picker not working.
+  const CSS = readFileSync(new URL("../app/styles/podcast-factory.css", import.meta.url), "utf8");
+
+  it("maps every family to a token the stylesheet declares", () => {
+    for (const family of FAMILIES) {
+      const token = FAMILY_VAR[family].replace(/^var\(|\)$/g, "");
+      expect(FAMILY_VAR[family], `${family} has no token`).toMatch(/^var\(--l-font-[a-z-]+\)$/);
+      expect(CSS, `${token} is never declared`).toContain(`${token}:`);
+    }
+  });
+
+  it("gives every family a label, and no two the same", () => {
+    const labels = FAMILIES.map((f) => FAMILY_LABELS[f]);
+    expect(labels.filter(Boolean)).toHaveLength(FAMILIES.length);
+    expect(new Set(labels).size).toBe(FAMILIES.length);
+  });
+
+  // The pre-paint script carries its own copy of the map, interpolated rather
+  // than written out. This is what proves the interpolation still happens: a
+  // hand-written copy that fell behind would show the wrong face until
+  // hydration, on every load, with nothing to say the two had drifted.
+  it("applies every family before first paint", () => {
+    for (const family of FAMILIES) {
+      expect(READING_INIT_SCRIPT).toContain(`"${family}":"${FAMILY_VAR[family]}"`);
+    }
   });
 });

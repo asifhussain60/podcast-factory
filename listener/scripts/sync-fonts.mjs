@@ -112,7 +112,67 @@ const MANIFEST = [
     to: "amiri-LICENSE.txt",
     note: "SIL OFL 1.1",
   },
-  // Accessibility option in the reader's font picker.
+  // ---- The reader's font picker ------------------------------------------
+  //
+  // Three faces beyond Literata and Inter, chosen because each is drawn for
+  // reading rather than for looking different. They ship here rather than being
+  // named as system fonts so that the same six choices exist on every device —
+  // a picker whose options depend on the machine offers a setting that does
+  // nothing on half of them.
+  //
+  // Merriweather — the second serif, and the one to reach for when Literata's
+  // narrow forms are hard going. Drawn for screens: a large x-height, short
+  // descenders and open apertures. The `opsz` cut for the same reason as
+  // Literata's, since this is the size the reader changes most.
+  {
+    from: "node_modules/@fontsource-variable/merriweather/files/merriweather-latin-opsz-normal.woff2",
+    to: "merriweather-latin-opsz-normal.woff2",
+    note: "Merriweather Variable (roman)",
+  },
+  {
+    from: "node_modules/@fontsource-variable/merriweather/files/merriweather-latin-opsz-italic.woff2",
+    to: "merriweather-latin-opsz-italic.woff2",
+    note: "Merriweather Variable (italic)",
+  },
+  {
+    from: "node_modules/@fontsource-variable/merriweather/LICENSE",
+    to: "merriweather-LICENSE.txt",
+    note: "SIL OFL 1.1",
+  },
+  // Atkinson Hyperlegible — drawn by the Braille Institute for low vision. Its
+  // whole design is telling confusable characters apart: I l 1, O 0, b d p q.
+  // Not variable; 400 and its italic are what running prose needs.
+  {
+    from: "node_modules/@fontsource/atkinson-hyperlegible/files/atkinson-hyperlegible-latin-400-normal.woff2",
+    to: "atkinson-hyperlegible-latin-400-normal.woff2",
+    note: "Atkinson Hyperlegible 400",
+  },
+  {
+    from: "node_modules/@fontsource/atkinson-hyperlegible/files/atkinson-hyperlegible-latin-400-italic.woff2",
+    to: "atkinson-hyperlegible-latin-400-italic.woff2",
+    note: "Atkinson Hyperlegible 400 italic",
+  },
+  {
+    from: "node_modules/@fontsource/atkinson-hyperlegible/LICENSE",
+    to: "atkinson-hyperlegible-LICENSE.txt",
+    note: "SIL OFL 1.1",
+  },
+  // Lexend — drawn around reading proficiency rather than around a style: wide
+  // spacing and simplified forms, and the face most often suggested beside
+  // OpenDyslexic for readers who find dense text hard to hold. No italic in the
+  // family, which is why the reading column falls back for `<em>`.
+  {
+    from: "node_modules/@fontsource-variable/lexend/files/lexend-latin-wght-normal.woff2",
+    to: "lexend-latin-wght-normal.woff2",
+    note: "Lexend Variable",
+  },
+  {
+    from: "node_modules/@fontsource-variable/lexend/LICENSE",
+    to: "lexend-LICENSE.txt",
+    note: "SIL OFL 1.1",
+  },
+  // OpenDyslexic — weighted bottoms, so letters are harder to rotate or flip.
+
   {
     from: "../plan-dashboard/public/fonts/opendyslexic/opendyslexic-latin-400-normal.woff2",
     to: "opendyslexic-latin-400-normal.woff2",

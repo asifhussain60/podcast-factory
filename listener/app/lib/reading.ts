@@ -25,12 +25,29 @@ export const READING_STORAGE_KEY = "pf-reading";
  */
 export const readingMinutes = (words: number): number => Math.max(1, Math.round(words / 220));
 
-export const FAMILIES = ["prose", "ui", "dyslexic"] as const;
+/**
+ * The faces the reading column can be set in.
+ *
+ * Ordered as the picker reads them: the two serifs, the two plain sans faces,
+ * then the two drawn for a specific difficulty. Every one is self-hosted, so
+ * the same six exist on a phone, a tablet and a desktop — a picker whose
+ * options depend on the machine offers a setting that does nothing on half of
+ * them.
+ *
+ * `prose` and `ui` are named for their ROLE rather than for the face, and the
+ * later ones for the face itself. The inconsistency is deliberate: those two
+ * keys are already written into every reader's stored preferences, and renaming
+ * them would silently reset the setting of anyone who had chosen one.
+ */
+export const FAMILIES = ["prose", "merriweather", "ui", "atkinson", "lexend", "dyslexic"] as const;
 export type Family = (typeof FAMILIES)[number];
 
 export const FAMILY_LABELS: Record<Family, string> = {
   prose: "Literata",
+  merriweather: "Merriweather",
   ui: "Inter",
+  atkinson: "Atkinson",
+  lexend: "Lexend",
   dyslexic: "OpenDyslexic",
 };
 
@@ -74,9 +91,18 @@ export const DEFAULT_PREFS: ReadingPrefs = {
   measure: 68,
 };
 
-const FAMILY_VAR: Record<Family, string> = {
+/**
+ * The custom property each choice maps to. Exported so a test can prove every
+ * one of them is actually declared in the stylesheet — a family named here with
+ * no token behind it silently falls back to the browser's default, which looks
+ * like the picker not working rather than like a missing line of CSS.
+ */
+export const FAMILY_VAR: Record<Family, string> = {
   prose: "var(--l-font-prose)",
+  merriweather: "var(--l-font-merriweather)",
   ui: "var(--l-font-ui)",
+  atkinson: "var(--l-font-atkinson)",
+  lexend: "var(--l-font-lexend)",
   dyslexic: "var(--l-font-dyslexic)",
 };
 
@@ -86,10 +112,17 @@ const FAMILY_VAR: Record<Family, string> = {
  * Without it a stored 23px setting renders at 19px and jumps on hydration —
  * mid-paragraph, which loses the reader's place. Same reasoning as the theme
  * script, and the same deliberate lack of dependencies.
+ *
+ * The face map is INTERPOLATED from `FAMILY_VAR` rather than written out again.
+ * It used to be a second copy of it, hand-kept in a string — so adding a face
+ * left anyone who chose it seeing Literata until hydration, on every load, with
+ * nothing to show that the two lists had drifted apart.
  */
 export const READING_INIT_SCRIPT = `(function(){try{var p=JSON.parse(localStorage.getItem(${JSON.stringify(
   READING_STORAGE_KEY,
-)})||"{}");var s=document.documentElement.style;var f={prose:"var(--l-font-prose)",ui:"var(--l-font-ui)",dyslexic:"var(--l-font-dyslexic)"}[p.family];if(f)s.setProperty("--l-reading-family",f);if(p.size)s.setProperty("--l-reading-size",p.size+"px");if(p.leading)s.setProperty("--l-reading-leading",String(p.leading));if(p.measure)s.setProperty("--l-reading-measure",p.measure+"ch")}catch(e){}})();`;
+)})||"{}");var s=document.documentElement.style;var f=${JSON.stringify(
+  FAMILY_VAR,
+)}[p.family];if(f)s.setProperty("--l-reading-family",f);if(p.size)s.setProperty("--l-reading-size",p.size+"px");if(p.leading)s.setProperty("--l-reading-leading",String(p.leading));if(p.measure)s.setProperty("--l-reading-measure",p.measure+"ch")}catch(e){}})();`;
 
 export function applyReading(prefs: ReadingPrefs) {
   const style = document.documentElement.style;

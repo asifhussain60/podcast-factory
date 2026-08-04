@@ -89,6 +89,11 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   const body = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLSpanElement>(null);
 
+  // One object per chapter, not one per render. See the note at the element
+  // itself: a fresh literal here makes React re-set `innerHTML` on every
+  // re-render, which throws away every highlight painted into it.
+  const html = useMemo(() => ({ __html: chapter.html }), [chapter.html]);
+
   const marks = useMarks(slug);
   const annotations = useMemo(
     () => annotationsInChapter(marks, chapter.anchorKey),
@@ -456,11 +461,17 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
                 produces the printed book, so this is not "trusting user input" —
                 it is the book. See app/server/catalog.server.ts. Highlights are
                 added to the live DOM after this renders; React never reconciles
-                inside it. */}
-            <div
-              className="reader pf-chapter-body"
-              dangerouslySetInnerHTML={{ __html: chapter.html }}
-            />
+                inside it.
+
+                `html` is MEMOISED, and that is load-bearing rather than an
+                optimisation. React compares props by identity, and
+                `dangerouslySetInnerHTML` written inline is a new object every
+                render — so React re-set `innerHTML` on each one, wiping every
+                painted highlight. Scrolling ticks the progress state, which
+                re-renders, which is why a highlight vanished on the first
+                scroll and did not come back until a reload: the paint effect's
+                own dependencies had not changed, so nothing repainted it. */}
+            <div className="reader pf-chapter-body" dangerouslySetInnerHTML={html} />
           </article>
 
           {/* Inside the page container, so the two cards line up with the edges
