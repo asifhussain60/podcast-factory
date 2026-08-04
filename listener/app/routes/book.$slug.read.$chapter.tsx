@@ -292,6 +292,28 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     return () => observer.disconnect();
   }, [passages, paints]);
 
+  /* ---- Open on arrival, for the account the Companion belongs to ---------
+     The panel is not something to go and get: it is part of how this reader
+     reads, so it is already there when the chapter opens, and again on the next
+     chapter. Closing it closes it for that chapter, which is what a close button
+     has to mean.
+
+     Only where it can stand BESIDE the text. Below that width the drawer covers
+     the page and dims it, so opening it automatically would land the reader on a
+     chapter they cannot read until they dismiss something — and the tab is right
+     there. `matchMedia` rather than a width comparison so the same number lives
+     in one place, the stylesheet, with the rule it drives.
+
+     It runs after hydration rather than in the initial state because the server
+     does not know the viewport. The panel arrives a frame after the text, which
+     on a wide screen reads as it sliding in, and on a phone never happens.     */
+  useEffect(() => {
+    if (!isCompanion) return;
+    if (!window.matchMedia(DOCKED_AT).matches) return;
+    setNotesOpen(true);
+    setContentsOpen(false);
+  }, [isCompanion, chapter.anchorKey]);
+
   // Tapping an explained sentence opens its card. A tap that lands inside the
   // reader's OWN highlight is theirs — the selection bar answers it — because a
   // mark they made is the one they meant to press.
@@ -467,7 +489,13 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   }, [annotations, bookmarks]);
 
   return (
-    <div className="pf-shell">
+    // The page lays out in the width the docked panel leaves it, rather than
+    // underneath it. Only the shell can say so — the drawer is its sibling, not
+    // its parent — and the same media query in the stylesheet decides whether the
+    // class means anything at all. Written inline rather than assigned to a
+    // variable first, because test/styles.test.ts reads class names out of the
+    // markup and a name that only exists in a local is a rule it reports as dead.
+    <div className={`pf-shell${isCompanion && notesOpen ? " pf-shell--docked" : ""}`}>
       <div className="reading-progress" aria-hidden="true">
         <span ref={bar} />
       </div>
@@ -505,6 +533,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
         onClose={() => setNotesOpen(false)}
         label={isCompanion ? "Companion" : "Your notes"}
         icon={isCompanion ? faBookOpen : faNoteSticky}
+        docked={isCompanion}
         count={
           isCompanion ? companion.length : marks.annotations.length + marks.bookmarks.length
         }
@@ -660,6 +689,16 @@ const toFields = (a: {
   colour: a.colour,
   note: a.note ?? "",
 });
+
+/**
+ * The width at which the Companion stands beside the text instead of over it.
+ *
+ * The same 64rem the stylesheet uses, and it has to be: above it the panel is
+ * docked and the page lays out around it, below it it is a drawer that covers
+ * what it opens over. Written as the media query rather than as a number so the
+ * two are one sentence in two files.
+ */
+const DOCKED_AT = "(min-width: 64rem)";
 
 /** Whether two id lists are the same, in the same order. Same purpose as below. */
 function sameList(a: string[], b: string[]): boolean {

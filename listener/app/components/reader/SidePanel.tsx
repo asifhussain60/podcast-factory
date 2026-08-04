@@ -29,6 +29,7 @@ export function SidePanel({
   label,
   icon,
   count,
+  docked = false,
   children,
 }: {
   /** `start` is the left edge in a left-to-right reading, `end` the right. */
@@ -43,6 +44,20 @@ export function SidePanel({
   icon: IconDefinition;
   /** Shown on the tab when there is something in it. Never shown as zero. */
   count?: number;
+  /**
+   * Stand BESIDE the text rather than over it, on a screen wide enough.
+   *
+   * A panel that is open the whole time cannot be one that dims the page: the
+   * reader would be reading through a scrim. Docked, the page lays out in the
+   * width the panel leaves it and the scrim is gone — which is what the note at
+   * the top of this file has always claimed a wide screen does, and never did.
+   *
+   * The word is honoured in CSS, not here, because it is a question about the
+   * VIEWPORT: below the breakpoint a docked panel is an ordinary drawer again,
+   * scrim and all, and nothing in React has to know which side of that line the
+   * window is on.
+   */
+  docked?: boolean;
   children: React.ReactNode;
 }) {
   if (!open) {
@@ -81,7 +96,10 @@ export function SidePanel({
         className="pf-drawer__scrim"
       />
 
-      <Landmark aria-label={label} className={`pf-drawer pf-drawer--${side}`}>
+      <Landmark
+        aria-label={label}
+        className={`pf-drawer pf-drawer--${side}${docked ? " pf-drawer--docked" : ""}`}
+      >
         <div className="pf-drawer__head">
           <h2 className="pf-drawer__title">{label}</h2>
           {/* No `aria-expanded` here. The tab is the disclosure control; this

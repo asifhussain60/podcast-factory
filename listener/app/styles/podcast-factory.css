@@ -4058,6 +4058,35 @@
     background: color-mix(in srgb, var(--l-accent) 20%, transparent);
   }
 
+  /* ---- Docked, on a screen wide enough ------------------------------------
+     The Companion is open the whole time for the one account it belongs to, and
+     a panel that is always open cannot be one that dims the page — nobody reads
+     through a scrim. So above this width it stands BESIDE the text: the scrim is
+     gone, the shadow with it, and the page lays out in the width the panel
+     leaves it rather than underneath it.
+
+     64rem, because 26rem of panel out of anything narrower leaves a reading
+     column too thin to set a book in — and below the line nothing here applies,
+     so the same panel is an ordinary drawer on a phone, scrim and all. The
+     number is repeated in the reading route, which reads THIS query to decide
+     whether to open on arrival at all. */
+  @media (min-width: 64rem) {
+    .pf-shell--docked > main {
+      padding-inline-end: min(26rem, 100vw);
+    }
+
+    /* Rendered, then taken away, rather than not rendered: whether the panel is
+       docked is a question about the window, and the component that decides to
+       show a scrim runs on a server that has never seen one. */
+    .pf-shell--docked .pf-drawer__scrim {
+      display: none;
+    }
+
+    .pf-drawer--docked {
+      box-shadow: none;
+    }
+  }
+
   .pf-companion {
     display: flex;
     flex-direction: column;

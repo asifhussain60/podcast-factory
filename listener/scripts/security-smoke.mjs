@@ -154,14 +154,27 @@ d1(`
 `);
 
 const asReader = await get(`/book/ayyuhal-walad/read/${CHAPTER}`, outsider);
+const readerPage = await asReader.text();
 check("the granted reader can read the chapter", asReader.status, 200);
-check("and the chapter carries no companion note", (await asReader.text()).includes(MARKER), false);
+check("and the chapter carries no companion note", readerPage.includes(MARKER), false);
+// Not only the note — the PANEL. What this reader gets on that edge is their own
+// notes drawer, and only that: an empty Companion offered to someone it is not
+// for would still be a surface that should not exist for them.
+// Addressed by the tab's accessible name rather than by the bare word
+// "Companion": the reading route imports the panel either way, so the module's
+// FILENAME is in every page's preload list. A check on the word alone fails on a
+// build artefact and would have to be weakened until it proved nothing.
+check("their right-hand drawer is their own notes", readerPage.includes("Open your notes"), true);
+check("and no Companion panel is rendered", readerPage.includes("Open companion"), false);
 
-// Control. Without it, the check above passes just as happily when the note was
+// Control. Without it, the checks above pass just as happily when the note was
 // never written, when the chapter key was wrong, or when the page 500s — none of
 // which prove anything was withheld from anybody.
 const asAdmin = await get(`/book/ayyuhal-walad/read/${CHAPTER}`, admin);
-check("control: the administrator's copy of the same page carries it", (await asAdmin.text()).includes(MARKER), true);
+const adminPage = await asAdmin.text();
+check("control: the administrator's copy of the same page carries it", adminPage.includes(MARKER), true);
+check("control: and their drawer is the Companion", adminPage.includes("Open companion"), true);
+check("control: which REPLACES the notes drawer, not joins it", adminPage.includes("Open your notes"), false);
 
 d1(`
   DELETE FROM companion_note WHERE note_id = 'smoke-note';

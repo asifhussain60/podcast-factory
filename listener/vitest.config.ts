@@ -16,6 +16,10 @@ export default defineConfig({
   },
   test: {
     environment: "node",
-    include: ["test/**/*.test.ts"],
+    // `.tsx` as well, for the one test that renders a route to static markup to
+    // assert which panel a reader is sent. Still Node and still no DOM:
+    // `renderToStaticMarkup` runs no effects, which is the point — it produces
+    // the page as the server hands it over.
+    include: ["test/**/*.test.ts", "test/**/*.test.tsx"],
   },
 });
