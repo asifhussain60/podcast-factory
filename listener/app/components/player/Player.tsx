@@ -10,7 +10,9 @@ import {
 } from "react";
 import { Link } from "react-router";
 
-import { newId, refresh } from "~/lib/marks";
+import { NotesList } from "~/components/reader/NotesList";
+import { Transcript, parseVtt, type Cue } from "~/components/player/Transcript";
+import { newId, refresh, type EpisodeNote } from "~/lib/marks";
 
 /**
  * One <audio> element for the whole site.
@@ -34,7 +36,12 @@ export interface NowPlaying {
   title: string;
   src: string;
   durationS: number | null;
+  /** The media URL of this episode's WebVTT, or null when none was made. */
+  transcriptSrc: string | null;
 }
+
+/** Which side panel the player is showing, or none. */
+export type PlayerPanel = "transcript" | "notes" | null;
 
 interface PlayerState {
   current: NowPlaying | null;
@@ -43,6 +50,23 @@ interface PlayerState {
   position: number;
   duration: number;
   rate: number;
+  /**
+   * What is said in the episode being played, loaded with the audio.
+   *
+   * Held HERE rather than fetched by the panel that shows it, which is what
+   * makes the transcript follow the audio silently: the words are in memory from
+   * the moment playback starts, so opening the panel mid-episode lands on the
+   * line being spoken instead of showing a spinner. Nothing runs in between —
+   * which line is current is derived from `position` at render time, and while
+   * the panel is closed nobody asks.
+   *
+   * Null means either "no transcript for this episode" or "still loading"; the
+   * panel says the same thing for both, because a listener can do nothing with
+   * either distinction.
+   */
+  cues: Cue[] | null;
+  panel: PlayerPanel;
+  openPanel: (panel: PlayerPanel) => void;
   play: (episode: NowPlaying) => void;
   toggle: () => void;
   seek: (seconds: number) => void;
@@ -119,7 +143,7 @@ function savePosition(episode: NowPlaying, seconds: number) {
 let lastServerWrite = 0;
 
 /**
- * Mark this moment in whatever is playing, from anywhere on the site.
+ * Keep a moment of what is playing, with the line that was said at it.
  *
  * A DIRECT post, not a write through the marks store, and that is a correctness
  * requirement rather than a shortcut. `lib/marks.ts` holds one book open at a
@@ -133,7 +157,12 @@ let lastServerWrite = 0;
  * a note is made in a moment the listener can see happen, and the alternative is
  * a queue that can attribute it to the wrong book.
  */
-function markMoment(episode: NowPlaying, seconds: number, id: string): Promise<boolean> {
+function markMoment(
+  episode: NowPlaying,
+  seconds: number,
+  id: string,
+  quote: string,
+): Promise<boolean> {
   return fetch(`/book/${encodeURIComponent(episode.slug)}/marks`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -141,11 +170,11 @@ function markMoment(episode: NowPlaying, seconds: number, id: string): Promise<b
       intent: "episode-note",
       id,
       number: String(episode.number),
-      // Floor, not round: the stored value is when the button was pressed, and
-      // the site plays back from before it anyway.
+      // Floor, not round: the stored value is where the line STARTS, and the
+      // site plays back from a little before it anyway.
       seconds: String(Math.floor(seconds)),
       note: "",
-      quote: "",
+      quote,
     }),
   })
     .then((response) => response.ok)
@@ -181,6 +210,19 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
   const [rate, setRateState] = useState(1);
+  const [cues, setCues] = useState<Cue[] | null>(null);
+  const [panel, setPanel] = useState<PlayerPanel>(null);
+
+  /**
+   * Which episode the cues in state belong to.
+   *
+   * A ref, not state: it exists to make a late-arriving fetch discard itself
+   * when the listener has already moved to another episode, and re-rendering
+   * because it changed would be pointless. Without it, opening episode 3 while
+   * episode 2's transcript is still in flight shows episode 2's words against
+   * episode 3's audio — which is worse than showing none.
+   */
+  const cuesFor = useRef<string | null>(null);
 
   const play = useCallback((episode: NowPlaying) => {
     const element = audio.current;
@@ -193,6 +235,26 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
     setCurrent(episode);
     element.src = episode.src;
+
+    // The words, loaded alongside the audio rather than when the panel opens.
+    // Cleared FIRST so the panel never shows the previous episode's transcript
+    // while this one arrives.
+    setCues(null);
+    cuesFor.current = episode.src;
+    if (episode.transcriptSrc !== null) {
+      const wanted = episode.src;
+      void fetch(episode.transcriptSrc)
+        .then((response) => (response.ok ? response.text() : Promise.reject(new Error("not ok"))))
+        .then((text) => {
+          if (cuesFor.current !== wanted) return; // they moved on; this is stale
+          setCues(parseVtt(text));
+        })
+        .catch(() => {
+          // No transcript to show. The panel says so; playback is unaffected,
+          // and a failed side-fetch must not surface as an unhandled rejection
+          // in the listener's console mid-episode.
+        });
+    }
 
     // Start from the cache immediately — playback must not wait on a request.
     const cached = loadPositions()[positionKey(episode.slug, episode.number)] ?? 0;
@@ -243,11 +305,37 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
     setCurrent(null);
     setPlaying(false);
+    // The panel belongs to what is playing. Left open over a closed player it
+    // would be a transcript of nothing, with no control on screen to shut it.
+    setPanel(null);
+    setCues(null);
+    cuesFor.current = null;
   }, []);
 
+  /** Pressing the open panel's own button closes it, which is what a toggle is. */
+  const openPanel = useCallback(
+    (next: PlayerPanel) => setPanel((now) => (now === next ? null : next)),
+    [],
+  );
+
   const value = useMemo<PlayerState>(
-    () => ({ current, playing, position, duration, rate, play, toggle, seek, nudge, setRate, close }),
-    [current, playing, position, duration, rate, play, toggle, seek, nudge, setRate, close],
+    () => ({
+      current,
+      playing,
+      position,
+      duration,
+      rate,
+      cues,
+      panel,
+      openPanel,
+      play,
+      toggle,
+      seek,
+      nudge,
+      setRate,
+      close,
+    }),
+    [current, playing, position, duration, rate, cues, panel, openPanel, play, toggle, seek, nudge, setRate, close],
   );
 
   return (
@@ -269,7 +357,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         }}
       />
 
-      {current === null ? null : <PlayerBar />}
+      {current === null ? null : (
+        <>
+          <PlayerPanelDrawer />
+          <PlayerBar />
+        </>
+      )}
     </PlayerContext.Provider>
   );
 }
@@ -293,7 +386,7 @@ export function clock(seconds: number | null): string {
 }
 
 function PlayerBar() {
-  const { current, playing, position, duration, rate, toggle, seek, nudge, setRate, close } =
+  const { current, playing, position, duration, rate, panel, openPanel, toggle, seek, nudge, setRate, close } =
     usePlayer();
   if (current === null) return null;
 
@@ -360,7 +453,28 @@ function PlayerBar() {
             </select>
           </label>
 
-          <MarkButton />
+          {/* The two things a listener actually wants while listening, and the
+              only controls here that are NOT hidden on a phone. The skip and
+              speed controls go at that width; these are the point. */}
+          {current.transcriptSrc === null ? null : (
+            <button
+              type="button"
+              onClick={() => openPanel("transcript")}
+              aria-expanded={panel === "transcript"}
+              className="pf-player__panel-tab"
+            >
+              Transcript
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={() => openPanel("notes")}
+            aria-expanded={panel === "notes"}
+            className="pf-player__panel-tab"
+          >
+            Notes
+          </button>
 
           <button
             type="button"
@@ -392,56 +506,140 @@ function PlayerBar() {
 }
 
 /**
- * One tap to mark where you are, wherever you are on the site.
+ * The player's own side panel: what is being said, or what you have marked.
  *
- * This is the eyes-free half of listening notes. The transcript on the episode
- * page lets a moment be marked with the words attached, but most listening
- * happens with the phone face-down — and the player bar is the only thing on
- * screen for all of it, because it lives in the layout and survives navigation.
+ * It belongs to the PLAYER rather than to any page, for the same reason the
+ * <audio> element does — playback outlives navigation, so the transcript of what
+ * is playing has to be reachable from wherever the listener happens to be. A
+ * transcript that lives on one page is a transcript you have to go and find,
+ * which is exactly the failure this replaces.
  *
- * It captures the position at the instant of the TAP and posts immediately, so
- * nothing depends on how long the listener then takes to do anything else. The
- * words come later, in the notes list.
+ * It has no edge tab. The two buttons in the bar are its openers, so no page
+ * grows a second tab beside its own, and it is closed until asked for.
  *
- * The confirmation is the whole feedback loop: a note made with no visible
- * response is indistinguishable from a button that does nothing, which is
- * exactly the failure the delete button had.
+ * It is scoped to the PLAYING book, which is not always the book on screen — a
+ * chapter of one work can be open while another work's episode plays. So the
+ * notes here are fetched for `current.slug` rather than read from the marks
+ * store, which holds whichever book is being READ. Same reason the position
+ * write posts directly.
  */
-function MarkButton() {
-  const { current, position } = usePlayer();
-  const [state, setState] = useState<"idle" | "saved" | "failed">("idle");
+function PlayerPanelDrawer() {
+  const { current, panel, openPanel, cues, position, seek } = usePlayer();
+  const [marks, setMarks] = useState<PlayingMarks | null>(null);
+
+  const slug = current?.slug ?? null;
+
+  /* The playing book's own marks. Re-fetched when the panel opens rather than
+     held all the time: it is a handful of rows behind a deliberate press, and
+     keeping it live would mean polling for something nobody is looking at. */
+  const reload = useCallback(() => {
+    if (slug === null) return;
+    void fetch(`/book/${encodeURIComponent(slug)}/marks`, { headers: { Accept: "application/json" } })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => setMarks(data as PlayingMarks | null))
+      .catch(() => setMarks(null));
+  }, [slug]);
 
   useEffect(() => {
-    if (state === "idle") return;
-    const timer = setTimeout(() => setState("idle"), 2_000);
-    return () => clearTimeout(timer);
-  }, [state]);
+    if (panel === "notes") reload();
+  }, [panel, reload]);
 
-  if (current === null) return null;
+  if (current === null || panel === null) return null;
+
+  /* THIS EPISODE's notes, not the whole book's.
+     The panel belongs to what is playing, exactly as the transcript does — and
+     it is also the only honest scope available here: the marks endpoint returns
+     notes with an episode NUMBER, and rendering the ones from other episodes
+     would need their titles, which nothing on this side has. Showing them as
+     bare numbers, or silently dropping them, are both worse than a panel that
+     says plainly what it covers. The whole book's notes are one press away on
+     the book page, which has the titles. */
+  const here = (marks?.episodeNotes ?? []).filter((n) => n.number === current.number);
+  const label = panel === "transcript" ? "Transcript" : "Notes in this episode";
 
   return (
-    <button
-      type="button"
-      onClick={() => {
-        // Read here, at the tap, and passed down. Reading it inside the promise
-        // would record wherever the audio had reached by the time it resolved.
-        const at = position;
-        void markMoment(current, at, newId()).then((ok) => {
-          setState(ok ? "saved" : "failed");
-          // A notes drawer standing open on THIS book has to learn about it —
-          // the write bypassed the store that feeds it. No-op when the open book
-          // is a different one, which is the case this write exists to handle.
-          if (ok) void refresh(current.slug);
-        });
-      }}
-      aria-label={`Mark this moment, ${Math.floor(position / 60)} minutes in`}
-      title="Mark this moment"
-      className="pf-player__mark"
-    >
-      {state === "idle" ? "Mark" : state === "saved" ? "Marked" : "Not saved"}
-    </button>
+    <>
+      {/* Below the player bar in the stack, so the transport stays usable with
+          the panel open — pausing while reading along must not mean closing it
+          first. */}
+      <button
+        type="button"
+        aria-hidden="true"
+        tabIndex={-1}
+        onClick={() => openPanel(null)}
+        className="pf-player-panel__scrim"
+      />
+
+      <aside aria-label={`${label} for ${current.title}`} className="pf-player-panel">
+        <div className="pf-drawer__head">
+          <h2 className="pf-drawer__title">{label}</h2>
+          <button
+            type="button"
+            onClick={() => openPanel(null)}
+            aria-label={`Close ${label.toLowerCase()}`}
+            className="pf-tool"
+          >
+            &times;
+          </button>
+        </div>
+
+        <div className="pf-drawer__body">
+          {panel === "transcript" ? (
+            <Transcript
+              cues={cues}
+              position={position}
+              onSeek={seek}
+              onNote={(cue) => {
+                void markMoment(current, cue.startS, newId(), cue.text).then((ok) => {
+                  if (!ok) return;
+                  // Two consumers of a write this panel made, neither of which
+                  // saw it: the marks store feeding any notes list on the page
+                  // behind this one (a no-op unless that page is this book), and
+                  // this panel's own copy, for when the reader switches to Notes.
+                  void refresh(current.slug);
+                  reload();
+                });
+              }}
+            />
+          ) : (
+            <NotesList
+              annotations={[]}
+              bookmarks={[]}
+              chapters={[]}
+              episodes={[{ number: current.number, title: current.title }]}
+              episodeNotes={here}
+              orphaned={NOTHING_ORPHANED}
+              slug={current.slug}
+              onPlay={(_number, seconds) => seek(seconds)}
+              onRemoveAnnotation={NOTHING}
+              onRemoveBookmark={NOTHING}
+              onRemoveEpisodeNote={(id) => {
+                void fetch(`/book/${encodeURIComponent(current.slug)}/marks`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                  body: new URLSearchParams({ intent: "un-episode-note", id }),
+                })
+                  .then(() => {
+                    void refresh(current.slug);
+                    reload();
+                  })
+                  .catch(() => {});
+              }}
+            />
+          )}
+        </div>
+      </aside>
+    </>
   );
 }
+
+/** What the marks endpoint gives back, as much of it as this panel uses. */
+interface PlayingMarks {
+  episodeNotes: EpisodeNote[];
+}
+
+const NOTHING_ORPHANED: ReadonlySet<string> = new Set<string>();
+const NOTHING = () => {};
 
 function PlayIcon() {
   return (

@@ -100,60 +100,45 @@ export function cueAt(cues: Cue[], position: number): number {
 }
 
 export function Transcript({
-  src,
+  cues,
   position,
-  playing,
   onSeek,
   onNote,
 }: {
-  /** The media URL of the WebVTT, already gated by the route that serves it. */
-  src: string;
+  /**
+   * The words, already loaded by the player. Null means none — either this
+   * episode has no transcript or it has not arrived, and the reader can act on
+   * neither, so both say the same thing.
+   *
+   * Passed in rather than fetched here on purpose: the player holds the cues
+   * from the moment playback starts, which is what makes opening this panel
+   * mid-episode instant and lets the sync "follow silently" without this
+   * component being mounted at all.
+   */
+  cues: Cue[] | null;
   /** Where the audio is, in seconds. */
   position: number;
-  /** Following is only worth doing while it moves. */
-  playing: boolean;
   onSeek: (seconds: number) => void;
-  /** Mark this moment, carrying the line as it read. Absent while loading. */
+  /** Keep this moment, carrying the line as it read. */
   onNote?: (cue: Cue) => void;
 }) {
-  const [cues, setCues] = useState<Cue[] | null>(null);
-  const [failed, setFailed] = useState(false);
   const [follow, setFollow] = useState(true);
   const list = useRef<HTMLOListElement>(null);
 
-  useEffect(() => {
-    let live = true;
-    setCues(null);
-    setFailed(false);
-
-    fetch(src)
-      .then((response) => (response.ok ? response.text() : Promise.reject(new Error("not ok"))))
-      .then((text) => {
-        if (live) setCues(parseVtt(text));
-      })
-      .catch(() => {
-        // Said plainly below rather than rendered as an empty list. A transcript
-        // that failed to load and one that does not exist look identical to a
-        // reader, and only one of them is worth trying again.
-        if (live) setFailed(true);
-      });
-
-    return () => {
-      live = false;
-    };
-  }, [src]);
-
   const at = useMemo(() => (cues === null ? -1 : cueAt(cues, position)), [cues, position]);
 
-  /* Keep the spoken line on screen — but only while the audio is actually
-     moving, and only while the reader has not scrolled away. Someone reading
-     ahead to find a passage must not be dragged back every quarter second; the
-     button below is how they hand control back. */
+  /* Keep the spoken line on screen, while the reader has not scrolled away.
+     Someone reading ahead to find a passage must not be dragged back every
+     quarter second; the button below is how they hand control back.
+
+     Not conditioned on `playing`: opening this panel on a PAUSED episode should
+     still land on the line where the audio stands, which is the whole point of
+     the words being loaded before the panel is asked for. */
   useEffect(() => {
-    if (!follow || !playing || at < 0) return;
+    if (!follow || at < 0) return;
     const line = list.current?.querySelector<HTMLElement>(`[data-cue="${at}"]`);
     line?.scrollIntoView({ block: "center", behavior: "smooth" });
-  }, [at, follow, playing]);
+  }, [at, follow]);
 
   useEffect(() => {
     const element = list.current;
@@ -170,14 +155,8 @@ export function Transcript({
     };
   }, [cues]);
 
-  if (failed) {
-    return <p className="pf-note">The transcript could not be loaded. Reload to try again.</p>;
-  }
-  if (cues === null) {
-    return <p className="pf-note pf-note--quiet">Loading the transcript…</p>;
-  }
-  if (cues.length === 0) {
-    return <p className="pf-note">No speech was recognised in this recording.</p>;
+  if (cues === null || cues.length === 0) {
+    return <p className="pf-note">No transcript for this episode.</p>;
   }
 
   return (

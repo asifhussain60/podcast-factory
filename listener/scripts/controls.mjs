@@ -93,10 +93,22 @@ const VIEWS = [
   { label: "book", path: `/book/${slug}` },
   { label: "book-notes", path: `/book/${slug}?tab=notes` },
   { label: "reader", path: `/book/${slug}/read/${chapter}` },
-  // Only when the book has a playable recording. Without one the page renders
-  // "not recorded yet" and there is nothing on it to press — a route in this
-  // list that cannot be swept is worse than one that is honestly absent.
-  ...(episode === null ? [] : [{ label: "listen", path: `/book/${slug}/listen/${episode}` }]),
+  // The player's own controls — the transport, and the two panels — exist only
+  // once something is PLAYING, so this view reaches that state before taking
+  // inventory. Without `prepare` they were simply outside the sweep: not
+  // skipped-with-a-reason, but invisible to it, which is the worse of the two.
+  ...(episode === null
+    ? []
+    : [
+        {
+          label: "player",
+          path: `/book/${slug}?tab=listen`,
+          prepare: async (/** @type {import("playwright").Page} */ page) => {
+            await page.locator(".pf-row__action").first().click().catch(() => {});
+            await page.waitForSelector(".pf-player", { timeout: 3000 }).catch(() => {});
+          },
+        },
+      ]),
   { label: "admin", path: "/admin" },
   { label: "admin-content", path: "/admin/content" },
 ].filter((v) => only === null || v.label === only);
@@ -179,6 +191,8 @@ for (const view of VIEWS) {
   console.log(`\n\x1b[1m${view.label}\x1b[0m  ${view.path}`);
 
   const first = await open(view.path);
+  if (view.prepare) await first.page.waitForTimeout(400);
+  if (view.prepare) await view.prepare(first.page);
   const controls = await inventory(first.page);
   const links = await first.page.evaluate(
     () =>
@@ -243,6 +257,14 @@ for (const view of VIEWS) {
     }
 
     const { context, page } = await open(view.path);
+    // The same state the inventory was taken in. Each control gets a FRESH page,
+    // so a view whose controls only exist after a setup step has to redo it here
+    // or every press lands on a button that is not there.
+    if (view.prepare) {
+      await page.waitForTimeout(400);
+      await view.prepare(page);
+    }
+
     const posts = [];
     page.on("request", (r) => {
       if (r.method() !== "GET") posts.push(r.url());

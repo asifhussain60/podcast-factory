@@ -4301,26 +4301,32 @@
      A conversation, set as one. Each line is its own control — pressing it plays
      from there — so the whole thing is a list of buttons, and the styling has to
      keep it reading as text rather than as a stack of form controls. */
-  .pf-transcript {
-    margin-block-start: var(--pf-space-5);
-  }
 
   .pf-transcript__caveat {
     margin-block-end: var(--pf-space-3);
   }
 
+  /* The transcript fills the panel it is in and scrolls THERE, rather than
+     carrying a height of its own. It used to be capped at 60vh, which was right
+     when it was the body of a page and wrong the moment it moved into a drawer:
+     the list stopped two thirds of the way down and left dead space beneath it,
+     worst on a phone where the panel is the whole screen. One scroll container,
+     and it is the drawer's. */
+  .pf-transcript {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
   .pf-transcript__lines {
-    /* Capped and scrolled on its own, so the page does not become six hundred
-       screens tall and the line being spoken can be scrolled to the middle of
-       something. */
-    max-height: 60vh;
-    overflow-y: auto;
+    flex: 1;
     margin: 0;
     padding: 0;
     list-style: none;
     display: grid;
+    align-content: start;
     gap: var(--pf-space-1);
-    border-block: 1px solid var(--l-line);
+    border-top: 1px solid var(--l-rule);
   }
 
   .pf-cue {
@@ -4408,24 +4414,7 @@
     color: var(--l-accent);
   }
 
-  .pf-episode-controls {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--pf-space-2);
-    margin-block-start: var(--pf-space-4);
-  }
 
-  /* An episode title is the way into its page. It carries no underline until
-     hovered, because a list of twenty underlined rows reads as a link farm. */
-  .pf-row__link {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .pf-row__link:hover {
-    text-decoration: underline;
-  }
 
   /* ---- The Scholar Companion ----------------------------------------------
      The cards in the drawer, and the tint on the sentences they explain. Seen
@@ -4661,7 +4650,44 @@
     background: var(--l-accent-hover);
   }
 
+  /* The skip controls READ as buttons now. They were bare text on a bar full of
+     real controls, so the two things a listener reaches for most while an
+     episode runs — go back fifteen, go forward fifteen — looked like labels
+     printed beside the play button rather than things to press. */
   .pf-player__nudge,
+  .pf-player__panel-tab {
+    flex: none;
+    padding: var(--pf-space-1) var(--pf-space-3);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-pill);
+    background: transparent;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      color var(--pf-motion),
+      border-color var(--pf-motion),
+      background var(--pf-motion);
+  }
+
+  .pf-player__nudge:hover,
+  .pf-player__panel-tab:hover {
+    color: var(--l-ink);
+    border-color: var(--l-accent);
+  }
+
+  /* The open panel's button is held down, which is the only thing on screen
+     saying which of the two is showing once the panel covers its own heading on
+     a narrow window. */
+  .pf-player__panel-tab[aria-expanded="true"] {
+    background: var(--l-accent);
+    border-color: var(--l-accent);
+    color: var(--l-on-accent);
+  }
+
   .pf-player__close {
     border: 0;
     background: transparent;
@@ -4672,9 +4698,47 @@
     transition: color var(--pf-motion);
   }
 
-  .pf-player__nudge:hover,
   .pf-player__close:hover {
     color: var(--l-ink);
+  }
+
+  /* ---- The player's own side panel ---------------------------------------
+     What is being said, or what you have kept — belonging to the PLAYER rather
+     than to any page, because playback outlives navigation and the words have to
+     be reachable from wherever the listener has wandered to.
+
+     It stops at the top of the player bar rather than running the full height:
+     the transport has to stay usable while reading along, and a panel that
+     covered it would mean closing the transcript to pause. For the same reason
+     the scrim sits BELOW the bar in the stack (39 against the bar's 40) and the
+     panel just above it. */
+  .pf-player-panel__scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 39;
+    padding: 0;
+    border: 0;
+    background: color-mix(in srgb, var(--l-ink) 32%, transparent);
+    cursor: default;
+  }
+
+  .pf-player-panel {
+    position: fixed;
+    inset-inline-end: 0;
+    top: 0;
+    /* The bar is two rows plus its padding. A magic number here would drift the
+       first time the bar changed, so it is measured from the same space scale
+       the bar is built from. */
+    bottom: calc(var(--pf-space-3) * 2 + 4.5rem);
+    /* Above a PAGE's drawer (25), so a chapter's notes can be open underneath
+       and the transcript still opens over it. */
+    z-index: 41;
+    display: flex;
+    flex-direction: column;
+    width: min(26rem, 100vw);
+    background: var(--l-surface);
+    border-inline-start: 1px solid var(--l-rule);
+    box-shadow: var(--pf-elev-4);
   }
 
   /* Marking the moment, from wherever the listener is. It sits with the close
@@ -4682,29 +4746,6 @@
      things you do to the AUDIO, and this is something you do to the book. Named
      in words, not an icon — it is the one control here whose meaning a glyph
      could not carry, and its label doubles as the confirmation. */
-  .pf-player__mark {
-    flex: none;
-    padding: var(--pf-space-1) var(--pf-space-3);
-    border: 1px solid var(--l-line);
-    border-radius: var(--pf-radius-pill);
-    background: transparent;
-    color: var(--l-muted);
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-xs);
-    font-weight: 600;
-    /* Room for the longest of the three words it shows, so confirming does not
-       shuffle the controls beside it. */
-    min-width: 5.5rem;
-    cursor: pointer;
-    transition:
-      color var(--pf-motion),
-      border-color var(--pf-motion);
-  }
-
-  .pf-player__mark:hover {
-    color: var(--l-ink);
-    border-color: var(--l-accent);
-  }
 
   .pf-player__what {
     flex: 1;
@@ -4768,8 +4809,10 @@
     font-size: var(--pf-text-xs);
   }
 
-  /* A phone's player bar has room for play, what is playing, and close. The
-     skip buttons and the speed control are the parts that go. */
+  /* A phone's player bar has room for play, what is playing, the two panels and
+     close. The skip buttons and the speed control are the parts that go —
+     Transcript and Notes deliberately do NOT, because they are the reason the
+     bar is worth having on a phone at all. */
   @media (min-width: 640px) {
     .pf-player__nudge {
       display: block;
@@ -4783,6 +4826,14 @@
   @media (max-width: 639px) {
     .pf-player__nudge {
       display: none;
+    }
+
+    /* Room for two of them beside the title. The padding goes rather than the
+       control: a smaller tap target on the thing a listener presses most on the
+       device they listen on is the wrong economy. */
+    .pf-player__panel-tab {
+      padding-inline: var(--pf-space-2);
+      font-size: var(--pf-text-xs);
     }
   }
 

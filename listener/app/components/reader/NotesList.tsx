@@ -210,7 +210,6 @@ export function NotesList({
             // not carry.
             <div key={moment.id} className="pf-mark pf-mark--moment">
               <MomentRow
-                slug={slug}
                 moment={moment}
                 onPlay={onPlay}
                 className="pf-mark__body"
@@ -236,17 +235,17 @@ export function NotesList({
 /**
  * One marked moment: the time, what was said there, and what the listener added.
  *
- * Plays from a few seconds BEFORE the stored time — see `PRE_ROLL_S`. Where
- * there is no player to command it is a link to the episode instead, which lands
- * on the same place by a slower road.
+ * Plays from a few seconds BEFORE the stored time — see `PRE_ROLL_S`. There is
+ * no link fallback and no episode page to link TO: the player is in the layout
+ * and outlives navigation, so every host that can show these rows can also
+ * command it. A host that passes no `onPlay` gets a row that reads and does not
+ * move, which is honest rather than a control that goes nowhere.
  */
 function MomentRow({
-  slug,
   moment,
   onPlay,
   className,
 }: {
-  slug: string;
   moment: EpisodeNote;
   onPlay?: (number: number, seconds: number) => void;
   className: string;
@@ -256,31 +255,23 @@ function MomentRow({
   const body = (
     <>
       <span className="pf-mark__kind">{clock(moment.seconds)}</span>
-      {/* The transcript line as it read when the moment was marked, when there
-          was one. Quoted like a highlight, because that is what it is: the words
-          the listener was reacting to. */}
+      {/* The transcript line as it read when the moment was marked. Quoted like
+          a highlight, because that is what it is: the words the listener was
+          reacting to. */}
       {moment.quote ? <blockquote className="pf-mark__quote">{moment.quote}</blockquote> : null}
       {moment.note ? <p className="pf-mark__text">{moment.note}</p> : null}
       {moment.quote || moment.note ? null : (
-        // A bare timestamp is a complete mark — tapped in a pocket, words meant
-        // for later. It says so rather than rendering as an empty card.
         <p className="pf-mark__text pf-mark__text--quiet">Marked while listening.</p>
       )}
     </>
   );
 
-  if (onPlay !== undefined) {
-    return (
-      <button type="button" onClick={() => onPlay(moment.number, from)} className={className}>
-        {body}
-      </button>
-    );
-  }
+  if (onPlay === undefined) return <div className={className}>{body}</div>;
 
   return (
-    <Link to={`/book/${slug}/listen/${moment.number}?at=${Math.floor(from)}`} className={className}>
+    <button type="button" onClick={() => onPlay(moment.number, from)} className={className}>
       {body}
-    </Link>
+    </button>
   );
 }
 

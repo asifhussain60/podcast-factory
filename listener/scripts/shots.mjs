@@ -125,6 +125,31 @@ const STATES = {
       },
     },
   ],
+  // The player, which no unpressed shot of the book page can reach: the bar and
+  // its two panels exist only once something is playing. This is the surface the
+  // transcript actually lives on, so it is the one that has to be looked at.
+  book: [
+    { name: "plain", act: async () => {} },
+    {
+      name: "playing",
+      act: async (page) => {
+        await page.click(".pf-tabset__tab:nth-child(2)").catch(() => {});
+        await page.locator(".pf-row__action").first().click().catch(() => {});
+        await page.waitForSelector(".pf-player", { timeout: 3000 }).catch(() => {});
+      },
+    },
+    {
+      name: "transcript-open",
+      act: async (page) => {
+        await page.click(".pf-tabset__tab:nth-child(2)").catch(() => {});
+        await page.locator(".pf-row__action").first().click().catch(() => {});
+        await page.waitForSelector(".pf-player", { timeout: 3000 }).catch(() => {});
+        await page.getByRole("button", { name: "Transcript" }).click().catch(() => {});
+        await page.waitForSelector(".pf-player-panel", { timeout: 3000 }).catch(() => {});
+        await page.waitForTimeout(600);
+      },
+    },
+  ],
   "admin-people": [
     { name: "plain", act: async () => {} },
     {

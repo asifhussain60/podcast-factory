@@ -766,15 +766,11 @@ function Podcast({
                   <span className="pf-row__index">{episode.number}</span>
 
                   <div className="pf-row__main">
-                    {/* The title is the way IN to the episode, exactly as a
-                        chapter row is the way into a chapter. The Play button
-                        beside it still plays without leaving the page — the two
-                        are different intentions and used to be one. */}
-                    <p>
-                      <Link to={`/book/${slug}/listen/${episode.number}`} className="pf-row__link">
-                        {episode.title}
-                      </Link>
-                    </p>
+                    {/* Not a link. An episode has no page of its own: what is
+                        said in it is the player's Transcript panel, reachable
+                        from wherever the listening is happening rather than from
+                        a page you would have to know to visit. */}
+                    <p>{episode.title}</p>
 
                     {episode.chapters.length > 0 ? (
                       <p className="pf-note pf-note--quiet">
@@ -794,6 +790,14 @@ function Podcast({
                         number: episode.number,
                         title: episode.title,
                         src: `/media/${episode.audioKey}`,
+                        // Handed over WITH the audio, so the player can load
+                        // the words alongside it rather than when somebody asks
+                        // to see them. Null for an episode with no transcript,
+                        // which is what hides the panel's button.
+                        transcriptSrc:
+                          episode.transcriptKey === null
+                            ? null
+                            : `/media/${episode.transcriptKey}`,
                         durationS: episode.durationS,
                       })}
                     />
