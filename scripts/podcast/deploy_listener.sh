@@ -3,10 +3,23 @@
 # Put the Listener live: one command, repeatable, always the right account.
 #
 #   scripts/podcast/deploy_listener.sh <slug> [<slug> …] [--dry-run] [--worker-only]
+#   scripts/podcast/deploy_listener.sh --all [--dry-run]
 #
 # It does three things in order — deploy the Worker, push each book's content,
 # upload each book's media — and it refuses to run against any Cloudflare account
 # but asifhussain60@gmail.com.
+#
+# WHAT `--all` MEANS
+# ------------------
+# Every book the Listener ALREADY HAS, not every book this repo calls published.
+# A book reaches the site the first time by being NAMED; after that `--all` keeps
+# it current, which is what makes it safe to reach for after an afternoon of
+# writing Companion notes across several books. The reason is cost: a book never
+# sent brings its entire recording library with it, and a command whose everyday
+# use is "push what I just wrote" must not upload several gigabytes because a
+# book was marked published last week. Nothing is hidden by that — a book
+# published here and never sent is reported by name on every `--all` run.
+# See `_listener_slugs.py`.
 #
 # WHAT IT WILL NOT DO
 # -------------------
@@ -46,21 +59,31 @@ readonly LISTENER="$REPO_ROOT/listener"
 
 DRY_RUN=""
 WORKER_ONLY=""
+ALL=""
 SLUGS=()
 
 for arg in "$@"; do
   case "$arg" in
     --dry-run)     DRY_RUN="--dry-run" ;;
     --worker-only) WORKER_ONLY="yes" ;;
+    --all)         ALL="yes" ;;
     -h|--help)     sed -n '3,20p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
     -*)            echo "unknown option: $arg" >&2; exit 2 ;;
     *)             SLUGS+=("$arg") ;;
   esac
 done
 
-if [[ ${#SLUGS[@]} -eq 0 && -z "$WORKER_ONLY" ]]; then
+if [[ ${#SLUGS[@]} -gt 0 && -n "$ALL" ]]; then
+  echo "naming a book AND --all says two different things about which books to" >&2
+  echo "push. Refusing to pick one: run it again with either, not both." >&2
+  exit 2
+fi
+
+if [[ ${#SLUGS[@]} -eq 0 && -z "$WORKER_ONLY" && -z "$ALL" ]]; then
   echo "usage: $(basename "$0") <slug> [<slug> …] [--dry-run] [--worker-only]" >&2
-  echo "       naming no slug does nothing; --worker-only ships code alone." >&2
+  echo "       $(basename "$0") --all [--dry-run]" >&2
+  echo "       naming no slug does nothing; --worker-only ships code alone;" >&2
+  echo "       --all re-pushes every book the Listener already has." >&2
   exit 2
 fi
 
@@ -183,6 +206,55 @@ genuinely permitted to sign in. Nothing was deployed. Remove them with:
 then run this again."
     ;;
 esac
+
+# --- Which books, when nobody named one --------------------------------------
+#
+# BEFORE the Worker, so `--all --dry-run` is a read-only listing of exactly what
+# a real run would touch, and so a book list that cannot be read stops the deploy
+# rather than shipping code and then failing.
+#
+# The rule and its reasoning live in `_listener_slugs.py`; this end only asks the
+# database which books it holds and prints the answer.
+#
+# `unit_detail`, NOT `content_unit`. They sound interchangeable and are not:
+# content_unit is the ACCESS record and `0003_seed_catalog.sql` seeded a row for
+# every book in the repo, so it says nothing about what has been pushed — asking
+# it returned all twenty-one books, including twelve volumes that have never been
+# near the Listener. unit_detail is written ONLY by publish_to_listener.py, so a
+# row in it means exactly "this book has been sent at least once", which is the
+# question --all asks.
+
+if [[ -n "$ALL" && -z "$WORKER_ONLY" ]]; then
+  step "Books"
+
+  books_json="$(npx wrangler d1 execute podcast-listener --remote --json --command "
+    SELECT slug FROM unit_detail ORDER BY slug;
+  " 2>&1)"
+
+  resolved="$(python3 "$REPO_ROOT/scripts/podcast/_listener_slugs.py" "$books_json")" || {
+    printf '%s\n' "$books_json" | tail -8 >&2
+    die "could not read the book list from production, so --all cannot know what
+it would push. Nothing was deployed. Name the books instead, or retry."
+  }
+
+  field() { grep "^$1" <<<"$resolved" | cut -f2-; }
+  read -r -a SLUGS <<<"$(field DEPLOY)"
+  missing="$(field MISSING)"
+  unsent="$(field UNSENT)"
+
+  if [[ ${#SLUGS[@]} -eq 0 ]]; then
+    echo "  the Listener holds no book whose content is still in this repo —"
+    echo "  nothing to push. Name a book to send it for the first time."
+    WORKER_ONLY="yes"
+  else
+    printf '  %s\n' "${SLUGS[@]}"
+  fi
+
+  # Both of these are ordinary states, not faults, so they are reported and the
+  # run continues. Silence would make `--all` look like it covered everything.
+  [[ -n "$missing" ]] && echo "  ! on the Listener with no content here, skipped: $missing"
+  [[ -n "$unsent" ]] && echo "  ! published here and never sent, name it to send it: $unsent"
+fi
 
 # --- The Worker --------------------------------------------------------------
 
