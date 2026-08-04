@@ -42,6 +42,10 @@ export default [
     index("routes/home.tsx"),
     route("book/:slug", "routes/book.$slug.tsx"),
     route("book/:slug/read/:chapter", "routes/book.$slug.read.$chapter.tsx"),
+    // One episode: its transcript, and the moments this listener marked in it.
+    // Sibling of the chapter reader and gated identically — same `:slug`
+    // segment, same middleware, so there is no second access rule.
+    route("book/:slug/listen/:number", "routes/book.$slug.listen.$number.tsx"),
     route("book/:slug/slides", "routes/book.$slug.slides.tsx"),
 
     // A reader's own marks in one book — position, bookmarks, highlights, notes.

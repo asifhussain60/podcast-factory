@@ -128,10 +128,11 @@ def build_sql(book: Book, *, published_at: str, commit: str | None) -> str:
     for episode in book.episodes:
         add(
             "INSERT INTO episode "
-            "(slug, number, title, blurb, style, audio_key, duration_s, session_number) VALUES "
+            "(slug, number, title, blurb, style, audio_key, transcript_key, duration_s, session_number) VALUES "
             f"({sql_str(book.slug)}, {episode.number}, {sql_str(episode.title)}, "
             f"{sql_str(episode.blurb)}, {sql_str(episode.style)}, "
             f"{sql_str(episode.audio.key if episode.audio else None)}, "
+            f"{sql_str(episode.transcript.key if episode.transcript else None)}, "
             f"{sql_str(episode.duration_s)}, {sql_str(episode.session)});"
         )
 

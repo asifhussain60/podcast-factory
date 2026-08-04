@@ -26,7 +26,6 @@ standing up a parallel stack (per docs/azure/setup.md app-portability section).
 from __future__ import annotations
 
 import json
-import os
 import sys
 import time
 from typing import Any
@@ -126,28 +125,6 @@ DOCINTEL_MODEL = "prebuilt-read"
 # materially simpler, costs the same per character, and works for OCR'd PDFs.
 TRANSLATOR_API_VERSION = "3.0"
 TRANSLATOR_MAX_CHARS_PER_REQUEST = 10_000  # well under the 50,000 hard limit
-
-# Speech Fast Transcription API. Synchronous; accepts a multipart-uploaded
-# audio file directly (no SAS-blob dance like Batch Transcription). One call
-# returns the full transcript. Practical ceiling: ~2 hours of audio per call
-# per Azure docs (2024-11-15 GA). For NotebookLM Audio Overviews (typically
-# 15–30 min), this fits comfortably in one synchronous request.
-SPEECH_API_VERSION = "2024-11-15"
-SPEECH_DEFAULT_LOCALE = "en-US"
-# Map common audio extensions to the MIME types Speech accepts. Anything not
-# listed falls back to application/octet-stream — Speech sniffs the bytes.
-SPEECH_AUDIO_MIME = {
-    "mp3": "audio/mpeg",
-    "wav": "audio/wav",
-    "m4a": "audio/mp4",
-    "mp4": "audio/mp4",
-    "aac": "audio/aac",
-    "ogg": "audio/ogg",
-    "oga": "audio/ogg",
-    "flac": "audio/flac",
-    "opus": "audio/ogg",
-}
-
 
 # ────────────────────────────────────────────────────────────────────────────
 # Document Intelligence — prebuilt-read OCR
@@ -319,103 +296,34 @@ def translate_text(
 
 
 # ────────────────────────────────────────────────────────────────────────────
-# Speech — Fast Transcription (synchronous, multipart upload)
+# Speech — Fast Transcription
 # ────────────────────────────────────────────────────────────────────────────
-
-
-def _multipart_body(
-    *,
-    boundary: str,
-    audio_filename: str,
-    audio_mime: str,
-    audio_bytes: bytes,
-    definition_json: bytes,
-) -> bytes:
-    """Build a multipart/form-data body for Speech Fast Transcription.
-
-    Two parts: `definition` (text/json) and `audio` (binary). Boundary lines
-    use CRLF per RFC 7578. The Azure Speech endpoint is strict about both the
-    part ordering and the trailing `--<boundary>--` line.
-    """
-    nl = b"\r\n"
-    parts: list[bytes] = []
-    parts.append(f"--{boundary}".encode("ascii") + nl)
-    parts.append(b'Content-Disposition: form-data; name="definition"' + nl)
-    parts.append(b"Content-Type: application/json" + nl)
-    parts.append(nl)
-    parts.append(definition_json + nl)
-    parts.append(f"--{boundary}".encode("ascii") + nl)
-    parts.append(f'Content-Disposition: form-data; name="audio"; filename="{audio_filename}"'.encode("utf-8") + nl)
-    parts.append(f"Content-Type: {audio_mime}".encode("ascii") + nl)
-    parts.append(nl)
-    parts.append(audio_bytes + nl)
-    parts.append(f"--{boundary}--".encode("ascii") + nl)
-    return b"".join(parts)
-
-
-def transcribe_audio(
-    creds: SpeechCreds,
-    audio_bytes: bytes,
-    audio_filename: str,
-    *,
-    locale: str = SPEECH_DEFAULT_LOCALE,
-    timeout_s: float = 900.0,
-) -> str:
-    """Transcribe `audio_bytes` synchronously via Azure Speech Fast Transcription.
-
-    Returns the concatenated transcript text (from `combinedPhrases[0].text`).
-    Raises RuntimeError on any non-200 with the Azure error body for debug.
-
-    The endpoint pattern is region-based:
-        https://<region>.api.cognitive.microsoft.com/speechtotext/transcriptions:transcribe
-
-    `audio_filename` is used only for the multipart Content-Disposition; the
-    MIME type is inferred from the extension via SPEECH_AUDIO_MIME and falls
-    back to application/octet-stream.
-
-    For audio longer than ~2 hours, Azure recommends Batch Transcription
-    instead — that requires SAS-blob storage and an async polling dance not
-    implemented here. Surfaces as a 413 / 400 from the API; surface the error.
-    """
-    ext = audio_filename.lower().rsplit(".", 1)[-1] if "." in audio_filename else ""
-    audio_mime = SPEECH_AUDIO_MIME.get(ext, "application/octet-stream")
-
-    boundary = f"----PodcastFormBoundary{os.urandom(16).hex()}"
-    definition = json.dumps({"locales": [locale]}).encode("utf-8")
-    body = _multipart_body(
-        boundary=boundary,
-        audio_filename=audio_filename,
-        audio_mime=audio_mime,
-        audio_bytes=audio_bytes,
-        definition_json=definition,
-    )
-
-    url = f"{creds.endpoint}/speechtotext/transcriptions:transcribe?api-version={SPEECH_API_VERSION}"
-    status, _, response_body = _http(
-        "POST",
-        url,
-        headers={
-            "Ocp-Apim-Subscription-Key": creds.key,
-            "Content-Type": f"multipart/form-data; boundary={boundary}",
-            "Accept": "application/json",
-        },
-        body=body,
-        timeout=timeout_s,
-    )
-    if status != 200:
-        raise RuntimeError(
-            f"Speech transcribe failed: HTTP {status}\n{response_body.decode('utf-8', errors='replace')[:600]}"
-        )
-    data = json.loads(response_body)
-    combined = data.get("combinedPhrases") or []
-    if not combined:
-        # Empty audio or silence-only — return empty string rather than raising,
-        # so the caller can decide. The HTTP path itself succeeded.
-        return ""
-    # Each combinedPhrase corresponds to a channel; mono audio yields a single
-    # entry. For multi-channel, concatenate in channel order with blank lines.
-    return "\n\n".join(p.get("text", "") for p in combined if p.get("text"))
-
+# Moved to `_azure_speech.py` when this facade crossed the 600-line gate, and
+# re-exported here so that every existing caller — `_azure.transcribe_audio(...)`
+# and `from _azure import SPEECH_AUDIO_MIME` alike — is untouched. This file has
+# always been the one door to Azure; the rooms behind it are allowed to be
+# separate.
+from _azure_speech import (  # noqa: E402
+    SPEECH_API_VERSION as SPEECH_API_VERSION,
+)
+from _azure_speech import (  # noqa: E402
+    SPEECH_AUDIO_MIME as SPEECH_AUDIO_MIME,
+)
+from _azure_speech import (  # noqa: E402
+    SPEECH_DEFAULT_LOCALE as SPEECH_DEFAULT_LOCALE,
+)
+from _azure_speech import (  # noqa: E402
+    Phrase as Phrase,
+)
+from _azure_speech import (  # noqa: E402
+    TimedTranscript as TimedTranscript,
+)
+from _azure_speech import (  # noqa: E402
+    transcribe_audio as transcribe_audio,
+)
+from _azure_speech import (  # noqa: E402
+    transcribe_audio_timed as transcribe_audio_timed,
+)
 
 # ────────────────────────────────────────────────────────────────────────────
 # Self-test entry point (also used by test_azure_connectivity.py)

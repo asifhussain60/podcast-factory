@@ -55,7 +55,7 @@ try {
 }
 
 console.log("\nsetting up fixtures");
-const { book, chapter, cookies } = setUp();
+const { book, chapter, episode, cookies } = setUp();
 
 if (book === null) {
   console.log("  !     no published book with chapters in the local database.");
@@ -67,7 +67,12 @@ if (book === null) {
 const routes = [
   ...STATIC_ROUTES,
   ...(book === null ? [] : BOOK_ROUTES),
-  ...(book === null ? [] : OPTIONAL_ROUTES.filter((r) => r.needs !== "deck" || book.hasDeck)),
+  ...(book === null
+    ? []
+    : OPTIONAL_ROUTES.filter(
+        (r) =>
+          (r.needs !== "deck" || book.hasDeck) && (r.needs !== "episode" || episode !== null),
+      )),
 ];
 
 const browser = await chromium.launch();
@@ -77,7 +82,7 @@ try {
     console.log(`\n${width.name} · ${width.width}px`);
 
     for (const route of routes) {
-      const url = BASE + fill(route.path, book, chapter);
+      const url = BASE + fill(route.path, book, chapter, episode);
       const cookie = cookies[route.who] ?? null;
 
       const context = await browser.newContext({

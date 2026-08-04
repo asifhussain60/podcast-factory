@@ -1,8 +1,19 @@
-import { faBookmark, faTrash, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBookmark,
+  faHeadphones,
+  faTrash,
+  faTriangleExclamation,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
-import { COLOUR_LABELS, type Annotation, type Bookmark } from "~/lib/marks";
+import {
+  COLOUR_LABELS,
+  PRE_ROLL_S,
+  type Annotation,
+  type Bookmark,
+  type EpisodeNote,
+} from "~/lib/marks";
 
 export interface ChapterRef {
   anchorKey: string;
@@ -10,32 +21,52 @@ export interface ChapterRef {
   idx: number;
 }
 
+export interface EpisodeRef {
+  number: number;
+  title: string;
+}
+
 /**
- * Everything a reader has marked in one book, in reading order.
+ * Everything a reader has marked in one book, in the order the book runs.
  *
- * ONE component with two hosts: the drawer inside the reader, and the "Notes"
- * tab on the book page. They show the same thing and differ only in whether a
- * row navigates (book page) or scrolls (reader) — passed as `onJump`. Two
- * components would be two answers to what a note looks like.
+ * ONE component with three hosts now: the drawer inside the reader, the "Notes"
+ * tab on the book page, and the drawer on an episode page. They show the same
+ * thing and differ only in what they can act on — a row scrolls in the reader,
+ * navigates from the book page, seeks in an episode.
  *
- * Grouped by chapter and ordered by position within it, because that is the
- * order the reader made them in and the order they will look for them in. Not by
- * date: "what did I mark in chapter three" is the question; "what did I mark on
- * Tuesday" is not.
+ * WHAT EACH HOST PASSES, and why it is a data difference rather than a mode:
+ * a host supplies the lists it can DO something with. The reader has no episode
+ * loaded, so it passes no episodes and the podcast group does not appear; an
+ * episode page passes no chapters for the same reason. Nothing here branches on
+ * who is mounting it — that is the same rule `orphaned` already follows, where
+ * only the reader can populate the set and the book page passes a frozen empty
+ * one.
+ *
+ * Grouped by chapter, then by episode, and ordered by position within each —
+ * that is the order the marks were made in and the order they will be looked for
+ * in. Not by date: "what did I mark in chapter three" is the question; "what did
+ * I mark on Tuesday" is not.
  */
 export function NotesList({
   annotations,
   bookmarks,
   chapters,
+  episodes = [],
+  episodeNotes = [],
   orphaned,
   slug,
   onJump,
+  onPlay,
   onRemoveAnnotation,
   onRemoveBookmark,
+  onRemoveEpisodeNote,
 }: {
   annotations: Annotation[];
   bookmarks: Bookmark[];
   chapters: ChapterRef[];
+  /** The podcast, when this host can reach it. Empty in the reader. */
+  episodes?: EpisodeRef[];
+  episodeNotes?: EpisodeNote[];
   /**
    * Ids whose passage could not be found in the chapter as it now reads.
    *
@@ -47,14 +78,17 @@ export function NotesList({
   slug: string;
   /** Given in the reader, where a row scrolls. Absent on the book page, where it links. */
   onJump?: (anchorKey: string, id: string) => void;
+  /** Play an episode from a moment. Absent where there is no player to command. */
+  onPlay?: (number: number, seconds: number) => void;
   onRemoveAnnotation: (id: string) => void;
   onRemoveBookmark: (id: string) => void;
+  onRemoveEpisodeNote?: (id: string) => void;
 }) {
-  if (annotations.length === 0 && bookmarks.length === 0) {
+  if (annotations.length === 0 && bookmarks.length === 0 && episodeNotes.length === 0) {
     return (
       <p className="pf-empty">
-        Nothing marked yet. Select a passage while reading to highlight it, or add a note to
-        remember why it mattered.
+        Nothing marked yet. Select a passage while reading to highlight it, or mark a moment while
+        listening to come back to it.
       </p>
     );
   }
@@ -73,6 +107,17 @@ export function NotesList({
         .sort((a, b) => a.blockIndex - b.blockIndex),
     }))
     .filter((g) => g.notes.length > 0 || g.marks.length > 0);
+
+  // The podcast, on the same principle: episode order from the book, and an
+  // episode with nothing marked in it simply absent.
+  const byEpisode = episodes
+    .map((episode) => ({
+      episode,
+      moments: episodeNotes
+        .filter((n) => n.number === episode.number)
+        .sort((a, b) => a.seconds - b.seconds),
+    }))
+    .filter((g) => g.moments.length > 0);
 
   return (
     <div className="pf-notes">
@@ -151,8 +196,103 @@ export function NotesList({
           ))}
         </section>
       ))}
+
+      {byEpisode.map(({ episode, moments }) => (
+        <section key={`ep-${episode.number}`} className="pf-notes__chapter">
+          <h3 className="pf-notes__heading">
+            <Icon icon={faHeadphones} /> {episode.number}. {episode.title}
+          </h3>
+
+          {moments.map((moment) => (
+            // No colour. A listening note has no highlight to be made of — the
+            // Post-it look on an annotation comes from the colour the reader
+            // chose, and inventing one here would say something the mark does
+            // not carry.
+            <div key={moment.id} className="pf-mark pf-mark--moment">
+              <MomentRow
+                slug={slug}
+                moment={moment}
+                onPlay={onPlay}
+                className="pf-mark__body"
+              />
+              {onRemoveEpisodeNote === undefined ? null : (
+                <button
+                  type="button"
+                  onClick={() => onRemoveEpisodeNote(moment.id)}
+                  aria-label="Remove this note"
+                  className="pf-mark__remove"
+                >
+                  <Icon icon={faTrash} title="Remove this note" />
+                </button>
+              )}
+            </div>
+          ))}
+        </section>
+      ))}
     </div>
   );
+}
+
+/**
+ * One marked moment: the time, what was said there, and what the listener added.
+ *
+ * Plays from a few seconds BEFORE the stored time — see `PRE_ROLL_S`. Where
+ * there is no player to command it is a link to the episode instead, which lands
+ * on the same place by a slower road.
+ */
+function MomentRow({
+  slug,
+  moment,
+  onPlay,
+  className,
+}: {
+  slug: string;
+  moment: EpisodeNote;
+  onPlay?: (number: number, seconds: number) => void;
+  className: string;
+}) {
+  const from = Math.max(0, moment.seconds - PRE_ROLL_S);
+
+  const body = (
+    <>
+      <span className="pf-mark__kind">{clock(moment.seconds)}</span>
+      {/* The transcript line as it read when the moment was marked, when there
+          was one. Quoted like a highlight, because that is what it is: the words
+          the listener was reacting to. */}
+      {moment.quote ? <blockquote className="pf-mark__quote">{moment.quote}</blockquote> : null}
+      {moment.note ? <p className="pf-mark__text">{moment.note}</p> : null}
+      {moment.quote || moment.note ? null : (
+        // A bare timestamp is a complete mark — tapped in a pocket, words meant
+        // for later. It says so rather than rendering as an empty card.
+        <p className="pf-mark__text pf-mark__text--quiet">Marked while listening.</p>
+      )}
+    </>
+  );
+
+  if (onPlay !== undefined) {
+    return (
+      <button type="button" onClick={() => onPlay(moment.number, from)} className={className}>
+        {body}
+      </button>
+    );
+  }
+
+  return (
+    <Link to={`/book/${slug}/listen/${moment.number}?at=${Math.floor(from)}`} className={className}>
+      {body}
+    </Link>
+  );
+}
+
+/** `m:ss`, the same clock the player and the transcript use. */
+function clock(s: number): string {
+  const total = Math.max(0, Math.floor(s));
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const sec = total % 60;
+  return h > 0
+    ? `${h}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`
+    : `${m}:${String(sec).padStart(2, "0")}`;
 }
 
 /**

@@ -86,6 +86,10 @@ const COMPOSED_PREFIXES = [
   // is pinned to arrives as `--${side}` rather than as a literal.
   "pf-drawer--",
   "pf-edge-tab--",
+  // Which of the two hosts is speaking arrives as an integer from the
+  // transcription service, so `pf-cue--speaker-2` is composed rather than
+  // written. Listing the prefix means a three-voice recording needs no edit here.
+  "pf-cue--speaker-",
 ];
 
 

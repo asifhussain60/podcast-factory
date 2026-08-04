@@ -284,6 +284,28 @@ fi
 
 cd "$REPO_ROOT" || die "cannot return to $REPO_ROOT"
 
+# --- Transcripts -------------------------------------------------------------
+#
+# BEFORE the content push, because publish_to_listener.py records the transcript
+# it finds on disk and cannot record one that is made afterwards.
+#
+# This is here rather than in a runbook because a transcript that has to be
+# REMEMBERED is one that half the library will not have. It is keyed on the file
+# existing, so the everyday re-push — a book pushed again after an afternoon of
+# Companion notes — asks Azure for nothing and costs nothing; only a genuinely
+# new episode is paid for, at about $0.30 an audio-hour under the standing Azure
+# authorization. `--dry-run` prices the work and spends nothing.
+#
+# It does NOT stop the deploy when it fails. A transcript is an addition to an
+# episode, and a book whose transcription errored should still reach the site
+# with its recordings — the episode simply ships without one and says so. The
+# failure is printed rather than swallowed.
+
+step "Transcripts"
+if ! python3 scripts/podcast/ensure_transcripts.py "${SLUGS[@]}" $DRY_RUN; then
+  echo "  ! transcription failed — continuing, these episodes ship without one" >&2
+fi
+
 step "Content"
 python3 scripts/podcast/publish_to_listener.py "${SLUGS[@]}" --remote $DRY_RUN \
   || die "publishing failed — see above"

@@ -15,7 +15,6 @@ import { createTestDb } from "./d1";
  * refactor away from returning them.
  */
 
-const MIGRATIONS = ["0001_auth", "0002_access", "0004_catalog", "0007_companion"];
 
 const viewer = (over: Partial<Viewer> = {}): Viewer => ({
   email: "asifhussain60@gmail.com",
@@ -27,7 +26,7 @@ const viewer = (over: Partial<Viewer> = {}): Viewer => ({
 });
 
 function seed() {
-  const test = createTestDb(MIGRATIONS);
+  const test = createTestDb();
 
   test.exec(`
     INSERT INTO companion_note (slug, anchor_key, note_id, idx, title, quote, body_html, etymology) VALUES

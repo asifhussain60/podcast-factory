@@ -62,6 +62,24 @@ export interface Annotation {
   updatedAt: string;
 }
 
+/**
+ * A moment in an episode the listener marked, and what they said about it.
+ *
+ * The mirror image of an `Annotation`: there, the quote is the content and the
+ * note is optional commentary; here the words are the content and the moment is
+ * the anchor. `note` and `quote` are both nullable because the one-tap case —
+ * mark it now, say why later — is the case this exists for.
+ */
+export interface EpisodeNote {
+  id: string;
+  number: number;
+  seconds: number;
+  note: string | null;
+  quote: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 /** Everything one person has accumulated in one book, in one round trip. */
 export interface Marks {
   progress: Progress | null;
@@ -69,6 +87,8 @@ export interface Marks {
   annotations: Annotation[];
   /** Seconds into each episode, by episode number. Absent means not started. */
   listening: Record<number, number>;
+  /** Moments marked in the podcast, in episode then time order. */
+  episodeNotes: EpisodeNote[];
 }
 
 /**
@@ -125,10 +145,10 @@ const requireId = (value: unknown): string => {
 export async function marksFor(db: D1Database, email: string, slug: string): Promise<Marks> {
   const who = normalizeEmail(email);
 
-  // One batch, three statements. The reader's first paint is behind this call,
-  // so three sequential round trips to D1 would be three times the latency for
-  // data that is always wanted together.
-  const [progress, bookmarks, annotations, listening] = await Promise.all([
+  // One batch. The reader's first paint is behind this call, so sequential round
+  // trips to D1 would be a multiple of the latency for data that is always
+  // wanted together.
+  const [progress, bookmarks, annotations, listening, episodeNotes] = await Promise.all([
     db
       .prepare(
         `SELECT anchor_key, fraction, chapters_done, updated_at
@@ -177,6 +197,24 @@ export async function marksFor(db: D1Database, email: string, slug: string): Pro
       }>(),
 
     listeningFor(db, who, slug),
+
+    db
+      .prepare(
+        `SELECT id, number, seconds, note, quote, created_at, updated_at
+           FROM episode_note
+          WHERE user_email = ?1 AND slug = ?2 AND deleted_at IS NULL
+          ORDER BY number, seconds`,
+      )
+      .bind(who, slug)
+      .all<{
+        id: string;
+        number: number;
+        seconds: number;
+        note: string | null;
+        quote: string | null;
+        created_at: string;
+        updated_at: string;
+      }>(),
   ]);
 
   return {
@@ -210,6 +248,15 @@ export async function marksFor(db: D1Database, email: string, slug: string): Pro
       updatedAt: r.updated_at,
     })),
     listening,
+    episodeNotes: episodeNotes.results.map((r) => ({
+      id: r.id,
+      number: r.number,
+      seconds: r.seconds,
+      note: r.note,
+      quote: r.quote,
+      createdAt: r.created_at,
+      updatedAt: r.updated_at,
+    })),
   };
 }
 
@@ -478,6 +525,79 @@ export async function removeAnnotation(
   await db
     .prepare(
       `UPDATE annotation SET deleted_at = ?4, updated_at = ?4
+        WHERE id = ?1 AND user_email = ?2 AND slug = ?3 AND deleted_at IS NULL`,
+    )
+    .bind(requireId(id), normalizeEmail(email), slug, now)
+    .run();
+}
+
+/**
+ * Mark a moment in an episode, or add words to one already marked.
+ *
+ * ONE statement for create and edit alike, exactly as `saveAnnotation` is one
+ * statement for create, recolour and note-edit — because they are the same
+ * write. Two intents would be two code paths that have to agree about what a
+ * note is, and they would drift.
+ *
+ * The `WHERE` on the DO UPDATE is not optional and not defensive-by-habit. `id`
+ * is client-generated, so a conflict can land on ANOTHER reader's row, and
+ * without it a caller could rewrite the words of someone else's note in a book
+ * they cannot open — which is exactly the hole that existed on `bookmark` and
+ * `annotation` until 2026-08-04. It is here from the first line, and
+ * test/marks-isolation.test.ts fails without it.
+ */
+export async function saveEpisodeNote(
+  db: D1Database,
+  email: string,
+  slug: string,
+  input: { id: unknown; number: unknown; seconds: unknown; note?: unknown; quote?: unknown },
+  now: string,
+): Promise<void> {
+  const seconds = Number(input.seconds);
+  if (!Number.isFinite(seconds)) throw new InvalidMarkError("seconds is not a number");
+
+  const note =
+    input.note === undefined || input.note === null || String(input.note).trim() === ""
+      ? null
+      : requireText(input.note, MAX_NOTE, "note");
+
+  const quote =
+    input.quote === undefined || input.quote === null || String(input.quote).trim() === ""
+      ? null
+      : requireText(input.quote, MAX_QUOTE, "quote");
+
+  await db
+    .prepare(
+      `INSERT INTO episode_note
+         (id, user_email, slug, number, seconds, note, quote, created_at, updated_at)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?8)
+       ON CONFLICT(id) DO UPDATE SET
+         deleted_at = NULL, number = ?4, seconds = ?5, note = ?6, quote = ?7, updated_at = ?8
+         WHERE episode_note.user_email = ?2 AND episode_note.slug = ?3`,
+    )
+    .bind(
+      requireId(input.id),
+      normalizeEmail(email),
+      slug,
+      requireIndex(input.number, "episode"),
+      Math.max(0, Math.floor(seconds)),
+      note,
+      quote,
+      now,
+    )
+    .run();
+}
+
+export async function removeEpisodeNote(
+  db: D1Database,
+  email: string,
+  slug: string,
+  id: unknown,
+  now: string,
+): Promise<void> {
+  await db
+    .prepare(
+      `UPDATE episode_note SET deleted_at = ?4, updated_at = ?4
         WHERE id = ?1 AND user_email = ?2 AND slug = ?3 AND deleted_at IS NULL`,
     )
     .bind(requireId(id), normalizeEmail(email), slug, now)

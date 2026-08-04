@@ -31,6 +31,17 @@ export interface Episode {
   durationS: number | null;
   /** False while the file exists on disk but is not in R2 yet. */
   hasAudio: boolean;
+  /**
+   * The WebVTT of what is said, or null.
+   *
+   * Null carries TWO cases deliberately merged: no transcript was ever made, and
+   * one was made but is not in R2 yet. The reader can do nothing with either, and
+   * the only honest thing to render is the same absence — so the distinction is
+   * kept out of the UI rather than surfaced as two shades of missing. It survives
+   * where it matters, in `media_asset.uploaded_at`, which is what the publisher
+   * and the uploader read.
+   */
+  transcriptKey: string | null;
   /** Chapters this episode covers — empty unless a human recorded the mapping. */
   chapters: string[];
   /** null when this book's episodes were never grouped, which is most books. */
@@ -194,8 +205,11 @@ export async function chapterOf(
 export async function episodesOf(db: D1Database, slug: string): Promise<Episode[]> {
   const { results } = await db
     .prepare(
-      `SELECT e.number, e.title, e.blurb, e.style, e.audio_key, e.duration_s, e.session_number,
-              (SELECT m.uploaded_at FROM media_asset m WHERE m.key = e.audio_key) AS uploaded_at
+      `SELECT e.number, e.title, e.blurb, e.style, e.audio_key, e.transcript_key,
+              e.duration_s, e.session_number,
+              (SELECT m.uploaded_at FROM media_asset m WHERE m.key = e.audio_key) AS uploaded_at,
+              (SELECT m.uploaded_at FROM media_asset m WHERE m.key = e.transcript_key)
+                AS transcript_uploaded_at
        FROM episode e WHERE e.slug = ? ORDER BY e.number`,
     )
     .bind(slug)
@@ -205,9 +219,11 @@ export async function episodesOf(db: D1Database, slug: string): Promise<Episode[
       blurb: string | null;
       style: string | null;
       audio_key: string | null;
+      transcript_key: string | null;
       duration_s: number | null;
       session_number: number | null;
       uploaded_at: string | null;
+      transcript_uploaded_at: string | null;
     }>();
 
   const bridge = await db
@@ -228,6 +244,11 @@ export async function episodesOf(db: D1Database, slug: string): Promise<Episode[
     audioKey: r.audio_key,
     durationS: r.duration_s,
     hasAudio: r.audio_key !== null && r.uploaded_at !== null,
+    // Offered only once the file is actually in R2, exactly as the audio is. A
+    // key whose object has not been uploaded would render as a transcript panel
+    // that never fills.
+    transcriptKey:
+      r.transcript_key !== null && r.transcript_uploaded_at !== null ? r.transcript_key : null,
     chapters: covered.get(r.number) ?? [],
     sessionNumber: r.session_number,
   }));

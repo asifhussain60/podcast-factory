@@ -57,6 +57,33 @@ export interface Progress {
   updatedAt: string;
 }
 
+/**
+ * A moment in an episode, and what the listener said about it.
+ *
+ * `seconds` is when the button was PRESSED. Playback starts earlier than this on
+ * purpose — see `PRE_ROLL_S` — because the thought lands before the hand does.
+ */
+export interface EpisodeNote {
+  id: string;
+  number: number;
+  seconds: number;
+  note: string | null;
+  quote: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/**
+ * How far before the mark playback resumes.
+ *
+ * A listener taps AFTER the sentence that struck them, so replaying from the
+ * stored second reliably starts one thought too late. Ten seconds is about the
+ * length of the run-up you need to hear it land again, and it is applied here at
+ * the edge rather than baked into the stored value — the record is when the
+ * button was pressed, which stays true if this number ever changes.
+ */
+export const PRE_ROLL_S = 10;
+
 export interface Marks {
   progress: Progress | null;
   bookmarks: Bookmark[];
@@ -70,9 +97,17 @@ export interface Marks {
    * as the server's, so the cast in `useMarks` is honest.
    */
   listening: Record<number, number>;
+  /** Moments marked in the podcast, in episode then time order. */
+  episodeNotes: EpisodeNote[];
 }
 
-export const EMPTY: Marks = { progress: null, bookmarks: [], annotations: [], listening: {} };
+export const EMPTY: Marks = {
+  progress: null,
+  bookmarks: [],
+  annotations: [],
+  listening: {},
+  episodeNotes: [],
+};
 
 /** One queued write: the form fields the marks route expects, verbatim. */
 interface Pending {
@@ -109,6 +144,7 @@ function read(slug: string): Cache {
         bookmarks: Array.isArray(raw.marks?.bookmarks) ? raw.marks.bookmarks : [],
         annotations: Array.isArray(raw.marks?.annotations) ? raw.marks.annotations : [],
         listening: raw.marks?.listening ?? {},
+        episodeNotes: Array.isArray(raw.marks?.episodeNotes) ? raw.marks.episodeNotes : [],
       },
       outbox: Array.isArray(raw.outbox) ? raw.outbox : [],
     };
@@ -244,6 +280,26 @@ function applyLocally(marks: Marks, pending: Pending): Marks {
     case "unannotate":
       return { ...marks, annotations: marks.annotations.filter((a) => a.id !== f.id) };
 
+    case "episode-note": {
+      const existing = marks.episodeNotes.find((n) => n.id === f.id);
+      const next: EpisodeNote = {
+        id: f.id,
+        number: Number(f.number),
+        seconds: Number(f.seconds),
+        note: f.note ? f.note : null,
+        quote: f.quote ? f.quote : null,
+        createdAt: existing?.createdAt ?? new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      return {
+        ...marks,
+        episodeNotes: [...marks.episodeNotes.filter((n) => n.id !== f.id), next].sort(byMoment),
+      };
+    }
+
+    case "un-episode-note":
+      return { ...marks, episodeNotes: marks.episodeNotes.filter((n) => n.id !== f.id) };
+
     default:
       return marks;
   }
@@ -252,6 +308,39 @@ function applyLocally(marks: Marks, pending: Pending): Marks {
 /** Reading order: down the chapter, then across the paragraph. */
 const byPosition = (a: Annotation, b: Annotation) =>
   a.blockIndex - b.blockIndex || a.startOffset - b.startOffset;
+
+/** Listening order: through the podcast, then through the episode. */
+const byMoment = (a: EpisodeNote, b: EpisodeNote) =>
+  a.number - b.number || a.seconds - b.seconds;
+
+/**
+ * Ask the server again for the book this store has open, if it is this one.
+ *
+ * For the ONE write that does not go through this store: the player's Mark
+ * button, which posts straight to the episode's own book because the audio and
+ * the open book can be different works (see `markMoment` in Player.tsx). That
+ * write is correct and this store knows nothing about it — so a drawer standing
+ * open when the button is pressed would show everything except the mark just
+ * made, which is indistinguishable from a button that does nothing.
+ *
+ * Scoped to a matching slug on purpose. Marking a moment in one book while
+ * reading another must not refetch the book being read: nothing about it has
+ * changed, and the two are genuinely unrelated.
+ */
+export async function refresh(book: string): Promise<void> {
+  if (slug !== book) return;
+  try {
+    const response = await fetch(`/book/${encodeURIComponent(book)}/marks`, {
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) return;
+    if (slug !== book) return; // navigated away mid-flight
+    reconcile((await response.json()) as Marks);
+  } catch {
+    // Offline. The mark is on the server or it is not; either way the next load
+    // settles it, and there is nothing useful to say here.
+  }
+}
 
 /**
  * Apply a write here and now, queue it, and try to send it.
@@ -388,3 +477,6 @@ export const annotationsInChapter = (marks: Marks, anchorKey: string): Annotatio
 
 export const bookmarksInChapter = (marks: Marks, anchorKey: string): Bookmark[] =>
   marks.bookmarks.filter((b) => b.anchorKey === anchorKey);
+
+export const notesInEpisode = (marks: Marks, number: number): EpisodeNote[] =>
+  marks.episodeNotes.filter((n) => n.number === number).sort(byMoment);

@@ -57,6 +57,15 @@ if (!/^http:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/.test(BASE)) {
   process.exit(2);
 }
 
+/**
+ * How many instances of ONE repeated control get pressed.
+ *
+ * Three, not one: the first can pass for a reason peculiar to being first (the
+ * top of a list, the only one above the fold), and a second and third from the
+ * middle of the run are what make it a sample rather than an anecdote.
+ */
+const SAMPLE_PER_FAMILY = 3;
+
 /** Accessible names never pressed, each for a reason worth writing down. */
 const SKIP = [
   { match: /^sign out$/i, why: "ends the session this sweep runs in" },
@@ -76,6 +85,7 @@ if (fixtures.book === null) {
 
 const { slug } = fixtures.book;
 const chapter = encodeURIComponent(fixtures.chapter ?? "");
+const episode = fixtures.episode;
 
 /** The surfaces, and how to reach the state worth pressing things in. */
 const VIEWS = [
@@ -83,6 +93,10 @@ const VIEWS = [
   { label: "book", path: `/book/${slug}` },
   { label: "book-notes", path: `/book/${slug}?tab=notes` },
   { label: "reader", path: `/book/${slug}/read/${chapter}` },
+  // Only when the book has a playable recording. Without one the page renders
+  // "not recorded yet" and there is nothing on it to press — a route in this
+  // list that cannot be swept is worse than one that is honestly absent.
+  ...(episode === null ? [] : [{ label: "listen", path: `/book/${slug}/listen/${episode}` }]),
   { label: "admin", path: "/admin" },
   { label: "admin-content", path: "/admin/content" },
 ].filter((v) => only === null || v.label === only);
@@ -180,7 +194,32 @@ for (const view of VIEWS) {
     console.log(`  FAIL ${links} link(s) with no destination`);
   }
 
+  /* ---- Repeated controls are SAMPLED, not exhausted ----------------------
+     A transcript is three hundred buttons: one "play from here" and one "make a
+     note here" per spoken line. Pressing every one takes hours, writes a note
+     for every line in the episode, and learns nothing after the second — they
+     are one control rendered N times from one piece of code, and if the third
+     works the two-hundredth does.
+
+     So identical accessible names are capped. The count is printed rather than
+     quietly dropped, because a sweep that says "all controls passed" while
+     having skipped two hundred of them is the kind of green that hides things.
+     Names are normalised on their digits first, so "Play from 4 minutes 12
+     seconds" and "Play from 9 minutes 3 seconds" are recognised as the same
+     control rather than as three hundred unique ones.                       */
+  const seen = new Map();
+  const family = (/** @type {string} */ name) => name.replace(/\d+/g, "#");
+  const skipped = new Map();
+
   for (const control of controls) {
+    const key = family(control.name);
+    const n = (seen.get(key) ?? 0) + 1;
+    seen.set(key, n);
+    if (n > SAMPLE_PER_FAMILY) {
+      skipped.set(key, (skipped.get(key) ?? 0) + 1);
+      continue;
+    }
+
     const skip = SKIP.find((s) => s.match.test(control.name));
     if (skip) {
       console.log(`  skip  ${control.name} — ${skip.why}`);
@@ -235,6 +274,12 @@ for (const view of VIEWS) {
     }
 
     await context.close();
+  }
+
+  // Named, with its count, so "all controls passed" never quietly means "all the
+  // ones I bothered with".
+  for (const [key, n] of skipped) {
+    console.log(`  skip  ${n} more of "${key}" — one control rendered many times, ${SAMPLE_PER_FAMILY} sampled`);
   }
 }
 

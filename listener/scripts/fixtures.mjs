@@ -77,6 +77,7 @@ export function cookieFor(email) {
  * @returns {{
  *   book: { slug: string, title: string, hasDeck: boolean } | null,
  *   chapter: string | null,
+ *   episode: number | null,
  *   cookies: Record<string, string | null>,
  * }}
  */
@@ -85,17 +86,41 @@ export function setUp() {
     SELECT c.slug, c.title,
            (SELECT count(*) FROM chapter WHERE slug = c.slug) AS chapters,
            (SELECT count(*) FROM media_asset
-             WHERE slug = c.slug AND kind = 'deck-page' AND uploaded_at IS NOT NULL) AS deck
+             WHERE slug = c.slug AND kind = 'deck-page' AND uploaded_at IS NOT NULL) AS deck,
+           (SELECT count(*) FROM episode e
+              JOIN media_asset m ON m.key = e.audio_key AND m.uploaded_at IS NOT NULL
+             WHERE e.slug = c.slug) AS playable
       FROM content_unit c
      WHERE c.kind != 'work' AND c.status = 'published'
   `);
 
-  const book = books.find((/** @type {any} */ b) => Number(b.chapters) > 0) ?? null;
+  // The book that exercises the MOST surfaces, not simply the first one that
+  // qualifies. Chapters are still the hard requirement — a book without them has
+  // no reading page to sweep — but among those, one with a playable podcast is
+  // strictly better, because it is the only kind that reaches the listening page
+  // at all. Picking the first match meant the episode page was silently never
+  // swept on a machine where a chapters-only book happened to sort first.
+  const candidates = books.filter((/** @type {any} */ b) => Number(b.chapters) > 0);
+  const book =
+    candidates.find((/** @type {any} */ b) => Number(b.playable) > 0) ?? candidates[0] ?? null;
 
   const chapter = book
     ? (query(
         `SELECT anchor_key FROM chapter WHERE slug = '${book.slug}' ORDER BY idx LIMIT 1`,
       )[0]?.anchor_key ?? null)
+    : null;
+
+  // An episode of the same book, for the listening page. Discovered like the
+  // chapter, and null for a book with no podcast — most of the library — so the
+  // callers skip that route rather than reporting a false failure. It is the
+  // first episode with a PLAYABLE recording: an episode whose audio has not been
+  // uploaded renders "not recorded yet" and has no controls to press.
+  const episode = book
+    ? (query(
+        `SELECT e.number FROM episode e
+           JOIN media_asset m ON m.key = e.audio_key AND m.uploaded_at IS NOT NULL
+          WHERE e.slug = '${book.slug}' ORDER BY e.number LIMIT 1`,
+      )[0]?.number ?? null)
     : null;
 
   // READER holds exactly one book. NOBODY holds nothing — and is the control
@@ -127,6 +152,7 @@ export function setUp() {
   return {
     book: book === null ? null : { slug: book.slug, title: book.title, hasDeck: Number(book.deck) > 0 },
     chapter,
+    episode,
     cookies: { anon: null, admin: cookieFor(ADMIN), reader: cookieFor(READER), nobody: cookieFor(NOBODY) },
   };
 }
@@ -139,6 +165,7 @@ export function tearDown() {
     DELETE FROM bookmark WHERE user_email IN ('${READER}', '${NOBODY}');
     DELETE FROM reading_progress WHERE user_email IN ('${READER}', '${NOBODY}');
     DELETE FROM listening_progress WHERE user_email IN ('${READER}', '${NOBODY}');
+    DELETE FROM episode_note WHERE user_email IN ('${READER}', '${NOBODY}');
     DELETE FROM invite WHERE email IN ('${READER}', '${NOBODY}');
     DELETE FROM session WHERE userId IN (SELECT id FROM user WHERE email IN ('${READER}', '${NOBODY}'));
     DELETE FROM user WHERE email IN ('${READER}', '${NOBODY}');
@@ -146,12 +173,14 @@ export function tearDown() {
 }
 
 /**
- * Fill `:slug` / `:chapter` in a manifest path.
+ * Fill `:slug` / `:chapter` / `:episode` in a manifest path.
  * @param {string} path
  * @param {{ slug: string } | null} book
  * @param {string | null} chapter
+ * @param {number | null} [episode]
  */
-export const fill = (path, book, chapter) =>
+export const fill = (path, book, chapter, episode) =>
   path
     .replace(":slug", encodeURIComponent(book?.slug ?? ""))
-    .replace(":chapter", encodeURIComponent(chapter ?? ""));
+    .replace(":chapter", encodeURIComponent(chapter ?? ""))
+    .replace(":episode", String(episode ?? ""));

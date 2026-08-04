@@ -8,7 +8,9 @@ import {
   progressForAll,
   removeAnnotation,
   removeBookmark,
+  removeEpisodeNote,
   saveAnnotation,
+  saveEpisodeNote,
   setListening,
   setProgress,
 } from "../app/server/marks.server";
@@ -57,7 +59,7 @@ const LATER = "2026-08-04T13:00:00Z";
 
 /** Both people, with one of everything each, in two different books. */
 async function seed(): Promise<TestDb> {
-  const test = createTestDb(["0001_auth", "0002_access", "0004_catalog", "0006_reader_state"]);
+  const test = createTestDb();
 
   await saveAnnotation(
     test.db,
@@ -106,7 +108,41 @@ async function seed(): Promise<TestDb> {
   await setListening(test.db, MINE, BOOK, { number: 1, seconds: 10 }, NOW);
   await setListening(test.db, THEIRS, OTHER_BOOK, { number: 1, seconds: 900 }, NOW);
 
+  await saveEpisodeNote(
+    test.db,
+    MINE,
+    BOOK,
+    { id: ID_MINE, number: 1, seconds: 30, note: "my own moment", quote: "what was said" },
+    NOW,
+  );
+  await saveEpisodeNote(
+    test.db,
+    THEIRS,
+    OTHER_BOOK,
+    { id: ID_THEIRS, number: 1, seconds: 90, note: "a private thought", quote: "theirs" },
+    NOW,
+  );
+
   return test;
+}
+
+/** One person's episode note, straight from the table, whatever it now says. */
+async function momentOf(test: TestDb, id: string) {
+  return test.db
+    .prepare(
+      `SELECT user_email, slug, number, seconds, note, quote, deleted_at
+         FROM episode_note WHERE id = ?1`,
+    )
+    .bind(id)
+    .first<{
+      user_email: string;
+      slug: string;
+      number: number;
+      seconds: number;
+      note: string | null;
+      quote: string | null;
+      deleted_at: string | null;
+    }>();
 }
 
 /** One person's annotation row, straight from the table, whatever it now says. */
@@ -360,6 +396,121 @@ describe("writing over somebody else's marks", () => {
       expect(only.blockIndex).toBe(4);
       expect(only.colour).toBe("sky");
       expect(only.note).toBe("second thoughts");
+    } finally {
+      test.close();
+    }
+  });
+});
+
+describe("a moment marked while listening", () => {
+  it("is not returned to another reader", async () => {
+    const test = await seed();
+    try {
+      const mine = await marksFor(test.db, MINE, BOOK);
+      expect(mine.episodeNotes.map((n) => n.note)).toEqual(["my own moment"]);
+
+      // Asked for MY email in THEIR book: absent, not filtered afterwards.
+      const theirBook = await marksFor(test.db, MINE, OTHER_BOOK);
+      expect(theirBook.episodeNotes).toEqual([]);
+    } finally {
+      test.close();
+    }
+  });
+
+  it("cannot be rewritten by re-using its id", async () => {
+    // The whole reason `episode_note` carries the owner check on its DO UPDATE
+    // from the first line: `id` is client-generated, so this collision is a
+    // request anyone can make. Without the WHERE, this rewrites their words.
+    const test = await seed();
+    try {
+      await saveEpisodeNote(
+        test.db,
+        MINE,
+        BOOK,
+        { id: ID_THEIRS, number: 7, seconds: 5, note: "overwritten", quote: "not theirs" },
+        LATER,
+      );
+
+      const theirs = await momentOf(test, ID_THEIRS);
+      expect(theirs?.user_email).toBe(THEIRS);
+      expect(theirs?.slug).toBe(OTHER_BOOK);
+      expect(theirs?.note).toBe("a private thought");
+      expect(theirs?.seconds).toBe(90);
+    } finally {
+      test.close();
+    }
+  });
+
+  it("cannot be deleted by another reader", async () => {
+    const test = await seed();
+    try {
+      await removeEpisodeNote(test.db, MINE, BOOK, ID_THEIRS, LATER);
+      expect((await momentOf(test, ID_THEIRS))?.deleted_at).toBeNull();
+    } finally {
+      test.close();
+    }
+  });
+
+  it("cannot be resurrected by another reader after they delete it", async () => {
+    const test = await seed();
+    try {
+      await removeEpisodeNote(test.db, THEIRS, OTHER_BOOK, ID_THEIRS, NOW);
+      await saveEpisodeNote(
+        test.db,
+        MINE,
+        BOOK,
+        { id: ID_THEIRS, number: 1, seconds: 90, note: "back again", quote: null },
+        LATER,
+      );
+
+      const theirs = await momentOf(test, ID_THEIRS);
+      expect(theirs?.deleted_at).toBe(NOW);
+      expect(theirs?.note).toBe("a private thought");
+    } finally {
+      test.close();
+    }
+  });
+
+  it("still lets its owner add the words later, which is what the upsert is for", async () => {
+    // The one-tap case: a bare moment now, the reason for it this evening. Both
+    // are the same row written twice, and the second write must land.
+    const test = await seed();
+    try {
+      await saveEpisodeNote(
+        test.db,
+        MINE,
+        BOOK,
+        { id: ID_MINE, number: 1, seconds: 30, note: "why it mattered", quote: "what was said" },
+        LATER,
+      );
+
+      const mine = await marksFor(test.db, MINE, BOOK);
+      expect(mine.episodeNotes).toHaveLength(1);
+      expect(mine.episodeNotes[0].note).toBe("why it mattered");
+      expect(mine.episodeNotes[0].createdAt).toBe(NOW);
+      expect(mine.episodeNotes[0].updatedAt).toBe(LATER);
+    } finally {
+      test.close();
+    }
+  });
+
+  it("keeps a bare moment as a complete mark rather than an empty note", async () => {
+    const test = await seed();
+    try {
+      await saveEpisodeNote(
+        test.db,
+        MINE,
+        BOOK,
+        { id: "33333333-3333-4333-8333-333333333333", number: 2, seconds: 12, note: "", quote: "" },
+        NOW,
+      );
+
+      const mine = await marksFor(test.db, MINE, BOOK);
+      const bare = mine.episodeNotes.find((n) => n.number === 2);
+      expect(bare).toBeDefined();
+      expect(bare?.note).toBeNull();
+      expect(bare?.quote).toBeNull();
+      expect(bare?.seconds).toBe(12);
     } finally {
       test.close();
     }

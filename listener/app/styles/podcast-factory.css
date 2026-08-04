@@ -4258,6 +4258,175 @@
     color: var(--l-danger);
   }
 
+  /* ---- A marked moment ----------------------------------------------------
+     Deliberately NOT a Post-it. `.pf-mark--paper` takes its fill from the
+     highlight colour the reader chose, and a listening note has no colour to be
+     made of — inventing one would say the reader picked something they did not.
+     It is a card with a rule down its start edge instead: clearly one of the
+     marks, clearly not one of the four. */
+  .pf-mark--moment {
+    display: flex;
+    align-items: start;
+    gap: var(--pf-space-2);
+    padding: var(--pf-space-3);
+    border-inline-start: 3px solid var(--l-accent);
+    border-radius: var(--pf-radius);
+    background: var(--l-sunken);
+  }
+
+  .pf-mark--moment .pf-mark__body {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: var(--pf-space-1);
+  }
+
+  /* The timestamp reads as a label rather than as prose — tabular figures so a
+     column of them lines up, which is most of what makes a list of times
+     scannable. */
+  .pf-mark--moment .pf-mark__kind {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--l-accent);
+  }
+
+  .pf-mark__text--quiet {
+    color: var(--l-faint);
+    font-style: italic;
+  }
+
+  /* ---- The transcript -----------------------------------------------------
+     A conversation, set as one. Each line is its own control — pressing it plays
+     from there — so the whole thing is a list of buttons, and the styling has to
+     keep it reading as text rather than as a stack of form controls. */
+  .pf-transcript {
+    margin-block-start: var(--pf-space-5);
+  }
+
+  .pf-transcript__caveat {
+    margin-block-end: var(--pf-space-3);
+  }
+
+  .pf-transcript__lines {
+    /* Capped and scrolled on its own, so the page does not become six hundred
+       screens tall and the line being spoken can be scrolled to the middle of
+       something. */
+    max-height: 60vh;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--pf-space-1);
+    border-block: 1px solid var(--l-line);
+  }
+
+  .pf-cue {
+    display: flex;
+    align-items: start;
+    gap: var(--pf-space-1);
+  }
+
+  .pf-cue__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: baseline;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-2);
+    border: 0;
+    border-radius: var(--pf-radius);
+    background: transparent;
+    text-align: start;
+    cursor: pointer;
+    transition: background var(--pf-motion);
+  }
+
+  .pf-cue__body:hover {
+    background: var(--l-sunken);
+  }
+
+  .pf-cue__at {
+    flex: none;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-variant-numeric: tabular-nums;
+    color: var(--l-faint);
+  }
+
+  .pf-cue__text {
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-base);
+    line-height: 1.6;
+    color: var(--l-muted);
+  }
+
+  /* The line being spoken. Weight and ink, not a fill: a highlighted band moving
+     down the page every two seconds is a strobe, and this text is being read. */
+  .pf-cue--now .pf-cue__text {
+    color: var(--l-ink);
+    font-weight: 600;
+  }
+
+  .pf-cue--now .pf-cue__at {
+    color: var(--l-accent);
+  }
+
+  /* Two hosts, told apart by indent rather than by colour — the labels are
+     `Speaker 1` and `Speaker 2`, integers the service assigned, and colouring
+     them would imply we know which is which. */
+  .pf-cue--speaker-2 {
+    padding-inline-start: var(--pf-space-5);
+  }
+
+  .pf-cue__note {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    border: 0;
+    border-radius: var(--pf-radius);
+    background: transparent;
+    color: var(--l-faint);
+    font-size: var(--pf-text-lg);
+    cursor: pointer;
+    opacity: 0;
+    transition:
+      opacity var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  /* Revealed on hover or focus — six hundred plus signs down the page is noise,
+     and `:focus-visible` is what keeps it reachable without a pointer. */
+  .pf-cue:hover .pf-cue__note,
+  .pf-cue__note:focus-visible {
+    opacity: 1;
+    color: var(--l-accent);
+  }
+
+  .pf-episode-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-2);
+    margin-block-start: var(--pf-space-4);
+  }
+
+  /* An episode title is the way into its page. It carries no underline until
+     hovered, because a list of twenty underlined rows reads as a link farm. */
+  .pf-row__link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .pf-row__link:hover {
+    text-decoration: underline;
+  }
+
   /* ---- The Scholar Companion ----------------------------------------------
      The cards in the drawer, and the tint on the sentences they explain. Seen
      by one account; styled from the same tokens as everything else, because a
@@ -4506,6 +4675,35 @@
   .pf-player__nudge:hover,
   .pf-player__close:hover {
     color: var(--l-ink);
+  }
+
+  /* Marking the moment, from wherever the listener is. It sits with the close
+     button rather than with the transport controls: play and the two nudges are
+     things you do to the AUDIO, and this is something you do to the book. Named
+     in words, not an icon — it is the one control here whose meaning a glyph
+     could not carry, and its label doubles as the confirmation. */
+  .pf-player__mark {
+    flex: none;
+    padding: var(--pf-space-1) var(--pf-space-3);
+    border: 1px solid var(--l-line);
+    border-radius: var(--pf-radius-pill);
+    background: transparent;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    /* Room for the longest of the three words it shows, so confirming does not
+       shuffle the controls beside it. */
+    min-width: 5.5rem;
+    cursor: pointer;
+    transition:
+      color var(--pf-motion),
+      border-color var(--pf-motion);
+  }
+
+  .pf-player__mark:hover {
+    color: var(--l-ink);
+    border-color: var(--l-accent);
   }
 
   .pf-player__what {

@@ -25,7 +25,6 @@ import { createTestDb, type TestDb } from "./d1";
  * against the real migrations.
  */
 
-const MIGRATIONS = ["0001_auth", "0002_access", "0004_catalog", "0006_reader_state"];
 
 const SLUG = "ayyuhal-walad";
 const CHAPTER = "introduction-to-the-book";
@@ -40,7 +39,7 @@ const uuid = (n: number) => `0000000${n}-0000-4000-a000-000000000000`.slice(-36)
 let t: TestDb;
 
 beforeEach(() => {
-  t = createTestDb(MIGRATIONS);
+  t = createTestDb();
   t.exec(`
     INSERT INTO content_unit (slug, bucket, title, kind, sort_order, status)
       VALUES ('${SLUG}', 'Islamic', 'Ayyuha al-Walad', 'book', 1, 'published');

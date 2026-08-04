@@ -399,18 +399,25 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
             // Only once there is something in it. An empty "Notes" tab on every
             // book would advertise a feature by showing it not working, and the
             // same list is one tap away inside the reader where marks are made.
-            marks.annotations.length + marks.bookmarks.length > 0
+            marks.annotations.length + marks.bookmarks.length + marks.episodeNotes.length > 0
               ? {
                   key: "notes",
                   icon: faNoteSticky,
                   label: "Notes",
-                  count: marks.annotations.length + marks.bookmarks.length,
+                  count:
+                    marks.annotations.length + marks.bookmarks.length + marks.episodeNotes.length,
                   render: () => (
                     <section className="pf-section">
                       <NotesList
                         annotations={marks.annotations}
                         bookmarks={marks.bookmarks}
                         chapters={chapters}
+                        // Both lists, because this page is the one place that
+                        // holds everything marked in this book — the reader's
+                        // drawer shows chapters and an episode page shows
+                        // episodes, each showing what it can act on.
+                        episodes={episodes.map((e) => ({ number: e.number, title: e.title }))}
+                        episodeNotes={marks.episodeNotes}
                         // Nothing is resolved here: this page never renders the
                         // chapter text, so it cannot know whether a passage
                         // still exists. The reader is where that is discovered,
@@ -426,6 +433,12 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                         onRemoveBookmark={(id) =>
                           void fetcher.submit(
                             { intent: "unbookmark", id },
+                            { method: "post", action: `/book/${unit.slug}/marks` },
+                          )
+                        }
+                        onRemoveEpisodeNote={(id) =>
+                          void fetcher.submit(
+                            { intent: "un-episode-note", id },
                             { method: "post", action: `/book/${unit.slug}/marks` },
                           )
                         }
@@ -753,7 +766,15 @@ function Podcast({
                   <span className="pf-row__index">{episode.number}</span>
 
                   <div className="pf-row__main">
-                    <p>{episode.title}</p>
+                    {/* The title is the way IN to the episode, exactly as a
+                        chapter row is the way into a chapter. The Play button
+                        beside it still plays without leaving the page — the two
+                        are different intentions and used to be one. */}
+                    <p>
+                      <Link to={`/book/${slug}/listen/${episode.number}`} className="pf-row__link">
+                        {episode.title}
+                      </Link>
+                    </p>
 
                     {episode.chapters.length > 0 ? (
                       <p className="pf-note pf-note--quiet">

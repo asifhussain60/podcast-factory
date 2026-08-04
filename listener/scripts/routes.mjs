@@ -77,6 +77,28 @@ export const BOOK_ROUTES = [
 /** Routes only worth visiting when the book has the thing they show. */
 export const OPTIONAL_ROUTES = [
   { path: "/book/:slug/slides", who: "reader", expect: 200, label: "slides", needs: "deck" },
+
+  // One episode: the transcript following the audio, and this listener's marked
+  // moments beside it. `needs: "episode"` because most of this library has no
+  // podcast, and a book without a playable recording renders "not recorded yet"
+  // — a page worth neither a console check nor a screenshot.
+  {
+    path: "/book/:slug/listen/:episode",
+    who: "reader",
+    expect: 200,
+    label: "listen",
+    needs: "episode",
+  },
+  // And denied to someone who was never given the book, exactly as the chapter
+  // and the deck are. A new surface on a gated book is a new way to get the gate
+  // wrong, so it is checked rather than assumed to inherit.
+  {
+    path: "/book/:slug/listen/:episode",
+    who: "nobody",
+    expect: 404,
+    label: "listen-denied",
+    needs: "episode",
+  },
 ];
 
 /** The widths every surface is checked and shot at. */

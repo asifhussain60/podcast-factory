@@ -1,5 +1,5 @@
 import { DatabaseSync } from "node:sqlite";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 
 /**
  * A minimal D1Database over node:sqlite, so the entitlement tests exercise the
@@ -19,13 +19,35 @@ export interface TestDb {
   close(): void;
 }
 
-export function createTestDb(
-  migrations: string[] = ["0001_auth", "0002_access", "0006_reader_state"],
-): TestDb {
+/**
+ * Every migration, in the order wrangler applies them.
+ *
+ * Read from the directory rather than listed, because a list is a second place
+ * to remember. Four test files each carried their own subset, and the day a
+ * migration added a column the queries needed, every one of them failed with
+ * `no such column` — a message about the fixture, not about the code under test.
+ * The schema a test runs against should be the schema production runs against,
+ * and there is no case in this suite where a partial one was the point.
+ */
+function allMigrations(): string[] {
+  const dir = new URL("../migrations/", import.meta.url);
+  return readdirSync(dir)
+    .filter((name) => name.endsWith(".sql"))
+    // SEEDS are excluded, and only seeds. A migration that creates a table
+    // describes the shape production has and every test wants it; a migration
+    // that INSERTS rows describes what production happens to contain, and a test
+    // builds its own — `0003_seed_catalog` puts a row in `content_unit` for
+    // every book in the repo, which collides with the fixtures the marks tests
+    // insert under the same slugs.
+    .filter((name) => !name.includes("_seed"))
+    .sort();
+}
+
+export function createTestDb(migrations?: string[]): TestDb {
   const sqlite = new DatabaseSync(":memory:");
 
-  for (const name of migrations) {
-    const sql = readFileSync(new URL(`../migrations/${name}.sql`, import.meta.url), "utf8");
+  for (const name of migrations?.map((m) => `${m}.sql`) ?? allMigrations()) {
+    const sql = readFileSync(new URL(`../migrations/${name}`, import.meta.url), "utf8");
     sqlite.exec(sql);
   }
 

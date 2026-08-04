@@ -32,6 +32,7 @@ from _listener_companion import (  # noqa: E402
     read_companion,
 )
 from _paths import find_content  # noqa: E402
+from _transcript import vtt_path  # noqa: E402
 
 LISTENER = Path(__file__).resolve().parents[2] / "listener"
 
@@ -99,6 +100,10 @@ class Episode:
     blurb: str | None
     style: str | None
     audio: "Asset | None" = None
+    # The WebVTT of what is said, when it has been made. A separate asset rather
+    # than a column on the episode, for the same reason the audio is: the row
+    # says the file exists on disk, and only `uploaded_at` says it is servable.
+    transcript: "Asset | None" = None
     duration_s: int | None = None
     # None when this book's episodes were never grouped, which is most books.
     session: int | None = None
@@ -278,6 +283,23 @@ def _attach_audio(book: Book, path: Path, *, session: int | None) -> bool:
     episode.duration_s = audio_duration(path)
     episode.session = session
     book.assets.append(asset)
+
+    # The timed transcript of this same episode, when one has been made. Keyed by
+    # episode NUMBER like everything else, so it is found whatever the recording
+    # was called — see `_transcript.vtt_path`. Absent is an ordinary state and
+    # not an error: `ensure_transcripts.py` runs before publish and makes the
+    # missing ones, and a book whose transcription failed still ships its audio.
+    transcript = vtt_path(book.directory, episode.number)
+    if transcript.is_file():
+        episode.transcript = Asset(
+            key=f"{book.slug}/transcript/ep{episode.number:02d}.vtt",
+            slug=book.slug,
+            kind="transcript",
+            content_type="text/vtt",
+            path=transcript,
+        )
+        book.assets.append(episode.transcript)
+
     return True
 
 

@@ -10,6 +10,8 @@ import {
 } from "react";
 import { Link } from "react-router";
 
+import { newId, refresh } from "~/lib/marks";
+
 /**
  * One <audio> element for the whole site.
  *
@@ -115,6 +117,40 @@ function savePosition(episode: NowPlaying, seconds: number) {
 }
 
 let lastServerWrite = 0;
+
+/**
+ * Mark this moment in whatever is playing, from anywhere on the site.
+ *
+ * A DIRECT post, not a write through the marks store, and that is a correctness
+ * requirement rather than a shortcut. `lib/marks.ts` holds one book open at a
+ * time — whichever one is being READ — and posts its outbox to that book's
+ * endpoint. A listener can have this book's episode playing while reading a
+ * different book entirely, and routing this through the store would file the
+ * note under the wrong work. `savePosition` above already writes this way, for
+ * the same reason.
+ *
+ * The cost is that this one write has no offline outbox. That is the right trade:
+ * a note is made in a moment the listener can see happen, and the alternative is
+ * a queue that can attribute it to the wrong book.
+ */
+function markMoment(episode: NowPlaying, seconds: number, id: string): Promise<boolean> {
+  return fetch(`/book/${encodeURIComponent(episode.slug)}/marks`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      intent: "episode-note",
+      id,
+      number: String(episode.number),
+      // Floor, not round: the stored value is when the button was pressed, and
+      // the site plays back from before it anyway.
+      seconds: String(Math.floor(seconds)),
+      note: "",
+      quote: "",
+    }),
+  })
+    .then((response) => response.ok)
+    .catch(() => false);
+}
 
 /**
  * The server's copy, if it is further along than the cache.
@@ -324,6 +360,8 @@ function PlayerBar() {
             </select>
           </label>
 
+          <MarkButton />
+
           <button
             type="button"
             onClick={close}
@@ -350,6 +388,58 @@ function PlayerBar() {
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * One tap to mark where you are, wherever you are on the site.
+ *
+ * This is the eyes-free half of listening notes. The transcript on the episode
+ * page lets a moment be marked with the words attached, but most listening
+ * happens with the phone face-down — and the player bar is the only thing on
+ * screen for all of it, because it lives in the layout and survives navigation.
+ *
+ * It captures the position at the instant of the TAP and posts immediately, so
+ * nothing depends on how long the listener then takes to do anything else. The
+ * words come later, in the notes list.
+ *
+ * The confirmation is the whole feedback loop: a note made with no visible
+ * response is indistinguishable from a button that does nothing, which is
+ * exactly the failure the delete button had.
+ */
+function MarkButton() {
+  const { current, position } = usePlayer();
+  const [state, setState] = useState<"idle" | "saved" | "failed">("idle");
+
+  useEffect(() => {
+    if (state === "idle") return;
+    const timer = setTimeout(() => setState("idle"), 2_000);
+    return () => clearTimeout(timer);
+  }, [state]);
+
+  if (current === null) return null;
+
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        // Read here, at the tap, and passed down. Reading it inside the promise
+        // would record wherever the audio had reached by the time it resolved.
+        const at = position;
+        void markMoment(current, at, newId()).then((ok) => {
+          setState(ok ? "saved" : "failed");
+          // A notes drawer standing open on THIS book has to learn about it —
+          // the write bypassed the store that feeds it. No-op when the open book
+          // is a different one, which is the case this write exists to handle.
+          if (ok) void refresh(current.slug);
+        });
+      }}
+      aria-label={`Mark this moment, ${Math.floor(position / 60)} minutes in`}
+      title="Mark this moment"
+      className="pf-player__mark"
+    >
+      {state === "idle" ? "Mark" : state === "saved" ? "Marked" : "Not saved"}
+    </button>
   );
 }
 

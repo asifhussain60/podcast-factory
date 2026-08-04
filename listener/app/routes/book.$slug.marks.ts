@@ -9,7 +9,9 @@ import {
   marksFor,
   removeAnnotation,
   removeBookmark,
+  removeEpisodeNote,
   saveAnnotation,
+  saveEpisodeNote,
   setListening,
   setProgress,
 } from "~/server/marks.server";
@@ -144,6 +146,29 @@ export async function action({ request, params, context }: Route.ActionArgs) {
 
       case "unannotate":
         await removeAnnotation(env.DB, email, slug, field("id"), now);
+        break;
+
+      // The audio counterpart of `annotate`, and one intent for the same reason:
+      // marking a moment with no words and adding the words an hour later are the
+      // same row written twice, not two kinds of thing.
+      case "episode-note":
+        await saveEpisodeNote(
+          env.DB,
+          email,
+          slug,
+          {
+            id: field("id"),
+            number: field("number"),
+            seconds: field("seconds"),
+            note: field("note"),
+            quote: field("quote"),
+          },
+          now,
+        );
+        break;
+
+      case "un-episode-note":
+        await removeEpisodeNote(env.DB, email, slug, field("id"), now);
         break;
 
       default:

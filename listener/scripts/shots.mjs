@@ -256,13 +256,18 @@ async function writeNote(page, text) {
 /* -------------------------------------------------------------------------- */
 
 console.log("setting up fixtures");
-const { book, chapter, cookies } = setUp();
+const { book, chapter, episode, cookies } = setUp();
 if (book === null) console.log("  !     no published book — book and reader surfaces skipped");
 
 const routes = [
   ...STATIC_ROUTES.filter((r) => r.expect === 200),
   ...(book === null ? [] : BOOK_ROUTES.filter((r) => r.expect === 200 && !r.path.endsWith("/marks"))),
-  ...(book === null ? [] : OPTIONAL_ROUTES.filter((r) => r.needs !== "deck" || book.hasDeck)),
+  ...(book === null
+    ? []
+    : OPTIONAL_ROUTES.filter(
+        (r) =>
+          (r.needs !== "deck" || book.hasDeck) && (r.needs !== "episode" || episode !== null),
+      )),
 ].filter((r) => onlyRoute === null || r.label === onlyRoute);
 
 mkdirSync(OUT, { recursive: true });
@@ -288,7 +293,7 @@ try {
 
         const page = await context.newPage();
 
-        const url = BASE + fill(route.path, book, chapter);
+        const url = BASE + fill(route.path, book, chapter, episode);
 
         for (const state of STATES[route.label] ?? [{ name: "plain", act: async () => {} }]) {
           // A FRESH page per state. Running them in sequence on one page made
