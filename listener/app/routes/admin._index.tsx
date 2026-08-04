@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   faArrowLeft,
   faCheck,
+  faChevronDown,
+  faChevronRight,
   faLink,
   faMagnifyingGlass,
   faPen,
@@ -180,6 +182,28 @@ export async function action({ request, context }: Route.ActionArgs) {
         now,
       );
       return { ok: true };
+
+    // Several books in one press. Each scope still goes through `grant`
+    // one at a time rather than through a new bulk writer: that function is
+    // already an upsert, so re-granting something is harmless, and it writes its
+    // own `access_event` — so ticking four books leaves four audit rows saying
+    // exactly what was given, which a single "granted 4 things" row would not.
+    case "grant-many": {
+      const email = text("email");
+      const scopes = form
+        .getAll("scope")
+        .map(String)
+        .map((raw) => raw.split(":", 2))
+        // `library` is deliberately not accepted here. It has its own toggle,
+        // it is the widest thing this application can give, and a checkbox is
+        // the one control where it could ride along unnoticed with four others.
+        .filter(([type, id]) => (type === "unit" || type === "work") && Boolean(id));
+
+      for (const [type, id] of scopes) {
+        await grant(env.DB, email, type as "unit" | "work", id, actor, now);
+      }
+      return { ok: true, granted: scopes.length };
+    }
 
     default:
       return { error: "Unknown action." };
@@ -734,10 +758,22 @@ function PersonDetail({
   isSelf: boolean;
 }) {
   const [find, setFind] = useState("");
+  /** Ticked but not yet given — `unit:<slug>` / `work:<slug>`. */
+  const [picked, setPicked] = useState<Set<string>>(() => new Set());
+  /** Works whose volumes are showing. Collapsed is the default: twelve of the
+   *  twenty-three rows in this catalogue are volumes of two works. */
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
 
   const works = catalog.filter((u) => u.kind === "work");
   const standalone = catalog.filter((u) => u.kind === "book" && u.workSlug === null);
   const wholeLibrary = granted.has("library:*");
+  const searching = find.trim() !== "";
+
+  // Clear the ticks once the grants actually change — every ticked row has by
+  // then moved up to "Already given", so a count left behind would offer to give
+  // four books that are no longer on the list.
+  const grantedKey = [...granted].sort().join("|");
+  useEffect(() => setPicked(new Set()), [grantedKey]);
 
   const matches = (u: ContentUnit) =>
     find.trim() === "" || u.title.toLowerCase().includes(find.trim().toLowerCase());
@@ -848,6 +884,9 @@ function PersonDetail({
 
           <h3 className="pf-notes__heading">Add more</h3>
 
+          {/* OUTSIDE the form below, deliberately. It filters what is shown and
+              submits nothing, and a text input inside a form makes Enter grant
+              whatever happens to be ticked. */}
           <div className="pf-search pf-search--sm">
             <Icon icon={faMagnifyingGlass} className="pf-search__icon" />
             <label htmlFor="scope-find" className="sr-only">
@@ -863,58 +902,211 @@ function PersonDetail({
             />
           </div>
 
-          {works.map((work) =>
-            matches(work) || catalog.some((v) => v.workSlug === work.slug && matches(v)) ? (
-              <div key={work.slug} className="pf-grants__work">
-                {granted.has(`work:${work.slug}`) ? null : (
-                  <GrantRow
-                    email={person.email}
-                    label={work.title}
-                    hint="All volumes, including future ones"
-                    scopeType="work"
-                    scopeId={work.slug}
-                    on={false}
-                  />
-                )}
-                <div className="pf-grants__volumes">
-                  {catalog
-                    .filter((u) => u.workSlug === work.slug && matches(u))
-                    .filter((u) => !granted.has(`unit:${u.slug}`))
-                    .map((vol) => (
-                      <GrantRow
-                        key={vol.slug}
-                        email={person.email}
-                        label={vol.title}
-                        hint={statusHint(vol)}
-                        scopeType="unit"
-                        scopeId={vol.slug}
-                        on={false}
-                        covered={granted.has(`work:${work.slug}`) || wholeLibrary}
-                      />
-                    ))}
-                </div>
-              </div>
-            ) : null,
-          )}
+          {/* ONE form for every book on offer, because provisioning someone new
+              was eight page posts. Each ticked box is a `scope` field and the
+              action grants them one at a time, so the audit trail still says
+              which books rather than "four things". */}
+          <Form method="post" preventScrollReset className="pf-stack-sm">
+            <input type="hidden" name="intent" value="grant-many" />
+            <input type="hidden" name="email" value={person.email} />
 
-          {standalone
-            .filter(matches)
-            .filter((u) => !granted.has(`unit:${u.slug}`))
-            .map((unit) => (
-              <GrantRow
-                key={unit.slug}
-                email={person.email}
-                label={unit.title}
-                hint={statusHint(unit)}
-                scopeType="unit"
-                scopeId={unit.slug}
-                on={false}
-                covered={wholeLibrary}
-              />
-            ))}
+            {works.map((work) => {
+              // A work already granted is not offered again, and neither are its
+              // volumes: the grant covers every one of them, including volumes
+              // added later, so the rows would be six ways of saying "yes, still".
+              if (granted.has(`work:${work.slug}`)) return null;
+              if (!matches(work) && !catalog.some((v) => v.workSlug === work.slug && matches(v))) {
+                return null;
+              }
+
+              const volumes = catalog
+                .filter((u) => u.workSlug === work.slug && matches(u))
+                .filter((u) => !granted.has(`unit:${u.slug}`));
+
+              return (
+                <WorkScope
+                  key={work.slug}
+                  work={work}
+                  volumes={volumes}
+                  total={catalog.filter((u) => u.workSlug === work.slug).length}
+                  // Searching expands everything that matched. A collapsed work
+                  // hiding the volume someone just searched for reads as the
+                  // search being broken.
+                  open={searching || expanded.has(work.slug)}
+                  frozen={searching}
+                  onToggle={() => setExpanded(flip(expanded, work.slug))}
+                  picked={picked}
+                  onPick={(key) => setPicked(flip(picked, key))}
+                  covered={wholeLibrary}
+                />
+              );
+            })}
+
+            {standalone
+              .filter(matches)
+              .filter((u) => !granted.has(`unit:${u.slug}`))
+              .map((unit) => (
+                <ScopeCheck
+                  key={unit.slug}
+                  scope={`unit:${unit.slug}`}
+                  label={unit.title}
+                  hint={statusHint(unit)}
+                  covered={wholeLibrary}
+                  picked={picked.has(`unit:${unit.slug}`)}
+                  onPick={() => setPicked(flip(picked, `unit:${unit.slug}`))}
+                />
+              ))}
+
+            <button
+              type="submit"
+              disabled={picked.size === 0}
+              className="pf-button pf-button--primary pf-button--sm"
+            >
+              {picked.size === 0
+                ? "Give access to the ticked books"
+                : `Give access to ${picked.size} selected`}
+            </button>
+          </Form>
         </div>
       </div>
     </>
+  );
+}
+
+/** A set with one member added or removed — the whole of both pickers' state. */
+function flip(current: Set<string>, key: string): Set<string> {
+  const next = new Set(current);
+  if (!next.delete(key)) next.add(key);
+  return next;
+}
+
+/**
+ * One multi-volume work: a row that expands.
+ *
+ * The chevron is a SIBLING of the checkbox label, never a parent of it. A work
+ * carries two independent controls — "give me all of this" and "show me what is
+ * in it" — and nesting either inside the other is both invalid markup and a
+ * press that does the wrong thing.
+ *
+ * Ticking the work disables its volumes rather than hiding them: the volumes are
+ * the reason someone opened the row, and a list that empties itself when you
+ * tick the thing above it looks like a fault.
+ */
+function WorkScope({
+  work,
+  volumes,
+  total,
+  open,
+  frozen,
+  onToggle,
+  picked,
+  onPick,
+  covered,
+}: {
+  work: ContentUnit;
+  volumes: ContentUnit[];
+  /** Every volume the work has, not just the ones on offer — this is the count. */
+  total: number;
+  open: boolean;
+  /** Held open by a search, so the chevron would be lying if it offered to close. */
+  frozen: boolean;
+  onToggle: () => void;
+  picked: Set<string>;
+  onPick: (scope: string) => void;
+  covered: boolean;
+}) {
+  const id = `vols-${work.slug}`;
+  const wholeWork = picked.has(`work:${work.slug}`);
+
+  return (
+    <div className="pf-scope-work">
+      <div className="pf-scope-work__head">
+        <button
+          type="button"
+          onClick={onToggle}
+          disabled={frozen}
+          aria-expanded={open}
+          aria-controls={id}
+          aria-label={`${open ? "Hide" : "Show"} the volumes of ${work.title}`}
+          className="pf-scope-work__toggle"
+        >
+          <Icon icon={open ? faChevronDown : faChevronRight} />
+        </button>
+
+        <ScopeCheck
+          scope={`work:${work.slug}`}
+          label={work.title}
+          hint={`All ${total} volumes, including future ones`}
+          covered={covered}
+          picked={wholeWork}
+          onPick={() => onPick(`work:${work.slug}`)}
+        />
+      </div>
+
+      {open ? (
+        <div id={id} className="pf-scope-work__volumes">
+          {volumes.map((vol) => (
+            <ScopeCheck
+              key={vol.slug}
+              scope={`unit:${vol.slug}`}
+              label={vol.title}
+              hint={statusHint(vol)}
+              covered={covered || wholeWork}
+              coveredNote={wholeWork ? "Covered by the whole work above" : undefined}
+              picked={picked.has(`unit:${vol.slug}`)}
+              onPick={() => onPick(`unit:${vol.slug}`)}
+              disabled={wholeWork}
+            />
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/** One tickable book. A label, so the whole row is the target on a phone. */
+function ScopeCheck({
+  scope,
+  label,
+  hint,
+  covered = false,
+  coveredNote,
+  picked,
+  onPick,
+  disabled = false,
+}: {
+  /** `unit:<slug>` or `work:<slug>` — the value the action reads back. */
+  scope: string;
+  label: string;
+  hint?: string;
+  covered?: boolean;
+  coveredNote?: string;
+  picked: boolean;
+  onPick: () => void;
+  disabled?: boolean;
+}) {
+  return (
+    <label className={`pf-scope${disabled ? " pf-scope--off" : ""}`}>
+      <input
+        type="checkbox"
+        name="scope"
+        value={scope}
+        checked={picked && !disabled}
+        onChange={onPick}
+        disabled={disabled}
+        className="pf-scope__box"
+      />
+      <span className="pf-scope__what">
+        <span className="pf-scope__label">{label}</span>
+        {covered ? (
+          <span className="pf-scope__hint">
+            {coveredNote ?? "Already covered by a wider grant"}
+          </span>
+        ) : hint ? (
+          <span className="pf-scope__hint">{hint}</span>
+        ) : null}
+      </span>
+    </label>
   );
 }
 
@@ -967,7 +1159,10 @@ function GrantRow({
   covered?: boolean;
 }) {
   return (
-    <Form method="post" className="pf-grant">
+    // A form post is a navigation, and React Router resets scroll on navigation
+    // unless told otherwise — so granting the eleventh book threw the page back
+    // to the top and you scrolled down to it again. This is the whole fix.
+    <Form method="post" preventScrollReset className="pf-grant">
       <input type="hidden" name="intent" value={on ? "revoke-grant" : "grant"} />
       <input type="hidden" name="email" value={email} />
       <input type="hidden" name="scopeType" value={scopeType} />

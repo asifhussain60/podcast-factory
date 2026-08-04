@@ -3013,15 +3013,122 @@
     border-color: var(--l-accent);
   }
 
-  .pf-grants__work {
+  /* ---- Books on offer, as a pickable list ---------------------------------
+     `.pf-grant` above is a row that ACTS on its own — one press, one book. These
+     are rows that are CHOSEN and then acted on together, which is why they are a
+     different object rather than the same one with a checkbox bolted on: the
+     first says "given", the second says "about to be".
+
+     A whole label is the target, so a thumb has the row rather than the box. */
+
+  .pf-scope {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-3);
+    margin-top: var(--pf-space-2);
+    padding: var(--pf-space-3) var(--pf-space-4);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule-soft);
+    border-radius: var(--pf-radius);
+    cursor: pointer;
+  }
+
+  .pf-scope:hover {
+    border-color: var(--l-rule);
+  }
+
+  /* Covered by something wider that is already ticked. Dimmed rather than
+     removed: the volumes are why the row was opened, and a list that empties
+     itself when you tick the thing above it looks like a fault. */
+  .pf-scope--off {
+    cursor: default;
+    opacity: 0.55;
+  }
+
+  .pf-scope__box {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--l-accent);
+  }
+
+  .pf-scope__what {
+    min-width: 0;
+  }
+
+  .pf-scope__label {
+    display: block;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-base);
+    color: var(--l-ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pf-scope__hint {
+    display: block;
+    margin-top: 2px;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-faint);
+  }
+
+  /* ---- A multi-volume work, collapsed -------------------------------------
+     Twelve of the twenty-three rows in this catalogue are volumes of two works,
+     so the default is shut. The chevron sits BESIDE the label, never around it:
+     a work carries two independent controls — take all of this, and show me what
+     is in it — and either one nested in the other is a press that does the wrong
+     thing as well as invalid markup. */
+
+  .pf-scope-work {
     margin-top: var(--pf-space-4);
   }
 
-  /* Volumes sit under the work they belong to, indented so the hierarchy is
-     visible without a second heading level. */
-  .pf-grants__volumes {
-    margin-top: var(--pf-space-2);
-    padding-inline-start: var(--pf-space-5);
+  .pf-scope-work__head {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+  }
+
+  .pf-scope-work__head > .pf-scope {
+    flex: 1;
+    min-width: 0;
+    margin-top: 0;
+  }
+
+  .pf-scope-work__toggle {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* 2.75rem = 44px, the platform minimum for a touch target — the same floor
+       every other icon-only control in this application is held to. */
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    border: 0;
+    border-radius: var(--pf-radius);
+    background: transparent;
+    color: var(--l-muted);
+    cursor: pointer;
+  }
+
+  .pf-scope-work__toggle:hover {
+    background: var(--l-sunken);
+    color: var(--l-ink);
+  }
+
+  /* Held open by a search. Not hidden — the row still says which state it is in,
+     it simply cannot be closed while the search that opened it is running. */
+  .pf-scope-work__toggle:disabled {
+    cursor: default;
+    opacity: 0.4;
+  }
+
+  /* Indented so the hierarchy reads without a second heading level, and aligned
+     under the label rather than the chevron. */
+  .pf-scope-work__volumes {
+    padding-inline-start: var(--pf-space-7);
   }
 
   /* Carries its own surface now. It used to be given `.pf-card` at every call
