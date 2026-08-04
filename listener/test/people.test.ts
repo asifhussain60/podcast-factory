@@ -1,12 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import {
+  deletePerson,
   grant,
   holdersOf,
   invite,
   listPeople,
   peopleTallies,
   personByEmail,
+  renamePerson,
   revokeInvite,
   splitName,
 } from "~/server/access.server";
@@ -250,6 +252,82 @@ describe("re-inviting somebody keeps what was recorded about them", () => {
     expect(person?.displayName).toBe("Ada Lovelace");
     expect(person?.note).toBe("A friend");
     expect(person?.revokedAt).toBeNull();
+  });
+});
+
+describe("renaming somebody in the row", () => {
+  it("stores the typed name in both columns and leaves the address alone", async () => {
+    await renamePerson(t.db, "nameless@example.com", "Ishrat Husain", ADMIN, NOW);
+
+    const person = await personByEmail(t.db, "nameless@example.com");
+    expect(person?.firstName).toBe("Ishrat");
+    expect(person?.lastName).toBe("Husain");
+    expect(person?.emailRaw).toBe("nameless@example.com");
+  });
+
+  it("clears back to the address when the name is emptied", async () => {
+    // Stored as NULL rather than as an empty string, so the row falls back to
+    // displaying the address exactly as it did before a name was recorded.
+    await renamePerson(t.db, "amina.yusuf@example.com", "", ADMIN, NOW);
+
+    const person = await personByEmail(t.db, "amina.yusuf@example.com");
+    expect(person?.firstName).toBeNull();
+    expect(person?.displayName).toBe("Amina.Yusuf@example.com");
+  });
+
+  it("does not touch anybody else", async () => {
+    await renamePerson(t.db, "bilal@example.com", "Bilal Karim", ADMIN, NOW);
+    expect((await personByEmail(t.db, "amina.yusuf@example.com"))?.displayName).toBe("Amina Yusuf");
+  });
+});
+
+describe("deleting somebody is not revoking them", () => {
+  it("takes their grants with them", async () => {
+    // `access_grant` keys on EMAIL, not on a user id, so a grant left behind by a
+    // deleted invitation is dormant rather than gone — invite that address again,
+    // which is a plausible thing to do right after deleting it by mistake, and
+    // every book it held would come back with nobody having granted anything.
+    await grant(t.db, "bilal@example.com", "unit", "standalone", ADMIN, NOW);
+    await grant(t.db, "bilal@example.com", "library", "*", ADMIN, NOW);
+
+    await deletePerson(t.db, "bilal@example.com", ADMIN, LATER);
+
+    expect(await personByEmail(t.db, "bilal@example.com")).toBeNull();
+
+    // Re-invited from scratch: no invitation, no grants, nothing restored.
+    await invite(t.db, "bilal@example.com", ADMIN, {}, LATER);
+    const back = await personByEmail(t.db, "bilal@example.com");
+    expect(back?.grantCount).toBe(0);
+    expect(back?.library).toBe(false);
+  });
+
+  it("ends their sessions, like a revocation does", async () => {
+    t.exec(`
+      INSERT INTO user (id, name, email, emailVerified, createdAt, updatedAt)
+        VALUES ('u1', 'Bilal', 'bilal@example.com', 1, '${NOW}', '${NOW}');
+      INSERT INTO session (id, expiresAt, token, createdAt, updatedAt, userId)
+        VALUES ('s1', '2099-01-01', 'tok', '${NOW}', '${NOW}', 'u1');
+    `);
+
+    await deletePerson(t.db, "bilal@example.com", ADMIN, LATER);
+
+    const left = await t.db.prepare(`SELECT count(*) AS n FROM session`).bind().first<{ n: number }>();
+    expect(left?.n).toBe(0);
+  });
+
+  it("leaves the record of what was done", async () => {
+    // The row goes; the history of the row going does not.
+    await deletePerson(t.db, "bilal@example.com", ADMIN, LATER);
+    const ev = await t.db
+      .prepare(`SELECT action, subject FROM access_event WHERE action = 'delete-person'`)
+      .bind()
+      .first<{ action: string; subject: string }>();
+    expect(ev?.subject).toBe("bilal@example.com");
+  });
+
+  it("leaves everybody else in place", async () => {
+    await deletePerson(t.db, "bilal@example.com", ADMIN, LATER);
+    expect((await listPeople(t.db)).total).toBe(2);
   });
 });
 

@@ -553,6 +553,73 @@ export async function invite(
 }
 
 /**
+ * Change what somebody is CALLED, and nothing else.
+ *
+ * Deliberately not "edit person". The address is not editable here and should not
+ * become editable: `email` is the identity every grant, every event and every
+ * session keys on, so changing it in place would not correct a mistake, it would
+ * hand one person's entitlements to a different address. Correcting an address is
+ * inviting the right one and removing the wrong one — two visible acts, which is
+ * what it actually is.
+ *
+ * A cleared name is stored as NULL rather than as an empty string, so the row
+ * falls back to displaying the address exactly as it did before a name was ever
+ * recorded.
+ */
+export async function renamePerson(
+  db: D1Database,
+  rawEmail: string,
+  name: string,
+  actor: string,
+  now: string,
+): Promise<void> {
+  const email = normalizeEmail(rawEmail);
+  const { firstName, lastName } = splitName(name);
+  const cap = (v: string | null) => (v === null ? null : v.slice(0, 100));
+
+  await db.batch([
+    db
+      .prepare(`UPDATE invite SET first_name = ?2, last_name = ?3 WHERE email = ?1`)
+      .bind(email, cap(firstName), cap(lastName)),
+    event(db, now, actor, "rename", email, null, null, name.trim() || null),
+  ]);
+}
+
+/**
+ * Remove somebody completely: their invitation, their grants, their sessions.
+ *
+ * This is NOT revoke, and the difference is the whole reason both exist. Revoke
+ * keeps the row and keeps the grants, so re-inviting restores exactly what
+ * somebody had — it is for "not for now". This is for "this row should not
+ * exist": a typo, a duplicate, an address invited by mistake.
+ *
+ * The grants go WITH the person, and that is a security property rather than
+ * tidiness. `access_grant` keys on email, not on a user id, so a grant left
+ * behind by a deleted invitation is dormant rather than gone: invite that
+ * address again — a plausible thing to do right after deleting it by mistake —
+ * and every book it held would come back without anybody granting anything. The
+ * access_event survives, because the record of what was done should outlive the
+ * row it was done to.
+ */
+export async function deletePerson(
+  db: D1Database,
+  rawEmail: string,
+  actor: string,
+  now: string,
+): Promise<void> {
+  const email = normalizeEmail(rawEmail);
+
+  await db.batch([
+    db
+      .prepare(`DELETE FROM session WHERE userId IN (SELECT id FROM user WHERE email = ?1)`)
+      .bind(email),
+    db.prepare(`DELETE FROM access_grant WHERE user_email = ?1`).bind(email),
+    db.prepare(`DELETE FROM invite WHERE email = ?1`).bind(email),
+    event(db, now, actor, "delete-person", email, null, null, null),
+  ]);
+}
+
+/**
  * Revoke sign-in.
  *
  * Three things, and the third is deliberate: the invite is marked revoked, every

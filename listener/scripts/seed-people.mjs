@@ -33,6 +33,31 @@ const DOMAIN = "example.invalid";
 const COUNT = 100;
 const ACTOR = "seed-people.mjs";
 
+/**
+ * The one flag this file refuses.
+ *
+ * Every `wrangler d1 execute` below passes `--local`, so there is no code path
+ * here that reaches production — but "there is no path" is a property of the
+ * current text, and the next person to want a hundred rows somewhere else will
+ * reach for the obvious flag. This makes that attempt stop rather than be
+ * quietly ignored, and says why. Unknown flags are refused for the same reason:
+ * a typo that silently does the default is how a guard gets bypassed by
+ * accident.
+ */
+const ALLOWED = new Set(["--clear"]);
+const unknown = process.argv.slice(2).filter((a) => !ALLOWED.has(a));
+if (unknown.length > 0) {
+  const remote = unknown.some((a) => /^--remote|^--env/.test(a));
+  console.error(
+    remote
+      ? `refusing ${unknown.join(" ")}: these hundred people are scenery, and on the live
+site every one of them would be an address genuinely permitted to sign in.
+This script is local-only by design and has no remote mode to enable.`
+      : `unknown option: ${unknown.join(" ")} (only --clear is accepted)`,
+  );
+  process.exit(2);
+}
+
 /** @param {string} sql */
 function d1(sql) {
   execFileSync(

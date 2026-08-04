@@ -117,6 +117,73 @@ else
 still running against the schema it was built for."
 fi
 
+# --- No invented people in production ----------------------------------------
+#
+# `listener/scripts/seed-people.mjs` fills the LOCAL database with a hundred
+# invented readers so the access screen can be looked at at size. Nothing in this
+# script or in publish_to_listener.py touches `invite` or `access_grant`, the
+# local database is a Miniflare file that is gitignored, and the seed has no
+# remote mode — so there is no path by which those rows reach production.
+#
+# This checks anyway, and the difference matters: the three facts above are
+# properties of today's code, and every one of them is one edit away from being
+# false. This verifies the DESTINATION instead of reasoning about the route.
+#
+# It matches any address in a `.invalid` domain, which RFC 2606 reserves so that
+# it can never resolve — so a match is never a real person, and any future
+# fixture that follows the same convention is caught by the same net. It runs
+# before the Worker ships and on a dry run too, which makes
+# `--worker-only --dry-run` a read-only audit of who can sign in to the live site.
+#
+# It fails CLOSED, including when the count cannot be parsed: an invitation row is
+# permission to sign in, so "I could not verify" has to stop the deploy exactly
+# as "I found some" does. That matches the account check above, which is equally
+# unforgiving about wrangler's output changing shape.
+
+step "Invented people"
+
+people_json="$(npx wrangler d1 execute podcast-listener --remote --json --command "
+  SELECT (SELECT count(*) FROM invite WHERE email LIKE '%.invalid'
+                                         OR email_raw LIKE '%.invalid') AS invites,
+         (SELECT count(*) FROM access_grant WHERE user_email LIKE '%.invalid') AS grants;
+" 2>&1)"
+
+# The payload is passed as an argument, not on stdin: `python3 -` would itself be
+# reading the program from stdin, and a second redirection would silently replace
+# one with the other. wrangler prints progress lines before the JSON, so parsing
+# starts at the first bracket.
+people_count="$(python3 -c '
+import json, sys
+raw = sys.argv[1]
+at = raw.find("[")
+try:
+    rows = json.loads(raw[at:])[0]["results"][0]
+    print(int(rows["invites"]) + int(rows["grants"]))
+except Exception:
+    print("unparseable")
+' "$people_json")"
+
+case "$people_count" in
+  0) echo "  ok — no reserved-domain addresses can sign in" ;;
+  unparseable)
+    printf '%s\n' "$people_json" | tail -12 >&2
+    die "could not read the invitation list from production, so it cannot be
+cleared as safe. Nothing was deployed. An invitation row is permission to sign
+in — this check refuses to be skipped rather than pass on an unread answer."
+    ;;
+  *)
+    die "production holds $people_count reserved-domain invitation/grant rows.
+Those are fixture people, and on the live site every one of them is an address
+genuinely permitted to sign in. Nothing was deployed. Remove them with:
+
+  npx wrangler d1 execute podcast-listener --remote --command \\
+    \"DELETE FROM access_grant WHERE user_email LIKE '%.invalid';
+      DELETE FROM invite WHERE email LIKE '%.invalid' OR email_raw LIKE '%.invalid';\"
+
+then run this again."
+    ;;
+esac
+
 # --- The Worker --------------------------------------------------------------
 
 if [[ -n "$DRY_RUN" ]]; then

@@ -90,6 +90,56 @@ describe("route discovery", () => {
   });
 });
 
+describe("the deploy path cannot carry invented people", () => {
+  // A row in `invite` is permission to sign in to the live site, so the hundred
+  // fixture readers that make the access screen reviewable are exactly the kind
+  // of data that must never travel. Four independent doors, each pinned here
+  // because each is one edit away from opening.
+  const SEED_PEOPLE = read("scripts/seed-people.mjs");
+  const DEPLOY = read("../scripts/podcast/deploy_listener.sh");
+  const PUBLISH = read("../scripts/podcast/publish_to_listener.py");
+
+  it("seeds only the local database, with no remote mode to enable", () => {
+    const calls = [...SEED_PEOPLE.matchAll(/"d1",\s*\n?\s*"execute",[\s\S]{0,200}?\]/g)];
+    expect(calls.length).toBeGreaterThan(0);
+    for (const [call] of calls) expect(call).toContain('"--local"');
+    expect(SEED_PEOPLE).not.toMatch(/"--remote"/);
+  });
+
+  it("carries no fixture address in any migration", () => {
+    // Migrations are the one thing the deploy applies to production BEFORE it
+    // ships code. A seed written as a migration would hand a hundred fabricated
+    // addresses the right to sign in, on the next deploy, silently.
+    const { globSync } = require("node:fs") as typeof import("node:fs");
+    const files = globSync("migrations/*.sql", {
+      cwd: new URL("../", import.meta.url),
+    }) as string[];
+    expect(files.length).toBeGreaterThan(0);
+    for (const file of files) {
+      expect(read(file), `${file} names a reserved fixture domain`).not.toMatch(/\.invalid\b/);
+    }
+  });
+
+  it("never names the invitation tables in the content publisher", () => {
+    // publish_to_listener.py is the only writer the deploy runs against
+    // production's data. It writes chapters, episodes and media; who may sign in
+    // is not its business and must never become its business.
+    expect(PUBLISH).not.toMatch(/\binvite\b/);
+    expect(PUBLISH).not.toMatch(/\baccess_grant\b/);
+  });
+
+  it("verifies production itself, and fails closed when it cannot", () => {
+    // The check that makes the three above belt-and-braces rather than the whole
+    // argument: it reads the live invitation list and refuses to deploy on a
+    // match OR on an answer it could not parse.
+    expect(DEPLOY).toContain("Invented people");
+    expect(DEPLOY).toMatch(/FROM invite WHERE email LIKE '%\.invalid'/);
+    expect(DEPLOY).toMatch(/unparseable\)?\s*\n?\s*.*die|unparseable/);
+    // Before the Worker, so a deploy that stops here has changed nothing.
+    expect(DEPLOY.indexOf("Invented people")).toBeLessThan(DEPLOY.indexOf('step "Worker"'));
+  });
+});
+
 describe("privilege bits", () => {
   it("writes open_to_all and status only through the admin-session path", () => {
     // The phase-3 publish endpoint will authenticate with a bearer token, not a

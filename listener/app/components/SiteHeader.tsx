@@ -47,17 +47,23 @@ export function SiteHeader({
           </Link>
         ) : null}
 
-        {/* A POST, not a link — see routes/sign-out.tsx. The button is styled
-            as a nav item so the header does not grow a second visual weight
-            for what is just another way out. */}
+        <ThemePicker />
+
+        {/* Last, after the theme picker, and that order is the point: the links
+            before it go somewhere, the picker changes how this page looks, and
+            this ends the session. Sitting between the two it read as a third way
+            of navigating, and it was the one item here that cannot be undone by
+            pressing something else.
+
+            A POST, not a link — see routes/sign-out.tsx. Styled as a nav item so
+            the header does not grow a second visual weight for what is just
+            another way out. */}
         <Form method="post" action="/sign-out">
           <button type="submit" className="pf-navlink pf-navlink--button">
             <Icon icon={faRightFromBracket} />
             Sign out
           </button>
         </Form>
-
-        <ThemePicker />
       </div>
     </header>
   );

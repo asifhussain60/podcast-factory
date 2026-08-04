@@ -63,7 +63,55 @@ cool grey rather than as a tint. It is the site's existing answer for every pane
 head — the invite panel beside it agrees — so re-toning it is a whole-site
 decision to take with Asif, not a side effect of this screen.
 
-Gates: 240 tests, `npm run smoke` all clear (17 routes x 4 widths), `npm run
+**Then, in the same session — three follow-ups from Asif.**
+
+**"Ensure the deploy script does not move the dummy records over to the live
+site."** Four doors, each now pinned rather than merely closed:
+- `seed-people.mjs` refuses `--remote` (and any flag but `--clear`) with the
+  reason, instead of silently ignoring it.
+- `deploy_listener.sh` gained an **Invented people** step that reads PRODUCTION
+  for any address in a `.invalid` domain — invites and grants — before the Worker
+  ships, and refuses to deploy on a match OR on an answer it could not parse. It
+  verifies the destination instead of reasoning about the route. `--worker-only
+  --dry-run` is therefore a read-only audit of who can sign in to the live site.
+- Four tests in `config.test.ts`: the seed has no remote path, no migration
+  carries a reserved fixture domain, `publish_to_listener.py` never names `invite`
+  or `access_grant`, and the deploy still runs the check before the Worker.
+- Mutation-tested: putting `--remote` in the seed and removing the deploy step
+  each turn the relevant test red, and both go green again on revert.
+
+**"There is no option to edit or delete the people from the list."** Both are in
+the row now, through `useFetcher` rather than `<Form>` — a form POST is a
+navigation, so renaming somebody on page three would answer correctly and then
+throw away where you were.
+- **Rename** swaps the person cell for a box holding what was RECORDED (not what
+  the row displays — an unnamed person displays their address, and prefilling that
+  invites saving an address as a name). The address stays visible underneath,
+  because the box covers the name.
+- **Delete is not revoke**, and both exist deliberately: revoke keeps the row and
+  the grants so re-inviting restores everything, and this is for a row that should
+  not exist. It takes the grants WITH the person — `access_grant` keys on email,
+  so a grant left behind is dormant, not gone, and inviting that address again
+  would silently restore every book it held. Sessions end too; the access_event
+  survives.
+- The confirmation spans the whole row rather than living in the 80px actions
+  column, where it wrapped a name across three lines and stacked its buttons.
+- No delete on the administrator's own row, in the UI and again in the action:
+  unlike a revocation there would be nothing left to restore.
+
+**"Move the sign out to the right after the color schemes."** Done in
+`SiteHeader`, so every signed-in page moved together. The order now reads: links
+that go somewhere, then the control that changes how this page looks, then the one
+thing that ends the session — which was the only item in that row that cannot be
+undone by pressing something else.
+
+Two things the visual pass caught in the follow-ups: the delete confirmation
+trapped in its column (above), and "Add to the invitation list" wrapping onto two
+lines once the aside narrowed — `.pf-button--block` now uses a space-3 side
+gutter, since a full-width button does not need padding sized for one that hugs
+its words.
+
+Gates: 251 tests, `npm run smoke` all clear (17 routes x 4 widths), `npm run
 security` all checks passed, build clean.
 
 ---

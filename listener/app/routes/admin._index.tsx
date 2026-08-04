@@ -4,9 +4,19 @@ import {
   faCheck,
   faLink,
   faMagnifyingGlass,
+  faPen,
   faPlus,
+  faTrash,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { Form, Link, useRouteLoaderData, useSearchParams, useSubmit } from "react-router";
+import {
+  Form,
+  Link,
+  useFetcher,
+  useRouteLoaderData,
+  useSearchParams,
+  useSubmit,
+} from "react-router";
 
 import type { Route } from "./+types/admin._index";
 import type { loader as adminLoader } from "./_authed._admin";
@@ -14,6 +24,7 @@ import { Icon } from "~/components/Icon";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import {
+  deletePerson,
   grant,
   grantsFor,
   invite,
@@ -21,6 +32,7 @@ import {
   listCatalogForAdmin,
   listPeople,
   personByEmail,
+  renamePerson,
   revokeGrant,
   revokeInvite,
   splitName,
@@ -108,6 +120,23 @@ export async function action({ request, context }: Route.ActionArgs) {
       // deleting what an administrator once wrote is not a form change.
       await invite(env.DB, raw, actor, splitName(text("name")), now);
       return { ok: true, invited: raw.trim(), warnPlusTag: hasUnfoldedPlusTag(raw) };
+    }
+
+    case "rename":
+      await renamePerson(env.DB, text("email"), text("name"), actor, now);
+      return { ok: true };
+
+    case "delete-person": {
+      // The same rule the delete button obeys, enforced where it cannot be
+      // skipped. Admin is ADMIN_EMAIL and nothing else, so deleting your own
+      // invitation locks you out of your own site irrecoverably from the browser
+      // — and unlike revoking, there is no row left to restore.
+      const target = tryNormalizeEmail(text("email"));
+      if (target !== null && target === actor) {
+        return { error: "You cannot delete yourself." };
+      }
+      await deletePerson(env.DB, text("email"), actor, now);
+      return { ok: true };
     }
 
     case "revoke-invite": {
@@ -226,6 +255,7 @@ export default function AdminPeople({ loaderData, actionData }: Route.ComponentP
             filter={filter}
             page={page}
             pageSize={pageSize}
+            self={loaderData.self}
             withParam={withParam}
           />
         )}
@@ -247,6 +277,7 @@ function PeopleTable({
   filter,
   page,
   pageSize,
+  self,
   withParam,
 }: {
   people: Person[];
@@ -257,6 +288,8 @@ function PeopleTable({
   filter: PeopleFilter;
   page: number;
   pageSize: number;
+  /** The administrator's own address, which is the one row with no delete. */
+  self: string;
   withParam: (key: string, value: string) => string;
 }) {
   const [params] = useSearchParams();
@@ -339,42 +372,14 @@ function PeopleTable({
                 <th scope="col" className="pf-table__tight">
                   Standing
                 </th>
+                <th scope="col" className="pf-table__acts">
+                  <span className="sr-only">Rename or delete</span>
+                </th>
               </tr>
             </thead>
             <tbody>
               {people.map((p) => (
-                <tr key={p.email}>
-                  <td data-label="Person" className="pf-table__who">
-                    <Link to={withParam("email", p.email)} className="pf-person">
-                      {p.displayName}
-                    </Link>
-                    {/* Only when it adds something. Everyone invited before names
-                        existed has the address AS their display name, and a cell
-                        printing it twice reads as a rendering fault. */}
-                    {p.displayName === p.emailRaw ? null : (
-                      <span className="pf-person__mail">{p.emailRaw}</span>
-                    )}
-                  </td>
-                  <td data-label="Books" className="pf-table__tight">
-                    {p.library ? (
-                      <span className="pf-pill pf-pill--accent">Everything</span>
-                    ) : p.grantCount === 0 ? (
-                      <span className="pf-quiet">None</span>
-                    ) : (
-                      p.grantCount
-                    )}
-                  </td>
-                  <td data-label="Signed in" className="pf-table__tight">
-                    {p.lastSeenAt === null ? (
-                      <span className="pf-quiet">Never</span>
-                    ) : (
-                      when(p.lastSeenAt)
-                    )}
-                  </td>
-                  <td data-label="Standing" className="pf-table__tight">
-                    <Standing person={p} />
-                  </td>
-                </tr>
+                <PersonRow key={p.email} person={p} isSelf={p.email === self} withParam={withParam} />
               ))}
             </tbody>
           </table>
@@ -421,6 +426,169 @@ function PeopleTable({
         </nav>
       ) : null}
     </div>
+  );
+}
+
+/**
+ * One row, and the two things it can be doing instead of sitting still.
+ *
+ * The state is per ROW rather than lifted to the table, because that is what it
+ * describes and a table-level "editing" would have to be cleared by every other
+ * interaction on the page.
+ *
+ * Both actions go through `useFetcher`, not `<Form>`. A form POST is a navigation:
+ * it revalidates and returns to the top of the page, so renaming somebody on page
+ * three of a hundred would answer correctly and then throw away where you were. A
+ * fetcher submits, revalidates the table in place, and leaves the scroll alone.
+ */
+function PersonRow({
+  person: p,
+  isSelf,
+  withParam,
+}: {
+  person: Person;
+  /** Whether this row is the administrator's own. */
+  isSelf: boolean;
+  withParam: (key: string, value: string) => string;
+}) {
+  const fetcher = useFetcher();
+  const [mode, setMode] = useState<"idle" | "editing" | "confirming">("idle");
+
+  // What was actually RECORDED, which is not always what the row displays: an
+  // unnamed person displays their address, and prefilling the box with that would
+  // invite saving an address as somebody's name.
+  const recorded = [p.firstName, p.lastName].filter(Boolean).join(" ");
+
+  // Confirming takes the WHOLE row, spanning every column.
+  // Asked inside the actions cell, the sentence had 80 pixels to say a person's
+  // name in and the row grew to three times its height to hold three words and
+  // two stacked buttons. A question about the row belongs across the row.
+  if (mode === "confirming") {
+    return (
+      <tr>
+        <td colSpan={5} className="pf-confirmrow">
+          <fetcher.Form method="post" className="pf-confirm">
+            <input type="hidden" name="intent" value="delete-person" />
+            <input type="hidden" name="email" value={p.email} />
+            <span className="pf-confirm__ask">
+              Delete <strong>{p.displayName}</strong>
+              {p.grantCount > 0
+                ? ` and ${p.grantCount === 1 ? "the 1 book" : `the ${p.grantCount} books`} they hold?`
+                : "?"}{" "}
+              This cannot be undone — to stop them signing in but keep what they
+              have, revoke them instead.
+            </span>
+            <button type="submit" className="pf-button pf-button--sm pf-button--danger">
+              Delete
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("idle")}
+              className="pf-button pf-button--sm pf-button--ghost"
+            >
+              Keep
+            </button>
+          </fetcher.Form>
+        </td>
+      </tr>
+    );
+  }
+
+  return (
+    <tr>
+      <td data-label="Person" className="pf-table__who">
+        {mode === "editing" ? (
+          <fetcher.Form method="post" className="pf-rowedit" onSubmit={() => setMode("idle")}>
+            <input type="hidden" name="intent" value="rename" />
+            <input type="hidden" name="email" value={p.email} />
+            <label htmlFor={`name-${p.email}`} className="sr-only">
+              Name for {p.emailRaw}
+            </label>
+            {/* autoFocus is right here and almost nowhere else: the field exists
+                because a button was just pressed to summon it. */}
+            <input
+              id={`name-${p.email}`}
+              name="name"
+              defaultValue={recorded}
+              autoFocus
+              autoComplete="off"
+              placeholder="Their name"
+              className="pf-input pf-input--sm"
+            />
+            <button type="submit" aria-label="Save the name" className="pf-iconbtn">
+              <Icon icon={faCheck} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("idle")}
+              aria-label="Stop renaming"
+              className="pf-iconbtn"
+            >
+              <Icon icon={faXmark} />
+            </button>
+          </fetcher.Form>
+        ) : (
+          <Link to={withParam("email", p.email)} className="pf-person">
+            {p.displayName}
+          </Link>
+        )}
+
+        {/* The address, in BOTH states. Printed only when it adds something —
+            everyone invited before names existed has the address as their display
+            name, and a cell printing it twice reads as a rendering fault — and
+            kept while renaming, which is the moment it matters most: the box
+            covers the name, so without it the only thing saying whose name is in
+            the box is the row's position. */}
+        {p.displayName === p.emailRaw ? null : (
+          <span className="pf-person__mail">{p.emailRaw}</span>
+        )}
+      </td>
+
+      <td data-label="Books" className="pf-table__tight">
+        {p.library ? (
+          <span className="pf-pill pf-pill--accent">Everything</span>
+        ) : p.grantCount === 0 ? (
+          <span className="pf-quiet">None</span>
+        ) : (
+          p.grantCount
+        )}
+      </td>
+
+      <td data-label="Signed in" className="pf-table__tight">
+        {p.lastSeenAt === null ? <span className="pf-quiet">Never</span> : when(p.lastSeenAt)}
+      </td>
+
+      <td data-label="Standing" className="pf-table__tight">
+        <Standing person={p} />
+      </td>
+
+      <td data-label="" className="pf-table__acts">
+        <div className="pf-rowacts">
+          <button
+            type="button"
+            onClick={() => setMode("editing")}
+            aria-label={`Rename ${p.displayName}`}
+            className="pf-iconbtn"
+          >
+            <Icon icon={faPen} />
+          </button>
+          {/* No delete on your own row, and the server refuses it too. Admin is
+              ADMIN_EMAIL and nothing else, so this row is the only thing between
+              the administrator and a site they cannot sign in to — and unlike a
+              revocation there would be nothing left to restore. */}
+          {isSelf ? null : (
+            <button
+              type="button"
+              onClick={() => setMode("confirming")}
+              aria-label={`Delete ${p.displayName}`}
+              className="pf-iconbtn pf-iconbtn--danger"
+            >
+              <Icon icon={faTrash} />
+            </button>
+          )}
+        </div>
+      </td>
+    </tr>
   );
 }
 

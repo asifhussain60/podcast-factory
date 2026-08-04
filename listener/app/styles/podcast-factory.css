@@ -2451,9 +2451,13 @@
   }
 
   @media (min-width: 1000px) {
+    /* 17rem and a space-6 gutter, not 19rem and space-7. The aside holds two
+       fields and a button; the 48 pixels it does not need are the difference
+       between an address sitting on one line in the table and breaking across
+       two, and the table is the working surface. */
     .pf-access-split {
-      grid-template-columns: minmax(0, 19rem) minmax(0, 1fr);
-      gap: var(--pf-space-7);
+      grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+      gap: var(--pf-space-6);
       align-items: start;
     }
 
@@ -2755,7 +2759,112 @@
      fifths of the table, leaving the three narrow columns a fifth each — enough
      for a full date and for the widest pill either of them can hold. */
   .pf-table__who {
-    width: 40%;
+    width: 36%;
+  }
+
+  /* ---- Renaming and deleting, in the row ---------------------------------
+     A person is edited where they are read. The alternative was opening their
+     panel to change one word, which is four interactions and a lost place in a
+     hundred rows.
+
+     The column is narrow and its header is a screen-reader label rather than a
+     word: "Rename or delete" printed above two glyphs is a caption on a caption,
+     and the width belongs to the address. */
+
+  .pf-table__acts {
+    width: 13%;
+  }
+
+  .pf-rowacts {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--pf-space-1);
+  }
+
+  .pf-iconbtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* 28px, which is over the runtime gate's 24px floor for a touch target and
+       under the row's own height, so a row does not grow to hold its buttons. */
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 1px solid transparent;
+    border-radius: var(--pf-radius-sm);
+    background: transparent;
+    color: var(--l-muted);
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      border-color var(--pf-motion),
+      color var(--pf-motion);
+  }
+
+  .pf-iconbtn:hover {
+    border-color: var(--l-accent);
+    color: var(--l-accent);
+  }
+
+  .pf-iconbtn--danger:hover {
+    border-color: var(--l-danger);
+    color: var(--l-danger);
+  }
+
+  .pf-iconbtn .pf-icon {
+    opacity: 1;
+    font-size: 0.8em;
+  }
+
+  /* The name, in a box, in the cell it normally reads from. */
+  .pf-rowedit {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-1);
+  }
+
+  .pf-rowedit .pf-input {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .pf-input--sm {
+    padding: var(--pf-space-1) var(--pf-space-2);
+    font-size: var(--pf-text-sm);
+  }
+
+  /* Asked across the row rather than in a dialog over it, and toned so the row
+     stops looking like the others while the question stands. */
+  .pf-confirmrow {
+    background: color-mix(in srgb, var(--l-danger) 8%, var(--l-elev));
+  }
+
+  .pf-confirm {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-3);
+  }
+
+  .pf-confirm__ask {
+    flex: 1 1 16rem;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-sm);
+    line-height: 1.45;
+    color: color-mix(in srgb, var(--l-danger) 70%, var(--l-ink));
+  }
+
+  /* The one destructive button on the site. Outlined rather than filled: a solid
+     red block reads as the primary action of the row it sits in, and this is the
+     action somebody should have to mean. */
+  .pf-button--danger {
+    border-color: color-mix(in srgb, var(--l-danger) 45%, transparent);
+    background: color-mix(in srgb, var(--l-danger) 10%, var(--l-elev));
+    color: color-mix(in srgb, var(--l-danger) 75%, var(--l-ink));
+  }
+
+  .pf-button--danger:hover {
+    border-color: var(--l-danger);
+    background: color-mix(in srgb, var(--l-danger) 18%, var(--l-elev));
   }
 
 
@@ -2810,6 +2919,14 @@
 
     .pf-table tbody td[data-label="Person"]::before {
       content: none;
+    }
+
+    /* The buttons are their own line at the foot of the card, with a little air
+       above them: pressed by thumb rather than pointed at, and a delete sitting
+       immediately under the standing pill invites the wrong one. */
+    .pf-table tbody td.pf-table__acts {
+      justify-content: flex-end;
+      padding-top: var(--pf-space-2);
     }
   }
 
@@ -4372,8 +4489,13 @@
     margin-top: var(--pf-space-4);
   }
 
+  /* A full-width button sets its own label on one line where it can: the pill's
+     space-5 side padding is sized for a button that hugs its words, and inside a
+     17rem aside it pushed "Add to the invitation list" onto a second line while
+     the button itself had room to spare. */
   .pf-button--block {
     width: 100%;
+    padding-inline: var(--pf-space-3);
   }
 
   /* ---- The front door ----------------------------------------------------

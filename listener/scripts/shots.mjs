@@ -119,6 +119,27 @@ const STATES = {
       },
     },
     {
+      // Renaming, in the row. Both this and the state below are reached by
+      // pressing the real button, so the picture is of the control rather than of
+      // a class name toggled by the harness.
+      name: "renaming",
+      act: async (page) => {
+        const row = page.locator("tbody tr").first();
+        await row.locator('[aria-label^="Rename"]').click().catch(() => {});
+        await page.waitForSelector(".pf-rowedit", { timeout: 3000 }).catch(() => {});
+        await row.scrollIntoViewIfNeeded().catch(() => {});
+      },
+    },
+    {
+      name: "deleting",
+      act: async (page) => {
+        const row = page.locator("tbody tr").first();
+        await row.locator('[aria-label^="Delete"]').click().catch(() => {});
+        await page.waitForSelector(".pf-confirm", { timeout: 3000 }).catch(() => {});
+        await row.scrollIntoViewIfNeeded().catch(() => {});
+      },
+    },
+    {
       name: "person-open",
       act: async (page) => {
         await page.click(".pf-person").catch(() => {});
