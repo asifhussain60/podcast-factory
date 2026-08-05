@@ -1922,6 +1922,11 @@
   ],
   "recent_commits": [
     {
+      "sha": "b8030e9",
+      "subject": "feat(composer): targeted questions on a highlighted passage, visible while typing",
+      "date": "2026-08-05"
+    },
+    {
       "sha": "006ccda",
       "subject": "chore(plan-dashboard): regenerate the dashboard snapshot",
       "date": "2026-08-05"
@@ -1964,11 +1969,6 @@
     {
       "sha": "e782041",
       "subject": "fix(pipeline): close the three P1/P0 findings from the podcast-pipeline audit",
-      "date": "2026-08-05"
-    },
-    {
-      "sha": "34e8e83",
-      "subject": "chore(plan-dashboard): regenerate snapshots",
       "date": "2026-08-05"
     }
   ],
