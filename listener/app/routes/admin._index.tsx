@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  faEnvelope,
   faArrowLeft,
   faCheck,
   faChevronDown,
@@ -26,6 +27,7 @@ import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
 import { SearchBox } from "~/components/SearchBox";
 import { GrantRow } from "~/components/admin/GrantRow";
+import { InviteMessage } from "~/components/admin/InviteMessage";
 import { count } from "~/lib/plural";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
@@ -106,6 +108,16 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     granted: grants.map((g) => `${g.scopeType}:${g.scopeId}`),
     /** Both sides are already normalized, so this is a plain comparison. */
     self: viewer.email,
+    /**
+     * Where to tell an invited person to go.
+     *
+     * `BETTER_AUTH_URL` rather than the request's own origin: it is the site's
+     * declared absolute base, it is what sign-in redirects to, and it is exactly
+     * the address a recipient has to reach. On this machine it is localhost —
+     * which is honest and which the dialog says out loud, rather than quietly
+     * putting a link into a message that nobody else can open.
+     */
+    siteUrl: context.get(cloudflare).env.BETTER_AUTH_URL,
   };
 }
 
@@ -191,7 +203,14 @@ export async function action({ request, context }: Route.ActionArgs) {
         actor,
         now,
       );
-      return { ok: true };
+      // `grantedTo`, not `granted` — the latter is already this action's name
+      // for a COUNT on `grant-many`, and reusing it made the panel compare a
+      // number against an address and silently never match.
+      //
+      // Named at all, rather than a bare `ok`, because the invitation message
+      // must open after a GRANT and not after a rename or a revoke, which come
+      // back from this same switch.
+      return { ok: true, grantedTo: text("email") };
 
     case "revoke-grant":
       await revokeGrant(
@@ -223,7 +242,7 @@ export async function action({ request, context }: Route.ActionArgs) {
       for (const [type, id] of scopes) {
         await grant(env.DB, email, type as "unit" | "work", id, actor, now);
       }
-      return { ok: true, granted: scopes.length };
+      return { ok: true, granted: scopes.length, grantedTo: email };
     }
 
     default:
@@ -288,6 +307,15 @@ export default function AdminPeople({ loaderData, actionData }: Route.ComponentP
               catalog={catalog}
               granted={granted}
               isSelf={person.email === loaderData.self}
+              siteUrl={loaderData.siteUrl}
+              justGranted={
+                actionData !== undefined &&
+                actionData !== null &&
+                "grantedTo" in actionData &&
+                // Both sides normalized: the form posts `person.email`, which is
+                // the folded address, and that is what the action echoes back.
+                actionData.grantedTo === person.email
+              }
             />
           </>
         ) : (
@@ -760,13 +788,27 @@ function PersonDetail({
   catalog,
   granted,
   isSelf,
+  siteUrl,
+  justGranted,
 }: {
   person: Person;
   catalog: ContentUnit[];
   granted: Set<string>;
   /** Whether the administrator is looking at their own row. */
   isSelf: boolean;
+  /** Where the site lives, for the link in the invitation message. */
+  siteUrl: string;
+  /** True on the render right after a grant to this person succeeded. */
+  justGranted: boolean;
 }) {
+  const [showMessage, setShowMessage] = useState(false);
+
+  // Opened by the grant itself, so the note to send is in front of the
+  // administrator at the moment they have something to tell somebody — rather
+  // than depending on them remembering a button afterwards.
+  useEffect(() => {
+    if (justGranted) setShowMessage(true);
+  }, [justGranted]);
   const [find, setFind] = useState("");
   /** Ticked but not yet given — `unit:<slug>` / `work:<slug>`. */
   const [picked, setPicked] = useState<Set<string>>(() => new Set());
@@ -991,16 +1033,41 @@ function PersonDetail({
                 />
               ))}
 
-            <button
-              type="submit"
-              disabled={picked.size === 0}
-              className="pf-button pf-button--primary pf-button--sm"
-            >
-              {picked.size === 0
-                ? "Give access to the ticked books"
-                : `Give access to ${picked.size} selected`}
-            </button>
+            {/* Centred and full size. It was a small pill hard against the left
+                edge of a tall panel — the least prominent thing on a screen
+                whose entire purpose it is. */}
+            <div className="pf-scope-actions">
+              <button type="submit" disabled={picked.size === 0} className="pf-button pf-button--primary">
+                {picked.size === 0
+                  ? "Give access to the ticked books"
+                  : `Give access to ${count(picked.size, "book")}`}
+              </button>
+
+              {/* Available whenever they hold something, because the reason to
+                  send the note is not always the moment access was given —
+                  somebody loses the link, or never got the first message. */}
+              {held.length > 0 || wholeLibrary ? (
+                <button
+                  type="button"
+                  onClick={() => setShowMessage(true)}
+                  className="pf-button pf-button--soft"
+                >
+                  <Icon icon={faEnvelope} />
+                  Generate message
+                </button>
+              ) : null}
+            </div>
           </Form>
+
+          <InviteMessage
+            open={showMessage}
+            onClose={() => setShowMessage(false)}
+            displayName={person.displayName}
+            email={person.emailRaw || person.email}
+            siteUrl={siteUrl}
+            books={held.map((u) => u.title)}
+            wholeLibrary={wholeLibrary}
+          />
         </div>
       </div>
     </>

@@ -61,7 +61,7 @@ export function describeContents(x: {
   deckPages: number;
   /** At least one deck page is in R2. */
   deckAvailable: boolean;
-}): Fact[] {
+}, { combineFormats = false }: { combineFormats?: boolean } = {}): Fact[] {
   const facts: Fact[] = [];
 
   if (x.chapters > 0) {
@@ -86,6 +86,39 @@ export function describeContents(x: {
             ? count(x.episodes, "episode")
             : `${x.withAudio} of ${count(x.episodes, "episode")}`,
     });
+  }
+
+  // THE TWO FORMATS, together or apart.
+  //
+  // Apart on the book page, which has the room and where the reader is deciding
+  // what to open. Together on a library CARD, where five facts wrapped to three
+  // rows while every other book had four or fewer — so no two cards were the
+  // same height and the grid did not line up.
+  //
+  // Combining loses nothing: both are still named in words, which is the rule
+  // this list has always followed. Swapping them for bare glyphs would have been
+  // shorter and would have rebuilt the thing that rule exists to prevent — a row
+  // of symbols where the reader guesses, and where absence reads as fault.
+  if (combineFormats) {
+    // Compact ONLY when both are present and have to share a pill. A book with
+    // one format has the room for its natural name, and "print" alone reads like
+    // an abbreviation of something.
+    const both = x.pdf && x.deckPages > 0;
+    const parts: string[] = [];
+    if (x.pdf) parts.push(both ? "print" : "print edition");
+    if (x.deckPages > 0) parts.push(count(x.deckPages, "slide"));
+
+    if (parts.length > 0) {
+      // One caveat for the pair rather than one each. The card is a summary; the
+      // book page says precisely which of the two is not in R2 yet.
+      const waiting = (x.pdf && !x.pdfAvailable) || (x.deckPages > 0 && !x.deckAvailable);
+      facts.push({
+        icon: x.pdf ? faFileLines : faImages,
+        label: parts.join(" + ") + (waiting ? ", not uploaded yet" : ""),
+      });
+    }
+
+    return facts;
   }
 
   if (x.pdf) {
