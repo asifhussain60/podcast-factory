@@ -199,11 +199,10 @@ _PHASE_PROSE: dict[str, tuple[str, ...]] = {
     "0a": ("_system/unified-book.md", "_system/source/text/refined-english.md"),
     "0b": ("_system/source/text/refined-english.md", "_system/unified-book.md"),
     "0e": (),  # chapters/* globbed dynamically below
-    # SNAPSHOT scope: Arabic legitimately present before any LLM pass, so it must
-    # include the SOURCE. Every book before `spiritual-ethos` got its Arabic from
-    # its own OCR, making refined-english the first artifact to carry any; that
-    # book's capture is English with none, and its 999 runs were woven in from
-    # lecture transcripts, so 0b carrying them faithfully read as 999 inventions.
+    # SNAPSHOT scope, so it must include the SOURCE. Books before `spiritual-ethos`
+    # got their Arabic from their own OCR, making refined-english the first artifact
+    # to carry any; that book's capture is English with none, its 999 runs woven in
+    # from lecture transcripts, so 0b carrying them faithfully read as 999 inventions.
     "all": ("_system/source/text/raw-extract.md", "_system/unified-book.md", "_system/source/text/refined-english.md"),
 }
 

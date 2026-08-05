@@ -4,7 +4,7 @@
   "rule_id": "R-ARABIC-INTEGRITY",
   "fingerprint_version": "1.0",
   "snapshot_phase": "pre-0a",
-  "ts_created": "2026-08-05T20:34:08Z",
+  "ts_created": "2026-08-05T20:34:31Z",
   "spans": [
     {
       "hash": "290cf0e1c9aaffad1e1daad2440db32c348e95e961e52adff10670e9283c64e8",
