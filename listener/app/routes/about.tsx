@@ -53,6 +53,23 @@ export default function About({ loaderData }: Route.ComponentProps) {
   const searching = needle !== "";
 
   /**
+   * Typing clears the chosen category.
+   *
+   * Without this the page narrowed for no visible reason: a search ignores the
+   * category (see `shown`) and HIDES the chips while it runs, so somebody who
+   * had picked Listening, searched, then cleared the box was returned to
+   * Listening by a control they had not been able to see for the whole
+   * interaction — with What's new gone and two thirds of the page missing. The
+   * chips only lie about what they are doing while they are off screen, and this
+   * is the cheaper of the two ways to stop that: the search is a question about
+   * the whole page, so the page it returns to is the whole page.
+   */
+  function search(next: string) {
+    setQuery(next);
+    if (next.trim() !== "") setPick(null);
+  }
+
+  /**
    * What to draw, as sections with only their matching entries.
    *
    * Searching IGNORES the chosen category, deliberately. A reader who types
@@ -98,7 +115,7 @@ export default function About({ loaderData }: Route.ComponentProps) {
           label="Search this page"
           placeholder="Search this page"
           size="wide"
-          action={{ kind: "filter", value: query, onChange: setQuery }}
+          action={{ kind: "filter", value: query, onChange: search }}
         />
 
         {/* Jump-links AND the filter, as one control. Two would be two answers to
